@@ -1,0 +1,25 @@
+{
+  "name": "ChatGrape",
+  "private": true,
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "maintainers": [
+    "Arpad Borsos <arpad.borsos@googlemail.com> (http://swatinem.de)"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jshint": "*",
+    "jade": "*",
+    "component": "*",
+    "component-jade": "*",
+    "jshint": "*",
+    "mocha": "*",
+    "should": "*",
+    "jscoverage": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*"
+  },
+  "repository": "git://github.com/newsgrape/ChatGrape.git"
+}

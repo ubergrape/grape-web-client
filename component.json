@@ -1,0 +1,22 @@
+{
+  "name": "cg",
+  "repo": "newsgrape/ChatGrape",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js"
+  ],
+  "templates": [
+    "templates/chatline.jade"
+  ],
+  "dependencies": {
+    "Swatinem/template": "*",
+    "visionmedia/jade": "*",
+    "component/domify": "*",
+    "component/inputarea": "*",
+    "component/escape-html": "*",
+    "Swatinem/wamp1": "*"
+  }
+}
