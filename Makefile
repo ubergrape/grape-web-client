@@ -3,7 +3,7 @@ STATIC := ../chatgrape/templates
 JS_FILES := $(shell find lib/ -name "*.js")
 TEMPLATE_FILES := $(shell find templates/ -name "*.jade")
 
-all: test $(OUTPUT)/index.js $(STATIC)/chat.html
+all: $(OUTPUT)/index.js $(STATIC)/chat.html
 # $(OUTPUT)/index.html
 # $(OUTPUT)/index.css
 
