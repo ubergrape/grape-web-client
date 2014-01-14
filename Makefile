@@ -1,6 +1,6 @@
 OUTPUT := ../chatgrape/static
 STATIC := ../chatgrape/templates
-JS_FILES := $(shell find lib/ -name "*.js")
+JS_FILES := $(shell find lib/ browser/ -name "*.js")
 TEMPLATE_FILES := $(shell find templates/ -name "*.jade")
 
 all: $(OUTPUT)/index.js $(STATIC)/chat.html
@@ -11,7 +11,7 @@ test: lint
 	NODE_ENV=test ./node_modules/.bin/mocha --harmony
 
 lint:
-	./node_modules/.bin/jshint ./lib ./test ./index.js
+	-./node_modules/.bin/jshint ./browser ./lib ./test ./index.js
 
 $(STATIC)/chat.html: index.jade
 	./node_modules/.bin/jade --pretty --path $< < $< > $@
@@ -19,8 +19,13 @@ $(STATIC)/chat.html: index.jade
 $(OUTPUT)/index.js: components $(JS_FILES) $(TEMPLATE_FILES)
 	@./node_modules/.bin/component build --use component-jade --out $(OUTPUT) --name index
 
-components: component.json
+node_modules: package.json
+	npm install
+	touch node_modules
+
+components: node_modules component.json
 	@./node_modules/.bin/component install --dev
+	./node_modules/.bin/component-linknpm
 	touch components
 
 clean: clean-cov

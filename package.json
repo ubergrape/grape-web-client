@@ -14,12 +14,14 @@
     "jade": "*",
     "component": "*",
     "component-jade": "*",
+    "component-linknpm": ">=0.0.2",
     "jshint": "*",
     "mocha": "*",
     "should": "*",
     "jscoverage": "*",
     "coveralls": "*",
-    "mocha-lcov-reporter": "*"
+    "mocha-lcov-reporter": "*",
+    "ws": "*"
   },
   "repository": "git://github.com/newsgrape/ChatGrape.git"
 }
