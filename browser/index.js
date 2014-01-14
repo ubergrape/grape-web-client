@@ -42,15 +42,15 @@ var wamp = window.wamp = new Wamp(HOST, function (welcome) {
 		history.appendChild(el);
 	});
 
-	wamp.socket.on('message', function (msg) {
-		console.log(msg.data);
-	});
 });
 wamp.on('error', function () {
 	console.log(arguments);
 });
 wamp.socket.on('error', function () {
 	console.log(arguments);
+});
+wamp.socket.on('message', function (msg) {
+	console.log(msg.data);
 });
 
 var input = document.querySelector('.input');
