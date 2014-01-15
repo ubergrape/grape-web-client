@@ -7,7 +7,10 @@
   "main": "browser/index.js",
   "scripts": [
     "browser/index.js",
-    "lib/index.js"
+    "lib/index.js",
+    "lib/adapter.js",
+    "lib/models/room.js",
+    "lib/models/user.js"
   ],
   "templates": [
     "templates/chatline.jade"
@@ -15,6 +18,8 @@
   "dependencies": {
     "Swatinem/template": "*",
     "Swatinem/model": "*",
+    "Swatinem/model-cache": "*",
+    "MatthewMueller/array": "*",
     "visionmedia/jade": "*",
     "component/domify": "*",
     "component/inputarea": "*",
