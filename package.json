@@ -21,6 +21,7 @@
     "jscoverage": "*",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
+    "wamp1": "0.0.2",
     "ws": "*"
   },
   "repository": "git://github.com/newsgrape/ChatGrape.git"

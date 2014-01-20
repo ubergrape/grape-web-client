@@ -23,8 +23,14 @@ var URI = {
 
 var history = document.querySelector('.history');
 
-// FIXME: these are broken right now without message buffering, as the connection
-// will not be open until the welcome callback is called
+// just some debugging for now, nothing more
+wamp.socket.on('error', function () {
+	console.log(arguments);
+});
+wamp.socket.on('message', function (msg) {
+	console.log(msg);
+});
+
 wamp.call('http://localhost:8000/calc#add', 1, 2, function (err, res) {
 	console.log(err, res);
 });
