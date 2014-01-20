@@ -15,13 +15,14 @@
     "component": "*",
     "component-jade": "*",
     "component-linknpm": ">=0.0.2",
-    "jshint": "*",
     "mocha": "*",
     "should": "*",
     "jscoverage": "*",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
     "wamp1": "0.0.2",
+    "stylus": "~0.42.1",
+    "autoprefixer": "~1.0.20140117",
     "ws": "*"
   },
   "repository": "git://github.com/newsgrape/ChatGrape.git"

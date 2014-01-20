@@ -1,4 +1,10 @@
-.line
-	.time= time
-	.user= user
-	pre.text= text
+
+.chatline
+	.meta
+		span.time (#{time})
+		span.user(class="colors-" + user.num) #{user.name}:
+	pre.text= message
+	.readers
+		| Readers:
+		for reader in readers
+			.reader(class="colors-" + reader.num)= reader.name

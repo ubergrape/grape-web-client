@@ -9,6 +9,7 @@
     "browser/index.js",
     "lib/index.js",
     "lib/adapter.js",
+    "lib/models/chatline.js",
     "lib/models/room.js",
     "lib/models/user.js"
   ],
@@ -24,7 +25,7 @@
     "component/domify": "*",
     "component/inputarea": "*",
     "component/escape-html": "*",
-    "Swatinem/websocket-buffering": "0.0.1",
+    "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "0.0.2"
   }
 }

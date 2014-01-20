@@ -15,11 +15,10 @@ template.root = '/cg/templates';
 var inputarea = require('inputarea');
 var domify = require('domify');
 
+var Room = lib.models.Room;
 var wamp = window.wamp = lib.wamp;
 
-var URI = {
-	MESSAGE: 'http://message'
-};
+var room = new Room({id: 1});
 
 var history = document.querySelector('.history');
 
@@ -35,21 +34,30 @@ wamp.call('http://localhost:8000/calc#add', 1, 2, function (err, res) {
 	console.log(err, res);
 });
 
-wamp.subscribe(URI.MESSAGE, function (message) {
-	var el = domify(template('chatline', {
-		time: new Date(),
-		user: message.user,
-		text: message.message
-	}));
-	history.appendChild(el);
+room.history.on('add', function (line, i) {
+	console.log(line);
+	var oldEl;
+	function redraw() {
+		var el = domify(template('chatline', line));
+		console.log(el, oldEl);
+		if (oldEl) {
+			history.replaceChild(el, oldEl);
+		} else {
+			history.appendChild(el);
+		}
+		oldEl = el;
+	}
+	redraw();
+	line.readers.on('add', redraw);
+	line.readers.on('remove', redraw);
 });
+// test with:
+// wamp.publish('http://cg.api/rooms/1', {type: 'reading', user: wamp.sessionId, line: 0});
 
-wamp.on('error', function () {
-	console.log(arguments);
-});
 
 var input = document.querySelector('.input');
 
 inputarea(input).on('input', function (str) {
-	wamp.publish(URI.MESSAGE, {user: wamp.sessionId, message: str});
+	room.publish(str);
+	//wamp.publish(URI.MESSAGE, {user: wamp.sessionId, message: str});
 });
