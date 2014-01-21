@@ -13,7 +13,10 @@ var settings = {
 
 };
 
-var lib = require('../lib')(settings);
+var lib = require('../lib')(settings, function (err, res) {
+	console.log(res.user);
+	document.querySelector('.self').textContent = 'Hello ' + res.user.username;
+});
 
 var template = require('template');
 template.root = '/cg/templates';
@@ -34,10 +37,6 @@ wamp.socket.on('error', function () {
 });
 wamp.socket.on('message', function (msg) {
 	console.log(msg);
-});
-
-wamp.call('http://localhost:8000/calc#add', 1, 2, function (err, res) {
-	console.log(err, res);
 });
 
 room.history.on('add', function (line) {
