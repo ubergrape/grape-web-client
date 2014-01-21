@@ -7,7 +7,13 @@
  * All the DOM independent code should be in lib/, which should be well tested
  * and has code coverage reports.
  */
-var lib = require('../lib');
+
+var settings = {
+	websocket: 'ws://' + location.host
+
+};
+
+var lib = require('../lib')(settings);
 
 var template = require('template');
 template.root = '/cg/templates';
@@ -34,12 +40,11 @@ wamp.call('http://localhost:8000/calc#add', 1, 2, function (err, res) {
 	console.log(err, res);
 });
 
-room.history.on('add', function (line, i) {
+room.history.on('add', function (line) {
 	console.log(line);
 	var oldEl;
 	function redraw() {
 		var el = domify(template('chatline', line));
-		console.log(el, oldEl);
 		if (oldEl) {
 			history.replaceChild(el, oldEl);
 		} else {
