@@ -20,7 +20,7 @@
     "Swatinem/template": "*",
     "Swatinem/model": "*",
     "Swatinem/model-cache": "*",
-    "MatthewMueller/array": "*",
+    "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
     "component/domify": "*",
     "component/inputarea": "*",

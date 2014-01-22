@@ -7,7 +7,7 @@ STYLUS_FILES := $(shell find stylus/ -name "*.styl")
 all: $(OUTPUT)/index.js $(OUTPUT)/index.css $(STATIC)/chat.html
 # $(OUTPUT)/index.html
 
-test: lint
+test: node_modules lint
 	NODE_ENV=test ./node_modules/.bin/mocha --harmony
 
 lint:
@@ -30,7 +30,6 @@ node_modules: package.json
 
 components: node_modules component.json
 	@./node_modules/.bin/component install --dev
-	./node_modules/.bin/component-linknpm
 	touch components
 
 clean: clean-cov

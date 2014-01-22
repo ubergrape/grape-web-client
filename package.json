@@ -14,7 +14,6 @@
     "jade": "*",
     "component": "*",
     "component-jade": "*",
-    "component-linknpm": ">=0.0.2",
     "mocha": "*",
     "should": "*",
     "jscoverage": "*",
@@ -23,7 +22,10 @@
     "wamp1": "0.0.2",
     "stylus": "~0.42.1",
     "autoprefixer": "~1.0.20140117",
-    "ws": "*"
+    "websocket-buffering": "~0.0.2",
+    "model": "Swatinem/model",
+    "model-cache": "Swatinem/model-cache",
+    "model-array": "Swatinem/model-array"
   },
   "repository": "git://github.com/newsgrape/ChatGrape.git"
 }
