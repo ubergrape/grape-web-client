@@ -8,15 +8,16 @@
   "scripts": [
     "browser/index.js",
     "lib/index.js",
-    "lib/adapter.js",
     "lib/models/chatline.js",
     "lib/models/room.js",
     "lib/models/user.js"
   ],
   "templates": [
-    "templates/chatline.jade"
+    "templates/chatline.jade",
+    "templates/meta.jade"
   ],
   "dependencies": {
+    "samsonjs/strftime": "*",
     "Swatinem/template": "*",
     "Swatinem/model": "*",
     "Swatinem/model-cache": "*",

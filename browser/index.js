@@ -10,58 +10,57 @@
 
 var settings = {
 	websocket: 'ws://' + location.host
-
 };
-
-var lib = require('../lib')(settings, function (err, res) {
-	console.log(res.user);
-	document.querySelector('.self').textContent = 'Hello ' + res.user.username;
-});
 
 var template = require('template');
 template.root = '/cg/templates';
+template.locals.strftime = require('strftime');
 
 var inputarea = require('inputarea');
 var domify = require('domify');
 
-var Room = lib.models.Room;
-var wamp = window.wamp = lib.wamp;
-
-var room = new Room({id: 1});
+var App = require('../lib').App;
 
 var history = document.querySelector('.history');
+var input = document.querySelector('.input');
+
+var app = window.app = new App(settings, function (err) {
+	if (err)
+		return console.log('error:', err);
+	console.log(app);
+	document.querySelector('.meta').innerHTML = template('meta', app);
+
+	var room = app.rooms[0];
+
+	room.history.on('add', function (line) {
+		var oldEl;
+		function redraw() {
+			var el = domify(template('chatline', line));
+			if (oldEl) {
+				history.replaceChild(el, oldEl);
+			} else {
+				history.appendChild(el);
+			}
+			oldEl = el;
+		}
+		redraw();
+		line.readers.on('add', redraw);
+		line.readers.on('remove', redraw);
+	});
+
+	inputarea(input).on('input', function (str) {
+		if (!str)
+			return;
+		app.publish(room, str);
+	});
+
+}); // App callback
 
 // just some debugging for now, nothing more
+var wamp = window.wamp = app.wamp;
 wamp.socket.on('error', function () {
 	console.log(arguments);
 });
 wamp.socket.on('message', function (msg) {
-	console.log(msg);
-});
-
-room.history.on('add', function (line) {
-	console.log(line);
-	var oldEl;
-	function redraw() {
-		var el = domify(template('chatline', line));
-		if (oldEl) {
-			history.replaceChild(el, oldEl);
-		} else {
-			history.appendChild(el);
-		}
-		oldEl = el;
-	}
-	redraw();
-	line.readers.on('add', redraw);
-	line.readers.on('remove', redraw);
-});
-// test with:
-// wamp.publish('http://cg.api/rooms/1', {type: 'reading', user: wamp.sessionId, line: 0});
-
-
-var input = document.querySelector('.input');
-
-inputarea(input).on('input', function (str) {
-	room.publish(str);
-	//wamp.publish(URI.MESSAGE, {user: wamp.sessionId, message: str});
+	console.log('socket receive: ', JSON.parse(msg));
 });

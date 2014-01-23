@@ -1,14 +1,31 @@
 
+@import defines
+
 .chatline {
+	.time {
+		font-size: 0.8em;
+	}
 	.meta, .text {
-		display: inline-block;
+		display: inline;
 	}
 	.user {
 		font-weight: bold;
 	}
 	.readers {
+		height: 2px;
 		.reader {
-			display: inline;
+			height: 0px;
+			width: 15px;
+			margin-left: 5px;
+			border-top: 2px solid;
+			display: inline-block;
+			vertical-align: top;
+			overflow: hidden;
+			for color, i in colors {
+				&.colors-{i} {
+					border-color: color;
+				}
+			}
 		}
 	}
 }

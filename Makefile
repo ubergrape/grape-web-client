@@ -18,7 +18,8 @@ $(STATIC)/chat.html: index.jade
 
 $(OUTPUT)/index.js: components $(JS_FILES) $(TEMPLATE_FILES)
 	@./node_modules/.bin/component build --use component-jade --out $(OUTPUT) --name index
-	@-mv $(OUTPUT)/index.css $(OUTPUT)/components.css
+	@touch $(OUTPUT)/index.css
+	@mv $(OUTPUT)/index.css $(OUTPUT)/components.css
 
 $(OUTPUT)/index.css: $(OUTPUT)/index.js $(STYLUS_FILES)
 	@./node_modules/.bin/stylus --include-css --out $(OUTPUT) stylus/index.styl
