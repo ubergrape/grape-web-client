@@ -1,9 +1,11 @@
 
 .chatline
-	.meta(class="colors-" + user.num)
-		span.time (#{strftime('%H:%M:%S', time)})
-		span.user  #{user.username}: 
-	pre.text= text
+	span.user= user.username
+	.content
+		time.time= strftime('%H:%M:%S', time)
+		span.text= text
+
+// TODO: rework according to design
 	.readers
 		for reader in readers
 			.reader(class="colors-" + reader.num)= reader.username

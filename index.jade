@@ -1,16 +1,34 @@
 doctype html
 html
 	head
-		title ChatGrape
+		title OneTeam
 		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
 		meta(name="viewport", content="width=device-width")
 		link(rel="stylesheet", type="text/css", href="/static/components.css")
 		link(rel="stylesheet", type="text/css", href="/static/index.css")
 		script(type="application/javascript", src="/static/index.js")
 	body
-		.meta Not signed in
-		.history
-		textarea.input
+
+		nav.overview
+			header
+				h1 one<em>team</em>
+				.userinfo
+			section.lists
+				h2 Rooms
+				ul.rooms
+				h2 Messages
+				ul.messages
+
+		section.content
+			header
+				h1.roomname Room
+				h2.usersonline
+				input(type="search", placeholder="search for content, documents, appointments, …")
+			section.chat
+				.chathistory
+			footer
+				textarea.input(autofocus)
+
 		script(type="application/javascript").
 			require('cg');
 

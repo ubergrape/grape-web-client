@@ -1,31 +1,67 @@
 
 @import defines
 
+arrow = 6px;
+
+/**
+ * FIXME: I would really love to have a way to have names/text aligned
+ * without using tables, is that somehow possible?
+ * But then again, maybe using tables is the right thing here when it comes
+ * to semantic, it kind of tabular data, amirite?
+ */
+
 .chatline {
-	.time {
-		font-size: 0.8em;
-	}
-	.meta, .text {
-		display: inline;
+	display: flex;
+	padding: 5px
+	.content, .text {
+		flex: 1;
 	}
 	.user {
+		font-family: "Open Sans";
 		font-weight: bold;
+		padding: 5px;
 	}
-	.readers {
-		height: 2px;
-		.reader {
+	.time {
+		order: 1;
+		flex: 0 0 60px;
+	}
+	.content {
+		display: flex;
+		margin-left: 10px;
+		padding: 5px;
+		background: white;
+		border-radius: 3px;
+		&::before {
+			content: "";
 			height: 0px;
-			width: 15px;
-			margin-left: 5px;
-			border-top: 2px solid;
-			display: inline-block;
-			vertical-align: top;
-			overflow: hidden;
-			for color, i in colors {
-				&.colors-{i} {
-					border-color: color;
-				}
+			width: 0px;
+			display: block;
+			margin-top: 3px;
+			margin-left: - 5px - arrow;
+			margin-right: 5px + arrow;
+			border: arrow solid rgba(255, 255, 255, 0);
+			border-left-width: 0px;
+			border-right-color: white;
+		}
+	}
+}
+
+/*
+.readers {
+	height: 2px;
+	.reader {
+		height: 0px;
+		width: 15px;
+		margin-left: 5px;
+		border-top: 2px solid;
+		display: inline-block;
+		vertical-align: top;
+		overflow: hidden;
+		for color, i in colors {
+			&.colors-{i} {
+				border-color: color;
 			}
 		}
 	}
 }
+*/

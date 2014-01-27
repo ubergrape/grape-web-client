@@ -17,6 +17,7 @@ $(STATIC)/chat.html: index.jade
 	./node_modules/.bin/jade --pretty --path $< < $< > $@
 
 $(OUTPUT)/index.js: components $(JS_FILES) $(TEMPLATE_FILES)
+	@rm $(OUTPUT)/index.css
 	@./node_modules/.bin/component build --use component-jade --out $(OUTPUT) --name index
 	@touch $(OUTPUT)/index.css
 	@mv $(OUTPUT)/index.css $(OUTPUT)/components.css

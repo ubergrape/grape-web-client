@@ -14,7 +14,9 @@
   ],
   "templates": [
     "templates/chatline.jade",
-    "templates/meta.jade"
+    "templates/messages.jade",
+    "templates/rooms.jade",
+    "templates/userinfo.jade"
   ],
   "dependencies": {
     "samsonjs/strftime": "*",

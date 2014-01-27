@@ -21,16 +21,27 @@ var domify = require('domify');
 
 var App = require('../lib').App;
 
-var history = document.querySelector('.history');
-var input = document.querySelector('.input');
+function qs(s) {
+	return document.querySelector(s);
+}
 
-var app = window.app = new App(settings, function (err) {
-	if (err)
-		return console.log('error:', err);
-	console.log(app);
-	document.querySelector('.meta').innerHTML = template('meta', app);
+function UI(app) {
+	// get all the elements
+	this.userinfo = qs('.userinfo');
+	this.rooms = qs('.rooms');
+	this.messages = qs('.messages');
+	var history = this.history = qs('.chathistory');
+	var input = this.input = qs('.input');
+	this.roomname = qs('.roomname');
 
+	// bind the room
 	var room = app.rooms[0];
+
+	// render the data
+	this.userinfo.innerHTML = template('userinfo', app);
+	this.rooms.innerHTML = template('rooms', app);
+	this.messages.innerHTML = template('messages', app);
+	this.roomname.innerHTML = room.name;
 
 	room.history.on('add', function (line) {
 		var oldEl;
@@ -53,8 +64,16 @@ var app = window.app = new App(settings, function (err) {
 			return;
 		app.publish(room, str);
 	});
+}
 
-}); // App callback
+var app = window.app = new App(settings, function (err) {
+	if (err)
+		return console.log('error:', err);
+	console.log(app);
+
+	var ui = window.ui = new UI(app);
+
+});
 
 // just some debugging for now, nothing more
 var wamp = window.wamp = app.wamp;
