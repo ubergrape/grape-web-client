@@ -1,5 +1,4 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-/* global history: true */
 "use strict";
 
 /**
@@ -71,7 +70,7 @@ var app = window.app = new App(settings, function (err) {
 		return console.log('error:', err);
 	console.log(app);
 
-	var ui = window.ui = new UI(app);
+	window.ui = new UI(app);
 
 });
 
