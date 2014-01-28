@@ -28,33 +28,6 @@ describe('App', function () {
 		});
 		new App({websocket: 'ws://localhost:8080'}, function () {});
 	});
-	it('should request the organization details', function (done) {
-		wss.once('connection', function (ws) {
-			var count = 0;
-			ws.on('message', function (msg) {
-				count++;
-				msg = JSON.parse(msg);
-				var result;
-				if (count === 1) {
-					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/users/get_profile');
-					result = {
-						id: 1,
-						username: 'foo',
-						organizations: [{id: 1, name: 'foo'}]
-					};
-					ws.send(JSON.stringify([3, msg[1], result]));
-				} else if (count === 2) {
-					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/organizations/get_organization');
-					msg[3].should.eql(1);
-					ws.close();
-					done();
-				}
-			});
-		});
-		new App({websocket: 'ws://localhost:8080'}, function () {});
-	});
 	it('should join the organization', function (done) {
 		wss.once('connection', function (ws) {
 			var count = 0;
@@ -71,7 +44,12 @@ describe('App', function () {
 						organizations: [{id: 1, name: 'foo'}]
 					};
 					ws.send(JSON.stringify([3, msg[1], result]));
-				} else if (count === 2) {
+				} else if (count === 3) {
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/organizations/join');
+					msg[3].should.eql(1);
+					ws.send(JSON.stringify([3, msg[1], null]));
+				} else if (count === 4) {
 					msg[0].should.eql(2);
 					msg[2].should.eql('http://domain/organizations/get_organization');
 					msg[3].should.eql(1);
@@ -82,11 +60,6 @@ describe('App', function () {
 						rooms: []
 					};
 					ws.send(JSON.stringify([3, msg[1], result]));
-				} else if (count === 3) {
-					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/organizations/join');
-					msg[3].should.eql(1);
-					ws.send(JSON.stringify([3, msg[1], null]));
 					ws.close();
 				}
 			});
@@ -114,7 +87,12 @@ describe('App', function () {
 						organizations: [{id: 1, name: 'foo'}]
 					};
 					ws.send(JSON.stringify([3, msg[1], result]));
-				} else if (count === 2) {
+				} else if (count === 3) {
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/organizations/join');
+					msg[3].should.eql(1);
+					ws.send(JSON.stringify([3, msg[1], null]));
+				} else if (count === 4) {
 					msg[0].should.eql(2);
 					msg[2].should.eql('http://domain/organizations/get_organization');
 					msg[3].should.eql(1);
@@ -122,18 +100,13 @@ describe('App', function () {
 						id: 1,
 						name: 'foo',
 						users: [{id: 1, username: 'foo'}],
-						rooms: [{id: 1, name: 'foo'}]
+						rooms: [{id: 1, name: 'foo', users: []}]
 					};
 					ws.send(JSON.stringify([3, msg[1], result]));
-				} else if (count === 3) {
-					msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
-				} else if (count === 4) {
-					msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
 				} else if (count === 5) {
-					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/organizations/join');
-					msg[3].should.eql(1);
-					ws.send(JSON.stringify([3, msg[1], null]));
+					msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
+				} else if (count === 6) {
+					msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
 					ws.close();
 				}
 			});
@@ -166,26 +139,26 @@ describe('App', function () {
 							organizations: [{id: 1, name: 'foo'}]
 						};
 						ws.send(JSON.stringify([3, msg[1], result]));
-					} else if (count === 2) {
+					} else if (count === 3) {
+						msg[0].should.eql(2);
+						msg[2].should.eql('http://domain/organizations/join');
+						msg[3].should.eql(1);
+						ws.send(JSON.stringify([3, msg[1], null]));
+					} else if (count === 4) {
 						msg[0].should.eql(2);
 						msg[2].should.eql('http://domain/organizations/get_organization');
 						msg[3].should.eql(1);
 						result = {
 							id: 1,
 							name: 'foo',
-							users: [{id: 1, username: 'foo'}],
-							rooms: [{id: 1, name: 'foo'}]
+							users: [{id: 1, username: 'foo', status: 16}],
+							rooms: [{id: 1, name: 'foo', users: []}]
 						};
 						ws.send(JSON.stringify([3, msg[1], result]));
-					} else if (count === 3) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
-					} else if (count === 4) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
 					} else if (count === 5) {
-						msg[0].should.eql(2);
-						msg[2].should.eql('http://domain/organizations/join');
-						msg[3].should.eql(1);
-						ws.send(JSON.stringify([3, msg[1], null]));
+						msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
+					} else if (count === 6) {
+						msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
 					}
 				});
 			});
@@ -238,6 +211,17 @@ describe('App', function () {
 				text: 'foobar'
 			};
 			server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+		});
+		it('should react to user status changes', function (done) {
+			app.user.on('change status', function (val, prev) {
+				prev.should.eql(16);
+				val.should.eql(0);
+				done();
+			});
+			server.send(JSON.stringify([8, 'http://domain/organization/1#status', {
+				user: 1,
+				status: 0
+			}]));
 		});
 	});
 });

@@ -18,13 +18,16 @@ template.locals.strftime = require('strftime');
 var inputarea = require('inputarea');
 var domify = require('domify');
 
-var App = require('../lib').App;
+var lib = require('../lib');
+var models = lib.models;
+var App = lib.App;
 
 function qs(s) {
 	return document.querySelector(s);
 }
 
 function UI(app) {
+	var self = this;
 	// get all the elements
 	this.userinfo = qs('.userinfo');
 	this.rooms = qs('.rooms');
@@ -41,6 +44,12 @@ function UI(app) {
 	this.rooms.innerHTML = template('rooms', app);
 	this.messages.innerHTML = template('messages', app);
 	this.roomname.innerHTML = room.name;
+
+	// react to user changes
+	// TODO: maybe this needs renaming, for now its the list of users
+	models.User.on('change', function () {
+		self.messages.innerHTML = template('messages', app);
+	});
 
 	room.history.on('add', function (line) {
 		var oldEl;
