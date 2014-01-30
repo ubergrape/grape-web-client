@@ -138,21 +138,72 @@ describe('App', function () {
 				});
 				app.read(app.organization.rooms[0], new models.Line({id: 1}));
 			});
+			it('should subscribe to all the users rooms', function (done) {
+				var count = 0;
+				server.on('message', function (msg) {
+					count++;
+					msg = JSON.parse(msg);
+					if (count === 1) {
+						msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
+					} else if (count === 2) {
+						msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
+					} else if (count === 3) {
+						msg.should.eql([5, 'http://domain/organization/1/room/1#join']);
+					} else if (count === 4) {
+						msg.should.eql([5, 'http://domain/organization/1/room/1#leave']);
+						done();
+					}
+				});
+				app.subscribeRooms();
+			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function (done) {
 					var count = 0;
 					server.on('message', function (msg) {
 						count++;
 						msg = JSON.parse(msg);
-						var result;
 						if (count === 1) {
 							msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
 						} else if (count === 2) {
 							msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
+						} else if (count === 3) {
+							msg.should.eql([5, 'http://domain/organization/1/room/1#join']);
+						} else if (count === 4) {
+							msg.should.eql([5, 'http://domain/organization/1/room/1#leave']);
 							done();
 						}
 					});
 					app.subscribeRoom(app.organization.rooms[0]);
+				});
+				it('should react to join notifications', function (done) {
+					var room = app.organization.rooms[1];
+					room.id.should.eql(2);
+					var user = app.user;
+					room.users.indexOf(user).should.eql(-1);
+					room.users.on('add', function (obj) {
+						obj.should.equal(user);
+						done();
+					});
+					var msg = {
+						user: 1
+					};
+					// subscribe to the other room as well
+					app.subscribeRoom(app.organization.rooms[1]);
+					server.send(JSON.stringify([8, 'http://domain/organization/1/room/2#join', msg]));
+				});
+				it('should react to leave notifications', function (done) {
+					var room = app.organization.rooms[0];
+					room.id.should.eql(1);
+					var user = app.user;
+					(!!~room.users.indexOf(user)).should.be.true;
+					room.users.on('remove', function (obj) {
+						obj.should.equal(user);
+						done();
+					});
+					var msg = {
+						user: 1
+					};
+					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#leave', msg]));
 				});
 				it('should react to new messages', function (done) {
 					app.organization.rooms[0].history.once('add', function (line, index) {

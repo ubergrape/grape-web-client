@@ -78,8 +78,10 @@ function UI(app) {
 var app = window.app = new App(settings, function (err) {
 	if (err)
 		return console.log('error:', err);
-	app.setOrganization(app.organizations[0], function (err, org) {
-		app.subscribeRoom(app.organization.rooms[0]);
+	app.setOrganization(app.organizations[0], function (err) {
+		if (err)
+			return console.log('error:', err);
+		app.subscribeRooms();
 		console.log(app);
 		window.ui = new UI(app);
 	});

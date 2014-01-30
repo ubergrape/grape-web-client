@@ -8,6 +8,7 @@
 	"smarttabs": true,
 	"node": true,
 	"browser": true,
+	"expr": true,
 	"globals" : {
 		"describe"   : false,
 		"it"         : false,
