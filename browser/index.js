@@ -68,7 +68,7 @@ function UI(app) {
 	// react to user changes
 	// TODO: maybe this needs renaming, for now its the list of users
 	models.User.on('change', function () {
-		self.conversations.innerHTML = template('conversations', app);
+		self.conversations.innerHTML = template('conversations', app.organization);
 	});
 
 	// bind the room
