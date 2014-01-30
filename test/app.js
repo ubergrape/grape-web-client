@@ -156,6 +156,60 @@ describe('App', function () {
 				});
 				app.subscribeRooms();
 			});
+			it('should join a room and subscribe', function (done) {
+				var count = 0;
+				server.on('message', function (msg) {
+					count++;
+					msg = JSON.parse(msg);
+					if (count === 1) {
+						msg.should.eql([5, 'http://domain/organization/1/room/2#message']);
+					} else if (count === 2) {
+						msg.should.eql([5, 'http://domain/organization/1/room/2#reading']);
+					} else if (count === 3) {
+						msg.should.eql([5, 'http://domain/organization/1/room/2#join']);
+					} else if (count === 4) {
+						msg.should.eql([5, 'http://domain/organization/1/room/2#leave']);
+					} else if (count === 5) {
+						msg[0].should.eql(2);
+						msg[2].should.eql('http://domain/rooms/join');
+						msg[3].should.eql(2);
+						server.send(JSON.stringify([3, msg[1], null]));
+					}
+				});
+				var room = app.organization.rooms[1];
+				room.joined.should.be.false;
+				app.joinRoom(room, function () {
+					room.joined.should.be.true;
+					done();
+				});
+			});
+			it('should leave a room and unsubscribe', function (done) {
+				var count = 0;
+				server.on('message', function (msg) {
+					count++;
+					msg = JSON.parse(msg);
+					if (count === 1) {
+						msg[0].should.eql(2);
+						msg[2].should.eql('http://domain/rooms/leave');
+						msg[3].should.eql(1);
+						server.send(JSON.stringify([3, msg[1], null]));
+					} else if (count === 2) {
+						msg.should.eql([6, 'http://domain/organization/1/room/1#message']);
+					} else if (count === 3) {
+						msg.should.eql([6, 'http://domain/organization/1/room/1#reading']);
+					} else if (count === 4) {
+						msg.should.eql([6, 'http://domain/organization/1/room/1#join']);
+					} else if (count === 5) {
+						msg.should.eql([6, 'http://domain/organization/1/room/1#leave']);
+						done();
+					}
+				});
+				var room = app.organization.rooms[0];
+				room.joined.should.be.true;
+				app.leaveRoom(room, function () {
+					room.joined.should.be.false;
+				});
+			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function (done) {
 					var count = 0;
@@ -174,6 +228,24 @@ describe('App', function () {
 						}
 					});
 					app.subscribeRoom(app.organization.rooms[0]);
+				});
+				it('should unsubscribe from a room', function (done) {
+					var count = 0;
+					server.on('message', function (msg) {
+						count++;
+						msg = JSON.parse(msg);
+						if (count === 1) {
+							msg.should.eql([6, 'http://domain/organization/1/room/1#message']);
+						} else if (count === 2) {
+							msg.should.eql([6, 'http://domain/organization/1/room/1#reading']);
+						} else if (count === 3) {
+							msg.should.eql([6, 'http://domain/organization/1/room/1#join']);
+						} else if (count === 4) {
+							msg.should.eql([6, 'http://domain/organization/1/room/1#leave']);
+							done();
+						}
+					});
+					app.unsubscribeRoom(app.organization.rooms[0]);
 				});
 				it('should react to join notifications', function (done) {
 					var room = app.organization.rooms[1];
