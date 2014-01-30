@@ -9,12 +9,13 @@
     "browser/index.js",
     "lib/index.js",
     "lib/models/chatline.js",
+    "lib/models/organization.js",
     "lib/models/room.js",
     "lib/models/user.js"
   ],
   "templates": [
     "templates/chatline.jade",
-    "templates/messages.jade",
+    "templates/conversations.jade",
     "templates/rooms.jade",
     "templates/userinfo.jade"
   ],
