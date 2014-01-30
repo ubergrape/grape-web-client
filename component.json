@@ -16,6 +16,7 @@
   "templates": [
     "templates/chatline.jade",
     "templates/conversations.jade",
+    "templates/roommeta.jade",
     "templates/rooms.jade",
     "templates/userinfo.jade"
   ],
@@ -29,8 +30,9 @@
     "component/domify": "*",
     "component/inputarea": "*",
     "component/escape-html": "*",
+    "component/events": "*",
     "MatthewMueller/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
-    "Swatinem/wamp1": "0.0.2"
+    "Swatinem/wamp1": "*"
   }
 }

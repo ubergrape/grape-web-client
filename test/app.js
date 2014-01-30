@@ -210,6 +210,24 @@ describe('App', function () {
 					room.joined.should.be.false;
 				});
 			});
+			it('should not double-join a room', function (done) {
+				server.on('message', function () {
+					throw new Error('not reached');
+				});
+				var room = app.organization.rooms[0];
+				app.joinRoom(room, function () {
+					done();
+				});
+			});
+			it('should not leave a non-joined room', function (done) {
+				server.on('message', function () {
+					throw new Error('not reached');
+				});
+				var room = app.organization.rooms[1];
+				app.leaveRoom(room, function () {
+					done();
+				});
+			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function (done) {
 					var count = 0;
