@@ -82,22 +82,29 @@ describe('App', function () {
 						var result = {
 							id: 1,
 							name: 'foo',
-							users: [{id: 1, username: 'foo', status: 16}],
-							rooms: [{id: 1, name: 'foo', users: [1]}]
+							users: [{id: 1, username: 'foo', status: 16}, {id: 2, username: 'bar', status: 0}],
+							rooms: [{id: 1, name: 'foo', users: [1, 2]}, {id: 2, name: 'bar', users: [2]}]
 						};
 						server.send(JSON.stringify([3, msg[1], result]));
 					}
 				});
 				app.setOrganization(app.organizations[0], function (err, res) {
 					res.should.be.an.instanceof(models.Organization);
-					res.users.length.should.eql(1);
+					res.users.length.should.eql(2);
 					res.users[0].id.should.eql(1);
-					res.rooms.length.should.eql(1);
+					res.rooms.length.should.eql(2);
 					var room = res.rooms[0];
 					room.id.should.eql(1);
 					room.users[0].should.equal(res.users[0]);
+					room.users[1].should.equal(res.users[1]);
 					done();
 				});
+			});
+			it('should flag rooms the user is joined in', function () {
+				var rooms = app.organization.rooms;
+				rooms[0].joined.should.be.true;
+				rooms[0].users[0].should.equal(app.user);
+				rooms[1].joined.should.be.false;
 			});
 			it('should react to user status changes', function (done) {
 				app.user.on('change status', function (val, prev) {
