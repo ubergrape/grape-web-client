@@ -1,6 +1,8 @@
 each room in rooms
-	li(class=(room.joined ? 'joined' : ''), data-id=room.id)
+	li(class=([room.joined ? 'joined' : '', room == currentRoom ? 'selected' : '']), data-id=room.id)
 		=room.name
 		if room.joined
 			em.leave ×
+		if room.unread
+			em.unread (#{room.unread})
 

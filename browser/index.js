@@ -15,13 +15,14 @@ var template = require('template');
 template.root = '/cg/templates';
 template.locals.strftime = require('strftime');
 
-var inputarea = require('inputarea');
 var domify = require('domify');
 var events = require('events');
 
 var lib = require('../lib');
 var models = lib.models;
 var App = lib.App;
+
+var RoomView = require('./views/roomview');
 
 function qs(s) {
 	return document.querySelector(s);
@@ -31,12 +32,9 @@ function UI(app) {
 	var self = this;
 	// get all the elements
 	this.userinfo = qs('.userinfo');
+	// TODO: maybe rename this var?
 	this.rooms = qs('.rooms');
 	this.conversations = qs('.conversations');
-	var history = this.history = qs('.chathistory');
-	var input = this.input = qs('.input');
-	this.roomname = qs('.roomname');
-	this.usersonline = qs('.usersonline');
 
 	// render the data
 	this.userinfo.innerHTML = template('userinfo', app);
@@ -44,22 +42,52 @@ function UI(app) {
 
 	// react to room changes
 	function drawRooms() {
-		self.rooms.innerHTML = template('rooms', app.organization);
+		self.rooms.innerHTML = template('rooms', {
+			rooms: app.organization.rooms,
+			currentRoom: self.currentRoom
+		});
 	}
-	drawRooms();
 	models.Room.on('change joined', drawRooms);
+	models.Room.on('change unread', drawRooms);
+	// FIXME: this might not be the best place for this
+	models.Room.on('change history', function (instance, ev, line) {
+		console.log(arguments)
+		if (ev !== 'add')
+			return;
+		instance.unread++;
+	});
+	function changeRoom(room) {
+		self.currentRoom = room;
+		roomView.setRoom(room);
+		drawRooms();
+	}
 	var roomEvents = events(self.rooms, {
 		join: function (ev) {
 			var roomEl = ev.target;
 			var id = roomEl.dataset.id;
 			var room = models.Room.get(id);
-			app.joinRoom(room);
+			if (room.joined)
+				return changeRoom(room);
+			app.joinRoom(room, function () {
+				changeRoom(room);
+			});
 		},
 		leave: function (ev) {
 			var roomEl = ev.target.parentNode;
 			var id = roomEl.dataset.id;
 			var room = models.Room.get(id);
 			app.leaveRoom(room);
+
+			// also change the room to the first open one in the UI:
+			if (room != self.currentRoom)
+				return;
+			var rooms = app.organization.rooms;
+			for (var i = 0; i < rooms.length; i++) {
+				var newRoom = rooms[i];
+				if (newRoom.joined)
+					break;
+			}
+			changeRoom(newRoom);
 		}
 	});
 	roomEvents.bind('click li', 'join');
@@ -72,39 +100,14 @@ function UI(app) {
 	});
 
 	// bind the room
-	// TODO: we would need a separate class `RoomView` or something like that
-	// which would encapsulate this and have a methed to change the underlying
-	// model
-	var room = app.organization.rooms[0];
-
-	this.roomname.innerHTML = room.name;
-	function drawRoomUsers() {
-		self.usersonline.innerHTML = template('roommeta', room);
-	}
-	drawRoomUsers();
-	room.on('change users', drawRoomUsers);
-
-	room.history.on('add', function (line) {
-		var oldEl;
-		function redraw() {
-			var el = domify(template('chatline', line));
-			if (oldEl) {
-				history.replaceChild(el, oldEl);
-			} else {
-				history.appendChild(el);
-			}
-			oldEl = el;
-		}
-		redraw();
-		line.readers.on('add', redraw);
-		line.readers.on('remove', redraw);
+	var roomView = this.roomView = new RoomView();
+	roomView.on('input', function (str) {
+		app.publish(self.currentRoom, str);
 	});
 
-	inputarea(input).on('input', function (str) {
-		if (!str)
-			return;
-		app.publish(room, str);
-	});
+	this.currentRoom = app.organization.rooms[0];
+	roomView.setRoom(this.currentRoom);
+	drawRooms();
 }
 
 var app = window.app = new App(settings, function (err) {

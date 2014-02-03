@@ -6,6 +6,7 @@
   "keywords": [],
   "main": "browser/index.js",
   "scripts": [
+    "browser/views/roomview.js",
     "browser/index.js",
     "lib/index.js",
     "lib/models/chatline.js",
@@ -30,6 +31,7 @@
     "component/domify": "*",
     "component/inputarea": "*",
     "component/escape-html": "*",
+    "component/emitter": "*",
     "component/events": "*",
     "MatthewMueller/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
