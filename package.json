@@ -13,7 +13,7 @@
     "jshint": "*",
     "jade": "*",
     "component": "*",
-    "component-jade": "*",
+    "component-jade": "~0.5.0",
     "mocha": "*",
     "should": "*",
     "jscoverage": "*",
