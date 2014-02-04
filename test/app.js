@@ -68,14 +68,11 @@ describe('App', function () {
 					count++;
 					msg = JSON.parse(msg);
 					if (count === 1) {
-						msg[0].should.eql(5);
-						msg[1].should.eql('http://domain/organization/1#status');
-					} else if (count === 2) {
 						msg[0].should.eql(2);
 						msg[2].should.eql('http://domain/organizations/join');
 						msg[3].should.eql(1);
 						server.send(JSON.stringify([3, msg[1], null]));
-					} else if (count === 3) {
+					} else if (count === 2) {
 						msg[0].should.eql(2);
 						msg[2].should.eql('http://domain/organizations/get_organization');
 						msg[3].should.eql(1);
@@ -117,6 +114,54 @@ describe('App', function () {
 					status: 0
 				}]));
 			});
+			it('should react to user data changes', function (done) {
+				app.user.on('change lastName', function () {
+					app.user.id.should.eql(1);
+					app.user.username.should.eql('foobar');
+					app.user.firstName.should.eql('foo');
+					app.user.lastName.should.eql('bar');
+					done();
+				});
+				server.send(JSON.stringify([8, 'http://domain/organization/1#update', {
+					user: {
+						id: 1,
+						username: 'foobar',
+						firstName: 'foo',
+						lastName: 'bar'
+					}
+				}]));
+			});
+			it('should react to room data changes', function (done) {
+				var room = app.organization.rooms[0];
+				room.on('change slug', function () {
+					room.id.should.eql(1);
+					room.name.should.eql('name');
+					room.slug.should.eql('slug');
+					done();
+				});
+				server.send(JSON.stringify([8, 'http://domain/organization/1#update', {
+					room: {
+						id: 1,
+						name: 'name',
+						slug: 'slug'
+					}
+				}]));
+			});
+			it('should react to new rooms being created', function (done) {
+				app.organization.rooms.on('add', function (room) {
+					room.id.should.eql(3);
+					room.name.should.eql('name');
+					room.slug.should.eql('slug');
+					done();
+				});
+				server.send(JSON.stringify([8, 'http://domain/organization/1#create', {
+					room: {
+						id: 3,
+						name: 'name',
+						slug: 'slug'
+					}
+				}]));
+			});
 			it('should publish new messages', function (done) {
 				server.once('message', function (msg) {
 					msg = JSON.parse(msg);
@@ -138,43 +183,13 @@ describe('App', function () {
 				});
 				app.read(app.organization.rooms[0], new models.Line({id: 1}));
 			});
-			it('should subscribe to all the users rooms', function (done) {
-				var count = 0;
+			it('should join a room', function (done) {
 				server.on('message', function (msg) {
-					count++;
 					msg = JSON.parse(msg);
-					if (count === 1) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
-					} else if (count === 2) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
-					} else if (count === 3) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#join']);
-					} else if (count === 4) {
-						msg.should.eql([5, 'http://domain/organization/1/room/1#leave']);
-						done();
-					}
-				});
-				app.subscribeRooms();
-			});
-			it('should join a room and subscribe', function (done) {
-				var count = 0;
-				server.on('message', function (msg) {
-					count++;
-					msg = JSON.parse(msg);
-					if (count === 1) {
-						msg.should.eql([5, 'http://domain/organization/1/room/2#message']);
-					} else if (count === 2) {
-						msg.should.eql([5, 'http://domain/organization/1/room/2#reading']);
-					} else if (count === 3) {
-						msg.should.eql([5, 'http://domain/organization/1/room/2#join']);
-					} else if (count === 4) {
-						msg.should.eql([5, 'http://domain/organization/1/room/2#leave']);
-					} else if (count === 5) {
-						msg[0].should.eql(2);
-						msg[2].should.eql('http://domain/rooms/join');
-						msg[3].should.eql(2);
-						server.send(JSON.stringify([3, msg[1], null]));
-					}
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/rooms/join');
+					msg[3].should.eql(2);
+					server.send(JSON.stringify([3, msg[1], null]));
 				});
 				var room = app.organization.rooms[1];
 				room.joined.should.be.false;
@@ -183,31 +198,19 @@ describe('App', function () {
 					done();
 				});
 			});
-			it('should leave a room and unsubscribe', function (done) {
-				var count = 0;
+			it('should leave a room', function (done) {
 				server.on('message', function (msg) {
-					count++;
 					msg = JSON.parse(msg);
-					if (count === 1) {
-						msg[0].should.eql(2);
-						msg[2].should.eql('http://domain/rooms/leave');
-						msg[3].should.eql(1);
-						server.send(JSON.stringify([3, msg[1], null]));
-					} else if (count === 2) {
-						msg.should.eql([6, 'http://domain/organization/1/room/1#message']);
-					} else if (count === 3) {
-						msg.should.eql([6, 'http://domain/organization/1/room/1#reading']);
-					} else if (count === 4) {
-						msg.should.eql([6, 'http://domain/organization/1/room/1#join']);
-					} else if (count === 5) {
-						msg.should.eql([6, 'http://domain/organization/1/room/1#leave']);
-						done();
-					}
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/rooms/leave');
+					msg[3].should.eql(1);
+					server.send(JSON.stringify([3, msg[1], null]));
 				});
 				var room = app.organization.rooms[0];
 				room.joined.should.be.true;
 				app.leaveRoom(room, function () {
 					room.joined.should.be.false;
+					done();
 				});
 			});
 			it('should not double-join a room', function (done) {
@@ -229,41 +232,8 @@ describe('App', function () {
 				});
 			});
 			describe('when subscribed to a room', function () {
-				beforeEach(function (done) {
-					var count = 0;
-					server.on('message', function (msg) {
-						count++;
-						msg = JSON.parse(msg);
-						if (count === 1) {
-							msg.should.eql([5, 'http://domain/organization/1/room/1#message']);
-						} else if (count === 2) {
-							msg.should.eql([5, 'http://domain/organization/1/room/1#reading']);
-						} else if (count === 3) {
-							msg.should.eql([5, 'http://domain/organization/1/room/1#join']);
-						} else if (count === 4) {
-							msg.should.eql([5, 'http://domain/organization/1/room/1#leave']);
-							done();
-						}
-					});
-					app.subscribeRoom(app.organization.rooms[0]);
-				});
-				it('should unsubscribe from a room', function (done) {
-					var count = 0;
-					server.on('message', function (msg) {
-						count++;
-						msg = JSON.parse(msg);
-						if (count === 1) {
-							msg.should.eql([6, 'http://domain/organization/1/room/1#message']);
-						} else if (count === 2) {
-							msg.should.eql([6, 'http://domain/organization/1/room/1#reading']);
-						} else if (count === 3) {
-							msg.should.eql([6, 'http://domain/organization/1/room/1#join']);
-						} else if (count === 4) {
-							msg.should.eql([6, 'http://domain/organization/1/room/1#leave']);
-							done();
-						}
-					});
-					app.unsubscribeRoom(app.organization.rooms[0]);
+				beforeEach(function () {
+					app.subscribeRooms();
 				});
 				it('should react to join notifications', function (done) {
 					var room = app.organization.rooms[1];
