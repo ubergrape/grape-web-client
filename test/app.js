@@ -301,11 +301,15 @@ describe('App', function () {
 						line.should.be.instanceof(models.Line);
 						line.user.should.equal(app.user);
 						line.text.should.eql('foobar');
+						line.time.should.be.instanceof(Date);
+						line.time.getTime().should.eql(1391521894662);
 						done();
 					});
 					var msg = {
-						user: 1,
-						text: 'foobar'
+						id: 1,
+						author: 1,
+						text: 'foobar',
+						time: '2014-02-04T13:51:34.662Z'
 					};
 					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
 				});
@@ -316,6 +320,8 @@ describe('App', function () {
 						line.id.should.eql(1);
 						line.user.should.equal(app.user);
 						line.text.should.eql('foobar');
+						line.time.should.be.instanceof(Date);
+						line.time.getTime().should.eql(1391521894662);
 						line.readers.length.should.eql(0);
 						line.readers.once('add', function (reader, index) {
 							reader.should.equal(app.user);
@@ -329,8 +335,9 @@ describe('App', function () {
 					});
 					var msg = {
 						id: 1,
-						user: 1,
-						text: 'foobar'
+						author: 1,
+						text: 'foobar',
+						time: '2014-02-04T13:51:34.662Z'
 					};
 					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
 				});

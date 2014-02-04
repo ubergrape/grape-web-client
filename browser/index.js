@@ -15,7 +15,6 @@ var template = require('template');
 template.root = '/cg/templates';
 template.locals.strftime = require('strftime');
 
-var domify = require('domify');
 var events = require('events');
 
 var lib = require('../lib');
@@ -50,8 +49,7 @@ function UI(app) {
 	models.Room.on('change joined', drawRooms);
 	models.Room.on('change unread', drawRooms);
 	// FIXME: this might not be the best place for this
-	models.Room.on('change history', function (instance, ev, line) {
-		console.log(arguments)
+	models.Room.on('change history', function (instance, ev) {
 		if (ev !== 'add')
 			return;
 		instance.unread++;
@@ -79,15 +77,16 @@ function UI(app) {
 			app.leaveRoom(room);
 
 			// also change the room to the first open one in the UI:
-			if (room != self.currentRoom)
+			if (room !== self.currentRoom)
 				return;
 			var rooms = app.organization.rooms;
 			for (var i = 0; i < rooms.length; i++) {
 				var newRoom = rooms[i];
-				if (newRoom.joined)
+				if (newRoom.joined) {
+					changeRoom(newRoom);
 					break;
+				}
 			}
-			changeRoom(newRoom);
 		}
 	});
 	roomEvents.bind('click li', 'join');
