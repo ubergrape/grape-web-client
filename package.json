@@ -19,7 +19,7 @@
     "jscoverage": "*",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
-    "wamp1": "0.0.2",
+    "wamp1": "*",
     "stylus": "~0.42.1",
     "autoprefixer": "~1.0.20140117",
     "ws": "*",
