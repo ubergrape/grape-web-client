@@ -59,24 +59,27 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 
 	var history = this.history;
 	// bind to history changes
-	room.on('change history', function (event, line) {
+	room.on('change history', function (event, line, index) {
 		if (event !== 'add')
 			return;
-		addLine(line);
+		addLine(line, index);
 		// clear the number of unread messages
 		room.unread = 0;
 	});
 	// and render all the history we already have:
 	room.history.forEach(addLine);
 
-	function addLine(line) {
+	function addLine(line, index) {
 		var oldEl;
 		function redraw() {
 			var el = domify(template('chatline', line));
 			if (oldEl) {
 				history.replaceChild(el, oldEl);
 			} else {
-				history.appendChild(el);
+				if (index === history.children.length)
+					history.appendChild(el);
+				else
+					history.insertBefore(el, history.children[index]);
 				// FIXME: scroll into view, for now. Later this should really reflect
 				// the reading status, and also track which lines are completely
 				// visible and have been read
