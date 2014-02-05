@@ -43,6 +43,8 @@ function UI(app) {
 	// request the history for the rooms, this is still very shaky now, as it
 	// also increases the unread message count
 	app.organization.rooms.forEach(function (room) {
+		if (!room.joined)
+			return;
 		app.getHistory(room);
 	});
 
