@@ -27,6 +27,7 @@
     "array": "MatthewMueller/array",
     "model": "Swatinem/model",
     "model-cache": "Swatinem/model-cache",
+    "model-cast": "Swatinem/model-cast",
     "model-array": "Swatinem/model-array"
   },
   "repository": "git://github.com/newsgrape/ChatGrape.git"

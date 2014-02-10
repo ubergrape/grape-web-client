@@ -26,6 +26,7 @@
     "Swatinem/template": "*",
     "Swatinem/model": "*",
     "Swatinem/model-cache": "*",
+    "Swatinem/model-cast": "*",
     "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
     "component/domify": "*",
