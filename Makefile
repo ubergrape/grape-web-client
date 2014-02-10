@@ -4,7 +4,7 @@ JS_FILES := $(shell find lib/ browser/ -name "*.js")
 TEMPLATE_FILES := $(shell find templates/ -name "*.jade")
 STYLUS_FILES := $(shell find stylus/ -name "*.styl")
 
-all: $(OUTPUT)/index.js $(OUTPUT)/index.css $(STATIC)/chat.html
+all: $(OUTPUT)/app/app.js $(OUTPUT)/app/app.css $(OUTPUT)/site/site.css $(STATIC)/chat.html
 # $(OUTPUT)/index.html
 
 test: node_modules lint
@@ -16,15 +16,20 @@ lint:
 $(STATIC)/chat.html: index.jade
 	./node_modules/.bin/jade --pretty --path $< < $< > $@
 
-$(OUTPUT)/index.js: components $(JS_FILES) $(TEMPLATE_FILES)
-	@rm -f $(OUTPUT)/index.css
-	@./node_modules/.bin/component build --use component-jade --out $(OUTPUT) --name index
-	@touch $(OUTPUT)/index.css
-	@mv $(OUTPUT)/index.css $(OUTPUT)/components.css
+$(OUTPUT)/app/app.js: components $(JS_FILES) $(TEMPLATE_FILES)
+	@rm -f $(OUTPUT)/app/app.css
+	@./node_modules/.bin/component build --use component-jade --out $(OUTPUT)/app --name app
+	@touch $(OUTPUT)/app/app.css
+	@mv $(OUTPUT)/app/app.css $(OUTPUT)/app/components.css
 
-$(OUTPUT)/index.css: $(OUTPUT)/index.js $(STYLUS_FILES)
-	@./node_modules/.bin/stylus --include-css --out $(OUTPUT) stylus/index.styl
-	@./node_modules/.bin/autoprefixer $(OUTPUT)/index.css
+$(OUTPUT)/app/app.css: $(OUTPUT)/app/app.js $(STYLUS_FILES)
+	@./node_modules/.bin/stylus --include-css --out $(OUTPUT)/app stylus/app.styl
+	@./node_modules/.bin/autoprefixer $(OUTPUT)/app/app.css
+
+$(OUTPUT)/site/site.css: $(STYLUS_FILES)
+	@mkdir -p $(OUTPUT)/site
+	@./node_modules/.bin/stylus --include-css --out $(OUTPUT)/site stylus/site.styl
+	@./node_modules/.bin/autoprefixer $(OUTPUT)/site/site.css
 
 node_modules: package.json
 	npm install
