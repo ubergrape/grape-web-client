@@ -6,6 +6,8 @@ var inputarea = require('inputarea');
 var domify = require('domify');
 var template = require('template');
 
+var focus = require('../focus');
+
 module.exports = RoomView;
 
 function qs(s) {
@@ -47,7 +49,6 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	}
 	var self = this;
 	this.room = room;
-	room.unread = 0;
 
 	// bind to room meta changes
 	this.roomname.innerHTML = room.name;
@@ -57,40 +58,46 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	drawRoomUsers();
 	room.on('change users', drawRoomUsers);
 
-	var history = this.history;
-	// bind to history changes
+	// draw all the messages we have so far:
+	room.unread = 0;
+	this.history.innerHTML = room.history.map(function (line) {
+		return template('chatline', line);
+	}).join('');
+	// mark the last message as read
+	this.lastRead = this.history.lastChild;
+	// and scroll to the last read message
+	if (this.lastRead)
+		this.lastRead.scrollIntoView();
+
+	// react to new messages
 	room.on('change history', function (event, line, index) {
 		if (event !== 'add')
 			return;
-		addLine(line, index);
-		// clear the number of unread messages
-		room.unread = 0;
+		self._newLine(line, index);
 	});
-	// and render all the history we already have:
-	room.history.forEach(addLine);
-
-	function addLine(line, index) {
-		var oldEl;
-		function redraw() {
-			var el = domify(template('chatline', line));
-			if (oldEl) {
-				history.replaceChild(el, oldEl);
-			} else {
-				if (index === history.children.length)
-					history.appendChild(el);
-				else
-					history.insertBefore(el, history.children[index]);
-				// FIXME: scroll into view, for now. Later this should really reflect
-				// the reading status, and also track which lines are completely
-				// visible and have been read
-				var parent = history.parentNode;
-				parent.scrollTop = parent.scrollHeight - parent.clientHeight;
-			}
-			oldEl = el;
-		}
-		redraw();
-		// FIXME: unsubscribe from this!
-		line.readers.on('add', redraw);
-		line.readers.on('remove', redraw);
-	}
 };
+
+RoomView.prototype._newLine = function RoomView__newLine(line, index) {
+	var history = this.history;
+
+	var el = domify(template('chatline', line));
+	if (index !== history.children.length) {
+		// when prepending history, do not do any special handling
+		history.insertBefore(el, history.children[index]);
+		return;
+	}
+	history.appendChild(el);
+	if (focus.state === 'focus') {
+		// when the window has the focus, we assume the message was read
+		this.lastRead = el;
+	} else {
+		// when the window does not have focus, we count this toward the
+		// unread messages
+		this.room.unread++;
+	}
+	// scroll the last read message into view for now. later this should be a lot
+	// more sophisticated
+	if (this.lastRead)
+		this.lastRead.scrollIntoView();
+};
+

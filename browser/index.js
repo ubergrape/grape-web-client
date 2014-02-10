@@ -61,6 +61,9 @@ function UI(app) {
 	models.Room.on('change history', function (instance, ev) {
 		if (ev !== 'add')
 			return;
+		// do not handle that here for the current room
+		if (instance === self.currentRoom)
+			return;
 		instance.unread++;
 	});
 	function changeRoom(room) {
