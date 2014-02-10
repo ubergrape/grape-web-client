@@ -8,6 +8,12 @@ var App = lib.App;
 var models = lib.models;
 
 describe('App', function () {
+	beforeEach(function () {
+		// clear the caches
+		models.User.clear();
+		models.Room.clear();
+		models.Organization.clear();
+	});
 	var wss = new WebSocketServer({port: 8080});
 	it('should create a connection to the wamp server', function (done) {
 		wss.once('connection', function (ws) {
@@ -230,6 +236,42 @@ describe('App', function () {
 				app.leaveRoom(room, function () {
 					done();
 				});
+			});
+			it('should request some history', function (done) {
+				server.on('message', function (msg) {
+					msg = JSON.parse(msg);
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/rooms/get_history');
+					msg[3].should.eql(1);
+					var lines = [{
+						id: 2,
+						author: 2,
+						text: 'foobar2',
+						time: '2014-02-04T13:51:35.662Z'
+					}, {
+						id: 1,
+						author: 1,
+						text: 'foobar',
+						time: '2014-02-04T13:51:34.662Z'
+					}];
+					server.send(JSON.stringify([3, msg[1], lines]));
+				});
+				var room = app.organization.rooms[0];
+				var count = 0;
+				room.history.on('add', function () {
+					if (++count !== 2)
+						return;
+					room.history[0].id.should.eql(1);
+					room.history[0].text.should.eql('foobar');
+					room.history[0].time.getTime().should.eql(1391521894662);
+					room.history[0].user.should.equal(room.users[0]);
+					room.history[1].id.should.eql(2);
+					room.history[1].text.should.eql('foobar2');
+					room.history[1].time.getTime().should.eql(1391521895662);
+					room.history[1].user.should.equal(room.users[1]);
+					done();
+				});
+				app.getHistory(room);
 			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function () {
