@@ -111,7 +111,7 @@ function UI(app) {
 	});
 
 	// bind the room
-	var roomView = this.roomView = new RoomView();
+	var roomView = this.roomView = new RoomView(app);
 	roomView.on('input', function (str) {
 		app.publish(self.currentRoom, str);
 	});

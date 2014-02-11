@@ -8,6 +8,7 @@
   "scripts": [
     "browser/views/roomview.js",
     "browser/focus.js",
+    "browser/infinite-scroll.js",
     "browser/index.js",
     "lib/index.js",
     "lib/models/chatline.js",

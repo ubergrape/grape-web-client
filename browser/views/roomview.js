@@ -7,6 +7,7 @@ var domify = require('domify');
 var template = require('template');
 
 var focus = require('../focus');
+var InfiniteScroll = require('../infinite-scroll');
 
 module.exports = RoomView;
 
@@ -14,14 +15,17 @@ function qs(s) {
 	return document.querySelector(s);
 }
 
-function RoomView(room) {
+function RoomView(app, room) {
 	Emitter.call(this);
+	this.app = app;
 	this.room = undefined;
 
 	this.history = qs('.chathistory');
 	this.input = qs('.input');
 	this.roomname = qs('.roomname');
 	this.usersonline = qs('.usersonline');
+	this.scrollWindow = qs('.chat');
+	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
 
 	this._bindInput();
 
@@ -30,6 +34,19 @@ function RoomView(room) {
 }
 
 RoomView.prototype = Object.create(Emitter.prototype);
+
+RoomView.prototype._scrolled = function RoomView__scrolled(direction, done) {
+	// ignore bottom
+	if (direction === 'bottom')
+		return;
+	var oldestLine = this.room.history[0];
+	var options = {time_to: oldestLine.time};
+	this.app.getHistory(this.room, options, function (lines) {
+		// only acknowledge this when we are not at the end of the history
+		if (lines.length)
+			done();
+	});
+};
 
 RoomView.prototype._bindInput = function RoomView__bindInput() {
 	var self = this;
@@ -49,6 +66,7 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	}
 	var self = this;
 	this.room = room;
+	this.scroll.reset();
 
 	// bind to room meta changes
 	this.roomname.innerHTML = room.name;
@@ -82,8 +100,11 @@ RoomView.prototype._newLine = function RoomView__newLine(line, index) {
 
 	var el = domify(template('chatline', line));
 	if (index !== history.children.length) {
-		// when prepending history, do not do any special handling
+		// when prepending history, make sure to not modify the current scrolling
+		// offset
+		var sH = this.scrollWindow.scrollHeight;
 		history.insertBefore(el, history.children[index]);
+		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - sH;
 		return;
 	}
 	history.appendChild(el);
