@@ -8,7 +8,8 @@ var template = require('template');
 var classes = require('classes');
 var throttle = require('throttle');
 
-var focus = require('../focus');
+// WTFjshint
+var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
 
 module.exports = RoomView;
