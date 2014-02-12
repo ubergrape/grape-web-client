@@ -24,7 +24,7 @@
     "autoprefixer": "~1.0.20140117",
     "ws": "*",
     "websocket-buffering": "~0.0.2",
-    "array": "MatthewMueller/array",
+    "array": "*",
     "model": "Swatinem/model",
     "model-cache": "Swatinem/model-cache",
     "model-cast": "Swatinem/model-cast",
