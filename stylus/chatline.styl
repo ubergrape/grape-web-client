@@ -3,42 +3,57 @@
 
 arrow = 6px;
 
-/**
- * FIXME: I would really love to have a way to have names/text aligned
- * without using tables, is that somehow possible?
- * But then again, maybe using tables is the right thing here when it comes
- * to semantic, it kind of tabular data, amirite?
- */
-
 .chatline {
-	display: flex;
+	position: relative;
 	padding: 5px
-	.content, .text {
-		flex: 1;
+	line-height: 1.4;
+	&:not(:last-child).read {
+		padding-bottom: 4px;
+		border-bottom: 1px solid red;
+		&::before {
+			display: block;
+			content: "new messages";
+			position: absolute;
+			right: 0px;
+			bottom: -5px;
+			font-size: 10px;
+			line-height: 10px;
+			text-transform: uppercase;
+			color: red;
+			background: chat_bg;
+			padding: 0px 5px;
+		}
 	}
 	.user {
 		font-family: "Open Sans";
 		font-weight: bold;
-		padding: 5px;
+		left: 0px;
+		width: 95px;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	.time {
-		order: 1;
-		flex: 0 0 60px;
+		right: 5px;
 	}
-	.content {
-		display: flex;
-		margin-left: 10px;
+	.user, .time {
 		padding: 5px;
+		position: absolute;
+	}
+	.text {
+		margin-left: 100px;
+		padding: 5px;
+		padding-right: 60px;
 		background: white;
 		border-radius: 3px;
+		min-height: 1.4em;
 		&::before {
 			content: "";
+			display: block;
 			height: 0px;
 			width: 0px;
-			display: block;
-			margin-top: 3px;
-			margin-left: - 5px - arrow;
-			margin-right: 5px + arrow;
+			left: 100px;
+			top: arrow * 2 + 1px;
+			position: absolute;
 			border: arrow solid rgba(255, 255, 255, 0);
 			border-left-width: 0px;
 			border-right-color: white;

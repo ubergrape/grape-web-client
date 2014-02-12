@@ -1,9 +1,8 @@
 
 .chatline
-	span.user= user.username
-	.content
-		time.time= strftime('%H:%M:%S', time)
-		span.text= text
+	.user= user.username
+	time.time(datetime=time.toISOString())= strftime('%H:%M:%S', time)
+	.text= text
 
 //- TODO: rework according to design
 	.readers

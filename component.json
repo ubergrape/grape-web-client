@@ -32,6 +32,8 @@
     "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
     "component/domify": "*",
+    "component/classes": "*",
+    "component/throttle": "*",
     "component/inputarea": "*",
     "component/escape-html": "*",
     "component/emitter": "*",
