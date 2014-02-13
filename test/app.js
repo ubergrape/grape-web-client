@@ -179,16 +179,6 @@ describe('App', function () {
 				});
 				app.publish(app.organization.rooms[0], 'foobar');
 			});
-			it('should publish reading notifications', function (done) {
-				server.once('message', function (msg) {
-					msg = JSON.parse(msg);
-					msg[0].should.eql(7);
-					msg[1].should.eql('http://domain/organization/1/room/1#reading');
-					msg[2].should.eql({line: 1});
-					done();
-				});
-				app.read(app.organization.rooms[0], new models.Line({id: 1}));
-			});
 			it('should join a room', function (done) {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
@@ -273,6 +263,19 @@ describe('App', function () {
 				});
 				app.getHistory(room);
 			});
+			it('should mark messages as read', function (done) {
+				server.on('message', function (msg) {
+					msg = JSON.parse(msg);
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/rooms/read');
+					msg[3].should.eql(1);
+					msg[4].should.eql(1);
+					done();
+				});
+				var room = app.organization.rooms[0];
+				var line = new models.Line({id: 1});
+				app.setRead(room, line);
+			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function () {
 					app.subscribeRooms();
@@ -340,8 +343,8 @@ describe('App', function () {
 							index.should.eql(0);
 							done();
 						});
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#reading', {
-							line: 1,
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#read', {
+							message: 1,
 							user: 1
 						}]));
 					});

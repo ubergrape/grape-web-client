@@ -1,10 +1,19 @@
 
-.chatline
+.chatline(data-id=id)
 	.user= user.username
 	time.time(datetime=time.toISOString())= strftime('%H:%M:%S', time)
 	.text= text
 
-//- TODO: rework according to design
-	.readers
-		for reader in readers
-			.reader(class="colors-" + reader.num)= reader.username
+	if readers.length
+		.readers
+			for reader, index in readers
+				span.reader(class="colors-" + reader.num)=reader.username
+				if readers.length > 2 && index < readers.length - 2
+					span , 
+				else if readers.length > 1 && index === readers.length - 2
+					span  and 
+			if readers.length > 1
+				span  have 
+			else
+				span  has 
+			span read this message

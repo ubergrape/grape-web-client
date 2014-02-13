@@ -11,6 +11,7 @@ var throttle = require('throttle');
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
+var Line = require('../../lib').models.Line; // TODO: clean this up a bit
 
 module.exports = RoomView;
 
@@ -31,10 +32,9 @@ function RoomView(app, room) {
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
 	this.scrollMode = 'automatic';
-	// FIXME: WeakMap shim?
-	this.elemMap = new WeakMap();
 
 	this._bindInput();
+	this._bindChange();
 
 	if (room)
 		this.setRoom(room);
@@ -57,6 +57,24 @@ RoomView.prototype._scrolled = function RoomView__scrolled(direction, done) {
 	});
 };
 
+// react to changes to chat line and redraw that accordingly
+RoomView.prototype._bindChange = function RoomView__bindChange() {
+	var self = this;
+	Line.on('change readers', function (line) {
+		var elem = qs('.chatline[data-id="' + line.id + '"]');
+		if (!elem)
+			return;
+		var newElem = domify(template('chatline', line));
+		// TODO: meh, this needs to be a lot better -_-
+		console.log(elem, self.lastRead, newElem)
+		if (elem === self.lastRead) {
+			this.lastRead = newElem;
+			classes(newElem).add('read');
+		}
+		elem.parentNode.replaceChild(newElem, elem);
+	});
+};
+
 RoomView.prototype._bindInput = function RoomView__bindInput() {
 	var self = this;
 	inputarea(this.input).on('input', function (str) {
@@ -70,11 +88,13 @@ RoomView.prototype._bindScroll = function RoomView__bindScroll() {
 	var self = this;
 	function updateRead() {
 		setTimeout(function () {
-			var lastRead = self.elemMap.get(self.lastRead);
+			if (focus.state !== 'focus')
+				return; // we get scroll events even when the window is not focused
+			var lastRead = Line.get(self.lastRead.getAttribute('data-id'));
 			if (!lastRead)
 				return;
 			var thisElem = self._findBottomVisible();
-			var thisRead = self.elemMap.get(thisElem);
+			var thisRead = Line.get(thisElem.getAttribute('data-id'));
 			if (lastRead.time < thisRead.time)
 				self._setLastRead(thisElem);
 		}, 2500);
@@ -143,7 +163,8 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 
 RoomView.prototype._setLastRead = function RoomView__setLastRead(el) {
 	// clear the number of read items
-	var index = this.unread.indexOf(el);
+	var line = Line.get(el.getAttribute('data-id'));
+	var index = this.unread.indexOf(line);
 	if (~index) {
 		index++;
 		this.unread.splice(0, index);
@@ -153,13 +174,15 @@ RoomView.prototype._setLastRead = function RoomView__setLastRead(el) {
 		classes(this.lastRead).remove('read');
 	this.lastRead = el;
 	classes(this.lastRead).add('read');
+	// and signal the server that we have read this far
+	var lastRead = Line.get(this.lastRead.getAttribute('data-id'));
+	this.app.setRead(this.room, lastRead);
 };
 
 RoomView.prototype._newLine = function RoomView__newLine(line, index) {
 	var history = this.history;
 
 	var el = domify(template('chatline', line));
-	this.elemMap.set(el, line);
 	if (index !== history.children.length) {
 		// when prepending history, make sure to not modify the current scrolling
 		// offset
@@ -176,7 +199,7 @@ RoomView.prototype._newLine = function RoomView__newLine(line, index) {
 	} else {
 		// when the window does not have focus, we count this toward the
 		// unread messages
-		this.unread.push(el);
+		this.unread.push(line);
 		this.room.unread++;
 	}
 	if (this.scrollMode === 'automatic' && this.lastRead) {

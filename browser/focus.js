@@ -5,12 +5,12 @@ var exports = module.exports = require('emitter')({});
 
 exports.state = 'focus';
 
-document.addEventListener('blur', function () {
+window.addEventListener('blur', function () {
 	exports.state = 'blur';
 	exports.emit('change', exports.state);
 	exports.emit('blur');
 });
-document.addEventListener('focus', function () {
+window.addEventListener('focus', function () {
 	exports.state = 'focus';
 	exports.emit('change', exports.state);
 	exports.emit('focus');
