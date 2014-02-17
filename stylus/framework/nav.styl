@@ -1,66 +1,68 @@
-@import "../misc/variables"
 
-nav.overview {
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: nav_width;
 
-	background: nav_bg;
-	color: nav_text;
 
-	header {
-		background: nav_head;
-		color: nav_highlight;
-		height: header_height;
-		// FIXME: better define these things
-		padding: header_padding 0px header_padding 30px;
-		h1 {
-			margin: 0;
-			font-weight: normal;
-			// FIXME: define font-size
-			font-size: 30px;
-			text-transform: uppercase;
-			em {
-				font-style: normal;
-				font-weight: bold;
-				font-family: "Open Sans";
-			}
-		}
-	}
-	section.lists {
-		// FIXME: oh css, why art though annoying with vertical sizing?
-		padding: header_padding;
-		// meh: https://github.com/LearnBoost/stylus/issues/687#issuecomment-27939441
-		height: "calc(100% - %s)" % (4 * header_padding + header_height);
-		overflow: auto;
-		h2 {
-			margin: 0;
-			margin-top: header_padding;
-			text-transform: uppercase;
-		}
-		ul {
-			list-style: none;
-			padding-left: header_padding;
-			margin: 0;
-		}
-		i.fa {
-			margin-left: - header_padding;
-			padding: 5px;
-		}
-	}
-	.rooms li:not(.joined) {
-		color: darken(nav_text, 50%);
-		cursor: pointer;
-	}
-	.rooms .leave {
-		cursor: pointer;
-		font-style: normal;
-	}
-	.rooms .selected {
-		font-weight: bold;
-		font-family: "Open Sans";
-	}
-}
+
+// nav.overview {
+// 	position: fixed;
+// 	top: 0;
+// 	left: 0;
+// 	bottom: 0;
+// 	width: nav_width;
+
+// 	background: nav_bg;
+// 	color: nav_text;
+
+// 	header {
+// 		background: nav_head;
+// 		color: nav_highlight;
+// 		height: header_height;
+// 		// FIXME: better define these things
+// 		padding: header_padding 0px header_padding 30px;
+// 		h1 {
+// 			margin: 0;
+// 			font-weight: normal;
+// 			// FIXME: define font-size
+// 			font-size: 30px;
+// 			text-transform: uppercase;
+// 			em {
+// 				font-style: normal;
+// 				font-weight: bold;
+// 				font-family: "Open Sans";
+// 			}
+// 		}
+// 	}
+// 	section.lists {
+// 		// FIXME: oh css, why art though annoying with vertical sizing?
+// 		padding: header_padding;
+// 		// meh: https://github.com/LearnBoost/stylus/issues/687#issuecomment-27939441
+// 		height: "calc(100% - %s)" % (4 * header_padding + header_height);
+// 		overflow: auto;
+// 		h2 {
+// 			margin: 0;
+// 			margin-top: header_padding;
+// 			text-transform: uppercase;
+// 		}
+// 		ul {
+// 			list-style: none;
+// 			padding-left: header_padding;
+// 			margin: 0;
+// 		}
+// 		i.fa {
+// 			margin-left: - header_padding;
+// 			padding: 5px;
+// 		}
+// 	}
+// 	.rooms li:not(.joined) {
+// 		color: darken(nav_text, 50%);
+// 		cursor: pointer;
+// 	}
+// 	.rooms .leave {
+// 		cursor: pointer;
+// 		font-style: normal;
+// 	}
+// 	.rooms .selected {
+// 		font-weight: bold;
+// 		font-family: "Open Sans";
+// 	}
+// }
 

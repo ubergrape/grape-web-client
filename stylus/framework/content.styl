@@ -1,42 +1,127 @@
-@import "../misc/variables"
+/*
+========================================
+============== FRAMEWORK ===============
+========================================
+*/
 
-header_border = 2px;
-
-section.content {
-	position: fixed;
-	top: 0;
-	left: nav_width;
-	bottom: 0;
-	right: 0;
-
-	background: chat_bg;
-
-	header {
-		height: header_height;
-		padding: header_padding;
-
-		background: chat_head;
-		border-bottom: header_border solid chat_border;
-
-		h1, h2 {
-			padding: 0;
-			display: inline-block;
-		}
-		input {
-			float: right;
-		}
-	}
-	section.chat {
-		padding: header_padding;
-		// FIXME: same bullshit as in nav.styl
-		height: "calc(100% - %s)" % (6 * header_padding + 2 * header_height + 2 * header_border);
-		overflow: auto;
-	}
-	footer {
-		height: header_height;
-		padding: header_padding;
-
-		border-top: header_border solid chat_border;
-		background: chat_head;
-	}
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%
+	overflow: hidden
 }
+
+box-sizing()
+  vendor('box-sizing', arguments)
+ 
+// apply a natural box layout model to all elements
+* 
+	box-sizing border-box
+
+
+
+.client
+	position: relative
+	background: navigation-background
+	height: 100%
+	overflow: hidden
+	> header, > footer
+		position: fixed
+		left: 0
+		right: 0
+	> header
+		top: 0
+		height: client-header-height
+	> footer 
+		bottom: 0
+		height: client-footer-height
+
+.client-info
+	float: left
+	width: client-navigation-width
+	height: client-header-height
+	background: organisation-background
+	.logo
+		background: client-logo-background
+		height: (client-header-height / 3)
+
+.client-room-info
+	background: room-info-background
+	overflow: hidden
+	height: client-header-height
+	border-bottom: 3px solid client-border-color
+	h1
+		margin: 0
+		float: left
+		width: 150px
+	.search
+		float: right
+		height: 22px
+		width: 180px
+
+.client-body
+	height: 100%
+	padding-bottom: client-footer-height
+	padding-top: client-header-height
+	.overview
+		width: client-navigation-width
+		height: 100%
+		overflow: auto
+		float: left
+	.chat
+		background: chat-background
+		overflow: auto
+		height: 100%
+
+.client-input
+	border-top: 3px solid client-border-color
+	margin-left: client-navigation-width
+	background: client-input-background
+	padding: (vertical-space / 2) (horizontal-space / 2)
+	.input-wrapper
+		.input
+			width: 100%
+			min-height: client-footer-height - vertical-space - 3px
+
+// @import "../misc/variables"
+
+// header_border = 2px;
+
+// section.content {
+// 	position: fixed;
+// 	top: 0;
+// 	left: nav_width;
+// 	bottom: 0;
+// 	right: 0;
+
+// 	background: chat_bg;
+
+// 	header {
+// 		height: header_height;
+// 		padding: header_padding;
+
+// 		background: chat_head;
+// 		border-bottom: header_border solid chat_border;
+
+// 		h1, h2 {
+// 			padding: 0;
+// 			display: inline-block;
+// 		}
+// 		input {
+// 			float: right;
+// 		}
+// 	}
+// 	section.chat {
+// 		padding: header_padding;
+// 		// FIXME: same bullshit as in nav.styl
+// 		height: "calc(100% - %s)" % (6 * header_padding + 2 * header_height + 2 * header_border);
+// 		overflow: auto;
+// 	}
+// 	footer {
+// 		height: header_height;
+// 		padding: header_padding;
+
+// 		border-top: header_border solid chat_border;
+// 		background: chat_head;
+// 	}
+// }

@@ -8,26 +8,30 @@ html
 		link(rel="stylesheet", type="text/css", href="/static/app/app.css")
 		script(type="application/javascript", src="/static/app/app.js")
 	body
-
-		nav.overview
+		.client
 			header
-				h1 one<em>team</em>
-				.userinfo
-			section.lists
-				h2 Rooms
-				ul.rooms
-				h2 Conversations
-				ul.conversations
+				.client-info
+					.logo one<em>team</em>
+					.userinfo
+				.client-room-info
+					h1.roomname Room
+					span.usersonline
+					input.search(type="search", placeholder="search for content, documents, appointments, …")
 
-		section.content
-			header
-				h1.roomname Room
-				h2.usersonline
-				input(type="search", placeholder="search for content, documents, appointments, …")
-			section.chat
-				.chathistory
+			.client-body
+				nav.overview
+					section.lists
+						h2 Rooms
+						ul.rooms
+						h2 Conversations
+						ul.conversations
+				section.chat
+					.chathistory
+
 			footer
-				textarea.input(autofocus)
+				.client-input
+					.input-wrapper
+						textarea.input(autofocus)
 
 		script(type="application/javascript").
 			require('cg');

@@ -1,9 +1,7 @@
 
-@import "../misc/variables"
-
 .chatline
 	@extend .clearfix
-	margin-bottom: (vertical-space / 2)
+	margin: 0 (horizontal-space * 2) (vertical-space * .75) (horizontal-space * 2)
 	position: relative
 	aside, .content
 		padding: (vertical-space / 2) (horizontal-space / 2)
@@ -27,6 +25,7 @@
 	.content 
 		overflow: hidden
 		background: chatline-content-background
+		border-radius: 5px
 		@extend .clearfix
 		time
 			float: right
