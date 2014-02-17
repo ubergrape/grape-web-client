@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
+    "FortAwesome/Font-Awesome": "*",
     "Swatinem/template": "*",
     "Swatinem/model": "*",
     "Swatinem/model-cache": "*",

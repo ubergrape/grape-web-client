@@ -1,3 +1,5 @@
 each user in users
-	li(class="colors-" + user.num) #{user.username} (#{user.status})
+	li(class="colors-" + user.num)
+		i.fa.fa-comments
+		| #{user.username} (#{user.status})
 
