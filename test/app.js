@@ -10,6 +10,7 @@ var models = lib.models;
 describe('App', function () {
 	beforeEach(function () {
 		// clear the caches
+		models.Line.clear();
 		models.User.clear();
 		models.Room.clear();
 		models.Organization.clear();
@@ -339,13 +340,13 @@ describe('App', function () {
 						line.time.getTime().should.eql(1391521894662);
 						line.readers.length.should.eql(0);
 						line.readers.once('add', function (reader, index) {
-							reader.should.equal(app.user);
+							reader.should.equal(models.User.get(2));
 							index.should.eql(0);
 							done();
 						});
 						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#read', {
 							message: 1,
-							user: 1
+							user: 2
 						}]));
 					});
 					var msg = {
@@ -355,6 +356,92 @@ describe('App', function () {
 						time: '2014-02-04T13:51:34.662Z'
 					};
 					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+				});
+				it('should not add the current user to `readers`', function (done) {
+					app.organization.rooms[0].history.once('add', function (line, index) {
+						index.should.eql(0);
+						line.should.be.instanceof(models.Line);
+						line.id.should.eql(1);
+						line.user.should.equal(app.user);
+						line.text.should.eql('foobar');
+						line.time.should.be.instanceof(Date);
+						line.time.getTime().should.eql(1391521894662);
+						line.readers.length.should.eql(0);
+						line.readers.once('add', function () {
+							throw new Error('not reached');
+						});
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#read', {
+							message: 1,
+							user: 1
+						}]));
+						done();
+					});
+					var msg = {
+						id: 1,
+						author: 1,
+						text: 'foobar',
+						time: '2014-02-04T13:51:34.662Z'
+					};
+					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+				});
+				describe('unread count', function () {
+					it('should increase when receiving a new message', function (done) {
+						var room = app.organization.rooms[0];
+						room.unread.should.eql(0);
+						room.on('change unread', function (val) {
+							val.should.eql(1);
+							done();
+						});
+						var msg = {
+							id: 1,
+							author: 1,
+							text: 'foobar',
+							time: '2014-02-04T13:51:34.662Z'
+						};
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					});
+					it('should decrease when marking messages as read', function (done) {
+						var room = app.organization.rooms[0];
+						room.unread.should.eql(0);
+						room.history.on('add', function (line, index) {
+							if (index !== 2)
+								return;
+							room.unread.should.eql(3);
+							room.once('change unread', function (val) {
+								val.should.eql(2);
+							});
+							app.setRead(room, room.history[0]);
+							room.history[0].read.should.be.true;
+							room.history[1].read.should.be.false;
+							app.setRead(room, room.history[2]);
+							room.unread.should.eql(0);
+							room.history[0].read.should.be.true;
+							room.history[1].read.should.be.true;
+							room.history[2].read.should.be.true;
+							done();
+						});
+						var msg = {
+							id: 1,
+							author: 1,
+							text: 'foobar',
+							time: '2014-02-04T13:51:34.662Z'
+						};
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+						msg = {
+							id: 2,
+							author: 2,
+							text: 'foobar2',
+							time: '2014-02-04T13:51:34.662Z'
+						};
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+						msg = {
+							id: 3,
+							author: 3,
+							text: 'foobar3',
+							time: '2014-02-04T13:51:34.662Z'
+						};
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					});
 				});
 			});
 		});

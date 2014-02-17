@@ -66,7 +66,7 @@ RoomView.prototype._bindChange = function RoomView__bindChange() {
 			return;
 		var newElem = domify(template('chatline', line));
 		// TODO: meh, this needs to be a lot better -_-
-		console.log(elem, self.lastRead, newElem)
+		console.log(elem, self.lastRead, newElem);
 		if (elem === self.lastRead) {
 			this.lastRead = newElem;
 			classes(newElem).add('read');

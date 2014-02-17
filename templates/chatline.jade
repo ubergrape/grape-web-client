@@ -1,6 +1,6 @@
 
 .chatline(data-id=id)
-	.user= user.username
+	.user(class="colors-" + user.num)= user.username
 	time.time(datetime=time.toISOString())= strftime('%H:%M:%S', time)
 	.text= text
 
