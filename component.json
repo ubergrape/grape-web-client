@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
+    "necolas/normalize.css": "*",
     "FortAwesome/Font-Awesome": "*",
     "Swatinem/template": "*",
     "Swatinem/model": "*",
