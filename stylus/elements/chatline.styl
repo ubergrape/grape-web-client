@@ -1,11 +1,11 @@
 
 @import "../misc/variables"
 
-.c
+.chatline
 	@extend .clearfix
 	margin-bottom: (vertical-space / 2)
 	position: relative
-	aside, .c-con
+	aside, .content
 		padding: (vertical-space / 2) (horizontal-space / 2)
 	aside
 		@extend .user-info
@@ -24,7 +24,7 @@
 			border-right: 6px solid chatline-content-background
 			border-top: 6px solid transparent
 			border-bottom: 6px solid transparent
-	.c-con 
+	.content 
 		overflow: hidden
 		background: chatline-content-background
 		@extend .clearfix

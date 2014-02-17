@@ -1,8 +1,8 @@
-.c(data-id=id)
+.chatline(data-id=id)
 	aside.user(class="colors-" + user.num)
 		img.image(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg")
 		div= user.username
-	.c-con
+	.content
 		time.time(datetime=time.toISOString())= strftime('%H:%M Uhr', time)
 		.text= text
 
