@@ -22,7 +22,7 @@
 			border-right: 6px solid chatline-content-background
 			border-top: 6px solid transparent
 			border-bottom: 6px solid transparent
-	.content 
+	.content
 		overflow: hidden
 		background: chatline-content-background
 		border-radius: 5px
@@ -32,10 +32,10 @@
 			color: chatline-time-color
 		.text
 			overflow: hidden
-	&:not(:last-child).read 
+	&:not(:last-child).read
 		padding-bottom: (vertical-space / 2);
 		border-bottom: 1px solid red;
-		&::before 
+		&::before
 			display: block;
 			content: "new messages";
 			position: absolute;
@@ -49,7 +49,7 @@
 			padding: 0px 5px;
 
 
-.readers 
+.readers
 	position: relative;
 	height: 5px;
 	margin-top: -5px;
@@ -58,10 +58,10 @@
 	padding-top: 3px;
 	cursor: pointer;
 	font-size: 10px;
-	span 
+	span
 		display: none;
-	
-	.reader 
+
+	.reader
 		height: 0px;
 		width: 15px;
 		margin-right: 5px;
@@ -69,24 +69,22 @@
 		display: inline-block;
 		vertical-align: top;
 		overflow: hidden;
-		for color, i in colors 
-			&.colors-i 
-				border-color: color;	
-	&:hover 
+		for color, i in colors
+			&.colors-{i}
+				border-color: color;
+	&:hover
 		background: white;
 		border-radius: 3px;
 		height: 12px;
 		margin-bottom: -4px;
 		padding-top: 0px;
 		line-height: 10px;
-		span 
+		span
 			display: inline;
-		
-		.reader 
+
+		.reader
 			overflow: visible;
 			height: 1em;
 			border: none;
 			margin: 0;
-		
-	
 
