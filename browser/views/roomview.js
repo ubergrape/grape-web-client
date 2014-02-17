@@ -122,6 +122,7 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	if (this.room) {
 		this.room.off('change history');
 		this.room.off('change users');
+		this.room.off('change name');
 		while (this.history.firstChild)
 			this.history.removeChild(this.history.firstChild);
 	}
@@ -135,6 +136,9 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 
 	// bind to room meta changes
 	this.roomname.innerHTML = room.name;
+	room.on('change name', function () {
+		self.roomname.innerHTML = room.name;
+	});
 	function drawRoomUsers() {
 		self.usersonline.innerHTML = template('roommeta', room);
 	}

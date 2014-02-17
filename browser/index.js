@@ -57,6 +57,7 @@ function UI(app) {
 	}
 	models.Room.on('change joined', drawRooms);
 	models.Room.on('change unread', drawRooms);
+	models.Room.on('change name', drawRooms);
 	// FIXME: this might not be the best place for this
 	models.Room.on('change history', function (instance, ev) {
 		if (ev !== 'add')
