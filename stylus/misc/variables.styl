@@ -1,0 +1,57 @@
+/*
+========================================
+============= MEASUREMENTS =============
+========================================
+*/
+
+/*______ MISC MEASUREMENTS ______*/
+horizontal-space = basic-font-size
+vertical-space = basic-font-size
+
+nav_width = 250px
+header_height = 50px
+header_padding = 20px
+
+
+/*______ TYPOGRAPHY ______*/
+
+basic-font-size = 14px
+basic-line-height = 20px
+
+small-font-size = basic-font-size * .75
+big-font-size = basic-font-size * 1.25
+bigger-font-size = big-font-size * 1.25
+biggest-font-size = bigger-font-size * 1.25
+
+
+
+/*
+========================================
+================ COLORS ================
+========================================
+*/
+
+/*______ CHATLINE ______*/
+chatline-content-background = #fff
+chatline-time-color = #9c9c9c
+
+
+
+/*______ USER-COLOR ______*/
+numcolors = 20;
+colors = ();
+
+for i in (0...numcolors) {
+	color = hsl(i * 11 * (360 / numcolors), 70%, 60%);
+	push(colors, color);
+}
+
+/*______ FRAMEWORK-COLOR ______*/
+nav_bg = #292d32
+nav_head = #262a2e
+nav_text = #7d7f82
+nav_highlight = white
+
+chat_bg = #f7f7f7
+chat_head = #f1eeef
+chat_border = #dfdfdf

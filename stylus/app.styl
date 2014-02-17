@@ -1,5 +1,11 @@
+@import "misc/variables"
+@import "misc/placeholders"
+@import "misc/typography"
 
-@import defines
+@import "framework/nav"
+@import "framework/content"
+
+@import "elements/chatline"
 
 // expand colors:
 for color, i in colors {
@@ -8,7 +14,6 @@ for color, i in colors {
 	}
 }
 
-@import fonts
 
 // TODO: import a reset stylesheet
 
@@ -19,7 +24,4 @@ html, body {
 	background: nav_bg;
 }
 
-@import nav
-@import content
 
-@import chatline
