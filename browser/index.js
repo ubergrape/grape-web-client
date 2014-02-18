@@ -58,15 +58,7 @@ function UI(app) {
 	models.Room.on('change joined', drawRooms);
 	models.Room.on('change unread', drawRooms);
 	models.Room.on('change name', drawRooms);
-	// FIXME: this might not be the best place for this
-	models.Room.on('change history', function (instance, ev) {
-		if (ev !== 'add')
-			return;
-		// do not handle that here for the current room
-		if (instance === self.currentRoom)
-			return;
-		instance.unread++;
-	});
+
 	function changeRoom(room) {
 		self.currentRoom = room;
 		roomView.setRoom(room);
@@ -117,8 +109,8 @@ function UI(app) {
 		app.publish(self.currentRoom, str);
 	});
 
-	this.currentRoom = app.organization.rooms[0];
-	roomView.setRoom(this.currentRoom);
+	//this.currentRoom = app.organization.rooms[0];
+	//roomView.setRoom(this.currentRoom);
 	drawRooms();
 }
 

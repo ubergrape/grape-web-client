@@ -1,4 +1,4 @@
-.chatline(data-id=id)
+.chatline(data-id=id, class=(read ? "read" : "unread"))
 	aside.user(class="colors-" + user.num)
 		img.image(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg")
 		div= user.username

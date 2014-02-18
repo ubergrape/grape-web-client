@@ -31,15 +31,22 @@
 			color: chatline-time-color
 		.text
 			overflow: hidden
-	&:not(:last-child).read
-		padding-bottom: (vertical-space / 2);
-		border-bottom: 1px solid red;
+	&.unread + &.unread
+		margin-top: 0;
+		border-top: 0;
+		padding-top: 0;
+		&::before
+			display: none;
+	&:not(:last-child).unread
+		padding-top: (vertical-space / 2);
+		margin-top: - (vertical-space / 2) - 1;
+		border-top: 1px solid red;
 		&::before
 			display: block;
 			content: "new messages";
 			position: absolute;
 			right: 0px;
-			bottom: -5px;
+			top: -5px;
 			font-size: 10px;
 			line-height: 10px;
 			text-transform: uppercase;
