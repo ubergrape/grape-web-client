@@ -143,6 +143,8 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	// mark the last message as read
 	if (room.history.length)
 		this.app.setRead(room, room.history[room.history.length - 1]);
+	else
+		this.app.getHistory(room);
 
 	// draw all the messages we have so far:
 	room.history.forEach(function (line) {
@@ -151,8 +153,9 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 		history.appendChild(elem);
 	});
 
+	
 	// scroll to the last read message
-	history.lastChild.scrollIntoView();
+	//history.lastChild.scrollIntoView();
 
 	// react to new messages
 	room.on('change history', function (event, line, index) {
