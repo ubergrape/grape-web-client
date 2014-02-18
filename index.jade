@@ -19,19 +19,18 @@ html
 					input.search(type="search", placeholder="search for content, documents, appointments, …")
 
 			.client-body
-				nav.overview
-					section.lists
-						h2 Rooms
+				nav.navigation
+					section.nav-lists
+						h2 Chatrooms
 						ul.rooms
 						h2 Conversations
 						ul.conversations
 				section.chat
 					.chathistory
 
-			footer
-				.client-input
-					.input-wrapper
-						textarea.input(autofocus)
+			footer.client-input
+				.input-wrapper
+					textarea.input(autofocus)
 
 		script(type="application/javascript").
 			require('cg');

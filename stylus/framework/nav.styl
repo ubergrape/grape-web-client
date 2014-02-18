@@ -1,5 +1,34 @@
+.nav-lists
+	padding: (vertical-space * 2) (horizontal-space * 2)
+	h2
+		color: #939598
+		text-transform: uppercase
+		font-size: basic-font-size
+		margin: (vertical-space * 2) 0 (vertical-space) 0
+	i.fa 
+		padding: 5px
+	.rooms li
+		cursor: pointer
+		color: #7e8183
+	.rooms li:not(.joined)
+		color: darken(nav_text, 50%)
 
-
+	.rooms .leave
+		cursor: pointer
+		font-style: normal
+		float: right
+		padding: 5px 8px;
+		border-radius: global-border-radius
+		&:hover
+			background: #fff
+	.rooms .selected
+		font-weight: bold
+		background: #65CAF1
+		color: #0F6C8A
+		margin-left: (horizontal-space * -2)
+		padding-left: (horizontal-space * 2)
+		border-radius: 0 global-border-radius global-border-radius 0
+	
 
 
 // nav.overview {

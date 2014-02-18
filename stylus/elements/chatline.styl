@@ -4,7 +4,7 @@
 	margin: 0 (horizontal-space * 2) (vertical-space * .75) (horizontal-space * 2)
 	position: relative
 	aside, .content
-		padding: (vertical-space / 2) (horizontal-space / 2)
+		padding: (vertical-space / 2) (horizontal-space / 2) (vertical-space / 2) 0
 	aside
 		@extend .user-info
 		float: left
@@ -25,7 +25,7 @@
 	.content
 		overflow: hidden
 		background: chatline-content-background
-		border-radius: 5px
+		border-radius: global-border-radius
 		@extend .clearfix
 		time
 			float: right

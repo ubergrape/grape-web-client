@@ -4,6 +4,9 @@
 ========================================
 */
 
+/*______ GENERAL ______*/
+
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -14,11 +17,11 @@ html, body {
 box-sizing()
   vendor('box-sizing', arguments)
  
-// apply a natural box layout model to all elements
 * 
 	box-sizing border-box
 
 
+/*______ CLIENT STYLING ______*/
 
 .client
 	position: relative
@@ -32,10 +35,11 @@ box-sizing()
 	> header
 		top: 0
 		height: client-header-height
-	> footer 
+	> footer.client-input
 		bottom: 0
 		height: client-footer-height
 
+/*______ Header Info about the product and Organisation ______*/
 .client-info
 	float: left
 	width: client-navigation-width
@@ -45,11 +49,13 @@ box-sizing()
 		background: client-logo-background
 		height: (client-header-height / 3)
 
+/*______ Header Info about the Room you are in ______*/
 .client-room-info
 	background: room-info-background
 	overflow: hidden
 	height: client-header-height
 	border-bottom: 3px solid client-border-color
+	padding: (client-header-height / 4) (horizontal-space * 2)
 	h1
 		margin: 0
 		float: left
@@ -59,11 +65,12 @@ box-sizing()
 		height: 22px
 		width: 180px
 
+/*______ Mid-Section with Navigation and Chatline ______*/
 .client-body
 	height: 100%
 	padding-bottom: client-footer-height
 	padding-top: client-header-height
-	.overview
+	.navigation
 		width: client-navigation-width
 		height: 100%
 		overflow: auto
@@ -73,6 +80,7 @@ box-sizing()
 		overflow: auto
 		height: 100%
 
+/*______ Footer with Textarea ______*/
 .client-input
 	border-top: 3px solid client-border-color
 	margin-left: client-navigation-width
@@ -81,47 +89,3 @@ box-sizing()
 	.input-wrapper
 		.input
 			width: 100%
-			min-height: client-footer-height - vertical-space - 3px
-
-// @import "../misc/variables"
-
-// header_border = 2px;
-
-// section.content {
-// 	position: fixed;
-// 	top: 0;
-// 	left: nav_width;
-// 	bottom: 0;
-// 	right: 0;
-
-// 	background: chat_bg;
-
-// 	header {
-// 		height: header_height;
-// 		padding: header_padding;
-
-// 		background: chat_head;
-// 		border-bottom: header_border solid chat_border;
-
-// 		h1, h2 {
-// 			padding: 0;
-// 			display: inline-block;
-// 		}
-// 		input {
-// 			float: right;
-// 		}
-// 	}
-// 	section.chat {
-// 		padding: header_padding;
-// 		// FIXME: same bullshit as in nav.styl
-// 		height: "calc(100% - %s)" % (6 * header_padding + 2 * header_height + 2 * header_border);
-// 		overflow: auto;
-// 	}
-// 	footer {
-// 		height: header_height;
-// 		padding: header_padding;
-
-// 		border-top: header_border solid chat_border;
-// 		background: chat_head;
-// 	}
-// }
