@@ -5,7 +5,6 @@ var Emitter = require('emitter');
 var inputarea = require('inputarea');
 var domify = require('domify');
 var template = require('template');
-var classes = require('classes');
 var throttle = require('throttle');
 
 // WTFjshint
@@ -29,9 +28,13 @@ function RoomView(app, room) {
 	this.roomname = qs('.roomname');
 	this.usersonline = qs('.usersonline');
 	this.scrollWindow = qs('.chat');
+
+	this._lineMap = Object.create(null);
+
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
 	this.scrollMode = 'automatic';
+
 
 	this._bindInput();
 	this._bindChange();
@@ -60,17 +63,11 @@ RoomView.prototype._scrolled = function RoomView__scrolled(direction, done) {
 // react to changes to chat line and redraw that accordingly
 RoomView.prototype._bindChange = function RoomView__bindChange() {
 	var self = this;
-	Line.on('change readers', function (line) {
-		var elem = qs('.chatline[data-id="' + line.id + '"]');
+	Line.on('change', function (line) {
+		var elem = self._lineMap[line.id];
 		if (!elem)
 			return;
 		var newElem = domify(template('chatline', line));
-		// TODO: meh, this needs to be a lot better -_-
-		console.log(elem, self.lastRead, newElem);
-		if (elem === self.lastRead) {
-			this.lastRead = newElem;
-			classes(newElem).add('read');
-		}
 		elem.parentNode.replaceChild(newElem, elem);
 	});
 };
@@ -90,13 +87,9 @@ RoomView.prototype._bindScroll = function RoomView__bindScroll() {
 		setTimeout(function () {
 			if (focus.state !== 'focus')
 				return; // we get scroll events even when the window is not focused
-			var lastRead = Line.get(self.lastRead.getAttribute('data-id'));
-			if (!lastRead)
-				return;
-			var thisElem = self._findBottomVisible();
-			var thisRead = Line.get(thisElem.getAttribute('data-id'));
-			if (lastRead.time < thisRead.time)
-				self._setLastRead(thisElem);
+			var bottomElem = self._findBottomVisible();
+			var line = Line.get(bottomElem.getAttribute('data-id'));
+			self.app.setRead(self.room, line);
 		}, 2500);
 	}
 	focus.on('focus', updateRead);
@@ -119,20 +112,22 @@ RoomView.prototype._findBottomVisible = function RoomView__findBottomVisible() {
 };
 
 RoomView.prototype.setRoom = function RoomView_setRoom(room) {
+	var self = this;
+	var history = this.history;
 	if (this.room) {
 		this.room.off('change history');
 		this.room.off('change users');
 		this.room.off('change name');
-		while (this.history.firstChild)
-			this.history.removeChild(this.history.firstChild);
+		while (history.firstChild)
+			history.removeChild(history.firstChild);
 	}
-	var self = this;
 	this.room = room;
 	// reset, otherwise we won’t get future events
 	this.scroll.reset();
 	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';
-	this.unread = [];
+	// reset the line map
+	this._lineMap = Object.create(null);
 
 	// bind to room meta changes
 	this.roomname.innerHTML = room.name;
@@ -145,17 +140,19 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	drawRoomUsers();
 	room.on('change users', drawRoomUsers);
 
-	// draw all the messages we have so far:
-	// FIXME: rework the unread messages handling when changing the room
-	room.unread = 0;
-	this.history.innerHTML = room.history.map(function (line) {
-		return template('chatline', line);
-	}).join('');
 	// mark the last message as read
-	this.lastRead = this.history.lastChild;
-	// and scroll to the last read message
-	if (this.lastRead)
-		this.lastRead.scrollIntoView();
+	if (room.history.length)
+		this.app.setRead(room, room.history[room.history.length - 1]);
+
+	// draw all the messages we have so far:
+	room.history.forEach(function (line) {
+		var elem = domify(template('chatline', line));
+		self._lineMap[line.id] = elem;
+		history.appendChild(elem);
+	});
+
+	// scroll to the last read message
+	history.lastChild.scrollIntoView();
 
 	// react to new messages
 	room.on('change history', function (event, line, index) {
@@ -163,24 +160,6 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 			return;
 		self._newLine(line, index);
 	});
-};
-
-RoomView.prototype._setLastRead = function RoomView__setLastRead(el) {
-	// clear the number of read items
-	var line = Line.get(el.getAttribute('data-id'));
-	var index = this.unread.indexOf(line);
-	if (~index) {
-		index++;
-		this.unread.splice(0, index);
-		this.room.unread-= index;
-	}
-	if (this.lastRead)
-		classes(this.lastRead).remove('read');
-	this.lastRead = el;
-	classes(this.lastRead).add('read');
-	// and signal the server that we have read this far
-	var lastRead = Line.get(this.lastRead.getAttribute('data-id'));
-	this.app.setRead(this.room, lastRead);
 };
 
 RoomView.prototype._newLine = function RoomView__newLine(line, index) {
@@ -197,20 +176,17 @@ RoomView.prototype._newLine = function RoomView__newLine(line, index) {
 	}
 	history.appendChild(el);
 
-	if (this.scrollMode === 'automatic' && focus.state === 'focus') {
-		// when the window has the focus, we assume the message was read
-		this._setLastRead(el);
-	} else {
-		// when the window does not have focus, we count this toward the
-		// unread messages
-		this.unread.push(line);
-		this.room.unread++;
-	}
-	if (this.scrollMode === 'automatic' && this.lastRead) {
+	if (this.scrollMode === 'automatic') {
+		if (focus.state === 'focus') {
+			// when the window has the focus, we assume the message was read
+			this.app.setRead(this.room, line);
+			return;
+		}
 		// scroll the last read message into view, on the top
 		// This makes sure the last read message is on the top, it scrolls as far
 		// to the bottom as necessary to have it still in the scrolling view
-		this.lastRead.scrollIntoView();
+		history.children[history.children.length - 1 - this.room.unread]
+			.scrollIntoView();
 		// if the scroll left something on the bottom, set scrolling to manual
 		var elem = this.scrollWindow;
 		var sT = elem.scrollTop;
