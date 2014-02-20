@@ -3,9 +3,9 @@
 	@extend .clearfix
 	margin: 0 (horizontal-space * 2) (vertical-space * .75) (horizontal-space * 2)
 	position: relative
-	aside, .content
+	.user, .content
 		padding: (vertical-space / 2) (horizontal-space / 2) (vertical-space / 2) 0
-	aside
+	.user
 		@extend .user-info
 		float: left
 		width: 100px
@@ -32,6 +32,7 @@
 			color: chatline-time-color
 		.text
 			overflow: hidden
+			padding: 0 (horizontal-space / 2)
 	&.read + &:not(:last-child).unread
 		padding-top: (vertical-space / 2);
 		margin-top: - (vertical-space / 2) - 1;

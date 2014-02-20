@@ -13,9 +13,6 @@ html, body {
 	height: 100%
 	overflow: hidden
 }
-
-box-sizing()
-  vendor('box-sizing', arguments)
  
 * 
 	box-sizing border-box
@@ -28,14 +25,14 @@ box-sizing()
 	background: navigation-background
 	height: 100%
 	overflow: hidden
-	> header, > footer
+	.client-header, .client-footer
 		position: fixed
 		left: 0
 		right: 0
-	> header
+	.client-header
 		top: 0
 		height: client-header-height
-	> footer.client-input
+	.client-footer
 		bottom: 0
 		height: client-footer-height
 
@@ -81,7 +78,7 @@ box-sizing()
 		height: 100%
 
 /*______ Footer with Textarea ______*/
-.client-input
+.client-footer
 	border-top: 3px solid client-border-color
 	margin-left: client-navigation-width
 	background: client-input-background
