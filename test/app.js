@@ -86,8 +86,12 @@ describe('App', function () {
 						var result = {
 							id: 1,
 							name: 'foo',
-							users: [{id: 1, username: 'foo', status: 16}, {id: 2, username: 'bar', status: 0}],
-							rooms: [{id: 1, name: 'foo', users: [1, 2]}, {id: 2, name: 'bar', users: [2]}]
+							users: [
+								{id: 1, username: 'foo', status: 16},
+								{id: 2, username: 'bar', status: 0}],
+							rooms: [
+								{id: 1, name: 'foo', users: [1, 2], unread: 0},
+								{id: 2, name: 'bar', users: [2], unread: 0}]
 						};
 						server.send(JSON.stringify([3, msg[1], result]));
 					}
@@ -435,41 +439,7 @@ describe('App', function () {
 					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
 				});
 				describe('unread count', function () {
-					it('should increase when receiving a new message', function (done) {
-						var room = app.organization.rooms[0];
-						room.unread.should.eql(0);
-						room.on('change unread', function (val) {
-							val.should.eql(1);
-							done();
-						});
-						var msg = {
-							id: 1,
-							author: 1,
-							text: 'foobar',
-							time: '2014-02-04T13:51:34.662Z'
-						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
-					});
-					it('should decrease when marking messages as read', function (done) {
-						var room = app.organization.rooms[0];
-						room.unread.should.eql(0);
-						room.history.on('add', function (line, index) {
-							if (index !== 2)
-								return;
-							room.unread.should.eql(3);
-							room.once('change unread', function (val) {
-								val.should.eql(2);
-							});
-							app.setRead(room, room.history[0]);
-							room.history[0].read.should.be.true;
-							room.history[1].read.should.be.false;
-							app.setRead(room, room.history[2]);
-							room.unread.should.eql(0);
-							room.history[0].read.should.be.true;
-							room.history[1].read.should.be.true;
-							room.history[2].read.should.be.true;
-							done();
-						});
+					beforeEach(function () {
 						var msg = {
 							id: 1,
 							author: 1,
@@ -491,6 +461,35 @@ describe('App', function () {
 							time: '2014-02-04T13:51:34.662Z'
 						};
 						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					});
+					it('should increase when receiving a new message', function (done) {
+						var room = app.organization.rooms[0];
+						room.unread.should.eql(0);
+						room.once('change unread', function (val) {
+							val.should.eql(1);
+							done();
+						});
+					});
+					it('should decrease when marking messages as read', function (done) {
+						var room = app.organization.rooms[0];
+						room.unread.should.eql(0);
+						room.history.on('add', function (line, index) {
+							if (index !== 2)
+								return;
+							room.unread.should.eql(3);
+							room.once('change unread', function (val) {
+								val.should.eql(2);
+							});
+							app.setRead(room, room.history[0]);
+							room.history[0].read.should.be.true;
+							room.history[1].read.should.be.false;
+							app.setRead(room, room.history[2]);
+							room.unread.should.eql(0);
+							room.history[0].read.should.be.true;
+							room.history[1].read.should.be.true;
+							room.history[2].read.should.be.true;
+							done();
+						});
 					});
 					it('should not change unread count when already read', function (done) {
 						var room = app.organization.rooms[0];
@@ -517,27 +516,6 @@ describe('App', function () {
 								done();
 							});
 						});
-						var msg = {
-							id: 1,
-							author: 1,
-							text: 'foobar',
-							time: '2014-02-04T13:51:34.662Z'
-						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
-						msg = {
-							id: 2,
-							author: 2,
-							text: 'foobar2',
-							time: '2014-02-04T13:51:34.662Z'
-						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
-						msg = {
-							id: 3,
-							author: 3,
-							text: 'foobar3',
-							time: '2014-02-04T13:51:34.662Z'
-						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
 					});
 				});
 			});

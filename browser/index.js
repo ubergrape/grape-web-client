@@ -39,15 +39,6 @@ function UI(app) {
 	this.userinfo.innerHTML = template('userinfo', app);
 	this.conversations.innerHTML = template('conversations', app.organization);
 
-	// TODO: need to handle this better
-	// request the history for the rooms, this is still very shaky now, as it
-	// also increases the unread message count
-	app.organization.rooms.forEach(function (room) {
-		if (!room.joined)
-			return;
-		app.getHistory(room);
-	});
-
 	// react to room changes
 	function drawRooms() {
 		self.rooms.innerHTML = template('rooms', {
