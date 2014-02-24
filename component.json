@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
+    "ianstormtaylor/meyer-reset": "*",
     "necolas/normalize.css": "*",
     "FortAwesome/Font-Awesome": "*",
     "Swatinem/template": "*",
