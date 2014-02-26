@@ -4,6 +4,7 @@
 var WebSocketServer = require('ws').Server;
 
 var lib = require('../');
+var should = require('should');
 var App = lib.App;
 var models = lib.models;
 
@@ -330,6 +331,18 @@ describe('App', function () {
 				room.history.push(line);
 				app.setRead(room, line);
 			});
+			it('should set typing status', function (done) {
+				server.on('message', function (msg) {
+					msg = JSON.parse(msg);
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/rooms/set_typing');
+					msg[3].should.eql(1);
+					msg[4].should.eql(true);
+					done();
+				});
+				var room = app.organization.rooms[0];
+				app.setTyping(room, true);
+			});
 			describe('when subscribed to a room', function () {
 				beforeEach(function () {
 					app.subscribeRooms();
@@ -349,6 +362,26 @@ describe('App', function () {
 					// subscribe to the other room as well
 					app.subscribeRoom(app.organization.rooms[1]);
 					server.send(JSON.stringify([8, 'http://domain/organization/1/room/2#join', msg]));
+				});
+				it('should react to typing notifications', function (done) {
+					var room = app.organization.rooms[0];
+					room.once('change typing', function () {
+						room.typing[1].should.be.true;
+						room.once('change typing', function () {
+							should.not.exist(room.typing[1]);
+							done();
+						});
+						var msg = {
+							user: 1,
+							typing: false
+						};
+						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#typing', msg]));
+					});
+					var msg = {
+						user: 1,
+						typing: true
+					};
+					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#typing', msg]));
 				});
 				it('should react to leave notifications', function (done) {
 					var room = app.organization.rooms[0];
