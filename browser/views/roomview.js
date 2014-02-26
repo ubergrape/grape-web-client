@@ -6,6 +6,7 @@ var inputarea = require('inputarea');
 var domify = require('domify');
 var template = require('template');
 var throttle = require('throttle');
+var debounce = require('debounce');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -78,6 +79,18 @@ RoomView.prototype._bindInput = function RoomView__bindInput() {
 		if (!str)
 			return;
 		self.emit('input', str);
+	});
+	// emit typing (start and stop) events
+	var delay = 500;
+	var start = debounce(function () {
+		self.app.setTyping(self.room, true);
+	}, delay, true);
+	var stop = debounce(function () {
+		self.app.setTyping(self.room, false);
+	}, delay);
+	this.input.addEventListener('keypress', function () {
+		start();
+		stop();
 	});
 };
 

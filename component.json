@@ -36,6 +36,7 @@
     "component/domify": "*",
     "component/classes": "*",
     "component/throttle": "*",
+    "component/debounce": "*",
     "component/inputarea": "*",
     "component/escape-html": "*",
     "component/emitter": "*",
