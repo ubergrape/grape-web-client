@@ -19,6 +19,7 @@
   "templates": [
     "templates/chatline.jade",
     "templates/conversations.jade",
+    "templates/index.jade",
     "templates/roommeta.jade",
     "templates/rooms.jade",
     "templates/userinfo.jade"

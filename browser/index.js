@@ -16,6 +16,7 @@ template.root = '/cg/templates';
 template.locals.strftime = require('strftime');
 
 var events = require('events');
+var domify = require('domify');
 
 var lib = require('../lib');
 var models = lib.models;
@@ -29,6 +30,10 @@ function qs(s) {
 
 function UI(app) {
 	var self = this;
+
+	// add the main layout to the dom
+	document.body.appendChild(domify(template('index')));
+
 	// get all the elements
 	this.userinfo = qs('.userinfo');
 	// TODO: maybe rename this var?
