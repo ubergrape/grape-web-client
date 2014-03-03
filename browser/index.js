@@ -14,9 +14,15 @@ var settings = {
 var template = require('template');
 template.root = '/cg/templates';
 template.locals.strftime = require('strftime');
+var _ = require('t');
+template.locals._ = _;
+
+// just a test so far
+_('translate {str}');
 
 var events = require('events');
 var domify = require('domify');
+
 
 var lib = require('../lib');
 var models = lib.models;
