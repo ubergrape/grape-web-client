@@ -16,6 +16,10 @@
     "lib/models/room.js",
     "lib/models/user.js"
   ],
+  "json": [
+    "locale/de.json",
+    "locale/en.json"
+  ],
   "templates": [
     "templates/chatline.jade",
     "templates/conversations.jade",

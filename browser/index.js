@@ -15,10 +15,10 @@ var template = require('template');
 template.root = '/cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
+['de', 'en'].forEach(function (lang) {
+	_.merge(lang, require('../locale/' + lang));
+});
 template.locals._ = _;
-
-// just a test so far
-_('translate {str}');
 
 var events = require('events');
 var domify = require('domify');
