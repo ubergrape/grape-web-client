@@ -90,9 +90,9 @@ describe('App', function () {
 							users: [
 								{id: 1, username: 'foo', status: 16},
 								{id: 2, username: 'bar', status: 0}],
-							rooms: [
-								{id: 1, name: 'foo', users: [1, 2], unread: 0},
-								{id: 2, name: 'bar', users: [2], unread: 0}]
+							channels: [
+								{id: 1, type: 'room', name: 'foo', users: [1, 2], unread: 0},
+								{id: 2, type: 'room', name: 'bar', users: [2], unread: 0}]
 						};
 						server.send(JSON.stringify([3, msg[1], result]));
 					}
@@ -178,7 +178,7 @@ describe('App', function () {
 				server.once('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/post');
+					msg[2].should.eql('http://domain/channels/post');
 					msg[3].should.eql(1);
 					msg[4].should.eql('foobar');
 					done();
@@ -189,7 +189,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/join');
+					msg[2].should.eql('http://domain/channels/join');
 					msg[3].should.eql(2);
 					server.send(JSON.stringify([3, msg[1], null]));
 				});
@@ -204,7 +204,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/leave');
+					msg[2].should.eql('http://domain/channels/leave');
 					msg[3].should.eql(1);
 					server.send(JSON.stringify([3, msg[1], null]));
 				});
@@ -237,7 +237,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/get_history');
+					msg[2].should.eql('http://domain/channels/get_history');
 					msg[3].should.eql(1);
 					var lines = [{
 						id: 2,
@@ -275,7 +275,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/get_history');
+					msg[2].should.eql('http://domain/channels/get_history');
 					msg[3].should.eql(1);
 					var lines = [{
 						id: 2,
@@ -320,7 +320,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/read');
+					msg[2].should.eql('http://domain/channels/read');
 					msg[3].should.eql(1);
 					msg[4].should.eql(1);
 					done();
@@ -335,7 +335,7 @@ describe('App', function () {
 				server.on('message', function (msg) {
 					msg = JSON.parse(msg);
 					msg[0].should.eql(2);
-					msg[2].should.eql('http://domain/rooms/set_typing');
+					msg[2].should.eql('http://domain/channels/set_typing');
 					msg[3].should.eql(1);
 					msg[4].should.eql(true);
 					done();
@@ -535,7 +535,7 @@ describe('App', function () {
 							server.once('message', function (msg) {
 								msg = JSON.parse(msg);
 								msg[0].should.eql(2);
-								msg[2].should.eql('http://domain/rooms/read');
+								msg[2].should.eql('http://domain/channels/read');
 								msg[3].should.eql(1);
 								msg[4].should.eql(2);
 								server.on('message', function () {
