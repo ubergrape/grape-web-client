@@ -1,24 +1,11 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-/**
- * Only browser and DOM specific code should go in this directory.
- * All the DOM independent code should be in lib/, which should be well tested
- * and has code coverage reports.
- */
-
 var settings = {
 	websocket: 'ws://' + location.host
 };
 
 var template = require('template');
-template.root = '/cg/templates';
-template.locals.strftime = require('strftime');
-var _ = require('t');
-['de', 'en'].forEach(function (lang) {
-	_.merge(lang, require('../locale/' + lang));
-});
-template.locals._ = _;
 
 var events = require('events');
 var domify = require('domify');

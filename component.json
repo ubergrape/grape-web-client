@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "description": "",
   "keywords": [],
-  "main": "browser/index.js",
+  "main": "index.js",
   "scripts": [
+    "index.js",
     "browser/views/roomview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -51,5 +52,9 @@
     "Swatinem/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "*"
+  },
+  "development": {
+    "chaijs/chai": "*",
+    "tmcw/happen": "*"
   }
 }

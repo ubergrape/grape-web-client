@@ -1,7 +1,9 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var models = require('../').models;
+var models = require('cg').models;
+/*var should = */require('chaijs-chai').should();
+//var happen = require('happen');
 
 // the models are supposed to be `stupid` containers, so there is not much to test here
 
