@@ -361,7 +361,7 @@ describe('App', function () {
 					};
 					// subscribe to the other room as well
 					app.subscribeRoom(app.organization.rooms[1]);
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/2#join', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/2#join', msg]));
 				});
 				it('should react to typing notifications', function (done) {
 					var room = app.organization.rooms[0];
@@ -375,13 +375,13 @@ describe('App', function () {
 							user: 1,
 							typing: false
 						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#typing', msg]));
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#typing', msg]));
 					});
 					var msg = {
 						user: 1,
 						typing: true
 					};
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#typing', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#typing', msg]));
 				});
 				it('should react to leave notifications', function (done) {
 					var room = app.organization.rooms[0];
@@ -395,7 +395,7 @@ describe('App', function () {
 					var msg = {
 						user: 1
 					};
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#leave', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#leave', msg]));
 				});
 				it('should react to new messages', function (done) {
 					app.organization.rooms[0].history.once('add', function (line, index) {
@@ -414,7 +414,7 @@ describe('App', function () {
 						text: 'foobar',
 						time: '2014-02-04T13:51:34.662Z'
 					};
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 				});
 				it('should react to reading notifications', function (done) {
 					app.organization.rooms[0].history.once('add', function (line, index) {
@@ -431,7 +431,7 @@ describe('App', function () {
 							index.should.eql(0);
 							done();
 						});
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#read', {
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#read', {
 							message: 1,
 							user: 2
 						}]));
@@ -442,7 +442,7 @@ describe('App', function () {
 						text: 'foobar',
 						time: '2014-02-04T13:51:34.662Z'
 					};
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 				});
 				it('should not add the current user to `readers`', function (done) {
 					app.organization.rooms[0].history.once('add', function (line, index) {
@@ -457,7 +457,7 @@ describe('App', function () {
 						line.readers.once('add', function () {
 							throw new Error('not reached');
 						});
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#read', {
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#read', {
 							message: 1,
 							user: 1
 						}]));
@@ -469,7 +469,7 @@ describe('App', function () {
 						text: 'foobar',
 						time: '2014-02-04T13:51:34.662Z'
 					};
-					server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 				});
 				describe('unread count', function () {
 					beforeEach(function () {
@@ -479,21 +479,21 @@ describe('App', function () {
 							text: 'foobar',
 							time: '2014-02-04T13:51:34.662Z'
 						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 						msg = {
 							id: 2,
 							author: 2,
 							text: 'foobar2',
 							time: '2014-02-04T13:51:34.662Z'
 						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 						msg = {
 							id: 3,
 							author: 3,
 							text: 'foobar3',
 							time: '2014-02-04T13:51:34.662Z'
 						};
-						server.send(JSON.stringify([8, 'http://domain/organization/1/room/1#message', msg]));
+						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 					});
 					it('should increase when receiving a new message', function (done) {
 						var room = app.organization.rooms[0];
