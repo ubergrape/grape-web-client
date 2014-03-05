@@ -8,6 +8,21 @@ var should = require('should');
 var App = lib.App;
 var models = lib.models;
 
+var Emitter = require('events').EventEmitter;
+
+function WsMock() {
+	Emitter.call(this);
+	var self = this;
+	var server = this.server = new Emitter();
+	this.send = function (data) {
+		server.emit('message', data);
+	}
+	server.send = function (data) {
+		self.emit('message', data);
+	}
+}
+WsMock.prototype = Object.create(Emitter.prototype);
+
 describe('App', function () {
 	beforeEach(function () {
 		// clear the caches
@@ -16,58 +31,34 @@ describe('App', function () {
 		models.Room.clear();
 		models.Organization.clear();
 	});
-	var wss = new WebSocketServer({port: 8080});
-	it('should create a connection to the wamp server', function (done) {
-		wss.once('connection', function (ws) {
-			ws.close();
-			done();
-		});
-		new App({websocket: 'ws://localhost:8080'}, function () {});
-	});
-	it('should request the users profile', function (done) {
-		wss.once('connection', function (ws) {
-			ws.on('message', function (msg) {
-				msg = JSON.parse(msg);
-				msg[0].should.eql(2);
-				msg[2].should.eql('http://domain/users/get_profile');
-				ws.close();
-				done();
-			});
-		});
-		new App({websocket: 'ws://localhost:8080'}, function () {});
-	});
 	describe('with user connected', function () {
 		var server;
 		var app;
 		beforeEach(function (done) {
-			wss.once('connection', function (ws) {
-				server = ws;
-				var count = 0;
-				ws.on('message', function (msg) {
-					count++;
-					msg = JSON.parse(msg);
-					var result;
-					if (count === 1) {
-						msg[0].should.eql(2);
-						msg[2].should.eql('http://domain/users/get_profile');
-						result = {
-							id: 1,
-							username: 'foo',
-							organizations: [{id: 1, name: 'foo'}]
-						};
-						server.send(JSON.stringify([3, msg[1], result]));
-					}
-				});
+			var ws = new WsMock();
+			server = ws.server;
+			var count = 0;
+			server.on('message', function (msg) {
+				count++;
+				msg = JSON.parse(msg);
+				var result;
+				if (count === 1) {
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/users/get_profile');
+					result = {
+						id: 1,
+						username: 'foo',
+						organizations: [{id: 1, name: 'foo'}]
+					};
+					server.send(JSON.stringify([3, msg[1], result]));
+				}
 			});
-			app = new App({websocket: 'ws://localhost:8080'}, function (err, res) {
+			app = new App({websocket: ws}, function (err, res) {
 				res.user.id.should.eql(1);
 				res.user.username.should.eql('foo');
 				res.organizations[0].id.should.eql(1);
 				done();
 			});
-		});
-		afterEach(function () {
-			server.close();
 		});
 		describe('when an organization is joined', function () {
 			beforeEach(function (done) {
@@ -472,7 +463,7 @@ describe('App', function () {
 					server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
 				});
 				describe('unread count', function () {
-					beforeEach(function () {
+					function send() {
 						var msg = {
 							id: 1,
 							author: 1,
@@ -494,7 +485,7 @@ describe('App', function () {
 							time: '2014-02-04T13:51:34.662Z'
 						};
 						server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-					});
+					}
 					it('should increase when receiving a new message', function (done) {
 						var room = app.organization.rooms[0];
 						room.unread.should.eql(0);
@@ -502,6 +493,7 @@ describe('App', function () {
 							val.should.eql(1);
 							done();
 						});
+						send();
 					});
 					it('should decrease when marking messages as read', function (done) {
 						var room = app.organization.rooms[0];
@@ -523,6 +515,7 @@ describe('App', function () {
 							room.history[2].read.should.be.true;
 							done();
 						});
+						send();
 					});
 					it('should not change unread count when already read', function (done) {
 						var room = app.organization.rooms[0];
@@ -531,7 +524,6 @@ describe('App', function () {
 							if (index !== 2)
 								return;
 							room.unread.should.eql(3);
-							app.setRead(room, room.history[1]);
 							server.once('message', function (msg) {
 								msg = JSON.parse(msg);
 								msg[0].should.eql(2);
@@ -548,7 +540,9 @@ describe('App', function () {
 								room.unread.should.eql(1);
 								done();
 							});
+							app.setRead(room, room.history[1]);
 						});
+						send();
 					});
 				});
 			});
