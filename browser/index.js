@@ -46,7 +46,8 @@ function UI(app) {
 	function updateRoomList() {
 		// TODO: only has the joined rooms for now
 		roomList.setRooms(app.organization.rooms.filter(function (room) {
-			return room.joined;
+			room.unread = room.id
+			return true || room.joined;
 		}));
 	}
 	updateRoomList();

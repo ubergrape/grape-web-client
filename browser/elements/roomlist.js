@@ -39,7 +39,7 @@ RoomList.prototype.bind = function RoomList_bind() {
 		}
 	});
 	this.events.bind('click .addroom', 'addroom');
-	this.events.bind('click .room', 'selectroom');
+	this.events.bind('click .room .name, .room .fa, .room .unread', 'selectroom');
 };
 
 RoomList.prototype.redraw = function RoomList_redraw() {

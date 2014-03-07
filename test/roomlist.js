@@ -81,7 +81,7 @@ describe('RoomList', function () {
 		add(rl.el);
 		var room = {id: 1, name: 'test'};
 		rl.setRooms([room]);
-		var roomEl = qs('li.room', rl.el);
+		var roomEl = qs('li.room .fa', rl.el);
 		rl.on('selectroom', function (clicked) {
 			clicked.should.equal(room);
 			done();

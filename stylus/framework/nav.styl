@@ -1,97 +1,74 @@
-.nav-lists
-	padding: (vertical-space * 2) (horizontal-space * 2)
-	h2
-		color: #939598
-		text-transform: uppercase
-		font-size: basic-font-size
-		margin: (vertical-space * 2) 0 (vertical-space) 0
-	i.fa 
-		padding: 5px
-	.rooms li
+
+.button-inset
+	color: #888291
+	font-size: basic-font-size * 0.9
+	border: none
+	background: button-color
+	padding: 2px 5px
+	border-radius: 5px
+	box-shadow: 0px 1px 0px lighten(button-color, 15%), 0px 1px 0px darken(button-color, 15%) inset
+
+.navigation
+	color: #888291
+	font-family: "Open Sans"
+	font-size: basic-font-size
+	padding: (vertical-space) (horizontal-space)
+
+.nav-button
+	float: right
+
+.nav-title
+	text-transform: uppercase
+
+.nav-list .room
+	margin: 5px 0px
+	.fa, .name, .unread
 		cursor: pointer
-		color: #7e8183
-	.rooms li:not(.joined)
-		color: darken(nav_text, 50%)
+	.fa
+		display: inline-block
+		width: 20px
+		margin-right: 5px
+		text-align: center
+	&.selected
+		.fa
+			color: #7b477b
+		.name
+			color: white
+	.unread
+		display: inline-block
+		margin-left: 5px
+		font-size: 12px
+		line-height: 13px
+		min-width: 13px
+		padding: 0px 3px
+		border-radius: 20px
+		text-align: center
+		background: #7b477b
+		color: white
 
-	.rooms .leave
-		cursor: pointer
-		font-style: normal
-		float: right
-		padding: 5px 8px;
-		border-radius: global-border-radius
-		&:hover
-			background: #fff
-	.rooms .selected
-		font-weight: bold
-		background: #65CAF1
-		color: #0F6C8A
-		margin-left: (horizontal-space * -2)
-		padding-left: (horizontal-space * 2)
-		border-radius: 0 global-border-radius global-border-radius 0
-	
+//.nav-lists
+//	padding: (vertical-space * 2) (horizontal-space * 2)
+//	i.fa 
+//		padding: 5px
+//	.rooms li
+//		cursor: pointer
+//		color: #7e8183
+//	.rooms li:not(.joined)
+//		color: darken(nav_text, 50%)
 
-
-// nav.overview {
-// 	position: fixed;
-// 	top: 0;
-// 	left: 0;
-// 	bottom: 0;
-// 	width: nav_width;
-
-// 	background: nav_bg;
-// 	color: nav_text;
-
-// 	header {
-// 		background: nav_head;
-// 		color: nav_highlight;
-// 		height: header_height;
-// 		// FIXME: better define these things
-// 		padding: header_padding 0px header_padding 30px;
-// 		h1 {
-// 			margin: 0;
-// 			font-weight: normal;
-// 			// FIXME: define font-size
-// 			font-size: 30px;
-// 			text-transform: uppercase;
-// 			em {
-// 				font-style: normal;
-// 				font-weight: bold;
-// 				font-family: "Open Sans";
-// 			}
-// 		}
-// 	}
-// 	section.lists {
-// 		// FIXME: oh css, why art though annoying with vertical sizing?
-// 		padding: header_padding;
-// 		// meh: https://github.com/LearnBoost/stylus/issues/687#issuecomment-27939441
-// 		height: "calc(100% - %s)" % (4 * header_padding + header_height);
-// 		overflow: auto;
-// 		h2 {
-// 			margin: 0;
-// 			margin-top: header_padding;
-// 			text-transform: uppercase;
-// 		}
-// 		ul {
-// 			list-style: none;
-// 			padding-left: header_padding;
-// 			margin: 0;
-// 		}
-// 		i.fa {
-// 			margin-left: - header_padding;
-// 			padding: 5px;
-// 		}
-// 	}
-// 	.rooms li:not(.joined) {
-// 		color: darken(nav_text, 50%);
-// 		cursor: pointer;
-// 	}
-// 	.rooms .leave {
-// 		cursor: pointer;
-// 		font-style: normal;
-// 	}
-// 	.rooms .selected {
-// 		font-weight: bold;
-// 		font-family: "Open Sans";
-// 	}
-// }
+//	.rooms .leave
+//		cursor: pointer
+//		font-style: normal
+//		float: right
+//		padding: 5px 8px;
+//		border-radius: global-border-radius
+//		&:hover
+//			background: #fff
+//	.rooms .selected
+//		font-weight: bold
+//		background: #65CAF1
+//		color: #0F6C8A
+//		margin-left: (horizontal-space * -2)
+//		padding-left: (horizontal-space * 2)
+//		border-radius: 0 global-border-radius global-border-radius 0
 

@@ -1,14 +1,14 @@
 
 h2
-	span=_('Rooms')
-	button.addroom.inset=_('add room')
-ul
+	span.nav-title=_('Rooms')
+	button.addroom.nav-button.button-inset=_('add room')
+ul.nav-list
 	each room in rooms
-		li.room(class=([room.joined ? 'joined' : '', room == selected ? 'selected' : '']), data-id=room.id)
+		li.room(class=(room == selected ? 'selected' : ''), data-id=room.id)
 			if room.private
 				i.fa.fa-lock
 			else
 				i.fa.fa-comments
 			span.name=room.name
-			if room.unread
+			if room.unread > 0
 				span.unread=room.unread
