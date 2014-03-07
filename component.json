@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": [
     "index.js",
+    "browser/elements/roomlist.js",
     "browser/views/roomview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -25,8 +26,8 @@
     "templates/chatline.jade",
     "templates/conversations.jade",
     "templates/index.jade",
+    "templates/roomlist.jade",
     "templates/roommeta.jade",
-    "templates/rooms.jade",
     "templates/userinfo.jade"
   ],
   "dependencies": {
@@ -49,12 +50,13 @@
     "component/escape-html": "*",
     "component/emitter": "*",
     "component/events": "*",
+    "discore/closest": "*",
     "Swatinem/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "*"
   },
   "development": {
     "chaijs/chai": "*",
-    "tmcw/happen": "*"
+    "adamsanderson/trigger-event": "*"
   }
 }

@@ -7,8 +7,10 @@ var settings = {
 
 var template = require('template');
 
-var events = require('events');
+//var events = require('events');
 var domify = require('domify');
+
+var RoomList = exports.RoomList = require('./elements/roomlist');
 
 
 var lib = require('../lib');
@@ -29,62 +31,42 @@ function UI(app) {
 
 	// get all the elements
 	this.userinfo = qs('.userinfo');
-	// TODO: maybe rename this var?
-	this.rooms = qs('.rooms');
+	var sidebar = qs('section.nav-lists');
+
 	this.conversations = qs('.conversations');
 
 	// render the data
 	this.userinfo.innerHTML = template('userinfo', app);
 	this.conversations.innerHTML = template('conversations', app.organization);
 
-	// react to room changes
-	function drawRooms() {
-		self.rooms.innerHTML = template('rooms', {
-			rooms: app.organization.rooms,
-			currentRoom: self.currentRoom
-		});
-	}
-	models.Room.on('change joined', drawRooms);
-	models.Room.on('change unread', drawRooms);
-	models.Room.on('change name', drawRooms);
+	// setup room list in sidebar
+	var roomList = new RoomList();
+	sidebar.insertBefore(roomList.el, sidebar.firstChild);
 
-	function changeRoom(room) {
+	function updateRoomList() {
+		// TODO: only has the joined rooms for now
+		roomList.setRooms(app.organization.rooms.filter(function (room) {
+			return room.joined;
+		}));
+	}
+	updateRoomList();
+
+	// react to room changes
+	function changedRoom(room) {
+		roomList.changedRoom(room);
+	}
+	models.Room.on('change joined', changedRoom);
+	models.Room.on('change unread', changedRoom);
+	models.Room.on('change name', changedRoom);
+
+	roomList.on('selectroom', function (room) {
+		roomList.selectRoom(room);
 		self.currentRoom = room;
 		roomView.setRoom(room);
-		drawRooms();
-	}
-	var roomEvents = events(self.rooms, {
-		join: function (ev) {
-			var roomEl = ev.target;
-			var id = roomEl.dataset.id;
-			var room = models.Room.get(id);
-			if (room.joined)
-				return changeRoom(room);
-			app.joinRoom(room, function () {
-				changeRoom(room);
-			});
-		},
-		leave: function (ev) {
-			var roomEl = ev.target.parentNode;
-			var id = roomEl.dataset.id;
-			var room = models.Room.get(id);
-			app.leaveRoom(room);
-
-			// also change the room to the first open one in the UI:
-			if (room !== self.currentRoom)
-				return;
-			var rooms = app.organization.rooms;
-			for (var i = 0; i < rooms.length; i++) {
-				var newRoom = rooms[i];
-				if (newRoom.joined) {
-					changeRoom(newRoom);
-					break;
-				}
-			}
-		}
 	});
-	roomEvents.bind('click li', 'join');
-	roomEvents.bind('click .leave', 'leave');
+	roomList.on('addroom', function () {
+		console.log('TODO: implement room join dialogue');
+	});
 
 	// react to user changes
 	// TODO: maybe this needs renaming, for now its the list of users
@@ -92,16 +74,14 @@ function UI(app) {
 		self.conversations.innerHTML = template('conversations', app.organization);
 	});
 
-	// bind the room
+	// bind to new message input
 	var roomView = this.roomView = new RoomView(app);
 	roomView.on('input', function (str) {
 		app.publish(self.currentRoom, str);
 	});
-
-	//this.currentRoom = app.organization.rooms[0];
-	//roomView.setRoom(this.currentRoom);
-	drawRooms();
 }
+
+try {
 
 var app = window.app = new App(settings, function (err) {
 	if (err)
@@ -123,3 +103,5 @@ wamp.socket.on('error', function () {
 wamp.socket.on('message', function (msg) {
 	console.log('socket receive: ', JSON.parse(msg));
 });
+
+} catch (e) {} // FIXME: restructure this

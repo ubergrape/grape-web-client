@@ -5,8 +5,6 @@ var lib = require('./lib');
 exports.App = lib.App;
 exports.models = lib.models;
 
-try {
-
 // configure locales and template locals
 var template = require('template');
 template.root = '/cg/templates';
@@ -17,6 +15,6 @@ var _ = require('t');
 });
 template.locals._ = _;
 
+// export the UI for testing purposes
 exports.UI = require('./browser');
 
-} catch (e) {} // FIXME: remove this wrapper when the tests are done purely clientside

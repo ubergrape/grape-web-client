@@ -1,9 +1,0 @@
-each room in rooms
-	li(class=([room.joined ? 'joined' : '', room == currentRoom ? 'selected' : '']), data-id=room.id)
-		i.fa.fa-comments
-		=room.name
-		if room.joined
-			em.leave ×
-		if room.unread
-			em.unread (#{room.unread})
-
