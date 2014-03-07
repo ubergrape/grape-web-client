@@ -10,7 +10,7 @@ var template = require('template');
 //var events = require('events');
 var domify = require('domify');
 
-var RoomList = exports.RoomList = require('./elements/roomlist');
+var ItemList = exports.ItemList = require('./elements/itemlist');
 
 
 var lib = require('../lib');
@@ -40,12 +40,12 @@ function UI(app) {
 	this.conversations.innerHTML = template('conversations', app.organization);
 
 	// setup room list in sidebar
-	var roomList = new RoomList();
+	var roomList = new ItemList({template: 'roomlist', selector: '.item .name, .item .fa, .item .unread'});
 	sidebar.insertBefore(roomList.el, sidebar.firstChild);
 
 	function updateRoomList() {
 		// TODO: only has the joined rooms for now
-		roomList.setRooms(app.organization.rooms.filter(function (room) {
+		roomList.setItems(app.organization.rooms.filter(function (room) {
 			room.unread = room.id
 			return true || room.joined;
 		}));
@@ -54,18 +54,18 @@ function UI(app) {
 
 	// react to room changes
 	function changedRoom(room) {
-		roomList.changedRoom(room);
+		roomList.changedItem(room);
 	}
 	models.Room.on('change joined', changedRoom);
 	models.Room.on('change unread', changedRoom);
 	models.Room.on('change name', changedRoom);
 
-	roomList.on('selectroom', function (room) {
-		roomList.selectRoom(room);
+	roomList.on('selectitem', function (room) {
+		roomList.selectItem(room);
 		self.currentRoom = room;
 		roomView.setRoom(room);
 	});
-	roomList.on('addroom', function () {
+	roomList.on('additem', function () {
 		console.log('TODO: implement room join dialogue');
 	});
 

@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": [
     "index.js",
-    "browser/elements/roomlist.js",
+    "browser/elements/itemlist.js",
     "browser/views/roomview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
