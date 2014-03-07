@@ -3,10 +3,114 @@
  * TODO: lets put all the @font-face things here in case we don’t use external
  * components for that, like:
  * https://github.com/typefaces/
+ * TODO: maybe convert Roboto to a component?
  * …
  */
+
+fontpath = '/static/fonts/'
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Regular-webfont.eot')
+    src: url(fontpath + 'Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Regular-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Regular-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Regular-webfont.svg#RobotoRegular') format('svg')
+    font-weight: normal
+    font-style: normal
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Italic-webfont.eot')
+    src: url(fontpath + 'Roboto-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Italic-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Italic-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Italic-webfont.svg#RobotoItalic') format('svg')
+    font-weight: normal
+    font-style: italic
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Bold-webfont.eot')
+    src: url(fontpath + 'Roboto-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Bold-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Bold-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Bold-webfont.svg#RobotoBold') format('svg')
+    font-weight: bold
+    font-style: normal
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-BoldItalic-webfont.eot')
+    src: url(fontpath + 'Roboto-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-BoldItalic-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-BoldItalic-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-BoldItalic-webfont.svg#RobotoBoldItalic') format('svg')
+    font-weight: bold
+    font-style: italic
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Thin-webfont.eot')
+    src: url(fontpath + 'Roboto-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Thin-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Thin-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Thin-webfont.svg#RobotoThin') format('svg')
+    font-weight: 200
+    font-style: normal
+ 
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-ThinItalic-webfont.eot')
+    src: url(fontpath + 'Roboto-ThinItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-ThinItalic-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-ThinItalic-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-ThinItalic-webfont.svg#RobotoThinItalic') format('svg')
+    font-weight: 200
+    font-style: italic
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Light-webfont.eot')
+    src: url(fontpath + 'Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Light-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Light-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Light-webfont.svg#RobotoLight') format('svg')
+    font-weight: 100
+    font-style: normal
+ 
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-LightItalic-webfont.eot')
+    src: url(fontpath + 'Roboto-LightItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-LightItalic-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-LightItalic-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-LightItalic-webfont.svg#RobotoLightItalic') format('svg')
+    font-weight: 100
+    font-style: italic
+
+@font-face
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-Medium-webfont.eot')
+    src: url(fontpath + 'Roboto-Medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-Medium-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-Medium-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-Medium-webfont.svg#RobotoMedium') format('svg')
+    font-weight: 300
+    font-style: normal
+
+@font-face 
+    font-family: 'Roboto'
+    src: url(fontpath + 'Roboto-MediumItalic-webfont.eot')
+    src: url(fontpath + 'Roboto-MediumItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url(fontpath + 'Roboto-MediumItalic-webfont.woff') format('woff'),
+         url(fontpath + 'Roboto-MediumItalic-webfont.ttf') format('truetype'),
+         url(fontpath + 'Roboto-MediumItalic-webfont.svg#RobotoMediumItalic') format('svg')
+    font-weight: 300
+    font-style: italic
+
 html
-	font-family: "Open Sans Light", Arial;
+	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif;
 
 h1, h2, h3, h4, h5, h6
 	margin: 0
