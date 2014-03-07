@@ -10,8 +10,8 @@ function qs(sel, ctx) {
 	return (ctx || document).querySelector(sel);
 }
 
-describe('ItemList (RoomList)', function () {
-	var opts = {template: 'roomlist', selector: '.item .name, .item .fa, .item .unread'};
+describe('ItemList (Rooms/PMs)', function () {
+	var opts = {template: 'roomlist'};
 	// webkit wtf? https://code.google.com/p/chromium/issues/detail?id=120494
 	var added;
 	function add(el) {
@@ -82,7 +82,7 @@ describe('ItemList (RoomList)', function () {
 		add(il.el);
 		var item = {id: 1, name: 'test'};
 		il.setItems([item]);
-		var itemEl = qs('li.item .fa', il.el);
+		var itemEl = qs('li.item .icon', il.el);
 		il.on('selectitem', function (clicked) {
 			clicked.should.equal(item);
 			done();

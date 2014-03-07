@@ -13,7 +13,7 @@ module.exports = ItemList;
 function ItemList(options) {
 	Emitter.call(this);
 	this.template = options.template;
-	this.selector = options.selector;
+	this.selector = options.selector || '.item .name, .item .icon, .item .unread';
 	this.items = [];
 	this.itemIds = Object.create(null);
 	this.selected = null;

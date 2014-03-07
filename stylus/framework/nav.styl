@@ -14,6 +14,9 @@
 	font-size: basic-font-size
 	padding: (vertical-space) (horizontal-space)
 
+.navigation .itemlist
+	margin-bottom: 10px
+
 .nav-button
 	float: right
 
@@ -22,15 +25,16 @@
 
 .nav-list .item
 	margin: 5px 0px
-	.fa, .name, .unread
+.nav-list
+	.icon, .name, .unread, .avatar
 		cursor: pointer
-	.fa
+	.icon, .avatar
 		display: inline-block
 		width: 20px
 		margin-right: 5px
 		text-align: center
 	&.selected
-		.fa
+		.icon
 			color: #7b477b
 		.name
 			color: white
@@ -45,30 +49,4 @@
 		text-align: center
 		background: #7b477b
 		color: white
-
-//.nav-lists
-//	padding: (vertical-space * 2) (horizontal-space * 2)
-//	i.fa 
-//		padding: 5px
-//	.rooms li
-//		cursor: pointer
-//		color: #7e8183
-//	.rooms li:not(.joined)
-//		color: darken(nav_text, 50%)
-
-//	.rooms .leave
-//		cursor: pointer
-//		font-style: normal
-//		float: right
-//		padding: 5px 8px;
-//		border-radius: global-border-radius
-//		&:hover
-//			background: #fff
-//	.rooms .selected
-//		font-weight: bold
-//		background: #65CAF1
-//		color: #0F6C8A
-//		margin-left: (horizontal-space * -2)
-//		padding-left: (horizontal-space * 2)
-//		border-radius: 0 global-border-radius global-border-radius 0
 

@@ -1,0 +1,23 @@
+
+avatar-status-size = 8px
+
+.avatar
+	position: relative
+	display: inline-block
+.avatar-img-small
+	width: 12px
+	height: 12px
+	border-radius: 12px
+	overflow: hidden
+.avatar-status
+	position: absolute
+	top: -3px
+	right: 0px
+	width: avatar-status-size
+	height: avatar-status-size
+	border-radius: 20px
+	&.online
+		background: #8cc152
+	&.offline
+		background: #e9573f
+

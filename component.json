@@ -24,8 +24,8 @@
   ],
   "templates": [
     "templates/chatline.jade",
-    "templates/conversations.jade",
     "templates/index.jade",
+    "templates/pmlist.jade",
     "templates/roomlist.jade",
     "templates/roommeta.jade",
     "templates/userinfo.jade"

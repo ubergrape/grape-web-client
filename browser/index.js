@@ -31,23 +31,22 @@ function UI(app) {
 
 	// get all the elements
 	this.userinfo = qs('.userinfo');
-	var sidebar = qs('section.nav-lists');
+	var sidebar = qs('.navigation');
 
 	this.conversations = qs('.conversations');
 
 	// render the data
 	this.userinfo.innerHTML = template('userinfo', app);
-	this.conversations.innerHTML = template('conversations', app.organization);
 
 	// setup room list in sidebar
-	var roomList = new ItemList({template: 'roomlist', selector: '.item .name, .item .fa, .item .unread'});
-	sidebar.insertBefore(roomList.el, sidebar.firstChild);
+	var roomList = new ItemList({template: 'roomlist'});
+	sidebar.appendChild(roomList.el);
 
+	// TODO: hook this up with room changes
 	function updateRoomList() {
 		// TODO: only has the joined rooms for now
 		roomList.setItems(app.organization.rooms.filter(function (room) {
-			room.unread = room.id
-			return true || room.joined;
+			return room.joined;
 		}));
 	}
 	updateRoomList();
@@ -60,6 +59,7 @@ function UI(app) {
 	models.Room.on('change unread', changedRoom);
 	models.Room.on('change name', changedRoom);
 
+	// bind interaction
 	roomList.on('selectitem', function (room) {
 		roomList.selectItem(room);
 		self.currentRoom = room;
@@ -69,10 +69,24 @@ function UI(app) {
 		console.log('TODO: implement room join dialogue');
 	});
 
+	// setup the messages/conversation/user list in sidebar
+	var pmList = new ItemList({template: 'pmlist', selector: '.item .name, .item .avatar, .item .unread'});
+	sidebar.appendChild(pmList.el);
+
+	pmList.setItems(app.organization.users);
+
 	// react to user changes
-	// TODO: maybe this needs renaming, for now its the list of users
-	models.User.on('change', function () {
-		self.conversations.innerHTML = template('conversations', app.organization);
+	function updatePmList(pm) {
+		pmList.changedItem(pm);
+	}
+	models.User.on('change', updatePmList);
+
+	// TODO: interaction of user list
+	pmList.on('selectitem', function (/*pm*/) {
+		console.log('TODO: implement pm change');
+	});
+	pmList.on('additem', function () {
+		console.log('TODO: implement new pm dialogue');
 	});
 
 	// bind to new message input

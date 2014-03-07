@@ -6,9 +6,9 @@ ul.nav-list
 	each room in items
 		li.item(class=(room == selected ? 'selected' : ''), data-id=room.id)
 			if room.private
-				i.fa.fa-lock
+				i.icon.fa.fa-lock
 			else
-				i.fa.fa-comments
+				i.icon.fa.fa-comments
 			span.name=room.name
 			if room.unread > 0
 				span.unread=room.unread
