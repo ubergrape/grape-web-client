@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-03-07 14:30+0000\n"
+"POT-Creation-Date: 2014-03-10 12:10+0000\n"
 
 #: client/templates/roomlist.jade:3
 msgid "Rooms"
@@ -24,3 +24,11 @@ msgstr "Nachrichten"
 #: client/templates/pmlist.jade:4
 msgid "new message"
 msgstr "Neue Nachricht"
+
+#: client/templates/labellist.jade:3
+msgid "Labels"
+msgstr "Labels"
+
+#: client/templates/labellist.jade:4
+msgid "add label"
+msgstr "Label hinzufügen"

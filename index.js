@@ -15,6 +15,9 @@ var _ = require('t');
 });
 template.locals._ = _;
 
+// FIXME: change language, for now
+_.lang('de');
+
 // export the UI for testing purposes
 exports.UI = require('./browser');
 

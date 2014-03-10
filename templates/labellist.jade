@@ -1,0 +1,10 @@
+
+h2
+	span.nav-title=_('Labels')
+	button.additem.nav-button.button-inset=_('add label')
+ul.nav-list
+	each label in items
+		li.item(data-id=label.id)
+			.label
+				= label.name
+				i.fa(class="fa-" + label.icon)

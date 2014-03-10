@@ -11,7 +11,7 @@ var template = require('template');
 var domify = require('domify');
 
 var ItemList = exports.ItemList = require('./elements/itemlist');
-
+var emitter = require('emitter');
 
 var lib = require('../lib');
 var models = lib.models;
@@ -32,7 +32,7 @@ function UI(app) {
 	// get all the elements
 	this.userinfo = qs('.userinfo');
 	var sidebar = qs('.navigation');
-
+	new (require('scrollbars'))(sidebar);
 	this.conversations = qs('.conversations');
 
 	// render the data
@@ -42,6 +42,14 @@ function UI(app) {
 	var roomList = new ItemList({template: 'roomlist'});
 	sidebar.appendChild(roomList.el);
 
+//	var fakeRooms = [
+//		{id: 1, name: 'Design'},
+//		{id: 2, name: 'Infrastruktur'},
+//		{id: 3, name: 'Marketing'},
+//		{id: 4, name: 'Privat', 'private': true, unread: 2}
+//	].map(function (r) { r.joined = true; return emitter(r); });
+//	roomList.setItems(emitter(fakeRooms));
+//	roomList.selectItem(fakeRooms[0]);
 	roomList.setItems(app.organization.rooms);
 
 	// bind interaction
@@ -58,6 +66,12 @@ function UI(app) {
 	var pmList = new ItemList({template: 'pmlist', selector: '.item .name, .item .avatar, .item .unread'});
 	sidebar.appendChild(pmList.el);
 
+//	var fakePms = [
+//		{id: 1, username: 'Tobias Seiler', status: 16},
+//		{id: 2, username: 'Leo Fasbender', status: 0},
+//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
+//	].map(function (r) { return emitter(r); });
+//	pmList.setItems(emitter(fakePms));
 	pmList.setItems(app.organization.users);
 
 	// TODO: interaction of user list
@@ -66,6 +80,27 @@ function UI(app) {
 	});
 	pmList.on('additem', function () {
 		console.log('TODO: implement new pm dialogue');
+	});
+
+	// setup label list in sidebar
+	var labelList = new ItemList({template: 'labellist', selector: '.item .label'});
+	sidebar.appendChild(labelList.el);
+
+	var fakeLabels = [
+		{id: 1, name: '#github', icon: 'github'},
+		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
+		{id: 3, name: '#termine', icon: 'calendar'},
+	].map(function (r) { return emitter(r); });
+	labelList.setItems(emitter(fakeLabels));
+	// TODO: real label list?
+	//labelList.setItems();
+
+	// TODO: interaction of label list
+	labelList.on('selectitem', function (/*label*/) {
+		console.log('TODO: implement label change');
+	});
+	labelList.on('additem', function () {
+		console.log('TODO: implement new label dialogue');
 	});
 
 	// bind to new message input

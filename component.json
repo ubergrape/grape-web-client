@@ -25,6 +25,7 @@
   "templates": [
     "templates/chatline.jade",
     "templates/index.jade",
+    "templates/labellist.jade",
     "templates/pmlist.jade",
     "templates/roomlist.jade",
     "templates/roommeta.jade",
@@ -35,6 +36,7 @@
     "ianstormtaylor/meyer-reset": "*",
     "necolas/normalize.css": "*",
     "FortAwesome/Font-Awesome": "*",
+    "Swatinem/scrollbars": "*",
     "Swatinem/template": "*",
     "Swatinem/t": "*",
     "Swatinem/model": "*",
