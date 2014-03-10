@@ -8,6 +8,7 @@
   "scripts": [
     "index.js",
     "browser/elements/itemlist.js",
+    "browser/elements/navigation.js",
     "browser/views/roomview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",

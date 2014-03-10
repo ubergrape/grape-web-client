@@ -10,11 +10,11 @@ var template = require('template');
 //var events = require('events');
 var domify = require('domify');
 
-var ItemList = exports.ItemList = require('./elements/itemlist');
+exports.ItemList = require('./elements/itemlist');
+var Navigation = exports.Navigation = require('./elements/navigation');
 var emitter = require('emitter');
 
 var lib = require('../lib');
-var models = lib.models;
 var App = lib.App;
 
 var RoomView = require('./views/roomview');
@@ -29,79 +29,71 @@ function UI(app) {
 	// add the main layout to the dom
 	document.body.appendChild(domify(template('index')));
 
-	// get all the elements
-	this.userinfo = qs('.userinfo');
+	// add the navigation to the layout
 	var sidebar = qs('.navigation');
-	new (require('scrollbars'))(sidebar);
-	this.conversations = qs('.conversations');
+	var navigation = this.navigation = new Navigation();
+	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// render the data
-	this.userinfo.innerHTML = template('userinfo', app);
+	// bind navigation events
+	navigation.on('selectroom', function (room) {
+		navigation.roomList.selectItem(room);
+		self.currentRoom = room;
+		roomView.setRoom(room);
+	});
+	navigation.on('addroom', function () {
+		console.log('TODO: implement room join dialogue');
+	});
+	// TODO: interaction of user list
+	navigation.on('selectpm', function (/*pm*/) {
+		console.log('TODO: implement pm change');
+	});
+	navigation.on('addpm', function () {
+		console.log('TODO: implement new pm dialogue');
+	});
+	// TODO: interaction of label list
+	navigation.on('selectlabel', function (/*label*/) {
+		console.log('TODO: implement label change');
+	});
+	navigation.on('addlabel', function () {
+		console.log('TODO: implement new label dialogue');
+	});
 
-	// setup room list in sidebar
-	var roomList = new ItemList({template: 'roomlist'});
-	sidebar.appendChild(roomList.el);
-
-//	var fakeRooms = [
+	// set the items for the nav list
+	var rooms = app.organization.rooms;
+//	rooms = [
 //		{id: 1, name: 'Design'},
 //		{id: 2, name: 'Infrastruktur'},
 //		{id: 3, name: 'Marketing'},
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return emitter(r); });
-//	roomList.setItems(emitter(fakeRooms));
-//	roomList.selectItem(fakeRooms[0]);
-	roomList.setItems(app.organization.rooms);
-
-	// bind interaction
-	roomList.on('selectitem', function (room) {
-		roomList.selectItem(room);
-		self.currentRoom = room;
-		roomView.setRoom(room);
-	});
-	roomList.on('additem', function () {
-		console.log('TODO: implement room join dialogue');
-	});
-
-	// setup the messages/conversation/user list in sidebar
-	var pmList = new ItemList({template: 'pmlist', selector: '.item .name, .item .avatar, .item .unread'});
-	sidebar.appendChild(pmList.el);
-
-//	var fakePms = [
+//	rooms = emitter(rooms);
+	var pms = app.organization.users;
+//	var pms = [
 //		{id: 1, username: 'Tobias Seiler', status: 16},
 //		{id: 2, username: 'Leo Fasbender', status: 0},
 //		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
 //	].map(function (r) { return emitter(r); });
-//	pmList.setItems(emitter(fakePms));
-	pmList.setItems(app.organization.users);
-
-	// TODO: interaction of user list
-	pmList.on('selectitem', function (/*pm*/) {
-		console.log('TODO: implement pm change');
-	});
-	pmList.on('additem', function () {
-		console.log('TODO: implement new pm dialogue');
-	});
-
-	// setup label list in sidebar
-	var labelList = new ItemList({template: 'labellist', selector: '.item .label'});
-	sidebar.appendChild(labelList.el);
-
-	var fakeLabels = [
+//	pms = emitter(pms);
+	var labels = [];// FIXME: add real labels
+	labels = [
 		{id: 1, name: '#github', icon: 'github'},
 		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
 		{id: 3, name: '#termine', icon: 'calendar'},
 	].map(function (r) { return emitter(r); });
-	labelList.setItems(emitter(fakeLabels));
-	// TODO: real label list?
-	//labelList.setItems();
+	labels = emitter(labels);
 
-	// TODO: interaction of label list
-	labelList.on('selectitem', function (/*label*/) {
-		console.log('TODO: implement label change');
+	navigation.setLists({
+		rooms: rooms,
+		pms: pms,
+		labels: labels
 	});
-	labelList.on('additem', function () {
-		console.log('TODO: implement new label dialogue');
-	});
+
+	// get all the elements
+	this.userinfo = qs('.userinfo');
+	this.conversations = qs('.conversations');
+
+	// render the data
+	this.userinfo.innerHTML = template('userinfo', app);
 
 	// bind to new message input
 	var roomView = this.roomView = new RoomView(app);

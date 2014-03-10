@@ -6,7 +6,6 @@ var template = require('template');
 
 var events = require('events');
 var closest = require('closest');
-var domify = require('domify');
 
 module.exports = ItemList;
 
@@ -30,7 +29,8 @@ function ItemList(options) {
 ItemList.prototype = Object.create(Emitter.prototype);
 
 ItemList.prototype.init = function ItemList_init() {
-	this.el = domify('<div class="itemlist"></div>');
+	this.el = document.createElement('div');
+	this.el.className = 'itemlist';
 	this.redraw();
 };
 
