@@ -42,22 +42,7 @@ function UI(app) {
 	var roomList = new ItemList({template: 'roomlist'});
 	sidebar.appendChild(roomList.el);
 
-	// TODO: hook this up with room changes
-	function updateRoomList() {
-		// TODO: only has the joined rooms for now
-		roomList.setItems(app.organization.rooms.filter(function (room) {
-			return room.joined;
-		}));
-	}
-	updateRoomList();
-
-	// react to room changes
-	function changedRoom(room) {
-		roomList.changedItem(room);
-	}
-	models.Room.on('change joined', changedRoom);
-	models.Room.on('change unread', changedRoom);
-	models.Room.on('change name', changedRoom);
+	roomList.setItems(app.organization.rooms);
 
 	// bind interaction
 	roomList.on('selectitem', function (room) {
@@ -74,12 +59,6 @@ function UI(app) {
 	sidebar.appendChild(pmList.el);
 
 	pmList.setItems(app.organization.users);
-
-	// react to user changes
-	function updatePmList(pm) {
-		pmList.changedItem(pm);
-	}
-	models.User.on('change', updatePmList);
 
 	// TODO: interaction of user list
 	pmList.on('selectitem', function (/*pm*/) {

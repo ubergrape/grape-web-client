@@ -1,6 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
+var emitter = require('component-emitter');
 var should = require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
 
@@ -29,43 +30,91 @@ describe('ItemList (Rooms/PMs)', function () {
 	});
 	it('should render items', function () {
 		var il = new ItemList(opts);
-		il.setItems([{id: 1, name: 'test'}]);
+		il.setItems(emitter([emitter({id: 1, name: 'test'})]));
 		qs('li.item', il.el).textContent.should.eql('test');
+	});
+	it('should react to item additions', function () {
+		var il = new ItemList(opts);
+		var items = emitter([]);
+		il.setItems(items);
+		should.not.exist(qs('li.item', il.el));
+		var item = emitter({id: 1, name: 'test'});
+		items.push(item);
+		items.emit('change');
+		items.emit('add', item);
+		qs('li.item', il.el).textContent.should.eql('test');
+		item.name = 'test2';
+		item.emit('change');
+		item.emit('change name');
+		qs('li.item', il.el).textContent.should.eql('test2');
+	});
+	it('should correctly unbind removed items', function () {
+		var il = new ItemList(opts);
+		var item = emitter({id: 1, name: 'test'});
+		var item2 = emitter({id: 2, name: 'test2'});
+		var items = emitter([item, item2]);
+		il.setItems(items);
+		qs('li.item', il.el).textContent.should.eql('test');
+		items.pop();
+		items.emit('change');
+		items.emit('remove', item2);
+		qs('li.item', il.el).textContent.should.eql('test');
+		item.name = 'test2';
+		item2.emit('change');
+		item2.emit('change name');
+		qs('li.item', il.el).textContent.should.eql('test');
+	});
+	it('should correctly unbind the item list and its items', function () {
+		var il = new ItemList(opts);
+		var item = emitter({id: 1, name: 'test'});
+		var items = emitter([item]);
+		il.setItems(items);
+		var item2 = emitter({id: 2, name: 'test2'});
+		il.setItems(emitter([item2]));
+		qs('li.item', il.el).textContent.should.eql('test2');
+		item2.name = 'test';
+		items.emit('change');
+		item.emit('change');
+		item.emit('change name');
+		qs('li.item', il.el).textContent.should.eql('test2');
 	});
 	it('should re-render one item on change', function () {
 		var il = new ItemList(opts);
-		var item = {id: 1, name: 'test'};
-		il.setItems([item]);
+		var item = emitter({id: 1, name: 'test'});
+		il.setItems(emitter([item]));
 		qs('li.item', il.el).textContent.should.eql('test');
 		item.name = 'test2';
-		il.changedItem(item);
+		item.emit('change');
+		item.emit('change name');
 		qs('li.item', il.el).textContent.should.eql('test2');
 	});
 	it('should give a unread count', function () {
 		var il = new ItemList(opts);
-		var item = {id: 1, name: 'test'};
-		il.setItems([item]);
+		var item = emitter({id: 1, name: 'test'});
+		il.setItems(emitter([item]));
 		should.not.exist(qs('li.item .unread', il.el));
 		item.unread = 2;
-		il.changedItem(item);
+		item.emit('change');
+		item.emit('change unread');
 		qs('li.item .unread', il.el).textContent.should.eql('2');
 	});
 	it('should mark a item as selected', function () {
 		var il = new ItemList(opts);
-		var item = {id: 1, name: 'test'};
-		il.setItems([item]);
+		var item = emitter({id: 1, name: 'test'});
+		il.setItems(emitter([item]));
 		should.not.exist(qs('li.item.selected', il.el));
 		il.selectItem(item);
 		qs('li.item.selected', il.el).textContent.should.eql('test');
 	});
 	it('should give private items a different icon', function () {
 		var il = new ItemList(opts);
-		var item = {id: 1, name: 'test'};
-		il.setItems([item]);
+		var item = emitter({id: 1, name: 'test'});
+		il.setItems(emitter([item]));
 		// TODO: this test might be fragile
 		qs('li.item i', il.el).className.should.not.include('fa-lock');
 		item.private = true;
-		il.changedItem(item);
+		item.emit('change');
+		item.emit('change private');
 		qs('li.item i', il.el).className.should.include('fa-lock');
 	});
 	it('should emit a `additem` when clicking the add item button', function (done) {
@@ -80,8 +129,8 @@ describe('ItemList (Rooms/PMs)', function () {
 	it('should emit a `selectitem` when clicking on a item', function (done) {
 		var il = new ItemList(opts);
 		add(il.el);
-		var item = {id: 1, name: 'test'};
-		il.setItems([item]);
+		var item = emitter({id: 1, name: 'test'});
+		il.setItems(emitter([item]));
 		var itemEl = qs('li.item .icon', il.el);
 		il.on('selectitem', function (clicked) {
 			clicked.should.equal(item);
