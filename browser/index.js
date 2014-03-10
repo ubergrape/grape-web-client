@@ -12,6 +12,7 @@ var domify = require('domify');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
+var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
 var emitter = require('emitter');
 
 var lib = require('../lib');
@@ -34,29 +35,8 @@ function UI(app) {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// bind navigation events
-	navigation.on('selectroom', function (room) {
-		navigation.roomList.selectItem(room);
-		self.currentRoom = room;
-		roomView.setRoom(room);
-	});
-	navigation.on('addroom', function () {
-		console.log('TODO: implement room join dialogue');
-	});
-	// TODO: interaction of user list
-	navigation.on('selectpm', function (/*pm*/) {
-		console.log('TODO: implement pm change');
-	});
-	navigation.on('addpm', function () {
-		console.log('TODO: implement new pm dialogue');
-	});
-	// TODO: interaction of label list
-	navigation.on('selectlabel', function (/*label*/) {
-		console.log('TODO: implement label change');
-	});
-	navigation.on('addlabel', function () {
-		console.log('TODO: implement new label dialogue');
-	});
+	// initialize the add room dialog
+	var addRoom = new RoomDialog();
 
 	// set the items for the nav list
 	var rooms = app.organization.rooms;
@@ -86,6 +66,38 @@ function UI(app) {
 		rooms: rooms,
 		pms: pms,
 		labels: labels
+	});
+
+	// set the items for the add room dialog
+	addRoom.setRooms(rooms);
+
+	// bind navigation events
+	navigation.on('selectroom', function (room) {
+		navigation.select('room', room);
+		self.currentRoom = room;
+		roomView.setRoom(room);
+	});
+	navigation.on('addroom', function () {
+		addRoom.show();
+	});
+	// TODO: interaction of user list
+	navigation.on('selectpm', function (/*pm*/) {
+		console.log('TODO: implement pm change');
+	});
+	navigation.on('addpm', function () {
+		console.log('TODO: implement new pm dialogue');
+	});
+	// TODO: interaction of label list
+	navigation.on('selectlabel', function (/*label*/) {
+		console.log('TODO: implement label change');
+	});
+	navigation.on('addlabel', function () {
+		console.log('TODO: implement new label dialogue');
+	});
+
+	// bind the event to join a room
+	addRoom.on('selectroom', function (room) {
+		app.joinRoom(room);
 	});
 
 	// get all the elements

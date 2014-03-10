@@ -1,8 +1,8 @@
 
-h2
+h2.pms
 	span.nav-title=_('Messages')
 	button.additem.nav-button.button-inset=_('new message')
-ul.nav-list
+ul.nav-list.pms
 	each pm in items
 		li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.id)
 			.avatar

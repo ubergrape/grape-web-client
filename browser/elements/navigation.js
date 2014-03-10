@@ -54,3 +54,14 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	});
 };
 
+Navigation.prototype.select = function Navigation_select(which, item) {
+	this[which + 'List'].selectItem(item);
+};
+
+// redraw everything, eg when the language changes
+Navigation.prototype.redraw = function Navigation_redraw() {
+	var self = this;
+	['room', 'pm', 'label'].forEach(function (which) {
+		self[which + 'List'].redraw();
+	});
+};

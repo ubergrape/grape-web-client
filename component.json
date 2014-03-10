@@ -9,6 +9,7 @@
     "index.js",
     "browser/elements/itemlist.js",
     "browser/elements/navigation.js",
+    "browser/elements/roomdialog.js",
     "browser/views/roomview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -28,6 +29,7 @@
     "templates/index.jade",
     "templates/labellist.jade",
     "templates/pmlist.jade",
+    "templates/roomdialog.jade",
     "templates/roomlist.jade",
     "templates/roommeta.jade",
     "templates/userinfo.jade"
@@ -45,6 +47,7 @@
     "Swatinem/model-cast": "*",
     "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
+    "component/dialog": "*",
     "component/domify": "*",
     "component/classes": "*",
     "component/throttle": "*",

@@ -1,8 +1,8 @@
 
-h2
+h2.rooms
 	span.nav-title=_('Rooms')
 	button.additem.nav-button.button-inset=_('add room')
-ul.nav-list
+ul.nav-list.rooms
 	each room in items
 		if room.joined
 			li.item(class=(room == selected ? 'selected' : ''), data-id=room.id)

@@ -1,0 +1,10 @@
+ul
+	each room in items
+		if !room.joined
+			li.item(data-id=room.id)
+				if room.private
+					i.icon.fa.fa-lock
+				else
+					i.icon.fa.fa-comments
+				span.name=room.name
+
