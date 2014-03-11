@@ -18,6 +18,7 @@ RoomDialog.prototype = Object.create(Emitter.prototype);
 RoomDialog.prototype.init = function RoomDialog_init() {
 	this.itemList = new ItemList({template: 'roomdialog', selector: '.item'});
 	this.dialog = new Dialog(this.itemList.el).overlay().closable();
+	this.el = this.dialog.el; // expose for testing
 };
 
 RoomDialog.prototype.bind = function RoomDialog_bind() {
@@ -47,3 +48,4 @@ RoomDialog.prototype.redraw = function RoomDialog_redraw() {
 RoomDialog.prototype.setRooms = function RoomDialog_setRooms(rooms) {
 	this.itemList.setItems(rooms);
 };
+
