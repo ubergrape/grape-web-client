@@ -11,6 +11,7 @@ var exports = module.exports = UI;
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
+var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RoomView = exports.RoomView = require('./views/roomview');
 
 function qs(sel, ctx) {
@@ -35,6 +36,10 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the add room dialog
 	this.addRoom = new RoomDialog();
+
+	// initialize the chat header
+	this.chatHeader = new ChatHeader();
+	qs('.client-room-info', this.el).appendChild(this.chatHeader.el);
 
 	// FIXME: initialize the room view
 	//this.roomView = new RoomView();
@@ -64,7 +69,11 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// bind the event to join a room
-	broker.pass(this.addRoom, 'selectroom', this, 'joinroom');
+	broker.pass(addRoom, 'selectroom', this, 'joinroom');
+
+	// chat header/search functionality
+	broker.pass(this.chatHeader, 'search', this, 'search');
+	broker(navigation, 'selectroom', this.chatHeader, 'setRoom');
 
 	// FIXME: bind to new message input
 //	roomView.on('input', function (str) {
@@ -74,8 +83,11 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.setOrganization = function UI_setOrganization(org /* FIXME: */, app) {
 	// FIXME:
-	this.roomView = new RoomView(this.el, app);
+	var roomView = this.roomView = new RoomView(this.el, app);
 	broker(this.navigation, 'selectroom', this.roomView, 'setRoom');
+	this.roomView.on('input', function (str) {
+		app.publish(roomView.room, str);
+	});
 
 	// set the items for the nav list
 	var rooms = org.rooms;

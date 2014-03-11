@@ -26,8 +26,6 @@ function RoomView(el, app, room) {
 
 	this.history = qs('.chathistory', el);
 	this.input = qs('.input', el);
-	this.roomname = qs('.roomname', el);
-	this.usersonline = qs('.usersonline', el);
 	this.scrollWindow = qs('.chat', el);
 
 	this._lineMap = Object.create(null);
@@ -141,17 +139,6 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	this.scrollMode = 'automatic';
 	// reset the line map
 	this._lineMap = Object.create(null);
-
-	// bind to room meta changes
-	this.roomname.innerHTML = room.name;
-	room.on('change name', function () {
-		self.roomname.innerHTML = room.name;
-	});
-	function drawRoomUsers() {
-		self.usersonline.innerHTML = template('roommeta', room);
-	}
-	drawRoomUsers();
-	room.on('change users', drawRoomUsers);
 
 	// mark the last message as read
 	if (room.history.length)

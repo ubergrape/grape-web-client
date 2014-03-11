@@ -11,7 +11,7 @@ function qs(sel, ctx) {
 	return (ctx || document).querySelector(sel);
 }
 
-describe('ItemList (Rooms/PMs)', function () {
+describe('ItemList (Rooms Template)', function () {
 	var opts = {template: 'roomlist'};
 	// webkit wtf? https://code.google.com/p/chromium/issues/detail?id=120494
 	var added;
