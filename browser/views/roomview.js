@@ -15,20 +15,20 @@ var Line = require('../../lib').models.Line; // TODO: clean this up a bit
 
 module.exports = RoomView;
 
-function qs(s) {
-	return document.querySelector(s);
+function qs(sel, ctx) {
+	return (ctx || document).querySelector(sel);
 }
 
-function RoomView(app, room) {
+function RoomView(el, app, room) {
 	Emitter.call(this);
 	this.app = app;
 	this.room = undefined;
 
-	this.history = qs('.chathistory');
-	this.input = qs('.input');
-	this.roomname = qs('.roomname');
-	this.usersonline = qs('.usersonline');
-	this.scrollWindow = qs('.chat');
+	this.history = qs('.chathistory', el);
+	this.input = qs('.input', el);
+	this.roomname = qs('.roomname', el);
+	this.usersonline = qs('.usersonline', el);
+	this.scrollWindow = qs('.chat', el);
 
 	this._lineMap = Object.create(null);
 

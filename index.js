@@ -1,10 +1,6 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var lib = require('./lib');
-exports.App = lib.App;
-exports.models = lib.models;
-
 // configure locales and template locals
 var template = require('template');
 template.root = '/cg/templates';
@@ -16,8 +12,10 @@ var _ = require('t');
 template.locals._ = _;
 
 // FIXME: change language, for now
+// this should be done via a switch in the UI
 _.lang('de');
 
-// export the UI for testing purposes
+// export App and UI
+exports.App = require('./lib');
 exports.UI = require('./browser');
 

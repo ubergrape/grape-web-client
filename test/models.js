@@ -1,7 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var models = require('cg').models;
+var models = require('cg').App.models;
 /*var should = */require('chaijs-chai').should();
 //var happen = require('happen');
 
