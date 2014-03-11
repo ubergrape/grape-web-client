@@ -2,11 +2,9 @@
 "use strict";
 
 var Emitter = require('emitter');
-var inputarea = require('inputarea');
 var domify = require('domify');
 var template = require('template');
 var throttle = require('throttle');
-var debounce = require('debounce');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -25,7 +23,6 @@ function RoomView(el, app, room) {
 	this.room = undefined;
 
 	this.history = qs('.chathistory', el);
-	this.input = qs('.input', el);
 	this.scrollWindow = qs('.chat', el);
 
 	this._lineMap = Object.create(null);
@@ -35,7 +32,6 @@ function RoomView(el, app, room) {
 	this.scrollMode = 'automatic';
 
 
-	this._bindInput();
 	this._bindChange();
 
 	if (room)
@@ -68,27 +64,6 @@ RoomView.prototype._bindChange = function RoomView__bindChange() {
 			return;
 		var newElem = domify(template('chatline', line));
 		elem.parentNode.replaceChild(newElem, elem);
-	});
-};
-
-RoomView.prototype._bindInput = function RoomView__bindInput() {
-	var self = this;
-	inputarea(this.input).on('input', function (str) {
-		if (!str)
-			return;
-		self.emit('input', str);
-	});
-	// emit typing (start and stop) events
-	var delay = 500;
-	var start = debounce(function () {
-		self.app.setTyping(self.room, true);
-	}, delay, true);
-	var stop = debounce(function () {
-		self.app.setTyping(self.room, false);
-	}, delay);
-	this.input.addEventListener('keypress', function () {
-		start();
-		stop();
 	});
 };
 

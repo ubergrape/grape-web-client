@@ -8,6 +8,7 @@
   "scripts": [
     "index.js",
     "browser/elements/chatheader.js",
+    "browser/elements/chatinput.js",
     "browser/elements/itemlist.js",
     "browser/elements/navigation.js",
     "browser/elements/roomdialog.js",

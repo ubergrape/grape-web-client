@@ -12,6 +12,7 @@ exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
+var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var RoomView = exports.RoomView = require('./views/roomview');
 
 function qs(sel, ctx) {
@@ -41,6 +42,10 @@ UI.prototype.init = function UI_init() {
 	this.chatHeader = new ChatHeader();
 	qs('.client-room-info', this.el).appendChild(this.chatHeader.el);
 
+	// initialize the input field
+	this.chatInput = new ChatInput();
+	qs('.input-wrapper', this.el).appendChild(this.chatInput.el);
+
 	// FIXME: initialize the room view
 	//this.roomView = new RoomView();
 };
@@ -48,8 +53,11 @@ UI.prototype.init = function UI_init() {
 UI.prototype.bind = function UI_bind() {
 	var navigation = this.navigation;
 	var addRoom = this.addRoom;
+	var self = this;
+	this.room = null; // FIXME: there needs to be a better way? maybe set the room on the input?
 	// bind navigation events
 	navigation.on('selectroom', function (room) {
+		self.room = room;
 		navigation.select('room', room);
 	});
 	broker(navigation, 'addroom', addRoom, 'show');
@@ -75,19 +83,23 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatHeader, 'search', this, 'search');
 	broker(navigation, 'selectroom', this.chatHeader, 'setRoom');
 
-	// FIXME: bind to new message input
-//	roomView.on('input', function (str) {
-//		app.publish(self.currentRoom, str);
-//	});
+	// chat input
+	this.chatInput.on('input', function (str) {
+		if (!self.room) return;
+		self.emit('input', self.room, str);
+	}).on('starttyping', function () {
+		if (!self.room) return;
+		self.emit('starttyping', self.room);
+	}).on('stoptyping', function () {
+		if (!self.room) return;
+		self.emit('stoptyping', self.room);
+	});
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org /* FIXME: */, app) {
 	// FIXME:
-	var roomView = this.roomView = new RoomView(this.el, app);
+	this.roomView = new RoomView(this.el, app);
 	broker(this.navigation, 'selectroom', this.roomView, 'setRoom');
-	this.roomView.on('input', function (str) {
-		app.publish(roomView.room, str);
-	});
 
 	// set the items for the nav list
 	var rooms = org.rooms;
