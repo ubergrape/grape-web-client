@@ -41,7 +41,6 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
-	var self = this;
 	var navigation = this.navigation;
 	var addRoom = this.addRoom;
 	// bind navigation events
@@ -99,8 +98,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org /* FIXME: */, app
 		{id: 1, name: '#github', icon: 'github'},
 		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
 		{id: 3, name: '#termine', icon: 'calendar'},
-	].map(function (r) { return Emitter(r); });
-	labels = Emitter(labels);
+	].map(function (r) { return new Emitter(r); });
+	labels = new Emitter(labels);
 
 	this.navigation.setLists({
 		rooms: rooms,

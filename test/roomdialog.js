@@ -2,7 +2,7 @@
 "use strict";
 
 var emitter = require('component-emitter');
-var should = require('chaijs-chai').should();
+/*var should = */require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
 
 var RoomDialog = require('cg').UI.RoomDialog;
@@ -19,7 +19,7 @@ describe('RoomDialog', function () {
 	});
 	it('should provide a redraw function', function () {
 		var d = new RoomDialog();
-		var room = emitter({id: 1, name: 'test', joined: false})
+		var room = emitter({id: 1, name: 'test', joined: false});
 		d.setRooms(emitter([room]));
 		qs('.room', d.el).textContent.should.eql('test');
 		room.name = 'test2';
@@ -28,7 +28,7 @@ describe('RoomDialog', function () {
 	});
 	it('should provide a show/hide method', function () {
 		var d = new RoomDialog();
-		var room = emitter({id: 1, name: 'test', joined: false})
+		var room = emitter({id: 1, name: 'test', joined: false});
 		d.setRooms(emitter([room]));
 		d.el.className.should.include('hide');
 		d.show();
@@ -38,7 +38,7 @@ describe('RoomDialog', function () {
 	});
 	it('should emit a selectroom event', function (done) {
 		var d = new RoomDialog();
-		var room = emitter({id: 1, name: 'test', joined: false})
+		var room = emitter({id: 1, name: 'test', joined: false});
 		d.setRooms(emitter([room]));
 		d.show();
 		d.on('selectroom', function (r) {
@@ -50,7 +50,7 @@ describe('RoomDialog', function () {
 	});
 	it('should automatically close the dialog when the room changes `joined`', function (done) {
 		var d = new RoomDialog();
-		var room = emitter({id: 1, name: 'test', joined: false})
+		var room = emitter({id: 1, name: 'test', joined: false});
 		d.setRooms(emitter([room]));
 		d.show();
 		d.on('selectroom', function (r) {
