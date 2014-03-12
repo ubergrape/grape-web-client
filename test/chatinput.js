@@ -22,21 +22,24 @@ describe('ChatInput', function () {
 		var ci = new ChatInput();
 		ci.el.should.be.an.instanceof(Element);
 	});
-	it.skip('should emit a `input` event when pressing enter', function (done) {
+	it('should emit a `input` when text is entered', function (done) {
 		var ci = new ChatInput();
-		add(ci.el);
-		ci.el.value = 'foobar';
-		ci.on('input', function (term) {
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		ci.on('input', function (r, term) {
+			r.should.equal(room);
 			term.should.eql('foobar');
 			done();
 		});
-		// FIXME: I currently see no way to really test this?
-		trigger(ci.el, 'keyup', {key: 'Enter'});
+		ci.input.emit('input', '   foobar   ');
 	});
 	it('should emit `starttyping` when starting to type', function (done) {
 		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
 		add(ci.el);
-		ci.on('starttyping', function () {
+		ci.on('starttyping', function (r) {
+			r.should.equal(room);
 			done();
 		});
 		trigger(ci.el, 'keydown', {key: 'f'});
@@ -44,11 +47,14 @@ describe('ChatInput', function () {
 	it('should emit `stoptyping` after a typing delay', function (done) {
 		ChatInput.DELAY = 10;
 		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
 		add(ci.el);
 		var start = new Date();
-		ci.on('stoptyping', function () {
+		ci.on('stoptyping', function (r) {
 			var diff = new Date() - start;
 			diff.should.be.above(10);
+			r.should.equal(room);
 			done();
 		});
 		trigger(ci.el, 'keyup', {key: 'f'});

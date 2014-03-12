@@ -84,16 +84,10 @@ UI.prototype.bind = function UI_bind() {
 	broker(navigation, 'selectroom', this.chatHeader, 'setRoom');
 
 	// chat input
-	this.chatInput.on('input', function (str) {
-		if (!self.room) return;
-		self.emit('input', self.room, str);
-	}).on('starttyping', function () {
-		if (!self.room) return;
-		self.emit('starttyping', self.room);
-	}).on('stoptyping', function () {
-		if (!self.room) return;
-		self.emit('stoptyping', self.room);
-	});
+	broker(navigation, 'selectroom', this.chatInput, 'setRoom');
+	broker.pass(this.chatInput, 'input', this, 'input');
+	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
+	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org /* FIXME: */, app) {
