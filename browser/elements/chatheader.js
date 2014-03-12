@@ -3,12 +3,9 @@
 
 var Emitter = require('emitter');
 var template = require('template');
+var qs = require('query');
 
 module.exports = ChatHeader;
-
-function qs(sel, ctx) {
-	return (ctx || document).querySelector(sel);
-}
 
 function ChatHeader() {
 	Emitter.call(this);

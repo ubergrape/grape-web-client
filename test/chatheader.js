@@ -4,12 +4,9 @@
 var emitter = require('component-emitter');
 /*var should = */require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
+var qs = require('component-query');
 
 var ChatHeader = require('cg').UI.ChatHeader;
-
-function qs(sel, ctx) {
-	return (ctx || document).querySelector(sel);
-}
 
 describe('ChatHeader', function () {
 	it('should have a .el', function () {

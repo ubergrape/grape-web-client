@@ -5,6 +5,7 @@ var Emitter = require('emitter');
 var domify = require('domify');
 var template = require('template');
 var throttle = require('throttle');
+var qs = require('query');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -12,10 +13,6 @@ var InfiniteScroll = require('../infinite-scroll');
 var Line = require('../../lib').models.Line; // TODO: clean this up a bit
 
 module.exports = RoomView;
-
-function qs(sel, ctx) {
-	return (ctx || document).querySelector(sel);
-}
 
 function RoomView(el, app, room) {
 	Emitter.call(this);

@@ -49,6 +49,7 @@
     "Swatinem/model-cast": "*",
     "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
+    "component/query": "*",
     "component/dialog": "*",
     "component/domify": "*",
     "component/classes": "*",

@@ -5,6 +5,7 @@ var template = require('template');
 var domify = require('domify');
 var Emitter = require('emitter');
 var broker = require('broker');
+var qs = require('query');
 
 var exports = module.exports = UI;
 
@@ -14,10 +15,6 @@ var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var RoomView = exports.RoomView = require('./views/roomview');
-
-function qs(sel, ctx) {
-	return (ctx || document).querySelector(sel);
-}
 
 function UI() {
 	Emitter.call(this);
