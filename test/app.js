@@ -23,7 +23,7 @@ function WsMock() {
 }
 WsMock.prototype = Object.create(Emitter.prototype);
 
-describe('App', function () {
+describe.skip('App', function () {
 	var server;
 	var app;
 	beforeEach(function (done) {

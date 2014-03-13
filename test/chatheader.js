@@ -21,7 +21,7 @@ describe('ChatHeader', function () {
 	it('should render a list of all users in the room', function () {
 		var ch = new ChatHeader();
 		var user = {username: 'test', status: 16};
-		ch.setRoom(emitter({name: 'test', users: [user]}));
+		ch.setRoom(emitter({name: 'test', users: [user], typing: {}}));
 		// FIXME: this test is too fragile
 		qs('.user', ch.el).textContent.should.eql('test (16) ');
 	});

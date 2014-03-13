@@ -68,5 +68,11 @@ describe('ChatInput', function () {
 		});
 		trigger(ci.el, 'keyup', {key: 'f'});
 	});
+	it.skip('should immediately emit `stoptyping` when an input is sent', function () {
+		
+	});
+	it.skip('should only emit starttyping when some text was input (not on special keys)', function () {
+		
+	});
 });
 

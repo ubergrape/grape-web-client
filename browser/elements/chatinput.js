@@ -32,16 +32,22 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		str = str.trim();
 		if (!str)
 			return;
+		doStop();
 		self.emit('input', self.room, str);
 	});
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
+	var stopped = false;
 	var start = debounce(function () {
+		stopped = false;
 		self.emit('starttyping', self.room);
 	}, delay, true);
-	var stop = debounce(function () {
+	function doStop() {
+		if (stopped) return;
+		stopped = true;
 		self.emit('stoptyping', self.room);
-	}, delay);
+	}
+	var stop = debounce(doStop, delay);
 	this.el.addEventListener('keydown', function () {
 		start();
 	});
