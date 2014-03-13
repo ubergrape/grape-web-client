@@ -5,22 +5,20 @@ var Emitter = require('emitter');
 var domify = require('domify');
 var template = require('template');
 var throttle = require('throttle');
-var qs = require('query');
+var Scrollbars = require('scrollbars');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
 var Line = require('../../lib').models.Line; // TODO: clean this up a bit
 
-module.exports = RoomView;
+module.exports = HistoryView;
 
-function RoomView(el, app, room) {
+function HistoryView() {
 	Emitter.call(this);
-	this.app = app;
-	this.room = undefined;
 
-	this.history = qs('.chathistory', el);
-	this.scrollWindow = qs('.chat', el);
+	this.init();
+	this.gotHistory = function () {};
 
 	this._lineMap = Object.create(null);
 
@@ -28,16 +26,23 @@ function RoomView(el, app, room) {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
 	this.scrollMode = 'automatic';
 
-
 	this._bindChange();
-
-	if (room)
-		this.setRoom(room);
 }
 
-RoomView.prototype = Object.create(Emitter.prototype);
+HistoryView.prototype = Object.create(Emitter.prototype);
 
-RoomView.prototype._scrolled = function RoomView__scrolled(direction, done) {
+HistoryView.prototype.init = function HistoryView_init() {
+	var el = this.scrollWindow = document.createElement('div');
+	el.className = 'chat';
+	this.history = document.createElement('div');
+	el.appendChild(this.history);
+	// and make it work with custom scrollbars
+	document.createElement('div').appendChild(el);
+	var scr = new Scrollbars(el);
+	this.el = scr.wrapper;
+};
+
+HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
 	// set the scrollMode to automatic when scrolling to the bottom
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
@@ -45,15 +50,17 @@ RoomView.prototype._scrolled = function RoomView__scrolled(direction, done) {
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine.time};
-	this.app.getHistory(this.room, options, function (lines) {
-		// only acknowledge this when we are not at the end of the history
+	var self = this;
+	this.gotHistory = function (room, lines) {
 		if (lines.length)
 			done();
-	});
+		self.gotHistory = function () {};
+	};
+	this.emit('needhistory', this.room, options);
 };
 
 // react to changes to chat line and redraw that accordingly
-RoomView.prototype._bindChange = function RoomView__bindChange() {
+HistoryView.prototype._bindChange = function HistoryView__bindChange() {
 	var self = this;
 	Line.on('change', function (line) {
 		var elem = self._lineMap[line.id];
@@ -64,7 +71,7 @@ RoomView.prototype._bindChange = function RoomView__bindChange() {
 	});
 };
 
-RoomView.prototype._bindScroll = function RoomView__bindScroll() {
+HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	function updateRead() {
 		setTimeout(function () {
@@ -72,7 +79,7 @@ RoomView.prototype._bindScroll = function RoomView__bindScroll() {
 				return; // we get scroll events even when the window is not focused
 			var bottomElem = self._findBottomVisible();
 			var line = Line.get(bottomElem.getAttribute('data-id'));
-			self.app.setRead(self.room, line);
+			self.emit('hasread', self.room, line);
 		}, 2500);
 	}
 	focus.on('focus', updateRead);
@@ -82,7 +89,7 @@ RoomView.prototype._bindScroll = function RoomView__bindScroll() {
 	});
 };
 
-RoomView.prototype._findBottomVisible = function RoomView__findBottomVisible() {
+HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
 	var history = this.history;
 	var scrollWindow = this.scrollWindow;
 	var scrollBottom = scrollWindow.offsetTop + scrollWindow.scrollTop + scrollWindow.clientHeight;
@@ -94,8 +101,10 @@ RoomView.prototype._findBottomVisible = function RoomView__findBottomVisible() {
 	}
 };
 
-RoomView.prototype.setRoom = function RoomView_setRoom(room) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
+	// clear that fn
+	self.gotHistory = function () {};
 	var history = this.history;
 	if (this.room) {
 		this.room.off('change history');
@@ -114,9 +123,9 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 
 	// mark the last message as read
 	if (room.history.length)
-		this.app.setRead(room, room.history[room.history.length - 1]);
-	else
-		this.app.getHistory(room);
+		this.emit('hasread', this.room, room.history[room.history.length - 1]);
+	else // FIXME:
+		this.emit('needhistory', room);
 
 	// draw all the messages we have so far:
 	room.history.forEach(function (line) {
@@ -125,7 +134,6 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 		history.appendChild(elem);
 	});
 
-	
 	// scroll to the last read message
 	//history.lastChild.scrollIntoView();
 
@@ -137,7 +145,7 @@ RoomView.prototype.setRoom = function RoomView_setRoom(room) {
 	});
 };
 
-RoomView.prototype._newLine = function RoomView__newLine(line, index) {
+HistoryView.prototype._newLine = function HistoryView__newLine(line, index) {
 	var history = this.history;
 
 	var el = domify(template('chatline', line));
@@ -153,8 +161,9 @@ RoomView.prototype._newLine = function RoomView__newLine(line, index) {
 
 	if (this.scrollMode === 'automatic') {
 		if (focus.state === 'focus') {
+			el.scrollIntoView();
 			// when the window has the focus, we assume the message was read
-			this.app.setRead(this.room, line);
+			this.emit('hasread', this.room, line);
 			return;
 		}
 		// scroll the last read message into view, on the top

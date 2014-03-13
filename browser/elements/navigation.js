@@ -19,8 +19,8 @@ Navigation.prototype = Object.create(Emitter.prototype);
 Navigation.prototype.init = function Navigation_init() {
 	var el = document.createElement('nav');
 	el.className = 'navigation';
-	document.createElement('div').appendChild(el);
 	// XXX: this is a bit weird :-(
+	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
 	this.el = scr.wrapper;
 

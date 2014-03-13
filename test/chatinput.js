@@ -33,6 +33,15 @@ describe('ChatInput', function () {
 		});
 		ci.input.emit('input', '   foobar   ');
 	});
+	it('should not emit when the text is empty', function () {
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		ci.on('input', function () {
+			throw new Error('should not be reached');
+		});
+		ci.input.emit('input', '   \n \t   ');
+	});
 	it('should emit `starttyping` when starting to type', function (done) {
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};

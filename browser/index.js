@@ -14,7 +14,7 @@ var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
-var RoomView = exports.RoomView = require('./views/roomview');
+var HistoryView = exports.HistoryView = require('./elements/historyview');
 
 function UI() {
 	Emitter.call(this);
@@ -43,8 +43,10 @@ UI.prototype.init = function UI_init() {
 	this.chatInput = new ChatInput();
 	qs('.input-wrapper', this.el).appendChild(this.chatInput.el);
 
-	// FIXME: initialize the room view
-	//this.roomView = new RoomView();
+	// initialize the history view
+	this.historyView = new HistoryView();
+	var chat = qs('.chat', this.el);
+	chat.parentNode.replaceChild(this.historyView.el, chat);
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -85,13 +87,18 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatInput, 'input', this, 'input');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
+
+	// history view
+	broker(navigation, 'selectroom', this.historyView, 'setRoom');
+	broker.pass(this.historyView, 'hasread', this, 'hasread');
+	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 };
 
-UI.prototype.setOrganization = function UI_setOrganization(org /* FIXME: */, app) {
-	// FIXME:
-	this.roomView = new RoomView(this.el, app);
-	broker(this.navigation, 'selectroom', this.roomView, 'setRoom');
+UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
+	this.historyView.gotHistory(room, lines);
+};
 
+UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [

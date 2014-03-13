@@ -18,4 +18,5 @@ _.lang('de');
 // export App and UI
 exports.App = require('./lib');
 exports.UI = require('./browser');
+exports.broker = require('./lib/broker');
 
