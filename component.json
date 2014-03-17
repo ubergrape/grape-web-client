@@ -11,7 +11,7 @@
     "browser/elements/chatinput.js",
     "browser/elements/itemlist.js",
     "browser/elements/navigation.js",
-    "browser/elements/roomdialog.js",
+    "browser/elements/itemdialog.js",
     "browser/elements/historyview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -32,6 +32,7 @@
     "templates/chatline.jade",
     "templates/index.jade",
     "templates/labellist.jade",
+    "templates/pmdialog.jade",
     "templates/pmlist.jade",
     "templates/roomdialog.jade",
     "templates/roomlist.jade"

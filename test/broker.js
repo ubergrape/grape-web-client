@@ -50,6 +50,9 @@ describe('broker', function () {
 		broker(ui, app);
 		ui.emit('joinroom', room);
 	});
+	it.skip('should route openpm events', function () {
+		
+	});
 	it('should route input events to publish', function (done) {
 		var ui = emitter({});
 		var room = {some: 'room'};

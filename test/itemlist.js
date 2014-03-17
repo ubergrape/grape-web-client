@@ -8,7 +8,7 @@ var qs = require('component-query');
 
 var ItemList = require('cg').UI.ItemList;
 
-describe('ItemList (Rooms Template)', function () {
+describe('ItemList (rooms template)', function () {
 	var opts = {template: 'roomlist'};
 	// webkit wtf? https://code.google.com/p/chromium/issues/detail?id=120494
 	var added;

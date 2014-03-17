@@ -25,7 +25,7 @@ _.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
+var ItemDialog = exports.ItemDialog = require('./elements/itemdialog');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -47,9 +47,9 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the add room dialog
-	this.addRoom = new RoomDialog();
+	this.addRoom = new ItemDialog({template: 'roomdialog', selector: '.item'});
 	// and the new pm dialog
-	this.addPM = new RoomDialog();
+	this.addPM = new ItemDialog({template: 'pmdialog', selector: '.item'});
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -88,8 +88,8 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// bind the event to join a room
-	broker.pass(this.addRoom, 'selectroom', this, 'joinroom');
-	broker.pass(this.addPM, 'selectroom', this, 'openpm');
+	broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
+	broker.pass(this.addPM, 'selectitem', this, 'openpm');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'search', this, 'search');
@@ -143,8 +143,11 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	});
 
 	// set the items for the add room dialog
-	this.addRoom.setRooms(rooms);
-	this.addPM.setRooms(pms);
+	this.addRoom.setItems(rooms);
+
+	// set the items for the new PM dialog
+	// TODO: filter those users with which there is already a PM open
+	this.addPM.setItems(org.users);
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -155,3 +158,4 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	// FIXME: ideally, there should be a switch for this
 	this.emit('selectorganization', orgs[0]);
 };
+
