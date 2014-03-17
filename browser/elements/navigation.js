@@ -55,6 +55,10 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.select = function Navigation_select(which, item) {
+	var self = this;
+	['room', 'pm', 'label'].forEach(function (which) {
+		self[which + 'List'].selectItem(null);
+	});
 	this[which + 'List'].selectItem(item);
 };
 

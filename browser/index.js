@@ -48,6 +48,8 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the add room dialog
 	this.addRoom = new RoomDialog();
+	// and the new pm dialog
+	this.addPM = new RoomDialog();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -64,23 +66,19 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
-	var navigation = this.navigation;
-	var addRoom = this.addRoom;
 	var self = this;
-	this.room = null; // FIXME: there needs to be a better way? maybe set the room on the input?
+	var navigation = this.navigation;
 	// bind navigation events
 	navigation.on('selectroom', function (room) {
-		self.room = room;
 		navigation.select('room', room);
 	});
-	broker(navigation, 'addroom', addRoom, 'show');
-	// TODO: interaction of user list
-	navigation.on('selectpm', function (/*pm*/) {
-		console.log('TODO: implement pm change');
+	broker.pass(navigation, 'selectroom', this, 'selectchannel');
+	broker(navigation, 'addroom', this.addRoom, 'show');
+	broker.pass(navigation, 'selectpm', this, 'selectchannel');
+	navigation.on('selectpm', function (pm) {
+		navigation.select('pm', pm);
 	});
-	navigation.on('addpm', function () {
-		console.log('TODO: implement new pm dialogue');
-	});
+	broker(navigation, 'addpm', this.addPM, 'show');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
@@ -90,20 +88,21 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// bind the event to join a room
-	broker.pass(addRoom, 'selectroom', this, 'joinroom');
+	broker.pass(this.addRoom, 'selectroom', this, 'joinroom');
+	broker.pass(this.addPM, 'selectroom', this, 'openpm');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'search', this, 'search');
-	broker(navigation, 'selectroom', this.chatHeader, 'setRoom');
+	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
 
 	// chat input
-	broker(navigation, 'selectroom', this.chatInput, 'setRoom');
+	broker(this, 'selectchannel', this.chatInput, 'setRoom');
 	broker.pass(this.chatInput, 'input', this, 'input');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
 
 	// history view
-	broker(navigation, 'selectroom', this.historyView, 'setRoom');
+	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 };
@@ -122,7 +121,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
-	var pms = org.users;
+	var pms = org.pms;
 //	var pms = [
 //		{id: 1, username: 'Tobias Seiler', status: 16},
 //		{id: 2, username: 'Leo Fasbender', status: 0},
@@ -145,6 +144,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room dialog
 	this.addRoom.setRooms(rooms);
+	this.addPM.setRooms(pms);
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
