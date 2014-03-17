@@ -340,6 +340,8 @@ describe('App', function () {
 			channel: room.id
 		};
 		server.send(JSON.stringify([8, 'http://domain/channel#joined', msg]));
+		// XXX: just for test coverage
+		server.send(JSON.stringify([8, 'http://domain/channel#joined', msg]));
 	});
 	it('should react to typing notifications', function (done) {
 		var room = app.organization.rooms[0];
@@ -355,12 +357,16 @@ describe('App', function () {
 				channel: room.id
 			};
 			server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
+			// XXX: just for test coverage:
+			server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
 		});
 		var msg = {
 			user: 1,
 			typing: true,
 			channel: room.id
 		};
+		server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
+		// XXX: just for test coverage:
 		server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
 	});
 	it('should react to leave notifications', function (done) {
@@ -376,6 +382,8 @@ describe('App', function () {
 			user: 1,
 			channel: room.id
 		};
+		server.send(JSON.stringify([8, 'http://domain/channel#left', msg]));
+		// XXX: just for test coverage
 		server.send(JSON.stringify([8, 'http://domain/channel#left', msg]));
 	});
 	it('should react to new messages', function (done) {
@@ -413,7 +421,26 @@ describe('App', function () {
 			line.readers.once('add', function (reader, index) {
 				reader.should.equal(models.User.get(2));
 				index.should.eql(0);
-				done();
+				room.history.once('add', function (line2) {
+					line2.readers.once('add', function (reader) {
+						reader.should.equal(models.User.get(2));
+						line.readers.length.should.eql(0);
+						done();
+					});
+					server.send(JSON.stringify([8, 'http://domain/channel#read', {
+						message: 2,
+						user: 2,
+						channel: room.id
+					}]));
+				});
+				var msg = {
+					id: 2,
+					author: 1,
+					text: 'foobar2',
+					time: '2014-02-04T13:51:34.662Z',
+					channel: room.id
+				};
+				server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
 			});
 			server.send(JSON.stringify([8, 'http://domain/channel#read', {
 				message: 1,
@@ -547,3 +574,4 @@ describe('App', function () {
 		});
 	});
 });
+
