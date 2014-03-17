@@ -9,6 +9,20 @@ var qs = require('query');
 
 var exports = module.exports = UI;
 
+// configure locales and template locals
+var template = require('template');
+template.root = '/cg/templates';
+template.locals.strftime = require('strftime');
+var _ = require('t');
+['de', 'en'].forEach(function (lang) {
+	_.merge(lang, require('../locale/' + lang));
+});
+template.locals._ = _;
+
+// FIXME: change language, for now
+// this should be done via a switch in the UI
+_.lang('de');
+
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomDialog = exports.RoomDialog = require('./elements/roomdialog');
@@ -133,3 +147,11 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.addRoom.setRooms(rooms);
 };
 
+UI.prototype.setUser = function UI_setUser(user) {
+	template.locals.user = user;
+};
+
+UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
+	// FIXME: ideally, there should be a switch for this
+	this.emit('selectorganization', orgs[0]);
+};

@@ -55,11 +55,6 @@ describe('App', function () {
 				server.send(JSON.stringify([3, msg[1], result]));
 			} else if (count === 2) {
 				msg[0].should.eql(2);
-				msg[2].should.eql('http://domain/organizations/join');
-				msg[3].should.eql(1);
-				server.send(JSON.stringify([3, msg[1], null]));
-			} else if (count === 3) {
-				msg[0].should.eql(2);
 				msg[2].should.eql('http://domain/organizations/get_organization');
 				msg[3].should.eql(1);
 				result = {
@@ -73,24 +68,37 @@ describe('App', function () {
 						{id: 2, type: 'room', name: 'bar', users: [2], unread: 0}]
 				};
 				server.send(JSON.stringify([3, msg[1], result]));
+			} else if (count === 3) {
+				msg[0].should.eql(2);
+				msg[2].should.eql('http://domain/organizations/join');
+				msg[3].should.eql(1);
+				server.send(JSON.stringify([3, msg[1], null]));
 			}
 		});
-		app = new App({websocket: ws}, function (err, res) {
-			res.user.id.should.eql(1);
-			res.user.username.should.eql('foo');
-			res.organizations[0].id.should.eql(1);
+		app = new App();
+		app.on('change user', function (user) {
+			user.id.should.eql(1);
+			user.username.should.eql('foo');
 		});
-		app.setOrganization(app.organizations[0], function (err, res) {
-			res.should.be.an.instanceof(models.Organization);
-			res.users.length.should.eql(2);
-			res.users[0].id.should.eql(1);
-			res.rooms.length.should.eql(2);
-			var room = res.rooms[0];
+		app.on('change organizations', function (orgs) {
+			orgs[0].id.should.eql(1);
+			app.setOrganization(orgs[0]);
+		});
+		app.on('change organization', function (org) {
+			org.should.be.an.instanceof(models.Organization);
+			org.users.length.should.eql(2);
+			org.users[0].id.should.eql(1);
+			org.rooms.length.should.eql(2);
+			var room = org.rooms[0];
 			room.id.should.eql(1);
-			room.users[0].should.equal(res.users[0]);
-			room.users[1].should.equal(res.users[1]);
+			room.users[0].should.equal(org.users[0]);
+			room.users[1].should.equal(org.users[1]);
 			done();
 		});
+		app.connect(ws);
+	});
+	describe.skip('Error Handling', function () {
+		
 	});
 	it('should flag rooms the user is joined in', function () {
 		var rooms = app.organization.rooms;
@@ -169,7 +177,7 @@ describe('App', function () {
 		app.publish(app.organization.rooms[0], 'foobar');
 	});
 	it('should join a room', function (done) {
-		server.on('message', function (msg) {
+		server.once('message', function (msg) {
 			msg = JSON.parse(msg);
 			msg[0].should.eql(2);
 			msg[2].should.eql('http://domain/channels/join');
@@ -178,13 +186,18 @@ describe('App', function () {
 		});
 		var room = app.organization.rooms[1];
 		room.joined.should.be.false;
-		app.joinRoom(room, function () {
+		room.once('change joined', function () {
 			room.joined.should.be.true;
+			server.once('message', function () {
+				throw new Error('not reached');
+			});
+			app.joinRoom(room);
 			done();
 		});
+		app.joinRoom(room);
 	});
 	it('should leave a room', function (done) {
-		server.on('message', function (msg) {
+		server.once('message', function (msg) {
 			msg = JSON.parse(msg);
 			msg[0].should.eql(2);
 			msg[2].should.eql('http://domain/channels/leave');
@@ -193,28 +206,15 @@ describe('App', function () {
 		});
 		var room = app.organization.rooms[0];
 		room.joined.should.be.true;
-		app.leaveRoom(room, function () {
+		room.once('change joined', function () {
 			room.joined.should.be.false;
+			server.once('message', function () {
+				throw new Error('not reached');
+			});
+			app.leaveRoom(room);
 			done();
 		});
-	});
-	it('should not double-join a room', function (done) {
-		server.on('message', function () {
-			throw new Error('not reached');
-		});
-		var room = app.organization.rooms[0];
-		app.joinRoom(room, function () {
-			done();
-		});
-	});
-	it('should not leave a non-joined room', function (done) {
-		server.on('message', function () {
-			throw new Error('not reached');
-		});
-		var room = app.organization.rooms[1];
-		app.leaveRoom(room, function () {
-			done();
-		});
+		app.leaveRoom(room);
 	});
 	it('should request some history', function (done) {
 		server.on('message', function (msg) {
