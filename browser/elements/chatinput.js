@@ -48,10 +48,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.emit('stoptyping', self.room);
 	}
 	var stop = debounce(doStop, delay);
-	this.el.addEventListener('keydown', function () {
+	this.el.addEventListener('keypress', function () {
 		start();
-	});
-	this.el.addEventListener('keyup', function () {
 		stop();
 	});
 };

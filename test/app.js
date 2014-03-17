@@ -3,12 +3,11 @@
 
 var should = require('chaijs-chai').should();
 
+var Emitter = require('emitter');
 var lib = require('cg');
 
 var App = lib.App;
 var models = lib.models;
-
-var Emitter = require('emitter');
 
 function WsMock() {
 	Emitter.call(this);
@@ -23,7 +22,7 @@ function WsMock() {
 }
 WsMock.prototype = Object.create(Emitter.prototype);
 
-describe.skip('App', function () {
+describe('App', function () {
 	var server;
 	var app;
 	beforeEach(function (done) {
@@ -105,7 +104,7 @@ describe.skip('App', function () {
 			val.should.eql(0);
 			done();
 		});
-		server.send(JSON.stringify([8, 'http://domain/organization/1#status', {
+		server.send(JSON.stringify([8, 'http://domain/user#status', {
 			user: 1,
 			status: 0
 		}]));
@@ -118,7 +117,7 @@ describe.skip('App', function () {
 			app.user.lastName.should.eql('bar');
 			done();
 		});
-		server.send(JSON.stringify([8, 'http://domain/organization/1#update', {
+		server.send(JSON.stringify([8, 'http://domain/user#updated', {
 			user: {
 				id: 1,
 				username: 'foobar',
@@ -135,7 +134,7 @@ describe.skip('App', function () {
 			room.slug.should.eql('slug');
 			done();
 		});
-		server.send(JSON.stringify([8, 'http://domain/organization/1#update', {
+		server.send(JSON.stringify([8, 'http://domain/channel#updated', {
 			room: {
 				id: 1,
 				name: 'name',
@@ -150,7 +149,7 @@ describe.skip('App', function () {
 			room.slug.should.eql('slug');
 			done();
 		});
-		server.send(JSON.stringify([8, 'http://domain/organization/1#create', {
+		server.send(JSON.stringify([8, 'http://domain/channel#new', {
 			room: {
 				id: 3,
 				name: 'name',
@@ -327,216 +326,224 @@ describe.skip('App', function () {
 		var room = app.organization.rooms[0];
 		app.setTyping(room, true);
 	});
-	describe('when subscribed to a room', function () {
-		beforeEach(function () {
-			app.subscribeRooms();
+	it('should react to join notifications', function (done) {
+		var room = app.organization.rooms[1];
+		room.id.should.eql(2);
+		var user = app.user;
+		room.users.indexOf(user).should.eql(-1);
+		room.users.on('add', function (obj) {
+			obj.should.equal(user);
+			done();
 		});
-		it('should react to join notifications', function (done) {
-			var room = app.organization.rooms[1];
-			room.id.should.eql(2);
-			var user = app.user;
-			room.users.indexOf(user).should.eql(-1);
-			room.users.on('add', function (obj) {
-				obj.should.equal(user);
-				done();
-			});
-			var msg = {
-				user: 1
-			};
-			// subscribe to the other room as well
-			app.subscribeRoom(app.organization.rooms[1]);
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/2#join', msg]));
-		});
-		it('should react to typing notifications', function (done) {
-			var room = app.organization.rooms[0];
+		var msg = {
+			user: 1,
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/channel#joined', msg]));
+	});
+	it('should react to typing notifications', function (done) {
+		var room = app.organization.rooms[0];
+		room.once('change typing', function () {
+			room.typing[1].should.be.true;
 			room.once('change typing', function () {
-				room.typing[1].should.be.true;
-				room.once('change typing', function () {
-					should.not.exist(room.typing[1]);
-					done();
-				});
-				var msg = {
-					user: 1,
-					typing: false
-				};
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#typing', msg]));
+				should.not.exist(room.typing[1]);
+				done();
 			});
 			var msg = {
 				user: 1,
-				typing: true
+				typing: false,
+				channel: room.id
 			};
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#typing', msg]));
+			server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
 		});
-		it('should react to leave notifications', function (done) {
+		var msg = {
+			user: 1,
+			typing: true,
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/channel#typing', msg]));
+	});
+	it('should react to leave notifications', function (done) {
+		var room = app.organization.rooms[0];
+		room.id.should.eql(1);
+		var user = app.user;
+		(!!~room.users.indexOf(user)).should.be.true;
+		room.users.on('remove', function (obj) {
+			obj.should.equal(user);
+			done();
+		});
+		var msg = {
+			user: 1,
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/channel#left', msg]));
+	});
+	it('should react to new messages', function (done) {
+		var room = app.organization.rooms[0];
+		room.history.once('add', function (line, index) {
+			index.should.eql(0);
+			line.should.be.instanceof(models.Line);
+			line.user.should.equal(app.user);
+			line.text.should.eql('foobar');
+			line.time.should.be.instanceof(Date);
+			line.time.getTime().should.eql(1391521894662);
+			line.read.should.be.false;	
+			done();
+		});
+		var msg = {
+			id: 1,
+			author: 1,
+			text: 'foobar',
+			time: '2014-02-04T13:51:34.662Z',
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+	});
+	it('should react to reading notifications', function (done) {
+		var room = app.organization.rooms[0];
+		room.history.once('add', function (line, index) {
+			index.should.eql(0);
+			line.should.be.instanceof(models.Line);
+			line.id.should.eql(1);
+			line.user.should.equal(app.user);
+			line.text.should.eql('foobar');
+			line.time.should.be.instanceof(Date);
+			line.time.getTime().should.eql(1391521894662);
+			line.readers.length.should.eql(0);
+			line.readers.once('add', function (reader, index) {
+				reader.should.equal(models.User.get(2));
+				index.should.eql(0);
+				done();
+			});
+			server.send(JSON.stringify([8, 'http://domain/channel#read', {
+				message: 1,
+				user: 2,
+				channel: room.id
+			}]));
+		});
+		var msg = {
+			id: 1,
+			author: 1,
+			text: 'foobar',
+			time: '2014-02-04T13:51:34.662Z',
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+	});
+	it('should not add the current user to `readers`', function (done) {
+		var room = app.organization.rooms[0];
+		room.history.once('add', function (line, index) {
+			index.should.eql(0);
+			line.should.be.instanceof(models.Line);
+			line.id.should.eql(1);
+			line.user.should.equal(app.user);
+			line.text.should.eql('foobar');
+			line.time.should.be.instanceof(Date);
+			line.time.getTime().should.eql(1391521894662);
+			line.readers.length.should.eql(0);
+			line.readers.once('add', function () {
+				throw new Error('not reached');
+			});
+			server.send(JSON.stringify([8, 'http://domain/channel#read', {
+				message: 1,
+				user: 1,
+				channel: room.id
+			}]));
+			done();
+		});
+		var msg = {
+			id: 1,
+			author: 1,
+			text: 'foobar',
+			time: '2014-02-04T13:51:34.662Z',
+			channel: room.id
+		};
+		server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+	});
+	describe('unread count', function () {
+		function send() {
+			var msg = {
+				id: 1,
+				author: 1,
+				text: 'foobar',
+				time: '2014-02-04T13:51:34.662Z',
+				channel: 1
+			};
+			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+			msg = {
+				id: 2,
+				author: 2,
+				text: 'foobar2',
+				time: '2014-02-04T13:51:34.662Z',
+				channel: 1
+			};
+			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+			msg = {
+				id: 3,
+				author: 3,
+				text: 'foobar3',
+				time: '2014-02-04T13:51:34.662Z',
+				channel: 1
+			};
+			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+		}
+		it('should increase when receiving a new message', function (done) {
 			var room = app.organization.rooms[0];
-			room.id.should.eql(1);
-			var user = app.user;
-			(!!~room.users.indexOf(user)).should.be.true;
-			room.users.on('remove', function (obj) {
-				obj.should.equal(user);
+			room.unread.should.eql(0);
+			room.once('change unread', function (val) {
+				val.should.eql(1);
 				done();
 			});
-			var msg = {
-				user: 1
-			};
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#leave', msg]));
+			send();
 		});
-		it('should react to new messages', function (done) {
-			app.organization.rooms[0].history.once('add', function (line, index) {
-				index.should.eql(0);
-				line.should.be.instanceof(models.Line);
-				line.user.should.equal(app.user);
-				line.text.should.eql('foobar');
-				line.time.should.be.instanceof(Date);
-				line.time.getTime().should.eql(1391521894662);
-				line.read.should.be.false;	
-				done();
-			});
-			var msg = {
-				id: 1,
-				author: 1,
-				text: 'foobar',
-				time: '2014-02-04T13:51:34.662Z'
-			};
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-		});
-		it('should react to reading notifications', function (done) {
-			app.organization.rooms[0].history.once('add', function (line, index) {
-				index.should.eql(0);
-				line.should.be.instanceof(models.Line);
-				line.id.should.eql(1);
-				line.user.should.equal(app.user);
-				line.text.should.eql('foobar');
-				line.time.should.be.instanceof(Date);
-				line.time.getTime().should.eql(1391521894662);
-				line.readers.length.should.eql(0);
-				line.readers.once('add', function (reader, index) {
-					reader.should.equal(models.User.get(2));
-					index.should.eql(0);
-					done();
-				});
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#read', {
-					message: 1,
-					user: 2
-				}]));
-			});
-			var msg = {
-				id: 1,
-				author: 1,
-				text: 'foobar',
-				time: '2014-02-04T13:51:34.662Z'
-			};
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-		});
-		it('should not add the current user to `readers`', function (done) {
-			app.organization.rooms[0].history.once('add', function (line, index) {
-				index.should.eql(0);
-				line.should.be.instanceof(models.Line);
-				line.id.should.eql(1);
-				line.user.should.equal(app.user);
-				line.text.should.eql('foobar');
-				line.time.should.be.instanceof(Date);
-				line.time.getTime().should.eql(1391521894662);
-				line.readers.length.should.eql(0);
-				line.readers.once('add', function () {
-					throw new Error('not reached');
-				});
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#read', {
-					message: 1,
-					user: 1
-				}]));
-				done();
-			});
-			var msg = {
-				id: 1,
-				author: 1,
-				text: 'foobar',
-				time: '2014-02-04T13:51:34.662Z'
-			};
-			server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-		});
-		describe('unread count', function () {
-			function send() {
-				var msg = {
-					id: 1,
-					author: 1,
-					text: 'foobar',
-					time: '2014-02-04T13:51:34.662Z'
-				};
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-				msg = {
-					id: 2,
-					author: 2,
-					text: 'foobar2',
-					time: '2014-02-04T13:51:34.662Z'
-				};
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-				msg = {
-					id: 3,
-					author: 3,
-					text: 'foobar3',
-					time: '2014-02-04T13:51:34.662Z'
-				};
-				server.send(JSON.stringify([8, 'http://domain/organization/1/channel/1#message', msg]));
-			}
-			it('should increase when receiving a new message', function (done) {
-				var room = app.organization.rooms[0];
-				room.unread.should.eql(0);
+		it('should decrease when marking messages as read', function (done) {
+			var room = app.organization.rooms[0];
+			room.unread.should.eql(0);
+			room.history.on('add', function (line, index) {
+				if (index !== 2)
+					return;
+				room.unread.should.eql(3);
 				room.once('change unread', function (val) {
-					val.should.eql(1);
-					done();
+					val.should.eql(2);
 				});
-				send();
-			});
-			it('should decrease when marking messages as read', function (done) {
-				var room = app.organization.rooms[0];
+				app.setRead(room, room.history[0]);
+				room.history[0].read.should.be.true;
+				room.history[1].read.should.be.false;
+				app.setRead(room, room.history[2]);
 				room.unread.should.eql(0);
-				room.history.on('add', function (line, index) {
-					if (index !== 2)
-						return;
-					room.unread.should.eql(3);
-					room.once('change unread', function (val) {
-						val.should.eql(2);
+				room.history[0].read.should.be.true;
+				room.history[1].read.should.be.true;
+				room.history[2].read.should.be.true;
+				done();
+			});
+			send();
+		});
+		it('should not change unread count when already read', function (done) {
+			var room = app.organization.rooms[0];
+			room.unread.should.eql(0);
+			room.history.on('add', function (line, index) {
+				if (index !== 2)
+					return;
+				room.unread.should.eql(3);
+				server.once('message', function (msg) {
+					msg = JSON.parse(msg);
+					msg[0].should.eql(2);
+					msg[2].should.eql('http://domain/channels/read');
+					msg[3].should.eql(1);
+					msg[4].should.eql(2);
+					server.on('message', function () {
+						throw new Error('not reached');
 					});
+					room.unread.should.eql(1);
 					app.setRead(room, room.history[0]);
-					room.history[0].read.should.be.true;
-					room.history[1].read.should.be.false;
-					app.setRead(room, room.history[2]);
-					room.unread.should.eql(0);
-					room.history[0].read.should.be.true;
-					room.history[1].read.should.be.true;
-					room.history[2].read.should.be.true;
+					room.unread.should.eql(1);
+					app.setRead(room, room.history[1]);
+					room.unread.should.eql(1);
 					done();
 				});
-				send();
+				app.setRead(room, room.history[1]);
 			});
-			it('should not change unread count when already read', function (done) {
-				var room = app.organization.rooms[0];
-				room.unread.should.eql(0);
-				room.history.on('add', function (line, index) {
-					if (index !== 2)
-						return;
-					room.unread.should.eql(3);
-					server.once('message', function (msg) {
-						msg = JSON.parse(msg);
-						msg[0].should.eql(2);
-						msg[2].should.eql('http://domain/channels/read');
-						msg[3].should.eql(1);
-						msg[4].should.eql(2);
-						server.on('message', function () {
-							throw new Error('not reached');
-						});
-						room.unread.should.eql(1);
-						app.setRead(room, room.history[0]);
-						room.unread.should.eql(1);
-						app.setRead(room, room.history[1]);
-						room.unread.should.eql(1);
-						done();
-					});
-					app.setRead(room, room.history[1]);
-				});
-				send();
-			});
+			send();
 		});
 	});
 });
