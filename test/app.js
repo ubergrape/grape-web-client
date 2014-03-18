@@ -153,7 +153,20 @@ describe('App', function () {
 			room.id.should.eql(3);
 			room.name.should.eql('name');
 			room.slug.should.eql('slug');
-			done();
+			app.organization.pms.on('add', function (pm) {
+				pm.users.length.should.eql(1);
+				pm.users[0].should.equal(app.organization.users[1]);
+				done();
+			});
+			server.send(JSON.stringify([8, 'http://domain/channel#new', {
+				channel: {
+					id: 4,
+					name: '',
+					slug: '',
+					type: 'pm',
+					users: [1, 2]
+				}
+			}]));
 		});
 		server.send(JSON.stringify([8, 'http://domain/channel#new', {
 			channel: {
@@ -164,6 +177,23 @@ describe('App', function () {
 				users: []
 			}
 		}]));
+	});
+	it('should open new PMs', function (done) {
+		server.on('message', function (msg) {
+			msg = JSON.parse(msg);
+			msg[0].should.eql(2);
+			msg[2].should.eql('http://domain/pm/open');
+			msg[3].should.eql(1);
+			msg[4].should.eql(2);
+			app.organization.pms.on('add', function (pm) {
+				pm.id.should.eql(30);
+				pm.users.length.should.eql(1);
+				pm.users[0].should.eql(app.organization.users[1]);
+				done();
+			});
+			server.send(JSON.stringify([3, msg[1], {id: 30, users: [1, 2]}]));
+		});
+		app.openPM(app.organization.users[1]);
 	});
 	it('should publish new messages', function (done) {
 		server.once('message', function (msg) {
