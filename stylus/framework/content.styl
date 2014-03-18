@@ -42,9 +42,17 @@ html, body {
 	width: client-navigation-width
 	height: client-header-height
 	background: organisation-background
-	.logo
-		background: client-logo-background
+	color: sidebar-color
+	.info-poweredby, .info-clientlogo
+		padding: (client-header-height / 10) (horizontal-space * 2)
+	.info-poweredby
+		background: poweredby-background
 		height: (client-header-height / 3)
+		text-transform: uppercase
+		font-size: 10px
+	.info-clientlogo
+		background: clientlogo-background
+		height: (client-header-height / 3) * 2
 
 /*______ Header Info about the Room you are in ______*/
 .client-room-info
@@ -60,7 +68,7 @@ html, body {
 	.search
 		float: right
 		height: 22px
-		width: 180px
+		width: 380px
 
 .client-room-info .user:not(.typing) .fa
 	display: none
