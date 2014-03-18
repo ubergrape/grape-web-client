@@ -111,6 +111,7 @@ UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
+	var self = this;
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -145,18 +146,24 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.addRoom.setItems(rooms);
 
 	// filter those users with which there is already a PM open
-	var pmusers = Object.create(null);
-	pms.forEach(function (pm) {
-		pm.users.forEach(function (u) {
-			pmusers[u.id] = true;
+	function refreshNoPMUsers() {
+		var pmusers = Object.create(null);
+		pms.forEach(function (pm) {
+			pm.users.forEach(function (u) {
+				pmusers[u.id] = true;
+			});
 		});
-	});
-	var nopmusers = org.users.filter(function (u) {
-		return !(u.id in pmusers);
-	});
+		var nopmusers = org.users.filter(function (u) {
+			return !(u.id in pmusers);
+		});
 
-	// set the items for the new PM dialog
-	this.addPM.setItems(nopmusers);
+		// set the items for the new PM dialog
+		self.addPM.setItems(nopmusers);
+	}
+	refreshNoPMUsers();
+	org.users.on('change', refreshNoPMUsers);
+	org.pms.on('change', refreshNoPMUsers);
+
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
