@@ -29,7 +29,7 @@ describe('Navigation', function () {
 		nav.setLists({
 			// XXX: otherwise the else branch is not covered
 			//rooms: emitter([emitter({id: 1, name: 'test', joined: true})]),
-			pms: emitter([emitter({id: 1, username: 'test', unread: 2})]),
+			pms: emitter([emitter({id: 1, unread: 2, users: [{username: 'test'}]})]),
 			labels: emitter([emitter({id: 1, name: 'test', icon: 'github'})]),
 		});
 		//qs('.rooms li.item', nav.el).textContent.should.eql('test');
@@ -41,7 +41,7 @@ describe('Navigation', function () {
 		add(nav.el);
 		nav.setLists({
 			rooms: emitter([emitter({id: 1, name: 'test', joined: true})]),
-			pms: emitter([emitter({id: 1, username: 'test', unread: 2})]),
+			pms: emitter([emitter({id: 1, unread: 2, users: [{username: 'test'}]})]),
 			labels: emitter([emitter({id: 1, name: 'test', icon: 'github'})]),
 		});
 		var calls = 0;

@@ -66,7 +66,6 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
-	var self = this;
 	var navigation = this.navigation;
 	// bind navigation events
 	navigation.on('selectroom', function (room) {
@@ -145,9 +144,19 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// set the items for the add room dialog
 	this.addRoom.setItems(rooms);
 
+	// filter those users with which there is already a PM open
+	var pmusers = Object.create(null);
+	pms.forEach(function (pm) {
+		pm.users.forEach(function (u) {
+			pmusers[u.id] = true;
+		});
+	});
+	var nopmusers = org.users.filter(function (u) {
+		return !(u.id in pmusers);
+	});
+
 	// set the items for the new PM dialog
-	// TODO: filter those users with which there is already a PM open
-	this.addPM.setItems(org.users);
+	this.addPM.setItems(nopmusers);
 };
 
 UI.prototype.setUser = function UI_setUser(user) {

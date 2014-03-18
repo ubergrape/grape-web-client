@@ -91,8 +91,7 @@ describe('App', function () {
 			org.rooms.length.should.eql(2);
 			var room = org.rooms[0];
 			room.id.should.eql(1);
-			room.users[0].should.equal(org.users[0]);
-			room.users[1].should.equal(org.users[1]);
+			room.users[0].should.equal(org.users[1]);
 			done();
 		});
 		app.connect(ws);
@@ -103,7 +102,6 @@ describe('App', function () {
 	it('should flag rooms the user is joined in', function () {
 		var rooms = app.organization.rooms;
 		rooms[0].joined.should.be.true;
-		rooms[0].users[0].should.equal(app.user);
 		rooms[1].joined.should.be.false;
 	});
 	it('should react to user status changes', function (done) {
@@ -243,12 +241,12 @@ describe('App', function () {
 			room.history[0].id.should.eql(1);
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
-			room.history[0].user.should.equal(room.users[0]);
+			room.history[0].user.should.equal(app.user);
 			room.history[0].read.should.be.false;
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
-			room.history[1].user.should.equal(room.users[1]);
+			room.history[1].user.should.equal(room.users[0]);
 			room.history[1].read.should.be.false;
 			done();
 		});
@@ -288,12 +286,12 @@ describe('App', function () {
 			room.history[0].id.should.eql(1);
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
-			room.history[0].user.should.equal(room.users[0]);
+			room.history[0].user.should.equal(app.user);
 			room.history[0].read.should.be.true;
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
-			room.history[1].user.should.equal(room.users[1]);
+			room.history[1].user.should.equal(room.users[0]);
 			room.history[1].read.should.be.true;
 			done();
 		});
@@ -372,14 +370,14 @@ describe('App', function () {
 	it('should react to leave notifications', function (done) {
 		var room = app.organization.rooms[0];
 		room.id.should.eql(1);
-		var user = app.user;
+		var user = room.users[0];
 		(!!~room.users.indexOf(user)).should.be.true;
 		room.users.on('remove', function (obj) {
 			obj.should.equal(user);
 			done();
 		});
 		var msg = {
-			user: 1,
+			user: 2,
 			channel: room.id
 		};
 		server.send(JSON.stringify([8, 'http://domain/channel#left', msg]));
