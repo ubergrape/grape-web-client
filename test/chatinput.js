@@ -62,7 +62,7 @@ describe('ChatInput', function () {
 		var start = new Date();
 		ci.on('stoptyping', function (r) {
 			var diff = new Date() - start;
-			diff.should.be.above(10);
+			diff.should.be.at.least(10);
 			r.should.equal(room);
 			done();
 		});
