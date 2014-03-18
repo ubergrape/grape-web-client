@@ -102,6 +102,7 @@ UI.prototype.bind = function UI_bind() {
 	// and automatically select it
 	this.addPM.on('selectitem', function (user) {
 		function addlistener(pm) {
+			console.log(pm);
 			if (pm.users[0] !== user) return;
 			self.org.pms.off('add', addlistener);
 			self.addPM.hide();
