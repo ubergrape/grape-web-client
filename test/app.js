@@ -459,8 +459,7 @@ describe('App', function () {
 					});
 					server.send(JSON.stringify([8, 'http://domain/channel#read', {
 						message: 2,
-						user: 2,
-						channel: room.id
+						user: 2
 					}]));
 				});
 				var msg = {
@@ -474,8 +473,7 @@ describe('App', function () {
 			});
 			server.send(JSON.stringify([8, 'http://domain/channel#read', {
 				message: 1,
-				user: 2,
-				channel: room.id
+				user: 2
 			}]));
 		});
 		var msg = {
@@ -503,8 +501,7 @@ describe('App', function () {
 			});
 			server.send(JSON.stringify([8, 'http://domain/channel#read', {
 				message: 1,
-				user: 1,
-				channel: room.id
+				user: 1
 			}]));
 			done();
 		});
@@ -516,6 +513,13 @@ describe('App', function () {
 			channel: room.id
 		};
 		server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
+	});
+	it('should ignore read notifications for unknown messages', function () {
+		// this basically passes if there is no error being thrown
+		server.send(JSON.stringify([8, 'http://domain/channel#read', {
+			message: 1,
+			user: 1
+		}]));
 	});
 	describe('unread count', function () {
 		function send() {
