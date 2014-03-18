@@ -4,6 +4,7 @@
 var Dialog = require('dialog');
 var Emitter = require('emitter');
 var ItemList = require('./itemlist');
+var broker = require('broker');
 
 module.exports = ItemDialog;
 
@@ -22,15 +23,7 @@ ItemDialog.prototype.init = function ItemDialog_init(options) {
 };
 
 ItemDialog.prototype.bind = function ItemDialog_bind() {
-	var self = this;
-	this.itemList.on('selectitem', function (item) {
-		// TODO: automatically closing the dialog when this item changes the `joined`
-		// flag is nice, but it might be *too* smart and not explicit enough?
-		item.once('change joined', function () {
-			self.hide();
-		});
-		self.emit('selectitem', item);
-	});
+	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
 ItemDialog.prototype.show = function ItemDialog_show() {

@@ -46,19 +46,5 @@ describe('ItemDialog (rooms template)', function () {
 		});
 		trigger(qs('.item', d.el), 'click');
 	});
-	it('should automatically close the dialog when the item changes `joined`', function (done) {
-		var d = new ItemDialog(opts);
-		var item = emitter({id: 1, name: 'test', joined: false});
-		d.setItems(emitter([item]));
-		d.show();
-		d.on('selectitem', function (r) {
-			r.should.equal(item);
-			item.joined = true;
-			item.emit('change joined');
-			d.el.className.should.include('hide');
-			done();
-		});
-		trigger(qs('.item', d.el), 'click');
-	});
 });
 

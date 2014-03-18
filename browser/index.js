@@ -66,6 +66,7 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
+	var self = this;
 	var navigation = this.navigation;
 	// bind navigation events
 	navigation.on('selectroom', function (room) {
@@ -88,7 +89,26 @@ UI.prototype.bind = function UI_bind() {
 
 	// bind the event to join a room
 	broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
+	// hide the join dialog when the room is joined
+	// and then automatically select that room
+	this.addRoom.on('selectitem', function (item) {
+		item.once('change joined', function () {
+			self.addRoom.hide();
+			navigation.emit('selectroom', item);
+		});
+	});
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
+	// hide the new pm dialog when the pm is created
+	// and automatically select it
+	this.addPM.on('selectitem', function (user) {
+		function addlistener(pm) {
+			if (pm.users[0] !== user) return;
+			self.org.pms.off('add', addlistener);
+			self.addPM.hide();
+			navigation.emit('selectpm', pm);
+		}
+		self.org.pms.on('add', addlistener);
+	});
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'search', this, 'search');
@@ -112,6 +132,7 @@ UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
+	this.org = org;
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -154,6 +175,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 			});
 		});
 		var nopmusers = org.users.filter(function (u) {
+			if (u === self.user) return false;
 			return !(u.id in pmusers);
 		});
 
@@ -163,10 +185,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	refreshNoPMUsers();
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
-
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
+	this.user = user;
 	template.locals.user = user;
 };
 

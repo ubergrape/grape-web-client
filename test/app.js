@@ -141,7 +141,7 @@ describe('App', function () {
 			done();
 		});
 		server.send(JSON.stringify([8, 'http://domain/channel#updated', {
-			room: {
+			channel: {
 				id: 1,
 				name: 'name',
 				slug: 'slug'
@@ -156,10 +156,12 @@ describe('App', function () {
 			done();
 		});
 		server.send(JSON.stringify([8, 'http://domain/channel#new', {
-			room: {
+			channel: {
 				id: 3,
 				name: 'name',
-				slug: 'slug'
+				slug: 'slug',
+				type: 'room',
+				users: []
 			}
 		}]));
 	});
