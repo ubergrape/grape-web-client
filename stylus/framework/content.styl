@@ -25,42 +25,25 @@ html, body {
 	background: navigation-background
 	height: 100%
 	overflow: hidden
-	.client-header, .client-footer
+	.header, .footer
 		position: fixed
 		left: 0
 		right: 0
-	.client-header
+	.header
 		top: 0
-		height: client-header-height
-	.client-footer
+		height: header-height
+	.footer
 		bottom: 0
-		height: client-footer-height
+		height: footer-height
 
-/*______ Header Info about the product and Organisation ______*/
-.client-info
-	float: left
-	width: client-navigation-width
-	height: client-header-height
-	background: organisation-background
-	color: sidebar-color
-	.info-poweredby, .info-clientlogo
-		padding: (client-header-height / 10) (horizontal-space * 2)
-	.info-poweredby
-		background: poweredby-background
-		height: (client-header-height / 3)
-		text-transform: uppercase
-		font-size: 10px
-	.info-clientlogo
-		background: clientlogo-background
-		height: (client-header-height / 3) * 2
 
 /*______ Header Info about the Room you are in ______*/
 .client-room-info
-	background: room-info-background
+	background: room-header-background
 	overflow: hidden
-	height: client-header-height
+	height: header-height
 	border-bottom: 3px solid client-border-color
-	padding: (client-header-height / 4) (horizontal-space * 2)
+	padding: (header-height / 4) (horizontal-space * 2)
 	h1
 		margin: 0
 		float: left
@@ -79,8 +62,8 @@ html, body {
 /*______ Mid-Section with Navigation and Chatline ______*/
 .client-body
 	height: 100%
-	padding-bottom: client-footer-height
-	padding-top: client-header-height
+	padding-bottom: footer-height
+	padding-top: header-height
 	.navigation
 		width: client-navigation-width
 		height: 100%
@@ -91,13 +74,3 @@ html, body {
 		overflow: auto
 		height: 100%
 		padding: 10px 0px
-
-/*______ Footer with Textarea ______*/
-.client-footer
-	border-top: 3px solid client-border-color
-	margin-left: client-navigation-width
-	background: client-input-background
-	padding: (vertical-space / 2) (horizontal-space / 2)
-	.input-wrapper
-		.input
-			width: 100%

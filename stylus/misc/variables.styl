@@ -5,27 +5,39 @@
 */
 
 /*______ MAIN MEASUREMENTS ______*/
-basic-font-size = 13.5px
-basic-line-height = 20px
 
-horizontal-space = basic-font-size
-vertical-space = basic-font-size
+horizontal-space = 20px
+vertical-space = 20px
 
-global-border-radius = 4px
+main-border-radius = 4px
 
-client-navigation-width = 239px
-client-header-height = 75px
-client-footer-height = 85px
-client-header-padding = (vertical-space * 2)
+client-navigation-width = 260px
+header-height = 75px
+footer-height = 85px
+client-header-padding = 40px
 
 
-/*______ TYPOGRAPHY ______*/
-small-font-size = basic-font-size * .75
-big-font-size = basic-font-size * 1.25
+
+/*
+========================================
+================ FONT SIZES ================
+========================================
+*/
+
+main-font-size = 15px
+main-line-height = 20px
+
+small-font-size = main-font-size * .75
+big-font-size = main-font-size * 1.25
 bigger-font-size = big-font-size * 1.25
 biggest-font-size = bigger-font-size * 1.25
 
+sidebar-title-font-size = 12px
+sidebar-label-font-size = 14px
+sidebar-button-font-size = 11px
 
+
+label-font-size = 14px
 
 /*
 ========================================
@@ -33,12 +45,40 @@ biggest-font-size = bigger-font-size * 1.25
 ========================================
 */
 
-/*______ MAIN COLORS ______*/
+/*______ CI Color Definitions ______*/
+grape-dark = #542f59
+grape-light = #7b477b
+grape-typo = #2b2231 /* main typo color */
+bittersweet-dark = #e9573f /* dark red */
+bittersweet-light = #fc6e51 /* light red */
+grass-dark = #6d8f52
+grass-light = #9ccb77
+aqua-light = #4fc1e9
+aqua-dark = #3bafda
+slate = #37555f
+gainsboro-dark = #888291
+gainsboro-light = #dad6e0
+jet = #212022 /* darkes gray */
+silver-dark = #eeecef
+silver-light = #f8f8f8
+
+/*______ TEXT COLORS ______*/
+main-text-color = grape-typo
+
+sidebar-text-color = gainsboro-dark
+sidebar-button-text-color = gainsboro-dark
+sidebar-button-hover-text-color = gainsboro-light
+
+
+/*______ BACKGROUND/CANVAS COLORS ______*/
 chatgrape-logo-background = #0a0a0a
 organisation-background = #22252a
 userinfo-background = #0a0a0a
-room-info-background = #e2e4e6
+
+room-header-background = silver-dark
+
 navigation-background = #292d32
+
 chat-background = #f7f7f7
 client-input-background = #f1f1f1
 client-border-color = #dcdcdc
@@ -48,7 +88,7 @@ highlight-text-color = white
 
 /* sidebar */
 sidebar-background = #212022
-sidebar-color = #888291
+
 
 /*______ FORM COLORS ______*/
 border-color = #d4d4d4
@@ -67,3 +107,5 @@ nav_highlight = white
 chat_bg = #f7f7f7
 chat_head = #f1eeef
 chat_border = #dfdfdf
+
+white = #ffffff
