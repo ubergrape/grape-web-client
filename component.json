@@ -11,7 +11,7 @@
     "browser/elements/chatinput.js",
     "browser/elements/itemlist.js",
     "browser/elements/navigation.js",
-    "browser/elements/itemdialog.js",
+    "browser/elements/itempopover.js",
     "browser/elements/historyview.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -32,9 +32,9 @@
     "templates/chatline.jade",
     "templates/index.jade",
     "templates/labellist.jade",
-    "templates/pmdialog.jade",
+    "templates/pmpopover.jade",
     "templates/pmlist.jade",
-    "templates/roomdialog.jade",
+    "templates/roompopover.jade",
     "templates/roomlist.jade"
   ],
   "dependencies": {
@@ -52,7 +52,6 @@
     "Swatinem/model-array": "*",
     "visionmedia/jade": "*",
     "component/query": "*",
-    "component/dialog": "*",
     "component/domify": "*",
     "component/classes": "*",
     "component/throttle": "*",

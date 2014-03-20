@@ -1,0 +1,36 @@
+arrow-size = 10px
+
+.popover
+	position: absolute
+	z-index: 200
+	background: white
+	padding: 10px
+	border-radius: 5px
+	border: 1px solid #aaa
+	opacity: 1
+	box-shadow: 0px 4px 10px -1px rgba(black, 0.5)
+	transition: opacity 500ms
+	margin-top: -10px
+	margin-left: 10px
+	&::before
+		content: ""
+		display: block
+		position: absolute
+		top: 10px
+		left: - arrow-size
+		border-right: arrow-size solid #aaa
+		border-top: arrow-size solid rgba(#aaa, 0)
+		border-bottom: arrow-size solid rgba(#aaa, 0)
+	&::after
+		content: ""
+		display: block
+		position: absolute
+		top: 10px + 2
+		left: - arrow-size + 2
+		border-right: arrow-size - 2 solid white
+		border-top: arrow-size - 2 solid transparent
+		border-bottom: arrow-size - 2 solid transparent
+
+.popover.hide
+	opacity: 0
+	transition: opacity 500ms

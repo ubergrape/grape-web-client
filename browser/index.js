@@ -25,7 +25,7 @@ _.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var ItemDialog = exports.ItemDialog = require('./elements/itemdialog');
+var ItemPopover = exports.ItemPopover = require('./elements/itempopover');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -46,10 +46,12 @@ UI.prototype.init = function UI_init() {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// initialize the add room dialog
-	this.addRoom = new ItemDialog({template: 'roomdialog', selector: '.item'});
-	// and the new pm dialog
-	this.addPM = new ItemDialog({template: 'pmdialog', selector: '.item'});
+	// initialize the add room popover
+	this.addRoom = new ItemPopover({template: 'roompopover', selector: '.toggle',
+		attach: [navigation.roomList.el, '.additem']});
+	// and the new pm popover
+	this.addPM = new ItemPopover({template: 'pmpopover', selector: '.item',
+		attach: [navigation.pmList.el, '.additem']});
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -84,21 +86,22 @@ UI.prototype.bind = function UI_bind() {
 		console.log('TODO: implement label change');
 	});
 	navigation.on('addlabel', function () {
-		console.log('TODO: implement new label dialogue');
+		console.log('TODO: implement new label popover');
 	});
 
 	// bind the event to join a room
-	broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
-	// hide the join dialog when the room is joined
+	//broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
+	// hide the join popover when the room is joined
 	// and then automatically select that room
 	this.addRoom.on('selectitem', function (item) {
+		self.emit((item.joined ? 'leave' : 'join') + 'room', item);
 		item.once('change joined', function () {
 			self.addRoom.hide();
-			navigation.emit('selectroom', item);
+			navigation.emit('selectroom', item.joined ? item : null);
 		});
 	});
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
-	// hide the new pm dialog when the pm is created
+	// hide the new pm popover when the pm is created
 	// and automatically select it
 	this.addPM.on('selectitem', function (user) {
 		function addlistener(pm) {
@@ -163,7 +166,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 		labels: labels
 	});
 
-	// set the items for the add room dialog
+	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
 
 	// filter those users with which there is already a PM open
@@ -179,7 +182,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 			return !(u.id in pmusers);
 		});
 
-		// set the items for the new PM dialog
+		// set the items for the new PM popover
 		self.addPM.setItems(nopmusers);
 	}
 	refreshNoPMUsers();
