@@ -94,10 +94,13 @@ UI.prototype.bind = function UI_bind() {
 	// hide the join popover when the room is joined
 	// and then automatically select that room
 	this.addRoom.on('selectitem', function (item) {
-		self.emit((item.joined ? 'leave' : 'join') + 'room', item);
+		if (item.joined)
+			return self.emit('leaveroom', item);
+		self.emit('joinroom', item);
+		// TODO: what if the room is currently on display?
 		item.once('change joined', function () {
 			self.addRoom.hide();
-			navigation.emit('selectroom', item.joined ? item : null);
+			navigation.emit('selectroom', item);
 		});
 	});
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
