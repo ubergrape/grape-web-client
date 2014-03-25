@@ -50,6 +50,7 @@
     "Swatinem/model-cache": "*",
     "Swatinem/model-cast": "*",
     "Swatinem/model-array": "*",
+    "Swatinem/virtualdom": "*",
     "visionmedia/jade": "*",
     "component/query": "*",
     "component/domify": "*",
