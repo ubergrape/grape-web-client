@@ -1,6 +1,6 @@
 ul
 	each room in items
-		li.item.room(data-id=room.id)
+		li.item.room(data-id=room.id, key=room.id)
 			if room.private
 				i.icon.fa.fa-lock
 			else

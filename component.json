@@ -16,6 +16,7 @@
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
+    "browser/rendervdom.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",

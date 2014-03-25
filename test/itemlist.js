@@ -104,7 +104,7 @@ describe('ItemList (rooms template)', function () {
 		item.emit('change unread');
 		qs('li.item .unread', il.el).textContent.should.eql('2');
 	});
-	it('should mark a item as selected', function () {
+	it('should mark an item as selected', function () {
 		var il = new ItemList(opts);
 		var item = emitter({id: 1, name: 'test', joined: true});
 		il.setItems(emitter([item]));

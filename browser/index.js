@@ -2,7 +2,7 @@
 "use strict";
 
 var template = require('template');
-var domify = require('domify');
+var v = require('virtualdom');
 var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
@@ -39,7 +39,7 @@ function UI() {
 UI.prototype = Object.create(Emitter.prototype);
 
 UI.prototype.init = function UI_init() {
-	this.el = domify(template('index'));
+	this.el = v.toDOM(template('index'));
 
 	// add the navigation to the layout
 	var sidebar = qs('.navigation', this.el);

@@ -1,11 +1,12 @@
-h1.roomname= room.name
-span.usersonline
-	em #{room.users.length} users in this room: 
-	each user in room.users
-		span.user(class=[user.id in room.typing ? 'typing' : ''])
-			i.fa.fa-cog.fa-spin
-			| #{user.username} (#{user.status}) 
-form.searchform
-	input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
-	input.search-submit(type="submit")
+.chat-header
+	h1.roomname= room.name
+	span.usersonline
+		em #{room.users.length} users in this room: 
+		each user in room.users
+			span.user(class=[user.id in room.typing ? 'typing' : ''], key=user.id)
+				i.fa.fa-cog.fa-spin
+				| #{user.username} (#{user.status}) 
+	form.searchform
+		input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
+		input.search-submit(type="submit")
 

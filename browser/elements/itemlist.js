@@ -7,6 +7,8 @@ var template = require('template');
 var events = require('events');
 var closest = require('closest');
 
+var render = require('../rendervdom');
+
 module.exports = ItemList;
 
 function ItemList(options) {
@@ -22,17 +24,11 @@ function ItemList(options) {
 	this.addItem = this.addItem.bind(this);
 	this.removeItem = this.removeItem.bind(this);
 	// and go about our business :-)
-	this.init();
+	this.redraw();
 	this.bind();
 }
 
 ItemList.prototype = Object.create(Emitter.prototype);
-
-ItemList.prototype.init = function ItemList_init() {
-	this.el = document.createElement('div');
-	this.el.className = 'itemlist';
-	this.redraw();
-};
 
 ItemList.prototype.bind = function ItemList_bind() {
 	var self = this;
@@ -51,10 +47,11 @@ ItemList.prototype.bind = function ItemList_bind() {
 };
 
 ItemList.prototype.redraw = function ItemList_redraw() {
-	this.el.innerHTML = template(this.template, {
+	var vdom = template(this.template, {
 		items: this.items,
 		selected: this.selected
 	});
+	render(this, vdom);
 };
 
 ItemList.prototype.setItems = function ItemList_setItems(items) {

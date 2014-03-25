@@ -2,7 +2,7 @@
 "use strict";
 
 var Emitter = require('emitter');
-var domify = require('domify');
+var v = require('virtualdom');
 var template = require('template');
 var throttle = require('throttle');
 var Scrollbars = require('scrollbars');
@@ -66,7 +66,7 @@ HistoryView.prototype._bindChange = function HistoryView__bindChange() {
 		var elem = self._lineMap[line.id];
 		if (!elem)
 			return;
-		var newElem = domify(template('chatline', line));
+		var newElem = v.toDOM(template('chatline', line));
 		elem.parentNode.replaceChild(newElem, elem);
 	});
 };
@@ -129,7 +129,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	// draw all the messages we have so far:
 	room.history.forEach(function (line) {
-		var elem = domify(template('chatline', line));
+		var elem = v.toDOM(template('chatline', line));
 		self._lineMap[line.id] = elem;
 		history.appendChild(elem);
 	});
@@ -148,7 +148,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 HistoryView.prototype._newLine = function HistoryView__newLine(line, index) {
 	var history = this.history;
 
-	var el = domify(template('chatline', line));
+	var el = v.toDOM(template('chatline', line));
 	if (index !== history.children.length) {
 		// when prepending history, make sure to not modify the current scrolling
 		// offset

@@ -4,6 +4,7 @@
 var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
+var render = require('../rendervdom');
 
 module.exports = ChatHeader;
 
@@ -12,28 +13,23 @@ function ChatHeader() {
 	// initial room?
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
-	this.init();
+	this.redraw();
+	this.bind();
 }
 
 ChatHeader.prototype = Object.create(Emitter.prototype);
 
-ChatHeader.prototype.init = function ChatHeader_init() {
-	this.el = document.createElement('div');
-	this.el.className = 'chat-header';
-	this.redraw();
-};
-
-ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	// TODO: it should not clear/change the search field on redraw
+ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
-	this.el.innerHTML = template('chatheader', {
-		room: this.room,
-		search: '' // TODO: this.searchTerm,
-	});
 	qs('.searchform', this.el).addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
 	});
+};
+
+ChatHeader.prototype.redraw = function ChatHeader_redraw() {
+	var vdom = template('chatheader', {room: this.room});
+	render(this, vdom);
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
