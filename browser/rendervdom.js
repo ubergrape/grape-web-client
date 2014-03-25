@@ -8,7 +8,8 @@ module.exports = render;
 function render(obj, vdom) {
 	if (!obj.vdom || !obj.el) {
 		obj.vdom = vdom;
-		return obj.el = v.toDOM(vdom);
+		obj.el = v.toDOM(vdom);
+		return;
 	}
 	var diff = v.diff(obj.vdom, vdom);
 	v.applyPatch(obj.el, diff);

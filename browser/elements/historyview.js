@@ -2,7 +2,9 @@
 "use strict";
 
 var Emitter = require('emitter');
+var render = require('../rendervdom');
 var v = require('virtualdom');
+var raf = require('raf');
 var template = require('template');
 var throttle = require('throttle');
 var Scrollbars = require('scrollbars');
@@ -17,16 +19,15 @@ module.exports = HistoryView;
 function HistoryView() {
 	Emitter.call(this);
 
+	this.redraw = this.redraw.bind(this);
+	this.queueDraw = this.queueDraw.bind(this);
+	this.room = {history: new Emitter([])};
 	this.init();
 	this.gotHistory = function () {};
-
-	this._lineMap = Object.create(null);
 
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
 	this.scrollMode = 'automatic';
-
-	this._bindChange();
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -34,12 +35,40 @@ HistoryView.prototype = Object.create(Emitter.prototype);
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
 	el.className = 'chat';
-	this.history = document.createElement('div');
-	el.appendChild(this.history);
+	this.history = {};
+	this.redraw();
+	el.appendChild(this.history.el);
 	// and make it work with custom scrollbars
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
 	this.el = scr.wrapper;
+};
+
+function groupHistory(history) {
+	var groups = [];
+	var last;
+	var group;
+	for (var i = 0; i < history.length; i++) {
+		var line = history[i];
+		if (!last || last.user !== line.user)
+			groups.push(group = []);
+		group.push(last = line);
+	}
+	return groups;
+}
+
+HistoryView.prototype.redraw = function HistoryView_redraw() {
+	this.queued = false;
+	render(this.history, template('chathistory', {
+		history: this.room.history,
+		groupHistory: groupHistory
+	}));
+};
+
+HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
+	if (this.queued) return;
+	this.queued = true;
+	raf(this.redraw);
 };
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
@@ -57,18 +86,6 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		self.gotHistory = function () {};
 	};
 	this.emit('needhistory', this.room, options);
-};
-
-// react to changes to chat line and redraw that accordingly
-HistoryView.prototype._bindChange = function HistoryView__bindChange() {
-	var self = this;
-	Line.on('change', function (line) {
-		var elem = self._lineMap[line.id];
-		if (!elem)
-			return;
-		var newElem = v.toDOM(template('chatline', line));
-		elem.parentNode.replaceChild(newElem, elem);
-	});
 };
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
@@ -90,7 +107,7 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 };
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
-	var history = this.history;
+	var history = this.history.el;
 	var scrollWindow = this.scrollWindow;
 	var scrollBottom = scrollWindow.offsetTop + scrollWindow.scrollTop + scrollWindow.clientHeight;
 	for (var i = history.children.length - 1; i >= 0; i--) {
@@ -105,21 +122,15 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
 	self.gotHistory = function () {};
-	var history = this.history;
+	//var history = this.history.el;
 	if (this.room) {
-		this.room.off('change history');
-		this.room.off('change users');
-		this.room.off('change name');
-		while (history.firstChild)
-			history.removeChild(history.firstChild);
+		this.room.history.off('change');
 	}
 	this.room = room;
 	// reset, otherwise we won’t get future events
 	this.scroll.reset();
 	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';
-	// reset the line map
-	this._lineMap = Object.create(null);
 
 	// mark the last message as read
 	if (room.history.length)
@@ -127,26 +138,30 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	else // FIXME:
 		this.emit('needhistory', room);
 
+	this.redraw();
+
+	room.history.on('change', this.queueDraw);
+
 	// draw all the messages we have so far:
-	room.history.forEach(function (line) {
+	/*room.history.forEach(function (line) {
 		var elem = v.toDOM(template('chatline', line));
 		self._lineMap[line.id] = elem;
 		history.appendChild(elem);
-	});
+	});*/
 
 	// scroll to the last read message
 	//history.lastChild.scrollIntoView();
 
 	// react to new messages
-	room.on('change history', function (event, line, index) {
+	/*room.on('change history', function (event, line, index) {
 		if (event !== 'add')
 			return;
 		self._newLine(line, index);
-	});
+	});*/
 };
 
 HistoryView.prototype._newLine = function HistoryView__newLine(line, index) {
-	var history = this.history;
+	var history = this.history.el;
 
 	var el = v.toDOM(template('chatline', line));
 	if (index !== history.children.length) {

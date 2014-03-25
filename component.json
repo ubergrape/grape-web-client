@@ -30,7 +30,7 @@
   ],
   "templates": [
     "templates/chatheader.jade",
-    "templates/chatline.jade",
+    "templates/chathistory.jade",
     "templates/index.jade",
     "templates/labellist.jade",
     "templates/pmpopover.jade",
@@ -53,8 +53,8 @@
     "Swatinem/model-array": "*",
     "Swatinem/virtualdom": "*",
     "visionmedia/jade": "*",
+    "component/raf": "*",
     "component/query": "*",
-    "component/domify": "*",
     "component/classes": "*",
     "component/throttle": "*",
     "component/debounce": "*",
