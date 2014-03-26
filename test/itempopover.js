@@ -42,7 +42,7 @@ describe('ItemPopover (rooms template)', function () {
 		d.hide();
 		d.el.className.should.include('hide');
 	});
-	it('should emit a selectitem event', function (done) {
+	it.skip('should emit a selectitem event', function (done) {
 		var d = new ItemPopover(opts);
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));

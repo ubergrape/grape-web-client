@@ -2,7 +2,7 @@
 .footer
 	border-top: 3px solid client-border-color
 	margin-left: client-navigation-width
-	background: linear-gradient(top, silver-dark 5%, white);
+	background: linear-gradient(top, silver-dark 5%, white)
 	padding: (vertical-space / 2) (horizontal-space / 2)
 	.input-wrapper
 		padding-left: 20px
@@ -11,14 +11,21 @@
 			width: 100%
 			border: 1px solid gainsboro-light
 			border-radius: main-border-radius
-		&:after 
-			content: ''
-			position: absolute
-			border-style: solid
-			border-width: 15px 15px 15px 0
-			border-color: transparent #FFFFFF
-			display: block
-			width: 0
-			z-index: 1
-			left: 15px
-			top: 20px
+			&::before
+				content: ""
+				display: block
+				position: absolute
+				top: 10px
+				left: - arrow-size
+				border-right: arrow-size solid #aaa
+				border-top: arrow-size solid rgba(#aaa, 0)
+				border-bottom: arrow-size solid rgba(#aaa, 0)
+			&::after
+				content: ""
+				display: block
+				position: absolute
+				top: 10px + 2
+				left: - arrow-size + 2
+				border-right: arrow-size - 2 solid white
+				border-top: arrow-size - 2 solid transparent
+				border-bottom: arrow-size - 2 solid transparent
