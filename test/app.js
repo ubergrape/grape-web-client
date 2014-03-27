@@ -254,12 +254,12 @@ describe('App', function () {
 			msg[3].should.eql(1);
 			var lines = [{
 				id: 2,
-				author: 2,
+				author: {type: 'user', id: 2},
 				text: 'foobar2',
 				time: '2014-02-04T13:51:35.662Z'
 			}, {
 				id: 1,
-				author: 1,
+				author: {type: 'user', id: 1},
 				text: 'foobar',
 				time: '2014-02-04T13:51:34.662Z'
 			}];
@@ -273,12 +273,12 @@ describe('App', function () {
 			room.history[0].id.should.eql(1);
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
-			room.history[0].user.should.equal(app.user);
+			room.history[0].author.should.equal(app.user);
 			room.history[0].read.should.be.false;
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
-			room.history[1].user.should.equal(room.users[0]);
+			room.history[1].author.should.equal(room.users[0]);
 			room.history[1].read.should.be.false;
 			done();
 		});
@@ -292,12 +292,12 @@ describe('App', function () {
 			msg[3].should.eql(1);
 			var lines = [{
 				id: 2,
-				author: 2,
+				author: {type: 'user', id: 2},
 				text: 'foobar2',
 				time: '2014-02-04T13:51:35.662Z'
 			}, {
 				id: 1,
-				author: 1,
+				author: {type: 'user', id: 1},
 				text: 'foobar',
 				time: '2014-02-04T13:51:34.662Z'
 			}];
@@ -318,12 +318,12 @@ describe('App', function () {
 			room.history[0].id.should.eql(1);
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
-			room.history[0].user.should.equal(app.user);
+			room.history[0].author.should.equal(app.user);
 			room.history[0].read.should.be.true;
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
-			room.history[1].user.should.equal(room.users[0]);
+			room.history[1].author.should.equal(room.users[0]);
 			room.history[1].read.should.be.true;
 			done();
 		});
@@ -421,16 +421,16 @@ describe('App', function () {
 		room.history.once('add', function (line, index) {
 			index.should.eql(0);
 			line.should.be.instanceof(models.Line);
-			line.user.should.equal(app.user);
+			line.author.should.equal(app.user);
 			line.text.should.eql('foobar');
 			line.time.should.be.instanceof(Date);
 			line.time.getTime().should.eql(1391521894662);
-			line.read.should.be.false;	
+			line.read.should.be.false;
 			done();
 		});
 		var msg = {
 			id: 1,
-			author: 1,
+			author: {type: 'user', id: 1},
 			text: 'foobar',
 			time: '2014-02-04T13:51:34.662Z',
 			channel: room.id
@@ -443,7 +443,7 @@ describe('App', function () {
 			index.should.eql(0);
 			line.should.be.instanceof(models.Line);
 			line.id.should.eql(1);
-			line.user.should.equal(app.user);
+			line.author.should.equal(app.user);
 			line.text.should.eql('foobar');
 			line.time.should.be.instanceof(Date);
 			line.time.getTime().should.eql(1391521894662);
@@ -464,7 +464,7 @@ describe('App', function () {
 				});
 				var msg = {
 					id: 2,
-					author: 1,
+					author: {type: 'user', id: 1},
 					text: 'foobar2',
 					time: '2014-02-04T13:51:34.662Z',
 					channel: room.id
@@ -478,7 +478,7 @@ describe('App', function () {
 		});
 		var msg = {
 			id: 1,
-			author: 1,
+			author: {type: 'user', id: 1},
 			text: 'foobar',
 			time: '2014-02-04T13:51:34.662Z',
 			channel: room.id
@@ -491,7 +491,7 @@ describe('App', function () {
 			index.should.eql(0);
 			line.should.be.instanceof(models.Line);
 			line.id.should.eql(1);
-			line.user.should.equal(app.user);
+			line.author.should.equal(app.user);
 			line.text.should.eql('foobar');
 			line.time.should.be.instanceof(Date);
 			line.time.getTime().should.eql(1391521894662);
@@ -507,7 +507,7 @@ describe('App', function () {
 		});
 		var msg = {
 			id: 1,
-			author: 1,
+			author: {type: 'user', id: 1},
 			text: 'foobar',
 			time: '2014-02-04T13:51:34.662Z',
 			channel: room.id
@@ -525,7 +525,7 @@ describe('App', function () {
 		function send() {
 			var msg = {
 				id: 1,
-				author: 1,
+				author: {type: 'user', id: 1},
 				text: 'foobar',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1
@@ -533,7 +533,7 @@ describe('App', function () {
 			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
 			msg = {
 				id: 2,
-				author: 2,
+				author: {type: 'user', id: 2},
 				text: 'foobar2',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1
@@ -541,7 +541,7 @@ describe('App', function () {
 			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
 			msg = {
 				id: 3,
-				author: 3,
+				author: {type: 'user', id: 3},
 				text: 'foobar3',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1
