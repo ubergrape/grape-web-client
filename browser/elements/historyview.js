@@ -139,18 +139,11 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		this.emit('needhistory', room);
 
 	this.redraw();
+	// scroll to bottom
+	if (this.history.lastChild)
+		this.history.lastChild.scrollIntoView();
 
 	room.history.on('change', this.queueDraw);
-
-	// draw all the messages we have so far:
-	/*room.history.forEach(function (line) {
-		var elem = v.toDOM(template('chatline', line));
-		self._lineMap[line.id] = elem;
-		history.appendChild(elem);
-	});*/
-
-	// scroll to the last read message
-	//history.lastChild.scrollIntoView();
 
 	// react to new messages
 	/*room.on('change history', function (event, line, index) {
