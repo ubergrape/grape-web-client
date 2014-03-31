@@ -139,6 +139,7 @@ UI.prototype.bind = function UI_bind() {
 		history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
 	});
 	window.addEventListener('popstate', function (ev) {
+		if (!ev.state) return;
 		var which = self.org[ev.state.type + 's'];
 		for (var i = 0; i < which.length; i++) {
 			var el = which[i];
