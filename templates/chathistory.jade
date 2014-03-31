@@ -13,4 +13,5 @@
 			.content
 				each line in lines
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
+					.text= line.title
 					.text= line.text
