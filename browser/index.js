@@ -211,7 +211,9 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
-	this.emit('selectchannel', this.channelFromURL());
+	var channel = this.channelFromURL();
+	if (channel)
+		this.emit('selectchannel', channel);
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
