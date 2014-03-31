@@ -30,8 +30,9 @@ var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 
-function UI() {
+function UI(options) {
 	Emitter.call(this);
+	this.options = options || {};
 	this.init();
 	this.bind();
 }
@@ -59,7 +60,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
-	qs('.input-wrapper', this.el).appendChild(this.chatInput.el);
+	qs('.footer', this.el).appendChild(this.chatInput.el);
 
 	// initialize the history view
 	this.historyView = new HistoryView();
@@ -71,15 +72,9 @@ UI.prototype.bind = function UI_bind() {
 	var self = this;
 	var navigation = this.navigation;
 	// bind navigation events
-	navigation.on('selectroom', function (room) {
-		navigation.select('room', room);
-	});
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'show');
 	broker.pass(navigation, 'selectpm', this, 'selectchannel');
-	navigation.on('selectpm', function (pm) {
-		navigation.select('pm', pm);
-	});
 	broker(navigation, 'addpm', this.addPM, 'show');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
@@ -100,7 +95,7 @@ UI.prototype.bind = function UI_bind() {
 		// TODO: what if the room is currently on display?
 		item.once('change joined', function () {
 			self.addRoom.hide();
-			navigation.emit('selectroom', item);
+			self.emit('selectchannel', item);
 		});
 	});
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
@@ -111,7 +106,7 @@ UI.prototype.bind = function UI_bind() {
 			if (pm.users[0] !== user) return;
 			self.org.pms.off('add', addlistener);
 			self.addPM.hide();
-			navigation.emit('selectpm', pm);
+			self.emit('selectchannel', pm);
 		}
 		self.org.pms.on('add', addlistener);
 	});
@@ -130,6 +125,27 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
+
+	// hook up history/pushstate stuff
+	this.on('selectchannel', function (channel) {
+		navigation.select(channel.type, channel);
+		var state = history.state;
+		if (state.type === channel.type &&
+		    state.id === channel.id)
+			return;
+		var url = this.options.pathPrefix || '';
+		url += url[url.length - 1] === '/' ? '' : '/';
+		url += channel.slug || ('@' + channel.users[0].username.toLowerCase());
+		history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
+	});
+	window.addEventListener('popstate', function (ev) {
+		var which = self.org[ev.state.type + 's'];
+		for (var i = 0; i < which.length; i++) {
+			var el = which[i];
+			if (el.id === ev.state.id)
+				return self.emit('selectchannel', el);
+		}
+	});
 };
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
@@ -191,6 +207,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	refreshNoPMUsers();
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
+
+	// switch to the channel indicated by the URL
+	// XXX: is this the right place?
+	this.emit('selectchannel', this.channelFromURL());
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -201,5 +221,29 @@ UI.prototype.setUser = function UI_setUser(user) {
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	// FIXME: ideally, there should be a switch for this
 	this.emit('selectorganization', orgs[0]);
+};
+
+UI.prototype.channelFromURL = function UI_channelFromURL() {
+	var path = location.pathname;
+	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
+	var match = path.match(pathRegexp);
+	if (!match[2]) return;
+	var name = match[2].toLowerCase();
+	if (match[1] === '@') {
+		// match pms/users
+		for (var i = 0; i < this.org.pms.length; i++) {
+			var pm = this.org.pms[i];
+			var pmuser = pm.users[0];
+			if (pmuser.username.toLowerCase() === name)
+				return pm;
+		}
+	} else {
+		// match rooms
+		for (var i = 0; i < this.org.rooms.length; i++) {
+			var room = this.org.rooms[i];
+			if (room.slug === name)
+				return room;
+		}
+	}
 };
 

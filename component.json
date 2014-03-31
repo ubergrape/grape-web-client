@@ -31,6 +31,7 @@
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
+    "templates/chatinput.jade",
     "templates/index.jade",
     "templates/labellist.jade",
     "templates/pmpopover.jade",
@@ -63,6 +64,7 @@
     "component/emitter": "*",
     "component/events": "*",
     "discore/closest": "*",
+    "jonathanong/textcomplete": "*",
     "Swatinem/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "*"

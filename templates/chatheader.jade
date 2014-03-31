@@ -1,5 +1,9 @@
 .chat-header
-	h1.roomname= room.name
+	h1.roomname
+		if room.type === 'room'
+			= room.name
+		else if room.type === 'pm'
+			| Chat with #{room.users[0].username}
 	span.usersonline
 		em #{room.users.length} users in this room: 
 		each user in room.users
