@@ -44,13 +44,16 @@ HistoryView.prototype.init = function HistoryView_init() {
 	this.el = scr.wrapper;
 };
 
+// only group messages that are X seconds apart
+var TIME_THRESHOLD = 5 * 60 * 1000;
+
 function groupHistory(history) {
 	var groups = [];
 	var last;
 	var group;
 	for (var i = 0; i < history.length; i++) {
 		var line = history[i];
-		if (!last || last.user !== line.user)
+		if (!last || last.author !== line.author || last.time.getTime() + TIME_THRESHOLD < line.time.getTime())
 			groups.push(group = []);
 		group.push(last = line);
 	}
