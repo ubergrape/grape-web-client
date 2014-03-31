@@ -229,9 +229,10 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 	var match = path.match(pathRegexp);
 	if (!match[2]) return;
 	var name = match[2].toLowerCase();
+	var i;
 	if (match[1] === '@') {
 		// match pms/users
-		for (var i = 0; i < this.org.pms.length; i++) {
+		for (i = 0; i < this.org.pms.length; i++) {
 			var pm = this.org.pms[i];
 			var pmuser = pm.users[0];
 			if (pmuser.username.toLowerCase() === name)
@@ -239,7 +240,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 		}
 	} else {
 		// match rooms
-		for (var i = 0; i < this.org.rooms.length; i++) {
+		for (i = 0; i < this.org.rooms.length; i++) {
 			var room = this.org.rooms[i];
 			if (room.slug === name)
 				return room;

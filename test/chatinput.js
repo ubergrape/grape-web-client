@@ -3,6 +3,7 @@
 
 /*var should = */require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
+var qs = require('component-query');
 
 var ChatInput = require('cg').UI.ChatInput;
 
@@ -51,7 +52,8 @@ describe('ChatInput', function () {
 			r.should.equal(room);
 			done();
 		});
-		trigger(ci.el, 'keypress', {key: 'f'});
+		var textarea = qs('textarea', ci.el);
+		trigger(textarea, 'keypress', {key: 'f'});
 	});
 	it('should emit `stoptyping` after a typing delay', function (done) {
 		ChatInput.DELAY = 10;
@@ -66,7 +68,8 @@ describe('ChatInput', function () {
 			r.should.equal(room);
 			done();
 		});
-		trigger(ci.el, 'keypress', {key: 'f'});
+		var textarea = qs('textarea', ci.el);
+		trigger(textarea, 'keypress', {key: 'f'});
 	});
 	it('should immediately emit `stoptyping` when an input is sent', function (done) {
 		ChatInput.DELAY = 10;
@@ -74,7 +77,8 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		trigger(ci.el, 'keypress', {key: 'f'});
+		var textarea = qs('textarea', ci.el);
+		trigger(textarea, 'keypress', {key: 'f'});
 		var start = new Date();
 		ci.on('stoptyping', function (r) {
 			var diff = new Date() - start;
