@@ -19,6 +19,7 @@ Popover.prototype.init = function Popover_init() {
 	this.el = document.createElement('div');
 	this.classes = classes(this.el);
 	this.classes.add('popover');
+	this.classes.add('hide');
 	this.hidden = true;
 };
 

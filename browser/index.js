@@ -152,7 +152,7 @@ UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
 };
 
-UI.prototype.roomCreated = function UI_roomCreated(room) {
+UI.prototype.roomCreated = function UI_roomCreated() {
 	this.addRoom.closeform();
 };
 
