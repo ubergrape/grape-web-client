@@ -36,7 +36,7 @@ describe('Navigation', function () {
 		qs('.pms li.item .unread', nav.el).textContent.should.eql('2');
 		qs('.labels li.item i', nav.el).className.should.include('github');
 	});
-	it.skip('should emit proper events for each of the sub lists', function () {
+	it('should emit proper events for each of the sub lists', function () {
 		var nav = new Navigation();
 		add(nav.el);
 		nav.setLists({
@@ -48,11 +48,11 @@ describe('Navigation', function () {
 		function addc() {calls++;}
 		nav.on('addroom', addc);
 		nav.on('addpm', addc);
-		nav.on('addlabel', addc);
-		trigger(qs('.rooms .additem', nav.el), 'click');
-		trigger(qs('.pms .additem', nav.el), 'click');
-		trigger(qs('.labels .additem', nav.el), 'click');
-		calls.should.eql(3);
+		//nav.on('addlabel', addc);
+		trigger(qs('.addroom', nav.el), 'click');
+		trigger(qs('.addpm', nav.el), 'click');
+		//trigger(qs('.labels .additem', nav.el), 'click');
+		calls.should.eql(2);
 		calls = 0;
 		nav.on('selectroom', addc);
 		nav.on('selectpm', addc);

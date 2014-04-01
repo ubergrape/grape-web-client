@@ -9,7 +9,7 @@ var qs = require('component-query');
 var ItemPopover = require('cg').UI.ItemPopover;
 
 describe('ItemPopover (rooms template)', function () {
-	var opts = {template: 'roompopover', selector: '.item', attach: [document.body, '.target']};
+	var opts = {template: 'roompopover', selector: '.item'};
 	var target = document.createElement('div');
 	target.className = 'target';
 	before(function () {
@@ -37,16 +37,16 @@ describe('ItemPopover (rooms template)', function () {
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));
 		d.el.className.should.include('hide');
-		d.show();
+		d.show(target);
 		d.el.className.should.not.include('hide');
 		d.hide();
 		d.el.className.should.include('hide');
 	});
-	it.skip('should emit a selectitem event', function (done) {
+	it('should emit a selectitem event', function (done) {
 		var d = new ItemPopover(opts);
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));
-		d.show();
+		d.show(target);
 		d.on('selectitem', function (r) {
 			r.should.equal(item);
 			d.hide();

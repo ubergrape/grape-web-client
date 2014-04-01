@@ -4,7 +4,6 @@
 var Emitter = require('emitter');
 var ItemList = require('./itemlist');
 var broker = require('broker');
-var qs = require('query');
 var events = require('events');
 
 module.exports = ItemPopover;
@@ -18,7 +17,6 @@ function ItemPopover(options) {
 ItemPopover.prototype = Object.create(Emitter.prototype);
 
 ItemPopover.prototype.init = function ItemPopover_init(options) {
-	this.attach = options.attach;
 	this.itemList = new ItemList(options);
 	this.el = document.createElement('div');
 	this.el.className = 'popover hide';
@@ -35,22 +33,21 @@ ItemPopover.prototype.bind = function ItemPopover_bind() {
 	});
 	this.events.bind('click .close', 'close');
 	document.addEventListener('click', function (ev) {
-		var trigger = qs(self.attach[1], self.attach[0]);
 		if (self.hidden) return;
 		var target = ev.target;
 		var parent = target;
 		do {
-			if (parent === self.el || parent === trigger) return;
+			if (parent === self.el || parent === self.trigger) return;
 		} while ((parent = parent.parentNode));
 		self.hide();
 	});
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
-ItemPopover.prototype.show = function ItemPopover_show() {
+ItemPopover.prototype.show = function ItemPopover_show(trigger) {
+	this.trigger = trigger;
 	this.el.className = 'popover';
-	var target = qs(this.attach[1], this.attach[0]);
-	var offset = target.getBoundingClientRect();
+	var offset = trigger.getBoundingClientRect();
 	this.el.style.top = offset.top + 'px';
 	this.el.style.left = offset.left + offset.width + 'px';
 	document.body.appendChild(this.el);

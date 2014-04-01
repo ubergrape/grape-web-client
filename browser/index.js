@@ -48,11 +48,9 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the add room popover
-	this.addRoom = new ItemPopover({template: 'roompopover', selector: '.toggle',
-		attach: [navigation.roomList.el, '.additem']});
+	this.addRoom = new ItemPopover({template: 'roompopover', selector: '.toggle'});
 	// and the new pm popover
-	this.addPM = new ItemPopover({template: 'pmpopover', selector: '.item',
-		attach: [navigation.pmList.el, '.additem']});
+	this.addPM = new ItemPopover({template: 'pmpopover', selector: '.item'});
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();

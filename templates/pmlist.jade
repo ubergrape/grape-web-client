@@ -1,16 +1,12 @@
-.itemlist
-	h2.pms
-		span.nav-title=_('Messages')
-		button.additem.nav-button.button-inset=_('new message')
-	ul.nav-list.pms
-		each pm in items
-			-var pmuser = pm.users[0]
-			li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.id, key=pm.id)
-				.avatar
-					// FIXME: use real avatar image
-					img.avatar-img-small(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg")
-					.avatar-status(class=(pmuser.status === 16 ? 'online' : 'offline'))
-				span.name=pmuser.username
-				if pm.unread > 0
-					span.unread=pm.unread
+ul.nav-list.pms
+	each pm in items
+		-var pmuser = pm.users[0]
+		li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.id, key=pm.id)
+			.avatar
+				// FIXME: use real avatar image
+				img.avatar-img-small(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg")
+				.avatar-status(class=(pmuser.status === 16 ? 'online' : 'offline'))
+			span.name=pmuser.username
+			if pm.unread > 0
+				span.unread=pm.unread
 

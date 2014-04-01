@@ -33,16 +33,12 @@ ItemList.prototype = Object.create(Emitter.prototype);
 ItemList.prototype.bind = function ItemList_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		additem: function () {
-			self.emit('additem');
-		},
 		selectitem: function (ev) {
 			var itemEl = closest(ev.target, '.item', true);
 			var item = self.itemIds[itemEl.getAttribute('data-id')];
 			self.emit('selectitem', item);
 		}
 	});
-	this.events.bind('click .additem', 'additem');
 	this.events.bind('click ' + this.selector, 'selectitem');
 };
 
