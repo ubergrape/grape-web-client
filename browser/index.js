@@ -84,7 +84,6 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// bind the event to join a room
-	//broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
 	// hide the join popover when the room is joined
 	// and then automatically select that room
 	this.addRoom.on('selectitem', function (item) {
@@ -97,6 +96,7 @@ UI.prototype.bind = function UI_bind() {
 			self.emit('selectchannel', item);
 		});
 	});
+	broker.pass(this.addRoom, 'createroom', this, 'createroom');
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
 	// hide the new pm popover when the pm is created
 	// and automatically select it

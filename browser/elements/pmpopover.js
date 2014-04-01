@@ -1,7 +1,6 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var emitter = require('emitter');
 var ItemList = require('./itemlist');
 var Popover = require('./popover');
 var broker = require('broker');
@@ -14,7 +13,6 @@ function PMPopover() {
 }
 
 PMPopover.prototype = Object.create(Popover.prototype);
-emitter(PMPopover.prototype);
 
 PMPopover.prototype.init = function PMPopover_init() {
 	Popover.prototype.init.call(this);

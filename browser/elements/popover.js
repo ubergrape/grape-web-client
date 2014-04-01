@@ -2,17 +2,23 @@
 "use strict";
 
 var events = require('events');
+var classes = require('classes');
+var Emitter = require('emitter');
 
 module.exports = Popover;
 
 function Popover() {
+	Emitter.call(this);
 	this.init();
 	this.bind();
 }
 
+Popover.prototype = Object.create(Emitter.prototype);
+
 Popover.prototype.init = function Popover_init() {
 	this.el = document.createElement('div');
-	this.el.className = 'popover hide';
+	this.classes = classes(this.el);
+	this.classes.add('popover');
 	this.hidden = true;
 };
 
@@ -37,17 +43,19 @@ Popover.prototype.bind = function Popover_bind() {
 
 Popover.prototype.show = function Popover_show(trigger) {
 	this.trigger = trigger;
-	this.el.className = 'popover';
+	this.classes.remove('hide');
 	var offset = trigger.getBoundingClientRect();
 	this.el.style.top = offset.top + 'px';
 	this.el.style.left = offset.left + offset.width + 'px';
 	document.body.appendChild(this.el);
 	this.hidden = false;
+	this.emit('show');
 };
 
 Popover.prototype.hide = function Popover_hide() {
-	this.el.className = 'popover hide';
+	this.classes.add('hide');
 	this.el.parentNode.removeChild(this.el);
 	this.hidden = true;
+	this.emit('hide');
 };
 
