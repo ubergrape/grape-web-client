@@ -25,7 +25,8 @@ _.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var ItemPopover = exports.ItemPopover = require('./elements/itempopover');
+var RoomPopover = exports.RoomPopover = require('./elements/roompopover');
+var PMPopover = exports.PMPopover = require('./elements/pmpopover');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -48,9 +49,9 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the add room popover
-	this.addRoom = new ItemPopover({template: 'roompopover', selector: '.toggle'});
+	this.addRoom = new RoomPopover();
 	// and the new pm popover
-	this.addPM = new ItemPopover({template: 'pmpopover', selector: '.item'});
+	this.addPM = new PMPopover();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();

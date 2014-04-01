@@ -1,30 +1,22 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var Emitter = require('emitter');
-var ItemList = require('./itemlist');
-var broker = require('broker');
 var events = require('events');
 
-module.exports = ItemPopover;
+module.exports = Popover;
 
-function ItemPopover(options) {
-	Emitter.call(this);
-	this.init(options);
+function Popover() {
+	this.init();
 	this.bind();
 }
 
-ItemPopover.prototype = Object.create(Emitter.prototype);
-
-ItemPopover.prototype.init = function ItemPopover_init(options) {
-	this.itemList = new ItemList(options);
+Popover.prototype.init = function Popover_init() {
 	this.el = document.createElement('div');
 	this.el.className = 'popover hide';
-	this.el.appendChild(this.itemList.el);
 	this.hidden = true;
 };
 
-ItemPopover.prototype.bind = function ItemPopover_bind() {
+Popover.prototype.bind = function Popover_bind() {
 	var self = this;
 	this.events = events(this.el, {
 		close: function () {
@@ -41,10 +33,9 @@ ItemPopover.prototype.bind = function ItemPopover_bind() {
 		} while ((parent = parent.parentNode));
 		self.hide();
 	});
-	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
-ItemPopover.prototype.show = function ItemPopover_show(trigger) {
+Popover.prototype.show = function Popover_show(trigger) {
 	this.trigger = trigger;
 	this.el.className = 'popover';
 	var offset = trigger.getBoundingClientRect();
@@ -54,17 +45,9 @@ ItemPopover.prototype.show = function ItemPopover_show(trigger) {
 	this.hidden = false;
 };
 
-ItemPopover.prototype.hide = function ItemPopover_hide() {
+Popover.prototype.hide = function Popover_hide() {
 	this.el.className = 'popover hide';
 	this.el.parentNode.removeChild(this.el);
 	this.hidden = true;
-};
-
-ItemPopover.prototype.redraw = function ItemPopover_redraw() {
-	this.itemList.redraw();
-};
-
-ItemPopover.prototype.setItems = function ItemPopover_setItems(items) {
-	this.itemList.setItems(items);
 };
 
