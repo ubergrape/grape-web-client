@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-03-26 10:15+0000\n"
+"POT-Creation-Date: 2014-04-01 08:42+0000\n"
 
 #: client/templates/roomlist.jade:3
 msgid "Rooms"
@@ -34,13 +34,24 @@ msgid "add label"
 msgstr "add label"
 
 #: client/templates/chatheader.jade:9
+#: client/templates/chatheader.jade:14
 msgid "search for content, documents, appointments, …"
 msgstr ""
 
 #: client/templates/roompopover.jade:10
+#: client/templates/roompopover.jade:15
 msgid "leave"
-msgstr ""
+msgstr "leave"
 
 #: client/templates/roompopover.jade:12
+#: client/templates/roompopover.jade:17
 msgid "join"
-msgstr ""
+msgstr "join"
+
+#: client/templates/roompopover.jade:3
+msgid "All chat rooms"
+msgstr "All chat rooms"
+
+#: client/templates/roompopover.jade:19
+msgid "create new chat room"
+msgstr "create new chat room"
