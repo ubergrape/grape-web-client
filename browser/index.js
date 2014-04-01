@@ -128,7 +128,7 @@ UI.prototype.bind = function UI_bind() {
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {
 		navigation.select(channel.type, channel);
-		var state = history.state;
+		var state = history.state || {};
 		if (state.type === channel.type &&
 		    state.id === channel.id)
 			return;
