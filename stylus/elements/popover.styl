@@ -2,7 +2,7 @@
 	position: absolute
 	z-index: 200
 	background: white
-	padding: 10px
+	padding: 15px
 	border-radius: 5px
 	border: 1px solid #aaa
 	opacity: 1
@@ -29,9 +29,67 @@
 		border-top: arrow-size - 2 solid transparent
 		border-bottom: arrow-size - 2 solid transparent
 
-.popover.hide
-	opacity: 0
-	transition: opacity 500ms
+	&.hide
+		opacity: 0
+		transition: opacity 500ms
+
+	.close
+		cursor: pointer
+		position: absolute
+		top: 10px
+		right: 10px
+		color: sidebar-text-color
+		font-size: 30px
+		line-height: 20px
+
+	h3
+		color: sidebar-text-color
+		font-size: 14px
+		font-weight: normal
+		text-transform: uppercase
+
+.roompopover
+	ul
+		padding: 5px 0px
+		border-bottom: 1px solid #ddd
+		margin: 10px 0px
+	li
+		margin: 5px 0px
+	.icon
+		color: sidebar-text-color
+		width: 20px
+	.name, .users
+		display: inline-block
+		width: 100px
+		text-overflow: ellipsis
+		overflow: hidden
+		vertical-align: middle
+	.toggle
+		width: 100px
+		padding: 5px
+		background: white
+		border: 2px solid
+		border-radius: 4px
+		&.join
+			color: grass-light
+			border-color: grass-light
+		&.leave
+			color: bittersweet-light
+			border-color: bittersweet-light
+
+// TODO: move this to be a mixin?
+.roompopover button.new
+	float: right
+	background: grape-light
+	border: 1px solid grape-light
+	border-radius: 3px
+	box-shadow: 0px 3px grape-dark
+	color: white
+	padding: 5px 10px
+	.icon
+		color: white
+		width: 20px
+		text-align: right
 
 .toggle
 	.join

@@ -1,13 +1,20 @@
-ul
-	each room in items
-		li.item.room(data-id=room.id, key=room.id)
-			if room.private
-				i.icon.fa.fa-lock
-			else
-				i.icon.fa.fa-comments
-			span.name=room.name
-			if room.joined
-				button.toggle.leave=_('leave')
-			else
-				button.toggle.join=_('join')
-
+.roompopover
+	h3
+		=_('All chat rooms')
+		span.close ×
+	ul
+		each room in items
+			li.item.room(data-id=room.id, key=room.id)
+				if room.private
+					i.icon.fa.fa-lock
+				else
+					i.icon.fa.fa-comments
+				span.name=room.name
+				span.users
+				if room.joined
+					button.toggle.leave=_('leave')
+				else
+					button.toggle.join=_('join')
+	button.new
+		=_('create new chat room')
+		i.icon.fa.fa-plus-circle

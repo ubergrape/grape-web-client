@@ -5,6 +5,7 @@ var Emitter = require('emitter');
 var ItemList = require('./itemlist');
 var broker = require('broker');
 var qs = require('query');
+var events = require('events');
 
 module.exports = ItemPopover;
 
@@ -27,6 +28,12 @@ ItemPopover.prototype.init = function ItemPopover_init(options) {
 
 ItemPopover.prototype.bind = function ItemPopover_bind() {
 	var self = this;
+	this.events = events(this.el, {
+		close: function () {
+			self.hide();
+		}
+	});
+	this.events.bind('click .close', 'close');
 	document.addEventListener('click', function (ev) {
 		var trigger = qs(self.attach[1], self.attach[0]);
 		if (self.hidden) return;
