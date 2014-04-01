@@ -8,8 +8,7 @@ var broker = require('broker');
 module.exports = PMPopover;
 
 function PMPopover() {
-	this.init();
-	this.bind();
+	Popover.call(this);
 }
 
 PMPopover.prototype = Object.create(Popover.prototype);

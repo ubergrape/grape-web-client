@@ -13,8 +13,7 @@ var render = require('../rendervdom');
 module.exports = RoomPopover;
 
 function RoomPopover() {
-	this.init();
-	this.bind();
+	Popover.call(this);
 }
 
 RoomPopover.prototype = Object.create(Popover.prototype);
