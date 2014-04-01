@@ -15,5 +15,7 @@
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 					if line.title
 						.text= line.title
-					.text= line.text
+					if line.text
+						.text= line.text
+
 
