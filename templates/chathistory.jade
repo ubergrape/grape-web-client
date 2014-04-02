@@ -18,3 +18,20 @@
 					| 
 					if line.text
 						.text= line.text
+					| 
+					if line.container
+						a.container(href=line.container.url, class=line.container.type)= line.container.name 
+					| 
+					if line.objects
+						ul
+							each obj in line.objects
+								li(class=obj.type)
+									if obj.name
+										a(href=obj.url)= obj.name 
+									| 
+									if obj.content
+										.content= obj.content
+									| 
+									if obj.summary
+										.summary= obj.summary
+
