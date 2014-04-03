@@ -13,6 +13,13 @@
 			.content
 				each line in lines
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
+					if line.actor && line.actor.image && line.actor.image.url
+						a(href=line.actor.url, class="actor")
+							img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
+					| 
+					if line.container
+						a.container(href=line.container.url, class=line.container.type)= line.container.name 
+					| 
 					if line.title
 						.text= line.title
 					| 
@@ -21,11 +28,16 @@
 					| 
 					if line.container
 						a.container(href=line.container.url, class=line.container.type)= line.container.name 
+						if line.branch
+							span.branch= line.branch
 					| 
 					if line.objects
 						ul
 							each obj in line.objects
 								li(class=obj.type)
+									if obj.sha
+										a(href=obj.url)= obj.sha 
+									| 
 									if obj.name
 										a(href=obj.url)= obj.name 
 									| 
@@ -34,4 +46,7 @@
 									| 
 									if obj.summary
 										.summary= obj.summary
+									| 
+									if obj.author && obj.author.username
+										span.author= obj.author.username
 
