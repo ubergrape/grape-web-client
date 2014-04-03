@@ -31,6 +31,9 @@
 						if line.branch
 							span.branch= line.branch
 					| 
+					if line.content
+						.content= line.content
+					| 
 					if line.objects
 						ul
 							each obj in line.objects
