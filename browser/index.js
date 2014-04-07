@@ -6,6 +6,7 @@ var v = require('virtualdom');
 var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
+var domify = require('domify');
 
 var exports = module.exports = UI;
 
@@ -18,6 +19,12 @@ var _ = require('t');
 	_.merge(lang, require('../locale/' + lang));
 });
 template.locals._ = _;
+template.locals.marked = require('marked');
+// XXX: I really don’t want to hack in innerHTML support right now, so just
+// make a little workaround here
+template.locals.html = function (html) {
+	return v.fromDOM(domify(html));
+};
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI

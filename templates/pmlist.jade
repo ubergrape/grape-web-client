@@ -8,5 +8,5 @@ ul.nav-list.pms
 				.avatar-status(class=(pmuser.status === 16 ? 'online' : 'offline'))
 			span.name=pmuser.username
 			if pm.unread > 0
-				span.unread=pm.unread
+				span.unread=pm.unread.toString()
 

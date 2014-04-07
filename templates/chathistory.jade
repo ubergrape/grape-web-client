@@ -8,4 +8,4 @@
 			.content
 				each line in lines
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
-					.text= line.text
+					.text= html(marked(line.text))
