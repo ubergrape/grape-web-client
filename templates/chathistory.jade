@@ -24,7 +24,7 @@
 						.text= line.title
 					| 
 					if line.text
-						.text= line.text
+						.text= html(marked(line.text))
 					| 
 					if line.container
 						a.container(href=line.container.url, class=line.container.type)= line.container.name 
@@ -52,4 +52,3 @@
 									| 
 									if obj.author && obj.author.username
 										span.author= obj.author.username
-

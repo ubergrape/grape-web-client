@@ -6,6 +6,7 @@ var v = require('virtualdom');
 var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
+var domify = require('domify');
 
 var exports = module.exports = UI;
 
@@ -18,6 +19,12 @@ var _ = require('t');
 	_.merge(lang, require('../locale/' + lang));
 });
 template.locals._ = _;
+template.locals.marked = require('marked');
+// XXX: I really don’t want to hack in innerHTML support right now, so just
+// make a little workaround here
+template.locals.html = function (html) {
+	return v.fromDOM(domify(html));
+};
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
@@ -25,7 +32,8 @@ _.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var ItemPopover = exports.ItemPopover = require('./elements/itempopover');
+var RoomPopover = exports.RoomPopover = require('./elements/roompopover');
+var PMPopover = exports.PMPopover = require('./elements/pmpopover');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -48,11 +56,9 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the add room popover
-	this.addRoom = new ItemPopover({template: 'roompopover', selector: '.toggle',
-		attach: [navigation.roomList.el, '.additem']});
+	this.addRoom = new RoomPopover();
 	// and the new pm popover
-	this.addPM = new ItemPopover({template: 'pmpopover', selector: '.item',
-		attach: [navigation.pmList.el, '.additem']});
+	this.addPM = new PMPopover();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -85,7 +91,6 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// bind the event to join a room
-	//broker.pass(this.addRoom, 'selectitem', this, 'joinroom');
 	// hide the join popover when the room is joined
 	// and then automatically select that room
 	this.addRoom.on('selectitem', function (item) {
@@ -98,6 +103,7 @@ UI.prototype.bind = function UI_bind() {
 			self.emit('selectchannel', item);
 		});
 	});
+	broker.pass(this.addRoom, 'createroom', this, 'createroom');
 	broker.pass(this.addPM, 'selectitem', this, 'openpm');
 	// hide the new pm popover when the pm is created
 	// and automatically select it
@@ -151,6 +157,10 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
+};
+
+UI.prototype.roomCreated = function UI_roomCreated() {
+	this.addRoom.closeform();
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {

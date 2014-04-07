@@ -1,15 +1,11 @@
-.itemlist
-	h2.rooms
-		span.nav-title=_('Rooms')
-		button.additem.nav-button.button-inset=_('add room')
-	ul.nav-list.rooms
-		each room in items
-			if room.joined
-				li.item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
-					if room.private
-						i.icon.fa.fa-lock
-					else
-						i.icon.fa.fa-comments
-					span.name=room.name
-					if room.unread > 0
-						span.unread=room.unread
+ul.nav-list.rooms
+	each room in items
+		if room.joined
+			li.item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
+				if room.private
+					i.icon.fa.fa-lock
+				else
+					i.icon.fa.fa-comments
+				span.name=room.name
+				if room.unread > 0
+					span.unread=room.unread.toString()

@@ -123,15 +123,6 @@ describe('ItemList (rooms template)', function () {
 		item.emit('change private');
 		qs('li.item i', il.el).className.should.include('fa-lock');
 	});
-	it('should emit a `additem` when clicking the add item button', function (done) {
-		var il = new ItemList(opts);
-		add(il.el);
-		il.on('additem', function () {
-			done();
-		});
-		var button = qs('button.additem', il.el);
-		trigger(button, 'click');
-	});
 	it('should emit a `selectitem` when clicking on a item', function (done) {
 		var il = new ItemList(opts);
 		add(il.el);

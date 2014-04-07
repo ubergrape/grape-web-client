@@ -77,9 +77,11 @@
 			color: bittersweet-light
 			border-color: bittersweet-light
 
-// TODO: move this to be a mixin?
 .roompopover button.new
 	float: right
+
+// TODO: move this to be a mixin?
+.button
 	background: grape-light
 	border: 1px solid grape-light
 	border-radius: 3px
@@ -90,6 +92,30 @@
 		color: white
 		width: 20px
 		text-align: right
+
+.roompopover.openform
+	.button.new
+		display: none
+	.newroom
+		display: block
+
+.newroom
+	display: none
+	input[type="text"]
+		width: 200px
+	label.text, h4
+		display: inline-block
+		width: 120px
+		margin: 10px 0px
+	label.radio
+		display: inline-block
+		width: 100px
+	input[type="radio"]
+		width: 20px
+		margin: 0px 5px
+		vertical-align: middle
+	.button.create
+		float: right
 
 .toggle
 	.join

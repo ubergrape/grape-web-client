@@ -3,8 +3,12 @@
 
 var Emitter = require('emitter');
 var Scrollbars = require('scrollbars');
+var template = require('template');
+var qs = require('query');
+var events = require('events');
 
 var ItemList = require('./itemlist');
+var render = require('../rendervdom');
 
 module.exports = Navigation;
 
@@ -17,8 +21,10 @@ function Navigation() {
 Navigation.prototype = Object.create(Emitter.prototype);
 
 Navigation.prototype.init = function Navigation_init() {
-	var el = document.createElement('nav');
-	el.className = 'navigation';
+	this.nav = {};
+	this.redraw();
+	var el = this.nav.el;
+
 	// XXX: this is a bit weird :-(
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
@@ -26,22 +32,30 @@ Navigation.prototype.init = function Navigation_init() {
 
 	// initialize the sub lists
 	var roomList = this.roomList = new ItemList({template: 'roomlist'});
-	el.appendChild(roomList.el);
+	replace(qs('.rooms', el), roomList.el);
 	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item .name, .item .avatar, .item .unread'});
-	el.appendChild(pmList.el);
+	replace(qs('.pms', el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item .label'});
-	el.appendChild(labelList.el);
+	replace(qs('.labels', el), labelList.el);
 };
+
+function replace(from, to) {
+	from.parentNode.replaceChild(to, from);
+}
 
 // route the events
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
+	this.events = events(this.el, {
+		addroom: function (ev) { self.emit('addroom', ev.target); },
+		addpm: function (ev) { self.emit('addpm', ev.target); },
+		//addroom: function () { self.emit('addroom'); },
+	});
+	this.events.bind('click .addroom', 'addroom');
+	this.events.bind('click .addpm', 'addpm');
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].on('selectitem', function (item) {
 			self.emit('select' + which, item);
-		});
-		self[which + 'List'].on('additem', function (item) {
-			self.emit('add' + which, item);
 		});
 	});
 };
@@ -64,8 +78,10 @@ Navigation.prototype.select = function Navigation_select(which, item) {
 
 // redraw everything, eg when the language changes
 Navigation.prototype.redraw = function Navigation_redraw() {
+	render(this.nav, template('navigation'));
 	var self = this;
 	['room', 'pm', 'label'].forEach(function (which) {
+		if (self[which + 'List'])
 		self[which + 'List'].redraw();
 	});
 };
