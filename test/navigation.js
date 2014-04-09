@@ -36,7 +36,7 @@ describe('Navigation', function () {
 		qs('.pms li.item .unread', nav.el).textContent.should.eql('2');
 		qs('.labels li.item i', nav.el).className.should.include('github');
 	});
-	it('should emit proper events for each of the sub lists', function () {
+	it.skip('should emit proper events for each of the sub lists', function () {
 		var nav = new Navigation();
 		add(nav.el);
 		nav.setLists({
