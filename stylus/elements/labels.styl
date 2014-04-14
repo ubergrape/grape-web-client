@@ -1,13 +1,22 @@
+/* fixme: quick label color test
+*/
+
+$color-test-label = grape-light
+
 .label
 	display: inline-block
-	padding: 4px 9px
+	padding: 3px 7px
 	font-weight: normal
 	font-size: label-font-size
-	color: highlight-text-color
+	text-transform: uppercase
+	color: lighten($color-test-label, 20)
 	cursor: pointer
-	background: #3bafda
-	box-shadow: 0px 2px 0px #37555f
+	background: rgba($color-test-label, .2)
+	border: 1px solid $color-test-label
 	border-radius: 5px
+	&:hover
+		color: lighten($color-test-label, 30)
+		background: rgba($color-test-label, .35)
 	.fa
 		margin-left: 6px
-
+		text-transform: none
