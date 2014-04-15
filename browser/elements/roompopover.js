@@ -40,9 +40,11 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	this.events.obj.openform = this.openform.bind(this);
 	this.events.obj.closeform = this.closeform.bind(this);
 	this.events.obj.submit = this.submit.bind(this);
+	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
 	this.events.bind('click .new', 'openform');
 	this.events.bind('reset .newroom', 'closeform');
 	this.events.bind('submit .newroom', 'submit');
+	this.events.bind('input #newroom-name', 'resetvalidity');
 	this.on('hide', this.closeform.bind(this));
 };
 
@@ -56,12 +58,26 @@ RoomPopover.prototype.submit = function RoomPopover_submit(ev) {
 	this.emit('createroom', room);
 };
 
+RoomPopover.prototype.resetvalidity = function RoomPopover_resetvalidity() {
+	this.form['newroom-name'].setCustomValidity('');
+};
+
+RoomPopover.prototype.validationError = function RoomPopover_validationError(err) {
+	var details = err.details;
+	console.log(details);
+	if (details.name) {
+		this.form['newroom-name'].setCustomValidity(details.name[0].message);
+		this.form['submit'].click();
+	}
+};
+
 RoomPopover.prototype.openform = function RoomPopover_openform() {
 	this.content.classes.add('openform');
 	this.form['newroom-name'].focus();
 };
 RoomPopover.prototype.closeform = function RoomPopover_closeform() {
 	this.content.classes.remove('openform');
+	this.resetvalidity();
 	this.form.reset();
 };
 

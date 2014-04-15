@@ -7,6 +7,7 @@ var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
+var notification = require('notification');
 
 var exports = module.exports = UI;
 
@@ -159,8 +160,19 @@ UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
 };
 
-UI.prototype.roomCreated = function UI_roomCreated() {
+UI.prototype.roomCreated = function UI_roomCreated(room) {
 	this.addRoom.closeform();
+	// XXX: this is not really clean, but oh well
+	this.addRoom.emit('selectitem', room);
+};
+
+UI.prototype.roomCreateError = function UI_roomCreateError(err) {
+	this.addRoom.validationError(err);
+};
+
+UI.prototype.gotError = function UI_gotError(err) {
+	console.log(err);
+	notification.error(err.message, err.details);
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {

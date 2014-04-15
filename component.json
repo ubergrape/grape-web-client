@@ -61,6 +61,7 @@
     "visionmedia/jade": "*",
     "component/raf": "*",
     "component/domify": "*",
+    "component/notification": "*",
     "component/query": "*",
     "component/classes": "*",
     "component/throttle": "*",
