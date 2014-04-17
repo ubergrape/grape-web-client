@@ -5,7 +5,8 @@
 		else if room.type === 'pm'
 			| Chat with #{room.users[0].username}
 	span.usersonline
-		em #{room.users.length} users in this room: 
+		i.fa.fa-user
+		em.usertext #{room.users.length} users in this room 
 		each user in room.users
 			span.user(class=[user.id in room.typing ? 'typing' : ''], key=user.id)
 				i.fa.fa-cog.fa-spin
@@ -13,4 +14,6 @@
 	form.searchform
 		input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
 		input.search-submit(type="submit")
+		i.fa.fa-search.search-icon
+	div(style='clear:both;')
 
