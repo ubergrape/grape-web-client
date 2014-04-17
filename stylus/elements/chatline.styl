@@ -3,13 +3,15 @@
 	@extend .clearfix
 	margin: 0 (horizontal-space * 2) (vertical-space * .75) (horizontal-space * 2)
 	position: relative
+	font-size 15px
+	line-height: 20px
 	.author, .content
 		padding: (vertical-space / 2) (horizontal-space / 2) (vertical-space / 2) 0
 	.author
 		@extend .user-info
 		float: left
 		width: 100px
-		text-overflow: ellipsis;
+		text-overflow: ellipsis
 		position: relative
 		font-weight: bold
 		img
