@@ -28,11 +28,9 @@
 		border-right: arrow-size - 2 solid white
 		border-top: arrow-size - 2 solid transparent
 		border-bottom: arrow-size - 2 solid transparent
-
 	&.hide
 		opacity: 0
 		transition: opacity 500ms
-
 	.close
 		cursor: pointer
 		position: absolute
@@ -41,13 +39,11 @@
 		color: sidebar-text-color
 		font-size: 30px
 		line-height: 20px
-
 	h3
 		color: sidebar-text-color
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
-
 .roompopover
 	ul
 		padding: 5px 0px
@@ -76,29 +72,13 @@
 		&.leave
 			color: bittersweet-light
 			border-color: bittersweet-light
-
 .roompopover button.new
 	float: right
-
-// TODO: move this to be a mixin?
-.button
-	background: grape-light
-	border: 1px solid grape-light
-	border-radius: 3px
-	box-shadow: 0px 3px grape-dark
-	color: white
-	padding: 5px 10px
-	.icon
-		color: white
-		width: 20px
-		text-align: right
-
 .roompopover.openform
 	.button.new
 		display: none
 	.newroom
 		display: block
-
 .newroom
 	display: none
 	input[type="text"]
@@ -116,7 +96,3 @@
 		vertical-align: middle
 	.button.create
 		float: right
-
-.toggle
-	.join
-		color: #ff6600
