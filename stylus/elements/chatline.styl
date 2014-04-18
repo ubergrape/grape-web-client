@@ -1,36 +1,41 @@
 .chatline
 	@extend .clearfix
-	margin: 0 30px 15px 30px
+	margin: 0 30px 24px 30px
 	position: relative
 	font-size 15px
 	line-height: 20px
-	.author, .content
-		padding: (vertical-space / 2) (horizontal-space / 2) (vertical-space / 2) 0
 	.author
-		@extend .user-info
+		@extend .clearfix
 		float: left
-		width: 100px
-		text-overflow: ellipsis
 		position: relative
 		font-weight: bold
-		img
-			width: 22px
+		.image
+			width: 48px
+			float: left
+			margin-right: (horizontal-space / 2)
+			border-radius: 50%
 		&::after
 			content: ""
 			position: absolute
 			right: 0
-			top: (vertical-space / 2)
+			top: 14px
 			border-right: 6px solid chatline-content-background
 			border-top: 6px solid transparent
 			border-bottom: 6px solid transparent
 	.content
+		@extend .clearfix
+		padding: 10px 10px 10px 0
+		margin-top: 3px
 		overflow: hidden
 		background: chatline-content-background
 		border-radius: main-border-radius
-		@extend .clearfix
 		time
+			@extend .clearfix
+			font-size: 12px
+			text-transform: uppercase
 			float: right
-			color: chatline-time-color
+			color: gainsboro-dark
+
 		.text
 			padding: 0 (horizontal-space / 2)
 

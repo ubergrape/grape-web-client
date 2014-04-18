@@ -1,5 +1,4 @@
 /*______ CLEARFIX ______*/
-
 clearfix()
 	zoom 1
 	&:after
@@ -8,18 +7,5 @@ clearfix()
 		display table
 	&:after
 		clear both
-
 .clearfix
 	clearfix()
-
-
-/*______ USER INFO ______*/
-
-.user-info 
-	@extend .clearfix
-	img
-		float: left
-		margin-right: (horizontal-space / 2)
-		border-radius: 50%
-	div
-		overflow: hidden

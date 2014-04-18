@@ -4,11 +4,12 @@
 		.chatline(key=first.id)
 			if first.author.username
 				aside.author
-					img.image(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg")
+					img.image(src="http://localhost:9000/static/images/avatar.gif")
 					div= first.author.username
 			else
 				aside.author
-					img.image(src=first.author.image)
+					img.image(src="http://localhost:9000/static/images/avatar.gif") 
+					// //(src=first.author.image)
 					div= first.author.name
 			.content
 				each line in lines
