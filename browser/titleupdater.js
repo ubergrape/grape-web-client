@@ -26,7 +26,7 @@ Title.prototype.refresh = function Title_refresh() {
 	if (!name) {
 		var user = this.room.users[0];
 		if (user)
-			name += '@' + user.username;
+			name = '@' + user.username;
 	}
 	if (name)
 		title += name + ' – ';
