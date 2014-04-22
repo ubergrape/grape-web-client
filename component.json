@@ -19,6 +19,7 @@
     "browser/infinite-scroll.js",
     "browser/index.js",
     "browser/rendervdom.js",
+    "browser/titleupdater.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",
