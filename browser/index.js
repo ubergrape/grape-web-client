@@ -38,6 +38,7 @@ var PMPopover = exports.PMPopover = require('./elements/pmpopover');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
+var Title = exports.Title = require('./titleupdater');
 
 function UI(options) {
 	Emitter.call(this);
@@ -73,6 +74,9 @@ UI.prototype.init = function UI_init() {
 	this.historyView = new HistoryView();
 	var chat = qs('.chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
+
+	// update the title
+	this.title = new Title();
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -133,6 +137,10 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 
+	// title
+	broker(this, 'selectchannel', this.title, 'setRoom');
+	broker(this, 'selectorganization', this.title, 'setOrganization');
+
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {
 		navigation.select(channel.type, channel);
@@ -140,7 +148,7 @@ UI.prototype.bind = function UI_bind() {
 		if (state.type === channel.type &&
 		    state.id === channel.id)
 			return;
-		var url = this.options.pathPrefix || '';
+		var url = self.options.pathPrefix || '';
 		url += url[url.length - 1] === '/' ? '' : '/';
 		url += channel.slug || ('@' + channel.users[0].username.toLowerCase());
 		history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
