@@ -21,7 +21,7 @@ ChatHeader.prototype = Object.create(Emitter.prototype);
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
-	qs('.searchform', this.el).addEventListener('submit', function (ev) {
+	qs('.search-form', this.el).addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
 	});
