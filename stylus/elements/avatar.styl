@@ -15,8 +15,26 @@ avatar-status-size = 8px
 	width: avatar-status-size
 	height: avatar-status-size
 	border-radius: 20px
-	&.online
-		background: #8cc152
-	&.offline
-		background: #e9573f
 
+/*______ ROUND AVATAR ______*/
+.avatar-wrap
+	position: relative
+	img
+		float: left
+		border-radius: 50%
+		z-index: 2
+	.online, .offline
+		position: absolute
+		right: -1px
+		top: -5px
+		width: 8px
+		height: 8px
+		z-index: 12
+		border-radius: 50%
+	.online
+		background: #8cc152
+	.offline
+		background: #e9573f
+	div
+		overflow: hidden
+		margin-left: 4px
