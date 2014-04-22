@@ -2,16 +2,10 @@
 	each lines in groupHistory(history)
 		- var first = lines[0]
 		.chatline(key=first.id, data-id=lines[lines.length - 1].id)
-			if first.author.username
-				aside.author
-					img.image(src="http://localhost:9000/static/images/avatar.gif")
-					div= first.author.username
-			else
-				aside.author
-					img.image(src="http://localhost:9000/static/images/avatar.gif") 
-					// //(src=first.author.image)
-					div= first.author.name
+			aside.avatar
+				img.image(src="/static/images/avatar.gif")
 			.content
+				div.author= first.author.username
 				each line in lines
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 					if line.actor && line.actor.image && line.actor.image.url
