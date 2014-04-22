@@ -20,13 +20,14 @@ function HistoryView() {
 	Emitter.call(this);
 
 	this.redraw = this.redraw.bind(this);
-	this.queueDraw = this.queueDraw.bind(this);
+	this.lineAdded = this.lineAdded.bind(this);
 	this.room = {history: new Emitter([])};
+	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.gotHistory = function () {};
 
 	this._bindScroll();
-	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 50);
+	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
 	this.scrollMode = 'automatic';
 }
 
@@ -66,9 +67,40 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		history: this.room.history,
 		groupHistory: groupHistory
 	}));
+
+	var history = this.history.el;
+
+	if (this.lastwindow.lastmsg !== this.room.history[0]) {
+		// prepend messages:
+		// adjust the scrolling with the height of the newly added elements
+		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
+	} else if (this.scrollMode === 'automatic') {
+		// append messages in automatic mode:
+		if (focus.state === 'focus' && this.room.history.length) {
+			history.lastChild.scrollIntoView();
+			// when the window has the focus, we assume the message was read
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+		} else {
+			/* FIXME: since grouping was introduced, this does not work as intended
+
+			// scroll the last read message into view, on the top
+			// This makes sure the last read message is on the top, it scrolls as far
+			// to the bottom as necessary to have it still in the scrolling view
+			history.children[history.children.length - 1 - this.room.unread]
+				.scrollIntoView();
+			// if the scroll left something on the bottom, set scrolling to manual
+			var elem = this.scrollWindow;
+			var sT = elem.scrollTop;
+			var sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0);
+			if (sT < sTM)
+				this.scrollMode === 'manual';
+			*/
+		}
+	}
+	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
 };
 
-HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
+HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
 	if (this.queued) return;
 	this.queued = true;
 	raf(this.redraw);
@@ -81,7 +113,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		return done();
 	}
 	var oldestLine = this.room.history[0];
-	var options = {time_to: oldestLine.time};
+	var options = {time_to: oldestLine && oldestLine.time || new Date()};
 	var self = this;
 	this.gotHistory = function (room, lines) {
 		if (lines.length)
@@ -116,8 +148,9 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	for (var i = history.children.length - 1; i >= 0; i--) {
 		var child = history.children[i];
 		var childBottom = child.offsetTop + child.offsetHeight;
-		if (childBottom <= scrollBottom)
+		if (childBottom <= scrollBottom) {
 			return child;
+		}
 	}
 };
 
@@ -143,51 +176,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	this.redraw();
 	// scroll to bottom
-	if (this.history.lastChild)
-		this.history.lastChild.scrollIntoView();
+	if (this.history.el.lastChild)
+		this.history.el.lastChild.scrollIntoView();
 
-	room.history.on('change', this.queueDraw);
-
-	// react to new messages
-	/*room.on('change history', function (event, line, index) {
-		if (event !== 'add')
-			return;
-		self._newLine(line, index);
-	});*/
-};
-
-HistoryView.prototype._newLine = function HistoryView__newLine(line, index) {
-	var history = this.history.el;
-
-	var el = v.toDOM(template('chatline', line));
-	if (index !== history.children.length) {
-		// when prepending history, make sure to not modify the current scrolling
-		// offset
-		var sH = this.scrollWindow.scrollHeight;
-		history.insertBefore(el, history.children[index]);
-		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - sH;
-		return;
-	}
-	history.appendChild(el);
-
-	if (this.scrollMode === 'automatic') {
-		if (focus.state === 'focus') {
-			el.scrollIntoView();
-			// when the window has the focus, we assume the message was read
-			this.emit('hasread', this.room, line);
-			return;
-		}
-		// scroll the last read message into view, on the top
-		// This makes sure the last read message is on the top, it scrolls as far
-		// to the bottom as necessary to have it still in the scrolling view
-		history.children[history.children.length - 1 - this.room.unread]
-			.scrollIntoView();
-		// if the scroll left something on the bottom, set scrolling to manual
-		var elem = this.scrollWindow;
-		var sT = elem.scrollTop;
-		var sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0);
-		if (sT < sTM)
-			this.scrollMode === 'manual';
-	}
+	room.history.on('change', this.lineAdded);
 };
 

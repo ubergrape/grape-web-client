@@ -1,7 +1,7 @@
 .history
 	each lines in groupHistory(history)
 		- var first = lines[0]
-		.chatline(key=first.id)
+		.chatline(key=first.id, data-id=lines[lines.length - 1].id)
 			if first.author.username
 				aside.author
 					img.image(src="http://localhost:9000/static/images/avatar.gif")
