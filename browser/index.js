@@ -147,7 +147,10 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
 
+	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
+	broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
+	broker(this.chatInput, 'input', this.upload, 'hide');
 
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {

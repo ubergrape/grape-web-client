@@ -42,16 +42,20 @@ Uploader.prototype.bind = function Uploader_bind() {
 	this.trigger.addEventListener('click', function () { self.input.click(); });
 	this.input.addEventListener('change', function (ev) {
 		var file = this.files[0];
+		self.progress.update(0);
 		self.showPreview(file);
+
 		var upload = new Upload(file);
-		upload.on('progress', function (percent) {
-			self.progress.update(percent);
+		upload.on('progress', function (progress) {
+			self.progress.update(progress.percent);
 		});
 		upload.to({
 			path: self.uploadPath,
 			data: {organization: self.org.id}
 		}, function (err, res) {
-			console.log(arguments);
+			if (err) return self.emit('error', err);
+			res = JSON.parse(res.responseText);
+			self.emit('uploaded', res);
 		});
 	});
 };
@@ -62,7 +66,6 @@ Uploader.prototype.setOrganization = function Uploader_setOrganization(org) {
 
 Uploader.prototype.showPreview = function Uploader_updatePreview(f) {
 	var self = this;
-	this.progress.update(0);
 	file(f).toDataURL(function (err, url) {
 		self.preview.src = url;
 		self.classes.add('open');
