@@ -1,5 +1,9 @@
-ul
-	each user in items
-		li.item.user(data-id=user.id, key=user.id)
-			span.name=user.username
+.pmpopover
+	h3
+		=_('New message to')
+		span.close ×
+	ul
+		each user in items
+			li.item.user(data-id=user.id, key=user.id)
+				span.name=user.username
 
