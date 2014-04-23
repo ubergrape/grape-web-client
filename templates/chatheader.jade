@@ -21,10 +21,7 @@
 								span.online
 							else
 								span.offline
-							if user.avatar === 'null'
-								img(src="#{user.avatar}",width="20",alt="#{user.username}")
-							else
-								img(src="http://cdn3.photos.erdbeerlounge.de/images/avatars/user/a/m/o/amour/AICS/fs/46/46/ffffff/amour.jpg",width="20",alt="#{user.username}")
+							img(src="#{user.avatar}",width="20",alt="#{user.username}")
 					if room.users.length > 3
 						- var moreusers = room.users.length - 3
 						span.more 
