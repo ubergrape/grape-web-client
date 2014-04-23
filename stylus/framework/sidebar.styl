@@ -22,7 +22,7 @@
 	color: sidebar-text-color
 	background: jet
 	font-size: sidebar-label-font-size
-	padding: 40px 15px 0px 20px
+	padding: 40px 0 0px 0px
 
 .nav-button
 	float: right
@@ -31,36 +31,54 @@
 	text-transform: uppercase
 	font-size: sidebar-title-font-size
 	font-weight: bold
+	padding-left: 20px
 
-.nav-list .item
-	padding: 5px 0px
-	&:hover
-		color: sidebar-button-hover-text-color
-	&.selected
-		.icon
-			color: highlight-color
-		.name
-			color: highlight-text-color
-			font-weight: bold
 .nav-list
 	margin-top: 6px
 	margin-bottom: 18px
-	.icon, .name, .unread, .avatar
-		cursor: pointer
-	.icon, .avatar
-		display: inline-block
-		width: 15px
-		margin-right: 8px
-		text-align: center
-	.unread
-		display: inline-block
-		margin-left: 7px
-		font-size: 10px
-		font-weight: bold
-		line-height: 15px
-		min-width: 15px
-		padding: 0px 3px
-		border-radius: 20px
-		text-align: center
-		background: highlight-color
-		color: highlight-text-color
+	.item
+		padding: 0px
+		a
+			display: block
+			padding: 7px 15px 3px 20px
+			text-decoration: none
+			color: sidebar-text-color
+			@extend .clearfix;
+			&:hover
+				color: sidebar-button-hover-text-color
+		&.selected
+			// .icon
+			// 	color: highlight-color
+			a
+				color: highlight-text-color
+				font-weight: bold
+				background: highlight-color
+				.unread
+					background: highlight-text-color
+					color: highlight-color
+		.icon, .avatar-wrap, .unread
+			float: left
+			text-align: center
+		.icon, .avatar-wrap
+			margin-right: 5px
+			width: 20px
+		.unread
+			float: right
+			margin: -4px 0 0 7px
+			font-size: 10px
+			font-weight: bold
+			line-height: 20px
+			min-width: 20px
+			padding: 0px 3px
+			border-radius: 50%
+			text-align: center
+			background: highlight-color
+			color: highlight-text-color
+
+		.name
+			height: 1.25em
+			// Ellipsis
+			text-overflow: ellipsis 
+			white-space: nowrap
+			overflow: hidden
+			display: block
