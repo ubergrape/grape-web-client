@@ -17,12 +17,11 @@
 			margin: 0 30px 20px 20px
 			position: relative
 			.avatar
-				@extend .clearfix
 				float: left
 				position: relative
 				font-weight: bold
 				.image
-					width: 48px
+					width: 36px
 					float: left
 					margin-right: (horizontal-space / 2)
 					border-radius: 50%
@@ -52,3 +51,9 @@
 				.text
 					padding: 0
 					margin-bottom: 3px
+					a 
+						color: grape-light
+						text-decoration: none
+						&:hover
+							color: lighten(grape-light, 25)
+							text-decoration: underline

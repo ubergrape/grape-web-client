@@ -12,10 +12,18 @@
 	.input-wrapper
 		padding-left: 20px
 		.image
-			width: 48px
+			width: 36px
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
+			&::after
+				content: ""
+				position: absolute
+				right: 0
+				top: 14px
+				border-right: 6px solid white
+				border-top: 6px solid transparent
+				border-bottom: 6px solid transparent
 		.input
 			float: left
 			width: 80%
@@ -29,7 +37,7 @@
 				position: absolute
 				right: 0
 				top: 14px
-				border-right: 6px solid chatline-content-background
+				border-right: 6px solid white
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
 .autocomplete-anchor
