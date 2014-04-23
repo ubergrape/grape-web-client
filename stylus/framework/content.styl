@@ -1,0 +1,138 @@
+/*
+========================================
+============== FRAMEWORK ===============
+========================================
+*/
+
+/*______ GENERAL ______*/
+
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%
+	overflow: hidden
+	font-size: main-font-size
+	//line-height: main-line-height
+}
+
+*
+	box-sizing border-box
+
+
+/*______ CLIENT STYLING ______*/
+
+.client
+	position: relative
+	background: jet
+	height: 100%
+	overflow: hidden
+	.header
+	.footer
+		position: fixed
+		left: 0
+		right: 0
+	.header
+		top: 0
+		height: header-height
+	.footer
+		bottom: 0
+		height: footer-height
+
+
+/*______ Header Info about the Room you are in ______*/
+.client-room-info
+	background: room-header-background
+	overflow: hidden
+	height: header-height
+	border-bottom: 1px solid client-border-color
+	padding: 17px 30px
+	@extend .clearfix
+	.room-info-text
+		overflow: hidden
+		position: relative
+		.room-name
+			position: relative
+			display: inline-block
+			max-width: 100%
+			h1
+				margin: 0
+				font-weight: bold
+				font-size: bigger-font-size
+				padding-top: 8px
+				margin-right: 20px
+				height: 1.5em
+				max-width: 500px
+				margin-right: 185px
+				// Shortening the Room Name
+				text-overflow: ellipsis 
+				white-space: nowrap
+				overflow: hidden
+				display: block
+		.connected-users
+			position: absolute
+			right: 0px
+			top: 14px
+			color: gainsboro-dark
+			max-height: 1em
+			width: 175px
+			.fa-user, .user, .sml-nr
+				float: left
+			.user
+				margin-left: 8px
+				@extend .avatar-wrap
+			.more, .sml-nr
+				margin-left: 5px
+			.sml-nr
+				display: none
+	.search-form
+		width: 434px
+		float: right
+		.search
+			height: 38px
+			width: 100%
+			border: 1px solid gainsboro-light
+			border-radius: main-border-radius
+			padding: 8px 12px 8px 40px
+			outline: none
+			color: gainsboro-dark
+			box-sizing: border-box
+		.search-icon
+			position: relative
+			left: 15px
+			top: -27px
+			color: gainsboro-dark
+		.search-submit
+			display: none
+	.user:not(.typing) .fa
+		display: none
+
+@media screen and (max-width: 1140px)
+	.client-room-info .search-form
+		width: 234px !important
+	.sml-nr
+		display: block !important
+	.user, .more
+		display: none !important
+	.connected-users
+		width: 50px !important
+	.room-name h1
+		margin-right: 60px !important
+
+
+
+/*______ Mid-Section with Navigation and Chatline ______*/
+.client-body
+	height: 100%
+	padding-bottom: footer-height
+	padding-top: header-height
+	.navigation
+		width: client-navigation-width
+		height: 100%
+		overflow: auto
+		float: left
+	.chat
+		background: chat-background
+		overflow: auto
+		height: 100%
+		padding: 10px 0px

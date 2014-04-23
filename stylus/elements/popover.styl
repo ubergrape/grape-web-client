@@ -10,6 +10,7 @@
 	transition: opacity 500ms
 	margin-top: -10px
 	margin-left: 10px
+	max-width: 450px
 	&::before
 		content: ""
 		display: block
@@ -50,22 +51,17 @@
 		border-bottom: 1px solid #ddd
 		margin: 10px 0px
 	li
-		margin: 5px 0px
+		@extend .functional-list
+		padding: 6px;
 	.icon
 		color: sidebar-text-color
-		width: 20px
-	.name, .users
-		display: inline-block
-		width: 100px
-		text-overflow: ellipsis
-		overflow: hidden
-		vertical-align: middle
 	.toggle
 		width: 100px
 		padding: 5px
 		background: white
 		border: 2px solid
 		border-radius: 4px
+		margin-top: -6px
 		&.join
 			color: grass-light
 			border-color: grass-light
@@ -74,11 +70,13 @@
 			border-color: bittersweet-light
 	button.new
 		float: right
+
 .openform
 	.button.new
 		display: none
 	.newroom
 		display: block
+
 .newroom
 	display: none
 	input[type="text"]
