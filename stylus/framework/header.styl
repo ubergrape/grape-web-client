@@ -1,0 +1,81 @@
+
+/*______ Header Info about the Room you are in ______*/
+.room-info
+	background: room-header-background
+	overflow: hidden
+	height: header-height
+	border-bottom: 1px solid client-border-color
+	padding: 17px 30px
+	@extend .clearfix
+	.room-info-text
+		overflow: hidden
+		position: relative
+		.room-name
+			position: relative
+			display: inline-block
+			max-width: 100%
+			h1
+				margin: 0
+				font-weight: bold
+				font-size: bigger-font-size
+				padding-top: 8px
+				margin-right: 20px
+				height: 1.5em
+				max-width: 500px
+				// Shortening the Room Name
+				text-overflow: ellipsis 
+				white-space: nowrap
+				overflow: hidden
+				display: block
+				margin-right: 160px
+		.connected-users
+			position: absolute
+			right: 0px
+			top: 14px
+			color: gainsboro-dark
+			max-height: 1em
+			width: 150px
+			.fa-user, .user, .sml-nr
+				float: left
+			.user
+				margin-left: 8px
+				@extend .avatar-wrap
+				img
+					margin-top: -5px
+			.more
+			.sml-nr
+				margin-left: 5px
+			.sml-nr
+				display: none
+	.search-form
+		width: 434px
+		float: right
+		.search
+			height: 38px
+			width: 100%
+			border: 1px solid gainsboro-light
+			border-radius: main-border-radius
+			padding: 8px 12px 8px 40px
+			outline: none
+			color: gainsboro-dark
+			box-sizing: border-box
+		.search-icon
+			position: relative
+			left: 15px
+			top: -27px
+			color: gainsboro-dark
+		.search-submit
+			display: none
+	.user:not(.typing) .fa
+		display: none
+@media screen and (max-width: 1140px)
+	.room-info .search-form
+		width: 234px !important
+	.sml-nr
+		display: block !important
+	.user, .more
+		display: none !important
+	.connected-users
+		width: 50px !important
+	.room-name h1
+		margin-right: 60px !important
