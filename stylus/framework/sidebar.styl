@@ -37,18 +37,16 @@
 	margin-top: 6px
 	margin-bottom: 18px
 	.item
+		@extend .clearfix
 		padding: 0px
 		a
 			display: block
 			padding: 7px 15px 3px 20px
 			text-decoration: none
 			color: sidebar-text-color
-			@extend .clearfix;
 			&:hover
 				color: sidebar-button-hover-text-color
 		&.selected
-			// .icon
-			// 	color: highlight-color
 			a
 				color: highlight-text-color
 				font-weight: bold
@@ -56,10 +54,13 @@
 				.unread
 					background: highlight-text-color
 					color: highlight-color
-		.icon, .avatar-wrap, .unread
+		.icon
+		.avatar-wrap
+		.unread
 			float: left
 			text-align: center
-		.icon, .avatar-wrap
+		.icon
+		.avatar-wrap
 			margin-right: 5px
 			width: 20px
 		.unread
@@ -74,10 +75,8 @@
 			text-align: center
 			background: highlight-color
 			color: highlight-text-color
-
 		.name
 			height: 1.25em
-			// Ellipsis
 			text-overflow: ellipsis 
 			white-space: nowrap
 			overflow: hidden
