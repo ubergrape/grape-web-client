@@ -12,3 +12,43 @@
 		overflow: auto
 		height: 100%
 		padding: 10px 0 footer-height 0
+		.chatline
+			@extend .clearfix
+			margin: 0 30px 20px 20px
+			position: relative
+			.avatar
+				@extend .clearfix
+				float: left
+				position: relative
+				font-weight: bold
+				.image
+					width: 48px
+					float: left
+					margin-right: (horizontal-space / 2)
+					border-radius: 50%
+				&::after
+					content: ""
+					position: absolute
+					right: 0
+					top: 14px
+					border-right: 6px solid white
+					border-top: 6px solid transparent
+					border-bottom: 6px solid transparent
+			.content
+				@extend .clearfix
+				padding: 10px 16px
+				overflow: hidden
+				background: white
+				border-radius: main-border-radius
+				time
+					@extend .clearfix
+					font-size: 12px
+					text-transform: uppercase
+					float: right
+					color: gainsboro-dark
+				.author
+					font-weight: bold
+					margin-bottom: 6px
+				.text
+					padding: 0
+					margin-bottom: 3px
