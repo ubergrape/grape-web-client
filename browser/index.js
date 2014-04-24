@@ -72,7 +72,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the history view
 	this.historyView = new HistoryView();
-	var chat = qs('.chat', this.el);
+	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
 	// update the title

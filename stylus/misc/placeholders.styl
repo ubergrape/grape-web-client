@@ -11,11 +11,11 @@ $clearfix
 	clearfix()
 
 /*______ HOVERABLE ______*/
-.hoverable
+$hoverable
 	cursor: pointer
 
 /*______ Functional LIST ______*/
-.functional-list // this has to be the LI
+$functional-list // this has to be the LI
 	@extend $clearfix
 	padding: 0px
 	> a // If the List is one clickable Link
@@ -24,7 +24,6 @@ $clearfix
 	&.selected
 		> a 
 			font-weight: bold
-
 	.name
 		text-overflow: ellipsis 
 		white-space: nowrap
@@ -54,3 +53,15 @@ $clearfix
 		text-align: center
 		background: highlight-color
 		color: highlight-text-color
+
+/*______ OVERLAY ______*/
+$overlay // used for search - infos, etc.
+	@extend $clearfix
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index: 9999
+	background: #eeecef
+	background: rgba(#eeecef,0.92)
