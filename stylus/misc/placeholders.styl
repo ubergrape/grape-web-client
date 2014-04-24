@@ -7,9 +7,8 @@ clearfix()
 		display table
 	&:after
 		clear both
-.clearfix
+$clearfix
 	clearfix()
-
 
 /*______ HOVERABLE ______*/
 .hoverable
@@ -17,7 +16,7 @@ clearfix()
 
 /*______ Functional LIST ______*/
 .functional-list // this has to be the LI
-	@extend .clearfix
+	@extend $clearfix
 	padding: 0px
 	> a // If the List is one clickable Link
 		display: block
