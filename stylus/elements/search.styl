@@ -1,7 +1,7 @@
 .search-results
 	@extend $overlay
 	margin-bottom: footer-height
-
+	display: none
 	.result-info
 		@extend $clearfix
 		margin: 0 0 16px 0
@@ -15,8 +15,10 @@
 
 
 .result-list
-	li
+	> li
 		@extend $clearfix
+		position: relative
+		margin-bottom: 22px
 		.item-info
 			float: left
 			width: 180px
@@ -44,10 +46,19 @@
 			li
 				float:left
 				margin-right: 8px
-				margin-bottom: 22px
 				a
 					color: grape-light
 			.time
 				color: gainsboro-dark
 			.option
 				margin-right: 22px
+		&.selected // for arrow navigation
+			&::before
+				content: \u25B6
+				position: absolute
+				left: -18px
+				top: 50%
+				margin-top: -4px
+				border-left: 8px solid #333
+				border-top: 8px solid transparent
+				border-bottom: 8px solid transparent
