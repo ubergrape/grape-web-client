@@ -37,13 +37,14 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	padding-top: 6px
 	.nav-title
 		text-transform: uppercase
-		font-size: sidebar-title-font-size
+		@extend $small-font-size
 		font-weight: bold
 		padding-left: 20px
 		overflow: hidden
 	.nav-button
 		float: right
 		margin-right: 7px
+		margin-top: -3px
 
 .nav-list
 	margin-bottom: 12px
@@ -63,3 +64,4 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 				background: darken(jet, 3);
 		.name
 			height: 1.25em
+			line-height: 1em
