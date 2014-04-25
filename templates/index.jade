@@ -9,40 +9,58 @@
 		div.chat-wrapper
 			section.chat
 			.search-results
+				a.result-filter-toggle=_('Filter Results')
 				.result-info
 					.result-nr
 						=_('52 Ergebnisse für ')
 						strong=_('Hamburger')
 				.result-filters
-				ul.result-list
-					li.result-item.selected
-						.item-info
-							h2=_('Tobias Seiler')
-							i.fa.fa-comment
-							span=_('Design')
-						.item-content
-							=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das "Big-Mac" oder so ähnlich. Möchtet ihr mit mir einen ')
-							span=_('Hamburger')
-							=_(' essen?')
-							ul.item-footer
-								li.time
-									time=_('1. Jänner, 0:46 Uhr')
-								li.option
-									a=_('Jump to conversation')
-								li.option
-									a=_('All results from this user')
-					li.result-item
-						.item-info
-							h2=_('Lea de Roucy')
-							i.fa.fa-envelope
-							span=_('Nachrichten')
-						.item-content
-							=_('Diese ')
-							span=_('Hamburger')
-							=_('-Konstruktion ermöglicht es, die Zwiebel-Soe-Fleisch-Einlage gleich zweimal unterzubringen')
-							ul.item-footer
-								li.time
-									time=_('1. Jänner, 0:48 Uhr')
-								li.option
-									a=_('See message')
+					h2=_('Sort by')
+					ul
+						li
+							a=_('Überall')
+						li
+							a=_('Design')
+					h2=_('Filter by')
+					ul.filter-list
+						li
+							a=_('Alle (51)')
+						li
+							a=_('Nachrichten (14)')
+						li
+							a=_('Dateien (10)')
+						li
+							a=_('GitHub Issues (1)')
+				.result-wrapper
+					ul.result-list
+						li.result-item.selected
+							.item-info
+								h2=_('Tobias Seiler')
+								i.fa.fa-comment
+								span=_('Design')
+							.item-content
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das "Big-Mac" oder so ähnlich. Möchtet ihr mit mir einen ')
+								span=_('Hamburger')
+								=_(' essen?')
+								ul.item-footer
+									li.time
+										time=_('1. Jänner, 0:46 Uhr')
+									li.option
+										a=_('Jump to conversation')
+									li.option
+										a=_('All results from this user')
+						li.result-item
+							.item-info
+								h2=_('Lea de Roucy')
+								i.fa.fa-envelope
+								span=_('Nachrichten')
+							.item-content
+								=_('Diese ')
+								span=_('Hamburger')
+								=_('-Konstruktion ermöglicht es, die Zwiebel-Soe-Fleisch-Einlage gleich zweimal unterzubringen')
+								ul.item-footer
+									li.time
+										time=_('1. Jänner, 0:48 Uhr')
+									li.option
+										a=_('See message')
 		footer.footer

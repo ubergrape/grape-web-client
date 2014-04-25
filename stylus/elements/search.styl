@@ -1,19 +1,36 @@
 .search-results
 	@extend $overlay
 	margin-bottom: footer-height
+	padding-left: 0
 	display: none
 	.result-info
 		@extend $clearfix
 		margin: 0 0 16px 0
-		.result-filter
-			float: right
-		.result-nr
-			overflow: hidden
-			font-size main-font-size
-			line-height main-line-height
-			strong
+		padding-left: 30px
+	.result-filter-toggle
+		@extend .button
+		float: right
+		margin-left: 8px
+	.result-nr
+		overflow: hidden
+		font-size main-font-size
+		line-height main-line-height
 
-
+.result-filters
+	float: right
+	width: 220px
+	margin: 0 0 0 10px
+	padding: 0 15px
+	min-height: 300px
+	border-left: 1px solid silver-dark
+	h2
+		font-weight: bold
+		margin-bottom: 4px
+	ul
+		margin-bottom: 12px
+.result-wrapper
+	overflow: hidden
+	padding-left: 30px
 .result-list
 	> li
 		@extend $clearfix
@@ -56,9 +73,9 @@
 			&::before
 				content: \u25B6
 				position: absolute
-				left: -18px
+				left: -16px
 				top: 50%
-				margin-top: -4px
-				border-left: 8px solid #333
-				border-top: 8px solid transparent
-				border-bottom: 8px solid transparent
+				margin-top: -3px
+				border-left: 8px solid jet
+				border-top: 6px solid transparent
+				border-bottom: 6px solid transparent

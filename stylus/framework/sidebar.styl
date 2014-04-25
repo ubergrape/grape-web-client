@@ -52,16 +52,16 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		@extend $functional-list
 		a
 			display: block
-			padding: 7px 12px 3px 8px
-			margin-right: 0
-			margin-left: 12px
+			padding: 7px 12px 3px 20px
 			text-decoration: none
 		&.selected
 			a
 				color: highlight-text-color
 				font-weight: bold
-				border-radius: 5px 0 0 5px
-				background: darken(jet, 3);
+				border-radius: 0 5px 5px 0 
+				background: lighten(jet, 3);
+				border-left: 3px solid aqua-dark
+				padding-left: 17px
 		.name
 			height: 1.25em
 			line-height: 1em
