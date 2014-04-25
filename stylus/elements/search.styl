@@ -1,4 +1,53 @@
 .search-results
-	display: none
 	@extend $overlay
 	margin-bottom: footer-height
+
+	.result-info
+		@extend $clearfix
+		margin: 0 0 16px 0
+		.result-filter
+			float: right
+		.result-nr
+			overflow: hidden
+			font-size main-font-size
+			line-height main-line-height
+			strong
+
+
+.result-list
+	li
+		@extend $clearfix
+		.item-info
+			float: left
+			width: 180px
+			h2
+				font-weight: bold
+				margin-bottom: 2px
+			i, span
+				color: gainsboro-dark
+				@extend $small-font-size
+			i
+				margin-right: 5px
+		.item-content
+			overflow: hidden
+			span
+				background: search-highlight
+				padding: 0px 3px
+				margin: 0 -3px
+				border-radius: 4px
+		.item-footer
+			margin-top: 7px
+			@extend $clearfix
+			text-transform: uppercase
+			@extend $small-font-size
+			font-weight: bold
+			li
+				float:left
+				margin-right: 8px
+				margin-bottom: 22px
+				a
+					color: grape-light
+			.time
+				color: gainsboro-dark
+			.option
+				margin-right: 22px
