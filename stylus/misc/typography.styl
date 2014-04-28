@@ -6,11 +6,11 @@
 */
 
 
-relative-font-size($sizeValue = 1.6, $lineHeightValue = 1.8) // Kalkuliert relative Font Size zur absoluten Font-größe. Fallback für IE in absoluten PX zahlen
-    font-size ($sizeValue * 15) px
-    font-size $sizeValue rem
-    line-height ($lineHeightValue * 15) px
-    line-height $lineHeightValue rem
+relative-font-size(sizeValue = 1.6, lineHeightValue = 1.8) // Kalkuliert relative Font Size zur absoluten Font-größe. Fallback für IE in absoluten PX zahlen
+    font-size (sizeValue * 15) px
+    font-size sizeValue rem
+    line-height (lineHeightValue * 15) px
+    line-height lineHeightValue rem
 
 
 main-font-size = 15px
@@ -25,7 +25,7 @@ $normal-font-size
     relative-font-size(1, 1.25);
 
 $small-font-size
-    relative-font-size(.75, 1)
+    relative-font-size(.75, .75)
 
 $big-font-size
     relative-font-size(1.25, 1.50)
