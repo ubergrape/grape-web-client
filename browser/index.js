@@ -27,8 +27,8 @@ template.locals.html = function (html) {
 	return v.fromDOM(domify(html));
 };
 template.locals.user = {
-    avatar: "/static/images/avatar.gif",
-    username: "loading"
+	avatar: "/static/images/avatar.gif",
+	username: "loading"
 };
 
 // FIXME: change language, for now
