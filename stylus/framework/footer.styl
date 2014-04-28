@@ -44,18 +44,26 @@
 				border-radius: main-border-radius
 				outline: none
 				font-size: 15px
-				padding: 8px 10px 8px 14px
+				padding: 8px 10px 8px 10px
 				width: 100%
-.autocomplete-anchor
+.autocomplete-wrapper
 	position: relative
-.autocomplete
-	&.Textcomplete-hidden
-		display: none
-	bottom: 0px
-	width: 100%
-	background: white
-	padding: 2px 5px
-	border-radius: 5px
-	box-shadow: 0px 4px 10px -1px rgba(black, 0.5)
-.Textcomplete-highlighted
-	background: #ddd
+	margin-left: 46px
+	.autocomplete
+		bottom: 0px
+		width: 100%
+		background: white
+		padding: 0
+		border: 1px solid gainsboro-light
+		&.Textcomplete-hidden
+			display: none
+		.Textcomplete-headline
+			background: silver-dark
+			@extend $small-font-size
+			padding: 4px 8px
+			text-transform: uppercase
+		.Textcomplete-option
+			padding: 4px 10px
+		.Textcomplete-highlighted
+			background: grape-dark
+			color: white
