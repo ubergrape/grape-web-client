@@ -26,6 +26,10 @@ template.locals.marked = require('marked');
 template.locals.html = function (html) {
 	return v.fromDOM(domify(html));
 };
+template.locals.user = {
+    avatar: "/static/images/avatar.gif",
+    username: "loading"
+};
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
@@ -249,6 +253,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	this.user = user;
 	template.locals.user = user;
+    this.chatInput.update()
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
