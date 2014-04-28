@@ -253,7 +253,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	this.user = user;
 	template.locals.user = user;
-    this.chatInput.update()
+    this.chatInput.update();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {

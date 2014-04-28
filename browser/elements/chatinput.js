@@ -31,7 +31,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 ChatInput.prototype.update = function ChatInput_update() {
 	var vdom = template('chatinput', {});
 	render(this, vdom);
-}
+};
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
