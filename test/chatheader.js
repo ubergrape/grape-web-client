@@ -16,14 +16,14 @@ describe('ChatHeader', function () {
 	it('should render the room name', function () {
 		var ch = new ChatHeader();
 		ch.setRoom(emitter({name: 'test', type: 'room', users: []}));
-		qs('.room-name', ch.el).textContent.should.eql('test');
+		qs('.room-name', ch.el).textContent.should.eql('test0'); // XXX: users
 	});
 	it('should render a list of all users in the room', function () {
 		var ch = new ChatHeader();
 		var user = {id: 1, username: 'test', status: 16};
 		ch.setRoom(emitter({name: 'test', users: [user], typing: {}}));
 		// FIXME: this test is too fragile
-		qs('.user', ch.el).textContent.should.eql('test (16) ');
+		qs('.connected-users', ch.el).textContent.should.eql('1');
 	});
 	it('should provide a method to clear the search term', function () {
 		var ch = new ChatHeader();

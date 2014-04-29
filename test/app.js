@@ -154,8 +154,9 @@ describe('App', function () {
 			room.name.should.eql('name');
 			room.slug.should.eql('slug');
 			app.organization.pms.on('add', function (pm) {
-				pm.users.length.should.eql(1);
+				pm.users.length.should.eql(2);
 				pm.users[0].should.equal(app.organization.users[1]);
+				pm.users[1].should.equal(app.user);
 				done();
 			});
 			server.send(JSON.stringify([8, 'http://domain/channel#new', {
@@ -187,8 +188,9 @@ describe('App', function () {
 			msg[4].should.eql(2);
 			app.organization.pms.on('add', function (pm) {
 				pm.id.should.eql(30);
-				pm.users.length.should.eql(1);
+				pm.users.length.should.eql(2);
 				pm.users[0].should.eql(app.organization.users[1]);
+				pm.users[1].should.eql(app.user);
 				done();
 			});
 			server.send(JSON.stringify([3, msg[1], {id: 30, users: [1, 2]}]));
@@ -274,12 +276,12 @@ describe('App', function () {
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
 			room.history[0].author.should.equal(app.user);
-			room.history[0].read.should.be.false;
+			room.history[0].read.should.be.true; // XXX
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
 			room.history[1].author.should.equal(room.users[0]);
-			room.history[1].read.should.be.false;
+			room.history[1].read.should.be.true; // XXX
 			done();
 		});
 		app.getHistory(room);
@@ -425,7 +427,7 @@ describe('App', function () {
 			line.text.should.eql('foobar');
 			line.time.should.be.instanceof(Date);
 			line.time.getTime().should.eql(1391521894662);
-			line.read.should.be.false;
+			line.read.should.be.true; // XXX
 			done();
 		});
 		var msg = {
@@ -525,7 +527,7 @@ describe('App', function () {
 		function send() {
 			var msg = {
 				id: 1,
-				author: {type: 'user', id: 1},
+				author: {type: 'user', id: 2},
 				text: 'foobar',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1
@@ -533,7 +535,7 @@ describe('App', function () {
 			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
 			msg = {
 				id: 2,
-				author: {type: 'user', id: 2},
+				author: {type: 'user', id: 3},
 				text: 'foobar2',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1
@@ -541,7 +543,7 @@ describe('App', function () {
 			server.send(JSON.stringify([8, 'http://domain/message#new', msg]));
 			msg = {
 				id: 3,
-				author: {type: 'user', id: 3},
+				author: {type: 'user', id: 4},
 				text: 'foobar3',
 				time: '2014-02-04T13:51:34.662Z',
 				channel: 1

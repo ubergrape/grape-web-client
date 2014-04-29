@@ -102,7 +102,7 @@ describe('ItemList (rooms template)', function () {
 		item.unread = 2;
 		item.emit('change');
 		item.emit('change unread');
-		qs('li.item .unread', il.el).textContent.should.eql('2');
+		qs('li.item .notification', il.el).textContent.should.eql('2');
 	});
 	it('should mark an item as selected', function () {
 		var il = new ItemList(opts);

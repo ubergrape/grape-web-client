@@ -85,7 +85,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
-	var uploadContainer = qs('.uploader', this.chatInput.el)
+	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 };
 
@@ -264,7 +264,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	this.user = user;
 	template.locals.user = user;
-    this.chatInput.update();
+	this.chatInput.redraw();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {

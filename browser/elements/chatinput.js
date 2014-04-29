@@ -25,11 +25,11 @@ function ChatInput() {
 ChatInput.prototype = Object.create(Emitter.prototype);
 
 ChatInput.prototype.init = function ChatInput_init() {
-	this.update()
+	this.redraw();
 	this.textarea = qs('textarea', this.el);
 };
 
-ChatInput.prototype.update = function ChatInput_update() {
+ChatInput.prototype.redraw = function ChatInput_redraw() {
 	var vdom = template('chatinput', {});
 	render(this, vdom);
 };

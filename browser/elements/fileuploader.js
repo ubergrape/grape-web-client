@@ -40,7 +40,7 @@ Uploader.prototype.init = function Uploader_init() {
 Uploader.prototype.bind = function Uploader_bind() {
 	var self = this;
 	this.trigger.addEventListener('click', function () { self.input.click(); });
-	this.input.addEventListener('change', function (ev) {
+	this.input.addEventListener('change', function () {
 		var file = this.files[0];
 		self.progress.update(0);
 		self.showPreview(file);
