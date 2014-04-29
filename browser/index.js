@@ -43,6 +43,7 @@ var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
+var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 
 function UI(options) {
 	Emitter.call(this);
@@ -79,8 +80,13 @@ UI.prototype.init = function UI_init() {
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-	// update the title
+	// initialize title handler
 	this.title = new Title();
+
+	// initialize file uploader
+	this.upload = new FileUploader(this.options.uploadPath);
+	var uploadContainer = qs('.uploader', this.chatInput.el);
+	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -144,6 +150,11 @@ UI.prototype.bind = function UI_bind() {
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
+
+	// file upload
+	broker(this, 'selectorganization', this.upload, 'setOrganization');
+	broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
+	broker(this.chatInput, 'input', this.upload, 'hide');
 
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {
@@ -253,7 +264,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	this.user = user;
 	template.locals.user = user;
-    this.chatInput.update();
+	this.chatInput.redraw();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {

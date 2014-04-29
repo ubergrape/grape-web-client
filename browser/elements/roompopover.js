@@ -64,7 +64,6 @@ RoomPopover.prototype.resetvalidity = function RoomPopover_resetvalidity() {
 
 RoomPopover.prototype.validationError = function RoomPopover_validationError(err) {
 	var details = err.details;
-	console.log(details);
 	if (details.name) {
 		this.form['newroom-name'].setCustomValidity(details.name[0].message);
 		this.form.submit.click();

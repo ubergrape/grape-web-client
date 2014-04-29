@@ -109,7 +109,8 @@ HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
 HistoryView.prototype.scrollTo = function HistoryView_scrollTo(el) {
 	if (!el) return;
 	// get the last .text and scroll to that
-	var texts = qs('.text', el);
+	var texts = qs.all('.text', el);
+	if (!texts.length) return;
 	texts[texts.length - 1].scrollIntoView();
 };
 
@@ -133,10 +134,12 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	function updateRead() {
-		setTimeout(function () {
+		self.readTimeout = setTimeout(function () {
+			self.readTimeout = undefined;
 			if (focus.state !== 'focus')
 				return; // we get scroll events even when the window is not focused
 			var bottomElem = self._findBottomVisible();
+			if (!bottomElem) return;
 			var line = Line.get(bottomElem.getAttribute('data-id'));
 			self.emit('hasread', self.room, line);
 		}, 2500);
@@ -165,6 +168,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
 	self.gotHistory = function () {};
+	if (self.readTimeout) {
+		clearTimeout(self.readTimeout);
+		self.readTimeout = undefined;
+	}
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('change');

@@ -33,7 +33,7 @@ describe('Navigation', function () {
 			labels: emitter([emitter({id: 1, name: 'test', icon: 'github'})]),
 		});
 		//qs('.rooms li.item', nav.el).textContent.should.eql('test');
-		qs('.pms li.item .unread', nav.el).textContent.should.eql('2');
+		qs('.pms li.item .notification', nav.el).textContent.should.eql('2');
 		qs('.labels li.item i', nav.el).className.should.include('github');
 	});
 	it.skip('should emit proper events for each of the sub lists', function () {
