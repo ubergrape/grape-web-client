@@ -1,14 +1,14 @@
 ul
 	each room in items
 		li.item.room(data-id=room.id, key=room.id)
+			if room.joined
+				button.toggle.leave=_('leave')
+			else
+				button.toggle.join=_('join')
 			if room.private
 				i.icon.fa.fa-lock
 			else
 				i.icon.fa.fa-comments
 			span.name=room.name
 			span.users
-			if room.joined
-				button.toggle.leave=_('leave')
-			else
-				button.toggle.join=_('join')
 

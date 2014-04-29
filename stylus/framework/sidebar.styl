@@ -14,7 +14,7 @@
 		text-transform: uppercase
 		font-size: 10px
 	.info-organizationlogo
-		background: clientlogo-background
+		background: organisation-background
 		height: (header-height / 3) * 2
 
 /*______ Left navigation ______*/
@@ -22,64 +22,48 @@
 	color: sidebar-text-color
 	background: jet
 	font-size: sidebar-label-font-size
-	padding: 40px 0 0px 0px
+	padding: 34px 0 0px 0px
 
-.nav-button
-	float: right
+a.nav-title-wrap, .nav-list a //Sidebar Link Styling
+	color: sidebar-text-color
+	&:hover
+		color: sidebar-button-hover-text-color
 
-.nav-title
-	text-transform: uppercase
-	font-size: sidebar-title-font-size
-	font-weight: bold
-	padding-left: 20px
+.nav-title-wrap
+	@extend $hoverable
+	@extend $clearfix
+	display: block
+	padding-bottom: 6px
+	padding-top: 6px
+	.nav-title
+		text-transform: uppercase
+		@extend $small-font-size
+		font-weight: bold
+		padding-left: 20px
+		overflow: hidden
+	.nav-button
+		float: right
+		margin-right: 7px
+		margin-top: -3px
 
 .nav-list
-	margin-top: 6px
-	margin-bottom: 18px
+	margin-bottom: 12px
 	.item
-		@extend .clearfix
-		padding: 0px
+		@extend $functional-list
 		a
 			display: block
-			padding: 7px 15px 3px 20px
+			padding: 7px 12px 3px 20px
 			text-decoration: none
-			color: sidebar-text-color
-			&:hover
-				color: sidebar-button-hover-text-color
 		&.selected
 			a
 				color: highlight-text-color
 				font-weight: bold
-				border-left: 2px solid #4fc1e9
-				padding-left: 18px;
-				background: darken(jet, 5);
-				.unread
-					background: highlight-text-color
-					color: highlight-color
-		.icon
-		.avatar-wrap
-		.unread
-			float: left
-			text-align: center
-		.icon
-		.avatar-wrap
-			margin-right: 5px
-			width: 20px
-		.unread
-			float: right
-			margin: -4px 0 0 7px
-			font-size: 10px
-			font-weight: bold
-			line-height: 20px
-			min-width: 20px
-			padding: 0px 3px
-			border-radius: 50%
-			text-align: center
-			background: highlight-color
-			color: highlight-text-color
+				border-radius: 0 5px 5px 0 
+				background: lighten(jet, 3)
+				border-left: 3px solid grape-light
+				padding-left: 17px
+			.icon
+				color: grape-light
 		.name
 			height: 1.25em
-			text-overflow: ellipsis 
-			white-space: nowrap
-			overflow: hidden
-			display: block
+			line-height: 1em

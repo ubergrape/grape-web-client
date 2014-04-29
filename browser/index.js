@@ -26,6 +26,10 @@ template.locals.marked = require('marked');
 template.locals.html = function (html) {
 	return v.fromDOM(domify(html));
 };
+template.locals.user = {
+	avatar: "/static/images/avatar.gif",
+	username: "loading"
+};
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
@@ -73,7 +77,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the history view
 	this.historyView = new HistoryView();
-	var chat = qs('.chat', this.el);
+	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
 	// initialize title handler
@@ -260,11 +264,27 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	this.user = user;
 	template.locals.user = user;
+    this.chatInput.update();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-	// FIXME: ideally, there should be a switch for this
-	this.emit('selectorganization', orgs[0]);
+	var hostname = window.location.hostname;
+	var org;
+	var parts = hostname.split('.');
+	if (parts.length === 1 || hostname === '127.0.0.1') {
+		// assuming we are developing, either on localhost or 127.0.0.1
+		// so just use the first org, should work for the common dev cases
+		org = orgs[0];
+	}	else {
+		org = orgs.filter(function(o) {
+			if (o.subdomain === parts[0]) return o;
+		})[0];	
+	}
+	if (org === undefined) {
+		// TODO: Couldnt find a suitable org, what to do now?
+		// Do some permission denied stuff or something else?
+	}
+	this.emit('selectorganization', org);
 };
 
 UI.prototype.channelFromURL = function UI_channelFromURL() {

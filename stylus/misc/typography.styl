@@ -1,4 +1,54 @@
 
+/*
+========================================
+================ FONT BUILDING ================
+========================================
+*/
+
+
+relative-font-size(sizeValue = 1.6, lineHeightValue = 1.8) // Kalkuliert relative Font Size zur absoluten Font-größe. Fallback für IE in absoluten PX zahlen
+    font-size (sizeValue * 15) px
+    font-size sizeValue rem
+    line-height (lineHeightValue * 15) px
+    line-height lineHeightValue rem
+
+
+main-font-size = 15px
+main-line-height = 20px
+
+small-font-size = main-font-size * .75
+big-font-size = main-font-size * 1.25
+bigger-font-size = big-font-size * 1.25
+biggest-font-size = bigger-font-size * 1.25
+
+$normal-font-size
+    relative-font-size(1, 1.25);
+
+$small-font-size
+    relative-font-size(.75, .75)
+
+$big-font-size
+    relative-font-size(1.25, 1.50)
+
+$bigger-font-size
+    relative-font-size(1.6, 1.8)
+
+$biggest-font-size
+    relative-font-size(2, 2.2)
+
+
+sidebar-title-font-size = 12px
+sidebar-label-font-size = 14px
+sidebar-button-font-size = 11px
+label-font-size = 11px
+
+
+
+
+
+
+
+
 /**
  * TODO: lets put all the @font-face things here in case we don’t use external
  * components for that, like:

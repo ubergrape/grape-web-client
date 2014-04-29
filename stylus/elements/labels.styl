@@ -7,10 +7,10 @@ $color-test-label = grape-light
 	display: inline-block
 	padding: 3px 7px
 	font-weight: normal
-	font-size: label-font-size
+	@extend $small-font-size
+	@extend $hoverable
 	text-transform: uppercase
 	color: lighten($color-test-label, 20)
-	cursor: pointer
 	background: rgba($color-test-label, .2)
 	border: 1px solid $color-test-label
 	border-radius: 5px

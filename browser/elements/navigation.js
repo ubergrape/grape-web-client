@@ -6,6 +6,7 @@ var Scrollbars = require('scrollbars');
 var template = require('template');
 var qs = require('query');
 var events = require('events');
+var closest = require('closest');
 
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
@@ -47,9 +48,8 @@ function replace(from, to) {
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		addroom: function (ev) { self.emit('addroom', ev.target); },
-		addpm: function (ev) { self.emit('addpm', ev.target); },
-		//addroom: function () { self.emit('addroom'); },
+		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
+		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
 	});
 	this.events.bind('click .addroom', 'addroom');
 	this.events.bind('click .addpm', 'addpm');

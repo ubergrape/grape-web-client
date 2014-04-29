@@ -3,11 +3,11 @@
 
 var Emitter = require('emitter');
 var render = require('../rendervdom');
-var v = require('virtualdom');
 var raf = require('raf');
 var template = require('template');
 var throttle = require('throttle');
 var Scrollbars = require('scrollbars');
+var qs = require('query');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -77,7 +77,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	} else if (this.scrollMode === 'automatic') {
 		// append messages in automatic mode:
 		if (focus.state === 'focus' && this.room.history.length) {
-			history.lastChild.scrollIntoView();
+			this.scrollTo(history.lastChild);
 			// when the window has the focus, we assume the message was read
 			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 		} else {
@@ -106,6 +106,14 @@ HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
 	raf(this.redraw);
 };
 
+HistoryView.prototype.scrollTo = function HistoryView_scrollTo(el) {
+	if (!el) return;
+	// get the last .text and scroll to that
+	var texts = qs.all('.text', el);
+	if (!texts.length) return;
+	texts[texts.length - 1].scrollIntoView();
+};
+
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
 	// set the scrollMode to automatic when scrolling to the bottom
 	if (direction === 'bottom') {
@@ -126,10 +134,12 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	function updateRead() {
-		setTimeout(function () {
+		self.readTimeout = setTimeout(function () {
+			self.readTimeout = undefined;
 			if (focus.state !== 'focus')
 				return; // we get scroll events even when the window is not focused
 			var bottomElem = self._findBottomVisible();
+			if (!bottomElem) return;
 			var line = Line.get(bottomElem.getAttribute('data-id'));
 			self.emit('hasread', self.room, line);
 		}, 2500);
@@ -158,6 +168,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
 	self.gotHistory = function () {};
+	if (self.readTimeout) {
+		clearTimeout(self.readTimeout);
+		self.readTimeout = undefined;
+	}
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('change');
@@ -176,8 +190,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	this.redraw();
 	// scroll to bottom
-	if (this.history.el.lastChild)
-		this.history.el.lastChild.scrollIntoView();
+	this.scrollTo(this.history.el.lastChild);
 
 	room.history.on('change', this.lineAdded);
 };
