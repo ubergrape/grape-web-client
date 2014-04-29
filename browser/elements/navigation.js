@@ -31,11 +31,11 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = scr.wrapper;
 
 	// initialize the sub lists
-	var roomList = this.roomList = new ItemList({template: 'roomlist'});
+	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: 'a'});
 	replace(qs('.rooms', el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item .name, .item .avatar, .item .unread'});
+	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: 'a'});
 	replace(qs('.pms', el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item .label'});
+	var labelList = this.labelList = new ItemList({template: 'labellist', selector: 'a'});
 	replace(qs('.labels', el), labelList.el);
 };
 

@@ -1,18 +1,19 @@
 /*______ Top left Info about the product and Organisation ______*/
-.client-info
+.organization-info
 	float: left
 	width: client-navigation-width
 	height: header-height
 	background: organisation-background
 	color: sidebar-text-color
-	.info-poweredby, .info-clientlogo
+	.info-poweredby
+	.info-organizationlogo
 		padding: 6px 20px
 	.info-poweredby
 		background: poweredby-background
 		height: (header-height / 3)
 		text-transform: uppercase
 		font-size: 10px
-	.info-clientlogo
+	.info-organizationlogo
 		background: clientlogo-background
 		height: (header-height / 3) * 2
 
@@ -21,7 +22,7 @@
 	color: sidebar-text-color
 	background: jet
 	font-size: sidebar-label-font-size
-	padding: 40px 15px 0px 20px
+	padding: 40px 0 0px 0px
 
 .nav-button
 	float: right
@@ -30,36 +31,55 @@
 	text-transform: uppercase
 	font-size: sidebar-title-font-size
 	font-weight: bold
+	padding-left: 20px
 
-.nav-list .item
-	padding: 5px 0px
-	&:hover
-		color: sidebar-button-hover-text-color
-	&.selected
-		.icon
-			color: highlight-color
-		.name
-			color: highlight-text-color
-			font-weight: bold
 .nav-list
 	margin-top: 6px
 	margin-bottom: 18px
-	.icon, .name, .unread, .avatar
-		cursor: pointer
-	.icon, .avatar
-		display: inline-block
-		width: 15px
-		margin-right: 8px
-		text-align: center
-	.unread
-		display: inline-block
-		margin-left: 7px
-		font-size: 10px
-		font-weight: bold
-		line-height: 15px
-		min-width: 15px
-		padding: 0px 3px
-		border-radius: 20px
-		text-align: center
-		background: highlight-color
-		color: highlight-text-color
+	.item
+		@extend .clearfix
+		padding: 0px
+		a
+			display: block
+			padding: 7px 15px 3px 20px
+			text-decoration: none
+			color: sidebar-text-color
+			&:hover
+				color: sidebar-button-hover-text-color
+		&.selected
+			a
+				color: highlight-text-color
+				font-weight: bold
+				border-left: 2px solid #4fc1e9
+				padding-left: 18px;
+				background: darken(jet, 5);
+				.unread
+					background: highlight-text-color
+					color: highlight-color
+		.icon
+		.avatar-wrap
+		.unread
+			float: left
+			text-align: center
+		.icon
+		.avatar-wrap
+			margin-right: 5px
+			width: 20px
+		.unread
+			float: right
+			margin: -4px 0 0 7px
+			font-size: 10px
+			font-weight: bold
+			line-height: 20px
+			min-width: 20px
+			padding: 0px 3px
+			border-radius: 50%
+			text-align: center
+			background: highlight-color
+			color: highlight-text-color
+		.name
+			height: 1.25em
+			text-overflow: ellipsis 
+			white-space: nowrap
+			overflow: hidden
+			display: block

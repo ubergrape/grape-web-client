@@ -3,12 +3,39 @@
 @import "misc/typography"
 
 @import "elements/buttons"
-@import "elements/chatline"
 @import "elements/avatar"
 @import "elements/popover"
 @import "elements/labels"
 @import "elements/forms"
 
-@import "framework/content"
+@import "framework/chat-content"
+@import "framework/header"
 @import "framework/sidebar"
 @import "framework/footer"
+
+/*______ GENERAL ______*/
+
+html, body
+	margin: 0
+	padding: 0
+	height: 100%
+	overflow: hidden
+	font-size: main-font-size
+	text-rendering: optimizelegibility
+	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif;
+
+*
+	box-sizing: border-box
+
+h1, h2, h3, h4, h5, h6
+	margin: 0
+	padding: 0
+
+
+/*______ FRAMEWORK ______*/
+
+.client
+	position: relative
+	background: jet
+	height: 100%
+	overflow: hidden
