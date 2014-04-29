@@ -46,13 +46,14 @@
 		font-weight: normal
 		text-transform: uppercase
 .roompopover
+	width: 320px
 	ul
 		padding: 5px 0px
 		border-bottom: 1px solid #ddd
 		margin: 10px 0px
 	li
 		@extend $functional-list
-		padding: 6px;
+		padding: 6px 0
 	.icon
 		color: sidebar-text-color
 	.toggle
@@ -70,31 +71,40 @@
 			border-color: bittersweet-light
 	button.new
 		float: right
-
 .openform
 	.button.new
 		display: none
 	.newroom
 		display: block
-
 .newroom
 	display: none
-	input[type="text"]
-		width: 200px
-		height: 40px
-		border: 1px solid gainsboro-light
-		border-radius: main-border-radius
-		outline: none
 	label.text, h4
 		display: inline-block
 		width: 120px
-		margin: 10px 0px
-	label.radio
+		margin: 0
+		margin-top: 3px
+    	padding: 3px
+	.visibility-headline
+		float: left
+	.radio-wrapper
 		display: inline-block
-		width: 100px
+		width: 200px
+		padding-top: 4px
+	span.radio-label-subline
+		@extend $small-font-size
+	input[type="text"]
+		width: 200px
+		padding: 8px 10px 8px 10px
+		border: 1px solid gainsboro-light
+		border-radius: main-border-radius
+		outline: none
+	label.radio-label
+		display: block
+		width: 200px
 	input[type="radio"]
 		width: 20px
 		margin: 0px 5px
-		vertical-align: middle
-	.button.create
-		float: right
+		vertical-align: top
+		outline: none
+.button.create
+	float: right
