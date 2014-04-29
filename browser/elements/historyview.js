@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var render = require('../rendervdom');
-var v = require('virtualdom');
 var raf = require('raf');
 var template = require('template');
 var throttle = require('throttle');

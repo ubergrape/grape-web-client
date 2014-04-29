@@ -67,7 +67,7 @@ RoomPopover.prototype.validationError = function RoomPopover_validationError(err
 	console.log(details);
 	if (details.name) {
 		this.form['newroom-name'].setCustomValidity(details.name[0].message);
-		this.form['submit'].click();
+		this.form.submit.click();
 	}
 };
 
