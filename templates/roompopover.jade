@@ -4,7 +4,7 @@
 		span.close ×
 	ul
 	button.button.new
-		=_('create new chatroom')
+		=_('Create new chatroom')
 		i.icon.fa.fa-plus-circle
 	form.newroom
 		.formrow.mar-b10
@@ -12,7 +12,7 @@
 			input(type="text", id="newroom-name")
 		.formrow
 			h4.visibility-headline=_('Visibility')
-			.radio-wrapper.mar-b20
+			.radio-wrapper
 				label.radio-label
 					input(type="radio", name="newroom-visibility", value="public", checked)
 					=_('Public')

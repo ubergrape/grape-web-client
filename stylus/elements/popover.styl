@@ -78,20 +78,22 @@
 		display: block
 .newroom
 	display: none
+	.visibility-headline
+		float: left
 	label.text, h4
 		display: inline-block
 		width: 120px
 		margin: 0
 		margin-top: 3px
-    	padding: 3px
-	.visibility-headline
-		float: left
+		padding: 3px
 	.radio-wrapper
 		display: inline-block
 		width: 200px
 		padding-top: 4px
 	span.radio-label-subline
 		@extend $small-font-size
+		display: block
+		padding: 3px 0
 	input[type="text"]
 		width: 200px
 		padding: 8px 10px 8px 10px
@@ -101,9 +103,11 @@
 	label.radio-label
 		display: block
 		width: 200px
+		margin: 0 0 10px 20px
 	input[type="radio"]
 		width: 20px
-		margin: 0px 5px
+		margin-left: -20px
+		float: left
 		vertical-align: top
 		outline: none
 .button.create
