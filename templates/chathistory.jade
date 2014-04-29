@@ -3,7 +3,7 @@
 		- var first = lines[0]
 		.chatline(key=first.id, data-id=lines[lines.length - 1].id)
 			aside.avatar
-				img.image(src="/static/images/avatar.gif")
+				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.content
 				div.author= first.author.username
 				each line in lines
