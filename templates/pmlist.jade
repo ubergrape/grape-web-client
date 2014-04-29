@@ -3,14 +3,14 @@ ul.nav-list.pms
 		-var pmuser = pm.users[0]
 		li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.id, key=pm.id)
 			// FIXME: needs real pm slug
-			a(href="/chat/@" + user.username)
+			a(href="/chat/@" + pmuser.username)
 				.avatar-wrap
 					// FIXME: use real avatar image
-					if user.status === 16
+					if pmuser.status === 16
 						span.online
 					else
 						span.offline
-					img(src="#{user.avatar}",width="20",alt="#{user.username}")
+					img(src="#{pmuser.avatar}",width="20",alt="#{pmuser.username}")
 					.avatar-status(class=(pmuser.status === 16 ? 'online' : 'offline'))
 				if pm.unread > 0
 					span.notification=pm.unread.toString()
