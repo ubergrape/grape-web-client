@@ -276,12 +276,12 @@ describe('App', function () {
 			room.history[0].text.should.eql('foobar');
 			room.history[0].time.getTime().should.eql(1391521894662);
 			room.history[0].author.should.equal(app.user);
-			room.history[0].read.should.be.true; // XXX
+			room.history[0].read.should.be.false;
 			room.history[1].id.should.eql(2);
 			room.history[1].text.should.eql('foobar2');
 			room.history[1].time.getTime().should.eql(1391521895662);
 			room.history[1].author.should.equal(room.users[0]);
-			room.history[1].read.should.be.true; // XXX
+			room.history[1].read.should.be.false;
 			done();
 		});
 		app.getHistory(room);

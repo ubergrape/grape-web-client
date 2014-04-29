@@ -5,7 +5,7 @@ var Emitter = require('emitter');
 var render = require('../rendervdom');
 var raf = require('raf');
 var template = require('template');
-var throttle = require('throttle');
+var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
 
@@ -133,19 +133,16 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
-	function updateRead() {
-		self.readTimeout = setTimeout(function () {
-			self.readTimeout = undefined;
-			if (focus.state !== 'focus')
-				return; // we get scroll events even when the window is not focused
-			var bottomElem = self._findBottomVisible();
-			if (!bottomElem) return;
-			var line = Line.get(bottomElem.getAttribute('data-id'));
-			self.emit('hasread', self.room, line);
-		}, 2500);
-	}
+	var updateRead = debounce(function updateRead() {
+		if (focus.state !== 'focus')
+			return; // we get scroll events even when the window is not focused
+		var bottomElem = self._findBottomVisible();
+		if (!bottomElem) return;
+		var line = Line.get(bottomElem.getAttribute('data-id'));
+		self.emit('hasread', self.room, line);
+	}, 2500);
 	focus.on('focus', updateRead);
-	this.scrollWindow.addEventListener('scroll', throttle(updateRead, 500));
+	this.scrollWindow.addEventListener('scroll', updateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		self.scrollMode = 'manual';
 	});
@@ -168,10 +165,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
 	self.gotHistory = function () {};
-	if (self.readTimeout) {
-		clearTimeout(self.readTimeout);
-		self.readTimeout = undefined;
-	}
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('change');
