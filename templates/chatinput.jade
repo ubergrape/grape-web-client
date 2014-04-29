@@ -1,5 +1,7 @@
 .input-wrapper
 	img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
-	.autocomplete-anchor
+	.autocomplete-wrapper
 		.autocomplete
-	textarea.input(disabled, autofocus)
+			.Textcomplete-headline=_('Autocomplete')
+	.messageInput-wrapper
+		textarea.messageInput(disabled, autofocus)

@@ -7,6 +7,7 @@
 @import "elements/popover"
 @import "elements/labels"
 @import "elements/forms"
+@import "elements/search"
 
 @import "framework/chat-content"
 @import "framework/header"
@@ -20,17 +21,18 @@ html, body
 	padding: 0
 	height: 100%
 	overflow: hidden
-	font-size: main-font-size
 	text-rendering: optimizelegibility
-	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif;
-
+	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif
+	font-size: 15px
+	color: grape-typo
 *
 	box-sizing: border-box
 
 h1, h2, h3, h4, h5, h6
 	margin: 0
 	padding: 0
-
+a
+	@extend $hoverable
 
 /*______ FRAMEWORK ______*/
 
