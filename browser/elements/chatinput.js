@@ -24,10 +24,13 @@ function ChatInput() {
 ChatInput.prototype = Object.create(Emitter.prototype);
 
 ChatInput.prototype.init = function ChatInput_init() {
+	this.update()
+	this.textarea = qs('textarea', this.el);
+};
+
+ChatInput.prototype.update = function ChatInput_update() {
 	var vdom = template('chatinput', {});
 	render(this, vdom);
-
-	this.textarea = qs('textarea', this.el);
 };
 
 ChatInput.prototype.bind = function ChatInput_bind() {
