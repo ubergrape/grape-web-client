@@ -7,6 +7,7 @@ var raf = require('raf');
 var template = require('template');
 var throttle = require('throttle');
 var Scrollbars = require('scrollbars');
+var qs = require('query');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -76,7 +77,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	} else if (this.scrollMode === 'automatic') {
 		// append messages in automatic mode:
 		if (focus.state === 'focus' && this.room.history.length) {
-			history.lastChild.scrollIntoView();
+			this.scrollTo(history.lastChild);
 			// when the window has the focus, we assume the message was read
 			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 		} else {
@@ -103,6 +104,13 @@ HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
 	if (this.queued) return;
 	this.queued = true;
 	raf(this.redraw);
+};
+
+HistoryView.prototype.scrollTo = function HistoryView_scrollTo(el) {
+	if (!el) return;
+	// get the last .text and scroll to that
+	var texts = qs('.text', el);
+	texts[texts.length - 1].scrollIntoView();
 };
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
@@ -175,8 +183,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	this.redraw();
 	// scroll to bottom
-	if (this.history.el.lastChild)
-		this.history.el.lastChild.scrollIntoView();
+	this.scrollTo(this.history.el.lastChild);
 
 	room.history.on('change', this.lineAdded);
 };
