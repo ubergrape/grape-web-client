@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-04-29 10:15+0000\n"
+"POT-Creation-Date: 2014-04-30 09:11+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -182,17 +182,37 @@ msgid "Visibility"
 msgstr ""
 
 #: client/templates/roompopover.jade:17
+#: client/templates/roompopover.jade:18
 msgid "Public"
 msgstr ""
 
 #: client/templates/roompopover.jade:20
+#: client/templates/roompopover.jade:22
 msgid "Private"
 msgstr ""
 
 #: client/templates/roompopover.jade:21
+#: client/templates/roompopover.jade:24
 msgid "Cancel"
 msgstr ""
 
 #: client/templates/roompopover.jade:22
+#: client/templates/roompopover.jade:25
 msgid "Create"
+msgstr ""
+
+#: client/templates/roompopover.jade:3
+msgid "All chatrooms"
+msgstr ""
+
+#: client/templates/roompopover.jade:7
+msgid "Create new chatroom"
+msgstr ""
+
+#: client/templates/roompopover.jade:19
+msgid "All members can see and join this chatroom."
+msgstr ""
+
+#: client/templates/roompopover.jade:23
+msgid "This chatroom can only be seen and joined by members which you invite."
 msgstr ""
