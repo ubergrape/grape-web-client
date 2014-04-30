@@ -1,0 +1,114 @@
+/* ======================================================================== */
+/* ! Margin classes
+/* ======================================================================== */
+.mar-t10
+	margin-top 10px
+
+.mar-t20
+	margin-top 20px
+
+.mar-t30
+	margin-top 30px
+
+.mar-t40
+	margin-top 40px
+
+.mar-t50
+	margin-top 50px
+
+.mar-t60
+	margin-top 60px
+
+.mar-b10
+	margin-bottom 10px
+
+.mar-b20
+	margin-bottom 20px
+
+.mar-b30
+	margin-bottom 30px
+
+.mar-b40
+	margin-bottom 40px
+
+.mar-b50
+	margin-bottom 50px
+
+.mar-b60
+	margin-bottom 60px
+
+
+/*______ CLEARFIX ______*/
+clearfix()
+	zoom 1
+	&:after
+	&:before
+		content ""
+		display table
+	&:after
+		clear both
+$clearfix
+	clearfix()
+
+/*______ HOVERABLE ______*/
+$hoverable
+	cursor: pointer
+
+/*______ Functional LIST ______*/
+
+// Tobi: Don't get the point here.
+
+$functional-list // this has to be the LI
+	@extend $clearfix
+	padding: 0px
+	> a // If the List is one clickable Link
+		display: block
+		text-decoration: none
+	&.selected
+		> a 
+			font-weight: bold
+	.name
+		text-overflow: ellipsis 
+		white-space: nowrap
+		overflow: hidden
+		display: block
+	.icon
+	.avatar-wrap
+	.unread
+		text-align: center
+	.icon
+	.avatar-wrap
+		float: left
+		margin-right: 5px
+		width: 20px
+	.notification
+	.toggle
+		float: right
+		margin-left: 5px
+	.notification
+		margin: -4px 0 0 5px
+		font-size: 10px
+		font-weight: bold
+		line-height: 20px
+		min-width: 20px
+		padding: 0px 3px
+		border-radius: 50%
+		text-align: center
+		background: grape-light
+		color: white
+		border: none
+
+/*______ OVERLAY ______*/
+$overlay // used for search - infos, etc.
+	@extend $clearfix
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index: 9999
+	background: #fff
+	background: rgba(#fff,0.98)
+	padding: 17px 30px
+	overflow: hidden
+	overflow-y: auto
