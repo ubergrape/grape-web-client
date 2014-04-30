@@ -1,15 +1,28 @@
+// ****
+//
+// common popup things go here
+//
+// ****
+
 .popover
 	position: absolute
 	z-index: 200
 	background: white
 	padding: 15px
 	border-radius: 5px
-	border: 1px solid #aaa
+	border: 1px solid gainsboro-light
 	opacity: 1
-	box-shadow: 0px 4px 10px -1px rgba(black, 0.5)
+	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
 	transition: opacity 500ms
-	margin-top: -10px
+	margin: -10px 0 0 -4px
 	max-width: 450px
+	width: 350px
+	ul
+		padding: 5px 0
+		margin: 10px 0 0
+	li
+		@extend $functional-list
+		padding: 6px 0
 	&::before
 		content: ""
 		display: block
@@ -44,74 +57,77 @@
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
+
+
+
+// ****
+//
+// room-popup-specific things go here
+//
+// ****
+
 .roompopover
-	width: 320px
-	ul
-		padding: 5px 0px
-		border-bottom: 1px solid #ddd
-		margin: 10px 0px
-	li
-		@extend $functional-list
-		padding: 6px 0
-	button.new
-		float: right
-.openform
-	.button.new
-		display: none
+	&.openform
+		.button.new
+			display: none
+		.newroom
+			display: block
 	.newroom
-		display: block
-.newroom
-	display: none
-	.visibility-headline
-		float: left
-	label.text, h4
-		display: inline-block
-		width: 120px
-		margin-top: 4px
-		padding-left: 3px
-	.radio-wrapper
-		display: inline-block
-		width: 200px
-		margin-top: 4px
-	span.radio-label-subline
-		@extend $small-font-size
-		display: block
-		padding: 3px 4px 3px 0
-	input[type="text"]
-		width: 200px
-		padding: 8px 10px 8px 10px
-		border: 1px solid gainsboro-light
-		border-radius: main-border-radius
-		outline: none
-	input[type="radio"]
-		display:none
-		&:checked + label:before
-			content: "\2022"
-			color: grape-light
-	label.radio-label
-		@extend $hoverable
-		display: block
-		position: relative
-		width: 200px
-		margin: 0 0 10px 20px
-		&:before
-			content: ""
+		display: none
+		width: 320px
+		.formrow
+			margin-bottom: 10px
+		.visibility-headline
+			float: left
+		label.text, h4
 			display: inline-block
-			width: 17px
-			height: 17px
-			position: absolute
-			left: -20px
-			top: 0
-			background-color: silver-light
-			box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .1), 0px 1px 0px 0px rgba(255, 255, 255, .6)
-			border-radius: 8px
-			font-family: sans-serif // need this here, otherwise the dot isn't totally round.
-			font-size: 38px
-			line-height: 19px
-			text-align: center
-		&:hover
-			&:before
+			width: 120px
+			margin-top: 4px
+			padding-left: 3px
+		.radio-wrapper
+			display: inline-block
+			width: 200px
+			margin-top: 4px
+		input[type="text"]
+			width: 200px
+			padding: 8px 10px 8px 10px
+			border: 1px solid gainsboro-light
+			border-radius: main-border-radius
+			outline: none
+		input[type="radio"]
+			display:none
+			&:checked + label:before
 				content: "\2022"
-				color: gainsboro-light	
-.button.create
-	float: right
+				color: grape-light
+		label.radio-label
+			@extend $hoverable
+			display: block
+			position: relative
+			width: 200px
+			margin: 0 0 10px 20px
+			&:before
+				content: ""
+				display: inline-block
+				width: 17px
+				height: 17px
+				position: absolute
+				left: -20px
+				top: 0
+				background-color: silver-light
+				box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .1), 0px 1px 0px 0px rgba(255, 255, 255, .6)
+				border-radius: 8px
+				font-family: sans-serif // need this here, otherwise the dot isn't totally round.
+				font-size: 38px
+				line-height: 19px
+				text-align: center
+			&:hover
+				&:before
+					content: "\2022"
+					color: gainsboro-light	
+			span.radio-label-subline
+				@extend $small-font-size
+				display: block
+				padding: 3px 4px 3px 0
+	.button.create
+	.button.new
+		float: right
