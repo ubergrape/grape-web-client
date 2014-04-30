@@ -153,8 +153,15 @@ UI.prototype.bind = function UI_bind() {
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
-	broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
-	broker(this.chatInput, 'input', this.upload, 'hide');
+	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
+	//broker(this.chatInput, 'input', this.upload, 'hide');
+	// directly send an uploaded file
+	this.room = null;
+	this.on('selectchannel', function (room) { self.room = room; });
+	this.upload.on('uploaded', function (attachment) {
+		self.emit('input', self.room, '', {attachments: [attachment.id]});
+		self.upload.hide();
+	});
 
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {

@@ -17,7 +17,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
-	this.attachments = [];
+	//this.attachments = [];
 	this.init();
 	this.bind();
 }
@@ -60,10 +60,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!str)
 			return;
 		doStop();
-		self.emit('input', self.room, str, {
+		self.emit('input', self.room, str/*, {
 			attachments: self.attachments
-		});
-		self.attachments = [];
+		}*/);
+		//self.attachments = [];
 	});
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
@@ -105,7 +105,8 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.textarea.disabled = !room;
 	if (room) this.textarea.focus();
 };
-
+/*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
 };
+*/
