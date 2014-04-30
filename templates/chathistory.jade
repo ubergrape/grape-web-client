@@ -1,14 +1,6 @@
 .history
-	- var lastDate
-	- var lastRead = true
 	each lines in groupHistory(history)
 		- var first = lines[0]
-		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-			.date-separator= strftime('%d.%m.%Y', first.time)
-		if (lastRead && !first.read)
-			.newmessage-separator: span= _('new messages')
-		- var lastDate = first.time
-		- var lastRead = first.read
 		.chatline(key=first.id, data-id=lines[lines.length - 1].id)
 			aside.avatar
 				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
@@ -36,7 +28,8 @@
 						each attachment in line.attachments
 							if attachment.type.indexOf("image") == 0
 								//- attachment is an image
-								img(src=attachment.url)
+								a(href=attachment.url)
+									img(src=attachment.url, alt=attachment.name)
 							else
 								//- any other file
 								a(href=attachment.url)
