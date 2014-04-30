@@ -63,6 +63,13 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
+
+	// update the read messages. Do this before we redraw, so the new message
+	// indicator is up to date
+	if (this.room.history.length && (!this.lastwindow.lastmsg ||
+	    (this.scrollMode === 'automatic' && focus.state === 'focus')))
+		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+
 	render(this.history, template('chathistory', {
 		history: this.room.history,
 		groupHistory: groupHistory
@@ -74,12 +81,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// prepend messages:
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
-	} else if (this.scrollMode === 'automatic') {
+	}
+	if (this.scrollMode === 'automatic') {
 		// append messages in automatic mode:
 		if (focus.state === 'focus' && this.room.history.length) {
 			this.scrollTo(history.lastChild);
-			// when the window has the focus, we assume the message was read
-			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 		} else {
 			/* FIXME: since grouping was introduced, this does not work as intended
 
