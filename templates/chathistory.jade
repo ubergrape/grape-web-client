@@ -23,6 +23,17 @@
 							span.branch= line.branch
 					if line.content
 						.content= line.content
+					if line.attachments
+						//- process attachments/uploads
+						each attachment in line.attachments
+							if attachment.type.indexOf("image") == 0
+								//- attachment is an image
+								a(href=attachment.url)
+									img(src=attachment.url, alt=attachment.name)
+							else
+								//- any other file
+								a(href=attachment.url)
+									attachment.name
 					if line.objects
 						ul
 							each obj in line.objects

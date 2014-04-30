@@ -5,7 +5,7 @@ var Emitter = require('emitter');
 var render = require('../rendervdom');
 var raf = require('raf');
 var template = require('template');
-var throttle = require('throttle');
+var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
 
@@ -20,7 +20,7 @@ function HistoryView() {
 	Emitter.call(this);
 
 	this.redraw = this.redraw.bind(this);
-	this.lineAdded = this.lineAdded.bind(this);
+	this.queueDraw = this.queueDraw.bind(this);
 	this.room = {history: new Emitter([])};
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
@@ -63,6 +63,13 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
+
+	// update the read messages. Do this before we redraw, so the new message
+	// indicator is up to date
+	if (this.room.history.length && (!this.lastwindow.lastmsg ||
+	    (this.scrollMode === 'automatic' && focus.state === 'focus')))
+		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+
 	render(this.history, template('chathistory', {
 		history: this.room.history,
 		groupHistory: groupHistory
@@ -74,12 +81,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// prepend messages:
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
-	} else if (this.scrollMode === 'automatic') {
+	}
+	if (this.scrollMode === 'automatic') {
 		// append messages in automatic mode:
 		if (focus.state === 'focus' && this.room.history.length) {
 			this.scrollTo(history.lastChild);
-			// when the window has the focus, we assume the message was read
-			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 		} else {
 			/* FIXME: since grouping was introduced, this does not work as intended
 
@@ -100,7 +106,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
 };
 
-HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
+HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
 	this.queued = true;
 	raf(this.redraw);
@@ -133,21 +139,23 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
-	function updateRead() {
-		self.readTimeout = setTimeout(function () {
-			self.readTimeout = undefined;
-			if (focus.state !== 'focus')
-				return; // we get scroll events even when the window is not focused
-			var bottomElem = self._findBottomVisible();
-			if (!bottomElem) return;
-			var line = Line.get(bottomElem.getAttribute('data-id'));
-			self.emit('hasread', self.room, line);
-		}, 2500);
-	}
+	var updateRead = debounce(function updateRead() {
+		if (focus.state !== 'focus')
+			return; // we get scroll events even when the window is not focused
+		var bottomElem = self._findBottomVisible();
+		if (!bottomElem) return;
+		var line = Line.get(bottomElem.getAttribute('data-id'));
+		self.emit('hasread', self.room, line);
+		self.redraw();
+	}, 2500);
+	var reset = debounce(function () {
+		self.scrollMode = 'automatic';
+	}, 60 * 1000);
 	focus.on('focus', updateRead);
-	this.scrollWindow.addEventListener('scroll', throttle(updateRead, 500));
+	this.scrollWindow.addEventListener('scroll', updateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		self.scrollMode = 'manual';
+		reset();
 	});
 };
 
@@ -168,10 +176,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
 	self.gotHistory = function () {};
-	if (self.readTimeout) {
-		clearTimeout(self.readTimeout);
-		self.readTimeout = undefined;
-	}
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('change');
@@ -192,6 +196,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('change', this.lineAdded);
+	room.history.on('change', this.queueDraw);
 };
 
