@@ -67,13 +67,12 @@
 	label.text, h4
 		display: inline-block
 		width: 120px
-		margin: 0
-		margin-top: 3px
-		padding: 3px
+		margin-top: 4px
+		padding-left: 3px
 	.radio-wrapper
 		display: inline-block
 		width: 200px
-		padding-top: 4px
+		margin-top: 4px
 	span.radio-label-subline
 		@extend $small-font-size
 		display: block
@@ -84,15 +83,35 @@
 		border: 1px solid gainsboro-light
 		border-radius: main-border-radius
 		outline: none
+	input[type="radio"]
+		display:none
+		&:checked + label:before
+			content: "\2022"
+			color: grape-light
 	label.radio-label
+		@extend $hoverable
 		display: block
+		position: relative
 		width: 200px
 		margin: 0 0 10px 20px
-	input[type="radio"]
-		width: 20px
-		margin-left: -20px
-		float: left
-		vertical-align: top
-		outline: none
+		&:before
+			content: ""
+			display: inline-block
+			width: 17px
+			height: 17px
+			position: absolute
+			left: -20px
+			top: 0
+			background-color: silver-light
+			box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .1), 0px 1px 0px 0px rgba(255, 255, 255, .6)
+			border-radius: 8px
+			font-family: sans-serif // need this here, otherwise the dot isn't totally round.
+			font-size: 38px
+			line-height: 19px
+			text-align: center
+		&:hover
+			&:before
+				content: "\2022"
+				color: gainsboro-light	
 .button.create
 	float: right
