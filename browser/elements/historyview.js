@@ -140,6 +140,7 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 		if (!bottomElem) return;
 		var line = Line.get(bottomElem.getAttribute('data-id'));
 		self.emit('hasread', self.room, line);
+		self.redraw();
 	}, 2500);
 	focus.on('focus', updateRead);
 	this.scrollWindow.addEventListener('scroll', updateRead);
