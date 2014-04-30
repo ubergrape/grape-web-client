@@ -20,7 +20,7 @@ function HistoryView() {
 	Emitter.call(this);
 
 	this.redraw = this.redraw.bind(this);
-	this.lineAdded = this.lineAdded.bind(this);
+	this.queueDraw = this.queueDraw.bind(this);
 	this.room = {history: new Emitter([])};
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
@@ -100,7 +100,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
 };
 
-HistoryView.prototype.lineAdded = function HistoryView_lineAdded() {
+HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
 	this.queued = true;
 	raf(this.redraw);
@@ -186,6 +186,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('change', this.lineAdded);
+	room.history.on('change', this.queueDraw);
 };
 
