@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2014-04-30 09:11+0000\n"
-"PO-Revision-Date: 2014-04-30 09:15+0000\n"
+"PO-Revision-Date: 2014-04-30 12:27+0000\n"
 "Last-Translator: Tobias Seiler <ts@ubergrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -170,7 +170,7 @@ msgstr ""
 
 #: client/templates/pmpopover.jade:3
 msgid "New message to"
-msgstr ""
+msgstr "Neue Nachricht an"
 
 #: client/templates/roompopover.jade:11
 msgid "Name"
