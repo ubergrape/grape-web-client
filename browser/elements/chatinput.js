@@ -3,6 +3,7 @@
 
 var Emitter = require('emitter');
 var inputarea = require('inputarea');
+var resizable = require('resizable-textarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
@@ -65,6 +66,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}*/);
 		//self.attachments = [];
 	});
+
+	// make the textarea auto resize
+	var resize = debounce(function() {
+		resizable(self.textarea, {min: 31, max: 76}) }, delay);
+	resize();
+
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
 	var stopped = false;
