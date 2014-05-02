@@ -44,7 +44,7 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	if (confirm("Delete this Message?")) {
 		console.log("Deleting Message...");
 		var id = closest(ev.target, '.chatline', true).getAttribute('data-id');
-		this.emit('deleteMessage', id, this.room);
+		this.emit('deletemessage', this.room, id);
 	}
 }
 
