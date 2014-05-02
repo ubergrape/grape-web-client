@@ -1,0 +1,42 @@
+alert-info-color = grape-dark
+alert-success-color = grass-dark
+alert-warning-color = gold
+alert-danger-color = bittersweet-dark
+
+
+.alert
+	padding: 3px 6px
+	border: 1px solid transparent
+	border-radius: main-border-radius-small
+.alert-info
+	background-color: lighten(alert-info-color, 90%)
+	border-color: lighten(alert-info-color, 60%)
+	color: alert-info-color
+	.alert-link
+		color: alert-info-color
+		&:hover
+			color: lighten(alert-info-color, 10%)
+.alert-success
+	background-color: lighten(alert-success-color, 90%)
+	border-color: lighten(alert-success-color, 60%)
+	color: alert-success-color
+	.alert-link
+		color: alert-success-color
+		&:hover
+			color: lighten(alert-success-color, 10%)
+.alert-warning
+	background-color: lighten(alert-warning-color, 90%)
+	border-color: lighten(alert-warning-color, 60%)
+	color: alert-warning-color
+	.alert-link
+		color: alert-warning-color
+		&:hover
+			color: lighten(alert-warning-color, 10%)
+.alert-danger
+	background-color: lighten(alert-danger-color, 90%)
+	border-color: lighten(alert-danger-color, 60%)
+	color: alert-danger-color
+	.alert-link
+		color: alert-danger-color
+		&:hover
+			color: lighten(alert-danger-color, 10%)
