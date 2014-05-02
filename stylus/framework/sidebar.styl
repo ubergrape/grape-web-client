@@ -4,7 +4,7 @@
 	width: client-navigation-width
 	height: header-height
 	background: organisation-background
-	color: sidebar-text-color
+	color: gainsboro-dark
 	.info-poweredby
 	.info-organizationlogo
 		padding: 6px 20px
@@ -19,15 +19,15 @@
 
 /*______ Left navigation ______*/
 .navigation
-	color: sidebar-text-color
+	color: gainsboro-dark
 	background: jet
 	font-size: sidebar-label-font-size
 	padding: 34px 0 0px 0px
 
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
-	color: sidebar-text-color
+	color: gainsboro-dark
 	&:hover
-		color: sidebar-button-hover-text-color
+		color: gainsboro-light
 
 .nav-title-wrap
 	@extend $hoverable
@@ -56,7 +56,7 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 			text-decoration: none
 		&.selected
 			a
-				color: highlight-text-color
+				color: white
 				font-weight: bold
 				border-radius: 0 5px 5px 0 
 				background: lighten(jet, 3)

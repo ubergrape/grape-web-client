@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-04-01 08:42+0000\n"
-"PO-Revision-Date: 2014-04-28 13:43+0000\n"
+"POT-Creation-Date: 2014-04-30 09:11+0000\n"
+"PO-Revision-Date: 2014-04-30 12:27+0000\n"
 "Last-Translator: Tobias Seiler <ts@ubergrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,39 +12,48 @@ msgstr ""
 "Language: \n"
 "X-Translated-Using: django-rosetta 0.7.4\n"
 
-#: client/templates/roomlist.jade:3
+#: client/templates/roomlist.jade:3 client/templates/navigation.jade:4
+#: client/templates/navigation.jade:4
 msgid "Rooms"
 msgstr "Chaträume"
 
-#: client/templates/roomlist.jade:4
+#: client/templates/roomlist.jade:4 client/templates/navigation.jade:3
+#: client/templates/navigation.jade:3
 msgid "add room"
 msgstr "Chatraum hinzufügen"
 
-#: client/templates/pmlist.jade:3
+#: client/templates/pmlist.jade:3 client/templates/navigation.jade:8
+#: client/templates/navigation.jade:8
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: client/templates/pmlist.jade:4
+#: client/templates/pmlist.jade:4 client/templates/navigation.jade:7
+#: client/templates/navigation.jade:7
 msgid "new message"
 msgstr "Neue Nachricht"
 
-#: client/templates/labellist.jade:3
+#: client/templates/labellist.jade:3 client/templates/navigation.jade:12
+#: client/templates/navigation.jade:12
 msgid "Labels"
 msgstr "Labels"
 
-#: client/templates/labellist.jade:4
+#: client/templates/labellist.jade:4 client/templates/navigation.jade:11
+#: client/templates/navigation.jade:11
 msgid "add label"
 msgstr "Label hinzufügen"
 
 #: client/templates/chatheader.jade:9 client/templates/chatheader.jade:14
+#: client/templates/chatheader.jade:3
 msgid "search for content, documents, appointments, …"
 msgstr "Suche nach Nachrichten, Dokumenten, ..."
 
 #: client/templates/roompopover.jade:10 client/templates/roompopover.jade:15
+#: client/templates/roompopoverlist.jade:5
 msgid "leave"
 msgstr "Verlassen"
 
 #: client/templates/roompopover.jade:12 client/templates/roompopover.jade:17
+#: client/templates/roompopoverlist.jade:7
 msgid "join"
 msgstr "Beitreten"
 
@@ -52,6 +61,155 @@ msgstr "Beitreten"
 msgid "All chat rooms"
 msgstr "Alle Chaträume"
 
-#: client/templates/roompopover.jade:19
+#: client/templates/roompopover.jade:19 client/templates/roompopover.jade:7
 msgid "create new chat room"
 msgstr "Neuen Chatraum anlegen"
+
+#: client/templates/chatinput.jade:5
+msgid "Autocomplete"
+msgstr ""
+
+#: client/templates/index.jade:12
+msgid "Filter Results"
+msgstr ""
+
+#: client/templates/index.jade:15
+msgid "52 Ergebnisse für "
+msgstr ""
+
+#: client/templates/index.jade:16 client/templates/index.jade:43
+#: client/templates/index.jade:59 client/templates/index.jade:16
+#: client/templates/index.jade:43
+msgid "Hamburger"
+msgstr ""
+
+#: client/templates/index.jade:18
+msgid "Sort by"
+msgstr ""
+
+#: client/templates/index.jade:21
+msgid "Überall"
+msgstr ""
+
+#: client/templates/index.jade:23 client/templates/index.jade:40
+#: client/templates/index.jade:23 client/templates/index.jade:40
+msgid "Design"
+msgstr ""
+
+#: client/templates/index.jade:24
+msgid "Filter by"
+msgstr ""
+
+#: client/templates/index.jade:27
+msgid "Alle (51)"
+msgstr ""
+
+#: client/templates/index.jade:29
+msgid "Nachrichten (14)"
+msgstr ""
+
+#: client/templates/index.jade:31
+msgid "Dateien (10)"
+msgstr ""
+
+#: client/templates/index.jade:33
+msgid "GitHub Issues (1)"
+msgstr ""
+
+#: client/templates/index.jade:38
+msgid "Tobias Seiler"
+msgstr ""
+
+#: client/templates/index.jade:42
+msgid ""
+"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das"
+" \"Big-Mac\" oder so ähnlich. Möchtet ihr mit mir einen "
+msgstr ""
+
+#: client/templates/index.jade:44
+msgid " essen?"
+msgstr ""
+
+#: client/templates/index.jade:47
+msgid "1. Jänner, 0:46 Uhr"
+msgstr ""
+
+#: client/templates/index.jade:49
+msgid "Jump to conversation"
+msgstr ""
+
+#: client/templates/index.jade:51
+msgid "All results from this user"
+msgstr ""
+
+#: client/templates/index.jade:54
+msgid "Lea de Roucy"
+msgstr ""
+
+#: client/templates/index.jade:56
+msgid "Nachrichten"
+msgstr ""
+
+#: client/templates/index.jade:58
+msgid "Diese "
+msgstr ""
+
+#: client/templates/index.jade:60
+msgid ""
+"-Konstruktion ermöglicht es, die Zwiebel-Soe-Fleisch-Einlage gleich zweimal "
+"unterzubringen"
+msgstr ""
+
+#: client/templates/index.jade:63
+msgid "1. Jänner, 0:48 Uhr"
+msgstr ""
+
+#: client/templates/index.jade:65
+msgid "See message"
+msgstr ""
+
+#: client/templates/pmpopover.jade:3
+msgid "New message to"
+msgstr "Neue Nachricht an"
+
+#: client/templates/roompopover.jade:11
+msgid "Name"
+msgstr "Name"
+
+#: client/templates/roompopover.jade:14
+msgid "Visibility"
+msgstr "Sichtbarkeit"
+
+#: client/templates/roompopover.jade:17 client/templates/roompopover.jade:18
+msgid "Public"
+msgstr "Öffentlich"
+
+#: client/templates/roompopover.jade:20 client/templates/roompopover.jade:22
+msgid "Private"
+msgstr "Privat"
+
+#: client/templates/roompopover.jade:21 client/templates/roompopover.jade:24
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: client/templates/roompopover.jade:22 client/templates/roompopover.jade:25
+msgid "Create"
+msgstr "Erstellen"
+
+#: client/templates/roompopover.jade:3
+msgid "All chatrooms"
+msgstr "Alle Chaträume"
+
+#: client/templates/roompopover.jade:7
+msgid "Create new chatroom"
+msgstr "Neuen Chatraum erstellen"
+
+#: client/templates/roompopover.jade:19
+msgid "All members can see and join this chatroom."
+msgstr "Alle Mitglieder können diesen Chatraum sehen und beitreten."
+
+#: client/templates/roompopover.jade:23
+msgid "This chatroom can only be seen and joined by members which you invite."
+msgstr ""
+"Dieser Chatraum kann nur von jenen Mitgliedern gesehen und beigetreten "
+"werden, die du einlädst."
