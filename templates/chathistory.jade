@@ -5,7 +5,8 @@
 			aside.avatar
 				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.content
-				div.author= first.author.username
+				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+				author.author= first.author.username
 				each line in lines
 					.ch-line
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)

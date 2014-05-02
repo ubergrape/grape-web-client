@@ -44,13 +44,23 @@
 				overflow: hidden
 				background: white
 				border-radius: main-border-radius
-				.ch-line
-					@extend $clearfix
-				time
+				.time
 					@extend $small-font-size
 					text-transform: uppercase
 					float: right
 					color: gainsboro-dark
+				> .time
+					line-height: inherit
+				.ch-line
+					@extend $clearfix
+					.time
+						display: none
+					&:hover
+						.time
+							display: block
+				div:first-of-type
+					.time
+						visibility: hidden
 				.author
 					font-weight: bold
 					margin-bottom: 6px
