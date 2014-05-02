@@ -2,16 +2,21 @@
 @import "misc/reusables"
 @import "misc/typography"
 
+// Order has to be maintained.
+
+@import "framework/chat-content"
+@import "framework/header"
+@import "framework/sidebar"
+@import "framework/footer"
+
+@import "elements/alerts"
 @import "elements/buttons"
 @import "elements/avatar"
 @import "elements/popover"
 @import "elements/labels"
 @import "elements/search"
 
-@import "framework/chat-content"
-@import "framework/header"
-@import "framework/sidebar"
-@import "framework/footer"
+
 
 /*______ GENERAL ______*/
 
@@ -32,6 +37,11 @@ h1, h2, h3, h4, h5, h6
 	padding: 0
 a
 	@extend $hoverable
+	color: grape-light
+	text-decoration: underline
+	&:hover
+		color: lighten(grape-light, 25)
+		text-decoration: underline
 ::-webkit-scrollbar
 	width: 6px
 ::-webkit-scrollbar-track
