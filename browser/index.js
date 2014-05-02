@@ -146,6 +146,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
+	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
