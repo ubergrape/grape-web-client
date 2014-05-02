@@ -8,6 +8,8 @@ var template = require('template');
 var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
+var closest = require('closest');
+var events = require('events');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -25,13 +27,26 @@ function HistoryView() {
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.gotHistory = function () {};
-
+	this.bind();
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
 	this.scrollMode = 'automatic';
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
+
+HistoryView.prototype.bind = function HistoryView_bind() {
+	this.events = events(this.el, this);
+	this.events.bind('click a.delete', 'deleteMessage');
+}
+
+HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
+	if (confirm("Delete this Message?")) {
+		console.log("Deleting Message...");
+		var id = closest(ev.target, '.chatline', true).getAttribute('data-id');
+		this.emit('deleteMessage', id, this.room);
+	}
+}
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');

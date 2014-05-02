@@ -7,6 +7,7 @@
 			.content
 				div.author= first.author.username
 				each line in lines
+					a.delete= "Delete Message"
 					time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 					if line.actor && line.actor.image && line.actor.image.url
 						a(href=line.actor.url, class="actor")
