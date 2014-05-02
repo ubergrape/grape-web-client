@@ -44,32 +44,50 @@
 				overflow: hidden
 				background: white
 				border-radius: main-border-radius
-				time
-					@extend $clearfix
-					@extend $small-font-size
-					text-transform: uppercase
-					float: right
-					color: gainsboro-dark
 				.author
 					font-weight: bold
 					margin-bottom: 6px
-				.text
-					padding: 0
-					margin-bottom: 3px
-					a 
-						color: grape-light
-						text-decoration: none
-						&:hover
-							color: lighten(grape-light, 25)
-							text-decoration: underline
+				.textline
+					@extend $clearfix
+					&:hover > .edit
+						display: block
+					.edit
+						@extend $hoverable
+						float: left
+						display: none
+						color: gainsboro-light
+						.btn-edit
+							margin-left: 6px
+							&:hover
+								color: gainsboro-dark
+						.btn-delete
+							margin-left: 4px
+							&:hover
+								color: bittersweet-dark
+						
 
+					.time
+						@extend $clearfix
+						@extend $small-font-size
+						text-transform: uppercase
+						float: right
+						color: gainsboro-dark
+					.text
+						float: left
+						padding: 0
+						margin-bottom: 3px
+						a 
+							color: grape-light
+							text-decoration: none
+							&:hover
+								color: lighten(grape-light, 25)
+								text-decoration: underline
 .date-separator
 	text-align: center
 	margin: 0px 50px
 	background: #ddd
 	padding: 5px
 	border-radius: 5px
-
 .newmessage-separator
 	text-align: center
 	border-bottom: 1px solid red
