@@ -29,7 +29,7 @@
 							each attachment in line.attachments
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
-									a(href=attachment.url)
+									a(href=attachment.url).img-atm
 										img(src=attachment.url, alt=attachment.name)
 								else
 									//- any other file

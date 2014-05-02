@@ -64,8 +64,24 @@
 							margin-left: 4px
 							&:hover
 								color: bittersweet-dark
-						
-
+					time
+						@extend $small-font-size
+						text-transform: uppercase
+						float: right
+						color: gainsboro-dark
+					.text
+						padding: 0
+						margin-bottom: 3px
+						a 
+							color: grape-light
+							text-decoration: none
+							&:hover
+								color: lighten(grape-light, 25)
+								text-decoration: underline
+					.img-atm
+						img
+							max-width: 280px
+							max-height: 200px
 					.time
 						@extend $clearfix
 						@extend $small-font-size
