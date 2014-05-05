@@ -16,7 +16,7 @@
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				author.author= first.author.username
 				each line in lines
-					.ch-line
+					div.textline
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor")
@@ -58,3 +58,6 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
+						div.edit
+							i.fa.fa-pencil.btn-edit
+							i.fa.fa-times.btn-delete

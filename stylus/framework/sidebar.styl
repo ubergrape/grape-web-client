@@ -19,13 +19,14 @@
 
 /*______ Left navigation ______*/
 .navigation
+	@extend $normal-font-size
 	color: gainsboro-dark
 	background: jet
-	font-size: sidebar-label-font-size
 	padding: 34px 0 0px 0px
 
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	color: gainsboro-dark
+	text-decoration: none!important
 	&:hover
 		color: gainsboro-light
 
@@ -41,6 +42,8 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		font-weight: bold
 		padding-left: 20px
 		overflow: hidden
+		&:hover
+			text-decoration: none
 	.nav-button
 		float: right
 		margin-right: 7px

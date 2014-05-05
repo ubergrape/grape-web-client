@@ -45,38 +45,50 @@
 				background: white
 				border-radius: main-border-radius
 				.time
+					display: none
 					@extend $small-font-size
 					text-transform: uppercase
 					float: right
 					color: gainsboro-dark
-				> .time
-					line-height: inherit
-				.ch-line
-					@extend $clearfix
-					.time
-						display: none
-					&:hover
-						.time
-							display: block
-				div:first-of-type
-					.time
-						visibility: hidden
 				.author
 					font-weight: bold
 					margin-bottom: 6px
-				.text
-					padding: 0
-					margin-bottom: 3px
-					a 
-						color: grape-light
-						text-decoration: none
-						&:hover
-							color: lighten(grape-light, 25)
-							text-decoration: underline
-				.img-atm
-					img
-						max-width: 280px
-						max-height: 200px
+				.textline
+					@extend $clearfix
+					&:hover
+						> .time
+						> .edit
+							display: block
+					.edit
+						@extend $hoverable
+						float: left
+						display: none
+						color: gainsboro-light
+						.btn-edit
+							margin-left: 6px
+							&:hover
+								color: gainsboro-dark
+						.btn-delete
+							margin-left: 4px
+							&:hover
+								color: bittersweet-dark
+					.text
+						float: left
+						padding: 0
+						margin-bottom: 3px
+						a 
+							color: grape-light
+							text-decoration: none
+							&:hover
+								color: lighten(grape-light, 25)
+								text-decoration: underline
+					.img-atm
+						float: left
+						img
+							max-width: 280px
+							max-height: 200px				
+
+// SEPERATORS
 
 .date-separator
 	text-align: center

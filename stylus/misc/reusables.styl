@@ -72,3 +72,27 @@ $overlay // used for search - infos, etc.
 	padding: 17px 30px
 	overflow: hidden
 	overflow-y: auto
+
+/*______ Avatar wrap ______*/
+.avatar-wrap
+	position: relative
+	margin-top: -3px // needed for all things up until now
+	img
+		float: left
+		border-radius: 50%
+		z-index: 2
+	.online, .offline
+		position: absolute
+		right: 0px
+		top: 0px
+		width: 8px
+		height: 8px
+		z-index: 12
+		border-radius: 50%
+	.online
+		background: #8cc152
+	.offline
+		background: #e9573f
+	div
+		overflow: hidden
+		margin-left: 4px
