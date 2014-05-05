@@ -44,13 +44,21 @@
 				overflow: hidden
 				background: white
 				border-radius: main-border-radius
+				.time
+					display: none
+					@extend $small-font-size
+					text-transform: uppercase
+					float: right
+					color: gainsboro-dark
 				.author
 					font-weight: bold
 					margin-bottom: 6px
 				.textline
 					@extend $clearfix
-					&:hover > .edit
-						display: block
+					&:hover
+						> .time
+						> .edit
+							display: block
 					.edit
 						@extend $hoverable
 						float: left
@@ -64,11 +72,6 @@
 							margin-left: 4px
 							&:hover
 								color: bittersweet-dark
-					time
-						@extend $small-font-size
-						text-transform: uppercase
-						float: right
-						color: gainsboro-dark
 					.text
 						float: left
 						padding: 0
@@ -83,13 +86,7 @@
 						float: left
 						img
 							max-width: 280px
-							max-height: 200px
-					.time
-						@extend $clearfix
-						@extend $small-font-size
-						text-transform: uppercase
-						float: right
-						color: gainsboro-dark					
+							max-height: 200px				
 .date-separator
 	text-align: center
 	margin: 0px 50px

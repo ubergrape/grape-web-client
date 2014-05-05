@@ -26,7 +26,7 @@
 
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	color: gainsboro-dark
-	text-decoration: none
+	text-decoration: none!important
 	&:hover
 		color: gainsboro-light
 
@@ -42,6 +42,8 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		font-weight: bold
 		padding-left: 20px
 		overflow: hidden
+		&:hover
+			text-decoration: none
 	.nav-button
 		float: right
 		margin-right: 7px
