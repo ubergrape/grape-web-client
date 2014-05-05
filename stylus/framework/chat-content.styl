@@ -38,6 +38,9 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
+			&:hover
+				.content > .time
+					opacity: 0.5
 			.content
 				@extend $clearfix
 				padding: 10px 10px
@@ -45,24 +48,31 @@
 				background: white
 				border-radius: main-border-radius
 				.time
-					display: none
-					@extend $small-font-size
+					font-size: small-font-size
 					text-transform: uppercase
 					float: right
 					color: gainsboro-dark
+				> .time
+					opacity: 1
 				.author
 					font-weight: bold
 					margin-bottom: 6px
+					@extend $subtle-link
+					em
+						color: gainsboro-dark
+						font-size: small-font-size
 				.textline
 					@extend $clearfix
+					.time, .edit
+						opacity: 0
+						transition: opacity 200ms ease
 					&:hover
 						> .time
 						> .edit
-							display: block
+							opacity: 1
 					.edit
 						@extend $hoverable
 						float: left
-						display: none
 						color: gainsboro-light
 						.btn-edit
 							margin-left: 6px

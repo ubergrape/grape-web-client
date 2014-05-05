@@ -11,8 +11,17 @@ $clearfix
 	clearfix()
 
 /*______ HOVERABLE ______*/
-$hoverable
+$hoverable, $hoverable:hover
 	cursor: pointer
+
+/*______ Subtle Link ______*/
+$subtle-link, $subtle-link a
+	color: inherit
+	text-decoration: none
+	&:hover
+		color: lighten(grape-light, 25)
+		text-decoration: underline
+
 
 /*______ Functional LIST ______*/
 
