@@ -44,7 +44,7 @@
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
 									a(href=attachment.url).img-atm
-										img(src=attachment.url, alt=attachment.name)
+										img(src=attachment.thumbnail_url, width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
 									a(href=attachment.url)
