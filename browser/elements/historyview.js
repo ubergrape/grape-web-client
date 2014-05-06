@@ -37,7 +37,7 @@ HistoryView.prototype = Object.create(Emitter.prototype);
 
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
-	this.events.bind('click a.delete', 'deleteMessage');
+	this.events.bind('click i.btn-delete', 'deleteMessage');
 }
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
