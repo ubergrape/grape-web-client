@@ -43,11 +43,13 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 }
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
-	if (confirm("Delete this Message?")) {
-		console.log("Deleting Message...");
-		var id = closest(ev.target, '.chatline', true).getAttribute('data-id');
+	var el = closest(ev.target, '.chatline', true);
+	classes(el).add('removing');
+	if (confirm("Delete the selected Message?")) {
+		var id = el.getAttribute('data-id');
 		this.emit('deletemessage', this.room, id);
 	}
+	classes(el).remove('removing');
 }
 
 HistoryView.prototype.init = function HistoryView_init() {
