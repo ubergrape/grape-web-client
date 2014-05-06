@@ -8,6 +8,7 @@ var template = require('template');
 var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
+var zoom = require('image-zoom');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
