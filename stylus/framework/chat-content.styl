@@ -17,7 +17,7 @@
 			height: 100%
 			position: relative
 			padding-top: 14px
-		.chatline
+		.message-group
 			@extend $clearfix
 			margin: 10px 30px 14px 20px
 			position: relative
@@ -38,10 +38,7 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
-			&:hover
-				.content > .time
-					opacity: 0.5
-			.content
+			.message-content
 				@extend $clearfix
 				padding: 10px 10px
 				overflow: hidden
@@ -63,7 +60,7 @@
 					em
 						color: lighten(gainsboro-dark, 10)
 						@extend $small-font-size
-				.textline
+				.message
 					@extend $clearfix
 					.time, .edit
 						opacity: 0
