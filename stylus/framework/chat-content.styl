@@ -56,12 +56,13 @@
 					opacity: 1
 				.author
 					font-weight: bold
-					margin-bottom: 6px
+					margin-bottom: 3px
 					color: gainsboro-dark
+					display: block
 					@extend $subtle-link
 					em
 						color: lighten(gainsboro-dark, 10)
-						font-size: small-font-size
+						@extend $small-font-size
 				.textline
 					@extend $clearfix
 					.time, .edit
