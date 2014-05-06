@@ -63,6 +63,8 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-						div.edit
-							i.fa.fa-pencil.btn-edit
-							i.fa.fa-times.btn-delete
+						if user.id == line.author.id
+							//- show the edit stuff only if current user is the author
+							div.edit
+								i.fa.fa-pencil.btn-edit
+								i.fa.fa-times.btn-delete
