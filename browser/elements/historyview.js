@@ -8,6 +8,8 @@ var template = require('template');
 var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
+var classes = require('classes');
+var query = require('query');
 var closest = require('closest');
 var events = require('events');
 
@@ -211,6 +213,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('change', this.queueDraw);
+	room.history.on('add', this.queueDraw);
+	room.history.on('remove', function (msg, idx) {
+		// find removed element and highlight it....
+		// then redraw after timeout
+		var el = query("div[data-id=" + msg['id'] + "]", self.history.el);
+		classes(el).add('removed');
+		debugger;
+		setTimeout(self.queueDraw, 1000);
+	});
 };
 
