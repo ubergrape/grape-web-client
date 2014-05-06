@@ -219,7 +219,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		// then redraw after timeout
 		var el = query("div[data-id=" + msg['id'] + "]", self.history.el);
 		classes(el).add('removed');
-		debugger;
 		setTimeout(self.queueDraw, 1000);
 	});
 };
