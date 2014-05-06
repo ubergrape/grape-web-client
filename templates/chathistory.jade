@@ -43,7 +43,7 @@
 							each attachment in line.attachments
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
-									img(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+									img.image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
 									a(href=attachment.url)
