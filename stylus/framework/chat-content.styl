@@ -80,10 +80,14 @@
 							margin-left: 6px
 							&:hover
 								color: gainsboro-dark
+							&:active
+								color: darken(gainsboro-dark, 25%)
 						.btn-delete
 							margin-left: 4px
 							&:hover
 								color: bittersweet-dark
+							&:active
+								color: darken(bittersweet-dark, 25%)
 					.text
 						float: left
 						padding: 0
@@ -92,14 +96,13 @@
 							color: grape-light
 							text-decoration: none
 							&:hover
-								color: lighten(grape-light, 25)
+								color: lighten(grape-light, 25%)
 								text-decoration: underline
 					.img-atm
+						@extend $clearfix
 						float: left
 						img
-							max-width: 280px
-							max-height: 200px				
-
+							border
 // SEPERATORS
 
 .date-separator
