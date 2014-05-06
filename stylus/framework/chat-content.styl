@@ -98,15 +98,20 @@
 							&:hover
 								color: lighten(grape-light, 25%)
 								text-decoration: underline
+						.warning-unsent
+							color: gainsboro-light
+							&:before
+								content: "\f071"
+								font-family: FontAwesome
+								color: gold
+								margin-right: 6px
 					.img-atm
 						@extend $clearfix
 						float: left
-						img
-							border
 // SEPERATORS
-
 .date-separator
 	text-align: center
+	@extend $small-font-size
 	margin: 0 30px 0 20px
 	padding:  5px 0 0 0
 	color: gainsboro-dark
@@ -114,7 +119,7 @@
 
 .newmessage-separator
 	text-align: center
-	border-bottom: 1px solid red
+	border-bottom: 1px solid bittersweet-dark
 	height: 10px
 	margin: 0px 50px 20px
 	span
