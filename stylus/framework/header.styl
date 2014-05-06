@@ -50,6 +50,8 @@
 					margin-left: 5px
 				.sml-nr
 					display: none
+		.user:not(.typing) .fa
+			display: none
 		.search-form
 			width: 434px
 			float: right
@@ -69,8 +71,16 @@
 				color: gainsboro-dark
 			.search-submit
 				display: none
-		.user:not(.typing) .fa
-			display: none
+		.avatar-wrap
+			@extend $clearfix
+			float: right
+			width: 55px
+			margin: 1px 0 0 20px
+			.fa
+				margin: 10px 0 0 5px
+				color: gainsboro-dark
+			.online
+				left: 26px
 	@media screen and (max-width: 1140px)
 		.room-info .search-form
 			width: 234px !important

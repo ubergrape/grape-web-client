@@ -38,37 +38,75 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
+			&:hover
+				.content > .time
+					opacity: 0.5
 			.content
 				@extend $clearfix
 				padding: 10px 10px
 				overflow: hidden
 				background: white
 				border-radius: main-border-radius
-				time
-					@extend $clearfix
-					font-size: 12px
+				.time
+					font-size: small-font-size
 					text-transform: uppercase
 					float: right
 					color: gainsboro-dark
+				> .time
+					opacity: 1
 				.author
 					font-weight: bold
 					margin-bottom: 6px
-				.text
-					padding: 0
-					margin-bottom: 3px
-					a 
-						color: grape-light
-						text-decoration: none
-						&:hover
-							color: lighten(grape-light, 25)
-							text-decoration: underline
+					color: gainsboro-dark
+					@extend $subtle-link
+					em
+						color: lighten(gainsboro-dark, 10)
+						font-size: small-font-size
+				.textline
+					@extend $clearfix
+					.time, .edit
+						opacity: 0
+						transition: opacity 200ms ease
+					&:hover
+						> .time
+						> .edit
+							opacity: 1
+					.edit
+						@extend $hoverable
+						float: left
+						color: gainsboro-light
+						.btn-edit
+							margin-left: 6px
+							&:hover
+								color: gainsboro-dark
+						.btn-delete
+							margin-left: 4px
+							&:hover
+								color: bittersweet-dark
+					.text
+						float: left
+						padding: 0
+						margin-bottom: 3px
+						a 
+							color: grape-light
+							text-decoration: none
+							&:hover
+								color: lighten(grape-light, 25)
+								text-decoration: underline
+					.img-atm
+						float: left
+						img
+							max-width: 280px
+							max-height: 200px				
+
+// SEPERATORS
 
 .date-separator
 	text-align: center
-	margin: 0px 50px
-	background: #ddd
-	padding: 5px
-	border-radius: 5px
+	margin: 0 30px 0 20px
+	padding:  5px 0 0 0
+	color: gainsboro-dark
+	text-transform: uppercase
 
 .newmessage-separator
 	text-align: center
