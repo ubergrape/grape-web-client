@@ -219,7 +219,8 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query(".message[data-id=" + msg['id'] + "]", self.history.el);
+		var el = query("div.message[data-id=" + msg['id'] + "]", self.history.el);
+		console.log(el);
 		classes(el).add('removed');
 		setTimeout(self.queueDraw, 1000);
 	});
