@@ -39,7 +39,6 @@
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
 			.message-content
-				@extend $clearfix
 				padding: 10px 10px
 				overflow: hidden
 				background: white
@@ -61,7 +60,6 @@
 						color: lighten(gainsboro-dark, 10)
 						@extend $small-font-size
 				.message
-					@extend $clearfix
 					.time, .edit
 						opacity: 0
 						transition: opacity 200ms ease
@@ -71,7 +69,8 @@
 							opacity: 1
 					.edit
 						@extend $hoverable
-						float: left
+						display: inline-block
+						vertical-align: top
 						color: gainsboro-light
 						.btn-edit
 							margin-left: 6px
@@ -85,8 +84,18 @@
 								color: bittersweet-dark
 							&:active
 								color: darken(bittersweet-dark, 25%)
+					&.removing
+						background: lighten(gold, 80%)
+						padding: 2px 6px 0
+						margin: -2px -6px 0
+						border-radius: main-border-radius
+					&.removed
+						background: lighten(bittersweet-light, 60%)
+						padding: 2px 6px 0
+						margin: -2px -6px 0
+						border-radius: main-border-radius
 					.text
-						float: left
+						display: inline-block
 						padding: 0
 						margin-bottom: 3px
 						a 
@@ -103,18 +112,7 @@
 								color: gold
 								margin-right: 6px
 					.img-atm
-						@extend $clearfix
-						float: left
-
-
-.message.removed
-	background: red
-
-.message.removing
-	background: yellow
-
-
-// SEPERATORS
+						display: inline-block
 .date-separator
 	text-align: center
 	@extend $small-font-size
