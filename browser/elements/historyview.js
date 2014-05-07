@@ -12,6 +12,7 @@ var classes = require('classes');
 var query = require('query');
 var closest = require('closest');
 var events = require('events');
+var zoom = require('image-zoom');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
