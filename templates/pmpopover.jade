@@ -5,5 +5,13 @@
 	ul
 		each user in items
 			li.item.user(data-id=user.id, key=user.id)
+				.avatar-wrap
+					// FIXME: use real online status
+					if true == true
+						span.online
+					else
+						span.offline
+					// FIXME: use real avatar image
+					img(src="#{user.avatar}",width="20",alt="")
+					.avatar-status(class=(true == true ? 'online' : 'offline'))
 				span.name=user.username
-

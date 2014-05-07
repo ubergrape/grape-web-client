@@ -17,7 +17,7 @@
 			height: 100%
 			position: relative
 			padding-top: 14px
-		.chatline
+		.message-group
 			@extend $clearfix
 			margin: 10px 30px 14px 20px
 			position: relative
@@ -38,27 +38,88 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
-			.content
+			.message-content
 				@extend $clearfix
 				padding: 10px 10px
 				overflow: hidden
 				background: white
 				border-radius: main-border-radius
-				time
-					@extend $clearfix
-					font-size: 12px
+				.time
+					font-size: small-font-size
 					text-transform: uppercase
 					float: right
 					color: gainsboro-dark
+				> .time
+					opacity: 1
 				.author
 					font-weight: bold
-					margin-bottom: 6px
-				.text
-					padding: 0
 					margin-bottom: 3px
-					a 
-						color: grape-light
-						text-decoration: none
-						&:hover
-							color: lighten(grape-light, 25)
-							text-decoration: underline
+					color: gainsboro-dark
+					display: block
+					@extend $subtle-link
+					em
+						color: lighten(gainsboro-dark, 10)
+						@extend $small-font-size
+				.message
+					@extend $clearfix
+					margin-bottom: 3px
+					.time, .edit
+						opacity: 0
+						transition: opacity 200ms ease
+					&:hover
+						> .time
+						> .edit
+							opacity: 1
+					.edit
+						@extend $hoverable
+						float: left
+						color: gainsboro-light
+						.btn-edit
+							margin-left: 6px
+							&:hover
+								color: gainsboro-dark
+							&:active
+								color: darken(gainsboro-dark, 25%)
+						.btn-delete
+							margin-left: 4px
+							&:hover
+								color: bittersweet-dark
+							&:active
+								color: darken(bittersweet-dark, 25%)
+					.text
+						float: left
+						padding: 0		
+						a 
+							color: grape-light
+							text-decoration: none
+							&:hover
+								color: lighten(grape-light, 25%)
+								text-decoration: underline
+						.warning-unsent
+							color: gainsboro-light
+							&:before
+								content: "\f071"
+								font-family: FontAwesome
+								color: gold
+								margin-right: 6px
+					.image
+						@extend $clearfix
+						float: left
+						display: block
+// SEPERATORS
+.date-separator
+	text-align: center
+	@extend $small-font-size
+	margin: 0 30px 0 20px
+	padding:  5px 0 0 0
+	color: gainsboro-dark
+	text-transform: uppercase
+
+.newmessage-separator
+	text-align: center
+	border-bottom: 1px solid bittersweet-dark
+	height: 10px
+	margin: 0px 50px 20px
+	span
+		background: chat-background
+		padding: 0px 5px

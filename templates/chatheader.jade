@@ -1,4 +1,13 @@
 .chat-header
+	.avatar-wrap
+		// FIXME: use real avatar image
+		if true
+			span.online
+		else
+			span.offline
+		img(src="/static/images/avatar.gif",width="36",alt="Avatar")
+			.avatar-status(class='online')
+		i.fa.fa-chevron-down
 	form.search-form
 		input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
 		input.search-submit(type="submit")
@@ -16,7 +25,7 @@
 					span.sml-nr
 						| #{room.users.length}
 					each user in room.users.slice(0,3)
-						span.user(class=[user.id in room.typing ? 'typing' : ''], key=user.id)
+						span.user(class=[user.id in room.typing ? 'typing' : ''], key=user.id, title=user.username)
 							if user.status === 16
 								span.online
 							else

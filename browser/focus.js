@@ -21,3 +21,7 @@ window.addEventListener('focus', function () {
 //visibility(function () {
 //	console.log(arguments);
 //});
+
+
+
+

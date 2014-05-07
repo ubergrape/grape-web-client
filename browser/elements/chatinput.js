@@ -3,9 +3,12 @@
 
 var Emitter = require('emitter');
 var inputarea = require('inputarea');
+var resizable = require('resizable-textarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
+var closest = require('closest');
+var style = require('computed-style');
 
 var template = require('template');
 var render = require('../rendervdom');
@@ -17,7 +20,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
-	this.attachments = [];
+	//this.attachments = [];
 	this.init();
 	this.bind();
 }
@@ -60,11 +63,30 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!str)
 			return;
 		doStop();
-		self.emit('input', self.room, str, {
+		self.emit('input', self.room, str/*, {
 			attachments: self.attachments
-		});
-		self.attachments = [];
+		}*/);
+		//self.attachments = [];
 	});
+
+	// make the textarea auto resize
+	var resize = debounce(function() {
+		resizable(self.textarea, {min: 31, max: 76})}, delay);
+	resize();
+
+	Emitter(this.textarea);
+	this.textarea.on('resize', function(diff) {
+		// resize footer height
+		var footer = closest(self.textarea, 'footer');
+		var new_height = footer.clientHeight + diff;
+		footer.style.height =  new_height + 'px';
+
+		// resize chat wrapper padding
+		var wrapper = qs(".chat-wrapper");
+		var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
+		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	});
+
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
 	var stopped = false;
@@ -105,7 +127,8 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.textarea.disabled = !room;
 	if (room) this.textarea.focus();
 };
-
+/*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
 };
+*/

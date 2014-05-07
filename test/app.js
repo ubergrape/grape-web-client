@@ -427,7 +427,7 @@ describe('App', function () {
 			line.text.should.eql('foobar');
 			line.time.should.be.instanceof(Date);
 			line.time.getTime().should.eql(1391521894662);
-			line.read.should.be.true; // XXX
+			line.read.should.be.false;
 			done();
 		});
 		var msg = {

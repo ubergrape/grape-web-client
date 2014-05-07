@@ -2,11 +2,13 @@
 	header.header
 		.organization-info
 			.info-poweredby Powered by ChatGrape
-			.info-organizationlogo Client Logo
+			.info-organizationlogo
+				img(src='http://localhost:9000/static/images/logo-white.svg',height='40')
 		.room-info
 	.client-body
 		nav.navigation
 		div.chat-wrapper
+			.alert-header.alert-info We are encountering connection problems, trying to reconnect ..
 			section.chat
 			.search-results
 				a.result-filter-toggle=_('Filter Results')

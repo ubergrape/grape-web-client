@@ -3,16 +3,25 @@
 .toggle
 	outline: none
 .button // used in popovers
+	@extend $normal-font-size
 	background: grape-light
 	border: 1px solid grape-light
 	border-radius: 3px
 	box-shadow: 0px 3px grape-dark
 	color: white
-	padding: 5px 10px
+	padding: 4px 14px
+	outline: none
 	.icon
 		color: white
 		width: 20px
 		text-align: right
+	&:hover
+		background: lighten(grape-light, 5%)
+	&:active
+		background: lighten(grape-light, 10%)
+		margin-top: 1px
+		margin-bottom: -1px
+		box-shadow: 0px 2px grape-dark
 .button-inset // used in left navigation
 	@extend $small-font-size
 	font-weight: bold
@@ -23,8 +32,32 @@
 	border-radius: main-border-radius-small
 	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
 	&:hover
-		color: sidebar-button-hover-text-color
+		color: gainsboro-light
 		background: jet
 	&:active
-		color: sidebar-button-hover-text-color
+		color: gainsboro-light
 		background: jet
+.toggle
+	@extend $normal-font-size
+	width: 100px
+	padding: 4px
+	background: white
+	border: 2px solid
+	border-radius: 4px
+	margin-top: -6px
+	&.join
+		color: grass-light
+		border-color: grass-light
+		&:hover
+			background: lighten(grass-light, 96%)
+		&:active
+			background: lighten(grass-light, 98%)
+			padding: 5px 4px 3px
+	&.leave
+		color: bittersweet-light
+		border-color: bittersweet-light
+		&:hover
+			background: lighten(bittersweet-light, 96%)
+		&:active
+			background: lighten(bittersweet-light, 98%)
+			padding: 5px 4px 3px

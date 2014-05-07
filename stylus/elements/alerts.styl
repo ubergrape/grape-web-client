@@ -1,0 +1,56 @@
+// Wrap any text within the chat content and an optional dismiss button in .alert-inset and one of the four contextual classes (e.g., .alert-success) for basic alert messages.
+.alert-inset
+	padding: 3px 6px
+	border: 1px solid transparent
+	border-radius: main-border-radius-small
+
+// Used as container for header alert messages.
+.alert-header
+	position: absolute
+	left: 10px
+	right: 10px
+	top: 0
+	border-color: inherit 
+	border-radius: 0 0 main-border-radius main-border-radius
+	border-style: solid
+	border-width: 0 1px 1px 1px
+	opacity: .96
+	padding: 5px 20px
+	text-align: center
+	z-index: 10
+
+
+// Alert classes: Alerts don't have default classes, only base and modifier classes. A default gray alert doesn't make too much sense, so you're required to specify a type via contextual class. Choose from success, info, warning, or danger.
+// Use the .alert-link utility class to quickly provide matching colored links within any alert.
+.alert-info
+	background-color: lighten(alert-info-color, 90%)
+	border-color: lighten(alert-info-color, 60%)
+	color: alert-info-color
+	.alert-link
+		color: alert-info-color
+		&:hover
+			color: lighten(alert-info-color, 10%)
+.alert-success
+	background-color: lighten(alert-success-color, 90%)
+	border-color: lighten(alert-success-color, 60%)
+	color: alert-success-color
+	.alert-link
+		color: alert-success-color
+		&:hover
+			color: lighten(alert-success-color, 10%)
+.alert-warning
+	background-color: lighten(alert-warning-color, 90%)
+	border-color: lighten(alert-warning-color, 60%)
+	color: alert-warning-color
+	.alert-link
+		color: alert-warning-color
+		&:hover
+			color: lighten(alert-warning-color, 10%)
+.alert-danger
+	background-color: lighten(alert-danger-color, 90%)
+	border-color: lighten(alert-danger-color, 60%)
+	color: alert-danger-color
+	.alert-link
+		color: alert-danger-color
+		&:hover
+			color: lighten(alert-danger-color, 10%)
