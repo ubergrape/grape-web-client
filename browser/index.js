@@ -26,10 +26,6 @@ template.locals.marked = require('marked');
 template.locals.html = function (html) {
 	return v.fromDOM(domify(html));
 };
-template.locals.user = {
-	avatar: "/static/images/avatar.gif",
-	username: "loading"
-};
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
@@ -55,6 +51,16 @@ function UI(options) {
 UI.prototype = Object.create(Emitter.prototype);
 
 UI.prototype.init = function UI_init() {
+	// initialize user and org with dummy image
+	template.locals.user = {
+		avatar: this.static("images/avatar.gif"),
+		username: "loading"
+	};
+	template.locals.org = {
+		logo: this.static("images/logo-white.svg"),
+		name: "loading"
+	}
+
 	this.el = v.toDOM(template('index'));
 
 	// add the navigation to the layout
@@ -208,6 +214,7 @@ UI.prototype.gotError = function UI_gotError(err) {
 UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
+	template.locals.org = this.org;
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -319,3 +326,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 	}
 };
 
+
+UI.prototype.static = function UI_static(url) {
+	return this.options.staticPath + url;
+};
