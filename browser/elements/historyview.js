@@ -43,7 +43,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 }
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
-	var el = closest(ev.target, '.chatline', true);
+	var el = closest(ev.target, '.message', true);
 	classes(el).add('removing');
 	if (confirm("Delete the selected Message?")) {
 		var id = el.getAttribute('data-id');
@@ -219,7 +219,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query("div[data-id=" + msg['id'] + "]", self.history.el);
+		var el = query(".message[data-id=" + msg['id'] + "]", self.history.el);
 		classes(el).add('removed');
 		setTimeout(self.queueDraw, 1000);
 	});
