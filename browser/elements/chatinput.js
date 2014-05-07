@@ -78,12 +78,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.textarea.on('resize', function(diff) {
 		// resize footer height
 		var footer = closest(self.textarea, 'footer');
-		var new_height = parseInt(style(footer).height.substring(0, style(footer).height.length-2)) + diff;
+		var new_height = footer.clientHeight + diff;
 		footer.style.height =  new_height + 'px';
 
 		// resize chat wrapper padding
 		var wrapper = qs(".chat-wrapper");
-		var new_padding_bottom = parseInt(style(wrapper).paddingBottom.substring(0, style(wrapper).paddingBottom.length-2)) + diff;
+		var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
 		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
 	});
 
