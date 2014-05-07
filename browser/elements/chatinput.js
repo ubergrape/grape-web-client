@@ -7,6 +7,8 @@ var resizable = require('resizable-textarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
+var closest = require('closest');
+var style = require('computed-style');
 
 var template = require('template');
 var render = require('../rendervdom');
@@ -69,8 +71,21 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// make the textarea auto resize
 	var resize = debounce(function() {
-		resizable(self.textarea, {min: 31, max: 76}) }, delay);
+		resizable(self.textarea, {min: 31, max: 76})}, delay);
 	resize();
+
+	Emitter(this.textarea);
+	this.textarea.on('resize', function(diff) {
+		// resize footer height
+		var footer = closest(self.textarea, 'footer');
+		var new_height = parseInt(style(footer).height.substring(0, style(footer).height.length-2)) + diff;
+		footer.style.height =  new_height + 'px';
+
+		// resize chat wrapper padding
+		var wrapper = qs(".chat-wrapper");
+		var new_padding_bottom = parseInt(style(wrapper).paddingBottom.substring(0, style(wrapper).paddingBottom.length-2)) + diff;
+		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	});
 
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;

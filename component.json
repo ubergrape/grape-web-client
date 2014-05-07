@@ -86,7 +86,8 @@
     "Swatinem/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "*",
-    "JayceTDE/resizable-textarea": "*"
+    "sk7/resizable-textarea": "*",
+    "jkroso/computed-style": "*"
   },
   "development": {
     "chaijs/chai": "*",
