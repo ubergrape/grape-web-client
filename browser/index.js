@@ -60,7 +60,7 @@ UI.prototype.init = function UI_init() {
 	template.locals.org = {
 		logo: staticurl("images/logo-white.svg"),
 		name: "loading"
-	}
+	};
 
 	this.el = v.toDOM(template('index'));
 
