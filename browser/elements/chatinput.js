@@ -9,7 +9,7 @@ var textcomplete = require('textcomplete');
 var qs = require('query');
 var closest = require('closest');
 var style = require('computed-style');
-
+var events = require('events');
 var template = require('template');
 var render = require('../rendervdom');
 
@@ -127,6 +127,10 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.textarea.disabled = !room;
 	if (room) this.textarea.focus();
 };
+
+ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
+	alert("The chatinput will edit the message!");
+}
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
