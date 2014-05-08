@@ -31,7 +31,8 @@
     "lib/models/chatline.js",
     "lib/models/organization.js",
     "lib/models/room.js",
-    "lib/models/user.js"
+    "lib/models/user.js",
+    "lib/staticurl.js"
   ],
   "json": [
     "locale/de.json",

@@ -8,6 +8,7 @@ var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
 var notification = require('notification');
+var staticurl = require('../lib/staticurl');
 
 var exports = module.exports = UI;
 
@@ -53,11 +54,11 @@ UI.prototype = Object.create(Emitter.prototype);
 UI.prototype.init = function UI_init() {
 	// initialize user and org with dummy image
 	template.locals.user = {
-		avatar: this.static("images/avatar.gif"),
+		avatar: staticurl("images/avatar.gif"),
 		username: "loading"
 	};
 	template.locals.org = {
-		logo: this.static("images/logo-white.svg"),
+		logo: staticurl("images/logo-white.svg"),
 		name: "loading"
 	}
 
@@ -324,9 +325,4 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 				return room;
 		}
 	}
-};
-
-
-UI.prototype.static = function UI_static(url) {
-	return this.options.staticPath + url;
 };
