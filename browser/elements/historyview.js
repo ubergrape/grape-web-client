@@ -57,7 +57,7 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 HistoryView.prototype.editMessage = function HistoryView_editMessage(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
-	var msg = this.room.history.get(el.getAttribute('data-id'))
+	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('editmessage', msg, this.room);
 }
 

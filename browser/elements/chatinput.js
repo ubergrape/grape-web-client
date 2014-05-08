@@ -129,7 +129,7 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
-	alert("The chatinput will edit the message!");
+	console.log(msg);
 }
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
