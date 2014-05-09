@@ -25,24 +25,44 @@
 	li
 		@extend $functional-list
 		padding: 6px 0
-	&::before
-		content: ""
-		display: block
-		position: absolute
-		top: 10px
-		left: - arrow-size
-		border-right: arrow-size solid gainsboro-light
-		border-top: arrow-size solid transparent
-		border-bottom: arrow-size solid transparent
-	&::after
-		content: ""
-		display: block
-		position: absolute
-		top: 10px + 2
-		left: - arrow-size + 2
-		border-right: arrow-size - 2 solid white
-		border-top: arrow-size - 2 solid transparent
-		border-bottom: arrow-size - 2 solid transparent
+	&.left
+		&::before
+			content: ""
+			display: block
+			position: absolute
+			top: 10px
+			left: - arrow-size
+			border-right: arrow-size solid gainsboro-light
+			border-top: arrow-size solid transparent
+			border-bottom: arrow-size solid transparent
+		&::after
+			content: ""
+			display: block
+			position: absolute
+			top: 10px + 2
+			left: - arrow-size + 2
+			border-right: arrow-size - 2 solid white
+			border-top: arrow-size - 2 solid transparent
+			border-bottom: arrow-size - 2 solid transparent
+	&.top
+		&::before
+			content: ""
+			display: block
+			position: absolute
+			top: -10px
+			left: 89% // Dirty, improve me!
+			border-style: solid
+			border-width: 0 arrow-size arrow-size
+			border-color: gainsboro-light transparent
+		&::after
+			content: ""
+			display: block
+			position: absolute
+			top: -10px + 2
+			left: 90%
+			border-style: solid
+			border-width: 0 arrow-size - 2 arrow-size - 2
+			border-color: white transparent
 	&.hide
 		opacity: 0
 		transition: opacity 500ms
@@ -60,6 +80,15 @@
 		font-weight: normal
 		text-transform: uppercase
 
+
+// ****
+//
+// user-popup-specific things go here
+//
+// ****
+.userpopover
+	width: 200px
+	
 // ****
 //
 // personal message-popup-specific things go here
