@@ -137,6 +137,8 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
 	this.textarea.disabled = !room;
 	if (room) this.textarea.focus();
+	if (this.editing)
+		this.editingDone();
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {

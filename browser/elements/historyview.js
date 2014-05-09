@@ -41,7 +41,7 @@ HistoryView.prototype = Object.create(Emitter.prototype);
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
-	this.events.bind('click i.btn-edit', 'editMessage');
+	this.events.bind('click i.btn-edit', 'selectForEditing');
 }
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -54,14 +54,14 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	classes(el).remove('removing');
 }
 
-HistoryView.prototype.editMessage = function HistoryView_editMessage(ev) {
+HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
-	this.emit('editmessage', msg, this.room);
+	this.emit('selectedforediting', msg, this.room);
 }
 
-HistoryView.prototype.editingDone = function (msg) {
+HistoryView.prototype.unselectForEditing = function (msg) {
 	classes(query(".message.editing", this.el)).remove('editing');
 }
 
