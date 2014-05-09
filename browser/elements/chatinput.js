@@ -110,6 +110,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		start();
 		stop();
 	});
+	
+	document.addEventListener('keyup', function (ev) {
+		if (!self.editing) return;
+		if (ev.keyCode == 27) self.editingDone();
+	});
 
 	// hook up the autocomplete
 	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
@@ -149,6 +154,7 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
+	this.textarea.focus();
 }
 
 /*
