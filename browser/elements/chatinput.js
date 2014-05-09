@@ -63,10 +63,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!str)
 			return;
 		doStop();
-		self.emit('input', self.room, str/*, {
-			attachments: self.attachments
-		}*/);
-		//self.attachments = [];
+		if (!self.editing) {
+			self.emit('input', self.room, str/*, {
+				attachments: self.attachments
+			}*/);
+			//self.attachments = [];
+		} else {
+			self.emit('update', self.editMsg, str);
+			self.editing = false;
+			self.editMsg = null;
+			self.textarea.value = self.oldVal;
+		}
 	});
 
 	// make the textarea auto resize
@@ -129,7 +136,10 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
-	console.log(msg);
+	this.editMsg = msg;
+	this.editing = true;
+	this.oldVal = this.textarea.value;
+	this.textarea.value = msg['text'];
 }
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
