@@ -10,6 +10,7 @@ var qs = require('query');
 var closest = require('closest');
 var style = require('computed-style');
 var events = require('events');
+var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
 
@@ -70,9 +71,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			//self.attachments = [];
 		} else {
 			self.emit('update', self.editMsg, str);
-			self.editing = false;
-			self.editMsg = null;
-			self.textarea.value = self.oldVal;
+			self.editingDone();
 		}
 	});
 
@@ -138,9 +137,20 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
 	this.editing = true;
+	classes(this.el).add('editing');
 	this.oldVal = this.textarea.value;
 	this.textarea.value = msg['text'];
+	this.textarea.focus();
 }
+
+ChatInput.prototype.editingDone = function ChatInput_editingDone() {
+	this.editing = false;
+	this.textarea.value = this.oldVal;
+	this.oldVal = null;
+	this.editMsg = null;
+	classes(this.el).remove('editing');
+}
+
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
