@@ -149,6 +149,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 }
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
+	this.emit('editingdone', this.editMsg);
 	this.editing = false;
 	this.textarea.value = this.oldVal;
 	this.oldVal = null;

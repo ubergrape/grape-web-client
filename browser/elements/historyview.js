@@ -61,6 +61,10 @@ HistoryView.prototype.editMessage = function HistoryView_editMessage(ev) {
 	this.emit('editmessage', msg, this.room);
 }
 
+HistoryView.prototype.editingDone = function (msg) {
+	classes(query(".message.editing", this.el)).remove('editing');
+}
+
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
 	el.className = 'chat';
