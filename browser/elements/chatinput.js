@@ -141,6 +141,17 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 		this.editingDone();
 };
 
+ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
+    if (typeof el.selectionStart == "number") {
+        el.selectionStart = el.selectionEnd = el.value.length;
+    } else if (typeof el.createTextRange != "undefined") {
+        el.focus();
+        var range = el.createTextRange();
+        range.collapse(false);
+        range.select();
+    }
+}
+
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
 	this.editing = true;
@@ -148,6 +159,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.oldVal = this.textarea.value;
 	this.textarea.value = msg['text'];
 	this.textarea.focus();
+    this.moveCaretToEnd(this.textarea);
 }
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
