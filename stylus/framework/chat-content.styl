@@ -38,6 +38,8 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
+			&.creator .message:hover .text
+				color: gainsboro-dark
 			.message-content
 				@extend $clearfix
 				padding: 10px 10px
@@ -70,8 +72,6 @@
 						> .time
 						> .edit
 							opacity: 1
-						.text
-							color: gainsboro-dark
 					.edit
 						@extend $hoverable
 						float: left
