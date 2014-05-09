@@ -4,8 +4,11 @@
 /*var should = */require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
 var qs = require('component-query');
+var template = require('template');
 
 var ChatInput = require('cg').UI.ChatInput;
+
+template.locals.user = {avatar: "", username:"test"};
 
 describe('ChatInput', function () {
 	// webkit wtf? https://code.google.com/p/chromium/issues/detail?id=120494
