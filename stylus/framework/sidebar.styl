@@ -1,21 +1,34 @@
 /*______ Top left Info about the product and Organisation ______*/
-.organization-info
+.org-info
 	float: left
 	width: client-navigation-width
 	height: header-height
 	background: organisation-background
 	color: gainsboro-dark
-	.info-poweredby
-	.info-organizationlogo
-		padding: 6px 20px
-	.info-poweredby
-		background: poweredby-background
-		height: (header-height / 3)
+	.pwrdby
+	.logo
+		padding-left: 20px
+		padding-right: 20px
+		display: block
+		border-bottom: 1px solid darken(organisation-background, 5)
+	.pwrdby
+		background: jet
+		height: (header-height / 4)
+		line-height: (header-height / 4)
 		text-transform: uppercase
 		font-size: 10px
-	.info-organizationlogo
-		background: organisation-background
-		height: (header-height / 3) * 2
+		@extend $subtle-link
+	a.logo
+		height: (header-height / 4) * 3
+		line-height: (header-height / 4) * 3
+		i
+			float: right
+			height: (header-height / 4) * 3
+			line-height: (header-height / 4) * 3
+		&:hover
+			opacity: 0.8
+		img
+			margin-top: 6px
 
 /*______ Left navigation ______*/
 .navigation
