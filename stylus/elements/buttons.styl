@@ -3,7 +3,6 @@
 .toggle
 	outline: none
 .button // used in popovers
-	@extend $normal-font-size
 	background: grape-light
 	border: 1px solid grape-light
 	border-radius: 3px
@@ -11,6 +10,7 @@
 	color: white
 	padding: 4px 14px
 	outline: none
+	text-decoration: none
 	.icon
 		color: white
 		width: 20px
@@ -22,15 +22,19 @@
 		margin-top: 1px
 		margin-bottom: -1px
 		box-shadow: 0px 2px grape-dark
-.button-inset // used in left navigation
+.button-small
+	@extend .button
 	@extend $small-font-size
+	padding: 3px 7px
+.button-inset // used in left navigation
+	@extend .button-small
 	font-weight: bold
 	border: none
 	background: darken(jet, 25%)
-	padding: 3px 7px
 	margin-top: -2px
 	border-radius: main-border-radius-small
 	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
+	color: gainsboro-dark
 	&:hover
 		color: gainsboro-light
 		background: jet
