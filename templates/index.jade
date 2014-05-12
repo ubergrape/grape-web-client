@@ -72,9 +72,9 @@
 			| Ihr aktueller Status
 			span.close ×
 		form.user-status-form
-			input.user-status(type="text", id="user-status", onClick="this.select();", placeholder=_("Bearbeite gerade Designs"))
+			input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Bearbeite gerade Designs"))
 			input.user-status-submit(type="submit")
-			span.online.user-status-icon
+			span.user-status-icon.online
 		ul
 			li
 				a

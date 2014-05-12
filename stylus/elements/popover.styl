@@ -102,10 +102,14 @@
 			width: 100%
 			padding-left: 28px
 		.user-status-icon
+			@extend $hoverable
+			display: block
 			position: relative
-			left: 10px
-			top: -29px
-			color: gainsboro-dark
+			left: 8px
+			top: -25px
+			width: 14px
+			height: 14px
+			border-radius: 50%
 		.user-status-submit
 			display: none
 	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
@@ -124,7 +128,7 @@
 				background: silver-light
 				.fa
 					color: grape-light
-	
+
 // ****
 //
 // personal message-popup-specific things go here
