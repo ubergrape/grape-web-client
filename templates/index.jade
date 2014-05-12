@@ -68,7 +68,21 @@
 		footer.footer
 .popover(style='top: 64px; left: 952px;').top
 	.userpopover
-		h3
-			| Benutzer-Einstellungen
+		h4
+			| Ihr aktueller Status
 			span.close ×
-		hr.mar-b10
+		input(type="text", id="user-status", value="Bearbeite gerade Designs", onClick="this.select();")
+		ul
+			li
+				a
+					i.fa.fa-envelope
+					| Kompakte Ansicht
+			li
+				a
+					i.fa.fa-envelope
+					| Einstellungen
+			li
+				a
+					i.fa.fa-envelope
+					| Abmelden
+		

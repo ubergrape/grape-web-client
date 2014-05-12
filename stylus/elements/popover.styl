@@ -79,6 +79,12 @@
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
+	h4
+		color: gainsboro-dark
+		@extend $small-font-size
+		font-weight: bold
+		text-transform: uppercase
+		margin-bottom: 4px
 
 
 // ****
@@ -88,6 +94,18 @@
 // ****
 .userpopover
 	width: 200px
+	padding-top: 6px
+	input[type="text"]
+		@extend $textinput
+	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
+		margin: 10px -20px -15px -15px
+	li
+		border-top: 1px solid gainsboro-light
+		margin: 0
+		padding: 0
+		a
+			padding: 8px 16px
+			color: grape-text // normal font color in menus
 	
 // ****
 //
@@ -96,7 +114,7 @@
 // ****
 
 .pmpopover
-	width: 200px
+	width: 240px
 	li.item
 		border-radius: main-border-radius
 		padding: 6px 4px
@@ -112,7 +130,7 @@
 // ****
 
 .roompopover
-	width: 350px
+	width: 320px
 	&.openform
 		.button.new
 			display: none
@@ -135,11 +153,8 @@
 			width: 200px
 			margin-top: 4px
 		input[type="text"]
+			@extend $textinput
 			width: 200px
-			padding: 8px 10px 8px 10px
-			border: 1px solid gainsboro-light
-			border-radius: main-border-radius
-			outline: none
 		input[type="radio"]
 			display:none
 			&:checked + label:before
