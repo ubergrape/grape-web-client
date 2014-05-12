@@ -22,7 +22,6 @@ $subtle-link, $subtle-link a
 		color: lighten(grape-light, 25)
 		text-decoration: underline
 
-
 /*______ Form Elements: Text Area ______*/
 
 $textinput
@@ -31,6 +30,13 @@ $textinput
 	border-radius: main-border-radius
 	outline: none
 
+/*______ horizontal LIST ______*/
+$horizontal-list
+	li
+		float:left
+		margin-right: 8px
+		&:last-of-type
+			margin-right: 0
 
 /*______ Functional LIST ______*/
 
@@ -109,6 +115,8 @@ $overlay // used for search - infos, etc.
 		overflow: hidden
 		margin-left: 4px
 
+/*______ User Status Colors  ______*/
+// We need this as general classes here, because we use this in different elements.
 .online
 	background: #8cc152
 .offline

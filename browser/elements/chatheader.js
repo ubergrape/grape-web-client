@@ -4,7 +4,9 @@
 var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
+var closest = require('closest');
 var render = require('../rendervdom');
+var classes = require('classes');
 
 module.exports = ChatHeader;
 
@@ -14,16 +16,32 @@ function ChatHeader() {
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
+	this.init();
 	this.bind();
 }
 
 ChatHeader.prototype = Object.create(Emitter.prototype);
 
+ChatHeader.prototype.init = function ChatHeader_init() {
+	this.classes = classes(this.el);
+	this.searchForm = qs('.search-form', this.el);
+	this.searchInput = qs('.search', this.el);
+	this.client = qs('.client', this.el); //dunno but seems to not work in .bind function
+};
+
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
-	qs('.search-form', this.el).addEventListener('submit', function (ev) {
+
+	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
+	});
+	this.searchInput.addEventListener('keyup', function (ev) {
+		if ( this.value.length != 0 ) {
+			classes(qs('.client', this.el)).add('searching');
+		} else {
+			classes(qs('.client', this.el)).remove('searching');
+		}
 	});
 };
 

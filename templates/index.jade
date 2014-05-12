@@ -1,8 +1,9 @@
 .client
 	header.header
-		.organization-info
-			.info-poweredby Powered by ChatGrape
-			.info-organizationlogo
+		.org-info
+			a(href='https://chatgrape.com', target='_blank', class='pwrdby') Powered by ChatGrape
+			a.logo
+				i.fa.fa-chevron-down
 				img(src='http://localhost:9000/static/images/logo-white.svg',height='40')
 		.room-info
 	.client-body
@@ -11,37 +12,43 @@
 			.alert-header.alert-info Welcome #{user.username} welcome to on ChatGrape!
 			section.chat
 			.search-results
-				a.result-filter-toggle=_('Filter Results')
 				.result-info
 					.result-nr
 						=_('52 Ergebnisse für ')
 						strong=_('Hamburger')
 				.result-filters
-					h2=_('Sort by')
-					ul
-						li
-							a=_('Überall')
-						li
-							a=_('Design')
-					h2=_('Filter by')
-					ul.filter-list
-						li
-							a=_('Alle (51)')
-						li
-							a=_('Nachrichten (14)')
-						li
-							a=_('Dateien (10)')
-						li
-							a=_('GitHub Issues (1)')
-				.result-wrapper
-					ul.result-list
-						li.result-item.selected
+					.filter-room
+						h2=_('Sort by')
+						ul
+							li
+								a=_('Überall')
+							li
+								a=_('Design')
+					.filter-list
+						h2=_('Filter by')
+						ul
+							li
+								a=_('Alle (51)')
+							li
+								a=_('Nachrichten (14)')
+							li
+								a=_('Dateien (10)')
+							li
+								a=_('GitHub Issues (1)')
+				ul.result-list
+					li.result-object.selected
+						.item-object.minor
+							.item-info
+								h2=_('Martin Scheriau')
+							.item-content
+								=_('Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch nicht tatenlos zusehen. Eine Abstimmung!')
+						.item-object.main
 							.item-info
 								h2=_('Tobias Seiler')
 								i.fa.fa-comment
 								span=_('Design')
 							.item-content
-								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das "Big-Mac" oder so ähnlich. Möchtet ihr mit mir einen ')
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
 								span=_('Hamburger')
 								=_(' essen?')
 								ul.item-footer
@@ -51,18 +58,32 @@
 										a=_('Jump to conversation')
 									li.option
 										a=_('All results from this user')
-						li.result-item
+						.item-object.minor
 							.item-info
-								h2=_('Lea de Roucy')
-								i.fa.fa-envelope
-								span=_('Nachrichten')
+								h2=_('Sabine Ludwig')
 							.item-content
-								=_('Diese ')
+								=_('im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der Seperatisten) oder einfach nicht von der int. Gemeinschaft hingeschickt worden sind.')
+					
+					li.result-object
+						.item-object.minor
+							.item-info
+								h2=_('Martin Scheriau')
+							.item-content
+								=_('Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. ')
+						.item-object.main
+							.item-info
+								h2=_('Tobias Seiler')
+								i.fa.fa-comment
+								span=_('Design')
+							.item-content
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
 								span=_('Hamburger')
-								=_('-Konstruktion ermöglicht es, die Zwiebel-Sosse-Fleisch-Einlage gleich zweimal unterzubringen')
+								=_(' essen?')
 								ul.item-footer
 									li.time
-										time=_('1. Jänner, 0:48 Uhr')
+										time=_('1. Jänner, 0:46 Uhr')
+									li.option
+										a=_('Jump to conversation')
 									li.option
 										a=_('See message')
 		footer.footer
@@ -89,3 +110,12 @@
 					i.fa.fa-sign-out
 					| Abmelden
 		
+=======
+										a=_('All results from this user')
+						.item-object.minor
+							.item-info
+								h2=_('Sabine Ludwig')
+							.item-content
+								=_('Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt wurden.')
+		footer.footer
+>>>>>>> origin/master
