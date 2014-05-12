@@ -19,8 +19,8 @@
 		background: lighten(grape-light, 5%)
 	&:active
 		background: lighten(grape-light, 10%)
-		margin-top: 1px
 		margin-bottom: -1px
+		margin-top: 1px
 		box-shadow: 0px 2px grape-dark
 .button-small
 	@extend .button
@@ -31,7 +31,7 @@
 	font-weight: bold
 	border: none
 	background: darken(jet, 25%)
-	margin-top: -2px
+	margin-top: -3px
 	border-radius: main-border-radius-small
 	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
 	color: gainsboro-dark
@@ -39,8 +39,11 @@
 		color: gainsboro-light
 		background: jet
 	&:active
+		margin-top: -3px
+		margin-bottom: 0
 		color: gainsboro-light
 		background: jet
+		box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
 .toggle
 	@extend $normal-font-size
 	width: 100px
