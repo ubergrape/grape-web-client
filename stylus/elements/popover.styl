@@ -95,17 +95,35 @@
 .userpopover
 	width: 200px
 	padding-top: 6px
-	input[type="text"]
-		@extend $textinput
+	.user-status-form
+		height: 30px
+		input[type="text"].user-status
+			@extend $textinput
+			width: 100%
+			padding-left: 28px
+		.user-status-icon
+			position: relative
+			left: 10px
+			top: -29px
+			color: gainsboro-dark
+		.user-status-submit
+			display: none
 	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
 		margin: 10px -20px -15px -15px
 	li
-		border-top: 1px solid gainsboro-light
+		border-top: 1px solid silver-dark
 		margin: 0
 		padding: 0
 		a
 			padding: 8px 16px
-			color: grape-text // normal font color in menus
+			color: grape-typo // normal font color in menus
+			.fa
+				color: gainsboro-light
+				margin-right: 8px
+			&:hover
+				background: silver-light
+				.fa
+					color: grape-light
 	
 // ****
 //
