@@ -62,6 +62,7 @@ HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(e
 }
 
 HistoryView.prototype.unselectForEditing = function (msg) {
+	classes(query(".message.editing", this.el)).add('edited');
 	classes(query(".message.editing", this.el)).remove('editing');
 }
 
