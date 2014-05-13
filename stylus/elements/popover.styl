@@ -16,6 +16,7 @@
 	transition: opacity 500ms
 	margin: -10px 0 0 -4px
 	max-width: 450px
+	white-space: normal
 	ul
 		padding: 5px 5px 0 0
 		margin: 10px 0 0
@@ -24,24 +25,44 @@
 	li
 		@extend $functional-list
 		padding: 6px 0
-	&::before
-		content: ""
-		display: block
-		position: absolute
-		top: 10px
-		left: - arrow-size
-		border-right: arrow-size solid #aaa
-		border-top: arrow-size solid rgba(#aaa, 0)
-		border-bottom: arrow-size solid rgba(#aaa, 0)
-	&::after
-		content: ""
-		display: block
-		position: absolute
-		top: 10px + 2
-		left: - arrow-size + 2
-		border-right: arrow-size - 2 solid white
-		border-top: arrow-size - 2 solid transparent
-		border-bottom: arrow-size - 2 solid transparent
+	&.left
+		&::before
+			content: ""
+			display: block
+			position: absolute
+			top: 10px
+			left: - arrow-size
+			border-right: arrow-size solid gainsboro-light
+			border-top: arrow-size solid transparent
+			border-bottom: arrow-size solid transparent
+		&::after
+			content: ""
+			display: block
+			position: absolute
+			top: 10px + 2
+			left: - arrow-size + 2
+			border-right: arrow-size - 2 solid white
+			border-top: arrow-size - 2 solid transparent
+			border-bottom: arrow-size - 2 solid transparent
+	&.top
+		&::before
+			content: ""
+			display: block
+			position: absolute
+			top: -10px
+			left: 89% // Dirty, improve me!
+			border-style: solid
+			border-width: 0 arrow-size arrow-size
+			border-color: gainsboro-light transparent
+		&::after
+			content: ""
+			display: block
+			position: absolute
+			top: -10px + 2
+			left: 90%
+			border-style: solid
+			border-width: 0 arrow-size - 2 arrow-size - 2
+			border-color: white transparent
 	&.hide
 		opacity: 0
 		transition: opacity 500ms
@@ -58,6 +79,55 @@
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
+	h4
+		color: gainsboro-dark
+		@extend $small-font-size
+		font-weight: bold
+		text-transform: uppercase
+		margin-bottom: 4px
+
+
+// ****
+//
+// user-popup-specific things go here
+//
+// ****
+.userpopover
+	width: 200px
+	padding-top: 6px
+	.user-status-form
+		height: 30px
+		input[type="text"].user-status
+			@extend $textinput
+			width: 100%
+			padding-left: 28px
+		.user-status-icon
+			@extend $hoverable
+			display: block
+			position: relative
+			left: 8px
+			top: -25px
+			width: 14px
+			height: 14px
+			border-radius: 50%
+		.user-status-submit
+			display: none
+	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
+		margin: 10px -20px -15px -15px
+	li
+		border-top: 1px solid silver-dark
+		margin: 0
+		padding: 0
+		a
+			padding: 8px 16px
+			color: grape-typo // normal font color in menus
+			.fa
+				color: gainsboro-light
+				margin-right: 8px
+			&:hover
+				background: silver-light
+				.fa
+					color: grape-light
 
 // ****
 //
@@ -66,7 +136,7 @@
 // ****
 
 .pmpopover
-	width: 200px
+	width: 240px
 	li.item
 		border-radius: main-border-radius
 		padding: 6px 4px
@@ -82,7 +152,7 @@
 // ****
 
 .roompopover
-	width: 350px
+	width: 320px
 	&.openform
 		.button.new
 			display: none
@@ -105,11 +175,8 @@
 			width: 200px
 			margin-top: 4px
 		input[type="text"]
+			@extend $textinput
 			width: 200px
-			padding: 8px 10px 8px 10px
-			border: 1px solid gainsboro-light
-			border-radius: main-border-radius
-			outline: none
 		input[type="radio"]
 			display:none
 			&:checked + label:before

@@ -14,7 +14,7 @@ module.exports = ItemList;
 function ItemList(options) {
 	Emitter.call(this);
 	this.template = options.template;
-	this.selector = options.selector || '.item .name, .item .icon, .item .unread';
+	this.selector = options.selector + ', .item .name, .item .icon, .item .unread';
 	// guarantee `items` is an array emitter
 	this.items = new Emitter([]);
 	this.itemIds = Object.create(null);

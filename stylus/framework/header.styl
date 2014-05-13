@@ -12,6 +12,10 @@
 		border-bottom: 1px solid gainsboro-light
 		padding: 17px 30px
 		@extend $clearfix
+		.room-info-text, .avatar-wrap, .search-form
+			max-width: 100%
+			overflow: hidden
+			transition: all 200ms linear
 		.room-info-text
 			overflow: hidden
 			position: relative
@@ -92,3 +96,11 @@
 			width: 50px !important
 		.room-name h1
 			margin-right: 60px !important
+
+/*______ STYLES IF SEARCH TRIGGERED ______*/
+body .searching .header
+	.room-info-text, .avatar-wrap
+		width: 0
+		margin: 0
+	.search-form
+		width: 100% !important

@@ -38,6 +38,8 @@
 					border-right: main-border-radius solid white
 					border-top: main-border-radius solid transparent
 					border-bottom: main-border-radius solid transparent
+			&.creator .message:hover .text
+				color: gainsboro-dark
 			.message-content
 				padding: 10px 10px
 				overflow: hidden
@@ -53,11 +55,11 @@
 				.author
 					font-weight: bold
 					margin-bottom: 3px
-					color: gainsboro-dark
+					color: darken(gainsboro-dark, 20%)
 					display: block
 					@extend $subtle-link
 					em
-						color: lighten(gainsboro-dark, 10)
+						color: lighten(gainsboro-dark, 10%)
 						@extend $small-font-size
 				.message
 					margin-bottom: 3px
