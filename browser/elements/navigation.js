@@ -32,11 +32,11 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = scr.wrapper;
 
 	// initialize the sub lists
-	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: 'a'});
+	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
 	replace(qs('.rooms', el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: 'a'});
+	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item a'});
 	replace(qs('.pms', el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist', selector: 'a'});
+	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
 	replace(qs('.labels', el), labelList.el);
 };
 
