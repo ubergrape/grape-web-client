@@ -9,7 +9,7 @@
 	.client-body
 		nav.navigation
 		div.chat-wrapper
-			//.alert-header.alert-danger Welcome #{user.username} welcome to on ChatGrape!
+			.alert-header.alert-info Welcome #{user.username} welcome to on ChatGrape!
 			section.chat
 			.search-results
 				.result-info
@@ -85,6 +85,8 @@
 									li.option
 										a=_('Jump to conversation')
 									li.option
+										a=_('See message')
+									li.option
 										a=_('All results from this user')
 						.item-object.minor
 							.item-info
@@ -92,3 +94,25 @@
 							.item-content
 								=_('Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt wurden.')
 		footer.footer
+.popover(style='top: 64px; right: 22px;').top
+	.userpopover
+		h4
+			| Ihr aktueller Status
+			span.close ×
+		form.user-status-form
+			input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Bearbeite gerade Designs"))
+			input.user-status-submit(type="submit")
+			span.user-status-icon.online
+		ul
+			li
+				a
+					i.fa.fa-eye
+					| Kompakte Ansicht
+			li
+				a
+					i.fa.fa-cog
+					| Einstellungen
+			li
+				a
+					i.fa.fa-sign-out
+					| Abmelden						
