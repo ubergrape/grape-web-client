@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-05-13 10:34+0000\n"
+"POT-Creation-Date: 2014-05-13 11:17+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -86,6 +86,8 @@ msgstr ""
 #: client/templates/index.jade:18
 #: client/templates/index.jade:52
 #: client/templates/index.jade:80
+#: client/templates/index.jade:75
+#: client/templates/index.jade:98
 msgid "Hamburger"
 msgstr ""
 
@@ -104,6 +106,7 @@ msgstr ""
 #: client/templates/index.jade:26
 #: client/templates/index.jade:49
 #: client/templates/index.jade:77
+#: client/templates/index.jade:95
 msgid "Design"
 msgstr ""
 
@@ -135,6 +138,7 @@ msgstr ""
 #: client/templates/index.jade:38
 #: client/templates/index.jade:47
 #: client/templates/index.jade:75
+#: client/templates/index.jade:93
 msgid "Tobias Seiler"
 msgstr ""
 
@@ -147,6 +151,7 @@ msgstr ""
 #: client/templates/index.jade:44
 #: client/templates/index.jade:53
 #: client/templates/index.jade:81
+#: client/templates/index.jade:99
 msgid " essen?"
 msgstr ""
 
@@ -159,6 +164,8 @@ msgstr ""
 #: client/templates/index.jade:49
 #: client/templates/index.jade:58
 #: client/templates/index.jade:86
+#: client/templates/index.jade:81
+#: client/templates/index.jade:104
 msgid "Jump to conversation"
 msgstr ""
 
@@ -166,6 +173,7 @@ msgstr ""
 #: client/templates/index.jade:60
 #: client/templates/index.jade:88
 #: client/templates/index.jade:90
+#: client/templates/index.jade:108
 msgid "All results from this user"
 msgstr ""
 
@@ -193,6 +201,7 @@ msgstr ""
 
 #: client/templates/index.jade:65
 #: client/templates/index.jade:88
+#: client/templates/index.jade:106
 msgid "See message"
 msgstr ""
 
@@ -259,6 +268,7 @@ msgstr ""
 
 #: client/templates/index.jade:42
 #: client/templates/index.jade:70
+#: client/templates/index.jade:88
 msgid "Martin Scheriau"
 msgstr ""
 
@@ -270,6 +280,7 @@ msgstr ""
 
 #: client/templates/index.jade:51
 #: client/templates/index.jade:79
+#: client/templates/index.jade:97
 msgid ""
 "Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
 "das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
@@ -278,6 +289,7 @@ msgstr ""
 #: client/templates/index.jade:63
 #: client/templates/index.jade:91
 #: client/templates/index.jade:93
+#: client/templates/index.jade:111
 msgid "Sabine Ludwig"
 msgstr ""
 
@@ -290,6 +302,7 @@ msgid ""
 msgstr ""
 
 #: client/templates/index.jade:72
+#: client/templates/index.jade:90
 msgid ""
 "Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit "
 "ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen "
@@ -298,6 +311,7 @@ msgstr ""
 
 #: client/templates/index.jade:93
 #: client/templates/index.jade:95
+#: client/templates/index.jade:113
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
@@ -314,37 +328,78 @@ msgid "52 Ergebnisse für"
 msgstr ""
 
 #: client/templates/index.jade:99
+#: client/templates/index.jade:117
 msgid "Your Organization"
 msgstr ""
 
 #: client/templates/index.jade:105
+#: client/templates/index.jade:123
 msgid "Organization Settings"
 msgstr ""
 
 #: client/templates/index.jade:109
+#: client/templates/index.jade:127
 msgid "Manage Members"
 msgstr ""
 
 #: client/templates/index.jade:113
+#: client/templates/index.jade:131
 msgid "Service Integrations"
 msgstr ""
 
 #: client/templates/index.jade:116
+#: client/templates/index.jade:134
 msgid "Current Status"
 msgstr ""
 
 #: client/templates/index.jade:119
+#: client/templates/index.jade:137
 msgid "Working on designs"
 msgstr ""
 
 #: client/templates/index.jade:126
+#: client/templates/index.jade:144
 msgid "Compact View"
 msgstr ""
 
 #: client/templates/index.jade:130
+#: client/templates/index.jade:148
 msgid "User Settings"
 msgstr ""
 
 #: client/templates/index.jade:134
+#: client/templates/index.jade:152
 msgid "Sign Out"
+msgstr ""
+
+#: client/templates/chatinput.jade:10
+msgid "Hit ESC to cancel editing."
+msgstr ""
+
+#: client/templates/index.jade:70
+msgid "Google Drive"
+msgstr ""
+
+#: client/templates/index.jade:72
+msgid "/ubergrape"
+msgstr ""
+
+#: client/templates/index.jade:74
+msgid "Das-"
+msgstr ""
+
+#: client/templates/index.jade:76
+msgid "-Wettessen.jpg"
+msgstr ""
+
+#: client/templates/index.jade:79
+msgid "5. März, 8:10 Uhr"
+msgstr ""
+
+#: client/templates/index.jade:83
+msgid "View File"
+msgstr ""
+
+#: client/templates/index.jade:102
+msgid "5. Jänner, 4:12 Uhr"
 msgstr ""
