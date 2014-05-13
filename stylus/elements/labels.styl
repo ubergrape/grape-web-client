@@ -24,10 +24,17 @@ $color-test-label = grape-dark
 // Inline-labels style overwrites for better readability on white BG.
 // Tried to make them look almost similar to alert-styles!
 .message-content
+	.btn-label, .labels
+		float: right
+	.btn-label
+		margin-right: 4px
 	.label
 		background: lighten($color-test-label, 95%)
 		border-color: lighten($color-test-label, 60%)
 		opacity: .8
 		color: $color-test-label
+		float: right
+		text-decoration: none
+		margin-left: 4px
 		&:hover
 			opacity: 1

@@ -22,7 +22,12 @@
 						author= first.author.username
 				each line in lines
 					div.message(data-id=line.id)
+						.labels(style='display: none;')
+							a
+								.label
+									=_('#Label')
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
+						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor")
 								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
@@ -67,8 +72,8 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-						if user.id == line.author.id
 							//- show the edit stuff only if current user is the author
+						if user.id == line.author.id
 							div.edit
 								i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
