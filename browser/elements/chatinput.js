@@ -123,7 +123,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	};
 	this.complete.query = function (matches) {
 		// XXX: implement matching logic and populate with real results
-		console.log(matches);
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
