@@ -77,13 +77,18 @@
 				display: none
 		.avatar-wrap
 			@extend $clearfix
+			@extend $hoverable
 			float: right
 			width: 55px
 			margin: 1px 0 0 20px
+			&:hover
+				.fa
+					color: darken(gainsboro-dark, 20%)
 			.fa
 				margin: 10px 0 0 5px
 				color: gainsboro-dark
 			.online
+			.offline
 				left: 26px
 	@media screen and (max-width: 1140px)
 		.room-info .search-form

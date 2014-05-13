@@ -2,8 +2,8 @@
 	header.header
 		.org-info
 			a(href='https://chatgrape.com', target='_blank', class='powered-by') Powered by ChatGrape
-			a.logo
-				i.fa.fa-chevron-down
+			a.logo(onclick="document.getElementById('make-me-dynamic-1').style.display='block';return false;")
+				i.fa.fa-cog
 				img(src='http://localhost:9000/static/images/logo-white.svg',height='40')
 		.room-info
 	.client-body
@@ -14,7 +14,7 @@
 			.search-results
 				.result-info
 					.result-nr
-						=_('52 Ergebnisse für ')
+						=_('52 Ergebnisse für')
 						strong=_('Hamburger')
 				.result-filters
 					.filter-room
@@ -112,25 +112,41 @@
 							.item-content
 								=_('Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt wurden.')
 		footer.footer
-.popover(style='top: 64px; right: 22px;').top
+#make-me-dynamic-1.popover(style='top: 36px; left: 260px; display: none;').left
+	.organizationpopover
+		h4=_('Your Organization')
+		span.close(onclick="document.getElementById('make-me-dynamic-1').style.display='none';return false;") ×
+		ul
+			li
+				a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+					i.fa.fa-cog
+					=_('Organization Settings')
+			li
+				a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+					i.fa.fa-user
+					=_('Manage Members')
+			li
+				a(href='/services/list/', target='_blank')
+					i.fa.fa-link
+					=_('Service Integrations')					
+#make-me-dynamic-2.popover(style='top: 64px; right: 22px; display: none;').top
 	.userpopover
-		h4
-			| Ihr aktueller Status
-			span.close ×
+		h4=_('Current Status')
+		span.close(onclick="document.getElementById('make-me-dynamic-2').style.display='none';return false;") ×
 		form.user-status-form
-			input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Bearbeite gerade Designs"))
+			input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
 			input.user-status-submit(type="submit")
 			span.user-status-icon.online
 		ul
 			li
-				a
+				a(href='#')
 					i.fa.fa-eye
-					| Kompakte Ansicht
+					=_('Compact View')
 			li
-				a
+				a(href='/accounts/settings/', target='_blank')
 					i.fa.fa-cog
-					| Einstellungen
+					=_('User Settings')
 			li
-				a
+				a(href='/accounts/logout/', target='_blank')
 					i.fa.fa-sign-out
-					| Abmelden						
+					=_('Sign Out')	
