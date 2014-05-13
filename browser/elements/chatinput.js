@@ -126,7 +126,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
-			'first', 'second'
+			'#ISSUE', 
+			'#ISAIDLETSALLIGNORESLACK',
+			'#IS neu erstellen',
+			'#126 Vagrant Issues in ubergrape/chatgrape',
+			'Isländische Naming Conventions besprechen am 1.4.2014, 10:30-12:00 Uhr',
+			'01_room-view_v3-user-issues-flyout.jpg',
+			'@ismael: (pic) Ismael Tajouri'
 		]);
 		self.complete.highlight(0);
 	};
