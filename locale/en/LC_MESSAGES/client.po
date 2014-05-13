@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-05-12 16:22+0000\n"
+"POT-Creation-Date: 2014-05-13 10:34+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -165,6 +165,7 @@ msgstr ""
 #: client/templates/index.jade:51
 #: client/templates/index.jade:60
 #: client/templates/index.jade:88
+#: client/templates/index.jade:90
 msgid "All results from this user"
 msgstr ""
 
@@ -191,6 +192,7 @@ msgid "1. Jänner, 0:48 Uhr"
 msgstr ""
 
 #: client/templates/index.jade:65
+#: client/templates/index.jade:88
 msgid "See message"
 msgstr ""
 
@@ -275,6 +277,7 @@ msgstr ""
 
 #: client/templates/index.jade:63
 #: client/templates/index.jade:91
+#: client/templates/index.jade:93
 msgid "Sabine Ludwig"
 msgstr ""
 
@@ -294,9 +297,54 @@ msgid ""
 msgstr ""
 
 #: client/templates/index.jade:93
+#: client/templates/index.jade:95
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
 "Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt "
 "wurden."
+msgstr ""
+
+#: client/templates/chatheader.jade:12
+msgid "search for content, documents, appointments, ..."
+msgstr ""
+
+#: client/templates/index.jade:17
+msgid "52 Ergebnisse für"
+msgstr ""
+
+#: client/templates/index.jade:99
+msgid "Your Organization"
+msgstr ""
+
+#: client/templates/index.jade:105
+msgid "Organization Settings"
+msgstr ""
+
+#: client/templates/index.jade:109
+msgid "Manage Members"
+msgstr ""
+
+#: client/templates/index.jade:113
+msgid "Service Integrations"
+msgstr ""
+
+#: client/templates/index.jade:116
+msgid "Current Status"
+msgstr ""
+
+#: client/templates/index.jade:119
+msgid "Working on designs"
+msgstr ""
+
+#: client/templates/index.jade:126
+msgid "Compact View"
+msgstr ""
+
+#: client/templates/index.jade:130
+msgid "User Settings"
+msgstr ""
+
+#: client/templates/index.jade:134
+msgid "Sign Out"
 msgstr ""

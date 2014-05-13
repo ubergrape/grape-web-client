@@ -1,5 +1,5 @@
 .chat-header
-	.avatar-wrap
+	.avatar-wrap(onclick="document.getElementById('make-me-dynamic-2').style.display='block';return false;")
 		// FIXME: use real avatar image
 		if true
 			span.online
@@ -9,7 +9,7 @@
 			.avatar-status(class='online')
 		i.fa.fa-chevron-down
 	form.search-form
-		input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
+		input.search(type="search", placeholder=_("search for content, documents, appointments, ..."))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 	.room-info-text

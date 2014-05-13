@@ -89,11 +89,13 @@
 
 // ****
 //
-// user-popup-specific things go here
+// user- and organization-popup-specific things go here
+// > merged because they have similar look
 //
 // ****
 .userpopover
-	width: 200px
+.organizationpopover
+	width: 210px
 	padding-top: 6px
 	.user-status-form
 		height: 30px
@@ -101,6 +103,9 @@
 			@extend $textinput
 			width: 100%
 			padding-left: 28px
+			&::selection
+				background: grape-light
+				color: white
 		.user-status-icon
 			@extend $hoverable
 			display: block
@@ -118,6 +123,9 @@
 		border-top: 1px solid silver-dark
 		margin: 0
 		padding: 0
+		&:last-child a // let's have nice rounded edges at the bottom
+			border-bottom-right-radius: main-border-radius
+			border-bottom-left-radius: main-border-radius
 		a
 			padding: 8px 16px
 			color: grape-typo // normal font color in menus
@@ -128,21 +136,6 @@
 				background: silver-light
 				.fa
 					color: grape-light
-
-// ****
-//
-// personal message-popup-specific things go here
-//
-// ****
-
-.pmpopover
-	width: 240px
-	li.item
-		border-radius: main-border-radius
-		padding: 6px 4px
-		@extend $hoverable
-		&:hover
-			background: silver-light
 
 
 // ****
@@ -214,3 +207,19 @@
 	.button.create
 	.button.new
 		float: right
+
+
+// ****
+//
+// personal message-popup-specific things go here
+//
+// ****
+
+.pmpopover
+	width: 240px
+	li.item
+		border-radius: main-border-radius
+		padding: 6px 4px
+		@extend $hoverable
+		&:hover
+			background: silver-light

@@ -1,9 +1,10 @@
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-05-12 16:22+0000\n"
-"PO-Revision-Date: 2014-04-30 12:27+0000\n"
-"Last-Translator: Tobias Seiler <ts@ubergrape.com>\n"
+"POT-Creation-Date: 2014-05-13 10:34+0000\n"
+"PO-Revision-Date: 2014-05-13 10:37+0000\n"
+"Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -42,8 +43,7 @@ msgid "add label"
 msgstr "Label hinzufügen"
 
 #: client/templates/chatheader.jade:9 client/templates/chatheader.jade:14
-#: client/templates/chatheader.jade:3
-#: client/templates/chatheader.jade:12
+#: client/templates/chatheader.jade:3 client/templates/chatheader.jade:12
 msgid "search for content, documents, appointments, …"
 msgstr "Suche nach Nachrichten, Dokumenten, ..."
 
@@ -67,101 +67,85 @@ msgstr "Neuen Chatraum anlegen"
 
 #: client/templates/chatinput.jade:5
 msgid "Autocomplete"
-msgstr ""
+msgstr "Auto-Vervollständigen"
 
 #: client/templates/index.jade:12
 msgid "Filter Results"
 msgstr ""
 
-#: client/templates/index.jade:15
-#: client/templates/index.jade:17
+#: client/templates/index.jade:15 client/templates/index.jade:17
 msgid "52 Ergebnisse für "
 msgstr ""
 
 #: client/templates/index.jade:16 client/templates/index.jade:43
 #: client/templates/index.jade:59 client/templates/index.jade:16
-#: client/templates/index.jade:43
-#: client/templates/index.jade:18
-#: client/templates/index.jade:52
-#: client/templates/index.jade:80
+#: client/templates/index.jade:43 client/templates/index.jade:18
+#: client/templates/index.jade:52 client/templates/index.jade:80
 msgid "Hamburger"
 msgstr ""
 
-#: client/templates/index.jade:18
-#: client/templates/index.jade:21
+#: client/templates/index.jade:18 client/templates/index.jade:21
 msgid "Sort by"
-msgstr ""
+msgstr "Sortieren nach"
 
-#: client/templates/index.jade:21
-#: client/templates/index.jade:24
+#: client/templates/index.jade:21 client/templates/index.jade:24
 msgid "Überall"
 msgstr ""
 
 #: client/templates/index.jade:23 client/templates/index.jade:40
-#: client/templates/index.jade:26
-#: client/templates/index.jade:49
+#: client/templates/index.jade:26 client/templates/index.jade:49
 #: client/templates/index.jade:77
 msgid "Design"
 msgstr ""
 
-#: client/templates/index.jade:24
-#: client/templates/index.jade:28
+#: client/templates/index.jade:24 client/templates/index.jade:28
 msgid "Filter by"
-msgstr ""
+msgstr "Filtern nach"
 
-#: client/templates/index.jade:27
-#: client/templates/index.jade:31
+#: client/templates/index.jade:27 client/templates/index.jade:31
 msgid "Alle (51)"
 msgstr ""
 
-#: client/templates/index.jade:29
-#: client/templates/index.jade:33
+#: client/templates/index.jade:29 client/templates/index.jade:33
 msgid "Nachrichten (14)"
 msgstr ""
 
-#: client/templates/index.jade:31
-#: client/templates/index.jade:35
+#: client/templates/index.jade:31 client/templates/index.jade:35
 msgid "Dateien (10)"
 msgstr ""
 
-#: client/templates/index.jade:33
-#: client/templates/index.jade:37
+#: client/templates/index.jade:33 client/templates/index.jade:37
 msgid "GitHub Issues (1)"
 msgstr ""
 
-#: client/templates/index.jade:38
-#: client/templates/index.jade:47
+#: client/templates/index.jade:38 client/templates/index.jade:47
 #: client/templates/index.jade:75
 msgid "Tobias Seiler"
 msgstr ""
 
 #: client/templates/index.jade:42
 msgid ""
-"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
-"das \"Big-Mac\" oder so ähnlich. Möchtet ihr mit mir einen "
+"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das"
+" \"Big-Mac\" oder so ähnlich. Möchtet ihr mit mir einen "
 msgstr ""
 
-#: client/templates/index.jade:44
-#: client/templates/index.jade:53
+#: client/templates/index.jade:44 client/templates/index.jade:53
 #: client/templates/index.jade:81
 msgid " essen?"
 msgstr ""
 
-#: client/templates/index.jade:47
-#: client/templates/index.jade:56
+#: client/templates/index.jade:47 client/templates/index.jade:56
 #: client/templates/index.jade:84
 msgid "1. Jänner, 0:46 Uhr"
 msgstr ""
 
-#: client/templates/index.jade:49
-#: client/templates/index.jade:58
+#: client/templates/index.jade:49 client/templates/index.jade:58
 #: client/templates/index.jade:86
 msgid "Jump to conversation"
 msgstr ""
 
-#: client/templates/index.jade:51
-#: client/templates/index.jade:60
-#: client/templates/index.jade:88
+#: client/templates/index.jade:51 client/templates/index.jade:60
+#: client/templates/index.jade:88 client/templates/index.jade:90
 msgid "All results from this user"
 msgstr ""
 
@@ -187,7 +171,7 @@ msgstr ""
 msgid "1. Jänner, 0:48 Uhr"
 msgstr ""
 
-#: client/templates/index.jade:65
+#: client/templates/index.jade:65 client/templates/index.jade:88
 msgid "See message"
 msgstr ""
 
@@ -195,13 +179,11 @@ msgstr ""
 msgid "New message to"
 msgstr "Neue Nachricht an"
 
-#: client/templates/roompopover.jade:11
-#: client/templates/roompopover.jade:12
+#: client/templates/roompopover.jade:11 client/templates/roompopover.jade:12
 msgid "Name"
 msgstr "Name"
 
-#: client/templates/roompopover.jade:14
-#: client/templates/roompopover.jade:15
+#: client/templates/roompopover.jade:14 client/templates/roompopover.jade:15
 msgid "Visibility"
 msgstr "Sichtbarkeit"
 
@@ -229,18 +211,15 @@ msgstr "Erstellen"
 msgid "All chatrooms"
 msgstr "Alle Chaträume"
 
-#: client/templates/roompopover.jade:7
-#: client/templates/roompopover.jade:8
+#: client/templates/roompopover.jade:7 client/templates/roompopover.jade:8
 msgid "Create new chatroom"
 msgstr "Neuen Chatraum erstellen"
 
-#: client/templates/roompopover.jade:19
-#: client/templates/roompopover.jade:20
+#: client/templates/roompopover.jade:19 client/templates/roompopover.jade:20
 msgid "All members can see and join this chatroom."
 msgstr "Alle Mitglieder können diesen Chatraum sehen und beitreten."
 
-#: client/templates/roompopover.jade:23
-#: client/templates/roompopover.jade:24
+#: client/templates/roompopover.jade:23 client/templates/roompopover.jade:24
 msgid "This chatroom can only be seen and joined by members which you invite."
 msgstr ""
 "Dieser Chatraum kann nur von jenen Mitgliedern gesehen und beigetreten "
@@ -250,8 +229,7 @@ msgstr ""
 msgid "new messages"
 msgstr ""
 
-#: client/templates/index.jade:42
-#: client/templates/index.jade:70
+#: client/templates/index.jade:42 client/templates/index.jade:70
 msgid "Martin Scheriau"
 msgstr ""
 
@@ -261,15 +239,14 @@ msgid ""
 "nicht tatenlos zusehen. Eine Abstimmung!"
 msgstr ""
 
-#: client/templates/index.jade:51
-#: client/templates/index.jade:79
+#: client/templates/index.jade:51 client/templates/index.jade:79
 msgid ""
-"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
-"das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
+"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das"
+" Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
 msgstr ""
 
-#: client/templates/index.jade:63
-#: client/templates/index.jade:91
+#: client/templates/index.jade:63 client/templates/index.jade:91
+#: client/templates/index.jade:93
 msgid "Sabine Ludwig"
 msgstr ""
 
@@ -288,10 +265,54 @@ msgid ""
 "kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. "
 msgstr ""
 
-#: client/templates/index.jade:93
+#: client/templates/index.jade:93 client/templates/index.jade:95
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
 "Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt "
 "wurden."
 msgstr ""
+
+#: client/templates/chatheader.jade:12
+msgid "search for content, documents, appointments, ..."
+msgstr ""
+
+#: client/templates/index.jade:17
+msgid "52 Ergebnisse für"
+msgstr ""
+
+#: client/templates/index.jade:99
+msgid "Your Organization"
+msgstr "Deine Organisation"
+
+#: client/templates/index.jade:105
+msgid "Organization Settings"
+msgstr "Organisations-Einstellungen"
+
+#: client/templates/index.jade:109
+msgid "Manage Members"
+msgstr "Mitglieder verwalten"
+
+#: client/templates/index.jade:113
+msgid "Service Integrations"
+msgstr "Service-Integrationen"
+
+#: client/templates/index.jade:116
+msgid "Current Status"
+msgstr "Aktueller Status"
+
+#: client/templates/index.jade:119
+msgid "Working on designs"
+msgstr "Arbeite gerade an Designs"
+
+#: client/templates/index.jade:126
+msgid "Compact View"
+msgstr "Kompakte Ansicht"
+
+#: client/templates/index.jade:130
+msgid "User Settings"
+msgstr "Benutzer-Einstellungen"
+
+#: client/templates/index.jade:134
+msgid "Sign Out"
+msgstr "Abmelden"
