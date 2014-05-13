@@ -51,13 +51,14 @@ Navigation.prototype.bind = function Navigation_bind() {
 		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
 		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
 	});
-	this.events.bind('click .addroom', 'addroom');
-	this.events.bind('click .addpm', 'addpm');
+	this.events.bind('click ' + '.addroom, .addroom div, .addroom h2', 'addroom');
+	this.events.bind('click ' + '.addpm, .addpm div, .addpm h2', 'addpm');
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].on('selectitem', function (item) {
 			self.emit('select' + which, item);
 		});
 	});
+	console.log(this.events);
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
