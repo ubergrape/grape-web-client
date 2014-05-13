@@ -58,7 +58,6 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('select' + which, item);
 		});
 	});
-	console.log(this.events);
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
