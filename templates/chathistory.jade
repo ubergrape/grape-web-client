@@ -31,7 +31,12 @@
 						if line.title
 							.text= line.title
 						if line.text
-							.text= html(marked(line.text))
+							.text
+								=html(marked(line.text))
+								//- uncomment this to test inline-labels
+								//-a
+								//-	span.label #entscheidungen
+								//-		i.fa.fa-check-circle
 						if line.container
 							a.container(href=line.container.url, class=line.container.type)= line.container.name 
 							if line.branch
