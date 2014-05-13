@@ -5,13 +5,13 @@
 	height: header-height
 	background: organisation-background
 	color: gainsboro-dark
-	.pwrdby
+	.powered-by
 	.logo
 		padding-left: 20px
 		padding-right: 20px
 		display: block
 		border-bottom: 1px solid darken(organisation-background, 5)
-	.pwrdby
+	.powered-by
 		background: jet
 		height: (header-height / 4)
 		line-height: (header-height / 4)
@@ -20,7 +20,7 @@
 		text-decoration: none
 		color: gainsboro-dark
 		&:hover
-			color: white
+			color: gainsboro-light
 	a.logo
 		height: (header-height / 4) * 3
 		line-height: (header-height / 4) * 3
@@ -28,8 +28,9 @@
 			float: right
 			height: (header-height / 4) * 3
 			line-height: (header-height / 4) * 3
-		&:hover
-			opacity: 0.8
+			color: gainsboro-dark
+			&:hover
+				color: gainsboro-light
 		img
 			margin-top: 6px
 
