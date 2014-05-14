@@ -5,7 +5,7 @@
 			span.online
 		else
 			span.offline
-		img(src="/static/images/avatar.gif",width="36",alt="Avatar")
+		img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
 			.avatar-status(class='online')
 		i.fa.fa-chevron-down
 	form.search-form
