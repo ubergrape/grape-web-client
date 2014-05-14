@@ -30,12 +30,10 @@
 		margin-right: 30px
 	.messageInput-wrapper // Looks like the actual textarea so that the actual textarea has the scrollbar on the right position
 		@extend $clearfix
-		box-sizing: border-box
+		@extend $textinput
 		overflow: hidden
 		position: relative
 		//min-height: 38px
-		border: 2px solid gainsboro-light
-		border-radius: main-border-radius
 		padding: 0 36px 0 0
 		background: #fff
 		.messageInput
