@@ -20,3 +20,41 @@
 		.Textcomplete-highlighted
 			background: grape-dark
 			color: white
+		.entry-additional-info
+			color: gainsboro-dark
+		.entry-type
+			@extend $clearfix
+			float: right
+			text-transform: uppercase
+			color: gainsboro-dark
+			min-width: 200px
+		.type-label
+			&:before
+				content: "\f02b"
+				display: inline
+				font-family: FontAwesome
+				margin-right: 6px
+		.type-githubissue
+			&:before
+				content: "\f09b"
+				display: inline
+				font-family: FontAwesome
+				margin-right: 6px
+		.type-calendar
+			&:before
+				content: "\f073"
+				display: inline
+				font-family: FontAwesome
+				margin-right: 6px
+		.type-googledocs
+			&:before
+				content: "\f0d4"
+				display: inline
+				font-family: FontAwesome
+				margin-right: 6px
+		.type-member
+			&:before
+				content: "\f007"
+				display: inline
+				font-family: FontAwesome
+				margin-right: 6px

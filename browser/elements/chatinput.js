@@ -126,13 +126,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
-			'#ISSUE', 
-			'#ISAIDLETSALLIGNORESLACK',
-			'#IS neu erstellen',
-			'#126 Vagrant Issues in ubergrape/chatgrape',
-			'Isländische Naming Conventions besprechen am 1.4.2014, 10:30-12:00 Uhr',
-			'01_room-view_v3-user-issues-flyout.jpg',
-			'@ismael: (pic) Ismael Tajouri'
+			'#<strong>IS</strong>SUE<span class="entry-type type-label">Label</span>', 
+			'#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type type-label">Label</span>',
+			'#<strong>IS</strong> neu erstellen<span class="entry-type type-label">Label</span>',
+			'#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type type-githubissue">GitHub Issue</span>',
+			'<strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type type-calendar">Google Calendar</span>',
+			'01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type type-googledocs">Google Drive</span>',
+			'@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type type-member">Member</span>'
 		]);
 		self.complete.highlight(0);
 	};
