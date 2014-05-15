@@ -126,13 +126,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
-			'#<strong>IS</strong>SUE<span class="entry-type type-label">Label</span>', 
-			'#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type type-label">Label</span>',
-			'#<strong>IS</strong> neu erstellen<span class="entry-type type-label">Label</span>',
-			'#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type type-githubissue">GitHub Issue</span>',
-			'<strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type type-calendar">Google Calendar</span>',
-			'01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type type-googledocs">Google Drive</span>',
-			'@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type type-member">Member</span>'
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>', 
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
+			'<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
+			'<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
+			'<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
+			'<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>'
 		]);
 		self.complete.highlight(0);
 	};
