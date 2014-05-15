@@ -14,7 +14,7 @@
 			.search-results
 				.result-info
 					.result-nr
-						=_('52 Ergebnisse für')
+						=_('52 Ergebnisse für ')
 						strong=_('Hamburger')
 				.result-filters
 					.filter-room
@@ -25,15 +25,18 @@
 							li
 								a=_('Design')
 					.filter-list
-						h2=_('Filter by')
 						ul
 							li
-								a=_('Alle (51)')
+								strong
+									a=_('Alle (51)')
 							li
+								i.fa.fa-envelope
 								a=_('Nachrichten (14)')
 							li
+								i.fa.fa-file
 								a=_('Dateien (10)')
 							li
+								i.fa.fa-github
 								a=_('GitHub Issues (1)')
 				ul.result-list
 					li.result-object.selected
