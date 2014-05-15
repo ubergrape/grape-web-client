@@ -152,4 +152,39 @@
 			li
 				a(href='/accounts/logout/', target='_blank')
 					i.fa.fa-sign-out
-					=_('Sign Out')	
+					=_('Sign Out')
+#make-me-dynamic-3.popover(style='top: 78px; left: 160px; display: none;').top
+	.roommemberspopover
+		h4=_('Members in this room')
+		span.close(onclick="document.getElementById('make-me-dynamic-3').style.display='none';return false;") ×
+		ul
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name Tobias Seiler
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name User-13
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name Felix Häusler
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name admin
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name User-4
