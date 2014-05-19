@@ -6,9 +6,9 @@ var qs = require('query');
 var template = require('template');
 var classes = require('classes');
 
-var ItemList = require('./itemlist');
+var ItemList = require('../itemlist');
 var Popover = require('./popover');
-var render = require('../rendervdom');
+var render = require('../../rendervdom');
 
 module.exports = RoomPopover;
 

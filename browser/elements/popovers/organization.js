@@ -2,7 +2,7 @@
 "use strict";
 
 var template = require('template');
-var render = require('../rendervdom');
+var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
 

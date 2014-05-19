@@ -35,11 +35,11 @@ _.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomPopover = exports.RoomPopover = require('./elements/roompopover');
-var PMPopover = exports.PMPopover = require('./elements/pmpopover');
-var UserPopover = exports.UserPopover = require('./elements/userpopover');
-var OrganizationPopover = exports.OrganizationPopover = require('./elements/organizationpopover');
-var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/roommemberspopover');
+var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
+var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
+var UserPopover = exports.UserPopover = require('./elements/popovers/user');
+var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
+var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');

@@ -1,7 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var ItemList = require('./itemlist');
+var ItemList = require('../itemlist');
 var Popover = require('./popover');
 var broker = require('broker');
 

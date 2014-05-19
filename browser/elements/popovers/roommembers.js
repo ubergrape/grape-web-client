@@ -2,19 +2,19 @@
 "use strict";
 
 var template = require('template');
-var render = require('../rendervdom');
+var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
 
-module.exports = UserPopover;
+module.exports = RoomMembersPopover;
 
-function UserPopover() {
+function RoomMembersPopover() {
 	Popover.call(this);
 }
 
-UserPopover.prototype = Object.create(Popover.prototype);
+RoomMembersPopover.prototype = Object.create(Popover.prototype);
 
-UserPopover.prototype.init = function RoomPopover_init() {
+RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 	Popover.prototype.init.call(this);
 	this.content = {};
 	this.redraw();
@@ -22,6 +22,6 @@ UserPopover.prototype.init = function RoomPopover_init() {
 	this.el.appendChild(this.content.el);
 };
 
-UserPopover.prototype.redraw = function UserPopover_redraw() {
-	render(this.content, template('popovers/user'));
+RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
+	render(this.content, template('popovers/roommembers'));
 }
