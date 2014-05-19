@@ -20,6 +20,7 @@
     "browser/elements/navigation.js",
     "browser/elements/pmpopover.js",
     "browser/elements/popover.js",
+    "browser/elements/userpopover.js",
     "browser/elements/roompopover.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
@@ -49,6 +50,7 @@
     "templates/pmpopover.jade",
     "templates/pmlist.jade",
     "templates/roompopover.jade",
+    "templates/userpopover.jade",
     "templates/roompopoverlist.jade",
     "templates/roomlist.jade"
   ],

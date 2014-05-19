@@ -5,6 +5,7 @@ var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
 var closest = require('closest');
+var events = require('events');
 var render = require('../rendervdom');
 var classes = require('classes');
 
@@ -31,7 +32,10 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
-
+	this.events = events(this.el, {
+		'toggleUserMenu': function (e) {self.emit('toggleusermenu', e.toElement)}
+	});
+	this.events.bind('click .avatar-wrap', 'toggleUserMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);

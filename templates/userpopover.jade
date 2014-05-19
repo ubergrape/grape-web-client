@@ -1,0 +1,20 @@
+.userpopover
+	h4=_('Current Status')
+	span.close(onclick="document.getElementById('make-me-dynamic-2').style.display='none';return false;") ×
+	form.user-status-form
+		input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
+		input.user-status-submit(type="submit")
+		span.user-status-icon.online
+	ul
+		li
+			a(href='#')
+				i.fa.fa-eye
+				=_('Compact View')
+		li
+			a(href='/accounts/settings/', target='_blank')
+				i.fa.fa-cog
+				=_('User Settings')
+		li
+			a(href='/accounts/logout/', target='_blank')
+				i.fa.fa-sign-out
+				=_('Sign Out')
