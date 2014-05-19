@@ -281,9 +281,14 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
-	this.user = user;
-	template.locals.user = user;
-	this.chatInput.redraw();
+	// the first time setUser will be called it hopefully contains the current
+	// user and not another one
+	if (this.user === undefined || user.id == this.user.id) {
+		this.user = user;
+		template.locals.user = user;
+		this.chatInput.redraw();
+	}
+	this.historyView.redraw()
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
