@@ -20,7 +20,7 @@
 					| Chat with #{room.users[0].username}
 			if room.type !== 'pm'
 				.connected-users
-					i.fa.fa-user(onclick="document.getElementById('make-me-dynamic-3').style.display='block';return false;")
+					i.fa.fa-user
 					span.sml-nr
 						| #{room.users.length}
 					each user in room.users.slice(0,3)

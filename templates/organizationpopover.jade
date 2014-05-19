@@ -1,0 +1,16 @@
+.organizationpopover
+	h4=_('Your Organization')
+	span.close(onclick="document.getElementById('make-me-dynamic-1').style.display='none';return false;") ×
+	ul
+		li
+			a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+				i.fa.fa-cog
+				=_('Organization Settings')
+		li
+			a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+				i.fa.fa-user
+				=_('Manage Members')
+		li
+			a(href='/services/list/', target='_blank')
+				i.fa.fa-link
+				=_('Service Integrations')

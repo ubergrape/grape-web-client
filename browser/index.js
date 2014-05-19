@@ -9,6 +9,7 @@ var qs = require('query');
 var domify = require('domify');
 var notification = require('notification');
 var staticurl = require('../lib/staticurl');
+var events = require('events');
 
 var exports = module.exports = UI;
 
@@ -37,6 +38,8 @@ var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/roompopover');
 var PMPopover = exports.PMPopover = require('./elements/pmpopover');
 var UserPopover = exports.UserPopover = require('./elements/userpopover');
+var OrganizationPopover = exports.OrganizationPopover = require('./elements/organizationpopover');
+var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/roommemberspopover');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -75,6 +78,8 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
+	this.membersMenu = new RoomMembersPopover();
+	this.organizationMenu = new OrganizationPopover();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -101,6 +106,12 @@ UI.prototype.init = function UI_init() {
 UI.prototype.bind = function UI_bind() {
 	var self = this;
 	var navigation = this.navigation;
+	
+	this.events = events(this.el, {
+		'toggleOrganizationMenu': function(e) {self.organizationMenu.toggle(e.toElement)}
+	});
+	this.events.bind('click .logo', 'toggleOrganizationMenu');
+
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'show');
@@ -145,6 +156,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatHeader, 'search', this, 'search');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
+	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
