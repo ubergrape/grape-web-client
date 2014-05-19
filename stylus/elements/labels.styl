@@ -1,22 +1,39 @@
 /* fixme: quick label color test
 */
 
-$color-test-label = grape-light
+$color-test-label = grape-dark
 
 .label
 	display: inline-block
 	padding: 3px 7px
-	font-weight: normal
+	font-weight: bold
 	@extend $small-font-size
 	@extend $hoverable
 	text-transform: uppercase
-	color: lighten($color-test-label, 20)
+	color: lighten($color-test-label, 30%)
 	background: rgba($color-test-label, .2)
 	border: 1px solid $color-test-label
 	border-radius: 5px
 	&:hover
-		color: lighten($color-test-label, 30)
+		color: lighten($color-test-label, 50%)
 		background: rgba($color-test-label, .35)
 	.fa
 		margin-left: 6px
 		text-transform: none
+
+// Inline-labels style overwrites for better readability on white BG.
+// Tried to make them look almost similar to alert-styles!
+.message-content
+	.btn-label, .labels
+		float: right
+	.btn-label
+		margin-right: 4px
+	.label
+		background: lighten($color-test-label, 95%)
+		border-color: lighten($color-test-label, 60%)
+		opacity: .8
+		color: $color-test-label
+		text-decoration: none
+		margin-left: 4px
+		&:hover
+			opacity: 1

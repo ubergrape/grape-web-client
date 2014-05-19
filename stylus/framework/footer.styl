@@ -27,16 +27,13 @@
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
 	.messageInput-wrapper
-	.autocomplete-wrapper
 		margin-right: 30px
 	.messageInput-wrapper // Looks like the actual textarea so that the actual textarea has the scrollbar on the right position
 		@extend $clearfix
-		box-sizing: border-box
+		@extend $textinput
 		overflow: hidden
 		position: relative
 		//min-height: 38px
-		border: 2px solid gainsboro-light
-		border-radius: main-border-radius
 		padding: 0 36px 0 0
 		background: #fff
 		.messageInput
@@ -49,34 +46,13 @@
 			border: none
 			margin: 0
 			display: block
-			resize: none;
+			resize: none
 			&:disabled
 				background: silver-dark
 				+.uploader .upload
 					background: silver-dark
 					.fa
 						color: gainsboro-light
-	.autocomplete-wrapper
-		position: relative
-		margin-left: 46px
-		.autocomplete
-			bottom: 0px
-			width: 100%
-			background: white
-			padding: 0
-			border: 1px solid gainsboro-light
-			&.Textcomplete-hidden
-				display: none
-			.Textcomplete-headline
-				background: silver-dark
-				@extend $small-font-size
-				padding: 4px 8px
-				text-transform: uppercase
-			.Textcomplete-option
-				padding: 4px 10px
-			.Textcomplete-highlighted
-				background: grape-dark
-				color: white
 	// uploader styling
 	.uploader
 		position: absolute
@@ -140,3 +116,18 @@
 			vertical-align: middle
 	.uploader.open .upload-progress
 		display: block
+
+.input-wrapper.editing
+	.messageInput, .messageInput-wrapper
+		background: lighten(gold, 80%)
+	.messageInput-wrapper
+		border-color: #B49A0F
+	.uploader
+		display: none
+
+.input-wrapper .edit-message
+	display:none
+
+.input-wrapper.editing .edit-message
+	display: block
+

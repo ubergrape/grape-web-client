@@ -2,8 +2,12 @@
 	img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
 	.autocomplete-wrapper
 		.autocomplete
-			.Textcomplete-headline=_('Autocomplete')
+			//-.Textcomplete-headline=_('Autocomplete')
+			.Textcomplete-headline 
+				| Elemente mit 
+				strong IS
 	.messageInput-wrapper
 		textarea.messageInput(disabled, autofocus)
 		.uploader
-		
+	.edit-message
+		=_('Hit ESC to cancel editing.')

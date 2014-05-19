@@ -9,7 +9,7 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id)
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.username !== user.username ? "" : "creator")
 			aside.avatar
 				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
@@ -21,8 +21,13 @@
 					else
 						author= first.author.username
 				each line in lines
-					div.message
+					div.message(data-id=line.id)
+						.labels(style='display: none;')
+							a
+								.label
+									=_('#Label')
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
+						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor")
 								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
@@ -31,7 +36,12 @@
 						if line.title
 							.text= line.title
 						if line.text
-							.text= html(marked(line.text))
+							.text
+								=html(marked(line.text))
+								//- uncomment this to test inline-labels
+								//-a
+								//-	span.label #entscheidungen
+								//-		i.fa.fa-check-circle
 						if line.container
 							a.container(href=line.container.url, class=line.container.type)= line.container.name 
 							if line.branch
@@ -62,6 +72,8 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-						div.edit
-							i.fa.fa-pencil.btn-edit
-							i.fa.fa-times.btn-delete
+							//- show the edit stuff only if current user is the author
+						if user.id == line.author.id
+							div.edit
+								i.fa.fa-pencil.btn-edit
+								i.fa.fa-times.btn-delete

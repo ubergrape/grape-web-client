@@ -1,15 +1,14 @@
 .chat-header
-	.avatar-wrap
-		// FIXME: use real avatar image
+	.avatar-wrap(onclick="document.getElementById('make-me-dynamic-2').style.display='block';return false;")
 		if true
 			span.online
 		else
 			span.offline
-		img(src="/static/images/avatar.gif",width="36",alt="Avatar")
+		img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
 			.avatar-status(class='online')
 		i.fa.fa-chevron-down
 	form.search-form
-		input.search(type="search", placeholder=_("search for content, documents, appointments, …"))
+		input.search(type="search", placeholder=_("search for content, documents, appointments, ..."))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 	.room-info-text
@@ -21,7 +20,7 @@
 					| Chat with #{room.users[0].username}
 			if room.type !== 'pm'
 				.connected-users
-					i.fa.fa-user
+					i.fa.fa-user(onclick="document.getElementById('make-me-dynamic-3').style.display='block';return false;")
 					span.sml-nr
 						| #{room.users.length}
 					each user in room.users.slice(0,3)

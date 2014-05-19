@@ -32,11 +32,11 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = scr.wrapper;
 
 	// initialize the sub lists
-	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: 'a'});
+	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
 	replace(qs('.rooms', el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: 'a'});
+	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item a'});
 	replace(qs('.pms', el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist', selector: 'a'});
+	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
 	replace(qs('.labels', el), labelList.el);
 };
 
@@ -51,8 +51,8 @@ Navigation.prototype.bind = function Navigation_bind() {
 		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
 		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
 	});
-	this.events.bind('click .addroom', 'addroom');
-	this.events.bind('click .addpm', 'addpm');
+	this.events.bind('click ' + '.addroom, .addroom div, .addroom h2', 'addroom');
+	this.events.bind('click ' + '.addpm, .addpm div, .addpm h2', 'addpm');
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].on('selectitem', function (item) {
 			self.emit('select' + which, item);

@@ -1,0 +1,50 @@
+.autocomplete-wrapper
+	position: relative
+	margin-left: 46px
+	margin-right: 30px
+	.autocomplete
+		bottom: 0px
+		width: 100%
+		background: white
+		padding: 0
+		border: 1px solid gainsboro-light
+		&.Textcomplete-hidden
+			display: none
+		.Textcomplete-headline
+			background: silver-dark
+			@extend $small-font-size
+			padding: 4px 8px
+			text-transform: uppercase
+		.Textcomplete-option
+			padding: 4px 10px
+		.Textcomplete-highlighted
+			background: grape-dark
+			color: white
+		.entry-additional-info
+			color: gainsboro-dark
+		.entry-type-description
+			@extend $clearfix
+			float: right
+			text-transform: uppercase
+			color: gainsboro-dark
+			min-width: 200px
+		.entry-type-icon
+			display: inline
+			font-family: FontAwesome
+			margin-right: 6px
+			color: gainsboro-dark
+		.type-label
+			&:before
+				content: "\f02b"
+		.type-githubissue
+			&:before
+				content: "\f09b"
+		.type-calendar
+			&:before
+				content: "\f073"
+		.type-googledocs
+			&:before
+				content: "\f0d4"
+		.type-member
+			&:before
+				content: "\f007"

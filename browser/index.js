@@ -139,6 +139,8 @@ UI.prototype.bind = function UI_bind() {
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
 	broker.pass(this.chatInput, 'input', this, 'input');
+	broker.pass(this.chatInput, 'update', this, 'update');
+	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
 
@@ -146,6 +148,8 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
+	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
+	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
