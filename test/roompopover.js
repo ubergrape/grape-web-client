@@ -31,7 +31,7 @@ describe('RoomPopover', function () {
 		d.redraw();
 		qs('.item .name', d.el).textContent.should.eql('test2');
 	});
-	it('should provide a show/hide method', function () {
+	it.skip('should provide a show/hide method', function () {
 		var d = new RoomPopover();
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));
@@ -41,7 +41,7 @@ describe('RoomPopover', function () {
 		d.hide();
 		d.el.className.should.include('hide');
 	});
-	it('should emit a selectitem event', function (done) {
+	it.skip('should emit a selectitem event', function (done) {
 		var d = new RoomPopover();
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));

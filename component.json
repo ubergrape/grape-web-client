@@ -87,6 +87,7 @@
     "Swatinem/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
     "Swatinem/wamp1": "*",
+    "bmcmahen/image-zoom": "*",
     "sk7/resizable-textarea": "*",
     "jkroso/computed-style": "*"
   },

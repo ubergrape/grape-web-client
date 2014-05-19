@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-04-30 09:11+0000\n"
+"POT-Creation-Date: 2014-05-13 11:17+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -42,6 +42,7 @@ msgstr "add label"
 #: client/templates/chatheader.jade:9
 #: client/templates/chatheader.jade:14
 #: client/templates/chatheader.jade:3
+#: client/templates/chatheader.jade:12
 msgid "search for content, documents, appointments, …"
 msgstr ""
 
@@ -75,49 +76,69 @@ msgid "Filter Results"
 msgstr ""
 
 #: client/templates/index.jade:15
+#: client/templates/index.jade:17
 msgid "52 Ergebnisse für "
 msgstr ""
 
 #: client/templates/index.jade:16
 #: client/templates/index.jade:43
 #: client/templates/index.jade:59
+#: client/templates/index.jade:18
+#: client/templates/index.jade:52
+#: client/templates/index.jade:80
+#: client/templates/index.jade:75
+#: client/templates/index.jade:98
 msgid "Hamburger"
 msgstr ""
 
 #: client/templates/index.jade:18
+#: client/templates/index.jade:21
 msgid "Sort by"
 msgstr ""
 
 #: client/templates/index.jade:21
+#: client/templates/index.jade:24
 msgid "Überall"
 msgstr ""
 
 #: client/templates/index.jade:23
 #: client/templates/index.jade:40
+#: client/templates/index.jade:26
+#: client/templates/index.jade:49
+#: client/templates/index.jade:77
+#: client/templates/index.jade:95
 msgid "Design"
 msgstr ""
 
 #: client/templates/index.jade:24
+#: client/templates/index.jade:28
 msgid "Filter by"
 msgstr ""
 
 #: client/templates/index.jade:27
+#: client/templates/index.jade:31
 msgid "Alle (51)"
 msgstr ""
 
 #: client/templates/index.jade:29
+#: client/templates/index.jade:33
 msgid "Nachrichten (14)"
 msgstr ""
 
 #: client/templates/index.jade:31
+#: client/templates/index.jade:35
 msgid "Dateien (10)"
 msgstr ""
 
 #: client/templates/index.jade:33
+#: client/templates/index.jade:37
 msgid "GitHub Issues (1)"
 msgstr ""
 
 #: client/templates/index.jade:38
+#: client/templates/index.jade:47
+#: client/templates/index.jade:75
+#: client/templates/index.jade:93
 msgid "Tobias Seiler"
 msgstr ""
 
@@ -128,18 +149,31 @@ msgid ""
 msgstr ""
 
 #: client/templates/index.jade:44
+#: client/templates/index.jade:53
+#: client/templates/index.jade:81
+#: client/templates/index.jade:99
 msgid " essen?"
 msgstr ""
 
 #: client/templates/index.jade:47
+#: client/templates/index.jade:56
+#: client/templates/index.jade:84
 msgid "1. Jänner, 0:46 Uhr"
 msgstr ""
 
 #: client/templates/index.jade:49
+#: client/templates/index.jade:58
+#: client/templates/index.jade:86
+#: client/templates/index.jade:81
+#: client/templates/index.jade:104
 msgid "Jump to conversation"
 msgstr ""
 
 #: client/templates/index.jade:51
+#: client/templates/index.jade:60
+#: client/templates/index.jade:88
+#: client/templates/index.jade:90
+#: client/templates/index.jade:108
 msgid "All results from this user"
 msgstr ""
 
@@ -166,6 +200,8 @@ msgid "1. Jänner, 0:48 Uhr"
 msgstr ""
 
 #: client/templates/index.jade:65
+#: client/templates/index.jade:88
+#: client/templates/index.jade:106
 msgid "See message"
 msgstr ""
 
@@ -174,30 +210,36 @@ msgid "New message to"
 msgstr ""
 
 #: client/templates/roompopover.jade:11
+#: client/templates/roompopover.jade:12
 msgid "Name"
 msgstr ""
 
 #: client/templates/roompopover.jade:14
+#: client/templates/roompopover.jade:15
 msgid "Visibility"
 msgstr ""
 
 #: client/templates/roompopover.jade:17
 #: client/templates/roompopover.jade:18
+#: client/templates/roompopover.jade:19
 msgid "Public"
 msgstr ""
 
 #: client/templates/roompopover.jade:20
 #: client/templates/roompopover.jade:22
+#: client/templates/roompopover.jade:23
 msgid "Private"
 msgstr ""
 
 #: client/templates/roompopover.jade:21
 #: client/templates/roompopover.jade:24
+#: client/templates/roompopover.jade:25
 msgid "Cancel"
 msgstr ""
 
 #: client/templates/roompopover.jade:22
 #: client/templates/roompopover.jade:25
+#: client/templates/roompopover.jade:26
 msgid "Create"
 msgstr ""
 
@@ -206,13 +248,158 @@ msgid "All chatrooms"
 msgstr ""
 
 #: client/templates/roompopover.jade:7
+#: client/templates/roompopover.jade:8
 msgid "Create new chatroom"
 msgstr ""
 
 #: client/templates/roompopover.jade:19
+#: client/templates/roompopover.jade:20
 msgid "All members can see and join this chatroom."
 msgstr ""
 
 #: client/templates/roompopover.jade:23
+#: client/templates/roompopover.jade:24
 msgid "This chatroom can only be seen and joined by members which you invite."
+msgstr ""
+
+#: client/templates/chathistory.jade:9
+msgid "new messages"
+msgstr ""
+
+#: client/templates/index.jade:42
+#: client/templates/index.jade:70
+#: client/templates/index.jade:88
+msgid "Martin Scheriau"
+msgstr ""
+
+#: client/templates/index.jade:44
+msgid ""
+"Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch "
+"nicht tatenlos zusehen. Eine Abstimmung!"
+msgstr ""
+
+#: client/templates/index.jade:51
+#: client/templates/index.jade:79
+#: client/templates/index.jade:97
+msgid ""
+"Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
+"das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
+msgstr ""
+
+#: client/templates/index.jade:63
+#: client/templates/index.jade:91
+#: client/templates/index.jade:93
+#: client/templates/index.jade:111
+msgid "Sabine Ludwig"
+msgstr ""
+
+#: client/templates/index.jade:65
+msgid ""
+"im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. "
+"Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der "
+"Seperatisten) oder einfach nicht von der int. Gemeinschaft hingeschickt "
+"worden sind."
+msgstr ""
+
+#: client/templates/index.jade:72
+#: client/templates/index.jade:90
+msgid ""
+"Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit "
+"ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen "
+"kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. "
+msgstr ""
+
+#: client/templates/index.jade:93
+#: client/templates/index.jade:95
+#: client/templates/index.jade:113
+msgid ""
+"Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
+"sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
+"Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt "
+"wurden."
+msgstr ""
+
+#: client/templates/chatheader.jade:12
+msgid "search for content, documents, appointments, ..."
+msgstr ""
+
+#: client/templates/index.jade:17
+msgid "52 Ergebnisse für"
+msgstr ""
+
+#: client/templates/index.jade:99
+#: client/templates/index.jade:117
+msgid "Your Organization"
+msgstr ""
+
+#: client/templates/index.jade:105
+#: client/templates/index.jade:123
+msgid "Organization Settings"
+msgstr ""
+
+#: client/templates/index.jade:109
+#: client/templates/index.jade:127
+msgid "Manage Members"
+msgstr ""
+
+#: client/templates/index.jade:113
+#: client/templates/index.jade:131
+msgid "Service Integrations"
+msgstr ""
+
+#: client/templates/index.jade:116
+#: client/templates/index.jade:134
+msgid "Current Status"
+msgstr ""
+
+#: client/templates/index.jade:119
+#: client/templates/index.jade:137
+msgid "Working on designs"
+msgstr ""
+
+#: client/templates/index.jade:126
+#: client/templates/index.jade:144
+msgid "Compact View"
+msgstr ""
+
+#: client/templates/index.jade:130
+#: client/templates/index.jade:148
+msgid "User Settings"
+msgstr ""
+
+#: client/templates/index.jade:134
+#: client/templates/index.jade:152
+msgid "Sign Out"
+msgstr ""
+
+#: client/templates/chatinput.jade:10
+msgid "Hit ESC to cancel editing."
+msgstr ""
+
+#: client/templates/index.jade:70
+msgid "Google Drive"
+msgstr ""
+
+#: client/templates/index.jade:72
+msgid "/ubergrape"
+msgstr ""
+
+#: client/templates/index.jade:74
+msgid "Das-"
+msgstr ""
+
+#: client/templates/index.jade:76
+msgid "-Wettessen.jpg"
+msgstr ""
+
+#: client/templates/index.jade:79
+msgid "5. März, 8:10 Uhr"
+msgstr ""
+
+#: client/templates/index.jade:83
+msgid "View File"
+msgstr ""
+
+#: client/templates/index.jade:102
+msgid "5. Jänner, 4:12 Uhr"
 msgstr ""

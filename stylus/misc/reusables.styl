@@ -22,9 +22,15 @@ $subtle-link, $subtle-link a
 		color: lighten(grape-light, 25)
 		text-decoration: underline
 
+/*______ horizontal LIST ______*/
+$horizontal-list
+	li
+		float:left
+		margin-right: 8px
+		&:last-of-type
+			margin-right: 0
 
 /*______ Functional LIST ______*/
-
 
 $functional-list // this has to be the LI
 	@extend $clearfix
@@ -62,7 +68,7 @@ $functional-list // this has to be the LI
 		padding: 0px 3px
 		border-radius: 50%
 		text-align: center
-		background: grape-light
+		background: aqua-dark
 		color: white
 		border: none
 
@@ -74,9 +80,9 @@ $overlay // used for search - infos, etc.
 	left: 0
 	right: 0
 	bottom: 0
-	z-index: 9999
-	background: #fff
-	background: rgba(#fff,0.98)
+	z-index: 999
+	background: white
+	background: rgba(white, .98)
 	padding: 17px 30px
 	overflow: hidden
 	overflow-y: auto
@@ -97,10 +103,13 @@ $overlay // used for search - infos, etc.
 		height: 8px
 		z-index: 12
 		border-radius: 50%
-	.online
-		background: #8cc152
-	.offline
-		background: #e9573f
 	div
 		overflow: hidden
 		margin-left: 4px
+
+/*______ User Status Colors  ______*/
+// We need this as general classes here, because we use this in different elements.
+.online
+	background: #8cc152
+.offline
+	background: #e9573f

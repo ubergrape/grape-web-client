@@ -8,6 +8,11 @@ var template = require('template');
 var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
+var classes = require('classes');
+var query = require('query');
+var closest = require('closest');
+var events = require('events');
+var zoom = require('image-zoom');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -25,13 +30,41 @@ function HistoryView() {
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.gotHistory = function () {};
-
+	this.bind();
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
 	this.scrollMode = 'automatic';
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
+
+HistoryView.prototype.bind = function HistoryView_bind() {
+	this.events = events(this.el, this);
+	this.events.bind('click i.btn-delete', 'deleteMessage');
+	this.events.bind('click i.btn-edit', 'selectForEditing');
+}
+
+HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
+	var el = closest(ev.target, '.message', true);
+	classes(el).add('removing');
+	if (confirm("Delete the selected Message?")) {
+		var id = el.getAttribute('data-id');
+		this.emit('deletemessage', this.room, id);
+	}
+	classes(el).remove('removing');
+}
+
+HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
+	var el = closest(ev.target, '.message', true);
+	classes(el).add('editing');
+	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
+	this.emit('selectedforediting', msg, this.room);
+}
+
+HistoryView.prototype.unselectForEditing = function (msg) {
+	classes(query(".message.editing", this.el)).add('edited');
+	classes(query(".message.editing", this.el)).remove('editing');
+}
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
@@ -178,7 +211,8 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	self.gotHistory = function () {};
 	//var history = this.history.el;
 	if (this.room) {
-		this.room.history.off('change');
+		this.room.history.off('removed');
+		this.room.history.off('add');
 	}
 	this.room = room;
 	// reset, otherwise we won’t get future events
@@ -196,6 +230,18 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('change', this.queueDraw);
+	room.history.on('add', this.queueDraw);
+	room.history.on('remove', function (msg, idx) {
+		// find removed element and highlight it....
+		// then redraw after timeout
+		var el = query("div.message[data-id='" + msg['id'] + "']", self.el);
+		classes(el).add('removed');
+		setTimeout(function () {
+			// vdom seems to bug a bit so remove the class manually 
+			// otherwise queueDraw() should be enough
+			classes(el).remove('removed');
+			self.queueDraw();
+		}, 1000);
+	});
 };
 

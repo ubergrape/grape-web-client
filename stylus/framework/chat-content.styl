@@ -13,112 +13,134 @@
 		overflow: auto
 		height: 100%
 		padding: 0 0 footer-height 0
-		.chat
-			height: 100%
-			position: relative
-			padding-top: 14px
-		.message-group
-			@extend $clearfix
-			margin: 10px 30px 14px 20px
-			position: relative
-			.avatar
-				float: left
-				position: relative
-				font-weight: bold
-				.image
-					width: 36px
-					float: left
-					margin-right: (horizontal-space / 2)
-					border-radius: 50%
-				&::after
-					content: ""
-					position: absolute
-					right: 0
-					top: 14px
-					border-right: main-border-radius solid white
-					border-top: main-border-radius solid transparent
-					border-bottom: main-border-radius solid transparent
-			.message-content
-				@extend $clearfix
-				padding: 10px 10px
-				overflow: hidden
-				background: white
-				border-radius: main-border-radius
-				.time
-					font-size: small-font-size
-					text-transform: uppercase
-					float: right
-					color: gainsboro-dark
-				> .time
-					opacity: 1
-				.author
-					font-weight: bold
-					margin-bottom: 3px
-					color: gainsboro-dark
-					display: block
-					@extend $subtle-link
-					em
-						color: lighten(gainsboro-dark, 10)
-						@extend $small-font-size
-				.message
-					@extend $clearfix
-					.time, .edit
-						opacity: 0
-						transition: opacity 200ms ease
-					&:hover
-						> .time
-						> .edit
-							opacity: 1
-					.edit
-						@extend $hoverable
-						float: left
-						color: gainsboro-light
-						.btn-edit
-							margin-left: 6px
-							&:hover
-								color: gainsboro-dark
-							&:active
-								color: darken(gainsboro-dark, 25%)
-						.btn-delete
-							margin-left: 4px
-							&:hover
-								color: bittersweet-dark
-							&:active
-								color: darken(bittersweet-dark, 25%)
-					.text
-						float: left
-						padding: 0
-						margin-bottom: 3px
-						a 
-							color: grape-light
-							text-decoration: none
-							&:hover
-								color: lighten(grape-light, 25%)
-								text-decoration: underline
-						.warning-unsent
-							color: gainsboro-light
-							&:before
-								content: "\f071"
-								font-family: FontAwesome
-								color: gold
-								margin-right: 6px
-					.img-atm
-						@extend $clearfix
-						float: left
-// SEPERATORS
-.date-separator
-	text-align: center
-	@extend $small-font-size
-	margin: 0 30px 0 20px
-	padding:  5px 0 0 0
-	color: gainsboro-dark
-	text-transform: uppercase
+	.chat
+		height: 100%
+		position: relative
+		padding-top: 14px
 
+.message-group
+	@extend $clearfix
+	margin: 10px 30px 14px 20px
+	position: relative
+	.avatar
+		float: left
+		position: relative
+		font-weight: bold
+		.image
+			width: 36px
+			float: left
+			margin-right: (horizontal-space / 2)
+			border-radius: 50%
+		&::after
+			content: ""
+			position: absolute
+			right: 0
+			top: 14px
+			border-right: main-border-radius solid white
+			border-top: main-border-radius solid transparent
+			border-bottom: main-border-radius solid transparent
+	&.creator .message:hover .text
+		color: gainsboro-dark
+
+.message-content
+	padding: 8px 10px 5px
+	overflow: hidden
+	background: white
+	border-radius: main-border-radius
+	.time
+		font-size: small-font-size
+		text-transform: uppercase
+		float: right
+		color: gainsboro-dark
+	> .time
+		opacity: 1
+	.author
+		font-weight: bold
+		margin-bottom: 3px
+		color: darken(gainsboro-dark, 20%)
+		display: inline-block
+		@extend $subtle-link
+		em
+			color: lighten(gainsboro-dark, 10%)
+			@extend $small-font-size
+	.message
+		margin-bottom: 3px
+		.time, 
+		.edit, 
+		.btn-label
+			opacity: 0
+			transition: opacity 200ms ease
+		&:hover
+			> .time
+			> .edit
+			> .btn-label
+				opacity: 1
+		.edit, 
+		.btn-label
+			@extend $hoverable
+			display: inline-block
+			vertical-align: top
+			color: gainsboro-light
+			i
+				margin-left: 6px
+				margin-left: 4px
+				&:hover
+					color: gainsboro-dark
+				&:active
+					color: darken(gainsboro-dark, 25%)
+			.btn-delete
+				&:hover
+					color: bittersweet-dark
+				&:active
+					color: darken(bittersweet-dark, 25%)
+		&.editing
+			background: lighten(gold, 80%)
+		&.removing
+			background: lighten(gold, 80%)
+			padding: 2px 6px 0
+			margin: -2px -6px 0
+			border-radius: main-border-radius
+		&.removed
+			background: lighten(bittersweet-light, 60%)
+			padding: 2px 6px 0
+			margin: -2px -6px 0
+			border-radius: main-border-radius
+		.text
+			display: inline-block
+			padding: 0
+			margin-bottom: 3px	
+			a 
+				color: grape-light
+				text-decoration: none
+				&:hover
+					color: lighten(grape-light, 25%)
+					text-decoration: underline
+			.warning-unsent
+				color: gainsboro-light
+				&:before
+					content: "\f071"
+					font-family: FontAwesome
+					color: gold
+					margin-right: 6px
+		.img-atm
+			display: inline-block
+
+// SEPERATORS
+.date-separator, 
 .newmessage-separator
 	text-align: center
-	border-bottom: 1px solid bittersweet-dark
-	height: 10px
-	margin: 0px 50px 20px
+	text-transform: uppercase
+	color: gainsboro-dark
+	@extend $small-font-size
+
+.date-separator
+	margin: 0 30px 0 20px
+	padding:  5px 0 0 0
+
+.newmessage-separator
+	border-bottom: 1px solid aqua-dark
+	height: 7px
+	margin: 0px 30px 18px 20px
 	span
 		background: chat-background
 		padding: 0px 5px

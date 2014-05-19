@@ -1,47 +1,57 @@
 .client
 	header.header
-		.organization-info
-			.info-poweredby Powered by ChatGrape
-			.info-organizationlogo
+		.org-info
+			a(href='https://chatgrape.com', target='_blank', class='powered-by') Powered by ChatGrape
+			a.logo(onclick="document.getElementById('make-me-dynamic-1').style.display='block';return false;")
+				i.fa.fa-cog
 				img(src='#{org.logo}',height='40',alt='#{org.name}')
 		.room-info
 	.client-body
 		nav.navigation
 		div.chat-wrapper
-			.alert-header.alert-info We are encountering connection problems, trying to reconnect ..
+			.alert-header.alert-info Welcome #{user.username} welcome to on ChatGrape!
 			section.chat
 			.search-results
-				a.result-filter-toggle=_('Filter Results')
 				.result-info
 					.result-nr
 						=_('52 Ergebnisse für ')
 						strong=_('Hamburger')
 				.result-filters
-					h2=_('Sort by')
-					ul
-						li
-							a=_('Überall')
-						li
-							a=_('Design')
-					h2=_('Filter by')
-					ul.filter-list
-						li
-							a=_('Alle (51)')
-						li
-							a=_('Nachrichten (14)')
-						li
-							a=_('Dateien (10)')
-						li
-							a=_('GitHub Issues (1)')
-				.result-wrapper
-					ul.result-list
-						li.result-item.selected
+					.filter-room
+						h2=_('Sort by')
+						ul
+							li
+								a=_('Überall')
+							li
+								a=_('Design')
+					.filter-list
+						ul
+							li
+								strong
+									a=_('Alle (51)')
+							li
+								i.fa.fa-envelope
+								a=_('Nachrichten (14)')
+							li
+								i.fa.fa-file
+								a=_('Dateien (10)')
+							li
+								i.fa.fa-github
+								a=_('GitHub Issues (1)')
+				ul.result-list
+					li.result-object.selected
+						.item-object.minor
+							.item-info
+								h2=_('Martin Scheriau')
+							.item-content
+								=_('Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch nicht tatenlos zusehen. Eine Abstimmung!')
+						.item-object.main
 							.item-info
 								h2=_('Tobias Seiler')
 								i.fa.fa-comment
 								span=_('Design')
 							.item-content
-								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das "Big-Mac" oder so ähnlich. Möchtet ihr mit mir einen ')
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
 								span=_('Hamburger')
 								=_(' essen?')
 								ul.item-footer
@@ -51,18 +61,130 @@
 										a=_('Jump to conversation')
 									li.option
 										a=_('All results from this user')
-						li.result-item
+						.item-object.minor
 							.item-info
-								h2=_('Lea de Roucy')
-								i.fa.fa-envelope
-								span=_('Nachrichten')
+								h2=_('Sabine Ludwig')
 							.item-content
-								=_('Diese ')
+								=_('im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der Seperatisten) oder einfach nicht von der int. Gemeinschaft hingeschickt worden sind.')
+
+					li.result-object.file
+						.item-object.main
+							.item-info
+								h2=_('Google Drive')
+								i.fa.fa-file
+								span=_('/ubergrape')
+							.item-content
+								=_('Das-')
 								span=_('Hamburger')
-								=_('-Konstruktion ermöglicht es, die Zwiebel-Soe-Fleisch-Einlage gleich zweimal unterzubringen')
+								=_('-Wettessen.jpg')
 								ul.item-footer
 									li.time
-										time=_('1. Jänner, 0:48 Uhr')
+										time=_('5. März, 8:10 Uhr')
+									li.option
+										a=_('Jump to conversation')
+									li.option
+										a=_('View File')
+
+					li.result-object
+						.item-object.minor
+							.item-info
+								h2=_('Martin Scheriau')
+							.item-content
+								=_('Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. ')
+						.item-object.main
+							.item-info
+								h2=_('Tobias Seiler')
+								i.fa.fa-comment
+								span=_('Design')
+							.item-content
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
+								span=_('Hamburger')
+								=_(' essen?')
+								ul.item-footer
+									li.time
+										time=_('5. Jänner, 4:12 Uhr')
+									li.option
+										a=_('Jump to conversation')
 									li.option
 										a=_('See message')
+									li.option
+										a=_('All results from this user')
+						.item-object.minor
+							.item-info
+								h2=_('Sabine Ludwig')
+							.item-content
+								=_('Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt wurden.')
 		footer.footer
+#make-me-dynamic-1.popover(style='top: 36px; left: 260px; display: none;').left
+	.organizationpopover
+		h4=_('Your Organization')
+		span.close(onclick="document.getElementById('make-me-dynamic-1').style.display='none';return false;") ×
+		ul
+			li
+				a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+					i.fa.fa-cog
+					=_('Organization Settings')
+			li
+				a(href='/accounts/organizations/team-1/settings/members/', target='_blank')
+					i.fa.fa-user
+					=_('Manage Members')
+			li
+				a(href='/services/list/', target='_blank')
+					i.fa.fa-link
+					=_('Service Integrations')
+#make-me-dynamic-2.popover(style='top: 64px; right: 22px; display: none;').top
+	.userpopover
+		h4=_('Current Status')
+		span.close(onclick="document.getElementById('make-me-dynamic-2').style.display='none';return false;") ×
+		form.user-status-form
+			input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
+			input.user-status-submit(type="submit")
+			span.user-status-icon.online
+		ul
+			li
+				a(href='#')
+					i.fa.fa-eye
+					=_('Compact View')
+			li
+				a(href='/accounts/settings/', target='_blank')
+					i.fa.fa-cog
+					=_('User Settings')
+			li
+				a(href='/accounts/logout/', target='_blank')
+					i.fa.fa-sign-out
+					=_('Sign Out')
+#make-me-dynamic-3.popover(style='top: 78px; left: 160px; display: none;').top
+	.roommemberspopover
+		h4=_('Members in this room')
+		span.close(onclick="document.getElementById('make-me-dynamic-3').style.display='none';return false;") ×
+		ul
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name Tobias Seiler
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name User-13
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name Felix Häusler
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name admin
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src="/static/images/avatar.gif", width="20", alt="")
+					.avatar-status.online
+				span.name User-4

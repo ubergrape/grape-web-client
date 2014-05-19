@@ -40,6 +40,10 @@ Popover.prototype.bind = function Popover_bind() {
 		} while ((parent = parent.parentNode));
 		self.hide();
 	});
+	document.addEventListener('keyup', function (ev) {
+		if (self.hidden) return;
+		if (ev.keyCode == 27) self.hide();
+	});
 };
 
 Popover.prototype.show = function Popover_show(trigger) {
@@ -58,5 +62,6 @@ Popover.prototype.hide = function Popover_hide() {
 	this.el.parentNode.removeChild(this.el);
 	this.hidden = true;
 	this.emit('hide');
+	console.log("hide", this.el);
 };
 

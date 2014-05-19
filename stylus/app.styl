@@ -4,18 +4,20 @@
 
 // Order has to be maintained.
 
+@import "elements/alerts"
+@import "elements/autocomplete"
+@import "elements/buttons"
+@import "elements/inputs"
+@import "elements/avatar"
+@import "elements/popover"
+@import "elements/labels"
+@import "elements/search-results"
+@import "elements/image-zoom"
+
 @import "framework/chat-content"
 @import "framework/header"
 @import "framework/sidebar"
 @import "framework/footer"
-
-@import "elements/alerts"
-@import "elements/buttons"
-@import "elements/avatar"
-@import "elements/popover"
-@import "elements/labels"
-@import "elements/search"
-
 
 
 /*______ GENERAL ______*/
@@ -65,6 +67,8 @@ img
 	overflow: hidden
 
 /*______ Some common things who need to be distributed properly ______*/
+
+// hr is used in the popover dialogs
 hr
 	margin: 4px 0
 	height: 1px

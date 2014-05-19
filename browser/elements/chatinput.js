@@ -9,7 +9,8 @@ var textcomplete = require('textcomplete');
 var qs = require('query');
 var closest = require('closest');
 var style = require('computed-style');
-
+var events = require('events');
+var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
 
@@ -63,27 +64,32 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!str)
 			return;
 		doStop();
-		self.emit('input', self.room, str/*, {
-			attachments: self.attachments
-		}*/);
-		//self.attachments = [];
+		if (!self.editing) {
+			self.emit('input', self.room, str/*, {
+				attachments: self.attachments
+			}*/);
+			//self.attachments = [];
+		} else {
+			self.emit('update', self.editMsg, str);
+			self.editingDone();
+		}
 	});
 
 	// make the textarea auto resize
 	var resize = debounce(function() {
-		resizable(self.textarea, {min: 31, max: 76})}, delay);
+		resizable(self.textarea, {min: 31, max: 220})}, delay);
 	resize();
 
 	Emitter(this.textarea);
 	this.textarea.on('resize', function(diff) {
 		// resize footer height
 		var footer = closest(self.textarea, 'footer');
-		var new_height = parseInt(style(footer).height.substring(0, style(footer).height.length-2)) + diff;
+		var new_height = footer.clientHeight + diff;
 		footer.style.height =  new_height + 'px';
 
 		// resize chat wrapper padding
 		var wrapper = qs(".chat-wrapper");
-		var new_padding_bottom = parseInt(style(wrapper).paddingBottom.substring(0, style(wrapper).paddingBottom.length-2)) + diff;
+		var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
 		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
 	});
 
@@ -104,6 +110,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		start();
 		stop();
 	});
+	
+	document.addEventListener('keyup', function (ev) {
+		if (!self.editing) return;
+		if (ev.keyCode == 27) self.editingDone();
+	});
 
 	// hook up the autocomplete
 	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
@@ -112,11 +123,16 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	};
 	this.complete.query = function (matches) {
 		// XXX: implement matching logic and populate with real results
-		console.log(matches);
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
-			'first', 'second'
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>', 
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
+			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
+			'<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
+			'<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
+			'<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
+			'<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>'
 		]);
 		self.complete.highlight(0);
 	};
@@ -126,7 +142,41 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
 	this.textarea.disabled = !room;
 	if (room) this.textarea.focus();
+	if (this.editing)
+		this.editingDone();
 };
+
+ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
+    if (typeof el.selectionStart == "number") {
+        el.selectionStart = el.selectionEnd = el.value.length;
+    } else if (typeof el.createTextRange != "undefined") {
+        el.focus();
+        var range = el.createTextRange();
+        range.collapse(false);
+        range.select();
+    }
+}
+
+ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
+	this.editMsg = msg;
+	this.editing = true;
+	classes(this.el).add('editing');
+	this.oldVal = this.textarea.value;
+	this.textarea.value = msg['text'];
+	this.textarea.focus();
+    this.moveCaretToEnd(this.textarea);
+}
+
+ChatInput.prototype.editingDone = function ChatInput_editingDone() {
+	this.emit('editingdone', this.editMsg);
+	this.editing = false;
+	this.textarea.value = this.oldVal;
+	this.oldVal = null;
+	this.editMsg = null;
+	classes(this.el).remove('editing');
+	this.textarea.focus();
+}
+
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
