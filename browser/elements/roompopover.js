@@ -24,7 +24,7 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-	this.itemList = new ItemList({template: 'roompopoverlist', selector: '.toggle'});
+	this.itemList = new ItemList({template: 'popovers/roomlist', selector: '.toggle'});
 	replace(qs('ul', this.el), this.itemList.el);
 };
 
@@ -81,7 +81,7 @@ RoomPopover.prototype.closeform = function RoomPopover_closeform() {
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
-	render(this.content, template('roompopover'));
+	render(this.content, template('popovers/room'));
 	if (this.itemList)
 		this.itemList.redraw();
 };

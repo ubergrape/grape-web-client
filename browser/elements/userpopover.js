@@ -23,5 +23,5 @@ UserPopover.prototype.init = function RoomPopover_init() {
 };
 
 UserPopover.prototype.redraw = function UserPopover_redraw() {
-	render(this.content, template('userpopover'));
+	render(this.content, template('popovers/user'));
 }

@@ -23,5 +23,5 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 };
 
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
-	render(this.content, template('organizationpopover'));
+	render(this.content, template('popovers/organization'));
 }
