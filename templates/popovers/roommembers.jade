@@ -1,34 +1,11 @@
 .roommemberspopover
-	h4=_('Members in this room')
+	h4=_('Members in ') + room.name
 	span.close ×
 	ul
-		li.item.user
-			.avatar-wrap
-				span.online
-				img(src="/static/images/avatar.gif", width="20", alt="")
-				.avatar-status.online
-			span.name Tobias Seiler
-		li.item.user
-			.avatar-wrap
-				span.online
-				img(src="/static/images/avatar.gif", width="20", alt="")
-				.avatar-status.online
-			span.name User-13
-		li.item.user
-			.avatar-wrap
-				span.online
-				img(src="/static/images/avatar.gif", width="20", alt="")
-				.avatar-status.online
-			span.name Felix Häusler
-		li.item.user
-			.avatar-wrap
-				span.online
-				img(src="/static/images/avatar.gif", width="20", alt="")
-				.avatar-status.online
-			span.name admin
-		li.item.user
-			.avatar-wrap
-				span.online
-				img(src="/static/images/avatar.gif", width="20", alt="")
-				.avatar-status.online
-			span.name User-4
+		each user in room.users
+			li.item.user
+				.avatar-wrap
+					span.online
+					img(src=user.avatar, width="20", alt=user.username)
+					.avatar-status.online
+				span.name= user.username

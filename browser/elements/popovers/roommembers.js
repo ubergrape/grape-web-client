@@ -2,6 +2,7 @@
 "use strict";
 
 var template = require('template');
+var Emitter = require('emitter');
 var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
@@ -9,6 +10,7 @@ var classes = require('classes');
 module.exports = RoomMembersPopover;
 
 function RoomMembersPopover() {
+	this.room = new Emitter({name: '', users: []});
 	Popover.call(this);
 }
 
@@ -23,5 +25,12 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
-	render(this.content, template('popovers/roommembers'));
+	render(this.content, template('popovers/roommembers', {room: this.room}));
 }
+
+RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
+	this.room.off('change', this.redraw);
+	this.room = room;
+	room.on('change', this.redraw);
+	this.redraw();
+};

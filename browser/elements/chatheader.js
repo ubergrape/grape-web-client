@@ -8,6 +8,7 @@ var closest = require('closest');
 var events = require('events');
 var render = require('../rendervdom');
 var classes = require('classes');
+var RoomMembersPopover = require('./popovers/roommembers');
 
 module.exports = ChatHeader;
 
@@ -19,6 +20,7 @@ function ChatHeader() {
 	this.redraw();
 	this.init();
 	this.bind();
+	this.membersMenu = new RoomMembersPopover();
 }
 
 ChatHeader.prototype = Object.create(Emitter.prototype);
@@ -34,7 +36,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
 	this.events = events(this.el, {
 		'toggleUserMenu': function (e) {self.emit('toggleusermenu', e.toElement)},
-		'toggleMembersMenu': function (e) {self.emit('togglemembersmenu', e.toElement)}
+		'toggleMembersMenu': function (e) {
+			self.membersMenu.toggle(e.toElement);
+		}
 	});
 	this.events.bind('click .avatar-wrap', 'toggleUserMenu');
 	this.events.bind('click .connected-users i', 'toggleMembersMenu');
@@ -63,7 +67,9 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
+	this.membersMenu.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
+	this.membersMenu.redraw();
 };
 

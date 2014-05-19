@@ -39,7 +39,6 @@ var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
-var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -78,7 +77,6 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
-	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 
 	// initialize the chat header
@@ -156,7 +154,6 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatHeader, 'search', this, 'search');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
-	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
