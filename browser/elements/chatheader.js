@@ -15,12 +15,12 @@ module.exports = ChatHeader;
 function ChatHeader() {
 	Emitter.call(this);
 	// initial room?
+	this.membersMenu = new RoomMembersPopover();
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
 	this.init();
 	this.bind();
-	this.membersMenu = new RoomMembersPopover();
 }
 
 ChatHeader.prototype = Object.create(Emitter.prototype);
@@ -58,6 +58,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader', {room: this.room});
 	render(this, vdom);
+	this.membersMenu.redraw();
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -70,6 +71,5 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.membersMenu.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
-	this.membersMenu.redraw();
 };
 
