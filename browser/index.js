@@ -146,6 +146,7 @@ UI.prototype.bind = function UI_bind() {
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
 	broker.pass(this.chatInput, 'input', this, 'input');
+	broker(this.chatInput, 'input', this.historyView, 'setAuto');
 	broker.pass(this.chatInput, 'update', this, 'update');
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
@@ -288,7 +289,6 @@ UI.prototype.setUser = function UI_setUser(user) {
 		template.locals.user = user;
 		this.chatInput.redraw();
 	}
-	this.historyView.setUser(user)
 	this.historyView.redraw()
 };
 
