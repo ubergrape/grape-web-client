@@ -300,6 +300,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 		template.locals.user = user;
 		this.chatInput.redraw();
 	}
+	this.historyView.setUser(user)
 	this.historyView.redraw()
 };
 

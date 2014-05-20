@@ -38,6 +38,10 @@ function HistoryView() {
 
 HistoryView.prototype = Object.create(Emitter.prototype);
 
+HistoryView.prototype.setUser = function (user) {
+	this.user = user;
+}
+
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
@@ -135,6 +139,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 				this.scrollMode === 'manual';
 			*/
 		}
+	} else {
 	}
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
 };
@@ -230,7 +235,19 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('add', this.queueDraw);
+	room.history.on('add', function (msg, index) {
+		self.queueDraw();
+		if (index + 1 === self.room.history.length &&
+			  self.scrollMode === 'manual' &&
+				self.user.id === msg.author.id
+				) {
+			// if in manual scroll mode, added message is last
+			// and author of message is the current user
+			// switch to automatic mode and scroll there
+			self.scrollMode = 'automatic';
+			self.scrollTo(self.history.el.lastChild);
+		}
+	});
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
