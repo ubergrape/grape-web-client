@@ -5,7 +5,13 @@
 		each user in room.users
 			li.item.user
 				.avatar-wrap
-					span.online
-					img(src=user.avatar, width="20", alt=user.username)
-					.avatar-status.online
+					if user.status === 16
+						span.online
+					else
+						span.offline
+					img(src="#{user.avatar}", width="20", alt="#{user.username}")
 				span.name= user.username
+				if user.firstName
+					span.name= user.firstName
+				if user.lastName
+					span.name= user.lastName
