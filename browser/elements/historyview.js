@@ -237,11 +237,13 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	room.history.on('add', function (msg, index) {
 		self.queueDraw();
-		console.log(self.queued);
 		if (index + 1 === self.room.history.length &&
 			  self.scrollMode === 'manual' &&
 				self.user.id === msg.author.id
 				) {
+			// if in manual scroll mode, added message is last
+			// and author of message is the current user
+			// switch to automatic mode and scroll there
 			self.scrollMode = 'automatic';
 			self.scrollTo(self.history.el.lastChild);
 		}
