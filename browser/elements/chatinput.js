@@ -30,7 +30,7 @@ ChatInput.prototype = Object.create(Emitter.prototype);
 
 ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
-	this.textarea = qs('textarea', this.el);
+	this.messageInput = qs('.messageInput', this.el);
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -40,7 +40,7 @@ ChatInput.prototype.redraw = function ChatInput_redraw() {
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
-	this.complete = textcomplete(this.textarea, qs('.autocomplete', this.el));
+	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
 	// `stopPropagation()`. But inputarea uses `keyup` to trigger an input.
@@ -51,14 +51,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete.on('change', function () {
 		isCompleting = true;
 	});
-	this.textarea.addEventListener('keyup', function (ev) {
+	this.messageInput.addEventListener('keyup', function (ev) {
 		if (!isCompleting) return;
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
 
 	// hook up the input
-	this.input = inputarea(this.textarea);
+	this.input = inputarea(this.messageInput);
 	this.input.on('input', function (str) {
 		str = str.trim();
 		if (!str)
@@ -75,23 +75,23 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 	});
 
-	// make the textarea auto resize
-	var resize = debounce(function() {
-		resizable(self.textarea, {min: 31, max: 220})}, delay);
-	resize();
+	// // make the messageInput auto resize
+	// var resize = debounce(function() {
+	// 	resizable(self.messageInput, {min: 31, max: 220})}, delay);
+	// resize();
 
-	Emitter(this.textarea);
-	this.textarea.on('resize', function(diff) {
-		// resize footer height
-		var footer = closest(self.textarea, 'footer');
-		var new_height = footer.clientHeight + diff;
-		footer.style.height =  new_height + 'px';
+	// Emitter(this.messageInput);
+	// this.messageInput.on('resize', function(diff) {
+	// 	// resize footer height
+	// 	var footer = closest(self.messageInput, 'footer');
+	// 	var new_height = footer.clientHeight + diff;
+	// 	footer.style.height =  new_height + 'px';
 
-		// resize chat wrapper padding
-		var wrapper = qs(".chat-wrapper");
-		var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
-		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
-	});
+	// 	// resize chat wrapper padding
+	// 	var wrapper = qs(".chat-wrapper");
+	// 	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
+	// 	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	// });
 
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
@@ -106,7 +106,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.emit('stoptyping', self.room);
 	}
 	var stop = debounce(doStop, delay);
-	this.textarea.addEventListener('keypress', function () {
+	this.messageInput.addEventListener('keypress', function () {
 		start();
 		stop();
 	});
@@ -140,8 +140,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	this.textarea.disabled = !room;
-	if (room) this.textarea.focus();
+	this.messageInput.disabled = !room;
+	if (room) this.messageInput.focus();
 	if (this.editing)
 		this.editingDone();
 };
@@ -161,20 +161,20 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
 	this.editing = true;
 	classes(this.el).add('editing');
-	this.oldVal = this.textarea.value;
-	this.textarea.value = msg['text'];
-	this.textarea.focus();
-    this.moveCaretToEnd(this.textarea);
+	this.oldVal = this.messageInput.value;
+	this.messageInput.value = msg['text'];
+	this.messageInput.focus();
+    this.moveCaretToEnd(this.messageInput);
 }
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
 	this.editing = false;
-	this.textarea.value = this.oldVal;
+	this.messageInput.value = this.oldVal;
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
-	this.textarea.focus();
+	this.messageInput.focus();
 }
 
 /*
