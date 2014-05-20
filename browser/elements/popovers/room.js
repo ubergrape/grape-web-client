@@ -81,6 +81,8 @@ RoomPopover.prototype.closeform = function RoomPopover_closeform() {
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
+	this.classes.add('room-po');
+	this.classes.add('left');
 	render(this.content, template('popovers/room'));
 	if (this.itemList)
 		this.itemList.redraw();

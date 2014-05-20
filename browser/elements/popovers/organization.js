@@ -23,5 +23,7 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 };
 
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
+	this.classes.add('orga-po');
+	this.classes.add('left');
 	render(this.content, template('popovers/organization'));
 }

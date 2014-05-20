@@ -25,6 +25,8 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
+	this.classes.add('members-po');
+	this.classes.add('left');
 	render(this.content, template('popovers/roommembers', {room: this.room}));
 }
 
