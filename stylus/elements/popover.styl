@@ -91,6 +91,13 @@
 		left: auto !important
 	&.orga-po
 		margin: 7px 0 0 -4px
+	&.members-po
+		margin: 27px 0 0 -262px
+		&::before
+			left: 50%
+		&::after
+			left: 50%
+
 // ****
 //
 // user- and organization-popup-specific things go here
@@ -229,3 +236,11 @@
 			background: silver-light
 		.avatar-wrap
 			margin-top: -1px
+
+
+
+.user-list
+	li
+		@extend $functional-list
+		.avatar-wrap
+			margin-right: 5px

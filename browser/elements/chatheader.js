@@ -41,7 +41,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		}
 	});
 	this.events.bind('click .avatar-wrap', 'toggleUserMenu');
-	this.events.bind('click .connected-users i', 'toggleMembersMenu');
+	this.events.bind('click .connected-users', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
