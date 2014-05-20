@@ -41,6 +41,7 @@ var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
+var Messages = exports.Messages = require('./elements/messages');
 
 function UI(options) {
 	Emitter.call(this);
@@ -89,6 +90,10 @@ UI.prototype.init = function UI_init() {
 
 	// initialize title handler
 	this.title = new Title();
+
+	// initialize error/info messages
+	this.messages = new Messages();
+	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
