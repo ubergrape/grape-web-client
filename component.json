@@ -95,7 +95,8 @@
     "Swatinem/wamp1": "*",
     "bmcmahen/image-zoom": "*",
     "sk7/resizable-textarea": "*",
-    "jkroso/computed-style": "*"
+    "jkroso/computed-style": "*",
+    "ianstormtaylor/animate": "*"
   },
   "development": {
     "chaijs/chai": "*",
