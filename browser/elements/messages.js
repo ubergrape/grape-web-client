@@ -8,7 +8,6 @@ module.exports = Messages;
 function Message(text, level) {
 	this.text = text;
 	this.level = level;
-	return this;
 }
 
 Message.prototype.add = function (messages) {
