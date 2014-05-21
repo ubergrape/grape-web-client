@@ -353,8 +353,8 @@ UI.prototype.handleReconnection = function UI_handleReconnection() {
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
-		classes(qs('body')).remove('disconnected');
-		var msg = this.messages.success(_('Reconnected successfully'));
-		setTimeout(function(){msg.remove()}, 2000)
 	}
+	classes(qs('body')).remove('disconnected');
+	var msg = this.messages.success(_('Reconnected successfully'));
+	setTimeout(function(){msg.remove()}, 2000)
 }
