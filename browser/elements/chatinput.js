@@ -128,7 +128,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
     // hook up the autocomplete
 	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		if (supportPlaintext) {
+		if (supportsPlaintext) {
             // Google Chrome and other webkit browser
             return '<button class="ac" contenteditable="false" tabindex="-1" data-id="' + option.id + '">' + option.insert + '</button>';
         } else {
