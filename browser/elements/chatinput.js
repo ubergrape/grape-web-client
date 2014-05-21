@@ -205,7 +205,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editing = true;
 	classes(this.el).add('editing');
 	this.oldVal = this.messageInput.value;
-	this.messageInput.value = msg['text'];
+	this.messageInput.innerHTML = msg['text'];
 	this.messageInput.focus();
     this.moveCaretToEnd(this.messageInput);
 }
