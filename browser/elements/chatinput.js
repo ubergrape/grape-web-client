@@ -110,16 +110,31 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		start();
 		stop();
 	});
-	
+
 	document.addEventListener('keyup', function (ev) {
 		if (!self.editing) return;
 		if (ev.keyCode == 27) self.editingDone();
 	});
 
-	// hook up the autocomplete
+
+    var supportsPlaintext = supportsPlaintextEditables();
+
+    // google chrome and other webkit browsers need this:
+    // https://stackoverflow.com/questions/17890568/contenteditable-div-backspace-and-deleting-text-node-problems
+    if (supportsPlaintext) {
+        this.messageInput.contentEditable = "plaintext-only";
+    }
+
+    // hook up the autocomplete
 	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		return '<button contenteditable="false" data-id="' + option.id + '">' + option.insert + '</button>';
+		if (supportPlaintext) {
+            // Google Chrome and other webkit browser
+            return '<button class="ac" contenteditable="false" tabindex="-1" data-id="' + option.id + '">' + option.insert + '</button>';
+        } else {
+            // Firefox, IE
+            return '<input type="button" class="ac" tabindex="-1" data-id="' + option.id + ' value="' + option.insert + '">';
+        }
 	};
 	this.complete.query = function (matches) {
 		// XXX: implement matching logic and populate with real results
@@ -210,3 +225,10 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 	this.attachments.push(attachment.id);
 };
 */
+
+function supportsPlaintextEditables() {
+    var div = document.createElement('div');
+    div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
+
+    return div.contentEditable === 'plaintext-only';
+}
