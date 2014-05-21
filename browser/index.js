@@ -94,11 +94,6 @@ UI.prototype.init = function UI_init() {
 	// initialize error/info messages
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
-	this.messages.info('Info');
-	this.messages.warning('Warning');
-	this.messages.danger('Danger');
-	this.messages.success('Success');
-
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
@@ -346,3 +341,17 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 		}
 	}
 };
+
+UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
+	if (this._connErrMsg == undefined) 
+		this._connErrMsg = this.messages.danger(_('Lost Connection'));
+}
+
+UI.prototype.handleReconnection = function UI_handleReconnection() {
+	if (this._connErrMsg) {
+		this._connErrMsg.remove();
+		delete this._connErrMsg;
+		var msg = this.messages.success(_('Reconnected successfully'));
+		setTimeout(function(){msg.remove()}, 2000)
+	}
+}
