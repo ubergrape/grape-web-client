@@ -119,20 +119,48 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// hook up the autocomplete
 	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		return option.title;
+		return '<button contenteditable="false" data-id="' + option.id + '">' + option.insert + '</button>';
 	};
 	this.complete.query = function (matches) {
 		// XXX: implement matching logic and populate with real results
 		self.complete.clear();
 		self.complete.show();
 		self.complete.push([
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>', 
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
-			'<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
-			'<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
-			'<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
-			'<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>'
+			{
+                id: 'label:is',
+                title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>',
+                insert: '#IS'
+            },
+			{
+                id: 'label:is',
+                title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
+                insert: '#IS'
+            },
+            {
+                id: 'label:is',
+			    title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
+                insert: '#IS'
+            },
+            {
+                id: 'gh:newsgape/chatgrape#126',
+			    title: '<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
+                insert: '#126 Vagrant'
+            },
+            {
+                id: 'gc:324598234',
+			    title: '<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
+                insert: 'Isländische Naming Conventions (1.4.2014, 10:30-12:00 Uhr)'
+            },
+            {
+                id: 'gd:8393458949822',
+			    title: '<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
+                insert: 'issues-flyout.jpg'
+            },
+            {
+                id: 'user:Ismael Tajouri',
+			    title: '<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>',
+                insert: '@Ismael Tajouri'
+            }
 		]);
 		self.complete.highlight(0);
 	};
