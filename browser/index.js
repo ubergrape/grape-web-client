@@ -8,6 +8,7 @@ var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
 var notification = require('notification');
+var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 
 var exports = module.exports = UI;
@@ -345,12 +346,14 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) 
 		this._connErrMsg = this.messages.danger(_('Lost Connection'));
+	classes(qs('body')).add('disconnected');
 }
 
 UI.prototype.handleReconnection = function UI_handleReconnection() {
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
+		classes(qs('body')).remove('disconnected');
 		var msg = this.messages.success(_('Reconnected successfully'));
 		setTimeout(function(){msg.remove()}, 2000)
 	}
