@@ -5,7 +5,7 @@
 	border-radius: main-border-radius-small
 
 // Used as container for header alert messages.
-.alert-header
+ul.alerts
 	position: absolute
 	left: 10px
 	right: 10px
@@ -31,7 +31,7 @@
 
 // Alert classes: Alerts don't have default classes, only base and modifier classes. A default gray alert doesn't make too much sense, so you're required to specify a type via contextual class. Choose from success, info, warning, or danger.
 // Use the .alert-link utility class to quickly provide matching colored links within any alert.
-.alert-info
+.alerts li.info
 	background-color: lighten(alert-info-color, 90%)
 	border-color: lighten(alert-info-color, 60%)
 	color: alert-info-color
@@ -39,7 +39,7 @@
 		color: alert-info-color
 		&:hover
 			color: lighten(alert-info-color, 10%)
-.alert-success
+.alerts li.success
 	background-color: lighten(alert-success-color, 90%)
 	border-color: lighten(alert-success-color, 60%)
 	color: alert-success-color
@@ -47,7 +47,7 @@
 		color: alert-success-color
 		&:hover
 			color: lighten(alert-success-color, 10%)
-.alert-warning
+.alerts li.warning
 	background-color: lighten(alert-warning-color, 90%)
 	border-color: lighten(alert-warning-color, 60%)
 	color: alert-warning-color
@@ -55,7 +55,7 @@
 		color: alert-warning-color
 		&:hover
 			color: lighten(alert-warning-color, 10%)
-.alert-danger
+.alerts li.danger
 	background-color: lighten(alert-danger-color, 90%)
 	border-color: lighten(alert-danger-color, 60%)
 	color: alert-danger-color

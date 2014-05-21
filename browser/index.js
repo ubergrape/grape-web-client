@@ -94,6 +94,11 @@ UI.prototype.init = function UI_init() {
 	// initialize error/info messages
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
+	this.messages.info('Info');
+	this.messages.warning('Warning');
+	this.messages.danger('Danger');
+	this.messages.success('Success');
+
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);

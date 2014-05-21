@@ -1,5 +1,5 @@
 div
 	if messages.length
-		.alert-header
+		ul.alerts
 			each message in messages
-				.alert-info= message.text
+				li(class=message.level)= message.text
