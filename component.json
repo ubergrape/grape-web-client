@@ -75,7 +75,7 @@
     "component/classes": "*",
     "component/throttle": "*",
     "component/debounce": "*",
-    "component/inputarea": "*",
+    "sk7/inputarea": "*",
     "component/escape-html": "*",
     "component/emitter": "*",
     "component/events": "*",
