@@ -178,7 +178,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 					self.complete.push({
 						id: r["id"],
-						title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.complete + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
 						insert: r.complete
 					})
 				}
