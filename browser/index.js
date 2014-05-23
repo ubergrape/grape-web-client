@@ -150,6 +150,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
+    broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');

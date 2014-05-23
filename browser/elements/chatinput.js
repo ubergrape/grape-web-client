@@ -137,12 +137,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
         }
 	};
 	this.complete.query = function (matches) {
-        console.log(matches[0]);
+        var match = matches[0];
+        console.log(match);
+
 		// XXX: implement matching logic and populate with real results
 		self.complete.clear();
-		self.complete.show();
 
-        if (matches[0][0] == "@") {
+        if (match[0] == "@") {
+            // show users, we have them locally
             self.complete.push([
                 {
                     id: 'user:Ismael Tajouri',
@@ -160,39 +162,25 @@ ChatInput.prototype.bind = function ChatInput_bind() {
                     insert: '@Ismael Somebodyelse'
                 }
             ]);
-        } else if (matches[0][0] == "#") {
-            self.complete.push([
-                {
-                    id: 'label:is',
-                    title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>',
-                    insert: '#IS'
-                },
-                {
-                    id: 'label:is',
-                    title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
-                    insert: '#IS'
-                },
-                {
-                    id: 'label:is',
-                    title: '<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
-                    insert: '#IS'
-                },
-                {
-                    id: 'gh:newsgape/chatgrape#126',
-                    title: '<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
-                    insert: '#126 Vagrant'
-                },
-                {
-                    id: 'gc:324598234',
-                    title: '<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
-                    insert: 'Isländische Naming Conventions (1.4.2014, 10:30-12:00 Uhr)'
-                },
-                {
-                    id: 'gd:8393458949822',
-                    title: '<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
-                    insert: 'issues-flyout.jpg'
+        } else if (match[0] == "#") {
+            // send autocomplete request to server, we don't have the data locally
+
+            self.emit('autocomplete', match, function autocomplete_callback(err, result){
+                console.log("autocomplete from server", err, result);
+                for (var i=0; i<result.length; i++) {
+                    var r = result[0];
+
+                    self.complete.push({
+                        id: r["id"],
+                        title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.complete + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+                        insert: r.complete
+                    })
+
+                    // this should be shown at the beginning but
+                    // with a loading animation maybe?
+                    self.complete.show();
                 }
-            ]);
+            });
         }
 
 		self.complete.highlight(0);
