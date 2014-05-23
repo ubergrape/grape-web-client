@@ -145,13 +145,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 
 		if (match[0] == "@") {
-			// show users, we have them locally.
+			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
-			var users = app.organization.users;
+
 			var search = match.substr(1); // match without the '@''
 
+			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
@@ -161,8 +162,19 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						id: user.username,
 						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
 						insert: '@' + user.username
-					})
+					});
+				}
+			}
 
+			var rooms = app.organization.rooms;
+			for (var i=0; i<rooms.length; i++) {
+				var room = rooms[i];
+				if (room.name.startsWithIgnoreCase(search)) {
+					self.complete.push({
+						id: room.slug,
+						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Member</span>',
+						insert: '@' + room.name
+					});
 				}
 			}
 
