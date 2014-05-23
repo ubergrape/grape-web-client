@@ -117,71 +117,76 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 
-    var supportsPlaintext = supportsPlaintextEditables();
+	var supportsPlaintext = supportsPlaintextEditables();
 
-    // google chrome and other webkit browsers need this:
-    // https://stackoverflow.com/questions/17890568/contenteditable-div-backspace-and-deleting-text-node-problems
-    if (supportsPlaintext) {
-        this.messageInput.contentEditable = "plaintext-only";
-    }
+	// google chrome and other webkit browsers need this:
+	// https://stackoverflow.com/questions/17890568/contenteditable-div-backspace-and-deleting-text-node-problems
+	if (supportsPlaintext) {
+		this.messageInput.contentEditable = "plaintext-only";
+	}
 
-    // hook up the autocomplete
+	// hook up the autocomplete
 	this.complete.re = /[@#](\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
 		if (supportsPlaintext) {
-            // Google Chrome and other webkit browser
-            return '<button class="ac" contenteditable="false" tabindex="-1" data-id="' + option.id + '">' + option.insert + '</button>';
-        } else {
-            // Firefox, IE
-            return '<input type="button" class="ac" tabindex="-1" data-id="' + option.id + ' value="' + option.insert + '">';
-        }
+			// Google Chrome and other webkit browser
+			return '<button class="ac" contenteditable="false" tabindex="-1" data-id="' + option.id + '">' + option.insert + '</button>';
+		} else {
+			// Firefox, IE
+			return '<input type="button" class="ac" tabindex="-1" data-id="' + option.id + ' value="' + option.insert + '">';
+		}
 	};
 	this.complete.query = function (matches) {
-        var match = matches[0];
-        console.log(match);
+		var match = matches[0];
+		console.log(match);
 
 		// XXX: implement matching logic and populate with real results
 		self.complete.clear();
 
-        if (match[0] == "@") {
-            // show users, we have them locally
-            self.complete.push([
-                {
-                    id: 'user:Ismael Tajouri',
-                    title: '<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>',
-                    insert: '@Ismael Tajouri'
-                },
-                {
-                    id: 'user:Peter Island',
-                    title: '<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>land: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Peter Island" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;Peter <strong>Is</strong>land<span class="entry-type-description">Member</span>',
-                    insert: '@Peter Island'
-                },
-                {
-                    id: 'user:Ismael Somebodyelse',
-                    title: '<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Somebodyelse" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Somebodyelse<span class="entry-type-description">Member</span>',
-                    insert: '@Ismael Somebodyelse'
-                }
-            ]);
-        } else if (match[0] == "#") {
-            // send autocomplete request to server, we don't have the data locally
+		if (match[0] == "@") {
+			// show users, we have them locally.
+			// naive search: loop through all of them,
+			// hopefully there are not too many
 
-            self.emit('autocomplete', match, function autocomplete_callback(err, result){
-                console.log("autocomplete from server", err, result);
-                for (var i=0; i<result.length; i++) {
-                    var r = result[0];
+			var users = app.organization.users;
+			var search = match.substr(1); // match without the '@''
 
-                    self.complete.push({
-                        id: r["id"],
-                        title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.complete + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
-                        insert: r.complete
-                    })
+			for (var i=0; i<users.length; i++) {
+				var user = users[i];
+				if (  user.firstName.startsWithIgnoreCase(search)
+				   || user.lastName.startsWithIgnoreCase(search)
+				   || user.username.startsWithIgnoreCase(search)) {
+					self.complete.push({
+						id: user.username,
+						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
+						insert: '@' + user.username
+					})
 
-                    // this should be shown at the beginning but
-                    // with a loading animation maybe?
-                    self.complete.show();
-                }
-            });
-        }
+				}
+			}
+
+			self.complete.show();
+
+		} else if (match[0] == "#") {
+			// send autocomplete request to server, we don't have the data locally
+
+			self.emit('autocomplete', match, function autocomplete_callback(err, result){
+				console.log("autocomplete from server", err, result);
+				for (var i=0; i<result.length; i++) {
+					var r = result[0];
+
+					self.complete.push({
+						id: r["id"],
+						title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.complete + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						insert: r.complete
+					})
+				}
+
+				// this should be shown at the beginning but
+				// with a loading animation maybe?
+				self.complete.show();
+			});
+		}
 
 		self.complete.highlight(0);
 	};
@@ -196,14 +201,14 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
-    if (typeof el.selectionStart == "number") {
-        el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange != "undefined") {
-        el.focus();
-        var range = el.createTextRange();
-        range.collapse(false);
-        range.select();
-    }
+	if (typeof el.selectionStart == "number") {
+		el.selectionStart = el.selectionEnd = el.value.length;
+	} else if (typeof el.createTextRange != "undefined") {
+		el.focus();
+		var range = el.createTextRange();
+		range.collapse(false);
+		range.select();
+	}
 }
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
@@ -213,7 +218,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.oldVal = this.messageInput.value;
 	this.messageInput.innerHTML = msg['text'];
 	this.messageInput.focus();
-    this.moveCaretToEnd(this.messageInput);
+	this.moveCaretToEnd(this.messageInput);
 }
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
@@ -233,8 +238,34 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 */
 
 function supportsPlaintextEditables() {
-    var div = document.createElement('div');
-    div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
+	var div = document.createElement('div');
+	div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
 
-    return div.contentEditable === 'plaintext-only';
+	return div.contentEditable === 'plaintext-only';
+}
+
+// https://stackoverflow.com/questions/646628/how-to-check-if-a-string-startswith-another-string
+
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+	return this.slice(0, str.length) == str;
+  };
+}
+
+if (typeof String.prototype.startsWithIgnoreCase != 'function') {
+  String.prototype.startsWithIgnoreCase = function (str){
+	return this.slice(0, str.length).toLowerCase() == str.toLowerCase();
+  };
+}
+
+if (typeof String.prototype.endsWith != 'function') {
+  String.prototype.endsWith = function (str){
+	return this.slice(-str.length) == str;
+  };
+}
+
+if (typeof String.prototype.endsWithIgnoreCase != 'function') {
+  String.prototype.endsWithIgnoreCase = function (str){
+	return this.slice(-str.length).toLowerCase() == str.toLowerCase();
+  };
 }
