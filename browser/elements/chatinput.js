@@ -13,6 +13,7 @@ var events = require('events');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
+require("startswith");
 
 module.exports = ChatInput;
 
@@ -242,30 +243,4 @@ function supportsPlaintextEditables() {
 	div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
 
 	return div.contentEditable === 'plaintext-only';
-}
-
-// https://stackoverflow.com/questions/646628/how-to-check-if-a-string-startswith-another-string
-
-if (typeof String.prototype.startsWith != 'function') {
-  String.prototype.startsWith = function (str){
-	return this.slice(0, str.length) == str;
-  };
-}
-
-if (typeof String.prototype.startsWithIgnoreCase != 'function') {
-  String.prototype.startsWithIgnoreCase = function (str){
-	return this.slice(0, str.length).toLowerCase() == str.toLowerCase();
-  };
-}
-
-if (typeof String.prototype.endsWith != 'function') {
-  String.prototype.endsWith = function (str){
-	return this.slice(-str.length) == str;
-  };
-}
-
-if (typeof String.prototype.endsWithIgnoreCase != 'function') {
-  String.prototype.endsWithIgnoreCase = function (str){
-	return this.slice(-str.length).toLowerCase() == str.toLowerCase();
-  };
 }

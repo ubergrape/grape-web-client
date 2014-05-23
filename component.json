@@ -89,7 +89,8 @@
     "bmcmahen/image-zoom": "*",
     "sk7/resizable-textarea": "*",
     "jkroso/computed-style": "*",
-    "sk7/textcomplete": "*"
+    "sk7/textcomplete": "*",
+    "sk7/startswith": "*"
   },
   "development": {
     "chaijs/chai": "*",
