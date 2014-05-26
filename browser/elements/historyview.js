@@ -38,15 +38,11 @@ function HistoryView() {
 
 HistoryView.prototype = Object.create(Emitter.prototype);
 
-HistoryView.prototype.setUser = function (user) {
-	this.user = user;
-}
-
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-}
+};
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
@@ -56,19 +52,19 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 		this.emit('deletemessage', this.room, id);
 	}
 	classes(el).remove('removing');
-}
+};
 
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('selectedforediting', msg, this.room);
-}
+};
 
-HistoryView.prototype.unselectForEditing = function (msg) {
+HistoryView.prototype.unselectForEditing = function () {
 	classes(query(".message.editing", this.el)).add('edited');
 	classes(query(".message.editing", this.el)).remove('editing');
-}
+};
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
@@ -142,6 +138,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	} else {
 	}
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
+};
+
+HistoryView.prototype.setAuto = function () {
+	this.scrollMode = 'automatic';
 };
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
@@ -235,23 +235,13 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('add', function (msg, index) {
+	room.history.on('add', function () {
 		self.queueDraw();
-		if (index + 1 === self.room.history.length &&
-			  self.scrollMode === 'manual' &&
-				self.user.id === msg.author.id
-				) {
-			// if in manual scroll mode, added message is last
-			// and author of message is the current user
-			// switch to automatic mode and scroll there
-			self.scrollMode = 'automatic';
-			self.scrollTo(self.history.el.lastChild);
-		}
 	});
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query("div.message[data-id='" + msg['id'] + "']", self.el);
+		var el = query("div.message[data-id='" + msg.id + "']", self.el);
 		classes(el).add('removed');
 		setTimeout(function () {
 			// vdom seems to bug a bit so remove the class manually 

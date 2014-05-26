@@ -158,6 +158,7 @@ UI.prototype.bind = function UI_bind() {
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
 	broker.pass(this.chatInput, 'input', this, 'input');
+	broker(this.chatInput, 'input', this.historyView, 'setAuto');
 	broker.pass(this.chatInput, 'update', this, 'update');
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
@@ -295,13 +296,12 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	// the first time setUser will be called it hopefully contains the current
 	// user and not another one
-	if (this.user === undefined || user.id == this.user.id) {
+	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
 		this.chatInput.redraw();
 	}
-	this.historyView.setUser(user)
-	this.historyView.redraw()
+	this.historyView.redraw();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {

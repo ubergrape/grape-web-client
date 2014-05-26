@@ -43,7 +43,7 @@ Popover.prototype.bind = function Popover_bind() {
 	});
 	document.addEventListener('keyup', function (ev) {
 		if (self.hidden) return;
-		if (ev.keyCode == 27) self.hide();
+		if (ev.keyCode === 27) self.hide();
 	});
 };
 
