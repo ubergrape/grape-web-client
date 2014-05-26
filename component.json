@@ -90,7 +90,8 @@
     "sk7/resizable-textarea": "*",
     "jkroso/computed-style": "*",
     "sk7/textcomplete": "*",
-    "sk7/startswith": "*"
+    "sk7/startswith": "*",
+    "matthewp/attr": "*"
   },
   "development": {
     "chaijs/chai": "*",

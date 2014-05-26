@@ -13,6 +13,7 @@ var events = require('events');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
+var attr = require('attr');
 require("startswith");
 
 module.exports = ChatInput;
@@ -209,7 +210,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	this.messageInput.disabled = !room;
+	attr(this.messageInput).set('disabled', !room);
 	if (room) this.messageInput.focus();
 	if (this.editing)
 		this.editingDone();
