@@ -9,7 +9,6 @@ var textcomplete = require('textcomplete');
 var qs = require('query');
 var closest = require('closest');
 var style = require('computed-style');
-var events = require('events');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
@@ -77,7 +76,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// make the textarea auto resize
 	var resize = debounce(function() {
-		resizable(self.textarea, {min: 31, max: 220})}, delay);
+		resizable(self.textarea, {min: 31, max: 220});}, delay);
 	resize();
 
 	Emitter(this.textarea);
@@ -113,7 +112,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	
 	document.addEventListener('keyup', function (ev) {
 		if (!self.editing) return;
-		if (ev.keyCode == 27) self.editingDone();
+		if (ev.keyCode === 27) self.editingDone();
 	});
 
 	// hook up the autocomplete
@@ -147,15 +146,15 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
-    if (typeof el.selectionStart == "number") {
+    if (typeof el.selectionStart === "number") {
         el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange != "undefined") {
+    } else if (typeof el.createTextRange !== "undefined") {
         el.focus();
         var range = el.createTextRange();
         range.collapse(false);
         range.select();
     }
-}
+};
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
@@ -165,7 +164,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.textarea.value = msg['text'];
 	this.textarea.focus();
     this.moveCaretToEnd(this.textarea);
-}
+};
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
@@ -175,7 +174,7 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.editMsg = null;
 	classes(this.el).remove('editing');
 	this.textarea.focus();
-}
+};
 
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
