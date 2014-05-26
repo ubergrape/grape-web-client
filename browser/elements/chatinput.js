@@ -230,7 +230,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
 	this.editing = true;
 	classes(this.el).add('editing');
-	this.oldVal = this.messageInput.value;
+	this.oldVal = this.messageInput.innerHTML;
 	this.messageInput.innerHTML = msg['text'];
 	this.messageInput.focus();
 	this.moveCaretToEnd(this.messageInput);
@@ -239,7 +239,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
 	this.editing = false;
-	this.messageInput.value = this.oldVal;
+	this.messageInput.innerHTML = this.oldVal;
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
