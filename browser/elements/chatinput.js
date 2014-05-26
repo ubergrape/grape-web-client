@@ -134,7 +134,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			return '<button class="ac" contenteditable="false" tabindex="-1" data-id="' + option.id + '">' + option.insert + '</button>';
 		} else {
 			// Firefox, IE
-			return '<input type="button" class="ac" tabindex="-1" data-id="' + option.id + ' value="' + option.insert + '">';
+			return '<input type="button" class="ac" tabindex="-1" data-id="' + option.id + '" value="' + option.insert + '">';
 		}
 	};
 	this.complete.query = function (matches) {
