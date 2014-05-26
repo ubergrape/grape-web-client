@@ -135,9 +135,14 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 				this.scrollMode === 'manual';
 			*/
 		}
+	} else {
 	}
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
 };
+
+HistoryView.prototype.setAuto = function () {
+	this.scrollMode = 'automatic';
+}
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
@@ -230,7 +235,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('add', this.queueDraw);
+	room.history.on('add', function (msg, index) {
+		self.queueDraw();
+	});
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
