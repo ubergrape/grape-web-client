@@ -62,6 +62,5 @@ Popover.prototype.hide = function Popover_hide() {
 	this.el.parentNode.removeChild(this.el);
 	this.hidden = true;
 	this.emit('hide');
-	console.log("hide", this.el);
 };
 
