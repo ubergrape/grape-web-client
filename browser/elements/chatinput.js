@@ -173,7 +173,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: room.slug,
 						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
-						insert: '@' + room.lastName
+						insert: '@' + room.name
 					});
 				}
 			}
