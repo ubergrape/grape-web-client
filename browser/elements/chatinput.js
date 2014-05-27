@@ -172,8 +172,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
 						id: room.slug,
-						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Member</span>',
-						insert: '@' + room.name
+						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
+						insert: '@' + room.lastName
 					});
 				}
 			}
