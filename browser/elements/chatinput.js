@@ -187,12 +187,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
 				console.log("autocomplete from server", err, result);
 				for (var i=0; i<result.length; i++) {
-					var r = result[0];
+					var r = result[i];
 
 					self.complete.push({
 						id: r["id"],
 						title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
-						insert: r.complete
+						insert: r.name
 					})
 				}
 
