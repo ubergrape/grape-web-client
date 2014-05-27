@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var inputarea = require('inputarea');
-var resizable = require('resizable-textarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
