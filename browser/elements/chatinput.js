@@ -187,7 +187,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
 				console.log("autocomplete from server", err, result);
 				for (var i=0; i<result.length; i++) {
-					var r = result[0];
+					var r = result[i];
 
 					self.complete.push({
 						id: r["id"],
