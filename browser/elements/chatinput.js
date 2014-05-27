@@ -60,6 +60,27 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
+	this.input.cleanedValue = function() {
+		var el = this.el;
+		var children = new Array();
+		for(var child in el.childNodes) {
+			var childnode = el.childNodes[child];
+			if (childnode.nodeType == 3) {
+				children.push(childnode.nodeValue);
+			} else if (childnode.nodeName == "BR") {
+				children.push("\n");
+			} else if (childnode.nodeType == 1) {
+				// we don't use attr() here because it loops through all
+				// attributes when it doesn't find the attribute with
+				// getAttribute. So this won't work in old IEs
+				var object = childnode.getAttribute('data-object');
+				if (object != null) {
+					children.push("[[" + object + "]]");
+				}
+			}
+		}
+		return children.join('');
+	}
 	this.input.on('input', function (str) {
 		str = str.trim();
 		if (!str)
