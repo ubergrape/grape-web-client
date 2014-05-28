@@ -4,7 +4,6 @@
 var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
-var closest = require('closest');
 var render = require('../rendervdom');
 var classes = require('classes');
 
@@ -36,8 +35,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
 	});
-	this.searchInput.addEventListener('keyup', function (ev) {
-		if ( this.value.length != 0 ) {
+	this.searchInput.addEventListener('keyup', function () {
+		if ( this.value.length !== 0 ) {
 			classes(qs('.client', this.el)).add('searching');
 		} else {
 			classes(qs('.client', this.el)).remove('searching');

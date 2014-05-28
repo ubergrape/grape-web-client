@@ -118,16 +118,16 @@ describe('App', function () {
 	it('should react to user data changes', function (done) {
 		app.user.on('change lastName', function () {
 			app.user.id.should.eql(1);
-			app.user.username.should.eql('foobar');
-			app.user.firstName.should.eql('foo');
+			app.user.username.should.eql('foo');
+			app.user.firstName.should.eql('foofoo');
 			app.user.lastName.should.eql('bar');
 			done();
 		});
 		server.send(JSON.stringify([8, 'http://domain/user#updated', {
 			user: {
 				id: 1,
-				username: 'foobar',
-				firstName: 'foo',
+				username: 'foo',
+				firstName: 'foofoo',
 				lastName: 'bar'
 			}
 		}]));
