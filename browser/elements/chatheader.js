@@ -4,14 +4,18 @@
 var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
+var closest = require('closest');
+var events = require('events');
 var render = require('../rendervdom');
 var classes = require('classes');
+var RoomMembersPopover = require('./popovers/roommembers');
 
 module.exports = ChatHeader;
 
 function ChatHeader() {
 	Emitter.call(this);
 	// initial room?
+	this.membersMenu = new RoomMembersPopover();
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
@@ -30,7 +34,14 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
-
+	this.events = events(this.el, {
+		'toggleUserMenu': function (e) {self.emit('toggleusermenu', e.toElement)},
+		'toggleMembersMenu': function (e) {
+			self.membersMenu.toggle(e.toElement);
+		}
+	});
+	this.events.bind('click .avatar-wrap', 'toggleUserMenu');
+	this.events.bind('click .connected-users', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		self.emit('search', qs('.search', self.el).value);
@@ -47,6 +58,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader', {room: this.room});
 	render(this, vdom);
+	this.membersMenu.redraw();
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -56,6 +68,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
+	this.membersMenu.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
 };

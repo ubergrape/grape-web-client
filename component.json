@@ -19,9 +19,12 @@
     "browser/elements/itemlist.js",
     "browser/elements/messages.js",
     "browser/elements/navigation.js",
-    "browser/elements/pmpopover.js",
-    "browser/elements/popover.js",
-    "browser/elements/roompopover.js",
+    "browser/elements/popovers/pm.js",
+    "browser/elements/popovers/popover.js",
+    "browser/elements/popovers/user.js",
+    "browser/elements/popovers/room.js",
+    "browser/elements/popovers/roommembers.js",
+    "browser/elements/popovers/organization.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
@@ -48,10 +51,13 @@
     "templates/index.jade",
     "templates/labellist.jade",
     "templates/navigation.jade",
-    "templates/pmpopover.jade",
     "templates/pmlist.jade",
-    "templates/roompopover.jade",
-    "templates/roompopoverlist.jade",
+    "templates/popovers/pm.jade",
+    "templates/popovers/room.jade",
+    "templates/popovers/user.jade",
+    "templates/popovers/organization.jade",
+    "templates/popovers/roommembers.jade",
+    "templates/popovers/roomlist.jade",
     "templates/roomlist.jade"
   ],
   "dependencies": {
@@ -91,7 +97,8 @@
     "Swatinem/wamp1": "*",
     "bmcmahen/image-zoom": "*",
     "sk7/resizable-textarea": "*",
-    "jkroso/computed-style": "*"
+    "jkroso/computed-style": "*",
+    "ianstormtaylor/animate": "*"
   },
   "development": {
     "chaijs/chai": "*",
