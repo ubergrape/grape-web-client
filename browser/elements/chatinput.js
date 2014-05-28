@@ -152,7 +152,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete.formatSelection = function (option) {
 		if (supportsPlaintext) {
 			// Google Chrome and other webkit browser
-			return '<button class="ac" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '</button>';
+			return '<button class="ac service-' + option.service + ' type-' + option.service + option.type +'" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '</button>';
 		} else {
 			// Firefox, IE
 			return '<input type="button" class="ac" tabindex="-1" data-object="' + option.id + '" value="' + option.insert + '">';
@@ -212,8 +212,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 					self.complete.push({
 						id: r.service +"|"+ r.type +"|"+ r["id"] +"|"+ r.url +"||",
-						title: '<span class="entry-type-icon type-' + r.service + r.type + '">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
-						insert: r.name
+						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						insert: r.name,
+						service: r.service,
+						type: r.type
 					})
 				}
 
