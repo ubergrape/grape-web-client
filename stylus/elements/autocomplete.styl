@@ -1,3 +1,9 @@
+// ****
+//
+// classes used in the autocomplete dropdown within the input area
+//
+// ****
+
 .autocomplete-wrapper
 	position: relative
 	margin-left: 46px
@@ -48,3 +54,31 @@
 		.type-member
 			&:before
 				content: "\f007"
+
+// ****
+//
+// classes used within the chat content (after a user sent a message to the chat)
+//
+// ****
+
+.ac
+	white-space: nowrap
+	background: silver-light
+	border: 1px solid gainsboro-light
+	//box-shadow: 0px 1px 2px 0px #ddd
+	border-radius: main-border-radius-small
+	display: inline-block
+	margin: -6px 1px
+	padding: 3px 5px
+	vertical-align: baseline
+	color: grape-light
+.type-label
+	border-left: 3px solid bittersweet-light
+.type-githubissue
+	border-left: 3px solid grass-light
+.type-calendar
+	border-left: 3px solid aqua-light
+.type-googledocs
+	border-left: 3px solid slate
+.type-member
+	border-left: 3px solid grape-light
