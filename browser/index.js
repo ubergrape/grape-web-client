@@ -21,7 +21,7 @@ var _ = require('t');
 	_.merge(lang, require('../locale/' + lang));
 });
 template.locals._ = _;
-template.locals.marked = require('marked');
+template.locals.markdown = require('./markdown');
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {
@@ -304,7 +304,7 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	}	else {
 		org = orgs.filter(function(o) {
 			if (o.subdomain === parts[0]) return o;
-		})[0];	
+		})[0];
 	}
 	if (org === undefined) {
 		// TODO: Couldnt find a suitable org, what to do now?

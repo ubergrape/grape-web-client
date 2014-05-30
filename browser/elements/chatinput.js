@@ -13,6 +13,8 @@ var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
 var attr = require('attr');
+var isWebkit = require('../iswebkit');
+var renderAutocomplete = require('../renderautocomplete');
 require("startswith");
 
 module.exports = ChatInput;
@@ -72,10 +74,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			} else if (childnode.nodeType == 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
-				// getAttribute. So this won't work in old IEs
+				// getAttribute. So this won't work in old IEs, but it's faster
 				var object = childnode.getAttribute('data-object');
 				if (object != null) {
-					children.push("[[" + object + "]]");
+					children.push(object);
 				}
 			}
 		}
@@ -138,26 +140,16 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (ev.keyCode == 27) self.editingDone();
 	});
 
-
-	var supportsPlaintext = supportsPlaintextEditables();
-
 	// google chrome and other webkit browsers need this:
 	// https://stackoverflow.com/questions/17890568/contenteditable-div-backspace-and-deleting-text-node-problems
-	if (supportsPlaintext) {
+	if (isWebkit()) {
 		this.messageInput.contentEditable = "plaintext-only";
 	}
 
 	// hook up the autocomplete
 	this.complete.re = /[@#](\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		if (supportsPlaintext) {
-			// Google Chrome and other webkit browser
-			// Can only draw an inline icon within the <button> element.
-			return '<button class="ac" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '<span class="entry-type-icon type-' + option.service + option.type +'">&nbsp;</span></button>';
-		} else {
-			// Firefox, IE
-			return '<input type="button" class="ac service-' + option.service + ' type-' + option.service + option.type +'" tabindex="-1" data-object="' + option.id + '" value="' + option.insert + '"/>';
-		}
+		return renderAutocomplete(option);
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
@@ -181,7 +173,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				   || user.lastName.startsWithIgnoreCase(search)
 				   || user.username.startsWithIgnoreCase(search)) {
 					self.complete.push({
-						id: "chatgrape|user|" + user.username,
+						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + ")",
 						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
 						insert: '@' + user.username,
 						service: 'chatgrape',
@@ -195,7 +187,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
-						id: "chatgrape|room|" +room.slug,
+						id: "[" + room.slug + "](cg://chatgrape|room|" + room.slug + ")",
 						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
 						insert: '@' + room.name,
 						service: 'chatgrape',
@@ -214,9 +206,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				console.log("autocomplete from server", err, result);
 				for (var i=0; i<result.length; i++) {
 					var r = result[i];
-
 					self.complete.push({
-						id: r.service +"|"+ r.type +"|"+ r["id"] +"|"+ r.url +"||",
+						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
 						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
 						insert: r.name,
 						service: r.service,
@@ -279,10 +270,3 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 	this.attachments.push(attachment.id);
 };
 */
-
-function supportsPlaintextEditables() {
-	var div = document.createElement('div');
-	div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
-
-	return div.contentEditable === 'plaintext-only';
-}
