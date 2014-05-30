@@ -35,10 +35,18 @@
 			color: gainsboro-dark
 			min-width: 200px
 		.entry-type-icon
-			display: inline
-			font-family: FontAwesome
 			margin-right: 6px
-			color: gainsboro-dark
+
+// ****
+//
+// classes used BOTH in the autocomplete dropdown within the input area AND within the chat content (after a user sent a message to the chat)
+//
+// ****
+
+.entry-type-icon
+	display: inline
+	font-family: FontAwesome
+	color: gainsboro-dark
 .type-label
 	&:before
 		content: "\f02b"
@@ -72,3 +80,5 @@
 	padding: 3px 5px
 	vertical-align: baseline
 	color: grape-light
+	.entry-type-icon
+		margin-left: 6px

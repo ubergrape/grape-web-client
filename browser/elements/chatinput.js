@@ -152,7 +152,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete.formatSelection = function (option) {
 		if (supportsPlaintext) {
 			// Google Chrome and other webkit browser
-			return '<button class="ac service-' + option.service + ' type-' + option.service + option.type +'" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '</button>';
+			// Can only draw an inline icon within the <button> element.
+			return '<button class="ac" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '<span class="entry-type-icon type-' + option.service + option.type +'">&nbsp;</span></button>';
 		} else {
 			// Firefox, IE
 			return '<input type="button" class="ac" tabindex="-1" data-object="' + option.id + '" value="' + option.insert + '"/>';
