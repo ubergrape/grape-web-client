@@ -21,6 +21,8 @@ var _ = require('t');
 ['de', 'en'].forEach(function (lang) {
 	_.merge(lang, require('../locale/' + lang));
 });
+_.lang('en');
+// _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.marked = require('marked');
 // XXX: I really don’t want to hack in innerHTML support right now, so just
@@ -31,7 +33,6 @@ template.locals.html = function (html) {
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
-_.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
@@ -55,6 +56,9 @@ function UI(options) {
 UI.prototype = Object.create(Emitter.prototype);
 
 UI.prototype.init = function UI_init() {
+	// set the current language
+	_.lang(this.options.languageCode || 'en');
+	template.locals._ = _;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/avatar.gif"),
