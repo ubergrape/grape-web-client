@@ -13,7 +13,8 @@ renderer.link = function(href, title, text) {
       id: "[" + text + '](' + href + ')',
       insert: text,
       service: data[0],
-      type: data[1]
+      type: data[1],
+      url: data[3]
     }
     return renderautocomplete(object);
   } else {

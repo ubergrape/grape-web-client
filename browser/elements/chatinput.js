@@ -149,7 +149,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// hook up the autocomplete
 	this.complete.re = /[@#](\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		return renderAutocomplete(option);
+		return renderAutocomplete(option, true);
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
@@ -173,11 +173,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				   || user.lastName.startsWithIgnoreCase(search)
 				   || user.username.startsWithIgnoreCase(search)) {
 					self.complete.push({
-						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + ")",
+						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + "|/chat/@" + user.username + ")",
 						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
 						insert: '@' + user.username,
 						service: 'chatgrape',
-						type: 'user'
+						type: 'user',
+                        url: '/chat/@' + user.username
 					});
 				}
 			}
@@ -187,11 +188,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
-						id: "[" + room.slug + "](cg://chatgrape|room|" + room.slug + ")",
+						id: "[" + room.slug + "](cg://chatgrape|room|" + room.slug + "|/chat/" + room.name + ")",
 						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
 						insert: '@' + room.name,
 						service: 'chatgrape',
-						type: 'room'
+						type: 'room',
+                        url: '/chat/' + room.name
 					});
 				}
 			}
@@ -211,7 +213,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
 						insert: r.name,
 						service: r.service,
-						type: r.type
+						type: r.type,
+                        url: r.url
 					})
 				}
 
