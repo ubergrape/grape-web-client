@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-05-30 12:26+0000\n"
+"POT-Creation-Date: 2014-05-30 15:02+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
