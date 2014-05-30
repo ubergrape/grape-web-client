@@ -156,7 +156,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			return '<button class="ac" contenteditable="false" tabindex="-1" data-object="' + option.id + '">' + option.insert + '<span class="entry-type-icon type-' + option.service + option.type +'">&nbsp;</span></button>';
 		} else {
 			// Firefox, IE
-			return '<input type="button" class="ac" tabindex="-1" data-object="' + option.id + '" value="' + option.insert + '"/>';
+			return '<input type="button" class="ac service-' + option.service + ' type-' + option.service + option.type +'" tabindex="-1" data-object="' + option.id + '" value="' + option.insert + '"/>';
 		}
 	};
 	this.complete.query = function (matches) {
@@ -183,7 +183,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: "chatgrape|user|" + user.username,
 						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
-						insert: '@' + user.username
+						insert: '@' + user.username,
+						service: 'chatgrape',
+						type: 'user'
 					});
 				}
 			}
@@ -195,7 +197,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: "chatgrape|room|" +room.slug,
 						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
-						insert: '@' + room.name
+						insert: '@' + room.name,
+						service: 'chatgrape',
+						type: 'room'
 					});
 				}
 			}
