@@ -22,6 +22,6 @@ function renderAutocompleteItem(obj, asButton) {
 		if (obj.service==="chatgrape") {
 			target = '';
 		}
-		return '<a class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" href="' + obj.url+ '"' + target + '>' + obj.insert + '"</a>';
+		return '<a class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" href="' + obj.url+ '"' + target + '>' + obj.insert + '</a>';
 	}
 }
