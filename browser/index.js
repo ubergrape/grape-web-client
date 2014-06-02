@@ -11,6 +11,7 @@ var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
+var Animate = require('animate');
 
 var exports = module.exports = UI;
 
@@ -77,6 +78,7 @@ UI.prototype.init = function UI_init() {
 	var sidebar = qs('.navigation', this.el);
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
+	Animate(navigation.el, 'fade-left-in');
 
 	// initialize the add room popover
 	this.addRoom = new RoomPopover();
@@ -88,10 +90,12 @@ UI.prototype.init = function UI_init() {
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
 	qs('.room-info', this.el).appendChild(this.chatHeader.el);
+	Animate(this.chatHeader.el.parentNode, 'fade-down-in');
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
+	Animate(this.chatInput.el, 'fade-up-in');
 
 	// initialize the history view
 	this.historyView = new HistoryView();
