@@ -18,7 +18,7 @@ function renderAutocompleteItem(obj, asButton) {
 			return '<input type="button" class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '" value="' + obj.insert + '"/>';
 		}
 	} else {
-		var target = 'target="_blank"';
+		var target = ' target="_blank"';
 		if (obj.service==="chatgrape") {
 			target = '';
 		}
