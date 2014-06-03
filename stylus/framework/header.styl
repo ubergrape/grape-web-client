@@ -40,10 +40,14 @@
 			.connected-users
 				position: absolute
 				right: 0px
-				top: 14px
+				top: 9px
 				color: gainsboro-dark
-				max-height: 1em
 				width: 175px
+				@extend $hoverable
+				border-radius: 4px
+				padding: 5px 8px 3px 8px
+				&:hover
+					opacity: 0.8
 				.fa-user, .user, .sml-nr
 					float: left
 				.user

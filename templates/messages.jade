@@ -1,0 +1,5 @@
+div
+	if messages.length
+		ul.alerts
+			each message in messages
+				li(class=message.level)= html(message.text)

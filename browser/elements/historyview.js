@@ -44,7 +44,12 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-edit', 'selectForEditing');
     // this.events.bind('click button.ac', 'openLink');
     // this.events.bind('click input.ac', 'openLink');
-}
+
+};
+
+// HistoryView.prototype.openLink = function HistoryView_openLink(ev) {
+//     window.open(ev.target.getAttribute('data-url'), '_blank');
+// };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
@@ -54,23 +59,21 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 		this.emit('deletemessage', this.room, id);
 	}
 	classes(el).remove('removing');
-}
+};
 
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('selectedforediting', msg, this.room);
-}
+};
 
-HistoryView.prototype.unselectForEditing = function (msg) {
+HistoryView.prototype.unselectForEditing = function () {
 	classes(query(".message.editing", this.el)).add('edited');
 	classes(query(".message.editing", this.el)).remove('editing');
-}
+};
 
-// HistoryView.prototype.openLink = function HistoryView_openLink(ev) {
-//     window.open(ev.target.getAttribute('data-url'), '_blank');
-// }
+
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
@@ -148,7 +151,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 HistoryView.prototype.setAuto = function () {
 	this.scrollMode = 'automatic';
-}
+};
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
@@ -241,16 +244,16 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	room.history.on('add', function (msg, index) {
+	room.history.on('add', function () {
 		self.queueDraw();
 	});
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query("div.message[data-id='" + msg['id'] + "']", self.el);
+		var el = query("div.message[data-id='" + msg.id + "']", self.el);
 		classes(el).add('removed');
 		setTimeout(function () {
-			// vdom seems to bug a bit so remove the class manually 
+			// vdom seems to bug a bit so remove the class manually
 			// otherwise queueDraw() should be enough
 			classes(el).remove('removed');
 			self.queueDraw();

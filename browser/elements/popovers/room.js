@@ -6,9 +6,9 @@ var qs = require('query');
 var template = require('template');
 var classes = require('classes');
 
-var ItemList = require('./itemlist');
+var ItemList = require('../itemlist');
 var Popover = require('./popover');
-var render = require('../rendervdom');
+var render = require('../../rendervdom');
 
 module.exports = RoomPopover;
 
@@ -24,7 +24,7 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-	this.itemList = new ItemList({template: 'roompopoverlist', selector: '.toggle'});
+	this.itemList = new ItemList({template: 'popovers/roomlist', selector: '.toggle'});
 	replace(qs('ul', this.el), this.itemList.el);
 };
 
@@ -81,7 +81,9 @@ RoomPopover.prototype.closeform = function RoomPopover_closeform() {
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
-	render(this.content, template('roompopover'));
+	this.classes.add('room-po');
+	this.classes.add('left');
+	render(this.content, template('popovers/room'));
 	if (this.itemList)
 		this.itemList.redraw();
 };

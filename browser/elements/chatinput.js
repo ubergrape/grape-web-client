@@ -8,7 +8,6 @@ var textcomplete = require('textcomplete');
 var qs = require('query');
 var closest = require('closest');
 var style = require('computed-style');
-var events = require('events');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
@@ -137,7 +136,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	document.addEventListener('keyup', function (ev) {
 		if (!self.editing) return;
-		if (ev.keyCode == 27) self.editingDone();
+		if (ev.keyCode === 27) self.editingDone();
 	});
 
 	// google chrome and other webkit browsers need this:
@@ -246,7 +245,7 @@ ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
 		range.collapse(false);
 		range.select();
 	}
-}
+};
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
@@ -256,7 +255,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.messageInput.innerHTML = msg['text'];
 	this.messageInput.focus();
 	this.moveCaretToEnd(this.messageInput);
-}
+};
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
@@ -266,7 +265,7 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.editMsg = null;
 	classes(this.el).remove('editing');
 	this.messageInput.focus();
-}
+};
 
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {

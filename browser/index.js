@@ -8,7 +8,10 @@ var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
 var notification = require('notification');
+var classes = require('classes');
 var staticurl = require('../lib/staticurl');
+var events = require('events');
+var Animate = require('animate');
 
 var exports = module.exports = UI;
 
@@ -20,6 +23,8 @@ var _ = require('t');
 ['de', 'en'].forEach(function (lang) {
 	_.merge(lang, require('../locale/' + lang));
 });
+_.lang('en');
+// _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.markdown = require('./markdown');
 // XXX: I really don’t want to hack in innerHTML support right now, so just
@@ -30,17 +35,19 @@ template.locals.html = function (html) {
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
-_.lang('de');
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomPopover = exports.RoomPopover = require('./elements/roompopover');
-var PMPopover = exports.PMPopover = require('./elements/pmpopover');
+var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
+var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
+var UserPopover = exports.UserPopover = require('./elements/popovers/user');
+var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
+var Messages = exports.Messages = require('./elements/messages');
 
 function UI(options) {
 	Emitter.call(this);
@@ -52,6 +59,9 @@ function UI(options) {
 UI.prototype = Object.create(Emitter.prototype);
 
 UI.prototype.init = function UI_init() {
+	// set the current language
+	_.lang(this.options.languageCode || 'en');
+	template.locals._ = _;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/avatar.gif"),
@@ -68,19 +78,24 @@ UI.prototype.init = function UI_init() {
 	var sidebar = qs('.navigation', this.el);
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
+	Animate(navigation.el, 'fade-left-in');
 
 	// initialize the add room popover
 	this.addRoom = new RoomPopover();
 	// and the new pm popover
 	this.addPM = new PMPopover();
+	this.userMenu = new UserPopover();
+	this.organizationMenu = new OrganizationPopover();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
 	qs('.room-info', this.el).appendChild(this.chatHeader.el);
+	Animate(this.chatHeader.el.parentNode, 'fade-down-in');
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
+	Animate(this.chatInput.el, 'fade-up-in');
 
 	// initialize the history view
 	this.historyView = new HistoryView();
@@ -89,6 +104,10 @@ UI.prototype.init = function UI_init() {
 
 	// initialize title handler
 	this.title = new Title();
+
+	// initialize error/info messages
+	this.messages = new Messages();
+	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
@@ -99,6 +118,12 @@ UI.prototype.init = function UI_init() {
 UI.prototype.bind = function UI_bind() {
 	var self = this;
 	var navigation = this.navigation;
+	
+	this.events = events(this.el, {
+		'toggleOrganizationMenu': function(e) {self.organizationMenu.toggle(e.toElement)}
+	});
+	this.events.bind('click .logo', 'toggleOrganizationMenu');
+
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'show');
@@ -142,6 +167,7 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'search', this, 'search');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
+	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -285,12 +311,12 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 UI.prototype.setUser = function UI_setUser(user) {
 	// the first time setUser will be called it hopefully contains the current
 	// user and not another one
-	if (this.user === undefined || user.id == this.user.id) {
+	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
 		this.chatInput.redraw();
 	}
-	this.historyView.redraw()
+	this.historyView.redraw();
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
@@ -337,3 +363,19 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 		}
 	}
 };
+
+UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
+	if (this._connErrMsg == undefined) 
+		this._connErrMsg = this.messages.danger(_('Lost Connection'));
+	classes(qs('body')).add('disconnected');
+}
+
+UI.prototype.handleReconnection = function UI_handleReconnection() {
+	if (this._connErrMsg) {
+		this._connErrMsg.remove();
+		delete this._connErrMsg;
+	}
+	classes(qs('body')).remove('disconnected');
+	var msg = this.messages.success(_('Reconnected successfully'));
+	setTimeout(function(){msg.remove()}, 2000)
+}

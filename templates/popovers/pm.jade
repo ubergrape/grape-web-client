@@ -13,5 +13,5 @@
 						span.offline
 					// FIXME: use real avatar image
 					img(src="#{user.avatar}",width="20",alt="")
-					.avatar-status(class=(true == true ? 'online' : 'offline'))
+					.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 				span.name=user.username

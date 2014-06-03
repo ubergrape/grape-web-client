@@ -85,7 +85,18 @@
 		font-weight: bold
 		text-transform: uppercase
 		margin-bottom: 4px
-
+	&.user-po
+		margin: 34px 0 0 -213px
+		right: 20px !important
+		left: auto !important
+	&.orga-po
+		margin: 7px 0 0 -4px
+	&.members-po
+		margin: 27px 0 0 -262px
+		&::before
+			left: 50%
+		&::after
+			left: 50%
 
 // ****
 //
@@ -225,3 +236,11 @@
 			background: silver-light
 		.avatar-wrap
 			margin-top: -1px
+
+
+
+.user-list
+	li
+		@extend $functional-list
+		.avatar-wrap
+			margin-right: 5px

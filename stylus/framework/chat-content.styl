@@ -42,6 +42,17 @@
 	&.creator .message:hover .text
 		color: gainsboro-dark
 
+.author
+	font-weight: bold
+	margin-bottom: 3px
+	color: darken(gainsboro-dark, 20%)
+	display: inline-block
+	@extend $subtle-link
+	em
+		color: lighten(gainsboro-dark, 10%)
+		@extend $small-font-size
+
+
 .message-content
 	padding: 8px 10px 5px
 	overflow: hidden
@@ -54,15 +65,6 @@
 		color: gainsboro-dark
 	> .time
 		opacity: 1
-	.author
-		font-weight: bold
-		margin-bottom: 3px
-		color: darken(gainsboro-dark, 20%)
-		display: inline-block
-		@extend $subtle-link
-		em
-			color: lighten(gainsboro-dark, 10%)
-			@extend $small-font-size
 	.message
 		margin-bottom: 3px
 		.time, 

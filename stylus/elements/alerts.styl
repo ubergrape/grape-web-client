@@ -5,21 +5,19 @@
 	border-radius: main-border-radius-small
 
 // Used as container for header alert messages.
-.alert-header
+ul.alerts
 	position: absolute
-	left: 10px
-	right: 10px
-	top: -30px
-	border-color: inherit
-	border-radius: 0 0 main-border-radius main-border-radius
-	border-style: solid
-	border-width: 0 1px 1px 1px
-	opacity: .96
-	padding: 5px 20px
-	text-align: center
+	left: 0
+	right: 0
+	top: 0
 	z-index: 100
-	animation: slideinout 4s ease-in-out
-
+	//animation: slideinout 4s ease-in-out
+	li
+		text-align: center
+		background-color: lighten(alert-info-color, 90%)
+		padding: 12px 20px
+		border-bottom: 1px solid lighten(alert-info-color, 60%)
+		opacity: 0.9
 @keyframes slideinout {
   0%, 100% {
     top:-30px
@@ -31,35 +29,31 @@
 
 // Alert classes: Alerts don't have default classes, only base and modifier classes. A default gray alert doesn't make too much sense, so you're required to specify a type via contextual class. Choose from success, info, warning, or danger.
 // Use the .alert-link utility class to quickly provide matching colored links within any alert.
-.alert-info
+.alerts li a
+	color: inherit
+	
+.alerts li.info
 	background-color: lighten(alert-info-color, 90%)
 	border-color: lighten(alert-info-color, 60%)
 	color: alert-info-color
-	.alert-link
-		color: alert-info-color
-		&:hover
-			color: lighten(alert-info-color, 10%)
-.alert-success
+	a:hover
+		color: lighten(alert-info-color, 20%)
+.alerts li.success
 	background-color: lighten(alert-success-color, 90%)
 	border-color: lighten(alert-success-color, 60%)
 	color: alert-success-color
-	.alert-link
-		color: alert-success-color
-		&:hover
-			color: lighten(alert-success-color, 10%)
-.alert-warning
+	a:hover
+		color: lighten(alert-success-color, 20%)
+.alerts li.warning
 	background-color: lighten(alert-warning-color, 90%)
 	border-color: lighten(alert-warning-color, 60%)
 	color: alert-warning-color
-	.alert-link
-		color: alert-warning-color
-		&:hover
-			color: lighten(alert-warning-color, 10%)
-.alert-danger
+	a:hover
+		color: lighten(alert-warning-color, 20%)
+.alerts li.danger
 	background-color: lighten(alert-danger-color, 90%)
 	border-color: lighten(alert-danger-color, 60%)
 	color: alert-danger-color
-	.alert-link
-		color: alert-danger-color
-		&:hover
-			color: lighten(alert-danger-color, 10%)
+	a:hover
+		color: lighten(alert-danger-color, 20%)
+
