@@ -101,7 +101,7 @@
     "jkroso/computed-style": "*",
     "sk7/textcomplete": "*",
     "sk7/startswith": "*",
-    "matthewp/attr": "*"
+    "matthewp/attr": "*",
     "ianstormtaylor/animate": "*"
   },
   "development": {
