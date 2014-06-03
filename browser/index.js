@@ -120,7 +120,9 @@ UI.prototype.bind = function UI_bind() {
 	var navigation = this.navigation;
 	
 	this.events = events(this.el, {
-		'toggleOrganizationMenu': function(e) {self.organizationMenu.toggle(e.toElement)}
+		'toggleOrganizationMenu': function() {
+			self.organizationMenu.toggle(qs('.logo'));
+		}
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 
