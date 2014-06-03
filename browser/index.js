@@ -126,9 +126,9 @@ UI.prototype.bind = function UI_bind() {
 
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
-	broker(navigation, 'addroom', this.addRoom, 'show');
+	broker(navigation, 'addroom', this.addRoom, 'toggle');
 	broker.pass(navigation, 'selectpm', this, 'selectchannel');
-	broker(navigation, 'addpm', this.addPM, 'show');
+	broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
