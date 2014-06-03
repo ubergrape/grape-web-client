@@ -64,7 +64,6 @@
     "samsonjs/strftime": "*",
     "ianstormtaylor/meyer-reset": "*",
     "necolas/normalize.css": "*",
-    "FortAwesome/Font-Awesome": "*",
     "chjj/marked": "*",
     "Swatinem/scrollbars": "0.0.1",
     "Swatinem/broker": "0.0.2",
