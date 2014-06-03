@@ -75,11 +75,7 @@ msgid "Filter Results"
 msgstr ""
 
 #: client/templates/index.jade:15 client/templates/index.jade:17
-<<<<<<< HEAD
-#: client/templates/index.jade:16
-=======
 #: client/templates/index.jade:17
->>>>>>> master
 msgid "52 Ergebnisse für "
 msgstr ""
 
@@ -91,16 +87,9 @@ msgstr ""
 #: client/templates/index.jade:52
 #: client/templates/index.jade:75
 #: client/templates/index.jade:98
-<<<<<<< HEAD
-#: client/templates/index.jade:17
-#: client/templates/index.jade:54
-#: client/templates/index.jade:77
-#: client/templates/index.jade:100
-=======
 #: client/templates/index.jade:55
 #: client/templates/index.jade:78
 #: client/templates/index.jade:101
->>>>>>> master
 msgid "Hamburger"
 msgstr ""
 
@@ -122,14 +111,8 @@ msgstr ""
 #: client/templates/index.jade:26
 #: client/templates/index.jade:49
 #: client/templates/index.jade:95
-<<<<<<< HEAD
-#: client/templates/index.jade:25
-#: client/templates/index.jade:51
-#: client/templates/index.jade:97
-=======
 #: client/templates/index.jade:52
 #: client/templates/index.jade:98
->>>>>>> master
 msgid "Design"
 msgstr ""
 
@@ -152,21 +135,13 @@ msgstr ""
 
 #: client/templates/index.jade:31 client/templates/index.jade:35
 #: client/templates/index.jade:35
-<<<<<<< HEAD
-#: client/templates/index.jade:36
-=======
 #: client/templates/index.jade:37
->>>>>>> master
 msgid "Dateien (10)"
 msgstr ""
 
 #: client/templates/index.jade:33 client/templates/index.jade:37
 #: client/templates/index.jade:37
-<<<<<<< HEAD
-#: client/templates/index.jade:39
-=======
 #: client/templates/index.jade:40
->>>>>>> master
 msgid "GitHub Issues (1)"
 msgstr ""
 
@@ -174,13 +149,8 @@ msgstr ""
 #: client/templates/index.jade:75
 #: client/templates/index.jade:47
 #: client/templates/index.jade:93
-<<<<<<< HEAD
-#: client/templates/index.jade:49
-#: client/templates/index.jade:95
-=======
 #: client/templates/index.jade:50
 #: client/templates/index.jade:96
->>>>>>> master
 msgid "Tobias Seiler"
 msgstr ""
 
@@ -194,24 +164,15 @@ msgstr ""
 #: client/templates/index.jade:81
 #: client/templates/index.jade:53
 #: client/templates/index.jade:99
-<<<<<<< HEAD
-#: client/templates/index.jade:55
-#: client/templates/index.jade:101
-=======
 #: client/templates/index.jade:56
 #: client/templates/index.jade:102
->>>>>>> master
 msgid " essen?"
 msgstr ""
 
 #: client/templates/index.jade:47 client/templates/index.jade:56
 #: client/templates/index.jade:84
 #: client/templates/index.jade:56
-<<<<<<< HEAD
-#: client/templates/index.jade:58
-=======
 #: client/templates/index.jade:59
->>>>>>> master
 msgid "1. Jänner, 0:46 Uhr"
 msgstr ""
 
@@ -220,15 +181,9 @@ msgstr ""
 #: client/templates/index.jade:58
 #: client/templates/index.jade:81
 #: client/templates/index.jade:104
-<<<<<<< HEAD
-#: client/templates/index.jade:60
-#: client/templates/index.jade:83
-#: client/templates/index.jade:106
-=======
 #: client/templates/index.jade:61
 #: client/templates/index.jade:84
 #: client/templates/index.jade:107
->>>>>>> master
 msgid "Jump to conversation"
 msgstr ""
 
@@ -236,13 +191,8 @@ msgstr ""
 #: client/templates/index.jade:88 client/templates/index.jade:90
 #: client/templates/index.jade:60
 #: client/templates/index.jade:108
-<<<<<<< HEAD
-#: client/templates/index.jade:62
-#: client/templates/index.jade:110
-=======
 #: client/templates/index.jade:63
 #: client/templates/index.jade:111
->>>>>>> master
 msgid "All results from this user"
 msgstr ""
 
@@ -270,11 +220,7 @@ msgstr ""
 
 #: client/templates/index.jade:65 client/templates/index.jade:88
 #: client/templates/index.jade:106
-<<<<<<< HEAD
-#: client/templates/index.jade:108
-=======
 #: client/templates/index.jade:109
->>>>>>> master
 msgid "See message"
 msgstr ""
 
@@ -351,22 +297,13 @@ msgstr ""
 #: client/templates/index.jade:42 client/templates/index.jade:70
 #: client/templates/index.jade:42
 #: client/templates/index.jade:88
-<<<<<<< HEAD
-#: client/templates/index.jade:44
-#: client/templates/index.jade:90
-=======
 #: client/templates/index.jade:45
 #: client/templates/index.jade:91
->>>>>>> master
 msgid "Martin Scheriau"
 msgstr ""
 
 #: client/templates/index.jade:44
-<<<<<<< HEAD
-#: client/templates/index.jade:46
-=======
 #: client/templates/index.jade:47
->>>>>>> master
 msgid ""
 "Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch "
 "nicht tatenlos zusehen. Eine Abstimmung!"
@@ -375,13 +312,8 @@ msgstr ""
 #: client/templates/index.jade:51 client/templates/index.jade:79
 #: client/templates/index.jade:51
 #: client/templates/index.jade:97
-<<<<<<< HEAD
-#: client/templates/index.jade:53
-#: client/templates/index.jade:99
-=======
 #: client/templates/index.jade:54
 #: client/templates/index.jade:100
->>>>>>> master
 msgid ""
 "Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
 "das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
@@ -391,22 +323,13 @@ msgstr ""
 #: client/templates/index.jade:93
 #: client/templates/index.jade:63
 #: client/templates/index.jade:111
-<<<<<<< HEAD
-#: client/templates/index.jade:65
-#: client/templates/index.jade:113
-=======
 #: client/templates/index.jade:66
 #: client/templates/index.jade:114
->>>>>>> master
 msgid "Sabine Ludwig"
 msgstr ""
 
 #: client/templates/index.jade:65
-<<<<<<< HEAD
-#: client/templates/index.jade:67
-=======
 #: client/templates/index.jade:68
->>>>>>> master
 msgid ""
 "im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. "
 "Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der "
@@ -416,11 +339,7 @@ msgstr ""
 
 #: client/templates/index.jade:72
 #: client/templates/index.jade:90
-<<<<<<< HEAD
-#: client/templates/index.jade:92
-=======
 #: client/templates/index.jade:93
->>>>>>> master
 msgid ""
 "Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit "
 "ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen "
@@ -429,11 +348,7 @@ msgstr ""
 
 #: client/templates/index.jade:93 client/templates/index.jade:95
 #: client/templates/index.jade:113
-<<<<<<< HEAD
-#: client/templates/index.jade:115
-=======
 #: client/templates/index.jade:116
->>>>>>> master
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
@@ -452,91 +367,55 @@ msgstr ""
 
 #: client/templates/index.jade:99
 #: client/templates/index.jade:117
-<<<<<<< HEAD
-#: client/templates/index.jade:119
-=======
 #: client/templates/popovers/organization.jade:2
->>>>>>> master
 msgid "Your Organization"
 msgstr "Deine Organisation"
 
 #: client/templates/index.jade:105
 #: client/templates/index.jade:123
-<<<<<<< HEAD
-#: client/templates/index.jade:125
-=======
 #: client/templates/popovers/organization.jade:8
->>>>>>> master
 msgid "Organization Settings"
 msgstr "Organisations-Einstellungen"
 
 #: client/templates/index.jade:109
 #: client/templates/index.jade:127
-<<<<<<< HEAD
-#: client/templates/index.jade:129
-=======
 #: client/templates/popovers/organization.jade:12
->>>>>>> master
 msgid "Manage Members"
 msgstr "Mitglieder verwalten"
 
 #: client/templates/index.jade:113
 #: client/templates/index.jade:131
-<<<<<<< HEAD
-#: client/templates/index.jade:133
-=======
 #: client/templates/popovers/organization.jade:16
->>>>>>> master
 msgid "Service Integrations"
 msgstr "Service-Integrationen"
 
 #: client/templates/index.jade:116
 #: client/templates/index.jade:134
-<<<<<<< HEAD
-#: client/templates/index.jade:136
-=======
 #: client/templates/popovers/user.jade:2
->>>>>>> master
 msgid "Current Status"
 msgstr "Aktueller Status"
 
 #: client/templates/index.jade:119
 #: client/templates/index.jade:137
-<<<<<<< HEAD
-#: client/templates/index.jade:139
-=======
 #: client/templates/popovers/user.jade:5
->>>>>>> master
 msgid "Working on designs"
 msgstr "Arbeite gerade an Designs"
 
 #: client/templates/index.jade:126
 #: client/templates/index.jade:144
-<<<<<<< HEAD
-#: client/templates/index.jade:146
-=======
 #: client/templates/popovers/user.jade:12
->>>>>>> master
 msgid "Compact View"
 msgstr "Kompakte Ansicht"
 
 #: client/templates/index.jade:130
 #: client/templates/index.jade:148
-<<<<<<< HEAD
-#: client/templates/index.jade:150
-=======
 #: client/templates/popovers/user.jade:16
->>>>>>> master
 msgid "User Settings"
 msgstr "Benutzer-Einstellungen"
 
 #: client/templates/index.jade:134
 #: client/templates/index.jade:152
-<<<<<<< HEAD
-#: client/templates/index.jade:154
-=======
 #: client/templates/popovers/user.jade:20
->>>>>>> master
 msgid "Sign Out"
 msgstr "Abmelden"
 
@@ -546,76 +425,36 @@ msgid "Hit ESC to cancel editing."
 msgstr ""
 
 #: client/templates/index.jade:70
-<<<<<<< HEAD
-#: client/templates/index.jade:72
-=======
 #: client/templates/index.jade:73
->>>>>>> master
 msgid "Google Drive"
 msgstr ""
 
 #: client/templates/index.jade:72
-<<<<<<< HEAD
-#: client/templates/index.jade:74
-=======
 #: client/templates/index.jade:75
->>>>>>> master
 msgid "/ubergrape"
 msgstr ""
 
 #: client/templates/index.jade:74
-<<<<<<< HEAD
-#: client/templates/index.jade:76
-=======
 #: client/templates/index.jade:77
->>>>>>> master
 msgid "Das-"
 msgstr ""
 
 #: client/templates/index.jade:76
-<<<<<<< HEAD
-#: client/templates/index.jade:78
-=======
 #: client/templates/index.jade:79
->>>>>>> master
 msgid "-Wettessen.jpg"
 msgstr ""
 
 #: client/templates/index.jade:79
-<<<<<<< HEAD
-#: client/templates/index.jade:81
-=======
 #: client/templates/index.jade:82
->>>>>>> master
 msgid "5. März, 8:10 Uhr"
 msgstr ""
 
 #: client/templates/index.jade:83
-<<<<<<< HEAD
-#: client/templates/index.jade:85
-=======
 #: client/templates/index.jade:86
->>>>>>> master
 msgid "View File"
 msgstr ""
 
 #: client/templates/index.jade:102
-<<<<<<< HEAD
-#: client/templates/index.jade:104
-msgid "5. Jänner, 4:12 Uhr"
-msgstr ""
-
-#: client/browser/index.js:347
-msgid "Lost Connection"
-msgstr ""
-
-#: client/templates/index.jade:157
-msgid "Members in this room"
-msgstr ""
-
-#: client/templates/chathistory.jade:28
-msgid "#Label"
-=======
 #: client/templates/index.jade:105
 msgid "5. Jänner, 4:12 Uhr"
 msgstr ""
@@ -630,5 +469,4 @@ msgstr ""
 
 #: client/templates/navigation.jade:16
 msgid "Feedback"
->>>>>>> master
 msgstr ""
