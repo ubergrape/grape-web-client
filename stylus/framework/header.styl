@@ -37,15 +37,22 @@
 					white-space: nowrap
 					overflow: hidden
 					display: block
+				.pm-partner
+					float: left
+					margin: 8px 7px 0 0
+					position: relative
+					.user
+						@extend .avatar-wrap
+						float: left
 			.connected-users
 				position: absolute
 				right: 0px
 				top: 9px
 				color: gainsboro-dark
 				width: 175px
-				@extend $hoverable
 				border-radius: 4px
 				padding: 5px 8px 3px 8px
+				@extend $hoverable
 				&:hover
 					opacity: 0.8
 				.fa-user, .user, .sml-nr
@@ -98,7 +105,7 @@
 			display: block !important
 		.user, .more
 			display: none !important
-		.connected-users
+		.connected-users, .pm-partner
 			width: 50px !important
 		.room-name h1
 			margin-right: 60px !important
