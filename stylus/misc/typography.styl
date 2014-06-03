@@ -1,9 +1,10 @@
+fontpath = '../fonts/'
+
 /*
 ========================================
 ================ FONT BUILDING ================
 ========================================
 */
-
 
 relative-font-size(sizeValue = 1.4, lineHeightValue = 1.8) // Kalkuliert relative Font Size zur absoluten Font-größe. Fallback für IE in absoluten PX zahlen
     font-size round((sizeValue * 14)) px
@@ -37,7 +38,6 @@ $biggest-font-size
 $normal-font-size
     relative-font-size(1, 1.2857) // Important: Let's have 14px as basis for rem calculations.
 
-
 /**
  * TODO: lets put all the @font-face things here in case we don’t use external
  * components for that, like:
@@ -45,8 +45,6 @@ $normal-font-size
  * TODO: maybe convert Roboto to a component?
  * …
  */
-
-fontpath = '../fonts/'
 
 @font-face
     font-family: 'Roboto'
