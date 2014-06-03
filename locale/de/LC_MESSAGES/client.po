@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-05-31 11:19+0000\n"
+"POT-Creation-Date: 2014-06-03 09:38+0000\n"
 "PO-Revision-Date: 2014-05-13 10:37+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,6 +76,7 @@ msgstr ""
 
 #: client/templates/index.jade:15 client/templates/index.jade:17
 #: client/templates/index.jade:17
+#: client/templates/index.jade:16
 msgid "52 Ergebnisse für "
 msgstr ""
 
@@ -90,6 +91,10 @@ msgstr ""
 #: client/templates/index.jade:55
 #: client/templates/index.jade:78
 #: client/templates/index.jade:101
+#: client/templates/index.jade:17
+#: client/templates/index.jade:54
+#: client/templates/index.jade:77
+#: client/templates/index.jade:100
 msgid "Hamburger"
 msgstr ""
 
@@ -113,6 +118,9 @@ msgstr ""
 #: client/templates/index.jade:95
 #: client/templates/index.jade:52
 #: client/templates/index.jade:98
+#: client/templates/index.jade:25
+#: client/templates/index.jade:51
+#: client/templates/index.jade:97
 msgid "Design"
 msgstr ""
 
@@ -136,12 +144,14 @@ msgstr ""
 #: client/templates/index.jade:31 client/templates/index.jade:35
 #: client/templates/index.jade:35
 #: client/templates/index.jade:37
+#: client/templates/index.jade:36
 msgid "Dateien (10)"
 msgstr ""
 
 #: client/templates/index.jade:33 client/templates/index.jade:37
 #: client/templates/index.jade:37
 #: client/templates/index.jade:40
+#: client/templates/index.jade:39
 msgid "GitHub Issues (1)"
 msgstr ""
 
@@ -151,6 +161,8 @@ msgstr ""
 #: client/templates/index.jade:93
 #: client/templates/index.jade:50
 #: client/templates/index.jade:96
+#: client/templates/index.jade:49
+#: client/templates/index.jade:95
 msgid "Tobias Seiler"
 msgstr ""
 
@@ -166,6 +178,8 @@ msgstr ""
 #: client/templates/index.jade:99
 #: client/templates/index.jade:56
 #: client/templates/index.jade:102
+#: client/templates/index.jade:55
+#: client/templates/index.jade:101
 msgid " essen?"
 msgstr ""
 
@@ -173,6 +187,7 @@ msgstr ""
 #: client/templates/index.jade:84
 #: client/templates/index.jade:56
 #: client/templates/index.jade:59
+#: client/templates/index.jade:58
 msgid "1. Jänner, 0:46 Uhr"
 msgstr ""
 
@@ -184,6 +199,9 @@ msgstr ""
 #: client/templates/index.jade:61
 #: client/templates/index.jade:84
 #: client/templates/index.jade:107
+#: client/templates/index.jade:60
+#: client/templates/index.jade:83
+#: client/templates/index.jade:106
 msgid "Jump to conversation"
 msgstr ""
 
@@ -193,6 +211,8 @@ msgstr ""
 #: client/templates/index.jade:108
 #: client/templates/index.jade:63
 #: client/templates/index.jade:111
+#: client/templates/index.jade:62
+#: client/templates/index.jade:110
 msgid "All results from this user"
 msgstr ""
 
@@ -221,6 +241,7 @@ msgstr ""
 #: client/templates/index.jade:65 client/templates/index.jade:88
 #: client/templates/index.jade:106
 #: client/templates/index.jade:109
+#: client/templates/index.jade:108
 msgid "See message"
 msgstr ""
 
@@ -299,11 +320,14 @@ msgstr ""
 #: client/templates/index.jade:88
 #: client/templates/index.jade:45
 #: client/templates/index.jade:91
+#: client/templates/index.jade:44
+#: client/templates/index.jade:90
 msgid "Martin Scheriau"
 msgstr ""
 
 #: client/templates/index.jade:44
 #: client/templates/index.jade:47
+#: client/templates/index.jade:46
 msgid ""
 "Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch "
 "nicht tatenlos zusehen. Eine Abstimmung!"
@@ -314,6 +338,8 @@ msgstr ""
 #: client/templates/index.jade:97
 #: client/templates/index.jade:54
 #: client/templates/index.jade:100
+#: client/templates/index.jade:53
+#: client/templates/index.jade:99
 msgid ""
 "Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
 "das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
@@ -325,11 +351,14 @@ msgstr ""
 #: client/templates/index.jade:111
 #: client/templates/index.jade:66
 #: client/templates/index.jade:114
+#: client/templates/index.jade:65
+#: client/templates/index.jade:113
 msgid "Sabine Ludwig"
 msgstr ""
 
 #: client/templates/index.jade:65
 #: client/templates/index.jade:68
+#: client/templates/index.jade:67
 msgid ""
 "im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. "
 "Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der "
@@ -340,6 +369,7 @@ msgstr ""
 #: client/templates/index.jade:72
 #: client/templates/index.jade:90
 #: client/templates/index.jade:93
+#: client/templates/index.jade:92
 msgid ""
 "Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit "
 "ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen "
@@ -349,6 +379,7 @@ msgstr ""
 #: client/templates/index.jade:93 client/templates/index.jade:95
 #: client/templates/index.jade:113
 #: client/templates/index.jade:116
+#: client/templates/index.jade:115
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
@@ -426,36 +457,43 @@ msgstr ""
 
 #: client/templates/index.jade:70
 #: client/templates/index.jade:73
+#: client/templates/index.jade:72
 msgid "Google Drive"
 msgstr ""
 
 #: client/templates/index.jade:72
 #: client/templates/index.jade:75
+#: client/templates/index.jade:74
 msgid "/ubergrape"
 msgstr ""
 
 #: client/templates/index.jade:74
 #: client/templates/index.jade:77
+#: client/templates/index.jade:76
 msgid "Das-"
 msgstr ""
 
 #: client/templates/index.jade:76
 #: client/templates/index.jade:79
+#: client/templates/index.jade:78
 msgid "-Wettessen.jpg"
 msgstr ""
 
 #: client/templates/index.jade:79
 #: client/templates/index.jade:82
+#: client/templates/index.jade:81
 msgid "5. März, 8:10 Uhr"
 msgstr ""
 
 #: client/templates/index.jade:83
 #: client/templates/index.jade:86
+#: client/templates/index.jade:85
 msgid "View File"
 msgstr ""
 
 #: client/templates/index.jade:102
 #: client/templates/index.jade:105
+#: client/templates/index.jade:104
 msgid "5. Jänner, 4:12 Uhr"
 msgstr ""
 
@@ -469,4 +507,12 @@ msgstr ""
 
 #: client/templates/navigation.jade:16
 msgid "Feedback"
+msgstr ""
+
+#: client/browser/index.js:368
+msgid "Lost Connection"
+msgstr ""
+
+#: client/browser/index.js:378
+msgid "Reconnected successfully"
 msgstr ""

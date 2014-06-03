@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-05-31 11:19+0000\n"
+"POT-Creation-Date: 2014-06-03 09:38+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -83,17 +83,6 @@ msgstr ""
 msgid "52 Ergebnisse für "
 msgstr ""
 
-#: client/templates/index.jade:16
-#: client/templates/index.jade:43
-#: client/templates/index.jade:59
-#: client/templates/index.jade:18
-#: client/templates/index.jade:52
-#: client/templates/index.jade:80
-#: client/templates/index.jade:75
-#: client/templates/index.jade:98
-#: client/templates/index.jade:55
-#: client/templates/index.jade:78
-#: client/templates/index.jade:101
 msgid "Hamburger"
 msgstr ""
 
@@ -109,14 +98,6 @@ msgstr ""
 msgid "Überall"
 msgstr ""
 
-#: client/templates/index.jade:23
-#: client/templates/index.jade:40
-#: client/templates/index.jade:26
-#: client/templates/index.jade:49
-#: client/templates/index.jade:77
-#: client/templates/index.jade:95
-#: client/templates/index.jade:52
-#: client/templates/index.jade:98
 msgid "Design"
 msgstr ""
 
@@ -137,24 +118,12 @@ msgstr ""
 msgid "Nachrichten (14)"
 msgstr ""
 
-#: client/templates/index.jade:31
-#: client/templates/index.jade:35
-#: client/templates/index.jade:37
 msgid "Dateien (10)"
 msgstr ""
 
-#: client/templates/index.jade:33
-#: client/templates/index.jade:37
-#: client/templates/index.jade:40
 msgid "GitHub Issues (1)"
 msgstr ""
 
-#: client/templates/index.jade:38
-#: client/templates/index.jade:47
-#: client/templates/index.jade:75
-#: client/templates/index.jade:93
-#: client/templates/index.jade:50
-#: client/templates/index.jade:96
 msgid "Tobias Seiler"
 msgstr ""
 
@@ -164,40 +133,15 @@ msgid ""
 "das \"Big-Mac\" oder so ähnlich. Möchtet ihr mit mir einen "
 msgstr ""
 
-#: client/templates/index.jade:44
-#: client/templates/index.jade:53
-#: client/templates/index.jade:81
-#: client/templates/index.jade:99
-#: client/templates/index.jade:56
-#: client/templates/index.jade:102
 msgid " essen?"
 msgstr ""
 
-#: client/templates/index.jade:47
-#: client/templates/index.jade:56
-#: client/templates/index.jade:84
-#: client/templates/index.jade:59
 msgid "1. Jänner, 0:46 Uhr"
 msgstr ""
 
-#: client/templates/index.jade:49
-#: client/templates/index.jade:58
-#: client/templates/index.jade:86
-#: client/templates/index.jade:81
-#: client/templates/index.jade:104
-#: client/templates/index.jade:61
-#: client/templates/index.jade:84
-#: client/templates/index.jade:107
 msgid "Jump to conversation"
 msgstr ""
 
-#: client/templates/index.jade:51
-#: client/templates/index.jade:60
-#: client/templates/index.jade:88
-#: client/templates/index.jade:90
-#: client/templates/index.jade:108
-#: client/templates/index.jade:63
-#: client/templates/index.jade:111
 msgid "All results from this user"
 msgstr ""
 
@@ -223,10 +167,6 @@ msgstr ""
 msgid "1. Jänner, 0:48 Uhr"
 msgstr ""
 
-#: client/templates/index.jade:65
-#: client/templates/index.jade:88
-#: client/templates/index.jade:106
-#: client/templates/index.jade:109
 msgid "See message"
 msgstr ""
 
@@ -302,42 +242,22 @@ msgstr ""
 msgid "new messages"
 msgstr ""
 
-#: client/templates/index.jade:42
-#: client/templates/index.jade:70
-#: client/templates/index.jade:88
-#: client/templates/index.jade:45
-#: client/templates/index.jade:91
 msgid "Martin Scheriau"
 msgstr ""
 
-#: client/templates/index.jade:44
-#: client/templates/index.jade:47
 msgid ""
 "Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch "
 "nicht tatenlos zusehen. Eine Abstimmung!"
 msgstr ""
 
-#: client/templates/index.jade:51
-#: client/templates/index.jade:79
-#: client/templates/index.jade:97
-#: client/templates/index.jade:54
-#: client/templates/index.jade:100
 msgid ""
 "Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt "
 "das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen "
 msgstr ""
 
-#: client/templates/index.jade:63
-#: client/templates/index.jade:91
-#: client/templates/index.jade:93
-#: client/templates/index.jade:111
-#: client/templates/index.jade:66
-#: client/templates/index.jade:114
 msgid "Sabine Ludwig"
 msgstr ""
 
-#: client/templates/index.jade:65
-#: client/templates/index.jade:68
 msgid ""
 "im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. "
 "Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der "
@@ -345,19 +265,12 @@ msgid ""
 "worden sind."
 msgstr ""
 
-#: client/templates/index.jade:72
-#: client/templates/index.jade:90
-#: client/templates/index.jade:93
 msgid ""
 "Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit "
 "ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen "
 "kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. "
 msgstr ""
 
-#: client/templates/index.jade:93
-#: client/templates/index.jade:95
-#: client/templates/index.jade:113
-#: client/templates/index.jade:116
 msgid ""
 "Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und "
 "sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor "
@@ -374,57 +287,30 @@ msgstr ""
 msgid "52 Ergebnisse für"
 msgstr ""
 
-#: client/templates/index.jade:99
-#: client/templates/index.jade:117
-#: client/templates/popovers/organization.jade:2
 msgid "Your Organization"
 msgstr ""
 
-#: client/templates/index.jade:105
-#: client/templates/index.jade:123
-#: client/templates/popovers/organization.jade:8
 msgid "Organization Settings"
 msgstr ""
 
-#: client/templates/index.jade:109
-#: client/templates/index.jade:127
-#: client/templates/popovers/organization.jade:12
 msgid "Manage Members"
 msgstr ""
 
-#: client/templates/index.jade:113
-#: client/templates/index.jade:131
-#: client/templates/popovers/organization.jade:16
 msgid "Service Integrations"
 msgstr ""
 
-#: client/templates/index.jade:116
-#: client/templates/index.jade:134
-#: client/templates/popovers/user.jade:2
 msgid "Current Status"
 msgstr ""
 
-#: client/templates/index.jade:119
-#: client/templates/index.jade:137
-#: client/templates/popovers/user.jade:5
 msgid "Working on designs"
 msgstr ""
 
-#: client/templates/index.jade:126
-#: client/templates/index.jade:144
-#: client/templates/popovers/user.jade:12
 msgid "Compact View"
 msgstr ""
 
-#: client/templates/index.jade:130
-#: client/templates/index.jade:148
-#: client/templates/popovers/user.jade:16
 msgid "User Settings"
 msgstr ""
 
-#: client/templates/index.jade:134
-#: client/templates/index.jade:152
-#: client/templates/popovers/user.jade:20
 msgid "Sign Out"
 msgstr ""
 
@@ -433,39 +319,35 @@ msgstr ""
 msgid "Hit ESC to cancel editing."
 msgstr ""
 
-#: client/templates/index.jade:70
-#: client/templates/index.jade:73
 msgid "Google Drive"
 msgstr ""
 
-#: client/templates/index.jade:72
-#: client/templates/index.jade:75
 msgid "/ubergrape"
 msgstr ""
 
-#: client/templates/index.jade:74
-#: client/templates/index.jade:77
 msgid "Das-"
 msgstr ""
 
-#: client/templates/index.jade:76
-#: client/templates/index.jade:79
 msgid "-Wettessen.jpg"
 msgstr ""
 
-#: client/templates/index.jade:79
-#: client/templates/index.jade:82
 msgid "5. März, 8:10 Uhr"
 msgstr ""
 
-#: client/templates/index.jade:83
-#: client/templates/index.jade:86
 msgid "View File"
 msgstr ""
 
-#: client/templates/index.jade:102
 #: client/templates/index.jade:105
 msgid "5. Jänner, 4:12 Uhr"
+msgstr ""
+
+#: client/browser/index.js:347
+#: client/browser/index.js:368
+msgid "Lost Connection"
+msgstr ""
+
+#: client/templates/index.jade:157
+msgid "Members in this room"
 msgstr ""
 
 #: client/templates/chathistory.jade:28
@@ -478,4 +360,8 @@ msgstr ""
 
 #: client/templates/navigation.jade:16
 msgid "Feedback"
+msgstr ""
+
+#: client/browser/index.js:378
+msgid "Reconnected successfully"
 msgstr ""
