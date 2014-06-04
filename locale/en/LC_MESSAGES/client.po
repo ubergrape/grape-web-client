@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-06-03 14:50+0000\n"
+"POT-Creation-Date: 2014-06-04 09:52+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -343,6 +343,7 @@ msgstr ""
 
 #: client/browser/index.js:347
 #: client/browser/index.js:368
+#: client/browser/index.js:370
 msgid "Lost Connection"
 msgstr ""
 
@@ -363,5 +364,6 @@ msgid "Feedback"
 msgstr ""
 
 #: client/browser/index.js:378
+#: client/browser/index.js:380
 msgid "Reconnected successfully"
 msgstr ""

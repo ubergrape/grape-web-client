@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-03 14:50+0000\n"
+"POT-Creation-Date: 2014-06-04 09:52+0000\n"
 "PO-Revision-Date: 2014-05-13 10:37+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -510,9 +510,11 @@ msgid "Feedback"
 msgstr ""
 
 #: client/browser/index.js:368
+#: client/browser/index.js:370
 msgid "Lost Connection"
 msgstr ""
 
 #: client/browser/index.js:378
+#: client/browser/index.js:380
 msgid "Reconnected successfully"
 msgstr ""
