@@ -9,7 +9,7 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.username !== user.username ? "" : "creator")
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
