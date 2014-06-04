@@ -19,7 +19,8 @@ describe('ChatHeader', function () {
 	it('should render the room name', function () {
 		var ch = new ChatHeader();
 		ch.setRoom(emitter({name: 'test', type: 'room', users: []}));
-		qs('.room-name', ch.el).textContent.should.eql('test0'); // XXX: users
+		qs('.room-name h1', ch.el).textContent.should.eql('test');
+		qs('.room-name span.sml-nr', ch.el).textContent.should.eql('0');
 	});
 	it('should render a list of all users in the room', function () {
 		var ch = new ChatHeader();
