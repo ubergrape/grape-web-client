@@ -39,8 +39,6 @@
 			border-right: main-border-radius solid white
 			border-top: main-border-radius solid transparent
 			border-bottom: main-border-radius solid transparent
-	&.creator .message:hover .text
-		color: gainsboro-dark
 
 .author
 	font-weight: bold
@@ -67,6 +65,7 @@
 		opacity: 1
 	.message
 		margin-bottom: 3px
+		overflow: hidden
 		.time, 
 		.edit, 
 		.btn-label
@@ -110,7 +109,10 @@
 		.text
 			display: inline-block
 			padding: 0
-			margin-bottom: 3px	
+			margin-bottom: 3px
+			max-width: 90%
+			word-wrap: break-word
+			white-space: pre
 			a 
 				color: grape-light
 				text-decoration: none
