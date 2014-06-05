@@ -10,7 +10,7 @@
 		overflow: hidden
 		height: header-height
 		border-bottom: 1px solid gainsboro-light
-		padding: 17px 30px
+		padding: 17px 30px 17px 20px
 		@extend $clearfix
 		.room-info-text, .avatar-wrap, .search-form
 			max-width: 100%
@@ -39,7 +39,7 @@
 					display: block
 				.pm-partner
 					float: left
-					margin: 8px 7px 0 0
+					margin: 4px 7px 0 0
 					position: relative
 					.user
 						@extend .avatar-wrap
@@ -105,8 +105,10 @@
 			display: block !important
 		.user, .more
 			display: none !important
-		.connected-users, .pm-partner
+		.connected-users
 			width: 50px !important
+		.pm-partner
+			display: none
 		.room-name h1
 			margin-right: 60px !important
 

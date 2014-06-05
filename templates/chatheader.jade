@@ -36,9 +36,9 @@
 							span.online
 						else
 							span.offline
-						img(src="#{room.users[0].avatar}",width="30",alt="#{room.users[0].username}")
+						img(src="#{room.users[0].avatar}",width="36",alt="#{room.users[0].username}")
 			if room.type === 'room'
 				h1.room-name= room.name
 			else if room.type === 'pm'
 				h1
-					| Chat with #{room.users[0].username}
+					| @#{room.users[0].username}
