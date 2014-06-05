@@ -78,7 +78,7 @@ UI.prototype.init = function UI_init() {
 	var sidebar = qs('.navigation', this.el);
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
-	Animate(navigation.el, 'fade-left-in');
+	Animate(navigation.el, 'fade-left-big-in');
 
 	// initialize the add room popover
 	this.addRoom = new RoomPopover();
@@ -90,12 +90,12 @@ UI.prototype.init = function UI_init() {
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
 	qs('.room-info', this.el).appendChild(this.chatHeader.el);
-	Animate(this.chatHeader.el.parentNode, 'fade-down-in');
+	Animate(qs('.header', this.el), 'fade-down-big-in');
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
-	Animate(this.chatInput.el, 'fade-up-in');
+	Animate(this.chatInput.el, 'fade-up-big-in');
 
 	// initialize the history view
 	this.historyView = new HistoryView();
@@ -120,15 +120,17 @@ UI.prototype.bind = function UI_bind() {
 	var navigation = this.navigation;
 	
 	this.events = events(this.el, {
-		'toggleOrganizationMenu': function(e) {self.organizationMenu.toggle(e.toElement)}
+		'toggleOrganizationMenu': function() {
+			self.organizationMenu.toggle(qs('.logo'));
+		}
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
-	broker(navigation, 'addroom', this.addRoom, 'show');
+	broker(navigation, 'addroom', this.addRoom, 'toggle');
 	broker.pass(navigation, 'selectpm', this, 'selectchannel');
-	broker(navigation, 'addpm', this.addPM, 'show');
+	broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');

@@ -10,7 +10,7 @@
 		overflow: hidden
 		height: header-height
 		border-bottom: 1px solid gainsboro-light
-		padding: 17px 30px
+		padding: 17px 30px 17px 20px
 		@extend $clearfix
 		.room-info-text, .avatar-wrap, .search-form
 			max-width: 100%
@@ -37,15 +37,22 @@
 					white-space: nowrap
 					overflow: hidden
 					display: block
+				.pm-partner
+					float: left
+					margin: 4px 7px 0 0
+					position: relative
+					.user
+						@extend .avatar-wrap
+						float: left
 			.connected-users
 				position: absolute
 				right: 0px
 				top: 9px
 				color: gainsboro-dark
 				width: 175px
-				@extend $hoverable
 				border-radius: 4px
 				padding: 5px 8px 3px 8px
+				@extend $hoverable
 				&:hover
 					opacity: 0.8
 				.fa-user, .user, .sml-nr
@@ -100,6 +107,8 @@
 			display: none !important
 		.connected-users
 			width: 50px !important
+		.pm-partner
+			display: none
 		.room-name h1
 			margin-right: 60px !important
 

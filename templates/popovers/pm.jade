@@ -5,6 +5,10 @@
 	ul
 		each user in items
 			li.item.user(data-id=user.id, key=user.id)
+				if user.joined
+					button.toggle.leave=_('leave')
+				else
+					button.toggle.join=_('join')
 				.avatar-wrap
 					// FIXME: use real online status
 					if true == true
