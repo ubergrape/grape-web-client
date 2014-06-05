@@ -56,8 +56,7 @@
 									img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a(href=attachment.url)
-										attachment.name
+									a(href=attachment.url)= attachment.name
 						if line.objects
 							ul
 								each obj in line.objects
@@ -72,7 +71,7 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-							//- show the edit stuff only if current user is the author
+						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
 								i.fa.fa-pencil.btn-edit
