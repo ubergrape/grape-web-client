@@ -50,6 +50,34 @@
 		color: lighten(gainsboro-dark, 10%)
 		@extend $small-font-size
 
+.welcome-message
+	padding: 10px 10px 14px
+	background: white
+	border-radius: main-border-radius
+	h2
+		@extend $bigger-font-size
+		color: gainsboro-dark
+		margin-bottom: 4px
+	h3
+		@extend $big-font-size
+		font-weight: bold
+		color: darken(gainsboro-dark, 20%)
+		margin-bottom: 3px
+	.welcome-tasks
+		margin-top: 7px
+		@extend $clearfix
+		text-transform: uppercase
+		@extend $small-font-size
+		font-weight: bold
+		@extend $horizontal-list
+		li
+			a
+				color: grape-light
+				@extend $subtle-link
+			i
+				margin-right: 4px
+		.option
+			margin-right: 22px
 
 .message-content
 	padding: 8px 10px 5px

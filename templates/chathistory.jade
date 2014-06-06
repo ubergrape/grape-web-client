@@ -1,4 +1,19 @@
 .history
+	- var room = { name: 'Room Name' }
+	.message-group.welcome-message
+		h3.
+			Welcome to #{room.name}
+		p 
+			=_('This is the beginning of a beautiful and exciting new conversation.')
+		ul.welcome-tasks
+			li.option
+				a(href="#")
+					i.fa.fa-user
+					=_('Invite other members')
+			li.option
+				a(href="#")
+					i.fa.fa-plus
+					=_('Add service integrations')
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
