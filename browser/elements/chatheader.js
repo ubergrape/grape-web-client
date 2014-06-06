@@ -35,7 +35,9 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		'toggleUserMenu': function (e) {self.emit('toggleusermenu', e.toElement)},
+		'toggleUserMenu': function () {
+			self.emit('toggleusermenu', qs('.avatar-wrap', self.el));
+		},
 		'toggleMembersMenu': function (e) {
 			self.membersMenu.toggle(e.toElement);
 		}
