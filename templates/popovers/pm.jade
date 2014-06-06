@@ -6,9 +6,9 @@
 		each user in items
 			li.item.user(data-id=user.id, key=user.id)
 				if user.joined
-					button.toggle.leave=_('leave')
+					button.toggle.leave=_('x')
 				else
-					button.toggle.join=_('join')
+					button.toggle.join=_('message')
 				.avatar-wrap
 					// FIXME: use real online status
 					if true == true
