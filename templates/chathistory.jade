@@ -9,7 +9,7 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.username !== user.username ? "" : "creator")
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
@@ -37,7 +37,7 @@
 							.text= line.title
 						if line.text
 							.text
-								=html(marked(line.text))
+								=html(markdown(line.text))
 								//- uncomment this to test inline-labels
 								//-a
 								//-	span.label #entscheidungen
@@ -56,8 +56,7 @@
 									img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a(href=attachment.url)
-										attachment.name
+									a(href=attachment.url)= attachment.name
 						if line.objects
 							ul
 								each obj in line.objects
@@ -72,7 +71,7 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-							//- show the edit stuff only if current user is the author
+						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
 								i.fa.fa-pencil.btn-edit

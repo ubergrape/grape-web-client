@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var inputarea = require('inputarea');
-var resizable = require('resizable-textarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
@@ -12,6 +11,11 @@ var style = require('computed-style');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
+var attr = require('attr');
+var isWebkit = require('../iswebkit');
+var markdown_renderlink = require('../markdown_renderlink');
+var renderAutocomplete = require('../renderautocomplete');
+require("startswith");
 
 module.exports = ChatInput;
 
@@ -29,7 +33,7 @@ ChatInput.prototype = Object.create(Emitter.prototype);
 
 ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
-	this.textarea = qs('textarea', this.el);
+	this.messageInput = qs('.messageInput', this.el);
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -39,7 +43,7 @@ ChatInput.prototype.redraw = function ChatInput_redraw() {
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
-	this.complete = textcomplete(this.textarea, qs('.autocomplete', this.el));
+	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
 	// `stopPropagation()`. But inputarea uses `keyup` to trigger an input.
@@ -50,14 +54,35 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete.on('change', function () {
 		isCompleting = true;
 	});
-	this.textarea.addEventListener('keyup', function (ev) {
+	this.messageInput.addEventListener('keyup', function (ev) {
 		if (!isCompleting) return;
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
 
 	// hook up the input
-	this.input = inputarea(this.textarea);
+	this.input = inputarea(this.messageInput);
+	this.input.cleanedValue = function() {
+		var el = this.el;
+		var children = new Array();
+		for(var child in el.childNodes) {
+			var childnode = el.childNodes[child];
+			if (childnode.nodeType == 3) {
+				children.push(childnode.nodeValue);
+			} else if (childnode.nodeName == "BR") {
+				children.push("\n\n");
+			} else if (childnode.nodeType == 1) {
+				// we don't use attr() here because it loops through all
+				// attributes when it doesn't find the attribute with
+				// getAttribute. So this won't work in old IEs, but it's faster
+				var object = childnode.getAttribute('data-object');
+				if (object != null) {
+					children.push(object);
+				}
+			}
+		}
+		return children.join('');
+	}
 	this.input.on('input', function (str) {
 		str = str.trim();
 		if (!str)
@@ -74,23 +99,23 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 	});
 
-	// make the textarea auto resize
-	var resize = debounce(function() {
-		resizable(self.textarea, {min: 31, max: 220});}, delay);
-	resize();
+	// // make the messageInput auto resize
+	// var resize = debounce(function() {
+	// 	resizable(self.messageInput, {min: 31, max: 220})}, delay);
+	// resize();
 
-	Emitter(this.textarea);
-	this.textarea.on('resize', function(diff) {
-		// resize footer height
-		var footer = closest(self.textarea, 'footer');
-		var new_height = footer.clientHeight + diff;
-		footer.style.height =  new_height + 'px';
+	// Emitter(this.messageInput);
+	// this.messageInput.on('resize', function(diff) {
+	// 	// resize footer height
+	// 	var footer = closest(self.messageInput, 'footer');
+	// 	var new_height = footer.clientHeight + diff;
+	// 	footer.style.height =  new_height + 'px';
 
-		// resize chat wrapper padding
-		var wrapper = qs(".chat-wrapper");
-		var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
-		wrapper.style.paddingBottom =  new_padding_bottom + 'px';
-	});
+	// 	// resize chat wrapper padding
+	// 	var wrapper = qs(".chat-wrapper");
+	// 	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
+	// 	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	// });
 
 	// emit typing (start and stop) events
 	var delay = ChatInput.DELAY;
@@ -105,75 +130,149 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.emit('stoptyping', self.room);
 	}
 	var stop = debounce(doStop, delay);
-	this.textarea.addEventListener('keypress', function () {
+	this.messageInput.addEventListener('keypress', function () {
 		start();
 		stop();
 	});
-	
+
 	document.addEventListener('keyup', function (ev) {
 		if (!self.editing) return;
 		if (ev.keyCode === 27) self.editingDone();
 	});
 
+	// google chrome and other webkit browsers need this:
+	// https://stackoverflow.com/questions/17890568/contenteditable-div-backspace-and-deleting-text-node-problems
+	if (isWebkit()) {
+		this.messageInput.contentEditable = "plaintext-only";
+	}
+
 	// hook up the autocomplete
-	this.complete.re = /@(\w{1,15})$/; // TODO: customize the regexp
+	this.complete.re = /[@#](\w{1,15})$/; // TODO: customize the regexp
 	this.complete.formatSelection = function (option) {
-		return option.title;
+		return renderAutocomplete(option, true);
 	};
 	this.complete.query = function (matches) {
+		var match = matches[0];
+		console.log(match);
+
 		// XXX: implement matching logic and populate with real results
 		self.complete.clear();
-		self.complete.show();
-		self.complete.push([
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>SUE<span class="entry-type-description">Label</span>', 
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong>AIDLETSALLIGNORESLACK<span class="entry-type-description">Label</span>',
-			'<span class="entry-type-icon type-label">&nbsp;</span>#<strong>IS</strong> neu erstellen<span class="entry-type-description">Label</span>',
-			'<span class="entry-type-icon type-githubissue">&nbsp;</span>#126 Vagrant <strong>Is</strong>sues <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">GitHub Issue</span>',
-			'<span class="entry-type-icon type-calendar">&nbsp;</span><strong>Is</strong>ländische Naming Conventions <span class="entry-additional-info">besprechen am 1.4.2014, 10:30-12:00 Uhr</span><span class="entry-type-description">Google Calendar</span>',
-			'<span class="entry-type-icon type-googledocs">&nbsp;</span>01_room-view_v3-user-<strong>is</strong>sues-flyout.jpg<span class="entry-type-description">Google Drive</span>',
-			'<span class="entry-type-icon type-member">&nbsp;</span>@<strong>Is</strong>mael: <img src="/static/images/avatar.gif" width="16" alt="Avatar of Ismael Tajouri" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;<strong>Is</strong>mael Tajouri<span class="entry-type-description">Member</span>'
-		]);
-		self.complete.highlight(0);
+
+		if (match[0] == "@") {
+			// show users and rooms, we have them locally.
+			// naive search: loop through all of them,
+			// hopefully there are not too many
+
+
+			var search = match.substr(1); // match without the '@''
+
+			var users = app.organization.users;
+			for (var i=0; i<users.length; i++) {
+				var user = users[i];
+				if (  user.firstName.startsWithIgnoreCase(search)
+				   || user.lastName.startsWithIgnoreCase(search)
+				   || user.username.startsWithIgnoreCase(search)) {
+					self.complete.push({
+						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + "|/chat/@" + user.username + ")",
+						title: '<span class="entry-type-icon type-member">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
+						insert: '@' + user.username,
+						service: 'chatgrape',
+						type: 'user',
+                        url: '/chat/@' + user.username
+					});
+				}
+			}
+
+			var rooms = app.organization.rooms;
+			for (var i=0; i<rooms.length; i++) {
+				var room = rooms[i];
+				if (room.name.startsWithIgnoreCase(search)) {
+					self.complete.push({
+						id: "[" + room.slug + "](cg://chatgrape|room|" + room.slug + "|/chat/" + room.name + ")",
+						title: '<span class="entry-type-icon type-room">&nbsp;</span>@' + room.name + '<span class="entry-type-description">Room</span>',
+						insert: '@' + room.name,
+						service: 'chatgrape',
+						type: 'room',
+                        url: '/chat/' + room.name
+					});
+				}
+			}
+
+			self.complete.show();
+			self.complete.highlight(0);
+
+		} else if (match[0] == "#") {
+			// send autocomplete request to server, we don't have the data locally
+
+			self.emit('autocomplete', match, function autocomplete_callback(err, result){
+				console.log("autocomplete from server", err, result);
+				for (var i=0; i<result.length; i++) {
+					var r = result[i];
+					self.complete.push({
+						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						insert: r.name,
+						service: r.service,
+						type: r.type,
+                        url: r.url
+					})
+				}
+
+				// this should be shown at the beginning but
+				// with a loading animation maybe?
+				self.complete.show();
+				self.complete.highlight(0);
+			});
+		}
+
+
 	};
 };
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	this.textarea.disabled = !room;
-	if (room) this.textarea.focus();
+	attr(this.messageInput).set('disabled', !room);
+	if (room) this.messageInput.focus();
 	if (this.editing)
 		this.editingDone();
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
-    if (typeof el.selectionStart === "number") {
-        el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange !== "undefined") {
-        el.focus();
-        var range = el.createTextRange();
-        range.collapse(false);
-        range.select();
-    }
+	if (typeof el.selectionStart == "number") {
+		el.selectionStart = el.selectionEnd = el.value.length;
+	} else if (typeof el.createTextRange != "undefined") {
+		el.focus();
+		var range = el.createTextRange();
+		range.collapse(false);
+		range.select();
+	}
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editMsg = msg;
 	this.editing = true;
 	classes(this.el).add('editing');
-	this.oldVal = this.textarea.value;
-	this.textarea.value = msg['text'];
-	this.textarea.focus();
-    this.moveCaretToEnd(this.textarea);
+	this.oldVal = this.messageInput.innerHTML;
+    var message_text = msg['text'];
+
+    // replace special autocomplete links with html
+    var autocomplete = /^!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/;
+    var match = message_text.match(autocomplete);
+    message_text = message_text.replace(match[0], markdown_renderlink(match[2], "", match[1], true));
+
+	this.messageInput.innerHTML = message_text;
+	this.messageInput.focus();
+	this.moveCaretToEnd(this.messageInput);
 };
 
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
 	this.editing = false;
-	this.textarea.value = this.oldVal;
+	this.messageInput.innerHTML = this.oldVal;
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
-	this.textarea.focus();
+	this.messageInput.focus();
 };
 
 /*
