@@ -2,21 +2,13 @@
 "use strict";
 
 var marked = require('marked');
-var renderautocomplete = require('./renderautocomplete');
+var markdown_renderlink = require('./markdown_renderlink');
 
 var renderer = new marked.Renderer();
 renderer.link_simple = marked.Renderer.prototype.link;
 renderer.link = function(href, title, text) {
   if (href.slice(0, 5) == "cg://") {
-    var data = href.slice(5).split('|');
-    var object = {
-      id: "[" + text + '](' + href + ')',
-      insert: text,
-      service: data[0],
-      type: data[1],
-      url: data[3]
-    }
-    return renderautocomplete(object);
+    return markdown_renderlink(href, title, text)
   } else {
     return this.link_simple(href, title, text)
   }
@@ -26,8 +18,5 @@ marked.setOptions({
   renderer: renderer
 });
 
-module.exports = markdown;
 
-function markdown(src, opt, callback) {
-  return marked(src, opt, callback);
-}
+module.exports = marked;

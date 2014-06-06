@@ -13,6 +13,7 @@ var template = require('template');
 var render = require('../rendervdom');
 var attr = require('attr');
 var isWebkit = require('../iswebkit');
+var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
 require("startswith");
 
@@ -252,7 +253,14 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editing = true;
 	classes(this.el).add('editing');
 	this.oldVal = this.messageInput.innerHTML;
-	this.messageInput.innerHTML = msg['text'];
+    var message_text = msg['text'];
+
+    // replace special autocomplete links with html
+    var autocomplete = /^!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/;
+    var match = message_text.match(autocomplete);
+    message_text = message_text.replace(match[0], markdown_renderlink(match[2], "", match[1], true));
+
+	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
 	this.moveCaretToEnd(this.messageInput);
 };
