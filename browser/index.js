@@ -26,7 +26,7 @@ var _ = require('t');
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
-template.locals.marked = require('marked');
+template.locals.markdown = require('./markdown');
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {
@@ -179,6 +179,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
+    broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -331,7 +332,7 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	}	else {
 		org = orgs.filter(function(o) {
 			if (o.subdomain === parts[0]) return o;
-		})[0];	
+		})[0];
 	}
 	if (org === undefined) {
 		// TODO: Couldnt find a suitable org, what to do now?

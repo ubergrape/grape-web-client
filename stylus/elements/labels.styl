@@ -3,6 +3,12 @@
 
 $color-test-label = grape-dark
 
+/* hiding the labels for test run */
+.labels, 
+.addlabel,
+.btn-label
+	display: none !important
+
 .label
 	display: inline-block
 	padding: 3px 7px
@@ -13,7 +19,7 @@ $color-test-label = grape-dark
 	color: lighten($color-test-label, 30%)
 	background: rgba($color-test-label, .2)
 	border: 1px solid $color-test-label
-	border-radius: 5px
+	border-radius: main-border-radius
 	&:hover
 		color: lighten($color-test-label, 50%)
 		background: rgba($color-test-label, .35)

@@ -46,7 +46,7 @@ describe('ChatInput', function () {
 		});
 		ci.input.emit('input', '   \n \t   ');
 	});
-	it.skip('should emit `starttyping` when starting to type', function (done) {
+	it('should emit `starttyping` when starting to type', function (done) {
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
@@ -55,10 +55,10 @@ describe('ChatInput', function () {
 			r.should.equal(room);
 			done();
 		});
-		var textarea = qs('textarea', ci.el);
+		var textarea = qs('.messageInput', ci.el);
 		trigger(textarea, 'keypress', {key: 'f'});
 	});
-	it.skip('should emit `stoptyping` after a typing delay', function (done) {
+	it('should emit `stoptyping` after a typing delay', function (done) {
 		ChatInput.DELAY = 10;
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
@@ -71,7 +71,7 @@ describe('ChatInput', function () {
 			r.should.equal(room);
 			done();
 		});
-		var textarea = qs('textarea', ci.el);
+		var textarea = qs('.messageInput', ci.el);
 		trigger(textarea, 'keypress', {key: 'f'});
 	});
 	it('should immediately emit `stoptyping` when an input is sent', function (done) {
@@ -80,7 +80,7 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		var textarea = qs('textarea', ci.el);
+		var textarea = qs('.messageInput', ci.el);
 		trigger(textarea, 'keypress', {key: 'f'});
 		var start = new Date();
 		ci.on('stoptyping', function (r) {

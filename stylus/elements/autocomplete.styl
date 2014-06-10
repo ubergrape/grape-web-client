@@ -1,3 +1,9 @@
+// ****
+//
+// classes used in the autocomplete dropdown within the input area
+//
+// ****
+
 .autocomplete-wrapper
 	position: relative
 	margin-left: 46px
@@ -29,22 +35,50 @@
 			color: gainsboro-dark
 			min-width: 200px
 		.entry-type-icon
-			display: inline
-			font-family: FontAwesome
 			margin-right: 6px
-			color: gainsboro-dark
-		.type-label
-			&:before
-				content: "\f02b"
-		.type-githubissue
-			&:before
-				content: "\f09b"
-		.type-calendar
-			&:before
-				content: "\f073"
-		.type-googledocs
-			&:before
-				content: "\f0d4"
-		.type-member
-			&:before
-				content: "\f007"
+
+// ****
+//
+// classes used BOTH in the autocomplete dropdown within the input area AND within the chat content (after a user sent a message to the chat)
+//
+// ****
+
+.entry-type-icon
+	display: inline
+	font-family: FontAwesome
+	color: gainsboro-dark
+.type-label
+	&:before
+		content: "\f02b"
+.type-githubissue
+	&:before
+		content: "\f09b"
+.type-calendar
+	&:before
+		content: "\f073"
+.type-googledocs
+	&:before
+		content: "\f0d4"
+.type-member
+	&:before
+		content: "\f007"
+
+// ****
+//
+// classes used within the chat content (after a user sent a message to the chat)
+//
+// ****
+
+.ac
+	white-space: nowrap
+	background: silver-light
+	border: 1px solid gainsboro-light
+	//box-shadow: 0px 1px 2px 0px #ddd
+	border-radius: main-border-radius-small
+	display: inline-block
+	margin: 1px
+	padding: 1px 5px
+	vertical-align: baseline
+	color: grape-light
+	.entry-type-icon
+		margin-left: 6px

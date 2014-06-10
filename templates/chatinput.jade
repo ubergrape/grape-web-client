@@ -3,11 +3,10 @@
 	.autocomplete-wrapper
 		.autocomplete
 			//-.Textcomplete-headline=_('Autocomplete')
-			.Textcomplete-headline 
-				| Elemente mit 
-				strong IS
+			.Textcomplete-headline
+				| Autocomplete
 	.messageInput-wrapper
-		textarea.messageInput(disabled, autofocus)
+		div.messageInput(disabled, autofocus, contenteditable="true")
 		.uploader
 	.edit-message
 		=_('Hit ESC to cancel editing.')
