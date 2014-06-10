@@ -217,7 +217,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					var r = result[i];
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">in ubergrape/chatgrape</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'">&nbsp;</span>' + r.highlighted + ' <span class="entry-additional-info">' + r.container + '</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
 						insert: r.name,
 						service: r.service,
 						type: r.type,
