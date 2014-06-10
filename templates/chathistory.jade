@@ -1,18 +1,46 @@
 .history
-	.message-group.welcome-message
-		h3.
-			Welcome to #{room.name}
-		p 
-			=_('This is the beginning of a beautiful and exciting new conversation.')
-		ul.welcome-tasks
-			li.option
-				a(href="#")
-					i.fa.fa-user
-					=_('Invite other members')
-			li.option
-				a(href='/services/list/', target='_blank')
-					i.fa.fa-plus
-					=_('Add service integrations')
+	if room.id == undefined
+		.message-group.welcome-message
+			h3
+				| Welcome to your 
+				span organisation
+			p 
+				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
+			ul.welcome-tasks
+				li.option
+					a(href='/services/list/', target='_blank')
+						i.fa.fa-plus
+						=_('Add service integrations')
+				li.option
+					a(href='/accounts/organization/settings/invite/', target='_blank')
+						i.fa.fa-user
+						=_('Invite Members')
+	else
+		if room.type !== 'pm'
+			.message-group.welcome-message
+				h3
+					| Welcome to 
+					span #{room.name}
+
+				p 
+					=_('This room is public. Every member can join and read the history.')
+				ul.welcome-tasks
+					li.option
+						a(href='/services/list/', target='_blank')
+							i.fa.fa-plus
+							=_('Add service integrations')
+		else
+			.message-group.welcome-message
+				h3
+					| Private chat with 
+					span #{room.users[0].username}
+				p 
+					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. We are prohibited by European law to share the content of these conversations even with your company. So speak freely.
+				ul.welcome-tasks
+					li.option
+						a(href='/services/list/', target='_blank')
+							i.fa.fa-plus
+							=_('Add service integrations')
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
@@ -35,7 +63,7 @@
 					else
 						author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'chat'))
+					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
 							a
 								.label
