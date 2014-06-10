@@ -34,7 +34,7 @@
 						if line.container
 							a.container(href=line.container.url, class=line.container.type)= line.container.name 
 						if line.title
-							.text= line.title
+							.text= html(markdown(line.title))
 						if line.text
 							.text
 								=html(markdown(line.text))
