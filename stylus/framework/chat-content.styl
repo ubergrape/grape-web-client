@@ -51,9 +51,13 @@
 		@extend $small-font-size
 
 .welcome-message
-	padding: 10px 10px 14px
-	background: white
-	border-radius: main-border-radius
+	padding: 10px 10px 22px 56px
+	border-bottom: 2px dashed silver-dark
+	h2, h3, p, ul
+		max-width: 720px
+	h2, h3
+		> span
+			color: aqua-dark
 	h2
 		@extend $bigger-font-size
 		color: gainsboro-dark
