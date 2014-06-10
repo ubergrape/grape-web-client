@@ -1,4 +1,46 @@
 .history
+	if room.id == undefined
+		.message-group.welcome-message
+			h3
+				| Welcome to your 
+				span organisation
+			p 
+				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
+			ul.welcome-tasks
+				li.option
+					a(href='/services/list/', target='_blank')
+						i.fa.fa-plus
+						=_('Add service integrations')
+				li.option
+					a(href='/accounts/organization/settings/invite/', target='_blank')
+						i.fa.fa-user
+						=_('Invite Members')
+	else
+		if room.type !== 'pm'
+			.message-group.welcome-message
+				h3
+					| Welcome to 
+					span #{room.name}
+
+				p 
+					=_('This room is public. Every member can join and read the history.')
+				ul.welcome-tasks
+					li.option
+						a(href='/services/list/', target='_blank')
+							i.fa.fa-plus
+							=_('Add service integrations')
+		else
+			.message-group.welcome-message
+				h3
+					| Private chat with 
+					span #{room.users[0].username}
+				p 
+					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. We are prohibited by European law to share the content of these conversations even with your company. So speak freely.
+				ul.welcome-tasks
+					li.option
+						a(href='/services/list/', target='_blank')
+							i.fa.fa-plus
+							=_('Add service integrations')
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
@@ -9,9 +51,12 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.username !== user.username ? "" : "creator")
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
-				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+				if first.author.id==='github'
+					i.fa.fa-3x.image.fa-github(width="36")
+				else
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				a(href="/chat/@" + first.author.username.toLowerCase()).author
@@ -21,7 +66,7 @@
 					else
 						author= first.author.username
 				each line in lines
-					div.message(data-id=line.id)
+					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
 							a
 								.label
@@ -29,15 +74,13 @@
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
-							a(href=line.actor.url, class="actor")
+							a(href=line.actor.url, class="actor avatar-wrap")
 								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name 
 						if line.title
-							.text= line.title
+							.text= html(markdown(line.title))
 						if line.text
 							.text
-								=html(marked(line.text))
+								=html(markdown(line.text))
 								//- uncomment this to test inline-labels
 								//-a
 								//-	span.label #entscheidungen
@@ -48,6 +91,8 @@
 								span.branch= line.branch
 						if line.content
 							.message-content= line.content
+						if line.container
+							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name 
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
@@ -56,8 +101,7 @@
 									img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a(href=attachment.url)
-										attachment.name
+									a(href=attachment.url)= attachment.name
 						if line.objects
 							ul
 								each obj in line.objects
@@ -72,7 +116,13 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-							//- show the edit stuff only if current user is the author
+									if line.author.id==='github'
+										ul.activity-options
+											li.option
+												a(href=obj.url, target='_blank')
+													i.fa.fa-github
+													=_('View on GitHub')
+						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
 								i.fa.fa-pencil.btn-edit

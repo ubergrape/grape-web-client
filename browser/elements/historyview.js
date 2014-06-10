@@ -42,7 +42,14 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
+    // this.events.bind('click button.ac', 'openLink');
+    // this.events.bind('click input.ac', 'openLink');
+
 };
+
+// HistoryView.prototype.openLink = function HistoryView_openLink(ev) {
+//     window.open(ev.target.getAttribute('data-url'), '_blank');
+// };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
@@ -65,6 +72,8 @@ HistoryView.prototype.unselectForEditing = function () {
 	classes(query(".message.editing", this.el)).add('edited');
 	classes(query(".message.editing", this.el)).remove('editing');
 };
+
+
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
@@ -104,6 +113,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
 	render(this.history, template('chathistory', {
+        room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
 	}));
@@ -244,7 +254,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		var el = query("div.message[data-id='" + msg.id + "']", self.el);
 		classes(el).add('removed');
 		setTimeout(function () {
-			// vdom seems to bug a bit so remove the class manually 
+			// vdom seems to bug a bit so remove the class manually
 			// otherwise queueDraw() should be enough
 			classes(el).remove('removed');
 			self.queueDraw();

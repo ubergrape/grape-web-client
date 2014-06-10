@@ -50,6 +50,38 @@
 		color: lighten(gainsboro-dark, 10%)
 		@extend $small-font-size
 
+.welcome-message
+	padding: 10px 10px 22px 56px
+	border-bottom: 2px dashed silver-dark
+	h2, h3, p, ul
+		max-width: 720px
+	h2, h3
+		> span
+			color: aqua-dark
+	h2
+		@extend $bigger-font-size
+		color: gainsboro-dark
+		margin-bottom: 4px
+	h3
+		@extend $big-font-size
+		font-weight: bold
+		color: darken(gainsboro-dark, 20%)
+		margin-bottom: 3px
+	.welcome-tasks
+		margin-top: 7px
+		@extend $clearfix
+		text-transform: uppercase
+		@extend $small-font-size
+		font-weight: bold
+		@extend $horizontal-list
+		li
+			a
+				color: grape-light
+				@extend $subtle-link
+			i
+				margin-right: 4px
+		.option
+			margin-right: 22px
 
 .message-content
 	padding: 8px 10px 5px
@@ -112,13 +144,14 @@
 			margin-bottom: 3px
 			max-width: 90%
 			word-wrap: break-word
-			white-space: pre
 			a 
 				color: grape-light
 				text-decoration: none
 				&:hover
 					color: lighten(grape-light, 25%)
 					text-decoration: underline
+			em
+				font-style: italic
 			.warning-unsent
 				color: gainsboro-light
 				&:before
