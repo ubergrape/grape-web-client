@@ -35,37 +35,12 @@
 			color: gainsboro-dark
 			min-width: 200px
 		.entry-type-icon
-			margin-right: 6px
+			&:after
+				margin-left: 0
 
 // ****
 //
-// classes used BOTH in the autocomplete dropdown within the input area AND within the chat content (after a user sent a message to the chat)
-//
-// ****
-
-.entry-type-icon
-	display: inline
-	font-family: FontAwesome
-	color: gainsboro-dark
-.type-label
-	&:before
-		content: "\f02b"
-.type-githubissue
-	&:before
-		content: "\f09b"
-.type-calendar
-	&:before
-		content: "\f073"
-.type-googledocs
-	&:before
-		content: "\f0d4"
-.type-member
-	&:before
-		content: "\f007"
-
-// ****
-//
-// classes used within the chat content (after a user sent a message to the chat)
+// classes used BOTH in the autocomplete dropdown within the input area AND within the message area AND chat content (after a user sent a message to the chat)
 //
 // ****
 
@@ -80,5 +55,38 @@
 	padding: 1px 5px
 	vertical-align: baseline
 	color: grape-light
-	.entry-type-icon
+.entry-type-icon
+	display: inline
+	font-family: FontAwesome
+	color: gainsboro-dark
+	margin-right: 6px
+.type-label
+	&:after
 		margin-left: 6px
+		font-family: FontAwesome
+		color: gainsboro-dark
+		content: "\f02b"
+.type-githubissue
+	&:after
+		margin-left: 6px
+		font-family: FontAwesome
+		color: gainsboro-dark
+		content: "\f09b"
+.type-calendar
+	&:after
+		margin-left: 6px
+		font-family: FontAwesome
+		color: gainsboro-dark
+		content: "\f073"
+.type-googledocs
+	&:after
+		margin-left: 6px
+		font-family: FontAwesome
+		color: gainsboro-dark
+		content: "\f0d4"
+.type-member
+	&:after
+		margin-left: 6px
+		font-family: FontAwesome
+		color: gainsboro-dark
+		content: "\f007"

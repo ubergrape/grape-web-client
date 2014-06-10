@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-05 10:02+0000\n"
+"POT-Creation-Date: 2014-06-10 11:41+0000\n"
 "PO-Revision-Date: 2014-05-13 10:37+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -454,6 +454,7 @@ msgstr "Abmelden"
 
 #: client/templates/chatinput.jade:10
 #: client/templates/chatinput.jade:13
+#: client/templates/chatinput.jade:12
 msgid "Hit ESC to cancel editing."
 msgstr ""
 
@@ -513,10 +514,20 @@ msgstr ""
 
 #: client/browser/index.js:368
 #: client/browser/index.js:370
+#: client/browser/index.js:371
 msgid "Lost Connection"
 msgstr ""
 
 #: client/browser/index.js:378
 #: client/browser/index.js:380
+#: client/browser/index.js:381
 msgid "Reconnected successfully"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:9
+msgid "x"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:11
+msgid "message"
 msgstr ""
