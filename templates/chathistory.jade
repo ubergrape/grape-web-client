@@ -53,7 +53,10 @@
 		- var lastRead = first.read
 		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
-				img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+				if first.author.id==='github'
+					i.fa.fa-3x.image.fa-github(width="36")
+				else
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				a(href="/chat/@" + first.author.username.toLowerCase()).author
@@ -71,10 +74,8 @@
 						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
-							a(href=line.actor.url, class="actor")
+							a(href=line.actor.url, class="actor avatar-wrap")
 								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name 
 						if line.title
 							.text= html(markdown(line.title))
 						if line.text
@@ -90,6 +91,8 @@
 								span.branch= line.branch
 						if line.content
 							.message-content= line.content
+						if line.container
+							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name 
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
@@ -113,6 +116,12 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
+									if line.author.id==='github'
+										ul.activity-options
+											li.option
+												a(href=obj.url, target='_blank')
+													i.fa.fa-github
+													=_('View on GitHub')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
