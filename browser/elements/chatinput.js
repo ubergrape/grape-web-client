@@ -71,6 +71,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				children.push(childnode.nodeValue);
 			} else if (childnode.nodeName == "BR") {
 				children.push("\n\n");
+            } else if (childnode.nodeName == "DIV") {
+                children.push(childnode.innerText);
+                children.push("\n\n");
 			} else if (childnode.nodeType == 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
@@ -78,7 +81,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				var object = childnode.getAttribute('data-object');
 				if (object != null) {
 					children.push(object);
-				}
+				} else {
+                    // Q: why would there be any HTML in the message input?
+                    // A: pasting content
+                    children.push(childnode.innerText);
+                }
 			}
 		}
 		return children.join('');
