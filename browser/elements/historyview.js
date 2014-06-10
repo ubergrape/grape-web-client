@@ -113,6 +113,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
 	render(this.history, template('chathistory', {
+        room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
 	}));
