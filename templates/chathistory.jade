@@ -35,7 +35,7 @@
 					else
 						author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity' : 'chat'))
+					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'chat'))
 						.labels(style='display: none;')
 							a
 								.label
