@@ -52,7 +52,10 @@ RoomPopover.prototype.submit = function RoomPopover_submit(ev) {
 	ev.preventDefault();
 	var room = {
 		name: this.form['newroom-name'].value.trim(),
-		private: qs('input:checked', this.form).value === 'private'
+		// disable for now
+        // see https://github.com/ubergrape/chatgrape/issues/469
+        //private: qs('input:checked', this.form).value === 'private'
+        private: false
 	};
 	if (!room.name) return;
 	this.emit('createroom', room);
