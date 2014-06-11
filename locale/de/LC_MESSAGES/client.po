@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-10 09:31+0000\n"
+"POT-Creation-Date: 2014-06-11 13:06+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,6 +300,7 @@ msgstr ""
 
 #: client/templates/chathistory.jade:9
 #: client/templates/chathistory.jade:24
+#: client/templates/chathistory.jade:51
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -423,6 +424,7 @@ msgstr "Abmelden"
 
 #: client/templates/chatinput.jade:10 client/templates/chatinput.jade:13
 #: client/templates/chatinput.jade:13
+#: client/templates/chatinput.jade:12
 msgid "Hit ESC to cancel editing."
 msgstr ""
 
@@ -463,6 +465,7 @@ msgstr ""
 
 #: client/templates/chathistory.jade:28
 #: client/templates/chathistory.jade:43
+#: client/templates/chathistory.jade:73
 msgid "#Label"
 msgstr ""
 
@@ -476,11 +479,13 @@ msgstr ""
 
 #: client/browser/index.js:368 client/browser/index.js:370
 #: client/browser/index.js:370
+#: client/browser/index.js:371
 msgid "Lost Connection"
 msgstr ""
 
 #: client/browser/index.js:378 client/browser/index.js:380
 #: client/browser/index.js:380
+#: client/browser/index.js:381
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -493,5 +498,34 @@ msgid "Invite other members"
 msgstr ""
 
 #: client/templates/chathistory.jade:16
+#: client/templates/chathistory.jade:13
+#: client/templates/chathistory.jade:31
+#: client/templates/chathistory.jade:43
 msgid "Add service integrations"
+msgstr ""
+
+#: client/templates/chathistory.jade:8
+msgid ""
+"This is the new communicatory heart of your team. You may create or select "
+"a room on the right to start chatting."
+msgstr ""
+
+#: client/templates/chathistory.jade:17
+msgid "Invite Members"
+msgstr ""
+
+#: client/templates/chathistory.jade:26
+msgid "This room is public. Every member can join and read the history."
+msgstr ""
+
+#: client/templates/chathistory.jade:124
+msgid "View on GitHub"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:9
+msgid "x"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:11
+msgid "message"
 msgstr ""
