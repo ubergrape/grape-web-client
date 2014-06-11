@@ -125,5 +125,7 @@
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
-								i.fa.fa-pencil.btn-edit
+								//- only show the edit button when there is no image attached
+								if line.attachments.length == 0
+									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
