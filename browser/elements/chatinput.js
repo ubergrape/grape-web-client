@@ -263,9 +263,11 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
     var message_text = msg['text'];
 
     // replace special autocomplete links with html
-    var autocomplete = /^!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/;
-    var match = message_text.match(autocomplete);
-    message_text = message_text.replace(match[0], markdown_renderlink(match[2], "", match[1], true));
+    var autocomplete = /!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
+    var replacer = function replacer(match, text, href){
+        return markdown_renderlink(href, "", text, true);
+    }
+    message_text = message_text.replace(autocomplete, replacer);
 
 	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
