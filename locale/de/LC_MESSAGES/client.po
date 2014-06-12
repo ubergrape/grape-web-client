@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-11 13:06+0000\n"
+"POT-Creation-Date: 2014-06-12 10:34+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -301,6 +301,7 @@ msgstr ""
 #: client/templates/chathistory.jade:9
 #: client/templates/chathistory.jade:24
 #: client/templates/chathistory.jade:51
+#: client/templates/chathistory.jade:47
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -466,6 +467,7 @@ msgstr ""
 #: client/templates/chathistory.jade:28
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:73
+#: client/templates/chathistory.jade:69
 msgid "#Label"
 msgstr ""
 
@@ -501,6 +503,7 @@ msgstr ""
 #: client/templates/chathistory.jade:13
 #: client/templates/chathistory.jade:31
 #: client/templates/chathistory.jade:43
+#: client/templates/chathistory.jade:30
 msgid "Add service integrations"
 msgstr ""
 
@@ -515,10 +518,12 @@ msgid "Invite Members"
 msgstr ""
 
 #: client/templates/chathistory.jade:26
+#: client/templates/chathistory.jade:25
 msgid "This room is public. Every member can join and read the history."
 msgstr ""
 
 #: client/templates/chathistory.jade:124
+#: client/templates/chathistory.jade:120
 msgid "View on GitHub"
 msgstr ""
 
@@ -528,4 +533,8 @@ msgstr ""
 
 #: client/templates/popovers/pm.jade:11
 msgid "message"
+msgstr ""
+
+#: client/templates/chathistory.jade:13
+msgid "Add or join Chatroom"
 msgstr ""
