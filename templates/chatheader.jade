@@ -1,14 +1,16 @@
 .chat-header
-	.avatar-wrap
-		if true
-			span.online
-		else
-			span.offline
-		img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
-			.avatar-status(class='online')
+	.user-menu-wrap
+		.avatar-wrap
+			if true
+				span.online
+			else
+				span.offline
+			img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
+				.avatar-status(class='online')
+		span.user-name #{user.username}
 		i.fa.fa-chevron-down
 	form.search-form
-		input.search(type="search", placeholder=_("search for content, documents, appointments, ..."))
+		input.search(type="search", placeholder=_("Search for content, documents, appointments, ..."))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 	.room-info-text

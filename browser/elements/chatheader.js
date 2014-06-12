@@ -36,13 +36,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
 	this.events = events(this.el, {
 		'toggleUserMenu': function () {
-			self.emit('toggleusermenu', qs('.avatar-wrap', self.el));
+			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
 			self.membersMenu.toggle(e.toElement);
 		}
 	});
-	this.events.bind('click .avatar-wrap', 'toggleUserMenu');
+	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 	this.events.bind('click .connected-users', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();

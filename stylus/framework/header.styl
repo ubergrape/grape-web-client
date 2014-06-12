@@ -83,34 +83,36 @@
 				color: gainsboro-dark
 			.search-submit
 				display: none
-		.avatar-wrap
+		.user-menu-wrap
 			@extend $clearfix
 			@extend $hoverable
 			float: right
-			width: 55px
-			margin: 1px 0 0 20px
+			margin: 0 0 0 20px
+			display: table-cell
+			vertical-align: middle
 			&:hover
+				padding: 3px
+				margin: -3px -3px -3px 17px
+				background: lighten(silver-dark, 25%)
+				border-radius: main-border-radius
 				.fa
+				.user-name
 					color: darken(gainsboro-dark, 20%)
 			.fa
 				margin: 10px 0 0 5px
 				color: gainsboro-dark
+			.avatar-wrap
+				display: inline
+				margin-right: 6px
 			.online
 			.offline
-				left: 26px
-	@media screen and (max-width: 1140px)
-		.room-info .search-form
-			width: 234px !important
-		.sml-nr
-			display: block !important
-		.user, .more
-			display: none !important
-		.connected-users
-			width: 50px !important
-		.pm-partner
-			display: none
-		.room-name h1
-			margin-right: 60px !important
+				top: -6px
+				width: 10px
+				height: 10px
+			.user-name
+				color: gainsboro-dark
+				font-weight: bold
+
 
 /*______ STYLES IF SEARCH TRIGGERED ______*/
 body .searching .header
