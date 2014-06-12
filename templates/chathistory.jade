@@ -3,14 +3,14 @@
 		.message-group.welcome-message
 			h3
 				| Welcome to your 
-				span organisation
+				span Organisation
 			p 
 				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
 			ul.welcome-tasks
 				li.option
-					a(href='/services/list/', target='_blank')
+					a(href='#')
 						i.fa.fa-plus
-						=_('Add service integrations')
+						=_('Add or join Chatroom')
 				li.option
 					a(href='/accounts/organization/settings/invite/', target='_blank')
 						i.fa.fa-user
@@ -21,7 +21,6 @@
 				h3
 					| Welcome to 
 					span #{room.name}
-
 				p 
 					=_('This room is public. Every member can join and read the history.')
 				ul.welcome-tasks
@@ -35,12 +34,9 @@
 					| Private chat with 
 					span #{room.users[0].username}
 				p 
-					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. We are prohibited by European law to share the content of these conversations even with your company. So speak freely.
-				ul.welcome-tasks
-					li.option
-						a(href='/services/list/', target='_blank')
-							i.fa.fa-plus
-							=_('Add service integrations')
+					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. 
+					br
+					| So speak freely.
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
