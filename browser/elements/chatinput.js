@@ -245,14 +245,21 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
-	if (typeof el.selectionStart == "number") {
-		el.selectionStart = el.selectionEnd = el.value.length;
-	} else if (typeof el.createTextRange != "undefined") {
-		el.focus();
-		var range = el.createTextRange();
-		range.collapse(false);
-		range.select();
-	}
+	el.focus();
+    if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse(false);
+        textRange.select();
+    }
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
@@ -263,9 +270,11 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
     var message_text = msg['text'];
 
     // replace special autocomplete links with html
-    var autocomplete = /^!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/;
-    var match = message_text.match(autocomplete);
-    message_text = message_text.replace(match[0], markdown_renderlink(match[2], "", match[1], true));
+    var autocomplete = /!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
+    var replacer = function replacer(match, text, href){
+        return markdown_renderlink(href, "", text, true);
+    }
+    message_text = message_text.replace(autocomplete, replacer);
 
 	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
