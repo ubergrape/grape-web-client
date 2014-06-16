@@ -89,7 +89,7 @@
     "sk7/inputarea": "*",
     "component/escape-html": "*",
     "component/emitter": "*",
-    "component/events": "*",
+    "component/events": "1.0.7",
     "component/upload": "*",
     "component/progress": "*",
     "component/file": "*",
