@@ -12,6 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var Animate = require('animate');
+var notify = require('./notify');
 
 var exports = module.exports = UI;
 
@@ -48,6 +49,7 @@ var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
+var Notifications = exports.Notifications = require('./elements/notifications');
 
 function UI(options) {
 	Emitter.call(this);
@@ -113,18 +115,30 @@ UI.prototype.init = function UI_init() {
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
+
+    // initialize notifications
+    this.notifications = new Notifications();
+    if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
+        this.enableNotificationMessage = this.messages.info("Please enable notifications: <button class='btn enable_notifications'>Enable desktop notifications</button>");
+    }
+
 };
 
 UI.prototype.bind = function UI_bind() {
 	var self = this;
 	var navigation = this.navigation;
-	
+
 	this.events = events(this.el, {
 		'toggleOrganizationMenu': function() {
 			self.organizationMenu.toggle(qs('.logo'));
-		}
+		},
+        'requestPermission': function() {
+            self.enableNotificationMessage.remove();
+            notify.requestPermission();
+        }
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
+    this.events.bind('click .enable_notifications', 'requestPermission');
 
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
@@ -191,6 +205,9 @@ UI.prototype.bind = function UI_bind() {
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
+
+    // notifications
+    broker(this, 'selectchannel', this.notifications, 'setRoom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -367,7 +384,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined) 
+	if (this._connErrMsg == undefined)
 		this._connErrMsg = this.messages.danger(_('Lost Connection'));
 	classes(qs('body')).add('disconnected');
 }
