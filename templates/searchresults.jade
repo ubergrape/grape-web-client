@@ -30,9 +30,9 @@
 			li.result-object
 				.item-object.main
 					.item-info
-						h2= result.author.type
+						h2= result.author.username
 						i.fa.fa-comment
-						span= result.channel
+						span= result.channel.name
 					.item-content
 						= html(result.highlighted)
 		li.result-object.selected
