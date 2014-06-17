@@ -113,11 +113,11 @@ UI.prototype.init = function UI_init() {
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
-    // initialize notifications
-    this.notifications = new Notifications();
-    if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
-        this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
-    }
+	// initialize notifications
+	this.notifications = new Notifications();
+	if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
+		this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
+	}
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -128,17 +128,17 @@ UI.prototype.bind = function UI_bind() {
 		'toggleOrganizationMenu': function() {
 			self.organizationMenu.toggle(qs('.logo'));
 		},
-        'requestPermission': function() {
+		'requestPermission': function() {
 
-            notify.requestPermission(function(permission){
-                if (permission != "default") {
-                    self.enableNotificationMessage.remove();
-                }
-            });
-        }
+			notify.requestPermission(function(permission){
+				if (permission != "default") {
+					self.enableNotificationMessage.remove();
+				}
+			});
+		}
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
-    this.events.bind('click .enable_notifications', 'requestPermission');
+	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
@@ -193,7 +193,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-    broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -206,9 +206,9 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
 
-    // notifications
-    broker(this, 'selectchannel', this.notifications, 'setRoom');
-    broker(this, 'selectorganization', this.notifications, 'setOrganization');
+	// notifications
+	broker(this, 'selectchannel', this.notifications, 'setRoom');
+	broker(this, 'selectorganization', this.notifications, 'setOrganization');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -227,7 +227,7 @@ UI.prototype.bind = function UI_bind() {
 		navigation.select(channel.type, channel);
 		var state = history.state || {};
 		if (state.type === channel.type &&
-		    state.id === channel.id)
+			state.id === channel.id)
 			return;
 		var url = self.options.pathPrefix || '';
 		url += url[url.length - 1] === '/' ? '' : '/';
