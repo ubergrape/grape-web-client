@@ -66,6 +66,52 @@ img
 	height: 100%
 	overflow: hidden
 
+/*______ LOADING ______*/
+
+.client-loading
+	.preloader
+		display: block
+
+.preloader
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index: 99999
+	height: 100%
+	width: 100%
+	overflow: hidden
+	display: none
+	text-align: center
+	.history &
+		background: silver-light
+		div
+			position: absolute
+			top: 50%
+			left: 50%
+			height: 70px
+			width: 50%
+			margin: -35px 0 0 -25%
+		h3
+			@extend $biggest-font-size
+		p
+			margin-top: 8px
+			@extend $big-font-size
+			color: gainsboro-dark
+	.navigation .navigation &
+		background: jet
+		div
+			position: absolute
+			top: 50%
+			left: 0
+			height: 70px
+			width: 100%
+			margin: -35px 0 0 0
+		h3
+			@extend $bigger-font-size
+
+
 /*______ FEEDBACK BUTTON ______*/
 
 body .gsfn-bottom
@@ -85,4 +131,4 @@ hr
 
 /* _____ COMPONENT FIXES ________ */
 .scrollbars-override
-	overflow-x: hidden !important;
+	overflow-x: hidden !important
