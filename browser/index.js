@@ -388,7 +388,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.danger(_('Lost Connection'));
+		this._connErrMsg = this.messages.warning(_('Lost Connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
 }
 
