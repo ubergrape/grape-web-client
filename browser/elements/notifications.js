@@ -34,9 +34,7 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 Notifications.prototype.newMessage = function Notifications_newMessage(message) {
 	if (message.author == ui.user) return;
 
-	if (message.channel == this.room.id) {
-		if (!isDocumentHidden() || document.hasFocus()) return;
-	}
+	if (document.hasFocus()) return;
 
 	//TODO: move this to user model
 	var authorname = ""
