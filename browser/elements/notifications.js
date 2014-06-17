@@ -35,8 +35,6 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 };
 
 Notifications.prototype.newMessage = function Notifications_newMessage(message) {
-	console.log(notify);
-	console.log(notify.isDocumentHidden());
 	//TODO: move this to user model
 	var authorname = ""
 	if (message.author.firstName != "") {
