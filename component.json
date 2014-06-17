@@ -19,6 +19,7 @@
     "browser/elements/itemlist.js",
     "browser/elements/messages.js",
     "browser/elements/navigation.js",
+    "browser/elements/notifications.js",
     "browser/elements/popovers/pm.js",
     "browser/elements/popovers/popover.js",
     "browser/elements/popovers/user.js",
@@ -102,7 +103,8 @@
     "sk7/textcomplete": "*",
     "sk7/startswith": "*",
     "matthewp/attr": "*",
-    "ianstormtaylor/animate": "*"
+    "ianstormtaylor/animate": "*",
+    "ubergrape/HTML5-Desktop-Notifications": "*"
   },
   "development": {
     "chaijs/chai": "*",

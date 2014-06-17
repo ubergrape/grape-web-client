@@ -12,6 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var Animate = require('animate');
+var notify = require('HTML5-Desktop-Notifications');
 
 var exports = module.exports = UI;
 
@@ -48,6 +49,7 @@ var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
+var Notifications = exports.Notifications = require('./elements/notifications');
 
 function UI(options) {
 	Emitter.call(this);
@@ -111,18 +113,32 @@ UI.prototype.init = function UI_init() {
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
+	// initialize notifications
+	this.notifications = new Notifications();
+	if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
+		this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
+	}
 };
 
 UI.prototype.bind = function UI_bind() {
 	var self = this;
 	var navigation = this.navigation;
-	
+
 	this.events = events(this.el, {
 		'toggleOrganizationMenu': function() {
 			self.organizationMenu.toggle(qs('.logo'));
+		},
+		'requestPermission': function() {
+
+			notify.requestPermission(function(permission){
+				if (permission != "default") {
+					self.enableNotificationMessage.remove();
+				}
+			});
 		}
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
+	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
@@ -177,7 +193,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-    broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -189,6 +205,10 @@ UI.prototype.bind = function UI_bind() {
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
+
+	// notifications
+	broker(this, 'selectchannel', this.notifications, 'setRoom');
+	broker(this, 'selectorganization', this.notifications, 'setOrganization');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -207,7 +227,7 @@ UI.prototype.bind = function UI_bind() {
 		navigation.select(channel.type, channel);
 		var state = history.state || {};
 		if (state.type === channel.type &&
-		    state.id === channel.id)
+			state.id === channel.id)
 			return;
 		var url = self.options.pathPrefix || '';
 		url += url[url.length - 1] === '/' ? '' : '/';
@@ -228,7 +248,7 @@ UI.prototype.bind = function UI_bind() {
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
 	// remove loading
-	classes(qs('.client-loading')).remove('client-loading');	
+	classes(qs('.client-loading')).remove('client-loading');
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
@@ -367,7 +387,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined) 
+	if (this._connErrMsg == undefined)
 		this._connErrMsg = this.messages.danger(_('Lost Connection'));
 	classes(qs('body')).add('disconnected');
 }
