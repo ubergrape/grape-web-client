@@ -13,9 +13,19 @@ renderer.link = function(href, title, text) {
     return this.link_simple(href, title, text)
   }
 };
+renderer.heading = function (text, level) {
+  // this is a hack, we should replace the markdown parser
+  return Array(level+1).join("#") + text;
+};
+renderer.hr = function() {
+    return "--";
+};
+
 
 marked.setOptions({
-  renderer: renderer
+  renderer: renderer,
+  gfm: true,
+  breaks: true
 });
 
 
