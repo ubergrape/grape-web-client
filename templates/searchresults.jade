@@ -26,6 +26,15 @@
 					i.fa.fa-github
 					a=_('GitHub Issues (1)')
 	ul.result-list
+		each result in results
+			li.result-object
+				.item-object.main
+					.item-info
+						h2= result.author.type
+						i.fa.fa-comment
+						span= result.channel
+					.item-content
+						= html(result.highlighted)
 		li.result-object.selected
 			.item-object.minor
 				.item-info
