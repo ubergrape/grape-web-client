@@ -1,0 +1,102 @@
+.search-results
+	.result-info
+		.result-nr
+			=_('52 Ergebnisse für ')
+			strong=_('Hamburger')
+	.result-filters
+		.filter-room
+			h2=_('Sort by')
+			ul
+				li
+					a=_('Überall')
+				li
+					a=_('Design')
+		.filter-list
+			ul
+				li
+					strong
+						a=_('Alle (51)')
+				li
+					i.fa.fa-envelope
+					a=_('Nachrichten (14)')
+				li
+					i.fa.fa-file
+					a=_('Dateien (10)')
+				li
+					i.fa.fa-github
+					a=_('GitHub Issues (1)')
+	ul.result-list
+		li.result-object.selected
+			.item-object.minor
+				.item-info
+					h2=_('Martin Scheriau')
+				.item-content
+					=_('Man sollte Russland den Krieg erklären! Bei so etwas kann der Westen doch nicht tatenlos zusehen. Eine Abstimmung!')
+			.item-object.main
+				.item-info
+					h2=_('Tobias Seiler')
+					i.fa.fa-comment
+					span=_('Design')
+				.item-content
+					=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
+					span=_('Hamburger')
+					=_(' essen?')
+					ul.item-footer
+						li.time
+							time=_('1. Jänner, 0:46 Uhr')
+						li.option
+							a=_('Jump to conversation')
+						li.option
+							a=_('All results from this user')
+			.item-object.minor
+				.item-info
+					h2=_('Sabine Ludwig')
+				.item-content
+					=_('im Artikel steht die internationalen Wahlbeobachter sind nicht eingereist. Heißt das jetzt, dass sie nicht hinfahren durften (aufgrund der Seperatisten) oder einfach nicht von der int. Gemeinschaft hingeschickt worden sind.')
+		li.result-object.file
+			.item-object.main
+				.item-info
+								h2=_('Google Drive')
+								i.fa.fa-file
+								span=_('/ubergrape')
+							.item-content
+								=_('Das-')
+								span=_('Hamburger')
+								=_('-Wettessen.jpg')
+								ul.item-footer
+									li.time
+										time=_('5. März, 8:10 Uhr')
+									li.option
+										a=_('Jump to conversation')
+									li.option
+										a=_('View File')
+
+					li.result-object
+						.item-object.minor
+							.item-info
+								h2=_('Martin Scheriau')
+							.item-content
+								=_('Reicht mir nicht. Ich fordere die Abschaffung des Wahlgeheimnisses! Damit ist lügen und betrügen erst ermöglicht. Wer nicht zu seinem Votum stehen kann, hat in einer offenen, ehrlichen Gesellschaft ohnehin nichts verloren. ')
+						.item-object.main
+							.item-info
+								h2=_('Tobias Seiler')
+								i.fa.fa-comment
+								span=_('Design')
+							.item-content
+								=_('Ober- und Unterseite noch eine Zwischenlage des Mehlprodukts, dann heißt das Big-Mac oder so ähnlich. Möchtet ihr mit mir einen ')
+								span=_('Hamburger')
+								=_(' essen?')
+								ul.item-footer
+									li.time
+										time=_('5. Jänner, 4:12 Uhr')
+									li.option
+										a=_('Jump to conversation')
+									li.option
+										a=_('See message')
+									li.option
+										a=_('All results from this user')
+						.item-object.minor
+							.item-info
+								h2=_('Sabine Ludwig')
+							.item-content
+								=_('Transparente Wahlurnen sind beispielsweise in Frankreich vorgeschrieben und sollen verhindern, dass Wahlen dadurch manipuliert werden können, dass vor Beginn des eigentlichen Wahlgangs bereits Stimmzettel in die Urne gelegt wurden.')

@@ -88,6 +88,7 @@ UI.prototype.init = function UI_init() {
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
 	this.organizationMenu = new OrganizationPopover();
+	this.searchView = new SearchView();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -248,6 +249,10 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
+};
+
+UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
+	this.searchView.showResults(results);
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
