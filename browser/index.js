@@ -49,6 +49,8 @@ var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
+var SearchView = exports.SearchView = require('./elements/searchview.js');
+
 
 function UI(options) {
 	Emitter.call(this);
