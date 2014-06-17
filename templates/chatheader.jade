@@ -16,6 +16,11 @@
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-text
 		.room-name
+			if room.type === 'room'
+				h1.room-name= room.name
+			else if room.type === 'pm'
+				h1
+					| @#{room.users[0].username}
 			if room.type !== 'pm'
 				.connected-users
 					i.fa.fa-user
@@ -32,16 +37,3 @@
 						- var moreusers = room.users.length - 3
 						span.more
 							| + #{moreusers} more
-			else
-				.pm-partner
-					span.user(class=[user.id in room.typing ? 'typing' : ''], key=room.users[0].id, title=room.users[0].username)
-						if room.users[0].status === 16
-							span.online
-						else
-							span.offline
-						img(src="#{room.users[0].avatar}",width="36",alt="#{room.users[0].username}")
-			if room.type === 'room'
-				h1.room-name= room.name
-			else if room.type === 'pm'
-				h1
-					| @#{room.users[0].username}
