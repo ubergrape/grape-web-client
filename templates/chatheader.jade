@@ -10,9 +10,10 @@
 		span.user-name #{user.username}
 		i.fa.fa-chevron-down
 	form.search-form
-		input.search(type="search", placeholder=_("Search for content, documents, appointments, ..."))
+		input.search(type="search", name="search-input", placeholder=_("Search for content, documents, appointments, ..."))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
+		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-text
 		.room-name
 			if room.type !== 'pm'
