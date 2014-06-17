@@ -48,7 +48,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 
 	var n = notify.createNotification(authorname, {
 		body: message.text,
-		icon: staticurl("images/brand-assets/chatgrape-grape-onwhite.png"),
+		icon: message.author.avatar,
 		timeout: 6000
 	});
 }
