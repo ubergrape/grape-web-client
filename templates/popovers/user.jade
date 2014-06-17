@@ -1,12 +1,12 @@
 .userpopover
 	h4=_('Current Status')
 	span.close ×
-	form.user-status-form
+	form.user-status-form.hide
 		input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
 		input.user-status-submit(type="submit")
 		span.user-status-icon.online
 	ul
-		li
+		li.hide
 			a(href='#')
 				i.fa.fa-eye
 				=_('Compact View')
