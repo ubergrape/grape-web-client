@@ -31,9 +31,13 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 };
 
 Notifications.prototype.newMessage = function Notifications_newMessage(message) {
+	// don't show chat messages from myself
 	if (message.author == ui.user) return;
 
-	if (document.hasFocus()) return;
+	// don't show chat messages in current room, when focused
+	if (message.channel == this.room.id && document.hasFocus()) return;
+
+	// otherwise, show all chat messages
 
 	//TODO: move this to user model
 	var authorname = "";
