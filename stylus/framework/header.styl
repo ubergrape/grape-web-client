@@ -15,7 +15,7 @@
 		.room-info-text, .avatar-wrap, .search-form
 			max-width: 100%
 			overflow: hidden
-			transition: all 200ms linear
+			// transition: all 200ms linear
 		.room-info-text
 			overflow: hidden
 			position: relative
@@ -67,22 +67,6 @@
 					display: none
 		.user:not(.typing) .fa
 			display: none
-		.search-form
-			width: 434px
-			float: right
-			.search
-				height: 38px
-				width: 100%
-				padding: 8px 12px 8px 40px
-				outline: none
-				box-sizing: border-box
-			.search-icon
-				position: relative
-				left: 15px
-				top: -29px
-				color: gainsboro-dark
-			.search-submit
-				display: none
 		.user-menu-wrap
 			@extend $clearfix
 			@extend $hoverable
@@ -112,12 +96,3 @@
 			.user-name
 				color: gainsboro-dark
 				font-weight: bold
-
-
-/*______ STYLES IF SEARCH TRIGGERED ______*/
-body .searching .header
-	.room-info-text, .avatar-wrap
-		width: 0
-		margin: 0
-	.search-form
-		width: 100% !important
