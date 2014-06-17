@@ -133,8 +133,12 @@ UI.prototype.bind = function UI_bind() {
 			self.organizationMenu.toggle(qs('.logo'));
 		},
         'requestPermission': function() {
-            self.enableNotificationMessage.remove();
-            notify.requestPermission();
+
+            notify.requestPermission(function(permission){
+                if (permission != "default") {
+                    self.enableNotificationMessage.remove();
+                }
+            });
         }
 	});
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
