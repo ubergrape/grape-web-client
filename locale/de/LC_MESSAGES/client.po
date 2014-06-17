@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-13 13:01+0000\n"
+"POT-Creation-Date: 2014-06-17 12:29+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,31 +13,37 @@ msgstr ""
 
 #: client/templates/roomlist.jade:3 client/templates/navigation.jade:4
 #: client/templates/navigation.jade:4
+#: client/templates/navigation.jade:8
 msgid "Rooms"
 msgstr "Chaträume"
 
 #: client/templates/roomlist.jade:4 client/templates/navigation.jade:3
 #: client/templates/navigation.jade:3
+#: client/templates/navigation.jade:7
 msgid "add room"
 msgstr "Chatraum hinzufügen"
 
 #: client/templates/pmlist.jade:3 client/templates/navigation.jade:8
 #: client/templates/navigation.jade:8
+#: client/templates/navigation.jade:12
 msgid "Messages"
 msgstr "Nachrichten"
 
 #: client/templates/pmlist.jade:4 client/templates/navigation.jade:7
 #: client/templates/navigation.jade:7
+#: client/templates/navigation.jade:11
 msgid "new message"
 msgstr "Neue Nachricht"
 
 #: client/templates/labellist.jade:3 client/templates/navigation.jade:12
 #: client/templates/navigation.jade:12
+#: client/templates/navigation.jade:16
 msgid "Labels"
 msgstr "Labels"
 
 #: client/templates/labellist.jade:4 client/templates/navigation.jade:11
 #: client/templates/navigation.jade:11
+#: client/templates/navigation.jade:15
 msgid "add label"
 msgstr "Label hinzufügen"
 
@@ -302,6 +308,7 @@ msgstr ""
 #: client/templates/chathistory.jade:24
 #: client/templates/chathistory.jade:51
 #: client/templates/chathistory.jade:47
+#: client/templates/chathistory.jade:53
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -468,6 +475,7 @@ msgstr ""
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:73
 #: client/templates/chathistory.jade:69
+#: client/templates/chathistory.jade:75
 msgid "#Label"
 msgstr ""
 
@@ -482,12 +490,14 @@ msgstr ""
 #: client/browser/index.js:368 client/browser/index.js:370
 #: client/browser/index.js:370
 #: client/browser/index.js:371
+#: client/browser/index.js:391
 msgid "Lost Connection"
 msgstr ""
 
 #: client/browser/index.js:378 client/browser/index.js:380
 #: client/browser/index.js:380
 #: client/browser/index.js:381
+#: client/browser/index.js:401
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -504,26 +514,31 @@ msgstr ""
 #: client/templates/chathistory.jade:31
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:30
+#: client/templates/chathistory.jade:36
 msgid "Add service integrations"
 msgstr ""
 
 #: client/templates/chathistory.jade:8
+#: client/templates/chathistory.jade:14
 msgid ""
 "This is the new communicatory heart of your team. You may create or select "
 "a room on the right to start chatting."
 msgstr ""
 
 #: client/templates/chathistory.jade:17
+#: client/templates/chathistory.jade:23
 msgid "Invite Members"
 msgstr ""
 
 #: client/templates/chathistory.jade:26
 #: client/templates/chathistory.jade:25
+#: client/templates/chathistory.jade:31
 msgid "This room is public. Every member can join and read the history."
 msgstr ""
 
 #: client/templates/chathistory.jade:124
 #: client/templates/chathistory.jade:120
+#: client/templates/chathistory.jade:126
 msgid "View on GitHub"
 msgstr ""
 
@@ -536,9 +551,19 @@ msgid "message"
 msgstr ""
 
 #: client/templates/chathistory.jade:13
+#: client/templates/chathistory.jade:19
 msgid "Add or join Chatroom"
 msgstr ""
 
 #: client/templates/chatheader.jade:13
 msgid "Search for content, documents, appointments, ..."
+msgstr ""
+
+#: client/templates/chathistory.jade:5
+#: client/templates/navigation.jade:5
+msgid "Loading"
+msgstr ""
+
+#: client/templates/chathistory.jade:7
+msgid "You are looking great today!"
 msgstr ""
