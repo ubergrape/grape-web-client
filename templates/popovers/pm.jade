@@ -2,20 +2,25 @@
 	h3
 		=_('New message to')
 		span.close ×
-	ul
-		each user in items
-			li.item.user(data-id=user.id, key=user.id)
-				if user.joined
-					button.toggle.leave=_('x')
-				else
-					button.toggle.join=_('message')
-				.avatar-wrap
-					// FIXME: use real online status
-					if true == true
-						span.online
+	if items.length > 0
+		ul
+			each user in items
+				li.item.user(data-id=user.id, key=user.id)
+					if user.joined
+						button.toggle.leave=_('x')
 					else
-						span.offline
-					// FIXME: use real avatar image
-					img(src="#{user.avatar}",width="20",alt="")
-					.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
-				span.name=user.username
+						button.toggle.join=_('Message')
+					.avatar-wrap
+						if true == true
+							span.online
+						else
+							span.offline
+						img(src="#{user.avatar}",width="20",alt="")
+						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+					span.name=user.username
+	else
+		p
+			p.empty-message=_('There are no members in your organization yet.')
+			a(href='/accounts/organization/settings/members/', target='_blank').button
+				=_('Manage Members')
+				i.fa.fa-user

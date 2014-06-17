@@ -2,10 +2,8 @@ ul.nav-list.pms
 	each pm in items
 		-var pmuser = pm.users[0]
 		li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.id, key=pm.id)
-			// FIXME: needs real pm slug
 			a(href="/chat/@" + pmuser.username)
 				.avatar-wrap
-					// FIXME: use real avatar image
 					if pmuser.status === 16
 						span.online
 					else
