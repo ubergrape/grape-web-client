@@ -2,7 +2,7 @@
 "use strict";
 
 var Emitter = require('emitter');
-var notify = require('../notify');
+var notify = require('HTML5-Desktop-Notifications');
 var staticurl = require('../../lib/staticurl');
 
 module.exports = Notifications;

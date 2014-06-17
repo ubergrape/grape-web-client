@@ -12,7 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var Animate = require('animate');
-var notify = require('./notify');
+var notify = require('HTML5-Desktop-Notifications');
 
 var exports = module.exports = UI;
 

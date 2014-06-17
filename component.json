@@ -35,7 +35,6 @@
     "browser/markdown_renderlink.js",
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
-    "browser/notify.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",
@@ -104,7 +103,8 @@
     "sk7/textcomplete": "*",
     "sk7/startswith": "*",
     "matthewp/attr": "*",
-    "ianstormtaylor/animate": "*"
+    "ianstormtaylor/animate": "*",
+    "ubergrape/HTML5-Desktop-Notifications": "*"
   },
   "development": {
     "chaijs/chai": "*",
