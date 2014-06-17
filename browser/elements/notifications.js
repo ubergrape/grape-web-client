@@ -19,7 +19,7 @@ Notifications.prototype = Object.create(Emitter.prototype);
 Notifications.prototype.init = function Notifications_init() {
 	notify.config({
 		pageVisibility: true,
-		autoclose: 1000
+		autoClose: 6000
 	});
 };
 
@@ -49,7 +49,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	var n = notify.createNotification(authorname, {
 		body: message.text,
 		icon: staticurl("images/brand-assets/chatgrape-grape-onwhite.png"),
-		timeout: 1000
+		timeout: 6000
 	});
 }
 
