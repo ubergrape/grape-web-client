@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var notify = require('HTML5-Desktop-Notifications');
-var staticurl = require('../../lib/staticurl');
 
 module.exports = Notifications;
 
@@ -37,19 +36,19 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	if (document.hasFocus()) return;
 
 	//TODO: move this to user model
-	var authorname = ""
+	var authorname = "";
 	if (message.author.firstName != "") {
 		authorname = message.author.firstName + " " + message.author.lastName;
 	} else {
 		authorname = message.author.username;
 	}
 
-	var n = notify.createNotification(authorname, {
+	notify.createNotification(authorname, {
 		body: message.text,
 		icon: message.author.avatar,
 		timeout: 6000
 	});
-}
+};
 
 Notifications.prototype.setOrganization = function Notifications_setOrganization(org) {
 	var self = this;
@@ -78,5 +77,5 @@ Notifications.prototype.setOrganization = function Notifications_setOrganization
 };
 
 function isDocumentHidden() {
-	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden
+	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
 }
