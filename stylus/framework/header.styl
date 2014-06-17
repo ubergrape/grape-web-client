@@ -21,37 +21,26 @@
 			position: relative
 			.room-name
 				position: relative
-				display: inline-block
 				max-width: 100%
 				h1
 					@extend $bigger-font-size
 					margin: 0
 					font-weight: bold
 					padding-top: 8px
-					margin-right: 20px
+					margin-right: 12px
 					height: 1.5em
 					max-width: 500px
-					margin-right: 185px
 					// Shortening the Room Name
 					text-overflow: ellipsis 
 					white-space: nowrap
 					overflow: hidden
-					display: block
-				.pm-partner
 					float: left
-					margin: 4px 7px 0 0
-					position: relative
-					.user
-						@extend .avatar-wrap
-						float: left
 			.connected-users
-				position: absolute
-				right: 0px
-				top: 9px
+				overflow: hidden
 				color: gainsboro-dark
-				width: 175px
+				max-width: 175px
 				border-radius: 4px
-				padding: 5px 8px 3px 8px
+				padding: 16px 8px 3px 8px
 				@extend $hoverable
 				&:hover
 					opacity: 0.8
