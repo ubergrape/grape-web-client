@@ -119,7 +119,7 @@ UI.prototype.init = function UI_init() {
     // initialize notifications
     this.notifications = new Notifications();
     if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
-        this.enableNotificationMessage = this.messages.info("Please enable notifications: <button class='btn enable_notifications'>Enable desktop notifications</button>");
+        this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
     }
 
 };
