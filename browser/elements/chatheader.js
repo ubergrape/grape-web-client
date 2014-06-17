@@ -48,11 +48,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		self.emit('search', qs('.search', self.el).value);
 	});
 	this.searchInput.addEventListener('keyup', function () {
-		if ( this.value.length !== 0 ) {
-			classes(qs('.client', this.el)).add('searching');
-		} else {
-			classes(qs('.client', this.el)).remove('searching');
-		}
+		if (this.value.length !== 0 ) 
+			self.emit('searching', this.value);
 	});
 };
 

@@ -180,7 +180,7 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// chat header/search functionality
-	broker.pass(this.chatHeader, 'search', this, 'search');
+	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 
@@ -192,7 +192,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+  broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
