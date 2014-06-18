@@ -52,9 +52,12 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	}, 200, false);
 	this.searchInput.addEventListener('keyup', function () {
 		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
-		if (this.value.length !== 0 && self.q !== q) {
+		if (q.length !== 0 && self.q !== q) {
 			self.q = q;
 			startSearching();
+		} else if (q.length === 0 && self.q !== q) {
+			self.q = q;
+			self.emit("stopsearching");
 		}
 	});
 };
