@@ -21,6 +21,16 @@ SearchView.prototype.init = function SearchView_init() {
 		if (!self.hidden)
 			if (ev.keyCode === 27) self.hideResults();
 	});
+	document.addEventListener('click', function (ev) {
+		if (!self.hidden) {
+			var target = ev.target;
+			var parent = target;
+			do {
+				if (parent === self.el || parent === self.trigger) return;
+			} while ((parent = parent.parentNode));
+			self.hideResults();
+		}
+	});
 };
 
 SearchView.prototype.redraw = function SearchView_redraw() {

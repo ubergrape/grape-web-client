@@ -49,7 +49,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	});
 	var startSearching = debounce(function () {
 		self.emit('searching', self.q);
-	}, 100, false);
+	}, 200, false);
 	this.searchInput.addEventListener('keyup', function () {
 		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
 		if (this.value.length !== 0 && self.q !== q) {
