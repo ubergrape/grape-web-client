@@ -28,7 +28,7 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
-	this.client = qs('.client', this.el); //dunno but seems to not work in .bind function
+	this.q = null;
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -45,11 +45,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .connected-users', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
-		self.emit('search', qs('.search', self.el).value);
 	});
 	this.searchInput.addEventListener('keyup', function () {
-		if (this.value.length !== 0 ) 
-			self.emit('searching', this.value);
+		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
+		if (this.value.length !== 0 && self.q !== q) {
+			self.q = q;
+			self.emit('searching', q);
+		}
 	});
 };
 
