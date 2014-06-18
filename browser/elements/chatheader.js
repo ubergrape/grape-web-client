@@ -6,6 +6,7 @@ var template = require('template');
 var qs = require('query');
 var events = require('events');
 var render = require('../rendervdom');
+var debounce = require('debounce');
 var classes = require('classes');
 var RoomMembersPopover = require('./popovers/roommembers');
 
@@ -46,11 +47,14 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 	});
+	var startSearching = debounce(function () {
+		self.emit('searching', self.q);
+	}, 100, false);
 	this.searchInput.addEventListener('keyup', function () {
 		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
 		if (this.value.length !== 0 && self.q !== q) {
 			self.q = q;
-			self.emit('searching', q);
+			startSearching();
 		}
 	});
 };
