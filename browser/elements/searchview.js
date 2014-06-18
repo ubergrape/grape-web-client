@@ -16,6 +16,11 @@ function SearchView() {
 
 SearchView.prototype.init = function SearchView_init() {
 	this.results = [];
+	var self = this;
+	document.addEventListener('keyup', function(ev) {
+		if (!self.hidden)
+			if (ev.keyCode === 27) self.hideResults();
+	});
 };
 
 SearchView.prototype.redraw = function SearchView_redraw() {
@@ -30,11 +35,13 @@ SearchView.prototype.showResults = function SearchView_showResults(results) {
 	this.redraw();
 	this.el = this.search.el;
 	qs('div.chat-wrapper').appendChild(this.el);
+	this.hidden = false;
 };
 
-SearchView.prototype.removeResults = function SearchView_removeResults() {
+SearchView.prototype.hideResults = function SearchView_removeResults() {
 	this.results = [];
 	this.redraw();
-	qs('div.chat-wrapper').removeChild(this.el);
+	this.el.parentNode.removeChild(this.el);
+	this.hidden = true;
 };
 
