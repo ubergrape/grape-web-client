@@ -160,16 +160,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
-		console.log(match);
 
-		// XXX: implement matching logic and populate with real results
 		self.complete.clear();
 
 		if (match[0] == "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
-
 
 			var search = match.substr(1); // match without the '@''
 
@@ -212,7 +209,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
-				console.log("autocomplete from server", err, result);
 				for (var i=0; i<result.length; i++) {
 					var r = result[i];
 					self.complete.push({
