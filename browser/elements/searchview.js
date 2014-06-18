@@ -4,18 +4,22 @@
 var qs = require('query');
 var template = require('template');
 var render = require('../rendervdom');
+var Emitter = require('emitter');
 
 module.exports = SearchView;
 
 function SearchView() {
+	Emitter.call(this);
 	this.redraw.bind(this);
 	this.init();
 	this.search = {};
 }
 
+SearchView.prototype = Object.create(Emitter.prototype);
 
 SearchView.prototype.init = function SearchView_init() {
 	this.results = [];
+	this.hidden = true;
 	var self = this;
 	document.addEventListener('keyup', function(ev) {
 		if (!self.hidden)
@@ -23,10 +27,11 @@ SearchView.prototype.init = function SearchView_init() {
 	});
 	document.addEventListener('click', function (ev) {
 		if (!self.hidden) {
-			var target = ev.target;
-			var parent = target;
+			var parent = ev.target;
 			do {
-				if (parent === self.el || parent === self.trigger) return;
+				if (parent === self.el || 
+					(parent.className === 'search' && 
+					 parent.tagName === 'INPUT')) return;
 			} while ((parent = parent.parentNode));
 			self.hideResults();
 		}
@@ -46,12 +51,15 @@ SearchView.prototype.showResults = function SearchView_showResults(results) {
 	this.el = this.search.el;
 	qs('div.chat-wrapper').appendChild(this.el);
 	this.hidden = false;
+	this.emit('show');
 };
 
 SearchView.prototype.hideResults = function SearchView_removeResults() {
 	this.results = [];
 	this.redraw();
-	this.el.parentNode.removeChild(this.el);
+	if (!self.hidden)
+		this.el.parentNode.removeChild(this.el);
 	this.hidden = true;
+	this.emit('hide');
 };
 
