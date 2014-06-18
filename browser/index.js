@@ -247,8 +247,6 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
-	// remove loading
-	classes(qs('.client-loading')).remove('client-loading');
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
