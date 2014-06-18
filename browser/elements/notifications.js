@@ -7,6 +7,7 @@ var notify = require('HTML5-Desktop-Notifications');
 module.exports = Notifications;
 
 function Notifications() {
+	this.show = false;
 	this.org = {rooms: new Emitter([]), pms: new Emitter([])};
 	this.room = new Emitter({name: '', users: []});
 	this.init();
@@ -31,6 +32,12 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 };
 
 Notifications.prototype.newMessage = function Notifications_newMessage(message, self) {
+	var timediff = new Date() - message.time // UTC time difference in ms
+
+	// don't show messages younger than 5 seconds
+	// TODO: this is a hack to prevent flooding of messages when server reloads
+	if (timediff/1000 > 5) return;
+
 	// don't show chat messages from myself
 	if (message.author == ui.user) return;
 
