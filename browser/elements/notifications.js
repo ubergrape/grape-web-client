@@ -30,12 +30,12 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 	this.room = room;
 };
 
-Notifications.prototype.newMessage = function Notifications_newMessage(message) {
+Notifications.prototype.newMessage = function Notifications_newMessage(message, self) {
 	// don't show chat messages from myself
 	if (message.author == ui.user) return;
 
 	// don't show chat messages in current room, when focused
-	if (message.channel == this.room.id && document.hasFocus()) return;
+	if (message.channel == self.room.id && document.hasFocus()) return;
 
 	// otherwise, show all chat messages
 
@@ -65,8 +65,8 @@ Notifications.prototype.setOrganization = function Notifications_setOrganization
 		room.history.off('add', newMessage);
 	}
 
-	function newMessage(room) {
-		self.newMessage(room);
+	function newMessage(message) {
+		self.newMessage(message, self);
 	}
 
 	this.org.rooms.off('add', addRoom);
