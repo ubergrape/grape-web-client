@@ -54,7 +54,14 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message, 
 		authorname = message.author.username;
 	}
 
-	notify.createNotification(authorname, {
+	// add room name to title
+	var title = authorname;
+	var room = self.org.rooms.find("id==" + message.channel);
+	if (typeof room !== 'undefined') {
+		title += " (" + room.name + ")";
+	}
+
+	notify.createNotification(title, {
 		body: message.text,
 		icon: message.author.avatar,
 		timeout: 6000
