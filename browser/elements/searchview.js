@@ -55,11 +55,11 @@ SearchView.prototype.showResults = function SearchView_showResults(results) {
 };
 
 SearchView.prototype.hideResults = function SearchView_removeResults() {
-	this.results = [];
-	this.redraw();
-	if (!self.hidden)
+	if (!self.hidden) {
+		this.results = [];
 		this.el.parentNode.removeChild(this.el);
-	this.hidden = true;
-	this.emit('hide');
+		this.hidden = true;
+		this.emit('hide');
+	}
 };
 

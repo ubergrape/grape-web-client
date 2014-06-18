@@ -66,7 +66,7 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
-	qs('.search', this.el).value = '';
+	this.searchInput.value = '';
 };
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {

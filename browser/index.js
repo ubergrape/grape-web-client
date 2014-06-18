@@ -204,6 +204,10 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 
+	// search
+	broker(this.searchView, 'show', this, 'showSearchResults');
+	broker(this.searchView, 'hide', this, 'hideSearchResults');
+	
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
@@ -253,6 +257,15 @@ UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
 	this.searchView.showResults(results);
+};
+
+UI.prototype.showSearchResults = function() {
+	classes(this.el).add('searching');
+};
+
+UI.prototype.hideSearchResults = function() {
+	classes(this.el).remove('searching');
+	this.chatHeader.clearSearch();
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
