@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-18 11:56+0000\n"
+"POT-Creation-Date: 2014-06-20 07:42+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -499,6 +499,7 @@ msgstr ""
 #: client/browser/index.js:380
 #: client/browser/index.js:381
 #: client/browser/index.js:401
+#: client/browser/index.js:399
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -571,6 +572,7 @@ msgid "You are looking great today!"
 msgstr ""
 
 #: client/browser/index.js:391
+#: client/browser/index.js:389
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
