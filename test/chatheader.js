@@ -39,11 +39,11 @@ describe('ChatHeader', function () {
 		var ch = new ChatHeader();
 		var input = qs('.search', ch.el);
 		input.value = 'foobar';
-		ch.on('search', function (term) {
+		ch.on('searching', function (term) {
 			term.should.eql('foobar');
 			done();
 		});
-		trigger(qs('.search-submit', ch.el), 'click');
+		trigger(qs('.search', ch.el), 'keyup');
 	});
 });
 
