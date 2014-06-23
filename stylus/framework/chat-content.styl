@@ -72,8 +72,10 @@
 		font-weight: bold
 		@extend $horizontal-list
 		li
-			a
-				color: grape-light
+			a 
+				color: link-color
+				&:hover
+					color: lighten(link-color, 25%)
 				@extend $subtle-link
 			i
 				margin-right: 4px
