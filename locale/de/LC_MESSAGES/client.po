@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-20 07:42+0000\n"
+"POT-Creation-Date: 2014-06-23 11:39+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -604,4 +604,16 @@ msgstr ""
 
 #: client/templates/popovers/roomlist.jade:7
 msgid "Join"
+msgstr ""
+
+#: client/templates/popovers/roommembers.jade:16
+msgid "Invite more members"
+msgstr ""
+
+#: client/templates/popovers/roommembers.jade:19
+msgid "Member name or email"
+msgstr ""
+
+#: client/templates/popovers/roommembers.jade:22
+msgid "Invite"
 msgstr ""
