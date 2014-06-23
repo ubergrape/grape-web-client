@@ -46,50 +46,47 @@
 
 .ac
 	white-space: nowrap
-	background: white
-	border: none
-	border-bottom: 1px dotted aqua-dark
-	//box-shadow: 0px 1px 2px 0px #ddd
-	border-radius: main-border-radius-small
+	border-bottom: 1px solid silver-light
+	// box-shadow: 0px 1px 2px 0px #ddd
 	display: inline-block
-	margin: 1px
+	margin: 1px 
 	padding: 1px 0
 	vertical-align: baseline
-	color: aqua-dark
+	font-weight: bold
+	// color: lighten(grape-typo, 15) !important
+	a&
+		&:hover
+			border-color: silver-dark
+	button&
+		border: 1px solid aqua-dark
+		padding: 1px 5px
+		background: #fff
+		border-radius: main-border-radius-small
+		color: link-color
+		span
+			float: left
 	&:hover
 		text-decoration: none
-.entry-type-icon
+.entry-type-icon, .ac:before
 	display: inline
 	font-family: FontAwesome
-	color: gainsboro-dark
-	margin-right: 6px
+	margin-right: 3px
+	font-weight: normal
 .type-label
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f02b"
 .type-githubissue
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f09b"
 .type-calendar
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f073"
 .type-googledocs
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f0d4"
 .type-chatgrapeuser
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f007"
+.type-chatgraperoom
+	&:before
+		content: "\f086"
