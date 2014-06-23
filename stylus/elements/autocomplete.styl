@@ -44,27 +44,30 @@
 //
 // ****
 
-.ac
-	white-space: nowrap
-	border-bottom: 1px solid silver-light
-	// box-shadow: 0px 1px 2px 0px #ddd
-	display: inline-block
-	margin: 1px 
-	padding: 1px 0
-	vertical-align: baseline
-	font-weight: bold
-	// color: lighten(grape-typo, 15) !important
-	a&
-		&:hover
-			border-color: silver-dark
-	button&
+body 
+	.ac
+		white-space: nowrap
+		border-bottom: 1px solid silver-light
+		// box-shadow: 0px 1px 2px 0px #ddd
+		display: inline-block
+		margin: 1px 
+		padding: 1px 0
+		vertical-align: baseline
+		font-weight: bold
+		color: gainsboro-dark
+	a.ac:hover
+		color: lighten(link-color, 25%)
+		text-decoration: none
+		border-color: aqua-dark !important
+	button.ac
 		border: 1px solid aqua-dark
 		padding: 1px 5px
 		background: #fff
 		border-radius: main-border-radius-small
-		color: link-color
+		color: gainsboro-dark
 		span
 			float: left
+			margin-right: 0
 	&:hover
 		text-decoration: none
 .entry-type-icon, .ac:before
