@@ -35,7 +35,7 @@ Messages.prototype.init = function() {
 
 Messages.prototype.redraw = function() {
 	var vdom = template('messages', {messages: this.messages});
-	render(this, vdom)
+	render(this, vdom);
 };
 
 Messages.prototype.add = function(msg) {

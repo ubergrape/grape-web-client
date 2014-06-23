@@ -170,6 +170,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var search = match.substr(1); // match without the '@''
 
+            // TODO don't use global vars
+
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
 				var user = users[i];
