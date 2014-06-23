@@ -4,7 +4,6 @@
 var Emitter = require('emitter');
 var template = require('template');
 var qs = require('query');
-var closest = require('closest');
 var events = require('events');
 var render = require('../rendervdom');
 var classes = require('classes');

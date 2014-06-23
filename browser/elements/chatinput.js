@@ -64,22 +64,22 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.input = inputarea(this.messageInput);
 	this.input.cleanedValue = function() {
 		var el = this.el;
-		var children = new Array();
+		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
-			if (childnode.nodeType == 3) {
+			if (childnode.nodeType === 3) {
 				children.push(childnode.nodeValue);
-			} else if (childnode.nodeName == "BR") {
+			} else if (childnode.nodeName === "BR") {
 				children.push("\n\n");
-            } else if (childnode.nodeName == "DIV") {
+            } else if (childnode.nodeName === "DIV") {
                 children.push(childnode.innerText);
                 children.push("\n\n");
-			} else if (childnode.nodeType == 1) {
+			} else if (childnode.nodeType === 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
 				// getAttribute. So this won't work in old IEs, but it's faster
 				var object = childnode.getAttribute('data-object');
-				if (object != null) {
+				if (object !== null) {
 					children.push(object);
 				} else {
                     // Q: why would there be any HTML in the message input?
@@ -89,7 +89,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			}
 		}
 		return children.join('');
-	}
+	};
 	this.input.on('input', function (str) {
 		str = str.trim();
 		if (!str)
@@ -170,6 +170,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var search = match.substr(1); // match without the '@''
 
+            // TODO don't use global vars
+
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
 				var user = users[i];
@@ -205,7 +207,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			self.complete.show();
 			self.complete.highlight(0);
 
-		} else if (match[0] == "#") {
+		} else if (match[0] === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
@@ -218,7 +220,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						service: r.service,
 						type: r.type,
                         url: r.url
-					})
+					});
 				}
 
 				// this should be shown at the beginning but
@@ -242,15 +244,15 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
 	el.focus();
-    if (typeof window.getSelection != "undefined"
-            && typeof document.createRange != "undefined") {
+    if (typeof window.getSelection !== "undefined"
+            && typeof document.createRange !== "undefined") {
         var range = document.createRange();
         range.selectNodeContents(el);
         range.collapse(false);
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
-    } else if (typeof document.body.createTextRange != "undefined") {
+    } else if (typeof document.body.createTextRange !== "undefined") {
         var textRange = document.body.createTextRange();
         textRange.moveToElementText(el);
         textRange.collapse(false);
@@ -263,13 +265,13 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editing = true;
 	classes(this.el).add('editing');
 	this.oldVal = this.messageInput.innerHTML;
-    var message_text = msg['text'];
+    var message_text = msg.text;
 
     // replace special autocomplete links with html
     var autocomplete = /!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
     var replacer = function replacer(match, text, href){
         return markdown_renderlink(href, "", text, true);
-    }
+    };
     message_text = message_text.replace(autocomplete, replacer);
 
 	this.messageInput.innerHTML = message_text;
