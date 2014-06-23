@@ -32,7 +32,7 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 };
 
 Notifications.prototype.newMessage = function Notifications_newMessage(message, self) {
-	var timediff = new Date() - message.time // UTC time difference in ms
+	var timediff = new Date() - message.time; // UTC time difference in ms
 
 	// don't show messages younger than 5 seconds
 	// TODO: this is a hack to prevent flooding of messages when server reloads
@@ -48,7 +48,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message, 
 
 	//TODO: move this to user model
 	var authorname = "";
-	if (message.author.firstName != "") {
+	if (message.author.firstName !== "") {
 		authorname = message.author.firstName + " " + message.author.lastName;
 	} else {
 		authorname = message.author.username;
@@ -94,6 +94,6 @@ Notifications.prototype.setOrganization = function Notifications_setOrganization
 	this.org.pms.on('remove', removeRoom);
 };
 
-function isDocumentHidden() {
-	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
-}
+// function isDocumentHidden() {
+// 	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
+// }

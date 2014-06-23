@@ -28,7 +28,7 @@ RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 	this.classes.add('members-po');
 	this.classes.add('top');
 	render(this.content, template('popovers/roommembers', {room: this.room}));
-}
+};
 
 RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.room.off('change', this.redraw);
