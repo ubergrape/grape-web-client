@@ -8,9 +8,9 @@
 	if room.id == undefined
 		.message-group.welcome-message
 			h3
-				| Welcome to your 
+				| Welcome to your
 				span Organisation
-			p 
+			p
 				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
 			ul.welcome-tasks
 				li.option
@@ -25,9 +25,9 @@
 		if room.type !== 'pm'
 			.message-group.welcome-message
 				h3
-					| Welcome to 
+					| Welcome to
 					span #{room.name}
-				p 
+				p
 					=_('This room is public. Every member can join and read the history.')
 				ul.welcome-tasks
 					li.option
@@ -37,12 +37,16 @@
 		else
 			.message-group.welcome-message
 				h3
-					| Private chat with 
+					| Private chat with
 					span #{room.users[0].username}
-				p 
-					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. 
+				p
+					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you.
 					br
 					| So speak freely.
+				if room.users[0].is_only_invited
+					p
+						=_("This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
@@ -63,7 +67,7 @@
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				a(href="/chat/@" + first.author.username.toLowerCase()).author
 					if (first.author.firstName || first.author.lastName)
-						author.author #{first.author.firstName} #{first.author.lastName} 
+						author.author #{first.author.firstName} #{first.author.lastName}
 							em #{first.author.username}
 					else
 						author= first.author.username
@@ -88,13 +92,13 @@
 								//-	span.label #entscheidungen
 								//-		i.fa.fa-check-circle
 						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name 
+							a.container(href=line.container.url, class=line.container.type)= line.container.name
 							if line.branch
 								span.branch= line.branch
 						if line.content
 							.message-content= line.content
 						if line.container
-							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name 
+							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
@@ -109,9 +113,9 @@
 								each obj in line.objects
 									li(class=obj.type)
 										if obj.sha
-											a(href=obj.url)= obj.sha 
+											a(href=obj.url)= obj.sha
 										if obj.name
-											a(href=obj.url)= obj.name 
+											a(href=obj.url)= obj.name
 										if obj.content
 											.content= obj.content
 										if obj.summary
