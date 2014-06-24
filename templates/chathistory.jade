@@ -34,6 +34,12 @@
 						a(href='/services/list/', target='_blank')
 							i.fa.fa-plus
 							=_('Add service integrations')
+					li.option
+						textarea.invite-input
+						button.button.btn-invite
+							=_('Invite Members')
+						.autocomplete-wrapper
+							.autocomplete
 		else
 			.message-group.welcome-message
 				h3
