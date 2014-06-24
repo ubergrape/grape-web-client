@@ -35,6 +35,9 @@
 						span= result.channel.name
 					.item-content
 						= html(result.highlighted)
+						ul.item-footer
+							li.time
+								time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
 		li.result-object.selected
 			.item-object.minor
 				.item-info
