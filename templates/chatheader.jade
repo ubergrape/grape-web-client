@@ -14,16 +14,15 @@
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	.room-info-text
-		.room-name
-			if room.type === 'room'
-				h1.room-name= room.name
-			else if room.type === 'pm'
+	.room-name
+		if room.type === 'room'
+			div
 				h1
-					| @#{room.users[0].username}
-			if room.type !== 'pm'
-				if room.users.length > 0
+					span= room.name
 					.connected-users
 						i.fa.fa-user
 						span.sml-nr
 							| #{room.users.length}
+		else if room.type === 'pm'
+			h1
+				| @#{room.users[0].username}

@@ -72,5 +72,5 @@ Popover.prototype.toggle = function Popover_toggle(trigger) {
 	} else {
 		this.hide();
 	}
-}
+};
 

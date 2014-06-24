@@ -16,6 +16,7 @@
     "browser/elements/chatinput.js",
     "browser/elements/fileuploader.js",
     "browser/elements/historyview.js",
+    "browser/elements/searchview.js",
     "browser/elements/itemlist.js",
     "browser/elements/messages.js",
     "browser/elements/navigation.js",
@@ -50,6 +51,7 @@
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
+    "templates/searchresults.jade",
     "templates/chatinput.jade",
     "templates/fileuploader.jade",
     "templates/messages.jade",

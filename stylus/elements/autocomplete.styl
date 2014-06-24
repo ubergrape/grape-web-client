@@ -44,49 +44,52 @@
 //
 // ****
 
-.ac
-	white-space: nowrap
-	background: silver-light
-	border: 1px solid gainsboro-light
-	//box-shadow: 0px 1px 2px 0px #ddd
-	border-radius: main-border-radius-small
-	display: inline-block
-	margin: 1px
-	padding: 1px 5px
-	vertical-align: baseline
-	color: grape-light
-.entry-type-icon
+body 
+	.ac
+		white-space: nowrap
+		border-bottom: 1px solid gainsboro-light
+		// box-shadow: 0px 1px 2px 0px #ddd
+		display: inline-block
+		margin: 1px 
+		padding: 1px 0
+		vertical-align: baseline
+		font-weight: bold
+		// color: gainsboro-dark
+	a.ac:hover
+		color: lighten(link-color, 25%)
+		text-decoration: none
+		border-color: aqua-dark !important
+	button.ac
+		border: 1px solid aqua-dark
+		padding: 1px 5px
+		background: #fff
+		border-radius: main-border-radius-small
+		color: gainsboro-dark
+		span
+			float: left
+			margin-right: 0
+	&:hover
+		text-decoration: none
+.entry-type-icon, .ac:before
 	display: inline
 	font-family: FontAwesome
-	color: gainsboro-dark
-	margin-right: 6px
+	margin-right: 3px
+	font-weight: normal
 .type-label
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f02b"
 .type-githubissue
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f09b"
 .type-calendar
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f073"
 .type-googledocs
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f0d4"
 .type-chatgrapeuser
-	&:after
-		margin-left: 6px
-		font-family: FontAwesome
-		color: gainsboro-dark
+	&:before
 		content: "\f007"
+.type-chatgraperoom
+	&:before
+		content: "\f086"

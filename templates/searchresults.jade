@@ -1,0 +1,27 @@
+.search-results
+	.result-info
+		.result-nr
+			= results.total + _(' results for ')
+			strong=results.q
+	ul.result-list
+		each result in results.results
+			li.result-object(class=result.index)
+				.item-object.main
+					if (result.index !== 'objects')
+						div.item-info
+							h2= result.author.username
+							i.fa.fa-comment
+							span= result.channel.name
+					else
+						div.item-info
+							h2= result.container
+							i.fa.fa-github
+					.item-content
+						= html(markdown(result.highlighted))
+						ul.item-footer
+							if (result.index !== 'objects')
+								li.time
+									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
+							else
+								li.option
+									a(href=result.url)= _("View")

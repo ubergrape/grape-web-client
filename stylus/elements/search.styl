@@ -27,6 +27,11 @@
 			color: bittersweet-light
 	.search-submit
 		display: none
+	@media (max-width: 1200px)
+		width: 200px
+	@media (max-width: 800px)
+		width: 104px
+			
 
 /*______ SEARCH RESULT ______*/
 .search-results
@@ -34,7 +39,6 @@
 	margin-bottom: footer-height
 	padding-left: 0
 	padding-right: 0
-	display: none
 	.searching &
 		display: block
 	.result-info, .result-filters
@@ -98,7 +102,7 @@
 				margin-right: 5px
 		.item-content
 			overflow: hidden
-			span
+			b
 				background: gold
 				padding: 0px 3px
 				margin: 0 -3px
