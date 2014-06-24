@@ -3,28 +3,6 @@
 		.result-nr
 			= results.total + _(' results for ')
 			strong=results.q
-	.result-filters
-		.filter-room
-			h2=_('Sort by')
-			ul
-				li
-					a=_('Überall')
-				li
-					a=_('Design')
-		.filter-list
-			ul
-				li
-					strong
-						a=_('Alle (51)')
-				li
-					i.fa.fa-envelope
-					a=_('Nachrichten (14)')
-				li
-					i.fa.fa-file
-					a=_('Dateien (10)')
-				li
-					i.fa.fa-github
-					a=_('GitHub Issues (1)')
 	ul.result-list
 		each result in results.results
 			li.result-object(class=result.index)
