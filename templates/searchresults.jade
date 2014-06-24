@@ -29,15 +29,15 @@
 		each result in results.results
 			li.result-object(class=result.index)
 				.item-object.main
-					.item-info 
-						if !(result.index === 'objects')
-							= result.author.username
+					if (result.index !== 'objects')
+						div.item-info
+							h2= result.author.username
 							i.fa.fa-comment
 							span= result.channel.name
-						else
-							h2
-								i.fa.fa-github
-								= result.container
+					else
+						div.item-info
+							h2= result.container
+							i.fa.fa-github
 					.item-content
 						= html(markdown(result.highlighted))
 						ul.item-footer
