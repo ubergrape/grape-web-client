@@ -251,7 +251,6 @@ HistoryView.prototype._bindAutocomplete = function HistoryView__bindAutocomplete
     }
 
     this.inviteButton = qs('button.invite-to-room', this.el);
-    this.inviteButton.bund
 }
 
 HistoryView.prototype.inviteToRoom = function HistoryView_inviteToRoom() {
