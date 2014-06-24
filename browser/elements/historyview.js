@@ -42,14 +42,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-    // this.events.bind('click button.ac', 'openLink');
-    // this.events.bind('click input.ac', 'openLink');
-
 };
-
-// HistoryView.prototype.openLink = function HistoryView_openLink(ev) {
-//     window.open(ev.target.getAttribute('data-url'), '_blank');
-// };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
