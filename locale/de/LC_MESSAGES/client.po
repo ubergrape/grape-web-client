@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-17 12:29+0000\n"
+"POT-Creation-Date: 2014-06-20 07:42+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -397,6 +397,7 @@ msgstr "Organisations-Einstellungen"
 
 #: client/templates/index.jade:109 client/templates/index.jade:127
 #: client/templates/popovers/organization.jade:12
+#: client/templates/popovers/pm.jade:25
 msgid "Manage Members"
 msgstr "Mitglieder verwalten"
 
@@ -498,6 +499,7 @@ msgstr ""
 #: client/browser/index.js:380
 #: client/browser/index.js:381
 #: client/browser/index.js:401
+#: client/browser/index.js:399
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -543,6 +545,7 @@ msgid "View on GitHub"
 msgstr ""
 
 #: client/templates/popovers/pm.jade:9
+#: client/templates/popovers/pm.jade:10
 msgid "x"
 msgstr ""
 
@@ -566,4 +569,39 @@ msgstr ""
 
 #: client/templates/chathistory.jade:7
 msgid "You are looking great today!"
+msgstr ""
+
+#: client/browser/index.js:391
+#: client/browser/index.js:389
+msgid ""
+"Lost Connection to the server - trying to reconnect. You can also try to <a "
+"href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
+msgstr ""
+
+#: client/templates/navigation.jade:7
+msgid "Add room"
+msgstr ""
+
+#: client/templates/navigation.jade:11
+msgid "New message"
+msgstr ""
+
+#: client/templates/navigation.jade:15
+msgid "Add label"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:12
+msgid "Message"
+msgstr ""
+
+#: client/templates/popovers/pm.jade:23
+msgid "There are no members in your organization yet."
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:5
+msgid "Leave"
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:7
+msgid "Join"
 msgstr ""

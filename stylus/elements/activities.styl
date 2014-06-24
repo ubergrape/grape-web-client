@@ -1,4 +1,8 @@
 .activity
+	border-radius: main-border-radius 0 0 main-border-radius
+	border-left: main-border-radius solid gainsboro-light
+	padding: 10px
+	background: silver-light
 	ul.activity-options
 		margin-top: 7px
 		@extend $clearfix
@@ -29,6 +33,7 @@
 			padding: 8px 0px
 			color: gainsboro-dark
 			&:before
+				float: left
 				font-style: normal
 				display: inline
 				margin-left: 3px
@@ -38,13 +43,26 @@
 			.content
 				padding: 0 4px
 				font-style: italic
-				display: inline
+				position: relative
+				max-height: 6.39em /* exactly five lines */
+				overflow: hidden
+				&:after
+					content: ""
+					text-align: right
+					position: absolute
+					bottom: 0
+					right: 0
+					width: 25%
+					height: 1.2em
+					background: linear-gradient(to right, rgba(lighten(silver-dark, 10%), 0.5), rgba(lighten(silver-dark, 10%), 1) 50%)
 			a
 				padding: 0 4px
 				font-weight: bold
 				text-decoration: none
 				display: inline
 		.comment
+			border-radius: main-border-radius
+			background: lighten(silver-dark, 10%)
 			&:before
 				content: "\f075"
 		.page

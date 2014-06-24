@@ -11,7 +11,6 @@ var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
-var Animate = require('animate');
 var notify = require('HTML5-Desktop-Notifications');
 
 var exports = module.exports = UI;
@@ -115,7 +114,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize notifications
 	this.notifications = new Notifications();
-	if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
+	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
 		this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
 	}
 };
@@ -131,7 +130,7 @@ UI.prototype.bind = function UI_bind() {
 		'requestPermission': function() {
 
 			notify.requestPermission(function(permission){
-				if (permission != "default") {
+				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
 				}
 			});
@@ -247,8 +246,6 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
-	// remove loading
-	classes(qs('.client-loading')).remove('client-loading');
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
@@ -388,9 +385,9 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.danger(_('Lost Connection'));
+		this._connErrMsg = this.messages.warning(_('Lost Connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
-}
+};
 
 UI.prototype.handleReconnection = function UI_handleReconnection() {
 	if (this._connErrMsg) {
@@ -399,5 +396,5 @@ UI.prototype.handleReconnection = function UI_handleReconnection() {
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
-	setTimeout(function(){msg.remove()}, 2000)
-}
+	setTimeout(function(){msg.remove()}, 2000);
+};

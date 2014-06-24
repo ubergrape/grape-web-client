@@ -12,6 +12,6 @@ module.exports = function markdown_renderLink(href, title, text, asButton) {
 		service: data[0],
 		type: data[1],
 		url: data[3]
-	}
+	};
 	return renderautocomplete(object, asButton);
 };

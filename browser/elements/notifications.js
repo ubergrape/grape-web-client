@@ -7,6 +7,7 @@ var notify = require('HTML5-Desktop-Notifications');
 module.exports = Notifications;
 
 function Notifications() {
+	this.show = false;
 	this.org = {rooms: new Emitter([]), pms: new Emitter([])};
 	this.room = new Emitter({name: '', users: []});
 	this.init();
@@ -30,24 +31,37 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 	this.room = room;
 };
 
-Notifications.prototype.newMessage = function Notifications_newMessage(message) {
+Notifications.prototype.newMessage = function Notifications_newMessage(message, self) {
+	var timediff = new Date() - message.time; // UTC time difference in ms
+
+	// don't show messages younger than 5 seconds
+	// TODO: this is a hack to prevent flooding of messages when server reloads
+	if (timediff/1000 > 5) return;
+
 	// don't show chat messages from myself
 	if (message.author == ui.user) return;
 
 	// don't show chat messages in current room, when focused
-	if (message.channel == this.room.id && document.hasFocus()) return;
+	if (message.channel == self.room.id && document.hasFocus()) return;
 
 	// otherwise, show all chat messages
 
 	//TODO: move this to user model
 	var authorname = "";
-	if (message.author.firstName != "") {
+	if (message.author.firstName !== "") {
 		authorname = message.author.firstName + " " + message.author.lastName;
 	} else {
 		authorname = message.author.username;
 	}
 
-	notify.createNotification(authorname, {
+	// add room name to title
+	var title = authorname;
+	var room = self.org.rooms.find("id==" + message.channel);
+	if (typeof room !== 'undefined') {
+		title += " (" + room.name + ")";
+	}
+
+	notify.createNotification(title, {
 		body: message.text,
 		icon: message.author.avatar,
 		timeout: 6000
@@ -65,8 +79,8 @@ Notifications.prototype.setOrganization = function Notifications_setOrganization
 		room.history.off('add', newMessage);
 	}
 
-	function newMessage(room) {
-		self.newMessage(room);
+	function newMessage(message) {
+		self.newMessage(message, self);
 	}
 
 	this.org.rooms.off('add', addRoom);
@@ -80,6 +94,6 @@ Notifications.prototype.setOrganization = function Notifications_setOrganization
 	this.org.pms.on('remove', removeRoom);
 };
 
-function isDocumentHidden() {
-	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
-}
+// function isDocumentHidden() {
+// 	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
+// }

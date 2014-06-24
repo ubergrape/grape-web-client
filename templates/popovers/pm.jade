@@ -21,6 +21,6 @@
 	else
 		p
 			p.empty-message=_('There are no members in your organization yet.')
-			a(href='/accounts/organization/settings/members/', target='_blank').button
+			a(href='/accounts/organization/settings/members/', target='_blank').button.manage-users
 				=_('Manage Members')
 				i.fa.fa-user

@@ -25,6 +25,7 @@ ul.alerts
 			margin-left: 22px
 			font-weight: normal
 			margin-top: -2px
+			float: none
 @keyframes slideinout {
   0%, 100% {
     top:-30px
@@ -59,8 +60,8 @@ ul.alerts
 		color: lighten(alert-warning-color, 20%)
 .alerts li.danger
 	background-color: lighten(alert-danger-color, 90%)
-	border-color: lighten(alert-danger-color, 60%)
-	color: alert-danger-color
+	border-color: darken(alert-danger-color, 30%)
+	color: darken(alert-danger-color, 30%)
 	a:hover
 		color: lighten(alert-danger-color, 20%)
 

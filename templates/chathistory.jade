@@ -118,12 +118,6 @@
 											.summary= obj.summary
 										if obj.author && obj.author.username
 											span.author= obj.author.username
-									if line.author.id==='github'
-										ul.activity-options
-											li.option
-												a(href=obj.url, target='_blank')
-													i.fa.fa-github
-													=_('View on GitHub')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit

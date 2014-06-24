@@ -17,10 +17,14 @@
 		height: 100%
 		position: relative
 		padding-top: 14px
-
+	a 
+		color: link-color
+		@extend $subtle-link
+		&:hover
+			color: lighten(link-color, 25%)
 .message-group
 	@extend $clearfix
-	margin: 10px 30px 14px 20px
+	margin: 20px 30px 20px 20px
 	position: relative
 	.avatar
 		float: left
@@ -72,9 +76,6 @@
 		font-weight: bold
 		@extend $horizontal-list
 		li
-			a
-				color: grape-light
-				@extend $subtle-link
 			i
 				margin-right: 4px
 		.option
@@ -141,12 +142,6 @@
 			margin-bottom: 3px
 			max-width: 90%
 			word-wrap: break-word
-			a 
-				color: grape-light
-				text-decoration: none
-				&:hover
-					color: lighten(grape-light, 25%)
-					text-decoration: underline
 			em
 				font-style: italic
 			.warning-unsent
@@ -176,5 +171,6 @@
 	height: 7px
 	margin: 0px 30px 18px 20px
 	span
+		color: aqua-dark
 		background: chat-background
 		padding: 0px 5px
