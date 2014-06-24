@@ -22,7 +22,7 @@ describe('ChatHeader', function () {
 		qs('.room-name h1', ch.el).textContent.should.eql('test');
 		qs('.room-name span.sml-nr', ch.el).textContent.should.eql('0');
 	});
-	it('should render a list of all users in the room', function () {
+	it.skip('should render a list of all users in the room', function () {
 		var ch = new ChatHeader();
 		var user = {id: 1, username: 'test', status: 16};
 		ch.setRoom(emitter({name: 'test', users: [user], typing: {}}));
