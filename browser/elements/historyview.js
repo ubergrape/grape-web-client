@@ -254,9 +254,17 @@ HistoryView.prototype._bindAutocomplete = function HistoryView__bindAutocomplete
 }
 
 HistoryView.prototype.inviteToRoom = function HistoryView_inviteToRoom() {
-    // TODO: implement
-    console.log("invite");
-}
+    var self = this;
+    var users = this.inviteInput.value.split(/[\s,;]+/);
+
+    if (users.length === 0) {
+        alert("please enter at least one user to invite");
+    }
+
+    self.emit('inviteToRoom', this.room, users, function inviteToRoom_callback(err, result){
+        alert("invited " + users.length + " users.");
+    });
+};
 
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
