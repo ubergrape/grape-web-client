@@ -207,9 +207,9 @@ UI.prototype.bind = function UI_bind() {
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView, 
+	broker(this.chatHeader, 'stopsearching', this.searchView,
 			'hideResults');
-	
+
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');

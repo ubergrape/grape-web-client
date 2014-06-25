@@ -38,8 +38,8 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	// don't show chat messages from myself
 	if (message.author == ui.user) return;
 
-    // only show messages from joined rooms
-    if (!message.channel.joined) return;
+	// only show messages from joined rooms
+	if (!message.channel.joined) return;
 
 	// don't show chat messages in current room, when focused
 	if (message.channel.id == self.room.id && document.hasFocus()) return;
