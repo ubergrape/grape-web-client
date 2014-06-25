@@ -56,7 +56,13 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message, 
 
 	// add room name to title
 	var title = authorname;
-	var room = self.org.rooms.find("id==" + message.channel);
+	var room;
+    for (var i=0; i<app.organization.rooms.length; i++){
+        if (app.organization.rooms[i].id == message.channel) {
+            room = app.organization.rooms[i];
+            break;
+        }
+    }
 	if (typeof room !== 'undefined') {
 		title += " (" + room.name + ")";
 	}
