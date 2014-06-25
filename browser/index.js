@@ -216,6 +216,7 @@ UI.prototype.bind = function UI_bind() {
 
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
+    broker(this, 'selectorganization', this.notifications, 'setOrganization');
 	broker(this, 'newmessage', this.notifications, 'newMessage');
 
 	// file upload

@@ -8,6 +8,7 @@ module.exports = Notifications;
 
 function Notifications() {
 	this.show = false;
+	this.org = {rooms: new Emitter([]), pms: new Emitter([])};
 	this.room = new Emitter({name: '', users: []});
 	this.init();
 	this.bind();
@@ -56,12 +57,13 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	// add room name to title
 	var title = authorname;
 	var room;
-    for (var i=0; i<app.organization.rooms.length; i++){
-        if (app.organization.rooms[i].id == message.channel) {
-            room = app.organization.rooms[i];
-            break;
-        }
-    }
+	for (var i=0; i<this.org.rooms.length; i++){
+		if (this.org.rooms[i].id == message.channel) {
+			room = this.org.rooms[i];
+			break;
+		}
+	}
+
 	if (typeof room !== 'undefined') {
 		title += " (" + room.name + ")";
 	}
@@ -71,6 +73,10 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		icon: message.author.avatar,
 		timeout: 6000
 	});
+};
+
+Notifications.prototype.setOrganization = function Notifications_setOrganization(org) {
+	this.org = org;
 };
 
 // function isDocumentHidden() {
