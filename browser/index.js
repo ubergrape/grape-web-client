@@ -92,7 +92,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
-	qs('.room-info', this.el).appendChild(this.chatHeader.el);
+	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
@@ -217,7 +217,7 @@ UI.prototype.bind = function UI_bind() {
 
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
-	broker(this, 'selectorganization', this.notifications, 'setOrganization');
+	broker(this, 'newmessage', this.notifications, 'newMessage');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -412,7 +412,8 @@ UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	classes(qs('body')).add('disconnected');
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection() {
+UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
+	if (!reconnected) return;
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;

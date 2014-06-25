@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-06-24 14:49+0000\n"
+"POT-Creation-Date: 2014-06-25 07:22+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -370,11 +370,13 @@ msgstr ""
 #: client/browser/index.js:381
 #: client/browser/index.js:401
 #: client/browser/index.js:399
+#: client/browser/index.js:420
 msgid "Reconnected successfully"
 msgstr ""
 
 #: client/browser/index.js:391
 #: client/browser/index.js:389
+#: client/browser/index.js:410
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "

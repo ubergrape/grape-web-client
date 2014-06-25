@@ -1,4 +1,4 @@
-.chat-header
+div
 	.user-menu-wrap
 		.avatar-wrap
 			if true
@@ -14,11 +14,11 @@
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	.room-name
+	.room-info
 		if room.type === 'room'
 			div
 				h1
-					span= room.name
+					span.room-name= room.name
 					.connected-users
 						i.fa.fa-user
 						span.sml-nr

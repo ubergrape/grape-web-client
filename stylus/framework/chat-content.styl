@@ -21,7 +21,7 @@
 		color: link-color
 		@extend $subtle-link
 		&:hover
-			color: lighten(link-color, 25%)
+			color: lighten(link-color, 15%)
 .message-group
 	@extend $clearfix
 	margin: 20px 30px 20px 20px
@@ -43,6 +43,12 @@
 			border-right: main-border-radius solid white
 			border-top: main-border-radius solid transparent
 			border-bottom: main-border-radius solid transparent
+	&.creator 
+		.message-content
+			background: #EEEDEF
+		.avatar
+			&::after
+				border-right-color: #EEEDEF
 
 .author
 	font-weight: bold

@@ -8,10 +8,11 @@ nav.navigation
 		h2.nav-title=_('Rooms')
 	ul.nav-list.rooms
 	a.nav-title-wrap.addpm
-		div.nav-button.button-inset=_('All users')
-		h2.nav-title=_('User Message')
+		div.nav-button.button-inset=_('All members')
+		h2.nav-title=_('Private Messages')
 	ul.nav-list.pms
 	a.nav-title-wrap.addlabel
 		div.nav-button.button-inset=_('All labels')
 		h2.nav-title=_('Labels')
 	ul.nav-list.labels
+	a(href='/feedback/', target='_blank', class="feedback nav-title-wrap")=_('Give us Feedback!')

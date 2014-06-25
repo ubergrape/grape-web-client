@@ -5,18 +5,18 @@
 	right: 0
 	top: 0
 	height: header-height
-	.room-info
+	.room-header
 		background: room-header-background
 		overflow: hidden
 		height: header-height
 		border-bottom: 1px solid gainsboro-light
 		padding: 17px 30px 17px 20px
 		@extend $clearfix
-		.room-name, .avatar-wrap, .search-form
+		.room-info, .avatar-wrap, .search-form
 			max-width: 100%
 			overflow: hidden
 			// transition: all 200ms linear
-		.room-name
+		.room-info
 			position: relative
 			max-width: 100%
 			h1
@@ -32,7 +32,7 @@
 				display: inline-block
 				position: relative
 				overflow: hidden
-				> span
+				.room-name
 					text-overflow: ellipsis
 					white-space: nowrap
 					overflow: hidden

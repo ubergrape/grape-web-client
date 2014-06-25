@@ -5,7 +5,17 @@ var marked = require('marked');
 var markdown_renderlink = require('./markdown_renderlink');
 
 var renderer = new marked.Renderer();
-renderer.link_simple = marked.Renderer.prototype.link;
+
+
+renderer.link_simple = function(href, title, text) {
+	// Renderer.prototype.link, but with target blank
+	var out = '<a target="_blank" href="' + href + '"';
+	if (title) {
+		out += ' title="' + title + '"';
+	}
+	out += '>' + text + '</a>';
+	return out;
+};
 renderer.link = function(href, title, text) {
 	if (href.slice(0, 5) === "cg://") {
 		return markdown_renderlink(href, title, text);
