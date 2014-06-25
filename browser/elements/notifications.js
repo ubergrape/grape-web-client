@@ -58,7 +58,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	var title = authorname;
 	var room;
 	for (var i=0; i<this.org.rooms.length; i++){
-		if (this.org.rooms[i].id == message.channel) {
+		if (this.org.rooms[i].id == message.channel.id) {
 			room = this.org.rooms[i];
 			break;
 		}
