@@ -41,7 +41,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
     if (!message.channel.joined) return;
 
 	// don't show chat messages in current room, when focused
-	if (message.channel == self.room.id && document.hasFocus()) return;
+	if (message.channel.id == self.room.id && document.hasFocus()) return;
 
 	// otherwise, show all chat messages
 
