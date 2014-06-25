@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-20 07:42+0000\n"
+"POT-Creation-Date: 2014-06-25 07:22+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -500,6 +500,7 @@ msgstr ""
 #: client/browser/index.js:381
 #: client/browser/index.js:401
 #: client/browser/index.js:399
+#: client/browser/index.js:420
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -573,6 +574,7 @@ msgstr ""
 
 #: client/browser/index.js:391
 #: client/browser/index.js:389
+#: client/browser/index.js:410
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -604,4 +606,28 @@ msgstr ""
 
 #: client/templates/popovers/roomlist.jade:7
 msgid "Join"
+msgstr ""
+
+#: client/templates/navigation.jade:7
+msgid "All rooms"
+msgstr ""
+
+#: client/templates/navigation.jade:11
+msgid "All users"
+msgstr ""
+
+#: client/templates/navigation.jade:12
+msgid "Private Messages"
+msgstr ""
+
+#: client/templates/navigation.jade:15
+msgid "All labels"
+msgstr ""
+
+#: client/templates/searchresults.jade:4
+msgid " results for "
+msgstr ""
+
+#: client/templates/searchresults.jade:27
+msgid "View"
 msgstr ""
