@@ -8,7 +8,6 @@ module.exports = Notifications;
 
 function Notifications() {
 	this.show = false;
-	this.org = {rooms: new Emitter([]), pms: new Emitter([])};
 	this.room = new Emitter({name: '', users: []});
 	this.init();
 	this.bind();
@@ -31,15 +30,15 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 	this.room = room;
 };
 
-Notifications.prototype.newMessage = function Notifications_newMessage(message, self) {
-	var timediff = new Date() - message.time; // UTC time difference in ms
+Notifications.prototype.newMessage = function Notifications_newMessage(message) {
 
-	// don't show messages younger than 5 seconds
-	// TODO: this is a hack to prevent flooding of messages when server reloads
-	if (timediff/1000 > 5) return;
+	var self = this;
 
 	// don't show chat messages from myself
 	if (message.author == ui.user) return;
+
+    // only show messages from joined rooms
+    if (!message.channel.joined) return;
 
 	// don't show chat messages in current room, when focused
 	if (message.channel == self.room.id && document.hasFocus()) return;
@@ -72,32 +71,6 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message, 
 		icon: message.author.avatar,
 		timeout: 6000
 	});
-};
-
-Notifications.prototype.setOrganization = function Notifications_setOrganization(org) {
-	var self = this;
-
-	function addRoom(room) {
-		room.history.on('add', newMessage);
-	}
-
-	function removeRoom(room) {
-		room.history.off('add', newMessage);
-	}
-
-	function newMessage(message) {
-		self.newMessage(message, self);
-	}
-
-	this.org.rooms.off('add', addRoom);
-	this.org.rooms.off('remove', removeRoom);
-	this.org.pms.off('add', addRoom);
-	this.org.pms.off('remove', removeRoom);
-	this.org = org;
-	this.org.rooms.on('add', addRoom, self);
-	this.org.rooms.on('remove', removeRoom);
-	this.org.pms.on('add', addRoom);
-	this.org.pms.on('remove', removeRoom);
 };
 
 // function isDocumentHidden() {
