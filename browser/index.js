@@ -92,7 +92,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
-	qs('.room-info', this.el).appendChild(this.chatHeader.el);
+	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
 	// initialize the input field
 	this.chatInput = new ChatInput();

@@ -40,7 +40,7 @@
 					| Private chat with 
 					span #{room.users[0].username}
 				p 
-					| This is a conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. 
+					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. 
 					br
 					| So speak freely.
 	- var lastDate
@@ -66,7 +66,7 @@
 						author.author #{first.author.firstName} #{first.author.lastName} 
 							em #{first.author.username}
 					else
-						author= first.author.username
+						author.author= first.author.username
 				each line in lines
 					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
