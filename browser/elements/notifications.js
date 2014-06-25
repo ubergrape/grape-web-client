@@ -3,12 +3,12 @@
 
 var Emitter = require('emitter');
 var notify = require('HTML5-Desktop-Notifications');
+var _ = require('t');
 
 module.exports = Notifications;
 
 function Notifications() {
 	this.show = false;
-	this.org = {rooms: new Emitter([]), pms: new Emitter([])};
 	this.room = new Emitter({name: '', users: []});
 	this.init();
 	this.bind();
@@ -56,16 +56,11 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 
 	// add room name to title
 	var title = authorname;
-	var room;
-	for (var i=0; i<this.org.rooms.length; i++){
-		if (this.org.rooms[i].id == message.channel.id) {
-			room = this.org.rooms[i];
-			break;
-		}
-	}
 
-	if (typeof room !== 'undefined') {
-		title += " (" + room.name + ")";
+	if (message.channel.type == "room") {
+		title += " (" + message.channel.name + ")";
+	} else {
+		title += " (" + _('Private Message') + ")";
 	}
 
 	notify.createNotification(title, {
@@ -73,10 +68,6 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		icon: message.author.avatar,
 		timeout: 6000
 	});
-};
-
-Notifications.prototype.setOrganization = function Notifications_setOrganization(org) {
-	this.org = org;
 };
 
 // function isDocumentHidden() {
