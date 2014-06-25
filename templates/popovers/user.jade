@@ -1,5 +1,6 @@
 .userpopover
-	h4=_('Current Status')
+	h3=_('User settings')
+	//- #{user.username} gives "loading" here, anybody fix that please
 	span.close ×
 	form.user-status-form.hide
 		input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
