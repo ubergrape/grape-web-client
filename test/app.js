@@ -76,6 +76,7 @@ describe('App', function () {
 			}
 		});
 		app = new App();
+		app.connected.should.eql(false);
 		app.on('change user', function (user) {
 			user.id.should.eql(1);
 			user.username.should.eql('foo');
@@ -94,10 +95,22 @@ describe('App', function () {
 			room.users[0].should.equal(org.users[1]);
 			done();
 		});
+		app.on('connected', function (reconnected) {
+			reconnected.should.eql(false);
+			app.connected.should.eql(true);
+			app.ws.readyState.should.eql(app.ws.OPENED);
+			done();
+		});
 		app.connect(ws);
 	});
 	describe.skip('Error Handling', function () {
 		
+	});
+	it('should emit a disconnected event', function(done) {
+		app.on('disconnected', function(){
+			done();
+		});
+		app.onDisconnect();
 	});
 	it('should flag rooms the user is joined in', function () {
 		var rooms = app.organization.rooms;

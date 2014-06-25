@@ -411,7 +411,8 @@ UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	classes(qs('body')).add('disconnected');
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection() {
+UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
+	if (!reconnected) return;
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
