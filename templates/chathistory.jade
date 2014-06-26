@@ -25,7 +25,7 @@
 		if room.type !== 'pm'
 			.message-group.welcome-message
 				h3
-					| Welcome to 
+					| Welcome to
 					span #{room.name}
 				p
 					=_('This room is public. Every member can join and read the history.')
@@ -43,18 +43,10 @@
 							i.fa.fa-user
 							=_('Invite Members')
 						p=_('There are no members in this room yet. Invite some to get the conversation started.')
-						a(onclick="classes(qs('.invite-to-room')).remove('hide');")
+						a.show-invite
 							i.fa.fa-plus
 							=_('Invite members')
-						form.invite-to-room.hide
-							textarea.input-invite(name="invite-users", placeholder="Enter names or email addresses")
-							button.button.btn-invite(type="submit", name="submit")
-								=_('Invite to ') 
-								= room.name
-								i.icon.fa.fa-envelope
-							.autocomplete-wrapper
-								.autocomplete
-					
+						span.invite
 		else
 			.message-group.welcome-message
 				h3

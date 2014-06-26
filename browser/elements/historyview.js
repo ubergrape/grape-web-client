@@ -13,7 +13,6 @@ var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
-var textcomplete = require('textcomplete');
 var _ = require('t');
 
 // WTFjshint
@@ -44,8 +43,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-	this.events.bind('submit .invite-to-room', 'inviteToRoom');
-	this.events.bind('input .input-invite', 'resetvalidity');
+    this.events.bind('click a.show-invite', 'showInvite');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -217,84 +215,6 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype._bindAutocomplete = function HistoryView__bindAutocomplete() {
-	var self = this;
-	this.inviteInput = qs('.input-invite');
-	var el = qs('.autocomplete', this.el);
-	if (el !== null) {
-		this.complete = textcomplete(this.inviteInput, el);
-		this.complete.re = /([\w.+-]+)$/;
-		this.complete.formatSelection = function (option) {
-			return option.insert + ", ";
-		}
-		this.complete.query = function (matches) {
-			var match = matches[0];
-
-			self.complete.clear();
-
-			var users = app.organization.users;
-			for (var i=0; i<users.length; i++) {
-				var user = users[i];
-				if (  user.firstName.startsWithIgnoreCase(match)
-				   || user.lastName.startsWithIgnoreCase(match)
-				   || user.username.startsWithIgnoreCase(match)) {
-					self.complete.push({
-						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + "|/chat/@" + user.username + ")",
-						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
-						insert: user.username,
-					});
-				}
-			}
-
-			self.complete.show();
-			self.complete.highlight(0);
-		};
-	}
-
-	this.inviteButton = qs('.btn-invite', this.el);
-}
-
-// TODO: put this in component
-Array.prototype.clean = function(deleteValue) {
-  for (var i = 0; i < this.length; i++) {
-	if (this[i] == deleteValue) {
-	  this.splice(i, 1);
-	  i--;
-	}
-  }
-  return this;
-};
-
-HistoryView.prototype.inviteToRoom = function HistoryView_inviteToRoom(ev) {
-	ev.preventDefault();
-
-	var self = this;
-	if (this.inviteInput.value === "") {
-		self.inviteInput.setCustomValidity(_("Please enter at least one user to invite"));
-        self.inviteButton.click();
-        return;
-	}
-
-	var users = this.inviteInput.value.split(/[\s,;]+/);
-	users.clean("");
-
-	console.log("users", users);
-
-	self.emit('inviteToRoom', this.room, users, function inviteToRoom_callback(err, result){
-		if(err) {
-			self.inviteInput.setCustomValidity(err.details);
-			self.inviteButton.click()
-		}else {
-			alert("invited " + users.length + " users.");
-		}
-	});
-};
-
-HistoryView.prototype.resetvalidity = function HistoryView_resetvalidity() {
-	this.inviteInput.setCustomValidity('');
-};
-
-
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	// clear that fn
@@ -320,9 +240,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 
-	// we can only do this when the room type is for certain
-	this._bindAutocomplete();
-
 	room.history.on('add', function () {
 		self.queueDraw();
 	});
@@ -340,3 +257,8 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	});
 };
 
+HistoryView.prototype.showInvite = function HistoryView_showInvite(ev) {
+    ev.preventDefault();
+    classes(qs('.invite-to-room')).remove('hide');
+    console.log("show the invite");
+}
