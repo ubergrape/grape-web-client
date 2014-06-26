@@ -45,7 +45,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
-	this.events.bind('input .invite-users', 'resetvalidity');
+	this.events.bind('input .input-invite', 'resetvalidity');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -219,7 +219,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 
 HistoryView.prototype._bindAutocomplete = function HistoryView__bindAutocomplete() {
 	var self = this;
-	this.inviteInput = qs('.invite-users');
+	this.inviteInput = qs('.input-invite');
 	var el = qs('.autocomplete', this.el);
 	if (el !== null) {
 		this.complete = textcomplete(this.inviteInput, el);

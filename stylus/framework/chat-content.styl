@@ -77,16 +77,39 @@
 	.welcome-tasks
 		margin-top: 7px
 		@extend $clearfix
-		text-transform: uppercase
-		@extend $small-font-size
-		font-weight: bold
-		@extend $horizontal-list
+		a, span
+			@extend $small-font-size
+			font-weight: bold
+			text-transform: uppercase
+		span.task-description
+			color: gainsboro-dark
 		li
 			i
 				margin-right: 4px
 		.option
 			margin-right: 22px
-
+			margin-bottom: 10px
+		.invite-to-room
+			@extend $clearfix
+			.input-invite
+				width: 70%
+				height: 38px
+				padding: 9px 12px 8px 12px
+				outline: none
+				box-sizing: border-box
+				float: left
+				margin-right: 8px
+			.btn-invite
+				max-width: 200px
+				text-overflow: ellipsis
+				height: 34px
+		.autocomplete-wrapper
+			margin: 0
+			top: 4px	
+			width: 70%
+			.autocomplete
+				top: 0px
+				
 .message-content
 	padding: 8px 10px 5px
 	overflow: hidden
