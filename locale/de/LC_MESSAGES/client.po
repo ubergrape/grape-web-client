@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-25 07:22+0000\n"
+"POT-Creation-Date: 2014-06-26 15:30+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -310,6 +310,7 @@ msgstr ""
 #: client/templates/chathistory.jade:47
 #: client/templates/chathistory.jade:53
 #: client/templates/chathistory.jade:57
+#: client/templates/chathistory.jade:70
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -414,21 +415,25 @@ msgstr "Aktueller Status"
 
 #: client/templates/index.jade:119 client/templates/index.jade:137
 #: client/templates/popovers/user.jade:5
+#: client/templates/popovers/user.jade:6
 msgid "Working on designs"
 msgstr "Arbeite gerade an Designs"
 
 #: client/templates/index.jade:126 client/templates/index.jade:144
 #: client/templates/popovers/user.jade:12
+#: client/templates/popovers/user.jade:13
 msgid "Compact View"
 msgstr "Kompakte Ansicht"
 
 #: client/templates/index.jade:130 client/templates/index.jade:148
 #: client/templates/popovers/user.jade:16
+#: client/templates/popovers/user.jade:17
 msgid "User Settings"
 msgstr "Benutzer-Einstellungen"
 
 #: client/templates/index.jade:134 client/templates/index.jade:152
 #: client/templates/popovers/user.jade:20
+#: client/templates/popovers/user.jade:21
 msgid "Sign Out"
 msgstr "Abmelden"
 
@@ -479,6 +484,7 @@ msgstr ""
 #: client/templates/chathistory.jade:69
 #: client/templates/chathistory.jade:75
 #: client/templates/chathistory.jade:79
+#: client/templates/chathistory.jade:92
 msgid "#Label"
 msgstr ""
 
@@ -503,6 +509,7 @@ msgstr ""
 #: client/browser/index.js:401
 #: client/browser/index.js:399
 #: client/browser/index.js:420
+#: client/browser/index.js:432
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -520,6 +527,7 @@ msgstr ""
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:30
 #: client/templates/chathistory.jade:36
+#: client/templates/chathistory.jade:40
 msgid "Add service integrations"
 msgstr ""
 
@@ -532,6 +540,7 @@ msgstr ""
 
 #: client/templates/chathistory.jade:17
 #: client/templates/chathistory.jade:23
+#: client/templates/chathistory.jade:44
 msgid "Invite Members"
 msgstr ""
 
@@ -577,6 +586,7 @@ msgstr ""
 #: client/browser/index.js:391
 #: client/browser/index.js:389
 #: client/browser/index.js:410
+#: client/browser/index.js:421
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -587,6 +597,7 @@ msgid "Add room"
 msgstr ""
 
 #: client/templates/navigation.jade:11
+#: client/templates/popovers/pm.jade:3
 msgid "New message"
 msgstr ""
 
@@ -632,4 +643,62 @@ msgstr ""
 
 #: client/templates/searchresults.jade:27
 msgid "View"
+msgstr ""
+
+#: client/browser/elements/invite.js:76
+msgid "Please enter at least one user to invite"
+msgstr ""
+
+#: client/browser/elements/notifications.js:63
+msgid "Private Message"
+msgstr ""
+
+#: client/templates/chathistory.jade:36
+msgid "Service integrations"
+msgstr ""
+
+#: client/templates/chathistory.jade:37
+msgid "There are no service integrations yet. "
+msgstr ""
+
+#: client/templates/chathistory.jade:45
+msgid ""
+"There are no members in this room yet. Invite some to get the conversation "
+"started."
+msgstr ""
+
+#: client/templates/chathistory.jade:48
+msgid "Invite members"
+msgstr ""
+
+#: client/templates/chathistory.jade:61
+msgid ""
+"This user was only invited and didn't join ChatGrape yet. You can send chat "
+"messages and as soon as the user joins ChatGrape, he will reiceive your "
+"messages."
+msgstr ""
+
+#: client/templates/invite.jade:4
+#: client/templates/popovers/roommembers.jade:21
+msgid "Invite to "
+msgstr ""
+
+#: client/templates/navigation.jade:11
+msgid "All members"
+msgstr ""
+
+#: client/templates/navigation.jade:18
+msgid "Give us Feedback!"
+msgstr ""
+
+#: client/templates/pmlist.jade:19
+msgid "No private messages yet."
+msgstr ""
+
+#: client/templates/popovers/roommembers.jade:16
+msgid "Invite more members"
+msgstr ""
+
+#: client/templates/popovers/user.jade:2
+msgid "User settings"
 msgstr ""
