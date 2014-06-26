@@ -65,6 +65,7 @@
 	border-bottom: 2px dashed silver-dark
 	h2, h3, p, ul
 		max-width: 720px
+		margin-bottom: 2px
 	h2
 		@extend $bigger-font-size
 		color: gainsboro-dark
@@ -77,19 +78,16 @@
 	.welcome-tasks
 		margin-top: 7px
 		@extend $clearfix
-		@extend $horizontal-list
-		a, span
-			@extend $small-font-size
+		.task-description
 			font-weight: bold
-			text-transform: uppercase
-		span.task-description
 			color: gainsboro-dark
+			margin-bottom: 2px
 		li
 			i
 				margin-right: 4px
 		.option
-			margin-right: 22px
-			margin-bottom: 10px
+			margin: 0 22px 10px 0
+			padding-top: 5px
 		.invite-to-room
 			@extend $clearfix
 			.input-invite
@@ -109,6 +107,7 @@
 			top: 4px	
 			width: 70%
 			.autocomplete
+				@extend $clearfix
 				top: 0px
 				
 .message-content
