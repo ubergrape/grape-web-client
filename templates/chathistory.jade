@@ -33,8 +33,20 @@
 					li.option
 						span.task-description
 							i.fa.fa-user
+							=_('Service integrations')
+						p=_('There are no service integrations yet. ')
+						a(href='/services/list/', target='_self')
+							i.fa.fa-plus
+							=_('Add service integrations')
+					li.option
+						span.task-description
+							i.fa.fa-user
 							=_('Invite Members')
-						form.invite-to-room
+						p=_('There are no members in this room yet. Invite some to get the conversation started.')
+						a(onclick="classes(qs('.invite-to-room')).remove('hide');")
+							i.fa.fa-plus
+							=_('Invite members')
+						form.invite-to-room.hide
 							textarea.input-invite(name="invite-users", placeholder="Enter names or email addresses")
 							button.button.btn-invite(type="submit", name="submit")
 								=_('Invite to ') 
@@ -42,14 +54,7 @@
 								i.icon.fa.fa-envelope
 							.autocomplete-wrapper
 								.autocomplete
-					li.option
-						span.task-description
-							i.fa.fa-user
-							=_('Service integrations')
-						p=_('There are no service integrations yet. ')
-						a(href='/services/list/', target='_blank')
-							i.fa.fa-plus
-							=_('Add service integrations')
+					
 		else
 			.message-group.welcome-message
 				h3
