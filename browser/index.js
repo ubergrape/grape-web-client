@@ -383,7 +383,11 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
-	if (!match[2]) return;
+	// if there is no match, go to the first room
+	// if there is not room, we are doomed
+	if (!match[2]) {
+		return this.org.rooms[0];
+	};
 	var name = match[2].toLowerCase();
 	var i;
 	if (match[1] === '@') {
