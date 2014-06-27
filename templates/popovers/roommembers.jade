@@ -8,16 +8,9 @@
 					aside.avatar-wrap
 						img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
 					if (user.firstName || user.lastName)
-						author.author #{user.firstName} #{user.lastName} 
+						author.author #{user.firstName} #{user.lastName}
 							em #{user.username}
 					else
 						author.author= user.username
 	hr
 	h4=_('Invite more members')
-	form.invitemembers
-		.formrow
-			input(type="text", id="newmember-name", placeholder="Enter member's name or email")
-		button.button.create
-			=_('Invite to ') 
-			= room.name
-			i.icon.fa.fa-envelope

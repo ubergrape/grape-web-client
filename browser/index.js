@@ -104,10 +104,9 @@ UI.prototype.init = function UI_init() {
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-    // initialize the invite forms
+    // initialize the invite form
     this.historyInvite = new Invite();
     qs('.history .welcome-tasks', this.el).appendChild(this.historyInvite.el);
-    this.popoverInvite = new Invite();
 
 	// initialize title handler
 	this.title = new Title();

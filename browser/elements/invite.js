@@ -29,11 +29,12 @@ Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetvalidity');
+    this._bindAutocomplete();
 };
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var self = this;
-	this.inviteInput = qs('.input-invite');
+	this.inviteInput = qs('.input-invite', this.el);
 	var el = qs('.autocomplete', this.el);
 	if (el !== null) {
 		this.complete = textcomplete(this.inviteInput, el);
@@ -97,7 +98,6 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
-	this._bindAutocomplete();
 }
 
 // TODO: put this in component
