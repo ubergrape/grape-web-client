@@ -387,12 +387,11 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var name = match[2].toLowerCase();
 	var i;
 	if (match[1] === '@') {
-		// match pms/users
-		for (i = 0; i < this.org.pms.length; i++) {
-			var pm = this.org.pms[i];
-			var pmuser = pm.users[0];
-			if (pmuser.username.toLowerCase() === name)
-				return pm;
+		// match users
+		for (i = 0; i < this.org.users.length; i++) {
+			var user = this.org.users[i];
+			if (user.username.toLowerCase() === name)
+				return user;
 		}
 	} else {
 		// match rooms
@@ -405,11 +404,42 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 };
 
 UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
-	var channel = this.channelFromURL(path);
+	var self = this;
+
+	// this will actually return a channel or a user
+	var channel = self.channelFromURL(path);
+
+	function addlistener(pm) {
+		if (pm.users[0] !== channel) return;
+		self.org.pms.off('add', addlistener);
+		self.emit('selectchannel', pm);
+	}
+
 	if (channel) {
-		this.emit('selectchannel', channel);
+		if (channel.type === 'user') {
+			var pm = self.isPmOpen(channel);
+			if (!pm) {
+				self.org.pms.on('add', addlistener);
+				self.emit('openpm', channel);
+			} else {
+				self.emit('selectchannel', pm);
+			}
+		} else if (channel.type === "room") {
+			if (!channel.joined)
+				self.emit('joinroom', channel);
+			self.emit('selectchannel', channel);
+		}
 	}
 };
+
+UI.prototype.isPmOpen = function UI_isPmOpen(user) {
+	for (var i = 0; i < this.org.pms.length; i++) {
+		var pm = this.org.pms[i];
+		var pmuser = pm.users[0];
+		if (pmuser === user)
+			return pm;
+	}
+}
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)

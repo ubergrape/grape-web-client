@@ -45,6 +45,8 @@ HistoryView.prototype.bind = function HistoryView_bind() {
     // this.events.bind('click button.ac', 'openLink');
     // this.events.bind('click input.ac', 'openLink');
     this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
+    this.events.bind('click a.author', 'openInternalLink');
+
 
 };
 
@@ -76,7 +78,8 @@ HistoryView.prototype.unselectForEditing = function () {
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
     ev.preventDefault();
-    this.emit('selectchannelfromurl', ev.target.href);
+    var url = ev.delegateTarget.href;
+    this.emit('selectchannelfromurl', url);
 };
 
 
