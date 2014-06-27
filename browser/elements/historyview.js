@@ -17,7 +17,7 @@ var zoom = require('image-zoom');
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
-var Line = require('../../lib').models.Line; // TODO: clean this up a bit
+var Line = require('cglib').models.Line; // TODO: clean this up a bit
 
 module.exports = HistoryView;
 

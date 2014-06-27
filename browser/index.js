@@ -9,7 +9,7 @@ var qs = require('query');
 var domify = require('domify');
 var notification = require('notification');
 var classes = require('classes');
-var staticurl = require('../lib/staticurl');
+var staticurl = require('staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
 
