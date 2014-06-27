@@ -98,6 +98,7 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
+	this.init();
 }
 
 // TODO: put this in component
