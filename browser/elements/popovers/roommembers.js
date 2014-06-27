@@ -23,9 +23,9 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-    this.invite = new Invite();
-    classes(this.invite.el).remove('hide');
-    this.el.appendChild(this.invite.el);
+	this.invite = new Invite();
+	classes(this.invite.el).remove('hide');
+	this.el.appendChild(this.invite.el);
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {

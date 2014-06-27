@@ -21,7 +21,6 @@ function Invite() {
 Invite.prototype = Object.create(Emitter.prototype);
 
 Invite.prototype.init = function Invite_init() {
-	// this.el = document.createElement('div');
 	render(this, template('invite', {room: this.room}));
 }
 
@@ -29,7 +28,7 @@ Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetvalidity');
-    this._bindAutocomplete();
+	this._bindAutocomplete();
 };
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
@@ -54,7 +53,7 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 				   || user.lastName.startsWithIgnoreCase(match)
 				   || user.username.startsWithIgnoreCase(match)) {
 					self.complete.push({
-                        id: user.username,
+						id: user.username,
 						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName,
 						insert: user.username,
 					});
@@ -75,8 +74,8 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	var self = this;
 	if (this.inviteInput.value === "") {
 		self.inviteInput.setCustomValidity(_("Please enter at least one user to invite"));
-        self.inviteButton.click();
-        return;
+		self.inviteButton.click();
+		return;
 	}
 
 	var users = this.inviteInput.value.split(/[\s,;]+/);
