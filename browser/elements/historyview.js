@@ -44,6 +44,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-edit', 'selectForEditing');
     // this.events.bind('click button.ac', 'openLink');
     // this.events.bind('click input.ac', 'openLink');
+    this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
 
 };
 
@@ -73,6 +74,10 @@ HistoryView.prototype.unselectForEditing = function () {
 	classes(query(".message.editing", this.el)).remove('editing');
 };
 
+HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
+    ev.preventDefault();
+    this.emit('selectchannelfromurl', ev.target.href);
+};
 
 
 HistoryView.prototype.init = function HistoryView_init() {

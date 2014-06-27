@@ -203,6 +203,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
+	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
@@ -344,9 +345,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
-	var channel = this.channelFromURL();
-	if (channel)
-		this.emit('selectchannel', channel);
+	this.selectChannelFromUrl();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -380,8 +379,8 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
-UI.prototype.channelFromURL = function UI_channelFromURL() {
-	var path = location.pathname;
+UI.prototype.channelFromURL = function UI_channelFromURL(path) {
+	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
 	if (!match[2]) return;
@@ -402,6 +401,13 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 			if (room.slug === name)
 				return room;
 		}
+	}
+};
+
+UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
+	var channel = this.channelFromURL(path);
+	if (channel) {
+		this.emit('selectchannel', channel);
 	}
 };
 
