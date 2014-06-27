@@ -53,8 +53,8 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 				   || user.lastName.startsWithIgnoreCase(match)
 				   || user.username.startsWithIgnoreCase(match)) {
 					self.complete.push({
-						id: "[" + user.username + "](cg://chatgrape|user|" + user.username + "|/chat/@" + user.username + ")",
-						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
+                        id: user.username,
+						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName,
 						insert: user.username,
 					});
 				}
