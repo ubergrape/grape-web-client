@@ -71,14 +71,15 @@
 
 /*______ RESULT LIST ______*/
 .result-list
+	margin-top: 18px
 	> li
 		position: relative
-		padding: 22px 10px 22px 27px
+		padding: 0px 10px 0px 27px
 		border-left: 3px solid silver-dark
-		border-bottom: 2px dashed silver-dark
+		border-top: 1px solid silver-dark
 		.item-object
 			@extend $clearfix
-			padding: 8px 3px
+			padding: 11px 3px
 			margin: 0 -3px
 			&.minor, 
 			&.minor i, 
@@ -89,19 +90,17 @@
 				.item-content
 					text-overflow: ellipsis 
 					overflow: hidden
-		.item-info
-			float: left
-			width: 150px
-			h2
-				font-weight: bold
-				margin-bottom: 2px
-			i, span
-				color: gainsboro-dark
-				@extend $small-font-size
-			i
-				margin-right: 5px
 		.item-content
 			overflow: hidden
+			font-weight: bold
+			strong,
+			p
+				@extend $big-font-size
+			strong
+				margin-right: 8px
+				color: gainsboro-dark
+			p
+				display: inline
 			b
 				background: gold
 				padding: 0px 3px
@@ -115,11 +114,12 @@
 			font-weight: bold
 			@extend $horizontal-list
 			li
+				color: gainsboro-dark
+				i
+					margin-right: 4px
 				a
 					color: grape-light
 					@extend $subtle-link
-			.time
-				color: gainsboro-dark
 			.option
 				margin-right: 22px
 		&.selected // for arrow navigation

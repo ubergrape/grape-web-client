@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-30 11:57+0000\n"
+"POT-Creation-Date: 2014-06-30 12:50+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -309,8 +309,7 @@ msgstr ""
 #: client/templates/chathistory.jade:51
 #: client/templates/chathistory.jade:47
 #: client/templates/chathistory.jade:53
-#: client/templates/chathistory.jade:57
-#: client/templates/chathistory.jade:70
+#: client/templates/chathistory.jade:54
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -483,8 +482,7 @@ msgstr ""
 #: client/templates/chathistory.jade:73
 #: client/templates/chathistory.jade:69
 #: client/templates/chathistory.jade:75
-#: client/templates/chathistory.jade:79
-#: client/templates/chathistory.jade:92
+#: client/templates/chathistory.jade:76
 msgid "#Label"
 msgstr ""
 
@@ -509,8 +507,7 @@ msgstr ""
 #: client/browser/index.js:401
 #: client/browser/index.js:399
 #: client/browser/index.js:420
-#: client/browser/index.js:432
-#: client/browser/index.js:431
+#: client/browser/index.js:421
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -528,8 +525,6 @@ msgstr ""
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:30
 #: client/templates/chathistory.jade:36
-#: client/templates/chathistory.jade:40
-#: client/templates/chathistory.jade:49
 msgid "Add service integrations"
 msgstr ""
 
@@ -542,7 +537,6 @@ msgstr ""
 
 #: client/templates/chathistory.jade:17
 #: client/templates/chathistory.jade:23
-#: client/templates/chathistory.jade:44
 msgid "Invite Members"
 msgstr ""
 
@@ -588,8 +582,6 @@ msgstr ""
 #: client/browser/index.js:391
 #: client/browser/index.js:389
 #: client/browser/index.js:410
-#: client/browser/index.js:421
-#: client/browser/index.js:420
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -645,46 +637,12 @@ msgid " results for "
 msgstr ""
 
 #: client/templates/searchresults.jade:27
+#: client/templates/searchresults.jade:26
 msgid "View"
-msgstr ""
-
-#: client/browser/elements/invite.js:76
-msgid "Please enter at least one user to invite"
 msgstr ""
 
 #: client/browser/elements/notifications.js:63
 msgid "Private Message"
-msgstr ""
-
-#: client/templates/chathistory.jade:36
-msgid "Service integrations"
-msgstr ""
-
-#: client/templates/chathistory.jade:37
-msgid "There are no service integrations yet. "
-msgstr ""
-
-#: client/templates/chathistory.jade:45
-msgid ""
-"There are no members in this room yet. Invite some to get the conversation "
-"started."
-msgstr ""
-
-#: client/templates/chathistory.jade:48
-#: client/templates/chathistory.jade:40
-msgid "Invite members"
-msgstr ""
-
-#: client/templates/chathistory.jade:61
-msgid ""
-"This user was only invited and didn't join ChatGrape yet. You can send chat "
-"messages and as soon as the user joins ChatGrape, he will reiceive your "
-"messages."
-msgstr ""
-
-#: client/templates/invite.jade:4
-#: client/templates/popovers/roommembers.jade:21
-msgid "Invite to "
 msgstr ""
 
 #: client/templates/navigation.jade:11
@@ -699,18 +657,10 @@ msgstr ""
 msgid "No private messages yet."
 msgstr ""
 
-#: client/templates/popovers/roommembers.jade:16
-msgid "Invite more members"
-msgstr ""
-
 #: client/templates/popovers/user.jade:2
 msgid "User settings"
 msgstr ""
 
-#: client/templates/chathistory.jade:36
-msgid "Get the conversation started"
-msgstr ""
-
-#: client/templates/chathistory.jade:45
-msgid "Integrate your external services"
+#: client/templates/popovers/user.jade:2
+msgid "My settings"
 msgstr ""

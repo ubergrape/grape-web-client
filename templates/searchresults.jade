@@ -7,21 +7,20 @@
 		each result in results.results
 			li.result-object(class=result.index)
 				.item-object.main
-					if (result.index !== 'objects')
-						div.item-info
-							h2= result.author.username
-							i.fa.fa-comment
-							span= result.channel.name
-					else
-						div.item-info
-							h2= result.container
-							i.fa.fa-github
 					.item-content
+						if (result.index !== 'objects')
+							strong= result.author.username
+						else
+							strong= result.container
 						= html(markdown(result.highlighted))
-						ul.item-footer
-							if (result.index !== 'objects')
+						if (result.index !== 'objects')
+							ul.item-footer
+								li
+									i.fa.fa-comment
+									span= result.channel.name
 								li.time
 									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
-							else
+						else
+							ul.item-footer
 								li.option
 									a(href=result.url)= _("View")

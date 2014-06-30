@@ -194,7 +194,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
-						id: "[" + room.slug + "](cg://chatgrape|room|" + room.slug + "|/chat/" + room.name + ")",
+						id: "[" + room.name + "](cg://chatgrape|room|" + room.slug + "|/chat/" + room.slug + ")",
 						title: '<span class="entry-type-icon type-room"></span>@' + room.name + '<span class="entry-type-description">Room</span>',
 						insert: '@' + room.name,
 						service: 'chatgrape',
