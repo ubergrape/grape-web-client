@@ -251,10 +251,7 @@ label.radio-label
 			margin-left: 6px
 
 .pmpopover
-	width: 320px
-
-.roommemberspopover
-	width: 240px
+	width: 320px	
 
 .user-list
 	li
@@ -277,3 +274,26 @@ label.radio-label
 	input[type="text"]
 		@extend $textinput
 		width: 100%
+
+//
+// Invite users stylings
+//
+// FIXME: https://github.com/ubergrape/chatgrape/issues/573#issuecomment-47516977
+//
+.popover
+	hr
+		width: 100%
+	.input-invite
+		width: 100%
+		height: 34px
+		overflow: hidden
+	.btn-invite
+		display: block
+		float: right
+	.invite-to-room
+		.autocomplete-wrapper
+			margin: 0
+			.autocomplete
+				position: relative
+				top: -4px
+	

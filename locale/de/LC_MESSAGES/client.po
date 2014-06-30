@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-26 15:30+0000\n"
+"POT-Creation-Date: 2014-06-30 11:57+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -510,6 +510,7 @@ msgstr ""
 #: client/browser/index.js:399
 #: client/browser/index.js:420
 #: client/browser/index.js:432
+#: client/browser/index.js:431
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -528,6 +529,7 @@ msgstr ""
 #: client/templates/chathistory.jade:30
 #: client/templates/chathistory.jade:36
 #: client/templates/chathistory.jade:40
+#: client/templates/chathistory.jade:49
 msgid "Add service integrations"
 msgstr ""
 
@@ -587,6 +589,7 @@ msgstr ""
 #: client/browser/index.js:389
 #: client/browser/index.js:410
 #: client/browser/index.js:421
+#: client/browser/index.js:420
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -668,6 +671,7 @@ msgid ""
 msgstr ""
 
 #: client/templates/chathistory.jade:48
+#: client/templates/chathistory.jade:40
 msgid "Invite members"
 msgstr ""
 
@@ -701,4 +705,12 @@ msgstr ""
 
 #: client/templates/popovers/user.jade:2
 msgid "User settings"
+msgstr ""
+
+#: client/templates/chathistory.jade:36
+msgid "Get the conversation started"
+msgstr ""
+
+#: client/templates/chathistory.jade:45
+msgid "Integrate your external services"
 msgstr ""
