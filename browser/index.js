@@ -211,7 +211,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-    broker.pass(this.historyView, 'inviteToRoom', this, 'inviteToRoom');
+    broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 
 	// search

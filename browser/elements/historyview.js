@@ -43,7 +43,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-    this.events.bind('click a.show-invite', 'showInvite');
+    this.events.bind('click a.show-invite', 'toggleInvite');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -257,8 +257,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	});
 };
 
-HistoryView.prototype.showInvite = function HistoryView_showInvite(ev) {
-    ev.preventDefault();
-    classes(qs('.invite-to-room')).remove('hide');
+HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
+    this.emit('toggleinvite', qs('.room-header .connected-users'));
     console.log("show the invite");
 }
