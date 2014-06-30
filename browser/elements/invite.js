@@ -81,7 +81,7 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	var users = this.inviteInput.value.split(/[\s,;]+/);
 	users.clean("");
 
-	self.emit('inviteToRoom', this.room, users, function inviteToRoom_callback(err, result){
+	self.emit('invitetoroom', this.room, users, function inviteToRoom_callback(err, result){
 		if(err) {
 			self.inviteInput.setCustomValidity(err.details);
 			self.inviteButton.click()

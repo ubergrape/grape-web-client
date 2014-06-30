@@ -51,7 +51,7 @@ var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
-var Invite = exports.HistoryRoomInvite = require('./elements/invite.js');
+var Invite = exports.Invite = require('./elements/invite.js');
 
 
 function UI(options) {
@@ -107,8 +107,8 @@ UI.prototype.init = function UI_init() {
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
     // initialize the invite form
-    this.historyInvite = new Invite();
-    qs('.history .welcome-tasks', this.el).appendChild(this.historyInvite.el);
+    this.invite = new Invite();
+    this.membersMenu.el.appendChild(this.invite.el);
 
 	// initialize title handler
 	this.title = new Title();
@@ -121,7 +121,6 @@ UI.prototype.init = function UI_init() {
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
-
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -230,7 +229,8 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'newmessage', this.notifications, 'newMessage');
 
     // invite
-    broker(this, 'selectchannel', this.historyInvite, 'setRoom');
+    broker(this, 'selectchannel', this.invite, 'setRoom');
+    broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
