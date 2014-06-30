@@ -36,7 +36,7 @@ Popover.prototype.bind = function Popover_bind() {
 		if (self.hidden) return;
 		var target = ev.target;
 		var parent = target;
-        if (classes(arget).has('disable-document-click-handler')) return; // TODO: refactor
+        if (classes(target).has('disable-document-click-handler')) return; // TODO: refactor
 		do {
 			if (parent === self.el || parent === self.trigger) return;
 		} while ((parent = parent.parentNode));
