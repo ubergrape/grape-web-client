@@ -193,6 +193,7 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
+    broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
     broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 
