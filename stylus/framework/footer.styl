@@ -5,9 +5,9 @@
 	position: fixed
 	right: 0
 	margin-left: client-navigation-width
-	background: chat-background
+	background: footer-background
 	padding: 2px 0 15px 0
-	background: linear-gradient(top, chat-background, silver-dark)
+	z-index: 30
 	.input-wrapper
 		padding-left: 20px
 		position: relative
@@ -47,6 +47,8 @@
 			margin: 0
 			display: block
 			resize: none
+			max-height: 400px
+			overflow: auto
 			&:disabled
 				background: silver-dark
 				+.uploader .upload

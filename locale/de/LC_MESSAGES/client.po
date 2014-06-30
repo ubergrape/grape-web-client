@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-26 11:06+0000\n"
+"POT-Creation-Date: 2014-06-30 12:50+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -309,6 +309,7 @@ msgstr ""
 #: client/templates/chathistory.jade:51
 #: client/templates/chathistory.jade:47
 #: client/templates/chathistory.jade:53
+#: client/templates/chathistory.jade:54
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -481,6 +482,7 @@ msgstr ""
 #: client/templates/chathistory.jade:73
 #: client/templates/chathistory.jade:69
 #: client/templates/chathistory.jade:75
+#: client/templates/chathistory.jade:76
 msgid "#Label"
 msgstr ""
 
@@ -657,4 +659,8 @@ msgstr ""
 
 #: client/templates/popovers/user.jade:2
 msgid "User settings"
+msgstr ""
+
+#: client/templates/popovers/user.jade:2
+msgid "My settings"
 msgstr ""

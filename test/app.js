@@ -110,6 +110,7 @@ describe('App', function () {
 		app.on('disconnected', function(){
 			done();
 		});
+		app.connected = true;
 		app.onDisconnect();
 	});
 	it('should flag rooms the user is joined in', function () {
