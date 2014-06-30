@@ -1,6 +1,6 @@
 .pmpopover.popover-left
 	h3
-		=_('New message to')
+		=_('New message')
 		span.close ×
 	if items.length > 0
 		ul
@@ -21,6 +21,6 @@
 	else
 		p
 			p.empty-message=_('There are no members in your organization yet.')
-			a(href='/accounts/organization/settings/members/', target='_blank').button.manage-users
+			a(href='/accounts/organization/settings/members/', target='_self').button.manage-users
 				=_('Manage Members')
 				i.fa.fa-user

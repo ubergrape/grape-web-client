@@ -370,12 +370,19 @@ msgstr ""
 #: client/browser/index.js:381
 #: client/browser/index.js:401
 #: client/browser/index.js:399
+#: client/browser/index.js:420
+#: client/browser/index.js:421
 msgid "Reconnected successfully"
 msgstr ""
 
 #: client/browser/index.js:391
 #: client/browser/index.js:389
+#: client/browser/index.js:410
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
+msgstr ""
+
+#: client/browser/elements/notifications.js:63
+msgid "Private Message"
 msgstr ""

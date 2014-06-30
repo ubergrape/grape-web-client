@@ -11,7 +11,6 @@ var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
-var Animate = require('animate');
 var notify = require('HTML5-Desktop-Notifications');
 
 var exports = module.exports = UI;
@@ -50,6 +49,8 @@ var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
+var SearchView = exports.SearchView = require('./elements/searchview.js');
+
 
 function UI(options) {
 	Emitter.call(this);
@@ -87,10 +88,11 @@ UI.prototype.init = function UI_init() {
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
 	this.organizationMenu = new OrganizationPopover();
+	this.searchView = new SearchView();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
-	qs('.room-info', this.el).appendChild(this.chatHeader.el);
+	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
@@ -115,8 +117,8 @@ UI.prototype.init = function UI_init() {
 
 	// initialize notifications
 	this.notifications = new Notifications();
-	if (notify.permissionLevel() == notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Please enable Desktop Notifications, to make ChatGrape fully functioning <button class='button enable_notifications'>Enable desktop notifications</button>");
+	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
+		this.enableNotificationMessage = this.messages.info("Hey there! Please <button class='button enable_notifications'>Enable desktop notifications</button> , so your team members can reach you on ChatGrape.");
 	}
 };
 
@@ -131,7 +133,7 @@ UI.prototype.bind = function UI_bind() {
 		'requestPermission': function() {
 
 			notify.requestPermission(function(permission){
-				if (permission != "default") {
+				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
 				}
 			});
@@ -181,7 +183,7 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	// chat header/search functionality
-	broker.pass(this.chatHeader, 'search', this, 'search');
+	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 
@@ -193,7 +195,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+  broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -202,13 +204,19 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 
+	// search
+	broker(this.searchView, 'show', this, 'showSearchResults');
+	broker(this.searchView, 'hide', this, 'hideSearchResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView,
+			'hideResults');
+
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
 	broker(this, 'selectorganization', this.title, 'setOrganization');
 
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
-	broker(this, 'selectorganization', this.notifications, 'setOrganization');
+	broker(this, 'newmessage', this.notifications, 'newMessage');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -247,6 +255,19 @@ UI.prototype.bind = function UI_bind() {
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
 	this.historyView.gotHistory(room, lines);
+};
+
+UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
+	this.searchView.showResults(results);
+};
+
+UI.prototype.showSearchResults = function() {
+	classes(this.el).add('searching');
+};
+
+UI.prototype.hideSearchResults = function() {
+	classes(this.el).remove('searching');
+	this.chatHeader.clearSearch();
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
@@ -388,14 +409,15 @@ UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
 		this._connErrMsg = this.messages.warning(_('Lost Connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
-}
+};
 
-UI.prototype.handleReconnection = function UI_handleReconnection() {
+UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
+	if (!reconnected) return;
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
-	setTimeout(function(){msg.remove()}, 2000)
-}
+	setTimeout(function(){msg.remove()}, 2000);
+};

@@ -1,0 +1,26 @@
+.search-results
+	.result-info
+		.result-nr
+			= results.total + _(' results for ')
+			strong=results.q
+	ul.result-list
+		each result in results.results
+			li.result-object(class=result.index)
+				.item-object.main
+					.item-content
+						if (result.index !== 'objects')
+							strong= result.author.username
+						else
+							strong= result.container
+						= html(markdown(result.highlighted))
+						if (result.index !== 'objects')
+							ul.item-footer
+								li
+									i.fa.fa-comment
+									span= result.channel.name
+								li.time
+									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
+						else
+							ul.item-footer
+								li.option
+									a(href=result.url)= _("View")

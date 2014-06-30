@@ -1,4 +1,4 @@
-.chat-header
+div
 	.user-menu-wrap
 		.avatar-wrap
 			if true
@@ -14,26 +14,16 @@
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	.room-info-text
-		.room-name
-			if room.type === 'room'
-				h1.room-name= room.name
-			else if room.type === 'pm'
+	.room-info
+		if room.type === 'room'
+			div
 				h1
+					span.room-name= room.name
+					.connected-users
+						i.fa.fa-user
+						span.sml-nr
+							| #{room.users.length}
+		else if room.type === 'pm'
+			h1
+				span.room-name
 					| @#{room.users[0].username}
-			if room.type !== 'pm'
-				.connected-users
-					i.fa.fa-user
-					span.sml-nr
-						| #{room.users.length}
-					each user in room.users.slice(0,3)
-						span.user(class=[user.id in room.typing ? 'typing' : ''], key=user.id, title=user.username)
-							if user.status === 16
-								span.online
-							else
-								span.offline
-							img(src="#{user.avatar}",width="20",alt="#{user.username}")
-					if room.users.length > 3
-						- var moreusers = room.users.length - 3
-						span.more
-							| + #{moreusers} more
