@@ -43,7 +43,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		}
 	});
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
-	this.events.bind('click .connected-users', 'toggleMembersMenu');
+	this.events.bind('click .room-grp', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 	});
