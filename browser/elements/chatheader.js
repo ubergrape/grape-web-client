@@ -14,8 +14,6 @@ module.exports = ChatHeader;
 
 function ChatHeader() {
 	Emitter.call(this);
-	// initial room?
-	this.membersMenu = new RoomMembersPopover();
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
@@ -39,7 +37,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
-			self.membersMenu.toggle(e.toElement);
+			self.emit('togglemembersmenu', qs('.connected-users', self.el));
 		}
 	});
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
@@ -65,7 +63,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader', {room: this.room});
 	render(this, vdom);
-	this.membersMenu.redraw();
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -75,7 +72,6 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
-	this.membersMenu.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
 };
