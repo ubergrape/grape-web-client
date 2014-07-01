@@ -5,7 +5,8 @@
 	height: header-height
 	background: organisation-background
 	color: gainsboro-dark
-	.powered-by
+	@extend $functional-list
+	.powered-by,
 	.logo
 		padding-left: 20px
 		padding-right: 20px
@@ -22,15 +23,22 @@
 		&:hover
 			color: gainsboro-light
 	a.logo
-		height: (header-height / 4) * 3
-		line-height: (header-height / 4) * 3
+		height: header-height
+		line-height: header-height
 		i
 			float: right
-			height: (header-height / 4) * 3
-			line-height: (header-height / 4) * 3
+			height: header-height
+			line-height: header-height
 			color: gainsboro-dark
 		img
-			margin-top: 6px
+			width: 46px
+			height: 46px
+			margin-top: 14px
+			margin-right: 12px
+			border: 1px solid darken(organisation-background, 15)
+			border-radius: 4px
+			box-shadow: 0 2px 0 1px solid darken(organisation-background, 8)
+			background: gainsboro-dark
 		&:hover
 			background: lighten(organisation-background, 1%)
 			i

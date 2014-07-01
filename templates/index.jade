@@ -1,10 +1,11 @@
 .client
 	header.header
 		.org-info
-			a(href='https://chatgrape.com', target='_blank', class='powered-by') Powered by ChatGrape
+			//- a(href='https://chatgrape.com', target='_blank', class='powered-by') Powered by ChatGrape
 			a.logo
 				i.fa.fa-cog
-				img(src='#{org.logo}',height='40',alt='#{org.name}')
+				img(src='#{org.logo}',class="avatar-wrap",height='46',width='46',alt='#{org.name}')
+				span.name=org.name
 		.room-header
 	.client-body
 		nav.navigation

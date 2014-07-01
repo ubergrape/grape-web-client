@@ -345,6 +345,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// update logo
 	// XXX: is this how it should be done? I guess not
 	qs('.logo img').src = org.logo;
+	qs('.logo img').alt = org.name;
+	qs('.logo .name').innerHTML = org.name;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
