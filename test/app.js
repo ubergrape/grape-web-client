@@ -20,6 +20,7 @@ function WsMock() {
 		self.emit('message', data);
 	};
 	this._openForTest = function() { self.emit('open')};
+	this.close = function(code) {};
 }
 WsMock.prototype = Object.create(Emitter.prototype);
 
