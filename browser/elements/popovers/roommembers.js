@@ -33,6 +33,6 @@ RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
-	room.on('change', this.redraw);
+	room.on('change', function(ev){this.redraw;});
 	this.redraw();
 };

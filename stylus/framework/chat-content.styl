@@ -70,6 +70,7 @@
 	border-bottom: 2px dashed silver-dark
 	h2, h3, p, ul
 		max-width: 720px
+		margin-bottom: 2px
 	h2
 		@extend $bigger-font-size
 		color: gainsboro-dark
@@ -82,16 +83,38 @@
 	.welcome-tasks
 		margin-top: 7px
 		@extend $clearfix
-		text-transform: uppercase
-		@extend $small-font-size
-		font-weight: bold
-		@extend $horizontal-list
+		.task-description
+			font-weight: bold
+			color: gainsboro-dark
+			margin-bottom: 2px
 		li
 			i
 				margin-right: 4px
 		.option
-			margin-right: 22px
-
+			margin: 0 22px 10px 0
+			padding-top: 5px
+		.invite-to-room
+			@extend $clearfix
+			.input-invite
+				width: 70%
+				height: 38px
+				padding: 9px 12px 8px 12px
+				outline: none
+				box-sizing: border-box
+				float: left
+				margin-right: 8px
+			.btn-invite
+				max-width: 200px
+				text-overflow: ellipsis
+				height: 34px
+		.autocomplete-wrapper
+			margin: 0
+			top: 4px	
+			width: 70%
+			.autocomplete
+				@extend $clearfix
+				top: 0px
+				
 .message-content
 	padding: 8px 10px 5px
 	overflow: hidden
@@ -155,6 +178,15 @@
 			word-wrap: break-word
 			em
 				font-style: italic
+			ul
+				list-style: disc outside none
+				padding-left: 18px
+			blockquote
+				border-left: 3px solid gainsboro-light
+				margin: 4px 0
+				padding: 0.5em 10px
+				font-style: italic
+				color: gainsboro-dark
 			.warning-unsent
 				color: gainsboro-light
 				&:before

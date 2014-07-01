@@ -40,6 +40,7 @@ exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
+var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
@@ -50,6 +51,7 @@ var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
+var Invite = exports.Invite = require('./elements/invite.js');
 
 
 function UI(options) {
@@ -87,6 +89,7 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
+    this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -102,6 +105,10 @@ UI.prototype.init = function UI_init() {
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
+
+    // initialize the invite form
+    this.invite = new Invite();
+    this.membersMenu.el.appendChild(this.invite.el);
 
 	// initialize title handler
 	this.title = new Title();
@@ -185,7 +192,9 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
+    broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
+    broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -202,6 +211,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
+    broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
@@ -218,6 +228,11 @@ UI.prototype.bind = function UI_bind() {
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
 	broker(this, 'newmessage', this.notifications, 'newMessage');
+	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
+
+    // invite
+    broker(this, 'selectchannel', this.invite, 'setRoom');
+    broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -342,6 +357,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	refreshNoPMUsers();
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
+
+	// update logo
+	// XXX: is this how it should be done? I guess not
+	qs('.logo img').src = org.logo;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?

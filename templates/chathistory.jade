@@ -10,7 +10,7 @@
 			h3
 				| Welcome to your 
 				span Organisation
-			p 
+			p
 				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
 			ul.welcome-tasks
 				li.option
@@ -27,11 +27,24 @@
 				h3
 					| Welcome to 
 					span #{room.name}
-				p 
+				p
 					=_('This room is public. Every member can join and read the history.')
 				ul.welcome-tasks
 					li.option
-						a(href='/services/list/', target='_blank')
+						p.task-description
+							i.fa.fa-user
+							=_('Get the conversation started')
+						//- p=_('There are no members in this room yet. Invite some to get the conversation started.')
+						a.show-invite.disable-document-click-handler
+							i.fa.fa-plus
+							=_('Invite members')
+						span.invite
+					li.option
+						p.task-description
+							i.fa.fa-user
+							=_('Integrate your external services')
+						//- p=_('There are no service integrations yet. ')
+						a(href='/services/list/', target='_self')
 							i.fa.fa-plus
 							=_('Add service integrations')
 		else
@@ -40,10 +53,14 @@
 					i.fa.fa-lock
 					|  Private messages with 
 					span #{room.users[0].username}
-				p 
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. 
+				p
+					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you.
 					br
 					| So speak freely.
+				if room.users[0].is_only_invited
+					p
+						=_("This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
@@ -57,14 +74,14 @@
 		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 				if first.author.id==='github'
-					i.fa.fa-3x.image.fa-github(width="36")
+					img.image(src="/static/images/service-icons/github-32.png",width="20",alt="GitHub")
 				else
 					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				a(href="/chat/@" + first.author.username.toLowerCase()).author
 					if (first.author.firstName || first.author.lastName)
-						author.author #{first.author.firstName} #{first.author.lastName} 
+						author.author #{first.author.firstName} #{first.author.lastName}
 							em #{first.author.username}
 					else
 						author.author= first.author.username
@@ -89,13 +106,13 @@
 								//-	span.label #entscheidungen
 								//-		i.fa.fa-check-circle
 						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name 
+							a.container(href=line.container.url, class=line.container.type)= line.container.name
 							if line.branch
 								span.branch= line.branch
 						if line.content
 							.message-content= line.content
 						if line.container
-							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name 
+							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
@@ -110,9 +127,9 @@
 								each obj in line.objects
 									li(class=obj.type)
 										if obj.sha
-											a(href=obj.url)= obj.sha 
+											a(href=obj.url)= obj.sha
 										if obj.name
-											a(href=obj.url)= obj.name 
+											a(href=obj.url)= obj.name
 										if obj.content
 											.content= obj.content
 										if obj.summary

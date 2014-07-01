@@ -4,6 +4,10 @@
 var Emitter = require('emitter');
 var notify = require('HTML5-Desktop-Notifications');
 var _ = require('t');
+var markdown = require('../markdown');
+var v = require('virtualdom');
+var domify = require('domify');
+
 
 module.exports = Notifications;
 
@@ -32,7 +36,6 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 };
 
 Notifications.prototype.newMessage = function Notifications_newMessage(message) {
-
 	var self = this;
 
 	// don't show chat messages from myself
@@ -63,10 +66,32 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		title += " (" + _('Private Message') + ")";
 	}
 
-	notify.createNotification(title, {
-		body: message.text,
+	// parse markdown
+	var content = message.text;
+	var content_dom = domify(markdown(content))
+
+	// replace images
+	var imgs = content_dom.getElementsByTagName('img');
+	var replacement = document.createElement("p");
+	replacement.innerHTML = _('[Image]');
+	for (var i=0; i<imgs.length; i++) {
+		var img = imgs[i];
+		img.parentElement.replaceChild(replacement, img);
+	}
+
+	// strip html
+	var content_text = content_dom.textContent || content_dom.innerText || "";
+
+	var notification = notify.createNotification(title, {
+		body: content_text,
 		icon: message.author.avatar,
-		timeout: 6000
+		timeout: 6000,
+		onclick: function(ev) {
+			console.log()
+			self.emit('notificationclicked', message.channel);
+			window.focus();
+			notification.close();
+		}
 	});
 };
 
