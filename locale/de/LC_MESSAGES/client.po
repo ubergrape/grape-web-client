@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-30 12:50+0000\n"
+"POT-Creation-Date: 2014-07-01 08:48+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -508,6 +508,7 @@ msgstr ""
 #: client/browser/index.js:399
 #: client/browser/index.js:420
 #: client/browser/index.js:421
+#: client/browser/index.js:425
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -582,6 +583,7 @@ msgstr ""
 #: client/browser/index.js:391
 #: client/browser/index.js:389
 #: client/browser/index.js:410
+#: client/browser/index.js:414
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -642,6 +644,7 @@ msgid "View"
 msgstr ""
 
 #: client/browser/elements/notifications.js:63
+#: client/browser/elements/notifications.js:66
 msgid "Private Message"
 msgstr ""
 
@@ -663,4 +666,8 @@ msgstr ""
 
 #: client/templates/popovers/user.jade:2
 msgid "My settings"
+msgstr ""
+
+#: client/browser/elements/notifications.js:76
+msgid "[Image]"
 msgstr ""

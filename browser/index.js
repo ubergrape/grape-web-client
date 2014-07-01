@@ -227,6 +227,7 @@ UI.prototype.bind = function UI_bind() {
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
 	broker(this, 'newmessage', this.notifications, 'newMessage');
+	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
     // invite
     broker(this, 'selectchannel', this.invite, 'setRoom');
@@ -355,6 +356,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	refreshNoPMUsers();
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
+
+	// update logo
+	// XXX: is this how it should be done? I guess not
+	qs('.logo img').src = org.logo;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
