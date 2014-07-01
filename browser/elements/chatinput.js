@@ -204,8 +204,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				}
 			}
 
-			self.complete.show();
-			self.complete.highlight(0);
+			if (self.complete.options.length > 0) {
+				self.complete.show();
+				self.complete.highlight(0);
+			}
+
 
 		} else if (match[0] === "#") {
 			// send autocomplete request to server, we don't have the data locally
@@ -223,10 +226,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					});
 				}
 
-				// this should be shown at the beginning but
-				// with a loading animation maybe?
-				self.complete.show();
-				self.complete.highlight(0);
+				if (self.complete.options.length > 0) {
+					self.complete.show();
+					self.complete.highlight(0);
+				}
 			});
 		}
 
