@@ -82,10 +82,16 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	// strip html
 	var content_text = content_dom.textContent || content_dom.innerText || "";
 
-	notify.createNotification(title, {
+	var notification = notify.createNotification(title, {
 		body: content_text,
 		icon: message.author.avatar,
-		timeout: 6000
+		timeout: 6000,
+		onclick: function(ev) {
+			console.log()
+			self.emit('notificationclicked', message.channel);
+			window.focus();
+			notification.close();
+		}
 	});
 };
 

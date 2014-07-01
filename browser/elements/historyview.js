@@ -13,6 +13,7 @@ var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
+var _ = require('t');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -42,14 +43,10 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-    // this.events.bind('click button.ac', 'openLink');
-    // this.events.bind('click input.ac', 'openLink');
-
+    this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
+    this.events.bind('click a.author', 'openInternalLink');
+    this.events.bind('click a.show-invite', 'toggleInvite');
 };
-
-// HistoryView.prototype.openLink = function HistoryView_openLink(ev) {
-//     window.open(ev.target.getAttribute('data-url'), '_blank');
-// };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
@@ -73,6 +70,11 @@ HistoryView.prototype.unselectForEditing = function () {
 	classes(query(".message.editing", this.el)).remove('editing');
 };
 
+HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
+    ev.preventDefault();
+    var url = ev.delegateTarget.href;
+    this.emit('selectchannelfromurl', url);
+};
 
 
 HistoryView.prototype.init = function HistoryView_init() {
@@ -109,11 +111,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
-	    (this.scrollMode === 'automatic' && focus.state === 'focus')))
+		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
 	render(this.history, template('chathistory', {
-        room: this.room,
+		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
 	}));
@@ -262,3 +264,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	});
 };
 
+HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
+    this.emit('toggleinvite', qs('.room-header .connected-users'));
+    console.log("show the invite");
+}
