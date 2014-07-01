@@ -30,26 +30,35 @@
 			height: header-height
 			line-height: header-height
 			color: gainsboro-dark
+			margin-left: 10px
 		img
-			width: 46px
-			height: 46px
-			margin-top: 14px
-			margin-right: 12px
-			border: 1px solid darken(organisation-background, 15)
-			border-radius: 4px
+			width: 36px
+			height: 36px
+			margin-top: 11px
+			margin-right: 7px
+			border-radius: 50%
 			box-shadow: 0 2px 0 1px solid darken(organisation-background, 8)
-			background: gainsboro-dark
+			background: darken(organisation-background, 8)
+		.name
+			color: gainsboro-dark
+			line-height: header-height
+			font-weight: bold
 		&:hover
 			background: lighten(organisation-background, 1%)
-			i
+			text-decoration: none
+			i,
+			.name
 				color: gainsboro-light
+				text-decoration: none
+			img
+				background: gainsboro-light
 
 /*______ Left navigation ______*/
 .navigation
 	@extend $normal-font-size
 	color: gainsboro-dark
 	.navigation
-		padding: 34px 0 54px 0px
+		padding: 23px 0 54px 0px
 		background: jet
 
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling

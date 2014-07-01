@@ -71,7 +71,7 @@ UI.prototype.init = function UI_init() {
 		username: "loading"
 	};
 	template.locals.org = {
-		logo: staticurl("images/logo-white.svg"),
+		logo: staticurl("ico/apple-touch-icon-114-precomposed.png"),
 		name: "loading"
 	};
 
