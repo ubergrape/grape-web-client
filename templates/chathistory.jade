@@ -57,7 +57,7 @@
 		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 				if first.author.id==='github'
-					i.fa.fa-3x.image.fa-github(width="36")
+					img.image(src="/static/images/service-icons/github-32.png",width="20",alt="GitHub")
 				else
 					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
