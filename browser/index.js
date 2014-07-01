@@ -342,6 +342,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
 
+	// update logo
+	// XXX: is this how it should be done? I guess not
+	qs('.logo img').src = org.logo;
+
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
 	var channel = this.channelFromURL();
