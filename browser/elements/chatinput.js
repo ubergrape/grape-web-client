@@ -271,7 +271,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
     var message_text = msg.text;
 
     // replace special autocomplete links with html
-    var autocomplete = /!?\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
+    var autocomplete = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
     var replacer = function replacer(match, text, href){
         return markdown_renderlink(href, "", text, true);
     };
