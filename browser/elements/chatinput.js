@@ -178,10 +178,20 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (  user.firstName.startsWithIgnoreCase(search)
 				   || user.lastName.startsWithIgnoreCase(search)
 				   || user.username.startsWithIgnoreCase(search)) {
+					var name = "";
+					if (user.firstName !== "") {
+						name += user.firstName;
+						if (user.lastName !== "") {
+							name += " " + user.lastName;
+						}
+					} else {
+						name = user.username;
+					}
+
 					self.complete.push({
-						id: "[" + user.username + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
+						id: "[" + name + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
 						title: '<span class="entry-type-icon type-chatgrapeuser"></span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
-						insert: '@' + user.username,
+						insert: '@' + name,
 						service: 'chatgrape',
 						type: 'user',
                         url: '/chat/@' + user.username
