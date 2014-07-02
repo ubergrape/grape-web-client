@@ -154,7 +154,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#]([\w.+-]{1,15})$/;
+	this.complete.re = /[@#]([^\s]{1,15})$/;
 	this.complete.formatSelection = function (option) {
 		return renderAutocomplete(option, true);
 	};
