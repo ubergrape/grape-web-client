@@ -71,9 +71,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				children.push(childnode.nodeValue);
 			} else if (childnode.nodeName === "BR") {
 				children.push("\n\n");
-            } else if (childnode.nodeName === "DIV") {
-                children.push(childnode.innerText);
-                children.push("\n\n");
+			} else if (childnode.nodeName === "DIV") {
+				children.push(childnode.innerText);
+				children.push("\n\n");
 			} else if (childnode.nodeType === 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
@@ -82,10 +82,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (object !== null) {
 					children.push(object);
 				} else {
-                    // Q: why would there be any HTML in the message input?
-                    // A: pasting content
-                    children.push(childnode.innerText);
-                }
+					// Q: why would there be any HTML in the message input?
+					// A: pasting content
+					children.push(childnode.innerText);
+				}
 			}
 		}
 		return children.join('');
@@ -170,7 +170,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var search = match.substr(1); // match without the '@''
 
-            // TODO don't use global vars
+			// TODO don't use global vars
 
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
@@ -194,7 +194,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: '@' + name,
 						service: 'chatgrape',
 						type: 'user',
-                        url: '/chat/@' + user.username
+						url: '/chat/@' + user.username
 					});
 				}
 			}
@@ -209,7 +209,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: '@' + room.name,
 						service: 'chatgrape',
 						type: 'room',
-                        url: '/chat/' + room.name
+						url: '/chat/' + room.name
 					});
 				}
 			}
@@ -232,7 +232,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: r.name,
 						service: r.service,
 						type: r.type,
-                        url: r.url
+						url: r.url
 					});
 				}
 
@@ -257,20 +257,20 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
 	el.focus();
-    if (typeof window.getSelection !== "undefined"
-            && typeof document.createRange !== "undefined") {
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        range.collapse(false);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    } else if (typeof document.body.createTextRange !== "undefined") {
-        var textRange = document.body.createTextRange();
-        textRange.moveToElementText(el);
-        textRange.collapse(false);
-        textRange.select();
-    }
+	if (typeof window.getSelection !== "undefined"
+			&& typeof document.createRange !== "undefined") {
+		var range = document.createRange();
+		range.selectNodeContents(el);
+		range.collapse(false);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+	} else if (typeof document.body.createTextRange !== "undefined") {
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText(el);
+		textRange.collapse(false);
+		textRange.select();
+	}
 };
 
 ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
@@ -278,14 +278,14 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	this.editing = true;
 	classes(this.el).add('editing');
 	this.oldVal = this.messageInput.innerHTML;
-    var message_text = msg.text;
+	var message_text = msg.text;
 
-    // replace special autocomplete links with html
-    var autocomplete = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
-    var replacer = function replacer(match, text, href){
-        return markdown_renderlink(href, "", text, true);
-    };
-    message_text = message_text.replace(autocomplete, replacer);
+	// replace special autocomplete links with html
+	var autocomplete = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*(cg\:[\s\S]*?)\s*\)/gm;
+	var replacer = function replacer(match, text, href){
+		return markdown_renderlink(href, "", text, true);
+	};
+	message_text = message_text.replace(autocomplete, replacer);
 
 	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
