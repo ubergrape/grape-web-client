@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-07-01 13:58+0000\n"
+"POT-Creation-Date: 2014-07-02 09:12+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -310,6 +310,7 @@ msgstr ""
 #: client/templates/chathistory.jade:47
 #: client/templates/chathistory.jade:53
 #: client/templates/chathistory.jade:54
+#: client/templates/chathistory.jade:71
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -483,6 +484,7 @@ msgstr ""
 #: client/templates/chathistory.jade:69
 #: client/templates/chathistory.jade:75
 #: client/templates/chathistory.jade:76
+#: client/templates/chathistory.jade:93
 msgid "#Label"
 msgstr ""
 
@@ -509,6 +511,7 @@ msgstr ""
 #: client/browser/index.js:420
 #: client/browser/index.js:421
 #: client/browser/index.js:425
+#: client/browser/index.js:487
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -526,6 +529,7 @@ msgstr ""
 #: client/templates/chathistory.jade:43
 #: client/templates/chathistory.jade:30
 #: client/templates/chathistory.jade:36
+#: client/templates/chathistory.jade:49
 msgid "Add service integrations"
 msgstr ""
 
@@ -584,6 +588,7 @@ msgstr ""
 #: client/browser/index.js:389
 #: client/browser/index.js:410
 #: client/browser/index.js:414
+#: client/browser/index.js:476
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -670,4 +675,35 @@ msgstr ""
 
 #: client/browser/elements/notifications.js:76
 msgid "[Image]"
+msgstr ""
+
+#: client/browser/elements/invite.js:76
+msgid "Please enter at least one user to invite"
+msgstr ""
+
+#: client/templates/chathistory.jade:36
+msgid "Get the conversation started"
+msgstr ""
+
+#: client/templates/chathistory.jade:40
+msgid "Invite members"
+msgstr ""
+
+#: client/templates/chathistory.jade:45
+msgid "Integrate your external services"
+msgstr ""
+
+#: client/templates/chathistory.jade:62
+msgid ""
+"This user was only invited and didn't join ChatGrape yet. You can send chat "
+"messages and as soon as the user joins ChatGrape, he will reiceive your "
+"messages."
+msgstr ""
+
+#: client/templates/invite.jade:4
+msgid "Invite asd to "
+msgstr ""
+
+#: client/templates/popovers/roommembers.jade:16
+msgid "Invite more members"
 msgstr ""
