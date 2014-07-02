@@ -131,7 +131,11 @@
 										if obj.name
 											a(href=obj.url)= obj.name
 										if obj.content
-											.content= obj.content
+											span
+											if line.author.id == 'github'
+												.content= html(markdown(obj.content))
+											else
+												.content= obj.content
 										if obj.summary
 											.summary= obj.summary
 										if obj.author && obj.author.username
