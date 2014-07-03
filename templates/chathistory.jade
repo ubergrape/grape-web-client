@@ -75,7 +75,8 @@
 			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 				if first.author.type==='service'
 					- var icon = staticurl("/images/service-icons/" + first.author.id + "-32.png")
-					img.image(src="#{icon}",width="20",alt="GitHub")
+					- var alttext = first.author.id
+					img.image(src="#{icon}",width="20",alt="#{alttext}")
 				else
 					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
