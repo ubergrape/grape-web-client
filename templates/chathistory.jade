@@ -1,26 +1,13 @@
 .history
-	.preloader.hide
-		div
-			h3
-				=_('Loading')
-			p
-				=_('You are looking great today!')
 	if room.id == undefined
-		.message-group.welcome-message
-			h3
-				| Welcome to your 
-				span Organisation
-			p
-				=_('This is the new communicatory heart of your team. You may create or select a room on the right to start chatting.')
-			ul.welcome-tasks
-				li.option
-					a(href='#')
-						i.fa.fa-plus
-						=_('Add or join Chatroom')
-				li.option
-					a(href='/accounts/organization/settings/invite/', target='_blank')
-						i.fa.fa-user
-						=_('Invite Members')
+		.preloader
+			div
+				h3
+					=_('Welcome to ChatGrape!')
+				- var preloader = staticurl("/images/preloader-ongray.gif")
+				img.image(src="#{preloader}",width="40",alt="Loading")
+				p
+					=_("Give us a second while we're preparing everything for you!")
 	else
 		if room.type !== 'pm'
 			.message-group.welcome-message
