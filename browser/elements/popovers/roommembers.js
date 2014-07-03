@@ -24,6 +24,12 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 	this.el.appendChild(this.content.el);
 };
 
+RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
+	Popover.prototype.bind.call(this);
+	this.events.obj.deleteRoom = this.deleteRoom.bind(this);
+	this.events.bind('click .delete-room', 'deleteRoom');
+};
+
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 	this.classes.add('members-po');
 	this.classes.add('top');
@@ -35,4 +41,9 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.room = room;
 	room.on('change', function(ev){this.redraw;});
 	this.redraw();
+};
+
+RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom(ev) {
+	ev.preventDefault();
+	this.emit('deleteroom', this.room);
 };
