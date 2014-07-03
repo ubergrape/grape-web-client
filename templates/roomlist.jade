@@ -9,4 +9,6 @@ ul.nav-list.rooms
 						i.icon.fa.fa-comments
 					if room.unread > 0
 						span.notification=room.unread.toString()
+					if room.mentioned > 0
+						span.mentiones=room.mentioned.toString()
 					span.name=room.name
