@@ -71,11 +71,11 @@ UI.prototype.init = function UI_init() {
 	template.locals.staticurl = staticurl;
 	// initialize user and org with dummy image
 	template.locals.user = {
-		avatar: staticurl("images/avatar.gif"),
+		avatar: staticurl("images/orga-image-load.gif"),
 		username: "loading"
 	};
 	template.locals.org = {
-		logo: staticurl("ico/apple-touch-icon-114-precomposed.png"),
+		logo: staticurl("images/orga-image-load.gif"),
 		name: "loading"
 	};
 
