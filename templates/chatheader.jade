@@ -17,7 +17,7 @@ div
 	.room-info
 		if room.type === 'room'
 			div
-				h1
+				h1.room-grp
 					span.room-name= room.name
 					.connected-users
 						i.fa.fa-user
@@ -25,4 +25,5 @@ div
 							| #{room.users.length}
 		else if room.type === 'pm'
 			h1
-				| @#{room.users[0].username}
+				span.room-name
+					| @#{room.users[0].username}

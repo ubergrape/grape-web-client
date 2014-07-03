@@ -5,12 +5,13 @@
 	right: 0
 	top: 0
 	height: header-height
+	z-index: 30
 	.room-header
 		background: room-header-background
 		overflow: hidden
 		height: header-height
 		border-bottom: 1px solid gainsboro-light
-		padding: 17px 30px 17px 20px
+		padding: 11px 30px 11px 20px
 		@extend $clearfix
 		.room-info, .avatar-wrap, .search-form
 			max-width: 100%
@@ -19,6 +20,19 @@
 		.room-info
 			position: relative
 			max-width: 100%
+			.connected-users
+				position: absolute
+				right: 0
+				top: 12px
+				color: gainsboro-dark
+				width: 65px
+				line-height: 19px;
+				font-size: 18px
+				.fa-user
+					float: left
+				.sml-nr
+					margin-left: 5px
+					overflow: hidden
 			h1
 				@extend $bigger-font-size
 				margin: 0
@@ -32,29 +46,19 @@
 				display: inline-block
 				position: relative
 				overflow: hidden
+				&.room-grp
+					@extend $hoverable
+					&:hover
+						color: lighten(grape-typo, 10)
+						.connected-users
+							opacity: 0.8
 				.room-name
-					text-overflow: ellipsis 
+					text-overflow: ellipsis
 					white-space: nowrap
 					overflow: hidden
 					width: 100%
 					max-width: 500px
 					display: block
-			.connected-users
-				position: absolute
-				right: 0
-				top: 12px
-				color: gainsboro-dark
-				width: 65px
-				line-height: 19px;
-				font-size: 18px
-				@extend $hoverable
-				&:hover
-					opacity: 0.8
-				.fa-user
-					float: left
-				.sml-nr
-					margin-left: 5px
-					overflow: hidden
 		.user:not(.typing) .fa
 			display: none
 		.user-menu-wrap

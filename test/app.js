@@ -19,6 +19,8 @@ function WsMock() {
 	server.send = function (data) {
 		self.emit('message', data);
 	};
+	this._openForTest = function() { self.emit('open')};
+	this.close = function(code) {};
 }
 WsMock.prototype = Object.create(Emitter.prototype);
 
@@ -61,8 +63,9 @@ describe('App', function () {
 					id: 1,
 					name: 'foo',
 					users: [
-						{id: 1, username: 'foo', status: 16},
-						{id: 2, username: 'bar', status: 0}],
+						{id: 1, username: 'foo', status: 16, is_only_invited: false},
+						{id: 2, username: 'bar', status: 0, is_only_invited: false}],
+                    invited_users: [],
 					channels: [
 						{id: 1, type: 'room', name: 'foo', users: [1, 2], unread: 0},
 						{id: 2, type: 'room', name: 'bar', users: [2], unread: 0}]
@@ -104,12 +107,13 @@ describe('App', function () {
 		app.connect(ws);
 	});
 	describe.skip('Error Handling', function () {
-		
+
 	});
 	it('should emit a disconnected event', function(done) {
 		app.on('disconnected', function(){
 			done();
 		});
+		app.connected = true;
 		app.onDisconnect();
 	});
 	it('should flag rooms the user is joined in', function () {

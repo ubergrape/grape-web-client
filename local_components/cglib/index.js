@@ -2,7 +2,7 @@
 "use strict";
 
 var Wamp = require('wamp1');
-var WebSocketBuffering = require('websocket-buffering');
+var WebSocket = require('websocket');
 var array = require('array');
 var Emitter = require('emitter');
 
@@ -16,8 +16,8 @@ var models = exports.models = {
 };
 
 var PREFIX = 'http://domain/';
-var HEARTBEAT_INTERVAL = 20000;
-var HEARTBEAT_TIMEOUT = 5000;
+var HEARTBEAT_INTERVAL = 10000;
+var HEARTBEAT_TIMEOUT = 3000;
 
 function App() {
 	Emitter.call(this);
@@ -34,12 +34,23 @@ function App() {
 	this.reconnected = false;
 	this.connected = false;
 	this.reconnecting = false;
+};
+
+App.prototype = Object.create(Emitter.prototype);
+
+App.prototype.startHeartbeat = function() {
+	var self = this;
 	this._heartbeat = setInterval(function() {
 		self.heartbeat(self);
 	}, HEARTBEAT_INTERVAL);
-}
+  console.log("Heartbeat started...");
+};
 
-App.prototype = Object.create(Emitter.prototype);
+App.prototype.stopHeartbeat = function () {
+	clearInterval(this._heartbeat);
+  console.log("Heartbeat stopped...");
+};
+
 
 
 App.prototype.logTraffic = function App_logTraffic() {
@@ -77,8 +88,15 @@ App.prototype.heartbeat = function App_heartbeat(app) {
 };
 
 App.prototype.onDisconnect = function App_ondisconnect() {
-	this.connected = false;
-	this.emit('disconnected', this.ws);
+	if (this.connected) {
+		this.stopHeartbeat();
+		if (this.ws) {
+			this.unbind();
+			this.ws.close(3001);
+		}
+		this.connected = false;
+		this.emit('disconnected', this.ws);
+	}
 	this.reconnect();
 }
 /**
@@ -89,28 +107,38 @@ App.prototype.connect = function App_connect(ws) {
 	var self = this;
 	this._ws = ws;
 	if (typeof ws === 'string')
-		ws = new WebSocketBuffering(ws);
-	this.wamp = new Wamp(ws, {
-		omitSubscribe: true
+		ws = new WebSocket(ws);
+	ws.on('open', function() {
+		console.log("Websocket Connection opened!");
+		self.wamp = new Wamp(ws, {
+			omitSubscribe: true
+		});
+		self.bindEvents();
+		self.wamp.call(PREFIX + 'users/get_profile', function (err, res) {
+			if (err) return self.emit('error', err);
+			self.user = new models.User(res);
+			self.organizations = array(res.organizations.map(function (o) {
+				return new models.Organization(o);
+			}));
+			self.emit('change user', self.user);
+			self.emit('change organizations', self.organizations);
+			self.connected = true;
+			self.emit('connected', self.reconnected, self.ws);
+			self.startHeartbeat();
+			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
+		});
 	});
-	ws.on('close', function() {self.onDisconnect()});
+	ws.on('close', function(e) {
+		console.log("Websocket Closed, disconnecting!", e);
+		self.onDisconnect();
+	});
 	ws.on('error', function(err) {
-		console.log('WebSocket Error', err);
+		console.log("Websocket Error, disconnecting!", arguments);
+		self.onDisconnect();
 	});
 	this.ws = ws;
-	this.bindEvents();
-	self.wamp.call(PREFIX + 'users/get_profile', function (err, res) {
-		if (err) return self.emit('error', err);
-		self.user = new models.User(res);
-		self.organizations = array(res.organizations.map(function (o) {
-			return new models.Organization(o);
-		}));
-		self.emit('change user', self.user);
-		self.emit('change organizations', self.organizations);
-		self.connected = true;
-		self.emit('connected', self.reconnected, self.ws);
-  	console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
-	});
+	// this is really ugly but needed for the tests to run
+	if (typeof this.ws._openForTest !== "undefined") this.ws._openForTest();
 };
 
 App.prototype.reconnect = function App_reconnect(ws) {
@@ -133,7 +161,6 @@ App.prototype.reconnect = function App_reconnect(ws) {
 		self.reconnecting = false;
 	}, timeout);
 };
-
 
 App.prototype.bindEvents = function App_bindEvents() {
 	var self = this;
@@ -212,6 +239,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
+		console.log("this should happen once per message", wamp);
 		self.emit('newmessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
@@ -236,17 +264,31 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var user = models.User.get(data.user);
 		user.status = data.status;
 	});
+	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
+		if (data.message.organization !== self.organization.id) return;
+		var msg = new models.Line(data.message);
+		console.log("You have been mentioned!", msg);
+		msg.channel.mentioned++;
+
+	});
 	wamp.subscribe(PREFIX + 'user#updated', function (data) {
 		var user = models.User.get(data.user.id);
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
 		if (data.user.avatar != null) {
-            user.avatar = data.user.avatar;
-        }
-        self.emit('change user', self.user);
+			user.avatar = data.user.avatar;
+		}
+		self.emit('change user', self.user);
 	});
 };
+
+App.prototype.unbind = function App__unbind() {
+	if (this.ws) this.ws.off();
+	// our wamp implementation has no off() right now
+	// so we do some hacking
+	if (this.wamp) this.wamp._listeners = {};
+}
 
 App.prototype._newRoom = function App__newRoom(room) {
 	room.users = room.users.map(function (u) {
@@ -257,6 +299,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 	// the user MUST NOT be the first in the list
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
+	console.log("room", room);
 	room = new models.Room(room);
 	return room;
 };
@@ -287,10 +330,18 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 			user.status = u.status;
 			return user;
 		});
+		res.invited_users.map(function (u) {
+			var user = models.User.get(u.id) || new models.User(u);
+			user.status = u.status;
+			org.users.push(user);
+		})
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
 
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
+		if (res.logo != null) {
+            org.logo = res.logo;
+        }
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
@@ -372,6 +423,15 @@ App.prototype.search = function App_search(text) {
 		});
 };
 
+App.prototype.inviteToRoom = function App_inviteToRoom(room, users, callback) {
+	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
+		if (callback !== undefined) {
+			callback(err, result);
+		}
+	});
+};
+
+
 /**
  * Loads history for `room`
  */
@@ -399,6 +459,7 @@ App.prototype.setRead = function App_setRead(room, line) {
 	// update the unread count
 	// iterate the history in reverse order
 	// (its more likely the read line is at the end)
+	room.mentioned = 0;
 	var setread = false;
 	for (var i = room.history.length - 1; i >= 0; i--) {
 		var l = room.history[i];
@@ -435,7 +496,7 @@ App.prototype.publish = function App_publish(room, msg, options) {
 };
 
 App.prototype.updateMsg = function App_updateMessage(msg, text) {
-	this.wamp.call(PREFIX + 'channels/update_message', msg['channel'], msg['id'], text, function (err) {
+	this.wamp.call(PREFIX + 'channels/update_message', msg['channel'].id, msg['id'], text, function (err) {
 
 	});
 };

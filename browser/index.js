@@ -40,6 +40,7 @@ exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
+var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
@@ -50,6 +51,7 @@ var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
+var Invite = exports.Invite = require('./elements/invite.js');
 
 
 function UI(options) {
@@ -65,13 +67,14 @@ UI.prototype.init = function UI_init() {
 	// set the current language
 	_.lang(this.options.languageCode || 'en');
 	template.locals._ = _;
+	template.locals.staticurl = staticurl;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/avatar.gif"),
 		username: "loading"
 	};
 	template.locals.org = {
-		logo: staticurl("images/logo-white.svg"),
+		logo: staticurl("ico/apple-touch-icon-114-precomposed.png"),
 		name: "loading"
 	};
 
@@ -87,6 +90,7 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
+    this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -102,6 +106,10 @@ UI.prototype.init = function UI_init() {
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
+
+    // initialize the invite form
+    this.invite = new Invite();
+    this.membersMenu.el.appendChild(this.invite.el);
 
 	// initialize title handler
 	this.title = new Title();
@@ -185,7 +193,9 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
+    broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
+    broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -202,7 +212,9 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
+    broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
+	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
@@ -217,6 +229,11 @@ UI.prototype.bind = function UI_bind() {
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
 	broker(this, 'newmessage', this.notifications, 'newMessage');
+	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
+
+    // invite
+    broker(this, 'selectchannel', this.invite, 'setRoom');
+    broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -342,11 +359,15 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	org.users.on('change', refreshNoPMUsers);
 	org.pms.on('change', refreshNoPMUsers);
 
+	// update logo
+	// XXX: is this how it should be done? I guess not
+	qs('.logo img').src = org.logo;
+	qs('.logo img').alt = org.name;
+	qs('.logo .name').innerHTML = org.name;
+
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
-	var channel = this.channelFromURL();
-	if (channel)
-		this.emit('selectchannel', channel);
+	this.selectChannelFromUrl();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -380,20 +401,28 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
-UI.prototype.channelFromURL = function UI_channelFromURL() {
-	var path = location.pathname;
+UI.prototype.channelFromURL = function UI_channelFromURL(path) {
+	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
-	if (!match[2]) return;
+    var i;
+	// if there is no match, go to the first room
+	// if there is not room, we are doomed
+	if (!match[2]) {
+        for (i = 0; i < this.org.rooms.length; i++) {
+            var room = this.org.rooms[i];
+            if (room.joined)
+                return room;
+        }
+        return this.org.rooms[0];
+	};
 	var name = match[2].toLowerCase();
-	var i;
 	if (match[1] === '@') {
-		// match pms/users
-		for (i = 0; i < this.org.pms.length; i++) {
-			var pm = this.org.pms[i];
-			var pmuser = pm.users[0];
-			if (pmuser.username.toLowerCase() === name)
-				return pm;
+		// match users
+		for (i = 0; i < this.org.users.length; i++) {
+			var user = this.org.users[i];
+			if (user.username.toLowerCase() === name)
+				return user;
 		}
 	} else {
 		// match rooms
@@ -404,6 +433,44 @@ UI.prototype.channelFromURL = function UI_channelFromURL() {
 		}
 	}
 };
+
+UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
+	var self = this;
+
+	// this will actually return a channel or a user
+	var channel = self.channelFromURL(path);
+
+	function addlistener(pm) {
+		if (pm.users[0] !== channel) return;
+		self.org.pms.off('add', addlistener);
+		self.emit('selectchannel', pm);
+	}
+
+	if (channel) {
+		if (channel.type === 'user') {
+			var pm = self.isPmOpen(channel);
+			if (!pm) {
+				self.org.pms.on('add', addlistener);
+				self.emit('openpm', channel);
+			} else {
+				self.emit('selectchannel', pm);
+			}
+		} else if (channel.type === "room") {
+			if (!channel.joined)
+				self.emit('joinroom', channel);
+			self.emit('selectchannel', channel);
+		}
+	}
+};
+
+UI.prototype.isPmOpen = function UI_isPmOpen(user) {
+	for (var i = 0; i < this.org.pms.length; i++) {
+		var pm = this.org.pms[i];
+		var pmuser = pm.users[0];
+		if (pmuser === user)
+			return pm;
+	}
+}
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
