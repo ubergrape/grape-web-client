@@ -12,6 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
+var tip = require('tip');
 
 var exports = module.exports = UI;
 
