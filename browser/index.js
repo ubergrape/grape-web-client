@@ -67,6 +67,7 @@ UI.prototype.init = function UI_init() {
 	// set the current language
 	_.lang(this.options.languageCode || 'en');
 	template.locals._ = _;
+	template.locals.staticurl = staticurl;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/avatar.gif"),
