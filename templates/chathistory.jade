@@ -70,7 +70,7 @@
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				a(href="/chat/@" + first.author.username.toLowerCase()).author
 					if (first.author.firstName || first.author.lastName)
-						author.author #{first.author.firstName} #{first.author.lastName}
+						author.author #{first.author.firstName} #{first.author.lastName} 
 							em #{first.author.username}
 					else
 						author.author= first.author.username
