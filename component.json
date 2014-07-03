@@ -67,7 +67,8 @@
     "templates/popovers/organization.jade",
     "templates/popovers/roommembers.jade",
     "templates/popovers/roomlist.jade",
-    "templates/roomlist.jade"
+    "templates/roomlist.jade",
+    "templates/deleteroom.jade"
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
@@ -98,6 +99,7 @@
     "component/upload": "*",
     "component/progress": "*",
     "component/file": "*",
+    "component/dialog": "*",
     "discore/closest": "*",
     "MatthewMueller/array": "*",
     "ubergrape/websocket": "*",

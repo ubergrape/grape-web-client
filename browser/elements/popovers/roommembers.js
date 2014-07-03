@@ -3,9 +3,13 @@
 
 var template = require('template');
 var Emitter = require('emitter');
+var v = require('virtualdom');
 var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
+var dialog = require('dialog');
+var domify = require('domify');
+
 
 module.exports = RoomMembersPopover;
 
@@ -45,5 +49,9 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 
 RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom(ev) {
 	ev.preventDefault();
-	this.emit('deleteroom', this.room);
+	var x = v.toDOM(template('deleteroom', {
+		room: this.room
+	}));
+	var d = dialog("really?", x).closable().show()
+	// this.emit('deleteroom', this.room);
 };

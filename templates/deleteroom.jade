@@ -1,0 +1,9 @@
+h1=_("you are about to delete ") + room.name
+
+p=_("please enter your password to continue")
+
+form.delete-room-form
+	.formrow
+		label.text(for="password")=_('Password')
+		input.password(type=password,name="password")
+	input.button.create(type="submit", name="submit", value=_('Delete') + room.name)
