@@ -383,22 +383,10 @@ UI.prototype.setUser = function UI_setUser(user) {
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-	var hostname = window.location.hostname;
-	var org;
-	var parts = hostname.split('.');
-	if (parts.length === 1 || hostname === '127.0.0.1') {
-		// assuming we are developing, either on localhost or 127.0.0.1
-		// so just use the first org, should work for the common dev cases
-		org = orgs[0];
-	}	else {
-		org = orgs.filter(function(o) {
-			if (o.subdomain === parts[0]) return o;
-		})[0];
-	}
-	if (org === undefined) {
-		// TODO: Couldnt find a suitable org, what to do now?
-		// Do some permission denied stuff or something else?
-	}
+	var self = this;
+	var org = orgs.filter(function(o) {
+		if (o.id === self.options.organizationID) return o;
+	})[0];
 	this.emit('selectorganization', org);
 };
 
