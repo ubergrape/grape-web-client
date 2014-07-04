@@ -12,6 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
+var constants = require('../lib/constants');
 
 var exports = module.exports = UI;
 
@@ -27,6 +28,7 @@ _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.markdown = require('./markdown');
+template.locals.constants = constants
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {

@@ -43,7 +43,8 @@
     "lib/models/organization.js",
     "lib/models/room.js",
     "lib/models/user.js",
-    "lib/staticurl.js"
+    "lib/staticurl.js",
+    "lib/constants.js"
   ],
   "json": [
     "locale/de.json",
