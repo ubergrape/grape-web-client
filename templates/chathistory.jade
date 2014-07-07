@@ -35,17 +35,19 @@
 								=_('Integrate external services')
 		else
 			.message-group.welcome-message
+				- var head = staticurl("/images/head_lock.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
 				h3
-					i.fa.fa-lock
 					|  Private messages with 
 					span #{room.users[0].username}
 				p
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you.
-					br
-					| So speak freely.
+					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. So speak freely.
+
 				if room.users[0].is_only_invited
 					p
-						=_("This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+						i.fa.fa-envelope
+						=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
 
 	- var lastDate
 	- var lastRead = true
