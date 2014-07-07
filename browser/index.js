@@ -398,12 +398,13 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	// if there is no match, go to the first room
 	// if there is not room, we are doomed
 	if (!match[2]) {
-        for (i = 0; i < this.org.rooms.length; i++) {
-            var room = this.org.rooms[i];
-            if (room.joined)
-                return room;
-        }
-        return this.org.rooms[0];
+		for (i = 0; i < this.org.rooms.length; i++) {
+			var room = this.org.rooms[i];
+			if (room.name === "General") {
+				return room;
+			}
+		}
+		return this.org.rooms[0];
 	};
 	var name = match[2].toLowerCase();
 	if (match[1] === '@') {
