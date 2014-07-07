@@ -436,18 +436,19 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 	}
 
 	if (channel) {
-		if (channel.type === 'user') {
-			var pm = self.isPmOpen(channel);
-			if (!pm) {
-				self.org.pms.on('add', addlistener);
-				self.emit('openpm', channel);
-			} else {
-				self.emit('selectchannel', pm);
-			}
-		} else if (channel.type === "room") {
+		if (channel.type === "room") {
 			if (!channel.joined)
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
+		} else {
+			var user = channel;
+			var pm = self.isPmOpen(user);
+			if (!pm) {
+				self.org.pms.on('add', addlistener);
+				self.emit('openpm', user);
+			} else {
+				self.emit('selectchannel', pm);
+			}
 		}
 	}
 };
