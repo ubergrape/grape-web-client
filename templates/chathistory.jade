@@ -11,29 +11,28 @@
 	else
 		if room.type !== 'pm'
 			.message-group.welcome-message
-				h3
-					| Welcome to 
-					span #{room.name}
-				p
-					=_('This room is public. Every member can join and read the history.')
-				ul.welcome-tasks
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Get the conversation started')
-						//- p=_('There are no members in this room yet. Invite some to get the conversation started.')
-						a.show-invite.disable-document-click-handler
-							i.fa.fa-plus
-							=_('Invite members')
-						span.invite
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Integrate your external services')
-						//- p=_('There are no service integrations yet. ')
-						a(href='/services/list/', target='_self')
-							i.fa.fa-plus
-							=_('Add service integrations')
+				- var head = staticurl("/images/head.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
+					h3
+						| Welcome to 
+						span #{room.name}
+					p
+						=_('This room is public. Every member can join and read the history.')
+					ul.welcome-tasks
+						li.option
+							em
+								=_('1')
+							a.show-invite.disable-document-click-handler.button
+								i.fa.fa-plus
+								=_('Invite members')
+							span.invite
+						li.option
+							em
+								=_('2')
+							a.button(href='/services/list/', target='_self')
+								i.fa.fa-share-alt
+								=_('Integrate external services')
 		else
 			.message-group.welcome-message
 				h3

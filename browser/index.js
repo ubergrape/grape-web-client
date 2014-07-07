@@ -127,7 +127,8 @@ UI.prototype.init = function UI_init() {
 	// initialize notifications
 	this.notifications = new Notifications();
 	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Hey there! Please <button class='button enable_notifications'>Enable desktop notifications</button> , so your team members can reach you on ChatGrape.");
+		this.enableNotificationMessage = this.messages.info("Hey there! Please <a class=' enable_notifications'>Enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>");
+		classes(qs('body')).add('notifications-disabled');
 	}
 };
 
@@ -144,6 +145,7 @@ UI.prototype.bind = function UI_bind() {
 			notify.requestPermission(function(permission){
 				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
+					classes(qs('body')).remove('notifications-disabled');
 				}
 			});
 		}
