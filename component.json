@@ -28,6 +28,7 @@
     "browser/elements/popovers/room.js",
     "browser/elements/popovers/roommembers.js",
     "browser/elements/popovers/organization.js",
+    "browser/elements/dialogs/deleteroom.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
