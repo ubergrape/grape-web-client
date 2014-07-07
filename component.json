@@ -111,6 +111,7 @@
     "sk7/textcomplete": "*",
     "sk7/startswith": "*",
     "matthewp/attr": "*",
+    "component/tip": "*",
     "ianstormtaylor/animate": "*",
     "ubergrape/HTML5-Desktop-Notifications": "*"
   },

@@ -68,22 +68,25 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 
 	// parse markdown
 	var content = message.text;
-	var content_dom = domify(markdown(content))
+	if (typeof content !== "undefined" && content !== "") {
 
-	// replace images
-	var imgs = content_dom.getElementsByTagName('img');
-	var replacement = document.createElement("p");
-	replacement.innerHTML = _('[Image]');
-	for (var i=0; i<imgs.length; i++) {
-		var img = imgs[i];
-		img.parentElement.replaceChild(replacement, img);
+		var content_dom = domify(markdown(content))
+
+		// replace images
+		var imgs = content_dom.getElementsByTagName('img');
+		var replacement = document.createElement("p");
+		replacement.innerHTML = _('[Image]');
+		for (var i=0; i<imgs.length; i++) {
+			var img = imgs[i];
+			img.parentElement.replaceChild(replacement, img);
+		}
+
+		// strip html
+		var content = content_dom.textContent || content_dom.innerText || "";
 	}
 
-	// strip html
-	var content_text = content_dom.textContent || content_dom.innerText || "";
-
 	var notification = notify.createNotification(title, {
-		body: content_text,
+		body: content,
 		icon: message.author.avatar,
 		timeout: 6000,
 		onclick: function(ev) {
