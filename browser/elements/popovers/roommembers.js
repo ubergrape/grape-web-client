@@ -6,6 +6,7 @@ var Emitter = require('emitter');
 var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
+var broker = require('broker');
 
 var DeleteRoomDialog = require('../dialogs/deleteroom');
 
@@ -50,6 +51,12 @@ RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom
 	var d = new DeleteRoomDialog({
 		room: this.room
 	}).closable().show()
-
+	console.log("this", this);
+	broker(d, 'deleteroom', this, 'dr');
 	// this.emit('deleteroom', this.room);
 };
+
+
+RoomMembersPopover.prototype.dr = function DeleteRoomDialog_deleteroom(room, password, callback) {
+	console.log("test test ");
+}
