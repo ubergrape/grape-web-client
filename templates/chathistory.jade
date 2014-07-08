@@ -11,42 +11,43 @@
 	else
 		if room.type !== 'pm'
 			.message-group.welcome-message
-				h3
-					| Welcome to 
-					span #{room.name}
-				p
-					=_('This room is public. Every member can join and read the history.')
-				ul.welcome-tasks
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Get the conversation started')
-						//- p=_('There are no members in this room yet. Invite some to get the conversation started.')
-						a.show-invite.disable-document-click-handler
-							i.fa.fa-plus
-							=_('Invite members')
-						span.invite
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Integrate your external services')
-						//- p=_('There are no service integrations yet. ')
-						a(href='/services/list/', target='_self')
-							i.fa.fa-plus
-							=_('Add service integrations')
+				- var head = staticurl("/images/head.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
+					h3
+						| Welcome to 
+						span #{room.name}
+					p
+						=_('This room is public. Every member can join and read the history.')
+					ul.welcome-tasks
+						li.option
+							em
+								=_('1')
+							a.show-invite.disable-document-click-handler.button
+								i.fa.fa-plus
+								=_('Invite members')
+							span.invite
+						li.option
+							em
+								=_('2')
+							a.button(href='/services/list/', target='_self')
+								i.fa.fa-share-alt
+								=_('Integrate external services')
 		else
 			.message-group.welcome-message
+				- var head = staticurl("/images/head_lock.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
 				h3
-					i.fa.fa-lock
 					|  Private messages with 
 					span #{room.users[0].username}
 				p
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you.
-					br
-					| So speak freely.
+					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. So speak freely.
+
 				if room.users[0].is_only_invited
 					p
-						=_("This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+						i.fa.fa-envelope
+						=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
 
 	- var lastDate
 	- var lastRead = true

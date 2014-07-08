@@ -55,6 +55,7 @@
 			border-top: main-border-radius solid transparent
 			border-bottom: main-border-radius solid transparent
 
+
 .author
 	font-weight: bold
 	margin-bottom: 3px
@@ -66,8 +67,15 @@
 		@extend $small-font-size
 
 .welcome-message
-	padding: 10px 10px 22px 56px
+	margin: 0
+	padding: 30px 40px 42px 20px
 	border-bottom: 2px dashed silver-dark
+	body.notifications-disabled &
+		padding-top: 40px !important
+	.image
+		float: left
+	> div
+		overflow: hidden
 	h2, h3, p, ul
 		max-width: 720px
 		margin-bottom: 2px
@@ -93,6 +101,19 @@
 		.option
 			margin: 0 22px 10px 0
 			padding-top: 5px
+			float: left
+			em
+				border: 2px solid gold
+				color: gold
+				background: lighten(gold, 80%)
+				border-radius: 50%
+				width: 25px 
+				line-height: 21px
+				text-align: center
+				height: 25px
+				margin-right: 8px
+				font-weight: bold
+				float: left
 		.invite-to-room
 			@extend $clearfix
 			.input-invite
@@ -206,14 +227,14 @@
 	@extend $small-font-size
 
 .date-separator
-	margin: 0 30px 0 20px
+	margin: 0 30px -10px 20px
 	padding:  5px 0 0 0
 
 .newmessage-separator
-	border-bottom: 1px solid aqua-dark
+	border-bottom: 1px solid grape-dark
 	height: 7px
 	margin: 0px 30px 18px 20px
 	span
-		color: aqua-dark
+		color: grape-dark
 		background: chat-background
 		padding: 0px 5px

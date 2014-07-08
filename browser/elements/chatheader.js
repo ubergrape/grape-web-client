@@ -8,7 +8,6 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
-var RoomMembersPopover = require('./popovers/roommembers');
 
 module.exports = ChatHeader;
 

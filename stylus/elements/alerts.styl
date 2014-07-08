@@ -13,9 +13,9 @@ ul.alerts
 	z-index: 100
 	//animation: slideinout 4s ease-in-out
 	li
-		text-align: center
+		text-align: left
 		background-color: lighten(alert-info-color, 90%)
-		padding: 14px 20px
+		padding: 14px 30px 14px 20px
 		border-bottom: 1px solid lighten(alert-info-color, 60%)
 		opacity: 0.98
 		@extend $normal-font-size
@@ -27,6 +27,7 @@ ul.alerts
 			font-weight: normal
 			margin-top: -6px
 			margin-bottom: -4px
+			float: right
 @keyframes slideinout {
   0%, 100% {
     top:-30px
@@ -43,25 +44,25 @@ ul.alerts
 	
 .alerts li.info
 	background-color: lighten(alert-info-color, 70%)
-	border-color: alert-info-color
+	border-color: lighten(alert-info-color, 60%)
 	color: darken(alert-info-color, 30%)
 	a:hover
 		color: lighten(alert-info-color, 20%)
 .alerts li.success
 	background-color: lighten(alert-success-color, 90%)
-	border-color: lighten(alert-success-color, 60%)
+	border-color: lighten(alert-success-color, 80%)
 	color: alert-success-color
 	a:hover
 		color: lighten(alert-success-color, 20%)
 .alerts li.warning
 	background-color: lighten(alert-warning-color, 90%)
-	border-color: lighten(alert-warning-color, 60%)
+	border-color: lighten(alert-warning-color, 80%)
 	color: alert-warning-color
 	a:hover
 		color: lighten(alert-warning-color, 20%)
 .alerts li.danger
 	background-color: lighten(alert-danger-color, 90%)
-	border-color: darken(alert-danger-color, 30%)
+	border-color: lighten(alert-danger-color, 80%)
 	color: darken(alert-danger-color, 30%)
 	a:hover
 		color: lighten(alert-danger-color, 20%)
