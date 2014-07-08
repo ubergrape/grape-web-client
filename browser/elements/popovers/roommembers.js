@@ -7,7 +7,7 @@ var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
 
-var deleteroomdialog = require('../dialogs/deleteroom');
+var DeleteRoomDialog = require('../dialogs/deleteroom');
 
 module.exports = RoomMembersPopover;
 
@@ -47,7 +47,7 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 
 RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom(ev) {
 	ev.preventDefault();
-	var d = deleteroomdialog({
+	var d = new DeleteRoomDialog({
 		room: this.room
 	}).closable().show()
 
