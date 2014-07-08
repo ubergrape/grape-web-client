@@ -266,5 +266,4 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
     this.emit('toggleinvite', qs('.room-header .connected-users'));
-    console.log("show the invite");
 }
