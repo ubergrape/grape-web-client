@@ -93,7 +93,7 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
-    this.membersMenu = new RoomMembersPopover();
+	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -110,9 +110,9 @@ UI.prototype.init = function UI_init() {
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-    // initialize the invite form
-    this.invite = new Invite();
-    this.membersMenu.el.appendChild(this.invite.el);
+	// initialize the invite form
+	this.invite = new Invite();
+	this.membersMenu.el.appendChild(this.invite.el);
 
 	// initialize title handler
 	this.title = new Title();
@@ -196,11 +196,11 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
-    broker(this, 'selectchannel', this.membersMenu, 'setRoom');
+	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
-    broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-    broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
-    broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
+	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
+	broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
+	broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -210,14 +210,14 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-  broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-    broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
+	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
@@ -236,9 +236,9 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'newmessage', this.notifications, 'newMessage');
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
-    // invite
-    broker(this, 'selectchannel', this.invite, 'setRoom');
-    broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
+	// invite
+	broker(this, 'selectchannel', this.invite, 'setRoom');
+	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
@@ -398,16 +398,16 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
-    var i;
+	var i;
 	// if there is no match, go to the first room
 	// if there is not room, we are doomed
 	if (!match || match[2]) {
-        for (i = 0; i < this.org.rooms.length; i++) {
-            var room = this.org.rooms[i];
-            if (room.joined)
-                return room;
-        }
-        return this.org.rooms[0];
+		for (i = 0; i < this.org.rooms.length; i++) {
+			var room = this.org.rooms[i];
+			if (room.joined)
+				return room;
+		}
+		return this.org.rooms[0];
 	};
 	var name = match[2].toLowerCase();
 	if (match[1] === '@') {
