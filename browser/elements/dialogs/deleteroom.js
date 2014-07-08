@@ -23,7 +23,7 @@ function DeleteRoomDialog(context) {
 	this.passwordInput = this.form['password'];
 	this.button = qs('.delete', this.el);
 	this.bind();
-	return this.dialog;
+	return this;
 }
 
 DeleteRoomDialog.prototype = Object.create(Emitter.prototype);
@@ -34,6 +34,18 @@ DeleteRoomDialog.prototype.bind = function DeleteRoomDialog_bind() {
 	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
 	this.events.bind('submit .delete-room-form', 'submit');
 	this.events.bind('input .password', 'resetvalidity');
+}
+
+// proxy for dialog
+DeleteRoomDialog.prototype.closable = function DeleteRoomDialog_closable() {
+	this.dialog.closable();
+	return this;
+}
+
+// proxy for dialog
+DeleteRoomDialog.prototype.show = function DeleteRoomDialog_show() {
+	this.dialog.show();
+	return this;
 }
 
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
@@ -47,7 +59,6 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 		return;
 	}
 
-	console.log("emitting deleteroom");
 	self.emit('deleteroom', self.context['room'], password, function DeleteRoomDialog_submit_callback(err, result){
 		console.log("callback called");
 		if(err) {
