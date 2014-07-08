@@ -112,7 +112,8 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the invite form
 	this.invite = new Invite();
-	this.membersMenu.el.appendChild(this.invite.el);
+	var invite_placeholder = qs('.invite',this.membersMenu.el);
+	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
 
 	// initialize title handler
 	this.title = new Title();
