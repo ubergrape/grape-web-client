@@ -19,9 +19,11 @@ function DeleteRoomDialog(context) {
 	var html = v.toDOM(template('deleteroom', this.context));
 	this.dialog = dialog(html);
 	this.el = this.dialog.el;
-	this.form = qs('.delete-room-form', this.el);
-	this.passwordInput = this.form['password'];
 	this.button = qs('.delete', this.el);
+	this.form = qs('.delete-room-form', this.el);
+	if (this.form) {
+		this.passwordInput = this.form['password'];
+	}
 	this.bind();
 	return this;
 }
