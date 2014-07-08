@@ -50,6 +50,12 @@ DeleteRoomDialog.prototype.show = function DeleteRoomDialog_show() {
 	return this;
 }
 
+// proxy for dialog
+DeleteRoomDialog.prototype.overlay = function DeleteRoomDialog_overlay() {
+	this.dialog.overlay();
+	return this;
+}
+
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 	ev.preventDefault();
 	var self = this;

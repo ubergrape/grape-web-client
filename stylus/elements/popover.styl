@@ -19,7 +19,7 @@
 	white-space: normal
 	ul
 		padding: 5px 5px 0 0
-		margin: 10px 0 0
+		margin: 0 0 0
 		max-height: 250px
 		overflow: auto
 	li
@@ -79,6 +79,7 @@
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
+		margin-bottom: 10px
 	h4
 		color: gainsboro-dark
 		@extend $small-font-size
@@ -224,6 +225,7 @@ label.radio-label
 		padding: 3px 4px 3px 0
 .button.create
 .button.new
+.button.delete
 	float: right
 
 
@@ -275,6 +277,16 @@ label.radio-label
 		@extend $textinput
 		width: 100%
 
+.delete-room
+	float: right
+	@extend $delete-link
+.invite-to-room
+	@extend $clearfix
+	> div
+		overflow: hidden
+	button
+		float: right
+		margin-left: 5px
 //
 // Invite users stylings
 //

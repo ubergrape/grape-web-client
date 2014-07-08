@@ -50,7 +50,7 @@ RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom
 	ev.preventDefault();
 	var d = new DeleteRoomDialog({
 		room: this.room
-	}).closable().show();
+	}).closable().overlay().show();
 	broker.pass(d, 'deleteroom', this, 'deleteroom');
 };
 

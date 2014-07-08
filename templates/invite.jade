@@ -1,8 +1,7 @@
 form.invite-to-room
-	textarea.input-invite(name="invite-users", placeholder="Enter names or email addresses")
-	button.button.btn-invite(type="submit", name="submit")
-		=_('Invite members to ')
-		= room.name
+	button.button.btn-invite.btn-icon(type="submit", name="submit")
 		i.icon.fa.fa-envelope
-	.autocomplete-wrapper
-		.autocomplete
+	div
+		textarea.input-invite(name="invite-users", placeholder="Names or Email")
+		.autocomplete-wrapper
+			.autocomplete
