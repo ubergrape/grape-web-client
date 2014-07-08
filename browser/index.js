@@ -200,6 +200,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
     broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
     broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
+    broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -400,7 +401,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
     var i;
 	// if there is no match, go to the first room
 	// if there is not room, we are doomed
-	if (!match[2]) {
+	if (!match || match[2]) {
         for (i = 0; i < this.org.rooms.length; i++) {
             var room = this.org.rooms[i];
             if (room.joined)
@@ -478,5 +479,12 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
+	setTimeout(function(){msg.remove()}, 2000);
+};
+
+UI.prototype.roomDeleted = function UI_roomDeleted(room) {
+	this.selectChannelFromUrl('/'); // don't use '', it won't work
+
+	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
 	setTimeout(function(){msg.remove()}, 2000);
 };

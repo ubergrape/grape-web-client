@@ -62,13 +62,11 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 	}
 
 	self.emit('deleteroom', self.context['room'], password, function DeleteRoomDialog_submit_callback(err, result){
-		console.log("callback called");
 		if(err) {
 			self.passwordInput.setCustomValidity(err.details);
-			self.button.click()
-		}else {
-			alert("Deleted room " + self.context['room']);
-			self.emit('selectchannel');
+			self.button.click();
+		} else {
+			self.dialog.remove();
 		}
 	});
 }
