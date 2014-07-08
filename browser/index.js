@@ -130,7 +130,8 @@ UI.prototype.init = function UI_init() {
 	// initialize notifications
 	this.notifications = new Notifications();
 	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Hey there! Please <button class='button enable_notifications'>Enable desktop notifications</button> , so your team members can reach you on ChatGrape.");
+		this.enableNotificationMessage = this.messages.info("Hey there! Please <a class=' enable_notifications'>Enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>");
+		classes(qs('body')).add('notifications-disabled');
 	}
 };
 
@@ -147,6 +148,7 @@ UI.prototype.bind = function UI_bind() {
 			notify.requestPermission(function(permission){
 				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
+					classes(qs('body')).remove('notifications-disabled');
 				}
 			});
 		}
@@ -400,13 +402,15 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
 	var i;
-	// if there is no match, go to the first room
-	// if there is not room, we are doomed
+	// if there is no match, go to "General"
+	// if there is no "general" room, go to first room
+	// if there is no room at all, we are doomed
 	if (!match || match[2]) {
 		for (i = 0; i < this.org.rooms.length; i++) {
 			var room = this.org.rooms[i];
-			if (room.joined)
+			if (room.name === "General") {
 				return room;
+			}
 		}
 		return this.org.rooms[0];
 	};
@@ -441,18 +445,19 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 	}
 
 	if (channel) {
-		if (channel.type === 'user') {
-			var pm = self.isPmOpen(channel);
-			if (!pm) {
-				self.org.pms.on('add', addlistener);
-				self.emit('openpm', channel);
-			} else {
-				self.emit('selectchannel', pm);
-			}
-		} else if (channel.type === "room") {
+		if (channel.type === "room") {
 			if (!channel.joined)
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
+		} else {
+			var user = channel;
+			var pm = self.isPmOpen(user);
+			if (!pm) {
+				self.org.pms.on('add', addlistener);
+				self.emit('openpm', user);
+			} else {
+				self.emit('selectchannel', pm);
+			}
 		}
 	}
 };

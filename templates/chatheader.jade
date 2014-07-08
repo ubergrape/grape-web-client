@@ -26,4 +26,9 @@ div
 		else if room.type === 'pm'
 			h1
 				span.room-name
-					| @#{room.users[0].username}
+					if !room.users[0].is_only_invited
+						| @
+					else
+						i.fa.fa-envelope
+						| 
+					| #{room.users[0].username}
