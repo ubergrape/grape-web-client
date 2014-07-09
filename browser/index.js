@@ -405,7 +405,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	// if there is no match, go to "General"
 	// if there is no "general" room, go to first room
 	// if there is no room at all, we are doomed
-	if (!match || match[2]) {
+	if (!match || !match[2]) {
 		for (i = 0; i < this.org.rooms.length; i++) {
 			var room = this.org.rooms[i];
 			if (room.name === "General") {
