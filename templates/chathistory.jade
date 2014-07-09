@@ -8,7 +8,7 @@
 				img.image(src="#{preloader}",width="40",alt="Loading")
 				p
 					=_("Give us a second while we're preparing everything for you!")
-	else
+	else if room.history.length === 0
 		if room.type !== 'pm'
 			.message-group.welcome-message
 				- var head = staticurl("/images/head.png")
