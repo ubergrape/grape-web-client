@@ -72,7 +72,7 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 			self.passwordInput.setCustomValidity(err.details);
 			self.button.click();
 		} else {
-			self.dialog.remove();
+			self.dialog.hide();
 		}
 	});
 }
