@@ -135,40 +135,41 @@ UI.prototype.init = function UI_init() {
 	// initialize user guide
 	this.intro = new Introjs();
 	this.intro.setOptions({
-			nextLabel: 'test',
-			overlayOpacity: .5,
+			nextLabel: '<strong>Next</strong>',
+			overlayOpacity: .4,
+			showStepNumbers: false,
             steps: [
               { 
-                intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll guide you through this in 5 simple steps!</p>",
+                intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps!</p>",
                 tooltipClass: "intro-welcome"
               },
               {
                 element: '#intro-step1',
-                intro: "These are your organization settings. Here you can add your services.",
+                intro: "<h2>Organization Settings</h2><p>These are your organization settings. Here you can add and manage members and external services.</p>",
                 position: 'right'
               },
               {
                 element: '#intro-step2',
-                intro: "This is the room's overview.",
+                intro: "<h2>Room Info</h2><p>These are your organization settings. Here you can add and manage members and external services.</p>",
                 position: 'right'
               },
               {
                 element: '#intro-step3',
-                intro: 'This are the messages.',
+                intro: '<h2>Room Info</h2><p>This are the messages.</p>',
                 position: 'right'
               },
               {
                 element: '#intro-step4',
-                intro: "This is room info. Invite users here.",
+                intro: "<h2>Room Info</h2><p>This number shows you how many users have joined this room. Click this space to can invite and add users to the room at any time.</p>",
                 position: 'bottom'
               },
               {
                 element: '#intro-step5',
-                intro: "This is your user profile stuff.",
+                intro: "<h2>User Profile</h2><p>Here you can .</p>",
                 position: 'left'
               },
               {
-                intro: 'Get it, use it.',
+                intro: '<h2>All done!</h2><p>Have fun using ChatGrape.</p>',
               }
             ]
           });
