@@ -13,6 +13,7 @@ var staticurl = require('../lib/staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
 var tip = require('tip');
+var Introjs = require("intro.js").introJs;
 
 var exports = module.exports = UI;
 
@@ -127,9 +128,49 @@ UI.prototype.init = function UI_init() {
 	// initialize notifications
 	this.notifications = new Notifications();
 	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Hey there! Please <a class=' enable_notifications'>Enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>");
+		this.enableNotificationMessage = this.messages.info("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>");
 		classes(qs('body')).add('notifications-disabled');
 	}
+
+	// initialize user guide
+	this.intro = new Introjs();
+	this.intro.setOptions({
+            steps: [
+              { 
+                intro: "Hi there! Welcome to ChatGrape!<br/>We'll guide you through this in 5 simple steps!"
+              },
+              {
+                element: '#intro-step1',
+                intro: "These are your organization settings. Here you can add your services.",
+                position: 'right'
+              },
+              {
+                element: '#intro-step2',
+                intro: "This is the room's overview.",
+                position: 'right'
+              },
+              {
+                element: '#intro-step3',
+                intro: 'This are the messages.',
+                position: 'right'
+              },
+              {
+                element: '#intro-step4',
+                intro: "This is room info. Invite users here.",
+                position: 'bottom'
+              },
+              {
+                element: '#intro-step5',
+                intro: "This is your user profile stuff.",
+                position: 'left'
+              },
+              {
+                intro: 'Get it, use it.',
+              }
+            ]
+          });
+	
+	
 };
 
 UI.prototype.bind = function UI_bind() {
