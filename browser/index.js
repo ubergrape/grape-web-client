@@ -137,7 +137,8 @@ UI.prototype.init = function UI_init() {
 	this.intro.setOptions({
             steps: [
               { 
-                intro: "Hi there! Welcome to ChatGrape!<br/>We'll guide you through this in 5 simple steps!"
+                intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll guide you through this in 5 simple steps!</p>",
+                tooltipClass: "intro-welcome"
               },
               {
                 element: '#intro-step1',
