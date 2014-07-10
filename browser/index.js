@@ -140,36 +140,36 @@ UI.prototype.init = function UI_init() {
 			showStepNumbers: false,
             steps: [
               { 
-                intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps!</p>",
+                intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps.</p><p>You can skip this at any time by clicking anywhere.</p>",
                 tooltipClass: "intro-welcome"
               },
               {
                 element: '#intro-step1',
-                intro: "<h2>Organization Settings</h2><p>These are your organization settings. Here you can add and manage members and external services.</p>",
+                intro: "<h2>Organization Settings</h2><p>This is the organization you are currently in.</p><p>You can add and manage members and external services by clicking on the menu button.</p>",
                 position: 'right'
               },
               {
                 element: '#intro-step2',
-                intro: "<h2>Room Info</h2><p>These are your organization settings. Here you can add and manage members and external services.</p>",
+                intro: "<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General and Off-Topic.</p><p>You can see all availible rooms in your organization and create a new one by clicking on &quot;All rooms&quot;.</p>",
                 position: 'right'
               },
               {
                 element: '#intro-step3',
-                intro: '<h2>Room Info</h2><p>This are the messages.</p>',
+                intro: '<h2>Private Messages</h2><p>This list contains your contacts you already have a private conversation with.</p><p>You can start more conversations by clicking on &quot;All members&quot;.</p>',
                 position: 'right'
               },
               {
                 element: '#intro-step4',
-                intro: "<h2>Room Info</h2><p>This number shows you how many users have joined this room. Click this space to can invite and add users to the room at any time.</p>",
+                intro: "<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>",
                 position: 'bottom'
               },
               {
                 element: '#intro-step5',
-                intro: "<h2>User Profile</h2><p>Here you can .</p>",
+                intro: "<h2>User Profile</h2><p>You can find all profile-related settings (and re-start this awesome tutorial at any time) here.</p>",
                 position: 'left'
               },
               {
-                intro: '<h2>All done!</h2><p>Have fun using ChatGrape.</p>',
+                intro: '<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>',
               }
             ]
           });
