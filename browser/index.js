@@ -135,6 +135,8 @@ UI.prototype.init = function UI_init() {
 	// initialize user guide
 	this.intro = new Introjs();
 	this.intro.setOptions({
+			nextLabel: 'test',
+			overlayOpacity: .5,
             steps: [
               { 
                 intro: "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll guide you through this in 5 simple steps!</p>",
