@@ -454,7 +454,8 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 		return this.org.rooms[0];
 	};
 	var name = match[2].toLowerCase();
-	if (match[1] === '@') {
+	if (match[1] === '@' && name !== this.user.username) {
+		// there'sno channel with yourself
 		// match users
 		for (i = 0; i < this.org.users.length; i++) {
 			var user = this.org.users[i];
