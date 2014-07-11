@@ -28,6 +28,7 @@ Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetvalidity');
+	// this.events.bind('click .btn-invite', 'resetvalidity');
 	this._bindAutocomplete();
 };
 
@@ -70,6 +71,8 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 
 Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	ev.preventDefault();
+	console.log("inviting...:");
+	this.resetvalidity();
 
 	var self = this;
 	if (this.inviteInput.value === "") {
