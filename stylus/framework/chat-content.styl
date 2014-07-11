@@ -221,6 +221,67 @@
 					font-family: FontAwesome
 					color: gold
 					margin-right: 6px
+		a.attachment
+			white-space: nowrap
+			border-bottom: 1px solid link-color
+			display: inline-block
+			margin: 1px 
+			padding: 1px 0
+			vertical-align: baseline
+			font-weight: bold
+			&:hover
+				color: lighten(link-color, 25%)
+				text-decoration: none
+				border-color: aqua-dark !important
+			&:before
+				font-weight: normal
+				content: "\f016"
+				font-family: FontAwesome
+				margin-right: 6px
+			&[href$=".pdf"]
+				&:before
+					content: "\f1c1"
+			&[href$=".zip"],
+			&[href$=".rar"],
+			&[href$=".7z"],
+			&[href$=".gzip"]
+				&:before
+					content: "\f1c6"
+			&[href$=".mp3"],
+			&[href$=".wav"],
+			&[href$=".wma"]
+				&:before
+					content: "\f1c7"
+			&[href$=".xls"],
+			&[href$=".xlsx"],
+			&[href$=".csv"]
+				&:before
+					content: "\f1c3"
+			&[href$=".doc"],
+			&[href$=".docx"],
+			&[href$=".rtf"]
+				&:before
+					content: "\f1c2"
+			&[href$=".ppt"],
+			&[href$=".pptx"]
+				&:before
+					content: "\f1c4"
+			&[href$=".png"],
+			&[href$=".jpg"],
+			&[href$=".jpeg"],
+			&[href$=".bmp"],
+			&[href$=".tif"],
+			&[href$=".tiff"]
+				&:before
+					content: "\f1c5"
+			&[href$=".wmv"],
+			&[href$=".avi"],
+			&[href$=".mpg"],
+			&[href$=".mpeg"],
+			&[href$=".mov"],
+			&[href$=".mp4"]
+				&:before
+					content: "\f1c8"
 		.img-atm
 			display: inline-block
 
