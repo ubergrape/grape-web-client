@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-07-02 11:22+0000\n"
+"POT-Creation-Date: 2014-07-09 14:05+0000\n"
 
 #: client/templates/roomlist.jade:3
 #: client/templates/navigation.jade:4
@@ -374,6 +374,7 @@ msgstr ""
 #: client/browser/index.js:421
 #: client/browser/index.js:425
 #: client/browser/index.js:487
+#: client/browser/index.js:481
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -382,6 +383,7 @@ msgstr ""
 #: client/browser/index.js:410
 #: client/browser/index.js:414
 #: client/browser/index.js:476
+#: client/browser/index.js:470
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -393,6 +395,7 @@ msgid "Private Message"
 msgstr ""
 
 #: client/browser/elements/notifications.js:76
+#: client/browser/elements/notifications.js:78
 msgid "[Image]"
 msgstr ""
 

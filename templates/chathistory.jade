@@ -8,7 +8,7 @@
 				img.image(src="#{preloader}",width="40",alt="Loading")
 				p
 					=_("Give us a second while we're preparing everything for you!")
-	else
+	else if room.history.length === 0
 		if room.type !== 'pm'
 			.message-group.welcome-message
 				- var head = staticurl("/images/head.png")
@@ -60,16 +60,20 @@
 		- var lastDate = first.time
 		- var lastRead = first.read
 		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
-			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
-				if first.author.type==='service'
+			if first.author.type === 'user' && first.author.id !== user.id
+				a(href="/chat/@" + first.author.username.toLowerCase()).avatar
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+			else if first.author.type==='user' && first.author.id === user.id
+				div.avatar
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+			else if first.author.type==='service'
+				div.avatar
 					- var icon = staticurl("/images/service-icons/" + first.author.id + "-32.png")
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
-				else
-					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
 				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-				a(href="/chat/@" + first.author.username.toLowerCase()).author
+				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
 							em #{first.author.username}
@@ -111,7 +115,7 @@
 									img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a(href=attachment.url)= attachment.name
+									a(href=attachment.url, download=attachment.name)= attachment.name
 						if line.objects
 							ul
 								each obj in line.objects
