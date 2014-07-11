@@ -21,7 +21,7 @@ function Invite() {
 Invite.prototype = Object.create(Emitter.prototype);
 
 Invite.prototype.init = function Invite_init() {
-	render(this, template('invite', {room: this.room}));
+	this.redraw();
 }
 
 Invite.prototype.bind = function Invite_bind() {
@@ -31,6 +31,10 @@ Invite.prototype.bind = function Invite_bind() {
 	// this.events.bind('click .btn-invite', 'resetvalidity');
 	this._bindAutocomplete();
 };
+
+Invite.prototype.redraw = function Invite_redraw() {
+	render(this, template('invite', {room: this.room}));
+}
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var self = this;
@@ -71,7 +75,6 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 
 Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	ev.preventDefault();
-	console.log("inviting...:");
 	this.resetvalidity();
 
 	var self = this;
@@ -89,6 +92,7 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 			self.inviteInput.setCustomValidity(err.details);
 			self.inviteButton.click()
 		}else {
+			self.inviteInput.value = '';
 			alert("invited " + users.length + " users.");
 		}
 	});
@@ -100,7 +104,7 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
-	this.init();
+	this.redraw();
 }
 
 // TODO: put this in component
