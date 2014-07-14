@@ -294,6 +294,14 @@ UI.prototype.bind = function UI_bind() {
 		self.upload.hide();
 	});
 
+	// intro
+	this.intro.oncomplete(function() {
+		self.emit('introend');
+	});
+	this.intro.onexit(function() {
+		self.emit('introend');
+	});
+
 	// hook up history/pushstate stuff
 	this.on('selectchannel', function (channel) {
 		navigation.select(channel.type, channel);
@@ -426,6 +434,13 @@ UI.prototype.setUser = function UI_setUser(user) {
 		this.chatInput.redraw();
 	}
 	this.historyView.redraw();
+};
+
+UI.prototype.setSettings = function UI_setSettings(settings) {
+	this.settings = settings;
+	if (this.settings.show_intro) {
+		this.intro.start();
+	}
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
