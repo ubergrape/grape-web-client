@@ -54,7 +54,7 @@
 	each lines in groupHistory(history)
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-			.date-separator= strftime('%A, %d.%m.%Y', first.time)
+			.date-separator= strftime('%A, %d %b %Y', first.time)
 		if (lastRead && !first.read)
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
@@ -72,7 +72,8 @@
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
 			.message-content
-				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+				//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+				time.time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
@@ -85,7 +86,7 @@
 							a
 								.label
 									=_('#Label')
-						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
+						time.time(datetime=line.time.toISOString())= strftime('%I:%M %p', line.time)
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
