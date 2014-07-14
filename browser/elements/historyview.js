@@ -43,9 +43,9 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-    this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
-    this.events.bind('click a.author', 'openInternalLink');
-    this.events.bind('click a.show-invite', 'toggleInvite');
+	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
+	this.events.bind('click a.author', 'openInternalLink');
+	this.events.bind('click a.show-invite', 'toggleInvite');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -71,9 +71,9 @@ HistoryView.prototype.unselectForEditing = function () {
 };
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
-    ev.preventDefault();
-    var url = ev.delegateTarget.href;
-    this.emit('selectchannelfromurl', url);
+	ev.preventDefault();
+	var url = ev.delegateTarget.href;
+	this.emit('selectchannelfromurl', url);
 };
 
 
@@ -108,6 +108,12 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 
+	// Each time the history is redrawn, if the history is not empty,
+	// provided that the user is not scrolling to a specific element in the room,
+	// scroll to the last element in the room
+	if(this.room.history.length && this.scrollMode === 'automatic'){
+		this.scrollTo(this.history.el.lastChild);
+	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
@@ -131,7 +137,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// append messages in automatic mode:
 		if (focus.state === 'focus' && this.room.history.length) {
 			this.scrollTo(history.lastChild);
-		} else {
+		} else { 
+
 			/* FIXME: since grouping was introduced, this does not work as intended
 
 			// scroll the last read message into view, on the top
@@ -190,8 +197,8 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	var updateRead = debounce(function updateRead() {
-		if (focus.state !== 'focus')
-			return; // we get scroll events even when the window is not focused
+		/*if (focus.state !== 'focus')
+			return; // we get scroll events even when the window is not focused*/
 		var bottomElem = self._findBottomVisible();
 		if (!bottomElem) return;
 		var line = Line.get(bottomElem.getAttribute('data-id'));
@@ -265,5 +272,5 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 };
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
-    this.emit('toggleinvite', qs('.room-header .connected-users'));
+	this.emit('toggleinvite', qs('.room-header .connected-users'));
 }
