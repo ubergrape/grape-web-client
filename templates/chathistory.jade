@@ -68,7 +68,7 @@
 					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			else if first.author.type==='service'
 				div.avatar
-					- var icon = staticurl("/images/service-icons/" + first.author.id + "-32.png")
+					- var icon = staticurl("images/service-icons/" + first.author.id + "-32.png")
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
 			.message-content
@@ -81,33 +81,35 @@
 					else
 						author.author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'simpletext'))
+					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
 							a
 								.label
 									=_('#Label')
-						time.time(datetime=line.time.toISOString())= strftime('%I:%M %p', line.time)
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
-								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
+								img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
+						if (line.container || line.branch)
+							.source-wrap
+								if line.branch
+									span.branch
+										i(class="fa fa-code-fork")
+										| 
+										| #{line.branch} 
+								if line.container
+									a.container(href=line.container.url, class=line.container.type)= "in " + line.container.name
 						if line.title
-							.text= html(markdown(line.title))
+							.text.main= html(markdown(line.title))
 						if line.text
-							.text
+							.text.main
 								=html(markdown(line.text))
 								//- uncomment this to test inline-labels
 								//-a
 								//-	span.label #entscheidungen
 								//-		i.fa.fa-check-circle
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name
-							if line.branch
-								span.branch= line.branch
 						if line.content
 							.message-content= line.content
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
@@ -121,20 +123,23 @@
 							ul
 								each obj in line.objects
 									li(class=obj.type)
-										if obj.sha
-											a(href=obj.url)= obj.sha
-										if obj.name
-											a(href=obj.url)= obj.name
-										if obj.content
-											span
-											if line.author.id == 'github'
-												.content= html(markdown(obj.content))
-											else
-												.content= obj.content
-										if obj.summary
-											.summary= obj.summary
 										if obj.author && obj.author.username
-											span.author= obj.author.username
+											strong
+												| #{obj.author.username} 
+										if obj.name
+											a(href=obj.url)
+												strong
+													| #{obj.name} 
+										if obj.sha
+											a(href=obj.url).sha
+												| #{obj.sha.substr(1, 7)} 
+										if obj.content
+											if line.author.id == 'github'
+												.text= html(markdown(obj.content))
+											else
+												span.text= obj.content
+										if obj.summary
+											span.summary= obj.summary
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
