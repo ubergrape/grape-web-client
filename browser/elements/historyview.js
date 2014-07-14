@@ -107,15 +107,11 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
-
-	// Each time the history is redrawn, if the history is not empty,
-	// provided that the user is not scrolling to a specific element in the room,
-	// scroll to the last element in the room
-	if(this.room.history.length && this.scrollMode === 'automatic'){
-		this.scrollTo(this.history.el.lastChild);
-	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
+
+	console.log("edited");
+
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
@@ -134,8 +130,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 	if (this.scrollMode === 'automatic') {
-		// append messages in automatic mode:
-		if (focus.state === 'focus' && this.room.history.length) {
+		// Each time the history is redrawn, if the history is not empty,
+		//provided that the user is not scrolling to a specific element in the room,
+	    // scroll to the last element in the room
+		if (this.room.history.length) {
 			this.scrollTo(history.lastChild);
 		} else { 
 
