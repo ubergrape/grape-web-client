@@ -95,7 +95,6 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 			self.inviteButton.click()
 		}else {
 			self.inviteInput.value = '';
-			alert("invited " + users.length + " users.");
 		}
 		self.inviteButton.disabled = false;
 	});
