@@ -113,7 +113,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   	if(this.room.history.length && this.scrollMode === 'automatic'){
   		this.scrollTo(this.history.el.lastChild);
   	}
-  	console.log("er7am ommy");
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
