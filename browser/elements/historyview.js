@@ -122,7 +122,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   				if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
   					this.scrollWindow.scrollTop += this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height;
   				}
-  				// else, then it is a normal file, just scroll the history with an amount of 50
+  				// else, then it is a normal file, just scroll the history with an amount of 80
   				else{
   					this.scrollWindow.scrollTop += 80
   				}
@@ -167,7 +167,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   				if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
   					this.scrollWindow.scrollTop += this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height;
   				}
-  				// else, then it is a normal file, just scroll the history with an amount of 50
+  				// else, then it is a normal file, just scroll the history with an amount of 80
   				else{
   					this.scrollWindow.scrollTop += 80
   				}
