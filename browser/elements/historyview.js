@@ -116,7 +116,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
   			//if there is the length of the attachments in the message is not 0,
   			// i.e. it's a file, do another check
-  			if(this.room.history[this.room.history.length - 1].attachments.length){
+  			if(this.room.history[this.room.history.length - 1]){
+  				if(this.room.history[this.room.history.length - 1].attachments.length){
   				// if the attachment has a property of thumbnail_height, then it is an image.
   				// scroll the histroy with an amount of the image height
   				if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
@@ -128,6 +129,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   				}
   			}
   			// else it is  a normal text message, thenm do the normal scroll
+  			else{
+  				this.scrollTo(this.history.el.lastChild);
+  			}
+  			}
   			else{
   				this.scrollTo(this.history.el.lastChild);
   			}
@@ -159,9 +164,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   		// don't scroll as the user is navigating to a specific place
   		// otherwise, scroll to the last element in the room
 		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+			console.log("modified");
   			//if there is the length of the attachments in the message is not 0,
   			// i.e. it's a file, do another check
-  			if(this.room.history[this.room.history.length - 1].attachments.length){
+  			if(this.room.history[this.room.history.length - 1]){
+  				if(this.room.history[this.room.history.length - 1].attachments.length){
   				// if the attachment has a property of thumbnail_height, then it is an image.
   				// scroll the histroy with an amount of the image height
   				if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
@@ -173,9 +180,14 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   				}
   			}
   			// else it is  a normal text message, thenm do the normal scroll
-  			else{
-  				this.scrollTo(this.history.el.lastChild);
+	  			else{
+	  				this.scrollTo(this.history.el.lastChild);
+	  			}
   			}
+			else{
+				this.scrollTo(this.history.el.lastChild);
+			}
+  			
   			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
 		} else { 
 
