@@ -56,6 +56,15 @@
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
+	//Removing unnecessary elements 
+	&.issue_comment,
+	&.issues
+		li.issue
+			display: none
+	&.gollum
+		ul
+			li:only-child
+				display: none
 /*	
 
 	&.github
