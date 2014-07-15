@@ -114,8 +114,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	// otherwise, scroll to the last element in the room
   	if(this.room.history.length && this.scrollMode === 'automatic'){
   		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
-			this.scrollTo(this.history.el.lastChild);
-			}
+  			this.scrollTo(this.history.el.lastChild);
+		}
   	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
@@ -144,8 +144,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   		// otherwise, scroll to the last element in the room
 		if (focus.state === 'focus' && this.room.history.length) {
 			if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
-			this.scrollTo(history.lastChild);
-			this.lastScrolledMessage = 	this.room.history[this.room.history.length - 1]
+				this.scrollTo(history.lastChild);
+				this.lastScrolledMessage = 	this.room.history[this.room.history.length - 1]
 			}
 		} else { 
 
