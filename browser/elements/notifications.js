@@ -85,6 +85,28 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		var content = content_dom.textContent || content_dom.innerText || "";
 	}
 
+	// attach files
+	var attachments = message.attachments;
+	if (typeof attachments !== "undefined" && attachments.length > 0) {
+		// currently the client doesn't supprt text content AND attachment
+		// but the API supports it
+		if (typeof content !== "undefined" && content != "") {
+			content += "\n\n";
+		}
+		// add the filenames to the notification
+		// currently the client only allows to add one attachment
+		// but the API supports multiple
+		for(var i=0; i<attachments.length; i++) {
+			var filename = attachments[i].name;
+			if (typeof filename !== "undefined" && filename != "") {
+				content += filename;
+				if (i<attachments.length-1) {
+					content + "\n";
+				}
+			}
+		}
+	}
+
 	var notification = notify.createNotification(title, {
 		body: content,
 		icon: message.author.avatar,
