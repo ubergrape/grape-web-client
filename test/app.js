@@ -392,6 +392,18 @@ describe('App', function () {
 		// XXX: just for test coverage
 		server.send(JSON.stringify([8, 'http://domain/channel#joined', msg]));
 	});
+	it('should react to organization join notifications', function (done) {
+		var user = {id: 99, username: 'stefan', status: 16, avatar: "x"};
+		app.organization.users.indexOf(user).should.eql(-1);
+		app.organization.users.on('add', function (obj) {
+			obj.id.should.equal(user.id);
+			done();
+		});
+		var msg = {"user":user, "organization": app.organization.id}
+		server.send(JSON.stringify([8, 'http://domain/organization#joined', msg]));
+		// XXX: just for test coverage
+		server.send(JSON.stringify([8, 'http://domain/organization#joined', msg]));
+	});
 	it('should react to typing notifications', function (done) {
 		var room = app.organization.rooms[0];
 		room.once('change typing', function () {

@@ -113,7 +113,8 @@
     "matthewp/attr": "*",
     "component/tip": "*",
     "ianstormtaylor/animate": "*",
-    "ubergrape/HTML5-Desktop-Notifications": "*"
+    "ubergrape/HTML5-Desktop-Notifications": "*",
+    "usablica/intro.js": "*"
   },
   "development": {
     "chaijs/chai": "*",

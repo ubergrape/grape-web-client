@@ -13,7 +13,7 @@ var DeleteRoomDialog = require('../dialogs/deleteroom');
 module.exports = RoomMembersPopover;
 
 function RoomMembersPopover() {
-	this.room = new Emitter({name: '', users: []});
+	this.room = new Emitter({name: '', users: new Emitter([])});
 	Popover.call(this);
 }
 
@@ -40,9 +40,16 @@ RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 };
 
 RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
-	this.room.off('change', this.redraw);
+	var self = this;
+	var redraw_wrapped = function(ev) {
+		self.redraw();
+	}
+
+	this.room.users.off('add', redraw_wrapped);
+	this.room.off('change', redraw_wrapped);
 	this.room = room;
-	room.on('change', function(ev){this.redraw;});
+	room.users.on('add', redraw_wrapped);
+	room.on('change', redraw_wrapped);
 	this.redraw();
 };
 

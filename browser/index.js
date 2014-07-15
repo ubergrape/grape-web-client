@@ -14,6 +14,7 @@ var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
 var constants = require('../lib/constants');
 var tip = require('tip');
+var Introjs = require("intro.js").introJs;
 
 var exports = module.exports = UI;
 
@@ -130,9 +131,52 @@ UI.prototype.init = function UI_init() {
 	// initialize notifications
 	this.notifications = new Notifications();
 	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Hey there! Please <a class=' enable_notifications'>Enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>");
+		this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
 		classes(qs('body')).add('notifications-disabled');
 	}
+
+	// initialize user guide
+	this.intro = new Introjs();
+	this.intro.setOptions({
+		nextLabel: '<strong>' + _('Next') + '</strong>',
+		skipLabel: _('Skip'),
+		overlayOpacity: .4,
+		showStepNumbers: false,
+		steps: [
+			{
+				intro: _("<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps.</p><p>You can skip this at any time by clicking anywhere.</p>"),
+				tooltipClass: "intro-welcome"
+			},
+			{
+				element: '#intro-step1',
+				intro: _("<h2>Organization Settings</h2><p>This is the organization you are currently in.</p><p>You can add and manage members and external services by clicking on the menu button.</p>"),
+				position: 'right'
+			},
+			{
+				element: '#intro-step2',
+				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General and Off-Topic.</p><p>You can see all availible rooms in your organization and create a new one by clicking on &quot;All rooms&quot;.</p>"),
+				position: 'right'
+			},
+			{
+				element: '#intro-step3',
+				intro: _('<h2>Private Messages</h2><p>This list contains your contacts you already have a private conversation with.</p><p>You can start more conversations by clicking on &quot;All members&quot;.</p>'),
+				position: 'right'
+			},
+			{
+				element: '#intro-step4',
+				intro: _("<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>"),
+				position: 'bottom'
+			},
+			{
+				element: '#intro-step5',
+				intro: _("<h2>User Profile</h2><p>You can find all profile-related settings (and re-start this awesome tutorial at any time) here.</p>"),
+				position: 'left'
+			},
+			{
+				intro: _('<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
+			}
+		]
+	});
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -253,6 +297,14 @@ UI.prototype.bind = function UI_bind() {
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});
 		self.upload.hide();
+	});
+
+	// intro
+	this.intro.oncomplete(function() {
+		self.emit('introend');
+	});
+	this.intro.onexit(function() {
+		self.emit('introend');
 	});
 
 	// hook up history/pushstate stuff
@@ -387,6 +439,13 @@ UI.prototype.setUser = function UI_setUser(user) {
 		this.chatInput.redraw();
 	}
 	this.historyView.redraw();
+};
+
+UI.prototype.setSettings = function UI_setSettings(settings) {
+	this.settings = settings;
+	if (this.settings.show_intro) {
+		this.intro.start();
+	}
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {

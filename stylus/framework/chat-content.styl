@@ -2,6 +2,7 @@
 .client-body
 	height: 100%
 	padding-top: header-height
+	padding-bottom: footer-height
 	position: relative
 	.navigation
 		width: client-navigation-width
@@ -13,7 +14,7 @@
 		background: chat-background
 		overflow: auto
 		height: 100%
-		padding: 0 0 footer-height 0
+		padding: 0
 		z-index: 10
 		&:after
 			content: ""
@@ -143,7 +144,6 @@
 	border-radius: main-border-radius
 	.time
 		font-size: small-font-size
-		text-transform: uppercase
 		float: right
 		color: gainsboro-dark
 	> .time
@@ -208,6 +208,13 @@
 				padding: 0.5em 10px
 				font-style: italic
 				color: gainsboro-dark
+			code
+				border: 1px solid gainsboro-light
+				border-radius: main-border-radius-small
+				background: silver-light
+				padding: 0 4px
+				display: inline-block
+				margin-bottom: 4px
 			.warning-unsent
 				color: gainsboro-light
 				&:before
@@ -215,6 +222,67 @@
 					font-family: FontAwesome
 					color: gold
 					margin-right: 6px
+		a.attachment
+			white-space: nowrap
+			border-bottom: 1px solid link-color
+			display: inline-block
+			margin: 1px 
+			padding: 1px 0
+			vertical-align: baseline
+			font-weight: bold
+			&:hover
+				color: lighten(link-color, 25%)
+				text-decoration: none
+				border-color: aqua-dark !important
+			&:before
+				font-weight: normal
+				content: "\f016"
+				font-family: FontAwesome
+				margin-right: 6px
+			&[href$=".pdf"]
+				&:before
+					content: "\f1c1"
+			&[href$=".zip"],
+			&[href$=".rar"],
+			&[href$=".7z"],
+			&[href$=".gzip"]
+				&:before
+					content: "\f1c6"
+			&[href$=".mp3"],
+			&[href$=".wav"],
+			&[href$=".wma"]
+				&:before
+					content: "\f1c7"
+			&[href$=".xls"],
+			&[href$=".xlsx"],
+			&[href$=".csv"]
+				&:before
+					content: "\f1c3"
+			&[href$=".doc"],
+			&[href$=".docx"],
+			&[href$=".rtf"]
+				&:before
+					content: "\f1c2"
+			&[href$=".ppt"],
+			&[href$=".pptx"]
+				&:before
+					content: "\f1c4"
+			&[href$=".png"],
+			&[href$=".jpg"],
+			&[href$=".jpeg"],
+			&[href$=".bmp"],
+			&[href$=".tif"],
+			&[href$=".tiff"]
+				&:before
+					content: "\f1c5"
+			&[href$=".wmv"],
+			&[href$=".avi"],
+			&[href$=".mpg"],
+			&[href$=".mpeg"],
+			&[href$=".mov"],
+			&[href$=".mp4"]
+				&:before
+					content: "\f1c8"
 		.img-atm
 			display: inline-block
 
@@ -222,7 +290,6 @@
 .date-separator, 
 .newmessage-separator
 	text-align: center
-	text-transform: uppercase
 	color: gainsboro-dark
 	@extend $small-font-size
 

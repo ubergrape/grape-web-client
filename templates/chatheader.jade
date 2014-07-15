@@ -1,5 +1,5 @@
 div
-	.user-menu-wrap
+	.user-menu-wrap(id='intro-step5')
 		.avatar-wrap
 			if true
 				span.online
@@ -14,7 +14,7 @@ div
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	.room-info
+	.room-info(id="intro-step4")
 		if room.type === 'room'
 			div
 				h1.room-grp

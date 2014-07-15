@@ -15,6 +15,7 @@
 @import "elements/search"
 @import "elements/image-zoom"
 @import "elements/dialog"
+@import "elements/introjs"
 
 @import "framework/chat-content"
 @import "framework/header"
@@ -32,7 +33,7 @@ html, body
 	height: 100%
 	overflow: hidden
 	text-rendering: optimizelegibility
-	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif
+	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif!important
 	font-size: main-font-size
 	line-height: main-line-height
 	color: grape-typo
@@ -71,6 +72,17 @@ img
 	background: silver-light
 	height: 100%
 	overflow: hidden
+	&::before
+		content: ""
+		position: absolute
+		left: 0
+		top: 0
+		right: 0
+		bottom: 0
+		opacity: 0
+		z-index: 99999
+		background: lighten(silver-light, 30%) url("../images/mascot_loader.gif") 50% 50% no-repeat
+		display: none
 
 /*______ LOADING ______*/
 
@@ -138,13 +150,5 @@ hr
 		right: 0
 	.client
 		&::before
-			content: ""
-			position: absolute
-			left: 0
-			top: 0
-			right: 0
-			bottom: 0
-			opacity: .8
-			z-index: 999
-			background-color: lighten(alert-warning-color, 90%)
-			background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+			display: block
+			opacity: .9
