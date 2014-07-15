@@ -17,7 +17,13 @@
 							ul.item-footer
 								li
 									i.fa.fa-comment
-									span= result.channel.name
+									if result.channel.type === "room"
+										span= result.channel.name
+									else if result.channel.type === "pm"
+										span
+											each u in result.channel.users
+												if u.id !== user.id
+													= u.username
 								li.time
 									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
 						else
