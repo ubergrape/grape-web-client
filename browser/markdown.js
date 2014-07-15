@@ -35,7 +35,10 @@ renderer.hr = function() {
 marked.setOptions({
 	renderer: renderer,
 	gfm: true,
-	breaks: true
+	breaks: true,
+	emoji: function (emoji) {
+		return '<span data-emoji="' + emoji + '">:' + emoji + ':</span>';
+	}
 });
 
 
