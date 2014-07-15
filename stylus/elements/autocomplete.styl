@@ -18,6 +18,7 @@
 		background-clip: border-box
 		overflow: hidden
 		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
+		max-height: 422px
 		.Textcomplete-menu
 			div:first-of-type
 				border-radius: 5px 5px 0 0
@@ -35,11 +36,12 @@
 			text-align: right
 			border-right: 1px solid silver-dark
 			background: silver-light
-			padding: 11px 6px
+			padding: 6px 6px
 			@extend $small-font-size
+			line-height: inherit
 		.option-wrap
 			overflow: hidden
-			padding: 8px 10px
+			padding: 6px 10px
 		&.Textcomplete-hidden
 			display: none
 		.Textcomplete-headline
@@ -50,18 +52,36 @@
 		.Textcomplete-option
 			padding: 0
 			@extend $clearfix
-		.Textcomplete-highlighted
-			background: grape-light
-			color: white
-			.entry-type-description
-				background: grape-dark
-				border-color: darken(grape-dark, 5)
-				color: lighten(grape-light, 15)
+			font-weight: bold
+			color: darken(gainsboro-dark, 20%)
+			em
+				color: lighten(gainsboro-dark, 10%)
+				@extend $small-font-size
 		.entry-additional-info
 			color: gainsboro-dark
 		.entry-type-icon
 			&:after
 				margin-left: 0
+		.Textcomplete-highlighted
+			background: grape-light
+			color: white
+			em,
+			.entry-additional-info
+				color: lighten(grape-light, 30)
+			.entry-type-description
+				background: grape-dark
+				border-color: darken(grape-dark, 5)
+				color: lighten(grape-light, 15)
+
+// ****
+// FOR SMALL USER INVITE DROPDOWN
+// ****
+
+.invite-to-room
+	.Textcomplete-option
+		padding: 2px 3px !important
+
+
 
 // ****
 //
