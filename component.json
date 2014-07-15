@@ -28,6 +28,7 @@
     "browser/elements/popovers/room.js",
     "browser/elements/popovers/roommembers.js",
     "browser/elements/popovers/organization.js",
+    "browser/elements/dialogs/deleteroom.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
@@ -43,7 +44,8 @@
     "lib/models/organization.js",
     "lib/models/room.js",
     "lib/models/user.js",
-    "lib/staticurl.js"
+    "lib/staticurl.js",
+    "lib/constants.js"
   ],
   "json": [
     "locale/de.json",
@@ -67,7 +69,8 @@
     "templates/popovers/organization.jade",
     "templates/popovers/roommembers.jade",
     "templates/popovers/roomlist.jade",
-    "templates/roomlist.jade"
+    "templates/roomlist.jade",
+    "templates/deleteroom.jade"
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
@@ -98,6 +101,7 @@
     "component/upload": "*",
     "component/progress": "*",
     "component/file": "*",
+    "component/dialog": "*",
     "discore/closest": "*",
     "MatthewMueller/array": "*",
     "ubergrape/websocket": "*",

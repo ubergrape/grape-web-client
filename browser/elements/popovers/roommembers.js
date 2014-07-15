@@ -7,6 +7,9 @@ var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
 var qs = require('query');
+var broker = require('broker');
+
+var DeleteRoomDialog = require('../dialogs/deleteroom');
 
 module.exports = RoomMembersPopover;
 
@@ -23,6 +26,12 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
+};
+
+RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
+	Popover.prototype.bind.call(this);
+	this.events.obj.deleteRoom = this.deleteRoom.bind(this);
+	this.events.bind('click .delete-room', 'deleteRoom');
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
@@ -55,3 +64,16 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	room.on('change', redraw_wrapped);
 	this.redraw();
 };
+
+RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom(ev) {
+	ev.preventDefault();
+	var d = new DeleteRoomDialog({
+		room: this.room
+	}).closable().overlay().show();
+	broker.pass(d, 'deleteroom', this, 'deleteroom');
+};
+
+
+RoomMembersPopover.prototype.dr = function DeleteRoomDialog_deleteroom(room, password, callback) {
+	console.log("test test ");
+}

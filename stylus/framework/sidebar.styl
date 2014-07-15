@@ -38,7 +38,7 @@
 			margin-right: 7px
 			border-radius: 50%
 			box-shadow: 0 2px 0 1px solid darken(organisation-background, 8)
-			background: darken(organisation-background, 8)
+			background: white
 		.name
 			color: gainsboro-dark
 			line-height: header-height
@@ -50,8 +50,6 @@
 			.name
 				color: gainsboro-light
 				text-decoration: none
-			img
-				background: gainsboro-light
 
 /*______ Left navigation ______*/
 .navigation
@@ -118,13 +116,14 @@ span.no-messages
 
 
 .client-body .feedback
-	position: absolute
-	bottom: 8px
+	position: fixed
+	bottom: 0
 	left: 0
-	right: 0
+	width: client-navigation-width
 	background: organisation-background
-	height: 30px
+	height: footer-height
+	line-height: footer-height
 	display: block
-	padding: 8px 17px
+	padding: 0 17px
 	z-index: 999
 	border-top: 1px solid darken(organisation-background, 5)

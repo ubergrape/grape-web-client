@@ -190,7 +190,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 					self.complete.push({
 						id: "[" + name + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
-						title: '<span class="entry-type-icon type-chatgrapeuser"></span>@' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + '<span class="entry-type-description">Member</span>',
+						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
 						insert: '@' + name,
 						service: 'chatgrape',
 						type: 'user',
@@ -205,7 +205,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
 						id: "[" + room.name + "](cg://chatgrape|room|" + room.id + "|/chat/" + room.slug + ")",
-						title: '<span class="entry-type-icon type-room"></span>@' + room.name + '<span class="entry-type-description">Room</span>',
+						title: '<div class="entry-type-description">Room</div>' + '<div class="option-wrap"><span class="entry-type-icon type-chatgraperoom"></span> ' + room.name + '</div>',
 						insert: '@' + room.name,
 						service: 'chatgrape',
 						type: 'room',
@@ -228,7 +228,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					var r = result[i];
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <span class="entry-additional-info">' + r.container + '</span><span class="entry-type-description">' + r.service + ' ' + r.type + '</span>',
+						title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <span class="entry-additional-info">' + r.container + '</span></div>',
 						insert: r.name,
 						service: r.service,
 						type: r.type,

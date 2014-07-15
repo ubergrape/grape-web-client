@@ -59,7 +59,7 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 				   || user.username.startsWithIgnoreCase(match)) {
 					self.complete.push({
 						id: user.username,
-						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName,
+						title: '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em>',
 						insert: user.username,
 					});
 				}

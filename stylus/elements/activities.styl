@@ -1,9 +1,9 @@
 .activity
-	padding: 8px 10px
-	background: lighten(silver-dark, 30%)
-	margin: 4px -10px -5px !important
+	padding: 8px 10px 12px 10px
+	background: #ECECED
+	margin: 1px -10px -5px !important
 	border-top: 2px solid lighten(gainsboro-light, 10%)
-	border-bottom: 2px solid lighten(gainsboro-light, 10%)
+	border-bottom: 1px solid lighten(gainsboro-light, 10%)
 	border-radius: 0 0 main-border-radius main-border-radius
 	.main // Main Activity Text Styling
 		font-weight: bold
@@ -11,6 +11,14 @@
 		margin-right: 3px
 	.source-wrap // Used to display info on the right side of the message
 		float: right
+		padding: 0 5px
+		border: 1px solid gainsboro-light
+		border-radius: 3px
+		background: silver-light
+		// a
+		// 	color: grape-light
+		// 	&:hover
+		// 		color: lighten(grape-light, 10)
 		span
 			color: gainsboro-dark
 
@@ -39,6 +47,8 @@
 		margin: 4px -10px
 		overflow: hidden
 		position: relative
+		img
+			max-height: 170px
 		&:after
 			float: left
 			font-family: FontAwesome
@@ -46,6 +56,15 @@
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
+	//Removing unnecessary elements 
+	&.issue_comment,
+	&.issues
+		li.issue
+			display: none
+	&.gollum
+		ul
+			li:only-child
+				display: none
 /*	
 
 	&.github

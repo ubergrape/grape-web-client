@@ -12,6 +12,7 @@ var classes = require('classes');
 var staticurl = require('../lib/staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
+var constants = require('../lib/constants');
 var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 
@@ -29,6 +30,7 @@ _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.markdown = require('./markdown');
+template.locals.constants = constants
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {
@@ -111,7 +113,8 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the invite form
 	this.invite = new Invite();
-	this.membersMenu.el.appendChild(this.invite.el);
+	var invite_placeholder = qs('.invite',this.membersMenu.el);
+	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
 
 	// initialize title handler
 	this.title = new Title();
@@ -243,6 +246,8 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
+	broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
+	broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -252,7 +257,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-  broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -456,9 +461,10 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
 	var i;
-	// if there is no match, go to the first room
-	// if there is not room, we are doomed
-	if (!match[2]) {
+	// if there is no match, go to "General"
+	// if there is no "general" room, go to first room
+	// if there is no room at all, we are doomed
+	if (!match || !match[2]) {
 		for (i = 0; i < this.org.rooms.length; i++) {
 			var room = this.org.rooms[i];
 			if (room.name === "General") {
@@ -539,5 +545,12 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
+	setTimeout(function(){msg.remove()}, 2000);
+};
+
+UI.prototype.roomDeleted = function UI_roomDeleted(room) {
+	this.selectChannelFromUrl('/'); // don't use '', it won't work
+
+	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
 	setTimeout(function(){msg.remove()}, 2000);
 };
