@@ -108,10 +108,14 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 	// Each time the history is redrawn, if the history is not empty,
-  	// provided that the user is not scrolling to a specific element in the room,
-  	// scroll to the last element in the room
+	// provided that the user is not scrolling to a specific element in the room
+    // if the last message was already scrolled(no new messages),
+	// don't scroll as the user is navigating to a specific place
+	// otherwise, scroll to the last element in the room
   	if(this.room.history.length && this.scrollMode === 'automatic'){
-  		this.scrollTo(this.history.el.lastChild);
+  		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+  			this.scrollTo(this.history.el.lastChild);
+		}
   	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
@@ -128,16 +132,21 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	var history = this.history.el;
 
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {
-		// prepend messages:
+		// prepend messages
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 	if (this.scrollMode === 'automatic') {
 		// Each time the history is redrawn, if the history is not empty,
-		//provided that the user is not scrolling to a specific element in the room,
-	    // scroll to the last element in the room
+		// provided that the user is not scrolling to a specific element in the room
+	    // if the last message was already scrolled(no new messages),
+  		// don't scroll as the user is navigating to a specific place
+  		// otherwise, scroll to the last element in the room
 		if (focus.state === 'focus' && this.room.history.length) {
-			this.scrollTo(history.lastChild);
+			if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+				this.scrollTo(history.lastChild);
+				this.lastScrolledMessage = 	this.room.history[this.room.history.length - 1]
+			}
 		} else { 
 
 			/* FIXME: since grouping was introduced, this does not work as intended
