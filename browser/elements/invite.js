@@ -97,6 +97,7 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 			self.inviteInput.value = '';
 		}
 		self.inviteButton.disabled = false;
+		delete self.inviteButton.disabled;
 	});
 };
 
