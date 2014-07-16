@@ -87,14 +87,16 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	var users = this.inviteInput.value.split(/[\s,;]+/);
 	users.clean("");
 
+	self.inviteButton.disabled = true;
+
 	self.emit('invitetoroom', this.room, users, function inviteToRoom_callback(err, result){
 		if(err) {
 			self.inviteInput.setCustomValidity(err.details);
 			self.inviteButton.click()
 		}else {
 			self.inviteInput.value = '';
-			alert("invited " + users.length + " users.");
 		}
+		self.inviteButton.disabled = false;
 	});
 };
 

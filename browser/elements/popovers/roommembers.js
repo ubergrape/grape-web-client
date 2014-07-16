@@ -6,6 +6,7 @@ var Emitter = require('emitter');
 var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
+var qs = require('query');
 var broker = require('broker');
 
 var DeleteRoomDialog = require('../dialogs/deleteroom');
@@ -39,16 +40,27 @@ RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 	render(this.content, template('popovers/roommembers', {room: this.room}));
 };
 
+/* scroll down in the members list */
+RoomMembersPopover.prototype.scrollDown = function RoomMembersPopover_scrollDown() {
+	var list = qs('.user-list', this.el);
+	var scrollHeight = list.scrollHeight;
+	list.scrollTop = scrollHeight;
+}
+
 RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	var self = this;
 	var redraw_wrapped = function(ev) {
 		self.redraw();
 	}
+	var user_added = function(ev) {
+		self.redraw();
+		self.scrollDown();
+	}
 
-	this.room.users.off('add', redraw_wrapped);
+	this.room.users.off('add', user_added);
 	this.room.off('change', redraw_wrapped);
 	this.room = room;
-	room.users.on('add', redraw_wrapped);
+	room.users.on('add', user_added);
 	room.on('change', redraw_wrapped);
 	this.redraw();
 };
