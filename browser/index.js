@@ -130,9 +130,15 @@ UI.prototype.init = function UI_init() {
 
 	// initialize notifications
 	this.notifications = new Notifications();
-	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
-		classes(qs('body')).add('notifications-disabled');
+	// only show notification info bar in supported browsers and only if the
+	// user has't accepted or declined notifications before
+	// don't show it in IE. it only supports notifications in "SiteMode" and
+	// there the permission is automatically granted, so no need to ask for it.
+	if (notify.isSupported
+		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
+		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
+			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			classes(qs('body')).add('notifications-disabled');
 	}
 
 	// initialize user guide
