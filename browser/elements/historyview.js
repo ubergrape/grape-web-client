@@ -170,19 +170,24 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 HistoryView.prototype.doScrollDown = function() {
 	//if there is the length of the attachments in the message is not 0,
 	// i.e. it's a file, do another check
-	if(this.room.history[this.room.history.length - 1]){
-		if(this.room.history[this.room.history.length - 1].attachments.length){
-		// if the attachment has a property of thumbnail_height, then it is an image.
-		// scroll the histroy with an amount of the image height
-		if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
-			this.scrollWindow.scrollTop += this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height;
+	if(typeof this.room.history[this.room.history.length - 1] !== "undefined"){
+		if(typeof this.room.history[this.room.history.length - 1].attachments !== "undefined"){
+			if(this.room.history[this.room.history.length - 1].attachments.length){
+			// if the attachment has a property of thumbnail_height, then it is an image.
+			// scroll the histroy with an amount of the image height
+			if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
+				this.scrollWindow.scrollTop += this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height;
+			}
+			// else, then it is a normal file, just scroll the history with an amount of 80
+			else{
+				this.scrollWindow.scrollTop += 80
+			}
+			}
+			// else it is  a normal text message, thenm do the normal scroll
+			else{
+				this.scrollTo(this.history.el.lastChild);
+			}
 		}
-		// else, then it is a normal file, just scroll the history with an amount of 80
-		else{
-			this.scrollWindow.scrollTop += 80
-		}
-	}
-	// else it is  a normal text message, thenm do the normal scroll
 		else{
 			this.scrollTo(this.history.el.lastChild);
 		}
