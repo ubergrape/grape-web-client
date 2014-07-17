@@ -180,7 +180,7 @@ HistoryView.prototype.doScrollDown = function() {
 			}
 			// else, then it is a normal file, just scroll the history with an amount of 80
 			else{
-				this.scrollWindow.scrollTop += 80
+				this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight;
 			}
 			}
 			// else it is  a normal text message, thenm do the normal scroll
