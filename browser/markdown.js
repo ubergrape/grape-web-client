@@ -3,6 +3,8 @@
 
 var marked = require('marked');
 var markdown_renderlink = require('./markdown_renderlink');
+var emoji = require('js-emoji');
+//emoji.use_sheet = true; // use css sprites
 
 var renderer = new marked.Renderer();
 
@@ -36,10 +38,11 @@ marked.setOptions({
 	renderer: renderer,
 	gfm: true,
 	breaks: true,
-	emoji: function (emoji) {
-		return '<span data-emoji="' + emoji + '">:' + emoji + ':</span>';
+	emoji: function (emo) {
+		emoji.init_colons();
+		var val = emoji.map.colons[emo];
+		return val ? emoji.replacement(val, emo, ':') : ':' + emo + ':';
 	}
 });
-
 
 module.exports = marked;

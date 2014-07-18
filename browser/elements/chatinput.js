@@ -15,6 +15,9 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
+var emoji = require('js-emoji');
+// emoji.img_path = xxx
+
 require("startswith");
 
 module.exports = ChatInput;
@@ -34,6 +37,7 @@ ChatInput.prototype = Object.create(Emitter.prototype);
 ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
+	emoji.init_colons();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -154,7 +158,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#]([^\s]{1,15})$/;
+	this.complete.re = /[@#:]([^\s]{1,15})$/;
 	this.complete.formatSelection = function (option) {
 		return renderAutocomplete(option, true);
 	};
@@ -163,12 +167,44 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 		self.complete.clear();
 
-		if (match[0] == "@") {
+		if (match[0] == ':') {
+			var search;
+			if (match[match.length-1] === ':')
+				// match without ':' at the beginning and at the end
+				search = match.substr(1, match.length-1);
+			else {
+				// match without ':' at the beginning
+				search = match.substr(1);
+			}
+
+			search = search.toLowerCase();
+
+			var emojis = emoji.map.colons;
+			for (var emo in emojis) {
+				if (emojis.hasOwnProperty(emo)) {
+					var val = emojis[emo];
+					if (~emo.indexOf(search)) {
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: emoji.replacement(val, emo, ':'),
+							insert: ":" + emo + ":",
+							type: 'emoji',
+						});
+					}
+				}
+			}
+
+			if (self.complete.options.length > 0) {
+				self.complete.show();
+				self.complete.highlight(0);
+			}
+
+		} else if (match[0] == "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
-			var search = match.substr(1); // match without the '@''
+			var search = match.substr(1); // match without the '@'
 
 			// TODO don't use global vars
 
