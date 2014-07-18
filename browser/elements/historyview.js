@@ -235,8 +235,8 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	var updateRead = debounce(function updateRead() {
-		/*if (focus.state !== 'focus')
-			return; // we get scroll events even when the window is not focused*/
+		if (focus.state !== 'focus')
+			return; // we get scroll events even when the window is not focused
 		var bottomElem = self._findBottomVisible();
 		if (!bottomElem) return;
 		var line = Line.get(bottomElem.getAttribute('data-id'));
