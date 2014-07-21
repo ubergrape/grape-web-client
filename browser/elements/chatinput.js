@@ -15,8 +15,12 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
+var staticurl = require('../../lib/staticurl');
 var emoji = require('js-emoji');
-// emoji.img_path = xxx
+emoji.img_path = staticurl('emoji/')
+emoji.sheet_path = staticurl('app/sk7-js-emoji/images/sheet_32.png');
+emoji.use_sheet = true;
+
 
 require("startswith");
 
@@ -159,8 +163,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the autocomplete
 	this.complete.re = /[@#:]([^\s]{1,15})$/;
-	this.complete.formatSelection = function (option) {
-		return renderAutocomplete(option, true);
+	this.complete.formatSelection = function (obj) {
+		return renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
@@ -184,11 +188,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
 					if (~emo.indexOf(search)) {
+						var image = emoji.replacement(val, emo, ':');
 						self.complete.push({
 							id: ":" + emo + ":",
-							title: emoji.replacement(val, emo, ':'),
-							insert: ":" + emo + ":",
-							type: 'emoji',
+							title: image + " :" + emo + ":",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
 						});
 					}
 				}
