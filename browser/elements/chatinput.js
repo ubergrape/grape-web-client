@@ -183,6 +183,23 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			search = search.toLowerCase();
 
+			// TODO: app.organization
+			var custom_emojis = app.organization.custom_emojis;
+			for (var emo in custom_emojis) {
+				if (custom_emojis.hasOwnProperty(emo)) {
+					if (~emo.indexOf(search)) {
+						var image = ;
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: image + " :" + emo + ":",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
+						});
+					}
+				}
+			}
+
 			var emojis = emoji.map.colons;
 			for (var emo in emojis) {
 				if (emojis.hasOwnProperty(emo)) {
