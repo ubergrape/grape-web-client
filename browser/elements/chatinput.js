@@ -188,7 +188,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			for (var emo in custom_emojis) {
 				if (custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
-						var image = ;
+						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'"/>';
 						self.complete.push({
 							id: ":" + emo + ":",
 							title: image + " :" + emo + ":",
