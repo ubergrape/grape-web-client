@@ -188,10 +188,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			for (var emo in custom_emojis) {
 				if (custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
-						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'"/>';
+						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
 						self.complete.push({
 							id: ":" + emo + ":",
-							title: image + " :" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
 							insert: image,
 							service: "emoji",
 							type: "emoji"
@@ -208,7 +208,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						var image = emoji.replacement(val, emo, ':');
 						self.complete.push({
 							id: ":" + emo + ":",
-							title: image + " :" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
 							insert: image,
 							service: "emoji",
 							type: "emoji"
