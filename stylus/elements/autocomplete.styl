@@ -103,19 +103,6 @@ body
 	a.ac:hover
 		text-decoration: none
 		border-color: aqua-light !important
-	button.ac
-		border: 1px solid link-color
-		padding: 1px 5px
-		background: #fff
-		border-radius: main-border-radius-small
-		color: link-color
-		span
-			float: left
-			margin-right: 0
-		&.emoji
-			border: none
-			padding: 0
-			margin: 0
 	&:hover
 		text-decoration: none
 .entry-type-icon, .ac:before
@@ -143,3 +130,27 @@ body
 		content: "\f086"
 .type-emojiemoji
 	display: none
+
+
+
+// ****
+//
+// classes used within the message input (but NOT inside the autocomplete dropdown)
+//
+// ****
+
+
+.messageInput
+	.ac
+		border: 1px solid link-color
+		padding: 1px 5px
+		background: white
+		border-radius: main-border-radius-small
+		color: link-color
+		span
+			float: left
+			margin-right: 0
+		&.emoji
+			border: none
+			padding: 0
+			margin: 0

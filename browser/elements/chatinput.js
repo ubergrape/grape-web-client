@@ -292,6 +292,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
 	attr(this.messageInput).set('disabled', !room);
+	if (room) this.messageInput.removeAttribute('disabled'); // IE :)
 	if (room) this.messageInput.focus();
 	if (this.editing)
 		this.editingDone();
