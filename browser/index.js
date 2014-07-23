@@ -137,7 +137,7 @@ UI.prototype.init = function UI_init() {
 		if(e.items[0] instanceof Blob){
 			this.emit('upload', e.items[0]);
 		}
-    });
+	});
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -311,7 +311,7 @@ UI.prototype.bind = function UI_bind() {
 	// directly send an uploaded file
 
 	// clipboard
-	broker(this.clipboard, 'upload', this.upload, 'doUpload');	
+	broker(this.clipboard, 'upload', this.upload, 'doUpload');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
