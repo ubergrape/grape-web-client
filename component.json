@@ -74,7 +74,9 @@
     "templates/deleteroom.jade"
   ],
   "images": [
-    "images/emoji_sheet_32_optimized.png"
+    "images/emoji_sheet_32_optimized.png",
+    "images/emoji_sheet_twitter_32_optimized.png",
+    "images/emoji_sheet_hangouts_32_optimized.png"
   ],
   "dependencies": {
     "samsonjs/strftime": "*",
