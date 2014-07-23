@@ -15,7 +15,7 @@ var notify = require('HTML5-Desktop-Notifications');
 var constants = require('../lib/constants');
 var tip = require('tip');
 var Introjs = require("intro.js").introJs;
-
+var Clipboard = require('clipboard');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -127,6 +127,17 @@ UI.prototype.init = function UI_init() {
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
+
+	// initialize the clipboard
+	this.clipboard = new Clipboard(window);
+
+	// on paste, check if the pasted item is a blob object -image-,
+	// then emit an upload event to the broker to call the uploader
+	this.clipboard.on('paste', function(e){
+		if(e.items[0] instanceof Blob){
+			this.emit('upload', e.items[0]);
+		}
+    });
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -298,6 +309,10 @@ UI.prototype.bind = function UI_bind() {
 	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
 	//broker(this.chatInput, 'input', this.upload, 'hide');
 	// directly send an uploaded file
+
+	// clipboard
+	broker(this.clipboard, 'upload', this.upload, 'doUpload');	
+
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
 	this.upload.on('uploaded', function (attachment) {
