@@ -38,6 +38,7 @@
     "browser/markdown_renderlink.js",
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
+    "browser/emoji.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",
@@ -72,11 +73,16 @@
     "templates/roomlist.jade",
     "templates/deleteroom.jade"
   ],
+  "images": [
+    "images/emoji_sheet_32_optimized.png",
+    "images/emoji_sheet_twitter_32_optimized.png",
+    "images/emoji_sheet_hangouts_32_optimized.png"
+  ],
   "dependencies": {
     "samsonjs/strftime": "*",
     "ianstormtaylor/meyer-reset": "*",
     "necolas/normalize.css": "*",
-    "chjj/marked": "*",
+    "ubergrape/marked": "*",
     "Swatinem/scrollbars": "0.0.1",
     "Swatinem/broker": "0.0.2",
     "Swatinem/template": "*",
@@ -114,7 +120,8 @@
     "component/tip": "*",
     "ianstormtaylor/animate": "*",
     "ubergrape/HTML5-Desktop-Notifications": "*",
-    "usablica/intro.js": "*"
+    "usablica/intro.js": "*",
+    "sk7/js-emoji": "*"
   },
   "development": {
     "chaijs/chai": "*",

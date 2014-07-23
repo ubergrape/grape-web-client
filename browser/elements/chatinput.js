@@ -15,6 +15,10 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
+var staticurl = require('../../lib/staticurl');
+var emoji = require('../emoji');
+
+
 require("startswith");
 
 module.exports = ChatInput;
@@ -34,6 +38,7 @@ ChatInput.prototype = Object.create(Emitter.prototype);
 ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
+	emoji.init_colons();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -154,21 +159,72 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#]([^\s]{1,15})$/;
-	this.complete.formatSelection = function (option) {
-		return renderAutocomplete(option, true);
+	this.complete.re = /[@#:]([^\s]{1,15})$/;
+	this.complete.formatSelection = function (obj) {
+		return renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
 
 		self.complete.clear();
 
-		if (match[0] == "@") {
+		if (match[0] == ':') {
+			var search;
+			if (match[match.length-1] === ':')
+				// match without ':' at the beginning and at the end
+				search = match.substr(1, match.length-1);
+			else {
+				// match without ':' at the beginning
+				search = match.substr(1);
+			}
+
+			search = search.toLowerCase();
+
+			// TODO: app.organization
+			var custom_emojis = app.organization.custom_emojis;
+			for (var emo in custom_emojis) {
+				if (custom_emojis.hasOwnProperty(emo)) {
+					if (~emo.indexOf(search)) {
+						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
+						});
+					}
+				}
+			}
+
+			var emojis = emoji.map.colons;
+			for (var emo in emojis) {
+				if (emojis.hasOwnProperty(emo)) {
+					var val = emojis[emo];
+					if (~emo.indexOf(search)) {
+						var image = emoji.replacement(val, emo, ':');
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
+						});
+					}
+				}
+			}
+
+			if (self.complete.options.length > 0) {
+				self.complete.show();
+				self.complete.highlight(0);
+			}
+
+		} else if (match[0] == "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
-			var search = match.substr(1); // match without the '@''
+			var search = match.substr(1); // match without the '@'
 
 			// TODO don't use global vars
 

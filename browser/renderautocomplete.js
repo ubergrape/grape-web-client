@@ -12,7 +12,7 @@ function renderAutocompleteItem(obj, asButton) {
 		if (isWebkit()) {
 			// Google Chrome and other webkit browser
 			// Can only draw an inline icon within the <button> element.
-			return '<button class="ac" contenteditable="false" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '"><span class="entry-type-icon type-' + obj.service + obj.type +'">&nbsp;</span>' + obj.insert + '</button>';
+			return '<button class="ac ' + obj.service + '" contenteditable="false" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '"><span class="entry-type-icon type-' + obj.service + obj.type +'">&nbsp;</span>' + obj.insert + '</button>';
 		} else {
 			// Firefox, IE
 			return '<a class="ac" contenteditable="false" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '"><span class="entry-type-icon type-' + obj.service + obj.type +'">&nbsp;</span>' + obj.insert + '</a>';

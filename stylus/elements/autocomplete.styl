@@ -42,6 +42,7 @@
 		.option-wrap
 			overflow: hidden
 			padding: 6px 10px
+			height: 30px
 		&.Textcomplete-hidden
 			display: none
 		.Textcomplete-headline
@@ -89,13 +90,13 @@
 //
 // ****
 
-body 
+body
 	.ac
 		white-space: nowrap
 		border-bottom: 1px solid aqua-light
 		// box-shadow: 0px 1px 2px 0px #ddd
 		display: inline-block
-		margin: 1px 
+		margin: 1px
 		padding: 1px 0
 		vertical-align: baseline
 		font-weight: bold
@@ -128,6 +129,8 @@ body
 .type-chatgraperoom
 	&:before
 		content: "\f086"
+.type-emojiemoji
+	display: none
 
 
 
@@ -148,3 +151,7 @@ body
 		span
 			float: left
 			margin-right: 0
+		&.emoji
+			border: none
+			padding: 0
+			margin: 0
