@@ -70,10 +70,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			if (childnode.nodeType === 3) {
 				children.push(childnode.nodeValue);
 			} else if (childnode.nodeName === "BR") {
-				children.push("\n\n");
+				children.push("\n");
 			} else if (childnode.nodeName === "DIV") {
 				children.push(childnode.innerText);
-				children.push("\n\n");
+				children.push("\n");
 			} else if (childnode.nodeType === 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
