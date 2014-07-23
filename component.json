@@ -38,6 +38,7 @@
     "browser/markdown_renderlink.js",
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
+    "browser/emoji.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",

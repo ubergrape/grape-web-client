@@ -4,10 +4,7 @@
 var marked = require('marked');
 var markdown_renderlink = require('./markdown_renderlink');
 var staticurl = require('../lib/staticurl.js');
-var emoji = require('js-emoji');
-emoji.img_path = staticurl('emoji/');
-emoji.sheet_path = staticurl('app/sk7-js-emoji/images/sheet_32.png');
-emoji.use_sheet = true;
+var emoji = require('./emoji');
 
 var renderer = new marked.Renderer();
 
