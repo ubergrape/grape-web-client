@@ -73,6 +73,9 @@
     "templates/roomlist.jade",
     "templates/deleteroom.jade"
   ],
+  "images": [
+    "images/emoji_sheet_32_optimized.png"
+  ],
   "dependencies": {
     "samsonjs/strftime": "*",
     "ianstormtaylor/meyer-reset": "*",
