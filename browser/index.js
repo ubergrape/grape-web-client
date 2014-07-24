@@ -39,8 +39,7 @@ template.locals.html = function (html) {
 
 // FIXME: change language, for now
 // this should be done via a switch in the UI
-
-exports.ItemList = require('./elements/itemlist');
+var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
