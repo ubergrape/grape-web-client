@@ -140,9 +140,12 @@ UI.prototype.init = function UI_init() {
 		}
     });
     // initialize dragAndDrop
+    // receive the dragged items and emit
+    // an event to the uploader to upload them
+    var self = this;
     this.dragAndDrop = dropAnywhere(function(e){
     	e.items.forEach(function(item){
-    		//this.emit('upload', item);
+    		self.emit('uploadDragged', item);
     	});
     });
 
@@ -321,7 +324,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
 
 	// dragAndDrop
-	//broker(this.dragAndDrop, 'upload', this.upload, 'doUpload');	
+	broker(this, 'uploadDragged', this.upload, 'doUpload');	
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
