@@ -122,7 +122,8 @@
     "ubergrape/HTML5-Desktop-Notifications": "*",
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
-    "component/clipboard": "*"
+    "component/clipboard": "*",
+    "component/drop-anywhere": "*"
   },
   "development": {
     "chaijs/chai": "*",

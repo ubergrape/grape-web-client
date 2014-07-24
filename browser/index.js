@@ -16,6 +16,7 @@ var constants = require('../lib/constants');
 var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
+var dropAnywhere = require('drop-anywhere');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -137,6 +138,12 @@ UI.prototype.init = function UI_init() {
 		if(e.items[0] instanceof Blob){
 			this.emit('upload', e.items[0]);
 		}
+    });
+    // initialize dragAndDrop
+    this.dragAndDrop = dropAnywhere(function(e){
+    	e.items.forEach(function(item){
+    		//this.emit('upload', item);
+    	});
     });
 
 	// initialize notifications
@@ -311,7 +318,10 @@ UI.prototype.bind = function UI_bind() {
 	// directly send an uploaded file
 
 	// clipboard
-	broker(this.clipboard, 'upload', this.upload, 'doUpload');	
+	broker(this.clipboard, 'upload', this.upload, 'doUpload');
+
+	// dragAndDrop
+	//broker(this.dragAndDrop, 'upload', this.upload, 'doUpload');	
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
