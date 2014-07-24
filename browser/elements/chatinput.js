@@ -108,20 +108,20 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// // make the messageInput auto resize
 	// var resize = debounce(function() {
-	// 	resizable(self.messageInput, {min: 31, max: 220})}, delay);
+	//	resizable(self.messageInput, {min: 31, max: 220})}, delay);
 	// resize();
 
 	// Emitter(this.messageInput);
 	// this.messageInput.on('resize', function(diff) {
-	// 	// resize footer height
-	// 	var footer = closest(self.messageInput, 'footer');
-	// 	var new_height = footer.clientHeight + diff;
-	// 	footer.style.height =  new_height + 'px';
+	//	// resize footer height
+	//	var footer = closest(self.messageInput, 'footer');
+	//	var new_height = footer.clientHeight + diff;
+	//	footer.style.height =  new_height + 'px';
 
-	// 	// resize chat wrapper padding
-	// 	var wrapper = qs(".chat-wrapper");
-	// 	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
-	// 	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	//	// resize chat wrapper padding
+	//	var wrapper = qs(".chat-wrapper");
+	//	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
+	//	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
 	// });
 
 	// emit typing (start and stop) events
@@ -176,8 +176,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			for (var i=0; i<users.length; i++) {
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
-				   || user.lastName.startsWithIgnoreCase(search)
-				   || user.username.startsWithIgnoreCase(search)) {
+					 || user.lastName.startsWithIgnoreCase(search)
+					 || user.username.startsWithIgnoreCase(search)) {
 					var name = "";
 					if (user.firstName !== "") {
 						name += user.firstName;
@@ -245,6 +245,60 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 
 	};
+};
+
+ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
+	if(typeof lang !== "undefined")
+			Date.i18n.setLanguage(lang);
+
+	//replace(/([A-Za-z])\.+/g, '$1').split(/\s+/);
+	var lookahead = 3;
+
+
+	//split into sentences
+	//str.replace(/([.?!])\s*(?=[A-Z])/, "$1|").split("|")
+
+	var re = new RegExp(/[.!?]+(?!\d)|([^\d])[.?!]+(?=\d)/g);
+	var sentRe = data.replace(re,"$1|");
+	var sentences = sentRe.split("|");
+
+	//var sentences = data.split();//, "$1|").split("|");
+	//var sentences = str.replace(/\.(?!\d)|([^\d])\.(?=\d)/g,'$1.|');
+
+	//for each sentence
+	for (var s=0; s < sentences.length; s++) {
+			//split into words
+			var words = sentences[s].replace(/[^\w\s:]|_/g, " ")
+					.replace(/\s+/g, " ")
+					.trim()
+					.split(/\s+/);
+
+			//analyze all combinations of up to $lookahead consecutive words
+			for (var i = 0; i < words.length; i++) {
+					var found = false,
+							date = null,
+							phrase = null,
+							last = null;
+					for (var j = i + 1; j < i + lookahead + 1 && j < words.length + 1; j++) {
+							var _phrase = words.slice(i, j).join(' ');
+							//console.log(i, j, words.slice(i, j));
+							// parse
+							var _date;
+							if (_date = Date.parse(_phrase)) {
+									date = _date;
+									phrase = _phrase;
+									found = true;
+									last = j - 1;
+							}
+					}
+					if (found) {
+							console.log(phrase + ": " + date)
+							// move the index to behind found phrase and break
+							i = last;
+							//break;
+					}
+			}
+	}
 };
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
