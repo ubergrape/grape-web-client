@@ -322,12 +322,9 @@ UI.prototype.bind = function UI_bind() {
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
-<<<<<<< HEAD
 
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');	
-=======
->>>>>>> 4d269de1f9638fe4a2e0a2def168b026edf3f4b1
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
