@@ -54,7 +54,11 @@
 	each lines in groupHistory(history)
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-			.date-separator= strftime('%A, %d %b %Y', first.time)
+			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
+				.date-separator
+					| Today, #{strftime('%A, %d %b %Y', first.time)}
+			else
+				.date-separator= strftime('%A, %d %b %Y', first.time)
 		if (lastRead && !first.read)
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
