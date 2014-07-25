@@ -15,6 +15,10 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
+var staticurl = require('../../lib/staticurl');
+var emoji = require('../emoji');
+
+
 require("startswith");
 
 module.exports = ChatInput;
@@ -34,6 +38,7 @@ ChatInput.prototype = Object.create(Emitter.prototype);
 ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
+	emoji.init_colons();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -70,10 +75,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			if (childnode.nodeType === 3) {
 				children.push(childnode.nodeValue);
 			} else if (childnode.nodeName === "BR") {
-				children.push("\n\n");
+				children.push("\n");
 			} else if (childnode.nodeName === "DIV") {
 				children.push(childnode.innerText);
-				children.push("\n\n");
+				children.push("\n");
 			} else if (childnode.nodeType === 1) {
 				// we don't use attr() here because it loops through all
 				// attributes when it doesn't find the attribute with
@@ -154,21 +159,72 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#]([^\s]{1,15})$/;
-	this.complete.formatSelection = function (option) {
-		return renderAutocomplete(option, true);
+	this.complete.re = /[@#:]([^\s]{1,15})$/;
+	this.complete.formatSelection = function (obj) {
+		return renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
 		var match = matches[0];
 
 		self.complete.clear();
 
-		if (match[0] == "@") {
+		if (match[0] == ':') {
+			var search;
+			if (match[match.length-1] === ':')
+				// match without ':' at the beginning and at the end
+				search = match.substr(1, match.length-1);
+			else {
+				// match without ':' at the beginning
+				search = match.substr(1);
+			}
+
+			search = search.toLowerCase();
+
+			// TODO: app.organization
+			var custom_emojis = app.organization.custom_emojis;
+			for (var emo in custom_emojis) {
+				if (custom_emojis.hasOwnProperty(emo)) {
+					if (~emo.indexOf(search)) {
+						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
+						});
+					}
+				}
+			}
+
+			var emojis = emoji.map.colons;
+			for (var emo in emojis) {
+				if (emojis.hasOwnProperty(emo)) {
+					var val = emojis[emo];
+					if (~emo.indexOf(search)) {
+						var image = emoji.replacement(val, emo, ':');
+						self.complete.push({
+							id: ":" + emo + ":",
+							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
+							insert: image,
+							service: "emoji",
+							type: "emoji"
+						});
+					}
+				}
+			}
+
+			if (self.complete.options.length > 0) {
+				self.complete.show();
+				self.complete.highlight(0);
+			}
+
+		} else if (match[0] == "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
-			var search = match.substr(1); // match without the '@''
+			var search = match.substr(1); // match without the '@'
 
 			// TODO don't use global vars
 
@@ -179,19 +235,22 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					 || user.lastName.startsWithIgnoreCase(search)
 					 || user.username.startsWithIgnoreCase(search)) {
 					var name = "";
+					var full_name_class = "";
 					if (user.firstName !== "") {
 						name += user.firstName;
 						if (user.lastName !== "") {
 							name += " " + user.lastName;
 						}
+						full_name_class = "full_name_true";
 					} else {
 						name = user.username;
+						full_name_class = "full_name_false";
 					}
 
 					self.complete.push({
 						id: "[" + name + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
-						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
-						insert: '@' + name,
+						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap ' + full_name_class +'">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
+						insert: '@ ' + name,
 						service: 'chatgrape',
 						type: 'user',
 						url: '/chat/@' + user.username
@@ -206,7 +265,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: "[" + room.name + "](cg://chatgrape|room|" + room.id + "|/chat/" + room.slug + ")",
 						title: '<div class="entry-type-description">Room</div>' + '<div class="option-wrap"><span class="entry-type-icon type-chatgraperoom"></span> ' + room.name + '</div>',
-						insert: '@' + room.name,
+						insert: '@ ' + room.name,
 						service: 'chatgrape',
 						type: 'room',
 						url: '/chat/' + room.name

@@ -70,7 +70,13 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	var content = message.text;
 	if (typeof content !== "undefined" && content !== "") {
 
-		var content_dom = domify(markdown(content))
+		var opts = {
+			emoji: function (emo) {
+				// render emojis as text
+				return ':' + emo + ':';
+			}
+		}
+		var content_dom = domify(markdown(content, opts))
 
 		// replace images
 		var imgs = content_dom.getElementsByTagName('img');

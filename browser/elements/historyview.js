@@ -127,7 +127,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
-	}));
+	}))
 
 	var history = this.history.el;
 
@@ -137,8 +137,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 	if (this.scrollMode === 'automatic') {
-		// Each time the history is redrawn, if the history is not empty,
-		// provided that the user is not scrolling to a specific element in the room
+		// Each time the history is redrawn, 
+		// if the user is not scrolling to a specific element in the room
 	    // if the last message was already scrolled(no new messages),
   		// don't scroll as the user is navigating to a specific place
   		// otherwise, scroll to the last element in the room
@@ -168,33 +168,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 };
 
 HistoryView.prototype.doScrollDown = function() {
-	//if there is the length of the attachments in the message is not 0,
-	// i.e. it's a file, do another check
-	if(typeof this.room.history[this.room.history.length - 1] !== "undefined"){
-		if(typeof this.room.history[this.room.history.length - 1].attachments !== "undefined"){
-			if(this.room.history[this.room.history.length - 1].attachments.length){
-			// if the attachment has a property of thumbnail_height, then it is an image.
-			// scroll the histroy with an amount of the image height
-			if(this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height){
-				this.scrollWindow.scrollTop += this.room.history[this.room.history.length - 1].attachments[0].thumbnail_height;
-			}
-			// else, then it is a normal file, just scroll the history with an amount of 80
-			else{
-				this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight;
-			}
-			}
-			// else it is  a normal text message, thenm do the normal scroll
-			else{
-				this.scrollTo(this.history.el.lastChild);
-			}
-		}
-		else{
-			this.scrollTo(this.history.el.lastChild);
-		}
-	}
-	else{
-		this.scrollTo(this.history.el.lastChild);
-	}
+	//scroll to the bottom of the page
+	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
 
 HistoryView.prototype.setAuto = function () {
@@ -235,8 +210,8 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	var updateRead = debounce(function updateRead() {
-		/*if (focus.state !== 'focus')
-			return; // we get scroll events even when the window is not focused*/
+		if (focus.state !== 'focus')
+			return; // we get scroll events even when the window is not focused
 		var bottomElem = self._findBottomVisible();
 		if (!bottomElem) return;
 		var line = Line.get(bottomElem.getAttribute('data-id'));
