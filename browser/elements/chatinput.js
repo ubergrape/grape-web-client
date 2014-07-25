@@ -235,19 +235,22 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				   || user.lastName.startsWithIgnoreCase(search)
 				   || user.username.startsWithIgnoreCase(search)) {
 					var name = "";
+					var full_name_class = "";
 					if (user.firstName !== "") {
 						name += user.firstName;
 						if (user.lastName !== "") {
 							name += " " + user.lastName;
 						}
+						full_name_class = "full_name_true";
 					} else {
 						name = user.username;
+						full_name_class = "full_name_false";
 					}
 
 					self.complete.push({
 						id: "[" + name + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
-						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
-						insert: '@' + name,
+						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap ' + full_name_class +'">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
+						insert: '@ ' + name,
 						service: 'chatgrape',
 						type: 'user',
 						url: '/chat/@' + user.username
@@ -262,7 +265,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: "[" + room.name + "](cg://chatgrape|room|" + room.id + "|/chat/" + room.slug + ")",
 						title: '<div class="entry-type-description">Room</div>' + '<div class="option-wrap"><span class="entry-type-icon type-chatgraperoom"></span> ' + room.name + '</div>',
-						insert: '@' + room.name,
+						insert: '@ ' + room.name,
 						service: 'chatgrape',
 						type: 'room',
 						url: '/chat/' + room.name

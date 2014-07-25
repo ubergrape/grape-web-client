@@ -43,6 +43,10 @@
 			overflow: hidden
 			padding: 6px 10px
 			height: 30px
+			&.full_name_true
+				em
+					color: lighten(gainsboro-dark, 10%)
+					@extend $small-font-size
 		&.Textcomplete-hidden
 			display: none
 		.Textcomplete-headline
@@ -55,9 +59,6 @@
 			@extend $clearfix
 			font-weight: bold
 			color: darken(gainsboro-dark, 20%)
-			em
-				color: lighten(gainsboro-dark, 10%)
-				@extend $small-font-size
 		.entry-additional-info
 			color: gainsboro-dark
 		.entry-type-icon
@@ -66,7 +67,7 @@
 		.Textcomplete-highlighted
 			background: grape-light
 			color: white
-			em,
+			.full_name_true em,
 			.entry-additional-info
 				color: lighten(grape-light, 30)
 			.entry-type-description
@@ -132,8 +133,14 @@ body
 .type-emojiemoji
 	display: none
 
-
-
+.message
+	.type-chatgraperoom,
+	.type-chatgrapeuser
+		&:before
+			content: "@ "
+			font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif!important
+			margin-right: 0
+			font-weight: bold
 // ****
 //
 // classes used within the message input (but NOT inside the autocomplete dropdown)
@@ -155,3 +162,6 @@ body
 			border: none
 			padding: 0
 			margin: 0
+	.type-chatgraperoom,
+	.type-chatgrapeuser
+		display: none
