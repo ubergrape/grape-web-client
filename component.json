@@ -121,7 +121,8 @@
     "ianstormtaylor/animate": "*",
     "ubergrape/HTML5-Desktop-Notifications": "*",
     "usablica/intro.js": "*",
-    "sk7/js-emoji": "*"
+    "sk7/js-emoji": "*",
+    "component/clipboard": "*"
   },
   "development": {
     "chaijs/chai": "*",
