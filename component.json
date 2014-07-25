@@ -123,7 +123,8 @@
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "*",
-    "component/drop-anywhere": "*"
+    
+    "mbelraka/drop-anywhere": "*"
   },
   "development": {
     "chaijs/chai": "*",

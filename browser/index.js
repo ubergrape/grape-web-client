@@ -143,11 +143,12 @@ UI.prototype.init = function UI_init() {
     // receive the dragged items and emit
     // an event to the uploader to upload them
     var self = this;
+    var dropzone = new Dropzone();
     this.dragAndDrop = dropAnywhere(function(e){
     	e.items.forEach(function(item){
     		self.emit('uploadDragged', item);
     	});
-    });
+    }, dropzone);
 
 	// initialize notifications
 	this.notifications = new Notifications();
