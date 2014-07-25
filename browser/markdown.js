@@ -36,6 +36,7 @@ renderer.hr = function() {
 
 marked.setOptions({
 	renderer: renderer,
+	sanitize: true,
 	gfm: true,
 	breaks: true,
 	emoji: function (emo) {
