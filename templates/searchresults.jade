@@ -5,7 +5,7 @@
 			strong=results.q
 	ul.result-list
 		each result in results.results
-			li.result-object(class=result.index + ' ' + result.channel.type)
+			li.result-object(class=result.index)
 				.item-object.main
 					.item-content
 						if (result.index !== 'objects')
