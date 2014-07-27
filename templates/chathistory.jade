@@ -102,7 +102,7 @@
 										| 
 										| #{line.branch} 
 								if line.container
-									a.container(href=line.container.url, class=line.container.type)= "in " + line.container.name
+									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
 							.text.main= html(markdown(line.title))
 						if line.text
@@ -136,7 +136,7 @@
 												strong
 													| #{obj.name} 
 										if obj.sha
-											a(href=obj.url).sha
+											a(href=obj.url, target="_blank").sha
 												| #{obj.sha.substr(1, 7)} 
 										if obj.content
 											if line.author.id == 'github'
