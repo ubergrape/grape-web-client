@@ -57,6 +57,7 @@ var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
+var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 
 
 function UI(options) {
@@ -143,12 +144,12 @@ UI.prototype.init = function UI_init() {
     // receive the dragged items and emit
     // an event to the uploader to upload them
     var self = this;
-    var dropzone = new Dropzone();
+    this.dropzone = new Dropzone();
     this.dragAndDrop = dropAnywhere(function(e){
     	e.items.forEach(function(item){
     		self.emit('uploadDragged', item);
     	});
-    }, dropzone);
+    }, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();

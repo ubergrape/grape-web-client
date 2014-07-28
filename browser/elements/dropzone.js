@@ -6,6 +6,7 @@ var render = require('../rendervdom');
 
 module.exports = Dropzone;
 
-Dropzone.prototype.init = function Dropzone_init(){
-	render(this.template('draganddrop'), {});
+function Dropzone(){
+	var vdom = template('draganddrop', {});
+	render(this, vdom);
 }

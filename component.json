@@ -22,6 +22,7 @@
     "browser/elements/messages.js",
     "browser/elements/navigation.js",
     "browser/elements/notifications.js",
+    "browser/elements/dropzone.js",
     "browser/elements/popovers/pm.js",
     "browser/elements/popovers/popover.js",
     "browser/elements/popovers/user.js",
@@ -71,7 +72,8 @@
     "templates/popovers/roommembers.jade",
     "templates/popovers/roomlist.jade",
     "templates/roomlist.jade",
-    "templates/deleteroom.jade"
+    "templates/deleteroom.jade",
+    "templates/draganddrop.jade"
   ],
   "images": [
     "images/emoji_sheet_32_optimized.png",
@@ -123,7 +125,6 @@
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "*",
-    
     "mbelraka/drop-anywhere": "*"
   },
   "development": {
