@@ -1,5 +1,5 @@
 #drop-anywhere
-	background: rgba(0,0,0,.75)
+	background: rgba(0,0,0,.85)
 	z-index: 9998
 	&:after
 		content: " "
@@ -10,14 +10,24 @@
 		bottom: 10px
 		border: 2px dashed aqua-light
 		border-radius: 15px
-	p
-		font-family: FontAwesome
+	.drop-inner-wrap
 		position: absolute
-		top: 50%
+		top: 45%
 		left: 30px
 		right: 30px
-		font-size: 4em
 		text-align: center
 		color: aqua-light
-		&:before
-			content: "\f0c6\0000a0"
+		padding-top: 92px
+		.image
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			img
+				position: relative
+			    animation: glide 600ms linear infinite;
+		p.main
+			@extend $biggest-font-size
+			margin-bottom: 5px
+		p.description
+			color: gainsboro-light
