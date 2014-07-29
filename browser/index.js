@@ -16,6 +16,7 @@ var constants = require('../lib/constants');
 var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
+var dropAnywhere = require('drop-anywhere');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -56,6 +57,7 @@ var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
+var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 
 
 function UI(options) {
@@ -137,7 +139,17 @@ UI.prototype.init = function UI_init() {
 		if(e.items[0] instanceof Blob){
 			this.emit('upload', e.items[0]);
 		}
-	});
+    });
+    // initialize dragAndDrop
+    // receive the dragged items and emit
+    // an event to the uploader to upload them
+    var self = this;
+    this.dropzone = new Dropzone();
+    this.dragAndDrop = dropAnywhere(function(e){
+    	e.items.forEach(function(item){
+    		self.emit('uploadDragged', item);
+    	});
+    }, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -312,6 +324,9 @@ UI.prototype.bind = function UI_bind() {
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
+
+	// dragAndDrop
+	broker(this, 'uploadDragged', this.upload, 'doUpload');	
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
