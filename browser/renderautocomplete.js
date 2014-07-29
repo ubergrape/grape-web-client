@@ -16,7 +16,7 @@ function renderAutocompleteItem(obj, asButton) {
 		} else {
 			// Firefox, IE
 			if (typeof obj.service !== "undefined" && obj.service === "emoji") {
-				return '<span class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '">' + obj.insert + "</span>";
+				return '<button class="ac ' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '">' + obj.insert + '</button>';
 			} else {
 				return '<input type="button" class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '" value="' + obj.insert + '"/>';
 
