@@ -347,6 +347,9 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	};
 	message_text = message_text.replace(autocomplete, replacer);
 
+	// replace linebreaks with <br>s
+	message_text = message_text.replace(/\n/gm, "<br>");
+
 	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
 	this.moveCaretToEnd(this.messageInput);
