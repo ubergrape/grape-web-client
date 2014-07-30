@@ -20,28 +20,27 @@ describe('RoomPopover', function () {
 	it('should take a list of items', function () {
 		var d = new RoomPopover();
 		d.setItems(emitter([emitter({id: 1, name: 'test', joined: false})]));
-		qs('.item .main .name', d.el).textContent.should.eql('test');
+		qs('.item .name', d.el).textContent.should.eql('test');
 	});
 	it('should provide a redraw function', function () {
 		var d = new RoomPopover();
 		var item = emitter({id: 1, name: 'test', joined: false});
 		d.setItems(emitter([item]));
-		qs('.item .main .name', d.el).textContent.should.eql('test');
+		qs('.item .name', d.el).textContent.should.eql('test');
 		item.name = 'test2';
 		d.redraw();
-		qs('.item .main .name', d.el).textContent.should.eql('test2');
+		qs('.item .name', d.el).textContent.should.eql('test2');
 	});
-	// SEPARATED LIST NOW
-	// it('should provide a show/hide method', function () {
-	// 	var d = new RoomPopover();
-	// 	var item = emitter({id: 1, name: 'test', joined: false});
-	// 	d.setItems(emitter([item]));
-	// 	d.el.className.should.include('hide');
-	// 	d.show(target);
-	// 	d.el.className.should.not.include('hide');
-	// 	d.hide();
-	// 	d.el.className.should.include('hide');
-	// });
+	it('should provide a show/hide method', function () {
+		var d = new RoomPopover();
+		var item = emitter({id: 1, name: 'test', joined: false});
+		d.setItems(emitter([item]));
+		d.el.className.should.include('hide');
+		d.show(target);
+		d.el.className.should.not.include('hide');
+		d.hide();
+		d.el.className.should.include('hide');
+	});
 	it.skip('should emit a selectitem event', function (done) {
 		var d = new RoomPopover();
 		var item = emitter({id: 1, name: 'test', joined: false});
