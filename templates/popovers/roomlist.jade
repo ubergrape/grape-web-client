@@ -1,15 +1,21 @@
-div.po-scroll-wrap
-	table
-		each room in items
-			tr.item.room(data-id=room.id, key=room.id)
-				td.icon-wrap
+ul.po-scroll-wrap
+	li.list-hl
+		h4=_("Rooms you haven't joined")
+	each room in items
+		if !room.joined
+			li.item.room(data-id=room.id, key=room.id)
+				button.toggle.join
+					span.info
+						=_('join')
+					| 
+					i.fa.fa-arrow-circle-o-right
+				.icon-wrap
 					if room.private
 						i.icon.fa.fa-lock
 					else
 						i.icon.fa.fa-comments
-				td
-					p.main
-						span.name=room.name
+				.main
+					.name=room.name
 					ul.room-info
 						li.creator
 							=_('by ')
@@ -19,9 +25,35 @@ div.po-scroll-wrap
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
-				td.toggle-wrap
-					if room.joined
-						button.toggle.leave=_('Leave')
+	li.list-hl
+		hr(style="margin-bottom: 10px")
+		h4=_("Your rooms")
+
+	each room in items
+		if room.joined
+			li.item.room(data-id=room.id, key=room.id)
+				button.toggle.leave
+					span.info.j-info
+						=_('joined')
+					span.info.l-info
+						=_('leave')
+					| 
+					i.fa.fa-times-circle-o
+					i.fa.fa-check-circle-o
+				.icon-wrap
+					if room.private
+						i.icon.fa.fa-lock
 					else
-						button.toggle.join=_('Join')
+						i.icon.fa.fa-comments
+				.main
+					.name=room.name
+					ul.room-info
+						li.creator
+							=_('by ')
+							each user in org.users
+								if (room.creator === user.id)
+									=user.username
+						li.users
+							i.fa.fa-user
+							|  #{room.users.length}
 
