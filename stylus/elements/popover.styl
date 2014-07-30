@@ -17,14 +17,21 @@
 	margin: -10px 0 0 -4px
 	max-width: 450px
 	white-space: normal
-	ul
+	.po-scroll-wrap
 		padding: 5px 5px 0 0
-		margin: 0 0 0
 		max-height: 250px
+		display: block
 		overflow: auto
+		table
+			margin: 0 0 0
+			width: 100%
+			td
+				vertical-align: middle
+	li, td
+		padding: 6px 0
 	li
 		@extend $functional-list
-		padding: 6px 0
+
 	&.left
 		&::before
 			content: ""
@@ -90,6 +97,10 @@
 		margin: 34px 0 0 -213px
 		right: 20px !important
 		left: auto !important
+	&.item-po
+		margin-top: -120px
+		&:before, &:after
+			margin-top: 115px
 	&.orga-po
 		margin: 9px 0 0 -4px
 	&.members-po
@@ -140,6 +151,9 @@
 		a
 			padding: 8px 16px
 			color: grape-typo // normal font color in menus
+			&:hover
+				color: aqua-light
+				text-decoration: underline
 			.fa
 				color: gainsboro-light
 				margin-right: 8px
@@ -165,7 +179,30 @@
 	.newroom
 		display: none
 		width: 320px
-
+	.room
+		@extend $hoverable
+		.toggle-wrap
+			text-align: right
+		&:hover
+			.main
+				color: aqua-light
+				text-decoration: underline
+		color: gainsboro-dark
+	.main
+		margin: 0px
+		color: grape-typo
+	.icon-wrap
+		font-size: 1.5em
+		padding: 0
+	.room-info
+		@extend $horizontal-list
+		margin: 0
+		@extend $small-font-size
+		li
+			padding: 0
+	.name
+		height: 1.25em
+		line-height: 1em
 
 // ****
 //

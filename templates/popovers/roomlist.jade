@@ -1,14 +1,27 @@
-ul
-	each room in items
-		li.item.room(data-id=room.id, key=room.id)
-			if room.joined
-				button.toggle.leave=_('Leave')
-			else
-				button.toggle.join=_('Join')
-			if room.private
-				i.icon.fa.fa-lock
-			else
-				i.icon.fa.fa-comments
-			span.name=room.name
-			span.users
+div.po-scroll-wrap
+	table
+		each room in items
+			tr.item.room(data-id=room.id, key=room.id)
+				td.icon-wrap
+					if room.private
+						i.icon.fa.fa-lock
+					else
+						i.icon.fa.fa-comments
+				td
+					p.main
+						span.name=room.name
+					ul.room-info
+						li.creator
+							=_('by ')
+							each user in org.users
+								if (room.creator === user.id)
+									=user.username
+						li.users
+							i.fa.fa-user
+							|  #{room.users.length}
+				td.toggle-wrap
+					if room.joined
+						button.toggle.leave=_('Leave')
+					else
+						button.toggle.join=_('Join')
 
