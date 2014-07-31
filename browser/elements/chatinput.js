@@ -28,6 +28,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
+	this.max_autocomplete = 12; // maximum of n items
 	//this.attachments = [];
 	this.init();
 	this.bind();
@@ -183,7 +184,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// TODO: app.organization
 			var custom_emojis = app.organization.custom_emojis;
 			for (var emo in custom_emojis) {
-				if (custom_emojis.hasOwnProperty(emo)) {
+				if (self.complete.options.length < self.max_autocomplete && custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
 						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
 						self.complete.push({
@@ -199,7 +200,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var emojis = emoji.map.colons;
 			for (var emo in emojis) {
-				if (emojis.hasOwnProperty(emo)) {
+				if (self.complete.options.length < self.max_autocomplete && emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
 					if (~emo.indexOf(search)) {
 						var image = emoji.replacement(val, emo, ':');
