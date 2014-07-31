@@ -17,11 +17,10 @@ ul.po-scroll-wrap
 				.main
 					.name=room.name
 					ul.room-info
-						li.creator
-							=_('by ')
-							each user in org.users
-								if (room.creator === user.id)
-									=user.username
+						if room.creator
+							li.creator
+								=_('by ')
+								=room.creator.username
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
@@ -48,11 +47,10 @@ ul.po-scroll-wrap
 				.main
 					.name=room.name
 					ul.room-info
-						li.creator
-							=_('by ')
-							each user in org.users
-								if (room.creator === user.id)
-									=user.username
+						if room.creator
+							li.creator
+								=_('by ')
+								=room.creator.username
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
