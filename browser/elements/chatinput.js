@@ -69,67 +69,28 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.input = inputarea(this.messageInput);
 	var self = this;
 	this.input.cleanedValue = function() {
-		//console.log("modified");
 		var el = this.el;
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
-			/*console.log("node");
-			console.log(childnode);
-			console.log("name");
-			console.log(childnode.nodeName);
-			console.log("type");
-			console.log(childnode.nodeType);
-			console.log("content");
-			console.log(childnode.textContent);
-			console.log("children");
-			console.log(childnode.childNodes);
-			console.log("children array");
-			console.log(children);
-			/*if(childnode.nodeName === "OL" && typeof childnode.childNodes !== 'undefined'
-			&& childNodes.length == 1){
-				console.log("I entered here");
+			// check if it is a google content. If so, un wrap it from the wrapping <ol>
+			// then process the content normally
+			if(childnode.nodeName === "OL" && typeof childnode.childNodes !== 'undefined'
+			&& childnode.childNodes.length == 1){
 				childnode = childnode.childNodes[0];
 			}
-			console.log("new node");
-			console.log(childnode);
-			console.log("new children");
-			console.log(childnode.childNodes);*/
+			// check if there are some contents in wrapped in a big <div>. If so, handle
+			// the inner contents 
+			// else, clean the current elment
 			if(childnode.childNodes && childnode.childNodes.length > 1){
 				for(var subchild in childnode.childNodes){
 					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
-					//console.log("children after sub child");
-					//console.log(children);
 				}
 			}
 			else{
 				children = children.concat(self.cleanNode(childnode));
 			}
-			/*if(childnode.nodeName && (childnode.nodeName === "BR" 
-			|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
-			|| childnode.nodeName === "IL" || childnode.nodeName === "UL")){
-				children.push("\n");
-			}
-			if (childnode.nodeType === 3) {
-				children.push(childnode.nodeValue);
-			} else if (childnode.textContent){
-				children.push(childnode.textContent);
-			} else if (childnode.nodeType === 1) {
-				// we don't use attr() here because it loops through all
-				// attributes when it doesn't find the attribute with
-				// getAttribute. So this won't work in old IEs, but it's faster
-				var object = childnode.getAttribute('data-object');
-				if (object !== null) {
-					children.push(object);
-				} else {
-					// Q: why would there be any HTML in the message input?
-					// A: pasting content
-					children.push(childnode.innerText);
-				}
-			}*/
 		}
-		//console.log("children to be printed");
-		//console.log(children);
 		return children.join('');
 	};
 	this.input.on('input', function (str) {
@@ -403,14 +364,16 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 };
 
 ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
-	//console.log("changed");
+	// clean an input element
 	var children = [];
+	// check if the element is any thing other than text and objects, e.g. iterator function
 	if(typeof childnode.nodeName === 'undefined' && typeof childnode.nodeType === 'undefined'){
 		return[];
 	}
+	// if the elment is one of the following tags, insert new line
 	if(childnode.nodeName && (childnode.nodeName === "BR" 
 	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
-	|| childnode.nodeName === "IL" || childnode.nodeName === "UL")){
+	|| childnode.nodeName === "LI" || childnode.nodeName === "UL")){
 		children.push("\n");
 	}
 	if (childnode.nodeType === 3) {
@@ -433,8 +396,6 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 			children.push(childnode.innerText);
 		}
 	}
-	//console.log("cleaned children");
-	//console.log(children);
 	return children;
 };
 
