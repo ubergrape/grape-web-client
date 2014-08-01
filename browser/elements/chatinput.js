@@ -72,14 +72,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
+			if(childnode.nodeName && (childnode.nodeName === "BR" 
+			|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
+			|| childnode.nodeName === "IL" || childnode.nodeName === "UL")){
+				children.push("\n");
+			}
 			if (childnode.nodeType === 3) {
 				children.push(childnode.nodeValue);
-			} else if (childnode.nodeName === "BR") {
-				children.push("\n");
-			} else if (childnode.nodeName === "DIV") {
-				children.push(childnode.innerText);
-				children.push("\n");
-			} else if (childnode.nodeName === "A" || childnode.nodeName === "P" || childnode.nodeName === "SUP"){
+			} else if (childnode.textContent){
 				children.push(childnode.textContent);
 			} else if (childnode.nodeType === 1) {
 				// we don't use attr() here because it loops through all
