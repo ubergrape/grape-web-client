@@ -40,6 +40,7 @@
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",
+    "browser/jstz.js",
     "lib/index.js",
     "lib/broker.js",
     "lib/models/chatline.js",
