@@ -28,6 +28,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
+	this.max_autocomplete = 12; // maximum of n items
 	//this.attachments = [];
 	this.init();
 	this.bind();
@@ -185,6 +186,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// TODO: app.organization
 			var custom_emojis = app.organization.custom_emojis;
 			for (var emo in custom_emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
 						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
@@ -197,10 +200,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						});
 					}
 				}
+
 			}
 
 			var emojis = emoji.map.colons;
 			for (var emo in emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
 					if (~emo.indexOf(search)) {
@@ -232,6 +238,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
 				   || user.lastName.startsWithIgnoreCase(search)
@@ -262,6 +270,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var rooms = app.organization.rooms;
 			for (var i=0; i<rooms.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
@@ -286,6 +296,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
 				for (var i=0; i<result.length; i++) {
+					if (self.complete.options.length >= self.max_autocomplete)
+						break;
 					var r = result[i];
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
