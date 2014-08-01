@@ -69,12 +69,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.input = inputarea(this.messageInput);
 	var self = this;
 	this.input.cleanedValue = function() {
+		//console.log("modified");
 		var el = this.el;
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
 			/*console.log("node");
 			console.log(childnode);
+			console.log("name");
+			console.log(childnode.nodeName);
 			console.log("type");
 			console.log(childnode.nodeType);
 			console.log("content");
@@ -82,12 +85,21 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			console.log("children");
 			console.log(childnode.childNodes);
 			console.log("children array");
-			console.log(children);*/
+			console.log(children);
+			/*if(childnode.nodeName === "OL" && typeof childnode.childNodes !== 'undefined'
+			&& childNodes.length == 1){
+				console.log("I entered here");
+				childnode = childnode.childNodes[0];
+			}
+			console.log("new node");
+			console.log(childnode);
+			console.log("new children");
+			console.log(childnode.childNodes);*/
 			if(childnode.childNodes && childnode.childNodes.length > 1){
 				for(var subchild in childnode.childNodes){
 					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
-					console.log("children after sub child");
-					console.log(children);
+					//console.log("children after sub child");
+					//console.log(children);
 				}
 			}
 			else{
@@ -116,8 +128,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				}
 			}*/
 		}
-		console.log("children to be printed");
-		console.log(children);
+		//console.log("children to be printed");
+		//console.log(children);
 		return children.join('');
 	};
 	this.input.on('input', function (str) {
@@ -405,6 +417,9 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 		children.push(childnode.nodeValue);
 	} else if (childnode.textContent){
 		children.push(childnode.textContent);
+	} else if(childnode.nodeName === "IMG"){
+		children.push("[IMG]\n");
+		children.push(childnode.src);
 	} else if (childnode.nodeType === 1) {
 		// we don't use attr() here because it loops through all
 		// attributes when it doesn't find the attribute with
