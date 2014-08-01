@@ -67,12 +67,33 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
+	var self = this;
 	this.input.cleanedValue = function() {
 		var el = this.el;
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
-			if(childnode.nodeName && (childnode.nodeName === "BR" 
+			/*console.log("node");
+			console.log(childnode);
+			console.log("type");
+			console.log(childnode.nodeType);
+			console.log("content");
+			console.log(childnode.textContent);
+			console.log("children");
+			console.log(childnode.childNodes);
+			console.log("children array");
+			console.log(children);*/
+			if(childnode.childNodes && childnode.childNodes.length > 1){
+				for(var subchild in childnode.childNodes){
+					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
+					console.log("children after sub child");
+					console.log(children);
+				}
+			}
+			else{
+				children = children.concat(self.cleanNode(childnode));
+			}
+			/*if(childnode.nodeName && (childnode.nodeName === "BR" 
 			|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
 			|| childnode.nodeName === "IL" || childnode.nodeName === "UL")){
 				children.push("\n");
@@ -93,8 +114,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					// A: pasting content
 					children.push(childnode.innerText);
 				}
-			}
+			}*/
 		}
+		console.log("children to be printed");
+		console.log(children);
 		return children.join('');
 	};
 	this.input.on('input', function (str) {
@@ -365,6 +388,39 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.editMsg = null;
 	classes(this.el).remove('editing');
 	this.messageInput.focus();
+};
+
+ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
+	//console.log("changed");
+	var children = [];
+	if(typeof childnode.nodeName === 'undefined' && typeof childnode.nodeType === 'undefined'){
+		return[];
+	}
+	if(childnode.nodeName && (childnode.nodeName === "BR" 
+	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
+	|| childnode.nodeName === "IL" || childnode.nodeName === "UL")){
+		children.push("\n");
+	}
+	if (childnode.nodeType === 3) {
+		children.push(childnode.nodeValue);
+	} else if (childnode.textContent){
+		children.push(childnode.textContent);
+	} else if (childnode.nodeType === 1) {
+		// we don't use attr() here because it loops through all
+		// attributes when it doesn't find the attribute with
+		// getAttribute. So this won't work in old IEs, but it's faster
+		var object = childnode.getAttribute('data-object');
+		if (object !== null) {
+			children.push(object);
+		} else {
+			// Q: why would there be any HTML in the message input?
+			// A: pasting content
+			children.push(childnode.innerText);
+		}
+	}
+	//console.log("cleaned children");
+	//console.log(children);
+	return children;
 };
 
 /*
