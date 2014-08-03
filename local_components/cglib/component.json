@@ -27,7 +27,8 @@
     "component/emitter": "*",
     "MatthewMueller/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
-    "Swatinem/wamp1": "0.0.3"
+    "Swatinem/wamp1": "0.0.3",
+    "ubergrape/websocket": "*"
   },
   "development": {
     "chaijs/chai": "*",
