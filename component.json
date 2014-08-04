@@ -74,6 +74,7 @@
     "templates/popovers/roomlist.jade",
     "templates/roomlist.jade",
     "templates/deleteroom.jade",
+    "templates/markdowntips.jade",
     "templates/draganddrop.jade"
   ],
   "images": [

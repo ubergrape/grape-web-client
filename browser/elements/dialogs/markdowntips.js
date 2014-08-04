@@ -15,7 +15,7 @@ module.exports = MarkdownTipsDialog;
 
 function MarkdownTipsDialog() {
 	Emitter.call(this);
-	var html = v.toDOM(template('markdowntips', this.context));
+	var html = v.toDOM(template('markdowntips'));
 	this.dialog = dialog(html);
 	this.el = this.dialog.el;
 	this.bind();

@@ -2,6 +2,7 @@
 "use strict";
 
 var Emitter = require('emitter');
+var events = require('events');
 var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
@@ -17,6 +18,7 @@ var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
 var staticurl = require('../../lib/staticurl');
 var emoji = require('../emoji');
+var MarkdownTipsDialog = require('./dialogs/markdowntips');
 
 
 require("startswith");
@@ -39,6 +41,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
 	emoji.init_colons();
+	this.markdowntipsdialog = new MarkdownTipsDialog().closable().overlay();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -48,6 +51,12 @@ ChatInput.prototype.redraw = function ChatInput_redraw() {
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
+
+	//bind markdown info
+	this.events = events(this.el, this);
+	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
+	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
+
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
@@ -370,3 +379,8 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 	this.attachments.push(attachment.id);
 };
 */
+
+ChatInput.prototype.toggleMarkdownTips = function ChatInput_toggleMarkdownTips(ev) {
+	ev.preventDefault();
+	this.markdowntipsdialog.show();
+}
