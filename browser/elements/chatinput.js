@@ -41,7 +41,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
 	emoji.init_colons();
-	this.markdowntipsdialog = new MarkdownTipsDialog().closable().overlay();
+	this.markdowntipsdialog = new MarkdownTipsDialog().closable();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -382,5 +382,5 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 
 ChatInput.prototype.toggleMarkdownTips = function ChatInput_toggleMarkdownTips(ev) {
 	ev.preventDefault();
-	this.markdowntipsdialog.show();
+	this.markdowntipsdialog.overlay().show();
 }
