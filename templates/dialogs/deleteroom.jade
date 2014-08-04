@@ -1,5 +1,4 @@
-
-if (room.creator === user.id || org.role === constants.ROLE_ADMIN || org.role === constants.ROLE_OWNER)
+if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === constants.ROLE_OWNER)
 	h3=_("you are about to delete ") + room.name
 
 	p=_("Please enter your password to continue!")
@@ -14,14 +13,13 @@ else
 	h3=_("Sorry, you can't delete ") + room.name
 	p=_(" You need to be either owner of ") + org.name + _(" or creater of the room ") + room.name + _(". You can ask them if they can delete the room for you:")
 	hr
-	p=_("Owner of ") + org.name + ":"
-	each user in org.users
-		if (user.role === constants.ROLE_OWNER || user.role === constants.ROLE_ADMIN)
-			a.user(href="/chat/@" + user.username)=user.username
+	p
+		=_("Owner of ") + org.name + ":"
+		each user in org.users
+			if (user.role === constants.ROLE_OWNER || user.role === constants.ROLE_ADMIN)
+				a.user(href="/chat/@" + user.username)=user.username
 
-	//- this should not be a loop but room.creator (=a user id) should be
-	//- casted to a user object somewhere else.
-	each user in org.users
-		if (room.creator === user.id)
-			p=_("Creator of ") + room.name + ":"
-			a.user(href="/chat/@" + user.username)=user.username
+	if room.creator
+		p
+			=_("Creator of ") + room.name + ":"
+			a.user(href="/chat/@" + room.creator.username)=room.creator.username

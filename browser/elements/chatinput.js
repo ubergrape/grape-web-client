@@ -30,6 +30,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
+	this.max_autocomplete = 12; // maximum of n items
 	//this.attachments = [];
 	this.init();
 	this.bind();
@@ -76,30 +77,28 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
+	var self = this;
 	this.input.cleanedValue = function() {
 		var el = this.el;
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
-			if (childnode.nodeType === 3) {
-				children.push(childnode.nodeValue);
-			} else if (childnode.nodeName === "BR") {
-				children.push("\n");
-			} else if (childnode.nodeName === "DIV") {
-				children.push(childnode.innerText);
-				children.push("\n");
-			} else if (childnode.nodeType === 1) {
-				// we don't use attr() here because it loops through all
-				// attributes when it doesn't find the attribute with
-				// getAttribute. So this won't work in old IEs, but it's faster
-				var object = childnode.getAttribute('data-object');
-				if (object !== null) {
-					children.push(object);
-				} else {
-					// Q: why would there be any HTML in the message input?
-					// A: pasting content
-					children.push(childnode.innerText);
+			// check if it is a google content. If so, un wrap it from the wrapping <ol>
+			// then process the content normally
+			if(childnode.nodeName === "OL" && typeof childnode.childNodes !== 'undefined'
+			&& childnode.childNodes.length == 1){
+				childnode = childnode.childNodes[0];
+			}
+			// check if there are some contents in wrapped in a big <div>. If so, handle
+			// the inner contents 
+			// else, clean the current elment
+			if(childnode.childNodes && childnode.childNodes.length > 1){
+				for(var subchild in childnode.childNodes){
+					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
 				}
+			}
+			else{
+				children = children.concat(self.cleanNode(childnode));
 			}
 		}
 		return children.join('');
@@ -192,6 +191,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// TODO: app.organization
 			var custom_emojis = app.organization.custom_emojis;
 			for (var emo in custom_emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
 						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
@@ -204,10 +205,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						});
 					}
 				}
+
 			}
 
 			var emojis = emoji.map.colons;
 			for (var emo in emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
 					if (~emo.indexOf(search)) {
@@ -239,6 +243,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
 				   || user.lastName.startsWithIgnoreCase(search)
@@ -269,6 +275,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var rooms = app.organization.rooms;
 			for (var i=0; i<rooms.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
@@ -293,6 +301,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
 				for (var i=0; i<result.length; i++) {
+					if (self.complete.options.length >= self.max_autocomplete)
+						break;
 					var r = result[i];
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
@@ -372,6 +382,42 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.editMsg = null;
 	classes(this.el).remove('editing');
 	this.messageInput.focus();
+};
+
+ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
+	// clean an input element
+	var children = [];
+	// check if the element is any thing other than text and objects, e.g. iterator function
+	if(typeof childnode.nodeName === 'undefined' && typeof childnode.nodeType === 'undefined'){
+		return[];
+	}
+	// if the elment is one of the following tags, insert new line
+	if(childnode.nodeName && (childnode.nodeName === "BR" 
+	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
+	|| childnode.nodeName === "LI" || childnode.nodeName === "UL")){
+		children.push("\n");
+	}
+	if (childnode.nodeType === 3) {
+		children.push(childnode.nodeValue);
+	} else if (childnode.textContent){
+		children.push(childnode.textContent);
+	} else if(childnode.nodeName === "IMG"){
+		children.push("[IMG]\n");
+		children.push(childnode.src);
+	} else if (childnode.nodeType === 1) {
+		// we don't use attr() here because it loops through all
+		// attributes when it doesn't find the attribute with
+		// getAttribute. So this won't work in old IEs, but it's faster
+		var object = childnode.getAttribute('data-object');
+		if (object !== null) {
+			children.push(object);
+		} else {
+			// Q: why would there be any HTML in the message input?
+			// A: pasting content
+			children.push(childnode.innerText);
+		}
+	}
+	return children;
 };
 
 /*

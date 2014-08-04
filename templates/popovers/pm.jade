@@ -3,21 +3,26 @@
 		=_('New message')
 		span.close ×
 	if items.length > 0
-		ul
-			each user in items
-				li.item.user(data-id=user.id, key=user.id)
-					if user.joined
-						button.toggle.leave=_('x')
-					else
-						button.toggle.join=_('Message')
-					.avatar-wrap
-						if true == true
-							span.online
+			ul.po-scroll-wrap
+				each user in items
+					li.item.user(data-id=user.id, key=user.id)
+						if user.joined
+							button.toggle.leave=_('x')
 						else
-							span.offline
-						img(src="#{user.avatar}",width="20",alt="")
-						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
-					span.name=user.username
+							button.toggle.join
+								i.fa.fa-envelope
+						.avatar-wrap
+							if true == true
+								span.online
+							else
+								span.offline
+							img(src="#{user.avatar}",width="20",alt="")
+							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+						if (user.firstName || user.lastName)
+							author.author #{user.firstName} #{user.lastName} 
+								em #{user.username}
+						else
+							author.author= user.username
 	else
 		p
 			p.empty-message=_('There are no members in your organization yet.')

@@ -120,7 +120,7 @@
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
 									div.image-wrap
-										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
 									a.attachment(href=attachment.url, download=attachment.name, class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
