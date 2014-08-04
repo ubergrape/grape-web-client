@@ -125,7 +125,7 @@
 									//- any other file
 									a.attachment(href=attachment.url, download=attachment.name, class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
-							ul
+							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
 									li(class=obj.type)
 										if obj.author && obj.author.username
@@ -145,6 +145,8 @@
 												span.text= obj.content
 										if obj.summary
 											span.summary= obj.summary
+								if line.objects.length > 3
+									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit
