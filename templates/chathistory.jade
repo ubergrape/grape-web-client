@@ -78,6 +78,10 @@
 			.message-content
 				//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 				time.time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+				if (strftime('%I:%M %p', first.time) !== strftime('%I:%M %p', first.user_time))
+					span.different_timezone
+						=_('author local time:')
+					time.time(datetime=first.user_time.toISOString())= strftime('%I:%M %p', first.user_time)
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
