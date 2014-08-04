@@ -62,6 +62,9 @@ Uploader.prototype.doUpload = function Uploader_doUpload(file) {
 		res = JSON.parse(res.responseText);
 		self.emit('uploaded', res);
 	});
+	// the uploader input takes action only when the form changes,
+	// so after each upload, clear the form value so that any file can be uploaded twice
+	this.input.value = '';
 };
 
 
