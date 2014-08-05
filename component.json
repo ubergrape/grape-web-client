@@ -9,6 +9,13 @@
     "https://cdn.rawgit.com",
     "https://rawgit.com"
   ],
+  "paths": [
+    "local_components"
+  ],
+  "local": [
+    "cglib",
+    "staticurl"
+  ],
   "main": "index.js",
   "scripts": [
     "index.js",
@@ -41,14 +48,7 @@
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",
-    "lib/index.js",
-    "lib/broker.js",
-    "lib/models/chatline.js",
-    "lib/models/organization.js",
-    "lib/models/room.js",
-    "lib/models/user.js",
-    "lib/staticurl.js",
-    "lib/constants.js"
+    "lib/broker.js"
   ],
   "json": [
     "locale/de.json",

@@ -16,7 +16,7 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
-var staticurl = require('../../lib/staticurl');
+var staticurl = require('staticurl');
 var emoji = require('../emoji');
 var MarkdownTipsDialog = require('./dialogs/markdowntips');
 

@@ -3,7 +3,6 @@
 
 var template = require('template');
 var render = require('../rendervdom');
-var staticurl = require('../../lib/staticurl');
 
 module.exports = Dropzone;
 
