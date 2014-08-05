@@ -3,7 +3,7 @@
 
 var Model = require('model');
 var cache = require('model-cache');
-var staticurl = require('../staticurl');
+var staticurl = require('staticurl');
 
 module.exports = new Model([
 		'username',

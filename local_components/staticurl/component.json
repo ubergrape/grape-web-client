@@ -1,0 +1,11 @@
+{
+  "name": "staticurl",
+  "description": "wrapper for static urls",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {},
+  "development": {}
+}

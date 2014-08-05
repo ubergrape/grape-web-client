@@ -42,6 +42,30 @@
 					height: 1px
 					width: 10px
 					border-top: 2px dotted gainsboro-light
+			.show-more
+				display: none
+				position: absolute
+				bottom: 0
+				left: 0
+				right: 0
+				padding-left: 13px
+			&.list-previewed
+				max-height: 99px
+				position: relative
+				overflow: hidden
+				&:after
+					content: ""
+					position: absolute
+					bottom: 0
+					left: 0
+					right: 0
+					height: 70px
+					background-image: linear-gradient(top, rgba(236,236,237,0) 0%,rgba(236,236,237,1) 70%);
+					z-index: 10
+				.show-more
+					display: block
+					z-index: 12
+
 	.comment
 		padding: 0 10px
 		margin: 4px -10px
