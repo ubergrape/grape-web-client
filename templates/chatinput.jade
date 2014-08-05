@@ -1,5 +1,9 @@
 .input-wrapper(id='intro-step6')
-	img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
+	.edit-message
+		=_('Hit ')
+		span=_('ESC')
+		=_(' to cancel editing.')
+	img.image(src="#{user.avatar}",width="36",alt="#{user.username}")
 	.autocomplete-wrapper
 		.autocomplete
 			//-.Textcomplete-headline=_('Autocomplete')
@@ -9,5 +13,9 @@
 	.messageInput-wrapper
 		div.messageInput(disabled, autofocus, contenteditable="true")
 		.uploader
-	.edit-message
-		=_('Hit ESC to cancel editing.')
+	.messageInput-subline
+		.md-info
+			a.markdown-tips
+				=_('You can use ChatGrape ')
+				strong=_('Markdown')
+				=_(' to format your text')
