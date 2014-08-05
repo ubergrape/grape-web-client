@@ -41,8 +41,15 @@ Uploader.prototype.bind = function Uploader_bind() {
 	var self = this;
 	this.trigger.addEventListener('click', function () { self.input.click(); });
 	this.input.addEventListener('change', function () {
-		var file = this.files[0];
-		self.doUpload(file);
+		console.log("files are");
+		console.log(this.files);
+		for (var i = 0; i < this.files.length - 1; i++){
+			self.doUpload(this.files[i]);
+		}
+		//var file = this.files[0];
+		// the uploader input takes action only when the form changes,
+		// so after each upload, clear the form value so that any file can be uploaded twice
+		self.input.value = '';
 	});
 };
 
@@ -62,9 +69,6 @@ Uploader.prototype.doUpload = function Uploader_doUpload(file) {
 		res = JSON.parse(res.responseText);
 		self.emit('uploaded', res);
 	});
-	// the uploader input takes action only when the form changes,
-	// so after each upload, clear the form value so that any file can be uploaded twice
-	this.input.value = '';
 };
 
 
