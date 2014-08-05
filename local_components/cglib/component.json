@@ -13,6 +13,7 @@
   ],
   "scripts": [
     "index.js",
+    "constants.js",
     "models/chatline.js",
     "models/organization.js",
     "models/room.js",
