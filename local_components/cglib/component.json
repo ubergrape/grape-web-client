@@ -1,0 +1,38 @@
+{
+  "name": "cglib",
+  "description": "API Library for chatgrape",
+  "keywords": [],
+  "remotes": [
+    "https://raw.githubusercontent.com",
+    "https://cdn.rawgit.com",
+    "https://rawgit.com"
+  ],
+  "main": "index.js",
+  "local": [
+    "staticurl"
+  ],
+  "scripts": [
+    "index.js",
+    "constants.js",
+    "models/chatline.js",
+    "models/organization.js",
+    "models/room.js",
+    "models/user.js"
+  ],
+  "dependencies": {
+    "Swatinem/broker": "0.0.2",
+    "Swatinem/model": "0.0.4",
+    "Swatinem/model-cache": "0.0.2",
+    "Swatinem/model-cast": "0.0.1",
+    "Swatinem/model-array": "*",
+    "component/emitter": "*",
+    "MatthewMueller/array": "*",
+    "Swatinem/websocket-buffering": "0.0.2",
+    "Swatinem/wamp1": "0.0.3",
+    "ubergrape/websocket": "*"
+  },
+  "development": {
+    "chaijs/chai": "*",
+    "adamsanderson/trigger-event": "*"
+  }
+}
