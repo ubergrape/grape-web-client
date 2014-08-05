@@ -1,0 +1,9 @@
+div(id= 'drop-anywhere')
+	div.drop-inner-wrap
+		- var dnd = staticurl("/images/dragndrop.png")
+		.image
+			img(src="#{dnd}",width="151",alt="Image Dropzone")
+		p.main
+			=_('Drop your file to upload it!')
+		p.description
+			=_('We support almost every file type up to a size of 50mb')

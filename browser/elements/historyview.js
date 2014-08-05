@@ -43,9 +43,10 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-    this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
-    this.events.bind('click a.author', 'openInternalLink');
-    this.events.bind('click a.show-invite', 'toggleInvite');
+	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
+	this.events.bind('click a.author', 'openInternalLink');
+	this.events.bind('click a.show-invite', 'toggleInvite');
+	this.events.bind('click a.show-more', 'showMore');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -71,9 +72,9 @@ HistoryView.prototype.unselectForEditing = function () {
 };
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
-    ev.preventDefault();
-    var url = ev.delegateTarget.href;
-    this.emit('selectchannelfromurl', url);
+	ev.preventDefault();
+	var url = ev.delegateTarget.href;
+	this.emit('selectchannelfromurl', url);
 };
 
 
@@ -107,7 +108,16 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
-
+	// Each time the history is redrawn, if the history is not empty,
+	// provided that the user is not scrolling to a specific element in the room
+    // if the last message was already scrolled(no new messages),
+	// don't scroll as the user is navigating to a specific place
+	// otherwise, scroll to the last element in the room
+  	if(this.room.history.length && this.scrollMode === 'automatic'){
+  		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+  			this.doScrollDown();
+		}
+  	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
@@ -118,20 +128,26 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
-	}));
+	}))
 
 	var history = this.history.el;
 
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {
-		// prepend messages:
+		// prepend messages
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 	if (this.scrollMode === 'automatic') {
-		// append messages in automatic mode:
-		if (focus.state === 'focus' && this.room.history.length) {
-			this.scrollTo(history.lastChild);
-		} else {
+		// Each time the history is redrawn, 
+		// if the user is not scrolling to a specific element in the room
+	    // if the last message was already scrolled(no new messages),
+  		// don't scroll as the user is navigating to a specific place
+  		// otherwise, scroll to the last element in the room
+		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+  			this.doScrollDown(); 			
+  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
+		} else { 
+
 			/* FIXME: since grouping was introduced, this does not work as intended
 
 			// scroll the last read message into view, on the top
@@ -150,6 +166,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	} else {
 	}
 	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
+};
+
+HistoryView.prototype.doScrollDown = function() {
+	//scroll to the bottom of the page
+	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
 
 HistoryView.prototype.setAuto = function () {
@@ -197,7 +218,7 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 		var line = Line.get(bottomElem.getAttribute('data-id'));
 		self.emit('hasread', self.room, line);
 		self.redraw();
-	}, 2500);
+	}, 1500);
 	var reset = debounce(function () {
 		self.scrollMode = 'automatic';
 	}, 60 * 1000);
@@ -265,6 +286,11 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 };
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
-    this.emit('toggleinvite', qs('.room-header .connected-users'));
-    console.log("show the invite");
+	this.emit('toggleinvite', qs('.room-header .room-grp'));
 }
+
+HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
+	var el = closest(ev.target, 'ul', true);
+	classes(el).remove('list-previewed');
+}
+

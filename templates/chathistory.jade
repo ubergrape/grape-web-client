@@ -8,127 +8,145 @@
 				img.image(src="#{preloader}",width="40",alt="Loading")
 				p
 					=_("Give us a second while we're preparing everything for you!")
-	else
+	else if room.history.length === 0
 		if room.type !== 'pm'
 			.message-group.welcome-message
-				h3
-					| Welcome to 
-					span #{room.name}
-				p
-					=_('This room is public. Every member can join and read the history.')
-				ul.welcome-tasks
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Get the conversation started')
-						//- p=_('There are no members in this room yet. Invite some to get the conversation started.')
-						a.show-invite.disable-document-click-handler
-							i.fa.fa-plus
-							=_('Invite members')
-						span.invite
-					li.option
-						p.task-description
-							i.fa.fa-user
-							=_('Integrate your external services')
-						//- p=_('There are no service integrations yet. ')
-						a(href='/services/list/', target='_self')
-							i.fa.fa-plus
-							=_('Add service integrations')
+				- var head = staticurl("/images/head.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
+					h3
+						| Welcome to 
+						span #{room.name}
+					p
+						=_('This room is public. Every member can join and read the history.')
+					ul.welcome-tasks
+						li.option
+							em
+								=_('1')
+							a.show-invite.disable-document-click-handler.button
+								i.fa.fa-plus
+								=_('Invite members')
+							span.invite
+						li.option
+							em
+								=_('2')
+							a.button(href='/services/list/', target='_self')
+								i.fa.fa-share-alt
+								=_('Integrate external services')
 		else
 			.message-group.welcome-message
+				- var head = staticurl("/images/head_lock.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
 				h3
-					i.fa.fa-lock
 					|  Private messages with 
 					span #{room.users[0].username}
 				p
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you.
-					br
-					| So speak freely.
+					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. So speak freely.
+
 				if room.users[0].is_only_invited
 					p
-						=_("This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+						i.fa.fa-envelope
+						=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
 
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-			.date-separator= strftime('%A, %d.%m.%Y', first.time)
+			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
+				.date-separator
+					| Today, #{strftime('%A, %d %b %Y', first.time)}
+			else
+				.date-separator= strftime('%A, %d %b %Y', first.time)
 		if (lastRead && !first.read)
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
 		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator")
-			a(href="/chat/@" + first.author.username.toLowerCase()).avatar
-				if first.author.type==='service'
-					- var icon = staticurl("/images/service-icons/" + first.author.id + "-32.png")
+			if first.author.type === 'user' && first.author.id !== user.id
+				a(href="/chat/@" + first.author.username.toLowerCase()).avatar
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+			else if first.author.type==='user' && first.author.id === user.id
+				div.avatar
+					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
+			else if first.author.type==='service'
+				div.avatar
+					- var icon = staticurl("images/service-icons/" + first.author.id + "-32.png")
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
-				else
-					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
 			.message-content
-				time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-				a(href="/chat/@" + first.author.username.toLowerCase()).author
+				//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+				time.time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
-						author.author #{first.author.firstName} #{first.author.lastName}
+						author.author #{first.author.firstName} #{first.author.lastName} 
 							em #{first.author.username}
 					else
 						author.author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.author.id : 'simpletext'))
+					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
 							a
 								.label
 									=_('#Label')
-						time.time(datetime=line.time.toISOString())= strftime('%H:%M Uhr', line.time)
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
-								img(src=line.actor.image.url, width=16, height=16, alt=line.actor.name)
+								img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
+						if (line.container || line.branch)
+							.source-wrap
+								if line.branch
+									span.branch
+										i(class="fa fa-code-fork")
+										| 
+										| #{line.branch} 
+								if line.container
+									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
-							.text= html(markdown(line.title))
+							.text.main= html(markdown(line.title))
 						if line.text
-							.text
+							.text.main
 								=html(markdown(line.text))
 								//- uncomment this to test inline-labels
 								//-a
 								//-	span.label #entscheidungen
 								//-		i.fa.fa-check-circle
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= line.container.name
-							if line.branch
-								span.branch= line.branch
 						if line.content
 							.message-content= line.content
-						if line.container
-							a.container(href=line.container.url, class=line.container.type)= " in " + line.container.name
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
-									img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+									div.image-wrap
+										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a(href=attachment.url)= attachment.name
+									a.attachment(href=attachment.url, download=attachment.name, class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
-							ul
+							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
 									li(class=obj.type)
-										if obj.sha
-											a(href=obj.url)= obj.sha
-										if obj.name
-											a(href=obj.url)= obj.name
-										if obj.content
-											span
-											if line.author.id == 'github'
-												.content= html(markdown(obj.content))
-											else
-												.content= obj.content
-										if obj.summary
-											.summary= obj.summary
 										if obj.author && obj.author.username
-											span.author= obj.author.username
+											strong
+												| #{obj.author.username} 
+										if obj.name
+											a(href=obj.url)
+												strong
+													| #{obj.name} 
+										if obj.sha
+											a(href=obj.url, target="_blank").sha
+												| #{obj.sha.substr(1, 7)} 
+										if obj.content
+											if line.author.id == 'github'
+												.text= html(markdown(obj.content))
+											else
+												span.text= obj.content
+										if obj.summary
+											span.summary= obj.summary
+								if line.objects.length > 3
+									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit

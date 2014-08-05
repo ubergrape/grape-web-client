@@ -17,14 +17,35 @@
 	margin: -10px 0 0 -4px
 	max-width: 450px
 	white-space: normal
-	ul
+	.po-scroll-wrap
 		padding: 5px 5px 0 0
-		margin: 10px 0 0
 		max-height: 250px
+		display: block
 		overflow: auto
+		> li:hover
+			.icon-wrap
+				color: grape-light
+			.name, .author
+				color: aqua-light
+				text-decoration: underline
+			.toggle.leave
+				color: bittersweet-light
+				.fa-check-circle-o, .j-info
+					display: none
+				.fa.fa-times-circle-o, .l-info
+					display: inline-block
+			.toggle.join
+				color: darken(gainsboro-dark, 10)
 	li
-		@extend $functional-list
 		padding: 6px 0
+		@extend $functional-list
+	.name, author, .toggle
+		height: 1.25em
+		line-height: 1em
+	.name, author
+		font-weight: bold
+		color: gainsboro-dark
+		overflow: hidden
 	&.left
 		&::before
 			content: ""
@@ -79,6 +100,7 @@
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
+		margin-bottom: 10px
 	h4
 		color: gainsboro-dark
 		@extend $small-font-size
@@ -89,14 +111,33 @@
 		margin: 34px 0 0 -213px
 		right: 20px !important
 		left: auto !important
+	&.item-po
+		margin-top: -90px
+		&:before, &:after
+			margin-top: 85px
 	&.orga-po
 		margin: 9px 0 0 -4px
 	&.members-po
-		margin: 27px 0 0 -154px
+		margin: 42px 0 0 -170px
 		&::before
-			left: 50%
+			left: 15%
 		&::after
-			left: 50%
+			left: 15%
+	.toggle
+		padding-left: 4px
+		background: white
+		border: none
+		float: right
+		&.join
+			color: gainsboro-dark
+			&:active
+				color: grass-dark
+		&.leave
+			color: grass-light
+			.fa.fa-times-circle-o, .l-info
+				display: none
+			&:active
+				color: bittersweet-dark
 
 // ****
 //
@@ -138,7 +179,11 @@
 			border-bottom-left-radius: main-border-radius
 		a
 			padding: 8px 16px
-			color: grape-typo // normal font color in menus
+			color: gainsboro-dark // normal font color in menus
+			font-weight: bold
+			&:hover
+				color: aqua-light
+				text-decoration: underline
 			.fa
 				color: gainsboro-light
 				margin-right: 8px
@@ -164,6 +209,30 @@
 	.newroom
 		display: none
 		width: 320px
+	.po-scroll-wrap
+		padding-top: 0
+	.list-hl
+		padding-top: 0
+	.room
+		@extend $hoverable
+		@extend $clearfix
+	.main
+		margin: 0px
+		overflow: hidden
+	.room-info
+		color: gainsboro-dark
+	.icon-wrap
+		font-size: 1.5em
+		padding: 0
+		float: left
+		margin-right: 3px
+		color: gainsboro-light
+	.room-info
+		@extend $horizontal-list
+		@extend $small-font-size
+		margin: 0
+		li
+			padding: 0
 
 
 // ****
@@ -224,6 +293,7 @@ label.radio-label
 		padding: 3px 4px 3px 0
 .button.create
 .button.new
+.button.delete
 	float: right
 
 
@@ -275,6 +345,16 @@ label.radio-label
 		@extend $textinput
 		width: 100%
 
+.delete-room
+	float: right
+	@extend $delete-link
+.invite-to-room
+	@extend $clearfix
+	> div
+		overflow: hidden
+	button
+		float: right
+		margin-left: 5px
 //
 // Invite users stylings
 //

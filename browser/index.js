@@ -12,7 +12,11 @@ var classes = require('classes');
 var staticurl = require('staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
-
+var constants = require('../lib/constants');
+var tip = require('tip');
+var Introjs = require("intro.js").introJs;
+var Clipboard = require('clipboard');
+var dropAnywhere = require('drop-anywhere');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -27,6 +31,7 @@ _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.markdown = require('./markdown');
+template.locals.constants = constants
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {
@@ -52,6 +57,7 @@ var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
+var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 
 
 function UI(options) {
@@ -70,11 +76,11 @@ UI.prototype.init = function UI_init() {
 	template.locals.staticurl = staticurl;
 	// initialize user and org with dummy image
 	template.locals.user = {
-		avatar: staticurl("images/avatar.gif"),
+		avatar: staticurl("images/orga-image-load.gif"),
 		username: "loading"
 	};
 	template.locals.org = {
-		logo: staticurl("ico/apple-touch-icon-114-precomposed.png"),
+		logo: staticurl("images/orga-image-load.gif"),
 		name: "loading"
 	};
 
@@ -90,7 +96,7 @@ UI.prototype.init = function UI_init() {
 	// and the new pm popover
 	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
-    this.membersMenu = new RoomMembersPopover();
+	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -107,9 +113,10 @@ UI.prototype.init = function UI_init() {
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-    // initialize the invite form
-    this.invite = new Invite();
-    this.membersMenu.el.appendChild(this.invite.el);
+	// initialize the invite form
+	this.invite = new Invite();
+	var invite_placeholder = qs('.invite',this.membersMenu.el);
+	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
 
 	// initialize title handler
 	this.title = new Title();
@@ -123,11 +130,82 @@ UI.prototype.init = function UI_init() {
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
+	// initialize the clipboard
+	this.clipboard = new Clipboard(window);
+
+	// on paste, check if the pasted item is a blob object -image-,
+	// then emit an upload event to the broker to call the uploader
+	this.clipboard.on('paste', function(e){
+		if(e.items[0] instanceof Blob){
+			this.emit('upload', e.items[0]);
+		}
+    });
+    // initialize dragAndDrop
+    // receive the dragged items and emit
+    // an event to the uploader to upload them
+    var self = this;
+    this.dropzone = new Dropzone();
+    this.dragAndDrop = dropAnywhere(function(e){
+    	e.items.forEach(function(item){
+    		self.emit('uploadDragged', item);
+    	});
+    }, this.dropzone.el);
+
 	// initialize notifications
 	this.notifications = new Notifications();
-	if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-		this.enableNotificationMessage = this.messages.info("Hey there! Please <button class='button enable_notifications'>Enable desktop notifications</button> , so your team members can reach you on ChatGrape.");
+	// only show notification info bar in supported browsers and only if the
+	// user has't accepted or declined notifications before
+	// don't show it in IE. it only supports notifications in "SiteMode" and
+	// there the permission is automatically granted, so no need to ask for it.
+	if (notify.isSupported
+		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
+		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
+			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			classes(qs('body')).add('notifications-disabled');
 	}
+
+	// initialize user guide
+	this.intro = new Introjs();
+	this.intro.setOptions({
+		nextLabel: '<strong>' + _('Next') + '</strong>',
+		skipLabel: _('Skip'),
+		overlayOpacity: .4,
+		showStepNumbers: false,
+		steps: [
+			{
+				intro: _("<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps.</p><p>You can skip this at any time by clicking anywhere.</p>"),
+				tooltipClass: "intro-welcome"
+			},
+			{
+				element: '#intro-step1',
+				intro: _("<h2>Organization Settings</h2><p>This is the organization you are currently in.</p><p>You can add and manage members and external services by clicking on the menu button.</p>"),
+				position: 'right'
+			},
+			{
+				element: '#intro-step2',
+				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General and Off-Topic.</p><p>You can see all availible rooms in your organization and create a new one by clicking on &quot;All rooms&quot;.</p>"),
+				position: 'right'
+			},
+			{
+				element: '#intro-step3',
+				intro: _('<h2>Private Messages</h2><p>This list contains your contacts you already have a private conversation with.</p><p>You can start more conversations by clicking on &quot;All members&quot;.</p>'),
+				position: 'right'
+			},
+			{
+				element: '#intro-step4',
+				intro: _("<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>"),
+				position: 'bottom'
+			},
+			{
+				element: '#intro-step5',
+				intro: _("<h2>User Profile</h2><p>You can find all profile-related settings (and re-start this awesome tutorial at any time) here.</p>"),
+				position: 'left'
+			},
+			{
+				intro: _('<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
+			}
+		]
+	});
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -143,6 +221,7 @@ UI.prototype.bind = function UI_bind() {
 			notify.requestPermission(function(permission){
 				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
+					classes(qs('body')).remove('notifications-disabled');
 				}
 			});
 		}
@@ -193,9 +272,11 @@ UI.prototype.bind = function UI_bind() {
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
 	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
-    broker(this, 'selectchannel', this.membersMenu, 'setRoom');
+	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
-    broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
+	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
+	broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
+	broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -205,14 +286,14 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-  broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-    broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
+	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
@@ -231,20 +312,35 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'newmessage', this.notifications, 'newMessage');
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
-    // invite
-    broker(this, 'selectchannel', this.invite, 'setRoom');
-    broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
+	// invite
+	broker(this, 'selectchannel', this.invite, 'setRoom');
+	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
 	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
 	//broker(this.chatInput, 'input', this.upload, 'hide');
 	// directly send an uploaded file
+
+	// clipboard
+	broker(this.clipboard, 'upload', this.upload, 'doUpload');
+
+	// dragAndDrop
+	broker(this, 'uploadDragged', this.upload, 'doUpload');	
+
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});
 		self.upload.hide();
+	});
+
+	// intro
+	this.intro.oncomplete(function() {
+		self.emit('introend');
+	});
+	this.intro.onexit(function() {
+		self.emit('introend');
 	});
 
 	// hook up history/pushstate stuff
@@ -381,23 +477,18 @@ UI.prototype.setUser = function UI_setUser(user) {
 	this.historyView.redraw();
 };
 
+UI.prototype.setSettings = function UI_setSettings(settings) {
+	this.settings = settings;
+	if (this.settings.show_intro) {
+		this.intro.start();
+	}
+};
+
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-	var hostname = window.location.hostname;
-	var org;
-	var parts = hostname.split('.');
-	if (parts.length === 1 || hostname === '127.0.0.1') {
-		// assuming we are developing, either on localhost or 127.0.0.1
-		// so just use the first org, should work for the common dev cases
-		org = orgs[0];
-	}	else {
-		org = orgs.filter(function(o) {
-			if (o.subdomain === parts[0]) return o;
-		})[0];
-	}
-	if (org === undefined) {
-		// TODO: Couldnt find a suitable org, what to do now?
-		// Do some permission denied stuff or something else?
-	}
+	var self = this;
+	var org = orgs.filter(function(o) {
+		if (o.id === self.options.organizationID) return o;
+	})[0];
 	this.emit('selectorganization', org);
 };
 
@@ -405,19 +496,22 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
-    var i;
-	// if there is no match, go to the first room
-	// if there is not room, we are doomed
-	if (!match[2]) {
-        for (i = 0; i < this.org.rooms.length; i++) {
-            var room = this.org.rooms[i];
-            if (room.joined)
-                return room;
-        }
-        return this.org.rooms[0];
+	var i;
+	// if there is no match, go to "General"
+	// if there is no "general" room, go to first room
+	// if there is no room at all, we are doomed
+	if (!match || !match[2]) {
+		for (i = 0; i < this.org.rooms.length; i++) {
+			var room = this.org.rooms[i];
+			if (room.name === "General") {
+				return room;
+			}
+		}
+		return this.org.rooms[0];
 	};
 	var name = match[2].toLowerCase();
-	if (match[1] === '@') {
+	if (match[1] === '@' && name !== this.user.username) {
+		// there'sno channel with yourself
 		// match users
 		for (i = 0; i < this.org.users.length; i++) {
 			var user = this.org.users[i];
@@ -447,18 +541,19 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 	}
 
 	if (channel) {
-		if (channel.type === 'user') {
-			var pm = self.isPmOpen(channel);
-			if (!pm) {
-				self.org.pms.on('add', addlistener);
-				self.emit('openpm', channel);
-			} else {
-				self.emit('selectchannel', pm);
-			}
-		} else if (channel.type === "room") {
+		if (channel.type === "room") {
 			if (!channel.joined)
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
+		} else {
+			var user = channel;
+			var pm = self.isPmOpen(user);
+			if (!pm) {
+				self.org.pms.on('add', addlistener);
+				self.emit('openpm', user);
+			} else {
+				self.emit('selectchannel', pm);
+			}
 		}
 	}
 };
@@ -486,5 +581,12 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
+	setTimeout(function(){msg.remove()}, 2000);
+};
+
+UI.prototype.roomDeleted = function UI_roomDeleted(room) {
+	this.selectChannelFromUrl('/'); // don't use '', it won't work
+
+	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
 	setTimeout(function(){msg.remove()}, 2000);
 };

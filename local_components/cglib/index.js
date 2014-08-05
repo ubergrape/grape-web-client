@@ -25,6 +25,8 @@ function App() {
 	var self = this;
 	// the currently signed in user
 	this.user = undefined;
+	// user settings
+	this.settings = undefined
 	// list of all the organizations the user belongs to
 	this.organizations = undefined;
 	// the currently active organization
@@ -72,10 +74,10 @@ App.prototype.logTraffic = function App_logTraffic() {
 };
 
 App.prototype.heartbeat = function App_heartbeat(app) {
-	if (!app.connected) 
+	if (!app.connected)
 		return;
 	console.log("Send heartbeat...");
-	var heartbeatTimeout = setTimeout(function() { 
+	var heartbeatTimeout = setTimeout(function() {
 			console.log("NO PONG");
 			app.onDisconnect();
 	}, HEARTBEAT_TIMEOUT);
@@ -117,10 +119,12 @@ App.prototype.connect = function App_connect(ws) {
 		self.wamp.call(PREFIX + 'users/get_profile', function (err, res) {
 			if (err) return self.emit('error', err);
 			self.user = new models.User(res);
+			self.settings = self.user.settings;
 			self.organizations = array(res.organizations.map(function (o) {
 				return new models.Organization(o);
 			}));
 			self.emit('change user', self.user);
+			self.emit('change settings', self.settings);
 			self.emit('change organizations', self.organizations);
 			self.connected = true;
 			self.emit('connected', self.reconnected, self.ws);
@@ -177,7 +181,13 @@ App.prototype.bindEvents = function App_bindEvents() {
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
 	});
-	wamp.subscribe(PREFIX + 'channel#removed', dump('channel#removed'));
+	wamp.subscribe(PREFIX + 'channel#removed', function(data) {
+		var room = models.Room.get(data.channel);
+		var index = self.organization.rooms.indexOf(room);
+		if (~index)
+			self.organization.rooms.splice(index, 1);
+		self.emit('roomdeleted', room)
+	});
 	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
 		var room = models.Room.get(data.channel);
 		//var user = models.User.get(msg.user);
@@ -229,6 +239,25 @@ App.prototype.bindEvents = function App_bindEvents() {
 			room.users.splice(index, 1);
 	});
 
+	// organization events
+	wamp.subscribe(PREFIX + "organization#joined", function (data) {
+		// make sure the user doesnt exist yet in the client
+		var user = models.User.get(data.user.id);
+		if (!user)
+			user = new models.User(data.user)
+		// make sure we're joining the right organization
+		// and the user isnt in there yet
+		if (data.organization===self.organization.id &&
+			  !~self.organization.users.indexOf(user))
+			self.organization.users.push(user);
+	});
+	wamp.subscribe(PREFIX + 'organization#left', function (data) {
+		var user = models.User.get(data.user);
+		var index = self.organization.users.indexOf(user);
+		if (user && ~index && data.organization===self.organization.id)
+			self.organization.users.splice(index, 1);
+	});
+
 	// message events
 	wamp.subscribe(PREFIX + 'message#new', function (data) {
 		data.read = false;
@@ -239,7 +268,6 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
-		console.log("this should happen once per message", wamp);
 		self.emit('newmessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
@@ -267,9 +295,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
 		var msg = new models.Line(data.message);
-		console.log("You have been mentioned!", msg);
 		msg.channel.mentioned++;
-
 	});
 	wamp.subscribe(PREFIX + 'user#updated', function (data) {
 		var user = models.User.get(data.user.id);
@@ -299,7 +325,6 @@ App.prototype._newRoom = function App__newRoom(room) {
 	// the user MUST NOT be the first in the list
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
-	console.log("room", room);
 	room = new models.Room(room);
 	return room;
 };
@@ -342,6 +367,9 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 		if (res.logo != null) {
             org.logo = res.logo;
         }
+        if (res.custom_emojis != null) {
+            org.custom_emojis = res.custom_emojis;
+        }
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
@@ -349,6 +377,10 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 			self.emit('change organization', org);
 		});
 	});
+};
+
+App.prototype.endedIntro = function App_endedIntro() {
+	this.wamp.call(PREFIX + 'users/set_profile', {'show_intro': false});
 };
 
 App.prototype.openPM = function App_openPM(user) {
@@ -366,6 +398,17 @@ App.prototype.createRoom = function App_createRoom(room) {
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
 		if (err) return self.emit('roomcreateerror', errorJSON(err));
 		self.emit('roomcreated', self._tryAddRoom(room));
+	});
+};
+
+App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
+	console.log("trying to delet rooom")
+	room.organization = this.organization.id;
+	var self = this;
+	this.wamp.call(PREFIX + 'channels/delete', room.id, password, function (err, result) {
+		if (callback !== undefined) {
+			callback(err, result);
+		}
 	});
 };
 
@@ -447,9 +490,16 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 		// TODO: for now the results are sorted in reverse order, will this be
 		// consistent?
 		var lines = res.map(function (line) {
-			line.read = read;
-			line = new models.Line(line);
-			room.history.unshift(line);
+			// check if line already exists and only add it to the history
+			// if it isnt in the history yet
+			var exists = models.Line.get(line.id);
+			if (!exists || !~room.history.indexOf(exists)) {
+				line.read = read;
+				line = new models.Line(line);
+				// TODO: maybe check if everythings correctly sorted before
+				// inserting the line?
+				room.history.unshift(line);
+			}
 		});
 		self.emit('gothistory', room, lines);
 	});

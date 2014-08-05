@@ -68,22 +68,53 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 
 	// parse markdown
 	var content = message.text;
-	var content_dom = domify(markdown(content))
+	if (typeof content !== "undefined" && content !== "") {
 
-	// replace images
-	var imgs = content_dom.getElementsByTagName('img');
-	var replacement = document.createElement("p");
-	replacement.innerHTML = _('[Image]');
-	for (var i=0; i<imgs.length; i++) {
-		var img = imgs[i];
-		img.parentElement.replaceChild(replacement, img);
+		var opts = {
+			emoji: function (emo) {
+				// render emojis as text
+				return ':' + emo + ':';
+			}
+		}
+		var content_dom = domify(markdown(content, opts))
+
+		// replace images
+		var imgs = content_dom.getElementsByTagName('img');
+		var replacement = document.createElement("p");
+		replacement.innerHTML = _('[Image]');
+		for (var i=0; i<imgs.length; i++) {
+			var img = imgs[i];
+			img.parentElement.replaceChild(replacement, img);
+		}
+
+		// strip html
+		var content = content_dom.textContent || content_dom.innerText || "";
 	}
 
-	// strip html
-	var content_text = content_dom.textContent || content_dom.innerText || "";
+	// attach files
+	var attachments = message.attachments;
+	if (typeof attachments !== "undefined" && attachments.length > 0) {
+		// currently the client doesn't supprt text content AND attachment
+		// but the API supports it
+		if (typeof content !== "undefined" && content != "") {
+			content += "\n\n";
+		}
+		// add the filenames to the notification
+		// currently the client only allows to add one attachment
+		// but the API supports multiple
+		for(var i=0; i<attachments.length; i++) {
+			var filename = attachments[i].name;
+			if (typeof filename !== "undefined" && filename != "") {
+				content += filename;
+				if (i<attachments.length-1) {
+					content + "\n";
+				}
+			}
+		}
+	}
 
 	var notification = notify.createNotification(title, {
-		body: content_text,
+		body: content,
 		icon: message.author.avatar,
 		timeout: 6000,
 		onclick: function(ev) {

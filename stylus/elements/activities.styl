@@ -1,31 +1,97 @@
 .activity
-	border-radius: main-border-radius 0 0 main-border-radius
-	border-left: main-border-radius solid gainsboro-light
-	padding: 10px
-	background: silver-light
-	ul.activity-options
-		margin-top: 7px
-		@extend $clearfix
-		text-transform: uppercase
-		@extend $small-font-size
+	padding: 8px 10px 12px 10px
+	background: #ECECED
+	margin: 1px -10px -5px !important
+	border-top: 2px solid lighten(gainsboro-light, 10%)
+	border-bottom: 1px solid lighten(gainsboro-light, 10%)
+	border-radius: 0 0 main-border-radius main-border-radius
+	.main // Main Activity Text Styling
 		font-weight: bold
-		@extend $horizontal-list
-		li
-			a
-				color: grape-light
-				@extend $subtle-link
-			i
-				margin-right: 4px
-		.option
-			margin-right: 22px
-	.actor
+	.actor // Avatar of person that caused the notification
 		margin-right: 3px
-	&.github
-		.container.repository
+	.source-wrap // Used to display info on the right side of the message
+		float: right
+		padding: 0 5px
+		border: 1px solid gainsboro-light
+		border-radius: 3px
+		background: silver-light
+		// a
+		// 	color: grape-light
+		// 	&:hover
+		// 		color: lighten(grape-light, 10)
+		span
 			color: gainsboro-dark
-			text-decoration: none
-			&:hover
-				text-decoration: underline
+
+	/* GITHUB SPECIFIC */		
+
+	&.push, // advanced styling for connected pushes
+	&.pull_request,
+	&.gollum
+		ul
+			border-left: 2px dotted gainsboro-light
+			margin-left: 8px
+			li
+				padding-left: 13px
+				position: relative
+				padding-top: 1px
+				&:after
+					content: ""
+					position: absolute
+					left: 0px
+					top: 10px
+					height: 1px
+					width: 10px
+					border-top: 2px dotted gainsboro-light
+			.show-more
+				display: none
+				position: absolute
+				bottom: 0
+				left: 0
+				right: 0
+				padding-left: 13px
+			&.list-previewed
+				max-height: 99px
+				position: relative
+				overflow: hidden
+				&:after
+					content: ""
+					position: absolute
+					bottom: 0
+					left: 0
+					right: 0
+					height: 70px
+					background-image: linear-gradient(top, rgba(236,236,237,0) 0%,rgba(236,236,237,1) 70%);
+					z-index: 10
+				.show-more
+					display: block
+					z-index: 12
+
+	.comment
+		padding: 0 10px
+		margin: 4px -10px
+		overflow: hidden
+		position: relative
+		img
+			max-height: 170px
+		&:after
+			float: left
+			font-family: FontAwesome
+			color: gainsboro-dark
+			content: "\f10d"
+			margin-right: 5px
+			margin-left: 5px
+	//Removing unnecessary elements 
+	&.issue_comment,
+	&.issues
+		li.issue
+			display: none
+	&.gollum
+		ul
+			li:only-child
+				display: none
+/*	
+
+	&.github
 		.pull-request
 		.comment
 		.page
@@ -44,7 +110,7 @@
 				padding: 0 4px
 				font-style: italic
 				position: relative
-				max-height: 6.39em /* exactly five lines */
+				max-height: 6.39em /* exactly five lines 
 				overflow: hidden
 				&:after
 					content: ""
@@ -68,3 +134,20 @@
 		.page
 			&:before
 				content: "\f15b"
+	// UNUSED FUNCTION TO DISPLAY OPTIONS
+	ul.activity-options
+		margin-top: 7px
+		@extend $clearfix
+		text-transform: uppercase
+		@extend $small-font-size
+		font-weight: bold
+		@extend $horizontal-list
+		li
+			a
+				color: grape-light
+				@extend $subtle-link
+			i
+				margin-right: 4px
+		.option
+			margin-right: 22px
+*/

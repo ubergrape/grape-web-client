@@ -5,22 +5,36 @@
 			strong=results.q
 	ul.result-list
 		each result in results.results
-			li.result-object(class=result.index)
-				.item-object.main
-					.item-content
+			li.result-object(class=(result.index === 'objects' ?  'objects' : 'messages'))
+				if (result.index === 'objects')
+					a.direct-link(href="#{result.index === 'objects' ? result.url : '#'}")
+				.item-object.main(class=(result.index === 'objects' ? result.service + result.type : ''))
+					.item-type
 						if (result.index !== 'objects')
-							strong= result.author.username
+							| Message
 						else
-							strong= result.container
-						= html(markdown(result.highlighted))
+							| #{result.service} #{result.type}
+					.item-content
+						.item-text
+							if (result.index !== 'objects')
+								strong= result.author.username
+							else
+								span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
+							= html(markdown(result.highlighted))
+							if (result.index == 'objects')
+								span
+									| 
+									| #{result.container}
 						if (result.index !== 'objects')
 							ul.item-footer
 								li
 									i.fa.fa-comment
-									span= result.channel.name
+									if result.channel.type === "room"
+										span= result.channel.name
+									else if result.channel.type === "pm"
+										span
+											each u in result.channel.users
+												if u.id !== user.id
+													= u.username
 								li.time
 									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
-						else
-							ul.item-footer
-								li.option
-									a(href=result.url)= _("View")

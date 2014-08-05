@@ -42,23 +42,28 @@ Uploader.prototype.bind = function Uploader_bind() {
 	this.trigger.addEventListener('click', function () { self.input.click(); });
 	this.input.addEventListener('change', function () {
 		var file = this.files[0];
-		self.progress.update(0);
-		self.showPreview(file);
-
-		var upload = new Upload(file);
-		upload.on('progress', function (progress) {
-			self.progress.update(progress.percent);
-		});
-		upload.to({
-			path: self.uploadPath,
-			data: {organization: self.org.id}
-		}, function (err, res) {
-			if (err) return self.emit('error', err);
-			res = JSON.parse(res.responseText);
-			self.emit('uploaded', res);
-		});
+		self.doUpload(file);
 	});
 };
+
+Uploader.prototype.doUpload = function Uploader_doUpload(file) {
+	var self = this;
+	self.progress.update(0);
+	self.showPreview(file);
+	var upload = new Upload(file);
+	upload.on('progress', function (progress) {
+		self.progress.update(progress.percent);
+	});
+	upload.to({
+		path: self.uploadPath,
+		data: {organization: self.org.id}
+	}, function (err, res) {
+		if (err) return self.emit('error', err);
+		res = JSON.parse(res.responseText);
+		self.emit('uploaded', res);
+	});
+};
+
 
 Uploader.prototype.setOrganization = function Uploader_setOrganization(org) {
 	this.org = org;

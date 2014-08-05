@@ -14,6 +14,39 @@
 		background: white
 		padding: 0
 		border: 1px solid gainsboro-light
+		border-radius: 5px
+		background-clip: border-box
+		overflow: hidden
+		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
+		max-height: 422px
+		.Textcomplete-menu
+			div:first-of-type
+				border-radius: 5px 5px 0 0
+				.entry-type-description
+					border-radius: 5px 0 0 0
+			div:last-of-type
+				border-radius: 0 0 5px 5px
+				.entry-type-description
+					border-radius: 0 0 0 5px
+		.entry-type-description
+			float: left
+			text-transform: uppercase
+			color: gainsboro-dark
+			min-width: 100px
+			text-align: right
+			border-right: 1px solid silver-dark
+			background: silver-light
+			padding: 6px 6px
+			@extend $small-font-size
+			line-height: inherit
+		.option-wrap
+			overflow: hidden
+			padding: 6px 10px
+			height: 30px
+			&.full_name_true
+				em
+					color: lighten(gainsboro-dark, 10%)
+					@extend $small-font-size
 		&.Textcomplete-hidden
 			display: none
 		.Textcomplete-headline
@@ -22,21 +55,35 @@
 			padding: 4px 8px
 			text-transform: uppercase
 		.Textcomplete-option
-			padding: 4px 10px
-		.Textcomplete-highlighted
-			background: grape-dark
-			color: white
+			padding: 0
+			@extend $clearfix
+			font-weight: bold
+			color: darken(gainsboro-dark, 20%)
 		.entry-additional-info
 			color: gainsboro-dark
-		.entry-type-description
-			@extend $clearfix
-			float: right
-			text-transform: uppercase
-			color: gainsboro-dark
-			min-width: 200px
 		.entry-type-icon
 			&:after
 				margin-left: 0
+		.Textcomplete-highlighted
+			background: grape-light
+			color: white
+			.full_name_true em,
+			.entry-additional-info
+				color: lighten(grape-light, 30)
+			.entry-type-description
+				background: grape-dark
+				border-color: darken(grape-dark, 5)
+				color: lighten(grape-light, 15)
+
+// ****
+// FOR SMALL USER INVITE DROPDOWN
+// ****
+
+.invite-to-room
+	.Textcomplete-option
+		padding: 2px 3px !important
+
+
 
 // ****
 //
@@ -44,30 +91,20 @@
 //
 // ****
 
-body 
+body
 	.ac
 		white-space: nowrap
-		border-bottom: 1px solid gainsboro-light
+		border-bottom: 1px solid aqua-light
 		// box-shadow: 0px 1px 2px 0px #ddd
 		display: inline-block
-		margin: 1px 
+		margin: 1px
 		padding: 1px 0
 		vertical-align: baseline
 		font-weight: bold
-		// color: gainsboro-dark
+		// color: grape-light
 	a.ac:hover
-		color: lighten(link-color, 25%)
 		text-decoration: none
-		border-color: aqua-dark !important
-	button.ac
-		border: 1px solid aqua-dark
-		padding: 1px 5px
-		background: #fff
-		border-radius: main-border-radius-small
-		color: gainsboro-dark
-		span
-			float: left
-			margin-right: 0
+		border-color: aqua-light !important
 	&:hover
 		text-decoration: none
 .entry-type-icon, .ac:before
@@ -93,3 +130,38 @@ body
 .type-chatgraperoom
 	&:before
 		content: "\f086"
+.type-emojiemoji
+	display: none
+
+.message
+	.type-chatgraperoom,
+	.type-chatgrapeuser
+		&:before
+			content: "@"
+			font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif!important
+			margin-right: 0
+			font-weight: bold
+// ****
+//
+// classes used within the message input (but NOT inside the autocomplete dropdown)
+//
+// ****
+
+
+.messageInput
+	.ac
+		border: 1px solid link-color
+		padding: 1px 5px
+		background: white
+		border-radius: main-border-radius-small
+		color: link-color
+		span
+			float: left
+			margin-right: 0
+		&.emoji
+			border: none
+			padding: 0
+			margin: 0
+	span.type-chatgraperoom,
+	span.type-chatgrapeuser
+		display: none

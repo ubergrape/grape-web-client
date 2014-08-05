@@ -11,7 +11,8 @@ module.exports = new Model([
 		'lastName',
 		'status',
 		'avatar',
-        'is_only_invited'
+		'is_only_invited',
+		'role'
 	])
 	.use(cache('id'))
 	.use(defaultAvatar('images/avatar.gif', 'images/avatar_invited.gif'));
@@ -19,9 +20,9 @@ module.exports = new Model([
 function defaultAvatar(url, url_invited) {
 	return function (Model) {
 		Model.on('construct', function (instance, initial) {
-            if (initial.is_only_invited) {
-                initial.avatar = staticurl(url_invited);
-            }
+			if (initial.is_only_invited) {
+				initial.avatar = staticurl(url_invited);
+			}
 			initial.avatar = initial.avatar || staticurl(url);
 		});
 	};

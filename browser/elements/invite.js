@@ -21,15 +21,20 @@ function Invite() {
 Invite.prototype = Object.create(Emitter.prototype);
 
 Invite.prototype.init = function Invite_init() {
-	render(this, template('invite', {room: this.room}));
+	this.redraw();
 }
 
 Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetvalidity');
+	// this.events.bind('click .btn-invite', 'resetvalidity');
 	this._bindAutocomplete();
 };
+
+Invite.prototype.redraw = function Invite_redraw() {
+	render(this, template('invite', {room: this.room}));
+}
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var self = this;
@@ -54,7 +59,7 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 				   || user.username.startsWithIgnoreCase(match)) {
 					self.complete.push({
 						id: user.username,
-						title: '<span class="entry-type-icon type-chatgrapeuser">&nbsp;</span>' + user.username + ': <img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName,
+						title: '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em>',
 						insert: user.username,
 					});
 				}
@@ -70,6 +75,7 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 
 Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	ev.preventDefault();
+	this.resetvalidity();
 
 	var self = this;
 	if (this.inviteInput.value === "") {
@@ -81,13 +87,17 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	var users = this.inviteInput.value.split(/[\s,;]+/);
 	users.clean("");
 
+	self.inviteButton.disabled = true;
+
 	self.emit('invitetoroom', this.room, users, function inviteToRoom_callback(err, result){
 		if(err) {
 			self.inviteInput.setCustomValidity(err.details);
 			self.inviteButton.click()
 		}else {
-			alert("invited " + users.length + " users.");
+			self.inviteInput.value = '';
 		}
+		self.inviteButton.disabled = false;
+		delete self.inviteButton.disabled;
 	});
 };
 
@@ -97,7 +107,7 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
-	this.init();
+	this.redraw();
 }
 
 // TODO: put this in component

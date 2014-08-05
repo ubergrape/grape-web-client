@@ -7,7 +7,9 @@ var array = require('model-array');
 var staticurl = require('staticurl');
 
 module.exports = new Model([
-		'logo'
+		'logo',
+		'role',
+		'custom_emojis'
 	])
 	.use(cache('id'))
 	.use(array)

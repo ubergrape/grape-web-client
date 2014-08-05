@@ -2,6 +2,7 @@
 .client-body
 	height: 100%
 	padding-top: header-height
+	padding-bottom: footer-height
 	position: relative
 	.navigation
 		width: client-navigation-width
@@ -13,7 +14,7 @@
 		background: chat-background
 		overflow: auto
 		height: 100%
-		padding: 0 0 footer-height 0
+		padding: 0
 		z-index: 10
 		&:after
 			content: ""
@@ -58,7 +59,7 @@
 .author
 	font-weight: bold
 	margin-bottom: 3px
-	color: darken(gainsboro-dark, 20%)
+	color: gainsboro-dark
 	display: inline-block
 	@extend $subtle-link
 	em
@@ -66,8 +67,15 @@
 		@extend $small-font-size
 
 .welcome-message
-	padding: 10px 10px 22px 56px
+	margin: 0
+	padding: 30px 40px 42px 20px
 	border-bottom: 2px dashed silver-dark
+	body.notifications-disabled &
+		padding-top: 62px !important
+	.image
+		float: left
+	> div
+		overflow: hidden
 	h2, h3, p, ul
 		max-width: 720px
 		margin-bottom: 2px
@@ -93,6 +101,19 @@
 		.option
 			margin: 0 22px 10px 0
 			padding-top: 5px
+			float: left
+			em
+				border: 2px solid gold
+				color: gold
+				background: lighten(gold, 80%)
+				border-radius: 50%
+				width: 25px 
+				line-height: 21px
+				text-align: center
+				height: 25px
+				margin-right: 8px
+				font-weight: bold
+				float: left
 		.invite-to-room
 			@extend $clearfix
 			.input-invite
@@ -122,14 +143,13 @@
 	border-radius: main-border-radius
 	.time
 		font-size: small-font-size
-		text-transform: uppercase
 		float: right
 		color: gainsboro-dark
 	> .time
 		opacity: 1
 	.message
 		margin-bottom: 3px
-		overflow: hidden
+		// overflow: hidden Commented out - because dunno why we need that atm
 		.time, 
 		.edit, 
 		.btn-label
@@ -170,50 +190,141 @@
 			padding: 2px 6px 0
 			margin: -2px -6px 0
 			border-radius: main-border-radius
-		.text
+		a.attachment
+			white-space: nowrap
+			border-bottom: 1px solid link-color
 			display: inline-block
-			padding: 0
-			margin-bottom: 3px
-			max-width: 90%
-			word-wrap: break-word
-			em
-				font-style: italic
-			ul
-				list-style: disc outside none
-				padding-left: 18px
-			blockquote
-				border-left: 3px solid gainsboro-light
-				margin: 4px 0
-				padding: 0.5em 10px
-				font-style: italic
-				color: gainsboro-dark
-			.warning-unsent
-				color: gainsboro-light
+			margin: 1px 
+			padding: 1px 0
+			vertical-align: baseline
+			font-weight: bold
+			&:hover
+				color: lighten(link-color, 25%)
+				text-decoration: none
+				border-color: aqua-dark !important
+			&:before
+				font-weight: normal
+				content: "\f016"
+				font-family: FontAwesome
+				margin-right: 6px
+			&[href$=".pdf"]
 				&:before
-					content: "\f071"
-					font-family: FontAwesome
-					color: gold
-					margin-right: 6px
+					content: "\f1c1"
+			&[href$=".zip"],
+			&[href$=".rar"],
+			&[href$=".7z"],
+			&[href$=".gzip"]
+				&:before
+					content: "\f1c6"
+			&[href$=".mp3"],
+			&[href$=".wav"],
+			&[href$=".wma"]
+				&:before
+					content: "\f1c7"
+			&[href$=".xls"],
+			&[href$=".xlsx"],
+			&[href$=".csv"]
+				&:before
+					content: "\f1c3"
+			&[href$=".doc"],
+			&[href$=".docx"],
+			&[href$=".rtf"]
+				&:before
+					content: "\f1c2"
+			&[href$=".ppt"],
+			&[href$=".pptx"]
+				&:before
+					content: "\f1c4"
+			&[href$=".png"],
+			&[href$=".jpg"],
+			&[href$=".jpeg"],
+			&[href$=".bmp"],
+			&[href$=".tif"],
+			&[href$=".tiff"]
+				&:before
+					content: "\f1c5"
+			&[href$=".wmv"],
+			&[href$=".avi"],
+			&[href$=".mpg"],
+			&[href$=".mpeg"],
+			&[href$=".mov"],
+			&[href$=".mp4"]
+				&:before
+					content: "\f1c8"
 		.img-atm
 			display: inline-block
+		.image-wrap
+			display: inline-block
+			border-left: 2px solid silver-light
+			padding-left: 5px
+			line-height: 1px
+			max-height: 300px
+			img
+				// height: auto
+				// max-height: 100%
 
+.text
+	display: inline-block
+	padding: 0
+	margin-bottom: 3px
+	max-width: 90%
+	word-wrap: break-word
+	em
+		font-style: italic
+	ul,
+	ol
+		padding-left: 18px
+	ul
+		list-style: disc outside none
+	ol
+		list-style: decimal outside none
+	blockquote
+		border-left: 3px solid gainsboro-light
+		margin: 4px 0
+		padding: 0.5em 10px
+		font-style: italic
+		color: gainsboro-dark
+	pre 
+		overflow: hidden
+	code
+		border: 1px solid gainsboro-light
+		border-radius: main-border-radius-small
+		background: silver-light
+		padding: 0 4px
+		display: inline-block
+		margin-bottom: 4px
+		white-space: pre-wrap; /* CSS3 */
+		white-space: -moz-pre-wrap; /* Mozilla, post millennium */
+		white-space: -pre-wrap; /* Opera 4-6 */
+		white-space: -o-pre-wrap; /* Opera 7 */
+		word-wrap: break-word; /* Internet Explorer 5.5+ */
+	.warning-unsent
+		color: gainsboro-light
+		&:before
+			content: "\f071"
+			font-family: FontAwesome
+			color: gold
+			margin-right: 6px
+	p
+		margin-bottom: 8px
+		&:last-of-type
+			margin-bottom: 0
 // SEPERATORS
 .date-separator, 
 .newmessage-separator
 	text-align: center
-	text-transform: uppercase
 	color: gainsboro-dark
 	@extend $small-font-size
 
 .date-separator
-	margin: 0 30px 0 20px
+	margin: 0 30px -10px 20px
 	padding:  5px 0 0 0
 
 .newmessage-separator
-	border-bottom: 1px solid aqua-dark
+	border-bottom: 1px solid grape-dark
 	height: 7px
 	margin: 0px 30px 18px 20px
 	span
-		color: aqua-dark
+		color: grape-dark
 		background: chat-background
 		padding: 0px 5px

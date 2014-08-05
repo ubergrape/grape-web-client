@@ -3,6 +3,8 @@
 
 var marked = require('marked');
 var markdown_renderlink = require('./markdown_renderlink');
+var staticurl = require('../lib/staticurl.js');
+var emoji = require('./emoji');
 
 var renderer = new marked.Renderer();
 
@@ -34,9 +36,19 @@ renderer.hr = function() {
 
 marked.setOptions({
 	renderer: renderer,
+	sanitize: true,
 	gfm: true,
-	breaks: true
+	breaks: true,
+	emoji: function (emo) {
+		emoji.init_colons();
+		// TODO: app.organization
+		var custom_emojis = app.organization.custom_emojis;
+		if (custom_emojis.hasOwnProperty(emo)) {
+			return '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'"/>';
+		}
+		var val = emoji.map.colons[emo];
+		return val ? emoji.replacement(val, emo, ':') : ':' + emo + ':';
+	}
 });
-
 
 module.exports = marked;
