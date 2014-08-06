@@ -126,7 +126,9 @@
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "*",
-    "mbelraka/drop-anywhere": "*"
+    "mbelraka/drop-anywhere": "*",
+    "moment/moment": "*",
+    "johntron/moment-timezone": "*"
   },
   "development": {
     "chaijs/chai": "*",
