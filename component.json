@@ -104,7 +104,7 @@
     "component/classes": "*",
     "component/throttle": "*",
     "component/debounce": "*",
-    "mbelraka/inputarea": "*",
+    "sk7/inputarea": "*",
     "component/escape-html": "*",
     "component/emitter": "*",
     "component/events": "1.0.7",
