@@ -63,8 +63,57 @@ table.text
 			em=_("Example")
 			pre
 				code
-					=_("![image description](https://ug-cdn.com/static/chatgrape/static/images/logo.svg)")
+					=_("![description](static/chatgrape/static/images/logo.svg)")
 		td
 			em=_("Result")
 			p
-				img(alt="image description", src="https://ug-cdn.com/static/chatgrape/static/images/logo.svg")
+				img(alt="description", src="https://ug-cdn.com/static/chatgrape/static/images/logo.svg")
+hr
+h4=_("Code Snippets")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code
+					=_("This is `Inline` Code")
+					br
+					br
+					| ```
+					br
+					| <p>
+					br
+					=_("    This is a Code Block")
+					br
+					| </p>
+					br
+					| ```
+		td
+			em=_("Result")
+			p
+				=_("This is ")
+				code(style="display:inline")=_("Inline")
+				=_(" Code")
+				br
+				br
+				pre
+					code(style='white-space: pre-wrap; white-space: -moz-pre-wrap;white-space: -o-pre-wrap; word-wrap: break-word;')
+						| <p>
+						br
+						=_("    This is a Code Block")
+						br
+						| </p>
+hr
+h4=_("Blockquote")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code
+					=_("> One of the cooles products I've used in a while")
+		td
+			em=_("Result")
+			p
+				blockquote
+					=_("> One of the cooles products I've used in a while")
