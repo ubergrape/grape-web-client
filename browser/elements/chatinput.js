@@ -2,6 +2,7 @@
 "use strict";
 
 var Emitter = require('emitter');
+var events = require('events');
 var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
@@ -15,8 +16,9 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
-var staticurl = require('../../lib/staticurl');
+var staticurl = require('staticurl');
 var emoji = require('../emoji');
+var MarkdownTipsDialog = require('./dialogs/markdowntips');
 
 
 require("startswith");
@@ -40,6 +42,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
 	emoji.init_colons();
+	this.markdowntipsdialog = new MarkdownTipsDialog().closable();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -49,6 +52,12 @@ ChatInput.prototype.redraw = function ChatInput_redraw() {
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
+
+	//bind markdown info
+	this.events = events(this.el, this);
+	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
+	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
+
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
@@ -68,7 +77,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
-	var self = this;
 	this.input.cleanedValue = function() {
 		var el = this.el;
 		var children = [];
@@ -84,11 +92,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// the inner contents 
 			// else, clean the current elment
 			if(childnode.childNodes && childnode.childNodes.length > 1){
-				for(var subchild in childnode.childNodes){
+				// check if it is not an emoji or autocomplete item. If so, don't split the elment
+				// as the autocomplete item will be lost, else, continue normally
+				if(childnode.nodeType === 1 && childnode.getAttribute('data-object') !== null){
+					children = children.concat(self.cleanNode(childnode));
+				} else{
+					for(var subchild in childnode.childNodes){
 					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
+					}
 				}
-			}
-			else{
+
+			} else{
 				children = children.concat(self.cleanNode(childnode));
 			}
 		}
@@ -158,7 +172,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#:]([^\s]{1,15})$/;
+	// there should always be a whitespace char in front, or beginning of line. hence (?:^|\s)
+	this.complete.re = /(?:^|\s)[@#:]([^\s]{1,15})$/;
 	this.complete.formatSelection = function (obj) {
 		return renderAutocomplete(obj, true);
 	};
@@ -390,11 +405,6 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 	}
 	if (childnode.nodeType === 3) {
 		children.push(childnode.nodeValue);
-	} else if (childnode.textContent){
-		children.push(childnode.textContent);
-	} else if(childnode.nodeName === "IMG"){
-		children.push("[IMG]\n");
-		children.push(childnode.src);
 	} else if (childnode.nodeType === 1) {
 		// we don't use attr() here because it loops through all
 		// attributes when it doesn't find the attribute with
@@ -405,9 +415,14 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 		} else {
 			// Q: why would there be any HTML in the message input?
 			// A: pasting content
-			children.push(childnode.innerText);
+			children.push(childnode.textContent);
 		}
-	}
+	} else if (childnode.textContent){
+		children.push(childnode.textContent);
+	} else if(childnode.nodeName === "IMG"){
+		children.push("[IMG]\n");
+		children.push(childnode.src);
+	} 
 	return children;
 };
 
@@ -416,3 +431,8 @@ ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment)
 	this.attachments.push(attachment.id);
 };
 */
+
+ChatInput.prototype.toggleMarkdownTips = function ChatInput_toggleMarkdownTips(ev) {
+	ev.preventDefault();
+	this.markdowntipsdialog.overlay().show();
+}

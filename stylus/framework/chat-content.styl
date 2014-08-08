@@ -199,52 +199,6 @@
 			padding: 2px 6px 0
 			margin: -2px -6px 0
 			border-radius: main-border-radius
-		.text
-			display: inline-block
-			padding: 0
-			margin-bottom: 3px
-			max-width: 90%
-			word-wrap: break-word
-			em
-				font-style: italic
-			ul,
-			ol
-				padding-left: 18px
-			ul
-				list-style: disc outside none
-			ol
-				list-style: decimal outside none
-			blockquote
-				border-left: 3px solid gainsboro-light
-				margin: 4px 0
-				padding: 0.5em 10px
-				font-style: italic
-				color: gainsboro-dark
-			pre
-				overflow: hidden
-			code
-				border: 1px solid gainsboro-light
-				border-radius: main-border-radius-small
-				background: silver-light
-				padding: 0 4px
-				display: inline-block
-				margin-bottom: 4px
-				white-space: pre-wrap; /* CSS3 */
-				white-space: -moz-pre-wrap; /* Mozilla, post millennium */
-				white-space: -pre-wrap; /* Opera 4-6 */
-				white-space: -o-pre-wrap; /* Opera 7 */
-				word-wrap: break-word; /* Internet Explorer 5.5+ */
-			.warning-unsent
-				color: gainsboro-light
-				&:before
-					content: "\f071"
-					font-family: FontAwesome
-					color: gold
-					margin-right: 6px
-			p
-				margin-bottom: 8px
-				&:last-of-type
-					margin-bottom: 0
 		a.attachment
 			white-space: nowrap
 			border-bottom: 1px solid link-color
@@ -317,6 +271,53 @@
 			img
 				// height: auto
 				// max-height: 100%
+
+.text
+	display: inline-block
+	padding: 0
+	margin-bottom: 3px
+	max-width: 90%
+	word-wrap: break-word
+	em
+		font-style: italic
+	ul,
+	ol
+		padding-left: 18px
+	ul
+		list-style: disc outside none
+	ol
+		list-style: decimal outside none
+	blockquote
+		border-left: 3px solid gainsboro-light
+		margin: 4px 0
+		padding: 0.5em 10px
+		font-style: italic
+		color: gainsboro-dark
+	pre 
+		overflow: hidden
+	code
+		border: 1px solid gainsboro-light
+		border-radius: main-border-radius-small
+		background: silver-light
+		padding: 0 4px
+		display: inline-block
+		margin-bottom: 4px
+		white-space: pre-wrap; /* CSS3 */
+		white-space: -moz-pre-wrap; /* Mozilla, post millennium */
+		white-space: -pre-wrap; /* Opera 4-6 */
+		white-space: -o-pre-wrap; /* Opera 7 */
+		word-wrap: break-word; /* Internet Explorer 5.5+ */
+	.warning-unsent
+		color: gainsboro-light
+		&:before
+			content: "\f071"
+			font-family: FontAwesome
+			color: gold
+			margin-right: 6px
+	p
+		margin-bottom: 8px
+		&:last-of-type
+			margin-bottom: 0
 // SEPERATORS
 .date-separator,
 .newmessage-separator

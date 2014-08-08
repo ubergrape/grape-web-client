@@ -18,7 +18,7 @@ var _ = require('t');
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
-var Line = require('../../lib').models.Line; // TODO: clean this up a bit
+var Line = require('cglib').models.Line; // TODO: clean this up a bit
 
 template.locals.tz = require('moment-timezone');
 
@@ -48,6 +48,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
 	this.events.bind('click a.author', 'openInternalLink');
 	this.events.bind('click a.show-invite', 'toggleInvite');
+	this.events.bind('click a.show-more', 'showMore');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -289,3 +290,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
 	this.emit('toggleinvite', qs('.room-header .room-grp'));
 }
+
+HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
+	var el = closest(ev.target, 'ul', true);
+	classes(el).remove('list-previewed');
+}
+

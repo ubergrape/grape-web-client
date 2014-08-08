@@ -41,8 +41,12 @@ Uploader.prototype.bind = function Uploader_bind() {
 	var self = this;
 	this.trigger.addEventListener('click', function () { self.input.click(); });
 	this.input.addEventListener('change', function () {
-		var file = this.files[0];
-		self.doUpload(file);
+		for (var i = 0; i < this.files.length; i++){
+			self.doUpload(this.files[i]);
+		}
+		// the uploader input takes action only when the form changes,
+		// so after each upload, clear the form value so that any file can be uploaded twice
+		self.input.value = '';
 	});
 };
 

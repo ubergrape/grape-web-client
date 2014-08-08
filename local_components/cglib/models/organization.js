@@ -4,7 +4,7 @@
 var Model = require('model');
 var cache = require('model-cache');
 var array = require('model-array');
-var staticurl = require('../staticurl');
+var staticurl = require('staticurl');
 
 module.exports = new Model([
 		'logo',

@@ -9,6 +9,13 @@
     "https://cdn.rawgit.com",
     "https://rawgit.com"
   ],
+  "paths": [
+    "local_components"
+  ],
+  "local": [
+    "cglib",
+    "staticurl"
+  ],
   "main": "index.js",
   "scripts": [
     "index.js",
@@ -30,6 +37,7 @@
     "browser/elements/popovers/roommembers.js",
     "browser/elements/popovers/organization.js",
     "browser/elements/dialogs/deleteroom.js",
+    "browser/elements/dialogs/markdowntips.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
@@ -41,14 +49,7 @@
     "browser/renderautocomplete.js",
     "browser/emoji.js",
     "browser/jstz.js",
-    "lib/index.js",
-    "lib/broker.js",
-    "lib/models/chatline.js",
-    "lib/models/organization.js",
-    "lib/models/room.js",
-    "lib/models/user.js",
-    "lib/staticurl.js",
-    "lib/constants.js"
+    "lib/broker.js"
   ],
   "json": [
     "locale/de.json",
@@ -73,7 +74,8 @@
     "templates/popovers/roommembers.jade",
     "templates/popovers/roomlist.jade",
     "templates/roomlist.jade",
-    "templates/deleteroom.jade",
+    "templates/dialogs/deleteroom.jade",
+    "templates/dialogs/markdowntips.jade",
     "templates/draganddrop.jade"
   ],
   "images": [
