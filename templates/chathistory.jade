@@ -81,10 +81,12 @@
 					time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 						first.user_time
 					if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
-						span.different_timezone
-							=_(' author local time: ')
+						|  
+						i.fa.fa-globe
+						span.dif-tz
+							=_(' Local time: ')
 						//- the substr part is a hack to remove the tz information
-						time.user_time= tz(first.user_time.substr(0, first.user_time.indexOf('+'))).format('h:mm a')
+						time.user-tz= tz(first.user_time.substr(0, first.user_time.indexOf('+'))).format('h:mm a')
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 

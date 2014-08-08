@@ -145,8 +145,17 @@
 		float: right
 		font-size: small-font-size
 		color: gainsboro-dark
+		.dif-tz,
+		.user-tz
+			display: none
+		.dif-tz
+			font-weight: bold
 	> .time
 		opacity: 1
+	&:hover
+		.dif-tz,
+		.user-tz
+			display: inline
 	.message
 		margin-bottom: 3px
 		// overflow: hidden Commented out - because dunno why we need that atm
