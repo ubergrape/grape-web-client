@@ -54,7 +54,11 @@
 	each lines in groupHistory(history)
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-			.date-separator= strftime('%A, %d %b %Y', first.time)
+			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
+				.date-separator
+					| Today, #{strftime('%A, %d %b %Y', first.time)}
+			else
+				.date-separator= strftime('%A, %d %b %Y', first.time)
 		if (lastRead && !first.read)
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
@@ -98,7 +102,7 @@
 										| 
 										| #{line.branch} 
 								if line.container
-									a.container(href=line.container.url, class=line.container.type)= "in " + line.container.name
+									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
 							.text.main= html(markdown(line.title))
 						if line.text
@@ -116,12 +120,12 @@
 								if attachment.type.indexOf("image") == 0
 									//- attachment is an image
 									div.image-wrap
-										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true", width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
 									a.attachment(href=attachment.url, download=attachment.name, class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
-							ul
+							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
 									li(class=obj.type)
 										if obj.author && obj.author.username
@@ -132,7 +136,7 @@
 												strong
 													| #{obj.name} 
 										if obj.sha
-											a(href=obj.url).sha
+											a(href=obj.url, target="_blank").sha
 												| #{obj.sha.substr(1, 7)} 
 										if obj.content
 											if line.author.id == 'github'
@@ -141,6 +145,8 @@
 												span.text= obj.content
 										if obj.summary
 											span.summary= obj.summary
+								if line.objects.length > 3
+									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
 							div.edit

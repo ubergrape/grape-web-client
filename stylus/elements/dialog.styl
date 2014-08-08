@@ -1,4 +1,4 @@
-#dialog
+#dialog, .dialog
 	background: white
 	padding: 15px
 	border-radius: main-border-radius
@@ -6,7 +6,7 @@
 	opacity: 1
 	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
 	transition: opacity 500ms
-	max-width: 450px
+	max-width: 650px
 	white-space: normal
 	.content
 		padding: 0
@@ -18,15 +18,32 @@
 		color: gainsboro-dark
 		font-size: 30px
 		line-height: 20px
-	h3
+	h3, h4, h5
 		color: gainsboro-dark
-		font-size: 14px
+		@extend $normal-font-size
 		font-weight: normal
+	h3
 		text-transform: uppercase
 		margin-bottom: 10px
+	h4, h5
+		margin-bottom: 5px
+	h4
+		font-weight: bold
 	p
 		margin-bottom: 8px
 	.delete-room-form
 		margin-top: 12px
 		.delete
 			@extend .button-delete
+	table, td
+		vertical-align: top
+	table
+		margin: 0 0 5px 0
+		width: 100%
+		display: table
+		max-width: 100%
+	td
+		padding-right: 12px
+		width: 50%
+	code
+		width: 100%

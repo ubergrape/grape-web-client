@@ -1,0 +1,25 @@
+if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === constants.ROLE_OWNER)
+	h3=_("you are about to delete ") + room.name
+
+	p=_("Please enter your password to continue!")
+	hr
+	form.delete-room-form
+		.formrow
+			label.text(for="password")=_('Password')
+			input.password(type="password", name="password", id="password")
+		hr
+		input.button.delete(type="submit", name="submit", value=_('Delete') + " " + room.name)
+else
+	h3=_("Sorry, you can't delete ") + room.name
+	p=_(" You need to be either owner of ") + org.name + _(" or creater of the room ") + room.name + _(". You can ask them if they can delete the room for you:")
+	hr
+	p
+		=_("Owner of ") + org.name + ":"
+		each user in org.users
+			if (user.role === constants.ROLE_OWNER || user.role === constants.ROLE_ADMIN)
+				a.user(href="/chat/@" + user.username)=user.username
+
+	if room.creator
+		p
+			=_("Creator of ") + room.name + ":"
+			a.user(href="/chat/@" + room.creator.username)=room.creator.username

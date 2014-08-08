@@ -2,6 +2,7 @@
 "use strict";
 
 var Emitter = require('emitter');
+var events = require('events');
 var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
@@ -15,8 +16,9 @@ var attr = require('attr');
 var isWebkit = require('../iswebkit');
 var markdown_renderlink = require('../markdown_renderlink');
 var renderAutocomplete = require('../renderautocomplete');
-var staticurl = require('../../lib/staticurl');
+var staticurl = require('staticurl');
 var emoji = require('../emoji');
+var MarkdownTipsDialog = require('./dialogs/markdowntips');
 
 
 require("startswith");
@@ -28,6 +30,7 @@ ChatInput.DELAY = 500;
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
+	this.max_autocomplete = 12; // maximum of n items
 	//this.attachments = [];
 	this.init();
 	this.bind();
@@ -39,6 +42,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 	this.redraw();
 	this.messageInput = qs('.messageInput', this.el);
 	emoji.init_colons();
+	this.markdowntipsdialog = new MarkdownTipsDialog().closable();
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
@@ -48,6 +52,12 @@ ChatInput.prototype.redraw = function ChatInput_redraw() {
 
 ChatInput.prototype.bind = function ChatInput_bind() {
 	var self = this;
+
+	//bind markdown info
+	this.events = events(this.el, this);
+	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
+	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
+
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
@@ -73,25 +83,28 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		var children = [];
 		for(var child in el.childNodes) {
 			var childnode = el.childNodes[child];
-			if (childnode.nodeType === 3) {
-				children.push(childnode.nodeValue);
-			} else if (childnode.nodeName === "BR") {
-				children.push("\n");
-			} else if (childnode.nodeName === "DIV") {
-				children.push(childnode.innerText);
-				children.push("\n");
-			} else if (childnode.nodeType === 1) {
-				// we don't use attr() here because it loops through all
-				// attributes when it doesn't find the attribute with
-				// getAttribute. So this won't work in old IEs, but it's faster
-				var object = childnode.getAttribute('data-object');
-				if (object !== null) {
-					children.push(object);
-				} else {
-					// Q: why would there be any HTML in the message input?
-					// A: pasting content
-					children.push(childnode.innerText);
+			// check if it is a google content. If so, un wrap it from the wrapping <ol>
+			// then process the content normally
+			if(childnode.nodeName === "OL" && typeof childnode.childNodes !== 'undefined'
+			&& childnode.childNodes.length == 1){
+				childnode = childnode.childNodes[0];
+			}
+			// check if there are some contents in wrapped in a big <div>. If so, handle
+			// the inner contents 
+			// else, clean the current elment
+			if(childnode.childNodes && childnode.childNodes.length > 1){
+				// check if it is not an emoji or autocomplete item. If so, don't split the elment
+				// as the autocomplete item will be lost, else, continue normally
+				if(childnode.nodeType === 1 && childnode.getAttribute('data-object') !== null){
+					children = children.concat(self.cleanNode(childnode));
+				} else{
+					for(var subchild in childnode.childNodes){
+					children = children.concat(self.cleanNode(childnode.childNodes[subchild]));
+					}
 				}
+
+			} else{
+				children = children.concat(self.cleanNode(childnode));
 			}
 		}
 		return children.join('');
@@ -160,7 +173,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	this.complete.re = /[@#:]([^\s]{1,15})$/;
+	// there should always be a whitespace char in front, or beginning of line. hence (?:^|\s)
+	this.complete.re = /(?:^|\s)[@#:]([^\s]{1,15})$/;
 	this.complete.formatSelection = function (obj) {
 		return renderAutocomplete(obj, true);
 	};
@@ -184,6 +198,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// TODO: app.organization
 			var custom_emojis = app.organization.custom_emojis;
 			for (var emo in custom_emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (custom_emojis.hasOwnProperty(emo)) {
 					if (~emo.indexOf(search)) {
 						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
@@ -196,10 +212,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						});
 					}
 				}
+
 			}
 
 			var emojis = emoji.map.colons;
 			for (var emo in emojis) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				if (emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
 					if (~emo.indexOf(search)) {
@@ -231,6 +250,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
 					 || user.lastName.startsWithIgnoreCase(search)
@@ -251,7 +272,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete.push({
 						id: "[" + name + "](cg://chatgrape|user|" + user.id + "|/chat/@" + user.username + ")",
 						title: '<div class="entry-type-description">Member</div>' + '<div class="option-wrap ' + full_name_class +'">' + '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;' + user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em></div>',
-						insert: '@ ' + name,
+						insert: '@' + name,
 						service: 'chatgrape',
 						type: 'user',
 						url: '/chat/@' + user.username
@@ -261,12 +282,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			var rooms = app.organization.rooms;
 			for (var i=0; i<rooms.length; i++) {
+				if (self.complete.options.length >= self.max_autocomplete)
+					break;
 				var room = rooms[i];
 				if (room.name.startsWithIgnoreCase(search)) {
 					self.complete.push({
 						id: "[" + room.name + "](cg://chatgrape|room|" + room.id + "|/chat/" + room.slug + ")",
 						title: '<div class="entry-type-description">Room</div>' + '<div class="option-wrap"><span class="entry-type-icon type-chatgraperoom"></span> ' + room.name + '</div>',
-						insert: '@ ' + room.name,
+						insert: '@' + room.name,
 						service: 'chatgrape',
 						type: 'room',
 						url: '/chat/' + room.name
@@ -285,10 +308,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
 				for (var i=0; i<result.length; i++) {
+					if (self.complete.options.length >= self.max_autocomplete)
+						break;
 					var r = result[i];
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <span class="entry-additional-info">' + r.container + '</span></div>',
+						title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
 						insert: r.name,
 						service: r.service,
 						type: r.type,
@@ -402,6 +427,9 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 	};
 	message_text = message_text.replace(autocomplete, replacer);
 
+	// replace linebreaks with <br>s
+	message_text = message_text.replace(/\n/gm, "<br>");
+
 	this.messageInput.innerHTML = message_text;
 	this.messageInput.focus();
 	this.moveCaretToEnd(this.messageInput);
@@ -417,8 +445,49 @@ ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.messageInput.focus();
 };
 
+ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
+	// clean an input element
+	var children = [];
+	// check if the element is any thing other than text and objects, e.g. iterator function
+	if(typeof childnode.nodeName === 'undefined' && typeof childnode.nodeType === 'undefined'){
+		return[];
+	}
+	// if the elment is one of the following tags, insert new line
+	if(childnode.nodeName && (childnode.nodeName === "BR" 
+	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
+	|| childnode.nodeName === "LI" || childnode.nodeName === "UL")){
+		children.push("\n");
+	}
+	if (childnode.nodeType === 3) {
+		children.push(childnode.nodeValue);
+	} else if (childnode.nodeType === 1) {
+		// we don't use attr() here because it loops through all
+		// attributes when it doesn't find the attribute with
+		// getAttribute. So this won't work in old IEs, but it's faster
+		var object = childnode.getAttribute('data-object');
+		if (object !== null) {
+			children.push(object);
+		} else {
+			// Q: why would there be any HTML in the message input?
+			// A: pasting content
+			children.push(childnode.textContent);
+		}
+	} else if (childnode.textContent){
+		children.push(childnode.textContent);
+	} else if(childnode.nodeName === "IMG"){
+		children.push("[IMG]\n");
+		children.push(childnode.src);
+	} 
+	return children;
+};
+
 /*
 ChatInput.prototype.addAttachment = function ChatInput_addAttachment(attachment) {
 	this.attachments.push(attachment.id);
 };
 */
+
+ChatInput.prototype.toggleMarkdownTips = function ChatInput_toggleMarkdownTips(ev) {
+	ev.preventDefault();
+	this.markdowntipsdialog.overlay().show();
+}

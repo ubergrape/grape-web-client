@@ -1,7 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-/*var should = */require('chaijs-chai').should();
+var should = require('chaijs-chai').should();
 var trigger = require('adamsanderson-trigger-event');
 var qs = require('component-query');
 var template = require('template');
@@ -90,6 +90,40 @@ describe('ChatInput', function () {
 			done();
 		});
 		ci.input.emit('input', 'f');
+	});
+	it('should match certain inputs for autocomplete', function (done) {
+		ChatInput.DELAY = 10;
+		var ci = new ChatInput();
+
+		var match;
+
+		match = "@match".match(ci.complete.re);
+		match.should.have.length(2)
+		match[1].should.equal('match');
+
+		match = "this should also @match".match(ci.complete.re);
+		match.length.should.equal(2);
+		match[1].should.equal('match');
+
+		match = "this shouldnt work test@example.com".match(ci.complete.re);
+		should.not.exist(match);
+
+		match = "we love\nmultine\n@match".match(ci.complete.re);
+		match.length.should.equal(2);
+		match[1].should.equal('match');
+
+		match = "don't @match in the middle".match(ci.complete.re);
+		should.not.exist(match);
+
+		match = "hey also :emoji".match(ci.complete.re);
+		match.length.should.equal(2);
+		match[1].should.equal('emoji');
+
+		match = "hey also #issues".match(ci.complete.re);
+		match.length.should.equal(2);
+		match[1].should.equal('issues');
+
+		done();
 	});
 });
 

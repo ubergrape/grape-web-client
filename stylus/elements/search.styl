@@ -71,14 +71,27 @@
 /*______ RESULT LIST ______*/
 .result-list
 	margin-top: 18px
+	border-top: 1px solid silver-dark
 	> li
 		position: relative
-		padding: 0px 10px 0px 27px
 		border-left: 3px solid silver-dark
-		border-top: 1px solid silver-dark
+		border-bottom: 1px dashed silver-dark
+		&:hover
+			border-left-color: grape-dark
+		// &.objects
+		// 	&:hover
+		// 		.item-content
+		// 			background: grape-light
+		// 			color: white
+		// 		.item-content strong,
+		// 		.item-content span
+		// 			color: lighten(grape-light, 30)
+		// 		.item-type
+		// 			background: grape-dark
+		// 			border-color: darken(grape-dark, 5)
+		// 			color: lighten(grape-light, 15)
 		.item-object
 			@extend $clearfix
-			padding: 11px 3px
 			margin: 0 -3px
 			&.minor, 
 			&.minor i, 
@@ -89,13 +102,26 @@
 				.item-content
 					text-overflow: ellipsis 
 					overflow: hidden
+		.item-type
+			float: left
+			width: 120px
+			padding-left: 27px
+			padding: 11px 10px 11px 27px
+			text-transform: uppercase
+			text-align: right
+			font-size: 0.8em
+			color: gainsboro-dark
+			font-weight: bold
 		.item-content
+			padding: 11px 20px 11px 10px
 			overflow: hidden
 			font-weight: bold
-			strong,
-			p
+			border-left: 1px solid silver-dark
+			background: white
+			color: grape-typo
+			.item-text
 				@extend $big-font-size
-			strong
+			strong, span
 				margin-right: 8px
 				color: gainsboro-dark
 			p
@@ -133,6 +159,17 @@
 				border-left: 8px solid jet
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
+		.direct-link
+			position: absolute
+			left: 0
+			right: 0
+			top: 0
+			bottom: 0
+		a
+			text-decoration: none
+			&:hover
+				text-decoration: none
+				
 
 /*______ STYLES IF SEARCH TRIGGERED ______*/
 body .searching .header

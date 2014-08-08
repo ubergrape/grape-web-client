@@ -1,0 +1,70 @@
+h3=_("ChatGrape Markdown ")
+p=_("How to improve your chat messages with some nifty styles")
+
+h4=_("Inline styles")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code=_("You can write in *italic*, **bold** and in ~~strike trough~~")
+		td
+			em=_("Result")
+			p
+				=_("You can write in ")
+				em=_("italic") 
+				| , 
+				strong=_("bold ")
+				=_("and in ")
+				s=_("strike trough")
+hr
+h4=_("Lists")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code
+					=_("- unordered list element")
+					br
+					=_("- another one")
+					br
+					br
+					=_("1. An ordered list")
+					br
+					=_("1. A second one")
+		td
+			em=_("Result")
+			ul
+				li=_("This is an unordered list element")
+				li=_("This is another one")
+			br
+			ol
+				li=_("An ordered list")
+				li=_("A second one")
+hr
+h4=_("Links")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code
+					=_("[A link to ChatGrape](https://chatgrape.com)")
+		td
+			em=_("Result")
+			p
+				a(href="https://chatgrape.com")=_("A link to ChatGrape")
+hr
+h4=_("Images")
+table.text
+	tr
+		td
+			em=_("Example")
+			pre
+				code
+					=_("![image description](https://ug-cdn.com/static/chatgrape/static/images/logo.svg)")
+		td
+			em=_("Result")
+			p
+				img(alt="image description", src="https://ug-cdn.com/static/chatgrape/static/images/logo.svg")

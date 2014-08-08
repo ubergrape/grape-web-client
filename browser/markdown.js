@@ -3,7 +3,7 @@
 
 var marked = require('marked');
 var markdown_renderlink = require('./markdown_renderlink');
-var staticurl = require('../lib/staticurl.js');
+var staticurl = require('staticurl');
 var emoji = require('./emoji');
 
 var renderer = new marked.Renderer();
@@ -36,6 +36,7 @@ renderer.hr = function() {
 
 marked.setOptions({
 	renderer: renderer,
+	sanitize: true,
 	gfm: true,
 	breaks: true,
 	emoji: function (emo) {

@@ -15,8 +15,12 @@ function renderAutocompleteItem(obj, asButton) {
 			return '<button class="ac ' + obj.service + '" contenteditable="false" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '"><span class="entry-type-icon type-' + obj.service + obj.type +'">&nbsp;</span>' + obj.insert + '</button>';
 		} else {
 			// Firefox, IE
-			return '<input type="button" class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '" value="' + obj.insert + '"/>';
+			if (typeof obj.service !== "undefined" && obj.service === "emoji") {
+				return '<button class="ac ' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '">' + obj.insert + '</button>';
+			} else {
+				return '<input type="button" class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + obj.id + '" data-url="' + obj.url+ '" value="' + obj.insert + '"/>';
 
+			}
 		}
 	} else {
 		var target = ' target="_blank"';
