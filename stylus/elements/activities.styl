@@ -5,6 +5,9 @@
 	border-top: 2px solid lighten(gainsboro-light, 10%)
 	border-bottom: 1px solid lighten(gainsboro-light, 10%)
 	border-radius: 0 0 main-border-radius main-border-radius
+	.text
+		display: block
+		overflow: hidden
 	.main // Main Activity Text Styling
 		font-weight: bold
 	.actor // Avatar of person that caused the notification
@@ -73,7 +76,7 @@
 		position: relative
 		img
 			max-height: 170px
-		&:after
+		&:before
 			float: left
 			font-family: FontAwesome
 			color: gainsboro-dark
