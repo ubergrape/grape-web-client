@@ -27,7 +27,7 @@
 		span
 			color: gainsboro-dark
 
-	/* GITHUB SPECIFIC */		
+	/* GITHUB SPECIFIC */
 
 	&.push, // advanced styling for connected pushes
 	&.pull_request,
@@ -85,16 +85,20 @@
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
-	//Removing unnecessary elements 
+	//Removing unnecessary elements
 	&.issue_comment,
+    &.__label_changed,
+    &__asignment_changed,
 	&.issues
-		li.issue
+		li.issue,
+        li.user,
+        li.label
 			display: none
 	&.gollum
 		ul
 			li:only-child
 				display: none
-/*	
+/*
 
 	&.github
 		.pull-request
@@ -115,7 +119,7 @@
 				padding: 0 4px
 				font-style: italic
 				position: relative
-				max-height: 6.39em /* exactly five lines 
+				max-height: 6.39em /* exactly five lines
 				overflow: hidden
 				&:after
 					content: ""
