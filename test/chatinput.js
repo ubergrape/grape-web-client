@@ -91,37 +91,42 @@ describe('ChatInput', function () {
 		});
 		ci.input.emit('input', 'f');
 	});
-	it('should match certain inputs for autocomplete', function (done) {
+	it('regex should match certain inputs for autocomplete', function (done) {
 		ChatInput.DELAY = 10;
 		var ci = new ChatInput();
 
 		var match;
 
 		match = "@match".match(ci.complete.re);
-		match.should.have.length(2)
-		match[1].should.equal('match');
+		match.should.have.length(4)
+		match[2].should.equal('@');
+		match[3].should.equal('match');
 
 		match = "this should also @match".match(ci.complete.re);
-		match.length.should.equal(2);
-		match[1].should.equal('match');
+		match.length.should.equal(4);
+		match[2].should.equal('@');
+		match[3].should.equal('match');
 
 		match = "this shouldnt work test@example.com".match(ci.complete.re);
 		should.not.exist(match);
 
 		match = "we love\nmultine\n@match".match(ci.complete.re);
-		match.length.should.equal(2);
-		match[1].should.equal('match');
+		match.length.should.equal(4);
+		match[2].should.equal('@');
+		match[3].should.equal('match');
 
 		match = "don't @match in the middle".match(ci.complete.re);
 		should.not.exist(match);
 
 		match = "hey also :emoji".match(ci.complete.re);
-		match.length.should.equal(2);
-		match[1].should.equal('emoji');
+		match.length.should.equal(4);
+		match[2].should.equal(':');
+		match[3].should.equal('emoji');
 
 		match = "hey also #issues".match(ci.complete.re);
-		match.length.should.equal(2);
-		match[1].should.equal('issues');
+		match.length.should.equal(4);
+		match[2].should.equal('#');
+		match[3].should.equal('issues');
 
 		done();
 	});
