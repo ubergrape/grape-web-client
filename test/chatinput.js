@@ -98,7 +98,7 @@ describe('ChatInput', function () {
 		var match;
 
 		match = "@match".match(ci.complete.re);
-		match.should.have.length(4)
+		match.should.have.length(4);
 		match[2].should.equal('@');
 		match[3].should.equal('match');
 

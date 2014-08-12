@@ -5,7 +5,6 @@ var Emitter = require('emitter');
 var events = require('events');
 var dialog = require('dialog');
 var qs = require('query');
-var domify = require('domify');
 var v = require('virtualdom');
 var template = require('template');
 var _ = require('t');
@@ -22,7 +21,7 @@ function DeleteRoomDialog(context) {
 	this.button = qs('.delete', this.el);
 	this.form = qs('.delete-room-form', this.el);
 	if (this.form) {
-		this.passwordInput = this.form['password'];
+		this.passwordInput = this.form.password;
 	}
 	this.bind();
 	return this;
@@ -36,25 +35,25 @@ DeleteRoomDialog.prototype.bind = function DeleteRoomDialog_bind() {
 	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
 	this.events.bind('submit .delete-room-form', 'submit');
 	this.events.bind('input .password', 'resetvalidity');
-}
+};
 
 // proxy for dialog
 DeleteRoomDialog.prototype.closable = function DeleteRoomDialog_closable() {
 	this.dialog.closable();
 	return this;
-}
+};
 
 // proxy for dialog
 DeleteRoomDialog.prototype.show = function DeleteRoomDialog_show() {
 	this.dialog.show();
 	return this;
-}
+};
 
 // proxy for dialog
 DeleteRoomDialog.prototype.overlay = function DeleteRoomDialog_overlay() {
 	this.dialog.overlay();
 	return this;
-}
+};
 
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 	ev.preventDefault();
@@ -67,7 +66,7 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 		return;
 	}
 
-	self.emit('deleteroom', self.context['room'], password, function DeleteRoomDialog_submit_callback(err, result){
+	self.emit('deleteroom', self.context.room, password, function DeleteRoomDialog_submit_callback(err, result){
 		if(err) {
 			self.passwordInput.setCustomValidity(err.details);
 			self.button.click();
@@ -75,7 +74,7 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 			self.dialog.hide();
 		}
 	});
-}
+};
 
 DeleteRoomDialog.prototype.resetvalidity = function DeleteRoomDialog_resetvalidity() {
 	this.passwordInput.setCustomValidity('');
