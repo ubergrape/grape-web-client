@@ -129,8 +129,8 @@
     "sk7/js-emoji": "*",
     "component/clipboard": "*",
     "mbelraka/drop-anywhere": "*",
-    "moment/moment": "*",
-    "johntron/moment-timezone": "*"
+    "moment/moment": "2.7.0",
+    "ubergrape/moment-timezone": "*"
   },
   "development": {
     "chaijs/chai": "*",
