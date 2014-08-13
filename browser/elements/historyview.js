@@ -20,6 +20,8 @@ var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
 var Line = require('cglib').models.Line; // TODO: clean this up a bit
 
+template.locals.tz = require('moment-timezone');
+
 module.exports = HistoryView;
 
 function HistoryView() {
@@ -138,15 +140,15 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 	if (this.scrollMode === 'automatic') {
-		// Each time the history is redrawn, 
+		// Each time the history is redrawn,
 		// if the user is not scrolling to a specific element in the room
 	    // if the last message was already scrolled(no new messages),
   		// don't scroll as the user is navigating to a specific place
   		// otherwise, scroll to the last element in the room
 		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
-  			this.doScrollDown(); 			
+  			this.doScrollDown();
   			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
-		} else { 
+		} else {
 
 			/* FIXME: since grouping was introduced, this does not work as intended
 

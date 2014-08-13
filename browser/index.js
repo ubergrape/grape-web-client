@@ -17,6 +17,7 @@ var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
+var timezone = require('./jstz');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -206,6 +207,9 @@ UI.prototype.init = function UI_init() {
 			}
 		]
 	});
+
+	// check timezone
+	this.tz = timezone.determine().name();
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -481,6 +485,12 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 	this.settings = settings;
 	if (this.settings.show_intro) {
 		this.intro.start();
+	}
+
+	// javscript timezone should always override server timezone setting?
+	if (!this.settings.timezone || this.settings.timezone != this.tz) {
+		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
+		this.emit('timezonechange', this.tz);
 	}
 };
 

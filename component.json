@@ -48,6 +48,7 @@
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",
+    "browser/jstz.js",
     "lib/broker.js"
   ],
   "json": [
@@ -127,7 +128,9 @@
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "*",
-    "mbelraka/drop-anywhere": "*"
+    "mbelraka/drop-anywhere": "*",
+    "moment/moment": "2.7.0",
+    "ubergrape/moment-timezone": "*"
   },
   "development": {
     "chaijs/chai": "*",

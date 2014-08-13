@@ -77,12 +77,21 @@
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
 			.message-content
 				//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-				time.time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+				.time
+					time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+						first.user_time
+					if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+						|  
+						i.fa.fa-globe
+						span.dif-tz
+							=_(' Local time: ')
+						//- the substr part is a hack to remove the tz information
+						time.user-tz= tz(first.user_time.substr(0, first.user_time.indexOf('+'))).format('h:mm a')
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
 							em #{first.author.username}
-					else
+					else	
 						author.author= first.author.username
 				each line in lines
 					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
