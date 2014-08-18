@@ -130,5 +130,71 @@ describe('ChatInput', function () {
 
 		done();
 	});
+	it('test one simple div', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var div = document.createElement("div");
+		div.textContent = "testtest";
+		ci.el.childNodes.appendChild(div);
+		var event = new Event('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('\ntesttest'); 
+			done();
+		});
+		ci.input.emit('keyup', event);
+	});
+	it('test pasting simple group of divs', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var div = document.createElement("div");
+		div.textContent = "Felix Haeusler";
+		ci.el.childNodes.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Leo Fasbender";
+		ci.el.childNodes.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Stefan Kroener";
+		ci.el.childNodes.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Mohamed Elrakaiby";
+		ci.el.childNodes.appendChild(div);
+		var event = new Event('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('\nFelix Haeusler\nLeo Fasbender\n
+				Stefan Kroener\nMohamed Elrakaiby'); 
+			done();
+		});
+		ci.input.emit('keyup', event);
+	});
+	it('test pasting group of different tags', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var tag = document.createElement("div");
+		tag.textContent = "the div";
+		ci.el.childNodes.appendChild(tag);
+		tag = document.createElement("img");
+		tag.src = "static/chatgrape/static/images/logo.svg";
+		ci.el.childNodes.appendChild(tag);
+		tag = document.createElement("br");
+		ci.el.childNodes.appendChild(tag);
+		tag = document.createTextNode("the text");
+		ci.el.childNodes.appendChild(tag);
+		tag = document.createElement("p");
+		tag.textContent = "the paragraph";
+		ci.el.childNodes.appendChild(tag);
+		var event = new Event('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('\nthe div[IMG]\nstatic/chatgrape/static/images/logo.svg
+				\n\nthe text\nthe paragraph'); 
+			done();
+		});
+		ci.input.emit('keyup', event);
+	});
 });
 
