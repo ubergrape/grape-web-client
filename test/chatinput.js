@@ -196,5 +196,40 @@ describe('ChatInput', function () {
 		});
 		ci.input.emit('keyup', event);
 	});
+	it('test writing html stuff', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var div = document.createElement("div");
+		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
+		ci.el.childNodes.appendChild(div);
+		var event = new Event('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('<p> test test </p><div id = \"check\">test div </div>'); 
+			done();
+		});
+		ci.input.emit('keyup', event);
+	});
+	it('test digeneration children nodes are handled', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var fatherDiv = document.createElement("div");
+		var childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 1";
+		fatherDiv.appendChild(childDiv);
+		childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 2";
+		fatherDiv.appendChild(childDiv);
+		ci.el.childNodes.appendChild(fatherDiv);
+		var event = new Event('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('sentence 1\nsentence 2'); 
+			done();
+		});
+		ci.input.emit('keyup', event);
+	});
 });
 
