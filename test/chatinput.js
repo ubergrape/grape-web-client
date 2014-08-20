@@ -135,10 +135,11 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		ci.el.childNodes = ci.el.childNodes || [];
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "testtest";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
@@ -151,19 +152,20 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		ci.el.childNodes = ci.el.childNodes || [];
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "Felix Haeusler";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		div = document.createElement("div");
 		div.textContent = "Leo Fasbender";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		div = document.createElement("div");
 		div.textContent = "Stefan Kroener";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		div = document.createElement("div");
 		div.textContent = "Mohamed Elrakaiby";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
@@ -177,20 +179,21 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		ci.el.childNodes = ci.el.childNodes || [];
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
 		var tag = document.createElement("div");
 		tag.textContent = "the div";
-		ci.el.childNodes.append(tag);
+		textarea.childNodes.push(tag);
 		tag = document.createElement("img");
 		tag.src = "static/chatgrape/static/images/logo.svg";
-		ci.el.childNodes.append(tag);
+		textarea.childNodes.push(tag);
 		tag = document.createElement("br");
-		ci.el.childNodes.append(tag);
+		textarea.childNodes.push(tag);
 		tag = document.createTextNode("the text");
-		ci.el.childNodes.append(tag);
+		textarea.childNodes.push(tag);
 		tag = document.createElement("p");
 		tag.textContent = "the paragraph";
-		ci.el.childNodes.append(tag);
+		textarea.childNodes.push(tag);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
@@ -204,10 +207,11 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		ci.el.childNodes = ci.el.childNodes || [];
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
-		ci.el.childNodes.append(div);
+		textarea.childNodes.push(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
@@ -220,16 +224,17 @@ describe('ChatInput', function () {
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
 		add(ci.el);
-		ci.el.childNodes = ci.el.childNodes || [];
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
 		var fatherDiv = document.createElement("div");
 		var childDiv = document.createElement("div");
 		childDiv.textContent = "sentence 1";
 		fatherDiv.childNodes = fatherDiv.childNodes || [];
-		fatherDiv.append(childDiv);
+		fatherDiv.childNodes.push(childDiv);
 		childDiv = document.createElement("div");
 		childDiv.textContent = "sentence 2";
-		fatherDiv.append(childDiv);
-		ci.el.childNodes.append(fatherDiv);
+		fatherDiv.childNodes.push(childDiv);
+		textarea.childNodes.push(fatherDiv);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("sentence 1\nsentence 2"); 
