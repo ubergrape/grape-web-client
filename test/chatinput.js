@@ -130,5 +130,112 @@ describe('ChatInput', function () {
 
 		done();
 	});
+	it('should work with one simple div', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.childNodes = ci.el.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "testtest";
+		ci.el.childNodes.append(div);
+		var ev = document.createEvent('keyup');
+		ci.on('input', function (str) {
+			str.should.equal('\ntesttest'); 
+			done();
+		});
+		ci.input.emit('keyup', ev);
+	});
+	it('should handle pasting simple group of divs', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.childNodes = ci.el.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "Felix Haeusler";
+		ci.el.childNodes.append(div);
+		div = document.createElement("div");
+		div.textContent = "Leo Fasbender";
+		ci.el.childNodes.append(div);
+		div = document.createElement("div");
+		div.textContent = "Stefan Kroener";
+		ci.el.childNodes.append(div);
+		div = document.createElement("div");
+		div.textContent = "Mohamed Elrakaiby";
+		ci.el.childNodes.append(div);
+		var ev = document.createEvent('keyup');
+		ci.on('input', function (str) {
+			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
+				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
+			done();
+		});
+		ci.input.emit('keyup', ev);
+	});
+	it('should handle pasting group of different tags', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.childNodes = ci.el.childNodes || [];
+		var tag = document.createElement("div");
+		tag.textContent = "the div";
+		ci.el.childNodes.append(tag);
+		tag = document.createElement("img");
+		tag.src = "static/chatgrape/static/images/logo.svg";
+		ci.el.childNodes.append(tag);
+		tag = document.createElement("br");
+		ci.el.childNodes.append(tag);
+		tag = document.createTextNode("the text");
+		ci.el.childNodes.append(tag);
+		tag = document.createElement("p");
+		tag.textContent = "the paragraph";
+		ci.el.childNodes.append(tag);
+		var ev = document.createEvent('keyup');
+		ci.on('input', function (str) {
+			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
+				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
+			done();
+		});
+		ci.input.emit('keyup', ev);
+	});
+	it('should handle writing html stuff', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.childNodes = ci.el.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
+		ci.el.childNodes.append(div);
+		var ev = document.createEvent('keyup');
+		ci.on('input', function (str) {
+			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
+			done();
+		});
+		ci.input.emit('keyup', ev);
+	});
+	it('should handle digeneration children nodes are handled', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.childNodes = ci.el.childNodes || [];
+		var fatherDiv = document.createElement("div");
+		var childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 1";
+		fatherDiv.childNodes = fatherDiv.childNodes || [];
+		fatherDiv.append(childDiv);
+		childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 2";
+		fatherDiv.append(childDiv);
+		ci.el.childNodes.append(fatherDiv);
+		var ev = document.createEvent('keyup');
+		ci.on('input', function (str) {
+			str.should.equal("sentence 1\nsentence 2"); 
+			done();
+		});
+		ci.input.emit('keyup', ev);
+	});
 });
 
