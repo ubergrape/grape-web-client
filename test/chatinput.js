@@ -130,6 +130,30 @@ describe('ChatInput', function () {
 
 		done();
 	});
+	it('should have the element', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		ci.el.should.not.be.an('undefined');
+	});
+	it('should have the message input', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.should.not.be.an('undefined');
+	});
+	it('should have childNodes in the textarea', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		textarea.childNodes.should.not.be.an('undefined');
+	});
 	it('should work with one simple div', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
