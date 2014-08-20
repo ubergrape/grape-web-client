@@ -164,8 +164,8 @@ describe('ChatInput', function () {
 		ci.el.childNodes.appendChild(div);
 		var event = new Event('keyup');
 		ci.on('input', function (str) {
-			str.should.equal('\nFelix Haeusler\nLeo Fasbender\n
-				Stefan Kroener\nMohamed Elrakaiby'); 
+			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
+				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
 			done();
 		});
 		ci.input.emit('keyup', event);
@@ -190,8 +190,8 @@ describe('ChatInput', function () {
 		ci.el.childNodes.appendChild(tag);
 		var event = new Event('keyup');
 		ci.on('input', function (str) {
-			str.should.equal('\nthe div[IMG]\nstatic/chatgrape/static/images/logo.svg
-				\n\nthe text\nthe paragraph'); 
+			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
+				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
 			done();
 		});
 		ci.input.emit('keyup', event);
@@ -206,7 +206,7 @@ describe('ChatInput', function () {
 		ci.el.childNodes.appendChild(div);
 		var event = new Event('keyup');
 		ci.on('input', function (str) {
-			str.should.equal('<p> test test </p><div id = \"check\">test div </div>'); 
+			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
 			done();
 		});
 		ci.input.emit('keyup', event);
@@ -226,7 +226,7 @@ describe('ChatInput', function () {
 		ci.el.childNodes.appendChild(fatherDiv);
 		var event = new Event('keyup');
 		ci.on('input', function (str) {
-			str.should.equal('sentence 1\nsentence 2'); 
+			str.should.equal("sentence 1\nsentence 2"); 
 			done();
 		});
 		ci.input.emit('keyup', event);
