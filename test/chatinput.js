@@ -192,7 +192,7 @@ describe('ChatInput', function () {
 		var ev = document.createEvent('CustomEvent');
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
-		ci.on('input', function (str) {
+		ci.input.on('input', function (str) {
 			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
 				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
 			done();
@@ -222,7 +222,7 @@ describe('ChatInput', function () {
 		var ev = document.createEvent('CustomEvent');
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
-		ci.on('input', function (str) {
+		ci.input.on('input', function (str) {
 			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
 				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
 			done();
@@ -242,7 +242,7 @@ describe('ChatInput', function () {
 		var ev = document.createEvent('CustomEvent');
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
-		ci.on('input', function (str) {
+		ci.input.on('input', function (str) {
 			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
 			done();
 		});
@@ -267,7 +267,7 @@ describe('ChatInput', function () {
 		var ev = document.createEvent('CustomEvent');
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
-		ci.on('input', function (str) {
+		ci.input.on('input', function (str) {
 			str.should.equal("sentence 1\nsentence 2"); 
 			done();
 		});

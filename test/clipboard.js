@@ -9,9 +9,10 @@ var UI = require('cg').UI;
 template.locals.user = {avatar: "", username:"test"};
 
 describe('Cipboard', function () {
-	it('should be automaticallly initialized', function () {
+	it('should be automaticallly initialized', function (done) {
 		var ui = new UI();
 		ui.clipboard.should.not.be.an('undefined');
+		done();
 	});
 	it('should handle paste event', function (done) {
 		var ui = new UI();
