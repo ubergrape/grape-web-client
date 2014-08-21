@@ -159,7 +159,7 @@ describe('ChatInput', function () {
 		var div = document.createElement("div");
 		div.textContent = "testtest";
 		textarea.appendChild(div);
-		ci.on('input', function (str) {
+		ci.input.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
 			done();
 		});
