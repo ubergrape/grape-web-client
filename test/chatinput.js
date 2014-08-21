@@ -159,11 +159,13 @@ describe('ChatInput', function () {
 		var div = document.createElement("div");
 		div.textContent = "testtest";
 		textarea.appendChild(div);
+		var ev = new Event('keyup');
+		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
 			done();
 		});
-		ci.input.emit('keyup');
+		textarea.dispatchEvent(ev);
 	});
 	it('should handle pasting simple group of divs', function (done){
 		var ci = new ChatInput();
