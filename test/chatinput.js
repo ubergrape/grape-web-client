@@ -130,14 +130,6 @@ describe('ChatInput', function () {
 
 		done();
 	});
-	it('should have the element', function (done){
-		var ci = new ChatInput();
-		var room = {foo: 'bar'};
-		ci.setRoom(room);
-		add(ci.el);
-		ci.el.should.not.be.an('undefined');
-		done();
-	});
 	it('should have the message input', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
@@ -166,7 +158,7 @@ describe('ChatInput', function () {
 		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "testtest";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
@@ -183,16 +175,16 @@ describe('ChatInput', function () {
 		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "Felix Haeusler";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		div = document.createElement("div");
 		div.textContent = "Leo Fasbender";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		div = document.createElement("div");
 		div.textContent = "Stefan Kroener";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		div = document.createElement("div");
 		div.textContent = "Mohamed Elrakaiby";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
@@ -210,17 +202,17 @@ describe('ChatInput', function () {
 		textarea.childNodes = textarea.childNodes || [];
 		var tag = document.createElement("div");
 		tag.textContent = "the div";
-		textarea.childNodes.push(tag);
+		textarea.appendChild(tag);
 		tag = document.createElement("img");
 		tag.src = "static/chatgrape/static/images/logo.svg";
-		textarea.childNodes.push(tag);
+		textarea.appendChild(tag);
 		tag = document.createElement("br");
-		textarea.childNodes.push(tag);
+		textarea.appendChild(tag);
 		tag = document.createTextNode("the text");
-		textarea.childNodes.push(tag);
+		textarea.appendChild(tag);
 		tag = document.createElement("p");
 		tag.textContent = "the paragraph";
-		textarea.childNodes.push(tag);
+		textarea.appendChild(tag);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
@@ -238,7 +230,7 @@ describe('ChatInput', function () {
 		textarea.childNodes = textarea.childNodes || [];
 		var div = document.createElement("div");
 		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
-		textarea.childNodes.push(div);
+		textarea.appendChild(div);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
@@ -257,11 +249,11 @@ describe('ChatInput', function () {
 		var childDiv = document.createElement("div");
 		childDiv.textContent = "sentence 1";
 		fatherDiv.childNodes = fatherDiv.childNodes || [];
-		fatherDiv.childNodes.push(childDiv);
+		fatherDiv.appendChild(childDiv);
 		childDiv = document.createElement("div");
 		childDiv.textContent = "sentence 2";
-		fatherDiv.childNodes.push(childDiv);
-		textarea.childNodes.push(fatherDiv);
+		fatherDiv.appendChild(childDiv);
+		textarea.appendChild(fatherDiv);
 		var ev = document.createEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal("sentence 1\nsentence 2"); 
