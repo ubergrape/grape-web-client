@@ -22,9 +22,11 @@ describe('Cipboard', function () {
 		var builder = new BlobBuilder();
 		builder.append('<img src = "http://www.sunmaster.co.uk/destination-guides/mainImage/egypt.jpg">');
 		var blob = builder.getBlob('text/html');
-		var ev = new CustomEvent('paste');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('paste');
+		//ev.keyCode = 13;
 		ev.items = [blob];
-		ui.emit('paste', ev);
+		window.dispatchEvent(ev);
 	});
 	it('should emit upload event when the pasted file is blob', function (done) {
 		var ui = new UI();
@@ -35,9 +37,12 @@ describe('Cipboard', function () {
 		var builder = new BlobBuilder();
 		builder.append('<img src = "http://www.sunmaster.co.uk/destination-guides/mainImage/egypt.jpg">');
 		var blob = builder.getBlob('text/html');
-		var ev = new CustomEvent('paste');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('paste');
+		//ev.keyCode = 13;
 		ev.items = [blob];
-		ui.emit('paste', ev);
+		window.dispatchEvent(ev);
+		//ui.emit('paste', ev);
 	});
 });
 

@@ -189,13 +189,15 @@ describe('ChatInput', function () {
 		div = document.createElement("div");
 		div.textContent = "Mohamed Elrakaiby";
 		textarea.appendChild(div);
-		var ev = new CustomEvent('keyup');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
 				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
 			done();
 		});
-		ci.input.emit('keyup', ev);
+		textarea.dispatchEvent(ev);
 	});
 	it('should handle pasting group of different tags', function (done){
 		var ci = new ChatInput();
@@ -217,13 +219,15 @@ describe('ChatInput', function () {
 		tag = document.createElement("p");
 		tag.textContent = "the paragraph";
 		textarea.appendChild(tag);
-		var ev = new CustomEvent('keyup');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
 		ci.on('input', function (str) {
 			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
 				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
 			done();
 		});
-		ci.input.emit('keyup', ev);
+		textarea.dispatchEvent(ev);
 	});
 	it('should handle writing html stuff', function (done){
 		var ci = new ChatInput();
@@ -235,12 +239,14 @@ describe('ChatInput', function () {
 		var div = document.createElement("div");
 		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
 		textarea.appendChild(div);
-		var ev = new CustomEvent('keyup');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
 		ci.on('input', function (str) {
 			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
 			done();
 		});
-		ci.input.emit('keyup', ev);
+		textarea.dispatchEvent(ev);
 	});
 	it('should handle digeneration children nodes are handled', function (done){
 		var ci = new ChatInput();
@@ -258,12 +264,14 @@ describe('ChatInput', function () {
 		childDiv.textContent = "sentence 2";
 		fatherDiv.appendChild(childDiv);
 		textarea.appendChild(fatherDiv);
-		var ev = new CustomEvent('keyup');
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
 		ci.on('input', function (str) {
 			str.should.equal("sentence 1\nsentence 2"); 
 			done();
 		});
-		ci.input.emit('keyup', ev);
+		textarea.dispatchEvent(ev);
 	});
 });
 
