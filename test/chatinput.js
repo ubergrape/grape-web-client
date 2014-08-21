@@ -159,12 +159,11 @@ describe('ChatInput', function () {
 		var div = document.createElement("div");
 		div.textContent = "testtest";
 		textarea.appendChild(div);
-		var ev = new CustomEvent('keyup');
 		ci.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
 			done();
 		});
-		ci.input.emit('keyup', ev);
+		trigger(ci.input, 'keyup');
 	});
 	it('should handle pasting simple group of divs', function (done){
 		var ci = new ChatInput();
