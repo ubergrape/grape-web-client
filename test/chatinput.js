@@ -159,8 +159,9 @@ describe('ChatInput', function () {
 		var div = document.createElement("div");
 		div.textContent = "testtest";
 		textarea.appendChild(div);
-		var ev = new Event('keyup');
-		ev.keyCode = 13;
+		var ev = new KeyboardEvent('keyup');
+		delete ev.keyCode;
+		Object.defineProperty(ev, "keyCode", {"value" : 13})
 		ci.input.on('input', function (str) {
 			str.should.equal('\ntesttest'); 
 			done();
