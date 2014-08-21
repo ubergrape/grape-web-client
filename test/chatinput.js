@@ -163,7 +163,7 @@ describe('ChatInput', function () {
 			str.should.equal('\ntesttest'); 
 			done();
 		});
-		trigger(ci.input, 'keyup');
+		ci.input.emit('keyup');
 	});
 	it('should handle pasting simple group of divs', function (done){
 		var ci = new ChatInput();
