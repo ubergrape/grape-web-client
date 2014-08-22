@@ -41,7 +41,6 @@ describe('ChatInput', function () {
 		ci.setRoom(room);
 		add(ci.el);
 		var textarea = qs('.messageInput', ci.el);
-		textarea.childNodes = textarea.childNodes || [];
 		textarea.childNodes.should.not.be.an('undefined');
 		done();
 	});
