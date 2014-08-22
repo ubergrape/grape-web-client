@@ -247,7 +247,7 @@ describe('ChatInput', function () {
 		});
 		textarea.dispatchEvent(ev);
 	});
-	it('should handle digeneration children nodes are handled', function (done){
+	it('should handle digeneration children nodes', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
