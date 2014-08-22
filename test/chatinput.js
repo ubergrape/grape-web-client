@@ -170,7 +170,7 @@ describe('ChatInput', function () {
 		});
 		textarea.dispatchEvent(ev);
 	});
-	/*it('should handle pasting simple group of divs', function (done){
+	it('should handle pasting simple group of divs', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
@@ -198,8 +198,8 @@ describe('ChatInput', function () {
 			done();
 		});
 		textarea.dispatchEvent(ev);
-	});*/
-	it('should handle pasting group of different tags', function (done){
+	});
+	/*it('should handle pasting group of different tags', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
@@ -209,6 +209,8 @@ describe('ChatInput', function () {
 		var tag = document.createElement("div");
 		tag.textContent = "the div";
 		textarea.appendChild(tag);
+		tag = document.createElement("img");
+		tag.src = "static/chatgrape/static/images/logo.svg";
 		textarea.appendChild(tag);
 		tag = document.createElement("br");
 		textarea.appendChild(tag);
@@ -221,11 +223,12 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("\n" + "\n" + "the text" + "\n" + "the paragraph"); 
+			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
+				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
 			done();
 		});
 		textarea.dispatchEvent(ev);
-	});
+	});*/
 	it('should handle writing html stuff', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
