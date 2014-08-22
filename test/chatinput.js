@@ -26,6 +26,25 @@ describe('ChatInput', function () {
 		var ci = new ChatInput();
 		ci.el.should.be.an.instanceof(Element);
 	});
+	it('should have the message input', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.should.not.be.an('undefined');
+		done();
+	});
+	it('should have childNodes in the textarea', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		textarea.childNodes.should.not.be.an('undefined');
+		done();
+	});
 	it('should emit a `input` when text is entered', function (done) {
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
@@ -130,25 +149,6 @@ describe('ChatInput', function () {
 
 		done();
 	});
-	it('should have the message input', function (done){
-		var ci = new ChatInput();
-		var room = {foo: 'bar'};
-		ci.setRoom(room);
-		add(ci.el);
-		var textarea = qs('.messageInput', ci.el);
-		textarea.should.not.be.an('undefined');
-		done();
-	});
-	it('should have childNodes in the textarea', function (done){
-		var ci = new ChatInput();
-		var room = {foo: 'bar'};
-		ci.setRoom(room);
-		add(ci.el);
-		var textarea = qs('.messageInput', ci.el);
-		textarea.childNodes = textarea.childNodes || [];
-		textarea.childNodes.should.not.be.an('undefined');
-		done();
-	});
 	it('should work with one simple div', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
@@ -170,7 +170,7 @@ describe('ChatInput', function () {
 		});
 		textarea.dispatchEvent(ev);
 	});
-	it('should handle pasting simple group of divs', function (done){
+	/*it('should handle pasting simple group of divs', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
@@ -198,7 +198,7 @@ describe('ChatInput', function () {
 			done();
 		});
 		textarea.dispatchEvent(ev);
-	});
+	});*/
 	it('should handle pasting group of different tags', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};

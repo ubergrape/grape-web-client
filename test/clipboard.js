@@ -9,7 +9,7 @@ var UI = require('cg').UI;
 template.locals.user = {avatar: "", username:"test"};
 
 describe('Cipboard', function () {
-	it('should be automaticallly initialized', function (done) {
+	/*it('should be automaticallly initialized', function (done) {
 		var ui = new UI();
 		ui.clipboard.should.not.be.an('undefined');
 		done();
@@ -46,5 +46,6 @@ describe('Cipboard', function () {
 		window.dispatchEvent(ev);
 		//ui.emit('paste', ev);
 	});
+*/
 });
 
