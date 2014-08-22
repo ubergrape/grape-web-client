@@ -41,7 +41,8 @@ describe('Cipboard', function () {
 		var ev = document.createEvent('CustomEvent');
 		ev.initCustomEvent('paste');
 		//ev.keyCode = 13;
-		ev.items = [blob];
+		ev.items = ev.items || [];
+		ev.items.push(blob);
 		window.dispatchEvent(ev);
 		//ui.emit('paste', ev);
 	});

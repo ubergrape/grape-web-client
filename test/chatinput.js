@@ -209,8 +209,6 @@ describe('ChatInput', function () {
 		var tag = document.createElement("div");
 		tag.textContent = "the div";
 		textarea.appendChild(tag);
-		tag = document.createElement("img");
-		tag.src = "static/chatgrape/static/images/logo.svg";
 		textarea.appendChild(tag);
 		tag = document.createElement("br");
 		textarea.appendChild(tag);
@@ -223,8 +221,7 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
-				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
+			str.should.equal("\n" + "\n" + "the text" + "\n" + "the paragraph"); 
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -243,7 +240,7 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("<p> test test </p><div id = \"check\">test div </div>"); 
+			str.should.equal("\n<p> test test </p><div id = \"check\">test div </div>"); 
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -268,7 +265,7 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("sentence 1\nsentence 2"); 
+			str.should.equal("\nsentence 1\nsentence 2"); 
 			done();
 		});
 		textarea.dispatchEvent(ev);
