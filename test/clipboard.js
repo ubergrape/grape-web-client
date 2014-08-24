@@ -14,9 +14,9 @@ describe('Cipboard', function () {
 		ui.clipboard.should.not.be.an('undefined');
 		done();
 	});
-	it('should catch paste event', function (done) {
+	it('should catch paste events', function (done) {
 		var ui = new UI();
-		ui.clipboard.on('paste', function (e){
+		ui.clipboard.on('paste', function (){
 			done();
 		});
 		//var BlobBuilder = window.WebKitBlobBuilder || window.MozBlobBuilder;
