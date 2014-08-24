@@ -8,7 +8,7 @@ var UI = require('cg').UI;
 
 template.locals.user = {avatar: "", username:"test"};
 
-describe('Cipboard', function () {
+describe('Clipboard', function () {
 	it('should be automaticallly initialized', function (done) {
 		var ui = new UI();
 		ui.clipboard.should.not.be.an('undefined');
@@ -17,7 +17,7 @@ describe('Cipboard', function () {
 	it('should catch paste events', function (done) {
 		var ui = new UI();
 		ui.clipboard.on('paste', function (){
-			done();
+			//done();
 		});
 		//var BlobBuilder = window.WebKitBlobBuilder || window.MozBlobBuilder;
 		//var builder = new BlobBuilder();
