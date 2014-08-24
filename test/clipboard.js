@@ -14,10 +14,10 @@ describe('Clipboard', function () {
 		ui.clipboard.should.not.be.an('undefined');
 		done();
 	});
-	it('should catch paste events', function (done) {
+	it('should handle paste event', function (done) {
 		var ui = new UI();
-		ui.clipboard.on('paste', function (){
-			//done();
+		ui.clipboard.on('paste', function (e){
+			done();
 		});
 		//var BlobBuilder = window.WebKitBlobBuilder || window.MozBlobBuilder;
 		//var builder = new BlobBuilder();
@@ -27,7 +27,6 @@ describe('Clipboard', function () {
 		ev.initCustomEvent('paste');
 		//ev.keyCode = 13;
 		ev.items = [];
-		ev.dataTransfer = {files: []};
 		window.dispatchEvent(ev);
 	});
 	/*it('should emit upload event when the pasted file is blob', function (done) {
