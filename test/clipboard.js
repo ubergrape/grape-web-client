@@ -27,6 +27,7 @@ describe('Cipboard', function () {
 		ev.initCustomEvent('paste');
 		//ev.keyCode = 13;
 		ev.items = [];
+		ev.dataTransfer.files = [];
 		window.dispatchEvent(ev);
 	});
 	/*it('should emit upload event when the pasted file is blob', function (done) {
