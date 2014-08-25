@@ -198,7 +198,7 @@ describe('ChatInput', function () {
 		});
 		textarea.dispatchEvent(ev);
 	});
-	/*it('should handle pasting group of different tags', function (done){
+	it.skip('should handle pasting group of different tags', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
 		ci.setRoom(room);
@@ -227,7 +227,7 @@ describe('ChatInput', function () {
 			done();
 		});
 		textarea.dispatchEvent(ev);
-	});*/
+	});
 	it('should handle writing html stuff', function (done){
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};

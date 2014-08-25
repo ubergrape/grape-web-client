@@ -29,7 +29,7 @@ describe('Clipboard', function () {
 		ev.items = [];
 		window.dispatchEvent(ev);
 	});
-	/*it('should emit upload event when the pasted file is blob', function (done) {
+	it.skip('should emit upload event when the pasted file is blob', function (done) {
 		var ui = new UI();
 		ui.upload.on('upload', function (){
 			done();
@@ -46,6 +46,5 @@ describe('Clipboard', function () {
 		window.dispatchEvent(ev);
 		//ui.emit('paste', ev);
 	});
-*/
 });
 
