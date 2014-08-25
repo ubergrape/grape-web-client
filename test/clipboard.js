@@ -14,7 +14,7 @@ describe('Clipboard', function () {
 		ui.clipboard.should.not.be.an('undefined');
 		done();
 	});
-	it('should handle paste event', function (done) {
+	it('should catch paste event', function (done) {
 		var ui = new UI();
 		ui.clipboard.on('paste', function (e){
 			done();
