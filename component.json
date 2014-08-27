@@ -127,8 +127,8 @@
     "ubergrape/HTML5-Desktop-Notifications": "*",
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
-    "component/clipboard": "*",
-    "mbelraka/drop-anywhere": "*",
+    "component/clipboard": "0.1.6",
+    "mbelraka/drop-anywhere": "0.6.1",
     "moment/moment": "2.7.0",
     "ubergrape/moment-timezone": "*"
   },
