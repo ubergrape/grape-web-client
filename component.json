@@ -128,7 +128,7 @@
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "0.1.6",
-    "mbelraka/drop-anywhere": "0.6.1",
+    "mbelraka/drop-anywhere": "*",
     "moment/moment": "2.7.0",
     "ubergrape/moment-timezone": "*"
   },
