@@ -173,27 +173,27 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	}
 
 	// hook up the autocomplete
-	// there should always be a whitespace char in front, or beginning of line. hence (?:^|\s)
-	this.complete.re = /(?:^|\s)[@#:]([^\s]{1,15})$/;
+	// there should always be a whitespace char in front, or beginning of line. hence (^|\s)
+	this.complete.re = /(^|\s)([@#:])([^\s]{1,15})$/;
 	this.complete.formatSelection = function (obj) {
-		return renderAutocomplete(obj, true);
+		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
-		var match = matches[0];
+		var whitespace = matches[1]
+		var trigger_character = matches[2];
+		var match = matches[3];
+
+		console.log(matches);
 
 		self.complete.clear();
 
-		if (match[0] == ':') {
-			var search;
-			if (match[match.length-1] === ':')
-				// match without ':' at the beginning and at the end
-				search = match.substr(1, match.length-1);
-			else {
-				// match without ':' at the beginning
-				search = match.substr(1);
+		if (trigger_character === ':') {
+			if (match[match.length-1] === ':') {
+				// match without ':' at the end
+				match = match.substr(1, match.length-1);
 			}
 
-			search = search.toLowerCase();
+			match = match.toLowerCase();
 
 			// TODO: app.organization
 			var custom_emojis = app.organization.custom_emojis;
@@ -201,14 +201,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (self.complete.options.length >= self.max_autocomplete)
 					break;
 				if (custom_emojis.hasOwnProperty(emo)) {
-					if (~emo.indexOf(search)) {
+					if (~emo.indexOf(match)) {
 						var image = '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'">';
 						self.complete.push({
 							id: ":" + emo + ":",
 							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
 							insert: image,
 							service: "emoji",
-							type: "emoji"
+							type: "emoji",
+							whitespace: whitespace
 						});
 					}
 				}
@@ -221,14 +222,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					break;
 				if (emojis.hasOwnProperty(emo)) {
 					var val = emojis[emo];
-					if (~emo.indexOf(search)) {
+					if (~emo.indexOf(match)) {
 						var image = emoji.replacement(val, emo, ':');
 						self.complete.push({
 							id: ":" + emo + ":",
 							title: "<div class='entry-type-description'>Emoji</div>" + "<div class='option-wrap'>" + image + " :" + emo + ":" + "</div>",
 							insert: image,
 							service: "emoji",
-							type: "emoji"
+							type: "emoji",
+							whitespace: whitespace
 						});
 					}
 				}
@@ -239,16 +241,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.highlight(0);
 			}
 
-		} else if (match[0] == "@") {
+		} else if (trigger_character === "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
-			var search = match.substr(1); // match without the '@'
-
 			// TODO don't use global vars
-
 			var users = app.organization.users;
+			var search = match;
 			for (var i=0; i<users.length; i++) {
 				if (self.complete.options.length >= self.max_autocomplete)
 					break;
@@ -275,7 +275,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: '@' + name,
 						service: 'chatgrape',
 						type: 'user',
-						url: '/chat/@' + user.username
+						url: '/chat/@' + user.username,
+						whitespace: whitespace
 					});
 				}
 			}
@@ -292,7 +293,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: '@' + room.name,
 						service: 'chatgrape',
 						type: 'room',
-						url: '/chat/' + room.name
+						url: '/chat/' + room.name,
+						whitespace: whitespace
 					});
 				}
 			}
@@ -302,8 +304,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.highlight(0);
 			}
 
-
-		} else if (match[0] === "#") {
+		} else if (trigger_character === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, result){
@@ -317,7 +318,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						insert: r.name,
 						service: r.service,
 						type: r.type,
-						url: r.url
+						url: r.url,
+						whitespace: whitespace
 					});
 				}
 
@@ -327,8 +329,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				}
 			});
 		}
-
-
 	};
 };
 

@@ -17,6 +17,7 @@ var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
+var timezone = require('./jstz');
 var exports = module.exports = UI;
 
 // configure locales and template locals
@@ -31,7 +32,7 @@ _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.markdown = require('./markdown');
-template.locals.constants = constants
+template.locals.constants = constants;
 // XXX: I really don’t want to hack in innerHTML support right now, so just
 // make a little workaround here
 template.locals.html = function (html) {
@@ -168,7 +169,7 @@ UI.prototype.init = function UI_init() {
 	this.intro.setOptions({
 		nextLabel: '<strong>' + _('Next') + '</strong>',
 		skipLabel: _('Skip'),
-		overlayOpacity: .4,
+		overlayOpacity: 0.4,
 		showStepNumbers: false,
 		steps: [
 			{
@@ -205,6 +206,9 @@ UI.prototype.init = function UI_init() {
 			}
 		]
 	});
+
+	// check timezone
+	this.tz = timezone.determine().name();
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -325,7 +329,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
 
 	// dragAndDrop
-	broker(this, 'uploadDragged', this.upload, 'doUpload');	
+	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
@@ -481,6 +485,12 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 	if (this.settings.show_intro) {
 		this.intro.start();
 	}
+
+	// javscript timezone should always override server timezone setting?
+	if (!this.settings.timezone || this.settings.timezone != this.tz) {
+		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
+		this.emit('timezonechange', this.tz);
+	}
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
@@ -492,7 +502,7 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 };
 
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
-	var path = path || location.pathname;
+	path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
 	var match = path.match(pathRegexp);
 	var i;
@@ -507,7 +517,7 @@ UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 			}
 		}
 		return this.org.rooms[0];
-	};
+	}
 	var name = match[2].toLowerCase();
 	if (match[1] === '@' && name !== this.user.username) {
 		// there'sno channel with yourself
@@ -564,7 +574,7 @@ UI.prototype.isPmOpen = function UI_isPmOpen(user) {
 		if (pmuser === user)
 			return pm;
 	}
-}
+};
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
@@ -580,12 +590,12 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	}
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success(_('Reconnected successfully'));
-	setTimeout(function(){msg.remove()}, 2000);
+	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
 
 	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
-	setTimeout(function(){msg.remove()}, 2000);
+	setTimeout(function(){ msg.remove(); }, 2000);
 };

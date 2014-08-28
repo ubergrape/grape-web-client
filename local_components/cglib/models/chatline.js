@@ -13,6 +13,7 @@ module.exports = new Model([
 		'author',
 		'channel',
 		'time',
+		'user_time',
 		'read' // to track if the current user has read the line
 	])
 	.use(cache('id'))

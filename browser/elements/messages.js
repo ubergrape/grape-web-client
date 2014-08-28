@@ -1,7 +1,7 @@
 var Emitter = require('emitter');
 var render = require('../rendervdom');
 var template = require('template');
-var Animate = require('animate');
+var animate = require('animate');
 
 module.exports = Messages;
 
@@ -47,7 +47,7 @@ Messages.prototype.create = function(text, level) {
 	var msg = new Message(text, level);
 	msg.add(this);
 	this.redraw();
-	Animate(this, 'fade-left-in');
+	animate(this, 'fade-left-in');
 	return msg;
 };
 

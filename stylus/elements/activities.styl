@@ -5,10 +5,15 @@
 	border-top: 2px solid lighten(gainsboro-light, 10%)
 	border-bottom: 1px solid lighten(gainsboro-light, 10%)
 	border-radius: 0 0 main-border-radius main-border-radius
+	.text
+		display: block
+		overflow: hidden
 	.main // Main Activity Text Styling
 		font-weight: bold
 	.actor // Avatar of person that caused the notification
 		margin-right: 3px
+		margin-top: 1px
+		float: left
 	.source-wrap // Used to display info on the right side of the message
 		float: right
 		padding: 0 5px
@@ -22,7 +27,7 @@
 		span
 			color: gainsboro-dark
 
-	/* GITHUB SPECIFIC */		
+	/* GITHUB SPECIFIC */
 
 	&.push, // advanced styling for connected pushes
 	&.pull_request,
@@ -73,23 +78,27 @@
 		position: relative
 		img
 			max-height: 170px
-		&:after
+		&:before
 			float: left
 			font-family: FontAwesome
 			color: gainsboro-dark
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
-	//Removing unnecessary elements 
+	//Removing unnecessary elements
 	&.issue_comment,
+    &.__label_changed,
+    &__asignment_changed,
 	&.issues
-		li.issue
+		li.issue,
+        li.user,
+        li.label
 			display: none
 	&.gollum
 		ul
 			li:only-child
 				display: none
-/*	
+/*
 
 	&.github
 		.pull-request
@@ -110,7 +119,7 @@
 				padding: 0 4px
 				font-style: italic
 				position: relative
-				max-height: 6.39em /* exactly five lines 
+				max-height: 6.39em /* exactly five lines
 				overflow: hidden
 				&:after
 					content: ""
