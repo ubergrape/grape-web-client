@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-07-16 09:31+0000\n"
+"POT-Creation-Date: 2014-09-01 12:14+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,6 +66,7 @@ msgstr "Suche nach Nachrichten, Dokumenten, ..."
 #: client/templates/roompopoverlist.jade:5
 #: client/templates/popovers/roomlist.jade:5
 #: client/templates/popovers/pm.jade:9
+#: client/templates/popovers/roomlist.jade:38
 msgid "leave"
 msgstr "Verlassen"
 
@@ -73,6 +74,7 @@ msgstr "Verlassen"
 #: client/templates/roompopoverlist.jade:7
 #: client/templates/popovers/roomlist.jade:7
 #: client/templates/popovers/pm.jade:11
+#: client/templates/popovers/roomlist.jade:9
 msgid "join"
 msgstr "Beitreten"
 
@@ -322,6 +324,7 @@ msgstr ""
 #: client/templates/chathistory.jade:54
 #: client/templates/chathistory.jade:71
 #: client/templates/chathistory.jade:59
+#: client/templates/chathistory.jade:63
 msgid "new messages"
 msgstr "Neue Nachrichten"
 
@@ -411,6 +414,7 @@ msgstr "Organisations-Einstellungen"
 #: client/templates/index.jade:109 client/templates/index.jade:127
 #: client/templates/popovers/organization.jade:12
 #: client/templates/popovers/pm.jade:25
+#: client/templates/popovers/pm.jade:30
 msgid "Manage Members"
 msgstr "Mitglieder verwalten"
 
@@ -500,6 +504,7 @@ msgstr ""
 #: client/templates/chathistory.jade:93
 #: client/templates/chathistory.jade:83
 #: client/templates/chathistory.jade:88
+#: client/templates/chathistory.jade:101
 msgid "#Label"
 msgstr ""
 
@@ -529,6 +534,8 @@ msgstr ""
 #: client/browser/index.js:487
 #: client/browser/index.js:481
 #: client/browser/index.js:547
+#: client/browser/index.js:553
+#: client/browser/index.js:593
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -609,6 +616,8 @@ msgstr ""
 #: client/browser/index.js:476
 #: client/browser/index.js:470
 #: client/browser/index.js:536
+#: client/browser/index.js:542
+#: client/browser/index.js:582
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -632,6 +641,7 @@ msgid "Message"
 msgstr ""
 
 #: client/templates/popovers/pm.jade:23
+#: client/templates/popovers/pm.jade:28
 msgid "There are no members in your organization yet."
 msgstr ""
 
@@ -674,6 +684,7 @@ msgstr ""
 
 #: client/browser/elements/notifications.js:63
 #: client/browser/elements/notifications.js:66
+#: client/browser/elements/notifications.js:67
 msgid "Private Message"
 msgstr ""
 
@@ -700,11 +711,13 @@ msgstr ""
 
 #: client/browser/elements/notifications.js:76
 #: client/browser/elements/notifications.js:78
+#: client/browser/elements/notifications.js:85
 msgid "[Image]"
 msgstr ""
 
 #: client/browser/elements/invite.js:76
 #: client/browser/elements/invite.js:82
+#: client/browser/elements/invite.js:83
 msgid "Please enter at least one user to invite"
 msgstr ""
 
@@ -733,6 +746,7 @@ msgid "Invite asd to "
 msgstr ""
 
 #: client/templates/popovers/roommembers.jade:16
+#: client/templates/popovers/roommembers.jade:17
 msgid "Invite more members"
 msgstr ""
 
@@ -760,6 +774,8 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:134
+#: client/browser/index.js:140
+#: client/browser/index.js:164
 msgid ""
 "Hey there! Please <a class=' enable_notifications'>enable desktop "
 "notifications</a> , so your team members can reach you on ChatGrape.  "
@@ -768,14 +784,20 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:141
+#: client/browser/index.js:147
+#: client/browser/index.js:171
 msgid "Next"
 msgstr ""
 
 #: client/browser/index.js:142
+#: client/browser/index.js:148
+#: client/browser/index.js:172
 msgid "Skip"
 msgstr ""
 
 #: client/browser/index.js:147
+#: client/browser/index.js:153
+#: client/browser/index.js:177
 msgid ""
 "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview "
 "in 5 simple steps.</p><p>You can skip this at any time by clicking "
@@ -783,6 +805,8 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:152
+#: client/browser/index.js:158
+#: client/browser/index.js:182
 msgid ""
 "<h2>Organization Settings</h2><p>This is the organization you are currently "
 "in.</p><p>You can add and manage members and external services by clicking "
@@ -790,6 +814,8 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:157
+#: client/browser/index.js:163
+#: client/browser/index.js:187
 msgid ""
 "<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've "
 "auto-joined you to General and Off-Topic.</p><p>You can see all availible "
@@ -798,6 +824,8 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:162
+#: client/browser/index.js:168
+#: client/browser/index.js:192
 msgid ""
 "<h2>Private Messages</h2><p>This list contains your contacts you already "
 "have a private conversation with.</p><p>You can start more conversations by "
@@ -805,6 +833,8 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:167
+#: client/browser/index.js:173
+#: client/browser/index.js:197
 msgid ""
 "<h2>Room Members Info</h2><p>This number shows you how many users have "
 "joined this room.</p><p>Click it to see all of them or to invite more users "
@@ -812,58 +842,73 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:172
+#: client/browser/index.js:178
+#: client/browser/index.js:202
 msgid ""
 "<h2>User Profile</h2><p>You can find all profile-related settings (and "
 "re-start this awesome tutorial at any time) here.</p>"
 msgstr ""
 
 #: client/browser/index.js:176
+#: client/browser/index.js:182
+#: client/browser/index.js:206
 msgid ""
 "<h2>All done! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun using "
 "ChatGrape.</p>"
 msgstr ""
 
 #: client/browser/elements/dialogs/deleteroom.js:65
+#: client/browser/elements/dialogs/deleteroom.js:64
 msgid "Please enter your password"
 msgstr ""
 
 #: client/templates/deleteroom.jade:3
+#: client/templates/dialogs/deleteroom.jade:2
 msgid "you are about to delete "
 msgstr ""
 
 #: client/templates/deleteroom.jade:5
+#: client/templates/dialogs/deleteroom.jade:4
 msgid "Please enter your password to continue!"
 msgstr ""
 
 #: client/templates/deleteroom.jade:9
+#: client/templates/dialogs/deleteroom.jade:8
 msgid "Password"
 msgstr ""
 
 #: client/templates/deleteroom.jade:12
+#: client/templates/dialogs/deleteroom.jade:11
 msgid "Delete"
 msgstr ""
 
 #: client/templates/deleteroom.jade:14
+#: client/templates/dialogs/deleteroom.jade:13
 msgid "Sorry, you can't delete "
 msgstr ""
 
 #: client/templates/deleteroom.jade:15
+#: client/templates/dialogs/deleteroom.jade:14
 msgid " You need to be either owner of "
 msgstr ""
 
 #: client/templates/deleteroom.jade:15
+#: client/templates/dialogs/deleteroom.jade:14
 msgid " or creater of the room "
 msgstr ""
 
 #: client/templates/deleteroom.jade:15
+#: client/templates/dialogs/deleteroom.jade:14
 msgid ". You can ask them if they can delete the room for you:"
 msgstr ""
 
 #: client/templates/deleteroom.jade:17
+#: client/templates/dialogs/deleteroom.jade:17
 msgid "Owner of "
 msgstr ""
 
 #: client/templates/deleteroom.jade:26
+#: client/templates/dialogs/deleteroom.jade:24
 msgid "Creator of "
 msgstr ""
 
@@ -876,5 +921,207 @@ msgid "Tutorial"
 msgstr ""
 
 #: client/templates/popovers/roommembers.jade:19
+#: client/templates/popovers/roommembers.jade:20
 msgid "delete room"
+msgstr ""
+
+#: client/templates/chathistory.jade:87
+msgid " Local time: "
+msgstr ""
+
+#: client/templates/chathistory.jade:158
+msgid "Show More"
+msgstr ""
+
+#: client/templates/chatinput.jade:3
+msgid "Hit "
+msgstr ""
+
+#: client/templates/chatinput.jade:4
+msgid "ESC"
+msgstr ""
+
+#: client/templates/chatinput.jade:5
+msgid " to cancel editing."
+msgstr ""
+
+#: client/templates/chatinput.jade:19
+msgid "You can use ChatGrape "
+msgstr ""
+
+#: client/templates/chatinput.jade:20
+msgid "Markdown"
+msgstr ""
+
+#: client/templates/chatinput.jade:21
+msgid " to format your text"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:1
+msgid "ChatGrape Markdown "
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:2
+msgid "How to improve your chat messages with some nifty styles"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:4
+msgid "Inline styles"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:8
+#: client/templates/dialogs/markdowntips.jade:25
+#: client/templates/dialogs/markdowntips.jade:50
+#: client/templates/dialogs/markdowntips.jade:63
+#: client/templates/dialogs/markdowntips.jade:76
+#: client/templates/dialogs/markdowntips.jade:111
+msgid "Example"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:10
+msgid "You can write in *italic*, **bold** and in ~~strike trough~~"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:12
+#: client/templates/dialogs/markdowntips.jade:37
+#: client/templates/dialogs/markdowntips.jade:55
+#: client/templates/dialogs/markdowntips.jade:68
+#: client/templates/dialogs/markdowntips.jade:92
+#: client/templates/dialogs/markdowntips.jade:116
+msgid "Result"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:14
+msgid "You can write in "
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:15
+msgid "italic"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:17
+msgid "bold "
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:18
+msgid "and in "
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:19
+msgid "strike trough"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:21
+msgid "Lists"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:28
+msgid "- unordered list element"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:30
+msgid "- another one"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:33
+msgid "1. An ordered list"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:35
+msgid "1. A second one"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:39
+msgid "This is an unordered list element"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:40
+msgid "This is another one"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:43
+msgid "An ordered list"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:44
+msgid "A second one"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:46
+msgid "Links"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:53
+msgid "[A link to ChatGrape](https://chatgrape.com)"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:57
+msgid "A link to ChatGrape"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:59
+msgid "Images"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:66
+msgid "![description](static/chatgrape/static/images/logo.svg)"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:72
+msgid "Code Snippets"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:79
+msgid "This is `Inline` Code"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:86
+#: client/templates/dialogs/markdowntips.jade:103
+msgid "    This is a Code Block"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:94
+msgid "This is "
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:95
+msgid "Inline"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:96
+msgid " Code"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:107
+msgid "Blockquote"
+msgstr ""
+
+#: client/templates/dialogs/markdowntips.jade:114
+#: client/templates/dialogs/markdowntips.jade:119
+msgid "> One of the cooles products I've used in a while"
+msgstr ""
+
+#: client/templates/draganddrop.jade:7
+msgid "Drop your file to upload it!"
+msgstr ""
+
+#: client/templates/draganddrop.jade:9
+msgid "We support almost every file type up to a size of 50mb"
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:3
+msgid "Rooms you haven't joined"
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:22
+#: client/templates/popovers/roomlist.jade:52
+msgid "by "
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:29
+msgid "Your rooms"
+msgstr ""
+
+#: client/templates/popovers/roomlist.jade:36
+msgid "joined"
 msgstr ""
