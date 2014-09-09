@@ -86,7 +86,8 @@
 						span.dif-tz
 							=_(' Local time: ')
 						//- the substr part is a hack to remove the tz information
-						time.user-tz= tz(first.user_time.substr(0, first.user_time.indexOf('+'))).format('h:mm a')
+						- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+						time.user-tz= tz(user_time).format('h:mm a')
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
