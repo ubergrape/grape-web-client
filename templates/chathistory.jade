@@ -149,7 +149,7 @@
 												a(href=obj.url, target="_blank").sha
 													| #{obj.sha.substr(1, 7)} 
 											if obj.content
-												if line.author.id == 'github'
+												if line.author.id == 'github' || line.author.id == 'trello'
 													.text= html(markdown(obj.content))
 												else
 													span.text= obj.content
