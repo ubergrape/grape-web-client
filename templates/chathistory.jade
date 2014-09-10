@@ -136,7 +136,7 @@
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
-									if obj.visible == true
+									if obj.visible != false
 										li(class=obj.type)
 											if obj.author && obj.author.username
 												strong
