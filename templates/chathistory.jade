@@ -136,24 +136,25 @@
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
-									li(class=obj.type)
-										if obj.author && obj.author.username
-											strong
-												| #{obj.author.username} 
-										if obj.name
-											a(href=obj.url)
+									if obj.visible == true
+										li(class=obj.type)
+											if obj.author && obj.author.username
 												strong
-													| #{obj.name} 
-										if obj.sha
-											a(href=obj.url, target="_blank").sha
-												| #{obj.sha.substr(1, 7)} 
-										if obj.content
-											if line.author.id == 'github'
-												.text= html(markdown(obj.content))
-											else
-												span.text= obj.content
-										if obj.summary
-											span.summary= obj.summary
+													| #{obj.author.username} 
+											if obj.name
+												a(href=obj.url)
+													strong
+														| #{obj.name} 
+											if obj.sha
+												a(href=obj.url, target="_blank").sha
+													| #{obj.sha.substr(1, 7)} 
+											if obj.content
+												if line.author.id == 'github'
+													.text= html(markdown(obj.content))
+												else
+													span.text= obj.content
+											if obj.summary
+												span.summary= obj.summary
 								if line.objects.length > 3
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
