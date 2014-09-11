@@ -45,17 +45,17 @@ RoomMembersPopover.prototype.scrollDown = function RoomMembersPopover_scrollDown
 	var list = qs('.user-list', this.el);
 	var scrollHeight = list.scrollHeight;
 	list.scrollTop = scrollHeight;
-}
+};
 
 RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	var self = this;
 	var redraw_wrapped = function(ev) {
 		self.redraw();
-	}
+	};
 	var user_added = function(ev) {
 		self.redraw();
 		self.scrollDown();
-	}
+	};
 
 	this.room.users.off('add', user_added);
 	this.room.off('change', redraw_wrapped);
@@ -76,4 +76,4 @@ RoomMembersPopover.prototype.deleteRoom = function RoomMembersPopover_deleteRoom
 
 RoomMembersPopover.prototype.dr = function DeleteRoomDialog_deleteroom(room, password, callback) {
 	console.log("test test ");
-}
+};

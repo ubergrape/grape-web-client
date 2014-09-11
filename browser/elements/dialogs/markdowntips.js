@@ -4,11 +4,8 @@
 var Emitter = require('emitter');
 var events = require('events');
 var dialog = require('dialog');
-var qs = require('query');
-var domify = require('domify');
 var v = require('virtualdom');
 var template = require('template');
-var _ = require('t');
 
 
 module.exports = MarkdownTipsDialog;
@@ -26,23 +23,23 @@ MarkdownTipsDialog.prototype = Object.create(Emitter.prototype);
 
 MarkdownTipsDialog.prototype.bind = function MarkdownTipsDialog_bind() {
 	this.events = events(this.el, this);
-}
+};
 
 // proxy for dialog
 MarkdownTipsDialog.prototype.closable = function MarkdownTipsDialog_closable() {
 	this.dialog.closable();
 	return this;
-}
+};
 
 // proxy for dialog
 MarkdownTipsDialog.prototype.show = function MarkdownTipsDialog_show() {
 	this.dialog.show();
 	return this;
-}
+};
 
 // proxy for dialog
 MarkdownTipsDialog.prototype.overlay = function MarkdownTipsDialog_overlay() {
 	this.dialog.overlay();
 	return this;
-}
+};
 

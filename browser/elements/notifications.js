@@ -39,6 +39,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	var self = this;
 
 	// don't show chat messages from myself
+	// TODO: don't directly reference ui here!!
 	if (message.author == ui.user) return;
 
 	// only show messages from joined rooms
@@ -75,8 +76,8 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 				// render emojis as text
 				return ':' + emo + ':';
 			}
-		}
-		var content_dom = domify(markdown(content, opts))
+		};
+		var content_dom = domify(markdown(content, opts));
 
 		// replace images
 		var imgs = content_dom.getElementsByTagName('img');
@@ -88,7 +89,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		}
 
 		// strip html
-		var content = content_dom.textContent || content_dom.innerText || "";
+		content = content_dom.textContent || content_dom.innerText || "";
 	}
 
 	// attach files
@@ -118,7 +119,6 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		icon: message.author.avatar,
 		timeout: 6000,
 		onclick: function(ev) {
-			console.log()
 			self.emit('notificationclicked', message.channel);
 			window.focus();
 			notification.close();

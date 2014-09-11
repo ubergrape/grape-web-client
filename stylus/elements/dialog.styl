@@ -1,15 +1,25 @@
 #dialog, .dialog
-	background: white
-	padding: 15px
-	border-radius: main-border-radius
-	border: 1px solid gainsboro-light
-	opacity: 1
-	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
-	transition: opacity 500ms
-	max-width: 650px
-	white-space: normal
+	height: 80%
+	background: none
+	border: none
+	top: 10%
+	max-width: 750px
 	.content
-		padding: 0
+		background: white
+		padding: 15px
+		border-radius: main-border-radius
+		border: 1px solid gainsboro-light
+		opacity: 1
+		box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
+		transition: opacity 500ms
+		max-width: 100%
+		white-space: normal
+		position: relative
+		height: 100%
+		.body
+			overflow: auto
+			position: relative
+			height: 100%
 	.close
 		cursor: pointer
 		position: absolute
@@ -18,6 +28,8 @@
 		color: gainsboro-dark
 		font-size: 30px
 		line-height: 20px
+		z-index: 20
+		background: #fff
 	h3, h4, h5
 		color: gainsboro-dark
 		@extend $normal-font-size
@@ -43,7 +55,17 @@
 		display: table
 		max-width: 100%
 	td
-		padding-right: 12px
 		width: 50%
+		> em
+			background: grape-dark
+			color: #fff
+			padding: 0 4px
+			border-radius: 4px
+			margin-bottom: 5px
+	td:first-of-type
+		padding-right: 22px
 	code
 		width: 100%
+
+#IModalOverlay, .overlay
+	background: rgba(0, 0, 0, 0.75)

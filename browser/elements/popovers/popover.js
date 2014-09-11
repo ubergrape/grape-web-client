@@ -4,7 +4,7 @@
 var events = require('events');
 var classes = require('classes');
 var Emitter = require('emitter');
-var Animate = require('animate');
+var animate = require('animate');
 
 module.exports = Popover;
 
@@ -57,7 +57,7 @@ Popover.prototype.show = function Popover_show(trigger) {
 	document.body.appendChild(this.el);
 	this.hidden = false;
 	this.emit('show');
-	Animate(this.el, 'fade-left-in');
+	animate(this.el, 'fade-left-in');
 };
 
 Popover.prototype.hide = function Popover_hide() {

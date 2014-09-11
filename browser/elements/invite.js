@@ -22,7 +22,7 @@ Invite.prototype = Object.create(Emitter.prototype);
 
 Invite.prototype.init = function Invite_init() {
 	this.redraw();
-}
+};
 
 Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
@@ -34,7 +34,7 @@ Invite.prototype.bind = function Invite_bind() {
 
 Invite.prototype.redraw = function Invite_redraw() {
 	render(this, template('invite', {room: this.room}));
-}
+};
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var self = this;
@@ -45,12 +45,13 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 		this.complete.re = /([\w.+-]+)$/;
 		this.complete.formatSelection = function (option) {
 			return option.insert + ", ";
-		}
+		};
 		this.complete.query = function (matches) {
 			var match = matches[0];
 
 			self.complete.clear();
 
+			// TODO: dont' use app directly!!
 			var users = app.organization.users;
 			for (var i=0; i<users.length; i++) {
 				var user = users[i];
@@ -92,8 +93,8 @@ Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	self.emit('invitetoroom', this.room, users, function inviteToRoom_callback(err, result){
 		if(err) {
 			self.inviteInput.setCustomValidity(err.details);
-			self.inviteButton.click()
-		}else {
+			self.inviteButton.click();
+		} else {
 			self.inviteInput.value = '';
 		}
 		self.inviteButton.disabled = false;
@@ -108,7 +109,7 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
 	this.redraw();
-}
+};
 
 // TODO: put this in component
 Array.prototype.clean = function(deleteValue) {

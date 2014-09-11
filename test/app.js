@@ -19,7 +19,7 @@ function WsMock() {
 	server.send = function (data) {
 		self.emit('message', data);
 	};
-	this._openForTest = function() { self.emit('open')};
+	this._openForTest = function() { self.emit('open'); };
 	this.close = function(code) {};
 }
 WsMock.prototype = Object.create(Emitter.prototype);
@@ -399,7 +399,7 @@ describe('App', function () {
 			obj.id.should.equal(user.id);
 			done();
 		});
-		var msg = {"user":user, "organization": app.organization.id}
+		var msg = {"user":user, "organization": app.organization.id};
 		server.send(JSON.stringify([8, 'http://domain/organization#joined', msg]));
 		// XXX: just for test coverage
 		server.send(JSON.stringify([8, 'http://domain/organization#joined', msg]));

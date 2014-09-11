@@ -48,6 +48,7 @@
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",
+    "browser/jstz.js",
     "lib/broker.js"
   ],
   "json": [
@@ -118,7 +119,7 @@
     "ubergrape/wamp1": "0.0.3",
     "bmcmahen/image-zoom": "*",
     "jkroso/computed-style": "*",
-    "sk7/textcomplete": "*",
+    "mbelraka/textcomplete": "*",
     "sk7/startswith": "*",
     "matthewp/attr": "*",
     "component/tip": "*",
@@ -126,8 +127,10 @@
     "ubergrape/HTML5-Desktop-Notifications": "*",
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
-    "component/clipboard": "*",
-    "mbelraka/drop-anywhere": "*"
+    "component/clipboard": "0.1.6",
+    "mbelraka/drop-anywhere": "*",
+    "moment/moment": "2.7.0",
+    "ubergrape/moment-timezone": "*"
   },
   "development": {
     "chaijs/chai": "*",
