@@ -492,6 +492,8 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
+
+
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	var path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
@@ -566,6 +568,7 @@ UI.prototype.isPmOpen = function UI_isPmOpen(user) {
 			return pm;
 	}
 }
+
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
