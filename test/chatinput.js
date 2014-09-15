@@ -26,6 +26,24 @@ describe('ChatInput', function () {
 		var ci = new ChatInput();
 		ci.el.should.be.an.instanceof(Element);
 	});
+	it('should have the message input', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.should.not.be.an('undefined');
+		done();
+	});
+	it('should have childNodes in the textarea', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes.should.not.be.an('undefined');
+		done();
+	});
 	it('should emit a `input` when text is entered', function (done) {
 		var ci = new ChatInput();
 		var room = {foo: 'bar'};
@@ -129,6 +147,130 @@ describe('ChatInput', function () {
 		match[3].should.equal('issues');
 
 		done();
+	});
+	it('should work with one simple div', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "testtest";
+		textarea.appendChild(div);
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
+		/*delete ev.keyCode;
+		Object.defineProperty(ev, "keyCode", {"value" : 13})*/
+		ci.input.on('input', function (str) {
+			str.should.equal('\ntesttest'); 
+			done();
+		});
+		textarea.dispatchEvent(ev);
+	});
+	it('should handle pasting simple group of divs', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "Felix Haeusler";
+		textarea.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Leo Fasbender";
+		textarea.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Stefan Kroener";
+		textarea.appendChild(div);
+		div = document.createElement("div");
+		div.textContent = "Mohamed Elrakaiby";
+		textarea.appendChild(div);
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
+		ci.input.on('input', function (str) {
+			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
+				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
+			done();
+		});
+		textarea.dispatchEvent(ev);
+	});
+	it.skip('should handle pasting group of different tags', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		var tag = document.createElement("div");
+		tag.textContent = "the div";
+		textarea.appendChild(tag);
+		tag = document.createElement("img");
+		tag.src = "static/chatgrape/static/images/logo.svg";
+		textarea.appendChild(tag);
+		tag = document.createElement("br");
+		textarea.appendChild(tag);
+		tag = document.createTextNode("the text");
+		textarea.appendChild(tag);
+		tag = document.createElement("p");
+		tag.textContent = "the paragraph";
+		textarea.appendChild(tag);
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
+		ci.input.on('input', function (str) {
+			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
+				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
+			done();
+		});
+		textarea.dispatchEvent(ev);
+	});
+	it('should handle writing html stuff', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		var div = document.createElement("div");
+		div.textContent = "<p> test test </p><div id = \"check\">test div </div>";
+		textarea.appendChild(div);
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
+		ci.input.on('input', function (str) {
+			str.should.equal("\n<p> test test </p><div id = \"check\">test div </div>"); 
+			done();
+		});
+		textarea.dispatchEvent(ev);
+	});
+	it('should handle digeneration children nodes', function (done){
+		var ci = new ChatInput();
+		var room = {foo: 'bar'};
+		ci.setRoom(room);
+		add(ci.el);
+		var textarea = qs('.messageInput', ci.el);
+		textarea.childNodes = textarea.childNodes || [];
+		var fatherDiv = document.createElement("div");
+		var childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 1";
+		fatherDiv.childNodes = fatherDiv.childNodes || [];
+		fatherDiv.appendChild(childDiv);
+		childDiv = document.createElement("div");
+		childDiv.textContent = "sentence 2";
+		fatherDiv.appendChild(childDiv);
+		textarea.appendChild(fatherDiv);
+		var ev = document.createEvent('CustomEvent');
+		ev.initCustomEvent('keyup');
+		ev.keyCode = 13;
+		ci.input.on('input', function (str) {
+			str.should.equal("\nsentence 1\nsentence 2"); 
+			done();
+		});
+		textarea.dispatchEvent(ev);
 	});
 });
 
