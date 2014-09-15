@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-04 23:55+0000\n"
+"POT-Creation-Date: 2014-09-15 08:49+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -536,6 +536,7 @@ msgstr ""
 #: client/browser/index.js:547
 #: client/browser/index.js:553
 #: client/browser/index.js:593
+#: client/browser/index.js:592
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -618,6 +619,7 @@ msgstr ""
 #: client/browser/index.js:536
 #: client/browser/index.js:542
 #: client/browser/index.js:582
+#: client/browser/index.js:581
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -776,6 +778,7 @@ msgstr ""
 #: client/browser/index.js:134
 #: client/browser/index.js:140
 #: client/browser/index.js:164
+#: client/browser/index.js:163
 msgid ""
 "Hey there! Please <a class=' enable_notifications'>enable desktop "
 "notifications</a> , so your team members can reach you on ChatGrape.  "
@@ -786,18 +789,21 @@ msgstr ""
 #: client/browser/index.js:141
 #: client/browser/index.js:147
 #: client/browser/index.js:171
+#: client/browser/index.js:170
 msgid "Next"
 msgstr ""
 
 #: client/browser/index.js:142
 #: client/browser/index.js:148
 #: client/browser/index.js:172
+#: client/browser/index.js:171
 msgid "Skip"
 msgstr ""
 
 #: client/browser/index.js:147
 #: client/browser/index.js:153
 #: client/browser/index.js:177
+#: client/browser/index.js:176
 msgid ""
 "<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview "
 "in 5 simple steps.</p><p>You can skip this at any time by clicking "
@@ -807,6 +813,7 @@ msgstr ""
 #: client/browser/index.js:152
 #: client/browser/index.js:158
 #: client/browser/index.js:182
+#: client/browser/index.js:181
 msgid ""
 "<h2>Organization Settings</h2><p>This is the organization you are currently "
 "in.</p><p>You can add and manage members and external services by clicking "
@@ -816,6 +823,7 @@ msgstr ""
 #: client/browser/index.js:157
 #: client/browser/index.js:163
 #: client/browser/index.js:187
+#: client/browser/index.js:186
 msgid ""
 "<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've "
 "auto-joined you to General and Off-Topic.</p><p>You can see all availible "
@@ -826,6 +834,7 @@ msgstr ""
 #: client/browser/index.js:162
 #: client/browser/index.js:168
 #: client/browser/index.js:192
+#: client/browser/index.js:191
 msgid ""
 "<h2>Private Messages</h2><p>This list contains your contacts you already "
 "have a private conversation with.</p><p>You can start more conversations by "
@@ -835,6 +844,7 @@ msgstr ""
 #: client/browser/index.js:167
 #: client/browser/index.js:173
 #: client/browser/index.js:197
+#: client/browser/index.js:196
 msgid ""
 "<h2>Room Members Info</h2><p>This number shows you how many users have "
 "joined this room.</p><p>Click it to see all of them or to invite more users "
@@ -844,6 +854,7 @@ msgstr ""
 #: client/browser/index.js:172
 #: client/browser/index.js:178
 #: client/browser/index.js:202
+#: client/browser/index.js:201
 msgid ""
 "<h2>User Profile</h2><p>You can find all profile-related settings (and "
 "re-start this awesome tutorial at any time) here.</p>"
@@ -852,6 +863,7 @@ msgstr ""
 #: client/browser/index.js:176
 #: client/browser/index.js:182
 #: client/browser/index.js:206
+#: client/browser/index.js:205
 msgid ""
 "<h2>All done! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun using "
 "ChatGrape.</p>"
