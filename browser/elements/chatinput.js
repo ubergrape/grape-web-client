@@ -386,7 +386,7 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 									console.log(r);
 									self.complete.push({
 										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.name + ' <em class="entry-additional-info">' + r.container + '</em></div>',
 										insert: r.name,
 										service: r.service,
 										type: r.type,
