@@ -35,7 +35,7 @@ function castAuthor(author) {
 	if (author.type === 'service'){
 		return {
 			'id': author.id,
-			'username': author.id,
+			'username': author.username || author.id,
 			'type': 'service'
 		};
 	}
