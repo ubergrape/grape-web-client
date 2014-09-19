@@ -338,7 +338,7 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 
 	//replace(/([A-Za-z])\.+/g, '$1').split(/\s+/);
 	var lookahead = 3;
-
+	var self = this;
 
 	//split into sentences
 	//str.replace(/([.?!])\s*(?=[A-Z])/, "$1|").split("|")
@@ -378,6 +378,28 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 					}
 					if (found) {
 							console.log(phrase + ": " + date)
+							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
+								for (var i=0; i<result.length; i++) {
+									if (self.complete.options.length >= self.max_autocomplete)
+										break;
+									var r = result[i];
+									console.log(r);
+									self.complete.push({
+										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+										insert: r.name,
+										service: r.service,
+										type: r.type,
+										url: r.url,
+										// whitespace: whitespace
+									});
+								}
+
+								if (self.complete.options.length > 0) {
+									self.complete.show();
+									self.complete.highlight(0);
+								}
+							});
 							// move the index to behind found phrase and break
 							i = last;
 							//break;
