@@ -70,8 +70,8 @@
 				.show-more
 					display: block
 					z-index: 12
-
-	.comment
+	.comment, 
+	&.commentCard .short-list li
 		padding: 0 10px
 		margin: 4px -10px
 		overflow: hidden
@@ -85,19 +85,26 @@
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
+	/* TRELLO SPECIFIC */
+			
+
 	//Removing unnecessary elements
 	&.issue_comment,
-    &.__label_changed,
-    &__asignment_changed,
+	&.__label_changed,
+	&.__asignment_changed,
 	&.issues
 		li.issue,
-        li.user,
-        li.label
+		li.user,
+		li.label
 			display: none
 	&.gollum
 		ul
 			li:only-child
 				display: none
+	&.deleteAttachmentFromCard
+		.short-list
+			display: none
+
 /*
 
 	&.github
