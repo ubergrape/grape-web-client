@@ -116,7 +116,7 @@
     "discore/closest": "*",
     "MatthewMueller/array": "*",
     "ubergrape/websocket": "*",
-		"ubergrape/datejs": "*",	
+    "ubergrape/datejs": "*",
     "ubergrape/wamp1": "0.0.3",
     "bmcmahen/image-zoom": "*",
     "jkroso/computed-style": "*",
