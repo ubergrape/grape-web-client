@@ -371,7 +371,11 @@ UI.prototype.bind = function UI_bind() {
 };
 
 UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
-	this.historyView.gotHistory(room, lines);
+	this.historyView.gotHistory(room);
+};
+
+UI.prototype.noHistory = function UI_noHistory(room) {
+	this.historyView.noHistory(room);
 };
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {

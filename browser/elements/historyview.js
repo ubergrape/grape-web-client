@@ -210,6 +210,10 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
+HistoryView.prototype.noHistory = function HistoryView_noHistory(room) {
+	this.redraw();
+};
+
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	var self = this;
 	var updateRead = debounce(function updateRead() {
@@ -261,18 +265,20 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	this.scrollMode = 'automatic';
 
 	// mark the last message as read
-	if (room.history.length)
+	if (room.history.length) {
 		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-	else // FIXME:
+		self.redraw();
+	} else {
 		this.emit('needhistory', room);
+	}
 
-	this.redraw();
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
-
+	
 	room.history.on('add', function () {
 		self.queueDraw();
 	});
+
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
