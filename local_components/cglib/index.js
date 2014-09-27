@@ -492,7 +492,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 		// so when the first message in history is read, assume the history as read
 		// as well
 		var read = !!room.history.length && room.history[0].read;
-		if(res.length === 0) return self.emit('nohistory');
+		if (res.length === 0) return self.emit('nohistory');
 		// append all to the front of the array
 		// TODO: for now the results are sorted in reverse order, will this be
 		// consistent?

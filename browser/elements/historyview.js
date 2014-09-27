@@ -210,7 +210,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
-HistoryView.prototype.noHistory = function HistoryView_noHistory(room) {
+HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.redraw();
 };
 
@@ -267,7 +267,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// mark the last message as read
 	if (room.history.length) {
 		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-		self.redraw();
+		this.redraw();
 	} else {
 		this.emit('needhistory', room);
 	}
