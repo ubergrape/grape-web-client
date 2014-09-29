@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-04 23:55+0000\n"
+"POT-Creation-Date: 2014-09-29 05:11+0000\n"
 "PO-Revision-Date: 2014-06-06 09:29+0000\n"
 "Last-Translator: Tobias Seiler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -505,6 +505,7 @@ msgstr ""
 #: client/templates/chathistory.jade:83
 #: client/templates/chathistory.jade:88
 #: client/templates/chathistory.jade:101
+#: client/templates/chathistory.jade:102
 msgid "#Label"
 msgstr ""
 
@@ -536,6 +537,7 @@ msgstr ""
 #: client/browser/index.js:547
 #: client/browser/index.js:553
 #: client/browser/index.js:593
+#: client/browser/index.js:596
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -618,6 +620,7 @@ msgstr ""
 #: client/browser/index.js:536
 #: client/browser/index.js:542
 #: client/browser/index.js:582
+#: client/browser/index.js:585
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
@@ -930,6 +933,7 @@ msgid " Local time: "
 msgstr ""
 
 #: client/templates/chathistory.jade:158
+#: client/templates/chathistory.jade:159
 msgid "Show More"
 msgstr ""
 
