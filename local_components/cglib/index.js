@@ -451,7 +451,7 @@ App.prototype.search = function App_search(text) {
 			function (err, results) {
 			var r = [];
 			var lines = results.results.map(function(l) {
-				if(l.index !== 'objects') {
+				if(l.index !== 'objects_alias') {
 					l = new models.Line(l);
 					r.unshift(l);
 				} else {
