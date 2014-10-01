@@ -5,27 +5,27 @@
 			strong=results.q
 	ul.result-list
 		each result in results.results
-			li.result-object(class=(result.index === 'objects_alias' ?  'objects' : 'messages'))
-				if (result.index === 'objects_alias')
-					a.direct-link(href="#{result.index === 'objects_alias' ? result.url : '#'}")
-				.item-object.main(class=(result.index === 'objects_alias' ? result.service + result.type : ''))
+			li.result-object(class=(result.hasOwnProperty('service') ?  'objects' : 'messages'))
+				if (result.hasOwnProperty('service'))
+					a.direct-link(href="#{result.hasOwnProperty('service') ? result.url : '#'}")
+				.item-object.main(class=(result.hasOwnProperty('service') ? result.service + result.type : ''))
 					.item-type
-						if (result.index !== 'objects_alias')
+						if (!result.hasOwnProperty('service'))
 							| Message
 						else
 							| #{result.service} #{result.type}
 					.item-content
 						.item-text
-							if (result.index !== 'objects_alias')
+							if (!result.hasOwnProperty('service'))
 								strong= result.author.username
 							else
 								span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
 							= html(markdown(result.highlighted))
-							if (result.index == 'objects_alias')
+							if (result.hasOwnProperty('service'))
 								span
 									| 
 									| #{result.container}
-						if (result.index !== 'objects_alias')
+						if (!result.hasOwnProperty('service'))
 							ul.item-footer
 								li
 									i.fa.fa-comment
