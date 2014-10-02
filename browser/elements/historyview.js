@@ -37,6 +37,7 @@ function HistoryView() {
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
 	this.scrollMode = 'automatic';
+	this.loadingHistory = false;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -115,11 +116,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     // if the last message was already scrolled(no new messages),
 	// don't scroll as the user is navigating to a specific place
 	// otherwise, scroll to the last element in the room
-  	if(this.room.history.length && this.scrollMode === 'automatic'){
-  		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
-  			this.doScrollDown();
+	if(this.room.history.length && this.scrollMode === 'automatic'){
+		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
+			this.doScrollDown();
 		}
-  	}
+	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
@@ -129,7 +130,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	render(this.history, template('chathistory', {
 		room: this.room,
 		history: this.room.history,
-		groupHistory: groupHistory
+		groupHistory: groupHistory,
+		loadingHistory: this.loadingHistory
 	}))
 
 	var history = this.history.el;
@@ -181,6 +183,8 @@ HistoryView.prototype.setAuto = function () {
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
+	this.loadingHistory = false;
+	// this.room.empty = false;
 	this.queued = true;
 	raf(this.redraw);
 };
@@ -211,6 +215,14 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 };
 
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
+	this.loadingHistory = false;
+// problem:
+// if one scrolls on top of the page,
+// needhistory will return nothing because
+// there is no more history "to see" left.
+// in such case, the room is not empty,
+// just completely scrolled on top.
+// this.room.empty = true;
 	this.redraw();
 };
 
@@ -267,11 +279,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// mark the last message as read
 	if (room.history.length) {
 		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-		this.redraw();
 	} else {
+		this.loadingHistory = true;
+		// this.loadingHistory = this.room.empty ? false : true;
 		this.emit('needhistory', room);
 	}
 
+	this.redraw();
+	
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 	
