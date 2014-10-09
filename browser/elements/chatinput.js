@@ -173,7 +173,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the autocomplete
 	// there should always be a whitespace char in front, or beginning of line. hence (^|\s)
-	this.complete.re = /(^|\s)([@#:])([^\s]{1,50})$/;
+	this.complete.re = /(^|\s)([@#:])(([^\s]+[ ]?){1,3})/;
 	this.complete.formatSelection = function (obj) {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
