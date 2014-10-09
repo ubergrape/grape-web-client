@@ -2,6 +2,7 @@
 "use strict";
 
 var should = require('chaijs-chai').should();
+var expect = require('chaijs-chai').expect;
 var trigger = require('adamsanderson-trigger-event');
 var qs = require('component-query');
 var template = require('template');
@@ -151,6 +152,24 @@ describe('ChatInput', function () {
 		match[2].should.equal('#');
 		match[3].should.equal('issues with whitespaces');
 
+		match = "hey also #github:issues blah".match(ci.complete.re);
+		match.length.should.equal(5);
+		match[2].should.equal('#');
+		match[3].should.equal('github:issues blah');
+
+		match = "and match repos #ubergrape/chatgrape some issue".match(ci.complete.re);
+		match.length.should.equal(5);
+		match[2].should.equal('#');
+		match[3].should.equal('ubergrape/chatgrape some issue');
+
+		match = "match #nbsp\u00a0and blank".match(ci.complete.re);
+		match.length.should.equal(5);
+		match[2].should.equal('#');
+		match[3].should.equal('nbsp\u00a0and blank');
+
+		match = "but no #new\nline".match(ci.complete.re);
+		expect(match).to.be.null;
+
 		done();
 	});
 	it('should work with one simple div', function (done){
@@ -169,7 +188,7 @@ describe('ChatInput', function () {
 		/*delete ev.keyCode;
 		Object.defineProperty(ev, "keyCode", {"value" : 13})*/
 		ci.input.on('input', function (str) {
-			str.should.equal('\ntesttest'); 
+			str.should.equal('\ntesttest');
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -198,7 +217,7 @@ describe('ChatInput', function () {
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
 			str.should.equal("\n" + "Felix Haeusler" + "\n" + "Leo Fasbender" + "\n"
-				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby"); 
+				 + "Stefan Kroener" + "\n" + "Mohamed Elrakaiby");
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -228,7 +247,7 @@ describe('ChatInput', function () {
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
 			str.should.equal("\n" + "the div[IMG]" + "\n" + "static/chatgrape/static/images/logo.svg" +
-				"\n" + "\n" + "the text" + "\n" + "the paragraph"); 
+				"\n" + "\n" + "the text" + "\n" + "the paragraph");
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -247,7 +266,7 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("\n<p> test test </p><div id = \"check\">test div </div>"); 
+			str.should.equal("\n<p> test test </p><div id = \"check\">test div </div>");
 			done();
 		});
 		textarea.dispatchEvent(ev);
@@ -272,7 +291,7 @@ describe('ChatInput', function () {
 		ev.initCustomEvent('keyup');
 		ev.keyCode = 13;
 		ci.input.on('input', function (str) {
-			str.should.equal("\nsentence 1\nsentence 2"); 
+			str.should.equal("\nsentence 1\nsentence 2");
 			done();
 		});
 		textarea.dispatchEvent(ev);
