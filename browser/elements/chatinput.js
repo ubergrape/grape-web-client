@@ -173,6 +173,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the autocomplete
 	// there should always be a whitespace char in front, or beginning of line. hence (^|\s)
+	// the regex should only match terms that contain spaces or nbsp;s
+	// note: content editale seems to turn nbsp;s at the end of the text into
+	// normal spaces when continuing to type
 	this.complete.re = /(^|\s)([@#:])(([^\s]+[ \u00a0]?){1,3})$/;
 	this.complete.formatSelection = function (obj) {
 		return obj.whitespace +  renderAutocomplete(obj, true);
