@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-10-09 12:13+0000\n"
+"POT-Creation-Date: 2014-09-30 23:34+0000\n"
 
 #: client/templates/chathistory.jade:25
 msgid "1"
