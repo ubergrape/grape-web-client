@@ -270,11 +270,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	this.scrollMode = 'automatic';
 
 	// mark the last message as read
-	if (room.history.length) {
+	if (room.history.length)
 		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-	} else {
+	else
 		if (!this.room.empty) this.emit('needhistory', room);
-	}
 
 	this.redraw();
 	
