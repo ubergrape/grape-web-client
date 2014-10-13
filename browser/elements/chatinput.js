@@ -181,11 +181,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
-		var whitespace = matches[1]
+		var whitespace = matches[1];
 		var trigger_character = matches[2];
 		var match = matches[3];
-
-		console.log(matches);
 
 		self.complete.clear();
 
@@ -324,7 +322,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						whitespace: whitespace
 					});
 				}
-
+				
 				if (self.complete.options.length > 0) {
 					self.complete.show();
 					self.complete.highlight(0);
