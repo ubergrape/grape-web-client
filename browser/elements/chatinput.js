@@ -70,7 +70,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		isCompleting = true;
 	});
 	this.messageInput.addEventListener('keyup', function (ev) {
-		console.log(self.parseDate(qs('.messageInput', self.el).innerHTML));
 		if (!isCompleting) return;
 		ev.stopImmediatePropagation();
 		isCompleting = false;
