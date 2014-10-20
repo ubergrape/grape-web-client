@@ -19,7 +19,7 @@ var renderAutocomplete = require('../renderautocomplete');
 var staticurl = require('staticurl');
 var emoji = require('../emoji');
 var MarkdownTipsDialog = require('./dialogs/markdowntips');
-
+var moment = require('moment');
 
 require("startswith");
 
@@ -312,9 +312,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
 					var r = result[i];
+					if (r.start) {
+						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+					} else {
+						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+					}
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+						title: title,
 						insert: r.name,
 						service: r.service,
 						type: r.type,
