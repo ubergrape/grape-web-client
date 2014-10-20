@@ -57,9 +57,28 @@
 	@extend $normal-font-size
 	color: gainsboro-dark
 	.navigation
-		padding: 23px 0 54px 0px
+		padding: 0px
 		background: jet
 
+.room-list
+	padding: 23px 0 12px 0
+.pm-list
+	padding: 12px 0
+	position: absolute
+	bottom: 36px
+	left: 0
+	right: 0
+	border-top: 1px solid lighten(jet, 10%)
+.filter-pms
+	position: absolute
+	bottom: -30px
+	left: 0
+	right: 0
+	background: organisation-background
+	border: none
+	border-top: 1px solid darken(organisation-background, 5)
+	width: 100%
+	padding: 8px 12px 8px 20px
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	color: gainsboro-dark
 	text-decoration: none!important
@@ -115,15 +134,3 @@ span.no-messages
 	color: darken(gainsboro-dark, 10%)
 
 
-.client-body .feedback
-	position: fixed
-	bottom: 0
-	left: 0
-	width: client-navigation-width
-	background: organisation-background
-	height: footer-height
-	line-height: footer-height
-	display: block
-	padding: 0 17px
-	z-index: 1
-	border-top: 1px solid darken(organisation-background, 5)
