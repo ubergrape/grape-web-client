@@ -5,27 +5,27 @@
 			strong=results.q
 	ul.result-list
 		each result in results.results
-			li.result-object(class=(result.index === 'objects' ?  'objects' : 'messages'))
-				if (result.index === 'objects')
-					a.direct-link(href="#{result.index === 'objects' ? result.url : '#'}")
-				.item-object.main(class=(result.index === 'objects' ? result.service + result.type : ''))
+			li.result-object(class=(result.index_type === 'object' ?  'objects' : 'messages'))
+				if (result.index_type === 'object')
+					a.direct-link(href="#{result.index_type === 'object' ? result.url : '#'}")
+				.item-object.main(class=(result.index_type === 'object' ? result.service + result.type : ''))
 					.item-type
-						if (result.index !== 'objects')
+						if (result.index_type !== 'object')
 							| Message
 						else
 							| #{result.service} #{result.type}
 					.item-content
 						.item-text
-							if (result.index !== 'objects')
+							if (result.index_type !== 'object')
 								strong= result.author.username
 							else
 								span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
 							= html(markdown(result.highlighted))
-							if (result.index == 'objects')
+							if (result.index_type === 'object')
 								span
 									| 
 									| #{result.container}
-						if (result.index !== 'objects')
+						if (result.index_type !== 'object')
 							ul.item-footer
 								li
 									i.fa.fa-comment

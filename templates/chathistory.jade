@@ -86,7 +86,8 @@
 						span.dif-tz
 							=_(' Local time: ')
 						//- the substr part is a hack to remove the tz information
-						time.user-tz= tz(first.user_time.substr(0, first.user_time.indexOf('+'))).format('h:mm a')
+						- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+						time.user-tz= tz(user_time).format('h:mm a')
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author.author #{first.author.firstName} #{first.author.lastName} 
@@ -136,24 +137,25 @@
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
-									li(class=obj.type)
-										if obj.author && obj.author.username
-											strong
-												| #{obj.author.username} 
-										if obj.name
-											a(href=obj.url)
+									if obj.visible != false
+										li(class=obj.type)
+											if obj.author && obj.author.username
 												strong
-													| #{obj.name} 
-										if obj.sha
-											a(href=obj.url, target="_blank").sha
-												| #{obj.sha.substr(1, 7)} 
-										if obj.content
-											if line.author.id == 'github'
-												.text= html(markdown(obj.content))
-											else
-												span.text= obj.content
-										if obj.summary
-											span.summary= obj.summary
+													| #{obj.author.username} 
+											if obj.name
+												a(href=obj.url)
+													strong
+														| #{obj.name} 
+											if obj.sha
+												a(href=obj.url, target="_blank").sha
+													| #{obj.sha.substr(1, 7)} 
+											if obj.content
+												if line.author.id == 'github' || line.author.id == 'trello'
+													.text= html(markdown(obj.content))
+												else
+													span.text= obj.content
+											if obj.summary
+												span.summary= obj.summary
 								if line.objects.length > 3
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author

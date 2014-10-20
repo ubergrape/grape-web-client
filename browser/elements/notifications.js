@@ -114,16 +114,25 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		}
 	}
 
-	var notification = notify.createNotification(title, {
-		body: content,
-		icon: message.author.avatar,
-		timeout: 6000,
-		onclick: function(ev) {
-			self.emit('notificationclicked', message.channel);
-			window.focus();
-			notification.close();
-		}
-	});
+	if (typeof MacGap != 'undefined') {
+		console.log("MacGap notify", title);
+		MacGap.notify({
+			title: title,
+			content: content,
+			sound: false
+		});
+	} else {
+		var notification = notify.createNotification(title, {
+			body: content,
+			icon: message.author.avatar,
+			timeout: 6000,
+			onclick: function(ev) {
+				self.emit('notificationclicked', message.channel);
+				window.focus();
+				notification.close();
+			}
+		});
+	}
 };
 
 // function isDocumentHidden() {
