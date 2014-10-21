@@ -7,7 +7,7 @@ var _ = require('t');
 var markdown = require('../markdown');
 var v = require('virtualdom');
 var domify = require('domify');
-
+var staticurl = require('staticurl');
 
 module.exports = Notifications;
 
@@ -50,12 +50,22 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 
 	// otherwise, show all chat messages
 
+	// get authorname
 	//TODO: move this to user model
 	var authorname = "";
-	if (message.author.firstName !== "") {
+	if (typeof message.author.firstName !== "undefined" && message.author.firstName !== "") {
 		authorname = message.author.firstName + " " + message.author.lastName;
 	} else {
 		authorname = message.author.username;
+	}
+
+	// get icon
+	//TODO: move this to user model. same shit in chathistory.jade
+	var icon = null;
+	if (typeof message.author.avatar !== "undefined" && message.author.avatar !== "") {
+		icon = message.author.avatar;
+	} else if (message.author.type == "service") {
+		icon = staticurl("images/service-icons/" + message.author.id + "-64.png");
 	}
 
 	// add room name to title
@@ -68,7 +78,12 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	}
 
 	// parse markdown
-	var content = message.text;
+	var content = "";
+	if (message.author.type == "service") {
+		content = message.title;
+	} else {
+		content = message.text;
+	}
 	if (typeof content !== "undefined" && content !== "") {
 
 		var opts = {
@@ -124,7 +139,7 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 	} else {
 		var notification = notify.createNotification(title, {
 			body: content,
-			icon: message.author.avatar,
+			icon: icon,
 			timeout: 6000,
 			onclick: function(ev) {
 				self.emit('notificationclicked', message.channel);
