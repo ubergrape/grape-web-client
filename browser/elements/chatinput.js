@@ -173,16 +173,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the autocomplete
 	// there should always be a whitespace char in front, or beginning of line. hence (^|\s)
-	this.complete.re = /(^|\s)([@#:])([^\s]{1,50})$/;
+	// the regex should only match terms that contain spaces or nbsp;s
+	// note: content editale seems to turn nbsp;s at the end of the text into
+	// normal spaces when continuing to type
+	this.complete.re = /(^|\s)([@#:])(([^\s]+[ \u00a0]?){1,3})$/;
 	this.complete.formatSelection = function (obj) {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
-		var whitespace = matches[1]
+		var whitespace = matches[1];
 		var trigger_character = matches[2];
 		var match = matches[3];
-
-		console.log(matches);
 
 		self.complete.clear();
 
@@ -322,7 +323,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						whitespace: whitespace
 					});
 				}
-
+				
 				if (self.complete.options.length > 0) {
 					self.complete.show();
 					self.complete.highlight(0);
