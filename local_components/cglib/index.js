@@ -508,7 +508,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 				room.history.unshift(line);
 			}
 		});
-		self.emit('gothistory', room, lines);
+		self.emit('gothistory');
 	});
 };
 

@@ -32,7 +32,6 @@ function HistoryView() {
 	this.room = {history: new Emitter([])};
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
-	this.gotHistory = function () {};
 	this.bind();
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
@@ -182,8 +181,6 @@ HistoryView.prototype.setAuto = function () {
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
-	this.room.loading = false;
-	this.room.empty = false;
 	this.queued = true;
 	raf(this.redraw);
 };
@@ -201,16 +198,17 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
 		return done();
+	} else {
+		if ((!this.room.empty)) {done();}	
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
-	var self = this;
-	this.gotHistory = function (room, lines) {
-		if (lines.length)
-			done();
-		self.gotHistory = function () {};
-	};
 	this.emit('needhistory', this.room, options);
+};
+
+HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
+	this.room.loading = false;
+	this.room.empty = false;
 };
 
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
@@ -256,8 +254,6 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
-	// clear that fn
-	self.gotHistory = function () {};
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('removed');
@@ -280,9 +276,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
 	
-	room.history.on('add', function () {
-		self.queueDraw();
-	});
+	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
