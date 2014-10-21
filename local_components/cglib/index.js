@@ -445,6 +445,16 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	});
 };
 
+App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
+	this.wamp.call(PREFIX + 'search/autocomplete_date', text, this.organization.id,
+			function (err, result) {
+			if (callback !== undefined) {
+				callback(err, result);
+			}
+
+	});
+};
+
 App.prototype.search = function App_search(text) {
 	var self = this;
 	this.wamp.call(PREFIX + 'search/search', text, this.organization.id,

@@ -19,7 +19,7 @@ var renderAutocomplete = require('../renderautocomplete');
 var staticurl = require('staticurl');
 var emoji = require('../emoji');
 var MarkdownTipsDialog = require('./dialogs/markdowntips');
-
+var moment = require('moment');
 
 require("startswith");
 
@@ -89,7 +89,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				childnode = childnode.childNodes[0];
 			}
 			// check if there are some contents in wrapped in a big <div>. If so, handle
-			// the inner contents 
+			// the inner contents
 			// else, clean the current elment
 			if(childnode.childNodes && childnode.childNodes.length > 1){
 				// check if it is not an emoji or autocomplete item. If so, don't split the elment
@@ -312,10 +312,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
 					var r = result[i];
-					var type = r.service == "googledrive" ? "" : r.type;
+					if (r.start) {
+						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+					} else {
+						var type = r.service == "googledrive" ? "" : r.type;
+						var title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+					}
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+						title: title,
 						insert: r.name,
 						service: r.service,
 						type: r.type,
@@ -323,7 +328,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						whitespace: whitespace
 					});
 				}
-				
+
 				if (self.complete.options.length > 0) {
 					self.complete.show();
 					self.complete.highlight(0);
@@ -339,7 +344,7 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 
 	//replace(/([A-Za-z])\.+/g, '$1').split(/\s+/);
 	var lookahead = 3;
-
+	var self = this;
 
 	//split into sentences
 	//str.replace(/([.?!])\s*(?=[A-Z])/, "$1|").split("|")
@@ -379,6 +384,28 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 					}
 					if (found) {
 							console.log(phrase + ": " + date)
+							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
+								for (var i=0; i<result.length; i++) {
+									if (self.complete.options.length >= self.max_autocomplete)
+										break;
+									var r = result[i];
+									console.log(r);
+									self.complete.push({
+										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.name + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+										insert: r.name,
+										service: r.service,
+										type: r.type,
+										url: r.url,
+										// whitespace: whitespace
+									});
+								}
+
+								if (self.complete.options.length > 0) {
+									self.complete.show();
+									self.complete.highlight(0);
+								}
+							});
 							// move the index to behind found phrase and break
 							i = last;
 							//break;
@@ -454,7 +481,7 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 		return[];
 	}
 	// if the elment is one of the following tags, insert new line
-	if(childnode.nodeName && (childnode.nodeName === "BR" 
+	if(childnode.nodeName && (childnode.nodeName === "BR"
 	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
 	|| childnode.nodeName === "LI" || childnode.nodeName === "UL")){
 		children.push("\n");
@@ -478,7 +505,7 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 	} else if(childnode.nodeName === "IMG"){
 		children.push("[IMG]\n");
 		children.push(childnode.src);
-	} 
+	}
 	return children;
 };
 
