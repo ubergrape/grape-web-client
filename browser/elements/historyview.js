@@ -199,7 +199,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		this.scrollMode = 'automatic';
 		return done();
 	} else {
-		if ((!this.room.empty)) {done();}	
+		if (!this.room.empty) {done();}	
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
