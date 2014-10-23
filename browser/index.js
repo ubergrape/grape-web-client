@@ -372,8 +372,12 @@ UI.prototype.bind = function UI_bind() {
 	});
 };
 
-UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
-	this.historyView.gotHistory(room, lines);
+UI.prototype.gotHistory = function UI_gotHistory() {
+	this.historyView.gotHistory();
+};
+
+UI.prototype.noHistory = function UI_noHistory() {
+	this.historyView.noHistory();
 };
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
