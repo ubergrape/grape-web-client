@@ -79,6 +79,12 @@
 	border-top: 1px solid darken(organisation-background, 5)
 	width: 100%
 	padding: 8px 12px 8px 20px
+	placeholder(color = lighten(organisation-background, 25))
+
+	&:focus
+		outline: none
+		background: lighten(organisation-background, 2)
+
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	color: gainsboro-dark
 	text-decoration: none!important
@@ -105,7 +111,6 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		margin-top: -3px
 
 .nav-list
-	margin-bottom: 12px
 	.item
 		@extend $functional-list
 		a

@@ -139,3 +139,11 @@ $overlay // used for search - infos, etc.
 /*______ Invisible Class  ______*/
 .invisible
 	display: none
+
+/*______ Placeholder  ______*/
+placeholder(color = $input-color-placeholder) {
+  &:-moz-placeholder            { color: color; } // Firefox 4-18
+  &::-moz-placeholder           { color: color; } // Firefox 19+
+  &:-ms-input-placeholder       { color: color; } // Internet Explorer 10+
+  &::-webkit-input-placeholder  { color: color; } // Safari and Chrome
+}
