@@ -1,7 +1,27 @@
-/*______ Top left Info about the product and Organisation ______*/
-.org-info
-	float: left
+// ****
+//
+// Left navigation
+//
+// ****
+.navigation
+	@extend $normal-font-size
 	width: client-navigation-width
+	height: 100%
+	overflow: auto
+	float: left
+	display: block
+	color: gainsboro-dark
+	.navigation
+		padding: 0px
+		background: jet
+
+// ****
+//
+// Top left Info about the product and Organisation
+//
+// ****
+
+.org-info
 	height: header-height
 	background: organisation-background
 	color: gainsboro-dark
@@ -50,18 +70,20 @@
 			.name
 				color: gainsboro-light
 				text-decoration: none
-
-/*______ Left navigation ______*/
-.navigation
-	display: block
-	@extend $normal-font-size
-	color: gainsboro-dark
-	.navigation
-		padding: 0px
-		background: jet
+// ****
+//
+// The room list of the organisation
+//
+// ****
 
 .room-list
 	padding: 23px 0 12px 0
+
+// ****
+//
+// The Private Message list
+//
+// ****
 .pm-list
 	padding: 12px 0
 	position: absolute
@@ -69,9 +91,21 @@
 	left: 0
 	right: 0
 	border-top: 1px solid lighten(jet, 10%)
+	
+span.no-messages
+	@extend $small-font-size
+	padding-left: 20px
+	display: block
+	color: darken(gainsboro-dark, 10%)
+
+// ****
+//
+// The search bar to filter users from the Private Message List
+//
+// ****
 .filter-pms
 	position: absolute
-	bottom: -30px
+	bottom: 0
 	left: 0
 	right: 0
 	background: organisation-background
@@ -131,11 +165,4 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		.name
 			height: 1.25em
 			line-height: 1em
-
-span.no-messages
-	@extend $small-font-size
-	padding-left: 20px
-	display: block
-	color: darken(gainsboro-dark, 10%)
-
 

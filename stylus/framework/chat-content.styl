@@ -1,15 +1,16 @@
-/*______ Mid-Section with Navigation and Chatline ______*/
+// ****
+//
+// Mid-Section with Room Header, History and Footer
+//
+// ****
+
 .client-body
 	height: 100%
 	padding-top: header-height
-	padding-bottom: 0
+	padding-bottom: footer-height
 	position: relative
-	.navigation
-		width: client-navigation-width
-		height: 100%
-		overflow: auto
-		float: left
-	.chat-wrapper
+	overflow: hidden
+	.chat-wrapper // The scrollable history area
 		position: relative
 		background: chat-background
 		overflow: auto
@@ -24,47 +25,22 @@
 			right: 3px
 			height: 1px
 			box-shadow: 0 -2px 7px rgba(0, 0, 0, 1)
-	.chat
+	.chat // ?
 		height: 100%
 		position: relative
 		padding-top: 14px
-	a
+	a // Design for links within history
 		color: link-color
 		@extend $subtle-link
 		&:hover
 			color: lighten(link-color, 15%)
 
-.message-group
-	@extend $clearfix
-	margin: 20px 30px 20px 20px
-	position: relative
-	.avatar
-		float: left
-		position: relative
-		font-weight: bold
-		.image
-			width: 36px
-			float: left
-			margin-right: (horizontal-space / 2)
-			border-radius: 50%
-		&::after
-			content: ""
-			position: absolute
-			right: 0
-			top: 14px
-			border-right: main-border-radius solid white
-			border-top: main-border-radius solid transparent
-			border-bottom: main-border-radius solid transparent
 
-.author
-	font-weight: bold
-	margin-bottom: 3px
-	color: gainsboro-dark
-	display: inline-block
-	@extend $subtle-link
-	em
-		color: lighten(gainsboro-dark, 10%)
-		@extend $small-font-size
+// ****
+//
+// Welcome messages inside of the history
+//
+// ****
 
 .welcome-message
 	margin: 0
@@ -136,7 +112,46 @@
 				@extend $clearfix
 				top: 0px
 
-.message-content
+// ****
+//
+// Everything regarding chat messages
+//
+// ****
+
+
+.message-group // Message Group
+	@extend $clearfix
+	margin: 20px 30px 20px 20px
+	position: relative
+	.avatar
+		float: left
+		position: relative
+		font-weight: bold
+		.image
+			width: 36px
+			float: left
+			margin-right: (horizontal-space / 2)
+			border-radius: 50%
+		&::after // Hack for the arrow of the message box
+			content: ""
+			position: absolute
+			right: 0
+			top: 14px
+			border-right: main-border-radius solid white
+			border-top: main-border-radius solid transparent
+			border-bottom: main-border-radius solid transparent
+
+.author // The message author text style, used to display Firstname, Lastname and Username in brackets
+	font-weight: bold
+	margin-bottom: 3px
+	color: gainsboro-dark
+	display: inline-block
+	@extend $subtle-link
+	em
+		color: lighten(gainsboro-dark, 10%)
+		@extend $small-font-size
+
+.message-content // The message bubble with all the content
 	padding: 8px 10px 5px
 	overflow: hidden
 	background: white
@@ -272,6 +287,12 @@
 				// height: auto
 				// max-height: 100%
 
+// ****
+//
+// Styling for markdown text within a message
+//
+// ****
+
 .text
 	display: inline-block
 	padding: 0
@@ -318,7 +339,13 @@
 		margin-bottom: 8px
 		&:last-of-type
 			margin-bottom: 0
-// SEPERATORS
+
+// ****
+//
+// Separators, used to split content within the history
+//
+// ****
+
 .date-separator,
 .newmessage-separator
 	text-align: center

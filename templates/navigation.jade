@@ -1,4 +1,10 @@
 nav.navigation
+	header.header
+		.org-info(id='intro-step1')
+			a.logo
+				i.fa.fa-cog
+				img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
+				span.name=org.name
 	.preloader.hide
 		div
 			h3
@@ -8,10 +14,11 @@ nav.navigation
 			div.nav-button.button-inset=_('All rooms')
 			h2.nav-title=_('Rooms')
 		ul.nav-list.rooms
+			
+		a.nav-title-wrap.addlabel
+			div.nav-button.button-inset=_('All labels')
+			h2.nav-title=_('Labels')
+		ul.nav-list.labels
 	div(id="intro-step3", class='pm-list')
 		ul.nav-list.pms
-		input.filter-pms(type="filter", name="filter-input", placeholder=_("Search 23 Users"))
-	a.nav-title-wrap.addlabel
-		div.nav-button.button-inset=_('All labels')
-		h2.nav-title=_('Labels')
-	ul.nav-list.labels
+	input.filter-pms(type="filter", name="filter-input", placeholder=_("Search 23 Users"))

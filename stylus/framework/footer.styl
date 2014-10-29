@@ -1,10 +1,13 @@
-/*______ Footer with Textarea ______*/
+// ****
+//
+// Footer with Textarea
+//
+// ****
 .footer
-	left: 0
-	bottom: 0
 	position: fixed
+	left: client-navigation-width
+	bottom: 0
 	right: 0
-	margin-left: client-navigation-width
 	background: footer-background
 	padding: 2px 0 10px 0
 	z-index: 30
@@ -136,7 +139,7 @@
 	.uploader.open .upload-progress
 		display: block
 
-.input-wrapper.editing
+.input-wrapper.editing // Styling of input when editing
 	.messageInput, .messageInput-wrapper
 		background: lighten(gold, 80%)
 	.messageInput-wrapper
@@ -144,9 +147,9 @@
 	.uploader
 		display: none
 
+// Toggle for edit message input
 .input-wrapper .edit-message
 	display:none
-
 .input-wrapper.editing .edit-message
 	display: block
 

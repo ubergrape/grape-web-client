@@ -1,7 +1,11 @@
-/*______ Header Info about the Room you are in ______*/
+// ****
+//
+// Header Info about the Room you are in
+//
+// ****
 .header
 	position: fixed
-	left: 0
+	left: client-navigation-width
 	right: 0
 	top: 0
 	height: header-height
@@ -94,7 +98,7 @@
 				color: gainsboro-dark
 				font-weight: bold
 
-.feedback
+.feedback // Deprecated?
 	float: right
 	padding: 0 3px
 	margin-left: 12px
@@ -108,9 +112,11 @@
 		background: lighten(silver-dark, 25%)
 		color: darken(gainsboro-dark, 20%)
 
-/* ------------
-INTERCOM
------------- */
+// ****
+//
+// INTERCOM
+//
+// ****
 #intercom-container .intercom-sheet-header
 	height: 59px !important
 	.intercom-sheet-header-button
