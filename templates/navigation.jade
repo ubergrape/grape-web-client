@@ -1,10 +1,9 @@
 nav.navigation
-	header.header
-		.org-info(id='intro-step1')
-			a.logo
-				i.fa.fa-cog
-				img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
-				span.name=org.name
+	.org-info(id='intro-step1')
+		a.logo
+			i.fa.fa-cog
+			img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
+			span.name=org.name
 	.preloader.hide
 		div
 			h3
@@ -21,4 +20,3 @@ nav.navigation
 		ul.nav-list.labels
 	div(id="intro-step3", class='pm-list')
 		ul.nav-list.pms
-	input.filter-pms(type="filter", name="filter-input", placeholder=_("Search 23 Users"))

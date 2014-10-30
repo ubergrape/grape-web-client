@@ -90,8 +90,24 @@
 	bottom: 36px
 	left: 0
 	right: 0
-	border-top: 1px solid lighten(jet, 10%)
-	
+	background: darken(jet, 1)
+	max-height: 43%
+	&::after
+		content: "\b7\b7\b7"
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		height: 5px
+		border-top: 1px solid darken(organisation-background, 5)
+		cursor: move
+		text-align: center
+		line-height: 5px
+		color: lighten(jet, 10%)
+		background: darken(jet, 1)
+	&:hover::after
+		color: gainsboro-dark
+
 span.no-messages
 	@extend $small-font-size
 	padding-left: 20px
@@ -105,7 +121,7 @@ span.no-messages
 // ****
 .filter-pms
 	position: absolute
-	bottom: 0
+	bottom: -36px
 	left: 0
 	right: 0
 	background: organisation-background
@@ -113,6 +129,7 @@ span.no-messages
 	border-top: 1px solid darken(organisation-background, 5)
 	width: 100%
 	padding: 8px 12px 8px 20px
+	z-index: 14
 	placeholder(color = lighten(organisation-background, 25))
 
 	&:focus
