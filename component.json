@@ -1,18 +1,16 @@
 {
   "name": "cg",
-  "repo": "newsgrape/ChatGrape",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "private": true,
   "description": "",
   "keywords": [],
   "remotes": [
-    "https://raw.githubusercontent.com",
-    "https://cdn.rawgit.com",
-    "https://rawgit.com"
+    "github"
   ],
   "paths": [
     "local_components"
   ],
-  "local": [
+  "locals": [
     "cglib",
     "staticurl"
   ],
@@ -95,9 +93,9 @@
     "Swatinem/model": "0.0.4",
     "Swatinem/model-cache": "0.0.2",
     "Swatinem/model-cast": "0.0.1",
-    "Swatinem/model-array": "*",
+    "Swatinem/model-array": "master",
     "Swatinem/virtualdom": "*",
-    "visionmedia/jade": "*",
+    "jadejs/jade": "*",
     "component/raf": "*",
     "component/domify": "*",
     "component/notification": "*",
@@ -125,16 +123,19 @@
     "matthewp/attr": "*",
     "component/tip": "*",
     "ianstormtaylor/animate": "*",
-    "ubergrape/HTML5-Desktop-Notifications": "*",
+    "ubergrape/HTML5-Desktop-Notifications": "master",
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "0.1.6",
     "ubergrape/drop-anywhere": "*",
     "moment/moment": "2.7.0",
-    "ubergrape/moment-timezone": "*"
+    "ubergrape/moment-timezone": "master"
   },
   "development": {
+    "dependencies":     {
     "chaijs/chai": "*",
     "adamsanderson/trigger-event": "*"
   }
+  }
+
 }
