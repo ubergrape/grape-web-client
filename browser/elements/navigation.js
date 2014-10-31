@@ -7,7 +7,7 @@ var template = require('template');
 var qs = require('query');
 var events = require('events');
 var closest = require('closest');
-
+var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 
@@ -38,6 +38,11 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.pms', el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
 	replace(qs('.labels', el), labelList.el);
+
+	var myResizable = new resizable(qs('.pm-list', el), {
+	    directions: ['north']
+	});
+
 };
 
 function replace(from, to) {

@@ -131,6 +131,7 @@
     "component/clipboard": "0.1.6",
     "ubergrape/drop-anywhere": "*",
     "moment/moment": "2.7.0",
+    "jh3y/resizable": "*",
     "ubergrape/moment-timezone": "*"
   },
   "development": {

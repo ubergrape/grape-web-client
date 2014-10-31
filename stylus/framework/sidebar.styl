@@ -11,10 +11,16 @@
 	float: left
 	display: block
 	color: gainsboro-dark
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	.navigation
 		padding: 0px
 		background: jet
-
+	
 // ****
 //
 // Top left Info about the product and Organisation
@@ -91,7 +97,9 @@
 	left: 0
 	right: 0
 	background: darken(jet, 1)
-	max-height: 43%
+	max-height: 50%
+	min-height: 150px
+	top: auto !important
 	&::after
 		content: "\b7\b7\b7"
 		position: absolute
@@ -100,13 +108,15 @@
 		right: 0
 		height: 5px
 		border-top: 1px solid darken(organisation-background, 5)
-		cursor: move
 		text-align: center
 		line-height: 5px
 		color: lighten(jet, 10%)
 		background: darken(jet, 1)
 	&:hover::after
 		color: gainsboro-dark
+	.rsize-d
+		top: 0
+		z-index: 15
 
 span.no-messages
 	@extend $small-font-size
@@ -124,7 +134,7 @@ span.no-messages
 	bottom: -36px
 	left: 0
 	right: 0
-	background: organisation-background
+	background: darken(jet, 1)
 	border: none
 	border-top: 1px solid darken(organisation-background, 5)
 	width: 100%
