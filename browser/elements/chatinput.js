@@ -19,7 +19,7 @@ var renderAutocomplete = require('../renderautocomplete');
 var staticurl = require('staticurl');
 var emoji = require('../emoji');
 var MarkdownTipsDialog = require('./dialogs/markdowntips');
-
+var moment = require('moment');
 
 require("startswith");
 
@@ -89,7 +89,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				childnode = childnode.childNodes[0];
 			}
 			// check if there are some contents in wrapped in a big <div>. If so, handle
-			// the inner contents 
+			// the inner contents
 			// else, clean the current elment
 			if(childnode.childNodes && childnode.childNodes.length > 1){
 				// check if it is not an emoji or autocomplete item. If so, don't split the elment
@@ -126,20 +126,20 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// // make the messageInput auto resize
 	// var resize = debounce(function() {
-	// 	resizable(self.messageInput, {min: 31, max: 220})}, delay);
+	//	resizable(self.messageInput, {min: 31, max: 220})}, delay);
 	// resize();
 
 	// Emitter(this.messageInput);
 	// this.messageInput.on('resize', function(diff) {
-	// 	// resize footer height
-	// 	var footer = closest(self.messageInput, 'footer');
-	// 	var new_height = footer.clientHeight + diff;
-	// 	footer.style.height =  new_height + 'px';
+	//	// resize footer height
+	//	var footer = closest(self.messageInput, 'footer');
+	//	var new_height = footer.clientHeight + diff;
+	//	footer.style.height =  new_height + 'px';
 
-	// 	// resize chat wrapper padding
-	// 	var wrapper = qs(".chat-wrapper");
-	// 	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
-	// 	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
+	//	// resize chat wrapper padding
+	//	var wrapper = qs(".chat-wrapper");
+	//	var new_padding_bottom = parseInt(style(wrapper).paddingBottom) + diff;
+	//	wrapper.style.paddingBottom =  new_padding_bottom + 'px';
 	// });
 
 	// emit typing (start and stop) events
@@ -173,16 +173,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	// hook up the autocomplete
 	// there should always be a whitespace char in front, or beginning of line. hence (^|\s)
-	this.complete.re = /(^|\s)([@#:])([^\s]{1,15})$/;
+	// the regex should only match terms that contain spaces or nbsp;s
+	// note: content editale seems to turn nbsp;s at the end of the text into
+	// normal spaces when continuing to type
+	this.complete.re = /(^|\s)([@#:])(([^\s]+[ \u00a0]?){1,3})$/;
 	this.complete.formatSelection = function (obj) {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
-		var whitespace = matches[1]
+		var whitespace = matches[1];
 		var trigger_character = matches[2];
 		var match = matches[3];
-
-		console.log(matches);
 
 		self.complete.clear();
 
@@ -253,8 +254,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					break;
 				var user = users[i];
 				if (  user.firstName.startsWithIgnoreCase(search)
-				   || user.lastName.startsWithIgnoreCase(search)
-				   || user.username.startsWithIgnoreCase(search)) {
+					 || user.lastName.startsWithIgnoreCase(search)
+					 || user.username.startsWithIgnoreCase(search)) {
 					var name = "";
 					var full_name_class = "";
 					if (user.firstName !== "") {
@@ -311,9 +312,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
 					var r = result[i];
+					if (r.start) {
+						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+					} else {
+						var type = r.service == "googledrive" ? "" : r.type;
+						var title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+					}
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+						title: title,
 						insert: r.name,
 						service: r.service,
 						type: r.type,
@@ -329,6 +336,82 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			});
 		}
 	};
+};
+
+ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
+	if(typeof lang !== "undefined")
+			Date.i18n.setLanguage(lang);
+
+	//replace(/([A-Za-z])\.+/g, '$1').split(/\s+/);
+	var lookahead = 3;
+	var self = this;
+
+	//split into sentences
+	//str.replace(/([.?!])\s*(?=[A-Z])/, "$1|").split("|")
+
+	var re = new RegExp(/[.!?]+(?!\d)|([^\d])[.?!]+(?=\d)/g);
+	var sentRe = data.replace(re,"$1|");
+	var sentences = sentRe.split("|");
+
+	//var sentences = data.split();//, "$1|").split("|");
+	//var sentences = str.replace(/\.(?!\d)|([^\d])\.(?=\d)/g,'$1.|');
+
+	//for each sentence
+	for (var s=0; s < sentences.length; s++) {
+			//split into words
+			var words = sentences[s].replace(/[^\w\s:]|_/g, " ")
+					.replace(/\s+/g, " ")
+					.trim()
+					.split(/\s+/);
+
+			//analyze all combinations of up to $lookahead consecutive words
+			for (var i = 0; i < words.length; i++) {
+					var found = false,
+							date = null,
+							phrase = null,
+							last = null;
+					for (var j = i + 1; j < i + lookahead + 1 && j < words.length + 1; j++) {
+							var _phrase = words.slice(i, j).join(' ');
+							//console.log(i, j, words.slice(i, j));
+							// parse
+							var _date;
+							if (_date = Date.parse(_phrase)) {
+									date = _date;
+									phrase = _phrase;
+									found = true;
+									last = j - 1;
+							}
+					}
+					if (found) {
+							console.log(phrase + ": " + date)
+							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
+								for (var i=0; i<result.length; i++) {
+									if (self.complete.options.length >= self.max_autocomplete)
+										break;
+									var r = result[i];
+									console.log(r);
+									self.complete.push({
+										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.name + ' <em class="entry-additional-info">' + r.container + '</em></div>',
+										insert: r.name,
+										service: r.service,
+										type: r.type,
+										url: r.url,
+										// whitespace: whitespace
+									});
+								}
+
+								if (self.complete.options.length > 0) {
+									self.complete.show();
+									self.complete.highlight(0);
+								}
+							});
+							// move the index to behind found phrase and break
+							i = last;
+							//break;
+					}
+			}
+	}
 };
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
@@ -398,7 +481,7 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 		return[];
 	}
 	// if the elment is one of the following tags, insert new line
-	if(childnode.nodeName && (childnode.nodeName === "BR" 
+	if(childnode.nodeName && (childnode.nodeName === "BR"
 	|| childnode.nodeName === "DIV" || childnode.nodeName === "P"
 	|| childnode.nodeName === "LI" || childnode.nodeName === "UL")){
 		children.push("\n");
@@ -422,7 +505,7 @@ ChatInput.prototype.cleanNode = function ChatInput_cleanNode(childnode) {
 	} else if(childnode.nodeName === "IMG"){
 		children.push("[IMG]\n");
 		children.push(childnode.src);
-	} 
+	}
 	return children;
 };
 

@@ -445,13 +445,23 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	});
 };
 
+App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
+	this.wamp.call(PREFIX + 'search/autocomplete_date', text, this.organization.id,
+			function (err, result) {
+			if (callback !== undefined) {
+				callback(err, result);
+			}
+
+	});
+};
+
 App.prototype.search = function App_search(text) {
 	var self = this;
 	this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
 			function (err, results) {
 			var r = [];
 			var lines = results.results.map(function(l) {
-				if(l.index !== 'objects') {
+				if(l.index !== 'objects_alias') {
 					l = new models.Line(l);
 					r.unshift(l);
 				} else {
@@ -492,6 +502,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 		// so when the first message in history is read, assume the history as read
 		// as well
 		var read = !!room.history.length && room.history[0].read;
+		if (res.length === 0) return self.emit('nohistory');
 		// append all to the front of the array
 		// TODO: for now the results are sorted in reverse order, will this be
 		// consistent?
@@ -507,7 +518,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 				room.history.unshift(line);
 			}
 		});
-		self.emit('gothistory', room, lines);
+		self.emit('gothistory');
 	});
 };
 

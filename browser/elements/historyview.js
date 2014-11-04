@@ -32,11 +32,11 @@ function HistoryView() {
 	this.room = {history: new Emitter([])};
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
-	this.gotHistory = function () {};
 	this.bind();
 	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
 	this.scrollMode = 'automatic';
+	this.on('needhistory', function () { this.room.loading = true; });
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -115,11 +115,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     // if the last message was already scrolled(no new messages),
 	// don't scroll as the user is navigating to a specific place
 	// otherwise, scroll to the last element in the room
-  	if(this.room.history.length && this.scrollMode === 'automatic'){
-  		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
-  			this.doScrollDown();
+	if (this.room.history.length && this.scrollMode === 'automatic') {
+		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
+			this.doScrollDown();
 		}
-  	}
+	}
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
@@ -145,7 +145,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	    // if the last message was already scrolled(no new messages),
   		// don't scroll as the user is navigating to a specific place
   		// otherwise, scroll to the last element in the room
-		if(this.lastScrolledMessage != this.room.history[this.room.history.length - 1]){
+		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
   			this.doScrollDown();
   			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
 		} else {
@@ -198,16 +198,23 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
 		return done();
+	} else {
+		if (!this.room.empty) {done();}	
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
-	var self = this;
-	this.gotHistory = function (room, lines) {
-		if (lines.length)
-			done();
-		self.gotHistory = function () {};
-	};
 	this.emit('needhistory', this.room, options);
+};
+
+HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
+	this.room.loading = false;
+	this.room.empty = false;
+};
+
+HistoryView.prototype.noHistory = function HistoryView_noHistory() {
+	this.room.empty = true;
+	this.room.loading = false;
+	this.redraw();
 };
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
@@ -247,8 +254,6 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
-	// clear that fn
-	self.gotHistory = function () {};
 	//var history = this.history.el;
 	if (this.room) {
 		this.room.history.off('removed');
@@ -263,16 +268,16 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	// mark the last message as read
 	if (room.history.length)
 		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-	else // FIXME:
-		this.emit('needhistory', room);
+	else
+		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
+	
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
+	
+	room.history.on('add', function () { self.queueDraw(); });
 
-	room.history.on('add', function () {
-		self.queueDraw();
-	});
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
