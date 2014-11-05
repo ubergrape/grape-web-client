@@ -33,4 +33,9 @@ div
 					else
 						i.fa.fa-envelope
 						| 
-					| #{room.users[0].username}
+					if (room.users[0].firstName || room.users[0].lastName)
+						| #{room.users[0].firstName} #{room.users[0].lastName} 
+						em
+							| #{room.users[0].username}
+					else
+						| #{room.users[0].username}
