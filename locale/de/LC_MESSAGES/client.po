@@ -8,13 +8,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2014-09-30 23:34+0000\n"
+"POT-Creation-Date: 2014-11-10 10:51+0000\n"
 
 #: client/templates/chathistory.jade:25
+#: client/templates/chathistory.jade:31
 msgid "1"
 msgstr ""
 
 #: client/templates/chathistory.jade:32
+#: client/templates/chathistory.jade:38
 msgid "2"
 msgstr ""
 
@@ -27,10 +29,12 @@ msgid "Please enter at least one user to invite"
 msgstr ""
 
 #: client/browser/elements/notifications.js:67
+#: client/browser/elements/notifications.js:77
 msgid "Private Message"
 msgstr ""
 
 #: client/browser/elements/notifications.js:85
+#: client/browser/elements/notifications.js:100
 msgid "[Image]"
 msgstr ""
 
@@ -99,12 +103,14 @@ msgid ""
 msgstr ""
 
 #: client/browser/index.js:583
+#: client/browser/index.js:588
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
 msgstr ""
 
 #: client/browser/index.js:594
+#: client/browser/index.js:599
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -113,6 +119,7 @@ msgid "Search for content, documents, appointments, ..."
 msgstr ""
 
 #: client/templates/chathistory.jade:6
+#: client/templates/chathistory.jade:7
 msgid "Welcome to ChatGrape!"
 msgstr ""
 
@@ -121,18 +128,22 @@ msgid "Give us a second while we're preparing everything for you!"
 msgstr ""
 
 #: client/templates/chathistory.jade:21
+#: client/templates/chathistory.jade:27
 msgid "This room is public. Every member can join and read the history."
 msgstr ""
 
 #: client/templates/chathistory.jade:28
+#: client/templates/chathistory.jade:34
 msgid "Invite members"
 msgstr ""
 
 #: client/templates/chathistory.jade:35
+#: client/templates/chathistory.jade:41
 msgid "Integrate external services"
 msgstr ""
 
 #: client/templates/chathistory.jade:50
+#: client/templates/chathistory.jade:56
 msgid ""
 " This user was only invited and didn't join ChatGrape yet. You can send "
 "chat messages and as soon as the user joins ChatGrape, he will reiceive "
@@ -140,18 +151,22 @@ msgid ""
 msgstr ""
 
 #: client/templates/chathistory.jade:63
+#: client/templates/chathistory.jade:69
 msgid "new messages"
 msgstr ""
 
 #: client/templates/chathistory.jade:87
+#: client/templates/chathistory.jade:93
 msgid " Local time: "
 msgstr ""
 
 #: client/templates/chathistory.jade:102
+#: client/templates/chathistory.jade:108
 msgid "#Label"
 msgstr ""
 
 #: client/templates/chathistory.jade:160
+#: client/templates/chathistory.jade:166
 msgid "Show More"
 msgstr ""
 
@@ -519,4 +534,8 @@ msgstr ""
 
 #: client/templates/searchresults.jade:4
 msgid " results for "
+msgstr ""
+
+#: client/templates/chathistory.jade:16
+msgid "Looking for history..."
 msgstr ""
