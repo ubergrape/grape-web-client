@@ -107,6 +107,11 @@ Notifications.prototype.newMessage = function Notifications_newMessage(message) 
 		content = content_dom.textContent || content_dom.innerText || "";
 	}
 
+	// remove "[Image]" for service connections
+	if (message.author.type == "service") {
+		content.replace("[Image]", "");
+	}
+
 	// attach files
 	var attachments = message.attachments;
 	if (typeof attachments !== "undefined" && attachments.length > 0) {

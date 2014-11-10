@@ -292,6 +292,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
 	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
 	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.chatInput, 'autocompletedate', this, 'autocompletedate');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -371,8 +372,12 @@ UI.prototype.bind = function UI_bind() {
 	});
 };
 
-UI.prototype.gotHistory = function UI_gotHistory(room, lines) {
-	this.historyView.gotHistory(room, lines);
+UI.prototype.gotHistory = function UI_gotHistory() {
+	this.historyView.gotHistory();
+};
+
+UI.prototype.noHistory = function UI_noHistory() {
+	this.historyView.noHistory();
 };
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
