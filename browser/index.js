@@ -175,12 +175,12 @@ UI.prototype.init = function UI_init() {
 		showStepNumbers: false,
 		steps: [
 			{
-				intro: _("<h2>Hi there! Welcome to ChatGrape!</h2><p>We'll give you a quick overview in 5 simple steps.</p><p>You can skip this at any time by clicking anywhere.</p>"),
+				intro: _("<h2>Welcome to ChatGrape - Good to see you.</h2><p>We'll give you a quick overview in 5 simple steps.</p>"),
 				tooltipClass: "intro-welcome"
 			},
 			{
 				element: '#intro-step1',
-				intro: _("<h2>Organization Settings</h2><p>This is the organization you are currently in.</p><p>You can add and manage members and external services by clicking on the menu button.</p>"),
+				intro: _("<h2>Writing Smart Messages</h2><p>You can use @ (e.g. @Tobi) to mention people or rooms to send them notifications.</p><p>After adding the first service integration you can use # (e.g. #Pitch Deck) to reference files, tasks, appointments and much more!</p>"),
 				position: 'right'
 			},
 			{
@@ -197,11 +197,6 @@ UI.prototype.init = function UI_init() {
 				element: '#intro-step4',
 				intro: _("<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>"),
 				position: 'bottom'
-			},
-			{
-				element: '#intro-step5',
-				intro: _("<h2>User Profile</h2><p>You can find all profile-related settings (and re-start this awesome tutorial at any time) here.</p>"),
-				position: 'left'
 			},
 			{
 				intro: _('<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
