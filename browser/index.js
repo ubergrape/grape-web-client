@@ -181,7 +181,7 @@ UI.prototype.init = function UI_init() {
 			{
 				element: '#intro-step1',
 				intro: _("<h2>Writing Smart Messages</h2><p>You can use @ (e.g. @Tobi) to mention people or rooms to send them notifications.</p><p>After adding the first service integration you can use # (e.g. #Pitch Deck) to reference files, tasks, appointments and much more!</p>"),
-				position: 'right'
+				position: 'top'
 			},
 			{
 				element: '#intro-step2',
