@@ -22,7 +22,7 @@ var exports = module.exports = UI;
 
 // configure locales and template locals
 var template = require('template');
-template.root = '/cg/templates';
+template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
 ['de', 'en'].forEach(function (lang) {
