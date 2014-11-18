@@ -9,7 +9,7 @@ var qs = require('component-query');
 var ItemList = require('cg').UI.ItemList;
 
 describe('ItemList (rooms template)', function () {
-	var opts = {template: 'roomlist'};
+	var opts = {template: 'roomlist.jade'};
 	// webkit wtf? https://code.google.com/p/chromium/issues/detail?id=120494
 	var added;
 	function add(el) {

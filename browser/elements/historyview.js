@@ -126,7 +126,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
-	render(this.history, template('chathistory', {
+	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
@@ -199,7 +199,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		this.scrollMode = 'automatic';
 		return done();
 	} else {
-		if (!this.room.empty) {done();}	
+		if (!this.room.empty) {done();}
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
@@ -272,10 +272,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
-	
+
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
-	
+
 	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {

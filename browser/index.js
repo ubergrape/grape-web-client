@@ -86,7 +86,7 @@ UI.prototype.init = function UI_init() {
 		name: "loading"
 	};
 
-	this.el = v.toDOM(template('index'));
+	this.el = v.toDOM(template('index.jade'));
 
 	// add the navigation to the layout
 	var sidebar = qs('.navigation', this.el);

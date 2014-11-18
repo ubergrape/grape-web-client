@@ -46,7 +46,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
-	var vdom = template('chatinput', {});
+	var vdom = template('chatinput.jade', {});
 	render(this, vdom);
 };
 
