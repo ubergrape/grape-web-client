@@ -25,9 +25,9 @@ var template = require('template');
 template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
-['de', 'en'].forEach(function (lang) {
-	_.merge(lang, require('../locale/' + lang));
-});
+// ['de', 'en'].forEach(function (lang) {
+// 	_.merge(lang, require('../locale/' + lang));
+// });
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
