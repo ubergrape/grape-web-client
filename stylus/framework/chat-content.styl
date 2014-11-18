@@ -36,7 +36,7 @@
 
 .message-group
 	@extend $clearfix
-	margin: 20px 30px 20px 20px
+	margin: 10px 30px 20px 20px
 	position: relative
 	.avatar
 		float: left
@@ -56,15 +56,20 @@
 			border-top: main-border-radius solid transparent
 			border-bottom: main-border-radius solid transparent
 
-.author
+a.author
 	font-weight: bold
 	margin-bottom: 3px
 	color: gainsboro-dark
 	display: inline-block
-	@extend $subtle-link
 	em
-		color: lighten(gainsboro-dark, 10%)
+		color: lighten(gainsboro-dark, 15%)
 		@extend $small-font-size
+	&:hover
+		text-decoration: none
+		color: lighten(gainsboro-dark, 20%)
+		em
+			text-decoration: none
+			color: lighten(gainsboro-dark, 35%)
 
 .welcome-message
 	margin: 0
@@ -137,9 +142,9 @@
 				top: 0px
 
 .message-content
-	padding: 8px 10px 5px
+	padding: 6px 10px 3px
 	overflow: hidden
-	background: white
+	background: chat-content
 	border-radius: main-border-radius
 	.time
 		float: right
@@ -269,8 +274,8 @@
 			line-height: 1px
 			max-height: 300px
 			img
-				// height: auto
-				// max-height: 100%
+				max-width: 100%
+				height: auto
 
 .text
 	display: inline-block
@@ -326,7 +331,7 @@
 	@extend $small-font-size
 
 .date-separator
-	margin: 0 30px -10px 20px
+	margin: 0 30px 0 20px
 	padding:  5px 0 0 0
 
 .newmessage-separator
