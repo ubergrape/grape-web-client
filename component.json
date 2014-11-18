@@ -49,10 +49,6 @@
     "browser/jstz.js",
     "lib/broker.js"
   ],
-  "json": [
-    "locale/de.json",
-    "locale/en.json"
-  ],
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
@@ -94,7 +90,7 @@
     "Swatinem/model-cache": "0.0.2",
     "Swatinem/model-cast": "0.0.1",
     "Swatinem/model-array": "master",
-    "Swatinem/virtualdom": "*",
+    "Swatinem/virtualdom": "master",
     "jadejs/jade": "*",
     "component/raf": "*",
     "component/domify": "*",
