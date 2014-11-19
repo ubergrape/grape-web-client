@@ -31,6 +31,14 @@ renderer.heading = function (text, level) {
 renderer.hr = function() {
 		return "--";
 };
+renderer.image = function (href, title, text) {
+  var out = '<span class="markdown-img-wrapper">';
+  out += '<img src="' + href + '" alt="' + text + '"';
+  if (title) out += ' title="' + title + '"';
+  out += this.options.xhtml ? '/>' : '>';
+  out += '</span>';
+  return out;
+};
 
 
 marked.setOptions({
