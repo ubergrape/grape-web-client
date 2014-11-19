@@ -57,7 +57,11 @@ Popover.prototype.show = function Popover_show(trigger) {
 	document.body.appendChild(this.el);
 	this.hidden = false;
 	this.emit('show');
-	animate(this.el, 'fade-left-in');
+	if (this.classes.has('left')) {
+		animate(this.el, 'fade-left-in');  
+	} else { // TOP
+		animate(this.el, 'fade-down-in');  
+	}
 };
 
 Popover.prototype.hide = function Popover_hide() {

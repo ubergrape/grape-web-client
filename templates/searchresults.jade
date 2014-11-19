@@ -17,7 +17,7 @@
 					.item-content
 						.item-text
 							if (result.index_type !== 'object')
-								strong= result.author.username
+								span.user= result.author.username
 							else
 								span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
 							= html(markdown(result.highlighted))

@@ -74,22 +74,7 @@
 	border-top: 1px solid silver-dark
 	> li
 		position: relative
-		border-left: 3px solid silver-dark
 		border-bottom: 1px dashed silver-dark
-		&:hover
-			border-left-color: grape-dark
-		// &.objects
-		// 	&:hover
-		// 		.item-content
-		// 			background: grape-light
-		// 			color: white
-		// 		.item-content strong,
-		// 		.item-content span
-		// 			color: lighten(grape-light, 30)
-		// 		.item-type
-		// 			background: grape-dark
-		// 			border-color: darken(grape-dark, 5)
-		// 			color: lighten(grape-light, 15)
 		.item-object
 			@extend $clearfix
 			margin: 0 -3px
@@ -112,18 +97,20 @@
 			font-size: 0.8em
 			color: gainsboro-dark
 			font-weight: bold
+			@extend $ellipsis
 		.item-content
 			padding: 11px 20px 11px 10px
 			overflow: hidden
-			font-weight: bold
 			border-left: 1px solid silver-dark
 			background: white
 			color: grape-typo
 			.item-text
 				@extend $big-font-size
-			strong, span
+			span
 				margin-right: 8px
-				color: gainsboro-dark
+			strong
+				background: search-hightlight-color
+				font-weight: normal
 			p
 				display: inline
 			b
@@ -131,6 +118,9 @@
 				padding: 0px 3px
 				margin: 0 -3px
 				border-radius: 4px
+		&.objects:hover
+			.item-content
+				color: link-color
 		.item-footer
 			margin-top: 7px
 			@extend $clearfix
@@ -172,16 +162,21 @@
 				
 
 /*______ STYLES IF SEARCH TRIGGERED ______*/
-body .searching .room-header
-	/*.room-info-text, 
-	.user-menu-wrap,
-	.feedback
-		width: 0
-		margin: 0
-		overflow: hidden
-	.search-form
-		// width: 100% !important */
-	.search
-		padding-right: 40px
-	.close
-		display: block
+body .searching
+	.client-body
+		padding-bottom: 0
+	.footer
+		transform: translateY(100%)
+		transition: transform ease 400ms
+	.header
+		.room-info-text, 
+		.user-menu-wrap
+			width: 0
+			margin: 0
+			overflow: hidden
+		.search-form
+			width: 100% !important
+		.search
+			padding-right: 40px
+		.close
+			display: block
