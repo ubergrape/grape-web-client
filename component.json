@@ -4,9 +4,6 @@
   "private": true,
   "description": "",
   "keywords": [],
-  "remotes": [
-    "github"
-  ],
   "paths": [
     "local_components"
   ],
