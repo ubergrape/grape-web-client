@@ -27,8 +27,9 @@
 		span
 			color: gainsboro-dark
 
-	/* GITHUB SPECIFIC */
+	/* GITHUB and BITBUCKET SPECIFIC */
 
+	&.commits,
 	&.push, // advanced styling for connected pushes
 	&.pull_request,
 	&.gollum
@@ -70,7 +71,7 @@
 				.show-more
 					display: block
 					z-index: 12
-	.comment, 
+	.comment,
 	&.commentCard .short-list li
 		padding: 0 10px
 		margin: 4px -10px
@@ -85,8 +86,12 @@
 			content: "\f10d"
 			margin-right: 5px
 			margin-left: 5px
+
+	.comment .text ol
+		padding-left: 22px
+
 	/* TRELLO SPECIFIC */
-			
+
 
 	//Removing unnecessary elements
 	&.issue_comment,
