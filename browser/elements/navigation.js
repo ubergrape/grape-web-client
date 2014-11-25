@@ -22,15 +22,23 @@ function Navigation() {
 Navigation.prototype = Object.create(Emitter.prototype);
 
 Navigation.prototype.init = function Navigation_init() {
+	// biderectional bindings, once redrawn 
+	// this nav will become the drawn element
 	this.nav = {};
 	this.redraw();
+	
+	// this is the actual DOM element `nav`
 	var el = this.nav.el;
 
 	// XXX: this is a bit weird :-(
-	document.createElement('div').appendChild(el);
-	var scr = new Scrollbars(el);
-	this.el = scr.wrapper;
-
+	var navWrapper = document.createElement('div');
+	navWrapper.setAttribute("class", "navigation");
+	navWrapper.appendChild(el);
+	// var scr = new Scrollbars(el);
+	// this.el = scr.wrapper;
+	this.el = el.parentNode;
+	console.log(this.el);
+	 
 	// initialize the sub lists
 	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
 	replace(qs('.rooms', el), roomList.el);
@@ -54,7 +62,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
 		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
-		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
+		addpm: function (ev) {
+			self.emit('addpm', closest(ev.target, 'a', true));
+			console.log('yuppy');
+		},
 	});
 	this.events.bind('click .addroom', 'addroom');
 	this.events.bind('click .addpm', 'addpm');
