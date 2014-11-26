@@ -84,6 +84,9 @@
 
 .room-list
 	padding: 23px 0 12px 0
+	height: 60%
+	.rooms
+		height: 100%
 
 // ****
 //
@@ -93,13 +96,17 @@
 .pm-list
 	padding: 12px 0
 	position: absolute
-	bottom: 36px
+	bottom: 37px
 	left: 0
 	right: 0
 	background: darken(jet, 1)
 	max-height: 50%
-	min-height: 150px
+	min-height: 20%
 	top: auto !important
+	width: 260px
+	height: 30%
+	.pms
+		height: 100%
 	&::after
 		content: "\b7\b7\b7"
 		position: absolute
@@ -131,9 +138,7 @@ span.no-messages
 // ****
 .filter-pms
 	position: absolute
-	bottom: -36px
-	left: 0
-	right: 0
+	bottom: 0
 	background: darken(jet, 1)
 	border: none
 	border-top: 1px solid darken(organisation-background, 5)
