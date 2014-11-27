@@ -36,7 +36,7 @@ Navigation.prototype.init = function Navigation_init() {
 
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
 	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-	   pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 			
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var roomWrapper = roomScrollbar.wrapper.parentNode,
