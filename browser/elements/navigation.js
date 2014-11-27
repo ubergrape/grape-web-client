@@ -10,6 +10,7 @@ var closest = require('closest');
 var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
+var debounce = require('debounce');
 
 module.exports = Navigation;
 
@@ -22,48 +23,28 @@ function Navigation() {
 Navigation.prototype = Object.create(Emitter.prototype);
 
 Navigation.prototype.init = function Navigation_init() {
-	// biderectional bindings, once redrawn 
-	// this nav will become the drawn element
 	this.nav = {};
 	this.redraw();
+	this.el = this.nav.el;
 	
-	// this is the actual DOM element `nav`
-	// ffs, find a proper name and change it
-	var el = this.nav.el;
-
-	var navWrapper = document.createElement('div');
-	navWrapper.setAttribute('class', 'navigation');
-	navWrapper.appendChild(el);
-	// var scr = new Scrollbars(el);
-	// this.el = scr.wrapper;
-	// maybe just use this.el instead of saving a variable
-	// before, but also find proper names for this.el and el
-	/*
-		removing the scrollbar seems to cause the pm-list
-		popover to appear at the extreme right of the page:
-		pm-list is as wide as the screen itself, which might be the cause
-		--> check if persist after the two separate scrollbars have
-		been added
-	*/
-	this.el = navWrapper;
-	
-	// initialize the sub lists
 	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
-	replace(qs('.rooms', el), roomList.el);
+	replace(qs('.rooms', this.el), roomList.el);
 	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item a'});
-	replace(qs('.pms', el), pmList.el);
+	replace(qs('.pms', this.el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
-	replace(qs('.labels', el), labelList.el);
+	replace(qs('.labels', this.el), labelList.el);
 
-	var roomWrapper = qs('.rooms', el);
-	roomWrapper = new Scrollbars(roomWrapper);
+	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
+			pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+			pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+			
+	var resizeRoomList = debounce(function resizeRoomList() {
+		var roomWrapper = roomScrollbar.wrapper.parentNode,
+				heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
+		roomWrapper.style.height = roomWrapper.scrollHeight - heightDiff + 'px';
+	}, 500);
 	
-	var pmWrapper = qs('.pms', el);
-	pmWrapper = new Scrollbars(pmWrapper);
-	
-	var myResizable = new resizable(qs('.pm-list', el), {
-	    directions: ['north']
-	});
+	pmResizable.element.addEventListener('resize', resizeRoomList);
 };
 
 function replace(from, to) {
@@ -74,14 +55,8 @@ function replace(from, to) {
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		addroom: function (ev) {
-			self.emit('addroom', closest(ev.target, 'a', true));
-			console.log(closest(ev.target, 'a', true));
-		},
-		addpm: function (ev) {
-			self.emit('addpm', closest(ev.target, 'a', true));
-			console.log(closest(ev.target, 'a', true));
-		},
+		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
+		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
 	});
 	this.events.bind('click .addroom', 'addroom');
 	this.events.bind('click .addpm', 'addpm');
