@@ -35,12 +35,12 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.labels', this.el), labelList.el);
 
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-			pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-			pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+	   pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 			
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var roomWrapper = roomScrollbar.wrapper.parentNode,
-				heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
+		    heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
 		roomWrapper.style.height = roomWrapper.scrollHeight - heightDiff + 'px';
 	}, 500);
 	
