@@ -37,13 +37,17 @@ Navigation.prototype.init = function Navigation_init() {
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
 	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
-			
+
+	// compute the height of the room list area
+	// called every time the pm area is resized		
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var roomWrapper = roomScrollbar.wrapper.parentNode,
 		    heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
 		roomWrapper.style.height = roomWrapper.scrollHeight - heightDiff + 'px';
 	}, 500);
 	
+	// listening to the event fired by the resizable in the resize
+	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
 };
 
@@ -55,11 +59,9 @@ function replace(from, to) {
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); },
-		addpm: function (ev) { self.emit('addpm', closest(ev.target, 'a', true)); },
+		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); }
 	});
 	this.events.bind('click .addroom', 'addroom');
-	this.events.bind('click .addpm', 'addpm');
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].on('selectitem', function (item) {
 			self.emit('select' + which, item);

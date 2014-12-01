@@ -46,7 +46,7 @@ exports.ItemList = require('./elements/itemlist');
 var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
-var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
+//var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -95,8 +95,6 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the add room popover
 	this.addRoom = new RoomPopover();
-	// and the new pm popover
-	this.addPM = new PMPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
@@ -138,20 +136,19 @@ UI.prototype.init = function UI_init() {
 	// on paste, check if the pasted item is a blob object -image-,
 	// then emit an upload event to the broker to call the uploader
 	this.clipboard.on('paste', function(e){
-		if(e.items[0] instanceof Blob){
-			this.emit('upload', e.items[0]);
-		}
-    });
-    // initialize dragAndDrop
-    // receive the dragged items and emit
-    // an event to the uploader to upload them
-    var self = this;
-    this.dropzone = new Dropzone();
-    this.dragAndDrop = dropAnywhere(function(e){
-    	e.items.forEach(function(item){
-    		self.emit('uploadDragged', item);
-    	});
-    }, this.dropzone.el);
+		if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
+  });
+
+  // initialize dragAndDrop
+  // receive the dragged items and emit
+  // an event to the uploader to upload them
+  var self = this;
+  this.dropzone = new Dropzone();
+  this.dragAndDrop = dropAnywhere(function(e){
+  	e.items.forEach(function(item){
+  		self.emit('uploadDragged', item);
+  	});
+  }, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -233,7 +230,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
 	broker.pass(navigation, 'selectpm', this, 'selectchannel');
-	broker(navigation, 'addpm', this.addPM, 'toggle');
+	// broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
@@ -256,18 +253,6 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
-	broker.pass(this.addPM, 'selectitem', this, 'openpm');
-	// hide the new pm popover when the pm is created
-	// and automatically select it
-	this.addPM.on('selectitem', function (user) {
-		function addlistener(pm) {
-			if (pm.users[0] !== user) return;
-			self.org.pms.off('add', addlistener);
-			self.addPM.hide();
-			self.emit('selectchannel', pm);
-		}
-		self.org.pms.on('add', addlistener);
-	});
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -416,13 +401,26 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
+
+	// the second el of the users array in the pms model is always the pm partner
+	// so we map pms to find the people with whom the conversation is already open...
+	var pmPartners = org.pms.map(function(el) { return el.users[0]; });
+	
+	//... and we get the ones we haven't opened a conversation with...
+	var newPmPartners = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
+	
+	// ...finally we open a conversation for each of the new users
+	newPmPartners.forEach(function (user) { self.emit('openpm', user); });
+	
+	// pms will always have an element for each user a conversation is open with
+	// those users will be all users in the organization
 	var pms = org.pms;
-//	var pms = [
-//		{id: 1, username: 'Tobias Seiler', status: 16},
-//		{id: 2, username: 'Leo Fasbender', status: 0},
-//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
-//	].map(function (r) { return Emitter(r); });
-//	pms = Emitter(pms);
+	//	var pms = [
+	//		{id: 1, username: 'Tobias Seiler', status: 16},
+	//		{id: 2, username: 'Leo Fasbender', status: 0},
+	//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
+	//	].map(function (r) { return Emitter(r); });
+	//	pms = Emitter(pms);
 	var labels = [];// FIXME: add real labels
 	labels = [
 		{id: 1, name: '#github', icon: 'github'},
@@ -438,27 +436,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	});
 
 	// set the items for the add room popover
-	this.addRoom.setItems(rooms);
-
-	// filter those users with which there is already a PM open
-	function refreshNoPMUsers() {
-		var pmusers = Object.create(null);
-		pms.forEach(function (pm) {
-			pm.users.forEach(function (u) {
-				pmusers[u.id] = true;
-			});
-		});
-		var nopmusers = org.users.filter(function (u) {
-			if (u === self.user) return false;
-			return !(u.id in pmusers);
-		});
-
-		// set the items for the new PM popover
-		self.addPM.setItems(nopmusers);
-	}
-	refreshNoPMUsers();
-	org.users.on('change', refreshNoPMUsers);
-	org.pms.on('change', refreshNoPMUsers);
+	this.addRoom.setItems(rooms);		
 
 	// update logo
 	// XXX: is this how it should be done? I guess not
@@ -557,24 +535,11 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
 		} else {
-			var user = channel;
-			var pm = self.isPmOpen(user);
-			if (!pm) {
-				self.org.pms.on('add', addlistener);
-				self.emit('openpm', user);
-			} else {
-				self.emit('selectchannel', pm);
-			}
+			// IN CASE OF PMs
+			// it is necessary to just select the channel
+			// since all pms are opened when entering the chat
+			self.emit('selectchannel', channel);
 		}
-	}
-};
-
-UI.prototype.isPmOpen = function UI_isPmOpen(user) {
-	for (var i = 0; i < this.org.pms.length; i++) {
-		var pm = this.org.pms[i];
-		var pmuser = pm.users[0];
-		if (pmuser === user)
-			return pm;
 	}
 };
 
