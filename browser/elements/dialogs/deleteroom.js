@@ -15,7 +15,7 @@ module.exports = DeleteRoomDialog;
 function DeleteRoomDialog(context) {
 	Emitter.call(this);
 	this.context = context || {};
-	var html = v.toDOM(template('dialogs/deleteroom', this.context));
+	var html = v.toDOM(template('dialogs/deleteroom.jade', this.context));
 	this.dialog = dialog(html);
 	this.el = this.dialog.el;
 	this.button = qs('.delete', this.el);

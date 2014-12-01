@@ -8,7 +8,7 @@
     "https://rawgit.com"
   ],
   "main": "index.js",
-  "local": [
+  "locals": [
     "staticurl"
   ],
   "scripts": [
@@ -28,11 +28,13 @@
     "component/emitter": "*",
     "MatthewMueller/array": "*",
     "Swatinem/websocket-buffering": "0.0.2",
-    "Swatinem/wamp1": "0.0.3",
-    "ubergrape/websocket": "*"
+    "ubergrape/wamp1": "master",
+    "ubergrape/websocket": "master"
   },
   "development": {
+    "dependencies": {
     "chaijs/chai": "*",
     "adamsanderson/trigger-event": "*"
+    }
   }
 }

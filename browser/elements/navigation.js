@@ -32,11 +32,11 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = scr.wrapper;
 
 	// initialize the sub lists
-	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
+	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
 	replace(qs('.rooms', el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item a'});
+	var pmList = this.pmList = new ItemList({template: 'pmlist.jade', selector: '.item a'});
 	replace(qs('.pms', el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
+	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
 	replace(qs('.labels', el), labelList.el);
 };
 
@@ -78,7 +78,7 @@ Navigation.prototype.select = function Navigation_select(which, item) {
 
 // redraw everything, eg when the language changes
 Navigation.prototype.redraw = function Navigation_redraw() {
-	render(this.nav, template('navigation'));
+	render(this.nav, template('navigation.jade'));
 	var self = this;
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (self[which + 'List'])

@@ -22,12 +22,12 @@ var exports = module.exports = UI;
 
 // configure locales and template locals
 var template = require('template');
-template.root = '/cg/templates';
+template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
-['de', 'en'].forEach(function (lang) {
-	_.merge(lang, require('../locale/' + lang));
-});
+// ['de', 'en'].forEach(function (lang) {
+// 	_.merge(lang, require('../locale/' + lang));
+// });
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
@@ -86,7 +86,7 @@ UI.prototype.init = function UI_init() {
 		name: "loading"
 	};
 
-	this.el = v.toDOM(template('index'));
+	this.el = v.toDOM(template('index.jade'));
 
 	// add the navigation to the layout
 	var sidebar = qs('.navigation', this.el);
