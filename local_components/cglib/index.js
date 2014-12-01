@@ -28,7 +28,7 @@ function App() {
 	// the currently signed in user
 	this.user = undefined;
 	// user settings
-	this.settings = undefined
+	this.settings = undefined;
 	// list of all the organizations the user belongs to
 	this.organizations = undefined;
 	// the currently active organization
@@ -38,7 +38,7 @@ function App() {
 	this.reconnected = false;
 	this.connected = false;
 	this.reconnecting = false;
-};
+}
 
 App.prototype = Object.create(Emitter.prototype);
 
@@ -102,7 +102,7 @@ App.prototype.onDisconnect = function App_ondisconnect() {
 		this.emit('disconnected', this.ws);
 	}
 	this.reconnect();
-}
+};
 /**
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
@@ -188,7 +188,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var index = self.organization.rooms.indexOf(room);
 		if (~index)
 			self.organization.rooms.splice(index, 1);
-		self.emit('roomdeleted', room)
+		self.emit('roomdeleted', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
 		var room = models.Room.get(data.channel);
@@ -246,7 +246,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
 		if (!user)
-			user = new models.User(data.user)
+			user = new models.User(data.user);
 		// make sure we're joining the right organization
 		// and the user isnt in there yet
 		if (data.organization===self.organization.id &&
@@ -316,7 +316,7 @@ App.prototype.unbind = function App__unbind() {
 	// our wamp implementation has no off() right now
 	// so we do some hacking
 	if (this.wamp) this.wamp._listeners = {};
-}
+};
 
 App.prototype._newRoom = function App__newRoom(room) {
 	room.users = room.users.map(function (u) {
@@ -361,7 +361,7 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 			var user = models.User.get(u.id) || new models.User(u);
 			user.status = u.status;
 			org.users.push(user);
-		})
+		});
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
 
@@ -408,7 +408,7 @@ App.prototype.createRoom = function App_createRoom(room) {
 };
 
 App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
-	console.log("trying to delet rooom")
+	console.log("trying to delete rooom");
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/delete', room.id, password, function (err, result) {

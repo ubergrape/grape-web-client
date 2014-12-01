@@ -1,18 +1,13 @@
 {
   "name": "cg",
-  "repo": "newsgrape/ChatGrape",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "private": true,
   "description": "",
   "keywords": [],
-  "remotes": [
-    "https://raw.githubusercontent.com",
-    "https://cdn.rawgit.com",
-    "https://rawgit.com"
-  ],
   "paths": [
     "local_components"
   ],
-  "local": [
+  "locals": [
     "cglib",
     "staticurl"
   ],
@@ -51,10 +46,6 @@
     "browser/jstz.js",
     "lib/broker.js"
   ],
-  "json": [
-    "locale/de.json",
-    "locale/en.json"
-  ],
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
@@ -90,14 +81,14 @@
     "ubergrape/marked": "*",
     "Swatinem/scrollbars": "0.0.1",
     "Swatinem/broker": "0.0.2",
-    "Swatinem/template": "*",
-    "Swatinem/t": "0.0.1",
-    "Swatinem/model": "0.0.4",
+    "ubergrape/template": "master",
+    "ubergrape/t": "master",
+    "ubergrape/model": "1.0.0",
     "Swatinem/model-cache": "0.0.2",
     "Swatinem/model-cast": "0.0.1",
-    "Swatinem/model-array": "*",
-    "Swatinem/virtualdom": "*",
-    "visionmedia/jade": "*",
+    "Swatinem/model-array": "master",
+    "Swatinem/virtualdom": "master",
+    "jadejs/jade": "*",
     "component/raf": "*",
     "component/domify": "*",
     "component/notification": "*",
@@ -105,7 +96,7 @@
     "component/classes": "*",
     "component/throttle": "*",
     "component/debounce": "*",
-    "sk7/inputarea": "*",
+    "sk7/inputarea": "master",
     "component/escape-html": "*",
     "component/emitter": "*",
     "component/events": "1.0.7",
@@ -117,24 +108,26 @@
     "MatthewMueller/array": "*",
     "ubergrape/websocket": "*",
     "ubergrape/datejs": "*",
-    "ubergrape/wamp1": "0.0.3",
     "bmcmahen/image-zoom": "*",
     "jkroso/computed-style": "*",
     "ubergrape/textcomplete": "*",
-    "sk7/startswith": "*",
+    "sk7/startswith": "master",
     "matthewp/attr": "*",
     "component/tip": "*",
     "ianstormtaylor/animate": "*",
-    "ubergrape/HTML5-Desktop-Notifications": "*",
+    "ubergrape/HTML5-Desktop-Notifications": "master",
     "usablica/intro.js": "*",
     "sk7/js-emoji": "*",
     "component/clipboard": "0.1.6",
     "ubergrape/drop-anywhere": "*",
     "moment/moment": "2.7.0",
-    "ubergrape/moment-timezone": "*"
+    "ubergrape/moment-timezone": "master"
   },
   "development": {
+    "dependencies":     {
     "chaijs/chai": "*",
     "adamsanderson/trigger-event": "*"
   }
+  }
+
 }

@@ -13,7 +13,6 @@ var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
-var _ = require('t');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -126,11 +125,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
-	render(this.history, template('chathistory', {
+	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
-	}))
+	}));
 
 	var history = this.history.el;
 
@@ -147,7 +146,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   		// otherwise, scroll to the last element in the room
 		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
   			this.doScrollDown();
-  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
+  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1];
 		} else {
 
 			/* FIXME: since grouping was introduced, this does not work as intended
@@ -199,7 +198,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		this.scrollMode = 'automatic';
 		return done();
 	} else {
-		if (!this.room.empty) {done();}	
+		if (!this.room.empty) {done();}
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
@@ -272,10 +271,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
-	
+
 	// scroll to bottom
 	this.scrollTo(this.history.el.lastChild);
-	
+
 	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {
@@ -294,10 +293,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
 	this.emit('toggleinvite', qs('.room-header .room-grp'));
-}
+};
 
 HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
-}
-
+};

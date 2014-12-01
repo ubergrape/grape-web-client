@@ -17,7 +17,7 @@ PMPopover.prototype.init = function PMPopover_init() {
 	Popover.prototype.init.call(this);
 	this.classes.add('item-po');
 	this.classes.add('left');
-	this.itemList = new ItemList({template: 'popovers/pm', selector: '.item'});
+	this.itemList = new ItemList({template: 'popovers/pm.jade', selector: '.item'});
 	this.el.appendChild(this.itemList.el);
 };
 

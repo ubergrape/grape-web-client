@@ -33,7 +33,7 @@ Invite.prototype.bind = function Invite_bind() {
 };
 
 Invite.prototype.redraw = function Invite_redraw() {
-	render(this, template('invite', {room: this.room}));
+	render(this, template('invite.jade', {room: this.room}));
 };
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {

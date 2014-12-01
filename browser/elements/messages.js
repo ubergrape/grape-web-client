@@ -34,7 +34,7 @@ Messages.prototype.init = function() {
 };
 
 Messages.prototype.redraw = function() {
-	var vdom = template('messages', {messages: this.messages});
+	var vdom = template('messages.jade', {messages: this.messages});
 	render(this, vdom);
 };
 

@@ -12,7 +12,7 @@ module.exports = MarkdownTipsDialog;
 
 function MarkdownTipsDialog() {
 	Emitter.call(this);
-	var html = v.toDOM(template('dialogs/markdowntips'));
+	var html = v.toDOM(template('dialogs/markdowntips.jade'));
 	this.dialog = dialog(html);
 	this.el = this.dialog.el;
 	this.bind();
