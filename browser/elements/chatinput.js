@@ -7,8 +7,8 @@ var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
-var closest = require('closest');
-var style = require('computed-style');
+// var closest = require('closest');
+// var style = require('computed-style');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
@@ -312,11 +312,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
 					var r = result[i];
+					var type = "";
+					var title = "";
 					if (r.start) {
-						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+						title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
 					} else {
-						var type = r.service == "googledrive" ? "" : r.type;
-						var title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+						type = r.service == "googledrive" ? "" : r.type;
+						title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
 					}
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
@@ -383,7 +385,7 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 							}
 					}
 					if (found) {
-							console.log(phrase + ": " + date)
+							console.log(phrase + ": " + date);
 							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
 								for (var i=0; i<result.length; i++) {
 									if (self.complete.options.length >= self.max_autocomplete)

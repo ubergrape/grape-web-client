@@ -6,8 +6,8 @@ var isWebkit = require('./iswebkit');
 module.exports = renderAutocompleteItem;
 
 function renderAutocompleteItem(obj, asButton) {
-	var asButton = asButton || false;
-	var name = obj.id.replace(/"/g, '&quot;')
+	asButton = asButton || false;
+	var name = obj.id.replace(/"/g, '&quot;');
 
 	if (asButton===true) {
 		if (isWebkit()) {

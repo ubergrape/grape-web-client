@@ -32,7 +32,7 @@ test: build/build.js lint
 	./node_modules/.bin/istanbul report text-summary
 
 lint:
-	./node_modules/.bin/jshint lib browser test index.js
+	./node_modules/.bin/jshint lib local_components browser test index.js
 
 $(OUTPUT)/app.js: components $(JS_FILES) $(TEMPLATE_FILES) $(LANG_JSON)
 	rm -f $(OUTPUT)/app.css

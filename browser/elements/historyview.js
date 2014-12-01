@@ -13,7 +13,6 @@ var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
-var _ = require('t');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -130,7 +129,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
-	}))
+	}));
 
 	var history = this.history.el;
 
@@ -147,7 +146,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
   		// otherwise, scroll to the last element in the room
 		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
   			this.doScrollDown();
-  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1]
+  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1];
 		} else {
 
 			/* FIXME: since grouping was introduced, this does not work as intended
@@ -294,10 +293,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
 	this.emit('toggleinvite', qs('.room-header .room-grp'));
-}
+};
 
 HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
-}
-
+};
