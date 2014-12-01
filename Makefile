@@ -26,7 +26,7 @@ locale/%/LC_MESSAGES/client.po:
 build/build.js: $(OUTPUT)/app.js
 	./build.js --dev
 
-test: build/build.js lint
+test: build/build.js
 	./node_modules/.bin/component-test phantom --coverage && \
 	./node_modules/.bin/istanbul report lcov && \
 	./node_modules/.bin/istanbul report text-summary
