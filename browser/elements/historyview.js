@@ -109,22 +109,13 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
-	// Each time the history is redrawn, if the history is not empty,
-	// provided that the user is not scrolling to a specific element in the room
-    // if the last message was already scrolled(no new messages),
-	// don't scroll as the user is navigating to a specific place
-	// otherwise, scroll to the last element in the room
-	if (this.room.history.length && this.scrollMode === 'automatic') {
-		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
-			this.doScrollDown();
-		}
-	}
+	
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
-
+		
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: this.room.history,
@@ -138,39 +129,14 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
-	if (this.scrollMode === 'automatic') {
-		// Each time the history is redrawn,
-		// if the user is not scrolling to a specific element in the room
-	    // if the last message was already scrolled(no new messages),
-  		// don't scroll as the user is navigating to a specific place
-  		// otherwise, scroll to the last element in the room
-		if (this.lastScrolledMessage != this.room.history[this.room.history.length - 1]) {
-  			this.doScrollDown();
-  			this.lastScrolledMessage = this.room.history[this.room.history.length - 1];
-		} else {
-
-			/* FIXME: since grouping was introduced, this does not work as intended
-
-			// scroll the last read message into view, on the top
-			// This makes sure the last read message is on the top, it scrolls as far
-			// to the bottom as necessary to have it still in the scrolling view
-			history.children[history.children.length - 1 - this.room.unread]
-				.scrollIntoView();
-			// if the scroll left something on the bottom, set scrolling to manual
-			var elem = this.scrollWindow;
-			var sT = elem.scrollTop;
-			var sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0);
-			if (sT < sTM)
-				this.scrollMode === 'manual';
-			*/
-		}
-	} else {
-	}
-	this.lastwindow = {lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight};
+	
+	if (this.scrollMode === 'automatic') this.scrollBottom();
+	
+	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
+	
 };
 
-HistoryView.prototype.doScrollDown = function() {
-	//scroll to the bottom of the page
+HistoryView.prototype.scrollBottom = function() {
 	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
 
@@ -198,7 +164,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 		this.scrollMode = 'automatic';
 		return done();
 	} else {
-		if (!this.room.empty) {done();}
+		if (!this.room.empty) done();
 	}
 	var oldestLine = this.room.history[0];
 	var options = {time_to: oldestLine && oldestLine.time || new Date()};
@@ -271,9 +237,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
-
-	// scroll to bottom
-	this.scrollTo(this.history.el.lastChild);
 
 	room.history.on('add', function () { self.queueDraw(); });
 
