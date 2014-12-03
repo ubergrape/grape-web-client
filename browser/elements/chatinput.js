@@ -7,8 +7,7 @@ var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
-// var closest = require('closest');
-// var style = require('computed-style');
+var query = require('query');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
@@ -73,6 +72,32 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!isCompleting) return;
 		ev.stopImmediatePropagation();
 		isCompleting = false;
+	});
+	/*
+		we will probably have different shortcuts in the future.
+		var shortcuts = {
+			editLastMsg: { event: 'keydown', callback: function(ev) {...} },
+			...
+		}
+		then bind each event looping
+	*/
+	this.messageInput.addEventListener('keydown', function(ev) {
+		// if the user presses up arrow while the autocomplete is not showing
+		// then get the last loaded message of the user
+		// and prepare it for editing
+		if (!self.complete.shown && ev.keyCode == 38) {
+				var ascendingHistory = self.room.history.slice();
+				ascendingHistory.reverse();
+				ascendingHistory.some(function(msg) {
+					if (msg.author == ui.user) {
+						var msgEl = query("div.message[data-id='" + msg.id + "']");
+						classes(msgEl).add('editing');
+						self.editMessage(msg);
+						return true;
+					}
+					return false;
+				});
+		}
 	});
 
 	// hook up the input
@@ -421,8 +446,7 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	attr(this.messageInput).set('disabled', !room);
 	if (room) this.messageInput.removeAttribute('disabled'); // IE :)
 	if (room) this.messageInput.focus();
-	if (this.editing)
-		this.editingDone();
+	if (this.editing) this.editingDone();
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
