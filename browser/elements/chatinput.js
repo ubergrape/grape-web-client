@@ -85,11 +85,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		// if the user presses up arrow while the autocomplete is not showing
 		// then get the last loaded message of the user
 		// and prepare it for editing
+		// check for attachments since it is not possible to 
+		// edit attachments
 		if (!self.complete.shown && ev.keyCode == 38) {
 				var ascendingHistory = self.room.history.slice();
 				ascendingHistory.reverse();
 				ascendingHistory.some(function(msg) {
-					if (msg.author == ui.user) {
+					if (msg.author == ui.user && msg.attachments.length == 0) {
 						var msgEl = query("div.message[data-id='" + msg.id + "']");
 						classes(msgEl).add('editing');
 						self.editMessage(msg);
@@ -399,8 +401,6 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 							last = null;
 					for (var j = i + 1; j < i + lookahead + 1 && j < words.length + 1; j++) {
 							var _phrase = words.slice(i, j).join(' ');
-							//console.log(i, j, words.slice(i, j));
-							// parse
 							var _date;
 							if (_date = Date.parse(_phrase)) {
 									date = _date;
@@ -410,13 +410,11 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 							}
 					}
 					if (found) {
-							console.log(phrase + ": " + date);
 							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
 								for (var i=0; i<result.length; i++) {
 									if (self.complete.options.length >= self.max_autocomplete)
 										break;
 									var r = result[i];
-									console.log(r);
 									self.complete.push({
 										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
 										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.name + ' <em class="entry-additional-info">' + r.container + '</em></div>',

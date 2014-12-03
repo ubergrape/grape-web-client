@@ -68,8 +68,11 @@ HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(e
 };
 
 HistoryView.prototype.unselectForEditing = function () {
-	classes(query(".message.editing", this.el)).add('edited');
-	classes(query(".message.editing", this.el)).remove('editing');
+	var msg = query(".message.editing", this.el);
+	if (msg) {
+		classes(msg).add('edited');
+		classes(msg).remove('editing');
+	}
 };
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
