@@ -75,10 +75,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 	/*
 		we will probably have different shortcuts in the future.
-		var shortcuts = {
-			editLastMsg: { event: 'keydown', callback: function(ev) {...} },
+		var shortcuts = [
+			{ event: 'keydown', callback: editLastMsg },
 			...
-		}
+		]
 		then bind each event looping
 	*/
 	this.messageInput.addEventListener('keydown', function(ev) {
