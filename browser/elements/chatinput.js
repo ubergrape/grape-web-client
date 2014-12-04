@@ -76,7 +76,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	/*
 		we will probably have different shortcuts in the future.
 		var shortcuts = [
-			{ event: 'keydown', callback: editLastMsg },
+			{ event: 'keydown', callback: editLastMessage },
 			...
 		]
 		then bind each event looping
@@ -490,7 +490,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
 	this.editing = false;
-	this.messageInput.innerHTML = this.oldVal;
+	if ( this.editMsg ) this.messageInput.innerHTML = this.oldVal;
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
