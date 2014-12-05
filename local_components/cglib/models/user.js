@@ -12,7 +12,8 @@ module.exports = new Model([
 		'status',
 		'avatar',
 		'is_only_invited',
-		'role'
+		'role',
+		'pm_id'
 	])
 	.use(cache('id'))
 	.use(defaultAvatar('images/avatar.gif', 'images/avatar_invited.gif'));
