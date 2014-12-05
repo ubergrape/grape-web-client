@@ -37,7 +37,7 @@ RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
 	this.classes.add('members-po');
 	this.classes.add('top');
-	render(this.content, template('popovers/roommembers', {room: this.room}));
+	render(this.content, template('popovers/roommembers.jade', {room: this.room}));
 };
 
 /* scroll down in the members list */

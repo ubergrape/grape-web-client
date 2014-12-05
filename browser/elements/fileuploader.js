@@ -23,7 +23,7 @@ function Uploader(uploadPath) {
 Uploader.prototype = Object.create(Emitter.prototype);
 
 Uploader.prototype.init = function Uploader_init() {
-	var vdom = template('fileuploader', {});
+	var vdom = template('fileuploader.jade', {});
 	render(this, vdom);
 	this.classes = classes(this.el);
 

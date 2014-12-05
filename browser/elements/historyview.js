@@ -13,7 +13,6 @@ var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
-var _ = require('t');
 
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
@@ -69,8 +68,11 @@ HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(e
 };
 
 HistoryView.prototype.unselectForEditing = function () {
-	classes(query(".message.editing", this.el)).add('edited');
-	classes(query(".message.editing", this.el)).remove('editing');
+	var msg = query(".message.editing", this.el);
+	if (msg) {
+		classes(msg).add('edited');
+		classes(msg).remove('editing');
+	}
 };
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
@@ -110,18 +112,18 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
-	
+
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
-		
-	render(this.history, template('chathistory', {
+
+	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: this.room.history,
 		groupHistory: groupHistory
-	}))
+	}));
 
 	var history = this.history.el;
 
@@ -130,9 +132,9 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
-	
+
 	if (this.scrollMode === 'automatic') this.scrollBottom();
-	
+
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
 };
 
@@ -237,7 +239,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
-	
+
 	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {
@@ -256,10 +258,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
 	this.emit('toggleinvite', qs('.room-header .room-grp'));
-}
+};
 
 HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
-}
-
+};

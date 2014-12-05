@@ -60,7 +60,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var vdom = template('chatheader', {room: this.room});
+	var vdom = template('chatheader.jade', {room: this.room});
 	render(this, vdom);
 };
 

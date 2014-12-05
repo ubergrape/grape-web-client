@@ -26,12 +26,12 @@ Navigation.prototype.init = function Navigation_init() {
 	this.nav = {};
 	this.redraw();
 	this.el = this.nav.el;
-	
-	var roomList = this.roomList = new ItemList({template: 'roomlist', selector: '.item a'});
+
+	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
 	replace(qs('.rooms', this.el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist', selector: '.item a'});
+	var pmList = this.pmList = new ItemList({template: 'pmlist.jade', selector: '.item a'});
 	replace(qs('.pms', this.el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist', selector: '.item a'});
+	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
 	replace(qs('.labels', this.el), labelList.el);
 
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
@@ -39,13 +39,13 @@ Navigation.prototype.init = function Navigation_init() {
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 	// compute the height of the room list area
-	// called every time the pm area is resized		
+	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var roomWrapper = roomScrollbar.wrapper.parentNode,
 		    heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
 		roomWrapper.style.height = roomWrapper.scrollHeight - heightDiff + 'px';
 	}, 500);
-	
+
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
@@ -87,7 +87,7 @@ Navigation.prototype.select = function Navigation_select(which, item) {
 
 // redraw everything, eg when the language changes
 Navigation.prototype.redraw = function Navigation_redraw() {
-	render(this.nav, template('navigation'));
+	render(this.nav, template('navigation.jade'));
 	var self = this;
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (self[which + 'List'])

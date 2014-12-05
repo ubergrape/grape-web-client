@@ -29,8 +29,8 @@ SearchView.prototype.init = function SearchView_init() {
 		if (!self.hidden) {
 			var parent = ev.target;
 			do {
-				if (parent === self.el || 
-					(parent.className === 'search' && 
+				if (parent === self.el ||
+					(parent.className === 'search' &&
 					 parent.tagName === 'INPUT')) return;
 			} while ((parent = parent.parentNode));
 			self.hideResults();
@@ -39,9 +39,9 @@ SearchView.prototype.init = function SearchView_init() {
 };
 
 SearchView.prototype.redraw = function SearchView_redraw() {
-	render(this.search, template('searchresults', {
+	render(this.search, template('searchresults.jade', {
 		'results': this.results
-	}));	
+	}));
 };
 
 

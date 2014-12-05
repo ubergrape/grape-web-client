@@ -22,12 +22,12 @@ var exports = module.exports = UI;
 
 // configure locales and template locals
 var template = require('template');
-template.root = '/cg/templates';
+template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
-['de', 'en'].forEach(function (lang) {
-	_.merge(lang, require('../locale/' + lang));
-});
+// ['de', 'en'].forEach(function (lang) {
+// 	_.merge(lang, require('../locale/' + lang));
+// });
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
@@ -86,7 +86,7 @@ UI.prototype.init = function UI_init() {
 		name: "loading"
 	};
 
-	this.el = v.toDOM(template('index'));
+	this.el = v.toDOM(template('index.jade'));
 
 	// add the navigation to the layout
 	var sidebar = qs('.navigation', this.el);
@@ -279,6 +279,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
+	broker(this.historyView, 'deletemessage', this.chatInput, 'editingDone');
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
@@ -405,13 +406,13 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// the second el of the users array in the pms model is always the pm partner
 	// so we map pms to find the people with whom the conversation is already open...
 	var pmPartners = org.pms.map(function(el) { return el.users[0]; });
-	
+
 	//... and we get the ones we haven't opened a conversation with...
 	var newPmPartners = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
-	
+
 	// ...finally we open a conversation for each of the new users
 	newPmPartners.forEach(function (user) { self.emit('openpm', user); });
-	
+
 	// pms will always have an element for each user a conversation is open with
 	// those users will be all users in the organization
 	var pms = org.pms;
@@ -436,7 +437,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	});
 
 	// set the items for the add room popover
-	this.addRoom.setItems(rooms);		
+	this.addRoom.setItems(rooms);
 
 	// update logo
 	// XXX: is this how it should be done? I guess not
@@ -480,6 +481,8 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	})[0];
 	this.emit('selectorganization', org);
 };
+
+
 
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	path = path || location.pathname;
@@ -540,6 +543,15 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 			// since all pms are opened when entering the chat
 			self.emit('selectchannel', channel);
 		}
+	}
+};
+
+UI.prototype.isPmOpen = function UI_isPmOpen(user) {
+	for (var i = 0; i < this.org.pms.length; i++) {
+		var pm = this.org.pms[i];
+		var pmuser = pm.users[0];
+		if (pmuser === user)
+			return pm;
 	}
 };
 

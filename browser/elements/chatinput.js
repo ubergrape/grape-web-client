@@ -7,8 +7,7 @@ var inputarea = require('inputarea');
 var debounce = require('debounce');
 var textcomplete = require('textcomplete');
 var qs = require('query');
-var closest = require('closest');
-var style = require('computed-style');
+var query = require('query');
 var classes = require('classes');
 var template = require('template');
 var render = require('../rendervdom');
@@ -46,7 +45,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
-	var vdom = template('chatinput', {});
+	var vdom = template('chatinput.jade', {});
 	render(this, vdom);
 };
 
@@ -73,6 +72,34 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (!isCompleting) return;
 		ev.stopImmediatePropagation();
 		isCompleting = false;
+	});
+	/*
+		we will probably have different shortcuts in the future.
+		var shortcuts = [
+			{ event: 'keydown', callback: editLastMessage },
+			...
+		]
+		then bind each event looping
+	*/
+	this.messageInput.addEventListener('keydown', function(ev) {
+		// if the user presses up arrow while the autocomplete is not showing
+		// then get the last loaded message of the user
+		// and prepare it for editing
+		// check for attachments since it is not possible to 
+		// edit attachments
+		if (!self.complete.shown && ev.keyCode == 38) {
+				var ascendingHistory = self.room.history.slice();
+				ascendingHistory.reverse();
+				ascendingHistory.some(function(msg) {
+					if (msg.author == ui.user && msg.attachments.length == 0) {
+						var msgEl = query("div.message[data-id='" + msg.id + "']");
+						classes(msgEl).add('editing');
+						self.editMessage(msg);
+						return true;
+					}
+					return false;
+				});
+		}
 	});
 
 	// hook up the input
@@ -312,11 +339,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
 					var r = result[i];
+					var type = "";
+					var title = "";
 					if (r.start) {
-						var title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+						title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
 					} else {
-						var type = r.service == "googledrive" ? "" : r.type;
-						var title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+						type = r.service == "googledrive" ? "" : r.type;
+						title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
 					}
 					self.complete.push({
 						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
@@ -372,8 +401,6 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 							last = null;
 					for (var j = i + 1; j < i + lookahead + 1 && j < words.length + 1; j++) {
 							var _phrase = words.slice(i, j).join(' ');
-							//console.log(i, j, words.slice(i, j));
-							// parse
 							var _date;
 							if (_date = Date.parse(_phrase)) {
 									date = _date;
@@ -383,13 +410,11 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 							}
 					}
 					if (found) {
-							console.log(phrase + ": " + date)
 							self.emit('autocompletedate', data, function autocomplete_callback(err, result){
 								for (var i=0; i<result.length; i++) {
 									if (self.complete.options.length >= self.max_autocomplete)
 										break;
 									var r = result[i];
-									console.log(r);
 									self.complete.push({
 										id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
 										title: '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.name + ' <em class="entry-additional-info">' + r.container + '</em></div>',
@@ -419,8 +444,7 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	attr(this.messageInput).set('disabled', !room);
 	if (room) this.messageInput.removeAttribute('disabled'); // IE :)
 	if (room) this.messageInput.focus();
-	if (this.editing)
-		this.editingDone();
+	if (this.editing) this.editingDone();
 };
 
 ChatInput.prototype.moveCaretToEnd = function ChatInput_moveCaretToEnd(el) {
@@ -466,7 +490,7 @@ ChatInput.prototype.editMessage = function ChatInput_editMessage(msg) {
 ChatInput.prototype.editingDone = function ChatInput_editingDone() {
 	this.emit('editingdone', this.editMsg);
 	this.editing = false;
-	this.messageInput.innerHTML = this.oldVal;
+	if ( this.editMsg ) this.messageInput.innerHTML = this.oldVal;
 	this.oldVal = null;
 	this.editMsg = null;
 	classes(this.el).remove('editing');
