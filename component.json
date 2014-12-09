@@ -25,7 +25,6 @@
     "browser/elements/navigation.js",
     "browser/elements/notifications.js",
     "browser/elements/dropzone.js",
-    "browser/elements/popovers/pm.js",
     "browser/elements/popovers/popover.js",
     "browser/elements/popovers/user.js",
     "browser/elements/popovers/room.js",
