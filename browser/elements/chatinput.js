@@ -87,18 +87,18 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		// and prepare it for editing
 		// check for attachments since it is not possible to 
 		// edit attachments
-		if (!self.complete.shown && ev.keyCode == 38) {
-				var ascendingHistory = self.room.history.slice();
-				ascendingHistory.reverse();
-				ascendingHistory.some(function(msg) {
-					if (msg.author == ui.user && msg.attachments.length == 0) {
-						var msgEl = query("div.message[data-id='" + msg.id + "']");
-						classes(msgEl).add('editing');
-						self.editMessage(msg);
-						return true;
-					}
-					return false;
-				});
+		if (!self.complete.shown && ev.keyCode == 38 && this.innerText.length == 0) {
+			var ascendingHistory = self.room.history.slice();
+			ascendingHistory.reverse();
+			ascendingHistory.some(function(msg) {
+				if (msg.author == ui.user && msg.attachments.length == 0) {
+					var msgEl = query("div.message[data-id='" + msg.id + "']");
+					classes(msgEl).add('editing');
+					self.editMessage(msg);
+					return true;
+				}
+				return false;
+			});
 		}
 	});
 
