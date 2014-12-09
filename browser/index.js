@@ -529,20 +529,8 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
 		} else {
-			// IN CASE OF PMs
-			// it is necessary to just select the channel
-			// since all pms are opened when entering the chat
-			self.emit('selectchannel', channel);
+			self.selectpm(channel);
 		}
-	}
-};
-
-UI.prototype.isPmOpen = function UI_isPmOpen(user) {
-	for (var i = 0; i < this.org.pms.length; i++) {
-		var pm = this.org.pms[i];
-		var pmuser = pm.users[0];
-		if (pmuser === user)
-			return pm;
 	}
 };
 
