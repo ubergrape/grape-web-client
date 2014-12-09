@@ -1,18 +1,21 @@
 ul.nav-list.pms
 	if items.length > 0 
-		each pm in items
-			li.item(class=(pm === selected ? 'selected' : ''), data-id=pm.pm_id, key=pm.pm_id)
-				a(href="/chat/@" + pm.username)
+		each user in items
+			- var pmID = user.pm != undefined ? user.pm.id : ""
+			- var unread = user.pm != undefined ? user.pm.unread : 0
+			- var selected = user.pm != undefined && user.pm.selected ? 'selected' : ""
+			li.item(class=selected, data-id=pmID, key=pmID)
+				a(href="/chat/@" + user.username, data-id=user.id)
 					.avatar-wrap
-						if pm.status === 16
+						if user.status === 16
 							span.online
 						else
 							span.offline
-						img(src="#{pm.avatar}",width="20",alt="#{pm.username}")
-						.avatar-status(class=(pm.status === 16 ? 'online' : 'offline'))
-					if pm.unread > 0
-						span.notification=pm.unread.toString()
-					span.name=pm.username
+						img(src="#{user.avatar}",width="20",alt="#{user.username}")
+						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+					if unread > 0
+						span.notification=unread.toString()
+					span.name=user.username			
 	else
 		li.item 
 			span.no-messages=_("No private messages yet.")
