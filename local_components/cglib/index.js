@@ -374,8 +374,8 @@ App.prototype.setOrganization = function App_setOrganization(org) {
         }
         // connect users and pms
         org.users.map(function(u) {
-            if (typeof u.pm_id !== 'undefined') {
-                u.pm_id = models.Room.get(u.pm_id);
+            if (typeof u.pm !== 'undefined') {
+                u.pm = models.Room.get(u.pm);
             }
             return u;
         });

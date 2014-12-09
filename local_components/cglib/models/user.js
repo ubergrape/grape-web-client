@@ -13,7 +13,7 @@ module.exports = new Model([
 		'avatar',
 		'is_only_invited',
 		'role',
-		'pm_id'
+		'pm',
 	])
 	.use(cache('id'))
 	.use(defaultAvatar('images/avatar.gif', 'images/avatar_invited.gif'));
