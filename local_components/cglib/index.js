@@ -328,6 +328,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
+
 	return room;
 };
 App.prototype._tryAddRoom = function App__tryAddRoom(room) {
@@ -402,6 +403,7 @@ App.prototype.openPM = function App_openPM(user) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
+        user.pm = pm;
 	});
 };
 
