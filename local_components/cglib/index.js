@@ -372,6 +372,13 @@ App.prototype.setOrganization = function App_setOrganization(org) {
         if (res.custom_emojis != null) {
             org.custom_emojis = res.custom_emojis;
         }
+        // connect users and pms
+        org.users.map(function(u) {
+            if (typeof u.pm_id !== 'undefined') {
+                u.pm_id = models.Room.get(u.pm_id);
+            }
+            return u;
+        });
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
