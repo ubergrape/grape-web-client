@@ -1,11 +1,11 @@
 ul.nav-list.pms
 	if items.length > 0 
 		each user in items
-			- var pmID = user.pm != undefined ? user.pm.id : ""
+			- var userID = user.id
 			- var unread = user.pm != undefined ? user.pm.unread : 0
 			- var selected = user.pm != undefined && user.pm.selected ? 'selected' : ""
-			li.item(class=selected, data-id=pmID, key=pmID)
-				a(href="/chat/@" + user.username, data-id=user.id)
+			li.item(class=selected, data-id=userID, key=userID)
+				a(href="/chat/@" + user.username)
 					.avatar-wrap
 						if user.status === 16
 							span.online

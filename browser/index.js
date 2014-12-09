@@ -229,7 +229,7 @@ UI.prototype.bind = function UI_bind() {
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
-	broker.pass(navigation, 'selectpm', this, 'selectchannel');
+	broker(navigation, 'selectpm', this, 'selectpm');
 	// broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
@@ -566,3 +566,14 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.selectpm = function UI_selectpm(user) {
+	var self = this;
+	if (typeof user.pm == 'undefined') {
+		self.emit('openpm', user, function() {
+			self.emit('selectchannel', user.pm);
+		});
+	} else {
+		self.emit('selectchannel', user.pm);
+	}
+}
