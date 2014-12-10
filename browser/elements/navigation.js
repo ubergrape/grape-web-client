@@ -26,9 +26,8 @@ Navigation.prototype.init = function Navigation_init() {
 	this.nav = {};
 	this.redraw();
 	this.el = this.nav.el;
-
 	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
-	replace(qs('.rooms', this.el), roomList.el);
+		replace(qs('.rooms', this.el), roomList.el);
 	var pmList = this.pmList = new ItemList({template: 'pmlist.jade', selector: '.item a'});
 	replace(qs('.pms', this.el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
@@ -71,6 +70,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
+	this.pmSort.byLastMessage.call(lists['pms']);
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
@@ -94,3 +94,17 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 		self[which + 'List'].redraw();
 	});
 };
+
+Navigation.prototype.pmSort = (function Navigation_pmSort() {
+	return {
+		byLastMessage : function() {
+			var compare = function(a, b) {
+				if(a.pm.latest_message_time > b.pm.latest_message_time) return -1;
+				if(a.pm.latest_message_time < b.pm.latest_message_time) return 1;
+				return 0;
+			};
+			this.sort(compare);
+			console.log(this);
+		}	
+	};
+})();
