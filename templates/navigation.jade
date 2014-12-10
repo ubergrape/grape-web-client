@@ -14,7 +14,6 @@ div.navigation
 				div.nav-button.button-inset=_('All rooms')
 				h2.nav-title=_('Rooms')
 			ul.nav-list.rooms
-			
 			a.nav-title-wrap.addlabel
 				div.nav-button.button-inset=_('All labels')
 				h2.nav-title=_('Labels')
@@ -22,5 +21,9 @@ div.navigation
 		div(id="intro-step3", class='pm-list')
 			a.nav-title-wrap.addpm
 				h2.nav-title=_('Private Messages')
-			ul.nav-list.pms
+			ul.nav-list.allpms
+				li
+					ul.pms
+				li
+					ul.inactivepms
 		input.filter-pms(type="filter", name="filter-input", placeholder=_("Search Users"))

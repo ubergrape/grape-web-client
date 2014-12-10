@@ -33,9 +33,11 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.pms', this.el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
 	replace(qs('.labels', this.el), labelList.el);
+	var inactivepmList = this.inactivepmList = new ItemList({template: 'inactivepmlist.jade', selector: '.item a'});
+	replace(qs('.inactivepms', this.el), inactivepmList.el);
 
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+	    pmScrollbar = new Scrollbars(qs('.allpms', this.el)),
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 	// compute the height of the room list area
@@ -62,7 +64,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); }
 	});
 	this.events.bind('click .addroom', 'addroom');
-	['room', 'pm', 'label'].forEach(function (which) {
+	['room', 'pm', 'inactivepm', 'label'].forEach(function (which) {
 		self[which + 'List'].on('selectitem', function (item) {
 			self.emit('select' + which, item);
 		});
@@ -71,7 +73,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
+	['room', 'pm', 'inactivepm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
@@ -79,7 +81,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 
 Navigation.prototype.select = function Navigation_select(which, item) {
 	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
+	['room', 'pm', 'inactivepm','label'].forEach(function (which) {
 		self[which + 'List'].selectItem(null);
 	});
 	this[which + 'List'].selectItem(item);
@@ -89,7 +91,7 @@ Navigation.prototype.select = function Navigation_select(which, item) {
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
 	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
+	['room', 'pm', 'inactivepm', 'label'].forEach(function (which) {
 		if (self[which + 'List'])
 		self[which + 'List'].redraw();
 	});

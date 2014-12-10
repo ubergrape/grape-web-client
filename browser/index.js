@@ -404,17 +404,16 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	rooms = Emitter(rooms);
 
 	// the second el of the users array in the pms model is always the pm partner
-	// so we map pms to find the people with whom the conversation is already open...
-	var pmPartners = org.pms.map(function(el) { return el.users[0]; });
+	// so we look for people with whom...
+	var pmPartners = new Array();
+	org.pms.forEach(function(el) { pmPartners.push(el.users[0]) });
 
 	//... and we get the ones we haven't opened a conversation with...
-	var newPmPartners = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
-
-	// ...finally we open a conversation for each of the new users
-	newPmPartners.forEach(function (user) { self.emit('openpm', user); });
+	var inactivePms = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
 
 	// pms will always have an element for each user a conversation is open with
 	// those users will be all users in the organization
+
 	var pms = org.pms;
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
@@ -433,7 +432,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.navigation.setLists({
 		rooms: rooms,
 		pms: pms,
-		labels: labels
+		labels: labels,
+		inactivepms: inactivePms
 	});
 
 	// set the items for the add room popover
