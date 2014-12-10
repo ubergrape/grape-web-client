@@ -27,7 +27,7 @@ Navigation.prototype.init = function Navigation_init() {
 	this.redraw();
 	this.el = this.nav.el;
 	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
-		replace(qs('.rooms', this.el), roomList.el);
+	replace(qs('.rooms', this.el), roomList.el);
 	var pmList = this.pmList = new ItemList({template: 'pmlist.jade', selector: '.item a'});
 	replace(qs('.pms', this.el), pmList.el);
 	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
@@ -95,16 +95,19 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	});
 };
 
+// in need of other sort functions, 
+// add them in the returned object
 Navigation.prototype.pmSort = (function Navigation_pmSort() {
 	return {
 		byLastMessage : function() {
 			var compare = function(a, b) {
-				if(a.pm.latest_message_time > b.pm.latest_message_time) return -1;
-				if(a.pm.latest_message_time < b.pm.latest_message_time) return 1;
+				var aLastMessage = a.pm ? a.pm.latest_message_time : 0
+				var bLastMessage = b.pm ? b.pm.latest_message_time : 0
+				if(aLastMessage > bLastMessage) return -1;
+				if(aLastMessage < bLastMessage) return 1;
 				return 0;
 			};
 			this.sort(compare);
-			console.log(this);
-		}	
+		}
 	};
 })();
