@@ -229,6 +229,7 @@ UI.prototype.bind = function UI_bind() {
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
+	broker(navigation, 'selectinactivepm', this, 'selectinactivepm');
 	broker.pass(navigation, 'selectpm', this, 'selectchannel');
 	// broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
@@ -368,6 +369,11 @@ UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
 UI.prototype.showSearchResults = function() {
 	classes(this.el).add('searching');
 };
+
+UI.prototype.selectinactivepm = function UI_selectinactivepm(user) {
+	var self = this;
+	self.emit('openpm', user, function(pm) { self.emit('selectchannel', pm); });
+}
 
 UI.prototype.hideSearchResults = function() {
 	classes(this.el).remove('searching');

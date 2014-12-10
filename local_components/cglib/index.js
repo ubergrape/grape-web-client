@@ -389,12 +389,14 @@ App.prototype.changedTimezone = function App_changedTimezone(tz) {
 	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
 };
 
-App.prototype.openPM = function App_openPM(user) {
+App.prototype.openPM = function App_openPM(user, callback) {
+	callback = callback || function() {};
 	var self = this;
 	this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
+		callback(pm);	
 	});
 };
 
