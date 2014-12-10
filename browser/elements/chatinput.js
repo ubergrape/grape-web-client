@@ -334,7 +334,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		} else if (trigger_character === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
-			self.emit('autocomplete', match, function autocomplete_callback(err, result){
+			self.emit('autocomplete', match, function autocomplete_callback(err, data){
+        var result = data.result;
 				for (var i=0; i<result.length; i++) {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
