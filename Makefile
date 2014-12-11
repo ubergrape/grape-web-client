@@ -24,7 +24,7 @@ locale/%/LC_MESSAGES/client.po:
 	$(JSXGETTEXT) --keyword=_ --language=jade --join-existing --output $@ $(TEMPLATE_FILES)
 
 build/build.js: $(OUTPUT)/app.js
-	./build.js --dev
+	./build.js --dev --copy
 
 test: build/build.js
 	./node_modules/.bin/component-test phantom --coverage && \
