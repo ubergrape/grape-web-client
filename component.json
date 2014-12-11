@@ -110,7 +110,7 @@
     "ubergrape/datejs": "master",
     "bmcmahen/image-zoom": "*",
     "jkroso/computed-style": "*",
-    "ubergrape/textcomplete": "master",
+    "ubergrape/textcomplete": "0.0.2",
     "sk7/startswith": "master",
     "matthewp/attr": "*",
     "component/tip": "*",
