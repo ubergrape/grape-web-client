@@ -59,6 +59,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
 	this.complete_header = document.createElement('ul');
+	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
 	this.complete.menu.appendChild(this.complete_header);
 
 
@@ -343,8 +344,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-				var result = data.results;
-				
 				if (data.services){
 						var facet_header = '<li class="facet" >All</li>';
 						var services = {}
@@ -361,18 +360,21 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					self.complete_header.innerHTML = "";
 				}
 				
-				data.results.forEach(function(result, i){
-					services[result.service].results.push(result)
-				})
-
 					if (!data.results){
-						return
+						return;
+					} else {
+						var results = data.results
 					}
 
-				for (var i=0; i<result.length; i++) {
+				results.forEach(function(result, i){
+					services[result.service].results.push(result)
+				});
+
+
+				for (var i=0; i< data.results.length; i++) {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
-					var r = result[i];
+					var r = results[i];
 					var type = "";
 					var title = "";
 					if (r.start) {
