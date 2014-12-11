@@ -58,6 +58,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
 
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
+	this.complete_header = document.createElement('ul');
+	this.complete.menu.appendChild(this.complete_header);
+
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
 	// `stopPropagation()`. But inputarea uses `keyup` to trigger an input.
@@ -215,6 +218,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 
 		if (trigger_character === ':') {
+			self.complete_header.innerHTML = "";
+			
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
 				match = match.substr(1, match.length-1);
@@ -274,6 +279,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// hopefully there are not too many
 
 			// TODO don't use global vars
+			
+			self.complete_header.innerHTML = "";
+			
 			var users = app.organization.users;
 			var search = match;
 			for (var i=0; i<users.length; i++) {
@@ -335,7 +343,32 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-        var result = data.result;
+				var result = data.results;
+				
+				if (data.services){
+						var facet_header = '<li class="facet" >All</li>';
+						var services = {}
+
+						data.services.forEach(function(service, i){
+							services[service.name] = {
+								count: service.count,
+								results: [],
+							}
+							facet_header +='<li class="facet service">' + service.name + ' (' + service.count + ')</li>'
+						})
+					self.complete_header.innerHTML = facet_header;
+				} else {
+					self.complete_header.innerHTML = "";
+				}
+				
+				data.results.forEach(function(result, i){
+					services[result.service].results.push(result)
+				})
+
+					if (!data.results){
+						return
+					}
+
 				for (var i=0; i<result.length; i++) {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
