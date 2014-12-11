@@ -416,10 +416,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	//... and we get the ones we haven't opened a conversation with...
 	var inactivePms = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
-
-	// pms will always have an element for each user a conversation is open with
-	// those users will be all users in the organization
-
+	
 	var pms = org.pms;
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
@@ -445,6 +442,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
 
+	pms.on('add', refreshPms);
+
 	// update logo
 	// XXX: is this how it should be done? I guess not
 	qs('.logo img').src = org.logo;
@@ -454,6 +453,13 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
 	this.selectChannelFromUrl();
+	
+	function refreshPms(pm) {
+		var newPmPartner = inactivePms.indexOf(pm.users[0]);
+		inactivePms.splice(newPmPartner, 1);
+		self.navigation.inactivepmList.setItems(inactivePms);
+		self.navigation.pmList.setItems(pms);
+	}
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -532,27 +538,23 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 	// this will actually return a channel or a user
 	var channel = self.channelFromURL(path);
 
-	function addlistener(pm) {
-		if (pm.users[0] !== channel) return;
-		self.org.pms.off('add', addlistener);
-		self.emit('selectchannel', pm);
-	}
-
 	if (channel) {
 		if (channel.type === "room") {
 			if (!channel.joined)
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
 		} else {
-			// IN CASE OF PMs
-			// it is necessary to just select the channel
-			// since all pms are opened when entering the chat
-			self.emit('selectchannel', channel);
+			var user = channel;
+			var pm = self.getUserPm(user);
+			if (!pm)
+				self.selectinactivepm(user);
+			else
+				self.emit('selectchannel', pm);
 		}
 	}
 };
 
-UI.prototype.isPmOpen = function UI_isPmOpen(user) {
+UI.prototype.getUserPm = function UI_getUserPm(user) {
 	for (var i = 0; i < this.org.pms.length; i++) {
 		var pm = this.org.pms[i];
 		var pmuser = pm.users[0];
