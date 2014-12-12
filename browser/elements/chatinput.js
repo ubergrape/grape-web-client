@@ -105,6 +105,40 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			});
 		}
 	});
+	
+	this.complete_header.addEventListener('click', function(e){
+		var value = '#' + unescape(e.target.getAttribute('data-ac'));
+		self.update_autocomplete(value);
+	});
+
+	this.update_autocomplete = function(value){
+		// TODO: get the cursor to the right position after changing the input
+		// TODO: trigger a new autocomplete search (redraw or something)
+		
+		var complete = this.complete;
+		if (complete.is_textarea) {
+			var el = complete.el
+			var text = el.value;
+			var index = el.selectionEnd;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text = start + text.slice(index);
+			el.value = new_text;
+			el.setSelectionRange(start.length, start.length)
+		} else {
+			var node = complete.focusNode;
+			var index =  complete.focusOffset;
+			var text = node.nodeValue;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text =  start + text.slice(index);
+			node.textContent = new_text;
+		}
+		complete.hide()
+		// TODO: what needs to be triggered after changing the input?
+		this.emit('change', new_text)
+	}
+	
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
@@ -344,8 +378,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
+				if (!data.results){
+					return;
 				if (data.services){
-						var facet_header = '<li class="facet" >All</li>';
+						var facet_header = '<li class="facet" data-ac="'+ escape(data.search.text) +'" >All</li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -353,23 +389,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-							facet_header +='<li class="facet service">' + service.name + ' (' + service.count + ')</li>'
+							facet_header +='<li class="facet service" data-ac="' + escape(service.search) + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
 				} else {
 					self.complete_header.innerHTML = "";
 				}
 				
-					if (!data.results){
-						return;
-					} else {
-						var results = data.results
-					}
 
-				results.forEach(function(result, i){
-					services[result.service].results.push(result)
-				});
-
+					var results = data.results
 
 				for (var i=0; i< data.results.length; i++) {
 					if (self.complete.options.length >= self.max_autocomplete)
