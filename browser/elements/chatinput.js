@@ -432,9 +432,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				console.log(activeFacet);
 				//console.log(qs('[data-ac="'+ self.messageInput.innerHTML +'"]', self.complete.el));
 
-				var results = data.results
+				var results = data.results;
 
-				var grouped_results = {}
+				var grouped_results = {};
+
+				grouped_results['Top Result'] = [];
+				grouped_results['Top Result'].push(results.shift());
+
 				results.forEach(function(result){
 					if (typeof grouped_results[result.service] === 'undefined') {
 						grouped_results[result.service] = [];
