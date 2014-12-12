@@ -86,12 +86,35 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		then bind each event looping
 	*/
 	this.messageInput.addEventListener('keydown', function(ev) {
-		// if the user presses up arrow while the autocomplete is not showing
-		// then get the last loaded message of the user
-		// and prepare it for editing
-		// check for attachments since it is not possible to 
-		// edit attachments
-		if (!self.complete.shown && ev.keyCode == 38 && this.innerText.length == 0) {
+    switch (ev.keyCode) {
+  		case 37:
+  			ev.preventDefault();
+  			ev.stopPropagation();
+  			self.goToLeftFacet();
+      case 38:
+  			ev.preventDefault();
+  			ev.stopPropagation();
+    		self.prepareForEditing.call(this);
+    		return;
+    	case 39:
+  			ev.preventDefault();
+  			ev.stopPropagation();
+  			self.goToLeftFacet();
+    }
+	});
+	
+	this.complete_header.addEventListener('click', function(e){
+		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
+		self.update_autocomplete(value);
+	});
+
+	// if the user presses up arrow while the autocomplete is not showing
+	// then get the last loaded message of the user
+	// and prepare it for editing
+	// check for attachments since it is not possible to 
+	// edit attachments
+	this.prepareForEditing = function() {
+		if (!self.complete.shown && this.innerText.length == 0) {
 			var ascendingHistory = self.room.history.slice();
 			ascendingHistory.reverse();
 			ascendingHistory.some(function(msg) {
@@ -103,21 +126,31 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				}
 				return false;
 			});
-		}
-	});
+		}	
+	};
 	
-	this.complete_header.addEventListener('click', function(e){
-		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
-		self.update_autocomplete(value);
-	});
-
+	this.goToRightFacet = function() {
+		if (self.complete.shown) {
+			console.log(self.complete_header);
+			console.log('right');
+		}
+	};
+	
+	this.goToLeftFacet = function() {
+		if (self.complete.shown) {
+			console.log(self.complete_header);
+			console.log('left');
+		}
+	};
+	
+	
 	this.update_autocomplete = function(value){
 		// TODO: get the cursor to the right position after changing the input
 		// TODO: trigger a new autocomplete search (redraw or something)
 		
 		var complete = this.complete;
 		if (complete.is_textarea) {
-			var el = complete.el
+			var el = complete.el;
 			var text = el.value;
 			var index = el.selectionEnd;
 			var start = text.slice(0, index)
@@ -381,6 +414,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (!data.results){
 					return;
 				}
+				console.log(self.messageInput.innerHTML);
 				if (data.services){
 						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ escape(data.search.text) +'">All</a></li>';
 						var services = {}
@@ -396,10 +430,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				} else {
 					self.complete_header.innerHTML = "";
 				}
-				
+				var activeFacet = query('[data-acc="'+ self.messageInput.innerHTML +'"]', self.complete_header);
+				console.log(activeFacet);
+				//console.log(qs('[data-ac="'+ self.messageInput.innerHTML +'"]', self.complete.el));
 
 					var results = data.results
 
+				console.log(results);
 				for (var i=0; i< data.results.length; i++) {
 					if (self.complete.options.length >= self.max_autocomplete)
 						break;
