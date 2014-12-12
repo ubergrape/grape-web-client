@@ -246,7 +246,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
-		console.log(matches);
 		var whitespace = matches[1];
 		var trigger_character = matches[2];
 		var match = matches[3];
