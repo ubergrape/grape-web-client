@@ -89,7 +89,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		// if the user presses up arrow while the autocomplete is not showing
 		// then get the last loaded message of the user
 		// and prepare it for editing
-		// check for attachments since it is not possible to 
+		// check for attachments since it is not possible to
 		// edit attachments
 		if (!self.complete.shown && ev.keyCode == 38 && this.innerText.length == 0) {
 			var ascendingHistory = self.room.history.slice();
@@ -105,7 +105,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			});
 		}
 	});
-	
+
 	this.complete_header.addEventListener('click', function(e){
 		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
@@ -114,7 +114,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.update_autocomplete = function(value){
 		// TODO: get the cursor to the right position after changing the input
 		// TODO: trigger a new autocomplete search (redraw or something)
-		
+
 		var complete = this.complete;
 		if (complete.is_textarea) {
 			var el = complete.el
@@ -136,7 +136,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 		self.moveCaretToEnd(self.messageInput);
 	}
-	
+
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
@@ -252,7 +252,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 		if (trigger_character === ':') {
 			self.complete_header.innerHTML = "";
-			
+
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
 				match = match.substr(1, match.length-1);
@@ -312,9 +312,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// hopefully there are not too many
 
 			// TODO don't use global vars
-			
+
 			self.complete_header.innerHTML = "";
-			
+
 			var users = app.organization.users;
 			var search = match;
 			for (var i=0; i<users.length; i++) {
@@ -394,7 +394,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				} else {
 					self.complete_header.innerHTML = "";
 				}
-				
+
 
 					var results = data.results
 
