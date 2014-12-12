@@ -328,6 +328,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
+	room.unread = 0;
 
 	return room;
 };
@@ -339,6 +340,10 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 		this.organization.rooms.push(room);
 	} else {
 		this.organization.pms.push(room);
+	}
+	// TODO: this should maybe be handled in the pm model
+	if (room.type === 'pm') {
+		room.users[0].pm = room;
 	}
 	return room;
 };

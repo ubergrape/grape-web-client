@@ -75,13 +75,19 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
-	// the pm list ist actually a list of users
-	self.pmList.items.forEach(function(item) {
-		if (typeof item.pm !== 'undefined') {
-			item.pm.on('change', function() {
+	function bindPm(user) {
+		if (typeof user.pm !== 'undefined') {
+			user.pm.on('change', function() {
 				self.pmList.redraw();
 			});
-		};
+		}
+	}
+	// the pm list ist actually a list of users
+	self.pmList.items.forEach(function(user) {
+		bindPm(user);
+		user.on('change', function() {
+			bindPm(user);
+		});
 	});
 };
 
@@ -103,7 +109,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	});
 };
 
-// in need of other sort functions, 
+// in need of other sort functions,
 // add them in the returned object
 Navigation.prototype.pmSort = (function Navigation_pmSort() {
 	return {
