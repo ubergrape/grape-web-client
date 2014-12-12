@@ -102,7 +102,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
   			self.goToLeftFacet();
     }
 	});
-	
+
 	this.complete_header.addEventListener('click', function(e){
 		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
@@ -111,7 +111,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// if the user presses up arrow while the autocomplete is not showing
 	// then get the last loaded message of the user
 	// and prepare it for editing
-	// check for attachments since it is not possible to 
+	// check for attachments since it is not possible to
 	// edit attachments
 	this.prepareForEditing = function() {
 		if (!self.complete.shown && this.innerText.length == 0) {
@@ -126,23 +126,23 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				}
 				return false;
 			});
-		}	
+		}
 	};
-	
+
 	this.goToRightFacet = function() {
 		if (self.complete.shown) {
 			console.log(self.complete_header);
 			console.log('right');
 		}
 	};
-	
+
 	this.goToLeftFacet = function() {
 		if (self.complete.shown) {
 			console.log(self.complete_header);
 			console.log('left');
 		}
 	};
-	
+
 	this.update_autocomplete = function(value){
 		// TODO: get the cursor to the right position after changing the input
 		// TODO: trigger a new autocomplete search (redraw or something)
@@ -427,35 +427,49 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				} else {
 					self.complete_header.innerHTML = "";
 				}
-				
+
 				var activeFacet = query('[data-acc="'+ self.messageInput.innerHTML +'"]', self.complete_header);
 				console.log(activeFacet);
 				//console.log(qs('[data-ac="'+ self.messageInput.innerHTML +'"]', self.complete.el));
 
-					var results = data.results
+				var results = data.results
 
-				console.log(results);
-				for (var i=0; i< data.results.length; i++) {
-					if (self.complete.options.length >= self.max_autocomplete)
-						break;
-					var r = results[i];
-					var type = "";
-					var title = "";
-					if (r.start) {
-						title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
-					} else {
-						type = r.service == "googledrive" ? "" : r.type;
-						title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+				var grouped_results = {}
+				results.forEach(function(result){
+					if (typeof grouped_results[result.service] === 'undefined') {
+						grouped_results[result.service] = [];
 					}
-					self.complete.push({
-						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: title,
-						insert: r.name,
-						service: r.service,
-						type: r.type,
-						url: r.url,
-						whitespace: whitespace
-					});
+					grouped_results[result.service].push(result);
+				});
+
+				for (var prop in grouped_results) {
+					if(grouped_results.hasOwnProperty(prop)){
+						var group_name = prop;
+						var group = grouped_results[prop];
+						for (var j=0; j<group.length; j++) {
+							var r = group[j];
+							var type = "";
+							var title = "";
+							if (r.start) {
+								title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+							} else {
+								type = r.service == "googledrive" ? "" : r.type;
+								title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+							}
+							if (j === 0) {
+								title = '<div class="group">' + group_name + '</div>' + title;
+							}
+							self.complete.push({
+								id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+								title: title,
+								insert: r.name,
+								service: r.service,
+								type: r.type,
+								url: r.url,
+								whitespace: whitespace
+							});
+						}
+					}
 				}
 
 				if (self.complete.options.length > 0) {
