@@ -143,11 +143,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 	};
 	
-	
 	this.update_autocomplete = function(value){
 		// TODO: get the cursor to the right position after changing the input
 		// TODO: trigger a new autocomplete search (redraw or something)
-		
+
 		var complete = this.complete;
 		if (complete.is_textarea) {
 			var el = complete.el;
@@ -167,11 +166,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			var new_text =  start + text.slice(index);
 			node.textContent = new_text;
 		}
-		complete.hide()
 		self.moveCaretToEnd(self.messageInput);
-		this.emit('change', new_text)
 	}
-	
+
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
@@ -287,7 +284,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 		if (trigger_character === ':') {
 			self.complete_header.innerHTML = "";
-			
+
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
 				match = match.substr(1, match.length-1);
@@ -347,9 +344,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// hopefully there are not too many
 
 			// TODO don't use global vars
-			
+
 			self.complete_header.innerHTML = "";
-			
+
 			var users = app.organization.users;
 			var search = match;
 			for (var i=0; i<users.length; i++) {
@@ -430,6 +427,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				} else {
 					self.complete_header.innerHTML = "";
 				}
+				
 				var activeFacet = query('[data-acc="'+ self.messageInput.innerHTML +'"]', self.complete_header);
 				console.log(activeFacet);
 				//console.log(qs('[data-ac="'+ self.messageInput.innerHTML +'"]', self.complete.el));
