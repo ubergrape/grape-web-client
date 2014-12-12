@@ -135,7 +135,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			node.textContent = new_text;
 		}
 		complete.hide()
-		// TODO: what needs to be triggered after changing the input?
+		self.moveCaretToEnd(self.messageInput);
 		this.emit('change', new_text)
 	}
 	
@@ -246,6 +246,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		return obj.whitespace +  renderAutocomplete(obj, true);
 	};
 	this.complete.query = function (matches) {
+		console.log(matches);
 		var whitespace = matches[1];
 		var trigger_character = matches[2];
 		var match = matches[3];
