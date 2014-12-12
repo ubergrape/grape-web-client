@@ -380,6 +380,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
 				if (!data.results){
 					return;
+				}
 				if (data.services){
 						var facet_header = '<li class="facet" data-ac="'+ escape(data.search.text) +'" >All</li>';
 						var services = {}
