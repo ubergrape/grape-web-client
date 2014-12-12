@@ -134,9 +134,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			var new_text =  start + text.slice(index);
 			node.textContent = new_text;
 		}
-		complete.hide()
 		self.moveCaretToEnd(self.messageInput);
-		this.emit('change', new_text)
 	}
 	
 
