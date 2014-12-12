@@ -28,21 +28,55 @@
 				border-radius: 0 0 5px 5px
 				.entry-type-description
 					border-radius: 0 0 0 5px
+		.autocomplete-filter-menu
+			margin: 0
+			padding: 0
+			overflow-x: visible
+			white-space: nowrap
+			background: lighten(grape-typo, 10%)
+			li
+				display: inline-block
+				list-style-type: none
+				transition: all 0.3s
+			li:first-of-type // REMOVE LINES 41-53 when active class is set properly
+				a
+					color: white
+				a:after
+					content: ""
+					position: absolute
+					bottom: 0%
+					left: 50%
+					z-index: 1000
+					border-style: solid
+					border-width: 0 5px 5px 5px
+					border-color: transparent transparent gainsboro-light transparent
+					margin-left: -5px
+			a
+				text-decoration: none
+				color: rgba(white, .5)
+				display: inline-block
+				position: relative
+				padding: 8px 16px 8px
+				@extend $small-font-size
+				&.active
+					color: white
+				&.active:after
+					content: ""
+					position: absolute
+					bottom: 0%
+					left: 50%
+					z-index: 1000
+					border-style: solid
+					border-width: 0 5px 5px 5px
+					border-color: transparent transparent gainsboro-light transparent
+					margin-left: -5px
 		.entry-type-description
-			float: left
-			text-transform: uppercase
-			color: gainsboro-dark
-			min-width: 100px
-			text-align: right
-			border-right: 1px solid silver-dark
-			background: silver-light
-			padding: 6px 6px
-			@extend $small-font-size
-			line-height: inherit
+			display: none
 		.option-wrap
 			overflow: hidden
-			padding: 6px 10px
+			padding: 5px 6px 10px
 			height: 30px
+			color: grape-typo
 			&.full_name_true
 				em
 					color: lighten(gainsboro-dark, 10%)
@@ -50,10 +84,12 @@
 		&.Textcomplete-hidden
 			display: none
 		.Textcomplete-headline
+		.group
 			background: silver-dark
 			@extend $small-font-size
 			padding: 4px 8px
 			text-transform: uppercase
+			color: gainsboro-dark
 		.Textcomplete-option
 			padding: 0
 			@extend $clearfix
@@ -66,11 +102,14 @@
 			padding: 0 8px;
 			@extend $small-font-size
 		.entry-type-icon
+			color: gainsboro-dark
 			&:after
 				margin-left: 0
 		.Textcomplete-highlighted
 			background: grape-light
 			color: white
+			.option-wrap
+				color: white
 			.full_name_true em,
 			.entry-additional-info
 				color: lighten(grape-light, 30)
