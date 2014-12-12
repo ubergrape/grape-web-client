@@ -75,6 +75,14 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
+	// the pm list ist actually a list of users
+	self.pmList.items.forEach(function(item) {
+		if (typeof item.pm !== 'undefined') {
+			item.pm.on('change', function() {
+				self.pmList.redraw();
+			});
+		};
+	});
 };
 
 Navigation.prototype.select = function Navigation_select(which, item) {
