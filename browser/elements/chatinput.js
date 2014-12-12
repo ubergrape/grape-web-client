@@ -107,7 +107,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 	
 	this.complete_header.addEventListener('click', function(e){
-		var value = '#' + unescape(e.target.getAttribute('data-ac'));
+		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
 	});
 
@@ -382,7 +382,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					return;
 				}
 				if (data.services){
-						var facet_header = '<li class="facet" data-ac="'+ escape(data.search.text) +'" >All</li>';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ escape(data.search.text) +'">All</a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -390,7 +390,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-							facet_header +='<li class="facet service" data-ac="' + escape(service.search) + '">' + service.label + ' (' + service.count + ')</li>'
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + escape(service.search) + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
 				} else {
