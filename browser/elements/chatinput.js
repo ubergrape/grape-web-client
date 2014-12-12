@@ -424,13 +424,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + escape(service.search) + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
+					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.innerText.substring(1)) +'"]', self.complete_header);
+					classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
 				}
-
-				var activeFacet = query('[data-acc="'+ self.messageInput.innerHTML +'"]', self.complete_header);
-				console.log(activeFacet);
-				//console.log(qs('[data-ac="'+ self.messageInput.innerHTML +'"]', self.complete.el));
 
 				var results = data.results;
 
