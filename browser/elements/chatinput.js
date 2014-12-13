@@ -415,11 +415,35 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-				if (!data.results) {
+				if (!data || !data.results) {
+					console.log(arguments);
 					self.complete_header.innerHTML = "";
 					self.complete.hide();				
 					return;
 				}
+				
+				if (data.search.type == 'external'){
+					/*
+					External search is here!
+					 */
+					data.results.forEach(function(r, i){
+						self.complete.push({
+							id: r.id,
+							title: r.name || r.source,
+							insert: r.url,
+							service: r.service,
+							type: r.type,
+							url: r.url,
+							whitespace: whitespace
+						})
+					})
+					if (self.complete.options.length > 0) {
+						self.complete.show();
+						self.complete.highlight(0);
+					}
+					return;
+				};
+				
 				if (data.services){
 						var querySearch = data.search.text ? escape(data.search.text) : '';
 						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'">All</a></li>';
