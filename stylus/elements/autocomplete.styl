@@ -136,15 +136,24 @@
 				.powered-by-link
 					padding: 8px 16px 8px 0
 	.Textcomplete-message
-		padding: 20px 0
+		padding: 15px 12px
 		background: silver-dark
 		text-align: center
+		border-bottom: 2px solid lighten(grape-typo, 10%)
+		em
+			font-style: italic
 		h3
 			color: gainsboro-dark
 			font-weight: bold
-			margin-bottom: 5px
-			
-			
+		&.info, &.info h3
+			background-color: lighten(alert-info-color, 70%)
+			color: darken(alert-info-color, 30%)
+			a
+				color: grape-light
+		&.loading
+			padding: 100px 12px
+			background: #fff
+			border: none
 // ****
 // FOR SMALL USER INVITE DROPDOWN
 // ****
