@@ -77,6 +77,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
+	
 	/*
 		we will probably have different shortcuts in the future.
 		var shortcuts = [
@@ -86,27 +87,55 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		then bind each event looping
 	*/
 	this.messageInput.addEventListener('keydown', function(ev) {
-    switch (ev.keyCode) {
-  		case 37:
-  			ev.preventDefault();
-  			ev.stopPropagation();
-  			self.goToLeftFacet();
-      case 38:
-  			ev.preventDefault();
-  			ev.stopPropagation();
-    		self.prepareForEditing.call(this);
-    		return;
-    	case 39:
-  			ev.preventDefault();
-  			ev.stopPropagation();
-  			self.goToLeftFacet();
-    }
+		switch (ev.keyCode) {
+			case 37:
+				ev.preventDefault();
+				ev.stopPropagation();
+				self.goToLeftFacet();
+				return;
+			case 38:
+				ev.preventDefault();
+				ev.stopPropagation();
+				self.prepareForEditing.call(this);
+				return;
+			case 39:
+				ev.preventDefault();
+				ev.stopPropagation();
+				self.goToLeftFacet();
+				return;
+		}
 	});
 
 	this.complete_header.addEventListener('click', function(e){
 		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
 	});
+
+	this.update_autocomplete = function(value){
+		// TODO: get the cursor to the right position after changing the input
+		// TODO: trigger a new autocomplete search (redraw or something)
+
+		var complete = this.complete;
+		if (complete.is_textarea) {
+			var el = complete.el;
+			var text = el.value;
+			var index = el.selectionEnd;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text = start + text.slice(index);
+			el.value = new_text;
+			el.setSelectionRange(start.length, start.length)
+		} else {
+			var node = complete.focusNode;
+			var index =  complete.focusOffset;
+			var text = node.nodeValue;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text =  start + text.slice(index);
+			node.textContent = new_text;
+		}
+		self.moveCaretToEnd(self.messageInput);
+	}
 
 	// if the user presses up arrow while the autocomplete is not showing
 	// then get the last loaded message of the user
@@ -142,32 +171,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			console.log('left');
 		}
 	};
-
-	this.update_autocomplete = function(value){
-		// TODO: get the cursor to the right position after changing the input
-		// TODO: trigger a new autocomplete search (redraw or something)
-
-		var complete = this.complete;
-		if (complete.is_textarea) {
-			var el = complete.el;
-			var text = el.value;
-			var index = el.selectionEnd;
-			var start = text.slice(0, index)
-				.replace(complete.re, value);
-			var new_text = start + text.slice(index);
-			el.value = new_text;
-			el.setSelectionRange(start.length, start.length)
-		} else {
-			var node = complete.focusNode;
-			var index =  complete.focusOffset;
-			var text = node.nodeValue;
-			var start = text.slice(0, index)
-				.replace(complete.re, value);
-			var new_text =  start + text.slice(index);
-			node.textContent = new_text;
-		}
-		self.moveCaretToEnd(self.messageInput);
-	}
 
 
 	// hook up the input
@@ -408,12 +411,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-				if (!data.results){
+				if (!data.results) {
+					self.complete_header.innerHTML = "";
+					self.complete.hide();				
 					return;
 				}
-				console.log(self.messageInput.innerHTML);
 				if (data.services){
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ escape(data.search.text) +'">All</a></li>';
+						var querySearch = data.search.text ? escape(data.search.text) : '';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'">All</a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -421,11 +426,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + escape(service.search) + '">' + service.label + ' (' + service.count + ')</li>'
+							
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
 					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.innerText.substring(1)) +'"]', self.complete_header);
-					classes(activeFacet).add('active');
+					if (activeFacet) classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
 				}
