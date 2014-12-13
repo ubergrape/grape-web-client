@@ -51,7 +51,7 @@ node_modules: package.json
 	touch node_modules
 
 components: node_modules component.json
-	./node_modules/.bin/component install --dev; \
+	./node_modules/.bin/component install --dev && \
 	touch components
 
 clean:
