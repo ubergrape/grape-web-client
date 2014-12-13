@@ -116,7 +116,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.update_autocomplete = function(value){
-		console.log(value);
 		var complete = this.complete;
 		if (complete.is_textarea) {
 			var el = complete.el;
@@ -176,7 +175,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			}
 		}
 		if (activeFacetPos == limit) return;
-		activeFacetPos = (options.direction == 'left') ? activeFacetPos - 1 : activeFacetPos + 1;
+		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
 		activeFacet = facets[activeFacetPos];
 		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
 	};
