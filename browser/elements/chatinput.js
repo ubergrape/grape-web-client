@@ -157,9 +157,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
 	this.navigateFacets = function(options, ev) {
-		if (!self.complete.shown) return;
+		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
 		ev.preventDefault();
-		ev.stopPropagation();		
+		ev.stopPropagation();	
 		var facets = query.all('li.facet', self.complete_header),
 				limit = (options.direction == 'left') ? 0 : facets.length - 1,
 				activeFacet = query('a.active', self.complete.header).parentElement,
@@ -174,6 +174,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
 		activeFacet = facets[activeFacetPos];
 		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
+		// we need to manually trigger the match of the complete
+		// because right and left are normally ignored and do
+		// not trigger any match
+		self.complete.match();
 	};
 
 
@@ -416,7 +420,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
 				if (!data || !data.results) {
-					console.log(arguments);
 					self.complete_header.innerHTML = "";
 					self.complete.hide();				
 					return;
