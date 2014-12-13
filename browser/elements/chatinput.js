@@ -507,6 +507,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						}
 					}
 				}
+				
+				if (data.search.queries) {
+					data.search.queries.forEach(function(r, i){
+						self.complete.push({
+							id: r.id,
+							title: r.name,
+							insert: '#' + r.query,
+							whitespace: whitespace
+						})
+					})
+				}
 
 				if (self.complete.options.length > 0) {
 					self.complete.show();
