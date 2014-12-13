@@ -57,8 +57,16 @@
 				position: relative
 				padding: 8px 16px 8px
 				@extend $small-font-size
+				i
+					margin-right: 5px
+					transition: all 400ms
+					margin-left: 0
+					opacity: 1
 				&.active
 					color: white
+					i
+						margin-left: -14px
+						opacity: 0
 				&.active:after
 					content: ""
 					position: absolute
@@ -69,7 +77,6 @@
 					border-width: 0 5px 5px 5px
 					border-color: transparent transparent gainsboro-light transparent
 					margin-left: -5px
-			
 		.entry-type-description
 			display: none
 		.option-wrap
@@ -126,11 +133,20 @@
 				@extend $small-font-size
 				.powered-by-link
 					padding: 8px 16px 8px 0
-
+	.Textcomplete-message
+		padding: 20px 0
+		background: silver-dark
+		text-align: center
+		h3
+			color: gainsboro-dark
+			font-weight: bold
+			margin-bottom: 5px
+			
+			
 // ****
 // FOR SMALL USER INVITE DROPDOWN
 // ****
-
+ 
 .invite-to-room
 	.Textcomplete-option
 		padding: 2px 3px !important

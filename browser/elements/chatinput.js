@@ -448,7 +448,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				
 				if (data.services){
 						var querySearch = data.search.text ? escape(data.search.text) : '';
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'">All</a></li>';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left"></i><span class="facet-all">All</span></a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -508,6 +508,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 							});
 						}
 					}
+				}
+				
+				if (data.search.queries) {
+					data.search.queries.forEach(function(r, i){
+						self.complete.push({
+							id: r.id,
+							title: r.name,
+							insert: '#' + r.query,
+							whitespace: whitespace
+						})
+					})
 				}
 
 				if (self.complete.options.length > 0) {
