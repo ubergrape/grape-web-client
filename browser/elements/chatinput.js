@@ -175,8 +175,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		activeFacet = facets[activeFacetPos];
 		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
 		// we need to manually trigger the match of the complete
-		// because right and left are normally ignored and do
-		// not trigger any match
+		// because right and left are normally ignored (see ignore list in the Textcomplete component)
 		self.complete.match();
 	};
 
