@@ -14,7 +14,7 @@
 		background: white
 		padding: 0
 		border: 1px solid gainsboro-light
-		border-radius: 5px
+		border-radius: 5px 5px 0 0
 		background-clip: border-box
 		// overflow: hidden
 		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
@@ -81,7 +81,7 @@
 			display: none
 		.option-wrap
 			overflow: hidden
-			padding: 5px 6px 10px
+			padding: 5px 8px 10px
 			height: 30px
 			color: grape-typo
 			&.full_name_true
@@ -100,16 +100,18 @@
 		.Textcomplete-option
 			padding: 0
 			@extend $clearfix
-			font-weight: bold
 			color: darken(gainsboro-dark, 20%)
+			font-weight: bold
+			em
+				font-weight: normal
 		.entry-additional-info
-			color: gainsboro-dark
+			color: #B9B7BB
 		time
 			text-transform: uppercase;
 			padding: 0 8px;
 			@extend $small-font-size
 		.entry-type-icon
-			color: gainsboro-dark
+			color: #B9B7BB
 			&:after
 				margin-left: 0
 		.Textcomplete-highlighted
@@ -189,7 +191,8 @@ body
 .type-trellocard
 	&:before
 		content: "\f181"
-.type-calendar
+.type-calendar,
+.type-gcalevent
 	&:before
 		content: "\f073"
 .type-googledrivefile
