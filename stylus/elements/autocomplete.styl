@@ -16,19 +16,25 @@
 		border: 1px solid gainsboro-light
 		border-radius: 5px
 		background-clip: border-box
-		overflow: hidden
+		// overflow: hidden
 		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
 		max-height: 422px
-		.Textcomplete-menu
-			div:first-of-type
-				border-radius: 5px 5px 0 0
-				.entry-type-description
-					border-radius: 5px 0 0 0
-			div:last-of-type
-				border-radius: 0 0 5px 5px
-				.entry-type-description
-					border-radius: 0 0 0 5px
+		z-index: 22px
+		&:before
+			content: ""
+			position absolute
+			top: -16px
+			right: 2%
+			width: 40px
+			height: 23px
+			z-index: 20
+			background: url("../images/autocomplete_leaves.png")
+			background-size: 100%
+			opacity: 1
+			animation: plop 400ms ease
+			transform: rotate(0deg) scale(1) translateY(0px);
 		.autocomplete-filter-menu
+			border-radius: 5px 5px 0 0
 			margin: 0
 			padding: 0
 			overflow-x: visible
