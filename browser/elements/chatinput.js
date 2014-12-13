@@ -91,7 +91,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			case 37:
 				ev.preventDefault();
 				ev.stopPropagation();
-				self.goToLeftFacet();
+				var options = {};
+				options.direction = 'left';
+				self.navigateFacets(options);
 				return;
 			case 38:
 				ev.preventDefault();
@@ -101,7 +103,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			case 39:
 				ev.preventDefault();
 				ev.stopPropagation();
-				self.goToLeftFacet();
+				var options = {};
+				options.direction = 'right';
+				self.navigateFacets(options);
 				return;
 		}
 	});
@@ -112,6 +116,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.update_autocomplete = function(value){
+		console.log(value);
 		var complete = this.complete;
 		if (complete.is_textarea) {
 			var el = complete.el;
@@ -155,18 +160,25 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 	};
 
-	this.goToRightFacet = function() {
-		if (self.complete.shown) {
-			console.log(self.complete_header);
-			console.log('right');
+	// TODO: we SO need a subclass of Textcomplete
+	// which handles all the facets menu logic
+	// it could be called FacettedTextcomplete
+	this.navigateFacets = function(options) {
+		if (!self.complete.shown) return;
+		var facets = query.all('li.facet', self.complete_header),
+				limit = (options.direction == 'left') ? 0 : facets.length - 1,
+				activeFacet = query('a.active', self.complete.header).parentElement,
+				activeFacetPos;
+		for (var i = 0; i < facets.length; ++i) {
+			if (facets[i] == activeFacet) {
+				activeFacetPos = i;
+				break;
+			}
 		}
-	};
-
-	this.goToLeftFacet = function() {
-		if (self.complete.shown) {
-			console.log(self.complete_header);
-			console.log('left');
-		}
+		if (activeFacetPos == limit) return;
+		activeFacetPos = (options.direction == 'left') ? activeFacetPos - 1 : activeFacetPos + 1;
+		activeFacet = facets[activeFacetPos];
+		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
 	};
 
 
