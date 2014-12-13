@@ -89,23 +89,17 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.messageInput.addEventListener('keydown', function(ev) {
 		switch (ev.keyCode) {
 			case 37:
-				ev.preventDefault();
-				ev.stopPropagation();
 				var options = {};
 				options.direction = 'left';
-				self.navigateFacets(options);
+				self.navigateFacets(options, ev);
 				return;
 			case 38:
-				ev.preventDefault();
-				ev.stopPropagation();
 				self.prepareForEditing.call(this);
 				return;
 			case 39:
-				ev.preventDefault();
-				ev.stopPropagation();
 				var options = {};
 				options.direction = 'right';
-				self.navigateFacets(options);
+				self.navigateFacets(options, ev);
 				return;
 		}
 	});
@@ -162,8 +156,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// TODO: we SO need a subclass of Textcomplete
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
-	this.navigateFacets = function(options) {
+	this.navigateFacets = function(options, ev) {
 		if (!self.complete.shown) return;
+		ev.preventDefault();
+		ev.stopPropagation();		
 		var facets = query.all('li.facet', self.complete_header),
 				limit = (options.direction == 'left') ? 0 : facets.length - 1,
 				activeFacet = query('a.active', self.complete.header).parentElement,
