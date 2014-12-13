@@ -241,9 +241,13 @@ function buildStyles(tree) {
 function buildFiles(tree) {
   if (resolving) return;
   if (!builds.files) return;
+  var image_handler = build.plugins.symlink();
+  if (program.copy) {
+    image_handler = build.plugins.copy();
+  }
   var start = Date.now();
   build.files(tree)
-  .use('images', build.plugins.symlink())
+  .use('images', image_handler)
   .end(function (err) {
     if (err) {
       utils.error(err);
