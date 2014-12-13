@@ -112,9 +112,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.update_autocomplete = function(value){
-		// TODO: get the cursor to the right position after changing the input
-		// TODO: trigger a new autocomplete search (redraw or something)
-
 		var complete = this.complete;
 		if (complete.is_textarea) {
 			var el = complete.el;
