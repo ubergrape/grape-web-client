@@ -105,6 +105,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.complete_header.addEventListener('click', function(e){
+		console.log(e.target);
 		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
 	});
@@ -418,6 +419,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
+				console.log(data);
 				if (!data || !data.results) {
 					self.complete_header.innerHTML = "";
 					self.complete.hide();				
@@ -448,7 +450,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				
 				if (data.services){
 						var querySearch = data.search.text ? escape(data.search.text) : '';
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left"></i><span class="facet-all">All</span></a></li>';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
