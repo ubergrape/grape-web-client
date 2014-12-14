@@ -130,7 +130,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 		self.moveCaretToEnd(self.messageInput);
 	}
-
+	
 	// if the user presses up arrow while the autocomplete is not showing
 	// then get the last loaded message of the user
 	// and prepare it for editing
@@ -412,7 +412,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.show();
 				self.complete.highlight(0);
 			}
-
 		} else if (trigger_character === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
@@ -512,11 +511,16 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 				if (data.search.queries) {
 					data.search.queries.forEach(function(r, i){
+						var title = r.name;
+						if ( i == 0) {
+							title = '<div class="group" >Queries</div>' + title;
+						}
 						self.complete.push({
 							id: r.id,
-							title: r.name,
-							insert: '#' + r.query,
-							whitespace: whitespace
+							title: title,
+							insert: ' #' + r.query,
+							whitespace: whitespace,
+							type: 'query'
 						})
 					})
 				}
