@@ -77,7 +77,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
-	
+
 	/*
 		we will probably have different shortcuts in the future.
 		var shortcuts = [
@@ -161,7 +161,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.navigateFacets = function(options, ev) {
 		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
 		ev.preventDefault();
-		ev.stopPropagation();	
+		ev.stopPropagation();
 		var facets = query.all('li.facet', self.complete_header),
 				limit = (options.direction == 'left') ? 0 : facets.length - 1,
 				activeFacet = query('a.active', self.complete.header).parentElement,
@@ -423,10 +423,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				console.log(data);
 				if (!data || !data.results) {
 					self.complete_header.innerHTML = "";
-					self.complete.hide();				
+					self.complete.hide();
 					return;
 				}
-				
+
 				if (data.search.type == 'external'){
 					/*
 					External search is here!
@@ -448,7 +448,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					}
 					return;
 				};
-				
+
 				if (data.services){
 						var querySearch = data.search.text ? escape(data.search.text) : '';
 						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
@@ -459,7 +459,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-							
+
 							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
@@ -512,7 +512,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						}
 					}
 				}
-				
+
 				if (data.search.queries) {
 					data.search.queries.forEach(function(r, i){
 						self.complete.push({
