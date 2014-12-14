@@ -57,7 +57,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
 	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
 
-	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
+	this.complete = textcomplete(this.messageInput, qs('.autocomplete-wrapper', this.el));
 	this.complete_header = document.createElement('ul');
 	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
 	this.complete.menu.appendChild(this.complete_header);
