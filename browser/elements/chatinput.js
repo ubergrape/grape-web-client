@@ -131,6 +131,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			node.textContent = new_text;
 		}
 		self.moveCaretToEnd(self.messageInput);
+		ui.chatInput.complete.match();
 	}
 
 	// if the user presses up arrow while the autocomplete is not showing
