@@ -15,7 +15,11 @@ ul.nav-list.pms
 						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 					if unread > 0
 						span.notification=unread.toString()
-					span.name=user.username			
+					span.name
+						if (user.firstName || user.lastName)
+							| #{user.firstName} #{user.lastName} 
+						else
+							| #{user.username}
 	else
 		li.item 
 			span.no-messages=_("No private messages yet.")
