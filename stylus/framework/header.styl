@@ -48,10 +48,11 @@
 			display: inline-block
 			position: relative
 			overflow: hidden
+			color: white
 			&.room-grp
 				@extend $hoverable
 				&:hover
-					color: lighten(grape-typo, 10)
+					color: white
 					.connected-users
 						opacity: 0.8
 			.room-name
@@ -63,7 +64,7 @@
 				display: block
 				height: 1.5em
 				i
-					color: gainsboro-dark
+					color: gainsboro-light
 	.user:not(.typing) .fa
 		display: none
 	.user-menu-wrap
