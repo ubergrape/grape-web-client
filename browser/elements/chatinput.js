@@ -58,6 +58,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
 
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
+	this.complete_header = document.createElement('ul');
+	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
+	this.complete.menu.appendChild(this.complete_header);
+
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
 	// `stopPropagation()`. But inputarea uses `keyup` to trigger an input.
@@ -73,6 +77,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
+	
 	/*
 		we will probably have different shortcuts in the future.
 		var shortcuts = [
@@ -82,12 +87,64 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		then bind each event looping
 	*/
 	this.messageInput.addEventListener('keydown', function(ev) {
-		// if the user presses up arrow while the autocomplete is not showing
-		// then get the last loaded message of the user
-		// and prepare it for editing
-		// check for attachments since it is not possible to 
-		// edit attachments
-		if (!self.complete.shown && ev.keyCode == 38 && this.innerText.length == 0) {
+		switch (ev.keyCode) {
+			case 37:
+				ev.preventDefault();
+				ev.stopPropagation();
+				var options = {};
+				options.direction = 'left';
+				self.navigateFacets(options);
+				return;
+			case 38:
+				ev.preventDefault();
+				ev.stopPropagation();
+				self.prepareForEditing.call(this);
+				return;
+			case 39:
+				ev.preventDefault();
+				ev.stopPropagation();
+				var options = {};
+				options.direction = 'right';
+				self.navigateFacets(options);
+				return;
+		}
+	});
+
+	this.complete_header.addEventListener('click', function(e){
+		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
+		self.update_autocomplete(value);
+	});
+
+	this.update_autocomplete = function(value){
+		var complete = this.complete;
+		if (complete.is_textarea) {
+			var el = complete.el;
+			var text = el.value;
+			var index = el.selectionEnd;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text = start + text.slice(index);
+			el.value = new_text;
+			el.setSelectionRange(start.length, start.length)
+		} else {
+			var node = complete.focusNode;
+			var index =  complete.focusOffset;
+			var text = node.nodeValue;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text =  start + text.slice(index);
+			node.textContent = new_text;
+		}
+		self.moveCaretToEnd(self.messageInput);
+	}
+
+	// if the user presses up arrow while the autocomplete is not showing
+	// then get the last loaded message of the user
+	// and prepare it for editing
+	// check for attachments since it is not possible to
+	// edit attachments
+	this.prepareForEditing = function() {
+		if (!self.complete.shown && this.innerText.length == 0) {
 			var ascendingHistory = self.room.history.slice();
 			ascendingHistory.reverse();
 			ascendingHistory.some(function(msg) {
@@ -100,7 +157,29 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				return false;
 			});
 		}
-	});
+	};
+
+	// TODO: we SO need a subclass of Textcomplete
+	// which handles all the facets menu logic
+	// it could be called FacettedTextcomplete
+	this.navigateFacets = function(options) {
+		if (!self.complete.shown) return;
+		var facets = query.all('li.facet', self.complete_header),
+				limit = (options.direction == 'left') ? 0 : facets.length - 1,
+				activeFacet = query('a.active', self.complete.header).parentElement,
+				activeFacetPos;
+		for (var i = 0; i < facets.length; ++i) {
+			if (facets[i] == activeFacet) {
+				activeFacetPos = i;
+				break;
+			}
+		}
+		if (activeFacetPos == limit) return;
+		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
+		activeFacet = facets[activeFacetPos];
+		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
+	};
+
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
@@ -215,6 +294,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 
 		if (trigger_character === ':') {
+			self.complete_header.innerHTML = "";
+
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
 				match = match.substr(1, match.length-1);
@@ -274,6 +355,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// hopefully there are not too many
 
 			// TODO don't use global vars
+
+			self.complete_header.innerHTML = "";
+
 			var users = app.organization.users;
 			var search = match;
 			for (var i=0; i<users.length; i++) {
@@ -334,28 +418,74 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		} else if (trigger_character === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
-			self.emit('autocomplete', match, function autocomplete_callback(err, result){
-				for (var i=0; i<result.length; i++) {
-					if (self.complete.options.length >= self.max_autocomplete)
-						break;
-					var r = result[i];
-					var type = "";
-					var title = "";
-					if (r.start) {
-						title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
-					} else {
-						type = r.service == "googledrive" ? "" : r.type;
-						title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+			self.emit('autocomplete', match, function autocomplete_callback(err, data){
+				if (!data.results) {
+					self.complete_header.innerHTML = "";
+					self.complete.hide();				
+					return;
+				}
+				if (data.services){
+						var querySearch = data.search.text ? escape(data.search.text) : '';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'">All</a></li>';
+						var services = {}
+
+						data.services.forEach(function(service, i){
+							services[service.name] = {
+								count: service.count,
+								results: [],
+							}
+							
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
+						})
+					self.complete_header.innerHTML = facet_header;
+					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.innerText.substring(1)) +'"]', self.complete_header);
+					if (activeFacet) classes(activeFacet).add('active');
+				} else {
+					self.complete_header.innerHTML = "";
+				}
+
+				var results = data.results;
+
+				var grouped_results = {};
+
+				grouped_results['Top Result'] = [];
+				grouped_results['Top Result'].push(results.shift());
+
+				results.forEach(function(result){
+					if (typeof grouped_results[result.service] === 'undefined') {
+						grouped_results[result.service] = [];
 					}
-					self.complete.push({
-						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: title,
-						insert: r.name,
-						service: r.service,
-						type: r.type,
-						url: r.url,
-						whitespace: whitespace
-					});
+					grouped_results[result.service].push(result);
+				});
+
+				for (var prop in grouped_results) {
+					if(grouped_results.hasOwnProperty(prop)){
+						var group_name = prop;
+						var group = grouped_results[prop];
+						for (var j=0; j<group.length; j++) {
+							var r = group[j];
+							var type = "";
+							var title = "";
+							if (r.start) {
+								title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+							} else {
+								type = r.service == "googledrive" ? "" : r.type;
+								title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+							}
+							if (j === 0) {
+								title = '<div class="group">' + group_name + '</div>' + title;
+							}
+							self.complete.push({
+								id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+								title: title,
+								insert: r.name,
+								service: r.service,
+								type: r.type,
+								url: r.url,
+								whitespace: whitespace
+							});
+						}
+					}
 				}
 
 				if (self.complete.options.length > 0) {
