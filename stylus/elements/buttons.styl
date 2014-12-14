@@ -4,14 +4,13 @@
 	outline: none
 .button // used in popovers
 	background: grape-light
-	border: 1px solid grape-light
 	border-radius: main-border-radius-small
-	box-shadow: 0px 3px grape-dark
 	color: white !important
 	padding: 4px 14px
 	outline: none
 	text-decoration: none !important
 	break-word: keep-all
+	text-transform: uppercase
 	.icon
 		color: white
 		width: 20px
@@ -20,13 +19,9 @@
 		background: lighten(grape-light, 5%)
 	&:active
 		background: lighten(grape-light, 10%)
-		margin-bottom: -1px
-		margin-top: 1px
-		box-shadow: 0px 2px grape-dark
 	&:disabled
 		background: silver-dark
 		color: gainsboro-light !important
-		box-shadow: 0px 3px gainsboro-light !important
 		border-color: gainsboro-light !important
 
 .button-delete
@@ -45,22 +40,19 @@
 	padding: 3px 7px
 .button-inset // used in left navigation
 	@extend .button-small
+	box-shadow: none
 	font-weight: bold
 	border: none
-	background: darken(jet, 25%)
+	background: gainsboro-light
 	margin-top: -3px
 	border-radius: main-border-radius-small
-	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
 	color: gainsboro-dark !important
 	&:hover, a:hover &
-		color: gainsboro-light !important
-		background: jet
+		color: lighten(gainsboro-dark, 10%) !important
+		background: darken(gainsboro-light, 10%)
 	&:active
-		margin-top: -3px
-		margin-bottom: 0
 		color: gainsboro-light !important
-		background: jet
-		box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
+		background: gainsboro-dark
 .btn-icon
 	padding-left: 7px
 	padding-right: 7px
