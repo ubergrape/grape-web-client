@@ -427,15 +427,24 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					External search is here!
 					 */
 					data.results.forEach(function(r, i){
-						self.complete.push({
-							id: r.id,
-							title: r.name || r.source,
-							insert: r.url,
-							service: r.service,
-							type: r.type,
-							url: r.url,
-							whitespace: whitespace
-						})
+						if (r.embeddable) {
+							self.complete.push({
+								id: "![" + r.url + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						} else {
+							self.complete.push({
+								id: "[" + r.title + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						}
+
 					})
 					if (self.complete.options.length > 0) {
 						self.complete.show();
