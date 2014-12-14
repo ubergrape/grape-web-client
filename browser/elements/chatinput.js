@@ -156,7 +156,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
 	this.navigateFacets = function(options, ev) {
-		if (!self.complete.shown && self.complete_header.parentElement.innerHTML == "") return;
+		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
 		ev.preventDefault();
 		ev.stopPropagation();
 		var facets = query.all('li.facet', self.complete_header),
@@ -292,7 +292,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 
 		if (trigger_character === ':') {
-			self.complete_header.parentElement.innerHTML = "";
+			self.complete_header.innerHTML = "";
 
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
@@ -354,7 +354,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			// TODO don't use global vars
 
-			self.complete_header.parentElement.innerHTML = "";
+			self.complete_header.innerHTML = "";
 
 			var users = app.organization.users;
 			var search = match;
@@ -418,7 +418,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
 				if (!data || !data.results) {
-					self.complete_header.parentElement.innerHTML = "";
+					self.complete_header.innerHTML = "";
 					self.complete.hide();
 					return;
 				}
@@ -462,7 +462,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 					var activeFacet = query('a[data-ac="'+ encodeURI(self.messageInput.textContent.substring(1)) +'"]', self.complete_header);
 					if (activeFacet) classes(activeFacet).add('active');
 				} else {
-					self.complete_header.parentElementinnerHTML = "";
+					self.complete_header.innerHTML = "";
 				}
 
 				var results = data.results;
