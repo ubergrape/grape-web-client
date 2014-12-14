@@ -97,7 +97,6 @@
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author #{first.author.firstName} #{first.author.lastName} 
-							em #{first.author.username}
 					else	
 						author= first.author.username
 				each line in lines
