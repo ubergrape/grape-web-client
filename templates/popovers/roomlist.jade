@@ -29,14 +29,11 @@ ul.po-scroll-wrap
 	each room in items
 		if room.joined
 			li.item.room(data-id=room.id, key=room.id)
-				button.toggle.leave
+				button.button.toggle.leave
 					span.info.j-info
 						=_('joined')
 					span.info.l-info
 						=_('leave')
-					| 
-					i.fa.fa-times-circle-o
-					i.fa.fa-check-circle-o
 				.icon-wrap
 					if room.private
 						i.icon.fa.fa-lock

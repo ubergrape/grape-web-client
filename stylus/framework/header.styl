@@ -19,7 +19,7 @@
 	.room-info, .avatar-wrap, .search-form
 		max-width: 100%
 		overflow: hidden
-		// transition: all 200ms linear
+		//transition: all 200ms linear
 	.room-info
 		position: relative
 		max-width: 100%
@@ -39,13 +39,11 @@
 		h1
 			@extend $bigger-font-size
 			margin: 0
-			font-weight: bold
 			padding-top: 8px
 			margin-right: 12px
 			padding-right: 77px
 			height: 1.5em
 			max-width: 100%
-			// Shortening the Room Name
 			display: inline-block
 			position: relative
 			overflow: hidden
@@ -55,7 +53,7 @@
 				&:hover
 					color: white
 					.connected-users
-						opacity: 0.8
+						color: white
 			.room-name
 				text-overflow: ellipsis
 				white-space: nowrap
@@ -76,12 +74,7 @@
 		display: table-cell
 		vertical-align: middle
 		&:hover
-			padding: 3px
-			margin: -3px -3px -3px 17px
-			background: lighten(silver-dark, 25%)
-			border-radius: main-border-radius
 			.fa
-			.user-name
 				color: white
 		.fa
 			margin: 10px 0 0 5px
@@ -96,7 +89,6 @@
 			height: 10px
 		.user-name
 			color: white
-			font-weight: bold
 
 a.feedback // Deprecated?
 	float: right

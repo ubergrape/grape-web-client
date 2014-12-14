@@ -12,7 +12,7 @@ div
 		span.user-name #{user.username}
 		i.fa.fa-caret-down
 	form.search-form
-		input.search(type="search", name="search-input", placeholder=_("Search for content, documents, appointments, ..."))
+		input.search(type="search", name="search-input", placeholder=_("Search"))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
@@ -22,9 +22,7 @@ div
 				h1.room-grp
 					span.room-name= room.name
 					.connected-users
-						i.fa.fa-user
-						span.sml-nr
-							| #{room.users.length}
+						i.fa.fa-caret-down
 		else if room.type === 'pm'
 			h1
 				span.room-name
