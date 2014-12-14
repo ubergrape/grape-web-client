@@ -25,9 +25,6 @@
 		> li:hover
 			.icon-wrap
 				color: grape-light
-			.name, .author
-				color: aqua-light
-				text-decoration: underline
 			.toggle.leave
 				color: bittersweet-light
 				.fa-check-circle-o, .j-info
@@ -35,16 +32,18 @@
 				.fa.fa-times-circle-o, .l-info
 					display: inline-block
 			.toggle.join
-				color: darken(gainsboro-dark, 10)
+				color: grass-light
 	li
 		padding: 6px 0
 		@extend $functional-list
-	.name, author, .toggle
-		height: 1.25em
-		line-height: 1em
+	li.item
+		padding: 7px 0 5px 4px
+		cursor: pointer
+		&:hover
+			background: silver-light
 	.name, author
-		font-weight: bold
-		color: gainsboro-dark
+		height: 1.3em
+		line-height: 1em	
 		overflow: hidden
 		white-space: nowrap
 		max-width: 180px
@@ -129,11 +128,11 @@
 			left: 15%
 	.toggle
 		padding-left: 4px
-		background: white
 		border: none
 		float: right
+		line-height: 1em
 		&.join
-			color: gainsboro-dark
+			color: grape-typo
 			&:active
 				color: grass-dark
 		&.leave
@@ -204,7 +203,7 @@
 // ****
 
 .roompopover
-	width: 320px
+	width: 360px
 	&.openform
 		.button.new
 			display: none
@@ -218,13 +217,10 @@
 	.list-hl
 		padding-top: 0
 	.room
-		@extend $hoverable
 		@extend $clearfix
 	.main
 		margin: 0px
 		overflow: hidden
-	.room-info
-		color: gainsboro-dark
 	.icon-wrap
 		font-size: 1.5em
 		padding: 0
@@ -235,6 +231,7 @@
 		@extend $horizontal-list
 		@extend $small-font-size
 		margin: 0
+		color: gainsboro-dark
 		li
 			padding: 0
 
@@ -316,6 +313,8 @@ label.radio-label
 		@extend $hoverable
 		.avatar-wrap
 			margin-top: -1px
+		&:hover
+			background: silver-dark
 	.manage-users
 		float: left
 		&:hover

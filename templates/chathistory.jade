@@ -27,16 +27,11 @@
 						=_('This room is public. Every member can join and read the history.')
 					ul.welcome-tasks
 						li.option
-							em
-								=_('1')
-							a.show-invite.disable-document-click-handler.button
+							a.show-invite.disable-document-click-handler.button.raised
 								i.fa.fa-plus
 								=_('Invite members')
-							span.invite
 						li.option
-							em
-								=_('2')
-							a.button(href='/services/list/', target='_self')
+							a.button.raised(href='/services/list/', target='_self')
 								i.fa.fa-share-alt
 								=_('Integrate external services')
 		else

@@ -1,41 +1,49 @@
 .nav-button
 .new
 .toggle
+button
 	outline: none
-.button // used in popovers
-	border-radius: main-border-radius-small
+	background: none
+
+.button
 	color: link-color
-	padding: 4px 14px
+	padding: 8px 16px
 	outline: none
 	text-decoration: none !important
 	text-transform: uppercase
 	border: none
 	background: none
+	font-weight: bold
 	.icon
 		color: white
 		width: 20px
 		text-align: right
 	&:hover
-		background: darken(silver-light, 10%)
+		background: silver-light
 	&:active
 		background: silver-dark
 	&:disabled
 		color: gainsboro-light !important
+	&.raised // RAISED BUTTON STYLE
+		box-shadow: 0px 2px 5px 0px rgba(gainsboro-dark, 0.75)
+		background: silver-dark
+		color: grape-typo
+		i
+			color: grape-light
+		&:hover
+			color: grape-typo
+			background: darken(silver-dark, 5%)
+		&:active
+			box-shadow: 0px 5px 10px 0px rgba(gainsboro-dark, 0.75)
 
 .button-delete
-	@extend .button
-	background: bittersweet-light
-	border: 1px solid bittersweet-light
-	box-shadow: 0px 3px bittersweet-dark
-	&:hover
-		background: lighten(bittersweet-light, 5%)
-	&:active
-		background: lighten(bittersweet-light, 10%)
-		box-shadow: 0px 2px bittersweet-dark
+	color: bittersweet-dark
+
 .button-small
 	@extend .button
 	@extend $small-font-size
 	padding: 3px 7px
+
 .button-inset // used in left navigation
 	@extend .button-small
 	box-shadow: none
@@ -43,12 +51,12 @@
 	border: none
 	background: grape-light
 	margin-top: -3px
-	border-radius: main-border-radius-small
 	color: white
 	&:hover, a:hover &
-		background: lighten(grape-light, 20%)
+		background: darken(grape-light, 20%)
 	&:active
 		background: darken(grape-light, 20%)
+
 .btn-icon
 	padding-left: 7px
 	padding-right: 7px
