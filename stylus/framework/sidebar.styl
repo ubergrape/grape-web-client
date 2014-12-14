@@ -32,27 +32,13 @@
 	background: organisation-background
 	color: white
 	@extend $functional-list
-	.powered-by,
 	.logo
 		padding-left: 20px
-		padding-right: 20px
-		display: block
-		border-bottom: 1px solid darken(organisation-background, 5)
-	.powered-by
-		background: jet
-		height: (header-height / 4)
-		line-height: (header-height / 4)
-		text-transform: uppercase
-		font-size: 10px
-		text-decoration: none
-		color: gainsboro-dark
-		&:hover
-			color: gainsboro-light
+		display: inline-block
 	a.logo
 		height: header-height
 		line-height: header-height
 		i
-			float: right
 			height: header-height
 			line-height: header-height
 			color: gainsboro-dark
@@ -85,6 +71,7 @@
 .room-list
 	padding: 23px 0 12px 0
 	height: 61%
+	background: linear-gradient(to bottom, darken(navigation-background, 25%) 0%, navigation-background 1%)
 	.rooms
 		height: 100%
 
