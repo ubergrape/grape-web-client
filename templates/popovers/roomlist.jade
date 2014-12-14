@@ -23,8 +23,8 @@ ul.po-scroll-wrap
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
-	li.list-hl
-		hr(style="margin-bottom: 10px")
+	li.list-hl.mar-t10
+		hr.mar-b10
 		h4=_("Rooms you have currently joined")
 	each room in items
 		if room.joined
