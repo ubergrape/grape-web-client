@@ -105,7 +105,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.complete_header.addEventListener('click', function(e){
-		console.log(e.target);
 		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
 	});
@@ -131,7 +130,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			node.textContent = new_text;
 		}
 		self.moveCaretToEnd(self.messageInput);
-		ui.chatInput.complete.match();
 	}
 
 	// if the user presses up arrow while the autocomplete is not showing
@@ -420,7 +418,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-				console.log(data);
 				if (!data || !data.results) {
 					self.complete_header.innerHTML = "";
 					self.complete.hide();
