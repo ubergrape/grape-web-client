@@ -462,11 +462,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
-<<<<<<< HEAD
-					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.textContent.substring(1)) +'"]', self.complete_header);
-=======
 					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.text().substring(1)) +'"]', self.complete_header);
->>>>>>> fix innerText for firefox. closes #1367
 					if (activeFacet) classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
