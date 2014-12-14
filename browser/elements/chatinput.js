@@ -104,7 +104,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	});
 
 	this.complete_header.addEventListener('click', function(e){
-		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
+		var value = ' #' + decodeURI(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
 	});
 
@@ -156,7 +156,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
 	this.navigateFacets = function(options, ev) {
-		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
+		if (!self.complete.shown && self.complete_header.parentElement.innerHTML == "") return;
 		ev.preventDefault();
 		ev.stopPropagation();
 		var facets = query.all('li.facet', self.complete_header),
@@ -172,7 +172,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (activeFacetPos == limit) return;
 		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
 		activeFacet = facets[activeFacetPos];
-		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
+		self.update_autocomplete("#" + decodeURI(activeFacet.children[0].getAttribute('data-ac')));
 		// we need to manually trigger the match of the complete
 		// because right and left are normally ignored (see ignore list in the Textcomplete component)
 		self.complete.match();
@@ -292,7 +292,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		self.complete.clear();
 
 		if (trigger_character === ':') {
-			self.complete_header.innerHTML = "";
+			self.complete_header.parentElement.innerHTML = "";
 
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
@@ -354,7 +354,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			// TODO don't use global vars
 
-			self.complete_header.innerHTML = "";
+			self.complete_header.parentElement.innerHTML = "";
 
 			var users = app.organization.users;
 			var search = match;
@@ -418,7 +418,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
 				if (!data || !data.results) {
-					self.complete_header.innerHTML = "";
+					self.complete_header.parentElement.innerHTML = "";
 					self.complete.hide();
 					return;
 				}
@@ -446,7 +446,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				};
 
 				if (data.services){
-						var querySearch = data.search.text ? escape(data.search.text) : '';
+						var querySearch = data.search.text ? encodeURI(data.search.text) : '';
 						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
 						var services = {}
 
@@ -456,13 +456,13 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								results: [],
 							}
 
-							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + encodeURI(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
-					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.textContent.substring(1)) +'"]', self.complete_header);
+					var activeFacet = query('a[data-ac="'+ encodeURI(self.messageInput.textContent.substring(1)) +'"]', self.complete_header);
 					if (activeFacet) classes(activeFacet).add('active');
 				} else {
-					self.complete_header.innerHTML = "";
+					self.complete_header.parentElementinnerHTML = "";
 				}
 
 				var results = data.results;
