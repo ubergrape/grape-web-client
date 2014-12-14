@@ -143,18 +143,13 @@
 .author // The message author text style, used to display Firstname, Lastname and Username in brackets
 	font-weight: bold
 	margin-bottom: 3px
-	color: gainsboro-dark
 	display: inline-block
-	@extend $subtle-link
 	em
-		color: lighten(gainsboro-dark, 10%)
 		@extend $small-font-size
 	&:hover
 		text-decoration: none
-		color: lighten(gainsboro-dark, 20%)
 		em
 			text-decoration: none
-			color: lighten(gainsboro-dark, 35%)
 
 .message-content // The message bubble with all the content
 	padding: 8px 10px 5px

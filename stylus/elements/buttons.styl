@@ -3,26 +3,24 @@
 .toggle
 	outline: none
 .button // used in popovers
-	background: grape-light
 	border-radius: main-border-radius-small
-	color: white !important
+	color: link-color
 	padding: 4px 14px
 	outline: none
 	text-decoration: none !important
 	break-word: keep-all
 	text-transform: uppercase
+	border: none
 	.icon
 		color: white
 		width: 20px
 		text-align: right
 	&:hover
-		background: lighten(grape-light, 5%)
+		background: silver-light
 	&:active
-		background: lighten(grape-light, 10%)
-	&:disabled
 		background: silver-dark
+	&:disabled
 		color: gainsboro-light !important
-		border-color: gainsboro-light !important
 
 .button-delete
 	@extend .button
@@ -43,16 +41,14 @@
 	box-shadow: none
 	font-weight: bold
 	border: none
-	background: gainsboro-light
+	background: grape-light
 	margin-top: -3px
 	border-radius: main-border-radius-small
-	color: gainsboro-dark !important
+	color: white
 	&:hover, a:hover &
-		color: lighten(gainsboro-dark, 10%) !important
-		background: darken(gainsboro-light, 10%)
+		background: lighten(grape-light, 20%)
 	&:active
-		color: gainsboro-light !important
-		background: gainsboro-dark
+		background: darken(grape-light, 20%)
 .btn-icon
 	padding-left: 7px
 	padding-right: 7px
