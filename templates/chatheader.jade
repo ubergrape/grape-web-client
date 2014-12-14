@@ -1,4 +1,6 @@
 div
+	a(href='javascript:void(0)', class="feedback intercom", title=_("Support"))
+		i.fa.fa-bullhorn
 	.user-menu-wrap(id='intro-step5')
 		.avatar-wrap
 			if true
@@ -31,4 +33,9 @@ div
 					else
 						i.fa.fa-envelope
 						| 
-					| #{room.users[0].username}
+					if (room.users[0].firstName || room.users[0].lastName)
+						| #{room.users[0].firstName} #{room.users[0].lastName} 
+						em
+							| #{room.users[0].username}
+					else
+						| #{room.users[0].username}

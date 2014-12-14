@@ -112,13 +112,13 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
-	
+
 	// update the read messages. Do this before we redraw, so the new message
 	// indicator is up to date
 	if (this.room.history.length && (!this.lastwindow.lastmsg ||
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
-		
+
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: this.room.history,
@@ -132,11 +132,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
-	
+
 	if (this.scrollMode === 'automatic') this.scrollBottom();
-	
+
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
-	
 };
 
 HistoryView.prototype.scrollBottom = function() {

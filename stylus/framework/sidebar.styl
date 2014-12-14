@@ -1,7 +1,33 @@
-/*______ Top left Info about the product and Organisation ______*/
-.org-info
-	float: left
+// ****
+//
+// Left navigation
+//
+// ****
+.navigation
+	@extend $normal-font-size
 	width: client-navigation-width
+	height: 100%
+	overflow: auto
+	float: left
+	display: block
+	color: gainsboro-dark
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	.navigation
+		padding: 0px
+		background: jet
+	
+// ****
+//
+// Top left Info about the product and Organisation
+//
+// ****
+
+.org-info
 	height: header-height
 	background: organisation-background
 	color: gainsboro-dark
@@ -50,15 +76,80 @@
 			.name
 				color: gainsboro-light
 				text-decoration: none
+// ****
+//
+// The room list of the organisation
+//
+// ****
 
-/*______ Left navigation ______*/
-.navigation
+.room-list
+	padding: 23px 0 12px 0
+	height: 61%
+	.rooms
+		height: 100%
+
+// ****
+//
+// The Private Message list
+//
+// ****
+.pm-list
+	padding: 12px 0 23px
+	position: absolute
+	bottom: 37px
+	left: 0
+	right: 0
+	background: darken(jet, 1)
+	max-height: 50%
+	min-height: 20%
+	top: auto !important
+	width: 260px
+	height: 25%
+	.pms
+		height: 100%
+	&::after
+		content: "\b7\b7\b7"
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		height: 5px
+		border-top: 1px solid darken(organisation-background, 5)
+		text-align: center
+		line-height: 5px
+		color: lighten(jet, 10%)
+		background: darken(jet, 1)
+	&:hover::after
+		color: gainsboro-dark
+	.rsize-d
+		top: 0
+		z-index: 15
+
+span.no-messages
+	@extend $small-font-size
+	padding-left: 20px
 	display: block
-	@extend $normal-font-size
-	color: gainsboro-dark
-	.navigation
-		padding: 23px 0 54px 0px
-		background: jet
+	color: darken(gainsboro-dark, 10%)
+
+// ****
+//
+// The search bar to filter users from the Private Message List
+//
+// ****
+.filter-pms
+	position: absolute
+	bottom: 0
+	background: darken(jet, 1)
+	border: none
+	border-top: 1px solid darken(organisation-background, 5)
+	width: 100%
+	padding: 8px 12px 8px 20px
+	z-index: 14
+	placeholder(color = lighten(organisation-background, 25))
+
+	&:focus
+		outline: none
+		background:  darken(jet, 3)
 
 a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 	color: gainsboro-dark
@@ -86,7 +177,6 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		margin-top: -3px
 
 .nav-list
-	margin-bottom: 12px
 	.item
 		@extend $functional-list
 		a
@@ -107,22 +197,3 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 			height: 1.25em
 			line-height: 1em
 
-span.no-messages
-	@extend $small-font-size
-	padding-left: 20px
-	display: block
-	color: darken(gainsboro-dark, 10%)
-
-
-.client-body .feedback
-	position: fixed
-	bottom: 0
-	left: 0
-	width: client-navigation-width
-	background: organisation-background
-	height: footer-height
-	line-height: footer-height
-	display: block
-	padding: 0 17px
-	z-index: 1
-	border-top: 1px solid darken(organisation-background, 5)

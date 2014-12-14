@@ -1,95 +1,124 @@
-/*______ Header Info about the Room you are in ______*/
-.header
+// ****
+//
+// Header Info about the Room you are in
+//
+// ****
+.room-header
 	position: fixed
-	left: 0
+	left: client-navigation-width
 	right: 0
 	top: 0
 	height: header-height
 	z-index: 30
-	.room-header
-		background: room-header-background
+	background: room-header-background
+	overflow: hidden
+	height: header-height
+	border-bottom: 1px solid gainsboro-light
+	padding: 11px 30px 11px 20px
+	@extend $clearfix
+	.room-info, .avatar-wrap, .search-form
+		max-width: 100%
 		overflow: hidden
-		height: header-height
-		border-bottom: 1px solid gainsboro-light
-		padding: 11px 30px 11px 20px
-		@extend $clearfix
-		.room-info, .avatar-wrap, .search-form
-			max-width: 100%
-			overflow: hidden
-			// transition: all 200ms linear
-		.room-info
-			position: relative
-			max-width: 100%
-			.connected-users
-				position: absolute
-				right: 0
-				top: 12px
-				color: gainsboro-dark
-				width: 65px
-				line-height: 19px;
-				font-size: 18px
-				.fa-user
-					float: left
-				.sml-nr
-					margin-left: 5px
-					overflow: hidden
-			h1
-				@extend $bigger-font-size
-				margin: 0
-				font-weight: bold
-				padding-top: 8px
-				margin-right: 12px
-				padding-right: 77px
-				height: 1.5em
-				max-width: 100%
-				// Shortening the Room Name
-				display: inline-block
-				position: relative
+		// transition: all 200ms linear
+	.room-info
+		position: relative
+		max-width: 100%
+		.connected-users
+			position: absolute
+			right: 0
+			top: 12px
+			color: gainsboro-dark
+			width: 65px
+			line-height: 19px;
+			font-size: 18px
+			.fa-user
+				float: left
+			.sml-nr
+				margin-left: 5px
 				overflow: hidden
-				&.room-grp
-					@extend $hoverable
-					&:hover
-						color: lighten(grape-typo, 10)
-						.connected-users
-							opacity: 0.8
-				.room-name
-					text-overflow: ellipsis
-					white-space: nowrap
-					overflow: hidden
-					// width: 100%
-					max-width: 500px
-					display: block
-					height: 1.5em
-					i
-						color: gainsboro-dark
-		.user:not(.typing) .fa
-			display: none
-		.user-menu-wrap
-			@extend $clearfix
-			@extend $hoverable
-			float: right
-			margin: 0 0 0 20px
-			display: table-cell
-			vertical-align: middle
-			&:hover
-				padding: 3px
-				margin: -3px -3px -3px 17px
-				background: lighten(silver-dark, 25%)
-				border-radius: main-border-radius
-				.fa
-				.user-name
-					color: darken(gainsboro-dark, 20%)
+		h1
+			@extend $bigger-font-size
+			margin: 0
+			font-weight: bold
+			padding-top: 8px
+			margin-right: 12px
+			padding-right: 77px
+			height: 1.5em
+			max-width: 100%
+			// Shortening the Room Name
+			display: inline-block
+			position: relative
+			overflow: hidden
+			&.room-grp
+				@extend $hoverable
+				&:hover
+					color: lighten(grape-typo, 10)
+					.connected-users
+						opacity: 0.8
+			.room-name
+				text-overflow: ellipsis
+				white-space: nowrap
+				overflow: hidden
+				// width: 100%
+				max-width: 500px
+				display: block
+				height: 1.5em
+				i
+					color: gainsboro-dark
+	.user:not(.typing) .fa
+		display: none
+	.user-menu-wrap
+		@extend $clearfix
+		@extend $hoverable
+		float: right
+		margin: 0 0 0 20px
+		display: table-cell
+		vertical-align: middle
+		&:hover
+			padding: 3px
+			margin: -3px -3px -3px 17px
+			background: lighten(silver-dark, 25%)
+			border-radius: main-border-radius
 			.fa
-				margin: 10px 0 0 5px
-				color: gainsboro-dark
-			.avatar-wrap
-				display: inline
-				margin-right: 6px
-			.online
-			.offline
-				top: -6px
-				width: 10px
-				height: 10px
 			.user-name
-				color: gainsboro-dark
-				font-weight: bold
+				color: darken(gainsboro-dark, 20%)
+		.fa
+			margin: 10px 0 0 5px
+			color: gainsboro-dark
+		.avatar-wrap
+			display: inline
+			margin-right: 6px
+		.online
+		.offline
+			top: -6px
+			width: 10px
+			height: 10px
+		.user-name
+			color: gainsboro-dark
+			font-weight: bold
+
+a.feedback // Deprecated?
+	float: right
+	padding: 0 3px
+	margin-left: 12px
+	height: 36px
+	line-height: 36px
+	text-align: center
+	font-weight: bold
+	color: gainsboro-dark
+	@extend $hoverable
+	&:hover
+		background: lighten(silver-dark, 25%)
+		color: darken(gainsboro-dark, 20%)
+
+// ****
+//
+// INTERCOM
+//
+// ****
+#intercom-container .intercom-sheet-header
+	height: 59px !important
+	.intercom-sheet-header-button
+		height: 59px !important
+	.intercom-sheet-header-title
+		line-height: 59px !important

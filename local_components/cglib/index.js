@@ -328,6 +328,8 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
+	room.unread = 0;
+
 	return room;
 };
 App.prototype._tryAddRoom = function App__tryAddRoom(room) {
@@ -338,6 +340,10 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 		this.organization.rooms.push(room);
 	} else {
 		this.organization.pms.push(room);
+	}
+	// TODO: this should maybe be handled in the pm model
+	if (room.type === 'pm') {
+		room.users[0].pm = room;
 	}
 	return room;
 };
@@ -372,6 +378,13 @@ App.prototype.setOrganization = function App_setOrganization(org) {
         if (res.custom_emojis != null) {
             org.custom_emojis = res.custom_emojis;
         }
+        // connect users and pms
+        org.users.map(function(u) {
+            if (typeof u.pm !== 'undefined') {
+                u.pm = models.Room.get(u.pm);
+            }
+            return u;
+        });
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
@@ -389,12 +402,15 @@ App.prototype.changedTimezone = function App_changedTimezone(tz) {
 	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
 };
 
-App.prototype.openPM = function App_openPM(user) {
+App.prototype.openPM = function App_openPM(user, callback) {
+	callback = callback || function() {};
 	var self = this;
 	this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
+        user.pm = pm;
+        callback();
 	});
 };
 
