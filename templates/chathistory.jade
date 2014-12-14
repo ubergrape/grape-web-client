@@ -41,9 +41,18 @@
 				div
 					h3
 						|  Private messages with 
-						span #{room.users[0].username}
+						span 
+							if (room.users[0].firstName || room.users[0].lastName)
+								| #{room.users[0].firstName} #{room.users[0].lastName} 
+							else
+								| #{room.users[0].username}
 					p
-						| This is a private conversation between you and #{room.users[0].username}.
+						| This is a private conversation between you and
+						if (room.users[0].firstName || room.users[0].lastName)
+							| #{room.users[0].firstName} #{room.users[0].lastName} 
+						else
+							| #{room.users[0].username}
+						|.
 						br
 						| Private conversations are only accessible to the two of you.
 

@@ -26,14 +26,10 @@ div
 		else if room.type === 'pm'
 			h1
 				span.room-name
-					if !room.users[0].is_only_invited
-						| @
-					else
+					if room.users[0].is_only_invited
 						i.fa.fa-envelope
 						| 
 					if (room.users[0].firstName || room.users[0].lastName)
 						| #{room.users[0].firstName} #{room.users[0].lastName} 
-						em
-							| #{room.users[0].username}
 					else
 						| #{room.users[0].username}
