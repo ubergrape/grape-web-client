@@ -39,7 +39,7 @@ Invite.prototype.redraw = function Invite_redraw() {
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var self = this;
 	this.inviteInput = qs('.input-invite', this.el);
-	var el = qs('.autocomplete', this.el);
+	var el = qs('.autocomplete-wrapper', this.el);
 	if (el !== null) {
 		this.complete = textcomplete(this.inviteInput, el);
 		this.complete.re = /([\w.+-]+)$/;
