@@ -37,6 +37,7 @@
 			padding: 5px 10px 10px
 			height: 30px
 			color: grape-typo
+			@extend $ellipsis
 			&.full_name_true
 				em
 					display: none
@@ -55,11 +56,9 @@
 			padding: 0
 			@extend $clearfix
 		.entry-additional-info
-			display: none // Let's fix this with grouping
 			color: gainsboro-light
-			float: right
-			color: darken(gainsboro-dark, 20%)
-			font-weight: bold
+			font-size: 10px
+			margin-left: 7px
 		time
 			text-transform: uppercase;
 			padding: 0 8px;

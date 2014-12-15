@@ -524,7 +524,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 				if (data.search.queries) {
 					data.search.queries.forEach(function(r, i){
-						var title = '<div class="option-wrap"><span class="entry-type-icon service-query type-query"></span>Search for '+ r.name +'<em class="entry-additional-info">#' + r.query + ':</em></div>';
+						var title = '<div class="option-wrap"><span class="entry-type-icon service-query type-query"></span>Search '+ r.name +'<em class="entry-additional-info">#' + r.query + '</em></div>';
 						if ( i == 0) {
 							title = '<div class="group" >Queries</div>' + title;
 						}
