@@ -9,7 +9,11 @@ div
 				span.offline
 			img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
 				.avatar-status(class='online')
-		span.user-name #{user.username}
+		span.user-name
+			if (user.firstName || user.lastName)
+				| #{user.firstName} #{user.lastName} 
+			else
+				| #{user.username}
 		i.fa.fa-caret-down
 	form.search-form
 		input.search(type="search", name="search-input", placeholder=_("Search"))

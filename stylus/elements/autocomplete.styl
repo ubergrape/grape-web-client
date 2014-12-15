@@ -81,8 +81,10 @@
 			color: grape-typo
 			&.full_name_true
 				em
-					color: lighten(gainsboro-dark, 10%)
-					@extend $small-font-size
+					display: none
+			&.full_name_false
+				em
+					margin-left: -3px
 		.Textcomplete-headline
 		.group
 			background: silver-dark
