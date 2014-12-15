@@ -541,6 +541,8 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				if (self.complete.options.length > 0) {
 					self.complete.show();
 					self.complete.highlight(0);
+				} else {
+					self.complete.hide();
 				}
 			});
 		}
