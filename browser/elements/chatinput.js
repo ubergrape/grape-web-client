@@ -106,6 +106,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete_header.addEventListener('click', function(e){
 		var value = ' #' + decodeURI(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
+		self.complete.hide();
 	});
 
 	this.update_autocomplete = function(value){
@@ -176,6 +177,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		// we need to manually trigger the match of the complete
 		// because right and left are normally ignored (see ignore list in the Textcomplete component)
 		self.complete.match();
+		self.complete.hide()
 	};
 
 
