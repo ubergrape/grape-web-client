@@ -4,17 +4,14 @@
 	div.po-scroll-wrap
 		ul.user-list
 			each user in room.users
-				li
+				li.item.user
 					a(href="/chat/@" + user.username.toLowerCase())
 						aside.avatar-wrap
 							img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
 						if (user.firstName || user.lastName)
-							author.author #{user.firstName} #{user.lastName} 
-								em #{user.username}
+							span.user-name #{user.firstName} #{user.lastName} 
 						else
-							author.author= user.username
-	hr
-	h4=_('Invite more members')
-	span.invite
-	hr
-	a.delete-room=_('delete room')
+							span.user-name= user.username
+	h4.mar-t20=_('Invite more members')
+	a.invite
+	a.button.button-delete.delete-room=_('delete room')

@@ -25,9 +25,6 @@
 		> li:hover
 			.icon-wrap
 				color: grape-light
-			.name, .author
-				color: aqua-light
-				text-decoration: underline
 			.toggle.leave
 				color: bittersweet-light
 				.fa-check-circle-o, .j-info
@@ -35,16 +32,22 @@
 				.fa.fa-times-circle-o, .l-info
 					display: inline-block
 			.toggle.join
-				color: darken(gainsboro-dark, 10)
+				color: grass-light
 	li
 		padding: 6px 0
 		@extend $functional-list
-	.name, author, .toggle
-		height: 1.25em
-		line-height: 1em
+	li.item
+		padding: 7px 0 5px 4px
+		cursor: pointer
+		a
+			color: grape-typo
+			&:hover
+				color: grape-typo
+		&:hover
+			background: silver-light
 	.name, author
-		font-weight: bold
-		color: gainsboro-dark
+		height: 1.3em
+		line-height: 1em	
 		overflow: hidden
 		white-space: nowrap
 		max-width: 180px
@@ -110,6 +113,7 @@
 		font-weight: bold
 		text-transform: uppercase
 		margin-bottom: 4px
+		margin-right: 12px
 	&.user-po
 		margin: 34px 0 0 -213px
 		right: 20px !important
@@ -128,11 +132,11 @@
 			left: 15%
 	.toggle
 		padding-left: 4px
-		background: white
 		border: none
 		float: right
+		line-height: 1em
 		&.join
-			color: gainsboro-dark
+			color: grape-typo
 			&:active
 				color: grass-dark
 		&.leave
@@ -182,18 +186,13 @@
 			border-bottom-left-radius: main-border-radius
 		a
 			padding: 8px 16px
-			color: gainsboro-dark // normal font color in menus
+			color: grape-typo
 			font-weight: bold
-			&:hover
-				color: aqua-light
-				text-decoration: underline
 			.fa
 				color: gainsboro-light
 				margin-right: 8px
 			&:hover
 				background: silver-light
-				.fa
-					color: grape-light
 
 
 // ****
@@ -203,7 +202,7 @@
 // ****
 
 .roompopover
-	width: 320px
+	width: 360px
 	&.openform
 		.button.new
 			display: none
@@ -217,23 +216,22 @@
 	.list-hl
 		padding-top: 0
 	.room
-		@extend $hoverable
 		@extend $clearfix
 	.main
 		margin: 0px
 		overflow: hidden
-	.room-info
-		color: gainsboro-dark
 	.icon-wrap
 		font-size: 1.5em
 		padding: 0
 		float: left
 		margin-right: 3px
 		color: gainsboro-light
+		padding-top: 2px
 	.room-info
 		@extend $horizontal-list
 		@extend $small-font-size
 		margin: 0
+		color: gainsboro-dark
 		li
 			padding: 0
 
@@ -310,11 +308,12 @@ label.radio-label
 .pmpopover
 .roommemberspopover
 	li.item
-		border-radius: main-border-radius
 		padding: 6px 4px
 		@extend $hoverable
 		.avatar-wrap
-			margin-top: -1px
+			margin-top: 1px
+		&:hover
+			background: silver-dark
 	.manage-users
 		float: left
 		&:hover
@@ -324,7 +323,7 @@ label.radio-label
 			margin-left: 6px
 
 .pmpopover
-	width: 320px	
+	width: 320px
 
 .user-list
 	li
@@ -342,8 +341,7 @@ label.radio-label
 //
 // ****
 .roommemberspopover
-	h4
-		margin: 12px 0 6px 0
+	width: 320px
 	input[type="text"]
 		@extend $textinput
 		width: 100%
@@ -358,6 +356,8 @@ label.radio-label
 	button
 		float: right
 		margin-left: 5px
+		.icon
+			color: grape-typo
 //
 // Invite users stylings
 //
@@ -370,6 +370,7 @@ label.radio-label
 		width: 100%
 		height: 34px
 		overflow: hidden
+		padding: 5px 10px
 	.btn-invite
 		display: block
 		float: right

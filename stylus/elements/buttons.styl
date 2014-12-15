@@ -1,66 +1,61 @@
 .nav-button
 .new
 .toggle
+button
 	outline: none
-.button // used in popovers
-	background: grape-light
-	border: 1px solid grape-light
-	border-radius: main-border-radius-small
-	box-shadow: 0px 3px grape-dark
-	color: white !important
-	padding: 4px 14px
+	background: none
+
+.button
+	color: button-color
+	padding: 8px 16px
 	outline: none
 	text-decoration: none !important
-	break-word: keep-all
+	text-transform: uppercase
+	border: none
+	background: none
+	font-weight: bold
 	.icon
 		color: white
 		width: 20px
 		text-align: right
 	&:hover
-		background: lighten(grape-light, 5%)
+		background: silver-light
 	&:active
-		background: lighten(grape-light, 10%)
-		margin-bottom: -1px
-		margin-top: 1px
-		box-shadow: 0px 2px grape-dark
-	&:disabled
 		background: silver-dark
+	&:disabled
 		color: gainsboro-light !important
-		box-shadow: 0px 3px gainsboro-light !important
-		border-color: gainsboro-light !important
+	&.raised // RAISED BUTTON STYLE
+		box-shadow: 0px 2px 5px 0px rgba(gainsboro-dark, 0.75)
+		background: silver-dark
+		color: grape-typo
+		i
+			color: grape-light
+		&:hover
+			color: grape-typo
+			background: darken(silver-dark, 5%)
+		&:active
+			box-shadow: 0px 5px 10px 0px rgba(gainsboro-dark, 0.75)
 
 .button-delete
-	@extend .button
-	background: bittersweet-light
-	border: 1px solid bittersweet-light
-	box-shadow: 0px 3px bittersweet-dark
-	&:hover
-		background: lighten(bittersweet-light, 5%)
-	&:active
-		background: lighten(bittersweet-light, 10%)
-		box-shadow: 0px 2px bittersweet-dark
+	color: bittersweet-dark
+
 .button-small
 	@extend .button
 	@extend $small-font-size
 	padding: 3px 7px
+
 .button-inset // used in left navigation
 	@extend .button-small
-	font-weight: bold
+	box-shadow: none
 	border: none
-	background: darken(jet, 25%)
+	background: grape-light
 	margin-top: -3px
-	border-radius: main-border-radius-small
-	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
-	color: gainsboro-dark !important
+	color: white
 	&:hover, a:hover &
-		color: gainsboro-light !important
-		background: jet
+		background: darken(grape-light, 20%)
 	&:active
-		margin-top: -3px
-		margin-bottom: 0
-		color: gainsboro-light !important
-		background: jet
-		box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
+		background: darken(grape-light, 20%)
+
 .btn-icon
 	padding-left: 7px
 	padding-right: 7px

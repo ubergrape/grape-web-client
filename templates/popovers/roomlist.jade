@@ -4,11 +4,10 @@ ul.po-scroll-wrap
 	each room in items
 		if !room.joined
 			li.item.room(data-id=room.id, key=room.id)
-				button.toggle.join
+				button.button.toggle.join
 					span.info
 						=_('join')
 					| 
-					i.fa.fa-arrow-circle-o-right
 				.icon-wrap
 					if room.private
 						i.icon.fa.fa-lock
@@ -24,21 +23,17 @@ ul.po-scroll-wrap
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
-	li.list-hl
-		hr(style="margin-bottom: 10px")
-		h4=_("Your rooms")
-
+	li.list-hl.mar-t10
+		hr.mar-b10
+		h4=_("Rooms you have currently joined")
 	each room in items
 		if room.joined
 			li.item.room(data-id=room.id, key=room.id)
-				button.toggle.leave
+				button.button.toggle.leave
 					span.info.j-info
 						=_('joined')
 					span.info.l-info
 						=_('leave')
-					| 
-					i.fa.fa-times-circle-o
-					i.fa.fa-check-circle-o
 				.icon-wrap
 					if room.private
 						i.icon.fa.fa-lock

@@ -27,16 +27,11 @@
 						=_('This room is public. Every member can join and read the history.')
 					ul.welcome-tasks
 						li.option
-							em
-								=_('1')
-							a.show-invite.disable-document-click-handler.button
+							a.show-invite.disable-document-click-handler.button.raised
 								i.fa.fa-plus
 								=_('Invite members')
-							span.invite
 						li.option
-							em
-								=_('2')
-							a.button(href='/services/list/', target='_self')
+							a.button.raised(href='/services/list/', target='_self')
 								i.fa.fa-share-alt
 								=_('Integrate external services')
 		else
@@ -44,16 +39,27 @@
 				- var head = staticurl("/images/head_lock.png")
 				img.image(src="#{head}",width="100",alt="Hi!")
 				div
-				h3
-					|  Private messages with 
-					span #{room.users[0].username}
-				p
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. So speak freely.
-
-				if room.users[0].is_only_invited
+					h3
+						|  Private messages with 
+						span 
+							if (room.users[0].firstName || room.users[0].lastName)
+								| #{room.users[0].firstName} #{room.users[0].lastName} 
+							else
+								| #{room.users[0].username}
 					p
-						i.fa.fa-envelope
-						=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+						| This is a private conversation between you and 
+						if (room.users[0].firstName || room.users[0].lastName)
+							| #{room.users[0].firstName} #{room.users[0].lastName} 
+						else
+							| #{room.users[0].username}
+						|.
+						br
+						| Private conversations are only accessible to the two of you.
+
+					if room.users[0].is_only_invited
+						p
+							i.fa.fa-envelope
+							=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
 
 	- var lastDate
 	- var lastRead = true
@@ -97,7 +103,6 @@
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author #{first.author.firstName} #{first.author.lastName} 
-							em #{first.author.username}
 					else	
 						author= first.author.username
 				each line in lines

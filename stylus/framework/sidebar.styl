@@ -1,32 +1,44 @@
-/*______ Top left Info about the product and Organisation ______*/
-.org-info
-	float: left
+// ****
+//
+// Left navigation
+//
+// ****
+.navigation
+	@extend $normal-font-size
 	width: client-navigation-width
+	height: 100%
+	overflow: auto
+	float: left
+	display: block
+	color: gainsboro-dark
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	.navigation
+		padding: 0px
+		background: navigation-background
+	
+// ****
+//
+// Top left Info about the product and Organisation
+//
+// ****
+
+.org-info
 	height: header-height
 	background: organisation-background
-	color: gainsboro-dark
+	color: white
 	@extend $functional-list
-	.powered-by,
 	.logo
 		padding-left: 20px
-		padding-right: 20px
-		display: block
-		border-bottom: 1px solid darken(organisation-background, 5)
-	.powered-by
-		background: jet
-		height: (header-height / 4)
-		line-height: (header-height / 4)
-		text-transform: uppercase
-		font-size: 10px
-		text-decoration: none
-		color: gainsboro-dark
-		&:hover
-			color: gainsboro-light
+		display: inline-block
 	a.logo
 		height: header-height
 		line-height: header-height
 		i
-			float: right
 			height: header-height
 			line-height: header-height
 			color: gainsboro-dark
@@ -37,34 +49,31 @@
 			margin-top: 11px
 			margin-right: 7px
 			border-radius: 50%
-			box-shadow: 0 2px 0 1px solid darken(organisation-background, 8)
 			background: white
 		.name
-			color: gainsboro-dark
+			color: white
 			line-height: header-height
-			font-weight: bold
 		&:hover
 			background: lighten(organisation-background, 1%)
 			text-decoration: none
 			i,
 			.name
-				color: gainsboro-light
+				color: white
 				text-decoration: none
+// ****
+//
+// The room list of the organisation
+//
+// ****
 
-/*______ Left navigation ______*/
-.navigation
-	display: block
-	@extend $normal-font-size
-	color: gainsboro-dark
-	.navigation
-		padding: 23px 0 54px 0px
-		background: jet
+.room-list
+	padding: 23px 0 12px 0
+	height: 61%
+	background: linear-gradient(to bottom, rgba(grape-dark, .5) 0%, navigation-background 1%)
+	border-right: 1px solid silver-dark
+	.rooms
+		height: 100%
 
-a.nav-title-wrap, .nav-list a //Sidebar Link Styling
-	color: gainsboro-dark
-	text-decoration: none!important
-	&:hover
-		color: gainsboro-light
 
 .nav-title-wrap
 	@extend $hoverable
@@ -80,13 +89,29 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		overflow: hidden
 		&:hover
 			text-decoration: none
+			a
+				background: none
 	.nav-button
 		float: right
 		margin-right: 7px
 		margin-top: -3px
 
+
+// Sidebar Link Styling
+
+a.nav-title-wrap
+	text-decoration: none!important
+	color: gainsboro-dark
+	&:hover
+		color: gainsboro-dark
+.nav-list a 
+	color: grape-typo
+	text-decoration: none!important
+	&:hover
+		color: lighten(grape-typo, 20%)
+		background: darken(navigation-background, 2%)
+		
 .nav-list
-	margin-bottom: 12px
 	.item
 		@extend $functional-list
 		a
@@ -94,11 +119,13 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 			padding: 7px 12px 3px 20px
 			text-decoration: none
 			border-left: 0 solid grape-light
+		.icon
+			color: gainsboro-dark
 		&.selected
 			a
-				color: white
+				//color: white
 				font-weight: bold
-				background: lighten(jet, 3)
+				background: gainsboro-light
 				border-left-width: 3px
 				padding-left: 17px
 			.icon
@@ -106,6 +133,50 @@ a.nav-title-wrap, .nav-list a //Sidebar Link Styling
 		.name
 			height: 1.25em
 			line-height: 1em
+			text-overflow: ellipsis 
+			white-space: nowrap
+			overflow: hidden
+			display: block
+
+
+// ****
+//
+// The Private Message list
+//
+// ****
+.pm-list
+	padding: 12px 0 23px
+	position: absolute
+	bottom: 37px
+	left: 0
+	right: 0
+	max-height: 50%
+	min-height: 20%
+	top: auto !important
+	width: 260px
+	height: 25%
+	border-right: 1px solid silver-dark
+	.pms
+		height: 100%
+	&::after
+		cursor: move
+		content: "\b7\b7\b7"
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		height: 8px
+		border-top: 1px solid darken(navigation-background, 10%)
+		text-align: center
+		line-height: 6px
+		color: gainsboro-light
+		background: darken(navigation-background, 2%)
+	&:hover::after
+		color: gainsboro-dark
+		background: darken(navigation-background, 3%)
+	.rsize-d
+		top: 0
+		z-index: 15
 
 span.no-messages
 	@extend $small-font-size
@@ -113,16 +184,22 @@ span.no-messages
 	display: block
 	color: darken(gainsboro-dark, 10%)
 
-
-.client-body .feedback
-	position: fixed
+// ****
+//
+// The search bar to filter users from the Private Message List
+//
+// ****
+.filter-pms
+	position: absolute
 	bottom: 0
-	left: 0
+	background: white
+	border: none
+	border-top: 1px solid darken(navigation-background, 5)
+	border-right: 1px solid silver-dark
 	width: client-navigation-width
-	background: organisation-background
-	height: footer-height
-	line-height: footer-height
-	display: block
-	padding: 0 17px
-	z-index: 1
-	border-top: 1px solid darken(organisation-background, 5)
+	padding: 8px 12px 8px 20px
+	z-index: 14
+	placeholder(color = gainsboro-dark)
+	&:focus
+		outline: none
+		color: grape-typo		

@@ -1,10 +1,13 @@
-/*______ Footer with Textarea ______*/
+// ****
+//
+// Footer with Textarea
+//
+// ****
 .footer
-	left: 0
-	bottom: 0
 	position: fixed
+	left: client-navigation-width
+	bottom: 0
 	right: 0
-	margin-left: client-navigation-width
 	background: footer-background
 	padding: 2px 0 10px 0
 	z-index: 30
@@ -30,16 +33,13 @@
 		margin-right: 30px
 	.messageInput-wrapper // Looks like the actual textarea so that the actual textarea has the scrollbar on the right position
 		@extend $clearfix
-		@extend $textinput
 		overflow: hidden
 		position: relative
-		//min-height: 38px
-		padding: 0 36px 0 0
-		background: #fff
+		padding: 0
+		background: white
 		.messageInput
 			@extend $normal-font-size
 			min-height: 34px
-			border-radius: main-border-radius 0 0 main-border-radius
 			outline: none
 			width: 100%
 			padding: 8px 10px
@@ -49,61 +49,45 @@
 			resize: none
 			max-height: 400px
 			overflow: auto
+			border-bottom: 1px solid gainsboro-light
+			border-radius: 0
+			&:focus
+				border-bottom: 1px solid grape-light
 			&:disabled
 				background: silver-dark
 				+.uploader .upload
 					background: silver-dark
 					.fa
 						color: gainsboro-light
-	.messageInput-subline
+			&:empty:not(:focus):before
+				content: attr(data-ph)
+				color: gainsboro-light
+	.edit-message
 		@extend $small-font-size
 		color: gainsboro-dark
-		padding: 5px 36px 0 45px
-		a
-			color: gainsboro-dark
-		.md-info
-			float: right
-	.edit-message
 		margin-bottom: 5px
 		padding-left: 45px
 		span
-			background: #fff
+			background: silver-light
 			border-radius: 3px
-			border: 1px solid #ddd
-			border-box: 0 1px 1px #ddd
+			border: 1px solid gainsboro-light
+			padding: 0 2px
+			
+	// markdown info styling
+	.info-markdown
+		position: absolute
+		right: 26px
+		top: 0
+		bottom: 0
+		transition: right .5s ease-in-out, opacity .5s ease-in-out
+		
 	// uploader styling
 	.uploader
 		position: absolute
 		right: 0
 		top: 0
 		bottom: 0
-		&::after
-			content: ""
-			position: absolute
-			left: 0
-			top: 6px
-			bottom: 6px
-			width: 1px
-			border-left: 1px solid gainsboro-light
-		.upload
-			@extend $hoverable
-			padding: 3px 0
-			height: 100%
-			min-height: 36px
-			width: 36px
-			&:hover
-				background: silver-light
-			.fa
-				@extend $bigger-font-size
-				position: absolute // Keeps the plus in the middle if textarea grows
-				right: 0
-				top: 50%
-				margin-top: -14px
-				width: 38px
-				height: 30px
-				text-align: center
-				line-height: 30px
-				color: gainsboro-dark
+		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
 			display: none
 	.upload-progress
@@ -116,7 +100,7 @@
 		right: 0
 		line-height: 36px
 		background: white
-		border-radius: 5px
+		border-radius: main-border-radius
 		overflow: hidden
 		img.preview
 			max-width: upload-size
@@ -135,18 +119,45 @@
 			vertical-align: middle
 	.uploader.open .upload-progress
 		display: block
+		
+	.info-markdown
+	.upload
+		@extend $hoverable
+		padding: 3px 0
+		height: 100%
+		min-height: 36px
+		width: 36px
+		&:hover
+			.fa
+				color: link-color
+		.fa
+			@extend $bigger-font-size
+			position: absolute // Keeps the plus in the middle if textarea grows
+			right: 0
+			top: 50%
+			margin-top: -14px
+			width: 38px
+			height: 30px
+			text-align: center
+			line-height: 30px
+			color: gainsboro-dark
+		
+	
 
-.input-wrapper.editing
+.input-wrapper.editing // Styling of input when editing
 	.messageInput, .messageInput-wrapper
 		background: lighten(gold, 80%)
-	.messageInput-wrapper
-		border-color: #B49A0F
+	.messageInput
+		border-color: gold
 	.uploader
-		display: none
+		right: -26px
+		opacity: 0
+	.info-markdown
+		right: 0
 
+// Toggle for edit message input
 .input-wrapper .edit-message
 	display:none
-
 .input-wrapper.editing .edit-message
 	display: block
 

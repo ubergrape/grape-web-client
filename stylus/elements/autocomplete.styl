@@ -11,85 +11,80 @@
 	&.Textcomplete-hidden
 		display: none
 		opacity: 0
-		transform: scale(0.8) translateY(-20px);
+		transform: scale(0.8) translateY(-20px)
+		bottom: -10px
+		opacity: 0
 	.autocomplete
 		bottom: 0px
 		width: 100%
 		background: white
 		padding: 0
 		border: 1px solid gainsboro-light
-		border-radius: 5px 5px 0 0
-		background-clip: border-box
-		// overflow: hidden
-		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
+		border-radius: 0
+		box-shadow: 0px 3px 4px 0 rgba(grape-typo, .5)
 		max-height: 422px
-		z-index: 22px
-		transition: all 2s ease
-		opacity: 1
-		transform: scale(1) translateY(0);
-
-		&:before
-			content: ""
-			position absolute
-			top: -16px
-			right: 2%
-			width: 40px
-			height: 23px
-			z-index: 20
-			background: url("../images/autocomplete_leaves.png")
-			background-size: 100%
-			opacity: 1
-			animation: plop 400ms
-			transform: rotate(0deg) scale(1) translateY(0px);
+		z-index: 200
+		transition: opacity .1s ease-out, bottom .1s ease-out, height .1s ease-out
 		.autocomplete-filter-menu
-			border-radius: 5px 5px 0 0
+			border-radius: 0
 			margin: 0
 			padding: 0
 			overflow-x: visible
 			white-space: nowrap
-			background: lighten(grape-typo, 10%)
+			background: room-header-background
 			li
 				display: inline-block
 				list-style-type: none
 				transition: all 0.3s
 			a
+				@extend .button
 				text-decoration: none
 				color: rgba(white, .5)
 				display: inline-block
 				position: relative
 				padding: 8px 16px 8px
 				@extend $small-font-size
+				text-transform: uppercase
+				font-weight: bold
+				&:hover
+					background: lighten(room-header-background, 10%)
 				i
 					margin-right: 5px
 					transition: all 400ms
 					margin-left: 0
 					opacity: 1
 				&.active
+					background: grape-light
 					color: white
 					i
 						margin-left: -14px
 						opacity: 0
 				&.active:after
-					content: ""
-					position: absolute
-					bottom: 0%
+					top: 100%
 					left: 50%
-					z-index: 1000
-					border-style: solid
-					border-width: 0 5px 5px 5px
-					border-color: transparent transparent gainsboro-light transparent
-					margin-left: -5px
+					border: solid transparent
+					content: " "
+					height: 0
+					width: 0
+					position: absolute
+					pointer-events: none
+					border-color: transparent
+					border-top-color: grape-light
+					border-width: 6px
+					margin-left: -6px
 		.entry-type-description
 			display: none
 		.option-wrap
 			overflow: hidden
-			padding: 5px 8px 10px
+			padding: 5px 10px 10px
 			height: 30px
 			color: grape-typo
 			&.full_name_true
 				em
-					color: lighten(gainsboro-dark, 10%)
-					@extend $small-font-size
+					display: none
+			&.full_name_false
+				em
+					margin-left: -3px
 		.Textcomplete-headline
 		.group
 			background: silver-dark
@@ -97,15 +92,16 @@
 			padding: 4px 8px
 			text-transform: uppercase
 			color: gainsboro-dark
+			padding-top: 10px
 		.Textcomplete-option
 			padding: 0
 			@extend $clearfix
+		.entry-additional-info
+			display: none // Let's fix this with grouping
+			color: gainsboro-light
+			float: right
 			color: darken(gainsboro-dark, 20%)
 			font-weight: bold
-			em
-				font-weight: normal
-		.entry-additional-info
-			color: #B9B7BB
 		time
 			text-transform: uppercase;
 			padding: 0 8px;
@@ -173,23 +169,20 @@
 body
 	.ac
 		white-space: nowrap
-		border-bottom: 1px solid aqua-light
-		// box-shadow: 0px 1px 2px 0px #ddd
+		border-bottom: 1px solid link-color
 		display: inline-block
 		margin: 1px
 		padding: 1px 0
 		vertical-align: baseline
-		font-weight: bold
-		// color: grape-light
 	a.ac:hover
 		text-decoration: none
-		border-color: aqua-light !important
+		border-color: link-color !important
 	&:hover
 		text-decoration: none
 .entry-type-icon, .ac:before
 	display: inline
 	font-family: FontAwesome
-	margin-right: 3px
+	margin-right: 6px
 	font-weight: normal
 .type-label
 	&:before
@@ -234,10 +227,13 @@ body
 .messageInput
 	.ac
 		border: 1px solid link-color
-		padding: 1px 5px
+		padding: 0 5px
 		background: white
-		border-radius: main-border-radius-small
+		border-radius: 0
 		color: link-color
+		height: 20px
+		margin-top: -1px
+		margin-bottom: -1px
 		span
 			float: left
 			margin-right: 0
@@ -245,6 +241,8 @@ body
 			border: none
 			padding: 0
 			margin: 0
+			height: 19px!important
+			margin-top: -2px
 	span.type-chatgraperoom,
 	span.type-chatgrapeuser
 		display: none
