@@ -8,6 +8,10 @@
 	position: relative
 	margin-left: 46px
 	margin-right: 30px
+	&.Textcomplete-hidden
+		display: none
+		opacity: 0
+		transform: scale(0.8) translateY(-20px);
 	.autocomplete
 		bottom: 0px
 		width: 100%
@@ -44,9 +48,17 @@
 				font-weight: bold
 				&:hover
 					background: lighten(room-header-background, 10%)
+				i
+					margin-right: 5px
+					transition: all 400ms
+					margin-left: 0
+					opacity: 1
 				&.active
 					background: grape-light
 					color: white
+					i
+						margin-left: -14px
+						opacity: 0
 				&.active:after
 					top: 100%
 					left: 50%
@@ -89,12 +101,14 @@
 			display: none // Let's fix this with grouping
 			color: gainsboro-light
 			float: right
+			color: darken(gainsboro-dark, 20%)
+			font-weight: bold
 		time
 			text-transform: uppercase;
 			padding: 0 8px;
 			@extend $small-font-size
 		.entry-type-icon
-			color: gainsboro-dark
+			color: #B9B7BB
 			&:after
 				margin-left: 0
 		.Textcomplete-highlighted
@@ -109,7 +123,34 @@
 				background: grape-dark
 				border-color: darken(grape-dark, 5)
 				color: lighten(grape-light, 15)
-
+		&.external
+			.autocomplete-filter-menu
+				background: #3A4160
+			.powered-by-facet
+				float: right
+				color: #7A7586
+				@extend $small-font-size
+				.powered-by-link
+					padding: 8px 16px 8px 0
+	.Textcomplete-message
+		padding: 15px 12px
+		background: silver-dark
+		text-align: center
+		border-bottom: 2px solid lighten(grape-typo, 10%)
+		em
+			font-style: italic
+		h3
+			color: gainsboro-dark
+			font-weight: bold
+		&.info, &.info h3
+			background-color: lighten(alert-info-color, 70%)
+			color: darken(alert-info-color, 30%)
+			a
+				color: grape-light
+		&.loading
+			padding: 100px 12px
+			background: #fff
+			border: none
 // ****
 // FOR SMALL USER INVITE DROPDOWN
 // ****
@@ -153,7 +194,8 @@ body
 .type-trellocard
 	&:before
 		content: "\f181"
-.type-calendar
+.type-calendar,
+.type-gcalevent
 	&:before
 		content: "\f073"
 .type-googledrivefile

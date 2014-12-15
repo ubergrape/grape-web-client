@@ -57,7 +57,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
 	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
 
-	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
+	this.complete = textcomplete(this.messageInput, qs('.autocomplete-wrapper', this.el));
 	this.complete_header = document.createElement('ul');
 	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
 	this.complete.menu.appendChild(this.complete_header);
@@ -77,7 +77,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		ev.stopImmediatePropagation();
 		isCompleting = false;
 	});
-	
 	/*
 		we will probably have different shortcuts in the future.
 		var shortcuts = [
@@ -89,30 +88,25 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.messageInput.addEventListener('keydown', function(ev) {
 		switch (ev.keyCode) {
 			case 37:
-				ev.preventDefault();
-				ev.stopPropagation();
 				var options = {};
 				options.direction = 'left';
-				self.navigateFacets(options);
+				self.navigateFacets(options, ev);
 				return;
 			case 38:
-				ev.preventDefault();
-				ev.stopPropagation();
 				self.prepareForEditing.call(this);
 				return;
 			case 39:
-				ev.preventDefault();
-				ev.stopPropagation();
 				var options = {};
 				options.direction = 'right';
-				self.navigateFacets(options);
+				self.navigateFacets(options, ev);
 				return;
 		}
 	});
 
 	this.complete_header.addEventListener('click', function(e){
-		var value = ' #' + unescape(e.target.getAttribute('data-ac'));
+		var value = ' #' + decodeURI(e.target.getAttribute('data-ac'));
 		self.update_autocomplete(value);
+		self.complete.hide();
 	});
 
 	this.update_autocomplete = function(value){
@@ -137,14 +131,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 		self.moveCaretToEnd(self.messageInput);
 	}
-
+	
 	// if the user presses up arrow while the autocomplete is not showing
 	// then get the last loaded message of the user
 	// and prepare it for editing
 	// check for attachments since it is not possible to
 	// edit attachments
 	this.prepareForEditing = function() {
-		if (!self.complete.shown && this.innerText.length == 0) {
+		if (!self.complete.shown && this.textContent.length == 0) {
 			var ascendingHistory = self.room.history.slice();
 			ascendingHistory.reverse();
 			ascendingHistory.some(function(msg) {
@@ -162,8 +156,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// TODO: we SO need a subclass of Textcomplete
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
-	this.navigateFacets = function(options) {
-		if (!self.complete.shown) return;
+	this.navigateFacets = function(options, ev) {
+		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
+		ev.preventDefault();
+		ev.stopPropagation();
 		var facets = query.all('li.facet', self.complete_header),
 				limit = (options.direction == 'left') ? 0 : facets.length - 1,
 				activeFacet = query('a.active', self.complete.header).parentElement,
@@ -177,7 +173,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		if (activeFacetPos == limit) return;
 		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
 		activeFacet = facets[activeFacetPos];
-		self.update_autocomplete("#" + unescape(activeFacet.children[0].getAttribute('data-ac')));
+		self.update_autocomplete(" #" + decodeURI(activeFacet.children[0].getAttribute('data-ac')));
+		// we need to manually trigger the match of the complete
+		// because right and left are normally ignored (see ignore list in the Textcomplete component)
+		self.complete.match();
+		self.complete.hide()
 	};
 
 
@@ -414,19 +414,53 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.show();
 				self.complete.highlight(0);
 			}
-
 		} else if (trigger_character === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
-				if (!data.results) {
+				if (!data || !data.results) {
 					self.complete_header.innerHTML = "";
-					self.complete.hide();				
+					self.complete.hide();
 					return;
 				}
+
+				if (data.search.type == 'external'){
+					/*
+					External search is here!
+					 */
+					data.results.forEach(function(r, i){
+						if (r.embeddable) {
+							self.complete.push({
+								id: "![" + r.url + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						} else {
+							self.complete.push({
+								id: "[" + r.title + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						}
+
+					})
+					if (self.complete.options.length > 0) {
+						self.complete.show();
+						self.complete.highlight(0);
+					}
+					return;
+				};
+
 				if (data.services){
-						var querySearch = data.search.text ? escape(data.search.text) : '';
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'">All</a></li>';
+						var active_service = (data.search.type == 'service') ? data.search.service : null;
+
+						var querySearch = data.search.text ? encodeURI(data.search.text) : '';
+						var clsstr = (!active_service) ? ' class="active"' : '';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"' + clsstr + '><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -434,12 +468,10 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-							
-							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + escape(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
+							var clsstr = (service.key == active_service) ? ' class="active"' : '';
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + encodeURI(service.search) + '"' + clsstr + '>' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
-					var activeFacet = query('a[data-ac="'+ escape(self.messageInput.innerText.substring(1)) +'"]', self.complete_header);
-					if (activeFacet) classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
 				}
@@ -486,6 +518,22 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 							});
 						}
 					}
+				}
+
+				if (data.search.queries) {
+					data.search.queries.forEach(function(r, i){
+						var title = r.name;
+						if ( i == 0) {
+							title = '<div class="group" >Queries</div>' + title;
+						}
+						self.complete.push({
+							id: r.id,
+							title: title,
+							insert: ' #' + r.query,
+							whitespace: whitespace,
+							type: 'query'
+						})
+					})
 				}
 
 				if (self.complete.options.length > 0) {
