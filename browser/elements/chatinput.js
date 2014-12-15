@@ -454,8 +454,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				};
 
 				if (data.services){
+						var active_service = (data.search.type == 'service') ? data.search.service : null;
+
 						var querySearch = data.search.text ? encodeURI(data.search.text) : '';
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
+						var clsstr = (!active_service) ? ' class="active"' : '';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"' + clsstr + '><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
@@ -463,14 +466,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 								count: service.count,
 								results: [],
 							}
-
-							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + service.key + encodeURI(':') + querySearch + '">' + service.label + ' (' + service.count + ')</li>'
+							var clsstr = (service.key == active_service) ? ' class="active"' : '';
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + encodeURI(service.search) + '"' + clsstr + '>' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
-					var queryStart = self.messageInput.textContent.indexOf('#'),
-							input = self.messageInput.textContent.substring(queryStart+1),
-							activeFacet = query('a[data-ac="'+ encodeURI(input) +'"]', self.complete_header);
-					if (activeFacet) classes(activeFacet).add('active');
+					// var queryStart = self.messageInput.textContent.indexOf('#'),
+					// 		input = self.messageInput.textContent.substring(queryStart+1),
+					// 		activeFacet = query('a[data-ac="'+ encodeURI(input) +'"]', self.complete_header);
+					// if (activeFacet) classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
 				}
