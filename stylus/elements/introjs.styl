@@ -1,4 +1,4 @@
-.introjs-helperLayer
+.introjs-helperNumberLayerelperLayer
 	background-color: rgba(255,255,255,.1)
 	border-radius: main-border-radius
 	border: 1px solid rgba(255,255,255,.7)
@@ -40,12 +40,17 @@
 .introjs-button
 	@extend $normal-font-size
 	@extend .button
+	// Component Overwrites
 	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif!important
+	text-shadow: none
+	color: grape-typo
+	&:hover
+		box-shadow: none
+		color: grape-typo
 	&.introjs-disabled
 		display: none
 	&.introjs-nextbutton
-		color: darken(grass-dark, 50%) !important
-		&:hover
-			color: darken(grass-dark, 60%)
+		color: button-color
+		border-radius: 0
 	&.introjs-prevbutton
 		display: none

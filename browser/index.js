@@ -79,11 +79,11 @@ UI.prototype.init = function UI_init() {
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),
-		username: "loading"
+		username: "Loading"
 	};
 	template.locals.org = {
 		logo: staticurl("images/orga-image-load.gif"),
-		name: "loading"
+		name: "Loading"
 	};
 
 	this.el = v.toDOM(template('index.jade'));
