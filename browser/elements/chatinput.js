@@ -472,10 +472,6 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + encodeURI(service.search) + '"' + clsstr + '>' + service.label + ' (' + service.count + ')</li>'
 						})
 					self.complete_header.innerHTML = facet_header;
-					// var queryStart = self.messageInput.textContent.indexOf('#'),
-					// 		input = self.messageInput.textContent.substring(queryStart+1),
-					// 		activeFacet = query('a[data-ac="'+ encodeURI(input) +'"]', self.complete_header);
-					// if (activeFacet) classes(activeFacet).add('active');
 				} else {
 					self.complete_header.innerHTML = "";
 				}
