@@ -15,6 +15,12 @@
 		bottom: -10px
 		opacity: 0
 	.autocomplete
+		position: relative
+		overflow: auto
+		overflow-x: hidden
+		max-height: 422px
+	.Textcomplete-inner
+		position: absolute
 		bottom: 0px
 		width: 100%
 		background: white
@@ -25,53 +31,6 @@
 		max-height: 422px
 		z-index: 200
 		transition: opacity .1s ease-out, bottom .1s ease-out, height .1s ease-out
-		.autocomplete-filter-menu
-			border-radius: 0
-			margin: 0
-			padding: 0
-			overflow-x: visible
-			white-space: nowrap
-			background: room-header-background
-			li
-				display: inline-block
-				list-style-type: none
-				transition: all 0.3s
-			a
-				@extend .button
-				text-decoration: none
-				color: rgba(white, .5)
-				display: inline-block
-				position: relative
-				padding: 8px 16px 8px
-				@extend $small-font-size
-				text-transform: uppercase
-				font-weight: bold
-				&:hover
-					background: lighten(room-header-background, 10%)
-				i
-					margin-right: 5px
-					transition: all 400ms
-					margin-left: 0
-					opacity: 1
-				&.active
-					background: grape-light
-					color: white
-					i
-						margin-left: -14px
-						opacity: 0
-				&.active:after
-					top: 100%
-					left: 50%
-					border: solid transparent
-					content: " "
-					height: 0
-					width: 0
-					position: absolute
-					pointer-events: none
-					border-color: transparent
-					border-top-color: grape-light
-					border-width: 6px
-					margin-left: -6px
 		.entry-type-description
 			display: none
 		.option-wrap
@@ -131,6 +90,55 @@
 				@extend $small-font-size
 				.powered-by-link
 					padding: 8px 16px 8px 0
+	.autocomplete-filter-menu
+		border-radius: 0
+		margin: 0
+		padding: 0
+		overflow-x: visible
+		white-space: nowrap
+		background: room-header-background
+		z-index: 4;
+		position: relative;
+		li
+			display: inline-block
+			list-style-type: none
+			transition: all 0.3s
+		a
+			@extend .button
+			text-decoration: none
+			color: rgba(white, .5)
+			display: inline-block
+			position: relative
+			padding: 8px 16px 8px
+			@extend $small-font-size
+			text-transform: uppercase
+			font-weight: bold
+			&:hover
+				background: lighten(room-header-background, 10%)
+			i
+				margin-right: 5px
+				transition: all 400ms
+				margin-left: 0
+				opacity: 1
+			&.active
+				background: grape-light
+				color: white
+				i
+					margin-left: -14px
+					opacity: 0
+			&.active:after
+				top: 100%
+				left: 50%
+				border: solid transparent
+				content: " "
+				height: 0
+				width: 0
+				position: absolute
+				pointer-events: none
+				border-color: transparent
+				border-top-color: grape-light
+				border-width: 6px
+				margin-left: -6px
 	.Textcomplete-message
 		padding: 15px 12px
 		background: silver-dark
