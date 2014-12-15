@@ -39,6 +39,10 @@
 	li.item
 		padding: 7px 0 5px 4px
 		cursor: pointer
+		a
+			color: grape-typo
+			&:hover
+				color: grape-typo
 		&:hover
 			background: silver-light
 	.name, author
@@ -304,11 +308,10 @@ label.radio-label
 .pmpopover
 .roommemberspopover
 	li.item
-		border-radius: main-border-radius
 		padding: 6px 4px
 		@extend $hoverable
 		.avatar-wrap
-			margin-top: -1px
+			margin-top: 1px
 		&:hover
 			background: silver-dark
 	.manage-users
