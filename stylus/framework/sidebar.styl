@@ -74,70 +74,6 @@
 	.rooms
 		height: 100%
 
-// ****
-//
-// The Private Message list
-//
-// ****
-.pm-list
-	padding: 12px 0 23px
-	position: absolute
-	bottom: 37px
-	left: 0
-	right: 0
-	max-height: 50%
-	min-height: 20%
-	top: auto !important
-	width: 260px
-	height: 25%
-	border-right: 1px solid silver-dark
-	.pms
-		height: 100%
-	&::after
-		cursor: move
-		content: "\b7\b7\b7"
-		position: absolute
-		top: 0
-		left: 0
-		right: 0
-		height: 8px
-		border-top: 1px solid darken(navigation-background, 10%)
-		text-align: center
-		line-height: 6px
-		color: gainsboro-light
-		background: darken(navigation-background, 2%)
-	&:hover::after
-		color: gainsboro-dark
-		background: darken(navigation-background, 3%)
-	.rsize-d
-		top: 0
-		z-index: 15
-
-span.no-messages
-	@extend $small-font-size
-	padding-left: 20px
-	display: block
-	color: darken(gainsboro-dark, 10%)
-
-// ****
-//
-// The search bar to filter users from the Private Message List
-//
-// ****
-.filter-pms
-	position: absolute
-	bottom: 0
-	background: white
-	border: none
-	border-top: 1px solid darken(navigation-background, 5)
-	border-right: 1px solid silver-dark
-	width: client-navigation-width
-	padding: 8px 12px 8px 20px
-	z-index: 14
-	placeholder(color = gainsboro-dark)
-	&:focus
-		outline: none
-		color: grape-typo		
 
 .nav-title-wrap
 	@extend $hoverable
@@ -202,3 +138,68 @@ a.nav-title-wrap
 			overflow: hidden
 			display: block
 
+
+// ****
+//
+// The Private Message list
+//
+// ****
+.pm-list
+	padding: 12px 0 23px
+	position: absolute
+	bottom: 37px
+	left: 0
+	right: 0
+	max-height: 50%
+	min-height: 20%
+	top: auto !important
+	width: 260px
+	height: 25%
+	border-right: 1px solid silver-dark
+	.pms
+		height: 100%
+	&::after
+		cursor: move
+		content: "\b7\b7\b7"
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		height: 8px
+		border-top: 1px solid darken(navigation-background, 10%)
+		text-align: center
+		line-height: 6px
+		color: gainsboro-light
+		background: darken(navigation-background, 2%)
+	&:hover::after
+		color: gainsboro-dark
+		background: darken(navigation-background, 3%)
+	.rsize-d
+		top: 0
+		z-index: 15
+
+span.no-messages
+	@extend $small-font-size
+	padding-left: 20px
+	display: block
+	color: darken(gainsboro-dark, 10%)
+
+// ****
+//
+// The search bar to filter users from the Private Message List
+//
+// ****
+.filter-pms
+	position: absolute
+	bottom: 0
+	background: white
+	border: none
+	border-top: 1px solid darken(navigation-background, 5)
+	border-right: 1px solid silver-dark
+	width: client-navigation-width
+	padding: 8px 12px 8px 20px
+	z-index: 14
+	placeholder(color = gainsboro-dark)
+	&:focus
+		outline: none
+		color: grape-typo		
