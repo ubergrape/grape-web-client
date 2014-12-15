@@ -11,11 +11,7 @@
 			//- 	i.fa.fa-search
 			//- 	|  Autocomplete
 	.messageInput-wrapper
-		div.messageInput(disabled, autofocus, contenteditable="true")
+		div.messageInput(disabled, autofocus, contenteditable="true", data-ph="Enter a message ..")
+		.info-markdown.markdown-tips
+			i.fa.fa-question-circle
 		.uploader
-	.messageInput-subline
-		.md-info
-			a.markdown-tips
-				=_('You can use ChatGrape ')
-				strong=_('Markdown')
-				=_(' to format your text')
