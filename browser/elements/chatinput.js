@@ -60,7 +60,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.complete = textcomplete(this.messageInput, qs('.autocomplete-wrapper', this.el));
 	this.complete_header = document.createElement('ul');
 	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
-	this.complete.menu.appendChild(this.complete_header);
+	this.complete.inner.insertBefore(this.complete_header, this.complete.inner.firstChild);
 
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
@@ -131,7 +131,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		}
 		self.moveCaretToEnd(self.messageInput);
 	}
-	
+
 	// if the user presses up arrow while the autocomplete is not showing
 	// then get the last loaded message of the user
 	// and prepare it for editing
