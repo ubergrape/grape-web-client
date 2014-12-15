@@ -23,6 +23,7 @@ function Navigation() {
 Navigation.prototype = Object.create(Emitter.prototype);
 
 Navigation.prototype.init = function Navigation_init() {
+	var self = this;
 	this.nav = {};
 	this.redraw();
 	this.el = this.nav.el;
@@ -40,14 +41,25 @@ Navigation.prototype.init = function Navigation_init() {
 	// compute the height of the room list area
 	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
-		var roomWrapper = roomScrollbar.wrapper.parentNode,
-		    heightDiff = pmResizable.element.scrollHeight - pmResizable._startH;
-		roomWrapper.style.height = roomWrapper.scrollHeight - heightDiff + 'px';
+		var totHeight = self.el.clientHeight,
+				orgInfoHeight = qs('.org-info', self.el).clientHeight,
+				bottomHeight = 37,
+				roomWrapper = roomScrollbar.wrapper.parentNode,
+				pmResizableHeight = pmResizable.element.clientHeight,
+				roomWrapperBottomPadding = 12;
+				
+		roomWrapper.style.height = totHeight - bottomHeight - orgInfoHeight - pmResizableHeight - roomWrapperBottomPadding + 'px';
 	}, 500);
 
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
+	
+	// need this on load too
+	resizeRoomList();
+	
+	// and on window resize
+	window.addEventListener('resize', resizeRoomList);
 };
 
 function replace(from, to) {
