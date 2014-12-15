@@ -496,26 +496,28 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 						var group = grouped_results[prop];
 						for (var j=0; j<group.length; j++) {
 							var r = group[j];
-							var type = "";
-							var title = "";
-							if (r.start) {
-								title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
-							} else {
-								type = r.service == "googledrive" ? "" : r.type;
-								title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+							if (r){
+								var type = "";
+								var title = "";
+								if (r.start) {
+									title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+								} else {
+									type = r.service == "googledrive" ? "" : r.type;
+									title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+								}
+								if (j === 0) {
+									title = '<div class="group">' + group_name + '</div>' + title;
+								}
+								self.complete.push({
+									id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+									title: title,
+									insert: r.name,
+									service: r.service,
+									type: r.type,
+									url: r.url,
+									whitespace: whitespace
+								});
 							}
-							if (j === 0) {
-								title = '<div class="group">' + group_name + '</div>' + title;
-							}
-							self.complete.push({
-								id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-								title: title,
-								insert: r.name,
-								service: r.service,
-								type: r.type,
-								url: r.url,
-								whitespace: whitespace
-							});
 						}
 					}
 				}
