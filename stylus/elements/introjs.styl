@@ -44,13 +44,25 @@
 	font-family: "Roboto", Arial, Helvetica, Geneva, sans-serif!important
 	text-shadow: none
 	color: grape-typo
+	background: none
 	&:hover
 		box-shadow: none
 		color: grape-typo
 	&.introjs-disabled
 		display: none
 	&.introjs-nextbutton
+		background: none
 		color: button-color
 		border-radius: 0
+		&:hover
+			background: silver-light
+		&:active
+			background: silver-dark
 	&.introjs-prevbutton
 		display: none
+		
+//CSS FIXES
+.introjs-helperLayer
+	background: rgba(white, .5)
+.introjs-fixParent
+	position: inherit

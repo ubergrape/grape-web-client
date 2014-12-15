@@ -18,11 +18,10 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info(id="intro-step4")
 		if room.type === 'room'
-			div
-				h1.room-grp
-					span.room-name= room.name
-					.connected-users
-						i.fa.fa-caret-down
+			h1.room-grp
+				span.room-name= room.name
+				.connected-users
+					i.fa.fa-caret-down
 		else if room.type === 'pm'
 			h1
 				span.room-name
