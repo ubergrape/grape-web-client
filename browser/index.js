@@ -196,7 +196,7 @@ UI.prototype.init = function UI_init() {
 				position: 'bottom'
 			},
 			{
-				intro: _('<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
+				intro: _('<h2>That&apos;s it! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
 			}
 		]
 	});
