@@ -20,6 +20,9 @@ var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var exports = module.exports = UI;
 
+require("startswith");
+require("endswith");
+
 // configure locales and template locals
 var template = require('template');
 template.root = 'cg/templates';
@@ -351,6 +354,21 @@ UI.prototype.bind = function UI_bind() {
 				return self.emit('selectchannel', el);
 		}
 	});
+
+	// Open certain link in the external browser in the OS X app
+	if (typeof MacGap !== 'undefined') {
+		var as, i;
+		as = qs.all('a', this.organizationMenu.el);
+		for (i = 0; i < as.length; ++i) {
+			as[i].target = '_blank';
+		}
+		as = qs.all('a', this.userMenu.el);
+		for (i = 0; i < as.length; ++i) {
+			if (as[i].href.endsWith('/accounts/settings/')) {
+				as[i].target = '_blank';
+			}
+		}
+	}
 };
 
 UI.prototype.gotHistory = function UI_gotHistory() {

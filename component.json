@@ -111,6 +111,7 @@
     "jkroso/computed-style": "*",
     "ubergrape/textcomplete": "master",
     "sk7/startswith": "master",
+    "sk7/endswith": "master",
     "matthewp/attr": "*",
     "component/tip": "*",
     "ianstormtaylor/animate": "*",
