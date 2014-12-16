@@ -379,12 +379,10 @@ App.prototype.setOrganization = function App_setOrganization(org) {
             org.custom_emojis = res.custom_emojis;
         }
         // connect users and pms
-        org.users.map(function(u) {
-            if (typeof u.pm !== 'undefined') {
-                u.pm = models.Room.get(u.pm);
-            }
-            return u;
-        });
+        org.pms.forEach(function(pm) {
+        	pm.users[0].pm = pm;
+        })
+
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
