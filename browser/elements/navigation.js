@@ -88,7 +88,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
 	function bindPm(user) {
-		if (user.pm !== null) {
+		if (user.pm !== null && typeof user.pm !== "undefined") {
 			user.pm.on('change', function() {
 				self.pmList.redraw();
 			});
