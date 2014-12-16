@@ -560,7 +560,7 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 
 UI.prototype.selectpm = function UI_selectpm(user) {
 	var self = this;
-	if (typeof user.pm == 'undefined') {
+	if (user.pm === null) {
 		self.emit('openpm', user, function() {
 			self.emit('selectchannel', user.pm);
 		});
