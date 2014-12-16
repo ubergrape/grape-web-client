@@ -6,14 +6,14 @@
 		input.user-status-submit(type="submit")
 		span.user-status-icon.online
 	ul.po-scroll-wrap
-		li
-			a(href='javascript:void(0)', class="feedback intercom", title=_("Support"))
-				i.fa.fa-bullhorn
-				=_('Give Feedback')
 		li.hide
 			a(href='#')
 				i.fa.fa-eye
 				=_('Compact View')
+		li
+			a(href='javascript:void(0)')
+				i.fa.fa-bullhorn
+				=_('Give Feedback')
 		li
 			a(href='#',onclick='ui.intro.start();')
 				i.fa.fa-life-saver
