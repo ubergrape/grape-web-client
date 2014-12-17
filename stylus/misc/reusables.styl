@@ -10,6 +10,26 @@ clearfix()
 $clearfix
 	clearfix()
 
+/*______ FUNCTIONS ______*/
+
+transition($transition)
+	-webkit-transition: $transition
+	-moz-transition: $transition
+	-o-transition: $transition
+	transition: $transition
+
+transform($string)
+	-webkit-transform: $string
+	-moz-transform: $string
+	-ms-transform: $string
+	-o-transform: $string
+	transform: $string
+
+box-shadow($shadow)
+	-webkit-box-shadow: $shadow
+	box-shadow: $shadow
+	
+
 /*______ HOVERABLE ______*/
 $hoverable, $hoverable:hover
 	cursor: pointer
