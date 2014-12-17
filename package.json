@@ -13,6 +13,7 @@
     "require-cwd": "0.0.2",
     "debug": "2.1.0",
     "rimraf": "2.2.8",
+    "remotes": "1.1.5",
     "commander": "2.5.0",
     "component": "1.0.0",
     "component-builder": "1.1.13",
