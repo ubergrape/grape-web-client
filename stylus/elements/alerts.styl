@@ -29,14 +29,15 @@ ul.alerts
 			margin-bottom: -4px
 			float: right
 			&:hover
-				background: rgba(white,.5)
+				background: rgba(white, .5)
+				
 @keyframes slideinout {
-  0%, 100% {
-    top:-30px
-  }
-  25%, 75% {
-    top:0
-  }
+	0%, 100% {
+		top:-30px
+	}
+	25%, 75% {
+		top:0
+	}
 }
 
 // Alert classes: Alerts don't have default classes, only base and modifier classes. A default gray alert doesn't make too much sense, so you're required to specify a type via contextual class. Choose from success, info, warning, or danger.
@@ -51,7 +52,8 @@ ul.alerts
 	a:hover
 		color: lighten(alert-info-color, 20%)
 	.button
-		color: color: darken(alert-info-color, 30%)
+		color: darken(alert-info-color, 30%)
+
 .alerts li.success
 	background-color: lighten(alert-success-color, 90%)
 	border-color: lighten(alert-success-color, 80%)
@@ -60,6 +62,7 @@ ul.alerts
 		color: lighten(alert-success-color, 20%)
 	.button
 		color: alert-success-color
+
 .alerts li.warning
 	background-color: lighten(alert-warning-color, 90%)
 	border-color: lighten(alert-warning-color, 80%)
@@ -68,6 +71,7 @@ ul.alerts
 		color: lighten(alert-warning-color, 20%)
 	.button
 		color: alert-warning-color
+
 .alerts li.danger
 	background-color: lighten(alert-danger-color, 90%)
 	border-color: lighten(alert-danger-color, 80%)
@@ -76,4 +80,3 @@ ul.alerts
 		color: lighten(alert-danger-color, 20%)
 	.button
 		color: darken(alert-danger-color, 30%)
-
