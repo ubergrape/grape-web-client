@@ -19,6 +19,15 @@ Title.prototype.refresh = function Title_refresh() {
 
 	var unread = this.org.rooms.reduce(sum, 0) +
 	             this.org.pms.reduce(sum, 0);
+
+	if (typeof MacGap !== "undefined") {
+		if (unread) {
+			MacGap.Dock.addBadge(unread);
+		} else {
+			MacGap.Dock.removeBadge();
+		}
+	}
+
 	if (unread)
 		title += '(' + unread + ') ';
 

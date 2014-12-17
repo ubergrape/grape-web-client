@@ -1,6 +1,5 @@
 .userpopover
 	h3=_('My settings')
-	//- #{user.username} gives "loading" here, anybody fix that please
 	span.close ×
 	form.user-status-form.hide
 		input.user-status(type="text", id="user-status", onClick="this.select();", value=_("Working on designs"))
@@ -11,6 +10,10 @@
 			a(href='#')
 				i.fa.fa-eye
 				=_('Compact View')
+		li
+			a(href='javascript:void(0)')
+				i.fa.fa-bullhorn
+				=_('Give Feedback')
 		li
 			a(href='#',onclick='ui.intro.start();')
 				i.fa.fa-life-saver

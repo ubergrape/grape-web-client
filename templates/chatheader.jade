@@ -1,6 +1,4 @@
 div
-	//-a(href='javascript:void(0)', class="feedback intercom", title=_("Support"))
-	//-	i.fa.fa-bullhorn
 	.user-menu-wrap(id='intro-step5')
 		.avatar-wrap
 			if true
@@ -22,10 +20,13 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info(id="intro-step4")
 		if room.type === 'room'
-			h1.room-grp
-				span.room-name= room.name
-				.connected-users
-					i.fa.fa-caret-down
+			div
+				h1.room-grp
+					span.room-name= room.name
+					.connected-users
+						i.fa.fa-user
+						span.sml-nr
+							| #{room.users.length}
 		else if room.type === 'pm'
 			h1
 				span.room-name
