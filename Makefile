@@ -46,12 +46,12 @@ $(OUTPUT)/app.css: $(OUTPUT)/app.js $(STYLUS_FILES)
 
 mobile: $(OUTPUT)/mobile/mobile.js $(OUTPUT)/mobile/mobile.css
 
-node_modules: package.json
+node_modules/.bin: package.json
 	npm install
 	touch node_modules
 
-components: node_modules component.json
-	./node_modules/.bin/component install --dev && \
+components: node_modules/.bin component.json
+	./node_modules/.bin/component install --timeout 15000 --dev && \
 	touch components
 
 clean:
