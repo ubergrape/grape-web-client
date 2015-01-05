@@ -460,7 +460,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 						var querySearch = data.search.text ? encodeURI(data.search.text) : '';
 						var clsstr = (!active_service) ? ' class="active"' : '';
-						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"' + clsstr + '><i class="fa fa-caret-square-o-left" data-ac="'+ querySearch +'"></i><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"' + clsstr + '><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
 						var services = {}
 
 						data.services.forEach(function(service, i){
