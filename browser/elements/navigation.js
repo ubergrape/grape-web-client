@@ -38,6 +38,12 @@ Navigation.prototype.init = function Navigation_init() {
 	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
+
+	this.pmFilterEl = qs('.filter-pms', this.el);
+	this.pmFilterEl.addEventListener('keyup', function(ev) {
+		self.pmFilter();
+	});
+
 	// compute the height of the room list area
 	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
@@ -101,6 +107,9 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			bindPm(user);
 		});
 	});
+
+	// we need this for filtering
+	self.pmList.unfiltered = self.pmList.items;
 };
 
 Navigation.prototype.select = function Navigation_select(which, item) {
@@ -137,3 +146,25 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 		}
 	};
 })();
+
+Navigation.prototype.pmFilter = function Navigation_pmFilter() {
+	var self = this;
+	var str = self.pmFilterEl.value;
+
+	console.log("filter for", str);
+
+	var filtered_items = [];
+	if (str !== '') {
+		self.pmList.unfiltered.forEach(function(item) {
+			if (item.username.startsWithIgnoreCase(str) || item.firstName.startsWithIgnoreCase(str) || item.lastName.startsWithIgnoreCase(str)) {
+				filtered_items.push(item);
+			}
+		});
+	} else {
+		filtered_items = self.pmList.unfiltered;
+	}
+
+	self.pmList.items = filtered_items;
+
+	self.redraw();
+}
