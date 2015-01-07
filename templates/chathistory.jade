@@ -57,9 +57,11 @@
 						| Private conversations are only accessible to the two of you.
 
 					if room.users[0].is_only_invited
-						p
+						p.alert-inline.warning.mar-t10
 							i.fa.fa-envelope
-							=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+							strong This user was invited to ChatGrape but hasn't joined yet.
+							br
+							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.")
 
 	- var lastDate
 	- var lastRead = true
