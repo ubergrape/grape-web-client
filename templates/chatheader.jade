@@ -41,12 +41,11 @@ div
 					i.fa.fa-user
 					|  #{remainingUsers}
 		else if room.type === 'pm'
-			h1
-				span.room-name
-					if room.users[0].is_only_invited
-						i.fa.fa-envelope
-						| 
-					if (room.users[0].firstName || room.users[0].lastName)
-						| #{room.users[0].firstName} #{room.users[0].lastName} 
-					else
-						| #{room.users[0].username}
+			h1.room-name
+				if room.users[0].is_only_invited
+					i.fa.fa-envelope
+					| 
+				if (room.users[0].firstName || room.users[0].lastName)
+					| #{room.users[0].firstName} #{room.users[0].lastName} 
+				else
+					| #{room.users[0].username}
