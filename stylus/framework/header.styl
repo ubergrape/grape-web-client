@@ -21,10 +21,11 @@
 		overflow: hidden
 		//transition: all 200ms linear
 	.room-info-wrap
-		@extend $hoverable
 		display: table-cell
 		vertical-align: middle
 		height: 42px
+		.room-menu-wrap
+			@extend $hoverable
 		h1.room-name
 			@extend $bigger-font-size
 			display: inline-block
