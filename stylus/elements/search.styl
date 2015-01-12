@@ -4,6 +4,8 @@
 	float: right
 	position: relative
 	margin-right: 20px
+	transition: all .2s ease-out
+	-webkit-transition: all .2s ease-out
 	.search
 		height: 34px
 		width: 100%
@@ -172,14 +174,10 @@ body .searching
 		transform: translateY(100%)
 		transition: transform ease 400ms
 	.room-header
-		.room-info-text, 
+		.room-info-wrap, 
 		.user-menu-wrap
-			width: 0
-			margin: 0
-			overflow: hidden
+		display: none
 		.search-form
 			width: 100% !important
-		.search
-			padding-right: 40px
 		.close
 			display: block
