@@ -36,11 +36,11 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
-			self.emit('togglemembersmenu', qs('.room-info-wrap', self.el));
+			self.emit('togglemembersmenu', qs('.room-menu-wrap', self.el));
 		}
 	});
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
-	this.events.bind('click .room-info-wrap', 'toggleMembersMenu');
+	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 	});
