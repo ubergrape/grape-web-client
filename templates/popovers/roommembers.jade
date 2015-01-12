@@ -8,6 +8,7 @@
 					a(href="/chat/@" + user.username.toLowerCase())
 						aside.avatar-wrap
 							img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
+							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 						if (user.firstName || user.lastName)
 							span.user-name #{user.firstName} #{user.lastName} 
 						else

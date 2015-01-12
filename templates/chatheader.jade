@@ -32,6 +32,7 @@ div
 						li
 							span.avatar-wrap
 								img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
+								.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 						- count++
 			if room.users.length > limitUsersTo
 				- var remainingUsers = room.users.length - limitUsersTo
