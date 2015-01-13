@@ -38,6 +38,7 @@
 		padding: 0
 		background: white
 		vertical-align: top
+		min-height: 36px
 		.messageInput
 			@extend $normal-font-size
 			position: relative
@@ -70,10 +71,9 @@
 		.messageInput-line
 			display: inline-block
 			position: absolute
-			bottom: -10px
+			bottom: 2px
 			left: 0
 			width: 100%
-			height: calc(100% - 1em)
 			pointer-events: none
 			-webkit-touch-callout: none
 			-webkit-user-select: none
@@ -88,7 +88,6 @@
 				top: 0
 				left: 0
 				width: 100%
-				height: calc(100% - 10px)
 				border-bottom: 1px solid gainsboro-light
 			&::after
 				border-bottom: 1px solid grape-light
