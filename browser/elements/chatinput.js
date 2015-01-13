@@ -30,7 +30,7 @@ function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
 	this.max_autocomplete = 12; // maximum of n items
-	//this.attachments = [];
+	this.triggerCharacter = "";
 	this.init();
 	this.bind();
 }
@@ -157,7 +157,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	// which handles all the facets menu logic
 	// it could be called FacettedTextcomplete
 	this.navigateFacets = function(options, ev) {
-		if (!self.complete.shown && self.complete_header.innerHTML == "") return;
+		if (!self.complete.shown || self.triggerCharacter != "#") return;
 		ev.preventDefault();
 		ev.stopPropagation();
 		var facets = query.all('li.facet', self.complete_header),
@@ -288,12 +288,12 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	};
 	this.complete.query = function (matches) {
 		var whitespace = matches[1];
-		var trigger_character = matches[2];
+		self.triggerCharacter = matches[2];
 		var match = matches[3];
 
 		self.complete.clear();
 
-		if (trigger_character === ':') {
+		if (self.triggerCharacter === ':') {
 			self.complete_header.innerHTML = "";
 
 			if (match[match.length-1] === ':') {
@@ -349,7 +349,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.highlight(0);
 			}
 
-		} else if (trigger_character === "@") {
+		} else if (self.triggerCharacter === "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
@@ -414,7 +414,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.show();
 				self.complete.highlight(0);
 			}
-		} else if (trigger_character === "#") {
+		} else if (self.triggerCharacter === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
 			self.emit('autocomplete', match, function autocomplete_callback(err, data){
