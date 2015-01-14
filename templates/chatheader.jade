@@ -20,8 +20,8 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
+			h1.room-name= room.name
 			.room-menu-wrap
-				h1.room-name= room.name
 				span.user-count
 					i.fa.fa-user
 					|  #{room.users.length}

@@ -27,6 +27,12 @@
 		padding-top: 3px
 		.room-menu-wrap
 			@extend $hoverable
+			@extend $clearfix
+			display: inline-block
+			&:hover
+				.user-count
+				.remaining-users
+					color: white
 		h1.room-name
 			@extend $bigger-font-size
 			float: left
@@ -62,8 +68,6 @@
 			color: gainsboro-dark
 			line-height: 34px
 			padding-left: 2px
-			&:hover
-				color: white
 		span.user-count
 			display: none
 			@media (max-width: 1024px)
