@@ -37,8 +37,11 @@
 		position: relative
 		padding: 0
 		background: white
+		vertical-align: top
+		min-height: 36px
 		.messageInput
 			@extend $normal-font-size
+			position: relative
 			min-height: 34px
 			outline: none
 			width: 100%
@@ -48,11 +51,14 @@
 			display: block
 			resize: none
 			max-height: 400px
-			overflow: auto
-			border-bottom: 1px solid gainsboro-light
+			background: transparent
+			border: none
 			border-radius: 0
+			-webkit-appearance: none; /* for box shadows to show on iOS */
+			transition: all 0.3s linear
+			cursor: text
 			&:focus
-				border-bottom: 1px solid grape-light
+				outline: none
 			&:disabled
 				background: silver-dark
 				+.uploader .upload
@@ -62,6 +68,34 @@
 			&:empty:not(:focus):before
 				content: attr(data-ph)
 				color: gainsboro-light
+		.messageInput-line
+			display: inline-block
+			position: absolute
+			bottom: 2px
+			left: 0
+			width: 100%
+			pointer-events: none
+			-webkit-touch-callout: none
+			-webkit-user-select: none
+			-khtml-user-select: none
+			-moz-user-select: none
+			-ms-user-select: none
+			user-select: none
+			&::before
+			&::after
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				width: 100%
+				border-bottom: 1px solid gainsboro-light
+			&::after
+				border-bottom: 1px solid grape-light
+				transform: translate3d(-100%, 0, 0)
+				transition: all .2s
+	.messageInput:focus + .messageInput-line::after
+	.messageInput--filled .messageInput-line::after
+		transform: translate3d(0, 0, 0)
 	.edit-message
 		@extend $small-font-size
 		color: gainsboro-dark

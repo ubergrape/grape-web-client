@@ -16,7 +16,7 @@
 	padding: 11px 30px 11px 20px
 	box-shadow: 0px 3px 2px 0px rgba(grape-dark, 0.4)
 	@extend $clearfix
-	.room-info-wrap, .avatar-wrap, .search-form
+	.room-info-wrap, .search-form
 		max-width: 100%
 		overflow: hidden
 		//transition: all 200ms linear
@@ -27,9 +27,15 @@
 		padding-top: 3px
 		.room-menu-wrap
 			@extend $hoverable
+			@extend $clearfix
+			display: inline-block
+			&:hover
+				.user-count
+				.remaining-users
+					color: white
 		h1.room-name
 			@extend $bigger-font-size
-			display: inline-block
+			float: left
 			margin: 0
 			padding-right: 8px
 			color: white
@@ -45,7 +51,8 @@
 				max-width: 180px
 		.horizontal-user-list
 			display: inline-block
-			margin: 0
+			float: left
+			margin-top: 9px
 			padding: 0
 			overflow-x: visible
 			white-space: nowrap
@@ -57,12 +64,10 @@
 				padding-bottom: 4px
 		span.user-count
 		span.remaining-users
-			position: fixed
+			float: left
 			color: gainsboro-dark
 			line-height: 34px
 			padding-left: 2px
-			&:hover
-				color: white
 		span.user-count
 			display: none
 			@media (max-width: 1024px)

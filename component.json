@@ -122,7 +122,8 @@
     "ubergrape/drop-anywhere": "master",
     "moment/moment": "2.7.0",
     "ubergrape/resizable": "master",
-    "ubergrape/moment-timezone": "master"
+    "ubergrape/moment-timezone": "master",
+    "darsain/tooltip": "master"
   },
   "development": {
     "dependencies": {
