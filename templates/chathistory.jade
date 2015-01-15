@@ -165,7 +165,7 @@
 												if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 													.text= html(markdown(obj.content))
 												else
-													span.text= obj.content
+													.text= html(escape_html(obj.content).replace(/\n/g, '<br>'))
 											if obj.summary
 												span.summary= obj.summary
 								if line.objects.length > 3

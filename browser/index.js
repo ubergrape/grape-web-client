@@ -7,6 +7,7 @@ var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
+var escape_html = require('escape-html');
 var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('staticurl');
@@ -33,6 +34,7 @@ var _ = require('t');
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
+template.locals.escape_html = escape_html;
 template.locals.markdown = require('./markdown');
 template.locals.constants = constants;
 // XXX: I really don’t want to hack in innerHTML support right now, so just
