@@ -168,7 +168,7 @@
 													.text= html(escape_html(obj.content).replace(/\n/g, '<br>'))
 											if obj.summary
 												span.summary= obj.summary
-								if line.objects.length > 3
+								if line.objects.length > 3 && line.author.id != 'jira'
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id
