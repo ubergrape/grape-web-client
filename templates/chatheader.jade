@@ -26,10 +26,12 @@ div
 					- var limitUsersTo = 5
 					- var count = 0
 					each member in room.users
+						if count < limitUsersTo
 							li
 								span.avatar-wrap
 									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
 									.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
+							- count++
 				//-script.
 				//-	var tip = new Tooltip("content");
 				//-	tip.position(100,100);
