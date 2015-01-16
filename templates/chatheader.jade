@@ -1,10 +1,7 @@
 div
 	.user-menu-wrap(id='intro-step5')
 		.avatar-wrap
-			if true
-				span.online
-			else
-				span.offline
+			span.online
 			img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
 				.avatar-status(class='online')
 		span.user-name
@@ -28,12 +25,12 @@ div
 				ul.horizontal-user-list
 					- var limitUsersTo = 5
 					- var count = 0
-					each user in room.users
+					each member in room.users
 						if count < limitUsersTo
 							li
 								span.avatar-wrap
-									img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
-									.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+									.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
 							- count++
 				//-script.
 				//-	var tip = new Tooltip("content");
