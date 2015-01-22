@@ -16,16 +16,21 @@ ul.po-scroll-wrap
 				.main
 					.name=room.name
 					ul.room-info
-						if room.creator
-							li.creator
-								=_('by ')
-								=room.creator.username
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
+						if room.creator
+							li.creator
+								=_('created by ')
+								if (room.creator.firstName || room.creator.lastName)
+									span.user-name
+										| #{room.creator.firstName} 
+										| #{room.creator.lastName} 
+								else
+									span.user-name= room.creator.username
 	li.list-hl.mar-t10
 		hr.mar-b10
-		h4=_("Rooms you have currently joined")
+		h4=_("Rooms you have already joined")
 	each room in items
 		if room.joined
 			li.item.room(data-id=room.id, key=room.id)
@@ -42,11 +47,15 @@ ul.po-scroll-wrap
 				.main
 					.name=room.name
 					ul.room-info
-						if room.creator
-							li.creator
-								=_('by ')
-								=room.creator.username
 						li.users
 							i.fa.fa-user
 							|  #{room.users.length}
-
+						if room.creator
+							li.creator
+								=_('created by ')
+								if (room.creator.firstName || room.creator.lastName)
+									span.user-name
+										| #{room.creator.firstName} 
+										| #{room.creator.lastName} 
+								else
+									span.user-name= room.creator.username
