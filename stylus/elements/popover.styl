@@ -342,42 +342,37 @@ label.radio-label
 // ****
 .roommemberspopover
 	width: 320px
-	input[type="text"]
-		@extend $textinput
-		width: 100%
-
-.delete-room
-	float: right
-	@extend $delete-link
-.invite-to-room
-	@extend $clearfix
-	> div
-		overflow: hidden
-	button
-		float: right
-		margin-left: 5px
-		.icon
-			color: grape-typo
-//
-// Invite users stylings
-//
-// FIXME: https://github.com/ubergrape/chatgrape/issues/573#issuecomment-47516977
-//
-.popover
-	hr
-		width: 100%
 	.input-invite
+		@extend $textinput
 		width: 100%
 		height: 34px
 		overflow: hidden
 		padding: 5px 10px
+		resize: vertical
 	.btn-invite
 		display: block
 		float: right
 	.invite-to-room
+		@extend $clearfix
+		.Textcomplete-hidden
+			display: none
 		.autocomplete-wrapper
 			margin: 0
+			top: -42px
 			.autocomplete
 				position: relative
-				top: -4px
+				max-height: 150px
+		button
+			float: right
+			margin-left: 5px
+			.icon
+				color: button-color
+	.delete-room
+		//float: right
+		display: none // NEED A STYLING HERE
+		@extend $delete-link
+
+
+
+	
 	
