@@ -38,6 +38,12 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 Notifications.prototype.newMessage = function Notifications_newMessage(message) {
 	var self = this;
 
+	// don't show messages younger than 60 seconds
+	// this is a hack to prevent flooding of messages when server reloads
+	// also, prevents old messages from popping up when device resumes from standby
+	var timediff = new Date() - message.time; // UTC time difference in ms
+	if (timediff/1000 > 60) return;
+
 	// don't show chat messages from myself
 	// TODO: don't directly reference ui here!!
 	if (message.author == ui.user) return;
