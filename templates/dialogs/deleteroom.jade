@@ -14,7 +14,10 @@ else
 		p=_("Sorry, you can't delete ") + room.name + _(". You need to be either owner or admin of ") + org.name + _(" or the creator of this room to delete it.")
 		p
 			=_("This room was created by ")
-			a.user(href="/chat/@" + room.creator.username)=room.creator.username
-			=_("You can kindly ask him to delete this room.")
+			if (room.creator.firstName || room.creator.lastName)
+				a.creator-name(href="/chat/@" + room.creator.username)="@" + room.creator.firstName + " " + room.creator.lastName
+			else
+				a.creator-name(href="/chat/@" + room.creator.username)="@" + room.creator.username
+			=_(". You can kindly ask him to delete it for you.")
 	else
 		p=_("Sorry, this room can't be deleted.")
