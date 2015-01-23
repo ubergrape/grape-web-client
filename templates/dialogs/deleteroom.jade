@@ -1,7 +1,6 @@
 if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === constants.ROLE_OWNER)
-	h3=_("you are about to delete ") + room.name
-
-	p=_("Please enter your password to continue!")
+	h3=_("Delete ") + room.name
+	p=_("Please enter your password to continue.")
 	hr
 	form.delete-room-form
 		.formrow
@@ -10,8 +9,8 @@ if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === c
 		hr
 		input.button.delete(type="submit", name="submit", value=_('Delete') + " " + room.name)
 else
-	h3=_("Sorry, you can't delete ") + room.name
-	p=_(" You need to be either owner of ") + org.name + _(" or creater of the room ") + room.name + _(". You can ask them if they can delete the room for you:")
+	h3=_("Delete ") + room.name
+	p=_("Sorry, you can't delete ") + room.name + _(". You need to be either owner of ") + org.name + _(" or creater of the room ") + room.name + _(". You can ask them if they can delete the room for you:")
 	hr
 	p
 		=_("Owner of ") + org.name + ":"

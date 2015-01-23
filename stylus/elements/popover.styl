@@ -342,6 +342,7 @@ label.radio-label
 // ****
 .roommemberspopover
 	width: 320px
+	margin-bottom: -24px // hack needed for delete-room alignment
 	.input-invite
 		@extend $textinput
 		width: 100%
@@ -368,8 +369,8 @@ label.radio-label
 			.icon
 				color: button-color
 	.delete-room
-		//float: right
-		display: none // NEED A STYLING HERE
+		position: relative
+		bottom: 32px
 		@extend $delete-link
 
 
