@@ -555,7 +555,7 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.warning(_('Lost Connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+		this._connErrMsg = this.messages.warning(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
 };
 
@@ -573,7 +573,7 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
 
-	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
+	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
