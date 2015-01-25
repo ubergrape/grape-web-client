@@ -1,9 +1,6 @@
 #dialog, .dialog
-	height: 80%
 	background: none
 	border: none
-	top: 10%
-	max-width: 750px
 	.content
 		background: white
 		padding: 15px
@@ -14,8 +11,9 @@
 		transition: opacity 500ms
 		max-width: 100%
 		white-space: normal
-		position: relative
-		height: 100%
+		position: fixed
+		left: 25%
+		right: 25%
 		.body
 			overflow: auto
 			position: relative
@@ -47,6 +45,13 @@
 		margin-top: 12px
 		.delete
 			@extend .button-delete
+	a.creator-name
+		@extend $hoverable
+		color: link-color
+		text-decoration: none
+		border-bottom: 1px solid link-color
+		margin: 1px
+		padding: 1px 0
 	table, td
 		vertical-align: top
 	table

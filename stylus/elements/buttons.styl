@@ -1,69 +1,155 @@
 .nav-button
 .new
 .toggle
+button
 	outline: none
-.button // used in popovers
-	background: grape-light
-	border: 1px solid grape-light
-	border-radius: main-border-radius-small
-	box-shadow: 0px 3px grape-dark
-	color: white !important
-	padding: 4px 14px
+	background: none
+
+.button
+	color: button-color
+	padding: 10px 15px // must be the same as waves-button
 	outline: none
 	text-decoration: none !important
-	break-word: keep-all
+	text-transform: uppercase
+	border: none
+	border-radius: main-border-radius
+	background: none
+	font-weight: bold
 	.icon
 		color: white
 		width: 20px
 		text-align: right
 	&:hover
-		background: lighten(grape-light, 5%)
+		background: rgba(silver-dark, .7)
 	&:active
-		background: lighten(grape-light, 10%)
-		margin-bottom: -1px
-		margin-top: 1px
-		box-shadow: 0px 2px grape-dark
-	&:disabled
 		background: silver-dark
+	&:disabled
 		color: gainsboro-light !important
-		box-shadow: 0px 3px gainsboro-light !important
-		border-color: gainsboro-light !important
+	&.raised // RAISED BUTTON STYLE
+		box-shadow: 0px 2px 5px 0px rgba(gainsboro-dark, 0.75)
+		background: silver-dark
+		color: grape-typo
+		i
+			color: grape-light
+		&:hover
+			color: grape-typo
+			background: darken(silver-dark, 5%)
+		&:active
+			box-shadow: 0px 5px 10px 0px rgba(gainsboro-dark, 0.75)
 
 .button-delete
-	@extend .button
-	background: bittersweet-light
-	border: 1px solid bittersweet-light
-	box-shadow: 0px 3px bittersweet-dark
-	&:hover
-		background: lighten(bittersweet-light, 5%)
-	&:active
-		background: lighten(bittersweet-light, 10%)
-		box-shadow: 0px 2px bittersweet-dark
+	color: bittersweet-dark
+
 .button-small
 	@extend .button
 	@extend $small-font-size
 	padding: 3px 7px
+
 .button-inset // used in left navigation
 	@extend .button-small
-	font-weight: bold
+	box-shadow: none
 	border: none
-	background: darken(jet, 25%)
+	background: grape-light
 	margin-top: -3px
-	border-radius: main-border-radius-small
-	box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
-	color: gainsboro-dark !important
+	color: white
 	&:hover, a:hover &
-		color: gainsboro-light !important
-		background: jet
+		background: darken(grape-light, 20%)
 	&:active
-		margin-top: -3px
-		margin-bottom: 0
-		color: gainsboro-light !important
-		background: jet
-		box-shadow: 0px 1px 0px lighten(jet, 15%), 0px 1px 0px darken(jet, 35%) inset
+		background: darken(grape-light, 20%)
+
 .btn-icon
 	padding-left: 7px
 	padding-right: 7px
 	.icon
 		text-align: center
+
+.waves-effect
+	position: relative
+	cursor: pointer
+	display: inline-block
+	overflow: hidden
+	-webkit-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+	-webkit-tap-highlight-color: transparent
+	transition(all 0.3s ease-out)
+	.waves-ripple
+		position: absolute
+		border-radius: 50%
+		width: 100px
+		height: 100px
+		opacity: 0
+		background-color: rgba(0, 0, 0, 0.2)
+		transition(all 0.5s ease-out)
+		transform(scale(0))
+	&.waves-light .waves-ripple
+		background-color: rgba(255, 255, 255, 0.4)
+
+.waves-notransition
+	-webkit-transition: none !important
+	-moz-transition: none !important
+	-o-transition: none !important
+	transition: none !important
+
+.waves-button,
+.waves-circle
+	-webkit-transform: translateZ(0)
+	-webkit-image-mask: -webkit-radial-gradient(circle, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))
+
+.waves-button,
+.waves-button:hover,
+.waves-button:visited,
+.waves-button:link,
+.waves-button-input
+	white-space: nowrap
+	vertical-align: middle
+	cursor: pointer
+	border: none
+	outline: none
+	background: transparent
+	color: inherit
+	font-size: 14px
+	text-align: center
+	text-decoration: none
+	z-index: 1
+
+.waves-button
+	padding: 10px 15px
+	border-radius: main-border-radius
+
+.waves-button-input
+	margin: 0
+	padding: 10px 15px
+
+.waves-input-wrapper
+	border-radius: main-border-radius
+	vertical-align: bottom
+	&.waves-button
+		padding: 0
+	.waves-button-input
+		position: absolute
+		top: 0
+		left: 0
+		z-index: 1
+
+.waves-circle
+	text-align: center
+	width: 2.5em
+	height: 2.5em
+	line-height: 2.5em
+	border-radius: 50%
+
+.waves-float
+	-webkit-mask-image: none
+	box-shadow: 0px 1px 1.5px 1px rgba(0, 0, 0, 0.12)
+	&:active
+		box-shadow: 0px 8px 20px 1px rgba(0, 0, 0, 0.3)
+
+.waves-block
+	display: block
+
+/* Firefox Bug: link not triggered */
+a.waves-effect .waves-ripple
+	z-index: -1*1
 

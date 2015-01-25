@@ -30,7 +30,7 @@ function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
 	this.max_autocomplete = 12; // maximum of n items
-	//this.attachments = [];
+	this.triggerCharacter = "";
 	this.init();
 	this.bind();
 }
@@ -57,7 +57,11 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	this.events.obj.toggleMarkdownTips = this.toggleMarkdownTips.bind(this);
 	this.events.bind('click .markdown-tips', 'toggleMarkdownTips');
 
-	this.complete = textcomplete(this.messageInput, qs('.autocomplete', this.el));
+	this.complete = textcomplete(this.messageInput, qs('.autocomplete-wrapper', this.el));
+	this.complete_header = document.createElement('ul');
+	this.complete_header.setAttribute('class', 'autocomplete-filter-menu')
+	this.complete.inner.insertBefore(this.complete_header, this.complete.inner.firstChild);
+
 
 	// XXX: textcomplete uses `keydown` to do the completion and calls
 	// `stopPropagation()`. But inputarea uses `keyup` to trigger an input.
@@ -82,12 +86,59 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 		then bind each event looping
 	*/
 	this.messageInput.addEventListener('keydown', function(ev) {
-		// if the user presses up arrow while the autocomplete is not showing
-		// then get the last loaded message of the user
-		// and prepare it for editing
-		// check for attachments since it is not possible to 
-		// edit attachments
-		if (!self.complete.shown && ev.keyCode == 38 && this.innerText.length == 0) {
+		switch (ev.keyCode) {
+			case 37:
+				var options = {};
+				options.direction = 'left';
+				self.navigateFacets(options, ev);
+				return;
+			case 38:
+				self.prepareForEditing.call(this);
+				return;
+			case 39:
+				var options = {};
+				options.direction = 'right';
+				self.navigateFacets(options, ev);
+				return;
+		}
+	});
+
+	this.complete_header.addEventListener('click', function(e){
+		var value = ' #' + decodeURI(e.target.getAttribute('data-ac'));
+		self.update_autocomplete(value);
+		self.complete.hide();
+	});
+
+	this.update_autocomplete = function(value){
+		var complete = this.complete;
+		if (complete.is_textarea) {
+			var el = complete.el;
+			var text = el.value;
+			var index = el.selectionEnd;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text = start + text.slice(index);
+			el.value = new_text;
+			el.setSelectionRange(start.length, start.length)
+		} else {
+			var node = complete.focusNode;
+			var index =  complete.focusOffset;
+			var text = node.nodeValue;
+			var start = text.slice(0, index)
+				.replace(complete.re, value);
+			var new_text =  start + text.slice(index);
+			node.textContent = new_text;
+		}
+		self.moveCaretToEnd(self.messageInput);
+	}
+
+	// if the user presses up arrow while the autocomplete is not showing
+	// then get the last loaded message of the user
+	// and prepare it for editing
+	// check for attachments since it is not possible to
+	// edit attachments
+	this.prepareForEditing = function() {
+		if (!self.complete.shown && this.textContent.length == 0) {
 			var ascendingHistory = self.room.history.slice();
 			ascendingHistory.reverse();
 			ascendingHistory.some(function(msg) {
@@ -100,7 +151,35 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				return false;
 			});
 		}
-	});
+	};
+
+	// TODO: we SO need a subclass of Textcomplete
+	// which handles all the facets menu logic
+	// it could be called FacettedTextcomplete
+	this.navigateFacets = function(options, ev) {
+		if (!self.complete.shown || self.triggerCharacter != "#") return;
+		ev.preventDefault();
+		ev.stopPropagation();
+		var facets = query.all('li.facet', self.complete_header),
+				limit = (options.direction == 'left') ? 0 : facets.length - 1,
+				activeFacet = query('a.active', self.complete.header).parentElement,
+				activeFacetPos;
+		for (var i = 0; i < facets.length; ++i) {
+			if (facets[i] == activeFacet) {
+				activeFacetPos = i;
+				break;
+			}
+		}
+		if (activeFacetPos == limit) return;
+		(options.direction == 'left') ? activeFacetPos-- : activeFacetPos++;
+		activeFacet = facets[activeFacetPos];
+		self.update_autocomplete(" #" + decodeURI(activeFacet.children[0].getAttribute('data-ac')));
+		// we need to manually trigger the match of the complete
+		// because right and left are normally ignored (see ignore list in the Textcomplete component)
+		self.complete.match();
+		self.complete.hide()
+	};
+
 
 	// hook up the input
 	this.input = inputarea(this.messageInput);
@@ -209,12 +288,14 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 	};
 	this.complete.query = function (matches) {
 		var whitespace = matches[1];
-		var trigger_character = matches[2];
+		self.triggerCharacter = matches[2];
 		var match = matches[3];
 
 		self.complete.clear();
 
-		if (trigger_character === ':') {
+		if (self.triggerCharacter === ':') {
+			self.complete_header.innerHTML = "";
+
 			if (match[match.length-1] === ':') {
 				// match without ':' at the end
 				match = match.substr(1, match.length-1);
@@ -268,12 +349,15 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.highlight(0);
 			}
 
-		} else if (trigger_character === "@") {
+		} else if (self.triggerCharacter === "@") {
 			// show users and rooms, we have them locally.
 			// naive search: loop through all of them,
 			// hopefully there are not too many
 
 			// TODO don't use global vars
+
+			self.complete_header.innerHTML = "";
+
 			var users = app.organization.users;
 			var search = match;
 			for (var i=0; i<users.length; i++) {
@@ -330,37 +414,135 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 				self.complete.show();
 				self.complete.highlight(0);
 			}
-
-		} else if (trigger_character === "#") {
+		} else if (self.triggerCharacter === "#") {
 			// send autocomplete request to server, we don't have the data locally
 
-			self.emit('autocomplete', match, function autocomplete_callback(err, result){
-				for (var i=0; i<result.length; i++) {
-					if (self.complete.options.length >= self.max_autocomplete)
-						break;
-					var r = result[i];
-					var type = "";
-					var title = "";
-					if (r.start) {
-						title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
-					} else {
-						type = r.service == "googledrive" ? "" : r.type;
-						title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+			self.emit('autocomplete', match, function autocomplete_callback(err, data){
+				if (!data || !data.results) {
+					self.complete_header.innerHTML = "";
+					self.complete.hide();
+					return;
+				}
+
+				if (data.search.type == 'external'){
+					/*
+					External search is here!
+					 */
+					data.results.forEach(function(r, i){
+						if (r.embeddable) {
+							self.complete.push({
+								id: "![" + r.url + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						} else {
+							self.complete.push({
+								id: "[" + r.title + "](" + r.url + ")",
+								title: r.title,
+								insert: r.title,
+								url: r.url,
+								whitespace: whitespace
+							});
+						}
+
+					})
+					if (self.complete.options.length > 0) {
+						self.complete.show();
+						self.complete.highlight(0);
 					}
-					self.complete.push({
-						id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
-						title: title,
-						insert: r.name,
-						service: r.service,
-						type: r.type,
-						url: r.url,
-						whitespace: whitespace
-					});
+					return;
+				};
+
+				if (data.services){
+						var active_service = (data.search.type == 'service') ? data.search.service : null;
+
+						var querySearch = data.search.text ? encodeURI(data.search.text) : '';
+						var clsstr = (!active_service) ? ' class="active"' : '';
+						var facet_header = '<li class="facet" ><a href="javascript:void(0);" data-ac="'+ querySearch +'"' + clsstr + '><span class="facet-all" data-ac="'+ querySearch +'">All</span></a></li>';
+						var services = {}
+
+						data.services.forEach(function(service, i){
+							services[service.name] = {
+								count: service.count,
+								results: [],
+							}
+							var clsstr = (service.key == active_service) ? ' class="active"' : '';
+							facet_header +='<li class="facet service"><a href="javascript:void(0);" data-ac="' + encodeURI(service.search) + '"' + clsstr + '>' + service.label + ' (' + service.count + ')</li>'
+						})
+					self.complete_header.innerHTML = facet_header;
+				} else {
+					self.complete_header.innerHTML = "";
+				}
+
+				var results = data.results;
+
+				var grouped_results = {};
+
+				grouped_results['Top Result'] = [];
+				grouped_results['Top Result'].push(results.shift());
+
+				results.forEach(function(result){
+					if (typeof grouped_results[result.service] === 'undefined') {
+						grouped_results[result.service] = [];
+					}
+					grouped_results[result.service].push(result);
+				});
+
+				for (var prop in grouped_results) {
+					if(grouped_results.hasOwnProperty(prop)){
+						var group_name = prop;
+						var group = grouped_results[prop];
+						for (var j=0; j<group.length; j++) {
+							var r = group[j];
+							if (r){
+								var type = "";
+								var title = "";
+								if (r.start) {
+									title = '<div class="entry-type-description">' + r.service + ' ' + r.type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em><time datetime="' + r.start + '">' + moment(r.start).format('lll') + '</time></div>';
+								} else {
+									type = r.service == "googledrive" ? "" : r.type;
+									title = '<div class="entry-type-description">' + r.service + ' ' + type + '</div>' + '<div class="option-wrap"><span class="entry-type-icon service-' + r.service + ' type-' + r.service + r.type +'"></span>' + r.highlighted + ' <em class="entry-additional-info">' + r.container + '</em></div>';
+								}
+								if (j === 0) {
+									title = '<div class="group">' + group_name + '</div>' + title;
+								}
+								self.complete.push({
+									id: "[" + r.name + "](cg://" + r.service + "|" + r.type + "|" + r.id + "|" + r.url + "||)",
+									title: title,
+									insert: r.name,
+									service: r.service,
+									type: r.type,
+									url: r.url,
+									whitespace: whitespace
+								});
+							}
+						}
+					}
+				}
+
+				if (data.search.queries) {
+					data.search.queries.forEach(function(r, i){
+						var title = '<div class="option-wrap"><span class="entry-type-icon service-query type-query"></span>Search '+ r.name +'<em class="entry-additional-info">#' + r.query + '</em></div>';
+						if ( i == 0) {
+							title = '<div class="group" >Queries</div>' + title;
+						}
+						self.complete.push({
+							id: r.id,
+							title: title,
+							insert: ' #' + r.query,
+							whitespace: whitespace,
+							type: 'query'
+						})
+					})
 				}
 
 				if (self.complete.options.length > 0) {
 					self.complete.show();
 					self.complete.highlight(0);
+				} else {
+					self.complete.hide();
 				}
 			});
 		}

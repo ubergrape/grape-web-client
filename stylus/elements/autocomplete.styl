@@ -8,69 +8,68 @@
 	position: relative
 	margin-left: 46px
 	margin-right: 30px
+	transition: opacity .2s ease-out, bottom .2s ease-out, height .2s ease-out
+	-webkit-transition: opacity .2s ease-out, bottom .2s ease-out, height .2s ease-out
+	&.Textcomplete-hidden
+		bottom: -10px
+		opacity: 0
 	.autocomplete
+		position: relative
+		overflow: auto
+		overflow-x: hidden
+		max-height: 392px
+	.Textcomplete-inner
+		position: absolute
 		bottom: 0px
 		width: 100%
 		background: white
 		padding: 0
 		border: 1px solid gainsboro-light
-		border-radius: 5px
-		background-clip: border-box
-		overflow: hidden
-		box-shadow: 0px 4px 10px -1px rgba(33,32,34,0.5)
-		max-height: 422px
-		.Textcomplete-menu
-			div:first-of-type
-				border-radius: 5px 5px 0 0
-				.entry-type-description
-					border-radius: 5px 0 0 0
-			div:last-of-type
-				border-radius: 0 0 5px 5px
-				.entry-type-description
-					border-radius: 0 0 0 5px
+		border-radius: 0
+		box-shadow: 0px 3px 4px 0 rgba(grape-typo, .5)
+		z-index: 200
 		.entry-type-description
-			float: left
-			text-transform: uppercase
-			color: gainsboro-dark
-			min-width: 100px
-			text-align: right
-			border-right: 1px solid silver-dark
-			background: silver-light
-			padding: 6px 6px
-			@extend $small-font-size
-			line-height: inherit
+			display: none
 		.option-wrap
 			overflow: hidden
-			padding: 6px 10px
+			padding: 5px 10px 10px
 			height: 30px
+			color: grape-typo
+			@extend $ellipsis
 			&.full_name_true
 				em
-					color: lighten(gainsboro-dark, 10%)
-					@extend $small-font-size
-		&.Textcomplete-hidden
-			display: none
+					display: none
+			&.full_name_false
+				em
+					margin-left: -3px
 		.Textcomplete-headline
+		.group
 			background: silver-dark
 			@extend $small-font-size
 			padding: 4px 8px
 			text-transform: uppercase
+			color: gainsboro-dark
+			padding-top: 10px
 		.Textcomplete-option
 			padding: 0
 			@extend $clearfix
-			font-weight: bold
-			color: darken(gainsboro-dark, 20%)
 		.entry-additional-info
-			color: gainsboro-dark
+			color: gainsboro-light
+			font-size: 10px
+			margin-left: 7px
 		time
 			text-transform: uppercase;
 			padding: 0 8px;
 			@extend $small-font-size
 		.entry-type-icon
+			color: #B9B7BB
 			&:after
 				margin-left: 0
 		.Textcomplete-highlighted
 			background: grape-light
 			color: white
+			.option-wrap
+				color: white
 			.full_name_true em,
 			.entry-additional-info
 				color: lighten(grape-light, 30)
@@ -78,7 +77,83 @@
 				background: grape-dark
 				border-color: darken(grape-dark, 5)
 				color: lighten(grape-light, 15)
-
+		&.external
+			.autocomplete-filter-menu
+				background: #3A4160
+			.powered-by-facet
+				float: right
+				color: #7A7586
+				@extend $small-font-size
+				.powered-by-link
+					padding: 8px 16px 8px 0
+	.autocomplete-filter-menu
+		border-radius: 0
+		margin: 0
+		padding: 0
+		overflow-x: visible
+		white-space: nowrap
+		background: room-header-background
+		z-index: 4;
+		position: relative;
+		li
+			display: inline-block
+			list-style-type: none
+			transition: all 0.3s
+		a
+			@extend .button
+			text-decoration: none
+			color: rgba(white, .5)
+			display: inline-block
+			position: relative
+			padding: 8px 16px 8px
+			@extend $small-font-size
+			text-transform: uppercase
+			font-weight: bold
+			&:hover
+				background: lighten(room-header-background, 10%)
+			i
+				margin-right: 5px
+				transition: all 400ms
+				margin-left: 0
+				opacity: 1
+			&.active
+				background: grape-light
+				color: white
+				i
+					margin-left: -14px
+					opacity: 0
+			&.active:after
+				top: 100%
+				left: 50%
+				border: solid transparent
+				content: " "
+				height: 0
+				width: 0
+				position: absolute
+				pointer-events: none
+				border-color: transparent
+				border-top-color: grape-light
+				border-width: 6px
+				margin-left: -6px
+	.Textcomplete-message
+		padding: 15px 12px
+		background: silver-dark
+		text-align: center
+		border-bottom: 2px solid lighten(grape-typo, 10%)
+		em
+			font-style: italic
+		h3
+			color: gainsboro-dark
+			font-weight: bold
+		&.info, &.info h3
+			background-color: lighten(alert-info-color, 70%)
+			color: darken(alert-info-color, 30%)
+			a
+				color: grape-light
+		&.loading
+			padding: 100px 12px
+			background: #fff
+			border: none
 // ****
 // FOR SMALL USER INVITE DROPDOWN
 // ****
@@ -98,23 +173,20 @@
 body
 	.ac
 		white-space: nowrap
-		border-bottom: 1px solid aqua-light
-		// box-shadow: 0px 1px 2px 0px #ddd
+		border-bottom: 1px solid link-color
 		display: inline-block
 		margin: 1px
 		padding: 1px 0
 		vertical-align: baseline
-		font-weight: bold
-		// color: grape-light
 	a.ac:hover
 		text-decoration: none
-		border-color: aqua-light !important
+		border-color: link-color !important
 	&:hover
 		text-decoration: none
 .entry-type-icon, .ac:before
 	display: inline
 	font-family: FontAwesome
-	margin-right: 3px
+	margin-right: 6px
 	font-weight: normal
 .type-label
 	&:before
@@ -125,7 +197,8 @@ body
 .type-trellocard
 	&:before
 		content: "\f181"
-.type-calendar
+.type-calendar,
+.type-gcalevent
 	&:before
 		content: "\f073"
 .type-googledrivefile
@@ -137,6 +210,9 @@ body
 .type-chatgraperoom
 	&:before
 		content: "\f086"
+.type-query
+	&:before
+		content: "\f002"
 .type-emojiemoji
 	display: none
 
@@ -158,10 +234,13 @@ body
 .messageInput
 	.ac
 		border: 1px solid link-color
-		padding: 1px 5px
+		padding: 0 5px
 		background: white
-		border-radius: main-border-radius-small
+		border-radius: 0
 		color: link-color
+		height: 20px
+		margin-top: -1px
+		margin-bottom: -1px
 		span
 			float: left
 			margin-right: 0
@@ -169,6 +248,8 @@ body
 			border: none
 			padding: 0
 			margin: 0
+			height: 19px!important
+			margin-top: -2px
 	span.type-chatgraperoom,
 	span.type-chatgrapeuser
 		display: none

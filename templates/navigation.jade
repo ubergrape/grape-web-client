@@ -2,16 +2,16 @@ div.navigation
 	nav.navigation
 		.org-info
 			a.logo
-				i.fa.fa-cog
 				img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
 				span.name=org.name
+				i.fa.fa-caret-down
 		.preloader.hide
 			div
 				h3
 					=_('Loading')
 		div(id='intro-step2', class='room-list')
 			a.nav-title-wrap.addroom
-				div.nav-button.button-inset=_('All rooms')
+				div.nav-button.button-inset=_('Manage rooms')
 				h2.nav-title=_('Rooms')
 			ul.nav-list.rooms
 			a.nav-title-wrap.addlabel
@@ -19,11 +19,7 @@ div.navigation
 				h2.nav-title=_('Labels')
 			ul.nav-list.labels
 		div(id="intro-step3", class='pm-list')
-			a.nav-title-wrap.addpm
-				h2.nav-title=_('Private Messages')
-			ul.nav-list.allpms
-				li
-					ul.pms
-				li
-					ul.inactivepms
-		input.filter-pms(type="filter", name="filter-input", placeholder=_("Search Users"))
+			.nav-title-wrap.addpm
+				h2.nav-title=_('Private messages')
+			ul.nav-list.pms
+		input.filter-pms(type="filter", name="filter-input", placeholder=_("Search users"))

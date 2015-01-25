@@ -7,18 +7,21 @@ var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
 var domify = require('domify');
+var escape_html = require('escape-html');
 var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
 var constants = require('cglib').constants;
-var tip = require('tip');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var exports = module.exports = UI;
+
+require("startswith");
+require("endswith");
 
 // configure locales and template locals
 var template = require('template');
@@ -31,6 +34,7 @@ var _ = require('t');
 _.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
+template.locals.escape_html = escape_html;
 template.locals.markdown = require('./markdown');
 template.locals.constants = constants;
 // XXX: I really don’t want to hack in innerHTML support right now, so just
@@ -79,11 +83,11 @@ UI.prototype.init = function UI_init() {
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),
-		username: "loading"
+		username: "Loading"
 	};
 	template.locals.org = {
 		logo: staticurl("images/orga-image-load.gif"),
-		name: "loading"
+		name: "Loading"
 	};
 
 	this.el = v.toDOM(template('index.jade'));
@@ -196,7 +200,7 @@ UI.prototype.init = function UI_init() {
 				position: 'bottom'
 			},
 			{
-				intro: _('<h2>All done! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
+				intro: _('<h2>That&apos;s it! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
 			}
 		]
 	});
@@ -229,8 +233,7 @@ UI.prototype.bind = function UI_bind() {
 	// bind navigation events
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
-	broker(navigation, 'selectinactivepm', this, 'selectinactivepm');
-	broker.pass(navigation, 'selectpm', this, 'selectchannel');
+	broker(navigation, 'selectpm', this, 'selectpm');
 	// broker(navigation, 'addpm', this.addPM, 'toggle');
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
@@ -352,6 +355,21 @@ UI.prototype.bind = function UI_bind() {
 				return self.emit('selectchannel', el);
 		}
 	});
+
+	// Open certain link in the external browser in the OS X app
+	if (typeof MacGap !== 'undefined') {
+		var as, i;
+		as = qs.all('a', this.organizationMenu.el);
+		for (i = 0; i < as.length; ++i) {
+			as[i].target = '_blank';
+		}
+		as = qs.all('a', this.userMenu.el);
+		for (i = 0; i < as.length; ++i) {
+			if (as[i].href.endsWith('/accounts/settings/')) {
+				as[i].target = '_blank';
+			}
+		}
+	}
 };
 
 UI.prototype.gotHistory = function UI_gotHistory() {
@@ -369,11 +387,6 @@ UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
 UI.prototype.showSearchResults = function() {
 	classes(this.el).add('searching');
 };
-
-UI.prototype.selectinactivepm = function UI_selectinactivepm(user) {
-	var self = this;
-	self.emit('openpm', user, function(pm) { self.emit('selectchannel', pm); });
-}
 
 UI.prototype.hideSearchResults = function() {
 	classes(this.el).remove('searching');
@@ -409,15 +422,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	// the second el of the users array in the pms model is always the pm partner
-	// so we look for people with whom...
-	var pmPartners = new Array();
-	org.pms.forEach(function(el) { pmPartners.push(el.users[0]) });
-
-	//... and we get the ones we haven't opened a conversation with...
-	var inactivePms = org.users.filter(function(user) { return pmPartners.indexOf(user) == -1 && user != self.user; });
-	
-	var pms = org.pms;
+	var pms = org.users.filter(function(user) {
+		if (user == self.user) return false;
+		return true;
+	});
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
 	//		{id: 2, username: 'Leo Fasbender', status: 0},
@@ -435,14 +443,11 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.navigation.setLists({
 		rooms: rooms,
 		pms: pms,
-		labels: labels,
-		inactivepms: inactivePms
+		labels: labels
 	});
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	pms.on('add', refreshPms);
 
 	// update logo
 	// XXX: is this how it should be done? I guess not
@@ -453,13 +458,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
 	this.selectChannelFromUrl();
-	
-	function refreshPms(pm) {
-		var newPmPartner = inactivePms.indexOf(pm.users[0]);
-		inactivePms.splice(newPmPartner, 1);
-		self.navigation.inactivepmList.setItems(inactivePms);
-		self.navigation.pmList.setItems(pms);
-	}
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -538,34 +536,26 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 	// this will actually return a channel or a user
 	var channel = self.channelFromURL(path);
 
+	function addlistener(pm) {
+		if (pm.users[0] !== channel) return;
+		self.org.pms.off('add', addlistener);
+		self.emit('selectchannel', pm);
+	}
+
 	if (channel) {
 		if (channel.type === "room") {
 			if (!channel.joined)
 				self.emit('joinroom', channel);
 			self.emit('selectchannel', channel);
 		} else {
-			var user = channel;
-			var pm = self.getUserPm(user);
-			if (!pm)
-				self.selectinactivepm(user);
-			else
-				self.emit('selectchannel', pm);
+			self.selectpm(channel);
 		}
-	}
-};
-
-UI.prototype.getUserPm = function UI_getUserPm(user) {
-	for (var i = 0; i < this.org.pms.length; i++) {
-		var pm = this.org.pms[i];
-		var pmuser = pm.users[0];
-		if (pmuser === user)
-			return pm;
 	}
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.warning(_('Lost Connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+		this._connErrMsg = this.messages.warning(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
 };
 
@@ -583,6 +573,17 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
 
-	var msg = this.messages.success(_('Deleted room "' + room.name + '" successfully'));
+	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.selectpm = function UI_selectpm(user) {
+	var self = this;
+	if (user.pm === null) {
+		self.emit('openpm', user, function() {
+			self.emit('selectchannel', user.pm);
+		});
+	} else {
+		self.emit('selectchannel', user.pm);
+	}
+}

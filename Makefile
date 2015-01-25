@@ -24,7 +24,7 @@ locale/%/LC_MESSAGES/client.po:
 	$(JSXGETTEXT) --keyword=_ --language=jade --join-existing --output $@ $(TEMPLATE_FILES)
 
 build/build.js: $(OUTPUT)/app.js
-	./build.js --dev
+	./build.js --dev --copy
 
 test: build/build.js
 	./node_modules/.bin/component-test phantom --coverage && \
@@ -46,12 +46,12 @@ $(OUTPUT)/app.css: $(OUTPUT)/app.js $(STYLUS_FILES)
 
 mobile: $(OUTPUT)/mobile/mobile.js $(OUTPUT)/mobile/mobile.css
 
-node_modules: package.json
+node_modules/.bin: package.json
 	npm install
 	touch node_modules
 
-components: node_modules component.json
-	./node_modules/.bin/component install --dev; \
+components: node_modules/.bin component.json
+	./node_modules/.bin/component install --timeout 15000 --dev && \
 	touch components
 
 clean:

@@ -13,60 +13,70 @@
 	background: room-header-background
 	overflow: hidden
 	height: header-height
-	border-bottom: 1px solid gainsboro-light
 	padding: 11px 30px 11px 20px
+	box-shadow: 0px 3px 2px 0px rgba(grape-dark, 0.4)
 	@extend $clearfix
-	.room-info, .avatar-wrap, .search-form
+	.room-info-wrap, .search-form
 		max-width: 100%
 		overflow: hidden
-		// transition: all 200ms linear
-	.room-info
-		position: relative
-		max-width: 100%
-		.connected-users
-			position: absolute
-			right: 0
-			top: 12px
-			color: gainsboro-dark
-			width: 65px
-			line-height: 19px;
-			font-size: 18px
-			.fa-user
-				float: left
-			.sml-nr
-				margin-left: 5px
-				overflow: hidden
-		h1
-			@extend $bigger-font-size
-			margin: 0
-			font-weight: bold
-			padding-top: 8px
-			margin-right: 12px
-			padding-right: 77px
-			height: 1.5em
-			max-width: 100%
-			// Shortening the Room Name
+		//transition: all 200ms linear
+	.room-info-wrap
+		display: block
+		white-space: nowrap
+		overflow: hidden
+		padding-top: 3px
+		.room-menu-wrap
+			@extend $hoverable
+			@extend $clearfix
 			display: inline-block
-			position: relative
+			&:hover
+				.user-count
+				.remaining-users
+					color: white
+		h1.room-name
+			@extend $bigger-font-size
+			float: left
+			margin: 0
+			padding-right: 8px
+			color: white
+			text-overflow: ellipsis
+			white-space: nowrap
 			overflow: hidden
-			&.room-grp
-				@extend $hoverable
-				&:hover
-					color: lighten(grape-typo, 10)
-					.connected-users
-						opacity: 0.8
-			.room-name
-				text-overflow: ellipsis
-				white-space: nowrap
-				overflow: hidden
-				// width: 100%
-				max-width: 500px
-				display: block
-				height: 1.5em
-				i
-					color: gainsboro-dark
-	.user:not(.typing) .fa
-		display: none
+			height: 30px
+			line-height: 30px
+			max-width: 220px
+			@media (max-width: 1024px)
+				max-width: 200px
+			@media (max-width: 768px)
+				max-width: 180px
+		.horizontal-user-list
+			display: inline-block
+			float: left
+			margin-top: 9px
+			padding: 0
+			overflow-x: visible
+			white-space: nowrap
+			padding-left: 12px
+			li
+				display: inline-block
+				list-style-type: none
+				margin-right: 2px
+				padding-bottom: 4px
+		span.user-count
+		span.remaining-users
+			float: left
+			color: gainsboro-dark
+			line-height: 34px
+			padding-left: 2px
+		span.user-count
+			display: none
+			@media (max-width: 1024px)
+				display: inline-block
+		.horizontal-user-list
+		span.remaining-users
+			display: none
+			@media (min-width: 1024px)
+				display: inline-block
 	.user-menu-wrap
 		@extend $clearfix
 		@extend $hoverable
@@ -75,13 +85,8 @@
 		display: table-cell
 		vertical-align: middle
 		&:hover
-			padding: 3px
-			margin: -3px -3px -3px 17px
-			background: lighten(silver-dark, 25%)
-			border-radius: main-border-radius
 			.fa
-			.user-name
-				color: darken(gainsboro-dark, 20%)
+				color: white
 		.fa
 			margin: 10px 0 0 5px
 			color: gainsboro-dark
@@ -94,31 +99,5 @@
 			width: 10px
 			height: 10px
 		.user-name
-			color: gainsboro-dark
-			font-weight: bold
-
-a.feedback // Deprecated?
-	float: right
-	padding: 0 3px
-	margin-left: 12px
-	height: 36px
-	line-height: 36px
-	text-align: center
-	font-weight: bold
-	color: gainsboro-dark
-	@extend $hoverable
-	&:hover
-		background: lighten(silver-dark, 25%)
-		color: darken(gainsboro-dark, 20%)
-
-// ****
-//
-// INTERCOM
-//
-// ****
-#intercom-container .intercom-sheet-header
-	height: 59px !important
-	.intercom-sheet-header-button
-		height: 59px !important
-	.intercom-sheet-header-title
-		line-height: 59px !important
+			color: white
+			line-height: 36px

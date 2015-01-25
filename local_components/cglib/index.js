@@ -107,7 +107,8 @@ App.prototype.onDisconnect = function App_ondisconnect() {
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
  */
-App.prototype.connect = function App_connect(ws) {
+App.prototype.connect = function App_connect(ws, callback) {
+	callback = callback || function() {};
 	var self = this;
 	this._ws = ws;
 	if (typeof ws === 'string')
@@ -132,6 +133,7 @@ App.prototype.connect = function App_connect(ws) {
 			self.emit('connected', self.reconnected, self.ws);
 			self.startHeartbeat();
 			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
+			callback();
 		});
 	});
 	ws.on('close', function(e) {
@@ -318,9 +320,17 @@ App.prototype.unbind = function App__unbind() {
 	if (this.wamp) this.wamp._listeners = {};
 };
 
+var deletedUser = {
+	username: "deleted",
+	firstName: "Deleted",
+	lastName: "User"
+};
+
 App.prototype._newRoom = function App__newRoom(room) {
 	room.users = room.users.map(function (u) {
-		return models.User.get(u);
+		// in case we have a user in a room that is *not* in the organization
+		// anymore we have to fall back to the deletedUser
+		return models.User.get(u) || new models.User(deletedUser);
 	});
 	var selfindex = room.users.indexOf(this.user);
 	room.joined = !!~selfindex;
@@ -328,6 +338,8 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
+	room.unread = 0;
+
 	return room;
 };
 App.prototype._tryAddRoom = function App__tryAddRoom(room) {
@@ -339,13 +351,18 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 	} else {
 		this.organization.pms.push(room);
 	}
+	// TODO: this should maybe be handled in the pm model
+	if (room.type === 'pm') {
+		room.users[0].pm = room;
+	}
 	return room;
 };
 /**
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
  */
-App.prototype.setOrganization = function App_setOrganization(org) {
+App.prototype.setOrganization = function App_setOrganization(org, callback) {
+	callback = callback || function() {};
 	var self = this;
 	// TODO: this should also leave any old organization
 
@@ -372,11 +389,17 @@ App.prototype.setOrganization = function App_setOrganization(org) {
         if (res.custom_emojis != null) {
             org.custom_emojis = res.custom_emojis;
         }
+        // connect users and pms
+        org.pms.forEach(function(pm) {
+        	pm.users[0].pm = pm;
+        })
+
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
 			self.emit('change organization', org);
+			callback();
 		});
 	});
 };
@@ -396,7 +419,8 @@ App.prototype.openPM = function App_openPM(user, callback) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
-		callback(pm);	
+        user.pm = pm;
+        callback();
 	});
 };
 

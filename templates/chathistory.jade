@@ -27,16 +27,11 @@
 						=_('This room is public. Every member can join and read the history.')
 					ul.welcome-tasks
 						li.option
-							em
-								=_('1')
-							a.show-invite.disable-document-click-handler.button
+							a.show-invite.disable-document-click-handler.button.raised
 								i.fa.fa-plus
 								=_('Invite members')
-							span.invite
 						li.option
-							em
-								=_('2')
-							a.button(href='/services/list/', target='_self')
+							a.button.raised(href='/services/list/', target='_self')
 								i.fa.fa-share-alt
 								=_('Integrate external services')
 		else
@@ -44,17 +39,29 @@
 				- var head = staticurl("/images/head_lock.png")
 				img.image(src="#{head}",width="100",alt="Hi!")
 				div
-				h3
-					|  Private messages with 
-					span #{room.users[0].username}
-				p
-					| This is a private conversation between you and #{room.users[0].username}. Private conversations are only accessible to the two of you. So speak freely.
-
-				if room.users[0].is_only_invited
+					h3
+						|  Private messages with 
+						span 
+							if (room.users[0].firstName || room.users[0].lastName)
+								| #{room.users[0].firstName} #{room.users[0].lastName} 
+							else
+								| #{room.users[0].username}
 					p
-						i.fa.fa-envelope
-						=_(" This user was only invited and didn't join ChatGrape yet. You can send chat messages and as soon as the user joins ChatGrape, he will reiceive your messages.")
+						| This is a private conversation between you and 
+						if (room.users[0].firstName || room.users[0].lastName)
+							| #{room.users[0].firstName} #{room.users[0].lastName} 
+						else
+							| #{room.users[0].username}
+						|.
+						br
+						| Private conversations are only accessible to the two of you.
 
+					if room.users[0].is_only_invited
+						p.alert-inline.warning.mar-t10
+							i.fa.fa-envelope
+							strong This user was invited to ChatGrape but hasn't joined yet.
+							br
+							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
 	- var lastDate
 	- var lastRead = true
 	each lines in groupHistory(history)
@@ -97,7 +104,6 @@
 				a(href=(user.id !== first.author.id && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
 					if (first.author.firstName || first.author.lastName)
 						author #{first.author.firstName} #{first.author.lastName} 
-							em #{first.author.username}
 					else	
 						author= first.author.username
 				each line in lines
@@ -139,7 +145,7 @@
 										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
 								else
 									//- any other file
-									a.attachment(href=attachment.url, download=attachment.name, class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
+									a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
@@ -159,10 +165,10 @@
 												if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 													.text= html(markdown(obj.content))
 												else
-													span.text= obj.content
+													.text= html(escape_html(obj.content).replace(/\n/g, '<br>'))
 											if obj.summary
 												span.summary= obj.summary
-								if line.objects.length > 3
+								if line.objects.length > 3 && line.author.id != 'jira'
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
 						if user.id == line.author.id

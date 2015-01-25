@@ -9,6 +9,7 @@ clearfix()
 		clear both
 $clearfix
 	clearfix()
+	
 
 /*______ HOVERABLE ______*/
 $hoverable, $hoverable:hover
@@ -57,11 +58,6 @@ $functional-list // this has to be the LI
 	&.selected
 		> a 
 			font-weight: bold
-	.name
-		text-overflow: ellipsis 
-		white-space: nowrap
-		overflow: hidden
-		display: block
 	.icon
 	.avatar-wrap
 	.unread
@@ -84,11 +80,11 @@ $functional-list // this has to be the LI
 		line-height: 16px
 		min-width: 16px
 		padding: 0px 3px
-		border-radius: 3px
+		border-radius: main-border-radius
 		text-align: center
 		border: none
 	.notification
-		background: grape-light
+		background: grass-light
 		color: white
 	.mention
 		background: grass-dark
@@ -112,6 +108,7 @@ $overlay // used for search - infos, etc.
 /*______ Avatar wrap ______*/
 .avatar-wrap
 	position: relative
+	display: inline-block
 	margin-top: -3px // needed for all things up until now
 	img
 		float: left
@@ -119,8 +116,8 @@ $overlay // used for search - infos, etc.
 		z-index: 2
 	.online, .offline
 		position: absolute
-		right: 0px
-		top: 0px
+		right: 0
+		top: 0
 		width: 8px
 		height: 8px
 		z-index: 12
@@ -132,9 +129,9 @@ $overlay // used for search - infos, etc.
 /*______ User Status Colors  ______*/
 // We need this as general classes here, because we use this in different elements.
 .online
-	background: #8cc152
+	background: grass-light
 .offline
-	background: #e9573f
+	background: bittersweet-light
 
 /*______ Invisible Class  ______*/
 .invisible
@@ -147,3 +144,23 @@ placeholder(color = $input-color-placeholder) {
   &:-ms-input-placeholder       { color: color; } // Internet Explorer 10+
   &::-webkit-input-placeholder  { color: color; } // Safari and Chrome
 }
+
+
+/*______ Margins  ______*/
+
+.mar-t10
+	margin-top: 10px
+.mar-t20
+	margin-top: 20px
+.mar-t30
+	margin-top: 30px
+.mar-t40
+	margin-top: 40px
+.mar-b10
+	margin-bottom: 10px
+.mar-b20
+	margin-bottom: 20px
+.mar-b30
+	margin-bottom: 30px
+.mar-b40
+	margin-bottom: 40px

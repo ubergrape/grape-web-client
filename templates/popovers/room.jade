@@ -1,16 +1,14 @@
 .roompopover.popover-left
 	h3
-		=_('All chatrooms')
+		=_('Manage rooms')
 		span.close ×
 	ul
-	hr
-	button.button.new
+	button.button.new.mar-t20
 		=_('Create new chatroom')
-		i.icon.fa.fa-plus-circle
-	form.newroom
+	form.newroom.mar-t20
+		h4=_('Create new chatroom')
 		.formrow
-			label.text(for="newroom-name")=_('Name')
-			input(type="text", id="newroom-name")
+			input(type="text", id="newroom-name", placeholder="Enter name ...")
 		//- .formrow.invisible
 		//- 	h4.visibility-headline=_('Visibility')
 		//- 	.radio-wrapper

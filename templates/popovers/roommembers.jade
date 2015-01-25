@@ -3,18 +3,17 @@
 	span.close ×
 	div.po-scroll-wrap
 		ul.user-list
-			each user in room.users
-				li
-					a(href="/chat/@" + user.username.toLowerCase())
+			each member in room.users
+				li.item.user
+					- var href = user.id == member.id ? 'javascript:void(0)' : '/chat/@' + member.username.toLowerCase()
+					a(href=href)
 						aside.avatar-wrap
-							img.image(src="#{user.avatar}",width="20",alt="#{user.username}")
-						if (user.firstName || user.lastName)
-							author.author #{user.firstName} #{user.lastName} 
-								em #{user.username}
+							img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+							.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
+						if (member.firstName || member.lastName)
+							span.user-name #{member.firstName} #{member.lastName} 
 						else
-							author.author= user.username
-	hr
-	h4=_('Invite more members')
-	span.invite
-	hr
-	a.delete-room=_('delete room')
+							span.user-name= member.username
+	h4.mar-t20=_('Invite more members')
+	a.invite
+	a.button.button-delete.delete-room=_('delete room')

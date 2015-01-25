@@ -31,16 +31,16 @@
     "Swatinem/model-cache": "0.0.2",
     "Swatinem/model-cast": "0.0.1",
     "Swatinem/model-array": "*",
-    "component/emitter": "*",
-    "MatthewMueller/array": "*",
+    "component/emitter": "1.1.3",
+    "MatthewMueller/array": "0.4.3",
     "Swatinem/websocket-buffering": "0.0.2",
     "ubergrape/wamp1": "master",
     "ubergrape/websocket": "master"
   },
   "development": {
     "dependencies": {
-    "chaijs/chai": "*",
-    "adamsanderson/trigger-event": "*"
+      "chaijs/chai": "*",
+      "adamsanderson/trigger-event": "*"
     }
   }
 }
