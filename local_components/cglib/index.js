@@ -256,8 +256,13 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {
 		var user = models.User.get(data.user);
 		var index = self.organization.users.indexOf(user);
-		if (user && ~index && data.organization===self.organization.id)
+		if (user && ~index && data.organization===self.organization.id) {
 			self.organization.users.splice(index, 1);
+			var pmedUser = self.organization.pms.filter( function(pm) {
+				return pm.users[0].id == data.user;
+			});
+			if (pmedUser.length) console.log(pmedUser);
+		}
 	});
 
 	// message events

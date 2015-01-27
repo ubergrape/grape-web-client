@@ -422,10 +422,22 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	var pms = org.users.filter(function(user) {
-		if (user == self.user) return false;
-		return true;
+	var activePms = org.users.filter(function(user) {
+		return user != self.user;
 	});
+
+	var inactivePms = org.pms.filter(function(pm) {
+		return activePms.indexOf(pm.users[0]) < 0;
+	});
+	
+	inactivePms.map(function(el) { return el.users[0] });
+
+	var pms = activePms;
+	inactivePms.forEach(function(inactivepm) {
+		pms.push(inactivepm);
+	});
+	
+	console.log(pms);
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
 	//		{id: 2, username: 'Leo Fasbender', status: 0},
