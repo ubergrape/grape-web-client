@@ -319,6 +319,9 @@ UI.prototype.bind = function UI_bind() {
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
+	// navigation
+	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
 	this.upload.on('uploaded', function (attachment) {
@@ -422,22 +425,10 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	var activePms = org.users.filter(function(user) {
+	var pms = org.users.filter(function(user) {
 		return user != self.user;
 	});
-
-	var inactivePms = org.pms.filter(function(pm) {
-		return activePms.indexOf(pm.users[0]) < 0;
-	});
 	
-	inactivePms.map(function(el) { return el.users[0] });
-
-	var pms = activePms;
-	inactivePms.forEach(function(inactivepm) {
-		pms.push(inactivepm);
-	});
-	
-	console.log(pms);
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
 	//		{id: 2, username: 'Leo Fasbender', status: 0},

@@ -107,7 +107,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			bindPm(user);
 		});
 	});
-
+	
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
 };
@@ -146,6 +146,11 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 		}
 	};
 })();
+
+Navigation.prototype.deleteUser = function(item) {
+	var itemIndex = this.pmList.items.indexOf(item);
+	this.pmList.items.splice(itemIndex, 1);
+}
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;

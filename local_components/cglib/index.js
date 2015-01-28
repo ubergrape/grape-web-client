@@ -257,11 +257,20 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var user = models.User.get(data.user);
 		var index = self.organization.users.indexOf(user);
 		if (user && ~index && data.organization===self.organization.id) {
-			self.organization.users.splice(index, 1);
-			var pmedUser = self.organization.pms.filter( function(pm) {
-				return pm.users[0].id == data.user;
-			});
-			if (pmedUser.length) console.log(pmedUser);
+			var inactivePm = false;
+			self.organization.pms.forEach(function(pm) {
+				if (pm.users[0].id == data.user 
+				&& (!pm.history 
+				|| pm.history.length == 0)) {
+					inactivePm = pm;
+				}
+			})
+			if (inactivePm) {
+				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
+				self.organization.pms.splice(inactivePmIndex, 1);
+				self.emit('deleteduser', user);
+			}
+			user.active = 0;
 		}
 	});
 
