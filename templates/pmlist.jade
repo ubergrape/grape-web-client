@@ -4,7 +4,8 @@ ul.nav-list.pms
 			- var userID = user.id
 			- var unread = user.pm != undefined ? user.pm.unread : 0
 			- var selectedClass = user.pm != undefined && user.pm == selected ? 'selected' : ""
-			li.item(class=selectedClass, data-id=userID, key=userID)
+			- var deletedClass = user.active ? "" : 'deleted'
+			li.item(class=selectedClass, class=deletedClass, data-id=userID, key=userID)
 				a(href="/chat/@" + user.username)
 					.avatar-wrap
 						if user.status === 16
