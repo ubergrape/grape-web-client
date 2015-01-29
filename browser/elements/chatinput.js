@@ -45,6 +45,7 @@ ChatInput.prototype.init = function ChatInput_init() {
 };
 
 ChatInput.prototype.redraw = function ChatInput_redraw() {
+	console.log("chatinput redrawn");
 	var vdom = template('chatinput.jade', {});
 	render(this, vdom);
 };
@@ -625,9 +626,18 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	attr(this.messageInput).set('disabled', !room);
-	if (room) this.messageInput.removeAttribute('disabled'); // IE :)
-	if (room) this.messageInput.focus();
+	this.messageInput.innerHTML = "";
+	if (!room || (room.type == "pm" && !room.users[0].active)) {
+		attr(this.messageInput).set('disabled', true); // TODO not sure why this is here, maybe IE?
+		attr(this.messageInput).set('contenteditable', false);
+	} else {
+		attr(this.messageInput).set('disabled', false); // TODO not sure why this is here, maybe IE?
+		var editableValue = navigator.userAgent.indexOf("Chrome") != -1 ? 'plaintext-only' : true;
+		attr(this.messageInput).set('contenteditable', editableValue);
+		this.messageInput.removeAttribute('disabled');
+		this.messageInput.focus();
+	}
+	
 	if (this.editing) this.editingDone();
 };
 

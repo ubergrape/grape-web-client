@@ -4,7 +4,7 @@ ul.nav-list.pms
 			- var userID = user.id
 			- var unread = user.pm != undefined ? user.pm.unread : 0
 			- var selectedClass = user.pm != undefined && user.pm == selected ? 'selected' : ""
-			- var deletedClass = user.active ? "" : 'deleted'
+			- var deletedClass = user.active == true ? "" : 'deleted'
 			li.item(class=selectedClass, class=deletedClass, data-id=userID, key=userID)
 				a(href="/chat/@" + user.username)
 					.avatar-wrap
