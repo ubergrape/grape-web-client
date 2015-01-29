@@ -425,10 +425,12 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	var pms = org.users.filter(function(user) {
-		return user != self.user;
-	});
 	
+	var pms = org.users.filter(function(user) {
+		return self.user != user &&
+		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+	});
+
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
 	//		{id: 2, username: 'Leo Fasbender', status: 0},

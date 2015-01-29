@@ -359,7 +359,7 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 			self.complete_header.innerHTML = "";
 
 			var users = app.organization.users.filter(function(user) {
-				return user.active == 1;
+				return user.active;
 			});
 			var search = match;
 			for (var i=0; i<users.length; i++) {

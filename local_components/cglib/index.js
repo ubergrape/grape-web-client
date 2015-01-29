@@ -270,7 +270,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 				self.organization.pms.splice(inactivePmIndex, 1);
 				self.emit('deleteduser', user);
 			}
-			user.active = 0;
+			user.active = false;
 		}
 	});
 
@@ -385,26 +385,16 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 			user.status = u.status;
 			return user;
 		});
-		res.invited_users.map(function (u) {
-			var user = models.User.get(u.id) || new models.User(u);
-			user.status = u.status;
-			org.users.push(user);
-		});
+
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
-
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
-		if (res.logo != null) {
-            org.logo = res.logo;
-        }
-        if (res.custom_emojis != null) {
-            org.custom_emojis = res.custom_emojis;
-        }
-        // connect users and pms
-        org.pms.forEach(function(pm) {
-        	pm.users[0].pm = pm;
-        })
-
+		if (res.logo != null) org.logo = res.logo;
+    if (res.custom_emojis != null) org.custom_emojis = res.custom_emojis;
+    
+    // connect users and pms
+    org.pms.forEach( function(pm) { pm.users[0].pm = pm; })
+    
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
