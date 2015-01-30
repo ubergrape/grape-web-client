@@ -332,17 +332,17 @@ App.prototype.unbind = function App__unbind() {
 	if (this.wamp) this.wamp._listeners = {};
 };
 
-var deletedUser = {
-	username: "deleted",
-	firstName: "Deleted",
+var unknownUser = {
+	username: "unknown",
+	firstName: "unknown",
 	lastName: "User"
 };
 
 App.prototype._newRoom = function App__newRoom(room) {
 	room.users = room.users.map(function (u) {
-		// in case we have a user in a room that is *not* in the organization
-		// anymore we have to fall back to the deletedUser
-		return models.User.get(u) || new models.User(deletedUser);
+		// if the user was not in the models array for some reason
+		// create an unknown user so the room loads correctly
+		return models.User.get(u) || new models.User(unknownUser);
 	});
 	var selfindex = room.users.indexOf(this.user);
 	room.joined = !!~selfindex;
