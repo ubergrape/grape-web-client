@@ -64,8 +64,6 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var activeUsers = this.room.users.filter(function(user) {
 		return user.active || user == ui.user;
 	});
-	console.log(this.room.users.length);
-	console.log(activeUsers.length);
 	var hiddenUsersCount = activeUsers.length > this.limitUsersTo ? activeUsers.length - this.limitUsersTo : 0; 
 	var vdom = template('chatheader.jade', {
 		room: this.room,
