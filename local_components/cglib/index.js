@@ -258,11 +258,11 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var index = self.organization.users.indexOf(user);
 		if (user && ~index && data.organization===self.organization.id) {
 			var inactivePm = false;
-			self.organization.pms.forEach(function(pm) {
-				if (pm.users[0].id == data.user 
-				&& (!pm.history 
-				|| pm.history.length == 0)) {
-					inactivePm = pm;
+			self.organization.users.forEach(function(user) {
+				if (user.id == data.user 
+				&& (!user.pm || user.pm && user.pm.history.length == 0)) {
+					inactivePm = user;
+					console.log(user);
 				}
 			})
 			if (inactivePm) {
