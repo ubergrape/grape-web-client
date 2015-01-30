@@ -27,6 +27,7 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
 	this.q = null;
+	this.limitUsersTo = 5;
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -60,7 +61,17 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var vdom = template('chatheader.jade', {room: this.room});
+	var activeUsers = this.room.users.filter(function(user) {
+		return user.active || user == ui.user;
+	});
+	console.log(this.room.users.length);
+	console.log(activeUsers.length);
+	var hiddenUsersCount = activeUsers.length > this.limitUsersTo ? activeUsers.length - this.limitUsersTo : 0; 
+	var vdom = template('chatheader.jade', {
+		room: this.room,
+		limitUsersTo: this.limitUsersTo,
+		hiddenUsersCount: hiddenUsersCount
+	});
 	render(this, vdom);
 };
 

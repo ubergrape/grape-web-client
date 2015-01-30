@@ -262,7 +262,6 @@ App.prototype.bindEvents = function App_bindEvents() {
 				if (user.id == data.user 
 				&& (!user.pm || user.pm && user.pm.history.length == 0)) {
 					inactivePm = user;
-					console.log(user);
 				}
 			})
 			if (inactivePm) {
