@@ -34,6 +34,8 @@ Navigation.prototype.init = function Navigation_init() {
 	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
 	replace(qs('.labels', this.el), labelList.el);
 
+	this.filtering = false;
+	
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
 	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
@@ -60,10 +62,8 @@ Navigation.prototype.init = function Navigation_init() {
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
-	
 	// need this on load too
 	resizeRoomList();
-	
 	// and on window resize
 	window.addEventListener('resize', resizeRoomList);
 };
@@ -155,10 +155,13 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 })();
 
 Navigation.prototype.deleteUser = function(item) {
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
+	if (!this.filtering) {
+		var itemIndex = this.pmList.items.indexOf(item);
+		this.pmList.items.splice(itemIndex, 1);
+		this.pmList.redraw();
+	}
 }
+
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
@@ -168,12 +171,14 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 
 	var filtered_items = [];
 	if (str !== '') {
+		this.filtering = true;
 		self.pmList.unfiltered.forEach(function(item) {
 			if (item.username.startsWithIgnoreCase(str) || item.firstName.startsWithIgnoreCase(str) || item.lastName.startsWithIgnoreCase(str)) {
 				filtered_items.push(item);
 			}
 		});
 	} else {
+		this.filtering = false;
 		filtered_items = self.pmList.unfiltered;
 	}
 
