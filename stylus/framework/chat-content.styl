@@ -133,20 +133,15 @@
 		.time
 			color: gainsboro-light
 
-.author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
+.message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
 	font-weight: bold
 	margin-bottom: 3px
 	display: inline-block
-	em
-		@extend $small-font-size
-	&:hover
-		text-decoration: none
-		em
-			text-decoration: none
-	span.author-deleted
-		@extend $small-font-size
-		font-weight: normal
-		text-transform: uppercase
+//When a user was removed from the organization, #867
+span.author-deleted
+	@extend $small-font-size
+	font-weight: bold
+	text-transform: uppercase
 
 
 .message-content // The message bubble with all the content
