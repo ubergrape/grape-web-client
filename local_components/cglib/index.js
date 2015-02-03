@@ -107,7 +107,8 @@ App.prototype.onDisconnect = function App_ondisconnect() {
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
  */
-App.prototype.connect = function App_connect(ws) {
+App.prototype.connect = function App_connect(ws, callback) {
+	callback = callback || function() {};
 	var self = this;
 	this._ws = ws;
 	if (typeof ws === 'string')
@@ -132,6 +133,7 @@ App.prototype.connect = function App_connect(ws) {
 			self.emit('connected', self.reconnected, self.ws);
 			self.startHeartbeat();
 			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
+			callback();
 		});
 	});
 	ws.on('close', function(e) {
@@ -372,7 +374,8 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
  */
-App.prototype.setOrganization = function App_setOrganization(org) {
+App.prototype.setOrganization = function App_setOrganization(org, callback) {
+	callback = callback || function() {};
 	var self = this;
 	// TODO: this should also leave any old organization
 
@@ -399,6 +402,7 @@ App.prototype.setOrganization = function App_setOrganization(org) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
 			self.emit('change organization', org);
+			callback();
 		});
 	});
 };
