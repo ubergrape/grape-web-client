@@ -108,7 +108,7 @@
 							author.message-author #{first.author.firstName} #{first.author.lastName} 
 						else	
 							author.message-author= first.author.username
-				else if (first.author.type==='user' && (first.author.id === user.id || !first.author.active))
+				else if (first.author.type==='user' && first.author.id !== user.id && !first.author.active)
 					if (first.author.firstName || first.author.lastName)
 							author.message-author #{first.author.firstName} #{first.author.lastName} 
 						else	
