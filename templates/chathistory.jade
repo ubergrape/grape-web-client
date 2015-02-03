@@ -101,14 +101,22 @@
 						//- the substr part is a hack to remove the tz information
 						- var user_time = first.user_time.substr(0, first.user_time.length - 6)
 						time.user-tz= tz(user_time).format('h:mm a')
-				a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#')).author
+				if (first.author.type==='user' && first.author.active)
+					//- Only create link when it's a user who is not deleted
+					a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'))
+						if (first.author.firstName || first.author.lastName)
+							author.message-author #{first.author.firstName} #{first.author.lastName} 
+						else	
+							author.message-author= first.author.username
+				else if (first.author.type==='user' && (first.author.id === user.id || !first.author.active))
 					if (first.author.firstName || first.author.lastName)
-						author #{first.author.firstName} #{first.author.lastName} 
-					else	
-						author= first.author.username
-					if (first.author.type==='user' && (first.author.id === user.id || !first.author.active))
-						span.author-deleted
-							=_('Deleted')
+							author.message-author #{first.author.firstName} #{first.author.lastName} 
+						else	
+							author.message-author= first.author.username
+					span.author-deleted
+						=_('Deleted user')
+				else
+					author.message-author= first.author.username
 				each line in lines
 					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
 						.labels(style='display: none;')
