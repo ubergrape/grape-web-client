@@ -627,12 +627,14 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
 	this.messageInput.innerHTML = "";
 	if (!room || (room.type == "pm" && !room.users[0].active)) {
-		attr(this.messageInput).set('disabled', true); // TODO not sure why this is here, maybe IE?
+		attr(this.messageInput).set('data-ph', 'You cannot reply to this conversation.');
+		attr(this.messageInput).set('disabled', true);
 		attr(this.messageInput).set('contenteditable', false);
 	} else {
-		attr(this.messageInput).set('disabled', false); // TODO not sure why this is here, maybe IE?
+		attr(this.messageInput).set('disabled', false);
 		var editableValue = navigator.userAgent.indexOf("Chrome") != -1 ? 'plaintext-only' : true;
 		attr(this.messageInput).set('contenteditable', editableValue);
+		attr(this.messageInput).set('data-ph', 'Enter a message ...');
 		this.messageInput.removeAttribute('disabled');
 		this.messageInput.focus();
 	}
