@@ -21,3 +21,6 @@ ul.nav-list.pms
 							| #{user.firstName} #{user.lastName} 
 						else
 							| #{user.username}
+						if !user.active
+							span.user-deleted
+								=_('Deleted user')
