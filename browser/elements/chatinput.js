@@ -631,7 +631,7 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 		attr(this.messageInput).set('contenteditable', false);
 	} else {
 		attr(this.messageInput).set('disabled', false); // TODO not sure why this is here, maybe IE?
-		var editableValue = navigator.userAgent.indexOf("Chrome") != -1 ? 'plaintext-only' : true;
+		var editableValue = isWebkit() ? 'plaintext-only' : true;
 		attr(this.messageInput).set('contenteditable', editableValue);
 		this.messageInput.removeAttribute('disabled');
 		this.messageInput.focus();
