@@ -7,7 +7,15 @@
   <body>
     <script src="../../dist/smartcomplete.js"></script>
     <script>
-      Smartcomplete.default.create(document.body)
+      Smartcomplete.default
+        .create(document.body)
+        .setState({
+          facets: [
+            {title: 'All'},
+            {title: 'Github', amount: 11},
+            {title: 'Google drive', amount: 3},
+          ]
+        })
     </script>
   </body>
 </html>

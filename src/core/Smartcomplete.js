@@ -1,11 +1,28 @@
 'use strict'
 
 import React from 'react'
+import useSheet from 'react-jss'
+import smartcompleteStyle from './smartcompleteStyle'
+import Facets from './Facets'
 
+/**
+ * Main Smartcomplete class which uses everything else.
+ */
 var Smartcomplete = React.createClass({
-  render: function () {
+  mixins: [useSheet(smartcompleteStyle)],
+
+  getInitialState() {
+    return {
+      facets: []
+    }
+  },
+
+  render() {
+    var classes = this.sheet.classes
     return (
-      <div></div>
+      <div className={classes.container}>
+        <Facets data={this.state.facets} />
+      </div>
     )
   }
 })
