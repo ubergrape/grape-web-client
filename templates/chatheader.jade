@@ -18,6 +18,14 @@ div
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
 			h1.room-name= room.name
+			.options-wrap
+				if (room.creator && user.id === room.creator.id)
+					//-a.option-rename-room
+					//-	i.fa.fa-pencil
+					a.option-delete-room
+						i.fa.fa-trash
+				a.option-add-users
+					i.fa.fa-user-plus
 			.room-menu-wrap
 				span.user-count
 					i.fa.fa-user
@@ -37,9 +45,7 @@ div
 				//-	tip.show;
 				if hiddenUsersCount
 					span.remaining-users
-						| + 
-						i.fa.fa-user
-						|  #{hiddenUsersCount}
+						| + #{hiddenUsersCount}			
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
