@@ -5,7 +5,7 @@ import jssVendorPrefixer from 'jss-vendor-prefixer'
 import jssExtend from 'jss-extend'
 
 // Setup jss plugins.
+jss.use(jssExtend)
 jss.use(jssCamelCase)
 jss.use(jssPx)
 jss.use(jssVendorPrefixer)
-jss.use(jssExtend)
