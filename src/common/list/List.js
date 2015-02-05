@@ -2,20 +2,19 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import listStyle from './listStyle'
+import Section from './Section'
 
 /**
  * List for search results.
  */
 var List = React.createClass({
-  mixins: [useSheet(listStyle)],
-
   render() {
-    var classes = this.sheet.classes
-    var items = this.props.data.map(function (item) {
-        return <div/>
+    var sections = this.props.data.map(function (section) {
+      console.log(section)
+      return <Section {...section}/>
     })
-    return <div>{items}</div>
+
+    return <div>{sections}</div>
   }
 })
 

@@ -19,10 +19,10 @@ var Smartcomplete = React.createClass({
   },
 
   getFacets() {
-    var facets = this.state.data.map(function (result) {
+    var facets = this.state.data.map(function (section) {
       return {
-        title: result.title,
-        amount: result.items.length
+        label: section.label,
+        amount: section.results.length
       }
     })
 
@@ -31,7 +31,7 @@ var Smartcomplete = React.createClass({
       total += facet.amount
     })
     facets.unshift({
-      title: 'All',
+      label: 'All',
       amount: total
     })
 
