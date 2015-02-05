@@ -632,7 +632,7 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 		attr(this.messageInput).set('contenteditable', false);
 	} else {
 		attr(this.messageInput).set('disabled', false);
-		var editableValue = navigator.userAgent.indexOf("Chrome") != -1 ? 'plaintext-only' : true;
+		var editableValue = isWebkit() ? 'plaintext-only' : true;
 		attr(this.messageInput).set('contenteditable', editableValue);
 		attr(this.messageInput).set('data-ph', 'Enter a message ...');
 		this.messageInput.removeAttribute('disabled');
