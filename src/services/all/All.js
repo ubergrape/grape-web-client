@@ -8,7 +8,7 @@ import List from '../../common/list/List'
  */
 var All = React.createClass({
   render() {
-    return <List data={this.props.data} />
+    return <List {...this.props} />
   }
 })
 

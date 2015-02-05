@@ -15,7 +15,7 @@ var Facets = React.createClass({
     var classes = this.sheet.classes
 
     var facets = this.props.data.map(function (facet) {
-      return <Facet {...facet} setActive={this.props.setActive} />
+      return <Facet {...facet} select={this.props.select} />
     }, this)
 
     return <ul className={classes.container}>{facets}</ul>

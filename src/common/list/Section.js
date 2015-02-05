@@ -15,8 +15,8 @@ var Section = React.createClass({
     var classes = this.sheet.classes
 
     var items = this.props.results.map(function (result) {
-      return <Item {...result} />
-    })
+      return <Item {...result} select={this.props.select} />
+    }, this)
 
     return (
       <section>

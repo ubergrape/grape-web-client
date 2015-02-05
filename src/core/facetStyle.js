@@ -8,7 +8,7 @@ var container = {
 
 export default {
   container: container,
-  containerActive: {
+  containerSelected: {
     extend: container,
     background: 'red'
   }

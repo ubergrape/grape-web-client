@@ -10,8 +10,8 @@ import Section from './Section'
 var List = React.createClass({
   render() {
     var sections = this.props.data.map(function (section) {
-      return <Section {...section}/>
-    })
+      return <Section {...section} select={this.props.select} />
+    }, this)
 
     return <div>{sections}</div>
   }
