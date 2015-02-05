@@ -401,6 +401,8 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
+			// put role in user object for consistency with other user objects
+			self.user.role = self.organization.role;
 			self.emit('change organization', org);
 			callback();
 		});
