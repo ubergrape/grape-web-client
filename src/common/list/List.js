@@ -10,7 +10,6 @@ import Section from './Section'
 var List = React.createClass({
   render() {
     var sections = this.props.data.map(function (section) {
-      console.log(section)
       return <Section {...section}/>
     })
 

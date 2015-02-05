@@ -11,17 +11,11 @@ import Facet from './Facet'
 var Facets = React.createClass({
   mixins: [useSheet(facetsStyle)],
 
-  setActive(facet) {
-    if (this.active) this.active.setState({active: false})
-    facet.setState({active: true})
-    this.active = facet
-  },
-
   render() {
     var classes = this.sheet.classes
 
     var facets = this.props.data.map(function (facet) {
-      return <Facet {...facet} setActive={this.setActive}/>
+      return <Facet {...facet} setActive={this.props.setActive} />
     }, this)
 
     return <ul className={classes.container}>{facets}</ul>

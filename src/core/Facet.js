@@ -10,22 +10,16 @@ import facetStyle from './facetStyle'
 var Facet = React.createClass({
   mixins: [useSheet(facetStyle)],
 
-  getInitialState() {
-    return {
-      active: false
-    }
-  },
-
   render() {
     var classes = this.sheet.classes
     var label = this.props.label
     if (this.props.amount != null) label += ' (' + this.props.amount + ')'
-    var className = this.state.active ? classes.containerActive : classes.container
+    var className = this.props.active ? classes.containerActive : classes.container
     return <li className={className} onClick={this.onActivate}>{label}</li>
   },
 
   onActivate() {
-    this.props.setActive(this)
+    this.props.setActive(this.props.service)
   }
 })
 

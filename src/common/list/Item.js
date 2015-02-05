@@ -13,7 +13,10 @@ var Item = React.createClass({
   render() {
     var classes = this.sheet.classes
     return (
-      <div>{this.props.name}</div>
+      <div className={classes.container}>
+        <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
+        <span className={classes.info}>{this.props.info}</span>
+      </div>
     )
   }
 })
