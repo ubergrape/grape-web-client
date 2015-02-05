@@ -125,8 +125,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		groupHistory: groupHistory
 	}));
 
-	var history = this.history.el;
-
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {
 		// prepend messages
 		// adjust the scrolling with the height of the newly added elements

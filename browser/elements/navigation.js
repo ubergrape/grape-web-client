@@ -35,10 +35,10 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.labels', this.el), labelList.el);
 
 	this.filtering = false;
-	
+
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+		pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+		pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -55,7 +55,7 @@ Navigation.prototype.init = function Navigation_init() {
 				roomWrapper = roomScrollbar.wrapper.parentNode,
 				pmResizableHeight = pmResizable.element.clientHeight,
 				roomWrapperBottomPadding = 12;
-				
+
 		roomWrapper.style.height = totHeight - bottomHeight - orgInfoHeight - pmResizableHeight - roomWrapperBottomPadding + 'px';
 	}, 500);
 
@@ -91,11 +91,11 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	this.pmSort.byLastMessage.call(lists['pms']);
 	// make sure deleted users are at the bottom
 	// without losing the 'array' prototype
-	var deleted = lists['pms'].filter(function(pm) {return !pm.active});
-	var active = lists['pms'].filter(function(pm) { return deleted.indexOf(pm) < 0 });
+	var deleted = lists['pms'].filter(function(pm) { return !pm.active; });
+	var active = lists['pms'].filter(function(pm) { return deleted.indexOf(pm) < 0; });
 	deleted.forEach(function(pm) { active.push(pm); });
 	lists['pms'] = active;
-	
+
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
@@ -114,7 +114,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			bindPm(user);
 		});
 	});
-	
+
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
 };
@@ -143,8 +143,8 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 	return {
 		byLastMessage : function() {
 			var compare = function(a, b) {
-				var aLastMessage = a.pm ? a.pm.latest_message_time : 0
-				var bLastMessage = b.pm ? b.pm.latest_message_time : 0
+				var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
+				var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
 				if(aLastMessage > bLastMessage) return -1;
 				if(aLastMessage < bLastMessage) return 1;
 				return 0;
@@ -160,7 +160,7 @@ Navigation.prototype.deleteUser = function(item) {
 		this.pmList.items.splice(itemIndex, 1);
 		this.pmList.redraw();
 	}
-}
+};
 
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
@@ -185,4 +185,4 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	self.pmList.items = filtered_items;
 
 	self.redraw();
-}
+};
