@@ -72,30 +72,57 @@ var Smartcomplete = React.createClass({
     this.setState({data: data})
   },
 
-  navigate(direction) {
-    var results = []
-    this.state.data.forEach(section => results = results.concat(section.results))
-    var resultIndex = findIndex(results, result => result.selected)
+  unselectSelectedItem() {
+    var data = this.state.data.map(function (section) {
+      section = clone(section)
 
+      var current = find(section.results, result => result.selected)
+      if (current) current.selected = false
+      return section
+    })
+    this.setState({data: data})
+  },
+
+  navigate(direction) {
     var facets = this.getFacets()
     var facetIndex = findIndex(facets, facet => facet.selected)
 
+    var results = []
+
+    var service = facets[facetIndex].service
+
+    if (service == 'all') {
+      this.state.data.forEach(section => results = results.concat(section.results))
+    } else {
+      results = find(
+        this.state.data,
+        section => section.service == service
+      ).results
+    }
+    var resultIndex = findIndex(results, result => result.selected)
+
     switch(direction) {
       case 'down':
-        resultIndex++
+        if (resultIndex + 1 < results.length) resultIndex++
         if (results[resultIndex]) this.selectItem(results[resultIndex].id)
         break
       case 'up':
-        resultIndex--
+        resultIndex = resultIndex < 0 ? 0 : resultIndex - 1
         if (results[resultIndex]) this.selectItem(results[resultIndex].id)
         break
       case 'right':
         facetIndex++
-        if (facets[facetIndex]) this.selectFacet(facets[facetIndex].service)
+        if (facets[facetIndex]) {
+          this.selectFacet(facets[facetIndex].service)
+          this.unselectSelectedItem()
+        }
         break
       case 'left':
         facetIndex--
-        if (facets[facetIndex]) this.selectFacet(facets[facetIndex].service)
+        if (facets[facetIndex]) {
+          this.selectFacet(facets[facetIndex].service)
+          this.unselectSelectedItem()
+        }
         break
     }
   },
