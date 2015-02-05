@@ -1,3 +1,5 @@
+'use strict'
+
 export default {
   container: {
     margin: 0,

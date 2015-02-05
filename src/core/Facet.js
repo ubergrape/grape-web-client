@@ -19,7 +19,7 @@ var Facet = React.createClass({
   render() {
     var classes = this.sheet.classes
     var title = this.props.title
-    if (this.props.results != null) title += ' (' + this.props.results + ')'
+    if (this.props.amount != null) title += ' (' + this.props.amount + ')'
     var className = classes.container
     if (this.state.active) className = classes.containerActive
     return <li className={className} onClick={this.onActivate}>{title}</li>

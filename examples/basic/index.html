@@ -10,10 +10,21 @@
       Smartcomplete.default
         .create(document.body)
         .setState({
-          facets: [
-            {title: 'All'},
-            {title: 'Github', results: 11},
-            {title: 'Google drive', results: 3},
+          data: [
+            {
+              title: 'Github',
+              type: 'Github',
+              items: [
+                {},{},{},{}
+              ]
+            },
+            {
+              title: 'Google drive',
+              type: 'GoogleDrive',
+              items: [
+                {},{}
+              ]
+            }
           ]
         })
     </script>
