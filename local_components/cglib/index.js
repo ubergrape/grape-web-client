@@ -261,11 +261,11 @@ App.prototype.bindEvents = function App_bindEvents() {
 		if (user && ~index && data.organization===self.organization.id) {
 			var inactivePm = false;
 			self.organization.users.forEach(function(user) {
-				if (user.id == data.user 
-				&& (!user.pm || user.pm && user.pm.history.length == 0)) {
+				if (user.id === data.user
+				&& (!user.pm || user.pm && user.pm.history.length === 0)) {
 					inactivePm = user;
 				}
-			})
+			});
 			if (inactivePm) {
 				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
 				self.organization.pms.splice(inactivePmIndex, 1);
@@ -319,7 +319,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
-		if (data.user.avatar != null) {
+		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}
 		self.emit('change user', self.user);
@@ -391,12 +391,12 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
-		if (res.logo != null) org.logo = res.logo;
-    if (res.custom_emojis != null) org.custom_emojis = res.custom_emojis;
-    
-    // connect users and pms
-    org.pms.forEach( function(pm) { pm.users[0].pm = pm; })
-    
+		if (res.logo !== null) org.logo = res.logo;
+		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
+
+		// connect users and pms
+		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
+
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
@@ -424,8 +424,8 @@ App.prototype.openPM = function App_openPM(user, callback) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
-        user.pm = pm;
-        callback();
+		user.pm = pm;
+		callback();
 	});
 };
 
