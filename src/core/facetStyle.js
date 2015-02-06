@@ -1,15 +1,25 @@
 'use strict'
 
+import colors from 'ubergrape-theme/base-colors'
+import Color from 'color'
+import fonts from 'ubergrape-theme/fonts'
+
 var container = {
-  float: 'left',
+  extend: fonts.small,
+  display: 'inline-block',
+  padding: '8px 16px 8px',
   listStyleType: 'none',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  textTransform: 'uppercase',
+  fontWeight: 'bold',
+  color: Color(colors.white).alpha(.5).hslString()
 }
 
 export default {
   container: container,
   containerSelected: {
     extend: container,
-    background: 'red'
+    background: colors.grapeLight,
+    color: colors.white
   }
 }

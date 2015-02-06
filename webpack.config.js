@@ -35,7 +35,20 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.js$/, loader: '6to5-loader'}
+      {
+        loader: '6to5-loader',
+        test: /\.js$/,
+        include: [
+          __dirname + '/index.js',
+          __dirname + '/src',
+          __dirname + '/node_modules/lodash-es',
+          __dirname + '/node_modules/ubergrape-theme'
+        ]
+      },
+      {
+        loader: 'json-loader',
+        test: /\.json$/
+      }
     ]
   }
 }
