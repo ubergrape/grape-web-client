@@ -29,5 +29,10 @@ export default {
     color: colors.gainsboroLight,
     fontSize: 10,
     marginLeft: 7
+  },
+  date: {
+    extend: fonts.small,
+    padding: '0 8px',
+    textTransform: 'uppercase'
   }
 }
