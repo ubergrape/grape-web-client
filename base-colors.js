@@ -1,4 +1,6 @@
-module.exports = {
+'use strict'
+
+export default {
   grapeDark: '#542f59',
   grapeLight: '#7b477b',
   grapeTypo: '#2b2231',

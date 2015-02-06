@@ -2,14 +2,28 @@
 
 var fs = require('fs')
 var path = require('path')
+var to5 = require('6to5-core')
 
 var SOURCE_DIR = __dirname
-var TARGET_DIR = __dirname + '/dist'
+var DIST_DIR = path.join(__dirname, 'dist')
+var TMP_DIR = path.join(__dirname, 'tmp')
+
+try {
+    fs.mkdirSync(TMP_DIR)
+} catch(err) {}
+
 
 fs.readdirSync(SOURCE_DIR).forEach(function (fileName) {
     if (path.extname(fileName) != '.js') return
     var name = path.basename(fileName, '.js')
-    var def = require(SOURCE_DIR + '/' + fileName)
+
+    // Create js files
+    var source = to5.transform(fs.readFileSync(path.join(SOURCE_DIR, fileName))).code;
+    var jsFile = path.join(TMP_DIR, fileName)
+    fs.writeFileSync(jsFile, source)
+
+    // Create json files
+    var def = require(jsFile)
     var jsonStr = JSON.stringify(def, null, '  ')
-    fs.writeFileSync(TARGET_DIR + '/' + name + '.json', jsonStr)
+    fs.writeFileSync(path.join(DIST_DIR, name + '.json'), jsonStr)
 })

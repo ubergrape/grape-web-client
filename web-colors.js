@@ -1,6 +1,8 @@
-var colors = require('./base-colors')
+'use strict'
 
-module.exports = {
+import colors from './base-colors'
+
+export default {
   link: colors.aquaLight,
   button: colors.aquaLight,
   alertInfo: colors.aquaDark,
