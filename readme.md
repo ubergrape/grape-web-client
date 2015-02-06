@@ -1,3 +1,5 @@
 ## Theme for ubergrape
 
-This repository is for all theme related constants to be shared between different projects in json format.
+Theme related files sharable between all ubergrape projects.
+
+Original definitions are in the src folder. To build json files execute `./build` script.

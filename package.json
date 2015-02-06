@@ -1,0 +1,8 @@
+{
+  "name": "ubergrape-theme",
+  "description": "Theme related files sharable between all ubergrape projects.",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

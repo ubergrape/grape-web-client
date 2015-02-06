@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+var path = require('path')
+
+var SOURCE_DIR = __dirname + '/src'
+var TARGET_DIR = __dirname
+
+fs.readdirSync(SOURCE_DIR).forEach(function (fileName) {
+    var name = path.basename(fileName, '.js')
+    var def = require(SOURCE_DIR + '/' + fileName)
+    var defStr = JSON.stringify(def, null, '  ')
+    fs.writeFileSync(TARGET_DIR + '/' + name + '.json', defStr)
+})
