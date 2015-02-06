@@ -20,7 +20,7 @@ var Section = React.createClass({
 
     return (
       <section>
-        <header>{this.props.label}</header>
+        <header className={classes.header}>{this.props.label}</header>
         {items}
       </section>
     )

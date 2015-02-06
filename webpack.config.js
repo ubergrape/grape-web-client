@@ -42,7 +42,8 @@ module.exports = {
           __dirname + '/index.js',
           __dirname + '/src',
           __dirname + '/node_modules/lodash-es',
-          __dirname + '/node_modules/ubergrape-theme'
+          __dirname + '/node_modules/ubergrape-theme',
+          __dirname + '/node_modules/ubergrape-jss-utils'
         ]
       },
       {
