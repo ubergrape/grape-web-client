@@ -3,12 +3,13 @@
 var fs = require('fs')
 var path = require('path')
 
-var SOURCE_DIR = __dirname + '/src'
+var SOURCE_DIR = __dirname
 var TARGET_DIR = __dirname + '/dist'
 
 fs.readdirSync(SOURCE_DIR).forEach(function (fileName) {
+    if (path.extname(fileName) != '.js') return
     var name = path.basename(fileName, '.js')
     var def = require(SOURCE_DIR + '/' + fileName)
-    var defStr = JSON.stringify(def, null, '  ')
-    fs.writeFileSync(TARGET_DIR + '/' + name + '.json', defStr)
+    var jsonStr = JSON.stringify(def, null, '  ')
+    fs.writeFileSync(TARGET_DIR + '/' + name + '.json', jsonStr)
 })
