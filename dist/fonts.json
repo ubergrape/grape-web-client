@@ -1,1 +1,22 @@
-{}
+{
+  "small": {
+    "fontSize": 9.75,
+    "lineHeight": 11.375
+  },
+  "big": {
+    "fontSize": 16.25,
+    "lineHeight": 19.5
+  },
+  "bigger": {
+    "fontSize": 20.8,
+    "lineHeight": 23.400000000000002
+  },
+  "biggest": {
+    "fontSize": 26,
+    "lineHeight": 28.6
+  },
+  "normal": {
+    "fontSize": 13,
+    "lineHeight": 19.5
+  }
+}
