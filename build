@@ -4,7 +4,7 @@ var fs = require('fs')
 var path = require('path')
 
 var SOURCE_DIR = __dirname + '/src'
-var TARGET_DIR = __dirname
+var TARGET_DIR = __dirname + '/dist'
 
 fs.readdirSync(SOURCE_DIR).forEach(function (fileName) {
     var name = path.basename(fileName, '.js')
