@@ -23,8 +23,7 @@ export default {
   containerSelected: {
     extend: [container, containerHighlighted]
   },
-  name: {
-  },
+  name: {},
   info: {
     color: colors.gainsboroLight,
     fontSize: 10,
