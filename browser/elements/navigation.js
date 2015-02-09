@@ -11,6 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
+var array = require('array');
 
 module.exports = Navigation;
 
@@ -89,12 +90,19 @@ Navigation.prototype.bind = function Navigation_bind() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
 	this.pmSort.byLastMessage.call(lists['pms']);
+	
 	// make sure deleted users are at the bottom
 	// without losing the 'array' prototype
-	var deleted = lists['pms'].filter(function(pm) { return !pm.active; });
-	var active = lists['pms'].filter(function(pm) { return deleted.indexOf(pm) < 0; });
-	deleted.forEach(function(pm) { active.push(pm); });
-	lists['pms'] = active;
+	// array.prototype.concat returns an array of arrays for some reasons
+	// TODO investigate array.prototype.concat
+	var deleted = lists['pms'].filter(function(pm) { return !pm.active; }),
+			active = lists['pms'].filter(function(pm) { return pm.active && !pm.is_only_invited; }),
+			invitedOnly = lists['pms'].filter(function(pm) { return pm.is_only_invited}),
+			pmListOrdered = active;
+
+	invitedOnly.forEach(function(pm) { pmListOrdered.push(pm); });
+	deleted.forEach(function(pm) { pmListOrdered.push(pm); });
+	lists['pms'] = pmListOrdered;
 
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
