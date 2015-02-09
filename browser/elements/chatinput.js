@@ -625,7 +625,6 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	this.messageInput.innerHTML = "";
 	if (!room || (room.type == "pm" && !room.users[0].active)) {
 		attr(this.messageInput).set('data-ph', 'You cannot reply to this conversation.');
 		attr(this.messageInput).set('disabled', true);
