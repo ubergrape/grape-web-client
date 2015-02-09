@@ -11,7 +11,7 @@ var containerHighlighted = {
 
 var container = {
   extend: [utils.ellipsis, fonts.normal],
-  padding: '5px 10px',
+  padding: '5px 7px',
   color: colors.grapeTypo,
   '&:hover': {
     extend: containerHighlighted
@@ -33,5 +33,9 @@ export default {
     extend: fonts.small,
     padding: '0 8px',
     textTransform: 'uppercase'
+  },
+  icon: {
+    color: '#b9b7bb',
+    paddingRight: 5
   }
 }

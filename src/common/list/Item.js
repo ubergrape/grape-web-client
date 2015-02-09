@@ -27,16 +27,25 @@ var Item = React.createClass({
     var classes = this.sheet.classes
     var containerClassName = this.props.selected ? classes.containerSelected : classes.container
     if (this.props.date) {
-      var time = <span className={classes.date}>{this.props.date.toLocaleString(this.options.date.locale, this.options.date.options)}</span>
+      var date = <span className={classes.date}>{this.getLocaleDateString()}</span>
     }
-
+    // Todo use svg icons.
+    var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
       <div onClick={this.onSelect} className={containerClassName}>
+        <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
         <span className={classes.info}>{this.props.info}</span>
-        {time}
+        {date}
       </div>
     )
+  },
+
+  getLocaleDateString() {
+      return this.props.date.toLocaleString(
+        this.options.date.locale,
+        this.options.date.options
+      )
   },
 
   onSelect() {
