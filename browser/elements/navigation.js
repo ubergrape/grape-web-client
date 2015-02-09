@@ -93,7 +93,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	
 	// make sure deleted users are at the bottom
 	// without losing the 'array' prototype
-	// array.prototype.concat returns an array of arrays for some reasons
+	// array.prototype.concat returns an array of arrays for some reason
 	// TODO investigate array.prototype.concat
 	var deleted = lists['pms'].filter(function(pm) { return !pm.active; }),
 			active = lists['pms'].filter(function(pm) { return pm.active && !pm.is_only_invited; }),
@@ -153,9 +153,7 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 			var compare = function(a, b) {
 				var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
 				var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
-				if(aLastMessage > bLastMessage) return -1;
-				if(aLastMessage < bLastMessage) return 1;
-				return 0;
+				return bLastMessage - aLastMessage;
 			};
 			this.sort(compare);
 		}
