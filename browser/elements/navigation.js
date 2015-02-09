@@ -100,6 +100,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			invitedOnly = lists['pms'].filter(function(pm) { return pm.is_only_invited}),
 			pmListOrdered = active;
 
+	this.pmSort.byStatus.call(pmListOrdered);
 	invitedOnly.forEach(function(pm) { pmListOrdered.push(pm); });
 	deleted.forEach(function(pm) { pmListOrdered.push(pm); });
 	lists['pms'] = pmListOrdered;
@@ -155,6 +156,10 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 				var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
 				return bLastMessage - aLastMessage;
 			};
+			this.sort(compare);
+		},
+		byStatus : function() {
+			var compare = function(a, b) { return b.status - a.status; };
 			this.sort(compare);
 		}
 	};
