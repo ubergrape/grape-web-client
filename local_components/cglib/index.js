@@ -108,9 +108,14 @@ App.prototype.onDisconnect = function App_ondisconnect() {
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
  */
-App.prototype.connect = function App_connect(ws) {
+App.prototype.connect = function App_connect(ws, callback) {
+	// Legacy callback, used in mobile_history.html
+	if (callback)
+		this.once('connected', callback)
+
 	if (this.connecting)
 		return;
+
 	this.connecting = true;
 	var self = this;
 	this._ws = ws;
