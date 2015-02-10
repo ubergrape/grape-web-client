@@ -38,8 +38,8 @@ Navigation.prototype.init = function Navigation_init() {
 	this.filtering = false;
 
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-		pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-		pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+			pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+			pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -52,13 +52,12 @@ Navigation.prototype.init = function Navigation_init() {
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var totHeight = self.el.clientHeight,
 				orgInfoHeight = qs('.org-info', self.el).clientHeight,
-				bottomHeight = 0,
 				roomWrapper = roomScrollbar.wrapper.parentNode,
 				pmResizableHeight = pmResizable.element.clientHeight,
-				roomWrapperBottomPadding = 12;
+				remainingPadding = 15;
 
-		roomWrapper.style.height = totHeight - bottomHeight - orgInfoHeight - pmResizableHeight - roomWrapperBottomPadding + 'px';
-	}, 500);
+		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
+	}, 200);
 
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
@@ -109,6 +108,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
+	
 	function bindPm(user) {
 		if (user.pm !== null && typeof user.pm !== "undefined" && typeof user.pm.on !== "undefined") {
 			user.pm.on('change', function() {
@@ -166,13 +166,13 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 })();
 
 Navigation.prototype.deleteUser = function(item) {
+	// TODO unbind events
 	if (!this.filtering) {
 		var itemIndex = this.pmList.items.indexOf(item);
 		this.pmList.items.splice(itemIndex, 1);
 		this.pmList.redraw();
 	}
 };
-
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
