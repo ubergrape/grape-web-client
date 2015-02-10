@@ -6,7 +6,7 @@
     "jss-camel-case": "^0.1.1",
     "jss-extend": "^0.1.6",
     "jss-nested": "^0.1.7",
-    "jss-px": "^0.1.1",
+    "jss-px": "^0.1.2",
     "jss-vendor-prefixer": "^0.2.0",
     "lodash-es": "^3.1.0",
     "react-jss": "^0.1.2",
