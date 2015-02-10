@@ -9,14 +9,15 @@
     "jss-px": "^0.1.1",
     "jss-vendor-prefixer": "^0.2.0",
     "lodash-es": "^3.1.0",
-    "react": "^0.12.2",
     "react-jss": "^0.1.2",
     "ubergrape-theme": "git+ssh://git@github.com/ubergrape/theme.git",
     "ubergrape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git"
   },
   "devDependencies": {
+    "react": "^0.12.2",
     "6to5-core": "^3.3.9",
     "6to5-loader": "^3.0.0",
+    "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
     "webpack": "^1.5.3"
   },

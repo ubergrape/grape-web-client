@@ -22,11 +22,11 @@ module.exports = {
     library: 'Smartcomplete',
     libraryTarget: 'var'
   },
-/*
+
   externals: {
     react: 'React'
   },
-*/
+
   node: {
     Buffer: false
   },
