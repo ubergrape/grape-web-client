@@ -32,7 +32,7 @@ var Item = React.createClass({
     // Todo use svg icons.
     var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
-      <div onClick={this.onSelect} className={containerClassName}>
+      <div onClick={this.select} onMouseOver={this.select} className={containerClassName}>
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
         <span className={classes.info}>{this.props.info}</span>
@@ -48,7 +48,7 @@ var Item = React.createClass({
       )
   },
 
-  onSelect() {
+  select() {
     this.props.select(this.props.id)
   }
 })

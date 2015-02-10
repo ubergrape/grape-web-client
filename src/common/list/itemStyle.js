@@ -4,24 +4,19 @@ import colors from 'ubergrape-theme/base-colors'
 import fonts from 'ubergrape-theme/fonts'
 import utils from 'ubergrape-jss-utils'
 
-var containerHighlighted = {
-  color: colors.white,
-  background: colors.grapeLight
-}
-
 var container = {
-  extend: [utils.ellipsis, fonts.normal],
   padding: '5px 7px',
-  color: colors.grapeTypo,
-  '&:hover': {
-    extend: containerHighlighted
-  }
+  color: colors.grapeTypo
 }
 
 export default {
-  container: container,
+  container: {
+    extend: [container, utils.ellipsis, fonts.normal]
+  },
   containerSelected: {
-    extend: [container, containerHighlighted]
+    extend: [container, utils.ellipsis, fonts.normal],
+    color: colors.white,
+    background: colors.grapeLight
   },
   name: {},
   info: {
