@@ -88,26 +88,13 @@ Navigation.prototype.bind = function Navigation_bind() {
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
-	this.pmSort.byLastMessage.call(lists['pms']);
-	
-	// make sure deleted users are at the bottom
-	// without losing the 'array' prototype
-	// array.prototype.concat returns an array of arrays for some reason
-	// TODO investigate array.prototype.concat
-	var deleted = lists['pms'].filter(function(pm) { return !pm.active; }),
-			active = lists['pms'].filter(function(pm) { return pm.active && !pm.is_only_invited; }),
-			invitedOnly = lists['pms'].filter(function(pm) { return pm.is_only_invited}),
-			pmListOrdered = active;
-
-	this.pmSort.byStatus.call(pmListOrdered);
-	invitedOnly.forEach(function(pm) { pmListOrdered.push(pm); });
-	deleted.forEach(function(pm) { pmListOrdered.push(pm); });
-	lists['pms'] = pmListOrdered;
 
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
+
+	this.orderPmItems();
 	
 	function bindPm(user) {
 		if (user.pm !== null && typeof user.pm !== "undefined" && typeof user.pm.on !== "undefined") {
@@ -120,13 +107,27 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	self.pmList.items.forEach(function(user) {
 		bindPm(user);
 		user.on('change', function() {
-			bindPm(user);
+			self.orderPmItems();
 		});
 	});
 
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
 };
+
+Navigation.prototype.orderPmItems = function Navigation_orderPmItems() {
+	this.pmSort.byLastMessage.call(this.pmList.items);
+	var deleted = this.pmList.items.filter(function(pm) { return !pm.active; }),
+			active = this.pmList.items.filter(function(pm) { return pm.active && !pm.is_only_invited; }),
+			invitedOnly = this.pmList.items.filter(function(pm) { return pm.is_only_invited}),
+			pmListOrdered = active;
+	
+	this.pmSort.byStatus.call(pmListOrdered);
+	invitedOnly.forEach(function(pm) { pmListOrdered.push(pm); });
+	deleted.forEach(function(pm) { pmListOrdered.push(pm); });
+	this.pmList.items = pmListOrdered;
+	this.pmList.redraw();
+}
 
 Navigation.prototype.select = function Navigation_select(which, item) {
 	var self = this;
