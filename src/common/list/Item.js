@@ -10,26 +10,13 @@ import itemStyle from './itemStyle'
 var Item = React.createClass({
   mixins: [useSheet(itemStyle)],
 
-  options: {
-    date: {
-      locale: 'en-US',
-      options: {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-      }
-    }
-  },
-
   render() {
     var classes = this.sheet.classes
     var containerClassName = this.props.selected ? classes.containerSelected : classes.container
     if (this.props.date) {
       var date = <span className={classes.date}>{this.getLocaleDateString()}</span>
     }
-    // Todo use svg icons.
+    // TODO: use svg icons, don't use global selectors.
     var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
       <div onClick={this.select} onMouseOver={this.select} className={containerClassName}>
@@ -42,10 +29,14 @@ var Item = React.createClass({
   },
 
   getLocaleDateString() {
-      return this.props.date.toLocaleString(
-        this.options.date.locale,
-        this.options.date.options
-      )
+    // TODO We need to centralize current locale constant.
+    return this.props.date.toLocaleString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    })
   },
 
   select() {
