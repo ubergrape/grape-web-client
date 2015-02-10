@@ -19,7 +19,7 @@ div
 		if room.type === 'room'
 			h1.room-name= room.name
 			.options-wrap
-				if (room.creator && user.id === room.creator.id)
+				if ((room.creator && user.id === room.creator.id) || user.role > 0)
 					//-a.option-rename-room
 					//-	i.fa.fa-pencil
 					a.option-delete-room
