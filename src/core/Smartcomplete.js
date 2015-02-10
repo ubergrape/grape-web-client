@@ -8,7 +8,6 @@ import * as services from '../services'
 import clone from 'lodash-es/lang/clone'
 import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
-import compact from 'lodash-es/array/compact'
 
 /**
  * Main Smartcomplete class which uses everything else.
@@ -25,7 +24,6 @@ var Smartcomplete = React.createClass({
   getFacets() {
     var hasSelected = false
     var facets = this.state.data.map(function (section) {
-      if (section.hidden) return
       var selected = Boolean(section.selected)
       if (selected) hasSelected = true
       return {
@@ -35,7 +33,6 @@ var Smartcomplete = React.createClass({
         selected: selected,
       }
     })
-    facets = compact(facets)
 
     if (facets[0] && facets[0].service != 'all') {
       var total = 0
