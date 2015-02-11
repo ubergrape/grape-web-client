@@ -149,9 +149,9 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 	var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
 	var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
 	if (getStatusValue(a) != getStatusValue(b))
-    return getStatusValue(b) - getStatusValue(a)
-  else 
-    return bLastMessage - aLastMessage
+		return getStatusValue(b) - getStatusValue(a)
+	else 
+		return bLastMessage - aLastMessage
 }
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
