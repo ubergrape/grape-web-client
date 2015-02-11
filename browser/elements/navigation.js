@@ -95,16 +95,8 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	
 	self.orderPmItems();
 	
-	function bindPm(user) {
-		if (user.pm !== null && typeof user.pm !== "undefined" && typeof user.pm.on !== "undefined") {
-			user.pm.on('change', function() {
-				self.orderPmItems();
-			});
-		}
-	}
 	// the pm list ist actually a list of users
 	self.pmList.items.forEach(function(user) {
-		bindPm(user);
 		user.on('change', function() {
 			self.orderPmItems();
 		});
