@@ -5,6 +5,8 @@ import useSheet from 'react-jss'
 import Section from './Section'
 import listStyle from './listStyle'
 import cloneDeep from 'lodash-es/lang/cloneDeep'
+import assign from 'lodash-es/object/assign'
+import pick from 'lodash-es/object/pick'
 
 /**
  * List for search results.
@@ -17,7 +19,8 @@ var List = React.createClass({
     var classes = this.sheet.classes
 
     var sections = this.getSections().map(function (section) {
-      return <Section {...section} select={this.props.select} />
+      assign(section, pick(this.props, 'select', 'change'))
+      return <Section {...section} />
     }, this)
 
     return <div className={classes.container}>{sections}</div>

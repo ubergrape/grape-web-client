@@ -19,7 +19,7 @@ var Item = React.createClass({
     // TODO: use svg icons, don't use global selectors.
     var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
-      <div onClick={this.select} onMouseOver={this.select} className={containerClassName}>
+      <div onClick={this.change} onMouseOver={this.select} className={containerClassName}>
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
         <span className={classes.info}>{this.props.info}</span>
@@ -41,6 +41,10 @@ var Item = React.createClass({
 
   select() {
     this.props.select(this.props.id)
+  },
+
+  change() {
+    this.props.change(this.props.id)
   }
 })
 

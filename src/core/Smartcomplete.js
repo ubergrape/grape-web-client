@@ -72,6 +72,19 @@ var Smartcomplete = React.createClass({
     this.setState({data: data})
   },
 
+  getSelectedItem() {
+    var id
+    find(this.state.data, function (section) {
+      return find(section.results, function (result) {
+        if (result.selected) {
+          id = result.id
+          return true
+        }
+      })
+    })
+    return id
+  },
+
   unselectSelectedItem() {
     var data = this.state.data.map(function (section) {
       section = clone(section)
@@ -127,6 +140,15 @@ var Smartcomplete = React.createClass({
     }
   },
 
+  change(id) {
+    var event = new CustomEvent('change', {
+      bubbles: true,
+      cancelable: true,
+      detail: {id: id}
+    })
+    this.getDOMNode().dispatchEvent(event)
+  },
+
   render() {
     var classes = this.sheet.classes
     var data = this.state.data
@@ -138,12 +160,14 @@ var Smartcomplete = React.createClass({
       if (!services[selectedSection.service]) throw new Error(`No service "${selectedSection.service}" found.`)
       service = React.createElement(services[selectedSection.service], {
         data: [selectedSection],
-        select: this.selectItem
+        select: this.selectItem,
+        change: this.change
       })
     } else {
       service = React.createElement(services.all, {
         data: data,
-        select: this.selectItem
+        select: this.selectItem,
+        change: this.change
       })
     }
 

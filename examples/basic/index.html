@@ -118,11 +118,17 @@
             40: 'down',
             38: 'up',
             39: 'right',
-            37: 'left'
+            37: 'left',
+            13: 'enter'
           }
 
           window.addEventListener('keydown', function (e) {
-            component.navigate(keysMap[e.keyCode])
+            var action = keysMap[e.keyCode]
+            if (action == 'enter') {
+              console.log(component.getSelectedItem())
+            } else {
+              component.navigate(action)
+            }
           })
 
           component.addEventListener('change', function (e) {
