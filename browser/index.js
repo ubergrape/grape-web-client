@@ -264,8 +264,8 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
-	broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
+	broker.pass(this.chatHeader, 'deleteroom', this, 'deleteroom');
+	broker.pass(this.chatHeader, 'roomdeleted', this, 'roomDeleted');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');

@@ -8,6 +8,7 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
+var broker = require('broker');
 var DeleteRoomDialog = require('./dialogs/deleteroom');
 
 module.exports = ChatHeader;
@@ -100,7 +101,7 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 };
 
 
-ChatHeader.prototype.deleteRoom = function RoomMembersPopover_deleteRoom(ev) {
+ChatHeader.prototype.deleteRoom = function ChatHeader_deleteRoom(ev) {
 	ev.preventDefault();
 	var d = new DeleteRoomDialog({
 		room: this.room
