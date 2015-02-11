@@ -16,17 +16,7 @@ if (process.env.COMPRESS) {
   )
 }
 
-module.exports = {
-
-  output: {
-    library: 'Smartcomplete',
-    libraryTarget: 'var'
-  },
-
-  externals: {
-    react: 'React'
-  },
-
+var config = module.exports = {
   node: {
     Buffer: false
   },
@@ -40,6 +30,7 @@ module.exports = {
         test: /\.js$/,
         include: [
           __dirname + '/index.js',
+          __dirname + '/component.js',
           __dirname + '/src',
           __dirname + '/node_modules/lodash-es',
           __dirname + '/node_modules/ubergrape-theme',
@@ -51,5 +42,11 @@ module.exports = {
         test: /\.json$/
       }
     ]
+  }
+}
+
+if (process.env.BUILD != 'component') {
+  config.externals = {
+    react: 'React'
   }
 }

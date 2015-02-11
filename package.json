@@ -10,6 +10,9 @@
     "jss-vendor-prefixer": "^0.2.0",
     "lodash-es": "^3.1.0",
     "react-jss": "^0.1.2",
+    "react": "^0.12.2",
+    "reactive-elements": "^0.4.6",
+    "webcomponents.js": "^0.5.4-1",
     "ubergrape-theme": "git+ssh://git@github.com/ubergrape/theme.git",
     "ubergrape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git"
   },
@@ -18,13 +21,11 @@
     "6to5-loader": "^3.0.0",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
-    "react": "^0.12.2",
-    "reactive-elements": "^0.4.6",
-    "webcomponents.js": "^0.5.4-1",
     "webpack": "^1.5.3"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack index.js dist/smartcomplete.js",
-    "examples": "webpack-dev-server --config examples/webpack.config.js --no-info --content-base examples"
+    "build": "npm run build-dev & npm run build-component",
+    "build-dev": "webpack index.js dist/smartcomplete.js",
+    "build-component": "BUILD=component webpack component.js dist/smartcomplete-component.js"
   }
 }

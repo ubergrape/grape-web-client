@@ -1,0 +1,6 @@
+{
+  "name": "Smartcomplete",
+  "scripts": [
+    "dist/smartcomplete-component.js"
+  ]
+}
