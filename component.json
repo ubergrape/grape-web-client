@@ -1,4 +1,0 @@
-{
-  "name": "smartcomplete",
-  "scripts": ["dist/smartcomplete.js"]
-}
