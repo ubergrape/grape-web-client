@@ -11,7 +11,6 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-var array = require('array');
 
 module.exports = Navigation;
 
@@ -93,13 +92,13 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
-
-	this.orderPmItems();
+	
+	self.orderPmItems();
 	
 	function bindPm(user) {
 		if (user.pm !== null && typeof user.pm !== "undefined" && typeof user.pm.on !== "undefined") {
 			user.pm.on('change', function() {
-				self.pmList.redraw();
+				self.orderPmItems();
 			});
 		}
 	}
@@ -116,16 +115,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.orderPmItems = function Navigation_orderPmItems() {
-	this.pmSort.byLastMessage.call(this.pmList.items);
-	var deleted = this.pmList.items.filter(function(pm) { return !pm.active; }),
-			active = this.pmList.items.filter(function(pm) { return pm.active && !pm.is_only_invited; }),
-			invitedOnly = this.pmList.items.filter(function(pm) { return pm.is_only_invited}),
-			pmListOrdered = active;
-	
-	this.pmSort.byStatus.call(pmListOrdered);
-	invitedOnly.forEach(function(pm) { pmListOrdered.push(pm); });
-	deleted.forEach(function(pm) { pmListOrdered.push(pm); });
-	this.pmList.items = pmListOrdered;
+	this.pmList.items.sort(this.pmCompare);
 	this.pmList.redraw();
 }
 
@@ -147,26 +137,24 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	});
 };
 
-// in need of other sort functions,
-// add them in the returned object
-Navigation.prototype.pmSort = (function Navigation_pmSort() {
-	return {
-		byLastMessage : function() {
-			var compare = function(a, b) {
-				var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
-				var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
-				return bLastMessage - aLastMessage;
-			};
-			this.sort(compare);
-		},
-		byStatus : function() {
-			var compare = function(a, b) { return b.status - a.status; };
-			this.sort(compare);
-		}
-	};
-})();
+Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
+	
+	function getStatusValue(user) {
+		if (!user.active) return 0
+		if (user.status == 16) return 3
+		if (user.is_only_invited) return 1
+		return 2
+	}
 
-Navigation.prototype.deleteUser = function(item) {
+	var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
+	var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
+	if (getStatusValue(a) != getStatusValue(b))
+    return getStatusValue(b) - getStatusValue(a)
+  else 
+    return bLastMessage - aLastMessage
+}
+
+Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	// TODO unbind events
 	if (!this.filtering) {
 		var itemIndex = this.pmList.items.indexOf(item);
