@@ -14,11 +14,13 @@
     "ubergrape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git"
   },
   "devDependencies": {
-    "react": "^0.12.2",
     "6to5-core": "^3.3.9",
     "6to5-loader": "^3.0.0",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
+    "react": "^0.12.2",
+    "reactive-elements": "^0.4.6",
+    "webcomponents.js": "^0.5.4-1",
     "webpack": "^1.5.3"
   },
   "scripts": {

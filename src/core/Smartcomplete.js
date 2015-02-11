@@ -148,23 +148,13 @@ var Smartcomplete = React.createClass({
     }
 
     return (
-      <smart-complete className={classes.container}>
+      <div className={classes.container}>
         <Facets data={this.getFacets()} select={this.selectFacet} />
         {service}
-      </smart-complete>
+      </div>
     )
   }
 })
-
-/**
- * Render smartcomplete as a component when used bundled with react.
- *
- * @param {Element}
- * @api public
- */
-Smartcomplete.create = function (element) {
-  return React.render(<Smartcomplete />, element)
-}
 
 export default Smartcomplete
 
