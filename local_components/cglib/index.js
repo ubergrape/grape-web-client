@@ -25,6 +25,8 @@ function App() {
 	Emitter.call(this);
 
 	var self = this;
+	// Will be defined from .connect()
+	this.uri = undefined;
 	// the currently signed in user
 	this.user = undefined;
 	// user settings
@@ -36,8 +38,9 @@ function App() {
 	// "reconnected" should reflect if this is the first initial
 	// connection or there have been reconnect attempts
 	this.reconnected = false;
-	this.connected = false;
 	this.reconnecting = false;
+	this.connected = false;
+	this.connecting = false;
 }
 
 App.prototype = Object.create(Emitter.prototype);
@@ -94,25 +97,42 @@ App.prototype.heartbeat = function App_heartbeat(app) {
 App.prototype.onDisconnect = function App_ondisconnect() {
 	if (this.connected) {
 		this.stopHeartbeat();
-		if (this.ws) {
+		if (this._ws) {
 			this.unbind();
-			this.ws.close(3001);
+			this._ws.close(3001);
 		}
 		this.connected = false;
-		this.emit('disconnected', this.ws);
+		this.emit('disconnected', this._ws);
 	}
 	this.reconnect();
 };
 /**
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
+ *
+ * @param {WebSocket|String} WebSocket is used for testing only, uri is provided
+ * only when first time.
+ * @param {Function} [callback]
  */
 App.prototype.connect = function App_connect(ws, callback) {
-	callback = callback || function() {};
+	// Legacy callback, used in mobile_history.html
+	if (callback) this.once('connected', callback);
+
+	if (this.connecting) return;
+
 	var self = this;
+	this.connecting = true;
+
+	// Its an URI string passed first time when connecting.
+	if (typeof ws === 'string') {
+		this.uri = ws;
+		ws = null;
+	}
+
+	if (!ws) ws = new WebSocket(this.uri);
+
 	this._ws = ws;
-	if (typeof ws === 'string')
-		ws = new WebSocket(ws);
+
 	ws.on('open', function() {
 		console.log("Websocket Connection opened!");
 		self.wamp = new Wamp(ws, {
@@ -130,39 +150,37 @@ App.prototype.connect = function App_connect(ws, callback) {
 			self.emit('change settings', self.settings);
 			self.emit('change organizations', self.organizations);
 			self.connected = true;
-			self.emit('connected', self.reconnected, self.ws);
+			self.connecting = false;
+			self.emit('connected', self.reconnected, self._ws);
 			self.startHeartbeat();
 			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
-			callback();
 		});
 	});
 	ws.on('close', function(e) {
+		self.connecting = false;
 		console.log("Websocket Closed, disconnecting!", e);
 		self.onDisconnect();
 	});
 	ws.on('error', function(err) {
+		self.connecting = false;
 		console.log("Websocket Error, disconnecting!", arguments);
 		self.onDisconnect();
 	});
-	this.ws = ws;
 	// this is really ugly but needed for the tests to run
-	if (typeof this.ws._openForTest !== "undefined") this.ws._openForTest();
+	if (typeof this._ws._openForTest !== "undefined") this._ws._openForTest();
 };
 
-App.prototype.reconnect = function App_reconnect(ws) {
-	if (this.reconnecting)
-		return;
+App.prototype.reconnect = function App_reconnect() {
+	if (this.reconnecting) return;
 	this.reconnecting = true;
 	var self = this;
 	var timeout = Math.floor((Math.random() * 5000) + 1);
-	if (this.ws)
-		delete this.ws;
 	console.log("Attempting reconnect in ms:", timeout);
 	setTimeout(function() {
 		try {
 			console.log('Trying to reconnect now!');
 			self.reconnected = true;
-			self.connect(self._ws);
+			self.connect();
 		} catch (e) {
 			console.log("Reconnect failed:", e);
 		}
@@ -327,7 +345,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 };
 
 App.prototype.unbind = function App__unbind() {
-	if (this.ws) this.ws.off();
+	if (this._ws) this._ws.off();
 	// our wamp implementation has no off() right now
 	// so we do some hacking
 	if (this.wamp) this.wamp._listeners = {};
