@@ -102,11 +102,14 @@
 		color: gainsboro-dark
 		margin-bottom: 5px
 		padding-left: 45px
+		transition: opacity .5s ease-in-out
 		span
 			background: silver-light
 			border-radius: 3px
 			border: 1px solid gainsboro-light
 			padding: 0 2px
+		&.disabled
+			opacity: 0
 	// markdown info styling
 	.info-markdown
 		position: absolute
@@ -114,6 +117,8 @@
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
+		&.disabled
+			opacity: 0
 		
 	// uploader styling
 	.uploader
@@ -124,6 +129,8 @@
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
 			display: none
+		&.disabled
+			opacity: 0
 	.upload-progress
 		display: none
 		position: absolute

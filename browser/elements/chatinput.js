@@ -628,6 +628,11 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.moveCaretToEnd(this.messageInput);
 	if (!room || (room.type == "pm" && !room.users[0].active)) {
 		attr(this.messageInput).set('data-ph', 'You cannot reply to this conversation.');
+
+		classes(qs('.hint-box', this.el)).add('disabled');
+		classes(qs('.info-markdown', this.el)).add('disabled');
+		classes(qs('.uploader', this.el)).add('disabled');
+
 		attr(this.messageInput).set('disabled', true);
 		attr(this.messageInput).set('contenteditable', false);
 	} else {
@@ -635,6 +640,11 @@ ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 		var editableValue = isWebkit() ? 'plaintext-only' : true;
 		attr(this.messageInput).set('contenteditable', editableValue);
 		attr(this.messageInput).set('data-ph', 'Enter a message ...');
+
+		classes(qs('.hint-box', this.el)).remove('disabled');
+		classes(qs('.info-markdown', this.el)).remove('disabled');
+		classes(qs('.uploader', this.el)).remove('disabled');
+
 		this.messageInput.removeAttribute('disabled');
 		this.messageInput.focus();
 	}
