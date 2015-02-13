@@ -107,6 +107,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
+	if (this.filtering) return;
 	if (line.channel.type == 'pm') {
 		var authorIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (authorIndex > -1) {
@@ -118,8 +119,10 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 }
 
 Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
+	if (this.filtering) return;
 	var userIndex = this.pmList.items.indexOf(user);
-	var newPos = -1;
+	var newPos = this.pmList.items.length;
+	
 	if (userIndex > -1) {
 		this.pmList.items.splice(userIndex, 1);
 		this.pmList.items.every(function(pm, index) {
@@ -129,14 +132,23 @@ Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStat
 			}
 			return true;
 		});
-	
-		if (newPos > -1)
-			this.pmList.items.splice(newPos, 0, user);
-		else
-			this.pmList.items.push(user);
-			
+		this.pmList.items.splice(newPos, 0, user);	
 		this.pmList.redraw();
 	}
+}
+
+Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
+	if (this.filtering) return;
+	var newPos = this.pmList.items.length;
+	this.pmList.items.every(function(pm, index) {
+		if (!pm.active) {
+			newPos = index;
+			return false;
+		}
+		return true;
+	});
+	this.pmList.items.splice(newPos, 0, user);
+	this.pmList.redraw();
 }
 
 Navigation.prototype.select = function Navigation_select(which, item) {
@@ -158,6 +170,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
+	
 	function getStatusValue(user) {
 		if (!user.active) return 0;
 		if (user.status == 16) return 3;
@@ -175,11 +188,10 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	// TODO unbind events
-	if (!this.filtering) {
-		var itemIndex = this.pmList.items.indexOf(item);
-		this.pmList.items.splice(itemIndex, 1);
-		this.pmList.redraw();
-	}
+	if (this.filtering) return;
+	var itemIndex = this.pmList.items.indexOf(item);
+	this.pmList.items.splice(itemIndex, 1);
+	this.pmList.redraw();
 };
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
