@@ -107,7 +107,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (line.channel.slug == undefined) {
+	if (line.channel.type == 'pm') {
 		var authorIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (authorIndex > -1) {
 			this.pmList.items.splice(authorIndex, 1);
