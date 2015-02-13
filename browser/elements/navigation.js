@@ -99,7 +99,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	self.pmList.items.forEach(function(user) {
 		user.on('change', function() {
 			//self.orderPmItems();
-		});21
+		});
 	});
 
 	// we need this for filtering
@@ -112,7 +112,6 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 		if (authorIndex > -1) {
 			this.pmList.items.splice(authorIndex, 1);
 			this.pmList.items.unshift(line.channel.users[0]);
-			//this.pmList.items.splice(0, 0, line.channel.users[0]);
 			this.pmList.redraw();
 		}
 	}
