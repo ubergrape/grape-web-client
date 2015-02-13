@@ -321,7 +321,8 @@ UI.prototype.bind = function UI_bind() {
 
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
-	broker(this, 'newmessage', this.navigation, 'orderPmItems');
+	broker(this, 'newmessage', this.navigation, 'newMessage');
+	broker(this, 'changedOnlineStatus', this.navigation, 'changedOnlineStatus');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });

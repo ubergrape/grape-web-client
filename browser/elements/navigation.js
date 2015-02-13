@@ -88,17 +88,17 @@ Navigation.prototype.bind = function Navigation_bind() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
 
+	lists['pms'].sort(this.pmCompare);
+
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
 	
-	self.orderPmItems();
-	
 	// the pm list ist actually a list of users
 	self.pmList.items.forEach(function(user) {
 		user.on('change', function() {
-			self.orderPmItems();
+			//self.orderPmItems();
 		});
 	});
 
@@ -106,9 +106,19 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	self.pmList.unfiltered = self.pmList.items;
 };
 
-Navigation.prototype.orderPmItems = function Navigation_orderPmItems() {
-	this.pmList.items.sort(this.pmCompare);
-	this.pmList.redraw();
+Navigation.prototype.newMessage = function Navigation_newMessage(line) {
+	if (line.channel.slug == undefined) {
+		var authorIndex = this.pmList.items.indexOf(line.channel.users[0]);
+		if (authorIndex > -1) {
+			this.pmList.items.splice(authorIndex, 1);
+			this.pmList.items.splice(0, 0, line.channel.users[0]);
+			this.pmList.redraw();
+		}
+	}
+}
+
+Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
+
 }
 
 Navigation.prototype.select = function Navigation_select(which, item) {
@@ -130,7 +140,6 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
-	
 	function getStatusValue(user) {
 		if (!user.active) return 0
 		if (user.status == 16) return 3
