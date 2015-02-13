@@ -99,7 +99,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	self.pmList.items.forEach(function(user) {
 		user.on('change', function() {
 			//self.orderPmItems();
-		});
+		});21
 	});
 
 	// we need this for filtering
@@ -111,14 +111,33 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 		var authorIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (authorIndex > -1) {
 			this.pmList.items.splice(authorIndex, 1);
-			this.pmList.items.splice(0, 0, line.channel.users[0]);
+			this.pmList.items.unshift(line.channel.users[0]);
+			//this.pmList.items.splice(0, 0, line.channel.users[0]);
 			this.pmList.redraw();
 		}
 	}
 }
 
 Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
-
+	var userIndex = this.pmList.items.indexOf(user);
+	var newPos = -1;
+	if (userIndex > -1) {
+		this.pmList.items.splice(userIndex, 1);
+		this.pmList.items.every(function(pm, index) {
+			if (pm.status == 0 && pm != user) {
+				newPos = index;
+				return false;
+			}
+			return true;
+		});
+	
+		if (newPos > -1)
+			this.pmList.items.splice(newPos, 0, user);
+		else
+			this.pmList.items.push(user);
+			
+		this.pmList.redraw();
+	}
 }
 
 Navigation.prototype.select = function Navigation_select(which, item) {
@@ -141,18 +160,18 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 	function getStatusValue(user) {
-		if (!user.active) return 0
-		if (user.status == 16) return 3
-		if (user.is_only_invited) return 1
-		return 2
+		if (!user.active) return 0;
+		if (user.status == 16) return 3;
+		if (user.is_only_invited) return 1;
+		return 2;
 	}
 
 	var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
 	var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
 	if (getStatusValue(a) != getStatusValue(b))
-		return getStatusValue(b) - getStatusValue(a)
+		return getStatusValue(b) - getStatusValue(a);
 	else 
-		return bLastMessage - aLastMessage
+		return bLastMessage - aLastMessage;
 }
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
