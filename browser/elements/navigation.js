@@ -121,10 +121,10 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
 	if (this.filtering) return;
 	var userIndex = this.pmList.items.indexOf(user);
-	var newPos = this.pmList.items.length;
 	
 	if (userIndex > -1) {
 		this.pmList.items.splice(userIndex, 1);
+		var newPos = this.pmList.items.length;
 		this.pmList.items.every(function(pm, index) {
 			if (pm.status == 0 && pm != user) {
 				newPos = index;
