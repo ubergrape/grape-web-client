@@ -20,7 +20,7 @@ var List = React.createClass({
     var classes = this.sheet.classes
 
     var sections = this.getSections().map(function (section) {
-      assign(section, pick(this.props, 'select'))
+      assign(section, pick(this.props, 'select', 'pick'))
       return <Section {...section}  key={section.service}/>
     }, this)
 

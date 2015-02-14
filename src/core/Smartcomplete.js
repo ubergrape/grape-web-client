@@ -101,6 +101,11 @@ var Smartcomplete = React.createClass({
     return dataUtils.getSelectedObject(this.state.sections)
   },
 
+  pickObject(id) {
+    this.selectObject(id)
+    this.emit('pickobject', {id: id})
+  },
+
   /**
    * Emit DOM event.
    */
@@ -131,7 +136,8 @@ var Smartcomplete = React.createClass({
 
     var facet = React.createElement(services[serviceName], {
       data: data,
-      select: this.selectObject
+      select: this.selectObject,
+      pick: this.pickObject
     })
 
     return (

@@ -62,6 +62,10 @@
         component.addEventListener('selectobject', function (e) {
           console.log('selectobject', e)
         })
+
+        component.addEventListener('pickobject', function (e) {
+          console.log('pickobject', e)
+        })
       }
 
       document.addEventListener('DOMContentLoaded', init)
