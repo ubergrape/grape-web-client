@@ -14,14 +14,16 @@ var container = {
   cursor: 'pointer',
   textTransform: 'uppercase',
   fontWeight: 'bold',
-  color: Color(colors.white).alpha(.5).hslString(),
-  '&:hover': {
-      background: Color(webColors.roomHeaderBackground).lighten(.2).hslString()
-  }
+  color: Color(colors.white).alpha(.5).hslString()
 }
 
 export default {
-  container: container,
+  container: {
+    extend: container,
+    '&:hover': {
+      background: Color(webColors.roomHeaderBackground).lighten(.2).hslString()
+    }
+  },
   containerSelected: {
     extend: container,
     background: colors.grapeLight,
