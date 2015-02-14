@@ -2,13 +2,13 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import itemStyle from './itemStyle'
+import objectStyle from './objectStyle'
 
 /**
  * One result for the list section.
  */
-var Item = React.createClass({
-  mixins: [useSheet(itemStyle)],
+var Object = React.createClass({
+  mixins: [useSheet(objectStyle)],
 
   render() {
     var classes = this.sheet.classes
@@ -19,7 +19,7 @@ var Item = React.createClass({
     // TODO: use svg icons, don't use global selectors.
     var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
-      <div onClick={this.change} onMouseOver={this.select} className={containerClassName}>
+      <div onMouseOver={this.select} className={containerClassName} key={this.props.id}>
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
         <span className={classes.info}>{this.props.info}</span>
@@ -41,11 +41,7 @@ var Item = React.createClass({
 
   select() {
     this.props.select(this.props.id)
-  },
-
-  change() {
-    this.props.change(this.props.id)
   }
 })
 
-export default Item
+export default Object

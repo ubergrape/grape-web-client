@@ -2,11 +2,12 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import Section from './Section'
-import listStyle from './listStyle'
 import cloneDeep from 'lodash-es/lang/cloneDeep'
 import assign from 'lodash-es/object/assign'
 import pick from 'lodash-es/object/pick'
+
+import Section from './Section'
+import listStyle from './listStyle'
 
 /**
  * List for search results.
@@ -19,8 +20,8 @@ var List = React.createClass({
     var classes = this.sheet.classes
 
     var sections = this.getSections().map(function (section) {
-      assign(section, pick(this.props, 'select', 'change'))
-      return <Section {...section} />
+      assign(section, pick(this.props, 'select'))
+      return <Section {...section}  key={section.service}/>
     }, this)
 
     return <div className={classes.container}>{sections}</div>
@@ -35,10 +36,10 @@ var List = React.createClass({
     if (!section.results.length) data.shift()
 
     var topSection = {
-        label: 'Top result',
-        service: 'top',
-        icon: section.icon,
-        results: [topResult]
+      label: 'Top result',
+      service: 'top',
+      icon: section.icon,
+      results: [topResult]
     }
 
     data.unshift(topSection)

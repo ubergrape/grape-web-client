@@ -2,13 +2,14 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import sectionStyle from './sectionStyle'
-import Item from './Item'
 import assign from 'lodash-es/object/assign'
 import pick from 'lodash-es/object/pick'
 
+import sectionStyle from './sectionStyle'
+import Object from './Object'
+
 /**
- * One list section which has a title and list items.
+ * One list section which has a title and list objects.
  */
 var Section = React.createClass({
   mixins: [useSheet(sectionStyle)],
@@ -16,15 +17,15 @@ var Section = React.createClass({
   render() {
     var classes = this.sheet.classes
 
-    var items = this.props.results.map(function (result) {
-      assign(result, pick(this.props, 'select', 'change', 'icon'))
-      return <Item {...result} />
+    var objects = this.props.results.map(function (result) {
+      assign(result, pick(this.props, 'select', 'icon'))
+      return <Object {...result} />
     }, this)
 
     return (
       <section>
         <header className={classes.header}>{this.props.label}</header>
-        {items}
+        {objects}
       </section>
     )
   }

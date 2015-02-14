@@ -2,12 +2,15 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import smartcompleteStyle from './smartcompleteStyle'
-import Facets from './Facets'
-import * as services from '../services'
 import clone from 'lodash-es/lang/clone'
+import cloneDeep from 'lodash-es/lang/cloneDeep'
 import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
+
+import smartcompleteStyle from './smartcompleteStyle'
+import Tabs from './Tabs'
+import * as services from '../services'
+import * as dataUtils from '../common/utils/data'
 
 /**
  * Main Smartcomplete class which uses everything else.
@@ -15,166 +18,126 @@ import findIndex from 'lodash-es/array/findIndex'
 var Smartcomplete = React.createClass({
   mixins: [useSheet(smartcompleteStyle)],
 
-  getInitialState() {
-    return {
-      data: []
-    }
+  componentWillReceiveProps(props) {
+    var sections = dataUtils.getSections(props.data)
+    this.setState({
+      sections: sections,
+      tabs: dataUtils.getTabs(sections)
+    })
   },
 
-  getFacets() {
-    var hasSelected = false
-    var facets = this.state.data.map(function (section) {
-      var selected = Boolean(section.selected)
-      if (selected) hasSelected = true
-      return {
-        label: section.label,
-        service: section.service,
-        amount: section.results.length,
-        selected: selected,
+  /**
+   * Select facet.
+   *
+   * @param {String} facet can be service id or "prev" or "next"
+   */
+  selectFacet(facet) {
+    var tabs = this.state.tabs
+    var sections = this.state.sections
+    var currIndex = findIndex(tabs, tab => tab.selected)
+    var newIndex
+    var set = false
+
+    if (facet == 'next') {
+      newIndex = currIndex + 1
+      if (newIndex < tabs.length) {
+        set = true
       }
-    })
-
-    if (facets[0] && facets[0].service != 'all') {
-      var total = 0
-      facets.forEach(facet => total += facet.amount)
-      facets.unshift({
-        label: 'All',
-        service: 'all',
-        amount: total,
-        selected: !hasSelected
-      })
     }
-
-    return facets
-  },
-
-  selectFacet(service) {
-    var data = this.state.data.map(function (section) {
-      section = clone(section)
-      section.selected = section.service == service
-      return section
-    })
-    this.setState({data: data})
-  },
-
-  selectItem(id) {
-    var data = this.state.data.map(function (section) {
-      section = clone(section)
-
-      var current = find(section.results, result => result.selected)
-      if (current) current.selected = false
-
-      var result = find(section.results, result => result.id == id)
-      if (result) result.selected = true
-
-      return section
-    })
-    this.setState({data: data})
-  },
-
-  getSelectedItem() {
-    var id
-    find(this.state.data, function (section) {
-      return find(section.results, function (result) {
-        if (result.selected) {
-          id = result.id
-          return true
-        }
-      })
-    })
-    return id
-  },
-
-  unselectSelectedItem() {
-    var data = this.state.data.map(function (section) {
-      section = clone(section)
-
-      var current = find(section.results, result => result.selected)
-      if (current) current.selected = false
-      return section
-    })
-    this.setState({data: data})
-  },
-
-  navigate(direction) {
-    var facets = this.getFacets()
-    var facetIndex = findIndex(facets, facet => facet.selected)
-
-    var results = []
-
-    var service = facets[facetIndex].service
-
-    if (service == 'all') {
-      this.state.data.forEach(section => results = results.concat(section.results))
+    else if (facet == 'prev') {
+      newIndex = currIndex - 1
+      if (newIndex >= 0) {
+        set = true
+      }
     } else {
-      results = find(
-        this.state.data,
-        section => section.service == service
-      ).results
+      newIndex = findIndex(tabs, tab => tab.service == facet)
+      set = true
     }
-    var resultIndex = findIndex(results, result => result.selected)
 
-    switch(direction) {
-      case 'down':
-        if (resultIndex + 1 < results.length) resultIndex++
-        if (results[resultIndex]) this.selectItem(results[resultIndex].id)
-        break
-      case 'up':
-        resultIndex = resultIndex < 0 ? 0 : resultIndex - 1
-        if (results[resultIndex]) this.selectItem(results[resultIndex].id)
-        break
-      case 'right':
-        facetIndex++
-        if (facets[facetIndex]) {
-          this.selectFacet(facets[facetIndex].service)
-          this.unselectSelectedItem()
-        }
-        break
-      case 'left':
-        facetIndex--
-        if (facets[facetIndex]) {
-          this.selectFacet(facets[facetIndex].service)
-          this.unselectSelectedItem()
-        }
-        break
+    if (set) {
+      var service = tabs[newIndex].service
+      dataUtils.setSelectedTab(tabs, newIndex)
+      dataUtils.setSelectedSection(sections, service)
+      // "All" tab is special case, just take the first service.
+      dataUtils.setSelectedObjectAt(sections, service || sections[0].service, 0)
+      this.setState({tabs: tabs, sections: sections})
+      this.emit('selectfacet', {service: service})
     }
   },
 
-  change(id) {
-    var event = new CustomEvent('change', {
+  selectObject(id) {
+    var sections = this.state.sections
+    var set = false
+
+    if (id == 'next' || id == 'prev') {
+      var selectedSection = dataUtils.getSelectedSection(sections)
+      var objects = selectedSection ? selectedSection.results : dataUtils.getObjects(sections)
+      var selectedIndex = findIndex(objects, object => object.selected)
+      var newObject
+
+      if (id == 'next') {
+        newObject = objects[selectedIndex + 1]
+      }
+      else if (id == 'prev') {
+        newObject = objects[selectedIndex - 1]
+      }
+
+      if (newObject) {
+        id = newObject.id
+        set = true
+      }
+    } else {
+      set = true
+    }
+
+    if (set) {
+      dataUtils.setSelectedObject(sections, id)
+      this.setState({sections: sections})
+      this.emit('selectobject', {id: id})
+    }
+  },
+
+  getSelectedObject() {
+    return dataUtils.getSelectedObject(this.state.sections)
+  },
+
+  /**
+   * Emit DOM event.
+   */
+  emit(type, data) {
+    var event = new CustomEvent(type, {
       bubbles: true,
       cancelable: true,
-      detail: {id: id}
+      detail: data
     })
     this.getDOMNode().dispatchEvent(event)
   },
 
   render() {
+    if (!this.state) return null
     var classes = this.sheet.classes
-    var data = this.state.data
+    var sections = this.state.sections
+    var selectedSection = dataUtils.getSelectedSection(sections)
+    var serviceName, data
 
-    var selectedSection = find(data, section => section.selected)
-
-    var service
     if (selectedSection) {
-      if (!services[selectedSection.service]) throw new Error(`No service "${selectedSection.service}" found.`)
-      service = React.createElement(services[selectedSection.service], {
-        data: [selectedSection],
-        select: this.selectItem,
-        change: this.change
-      })
+      var serviceName = selectedSection.service
+      if (!serviceName) throw new Error(`No service "${serviceName}" found.`)
+      data = [selectedSection]
     } else {
-      service = React.createElement(services.all, {
-        data: data,
-        select: this.selectItem,
-        change: this.change
-      })
+      serviceName = 'all'
+      data = sections
     }
+
+    var facet = React.createElement(services[serviceName], {
+      data: data,
+      select: this.selectObject
+    })
 
     return (
       <div className={classes.container}>
-        <Facets data={this.getFacets()} select={this.selectFacet} />
-        {service}
+        <Tabs data={this.state.tabs} select={this.selectFacet} />
+        {facet}
       </div>
     )
   }

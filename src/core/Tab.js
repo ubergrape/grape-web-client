@@ -2,18 +2,19 @@
 
 import React from 'react'
 import useSheet from 'react-jss'
-import facetStyle from './facetStyle'
+import tabStyle from './tabStyle'
 
 /**
- * One facet tab.
+ * One tab tab.
  */
-var Facet = React.createClass({
-  mixins: [useSheet(facetStyle)],
+var Tab = React.createClass({
+  mixins: [useSheet(tabStyle)],
 
   render() {
     var classes = this.sheet.classes
     var label = this.props.label
-    if (this.props.amount != null) label += ' (' + this.props.amount + ')'
+    var amount = this.props.amount
+    if (amount != null) label += ' (' + amount + ')'
     var className = this.props.selected ? classes.containerSelected : classes.container
     return <li className={className} onClick={this.onSelect}>{label}</li>
   },
@@ -23,4 +24,4 @@ var Facet = React.createClass({
   }
 })
 
-export default Facet
+export default Tab
