@@ -1,6 +1,7 @@
 'use strict'
 
 import colors from 'ubergrape-theme/base-colors'
+import webColors from 'ubergrape-theme/web-colors'
 import Color from 'color'
 import fonts from 'ubergrape-theme/fonts'
 
@@ -13,7 +14,10 @@ var container = {
   cursor: 'pointer',
   textTransform: 'uppercase',
   fontWeight: 'bold',
-  color: Color(colors.white).alpha(.5).hslString()
+  color: Color(colors.white).alpha(.5).hslString(),
+  '&:hover': {
+      background: Color(webColors.roomHeaderBackground).lighten(.2).hslString()
+  }
 }
 
 export default {
