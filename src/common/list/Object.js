@@ -11,8 +11,9 @@ let Object = React.createClass({
   render() {
     let classes = this.sheet.classes
     let containerClassName = this.props.selected ? classes.containerSelected : classes.container
+    let date = ''
     if (this.props.date) {
-      let date = <span className={classes.date}>{this.getLocaleDateString()}</span>
+      date = <span className={classes.date}>{this.getLocaleDateString()}</span>
     }
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
