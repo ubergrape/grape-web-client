@@ -49,7 +49,8 @@ let Smartcomplete = React.createClass({
       if (newIndex >= 0) {
         set = true
       }
-    } else {
+    }
+    else {
       newIndex = findIndex(tabs, tab => tab.service == facet)
       set = true
     }
@@ -86,7 +87,8 @@ let Smartcomplete = React.createClass({
         id = newObject.id
         set = true
       }
-    } else {
+    }
+    else {
       set = true
     }
 
