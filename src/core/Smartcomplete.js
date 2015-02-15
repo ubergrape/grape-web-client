@@ -131,7 +131,8 @@ let Smartcomplete = React.createClass({
       let serviceName = selectedSection.service
       if (!serviceName) throw new Error(`No service "${serviceName}" found.`)
       data = [selectedSection]
-    } else {
+    }
+    else {
       serviceName = 'all'
       data = sections
     }
