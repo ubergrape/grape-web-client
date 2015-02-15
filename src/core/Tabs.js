@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import useSheet from 'react-jss'
 import tabsStyle from './tabsStyle'

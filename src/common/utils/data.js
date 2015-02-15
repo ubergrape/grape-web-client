@@ -1,5 +1,3 @@
-'use strict'
-
 import find from 'lodash-es/collection/find'
 
 // Service/icon map.

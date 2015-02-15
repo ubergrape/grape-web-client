@@ -1,5 +1,3 @@
-'use strict'
-
 import './src/setup'
 import Smartcomplete from './src/core/Smartcomplete'
 

@@ -1,5 +1,3 @@
-'use strict'
-
 import colors from 'ubergrape-theme/base-colors'
 import webColors from 'ubergrape-theme/web-colors'
 import Color from 'color'

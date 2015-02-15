@@ -1,5 +1,3 @@
-'use strict'
-
 import webColors from 'ubergrape-theme/web-colors'
 
 export default {

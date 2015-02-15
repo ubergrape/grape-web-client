@@ -1,5 +1,3 @@
-'use strict'
-
 // Setup jss plugins.
 import jss from 'jss'
 import jssExtend from 'jss-extend'

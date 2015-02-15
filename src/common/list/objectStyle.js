@@ -1,5 +1,3 @@
-'use strict'
-
 import colors from 'ubergrape-theme/base-colors'
 import fonts from 'ubergrape-theme/fonts'
 import utils from 'ubergrape-jss-utils'
