@@ -6,7 +6,7 @@ import List from '../../common/list/List'
 /**
  * All search results.
  */
-var All = React.createClass({
+let All = React.createClass({
   render() {
     return <List {...this.props} />
   }

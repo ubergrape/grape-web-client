@@ -8,12 +8,12 @@ import Tab from './Tab'
 /**
  * Tabs container.
  */
-var Tabs = React.createClass({
+let Tabs = React.createClass({
   mixins: [useSheet(tabsStyle)],
 
   render() {
-    var classes = this.sheet.classes
-    var tabs = this.props.data.map(function (item) {
+    let classes = this.sheet.classes
+    let tabs = this.props.data.map(function (item) {
       return <Tab {...item} select={this.props.select} key={item.service || 'all'}/>
     }, this)
 

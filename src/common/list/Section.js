@@ -11,13 +11,13 @@ import Object from './Object'
 /**
  * One list section which has a title and list objects.
  */
-var Section = React.createClass({
+let Section = React.createClass({
   mixins: [useSheet(sectionStyle)],
 
   render() {
-    var classes = this.sheet.classes
+    let classes = this.sheet.classes
 
-    var objects = this.props.results.map(function (result) {
+    let objects = this.props.results.map(function (result) {
       assign(result, pick(this.props, 'select', 'pick', 'icon'))
       return <Object {...result} />
     }, this)

@@ -15,11 +15,11 @@ import * as dataUtils from '../common/utils/data'
 /**
  * Main Smartcomplete class which uses everything else.
  */
-var Smartcomplete = React.createClass({
+let Smartcomplete = React.createClass({
   mixins: [useSheet(smartcompleteStyle)],
 
   componentWillReceiveProps(props) {
-    var sections = dataUtils.getSections(props.data)
+    let sections = dataUtils.getSections(props.data)
     this.setState({
       sections: sections,
       tabs: dataUtils.getTabs(sections)
@@ -32,11 +32,11 @@ var Smartcomplete = React.createClass({
    * @param {String} facet can be service id or "prev" or "next"
    */
   selectFacet(facet) {
-    var tabs = this.state.tabs
-    var sections = this.state.sections
-    var currIndex = findIndex(tabs, tab => tab.selected)
-    var newIndex
-    var set = false
+    let tabs = this.state.tabs
+    let sections = this.state.sections
+    let currIndex = findIndex(tabs, tab => tab.selected)
+    let newIndex
+    let set = false
 
     if (facet == 'next') {
       newIndex = currIndex + 1
@@ -55,7 +55,7 @@ var Smartcomplete = React.createClass({
     }
 
     if (set) {
-      var service = tabs[newIndex].service
+      let service = tabs[newIndex].service
       dataUtils.setSelectedTab(tabs, newIndex)
       dataUtils.setSelectedSection(sections, service)
       // "All" tab is special case, just take the first service.
@@ -66,14 +66,14 @@ var Smartcomplete = React.createClass({
   },
 
   selectObject(id) {
-    var sections = this.state.sections
-    var set = false
+    let sections = this.state.sections
+    let set = false
 
     if (id == 'next' || id == 'prev') {
-      var selectedSection = dataUtils.getSelectedSection(sections)
-      var objects = selectedSection ? selectedSection.results : dataUtils.getObjects(sections)
-      var selectedIndex = findIndex(objects, object => object.selected)
-      var newObject
+      let selectedSection = dataUtils.getSelectedSection(sections)
+      let objects = selectedSection ? selectedSection.results : dataUtils.getObjects(sections)
+      let selectedIndex = findIndex(objects, object => object.selected)
+      let newObject
 
       if (id == 'next') {
         newObject = objects[selectedIndex + 1]
@@ -110,7 +110,7 @@ var Smartcomplete = React.createClass({
    * Emit DOM event.
    */
   emit(type, data) {
-    var event = new CustomEvent(type, {
+    let event = new CustomEvent(type, {
       bubbles: true,
       cancelable: true,
       detail: data
@@ -120,13 +120,13 @@ var Smartcomplete = React.createClass({
 
   render() {
     if (!this.state) return null
-    var classes = this.sheet.classes
-    var sections = this.state.sections
-    var selectedSection = dataUtils.getSelectedSection(sections)
-    var serviceName, data
+    let classes = this.sheet.classes
+    let sections = this.state.sections
+    let selectedSection = dataUtils.getSelectedSection(sections)
+    let serviceName, data
 
     if (selectedSection) {
-      var serviceName = selectedSection.service
+      let serviceName = selectedSection.service
       if (!serviceName) throw new Error(`No service "${serviceName}" found.`)
       data = [selectedSection]
     } else {
@@ -134,7 +134,7 @@ var Smartcomplete = React.createClass({
       data = sections
     }
 
-    var facet = React.createElement(services[serviceName], {
+    let facet = React.createElement(services[serviceName], {
       data: data,
       select: this.selectObject,
       pick: this.pickObject

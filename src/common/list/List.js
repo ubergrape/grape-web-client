@@ -12,14 +12,14 @@ import listStyle from './listStyle'
 /**
  * List for search results.
  */
-var List = React.createClass({
+let List = React.createClass({
   mixins: [useSheet(listStyle)],
 
   render() {
     if (!this.props.data.length) return null
-    var classes = this.sheet.classes
+    let classes = this.sheet.classes
 
-    var sections = this.getSections().map(function (section) {
+    let sections = this.getSections().map(function (section) {
       assign(section, pick(this.props, 'select', 'pick'))
       return <Section {...section}  key={section.service}/>
     }, this)
@@ -28,14 +28,14 @@ var List = React.createClass({
   },
 
   getSections() {
-    var data = cloneDeep(this.props.data)
-    var section = data[0]
-    var topResult = section.results.shift()
+    let data = cloneDeep(this.props.data)
+    let section = data[0]
+    let topResult = section.results.shift()
 
     // It was the only result in that section - remove that section.
     if (!section.results.length) data.shift()
 
-    var topSection = {
+    let topSection = {
       label: 'Top result',
       service: 'top',
       icon: section.icon,

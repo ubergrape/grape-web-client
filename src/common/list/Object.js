@@ -7,17 +7,17 @@ import objectStyle from './objectStyle'
 /**
  * One result for the list section.
  */
-var Object = React.createClass({
+let Object = React.createClass({
   mixins: [useSheet(objectStyle)],
 
   render() {
-    var classes = this.sheet.classes
-    var containerClassName = this.props.selected ? classes.containerSelected : classes.container
+    let classes = this.sheet.classes
+    let containerClassName = this.props.selected ? classes.containerSelected : classes.container
     if (this.props.date) {
-      var date = <span className={classes.date}>{this.getLocaleDateString()}</span>
+      let date = <span className={classes.date}>{this.getLocaleDateString()}</span>
     }
     // TODO: use svg icons, don't use global selectors.
-    var iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
+    let iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
     return (
       <div onClick={this.pick} onMouseOver={this.select} className={containerClassName} key={this.props.id}>
         <span className={iconClassNames}></span>

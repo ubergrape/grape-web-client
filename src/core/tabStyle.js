@@ -5,7 +5,7 @@ import webColors from 'ubergrape-theme/web-colors'
 import Color from 'color'
 import fonts from 'ubergrape-theme/fonts'
 
-var container = {
+let container = {
   extend: fonts.small,
   position: 'relative',
   display: 'inline-block',

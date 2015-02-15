@@ -4,7 +4,7 @@ import find from 'lodash-es/collection/find'
 
 // Service/icon map.
 // TODO it should be a service implementation detail.
-var serviceIconMap = {
+let serviceIconMap = {
   github: 'github',
   googledrive: 'file',
   gcal: 'calendar'
@@ -29,15 +29,15 @@ var serviceIconMap = {
  * }
  */
 export function getSections (data) {
-  var sections = []
+  let sections = []
 
   // Group by sections.
   data.results.forEach(function (result) {
-    var section = findService(sections, result.service)
+    let section = findService(sections, result.service)
 
     // We have no section for this service yet.
     if (!section) {
-      var service = findService(data.services, result.service)
+      let service = findService(data.services, result.service)
       section = {
         label: service.label,
         service: result.service,
@@ -83,10 +83,10 @@ export function getSelectedSection(sections) {
  * Mark section as selected. Unmark previously selected one.
  */
 export function setSelectedSection(sections, service) {
-  var curr = getSelectedSection(sections)
+  let curr = getSelectedSection(sections)
   if (curr) curr.selected = false
   if (service) {
-    var next = find(sections, section => section.service == service)
+    let next = find(sections, section => section.service == service)
     next.selected = true
   }
 }
@@ -95,10 +95,10 @@ export function setSelectedSection(sections, service) {
  * Get currently selected results object.
  */
 export function getSelectedObject(sections) {
-  var ret
+  let ret
 
   sections.some(function (section) {
-    var selected = find(section.results, object => object.selected)
+    let selected = find(section.results, object => object.selected)
     if (selected) {
       ret = selected
       return true
@@ -113,7 +113,7 @@ export function getSelectedObject(sections) {
  * Get all objects from all sections.
  */
 export function getObjects(sections) {
-  var objects = []
+  let objects = []
   sections.forEach(section => objects = objects.concat(section.results))
   return objects
 }
@@ -123,7 +123,7 @@ export function getObjects(sections) {
  */
 export function setSelectedObjectAt(sections, service, index) {
   unsetSelectedObject(sections)
-  var section = find(sections, section => section.service == service)
+  let section = find(sections, section => section.service == service)
   section.results[index].selected = true
 }
 
@@ -139,7 +139,7 @@ export function setSelectedObject(sections, id) {
  * Mark currently selected object as not selected.
  */
 function unsetSelectedObject(sections) {
-  var prev = getSelectedObject(sections)
+  let prev = getSelectedObject(sections)
   if (prev) prev.selected = false
 }
 
@@ -147,10 +147,10 @@ function unsetSelectedObject(sections) {
  * Get object by id.
  */
 function getObjectById(sections, id) {
-  var ret
+  let ret
 
   sections.some(function (section) {
-    var obj = find(section.results, object => object.id == id)
+    let obj = find(section.results, object => object.id == id)
     if (obj) {
       ret = obj
       return true
@@ -165,7 +165,7 @@ function getObjectById(sections, id) {
  * Get data for tabs representation.
  */
 export function getTabs(sections) {
-  var data = sections.map(function (section) {
+  let data = sections.map(function (section) {
     return {
       label: section.label,
       amount: section.results.length,
@@ -174,12 +174,12 @@ export function getTabs(sections) {
     }
   })
 
-  var amount = 0
+  let amount = 0
   sections.forEach(function (section) {
     amount += section.results.length
   })
 
-  var hasSelected = Boolean(getSelectedSection(sections))
+  let hasSelected = Boolean(getSelectedSection(sections))
 
   data.unshift({
     label: 'All',

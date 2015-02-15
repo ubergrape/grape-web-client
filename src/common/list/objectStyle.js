@@ -4,7 +4,7 @@ import colors from 'ubergrape-theme/base-colors'
 import fonts from 'ubergrape-theme/fonts'
 import utils from 'ubergrape-jss-utils'
 
-var container = {
+let container = {
   padding: '5px 7px',
   color: colors.grapeTypo
 }
