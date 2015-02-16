@@ -102,9 +102,9 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 	if (this.filtering) return;
 	if (line.channel.type == 'pm') {
-		var authorIndex = this.pmList.items.indexOf(line.channel.users[0]);
-		if (authorIndex > -1) {
-			this.pmList.items.splice(authorIndex, 1);
+		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
+		if (pmPartnerIndex > -1) {
+			this.pmList.items.splice(pmPartnerIndex, 1);
 			this.pmList.items.unshift(line.channel.users[0]);
 			this.pmList.redraw();
 		}
