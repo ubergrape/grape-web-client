@@ -53,7 +53,7 @@ Navigation.prototype.init = function Navigation_init() {
 				orgInfoHeight = qs('.org-info', self.el).clientHeight,
 				roomWrapper = roomScrollbar.wrapper.parentNode,
 				pmResizableHeight = pmResizable.element.clientHeight,
-				remainingPadding = 15;
+				remainingPadding = 12;
 
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
 	}, 200);
@@ -94,13 +94,6 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
-	
-	// the pm list ist actually a list of users
-	self.pmList.items.forEach(function(user) {
-		user.on('change', function() {
-			//self.orderPmItems();
-		});
-	});
 
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
@@ -126,7 +119,8 @@ Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStat
 		this.pmList.items.splice(userIndex, 1);
 		var newPos = this.pmList.items.length;
 		this.pmList.items.every(function(pm, index) {
-			if (pm.status == 0 && pm != user) {
+			if ((user.status == 16 && pm.status == 0)
+				|| (user.status == 0 && (pm.is_only_invited || !pm.active))) {
 				newPos = index;
 				return false;
 			}
