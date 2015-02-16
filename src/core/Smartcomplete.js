@@ -58,27 +58,27 @@ let Smartcomplete = React.createClass({
       dataUtils.setSelectedTab(tabs, newIndex)
       dataUtils.setSelectedSection(sections, service)
       // "All" tab is special case, just take the first service.
-      dataUtils.setSelectedObjectAt(sections, service || sections[0].service, 0)
+      dataUtils.setFocusedObjectAt(sections, service || sections[0].service, 0)
       this.setState({tabs: tabs, sections: sections})
       this.emit('selectfacet', {service: service})
     }
   },
 
-  selectObject(id) {
+  focusObject(id) {
     let sections = this.state.sections
     let set = false
 
     if (id == 'next' || id == 'prev') {
       let selectedSection = dataUtils.getSelectedSection(sections)
       let objects = selectedSection ? selectedSection.results : dataUtils.getObjects(sections)
-      let selectedIndex = findIndex(objects, object => object.selected)
+      let focusedIndex = findIndex(objects, object => object.focused)
       let newObject
 
       if (id == 'next') {
-        newObject = objects[selectedIndex + 1]
+        newObject = objects[focusedIndex + 1]
       }
       else if (id == 'prev') {
-        newObject = objects[selectedIndex - 1]
+        newObject = objects[focusedIndex - 1]
       }
 
       if (newObject) {
@@ -91,19 +91,18 @@ let Smartcomplete = React.createClass({
     }
 
     if (set) {
-      dataUtils.setSelectedObject(sections, id)
+      dataUtils.setFocusedObject(sections, id)
       this.setState({sections: sections})
-      this.emit('selectobject', {id: id})
     }
   },
 
-  getSelectedObject() {
-    return dataUtils.getSelectedObject(this.state.sections)
+  getFocusedObject() {
+    return dataUtils.getFocusedObject(this.state.sections)
   },
 
-  pickObject(id) {
-    this.selectObject(id)
-    this.emit('pickobject', {id: id})
+  selectObject(id) {
+    this.focusObject(id)
+    this.emit('selectobject', {id: id})
   },
 
   /**
@@ -137,8 +136,8 @@ let Smartcomplete = React.createClass({
 
     let facet = React.createElement(services[serviceName], {
       data: data,
-      select: this.selectObject,
-      pick: this.pickObject
+      focus: this.focusObject,
+      select: this.selectObject
     })
 
     return (

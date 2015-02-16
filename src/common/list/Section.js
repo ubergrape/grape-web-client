@@ -16,7 +16,7 @@ let Section = React.createClass({
     let classes = this.sheet.classes
 
     let objects = this.props.results.map(function (result) {
-      assign(result, pick(this.props, 'select', 'pick', 'icon'))
+      assign(result, pick(this.props, 'focus', 'select', 'icon'))
       return <Object {...result} />
     }, this)
 

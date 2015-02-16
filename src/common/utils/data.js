@@ -52,12 +52,12 @@ export function getSections (data) {
       highlighted: result.highlighted,
       info: result.container,
       date: result.start,
-      selected: false
+      focused: false
     })
   })
 
   // Select first result of the first section.
-  sections[0].results[0].selected = true
+  sections[0].results[0].focused = true
 
   // Find service within in the original results structure or within
   // sections structure for smartcomplete (id == service).
@@ -90,15 +90,15 @@ export function setSelectedSection(sections, service) {
 }
 
 /**
- * Get currently selected results object.
+ * Get currently focused results object.
  */
-export function getSelectedObject(sections) {
+export function getFocusedObject(sections) {
   let ret
 
   sections.some(function (section) {
-    let selected = find(section.results, object => object.selected)
-    if (selected) {
-      ret = selected
+    let focused = find(section.results, object => object.focused)
+    if (focused) {
+      ret = focused
       return true
     }
     return false
@@ -117,28 +117,28 @@ export function getObjects(sections) {
 }
 
 /**
- * Mark a result as selected. Unmark previously selected one.
+ * Mark a result as focused. Unmark previously focused one.
  */
-export function setSelectedObjectAt(sections, service, index) {
-  unsetSelectedObject(sections)
+export function setFocusedObjectAt(sections, service, index) {
+  unsetFocusedObject(sections)
   let section = find(sections, section => section.service == service)
-  section.results[index].selected = true
+  section.results[index].focused = true
 }
 
 /**
- * Mark a result as selected. Unmark previously selected one.
+ * Mark a result as focused. Unmark previously focused one.
  */
-export function setSelectedObject(sections, id) {
-  unsetSelectedObject(sections)
-  getObjectById(sections, id).selected = true
+export function setFocusedObject(sections, id) {
+  unsetFocusedObject(sections)
+  getObjectById(sections, id).focused = true
 }
 
 /**
- * Mark currently selected object as not selected.
+ * Mark currently focused object as not focused.
  */
-function unsetSelectedObject(sections) {
-  let prev = getSelectedObject(sections)
-  if (prev) prev.selected = false
+function unsetFocusedObject(sections) {
+  let prev = getFocusedObject(sections)
+  if (prev) prev.focused = false
 }
 
 /**

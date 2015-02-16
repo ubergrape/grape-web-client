@@ -36,7 +36,7 @@
         window.addEventListener('keydown', function (e) {
           var action = keysMap[e.keyCode]
           if (action == 'enter') {
-            console.log(component.getSelectedObject())
+            console.log(component.getFocusedObject())
           } else {
             switch (action) {
               case 'right':
@@ -46,10 +46,10 @@
                 component.selectFacet('prev')
                 break
               case 'down':
-                component.selectObject('next')
+                component.focusObject('next')
                 break
               case 'up':
-                component.selectObject('prev')
+                component.focusObject('prev')
                 break
             }
           }
@@ -61,10 +61,6 @@
 
         component.addEventListener('selectobject', function (e) {
           console.log('selectobject', e)
-        })
-
-        component.addEventListener('pickobject', function (e) {
-          console.log('pickobject', e)
         })
       }
 

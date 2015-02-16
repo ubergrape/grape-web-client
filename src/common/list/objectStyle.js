@@ -11,7 +11,7 @@ export default {
   container: {
     extend: [container, utils.ellipsis, fonts.normal]
   },
-  containerSelected: {
+  containerFocused: {
     extend: [container, utils.ellipsis, fonts.normal],
     color: colors.white,
     background: colors.grapeLight

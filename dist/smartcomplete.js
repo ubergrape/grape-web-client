@@ -165,28 +165,28 @@
 	      dataUtils.setSelectedTab(tabs, newIndex);
 	      dataUtils.setSelectedSection(sections, service);
 	      // "All" tab is special case, just take the first service.
-	      dataUtils.setSelectedObjectAt(sections, service || sections[0].service, 0);
+	      dataUtils.setFocusedObjectAt(sections, service || sections[0].service, 0);
 	      this.setState({ tabs: tabs, sections: sections });
 	      this.emit("selectfacet", { service: service });
 	    }
 	  },
 
-	  selectObject: function selectObject(id) {
+	  focusObject: function focusObject(id) {
 	    var sections = this.state.sections;
 	    var set = false;
 
 	    if (id == "next" || id == "prev") {
 	      var _selectedSection = dataUtils.getSelectedSection(sections);
 	      var objects = _selectedSection ? _selectedSection.results : dataUtils.getObjects(sections);
-	      var selectedIndex = findIndex(objects, function (object) {
-	        return object.selected;
+	      var focusedIndex = findIndex(objects, function (object) {
+	        return object.focused;
 	      });
 	      var newObject = undefined;
 
 	      if (id == "next") {
-	        newObject = objects[selectedIndex + 1];
+	        newObject = objects[focusedIndex + 1];
 	      } else if (id == "prev") {
-	        newObject = objects[selectedIndex - 1];
+	        newObject = objects[focusedIndex - 1];
 	      }
 
 	      if (newObject) {
@@ -198,19 +198,18 @@
 	    }
 
 	    if (set) {
-	      dataUtils.setSelectedObject(sections, id);
+	      dataUtils.setFocusedObject(sections, id);
 	      this.setState({ sections: sections });
-	      this.emit("selectobject", { id: id });
 	    }
 	  },
 
-	  getSelectedObject: function getSelectedObject() {
-	    return dataUtils.getSelectedObject(this.state.sections);
+	  getFocusedObject: function getFocusedObject() {
+	    return dataUtils.getFocusedObject(this.state.sections);
 	  },
 
-	  pickObject: function pickObject(id) {
-	    this.selectObject(id);
-	    this.emit("pickobject", { id: id });
+	  selectObject: function selectObject(id) {
+	    this.focusObject(id);
+	    this.emit("selectobject", { id: id });
 	  },
 
 	  /**
@@ -244,8 +243,8 @@
 
 	    var facet = React.createElement(services[serviceName], {
 	      data: data,
-	      select: this.selectObject,
-	      pick: this.pickObject
+	      focus: this.focusObject,
+	      select: this.selectObject
 	    });
 
 	    return React.createElement(
@@ -388,9 +387,9 @@
 
 
 	/**
-	 * Get currently selected results object.
+	 * Get currently focused results object.
 	 */
-	exports.getSelectedObject = getSelectedObject;
+	exports.getFocusedObject = getFocusedObject;
 
 
 	/**
@@ -400,15 +399,15 @@
 
 
 	/**
-	 * Mark a result as selected. Unmark previously selected one.
+	 * Mark a result as focused. Unmark previously focused one.
 	 */
-	exports.setSelectedObjectAt = setSelectedObjectAt;
+	exports.setFocusedObjectAt = setFocusedObjectAt;
 
 
 	/**
-	 * Mark a result as selected. Unmark previously selected one.
+	 * Mark a result as focused. Unmark previously focused one.
 	 */
-	exports.setSelectedObject = setSelectedObject;
+	exports.setFocusedObject = setFocusedObject;
 
 
 	/**
@@ -455,12 +454,12 @@
 	      highlighted: result.highlighted,
 	      info: result.container,
 	      date: result.start,
-	      selected: false
+	      focused: false
 	    });
 	  });
 
 	  // Select first result of the first section.
-	  sections[0].results[0].selected = true;
+	  sections[0].results[0].focused = true;
 
 	  // Find service within in the original results structure or within
 	  // sections structure for smartcomplete (id == service).
@@ -484,15 +483,15 @@
 	    });
 	    next.selected = true;
 	  }
-	}function getSelectedObject(sections) {
+	}function getFocusedObject(sections) {
 	  var ret = undefined;
 
 	  sections.some(function (section) {
-	    var selected = find(section.results, function (object) {
-	      return object.selected;
+	    var focused = find(section.results, function (object) {
+	      return object.focused;
 	    });
-	    if (selected) {
-	      ret = selected;
+	    if (focused) {
+	      ret = focused;
 	      return true;
 	    }
 	    return false;
@@ -505,23 +504,23 @@
 	    return objects = objects.concat(section.results);
 	  });
 	  return objects;
-	}function setSelectedObjectAt(sections, service, index) {
-	  unsetSelectedObject(sections);
+	}function setFocusedObjectAt(sections, service, index) {
+	  unsetFocusedObject(sections);
 	  var section = find(sections, function (section) {
 	    return section.service == service;
 	  });
-	  section.results[index].selected = true;
-	}function setSelectedObject(sections, id) {
-	  unsetSelectedObject(sections);
-	  getObjectById(sections, id).selected = true;
+	  section.results[index].focused = true;
+	}function setFocusedObject(sections, id) {
+	  unsetFocusedObject(sections);
+	  getObjectById(sections, id).focused = true;
 	}
 
 	/**
-	 * Mark currently selected object as not selected.
+	 * Mark currently focused object as not focused.
 	 */
-	function unsetSelectedObject(sections) {
-	  var prev = getSelectedObject(sections);
-	  if (prev) prev.selected = false;
+	function unsetFocusedObject(sections) {
+	  var prev = getFocusedObject(sections);
+	  if (prev) prev.focused = false;
 	}
 
 	/**
@@ -2787,7 +2786,7 @@
 	    var classes = this.sheet.classes;
 
 	    var sections = this.getSections().map(function (section) {
-	      assign(section, pick(this.props, "select", "pick"));
+	      assign(section, pick(this.props, "focus", "select"));
 	      return React.createElement(Section, _extends({}, section, { key: section.service }));
 	    }, this);
 
@@ -2933,11 +2932,11 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseSetData = _interopRequire(__webpack_require__(69));
+	var baseSetData = _interopRequire(__webpack_require__(68));
 
 	var isNative = _interopRequire(__webpack_require__(46));
 
-	var support = _interopRequire(__webpack_require__(70));
+	var support = _interopRequire(__webpack_require__(69));
 
 	/** Used to detect named functions. */
 	var reFuncName = /^\s*function[ \n\r\t]+\w/;
@@ -2982,7 +2981,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseFor = _interopRequire(__webpack_require__(68));
+	var baseFor = _interopRequire(__webpack_require__(70));
 
 	var keys = _interopRequire(__webpack_require__(55));
 
@@ -3771,7 +3770,7 @@
 	    var classes = this.sheet.classes;
 
 	    var objects = this.props.results.map(function (result) {
-	      assign(result, pick(this.props, "select", "pick", "icon"));
+	      assign(result, pick(this.props, "focus", "select", "icon"));
 	      return React.createElement(Object, result);
 	    }, this);
 
@@ -3996,45 +3995,6 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var toObject = _interopRequire(__webpack_require__(45));
-
-	/**
-	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
-	 * over `object` properties returned by `keysFunc` invoking `iteratee` for
-	 * each property. Iterator functions may exit iteration early by explicitly
-	 * returning `false`.
-	 *
-	 * @private
-	 * @param {Object} object The object to iterate over.
-	 * @param {Function} iteratee The function invoked per iteration.
-	 * @param {Function} keysFunc The function to get the keys of `object`.
-	 * @returns {Object} Returns `object`.
-	 */
-	function baseFor(object, iteratee, keysFunc) {
-	  var index = -1,
-	      iterable = toObject(object),
-	      props = keysFunc(object),
-	      length = props.length;
-
-	  while (++index < length) {
-	    var key = props[index];
-	    if (iteratee(iterable[key], key, iterable) === false) {
-	      break;
-	    }
-	  }
-	  return object;
-	}
-
-	module.exports = baseFor;
-
-/***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
 	var identity = _interopRequire(__webpack_require__(41));
 
 	var metaMap = _interopRequire(__webpack_require__(85));
@@ -4055,7 +4015,7 @@
 	module.exports = baseSetData;
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4142,6 +4102,45 @@
 	module.exports = support;
 
 /***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var toObject = _interopRequire(__webpack_require__(45));
+
+	/**
+	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
+	 * over `object` properties returned by `keysFunc` invoking `iteratee` for
+	 * each property. Iterator functions may exit iteration early by explicitly
+	 * returning `false`.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @param {Function} keysFunc The function to get the keys of `object`.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseFor(object, iteratee, keysFunc) {
+	  var index = -1,
+	      iterable = toObject(object),
+	      props = keysFunc(object),
+	      length = props.length;
+
+	  while (++index < length) {
+	    var key = props[index];
+	    if (iteratee(iterable[key], key, iterable) === false) {
+	      break;
+	    }
+	  }
+	  return object;
+	}
+
+	module.exports = baseFor;
+
+/***/ },
 /* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -4188,7 +4187,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var constant = _interopRequire(__webpack_require__(89));
+	var constant = _interopRequire(__webpack_require__(87));
 
 	var isNative = _interopRequire(__webpack_require__(46));
 
@@ -4255,7 +4254,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isArguments = _interopRequire(__webpack_require__(87));
+	var isArguments = _interopRequire(__webpack_require__(88));
 
 	var isArray = _interopRequire(__webpack_require__(26));
 
@@ -4263,9 +4262,9 @@
 
 	var isLength = _interopRequire(__webpack_require__(44));
 
-	var keysIn = _interopRequire(__webpack_require__(88));
+	var keysIn = _interopRequire(__webpack_require__(89));
 
-	var support = _interopRequire(__webpack_require__(70));
+	var support = _interopRequire(__webpack_require__(69));
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -4652,7 +4651,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isArguments = _interopRequire(__webpack_require__(87));
+	var isArguments = _interopRequire(__webpack_require__(88));
 
 	var isArray = _interopRequire(__webpack_require__(26));
 
@@ -4746,7 +4745,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseForIn = _interopRequire(__webpack_require__(92));
+	var baseForIn = _interopRequire(__webpack_require__(91));
 
 	/**
 	 * A specialized version of `_.pick` that picks `object` properties `predicate`
@@ -4803,7 +4802,7 @@
 
 	var useSheet = _interopRequire(__webpack_require__(14));
 
-	var objectStyle = _interopRequire(__webpack_require__(91));
+	var objectStyle = _interopRequire(__webpack_require__(92));
 
 	/**
 	 * One result for the list section.
@@ -4814,7 +4813,7 @@
 
 	  render: function render() {
 	    var classes = this.sheet.classes;
-	    var containerClassName = this.props.selected ? classes.containerSelected : classes.container;
+	    var containerClassName = this.props.focused ? classes.containerFocused : classes.container;
 	    var date = "";
 	    if (this.props.date) {
 	      date = React.createElement(
@@ -4827,7 +4826,7 @@
 	    var iconClassNames = "fa fa-" + this.props.icon + " " + classes.icon;
 	    return React.createElement(
 	      "div",
-	      { onClick: this.pick, onMouseOver: this.select, className: containerClassName, key: this.props.id },
+	      { onClick: this.select, onMouseOver: this.focus, className: containerClassName, key: this.props.id },
 	      React.createElement("span", { className: iconClassNames }),
 	      React.createElement("span", { className: classes.name, dangerouslySetInnerHTML: { __html: this.props.highlighted } }),
 	      React.createElement(
@@ -4850,12 +4849,12 @@
 	    });
 	  },
 
-	  select: function select() {
-	    this.props.select(this.props.id);
+	  focus: function focus() {
+	    this.props.focus(this.props.id);
 	  },
 
-	  pick: function pick() {
-	    this.props.pick(this.props.id);
+	  select: function select() {
+	    this.props.select(this.props.id);
 	  }
 	});
 
@@ -5661,6 +5660,35 @@
 
 	"use strict";
 
+	/**
+	 * Creates a function that returns `value`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Utility
+	 * @param {*} value The value to return from the new function.
+	 * @returns {Function} Returns the new function.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 * var getter = _.constant(object);
+	 * getter() === object;
+	 * // => true
+	 */
+	function constant(value) {
+	  return function () {
+	    return value;
+	  };
+	}
+
+	module.exports = constant;
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
 	var isLength = _interopRequire(__webpack_require__(44));
@@ -5704,14 +5732,14 @@
 	module.exports = isArguments;
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isArguments = _interopRequire(__webpack_require__(87));
+	var isArguments = _interopRequire(__webpack_require__(88));
 
 	var isArray = _interopRequire(__webpack_require__(26));
 
@@ -5721,7 +5749,7 @@
 
 	var isObject = _interopRequire(__webpack_require__(54));
 
-	var support = _interopRequire(__webpack_require__(70));
+	var support = _interopRequire(__webpack_require__(69));
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -5781,35 +5809,6 @@
 	module.exports = keysIn;
 
 /***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	/**
-	 * Creates a function that returns `value`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Utility
-	 * @param {*} value The value to return from the new function.
-	 * @returns {Function} Returns the new function.
-	 * @example
-	 *
-	 * var object = { 'user': 'fred' };
-	 * var getter = _.constant(object);
-	 * getter() === object;
-	 * // => true
-	 */
-	function constant(value) {
-	  return function () {
-	    return value;
-	  };
-	}
-
-	module.exports = constant;
-
-/***/ },
 /* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -5840,6 +5839,33 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
+	var baseFor = _interopRequire(__webpack_require__(70));
+
+	var keysIn = _interopRequire(__webpack_require__(89));
+
+	/**
+	 * The base implementation of `_.forIn` without support for callback
+	 * shorthands and `this` binding.
+	 *
+	 * @private
+	 * @param {Object} object The object to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseForIn(object, iteratee) {
+	  return baseFor(object, iteratee, keysIn);
+	}
+
+	module.exports = baseForIn;
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
 	var colors = _interopRequire(__webpack_require__(27));
 
 	var fonts = _interopRequire(__webpack_require__(60));
@@ -5855,7 +5881,7 @@
 	  container: {
 	    extend: [container, utils.ellipsis, fonts.normal]
 	  },
-	  containerSelected: {
+	  containerFocused: {
 	    extend: [container, utils.ellipsis, fonts.normal],
 	    color: colors.white,
 	    background: colors.grapeLight
@@ -5876,33 +5902,6 @@
 	    paddingRight: 5
 	  }
 	};
-
-/***/ },
-/* 92 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseFor = _interopRequire(__webpack_require__(68));
-
-	var keysIn = _interopRequire(__webpack_require__(88));
-
-	/**
-	 * The base implementation of `_.forIn` without support for callback
-	 * shorthands and `this` binding.
-	 *
-	 * @private
-	 * @param {Object} object The object to iterate over.
-	 * @param {Function} iteratee The function invoked per iteration.
-	 * @returns {Object} Returns `object`.
-	 */
-	function baseForIn(object, iteratee) {
-	  return baseFor(object, iteratee, keysIn);
-	}
-
-	module.exports = baseForIn;
 
 /***/ },
 /* 93 */
