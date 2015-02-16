@@ -2797,6 +2797,9 @@
 	    );
 	  },
 
+	  /**
+	   * Returns cloned sections data with top result section added.
+	   */
 	  getSections: function getSections() {
 	    var data = cloneDeep(this.props.data);
 	    var section = data[0];

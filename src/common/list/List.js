@@ -25,6 +25,9 @@ let List = React.createClass({
     return <div className={classes.container}>{sections}</div>
   },
 
+  /**
+   * Returns cloned sections data with top result section added.
+   */
   getSections() {
     let data = cloneDeep(this.props.data)
     let section = data[0]
