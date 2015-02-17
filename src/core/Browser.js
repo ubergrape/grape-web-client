@@ -5,16 +5,16 @@ import cloneDeep from 'lodash-es/lang/cloneDeep'
 import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
 
-import smartcompleteStyle from './smartcompleteStyle'
+import browserStyle from './browserStyle'
 import Tabs from './Tabs'
 import * as services from '../services'
 import * as dataUtils from '../common/utils/data'
 
 /**
- * Main Smartcomplete class which uses everything else.
+ * Main component which uses everything else.
  */
-let Smartcomplete = React.createClass({
-  mixins: [useSheet(smartcompleteStyle)],
+let Browser = React.createClass({
+  mixins: [useSheet(browserStyle)],
 
   componentWillReceiveProps(props) {
     let sections = dataUtils.getSections(props.data)
@@ -149,5 +149,5 @@ let Smartcomplete = React.createClass({
   }
 })
 
-export default Smartcomplete
+export default Browser
 

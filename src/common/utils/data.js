@@ -60,7 +60,7 @@ export function getSections (data) {
   sections[0].results[0].focused = true
 
   // Find service within in the original results structure or within
-  // sections structure for smartcomplete (id == service).
+  // sections structure (id == service).
   function findService(services, id) {
     return find(services, function (service) {
       return service.id == id || service.service == id

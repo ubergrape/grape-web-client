@@ -1,4 +1,4 @@
-## Smartcomplete UI
+## Grape browser - UI for displaying search results.
 
 ## Installation
 

@@ -5,7 +5,7 @@
     <title>Basic Example</title>
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
     <style>
-      smart-complete {
+      grape-browser {
         display: block;
         height: 300px;
       }
@@ -15,14 +15,14 @@
     <script src="../../node_modules/webcomponents.js/webcomponents-lite.js"></script>
     <script src="../../node_modules/react/dist/react.js"></script>
     <script src="../../node_modules/reactive-elements/src/reactive-elements.js"></script>
-    <script src="../../dist/smartcomplete.js"></script>
+    <script src="../../dist/grape-browser.js"></script>
     <script src="./data.js"></script>
 
-    <smart-complete></smart-complete>
+    <grape-browser></grape-browser>
 
     <script>
       function init() {
-        var component = document.querySelectorAll('smart-complete')[0]
+        var component = document.querySelectorAll('grape-browser')[0]
         component.setProps({data: window.data})
 
         var keysMap = {

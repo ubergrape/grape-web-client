@@ -1,5 +1,6 @@
 {
-  "name": "smartcomplete",
+  "name": "grape-browser",
+  "private": true,
   "dependencies": {
     "color": "^0.7.3",
     "jss": "^1.0.4",
@@ -25,7 +26,7 @@
   },
   "scripts": {
     "build": "npm run build-dev & npm run build-component",
-    "build-dev": "webpack index.js dist/smartcomplete.js",
-    "build-component": "BUILD=component webpack component.js dist/smartcomplete-component.js"
+    "build-dev": "webpack index.js dist/grape-browser.js",
+    "build-component": "BUILD=component webpack component.js dist/grape-browser-component.js"
   }
 }

@@ -1,7 +1,7 @@
 import './src/setup'
-import Smartcomplete from './src/core/Smartcomplete'
+import Browser from './src/core/Browser'
 
 // Register reactive element.
 if (document.registerReact) {
-    document.registerReact('smart-complete', Smartcomplete)
+    document.registerReact('grape-browser', Browser)
 }
