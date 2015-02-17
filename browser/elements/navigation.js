@@ -88,7 +88,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
 
-	lists['pms'].sort(this.pmCompare);
+	lists.pms.sort(this.pmCompare);
 
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
@@ -100,34 +100,30 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (this.filtering) return;
-	if (line.channel.type == 'pm') {
-		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
-		if (pmPartnerIndex > -1) {
-			this.pmList.items.splice(pmPartnerIndex, 1);
-			this.pmList.items.unshift(line.channel.users[0]);
-			this.pmList.redraw();
-		}
-	}
+	if (this.filtering || line.channel.type != 'pm') return;
+	var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
+	if (pmPartnerIndex == -1) return;
+	this.pmList.items.splice(pmPartnerIndex, 1);
+	this.pmList.items.unshift(line.channel.users[0]);
+	this.pmList.redraw();
 }
 
 Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
 	if (this.filtering) return;
 	var userIndex = this.pmList.items.indexOf(user);
-	if (userIndex > -1) {
-		this.pmList.items.splice(userIndex, 1);
-		var newPos = this.pmList.items.length;
-		this.pmList.items.every(function(pm, index) {
-			if ((user.status == 16 && pm.status == 0)
-				|| (user.status == 0 && (pm.is_only_invited || !pm.active))) {
-				newPos = index;
-				return false;
-			}
-			return true;
-		});
-		this.pmList.items.splice(newPos, 0, user);	
-		this.pmList.redraw();
-	}
+	if (userIndex == -1) return;
+	this.pmList.items.splice(userIndex, 1);
+	var newPos = this.pmList.items.length;
+	this.pmList.items.every(function(pm, index) {
+		if ((user.status == 16 && pm.status == 0)
+			|| (user.status == 0 && (pm.is_only_invited || !pm.active))) {
+			newPos = index;
+			return false;
+		}
+		return true;
+	});
+	this.pmList.items.splice(newPos, 0, user);	
+	this.pmList.redraw();
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
