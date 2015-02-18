@@ -563,7 +563,7 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.warning(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+		this._connErrMsg = this.messages.danger(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
 	classes(qs('body')).add('disconnected');
 };
 

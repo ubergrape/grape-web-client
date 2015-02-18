@@ -16,7 +16,8 @@ Message.prototype.add = function (messages) {
 };
 
 Message.prototype.remove = function () {
-	this.messages.remove(this);
+	animate(this, 'fade-up-out');
+	setTimeout(this.messages.remove(this), 2000);
 	delete this.messages;
 };
 
@@ -46,8 +47,8 @@ Messages.prototype.add = function(msg) {
 Messages.prototype.create = function(text, level) {
 	var msg = new Message(text, level);
 	msg.add(this);
+	animate(this, 'fade-down-in');
 	this.redraw();
-	animate(this, 'fade-left-in');
 	return msg;
 };
 

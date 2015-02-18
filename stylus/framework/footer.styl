@@ -107,6 +107,8 @@
 			border-radius: 3px
 			border: 1px solid gainsboro-light
 			padding: 0 2px
+		&.disabled
+			display: none
 	// markdown info styling
 	.info-markdown
 		position: absolute
@@ -114,6 +116,8 @@
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
+		&.disabled
+			display: none
 		
 	// uploader styling
 	.uploader
@@ -123,6 +127,8 @@
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
+			display: none
+		&.disabled
 			display: none
 	.upload-progress
 		display: none
