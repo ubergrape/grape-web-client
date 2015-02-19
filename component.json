@@ -59,7 +59,6 @@
     "templates/labellist.jade",
     "templates/navigation.jade",
     "templates/pmlist.jade",
-    "templates/inactivepmlist.jade",
     "templates/popovers/room.jade",
     "templates/popovers/user.jade",
     "templates/popovers/organization.jade",
