@@ -109,21 +109,7 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 }
 
 Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
-	if (this.filtering) return;
-	var userIndex = this.pmList.items.indexOf(user);
-	if (userIndex == -1) return;
-	this.pmList.items.splice(userIndex, 1);
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if ((user.status == 16 && pm.status == 0)
-			|| (user.status == 0 && (pm.is_only_invited || !pm.active))) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);	
-	this.pmList.redraw();
+
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
@@ -167,12 +153,21 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return 2;
 	}
 
-	var aLastMessage = a.pm ? a.pm.latest_message_time : 0;
-	var bLastMessage = b.pm ? b.pm.latest_message_time : 0;
+	console.log(a.active);
+
+	var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0;
+	var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0;
+
+	if (bLastMessage - aLastMessage != 0)
+		return bLastMessage - aLastMessage;
+	else
+		return getStatusValue(b) - getStatusValue(a);
+	/*
 	if (getStatusValue(a) != getStatusValue(b))
 		return getStatusValue(b) - getStatusValue(a);
 	else 
 		return bLastMessage - aLastMessage;
+	*/
 }
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
