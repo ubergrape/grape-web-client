@@ -108,10 +108,6 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 	this.pmList.redraw();
 }
 
-Navigation.prototype.changedOnlineStatus = function Navigation_changedOnlineStatus(user) {
-
-}
-
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 	if (this.filtering) return;
 	var newPos = this.pmList.items.length;
@@ -153,8 +149,6 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return 2;
 	}
 
-	console.log(a.active);
-
 	var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0;
 	var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0;
 
@@ -162,12 +156,6 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return bLastMessage - aLastMessage;
 	else
 		return getStatusValue(b) - getStatusValue(a);
-	/*
-	if (getStatusValue(a) != getStatusValue(b))
-		return getStatusValue(b) - getStatusValue(a);
-	else 
-		return bLastMessage - aLastMessage;
-	*/
 }
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
@@ -177,6 +165,17 @@ Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	this.pmList.items.splice(itemIndex, 1);
 	this.pmList.redraw();
 };
+
+Navigation.prototype.hasRead = function Navigation_hasRead(room) {
+	if (this.filtering || room.type != "pm") return;
+	// we just need this for the pm list, not the room list
+	// the room list is listening to changes in its items and redrawing
+	// the pm is not listening to changes in its pm object, so
+	// we need to manually redraw 
+	// TODO redisign this, since the room list is also redrawn 
+	// every time someone type anything and that is not expected
+	this.pmList.redraw();
+}
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;

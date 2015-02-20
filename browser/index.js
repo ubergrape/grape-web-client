@@ -281,6 +281,7 @@ UI.prototype.bind = function UI_bind() {
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
+	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 	broker(this.historyView, 'deletemessage', this.chatInput, 'editingDone');
@@ -322,7 +323,6 @@ UI.prototype.bind = function UI_bind() {
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'changedOnlineStatus', this.navigation, 'changedOnlineStatus');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
 
 	this.room = null;
