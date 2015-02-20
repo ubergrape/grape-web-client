@@ -268,8 +268,13 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// make sure we're joining the right organization
 		// and the user isnt in there yet
 		if (data.organization===self.organization.id &&
-			  !~self.organization.users.indexOf(user))
+			  !~self.organization.users.indexOf(user)) {
+			user.active = true;
+			user.status = 0;
+			user.pm = null;
 			self.organization.users.push(user);
+			self.emit('new org member', user);
+		}
 	});
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {
 		var user = models.User.get(data.user);
