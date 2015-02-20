@@ -28,8 +28,8 @@
 	.chat
 		height: 100%
 		position: relative
-		padding-top: 14px
-	a // Design for links within history
+		padding: 20px 0
+	a // Different styling for links within history
 		color: link-color
 		@extend $subtle-link
 		&:hover
@@ -274,6 +274,48 @@ span.author-deleted
 			overflow: hidden
 			img
 				max-width: 100%
+
+
+// ****
+//
+// Styling for Typing Notifications #1587
+//
+// ****
+
+.typing-notification
+	@extend $small-font-size
+	margin: 0 30px 10px 20px
+	color: gainsboro-dark
+	.dotOne
+		opacity: 0;
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.0s
+		animation: dot 1.3s infinite
+		animation-delay: 0.0s
+	.dotTwo
+		opacity: 0
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.2s
+		animation: dot 1.3s infinite
+		animation-delay: 0.2s
+	.dotThree
+		opacity: 0
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.3s
+		animation: dot 1.3s infinite
+		animation-delay: 0.3s
+		
+@-webkit-keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
 // ****
 //
