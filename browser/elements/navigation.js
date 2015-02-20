@@ -51,24 +51,14 @@ Navigation.prototype.init = function Navigation_init() {
 	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var totHeight = self.el.clientHeight,
-<<<<<<< HEAD
 			orgInfoHeight = qs('.org-info', self.el).clientHeight,
-			bottomHeight = 0,
 			roomWrapper = roomScrollbar.wrapper.parentNode,
 			pmResizableHeight = pmResizable.element.clientHeight,
-			roomWrapperBottomPadding = 12;
+			remainingPadding = 12;
 		userPreferences.setPmListHeight(pmResizableHeight);
-		roomWrapper.style.height = totHeight - bottomHeight - orgInfoHeight - pmResizableHeight - roomWrapperBottomPadding + 'px';
-	}, 500);
-=======
-				orgInfoHeight = qs('.org-info', self.el).clientHeight,
-				roomWrapper = roomScrollbar.wrapper.parentNode,
-				pmResizableHeight = pmResizable.element.clientHeight,
-				remainingPadding = 12;
-
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
 	}, 200);
->>>>>>> master
+
 
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
