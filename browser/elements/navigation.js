@@ -11,7 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-var userPreferences = require('../storage/user_preferences');
+//var userPreferences = require('../storage/user_preferences');
 
 module.exports = Navigation;
 
@@ -55,7 +55,7 @@ Navigation.prototype.init = function Navigation_init() {
 			roomWrapper = roomScrollbar.wrapper.parentNode,
 			pmResizableHeight = pmResizable.element.clientHeight,
 			remainingPadding = 12;
-		userPreferences.setPmListHeight(pmResizableHeight);
+		//userPreferences.setPmListHeight(pmResizableHeight);
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
 	}, 200);
 
@@ -67,7 +67,7 @@ Navigation.prototype.init = function Navigation_init() {
 	// if we do not have the preference for pm list height set,
 	// the height will fall back to the default one (25%);
 	// no need to check 
-	pmResizable.element.style.height = userPreferences.getPmListHeight() + "px";
+	//pmResizable.element.style.height = userPreferences.getPmListHeight() + "px";
 	resizeRoomList();
 
 	// and on window resize
