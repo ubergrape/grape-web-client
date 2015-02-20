@@ -11,7 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-//var userPreferences = require('../storage/user_preferences');
+var store = require('store');
 
 module.exports = Navigation;
 
@@ -26,6 +26,8 @@ Navigation.prototype = Object.create(Emitter.prototype);
 Navigation.prototype.init = function Navigation_init() {
 	var self = this;
 	this.nav = {};
+	this.sidebarSettings = store.prefix('sidebar.');
+	console.log(this.sidebarSettings);
 	this.redraw();
 	this.el = this.nav.el;
 	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
@@ -37,9 +39,9 @@ Navigation.prototype.init = function Navigation_init() {
 
 	this.filtering = false;
 
-	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-			pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-			pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+	var	roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
+		pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+		pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -55,7 +57,7 @@ Navigation.prototype.init = function Navigation_init() {
 			roomWrapper = roomScrollbar.wrapper.parentNode,
 			pmResizableHeight = pmResizable.element.clientHeight,
 			remainingPadding = 12;
-		//userPreferences.setPmListHeight(pmResizableHeight);
+		self.sidebarSettings.set('pmListHeight', pmResizableHeight);
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
 	}, 200);
 
@@ -65,9 +67,8 @@ Navigation.prototype.init = function Navigation_init() {
 	pmResizable.element.addEventListener('resize', resizeRoomList);
 	
 	// if we do not have the preference for pm list height set,
-	// the height will fall back to the default one (25%);
-	// no need to check 
-	//pmResizable.element.style.height = userPreferences.getPmListHeight() + "px";
+	// the height will fall back to the default one (25%)
+	pmResizable.element.style.height = this.sidebarSettings.get('pmListHeight') + 'px';
 	resizeRoomList();
 
 	// and on window resize
