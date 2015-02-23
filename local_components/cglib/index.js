@@ -211,8 +211,11 @@ App.prototype.bindEvents = function App_bindEvents() {
 		self.emit('roomdeleted', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
+		var user = models.User.get(data.user);
+		if (user === self.user) {
+			return
+		}
         var room = models.Room.get(data.channel);
-        var user = models.User.get(data.user);
         var index = room.typing.indexOf(user);
         if (data.typing && !~index) {
             room.typing.push(user);
