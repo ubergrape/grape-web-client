@@ -122,7 +122,7 @@ export default React.createClass({
       detail: data
     })
     this.getDOMNode().dispatchEvent(event)
-    let cb = this.props['on' + type[0].toUpperCase() + type.substr(1)]
+    let cb = this.props[type]
     if (cb) cb(data)
   },
 
