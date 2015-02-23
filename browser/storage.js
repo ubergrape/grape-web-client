@@ -1,11 +1,10 @@
-// extends the store component with
-// the check functionality that warns
-// when a prefix that is already in use
-// is being used.
+// extends pgherveou/store component with
+// a check functionality that warns
+// if a prefix is already in use
 
 var Store = require('store');
 
-var prefixes = new Array();
+var prefixes = [];
 
 module.exports = Store;
 

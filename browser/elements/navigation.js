@@ -11,7 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-var store = require('../storage');
+var store = require('../storage').prefix('navigation.');
 
 module.exports = Navigation;
 
@@ -26,7 +26,6 @@ Navigation.prototype = Object.create(Emitter.prototype);
 Navigation.prototype.init = function Navigation_init() {
 	var self = this;
 	this.nav = {};
-	this.sidebarSettings = store.prefix('sidebar.');
 	this.redraw();
 	this.el = this.nav.el;
 	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
@@ -57,7 +56,7 @@ Navigation.prototype.init = function Navigation_init() {
 			pmResizableHeight = pmResizable.element.clientHeight,
 			remainingPadding = 12;
 		// saving new sidebar height in localStorage
-		self.sidebarSettings.set('pmListHeight', pmResizableHeight);
+		store.set('pmListHeight', pmResizableHeight);
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
 	}, 200);
 
@@ -68,7 +67,7 @@ Navigation.prototype.init = function Navigation_init() {
 	
 	// if the pm list height in not saved in localStorage,
 	// the height will fall back to the default one (25%)
-	pmResizable.element.style.height = this.sidebarSettings.get('pmListHeight') + 'px';
+	pmResizable.element.style.height = store.get('pmListHeight') + 'px';
 	resizeRoomList();
 
 	// and on window resize
