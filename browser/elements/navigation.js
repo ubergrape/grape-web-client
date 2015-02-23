@@ -51,7 +51,7 @@ Navigation.prototype.init = function Navigation_init() {
 	// compute the height of the room list area
 	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
-		var totHeight = self.el.clientHeight,
+		var	totHeight = self.el.clientHeight,
 			orgInfoHeight = qs('.org-info', self.el).clientHeight,
 			roomWrapper = roomScrollbar.wrapper.parentNode,
 			pmResizableHeight = pmResizable.element.clientHeight,
