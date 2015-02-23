@@ -142,15 +142,20 @@ export default React.createClass({
       data = sections
     }
 
-    let facet = React.createElement(services[serviceName], {
-      data: data,
-      focus: this.focusObject,
-      select: this.selectObject
-    })
+    let facet, tabs
+
+    if (data.length) {
+      facet = React.createElement(services[serviceName], {
+        data: data,
+        focus: this.focusObject,
+        select: this.selectObject
+      })
+      tabs = <Tabs data={this.state.tabs} select={this.selectFacet} />
+    }
 
     return (
-      <div className={classes.container}>
-        <Tabs data={this.state.tabs} select={this.selectFacet} />
+      <div className={classes.container} style={this.props.style}>
+        {tabs}
         {facet}
       </div>
     )

@@ -14,13 +14,15 @@ let List = React.createClass({
   mixins: [useSheet(listStyle)],
 
   render() {
-    if (!this.props.data.length) return null
     let classes = this.sheet.classes
+    let sections
 
-    let sections = this.getSections().map(function (section) {
-      assign(section, pick(this.props, 'focus', 'select'))
-      return <Section {...section}  key={section.service}/>
-    }, this)
+    if (this.props.data.length) {
+      sections = this.getSections().map(function (section) {
+        assign(section, pick(this.props, 'focus', 'select'))
+        return <Section {...section}  key={section.service}/>
+      }, this)
+    }
 
     return <div className={classes.container}>{sections}</div>
   },
