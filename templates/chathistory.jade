@@ -191,8 +191,9 @@
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
 
-	.typing
+	.typing-notification
 		if room.typing && room.typing.length != 0
+			i.fa.fa-comment.fa-lg
 			each typing_user, index in room.typing
 				span.user
 					//- todo: put this into model!
@@ -210,3 +211,6 @@
 
 			else
 				=_("are typing")
+			span.dotOne .
+			span.dotTwo .
+			span.dotThree .
