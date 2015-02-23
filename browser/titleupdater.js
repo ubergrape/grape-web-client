@@ -44,6 +44,7 @@ Title.prototype.refresh = function Title_refresh() {
 };
 
 function sum(s, el) {
+	if (!el.joined) return s;
 	return s + el.unread;
 }
 
