@@ -12,7 +12,8 @@ var protoPrefix = Store.prefix;
 
 Store.prefix = function (prefix) {
 	check(prefix);
-	return protoPrefix.call(this, prefix);
+	// the . is for highlighting the prefix
+	return protoPrefix.call(this, prefix + '.');
 }
 
 function check(prefix) {

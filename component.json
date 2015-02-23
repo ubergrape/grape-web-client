@@ -40,7 +40,7 @@
     "browser/titleupdater.js",
     "browser/markdown.js",
     "browser/markdown_renderlink.js",
-    "browser/storage.js",
+    "browser/store.js",
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",

@@ -11,7 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-var store = require('../storage').prefix('navigation.');
+var store = require('../store').prefix('navigation');
 
 module.exports = Navigation;
 
