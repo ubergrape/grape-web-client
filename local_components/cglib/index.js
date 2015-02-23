@@ -211,24 +211,29 @@ App.prototype.bindEvents = function App_bindEvents() {
 		self.emit('roomdeleted', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
-		var room = models.Room.get(data.channel);
-		//var user = models.User.get(msg.user);
-		if (data.typing && !room.typing[data.user]) {
-			room.typing[data.user] = true;
-			trigger();
-		} else if (!data.typing && room.typing[data.user]) {
-			delete room.typing[data.user];
-			trigger();
-		}
-		function trigger() {
-			// FIXME: model needs an api to do this:
-			var name = 'typing';
-			room._model.emit('change', room, name);
-			room._model.emit('change ' + name, room);
-			room.emit('change', name);
-			room.emit('change ' + name);
-		}
-	});
+        var room = models.Room.get(data.channel);
+        var user = models.User.get(data.user);
+        var index = room.typing.indexOf(user);
+        if (data.typing && !~index) {
+            room.typing.push(user);
+            trigger();
+        } else if (!data.typing && ~index) {
+        	// we want the typing notification to be displayed at least one
+			// second
+			setTimeout(function(){
+				room.typing.splice(index, 1);
+				trigger();
+			}, 1000);
+        }
+        function trigger() {
+            // FIXME: model needs an api to do this:
+            var name = 'typing';
+            room._model.emit('change', room, name);
+            room._model.emit('change ' + name, room);
+            room.emit('change', name);
+            room.emit('change ' + name);
+        }
+    });
 	wamp.subscribe(PREFIX + 'channel#read', function (data) {
 		var user = models.User.get(data.user);
 		var line = models.Line.get(data.message);
@@ -375,6 +380,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
 	room.unread = 0;
+	room.typing = [];
 
 	return room;
 };
