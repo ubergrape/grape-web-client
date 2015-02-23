@@ -4,7 +4,8 @@ import utils from 'ubergrape-jss-utils'
 
 let container = {
   padding: '5px 7px',
-  color: colors.grapeTypo
+  color: colors.grapeTypo,
+  cursor: 'pointer'
 }
 
 export default {
