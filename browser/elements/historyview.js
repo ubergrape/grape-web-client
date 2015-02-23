@@ -252,6 +252,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 			self.queueDraw();
 		}, 1000);
 	});
+
+	room.on('change typing', function() {
+		self.queueDraw();
+	});
 };
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {

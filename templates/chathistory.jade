@@ -190,3 +190,23 @@
 								if line.attachments.length == 0
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
+
+	.typing
+		if room.typing && room.typing.length != 0
+			each typing_user, index in room.typing
+				span.user
+					//- todo: put this into model!
+					if (typing_user.firstName || typing_user.lastName)
+						| #{typing_user.firstName} #{typing_user.lastName}
+					else
+						| #{typing_user.username}
+				if room.typing.length > 2 && index < room.typing.length - 2
+					| , 
+				if room.typing.length > 1 && index === room.typing.length - 2
+					|  and 
+
+			if room.typing.length == 1
+				=_("is typing")
+
+			else
+				=_("are typing")
