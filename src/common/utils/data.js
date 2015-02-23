@@ -29,6 +29,8 @@ let serviceIconMap = {
 export function getSections (data) {
   let sections = []
 
+  if (!data) return sections
+
   // Group by sections.
   data.results.forEach(function (result) {
     let section = findService(sections, result.service)
@@ -163,6 +165,8 @@ function getObjectById(sections, id) {
  * Get data for tabs representation.
  */
 export function getTabs(sections) {
+  if (!sections.length) return []
+
   let data = sections.map(function (section) {
     return {
       label: section.label,

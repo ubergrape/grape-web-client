@@ -16,6 +16,13 @@ import * as dataUtils from '../common/utils/data'
 export default React.createClass({
   mixins: [useSheet(browserStyle)],
 
+  getInitialState() {
+    return {
+      sections: [],
+      tabs: []
+    }
+  },
+
   componentWillReceiveProps(props) {
     let sections = dataUtils.getSections(props.data)
     this.setState({
@@ -120,7 +127,6 @@ export default React.createClass({
   },
 
   render() {
-    if (!this.state) return null
     let classes = this.sheet.classes
     let sections = this.state.sections
     let selectedSection = dataUtils.getSelectedSection(sections)
