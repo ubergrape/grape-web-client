@@ -6,7 +6,7 @@ import Tab from './Tab'
 /**
  * Tabs container.
  */
-let Tabs = React.createClass({
+export default React.createClass({
   mixins: [useSheet(tabsStyle)],
 
   render() {
@@ -18,5 +18,3 @@ let Tabs = React.createClass({
     return <ul className={classes.container}>{tabs}</ul>
   }
 })
-
-export default Tabs

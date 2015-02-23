@@ -13,7 +13,7 @@ import * as dataUtils from '../common/utils/data'
 /**
  * Main component which uses everything else.
  */
-let Browser = React.createClass({
+export default React.createClass({
   mixins: [useSheet(browserStyle)],
 
   componentWillReceiveProps(props) {
@@ -60,7 +60,7 @@ let Browser = React.createClass({
       // "All" tab is special case, just take the first service.
       dataUtils.setFocusedObjectAt(sections, service || sections[0].service, 0)
       this.setState({tabs: tabs, sections: sections})
-      this.emit('selectfacet', {service: service})
+      this.emit('selectFacet', {service: service})
     }
   },
 
@@ -102,7 +102,7 @@ let Browser = React.createClass({
 
   selectObject(id) {
     this.focusObject(id)
-    this.emit('selectobject', {id: id})
+    this.emit('selectObject', {id: id})
   },
 
   /**
@@ -115,6 +115,8 @@ let Browser = React.createClass({
       detail: data
     })
     this.getDOMNode().dispatchEvent(event)
+    let cb = this.props['on' + type[0].toUpperCase() + type.substr(1)]
+    if (cb) cb(data)
   },
 
   render() {
@@ -148,6 +150,3 @@ let Browser = React.createClass({
     )
   }
 })
-
-export default Browser
-

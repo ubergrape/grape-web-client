@@ -5,7 +5,7 @@ import tabStyle from './tabStyle'
 /**
  * One tab tab.
  */
-let Tab = React.createClass({
+export default React.createClass({
   mixins: [useSheet(tabStyle)],
 
   render() {
@@ -21,5 +21,3 @@ let Tab = React.createClass({
     this.props.select(this.props.service)
   }
 })
-
-export default Tab
