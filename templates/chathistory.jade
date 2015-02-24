@@ -193,22 +193,21 @@
 
 	.typing-notification
 		if room.typing && room.typing.length != 0
-			i.fa.fa-comment.fa-lg
+			| _
+			i.fa.fa-pencil
 			each typing_user, index in room.typing
 				span.user
 					//- todo: put this into model!
-					if (typing_user.firstName || typing_user.lastName)
-						| #{typing_user.firstName} #{typing_user.lastName}
+					if (typing_user.firstName && typing_user.lastName)
+						|  #{typing_user.firstName} #{typing_user.lastName}
 					else
-						| #{typing_user.username}
+						|  #{typing_user.username}
 				if room.typing.length > 2 && index < room.typing.length - 2
 					| , 
 				if room.typing.length > 1 && index === room.typing.length - 2
 					|  and 
-
 			if room.typing.length == 1
 				=_(" is typing")
-
 			else
 				=_(" are typing")
 			span.dotOne .
