@@ -132,6 +132,8 @@
 			color: gainsboro-dark
 		.time
 			color: gainsboro-dark
+	&:last-child
+		margin-bottom: 10px
 
 .message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
 	font-weight: bold
@@ -286,6 +288,7 @@ span.author-deleted
 	@extend $small-font-size
 	margin: 0 30px 10px 20px
 	color: gainsboro-dark
+	min-height: 11px
 	i.fa
 		margin-left: 1px
 	.dotOne
