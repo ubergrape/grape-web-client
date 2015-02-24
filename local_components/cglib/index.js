@@ -217,8 +217,8 @@ App.prototype.bindEvents = function App_bindEvents() {
 		if (user === self.user) {
 			return
 		}
-        var room = models.Room.get(data.channel);
-        var index = room.typing.indexOf(user);
+		var room = models.Room.get(data.channel);
+		var index = room.typing.indexOf(user);
 
 		// there might still be a timeout for this user if the user stops
 		// typing and starts typing within one second.
@@ -226,33 +226,33 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// we can safely clear a timeout that doesn't exist, so no checks here
 		clearTimeout(self._typing_timeouts[room.id + "_" + user.id]);
 
-        if (data.typing && !~index) {
-            room.typing.push(user);
-            trigger();
-            // the typing notification should be removed after 10 seconds
-            // automatically because the user might kill the connection and we
-            // would never receive a `typing: false` event
-            self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+		if (data.typing && !~index) {
+			room.typing.push(user);
+			trigger();
+			// the typing notification should be removed after 10 seconds
+			// automatically because the user might kill the connection and we
+			// would never receive a `typing: false` event
+			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
 			}, 10000);
-        } else if (!data.typing && ~index) {
-        	// we want the typing notification to be displayed at least one
+		} else if (!data.typing && ~index) {
+			// we want the typing notification to be displayed at least one
 			// second
 			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
 			}, 1000);
-        }
-        function trigger() {
-            // FIXME: model needs an api to do this:
-            var name = 'typing';
-            room._model.emit('change', room, name);
-            room._model.emit('change ' + name, room);
-            room.emit('change', name);
-            room.emit('change ' + name);
-        }
-    });
+		}
+		function trigger() {
+			// FIXME: model needs an api to do this:
+			var name = 'typing';
+			room._model.emit('change', room, name);
+			room._model.emit('change ' + name, room);
+			room.emit('change', name);
+			room.emit('change ' + name);
+		}
+	});
 	wamp.subscribe(PREFIX + 'channel#read', function (data) {
 		var user = models.User.get(data.user);
 		var line = models.Line.get(data.message);
