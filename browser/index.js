@@ -579,8 +579,8 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 };
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
+	if (this.room != room) return;
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
-
 	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
