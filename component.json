@@ -40,6 +40,7 @@
     "browser/titleupdater.js",
     "browser/markdown.js",
     "browser/markdown_renderlink.js",
+    "browser/store.js",
     "browser/iswebkit.js",
     "browser/renderautocomplete.js",
     "browser/emoji.js",
@@ -58,7 +59,6 @@
     "templates/labellist.jade",
     "templates/navigation.jade",
     "templates/pmlist.jade",
-    "templates/inactivepmlist.jade",
     "templates/popovers/room.jade",
     "templates/popovers/user.jade",
     "templates/popovers/organization.jade",
@@ -123,7 +123,8 @@
     "moment/moment": "2.7.0",
     "ubergrape/resizable": "master",
     "ubergrape/moment-timezone": "master",
-    "darsain/tooltip": "master"
+    "darsain/tooltip": "master",
+    "pgherveou/store": "0.0.6"
   },
   "development": {
     "dependencies": {

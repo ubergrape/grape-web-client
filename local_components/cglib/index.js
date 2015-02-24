@@ -60,8 +60,6 @@ App.prototype.stopHeartbeat = function () {
   console.log("Heartbeat stopped...");
 };
 
-
-
 App.prototype.logTraffic = function App_logTraffic() {
 	var socket = this.wamp.socket;
 	var send = socket.send;
@@ -403,6 +401,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 
 	return room;
 };
+
 App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 	var gotroom = models.Room.get(room.id);
 	if (gotroom) return gotroom;
@@ -418,6 +417,7 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 	}
 	return room;
 };
+
 /**
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
@@ -505,6 +505,7 @@ App.prototype.joinRoom = function App_joinRoom(room) {
 		room.joined = true;
 	});
 };
+
 App.prototype.leaveRoom = function App_leaveRoom(room) {
 	var self = this;
 	if (!room.joined) return;
