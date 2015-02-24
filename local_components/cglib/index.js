@@ -41,6 +41,8 @@ function App() {
 	this.reconnecting = false;
 	this.connected = false;
 	this.connecting = false;
+
+	this._typing_timeouts = [];
 }
 
 App.prototype = Object.create(Emitter.prototype);
@@ -217,13 +219,27 @@ App.prototype.bindEvents = function App_bindEvents() {
 		}
         var room = models.Room.get(data.channel);
         var index = room.typing.indexOf(user);
+
+		// there might still be a timeout for this user if the user stops
+		// typing and starts typing within one second.
+		// there can also be a 10 second safety timeout.
+		// we can safely clear a timeout that doesn't exist, so no checks here
+		clearTimeout(self._typing_timeouts[room.id + "_" + user.id]);
+
         if (data.typing && !~index) {
             room.typing.push(user);
             trigger();
+            // the typing notification should be removed after 10 seconds
+            // automatically because the user might kill the connection and we
+            // would never receive a `typing: false` event
+            self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+				room.typing.splice(index, 1);
+				trigger();
+			}, 10000);
         } else if (!data.typing && ~index) {
         	// we want the typing notification to be displayed at least one
 			// second
-			setTimeout(function(){
+			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
 			}, 1000);
