@@ -102,11 +102,11 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 
 ChatHeader.prototype.deleteRoom = function ChatHeader_deleteRoom(ev) {
 	ev.preventDefault();
+	var self = this;
 	var d = new DeleteRoomDialog({
 		room: this.room
 	}).closable().overlay().show();
-	/*d.on('deleteroom', function (room, password, callback) {
+	d.on('deleteroom', function (room, password, callback) {
 		self.emit('deleteroom', room, password, callback);
 	});
-*/
 };
