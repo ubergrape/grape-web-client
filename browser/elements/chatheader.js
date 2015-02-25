@@ -8,7 +8,6 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
-var DeleteRoomDialog = require('./dialogs/deleteroom');
 
 module.exports = ChatHeader;
 
@@ -44,7 +43,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
-		}
+		},
+		'deleteRoom' : function(e) { self.emit('deleteroom'); }
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
@@ -52,7 +52,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
 	
-	this.events.obj.deleteRoom = this.deleteRoom.bind(this);
+	//this.events.obj.deleteRoom = this.deleteRoom.bind(this);
 	this.events.bind('click .option-delete-room', 'deleteRoom');
 
 	this.searchForm.addEventListener('submit', function (ev) {
@@ -97,16 +97,4 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
-};
-
-
-ChatHeader.prototype.deleteRoom = function ChatHeader_deleteRoom(ev) {
-	ev.preventDefault();
-	var self = this;
-	var d = new DeleteRoomDialog({
-		room: this.room
-	}).closable().overlay().show();
-	d.on('deleteroom', function (room, password, callback) {
-		self.emit('deleteroom', room, password, callback);
-	});
 };

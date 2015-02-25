@@ -64,7 +64,7 @@ var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
-
+var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 
 function UI(options) {
 	Emitter.call(this);
@@ -264,7 +264,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker.pass(this.chatHeader, 'deleteroom', this, 'deleteroom');
+	broker(this.chatHeader, 'deleteroom', this, 'deleteroom');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -576,6 +576,13 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	var msg = this.messages.success(_('Reconnected successfully'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.deleteroom = function UI_deleteroom() {
+	var deleteRoomDialog = new DeleteRoomDialog({
+		room: this.room
+	}).closable().overlay().show();
+	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
+}
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	this.emit('roomDeleted');
