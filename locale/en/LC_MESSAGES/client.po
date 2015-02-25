@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2015-01-14 13:53+0000\n"
+"POT-Creation-Date: 2015-02-25 13:03+0000\n"
 
 #: client/templates/chathistory.jade:25
 #: client/templates/chathistory.jade:31
@@ -36,18 +36,21 @@ msgstr ""
 #: client/browser/elements/notifications.js:67
 #: client/browser/elements/notifications.js:77
 #: browser/elements/notifications.js:77
+#: browser/elements/notifications.js:83
 msgid "Private Message"
 msgstr ""
 
 #: client/browser/elements/notifications.js:85
 #: client/browser/elements/notifications.js:100
 #: browser/elements/notifications.js:100
+#: browser/elements/notifications.js:106
 msgid "[Image]"
 msgstr ""
 
 #: client/browser/index.js:165
 #: browser/index.js:165
 #: browser/index.js:164
+#: browser/index.js:166
 msgid ""
 "Hey there! Please <a class=' enable_notifications'>enable desktop "
 "notifications</a> , so your team members can reach you on ChatGrape.  "
@@ -58,12 +61,14 @@ msgstr ""
 #: client/browser/index.js:172
 #: browser/index.js:172
 #: browser/index.js:171
+#: browser/index.js:173
 msgid "Next"
 msgstr ""
 
 #: client/browser/index.js:173
 #: browser/index.js:173
 #: browser/index.js:172
+#: browser/index.js:174
 msgid "Skip"
 msgstr ""
 
@@ -99,6 +104,7 @@ msgstr ""
 #: client/browser/index.js:198
 #: browser/index.js:198
 #: browser/index.js:197
+#: browser/index.js:199
 msgid ""
 "<h2>Room Members Info</h2><p>This number shows you how many users have "
 "joined this room.</p><p>Click it to see all of them or to invite more users "
@@ -131,6 +137,7 @@ msgstr ""
 #: client/browser/index.js:599
 #: browser/index.js:598
 #: browser/index.js:567
+#: browser/index.js:577
 msgid "Reconnected successfully"
 msgstr ""
 
@@ -204,6 +211,7 @@ msgstr ""
 #: templates/chathistory.jade:113
 #: templates/chathistory.jade:115
 #: templates/chathistory.jade:114
+#: templates/chathistory.jade:127
 msgid "#Label"
 msgstr ""
 
@@ -213,6 +221,7 @@ msgstr ""
 #: templates/chathistory.jade:171
 #: templates/chathistory.jade:173
 #: templates/chathistory.jade:172
+#: templates/chathistory.jade:185
 msgid "Show More"
 msgstr ""
 
@@ -263,11 +272,13 @@ msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:11
 #: templates/dialogs/deleteroom.jade:11
+#: templates/dialogs/deleteroom.jade:10
 msgid "Delete"
 msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:13
 #: templates/dialogs/deleteroom.jade:13
+#: templates/dialogs/deleteroom.jade:14
 msgid "Sorry, you can't delete "
 msgstr ""
 
@@ -526,12 +537,14 @@ msgstr ""
 #: client/templates/navigation.jade:17
 #: templates/navigation.jade:17
 #: templates/navigation.jade:19
+#: templates/navigation.jade:18
 msgid "All labels"
 msgstr ""
 
 #: client/templates/navigation.jade:18
 #: templates/navigation.jade:18
 #: templates/navigation.jade:20
+#: templates/navigation.jade:19
 msgid "Labels"
 msgstr ""
 
@@ -590,6 +603,7 @@ msgstr ""
 #: client/templates/popovers/room.jade:8
 #: templates/popovers/room.jade:8
 #: templates/popovers/room.jade:7
+#: templates/popovers/room.jade:9
 msgid "Create new chatroom"
 msgstr ""
 
@@ -638,12 +652,14 @@ msgstr ""
 #: client/templates/popovers/roomlist.jade:36
 #: templates/popovers/roomlist.jade:36
 #: templates/popovers/roomlist.jade:34
+#: templates/popovers/roomlist.jade:39
 msgid "joined"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:38
 #: templates/popovers/roomlist.jade:38
 #: templates/popovers/roomlist.jade:36
+#: templates/popovers/roomlist.jade:41
 msgid "leave"
 msgstr ""
 
@@ -656,6 +672,7 @@ msgstr ""
 #: templates/popovers/roommembers.jade:17
 #: templates/popovers/roommembers.jade:15
 #: templates/popovers/roommembers.jade:16
+#: templates/popovers/roommembers.jade:18
 msgid "Invite more members"
 msgstr ""
 
@@ -713,6 +730,7 @@ msgstr ""
 
 #: browser/index.js:178
 #: browser/index.js:177
+#: browser/index.js:179
 msgid ""
 "<h2>Welcome to ChatGrape - Good to see you.</h2><p>We'll give you a quick "
 "overview in 5 simple steps.</p>"
@@ -720,6 +738,7 @@ msgstr ""
 
 #: browser/index.js:183
 #: browser/index.js:182
+#: browser/index.js:184
 msgid ""
 "<h2>Writing Smart Messages</h2><p>You can use @ (e.g. @Tobi) to mention "
 "people or rooms to send them notifications.</p><p>After adding the first "
@@ -729,6 +748,7 @@ msgstr ""
 
 #: browser/index.js:188
 #: browser/index.js:187
+#: browser/index.js:189
 msgid ""
 "<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've "
 "auto-joined you to General, Development and Off-Topic.</p><p>You can see "
@@ -738,6 +758,7 @@ msgstr ""
 
 #: browser/index.js:193
 #: browser/index.js:192
+#: browser/index.js:194
 msgid ""
 "<h2>Private Messages</h2><p>This list contains the contacts you already "
 "have a private conversation with.</p><p>You can start more conversations by "
@@ -745,12 +766,14 @@ msgid ""
 msgstr ""
 
 #: browser/index.js:201
+#: browser/index.js:203
 msgid ""
 "<h2>That&apos;s it! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun "
 "using ChatGrape.</p>"
 msgstr ""
 
 #: templates/chatheader.jade:17
+#: templates/chatheader.jade:14
 msgid "Search"
 msgstr ""
 
@@ -768,4 +791,94 @@ msgstr ""
 
 #: templates/popovers/user.jade:16
 msgid "Give Feedback"
+msgstr ""
+
+#: browser/index.js:566
+msgid ""
+"Lost connection to the server - trying to reconnect. You can also try to <a "
+"href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
+msgstr ""
+
+#: templates/chathistory.jade:32
+msgid "Add members to this room"
+msgstr ""
+
+#: templates/chathistory.jade:119
+#: templates/pmlist.jade:26
+msgid "Deleted user"
+msgstr ""
+
+#: templates/chatinput.jade:7
+msgid "Mention your team with "
+msgstr ""
+
+#: templates/chatinput.jade:8
+msgid "@"
+msgstr ""
+
+#: templates/chatinput.jade:9
+msgid " and autocomplete services with "
+msgstr ""
+
+#: templates/chatinput.jade:10
+msgid "#"
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:2
+#: templates/dialogs/deleteroom.jade:12
+msgid "Delete "
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:4
+msgid "Are you sure you want to delete room "
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:4
+msgid "?"
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:6
+msgid "This action can't be undone."
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:14
+msgid ". You need to be either owner or admin of "
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:14
+msgid " or the creator of this room to delete it."
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:16
+msgid "This room was created by "
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:21
+msgid ". You can kindly ask him to delete it for you."
+msgstr ""
+
+#: templates/dialogs/deleteroom.jade:23
+msgid "Sorry, this room can't be deleted."
+msgstr ""
+
+#: templates/navigation.jade:14
+#: templates/popovers/room.jade:3
+msgid "Manage rooms"
+msgstr ""
+
+#: templates/navigation.jade:23
+msgid "Private messages"
+msgstr ""
+
+#: templates/navigation.jade:25
+msgid "Search users"
+msgstr ""
+
+#: templates/popovers/roomlist.jade:24
+#: templates/popovers/roomlist.jade:55
+msgid "created by "
+msgstr ""
+
+#: templates/popovers/roomlist.jade:33
+msgid "Rooms you have already joined"
 msgstr ""
