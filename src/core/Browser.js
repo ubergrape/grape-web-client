@@ -27,9 +27,10 @@ export default React.createClass({
 
   getStateFromProps(props) {
     let sections = dataUtils.getSections(props.data)
+
     return {
       sections: sections,
-      tabs: dataUtils.getTabs(sections)
+      tabs: dataUtils.getTabs(props.data.services, sections)
     }
   },
 
@@ -66,8 +67,7 @@ export default React.createClass({
       let service = tabs[newIndex].service
       dataUtils.setSelectedTab(tabs, newIndex)
       dataUtils.setSelectedSection(sections, service)
-      // "All" tab is special case, just take the first service.
-      dataUtils.setFocusedObjectAt(sections, service || sections[0].service, 0)
+      dataUtils.setFocusedObjectAt(sections, service, 0)
       this.setState({tabs: tabs, sections: sections})
       this.emit('selectFacet', {service: service})
     }
@@ -145,7 +145,6 @@ export default React.createClass({
     }
 
     let facet
-    let tabs
     let empty
 
     if (data.length) {
@@ -154,7 +153,6 @@ export default React.createClass({
         focus: this.focusObject,
         select: this.selectObject
       })
-      tabs = <Tabs data={this.state.tabs} select={this.selectFacet} />
     }
     else {
       empty = <Empty />
@@ -162,7 +160,7 @@ export default React.createClass({
 
     return (
       <div className={classes.container} style={this.props.style}>
-        {tabs}
+        <Tabs data={this.state.tabs} select={this.selectFacet} />
         {facet}
         {empty}
       </div>

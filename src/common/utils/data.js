@@ -87,7 +87,7 @@ export function setSelectedSection(sections, service) {
   if (curr) curr.selected = false
   if (service) {
     let next = find(sections, section => section.service == service)
-    next.selected = true
+    if (next) next.selected = true
   }
 }
 
@@ -122,6 +122,9 @@ export function getObjects(sections) {
  * Mark a result as focused. Unmark previously focused one.
  */
 export function setFocusedObjectAt(sections, service, index) {
+  if (!sections.length) return
+  // Take first service when nothing passed.
+  if (!service) service = sections[0].service
   unsetFocusedObject(sections)
   let section = find(sections, section => section.service == service)
   section.results[index].focused = true
@@ -164,32 +167,31 @@ function getObjectById(sections, id) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(sections) {
-  if (!sections.length) return []
+export function getTabs(services, sections) {
+  if (!services.length) return []
 
-  let data = sections.map(function (section) {
+  let selectedSection = getSelectedSection(sections)
+  let hasSelected = Boolean(selectedSection)
+
+  let tabs = services.map(function (service) {
     return {
-      label: section.label,
-      amount: section.results.length,
-      selected: section.selected,
-      service: section.service
+      label: service.label,
+      amount: service.count,
+      service: service.id,
+      selected: hasSelected && selectedSection.service == service.id
     }
   })
 
-  let amount = 0
-  sections.forEach(function (section) {
-    amount += section.results.length
-  })
+  let total = 0
+  tabs.forEach(tab => total += tab.amount)
 
-  let hasSelected = Boolean(getSelectedSection(sections))
-
-  data.unshift({
+  tabs.unshift({
     label: 'All',
-    amount: amount,
+    amount: total,
     selected: !hasSelected
   })
 
-  return data
+  return tabs
 }
 
 /**
