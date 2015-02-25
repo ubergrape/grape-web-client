@@ -44,16 +44,14 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
 		},
-		'deleteRoom' : function(e) { self.emit('deleteroom'); }
+		'toggleDeleteRoomDialog' : function(e) { self.emit('toggleDeleteRoomDialog', self.room); }
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
-	
-	//this.events.obj.deleteRoom = this.deleteRoom.bind(this);
-	this.events.bind('click .option-delete-room', 'deleteRoom');
+	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
