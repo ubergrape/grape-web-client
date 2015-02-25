@@ -141,18 +141,18 @@ UI.prototype.init = function UI_init() {
 	// then emit an upload event to the broker to call the uploader
 	this.clipboard.on('paste', function(e){
 		if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
-  });
-
-  // initialize dragAndDrop
-  // receive the dragged items and emit
-  // an event to the uploader to upload them
-  var self = this;
-  this.dropzone = new Dropzone();
-  this.dragAndDrop = dropAnywhere(function(e){
-  	e.items.forEach(function(item){
-  		self.emit('uploadDragged', item);
   	});
-  }, this.dropzone.el);
+
+	// initialize dragAndDrop
+	// receive the dragged items and emit
+	// an event to the uploader to upload them
+	var self = this;
+	this.dropzone = new Dropzone();
+	this.dragAndDrop = dropAnywhere(function(e){
+		e.items.forEach(function(item){
+			self.emit('uploadDragged', item);
+		});
+	}, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -264,8 +264,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker.pass(this.chatHeader, 'deleteroom', this, 'deleteroom');
-	broker.pass(this.chatHeader, 'roomdeleted', this, 'roomDeleted');
+	broker.pass(this.chatHeader.deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -292,8 +291,7 @@ UI.prototype.bind = function UI_bind() {
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView,
-			'hideResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
@@ -324,6 +322,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
+	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
@@ -579,6 +578,7 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 };
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
+	this.emit('roomDeleted');
 	if (this.room != room) return;
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
 	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
