@@ -10,6 +10,10 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    return <div className={classes.container}>Nothing found.</div>
+    return (
+      <div className={classes.container}>
+        <div className={classes.info}>Nothing found.</div>
+      </div>
+    )
   }
 })
