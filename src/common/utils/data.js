@@ -59,7 +59,7 @@ export function getSections (data) {
   })
 
   // Select first result of the first section.
-  sections[0].results[0].focused = true
+  if (sections[0]) sections[0].results[0].focused = true
 
   // Find service within in the original results structure or within
   // sections structure (id == service).

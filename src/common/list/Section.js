@@ -13,16 +13,17 @@ let Section = React.createClass({
   mixins: [useSheet(sectionStyle)],
 
   render() {
-    let classes = this.sheet.classes
+    let {classes} = this.sheet
+    let {results, label} = this.props
 
-    let objects = this.props.results.map(function (result) {
+    let objects = results.map(function (result) {
       assign(result, pick(this.props, 'focus', 'select', 'icon'))
       return <Object {...result} />
     }, this)
 
     return (
       <section>
-        <header className={classes.header}>{this.props.label}</header>
+        <header className={classes.header}>{label}</header>
         {objects}
       </section>
     )

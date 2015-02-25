@@ -9,19 +9,20 @@ let Object = React.createClass({
   mixins: [useSheet(objectStyle)],
 
   render() {
-    let classes = this.sheet.classes
-    let containerClassName = this.props.focused ? classes.containerFocused : classes.container
-    let date = ''
+    let {classes} = this.sheet
+    let {id, focused, icon, info, highlighted} = this.props
+    let containerClassName = focused ? classes.containerFocused : classes.container
+    let date
     if (this.props.date) {
       date = <span className={classes.date}>{this.getLocaleDateString()}</span>
     }
     // TODO: use svg icons, don't use global selectors.
-    let iconClassNames = `fa fa-${this.props.icon} ` + classes.icon
+    let iconClassNames = `fa fa-${icon} ` + classes.icon
     return (
-      <div onClick={this.select} onMouseOver={this.focus} className={containerClassName} key={this.props.id}>
+      <div onClick={this.select} onMouseOver={this.focus} className={containerClassName} key={id}>
         <span className={iconClassNames}></span>
-        <span className={classes.name} dangerouslySetInnerHTML={{__html: this.props.highlighted}} />
-        <span className={classes.info}>{this.props.info}</span>
+        <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
+        <span className={classes.info}>{info}</span>
         {date}
       </div>
     )

@@ -7,6 +7,7 @@ import findIndex from 'lodash-es/array/findIndex'
 
 import browserStyle from './browserStyle'
 import Tabs from './Tabs'
+import Empty from './Empty'
 import * as services from '../services'
 import * as dataUtils from '../common/utils/data'
 
@@ -143,7 +144,9 @@ export default React.createClass({
       data = sections
     }
 
-    let facet, tabs
+    let facet
+    let tabs
+    let empty
 
     if (data.length) {
       facet = React.createElement(services[serviceName], {
@@ -153,11 +156,15 @@ export default React.createClass({
       })
       tabs = <Tabs data={this.state.tabs} select={this.selectFacet} />
     }
+    else {
+      empty = <Empty />
+    }
 
     return (
       <div className={classes.container} style={this.props.style}>
         {tabs}
         {facet}
+        {empty}
       </div>
     )
   }
