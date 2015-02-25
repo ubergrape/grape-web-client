@@ -26,9 +26,10 @@ module.exports = new Model([
 
 function castAuthor(author) {
 	if (author.type === 'user') {
-		var user = User.get(author.id);
-		if (user)
+		var user = User.get(author.id) || new User({id: author.id});
+		if (user) {
 			user['type'] = 'user';
+		}
 		return user;
 	}
 
