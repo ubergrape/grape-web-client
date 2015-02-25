@@ -235,12 +235,12 @@ App.prototype.bindEvents = function App_bindEvents() {
 				trigger();
 			}, 10000);
 		} else if (!data.typing && ~index) {
-			// we want the typing notification to be displayed at least one
-			// second
+			// we want the typing notification to be displayed at least five
+			// seconds
 			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
-			}, 1000);
+			}, 5000);
 		}
 		function trigger() {
 			// FIXME: model needs an api to do this:
