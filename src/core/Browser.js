@@ -17,18 +17,19 @@ export default React.createClass({
   mixins: [useSheet(browserStyle)],
 
   getInitialState() {
-    return {
-      sections: [],
-      tabs: []
-    }
+    return this.getStateFromProps(this.props)
   },
 
   componentWillReceiveProps(props) {
+    this.setState(this.getStateFromProps(props))
+  },
+
+  getStateFromProps(props) {
     let sections = dataUtils.getSections(props.data)
-    this.setState({
+    return {
       sections: sections,
       tabs: dataUtils.getTabs(sections)
-    })
+    }
   },
 
   /**
