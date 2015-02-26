@@ -396,7 +396,11 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
-	room.unread = 0;
+
+	// defaults
+	if (typeof room.unread === "undefined") {
+		room.unread = 0;
+	}
 	room.typing = [];
 
 	return room;
