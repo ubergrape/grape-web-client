@@ -67,6 +67,8 @@
 			&:empty:not(:focus):before
 				content: attr(data-ph)
 				color: gainsboro-light
+			&:[disabled=true]
+				color: red
 		.messageInput-line
 			display: inline-block
 			position: absolute

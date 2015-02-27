@@ -23,7 +23,6 @@ div
 					i.fa.fa-user
 					|  #{room.users.length}
 				ul.horizontal-user-list
-					- var limitUsersTo = 5
 					- var count = 0
 					each member in room.users
 						if count < limitUsersTo
@@ -36,12 +35,11 @@ div
 				//-	var tip = new Tooltip("content");
 				//-	tip.position(100,100);
 				//-	tip.show;
-				if room.users.length > limitUsersTo
-					- var remainingUsers = room.users.length - limitUsersTo
+				if hiddenUsersCount
 					span.remaining-users
 						| + 
 						i.fa.fa-user
-						|  #{remainingUsers}
+						|  #{hiddenUsersCount}
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited

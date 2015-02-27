@@ -358,7 +358,9 @@ ChatInput.prototype.bind = function ChatInput_bind() {
 
 			self.complete_header.innerHTML = "";
 
-			var users = app.organization.users;
+			var users = app.organization.users.filter(function(user) {
+				return user.active;
+			});
 			var search = match;
 			for (var i=0; i<users.length; i++) {
 				if (self.complete.options.length >= self.max_autocomplete)
@@ -623,9 +625,20 @@ ChatInput.prototype.parseDate = function ChatInput_parseDate (data) {
 
 ChatInput.prototype.setRoom = function ChatInput_setRoom(room) {
 	this.room = room;
-	attr(this.messageInput).set('disabled', !room);
-	if (room) this.messageInput.removeAttribute('disabled'); // IE :)
-	if (room) this.messageInput.focus();
+	this.messageInput.innerHTML = "";
+	if (!room || (room.type == "pm" && !room.users[0].active)) {
+		attr(this.messageInput).set('data-ph', 'You cannot reply to this conversation.');
+		attr(this.messageInput).set('disabled', true);
+		attr(this.messageInput).set('contenteditable', false);
+	} else {
+		attr(this.messageInput).set('disabled', false);
+		var editableValue = navigator.userAgent.indexOf("Chrome") != -1 ? 'plaintext-only' : true;
+		attr(this.messageInput).set('contenteditable', editableValue);
+		attr(this.messageInput).set('data-ph', 'Enter a message ...');
+		this.messageInput.removeAttribute('disabled');
+		this.messageInput.focus();
+	}
+	
 	if (this.editing) this.editingDone();
 };
 

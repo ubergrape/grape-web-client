@@ -258,8 +258,21 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {
 		var user = models.User.get(data.user);
 		var index = self.organization.users.indexOf(user);
-		if (user && ~index && data.organization===self.organization.id)
-			self.organization.users.splice(index, 1);
+		if (user && ~index && data.organization===self.organization.id) {
+			var inactivePm = false;
+			self.organization.users.forEach(function(user) {
+				if (user.id == data.user 
+				&& (!user.pm || user.pm && user.pm.history.length == 0)) {
+					inactivePm = user;
+				}
+			})
+			if (inactivePm) {
+				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
+				self.organization.pms.splice(inactivePmIndex, 1);
+				self.emit('deleteduser', user);
+			}
+			user.active = false;
+		}
 	});
 
 	// message events
@@ -320,17 +333,17 @@ App.prototype.unbind = function App__unbind() {
 	if (this.wamp) this.wamp._listeners = {};
 };
 
-var deletedUser = {
-	username: "deleted",
-	firstName: "Deleted",
+var unknownUser = {
+	username: "unknown",
+	firstName: "unknown",
 	lastName: "User"
 };
 
 App.prototype._newRoom = function App__newRoom(room) {
 	room.users = room.users.map(function (u) {
-		// in case we have a user in a room that is *not* in the organization
-		// anymore we have to fall back to the deletedUser
-		return models.User.get(u) || new models.User(deletedUser);
+		// if the user was not in the models array for some reason
+		// create an unknown user so the room loads correctly
+		return models.User.get(u) || new models.User(unknownUser);
 	});
 	var selfindex = room.users.indexOf(this.user);
 	room.joined = !!~selfindex;
@@ -374,26 +387,16 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 			user.status = u.status;
 			return user;
 		});
-		res.invited_users.map(function (u) {
-			var user = models.User.get(u.id) || new models.User(u);
-			user.status = u.status;
-			org.users.push(user);
-		});
+
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
-
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
-		if (res.logo != null) {
-            org.logo = res.logo;
-        }
-        if (res.custom_emojis != null) {
-            org.custom_emojis = res.custom_emojis;
-        }
-        // connect users and pms
-        org.pms.forEach(function(pm) {
-        	pm.users[0].pm = pm;
-        })
-
+		if (res.logo != null) org.logo = res.logo;
+    if (res.custom_emojis != null) org.custom_emojis = res.custom_emojis;
+    
+    // connect users and pms
+    org.pms.forEach( function(pm) { pm.users[0].pm = pm; })
+    
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);

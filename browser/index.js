@@ -319,6 +319,9 @@ UI.prototype.bind = function UI_bind() {
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
+	// navigation
+	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
 	this.upload.on('uploaded', function (attachment) {
@@ -422,10 +425,12 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
+	
 	var pms = org.users.filter(function(user) {
-		if (user == self.user) return false;
-		return true;
+		return self.user != user &&
+		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
+
 	//	var pms = [
 	//		{id: 1, username: 'Tobias Seiler', status: 16},
 	//		{id: 2, username: 'Leo Fasbender', status: 0},

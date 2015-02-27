@@ -34,6 +34,8 @@ Navigation.prototype.init = function Navigation_init() {
 	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
 	replace(qs('.labels', this.el), labelList.el);
 
+	this.filtering = false;
+	
 	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
 	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
 	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
@@ -60,10 +62,8 @@ Navigation.prototype.init = function Navigation_init() {
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
-	
 	// need this on load too
 	resizeRoomList();
-	
 	// and on window resize
 	window.addEventListener('resize', resizeRoomList);
 };
@@ -89,6 +89,13 @@ Navigation.prototype.bind = function Navigation_bind() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
 	this.pmSort.byLastMessage.call(lists['pms']);
+	// make sure deleted users are at the bottom
+	// without losing the 'array' prototype
+	var deleted = lists['pms'].filter(function(pm) {return !pm.active});
+	var active = lists['pms'].filter(function(pm) { return deleted.indexOf(pm) < 0 });
+	deleted.forEach(function(pm) { active.push(pm); });
+	lists['pms'] = active;
+	
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
@@ -107,7 +114,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 			bindPm(user);
 		});
 	});
-
+	
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
 };
@@ -147,6 +154,15 @@ Navigation.prototype.pmSort = (function Navigation_pmSort() {
 	};
 })();
 
+Navigation.prototype.deleteUser = function(item) {
+	if (!this.filtering) {
+		var itemIndex = this.pmList.items.indexOf(item);
+		this.pmList.items.splice(itemIndex, 1);
+		this.pmList.redraw();
+	}
+}
+
+
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
 	var str = self.pmFilterEl.value;
@@ -155,12 +171,14 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 
 	var filtered_items = [];
 	if (str !== '') {
+		this.filtering = true;
 		self.pmList.unfiltered.forEach(function(item) {
 			if (item.username.startsWithIgnoreCase(str) || item.firstName.startsWithIgnoreCase(str) || item.lastName.startsWithIgnoreCase(str)) {
 				filtered_items.push(item);
 			}
 		});
 	} else {
+		this.filtering = false;
 		filtered_items = self.pmList.unfiltered;
 	}
 

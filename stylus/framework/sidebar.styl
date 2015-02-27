@@ -120,15 +120,6 @@ a.nav-title-wrap
 			border-left: 0 solid grape-light
 		.icon
 			color: gainsboro-dark
-		&.selected
-			a
-				//color: white
-				font-weight: bold
-				background: gainsboro-light
-				border-left-width: 3px
-				padding-left: 17px
-			.icon
-				color: grape-light
 		.name
 			height: 1.25em
 			line-height: 1em
@@ -136,6 +127,28 @@ a.nav-title-wrap
 			white-space: nowrap
 			overflow: hidden
 			display: block
+		&.deleted
+			.name
+				color: gainsboro-dark
+			.avatar-status
+				background: gainsboro-dark
+			span.user-deleted
+				@extend $small-font-size
+				color: gainsboro-light
+				font-weight: bold
+				text-transform: uppercase
+				margin-left: 4px
+		&.selected
+			a
+				font-weight: bold
+				background: gainsboro-light
+				border-left-width: 3px
+				padding-left: 17px
+			.icon
+				color: grape-light
+			span.user-deleted
+				color: gainsboro-dark
+				font-weight: normal
 
 
 // ****
@@ -201,4 +214,4 @@ span.no-messages
 	placeholder(color = gainsboro-dark)
 	&:focus
 		outline: none
-		color: grape-typo		
+		color: grape-typo
