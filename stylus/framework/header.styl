@@ -44,6 +44,11 @@
 				max-width: 200px
 			@media (max-width: 768px)
 				max-width: 180px
+			&:hover
+				border-bottom: 1px solid grape-light
+				cursor: text
+				&+.options-wrap .option-rename-room
+					color: white
 		.options-wrap
 			@extend $hoverable
 			@extend $clearfix
