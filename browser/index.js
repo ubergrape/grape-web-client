@@ -597,6 +597,11 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
+UI.prototype.leaveChannel = function UI_leaveChannel(room) {
+	if (this.room != room) return;
+	this.selectChannelFromUrl('/');
+}
+
 UI.prototype.selectpm = function UI_selectpm(user) {
 	var self = this;
 	if (user.pm === null) {
