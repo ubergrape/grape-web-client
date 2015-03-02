@@ -498,12 +498,13 @@ App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
 	});
 };
 
-App.prototype.joinRoom = function App_joinRoom(room) {
+App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	var self = this;
 	if (room.joined) return;
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
+		if (callback !== undefined) callback();
 	});
 };
 

@@ -552,9 +552,13 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 
 	if (channel) {
 		if (channel.type === "room") {
-			if (!channel.joined)
-				self.emit('joinroom', channel);
-			self.emit('selectchannel', channel);
+			if (!channel.joined) {
+				self.emit('joinroom', channel, function() {
+					self.emit('selectchannel', channel);
+				});
+			} else {
+				self.emit('selectchannel', channel);
+			}
 		} else {
 			self.selectpm(channel);
 		}
