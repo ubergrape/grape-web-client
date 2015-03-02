@@ -197,6 +197,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
+		self.emit('newroom');
 	});
 	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
 		var room = models.Room.get(data.channel.id);

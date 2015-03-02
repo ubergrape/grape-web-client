@@ -257,6 +257,7 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
+	broker(this, 'newRoom', this.addRoom, 'redraw');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
