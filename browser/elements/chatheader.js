@@ -74,10 +74,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var activeUsers = this.room.users.filter(function(user) {
-		return user.active || user == ui.user;
-	});
-	var hiddenUsersCount = activeUsers.length > this.limitUsersTo ? activeUsers.length - this.limitUsersTo : 0; 
+	var totUsers = this.room.users.length;
+	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0; 
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
