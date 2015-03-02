@@ -44,7 +44,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
 		},
-		'toggleDeleteRoomDialog' : function(e) { self.emit('toggleDeleteRoomDialog', self.room); }
+		'toggleDeleteRoomDialog' : function(e) { self.emit('toggledeleteroomdialog', self.room); }
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');

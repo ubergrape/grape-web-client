@@ -265,7 +265,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker(this.chatHeader, 'toggleDeleteRoomDialog', this, 'deleteroom');
+	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -582,7 +582,7 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
-UI.prototype.deleteroom = function UI_deleteroom(room) {
+UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	var deleteRoomDialog = new DeleteRoomDialog({
 		room: room
 	}).closable().overlay().show();
