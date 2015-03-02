@@ -18,6 +18,11 @@ div
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
 			.room-name(disabled, contenteditable="true")= room.name
+			.rename-options-wrap
+				a.option-rename-cancel
+					i.fa.fa-times
+				a.option-rename-ok
+					i.fa.fa-pencil
 			.options-wrap
 				if ((room.creator && user.id === room.creator.id) || user.role > 0)
 					a.option-rename-room
@@ -26,7 +31,7 @@ div
 						i.fa.fa-trash
 				a.option-add-users
 					i.fa.fa-user-plus
-			.room-menu-wrap
+			.room-users-wrap
 				span.user-count
 					i.fa.fa-user
 					|  #{room.users.length}

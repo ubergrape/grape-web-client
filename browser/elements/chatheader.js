@@ -41,7 +41,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
-			self.emit('togglemembersmenu', qs('.room-menu-wrap', self.el));
+			self.emit('togglemembersmenu', qs('.room-users-wrap', self.el));
 		},
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));

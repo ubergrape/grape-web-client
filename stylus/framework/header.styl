@@ -54,15 +54,20 @@
 				border: none
 				border-bottom: 1px solid lighten(grape-light, 10%)
 				outline: none
-				&+.options-wrap
-				&+.room-menu-wrap
+				&~.options-wrap
+				&~.room-users-wrap
 					display: none
+				&+.rename-options-wrap
+					display: block
 		.options-wrap
+		.rename-options-wrap
 			@extend $hoverable
 			@extend $clearfix
 			display: inline-block
 			float: left
 			padding-top: 6px
+		.rename-options-wrap
+			display: none
 		.option-rename-room
 		.option-delete-room
 		.option-add-users
@@ -84,7 +89,7 @@
 		.option-add-users
 			&:hover
 				color: grass-light
-		.room-menu-wrap
+		.room-users-wrap
 			@extend $hoverable
 			@extend $clearfix
 			display: inline-block
