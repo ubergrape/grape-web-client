@@ -52,7 +52,7 @@
 			&:active
 			&:focus
 				border: none
-				border-bottom: 1px solid lighten(grape-light, 10%)
+				border-bottom: 1px solid lighten(grape-light, 20%)
 				outline: none
 				&~.options-wrap
 				&~.room-users-wrap
@@ -68,9 +68,7 @@
 			padding-top: 6px
 		.rename-options-wrap
 			display: none
-		.option-rename-room
-		.option-delete-room
-		.option-add-users
+		.header-option
 			display: inline-block
 			color: grape-light
 			width: 21px
@@ -83,10 +81,14 @@
 			&:hover
 				background: grape-light
 				color: white
+		// RED button icons (destructive, cancel, etc.)
 		.option-delete-room
+		.option-rename-cancel
 			&:hover
 				color: bittersweet-dark
+		// GREEN button icons (desired, save, etc.)
 		.option-add-users
+		.option-rename-ok
 			&:hover
 				color: grass-light
 		.room-users-wrap

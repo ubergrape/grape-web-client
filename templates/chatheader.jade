@@ -19,17 +19,17 @@ div
 		if room.type === 'room'
 			.room-name(disabled, contenteditable="true")= room.name
 			.rename-options-wrap
-				a.option-rename-cancel
+				a.header-option.option-rename-cancel
 					i.fa.fa-times
-				a.option-rename-ok
-					i.fa.fa-pencil
+				a.header-option.option-rename-ok
+					i.fa.fa-check
 			.options-wrap
 				if ((room.creator && user.id === room.creator.id) || user.role > 0)
-					a.option-rename-room
+					a.header-option.option-rename-room
 						i.fa.fa-pencil
-					a.option-delete-room
+					a.header-option.option-delete-room
 						i.fa.fa-trash
-				a.option-add-users
+				a.header-option.option-add-users
 					i.fa.fa-user-plus
 			.room-users-wrap
 				span.user-count
