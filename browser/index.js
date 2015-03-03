@@ -590,7 +590,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 }
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
-	this.emit('roomDeleted');
 	if (this.room != room) return;
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
 	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
