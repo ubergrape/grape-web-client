@@ -289,6 +289,9 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
+	// roommembers popover
+	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
+
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');

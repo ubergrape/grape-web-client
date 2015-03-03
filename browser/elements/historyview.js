@@ -78,7 +78,6 @@ HistoryView.prototype.unselectForEditing = function () {
 
 HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
 	ev.preventDefault();
-	console.log('loip');
 	var url = ev.delegateTarget.href;
 	this.emit('selectchannelfromurl', url);
 };
