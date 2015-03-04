@@ -50,7 +50,6 @@ exports.ItemList = require('./elements/itemlist');
 var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
-//var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -163,7 +162,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			this.enableNotificationMessage = this.messages.info('notifications reminder');
 			classes(qs('body')).add('notifications-disabled');
 	}
 
@@ -565,8 +564,7 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.danger(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
 };
 
@@ -577,14 +575,14 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 		delete this._connErrMsg;
 	}
 	classes(qs('body')).remove('disconnected');
-	var msg = this.messages.success(_('Reconnected successfully'));
+	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
 	this.selectChannelFromUrl('/'); // don't use '', it won't work
-	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
+	var msg = this.messages.success('room deleted', { room : room.name })
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
