@@ -17,20 +17,19 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
-			.room-name(disabled, contenteditable="true")= room.name
-			.rename-options-wrap
-				a.header-option.option-rename-cancel
-					i.fa.fa-times
-				a.header-option.option-rename-ok
-					i.fa.fa-check
-			.options-wrap
-				if ((room.creator && user.id === room.creator.id) || user.role > 0)
+			.room-name #{room.name}
+			if ((room.creator && user.id === room.creator.id) || user.role > 0)
+				//input.room-name(value=room.name, type="text")
+				.rename-options-wrap
+					a.header-option.option-rename-cancel
+						i.fa.fa-times
+					a.header-option.option-rename-ok
+						i.fa.fa-check
+				.options-wrap
 					a.header-option.option-rename-room
 						i.fa.fa-pencil
-					a.header-option.option-delete-room
-						i.fa.fa-trash
-				a.header-option.option-add-users
-					i.fa.fa-user-plus
+					a.header-option.option-add-users
+						i.fa.fa-user-plus
 			.room-users-wrap
 				span.user-count
 					i.fa.fa-user
