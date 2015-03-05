@@ -25,11 +25,14 @@ div
 						i.fa.fa-times
 					a.header-option.option-rename-ok
 						i.fa.fa-check
-				.options-wrap
+			.options-wrap
+				if ((room.creator && user.id === room.creator.id) || user.role > 0)
 					a.header-option.option-rename-room
 						i.fa.fa-pencil
-					a.header-option.option-add-users
-						i.fa.fa-user-plus
+					a.header-option.option-delete-room
+						i.fa.fa-trash
+				a.header-option.option-add-users
+					i.fa.fa-user-plus
 			.room-users-wrap
 				span.user-count
 					i.fa.fa-user
