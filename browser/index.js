@@ -176,7 +176,7 @@ UI.prototype.init = function UI_init() {
 		showStepNumbers: false,
 		steps: [
 			{
-				intro: _("<h2>Welcome to ChatGrape - Nice to have you on board!</h2><div class='introjs-center'><img class='introjs-image' src='https://ug-cdn.com/static/chatgrape/static/images/mascot/mascot.png' alt='Welcome!'/></div><p>We'll give you a quick overview in 5 simple steps.</p>"),
+				intro: _("<h2>Welcome to ChatGrape - Good to see you.</h2><p>We'll give you a quick overview in 5 simple steps.</p>"),
 				tooltipClass: "intro-welcome"
 			},
 			{
@@ -186,21 +186,21 @@ UI.prototype.init = function UI_init() {
 			},
 			{
 				element: '#intro-step2',
-				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General, Development and Off-Topic.</p><p>You can see all available rooms in your organization and create a new one by clicking on &quot;Manage rooms&quot;.</p>"),
+				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General, Development and Off-Topic.</p><p>You can see all available rooms in your organization and create a new one by clicking on &quot;All rooms&quot;.</p>"),
 				position: 'right'
 			},
 			{
 				element: '#intro-step3',
-				intro: _('<h2>Private Messages</h2><p>This list contains all members of your organization and sorted depending on your most recent conversations.</p><p>No worries, offline users will be notified about your messages by Push and Email notifications!</p>'),
+				intro: _('<h2>Private Messages</h2><p>This list contains the contacts you already have a private conversation with.</p><p>You can start more conversations by clicking on &quot;All members&quot;.</p>'),
 				position: 'right'
 			},
 			{
 				element: '#intro-step4',
-				intro: _("<h2>Room Info</h2><p>This area shows you the name of the room, how many users have joined it and how many of them are online.</p><p>Click on one of them or the 'Add users' button to see all of them or to invite more users to this room.</p><p>You can also delete a room if you have created it or are an admin.</p>"),
+				intro: _("<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>"),
 				position: 'bottom'
 			},
 			{
-				intro: _("<h2>That&apos;s it!</h2><div class='introjs-center'><img class='introjs-image' src='https://ug-cdn.com/static/chatgrape/static/images/mascot/mascot_jumping.png' alt='Done!'/></div><p>Have fun using ChatGrape.</p>"),
+				intro: _('<h2>That&apos;s it! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
 			}
 		]
 	});
@@ -288,9 +288,6 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
-	// roommembers popover
-	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
@@ -503,8 +500,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
-
-
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
@@ -585,6 +580,23 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
+UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
+	var redirectRoom = false;
+	this.navigation.roomList.items.every(function(room) {
+		if (room.joined) {
+			redirectRoom = room;
+			return false;
+		}
+		return true;
+	});
+	if (!redirectRoom) {
+		redirectRoom = this.navigation.pmList.items[0];
+		this.selectpm(redirectRoom);
+	} else {
+		this.emit('selectchannel', redirectRoom);
+	}
+}
+
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	var deleteRoomDialog = new DeleteRoomDialog({
 		room: room
@@ -594,14 +606,14 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	this.selectChannelFromUrl('/'); // don't use '', it won't work
+	this.pickRedirectChannel();
 	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
-	this.selectChannelFromUrl('/');
+	this.pickRedirectChannel();
 }
 
 UI.prototype.selectpm = function UI_selectpm(user) {
