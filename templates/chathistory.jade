@@ -104,7 +104,7 @@
 				if (first.author.type==='user')
 					if(first.author.active)
 						//- Only create link when it's a user who is not deleted
-						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'))
+						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
 							if (first.author.firstName || first.author.lastName)
 								author.message-author #{first.author.firstName} #{first.author.lastName} 
 							else	
@@ -173,7 +173,7 @@
 														| #{obj.name} 
 											if obj.sha
 												a(href=obj.url, target="_blank").sha
-													| #{obj.sha.substr(1, 7)} 
+													| #{obj.sha.substr(0, 6)} 
 											if obj.content
 												if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 													.text= html(markdown(obj.content))

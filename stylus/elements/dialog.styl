@@ -1,6 +1,10 @@
 #dialog, .dialog
 	background: none
 	border: none
+	top: 72px
+	bottom: 72px
+	margin-left: -300px
+	overflow: auto
 	.content
 		background: white
 		padding: 15px
@@ -11,13 +15,12 @@
 		transition: opacity 500ms
 		max-width: 100%
 		white-space: normal
-		position: fixed
-		left: 25%
-		right: 25%
+		overflow: auto
 		.body
-			overflow: auto
 			position: relative
 			height: 100%
+			img
+				max-width: 100%
 	.close
 		cursor: pointer
 		position: absolute
