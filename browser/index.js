@@ -163,7 +163,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			this.enableNotificationMessage = this.messages.info(_("<button class='button enable_notifications'>Enable desktop notifications</button>Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape."));
 			classes(qs('body')).add('notifications-disabled');
 	}
 
