@@ -39,9 +39,9 @@ div
 					i.fa.fa-user
 					|  #{room.users.length}
 				ul.horizontal-user-list
-					- var count = 0
+					- var count = 1
 					each member in room.users
-						if count < limitUsersTo
+						if count <= limitUsersTo
 							li
 								span.avatar-wrap
 									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")

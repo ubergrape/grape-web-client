@@ -8,8 +8,6 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
-var broker = require('broker');
-var DeleteRoomDialog = require('./dialogs/deleteroom');
 
 module.exports = ChatHeader;
 
@@ -45,16 +43,15 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
-		}
+		},
+		'toggleDeleteRoomDialog' : function(e) { self.emit('toggledeleteroomdialog', self.room); }
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
-	
-	this.events.obj.deleteRoom = this.deleteRoom.bind(this);
-	this.events.bind('click .option-delete-room', 'deleteRoom');
+	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
@@ -77,10 +74,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var activeUsers = this.room.users.filter(function(user) {
-		return user.active || user == ui.user;
-	});
-	var hiddenUsersCount = activeUsers.length > this.limitUsersTo ? activeUsers.length - this.limitUsersTo : 0; 
+	var totUsers = this.room.users.length;
+	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0; 
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
@@ -98,17 +93,4 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room = room;
 	room.on('change', this.redraw);
 	this.redraw();
-};
-
-
-ChatHeader.prototype.deleteRoom = function ChatHeader_deleteRoom(ev) {
-	ev.preventDefault();
-	var d = new DeleteRoomDialog({
-		room: this.room
-	}).closable().overlay().show();
-	broker.pass(d, 'deleteroom', this, 'deleteroom');
-};
-
-ChatHeader.prototype.dr = function DeleteRoomDialog_deleteroom(room, password, callback) {
-	console.log("Delete Room");
 };

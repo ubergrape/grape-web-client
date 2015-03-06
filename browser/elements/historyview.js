@@ -45,7 +45,8 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
-	this.events.bind('click a.author', 'openInternalLink');
+	this.events.bind('click a.author-link', 'openInternalLink');
+	this.events.bind('click a.avatar', 'openInternalLink');	
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 };
