@@ -28,6 +28,10 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.searchInput = qs('.search', this.el);
 	this.q = null;
 	this.limitUsersTo = 5;
+	this.editOptions = {
+		canEditRoomName: false,
+		editingRoomName: false
+	};
 };
 
 
@@ -48,7 +52,15 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
 		'editRoomName': function(e) {
-
+			self.editOptions.editingRoomName = true;
+			self.redraw();
+			var roomNameInput = qs('input.room-name', this.el);
+			roomNameInput.focus();
+			roomNameInput.addEventListener('blur', this.stopEditRoomName);
+		},
+		'stopEditRoomName': function(e) {
+			self.editOptions.editingRoomName = false;
+			self.redraw();
 		}
 	});
 
@@ -56,7 +68,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
-	this.events.bind('click .room-name', 'editRoomName');
+	this.events.bind('click .room-name.editable', 'editRoomName');
+	this.events.bind('click .option-rename-room', 'editRoomName');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
@@ -80,12 +93,12 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var totUsers = this.room.users.length;
-	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0; 
+	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0;
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
 		hiddenUsersCount: hiddenUsersCount,
-		canEditRoom: this.canEditRoom
+		editOptions: this.editOptions
 	});
 	render(this, vdom);
 };
@@ -97,7 +110,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
-	this.canEditRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role > 0) ? true : false;
+	this.editOptions.canEditRoomName = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role > 0) ? true : false;
 	room.on('change', this.redraw);
 	this.redraw();
 };

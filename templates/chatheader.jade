@@ -17,16 +17,18 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
-			.room-name(class=canEditRoom ? 'editable' : '') #{room.name}
-			if (canEditRoom)
-				//input.room-name(value=room.name, type="text")
+			if editOptions.editingRoomName
+				input.room-name.editable(value=room.name, type="text")
+			else
+				.room-name(class=editOptions.canEditRoomName ? 'editable' : '') #{room.name}
+			if editOptions.canEditRoomName
 				.rename-options-wrap
 					a.header-option.option-rename-cancel
 						i.fa.fa-times
 					a.header-option.option-rename-ok
 						i.fa.fa-check
 			.options-wrap
-				if (canEditRoom)
+				if editOptions.canEditRoomName
 					a.header-option.option-rename-room
 						i.fa.fa-pencil
 					a.header-option.option-delete-room
