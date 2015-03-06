@@ -64,7 +64,7 @@ var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
-
+var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 
 function UI(options) {
 	Emitter.call(this);
@@ -141,18 +141,18 @@ UI.prototype.init = function UI_init() {
 	// then emit an upload event to the broker to call the uploader
 	this.clipboard.on('paste', function(e){
 		if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
-  });
-
-  // initialize dragAndDrop
-  // receive the dragged items and emit
-  // an event to the uploader to upload them
-  var self = this;
-  this.dropzone = new Dropzone();
-  this.dragAndDrop = dropAnywhere(function(e){
-  	e.items.forEach(function(item){
-  		self.emit('uploadDragged', item);
   	});
-  }, this.dropzone.el);
+
+	// initialize dragAndDrop
+	// receive the dragged items and emit
+	// an event to the uploader to upload them
+	var self = this;
+	this.dropzone = new Dropzone();
+	this.dragAndDrop = dropAnywhere(function(e){
+		e.items.forEach(function(item){
+			self.emit('uploadDragged', item);
+		});
+	}, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -176,7 +176,7 @@ UI.prototype.init = function UI_init() {
 		showStepNumbers: false,
 		steps: [
 			{
-				intro: _("<h2>Welcome to ChatGrape - Nice to have you on board!</h2><div class='introjs-center'><img class='introjs-image' src='https://ug-cdn.com/static/chatgrape/static/images/mascot/mascot.png' alt='Welcome!'/></div><p>We'll give you a quick overview in 5 simple steps.</p>"),
+				intro: _("<h2>Welcome to ChatGrape - Good to see you.</h2><p>We'll give you a quick overview in 5 simple steps.</p>"),
 				tooltipClass: "intro-welcome"
 			},
 			{
@@ -186,21 +186,21 @@ UI.prototype.init = function UI_init() {
 			},
 			{
 				element: '#intro-step2',
-				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General, Development and Off-Topic.</p><p>You can see all available rooms in your organization and create a new one by clicking on &quot;Manage rooms&quot;.</p>"),
+				intro: _("<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-joined you to General, Development and Off-Topic.</p><p>You can see all available rooms in your organization and create a new one by clicking on &quot;All rooms&quot;.</p>"),
 				position: 'right'
 			},
 			{
 				element: '#intro-step3',
-				intro: _('<h2>Private Messages</h2><p>This list contains all members of your organization and sorted depending on your most recent conversations.</p><p>No worries, offline users will be notified about your messages by Push and Email notifications!</p>'),
+				intro: _('<h2>Private Messages</h2><p>This list contains the contacts you already have a private conversation with.</p><p>You can start more conversations by clicking on &quot;All members&quot;.</p>'),
 				position: 'right'
 			},
 			{
 				element: '#intro-step4',
-				intro: _("<h2>Room Info</h2><p>This area shows you the name of the room, how many users have joined it and how many of them are online.</p><p>Click on one of them or the 'Add users' button to see all of them or to invite more users to this room.</p><p>You can also delete a room if you have created it or are an admin.</p>"),
+				intro: _("<h2>Room Members Info</h2><p>This number shows you how many users have joined this room.</p><p>Click it to see all of them or to invite more users to this room.</p>"),
 				position: 'bottom'
 			},
 			{
-				intro: _("<h2>That&apos;s it!</h2><div class='introjs-center'><img class='introjs-image' src='https://ug-cdn.com/static/chatgrape/static/images/mascot/mascot_jumping.png' alt='Done!'/></div><p>Have fun using ChatGrape.</p>"),
+				intro: _('<h2>That&apos;s it! <i class="fa fa-2x fa-smile"></i></h2><p>Have fun using ChatGrape.</p>'),
 			}
 		]
 	});
@@ -257,6 +257,7 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
+	broker(this, 'newRoom', this.addRoom, 'newRoom');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -264,8 +265,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker.pass(this.chatHeader, 'deleteroom', this, 'deleteroom');
-	broker.pass(this.chatHeader, 'roomdeleted', this, 'roomDeleted');
+	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -292,8 +292,7 @@ UI.prototype.bind = function UI_bind() {
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView,
-			'hideResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
@@ -324,6 +323,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
+	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
@@ -500,8 +500,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
-
-
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
@@ -552,9 +550,13 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 
 	if (channel) {
 		if (channel.type === "room") {
-			if (!channel.joined)
-				self.emit('joinroom', channel);
-			self.emit('selectchannel', channel);
+			if (!channel.joined) {
+				self.emit('joinroom', channel, function() {
+					self.emit('selectchannel', channel);
+				});
+			} else {
+				self.emit('selectchannel', channel);
+			}
 		} else {
 			self.selectpm(channel);
 		}
@@ -578,12 +580,41 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
+UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
+	var redirectRoom = false;
+	this.navigation.roomList.items.every(function(room) {
+		if (room.joined) {
+			redirectRoom = room;
+			return false;
+		}
+		return true;
+	});
+	if (!redirectRoom) {
+		redirectRoom = this.navigation.pmList.items[0];
+		this.selectpm(redirectRoom);
+	} else {
+		this.emit('selectchannel', redirectRoom);
+	}
+}
+
+UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
+	var deleteRoomDialog = new DeleteRoomDialog({
+		room: room
+	}).closable().overlay().show();
+	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
+}
+
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	this.selectChannelFromUrl('/'); // don't use '', it won't work
+	this.pickRedirectChannel();
 	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.leaveChannel = function UI_leaveChannel(room) {
+	if (this.room != room) return;
+	this.pickRedirectChannel();
+}
 
 UI.prototype.selectpm = function UI_selectpm(user) {
 	var self = this;

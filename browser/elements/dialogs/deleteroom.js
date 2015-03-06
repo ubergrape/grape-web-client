@@ -14,9 +14,7 @@ function DeleteRoomDialog(context) {
 	Dialog.call(this, context);
 	this.button = qs('.delete', this.el);
 	this.form = qs('.delete-room-form', this.el);
-	if (this.form) {
-		this.passwordInput = this.form.password;
-	}
+	if (this.form) this.passwordInput = this.form.password;
 }
 
 DeleteRoomDialog.prototype = Object.create(Dialog.prototype);

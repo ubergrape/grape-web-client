@@ -106,6 +106,32 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	self.pmList.unfiltered = self.pmList.items;
 };
 
+Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
+	
+	function getStatusValue(user) {
+		if (!user.active) return 0;
+		if (user.status == 16) return 3;
+		if (user.is_only_invited) return 1;
+		return 2;
+	}
+
+	var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0;
+	var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0;
+
+	if (bLastMessage - aLastMessage != 0)
+		return bLastMessage - aLastMessage;
+	else
+		return getStatusValue(b) - getStatusValue(a);
+}
+
+Navigation.prototype.select = function Navigation_select(which, item) {
+	var self = this;
+	['room', 'pm', 'label'].forEach(function (which) {
+		self[which + 'List'].selectItem(null);
+	});
+	this[which + 'List'].selectItem(item);
+};
+
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 	if (this.filtering || line.channel.type != 'pm') return;
 	var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
@@ -129,42 +155,6 @@ Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 	this.pmList.redraw();
 }
 
-Navigation.prototype.select = function Navigation_select(which, item) {
-	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
-		self[which + 'List'].selectItem(null);
-	});
-	this[which + 'List'].selectItem(item);
-};
-
-// redraw everything, eg when the language changes
-Navigation.prototype.redraw = function Navigation_redraw() {
-	render(this.nav, template('navigation.jade'));
-	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (self[which + 'List'])
-		self[which + 'List'].redraw();
-	});
-};
-
-Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
-	
-	function getStatusValue(user) {
-		if (!user.active) return 0;
-		if (user.status == 16) return 3;
-		if (user.is_only_invited) return 1;
-		return 2;
-	}
-
-	var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0;
-	var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0;
-
-	if (bLastMessage - aLastMessage != 0)
-		return bLastMessage - aLastMessage;
-	else
-		return getStatusValue(b) - getStatusValue(a);
-}
-
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	// TODO unbind events
 	if (this.filtering) return;
@@ -172,6 +162,10 @@ Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	this.pmList.items.splice(itemIndex, 1);
 	this.pmList.redraw();
 };
+
+Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
+	this.roomList.redraw();
+}
 
 Navigation.prototype.hasRead = function Navigation_hasRead(room) {
 	if (this.filtering || room.type != "pm") return;
@@ -206,4 +200,14 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	self.pmList.items = filtered_items;
 
 	self.redraw();
+};
+
+// redraw everything, eg when the language changes
+Navigation.prototype.redraw = function Navigation_redraw() {
+	render(this.nav, template('navigation.jade'));
+	var self = this;
+	['room', 'pm', 'label'].forEach(function (which) {
+		if (self[which + 'List'])
+		self[which + 'List'].redraw();
+	});
 };

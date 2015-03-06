@@ -7,6 +7,7 @@ var render = require('../../rendervdom');
 var Popover = require('./popover');
 var classes = require('classes');
 var qs = require('query');
+var events = require('events');
 var broker = require('broker');
 
 module.exports = RoomMembersPopover;
@@ -27,7 +28,17 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 };
 
 RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
+	var self = this;
 	Popover.prototype.bind.call(this);
+	this.events = events(this.el, {
+		openInternalLink : function(ev) {
+			ev.preventDefault();
+			var url = ev.delegateTarget.href;
+			self.emit('selectchannelfromurl', url);
+			self.hide();
+		}
+	});
+	this.events.bind('click a.member-link', 'openInternalLink');
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
