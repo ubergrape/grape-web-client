@@ -17,7 +17,6 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
-			- var canEditRoom = (room.creator && user.id === room.creator.id) || user.role > 0 ? true : false
 			.room-name(class=canEditRoom ? 'editable' : '') #{room.name}
 			if (canEditRoom)
 				//input.room-name(value=room.name, type="text")

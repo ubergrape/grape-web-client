@@ -44,14 +44,19 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
 		},
-		'toggleDeleteRoomDialog' : function(e) { self.emit('toggledeleteroomdialog', self.room); }
+		'toggleDeleteRoomDialog': function(e) {
+			self.emit('toggledeleteroomdialog', self.room);
+		},
+		'editRoomName': function(e) {
+
+		}
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
-
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
+	this.events.bind('click .room-name', 'editRoomName');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
@@ -79,7 +84,8 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
-		hiddenUsersCount: hiddenUsersCount
+		hiddenUsersCount: hiddenUsersCount,
+		canEditRoom: this.canEditRoom
 	});
 	render(this, vdom);
 };
@@ -91,6 +97,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
+	this.canEditRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role > 0) ? true : false;
 	room.on('change', this.redraw);
 	this.redraw();
 };
