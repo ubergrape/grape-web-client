@@ -9,10 +9,8 @@
 		=_(' and autocomplete services with ')
 		span=_('#')
 	img.image(src="#{user.avatar}",width="36",alt="#{user.username}")
-	.autocomplete-wrapper
-	.messageInput-wrapper(id='intro-step1')
-		.messageInput(disabled, autofocus, contenteditable="true", data-ph="Enter a message ...")
-		.messageInput-line
-		.info-markdown.markdown-tips
-			i.fa.fa-question-circle
-		.uploader
+	grape-input(id='intro-step1',placeholder="Enter a message ...")
+	.input-hr
+	.info-markdown.markdown-tips
+		i.fa.fa-question-circle
+	.uploader
