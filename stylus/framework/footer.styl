@@ -4,6 +4,8 @@
 //
 // ****
 .footer
+	input-margin =
+		margin: 0 30px 0 46px
 	position: fixed
 	left: client-navigation-width
 	bottom: 0
@@ -11,9 +13,30 @@
 	background: footer-background
 	padding: 2px 0 10px 0
 	z-index: 30
+	grape-input
+		{input-margin}
+		line-height: 0
+	.input-hr
+		position: relative
+		{input-margin}
+		height: 1px
+		background: gainsboro-light
+		overflow: hidden
+		&::before
+			content: ''
+			top: 0
+			left: -100%
+			width: 100%
+			height: 100%
+			background: grape-light
+			position: absolute
+			transition: transform .3s
+	&.focus .input-hr::before
+		transform: translate3d(100%, 0, 0)
 	.input-wrapper
 		padding-left: 20px
 		position: relative
+		overflow: hidden
 		.image
 			@extend $clearfix
 			width: 36px
@@ -29,74 +52,6 @@
 				border-right: 6px solid white
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
-	.messageInput-wrapper
-		margin-right: 30px
-	.messageInput-wrapper // Looks like the actual textarea so that the actual textarea has the scrollbar on the right position
-		@extend $clearfix
-		overflow: hidden
-		position: relative
-		padding: 0
-		background: white
-		vertical-align: top
-		min-height: 36px
-		.messageInput
-			@extend $normal-font-size
-			position: relative
-			min-height: 34px
-			width: 100%
-			padding: 8px 63px 8px 10px
-			margin: 0
-			display: block
-			resize: none
-			max-height: 400px
-			background: transparent
-			border: none
-			border-radius: 0
-			outline: none
-			-webkit-appearance: none; /* for box shadows to show on iOS */
-			transition: all 0.3s linear
-			cursor: text
-			&:focus
-				outline: none
-			&:disabled
-				background: silver-dark
-				+.uploader .upload
-					background: silver-dark
-					.fa
-						color: gainsboro-light
-			&:empty:not(:focus):before
-				content: attr(data-ph)
-				color: gainsboro-light
-			&:[disabled=true]
-				color: red
-		.messageInput-line
-			display: inline-block
-			position: absolute
-			bottom: 2px
-			left: 0
-			width: 100%
-			pointer-events: none
-			-webkit-touch-callout: none
-			-webkit-user-select: none
-			-khtml-user-select: none
-			-moz-user-select: none
-			-ms-user-select: none
-			user-select: none
-			&::before
-			&::after
-				content: ''
-				position: absolute
-				top: 0
-				left: 0
-				width: 100%
-				border-bottom: 1px solid gainsboro-light
-			&::after
-				border-bottom: 1px solid grape-light
-				transform: translate3d(-100%, 0, 0)
-				transition: all .2s
-	.messageInput:focus + .messageInput-line::after
-	.messageInput--filled .messageInput-line::after
-		transform: translate3d(0, 0, 0)
 	.edit-message, .hint-box
 		@extend $small-font-size
 		color: gainsboro-dark
@@ -112,17 +67,17 @@
 	// markdown info styling
 	.info-markdown
 		position: absolute
-		right: 26px
+		right: 60px
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		&.disabled
 			display: none
-		
+
 	// uploader styling
 	.uploader
 		position: absolute
-		right: 0
+		right: 30px
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
@@ -159,7 +114,7 @@
 			vertical-align: middle
 	.uploader.open .upload-progress
 		display: block
-		
+
 	.info-markdown
 	.upload
 		@extend $hoverable
@@ -181,8 +136,8 @@
 			text-align: center
 			line-height: 30px
 			color: gainsboro-dark
-		
-	
+
+
 
 .input-wrapper.editing // Styling of input when editing
 	.messageInput, .messageInput-wrapper

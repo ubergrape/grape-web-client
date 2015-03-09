@@ -5,11 +5,13 @@
   "description": "",
   "keywords": [],
   "paths": [
-    "local_components"
+    "local_components",
+    "node_modules"
   ],
   "locals": [
     "cglib",
-    "staticurl"
+    "staticurl",
+    "grape-input"
   ],
   "main": "index.js",
   "scripts": [
