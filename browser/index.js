@@ -50,7 +50,6 @@ exports.ItemList = require('./elements/itemlist');
 var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
-//var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -163,7 +162,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			this.enableNotificationMessage = this.messages.info(_("<button class='button enable_notifications'>Enable desktop notifications</button>Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape."));
 			classes(qs('body')).add('notifications-disabled');
 	}
 
@@ -318,6 +317,9 @@ UI.prototype.bind = function UI_bind() {
 
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
+
+	// membersMenu
+	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');

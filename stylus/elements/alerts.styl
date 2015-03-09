@@ -13,23 +13,25 @@ ul.alerts
 	z-index: 100
 	//animation: slideinout 4s ease-in-out
 	li
+		@extend $clearfix
+		@extend $normal-font-size
+		position: relative
+		overflow: auto
 		text-align: left
 		background-color: lighten(alert-info-color, 90%)
-		padding: 14px 54px 8px 20px
+		padding: 20px 50px 10px 20px
 		border-bottom: 1px solid lighten(alert-info-color, 60%)
 		opacity: 0.98
-		@extend $normal-font-size
 		font-weight: bold
-		@extend $clearfix
-		animation: slidein 0.5s cubic-bezier(.7,.43,.67,.9)  /* Safari, Chrome and Opera > 12.1 */
-		position: relative
+		animation: slidein 0.5s cubic-bezier(.7,.43,.67,.9)
 		.button
 			@extend $normal-font-size
 			// margin-right: 22px
 			font-weight: normal
-			margin-top: -12px
-			margin-bottom: -4px
 			float: right
+			padding: 0
+			margin-top: -10px
+			padding: 10px 15px
 			&:hover
 				background: rgba(white, .5)
 		&::after
