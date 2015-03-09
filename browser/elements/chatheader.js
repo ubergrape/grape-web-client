@@ -34,7 +34,6 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	};
 };
 
-
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
 
@@ -51,14 +50,12 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
-		'editRoomName': function(e) {
+		'editRoomName': function() {
 			self.editOptions.editingRoomName = true;
 			self.redraw();
-			var roomNameInput = qs('input.room-name', this.el);
-			roomNameInput.focus();
-			roomNameInput.addEventListener('blur', this.stopEditRoomName);
+			qs('input.room-name', this.el).focus();
 		},
-		'stopEditRoomName': function(e) {
+		'stopEditRoomName': function() {
 			self.editOptions.editingRoomName = false;
 			self.redraw();
 		}
@@ -70,6 +67,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 	this.events.bind('click .room-name.editable', 'editRoomName');
 	this.events.bind('click .option-rename-room', 'editRoomName');
+	this.events.bind('click .option-rename-cancel', 'stopEditRoomName');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();

@@ -19,42 +19,37 @@ div
 		if room.type === 'room'
 			if editOptions.editingRoomName
 				input.room-name.editable(value=room.name, type="text")
-			else
-				.room-name(class=editOptions.canEditRoomName ? 'editable' : '') #{room.name}
-			if editOptions.canEditRoomName
 				.rename-options-wrap
 					a.header-option.option-rename-cancel
 						i.fa.fa-times
 					a.header-option.option-rename-ok
 						i.fa.fa-check
-			.options-wrap
-				if editOptions.canEditRoomName
-					a.header-option.option-rename-room
-						i.fa.fa-pencil
-					a.header-option.option-delete-room
-						i.fa.fa-trash
-				a.header-option.option-add-users
-					i.fa.fa-user-plus
-			.room-users-wrap
-				span.user-count
-					i.fa.fa-user
-					|  #{room.users.length}
-				ul.horizontal-user-list
-					- var count = 1
-					each member in room.users
-						if count <= limitUsersTo
-							li
-								span.avatar-wrap
-									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
-									.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
-							- count++
-				//-script.
-				//-	var tip = new Tooltip("content");
-				//-	tip.position(100,100);
-				//-	tip.show;
-				if hiddenUsersCount
-					span.remaining-users
-						| + #{hiddenUsersCount}			
+			else
+				.room-name(class=editOptions.canEditRoomName ? 'editable' : '') #{room.name}
+				.options-wrap
+					if editOptions.canEditRoomName
+						a.header-option.option-rename-room
+							i.fa.fa-pencil
+						a.header-option.option-delete-room
+							i.fa.fa-trash
+					a.header-option.option-add-users
+						i.fa.fa-user-plus
+				.room-users-wrap
+					span.user-count
+						i.fa.fa-user
+						|  #{room.users.length}
+					ul.horizontal-user-list
+						- var count = 1
+						each member in room.users
+							if count <= limitUsersTo
+								li
+									span.avatar-wrap
+										img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+										.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
+								- count++
+					if hiddenUsersCount
+						span.remaining-users
+							| + #{hiddenUsersCount}			
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
