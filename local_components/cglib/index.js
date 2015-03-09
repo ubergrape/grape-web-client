@@ -203,6 +203,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
+		self.emit('channelupdate', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#removed', function(data) {
 		var room = models.Room.get(data.channel);
@@ -523,8 +524,9 @@ App.prototype.leaveRoom = function App_leaveRoom(room) {
 };
 
 App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
-	console.log(roomID);
-	console.log(newName);
+	this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
+		// handle error
+	});
 }
 
 App.prototype.autocomplete = function App_autocomplete(text, callback) {

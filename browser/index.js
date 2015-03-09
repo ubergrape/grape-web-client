@@ -345,13 +345,13 @@ UI.prototype.bind = function UI_bind() {
 	this.on('selectchannel', function (channel) {
 		navigation.select(channel.type, channel);
 		var state = history.state || {};
-		if (state.type === channel.type &&
-			state.id === channel.id)
-			return;
 		var url = self.options.pathPrefix || '';
 		url += url[url.length - 1] === '/' ? '' : '/';
 		url += channel.slug || ('@' + channel.users[0].username.toLowerCase());
-		history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
+		if (state.type === channel.type && state.id === channel.id)
+			history.replaceState({type: channel.type, id: channel.id}, channel.name || '', url);
+		else
+			history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
 	});
 	window.addEventListener('popstate', function (ev) {
 		if (!ev.state) return;
@@ -615,6 +615,11 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
+}
+
+UI.prototype.channelUpdate = function UI_channelUpdate(room) {
+	if(this.room != room) return;
+	this.emit('selectchannel', room);
 }
 
 UI.prototype.selectpm = function UI_selectpm(user) {
