@@ -522,6 +522,11 @@ App.prototype.leaveRoom = function App_leaveRoom(room) {
 	});
 };
 
+App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
+	console.log(roomID);
+	console.log(newName);
+}
+
 App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	this.wamp.call(PREFIX + 'search/autocomplete', text, this.organization.id,
 			function (err, result) {
@@ -576,7 +581,6 @@ App.prototype.inviteToRoom = function App_inviteToRoom(room, users, callback) {
 		}
 	});
 };
-
 
 /**
  * Loads history for `room`

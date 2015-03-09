@@ -268,7 +268,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');
 	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
-	broker.pass(this.chatHeader, 'confirmnewroomname', this, 'confirmEditRoomName');
+	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
