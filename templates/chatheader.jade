@@ -17,7 +17,7 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
-			if editOptions.editingRoomName
+			if editOptions.renamingRoom
 				input.room-name.editable(value=room.name, type="text")
 				.rename-options-wrap
 					a.header-option.option-rename-cancel
@@ -25,9 +25,9 @@ div
 					a.header-option.option-rename-ok
 						i.fa.fa-check
 			else
-				.room-name(class=editOptions.canEditRoomName ? 'editable' : '') #{room.name}
+				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') #{room.name}
 				.options-wrap
-					if editOptions.canEditRoomName
+					if editOptions.canRenameRoom
 						a.header-option.option-rename-room
 							i.fa.fa-pencil
 						a.header-option.option-delete-room

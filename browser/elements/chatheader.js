@@ -8,6 +8,7 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
+var constants = require('cglib').constants;
 
 module.exports = ChatHeader;
 
@@ -29,8 +30,8 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.q = null;
 	this.limitUsersTo = 5;
 	this.editOptions = {
-		canEditRoomName: false,
-		editingRoomName: false
+		canRenameRoom: false,
+		renamingRoom: false
 	};
 };
 
@@ -51,16 +52,16 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
 		'toggleRoomRename': function() {
-			self.editOptions.editingRoomName = true;
+			self.editOptions.renamingRoom = true;
 			self.redraw();
 			qs('input.room-name', this.el).focus();
 		},
 		'stopRoomRename': function() {
-			self.editOptions.editingRoomName = false;
+			self.editOptions.renamingRoom = false;
 			self.redraw();
 		},
 		'confirmRoomRename': function() {
-			var newRoomName = qs('input.room-name', this.el).value);
+			var newRoomName = qs('input.room-name', this.el).value;
 			self.emit('confirmroomrename', self.room.id, newRoomName);
 		}
 	});
@@ -113,7 +114,8 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
-	this.editOptions.canEditRoomName = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role > 0) ? true : false;
+	this.editOptions.canRenameRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.ROLE_ADMIN) ? true : false;
+	this.editOptions.renamingRoom = false;
 	room.on('change', this.redraw);
 	this.redraw();
 };
