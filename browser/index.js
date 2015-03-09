@@ -109,6 +109,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
+	this.chatInput.render();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
 
 	// initialize the history view
@@ -416,6 +417,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
+
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
@@ -455,7 +457,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
-		this.chatInput.redraw();
+		this.chatInput.render();
 	}
 	this.historyView.redraw();
 };
