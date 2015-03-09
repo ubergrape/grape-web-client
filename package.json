@@ -13,22 +13,20 @@
     "lodash-es": "^3.1.0",
     "react": "^0.12.2",
     "react-jss": "^0.1.2",
-    "reactive-elements": "^0.4.6",
-    "scribe-editor": "^1.2.8",
     "ubergrape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git",
-    "ubergrape-theme": "git+ssh://git@github.com/ubergrape/theme.git",
-    "webcomponents.js": "^0.5.4-1"
+    "ubergrape-theme": "git+ssh://git@github.com/ubergrape/theme.git"
   },
   "devDependencies": {
     "6to5-core": "^3.3.9",
     "6to5-loader": "^3.0.0",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
-    "webpack": "^1.5.3"
+    "webpack": "^1.5.3",
+    "webcomponents.js": "^0.5.4-1",
+    "reactive-elements": "^0.4.6"
   },
   "scripts": {
     "build": "npm run build-dev & npm run build-component",
-    "build-dev": "webpack index.js dist/grape-browser.js",
-    "build-component": "BUILD=component webpack component.js dist/grape-browser-component.js"
+    "build-dev": "webpack index.js dist/grape-browser.js"
   }
 }

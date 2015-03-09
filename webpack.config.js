@@ -45,8 +45,6 @@ var config = module.exports = {
   }
 }
 
-if (process.env.BUILD != 'component') {
-  config.externals = {
-    react: 'React'
-  }
+config.externals = {
+  react: 'React'
 }
