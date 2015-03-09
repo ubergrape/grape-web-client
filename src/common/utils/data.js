@@ -127,7 +127,7 @@ export function setFocusedObjectAt(sections, service, index) {
   if (!service) service = sections[0].service
   unsetFocusedObject(sections)
   let section = find(sections, section => section.service == service)
-  section.results[index].focused = true
+  if (section) section.results[index].focused = true
 }
 
 /**

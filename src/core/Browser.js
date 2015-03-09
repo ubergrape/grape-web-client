@@ -30,7 +30,7 @@ export default React.createClass({
 
     return {
       sections: sections,
-      tabs: dataUtils.getTabs(props.data.services, sections)
+      tabs: props.data ? dataUtils.getTabs(props.data.services, sections) : []
     }
   },
 
