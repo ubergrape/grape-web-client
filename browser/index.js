@@ -50,7 +50,6 @@ exports.ItemList = require('./elements/itemlist');
 var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
-//var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -318,6 +317,9 @@ UI.prototype.bind = function UI_bind() {
 
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
+
+	// membersMenu
+	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
