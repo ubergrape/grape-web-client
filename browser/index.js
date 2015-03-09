@@ -265,6 +265,10 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
+	broker(this.searchView, 'show', this, 'showSearchResults');
+	broker(this.searchView, 'hide', this, 'hideSearchResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
+	broker.pass(this.chatHeader, 'confirmnewroomname', this, 'confirmEditRoomName');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -287,11 +291,6 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
-	// search
-	broker(this.searchView, 'show', this, 'showSearchResults');
-	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');

@@ -50,7 +50,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
-		'editRoomName': function() {
+		'toggleEditRoomName': function() {
 			self.editOptions.editingRoomName = true;
 			self.redraw();
 			qs('input.room-name', this.el).focus();
@@ -58,16 +58,20 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'stopEditRoomName': function() {
 			self.editOptions.editingRoomName = false;
 			self.redraw();
+		},
+		'confirmEditRoomName': function() {
+			self.emit('confirmnewroomname');
 		}
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
-	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
+	this.events.bind('click .room-users-wrap', 'toggleMembersMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
-	this.events.bind('click .room-name.editable', 'editRoomName');
-	this.events.bind('click .option-rename-room', 'editRoomName');
+	this.events.bind('click .room-name.editable', 'toggleEditRoomName');
+	this.events.bind('click .option-rename-room', 'toggleEditRoomName');
 	this.events.bind('click .option-rename-cancel', 'stopEditRoomName');
+	this.events.bind('click .option-rename-ok', 'confirmEditRoomName');
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
