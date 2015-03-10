@@ -45,6 +45,7 @@
     "browser/renderautocomplete.js",
     "browser/emoji.js",
     "browser/jstz.js",
+    "lib/router.js",
     "lib/broker.js"
   ],
   "templates": [
@@ -124,7 +125,8 @@
     "ubergrape/resizable": "master",
     "ubergrape/moment-timezone": "master",
     "darsain/tooltip": "master",
-    "pgherveou/store": "0.0.6"
+    "pgherveou/store": "0.0.6",
+    "ianstormtaylor/router": "1.0.2"
   },
   "development": {
     "dependencies": {

@@ -4,4 +4,4 @@
 exports.App = require('cglib');
 exports.UI = require('./browser');
 exports.broker = require('./lib/broker');
-
+exports.router = require('./lib/router');
