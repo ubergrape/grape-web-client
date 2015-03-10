@@ -52,12 +52,10 @@ App.prototype.startHeartbeat = function() {
 	this._heartbeat = setInterval(function() {
 		self.heartbeat(self);
 	}, HEARTBEAT_INTERVAL);
-  console.log("Heartbeat started...");
 };
 
 App.prototype.stopHeartbeat = function () {
 	clearInterval(this._heartbeat);
-  console.log("Heartbeat stopped...");
 };
 
 App.prototype.logTraffic = function App_logTraffic() {
@@ -81,14 +79,12 @@ App.prototype.logTraffic = function App_logTraffic() {
 App.prototype.heartbeat = function App_heartbeat(app) {
 	if (!app.connected)
 		return;
-	console.log("Send heartbeat...");
 	var heartbeatTimeout = setTimeout(function() {
 			console.log("NO PONG");
 			app.onDisconnect();
 	}, HEARTBEAT_TIMEOUT);
 	this.wamp.call(PREFIX + 'ping', function(err, res) {
 		if (res === 'pong') {
-			console.log('received', res);
 			clearTimeout(heartbeatTimeout);
 		}
 	});
