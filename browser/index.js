@@ -217,7 +217,6 @@ UI.prototype.bind = function UI_bind() {
 			self.organizationMenu.toggle(qs('.logo'));
 		},
 		'requestPermission': function() {
-
 			notify.requestPermission(function(permission){
 				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
@@ -567,7 +566,7 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
-Ui.prototype.setRoomContext = function UI_setRoomContext(room) {
+UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 	this.room = room;
 }
 
@@ -589,9 +588,9 @@ UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
 }
 
 UI.prototype.manageHistory = function UI_manageHistory(room) {
-	navigation.select(room.type, room);
+	this.navigation.select(room.type, room);
 	var state = history.state || {};
-	var url = self.options.pathPrefix || '';
+	var url = this.options.pathPrefix || '';
 	url += url[url.length - 1] === '/' ? '' : '/';
 	url += room.slug || ('@' + room.users[0].username.toLowerCase());
 	if (state.type === room.type && state.id === room.id)
