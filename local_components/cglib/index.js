@@ -197,6 +197,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
+		self.emit('newroom');
 	});
 	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
 		var room = models.Room.get(data.channel.id);
@@ -501,12 +502,13 @@ App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
 	});
 };
 
-App.prototype.joinRoom = function App_joinRoom(room) {
+App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	var self = this;
 	if (room.joined) return;
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
+		if (callback !== undefined) callback();
 	});
 };
 
@@ -516,6 +518,7 @@ App.prototype.leaveRoom = function App_leaveRoom(room) {
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
+		self.emit('leavechannel', room);
 	});
 };
 
