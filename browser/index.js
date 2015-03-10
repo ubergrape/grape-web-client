@@ -283,6 +283,8 @@ UI.prototype.bind = function UI_bind() {
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
+	broker(this, 'gothistory', this.historyView, 'gotHistory');
+	broker(this, 'nohistory', this.historyView, 'noHistory');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
@@ -327,7 +329,12 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
-	this.on('selectchannel', function (room) { self.room = room; });
+
+	this.on('selectchannel', function (room) {
+		this.setRoomContext(room);
+		this.manageHistory(room);
+	});
+
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});
 		self.upload.hide();
@@ -341,18 +348,6 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	// hook up history/pushstate stuff
-	this.on('selectchannel', function (channel) {
-		navigation.select(channel.type, channel);
-		var state = history.state || {};
-		var url = self.options.pathPrefix || '';
-		url += url[url.length - 1] === '/' ? '' : '/';
-		url += channel.slug || ('@' + channel.users[0].username.toLowerCase());
-		if (state.type === channel.type && state.id === channel.id)
-			history.replaceState({type: channel.type, id: channel.id}, channel.name || '', url);
-		else
-			history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
-	});
 	window.addEventListener('popstate', function (ev) {
 		if (!ev.state) return;
 		var which = self.org[ev.state.type + 's'];
@@ -377,14 +372,6 @@ UI.prototype.bind = function UI_bind() {
 			}
 		}
 	}
-};
-
-UI.prototype.gotHistory = function UI_gotHistory() {
-	this.historyView.gotHistory();
-};
-
-UI.prototype.noHistory = function UI_noHistory() {
-	this.historyView.noHistory();
 };
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
@@ -428,7 +415,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
-
 	
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
@@ -581,6 +567,10 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
+Ui.prototype.setRoomContext = function UI_setRoomContext(room) {
+	this.room = room;
+}
+
 UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
 	var redirectRoom = false;
 	this.navigation.roomList.items.every(function(room) {
@@ -596,6 +586,18 @@ UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
 	} else {
 		this.emit('selectchannel', redirectRoom);
 	}
+}
+
+UI.prototype.manageHistory = function UI_manageHistory(room) {
+	navigation.select(room.type, room);
+	var state = history.state || {};
+	var url = self.options.pathPrefix || '';
+	url += url[url.length - 1] === '/' ? '' : '/';
+	url += room.slug || ('@' + room.users[0].username.toLowerCase());
+	if (state.type === room.type && state.id === room.id)
+		history.replaceState({type: room.type, id: room.id}, room.name || '', url);
+	else
+		history.pushState({type: room.type, id: room.id}, room.name || '', url);
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
@@ -619,7 +621,7 @@ UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
-	this.emit('selectchannel', room);
+	this.manageHistory(room);
 }
 
 UI.prototype.selectpm = function UI_selectpm(user) {
