@@ -119,3 +119,8 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	room.on('change', this.redraw);
 	this.redraw();
 };
+
+ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
+	this.editOptions.renamingRoom = false;
+	this.redraw();
+}
