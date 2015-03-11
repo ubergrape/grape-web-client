@@ -129,13 +129,18 @@
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
 								img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
-						if (line.container || line.branch)
+						if (line.container || line.branch || line.tag)
 							.source-wrap
 								if line.branch
 									span.branch
 										i(class="fa fa-code-fork")
 										| 
 										| #{line.branch} 
+								if line.tag
+									span.tag
+										i(class="fa fa-tag")
+										|
+										| #{line.tag}
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
