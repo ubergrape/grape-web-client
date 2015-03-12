@@ -95,3 +95,7 @@ RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 	this.itemList.setItems(items);
 };
 
+RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
+	this.redraw();
+}
+

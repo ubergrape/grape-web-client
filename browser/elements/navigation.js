@@ -11,6 +11,7 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
+var store = require('../store').prefix('navigation');
 
 module.exports = Navigation;
 
@@ -35,10 +36,10 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.labels', this.el), labelList.el);
 
 	this.filtering = false;
-	
-	var roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-	    pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-	    pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+
+	var	roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
+		pmScrollbar = new Scrollbars(qs('.pms', this.el)),
+		pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
 
 
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -49,21 +50,26 @@ Navigation.prototype.init = function Navigation_init() {
 	// compute the height of the room list area
 	// called every time the pm area is resized
 	var resizeRoomList = debounce(function resizeRoomList() {
-		var totHeight = self.el.clientHeight,
-				orgInfoHeight = qs('.org-info', self.el).clientHeight,
-				bottomHeight = 0,
-				roomWrapper = roomScrollbar.wrapper.parentNode,
-				pmResizableHeight = pmResizable.element.clientHeight,
-				roomWrapperBottomPadding = 12;
-				
-		roomWrapper.style.height = totHeight - bottomHeight - orgInfoHeight - pmResizableHeight - roomWrapperBottomPadding + 'px';
-	}, 500);
+		var	totHeight = self.el.clientHeight,
+			orgInfoHeight = qs('.org-info', self.el).clientHeight,
+			roomWrapper = roomScrollbar.wrapper.parentNode,
+			pmResizableHeight = pmResizable.element.clientHeight,
+			remainingPadding = 12;
+		// saving new sidebar height in localStorage
+		store.set('pmListHeight', pmResizableHeight);
+		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
+	}, 200);
+
 
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
-	// need this on load too
+	
+	// if the pm list height in not saved in localStorage,
+	// the height will fall back to the default one (25%)
+	pmResizable.element.style.height = store.get('pmListHeight') + 'px';
 	resizeRoomList();
+
 	// and on window resize
 	window.addEventListener('resize', resizeRoomList);
 };
@@ -88,36 +94,35 @@ Navigation.prototype.bind = function Navigation_bind() {
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	var self = this;
-	this.pmSort.byLastMessage.call(lists['pms']);
-	// make sure deleted users are at the bottom
-	// without losing the 'array' prototype
-	var deleted = lists['pms'].filter(function(pm) {return !pm.active});
-	var active = lists['pms'].filter(function(pm) { return deleted.indexOf(pm) < 0 });
-	deleted.forEach(function(pm) { active.push(pm); });
-	lists['pms'] = active;
-	
+
+	lists.pms.sort(this.pmCompare);
+
 	['room', 'pm', 'label'].forEach(function (which) {
 		if (lists[which + 's'])
 			self[which + 'List'].setItems(lists[which + 's']);
 	});
-	function bindPm(user) {
-		if (user.pm !== null && typeof user.pm !== "undefined" && typeof user.pm.on !== "undefined") {
-			user.pm.on('change', function() {
-				self.pmList.redraw();
-			});
-		}
-	}
-	// the pm list ist actually a list of users
-	self.pmList.items.forEach(function(user) {
-		bindPm(user);
-		user.on('change', function() {
-			bindPm(user);
-		});
-	});
-	
+
 	// we need this for filtering
 	self.pmList.unfiltered = self.pmList.items;
 };
+
+Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
+	
+	function getStatusValue(user) {
+		if (!user.active) return 0;
+		if (user.status == 16) return 3;
+		if (user.is_only_invited) return 1;
+		return 2;
+	}
+
+	var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0;
+	var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0;
+
+	if (bLastMessage - aLastMessage != 0)
+		return bLastMessage - aLastMessage;
+	else
+		return getStatusValue(b) - getStatusValue(a);
+}
 
 Navigation.prototype.select = function Navigation_select(which, item) {
 	var self = this;
@@ -127,41 +132,51 @@ Navigation.prototype.select = function Navigation_select(which, item) {
 	this[which + 'List'].selectItem(item);
 };
 
-// redraw everything, eg when the language changes
-Navigation.prototype.redraw = function Navigation_redraw() {
-	render(this.nav, template('navigation.jade'));
-	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (self[which + 'List'])
-		self[which + 'List'].redraw();
-	});
-};
-
-// in need of other sort functions,
-// add them in the returned object
-Navigation.prototype.pmSort = (function Navigation_pmSort() {
-	return {
-		byLastMessage : function() {
-			var compare = function(a, b) {
-				var aLastMessage = a.pm ? a.pm.latest_message_time : 0
-				var bLastMessage = b.pm ? b.pm.latest_message_time : 0
-				if(aLastMessage > bLastMessage) return -1;
-				if(aLastMessage < bLastMessage) return 1;
-				return 0;
-			};
-			this.sort(compare);
-		}
-	};
-})();
-
-Navigation.prototype.deleteUser = function(item) {
-	if (!this.filtering) {
-		var itemIndex = this.pmList.items.indexOf(item);
-		this.pmList.items.splice(itemIndex, 1);
-		this.pmList.redraw();
-	}
+Navigation.prototype.newMessage = function Navigation_newMessage(line) {
+	if (this.filtering || line.channel.type != 'pm') return;
+	var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
+	if (pmPartnerIndex == -1) return;
+	this.pmList.items.splice(pmPartnerIndex, 1);
+	this.pmList.items.unshift(line.channel.users[0]);
+	this.pmList.redraw();
 }
 
+Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
+	if (this.filtering) return;
+	var newPos = this.pmList.items.length;
+	this.pmList.items.every(function(pm, index) {
+		if (!pm.active) {
+			newPos = index;
+			return false;
+		}
+		return true;
+	});
+	this.pmList.items.splice(newPos, 0, user);
+	this.pmList.redraw();
+}
+
+Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
+	// TODO unbind events
+	if (this.filtering) return;
+	var itemIndex = this.pmList.items.indexOf(item);
+	this.pmList.items.splice(itemIndex, 1);
+	this.pmList.redraw();
+};
+
+Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
+	this.roomList.redraw();
+}
+
+Navigation.prototype.hasRead = function Navigation_hasRead(room) {
+	if (this.filtering || room.type != "pm") return;
+	// we just need this for the pm list, not the room list
+	// the room list is listening to changes in its items and redrawing
+	// the pm is not listening to changes in its pm object, so
+	// we need to manually redraw 
+	// TODO redisign this, since the room list is also redrawn 
+	// every time someone type anything and that is not expected
+	this.pmList.redraw();
+}
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
@@ -185,4 +200,14 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	self.pmList.items = filtered_items;
 
 	self.redraw();
-}
+};
+
+// redraw everything, eg when the language changes
+Navigation.prototype.redraw = function Navigation_redraw() {
+	render(this.nav, template('navigation.jade'));
+	var self = this;
+	['room', 'pm', 'label'].forEach(function (which) {
+		if (self[which + 'List'])
+		self[which + 'List'].redraw();
+	});
+};

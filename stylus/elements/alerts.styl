@@ -13,30 +13,42 @@ ul.alerts
 	z-index: 100
 	//animation: slideinout 4s ease-in-out
 	li
+		@extend $clearfix
+		@extend $normal-font-size
+		position: relative
+		overflow: auto
 		text-align: left
 		background-color: lighten(alert-info-color, 90%)
-		padding: 14px 30px 8px 20px
+		padding: 20px 50px 10px 20px
 		border-bottom: 1px solid lighten(alert-info-color, 60%)
 		opacity: 0.98
-		@extend $normal-font-size
 		font-weight: bold
-		@extend $clearfix
+		animation: slidein 0.5s cubic-bezier(.7,.43,.67,.9)
 		.button
 			@extend $normal-font-size
 			// margin-right: 22px
 			font-weight: normal
-			margin-top: -6px
-			margin-bottom: -4px
 			float: right
+			padding: 0
+			margin-top: -10px
+			padding: 10px 15px
 			&:hover
 				background: rgba(white, .5)
-				
-@keyframes slideinout {
-	0%, 100% {
-		top:-30px
+		&::after
+			font-size: 20px
+			position: absolute
+			right: 30px
+			top: 12px
+			font-family: FontAwesome
+
+@keyframes slidein {
+	0% {
+		opacity: 0.4;
+		transform: translateY(-30px);
 	}
-	25%, 75% {
-		top:0
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
 	}
 }
 
@@ -49,6 +61,9 @@ ul.alerts
 .alerts li a
 .alert-inline a
 	color: inherit
+	opacity: 0.8
+	&:hover
+		opacity: 1
 	
 .alerts li.info
 .alert-inline.info
@@ -59,6 +74,8 @@ ul.alerts
 		color: lighten(alert-info-color, 20%)
 	.button
 		color: darken(alert-info-color, 30%)
+	&::after
+		content: "\f05a"
 
 .alerts li.success
 .alert-inline.success
@@ -69,6 +86,8 @@ ul.alerts
 		color: lighten(alert-success-color, 20%)
 	.button
 		color: alert-success-color
+	&::after
+		content: "\f058"
 
 .alerts li.warning
 .alert-inline.warning
@@ -79,13 +98,19 @@ ul.alerts
 		color: lighten(alert-warning-color, 20%)
 	.button
 		color: alert-warning-color
+	&::after
+		content: "\f06a"
+
 
 .alerts li.danger
 .alert-inline.danger
 	background-color: lighten(alert-danger-color, 90%)
 	border-color: lighten(alert-danger-color, 80%)
-	color: darken(alert-danger-color, 30%)
+	color: #DF715E
 	a:hover
 		color: lighten(alert-danger-color, 20%)
 	.button
 		color: darken(alert-danger-color, 30%)
+	&::after
+		content: "\f057"
+

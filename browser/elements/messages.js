@@ -5,9 +5,10 @@ var animate = require('animate');
 
 module.exports = Messages;
 
-function Message(text, level) {
-	this.text = text;
+function Message(type, level, options) {
+	this.type = type;
 	this.level = level;
+	this.options = options;
 }
 
 Message.prototype.add = function (messages) {
@@ -16,7 +17,8 @@ Message.prototype.add = function (messages) {
 };
 
 Message.prototype.remove = function () {
-	this.messages.remove(this);
+	animate(this, 'fade-up-out');
+	setTimeout(this.messages.remove(this), 2000);
 	delete this.messages;
 };
 
@@ -43,36 +45,34 @@ Messages.prototype.add = function(msg) {
 	this.redraw();
 };
 
-Messages.prototype.create = function(text, level) {
-	var msg = new Message(text, level);
+Messages.prototype.create = function(type, level, options) {
+	var msg = new Message(type, level, options);
 	msg.add(this);
+	animate(this, 'fade-down-in');
 	this.redraw();
-	animate(this, 'fade-left-in');
 	return msg;
 };
 
 Messages.prototype.remove = function(message) {
 	var idx = this.messages.indexOf(message);
-	if (idx > -1) {
-			this.messages.splice(idx, 1);
-	}
+	if (idx > -1) this.messages.splice(idx, 1);
 	this.redraw();
 };
 
-Messages.prototype.info = function(text) {
-	return this.create(text, 'info');
+Messages.prototype.info = function(type, options) {
+	return this.create(type, 'info', options);
 };
 
-Messages.prototype.success = function(text) {
-	return this.create(text, 'success');
+Messages.prototype.success = function(type, options) {
+	return this.create(type, 'success', options);
 };
 
-Messages.prototype.warning = function(text) {
-	return this.create(text, 'warning');
+Messages.prototype.warning = function(type, options) {
+	return this.create(type, 'warning', options);
 };
 
-Messages.prototype.danger = function(text) {
-	return this.create(text, 'danger');
+Messages.prototype.danger = function(type, options) {
+	return this.create(type, 'danger', options);
 };
 
 Messages.prototype.clear = function() {

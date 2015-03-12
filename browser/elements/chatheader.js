@@ -30,24 +30,38 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.limitUsersTo = 5;
 };
 
+
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
+
 	this.events = events(this.el, {
 		'toggleUserMenu': function () {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
 			self.emit('togglemembersmenu', qs('.room-menu-wrap', self.el));
+		},
+		'toggleMembersMenu1': function (e) {
+			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
+		},
+		'toggleDeleteRoomDialog' : function(e) {
+			self.emit('toggledeleteroomdialog', self.room);
 		}
 	});
+
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
+	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
 	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
+	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
+
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 	});
+
 	var startSearching = debounce(function () {
 		self.emit('searching', self.q);
 	}, 200, false);
+
 	this.searchInput.addEventListener('keyup', function () {
 		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
 		if (q.length !== 0 && self.q !== q) {
@@ -61,10 +75,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var activeUsers = this.room.users.filter(function(user) {
-		return user.active || user == ui.user;
-	});
-	var hiddenUsersCount = activeUsers.length > this.limitUsersTo ? activeUsers.length - this.limitUsersTo : 0; 
+	var totUsers = this.room.users.length;
+	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0; 
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
@@ -83,4 +95,3 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	room.on('change', this.redraw);
 	this.redraw();
 };
-

@@ -18,14 +18,22 @@ div
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
 			h1.room-name= room.name
+			.options-wrap
+				if ((room.creator && user.id === room.creator.id) || user.role > 0)
+					//-a.option-rename-room
+					//-	i.fa.fa-pencil
+					a.option-delete-room
+						i.fa.fa-trash
+				a.option-add-users
+					i.fa.fa-user-plus
 			.room-menu-wrap
 				span.user-count
 					i.fa.fa-user
 					|  #{room.users.length}
 				ul.horizontal-user-list
-					- var count = 0
+					- var count = 1
 					each member in room.users
-						if count < limitUsersTo
+						if count <= limitUsersTo
 							li
 								span.avatar-wrap
 									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
@@ -37,9 +45,7 @@ div
 				//-	tip.show;
 				if hiddenUsersCount
 					span.remaining-users
-						| + 
-						i.fa.fa-user
-						|  #{hiddenUsersCount}
+						| + #{hiddenUsersCount}			
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited

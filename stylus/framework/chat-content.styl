@@ -7,7 +7,7 @@
 .client-body
 	height: 100%
 	padding-top: header-height
-	padding-bottom: footer-height
+	padding-bottom: footer-height + 12
 	position: relative
 	overflow: hidden
 	.chat-wrapper // The scrollable history area
@@ -28,8 +28,8 @@
 	.chat
 		height: 100%
 		position: relative
-		padding-top: 14px
-	a // Design for links within history
+		padding: 20px 0
+	a // Different styling for links within history
 		color: link-color
 		@extend $subtle-link
 		&:hover
@@ -74,7 +74,7 @@
 			i
 				margin-right: 4px
 		.option
-			margin: 0 22px 10px 0
+			margin: 0 22px 20px 0
 			padding-top: 5px
 			float: left
 		.invite-to-room
@@ -127,11 +127,13 @@
 			border-top: 6px solid transparent
 			border-bottom: 6px solid transparent
 	&.deleted //When a user was removed from the organization, #867
-		color: gainsboro-light
+		color: gainsboro-dark
 		.message-author
-			color: gainsboro-light
+			color: gainsboro-dark
 		.time
-			color: gainsboro-light
+			color: gainsboro-dark
+	&:last-child
+		margin-bottom: 10px
 
 .message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
 	font-weight: bold
@@ -274,6 +276,51 @@ span.author-deleted
 			overflow: hidden
 			img
 				max-width: 100%
+
+
+// ****
+//
+// Styling for Typing Notifications #1587
+//
+// ****
+
+.typing-notification
+	@extend $small-font-size
+	margin: -10px 30px 0px 66px
+	color: gainsboro-dark
+	min-height: 11px
+	i.fa
+		margin-left: 1px
+	.dotOne
+		opacity: 0
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.0s
+		animation: dot 1.3s infinite
+		animation-delay: 0.0s
+	.dotTwo
+		opacity: 0
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.2s
+		animation: dot 1.3s infinite
+		animation-delay: 0.2s
+	.dotThree
+		opacity: 0
+		-webkit-animation: dot 1.3s infinite
+		-webkit-animation-delay: 0.3s
+		animation: dot 1.3s infinite
+		animation-delay: 0.3s
+		
+@-webkit-keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
 // ****
 //

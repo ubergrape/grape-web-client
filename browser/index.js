@@ -50,7 +50,6 @@ exports.ItemList = require('./elements/itemlist');
 var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
-//var PMPopover = exports.PMPopover = require('./elements/popovers/pm');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -64,7 +63,7 @@ var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
-
+var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 
 function UI(options) {
 	Emitter.call(this);
@@ -141,18 +140,18 @@ UI.prototype.init = function UI_init() {
 	// then emit an upload event to the broker to call the uploader
 	this.clipboard.on('paste', function(e){
 		if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
-  });
-
-  // initialize dragAndDrop
-  // receive the dragged items and emit
-  // an event to the uploader to upload them
-  var self = this;
-  this.dropzone = new Dropzone();
-  this.dragAndDrop = dropAnywhere(function(e){
-  	e.items.forEach(function(item){
-  		self.emit('uploadDragged', item);
   	});
-  }, this.dropzone.el);
+
+	// initialize dragAndDrop
+	// receive the dragged items and emit
+	// an event to the uploader to upload them
+	var self = this;
+	this.dropzone = new Dropzone();
+	this.dragAndDrop = dropAnywhere(function(e){
+		e.items.forEach(function(item){
+			self.emit('uploadDragged', item);
+		});
+	}, this.dropzone.el);
 
 	// initialize notifications
 	this.notifications = new Notifications();
@@ -163,7 +162,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape.  <button class='button enable_notifications'>Enable desktop notifications</button>"));
+			this.enableNotificationMessage = this.messages.info('notifications reminder');
 			classes(qs('body')).add('notifications-disabled');
 	}
 
@@ -257,6 +256,7 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
+	broker(this, 'newRoom', this.addRoom, 'newRoom');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -264,8 +264,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker.pass(this.membersMenu, 'deleteroom', this, 'deleteroom');
-	broker.pass(this.membersMenu, 'roomdeleted', this, 'roomDeleted');
+	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -281,6 +280,7 @@ UI.prototype.bind = function UI_bind() {
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
+	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
 	broker(this.historyView, 'deletemessage', this.chatInput, 'editingDone');
@@ -291,8 +291,7 @@ UI.prototype.bind = function UI_bind() {
 	// search
 	broker(this.searchView, 'show', this, 'showSearchResults');
 	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView,
-			'hideResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
@@ -319,8 +318,14 @@ UI.prototype.bind = function UI_bind() {
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
+	// membersMenu
+	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
+
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+	broker(this, 'newmessage', this.navigation, 'newMessage');
+	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
+	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
 	this.on('selectchannel', function (room) { self.room = room; });
@@ -425,7 +430,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	
+
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
@@ -497,8 +502,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	this.emit('selectorganization', org);
 };
 
-
-
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	path = path || location.pathname;
 	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
@@ -549,9 +552,13 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 
 	if (channel) {
 		if (channel.type === "room") {
-			if (!channel.joined)
-				self.emit('joinroom', channel);
-			self.emit('selectchannel', channel);
+			if (!channel.joined) {
+				self.emit('joinroom', channel, function() {
+					self.emit('selectchannel', channel);
+				});
+			} else {
+				self.emit('selectchannel', channel);
+			}
 		} else {
 			self.selectpm(channel);
 		}
@@ -559,8 +566,7 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.warning(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
 };
 
@@ -571,16 +577,45 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 		delete this._connErrMsg;
 	}
 	classes(qs('body')).remove('disconnected');
-	var msg = this.messages.success(_('Reconnected successfully'));
+	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
+	var redirectRoom = false;
+	this.navigation.roomList.items.every(function(room) {
+		if (room.joined) {
+			redirectRoom = room;
+			return false;
+		}
+		return true;
+	});
+	if (!redirectRoom) {
+		redirectRoom = this.navigation.pmList.items[0];
+		this.selectpm(redirectRoom);
+	} else {
+		this.emit('selectchannel', redirectRoom);
+	}
+}
+
+UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
+	var deleteRoomDialog = new DeleteRoomDialog({
+		room: room
+	}).closable().overlay().show();
+	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
+}
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
-	this.selectChannelFromUrl('/'); // don't use '', it won't work
-
-	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
+	if (this.room != room) return;
+	this.pickRedirectChannel();
+	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.leaveChannel = function UI_leaveChannel(room) {
+	if (this.room != room) return;
+	this.pickRedirectChannel();
+}
 
 UI.prototype.selectpm = function UI_selectpm(user) {
 	var self = this;

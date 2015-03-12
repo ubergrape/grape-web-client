@@ -45,7 +45,8 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
-	this.events.bind('click a.author', 'openInternalLink');
+	this.events.bind('click a.author-link', 'openInternalLink');
+	this.events.bind('click a.avatar', 'openInternalLink');	
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 };
@@ -124,8 +125,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		history: this.room.history,
 		groupHistory: groupHistory
 	}));
-
-	var history = this.history.el;
 
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {
 		// prepend messages
@@ -253,6 +252,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 			classes(el).remove('removed');
 			self.queueDraw();
 		}, 1000);
+	});
+
+	room.on('change typing', function() {
+		self.queueDraw();
 	});
 };
 

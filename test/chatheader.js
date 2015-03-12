@@ -6,6 +6,7 @@ var emitter = require('component-emitter');
 var trigger = require('adamsanderson-trigger-event');
 var qs = require('component-query');
 var template = require('template');
+var broker = require('broker');
 
 var ChatHeader = require('cg').UI.ChatHeader;
 

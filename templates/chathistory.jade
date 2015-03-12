@@ -28,11 +28,11 @@
 					ul.welcome-tasks
 						li.option
 							a.show-invite.disable-document-click-handler.button.raised
-								i.fa.fa-plus
-								=_('Invite members')
+								i.fa.fa-user-plus
+								=_('Add members to this room')
 						li.option
 							a.button.raised(href='/services/list/', target='_self')
-								i.fa.fa-share-alt
+								i.fa.fa-link
 								=_('Integrate external services')
 		else
 			.message-group.welcome-message
@@ -104,7 +104,7 @@
 				if (first.author.type==='user')
 					if(first.author.active)
 						//- Only create link when it's a user who is not deleted
-						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'))
+						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
 							if (first.author.firstName || first.author.lastName)
 								author.message-author #{first.author.firstName} #{first.author.lastName} 
 							else	
@@ -129,13 +129,18 @@
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
 								img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
-						if (line.container || line.branch)
+						if (line.container || line.branch || line.tag)
 							.source-wrap
 								if line.branch
 									span.branch
 										i(class="fa fa-code-fork")
 										| 
 										| #{line.branch} 
+								if line.tag
+									span.tag
+										i(class="fa fa-tag")
+										| 
+										| #{line.tag} 
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
@@ -173,7 +178,7 @@
 														| #{obj.name} 
 											if obj.sha
 												a(href=obj.url, target="_blank").sha
-													| #{obj.sha.substr(1, 7)} 
+													| #{obj.sha.substr(0, 6)} 
 											if obj.content
 												if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 													.text= html(markdown(obj.content))
@@ -190,3 +195,26 @@
 								if line.attachments.length == 0
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
+
+	.typing-notification
+		if room.typing && room.typing.length != 0
+			| _
+			i.fa.fa-pencil
+			each typing_user, index in room.typing
+				span.user
+					//- todo: put this into model!
+					if (typing_user.firstName && typing_user.lastName)
+						|  #{typing_user.firstName} #{typing_user.lastName}
+					else
+						|  #{typing_user.username}
+				if room.typing.length > 2 && index < room.typing.length - 2
+					| , 
+				if room.typing.length > 1 && index === room.typing.length - 2
+					|  and 
+			if room.typing.length == 1
+				=_(" is typing")
+			else
+				=_(" are typing")
+			span.dotOne .
+			span.dotTwo .
+			span.dotThree .

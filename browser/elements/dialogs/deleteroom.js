@@ -2,10 +2,10 @@
 "use strict";
 
 var Dialog = require('./dialog');
+
 var events = require('events');
 var qs = require('query');
 var _ = require('t');
-
 
 module.exports = DeleteRoomDialog;
 
@@ -14,9 +14,7 @@ function DeleteRoomDialog(context) {
 	Dialog.call(this, context);
 	this.button = qs('.delete', this.el);
 	this.form = qs('.delete-room-form', this.el);
-	if (this.form) {
-		this.passwordInput = this.form.password;
-	}
+	if (this.form) this.passwordInput = this.form.password;
 }
 
 DeleteRoomDialog.prototype = Object.create(Dialog.prototype);
@@ -42,9 +40,11 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 
 	self.emit('deleteroom', self.context.room, password, function DeleteRoomDialog_submit_callback(err, result){
 		if(err) {
+			console.log("Delete Room Emit Error: " + err);
 			self.passwordInput.setCustomValidity(err.details);
 			self.button.click();
 		} else {
+			console.log("Delete Room Emit NO Error.");
 			self.dialog.hide();
 		}
 	});

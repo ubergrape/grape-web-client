@@ -25,6 +25,8 @@ function App() {
 	Emitter.call(this);
 
 	var self = this;
+	// Will be defined from .connect()
+	this.uri = undefined;
 	// the currently signed in user
 	this.user = undefined;
 	// user settings
@@ -36,8 +38,11 @@ function App() {
 	// "reconnected" should reflect if this is the first initial
 	// connection or there have been reconnect attempts
 	this.reconnected = false;
-	this.connected = false;
 	this.reconnecting = false;
+	this.connected = false;
+	this.connecting = false;
+
+	this._typing_timeouts = [];
 }
 
 App.prototype = Object.create(Emitter.prototype);
@@ -47,15 +52,11 @@ App.prototype.startHeartbeat = function() {
 	this._heartbeat = setInterval(function() {
 		self.heartbeat(self);
 	}, HEARTBEAT_INTERVAL);
-  console.log("Heartbeat started...");
 };
 
 App.prototype.stopHeartbeat = function () {
 	clearInterval(this._heartbeat);
-  console.log("Heartbeat stopped...");
 };
-
-
 
 App.prototype.logTraffic = function App_logTraffic() {
 	var socket = this.wamp.socket;
@@ -78,14 +79,12 @@ App.prototype.logTraffic = function App_logTraffic() {
 App.prototype.heartbeat = function App_heartbeat(app) {
 	if (!app.connected)
 		return;
-	console.log("Send heartbeat...");
 	var heartbeatTimeout = setTimeout(function() {
 			console.log("NO PONG");
 			app.onDisconnect();
 	}, HEARTBEAT_TIMEOUT);
 	this.wamp.call(PREFIX + 'ping', function(err, res) {
 		if (res === 'pong') {
-			console.log('received', res);
 			clearTimeout(heartbeatTimeout);
 		}
 	});
@@ -94,25 +93,42 @@ App.prototype.heartbeat = function App_heartbeat(app) {
 App.prototype.onDisconnect = function App_ondisconnect() {
 	if (this.connected) {
 		this.stopHeartbeat();
-		if (this.ws) {
+		if (this._ws) {
 			this.unbind();
-			this.ws.close(3001);
+			this._ws.close(3001);
 		}
 		this.connected = false;
-		this.emit('disconnected', this.ws);
+		this.emit('disconnected', this._ws);
 	}
 	this.reconnect();
 };
 /**
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
+ *
+ * @param {WebSocket|String} WebSocket is used for testing only, uri is provided
+ * only when first time.
+ * @param {Function} [callback]
  */
 App.prototype.connect = function App_connect(ws, callback) {
-	callback = callback || function() {};
+	// Legacy callback, used in mobile_history.html
+	if (callback) this.once('connected', callback);
+
+	if (this.connecting) return;
+
 	var self = this;
+	this.connecting = true;
+
+	// Its an URI string passed first time when connecting.
+	if (typeof ws === 'string') {
+		this.uri = ws;
+		ws = null;
+	}
+
+	if (!ws) ws = new WebSocket(this.uri);
+
 	this._ws = ws;
-	if (typeof ws === 'string')
-		ws = new WebSocket(ws);
+
 	ws.on('open', function() {
 		console.log("Websocket Connection opened!");
 		self.wamp = new Wamp(ws, {
@@ -130,39 +146,37 @@ App.prototype.connect = function App_connect(ws, callback) {
 			self.emit('change settings', self.settings);
 			self.emit('change organizations', self.organizations);
 			self.connected = true;
-			self.emit('connected', self.reconnected, self.ws);
+			self.connecting = false;
+			self.emit('connected', self.reconnected, self._ws);
 			self.startHeartbeat();
 			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
-			callback();
 		});
 	});
 	ws.on('close', function(e) {
+		self.connecting = false;
 		console.log("Websocket Closed, disconnecting!", e);
 		self.onDisconnect();
 	});
 	ws.on('error', function(err) {
+		self.connecting = false;
 		console.log("Websocket Error, disconnecting!", arguments);
 		self.onDisconnect();
 	});
-	this.ws = ws;
 	// this is really ugly but needed for the tests to run
-	if (typeof this.ws._openForTest !== "undefined") this.ws._openForTest();
+	if (typeof this._ws._openForTest !== "undefined") this._ws._openForTest();
 };
 
-App.prototype.reconnect = function App_reconnect(ws) {
-	if (this.reconnecting)
-		return;
+App.prototype.reconnect = function App_reconnect() {
+	if (this.reconnecting) return;
 	this.reconnecting = true;
 	var self = this;
 	var timeout = Math.floor((Math.random() * 5000) + 1);
-	if (this.ws)
-		delete this.ws;
 	console.log("Attempting reconnect in ms:", timeout);
 	setTimeout(function() {
 		try {
 			console.log('Trying to reconnect now!');
 			self.reconnected = true;
-			self.connect(self._ws);
+			self.connect();
 		} catch (e) {
 			console.log("Reconnect failed:", e);
 		}
@@ -179,6 +193,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
+		self.emit('newroom');
 	});
 	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
 		var room = models.Room.get(data.channel.id);
@@ -193,14 +208,36 @@ App.prototype.bindEvents = function App_bindEvents() {
 		self.emit('roomdeleted', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
+		var user = models.User.get(data.user);
+		if (user === self.user) {
+			return
+		}
 		var room = models.Room.get(data.channel);
-		//var user = models.User.get(msg.user);
-		if (data.typing && !room.typing[data.user]) {
-			room.typing[data.user] = true;
+		var index = room.typing.indexOf(user);
+
+		// there might still be a timeout for this user if the user stops
+		// typing and starts typing within one second.
+		// there can also be a 10 second safety timeout.
+		// we can safely clear a timeout that doesn't exist, so no checks here
+		clearTimeout(self._typing_timeouts[room.id + "_" + user.id]);
+
+		if (data.typing && !~index) {
+			room.typing.push(user);
 			trigger();
-		} else if (!data.typing && room.typing[data.user]) {
-			delete room.typing[data.user];
-			trigger();
+			// the typing notification should be removed after 10 seconds
+			// automatically because the user might kill the connection and we
+			// would never receive a `typing: false` event
+			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+				room.typing.splice(index, 1);
+				trigger();
+			}, 10000);
+		} else if (!data.typing && ~index) {
+			// we want the typing notification to be displayed at least five
+			// seconds
+			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+				room.typing.splice(index, 1);
+				trigger();
+			}, 5000);
 		}
 		function trigger() {
 			// FIXME: model needs an api to do this:
@@ -252,8 +289,13 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// make sure we're joining the right organization
 		// and the user isnt in there yet
 		if (data.organization===self.organization.id &&
-			  !~self.organization.users.indexOf(user))
+			  !~self.organization.users.indexOf(user)) {
+			user.active = true;
+			user.status = 0;
+			user.pm = null;
 			self.organization.users.push(user);
+			self.emit('new org member', user);
+		}
 	});
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {
 		var user = models.User.get(data.user);
@@ -261,11 +303,11 @@ App.prototype.bindEvents = function App_bindEvents() {
 		if (user && ~index && data.organization===self.organization.id) {
 			var inactivePm = false;
 			self.organization.users.forEach(function(user) {
-				if (user.id == data.user 
-				&& (!user.pm || user.pm && user.pm.history.length == 0)) {
+				if (user.id === data.user
+				&& (!user.pm || user.pm && user.pm.history.length === 0)) {
 					inactivePm = user;
 				}
-			})
+			});
 			if (inactivePm) {
 				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
 				self.organization.pms.splice(inactivePmIndex, 1);
@@ -319,7 +361,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
-		if (data.user.avatar != null) {
+		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}
 		self.emit('change user', self.user);
@@ -327,7 +369,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 };
 
 App.prototype.unbind = function App__unbind() {
-	if (this.ws) this.ws.off();
+	if (this._ws) this._ws.off();
 	// our wamp implementation has no off() right now
 	// so we do some hacking
 	if (this.wamp) this.wamp._listeners = {};
@@ -351,10 +393,16 @@ App.prototype._newRoom = function App__newRoom(room) {
 	if (selfindex === 0)
 		room.users.push(room.users.shift());
 	room = new models.Room(room);
-	room.unread = 0;
+
+	// defaults
+	if (typeof room.unread === "undefined") {
+		room.unread = 0;
+	}
+	room.typing = [];
 
 	return room;
 };
+
 App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 	var gotroom = models.Room.get(room.id);
 	if (gotroom) return gotroom;
@@ -370,6 +418,7 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
 	}
 	return room;
 };
+
 /**
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
@@ -391,16 +440,18 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
-		if (res.logo != null) org.logo = res.logo;
-    if (res.custom_emojis != null) org.custom_emojis = res.custom_emojis;
-    
-    // connect users and pms
-    org.pms.forEach( function(pm) { pm.users[0].pm = pm; })
-    
+		if (res.logo !== null) org.logo = res.logo;
+		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
+
+		// connect users and pms
+		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
+
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
+			// put role in user object for consistency with other user objects
+			self.user.role = self.organization.role;
 			self.emit('change organization', org);
 			callback();
 		});
@@ -422,8 +473,8 @@ App.prototype.openPM = function App_openPM(user, callback) {
 		if (err) return self.emit('error', err);
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
-        user.pm = pm;
-        callback();
+		user.pm = pm;
+		callback();
 	});
 };
 
@@ -447,20 +498,23 @@ App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
 	});
 };
 
-App.prototype.joinRoom = function App_joinRoom(room) {
+App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	var self = this;
 	if (room.joined) return;
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
+		if (callback !== undefined) callback();
 	});
 };
+
 App.prototype.leaveRoom = function App_leaveRoom(room) {
 	var self = this;
 	if (!room.joined) return;
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
+		self.emit('leavechannel', room);
 	});
 };
 

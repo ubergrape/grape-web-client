@@ -97,7 +97,7 @@
 	.messageInput:focus + .messageInput-line::after
 	.messageInput--filled .messageInput-line::after
 		transform: translate3d(0, 0, 0)
-	.edit-message
+	.edit-message, .hint-box
 		@extend $small-font-size
 		color: gainsboro-dark
 		margin-bottom: 5px
@@ -107,7 +107,8 @@
 			border-radius: 3px
 			border: 1px solid gainsboro-light
 			padding: 0 2px
-			
+		&.disabled
+			display: none
 	// markdown info styling
 	.info-markdown
 		position: absolute
@@ -115,6 +116,8 @@
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
+		&.disabled
+			display: none
 		
 	// uploader styling
 	.uploader
@@ -124,6 +127,8 @@
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
+			display: none
+		&.disabled
 			display: none
 	.upload-progress
 		display: none
@@ -189,7 +194,8 @@
 		opacity: 0
 	.info-markdown
 		right: 0
-
+	.hint-box
+		display: none
 // Toggle for edit message input
 .input-wrapper .edit-message
 	display:none

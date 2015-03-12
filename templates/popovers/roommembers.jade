@@ -7,7 +7,7 @@
 				if member.active || member.id == user.id
 					li.item.user
 						- var href = user.id == member.id ? 'javascript:void(0)' : '/chat/@' + member.username.toLowerCase()
-						a(href=href)
+						a(href=href, class=(user.id == member.id ? '' : 'member-link'))
 							aside.avatar-wrap
 								img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
@@ -17,4 +17,3 @@
 								span.user-name= member.username
 	h4.mar-t20=_('Invite more members')
 	a.invite
-	a.button.button-delete.delete-room=_('delete room')
