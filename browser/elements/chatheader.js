@@ -9,6 +9,7 @@ var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
 var constants = require('cglib').constants;
+var keyname = require('keyname');
 
 module.exports = ChatHeader;
 
@@ -63,6 +64,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'confirmRoomRename': function() {
 			var newRoomName = qs('input.room-name', this.el).value;
 			self.emit('confirmroomrename', self.room.id, newRoomName);
+		},
+		'roomRenameShortcuts' : function(e) {
+			if (keyname(e.which) == 'enter') this.confirmRoomRename()
 		}
 	});
 
@@ -74,6 +78,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-rename-room', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
+	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
+
+	var callbacks = this.events.obj;
+
+	document.addEventListener('keyup', function(e) {
+		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();
+	});
 
 	this.searchForm.addEventListener('submit', function (ev) {
 		ev.preventDefault();
