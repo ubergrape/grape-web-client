@@ -55,7 +55,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleRoomRename': function() {
 			self.editOptions.renamingRoom = true;
 			self.redraw();
-			var roomNameInput = qs('input.room-name', this.el),
+			var	roomNameInput = qs('input.room-name', this.el),
 				roomName = roomNameInput.value;
 			roomNameInput.focus();
 			roomNameInput.setSelectionRange(roomName.length,roomName.length);
