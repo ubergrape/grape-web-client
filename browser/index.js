@@ -470,7 +470,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
-	this.selectChannelFromUrl();
+	//this.selectChannelFromUrl();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -503,69 +503,6 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 		if (o.id === self.options.organizationID) return o;
 	})[0];
 	this.emit('selectorganization', org);
-};
-
-UI.prototype.channelFromURL = function UI_channelFromURL(path) {
-	path = path || location.pathname;
-	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
-	var match = path.match(pathRegexp);
-	var i;
-	// if there is no match, go to "General"
-	// if there is no "general" room, go to first room
-	// if there is no room at all, we are doomed
-	if (!match || !match[2]) {
-		for (i = 0; i < this.org.rooms.length; i++) {
-			var room = this.org.rooms[i];
-			if (room.name === "General") {
-				return room;
-			}
-		}
-		return this.org.rooms[0];
-	}
-	var name = match[2].toLowerCase();
-	if (match[1] === '@' && name !== this.user.username) {
-		// there'sno channel with yourself
-		// match users
-		for (i = 0; i < this.org.users.length; i++) {
-			var user = this.org.users[i];
-			if (user.username.toLowerCase() === name)
-				return user;
-		}
-	} else {
-		// match rooms
-		for (i = 0; i < this.org.rooms.length; i++) {
-			var room = this.org.rooms[i];
-			if (room.slug === name)
-				return room;
-		}
-	}
-};
-
-UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
-	var self = this;
-
-	// this will actually return a channel or a user
-	var channel = self.channelFromURL(path);
-
-	function addlistener(pm) {
-		if (pm.users[0] !== channel) return;
-		self.org.pms.off('add', addlistener);
-		self.emit('selectchannel', pm);
-	}
-
-	if (channel) {
-		if (channel.type === "room") {
-			if (!channel.joined) {
-				self.emit('joinroom', channel, function() {
-					self.emit('selectchannel', channel);
-				});
-			} else {
-				self.emit('selectchannel', channel);
-			}
-		} else {
-			self.selectpm(channel);
-		}
-	}
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
@@ -619,15 +556,4 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
-}
-
-UI.prototype.selectpm = function UI_selectpm(user) {
-	var self = this;
-	if (user.pm === null) {
-		self.emit('openpm', user, function() {
-			self.emit('selectchannel', user.pm);
-		});
-	} else {
-		self.emit('selectchannel', user.pm);
-	}
 }
