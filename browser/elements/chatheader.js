@@ -69,7 +69,15 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('confirmroomrename', self.room.id, newRoomName);
 		},
 		'roomRenameShortcuts' : function(e) {
-			if (keyname(e.which) == 'enter') this.confirmRoomRename()
+			switch(keyname(e.which)) {
+				case 'enter':
+					this.confirmRoomRename();
+				default:
+					e.target.setCustomValidity('');
+			}
+		},
+		'preventFormSubmission' : function(e) {
+			e.preventDefault();
 		}
 	});
 
@@ -82,16 +90,10 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
+	this.events.bind('submit form.room-rename', 'preventFormSubmission');
+	this.events.bind('submit form.search-form', 'preventFormSubmission');
 
-	var callbacks = this.events.obj;
-
-	document.addEventListener('keyup', function(e) {
-		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();
-	});
-
-	this.searchForm.addEventListener('submit', function (ev) {
-		ev.preventDefault();
-	});
+	var	callbacks = this.events.obj;
 
 	var startSearching = debounce(function () {
 		self.emit('searching', self.q);
@@ -140,5 +142,6 @@ ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
 }
 
 ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
-	console.log(err);
+	qs('input.room-name', this.el).setCustomValidity(err.message);
+	qs('input.submit-rename', this.el).click();
 }

@@ -18,7 +18,9 @@ div
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
 			if editOptions.renamingRoom
-				input.room-name.editable(value=room.name, type="text")
+				form.room-rename
+					input.room-name.editable(value=room.name, type="text")
+					input.submit-rename(type="submit")
 				.rename-options-wrap
 					a.header-option.option-rename-cancel
 						i.fa.fa-times
