@@ -524,8 +524,9 @@ App.prototype.leaveRoom = function App_leaveRoom(room) {
 };
 
 App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
+	var emit = this.emit.bind(this);
 	this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
-		// handle error
+		if (err) emit('roomrenameerror', err);
 	});
 }
 

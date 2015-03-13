@@ -55,9 +55,10 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleRoomRename': function() {
 			self.editOptions.renamingRoom = true;
 			self.redraw();
-			var roomNameInput = qs('input.room-name', this.el);
+			var roomNameInput = qs('input.room-name', this.el),
+				roomName = roomNameInput.value;
 			roomNameInput.focus();
-			roomNameInput.setSelectionRange(roomNameInput.value.length,roomNameInput.value.length);
+			roomNameInput.setSelectionRange(roomName.length,roomName.length);
 		},
 		'stopRoomRename': function() {
 			self.editOptions.renamingRoom = false;
@@ -136,4 +137,8 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
 	this.editOptions.renamingRoom = false;
 	this.redraw();
+}
+
+ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
+	console.log(err);
 }
