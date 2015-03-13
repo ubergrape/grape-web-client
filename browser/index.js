@@ -109,7 +109,6 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the input field
 	this.chatInput = new ChatInput();
-	this.chatInput.render();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
 
 	// initialize the history view

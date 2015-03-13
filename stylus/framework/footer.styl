@@ -4,8 +4,6 @@
 //
 // ****
 .footer
-	input-margin =
-		margin: 0 30px 0 46px
 	position: fixed
 	left: client-navigation-width
 	bottom: 0
@@ -14,11 +12,11 @@
 	padding: 2px 0 10px 0
 	z-index: 30
 	grape-input
-		{input-margin}
+		margin: 0 95px 0 46px
 		line-height: 0
 	.input-hr
 		position: relative
-		{input-margin}
+		margin: 0 30px 0 46px
 		height: 1px
 		background: gainsboro-light
 		overflow: hidden
@@ -36,7 +34,6 @@
 	.input-wrapper
 		padding-left: 20px
 		position: relative
-		overflow: hidden
 		.image
 			@extend $clearfix
 			width: 36px
@@ -137,18 +134,14 @@
 			line-height: 30px
 			color: gainsboro-dark
 
-
-
-.input-wrapper.editing // Styling of input when editing
-	.messageInput, .messageInput-wrapper
+.editing-previous
+	grape-input
 		background: lighten(gold, 80%)
-	.messageInput
-		border-color: gold
 	.uploader
-		right: -26px
+		right: -30px
 		opacity: 0
 	.info-markdown
-		right: 0
+		right: 30px
 	.hint-box
 		display: none
 // Toggle for edit message input
