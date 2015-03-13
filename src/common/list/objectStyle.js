@@ -29,7 +29,7 @@ export default {
     textTransform: 'uppercase'
   },
   icon: {
-    color: '#b9b7bb',
+    color: colors.gainsboroDark,
     paddingRight: 5
   }
 }
