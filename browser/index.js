@@ -467,10 +467,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	qs('.logo .name').innerHTML = org.name;
 
 	URLManager.call(this);
-
-	// switch to the channel indicated by the URL
-	// XXX: is this the right place?
-	//this.selectChannelFromUrl();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
