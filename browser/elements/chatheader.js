@@ -95,6 +95,10 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
 	var	callbacks = this.events.obj;
 
+	document.addEventListener('keyup', function(e) {		
+		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();		
+	});
+
 	var startSearching = debounce(function () {
 		self.emit('searching', self.q);
 	}, 200, false);
@@ -142,6 +146,6 @@ ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
 }
 
 ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
-	qs('input.room-name', this.el).setCustomValidity(err.message);
+	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
 	qs('input.submit-rename', this.el).click();
 }
