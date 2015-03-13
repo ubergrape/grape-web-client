@@ -19,6 +19,7 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var exports = module.exports = UI;
+var URLManager = require('../lib/router');
 
 require("startswith");
 require("endswith");
@@ -464,6 +465,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	qs('.logo img').src = org.logo;
 	qs('.logo img').alt = org.name;
 	qs('.logo .name').innerHTML = org.name;
+
+	URLManager.call(this);
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
