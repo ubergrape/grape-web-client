@@ -158,8 +158,9 @@ export default React.createClass({
       empty = <Empty />
     }
 
+    let className = classes.container + ' ' + this.props.className
     return (
-      <div className={classes.container} style={this.props.style}>
+      <div className={className}>
         <Tabs data={this.state.tabs} select={this.selectFacet} />
         {facet}
         {empty}
