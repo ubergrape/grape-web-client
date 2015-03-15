@@ -16,17 +16,25 @@ function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
 	this.previous = null;
-	this.init();
+	this.render();
 }
 
 ChatInput.prototype = Object.create(Emitter.prototype);
 module.exports = ChatInput;
 
 ChatInput.prototype.init = function () {
+	if (this.initialized) return;
+	this.initialized = true;
 	this.markdownTips = new MarkdownTipsDialog().closable();
-	this.render();
 	this.input = q('grape-input', this.el);
-	this.input.setProps({emojisheet: emojiSheet});
+	this.input.setProps({
+		emojisheet: emojiSheet,
+		customemojis: app.organization.custom_emojis
+	});
+	this.bindEvents();
+};
+
+ChatInput.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .js-markdown-tips', 'showMarkdownTips');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
@@ -37,6 +45,7 @@ ChatInput.prototype.init = function () {
 };
 
 ChatInput.prototype.setRoom = function (room) {
+	this.init();
 	this.room = room;
 };
 
@@ -52,6 +61,7 @@ ChatInput.prototype.showMarkdownTips = function (e) {
 ChatInput.prototype.showBrowser = function (search) {
 	this.emit('autocomplete', search.key, function (err, data) {
 		if (err) return this.emit('error', err);
+		console.log(data)
 		this.input.setProps({
 			data: data,
 			type: 'search'
