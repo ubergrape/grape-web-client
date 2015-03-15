@@ -132,15 +132,12 @@ export default React.createClass({
     let classes = this.sheet.classes
     let sections = this.state.sections
     let selectedSection = dataUtils.getSelectedSection(sections)
-    let serviceName, data
+    let serviceName = 'all', data
 
     if (selectedSection) {
-      serviceName = selectedSection.service
-      if (!serviceName) throw new Error(`No service "${serviceName}" found.`)
       data = [selectedSection]
     }
     else {
-      serviceName = 'all'
       data = sections
     }
 
