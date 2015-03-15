@@ -88,6 +88,7 @@ ChatInput.prototype.findUsers = function (key) {
 		}
 
 		return {
+			id: user.id,
 			name: name,
 			username: user.username,
 			iconURL: user.avatar,
@@ -111,8 +112,10 @@ ChatInput.prototype.findRooms = function (key) {
 
 	rooms = rooms.map(function (room) {
 		return {
+			id: room.id,
 			type: 'room',
-			name: room.name
+			name: room.name,
+			slug: room.slug
 		};
 	});
 
