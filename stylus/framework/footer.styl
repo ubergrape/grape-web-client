@@ -15,6 +15,11 @@
 	.input-wrapper
 		padding-left: 20px
 		position: relative
+
+		&.disabled
+			.hint-box, .info-markdown, .uploader
+				display: none
+
 		.image
 			@extend $clearfix
 			width: 36px
@@ -70,8 +75,6 @@
 			border-radius: 3px
 			border: 1px solid gainsboro-light
 			padding: 0 2px
-		&.disabled
-			display: none
 
 	// markdown info styling
 	.info-markdown
@@ -80,8 +83,6 @@
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
-		&.disabled
-			display: none
 
 	// uploader styling
 	.uploader
@@ -91,8 +92,6 @@
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
-			display: none
-		&.disabled
 			display: none
 
 	.upload-progress
