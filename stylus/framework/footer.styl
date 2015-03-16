@@ -31,11 +31,15 @@
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
 
+		&.focus .input-hr::before
+			transform: translate3d(100%, 0, 0)
+
 	.input-highlighter
 		position: relative
 		margin: 0 30px 0 46px
 
 	grape-input
+		margin-right: 60px
 		min-height: 36px
 		line-height: 0
 		.ac::before
@@ -55,9 +59,6 @@
 			background: grape-light
 			position: absolute
 			transition: transform .3s
-
-	&.focus .input-hr::before
-		transform: translate3d(100%, 0, 0)
 
 	.edit-message, .hint-box
 		@extend $small-font-size
