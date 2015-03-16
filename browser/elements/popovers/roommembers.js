@@ -30,15 +30,6 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
 	var self = this;
 	Popover.prototype.bind.call(this);
-	this.events = events(this.el, {
-		openInternalLink : function(ev) {
-			ev.preventDefault();
-			var url = ev.delegateTarget.href;
-			self.emit('selectchannelfromurl', url);
-			self.hide();
-		}
-	});
-	this.events.bind('click a.member-link', 'openInternalLink');
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
@@ -63,12 +54,12 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 		self.redraw();
 		self.scrollDown();
 	};
-
 	this.room.users.off('add', user_added);
 	this.room.off('change', redraw_wrapped);
 	this.room = room;
 	room.users.on('add', user_added);
 	room.on('change', redraw_wrapped);
 	this.redraw();
+	if (!this.hidden) this.hide();
 };
 
