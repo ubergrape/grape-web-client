@@ -40,11 +40,9 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 
 	self.emit('deleteroom', self.context.room, password, function DeleteRoomDialog_submit_callback(err, result){
 		if(err) {
-			console.log("Delete Room Emit Error: " + err);
 			self.passwordInput.setCustomValidity(err.details);
 			self.button.click();
 		} else {
-			console.log("Delete Room Emit NO Error.");
 			self.dialog.hide();
 		}
 	});

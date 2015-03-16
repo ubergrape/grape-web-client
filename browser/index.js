@@ -163,7 +163,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("<button class='button enable_notifications'>Enable desktop notifications</button>Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape."));
+			this.enableNotificationMessage = this.messages.info('notifications reminder');
 			classes(qs('body')).add('notifications-disabled');
 	}
 
@@ -218,7 +218,6 @@ UI.prototype.bind = function UI_bind() {
 			self.organizationMenu.toggle(qs('.logo'));
 		},
 		'requestPermission': function() {
-
 			notify.requestPermission(function(permission){
 				if (permission !== "default") {
 					self.enableNotificationMessage.remove();
@@ -266,6 +265,12 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
 	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
 	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
+	broker(this.searchView, 'show', this, 'showSearchResults');
+	broker(this.searchView, 'hide', this, 'hideSearchResults');
+	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
+	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
+	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
+	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -280,6 +285,8 @@ UI.prototype.bind = function UI_bind() {
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
+	broker(this, 'gothistory', this.historyView, 'gotHistory');
+	broker(this, 'nohistory', this.historyView, 'noHistory');
 	broker.pass(this.historyView, 'hasread', this, 'hasread');
 	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
@@ -288,11 +295,6 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
 	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
-	// search
-	broker(this.searchView, 'show', this, 'showSearchResults');
-	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
 
 	// title
 	broker(this, 'selectchannel', this.title, 'setRoom');
@@ -329,7 +331,12 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
-	this.on('selectchannel', function (room) { self.room = room; });
+
+	this.on('selectchannel', function (room) {
+		this.setRoomContext(room);
+		this.manageHistory(room);
+	});
+
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});
 		self.upload.hide();
@@ -341,19 +348,6 @@ UI.prototype.bind = function UI_bind() {
 	});
 	this.intro.onexit(function() {
 		self.emit('introend');
-	});
-
-	// hook up history/pushstate stuff
-	this.on('selectchannel', function (channel) {
-		navigation.select(channel.type, channel);
-		var state = history.state || {};
-		if (state.type === channel.type &&
-			state.id === channel.id)
-			return;
-		var url = self.options.pathPrefix || '';
-		url += url[url.length - 1] === '/' ? '' : '/';
-		url += channel.slug || ('@' + channel.users[0].username.toLowerCase());
-		history.pushState({type: channel.type, id: channel.id}, channel.name || '', url);
 	});
 	
 	/*window.addEventListener('popstate', function (ev) {
@@ -381,14 +375,6 @@ UI.prototype.bind = function UI_bind() {
 			}
 		}
 	}
-};
-
-UI.prototype.gotHistory = function UI_gotHistory() {
-	this.historyView.gotHistory();
-};
-
-UI.prototype.noHistory = function UI_noHistory() {
-	this.historyView.noHistory();
 };
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
@@ -433,7 +419,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
 
-	
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
@@ -504,8 +489,7 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.danger(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
 };
 
@@ -516,9 +500,13 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 		delete this._connErrMsg;
 	}
 	classes(qs('body')).remove('disconnected');
-	var msg = this.messages.success(_('Reconnected successfully'));
+	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
+
+UI.prototype.setRoomContext = function UI_setRoomContext(room) {
+	this.room = room;
+}
 
 UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
 	var redirectRoom = false;
@@ -537,6 +525,18 @@ UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
 	}
 }
 
+UI.prototype.manageHistory = function UI_manageHistory(room) {
+	this.navigation.select(room.type, room);
+	var state = history.state || {};
+	var url = this.options.pathPrefix || '';
+	url += url[url.length - 1] === '/' ? '' : '/';
+	url += room.slug || ('@' + room.users[0].username.toLowerCase());
+	if (state.type === room.type && state.id === room.id)
+		history.replaceState({type: room.type, id: room.id}, room.name || '', url);
+	else
+		history.pushState({type: room.type, id: room.id}, room.name || '', url);
+}
+
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	var deleteRoomDialog = new DeleteRoomDialog({
 		room: room
@@ -547,11 +547,16 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
-	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
+	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
+}
+
+UI.prototype.channelUpdate = function UI_channelUpdate(room) {
+	if(this.room != room) return;
+	this.manageHistory(room);
 }

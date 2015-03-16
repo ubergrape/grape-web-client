@@ -5,16 +5,23 @@
 		ul.user-list
 			each member in room.users
 				li.item.user
-					if user == member
+					if member != user
+						a(href='/chat/@' + member.username.toLowerCase())
+							aside.avatar-wrap
+								img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
+							if (member.firstName || member.lastName)
+								span.user-name #{member.firstName} #{member.lastName} 
+							else
+								span.user-name= member.username
+					else
 						div
-					else
-						a(href='/chat/@' + member.username.toLowerCase(), class=(user.id == member.id ? '' : 'member-link'))
-					aside.avatar-wrap
-						img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
-						.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-					if (member.firstName || member.lastName)
-						span.user-name #{member.firstName} #{member.lastName} 
-					else
-						span.user-name= member.username
+							aside.avatar-wrap
+								img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
+							if (member.firstName || member.lastName)
+								span.user-name #{member.firstName} #{member.lastName} 
+							else
+								span.user-name= member.username
 	h4.mar-t20=_('Invite more members')
 	a.invite

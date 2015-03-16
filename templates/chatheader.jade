@@ -17,35 +17,41 @@ div
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	.room-info-wrap(id="intro-step4")
 		if room.type === 'room'
-			h1.room-name= room.name
-			.options-wrap
-				if ((room.creator && user.id === room.creator.id) || user.role > 0)
-					//-a.option-rename-room
-					//-	i.fa.fa-pencil
-					a.option-delete-room
-						i.fa.fa-trash
-				a.option-add-users
-					i.fa.fa-user-plus
-			.room-menu-wrap
-				span.user-count
-					i.fa.fa-user
-					|  #{room.users.length}
-				ul.horizontal-user-list
-					- var count = 1
-					each member in room.users
-						if count <= limitUsersTo
-							li
-								span.avatar-wrap
-									img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
-									.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
-							- count++
-				//-script.
-				//-	var tip = new Tooltip("content");
-				//-	tip.position(100,100);
-				//-	tip.show;
-				if hiddenUsersCount
-					span.remaining-users
-						| + #{hiddenUsersCount}			
+			if editOptions.renamingRoom
+				form.room-rename
+					input.room-name.editable(value=room.name, type="text")
+					input.submit-rename(type="submit")
+				.rename-options-wrap
+					a.header-option.option-rename-cancel
+						i.fa.fa-times
+					a.header-option.option-rename-ok
+						i.fa.fa-check
+			else
+				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') #{room.name}
+				.options-wrap
+					if editOptions.canRenameRoom
+						a.header-option.option-rename-room
+							i.fa.fa-pencil
+						a.header-option.option-delete-room
+							i.fa.fa-trash
+					a.header-option.option-add-users
+						i.fa.fa-user-plus
+				.room-users-wrap
+					span.user-count
+						i.fa.fa-user
+						|  #{room.users.length}
+					ul.horizontal-user-list
+						- var count = 1
+						each member in room.users
+							if count <= limitUsersTo
+								li
+									span.avatar-wrap
+										img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+										.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
+								- count++
+					if hiddenUsersCount
+						span.remaining-users
+							| + #{hiddenUsersCount}			
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited

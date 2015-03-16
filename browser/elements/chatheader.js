@@ -8,6 +8,8 @@ var events = require('events');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var classes = require('classes');
+var constants = require('cglib').constants;
+var keyname = require('keyname');
 
 module.exports = ChatHeader;
 
@@ -28,8 +30,11 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.searchInput = qs('.search', this.el);
 	this.q = null;
 	this.limitUsersTo = 5;
+	this.editOptions = {
+		canRenameRoom: false,
+		renamingRoom: false
+	};
 };
-
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
@@ -39,23 +44,59 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
 		'toggleMembersMenu': function (e) {
-			self.emit('togglemembersmenu', qs('.room-menu-wrap', self.el));
+			self.emit('togglemembersmenu', qs('.room-users-wrap', self.el));
 		},
 		'toggleMembersMenu1': function (e) {
 			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
 		},
-		'toggleDeleteRoomDialog' : function(e) {
+		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
+		},
+		'toggleRoomRename': function() {
+			self.editOptions.renamingRoom = true;
+			self.redraw();
+			var	roomNameInput = qs('input.room-name', this.el),
+				roomName = roomNameInput.value;
+			roomNameInput.focus();
+			roomNameInput.setSelectionRange(roomName.length,roomName.length);
+		},
+		'stopRoomRename': function() {
+			self.editOptions.renamingRoom = false;
+			self.redraw();
+		},
+		'confirmRoomRename': function() {
+			var newRoomName = qs('input.room-name', this.el).value;
+			self.emit('confirmroomrename', self.room.id, newRoomName);
+		},
+		'roomRenameShortcuts' : function(e) {
+			switch(keyname(e.which)) {
+				case 'enter':
+					this.confirmRoomRename();
+				default:
+					e.target.setCustomValidity('');
+			}
+		},
+		'preventFormSubmission' : function(e) {
+			e.preventDefault();
 		}
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
-	this.events.bind('click .room-menu-wrap', 'toggleMembersMenu');
+	this.events.bind('click .room-users-wrap', 'toggleMembersMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
+	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
+	this.events.bind('click .option-rename-room', 'toggleRoomRename');
+	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
+	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
+	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
+	this.events.bind('submit form.room-rename', 'preventFormSubmission');
+	this.events.bind('submit form.search-form', 'preventFormSubmission');
 
-	this.searchForm.addEventListener('submit', function (ev) {
-		ev.preventDefault();
+	var	callbacks = this.events.obj;
+
+	document.addEventListener('keyup', function(e) {		
+		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();		
 	});
 
 	var startSearching = debounce(function () {
@@ -76,11 +117,12 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var totUsers = this.room.users.length;
-	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0; 
+	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0;
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		limitUsersTo: this.limitUsersTo,
-		hiddenUsersCount: hiddenUsersCount
+		hiddenUsersCount: hiddenUsersCount,
+		editOptions: this.editOptions
 	});
 	render(this, vdom);
 };
@@ -92,6 +134,18 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
 	this.room.off('change', this.redraw);
 	this.room = room;
+	this.editOptions.canRenameRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.ROLE_ADMIN) ? true : false;
+	this.editOptions.renamingRoom = false;
 	room.on('change', this.redraw);
 	this.redraw();
 };
+
+ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
+	this.editOptions.renamingRoom = false;
+	this.redraw();
+}
+
+ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
+	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
+	qs('input.submit-rename', this.el).click();
+}
