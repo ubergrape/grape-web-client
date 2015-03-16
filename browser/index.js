@@ -162,7 +162,7 @@ UI.prototype.init = function UI_init() {
 	if (notify.isSupported
 		&& notify.permissionLevel() === notify.PERMISSION_DEFAULT
 		&& (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-			this.enableNotificationMessage = this.messages.info(_("<button class='button enable_notifications'>Enable desktop notifications</button>Hey there! Please <a class=' enable_notifications'>enable desktop notifications</a> , so your team members can reach you on ChatGrape."));
+			this.enableNotificationMessage = this.messages.info('notifications reminder');
 			classes(qs('body')).add('notifications-disabled');
 	}
 
@@ -416,7 +416,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
-	
+
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
@@ -552,8 +552,7 @@ UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
 };
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined)
-		this._connErrMsg = this.messages.danger(_('Lost connection to the server - trying to reconnect. You can also try to <a href="#" onClick="window.location.reload()" >reload</a>. '));
+	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
 };
 
@@ -564,7 +563,7 @@ UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
 		delete this._connErrMsg;
 	}
 	classes(qs('body')).remove('disconnected');
-	var msg = this.messages.success(_('Reconnected successfully'));
+	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
@@ -611,7 +610,7 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
-	var msg = this.messages.success(_('Room "' + room.name + '" was deleted successfully.'));
+	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
