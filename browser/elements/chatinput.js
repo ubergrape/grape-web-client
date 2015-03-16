@@ -25,14 +25,14 @@ module.exports = ChatInput;
 ChatInput.prototype.init = function () {
 	if (this.initialized) return;
 	this.initialized = true;
+	this.bindEvents();
 	this.markdownTips = new MarkdownTipsDialog().closable();
 	this.input = q('grape-input', this.el);
 	this.input.setProps({
 		emojisheet: emojiSheet,
-		customemojis: app.organization.custom_emojis
+		customemojis: app.organization.custom_emojis,
+		focus: true
 	});
-	this.bindEvents();
-	this.el.classList.add('focus');
 };
 
 ChatInput.prototype.bindEvents = function () {
@@ -64,7 +64,6 @@ ChatInput.prototype.showMarkdownTips = function (e) {
 ChatInput.prototype.showBrowser = function (search) {
 	this.emit('autocomplete', search.key, function (err, data) {
 		if (err) return this.emit('error', err);
-		console.log(data)
 		this.input.setProps({
 			data: data,
 			type: 'search'
