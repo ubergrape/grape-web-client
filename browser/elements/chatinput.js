@@ -17,6 +17,7 @@ function ChatInput() {
 	this.room = null;
 	this.previous = null;
 	this.render();
+	this.placeholder = 'Enter a message ...';
 }
 
 ChatInput.prototype = Object.create(Emitter.prototype);
@@ -31,7 +32,8 @@ ChatInput.prototype.init = function () {
 	this.input.setProps({
 		emojisheet: emojiSheet,
 		customemojis: app.organization.custom_emojis,
-		focus: true
+		focused: true,
+		placeholder: this.placeholder
 	});
 };
 
@@ -49,7 +51,32 @@ ChatInput.prototype.bindEvents = function () {
 
 ChatInput.prototype.setRoom = function (room) {
 	this.init();
+	this.completePreviousEditing();
+    if (!room || (room.type == "pm" && !room.users[0].active)) {
+    	this.disable();
+	}
+	else {
+		this.enable();
+	}
 	this.room = room;
+};
+
+ChatInput.prototype.disable = function () {
+	this.completePreviousEditing();
+	this.el.classList.add('disabled');
+	this.input.setProps({
+		disabled: true,
+		placeholder: 'You cannot reply to this conversation.'
+	});
+	this.input.blur();
+};
+
+ChatInput.prototype.enable = function () {
+	this.el.classList.remove('disabled');
+	this.input.setProps({
+		disabled: false,
+		placeholder: this.placeholder
+	});
 };
 
 ChatInput.prototype.render = function () {
