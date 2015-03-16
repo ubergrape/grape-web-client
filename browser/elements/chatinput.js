@@ -32,6 +32,7 @@ ChatInput.prototype.init = function () {
 		customemojis: app.organization.custom_emojis
 	});
 	this.bindEvents();
+	this.el.classList.add('focus');
 };
 
 ChatInput.prototype.bindEvents = function () {
@@ -42,6 +43,8 @@ ChatInput.prototype.bindEvents = function () {
 	this.events.bind('grapeAbort grape-input', 'onAbort');
 	this.events.bind('grapeChange grape-input', 'onChange');
 	this.events.bind('grapeSubmit grape-input', 'onSubmit');
+	this.events.bind('grapeFocus grape-input', 'onFocus');
+	this.events.bind('grapeBlur grape-input', 'onBlur');
 };
 
 ChatInput.prototype.setRoom = function (room) {
@@ -219,4 +222,12 @@ ChatInput.prototype.onSubmit = function (e) {
 		this.emit('input', this.room, content);
 		this.input.setProps({content: ''});
 	}
+};
+
+ChatInput.prototype.onFocus = function (e) {
+	this.el.classList.add('focus');
+};
+
+ChatInput.prototype.onBlur = function (e) {
+	this.el.classList.remove('focus');
 };
