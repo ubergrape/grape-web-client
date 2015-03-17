@@ -5,10 +5,7 @@ div
 			img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
 				.avatar-status(class='online')
 		span.user-name
-			if (user.firstName || user.lastName)
-				| #{user.firstName} #{user.lastName} 
-			else
-				| #{user.username}
+			| #{user.displayName}
 		i.fa.fa-caret-down
 	form.search-form
 		input.search(type="search", name="search-input", placeholder=_("Search"))
@@ -57,7 +54,4 @@ div
 				if room.users[0].is_only_invited
 					i.fa.fa-envelope
 					| 
-				if (room.users[0].firstName || room.users[0].lastName)
-					| #{room.users[0].firstName} #{room.users[0].lastName} 
-				else
-					| #{room.users[0].username}
+				| #{room.users[0].displayName}
