@@ -35,60 +35,13 @@ function replace(from, to) {
 RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
-
-	this.form = qs('.newroom', this.el);
-	this.events.obj.openform = this.openform.bind(this);
-	this.events.obj.closeform = this.closeform.bind(this);
-	this.events.obj.submit = this.submit.bind(this);
-	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
-	this.events.bind('click .new', 'openform');
-	this.events.bind('reset .newroom', 'closeform');
-	this.events.bind('submit .newroom', 'submit');
-	this.events.bind('input #newroom-name', 'resetvalidity');
-	this.on('hide', this.closeform.bind(this));
-};
-
-RoomPopover.prototype.submit = function RoomPopover_submit(ev) {
-	ev.preventDefault();
-	var room = {
-		name: this.form['newroom-name'].value.trim(),
-		// disable for now
-        // see https://github.com/ubergrape/chatgrape/issues/469
-        //private: qs('input:checked', this.form).value === 'private'
-        private: false
-	};
-	if (!room.name) return;
-	this.emit('createroom', room);
-};
-
-RoomPopover.prototype.resetvalidity = function RoomPopover_resetvalidity() {
-	this.form['newroom-name'].setCustomValidity('');
-};
-
-RoomPopover.prototype.validationError = function RoomPopover_validationError(err) {
-	var details = err.details;
-	if (details.name) {
-		this.form['newroom-name'].setCustomValidity(details.name[0].message);
-		this.form.submit.click();
-	}
-};
-
-RoomPopover.prototype.openform = function RoomPopover_openform() {
-	this.content.classes.add('openform');
-	this.form['newroom-name'].focus();
-};
-RoomPopover.prototype.closeform = function RoomPopover_closeform() {
-	this.content.classes.remove('openform');
-	this.resetvalidity();
-	this.form.reset();
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
 	this.classes.add('room-po');
 	this.classes.add('left');
 	render(this.content, template('popovers/room.jade'));
-	if (this.itemList)
-		this.itemList.redraw();
+	if (this.itemList) this.itemList.redraw();
 };
 
 RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
