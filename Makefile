@@ -39,6 +39,7 @@ $(OUTPUT)/app.js: components $(JS_FILES) $(TEMPLATE_FILES) $(LANG_JSON)
 	./build.js --dev --prefix /static/app --copy --out $(OUTPUT) --name app
 	touch $(OUTPUT)/app.css
 	mv $(OUTPUT)/app.css $(OUTPUT)/components.css
+	cp ./node_modules/document-register-element/build/document-register-element.js $(OUTPUT)/polyfills.js
 
 $(OUTPUT)/app.css: $(OUTPUT)/app.js $(STYLUS_FILES)
 	./node_modules/.bin/stylus -l --include-css --out $(OUTPUT) stylus/app.styl

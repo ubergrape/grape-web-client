@@ -12,6 +12,9 @@ var MarkdownTipsDialog = require('./dialogs/markdowntips');
 
 var emojiSheet = staticurl('app/cg/images/emoji_sheet_32_optimized.png');
 
+
+require('grape-input');
+
 function ChatInput() {
 	Emitter.call(this);
 	this.room = null;
