@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git",
-    "document-register-element": "git+ssh://git@github.com:ubergrape/document-register-element.git"
+    "document-register-element": "^0.1.9"
   },
   "devDependencies": {
     "autoprefixer": "~1.0.20140117",
