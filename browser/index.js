@@ -321,9 +321,6 @@ UI.prototype.bind = function UI_bind() {
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
-	// membersMenu
-	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
