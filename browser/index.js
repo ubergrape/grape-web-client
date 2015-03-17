@@ -97,7 +97,7 @@ UI.prototype.init = function UI_init() {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// initialize the add room popover
+	// initialize the popovers
 	this.addRoom = new RoomPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
@@ -255,8 +255,8 @@ UI.prototype.bind = function UI_bind() {
 			self.emit('selectchannel', item);
 		});
 	});
-	broker.pass(this.addRoom, 'createroom', this, 'createroom');
 	broker(this, 'newRoom', this.addRoom, 'newRoom');
+	broker(this.addRoom, 'togglecreateroomdialog', this, 'toggleCreateRoomDialog');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -393,10 +393,6 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 	this.addRoom.closeform();
 	// XXX: this is not really clean, but oh well
 	this.addRoom.emit('selectitem', room);
-};
-
-UI.prototype.roomCreateError = function UI_roomCreateError(err) {
-	this.addRoom.validationError(err);
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
