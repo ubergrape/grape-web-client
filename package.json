@@ -13,8 +13,8 @@
     "lodash-es": "^3.1.0",
     "react": "^0.12.2",
     "react-jss": "^0.1.2",
-    "ubergrape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git",
-    "ubergrape-theme": "git+ssh://git@github.com/ubergrape/theme.git"
+    "grape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git",
+    "grape-theme": "git+ssh://git@github.com/ubergrape/theme.git"
   },
   "devDependencies": {
     "6to5-core": "^3.3.9",
