@@ -9,6 +9,7 @@ function CreateRoomDialog() {
 	Dialog.call(this);
 	this.form = qs('form.create-room-form', this.el);
 	this.newRoomName = this.form['newroom-name'];
+	this.createButton = qs('input.create', this.form);
 }
 
 CreateRoomDialog.prototype = Object.create(Dialog.prototype);
@@ -16,17 +17,23 @@ CreateRoomDialog.prototype = Object.create(Dialog.prototype);
 CreateRoomDialog.prototype.bind = function CreateRoomDialog_bind() {
 	this.events = events(this.el, this);
 	this.events.obj.close = this.close;
-	this.events.obj.createroom = function(e) {
+	this.events.obj.createRoom = function(e) {
 		e.preventDefault();
 		var	isPublic = qs('input:checked', this.form).value == "false" ? false : true,
 			room = {
 				'name': this.newRoomName.value.trim(),
 				'is_public': isPublic
 			};
-		this.emit('createroom', room);
+		this.emit('createroom', room, function(err) {
+			if (err) this.errorFeedback(err);
+		}.bind(this));
+	}
+	this.events.obj.resetValidity = function() {
+		this.newRoomName.setCustomValidity('');
 	}
 	this.events.bind('click input[type="reset"]', 'close');
-	this.events.bind('submit form.create-room-form', 'createroom');
+	this.events.bind('keyup input#newroom-name', 'resetValidity');
+	this.events.bind('submit form.create-room-form', 'createRoom');
 }
 
 CreateRoomDialog.prototype.close = function CreateRoomDialog_close() {
@@ -37,4 +44,9 @@ CreateRoomDialog.prototype.show = function CreateRoomDialog_show() {
 	this.dialog.show();
 	this.newRoomName.focus();
 	return this;
+}
+
+CreateRoomDialog.prototype.errorFeedback = function CreateRoomDialog_errorFeedback(err) {
+	this.newRoomName.setCustomValidity(err.name[0].message);
+	this.createButton.click();
 }
