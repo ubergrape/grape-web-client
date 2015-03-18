@@ -656,9 +656,3 @@ App.prototype.updateMsg = function App_updateMessage(msg, text) {
 
 	});
 };
-
-function errorJSON(err) {
-	if (~err.uri.indexOf('ValidationError'))
-		err.details = JSON.parse(err.details);
-	return err;
-}
