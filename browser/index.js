@@ -326,10 +326,10 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
 
 	// navigation
-	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
-	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(this, 'new org member', this.navigation, 'newOrgMember');
+	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
 
