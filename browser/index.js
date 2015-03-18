@@ -323,6 +323,7 @@ UI.prototype.bind = function UI_bind() {
 
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
+	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
 
 	// navigation
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
@@ -390,13 +391,16 @@ UI.prototype.hideSearchResults = function() {
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-	this.addRoom.closeform();
-	// XXX: this is not really clean, but oh well
-	this.addRoom.emit('selectitem', room);
+	var self = this;
+	self.emit('joinroom', room, function() {
+		self.emit('selectchannel', room);
+		self.emit('toggleinvite', qs('.room-header .room-users-wrap'));
+		self.emit('closecreateroom');
+	});
+
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
-	console.log(err);
 	notification.error(err.message, err.details);
 };
 
@@ -609,6 +613,8 @@ UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog(){
 	createRoomDialog.closable();
 	createRoomDialog.overlay();
 	createRoomDialog.show();
+	broker.pass(createRoomDialog, 'createroom', this, 'createroom');
+	broker(this, 'closecreateroom', createRoomDialog, 'close');
 }
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
