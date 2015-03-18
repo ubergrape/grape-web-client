@@ -40,10 +40,8 @@ CreateRoomDialog.prototype.close = function CreateRoomDialog_close() {
 	this.dialog.hide();
 }
 
-CreateRoomDialog.prototype.show = function CreateRoomDialog_show() {
-	this.dialog.show();
+CreateRoomDialog.prototype.roomNameFocus = function CreateRoomDialog_roomNameFocus() {
 	this.newRoomName.focus();
-	return this;
 }
 
 CreateRoomDialog.prototype.errorFeedback = function CreateRoomDialog_errorFeedback(err) {
