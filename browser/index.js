@@ -608,13 +608,16 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 }
 
-UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog(){
+UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog() {
+	this.off('closecreateroom');
 	var createRoomDialog = new CreateRoomDialog();
 	createRoomDialog.closable();
 	createRoomDialog.overlay();
 	createRoomDialog.show();
 	broker.pass(createRoomDialog, 'createroom', this, 'createroom');
-	broker(this, 'closecreateroom', createRoomDialog, 'close');
+	this.on('closecreateroom', function() {
+		createRoomDialog.close();
+	})
 }
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
