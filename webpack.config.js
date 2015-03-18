@@ -26,15 +26,15 @@ var config = module.exports = {
   module: {
     loaders: [
       {
-        loader: '6to5-loader',
+        loader: 'babel-loader',
         test: /\.js$/,
         include: [
           __dirname + '/index.js',
           __dirname + '/component.js',
           __dirname + '/src',
           __dirname + '/node_modules/lodash-es',
-          __dirname + '/node_modules/ubergrape-theme',
-          __dirname + '/node_modules/ubergrape-jss-utils'
+          __dirname + '/node_modules/grape-theme',
+          __dirname + '/node_modules/grape-jss-utils'
         ]
       },
       {

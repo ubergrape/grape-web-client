@@ -1,5 +1,5 @@
-import colors from 'ubergrape-theme/base-colors'
-import fonts from 'ubergrape-theme/fonts'
+import colors from 'grape-theme/base-colors'
+import fonts from 'grape-theme/fonts'
 
 export default {
   header: {

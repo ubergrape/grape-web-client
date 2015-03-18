@@ -1,7 +1,7 @@
-import colors from 'ubergrape-theme/base-colors'
-import webColors from 'ubergrape-theme/web-colors'
+import colors from 'grape-theme/base-colors'
+import webColors from 'grape-theme/web-colors'
 import Color from 'color'
-import fonts from 'ubergrape-theme/fonts'
+import fonts from 'grape-theme/fonts'
 
 let container = {
   extend: fonts.small,

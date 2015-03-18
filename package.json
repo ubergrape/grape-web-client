@@ -13,12 +13,12 @@
     "lodash-es": "^3.1.0",
     "react": "^0.12.2",
     "react-jss": "^0.1.2",
-    "grape-jss-utils": "git+ssh://git@github.com/ubergrape/jss-utils.git",
-    "grape-theme": "git+ssh://git@github.com/ubergrape/theme.git"
+    "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
+    "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git"
   },
   "devDependencies": {
-    "6to5-core": "^3.3.9",
-    "6to5-loader": "^3.0.0",
+    "babel-core": "^4.7.15",
+    "babel-loader": "^4.2.0",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
     "webpack": "^1.5.3",

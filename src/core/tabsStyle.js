@@ -1,4 +1,4 @@
-import webColors from 'ubergrape-theme/web-colors'
+import webColors from 'grape-theme/web-colors'
 
 export default {
   container: {

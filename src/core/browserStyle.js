@@ -1,5 +1,5 @@
 import Color from 'color'
-import colors from 'ubergrape-theme/base-colors'
+import colors from 'grape-theme/base-colors'
 
 export default {
   container: {

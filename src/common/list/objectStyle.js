@@ -1,6 +1,6 @@
-import colors from 'ubergrape-theme/base-colors'
-import fonts from 'ubergrape-theme/fonts'
-import utils from 'ubergrape-jss-utils'
+import colors from 'grape-theme/base-colors'
+import fonts from 'grape-theme/fonts'
+import utils from 'grape-jss-utils'
 
 let container = {
   padding: '5px 7px',
