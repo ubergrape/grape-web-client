@@ -617,7 +617,7 @@ UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog() {
 	broker.pass(createRoomDialog, 'createroom', this, 'createroom');
 	this.on('closecreateroom', function() {
 		createRoomDialog.close();
-	});
+	})
 }
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {

@@ -18,10 +18,9 @@ CreateRoomDialog.prototype.bind = function CreateRoomDialog_bind() {
 	this.events.obj.close = this.close;
 	this.events.obj.createroom = function(e) {
 		e.preventDefault();
-		var isPublic = qs('input:checked', this.form).value == "false" ? false : true;
 		var room = {
 			'name': this.form['newroom-name'].value.trim(),
-			'is_public': isPublic
+			'is_public': qs('input:checked', this.form).value
 		};
 		this.emit('createroom', room);
 	}
