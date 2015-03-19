@@ -127,13 +127,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	}));
 
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {
-		// prepend messages
-		// adjust the scrolling with the height of the newly added elements
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 	}
 
-	if (this.scrollMode === 'automatic') this.scrollBottom();
-
+	if (this.scrollMode == 'automatic') this.scrollBottom();
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
 };
 
@@ -194,14 +191,14 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 		self.emit('hasread', self.room, line);
 		self.redraw();
 	}, 1500);
-	var reset = debounce(function () {
+	/*var reset = debounce(function () {
 		self.scrollMode = 'automatic';
-	}, 60 * 1000);
+	}, 60 * 1000);*/
 	focus.on('focus', updateRead);
 	this.scrollWindow.addEventListener('scroll', updateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		self.scrollMode = 'manual';
-		reset();
+		//reset();
 	});
 };
 
