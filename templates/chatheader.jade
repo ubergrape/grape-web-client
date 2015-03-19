@@ -19,21 +19,21 @@ div
 					input.room-name.editable(value=room.name, type="text")
 					input.submit-rename(type="submit")
 				.rename-options-wrap
-					a.header-option.option-rename-cancel
+					a.header-option.option-rename-cancel(title="Cancel")
 						i.fa.fa-times
-					a.header-option.option-rename-ok
+					a.header-option.option-rename-ok(title="Save")
 						i.fa.fa-check
 			else
 				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') #{room.name}
 				.options-wrap
 					if editOptions.canRenameRoom
-						a.header-option.option-rename-room
+						a.header-option.option-rename-room(title="Rename Room")
 							i.fa.fa-pencil
-						a.header-option.option-delete-room
+						a.header-option.option-delete-room(title="Delete Room")
 							i.fa.fa-trash
-					a.header-option.option-add-users
+					a.header-option.option-add-users(title="Add Members")
 						i.fa.fa-user-plus
-				.room-users-wrap
+				.room-users-wrap(title="View Members")
 					span.user-count
 						i.fa.fa-user
 						|  #{room.users.length}
