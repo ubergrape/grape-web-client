@@ -33,7 +33,6 @@
     "browser/elements/dialogs/dialog.js",
     "browser/elements/dialogs/deleteroom.js",
     "browser/elements/dialogs/markdowntips.js",
-    "browser/elements/dialogs/createroom.js",
     "browser/focus.js",
     "browser/infinite-scroll.js",
     "browser/index.js",
@@ -68,7 +67,6 @@
     "templates/roomlist.jade",
     "templates/dialogs/deleteroom.jade",
     "templates/dialogs/markdowntips.jade",
-    "templates/dialogs/createroom.jade",    
     "templates/draganddrop.jade"
   ],
   "images": [

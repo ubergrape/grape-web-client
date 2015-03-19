@@ -64,7 +64,6 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
-var CreateRoomDialog = exports.CreateRoomDialog = require('./elements/dialogs/createroom');
 
 function UI(options) {
 	Emitter.call(this);
@@ -606,13 +605,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 		room: room
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
-}
-
-UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog(){
-	var createRoomDialog = new CreateRoomDialog();
-	createRoomDialog.closable();
-	createRoomDialog.overlay();
-	createRoomDialog.show();
 }
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
