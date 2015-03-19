@@ -34,11 +34,6 @@ function replace(from, to) {
 
 RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
-	this.events.obj.toggleRoomCreation = function() {
-		this.emit('togglecreateroomdialog');
-		this.hide();
-	}.bind(this);
-	this.events.bind('click .new', 'toggleRoomCreation');
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
