@@ -234,7 +234,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
 	broker(navigation, 'selectpm', this, 'selectpm');
-	// broker(navigation, 'addpm', this.addPM, 'toggle');
+
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
@@ -257,6 +257,7 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker(this, 'newroom', this.addRoom, 'newRoom');
+	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'popOut');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');

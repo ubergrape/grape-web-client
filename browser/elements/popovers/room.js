@@ -5,10 +5,10 @@ var broker = require('broker');
 var qs = require('query');
 var template = require('template');
 var classes = require('classes');
-
 var ItemList = require('../itemlist');
 var Popover = require('./popover');
 var render = require('../../rendervdom');
+
 
 module.exports = RoomPopover;
 
@@ -34,6 +34,22 @@ function replace(from, to) {
 
 RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
+
+	function proxyRoomCreation() {
+		var self = this;
+		this.events.obj.toggleRoomCreation = function() {
+			this.hide();
+			setTimeout(function() {
+				self.emit('toggleroomcreation', self.trigger)
+			});
+		}.bind(this);
+		this.events.bind('click .roompopover', 'toggleRoomCreation');
+	};
+
+	this.on('show', proxyRoomCreation);
+	this.on('hide', function() {
+		this.off('show', proxyRoomCreation);
+	}.bind(this));
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 

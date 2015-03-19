@@ -51,6 +51,8 @@ Popover.prototype.bind = function Popover_bind() {
 Popover.prototype.show = function Popover_show(trigger) {
 	this.trigger = trigger;
 	this.classes.remove('hide');
+	console.log(this.classes);
+	console.log(this);
 	var offset = trigger.getBoundingClientRect();
 	this.el.style.top = offset.top + 'px';
 	this.el.style.left = offset.left + offset.width + 'px';
@@ -59,6 +61,8 @@ Popover.prototype.show = function Popover_show(trigger) {
 	this.emit('show');
 	if (this.classes.has('left')) {
 		animate(this.el, 'fade-left-in');  
+	} else if (this.classes.has('right')) {
+		animate(this.el, 'fade-right-in');
 	} else { // TOP
 		animate(this.el, 'fade-down-in');  
 	}
