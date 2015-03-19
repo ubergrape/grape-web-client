@@ -17,31 +17,23 @@
 	else if history.length === 0
 		if room.type !== 'pm'
 			.message-group.welcome-message
-				if room.is_public
-					- var head = staticurl("/images/head.png")
-					img.image(src="#{head}",width="100",alt="Hi!")
-					div
-						h3
-							| Welcome to 
-							span #{room.name}
-						p
-							=_('This room is public. Every member can join and read the history.')
-						ul.welcome-tasks
-							li.option
-								a.show-invite.disable-document-click-handler.button.raised
-									i.fa.fa-user-plus
-									=_('Add members to this room')
-							li.option
-								a.button.raised(href='/services/list/', target='_self')
-									i.fa.fa-link
-									=_('Integrate external services')
-				else
-					div
-						h3
-							| Welcome to 
-							span #{room.name}
-						p
-							=_('This room is private.')
+				- var head = staticurl("/images/head.png")
+				img.image(src="#{head}",width="100",alt="Hi!")
+				div
+					h3
+						| Welcome to 
+						span #{room.name}
+					p
+						=_('This room is public. Every member can join and read the history.')
+					ul.welcome-tasks
+						li.option
+							a.show-invite.disable-document-click-handler.button.raised
+								i.fa.fa-user-plus
+								=_('Add members to this room')
+						li.option
+							a.button.raised(href='/services/list/', target='_self')
+								i.fa.fa-link
+								=_('Integrate external services')
 		else
 			.message-group.welcome-message
 				- var head = staticurl("/images/head_lock.png")
