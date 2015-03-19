@@ -479,11 +479,11 @@ App.prototype.openPM = function App_openPM(user, callback) {
 	});
 };
 
-App.prototype.createRoom = function App_createRoom(room, callback) {
+App.prototype.createRoom = function App_createRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return callback(JSON.parse(err.details));
+		if (err) return self.emit('roomcreateerror', errorJSON(err));
 		self.emit('roomcreated', self._tryAddRoom(room));
 	});
 };
