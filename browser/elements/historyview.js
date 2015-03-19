@@ -191,14 +191,10 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 		self.emit('hasread', self.room, line);
 		self.redraw();
 	}, 1500);
-	/*var reset = debounce(function () {
-		self.scrollMode = 'automatic';
-	}, 60 * 1000);*/
 	focus.on('focus', updateRead);
 	this.scrollWindow.addEventListener('scroll', updateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		self.scrollMode = 'manual';
-		//reset();
 	});
 };
 
