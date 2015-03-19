@@ -2,6 +2,7 @@
 "use strict";
 
 var Dialog = require('./dialog');
+
 var events = require('events');
 var qs = require('query');
 var _ = require('t');
