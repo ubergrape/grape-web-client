@@ -254,8 +254,7 @@ UI.prototype.bind = function UI_bind() {
 			self.emit('selectchannel', item);
 		});
 	});
-	broker.pass(this.addRoom, 'createroom', this, 'createroom');
-	broker(this, 'newRoom', this.addRoom, 'newRoom');
+	broker(this, 'newroom', this.addRoom, 'newRoom');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -324,10 +323,10 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// navigation
-	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
-	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(this, 'new org member', this.navigation, 'newOrgMember');
+	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
 
 	this.room = null;
 
@@ -389,13 +388,7 @@ UI.prototype.hideSearchResults = function() {
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-	this.addRoom.closeform();
-	// XXX: this is not really clean, but oh well
-	this.addRoom.emit('selectitem', room);
-};
 
-UI.prototype.roomCreateError = function UI_roomCreateError(err) {
-	this.addRoom.validationError(err);
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
