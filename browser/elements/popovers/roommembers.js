@@ -72,7 +72,3 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.redraw();
 };
 
-RoomMembersPopover.prototype.inviteFocus = function RoomMembersPopover_inviteFocus() {
-	qs('.input-invite', this.el).focus();
-}
-

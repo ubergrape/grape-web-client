@@ -324,7 +324,6 @@ UI.prototype.bind = function UI_bind() {
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
-	broker(this, 'toggleinvite', this.membersMenu, 'inviteFocus');
 
 	// navigation
 	broker(this, 'deleteduser', this.navigation, 'deleteUser');
@@ -615,7 +614,6 @@ UI.prototype.toggleCreateRoomDialog = function UI_toggleCreateRoomDialog() {
 	createRoomDialog.closable();
 	createRoomDialog.overlay();
 	createRoomDialog.show();
-	createRoomDialog.roomNameFocus();
 	broker.pass(createRoomDialog, 'createroom', this, 'createroom');
 	this.on('closecreateroom', function() {
 		createRoomDialog.close();
