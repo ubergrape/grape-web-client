@@ -22,12 +22,7 @@ ul.po-scroll-wrap
 						if room.creator
 							li.creator
 								=_('created by ')
-								if (room.creator.firstName || room.creator.lastName)
-									span.user-name
-										| #{room.creator.firstName} 
-										| #{room.creator.lastName} 
-								else
-									span.user-name= room.creator.username
+								span.user-name= room.creator.displayName
 	li.list-hl.mar-t10
 		hr.mar-b10
 		h4=_("Rooms you have already joined")
@@ -53,9 +48,4 @@ ul.po-scroll-wrap
 						if room.creator
 							li.creator
 								=_('created by ')
-								if (room.creator.firstName || room.creator.lastName)
-									span.user-name
-										| #{room.creator.firstName} 
-										| #{room.creator.lastName} 
-								else
-									span.user-name= room.creator.username
+								span.user-name= room.creator.displayName
