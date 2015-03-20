@@ -34,22 +34,28 @@ function replace(from, to) {
 
 RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
+	var self = this;
 
-	function proxyRoomCreation() {
-		var self = this;
-		this.events.obj.toggleRoomCreation = function() {
-			this.hide();
+	function setRoomCreation() {
+		self.events.obj.toggleRoomCreation = function() {
+			self.hide();
+			// the popovers cancel each other 
+			// setTimeout to force synchronicity
 			setTimeout(function() {
 				self.emit('toggleroomcreation', self.trigger)
 			});
-		}.bind(this);
-		this.events.bind('click .roompopover', 'toggleRoomCreation');
+		};
+		self.events.bind('click .roompopover', 'toggleRoomCreation');
 	};
 
-	this.on('show', proxyRoomCreation);
+	// this behaviour is exceptional in our popover logic:
+	// a popover open another popover with the same trigger,
+	// so we have to proxy the trigger
+	this.on('show', setRoomCreation);
 	this.on('hide', function() {
-		this.off('show', proxyRoomCreation);
-	}.bind(this));
+		this.off('show', setRoomCreation);
+	});
+
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 

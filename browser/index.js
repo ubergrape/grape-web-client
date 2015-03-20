@@ -257,7 +257,7 @@ UI.prototype.bind = function UI_bind() {
 		});
 	});
 	broker(this, 'newroom', this.addRoom, 'newRoom');
-	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'popOut');
+	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'toggle');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');

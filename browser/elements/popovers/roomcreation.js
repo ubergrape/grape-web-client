@@ -24,7 +24,3 @@ RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
 	render(this.content, template('popovers/roomcreation.jade'));
 	this.el.focus();
 }
-
-RoomCreationPopover.prototype.popOut = function RoomCreationPopover_popOut(trigger) {
-	this.toggle(trigger);
-}

@@ -51,8 +51,6 @@ Popover.prototype.bind = function Popover_bind() {
 Popover.prototype.show = function Popover_show(trigger) {
 	this.trigger = trigger;
 	this.classes.remove('hide');
-	console.log(this.classes);
-	console.log(this);
 	var offset = trigger.getBoundingClientRect();
 	this.el.style.top = offset.top + 'px';
 	this.el.style.left = offset.left + offset.width + 'px';
@@ -76,6 +74,7 @@ Popover.prototype.hide = function Popover_hide() {
 };
 
 Popover.prototype.toggle = function Popover_toggle(trigger) {
+	console.log('toggled');
 	if (this.hidden) {
 		this.show(trigger);
 	} else {
