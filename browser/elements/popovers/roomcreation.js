@@ -22,11 +22,27 @@ RoomCreationPopover.prototype.init = function RoomCreationPopover_init() {
 }
 
 RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
-	Popover.prototype.bind.call(this);	
+	Popover.prototype.bind.call(this);
+
+	this.events.obj.createRoom = function(e) {
+		e.preventDefault();
+		var room = {
+			'name': this.form['newroom-name'].value.trim(),
+			'is_public': qs('input:checked', this.form).value
+		};
+		this.emit('createroom', room);
+	}.bind(this);
 	
+	this.events.bind('click input[type="reset"]', 'close');
+	this.events.bind('submit form.create-room-form', 'createRoom');
+
 	this.on('show', function() {
 		this.form['newroom-name'].focus();
 	});
+
+	this.on('hide', function() {
+		this.form.reset();
+	})
 }
 
 RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
