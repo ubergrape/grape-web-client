@@ -324,6 +324,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// navigation
+	broker(this, 'org ready', this.navigation, 'setOrganization');
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
@@ -407,6 +408,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
+	this.emit('org ready');
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -444,12 +446,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	// update logo
-	// XXX: is this how it should be done? I guess not
-	qs('.logo img').src = org.logo;
-	qs('.logo img').alt = org.name;
-	qs('.logo .name').innerHTML = org.name;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?

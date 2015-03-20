@@ -211,3 +211,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 		self[which + 'List'].redraw();
 	});
 };
+
+Navigation.prototype.setOrganization = function Navigation_setOrganization() {
+	this.redraw();
+}
