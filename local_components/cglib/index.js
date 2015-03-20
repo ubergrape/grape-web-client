@@ -483,7 +483,7 @@ App.prototype.createRoom = function App_createRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', errorJSON(err));
+		if (err) return self.emit('roomcreateerror', JSON.parse(err.details));
 		self.emit('roomcreated', self._tryAddRoom(room));
 	});
 };
@@ -657,9 +657,3 @@ App.prototype.updateMsg = function App_updateMessage(msg, text) {
 
 	});
 };
-
-function errorJSON(err) {
-	if (~err.uri.indexOf('ValidationError'))
-		err.details = JSON.parse(err.details);
-	return err;
-}

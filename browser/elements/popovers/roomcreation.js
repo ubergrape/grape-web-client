@@ -19,6 +19,8 @@ RoomCreationPopover.prototype.init = function RoomCreationPopover_init() {
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
 	this.form = qs('form.create-room-form', this.el);
+	this.newRoomName = this.form['newroom-name'];
+	this.createButton = qs('input.create', this.form);
 }
 
 RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
@@ -27,24 +29,34 @@ RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
 	this.events.obj.createRoom = function(e) {
 		e.preventDefault();
 		var room = {
-			'name': this.form['newroom-name'].value.trim(),
+			'name': this.newRoomName.value.trim(),
 			'is_public': qs('input:checked', this.form).value
 		};
 		this.emit('createroom', room);
 	}.bind(this);
-	
+	this.events.obj.resetValidity = function() {
+		this.newRoomName.setCustomValidity('');
+	}.bind(this);
+
 	this.events.bind('submit form.create-room-form', 'createRoom');
+	this.events.bind('keydown input#newroom-name', 'resetValidity');
+
 	this.on('show', function() {
-		this.form['newroom-name'].focus();
+		this.newRoomName.focus();
 	});
 	this.on('hide', function() {
 		this.form.reset();
-	})
+	});
 }
 
 RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
 	this.classes.add('right');	
 	render(this.content, template('popovers/roomcreation.jade'));
+}
+
+RoomCreationPopover.prototype.errorFeedback = function RoomCreationPopover_errorFeedback(err) {
+	this.newRoomName.setCustomValidity(err.name[0].message);
+	this.createButton.click();
 }
 
 RoomCreationPopover.prototype.end = function RoomCreationPopover_end() {

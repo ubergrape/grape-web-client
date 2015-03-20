@@ -321,10 +321,12 @@ UI.prototype.bind = function UI_bind() {
 
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
+	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
+	
 	// roomCreation
 	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
 	broker(this, 'endroomcreation', this.roomCreation, 'end');
+	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
 
 	// navigation
 	broker(this, 'deleteduser', this.navigation, 'deleteUser');
