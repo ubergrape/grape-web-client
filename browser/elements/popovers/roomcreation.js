@@ -46,3 +46,7 @@ RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
 	this.classes.add('right');	
 	render(this.content, template('popovers/roomcreation.jade'));
 }
+
+RoomCreationPopover.prototype.end = function RoomCreationPopover_end() {
+	this.hide();
+}

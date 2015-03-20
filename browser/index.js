@@ -312,9 +312,6 @@ UI.prototype.bind = function UI_bind() {
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
-	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
-	//broker(this.chatInput, 'input', this.upload, 'hide');
-	// directly send an uploaded file
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
@@ -324,6 +321,10 @@ UI.prototype.bind = function UI_bind() {
 
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
+
+	// roomCreation
+	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
+	broker(this, 'endroomcreation', this.roomCreation, 'end');
 
 	// navigation
 	broker(this, 'deleteduser', this.navigation, 'deleteUser');
@@ -391,7 +392,11 @@ UI.prototype.hideSearchResults = function() {
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-
+	this.emit('joinroom', room, function() {
+		this.emit('selectchannel', room);
+		this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
+		this.emit('endroomcreation');
+	}.bind(this));
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
