@@ -14,40 +14,18 @@ let List = React.createClass({
   mixins: [useSheet(listStyle)],
 
   render() {
+    let {data} = this.props
     let classes = this.sheet.classes
     let sections
 
-    if (this.props.data.length) {
-      sections = this.getSections().map(function (section) {
+    if (data.length) {
+      sections = data.map(function (section) {
         assign(section, pick(this.props, 'focus', 'select'))
         return <Section {...section}  key={section.service}/>
       }, this)
     }
 
     return <div className={classes.container}>{sections}</div>
-  },
-
-  /**
-   * Returns cloned sections data with top result section added.
-   */
-  getSections() {
-    let data = cloneDeep(this.props.data)
-    let section = data[0]
-    let topResult = section.results.shift()
-
-    // It was the only result in that section - remove that section.
-    if (!section.results.length) data.shift()
-
-    let topSection = {
-      label: 'Top result',
-      service: 'top',
-      icon: section.icon,
-      results: [topResult]
-    }
-
-    data.unshift(topSection)
-
-    return data
   }
 })
 
