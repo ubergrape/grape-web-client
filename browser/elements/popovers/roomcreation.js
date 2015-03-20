@@ -33,13 +33,10 @@ RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
 		this.emit('createroom', room);
 	}.bind(this);
 	
-	this.events.bind('click input[type="reset"]', 'close');
 	this.events.bind('submit form.create-room-form', 'createRoom');
-
 	this.on('show', function() {
 		this.form['newroom-name'].focus();
 	});
-
 	this.on('hide', function() {
 		this.form.reset();
 	})
