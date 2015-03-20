@@ -18,19 +18,26 @@ export default React.createClass({
   mixins: [useSheet(browserStyle)],
 
   getInitialState() {
-    return this.getStateFromProps(this.props)
+    return this.createState(this.props)
   },
 
   componentWillReceiveProps(props) {
-    this.setState(this.getStateFromProps(props))
+    this.setState(this.createState(props))
   },
 
-  getStateFromProps(props) {
+  createState(props) {
     let sections = dataUtils.getSections(props.data)
+    let {selectedServiceId} = this.state || {}
+    let tabs = []
 
+    if (props.data) {
+      tabs = dataUtils.getTabs(props.data.services, sections, selectedServiceId)
+    }
+console.log('selectedServiceId',selectedServiceId)
     return {
       sections: sections,
-      tabs: props.data ? dataUtils.getTabs(props.data.services, sections) : []
+      tabs: tabs,
+      selectedServiceId: selectedServiceId
     }
   },
 
@@ -40,9 +47,9 @@ export default React.createClass({
    * @param {String} facet can be service id or "prev" or "next"
    */
   selectFacet(facet) {
-    let tabs = this.state.tabs
-    let sections = this.state.sections
+    let {tabs, sections} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
+
     let newIndex
     let set = false
 
@@ -68,7 +75,7 @@ export default React.createClass({
       dataUtils.setSelectedTab(tabs, newIndex)
       dataUtils.setSelectedSection(sections, service)
       dataUtils.setFocusedObjectAt(sections, service, 0)
-      this.setState({tabs: tabs, sections: sections})
+      this.setState({tabs: tabs, sections: sections, selectedServiceId: service})
       this.emit('selectFacet', {service: service})
     }
   },

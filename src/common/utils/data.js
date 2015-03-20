@@ -167,18 +167,15 @@ function getObjectById(sections, id) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(services, sections) {
+export function getTabs(services, sections, selectedServiceId) {
   if (!services.length) return []
-
-  let selectedSection = getSelectedSection(sections)
-  let hasSelected = Boolean(selectedSection)
 
   let tabs = services.map(function (service) {
     return {
       label: service.label,
       amount: service.count,
       service: service.id,
-      selected: hasSelected && selectedSection.service == service.id
+      selected: selectedServiceId == service.id
     }
   })
 
@@ -188,7 +185,7 @@ export function getTabs(services, sections) {
   tabs.unshift({
     label: 'All',
     amount: total,
-    selected: !hasSelected
+    selected: !selectedServiceId
   })
 
   return tabs

@@ -67,17 +67,17 @@
 
 	// Setup jss plugins.
 
-	var jss = _interopRequire(__webpack_require__(10));
+	var jss = _interopRequire(__webpack_require__(11));
 
-	var jssExtend = _interopRequire(__webpack_require__(11));
+	var jssExtend = _interopRequire(__webpack_require__(10));
 
 	var jssNested = _interopRequire(__webpack_require__(12));
 
-	var jssCamelCase = _interopRequire(__webpack_require__(13));
+	var jssCamelCase = _interopRequire(__webpack_require__(15));
 
 	var jssPx = _interopRequire(__webpack_require__(14));
 
-	var jssVendorPrefixer = _interopRequire(__webpack_require__(15));
+	var jssVendorPrefixer = _interopRequire(__webpack_require__(13));
 
 	jss.use(jssExtend);
 	jss.use(jssNested);
@@ -99,11 +99,11 @@
 
 	var useSheet = _interopRequire(__webpack_require__(9));
 
-	var clone = _interopRequire(__webpack_require__(17));
+	var clone = _interopRequire(__webpack_require__(16));
 
-	var cloneDeep = _interopRequire(__webpack_require__(18));
+	var cloneDeep = _interopRequire(__webpack_require__(17));
 
-	var find = _interopRequire(__webpack_require__(16));
+	var find = _interopRequire(__webpack_require__(18));
 
 	var findIndex = _interopRequire(__webpack_require__(19));
 
@@ -126,19 +126,30 @@
 	  mixins: [useSheet(browserStyle)],
 
 	  getInitialState: function getInitialState() {
-	    return this.getStateFromProps(this.props);
+	    return this.createState(this.props);
 	  },
 
 	  componentWillReceiveProps: function componentWillReceiveProps(props) {
-	    this.setState(this.getStateFromProps(props));
+	    this.setState(this.createState(props));
 	  },
 
-	  getStateFromProps: function getStateFromProps(props) {
+	  createState: function createState(props) {
 	    var sections = dataUtils.getSections(props.data);
 
+	    var _ref = this.state || {};
+
+	    var selectedServiceId = _ref.selectedServiceId;
+
+	    var tabs = [];
+
+	    if (props.data) {
+	      tabs = dataUtils.getTabs(props.data.services, sections, selectedServiceId);
+	    }
+	    console.log("selectedServiceId", selectedServiceId);
 	    return {
 	      sections: sections,
-	      tabs: props.data ? dataUtils.getTabs(props.data.services, sections) : []
+	      tabs: tabs,
+	      selectedServiceId: selectedServiceId
 	    };
 	  },
 
@@ -148,11 +159,14 @@
 	   * @param {String} facet can be service id or "prev" or "next"
 	   */
 	  selectFacet: function selectFacet(facet) {
-	    var tabs = this.state.tabs;
-	    var sections = this.state.sections;
+	    var _state = this.state;
+	    var tabs = _state.tabs;
+	    var sections = _state.sections;
+
 	    var currIndex = findIndex(tabs, function (tab) {
 	      return tab.selected;
 	    });
+
 	    var newIndex = undefined;
 	    var set = false;
 
@@ -178,7 +192,7 @@
 	      dataUtils.setSelectedTab(tabs, newIndex);
 	      dataUtils.setSelectedSection(sections, service);
 	      dataUtils.setFocusedObjectAt(sections, service, 0);
-	      this.setState({ tabs: tabs, sections: sections });
+	      this.setState({ tabs: tabs, sections: sections, selectedServiceId: service });
 	      this.emit("selectFacet", { service: service });
 	    }
 	  },
@@ -319,9 +333,9 @@
 
 	var useSheet = _interopRequire(__webpack_require__(9));
 
-	var tabsStyle = _interopRequire(__webpack_require__(20));
+	var tabsStyle = _interopRequire(__webpack_require__(21));
 
-	var Tab = _interopRequire(__webpack_require__(21));
+	var Tab = _interopRequire(__webpack_require__(22));
 
 	/**
 	 * Tabs container.
@@ -361,7 +375,7 @@
 
 	var useSheet = _interopRequire(__webpack_require__(9));
 
-	var emptyStyle = _interopRequire(__webpack_require__(22));
+	var emptyStyle = _interopRequire(__webpack_require__(20));
 
 	/**
 	 * Display information when list is empty
@@ -473,7 +487,7 @@
 	  value: true
 	});
 
-	var find = _interopRequire(__webpack_require__(16));
+	var find = _interopRequire(__webpack_require__(18));
 
 	// Service/icon map.
 	// TODO it should be a service implementation detail.
@@ -614,18 +628,15 @@
 
 	  return ret;
 	}
-	function getTabs(services, sections) {
+	function getTabs(services, sections, selectedServiceId) {
 	  if (!services.length) {
 	    return [];
-	  }var selectedSection = getSelectedSection(sections);
-	  var hasSelected = Boolean(selectedSection);
-
-	  var tabs = services.map(function (service) {
+	  }var tabs = services.map(function (service) {
 	    return {
 	      label: service.label,
 	      amount: service.count,
 	      service: service.id,
-	      selected: hasSelected && selectedSection.service == service.id
+	      selected: selectedServiceId == service.id
 	    };
 	  });
 
@@ -637,7 +648,7 @@
 	  tabs.unshift({
 	    label: "All",
 	    amount: total,
-	    selected: !hasSelected
+	    selected: !selectedServiceId
 	  });
 
 	  return tabs;
@@ -656,7 +667,7 @@
 
 	'use strict';
 
-	var jss = __webpack_require__(10);
+	var jss = __webpack_require__(11);
 
 	function useSheet(rules, options) {
 	  var refs = 0,
@@ -733,21 +744,6 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * StyleSheets written in javascript.
-	 *
-	 * @copyright Oleg Slobodskoi 2014
-	 * @website https://github.com/jsstyles/jss
-	 * @license MIT
-	 */
-
-	module.exports = __webpack_require__(24)
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict'
 
 	var toString = Object.prototype.toString
@@ -788,6 +784,21 @@
 
 
 /***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * StyleSheets written in javascript.
+	 *
+	 * @copyright Oleg Slobodskoi 2014
+	 * @website https://github.com/jsstyles/jss
+	 * @license MIT
+	 */
+
+	module.exports = __webpack_require__(24)
+
+
+/***/ },
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -821,10 +832,10 @@
 
 	'use strict'
 
-	var regExp = /([A-Z])/g
+	var vendor = __webpack_require__(36)
 
 	/**
-	 * Allow camel cased property names by converting them back to dasherized.
+	 * Add vendor prefix to a property name when needed.
 	 *
 	 * @param {Rule} rule
 	 * @api public
@@ -832,16 +843,21 @@
 	module.exports = function (rule) {
 	    var style = rule.style
 
-	    if (!style) return
-
-	    rule.style = {}
-
 	    for (var prop in style) {
 	        var value = style[prop]
-	        prop = prop
-	            .replace(regExp, '-$1')
-	            .toLowerCase()
-	        rule.style[prop] = value
+
+	        var changeProp = false
+	        var supportedProp = vendor.supportedProperty(prop)
+	        if (supportedProp && supportedProp !== prop) changeProp = true
+
+	        var changeValue = false
+	        var supportedValue = vendor.supportedValue(supportedProp, value)
+	        if (supportedValue && supportedValue !== value) changeValue = true
+
+	        if (changeProp || changeValue) {
+	            if (changeProp) delete style[prop]
+	            style[supportedProp] = supportedValue
+	        }
 	    }
 	}
 
@@ -895,10 +911,10 @@
 
 	'use strict'
 
-	var vendor = __webpack_require__(36)
+	var regExp = /([A-Z])/g
 
 	/**
-	 * Add vendor prefix to a property name when needed.
+	 * Allow camel cased property names by converting them back to dasherized.
 	 *
 	 * @param {Rule} rule
 	 * @api public
@@ -906,106 +922,22 @@
 	module.exports = function (rule) {
 	    var style = rule.style
 
+	    if (!style) return
+
+	    rule.style = {}
+
 	    for (var prop in style) {
 	        var value = style[prop]
-
-	        var changeProp = false
-	        var supportedProp = vendor.supportedProperty(prop)
-	        if (supportedProp && supportedProp !== prop) changeProp = true
-
-	        var changeValue = false
-	        var supportedValue = vendor.supportedValue(supportedProp, value)
-	        if (supportedValue && supportedValue !== value) changeValue = true
-
-	        if (changeProp || changeValue) {
-	            if (changeProp) delete style[prop]
-	            style[supportedProp] = supportedValue
-	        }
+	        prop = prop
+	            .replace(regExp, '-$1')
+	            .toLowerCase()
+	        rule.style[prop] = value
 	    }
 	}
 
 
 /***/ },
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseCallback = _interopRequire(__webpack_require__(26));
-
-	var baseEach = _interopRequire(__webpack_require__(27));
-
-	var baseFind = _interopRequire(__webpack_require__(28));
-
-	var findIndex = _interopRequire(__webpack_require__(19));
-
-	var isArray = _interopRequire(__webpack_require__(29));
-
-	/**
-	 * Iterates over elements of `collection`, returning the first element
-	 * `predicate` returns truthy for. The predicate is bound to `thisArg` and
-	 * invoked with three arguments; (value, index|key, collection).
-	 *
-	 * If a property name is provided for `predicate` the created `_.property`
-	 * style callback returns the property value of the given element.
-	 *
-	 * If a value is also provided for `thisArg` the created `_.matchesProperty`
-	 * style callback returns `true` for elements that have a matching property
-	 * value, else `false`.
-	 *
-	 * If an object is provided for `predicate` the created `_.matches` style
-	 * callback returns `true` for elements that have the properties of the given
-	 * object, else `false`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @alias detect
-	 * @category Collection
-	 * @param {Array|Object|string} collection The collection to search.
-	 * @param {Function|Object|string} [predicate=_.identity] The function invoked
-	 *  per iteration.
-	 * @param {*} [thisArg] The `this` binding of `predicate`.
-	 * @returns {*} Returns the matched element, else `undefined`.
-	 * @example
-	 *
-	 * var users = [
-	 *   { 'user': 'barney',  'age': 36, 'active': true },
-	 *   { 'user': 'fred',    'age': 40, 'active': false },
-	 *   { 'user': 'pebbles', 'age': 1,  'active': true }
-	 * ];
-	 *
-	 * _.result(_.find(users, function(chr) {
-	 *   return chr.age < 40;
-	 * }), 'user');
-	 * // => 'barney'
-	 *
-	 * // using the `_.matches` callback shorthand
-	 * _.result(_.find(users, { 'age': 1, 'active': true }), 'user');
-	 * // => 'pebbles'
-	 *
-	 * // using the `_.matchesProperty` callback shorthand
-	 * _.result(_.find(users, 'active', false), 'user');
-	 * // => 'fred'
-	 *
-	 * // using the `_.property` callback shorthand
-	 * _.result(_.find(users, 'active'), 'user');
-	 * // => 'barney'
-	 */
-	function find(collection, predicate, thisArg) {
-	  if (isArray(collection)) {
-	    var index = findIndex(collection, predicate, thisArg);
-	    return index > -1 ? collection[index] : undefined;
-	  }
-	  predicate = baseCallback(predicate, thisArg, 3);
-	  return baseFind(collection, predicate, baseEach);
-	}
-
-	module.exports = find;
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1084,7 +1016,7 @@
 	module.exports = clone;
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1146,6 +1078,85 @@
 	}
 
 	module.exports = cloneDeep;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseCallback = _interopRequire(__webpack_require__(26));
+
+	var baseEach = _interopRequire(__webpack_require__(27));
+
+	var baseFind = _interopRequire(__webpack_require__(28));
+
+	var findIndex = _interopRequire(__webpack_require__(19));
+
+	var isArray = _interopRequire(__webpack_require__(29));
+
+	/**
+	 * Iterates over elements of `collection`, returning the first element
+	 * `predicate` returns truthy for. The predicate is bound to `thisArg` and
+	 * invoked with three arguments; (value, index|key, collection).
+	 *
+	 * If a property name is provided for `predicate` the created `_.property`
+	 * style callback returns the property value of the given element.
+	 *
+	 * If a value is also provided for `thisArg` the created `_.matchesProperty`
+	 * style callback returns `true` for elements that have a matching property
+	 * value, else `false`.
+	 *
+	 * If an object is provided for `predicate` the created `_.matches` style
+	 * callback returns `true` for elements that have the properties of the given
+	 * object, else `false`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @alias detect
+	 * @category Collection
+	 * @param {Array|Object|string} collection The collection to search.
+	 * @param {Function|Object|string} [predicate=_.identity] The function invoked
+	 *  per iteration.
+	 * @param {*} [thisArg] The `this` binding of `predicate`.
+	 * @returns {*} Returns the matched element, else `undefined`.
+	 * @example
+	 *
+	 * var users = [
+	 *   { 'user': 'barney',  'age': 36, 'active': true },
+	 *   { 'user': 'fred',    'age': 40, 'active': false },
+	 *   { 'user': 'pebbles', 'age': 1,  'active': true }
+	 * ];
+	 *
+	 * _.result(_.find(users, function(chr) {
+	 *   return chr.age < 40;
+	 * }), 'user');
+	 * // => 'barney'
+	 *
+	 * // using the `_.matches` callback shorthand
+	 * _.result(_.find(users, { 'age': 1, 'active': true }), 'user');
+	 * // => 'pebbles'
+	 *
+	 * // using the `_.matchesProperty` callback shorthand
+	 * _.result(_.find(users, 'active', false), 'user');
+	 * // => 'fred'
+	 *
+	 * // using the `_.property` callback shorthand
+	 * _.result(_.find(users, 'active'), 'user');
+	 * // => 'barney'
+	 */
+	function find(collection, predicate, thisArg) {
+	  if (isArray(collection)) {
+	    var index = findIndex(collection, predicate, thisArg);
+	    return index > -1 ? collection[index] : undefined;
+	  }
+	  predicate = baseCallback(predicate, thisArg, 3);
+	  return baseFind(collection, predicate, baseEach);
+	}
+
+	module.exports = find;
 
 /***/ },
 /* 19 */
@@ -1226,6 +1237,24 @@
 
 	"use strict";
 
+	module.exports = {
+	  container: {
+	    display: "flex",
+	    height: "100%",
+	    alignItems: "center",
+	    justifyContent: "center",
+	    flex: 9
+	  },
+
+	  info: {}
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
 	var webColors = _interopRequire(__webpack_require__(34));
@@ -1241,7 +1270,7 @@
 	};
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1282,24 +1311,6 @@
 	    this.props.select(this.props.service);
 	  }
 	});
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	module.exports = {
-	  container: {
-	    display: "flex",
-	    height: "100%",
-	    alignItems: "center",
-	    justifyContent: "center",
-	    flex: 9
-	  },
-
-	  info: {}
-	};
 
 /***/ },
 /* 23 */
@@ -1412,17 +1423,17 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseMatches = _interopRequire(__webpack_require__(41));
+	var baseMatches = _interopRequire(__webpack_require__(46));
 
-	var baseMatchesProperty = _interopRequire(__webpack_require__(42));
+	var baseMatchesProperty = _interopRequire(__webpack_require__(47));
 
-	var baseProperty = _interopRequire(__webpack_require__(43));
+	var baseProperty = _interopRequire(__webpack_require__(48));
 
 	var bindCallback = _interopRequire(__webpack_require__(32));
 
-	var identity = _interopRequire(__webpack_require__(44));
+	var identity = _interopRequire(__webpack_require__(49));
 
-	var isBindable = _interopRequire(__webpack_require__(45));
+	var isBindable = _interopRequire(__webpack_require__(50));
 
 	/**
 	 * The base implementation of `_.callback` which supports specifying the
@@ -1458,11 +1469,11 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseForOwn = _interopRequire(__webpack_require__(46));
+	var baseForOwn = _interopRequire(__webpack_require__(41));
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var toObject = _interopRequire(__webpack_require__(48));
+	var toObject = _interopRequire(__webpack_require__(43));
 
 	/**
 	 * The base implementation of `_.forEach` without support for callback
@@ -1531,11 +1542,11 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var isNative = _interopRequire(__webpack_require__(49));
+	var isNative = _interopRequire(__webpack_require__(44));
 
-	var isObjectLike = _interopRequire(__webpack_require__(50));
+	var isObjectLike = _interopRequire(__webpack_require__(45));
 
 	/** `Object#toString` result references. */
 	var arrayTag = "[object Array]";
@@ -1580,8 +1591,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var convert = __webpack_require__(64),
-	    string = __webpack_require__(76);
+	var convert = __webpack_require__(68),
+	    string = __webpack_require__(71);
 
 	var Color = function(cssString) {
 	  if (cssString instanceof Color) return cssString;
@@ -2028,7 +2039,7 @@
 
 	var baseCopy = _interopRequire(__webpack_require__(53));
 
-	var baseForOwn = _interopRequire(__webpack_require__(46));
+	var baseForOwn = _interopRequire(__webpack_require__(41));
 
 	var initCloneArray = _interopRequire(__webpack_require__(54));
 
@@ -2158,7 +2169,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var identity = _interopRequire(__webpack_require__(44));
+	var identity = _interopRequire(__webpack_require__(49));
 
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -2212,7 +2223,7 @@
 
 	var isIndex = _interopRequire(__webpack_require__(59));
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
 	var isObject = _interopRequire(__webpack_require__(57));
 
@@ -2335,7 +2346,7 @@
 	 * @type {{js: String, css: String}}
 	 * @api public
 	 */
-	exports.prefix = __webpack_require__(61)
+	exports.prefix = __webpack_require__(65)
 
 	/**
 	 * Test if a property is supported, returns property with vendor
@@ -2345,7 +2356,7 @@
 	 * @return {String|Boolean}
 	 * @api public
 	 */
-	exports.supportedProperty = __webpack_require__(62)
+	exports.supportedProperty = __webpack_require__(66)
 
 	/**
 	 * Returns prefixed value if needed. Returns `false` if value is not supported.
@@ -2355,7 +2366,7 @@
 	 * @return {String|Boolean}
 	 * @api public
 	 */
-	 exports.supportedValue = __webpack_require__(63)
+	 exports.supportedValue = __webpack_require__(67)
 
 
 /***/ },
@@ -2372,15 +2383,15 @@
 
 	var useSheet = _interopRequire(__webpack_require__(9));
 
-	var cloneDeep = _interopRequire(__webpack_require__(18));
+	var cloneDeep = _interopRequire(__webpack_require__(17));
 
-	var assign = _interopRequire(__webpack_require__(65));
+	var assign = _interopRequire(__webpack_require__(61));
 
-	var pick = _interopRequire(__webpack_require__(66));
+	var pick = _interopRequire(__webpack_require__(62));
 
-	var Section = _interopRequire(__webpack_require__(67));
+	var Section = _interopRequire(__webpack_require__(63));
 
-	var listStyle = _interopRequire(__webpack_require__(68));
+	var listStyle = _interopRequire(__webpack_require__(64));
 
 	/**
 	 * List for search results.
@@ -2977,194 +2988,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseIsMatch = _interopRequire(__webpack_require__(69));
-
-	var isStrictComparable = _interopRequire(__webpack_require__(70));
-
-	var keys = _interopRequire(__webpack_require__(58));
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * The base implementation of `_.matches` which does not clone `source`.
-	 *
-	 * @private
-	 * @param {Object} source The object of property values to match.
-	 * @returns {Function} Returns the new function.
-	 */
-	function baseMatches(source) {
-	  var props = keys(source),
-	      length = props.length;
-
-	  if (length == 1) {
-	    var key = props[0],
-	        value = source[key];
-
-	    if (isStrictComparable(value)) {
-	      return function (object) {
-	        return object != null && object[key] === value && hasOwnProperty.call(object, key);
-	      };
-	    }
-	  }
-	  var values = Array(length),
-	      strictCompareFlags = Array(length);
-
-	  while (length--) {
-	    value = source[props[length]];
-	    values[length] = value;
-	    strictCompareFlags[length] = isStrictComparable(value);
-	  }
-	  return function (object) {
-	    return baseIsMatch(object, props, values, strictCompareFlags);
-	  };
-	}
-
-	module.exports = baseMatches;
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseIsEqual = _interopRequire(__webpack_require__(71));
-
-	var isStrictComparable = _interopRequire(__webpack_require__(70));
-
-	/**
-	 * The base implementation of `_.matchesProperty` which does not coerce `key`
-	 * to a string.
-	 *
-	 * @private
-	 * @param {string} key The key of the property to get.
-	 * @param {*} value The value to compare.
-	 * @returns {Function} Returns the new function.
-	 */
-	function baseMatchesProperty(key, value) {
-	  if (isStrictComparable(value)) {
-	    return function (object) {
-	      return object != null && object[key] === value;
-	    };
-	  }
-	  return function (object) {
-	    return object != null && baseIsEqual(value, object[key], null, true);
-	  };
-	}
-
-	module.exports = baseMatchesProperty;
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * The base implementation of `_.property` which does not coerce `key` to a string.
-	 *
-	 * @private
-	 * @param {string} key The key of the property to get.
-	 * @returns {Function} Returns the new function.
-	 */
-	"use strict";
-
-	function baseProperty(key) {
-	  return function (object) {
-	    return object == null ? undefined : object[key];
-	  };
-	}
-
-	module.exports = baseProperty;
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * This method returns the first argument provided to it.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Utility
-	 * @param {*} value Any value.
-	 * @returns {*} Returns `value`.
-	 * @example
-	 *
-	 * var object = { 'user': 'fred' };
-	 *
-	 * _.identity(object) === object;
-	 * // => true
-	 */
-	"use strict";
-
-	function identity(value) {
-	  return value;
-	}
-
-	module.exports = identity;
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseSetData = _interopRequire(__webpack_require__(72));
-
-	var isNative = _interopRequire(__webpack_require__(49));
-
-	var support = _interopRequire(__webpack_require__(73));
-
-	/** Used to detect named functions. */
-	var reFuncName = /^\s*function[ \n\r\t]+\w/;
-
-	/** Used to detect functions containing a `this` reference. */
-	var reThis = /\bthis\b/;
-
-	/** Used to resolve the decompiled source of functions. */
-	var fnToString = Function.prototype.toString;
-
-	/**
-	 * Checks if `func` is eligible for `this` binding.
-	 *
-	 * @private
-	 * @param {Function} func The function to check.
-	 * @returns {boolean} Returns `true` if `func` is eligible, else `false`.
-	 */
-	function isBindable(func) {
-	  var result = !(support.funcNames ? func.name : support.funcDecomp);
-
-	  if (!result) {
-	    var source = fnToString.call(func);
-	    if (!support.funcNames) {
-	      result = !reFuncName.test(source);
-	    }
-	    if (!result) {
-	      // Check if `func` references the `this` keyword and store the result.
-	      result = reThis.test(source) || isNative(func);
-	      baseSetData(func, result);
-	    }
-	  }
-	  return result;
-	}
-
-	module.exports = isBindable;
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseFor = _interopRequire(__webpack_require__(74));
+	var baseFor = _interopRequire(__webpack_require__(69));
 
 	var keys = _interopRequire(__webpack_require__(58));
 
@@ -3184,7 +3008,7 @@
 	module.exports = baseForOwn;
 
 /***/ },
-/* 47 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3214,7 +3038,7 @@
 	module.exports = isLength;
 
 /***/ },
-/* 48 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3237,16 +3061,16 @@
 	module.exports = toObject;
 
 /***/ },
-/* 49 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var escapeRegExp = _interopRequire(__webpack_require__(75));
+	var escapeRegExp = _interopRequire(__webpack_require__(70));
 
-	var isObjectLike = _interopRequire(__webpack_require__(50));
+	var isObjectLike = _interopRequire(__webpack_require__(45));
 
 	/** `Object#toString` result references. */
 	var funcTag = "[object Function]";
@@ -3299,7 +3123,7 @@
 	module.exports = isNative;
 
 /***/ },
-/* 50 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3316,6 +3140,193 @@
 	}
 
 	module.exports = isObjectLike;
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseIsMatch = _interopRequire(__webpack_require__(72));
+
+	var isStrictComparable = _interopRequire(__webpack_require__(73));
+
+	var keys = _interopRequire(__webpack_require__(58));
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * The base implementation of `_.matches` which does not clone `source`.
+	 *
+	 * @private
+	 * @param {Object} source The object of property values to match.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseMatches(source) {
+	  var props = keys(source),
+	      length = props.length;
+
+	  if (length == 1) {
+	    var key = props[0],
+	        value = source[key];
+
+	    if (isStrictComparable(value)) {
+	      return function (object) {
+	        return object != null && object[key] === value && hasOwnProperty.call(object, key);
+	      };
+	    }
+	  }
+	  var values = Array(length),
+	      strictCompareFlags = Array(length);
+
+	  while (length--) {
+	    value = source[props[length]];
+	    values[length] = value;
+	    strictCompareFlags[length] = isStrictComparable(value);
+	  }
+	  return function (object) {
+	    return baseIsMatch(object, props, values, strictCompareFlags);
+	  };
+	}
+
+	module.exports = baseMatches;
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseIsEqual = _interopRequire(__webpack_require__(74));
+
+	var isStrictComparable = _interopRequire(__webpack_require__(73));
+
+	/**
+	 * The base implementation of `_.matchesProperty` which does not coerce `key`
+	 * to a string.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @param {*} value The value to compare.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseMatchesProperty(key, value) {
+	  if (isStrictComparable(value)) {
+	    return function (object) {
+	      return object != null && object[key] === value;
+	    };
+	  }
+	  return function (object) {
+	    return object != null && baseIsEqual(value, object[key], null, true);
+	  };
+	}
+
+	module.exports = baseMatchesProperty;
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * The base implementation of `_.property` which does not coerce `key` to a string.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	"use strict";
+
+	function baseProperty(key) {
+	  return function (object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+
+	module.exports = baseProperty;
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This method returns the first argument provided to it.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Utility
+	 * @param {*} value Any value.
+	 * @returns {*} Returns `value`.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 *
+	 * _.identity(object) === object;
+	 * // => true
+	 */
+	"use strict";
+
+	function identity(value) {
+	  return value;
+	}
+
+	module.exports = identity;
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseSetData = _interopRequire(__webpack_require__(75));
+
+	var isNative = _interopRequire(__webpack_require__(44));
+
+	var support = _interopRequire(__webpack_require__(76));
+
+	/** Used to detect named functions. */
+	var reFuncName = /^\s*function[ \n\r\t]+\w/;
+
+	/** Used to detect functions containing a `this` reference. */
+	var reThis = /\bthis\b/;
+
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+
+	/**
+	 * Checks if `func` is eligible for `this` binding.
+	 *
+	 * @private
+	 * @param {Function} func The function to check.
+	 * @returns {boolean} Returns `true` if `func` is eligible, else `false`.
+	 */
+	function isBindable(func) {
+	  var result = !(support.funcNames ? func.name : support.funcDecomp);
+
+	  if (!result) {
+	    var source = fnToString.call(func);
+	    if (!support.funcNames) {
+	      result = !reFuncName.test(source);
+	    }
+	    if (!result) {
+	      // Check if `func` references the `this` keyword and store the result.
+	      result = reThis.test(source) || isNative(func);
+	      baseSetData(func, result);
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = isBindable;
 
 /***/ },
 /* 51 */
@@ -3579,9 +3590,9 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var isNative = _interopRequire(__webpack_require__(49));
+	var isNative = _interopRequire(__webpack_require__(44));
 
 	var isObject = _interopRequire(__webpack_require__(57));
 
@@ -3686,6 +3697,169 @@
 /* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseAssign = _interopRequire(__webpack_require__(79));
+
+	var createAssigner = _interopRequire(__webpack_require__(80));
+
+	/**
+	 * Assigns own enumerable properties of source object(s) to the destination
+	 * object. Subsequent sources overwrite property assignments of previous sources.
+	 * If `customizer` is provided it is invoked to produce the assigned values.
+	 * The `customizer` is bound to `thisArg` and invoked with five arguments;
+	 * (objectValue, sourceValue, key, object, source).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @alias extend
+	 * @category Object
+	 * @param {Object} object The destination object.
+	 * @param {...Object} [sources] The source objects.
+	 * @param {Function} [customizer] The function to customize assigning values.
+	 * @param {*} [thisArg] The `this` binding of `customizer`.
+	 * @returns {Object} Returns `object`.
+	 * @example
+	 *
+	 * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+	 * // => { 'user': 'fred', 'age': 40 }
+	 *
+	 * // using a customizer callback
+	 * var defaults = _.partialRight(_.assign, function(value, other) {
+	 *   return typeof value == 'undefined' ? other : value;
+	 * });
+	 *
+	 * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+	 * // => { 'user': 'barney', 'age': 36 }
+	 */
+	var assign = createAssigner(baseAssign);
+
+	module.exports = assign;
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseFlatten = _interopRequire(__webpack_require__(81));
+
+	var bindCallback = _interopRequire(__webpack_require__(32));
+
+	var pickByArray = _interopRequire(__webpack_require__(82));
+
+	var pickByCallback = _interopRequire(__webpack_require__(83));
+
+	/**
+	 * Creates an object composed of the picked `object` properties. Property
+	 * names may be specified as individual arguments or as arrays of property
+	 * names. If `predicate` is provided it is invoked for each property of `object`
+	 * picking the properties `predicate` returns truthy for. The predicate is
+	 * bound to `thisArg` and invoked with three arguments; (value, key, object).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The source object.
+	 * @param {Function|...(string|string[])} [predicate] The function invoked per
+	 *  iteration or property names to pick, specified as individual property
+	 *  names or arrays of property names.
+	 * @param {*} [thisArg] The `this` binding of `predicate`.
+	 * @returns {Object} Returns the new object.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred', 'age': 40 };
+	 *
+	 * _.pick(object, 'user');
+	 * // => { 'user': 'fred' }
+	 *
+	 * _.pick(object, _.isString);
+	 * // => { 'user': 'fred' }
+	 */
+	function pick(object, predicate, thisArg) {
+	  if (object == null) {
+	    return {};
+	  }
+	  return typeof predicate == "function" ? pickByCallback(object, bindCallback(predicate, thisArg, 3)) : pickByArray(object, baseFlatten(arguments, false, false, 1));
+	}
+
+	module.exports = pick;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(3));
+
+	var useSheet = _interopRequire(__webpack_require__(9));
+
+	var assign = _interopRequire(__webpack_require__(61));
+
+	var pick = _interopRequire(__webpack_require__(62));
+
+	var sectionStyle = _interopRequire(__webpack_require__(84));
+
+	var Object = _interopRequire(__webpack_require__(85));
+
+	/**
+	 * One list section which has a title and list objects.
+	 */
+	var Section = React.createClass({
+	  displayName: "Section",
+
+	  mixins: [useSheet(sectionStyle)],
+
+	  render: function render() {
+	    var classes = this.sheet.classes;
+	    var _props = this.props;
+	    var results = _props.results;
+	    var label = _props.label;
+
+	    var objects = results.map(function (result) {
+	      assign(result, pick(this.props, "focus", "select", "icon"));
+	      return React.createElement(Object, result);
+	    }, this);
+
+	    return React.createElement(
+	      "section",
+	      null,
+	      React.createElement(
+	        "header",
+	        { className: classes.header },
+	        label
+	      ),
+	      objects
+	    );
+	  }
+	});
+
+	module.exports = Section;
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	module.exports = {
+	  container: {
+	    flex: 9,
+	    overflowY: "scroll"
+	  }
+	};
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict'
 
 	/**
@@ -3714,13 +3888,13 @@
 
 
 /***/ },
-/* 62 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var prefix = __webpack_require__(61)
-	var camelize = __webpack_require__(79)
+	var prefix = __webpack_require__(65)
+	var camelize = __webpack_require__(86)
 
 	var el = document.createElement('p')
 
@@ -3773,12 +3947,12 @@
 
 
 /***/ },
-/* 63 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var prefix = __webpack_require__(61)
+	var prefix = __webpack_require__(65)
 
 	var cache = {}
 
@@ -3821,10 +3995,10 @@
 
 
 /***/ },
-/* 64 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(82);
+	var conversions = __webpack_require__(87);
 
 	var convert = function() {
 	   return new Converter();
@@ -3918,169 +4092,6 @@
 	module.exports = convert;
 
 /***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseAssign = _interopRequire(__webpack_require__(80));
-
-	var createAssigner = _interopRequire(__webpack_require__(81));
-
-	/**
-	 * Assigns own enumerable properties of source object(s) to the destination
-	 * object. Subsequent sources overwrite property assignments of previous sources.
-	 * If `customizer` is provided it is invoked to produce the assigned values.
-	 * The `customizer` is bound to `thisArg` and invoked with five arguments;
-	 * (objectValue, sourceValue, key, object, source).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @alias extend
-	 * @category Object
-	 * @param {Object} object The destination object.
-	 * @param {...Object} [sources] The source objects.
-	 * @param {Function} [customizer] The function to customize assigning values.
-	 * @param {*} [thisArg] The `this` binding of `customizer`.
-	 * @returns {Object} Returns `object`.
-	 * @example
-	 *
-	 * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
-	 * // => { 'user': 'fred', 'age': 40 }
-	 *
-	 * // using a customizer callback
-	 * var defaults = _.partialRight(_.assign, function(value, other) {
-	 *   return typeof value == 'undefined' ? other : value;
-	 * });
-	 *
-	 * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
-	 * // => { 'user': 'barney', 'age': 36 }
-	 */
-	var assign = createAssigner(baseAssign);
-
-	module.exports = assign;
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseFlatten = _interopRequire(__webpack_require__(83));
-
-	var bindCallback = _interopRequire(__webpack_require__(32));
-
-	var pickByArray = _interopRequire(__webpack_require__(84));
-
-	var pickByCallback = _interopRequire(__webpack_require__(85));
-
-	/**
-	 * Creates an object composed of the picked `object` properties. Property
-	 * names may be specified as individual arguments or as arrays of property
-	 * names. If `predicate` is provided it is invoked for each property of `object`
-	 * picking the properties `predicate` returns truthy for. The predicate is
-	 * bound to `thisArg` and invoked with three arguments; (value, key, object).
-	 *
-	 * @static
-	 * @memberOf _
-	 * @category Object
-	 * @param {Object} object The source object.
-	 * @param {Function|...(string|string[])} [predicate] The function invoked per
-	 *  iteration or property names to pick, specified as individual property
-	 *  names or arrays of property names.
-	 * @param {*} [thisArg] The `this` binding of `predicate`.
-	 * @returns {Object} Returns the new object.
-	 * @example
-	 *
-	 * var object = { 'user': 'fred', 'age': 40 };
-	 *
-	 * _.pick(object, 'user');
-	 * // => { 'user': 'fred' }
-	 *
-	 * _.pick(object, _.isString);
-	 * // => { 'user': 'fred' }
-	 */
-	function pick(object, predicate, thisArg) {
-	  if (object == null) {
-	    return {};
-	  }
-	  return typeof predicate == "function" ? pickByCallback(object, bindCallback(predicate, thisArg, 3)) : pickByArray(object, baseFlatten(arguments, false, false, 1));
-	}
-
-	module.exports = pick;
-
-/***/ },
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var React = _interopRequire(__webpack_require__(3));
-
-	var useSheet = _interopRequire(__webpack_require__(9));
-
-	var assign = _interopRequire(__webpack_require__(65));
-
-	var pick = _interopRequire(__webpack_require__(66));
-
-	var sectionStyle = _interopRequire(__webpack_require__(86));
-
-	var Object = _interopRequire(__webpack_require__(87));
-
-	/**
-	 * One list section which has a title and list objects.
-	 */
-	var Section = React.createClass({
-	  displayName: "Section",
-
-	  mixins: [useSheet(sectionStyle)],
-
-	  render: function render() {
-	    var classes = this.sheet.classes;
-	    var _props = this.props;
-	    var results = _props.results;
-	    var label = _props.label;
-
-	    var objects = results.map(function (result) {
-	      assign(result, pick(this.props, "focus", "select", "icon"));
-	      return React.createElement(Object, result);
-	    }, this);
-
-	    return React.createElement(
-	      "section",
-	      null,
-	      React.createElement(
-	        "header",
-	        { className: classes.header },
-	        label
-	      ),
-	      objects
-	    );
-	  }
-	});
-
-	module.exports = Section;
-
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	module.exports = {
-	  container: {
-	    flex: 9,
-	    overflowY: "scroll"
-	  }
-	};
-
-/***/ },
 /* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -4088,252 +4099,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseIsEqual = _interopRequire(__webpack_require__(71));
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-
-	/**
-	 * The base implementation of `_.isMatch` without support for callback
-	 * shorthands or `this` binding.
-	 *
-	 * @private
-	 * @param {Object} object The object to inspect.
-	 * @param {Array} props The source property names to match.
-	 * @param {Array} values The source values to match.
-	 * @param {Array} strictCompareFlags Strict comparison flags for source values.
-	 * @param {Function} [customizer] The function to customize comparing objects.
-	 * @returns {boolean} Returns `true` if `object` is a match, else `false`.
-	 */
-	function baseIsMatch(object, props, values, strictCompareFlags, customizer) {
-	  var length = props.length;
-	  if (object == null) {
-	    return !length;
-	  }
-	  var index = -1,
-	      noCustomizer = !customizer;
-
-	  while (++index < length) {
-	    if (noCustomizer && strictCompareFlags[index] ? values[index] !== object[props[index]] : !hasOwnProperty.call(object, props[index])) {
-	      return false;
-	    }
-	  }
-	  index = -1;
-	  while (++index < length) {
-	    var key = props[index];
-	    if (noCustomizer && strictCompareFlags[index]) {
-	      var result = hasOwnProperty.call(object, key);
-	    } else {
-	      var objValue = object[key],
-	          srcValue = values[index];
-
-	      result = customizer ? customizer(objValue, srcValue, key) : undefined;
-	      if (typeof result == "undefined") {
-	        result = baseIsEqual(srcValue, objValue, customizer, true);
-	      }
-	    }
-	    if (!result) {
-	      return false;
-	    }
-	  }
-	  return true;
-	}
-
-	module.exports = baseIsMatch;
-
-/***/ },
-/* 70 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var isObject = _interopRequire(__webpack_require__(57));
-
-	/**
-	 * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` if suitable for strict
-	 *  equality comparisons, else `false`.
-	 */
-	function isStrictComparable(value) {
-	  return value === value && (value === 0 ? 1 / value > 0 : !isObject(value));
-	}
-
-	module.exports = isStrictComparable;
-
-/***/ },
-/* 71 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseIsEqualDeep = _interopRequire(__webpack_require__(88));
-
-	/**
-	 * The base implementation of `_.isEqual` without support for `this` binding
-	 * `customizer` functions.
-	 *
-	 * @private
-	 * @param {*} value The value to compare.
-	 * @param {*} other The other value to compare.
-	 * @param {Function} [customizer] The function to customize comparing values.
-	 * @param {boolean} [isWhere] Specify performing partial comparisons.
-	 * @param {Array} [stackA] Tracks traversed `value` objects.
-	 * @param {Array} [stackB] Tracks traversed `other` objects.
-	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-	 */
-	function baseIsEqual(value, other, customizer, isWhere, stackA, stackB) {
-	  // Exit early for identical values.
-	  if (value === other) {
-	    // Treat `+0` vs. `-0` as not equal.
-	    return value !== 0 || 1 / value == 1 / other;
-	  }
-	  var valType = typeof value,
-	      othType = typeof other;
-
-	  // Exit early for unlike primitive values.
-	  if (valType != "function" && valType != "object" && othType != "function" && othType != "object" || value == null || other == null) {
-	    // Return `false` unless both values are `NaN`.
-	    return value !== value && other !== other;
-	  }
-	  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isWhere, stackA, stackB);
-	}
-
-	module.exports = baseIsEqual;
-
-/***/ },
-/* 72 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var identity = _interopRequire(__webpack_require__(44));
-
-	var metaMap = _interopRequire(__webpack_require__(89));
-
-	/**
-	 * The base implementation of `setData` without support for hot loop detection.
-	 *
-	 * @private
-	 * @param {Function} func The function to associate metadata with.
-	 * @param {*} data The metadata.
-	 * @returns {Function} Returns `func`.
-	 */
-	var baseSetData = !metaMap ? identity : function (func, data) {
-	  metaMap.set(func, data);
-	  return func;
-	};
-
-	module.exports = baseSetData;
-
-/***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var isNative = _interopRequire(__webpack_require__(49));
-
-	var root = _interopRequire(__webpack_require__(90));
-
-	/** Used to detect functions containing a `this` reference. */
-	var reThis = /\bthis\b/;
-
-	/** Used for native method references. */
-	var objectProto = Object.prototype;
-
-	/** Used to detect DOM support. */
-	var document = (document = root.window) && document.document;
-
-	/** Native method references. */
-	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-	/**
-	 * An object environment feature flags.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @type Object
-	 */
-	var support = {};
-
-	(function (x) {
-
-	  /**
-	   * Detect if functions can be decompiled by `Function#toString`
-	   * (all but Firefox OS certified apps, older Opera mobile browsers, and
-	   * the PlayStation 3; forced `false` for Windows 8 apps).
-	   *
-	   * @memberOf _.support
-	   * @type boolean
-	   */
-	  support.funcDecomp = !isNative(root.WinRTError) && reThis.test(function () {
-	    return this;
-	  });
-
-	  /**
-	   * Detect if `Function#name` is supported (all but IE).
-	   *
-	   * @memberOf _.support
-	   * @type boolean
-	   */
-	  support.funcNames = typeof Function.name == "string";
-
-	  /**
-	   * Detect if the DOM is supported.
-	   *
-	   * @memberOf _.support
-	   * @type boolean
-	   */
-	  try {
-	    support.dom = document.createDocumentFragment().nodeType === 11;
-	  } catch (e) {
-	    support.dom = false;
-	  }
-
-	  /**
-	   * Detect if `arguments` object indexes are non-enumerable.
-	   *
-	   * In Firefox < 4, IE < 9, PhantomJS, and Safari < 5.1 `arguments` object
-	   * indexes are non-enumerable. Chrome < 25 and Node.js < 0.11.0 treat
-	   * `arguments` object indexes as non-enumerable and fail `hasOwnProperty`
-	   * checks for indexes that exceed their function's formal parameters with
-	   * associated values of `0`.
-	   *
-	   * @memberOf _.support
-	   * @type boolean
-	   */
-	  try {
-	    support.nonEnumArgs = !propertyIsEnumerable.call(arguments, 1);
-	  } catch (e) {
-	    support.nonEnumArgs = true;
-	  }
-	})(0, 0);
-
-	module.exports = support;
-
-/***/ },
-/* 74 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var toObject = _interopRequire(__webpack_require__(48));
+	var toObject = _interopRequire(__webpack_require__(43));
 
 	/**
 	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
@@ -4365,14 +4131,14 @@
 	module.exports = baseFor;
 
 /***/ },
-/* 75 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseToString = _interopRequire(__webpack_require__(91));
+	var baseToString = _interopRequire(__webpack_require__(94));
 
 	/**
 	 * Used to match `RegExp` special characters.
@@ -4404,7 +4170,7 @@
 	module.exports = escapeRegExp;
 
 /***/ },
-/* 76 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
@@ -4628,6 +4394,251 @@
 	}
 
 /***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseIsEqual = _interopRequire(__webpack_require__(74));
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * The base implementation of `_.isMatch` without support for callback
+	 * shorthands or `this` binding.
+	 *
+	 * @private
+	 * @param {Object} object The object to inspect.
+	 * @param {Array} props The source property names to match.
+	 * @param {Array} values The source values to match.
+	 * @param {Array} strictCompareFlags Strict comparison flags for source values.
+	 * @param {Function} [customizer] The function to customize comparing objects.
+	 * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+	 */
+	function baseIsMatch(object, props, values, strictCompareFlags, customizer) {
+	  var length = props.length;
+	  if (object == null) {
+	    return !length;
+	  }
+	  var index = -1,
+	      noCustomizer = !customizer;
+
+	  while (++index < length) {
+	    if (noCustomizer && strictCompareFlags[index] ? values[index] !== object[props[index]] : !hasOwnProperty.call(object, props[index])) {
+	      return false;
+	    }
+	  }
+	  index = -1;
+	  while (++index < length) {
+	    var key = props[index];
+	    if (noCustomizer && strictCompareFlags[index]) {
+	      var result = hasOwnProperty.call(object, key);
+	    } else {
+	      var objValue = object[key],
+	          srcValue = values[index];
+
+	      result = customizer ? customizer(objValue, srcValue, key) : undefined;
+	      if (typeof result == "undefined") {
+	        result = baseIsEqual(srcValue, objValue, customizer, true);
+	      }
+	    }
+	    if (!result) {
+	      return false;
+	    }
+	  }
+	  return true;
+	}
+
+	module.exports = baseIsMatch;
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var isObject = _interopRequire(__webpack_require__(57));
+
+	/**
+	 * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` if suitable for strict
+	 *  equality comparisons, else `false`.
+	 */
+	function isStrictComparable(value) {
+	  return value === value && (value === 0 ? 1 / value > 0 : !isObject(value));
+	}
+
+	module.exports = isStrictComparable;
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseIsEqualDeep = _interopRequire(__webpack_require__(88));
+
+	/**
+	 * The base implementation of `_.isEqual` without support for `this` binding
+	 * `customizer` functions.
+	 *
+	 * @private
+	 * @param {*} value The value to compare.
+	 * @param {*} other The other value to compare.
+	 * @param {Function} [customizer] The function to customize comparing values.
+	 * @param {boolean} [isWhere] Specify performing partial comparisons.
+	 * @param {Array} [stackA] Tracks traversed `value` objects.
+	 * @param {Array} [stackB] Tracks traversed `other` objects.
+	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	 */
+	function baseIsEqual(value, other, customizer, isWhere, stackA, stackB) {
+	  // Exit early for identical values.
+	  if (value === other) {
+	    // Treat `+0` vs. `-0` as not equal.
+	    return value !== 0 || 1 / value == 1 / other;
+	  }
+	  var valType = typeof value,
+	      othType = typeof other;
+
+	  // Exit early for unlike primitive values.
+	  if (valType != "function" && valType != "object" && othType != "function" && othType != "object" || value == null || other == null) {
+	    // Return `false` unless both values are `NaN`.
+	    return value !== value && other !== other;
+	  }
+	  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isWhere, stackA, stackB);
+	}
+
+	module.exports = baseIsEqual;
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var identity = _interopRequire(__webpack_require__(49));
+
+	var metaMap = _interopRequire(__webpack_require__(89));
+
+	/**
+	 * The base implementation of `setData` without support for hot loop detection.
+	 *
+	 * @private
+	 * @param {Function} func The function to associate metadata with.
+	 * @param {*} data The metadata.
+	 * @returns {Function} Returns `func`.
+	 */
+	var baseSetData = !metaMap ? identity : function (func, data) {
+	  metaMap.set(func, data);
+	  return func;
+	};
+
+	module.exports = baseSetData;
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var isNative = _interopRequire(__webpack_require__(44));
+
+	var root = _interopRequire(__webpack_require__(90));
+
+	/** Used to detect functions containing a `this` reference. */
+	var reThis = /\bthis\b/;
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to detect DOM support. */
+	var document = (document = root.window) && document.document;
+
+	/** Native method references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+	/**
+	 * An object environment feature flags.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @type Object
+	 */
+	var support = {};
+
+	(function (x) {
+
+	  /**
+	   * Detect if functions can be decompiled by `Function#toString`
+	   * (all but Firefox OS certified apps, older Opera mobile browsers, and
+	   * the PlayStation 3; forced `false` for Windows 8 apps).
+	   *
+	   * @memberOf _.support
+	   * @type boolean
+	   */
+	  support.funcDecomp = !isNative(root.WinRTError) && reThis.test(function () {
+	    return this;
+	  });
+
+	  /**
+	   * Detect if `Function#name` is supported (all but IE).
+	   *
+	   * @memberOf _.support
+	   * @type boolean
+	   */
+	  support.funcNames = typeof Function.name == "string";
+
+	  /**
+	   * Detect if the DOM is supported.
+	   *
+	   * @memberOf _.support
+	   * @type boolean
+	   */
+	  try {
+	    support.dom = document.createDocumentFragment().nodeType === 11;
+	  } catch (e) {
+	    support.dom = false;
+	  }
+
+	  /**
+	   * Detect if `arguments` object indexes are non-enumerable.
+	   *
+	   * In Firefox < 4, IE < 9, PhantomJS, and Safari < 5.1 `arguments` object
+	   * indexes are non-enumerable. Chrome < 25 and Node.js < 0.11.0 treat
+	   * `arguments` object indexes as non-enumerable and fail `hasOwnProperty`
+	   * checks for indexes that exceed their function's formal parameters with
+	   * associated values of `0`.
+	   *
+	   * @memberOf _.support
+	   * @type boolean
+	   */
+	  try {
+	    support.nonEnumArgs = !propertyIsEnumerable.call(arguments, 1);
+	  } catch (e) {
+	    support.nonEnumArgs = true;
+	  }
+	})(0, 0);
+
+	module.exports = support;
+
+/***/ },
 /* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -4635,9 +4646,9 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var constant = _interopRequire(__webpack_require__(92));
+	var constant = _interopRequire(__webpack_require__(91));
 
-	var isNative = _interopRequire(__webpack_require__(49));
+	var isNative = _interopRequire(__webpack_require__(44));
 
 	var root = _interopRequire(__webpack_require__(90));
 
@@ -4702,17 +4713,17 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isArguments = _interopRequire(__webpack_require__(93));
+	var isArguments = _interopRequire(__webpack_require__(92));
 
 	var isArray = _interopRequire(__webpack_require__(29));
 
 	var isIndex = _interopRequire(__webpack_require__(59));
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var keysIn = _interopRequire(__webpack_require__(94));
+	var keysIn = _interopRequire(__webpack_require__(93));
 
-	var support = _interopRequire(__webpack_require__(73));
+	var support = _interopRequire(__webpack_require__(76));
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -4751,30 +4762,6 @@
 
 /***/ },
 /* 79 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var regExp = /[-\s]+(.)?/g
-
-	/**
-	 * Convert dash separated strings to camel cased.
-	 *
-	 * @param {String} str
-	 * @return {String}
-	 */
-	module.exports = function(str) {
-	    return str.replace(regExp, toUpper)
-	}
-
-	function toUpper(match, c) {
-	    return c ? c.toUpperCase() : ''
-	}
-
-
-
-/***/ },
-/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4818,7 +4805,7 @@
 	module.exports = baseAssign;
 
 /***/ },
-/* 81 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4875,7 +4862,256 @@
 	module.exports = createAssigner;
 
 /***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var isArguments = _interopRequire(__webpack_require__(92));
+
+	var isArray = _interopRequire(__webpack_require__(29));
+
+	var isLength = _interopRequire(__webpack_require__(42));
+
+	var isObjectLike = _interopRequire(__webpack_require__(45));
+
+	/**
+	 * The base implementation of `_.flatten` with added support for restricting
+	 * flattening and specifying the start index.
+	 *
+	 * @private
+	 * @param {Array} array The array to flatten.
+	 * @param {boolean} isDeep Specify a deep flatten.
+	 * @param {boolean} isStrict Restrict flattening to arrays and `arguments` objects.
+	 * @param {number} fromIndex The index to start from.
+	 * @returns {Array} Returns the new flattened array.
+	 */
+	function baseFlatten(array, isDeep, isStrict, fromIndex) {
+	  var index = fromIndex - 1,
+	      length = array.length,
+	      resIndex = -1,
+	      result = [];
+
+	  while (++index < length) {
+	    var value = array[index];
+
+	    if (isObjectLike(value) && isLength(value.length) && (isArray(value) || isArguments(value))) {
+	      if (isDeep) {
+	        // Recursively flatten arrays (susceptible to call stack limits).
+	        value = baseFlatten(value, isDeep, isStrict, 0);
+	      }
+	      var valIndex = -1,
+	          valLength = value.length;
+
+	      result.length += valLength;
+	      while (++valIndex < valLength) {
+	        result[++resIndex] = value[valIndex];
+	      }
+	    } else if (!isStrict) {
+	      result[++resIndex] = value;
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = baseFlatten;
+
+/***/ },
 /* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var toObject = _interopRequire(__webpack_require__(43));
+
+	/**
+	 * A specialized version of `_.pick` that picks `object` properties specified
+	 * by the `props` array.
+	 *
+	 * @private
+	 * @param {Object} object The source object.
+	 * @param {string[]} props The property names to pick.
+	 * @returns {Object} Returns the new object.
+	 */
+	function pickByArray(object, props) {
+	  object = toObject(object);
+
+	  var index = -1,
+	      length = props.length,
+	      result = {};
+
+	  while (++index < length) {
+	    var key = props[index];
+	    if (key in object) {
+	      result[key] = object[key];
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = pickByArray;
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var baseForIn = _interopRequire(__webpack_require__(95));
+
+	/**
+	 * A specialized version of `_.pick` that picks `object` properties `predicate`
+	 * returns truthy for.
+	 *
+	 * @private
+	 * @param {Object} object The source object.
+	 * @param {Function} predicate The function invoked per iteration.
+	 * @returns {Object} Returns the new object.
+	 */
+	function pickByCallback(object, predicate) {
+	  var result = {};
+	  baseForIn(object, function (value, key, object) {
+	    if (predicate(value, key, object)) {
+	      result[key] = value;
+	    }
+	  });
+	  return result;
+	}
+
+	module.exports = pickByCallback;
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var colors = _interopRequire(__webpack_require__(25));
+
+	var fonts = _interopRequire(__webpack_require__(60));
+
+	module.exports = {
+	  header: {
+	    extend: fonts.small,
+	    background: colors.silverDark,
+	    padding: "10px 8px 4px 8px",
+	    textTransform: "uppercase",
+	    color: colors.gainsboroDark
+	  }
+	};
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+	var React = _interopRequire(__webpack_require__(3));
+
+	var useSheet = _interopRequire(__webpack_require__(9));
+
+	var objectStyle = _interopRequire(__webpack_require__(96));
+
+	/**
+	 * One result for the list section.
+	 */
+	var Object = React.createClass({
+	  displayName: "Object",
+
+	  mixins: [useSheet(objectStyle)],
+
+	  render: function render() {
+	    var classes = this.sheet.classes;
+	    var _props = this.props;
+	    var id = _props.id;
+	    var focused = _props.focused;
+	    var icon = _props.icon;
+	    var info = _props.info;
+	    var highlighted = _props.highlighted;
+
+	    var containerClassName = focused ? classes.containerFocused : classes.container;
+	    var date = undefined;
+	    if (this.props.date) {
+	      date = React.createElement(
+	        "span",
+	        { className: classes.date },
+	        this.getLocaleDateString()
+	      );
+	    }
+	    // TODO: use svg icons, don't use global selectors.
+	    var iconClassNames = "fa fa-" + icon + " " + classes.icon;
+	    return React.createElement(
+	      "div",
+	      { onClick: this.select, onMouseOver: this.focus, className: containerClassName, key: id },
+	      React.createElement("span", { className: iconClassNames }),
+	      React.createElement("span", { className: classes.name, dangerouslySetInnerHTML: { __html: highlighted } }),
+	      React.createElement(
+	        "span",
+	        { className: classes.info },
+	        info
+	      ),
+	      date
+	    );
+	  },
+
+	  getLocaleDateString: function getLocaleDateString() {
+	    // TODO We need to centralize current locale constant.
+	    return this.props.date.toLocaleString("en-US", {
+	      day: "numeric",
+	      month: "short",
+	      year: "numeric",
+	      hour: "numeric",
+	      minute: "numeric"
+	    });
+	  },
+
+	  focus: function focus() {
+	    this.props.focus(this.props.id);
+	  },
+
+	  select: function select() {
+	    this.props.select(this.props.id);
+	  }
+	});
+
+	module.exports = Object;
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var regExp = /[-\s]+(.)?/g
+
+	/**
+	 * Convert dash separated strings to camel cased.
+	 *
+	 * @param {String} str
+	 * @return {String}
+	 */
+	module.exports = function(str) {
+	    return str.replace(regExp, toUpper)
+	}
+
+	function toUpper(match, c) {
+	    return c ? c.toUpperCase() : ''
+	}
+
+
+
+/***/ },
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
@@ -5572,231 +5808,6 @@
 
 
 /***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var isArguments = _interopRequire(__webpack_require__(93));
-
-	var isArray = _interopRequire(__webpack_require__(29));
-
-	var isLength = _interopRequire(__webpack_require__(47));
-
-	var isObjectLike = _interopRequire(__webpack_require__(50));
-
-	/**
-	 * The base implementation of `_.flatten` with added support for restricting
-	 * flattening and specifying the start index.
-	 *
-	 * @private
-	 * @param {Array} array The array to flatten.
-	 * @param {boolean} isDeep Specify a deep flatten.
-	 * @param {boolean} isStrict Restrict flattening to arrays and `arguments` objects.
-	 * @param {number} fromIndex The index to start from.
-	 * @returns {Array} Returns the new flattened array.
-	 */
-	function baseFlatten(array, isDeep, isStrict, fromIndex) {
-	  var index = fromIndex - 1,
-	      length = array.length,
-	      resIndex = -1,
-	      result = [];
-
-	  while (++index < length) {
-	    var value = array[index];
-
-	    if (isObjectLike(value) && isLength(value.length) && (isArray(value) || isArguments(value))) {
-	      if (isDeep) {
-	        // Recursively flatten arrays (susceptible to call stack limits).
-	        value = baseFlatten(value, isDeep, isStrict, 0);
-	      }
-	      var valIndex = -1,
-	          valLength = value.length;
-
-	      result.length += valLength;
-	      while (++valIndex < valLength) {
-	        result[++resIndex] = value[valIndex];
-	      }
-	    } else if (!isStrict) {
-	      result[++resIndex] = value;
-	    }
-	  }
-	  return result;
-	}
-
-	module.exports = baseFlatten;
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var toObject = _interopRequire(__webpack_require__(48));
-
-	/**
-	 * A specialized version of `_.pick` that picks `object` properties specified
-	 * by the `props` array.
-	 *
-	 * @private
-	 * @param {Object} object The source object.
-	 * @param {string[]} props The property names to pick.
-	 * @returns {Object} Returns the new object.
-	 */
-	function pickByArray(object, props) {
-	  object = toObject(object);
-
-	  var index = -1,
-	      length = props.length,
-	      result = {};
-
-	  while (++index < length) {
-	    var key = props[index];
-	    if (key in object) {
-	      result[key] = object[key];
-	    }
-	  }
-	  return result;
-	}
-
-	module.exports = pickByArray;
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var baseForIn = _interopRequire(__webpack_require__(95));
-
-	/**
-	 * A specialized version of `_.pick` that picks `object` properties `predicate`
-	 * returns truthy for.
-	 *
-	 * @private
-	 * @param {Object} object The source object.
-	 * @param {Function} predicate The function invoked per iteration.
-	 * @returns {Object} Returns the new object.
-	 */
-	function pickByCallback(object, predicate) {
-	  var result = {};
-	  baseForIn(object, function (value, key, object) {
-	    if (predicate(value, key, object)) {
-	      result[key] = value;
-	    }
-	  });
-	  return result;
-	}
-
-	module.exports = pickByCallback;
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var colors = _interopRequire(__webpack_require__(25));
-
-	var fonts = _interopRequire(__webpack_require__(60));
-
-	module.exports = {
-	  header: {
-	    extend: fonts.small,
-	    background: colors.silverDark,
-	    padding: "10px 8px 4px 8px",
-	    textTransform: "uppercase",
-	    color: colors.gainsboroDark
-	  }
-	};
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-	var React = _interopRequire(__webpack_require__(3));
-
-	var useSheet = _interopRequire(__webpack_require__(9));
-
-	var objectStyle = _interopRequire(__webpack_require__(96));
-
-	/**
-	 * One result for the list section.
-	 */
-	var Object = React.createClass({
-	  displayName: "Object",
-
-	  mixins: [useSheet(objectStyle)],
-
-	  render: function render() {
-	    var classes = this.sheet.classes;
-	    var _props = this.props;
-	    var id = _props.id;
-	    var focused = _props.focused;
-	    var icon = _props.icon;
-	    var info = _props.info;
-	    var highlighted = _props.highlighted;
-
-	    var containerClassName = focused ? classes.containerFocused : classes.container;
-	    var date = undefined;
-	    if (this.props.date) {
-	      date = React.createElement(
-	        "span",
-	        { className: classes.date },
-	        this.getLocaleDateString()
-	      );
-	    }
-	    // TODO: use svg icons, don't use global selectors.
-	    var iconClassNames = "fa fa-" + icon + " " + classes.icon;
-	    return React.createElement(
-	      "div",
-	      { onClick: this.select, onMouseOver: this.focus, className: containerClassName, key: id },
-	      React.createElement("span", { className: iconClassNames }),
-	      React.createElement("span", { className: classes.name, dangerouslySetInnerHTML: { __html: highlighted } }),
-	      React.createElement(
-	        "span",
-	        { className: classes.info },
-	        info
-	      ),
-	      date
-	    );
-	  },
-
-	  getLocaleDateString: function getLocaleDateString() {
-	    // TODO We need to centralize current locale constant.
-	    return this.props.date.toLocaleString("en-US", {
-	      day: "numeric",
-	      month: "short",
-	      year: "numeric",
-	      hour: "numeric",
-	      minute: "numeric"
-	    });
-	  },
-
-	  focus: function focus() {
-	    this.props.focus(this.props.id);
-	  },
-
-	  select: function select() {
-	    this.props.select(this.props.id);
-	  }
-	});
-
-	module.exports = Object;
-
-/***/ },
 /* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -5918,7 +5929,7 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isNative = _interopRequire(__webpack_require__(49));
+	var isNative = _interopRequire(__webpack_require__(44));
 
 	var root = _interopRequire(__webpack_require__(90));
 
@@ -5970,29 +5981,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Converts `value` to a string if it is not one. An empty string is returned
-	 * for `null` or `undefined` values.
-	 *
-	 * @private
-	 * @param {*} value The value to process.
-	 * @returns {string} Returns the string.
-	 */
-	"use strict";
-
-	function baseToString(value) {
-	  if (typeof value == "string") {
-	    return value;
-	  }
-	  return value == null ? "" : value + "";
-	}
-
-	module.exports = baseToString;
-
-/***/ },
-/* 92 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
 	 * Creates a function that returns `value`.
 	 *
 	 * @static
@@ -6019,16 +6007,16 @@
 	module.exports = constant;
 
 /***/ },
-/* 93 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var isObjectLike = _interopRequire(__webpack_require__(50));
+	var isObjectLike = _interopRequire(__webpack_require__(45));
 
 	/** `Object#toString` result references. */
 	var argsTag = "[object Arguments]";
@@ -6067,24 +6055,24 @@
 	module.exports = isArguments;
 
 /***/ },
-/* 94 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isArguments = _interopRequire(__webpack_require__(93));
+	var isArguments = _interopRequire(__webpack_require__(92));
 
 	var isArray = _interopRequire(__webpack_require__(29));
 
 	var isIndex = _interopRequire(__webpack_require__(59));
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
 	var isObject = _interopRequire(__webpack_require__(57));
 
-	var support = _interopRequire(__webpack_require__(73));
+	var support = _interopRequire(__webpack_require__(76));
 
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -6144,6 +6132,29 @@
 	module.exports = keysIn;
 
 /***/ },
+/* 94 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Converts `value` to a string if it is not one. An empty string is returned
+	 * for `null` or `undefined` values.
+	 *
+	 * @private
+	 * @param {*} value The value to process.
+	 * @returns {string} Returns the string.
+	 */
+	"use strict";
+
+	function baseToString(value) {
+	  if (typeof value == "string") {
+	    return value;
+	  }
+	  return value == null ? "" : value + "";
+	}
+
+	module.exports = baseToString;
+
+/***/ },
 /* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -6151,9 +6162,9 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var baseFor = _interopRequire(__webpack_require__(74));
+	var baseFor = _interopRequire(__webpack_require__(69));
 
-	var keysIn = _interopRequire(__webpack_require__(94));
+	var keysIn = _interopRequire(__webpack_require__(93));
 
 	/**
 	 * The base implementation of `_.forIn` without support for callback
@@ -6416,9 +6427,9 @@
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var isLength = _interopRequire(__webpack_require__(47));
+	var isLength = _interopRequire(__webpack_require__(42));
 
-	var isObjectLike = _interopRequire(__webpack_require__(50));
+	var isObjectLike = _interopRequire(__webpack_require__(45));
 
 	/** `Object#toString` result references. */
 	var argsTag = "[object Arguments]",
