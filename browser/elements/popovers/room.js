@@ -51,11 +51,7 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	// this behaviour is exceptional in our popover logic:
 	// a popover open another popover with the same trigger,
 	// so we have to proxy the trigger
-	this.on('show', setRoomCreation);
-	this.on('hide', function() {
-		this.off('show', setRoomCreation);
-	});
-
+	this.once('show', setRoomCreation);
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 

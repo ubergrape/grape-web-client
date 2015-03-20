@@ -74,7 +74,6 @@ Popover.prototype.hide = function Popover_hide() {
 };
 
 Popover.prototype.toggle = function Popover_toggle(trigger) {
-	console.log('toggled');
 	if (this.hidden) {
 		this.show(trigger);
 	} else {
