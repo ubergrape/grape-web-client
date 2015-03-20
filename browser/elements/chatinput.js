@@ -180,7 +180,7 @@ ChatInput.prototype.completePreviousEditing = function() {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
-	this.input.setProps({content: ''})
+	this.input.setContent('');
 	this.previous = null;
 };
 
@@ -224,7 +224,7 @@ ChatInput.prototype.onPreviousEdit = function (e) {
 	var el = q('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
-	this.input.setProps({content: msg.text});
+	this.input.setContent(msg.text);
 	this.previous = {
 		msg: msg,
 		el: el
@@ -241,7 +241,7 @@ ChatInput.prototype.onChange = function () {
 };
 
 ChatInput.prototype.onSubmit = function (e) {
-	var content = this.input.getContent();
+	var content = this.input.getTextContent();
 
 	if (this.previous) {
 		this.emit('update', this.previous.msg, content);
@@ -249,7 +249,7 @@ ChatInput.prototype.onSubmit = function (e) {
 	}
 	else {
 		this.emit('input', this.room, content);
-		this.input.setProps({content: ''});
+		this.input.setContent('');
 	}
 };
 
