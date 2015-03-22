@@ -96,7 +96,8 @@ ChatInput.prototype.showBrowser = function (search) {
 		if (err) return this.emit('error', err);
 		this.input.setProps({
 			data: data,
-			type: 'search'
+			type: 'search',
+			key: search.key
 		});
 	}.bind(this));
 };
