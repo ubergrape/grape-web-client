@@ -33,7 +33,7 @@ export default React.createClass({
     if (props.data) {
       tabs = dataUtils.getTabs(props.data.services, sections, selectedServiceId)
     }
-console.log('selectedServiceId',selectedServiceId)
+
     return {
       sections: sections,
       tabs: tabs,
