@@ -229,11 +229,8 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
-	// bind navigation events
-	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
-	broker(navigation, 'selectpm', this, 'selectpm');
-	// broker(navigation, 'addpm', this.addPM, 'toggle');
+
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
@@ -311,9 +308,6 @@ UI.prototype.bind = function UI_bind() {
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
-	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
-	//broker(this.chatInput, 'input', this.upload, 'hide');
-	// directly send an uploaded file
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
@@ -322,6 +316,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
 	// navigation
+	broker(this, 'org ready', this.navigation, 'setOrganization');
 	broker(this, 'deletedUser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
@@ -406,6 +401,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
+	this.emit('org ready');
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -443,12 +439,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	// update logo
-	// XXX: is this how it should be done? I guess not
-	qs('.logo img').src = org.logo;
-	qs('.logo img').alt = org.name;
-	qs('.logo .name').innerHTML = org.name;
 
 	URLManager.call(this);
 };

@@ -85,11 +85,6 @@ Navigation.prototype.bind = function Navigation_bind() {
 		addroom: function (ev) { self.emit('addroom', closest(ev.target, 'a', true)); }
 	});
 	this.events.bind('click .addroom', 'addroom');
-	['room', 'pm', 'label'].forEach(function (which) {
-		self[which + 'List'].on('selectitem', function (item) {
-			self.emit('select' + which, item);
-		});
-	});
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
@@ -211,3 +206,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 		self[which + 'List'].redraw();
 	});
 };
+
+Navigation.prototype.setOrganization = function Navigation_setOrganization() {
+	this.redraw();
+}

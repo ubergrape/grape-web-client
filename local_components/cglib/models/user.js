@@ -9,6 +9,7 @@ module.exports = new Model([
 		'username',
 		'firstName',
 		'lastName',
+		'displayName',
 		'status',
 		'avatar',
 		'is_only_invited',

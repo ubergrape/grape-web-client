@@ -40,19 +40,9 @@
 				img.image(src="#{head}",width="100",alt="Hi!")
 				div
 					h3
-						|  Private messages with 
-						span 
-							if (room.users[0].firstName || room.users[0].lastName)
-								| #{room.users[0].firstName} #{room.users[0].lastName} 
-							else
-								| #{room.users[0].username}
+						| Private messages with #{room.users[0].displayName}
 					p
-						| This is a private conversation between you and 
-						if (room.users[0].firstName || room.users[0].lastName)
-							| #{room.users[0].firstName} #{room.users[0].lastName} 
-						else
-							| #{room.users[0].username}
-						|.
+						| This is a private conversation between you and #{room.users[0].displayName}.
 						br
 						| Private conversations are only accessible to the two of you.
 
@@ -105,15 +95,9 @@
 					if(first.author.active)
 						//- Only create link when it's a user who is not deleted
 						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-							if (first.author.firstName || first.author.lastName)
-								author.message-author #{first.author.firstName} #{first.author.lastName} 
-							else	
-								author.message-author= first.author.username
+							author.message-author= first.author.displayName
 					else if (!first.author.active)
-						if (first.author.firstName || first.author.lastName)
-								author.message-author #{first.author.firstName} #{first.author.lastName} 
-							else	
-								author.message-author= first.author.username
+						author.message-author= first.author.displayName
 						if (first.author.id !== user.id)
 							span.author-deleted
 								=_('Deleted user')
@@ -200,13 +184,9 @@
 		if room.typing && room.typing.length != 0
 			| _
 			i.fa.fa-pencil
+			|  
 			each typing_user, index in room.typing
-				span.user
-					//- todo: put this into model!
-					if (typing_user.firstName && typing_user.lastName)
-						|  #{typing_user.firstName} #{typing_user.lastName}
-					else
-						|  #{typing_user.username}
+				span.user= typing_user.displayName
 				if room.typing.length > 2 && index < room.typing.length - 2
 					| , 
 				if room.typing.length > 1 && index === room.typing.length - 2
