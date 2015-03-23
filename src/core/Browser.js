@@ -27,17 +27,16 @@ export default React.createClass({
 
   createState(props) {
     let sections = dataUtils.getSections(props.data)
-    let {selectedServiceId} = this.state || {}
     let tabs = []
 
     if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, sections, selectedServiceId)
+      tabs = dataUtils.getTabs(props.data.services, sections, props.serviceId)
     }
 
     return {
       sections: sections,
       tabs: tabs,
-      selectedServiceId: selectedServiceId
+      selectedServiceId: props.serviceId
     }
   },
 
