@@ -25,23 +25,9 @@ function ItemList(options) {
 	this.removeItem = this.removeItem.bind(this);
 	// and go about our business :-)
 	this.redraw();
-	this.bind();
 }
 
 ItemList.prototype = Object.create(Emitter.prototype);
-
-ItemList.prototype.bind = function ItemList_bind() {
-	var self = this;
-	this.events = events(this.el, {
-		selectitem: function (ev) {
-			ev.preventDefault();
-			var itemEl = closest(ev.target, '.item', true);
-			var item = self.itemIds[itemEl.getAttribute('data-id')];
-			self.emit('selectitem', item);
-		}
-	});
-	this.events.bind('click ' + this.selector, 'selectitem');
-};
 
 ItemList.prototype.redraw = function ItemList_redraw() {
 	var vdom = template(this.template, {
