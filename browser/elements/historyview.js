@@ -33,7 +33,7 @@ function HistoryView() {
 	this.init();
 	this.bind();
 	this._bindScroll();
-	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 200);
+	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 }

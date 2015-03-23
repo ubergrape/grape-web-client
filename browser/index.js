@@ -310,9 +310,6 @@ UI.prototype.bind = function UI_bind() {
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
-	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
-	//broker(this.chatInput, 'input', this.upload, 'hide');
-	// directly send an uploaded file
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
