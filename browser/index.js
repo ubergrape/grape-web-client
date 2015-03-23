@@ -229,16 +229,6 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
-	broker(navigation, 'addroom', this.addRoom, 'toggle');
-
-	// TODO: interaction of label list
-	navigation.on('selectlabel', function (/*label*/) {
-		console.log('TODO: implement label change');
-	});
-	navigation.on('addlabel', function () {
-		console.log('TODO: implement new label popover');
-	});
-
 	// bind the event to join a room
 	// hide the join popover when the room is joined
 	// and then automatically select that room
@@ -321,6 +311,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
 	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(navigation, 'addroom', this.addRoom, 'toggle');
 
 	this.room = null;
 
