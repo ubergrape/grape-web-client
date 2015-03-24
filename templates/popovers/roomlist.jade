@@ -4,6 +4,7 @@ ul.po-scroll-wrap
 	each room in items
 		if !room.joined
 			li.item.room(data-id=room.id, key=room.id)
+				a(href="/chat/" + room.slug)
 				button.button.toggle.join
 					span.info
 						=_('join')
@@ -28,7 +29,7 @@ ul.po-scroll-wrap
 		h4=_("Rooms you have already joined")
 	each room in items
 		if room.joined
-			li.item.room(data-id=room.id, key=room.id)
+			li.item.room.leave(data-id=room.id, key=room.id)
 				button.button.toggle.leave
 					span.info.j-info
 						=_('joined')

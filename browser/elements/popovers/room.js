@@ -5,10 +5,10 @@ var broker = require('broker');
 var qs = require('query');
 var template = require('template');
 var classes = require('classes');
-
 var ItemList = require('../itemlist');
 var Popover = require('./popover');
 var render = require('../../rendervdom');
+var closest = require('closest');
 
 module.exports = RoomPopover;
 
@@ -41,10 +41,15 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	this.events.obj.closeform = this.closeform.bind(this);
 	this.events.obj.submit = this.submit.bind(this);
 	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
+	this.events.obj.leaveRoom = function(e) {
+		var roomID = closest(e.target, '.item', true).getAttribute('data-id');
+		this.emit('leaveroom', roomID);
+	}.bind(this);
 	this.events.bind('click .new', 'openform');
 	this.events.bind('reset .newroom', 'closeform');
 	this.events.bind('submit .newroom', 'submit');
 	this.events.bind('input #newroom-name', 'resetvalidity');
+	this.events.bind('click li.leave', 'leaveRoom');
 	this.on('hide', this.closeform.bind(this));
 };
 

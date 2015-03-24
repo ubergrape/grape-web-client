@@ -3,10 +3,7 @@
 
 var Emitter = require('emitter');
 var template = require('template');
-
 var events = require('events');
-var closest = require('closest');
-
 var render = require('../rendervdom');
 
 module.exports = ItemList;

@@ -509,8 +509,9 @@ App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	});
 };
 
-App.prototype.leaveRoom = function App_leaveRoom(room) {
+App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	var self = this;
+	var room = models.Room.get(roomID);
 	if (!room.joined) return;
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);

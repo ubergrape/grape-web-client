@@ -229,20 +229,9 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
-	// bind the event to join a room
-	// hide the join popover when the room is joined
-	// and then automatically select that room
-	this.addRoom.on('selectitem', function (item) {
-		if (item.joined)
-			return self.emit('leaveroom', item);
-		self.emit('joinroom', item);
-		// TODO: what if the room is currently on display?
-		item.once('change joined', function () {
-			self.addRoom.hide();
-			self.emit('selectchannel', item);
-		});
-	});
+	// addRoom popover
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
+	broker.pass(this.addRoom, 'leaveroom', this, 'leaveroom');
 	broker(this, 'newRoom', this.addRoom, 'newRoom');
 
 	// chat header/search functionality
