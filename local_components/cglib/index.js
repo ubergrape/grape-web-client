@@ -489,7 +489,6 @@ App.prototype.createRoom = function App_createRoom(room) {
 };
 
 App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
-	console.log("trying to delete rooom");
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/delete', room.id, password, function (err, result) {
