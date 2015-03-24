@@ -321,17 +321,6 @@ UI.prototype.bind = function UI_bind() {
 	this.intro.onexit(function() {
 		self.emit('introend');
 	});
-	
-	/*window.addEventListener('popstate', function (ev) {
-		if (!ev.state) return;
-		var which = self.org[ev.state.type + 's'];
-		for (var i = 0; i < which.length; i++) {
-			var el = which[i];
-			if (el.id === ev.state.id)
-				return self.emit('selectchannel', el);
-		}
-	});
-	*/
 
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
@@ -475,23 +464,6 @@ UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 	this.room = room;
 }
 
-UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
-	var redirectRoom = false;
-	this.navigation.roomList.items.every(function(room) {
-		if (room.joined) {
-			redirectRoom = room;
-			return false;
-		}
-		return true;
-	});
-	if (!redirectRoom) {
-		redirectRoom = this.navigation.pmList.items[0];
-		this.selectpm(redirectRoom);
-	} else {
-		this.emit('selectchannel', redirectRoom);
-	}
-}
-
 UI.prototype.manageHistory = function UI_manageHistory(room) {
 	this.navigation.select(room.type, room);
 	var state = history.state || {};
@@ -513,14 +485,14 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	this.pickRedirectChannel();
+	this.router.go('/chat/');
 	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
-	this.pickRedirectChannel();
+	this.router.go('/chat/');
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
