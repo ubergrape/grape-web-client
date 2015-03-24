@@ -54,7 +54,7 @@ var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popove
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
-var ChatInput = exports.ChatInput = require('./elements/chatinput');
+var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -108,8 +108,8 @@ UI.prototype.init = function UI_init() {
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
 	// initialize the input field
-	this.chatInput = new ChatInput();
-	qs('.footer', this.el).appendChild(this.chatInput.el);
+	this.grapeInput = new GrapeInputIntegration();
+	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
 	// initialize the history view
 	this.historyView = new HistoryView();
@@ -130,7 +130,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
-	var uploadContainer = qs('.uploader', this.chatInput.el);
+	var uploadContainer = qs('.uploader', this.grapeInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
 	// initialize the clipboard
@@ -272,15 +272,15 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
 
 	// chat input
-	broker(this, 'selectchannel', this.chatInput, 'setRoom');
-	broker.pass(this.chatInput, 'input', this, 'input');
-	broker(this.chatInput, 'input', this.historyView, 'setAuto');
-	broker.pass(this.chatInput, 'update', this, 'update');
-	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
-	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
-	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
-	broker.pass(this.chatInput, 'autocompletedate', this, 'autocompletedate');
+	broker(this, 'selectchannel', this.grapeInput, 'setRoom');
+	broker.pass(this.grapeInput, 'input', this, 'input');
+	broker(this.grapeInput, 'input', this.historyView, 'setAuto');
+	broker.pass(this.grapeInput, 'update', this, 'update');
+	broker(this.grapeInput, 'editingdone', this.historyView, 'unselectForEditing');
+	broker.pass(this.grapeInput, 'starttyping', this, 'starttyping');
+	broker.pass(this.grapeInput, 'stoptyping', this, 'stoptyping');
+	broker.pass(this.grapeInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.grapeInput, 'autocompletedate', this, 'autocompletedate');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -290,9 +290,9 @@ UI.prototype.bind = function UI_bind() {
 	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-	broker(this.historyView, 'deletemessage', this.chatInput, 'editingDone');
+	broker(this.historyView, 'deletemessage', this.grapeInput, 'editingDone');
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
-	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
+	broker(this.historyView, 'selectedforediting', this.grapeInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// title
@@ -456,7 +456,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
-		this.chatInput.render();
+		this.grapeInput.redraw();
 	}
 	this.historyView.redraw();
 };
