@@ -5,7 +5,9 @@ import find from 'lodash-es/collection/find'
 let serviceIconMap = {
   github: 'github',
   googledrive: 'file',
-  gcal: 'calendar'
+  gcal: 'calendar',
+  trello: 'trello',
+  dropbox: 'dropbox'
 }
 
 /**
