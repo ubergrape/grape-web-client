@@ -15,18 +15,18 @@ var emojiSheet = staticurl('app/cg/images/emoji_sheet_32_optimized.png');
 
 require('grape-input');
 
-function ChatInput() {
+function GrapeInputIntegration() {
 	Emitter.call(this);
 	this.room = null;
 	this.previous = null;
-	this.render();
+	this.redraw();
 	this.placeholder = 'Enter a message ...';
 }
 
-ChatInput.prototype = Object.create(Emitter.prototype);
-module.exports = ChatInput;
+GrapeInputIntegration.prototype = Object.create(Emitter.prototype);
+module.exports = GrapeInputIntegration;
 
-ChatInput.prototype.init = function () {
+GrapeInputIntegration.prototype.init = function () {
 	if (this.initialized) return;
 	this.initialized = true;
 	this.bindEvents();
@@ -40,7 +40,7 @@ ChatInput.prototype.init = function () {
 	});
 };
 
-ChatInput.prototype.bindEvents = function () {
+GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .js-markdown-tips', 'showMarkdownTips');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
@@ -52,7 +52,7 @@ ChatInput.prototype.bindEvents = function () {
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 };
 
-ChatInput.prototype.setRoom = function (room) {
+GrapeInputIntegration.prototype.setRoom = function (room) {
 	this.init();
 	this.completePreviousEditing();
     if (!room || (room.type == "pm" && !room.users[0].active)) {
@@ -64,7 +64,7 @@ ChatInput.prototype.setRoom = function (room) {
 	this.room = room;
 };
 
-ChatInput.prototype.disable = function () {
+GrapeInputIntegration.prototype.disable = function () {
 	this.completePreviousEditing();
 	this.el.classList.add('disabled');
 	this.input.setProps({
@@ -74,7 +74,7 @@ ChatInput.prototype.disable = function () {
 	this.input.blur();
 };
 
-ChatInput.prototype.enable = function () {
+GrapeInputIntegration.prototype.enable = function () {
 	this.el.classList.remove('disabled');
 	this.input.setProps({
 		disabled: false,
@@ -82,16 +82,16 @@ ChatInput.prototype.enable = function () {
 	});
 };
 
-ChatInput.prototype.render = function () {
-	var vdom = template('chatinput.jade', {});
+GrapeInputIntegration.prototype.redraw = function () {
+	var vdom = template('grapeinputintegration.jade', {});
 	render(this, vdom);
 };
 
-ChatInput.prototype.showMarkdownTips = function (e) {
+GrapeInputIntegration.prototype.showMarkdownTips = function (e) {
 	this.markdownTips.overlay().show();
 };
 
-ChatInput.prototype.showBrowser = function (search) {
+GrapeInputIntegration.prototype.showBrowser = function (search) {
 	this.emit('autocomplete', search.key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.input.setProps({
@@ -102,7 +102,7 @@ ChatInput.prototype.showBrowser = function (search) {
 	}.bind(this));
 };
 
-ChatInput.prototype.showUsersAndRooms = function (search) {
+GrapeInputIntegration.prototype.showUsersAndRooms = function (search) {
 	var key = search.key.toLowerCase();
 	var users = this.findUsers(key);
 	var rooms = this.findRooms(key);
@@ -114,7 +114,7 @@ ChatInput.prototype.showUsersAndRooms = function (search) {
 	});
 };
 
-ChatInput.prototype.findUsers = function (key) {
+GrapeInputIntegration.prototype.findUsers = function (key) {
 	var users = app.organization.users.toJSON();
 
 	// Remove unactive users.
@@ -150,7 +150,7 @@ ChatInput.prototype.findUsers = function (key) {
 	return users;
 };
 
-ChatInput.prototype.findRooms = function (key) {
+GrapeInputIntegration.prototype.findRooms = function (key) {
 	var rooms = app.organization.rooms.toJSON();
 
 	rooms = rooms.map(function (room) {
@@ -170,14 +170,14 @@ ChatInput.prototype.findRooms = function (key) {
 	return rooms;
 };
 
-ChatInput.prototype.showEmojis = function (search) {
+GrapeInputIntegration.prototype.showEmojis = function (search) {
 	this.input.setProps({
 		type: 'emoji',
 		key: search.key
 	});
 };
 
-ChatInput.prototype.completePreviousEditing = function() {
+GrapeInputIntegration.prototype.completePreviousEditing = function() {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
@@ -185,7 +185,7 @@ ChatInput.prototype.completePreviousEditing = function() {
 	this.previous = null;
 };
 
-ChatInput.prototype.findPreviousMessage = function () {
+GrapeInputIntegration.prototype.findPreviousMessage = function () {
 	var message;
 	var history = this.room.history.slice();
 	history.reverse();
@@ -200,11 +200,11 @@ ChatInput.prototype.findPreviousMessage = function () {
 	return message;
 };
 
-ChatInput.prototype.debouncedStopTyping = debounce(function () {
+GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.emit('stoptyping', this.room);
 }, 1000);
 
-ChatInput.prototype.onComplete = function (e) {
+GrapeInputIntegration.prototype.onComplete = function (e) {
 	var data = e.detail;
 	switch (data.trigger) {
 		case '#':
@@ -219,7 +219,7 @@ ChatInput.prototype.onComplete = function (e) {
 	}
 };
 
-ChatInput.prototype.onPreviousEdit = function (e) {
+GrapeInputIntegration.prototype.onPreviousEdit = function (e) {
 	var msg = this.findPreviousMessage();
 	if (!msg) return;
 	var el = q('.message[data-id="' + msg.id + '"]');
@@ -232,16 +232,16 @@ ChatInput.prototype.onPreviousEdit = function (e) {
 	};
 };
 
-ChatInput.prototype.onAbort = function () {
+GrapeInputIntegration.prototype.onAbort = function () {
 	this.completePreviousEditing();
 };
 
-ChatInput.prototype.onChange = function () {
+GrapeInputIntegration.prototype.onChange = function () {
 	this.emit('starttyping', this.room);
 	this.debouncedStopTyping();
 };
 
-ChatInput.prototype.onSubmit = function (e) {
+GrapeInputIntegration.prototype.onSubmit = function (e) {
 	var content = this.input.getTextContent();
 
 	if (this.previous) {
@@ -254,10 +254,10 @@ ChatInput.prototype.onSubmit = function (e) {
 	}
 };
 
-ChatInput.prototype.onFocus = function (e) {
+GrapeInputIntegration.prototype.onFocus = function (e) {
 	this.el.classList.add('focus');
 };
 
-ChatInput.prototype.onBlur = function (e) {
+GrapeInputIntegration.prototype.onBlur = function (e) {
 	this.el.classList.remove('focus');
 };
