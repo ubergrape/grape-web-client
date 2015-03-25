@@ -300,6 +300,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
 	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(this, 'selectchannel', this.navigation, 'select');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
 
 	this.room = null;
@@ -462,18 +463,6 @@ UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 	this.room = room;
 }
 
-UI.prototype.manageHistory = function UI_manageHistory(room) {
-	this.navigation.select(room.type, room);
-	var state = history.state || {};
-	var url = this.options.pathPrefix || '';
-	url += url[url.length - 1] === '/' ? '' : '/';
-	url += room.slug || ('@' + room.users[0].username.toLowerCase());
-	if (state.type === room.type && state.id === room.id)
-		history.replaceState({type: room.type, id: room.id}, room.name || '', url);
-	else
-		history.pushState({type: room.type, id: room.id}, room.name || '', url);
-}
-
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	var deleteRoomDialog = new DeleteRoomDialog({
 		room: room
@@ -495,5 +484,5 @@ UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
-	this.manageHistory(room);
+	this.router.replace('/chat/' + room.slug)
 }

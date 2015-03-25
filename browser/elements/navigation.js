@@ -119,8 +119,9 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return getStatusValue(b) - getStatusValue(a);
 }
 
-Navigation.prototype.select = function Navigation_select(which, item) {
-	var self = this;
+Navigation.prototype.select = function Navigation_select(item) {
+	var self 	= this,
+		which	= item.type;	
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].selectItem(null);
 	});
@@ -176,10 +177,8 @@ Navigation.prototype.hasRead = function Navigation_hasRead(room) {
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
 	var str = self.pmFilterEl.value;
-
-	console.log("filter for", str);
-
 	var filtered_items = [];
+
 	if (str !== '') {
 		this.filtering = true;
 		self.pmList.unfiltered.forEach(function(item) {
