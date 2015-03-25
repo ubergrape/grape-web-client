@@ -8,7 +8,6 @@ var debounce = require('debounce');
 
 var staticurl = require('staticurl');
 var render = require('../rendervdom');
-var MarkdownTipsDialog = require('./dialogs/markdowntips');
 
 var emojiSheet = staticurl('app/cg/images/emoji_sheet_32_optimized.png');
 
@@ -30,7 +29,6 @@ GrapeInputIntegration.prototype.init = function () {
 	if (this.initialized) return;
 	this.initialized = true;
 	this.bindEvents();
-	this.markdownTips = new MarkdownTipsDialog().closable();
 	this.input = q('grape-input', this.el);
 	this.input.setProps({
 		emojisheet: emojiSheet,
@@ -42,7 +40,7 @@ GrapeInputIntegration.prototype.init = function () {
 
 GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
-	this.events.bind('click .js-markdown-tips', 'showMarkdownTips');
+	this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
@@ -85,10 +83,6 @@ GrapeInputIntegration.prototype.enable = function () {
 GrapeInputIntegration.prototype.redraw = function () {
 	var vdom = template('grapeinputintegration.jade', {});
 	render(this, vdom);
-};
-
-GrapeInputIntegration.prototype.showMarkdownTips = function (e) {
-	this.markdownTips.overlay().show();
 };
 
 GrapeInputIntegration.prototype.showBrowser = function (search) {
@@ -203,6 +197,10 @@ GrapeInputIntegration.prototype.findPreviousMessage = function () {
 GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.emit('stoptyping', this.room);
 }, 1000);
+
+GrapeInputIntegration.prototype.onMarkdownTipsShow = function (e) {
+	this.emit('showmarkdowntips');
+};
 
 GrapeInputIntegration.prototype.onComplete = function (e) {
 	var data = e.detail;
