@@ -120,7 +120,7 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
-	var self 	= this,
+	var	self 	= this,
 		which	= item.type;	
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].selectItem(null);
