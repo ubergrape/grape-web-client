@@ -65,6 +65,7 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
+var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 
 function UI(options) {
 	Emitter.call(this);
@@ -112,6 +113,8 @@ UI.prototype.init = function UI_init() {
 	// initialize the input field
 	this.grapeInput = new GrapeInputIntegration();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
+
+	this.markdownTips = new MarkdownTipsDialog().closable();
 
 	// initialize the history view
 	this.historyView = new HistoryView();
@@ -286,6 +289,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.grapeInput, 'stoptyping', this, 'stoptyping');
 	broker.pass(this.grapeInput, 'autocomplete', this, 'autocomplete');
 	broker.pass(this.grapeInput, 'autocompletedate', this, 'autocompletedate');
+	broker(this.grapeInput, 'showmarkdowntips', this, 'showMarkdownTips');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -609,7 +613,11 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 		room: room
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
-}
+};
+
+UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
+	this.markdownTips.overlay().show();
+};
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
@@ -621,12 +629,12 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
 	this.pickRedirectChannel();
-}
+};
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	this.manageHistory(room);
-}
+};
 
 UI.prototype.selectpm = function UI_selectpm(user) {
 	var self = this;
@@ -637,4 +645,4 @@ UI.prototype.selectpm = function UI_selectpm(user) {
 	} else {
 		self.emit('selectchannel', user.pm);
 	}
-}
+};
