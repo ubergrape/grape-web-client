@@ -31,8 +31,8 @@ GrapeInputIntegration.prototype.init = function () {
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
 	this.input.setProps({
-		emojisheet: emojiSheet,
-		customemojis: app.organization.custom_emojis,
+		emojiSheet: emojiSheet,
+		customEmojis: app.organization.custom_emojis,
 		focused: true,
 		placeholder: this.placeholder
 	});
@@ -198,7 +198,7 @@ GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.emit('stoptyping', this.room);
 }, 1000);
 
-GrapeInputIntegration.prototype.onMarkdownTipsShow = function (e) {
+GrapeInputIntegration.prototype.onMarkdownTipsShow = function () {
 	this.emit('showmarkdowntips');
 };
 
@@ -217,7 +217,7 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 	}
 };
 
-GrapeInputIntegration.prototype.onPreviousEdit = function (e) {
+GrapeInputIntegration.prototype.onPreviousEdit = function () {
 	var msg = this.findPreviousMessage();
 	if (!msg) return;
 	var el = q('.message[data-id="' + msg.id + '"]');
@@ -239,7 +239,7 @@ GrapeInputIntegration.prototype.onChange = function () {
 	this.debouncedStopTyping();
 };
 
-GrapeInputIntegration.prototype.onSubmit = function (e) {
+GrapeInputIntegration.prototype.onSubmit = function () {
 	var content = this.input.getTextContent();
 
 	if (this.previous) {
@@ -252,10 +252,10 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 	}
 };
 
-GrapeInputIntegration.prototype.onFocus = function (e) {
+GrapeInputIntegration.prototype.onFocus = function () {
 	this.el.classList.add('focus');
 };
 
-GrapeInputIntegration.prototype.onBlur = function (e) {
+GrapeInputIntegration.prototype.onBlur = function () {
 	this.el.classList.remove('focus');
 };
