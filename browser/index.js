@@ -306,7 +306,6 @@ UI.prototype.bind = function UI_bind() {
 
 	this.on('selectchannel', function (room) {
 		this.setRoomContext(room);
-		this.manageHistory(room);
 	});
 
 	this.upload.on('uploaded', function (attachment) {
