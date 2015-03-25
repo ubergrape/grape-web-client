@@ -45,6 +45,7 @@
     "browser/renderautocomplete.js",
     "browser/emoji.js",
     "browser/jstz.js",
+    "browser/broker.js",
     "lib/router.js",
     "lib/broker.js"
   ],
