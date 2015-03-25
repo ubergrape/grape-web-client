@@ -362,7 +362,6 @@ UI.prototype.roomCreateError = function UI_roomCreateError(err) {
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
-	console.log(err);
 	notification.error(err.message, err.details);
 };
 
