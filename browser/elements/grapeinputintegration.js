@@ -171,12 +171,23 @@ GrapeInputIntegration.prototype.showEmojis = function (search) {
 	});
 };
 
-GrapeInputIntegration.prototype.completePreviousEditing = function() {
+GrapeInputIntegration.prototype.completePreviousEditing = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
 	this.input.setContent('');
 	this.previous = null;
+};
+
+GrapeInputIntegration.prototype.editMessage = function (msg) {
+	var el = q('.message[data-id="' + msg.id + '"]');
+	el.classList.add('editing');
+	this.el.classList.add('editing-previous');
+	this.input.setContent(msg.text);
+	this.previous = {
+		msg: msg,
+		el: el
+	};
 };
 
 GrapeInputIntegration.prototype.findPreviousMessage = function () {
@@ -219,15 +230,7 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 
 GrapeInputIntegration.prototype.onPreviousEdit = function () {
 	var msg = this.findPreviousMessage();
-	if (!msg) return;
-	var el = q('.message[data-id="' + msg.id + '"]');
-	el.classList.add('editing');
-	this.el.classList.add('editing-previous');
-	this.input.setContent(msg.text);
-	this.previous = {
-		msg: msg,
-		el: el
-	};
+	if (msg) this.editMessage(msg);
 };
 
 GrapeInputIntegration.prototype.onAbort = function () {
