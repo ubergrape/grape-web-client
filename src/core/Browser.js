@@ -4,6 +4,7 @@ import clone from 'lodash-es/lang/clone'
 import cloneDeep from 'lodash-es/lang/cloneDeep'
 import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
+import capitalize from 'lodash-es/string/capitalize'
 
 import browserStyle from './browserStyle'
 import Tabs from './Tabs'
@@ -124,7 +125,7 @@ export default React.createClass({
    * Emit DOM event.
    */
   emit(type, data) {
-    let event = new CustomEvent(type, {
+    let event = new CustomEvent('grape' + capitalize(type), {
       bubbles: true,
       cancelable: true,
       detail: data
