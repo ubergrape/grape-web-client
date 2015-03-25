@@ -104,37 +104,29 @@ UI.prototype.init = function UI_init() {
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
-	// initialize the chat header
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
-	// initialize the input field
 	this.chatInput = new ChatInput();
 	qs('.footer', this.el).appendChild(this.chatInput.el);
 
-	// initialize the history view
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-	// initialize the invite form
 	this.invite = new Invite();
 	var invite_placeholder = qs('.invite',this.membersMenu.el);
 	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
 
-	// initialize title handler
 	this.title = new Title();
 
-	// initialize error/info messages
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
-	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.chatInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
-	// initialize the clipboard
 	this.clipboard = new Clipboard(window);
 
 	// on paste, check if the pasted item is a blob object -image-,
