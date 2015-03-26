@@ -273,6 +273,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
 	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
 	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
+	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');

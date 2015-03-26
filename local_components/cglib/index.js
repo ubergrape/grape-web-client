@@ -270,8 +270,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
-		if (!~room.users.indexOf(user))
+		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
+			self.emit('joinedchannel');
+		}
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
