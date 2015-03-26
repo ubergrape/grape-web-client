@@ -109,7 +109,7 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (search) {
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
-	var users = app.organization.users.toJSON();
+	var users = app.organization.users.toArray();
 
 	// Remove unactive users.
 	users = users.filter(function(user) {
@@ -145,7 +145,7 @@ GrapeInputIntegration.prototype.findUsers = function (key) {
 };
 
 GrapeInputIntegration.prototype.findRooms = function (key) {
-	var rooms = app.organization.rooms.toJSON();
+	var rooms = app.organization.rooms.toArray();
 
 	rooms = rooms.map(function (room) {
 		return {
