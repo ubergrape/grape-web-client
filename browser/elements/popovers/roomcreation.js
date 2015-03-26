@@ -60,7 +60,7 @@ RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
 }
 
 RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
-	this.classes.add('right');	
+	this.classes.add('left');	
 	render(this.content, template('popovers/roomcreation.jade'));
 }
 
