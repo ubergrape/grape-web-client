@@ -272,15 +272,17 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
-			self.emit('joinedchannel');
+			self.emit('joinedchannel', room);
 		}
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
-		if (~index)
+		if (~index) {
 			room.users.splice(index, 1);
+			self.emit('leftchannel', room);
+		}
 	});
 
 	// organization events

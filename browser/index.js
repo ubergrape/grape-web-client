@@ -274,6 +274,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
 	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
 	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
+	broker(this, 'leftchannel', this.chatHeader, 'leftChannel');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -324,7 +325,8 @@ UI.prototype.bind = function UI_bind() {
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
-	
+	broker(this, 'leftchannel', this.membersMenu, 'leftChannel');
+
 	// roomCreation
 	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
 	broker(this, 'endroomcreation', this.roomCreation, 'end');
