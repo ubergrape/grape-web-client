@@ -1,13 +1,25 @@
 .roomcreationpopover.popover-left
 	h3
-		=_('Create new chatroom')
+		=_("Create new chatroom")
 		span.close ×
 	form.create-room-form
 		.formrow
+			h4
+				=_("Room name")
 			input(type="text", id="newroom-name", placeholder="Enter name ...")
+		.mar-t40
+			h4.mar-b20
+				=_('Room type')
 			input(type="radio", id="public", name="is_public", value="true", checked)
-			label(for="public")= _('Public room')
+			label.radio-label(for="public")
+				=_("Public room")
+				span.radio-label-subline
+					=_("A public room that everybody can see and join.")
 			input(type="radio", id="private", name="is_public", value="false")
-			label(for="private")= _('Private room')
-		input.button.back(type="button", value=_('Cancel'))
-		input.button.create(type="submit", name="submit", value=_('Create'))
+			label.radio-label(for="private")
+				=_("Private room")
+				span.radio-label-subline
+					=_("A private room that only invited users can see and join.")
+		p.mar-t40
+			input.button.back(type="button", value=_("Cancel"))
+			input.button.create(type="submit", name="submit", value=_("Create"))

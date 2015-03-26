@@ -205,7 +205,10 @@
 // ****
 
 .roompopover
+.roomcreationpopover
+	// Make em same height
 	width: 360px
+	height: 340px
 	.po-scroll-wrap
 		padding-top: 0
 	.list-hl
@@ -258,8 +261,8 @@ label.radio-label
 	@extend $hoverable
 	display: block
 	position: relative
-	width: 200px
 	margin: 0 0 10px 20px
+	padding-left: 2px
 	&:before
 		content: ""
 		display: inline-block
@@ -267,7 +270,7 @@ label.radio-label
 		height: 17px
 		position: absolute
 		left: -20px
-		top: 0
+		top: 3px
 		background-color: silver-light
 		box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .1), 0px 1px 0px 0px rgba(255, 255, 255, .6)
 		border-radius: 8px
@@ -280,7 +283,7 @@ label.radio-label
 			content: "\2022"
 			color: gainsboro-light	
 	span.radio-label-subline
-		@extend $small-font-size
+		color: gainsboro-dark
 		display: block
 		padding: 3px 4px 3px 0
 .button.create
