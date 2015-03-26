@@ -50,7 +50,7 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 		};
 		self.events.bind('click button.new', 'toggleRoomCreation');
 	};
-
+	
 	// this behaviour is exceptional in our popover logic:
 	// a popover opens another popover with the same trigger,
 	// so we have to proxy the trigger

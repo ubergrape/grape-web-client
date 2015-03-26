@@ -37,8 +37,18 @@ RoomCreationPopover.prototype.bind = function RoomCreationPopover_bind() {
 	this.events.obj.resetValidity = function() {
 		this.newRoomName.setCustomValidity('');
 	}.bind(this);
+	this.events.obj.toggleAddRoom = function () {
+		this.emit('toggleaddroom', this.trigger) 
+	}.bind(this);
+	this.events.obj.lalla = function () {
+		this.hide();
+		// the popovers cancel each other 
+		// setTimeout to force synchronicity
+		setTimeout(this.events.obj.toggleAddRoom);
+	}.bind(this);
 
 	this.events.bind('submit form.create-room-form', 'createRoom');
+	this.events.bind('click input.back', 'lalla');
 	this.events.bind('keydown input#newroom-name', 'resetValidity');
 
 	this.on('show', function() {
