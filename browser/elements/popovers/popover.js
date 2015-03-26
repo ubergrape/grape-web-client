@@ -59,8 +59,6 @@ Popover.prototype.show = function Popover_show(trigger) {
 	this.emit('show');
 	if (this.classes.has('left')) {
 		animate(this.el, 'fade-left-in');  
-	} else if (this.classes.has('right')) {
-		animate(this.el, 'fade-right-in');
 	} else { // TOP
 		animate(this.el, 'fade-down-in');  
 	}
