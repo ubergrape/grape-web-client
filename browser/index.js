@@ -329,10 +329,11 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
 
 	// navigation
-	broker(this, 'deleteduser', this.navigation, 'deleteUser');
+	broker(this, 'org ready', this.navigation, 'setOrganization');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'new org member', this.navigation, 'newOrgMember');
 	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
+	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 
 	this.room = null;
 
@@ -410,6 +411,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
+	this.emit('org ready');
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -447,12 +449,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	// update logo
-	// XXX: is this how it should be done? I guess not
-	qs('.logo img').src = org.logo;
-	qs('.logo img').alt = org.name;
-	qs('.logo .name').innerHTML = org.name;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?

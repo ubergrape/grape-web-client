@@ -185,6 +185,7 @@
 		if room.typing && room.typing.length != 0
 			| _
 			i.fa.fa-pencil
+			|  
 			each typing_user, index in room.typing
 				span.user= typing_user.displayName
 				if room.typing.length > 2 && index < room.typing.length - 2
