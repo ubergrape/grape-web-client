@@ -45,7 +45,7 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 				self.emit('toggleroomcreation', self.trigger)
 			});
 		};
-		self.events.bind('click .roompopover', 'toggleRoomCreation');
+		self.events.bind('click .new', 'toggleRoomCreation');
 	};
 
 	// this behaviour is exceptional in our popover logic:
