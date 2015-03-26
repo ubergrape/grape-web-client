@@ -24,7 +24,10 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-	this.itemList = new ItemList({template: 'popovers/roomlist.jade', selector: '.toggle'});
+	this.itemList = new ItemList({
+		template: 'popovers/roomlist.jade',
+		selector: '.toggle'
+	});
 	replace(qs('ul', this.el), this.itemList.el);
 };
 
@@ -45,11 +48,11 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 				self.emit('toggleroomcreation', self.trigger)
 			});
 		};
-		self.events.bind('click .new', 'toggleRoomCreation');
+		self.events.bind('click button.new', 'toggleRoomCreation');
 	};
 
 	// this behaviour is exceptional in our popover logic:
-	// a popover open another popover with the same trigger,
+	// a popover opens another popover with the same trigger,
 	// so we have to proxy the trigger
 	this.once('show', setRoomCreation);
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
