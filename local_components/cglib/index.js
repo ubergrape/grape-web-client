@@ -199,6 +199,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
+		self.emit('channelupdate', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#removed', function(data) {
 		var room = models.Room.get(data.channel);
@@ -518,6 +519,13 @@ App.prototype.leaveRoom = function App_leaveRoom(room) {
 	});
 };
 
+App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
+	var emit = this.emit.bind(this);
+	this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
+		if (err) emit('roomrenameerror', err);
+	});
+}
+
 App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	this.wamp.call(PREFIX + 'search/autocomplete', text, this.organization.id,
 			function (err, result) {
@@ -572,7 +580,6 @@ App.prototype.inviteToRoom = function App_inviteToRoom(room, users, callback) {
 		}
 	});
 };
-
 
 /**
  * Loads history for `room`

@@ -17,10 +17,7 @@ ul.nav-list.pms
 					if unread > 0
 						span.notification=unread.toString()
 					span.name
-						if (user.firstName || user.lastName)
-							| #{user.firstName} #{user.lastName} 
-						else
-							| #{user.username}
+						| #{user.displayName}
 						if !user.active
 							span.user-deleted
 								=_('Deleted user')
