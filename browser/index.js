@@ -314,6 +314,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
 	// invite
+	broker(this, 'org ready', this.invite, 'setUsers');
 	broker(this, 'selectchannel', this.invite, 'setRoom');
 	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
@@ -419,7 +420,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
-	this.emit('org ready');
+	this.emit('org ready', this.org);
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
