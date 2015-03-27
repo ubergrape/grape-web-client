@@ -106,7 +106,7 @@ Invite.prototype.setRoom = function Invite_setRoom(room) {
 
 Invite.prototype.setUsers = function Invite_setUsers(org) {
 	this.users = org.users.filter(function(user) {
-		return self.user != user && user.active;
+		return ui.user != user && user.active;
 	});
 	this._bindAutocomplete();
 };
