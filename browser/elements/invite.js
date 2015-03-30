@@ -14,6 +14,7 @@ module.exports = Invite;
 function Invite() {
 	Emitter.call(this);
 	this.room = new Emitter({name: ''});
+	this.users = null;
 	this.init();
 	this.bind();
 }
@@ -28,8 +29,6 @@ Invite.prototype.bind = function Invite_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetvalidity');
-	// this.events.bind('click .btn-invite', 'resetvalidity');
-	this._bindAutocomplete();
 };
 
 Invite.prototype.redraw = function Invite_redraw() {
@@ -37,42 +36,36 @@ Invite.prototype.redraw = function Invite_redraw() {
 };
 
 Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
-	var self = this;
 	this.inviteInput = qs('.input-invite', this.el);
 	var el = qs('.autocomplete-wrapper', this.el);
 	if (el !== null) {
-		this.complete = textcomplete(this.inviteInput, el);
-		this.complete.re = /([\w.+-]+)$/;
-		this.complete.formatSelection = function (option) {
+		var complete = this.complete = textcomplete(this.inviteInput, el);
+		var users = this.users;
+		complete.re = /([\w.+-]+)$/;
+		complete.formatSelection = function (option) {
 			return option.insert + ", ";
 		};
-		this.complete.query = function (matches) {
+		complete.query = function (matches) {
 			var match = matches[0];
-
-			self.complete.clear();
-
-			// TODO: dont' use app directly!!
-			var users = app.organization.users;
-			for (var i=0; i<users.length; i++) {
-				var user = users[i];
+			this.clear();
+			users.forEach(function (user) {
 				if (  user.firstName.startsWithIgnoreCase(match)
 				   || user.lastName.startsWithIgnoreCase(match)
 				   || user.username.startsWithIgnoreCase(match)) {
-					self.complete.push({
+					this.push({
 						id: user.username,
 						title: '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em>',
 						insert: user.username,
 					});
 				}
-			}
-
-			self.complete.show();
-			self.complete.highlight(0);
+			}.bind(this));
+			this.show();
+			this.highlight(0);
 		};
 	}
-
 	this.inviteButton = qs('.btn-invite', this.el);
 };
+
 
 Invite.prototype.inviteToRoom = function Invite_inviteToRoom(ev) {
 	ev.preventDefault();
@@ -109,6 +102,13 @@ Invite.prototype.resetvalidity = function Invite_resetvalidity() {
 Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.room = room;
 	this.redraw();
+};
+
+Invite.prototype.setUsers = function Invite_setUsers(org) {
+	this.users = org.users.filter(function(user) {
+		return ui.user != user && user.active;
+	});
+	this._bindAutocomplete();
 };
 
 // TODO: put this in component

@@ -5,17 +5,19 @@
   "description": "",
   "keywords": [],
   "paths": [
-    "local_components"
+    "local_components",
+    "node_modules"
   ],
   "locals": [
     "cglib",
-    "staticurl"
+    "staticurl",
+    "grape-input"
   ],
   "main": "index.js",
   "scripts": [
     "index.js",
     "browser/elements/chatheader.js",
-    "browser/elements/chatinput.js",
+    "browser/elements/grapeinputintegration.js",
     "browser/elements/fileuploader.js",
     "browser/elements/historyview.js",
     "browser/elements/invite.js",
@@ -51,7 +53,7 @@
     "templates/chatheader.jade",
     "templates/chathistory.jade",
     "templates/searchresults.jade",
-    "templates/chatinput.jade",
+    "templates/grapeinputintegration.jade",
     "templates/fileuploader.jade",
     "templates/messages.jade",
     "templates/index.jade",
