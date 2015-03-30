@@ -19,7 +19,7 @@ let Object = React.createClass({
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-${icon} ` + classes.icon
     return (
-      <div onClick={this.select} onMouseOver={this.focus} className={containerClassName} key={id}>
+      <div onMouseDown={this.onMouseDown} onMouseOver={this.onMouseOver} className={containerClassName} key={id}>
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
         <span className={classes.info}>{info}</span>
@@ -39,11 +39,14 @@ let Object = React.createClass({
     })
   },
 
-  focus() {
+  onMouseOver() {
     this.props.focus(this.props.id)
   },
 
-  select() {
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
     this.props.select(this.props.id)
   }
 })

@@ -13,10 +13,13 @@ export default React.createClass({
     let {amount, label, selected} = this.props
     if (amount != null) label += ' (' + amount + ')'
     let className = selected ? classes.containerSelected : classes.container
-    return <li className={className} onClick={this.onSelect}>{label}</li>
+    return <li className={className} onMouseDown={this.onMouseDown}>{label}</li>
   },
 
-  onSelect() {
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
     this.props.select(this.props.service)
   }
 })
