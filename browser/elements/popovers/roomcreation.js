@@ -65,7 +65,7 @@ RoomCreationPopover.prototype.redraw = function RoomCreationPopover_redraw() {
 }
 
 RoomCreationPopover.prototype.errorFeedback = function RoomCreationPopover_errorFeedback(err) {
-	this.newRoomName.setCustomValidity(err.name[0].message);
+	this.newRoomName.setCustomValidity(err.msg);
 	this.createButton.click();
 }
 
