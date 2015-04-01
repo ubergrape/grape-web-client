@@ -16,7 +16,8 @@ module.exports = new Model([
 		'joined',
 		'unread',
 		'mentioned',
-		'typing'
+		'typing',
+		'is_public'
 	])
 	.use(cache('id'))
 	.use(array)
