@@ -487,7 +487,7 @@ App.prototype.createRoom = function App_createRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', JSON.parse(err.details));
+		if (err) return self.emit('roomcreateerror', err.details);
 		self.emit('roomcreated', self._tryAddRoom(room));
 	});
 };
