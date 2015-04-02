@@ -11,15 +11,9 @@
 	background: footer-background
 	padding: 2px 0 10px 0
 	z-index: 30
-
-	.grape-input-wrapper
+	.input-wrapper
 		padding-left: 20px
 		position: relative
-
-		&.disabled
-			.hint-box, .info-markdown, .uploader
-				display: none
-
 		.image
 			@extend $clearfix
 			width: 36px
@@ -35,36 +29,74 @@
 				border-right: 6px solid white
 				border-top: 6px solid transparent
 				border-bottom: 6px solid transparent
-
-		&.focus .input-hr::before
-			transform: translate3d(100%, 0, 0)
-
-	.input-highlighter
-		position: relative
-		margin: 0 30px 0 46px
-
-	grape-input
-		margin-right: 60px
-		min-height: 36px
-		line-height: 0
-		.ac::before
-			display: none
-
-	.input-hr
-		position: relative
-		height: 1px
-		background: gainsboro-light
+	.messageInput-wrapper
+		margin-right: 30px
+	.messageInput-wrapper // Looks like the actual textarea so that the actual textarea has the scrollbar on the right position
+		@extend $clearfix
 		overflow: hidden
-		&::before
-			content: ''
-			top: 0
-			left: -100%
+		position: relative
+		padding: 0
+		background: white
+		vertical-align: top
+		min-height: 36px
+		.messageInput
+			@extend $normal-font-size
+			position: relative
+			min-height: 34px
 			width: 100%
-			height: 100%
-			background: grape-light
+			padding: 8px 63px 8px 10px
+			margin: 0
+			display: block
+			resize: none
+			max-height: 400px
+			background: transparent
+			border: none
+			border-radius: 0
+			outline: none
+			-webkit-appearance: none; /* for box shadows to show on iOS */
+			transition: all 0.3s linear
+			cursor: text
+			&:focus
+				outline: none
+			&:disabled
+				background: silver-dark
+				+.uploader .upload
+					background: silver-dark
+					.fa
+						color: gainsboro-light
+			&:empty:not(:focus):before
+				content: attr(data-ph)
+				color: gainsboro-light
+			&:[disabled=true]
+				color: red
+		.messageInput-line
+			display: inline-block
 			position: absolute
-			transition: transform .3s
-
+			bottom: 2px
+			left: 0
+			width: 100%
+			pointer-events: none
+			-webkit-touch-callout: none
+			-webkit-user-select: none
+			-khtml-user-select: none
+			-moz-user-select: none
+			-ms-user-select: none
+			user-select: none
+			&::before
+			&::after
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				width: 100%
+				border-bottom: 1px solid gainsboro-light
+			&::after
+				border-bottom: 1px solid grape-light
+				transform: translate3d(-100%, 0, 0)
+				transition: all .2s
+	.messageInput:focus + .messageInput-line::after
+	.messageInput--filled .messageInput-line::after
+		transform: translate3d(0, 0, 0)
 	.edit-message, .hint-box
 		@extend $small-font-size
 		color: gainsboro-dark
@@ -75,7 +107,8 @@
 			border-radius: 3px
 			border: 1px solid gainsboro-light
 			padding: 0 2px
-
+		&.disabled
+			display: none
 	// markdown info styling
 	.info-markdown
 		position: absolute
@@ -83,7 +116,9 @@
 		top: 0
 		bottom: 0
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
-
+		&.disabled
+			display: none
+		
 	// uploader styling
 	.uploader
 		position: absolute
@@ -93,7 +128,8 @@
 		transition: right .5s ease-in-out, opacity .5s ease-in-out
 		input
 			display: none
-
+		&.disabled
+			display: none
 	.upload-progress
 		display: none
 		position: absolute
@@ -121,10 +157,9 @@
 		.progress canvas
 			display: inline-block
 			vertical-align: middle
-
 	.uploader.open .upload-progress
 		display: block
-
+		
 	.info-markdown
 	.upload
 		@extend $hoverable
@@ -146,20 +181,24 @@
 			text-align: center
 			line-height: 30px
 			color: gainsboro-dark
+		
+	
 
-	.editing-previous
-		.input-highlighter
-			background: lighten(gold, 80%)
-		.uploader
-			right: -30px
-			opacity: 0
-		.info-markdown
-			right: 0
-		.hint-box
-			display: none
-	// Toggle for edit message input
-	.grape-input-wrapper .edit-message
-		display:none
-	.grape-input-wrapper.editing-previous .edit-message
-		display: block
+.input-wrapper.editing // Styling of input when editing
+	.messageInput, .messageInput-wrapper
+		background: lighten(gold, 80%)
+	.messageInput
+		border-color: gold
+	.uploader
+		right: -26px
+		opacity: 0
+	.info-markdown
+		right: 0
+	.hint-box
+		display: none
+// Toggle for edit message input
+.input-wrapper .edit-message
+	display:none
+.input-wrapper.editing .edit-message
+	display: block
 
