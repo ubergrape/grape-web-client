@@ -5,10 +5,10 @@ var broker = require('broker');
 var qs = require('query');
 var template = require('template');
 var classes = require('classes');
-
 var ItemList = require('../itemlist');
 var Popover = require('./popover');
 var render = require('../../rendervdom');
+
 
 module.exports = RoomPopover;
 
@@ -24,7 +24,10 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-	this.itemList = new ItemList({template: 'popovers/roomlist.jade', selector: '.toggle'});
+	this.itemList = new ItemList({
+		template: 'popovers/roomlist.jade',
+		selector: '.toggle'
+	});
 	replace(qs('ul', this.el), this.itemList.el);
 };
 
@@ -34,61 +37,32 @@ function replace(from, to) {
 
 RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
-	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
+	var self = this;
 
-	this.form = qs('.newroom', this.el);
-	this.events.obj.openform = this.openform.bind(this);
-	this.events.obj.closeform = this.closeform.bind(this);
-	this.events.obj.submit = this.submit.bind(this);
-	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
-	this.events.bind('click .new', 'openform');
-	this.events.bind('reset .newroom', 'closeform');
-	this.events.bind('submit .newroom', 'submit');
-	this.events.bind('input #newroom-name', 'resetvalidity');
-	this.on('hide', this.closeform.bind(this));
-};
-
-RoomPopover.prototype.submit = function RoomPopover_submit(ev) {
-	ev.preventDefault();
-	var room = {
-		name: this.form['newroom-name'].value.trim(),
-		// disable for now
-        // see https://github.com/ubergrape/chatgrape/issues/469
-        //private: qs('input:checked', this.form).value === 'private'
-        private: false
+	function setRoomCreation() {
+		self.events.obj.toggleRoomCreation = function() {
+			self.hide();
+			// the popovers cancel each other 
+			// setTimeout to force synchronicity
+			setTimeout(function() {
+				self.emit('toggleroomcreation', self.trigger)
+			});
+		};
+		self.events.bind('click button.new', 'toggleRoomCreation');
 	};
-	if (!room.name) return;
-	this.emit('createroom', room);
-};
-
-RoomPopover.prototype.resetvalidity = function RoomPopover_resetvalidity() {
-	this.form['newroom-name'].setCustomValidity('');
-};
-
-RoomPopover.prototype.validationError = function RoomPopover_validationError(err) {
-	var details = err.details;
-	if (details.name) {
-		this.form['newroom-name'].setCustomValidity(details.name[0].message);
-		this.form.submit.click();
-	}
-};
-
-RoomPopover.prototype.openform = function RoomPopover_openform() {
-	this.content.classes.add('openform');
-	this.form['newroom-name'].focus();
-};
-RoomPopover.prototype.closeform = function RoomPopover_closeform() {
-	this.content.classes.remove('openform');
-	this.resetvalidity();
-	this.form.reset();
+	
+	// this behaviour is exceptional in our popover logic:
+	// a popover opens another popover with the same trigger,
+	// so we have to proxy the trigger
+	this.once('show', setRoomCreation);
+	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
 	this.classes.add('room-po');
 	this.classes.add('left');
 	render(this.content, template('popovers/room.jade'));
-	if (this.itemList)
-		this.itemList.redraw();
+	if (this.itemList) this.itemList.redraw();
 };
 
 RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {

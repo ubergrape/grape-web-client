@@ -24,7 +24,11 @@ div
 					a.header-option.option-rename-ok(title="Save")
 						i.fa.fa-check
 			else
-				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') #{room.name}
+				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') 
+					if !room.is_public
+						i.fa.fa-lock
+						|  
+					| #{room.name}
 				.options-wrap
 					if editOptions.canRenameRoom
 						a.header-option.option-rename-room(title="Rename Room")
