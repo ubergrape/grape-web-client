@@ -367,6 +367,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 		}
 		self.emit('change user', self.user);
 	});
+	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
+		var msg = models.Line.get(notification.message_id);
+		if (msg) self.emit('newNotification', msg);
+	});
 };
 
 App.prototype.unbind = function App__unbind() {

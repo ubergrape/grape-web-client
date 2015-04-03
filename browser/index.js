@@ -301,7 +301,7 @@ UI.prototype.bind = function UI_bind() {
 
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
-	broker(this, 'newmessage', this.notifications, 'newMessage');
+	broker(this, 'newNotification', this.notifications, 'onNewNotification');
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
 	// invite

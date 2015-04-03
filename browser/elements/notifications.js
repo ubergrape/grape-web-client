@@ -34,7 +34,7 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 	this.room = room;
 };
 
-Notifications.prototype.newMessage = function Notifications_newMessage(message) {
+Notifications.prototype.onNewNotification = function Notifications_onNewNotification(message) {
 	var self = this;
 	var i, opts, content_dom, imgs, img, replacement, filename;
 
