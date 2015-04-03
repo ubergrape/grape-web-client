@@ -16,15 +16,19 @@
 					=_("Looking for history...")
 	else if history.length === 0
 		if room.type !== 'pm'
+			- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.' 
+			- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")	
 			.message-group.welcome-message
-				- var head = staticurl("/images/head.png")
-				img.image(src="#{head}",width="100",alt="Hi!")
+				img.image(src="#{welcomepic}",width="100",alt="Hi!")
 				div
 					h3
 						| Welcome to 
+						if !room.is_public
+							i.fa.fa-lock
+							|  
 						span #{room.name}
 					p
-						=_('This room is public. Every member can join and read the history.')
+						=_(welcomemsg)
 					ul.welcome-tasks
 						li.option
 							a.show-invite.disable-document-click-handler.button.raised
@@ -184,6 +188,7 @@
 		if room.typing && room.typing.length != 0
 			| _
 			i.fa.fa-pencil
+			|  
 			each typing_user, index in room.typing
 				span.user= typing_user.displayName
 				if room.typing.length > 2 && index < room.typing.length - 2

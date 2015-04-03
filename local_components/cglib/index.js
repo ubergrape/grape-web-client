@@ -270,15 +270,19 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
-		if (!~room.users.indexOf(user))
+		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
+			self.emit('joinedchannel', room);
+		}
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
-		if (~index)
+		if (~index) {
 			room.users.splice(index, 1);
+			self.emit('leftchannel', room);
+		}
 	});
 
 	// organization events
@@ -487,7 +491,7 @@ App.prototype.createRoom = function App_createRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', errorJSON(err));
+		if (err) return self.emit('roomcreateerror', err.details);
 		self.emit('roomcreated', self._tryAddRoom(room));
 	});
 };
@@ -661,9 +665,3 @@ App.prototype.updateMsg = function App_updateMessage(msg, text) {
 
 	});
 };
-
-function errorJSON(err) {
-	if (~err.uri.indexOf('ValidationError'))
-		err.details = JSON.parse(err.details);
-	return err;
-}

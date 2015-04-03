@@ -53,6 +53,7 @@ var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
+var RoomCreationPopover = exports.RoomCreationPopover = require('./elements/popovers/roomcreation');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var ChatInput = exports.ChatInput = require('./elements/chatinput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -96,12 +97,13 @@ UI.prototype.init = function UI_init() {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// initialize the add room popover
+	// initialize the popovers
 	this.addRoom = new RoomPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
+	this.roomCreation = new RoomCreationPopover();
 
 	// initialize the chat header
 	this.chatHeader = new ChatHeader();
@@ -232,7 +234,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(navigation, 'selectroom', this, 'selectchannel');
 	broker(navigation, 'addroom', this.addRoom, 'toggle');
 	broker(navigation, 'selectpm', this, 'selectpm');
-	// broker(navigation, 'addpm', this.addPM, 'toggle');
+
 	// TODO: interaction of label list
 	navigation.on('selectlabel', function (/*label*/) {
 		console.log('TODO: implement label change');
@@ -254,8 +256,9 @@ UI.prototype.bind = function UI_bind() {
 			self.emit('selectchannel', item);
 		});
 	});
-	broker.pass(this.addRoom, 'createroom', this, 'createroom');
-	broker(this, 'newRoom', this.addRoom, 'newRoom');
+	broker(this, 'newroom', this.addRoom, 'newRoom');
+	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'toggle');
+	broker(this.roomCreation, 'toggleaddroom', this.addRoom, 'toggle');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -270,6 +273,8 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
 	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
 	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
+	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
+	broker(this, 'leftchannel', this.chatHeader, 'leftChannel');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -310,9 +315,6 @@ UI.prototype.bind = function UI_bind() {
 
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
-	//broker(this.upload, 'uploaded', this.chatInput, 'addAttachment');
-	//broker(this.chatInput, 'input', this.upload, 'hide');
-	// directly send an uploaded file
 
 	// clipboard
 	broker(this.clipboard, 'upload', this.upload, 'doUpload');
@@ -322,12 +324,20 @@ UI.prototype.bind = function UI_bind() {
 
 	// membersMenu
 	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
+	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
+	broker(this, 'leftchannel', this.membersMenu, 'leftChannel');
+
+	// roomCreation
+	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
+	broker(this, 'endroomcreation', this.roomCreation, 'end');
+	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
 
 	// navigation
-	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+	broker(this, 'org ready', this.navigation, 'setOrganization');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
-	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(this, 'new org member', this.navigation, 'newOrgMember');
+	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
+	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 
 	this.room = null;
 
@@ -389,13 +399,11 @@ UI.prototype.hideSearchResults = function() {
 };
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-	this.addRoom.closeform();
-	// XXX: this is not really clean, but oh well
-	this.addRoom.emit('selectitem', room);
-};
-
-UI.prototype.roomCreateError = function UI_roomCreateError(err) {
-	this.addRoom.validationError(err);
+	this.emit('joinroom', room, function() {
+		this.emit('selectchannel', room);
+		this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
+		this.emit('endroomcreation');
+	}.bind(this));
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
@@ -407,6 +415,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
+	this.emit('org ready');
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -444,12 +453,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	// update logo
-	// XXX: is this how it should be done? I guess not
-	qs('.logo img').src = org.logo;
-	qs('.logo img').alt = org.name;
-	qs('.logo .name').innerHTML = org.name;
 
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?

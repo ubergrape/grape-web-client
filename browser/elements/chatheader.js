@@ -149,3 +149,11 @@ ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) 
 	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
 	qs('input.submit-rename', this.el).click();
 }
+
+ChatHeader.prototype.joinedChannel = function ChatHeader_joinedChannel(room) {
+	if (room == this.room) this.redraw();
+}
+
+ChatHeader.prototype.leftChannel = function ChatHeader_leftChannel(room) {
+	if (room == this.room) this.redraw();
+}

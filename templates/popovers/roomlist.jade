@@ -9,10 +9,10 @@ ul.po-scroll-wrap
 						=_('join')
 					| 
 				.icon-wrap
-					if room.private
-						i.icon.fa.fa-lock
-					else
+					if room.is_public
 						i.icon.fa.fa-comments
+					else
+						i.icon.fa.fa-lock					
 				.main
 					.name=room.name
 					ul.room-info
@@ -35,10 +35,10 @@ ul.po-scroll-wrap
 					span.info.l-info
 						=_('leave')
 				.icon-wrap
-					if room.private
-						i.icon.fa.fa-lock
-					else
+					if room.is_public
 						i.icon.fa.fa-comments
+					else
+						i.icon.fa.fa-lock
 				.main
 					.name=room.name
 					ul.room-info

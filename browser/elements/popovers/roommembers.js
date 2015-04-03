@@ -72,3 +72,6 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.redraw();
 };
 
+RoomMembersPopover.prototype.leftChannel = function RoomMembersPopover_leftChannel(room) {
+	if (room == this.room) this.redraw();
+}

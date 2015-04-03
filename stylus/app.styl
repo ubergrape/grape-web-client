@@ -166,3 +166,26 @@ hr
 
 #intercom-container .intercom-launcher
 	display: none !important
+
+/* _____ MACGAP Adaptions ________ */
+@keyframes slidein {
+	0%, 80% {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+body.macgap
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important
+	background: white url("../images/preloader-onwhite.gif") 50% 50% no-repeat
+	padding: 0
+	.chat-wrapper
+		h1, h2, h3, h4
+			text-shadow: white -1px 1px
+			filter: Shadow(Color=#fffffff, Direction=0, Strength=1) // Windows love
+	.client
+		animation: slidein 2.5s ease
