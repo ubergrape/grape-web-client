@@ -14,7 +14,6 @@ function Notifications() {
 	this.show = false;
 	this.room = new Emitter({name: '', users: []});
 	this.init();
-	this.bind();
 }
 
 Notifications.prototype = Object.create(Emitter.prototype);
@@ -26,10 +25,6 @@ Notifications.prototype.init = function Notifications_init() {
 	});
 };
 
-Notifications.prototype.bind = function Notifications_bind() {
-	// nothing yet
-};
-
 Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 	this.room = room;
 };
@@ -37,61 +32,23 @@ Notifications.prototype.setRoom = function Notifications_setRoom(room) {
 Notifications.prototype.onNewNotification = function Notifications_onNewNotification(message) {
 	var self = this;
 	var i, opts, content_dom, imgs, img, replacement, filename;
+	var	author		= message.author,
+		channel		= message.channel,
+		isService	= author.type === 'service',
+		icon		= isService ? staticurl("images/service-icons/" + author.id + "-64.png") : author.avatar,
+		authorName	= isService ? author.username : author.displayName,
+		content 	= isService ? message.title : message.text,
+		type 		= channel.type === 'room' ? channel.name : _('Private message'),
+		title		= authorName + ' (' + type + ')',
+		hasExpired	= (new Date() - message.time)/1000 > 60;
 
-	// don't show messages younger than 60 seconds
-	// this is a hack to prevent flooding of messages when server reloads
-	// also, prevents old messages from popping up when device resumes from standby
-	var timediff = new Date() - message.time; // UTC time difference in ms
-	if (timediff/1000 > 60) return;
-
-	// don't show chat messages from myself
-	// TODO: don't directly reference ui here!!
-	if (message.author === ui.user) return;
-
-	// only show messages from joined rooms
-	if (!message.channel.joined) return;
-
-	// don't show chat messages in current room, when focused
-	if (message.channel.id === self.room.id && document.hasFocus()) return;
-
-	// otherwise, show all chat messages
-
-	// get authorname
-	//TODO: move this to user model
-	var authorname = "";
-	if (typeof message.author.firstName !== "undefined" && message.author.firstName !== "") {
-		authorname = message.author.firstName + " " + message.author.lastName;
-	} else {
-		authorname = message.author.username;
-	}
-
-	// get icon
-	//TODO: move this to user model. same shit in chathistory.jade
-	var icon = null;
-	if (typeof message.author.avatar !== "undefined" && message.author.avatar !== "") {
-		icon = message.author.avatar;
-	} else if (message.author.type === "service") {
-		icon = staticurl("images/service-icons/" + message.author.id + "-64.png");
-	}
-
-	// add room name to title
-	var title = authorname;
-
-	if (message.channel.type === "room") {
-		title += " (" + message.channel.name + ")";
-	} else {
-		title += " (" + _('Private Message') + ")";
-	}
+	// don't notify if:
+	// - message is too old - to prevent old msgs avalanche when server reloads or device resumes from standby
+	// - chat is focused on the room the notification comes from
+	if ((channel.id === this.room.id && document.hasFocus()) || hasExpired) return;
 
 	// parse markdown
-	var content = "";
-	if (message.author.type === "service") {
-		content = message.title;
-	} else {
-		content = message.text;
-	}
 	if (typeof content !== "undefined" && content !== "") {
-
 		opts = {
 			emoji: function (emo) {
 				// render emojis as text
@@ -114,18 +71,14 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 	}
 
 	// remove "[Image]" for service connections
-	if (message.author.type === "service") {
-		content.replace("[Image]", "");
-	}
+	if (author.type === "service") content.replace("[Image]", "");
 
 	// attach files
 	var attachments = message.attachments;
 	if (typeof attachments !== "undefined" && attachments.length > 0) {
 		// currently the client doesn't supprt text content AND attachment
 		// but the API supports it
-		if (typeof content !== "undefined" && content !== "") {
-			content += "\n\n";
-		}
+		if (typeof content !== "undefined" && content !== "") content += "\n\n";
 		// add the filenames to the notification
 		// currently the client only allows to add one attachment
 		// but the API supports multiple
@@ -141,7 +94,6 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 	}
 
 	if (typeof MacGap !== 'undefined') {
-		console.log("MacGap notify", title);
 		MacGap.notify({
 			title: title,
 			content: content,
@@ -153,14 +105,10 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 			icon: icon,
 			timeout: 6000,
 			onclick: function(ev) {
-				self.emit('notificationclicked', message.channel);
+				self.emit('notificationclicked', channel);
 				window.focus();
 				notification.close();
 			}
 		});
 	}
 };
-
-// function isDocumentHidden() {
-// 	return document.hidden || document.msHidden || document.mozHidden || document.webkitHidden;
-// }
