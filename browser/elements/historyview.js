@@ -99,17 +99,17 @@ HistoryView.prototype.init = function HistoryView_init() {
 var TIME_THRESHOLD = 5 * 60 * 1000;
 
 function groupHistory(history) {
-	var groups	= [],
+	var	groups	= [],
 		counter	= 1,
 		last,
 		group;
 
 	for (var i = 0; i < history.length; i++) {
-		var line 			= history[i],
+		var	line 			= history[i],
 			author 			= line.author,
 			isService 		= author.type == "service",
 			isTimeSpanShort	= last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
-			canCollapse 	= isTimeSpanShort && last.author.id == author.id && ((isService && line.title == last.title) || !isService);
+			canCollapse		= isTimeSpanShort && last.author.id == author.id && ((isService && line.title == last.title) || !isService);
 
 		if (canCollapse) {
 			if (isService) {
