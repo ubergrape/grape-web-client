@@ -105,9 +105,9 @@ function groupHistory(history) {
 		group;
 
 	for (var i = 0; i < history.length; i++) {
-		var	line 			= history[i],
-			author 			= line.author,
-			isService 		= author.type == "service",
+		var	line			= history[i],
+			author			= line.author,
+			isService		= author.type == "service",
 			isTimeSpanShort	= last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
 			canCollapse		= isTimeSpanShort && last.author.id == author.id && ((isService && line.title == last.title) || !isService);
 
