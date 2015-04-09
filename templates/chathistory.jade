@@ -136,8 +136,9 @@
 							if line.times
 								span.times= 'x' + line.times
 						if line.text
-							.text.main
-								=html(markdown(line.text))
+							.text.main(class=line.times ? "collapsed" :"")= html(markdown(line.text))
+							if line.times
+								span.times= 'x' + line.times
 						if line.content
 							.message-content= line.content
 						if line.attachments
