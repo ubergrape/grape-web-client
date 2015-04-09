@@ -535,8 +535,9 @@ App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
 }
 
 App.prototype.onSetNotificationsSession = function App_onSetNotificationsSession (orgID) {
+	console.log(orgID);
 	this.wamp.call(PREFIX + 'notifications/set_notification_session', orgID);
-}; 
+};
 
 App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	this.wamp.call(PREFIX + 'search/autocomplete', text, this.organization.id,

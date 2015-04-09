@@ -361,10 +361,7 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	focus.on('focus', function() {
-		if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
-			self.emit('setNotificationsSession', self.org.id);
-	});
+	focus.on('focus', this.setNotificationsSession.bind(this));
 
 	window.addEventListener('popstate', function (ev) {
 		if (!ev.state) return;
@@ -464,6 +461,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	// switch to the channel indicated by the URL
 	// XXX: is this the right place?
 	this.selectChannelFromUrl();
+	this.setNotificationsSession();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -497,6 +495,11 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	})[0];
 	this.emit('selectorganization', org);
 };
+
+UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
+	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
+		this.emit('setNotificationsSession', this.org.id);	
+}
 
 UI.prototype.channelFromURL = function UI_channelFromURL(path) {
 	path = path || location.pathname;
