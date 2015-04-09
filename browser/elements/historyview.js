@@ -109,7 +109,10 @@ function groupHistory(history) {
 			author			= line.author,
 			isService		= author.type == "service",
 			isTimeSpanShort	= last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
-			canCollapse		= isTimeSpanShort && last.author.id == author.id && ((isService && line.title == last.title) || !isService);
+			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
+			hasSameMsg		= last && last.message && line.message && last.message == line.message,
+			hasSameAuthor	= last && last.author.id == author.id,
+			canCollapse		= isTimeSpanShort && hasSameAuthor && ((isService && ( hasSameTitle || hasSameMsg )) || !isService);
 
 		if (canCollapse) {
 			if (isService) {
