@@ -18,6 +18,8 @@ var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
+var focus = require('./focus');
+
 var exports = module.exports = UI;
 
 require("startswith");
@@ -357,6 +359,11 @@ UI.prototype.bind = function UI_bind() {
 	});
 	this.intro.onexit(function() {
 		self.emit('introend');
+	});
+
+	focus.on('focus', function() {
+		if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
+			self.emit('setNotificationsSession', self.org.id);
 	});
 
 	window.addEventListener('popstate', function (ev) {
