@@ -132,15 +132,15 @@
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
+							if line.times
+								span.times= 'x' + line.times
 							.text.main(class=line.times ? "collapsed" :"")
 								= html(markdown(line.title))
-								if line.times
-									span.times= 'x' + line.times
 						if line.text
+							if line.times
+								span.times= 'x' + line.times
 							.text.main(class=line.times ? "collapsed" :"")
 								= html(markdown(line.text))
-								if line.times
-									span.times= 'x' + line.times
 						if line.content
 							.message-content= line.content
 						if line.attachments
