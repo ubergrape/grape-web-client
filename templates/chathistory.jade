@@ -131,11 +131,10 @@
 										| #{line.tag} 
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
-						if line.title && !line.times
-							.text.main= html(markdown(line.title))
-						if line.times
-							.text.main.collapsed= html(markdown(line.title))
-							span.times= 'x' + line.times
+						if line.title
+							.text.main(class=line.times ? "collapsed" :"")= html(markdown(line.title))
+							if line.times
+								span.times= 'x' + line.times
 						if line.text
 							.text.main
 								=html(markdown(line.text))
