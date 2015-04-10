@@ -89,13 +89,32 @@ HistoryView.prototype.init = function HistoryView_init() {
 var TIME_THRESHOLD = 5 * 60 * 1000;
 
 function groupHistory(history) {
-	var groups = [];
-	var last;
-	var group;
+	var	groups	= [],
+		counter	= 1,
+		last,
+		group;
+
 	for (var i = 0; i < history.length; i++) {
-		var line = history[i];
-		if (!last || last.author !== line.author || last.time.getTime() + TIME_THRESHOLD < line.time.getTime())
+		var	line			= history[i],
+			author			= line.author,
+			isService		= author.type == "service",
+			isTimeSpanShort	= last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
+			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
+			hasSameMsg		= last && last.message && line.message && last.message == line.message,
+			hasSameAuthor	= last && last.author.id == author.id,
+			canCollapse		= isTimeSpanShort && hasSameAuthor && ((isService && ( hasSameTitle || hasSameMsg )) || !isService);
+
+		if (canCollapse) {
+			if (isService) {
+				group.pop();
+				counter++;
+				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
+			}
+		} else {
 			groups.push(group = []);
+			counter = 1;		
+		}
+
 		group.push(last = line);
 	}
 	return groups;
@@ -110,10 +129,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
+	var groupedHistory = groupHistory(this.room.history);
+
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
-		history: this.room.history,
-		groupHistory: groupHistory
+		history: groupedHistory
 	}));
 
 	if (this.lastwindow.lastmsg !== this.room.history[0]) {

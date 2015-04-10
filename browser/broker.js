@@ -10,6 +10,8 @@ function doUIBroker() {
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
 	broker.pass(this.addRoom, 'leaveroom', this, 'leaveroom');
 	broker(this, 'newRoom', this.addRoom, 'newRoom');
+	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'toggle');
+	broker(this.roomCreation, 'toggleaddroom', this.addRoom, 'toggle');
 
 	// chat header/search functionality
 	broker.pass(this.chatHeader, 'searching', this, 'searching');
@@ -24,6 +26,8 @@ function doUIBroker() {
 	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
 	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
 	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
+	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
+	broker(this, 'leftchannel', this.chatHeader, 'leftChannel');
 
 	// chat input
 	broker(this, 'selectchannel', this.chatInput, 'setRoom');
@@ -71,12 +75,21 @@ function doUIBroker() {
 	// dragAndDrop
 	broker(this, 'uploadDragged', this.upload, 'doUpload');
 
+	// membersMenu
+	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
+	broker(this, 'leftchannel', this.membersMenu, 'leftChannel');
+
+	// roomCreation
+	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
+	broker(this, 'endroomcreation', this.roomCreation, 'end');
+	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
+
 	// navigation
 	broker(this, 'org ready', this.navigation, 'setOrganization');
-	broker(this, 'deletedUser', this.navigation, 'deleteUser');
+	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'newOrgMember', this.navigation, 'newOrgMember');
-	broker(this, 'roomDeleted', this.navigation, 'deleteRoom');
+	broker(this, 'new org member', this.navigation, 'newOrgMember');
+	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
 	broker(this, 'selectchannel', this.navigation, 'select');
 	broker(this.navigation, 'addroom', this.addRoom, 'toggle');
 }

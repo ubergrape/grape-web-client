@@ -16,15 +16,19 @@
 					=_("Looking for history...")
 	else if history.length === 0
 		if room.type !== 'pm'
+			- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.' 
+			- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")	
 			.message-group.welcome-message
-				- var head = staticurl("/images/head.png")
-				img.image(src="#{head}",width="100",alt="Hi!")
+				img.image(src="#{welcomepic}",width="100",alt="Hi!")
 				div
 					h3
 						| Welcome to 
+						if !room.is_public
+							i.fa.fa-lock
+							|  
 						span #{room.name}
 					p
-						=_('This room is public. Every member can join and read the history.')
+						=_(welcomemsg)
 					ul.welcome-tasks
 						li.option
 							a.show-invite.disable-document-click-handler.button.raised
@@ -54,7 +58,7 @@
 							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
 	- var lastDate
 	- var lastRead = true
-	each lines in groupHistory(history)
+	each lines in history
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
 			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
@@ -128,14 +132,15 @@
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						if line.title
-							.text.main= html(markdown(line.title))
+							if line.times
+								span.times= 'x' + line.times
+							.text.main(class=line.times ? "collapsed" :"")
+								= html(markdown(line.title))
 						if line.text
-							.text.main
-								=html(markdown(line.text))
-								//- uncomment this to test inline-labels
-								//-a
-								//-	span.label #entscheidungen
-								//-		i.fa.fa-check-circle
+							if line.times
+								span.times= 'x' + line.times
+							.text.main(class=line.times ? "collapsed" :"")
+								= html(markdown(line.text))
 						if line.content
 							.message-content= line.content
 						if line.attachments
