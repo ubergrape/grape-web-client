@@ -15,5 +15,7 @@ div
 						=_('Reconnected successfully')
 					else if message.type == 'room deleted'
 						=_('Room ') + message.options.room + _(' was successfully deleted.')
+					else if message.type == 'url not found'
+						=("We could not find the room you were looking for - it might have been deleted, renamed or moved.")
 					else
 						message.type
