@@ -27,7 +27,7 @@ export default React.createClass({
   },
 
   createState(props) {
-    let sections = dataUtils.getSections(props.data)
+    let sections = dataUtils.getSections(props.data, props.serviceId)
     let tabs = []
 
     if (props.data) {
@@ -37,7 +37,7 @@ export default React.createClass({
     return {
       sections: sections,
       tabs: tabs,
-      selectedServiceId: props.serviceId
+      serviceId: props.serviceId
     }
   },
 
@@ -47,7 +47,7 @@ export default React.createClass({
    * @param {String} facet can be service id or "prev" or "next"
    */
   selectFacet(facet) {
-    let {tabs, sections} = this.state
+    let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
 
     let newIndex
@@ -73,9 +73,10 @@ export default React.createClass({
     if (set) {
       let service = tabs[newIndex].service
       dataUtils.setSelectedTab(tabs, newIndex)
+      let sections = dataUtils.getSections(this.props.data, service)
       dataUtils.setSelectedSection(sections, service)
       dataUtils.setFocusedObjectAt(sections, service, 0)
-      this.setState({tabs: tabs, sections: sections, selectedServiceId: service})
+      this.setState({tabs: tabs, sections: sections, serviceId: service})
       this.emit('selectFacet', {service: service})
     }
   },

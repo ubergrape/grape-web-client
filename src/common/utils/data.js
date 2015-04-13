@@ -28,13 +28,15 @@ let serviceIconMap = {
  *   ]
  * }
  */
-export function getSections (data) {
+export function getSections (data, serviceId) {
   let sections = []
 
   if (!data) return sections
 
   // Group by sections.
   data.results.forEach(function (result) {
+    if (serviceId && result.service != serviceId) return
+
     let section = findService(sections, result.service)
 
     // We have no section for this service yet.
