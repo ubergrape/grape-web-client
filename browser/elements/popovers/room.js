@@ -40,6 +40,11 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
 	var self = this;
 
+	this.events.obj.leaveRoom = function(e) {
+		var roomID = closest(e.target, '.item', true).getAttribute('data-id');
+		self.emit('leaveroom', roomID);
+	};
+
 	function setRoomCreation() {
 		self.events.obj.toggleRoomCreation = function() {
 			self.hide();
@@ -56,6 +61,7 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	// a popover opens another popover with the same trigger,
 	// so we have to proxy the trigger
 	this.once('show', setRoomCreation);
+	this.events.bind('click li.leave', 'leaveRoom');
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
