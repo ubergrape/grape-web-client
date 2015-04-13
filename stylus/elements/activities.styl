@@ -26,7 +26,8 @@
 		// 		color: lighten(grape-light, 10)
 		span
 			color: gainsboro-dark
-
+	.short-list
+		clear: both
 	/* GITHUB and BITBUCKET SPECIFIC */
 
 	&.commits,
@@ -72,27 +73,26 @@
 					display: block
 					z-index: 12
 	.comment,
-	&.commentCard .short-list li
-		padding: 0 10px
-		margin: 4px -10px
-		overflow: hidden
-		position: relative
-		img
-			max-height: 170px
-		&:before
-			float: left
-			font-family: FontAwesome
-			color: gainsboro-dark
-			content: "\f10d"
-			margin-right: 5px
-			margin-left: 5px
+	&.commentCard .short-list 
+		li
+			padding: 0 10px
+			margin: 4px -10px
+			overflow: hidden
+			position: relative
+			img
+				max-height: 170px
+			&:before
+				float: left
+				font-family: FontAwesome
+				color: gainsboro-dark
+				content: "\f10d"
+				margin-right: 5px
+				margin-left: 5px
 
 	.comment .text ol
 		padding-left: 22px
 
 	/* TRELLO SPECIFIC */
-
-
 	//Removing unnecessary elements
 	&.issue_comment,
 	&.__label_changed,
@@ -109,7 +109,13 @@
 	&.deleteAttachmentFromCard
 		.short-list
 			display: none
-
+	.times
+		margin-left: 5px
+		background: #D0C8D5
+		padding: 0 5px
+		border-radius: 4px
+		color: #542F59
+		float: right
 /*
 
 	&.github
