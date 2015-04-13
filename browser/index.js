@@ -314,7 +314,7 @@ UI.prototype.bind = function UI_bind() {
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
 	// invite
-	broker(this, 'org ready', this.invite, 'setUsers');
+	broker(this, 'orgReady', this.invite, 'onOrgReady');
 	broker(this, 'selectchannel', this.invite, 'setRoom');
 	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
 
@@ -338,7 +338,7 @@ UI.prototype.bind = function UI_bind() {
 	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
 
 	// navigation
-	broker(this, 'org ready', this.navigation, 'setOrganization');
+	broker(this, 'orgReady', this.navigation, 'onOrgReady');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'new org member', this.navigation, 'newOrgMember');
 	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
@@ -420,7 +420,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
-	this.emit('org ready', this.org);
+	this.emit('orgReady', this.org);
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [

@@ -104,7 +104,7 @@ Invite.prototype.setRoom = function Invite_setRoom(room) {
 	this.redraw();
 };
 
-Invite.prototype.setUsers = function Invite_setUsers(org) {
+Invite.prototype.onOrgReady = function Invite_onOrgReady(org) {
 	this.users = org.users.filter(function(user) {
 		return ui.user != user && user.active;
 	});
