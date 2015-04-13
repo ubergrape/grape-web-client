@@ -5,24 +5,24 @@ ul.po-scroll-wrap
 		if !room.joined
 			li.item.room(data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
-				button.button.toggle.join
-					span.info
-						=_('join')
-				.icon-wrap
-					if room.is_public
-						i.icon.fa.fa-comments
-					else
-						i.icon.fa.fa-lock
-				.main
-					.name=room.name
-					ul.room-info
-						li.users
-							i.fa.fa-user
-							|  #{room.users.length}
-						if room.creator
-							li.creator
-								=_('created by ')
-								span.user-name= room.creator.displayName
+					button.button.toggle.join
+						span.info
+							=_('join')
+					.icon-wrap
+						if room.is_public
+							i.icon.fa.fa-comments
+						else
+							i.icon.fa.fa-lock
+					.main
+						.name=room.name
+						ul.room-info
+							li.users
+								i.fa.fa-user
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									=_('created by ')
+									span.user-name= room.creator.displayName
 	li.list-hl.mar-t10
 		hr.mar-b10
 		h4=_("Rooms you have already joined")
