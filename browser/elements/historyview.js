@@ -112,10 +112,10 @@ function groupHistory(history) {
 			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
 			hasSameMsg		= last && last.message && line.message && last.message == line.message,
 			hasSameAuthor	= last && last.author.id == author.id,
-			canCollapse		= isTimeSpanShort && hasSameAuthor && ((isService && ( hasSameTitle || hasSameMsg )) || !isService);
+			isGroupable		= isTimeSpanShort && hasSameAuthor;
 
-		if (canCollapse) {
-			if (isService) {
+		if (isGroupable) {
+			if (isService && ( hasSameTitle || hasSameMsg )) {
 				group.pop();
 				counter++;
 				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
