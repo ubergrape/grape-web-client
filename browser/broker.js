@@ -63,10 +63,6 @@ function doUIBroker() {
 	broker(this, 'newNotification', this.notifications, 'onNewNotification');
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
-	// invite
-	broker(this, 'selectchannel', this.invite, 'setRoom');
-	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
-
 	// file upload
 	broker(this, 'selectorganization', this.upload, 'setOrganization');
 
