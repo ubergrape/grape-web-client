@@ -539,13 +539,18 @@ App.prototype.onSetNotificationsSession = function App_onSetNotificationsSession
 };
 
 App.prototype.autocomplete = function App_autocomplete(text, callback) {
-	this.wamp.call(PREFIX + 'search/autocomplete', text, this.organization.id,
-			function (err, result) {
+	this.wamp.call(
+		PREFIX + 'search/autocomplete',
+		text,
+		this.organization.id,
+		true,
+		function (err, result) {
 			if (callback !== undefined) {
 				callback(err, result);
 			}
 
-	});
+		}
+	);
 };
 
 App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
