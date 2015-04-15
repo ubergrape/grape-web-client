@@ -18,6 +18,8 @@ var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
+var focus = require('./focus');
+
 var exports = module.exports = UI;
 var URLManager = require('../lib/router');
 
@@ -56,7 +58,7 @@ var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var RoomCreationPopover = exports.RoomCreationPopover = require('./elements/popovers/roomcreation');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
-var ChatInput = exports.ChatInput = require('./elements/chatinput');
+var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -66,6 +68,7 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
+var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 
 function UI(options) {
 	Emitter.call(this);
@@ -109,8 +112,11 @@ UI.prototype.init = function UI_init() {
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
-	this.chatInput = new ChatInput();
-	qs('.footer', this.el).appendChild(this.chatInput.el);
+	// initialize the input field
+	this.grapeInput = new GrapeInputIntegration();
+	qs('.footer', this.el).appendChild(this.grapeInput.el);
+
+	this.markdownTips = new MarkdownTipsDialog().closable();
 
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
@@ -126,7 +132,7 @@ UI.prototype.init = function UI_init() {
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
 	this.upload = new FileUploader(this.options.uploadPath);
-	var uploadContainer = qs('.uploader', this.chatInput.el);
+	var uploadContainer = qs('.uploader', this.grapeInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
 	this.clipboard = new Clipboard(window);
@@ -242,6 +248,8 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
+	focus.on('focus', this.setNotificationsSession.bind(this));
+
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
 		var as, i;
@@ -287,7 +295,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
-	this.emit('org ready');
+	this.emit('orgReady', this.org);
 	// set the items for the nav list
 	var rooms = org.rooms;
 //	rooms = [
@@ -325,8 +333,8 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
 	URLManager.call(this);
+	this.setNotificationsSession();
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -335,7 +343,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
-		this.chatInput.redraw();
+		this.grapeInput.redraw();
 	}
 	this.historyView.redraw();
 };
@@ -360,6 +368,11 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 	})[0];
 	this.emit('selectorganization', org);
 };
+
+UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
+	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
+		this.emit('setNotificationsSession', this.org.id);	
+}
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
@@ -386,7 +399,11 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 		room: room
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
-}
+};
+
+UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
+	this.markdownTips.overlay().show();
+};
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;

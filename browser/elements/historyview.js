@@ -102,10 +102,10 @@ function groupHistory(history) {
 			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
 			hasSameMsg		= last && last.message && line.message && last.message == line.message,
 			hasSameAuthor	= last && last.author.id == author.id,
-			canCollapse		= isTimeSpanShort && hasSameAuthor && ((isService && ( hasSameTitle || hasSameMsg )) || !isService);
+			isGroupable		= isTimeSpanShort && hasSameAuthor;
 
-		if (canCollapse) {
-			if (isService) {
+		if (isGroupable) {
+			if (isService && ( hasSameTitle || hasSameMsg )) {
 				group.pop();
 				counter++;
 				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
@@ -229,7 +229,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		this.room.history.off('add');
 	}
 	this.room = room;
-	// reset, otherwise we won’t get future events
+	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
 	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';

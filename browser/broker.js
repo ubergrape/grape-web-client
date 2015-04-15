@@ -29,16 +29,17 @@ function doUIBroker() {
 	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
 	broker(this, 'leftchannel', this.chatHeader, 'leftChannel');
 
-	// chat input
-	broker(this, 'selectchannel', this.chatInput, 'setRoom');
-	broker.pass(this.chatInput, 'input', this, 'input');
-	broker(this.chatInput, 'input', this.historyView, 'setAuto');
-	broker.pass(this.chatInput, 'update', this, 'update');
-	broker(this.chatInput, 'editingdone', this.historyView, 'unselectForEditing');
-	broker.pass(this.chatInput, 'starttyping', this, 'starttyping');
-	broker.pass(this.chatInput, 'stoptyping', this, 'stoptyping');
-	broker.pass(this.chatInput, 'autocomplete', this, 'autocomplete');
-	broker.pass(this.chatInput, 'autocompletedate', this, 'autocompletedate');
+	// grape input
+	broker(this, 'selectchannel', this.grapeInput, 'setRoom');
+	broker.pass(this.grapeInput, 'input', this, 'input');
+	broker(this.grapeInput, 'input', this.historyView, 'setAuto');
+	broker.pass(this.grapeInput, 'update', this, 'update');
+	broker(this.grapeInput, 'editingdone', this.historyView, 'unselectForEditing');
+	broker.pass(this.grapeInput, 'starttyping', this, 'starttyping');
+	broker.pass(this.grapeInput, 'stoptyping', this, 'stoptyping');
+	broker.pass(this.grapeInput, 'autocomplete', this, 'autocomplete');
+	broker.pass(this.grapeInput, 'autocompletedate', this, 'autocompletedate');
+	broker(this.grapeInput, 'showmarkdowntips', this, 'showMarkdownTips');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');
@@ -48,9 +49,9 @@ function doUIBroker() {
 	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
 	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
 	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-	broker(this.historyView, 'deletemessage', this.chatInput, 'editingDone');
+	broker(this.historyView, 'deletemessage', this.grapeInput, 'editingDone');
 	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
-	broker(this.historyView, 'selectedforediting', this.chatInput, 'editMessage');
+	broker(this.historyView, 'selectedforediting', this.grapeInput, 'editMessage');
 	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
 
 	// title
@@ -59,7 +60,7 @@ function doUIBroker() {
 
 	// notifications
 	broker(this, 'selectchannel', this.notifications, 'setRoom');
-	broker(this, 'newmessage', this.notifications, 'newMessage');
+	broker(this, 'newNotification', this.notifications, 'onNewNotification');
 	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
 
 	// invite
@@ -84,8 +85,13 @@ function doUIBroker() {
 	broker(this, 'endroomcreation', this.roomCreation, 'end');
 	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
 
+	// invite
+	broker(this, 'orgReady', this.invite, 'onOrgReady');
+	broker(this, 'selectchannel', this.invite, 'setRoom');
+	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
+
 	// navigation
-	broker(this, 'org ready', this.navigation, 'setOrganization');
+	broker(this, 'orgReady', this.navigation, 'onOrgReady');
 	broker(this, 'deleteduser', this.navigation, 'deleteUser');
 	broker(this, 'newmessage', this.navigation, 'newMessage');
 	broker(this, 'new org member', this.navigation, 'newOrgMember');

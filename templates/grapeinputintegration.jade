@@ -1,4 +1,4 @@
-.input-wrapper
+.grape-input-wrapper
 	.edit-message
 		=_('Hit ')
 		span=_('ESC')
@@ -9,10 +9,9 @@
 		=_(' and autocomplete services with ')
 		span=_('#')
 	img.image(src="#{user.avatar}",width="36",alt="#{user.username}")
-	.autocomplete-wrapper
-	.messageInput-wrapper(id='intro-step1')
-		.messageInput(disabled, autofocus, contenteditable="true", data-ph="Enter a message ...")
-		.messageInput-line
-		.info-markdown.markdown-tips
+	.input-highlighter
+		grape-input(id='intro-step1')
+		.input-hr
+		.info-markdown.js-markdown-tips
 			i.fa.fa-question-circle
 		.uploader

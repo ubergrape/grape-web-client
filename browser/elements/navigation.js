@@ -208,6 +208,6 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	});
 };
 
-Navigation.prototype.setOrganization = function Navigation_setOrganization() {
+Navigation.prototype.onOrgReady = function Navigation_onOrgReady() {
 	this.redraw();
 }

@@ -371,6 +371,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 		}
 		self.emit('change user', self.user);
 	});
+	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
+		var msg = models.Line.get(notification.message_id);
+		if (msg) self.emit('newNotification', msg);
+	});
 };
 
 App.prototype.unbind = function App__unbind() {
@@ -530,14 +534,23 @@ App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
 	});
 }
 
+App.prototype.onSetNotificationsSession = function App_onSetNotificationsSession (orgID) {
+	this.wamp.call(PREFIX + 'notifications/set_notification_session', orgID);
+};
+
 App.prototype.autocomplete = function App_autocomplete(text, callback) {
-	this.wamp.call(PREFIX + 'search/autocomplete', text, this.organization.id,
-			function (err, result) {
+	this.wamp.call(
+		PREFIX + 'search/autocomplete',
+		text,
+		this.organization.id,
+		true,
+		function (err, result) {
 			if (callback !== undefined) {
 				callback(err, result);
 			}
 
-	});
+		}
+	);
 };
 
 App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
