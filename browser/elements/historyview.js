@@ -239,7 +239,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		this.room.history.off('add');
 	}
 	this.room = room;
-	// reset, otherwise we won’t get future events
+	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
 	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';
