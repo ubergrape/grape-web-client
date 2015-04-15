@@ -20,6 +20,7 @@ function GrapeInputIntegration() {
 	this.previous = null;
 	this.redraw();
 	this.placeholder = 'Enter a message ...';
+	this.typing = false;
 }
 
 GrapeInputIntegration.prototype = Object.create(Emitter.prototype);
@@ -206,6 +207,7 @@ GrapeInputIntegration.prototype.findPreviousMessage = function () {
 };
 
 GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
+	this.typing = false;
 	this.emit('stoptyping', this.room);
 }, 1000);
 
@@ -238,7 +240,10 @@ GrapeInputIntegration.prototype.onAbort = function () {
 };
 
 GrapeInputIntegration.prototype.onChange = function () {
-	this.emit('starttyping', this.room);
+	if (!this.typing) {
+		this.typing = true;
+		this.emit('starttyping', this.room);
+	}
 	this.debouncedStopTyping();
 };
 
