@@ -7,6 +7,7 @@ import findIndex from 'lodash-es/array/findIndex'
 import capitalize from 'lodash-es/string/capitalize'
 
 import browserStyle from './browserStyle'
+import tabsStyle from './tabsStyle'
 import Tabs from './Tabs'
 import Empty from './Empty'
 import * as services from '../services'
@@ -17,6 +18,14 @@ import * as dataUtils from '../common/utils/data'
  */
 export default React.createClass({
   mixins: [useSheet(browserStyle)],
+
+  getDefaultProps() {
+    return {
+      data: null,
+      height: 300,
+      className: ''
+    }
+  },
 
   getInitialState() {
     return this.createState(this.props)
@@ -137,39 +146,52 @@ export default React.createClass({
   },
 
   render() {
-    let classes = this.sheet.classes
-    let sections = this.state.sections
+    let {classes} = this.sheet
+    let {sections} = this.state
     let selectedSection = dataUtils.getSelectedSection(sections)
-    let serviceName = 'all', data
-
-    if (selectedSection) {
-      data = [selectedSection]
-    }
-    else {
-      data = sections
-    }
-
+    let serviceName = 'all'
+    let data = selectedSection ? [selectedSection] : sections
     let facet
     let empty
 
     if (data.length) {
       facet = React.createElement(services[serviceName], {
         data: data,
-        focus: this.focusObject,
-        select: this.selectObject
+        focusedObject: this.getFocusedObject(),
+        height: this.props.height - tabsStyle.container.height,
+        focus: this.onFocusObject,
+        select: this.onSelectObject
       })
     }
     else {
       empty = <Empty />
     }
 
-    let className = classes.container + ' ' + this.props.className
+    let style = {
+      height: `${this.props.height}px`
+    }
+
     return (
-      <div className={className}>
-        <Tabs data={this.state.tabs} select={this.selectFacet} />
+      <div
+        className={`${classes.container} ${this.props.className}`}
+        style={style}
+        >
+        <Tabs data={this.state.tabs} select={this.onSelectFacet} />
         {facet}
         {empty}
       </div>
     )
+  },
+
+  onFocusObject(id) {
+    this.focusObject(id)
+  },
+
+  onSelectObject(id) {
+    this.selectObject(id)
+  },
+
+  onSelectFaacet(facet) {
+    this.selectFacet(facet)
   }
 })

@@ -6,6 +6,7 @@ export default {
     padding: 0,
     overflowX: 'visible',
     whiteSpace: 'nowrap',
-    background: webColors.roomHeaderBackground
+    background: webColors.roomHeaderBackground,
+    height: 27
   }
 }

@@ -58,7 +58,8 @@ export function getSections (data, serviceId) {
       highlighted: result.highlighted,
       info: result.container,
       date: result.start,
-      focused: false
+      focused: false,
+      detail: result.detail
     })
   })
 

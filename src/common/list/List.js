@@ -13,6 +13,16 @@ import listStyle from './listStyle'
 let List = React.createClass({
   mixins: [useSheet(listStyle)],
 
+  getDefaultProps() {
+    return {
+      height: null,
+      className: '',
+      data: null,
+      focus: null,
+      select: null
+    }
+  },
+
   render() {
     let {data} = this.props
     let classes = this.sheet.classes
@@ -25,7 +35,18 @@ let List = React.createClass({
       }, this)
     }
 
-    return <div className={classes.container}>{sections}</div>
+    let style = {
+      height: `${this.props.height}px`
+    }
+
+    return (
+      <div
+        className={`${classes.container} ${this.props.className}`}
+        style={style}
+        >
+        {sections}
+      </div>
+    )
   }
 })
 
