@@ -13,18 +13,22 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {detail} = this.refs
     let {props} = this
+    let detail
+
+    if (props.showDetail) {
+      detail = <Detail
+        data={props.focusedObject.detail}
+        height={props.height}
+        className={classes.rightColumn}
+        ref="detail" />
+    }
 
     return (
       <div className={classes.column}>
-        <div className={classes.row}>
+        <div className={detail ? classes.row : ''}>
           <List {...props} className={classes.leftColumn} />
-          <Detail
-            data={props.focusedObject.detail}
-            height={props.height}
-            className={classes.rightColumn}
-            ref="detail" />
+          {detail}
         </div>
       </div>
     )

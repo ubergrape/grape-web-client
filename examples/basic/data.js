@@ -24,7 +24,8 @@ window.data = {
   ],
   'search': {
     'text': 'plan',
-    'type': 'plain'
+    'type': 'plain',
+    'external': true
   },
   'results': [
     {
