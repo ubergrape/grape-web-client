@@ -34,7 +34,7 @@
 	&.push, // advanced styling for connected pushes
 	&.pull_request,
 	&.gollum
-		ul.short-list
+		ul
 			border-left: 2px dotted gainsboro-light
 			margin-left: 8px
 			> li
@@ -49,13 +49,14 @@
 					height: 1px
 					width: 10px
 					border-top: 2px dotted gainsboro-light
-			.show-more
-				display: none
-				position: absolute
-				bottom: 0
-				left: 0
-				right: 0
-				padding-left: 13px
+			&.short-list
+				.show-more
+					display: none
+					position: absolute
+					bottom: 0
+					left: 0
+					right: 0
+					padding-left: 13px
 			&.list-previewed
 				max-height: 99px
 				position: relative
@@ -72,6 +73,11 @@
 				.show-more
 					display: block
 					z-index: 12
+					position: absolute
+					bottom: 0
+					left: 0
+					right: 0
+					padding-left: 13px
 	.comment,
 	&.commentCard .short-list 
 		li
