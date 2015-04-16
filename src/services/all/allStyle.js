@@ -13,6 +13,7 @@ export default {
   },
   rightColumn: {
     flex: 4,
+    overflowX: 'hidden',
     overflowY: 'scroll'
   }
 }
