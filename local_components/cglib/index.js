@@ -497,7 +497,6 @@ App.prototype.createRoom = function App_createRoom(room) {
 };
 
 App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
-	console.log("trying to delete rooom");
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/delete', room.id, password, function (err, result) {
@@ -517,8 +516,9 @@ App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	});
 };
 
-App.prototype.leaveRoom = function App_leaveRoom(room) {
+App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	var self = this;
+	var room = models.Room.get(roomID);
 	if (!room.joined) return;
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);

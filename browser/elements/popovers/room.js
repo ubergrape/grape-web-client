@@ -8,6 +8,7 @@ var classes = require('classes');
 var ItemList = require('../itemlist');
 var Popover = require('./popover');
 var render = require('../../rendervdom');
+var closest = require('closest');
 
 
 module.exports = RoomPopover;
@@ -39,6 +40,11 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	Popover.prototype.bind.call(this);
 	var self = this;
 
+	this.events.obj.leaveRoom = function(e) {
+		var roomID = closest(e.target, '.item', true).getAttribute('data-id');
+		self.emit('leaveroom', roomID);
+	};
+
 	function setRoomCreation() {
 		self.events.obj.toggleRoomCreation = function() {
 			self.hide();
@@ -49,12 +55,13 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 			});
 		};
 		self.events.bind('click button.new', 'toggleRoomCreation');
-	};
+	}
 	
 	// this behaviour is exceptional in our popover logic:
 	// a popover opens another popover with the same trigger,
 	// so we have to proxy the trigger
 	this.once('show', setRoomCreation);
+	this.events.bind('click li.leave', 'leaveRoom');
 	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
@@ -72,4 +79,3 @@ RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
 	this.redraw();
 }
-

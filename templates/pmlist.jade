@@ -6,7 +6,7 @@ ul.nav-list.pms
 			- var selectedClass = user.pm != undefined && user.pm == selected ? 'selected' : ""
 			- var deletedClass = user.active ? "" : 'deleted'
 			li.item(class=selectedClass, class=deletedClass, data-id=userID, key=userID)
-				a(href="/chat/@" + user.username)
+				a(href="/chat/@" + user.username.toLowerCase())
 					.avatar-wrap
 						if user.status === 16
 							span.online

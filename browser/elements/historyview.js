@@ -44,9 +44,6 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
-	this.events.bind('click a.ac.service-chatgrape', 'openInternalLink');
-	this.events.bind('click a.author-link', 'openInternalLink');
-	this.events.bind('click a.avatar', 'openInternalLink');	
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 };
@@ -75,13 +72,6 @@ HistoryView.prototype.unselectForEditing = function () {
 		classes(msg).remove('editing');
 	}
 };
-
-HistoryView.prototype.openInternalLink = function HistoryView_openInternalLink(ev) {
-	ev.preventDefault();
-	var url = ev.delegateTarget.href;
-	this.emit('selectchannelfromurl', url);
-};
-
 
 HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');

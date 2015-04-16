@@ -19,6 +19,8 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var focus = require('./focus');
+var bindUIElems = require('./broker');
+var URLManager = require('../lib/router');
 
 var exports = module.exports = UI;
 
@@ -108,7 +110,6 @@ UI.prototype.init = function UI_init() {
 	this.searchView = new SearchView();
 	this.roomCreation = new RoomCreationPopover();
 
-	// initialize the chat header
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
@@ -118,29 +119,23 @@ UI.prototype.init = function UI_init() {
 
 	this.markdownTips = new MarkdownTipsDialog().closable();
 
-	// initialize the history view
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-	// initialize the invite form
 	this.invite = new Invite();
 	var invite_placeholder = qs('.invite',this.membersMenu.el);
 	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
 
-	// initialize title handler
 	this.title = new Title();
 
-	// initialize error/info messages
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
-	// initialize file uploader
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.grapeInput.el);
 	uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
 
-	// initialize the clipboard
 	this.clipboard = new Clipboard(window);
 
 	// on paste, check if the pasted item is a blob object -image-,
@@ -216,6 +211,7 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
+	bindUIElems.call(this);
 	var self = this;
 	var navigation = this.navigation;
 
@@ -235,123 +231,7 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .logo', 'toggleOrganizationMenu');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
-	// bind navigation events
-	broker.pass(navigation, 'selectroom', this, 'selectchannel');
-	broker(navigation, 'addroom', this.addRoom, 'toggle');
-	broker(navigation, 'selectpm', this, 'selectpm');
-
-	// TODO: interaction of label list
-	navigation.on('selectlabel', function (/*label*/) {
-		console.log('TODO: implement label change');
-	});
-	navigation.on('addlabel', function () {
-		console.log('TODO: implement new label popover');
-	});
-
-	// bind the event to join a room
-	// hide the join popover when the room is joined
-	// and then automatically select that room
-	this.addRoom.on('selectitem', function (item) {
-		if (item.joined)
-			return self.emit('leaveroom', item);
-		self.emit('joinroom', item);
-		// TODO: what if the room is currently on display?
-		item.once('change joined', function () {
-			self.addRoom.hide();
-			self.emit('selectchannel', item);
-		});
-	});
-	broker(this, 'newroom', this.addRoom, 'newRoom');
-	broker(this.addRoom, 'toggleroomcreation', this.roomCreation, 'toggle');
-	broker(this.roomCreation, 'toggleaddroom', this.addRoom, 'toggle');
-
-	// chat header/search functionality
-	broker.pass(this.chatHeader, 'searching', this, 'searching');
-	broker(this, 'selectchannel', this.chatHeader, 'setRoom');
-	broker(this, 'selectchannel', this.membersMenu, 'setRoom');
-	broker(this.chatHeader, 'toggleusermenu', this.userMenu, 'toggle');
-	broker(this.chatHeader, 'togglemembersmenu', this.membersMenu, 'toggle');
-	broker(this.chatHeader, 'toggledeleteroomdialog', this, 'toggleDeleteRoomDialog');
-	broker(this.searchView, 'show', this, 'showSearchResults');
-	broker(this.searchView, 'hide', this, 'hideSearchResults');
-	broker(this.chatHeader, 'stopsearching', this.searchView, 'hideResults');
-	broker.pass(this.chatHeader, 'confirmroomrename', this, 'confirmroomrename');
-	broker(this, 'channelupdate', this.chatHeader, 'channelUpdate');
-	broker(this, 'roomrenameerror', this.chatHeader, 'roomRenameError');
-	broker(this, 'joinedchannel', this.chatHeader, 'joinedChannel');
-	broker(this, 'leftchannel', this.chatHeader, 'leftChannel');
-
-	// chat input
-	broker(this, 'selectchannel', this.grapeInput, 'setRoom');
-	broker.pass(this.grapeInput, 'input', this, 'input');
-	broker(this.grapeInput, 'input', this.historyView, 'setAuto');
-	broker.pass(this.grapeInput, 'update', this, 'update');
-	broker(this.grapeInput, 'editingdone', this.historyView, 'unselectForEditing');
-	broker.pass(this.grapeInput, 'starttyping', this, 'starttyping');
-	broker.pass(this.grapeInput, 'stoptyping', this, 'stoptyping');
-	broker.pass(this.grapeInput, 'autocomplete', this, 'autocomplete');
-	broker.pass(this.grapeInput, 'autocompletedate', this, 'autocompletedate');
-	broker(this.grapeInput, 'showmarkdowntips', this, 'showMarkdownTips');
-
-	// history view
-	broker(this, 'selectchannel', this.historyView, 'setRoom');
-	broker(this, 'gothistory', this.historyView, 'gotHistory');
-	broker(this, 'nohistory', this.historyView, 'noHistory');
-	broker.pass(this.historyView, 'hasread', this, 'hasread');
-	broker(this.historyView, 'hasread', this.navigation, 'hasRead');
-	broker.pass(this.historyView, 'needhistory', this, 'needhistory');
-	broker.pass(this.historyView, 'deletemessage', this, 'deletemessage');
-	broker(this.historyView, 'deletemessage', this.grapeInput, 'editingDone');
-	broker(this.historyView, 'toggleinvite', this.membersMenu, 'toggle');
-	broker(this.historyView, 'selectedforediting', this.grapeInput, 'editMessage');
-	broker(this.historyView, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-
-	// title
-	broker(this, 'selectchannel', this.title, 'setRoom');
-	broker(this, 'selectorganization', this.title, 'setOrganization');
-
-	// notifications
-	broker(this, 'selectchannel', this.notifications, 'setRoom');
-	broker(this, 'newNotification', this.notifications, 'onNewNotification');
-	broker.pass(this.notifications, 'notificationclicked', this, 'selectchannel');
-
-	// invite
-	broker(this, 'orgReady', this.invite, 'onOrgReady');
-	broker(this, 'selectchannel', this.invite, 'setRoom');
-	broker.pass(this.invite, 'invitetoroom', this, 'invitetoroom');
-
-	// file upload
-	broker(this, 'selectorganization', this.upload, 'setOrganization');
-
-	// clipboard
-	broker(this.clipboard, 'upload', this.upload, 'doUpload');
-
-	// dragAndDrop
-	broker(this, 'uploadDragged', this.upload, 'doUpload');
-
-	// membersMenu
-	broker(this.membersMenu, 'selectchannelfromurl', this, 'selectChannelFromUrl');
-	broker(this, 'toggleinvite', this.membersMenu, 'toggle');
-	broker(this, 'leftchannel', this.membersMenu, 'leftChannel');
-
-	// roomCreation
-	broker.pass(this.roomCreation, 'createroom', this, 'createroom');
-	broker(this, 'endroomcreation', this.roomCreation, 'end');
-	broker(this, 'roomcreateerror', this.roomCreation, 'errorFeedback');
-
-	// navigation
-	broker(this, 'orgReady', this.navigation, 'onOrgReady');
-	broker(this, 'newmessage', this.navigation, 'newMessage');
-	broker(this, 'new org member', this.navigation, 'newOrgMember');
-	broker(this, 'roomdeleted', this.navigation, 'deleteRoom');
-	broker(this, 'deleteduser', this.navigation, 'deleteUser');
-
 	this.room = null;
-
-	this.on('selectchannel', function (room) {
-		this.setRoomContext(room);
-		this.manageHistory(room);
-	});
 
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});
@@ -367,16 +247,6 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	focus.on('focus', this.setNotificationsSession.bind(this));
-
-	window.addEventListener('popstate', function (ev) {
-		if (!ev.state) return;
-		var which = self.org[ev.state.type + 's'];
-		for (var i = 0; i < which.length; i++) {
-			var el = which[i];
-			if (el.id === ev.state.id)
-				return self.emit('selectchannel', el);
-		}
-	});
 
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
@@ -416,7 +286,6 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
-	console.log(err);
 	notification.error(err.message, err.details);
 };
 
@@ -434,7 +303,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 //		{id: 4, name: 'Privat', 'private': true, unread: 2}
 //	].map(function (r) { r.joined = true; return Emitter(r); });
 //	rooms = Emitter(rooms);
-
 
 	var pms = org.users.filter(function(user) {
 		return self.user != user &&
@@ -463,10 +331,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 
 	// set the items for the add room popover
 	this.addRoom.setItems(rooms);
-
-	// switch to the channel indicated by the URL
-	// XXX: is this the right place?
-	this.selectChannelFromUrl();
+	URLManager.call(this);
 	this.setNotificationsSession();
 };
 
@@ -507,69 +372,6 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
 		this.emit('setNotificationsSession', this.org.id);	
 }
 
-UI.prototype.channelFromURL = function UI_channelFromURL(path) {
-	path = path || location.pathname;
-	var pathRegexp = new RegExp((this.options.pathPrefix || '') + '/?(@?)(.*?)/?$');
-	var match = path.match(pathRegexp);
-	var i;
-	// if there is no match, go to "General"
-	// if there is no "general" room, go to first room
-	// if there is no room at all, we are doomed
-	if (!match || !match[2]) {
-		for (i = 0; i < this.org.rooms.length; i++) {
-			var room = this.org.rooms[i];
-			if (room.name === "General") {
-				return room;
-			}
-		}
-		return this.org.rooms[0];
-	}
-	var name = match[2].toLowerCase();
-	if (match[1] === '@' && name !== this.user.username) {
-		// there'sno channel with yourself
-		// match users
-		for (i = 0; i < this.org.users.length; i++) {
-			var user = this.org.users[i];
-			if (user.username.toLowerCase() === name)
-				return user;
-		}
-	} else {
-		// match rooms
-		for (i = 0; i < this.org.rooms.length; i++) {
-			var room = this.org.rooms[i];
-			if (room.slug === name)
-				return room;
-		}
-	}
-};
-
-UI.prototype.selectChannelFromUrl = function UI_selectChannelFromUrl(path) {
-	var self = this;
-
-	// this will actually return a channel or a user
-	var channel = self.channelFromURL(path);
-
-	function addlistener(pm) {
-		if (pm.users[0] !== channel) return;
-		self.org.pms.off('add', addlistener);
-		self.emit('selectchannel', pm);
-	}
-
-	if (channel) {
-		if (channel.type === "room") {
-			if (!channel.joined) {
-				self.emit('joinroom', channel, function() {
-					self.emit('selectchannel', channel);
-				});
-			} else {
-				self.emit('selectchannel', channel);
-			}
-		} else {
-			self.selectpm(channel);
-		}
-	}
-};
-
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
@@ -590,35 +392,6 @@ UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 	this.room = room;
 }
 
-UI.prototype.pickRedirectChannel = function UI_pickRedirectChannel() {
-	var redirectRoom = false;
-	this.navigation.roomList.items.every(function(room) {
-		if (room.joined) {
-			redirectRoom = room;
-			return false;
-		}
-		return true;
-	});
-	if (!redirectRoom) {
-		redirectRoom = this.navigation.pmList.items[0];
-		this.selectpm(redirectRoom);
-	} else {
-		this.emit('selectchannel', redirectRoom);
-	}
-}
-
-UI.prototype.manageHistory = function UI_manageHistory(room) {
-	this.navigation.select(room.type, room);
-	var state = history.state || {};
-	var url = this.options.pathPrefix || '';
-	url += url[url.length - 1] === '/' ? '' : '/';
-	url += room.slug || ('@' + room.users[0].username.toLowerCase());
-	if (state.type === room.type && state.id === room.id)
-		history.replaceState({type: room.type, id: room.id}, room.name || '', url);
-	else
-		history.pushState({type: room.type, id: room.id}, room.name || '', url);
-}
-
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	var deleteRoomDialog = new DeleteRoomDialog({
 		room: room
@@ -632,28 +405,17 @@ UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	this.pickRedirectChannel();
+	this.router.go('/chat/');
 	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leaveChannel = function UI_leaveChannel(room) {
 	if (this.room != room) return;
-	this.pickRedirectChannel();
-};
+	this.router.go('/chat/');
+}
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
-	this.manageHistory(room);
-};
-
-UI.prototype.selectpm = function UI_selectpm(user) {
-	var self = this;
-	if (user.pm === null) {
-		self.emit('openpm', user, function() {
-			self.emit('selectchannel', user.pm);
-		});
-	} else {
-		self.emit('selectchannel', user.pm);
-	}
-};
+	this.router.replace('/chat/' + room.slug)
+}
