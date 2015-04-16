@@ -132,7 +132,7 @@
     "ubergrape/moment-timezone": "master",
     "darsain/tooltip": "master",
     "pgherveou/store": "0.0.6",
-    "ianstormtaylor/router": "1.0.2"
+    "ubergrape/router": "master"
   },
   "development": {
     "dependencies": {
