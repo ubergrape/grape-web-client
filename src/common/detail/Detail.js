@@ -16,7 +16,7 @@ export default React.createClass({
     return {
       height: null,
       className: '',
-      data: {}
+      data: {meta: []}
     }
   },
 
