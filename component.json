@@ -55,6 +55,7 @@
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
+    "templates/typingnotifications.jade",
     "templates/searchresults.jade",
     "templates/grapeinputintegration.jade",
     "templates/fileuploader.jade",

@@ -77,8 +77,10 @@ HistoryView.prototype.init = function HistoryView_init() {
 	var el = this.scrollWindow = document.createElement('div');
 	el.className = 'chat';
 	this.history = {};
+	this.typing = {};
 	this.redraw();
 	el.appendChild(this.history.el);
+	this.setTyping();
 	// and make it work with custom scrollbars
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
@@ -258,9 +260,26 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	});
 
 	room.on('change typing', function() {
-		self.queueDraw();
+		self.redrawTyping();
 	});
 };
+
+HistoryView.prototype.setTyping = function HistoryView_setTyping() {
+	this.redrawTyping();
+
+	function replace(from, to) {
+		from.parentNode.replaceChild(to, from);
+	}
+
+	// replace the typing-notification template
+	// this way we can issue a typing-notification redraw
+	// without issuing a history redraw
+	replace(qs('.typing-notification', this.history.el), this.typing.el);
+}
+
+HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
+	render(this.typing, template('typingnotifications.jade', { room: this.room }));
+}
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
 	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
