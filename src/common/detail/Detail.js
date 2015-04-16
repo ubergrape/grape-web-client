@@ -16,32 +16,39 @@ export default React.createClass({
     return {
       height: null,
       className: '',
-      data: null
+      data: {}
     }
   },
 
   render() {
     let {classes} = this.sheet
-    let data = this.props.data.detail || {}
-    let previewUrl = getImageUrl(data)
-    let previewStyle
-    if (previewUrl) {
-      previewStyle = {
-        backgroundImage: `url(${previewUrl})`
-      }
-    }
+    let {data} = this.props
 
     let style = {
       height: `${this.props.height}px`
     }
 
+    let previewUrl = getImageUrl(data)
+    let preview
+    if (previewUrl) {
+      preview = <img src={previewUrl} width="100%" />
+    }
+
     return (
       <div className={`${classes.container} ${this.props.className}`} style={style}>
-        <div className={classes.preview} style={previewStyle}></div>
+        {preview}
         <div className={classes.contentWrapper}>
           <h2 className={classes.title}>{data.title}</h2>
           <h3 className={classes.subtitle}>{data.subtitle}</h3>
           <p className={classes.description}>{data.description}</p>
+          {data.meta.map(item => {
+            return (
+              <div>
+                <b>{item.label + ': '}</b>
+                <span>{item.value}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
     )

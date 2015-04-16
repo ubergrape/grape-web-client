@@ -21,7 +21,7 @@ export default React.createClass({
         <div className={classes.row}>
           <List {...props} className={classes.leftColumn} />
           <Detail
-            data={props.focusedObject}
+            data={props.focusedObject.detail}
             height={props.height}
             className={classes.rightColumn}
             ref="detail" />
