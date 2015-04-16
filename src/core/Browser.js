@@ -158,7 +158,7 @@ export default React.createClass({
       facet = React.createElement(services[serviceName], {
         data: data,
         focusedObject: this.getFocusedObject(),
-        showDetail: this.props.data.search.external,
+        showDetail: this.props.data.search.type == 'external',
         height: this.props.height - tabsStyle.container.height,
         focus: this.onFocusObject,
         select: this.onSelectObject
