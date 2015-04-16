@@ -19,9 +19,10 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var focus = require('./focus');
+var bindUIElems = require('./broker');
+var URLManager = require('../lib/router');
 
 var exports = module.exports = UI;
-var URLManager = require('../lib/router');
 
 require("startswith");
 require("endswith");
@@ -210,6 +211,7 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
+	bindUIElems.call(this);
 	var self = this;
 	var navigation = this.navigation;
 
@@ -230,10 +232,6 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;
-
-	this.on('selectchannel', function (room) {
-		this.setRoomContext(room);
-	});
 
 	this.upload.on('uploaded', function (attachment) {
 		self.emit('input', self.room, '', {attachments: [attachment.id]});

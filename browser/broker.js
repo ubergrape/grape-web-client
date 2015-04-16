@@ -3,9 +3,12 @@
 
 var broker = require('broker');
 
-module.exports = doUIBroker;
+module.exports = bindUIElems;
 
-function doUIBroker() {
+function bindUIElems() {
+	// ui
+	broker(this, 'selectchannel', this, 'setRoomContext');
+
 	// addRoom popover
 	broker.pass(this.addRoom, 'createroom', this, 'createroom');
 	broker.pass(this.addRoom, 'leaveroom', this, 'leaveroom');
