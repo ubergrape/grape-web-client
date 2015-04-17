@@ -243,6 +243,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		if (!this.room.empty) this.emit('needhistory', room);
 
 	this.redraw();
+	this.redrawTyping();
 
 	room.history.on('add', function () { self.queueDraw(); });
 
