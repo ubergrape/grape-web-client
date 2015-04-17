@@ -47,7 +47,7 @@ function pipeEvents(ui) {
 
 	// history view
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
-	broker(ui, 'gouitory', ui.historyView, 'gouitory');
+	broker(ui, 'gothistory', ui.historyView, 'gotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
 	broker.pass(ui.historyView, 'hasread', ui, 'hasread');
 	broker(ui.historyView, 'hasread', ui.navigation, 'hasRead');
