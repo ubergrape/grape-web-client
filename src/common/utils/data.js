@@ -28,7 +28,7 @@ let serviceIconMap = {
  *   ]
  * }
  */
-export function getSections (data, serviceId) {
+export function getSections (data, serviceId, limitPerSection = Infinity) {
   let sections = []
 
   if (!data) return sections
@@ -52,15 +52,17 @@ export function getSections (data, serviceId) {
       sections.push(section)
     }
 
-    section.results.push({
-      id: result.id,
-      type: result.type,
-      highlighted: result.highlighted,
-      info: result.container,
-      date: result.start,
-      focused: false,
-      detail: result.detail
-    })
+    if (section.results.length < limitPerSection) {
+      section.results.push({
+        id: result.id,
+        type: result.type,
+        highlighted: result.highlighted,
+        info: result.container,
+        date: result.start,
+        focused: false,
+        detail: result.detail
+      })
+    }
   })
 
   // Select first result of the first section.

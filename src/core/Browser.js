@@ -23,7 +23,8 @@ export default React.createClass({
     return {
       data: null,
       height: 300,
-      className: ''
+      className: '',
+      maxObjectsPerSectionInAll: 5
     }
   },
 
@@ -36,7 +37,7 @@ export default React.createClass({
   },
 
   createState(props) {
-    let sections = dataUtils.getSections(props.data, props.serviceId)
+    let sections = dataUtils.getSections(props.data, props.serviceId, props.maxObjectsPerSectionInAll)
     let tabs = []
 
     if (props.data) {
@@ -192,7 +193,7 @@ export default React.createClass({
     this.selectObject(id)
   },
 
-  onSelectFaacet(facet) {
+  onSelectFacet(facet) {
     this.selectFacet(facet)
   }
 })
