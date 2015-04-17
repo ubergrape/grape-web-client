@@ -48,7 +48,7 @@
     "browser/renderautocomplete.js",
     "browser/emoji.js",
     "browser/jstz.js",
-    "browser/broker.js",
+    "browser/pipeEvents.js",
     "lib/router.js",
     "lib/broker.js"
   ],

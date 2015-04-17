@@ -19,7 +19,7 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var focus = require('./focus');
-var bindUIElems = require('./broker');
+var pipeEvents = require('./pipeEvents');
 var URLManager = require('../lib/router');
 
 var exports = module.exports = UI;
@@ -211,7 +211,7 @@ UI.prototype.init = function UI_init() {
 };
 
 UI.prototype.bind = function UI_bind() {
-	bindUIElems.call(this);
+	pipeEvents(this);
 	var self = this;
 	var navigation = this.navigation;
 
