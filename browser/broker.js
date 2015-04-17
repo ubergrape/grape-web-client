@@ -43,6 +43,7 @@ function bindUIElems() {
 	broker.pass(this.grapeInput, 'autocomplete', this, 'autocomplete');
 	broker.pass(this.grapeInput, 'autocompletedate', this, 'autocompletedate');
 	broker(this.grapeInput, 'showmarkdowntips', this, 'showMarkdownTips');
+	broker(this, 'orgReady', this.grapeInput, 'onOrgReady');
 
 	// history view
 	broker(this, 'selectchannel', this.historyView, 'setRoom');

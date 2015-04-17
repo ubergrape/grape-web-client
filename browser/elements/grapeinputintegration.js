@@ -52,7 +52,6 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
-	this.init();
 	this.completePreviousEditing();
     if (!room || (room.type == "pm" && !room.users[0].active)) {
     	this.disable();
@@ -267,3 +266,8 @@ GrapeInputIntegration.prototype.onFocus = function () {
 GrapeInputIntegration.prototype.onBlur = function () {
 	this.el.classList.remove('focus');
 };
+
+GrapeInputIntegration.prototype.onOrgReady = function () {
+	this.init();
+};
+
