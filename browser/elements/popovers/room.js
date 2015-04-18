@@ -27,7 +27,8 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.el.appendChild(this.content.el);
 	this.itemList = new ItemList({
 		template: 'popovers/roomlist.jade',
-		selector: '.toggle'
+		selector: '.toggle',
+		ignoreChanges: ['typing']
 	});
 	replace(qs('ul', this.el), this.itemList.el);
 };
