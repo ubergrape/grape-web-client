@@ -4,18 +4,24 @@ div
 			each message in messages
 				li(class=message.level)
 					if message.type == 'notifications reminder'
-						=_('Hey there! Please ')
-						a.enable_notifications #{_('enable desktop notifications')}
-						=_(', so your team members can reach you on ChatGrape.')
-						button.button.enable_notifications #{_('Enable desktop notifications')}
+						button.button.enable_notifications #{_('Enable notifications')}
+						p
+							=_('Hey there! Please ')
+							a.enable_notifications #{_('enable desktop notifications')}
+							=_(', so your team members can reach you on ChatGrape.')
 					else if message.type == 'connection lost'
-						=_('Lost connection to the server - trying to reconnect. You can also try to ')
-						a(href="#", onClick="window.location.reload()") #{_('reload.')}
+						p
+							=_('Lost connection to the server - trying to reconnect. You can also try to ')
+							a(href="#", onClick="window.location.reload()") #{_('reload.')}
 					else if message.type == 'reconnected'
-						=_('Reconnected successfully')
+						p
+							=_('Reconnected successfully')
 					else if message.type == 'room deleted'
-						=_('Room ') + message.options.room + _(' was successfully deleted.')
+						p
+							=_('Room ') + message.options.room + _(' was successfully deleted.')
 					else if message.type == 'url not found'
-						=("We could not find the room you were looking for - it might have been deleted, renamed or moved.")
+						p
+							=("We could not find the room you were looking for - it might have been deleted, renamed or moved.")
 					else
-						message.type
+						p
+							message.type
