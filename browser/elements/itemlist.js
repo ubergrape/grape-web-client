@@ -16,6 +16,7 @@ function ItemList(options) {
 	this.items = new Emitter([]);
 	this.itemIds = Object.create(null);
 	this.selected = null;
+	this.ignoreChanges = options.ignoreChanges || [];
 	// bind some fns
 	this.redraw = this.redraw.bind(this);
 	this.addItem = this.addItem.bind(this);
@@ -48,7 +49,13 @@ ItemList.prototype.setItems = function ItemList_setItems(items) {
 	// make an id mapping
 	var ids = this.itemIds = Object.create(null);
 	items.forEach(function (item) {
-		item.on('change', self.redraw);
+		item.on('change', function() {
+			if (self.ignoreChanges.length > 0 && arguments.length > 0 && self.ignoreChanges.indexOf(arguments[0]) !== -1) {
+				// ignore change event arguments[0]
+				return
+			}
+			self.redraw();
+		});
 		ids[item.id] = item;
 	});
 	// bind to reactive events

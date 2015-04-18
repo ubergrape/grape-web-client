@@ -28,11 +28,21 @@ Navigation.prototype.init = function Navigation_init() {
 	this.nav = {};
 	this.redraw();
 	this.el = this.nav.el;
-	var roomList = this.roomList = new ItemList({template: 'roomlist.jade', selector: '.item a'});
+	var roomList = this.roomList = new ItemList({
+		template: 'roomlist.jade',
+		selector: '.item a',
+		ignoreChanges: ['typing']});
 	replace(qs('.rooms', this.el), roomList.el);
-	var pmList = this.pmList = new ItemList({template: 'pmlist.jade', selector: '.item a'});
+
+	var pmList = this.pmList = new ItemList({
+		template: 'pmlist.jade',
+		selector: '.item a',
+		ignoreChanges: ['typing']});
 	replace(qs('.pms', this.el), pmList.el);
-	var labelList = this.labelList = new ItemList({template: 'labellist.jade', selector: '.item a'});
+
+	var labelList = this.labelList = new ItemList({
+		template: 'labellist.jade',
+		selector: '.item a'});
 	replace(qs('.labels', this.el), labelList.el);
 
 	this.filtering = false;
@@ -64,7 +74,7 @@ Navigation.prototype.init = function Navigation_init() {
 	// listening to the event fired by the resizable in the resize
 	// method in the resizable component (our ubergrape fork)
 	pmResizable.element.addEventListener('resize', resizeRoomList);
-	
+
 	// if the pm list height in not saved in localStorage,
 	// the height will fall back to the default one (25%)
 	pmResizable.element.style.height = store.get('pmListHeight') + 'px';
@@ -104,7 +114,7 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
-	
+
 	function getStatusValue(user) {
 		if (!user.active) return 0;
 		if (user.status == 16) return 3;
@@ -123,7 +133,7 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 
 Navigation.prototype.select = function Navigation_select(item) {
 	var	self 	= this,
-		which	= item.type;	
+		which	= item.type;
 	['room', 'pm', 'label'].forEach(function (which) {
 		self[which + 'List'].selectItem(null);
 	});
@@ -170,8 +180,8 @@ Navigation.prototype.hasRead = function Navigation_hasRead(room) {
 	// we just need this for the pm list, not the room list
 	// the room list is listening to changes in its items and redrawing
 	// the pm is not listening to changes in its pm object, so
-	// we need to manually redraw 
-	// TODO redisign this, since the room list is also redrawn 
+	// we need to manually redraw
+	// TODO redisign this, since the room list is also redrawn
 	// every time someone type anything and that is not expected
 	this.pmList.redraw();
 }
