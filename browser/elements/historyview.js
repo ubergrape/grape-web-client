@@ -80,7 +80,8 @@ HistoryView.prototype.init = function HistoryView_init() {
 	this.typing = {};
 	this.redraw();
 	el.appendChild(this.history.el);
-	this.setTyping();
+	this.redrawTyping();
+	el.appendChild(this.typing.el);
 	// and make it work with custom scrollbars
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
@@ -264,19 +265,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 		self.redrawTyping();
 	});
 };
-
-HistoryView.prototype.setTyping = function HistoryView_setTyping() {
-	this.redrawTyping();
-
-	function replace(from, to) {
-		from.parentNode.replaceChild(to, from);
-	}
-
-	// replace the typing-notification template
-	// this way we can issue a typing-notification redraw
-	// without issuing a history redraw
-	replace(qs('.typing-notification', this.history.el), this.typing.el);
-}
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 	render(this.typing, template('typingnotifications.jade', { room: this.room }));
