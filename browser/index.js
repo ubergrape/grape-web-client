@@ -338,6 +338,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
+	console.log('SET USER');
 	// the first time setUser will be called it hopefully contains the current
 	// user and not another one
 	if (this.user === undefined || user.id === this.user.id) {
