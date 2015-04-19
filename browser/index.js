@@ -345,6 +345,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 		template.locals.user = user;
 		this.grapeInput.redraw();
 	}
+	// commented out for perfomance reasons atm
 	//this.historyView.redraw();
 };
 
