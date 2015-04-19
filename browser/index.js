@@ -246,8 +246,6 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	focus.on('focus', this.setNotificationsSession.bind(this));
-
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
 		var as, i;
@@ -336,6 +334,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.addRoom.setItems(rooms);
 	URLManager.call(this);
 	this.setNotificationsSession();
+	focus.on('focus', this.setNotificationsSession.bind(this));
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
