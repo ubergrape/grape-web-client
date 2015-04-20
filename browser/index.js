@@ -88,7 +88,8 @@ UI.prototype.init = function UI_init() {
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),
-		username: "Loading"
+		username: "Loading",
+		displayName: "Loading"
 	};
 	template.locals.org = {
 		logo: staticurl("images/orga-image-load.gif"),
