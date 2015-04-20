@@ -146,13 +146,14 @@
 						if line.attachments
 							//- process attachments/uploads
 							each attachment in line.attachments
-								if attachment.type.indexOf("image") == 0
-									//- attachment is an image
-									div.image-wrap
-										img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
-								else
-									//- any other file
-									a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
+								if attachment.type !== undefined
+									if attachment.type.indexOf("image") == 0
+										//- attachment is an image
+										div.image-wrap
+											img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+									else
+										//- any other file
+										a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
@@ -184,5 +185,3 @@
 								if line.attachments.length == 0
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
-
-	.typing-notification

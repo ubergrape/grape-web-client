@@ -246,8 +246,6 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	focus.on('focus', this.setNotificationsSession.bind(this));
-
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
 		var as, i;
@@ -318,7 +316,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
 	//	].map(function (r) { return Emitter(r); });
 	//	pms = Emitter(pms);
-	var labels = [];// FIXME: add real labels
+	var labels = [];
 	labels = [
 		{id: 1, name: '#github', icon: 'github'},
 		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
@@ -336,6 +334,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.addRoom.setItems(rooms);
 	URLManager.call(this);
 	this.setNotificationsSession();
+	focus.on('focus', this.setNotificationsSession.bind(this));
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
@@ -346,7 +345,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 		template.locals.user = user;
 		this.grapeInput.redraw();
 	}
-	this.historyView.redraw();
+	//this.historyView.redraw();
 };
 
 UI.prototype.setSettings = function UI_setSettings(settings) {

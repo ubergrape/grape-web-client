@@ -366,10 +366,11 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
+		user.displayName = data.user.displayName;
 		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}
-		self.emit('change user', self.user);
+		self.emit('change user', user);
 	});
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
 		var msg = models.Line.get(notification.message_id);
