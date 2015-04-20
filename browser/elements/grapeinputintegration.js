@@ -278,9 +278,11 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 		this.completePreviousEditing();
 	}
 	else {
-		this.emit('input', this.room, data.content, {
-			attachments: this.getAttachments(data.objects)
-		});
+		this.emit('input', this.room, data.content);
+		var attachments = this.getAttachments(data.objects);
+		if (attachments.length) {
+			this.emit('input', this.room, '', {attachments: attachments});
+		}
 		this.input.setContent('');
 	}
 };
