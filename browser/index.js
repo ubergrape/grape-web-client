@@ -316,7 +316,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
 	//	].map(function (r) { return Emitter(r); });
 	//	pms = Emitter(pms);
-	var labels = [];// FIXME: add real labels
+	var labels = [];
 	labels = [
 		{id: 1, name: '#github', icon: 'github'},
 		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
