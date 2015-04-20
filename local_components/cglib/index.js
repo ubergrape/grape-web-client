@@ -366,6 +366,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
+		user.displayName = data.user.displayName;
 		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}
