@@ -210,6 +210,30 @@ GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.emit('stoptyping', this.room);
 }, 1000);
 
+var EXTERNAL_ATTACHMENTS = ['giphy'];
+
+GrapeInputIntegration.prototype.getAttachments = function (objects) {
+	objects = objects.filter(function (obj) {
+		return EXTERNAL_ATTACHMENTS.indexOf(obj.service) > -1;
+	});
+
+	var attachments = objects.map(function (obj) {
+		var image = obj.detail.preview.image;
+
+		return {
+			name: obj.name,
+			url: obj.url,
+			source: obj.service,
+			mime_type: obj.mime_type,
+			thumbnail_url: image.url,
+			thumbnail_width: image.width,
+			thumbnail_height: image.height
+		};
+	});
+
+	return attachments;
+};
+
 GrapeInputIntegration.prototype.onMarkdownTipsShow = function () {
 	this.emit('showmarkdowntips');
 };
@@ -246,15 +270,19 @@ GrapeInputIntegration.prototype.onChange = function () {
 	this.debouncedStopTyping();
 };
 
-GrapeInputIntegration.prototype.onSubmit = function () {
-	var content = this.input.getTextContent();
+GrapeInputIntegration.prototype.onSubmit = function (e) {
+	var data = e.detail;
 
 	if (this.previous) {
-		this.emit('update', this.previous.msg, content);
+		this.emit('update', this.previous.msg, data.content);
 		this.completePreviousEditing();
 	}
 	else {
-		this.emit('input', this.room, content);
+		this.emit('input', this.room, data.content);
+		var attachments = this.getAttachments(data.objects);
+		if (attachments.length) {
+			this.emit('input', this.room, '', {attachments: attachments});
+		}
 		this.input.setContent('');
 	}
 };
@@ -270,4 +298,3 @@ GrapeInputIntegration.prototype.onBlur = function () {
 GrapeInputIntegration.prototype.onOrgReady = function () {
 	this.init();
 };
-
