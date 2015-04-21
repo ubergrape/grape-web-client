@@ -92,6 +92,8 @@ grape-input
 		height: 20px
 		margin-top: -1px
 		margin-bottom: -1px
+		position: relative
+		overflow: hidden
 		span
 			float: left
 			margin-right: 0
@@ -101,6 +103,15 @@ grape-input
 			margin: 0
 			height: 19px!important
 			margin-top: -2px
+		&::after
+			content: ""
+			position:absolute;
+			height:80%; 
+			width:0; 
+			top:9%; 
+			left:0;
+			pointer-events:none;
+			animation: grapeHighlighter 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	span.type-chatgraperoom,
 	span.type-chatgrapeuser
 		display: none
