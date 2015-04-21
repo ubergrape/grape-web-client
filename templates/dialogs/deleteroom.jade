@@ -6,8 +6,8 @@ if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === c
 		strong=_("This action can't be undone.")
 	form.delete-room-form
 		.formrow
-			input.password(type="password", name="password", id="password", placeholder="Enter your password to continue ...")
-		input.button.delete(type="submit", name="submit", value=_('Delete') + " " + room.name)
+			input.roomname(type="text", name="roomname", id="roomname", placeholder="Enter the name of the room you want to delete")
+		input.button.delete(type="submit", name="submit", value=_('Delete'))
 else
 	h3=_("Delete ") + room.name
 	if room.creator
