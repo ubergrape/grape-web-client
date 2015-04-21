@@ -14,7 +14,7 @@ function DeleteRoomDialog(context) {
 	Dialog.call(this, context);
 	this.button = qs('.delete', this.el);
 	this.form = qs('.delete-room-form', this.el);
-	if (this.form) this.passwordInput = this.form.password;
+	if (this.form) this.roomNameInput = this.form.roomname;
 }
 
 DeleteRoomDialog.prototype = Object.create(Dialog.prototype);
@@ -24,23 +24,23 @@ DeleteRoomDialog.prototype.bind = function DeleteRoomDialog_bind() {
 	this.events.obj.submit = this.submit.bind(this);
 	this.events.obj.resetvalidity = this.resetvalidity.bind(this);
 	this.events.bind('submit .delete-room-form', 'submit');
-	this.events.bind('input .password', 'resetvalidity');
+	this.events.bind('input .roomname', 'resetvalidity');
 };
 
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 	ev.preventDefault();
 	var self = this;
 
-	var password = self.passwordInput.value.trim();
-	if (!password) {
-		self.passwordInput.setCustomValidity(_("Please enter your password"));
+	var roomName = self.roomNameInput.value.trim();
+	if (!roomName) {
+		self.roomNameInput.setCustomValidity(_("Please enter the name of the room you want to delete"));
 		self.button.click();
 		return;
 	}
 
-	self.emit('deleteroom', self.context.room, password, function DeleteRoomDialog_submit_callback(err, result){
+	self.emit('deleteroom', self.context.room, roomName, function DeleteRoomDialog_submit_callback(err, result){
 		if(err) {
-			self.passwordInput.setCustomValidity(err.details);
+			self.roomNameInput.setCustomValidity(err.details);
 			self.button.click();
 		} else {
 			self.dialog.hide();
@@ -49,6 +49,6 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 };
 
 DeleteRoomDialog.prototype.resetvalidity = function DeleteRoomDialog_resetvalidity() {
-	this.passwordInput.setCustomValidity('');
+	this.roomNameInput.setCustomValidity('');
 };
 

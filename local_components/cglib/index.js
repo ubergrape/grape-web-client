@@ -497,10 +497,10 @@ App.prototype.createRoom = function App_createRoom(room) {
 	});
 };
 
-App.prototype.deleteRoom = function App_deleteRoom(room, password, callback) {
+App.prototype.deleteRoom = function App_deleteRoom(room, roomName, callback) {
 	room.organization = this.organization.id;
 	var self = this;
-	this.wamp.call(PREFIX + 'channels/delete', room.id, password, function (err, result) {
+	this.wamp.call(PREFIX + 'channels/delete', room.id, roomName, function (err, result) {
 		if (callback !== undefined) {
 			callback(err, result);
 		}
