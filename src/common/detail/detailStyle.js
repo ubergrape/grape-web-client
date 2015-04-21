@@ -8,6 +8,17 @@ export default {
     boxShadow: 'inset 0px 0px 3px 3px rgba(0,0,0,0.10)',
     color: colors.grapeTypo,
   },
+  previewWrapper: {
+    textAlign: 'center',
+    background: colors.gainsboroLight,
+    lineHeight: 0
+  },
+  preview: {
+    maxWidth: '100%',
+    maxHeight: 110,
+    height: 'auto',
+    width: 'auto'
+  },
   contentWrapper: {
     padding: 15
   },

@@ -31,7 +31,11 @@ export default React.createClass({
     let previewUrl = getImageUrl(data)
     let preview
     if (previewUrl) {
-      preview = <img src={previewUrl} width="100%" />
+      preview = (
+        <div className={classes.previewWrapper}>
+          <img src={previewUrl} className={classes.preview} />
+        </div>
+      )
     }
 
     return (
