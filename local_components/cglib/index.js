@@ -19,7 +19,7 @@ exports.constants = require('./constants');
 
 var PREFIX = 'http://domain/';
 var HEARTBEAT_INTERVAL = 10000;
-var HEARTBEAT_TIMEOUT = 3000;
+var HEARTBEAT_TIMEOUT = 10000;
 
 function App() {
 	Emitter.call(this);
