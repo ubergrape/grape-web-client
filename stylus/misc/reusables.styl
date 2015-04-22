@@ -9,7 +9,7 @@ clearfix()
 		clear both
 $clearfix
 	clearfix()
-	
+
 
 /*______ HOVERABLE ______*/
 $hoverable, $hoverable:hover
@@ -41,7 +41,7 @@ $horizontal-list
 
 /*______ Ellipsis ______*/
 $ellipsis
-	text-overflow: ellipsis 
+	text-overflow: ellipsis
 	white-space: nowrap
 	overflow: hidden
 	display: block
@@ -56,7 +56,7 @@ $functional-list // this has to be the LI
 		display: block
 		text-decoration: none
 	&.selected
-		> a 
+		> a
 			font-weight: bold
 	.icon
 	.avatar-wrap
@@ -164,3 +164,81 @@ placeholder(color = $input-color-placeholder) {
 	margin-bottom: 30px
 .mar-b40
 	margin-bottom: 40px
+
+
+
+@keyframes slidein {
+	0% {
+		opacity: 0.4;
+		transform: translateY(-30px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
+@keyframes overlayFlowIn {
+	0% {
+		opacity: 0
+		background: rgba(aqua-dark, 0.75)
+	}
+	0% {
+		opacity: 0.5
+		background: rgba(grape-dark, 0.75)
+	}
+	100% {
+		opacity: 1
+		background:  rgba(0, 0, 0, 0.75)
+	}
+}
+
+
+
+@keyframes hifromthebottom {
+	0% {
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+		transform: scaleX(.96) translate3d(0, 20px, 0);
+		opacity: 0
+	}
+	100% {
+		box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 1
+	}
+}
+@keyframes hifromthetop {
+	0% {
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+		transform: scaleX(.96) translate3d(0, -20px, 0);
+		opacity: 0
+	}
+	100% {
+		box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 1
+	}
+}
+@keyframes hifromtheright {
+	0% {
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+		transform: scaleX(.96) translate3d(20px, 0, 0);
+		opacity: 0
+	}
+	100% {
+		box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 1
+	}
+}
+@keyframes hifromtheleft {
+	0% {
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+		transform: scaleX(.96) translate3d(-20px, 0, 0);
+		opacity: 0
+	}
+	100% {
+		box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 1
+	}
+}
