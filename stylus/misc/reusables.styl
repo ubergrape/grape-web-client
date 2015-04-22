@@ -218,6 +218,16 @@ placeholder(color = $input-color-placeholder) {
 		opacity: 1
 	}
 }
+@keyframes hifromthetopNoShadow {
+	0% {
+		transform: scaleX(.96) translate3d(0, -20px, 0);
+		opacity: 0
+	}
+	100% {
+		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 0.98
+	}
+}
 @keyframes hifromtheright {
 	0% {
 		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
