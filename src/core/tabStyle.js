@@ -12,14 +12,14 @@ let container = {
   cursor: 'pointer',
   textTransform: 'uppercase',
   fontWeight: 'bold',
-  color: Color(colors.white).alpha(.5).hslString()
+  color: Color(colors.white).alpha(.5).rgbaString()
 }
 
 export default {
   container: {
     extend: container,
     '&:hover': {
-      background: Color(webColors.roomHeaderBackground).lighten(.2).hslString()
+      background: Color(webColors.roomHeaderBackground).lighten(.2).rgbaString()
     }
   },
   containerSelected: {
