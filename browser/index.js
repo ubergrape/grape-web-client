@@ -209,6 +209,7 @@ UI.prototype.init = function UI_init() {
 
 	// check timezone
 	this.tz = timezone.determine().name();
+	this.notificationSessionSet = false;
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -335,7 +336,9 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.addRoom.setItems(rooms);
 	URLManager.call(this);
 	this.setNotificationsSession();
+	if (this.notificationSessionSet == true) return;
 	focus.on('focus', this.setNotificationsSession.bind(this));
+	this.notificationSessionSet = true;
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
