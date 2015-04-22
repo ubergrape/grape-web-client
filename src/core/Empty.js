@@ -8,11 +8,17 @@ import emptyStyle from './emptyStyle'
 export default React.createClass({
   mixins: [useSheet(emptyStyle)],
 
+  getDefaultProps() {
+    return {
+      text: 'Nothing found.'
+    }
+  },
+
   render() {
     let {classes} = this.sheet
     return (
       <div className={classes.container}>
-        <div className={classes.info}>Nothing found.</div>
+        <div className={classes.info}>{this.props.text}</div>
       </div>
     )
   }

@@ -154,19 +154,25 @@ export default React.createClass({
     let data = selectedSection ? [selectedSection] : sections
     let facet
     let empty
+    let {search} = this.props.data
+    let isExternal = search.type == 'external'
 
     if (data.length) {
       facet = React.createElement(services[serviceName], {
         data: data,
         focusedObject: this.getFocusedObject(),
-        showDetail: this.props.data.search.type == 'external',
+        showDetail: isExternal,
         height: this.props.height - tabsStyle.container.height,
         focus: this.onFocusObject,
         select: this.onSelectObject
       })
     }
     else {
-      empty = <Empty />
+      let text
+      if (isExternal) {
+        text = `Write the search term to search ${search.service}.`
+      }
+      empty = <Empty text={text}/>
     }
 
     let style = {
