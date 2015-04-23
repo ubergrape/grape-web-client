@@ -24,7 +24,8 @@ export default React.createClass({
       data: null,
       height: 300,
       className: '',
-      maxObjectsPerSectionInAll: 5
+      maxObjectsPerSectionInAll: 5,
+      isExternal: false
     }
   },
 
@@ -154,8 +155,7 @@ export default React.createClass({
     let data = selectedSection ? [selectedSection] : sections
     let facet
     let empty
-    let {search} = this.props.data
-    let isExternal = search.type == 'external'
+    let {isExternal} = this.props
 
     if (data.length) {
       facet = React.createElement(services[serviceName], {
