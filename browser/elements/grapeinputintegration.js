@@ -104,7 +104,15 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
 
 	this.input.setProps({
 		data: data,
-		type: 'user'
+		type: 'user',
+		queryObj: queryObj
+	});
+};
+
+GrapeInputIntegration.prototype.showEmojis = function (queryObj) {
+	this.input.setProps({
+		type: 'emoji',
+		queryObj: queryObj
 	});
 };
 
@@ -162,13 +170,6 @@ GrapeInputIntegration.prototype.findRooms = function (key) {
 	});
 
 	return rooms;
-};
-
-GrapeInputIntegration.prototype.showEmojis = function (queryObj) {
-	this.input.setProps({
-		type: 'emoji',
-		queryObj: queryObj
-	});
 };
 
 GrapeInputIntegration.prototype.completePreviousEditing = function () {
