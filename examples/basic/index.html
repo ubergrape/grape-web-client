@@ -23,7 +23,7 @@
     <script>
       function init() {
         var component = document.querySelectorAll('grape-browser')[0]
-        component.setProps({data: window.data, showDetails: true})
+        component.setProps({data: window.data, isExternal: true})
 
         var keysMap = {
           40: 'down',
