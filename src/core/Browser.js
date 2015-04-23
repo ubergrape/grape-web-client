@@ -170,7 +170,7 @@ export default React.createClass({
     else {
       let text
       if (isExternal) {
-        text = `Write the search term to search ${search.service}.`
+        text = `Write the search term to search ${this.props.data.search.service}.`
       }
       empty = <Empty text={text}/>
     }
