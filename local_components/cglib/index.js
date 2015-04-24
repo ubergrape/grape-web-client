@@ -353,6 +353,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#status', function (data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
+		self.emit('change user', user);
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;

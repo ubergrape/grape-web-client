@@ -140,52 +140,6 @@ Navigation.prototype.select = function Navigation_select(item) {
 	this[which + 'List'].selectItem(item);
 };
 
-Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (this.filtering || line.channel.type != 'pm') return;
-	var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
-	if (pmPartnerIndex == -1) return;
-	this.pmList.items.splice(pmPartnerIndex, 1);
-	this.pmList.items.unshift(line.channel.users[0]);
-	this.pmList.redraw();
-}
-
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-}
-
-Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
-	// TODO unbind events
-	if (this.filtering) return;
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-};
-
-Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
-	this.roomList.redraw();
-}
-
-Navigation.prototype.hasRead = function Navigation_hasRead(room) {
-	if (this.filtering || room.type != "pm") return;
-	// we just need this for the pm list, not the room list
-	// the room list is listening to changes in its items and redrawing
-	// the pm is not listening to changes in its pm object, so
-	// we need to manually redraw
-	// TODO redisign this, since the room list is also redrawn
-	// every time someone type anything and that is not expected
-	this.pmList.redraw();
-}
-
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	var self = this;
 	var str = self.pmFilterEl.value;
@@ -218,6 +172,59 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	});
 };
 
+Navigation.prototype.newMessage = function Navigation_newMessage(line) {
+	if (this.filtering) return;
+	if (line.channel.type == 'pm') {
+		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
+		if (pmPartnerIndex == -1) return;
+		this.pmList.items.splice(pmPartnerIndex, 1);
+		this.pmList.items.unshift(line.channel.users[0]);
+		this.pmList.redraw();
+	} else {
+		this.roomList.redraw();
+	}
+}
+
+Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
+	if (this.filtering) return;
+	var newPos = this.pmList.items.length;
+	this.pmList.items.every(function(pm, index) {
+		if (!pm.active) {
+			newPos = index;
+			return false;
+		}
+		return true;
+	});
+	this.pmList.items.splice(newPos, 0, user);
+	this.pmList.redraw();
+}
+
+Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
+	// TODO unbind events
+	if (this.filtering) return;
+	var itemIndex = this.pmList.items.indexOf(item);
+	this.pmList.items.splice(itemIndex, 1);
+	this.pmList.redraw();
+};
+
+Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
+	this.roomList.redraw();
+}
+
+Navigation.prototype.hasRead = function Navigation_hasRead(room) {
+	if (this.filtering) return;
+	this.redraw();
+}
+
+Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
+	this.roomList.redraw();
+}
+
+Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
+	this.pmList.redraw();
+}
+
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady() {
 	this.redraw();
 }
+

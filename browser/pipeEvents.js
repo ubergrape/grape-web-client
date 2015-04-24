@@ -97,4 +97,6 @@ function pipeEvents(ui) {
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'addroom', ui.addRoom, 'toggle');
+	broker(ui, 'change user', ui.navigation, 'onChangeUser');
+	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 }
