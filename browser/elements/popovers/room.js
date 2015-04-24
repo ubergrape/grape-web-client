@@ -77,6 +77,18 @@ RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 	this.itemList.setItems(items);
 };
 
+RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
+	this.itemList.redraw();
+}
+
 RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
-	this.redraw();
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onChannelUpdate = function RoomPopover_onChannelUpdate() {
+	this.itemList.redraw();
 }
