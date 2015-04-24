@@ -93,6 +93,10 @@ RoomPopover.prototype.onChannelUpdate = function RoomPopover_onChannelUpdate() {
 	this.itemList.redraw();
 }
 
+RoomPopover.prototype.onRoomDeleted = function RoomPopover_onRoomDeleted() {
+	this.itemList.redraw();
+}
+
 RoomPopover.prototype.onOrgReady = function RoomPopover_onOrgReady(org) {
 	this.setItems(org.rooms);
 }

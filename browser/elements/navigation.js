@@ -155,7 +155,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (this.filtering || line.author == ui.user) return;
+	if (this.filtering) return;
 	if (line.channel.type == 'pm') {
 		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (pmPartnerIndex == -1) return;
@@ -163,7 +163,7 @@ Navigation.prototype.newMessage = function Navigation_newMessage(line) {
 		this.pmList.items.unshift(line.channel.users[0]);
 		this.pmList.redraw();
 	} else {
-		if (line.channel.joined) this.roomList.redraw();
+		if (line.channel.joined && line.author != ui.user) this.roomList.redraw();
 	}
 }
 

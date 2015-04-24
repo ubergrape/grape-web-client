@@ -13,12 +13,13 @@ function pipeEvents(ui) {
 	broker(ui, 'orgReady', ui.addRoom, 'onOrgReady');
 	broker.pass(ui.addRoom, 'createroom', ui, 'createroom');
 	broker.pass(ui.addRoom, 'leaveroom', ui, 'leaveroom');
-	broker(ui, 'newRoom', ui.addRoom, 'newRoom');
+	broker(ui, 'newroom', ui.addRoom, 'newRoom');
 	broker(ui.addRoom, 'toggleroomcreation', ui.roomCreation, 'toggle');
 	broker(ui.roomCreation, 'toggleaddroom', ui.addRoom, 'toggle');
 	broker(ui, 'joinedchannel', ui.addRoom, 'onJoinedChannel');
 	broker(ui, 'leftchannel', ui.addRoom, 'onLeftChannel');
 	broker(ui, 'channelupdate', ui.addRoom, 'onChannelUpdate');
+	broker(ui, 'roomdeleted', ui.addRoom, 'onRoomDeleted');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
