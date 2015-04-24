@@ -10,6 +10,7 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui, 'setRoomContext');
 
 	// addRoom popover
+	broker(ui, 'orgReady', ui.addRoom, 'onOrgReady');
 	broker.pass(ui.addRoom, 'createroom', ui, 'createroom');
 	broker.pass(ui.addRoom, 'leaveroom', ui, 'leaveroom');
 	broker(ui, 'newRoom', ui.addRoom, 'newRoom');

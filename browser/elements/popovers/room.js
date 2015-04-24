@@ -92,3 +92,7 @@ RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
 RoomPopover.prototype.onChannelUpdate = function RoomPopover_onChannelUpdate() {
 	this.itemList.redraw();
 }
+
+RoomPopover.prototype.onOrgReady = function RoomPopover_onOrgReady(org) {
+	this.setItems(org.rooms);
+}

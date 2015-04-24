@@ -40,11 +40,6 @@ Navigation.prototype.init = function Navigation_init() {
 		ignoreChanges: ['typing']});
 	replace(qs('.pms', this.el), pmList.el);
 
-	var labelList = this.labelList = new ItemList({
-		template: 'labellist.jade',
-		selector: '.item a'});
-	replace(qs('.labels', this.el), labelList.el);
-
 	this.filtering = false;
 
 	var	roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
@@ -100,17 +95,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
-	var self = this;
-
 	lists.pms.sort(this.pmCompare);
-
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (lists[which + 's'])
-			self[which + 'List'].setItems(lists[which + 's']);
-	});
-
-	// we need this for filtering
-	self.pmList.unfiltered = self.pmList.items;
+	this.pmList.setItems(lists.pms);
+	this.roomList.setItems(lists.rooms);
+	this.pmList.unfiltered = this.pmList.items;
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -134,7 +122,7 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 Navigation.prototype.select = function Navigation_select(item) {
 	var	self 	= this,
 		which	= item.type;
-	['room', 'pm', 'label'].forEach(function (which) {
+	['room', 'pm'].forEach(function (which) {
 		self[which + 'List'].selectItem(null);
 	});
 	this[which + 'List'].selectItem(item);
@@ -165,11 +153,8 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 // redraw everything, eg when the language changes
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
-	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (self[which + 'List'])
-		self[which + 'List'].redraw();
-	});
+	if (this.pmList) this.pmList.redraw();
+	if (this.roomList) this.roomlist.redraw();
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
@@ -224,8 +209,13 @@ Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	this.pmList.redraw();
 }
 
-Navigation.prototype.onOrgReady = function Navigation_onOrgReady() {
-	this.redraw();
+Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
+	var rooms = org.rooms;
+	var pms = org.users.filter(function(user) {
+		return self.user != user &&
+		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+	});
+	this.setLists({ rooms: rooms, pms: pms });
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {

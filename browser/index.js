@@ -297,43 +297,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
-	// set the items for the nav list
-	var rooms = org.rooms;
-//	rooms = [
-//		{id: 1, name: 'Design'},
-//		{id: 2, name: 'Infrastruktur'},
-//		{id: 3, name: 'Marketing'},
-//		{id: 4, name: 'Privat', 'private': true, unread: 2}
-//	].map(function (r) { r.joined = true; return Emitter(r); });
-//	rooms = Emitter(rooms);
-
-	var pms = org.users.filter(function(user) {
-		return self.user != user &&
-		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
-	});
-
-	//	var pms = [
-	//		{id: 1, username: 'Tobias Seiler', status: 16},
-	//		{id: 2, username: 'Leo Fasbender', status: 0},
-	//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
-	//	].map(function (r) { return Emitter(r); });
-	//	pms = Emitter(pms);
-	var labels = [];
-	labels = [
-		{id: 1, name: '#github', icon: 'github'},
-		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
-		{id: 3, name: '#termine', icon: 'calendar'},
-	].map(function (r) { return new Emitter(r); });
-	labels = new Emitter(labels);
-
-	this.navigation.setLists({
-		rooms: rooms,
-		pms: pms,
-		labels: labels
-	});
-
-	// set the items for the add room popover
-	this.addRoom.setItems(rooms);
 	URLManager.call(this);
 	this.setNotificationsSession();
 	if (this.notificationSessionSet == true) return;
