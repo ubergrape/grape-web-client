@@ -154,7 +154,7 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
-	if (this.roomList) this.roomlist.redraw();
+	if (this.roomList) this.roomList.redraw();
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
