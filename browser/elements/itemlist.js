@@ -12,14 +12,9 @@ function ItemList(options) {
 	Emitter.call(this);
 	this.template = options.template;
 	this.selector = options.selector + ', .item .name, .item .icon, .item .unread, .item .room-info, .item';
-	// guarantee `items` is an array emitter
 	this.items = [];
-	this.itemIds = Object.create(null);
 	this.selected = null;
-	this.ignoreChanges = options.ignoreChanges || [];
-	// bind some fns
 	this.redraw = this.redraw.bind(this);
-	// and go about our business :-)
 	this.redraw();
 }
 
