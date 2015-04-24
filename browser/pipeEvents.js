@@ -54,7 +54,6 @@ function pipeEvents(ui) {
 	broker(ui, 'gothistory', ui.historyView, 'gotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
 	broker.pass(ui.historyView, 'hasread', ui, 'hasread');
-	broker(ui.historyView, 'hasread', ui.navigation, 'hasRead');
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
 	broker.pass(ui.historyView, 'deletemessage', ui, 'deletemessage');
 	broker(ui.historyView, 'deletemessage', ui.grapeInput, 'editingDone');
@@ -104,4 +103,5 @@ function pipeEvents(ui) {
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 	broker(ui, 'leftchannel', ui.navigation, 'onLeftChannel');
+	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
 }

@@ -26,18 +26,18 @@ Navigation.prototype = Object.create(Emitter.prototype);
 Navigation.prototype.init = function Navigation_init() {
 	var self = this;
 	this.nav = {};
-	this.redraw();
+	this.redraw('init');
 	this.el = this.nav.el;
 	var roomList = this.roomList = new ItemList({
 		template: 'roomlist.jade',
-		selector: '.item a',
-		ignoreChanges: ['typing']});
+		selector: '.item a'
+	});
 	replace(qs('.rooms', this.el), roomList.el);
 
 	var pmList = this.pmList = new ItemList({
 		template: 'pmlist.jade',
-		selector: '.item a',
-		ignoreChanges: ['typing']});
+		selector: '.item a'
+	});
 	replace(qs('.pms', this.el), pmList.el);
 
 	this.filtering = false;
@@ -120,12 +120,9 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
-	var	self 	= this,
-		which	= item.type;
-	['room', 'pm'].forEach(function (which) {
-		self[which + 'List'].selectItem(null);
-	});
-	this[which + 'List'].selectItem(item);
+	this.roomList.selectItem(null);
+	this.pmList.selectItem(null);
+	this[item.type + 'List'].selectItem(item);
 };
 
 Navigation.prototype.pmFilter = function Navigation_pmFilter() {
@@ -151,22 +148,23 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 };
 
 // redraw everything, eg when the language changes
-Navigation.prototype.redraw = function Navigation_redraw() {
+Navigation.prototype.redraw = function Navigation_redraw(cause) {
+	console.log('navigation was redrawn because of ' + cause);
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
 	if (this.roomList) this.roomList.redraw();
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (this.filtering) return;
+	if (this.filtering || line.author == ui.user) return;
 	if (line.channel.type == 'pm') {
 		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (pmPartnerIndex == -1) return;
 		this.pmList.items.splice(pmPartnerIndex, 1);
 		this.pmList.items.unshift(line.channel.users[0]);
-		this.pmList.redraw();
+		this.pmList.redraw('new message');
 	} else {
-		this.roomList.redraw();
+		if (line.channel.joined) this.roomList.redraw('new message');
 	}
 }
 
@@ -181,7 +179,7 @@ Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 		return true;
 	});
 	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
+	this.pmList.redraw('new org member');
 }
 
 Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
@@ -189,24 +187,25 @@ Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
 	if (this.filtering) return;
 	var itemIndex = this.pmList.items.indexOf(item);
 	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
+	this.pmList.redraw('delete user');
 };
 
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
-	this.roomList.redraw();
+	this.roomList.redraw('delete room');
 }
 
-Navigation.prototype.hasRead = function Navigation_hasRead(room) {
-	if (this.filtering) return;
-	this.redraw();
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
+	if (this.filtering || ui.user == line.author) return;
+	this.redraw('channel read');
 }
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
-	this.roomList.redraw();
+	this.roomList.redraw('channel update');
 }
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
-	this.pmList.redraw();
+	if (user == ui.user) return;
+	this.pmList.redraw('change user');
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
@@ -218,10 +217,10 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	this.setLists({ rooms: rooms, pms: pms });
 	// we need this redraw for the organization logo
 	// maybe there is a way to change it
-	this.redraw();
+	this.redraw('org ready');
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
-	this.roomList.redraw();
+	this.roomList.redraw('left channel');
 }
 
