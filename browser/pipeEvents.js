@@ -56,7 +56,6 @@ function pipeEvents(ui) {
 	broker(ui.historyView, 'deletemessage', ui.grapeInput, 'editingDone');
 	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
-	broker(ui.historyView, 'selectchannelfromurl', ui, 'selectChannelFromUrl');
 
 	// title
 	broker(ui, 'selectchannel', ui.title, 'setRoom');

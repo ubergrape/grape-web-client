@@ -162,8 +162,6 @@ App.prototype.connect = function App_connect(ws, callback) {
 		console.log("Websocket Error, disconnecting!", arguments);
 		self.onDisconnect();
 	});
-	// this is really ugly but needed for the tests to run
-	if (typeof this._ws._openForTest !== "undefined") this._ws._openForTest();
 };
 
 App.prototype.reconnect = function App_reconnect() {

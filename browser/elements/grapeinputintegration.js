@@ -85,26 +85,34 @@ GrapeInputIntegration.prototype.redraw = function () {
 	render(this, vdom);
 };
 
-GrapeInputIntegration.prototype.showBrowser = function (search) {
-	this.emit('autocomplete', search.key, function (err, data) {
+GrapeInputIntegration.prototype.showBrowser = function (queryObj) {
+	this.emit('autocomplete', queryObj.key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.input.setProps({
 			data: data,
 			type: 'search',
-			key: search.key
+			queryObj: queryObj
 		});
 	}.bind(this));
 };
 
-GrapeInputIntegration.prototype.showUsersAndRooms = function (search) {
-	var key = search.key.toLowerCase();
+GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
+	var key = queryObj.key.toLowerCase();
 	var users = this.findUsers(key);
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
 
 	this.input.setProps({
 		data: data,
-		type: 'user'
+		type: 'user',
+		queryObj: queryObj
+	});
+};
+
+GrapeInputIntegration.prototype.showEmojis = function (queryObj) {
+	this.input.setProps({
+		type: 'emoji',
+		queryObj: queryObj
 	});
 };
 
@@ -162,13 +170,6 @@ GrapeInputIntegration.prototype.findRooms = function (key) {
 	});
 
 	return rooms;
-};
-
-GrapeInputIntegration.prototype.showEmojis = function (search) {
-	this.input.setProps({
-		type: 'emoji',
-		key: search.key
-	});
 };
 
 GrapeInputIntegration.prototype.completePreviousEditing = function () {
@@ -239,16 +240,16 @@ GrapeInputIntegration.prototype.onMarkdownTipsShow = function () {
 };
 
 GrapeInputIntegration.prototype.onComplete = function (e) {
-	var data = e.detail;
-	switch (data.trigger) {
+	var queryObj = e.detail;
+	switch (queryObj.trigger) {
 		case '#':
-			this.showBrowser(data)
+			this.showBrowser(queryObj)
 			break;
 		case '@':
-			this.showUsersAndRooms(data)
+			this.showUsersAndRooms(queryObj)
 			break;
 		case ':':
-			this.showEmojis(data)
+			this.showEmojis(queryObj)
 			break;
 	}
 };
