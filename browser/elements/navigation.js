@@ -216,6 +216,9 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
 	this.setLists({ rooms: rooms, pms: pms });
+	// we need this redraw for the organization logo
+	// maybe there is a way to change it
+	this.redraw();
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
