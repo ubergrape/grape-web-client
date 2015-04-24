@@ -228,3 +228,7 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady() {
 	this.redraw();
 }
 
+Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
+	this.roomList.redraw();
+}
+

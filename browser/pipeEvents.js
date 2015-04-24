@@ -99,4 +99,5 @@ function pipeEvents(ui) {
 	broker(ui.navigation, 'addroom', ui.addRoom, 'toggle');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
+	broker(ui, 'leftchannel', ui.navigation, 'onLeftChannel');
 }
