@@ -25,8 +25,7 @@ function ItemList(options) {
 
 ItemList.prototype = Object.create(Emitter.prototype);
 
-ItemList.prototype.redraw = function ItemList_redraw(cause ) {
-	console.log(this.template + " was redrawn because of " + cause);
+ItemList.prototype.redraw = function ItemList_redraw() {
 	var vdom = template(this.template, {
 		items: this.items,
 		selected: this.selected
