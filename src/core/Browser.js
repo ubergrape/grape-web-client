@@ -93,7 +93,7 @@ export default React.createClass({
   },
 
   focusObject(id) {
-    let sections = this.state.sections
+    let {sections} = this.state
     let set = false
 
     if (id == 'next' || id == 'prev') {
@@ -191,15 +191,15 @@ export default React.createClass({
     )
   },
 
-  onFocusObject(id) {
-    this.focusObject(id)
+  onFocusObject(data) {
+    this.focusObject(data.id)
   },
 
-  onSelectObject(id) {
-    this.selectObject(id)
+  onSelectObject(data) {
+    this.selectObject(data.id)
   },
 
-  onSelectFacet(facet) {
-    this.selectFacet(facet)
+  onSelectFacet(data) {
+    this.selectFacet(data.facet)
   }
 })

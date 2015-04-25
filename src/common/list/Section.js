@@ -9,17 +9,19 @@ import Object from './Object'
 /**
  * One list section which has a title and list objects.
  */
-let Section = React.createClass({
+export default React.createClass({
   mixins: [useSheet(sectionStyle)],
 
   render() {
     let {classes} = this.sheet
     let {results, label} = this.props
 
-    let objects = results.map(function (result) {
-      assign(result, pick(this.props, 'focus', 'select', 'icon'))
+    let objects = results.map(result => {
+      assign(result, pick(this.props, 'focus', 'select', 'invisible',
+        'visibilityContainment', 'icon'))
+      result.ref = 'object' + result.id
       return <Object {...result} />
-    }, this)
+    })
 
     return (
       <section>
@@ -29,5 +31,3 @@ let Section = React.createClass({
     )
   }
 })
-
-export default Section

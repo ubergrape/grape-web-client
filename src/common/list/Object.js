@@ -1,12 +1,34 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import objectStyle from './objectStyle'
+import VisibilitySensor from 'react-visibility-sensor'
+
+import * as objectStyle from './objectStyle'
 
 /**
  * One result for the list section.
  */
-let Object = React.createClass({
-  mixins: [useSheet(objectStyle)],
+export default React.createClass({
+  mixins: [useSheet(objectStyle.style)],
+
+  getDefaultProps() {
+    return {
+      id: null,
+      date: null,
+      focus: null,
+      select: null,
+      invisible: null,
+      visibilityContainment: null,
+      focused: false
+    }
+  },
+
+  componentDidUpdate(prevProps) {
+    if (this.props.focus && !prevProps.focus) this.onFocus()
+  },
+
+  componentDidMount() {
+    this.visibilityContainmentNode = this.props.visibilityContainment.getDOMNode()
+  },
 
   render() {
     let {classes} = this.sheet
@@ -20,12 +42,17 @@ let Object = React.createClass({
     let iconClassNames = `fa fa-${icon} ` + classes.icon
     return (
       <div onMouseDown={this.onMouseDown} onMouseOver={this.onMouseOver} className={containerClassName} key={id}>
+        <VisibilitySensor active={false} onChange={this.onVisibilityChange} className={classes.sensor} containment={this.visibilityContainmentNode} ref="sensor" />
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
         <span className={classes.info}>{info}</span>
         {date}
       </div>
     )
+  },
+
+  checkVisibility() {
+    this.refs.sensor.check()
   },
 
   getLocaleDateString() {
@@ -39,16 +66,24 @@ let Object = React.createClass({
     })
   },
 
+  onFocus() {
+    this.props.focus({id: this.props.id})
+  },
+
   onMouseOver() {
-    this.props.focus(this.props.id)
+    this.onFocus()
   },
 
   onMouseDown(e) {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-    this.props.select(this.props.id)
+    this.onFocus()
+  },
+
+  onVisibilityChange(isVisible, visibilityRect) {
+    if (!isVisible && this.props.focused) {
+      this.props.invisible(this, visibilityRect)
+    }
   }
 })
-
-export default Object

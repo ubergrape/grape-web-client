@@ -20,6 +20,6 @@ export default React.createClass({
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-    this.props.select(this.props.service)
+    this.props.select({facet: this.props.service})
   }
 })

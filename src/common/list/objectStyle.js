@@ -2,13 +2,15 @@ import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 import utils from 'grape-jss-utils'
 
-let container = {
+export let container = {
+  position: 'relative',
   padding: '5px 7px',
   color: colors.grapeTypo,
-  cursor: 'pointer'
+  cursor: 'pointer',
+  height: 20
 }
 
-export default {
+export let style = {
   container: {
     extend: [container, utils.ellipsis, fonts.normal]
   },
@@ -16,6 +18,14 @@ export default {
     extend: [container, utils.ellipsis, fonts.normal],
     color: colors.white,
     background: colors.grapeLight
+  },
+  sensor: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: -1
   },
   name: {},
   info: {
