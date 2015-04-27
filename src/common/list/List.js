@@ -94,9 +94,10 @@ export default React.createClass({
     let viewPortNode = this.getDOMNode()
     let viewPortHeight = this.props.height
     let itemNode = item.getDOMNode()
-    let itemHeight = itemNode.offsetHeight
+    let objectHeight = this.objectHeight
+    if (!objectHeight) objectHeight = itemNode.offsetHeight
     let itemTop = itemNode.offsetTop
-    if (!visibilityRect.top) itemTop -= viewPortHeight - itemHeight
+    if (!visibilityRect.top) itemTop -= viewPortHeight - objectHeight
     viewPortNode.scrollTop = itemTop
   }
 })

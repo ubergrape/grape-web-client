@@ -6,8 +6,7 @@ export let container = {
   position: 'relative',
   padding: '5px 7px',
   color: colors.grapeTypo,
-  cursor: 'pointer',
-  height: 20
+  cursor: 'pointer'
 }
 
 export let style = {
