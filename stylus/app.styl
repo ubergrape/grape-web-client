@@ -161,11 +161,36 @@ hr
 		&::before
 			display: block
 			opacity: .9
+/*---------------------------------------
+   SECTION:  INTERCOM
+-----------------------------------------*/
+
+
+
+#intercom-container .intercom-launcher-button
+	background-image: url('../images/head.png') !important
+	background-size: 42px 42px !important
+	background-color: lighten(grape-dark, 8) !important
+	border-color: jet !important
+	&:hover
+		background-color: lighten(grape-dark, 14) !important
+		border-color: jet !important
+
+#intercom-container .intercom-sheet-header
+	height: 60px !important
+	background-color: rgba(255,255,255,0.95) !important
+	border-bottom: 1px solid #dad6e0 !important
+
+#intercom-container .intercom-sheet-content
+	top: 60px !important
+	background: #fff !important
 
 /* _____ HIDE INTERCOM BUTTON ________ */
 
 #intercom-container .intercom-launcher
 	display: none !important
+
+
 
 /* _____ MACGAP Adaptions ________ */
 @keyframes slidein {
