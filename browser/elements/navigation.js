@@ -199,6 +199,7 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
 }
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
+	console.log('channel update');
 	this.roomList.redraw();
 }
 
@@ -217,6 +218,10 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	// we need this redraw for the organization logo
 	// maybe there is a way to change it
 	this.redraw();
+}
+
+Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
+	this.roomList.redraw();
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {

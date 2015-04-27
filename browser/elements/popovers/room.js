@@ -75,12 +75,10 @@ RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 };
 
 RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
-	console.log('LEFT --> redraw popover');	
 	this.itemList.redraw();
 }
 
 RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
-	console.log('JOINED --> redraw popover');
 	this.itemList.redraw();
 }
 

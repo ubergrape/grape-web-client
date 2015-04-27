@@ -269,6 +269,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
+			console.log(room.name);
 			self.emit('joinedchannel', room);
 		}
 	});
@@ -278,6 +279,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var index = room.users.indexOf(user);
 		if (~index) {
 			room.users.splice(index, 1);
+			console.log(data.channel);
 			self.emit('leftchannel', room);
 		}
 	});
