@@ -297,7 +297,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
-	console.log('ORG READY');
 	URLManager.call(this);
 	this.setNotificationsSession();
 	if (this.notificationSessionSet == true) return;
