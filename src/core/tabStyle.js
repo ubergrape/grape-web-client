@@ -35,7 +35,8 @@ export default {
       width: 0,
       border: '6px solid transparent',
       borderTopColor: colors.grapeLight,
-      marginLeft: '-6px'
+      marginLeft: '-6px',
+      zIndex: 1
     }
   }
 }
