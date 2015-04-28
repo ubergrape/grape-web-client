@@ -30,20 +30,15 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = this.nav.el;
 	var roomList = this.roomList = new ItemList({
 		template: 'roomlist.jade',
-		selector: '.item a',
-		ignoreChanges: ['typing']});
+		selector: '.item a'
+	});
 	replace(qs('.rooms', this.el), roomList.el);
 
 	var pmList = this.pmList = new ItemList({
 		template: 'pmlist.jade',
-		selector: '.item a',
-		ignoreChanges: ['typing']});
+		selector: '.item a'
+	});
 	replace(qs('.pms', this.el), pmList.el);
-
-	var labelList = this.labelList = new ItemList({
-		template: 'labellist.jade',
-		selector: '.item a'});
-	replace(qs('.labels', this.el), labelList.el);
 
 	this.filtering = false;
 
@@ -100,17 +95,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
-	var self = this;
-
 	lists.pms.sort(this.pmCompare);
-
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (lists[which + 's'])
-			self[which + 'List'].setItems(lists[which + 's']);
-	});
-
-	// we need this for filtering
-	self.pmList.unfiltered = self.pmList.items;
+	this.pmList.setItems(lists.pms);
+	this.roomList.setItems(lists.rooms);
+	this.pmList.unfiltered = this.pmList.items;
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -132,21 +120,51 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
-	var	self 	= this,
-		which	= item.type;
-	['room', 'pm', 'label'].forEach(function (which) {
-		self[which + 'List'].selectItem(null);
-	});
-	this[which + 'List'].selectItem(item);
+	this.roomList.selectItem(null);
+	this.pmList.selectItem(null);
+	this[item.type + 'List'].selectItem(item);
+};
+
+Navigation.prototype.pmFilter = function Navigation_pmFilter() {
+	var self = this;
+	var str = self.pmFilterEl.value;
+	var filtered_items = [];
+
+	if (str !== '') {
+		this.filtering = true;
+		self.pmList.unfiltered.forEach(function(item) {
+			if (item.username.startsWithIgnoreCase(str) || item.firstName.startsWithIgnoreCase(str) || item.lastName.startsWithIgnoreCase(str)) {
+				filtered_items.push(item);
+			}
+		});
+	} else {
+		this.filtering = false;
+		filtered_items = self.pmList.unfiltered;
+	}
+
+	self.pmList.items = filtered_items;
+
+	self.redraw();
+};
+
+// redraw everything, eg when the language changes
+Navigation.prototype.redraw = function Navigation_redraw() {
+	render(this.nav, template('navigation.jade'));
+	if (this.pmList) this.pmList.redraw();
+	if (this.roomList) this.roomList.redraw();
 };
 
 Navigation.prototype.newMessage = function Navigation_newMessage(line) {
-	if (this.filtering || line.channel.type != 'pm') return;
-	var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
-	if (pmPartnerIndex == -1) return;
-	this.pmList.items.splice(pmPartnerIndex, 1);
-	this.pmList.items.unshift(line.channel.users[0]);
-	this.pmList.redraw();
+	if (this.filtering) return;
+	if (line.channel.type == 'pm') {
+		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
+		if (pmPartnerIndex == -1) return;
+		this.pmList.items.splice(pmPartnerIndex, 1);
+		this.pmList.items.unshift(line.channel.users[0]);
+		this.pmList.redraw();
+	} else {
+		if (line.channel.joined && line.author != ui.user) this.roomList.redraw();
+	}
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
@@ -175,49 +193,37 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 	this.roomList.redraw();
 }
 
-Navigation.prototype.hasRead = function Navigation_hasRead(room) {
-	if (this.filtering || room.type != "pm") return;
-	// we just need this for the pm list, not the room list
-	// the room list is listening to changes in its items and redrawing
-	// the pm is not listening to changes in its pm object, so
-	// we need to manually redraw
-	// TODO redisign this, since the room list is also redrawn
-	// every time someone type anything and that is not expected
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
+	if (this.filtering || ui.user == line.author) return;
+	this.redraw();
+}
+
+Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
+	this.roomList.redraw();
+}
+
+Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
+	if (user == ui.user) return;
 	this.pmList.redraw();
 }
 
-Navigation.prototype.pmFilter = function Navigation_pmFilter() {
-	var self = this;
-	var str = self.pmFilterEl.value;
-	var filtered_items = [];
+Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
+	this.roomList.redraw();
+}
 
-	if (str !== '') {
-		this.filtering = true;
-		self.pmList.unfiltered.forEach(function(item) {
-			if (item.username.startsWithIgnoreCase(str) || item.firstName.startsWithIgnoreCase(str) || item.lastName.startsWithIgnoreCase(str)) {
-				filtered_items.push(item);
-			}
-		});
-	} else {
-		this.filtering = false;
-		filtered_items = self.pmList.unfiltered;
-	}
+Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
+	this.roomList.redraw();
+}
 
-	self.pmList.items = filtered_items;
-
-	self.redraw();
-};
-
-// redraw everything, eg when the language changes
-Navigation.prototype.redraw = function Navigation_redraw() {
-	render(this.nav, template('navigation.jade'));
-	var self = this;
-	['room', 'pm', 'label'].forEach(function (which) {
-		if (self[which + 'List'])
-		self[which + 'List'].redraw();
+Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
+	var rooms = org.rooms;
+	var pms = org.users.filter(function(user) {
+		return self.user != user &&
+		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
-};
-
-Navigation.prototype.onOrgReady = function Navigation_onOrgReady() {
+	this.setLists({ rooms: rooms, pms: pms });
+	// we need this redraw for the organization logo
+	// cause that is part of the navigation too
 	this.redraw();
 }
+

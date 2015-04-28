@@ -264,76 +264,11 @@ UI.prototype.bind = function UI_bind() {
 	}
 };
 
-UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
-	this.searchView.showResults(results);
-};
-
-UI.prototype.showSearchResults = function() {
-	classes(this.el).add('searching');
-};
-
-UI.prototype.hideSearchResults = function() {
-	classes(this.el).remove('searching');
-	this.chatHeader.clearSearch();
-};
-
-UI.prototype.roomCreated = function UI_roomCreated(room) {
-	var self = this;
-	self.emit('joinroom', room, function() {
-		self.router.go('/chat/' + room.slug);
-		setTimeout(function() {
-			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
-		}, 100);
-		self.emit('endroomcreation');
-	});
-};
-
-UI.prototype.gotError = function UI_gotError(err) {
-	notification.error(err.message, err.details);
-};
-
 UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
-	// set the items for the nav list
-	var rooms = org.rooms;
-//	rooms = [
-//		{id: 1, name: 'Design'},
-//		{id: 2, name: 'Infrastruktur'},
-//		{id: 3, name: 'Marketing'},
-//		{id: 4, name: 'Privat', 'private': true, unread: 2}
-//	].map(function (r) { r.joined = true; return Emitter(r); });
-//	rooms = Emitter(rooms);
-
-	var pms = org.users.filter(function(user) {
-		return self.user != user &&
-		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
-	});
-
-	//	var pms = [
-	//		{id: 1, username: 'Tobias Seiler', status: 16},
-	//		{id: 2, username: 'Leo Fasbender', status: 0},
-	//		{id: 3, username: 'Lea de Roucy', status: 16, unread: 1}
-	//	].map(function (r) { return Emitter(r); });
-	//	pms = Emitter(pms);
-	var labels = [];
-	labels = [
-		{id: 1, name: '#github', icon: 'github'},
-		{id: 2, name: '#entscheidungen', icon: 'check-circle'},
-		{id: 3, name: '#termine', icon: 'calendar'},
-	].map(function (r) { return new Emitter(r); });
-	labels = new Emitter(labels);
-
-	this.navigation.setLists({
-		rooms: rooms,
-		pms: pms,
-		labels: labels
-	});
-
-	// set the items for the add room popover
-	this.addRoom.setItems(rooms);
 	URLManager.call(this);
 	this.setNotificationsSession();
 	if (this.notificationSessionSet == true) return;
@@ -349,7 +284,6 @@ UI.prototype.setUser = function UI_setUser(user) {
 		template.locals.user = user;
 		this.grapeInput.redraw();
 	}
-	//this.historyView.redraw();
 };
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
@@ -377,6 +311,34 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
 	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
 		this.emit('setNotificationsSession', this.org.id);	
 }
+
+UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
+	this.searchView.showResults(results);
+};
+
+UI.prototype.showSearchResults = function() {
+	classes(this.el).add('searching');
+};
+
+UI.prototype.hideSearchResults = function() {
+	classes(this.el).remove('searching');
+	this.chatHeader.clearSearch();
+};
+
+UI.prototype.roomCreated = function UI_roomCreated(room) {
+	var self = this;
+	self.emit('joinroom', room, function() {
+		self.router.go('/chat/' + room.slug);
+		setTimeout(function() {
+			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
+		}, 100);
+		self.emit('endroomcreation');
+	});
+};
+
+UI.prototype.gotError = function UI_gotError(err) {
+	notification.error(err.message, err.details);
+};
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');

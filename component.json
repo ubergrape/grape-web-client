@@ -62,7 +62,6 @@
     "templates/messages.jade",
     "templates/index.jade",
     "templates/invite.jade",
-    "templates/labellist.jade",
     "templates/navigation.jade",
     "templates/pmlist.jade",
     "templates/popovers/room.jade",
