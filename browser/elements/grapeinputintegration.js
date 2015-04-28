@@ -176,7 +176,7 @@ GrapeInputIntegration.prototype.completePreviousEditing = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
-	this.input.setContent('');
+	this.input.setTextContent('');
 	this.previous = null;
 };
 
@@ -184,7 +184,7 @@ GrapeInputIntegration.prototype.editMessage = function (msg) {
 	var el = q('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
-	this.input.setContent(msg.text);
+	this.input.setTextContent(msg.text);
 	this.previous = {
 		msg: msg,
 		el: el
@@ -284,7 +284,7 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 		if (attachments.length) {
 			this.emit('input', this.room, '', {attachments: attachments});
 		}
-		this.input.setContent('');
+		this.input.setTextContent('');
 	}
 };
 
