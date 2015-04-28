@@ -1,7 +1,6 @@
 var Emitter = require('emitter');
 var render = require('../rendervdom');
 var template = require('template');
-var animate = require('animate');
 
 module.exports = Messages;
 
@@ -17,7 +16,6 @@ Message.prototype.add = function (messages) {
 };
 
 Message.prototype.remove = function () {
-	animate(this, 'fade-up-out');
 	setTimeout(this.messages.remove(this), 2000);
 	delete this.messages;
 };
@@ -48,7 +46,6 @@ Messages.prototype.add = function(msg) {
 Messages.prototype.create = function(type, level, options) {
 	var msg = new Message(type, level, options);
 	msg.add(this);
-	animate(this, 'fade-down-in');
 	this.redraw();
 	return msg;
 };
