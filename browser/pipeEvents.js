@@ -16,10 +16,12 @@ function pipeEvents(ui) {
 	broker(ui, 'newroom', ui.addRoom, 'newRoom');
 	broker(ui.addRoom, 'toggleroomcreation', ui.roomCreation, 'toggle');
 	broker(ui.roomCreation, 'toggleaddroom', ui.addRoom, 'toggle');
-	broker(ui, 'joinedchannel', ui.addRoom, 'onJoinedChannel');
-	broker(ui, 'leftchannel', ui.addRoom, 'onLeftChannel');
+	broker(ui, 'newRoomMember', ui.addRoom, 'onNewRoomMember');
+	broker(ui, 'memberLeftChannel', ui.addRoom, 'onMemberLeftChannel');
 	broker(ui, 'channelupdate', ui.addRoom, 'onChannelUpdate');
 	broker(ui, 'roomdeleted', ui.addRoom, 'onRoomDeleted');
+	broker(ui, 'joinedChannel', ui.addRoom, 'onJoinedChannel');
+	broker(ui, 'leftChannel', ui.addRoom, 'onLeftChannel');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -34,8 +36,8 @@ function pipeEvents(ui) {
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
 	broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
 	broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
-	broker(ui, 'joinedchannel', ui.chatHeader, 'joinedChannel');
-	broker(ui, 'leftchannel', ui.chatHeader, 'leftChannel');
+	broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');
+	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
 
 	// grape input
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
@@ -81,7 +83,7 @@ function pipeEvents(ui) {
 
 	// membersMenu
 	broker(ui, 'toggleinvite', ui.membersMenu, 'toggle');
-	broker(ui, 'leftchannel', ui.membersMenu, 'leftChannel');
+	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
 
 	// roomCreation
 	broker.pass(ui.roomCreation, 'createroom', ui, 'createroom');
@@ -103,7 +105,7 @@ function pipeEvents(ui) {
 	broker(ui.navigation, 'addroom', ui.addRoom, 'toggle');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
-	broker(ui, 'leftchannel', ui.navigation, 'onLeftChannel');
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
-	broker(ui, 'joinedchannel', ui.navigation, 'onJoinedChannel');
+	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
+	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
 }

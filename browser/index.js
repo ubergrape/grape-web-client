@@ -264,34 +264,6 @@ UI.prototype.bind = function UI_bind() {
 	}
 };
 
-UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
-	this.searchView.showResults(results);
-};
-
-UI.prototype.showSearchResults = function() {
-	classes(this.el).add('searching');
-};
-
-UI.prototype.hideSearchResults = function() {
-	classes(this.el).remove('searching');
-	this.chatHeader.clearSearch();
-};
-
-UI.prototype.roomCreated = function UI_roomCreated(room) {
-	var self = this;
-	self.emit('joinroom', room, function() {
-		self.router.go('/chat/' + room.slug);
-		setTimeout(function() {
-			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
-		}, 100);
-		self.emit('endroomcreation');
-	});
-};
-
-UI.prototype.gotError = function UI_gotError(err) {
-	notification.error(err.message, err.details);
-};
-
 UI.prototype.setOrganization = function UI_setOrganization(org) {
 	var self = this;
 	this.org = org;
@@ -339,6 +311,34 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
 	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
 		this.emit('setNotificationsSession', this.org.id);	
 }
+
+UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
+	this.searchView.showResults(results);
+};
+
+UI.prototype.showSearchResults = function() {
+	classes(this.el).add('searching');
+};
+
+UI.prototype.hideSearchResults = function() {
+	classes(this.el).remove('searching');
+	this.chatHeader.clearSearch();
+};
+
+UI.prototype.roomCreated = function UI_roomCreated(room) {
+	var self = this;
+	self.emit('joinroom', room, function() {
+		self.router.go('/chat/' + room.slug);
+		setTimeout(function() {
+			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
+		}, 100);
+		self.emit('endroomcreation');
+	});
+};
+
+UI.prototype.gotError = function UI_gotError(err) {
+	notification.error(err.message, err.details);
+};
 
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');

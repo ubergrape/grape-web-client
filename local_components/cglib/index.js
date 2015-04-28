@@ -269,8 +269,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
-			console.log(room.name);
-			self.emit('joinedchannel', room);
+			self.emit('newRoomMember', room);
 		}
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
@@ -279,8 +278,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var index = room.users.indexOf(user);
 		if (~index) {
 			room.users.splice(index, 1);
-			console.log(data.channel);
-			self.emit('leftchannel', room);
+			self.emit('memberLeftChannel', room);
 		}
 	});
 
@@ -513,6 +511,7 @@ App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
+		self.emit('joinedChannel');
 		if (callback !== undefined) callback();
 	});
 };
@@ -524,6 +523,7 @@ App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
+		self.emit('leftChannel');
 		self.emit('leavechannel', room);
 	});
 };

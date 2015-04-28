@@ -70,15 +70,11 @@ RoomPopover.prototype.redraw = function RoomPopover_redraw() {
 	if (this.itemList) this.itemList.redraw();
 };
 
-RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
-	this.itemList.setItems(items);
-};
-
-RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
+RoomPopover.prototype.onMemberLeftChannel = function RoomPopover_onMemberLeftChannel() {
 	this.itemList.redraw();
 }
 
-RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
+RoomPopover.prototype.onNewRoomMember = function RoomPopover_onNewRoomMember() {
 	this.itemList.redraw();
 }
 
@@ -93,6 +89,18 @@ RoomPopover.prototype.onChannelUpdate = function RoomPopover_onChannelUpdate() {
 RoomPopover.prototype.onRoomDeleted = function RoomPopover_onRoomDeleted() {
 	this.itemList.redraw();
 }
+
+RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
+	this.itemList.setItems(items);
+};
 
 RoomPopover.prototype.onOrgReady = function RoomPopover_onOrgReady(org) {
 	this.setItems(org.rooms);

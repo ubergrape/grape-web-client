@@ -208,6 +208,14 @@ Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	this.pmList.redraw();
 }
 
+Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
+	this.roomList.redraw();
+}
+
+Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
+	this.roomList.redraw();
+}
+
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
@@ -216,15 +224,7 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 	// we need this redraw for the organization logo
-	// maybe there is a way to change it
+	// cause that is part of the navigation too
 	this.redraw();
-}
-
-Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
-	this.roomList.redraw();
-}
-
-Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
-	this.roomList.redraw();
 }
 

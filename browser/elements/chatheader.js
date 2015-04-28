@@ -150,10 +150,10 @@ ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) 
 	qs('input.submit-rename', this.el).click();
 }
 
-ChatHeader.prototype.joinedChannel = function ChatHeader_joinedChannel(room) {
+ChatHeader.prototype.onNewRoomMember = function ChatHeader_onNewRoomMember(room) {
 	if (room == this.room) this.redraw();
 }
 
-ChatHeader.prototype.leftChannel = function ChatHeader_leftChannel(room) {
+ChatHeader.prototype.onMemberLeftChannel = function ChatHeader_onMemberLeftChannel(room) {
 	if (room == this.room) this.redraw();
 }
