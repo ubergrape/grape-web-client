@@ -199,7 +199,6 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
 }
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
-	console.log('channel update');
 	this.roomList.redraw();
 }
 
