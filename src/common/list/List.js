@@ -4,6 +4,7 @@ import cloneDeep from 'lodash-es/lang/cloneDeep'
 import assign from 'lodash-es/object/assign'
 import find from 'lodash-es/collection/find'
 import pick from 'lodash-es/object/pick'
+import debounce from 'lodash-es/function/debounce'
 import VisibilitySensor from 'react-visibility-sensor'
 
 import Section from './Section'
@@ -61,6 +62,7 @@ export default React.createClass({
       <div
         className={`${classes.container} ${this.props.className}`}
         style={style}
+        onScroll={this.onScroll}
         >
         {sections}
       </div>
@@ -91,6 +93,7 @@ export default React.createClass({
   },
 
   onInvisible(item, visibilityRect) {
+    if (this.scrolling) return
     let viewPortNode = this.getDOMNode()
     let viewPortHeight = this.props.height
     let itemNode = item.getDOMNode()
@@ -99,5 +102,14 @@ export default React.createClass({
     let itemTop = itemNode.offsetTop
     if (!visibilityRect.top) itemTop -= viewPortHeight - objectHeight
     viewPortNode.scrollTop = itemTop
-  }
+  },
+
+  onScroll() {
+    this.scrolling = true
+    this.onScrollStop()
+  },
+
+  onScrollStop: debounce(function() {
+    this.scrolling = false
+  }, 30),
 })
