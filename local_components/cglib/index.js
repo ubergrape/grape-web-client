@@ -523,8 +523,7 @@ App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
-		self.emit('leftChannel');
-		self.emit('leavechannel', room);
+		self.emit('leftChannel', room);
 	});
 };
 

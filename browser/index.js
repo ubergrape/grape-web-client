@@ -378,7 +378,7 @@ UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
-UI.prototype.leaveChannel = function UI_leaveChannel(room) {
+UI.prototype.leftChannel = function UI_leftChannel(room) {
 	if (this.room != room) return;
 	this.router.go('/chat/');
 }
