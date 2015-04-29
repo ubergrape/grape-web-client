@@ -14,16 +14,16 @@ export default React.createClass({
     return {
       id: null,
       date: null,
-      focus: null,
-      select: null,
-      invisible: null,
+      onFocus: null,
+      onSelect: null,
+      onInvisible: null,
       visibilityContainment: null,
       focused: false
     }
   },
 
   componentDidUpdate(prevProps) {
-    if (this.props.focus && !prevProps.focus) this.onFocus()
+    if (this.props.focused && !prevProps.focused) this.onFocus()
   },
 
   componentDidMount() {
@@ -41,8 +41,17 @@ export default React.createClass({
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-${icon} ` + classes.icon
     return (
-      <div onMouseDown={this.onMouseDown} onMouseOver={this.onMouseOver} className={containerClassName} key={id}>
-        <VisibilitySensor active={false} onChange={this.onVisibilityChange} className={classes.sensor} containment={this.visibilityContainmentNode} ref="sensor" />
+      <div
+        onMouseDown={this.onMouseDown}
+        onMouseOver={this.onMouseOver}
+        className={containerClassName}
+        key={id}>
+        <VisibilitySensor
+          active={false}
+          onChange={this.onVisibilityChange}
+          className={classes.sensor}
+          containment={this.visibilityContainmentNode}
+          ref="sensor" />
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
         <span className={classes.info}>{info}</span>
@@ -67,7 +76,7 @@ export default React.createClass({
   },
 
   onFocus() {
-    this.props.focus({id: this.props.id})
+    this.props.onFocus({id: this.props.id})
   },
 
   onMouseOver() {
@@ -83,7 +92,7 @@ export default React.createClass({
 
   onVisibilityChange(isVisible, visibilityRect) {
     if (!isVisible && this.props.focused) {
-      this.props.invisible(this, visibilityRect)
+      this.props.onInvisible(this, visibilityRect)
     }
   }
 })

@@ -25,7 +25,8 @@ export default React.createClass({
       height: 300,
       className: '',
       maxObjectsPerSectionInAll: 5,
-      isExternal: false
+      isExternal: false,
+      serviceId: null
     }
   },
 
@@ -164,8 +165,8 @@ export default React.createClass({
         focusedObject: this.getFocusedObject(),
         showDetail: isExternal,
         height: this.props.height - tabsStyle.container.height,
-        focus: this.onFocusObject,
-        select: this.onSelectObject
+        onFocus: this.onFocusObject,
+        onSelect: this.onSelectObject
       })
     }
     else {
@@ -185,7 +186,7 @@ export default React.createClass({
         className={`${classes.container} ${this.props.className}`}
         style={style}
         >
-        <Tabs data={this.state.tabs} select={this.onSelectFacet} />
+        <Tabs data={this.state.tabs} onSelect={this.onSelectFacet} />
         {facet}
         {empty}
       </div>

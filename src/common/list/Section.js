@@ -17,7 +17,7 @@ export default React.createClass({
     let {results, label} = this.props
 
     let objects = results.map(result => {
-      assign(result, pick(this.props, 'focus', 'select', 'invisible',
+      assign(result, pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
         'visibilityContainment', 'icon'))
       result.ref = 'object' + result.id
       return <Object {...result} />

@@ -22,8 +22,8 @@ export default React.createClass({
       height: null,
       className: '',
       data: null,
-      focus: null,
-      select: null
+      onFocus: null,
+      onSelect: null
     }
   },
 
@@ -41,12 +41,12 @@ export default React.createClass({
 
     if (data.length) {
       sections = data.map((section, i) => {
-        assign(section, pick(this.props, 'select'))
+        assign(section, pick(this.props, 'onSelect'))
         return (
           <Section
             {...section}
-            focus={this.onFocus}
-            invisible={this.onInvisible}
+            onFocus={this.onFocus}
+            onInvisible={this.onInvisible}
             visibilityContainment={this}
             key={section.service}
             ref={'section' + i}/>
@@ -84,7 +84,7 @@ export default React.createClass({
     if (data.id == this.focusedObjectId) return
     let prevId = this.focusedObjectId
     this.focusedObjectId = data.id
-    this.props.focus(data)
+    this.props.onFocus(data)
     if (prevId) {
       let prevFocusedObject = this.getObjectComponent(prevId)
       if (prevFocusedObject) prevFocusedObject.checkVisibility()

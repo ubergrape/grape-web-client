@@ -11,10 +11,10 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {data, select} = this.props
+    let {data, onSelect} = this.props
 
     let tabs = data.map(function (item) {
-      return <Tab {...item} select={select} key={item.service || 'all'}/>
+      return <Tab {...item} onSelect={onSelect} key={item.service || 'all'}/>
     })
 
     return <ul className={classes.container}>{tabs}</ul>
