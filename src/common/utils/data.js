@@ -7,7 +7,8 @@ let serviceIconMap = {
   googledrive: 'file',
   gcal: 'calendar',
   trello: 'trello',
-  dropbox: 'dropbox'
+  dropbox: 'dropbox',
+  grapeQuery: 'search'
 }
 
 /**
@@ -32,6 +33,8 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
   let sections = []
 
   if (!data) return sections
+
+  sections.push(getQueriesSection(data.services))
 
   // Group by sections.
   data.results.forEach(function (result) {
@@ -77,6 +80,31 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
   }
 
   return sections
+}
+
+/**
+ * Generate data for queries section.
+ */
+function getQueriesSection(services) {
+  let section = {
+    label: 'Queries',
+    service: 'grapeQuery',
+    icon: serviceIconMap['grapeQuery'],
+    selected: false
+  }
+
+  section.results = services.map(service => {
+    return {
+      id: service.id,
+      service: service.id,
+      type: section.service,
+      highlighted: service.label,
+      info: '#' + service.key,
+      focused: false
+    }
+  })
+
+  return section
 }
 
 /**
