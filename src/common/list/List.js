@@ -28,9 +28,9 @@ export default React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    let id = this.props.focusedObject.id
-    if (prevProps.focusedObject.id != id) {
-      this.onFocus({id: id})
+    let {focusedObject} = this.props
+    if (focusedObject && prevProps.focusedObject.id != focusedObject.id) {
+      this.onFocus({id: focusedObject.id})
     }
   },
 
