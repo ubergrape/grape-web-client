@@ -87,7 +87,7 @@ export default React.createClass({
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-    this.onFocus()
+    this.props.onSelect({id: this.props.id})
   },
 
   onVisibilityChange(isVisible, visibilityRect) {
