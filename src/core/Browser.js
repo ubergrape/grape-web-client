@@ -57,8 +57,9 @@ export default React.createClass({
    * Select facet.
    *
    * @param {String} facet can be service id or "prev" or "next"
+   * @param {Object} [options]
    */
-  selectFacet(facet) {
+  selectFacet(facet, options = {}) {
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
 
@@ -90,7 +91,7 @@ export default React.createClass({
       dataUtils.setSelectedSection(sections, service)
       dataUtils.setFocusedObjectAt(sections, service, 0)
       this.setState({tabs: tabs, sections: sections, serviceId: service})
-      this.emit('selectFacet', {service: service})
+      if (!options.silent) this.emit('selectFacet', {service: service})
     }
   },
 
