@@ -8,7 +8,7 @@ let serviceIconMap = {
   gcal: 'calendar',
   trello: 'trello',
   dropbox: 'dropbox',
-  grapeQuery: 'search'
+  filters: 'search'
 }
 
 /**
@@ -32,12 +32,10 @@ let serviceIconMap = {
 export function getSections (data, serviceId, limitPerSection = Infinity) {
   let sections = []
 
-  if (!data) return sections
-
-  sections.push(getQueriesSection(data.services))
+  if (!data || !data.results) return sections
 
   // Group by sections.
-  data.results.forEach(function (result) {
+  data.results.forEach(result => {
     if (serviceId && result.service != serviceId) return
 
     let section = findService(sections, result.service)
@@ -69,42 +67,15 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
   })
 
   // Select first result of the first section.
-  if (sections[0]) sections[0].results[0].focused = true
+  if (sections[0] && sections[0].results[0]) sections[0].results[0].focused = true
 
   // Find service within in the original results structure or within
   // sections structure (id == service).
   function findService(services, id) {
-    return find(services, function (service) {
-      return service.id == id || service.service == id
-    })
+    return find(services, service => service.id == id || service.service == id)
   }
 
   return sections
-}
-
-/**
- * Generate data for queries section.
- */
-function getQueriesSection(services) {
-  let section = {
-    label: 'Queries',
-    service: 'grapeQuery',
-    icon: serviceIconMap['grapeQuery'],
-    selected: false
-  }
-
-  section.results = services.map(service => {
-    return {
-      id: service.id,
-      service: service.id,
-      type: section.service,
-      highlighted: service.label,
-      info: '#' + service.key,
-      focused: false
-    }
-  })
-
-  return section
 }
 
 /**
@@ -132,7 +103,7 @@ export function setSelectedSection(sections, service) {
 export function getFocusedObject(sections) {
   let ret
 
-  sections.some(function (section) {
+  sections.some(section => {
     let focused = find(section.results, object => object.focused)
     if (focused) {
       ret = focused
@@ -187,7 +158,7 @@ function unsetFocusedObject(sections) {
 function getObjectById(sections, id) {
   let ret
 
-  sections.some(function (section) {
+  sections.some(section => {
     let obj = find(section.results, object => object.id == id)
     if (obj) {
       ret = obj
@@ -202,10 +173,12 @@ function getObjectById(sections, id) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(services, sections, selectedServiceId) {
-  if (!services.length) return []
+export function getTabs(services = [], sections, selectedServiceId) {
+  if (!services.length) return services
 
-  let tabs = services.map(function (service) {
+  services = services.filter(service => !service.hidden)
+
+  let tabs = services.map(service => {
     return {
       label: service.label,
       amount: service.count,

@@ -155,12 +155,11 @@ export default React.createClass({
     let selectedSection = dataUtils.getSelectedSection(sections)
     let serviceName = 'all'
     let data = selectedSection ? [selectedSection] : sections
-    let facet
-    let empty
+    let content
     let {isExternal} = this.props
 
     if (data.length) {
-      facet = React.createElement(services[serviceName], {
+      content = React.createElement(services[serviceName], {
         data: data,
         focusedObject: this.getFocusedObject(),
         showDetail: isExternal,
@@ -174,7 +173,7 @@ export default React.createClass({
       if (isExternal) {
         text = `Write the search term to search ${this.props.data.search.service}.`
       }
-      empty = <Empty text={text}/>
+      content = <Empty text={text}/>
     }
 
     let style = {
@@ -187,8 +186,7 @@ export default React.createClass({
         style={style}
         >
         <Tabs data={this.state.tabs} onSelect={this.onSelectFacet} />
-        {facet}
-        {empty}
+        {content}
       </div>
     )
   },
