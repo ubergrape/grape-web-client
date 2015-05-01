@@ -38,7 +38,7 @@ export default React.createClass({
               {...item}
               onSelect={this.onSelect}
               onInvisible={this.onInvisible}
-              visibilityContainment={this.refs.tabs}
+              getContainmentNode={this.getTabsDOMNode}
               key={facet}
               ref={facet} />
           })}
@@ -55,6 +55,10 @@ export default React.createClass({
   checkVisibility(prevFacet, nextFacet) {
     this.refs[prevFacet || 'all'].checkVisibility()
     this.refs[nextFacet || 'all'].checkVisibility()
+  },
+
+  getTabsDOMNode() {
+    return this.refs.tabs.getDOMNode()
   },
 
   onArrow(dir) {

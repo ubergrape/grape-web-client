@@ -14,15 +14,11 @@ export default React.createClass({
     return {
       onSelect: null,
       onInvisible: null,
-      visibilityContainment: null,
+      getContainmentNode: null,
       selected: false,
       label: null,
       amount: null
     }
-  },
-
-  componentWillMount() {
-    this.visibilityContainmentNode = this.props.visibilityContainment.getDOMNode()
   },
 
   render() {
@@ -36,7 +32,7 @@ export default React.createClass({
           active={false}
           onChange={this.onVisibilityChange}
           className={classes.sensor}
-          containment={this.visibilityContainmentNode}
+          containment={this.props.getContainmentNode()}
           ref="sensor" />
         <span>{label}</span>
       </li>

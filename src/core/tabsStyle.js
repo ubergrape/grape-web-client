@@ -10,11 +10,11 @@ let arrow = defaults({
   position: 'absolute',
   top: 0,
   padding: '0 3px',
+  zIndex: 1,
+  border: '0px solid ' + Color(colors.grapeDark).darken(.5).rgbaString(),
   '&:hover': {
     background: Color(webColors.roomHeaderBackground).lighten(.2).rgbaString()
   },
-  zIndex: 1,
-  border: '0px solid ' + Color(colors.grapeDark).darken(.5).rgbaString(),
 }, tabStyle.container)
 
 export default {
