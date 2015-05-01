@@ -5,7 +5,6 @@ import assign from 'lodash-es/object/assign'
 import find from 'lodash-es/collection/find'
 import pick from 'lodash-es/object/pick'
 import debounce from 'lodash-es/function/debounce'
-import VisibilitySensor from 'react-visibility-sensor'
 
 import Section from './Section'
 import listStyle from './listStyle'

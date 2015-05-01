@@ -3,19 +3,30 @@ import webColors from 'grape-theme/web-colors'
 import Color from 'color'
 import fonts from 'grape-theme/fonts'
 
-let container = {
+import sensorStyle from '../common/utils/sensorStyle'
+
+export let text = {
   extend: fonts.small,
-  position: 'relative',
-  display: 'inline-block',
-  padding: '8px 16px 8px',
-  listStyleType: 'none',
-  cursor: 'pointer',
-  textTransform: 'uppercase',
+  color: Color(colors.white).alpha(.5).rgbaString(),
   fontWeight: 'bold',
-  color: Color(colors.white).alpha(.5).rgbaString()
+  lineHeight: 0,
+  textTransform: 'uppercase',
+  verticalAlign: 'middle'
 }
 
-export default {
+export let container = {
+  position: 'relative',
+  display: 'inline-block',
+  padding: '0 16px',
+  listStyleType: 'none',
+  cursor: 'pointer',
+  height: '100%',
+  background: webColors.roomHeaderBackground,
+  userSelect: 'none',
+  '& span': text
+}
+
+export let style = {
   container: {
     extend: container,
     '&:hover': {
@@ -38,5 +49,6 @@ export default {
       marginLeft: '-6px',
       zIndex: 1
     }
-  }
+  },
+  sensor: sensorStyle
 }
