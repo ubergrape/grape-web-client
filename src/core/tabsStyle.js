@@ -1,5 +1,4 @@
-import colors from 'grape-theme/base-colors'
-import Color from 'color'
+import webColors from 'grape-theme/web-colors'
 
 export default {
   tabs: {
@@ -8,6 +7,6 @@ export default {
     height: '100%',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    background: Color(colors.grapeDark).darken(.5).rgbaString()
+    background: webColors.roomHeaderBackground
   }
 }
