@@ -36,7 +36,7 @@ export default React.createClass({
     if (selectedIndex > 0) {
       arrowPrev = (
         <li
-          onClick={this.onArrow.bind(this, 'prev')}
+          onClick={this.onArrowClick.bind(this, 'prev')}
           className={classes.prevArrow}>
             <span>&#9664;</span>
         </li>
@@ -46,7 +46,7 @@ export default React.createClass({
     if (selectedIndex < data.length - 1) {
       arrowNext = (
         <li
-          onClick={this.onArrow.bind(this, 'next')}
+          onClick={this.onArrowClick.bind(this, 'next')}
           className={classes.nextArrow}>
             <span>&#9654;</span>
         </li>
@@ -72,7 +72,10 @@ export default React.createClass({
     tabs.checkVisibility(nextFacet || 'all')
   },
 
-  onArrow(dir) {
+  onArrowClick(dir, e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
     let {data} = this.props
     let selectedIndex = findIndex(data, item => item.selected)
     if (selectedIndex < 0) selectedIndex = 0
