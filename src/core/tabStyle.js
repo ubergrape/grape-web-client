@@ -23,6 +23,7 @@ export let container = {
   height: '100%',
   background: webColors.roomHeaderBackground,
   userSelect: 'none',
+  lineHeight: 1.7,
   '& span': text
 }
 
@@ -36,19 +37,7 @@ export let style = {
   containerSelected: {
     extend: container,
     background: colors.grapeLight,
-    color: colors.white,
-    '&:after': {
-      position: 'absolute',
-      top: '100%',
-      left: '50%',
-      content: '" "',
-      height: 0,
-      width: 0,
-      border: '6px solid transparent',
-      borderTopColor: colors.grapeLight,
-      marginLeft: '-6px',
-      zIndex: 1
-    }
+    color: colors.white
   },
   sensor: sensorStyle
 }

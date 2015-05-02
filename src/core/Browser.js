@@ -7,8 +7,8 @@ import findIndex from 'lodash-es/array/findIndex'
 import capitalize from 'lodash-es/string/capitalize'
 
 import browserStyle from './browserStyle'
-import tabsStyle from './tabsStyle'
-import Tabs from './Tabs'
+import tabsControlsStyle from './tabsControlsStyle'
+import TabsControls from './TabsControls'
 import Empty from './Empty'
 import * as services from '../services'
 import * as dataUtils from '../common/utils/data'
@@ -164,7 +164,7 @@ export default React.createClass({
         data: data,
         focusedObject: this.getFocusedObject(),
         showDetail: isExternal,
-        height: this.props.height - tabsStyle.container.height,
+        height: this.props.height - tabsControlsStyle.container.height,
         onFocus: this.onFocusObject,
         onSelect: this.onSelectObject
       })
@@ -186,7 +186,7 @@ export default React.createClass({
         className={`${classes.container} ${this.props.className}`}
         style={style}
         >
-        <Tabs data={this.state.tabs} onSelect={this.onSelectFacet} />
+        <TabsControls data={this.state.tabs} onSelect={this.onSelectFacet} />
         {content}
       </div>
     )
