@@ -450,6 +450,7 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
 		if (res.logo !== null) org.logo = res.logo;
 		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
+		if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
 
 		// connect users and pms
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });

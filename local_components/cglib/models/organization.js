@@ -9,7 +9,8 @@ var staticurl = require('staticurl');
 module.exports = new Model([
 		'logo',
 		'role',
-		'custom_emojis'
+		'custom_emojis',
+		'has_integrations'
 	])
 	.use(cache('id'))
 	.use(array)
