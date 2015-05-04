@@ -9,6 +9,8 @@ export default {
   princeton: '#ff893b',
   grassDark: '#6d8f52',
   grassLight: '#9ccb77',
+  grassLighter: '#cce7b1',
+  grassLightest: '#e3fbcc',
   aquaLight: '#4fc1e9',
   aquaDark: '#3bafda',
   slate: '#37555f',
@@ -18,5 +20,7 @@ export default {
   jet: '#212022',
   silverDark: '#eeecef',
   silverLight: '#f8f8f8',
+  sandLight: '#e8dfbf',
+  sandLighter: '#f9f6e8',
   white: '#ffffff'
 }
