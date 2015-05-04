@@ -19,11 +19,17 @@ export default React.createClass({
     }
   },
 
+  getInitialState() {
+    return {
+      shift: 'start'
+    }
+  },
+
   componentDidUpdate() {
-    let nextFacet = find(this.props.data, item => item.selected).service
-    if (nextFacet != this.prevFacet) {
-      this.checkVisibility(this.prevFacet, nextFacet)
-      this.prevFacet = nextFacet
+    let tab = find(this.props.data, item => item.selected)
+    if (tab && tab.service != this.prevFacet) {
+      this.checkVisibility(this.prevFacet, tab.service)
+      this.prevFacet = tab.service
     }
   },
 
@@ -32,8 +38,7 @@ export default React.createClass({
     let {data} = this.props
     let arrowPrev, arrowNext
 
-    let selectedIndex = findIndex(data, item => item.selected)
-    if (selectedIndex > 0) {
+    if (this.state.shift == 'end') {
       arrowPrev = (
         <li
           onMouseDown={this.onArrowMouseDown.bind(this, 'prev')}
@@ -43,7 +48,7 @@ export default React.createClass({
       )
     }
 
-    if (selectedIndex < data.length - 1) {
+    if (this.state.shift == 'start') {
       arrowNext = (
         <li
           onMouseDown={this.onArrowMouseDown.bind(this, 'next')}
@@ -91,11 +96,15 @@ export default React.createClass({
   },
 
   onInvisible(item, visibilityRect) {
-    let viewPortNode = this.refs.tabs.getDOMNode()
-    let viewPortWidth = viewPortNode.offsetWidth
+    let viewportNode = this.refs.tabs.getDOMNode()
+    let viewportWidth = viewportNode.offsetWidth
     let itemNode = item.getDOMNode()
     let itemLeft= itemNode.offsetLeft
-    if (!visibilityRect.left) itemLeft -= viewPortWidth - itemNode.offsetWidth
-    viewPortNode.scrollLeft = itemLeft
+    if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
+    viewportNode.scrollLeft = itemLeft
+    let {scrollLeft} = viewportNode
+    let shift = 'start'
+    if (scrollLeft > 0 && itemLeft != scrollLeft) shift = 'end'
+    this.setState({shift: shift})
   }
 })

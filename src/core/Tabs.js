@@ -38,6 +38,6 @@ export default React.createClass({
   },
 
   checkVisibility(facet) {
-    this.refs[facet].checkVisibility()
+    return this.refs[facet].checkVisibility()
   }
 })
