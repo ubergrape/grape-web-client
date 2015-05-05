@@ -1,7 +1,9 @@
 import React from 'react'
 import useSheet from 'react-jss'
+
 import infoStyle from './infoStyle'
 import * as contents from './infoContents'
+import Button from '../../common/button/Button'
 
 /**
  * Info messages for the user for e.g. to explain integrations.
@@ -26,7 +28,7 @@ export default React.createClass({
 
     let addIntegration
     if (this.props.canAddIntegrations) {
-      addIntegration = <button onClick={this.onAddIntegration}>Add</button>
+      addIntegration = <Button onClick={this.onAddIntegration} text="Add" className={classes.button} />
     }
 
     let selected = 'basic'

@@ -37,5 +37,8 @@ export default {
   bodyNok: {
     extend: body,
     background: colors.sandLighter
+  },
+  button: {
+    width: '100%'
   }
 }

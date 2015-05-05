@@ -17,4 +17,6 @@ npm run build
 - facet - is a results view which can include one (e.g. github) or many services (e.g. "all")
 - section - representation of results for one service (headline, objects)
 - object/result - one result object from a service
+- filter objects - quick filter selection objects displayed in the "queries" section
+- sidebar can contain info or detail view
 
