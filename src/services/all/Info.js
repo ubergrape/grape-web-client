@@ -14,7 +14,7 @@ export default React.createClass({
   getDefaultProps() {
     return {
       canAddIntegrations: true,
-      hasIntegrations: true,
+      hasIntegrations: false,
       orgName: 'Organisation',
       orgOwner: 'org owner',
       headerHeight: undefined,
@@ -49,9 +49,9 @@ export default React.createClass({
 
 
     return (
-      <article className={classes.info}>
+      <article className={content.ok ? classes.infoOk : classes.infoNok}>
         <header style={headerStyle} className={content.ok ? classes.headerOk : classes.headerNok}></header>
-        <div className={content.ok ? classes.bodyOk : classes.bodyNok}>
+        <div className={classes.body}>
           {content.title}
           {content.description}
           {addIntegration}
