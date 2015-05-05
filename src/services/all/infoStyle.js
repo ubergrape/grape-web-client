@@ -25,7 +25,7 @@ export default {
   },
   infoNok: {
     extend: info,
-    background: colors.sandLight
+    background: colors.sandLighter
   },
   headerOk: {
     extend: header,
