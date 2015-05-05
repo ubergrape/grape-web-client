@@ -26,7 +26,10 @@ export default React.createClass({
       className: '',
       maxObjectsPerSectionInAll: 5,
       isExternal: false,
-      serviceId: null
+      serviceId: null,
+      hasIntegrations: undefined,
+      canAddIntegrations: undefined,
+      orgName: null
     }
   },
 
@@ -157,13 +160,13 @@ export default React.createClass({
     let serviceName = 'all'
     let data = selectedSection ? [selectedSection] : sections
     let content
-    let {isExternal} = this.props
 
     if (data.length) {
       content = React.createElement(services[serviceName], {
         data: data,
         focusedObject: this.getFocusedObject(),
-        showDetail: isExternal,
+        hasIntegrations: this.props.hasIntegrations,
+        canAddIntegrations: this.props.canAddIntegrations,
         height: this.props.height - tabsControlsStyle.container.height,
         onFocus: this.onFocusObject,
         onSelect: this.onSelectObject
@@ -171,7 +174,7 @@ export default React.createClass({
     }
     else {
       let text
-      if (isExternal) {
+      if (this.props.isExternal) {
         text = `Write the search term to search ${this.props.data.search.service}.`
       }
       content = <Empty text={text}/>

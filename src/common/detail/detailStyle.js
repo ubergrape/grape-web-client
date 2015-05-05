@@ -1,13 +1,9 @@
 import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 
-export default {
-  container: {
-    extend: fonts.normal,
-    height: '100%',
-    boxShadow: 'inset 0px 0px 3px 3px rgba(0,0,0,0.10)',
-    color: colors.grapeTypo,
-  },
+export const HEADER_HEIGHT = 110
+
+export let style = {
   previewWrapper: {
     textAlign: 'center',
     background: colors.gainsboroLight,
@@ -15,7 +11,7 @@ export default {
   },
   preview: {
     maxWidth: '100%',
-    maxHeight: 110,
+    maxHeight: HEADER_HEIGHT,
     height: 'auto',
     width: 'auto'
   },

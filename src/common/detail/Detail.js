@@ -2,7 +2,7 @@ import React from 'react'
 import useSheet from 'react-jss'
 import dotpather from 'dotpather'
 
-import detailStyle from './detailStyle'
+import * as detailStyle from './detailStyle'
 
 let getImageUrl = dotpather('preview.image.url')
 
@@ -10,12 +10,10 @@ let getImageUrl = dotpather('preview.image.url')
  * Detail view for objects.
  */
 export default React.createClass({
-  mixins: [useSheet(detailStyle)],
+  mixins: [useSheet(detailStyle.style)],
 
   getDefaultProps() {
     return {
-      height: null,
-      className: '',
       data: {meta: []}
     }
   },
@@ -23,10 +21,6 @@ export default React.createClass({
   render() {
     let {classes} = this.sheet
     let {data} = this.props
-
-    let style = {
-      height: `${this.props.height}px`
-    }
 
     let previewUrl = getImageUrl(data)
     let preview
@@ -39,7 +33,7 @@ export default React.createClass({
     }
 
     return (
-      <div className={`${classes.container} ${this.props.className}`} style={style}>
+      <div>
         {preview}
         <div className={classes.contentWrapper}>
           <h2 className={classes.title}>{data.title}</h2>
