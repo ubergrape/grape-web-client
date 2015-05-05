@@ -135,7 +135,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
 	var history = this.room.history.slice();
-	if (this.messageBuffer && this.messageBuffer.length) history.concat(this.messageBuffer);
+	if (this.messageBuffer && this.messageBuffer.length) history = history.concat(this.messageBuffer);
 	var groupedHistory = groupHistory(history);
 
 	render(this.history, template('chathistory.jade', {
