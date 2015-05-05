@@ -7,10 +7,17 @@ var q = require('query');
 var debounce = require('debounce');
 
 var staticurl = require('staticurl');
+var constants = require('cglib').constants;
 var render = require('../rendervdom');
 
-var emojiSheet = staticurl('app/cg/images/emoji_sheet_32_optimized.png');
+var IMAGES_BASE = staticurl('app/cg/images')
 
+var images = {
+	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
+    traubyReading: IMAGES_BASE + '/trauby-reading.png',
+    traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
+    noDetail: IMAGES_BASE + '/no-detail.png'
+}
 
 require('grape-input');
 
@@ -32,7 +39,7 @@ GrapeInputIntegration.prototype.init = function () {
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
 	this.input.setProps({
-		emojiSheet: emojiSheet,
+		images: images,
 		customEmojis: app.organization.custom_emojis,
 		focused: true,
 		placeholder: this.placeholder
@@ -49,6 +56,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeSubmit grape-input', 'onSubmit');
 	this.events.bind('grapeFocus grape-input', 'onFocus');
 	this.events.bind('grapeBlur grape-input', 'onBlur');
+	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
@@ -91,7 +99,8 @@ GrapeInputIntegration.prototype.showBrowser = function (queryObj) {
 		this.input.setProps({
 			data: data,
 			type: 'search',
-			queryObj: queryObj
+			queryObj: queryObj,
+			hasIntegrations: app.organization.has_integrations
 		});
 	}.bind(this));
 };
@@ -176,7 +185,7 @@ GrapeInputIntegration.prototype.completePreviousEditing = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
-	this.input.setContent('');
+	this.input.setTextContent('');
 	this.previous = null;
 };
 
@@ -184,7 +193,7 @@ GrapeInputIntegration.prototype.editMessage = function (msg) {
 	var el = q('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
-	this.input.setContent(msg.text);
+	this.input.setTextContent(msg.text);
 	this.previous = {
 		msg: msg,
 		el: el
@@ -284,7 +293,7 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 		if (attachments.length) {
 			this.emit('input', this.room, '', {attachments: attachments});
 		}
-		this.input.setContent('');
+		this.input.setTextContent('');
 	}
 };
 
@@ -298,4 +307,8 @@ GrapeInputIntegration.prototype.onBlur = function () {
 
 GrapeInputIntegration.prototype.onOrgReady = function () {
 	this.init();
+};
+
+GrapeInputIntegration.prototype.onAddIntegration = function () {
+	location.href = '/services/list'
 };

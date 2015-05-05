@@ -63,6 +63,6 @@ RoomMembersPopover.prototype.setRoom = function RoomMembers_setRoom(room) {
 	if (!this.hidden) this.hide();
 };
 
-RoomMembersPopover.prototype.leftChannel = function RoomMembersPopover_leftChannel(room) {
+RoomMembersPopover.prototype.onMemberLeftChannel = function RoomMembersPopover_onMemberLeftChannel(room) {
 	if (room == this.room) this.redraw();
 }

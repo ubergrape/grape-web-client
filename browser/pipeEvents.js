@@ -10,11 +10,18 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui, 'setRoomContext');
 
 	// addRoom popover
+	broker(ui, 'orgReady', ui.addRoom, 'onOrgReady');
 	broker.pass(ui.addRoom, 'createroom', ui, 'createroom');
 	broker.pass(ui.addRoom, 'leaveroom', ui, 'leaveroom');
-	broker(ui, 'newRoom', ui.addRoom, 'newRoom');
+	broker(ui, 'newroom', ui.addRoom, 'newRoom');
 	broker(ui.addRoom, 'toggleroomcreation', ui.roomCreation, 'toggle');
 	broker(ui.roomCreation, 'toggleaddroom', ui.addRoom, 'toggle');
+	broker(ui, 'newRoomMember', ui.addRoom, 'onNewRoomMember');
+	broker(ui, 'memberLeftChannel', ui.addRoom, 'onMemberLeftChannel');
+	broker(ui, 'channelupdate', ui.addRoom, 'onChannelUpdate');
+	broker(ui, 'roomdeleted', ui.addRoom, 'onRoomDeleted');
+	broker(ui, 'joinedChannel', ui.addRoom, 'onJoinedChannel');
+	broker(ui, 'leftChannel', ui.addRoom, 'onLeftChannel');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -29,8 +36,8 @@ function pipeEvents(ui) {
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
 	broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
 	broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
-	broker(ui, 'joinedchannel', ui.chatHeader, 'joinedChannel');
-	broker(ui, 'leftchannel', ui.chatHeader, 'leftChannel');
+	broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');
+	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
 
 	// grape input
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
@@ -50,7 +57,6 @@ function pipeEvents(ui) {
 	broker(ui, 'gothistory', ui.historyView, 'gotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
 	broker.pass(ui.historyView, 'hasread', ui, 'hasread');
-	broker(ui.historyView, 'hasread', ui.navigation, 'hasRead');
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
 	broker.pass(ui.historyView, 'deletemessage', ui, 'deletemessage');
 	broker(ui.historyView, 'deletemessage', ui.grapeInput, 'editingDone');
@@ -77,7 +83,7 @@ function pipeEvents(ui) {
 
 	// membersMenu
 	broker(ui, 'toggleinvite', ui.membersMenu, 'toggle');
-	broker(ui, 'leftchannel', ui.membersMenu, 'leftChannel');
+	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
 
 	// roomCreation
 	broker.pass(ui.roomCreation, 'createroom', ui, 'createroom');
@@ -97,4 +103,9 @@ function pipeEvents(ui) {
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'addroom', ui.addRoom, 'toggle');
+	broker(ui, 'change user', ui.navigation, 'onChangeUser');
+	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
+	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
+	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
+	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
 }

@@ -253,8 +253,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		if (!line) return; // ignore read notifications for messages we don’t have
 		var room = line.channel;
 		// ignore this for the current user, we track somewhere else
-		if (user === self.user)
-			return;
+		if (user === self.user) return self.emit('channelRead', line);
 		var last = room._readingStatus[data.user];
 		// remove the user from the last lines readers
 		if (last) {
@@ -270,7 +269,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		if (!~room.users.indexOf(user)) {
 			room.users.push(user);
-			self.emit('joinedchannel', room);
+			self.emit('newRoomMember', room);
 		}
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
@@ -279,7 +278,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var index = room.users.indexOf(user);
 		if (~index) {
 			room.users.splice(index, 1);
-			self.emit('leftchannel', room);
+			self.emit('memberLeftChannel', room);
 		}
 	});
 
@@ -353,6 +352,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#status', function (data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
+		self.emit('change user', user);
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
@@ -450,6 +450,7 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
 		if (res.logo !== null) org.logo = res.logo;
 		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
+		if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
 
 		// connect users and pms
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
@@ -511,6 +512,7 @@ App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
+		self.emit('joinedChannel');
 		if (callback !== undefined) callback();
 	});
 };
@@ -522,7 +524,7 @@ App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
-		self.emit('leavechannel', room);
+		self.emit('leftChannel', room);
 	});
 };
 

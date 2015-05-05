@@ -1,7 +1,6 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var broker = require('broker');
 var qs = require('query');
 var template = require('template');
 var classes = require('classes');
@@ -27,8 +26,7 @@ RoomPopover.prototype.init = function RoomPopover_init() {
 	this.el.appendChild(this.content.el);
 	this.itemList = new ItemList({
 		template: 'popovers/roomlist.jade',
-		selector: '.toggle',
-		ignoreChanges: ['typing']
+		selector: '.toggle'
 	});
 	replace(qs('ul', this.el), this.itemList.el);
 };
@@ -63,7 +61,6 @@ RoomPopover.prototype.bind = function RoomPopover_bind() {
 	// so we have to proxy the trigger
 	this.once('show', setRoomCreation);
 	this.events.bind('click li.leave', 'leaveRoom');
-	broker.pass(this.itemList, 'selectitem', this, 'selectitem');
 };
 
 RoomPopover.prototype.redraw = function RoomPopover_redraw() {
@@ -73,10 +70,38 @@ RoomPopover.prototype.redraw = function RoomPopover_redraw() {
 	if (this.itemList) this.itemList.redraw();
 };
 
+RoomPopover.prototype.onMemberLeftChannel = function RoomPopover_onMemberLeftChannel() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onNewRoomMember = function RoomPopover_onNewRoomMember() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onChannelUpdate = function RoomPopover_onChannelUpdate() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onRoomDeleted = function RoomPopover_onRoomDeleted() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
+	this.itemList.redraw();
+}
+
+RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
+	this.itemList.redraw();
+}
+
 RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 	this.itemList.setItems(items);
 };
 
-RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
-	this.redraw();
+RoomPopover.prototype.onOrgReady = function RoomPopover_onOrgReady(org) {
+	this.setItems(org.rooms);
 }

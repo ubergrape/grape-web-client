@@ -62,7 +62,6 @@
     "templates/messages.jade",
     "templates/index.jade",
     "templates/invite.jade",
-    "templates/labellist.jade",
     "templates/navigation.jade",
     "templates/pmlist.jade",
     "templates/popovers/room.jade",
@@ -79,7 +78,10 @@
   "images": [
     "images/emoji_sheet_32_optimized.png",
     "images/emoji_sheet_twitter_32_optimized.png",
-    "images/emoji_sheet_hangouts_32_optimized.png"
+    "images/emoji_sheet_hangouts_32_optimized.png",
+    "images/no-detail.png",
+    "images/trauby-juggling.png",
+    "images/trauby-reading.png"
   ],
   "dependencies": {
     "samsonjs/strftime": "v0.8.2",
@@ -122,7 +124,6 @@
     "sk7/startswith": "master",
     "sk7/endswith": "master",
     "matthewp/attr": "*",
-    "ianstormtaylor/animate": "0.0.2",
     "ubergrape/HTML5-Desktop-Notifications": "master",
     "ubergrape/intro.js": "master",
     "sk7/js-emoji": "master",
