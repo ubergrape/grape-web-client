@@ -279,7 +279,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	var newMessage = {
 		clientSideID: this.clientSideIDCounter,
 		text: msg,
-		isPending: true,
+		status: "pending",
 		author: ui.user,
 		time: new Date(),
 		attachments: [],
@@ -290,6 +290,13 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.scrollMode = 'automatic';
 	this.queueDraw();
 	this.emit('input', room, newMessage);
+	// set a time out here
+	// is after 3 seconds that messages is still in the buffer
+	// change the status to "unsent"
+	// then redraw --> there will be a warning box with an option to resend
+	// on the right
+
+	// TODO: pending and unsent classes need to be added to the template
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
