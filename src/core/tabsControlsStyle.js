@@ -8,7 +8,8 @@ import * as tabStyle from './tabStyle'
 let arrow = defaults({
   position: 'absolute',
   top: 0,
-  padding: '0 3px',
+  padding: '0 6px',
+  color: Color(colors.white).alpha(.35).rgbaString(),
   zIndex: 1,
   border: '0px solid ' + Color(colors.grapeDark).darken(.5).rgbaString(),
   '&:hover': {
