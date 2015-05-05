@@ -7,7 +7,8 @@ export default {
   },
   header: {
     textAlign: 'center',
-    background: colors.gainsboroLight,
+    background: colors.silverLight,
+    borderBottom: '1px solid ' + colors.silverDark,
     lineHeight: 0
   },
   preview: {
