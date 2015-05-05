@@ -12,7 +12,7 @@ export let container = {
   userSelect: 'none'
 }
 
-export let icon = {
+let icon = {
   paddingRight: 5
 }
 
