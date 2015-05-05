@@ -180,6 +180,7 @@ export default React.createClass({
       <div
         className={`${classes.container} ${this.props.className}`}
         style={style}
+        onMouseDown={this.onMouseDown}
         >
         <TabsControls data={this.state.tabs} onSelect={this.onSelectFacet} />
         {content}
@@ -197,5 +198,11 @@ export default React.createClass({
 
   onSelectFacet(data, callback) {
     this.selectFacet(data.facet, {}, callback)
+  },
+
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
   }
 })

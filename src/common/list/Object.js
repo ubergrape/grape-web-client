@@ -42,7 +42,7 @@ export default React.createClass({
     let iconClassNames = `fa fa-${icon} ` + classes.icon
     return (
       <div
-        onMouseDown={this.onMouseDown}
+        onClick={this.onClick}
         onMouseOver={this.onMouseOver}
         className={containerClassName}
         key={id}>
@@ -83,10 +83,7 @@ export default React.createClass({
     this.onFocus()
   },
 
-  onMouseDown(e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
+  onClick(e) {
     this.props.onSelect({id: this.props.id})
   },
 

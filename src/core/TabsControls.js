@@ -41,7 +41,7 @@ export default React.createClass({
     if (this.state.shift == 'end') {
       arrowPrev = (
         <li
-          onMouseDown={this.onArrowMouseDown.bind(this, 'prev')}
+          onClick={this.onArrowClick.bind(this, 'prev')}
           className={classes.prevArrow}>
             <span>&#9664;</span>
         </li>
@@ -51,7 +51,7 @@ export default React.createClass({
     if (this.state.shift == 'start') {
       arrowNext = (
         <li
-          onMouseDown={this.onArrowMouseDown.bind(this, 'next')}
+          onClick={this.onArrowClick.bind(this, 'next')}
           className={classes.nextArrow}>
             <span>&#9654;</span>
         </li>
@@ -77,10 +77,7 @@ export default React.createClass({
     tabs.checkVisibility(nextFacet || 'all')
   },
 
-  onArrowMouseDown(dir, e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
+  onArrowClick(dir, e) {
     let {data} = this.props
     let selectedIndex = findIndex(data, item => item.selected)
     if (selectedIndex < 0) selectedIndex = 0
