@@ -36,7 +36,7 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
-	this.IDCounter = 1;
+	this.clientIDCounter = 1;
 	this.messageBuffer = [];
 }
 
@@ -280,7 +280,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	var newMessage = {
-		clientID: this.IDCounter,
+		clientID: this.clientIDCounter,
 		text: msg,
 		isPending: true,
 		author: ui.user,
@@ -288,7 +288,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 		attachments: [],
 		read: true
 	};
-	this.IDCounter++;
+	this.clientIDCounter++;
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
