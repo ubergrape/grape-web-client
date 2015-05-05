@@ -242,6 +242,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	else
 		if (!this.room.empty) this.emit('needhistory', room);
 
+	this.messageBuffer = [];
 	this.redraw();
 	this.redrawTyping();
 
@@ -293,4 +294,10 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.scrollMode = 'automatic';
 	this.queueDraw();
 	this.emit('input', room, newMessage);
+}
+
+HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage() {
+	// check if clientID is the same to one of the buffered messages
+	// remove the corresponding buffered message
+	// redraw
 }
