@@ -16,16 +16,8 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      data: undefined,
       focusedObject: undefined,
-      hasIntegrations: undefined,
-      canAddIntegrations: undefined,
-      traubyReadingUrl: undefined,
-      traubyJugglingUrl: undefined,
-      height: undefined,
-      onFocus: undefined,
-      onSelect: undefined,
-      onAddIntegration: undefined
+      height: undefined
     }
   },
 
