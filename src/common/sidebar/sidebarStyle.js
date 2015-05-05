@@ -6,6 +6,6 @@ export default {
     extend: fonts.normal,
     height: '100%',
     color: colors.grapeTypo,
-    borderLeft: '3px solid ' + colors.grapeLight
+    borderLeft: '1px solid ' + colors.silverDark
   }
 }
