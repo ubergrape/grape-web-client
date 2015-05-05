@@ -41,8 +41,8 @@ function pipeEvents(ui) {
 
 	// grape input
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
-	broker.pass(ui.grapeInput, 'input', ui, 'input');
-	broker(ui.grapeInput, 'input', ui.historyView, 'setAuto');
+	broker(ui.grapeInput, 'input', ui.historyView, 'onInput');
+	broker.pass(ui.historyView, 'input', ui, 'input');
 	broker.pass(ui.grapeInput, 'update', ui, 'update');
 	broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing');
 	broker.pass(ui.grapeInput, 'starttyping', ui, 'starttyping');

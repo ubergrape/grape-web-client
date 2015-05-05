@@ -40,6 +40,22 @@ function HistoryView() {
 
 HistoryView.prototype = Object.create(Emitter.prototype);
 
+HistoryView.prototype.init = function HistoryView_init() {
+	var el = this.scrollWindow = document.createElement('div');
+	el.className = 'chat';
+	this.history = {};
+	this.typing = {};
+	this.redraw();
+	el.appendChild(this.history.el);
+	this.redrawTyping();
+	el.appendChild(this.typing.el);
+	// and make it work with custom scrollbars
+	document.createElement('div').appendChild(el);
+	var scr = new Scrollbars(el);
+	this.el = scr.wrapper;
+	this.messageBuffer = [];
+};
+
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
@@ -71,21 +87,6 @@ HistoryView.prototype.unselectForEditing = function () {
 		classes(msg).add('edited');
 		classes(msg).remove('editing');
 	}
-};
-
-HistoryView.prototype.init = function HistoryView_init() {
-	var el = this.scrollWindow = document.createElement('div');
-	el.className = 'chat';
-	this.history = {};
-	this.typing = {};
-	this.redraw();
-	el.appendChild(this.history.el);
-	this.redrawTyping();
-	el.appendChild(this.typing.el);
-	// and make it work with custom scrollbars
-	document.createElement('div').appendChild(el);
-	var scr = new Scrollbars(el);
-	this.el = scr.wrapper;
 };
 
 // only group messages that are X seconds apart
@@ -149,10 +150,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 HistoryView.prototype.scrollBottom = function() {
 	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
-};
-
-HistoryView.prototype.setAuto = function () {
-	this.scrollMode = 'automatic';
 };
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
@@ -278,3 +275,13 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
 };
+
+HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
+	var newMessage = {
+		id: null,
+		content: msg
+	};
+	this.messageBuffer.push(newMessage);
+	this.scrollMode = 'automatic';
+	this.emit('input', room, newMessage);
+}

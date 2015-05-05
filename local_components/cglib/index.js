@@ -665,7 +665,10 @@ App.prototype.deleteMessage = function App_deleteMessage(ch, msgId) {
 
 App.prototype.publish = function App_publish(room, msg, options) {
 	var self = this;
-	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
+	this.wamp.call(PREFIX + 'channels/post', room.id, msg.content, options, function (err, res) {
+		console.log(msg);
+		console.log(res);
+		console.log(err);
 		if (err) return self.emit('error', err);
 	});
 };
