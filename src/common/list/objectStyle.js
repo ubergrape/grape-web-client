@@ -12,6 +12,10 @@ export let container = {
   userSelect: 'none'
 }
 
+export let icon = {
+  paddingRight: 5
+}
+
 export let style = {
   container: {
     extend: [container, utils.ellipsis, fonts.normal]
@@ -34,7 +38,11 @@ export let style = {
     textTransform: 'uppercase'
   },
   icon: {
+    extend: [icon],
     color: colors.gainsboroDark,
-    paddingRight: 5
+  },
+  iconFocused: {
+    extend: [icon],
+    color: colors.gainsboroLight
   }
 }
