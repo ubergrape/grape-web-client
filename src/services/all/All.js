@@ -37,7 +37,6 @@ export default React.createClass({
         headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }
        
-
     return (
       <div className={classes.column}>
         <div className={classes.row}>
