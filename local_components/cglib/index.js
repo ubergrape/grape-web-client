@@ -578,10 +578,6 @@ App.prototype.search = function App_search(text) {
 				}
 			});
 			var f = [];
-			//console.log(results.facets);
-			//var facets = results.facets.map(function(facet) {
-				//console.log(facet);
-			//});
 			self.emit('gotsearchresults', {
 				'results': r,
 				'facets': f,
@@ -665,10 +661,8 @@ App.prototype.deleteMessage = function App_deleteMessage(ch, msgId) {
 
 App.prototype.publish = function App_publish(room, msg, options) {
 	var self = this;
-	this.wamp.call(PREFIX + 'channels/post', room.id, msg.content, options, function (err, res) {
-		console.log(msg);
-		console.log(res);
-		console.log(err);
+	msg = msg.text ? msg.text : msg;
+	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
 		if (err) return self.emit('error', err);
 	});
 };

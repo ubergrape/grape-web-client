@@ -36,6 +36,8 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
+	this.IDCounter = 1;
+	this.messageBuffer = [];
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -53,7 +55,6 @@ HistoryView.prototype.init = function HistoryView_init() {
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
 	this.el = scr.wrapper;
-	this.messageBuffer = [];
 };
 
 HistoryView.prototype.bind = function HistoryView_bind() {
@@ -134,6 +135,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
 	var groupedHistory = groupHistory(this.room.history);
+	if (this.messageBuffer && this.messageBuffer.length) groupedHistory.push(this.messageBuffer);
 
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
@@ -278,10 +280,17 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	var newMessage = {
-		id: null,
-		content: msg
+		clientID: this.IDCounter,
+		text: msg,
+		isPending: true,
+		author: ui.user,
+		time: new Date(),
+		attachments: [],
+		read: true
 	};
+	this.IDCounter++;
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
+	this.queueDraw();
 	this.emit('input', room, newMessage);
 }
