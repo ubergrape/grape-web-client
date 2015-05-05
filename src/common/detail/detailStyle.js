@@ -31,14 +31,16 @@ export default {
     margin: '0 0 10px 0'
   },
   empty: {
-    background: 'no-repeat center 40%' + colors.silverDark,
-    backgroundSize: 'auto 40%',
-    textAlign: 'center'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.silverDark,
   },
   emptyNote: {
-    paddingTop: 180,
+    marginTop: 16,
     width: '50%',
-    display: 'inline-block',
-    color: '#aba5b3'
+    color: colors.gainsboroDark,
+    textAlign: 'center'
   }
 }

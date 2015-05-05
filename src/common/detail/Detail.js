@@ -36,9 +36,9 @@ export default React.createClass({
     }
 
     if (!this.props.data) {
-      let style = {backgroundImage: `url(${this.props.images.noDetail})`}
       return (
-        <div className={`${classes.detail} ${classes.empty}`} style={style}>
+        <div className={`${classes.detail} ${classes.empty}`}>
+          <img src={this.props.images.noDetail} />
           <span className={classes.emptyNote}>No Detail Infos for this Object</span>
         </div>
       )
