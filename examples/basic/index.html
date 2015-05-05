@@ -28,7 +28,16 @@
         component.setProps({
           data: window.data,
           isExternal: true,
-          traubyReadingUrl: '../images/trauby-reading.png'
+          traubyReadingUrl: '../images/trauby-reading.png',
+          onAddIntegration: function() {
+            console.log('onAddIntegration')
+          },
+          onSelectFacet: function(data) {
+            console.log('onSelectFacet', data)
+          },
+          onSelectObject: function(data) {
+            console.log('onSelectObject', data)
+          }
         })
 
         var keysMap = {
@@ -59,14 +68,6 @@
                 break
             }
           }
-        })
-
-        component.addEventListener('grapeSelectFacet', function (e) {
-          console.log('selectFacet', e)
-        })
-
-        component.addEventListener('grapeSelectObject', function (e) {
-          console.log('selectObject', e)
         })
       }
 

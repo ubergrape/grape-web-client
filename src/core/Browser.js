@@ -4,7 +4,6 @@ import clone from 'lodash-es/lang/clone'
 import cloneDeep from 'lodash-es/lang/cloneDeep'
 import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
-import capitalize from 'lodash-es/string/capitalize'
 
 import browserStyle from './browserStyle'
 import tabsControlsStyle from './tabsControlsStyle'
@@ -30,7 +29,10 @@ export default React.createClass({
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
       orgName: undefined,
-      traubyReadingUrl: undefined
+      traubyReadingUrl: undefined,
+      onAddIntegration: undefined,
+      onSelectFacet: undefined,
+      onSelectObject: undefined
     }
   },
 
@@ -95,7 +97,7 @@ export default React.createClass({
       dataUtils.setSelectedSection(sections, service)
       dataUtils.setFocusedObjectAt(sections, service, 0)
       this.setState({tabs: tabs, sections: sections, serviceId: service}, callback)
-      if (!options.silent) this.emit('selectFacet', {service: service})
+      if (!options.silent) this.props.onSelectFacet({service: service})
     }
   },
 
@@ -137,21 +139,7 @@ export default React.createClass({
 
   selectObject(id) {
     this.focusObject(id)
-    this.emit('selectObject', {id: id})
-  },
-
-  /**
-   * Emit DOM event.
-   */
-  emit(type, data) {
-    let event = new CustomEvent('grape' + capitalize(type), {
-      bubbles: true,
-      cancelable: true,
-      detail: data
-    })
-    this.getDOMNode().dispatchEvent(event)
-    let cb = this.props[type]
-    if (cb) cb(data)
+    this.props.onSelectObject({id: id})
   },
 
   render() {
@@ -171,7 +159,8 @@ export default React.createClass({
         traubyReadingUrl: this.props.traubyReadingUrl,
         height: this.props.height - tabsControlsStyle.container.height,
         onFocus: this.onFocusObject,
-        onSelect: this.onSelectObject
+        onSelect: this.onSelectObject,
+        onAddIntegration: this.props.onAddIntegration
       })
     }
     else {

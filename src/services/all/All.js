@@ -23,7 +23,8 @@ export default React.createClass({
       traubyReadingUrl: undefined,
       height: undefined,
       onFocus: undefined,
-      onSelect: undefined
+      onSelect: undefined,
+      onAddIntegration: undefined
     }
   },
 

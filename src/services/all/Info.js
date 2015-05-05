@@ -16,7 +16,8 @@ export default React.createClass({
       orgName: 'Organisation',
       orgOwner: 'org owner',
       headerHeight: undefined,
-      traubyReadingUrl: undefined
+      traubyReadingUrl: undefined,
+      onAddIntegration: undefined
     }
   },
 
@@ -25,7 +26,7 @@ export default React.createClass({
 
     let addIntegration
     if (this.props.canAddIntegrations) {
-      addIntegration = <button>Add</button>
+      addIntegration = <button onClick={this.onAddIntegration}>Add</button>
     }
 
     let selected = 'basic'
@@ -49,5 +50,9 @@ export default React.createClass({
         </div>
       </article>
     )
+  },
+
+  onAddIntegration() {
+    this.props.onAddIntegration()
   }
 })
