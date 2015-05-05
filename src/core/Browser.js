@@ -1,9 +1,8 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import clone from 'lodash-es/lang/clone'
-import cloneDeep from 'lodash-es/lang/cloneDeep'
-import find from 'lodash-es/collection/find'
 import findIndex from 'lodash-es/array/findIndex'
+import pick from 'lodash-es/object/pick'
+import assign from 'lodash-es/object/assign'
 
 import browserStyle from './browserStyle'
 import tabsControlsStyle from './tabsControlsStyle'
@@ -29,7 +28,9 @@ export default React.createClass({
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
       orgName: undefined,
+      orgOwner: undefined,
       traubyReadingUrl: undefined,
+      traubyJugglingUrl: undefined,
       onAddIntegration: undefined,
       onSelectFacet: undefined,
       onSelectObject: undefined
@@ -151,17 +152,19 @@ export default React.createClass({
     let content
 
     if (data.length) {
-      content = React.createElement(services[serviceName], {
+      let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
+        'traubyReadingUrl', 'traubyJugglingUrl', 'onAddIntegration', 'orgName',
+        'orgOwner')
+
+      assign(props, {
         data: data,
         focusedObject: this.getFocusedObject(),
-        hasIntegrations: this.props.hasIntegrations,
-        canAddIntegrations: this.props.canAddIntegrations,
-        traubyReadingUrl: this.props.traubyReadingUrl,
         height: this.props.height - tabsControlsStyle.container.height,
         onFocus: this.onFocusObject,
         onSelect: this.onSelectObject,
-        onAddIntegration: this.props.onAddIntegration
       })
+
+      content = React.createElement(services[serviceName], props)
     }
     else {
       let text
