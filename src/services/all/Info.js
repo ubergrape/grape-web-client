@@ -28,7 +28,10 @@ export default React.createClass({
 
     let addIntegration
     if (this.props.canAddIntegrations) {
-      addIntegration = <Button onClick={this.onAddIntegration} text="Add" className={classes.button} />
+      addIntegration = <Button
+        onClick={this.onAddIntegration}
+        text="Add a Service Integration"
+        className={classes.button} />
     }
 
     let selected = 'basic'
