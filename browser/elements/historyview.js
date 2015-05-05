@@ -184,12 +184,13 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
 	this.room.loading = false;
 	this.room.empty = false;
+	this.queueDraw();
 };
 
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.room.empty = true;
 	this.room.loading = false;
-	this.redraw();
+	this.queueDraw();
 };
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
@@ -225,11 +226,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
-	//var history = this.history.el;
-	if (this.room) {
-		this.room.history.off('removed');
-		this.room.history.off('add');
-	}
+	if (this.room) this.room.history.off('removed');
 	this.room = room;
 	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
@@ -245,8 +242,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	this.messageBuffer = [];
 	this.redraw();
 	this.redrawTyping();
-
-	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
@@ -296,8 +291,19 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.emit('input', room, newMessage);
 }
 
-HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage() {
+HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	// check if clientID is the same to one of the buffered messages
 	// remove the corresponding buffered message
 	// redraw
+	if (line.author != ui.user) return;
+	var bufferedMsg = null;
+	this.messageBuffer.every(function(message) {
+		if (line.text == message.text) {
+			bufferedMsg = message;
+			return false;
+		}
+		return true;
+	});
+	if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	this.queueDraw();
 }
