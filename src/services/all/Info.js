@@ -19,6 +19,7 @@ export default React.createClass({
       orgOwner: 'org owner',
       headerHeight: undefined,
       traubyReadingUrl: undefined,
+      traubyJugglingUrl: undefined,
       onAddIntegration: undefined
     }
   },
@@ -34,16 +35,18 @@ export default React.createClass({
         className={classes.button} />
     }
 
-    let selected = 'basic'
-    if (!this.props.hasIntegrations) {
-      selected = this.props.canAddIntegrations ? 'canAdd' : 'needsHelp'
-    }
-    let content = contents[selected](this.props)
-
     let headerStyle = {
       height: this.props.headerHeight + 'px',
       backgroundImage: `url(${this.props.traubyReadingUrl})`
     }
+
+    let selected = 'basic'
+    if (!this.props.hasIntegrations) {
+      selected = this.props.canAddIntegrations ? 'canAdd' : 'needsHelp'
+      headerStyle.backgroundImage = `url(${this.props.traubyJugglingUrl})`
+    }
+    let content = contents[selected](this.props)
+
 
     return (
       <article className={classes.info}>

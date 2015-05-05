@@ -21,6 +21,7 @@ export default React.createClass({
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
       traubyReadingUrl: undefined,
+      traubyJugglingUrl: undefined,
       height: undefined,
       onFocus: undefined,
       onSelect: undefined,

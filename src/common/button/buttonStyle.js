@@ -8,6 +8,8 @@ export default {
     background: colors.grapeDark,
     border: 'none',
     color: colors.white,
-    padding: '5px 10px'
+    padding: '5px 10px',
+    cursor: 'pointer',
+    outline: 'none'
   }
 }
