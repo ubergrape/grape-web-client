@@ -62,6 +62,7 @@ function pipeEvents(ui) {
 	broker(ui.historyView, 'deletemessage', ui.grapeInput, 'editingDone');
 	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
+	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
 
 	// title
 	broker(ui, 'selectchannel', ui.title, 'setRoom');
@@ -98,7 +99,7 @@ function pipeEvents(ui) {
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
 	broker(ui, 'deleteduser', ui.navigation, 'deleteUser');
-	broker(ui, 'newmessage', ui.navigation, 'newMessage');
+	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
 	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');

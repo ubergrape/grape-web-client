@@ -329,7 +329,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
-		self.emit('newmessage', line);
+		self.emit('newMessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
 		var msg = models.Line.get(data['id']);
