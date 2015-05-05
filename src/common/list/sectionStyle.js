@@ -5,8 +5,9 @@ export default {
   header: {
     extend: fonts.small,
     background: colors.silverDark,
-    padding: '10px 8px 4px 8px',
+    padding: '5px 10px',
     textTransform: 'uppercase',
+    letterSpacing: '0.05em',
     color: colors.gainsboroDark
   }
 }

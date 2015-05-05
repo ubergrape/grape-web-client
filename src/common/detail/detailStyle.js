@@ -7,7 +7,8 @@ export default {
   },
   header: {
     textAlign: 'center',
-    background: colors.gainsboroLight,
+    background: colors.silverLight,
+    borderBottom: '1px solid ' + colors.silverDark,
     lineHeight: 0
   },
   preview: {
@@ -31,14 +32,16 @@ export default {
     margin: '0 0 10px 0'
   },
   empty: {
-    background: 'no-repeat center 40%' + colors.silverDark,
-    backgroundSize: 'auto 40%',
-    textAlign: 'center'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.silverLight,
   },
   emptyNote: {
-    paddingTop: 180,
+    marginTop: 16,
     width: '50%',
-    display: 'inline-block',
-    color: '#aba5b3'
+    color: colors.gainsboroDark,
+    textAlign: 'center'
   }
 }

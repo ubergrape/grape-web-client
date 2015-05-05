@@ -7,24 +7,32 @@ import sensorStyle from '../common/utils/sensorStyle'
 
 export let text = {
   extend: fonts.small,
-  color: Color(colors.white).alpha(.5).rgbaString(),
   fontWeight: 'bold',
   lineHeight: 0,
   textTransform: 'uppercase',
+  letterSpacing: '0.05em',
   verticalAlign: 'middle'
+}
+
+export let amount = {
+  letterSpacing: 0,
+  fontWeight: 'normal',
+  marginLeft: '4px',
+  opacity: '0.75'
 }
 
 export let container = {
   position: 'relative',
-  display: 'inline-block',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   padding: '0 16px',
   listStyleType: 'none',
   cursor: 'pointer',
   height: '100%',
+  color: Color(colors.white).alpha(.5).rgbaString(),
   background: webColors.roomHeaderBackground,
   userSelect: 'none',
-  lineHeight: 1.7,
-  '& span': text
 }
 
 export let style = {
@@ -39,5 +47,7 @@ export let style = {
     background: colors.grapeLight,
     color: colors.white
   },
+  text: text,
+  amount: amount,
   sensor: sensorStyle
 }

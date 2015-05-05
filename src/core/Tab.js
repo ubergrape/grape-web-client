@@ -28,7 +28,6 @@ export default React.createClass({
   render() {
     let {classes} = this.sheet
     let {amount, label, selected} = this.props
-    if (amount != null) label += ' (' + amount + ')'
     let className = selected ? classes.containerSelected : classes.container
     return (
       <li className={className} onMouseDown={this.onMouseDown}>
@@ -38,7 +37,12 @@ export default React.createClass({
           className={classes.sensor}
           containment={this.visibilityContainmentNode}
           ref="sensor" />
-        <span>{label}</span>
+        <span className={classes.text}>
+          {label}
+          {amount != null &&
+            <span className={classes.amount}>{amount}</span>
+          }
+        </span>
       </li>
     )
   },

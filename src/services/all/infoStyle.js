@@ -5,7 +5,7 @@ let info = {
   height: '100%',
   overflow: 'auto',
   '& h2': {
-    extend: fonts.normal,
+    extend: fonts.big,
     marginTop: 0
   },
   '& p': {
@@ -36,7 +36,7 @@ export default {
     backgroundColor: colors.sandLight
   },
   body: {
-    padding: 10
+    padding: 15
   },
   button: {
     width: '100%'

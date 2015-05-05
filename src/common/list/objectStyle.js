@@ -1,15 +1,20 @@
 import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 import utils from 'grape-jss-utils'
+import Color from 'color'
 
 import sensorStyle from '../utils/sensorStyle'
 
 export let container = {
   position: 'relative',
-  padding: '5px 7px',
+  padding: '5px 12px',
   color: colors.grapeTypo,
   cursor: 'pointer',
   userSelect: 'none'
+}
+
+let icon = {
+  paddingRight: 8
 }
 
 export let style = {
@@ -24,17 +29,22 @@ export let style = {
   sensor: sensorStyle,
   name: {},
   info: {
-    color: colors.gainsboroLight,
-    fontSize: 10,
-    marginLeft: 7
+    extend: fonts.small,
+    marginLeft: 8,
+    opacity: 0.5
   },
   date: {
     extend: fonts.small,
-    padding: '0 8px',
-    textTransform: 'uppercase'
+    marginLeft: 8,
+    textTransform: 'uppercase',
+    opacity: 0.5,
   },
   icon: {
-    color: colors.gainsboroDark,
-    paddingRight: 5
+    extend: [icon],
+    color: Color(colors.gainsboroDark).lighten(.2).rgbaString()
+  },
+  iconFocused: {
+    extend: [icon],
+    color: colors.gainsboroLight
   }
 }

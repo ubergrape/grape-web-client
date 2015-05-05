@@ -20,7 +20,7 @@ export default React.createClass({
   getDefaultProps() {
     return {
       data: undefined,
-      height: 300,
+      height: 340,
       className: '',
       maxObjectsPerSectionInAll: 5,
       isExternal: false,
