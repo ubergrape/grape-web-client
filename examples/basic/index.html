@@ -30,8 +30,11 @@
         component.setProps({
           data: window.data,
           isExternal: true,
-          traubyReadingUrl: '../images/trauby-reading.png',
-          traubyJugglingUrl: '../images/trauby-juggling.png',
+          images: {
+            traubyReading: '../images/trauby-reading.png',
+            traubyJuggling: '../images/trauby-juggling.png',
+            noDetail: '../images/no-detail.png'
+          },
           onAddIntegration: function() {
             console.log('onAddIntegration')
           },

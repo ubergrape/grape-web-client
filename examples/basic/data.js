@@ -20,6 +20,13 @@ window.data = {
       'id': 'github',
       'key': 'github',
       'label': 'GitHub'
+    },
+    {
+      'hidden': true,
+      'count': 1,
+      'id': 'filters',
+      'key': 'filters',
+      'label': 'Queries'
     }
   ],
   'search': {
@@ -27,6 +34,13 @@ window.data = {
     'type': 'external'
   },
   'results': [
+    {
+      'container': '#github',
+      'highlighted': 'Search Github',
+      'id': 'github',
+      'service': 'filters',
+      'type': 'filters'
+    },
     {
       'container': '/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/Tech',
       'name': 'Plans/Discussions',

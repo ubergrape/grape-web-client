@@ -18,14 +18,14 @@ export default React.createClass({
       orgName: 'Organisation',
       orgOwner: 'org owner',
       headerHeight: undefined,
-      traubyReadingUrl: undefined,
-      traubyJugglingUrl: undefined,
+      images: undefined,
       onAddIntegration: undefined
     }
   },
 
   render() {
     let {classes} = this.sheet
+    let {images} = this.props
 
     let addIntegration
     if (this.props.canAddIntegrations) {
@@ -37,13 +37,13 @@ export default React.createClass({
 
     let headerStyle = {
       height: this.props.headerHeight + 'px',
-      backgroundImage: `url(${this.props.traubyReadingUrl})`
+      backgroundImage: `url(${images.traubyReading})`
     }
 
     let selected = 'basic'
     if (!this.props.hasIntegrations) {
       selected = this.props.canAddIntegrations ? 'canAdd' : 'needsHelp'
-      headerStyle.backgroundImage = `url(${this.props.traubyJugglingUrl})`
+      headerStyle.backgroundImage = `url(${images.traubyJuggling})`
     }
     let content = contents[selected](this.props)
 

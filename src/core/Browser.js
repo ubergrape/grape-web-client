@@ -29,8 +29,7 @@ export default React.createClass({
       canAddIntegrations: undefined,
       orgName: undefined,
       orgOwner: undefined,
-      traubyReadingUrl: undefined,
-      traubyJugglingUrl: undefined,
+      images: undefined,
       onAddIntegration: undefined,
       onSelectFacet: undefined,
       onSelectObject: undefined
@@ -153,8 +152,7 @@ export default React.createClass({
 
     if (data.length) {
       let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
-        'traubyReadingUrl', 'traubyJugglingUrl', 'onAddIntegration', 'orgName',
-        'orgOwner')
+        'images', 'onAddIntegration', 'orgName', 'orgOwner')
 
       assign(props, {
         data: data,

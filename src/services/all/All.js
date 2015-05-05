@@ -17,7 +17,8 @@ export default React.createClass({
   getDefaultProps() {
     return {
       focusedObject: undefined,
-      height: undefined
+      height: undefined,
+      images: undefined
     }
   },
 
@@ -26,14 +27,16 @@ export default React.createClass({
     let {props} = this
     let sidebarContent
 
-    if (props.focusedObject.detail) {
-      sidebarContent = <Detail
-        data={props.focusedObject.detail}
-        headerHeight={allStyle.INFO_HEADER_HEIGHT} />
-    }
-    else {
+    if (props.focusedObject.type == 'filters') {
       sidebarContent = <Info {...props} headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }
+    else {
+      sidebarContent = <Detail
+        data={props.focusedObject.detail}
+        images={props.images}
+        headerHeight={allStyle.INFO_HEADER_HEIGHT} />
+    }
+       
 
     return (
       <div className={classes.column}>
