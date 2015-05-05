@@ -36,7 +36,7 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
-	this.clientIDCounter = 1;
+	this.clientSideIDCounter = 1;
 	this.messageBuffer = [];
 }
 
@@ -277,7 +277,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	var newMessage = {
-		clientID: this.clientIDCounter,
+		clientSideID: this.clientSideIDCounter,
 		text: msg,
 		isPending: true,
 		author: ui.user,
@@ -285,7 +285,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 		attachments: [],
 		read: true
 	};
-	this.clientIDCounter++;
+	this.clientSideIDCounter++;
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
@@ -293,9 +293,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	// check if clientID is the same to one of the buffered messages
-	// remove the corresponding buffered message
-	// redraw
+	// we are gonna check the clientSideID, not the text
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
