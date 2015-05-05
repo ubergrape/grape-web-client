@@ -2,6 +2,9 @@ import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 
 export default {
+  detail: {
+    height: '100%'
+  },
   header: {
     textAlign: 'center',
     background: colors.gainsboroLight,
@@ -12,7 +15,7 @@ export default {
     height: 'auto',
     width: 'auto'
   },
-  contentWrapper: {
+  body: {
     padding: 15
   },
   title: {
@@ -26,5 +29,16 @@ export default {
   },
   description: {
     margin: '0 0 10px 0'
+  },
+  empty: {
+    background: 'no-repeat center 40%' + colors.silverDark,
+    backgroundSize: 'auto 40%',
+    textAlign: 'center'
+  },
+  emptyNote: {
+    paddingTop: 180,
+    width: '50%',
+    display: 'inline-block',
+    color: '#aba5b3'
   }
 }

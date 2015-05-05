@@ -14,14 +14,15 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      data: {meta: []},
-      headerHeight: undefined
+      data: undefined,
+      headerHeight: undefined,
+      images: undefined
     }
   },
 
   render() {
     let {classes} = this.sheet
-    let {data} = this.props
+    let data = this.props.data || {}
 
     let previewUrl = getImageUrl(data)
     let header
@@ -34,14 +35,23 @@ export default React.createClass({
       )
     }
 
+    if (!this.props.data) {
+      let style = {backgroundImage: `url(${this.props.images.noDetail})`}
+      return (
+        <div className={`${classes.detail} ${classes.empty}`} style={style}>
+          <span className={classes.emptyNote}>No Detail Infos for this Object</span>
+        </div>
+      )
+    }
+
     return (
-      <div>
+      <div className={classes.detail}>
         {header}
-        <div className={classes.contentWrapper}>
+        <div className={classes.body}>
           <h2 className={classes.title}>{data.title}</h2>
           <h3 className={classes.subtitle}>{data.subtitle}</h3>
           <p className={classes.description}>{data.description}</p>
-          {data.meta.map(item => {
+          {data.meta && data.meta.map(item => {
             return (
               <div>
                 <b>{item.label + ': '}</b>
