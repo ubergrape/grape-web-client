@@ -296,15 +296,16 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	// check if clientID is the same to one of the buffered messages
 	// remove the corresponding buffered message
 	// redraw
-	if (line.author != ui.user) return;
-	var bufferedMsg = null;
-	this.messageBuffer.every(function(message) {
-		if (line.text == message.text) {
-			bufferedMsg = message;
-			return false;
-		}
-		return true;
-	});
-	if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	if (line.author == ui.user) {
+		var bufferedMsg = null;
+		this.messageBuffer.every(function(message) {
+			if (line.text == message.text) {
+				bufferedMsg = message;
+				return false;
+			}
+			return true;
+		});
+		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	}
 	this.queueDraw();
 }
