@@ -1,4 +1,6 @@
-export default {
+export const INFO_HEADER_HEIGHT = 90
+
+export let style = {
   column: {
     flex: 9,
     overflow: 'hidden'

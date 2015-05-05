@@ -1,28 +1,29 @@
 import React from 'react'
 import useSheet from 'react-jss'
 
-import allStyle from './allStyle'
+import * as allStyle from './allStyle'
 import Info from './Info'
 import List from '../../common/list/List'
 import Sidebar from '../../common/sidebar/Sidebar'
 import Detail from '../../common/detail/Detail'
-import * as detailStyle from '../../common/detail/detailStyle'
+
 
 /**
  * All search results.
  */
 export default React.createClass({
-  mixins: [useSheet(allStyle)],
+  mixins: [useSheet(allStyle.style)],
 
   getDefaultProps() {
     return {
-      data: null,
+      data: undefined,
       focusedObject: undefined,
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
-      height: null,
-      onFocus: null,
-      onSelect: null
+      traubyReadingUrl: undefined,
+      height: undefined,
+      onFocus: undefined,
+      onSelect: undefined
     }
   },
 
@@ -32,10 +33,12 @@ export default React.createClass({
     let sidebarContent
 
     if (props.focusedObject.detail) {
-      sidebarContent = <Detail data={props.focusedObject.detail} />
+      sidebarContent = <Detail
+        data={props.focusedObject.detail}
+        headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }
     else {
-      sidebarContent = <Info {...props} headerHeight={detailStyle.HEADER_HEIGHT}/>
+      sidebarContent = <Info {...props} headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }
 
     return (

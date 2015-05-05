@@ -1,6 +1,11 @@
 import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 
+let header = {
+  background: 'center no-repeat',
+  backgroundSize: 'auto 80%'
+}
+
 let body = {
   padding: 10
 }
@@ -10,7 +15,7 @@ export default {
     height: '100%',
     overflow: 'auto',
     '& h2': {
-      extend: fonts.big,
+      extend: fonts.normal,
       marginTop: 0
     },
     '& p': {
@@ -18,14 +23,16 @@ export default {
     }
   },
   headerOk: {
-    background: colors.grassLighter
+    extend: header,
+    backgroundColor: colors.grassLighter
   },
   bodyOk: {
     extend: body,
     background: colors.grassLightest
   },
   headerNok: {
-    background: colors.sandLight
+    extend: header,
+    backgroundColor: colors.sandLight
   },
   bodyNok: {
     extend: body,

@@ -7,7 +7,7 @@
     <style>
       grape-browser {
         display: block;
-        width: 400px;
+        width: 500px;
         font-size: 13px;
         font-family: Roboto, sans-serif;
       }
@@ -25,7 +25,11 @@
     <script>
       function init() {
         var component = document.querySelectorAll('grape-browser')[0]
-        component.setProps({data: window.data, isExternal: true})
+        component.setProps({
+          data: window.data,
+          isExternal: true,
+          traubyReadingUrl: '../images/trauby-reading.png'
+        })
 
         var keysMap = {
           40: 'down',

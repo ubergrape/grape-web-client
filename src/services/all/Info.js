@@ -15,7 +15,8 @@ export default React.createClass({
       hasIntegrations: true,
       orgName: 'Organisation',
       orgOwner: 'org owner',
-      headerHeight: undefined
+      headerHeight: undefined,
+      traubyReadingUrl: undefined
     }
   },
 
@@ -33,7 +34,10 @@ export default React.createClass({
     }
     let content = contents[selected](this.props)
 
-    let headerStyle = {height: this.props.headerHeight + 'px'}
+    let headerStyle = {
+      height: this.props.headerHeight + 'px',
+      backgroundImage: `url(${this.props.traubyReadingUrl})`
+    }
 
     return (
       <article className={classes.info}>

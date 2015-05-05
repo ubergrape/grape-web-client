@@ -21,15 +21,16 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      data: null,
+      data: undefined,
       height: 300,
       className: '',
       maxObjectsPerSectionInAll: 5,
       isExternal: false,
-      serviceId: null,
+      serviceId: undefined,
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
-      orgName: null
+      orgName: undefined,
+      traubyReadingUrl: undefined
     }
   },
 
@@ -167,6 +168,7 @@ export default React.createClass({
         focusedObject: this.getFocusedObject(),
         hasIntegrations: this.props.hasIntegrations,
         canAddIntegrations: this.props.canAddIntegrations,
+        traubyReadingUrl: this.props.traubyReadingUrl,
         height: this.props.height - tabsControlsStyle.container.height,
         onFocus: this.onFocusObject,
         onSelect: this.onSelectObject
