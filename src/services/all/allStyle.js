@@ -16,7 +16,7 @@ export let style = {
   rightColumn: {
     flex: 4,
     minWidth: 256,
-    maxWidth: 448,
+    maxWidth: 384,
     overflowX: 'hidden',
     overflowY: 'scroll'
   }
