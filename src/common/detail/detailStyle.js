@@ -35,7 +35,7 @@ export default {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.silverDark,
+    backgroundColor: colors.silverLight,
   },
   emptyNote: {
     marginTop: 16,
