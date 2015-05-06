@@ -10,7 +10,7 @@ let info = {
   },
   '& p': {
     extend: fonts.normal,
-    margin: `${fonts.normal.fontSize}px 0`
+    margin: `'${fonts.normal.fontSize} 0'`
   }
 }
 
