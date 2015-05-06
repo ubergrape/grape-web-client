@@ -43,6 +43,7 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
     // We have no section for this service yet.
     if (!section) {
       let service = findService(data.services, result.service)
+      if (!service) return console.warn('No service corresponding object.', result)
       section = {
         label: service.label,
         service: result.service,
