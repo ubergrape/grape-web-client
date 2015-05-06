@@ -290,7 +290,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
-	this.emit('input', room, newMessage);
+	this.emit('send', room, newMessage);
 	this.handlePendingMsg(newMessage);
 }
 
@@ -322,7 +322,7 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 	});
 	if (bufferedMsg) bufferedMsg.status = "pending";
 	this.queueDraw();
-	this.emit('input', this.room, bufferedMsg);
+	this.emit('send', this.room, bufferedMsg);
 	this.handlePendingMsg(bufferedMsg);
 }
 
