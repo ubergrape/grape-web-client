@@ -6,10 +6,11 @@ let info = {
   overflow: 'auto',
   '& h2': {
     extend: fonts.big,
-    marginTop: 0
+    margin: 0
   },
   '& p': {
-    extend: fonts.normal
+    extend: fonts.normal,
+    margin: `${fonts.normal.fontSize}px 0`
   }
 }
 
