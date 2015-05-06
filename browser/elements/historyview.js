@@ -285,13 +285,14 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 		author: ui.user,
 		time: new Date(),
 		attachments: [],
-		read: true
+		read: true,
+		room: room
 	};
 	this.clientSideIDCounter++;
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
-	this.emit('send', room, newMessage);
+	this.emit('send', newMessage.room, newMessage);
 	this.handlePendingMsg(newMessage);
 }
 
@@ -321,9 +322,10 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 		}
 		return true;
 	});
-	if (bufferedMsg) bufferedMsg.status = "pending";
+	if (!bufferedMsg) return;
+	bufferedMsg.status = "pending";
 	this.queueDraw();
-	this.emit('send', this.room, bufferedMsg);
+	this.emit('send', bufferedMsg.room, bufferedMsg);
 	this.handlePendingMsg(bufferedMsg);
 }
 
