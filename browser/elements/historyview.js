@@ -63,6 +63,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
+	this.events.bind('click div.resend', 'resend');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -290,12 +291,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.scrollMode = 'automatic';
 	this.queueDraw();
 	this.emit('input', room, newMessage);
-	setTimeout(function() {
-		if (this.messageBuffer.indexOf(newMessage) > -1) {
-			newMessage.status = "unsent";
-			this.queueDraw();
-		}
-	}.bind(this), 10000);
+	this.handlePendingMsg(newMessage);
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
@@ -312,4 +308,29 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
 	}
 	this.queueDraw();
+}
+
+HistoryView.prototype.resend = function HistoryView_resend(e) {
+	var clientSideID = e.target.getAttribute('data-id');
+	var bufferedMsg = null;
+	this.messageBuffer.every(function(message) {
+		if (message.clientSideID == clientSideID) {
+			bufferedMsg = message;
+			return false;
+		}
+		return true;
+	});
+	if (bufferedMsg) bufferedMsg.status = "pending";
+	this.queueDraw();
+	this.emit('input', this.room, bufferedMsg);
+	this.handlePendingMsg(bufferedMsg);
+}
+
+HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(msg) {
+	setTimeout(function() {
+		if (this.messageBuffer.indexOf(msg) > -1) {
+			msg.status = "unsent";
+			this.queueDraw();
+		}
+	}.bind(this), 10000);
 }
