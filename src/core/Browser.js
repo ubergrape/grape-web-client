@@ -45,7 +45,8 @@ export default React.createClass({
   },
 
   createState(props) {
-    let sections = dataUtils.getSections(props.data, props.serviceId, props.maxObjectsPerSectionInAll)
+    let maxObjects = this.getMaxObjectsPerSection(props.serviceId)
+    let sections = dataUtils.getSections(props.data, props.serviceId, maxObjects)
     let tabs = []
 
     if (props.data) {
@@ -57,6 +58,10 @@ export default React.createClass({
       tabs: tabs,
       serviceId: props.serviceId
     }
+  },
+
+  getMaxObjectsPerSection(service) {
+    return service ? undefined : this.props.maxObjectsPerSectionInAll
   },
 
   /**
@@ -92,7 +97,7 @@ export default React.createClass({
     if (set) {
       let service = tabs[newIndex].service
       dataUtils.setSelectedTab(tabs, newIndex)
-      let maxObjects = service ? undefined : this.props.maxObjectsPerSectionInAll
+      let maxObjects = this.getMaxObjectsPerSection(service)
       let sections = dataUtils.getSections(this.props.data, service, maxObjects)
       dataUtils.setSelectedSection(sections, service)
       dataUtils.setFocusedObjectAt(sections, service, 0)
