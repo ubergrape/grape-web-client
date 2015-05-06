@@ -100,7 +100,7 @@ App.prototype.onDisconnect = function App_ondisconnect() {
 		this.connected = false;
 		this.emit('disconnected', this._ws);
 	}
-	this.reconnect();
+	//this.reconnect();
 };
 /**
  * Initializes the connection and gets all the user profile and organization

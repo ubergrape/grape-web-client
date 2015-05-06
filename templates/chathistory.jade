@@ -108,7 +108,10 @@
 				else
 					author.message-author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
+					- var lineID = line.id ? line.id : line.clientSideID
+					- var status = line.status ? line.status : 'sent'
+					- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
+					div.message(data-id=lineID, class=status, class=msgType)
 						.labels(style='display: none;')
 							a
 								.label
