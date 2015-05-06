@@ -10,14 +10,14 @@ var staticurl = require('staticurl');
 var constants = require('cglib').constants;
 var render = require('../rendervdom');
 
-var IMAGES_BASE = staticurl('app/cg/images')
+var IMAGES_BASE = staticurl('app/cg/images');
 
 var images = {
 	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
     traubyReading: IMAGES_BASE + '/trauby-reading.png',
     traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
     noDetail: IMAGES_BASE + '/no-detail.png'
-}
+};
 
 require('grape-input');
 
