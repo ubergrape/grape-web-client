@@ -135,8 +135,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
+	// create a copy of the history
 	var history = this.room.history.slice();
+	// merge buffered messages with copy of history
 	if (this.messageBuffer && this.messageBuffer.length) history = history.concat(this.messageBuffer);
+	// eventually group history
 	var groupedHistory = groupHistory(history);
 
 	render(this.history, template('chathistory.jade', {
@@ -220,16 +223,14 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	for (var i = history.children.length - 1; i >= 0; i--) {
 		var child = history.children[i];
 		var childBottom = child.offsetTop + child.offsetHeight;
-		if (childBottom <= scrollBottom) {
-			return child;
-		}
+		if (childBottom <= scrollBottom) return child;
 	}
 };
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	if (this.room) this.room.history.off('removed');
-	if (this.room.id != room.id) { this.messageBuffer = [] }
+	if (this.room.id != room.id) this.messageBuffer = [];
 	this.room = room;
 	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
