@@ -182,7 +182,7 @@
 								if line.objects.length > 3 && line.author.id != 'jira'
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
-						if user.id == line.author.id
+						if user.id == line.author.id && status == 'sent'
 							div.edit
 								//- only show the edit button when there is no image attached
 								if line.attachments.length == 0
