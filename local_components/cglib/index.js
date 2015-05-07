@@ -546,8 +546,8 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 		this.organization.id,
 		// Show all.
 		true,
-		// Amount of results per section, use default one.
-		null,
+		// Amount of results per section.
+		15,
 		// Return external services too.
 		true,
 		function (err, result) {
