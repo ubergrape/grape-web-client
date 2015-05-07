@@ -544,6 +544,11 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 		PREFIX + 'search/autocomplete',
 		text,
 		this.organization.id,
+		// Show all.
+		true,
+		// Amount of results per section, use default one.
+		null,
+		// Return external services too.
 		true,
 		function (err, result) {
 			if (callback !== undefined) {
