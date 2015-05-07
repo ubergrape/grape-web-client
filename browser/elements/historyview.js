@@ -295,7 +295,6 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	// we are gonna check the clientSideID, not the text
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
