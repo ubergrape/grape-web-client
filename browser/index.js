@@ -236,7 +236,7 @@ UI.prototype.bind = function UI_bind() {
 	this.room = null;
 
 	this.upload.on('uploaded', function (attachment) {
-		self.emit('input', self.room, '', {attachments: [attachment.id]});
+		self.emit('send', self.room, '', {attachments: [attachment.id]});
 		self.upload.hide();
 	});
 
