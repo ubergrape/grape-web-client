@@ -86,6 +86,7 @@ if (!exists('component.json')) utils.fatal('missing component.json');
 
 var jsPath = path.join(program.out, program.name + '.js');
 var cssPath = path.join(program.out, program.name + '.css');
+var imagesPath = program.out;
 
 // mkdir -p
 
@@ -184,7 +185,7 @@ function resolve() {
 
     buildScripts(tree);
     buildStyles(tree);
-    buildFiles(tree);
+    buildImages(tree);
   })
 }
 
@@ -238,7 +239,7 @@ function buildStyles(tree) {
   });
 }
 
-function buildFiles(tree) {
+function buildImages(tree) {
   if (resolving) return;
   if (!builds.files) return;
   var image_handler = build.plugins.symlink();
@@ -246,17 +247,17 @@ function buildFiles(tree) {
     image_handler = build.plugins.copy();
   }
   var start = Date.now();
-  build.files(tree)
+  build.files(tree, {destination: imagesPath})
   .use('images', image_handler)
   .end(function (err) {
     if (err) {
       utils.error(err);
       rimraf(options.destination, function(err) {
         if (err) utils.fatal(err);
-        return
       });
-    } else {
-      log('build', 'files in ' + (Date.now() - start) + 'ms');
+      return;
     }
+
+    log('build', 'files in ' + (Date.now() - start) + 'ms');
   });
 }
