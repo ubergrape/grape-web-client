@@ -36,7 +36,6 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
-	this.clientSideIDCounter = 1;
 	this.messageBuffer = [];
 }
 
@@ -279,7 +278,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	var newMessage = {
-		clientSideID: this.clientSideIDCounter,
+		clientSideID: (Math.random() + 1).toString(36).substring(7),
 		text: msg,
 		status: "pending",
 		author: ui.user,
@@ -288,7 +287,6 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 		read: true,
 		room: room
 	};
-	this.clientSideIDCounter++;
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
