@@ -276,21 +276,26 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	classes(el).remove('list-previewed');
 };
 
-HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
+HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
+	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
 		clientSideID: (Math.random() + 1).toString(36).substring(7),
 		text: msg,
 		status: "pending",
 		author: ui.user,
 		time: new Date(),
-		attachments: [],
+		attachments: attachments,
 		read: true,
 		room: room
 	};
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
-	this.emit('send', newMessage.room, newMessage.text, { clientside_id: newMessage.clientSideID });
+	var options = {
+		clientside_id: newMessage.clientSideID,
+		attachments: newMessage.attachments
+	};
+	this.emit('send', newMessage.room, newMessage.text, options);
 	this.handlePendingMsg(newMessage);
 }
 
@@ -322,7 +327,11 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 	if (!bufferedMsg) return;
 	bufferedMsg.status = "pending";
 	this.queueDraw();
-	this.emit('send', bufferedMsg.room, bufferedMsg.text, { clientside_id: bufferedMsg.clientSideID });
+	var options = {
+		clientside_id: bufferedMsg.clientSideID,
+		attachments: bufferedMsg.attachments		
+	}
+	this.emit('send', bufferedMsg.room, bufferedMsg.text, options);
 	this.handlePendingMsg(bufferedMsg);
 }
 
