@@ -290,7 +290,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg) {
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
-	this.emit('send', newMessage.room, newMessage);
+	this.emit('send', newMessage.room, newMessage.text, { clientside_id: newMessage.clientSideID });
 	this.handlePendingMsg(newMessage);
 }
 
@@ -299,7 +299,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
-			if (line.text == message.text) {
+			if (line.clientside_id == message.clientSideID) {
 				bufferedMsg = message;
 				return false;
 			}
@@ -323,7 +323,7 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 	if (!bufferedMsg) return;
 	bufferedMsg.status = "pending";
 	this.queueDraw();
-	this.emit('send', bufferedMsg.room, bufferedMsg);
+	this.emit('send', bufferedMsg.room, bufferedMsg.text, { clientside_id: bufferedMsg.clientSideID });
 	this.handlePendingMsg(bufferedMsg);
 }
 
