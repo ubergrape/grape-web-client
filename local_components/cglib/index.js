@@ -545,6 +545,8 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 		text,
 		this.organization.id,
 		true,
+		15, // size
+		true, // show_external
 		function (err, result) {
 			if (callback !== undefined) {
 				callback(err, result);
