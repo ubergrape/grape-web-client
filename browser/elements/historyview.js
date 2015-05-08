@@ -291,11 +291,6 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
-	var options = {
-		clientside_id: newMessage.clientSideID,
-		attachments: newMessage.attachments
-	};
-	this.emit('send', newMessage.room, newMessage.text, options);
 	this.handlePendingMsg(newMessage);
 }
 
@@ -327,15 +322,16 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 	if (!bufferedMsg) return;
 	bufferedMsg.status = "pending";
 	this.queueDraw();
-	var options = {
-		clientside_id: bufferedMsg.clientSideID,
-		attachments: bufferedMsg.attachments		
-	}
-	this.emit('send', bufferedMsg.room, bufferedMsg.text, options);
 	this.handlePendingMsg(bufferedMsg);
 }
 
 HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(msg) {
+	var options = {
+		clientside_id: msg.clientSideID,
+		attachments: msg.attachments		
+	}
+	this.emit('send', msg.room, msg.text, options);
+
 	setTimeout(function() {
 		if (this.messageBuffer.indexOf(msg) > -1) {
 			msg.status = "unsent";
