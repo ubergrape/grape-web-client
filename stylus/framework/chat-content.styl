@@ -184,7 +184,7 @@ span.author-deleted
 		.edit,
 		.btn-label
 			opacity: 0
-			transition: opacity 200ms ease
+			// transition: opacity 200ms ease
 		&:hover
 			> .time
 			> .edit
@@ -208,9 +208,41 @@ span.author-deleted
 					color: bittersweet-dark
 				&:active
 					color: darken(bittersweet-dark, 25%)
-		.resend
+		.status-control
 			float: right
-			cursor: pointer
+			margin-left: 8px
+			min-width: 80px
+			text-align: right
+			.unsent
+				color: bittersweet-dark
+				.status-label
+					color: bittersweet-light
+			.resend
+				display: none
+				color: aqua-dark
+				cursor: pointer
+			.pending
+				color: gainsboro-light
+				// cursor: progress
+			i
+				margin-left: 6px
+				pointer-events: none
+			.status-label
+				// @extend $small-font-size
+				// text-transform: uppercase
+				font-weight: bold
+				pointer-events: none
+		&.pending,
+		&.unsent
+			.text
+				opacity: 0.4
+		&.unsent
+			.status-control
+				&:hover
+					.resend
+						display: block
+					.unsent
+						display: none
 		&.editing
 			background: lighten(gold, 80%)
 		&.removing
@@ -322,7 +354,7 @@ span.author-deleted
 		-webkit-animation-delay: 0.3s
 		animation: dot 1.3s infinite
 		animation-delay: 0.3s
-		
+
 @-webkit-keyframes dot {
       0% { opacity: 0; }
      50% { opacity: 0; }
@@ -347,6 +379,7 @@ span.author-deleted
 	margin-bottom: 3px
 	max-width: 90%
 	word-wrap: break-word
+	transition: opacity .2s linear
 	em
 		font-style: italic
 	ul,
