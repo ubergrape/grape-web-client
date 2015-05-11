@@ -188,5 +188,15 @@
 								if line.attachments.length == 0
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
-						if status == 'unsent'
-							div.resend(data-id=lineID) Resend
+						if status !== 'sent'
+							div.status-control
+								if status == 'unsent'
+									div.resend(data-id=lineID)
+										span.status-label Retry
+										i.fa.fa-repeat.fa-lg
+									div.unsent
+										span.status-label Not sent
+										i.fa.fa-exclamation-circle.fa-lg
+								if status == 'pending'
+									div.pending
+										i.fa.fa-spinner.fa-pulse.fa-lg
