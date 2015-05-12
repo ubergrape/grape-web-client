@@ -112,7 +112,7 @@
 // Everything regarding chat messages
 //
 // ****
-			
+
 .message-group
 	@extend $clearfix
 	margin: 10px 30px 20px 20px
@@ -179,7 +179,7 @@ span.author-deleted
 			display: inline
 	.message
 		margin-bottom: 3px
-		// overflow: hidden Commented out - because dunno why we need that atm
+		overflow: hidden // clearfix
 		.time,
 		.edit,
 		.btn-label
@@ -391,7 +391,7 @@ span.author-deleted
 		padding: 0.5em 10px
 		font-style: italic
 		color: gainsboro-dark
-	pre 
+	pre
 		overflow: hidden
 	code
 		border: 1px solid gainsboro-light
@@ -442,7 +442,7 @@ span.author-deleted
 				img
 					max-width: inherit
 					max-height: inherit
-			
+
 // ****
 //
 // Separators, used to split content within the history
