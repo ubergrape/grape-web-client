@@ -31,13 +31,14 @@ UserPopover.prototype.redraw = function UserPopover_redraw() {
 
 UserPopover.prototype.show = function RoomPopover_show() {
 	Popover.prototype.show.apply(this, arguments);
-
 	// intercom button
-	// first, fix app_id, based on settings
-	var intercom_button = query('a' + window.intercomSettings.widget.activator, this.content.el);
-	intercom_button.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-	// now rebind
-	// alternative: bind call window.Intercom.public_api.show() in a click handler
-	window.Intercom('reattach_activator');
+  query('a#Intercom', this.content.el).addEventListener("click", function(e) {
+		// manually attaching the intercom-show handler here
+		// because due to our indirect use of intercom (via 
+		// segment's analytics.js), we cannot set the 
+		// intercom settings activator id
+		e.preventDefault();
+		window.Intercom("show");  
+	});
 };
 
