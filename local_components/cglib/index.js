@@ -333,7 +333,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
-		self.emit('newmessage', line);
+		self.emit('newMessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
 		var msg = models.Line.get(data['id']);
@@ -580,10 +580,6 @@ App.prototype.search = function App_search(text) {
 				}
 			});
 			var f = [];
-			//console.log(results.facets);
-			//var facets = results.facets.map(function(facet) {
-				//console.log(facet);
-			//});
 			self.emit('gotsearchresults', {
 				'results': r,
 				'facets': f,
@@ -667,6 +663,7 @@ App.prototype.deleteMessage = function App_deleteMessage(ch, msgId) {
 
 App.prototype.publish = function App_publish(room, msg, options) {
 	var self = this;
+	msg = msg.text ? msg.text : msg;
 	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
 		if (err) return self.emit('error', err);
 	});

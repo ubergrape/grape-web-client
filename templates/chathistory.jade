@@ -108,7 +108,10 @@
 				else
 					author.message-author= first.author.username
 				each line in lines
-					div.message(data-id=line.id, class=(line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'))
+					- var lineID = line.id ? line.id : line.clientSideID
+					- var status = line.status ? line.status : 'sent'
+					- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
+					div.message(data-id=lineID, class=msgType, class=status)
 						.labels(style='display: none;')
 							a
 								.label
@@ -179,9 +182,21 @@
 								if line.objects.length > 3 && line.author.id != 'jira'
 									a.show-more=_('Show More')
 						//- show the edit stuff only if current user is the author
-						if user.id == line.author.id
+						if user.id == line.author.id && status == 'sent'
 							div.edit
 								//- only show the edit button when there is no image attached
 								if line.attachments.length == 0
 									i.fa.fa-pencil.btn-edit
 								i.fa.fa-times.btn-delete
+						if status !== 'sent'
+							div.status-control
+								if status == 'unsent'
+									div.resend(data-id=lineID)
+										span.status-label Retry
+										i.fa.fa-repeat.fa-lg
+									div.unsent
+										span.status-label Not sent
+										i.fa.fa-exclamation-circle.fa-lg
+								if status == 'pending'
+									div.pending
+										i.fa.fa-spinner.fa-pulse.fa-lg

@@ -112,7 +112,7 @@
 // Everything regarding chat messages
 //
 // ****
-			
+
 .message-group
 	@extend $clearfix
 	margin: 10px 30px 20px 20px
@@ -179,12 +179,11 @@ span.author-deleted
 			display: inline
 	.message
 		margin-bottom: 3px
-		// overflow: hidden Commented out - because dunno why we need that atm
+		overflow: hidden // clearfix
 		.time,
 		.edit,
 		.btn-label
 			opacity: 0
-			transition: opacity 200ms ease
 		&:hover
 			> .time
 			> .edit
@@ -208,6 +207,38 @@ span.author-deleted
 					color: bittersweet-dark
 				&:active
 					color: darken(bittersweet-dark, 25%)
+		.status-control
+			float: right
+			margin-left: 8px
+			min-width: 80px
+			text-align: right
+			.unsent
+				color: bittersweet-dark
+				.status-label
+					color: bittersweet-light
+			.resend
+				display: none
+				color: aqua-dark
+				cursor: pointer
+			.pending
+				color: gainsboro-light
+			i
+				margin-left: 6px
+				pointer-events: none
+			.status-label
+				font-weight: bold
+				pointer-events: none
+		&.pending,
+		&.unsent
+			.text
+				opacity: 0.4
+		&.unsent
+			.status-control
+				&:hover
+					.resend
+						display: block
+					.unsent
+						display: none
 		&.editing
 			background: lighten(gold, 80%)
 		&.removing
@@ -319,7 +350,7 @@ span.author-deleted
 		-webkit-animation-delay: 0.3s
 		animation: dot 1.3s infinite
 		animation-delay: 0.3s
-		
+
 @-webkit-keyframes dot {
       0% { opacity: 0; }
      50% { opacity: 0; }
@@ -342,8 +373,9 @@ span.author-deleted
 	display: inline-block
 	padding: 0
 	margin-bottom: 3px
-	max-width: 90%
+	max-width: 85%
 	word-wrap: break-word
+	transition: opacity .2s linear
 	em
 		font-style: italic
 	ul,
@@ -359,7 +391,7 @@ span.author-deleted
 		padding: 0.5em 10px
 		font-style: italic
 		color: gainsboro-dark
-	pre 
+	pre
 		overflow: hidden
 	code
 		border: 1px solid gainsboro-light
@@ -410,7 +442,7 @@ span.author-deleted
 				img
 					max-width: inherit
 					max-height: inherit
-			
+
 // ****
 //
 // Separators, used to split content within the history

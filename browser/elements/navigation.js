@@ -154,7 +154,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 	if (this.roomList) this.roomList.redraw();
 };
 
-Navigation.prototype.newMessage = function Navigation_newMessage(line) {
+Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	if (this.filtering) return;
 	if (line.channel.type == 'pm') {
 		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);

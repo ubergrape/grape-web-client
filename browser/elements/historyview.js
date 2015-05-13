@@ -36,9 +36,25 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
+	this.messageBuffer = [];
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
+
+HistoryView.prototype.init = function HistoryView_init() {
+	var el = this.scrollWindow = document.createElement('div');
+	el.className = 'chat';
+	this.history = {};
+	this.typing = {};
+	this.redraw();
+	el.appendChild(this.history.el);
+	this.redrawTyping();
+	el.appendChild(this.typing.el);
+	// and make it work with custom scrollbars
+	document.createElement('div').appendChild(el);
+	var scr = new Scrollbars(el);
+	this.el = scr.wrapper;
+};
 
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
@@ -46,6 +62,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
+	this.events.bind('click div.resend', 'resend');
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -71,21 +88,6 @@ HistoryView.prototype.unselectForEditing = function () {
 		classes(msg).add('edited');
 		classes(msg).remove('editing');
 	}
-};
-
-HistoryView.prototype.init = function HistoryView_init() {
-	var el = this.scrollWindow = document.createElement('div');
-	el.className = 'chat';
-	this.history = {};
-	this.typing = {};
-	this.redraw();
-	el.appendChild(this.history.el);
-	this.redrawTyping();
-	el.appendChild(this.typing.el);
-	// and make it work with custom scrollbars
-	document.createElement('div').appendChild(el);
-	var scr = new Scrollbars(el);
-	this.el = scr.wrapper;
 };
 
 // only group messages that are X seconds apart
@@ -132,7 +134,12 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		(this.scrollMode === 'automatic' && focus.state === 'focus')))
 		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
-	var groupedHistory = groupHistory(this.room.history);
+	// create a copy of the history
+	var history = this.room.history.slice();
+	// merge buffered messages with copy of history
+	if (this.messageBuffer && this.messageBuffer.length) history = history.concat(this.messageBuffer);
+	// eventually group history
+	var groupedHistory = groupHistory(history);
 
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
@@ -149,10 +156,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 HistoryView.prototype.scrollBottom = function() {
 	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
-};
-
-HistoryView.prototype.setAuto = function () {
-	this.scrollMode = 'automatic';
 };
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
@@ -185,12 +188,13 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
 	this.room.loading = false;
 	this.room.empty = false;
+	this.queueDraw();
 };
 
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.room.empty = true;
 	this.room.loading = false;
-	this.redraw();
+	this.queueDraw();
 };
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
@@ -218,19 +222,14 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	for (var i = history.children.length - 1; i >= 0; i--) {
 		var child = history.children[i];
 		var childBottom = child.offsetTop + child.offsetHeight;
-		if (childBottom <= scrollBottom) {
-			return child;
-		}
+		if (childBottom <= scrollBottom) return child;
 	}
 };
 
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
-	//var history = this.history.el;
-	if (this.room) {
-		this.room.history.off('removed');
-		this.room.history.off('add');
-	}
+	if (this.room) this.room.history.off('removed');
+	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
 	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
@@ -245,8 +244,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 
 	this.redraw();
 	this.redrawTyping();
-
-	room.history.on('add', function () { self.queueDraw(); });
 
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
@@ -278,3 +275,67 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
 };
+
+HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
+	var attachments = options && options.attachments ? options.attachments : [];
+	var newMessage = {
+		clientSideID: (Math.random() + 1).toString(36).substring(7),
+		text: msg,
+		status: "pending",
+		author: ui.user,
+		time: new Date(),
+		attachments: attachments,
+		read: true,
+		room: room
+	};
+	this.messageBuffer.push(newMessage);
+	this.scrollMode = 'automatic';
+	this.queueDraw();
+	this.handlePendingMsg(newMessage);
+}
+
+HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
+	if (line.author == ui.user) {
+		var bufferedMsg = null;
+		this.messageBuffer.every(function(message) {
+			if (line.clientside_id == message.clientSideID) {
+				bufferedMsg = message;
+				return false;
+			}
+			return true;
+		});
+		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	}
+	this.queueDraw();
+}
+
+HistoryView.prototype.resend = function HistoryView_resend(e) {
+	var clientSideID = e.target.getAttribute('data-id');
+	var bufferedMsg = null;
+	this.messageBuffer.every(function(message) {
+		if (message.clientSideID == clientSideID) {
+			bufferedMsg = message;
+			return false;
+		}
+		return true;
+	});
+	if (!bufferedMsg) return;
+	bufferedMsg.status = "pending";
+	this.queueDraw();
+	this.handlePendingMsg(bufferedMsg);
+}
+
+HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(msg) {
+	var options = {
+		clientside_id: msg.clientSideID,
+		attachments: msg.attachments		
+	}
+	this.emit('send', msg.room, msg.text, options);
+
+	setTimeout(function() {
+		if (this.messageBuffer.indexOf(msg) > -1) {
+			msg.status = "unsent";
+			this.queueDraw();
+		}
+	}.bind(this), 10000);
+}
