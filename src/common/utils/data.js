@@ -189,7 +189,7 @@ export function getTabs(services = [], sections, selectedServiceId) {
   })
 
   let total = 0
-  tabs.forEach(tab => total += tab.amount)
+  tabs.forEach(tab => total += (tab.amount || 0))
 
   tabs.unshift({
     label: 'All',
