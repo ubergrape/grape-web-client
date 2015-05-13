@@ -45,6 +45,7 @@ function App() {
 	this.connecting = false;
 
 	this._typingTimeouts = [];
+	this.reconnected = false;
 }
 
 App.prototype = Object.create(Emitter.prototype);
@@ -90,6 +91,7 @@ App.prototype.heartbeat = function App_heartbeat() {
 
 App.prototype.onDisconnect = function App_onDisconnect() {
 	this.disconnect();
+	this.reconnected = true;
 	this.emit('disconnected', this._ws);
 	this.reconnect();
 };
@@ -105,7 +107,7 @@ App.prototype.onConnect = function App_onConnect(data) {
     this.emit('change user', this.user);
     this.emit('change settings', this.settings);
     this.emit('change organizations', this.organizations);
-    this.emit('connected');
+    this.emit('connected', this.reconnected);
     console.log('Connected!');
 };
 
