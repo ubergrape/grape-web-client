@@ -229,7 +229,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	if (this.room) this.room.history.off('removed');
-	if (this.room.id != room.id) this.messageBuffer = [];
+	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
 	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
