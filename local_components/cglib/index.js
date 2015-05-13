@@ -1,5 +1,5 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+'use strict';
 
 var Wamp = require('wamp1');
 var WebSocket = require('websocket');
@@ -18,8 +18,12 @@ var models = exports.models = {
 exports.constants = require('./constants');
 
 var PREFIX = 'http://domain/';
-var HEARTBEAT_INTERVAL = 10000;
-var HEARTBEAT_TIMEOUT = 10000;
+
+// Time we wait until we destroy connection and reconect.
+var PONG_MAX_WAIT = 15000;
+
+// Time we wait after we got a pong before we send another ping.
+var PING_DELAY = 5000;
 
 function App() {
 	Emitter.call(this);
@@ -35,28 +39,15 @@ function App() {
 	this.organizations = undefined;
 	// the currently active organization
 	this.organization = undefined;
-	// "reconnected" should reflect if this is the first initial
-	// connection or there have been reconnect attempts
-	this.reconnected = false;
-	this.reconnecting = false;
+
+	// Connected here includes that user data is loaded.
 	this.connected = false;
 	this.connecting = false;
 
-	this._typing_timeouts = [];
+	this._typingTimeouts = [];
 }
 
 App.prototype = Object.create(Emitter.prototype);
-
-App.prototype.startHeartbeat = function() {
-	var self = this;
-	this._heartbeat = setInterval(function() {
-		self.heartbeat(self);
-	}, HEARTBEAT_INTERVAL);
-};
-
-App.prototype.stopHeartbeat = function () {
-	clearInterval(this._heartbeat);
-};
 
 App.prototype.logTraffic = function App_logTraffic() {
 	var socket = this.wamp.socket;
@@ -76,32 +67,48 @@ App.prototype.logTraffic = function App_logTraffic() {
 	}
 };
 
-App.prototype.heartbeat = function App_heartbeat(app) {
-	if (!app.connected)
-		return;
-	var heartbeatTimeout = setTimeout(function() {
-			console.log("NO PONG");
-			app.onDisconnect();
-	}, HEARTBEAT_TIMEOUT);
+App.prototype.heartbeat = function App_heartbeat() {
+	if (!this.connected) return;
+	var timedout = false;
+
+	var timeoutId = setTimeout(function() {
+		console.log('NO PONG');
+		timedout = true;
+		this.onDisconnect();
+	}.bind(this), PONG_MAX_WAIT);
+
 	this.wamp.call(PREFIX + 'ping', function(err, res) {
-		if (res === 'pong') {
-			clearTimeout(heartbeatTimeout);
-		}
-	});
+		// In case we get this callback after we timed out.
+		// Reconnect is already started, which will call .heartbeat.
+		if (timedout) return;
+
+		if (res === 'pong') clearTimeout(timeoutId);
+
+		setTimeout(this.heartbeat.bind(this), PING_DELAY);
+	}.bind(this));
 };
 
-App.prototype.onDisconnect = function App_ondisconnect() {
-	if (this.connected) {
-		this.stopHeartbeat();
-		if (this._ws) {
-			this.unbind();
-			this._ws.close(3001);
-		}
-		this.connected = false;
-		this.emit('disconnected', this._ws);
-	}
+App.prototype.onDisconnect = function App_onDisconnect() {
+	this.disconnect();
+	this.emit('disconnected', this._ws);
 	this.reconnect();
 };
+
+App.prototype.onConnect = function App_onConnect(data) {
+    this.user = new models.User(data);
+    this.settings = this.user.settings;
+    this.organizations = array(data.organizations.map(function (org) {
+        return new models.Organization(org);
+    }));
+    this.connected = true;
+    this.connecting = false;
+    this.emit('change user', this.user);
+    this.emit('change settings', this.settings);
+    this.emit('change organizations', this.organizations);
+    this.emit('connected');
+    console.log('Connected!');
+};
+
 /**
  * Initializes the connection and gets all the user profile and organization
  * details and joins the first one.
@@ -111,12 +118,13 @@ App.prototype.onDisconnect = function App_ondisconnect() {
  * @param {Function} [callback]
  */
 App.prototype.connect = function App_connect(ws, callback) {
+	if (this.connected) return;
+
 	// Legacy callback, used in mobile_history.html
 	if (callback) this.once('connected', callback);
 
 	if (this.connecting) return;
 
-	var self = this;
 	this.connecting = true;
 
 	// Its an URI string passed first time when connecting.
@@ -130,56 +138,52 @@ App.prototype.connect = function App_connect(ws, callback) {
 	this._ws = ws;
 
 	ws.on('open', function() {
-		console.log("Websocket Connection opened!");
-		self.wamp = new Wamp(ws, {
-			omitSubscribe: true
-		});
-		self.bindEvents();
-		self.wamp.call(PREFIX + 'users/get_profile', function (err, res) {
-			if (err) return self.emit('error', err);
-			self.user = new models.User(res);
-			self.settings = self.user.settings;
-			self.organizations = array(res.organizations.map(function (o) {
-				return new models.Organization(o);
-			}));
-			self.emit('change user', self.user);
-			self.emit('change settings', self.settings);
-			self.emit('change organizations', self.organizations);
-			self.connected = true;
-			self.connecting = false;
-			self.emit('connected', self.reconnected, self._ws);
-			self.startHeartbeat();
-			console.log(self.reconnected ? 'Reconnected!' : 'Connected!');
-		});
-	});
+		console.log('Websocket Connection opened!');
+		this.wamp = new Wamp(ws, {omitSubscribe: true});
+		this.bindEvents();
+		this.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
+            if (err) {
+            	this.emit('error', err);
+            	this.onDisconnect();
+            	return;
+            }
+            this.onConnect(data);
+            this.heartbeat();
+		}.bind(this));
+	}.bind(this));
+
 	ws.on('close', function(e) {
-		self.connecting = false;
-		console.log("Websocket Closed, disconnecting!", e);
-		self.onDisconnect();
-	});
+		console.log('Websocket closed, disconnecting!', e);
+		this.onDisconnect();
+	}.bind(this));
+
 	ws.on('error', function(err) {
-		self.connecting = false;
-		console.log("Websocket Error, disconnecting!", arguments);
-		self.onDisconnect();
-	});
+		console.log('Websocket error, disconnecting!', err);
+		this.onDisconnect();
+	}.bind(this));
+};
+
+App.prototype.disconnect = function App_disconnect() {
+	// our wamp implementation has no off() right now
+	// so we do some hacking
+	if (this.wamp) this.wamp._listeners = {};
+
+	if (this._ws) {
+		this._ws.off();
+		this._ws.close(3001);
+	}
+
+	this.connected = false;
+	this.connecting = false;
 };
 
 App.prototype.reconnect = function App_reconnect() {
-	if (this.reconnecting) return;
-	this.reconnecting = true;
 	var self = this;
 	var timeout = Math.floor((Math.random() * 5000) + 1);
-	console.log("Attempting reconnect in ms:", timeout);
+	console.log('Attempting reconnect in ms:', timeout);
 	setTimeout(function() {
-		try {
-			console.log('Trying to reconnect now!');
-			self.reconnected = true;
-			self.connect();
-		} catch (e) {
-			console.log("Reconnect failed:", e);
-		}
-		self.reconnecting = false;
-	}, timeout);
+		this.connect();
+	}.bind(this), timeout);
 };
 
 App.prototype.bindEvents = function App_bindEvents() {
@@ -218,7 +222,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		// typing and starts typing within one second.
 		// there can also be a 10 second safety timeout.
 		// we can safely clear a timeout that doesn't exist, so no checks here
-		clearTimeout(self._typing_timeouts[room.id + "_" + user.id]);
+		clearTimeout(self._typingTimeouts[room.id + '_' + user.id]);
 
 		if (data.typing && !~index) {
 			room.typing.push(user);
@@ -226,14 +230,14 @@ App.prototype.bindEvents = function App_bindEvents() {
 			// the typing notification should be removed after 10 seconds
 			// automatically because the user might kill the connection and we
 			// would never receive a `typing: false` event
-			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+			self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
 			}, 10000);
 		} else if (!data.typing && ~index) {
 			// we want the typing notification to be displayed at least five
 			// seconds
-			self._typing_timeouts[room.id + "_" + user.id] = setTimeout(function(){
+			self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
 			}, 5000);
@@ -283,7 +287,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	});
 
 	// organization events
-	wamp.subscribe(PREFIX + "organization#joined", function (data) {
+	wamp.subscribe(PREFIX + 'organization#joined', function (data) {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
 		if (!user)
@@ -376,17 +380,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 	});
 };
 
-App.prototype.unbind = function App__unbind() {
-	if (this._ws) this._ws.off();
-	// our wamp implementation has no off() right now
-	// so we do some hacking
-	if (this.wamp) this.wamp._listeners = {};
-};
-
 var unknownUser = {
-	username: "unknown",
-	firstName: "unknown",
-	lastName: "User"
+	username: 'unknown',
+	firstName: 'unknown',
+	lastName: 'User'
 };
 
 App.prototype._newRoom = function App__newRoom(room) {
@@ -403,7 +400,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 	room = new models.Room(room);
 
 	// defaults
-	if (typeof room.unread === "undefined") {
+	if (typeof room.unread === 'undefined') {
 		room.unread = 0;
 	}
 	room.typing = [];

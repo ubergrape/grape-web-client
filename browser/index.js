@@ -309,7 +309,7 @@ UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
 	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
-		this.emit('setNotificationsSession', this.org.id);	
+		this.emit('setNotificationsSession', this.org.id);
 }
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
@@ -345,8 +345,7 @@ UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	classes(qs('body')).add('disconnected');
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
-	if (!reconnected) return;
+UI.prototype.handleReconnection = function UI_handleReconnection() {
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
