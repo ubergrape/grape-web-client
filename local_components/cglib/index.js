@@ -45,7 +45,6 @@ function App() {
 	this.connecting = false;
 
 	this._typingTimeouts = [];
-	this.reconnected = false;
 }
 
 App.prototype = Object.create(Emitter.prototype);
@@ -106,7 +105,7 @@ App.prototype.onConnect = function App_onConnect(data) {
     this.emit('change user', this.user);
     this.emit('change settings', this.settings);
     this.emit('change organizations', this.organizations);
-    this.emit('connected', this.reconnected);
+    this.emit('connected');
     console.log('Connected!');
 };
 
@@ -183,7 +182,6 @@ App.prototype.reconnect = function App_reconnect() {
 	var timeout = Math.floor((Math.random() * 5000) + 1);
 	console.log('Attempting reconnect in ms:', timeout);
 	setTimeout(function() {
-		this.reconnected = true;
 		this.connect();
 	}.bind(this), timeout);
 };
@@ -194,7 +192,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	function dump(name) {
 		return function (data) {console.log('FIXME: '+ name, data);};
 	}
-	// channel events
+	// channel eventsreco
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
 		self.emit('newroom');

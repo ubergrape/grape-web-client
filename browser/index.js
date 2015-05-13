@@ -210,6 +210,7 @@ UI.prototype.init = function UI_init() {
 	// check timezone
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
+	this.firstTimeConnect = true;
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -343,10 +344,11 @@ UI.prototype.gotError = function UI_gotError(err) {
 UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
 	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
 	classes(qs('body')).add('disconnected');
+	this.firstTimeConnect = false;
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection(reconnected) {
-	if (!reconnected) return;
+UI.prototype.handleReconnection = function UI_handleReconnection() {
+	if (this.firstTimeConnect) return;
 	if (this._connErrMsg) {
 		this._connErrMsg.remove();
 		delete this._connErrMsg;
