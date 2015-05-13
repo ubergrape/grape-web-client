@@ -91,7 +91,6 @@ App.prototype.heartbeat = function App_heartbeat() {
 
 App.prototype.onDisconnect = function App_onDisconnect() {
 	this.disconnect();
-	this.reconnected = true;
 	this.emit('disconnected', this._ws);
 	this.reconnect();
 };
@@ -184,6 +183,7 @@ App.prototype.reconnect = function App_reconnect() {
 	var timeout = Math.floor((Math.random() * 5000) + 1);
 	console.log('Attempting reconnect in ms:', timeout);
 	setTimeout(function() {
+		this.reconnected = true;
 		this.connect();
 	}.bind(this), timeout);
 };
