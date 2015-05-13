@@ -192,7 +192,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	function dump(name) {
 		return function (data) {console.log('FIXME: '+ name, data);};
 	}
-	// channel eventsreco
+	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
 		self.emit('newroom');
