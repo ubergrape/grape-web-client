@@ -43,5 +43,20 @@ export default {
     width: '50%',
     color: colors.gainsboroDark,
     textAlign: 'center'
+  },
+  metaContainer: {
+    borderTop: '1px solid ' + colors.silverDark
+  },
+  metaRow: {
+    display: 'flex',
+    padding: '4px 0',
+    borderBottom: '1px solid ' + colors.silverDark
+  },
+  metaLabel: {
+    flex: '1 0 0%',
+    color: colors.gainsboroDark
+  },
+  metaValue: {
+    flex: '2 0 0%'
   }
 }

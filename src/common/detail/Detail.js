@@ -51,14 +51,20 @@ export default React.createClass({
           <h2 className={classes.title}>{data.title}</h2>
           <h3 className={classes.subtitle}>{data.subtitle}</h3>
           <p className={classes.description}>{data.description}</p>
-          {data.meta && data.meta.map(item => {
-            return (
-              <div>
-                <b>{item.label + ': '}</b>
-                <span>{item.value}</span>
-              </div>
-            )
-          })}
+            <div className={classes.metaContainer}>
+              {data.meta.map(item => {
+                return (
+                  <div className={classes.metaRow}>
+                    <div className={classes.metaLabel}>
+                      {item.label}
+                    </div>
+                    <div className={classes.metaValue}>
+                      {item.value}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
         </div>
       </div>
     )
