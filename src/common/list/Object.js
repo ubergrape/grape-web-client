@@ -54,7 +54,7 @@ export default React.createClass({
         <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
         <span className={classes.info}>{info}</span>
         {this.props.date &&
-          <span className={classes.date}>{moment(this.props.date).format('l h:m')}</span>
+          <span className={classes.date}>{moment(this.props.date).format('l H:m')}</span>
         }
       </div>
     )
