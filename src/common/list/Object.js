@@ -1,6 +1,7 @@
 import React from 'react'
 import useSheet from 'react-jss'
 import VisibilitySensor from 'react-visibility-sensor'
+import moment from 'moment'
 
 import * as objectStyle from './objectStyle'
 
@@ -35,10 +36,6 @@ export default React.createClass({
     let {id, focused, icon, info, highlighted} = this.props
     let containerClassName = focused ? classes.containerFocused : classes.container
     let iconClassName = focused ? classes.iconFocused : classes.icon
-    let date
-    if (this.props.date) {
-      date = <span className={classes.date}>{this.getLocaleDateString()}</span>
-    }
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-${icon} ` + iconClassName
     return (
@@ -56,24 +53,15 @@ export default React.createClass({
         <span className={iconClassNames}></span>
         <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
         <span className={classes.info}>{info}</span>
-        {date}
+        {this.props.date &&
+          <span className={classes.date}>{moment(this.props.date).format('l h:m')}</span>
+        }
       </div>
     )
   },
 
   checkVisibility() {
     this.refs.sensor.check()
-  },
-
-  getLocaleDateString() {
-    // TODO We need to centralize current locale constant.
-    return this.props.date.toLocaleString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric'
-    })
   },
 
   onFocus() {

@@ -1,10 +1,8 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import dotpather from 'dotpather'
 
 import detailStyle from './detailStyle'
-
-let getImageUrl = dotpather('preview.image.url')
+import * as utils from './utils'
 
 /**
  * Detail view for objects.
@@ -24,7 +22,7 @@ export default React.createClass({
     let {classes} = this.sheet
     let data = this.props.data || {}
 
-    let previewUrl = getImageUrl(data)
+    let previewUrl = utils.getImageUrl(data)
     let header
     if (previewUrl) {
       let imgStyle = {maxHeight: this.props.headerHeight + 'px'}
@@ -60,7 +58,7 @@ export default React.createClass({
                       {item.label}
                     </div>
                     <div className={classes.metaValue}>
-                      {item.value}
+                      {utils.formatDateMaybe(item.label, item.value)}
                     </div>
                   </div>
                 )

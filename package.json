@@ -7,7 +7,6 @@
     "dotpather": "^0.1.4",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git",
-    "react-visibility-sensor": "^1.4.0",
     "jss": "^1.0.4",
     "jss-camel-case": "^0.1.1",
     "jss-extend": "^0.1.6",
@@ -15,8 +14,10 @@
     "jss-px": "^0.1.2",
     "jss-vendor-prefixer": "^0.2.0",
     "lodash-es": "^3.1.0",
+    "moment": "^2.10.3",
     "react": "^0.12.2",
-    "react-jss": "^0.1.2"
+    "react-jss": "^0.1.2",
+    "react-visibility-sensor": "^1.4.0"
   },
   "devDependencies": {
     "babel-core": "^4.7.15",
