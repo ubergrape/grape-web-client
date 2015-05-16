@@ -13,5 +13,5 @@ export function formatDateMaybe(label, value) {
     return moment(value).fromNow()
   }
 
-  return moment(value).format('l H:m')
+  return moment(value).format('L HH:mm')
 }
