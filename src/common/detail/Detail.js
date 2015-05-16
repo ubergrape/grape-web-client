@@ -51,6 +51,7 @@ export default React.createClass({
           <h2 className={classes.title}>{data.title}</h2>
           <h3 className={classes.subtitle}>{data.subtitle}</h3>
           <p className={classes.description}>{data.description}</p>
+          {data.meta &&
             <div className={classes.metaContainer}>
               {data.meta.map(item => {
                 return (
@@ -65,6 +66,7 @@ export default React.createClass({
                 )
               })}
             </div>
+          }
         </div>
       </div>
     )
