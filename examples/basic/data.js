@@ -137,6 +137,20 @@ window.data = {
       'id': '17074f63619fd939c7ed68e8be222121'
     },
     {
+      'container': '/UberGrape/Old Projects/Newsgrape/Finance',
+      'name': 'Business Plan',
+      'service': 'github',
+      'state': 'Open',
+      'url': 'https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi&usp=drivesdk',
+      'highlighted': 'Fix Business <b>Plan</b>',
+      'connection': 80,
+      'eid': '0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi',
+      'indexed': '2014-12-02T09:42:27.104401',
+      'organization': 1,
+      'type': 'file',
+      'id': '17074f63619fd939c74d68e8be222121'
+    },
+    {
       'container': '/UberGrape/ChatGrape/Internal/Communication/Marketing/00_Archiv',
       'name': 'Marketing Plan',
       'service': 'googledrive',
