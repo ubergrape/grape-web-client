@@ -21,7 +21,7 @@ export default React.createClass({
     return {
       data: undefined,
       height: 400,
-      maxWidth: 900,
+      maxWidth: 920,
       className: '',
       maxObjectsPerSectionInAll: 5,
       isExternal: false,
