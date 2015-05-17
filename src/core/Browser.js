@@ -20,7 +20,8 @@ export default React.createClass({
   getDefaultProps() {
     return {
       data: undefined,
-      height: 340,
+      height: 400,
+      maxWidth: 900,
       className: '',
       maxObjectsPerSectionInAll: 5,
       isExternal: false,
@@ -178,7 +179,8 @@ export default React.createClass({
     }
 
     let style = {
-      height: `${this.props.height}px`
+      height: `${this.props.height}px`,
+      maxWidth: this.props.maxWidth
     }
 
     return (
