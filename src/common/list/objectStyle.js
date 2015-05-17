@@ -6,45 +6,69 @@ import Color from 'color'
 import sensorStyle from '../utils/sensorStyle'
 
 export let container = {
+  display: 'flex',
+  alignItems: 'center',
   position: 'relative',
-  padding: '5px 12px',
+  padding: '6px 12px',
   color: colors.grapeTypo,
   cursor: 'pointer',
-  userSelect: 'none'
+  userSelect: 'none',
+  borderBottom: '1px solid ' + colors.silverDark
 }
 
 let icon = {
-  paddingRight: 8
+  marginBottom: 2
+}
+
+let metaItem = {
+  extend: fonts.small,
+  display: 'block',
+  padding: '2px 4px',
+  borderRadius: '2px',
+  background: colors.silverDark,
+  color: colors.gainsboroDark
 }
 
 export let style = {
   container: {
-    extend: [container, utils.ellipsis, fonts.normal]
+    extend: container
   },
   containerFocused: {
-    extend: [container, utils.ellipsis, fonts.normal],
+    extend: container,
     color: colors.white,
     background: colors.grapeLight
   },
   sensor: sensorStyle,
-  name: {},
-  info: {
-    extend: fonts.small,
-    marginLeft: 8,
-    opacity: 0.5
-  },
-  date: {
-    extend: fonts.small,
-    marginLeft: 8,
-    textTransform: 'uppercase',
-    opacity: 0.5,
-  },
   icon: {
-    extend: [icon],
-    color: Color(colors.gainsboroDark).lighten(.2).rgbaString()
+    extend: icon,
+    color: Color(colors.gainsboroDark).lighten(.5).rgbaString()
   },
   iconFocused: {
-    extend: [icon],
-    color: colors.gainsboroLight
+    extend: icon,
+    color: colors.white
+  },
+  nameContainer: {
+    flex: 1,
+    marginLeft: 10
+  },
+  name: {
+    extend: [fonts.normal, utils.ellipsis],
+    lineHeight: 1.2
+  },
+  info: {
+    extend: [fonts.small, utils.ellipsis],
+    marginTop: 4,
+    opacity: 0.5
+  },
+  metaContainer: {
+    marginLeft: 8
+  },
+  metaItem: {
+    extend: metaItem
+  },
+  metaItemFocused: {
+    extend: metaItem,
+    background: Color(colors.grapeLight).lighten(.2).rgbaString(),
+    color: colors.white
   }
 }

@@ -36,8 +36,9 @@ export default React.createClass({
     let {id, focused, icon, info, highlighted} = this.props
     let containerClassName = focused ? classes.containerFocused : classes.container
     let iconClassName = focused ? classes.iconFocused : classes.icon
+    let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
-    let iconClassNames = `fa fa-${icon} ` + iconClassName
+    let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
     return (
       <div
         onClick={this.onClick}
@@ -51,11 +52,15 @@ export default React.createClass({
           containment={this.visibilityContainmentNode}
           ref="sensor" />
         <span className={iconClassNames}></span>
-        <span className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
-        <span className={classes.info}>{info}</span>
-        {this.props.date &&
-          <span className={classes.date}>{moment(this.props.date).format('L HH:mm')}</span>
-        }
+        <div className={classes.nameContainer}>
+          <div className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
+          <div className={classes.info}>{info}</div>
+        </div>
+        <div className={classes.metaContainer}>
+          {this.props.date &&
+            <span className={metaItemClassName}>{moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}</span>
+          }
+        </div>
       </div>
     )
   },
