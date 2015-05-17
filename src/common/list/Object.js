@@ -51,7 +51,9 @@ export default React.createClass({
           className={classes.sensor}
           containment={this.visibilityContainmentNode}
           ref="sensor" />
-        <span className={iconClassNames}></span>
+        <div className={classes.iconContainer}>
+          <span className={iconClassNames}></span>
+        </div>
         <div className={classes.nameContainer}>
           <div className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
           <div className={classes.info}>{info}</div>

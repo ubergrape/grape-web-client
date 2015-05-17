@@ -7,9 +7,8 @@ import sensorStyle from '../utils/sensorStyle'
 
 export let container = {
   display: 'flex',
-  alignItems: 'center',
+  height: 42,
   position: 'relative',
-  padding: '6px 12px',
   color: colors.grapeTypo,
   cursor: 'pointer',
   userSelect: 'none',
@@ -39,6 +38,13 @@ export let style = {
     background: colors.grapeLight
   },
   sensor: sensorStyle,
+  iconContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '6px',
+    width: 40
+  },
   icon: {
     extend: icon,
     color: Color(colors.gainsboroDark).lighten(.5).rgbaString()
@@ -49,7 +55,8 @@ export let style = {
   },
   nameContainer: {
     flex: 1,
-    marginLeft: 10
+    alignSelf: 'center',
+    padding: '6px 0'
   },
   name: {
     extend: [fonts.normal, utils.ellipsis],
@@ -61,7 +68,9 @@ export let style = {
     opacity: 0.5
   },
   metaContainer: {
-    marginLeft: 8
+    display: 'flex',
+    alignItems: 'center',
+    padding: 6
   },
   metaItem: {
     extend: metaItem
