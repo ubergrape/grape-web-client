@@ -61,6 +61,7 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
         highlighted: result.highlighted,
         info: result.container,
         date: result.start,
+        state: result.state,
         focused: false,
         detail: result.detail
       })

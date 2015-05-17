@@ -15,6 +15,7 @@ export default React.createClass({
     return {
       id: null,
       date: null,
+      state: null,
       onFocus: null,
       onSelect: null,
       onInvisible: null,
@@ -61,6 +62,9 @@ export default React.createClass({
         <div className={classes.metaContainer}>
           {this.props.date &&
             <span className={metaItemClassName}>{moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}</span>
+          }
+          {this.props.state &&
+            <span className={metaItemClassName}>{this.props.state}</span>
           }
         </div>
       </div>
