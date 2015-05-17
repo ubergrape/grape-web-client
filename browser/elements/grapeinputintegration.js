@@ -57,6 +57,8 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeFocus grape-input', 'onFocus');
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
+	this.events.bind('grapeSearch grape-input', 'onSearch');
+	this.events.bind('grapeInsertObject grape-input', 'onInsertObject');
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
@@ -268,8 +270,11 @@ GrapeInputIntegration.prototype.onPreviousEdit = function () {
 	if (msg) this.editMessage(msg);
 };
 
-GrapeInputIntegration.prototype.onAbort = function () {
+GrapeInputIntegration.prototype.onAbort = function (e) {
 	this.completePreviousEditing();
+    if (e.detail.reason == 'esc') {
+        analytics.track('abort autocomplete', e.detail);
+    }
 };
 
 GrapeInputIntegration.prototype.onChange = function () {
@@ -312,3 +317,12 @@ GrapeInputIntegration.prototype.onOrgReady = function () {
 GrapeInputIntegration.prototype.onAddIntegration = function () {
 	location.href = '/services/list'
 };
+
+GrapeInputIntegration.prototype.onSearch = function (e) {
+	analytics.track('open grape-browser', e.detail);
+};
+
+GrapeInputIntegration.prototype.onInsertObject = function (e) {
+	analytics.track('insert autocomplete object', e.detail);
+};
+
