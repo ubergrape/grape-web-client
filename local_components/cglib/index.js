@@ -652,6 +652,12 @@ App.prototype.setRead = function App_setRead(room, line) {
 	this.wamp.call(PREFIX + 'channels/read', room.id, line.id);
 };
 
+App.prototype.focusMessage = function App_focusMessage(roomID, msgID) {
+	this.wamp.call(PREFIX + 'channels/focus_message', roomID, msgID, function (err, res ) {
+		console.log(res);
+	});
+}
+
 App.prototype.setTyping = function App_setTyping(room, typing) {
 	// TODO: emit error?
 	this.wamp.call(PREFIX + 'channels/set_typing', room.id, typing);
