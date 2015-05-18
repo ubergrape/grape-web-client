@@ -6,18 +6,21 @@ export default {
     height: '100%'
   },
   header: {
-    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     background: colors.silverLight,
-    borderBottom: '1px solid ' + colors.silverDark,
-    lineHeight: 0
+    borderBottom: '1px solid ' + colors.silverDark
   },
   preview: {
     maxWidth: '100%',
+    maxHeight: '100%',
     height: 'auto',
     width: 'auto'
   },
   icon: {
-
+    height: 64,
+    width: 64
   },
   body: {
     padding: 15
