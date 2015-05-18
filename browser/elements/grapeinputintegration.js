@@ -62,7 +62,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
-	this.completePreviousEditing();
+	this.completePreviousEdit();
     if (!room || (room.type == "pm" && !room.users[0].active)) {
     	this.disable();
 	}
@@ -73,7 +73,7 @@ GrapeInputIntegration.prototype.setRoom = function (room) {
 };
 
 GrapeInputIntegration.prototype.disable = function () {
-	this.completePreviousEditing();
+	this.completePreviousEdit();
 	this.el.classList.add('disabled');
 	this.input.setProps({
 		disabled: true,
@@ -183,7 +183,7 @@ GrapeInputIntegration.prototype.findRooms = function (key) {
 	return rooms;
 };
 
-GrapeInputIntegration.prototype.completePreviousEditing = function () {
+GrapeInputIntegration.prototype.completePreviousEdit = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
@@ -192,6 +192,7 @@ GrapeInputIntegration.prototype.completePreviousEditing = function () {
 };
 
 GrapeInputIntegration.prototype.editMessage = function (msg) {
+	this.completePreviousEdit();
 	var el = q('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
@@ -271,7 +272,7 @@ GrapeInputIntegration.prototype.onPreviousEdit = function () {
 };
 
 GrapeInputIntegration.prototype.onAbort = function (e) {
-	this.completePreviousEditing();
+	this.completePreviousEdit();
     if (e.detail.reason == 'esc') {
         analytics.track('abort autocomplete', e.detail);
     }
@@ -290,7 +291,7 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 
 	if (this.previous) {
 		this.emit('update', this.previous.msg, data.content);
-		this.completePreviousEditing();
+		this.completePreviousEdit();
 	}
 	else {
 		this.emit('input', this.room, data.content);
