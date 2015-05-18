@@ -657,7 +657,7 @@ App.prototype.setTyping = function App_setTyping(room, typing) {
 	this.wamp.call(PREFIX + 'channels/set_typing', room.id, typing);
 };
 
-App.prototype.deleteMessage = function App_deleteMessage(ch, msgId) {
+App.prototype.onDeleteMessage = function App_onDeleteMessage(ch, msgId) {
 	this.wamp.call(PREFIX + 'channels/delete_message', ch['id'], msgId);
 };
 

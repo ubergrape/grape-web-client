@@ -58,8 +58,7 @@ function pipeEvents(ui) {
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
 	broker.pass(ui.historyView, 'hasread', ui, 'hasread');
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
-	broker.pass(ui.historyView, 'deletemessage', ui, 'deletemessage');
-	broker(ui.historyView, 'deletemessage', ui.grapeInput, 'editingDone');
+	broker.pass(ui.historyView, 'deleteMessage', ui, 'deleteMessage');
 	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
 	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');

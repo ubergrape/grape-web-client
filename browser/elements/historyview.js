@@ -70,7 +70,7 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	classes(el).add('removing');
 	if (confirm("Delete the selected Message?")) {
 		var id = el.getAttribute('data-id');
-		this.emit('deletemessage', this.room, id);
+		this.emit('deleteMessage', this.room, id);
 	}
 	classes(el).remove('removing');
 };
