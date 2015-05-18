@@ -22,6 +22,7 @@ let icon = {
 let metaItem = {
   extend: fonts.small,
   display: 'block',
+  marginLeft: 4,
   padding: '2px 4px',
   borderRadius: '2px',
   background: colors.silverDark,
