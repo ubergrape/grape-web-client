@@ -16,6 +16,9 @@ export default {
     height: 'auto',
     width: 'auto'
   },
+  icon: {
+
+  },
   body: {
     padding: 15
   },

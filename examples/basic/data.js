@@ -19,7 +19,8 @@ window.data = {
       'search': 'github:plan',
       'id': 'github',
       'key': 'github',
-      'label': 'GitHub'
+      'label': 'GitHub',
+      'icon_url': '../images/github.jpg'
     },
     {
       'hidden': true,
