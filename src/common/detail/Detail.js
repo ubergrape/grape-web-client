@@ -26,11 +26,11 @@ export default React.createClass({
     let {iconUrl} = data
     let header
     if (previewUrl || iconUrl) {
-      let imgStyle = {maxHeight: this.props.headerHeight + 'px'}
+      let headerStyle = {height: this.props.headerHeight + 'px'}
       header = (
-        <header className={classes.header}>
+        <header style={headerStyle}
+                className={classes.header}>
           <img
-            style={imgStyle}
             src={previewUrl || iconUrl}
             className={previewUrl ? classes.preview : classes.icon} />
         </header>
