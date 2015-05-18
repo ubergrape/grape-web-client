@@ -1,4 +1,4 @@
-export const INFO_HEADER_HEIGHT = 90
+export const INFO_HEADER_HEIGHT = 128
 
 export let style = {
   column: {
