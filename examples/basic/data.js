@@ -5,7 +5,8 @@ window.data = {
       'search': 'drive:plan',
       'id': 'googledrive',
       'key': 'drive',
-      'label': 'Google Drive'
+      'label': 'Google Drive',
+      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/googledrive-128.png'
     },
     {
       'count': 5,
@@ -20,7 +21,7 @@ window.data = {
       'id': 'github',
       'key': 'github',
       'label': 'GitHub',
-      'icon_url': '../images/github.jpg'
+      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
     },
     {
       'hidden': true,
