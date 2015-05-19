@@ -226,7 +226,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, slug) {
 	var self = this;
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
@@ -237,13 +237,16 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	this.scrollMode = 'automatic';
 
 	// mark the last message as read
-	if (room.history.length)
-		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-	else
-		if (!this.room.empty) this.emit('needhistory', room);
-
-	this.redraw();
-	this.redrawTyping();
+	if (!messageID) {
+		if (room.history.length)
+			this.emit('hasread', this.room, room.history[room.history.length - 1]);
+		else
+			if (!this.room.empty) this.emit('needhistory', room);
+		this.redraw();
+		this.redrawTyping();
+	} else {
+		this.emit('requestMessage', room.id, messageID, slug);
+	}
 
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....

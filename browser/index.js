@@ -390,3 +390,9 @@ UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	page.replace('/chat/' + room.slug);
 }
+
+UI.prototype.onMessageNotFound = function UI_onMessageNotFound (slug) {
+	page.replace('/chat/' + slug);
+	var msg = this.messages.warning('message not found');
+	setTimeout(function(){ msg.remove(); }, 6000);
+}
