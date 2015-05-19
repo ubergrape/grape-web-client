@@ -20,6 +20,7 @@ var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
+var page = require('page');
 var Router = require('../lib/router');
 
 var exports = module.exports = UI;
@@ -329,7 +330,7 @@ UI.prototype.hideSearchResults = function() {
 UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;
 	self.emit('joinroom', room, function() {
-		self.router.go('/chat/' + room.slug);
+		page('/chat/' + room.slug);
 		setTimeout(function() {
 			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
 		}, 100);
@@ -375,17 +376,17 @@ UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	this.router.go('/chat/');
+	page('/chat/');
 	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
 	if (this.room != room) return;
-	this.router.go('/chat/');
+	page('/chat/');
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
-	this.router.replace('/chat/' + room.slug);
+	page.replace('/chat/' + room.slug);
 }
