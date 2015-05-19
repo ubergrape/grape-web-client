@@ -20,7 +20,7 @@ var dropAnywhere = require('drop-anywhere');
 var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
-var URLManager = require('../lib/router');
+var Router = require('../lib/router');
 
 var exports = module.exports = UI;
 
@@ -270,7 +270,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
-	URLManager.call(this);
+	Router(this);
 	this.setNotificationsSession();
 	if (this.notificationSessionSet == true) return;
 	focus.on('focus', this.setNotificationsSession.bind(this));
