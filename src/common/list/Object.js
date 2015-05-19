@@ -4,6 +4,7 @@ import VisibilitySensor from 'react-visibility-sensor'
 import moment from 'moment'
 
 import * as objectStyle from './objectStyle'
+import * as objectUtils from './objectUtils'
 
 /**
  * One result for the list section.
@@ -15,7 +16,7 @@ export default React.createClass({
     return {
       id: null,
       date: null,
-      state: null,
+      detail: null,
       onFocus: null,
       onSelect: null,
       onInvisible: null,
@@ -40,6 +41,8 @@ export default React.createClass({
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
+    let state = objectUtils.getState(this.props.detail)
+
     return (
       <div
         onClick={this.onClick}
@@ -63,8 +66,8 @@ export default React.createClass({
           {this.props.date &&
             <span className={metaItemClassName}>{moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}</span>
           }
-          {this.props.state &&
-            <span className={metaItemClassName}>{this.props.state}</span>
+          {state &&
+            <span className={metaItemClassName}>{state}</span>
           }
         </div>
       </div>

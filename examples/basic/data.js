@@ -77,12 +77,7 @@ window.data = {
             'format': 'stars',
           },
           {
-            'label': 'Status',
-            'value': 'open',
-            'format': 'string',
-          },
-          {
-            'label': 'Status',
+            'label': 'State',
             'value': 'open',
             'format': 'string',
           },
@@ -142,7 +137,6 @@ window.data = {
       'container': '/UberGrape/Old Projects/Newsgrape/Finance',
       'name': 'Business Plan',
       'service': 'github',
-      'state': 'Open',
       'url': 'https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNDliNDI5NjUtNjJkMS00MzRlLWEwNzQtYWZiY2Y5MGFlYjJi&usp=drivesdk',
       'highlighted': 'Fix Business <b>Plan</b>',
       'connection': 80,
