@@ -245,7 +245,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 		this.redraw();
 		this.redrawTyping();
 	} else {
-		this.emit('requestMessage', room.id, messageID, slug);
+		this.emit('requestMessage', room, messageID, slug);
 	}
 
 	room.history.on('remove', function (msg, idx) {

@@ -652,12 +652,12 @@ App.prototype.setRead = function App_setRead(room, line) {
 	this.wamp.call(PREFIX + 'channels/read', room.id, line.id);
 };
 
-App.prototype.onRequestMessage = function App_onRequestMessage(roomID, msgID, slug) {
+App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID, slug) {
 	var self = this;
-	this.wamp.call(PREFIX + 'channels/focus_message', roomID, msgID, function (err, res ) {
-		console.log('err');
+	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, function (err, res ) {
 		if (err) return self.emit('messageNotFound', slug);
-		self.emit('focusMessage');
+
+		//self.emit('focusMessage');
 	});
 }
 
