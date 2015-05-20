@@ -654,7 +654,11 @@ App.prototype.setRead = function App_setRead(room, line) {
 
 App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID, slug) {
 	var self = this;
-	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 2, function (err, res ) {
+	// before = 25
+	// after = 2
+	// strict = true - this means in this case unexisting uuid will throw an error
+	// instead of giving a fallback result
+	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 2, true, function (err, res ) {
 		if (err) return self.emit('messageNotFound', slug);
 		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {

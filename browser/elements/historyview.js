@@ -313,7 +313,15 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 }
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
+	this.redrawSearch();
+}
 
+HistoryView.prototype.redrawSearch = function HistoryView_redrawSearch() {
+	var history = groupHistory(this.room.searchHistory.slice());
+	render(this.history, template('chathistory.jade', {
+		room: this.room,
+		history: history
+	}));
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
