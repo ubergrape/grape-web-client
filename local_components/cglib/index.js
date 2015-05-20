@@ -656,7 +656,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID, slug
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 2, function (err, res ) {
 		if (err) return self.emit('messageNotFound', slug);
-		room.searchHistory = [];
+		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {
 			var exists = models.Line.get(line.id);
 			if (!exists || !~room.searchHistory.indexOf(exists)) {
