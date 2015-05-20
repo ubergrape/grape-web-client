@@ -22,6 +22,7 @@ module.exports = new Model([
 	.use(cache('id'))
 	.use(array)
 	.array('history', {events: false})
+	.array('searchHistory', {events: false})
 	.array('typing', {events: false})
 	.array('users', {childEvents: true}) // TODO: maybe make this a map?
 	.use(cast)

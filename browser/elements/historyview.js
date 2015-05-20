@@ -312,6 +312,9 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	this.queueDraw();
 }
 
+HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
+}
+
 HistoryView.prototype.resend = function HistoryView_resend(e) {
 	var clientSideID = e.target.getAttribute('data-id');
 	var bufferedMsg = null;

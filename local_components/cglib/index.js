@@ -656,8 +656,16 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID, slug
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, function (err, res ) {
 		if (err) return self.emit('messageNotFound', slug);
+		
+		var lines = res.map(function (line) {
+			var exists = models.Line.get(line.id);
+			if (!exists || !~room.searchHistory.indexOf(exists)) {
+				line = new models.Line(line);
+				room.searchHistory.unshift(line);
+			}
+		});		
 
-		//self.emit('focusMessage');
+		self.emit('focusMessage');
 	});
 }
 
