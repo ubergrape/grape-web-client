@@ -313,6 +313,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 }
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
+
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
