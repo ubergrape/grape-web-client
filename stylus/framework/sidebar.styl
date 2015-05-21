@@ -5,11 +5,12 @@
 // ****
 .navigation
 	@extend $normal-font-size
-	width: client-navigation-width
-	height: 100%
+	height: 100vh
 	overflow: auto
-	float: left
-	display: block
+	position: absolute
+	top: 0
+	left: 0
+	width: client-navigation-width
 	color: gainsboro-dark
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -20,7 +21,7 @@
 	.navigation
 		padding: 0px
 		background: navigation-background
-	
+
 // ****
 //
 // Top left Info about the product and Organisation
@@ -73,7 +74,6 @@
 .room-list
 	padding: 23px 0 12px 0
 	height: 61%
-	background: linear-gradient(to bottom, rgba(grape-dark, .5) 0%, navigation-background 1%)
 	border-right: 1px solid silver-dark
 	.rooms
 		height: 100%
@@ -210,7 +210,7 @@ span.no-messages
 .filter-pms
 	position: absolute
 	bottom: 0
-	background: white
+	background: navigation-background
 	border: none
 	border-top: 1px solid darken(navigation-background, 5)
 	border-right: 1px solid silver-dark
