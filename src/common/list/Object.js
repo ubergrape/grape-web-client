@@ -46,7 +46,6 @@ export default React.createClass({
     return (
       <div
         onClick={this.onClick}
-        onMouseOver={this.onMouseOver}
         className={containerClassName}
         key={id}>
         <VisibilitySensor
@@ -82,12 +81,9 @@ export default React.createClass({
     this.props.onFocus({id: this.props.id})
   },
 
-  onMouseOver() {
-    this.onFocus()
-  },
-
-  onClick(e) {
-    this.props.onSelect({id: this.props.id})
+  onClick() {
+    if (this.props.focused) this.props.onSelect({id: this.props.id})
+    else this.onFocus()
   },
 
   onVisibilityChange(isVisible, visibilityRect) {
