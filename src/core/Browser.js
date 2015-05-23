@@ -145,7 +145,7 @@ export default React.createClass({
 
   selectObject(id) {
     this.focusObject(id)
-    this.props.onSelectObject({id: id})
+    this.props.onSelectObject(this.getFocusedObject())
   },
 
   render() {
@@ -187,8 +187,7 @@ export default React.createClass({
       <div
         className={`${classes.container} ${this.props.className}`}
         style={style}
-        onMouseDown={this.onMouseDown}
-        >
+        onMouseDown={this.onMouseDown}>
         <TabsControls data={this.state.tabs} onSelect={this.onSelectFacet} />
         {content}
       </div>
