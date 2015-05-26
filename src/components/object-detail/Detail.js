@@ -28,8 +28,7 @@ export default React.createClass({
     if (previewUrl || iconUrl) {
       let headerStyle = {height: this.props.headerHeight + 'px'}
       header = (
-        <header style={headerStyle}
-                className={classes.header}>
+        <header className={classes.header} style={headerStyle}>
           <img
             src={previewUrl || iconUrl}
             className={previewUrl ? classes.preview : classes.icon} />
@@ -41,7 +40,7 @@ export default React.createClass({
       return (
         <div className={`${classes.detail} ${classes.empty}`}>
           <img src={this.props.images.noDetail} />
-          <span className={classes.emptyNote}>No Detail Infos for this Object</span>
+          <span className={classes.emptyNote}>No Detail Infos for this Item</span>
         </div>
       )
     }

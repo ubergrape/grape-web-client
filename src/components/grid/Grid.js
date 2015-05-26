@@ -1,6 +1,5 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import cloneDeep from 'lodash-es/lang/cloneDeep'
 import assign from 'lodash-es/object/assign'
 import find from 'lodash-es/collection/find'
 import pick from 'lodash-es/object/pick'
@@ -26,15 +25,15 @@ export default React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    let {focusedObject} = this.props
-    if (focusedObject && prevProps.focusedObject.id != focusedObject.id) {
-      this.onFocus({id: focusedObject.id})
+    let {focusedItem} = this.props
+    if (focusedItem && prevProps.focusedItem.id != focusedItem.id) {
+      this.onFocus({id: focusedItem.id})
     }
   },
 
   render() {
     let {data} = this.props
-    let classes = this.sheet.classes
+    let {classes} = this.sheet
     let sections
 
     if (data.length) {
@@ -46,8 +45,8 @@ export default React.createClass({
             onFocus={this.onFocus}
             onInvisible={this.onInvisible}
             visibilityContainment={this}
-            key={section.service}
-            ref={'section' + i}/>
+            key={section.id}
+            ref={'section' + i} />
         )
       })
     }
@@ -60,18 +59,17 @@ export default React.createClass({
       <div
         className={`${classes.container} ${this.props.className}`}
         style={style}
-        onScroll={this.onScroll}
-        >
+        onScroll={this.onScroll}>
         {sections}
       </div>
     )
   },
 
-  getObjectComponent(id) {
+  getItemComponent(id) {
     let component
 
     find(this.refs, section =>  {
-      component = find(section.refs, object => object.props.id == id)
+      component = find(section.refs, item => item.props.id == id)
       return component ? true : false
     })
 
@@ -79,15 +77,15 @@ export default React.createClass({
   },
 
   onFocus(data) {
-    if (data.id == this.focusedObjectId) return
-    let prevId = this.focusedObjectId
-    this.focusedObjectId = data.id
+    if (data.id == this.focusedItemId) return
+    let prevId = this.focusedItemId
+    this.focusedItemId = data.id
     this.props.onFocus(data)
     if (prevId) {
-      let prevFocusedObject = this.getObjectComponent(prevId)
-      if (prevFocusedObject) prevFocusedObject.checkVisibility()
+      let prevFocusedItem = this.getItemComponent(prevId)
+      if (prevFocusedItem) prevFocusedItem.checkVisibility()
     }
-    this.getObjectComponent(data.id).checkVisibility()
+    this.getItemComponent(data.id).checkVisibility()
   },
 
   onInvisible(item, visibilityRect) {
@@ -95,10 +93,10 @@ export default React.createClass({
     let viewPortNode = this.getDOMNode()
     let viewPortHeight = this.props.height
     let itemNode = item.getDOMNode()
-    let objectHeight = this.objectHeight
-    if (!objectHeight) objectHeight = itemNode.offsetHeight
+    let itemHeight = this.itemHeight
+    if (!itemHeight) itemHeight = itemNode.offsetHeight
     let itemTop = itemNode.offsetTop
-    if (!visibilityRect.top) itemTop -= viewPortHeight - objectHeight
+    if (!visibilityRect.top) itemTop -= viewPortHeight - itemHeight
     viewPortNode.scrollTop = itemTop
   },
 

@@ -4,9 +4,9 @@ import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
 
-import browserStyle from './browserStyle'
-import tabsControlsStyle from '../components/tabs/tabsControlsStyle'
-import TabsControls from '../components/tabs/TabsControls'
+import style from './style'
+import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
+import TabsWithControls from '../components/tabs/TabsWithControls'
 import Empty from '../components/empty/Empty'
 import * as services from '../services'
 import * as dataUtils from './dataUtils'
@@ -15,7 +15,7 @@ import * as dataUtils from './dataUtils'
  * Main component which uses everything else.
  */
 export default React.createClass({
-  mixins: [useSheet(browserStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {
@@ -23,9 +23,9 @@ export default React.createClass({
       height: 400,
       maxWidth: 920,
       className: '',
-      maxObjectsPerSectionInAll: 5,
+      maxItemsPerSectionInAll: 5,
       isExternal: false,
-      serviceId: undefined,
+      itemId: undefined,
       hasIntegrations: undefined,
       canAddIntegrations: undefined,
       orgName: undefined,
@@ -33,7 +33,7 @@ export default React.createClass({
       images: undefined,
       onAddIntegration: undefined,
       onSelectFacet: undefined,
-      onSelectObject: undefined
+      onSelectItem: undefined
     }
   },
 
@@ -46,23 +46,23 @@ export default React.createClass({
   },
 
   createState(props) {
-    let maxObjects = this.getMaxObjectsPerSection(props.serviceId)
-    let sections = dataUtils.getSections(props.data, props.serviceId, maxObjects)
+    let maxItems = this.getMaxItemsPerSection(props.itemId)
+    let sections = dataUtils.getSections(props.data, props.itemId, maxItems)
     let tabs = []
 
     if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, sections, props.serviceId)
+      tabs = dataUtils.getTabs(props.data.services, props.itemId)
     }
 
     return {
       sections: sections,
       tabs: tabs,
-      serviceId: props.serviceId
+      itemId: props.itemId
     }
   },
 
-  getMaxObjectsPerSection(service) {
-    return service ? undefined : this.props.maxObjectsPerSectionInAll
+  getMaxItemsPerSection(service) {
+    return service ? undefined : this.props.maxItemsPerSectionInAll
   },
 
   /**
@@ -91,41 +91,41 @@ export default React.createClass({
       }
     }
     else {
-      newIndex = findIndex(tabs, tab => tab.service == facet)
+      newIndex = findIndex(tabs, tab => tab.id == facet)
       set = true
     }
 
     if (set) {
-      let service = tabs[newIndex].service
+      let {id} = tabs[newIndex]
       dataUtils.setSelectedTab(tabs, newIndex)
-      let maxObjects = this.getMaxObjectsPerSection(service)
-      let sections = dataUtils.getSections(this.props.data, service, maxObjects)
-      dataUtils.setSelectedSection(sections, service)
-      dataUtils.setFocusedObjectAt(sections, service, 0)
-      this.setState({tabs: tabs, sections: sections, serviceId: service}, callback)
-      if (!options.silent) this.props.onSelectFacet({service: service})
+      let maxItems = this.getMaxItemsPerSection(id)
+      let sections = dataUtils.getSections(this.props.data, id, maxItems)
+      dataUtils.setSelectedSection(sections, id)
+      dataUtils.setFocusedItemAt(sections, id, 0)
+      this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
+      if (!options.silent) this.props.onSelectFacet({service: id})
     }
   },
 
-  focusObject(id) {
+  focusItem(id) {
     let {sections} = this.state
     let set = false
 
     if (id == 'next' || id == 'prev') {
       let selectedSection = dataUtils.getSelectedSection(sections)
-      let objects = selectedSection ? selectedSection.results : dataUtils.getObjects(sections)
+      let objects = selectedSection ? selectedSection.results : dataUtils.getItems(sections)
       let focusedIndex = findIndex(objects, object => object.focused)
-      let newObject
+      let newItem
 
       if (id == 'next') {
-        newObject = objects[focusedIndex + 1]
+        newItem = objects[focusedIndex + 1]
       }
       else if (id == 'prev') {
-        newObject = objects[focusedIndex - 1]
+        newItem = objects[focusedIndex - 1]
       }
 
-      if (newObject) {
-        id = newObject.id
+      if (newItem) {
+        id = newItem.id
         set = true
       }
     }
@@ -134,18 +134,18 @@ export default React.createClass({
     }
 
     if (set) {
-      dataUtils.setFocusedObject(sections, id)
+      dataUtils.setFocusedItem(sections, id)
       this.setState({sections: sections})
     }
   },
 
-  getFocusedObject() {
-    return dataUtils.getFocusedObject(this.state.sections)
+  getFocusedItem() {
+    return dataUtils.getFocusedItem(this.state.sections)
   },
 
-  selectObject(id) {
-    this.focusObject(id)
-    this.props.onSelectObject(this.getFocusedObject())
+  selectItem(id) {
+    this.focusItem(id)
+    this.props.onSelectItem(this.getFocusedItem())
   },
 
   render() {
@@ -162,10 +162,10 @@ export default React.createClass({
 
       assign(props, {
         data: data,
-        focusedObject: this.getFocusedObject(),
-        height: this.props.height - tabsControlsStyle.container.height,
-        onFocus: this.onFocusObject,
-        onSelect: this.onSelectObject,
+        focusedItem: this.getFocusedItem(),
+        height: this.props.height - tabsWithControlsStyle.container.height,
+        onFocus: this.onFocusItem,
+        onSelect: this.onSelectItem,
       })
 
       content = React.createElement(services[serviceName], props)
@@ -188,18 +188,18 @@ export default React.createClass({
         className={`${classes.container} ${this.props.className}`}
         style={style}
         onMouseDown={this.onMouseDown}>
-        <TabsControls data={this.state.tabs} onSelect={this.onSelectFacet} />
+        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectFacet} />
         {content}
       </div>
     )
   },
 
-  onFocusObject(data) {
-    this.focusObject(data.id)
+  onFocusItem(data) {
+    this.focusItem(data.id)
   },
 
-  onSelectObject(data) {
-    this.selectObject(data.id)
+  onSelectItem(data) {
+    this.selectItem(data.id)
   },
 
   onSelectFacet(data, callback) {

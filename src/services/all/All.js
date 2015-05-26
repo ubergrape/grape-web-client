@@ -5,8 +5,7 @@ import * as allStyle from './allStyle'
 import Info from './Info'
 import Grid from '../../components/grid/Grid'
 import Sidebar from '../../components/sidebar/Sidebar'
-import Detail from '../../components/detail/Detail'
-
+import Detail from '../../components/object-detail/Detail'
 
 /**
  * All search results.
@@ -16,7 +15,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      focusedObject: undefined,
+      focusedItem: undefined,
       height: undefined,
       images: undefined
     }
@@ -27,12 +26,12 @@ export default React.createClass({
     let {props} = this
     let sidebarContent
 
-    if (props.focusedObject.type == 'filters') {
+    if (props.focusedItem.type == 'filters') {
       sidebarContent = <Info {...props} headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }
     else {
       sidebarContent = <Detail
-        data={props.focusedObject.detail}
+        data={props.focusedItem.detail}
         images={props.images}
         headerHeight={allStyle.INFO_HEADER_HEIGHT} />
     }

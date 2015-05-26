@@ -1,13 +1,13 @@
 import React from 'react'
 import useSheet from 'react-jss'
 
-import sidebarStyle from './sidebarStyle'
+import style from './style'
 
 /**
  * Sidebar container.
  */
 export default React.createClass({
-  mixins: [useSheet(sidebarStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {

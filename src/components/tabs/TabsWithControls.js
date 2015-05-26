@@ -3,14 +3,14 @@ import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import find from 'lodash-es/collection/find'
 
-import tabsControlsStyle from './tabsControlsStyle'
+import tabsWithControlsStyle from './tabsWithControlsStyle'
 import Tabs from './Tabs'
 
 /**
  * Tabs controls.
  */
 export default React.createClass({
-  mixins: [useSheet(tabsControlsStyle)],
+  mixins: [useSheet(tabsWithControlsStyle)],
 
   getDefaultProps() {
     return {
@@ -27,9 +27,9 @@ export default React.createClass({
 
   componentDidUpdate() {
     let tab = find(this.props.data, item => item.selected)
-    if (tab && tab.service != this.prevFacet) {
-      this.checkVisibility(this.prevFacet, tab.service)
-      this.prevFacet = tab.service
+    if (tab && tab.id != this.prevFacet) {
+      this.checkVisibility(this.prevFacet, tab.id)
+      this.prevFacet = tab.id
     }
   },
 

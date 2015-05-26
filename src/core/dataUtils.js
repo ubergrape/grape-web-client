@@ -29,7 +29,7 @@ let serviceIconMap = {
  *   ]
  * }
  */
-export function getSections (data, serviceId, limitPerSection = Infinity) {
+export function getSections(data, serviceId, limitPerSection = Infinity) {
   let sections = []
 
   if (!data || !data.results) return sections
@@ -39,15 +39,15 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
     if (serviceId && result.service != serviceId) return
 
     let section = findService(sections, result.service)
-
     let service = findService(data.services, result.service)
-    if (!service) return console.warn('No service corresponding object.', result)
+
+    if (!service) return console.warn('No service corresponding item.', result)
 
     // We have no section for this service yet.
     if (!section) {
       section = {
+        id: result.service,
         label: service.label,
-        service: result.service,
         results: [],
         icon: serviceIconMap[result.service],
         selected: false
@@ -74,9 +74,9 @@ export function getSections (data, serviceId, limitPerSection = Infinity) {
   if (sections[0] && sections[0].results[0]) sections[0].results[0].focused = true
 
   // Find service within in the original results structure or within
-  // sections structure (id == service).
+  // sections structure.
   function findService(services, id) {
-    return find(services, service => service.id == id || service.service == id)
+    return find(services, service => service.id == id)
   }
 
   return sections
@@ -92,23 +92,23 @@ export function getSelectedSection(sections) {
 /**
  * Mark section as selected. Unmark previously selected one.
  */
-export function setSelectedSection(sections, service) {
+export function setSelectedSection(sections, id) {
   let curr = getSelectedSection(sections)
   if (curr) curr.selected = false
-  if (service) {
-    let next = find(sections, section => section.service == service)
+  if (id) {
+    let next = find(sections, section => section.id == id)
     if (next) next.selected = true
   }
 }
 
 /**
- * Get currently focused results object.
+ * Get currently focused results item.
  */
-export function getFocusedObject(sections) {
+export function getFocusedItem(sections) {
   let ret
 
   sections.some(section => {
-    let focused = find(section.results, object => object.focused)
+    let focused = find(section.results, item => item.focused)
     if (focused) {
       ret = focused
       return true
@@ -120,50 +120,50 @@ export function getFocusedObject(sections) {
 }
 
 /**
- * Get all objects from all sections.
+ * Get all items from all sections.
  */
-export function getObjects(sections) {
-  let objects = []
-  sections.forEach(section => objects = objects.concat(section.results))
-  return objects
+export function getItems(sections) {
+  let items = []
+  sections.forEach(section => items = items.concat(section.results))
+  return items
 }
 
 /**
  * Mark a result as focused. Unmark previously focused one.
  */
-export function setFocusedObjectAt(sections, service, index) {
+export function setFocusedItemAt(sections, id, index) {
   if (!sections.length) return
-  // Take first service when nothing passed.
-  if (!service) service = sections[0].service
-  unsetFocusedObject(sections)
-  let section = find(sections, section => section.service == service)
+  // Take first id when nothing passed.
+  if (!id) id = sections[0].id
+  unsetFocusedItem(sections)
+  let section = find(sections, section => section.id == id)
   if (section) section.results[index].focused = true
 }
 
 /**
  * Mark a result as focused. Unmark previously focused one.
  */
-export function setFocusedObject(sections, id) {
-  unsetFocusedObject(sections)
-  getObjectById(sections, id).focused = true
+export function setFocusedItem(sections, id) {
+  unsetFocusedItem(sections)
+  getItemById(sections, id).focused = true
 }
 
 /**
- * Mark currently focused object as not focused.
+ * Mark currently focused item as not focused.
  */
-function unsetFocusedObject(sections) {
-  let prev = getFocusedObject(sections)
+function unsetFocusedItem(sections) {
+  let prev = getFocusedItem(sections)
   if (prev) prev.focused = false
 }
 
 /**
- * Get object by id.
+ * Get item by id.
  */
-function getObjectById(sections, id) {
+function getItemById(sections, id) {
   let ret
 
   sections.some(section => {
-    let obj = find(section.results, object => object.id == id)
+    let obj = find(section.results, item => item.id == id)
     if (obj) {
       ret = obj
       return true
@@ -177,7 +177,7 @@ function getObjectById(sections, id) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(services = [], sections, selectedServiceId) {
+export function getTabs(services = [], selectedServiceId) {
   if (!services.length) return services
 
   services = services.filter(service => !service.hidden)
@@ -186,7 +186,7 @@ export function getTabs(services = [], sections, selectedServiceId) {
     return {
       label: service.label,
       amount: service.count,
-      service: service.id,
+      id: service.id,
       selected: selectedServiceId == service.id
     }
   })

@@ -24,20 +24,20 @@ export default React.createClass({
     return (
       <ul className={classes.tabs}>
         {this.props.data.map(item => {
-          let facet = item.service || 'all'
+          let id = item.id || 'all'
           return <Tab
             {...item}
             onSelect={this.props.onSelect}
             onInvisible={this.props.onInvisible}
             visibilityContainment={this}
-            key={facet}
-            ref={facet} />
+            key={id}
+            ref={id} />
         })}
       </ul>
     )
   },
 
-  checkVisibility(facet) {
-    return this.refs[facet].checkVisibility()
+  checkVisibility(id) {
+    return this.refs[id].checkVisibility()
   }
 })
