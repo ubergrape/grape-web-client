@@ -36,15 +36,18 @@
 		line-height: 20px
 		z-index: 20
 		background: #fff
+	h2
+		@extend $bigger-font-size
+		margin-bottom: 6px
 	h3, h4, h5
 		color: gainsboro-dark
 		@extend $normal-font-size
 		font-weight: normal
 	h3
 		text-transform: uppercase
-		margin-bottom: 10px
+		margin-bottom: 6px
 	h4, h5
-		margin-bottom: 5px
+		margin-bottom: 6px
 	h4
 		font-weight: bold
 	p
@@ -74,13 +77,11 @@
 	td
 		width: 50%
 		> em
-			background: grape-dark
-			color: #fff
-			padding: 0 4px
-			border-radius: 4px
 			margin-bottom: 5px
 	td:first-of-type
 		padding-right: 22px
+	pre
+		padding-bottom: 3px
 	code
 		width: 100%
 	.example-text
