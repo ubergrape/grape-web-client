@@ -7,14 +7,13 @@ import pick from 'lodash-es/object/pick'
 import debounce from 'lodash-es/function/debounce'
 
 import Section from './Section'
-import listStyle from './listStyle'
-import * as objectStyle from './listStyle'
+import gridStyle from './gridStyle'
 
 /**
  * List for search results.
  */
 export default React.createClass({
-  mixins: [useSheet(listStyle)],
+  mixins: [useSheet(gridStyle)],
 
   getDefaultProps() {
     return {

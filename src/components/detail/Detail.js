@@ -1,14 +1,14 @@
 import React from 'react'
 import useSheet from 'react-jss'
 
-import detailStyle from './detailStyle'
+import style from './style'
 import * as utils from './utils'
 
 /**
  * Detail view for objects.
  */
 export default React.createClass({
-  mixins: [useSheet(detailStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {

@@ -1,12 +1,12 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import emptyStyle from './emptyStyle'
+import style from './style'
 
 /**
- * Display information when list is empty
+ * Display information when grid is empty
  */
 export default React.createClass({
-  mixins: [useSheet(emptyStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {

@@ -1,8 +1,8 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import VisibilitySensor from 'react-visibility-sensor'
 
 import * as tabStyle from './tabStyle'
+import Sensor from '../sensor/Sensor'
 
 /**
  * One tab tab.
@@ -31,10 +31,8 @@ export default React.createClass({
     let className = selected ? classes.containerSelected : classes.container
     return (
       <li className={className} onMouseDown={this.onMouseDown}>
-        <VisibilitySensor
-          active={false}
+        <Sensor
           onChange={this.onVisibilityChange}
-          className={classes.sensor}
           containment={this.visibilityContainmentNode}
           ref="sensor" />
         <span className={classes.text}>

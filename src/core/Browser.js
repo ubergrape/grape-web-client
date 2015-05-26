@@ -5,11 +5,11 @@ import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
 
 import browserStyle from './browserStyle'
-import tabsControlsStyle from './tabsControlsStyle'
-import TabsControls from './TabsControls'
-import Empty from './Empty'
+import tabsControlsStyle from '../components/tabs/tabsControlsStyle'
+import TabsControls from '../components/tabs/TabsControls'
+import Empty from '../components/empty/Empty'
 import * as services from '../services'
-import * as dataUtils from '../common/utils/data'
+import * as dataUtils from './dataUtils'
 
 /**
  * Main component which uses everything else.

@@ -1,12 +1,12 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import buttonStyle from './buttonStyle'
+import style from './style'
 
 /**
  * Button component
  */
 export default React.createClass({
-  mixins: [useSheet(buttonStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {

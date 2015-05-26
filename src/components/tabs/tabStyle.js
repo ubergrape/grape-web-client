@@ -3,8 +3,6 @@ import webColors from 'grape-theme/web-colors'
 import Color from 'color'
 import fonts from 'grape-theme/fonts'
 
-import sensorStyle from '../common/utils/sensorStyle'
-
 export let text = {
   extend: fonts.small,
   fontWeight: 'bold',
@@ -48,6 +46,5 @@ export let style = {
     color: colors.white
   },
   text: text,
-  amount: amount,
-  sensor: sensorStyle
+  amount: amount
 }

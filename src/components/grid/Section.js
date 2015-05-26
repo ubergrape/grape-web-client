@@ -4,10 +4,10 @@ import assign from 'lodash-es/object/assign'
 import pick from 'lodash-es/object/pick'
 
 import sectionStyle from './sectionStyle'
-import Object from './Object'
+import Object from '../object/Object'
 
 /**
- * One list section which has a title and list objects.
+ * One grid section which has a title and items.
  */
 export default React.createClass({
   mixins: [useSheet(sectionStyle)],

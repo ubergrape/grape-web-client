@@ -3,9 +3,9 @@ import useSheet from 'react-jss'
 
 import * as allStyle from './allStyle'
 import Info from './Info'
-import List from '../../common/list/List'
-import Sidebar from '../../common/sidebar/Sidebar'
-import Detail from '../../common/detail/Detail'
+import Grid from '../../components/grid/Grid'
+import Sidebar from '../../components/sidebar/Sidebar'
+import Detail from '../../components/detail/Detail'
 
 
 /**
@@ -40,7 +40,7 @@ export default React.createClass({
     return (
       <div className={classes.column}>
         <div className={classes.row}>
-          <List {...props} className={classes.leftColumn} />
+          <Grid {...props} className={classes.leftColumn} />
           <Sidebar content={sidebarContent} height={props.height} className={classes.rightColumn} />
         </div>
       </div>

@@ -3,8 +3,6 @@ import fonts from 'grape-theme/fonts'
 import utils from 'grape-jss-utils'
 import Color from 'color'
 
-import sensorStyle from '../utils/sensorStyle'
-
 export let container = {
   display: 'flex',
   height: 42,
@@ -38,7 +36,6 @@ export let style = {
     color: colors.white,
     background: colors.grapeLight
   },
-  sensor: sensorStyle,
   iconContainer: {
     display: 'flex',
     justifyContent: 'center',

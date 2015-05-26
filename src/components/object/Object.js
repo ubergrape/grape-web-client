@@ -1,16 +1,16 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import VisibilitySensor from 'react-visibility-sensor'
 import moment from 'moment'
 
-import * as objectStyle from './objectStyle'
-import * as objectUtils from './objectUtils'
+import * as style from './style'
+import * as utils from './utils'
+import Sensor from '../sensor/Sensor'
 
 /**
- * One result for the list section.
+ * One result for the grid section.
  */
 export default React.createClass({
-  mixins: [useSheet(objectStyle.style)],
+  mixins: [useSheet(style.style)],
 
   getDefaultProps() {
     return {
@@ -36,22 +36,19 @@ export default React.createClass({
   render() {
     let {classes} = this.sheet
     let {id, focused, icon, info, highlighted} = this.props
-    let containerClassName = focused ? classes.containerFocused : classes.container
     let iconClassName = focused ? classes.iconFocused : classes.icon
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
-    let state = objectUtils.getState(this.props.detail)
+    let state = utils.getState(this.props.detail)
 
     return (
       <div
         onClick={this.onClick}
-        className={containerClassName}
+        className={focused ? classes.containerFocused : classes.container}
         key={id}>
-        <VisibilitySensor
-          active={false}
+        <Sensor
           onChange={this.onVisibilityChange}
-          className={classes.sensor}
           containment={this.visibilityContainmentNode}
           ref="sensor" />
         <div className={classes.iconContainer}>
@@ -63,7 +60,9 @@ export default React.createClass({
         </div>
         <div className={classes.metaContainer}>
           {this.props.date &&
-            <span className={metaItemClassName}>{moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}</span>
+            <span className={metaItemClassName}>
+              {moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}
+            </span>
           }
           {state &&
             <span className={metaItemClassName}>{state}</span>
