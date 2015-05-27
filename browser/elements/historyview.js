@@ -226,7 +226,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, slug) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 	var self = this;
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
@@ -235,19 +235,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 	this.scroll.reset();
 	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';
-
-	// mark the last message as read
-	if (!messageID) {
-		if (room.history.length)
-			this.emit('hasread', this.room, room.history[room.history.length - 1]);
-		else
-			if (!this.room.empty) this.emit('needhistory', room);
-		this.redraw();
-		this.redrawTyping();
-	} else {
-		this.emit('requestMessage', room, messageID, slug);
-	}
-
+	this.redrawTyping();	
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
@@ -265,6 +253,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 		self.redrawTyping();
 	});
 };
+
+HistoryView.prototype.onLoadHistory = function HistoryView_onLoadHistory (room) {
+	if (room.history.length)
+		this.emit('hasread', room, room.history[room.history.length - 1]);
+	else
+		if (!room.empty) this.emit('needhistory', room);
+	this.queueDraw();
+}
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 	render(this.typing, template('typingnotifications.jade', { room: this.room }));

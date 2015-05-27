@@ -51,6 +51,7 @@ function pipeEvents(ui) {
 	broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate');
 	broker(ui.grapeInput, 'showmarkdowntips', ui, 'showMarkdownTips');
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
+	broker(ui, 'loadHistory', ui.historyView, 'onLoadHistory');
 
 	// history view
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
