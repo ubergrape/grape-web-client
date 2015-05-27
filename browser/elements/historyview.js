@@ -37,6 +37,8 @@ function HistoryView() {
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
+	// mode can "search" or "chat"
+	this.mode = null;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -242,7 +244,9 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 			this.emit('hasread', this.room, room.history[room.history.length - 1]);
 		else
 			if (!this.room.empty) this.emit('needhistory', room);
-		this.redraw();
+		this.mode = 'chat';
+		this.queueDraw();
+		// TODO what to do with typing when on search mode
 		this.redrawTyping();
 	} else {
 		this.emit('requestMessage', room, messageID, slug);
@@ -313,6 +317,8 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 }
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
+	// here we should disable typing notifications
+	this.mode = 'search';
 	this.redrawSearch();
 }
 
