@@ -3,7 +3,7 @@ import useSheet from 'react-jss'
 
 import infoStyle from './infoStyle'
 import * as contents from './infoContents'
-import Button from '../../components/button/Button'
+import Button from '../../../components/button/Button'
 
 /**
  * Info messages for the user for e.g. to explain integrations.

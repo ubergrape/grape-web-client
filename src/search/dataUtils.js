@@ -177,17 +177,17 @@ function getItemById(sections, id) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(services = [], selectedServiceId) {
-  if (!services.length) return services
+export function getTabs(items = [], selectedId) {
+  if (!items.length) return items
 
-  services = services.filter(service => !service.hidden)
+  items = items.filter(item => !item.hidden)
 
-  let tabs = services.map(service => {
+  let tabs = items.map(item => {
     return {
-      label: service.label,
-      amount: service.count,
-      id: service.id,
-      selected: selectedServiceId == service.id
+      label: item.label,
+      amount: item.count,
+      id: item.id,
+      selected: selectedId == item.id
     }
   })
 
@@ -197,7 +197,7 @@ export function getTabs(services = [], selectedServiceId) {
   tabs.unshift({
     label: 'All',
     amount: total,
-    selected: !selectedServiceId
+    selected: !selectedId
   })
 
   return tabs

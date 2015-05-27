@@ -3,9 +3,9 @@ import useSheet from 'react-jss'
 
 import * as defaultStyle from './defaultStyle'
 import Info from './Info'
-import Grid from '../../components/grid/Grid'
-import Sidebar from '../../components/sidebar/Sidebar'
-import Detail from '../../components/object-detail/Detail'
+import Grid from '../../../components/grid/Grid'
+import Sidebar from '../../../components/sidebar/Sidebar'
+import Detail from '../../../components/object-detail/Detail'
 
 /**
  * Default search rendering.

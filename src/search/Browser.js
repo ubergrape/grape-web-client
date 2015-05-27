@@ -8,7 +8,7 @@ import style from './style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Empty from '../components/empty/Empty'
-import * as services from '../services'
+import * as services from './services'
 import * as dataUtils from './dataUtils'
 
 /**

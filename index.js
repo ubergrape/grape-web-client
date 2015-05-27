@@ -1,7 +1,8 @@
 import './src/setup'
-import Browser from './src/core/Browser'
+import SearchBrowser from './src/search/Browser'
+export {SearchBrowser as SearchBrowser}
 
 // Register reactive element.
 if (document.registerReact) {
-  document.registerReact('grape-browser', Browser)
+  document.registerReact('grape-search-browser', SearchBrowser)
 }

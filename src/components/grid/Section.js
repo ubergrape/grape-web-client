@@ -26,7 +26,6 @@ export default React.createClass({
       })
     })
 
-
     return (
       <section>
         <header className={classes.header}>{label}</header>
