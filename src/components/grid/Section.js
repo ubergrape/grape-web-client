@@ -14,17 +14,23 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {results, label} = this.props
+    let {items, label} = this.props
+
+    items = items.map((item, i) => {
+      let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
+        'visibilityContainment', 'icon')
+
+      return assign({}, item, props, {
+        ref: 'item' + item.id,
+        key: 'item' + i
+      })
+    })
+
 
     return (
       <section>
         <header className={classes.header}>{label}</header>
-        {results.map(result => {
-          assign(result, pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
-            'visibilityContainment', 'icon'))
-          result.ref = 'object' + result.id
-          return <Item {...result} />
-        })}
+        {items.map(item => <Item {...item} />)}
       </section>
     )
   }

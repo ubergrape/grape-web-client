@@ -12,12 +12,13 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      onSelect: null,
-      onInvisible: null,
-      getContainmentNode: null,
+      onSelect: undefined,
+      onInvisible: undefined,
+      getContainmentNode: undefined,
       selected: false,
-      label: null,
-      amount: null
+      label: undefined,
+      amount: undefined,
+      id: undefined
     }
   },
 
@@ -53,7 +54,7 @@ export default React.createClass({
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-    this.props.onSelect({facet: this.props.service})
+    this.props.onSelect({id: this.props.id})
   },
 
   onVisibilityChange(isVisible, visibilityRect) {

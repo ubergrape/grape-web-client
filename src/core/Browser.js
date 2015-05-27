@@ -32,7 +32,7 @@ export default React.createClass({
       orgOwner: undefined,
       images: undefined,
       onAddIntegration: undefined,
-      onSelectFacet: undefined,
+      onSelectTab: undefined,
       onSelectItem: undefined
     }
   },
@@ -66,32 +66,33 @@ export default React.createClass({
   },
 
   /**
-   * Select facet.
+   * Select tab.
    *
-   * @param {String} facet can be service id or "prev" or "next"
+   * @param {String} id can be item id or "prev" or "next"
    * @param {Object} [options]
+   * @param {Function} [callback]
    */
-  selectFacet(facet, options = {}, callback) {
+  selectTab(id, options = {}, callback) {
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
 
     let newIndex
     let set = false
 
-    if (facet == 'next') {
+    if (id == 'next') {
       newIndex = currIndex + 1
       if (newIndex < tabs.length) {
         set = true
       }
     }
-    else if (facet == 'prev') {
+    else if (id == 'prev') {
       newIndex = currIndex - 1
       if (newIndex >= 0) {
         set = true
       }
     }
     else {
-      newIndex = findIndex(tabs, tab => tab.id == facet)
+      newIndex = findIndex(tabs, tab => tab.id == id)
       set = true
     }
 
@@ -103,7 +104,7 @@ export default React.createClass({
       dataUtils.setSelectedSection(sections, id)
       dataUtils.setFocusedItemAt(sections, id, 0)
       this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
-      if (!options.silent) this.props.onSelectFacet({service: id})
+      if (!options.silent) this.props.onSelectTab({id: id})
     }
   },
 
@@ -113,7 +114,7 @@ export default React.createClass({
 
     if (id == 'next' || id == 'prev') {
       let selectedSection = dataUtils.getSelectedSection(sections)
-      let objects = selectedSection ? selectedSection.results : dataUtils.getItems(sections)
+      let objects = selectedSection ? selectedSection.items : dataUtils.getItems(sections)
       let focusedIndex = findIndex(objects, object => object.focused)
       let newItem
 
@@ -152,7 +153,6 @@ export default React.createClass({
     let {classes} = this.sheet
     let {sections} = this.state
     let selectedSection = dataUtils.getSelectedSection(sections)
-    let serviceName = 'all'
     let data = selectedSection ? [selectedSection] : sections
     let content
 
@@ -168,7 +168,7 @@ export default React.createClass({
         onSelect: this.onSelectItem,
       })
 
-      content = React.createElement(services[serviceName], props)
+      content = React.createElement(services.Default, props)
     }
     else {
       let text
@@ -188,7 +188,7 @@ export default React.createClass({
         className={`${classes.container} ${this.props.className}`}
         style={style}
         onMouseDown={this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectFacet} />
+        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         {content}
       </div>
     )
@@ -202,8 +202,8 @@ export default React.createClass({
     this.selectItem(data.id)
   },
 
-  onSelectFacet(data, callback) {
-    this.selectFacet(data.facet, {}, callback)
+  onSelectTab(data, callback) {
+    this.selectTab(data.id, {}, callback)
   },
 
   onMouseDown(e) {

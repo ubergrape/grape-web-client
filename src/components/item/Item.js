@@ -7,7 +7,7 @@ import * as utils from './utils'
 import Sensor from '../sensor/Sensor'
 
 /**
- * One result for the grid section.
+ * One grid item.
  */
 export default React.createClass({
   mixins: [useSheet(style.style)],

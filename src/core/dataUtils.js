@@ -48,17 +48,17 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
       section = {
         id: result.service,
         label: service.label,
-        results: [],
+        items: [],
         icon: serviceIconMap[result.service],
         selected: false
       }
       sections.push(section)
     }
 
-    if (section.results.length < limitPerSection) {
+    if (section.items.length < limitPerSection) {
       result.detail || (result.detail = {})
       result.detail.iconUrl = service.icon_url
-      section.results.push({
+      section.items.push({
         id: result.id,
         type: result.type,
         highlighted: result.highlighted,
@@ -71,7 +71,7 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
   })
 
   // Select first result of the first section.
-  if (sections[0] && sections[0].results[0]) sections[0].results[0].focused = true
+  if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
 
   // Find service within in the original results structure or within
   // sections structure.
@@ -102,13 +102,13 @@ export function setSelectedSection(sections, id) {
 }
 
 /**
- * Get currently focused results item.
+ * Get currently focused item.
  */
 export function getFocusedItem(sections) {
   let ret
 
   sections.some(section => {
-    let focused = find(section.results, item => item.focused)
+    let focused = find(section.items, item => item.focused)
     if (focused) {
       ret = focused
       return true
@@ -124,12 +124,12 @@ export function getFocusedItem(sections) {
  */
 export function getItems(sections) {
   let items = []
-  sections.forEach(section => items = items.concat(section.results))
+  sections.forEach(section => items = items.concat(section.items))
   return items
 }
 
 /**
- * Mark a result as focused. Unmark previously focused one.
+ * Mark an item as focused. Unmark previously focused one.
  */
 export function setFocusedItemAt(sections, id, index) {
   if (!sections.length) return
@@ -137,11 +137,11 @@ export function setFocusedItemAt(sections, id, index) {
   if (!id) id = sections[0].id
   unsetFocusedItem(sections)
   let section = find(sections, section => section.id == id)
-  if (section) section.results[index].focused = true
+  if (section) section.items[index].focused = true
 }
 
 /**
- * Mark a result as focused. Unmark previously focused one.
+ * Mark a item as focused. Unmark previously focused one.
  */
 export function setFocusedItem(sections, id) {
   unsetFocusedItem(sections)
@@ -163,7 +163,7 @@ function getItemById(sections, id) {
   let ret
 
   sections.some(section => {
-    let obj = find(section.results, item => item.id == id)
+    let obj = find(section.items, item => item.id == id)
     if (obj) {
       ret = obj
       return true

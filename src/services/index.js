@@ -1,3 +1,3 @@
-import All from './all/All'
+import Default from './default/Default'
 
-export {All as all}
+export {Default as Default}

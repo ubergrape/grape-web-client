@@ -38,11 +38,11 @@
           onAddIntegration: function() {
             console.log('onAddIntegration')
           },
-          onSelectFacet: function(data) {
-            console.log('onSelectFacet', data)
+          onSelectTab: function(data) {
+            console.log('onSelectTab', data)
           },
-          onSelectObject: function(data) {
-            console.log('onSelectObject', data)
+          onSelectItem: function(data) {
+            console.log('onSelectItem', data)
           }
         })
 
@@ -57,20 +57,20 @@
         window.addEventListener('keydown', function (e) {
           var action = keysMap[e.keyCode]
           if (action == 'enter') {
-            console.log(component.getFocusedObject())
+            console.log(component.getFocusedItem())
           } else {
             switch (action) {
               case 'right':
-                component.selectFacet('next')
+                component.selectTab('next')
                 break
               case 'left':
-                component.selectFacet('prev')
+                component.selectTab('prev')
                 break
               case 'down':
-                component.focusObject('next')
+                component.focusItem('next')
                 break
               case 'up':
-                component.focusObject('prev')
+                component.focusItem('prev')
                 break
             }
           }
