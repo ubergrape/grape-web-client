@@ -25,7 +25,7 @@ module.exports = HistoryView;
 
 function HistoryView() {
 	Emitter.call(this);
-
+	this.mode = 'chat';
 	this.redraw = this.redraw.bind(this);
 	this.queueDraw = this.queueDraw.bind(this);
 	this.room = {history: new Emitter([])};
@@ -37,8 +37,7 @@ function HistoryView() {
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
-	// mode can "search" or "chat"
-	this.mode = null;
+	// mode can be "search" or "chat"
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -130,16 +129,22 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 
-	// update the read messages. Do this before we redraw, so the new message
-	// indicator is up to date
-	if (this.room.history.length && (!this.lastwindow.lastmsg ||
-		(this.scrollMode === 'automatic' && focus.state === 'focus')))
-		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+	if (this.mode == 'chat') {
+		// update the read messages. Do this before we redraw, so the new message
+		// indicator is up to date
+		if (this.room.history.length && (!this.lastwindow.lastmsg ||
+			(this.scrollMode === 'automatic' && focus.state === 'focus')))
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
-	// create a copy of the history
-	var history = this.room.history.slice();
-	// merge buffered messages with copy of history
-	if (this.messageBuffer && this.messageBuffer.length) history = history.concat(this.messageBuffer);
+		// create a copy of the history
+		var history = this.room.history.slice();
+		// merge buffered messages with copy of history
+		if (this.messageBuffer && this.messageBuffer.length)
+			history = history.concat(this.messageBuffer);
+	} else {
+		var history = this.room.searchHistory.slice();
+	}
+
 	// eventually group history
 	var groupedHistory = groupHistory(history);
 
@@ -148,9 +153,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		history: groupedHistory
 	}));
 
-	if (this.lastwindow.lastmsg !== this.room.history[0]) {
+	if (this.lastwindow.lastmsg !== this.room.history[0])
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
-	}
 
 	if (this.scrollMode == 'automatic') this.scrollBottom();
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
@@ -319,15 +323,8 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
 	// here we should disable typing notifications
 	this.mode = 'search';
-	this.redrawSearch();
-}
-
-HistoryView.prototype.redrawSearch = function HistoryView_redrawSearch() {
-	var history = groupHistory(this.room.searchHistory.slice());
-	render(this.history, template('chathistory.jade', {
-		room: this.room,
-		history: history
-	}));
+	this.scrollMode = 'manual';
+	this.queueDraw();
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
