@@ -257,13 +257,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 			self.queueDraw();
 		}, 1000);
 	});
-
+	room.off('change typing');
 	room.on('change typing', function() {
 		self.redrawTyping();
 	});
 };
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
+	console.log('typing redraw');
 	render(this.typing, template('typingnotifications.jade', { room: this.room }));
 }
 
