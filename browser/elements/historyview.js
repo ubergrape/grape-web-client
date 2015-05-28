@@ -286,6 +286,10 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 };
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
+	if (this.mode == 'search') {
+		if (!room.empty) this.emit('needhistory', room);
+		this.mode = 'chat';
+	}
 	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
 		clientSideID: (Math.random() + 1).toString(36).substring(7),
