@@ -25,7 +25,7 @@ module.exports = HistoryView;
 
 function HistoryView() {
 	Emitter.call(this);
-	this.mode = 'chat';
+	this.mode = 'chat'; // can be either "search" or "chat"
 	this.redraw = this.redraw.bind(this);
 	this.queueDraw = this.queueDraw.bind(this);
 	this.room = {history: new Emitter([])};
@@ -37,7 +37,6 @@ function HistoryView() {
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
-	// mode can be "search" or "chat"
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -250,12 +249,11 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 			if (!this.room.empty) this.emit('needhistory', room);
 		this.mode = 'chat';
 		this.queueDraw();
-		// TODO what to do with typing when on search mode
-		this.redrawTyping();
 	} else {
 		this.emit('requestMessage', room, messageID, slug);
 	}
-
+	this.redrawTyping();
+	
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
@@ -268,13 +266,13 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 			self.queueDraw();
 		}, 1000);
 	});
-
 	room.on('change typing', function() {
 		self.redrawTyping();
 	});
 };
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
+	console.log('redraw!');
 	render(this.typing, template('typingnotifications.jade', { room: this.room }));
 }
 
@@ -321,7 +319,6 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 }
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
-	// here we should disable typing notifications
 	this.mode = 'search';
 	this.scrollMode = 'manual';
 	this.queueDraw();
