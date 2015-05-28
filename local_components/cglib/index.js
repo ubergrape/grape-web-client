@@ -658,7 +658,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 	// after = 2
 	// strict = true - this means in this case unexisting uuid will throw an error
 	// instead of giving a fallback result
-	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 2, true, function (err, res ) {
+	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 2, 25, true, function (err, res ) {
 		if (err) return self.emit('messageNotFound', room);
 		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {
@@ -666,7 +666,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 			if (!exists || !~room.searchHistory.indexOf(exists)) {
 				line = new models.Line(line);
 				line.read = 1;
-				room.searchHistory.unshift(line);
+				room.searchHistory.push(line);
 			}
 		});
 		self.emit('focusMessage', msgID);
