@@ -30,34 +30,31 @@
 
 .org-info
 	height: header-height
+	padding: 0 20px
 	background: organisation-background
-	color: white
 	@extend $functional-list
 	.logo
-		padding-left: 20px
-		display: inline-block
-	a.logo
 		height: header-height
-		line-height: header-height
-		i
-			height: header-height
-			line-height: header-height
-			color: grape-light
-			margin-left: 10px
-		img
+		display: flex
+		align-items: center
+		.avatar-wrap
+			margin: 0
+			float: none
 			width: 36px
 			height: 36px
-			margin-top: 11px
-			margin-right: 7px
 			border-radius: 50%
 		.name
-			color: white
-			line-height: header-height
+			@extend $normal-font-size
+			margin-left: 5px
+			max-width: 172px
 			overflow: hidden
+			color: white
 			white-space: nowrap
 			text-overflow: ellipsis
-			max-width: 172px
-			float: left
+			font-weight: bold
+		.fa
+			color: grape-light
+			margin-left: 5px
 		&:hover
 			background: lighten(organisation-background, 1%)
 			text-decoration: none
