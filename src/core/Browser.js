@@ -4,15 +4,16 @@ import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
 
-import style from './style'
+import style from '../components/browser/style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
+import Item from './item/Item'
 import Empty from '../components/empty/Empty'
 import * as services from '../services'
 import * as dataUtils from './dataUtils'
 
 /**
- * Main component which uses everything else.
+ * Main search browser component.
  */
 export default React.createClass({
   mixins: [useSheet(style)],
@@ -113,15 +114,20 @@ export default React.createClass({
 
     if (id == 'next' || id == 'prev') {
       let selectedSection = dataUtils.getSelectedSection(sections)
+<<<<<<< Updated upstream:src/core/Browser.js
       let objects = selectedSection ? selectedSection.results : dataUtils.getItems(sections)
       let focusedIndex = findIndex(objects, object => object.focused)
+=======
+      let items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
+      let focusedIndex = findIndex(items, item => item.focused)
+>>>>>>> Stashed changes:src/search/Browser.js
       let newItem
 
       if (id == 'next') {
-        newItem = objects[focusedIndex + 1]
+        newItem = items[focusedIndex + 1]
       }
       else if (id == 'prev') {
-        newItem = objects[focusedIndex - 1]
+        newItem = items[focusedIndex - 1]
       }
 
       if (newItem) {
@@ -161,6 +167,7 @@ export default React.createClass({
         'images', 'onAddIntegration', 'orgName', 'orgOwner')
 
       assign(props, {
+        Item: Item,
         data: data,
         focusedItem: this.getFocusedItem(),
         height: this.props.height - tabsWithControlsStyle.container.height,
@@ -185,7 +192,7 @@ export default React.createClass({
 
     return (
       <div
-        className={`${classes.container} ${this.props.className}`}
+        className={`${classes.browser} ${this.props.className}`}
         style={style}
         onMouseDown={this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectFacet} />

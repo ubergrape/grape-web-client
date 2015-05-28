@@ -3,9 +3,15 @@ import useSheet from 'react-jss'
 
 import * as allStyle from './allStyle'
 import Info from './Info'
+<<<<<<< Updated upstream:src/services/all/All.js
 import Grid from '../../components/grid/Grid'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Detail from '../../components/object-detail/Detail'
+=======
+import Grid from '../../../components/grid/Grid'
+import Sidebar from '../../../components/sidebar/Sidebar'
+import Detail from '../../detail/Detail'
+>>>>>>> Stashed changes:src/search/services/default/Default.js
 
 /**
  * All search results.

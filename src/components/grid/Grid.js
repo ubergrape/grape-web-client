@@ -16,11 +16,12 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      height: null,
+      Item: undefined,
+      height: undefined,
       className: '',
-      data: null,
-      onFocus: null,
-      onSelect: null
+      data: undefined,
+      onFocus: undefined,
+      onSelect: undefined
     }
   },
 
@@ -37,15 +38,15 @@ export default React.createClass({
     let sections
 
     if (data.length) {
-      sections = data.map((section, i) => {
-        assign(section, pick(this.props, 'onSelect'))
+      sections = data.map((data, i) => {
+        assign(data, pick(this.props, 'onSelect', 'Item'))
         return (
           <Section
-            {...section}
+            {...data}
             onFocus={this.onFocus}
             onInvisible={this.onInvisible}
             visibilityContainment={this}
-            key={section.id}
+            key={data.id}
             ref={'section' + i} />
         )
       })

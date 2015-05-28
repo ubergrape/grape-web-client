@@ -46,7 +46,7 @@ export default React.createClass({
   },
 
   checkVisibility() {
-    return this.refs.sensor.check()
+    this.refs.sensor.check()
   },
 
   onMouseDown(e) {

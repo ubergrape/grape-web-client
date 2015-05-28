@@ -38,6 +38,7 @@ export default React.createClass({
   },
 
   checkVisibility(id) {
-    return this.refs[id].checkVisibility()
+    let tab = this.refs[id]
+    if (tab) tab.checkVisibility()
   }
 })
