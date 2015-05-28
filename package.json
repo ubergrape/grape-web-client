@@ -5,8 +5,10 @@
   "dependencies": {
     "color": "^0.7.3",
     "dotpather": "^0.1.4",
+    "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git",
+    "js-emoji": "git+ssh://git@github.com/ubergrape/js-emoji.git",
     "jss": "^1.0.4",
     "jss-camel-case": "^0.1.1",
     "jss-extend": "^0.1.6",

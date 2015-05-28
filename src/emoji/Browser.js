@@ -3,67 +3,54 @@ import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
+import dotpather from 'dotpather'
 
 import style from '../components/browser/style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
+import Grid from '../components/grid/Grid'
 import Item from './item/Item'
-import Empty from '../components/empty/Empty'
-import * as services from './services'
-import * as dataUtils from './dataUtils'
+import * as data from './data'
+import * as emoji from './emoji'
+
+let getEmojiSheet = dotpather('images.emojiSheet')
 
 /**
- * Main search browser component.
+ * Main emoji browser component.
  */
 export default React.createClass({
   mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {
-      data: undefined,
+      images: {},
       height: 400,
       maxWidth: 920,
       className: '',
-      maxItemsPerSectionInAll: 5,
-      isExternal: false,
       itemId: undefined,
-      hasIntegrations: undefined,
-      canAddIntegrations: undefined,
-      orgName: undefined,
-      orgOwner: undefined,
-      images: undefined,
-      onAddIntegration: undefined,
       onSelectTab: undefined,
-      onSelectItem: undefined
+      onSelectItem: undefined,
+      key: ''
     }
   },
 
-  getInitialState() {
-    return this.createState(this.props)
+  getInitialState() {
+    return {
+      tabs: [],
+      sections: []
+    }
   },
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
-  },
-
-  createState(props) {
-    let maxItems = this.getMaxItemsPerSection(props.itemId)
-    let sections = dataUtils.getSections(props.data, props.itemId, maxItems)
-    let tabs = []
-
-    if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, props.itemId)
+    let emojiSheet = getEmojiSheet(props)
+    if (emojiSheet && emojiSheet !== getEmojiSheet(this.props)) {
+      emoji.setSheet(emojiSheet)
     }
 
-    return {
-      sections: sections,
-      tabs: tabs,
-      itemId: props.itemId
-    }
-  },
-
-  getMaxItemsPerSection(service) {
-    return service ? undefined : this.props.maxItemsPerSectionInAll
+    this.setState({
+      tabs: data.getTabs(),
+      sections: data.getSections()
+    })
   },
 
   /**
@@ -99,11 +86,10 @@ export default React.createClass({
 
     if (set) {
       let {id} = tabs[newIndex]
-      dataUtils.setSelectedTab(tabs, newIndex)
-      let maxItems = this.getMaxItemsPerSection(id)
-      let sections = dataUtils.getSections(this.props.data, id, maxItems)
-      dataUtils.setSelectedSection(sections, id)
-      dataUtils.setFocusedItemAt(sections, id, 0)
+      data.setSelectedTab(tabs, newIndex)
+      let sections = data.getSections(this.props.data, id)
+      data.setSelectedSection(sections, id)
+      data.setFocusedItemAt(sections, id, 0)
       this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
       if (!options.silent) this.props.onSelectTab({id: id})
     }
@@ -114,8 +100,8 @@ export default React.createClass({
     let set = false
 
     if (id == 'next' || id == 'prev') {
-      let selectedSection = dataUtils.getSelectedSection(sections)
-      let items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
+      let selectedSection = data.getSelectedSection(sections)
+      let items = selectedSection ? selectedSection.items : data.extractItems(sections)
       let focusedIndex = findIndex(items, item => item.focused)
       let newItem
 
@@ -136,13 +122,13 @@ export default React.createClass({
     }
 
     if (set) {
-      dataUtils.setFocusedItem(sections, id)
+      data.setFocusedItem(sections, id)
       this.setState({sections: sections})
     }
   },
 
   getFocusedItem() {
-    return dataUtils.getFocusedItem(this.state.sections)
+
   },
 
   selectItem(id) {
@@ -152,33 +138,16 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {sections} = this.state
-    let selectedSection = dataUtils.getSelectedSection(sections)
-    let data = selectedSection ? [selectedSection] : sections
-    let content
+    let props = pick(this.props, 'images')
 
-    if (data.length) {
-      let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
-        'images', 'onAddIntegration', 'orgName', 'orgOwner')
-
-      assign(props, {
-        Item: Item,
-        data: data,
-        focusedItem: this.getFocusedItem(),
-        height: this.props.height - tabsWithControlsStyle.container.height,
-        onFocus: this.onFocusItem,
-        onSelect: this.onSelectItem,
-      })
-
-      content = React.createElement(services.Default, props)
-    }
-    else {
-      let text
-      if (this.props.isExternal) {
-        text = `Write the search term to search ${this.props.data.search.service}.`
-      }
-      content = <Empty text={text}/>
-    }
+    assign(props, {
+      data: this.state.sections,
+      Item: Item,
+      focusedItem: this.getFocusedItem(),
+      height: this.props.height - tabsWithControlsStyle.container.height,
+      onFocus: this.onFocusItem,
+      onSelect: this.onSelectItem
+    })
 
     let style = {
       height: `${this.props.height}px`,
@@ -191,7 +160,11 @@ export default React.createClass({
         style={style}
         onMouseDown={this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
-        {content}
+        <div className={classes.column}>
+          <div className={classes.row}>
+            <Grid {...props} className={classes.leftColumn} />
+          </div>
+        </div>
       </div>
     )
   },

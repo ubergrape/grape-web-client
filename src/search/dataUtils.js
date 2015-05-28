@@ -49,7 +49,6 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
         id: result.service,
         label: service.label,
         items: [],
-        icon: serviceIconMap[result.service],
         selected: false
       }
       sections.push(section)
@@ -65,6 +64,7 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
         info: result.container,
         date: result.start,
         focused: false,
+        icon: serviceIconMap[result.service],
         detail: result.detail
       })
     }
@@ -122,7 +122,7 @@ export function getFocusedItem(sections) {
 /**
  * Get all items from all sections.
  */
-export function getItems(sections) {
+export function extractItems(sections) {
   let items = []
   sections.forEach(section => items = items.concat(section.items))
   return items

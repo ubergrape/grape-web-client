@@ -4,7 +4,6 @@ import assign from 'lodash-es/object/assign'
 import pick from 'lodash-es/object/pick'
 
 import sectionStyle from './sectionStyle'
-import Item from '../item/Item'
 
 /**
  * One grid section which has a title and items.
@@ -14,11 +13,11 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {items, label} = this.props
+    let {Item, items, label} = this.props
 
     items = items.map((item, i) => {
       let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
-        'visibilityContainment', 'icon')
+        'visibilityContainment')
 
       return assign({}, item, props, {
         ref: 'item' + item.id,
