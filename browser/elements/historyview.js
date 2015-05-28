@@ -264,7 +264,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 };
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
-	console.log('typing redraw');
 	render(this.typing, template('typingnotifications.jade', { room: this.room }));
 }
 
