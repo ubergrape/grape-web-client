@@ -266,6 +266,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 			self.queueDraw();
 		}, 1000);
 	});
+	room.off('change typing');
 	room.on('change typing', function() {
 		self.redrawTyping();
 	});
@@ -303,6 +304,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
+	if (line.channel != this.room) return;
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
