@@ -395,7 +395,6 @@ UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-	//console.log(room.users[1]);
 	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
 	page.replace('/chat/' + redirectSlug);
 	var msg = this.messages.warning('message not found');

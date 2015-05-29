@@ -236,7 +236,6 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
 	this.requestedMsgID = null;
-	console.log(this.requestedMsgID);
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
@@ -331,7 +330,6 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.mode = 'search';
 	this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
-	console.log(this.requestedMsgID);
 	this.queueDraw();
 }
 
