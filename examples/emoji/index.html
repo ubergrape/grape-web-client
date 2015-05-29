@@ -46,23 +46,23 @@
           13: 'enter'
         }
 
-        component.addEventListener('keydown', function (e) {
+        window.addEventListener('keydown', function (e) {
           var action = keysMap[e.keyCode]
           if (action == 'enter') {
             console.log(component.getFocusedItem())
           } else {
             switch (action) {
               case 'right':
-                component.selectTab('next')
-                break
-              case 'left':
-                component.selectTab('prev')
-                break
-              case 'down':
                 component.focusItem('next')
                 break
-              case 'up':
+              case 'left':
                 component.focusItem('prev')
+                break
+              case 'down':
+                component.focusItem('nextRow')
+                break
+              case 'up':
+                component.focusItem('prevRow')
                 break
             }
           }

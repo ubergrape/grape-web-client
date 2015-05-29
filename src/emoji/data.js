@@ -5,7 +5,15 @@ import find from 'lodash-es/collection/find'
 
 emoji.options.jsx = true
 
-export function getSections() {
+const CATEGORY_ORDER = {
+  emoticons: 0,
+  nature: 1,
+  objects: 2,
+  places: 3,
+  other: 4
+}
+
+let sections = (function() {
   let sections = []
 
   each(meta, (data, name) => {
@@ -15,14 +23,33 @@ export function getSections() {
       section = {
         id: data.category,
         label: data.category,
-        items: [],
+        itemNames: [],
         selected: false
       }
       sections.push(section)
     }
-    let item = emoji.get(name)
-    if (item) section.items.push(item)
+
+    section.itemNames.push(name)
   })
+
+  sections = sections.sort((section1, section2) =>  {
+    return CATEGORY_ORDER[section1.id] - CATEGORY_ORDER[section2.id]
+  })
+
+  return sections
+}())
+
+export function getSections() {
+  sections.forEach(section => {
+    section.items = []
+    section.itemNames.forEach(name => {
+      let item = emoji.get(name)
+      if (item) section.items.push(item)
+    })
+  })
+
+  // Select first item of the first section.
+  if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
 
   return sections
 }
@@ -48,14 +75,68 @@ export function setSelectedTab() {
 
 }
 
-export function extractItems() {
-
+/**
+ * Get all items from all sections.
+ */
+export function extractItems(sections) {
+  let items = []
+  sections.forEach(section => items = items.concat(section.items))
+  return items
 }
 
 export function setFocusedItemAt() {
 
 }
 
-export function getFocusedItemAt() {
+/**
+ * Get item by id.
+ */
+function getItemById(sections, id) {
+  let ret
 
+  sections.some(section => {
+    let obj = find(section.items, item => item.id == id)
+    if (obj) {
+      ret = obj
+      return true
+    }
+    return false
+  })
+
+  return ret
+}
+
+/**
+ * Get currently focused item.
+ */
+export function getFocusedItem(sections) {
+  let ret
+
+  sections.some(section => {
+    let focused = find(section.items, item => item.focused)
+    if (focused) {
+      ret = focused
+      return true
+    }
+    return false
+  })
+
+  return ret
+}
+
+/**
+ * Mark a item as focused. Unmark previously focused one.
+ */
+export function setFocusedItem(sections, id) {
+  unsetFocusedItem(sections)
+  getItemById(sections, id).focused = true
+}
+
+
+/**
+ * Mark currently focused item as not focused.
+ */
+function unsetFocusedItem(sections) {
+  let prev = getFocusedItem(sections)
+  if (prev) prev.focused = false
 }

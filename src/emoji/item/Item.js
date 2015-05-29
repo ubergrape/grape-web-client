@@ -2,13 +2,13 @@ import React from 'react'
 import useSheet from 'react-jss'
 
 import Sensor from '../../components/sensor/Sensor'
-import style from './style'
+import * as style from './style'
 
 /**
  * One grid item.
  */
 export default React.createClass({
-  mixins: [useSheet(style)],
+  mixins: [useSheet(style.rules)],
 
   getDefaultProps() {
     return {

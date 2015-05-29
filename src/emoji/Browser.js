@@ -3,17 +3,18 @@ import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
-import dotpather from 'dotpather'
+import get from 'lodash-es/object/get'
 
 import style from '../components/browser/style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
 import Item from './item/Item'
+import * as itemStyle from './item/style'
 import * as data from './data'
 import * as emoji from './emoji'
 
-let getEmojiSheet = dotpather('images.emojiSheet')
+const FOCUS_COMMANDS = ['prev', 'next', 'prevRow', 'nextRow']
 
 /**
  * Main emoji browser component.
@@ -42,10 +43,9 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(props) {
-    let emojiSheet = getEmojiSheet(props)
-    if (emojiSheet && emojiSheet !== getEmojiSheet(this.props)) {
-      emoji.setSheet(emojiSheet)
-    }
+    let currEmojiSheet = get(this.props, 'images.emojiSheet')
+    let newEmojiSheet = get(props, 'images.emojiSheet')
+    if (newEmojiSheet != currEmojiSheet) emoji.setSheet(newEmojiSheet)
 
     this.setState({
       tabs: data.getTabs(),
@@ -53,97 +53,19 @@ export default React.createClass({
     })
   },
 
-  /**
-   * Select tab.
-   *
-   * @param {String} id can be item id or "prev" or "next"
-   * @param {Object} [options]
-   * @param {Function} [callback]
-   */
-  selectTab(id, options = {}, callback) {
-    let {tabs} = this.state
-    let currIndex = findIndex(tabs, tab => tab.selected)
-
-    let newIndex
-    let set = false
-
-    if (id == 'next') {
-      newIndex = currIndex + 1
-      if (newIndex < tabs.length) {
-        set = true
-      }
-    }
-    else if (id == 'prev') {
-      newIndex = currIndex - 1
-      if (newIndex >= 0) {
-        set = true
-      }
-    }
-    else {
-      newIndex = findIndex(tabs, tab => tab.id == id)
-      set = true
-    }
-
-    if (set) {
-      let {id} = tabs[newIndex]
-      data.setSelectedTab(tabs, newIndex)
-      let sections = data.getSections(this.props.data, id)
-      data.setSelectedSection(sections, id)
-      data.setFocusedItemAt(sections, id, 0)
-      this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
-      if (!options.silent) this.props.onSelectTab({id: id})
-    }
-  },
-
-  focusItem(id) {
-    let {sections} = this.state
-    let set = false
-
-    if (id == 'next' || id == 'prev') {
-      let selectedSection = data.getSelectedSection(sections)
-      let items = selectedSection ? selectedSection.items : data.extractItems(sections)
-      let focusedIndex = findIndex(items, item => item.focused)
-      let newItem
-
-      if (id == 'next') {
-        newItem = items[focusedIndex + 1]
-      }
-      else if (id == 'prev') {
-        newItem = items[focusedIndex - 1]
-      }
-
-      if (newItem) {
-        id = newItem.id
-        set = true
-      }
-    }
-    else {
-      set = true
-    }
-
-    if (set) {
-      data.setFocusedItem(sections, id)
-      this.setState({sections: sections})
-    }
-  },
-
-  getFocusedItem() {
-
-  },
-
-  selectItem(id) {
-    this.focusItem(id)
-    this.props.onSelectItem(this.getFocusedItem())
+  componentDidUpdate() {
+    this.cacheItemsPerRow()
   },
 
   render() {
     let {classes} = this.sheet
     let props = pick(this.props, 'images')
+    let {sections} = this.state
 
     assign(props, {
-      data: this.state.sections,
+      data: sections,
       Item: Item,
-      focusedItem: this.getFocusedItem(),
+      focusedItem: data.getFocusedItem(sections),
       height: this.props.height - tabsWithControlsStyle.container.height,
       onFocus: this.onFocusItem,
       onSelect: this.onSelectItem
@@ -162,11 +84,92 @@ export default React.createClass({
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         <div className={classes.column}>
           <div className={classes.row}>
-            <Grid {...props} className={classes.leftColumn} />
+            <Grid {...props} className={classes.leftColumn} ref="grid"/>
           </div>
         </div>
       </div>
     )
+  },
+
+  cacheItemsPerRow() {
+    let {grid} = this.refs
+    let gridWidth = grid.getDOMNode().offsetWidth
+
+    // Speed up if grid width didn't change.
+    if (gridWidth == this.gridWidth) return this.itemsPerRow || 0
+    this.gridWidth = gridWidth
+
+    let id = get(this.state, 'sections[0].items[0].id')
+    if (!id) return 0
+
+    let component = grid.getItemComponent(id)
+    let itemWidth = component.getDOMNode().offsetWidth
+    let itemMargins = itemStyle.MARGIN * 2
+    this.itemsPerRow = Math.floor(gridWidth / (itemWidth + itemMargins))
+
+    return this.itemsPerRow
+  },
+
+  /**
+   * Select tab.
+   *
+   * @param {String} id can be item id or "prev" or "next"
+   * @param {Object} [options]
+   * @param {Function} [callback]
+   */
+  selectTab(id, options = {}, callback) {
+    let {tabs} = this.state
+    let currIndex = findIndex(tabs, tab => tab.selected)
+    let newIndex = findIndex(tabs, tab => tab.id == id)
+    let {id} = tabs[newIndex]
+    data.setSelectedTab(tabs, newIndex)
+    let sections = data.getSections(this.props.data, id)
+    data.setSelectedSection(sections, id)
+    data.setFocusedItemAt(sections, id, 0)
+    this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
+    if (!options.silent) this.props.onSelectTab({id: id})
+  },
+
+  focusItem(id) {
+    let {sections} = this.state
+    if (FOCUS_COMMANDS.indexOf(id) >= 0) {
+      let items = data.extractItems(sections)
+      let currIndex = findIndex(items, item => item.focused)
+      let item
+
+      switch (id) {
+        case 'next':
+          item = items[currIndex + 1]
+          if (item) id = item.id
+          else id = items[0].id
+          break
+        case 'prev':
+          item = items[currIndex - 1]
+          if (item) id = item.id
+          else id = items[items.length - 1].id
+          break
+        case 'nextRow':
+          /*
+          let currRow = Math.ceil(currIndex / this.itemsPerRow)
+          let nextIndex = (currRow + 1) * this.itemsPerRow
+          item = items[nextIndex]
+          console.log(nextIndex, item)
+          if (item) id = item.id
+          else id = items[0].id
+        */
+          break
+        case 'prevRow':
+          break
+      }
+    }
+
+    data.setFocusedItem(sections, id)
+    this.setState({sections: sections})
+  },
+
+  selectItem(id) {
+    this.focusItem(id)
+    this.props.onSelectItem(data.getFocusedItem(this.state.sections))
   },
 
   onFocusItem(data) {
