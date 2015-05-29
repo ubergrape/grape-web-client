@@ -111,7 +111,8 @@
 					- var lineID = line.id ? line.id : line.clientSideID
 					- var status = line.status ? line.status : 'sent'
 					- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
-					div.message(data-id=lineID, class=msgType, class=status)
+					- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
+					div.message(data-id=lineID, class=msgType, class=status, class=requested)
 						.labels(style='display: none;')
 							a
 								.label

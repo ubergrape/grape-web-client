@@ -37,6 +37,7 @@ function HistoryView() {
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
+	this.requestedMsgID = null;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -149,7 +150,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
-		history: groupedHistory
+		history: groupedHistory,
+		requestedMsgID: this.requestedMsgID
 	}));
 
 	if (this.lastwindow.lastmsg !== this.room.history[0])
@@ -231,8 +233,10 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
+	this.requestedMsgID = null;
+	console.log(this.requestedMsgID);
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
@@ -242,7 +246,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID) {
 	this.scrollMode = 'automatic';
 
 	// mark the last message as read
-	if (!messageID) {
+	if (!msgID) {
 		if (room.history.length)
 			this.emit('hasread', this.room, room.history[room.history.length - 1]);
 		else
@@ -250,7 +254,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID) {
 		this.mode = 'chat';
 		this.queueDraw();
 	} else {
-		this.emit('requestMessage', room, messageID);
+		this.emit('requestMessage', room, msgID);
 	}
 	this.redrawTyping();
 	
@@ -323,9 +327,11 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	this.queueDraw();
 }
 
-HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage() {
+HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
 	this.mode = 'search';
 	this.scrollMode = 'manual';
+	this.requestedMsgID = msgID;
+	console.log(this.requestedMsgID);
 	this.queueDraw();
 }
 
