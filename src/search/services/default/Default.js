@@ -1,7 +1,7 @@
 import React from 'react'
 import useSheet from 'react-jss'
 
-import * as defaultStyle from './defaultStyle'
+import style from '../../../components/browser/style'
 import Info from './Info'
 import Grid from '../../../components/grid/Grid'
 import Sidebar from '../../../components/sidebar/Sidebar'
@@ -11,13 +11,14 @@ import Detail from '../../detail/Detail'
  * Default search rendering.
  */
 export default React.createClass({
-  mixins: [useSheet(defaultStyle.style)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {
       focusedItem: undefined,
       height: undefined,
-      images: undefined
+      images: undefined,
+      headerHeight: 128
     }
   },
 
@@ -27,13 +28,10 @@ export default React.createClass({
     let sidebarContent
 
     if (props.focusedItem.type == 'filters') {
-      sidebarContent = <Info {...props} headerHeight={defaultStyle.INFO_HEADER_HEIGHT} />
+      sidebarContent = <Info {...props} />
     }
     else {
-      sidebarContent = <Detail
-        data={props.focusedItem.detail}
-        images={props.images}
-        headerHeight={defaultStyle.INFO_HEADER_HEIGHT} />
+      sidebarContent = <Detail {...props} data={props.focusedItem.detail} />
     }
        
     return (

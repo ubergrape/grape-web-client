@@ -26,9 +26,10 @@ export default React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    let {focusedItem} = this.props
-    if (focusedItem && prevProps.focusedItem.id != focusedItem.id) {
-      this.onFocus({id: focusedItem.id})
+    let currFocused = this.props.focusedItem
+    let prevFocused = prevProps.focusedItem
+    if (currFocused && prevFocused && prevFocused.id != currFocused.id) {
+      this.onFocus({id: currFocused.id})
     }
   },
 
@@ -58,7 +59,7 @@ export default React.createClass({
 
     return (
       <div
-        className={`${classes.container} ${this.props.className}`}
+        className={`${classes.grid} ${this.props.className}`}
         style={style}
         onScroll={this.onScroll}>
         {sections}

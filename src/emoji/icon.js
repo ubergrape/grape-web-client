@@ -1,6 +1,7 @@
 import escape from 'lodash-es/string/escape'
 import each from 'lodash-es/collection/each'
 import defaults from 'lodash-es/object/defaults'
+import camelize from 'camelize'
 import jss from 'jss'
 
 import iconStyle from './iconStyle'
@@ -14,7 +15,7 @@ export function tpl(name, style = {}, attr = {}, options = {}) {
   if (options.jsx) {
     let baseAttr = {
       className: sheet.classes.icon,
-      style: style,
+      style: camelize(style),
       title: name
     }
     defaults(attr, baseAttr)

@@ -66,6 +66,7 @@ function createMap() {
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
     map[name] = {
+      id: name,
       name: `:${name}:`,
       icon: icon.tpl(name, style, {'data-object': name}, options),
       style: style,
