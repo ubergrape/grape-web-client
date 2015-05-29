@@ -29,7 +29,6 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
 	this.q = null;
-	this.limitUsersTo = 5;
 	this.editOptions = {
 		canRenameRoom: false,
 		renamingRoom: false
@@ -116,12 +115,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var totUsers = this.room.users.length;
-	var hiddenUsersCount = totUsers > this.limitUsersTo ? totUsers - this.limitUsersTo : 0;
 	var vdom = template('chatheader.jade', {
 		room: this.room,
-		limitUsersTo: this.limitUsersTo,
-		hiddenUsersCount: hiddenUsersCount,
 		editOptions: this.editOptions
 	});
 	render(this, vdom);

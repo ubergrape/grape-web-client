@@ -1,14 +1,14 @@
 /*______ SEARCH FORM ______*/
 .search-form
-	width: 40%
-	float: right
 	position: relative
-	margin-right: 20px
-	transition: all .2s ease-out
+	transition: width .2s ease-out
+	width: 192px
+	@media (max-width: 800px)
+		width: 128px
 	.search
-		height: 34px
+		height: 28px
 		width: 100%
-		padding: 8px 12px 4px 24px
+		padding: 4px 12px 4px 24px
 		box-sizing: border-box
 		background: none
 		border: none
@@ -22,7 +22,8 @@
 		top: 0
 		color: grape-light
 		width: 20px
-		line-height: 35px
+		line-height: 28px
+		font-size: 14px
 		text-align: center
 	.search-icon
 		left: 0
@@ -31,11 +32,9 @@
 		@extend $hoverable
 		display: none
 		&:hover
-			color: bittersweet-light
+			color: white
 	.search-submit
 		display: none
-	@media (max-width: 1280px)
-		width: 30%			
 
 /*______ SEARCH RESULT ______*/
 .search-results
@@ -52,7 +51,7 @@
 		overflow: hidden
 	.result-filters
 		margin: 5px 0 0 0
-		padding-bottom: 10px 
+		padding-bottom: 10px
 		border-bottom: 1px solid silver-dark
 		h2
 			font-weight: bold
@@ -82,14 +81,14 @@
 		.item-object
 			@extend $clearfix
 			margin: 0 -3px
-			&.minor, 
-			&.minor i, 
-			&.minor time, 
+			&.minor,
+			&.minor i,
+			&.minor time,
 			&.minor span
 				color: gainsboro-light
 			&.minor
 				.item-content
-					text-overflow: ellipsis 
+					text-overflow: ellipsis
 					overflow: hidden
 		.item-type
 			float: left
@@ -163,7 +162,7 @@
 			text-decoration: none
 			&:hover
 				text-decoration: none
-				
+
 
 /*______ STYLES IF SEARCH TRIGGERED ______*/
 body .searching
@@ -173,8 +172,7 @@ body .searching
 		transform: translateY(100%)
 		transition: transform ease 400ms
 	.room-header
-		.room-info-wrap, 
-		.user-menu-wrap
+		.room-info-wrap
 			display: none
 		.search-form
 			width: 100% !important

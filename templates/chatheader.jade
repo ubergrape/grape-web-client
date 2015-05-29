@@ -1,17 +1,4 @@
-div
-	.user-menu-wrap(id='intro-step5', title="My Settings")
-		.avatar-wrap
-			span.online
-			img(src="#{user.avatar}",width="36",alt="Avatar of #{user.username}")
-				.avatar-status(class='online')
-		span.user-name
-			| #{user.displayName}
-		i.fa.fa-caret-down
-	form.search-form
-		input.search(type="search", name="search-input", placeholder=_("Search"))
-		input.search-submit(type="submit")
-		i.fa.fa-search.search-icon
-		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
+.room-header-wrap
 	.room-info-wrap
 		if room.type === 'room'
 			if editOptions.renamingRoom
@@ -35,27 +22,27 @@ div
 							i.fa.fa-pencil
 						a.header-option.option-delete-room(title="Delete Room")
 							i.fa.fa-trash
-					a.header-option.option-add-users(title="Add Members")
-						i.fa.fa-user-plus
 				.room-users-wrap(title="View Members")
 					span.user-count
 						i.fa.fa-user
 						|  #{room.users.length}
-					ul.horizontal-user-list
-						- var count = 1
-						each member in room.users
-							if count <= limitUsersTo
-								li
-									span.avatar-wrap
-										img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
-										.avatar-status(class=(member.status === 16 || user.id == member.id ? 'online' : 'offline'))
-								- count++
-					if hiddenUsersCount
-						span.remaining-users
-							| + #{hiddenUsersCount}			
+						i.fa.fa-caret-down		
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
 					i.fa.fa-envelope
 					| 
 				| #{room.users[0].displayName}
+		
+	form.search-form
+		input.search(type="search", name="search-input", placeholder=_("Search"))
+		input.search-submit(type="submit")
+		i.fa.fa-search.search-icon
+		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
+	
+	.user-menu-wrap(id='intro-step5', title="My Settings")
+		.avatar-wrap
+			span.online
+			img(src="#{user.avatar}",width="28",alt="Avatar of #{user.username}")
+				.avatar-status(class='online')
+		i.fa.fa-caret-down
