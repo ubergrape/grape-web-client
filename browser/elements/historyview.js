@@ -231,7 +231,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, slug) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID) {
 	var self = this;
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
@@ -250,7 +250,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, messageID, sl
 		this.mode = 'chat';
 		this.queueDraw();
 	} else {
-		this.emit('requestMessage', room, messageID, slug);
+		this.emit('requestMessage', room, messageID);
 	}
 	this.redrawTyping();
 	
