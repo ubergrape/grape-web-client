@@ -9,7 +9,7 @@ import Section from './Section'
 import gridStyle from './gridStyle'
 
 /**
- * List for search results.
+ * Items renderer/scroller.
  */
 export default React.createClass({
   mixins: [useSheet(gridStyle)],

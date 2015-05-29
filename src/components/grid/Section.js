@@ -13,9 +13,6 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-<<<<<<< Updated upstream
-    let {results, label} = this.props
-=======
     let {Item, items, label} = this.props
 
     items = items.map((item, i) => {
@@ -27,17 +24,11 @@ export default React.createClass({
         key: 'item' + i
       })
     })
->>>>>>> Stashed changes
 
     return (
       <section>
         <header className={classes.header}>{label}</header>
-        {results.map(result => {
-          assign(result, pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
-            'visibilityContainment', 'icon'))
-          result.ref = 'object' + result.id
-          return <Item {...result} />
-        })}
+        {items.map(item => <Item {...item} />)}
       </section>
     )
   }

@@ -27,9 +27,9 @@ export default React.createClass({
 
   componentDidUpdate() {
     let tab = find(this.props.data, item => item.selected)
-    if (tab && tab.id != this.prevFacet) {
-      this.checkVisibility(this.prevFacet, tab.id)
-      this.prevFacet = tab.id
+    if (tab && tab.id != this.prevTabId) {
+      this.checkVisibility(this.prevTabId, tab.id)
+      this.prevTabId = tab.id
     }
   },
 
@@ -71,10 +71,10 @@ export default React.createClass({
     )
   },
 
-  checkVisibility(prevFacet, nextFacet) {
+  checkVisibility(prevTabId, nextTabId) {
     let {tabs} = this.refs
-    tabs.checkVisibility(prevFacet || 'all')
-    tabs.checkVisibility(nextFacet || 'all')
+    tabs.checkVisibility(prevTabId || 'all')
+    tabs.checkVisibility(nextTabId || 'all')
   },
 
   onArrowClick(dir, e) {
@@ -82,13 +82,13 @@ export default React.createClass({
     let selectedIndex = findIndex(data, item => item.selected)
     if (selectedIndex < 0) selectedIndex = 0
     selectedIndex += dir == 'next' ? 1 : -1
-    if (data[selectedIndex]) this.onSelect({facet: data[selectedIndex].service})
+    if (data[selectedIndex]) this.onSelect({id: data[selectedIndex].id})
   },
 
   onSelect(data) {
     this.props.onSelect(data, () => {
-      let currFacet = find(this.props.data, item => item.selected).service
-      this.checkVisibility(currFacet, data.facet)
+      let prevTabId = find(this.props.data, tab => tab.selected).id
+      this.checkVisibility(prevTabId, data.id)
     })
   },
 

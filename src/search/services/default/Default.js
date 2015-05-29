@@ -1,23 +1,17 @@
 import React from 'react'
 import useSheet from 'react-jss'
 
-import * as allStyle from './allStyle'
+import * as defaultStyle from './defaultStyle'
 import Info from './Info'
-<<<<<<< Updated upstream:src/services/all/All.js
-import Grid from '../../components/grid/Grid'
-import Sidebar from '../../components/sidebar/Sidebar'
-import Detail from '../../components/object-detail/Detail'
-=======
 import Grid from '../../../components/grid/Grid'
 import Sidebar from '../../../components/sidebar/Sidebar'
 import Detail from '../../detail/Detail'
->>>>>>> Stashed changes:src/search/services/default/Default.js
 
 /**
- * All search results.
+ * Default search rendering.
  */
 export default React.createClass({
-  mixins: [useSheet(allStyle.style)],
+  mixins: [useSheet(defaultStyle.style)],
 
   getDefaultProps() {
     return {
@@ -33,13 +27,13 @@ export default React.createClass({
     let sidebarContent
 
     if (props.focusedItem.type == 'filters') {
-      sidebarContent = <Info {...props} headerHeight={allStyle.INFO_HEADER_HEIGHT} />
+      sidebarContent = <Info {...props} headerHeight={defaultStyle.INFO_HEADER_HEIGHT} />
     }
     else {
       sidebarContent = <Detail
         data={props.focusedItem.detail}
         images={props.images}
-        headerHeight={allStyle.INFO_HEADER_HEIGHT} />
+        headerHeight={defaultStyle.INFO_HEADER_HEIGHT} />
     }
        
     return (
