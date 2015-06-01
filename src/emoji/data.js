@@ -60,12 +60,10 @@ export function getSections() {
   return sections
 }
 
-export function setSelectedSection() {
-
-}
-
-export function getSelectedSection() {
-
+export function getCurrentSection(sections, id) {
+  return find(sections, section => {
+    return section.items.some(item => item.id == id)
+  })
 }
 
 export function getTabs() {
