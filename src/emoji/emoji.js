@@ -35,6 +35,13 @@ export function get(name) {
 }
 
 /**
+ * Get index array.
+ */
+export function getIndex() {
+  return index
+}
+
+/**
  * Filter emojis by key.
  */
 export function filter(key) {
@@ -65,8 +72,9 @@ export function replace(text) {
 function createMap() {
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
+
     map[name] = {
-      id: name,
+      id: id,
       name: `:${name}:`,
       icon: icon.tpl(name, style, {'data-object': name}, options),
       style: style,
@@ -87,7 +95,7 @@ function createIndex() {
   return index
 }
 
-function getSliceStyle(id) {
+export function getSliceStyle(id) {
   let px = emoji.data[id][4]
   let py = emoji.data[id][5]
   let mul = 100 / (emoji.sheet_size - 1)

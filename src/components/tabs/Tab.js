@@ -8,7 +8,7 @@ import Sensor from '../sensor/Sensor'
  * One tab tab.
  */
 export default React.createClass({
-  mixins: [useSheet(tabStyle.style)],
+  mixins: [useSheet(tabStyle.rules)],
 
   getDefaultProps() {
     return {
@@ -16,6 +16,7 @@ export default React.createClass({
       onInvisible: undefined,
       getContainmentNode: undefined,
       selected: false,
+      icon: undefined,
       label: undefined,
       amount: undefined,
       id: undefined
@@ -28,7 +29,7 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let {amount, label, selected} = this.props
+    let {icon, amount, label, selected} = this.props
     let className = selected ? classes.containerSelected : classes.container
     return (
       <li className={className} onMouseDown={this.onMouseDown}>
@@ -36,6 +37,7 @@ export default React.createClass({
           onChange={this.onVisibilityChange}
           containment={this.visibilityContainmentNode}
           ref="sensor" />
+        {icon}
         <span className={classes.text}>
           {label}
           {amount != null &&
