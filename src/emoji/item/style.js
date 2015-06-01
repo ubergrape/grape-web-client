@@ -16,7 +16,7 @@ export const rules = {
   item: item,
   itemFocused: {
     extend: item,
-    background: colors.silverLight,
+    background: 'red',
     borderRadius: 3
   }
 }

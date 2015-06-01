@@ -61,8 +61,8 @@ export default React.createClass({
 
   render() {
     let {classes} = this.sheet
-    let props = pick(this.props, 'images')
     let {sections} = this.state
+    let props = pick(this.props, 'images')
 
     assign(props, {
       data: sections,
@@ -123,6 +123,7 @@ export default React.createClass({
    * @param {Function} [callback]
    */
   selectTab(id, options = {}, callback) {
+    /*
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
     let newIndex = findIndex(tabs, tab => tab.id == id)
@@ -133,37 +134,77 @@ export default React.createClass({
     data.setFocusedItemAt(sections, id, 0)
     this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
     if (!options.silent) this.props.onSelectTab({id: id})
+    */
   },
 
   focusItem(id) {
     let {sections} = this.state
+
     if (FOCUS_COMMANDS.indexOf(id) >= 0) {
       let items = data.extractItems(sections)
       let currIndex = findIndex(items, item => item.focused)
-      let item
+      let item = items[currIndex]
+      let currSection
+      let rowsAmount
+      let currRow
+      let itemsShift
 
       switch (id) {
         case 'next':
           item = items[currIndex + 1]
-          if (item) id = item.id
-          else id = items[0].id
+          id = item ? item.id : items[0].id
           break
         case 'prev':
           item = items[currIndex - 1]
-          if (item) id = item.id
-          else id = items[items.length - 1].id
+          id = item ? item.id : items[items.length - 1].id
           break
         case 'nextRow':
-          /*
-          let currRow = Math.ceil(currIndex / this.itemsPerRow)
-          let nextIndex = (currRow + 1) * this.itemsPerRow
-          item = items[nextIndex]
-          console.log(nextIndex, item)
+          currSection = data.getCurrentSection(sections, item.id)
+          currIndex = findIndex(currSection.items, item => item.focused)
+          currRow = Math.floor(currIndex / this.itemsPerRow)
+          itemsShift = currIndex - currRow * this.itemsPerRow
+          let nextRow = currRow + 1
+          let nextIndex = nextRow * this.itemsPerRow + itemsShift
+          item = currSection.items[nextIndex]
+          rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
+
           if (item) id = item.id
-          else id = items[0].id
-        */
+          // We are already on the last row of the current section,
+          // move to the next section or to the first one.
+          else if (nextRow == rowsAmount) {
+            let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
+            let nextSection = sections[currSectionIndex + 1]
+            if (nextSection) id =  nextSection.items[itemsShift].id
+            else id = sections[0].items[itemsShift].id
+          }
+          // This must be the last row and it has no item at the current shift.
+          // Go to the last item of the section.
+          else id = currSection.items[currSection.items.length - 1].id
           break
         case 'prevRow':
+          currSection = data.getCurrentSection(sections, item.id)
+          currIndex = findIndex(currSection.items, item => item.focused)
+          currRow = Math.floor(currIndex / this.itemsPerRow)
+          itemsShift = currIndex - currRow * this.itemsPerRow
+          let prevRow = currRow - 1
+          let prevIndex = prevRow * this.itemsPerRow + itemsShift
+          item = currSection.items[prevIndex]
+          rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
+
+          if (item) id = item.id
+          // We are already on the fist row of the current section,
+          // move to the last row of prev section.
+          else {
+            let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
+            let prevSection = sections[currSectionIndex - 1]
+            if (!prevSection) prevSection = sections[sections.length - 1]
+            rowsAmount = Math.ceil(prevSection.items.length / this.itemsPerRow)
+            let prevRow = rowsAmount - 1
+            let prevIndex = prevRow * this.itemsPerRow + itemsShift
+            item = prevSection.items[prevIndex]
+            if (item) id = item.id
+            else id = prevSection.items[prevSection.items.length - 1].id
+          }
           break
       }
     }
