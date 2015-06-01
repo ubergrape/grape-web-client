@@ -11,6 +11,10 @@ import sectionStyle from './sectionStyle'
 export default React.createClass({
   mixins: [useSheet(sectionStyle)],
 
+  getDefaultProps() {
+    contentClassName: ''
+  },
+
   render() {
     let {classes} = this.sheet
     let {Item, items, label} = this.props
@@ -28,7 +32,9 @@ export default React.createClass({
     return (
       <section>
         <header className={classes.header}>{label}</header>
-        {items.map(item => <Item {...item} />)}
+        <div className={this.props.contentClassName}>
+          {items.map(item => <Item {...item} />)}
+        </div>
       </section>
     )
   }

@@ -33,7 +33,7 @@ export let container = {
   userSelect: 'none',
 }
 
-export let style = {
+export let rules = {
   container: {
     extend: container,
     '&:hover': {

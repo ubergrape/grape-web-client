@@ -1,7 +1,11 @@
-import * as emoji from './emoji'
 import each from 'lodash-es/collection/each'
-import {default as meta} from 'emojione/emoji.json'
 import find from 'lodash-es/collection/find'
+import assign from 'lodash-es/object/assign'
+import {default as meta} from 'emojione/emoji.json'
+
+import * as emoji from './emoji'
+import * as icon from './icon'
+import * as itemStyle from './item/style'
 
 emoji.options.jsx = true
 
@@ -39,7 +43,7 @@ let sections = (function() {
   return sections
 }())
 
-export function getSections() {
+export function init() {
   sections.forEach(section => {
     section.items = []
     section.itemNames.forEach(name => {
@@ -49,8 +53,10 @@ export function getSections() {
   })
 
   // Select first item of the first section.
-  if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
+  sections[0].items[0].focused = true
+}
 
+export function getSections() {
   return sections
 }
 
@@ -63,11 +69,16 @@ export function getSelectedSection() {
 }
 
 export function getTabs() {
+  let smiley = emoji.get('smiley')
+  let smileyStyle = emoji.getSliceStyle(smiley.id)
+  assign(smileyStyle, itemStyle.TAB_ICON)
+  let smileyIcon = icon.tpl(smiley.name, smileyStyle, undefined, emoji.options)
   return [{
     label: 'Emoji',
-    amount: Object.keys(meta).length,
-    id: 1,
-    selected: true
+    amount: emoji.getIndex().length - 1,
+    id: 0,
+    selected: true,
+    icon: smileyIcon
   }]
 }
 

@@ -5,12 +5,11 @@ import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
 
-import style from '../components/browser/style'
+import style from './browserStyle'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
 import Item from './item/Item'
-import * as itemStyle from './item/style'
 import * as data from './data'
 import * as emoji from './emoji'
 
@@ -45,7 +44,10 @@ export default React.createClass({
   componentWillReceiveProps(props) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
-    if (newEmojiSheet != currEmojiSheet) emoji.setSheet(newEmojiSheet)
+    if (newEmojiSheet != currEmojiSheet) {
+      emoji.setSheet(newEmojiSheet)
+      data.init()
+    }
 
     this.setState({
       tabs: data.getTabs(),
@@ -84,7 +86,11 @@ export default React.createClass({
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         <div className={classes.column}>
           <div className={classes.row}>
-            <Grid {...props} className={classes.leftColumn} ref="grid"/>
+            <Grid
+              {...props}
+              className={classes.leftColumn}
+              section={{contentClassName: classes.sectionContent}}
+              ref="grid" />
           </div>
         </div>
       </div>
@@ -104,8 +110,7 @@ export default React.createClass({
 
     let component = grid.getItemComponent(id)
     let itemWidth = component.getDOMNode().offsetWidth
-    let itemMargins = itemStyle.MARGIN * 2
-    this.itemsPerRow = Math.floor(gridWidth / (itemWidth + itemMargins))
+    this.itemsPerRow = Math.floor(gridWidth / itemWidth)
 
     return this.itemsPerRow
   },

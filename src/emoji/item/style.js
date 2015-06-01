@@ -1,17 +1,22 @@
 import colors from 'grape-theme/base-colors'
 
-export const MARGIN = 3
+export const TAB_ICON = {
+  width: '1em',
+  height: '1em',
+  marginRight: 5
+}
 
 let item = {
   display: 'inline-block',
-  margin: MARGIN,
-  padding: 2
+  position: 'relative',
+  padding: 7
 }
 
 export const rules = {
   item: item,
   itemFocused: {
     extend: item,
-    background: colors.silverDark
+    background: colors.silverLight,
+    borderRadius: 3
   }
 }

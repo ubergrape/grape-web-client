@@ -21,7 +21,8 @@ export default React.createClass({
       className: '',
       data: undefined,
       onFocus: undefined,
-      onSelect: undefined
+      onSelect: undefined,
+      section: {}
     }
   },
 
@@ -40,7 +41,7 @@ export default React.createClass({
 
     if (data.length) {
       sections = data.map((data, i) => {
-        assign(data, pick(this.props, 'onSelect', 'Item'))
+        data = assign({}, data, pick(this.props, 'onSelect', 'Item'), this.props.section)
         return (
           <Section
             {...data}
