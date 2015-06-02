@@ -53,13 +53,30 @@ export function init() {
       if (item) section.items.push(item)
     })
   })
-
-  // Select first item of the first section.
-  sections[0].items[0].focused = true
 }
 
-export function getSections() {
-  return sections
+export function getSections(search) {
+  let found = sections
+
+  if (search) {
+    search = search.toLowerCase()
+    found = []
+    sections.forEach(section => {
+      let items = section.items.filter(item => {
+         return item.name.indexOf(search) >= 0
+      })
+
+      if (items.length) {
+        section = assign({}, section, {items: items})
+        found.push(section)
+      }
+    })
+  }
+
+  // Select first item of the first section.
+  if (found.length) setFocusedItem(found, found[0].items[0].id)
+
+  return found
 }
 
 export function getCurrentSection(sections, id) {
@@ -123,18 +140,14 @@ export function getItemById(sections, id) {
  * Get currently focused item.
  */
 export function getFocusedItem(sections) {
-  let ret
+  let item
 
   sections.some(section => {
-    let focused = find(section.items, item => item.focused)
-    if (focused) {
-      ret = focused
-      return true
-    }
-    return false
+    item = find(section.items, item => item.focused)
+    return Boolean(item)
   })
 
-  return ret
+  return item
 }
 
 /**
@@ -150,6 +163,7 @@ export function setFocusedItem(sections, id) {
  * Mark currently focused item as not focused.
  */
 function unsetFocusedItem(sections) {
-  let prev = getFocusedItem(sections)
-  if (prev) prev.focused = false
+  sections.forEach(section => {
+    section.items.forEach(item => item.focused = false)
+  })
 }
