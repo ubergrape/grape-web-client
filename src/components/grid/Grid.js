@@ -49,7 +49,7 @@ export default React.createClass({
             onInvisible={this.onInvisible}
             visibilityContainment={this}
             key={data.id}
-            ref={'section' + i} />
+            ref={data.id} />
         )
       })
     }
@@ -77,6 +77,10 @@ export default React.createClass({
     })
 
     return component
+  },
+
+  getSectionComponent(id) {
+    return this.refs[id]
   },
 
   onFocus(data) {

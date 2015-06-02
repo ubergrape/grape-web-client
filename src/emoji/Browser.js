@@ -4,6 +4,7 @@ import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
+import debounce from 'lodash-es/function/debounce'
 
 import style from './browserStyle'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
@@ -59,6 +60,15 @@ export default React.createClass({
     this.cacheItemsPerRow()
   },
 
+  componentDidMount() {
+    this.onResize = this.onResize.bind(this)
+    window.addEventListener('resize', this.onResize)
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
+  },
+
   render() {
     let {classes} = this.sheet
     let {sections} = this.state
@@ -99,7 +109,8 @@ export default React.createClass({
 
   cacheItemsPerRow() {
     let {grid} = this.refs
-    let gridWidth = grid.getDOMNode().offsetWidth
+    let contentRect = grid.getSectionComponent(this.state.sections[0].id).getContentClientRect()
+    let {width: gridWidth} = contentRect
 
     // Speed up if grid width didn't change.
     if (gridWidth == this.gridWidth) return this.itemsPerRow || 0
@@ -111,8 +122,6 @@ export default React.createClass({
     let component = grid.getItemComponent(id)
     let itemWidth = component.getDOMNode().offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
-
-    return this.itemsPerRow
   },
 
   /**
@@ -235,5 +244,9 @@ export default React.createClass({
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-  }
+  },
+
+  onResize: debounce(function() {
+    this.cacheItemsPerRow()
+  }, 500)
 })
