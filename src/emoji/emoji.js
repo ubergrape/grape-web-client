@@ -4,7 +4,7 @@ import emoji from 'js-emoji'
 
 import * as icon from './icon'
 
-let map = {}
+let map
 let index = []
 let sheetUrl
 
@@ -31,7 +31,7 @@ export function defineCustom(emojis) {
  * Get emoji data.
  */
 export function get(name) {
-  return map[name.replace(/:/g, '')]
+  return name ? map[name.replace(/:/g, '')] : map
 }
 
 /**
@@ -53,7 +53,8 @@ export function filter(key) {
  */
 export function setSheet(url) {
   sheetUrl = url
-  createMap()
+  map = createMap()
+  index = createIndex()
 }
 
 /**
@@ -70,9 +71,10 @@ export function replace(text) {
  * Create map from emoji colons.
  */
 function createMap() {
+  let map = {}
+
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
-
     map[name] = {
       id: id,
       name: `:${name}:`,
@@ -81,7 +83,8 @@ function createMap() {
       type: 'emoji'
     }
   })
-  index = createIndex()
+
+  return map
 }
 
 /**
