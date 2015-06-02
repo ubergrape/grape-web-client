@@ -46,7 +46,7 @@ export default React.createClass({
   createState(props) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
-    if (newEmojiSheet && newEmojiSheet != currEmojiSheet) {
+    if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
       emoji.setSheet(newEmojiSheet)
       data.init()
     }
@@ -112,20 +112,28 @@ export default React.createClass({
     )
   },
 
+  getFocusedItem() {
+    let item = data.getFocusedItem(this.state.sections)
+    item = pick(item, 'id', 'name')
+    item.type = 'emoji'
+    return item
+  },
+
   cacheItemsPerRow() {
     let {grid} = this.refs
     let {sections} = this.state
+
     if (!sections.length) return
 
     let contentRect = grid.getSectionComponent(this.state.sections[0].id).getContentClientRect()
     let {width: gridWidth} = contentRect
 
     // Speed up if grid width didn't change.
-    if (gridWidth == this.gridWidth) return this.itemsPerRow || 0
+    if (this.itemsPerRow && gridWidth == this.gridWidth) return
     this.gridWidth = gridWidth
 
     let id = get(this.state, 'sections[0].items[0].id')
-    if (!id) return 0
+    if (!id) return
 
     let component = grid.getItemComponent(id)
     let itemWidth = component.getDOMNode().offsetWidth
@@ -232,8 +240,7 @@ export default React.createClass({
 
   selectItem(id) {
     this.focusItem(id)
-    let item = data.getItemById(this.state.sections, id)
-    this.props.onSelectItem(pick(item, 'id', 'name'))
+    this.props.onSelectItem(this.getFocusedItem())
   },
 
   onFocusItem(data) {
