@@ -32,10 +32,14 @@ export default React.createClass({
     return (
       <section>
         <header className={classes.header}>{label}</header>
-        <div className={this.props.contentClassName}>
+        <div className={this.props.contentClassName} ref="content">
           {items.map(item => <Item {...item} />)}
         </div>
       </section>
     )
+  },
+
+  getContentClientRect() {
+    return this.refs.content.getDOMNode().getBoundingClientRect()
   }
 })
