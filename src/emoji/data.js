@@ -28,6 +28,7 @@ let sections = (function() {
         id: data.category,
         label: data.category,
         itemNames: [],
+        items: [],
         selected: false
       }
       sections.push(section)
@@ -44,6 +45,7 @@ let sections = (function() {
 }())
 
 export function init() {
+  if (!emoji.get()) return
   sections.forEach(section => {
     section.items = []
     section.itemNames.forEach(name => {
@@ -67,6 +69,8 @@ export function getCurrentSection(sections, id) {
 }
 
 export function getTabs() {
+  if (!emoji.get()) return []
+
   let smiley = emoji.get('smiley')
   let smileyStyle = emoji.getSliceStyle(smiley.id)
   assign(smileyStyle, itemStyle.TAB_ICON)

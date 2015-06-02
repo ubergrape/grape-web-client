@@ -36,11 +36,7 @@ export default React.createClass({
   },
 
   getInitialState() {
-    if (emoji.get()) return this.createState()
-    return {
-      tabs: [],
-      sections: []
-    }
+    return this.createState(this.props)
   },
 
   componentWillReceiveProps(props) {
@@ -50,7 +46,7 @@ export default React.createClass({
   createState(props) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
-    if (newEmojiSheet != currEmojiSheet || !emoji.get()) {
+    if (newEmojiSheet && newEmojiSheet != currEmojiSheet) {
       emoji.setSheet(newEmojiSheet)
       data.init()
     }
