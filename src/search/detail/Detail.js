@@ -1,5 +1,6 @@
 import React from 'react'
 import useSheet from 'react-jss'
+import get from 'lodash-es/object/get'
 
 import style from './style'
 import * as utils from './utils'
@@ -22,7 +23,7 @@ export default React.createClass({
     let {classes} = this.sheet
     let data = this.props.data || {}
 
-    let previewUrl = utils.getImageUrl(data)
+    let previewUrl = get(data, 'preview.image.url')
     let {iconUrl} = data
     let header
     if (previewUrl || iconUrl) {
