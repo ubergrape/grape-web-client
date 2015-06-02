@@ -215,7 +215,8 @@ export default React.createClass({
 
   selectItem(id) {
     this.focusItem(id)
-    this.props.onSelectItem(data.getFocusedItem(this.state.sections))
+    let item = data.getItemById(this.state.sections, id)
+    this.props.onSelectItem(pick(item, 'id', 'name'))
   },
 
   onFocusItem(data) {
