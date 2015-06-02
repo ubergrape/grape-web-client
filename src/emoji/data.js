@@ -100,7 +100,7 @@ export function setFocusedItemAt() {
 /**
  * Get item by id.
  */
-function getItemById(sections, id) {
+export function getItemById(sections, id) {
   let ret
 
   sections.some(section => {
