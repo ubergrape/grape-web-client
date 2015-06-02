@@ -5,7 +5,6 @@
   "dependencies": {
     "camelize": "^1.0.0",
     "color": "^0.7.3",
-    "dotpather": "^0.1.4",
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git",
