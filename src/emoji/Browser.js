@@ -36,6 +36,7 @@ export default React.createClass({
   },
 
   getInitialState() {
+    if (emoji.get()) return this.createState()
     return {
       tabs: [],
       sections: []
@@ -43,30 +44,38 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(props) {
+    this.setState(this.createState(props))
+  },
+
+  createState(props) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
-    if (newEmojiSheet != currEmojiSheet) {
+    if (newEmojiSheet != currEmojiSheet || !emoji.get()) {
       emoji.setSheet(newEmojiSheet)
       data.init()
     }
 
-    this.setState({
+    return {
       tabs: data.getTabs(),
       sections: data.getSections()
-    })
+    }
   },
 
-  componentDidUpdate() {
-    this.cacheItemsPerRow()
-  },
-
-  componentDidMount() {
+  componentWillMount() {
     this.onResize = this.onResize.bind(this)
     window.addEventListener('resize', this.onResize)
   },
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize)
+  },
+
+  componentDidMount() {
+    this.cacheItemsPerRow()
+  },
+
+  componentDidUpdate() {
+    this.cacheItemsPerRow()
   },
 
   render() {
@@ -109,6 +118,9 @@ export default React.createClass({
 
   cacheItemsPerRow() {
     let {grid} = this.refs
+    let {sections} = this.state
+    if (!sections.length) return
+
     let contentRect = grid.getSectionComponent(this.state.sections[0].id).getContentClientRect()
     let {width: gridWidth} = contentRect
 
