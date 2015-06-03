@@ -9,7 +9,6 @@ var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
 var classes = require('classes');
-var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
@@ -23,14 +22,6 @@ template.locals.tz = require('moment-timezone');
 
 module.exports = HistoryView;
 
-/*****
-	NEW UPDATE READ LOGIC
-
-	update on scroll bottom
-	just if the latest visible message time > latest room message time
-*****/
-
-
 function HistoryView() {
 	Emitter.call(this);
 	this.mode = 'chat'; // can be either "search" or "chat"
@@ -40,7 +31,6 @@ function HistoryView() {
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.bind();
-	//this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
@@ -98,7 +88,7 @@ HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(e
 };
 
 HistoryView.prototype.unselectForEditing = function () {
-	var msg = query(".message.editing", this.el);
+	var msg = qs(".message.editing", this.el);
 	if (msg) {
 		classes(msg).add('edited');
 		classes(msg).remove('editing');
@@ -181,10 +171,7 @@ HistoryView.prototype.scrollBottom = function() {
 
 HistoryView.prototype.updateRead = function HistoryView_updateRead () {
 	if (focus.state !== 'focus') return; // we get scroll events even when the window is not focused
-	
 	var bottomElem = this._findBottomVisible();
-	console.log(bottomElem);
-	console.log(bottomElem);
 	if (!bottomElem) return;
 	var line = Line.get(bottomElem.getAttribute('data-id'));
 	if (!line.time && line.time < this.room.latest_message_time) return;
@@ -196,14 +183,6 @@ HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
 	this.queued = true;
 	raf(this.redraw);
-};
-
-HistoryView.prototype.scrollTo = function HistoryView_scrollTo(el) {
-	if (!el) return;
-	// get the last .text and scroll to that
-	var texts = qs.all('.text', el);
-	if (!texts.length) return;
-	texts[texts.length - 1].scrollIntoView();
 };
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
@@ -229,24 +208,6 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.room.empty = true;
 	this.room.loading = false;
 	this.queueDraw();
-};
-
-HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
-	/*var self = this;
-	var updateRead = debounce(function updateRead() {
-		if (focus.state !== 'focus')
-			return; // we get scroll events even when the window is not focused
-		var bottomElem = self._findBottomVisible();
-		if (!bottomElem) return;
-		var line = Line.get(bottomElem.getAttribute('data-id'));
-		self.emit('hasread', self.room, line);
-		self.redraw();
-	}, 1500);
-	focus.on('focus', updateRead);
-	this.scrollWindow.addEventListener('scroll', updateRead);
-	this.scrollWindow.addEventListener('scroll', function () {
-		self.scrollMode = 'manual';
-	});*/
 };
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
@@ -287,7 +248,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query("div.message[data-id='" + msg.id + "']", self.el);
+		var el = qs("div.message[data-id='" + msg.id + "']", self.el);
 		classes(el).add('removed');
 		setTimeout(function () {
 			// vdom seems to bug a bit so remove the class manually
@@ -358,6 +319,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
 	this.queueDraw();
+	this.scrollWindow.scrollTop = 0;
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
