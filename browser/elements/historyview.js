@@ -66,7 +66,6 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	focus.on('focus', debouncedUpdateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		this.scrollMode = 'manual';
-		debouncedUpdateRead();
 	}.bind(this));
 };
 
@@ -174,9 +173,9 @@ HistoryView.prototype.updateRead = function HistoryView_updateRead () {
 	var bottomElem = this._findBottomVisible();
 	if (!bottomElem) return;
 	var line = Line.get(bottomElem.getAttribute('data-id'));
-	if (!line.time && line.time < this.room.latest_message_time) return;
+	if (!line || line.time < this.room.latest_message_time) return;
 	this.emit('hasread', this.room, line);
-	this.redraw();
+	this.queueDraw()
 }
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
@@ -189,6 +188,8 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	// set the scrollMode to automatic when scrolling to the bottom
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
+		var debouncedUpdateRead	= debounce(this.updateRead.bind(this), 1500)
+		debouncedUpdateRead();
 		return done();
 	} else {
 		if (!this.room.empty) done();
@@ -229,19 +230,15 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	this.room = room;
 	// reset, otherwise we wonâ€™t get future events
 	this.scroll.reset();
-	// and make scrolling mode automatic
 	this.scrollMode = 'automatic';
 
-	// mark the last message as read
 	if (!msgID) {
-		if (room.history.length)
-			this.emit('hasread', this.room, room.history[room.history.length - 1]);
-		else
-			if (!this.room.empty) this.emit('needhistory', room);
+		if (!this.room.empty) this.emit('needhistory', room);
 		this.mode = 'chat';
 		this.queueDraw();
 	} else {
 		this.emit('requestMessage', room, msgID);
+		this.room.loading = true;
 	}
 	this.redrawTyping();
 	
@@ -318,6 +315,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.mode = 'search';
 	this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
+	this.room.loading = false;
 	this.queueDraw();
 	this.scrollWindow.scrollTop = 0;
 }
