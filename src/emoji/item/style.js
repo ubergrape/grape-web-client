@@ -9,14 +9,14 @@ export const TAB_ICON = {
 let item = {
   display: 'inline-block',
   position: 'relative',
-  padding: 7
+  padding: '6px 7px'
 }
 
 export const rules = {
   item: item,
   itemFocused: {
     extend: item,
-    background: 'red',
+    background: colors.gainsboroLight,
     borderRadius: 3
   }
 }
