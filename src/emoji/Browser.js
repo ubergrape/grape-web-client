@@ -10,6 +10,7 @@ import style from './browserStyle'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
+import Empty from '../components/empty/Empty'
 import Item from './item/Item'
 import * as data from './data'
 import * as emoji from './emoji'
@@ -31,7 +32,7 @@ export default React.createClass({
       itemId: undefined,
       onSelectTab: undefined,
       onSelectItem: undefined,
-      key: ''
+      search: ''
     }
   },
 
@@ -53,7 +54,7 @@ export default React.createClass({
 
     return {
       tabs: data.getTabs(),
-      sections: data.getSections()
+      sections: data.getSections(props.search)
     }
   },
 
@@ -77,28 +78,26 @@ export default React.createClass({
   render() {
     let {classes} = this.sheet
     let {sections} = this.state
-    let props = pick(this.props, 'images')
-
-    assign(props, {
-      data: sections,
-      Item: Item,
-      focusedItem: data.getFocusedItem(sections),
-      height: this.props.height - tabsWithControlsStyle.container.height,
-      onFocus: this.onFocusItem,
-      onSelect: this.onSelectItem
-    })
+    let props
 
     let style = {
       height: `${this.props.height}px`,
       maxWidth: this.props.maxWidth
     }
 
-    return (
-      <div
-        className={`${classes.browser} ${this.props.className}`}
-        style={style}
-        onMouseDown={this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
+    let content
+
+    if (sections.length) {
+      props = pick(this.props, 'images')
+      assign(props, {
+        data: sections,
+        Item: Item,
+        focusedItem: data.getFocusedItem(sections),
+        height: this.props.height - tabsWithControlsStyle.container.height,
+        onFocus: this.onFocusItem,
+        onSelect: this.onSelectItem
+      })
+      content = (
         <div className={classes.column}>
           <div className={classes.row}>
             <Grid
@@ -108,6 +107,19 @@ export default React.createClass({
               ref="grid" />
           </div>
         </div>
+      )
+    }
+    else {
+      content = <Empty />
+    }
+
+    return (
+      <div
+        className={`${classes.browser} ${this.props.className}`}
+        style={style}
+        onMouseDown={this.onMouseDown}>
+        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
+        {content}
       </div>
     )
   },
