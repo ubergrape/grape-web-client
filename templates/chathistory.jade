@@ -58,6 +58,8 @@
 							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
 	- var lastDate
 	- var lastRead = true
+	if mode === 'search'
+		div.load-button= _('LOAD MOAR')
 	each lines in history
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
@@ -201,3 +203,5 @@
 								if status == 'pending'
 									div.pending
 										i.fa.fa-spinner.fa-pulse.fa-lg
+	if mode === 'search'
+		div.load-button= _('LOAD MOAR')									

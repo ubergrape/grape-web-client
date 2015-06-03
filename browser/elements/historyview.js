@@ -154,6 +154,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
 		history: groupedHistory,
+		mode: this.mode,
 		requestedMsgID: this.requestedMsgID
 	}));
 
@@ -186,6 +187,7 @@ HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
 	// set the scrollMode to automatic when scrolling to the bottom
+	if (this.mode === 'search') return;
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
 		var debouncedUpdateRead	= debounce(this.updateRead.bind(this), 1500)
