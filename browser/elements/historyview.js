@@ -23,6 +23,14 @@ template.locals.tz = require('moment-timezone');
 
 module.exports = HistoryView;
 
+/*****
+	NEW UPDATE READ LOGIC
+
+	update on scroll bottom
+	just if the latest visible message time > latest room message time
+*****/
+
+
 function HistoryView() {
 	Emitter.call(this);
 	this.mode = 'chat'; // can be either "search" or "chat"
@@ -32,7 +40,7 @@ function HistoryView() {
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.bind();
-	this._bindScroll();
+	//this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
@@ -64,6 +72,12 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 	this.events.bind('click div.resend', 'resend');
+	var debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500);
+	focus.on('focus', debouncedUpdateRead);
+	this.scrollWindow.addEventListener('scroll', function () {
+		this.scrollMode = 'manual';
+		debouncedUpdateRead();
+	}.bind(this));
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -117,7 +131,7 @@ function groupHistory(history) {
 				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
 			}
 		} else {
-			groups.push(group = []);
+			groups.push(group = []); 
 			counter = 1;		
 		}
 
@@ -129,13 +143,13 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 
-	if (this.mode == 'chat') {
-		// update the read messages. Do this before we redraw, so the new message
-		// indicator is up to date
-		if (this.room.history.length && (!this.lastwindow.lastmsg ||
-			(this.scrollMode === 'automatic' && focus.state === 'focus')))
-			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+	// update the read messages. Do this before we redraw, so the new message
+	// indicator is up to date
+	if (this.room.history.length && (!this.lastwindow.lastmsg ||
+		(this.scrollMode === 'automatic' && focus.state === 'focus')))
+		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
 
+	if (this.mode == 'chat') {
 		// create a copy of the history
 		var history = this.room.history.slice();
 		// merge buffered messages with copy of history
@@ -164,6 +178,19 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 HistoryView.prototype.scrollBottom = function() {
 	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
+
+HistoryView.prototype.updateRead = function HistoryView_updateRead () {
+	if (focus.state !== 'focus') return; // we get scroll events even when the window is not focused
+	
+	var bottomElem = this._findBottomVisible();
+	console.log(bottomElem);
+	console.log(bottomElem);
+	if (!bottomElem) return;
+	var line = Line.get(bottomElem.getAttribute('data-id'));
+	if (!line.time && line.time < this.room.latest_message_time) return;
+	this.emit('hasread', this.room, line);
+	this.redraw();
+}
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
@@ -205,7 +232,7 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 };
 
 HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
-	var self = this;
+	/*var self = this;
 	var updateRead = debounce(function updateRead() {
 		if (focus.state !== 'focus')
 			return; // we get scroll events even when the window is not focused
@@ -219,7 +246,7 @@ HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
 	this.scrollWindow.addEventListener('scroll', updateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
 		self.scrollMode = 'manual';
-	});
+	});*/
 };
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {

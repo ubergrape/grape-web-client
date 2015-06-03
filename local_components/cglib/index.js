@@ -330,6 +330,8 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		room.unread++;
 		room.history.push(line);
+		room.latest_message_time = new Date(line.time).getTime();
+		console.log(room.latest_message_time);
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
