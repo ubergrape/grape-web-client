@@ -2,6 +2,7 @@ import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import assign from 'lodash-es/object/assign'
 import {default as meta} from 'emojione/emoji.json'
+import get from 'lodash-es/object/get'
 
 import * as emoji from './emoji'
 import * as icon from './icon'
@@ -74,7 +75,8 @@ export function getSections(search) {
   }
 
   // Select first item of the first section.
-  if (found.length) setFocusedItem(found, found[0].items[0].id)
+  let firstItemId = get(found, '[0].items[0].id')
+  if (firstItemId) setFocusedItem(found, firstItemId)
 
   return found
 }
