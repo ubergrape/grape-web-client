@@ -1,9 +1,9 @@
 import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import assign from 'lodash-es/object/assign'
-import {default as meta} from 'emojione/emoji.json'
 import get from 'lodash-es/object/get'
 
+import meta from './meta.json'
 import * as emoji from './emoji'
 import Icon from './Icon'
 import * as itemStyle from './item/style'
@@ -19,13 +19,13 @@ const CATEGORY_ORDER = {
 let sections = (function() {
   let sections = []
 
-  each(meta, (data, name) => {
-    let section = find(sections, section => section.id == data.category)
+  meta.forEach(data => {
+    let section = find(sections, section => section.id == data.cat)
 
     if (!section) {
       section = {
-        id: data.category,
-        label: data.category,
+        id: data.cat,
+        label: data.cat,
         itemNames: [],
         items: [],
         selected: false
@@ -33,7 +33,7 @@ let sections = (function() {
       sections.push(section)
     }
 
-    section.itemNames.push(name)
+    section.itemNames.push(data.name)
   })
 
   sections = sections.sort((section1, section2) =>  {

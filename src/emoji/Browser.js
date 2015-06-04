@@ -13,7 +13,7 @@ import Grid from '../components/grid/Grid'
 import Empty from '../components/empty/Empty'
 import Item from './item/Item'
 import Icon from './Icon'
-import * as data from './data'
+import * as dataUtils from './dataUtils'
 import * as emoji from './emoji'
 
 const FOCUS_COMMANDS = ['prev', 'next', 'prevRow', 'nextRow']
@@ -53,8 +53,8 @@ let Browser = React.createClass({
     }
 
     return {
-      tabs: data.getTabs(),
-      sections: data.getSections(props.search)
+      tabs: dataUtils.getTabs(),
+      sections: dataUtils.getSections(props.search)
     }
   },
 
@@ -86,7 +86,7 @@ let Browser = React.createClass({
       assign(props, {
         data: sections,
         Item: Item,
-        focusedItem: data.getFocusedItem(sections),
+        focusedItem: dataUtils.getFocusedItem(sections),
         height: this.props.height - tabsWithControlsStyle.container.height,
         onFocus: this.onFocusItem,
         onSelect: this.onSelectItem
@@ -121,7 +121,7 @@ let Browser = React.createClass({
   },
 
   getFocusedItem() {
-    return data.getFocusedItem(this.state.sections)
+    return dataUtils.getFocusedItem(this.state.sections)
   },
 
   cacheItemsPerRow() {
@@ -158,10 +158,10 @@ let Browser = React.createClass({
     let currIndex = findIndex(tabs, tab => tab.selected)
     let newIndex = findIndex(tabs, tab => tab.id == id)
     let {id} = tabs[newIndex]
-    data.setSelectedTab(tabs, newIndex)
-    let sections = data.getSections(this.props.data, id)
-    data.setSelectedSection(sections, id)
-    data.setFocusedItemAt(sections, id, 0)
+    dataUtils.setSelectedTab(tabs, newIndex)
+    let sections = dataUtils.getSections(this.props.data, id)
+    dataUtils.setSelectedSection(sections, id)
+    dataUtils.setFocusedItemAt(sections, id, 0)
     this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
     if (!options.silent) this.props.onSelectTab({id: id})
     */
@@ -171,7 +171,7 @@ let Browser = React.createClass({
     let {sections} = this.state
 
     if (FOCUS_COMMANDS.indexOf(id) >= 0) {
-      let items = data.extractItems(sections)
+      let items = dataUtils.extractItems(sections)
       let currIndex = findIndex(items, item => item.focused)
       let item = items[currIndex]
       let currSection
@@ -189,7 +189,7 @@ let Browser = React.createClass({
           id = item ? item.id : items[items.length - 1].id
           break
         case 'nextRow':
-          currSection = data.getCurrentSection(sections, item.id)
+          currSection = dataUtils.getCurrentSection(sections, item.id)
           currIndex = findIndex(currSection.items, item => item.focused)
           currRow = Math.floor(currIndex / this.itemsPerRow)
           itemsShift = currIndex - currRow * this.itemsPerRow
@@ -211,7 +211,7 @@ let Browser = React.createClass({
           else id = currSection.items[currSection.items.length - 1].id
           break
         case 'prevRow':
-          currSection = data.getCurrentSection(sections, item.id)
+          currSection = dataUtils.getCurrentSection(sections, item.id)
           currIndex = findIndex(currSection.items, item => item.focused)
           currRow = Math.floor(currIndex / this.itemsPerRow)
           itemsShift = currIndex - currRow * this.itemsPerRow
@@ -238,7 +238,7 @@ let Browser = React.createClass({
       }
     }
 
-    data.setFocusedItem(sections, id)
+    dataUtils.setFocusedItem(sections, id)
     this.setState({sections: sections})
   },
 
@@ -272,7 +272,7 @@ let Browser = React.createClass({
 
 Browser.init = function (emojiSheet) {
   emoji.setSheet(emojiSheet)
-  data.init()
+  dataUtils.init()
 }
 
 Browser.replace = emoji.replace
