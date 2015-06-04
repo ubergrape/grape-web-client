@@ -1,8 +1,9 @@
 import each from 'lodash-es/collection/each'
 import clone from 'lodash-es/lang/clone'
 import emoji from 'js-emoji'
+import React from 'react'
 
-import * as icon from './icon'
+import Icon from './Icon'
 
 let map
 let index = []
@@ -11,10 +12,6 @@ let sheetUrl
 emoji.init_colons()
 
 let colonsRegExp = emoji.rx_colons
-
-export let options = {
-  jsx: false
-}
 
 /**
  * Define custom emojis.
@@ -61,9 +58,10 @@ export function setSheet(url) {
  * Replace :smile: by html icon.
  */
 export function replace(text) {
-  return text.replace(colonsRegExp, function (emoji) {
-    let matches = filter(emoji)
-    return matches.length ? matches[0].icon : emoji
+  return text.replace(colonsRegExp, function (name) {
+    let emoji = get(name)
+    if (emoji) return React.renderToStaticMarkup(emoji.icon)
+    return name
   })
 }
 
@@ -75,10 +73,12 @@ function createMap() {
 
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
+    let shortname = `:${name}:`
     map[name] = {
       id: id,
-      name: `:${name}:`,
-      icon: icon.tpl(name, style, {'data-object': name}, options),
+      name: name,
+      shortname: shortname,
+      icon:  <Icon name={shortname} style={style} />,
       style: style,
       type: 'emoji'
     }
@@ -104,12 +104,12 @@ export function getSliceStyle(id) {
   let mul = 100 / (emoji.sheet_size - 1)
 
   return {
-    'background-position': `${mul * px}% ${mul * py}%`,
-    'background-size': emoji.sheet_size + '00%',
-    'background-image': `url(${sheetUrl})`
+    backgroundPosition: `${mul * px}% ${mul * py}%`,
+    backgroundSize: emoji.sheet_size + '00%',
+    backgroundImage: `url(${sheetUrl})`
   }
 }
 
 function getCustomStyle(url) {
-  return {'background-image': `url(${url})`}
+  return {backgroundImage: `url(${url})`}
 }
