@@ -49,8 +49,7 @@ let Browser = React.createClass({
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
-      emoji.setSheet(newEmojiSheet)
-      data.init()
+      Browser.init(newEmojiSheet)
     }
 
     return {
@@ -122,10 +121,7 @@ let Browser = React.createClass({
   },
 
   getFocusedItem() {
-    let item = data.getFocusedItem(this.state.sections)
-    item = pick(item, 'id', 'name')
-    item.type = 'emoji'
-    return item
+    return data.getFocusedItem(this.state.sections)
   },
 
   cacheItemsPerRow() {
@@ -274,10 +270,13 @@ let Browser = React.createClass({
   }, 500)
 })
 
-;['replace', 'get', 'setSheet'].forEach((name) => {
-  Browser[name] = emoji[name]
-})
+Browser.init = function (emojiSheet) {
+  emoji.setSheet(emojiSheet)
+  data.init()
+}
 
+Browser.replace = emoji.replace
+Browser.get = emoji.get
 Browser.Icon = Icon
 
 export default Browser
