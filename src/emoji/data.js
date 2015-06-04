@@ -5,10 +5,8 @@ import {default as meta} from 'emojione/emoji.json'
 import get from 'lodash-es/object/get'
 
 import * as emoji from './emoji'
-import * as icon from './icon'
+import Icon from './Icon'
 import * as itemStyle from './item/style'
-
-emoji.options.jsx = true
 
 const CATEGORY_ORDER = {
   emoticons: 0,
@@ -93,13 +91,12 @@ export function getTabs() {
   let smiley = emoji.get('smiley')
   let smileyStyle = emoji.getSliceStyle(smiley.id)
   assign(smileyStyle, itemStyle.TAB_ICON)
-  let smileyIcon = icon.tpl(smiley.name, smileyStyle, undefined, emoji.options)
   return [{
     label: 'Emoji',
     amount: emoji.getIndex().length - 1,
     id: 0,
     selected: true,
-    icon: smileyIcon
+    icon: <Icon name={smiley.shortname} style={smileyStyle} />
   }]
 }
 

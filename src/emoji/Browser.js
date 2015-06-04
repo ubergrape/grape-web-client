@@ -12,6 +12,7 @@ import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
 import Empty from '../components/empty/Empty'
 import Item from './item/Item'
+import Icon from './Icon'
 import * as data from './data'
 import * as emoji from './emoji'
 
@@ -20,7 +21,7 @@ const FOCUS_COMMANDS = ['prev', 'next', 'prevRow', 'nextRow']
 /**
  * Main emoji browser component.
  */
-export default React.createClass({
+let Browser = React.createClass({
   mixins: [useSheet(style)],
 
   getDefaultProps() {
@@ -79,12 +80,6 @@ export default React.createClass({
     let {classes} = this.sheet
     let {sections} = this.state
     let props
-
-    let style = {
-      height: `${this.props.height}px`,
-      maxWidth: this.props.maxWidth
-    }
-
     let content
 
     if (sections.length) {
@@ -112,6 +107,8 @@ export default React.createClass({
     else {
       content = <Empty />
     }
+
+    let style = pick(this.props, 'height', 'maxWidth')
 
     return (
       <div
@@ -204,7 +201,6 @@ export default React.createClass({
           let nextIndex = nextRow * this.itemsPerRow + itemsShift
           item = currSection.items[nextIndex]
           rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
-
           if (item) id = item.id
           // We are already on the last row of the current section,
           // move to the next section or to the first one.
@@ -277,3 +273,11 @@ export default React.createClass({
     this.cacheItemsPerRow()
   }, 500)
 })
+
+;['replace', 'get', 'setSheet'].forEach((name) => {
+  Browser[name] = emoji[name]
+})
+
+Browser.Icon = Icon
+
+export default Browser
