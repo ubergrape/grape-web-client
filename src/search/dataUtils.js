@@ -1,4 +1,11 @@
 import find from 'lodash-es/collection/find'
+import * as dataUtils from '../components/browser/dataUtils'
+
+export let {getFocusedItem} = dataUtils
+export let {setFocusedItem} = dataUtils
+export let {unsetFocusedItem} = dataUtils
+export let {extractItems} = dataUtils
+export let {setSelectedTab} = dataUtils
 
 // Service/icon map.
 // TODO it should be a service implementation detail.
@@ -102,33 +109,6 @@ export function setSelectedSection(sections, id) {
 }
 
 /**
- * Get currently focused item.
- */
-export function getFocusedItem(sections) {
-  let ret
-
-  sections.some(section => {
-    let focused = find(section.items, item => item.focused)
-    if (focused) {
-      ret = focused
-      return true
-    }
-    return false
-  })
-
-  return ret
-}
-
-/**
- * Get all items from all sections.
- */
-export function extractItems(sections) {
-  let items = []
-  sections.forEach(section => items = items.concat(section.items))
-  return items
-}
-
-/**
  * Mark an item as focused. Unmark previously focused one.
  */
 export function setFocusedItemAt(sections, id, index) {
@@ -138,40 +118,6 @@ export function setFocusedItemAt(sections, id, index) {
   unsetFocusedItem(sections)
   let section = find(sections, section => section.id == id)
   if (section) section.items[index].focused = true
-}
-
-/**
- * Mark a item as focused. Unmark previously focused one.
- */
-export function setFocusedItem(sections, id) {
-  unsetFocusedItem(sections)
-  getItemById(sections, id).focused = true
-}
-
-/**
- * Mark currently focused item as not focused.
- */
-function unsetFocusedItem(sections) {
-  let prev = getFocusedItem(sections)
-  if (prev) prev.focused = false
-}
-
-/**
- * Get item by id.
- */
-function getItemById(sections, id) {
-  let ret
-
-  sections.some(section => {
-    let obj = find(section.items, item => item.id == id)
-    if (obj) {
-      ret = obj
-      return true
-    }
-    return false
-  })
-
-  return ret
 }
 
 /**
@@ -203,10 +149,3 @@ export function getTabs(items = [], selectedId) {
   return tabs
 }
 
-/**
- * Mark a tab at specified index as selected, unmark previously selected one.
- */
-export function setSelectedTab(tabs, index) {
-  tabs.forEach(tab => tab.selected = false)
-  tabs[index].selected = true
-}
