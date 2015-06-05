@@ -17,7 +17,9 @@
 			.hint-box, .info-markdown, .uploader
 				display: none
 		[contenteditable="true"]
-			padding: 8px 63px 8px 8px
+			padding: 8px
+			&:before
+				pointer-events: none // prevent cursor change on placeholder
 		.image
 			@extend $clearfix
 			width: 36px
@@ -39,16 +41,17 @@
 
 	.input-highlighter
 		position: relative
+		display: flex
 		margin: 0 30px 0 46px
 
-	/*grape-input
-		margin-right: 60px
-		min-height: 36px
-		line-height: 0
-	*/
+	.grape-input
+		flex: 1
 
 	.input-hr
-		position: relative
+		position: absolute
+		bottom: 0
+		left: 0
+		width: 100%
 		height: 1px
 		background: gainsboro-light
 		overflow: hidden
@@ -73,21 +76,27 @@
 			border: 1px solid gainsboro-light
 			padding: 0 2px
 
-	// markdown info styling
-	.info-markdown
-		position: absolute
-		right: 26px
-		top: 0
-		bottom: 0
-		transition: right .5s ease-in-out, opacity .5s ease-in-out
+	// input helper icons on right
+	.input-helpers
+		flex-shrink: 0
+		display: flex
+		align-items: flex-end
+		padding-bottom: 6px
+		.input-emoji,
+		.uploader,
+		.info-markdown
+			@extend $hoverable
+			padding: 0 8px
+			color: gainsboro-dark
+			font-size: 24px
+			opacity: .5
+			transition: transform .2s ease-in-out, opacity .1s ease-out
+			&:hover
+				opacity: .8
 
 	// uploader styling
 	.uploader
-		position: absolute
-		right: 0
-		top: 0
-		bottom: 0
-		transition: right .5s ease-in-out, opacity .5s ease-in-out
+		position: relative
 		input
 			display: none
 
@@ -99,14 +108,13 @@
 		left: 0
 		bottom: 0
 		right: 0
-		line-height: 36px
 		background: white
 		border-radius: main-border-radius
 		overflow: hidden
 		img.preview
+			display: none // hide image for now
 			max-width: upload-size
 			max-height: upload-size
-			display: inline-block
 			vertical-align: middle
 		.progress
 			position: absolute
@@ -117,41 +125,21 @@
 			background: rgba(255, 255, 255, 0.6)
 		.progress canvas
 			display: inline-block
-			vertical-align: middle
+			vertical-align: bottom
 
 	.uploader.open .upload-progress
 		display: block
 
-	.info-markdown
-	.upload
-		@extend $hoverable
-		padding: 3px 0
-		height: 100%
-		min-height: 36px
-		width: 36px
-		&:hover
-			.fa
-				color: link-color
-		.fa
-			@extend $bigger-font-size
-			position: absolute // Keeps the plus in the middle if textarea grows
-			right: 0
-			top: 50%
-			margin-top: -14px
-			width: 38px
-			height: 30px
-			text-align: center
-			line-height: 30px
-			color: gainsboro-dark
-
 	.editing-previous
 		.input-highlighter
 			background: lighten(gold, 80%)
-		.uploader
-			right: -30px
+		.input-helpers-item
+			cursor: default
+		.uploader,
+		.input-emoji
+			transform: scale(0)
 			opacity: 0
-		.info-markdown
-			right: 0
+			pointer-events: none
 		.hint-box
 			display: none
 	// Toggle for edit message input
@@ -159,5 +147,3 @@
 		display:none
 	.grape-input-wrapper.editing-previous .edit-message
 		display: block
-
-
