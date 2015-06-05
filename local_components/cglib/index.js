@@ -629,14 +629,17 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 	});
 };
 
-App.prototype.onLoadOldHistory = function App_onLoadOldHistory (room, options) {
+App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (direction, room, options) {
 	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
 		var lines = res.map(function (line) {
 			var exists = models.Line.get(line.id);
 			if (!exists || !~room.searchHistory.indexOf(exists)) {
 				line.read = true;
 				line = new models.Line(line);
-				room.searchHistory.unshift(line);
+				if (direction === 'old')
+					room.searchHistory.unshift(line);
+				else
+					room.searchHistory.push(line);
 			}
 		});
 		this.emit('gothistory');	

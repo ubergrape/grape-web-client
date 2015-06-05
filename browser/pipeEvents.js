@@ -43,7 +43,7 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
 	broker(ui.grapeInput, 'input', ui.historyView, 'onInput');
 	broker.pass(ui.historyView, 'send', ui, 'send');
-	broker.pass(ui.historyView, 'loadOldHistory', ui, 'loadOldHistory');
+	broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch');
 	broker.pass(ui.grapeInput, 'update', ui, 'update');
 	broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing');
 	broker.pass(ui.grapeInput, 'starttyping', ui, 'starttyping');

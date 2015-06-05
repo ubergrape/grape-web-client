@@ -82,7 +82,13 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 };
 
 HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
-	console.log('load new history');
+	var options = {
+		time_from	: this.room.searchHistory[this.room.searchHistory.length - 1].time,
+		sort		: 'time:asc',
+		limit		: 5
+	}
+	console.log(options.time_from);
+	this.emit('loadHistoryForSearch', 'new', this.room, options);
 };
 
 HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
@@ -90,7 +96,7 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 		time_to	: this.room.searchHistory[0].time,
 		limit	: 5
 	};
-	this.emit('loadOldHistory', this.room, options);
+	this.emit('loadHistoryForSearch', 'old', this.room, options);
 }
 
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
