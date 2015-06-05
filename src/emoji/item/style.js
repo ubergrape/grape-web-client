@@ -9,7 +9,8 @@ export const TAB_ICON = {
 let item = {
   display: 'inline-block',
   position: 'relative',
-  padding: '6px 7px'
+  padding: '6px 7px',
+  cursor: 'pointer'
 }
 
 export const rules = {
