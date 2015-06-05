@@ -54,7 +54,7 @@ let Browser = React.createClass({
       })
     }
 
-    let tabs = dataUtils.getTabs()
+    let tabs = dataUtils.getTabs({orgLogo: props.images.orgLogo})
     return {
       tabs: tabs,
       sections: tabs.length ? dataUtils.getSections(tabs[0].id, props.search) : []
