@@ -642,7 +642,7 @@ App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (dire
 					room.searchHistory.push(line);
 			}
 		});
-		this.emit('gothistory');	
+		this.emit('gothistory', direction);	
 	}.bind(this));
 }
 

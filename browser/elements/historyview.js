@@ -87,7 +87,6 @@ HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
 		sort		: 'time:asc',
 		limit		: 5
 	}
-	console.log(options.time_from);
 	this.emit('loadHistoryForSearch', 'new', this.room, options);
 };
 
@@ -220,9 +219,10 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
-HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
+HistoryView.prototype.gotHistory = function HistoryView_gotHistory(direction) {
 	this.room.loading = false;
 	this.room.empty = false;
+	if (direction === 'new') this.scrollMode = 'automatic';
 	this.queueDraw();
 };
 
@@ -338,7 +338,6 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
 	this.queueDraw();
-	this.scrollWindow.scrollTop = 0;
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
