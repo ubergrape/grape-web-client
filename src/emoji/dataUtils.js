@@ -79,7 +79,7 @@ export function getSections(tabId, search) {
   if (search) {
     search = search.toLowerCase()
     found = []
-    sections.forEach(section => {
+    sections[tabId].forEach(section => {
       let items = section.items.filter(item => {
          return item.name.indexOf(search) >= 0
       })
