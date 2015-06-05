@@ -6,29 +6,55 @@ import React from 'react'
 import Icon from './Icon'
 
 let map
+let customMap = {}
 let index = []
 let sheetUrl
+let stats = {}
 
 emoji.init_colons()
 
 let colonsRegExp = emoji.rx_colons
+
+export function getStats() {
+  return stats
+}
 
 /**
  * Define custom emojis.
  * @param {Object} emojis map of name:url pairs.
  */
 export function defineCustom(emojis) {
+  stats.customEmoji = 0
   each(emojis, (url, name) => {
-    map[name] = getCustomStyle(url)
+    let style = {backgroundImage: `url(${url})`}
+    let shortname = `:${name}:`
+    customMap[name] = {
+      id: url,
+      name: name,
+      shortname: shortname,
+      icon:  <Icon name={shortname} style={style} />,
+      style: style,
+      type: 'customEmoji'
+    }
+    stats.customEmoji++
   })
   index = createIndex()
+}
+
+/**
+ * Get custom emoji map.
+ */
+export function getCustom() {
+  return customMap
 }
 
 /**
  * Get emoji data.
  */
 export function get(name) {
-  return name ? map[name.replace(/:/g, '')] : map
+  if (!name) return map
+  name = name.replace(/:/g, '')
+  return map[name] || customMap[name]
 }
 
 /**
@@ -70,7 +96,7 @@ export function replace(text) {
  */
 function createMap() {
   let map = {}
-
+  stats.emoji = 0
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
     let shortname = `:${name}:`
@@ -82,6 +108,7 @@ function createMap() {
       style: style,
       type: 'emoji'
     }
+    stats.emoji++
   })
 
   return map
@@ -93,6 +120,9 @@ function createMap() {
 function createIndex() {
   let index = []
   each(map, item => {
+    index.push(item)
+  })
+  each(customMap, item => {
     index.push(item)
   })
   return index
@@ -108,8 +138,4 @@ export function getSliceStyle(id) {
     backgroundSize: emoji.sheet_size + '00%',
     backgroundImage: `url(${sheetUrl})`
   }
-}
-
-function getCustomStyle(url) {
-  return {backgroundImage: `url(${url})`}
 }

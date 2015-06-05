@@ -9,32 +9,11 @@ export function extractItems(sections) {
   return items
 }
 
-/**
- * Get item by id.
- */
-function getItemById(sections, id) {
-  let ret
-
-  sections.some(section => {
-    let obj = find(section.items, item => item.id == id)
-    if (obj) {
-      ret = obj
-      return true
-    }
-    return false
-  })
-
-  return ret
-}
-
-/**
- * Get currently focused item.
- */
-export function getFocusedItem(sections) {
+function getItem(sections, fn) {
   let item
 
   sections.some(section => {
-    item = find(section.items, item => item.focused)
+    item = find(section.items, fn)
     return Boolean(item)
   })
 
@@ -42,11 +21,28 @@ export function getFocusedItem(sections) {
 }
 
 /**
+ * Get item by id.
+ */
+function getItemById(sections, id) {
+  return getItem(sections, item => {
+    return item.id == id
+  })
+}
+
+/**
+ * Get currently focused item.
+ */
+export function getFocusedItem(sections) {
+  return getItem(sections, item => item.focused)
+}
+
+/**
  * Mark a item as focused. Unmark previously focused one.
  */
 export function setFocusedItem(sections, id) {
   unsetFocusedItem(sections)
-  getItemById(sections, id).focused = true
+  let item = getItemById(sections, id)
+  item.focused = true
 }
 
 

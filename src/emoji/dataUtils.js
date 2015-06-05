@@ -2,6 +2,7 @@ import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
+import values from 'lodash-es/object/values'
 
 import * as dataUtils from '../components/browser/dataUtils'
 import meta from './meta.json'
@@ -20,8 +21,12 @@ const CATEGORY_ORDER = {
 export let {getFocusedItem} = dataUtils
 export let {setFocusedItem} = dataUtils
 export let {extractItems} = dataUtils
+export let {setSelectedTab} = dataUtils
+let {unsetFocusedItem} = dataUtils
 
-let sections = (function() {
+let sections = {}
+
+sections.emoji = (function() {
   let sections = []
 
   meta.forEach(data => {
@@ -50,17 +55,26 @@ let sections = (function() {
 
 export function init() {
   if (!emoji.get()) return
-  sections.forEach(section => {
+
+  // Populate emoji sections with items if we have them in js-emoji.
+  sections.emoji.forEach(section => {
     section.items = []
     section.itemNames.forEach(name => {
       let item = emoji.get(name)
       if (item) section.items.push(item)
     })
   })
+
+  sections.customEmoji = [{
+    id: 'customEmoji',
+    label: 'Custom',
+    selected: false,
+    items: values(emoji.getCustom())
+  }]
 }
 
-export function getSections(search) {
-  let found = sections
+export function getSections(tabId, search) {
+  let found = sections[tabId]
 
   if (search) {
     search = search.toLowerCase()
@@ -80,7 +94,6 @@ export function getSections(search) {
   // Select first item of the first section.
   let firstItemId = get(found, '[0].items[0].id')
   if (firstItemId) setFocusedItem(found, firstItemId)
-
   return found
 }
 
@@ -93,15 +106,29 @@ export function getCurrentSection(sections, id) {
 export function getTabs() {
   if (!emoji.get()) return []
 
+  let stats = emoji.getStats()
+  let tabs = []
+
   let smiley = emoji.get('smiley')
   let smileyStyle = emoji.getSliceStyle(smiley.id)
   assign(smileyStyle, itemStyle.TAB_ICON)
-  return [{
+  tabs.push({
+    id: 'emoji',
     label: 'Emoji',
-    amount: emoji.getIndex().length - 1,
-    id: 0,
+    amount: stats.emoji,
     selected: true,
     icon: <Icon name={smiley.shortname} style={smileyStyle} />
-  }]
-}
+  })
 
+  if (stats.customEmoji) {
+    tabs.push({
+      id: 'customEmoji',
+      label: 'Custom',
+      amount: stats.customEmoji,
+      selected: false,
+      icon: <Icon name={smiley.shortname} style={smileyStyle} />
+    })
+  }
+
+  return tabs
+}

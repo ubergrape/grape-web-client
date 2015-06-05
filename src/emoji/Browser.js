@@ -26,12 +26,11 @@ let Browser = React.createClass({
 
   getDefaultProps() {
     return {
+      customEmojis: undefined,
       images: {},
       height: 400,
       maxWidth: 920,
       className: '',
-      itemId: undefined,
-      onSelectTab: undefined,
       onSelectItem: undefined,
       search: ''
     }
@@ -49,12 +48,16 @@ let Browser = React.createClass({
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
-      Browser.init(newEmojiSheet)
+      Browser.init({
+        emojiSheet: newEmojiSheet,
+        customEmojis: props.customEmojis
+      })
     }
 
+    let tabs = dataUtils.getTabs()
     return {
-      tabs: dataUtils.getTabs(),
-      sections: dataUtils.getSections(props.search)
+      tabs: tabs,
+      sections: dataUtils.getSections(tabs[0].id, props.search)
     }
   },
 
@@ -153,18 +156,13 @@ let Browser = React.createClass({
    * @param {Function} [callback]
    */
   selectTab(id, options = {}, callback) {
-    /*
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
     let newIndex = findIndex(tabs, tab => tab.id == id)
     let {id} = tabs[newIndex]
     dataUtils.setSelectedTab(tabs, newIndex)
-    let sections = dataUtils.getSections(this.props.data, id)
-    dataUtils.setSelectedSection(sections, id)
-    dataUtils.setFocusedItemAt(sections, id, 0)
-    this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
-    if (!options.silent) this.props.onSelectTab({id: id})
-    */
+    let sections = dataUtils.getSections(id, this.props.search)
+    this.setState({tabs: tabs, sections: sections}, callback)
   },
 
   focusItem(id) {
@@ -270,8 +268,10 @@ let Browser = React.createClass({
   }, 500)
 })
 
-Browser.init = function (emojiSheet) {
-  emoji.setSheet(emojiSheet)
+Browser.init = function (options) {
+  let {emojiSheet, customEmojis} = options
+  if (emojiSheet) emoji.setSheet(emojiSheet)
+  if (customEmojis) emoji.defineCustom(customEmojis)
   dataUtils.init()
 }
 
