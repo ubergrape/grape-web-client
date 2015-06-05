@@ -10,8 +10,11 @@
 		span=_('#')
 	img.image(src="#{user.avatar}",width="36",alt="#{user.username}")
 	.input-highlighter
-		grape-input(id='intro-step1')
+		grape-input(id='intro-step1').grape-input
 		.input-hr
-		.info-markdown.js-markdown-tips
-			i.fa.fa-question-circle
-		.uploader
+		.input-helpers
+			.input-emoji
+				i.fa.fa-smile-o
+			.uploader
+			.info-markdown.js-markdown-tips
+				i.fa.fa-question
