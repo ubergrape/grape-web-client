@@ -103,30 +103,34 @@ export function getCurrentSection(sections, id) {
   })
 }
 
-export function getTabs() {
+export function getTabs(options) {
   if (!emoji.get()) return []
 
-  let stats = emoji.getStats()
   let tabs = []
+  let stats = emoji.getStats()
 
-  let smiley = emoji.get('smiley')
-  let smileyStyle = emoji.getSliceStyle(smiley.id)
-  assign(smileyStyle, itemStyle.TAB_ICON)
-  tabs.push({
-    id: 'emoji',
-    label: 'Emoji',
-    amount: stats.emoji,
-    selected: true,
-    icon: <Icon name={smiley.shortname} style={smileyStyle} />
-  })
+  if (stats.emoji) {
+    let smiley = emoji.get('smiley')
+    let style = emoji.getSliceStyle(smiley.id)
+    assign(style, itemStyle.TAB_ICON)
+    tabs.push({
+      id: 'emoji',
+      label: 'Emoji',
+      amount: stats.emoji,
+      selected: true,
+      icon: <Icon style={style} />
+    })
+  }
 
   if (stats.customEmoji) {
+    let style = {backgroundImage: `url(${options.orgLogo})`}
+    assign(style, itemStyle.TAB_ICON)
     tabs.push({
       id: 'customEmoji',
       label: 'Custom',
       amount: stats.customEmoji,
       selected: false,
-      icon: <Icon name={smiley.shortname} style={smileyStyle} />
+      icon: <Icon style={style} />
     })
   }
 
