@@ -654,13 +654,12 @@ App.prototype.setRead = function App_setRead(room, line) {
 };
 
 App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
-	var self = this;
-	// before = 25
-	// after = 2
-	// strict = true - this means in this case unexisting uuid will throw an error
-	// instead of giving a fallback result
+	// channels/focus_message, room ID, msg ID, before, after, strict
+	// strict is false by default
+	// when false, fallback results will be returned
+	// when true, unexisting msg ID will throw an error
 	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 2, 25, true, function (err, res ) {
-		if (err) return self.emit('messageNotFound', room);
+		if (err) return this.emit('messageNotFound', room);
 		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {
 			var exists = models.Line.get(line.id);
@@ -670,8 +669,8 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 				room.searchHistory.push(line);
 			}
 		});
-		self.emit('focusMessage', msgID);
-	});
+		this.emit('focusMessage', msgID);
+	}.bind(this));
 }
 
 App.prototype.setTyping = function App_setTyping(room, typing) {

@@ -142,8 +142,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// create a copy of the history
 		var history = this.room.history.slice();
 		// merge buffered messages with copy of history
-		if (this.messageBuffer && this.messageBuffer.length)
-			history = history.concat(this.messageBuffer);
+		if (this.messageBuffer) history = history.concat(this.messageBuffer);
 	} else {
 		var history = this.room.searchHistory.slice();
 	}
