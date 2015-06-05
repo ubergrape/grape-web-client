@@ -625,7 +625,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 				room.history.unshift(line);
 			}
 		});
-		self.emit('gothistory');
+		self.emit('gotHistory');
 	});
 };
 
@@ -642,7 +642,7 @@ App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (dire
 					room.searchHistory.push(line);
 			}
 		});
-		this.emit('gothistory', direction);	
+		this.emit('gotHistory', direction);	
 	}.bind(this));
 }
 

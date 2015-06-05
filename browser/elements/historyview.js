@@ -219,7 +219,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
-HistoryView.prototype.gotHistory = function HistoryView_gotHistory(direction) {
+HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory(direction) {
 	this.room.loading = false;
 	this.room.empty = false;
 	if (direction === 'new') this.scrollMode = 'automatic';
