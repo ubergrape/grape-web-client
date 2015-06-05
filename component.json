@@ -138,6 +138,7 @@
   },
   "development": {
     "dependencies": {
+      "chaijs/chai": "2.3.0",
       "adamsanderson/trigger-event": "*"
     }
   }

@@ -39,7 +39,6 @@
   },
   "development": {
     "dependencies": {
-      "chaijs/chai": "*",
       "adamsanderson/trigger-event": "*"
     }
   }
