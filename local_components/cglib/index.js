@@ -629,6 +629,20 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 	});
 };
 
+App.prototype.onLoadOldHistory = function App_onLoadOldHistory (room, options) {
+	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
+		var lines = res.map(function (line) {
+			var exists = models.Line.get(line.id);
+			if (!exists || !~room.searchHistory.indexOf(exists)) {
+				line.read = true;
+				line = new models.Line(line);
+				room.searchHistory.unshift(line);
+			}
+		});
+		this.emit('gothistory');	
+	}.bind(this));
+}
+
 App.prototype.setRead = function App_setRead(room, line) {
 	// update the unread count
 	// iterate the history in reverse order
@@ -657,7 +671,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 	// channels/focus_message, room ID, msg ID, before, after, strict
 	// strict is false by default
 	// when false, fallback results will be returned
-	// when true, unexisting msg ID will throw an error
+	// when true, unexisting msg IDs will throw an error
 	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 2, 25, true, function (err, res ) {
 		if (err) return this.emit('messageNotFound', room);
 		room.searchHistory.splice(0, room.searchHistory.length);

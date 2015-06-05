@@ -62,6 +62,8 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 	this.events.bind('click div.resend', 'resend');
+	this.events.bind('click div.load-new-history', 'loadNewHistory');
+	this.events.bind('click div.load-old-history', 'loadOldHistory');
 	var debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500);
 	focus.on('focus', debouncedUpdateRead);
 	this.scrollWindow.addEventListener('scroll', function () {
@@ -78,6 +80,18 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	}
 	classes(el).remove('removing');
 };
+
+HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
+	console.log('load new history');
+};
+
+HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
+	var options = {
+		time_to	: this.room.searchHistory[0].time,
+		limit	: 5
+	};
+	this.emit('loadOldHistory', this.room, options);
+}
 
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
