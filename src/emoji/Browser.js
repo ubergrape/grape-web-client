@@ -57,7 +57,7 @@ let Browser = React.createClass({
     let tabs = dataUtils.getTabs()
     return {
       tabs: tabs,
-      sections: dataUtils.getSections(tabs[0].id, props.search)
+      sections: tabs.length ? dataUtils.getSections(tabs[0].id, props.search) : []
     }
   },
 
