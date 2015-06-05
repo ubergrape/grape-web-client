@@ -85,13 +85,8 @@ export default React.createClass({
 
   onFocus(data) {
     if (data.id == this.focusedItemId) return
-    let prevId = this.focusedItemId
     this.focusedItemId = data.id
     this.props.onFocus(data)
-    if (prevId) {
-      let prevFocusedItem = this.getItemComponent(prevId)
-      if (prevFocusedItem) prevFocusedItem.checkVisibility()
-    }
     this.getItemComponent(data.id).checkVisibility()
   },
 
