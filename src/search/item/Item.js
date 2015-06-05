@@ -47,10 +47,10 @@ export default React.createClass({
         onClick={this.onClick}
         className={focused ? classes.containerFocused : classes.container}
         key={id}>
-        <Sensor
+        {focused && <Sensor
           onChange={this.onVisibilityChange}
           containment={this.visibilityContainmentNode}
-          ref="sensor" />
+          ref="sensor" />}
         <div className={classes.iconContainer}>
           <span className={iconClassNames}></span>
         </div>
