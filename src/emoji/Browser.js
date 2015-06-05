@@ -157,7 +157,11 @@ let Browser = React.createClass({
    */
   selectTab(id, options = {}, callback) {
     let {tabs} = this.state
-    let currIndex = findIndex(tabs, tab => tab.selected)
+    if (id == 'next') {
+      let currIndex = findIndex(tabs, tab => tab.selected)
+      if (tabs[currIndex + 1]) id = tabs[currIndex + 1].id
+      else id = tabs[0].id
+    }
     let newIndex = findIndex(tabs, tab => tab.id == id)
     let {id} = tabs[newIndex]
     dataUtils.setSelectedTab(tabs, newIndex)
