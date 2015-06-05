@@ -38,10 +38,10 @@ export default React.createClass({
         onClick={this.onClick}
         className={focused ? classes.itemFocused : classes.item}
         key={id}>
-        <Sensor
+        {focused && <Sensor
           onChange={this.onVisibilityChange}
           containment={this.visibilityContainmentNode}
-          ref="sensor" />
+          ref="sensor" />}
         {icon}
       </div>
     )
