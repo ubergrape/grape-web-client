@@ -31,7 +31,7 @@ Uploader.prototype.init = function Uploader_init() {
 	this.trigger = qs('.trigger', this.el);
 	// append progress widget
 	this.progress = new Progress();
-	this.progress.size(36);
+	this.progress.size(24);
 	qs('.progress', this.el).appendChild(this.progress.el);
 	// get the preview container
 	this.preview = qs('.preview', this.el);
