@@ -3,13 +3,17 @@ ul.nav-list.rooms
 		if room.joined
 			li.item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
-					div
+					.item-inner-wrp
 						if room.is_public
 							i.icon.fa.fa-comments
 						else
 							i.icon.fa.fa-lock
 						if room.unread > 0
-							span(class="notification tt", title="unread messages")=room.unread.toString()
+							span(class="fl-notification tt", title="unread messages")=room.unread.toString()
 						if room.mentioned > 0
-							span.mention(title="mentioning you")=room.mentioned.toString()
+							span.fl-mention(title="mentioning you")=room.mentioned.toString()
+						span.fl-notification.tt
+							=_("5")
+						span.fl-mention
+							=_("12")
 						span.name=room.name

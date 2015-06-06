@@ -120,8 +120,8 @@ a.nav-title-wrap
 			display: block
 			padding: 1px 10px
 			text-decoration: none
-			color: gainsboro-dark
-			div
+			color: #666
+			div.item-inner-wrp
 				padding: 10px 10px 8px 
 				border-radius: 4px
 		.name
@@ -131,6 +131,7 @@ a.nav-title-wrap
 			white-space: nowrap
 			overflow: hidden
 			display: block
+			@extend $big-font-size
 		&.deleted
 			.name
 				color: gainsboro-dark
@@ -145,7 +146,7 @@ a.nav-title-wrap
 			a
 				div
 					background: cherry
-					color: white
+					color: #f8f8f8
 			.icon
 				color: white
 			span.user-deleted

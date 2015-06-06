@@ -121,22 +121,31 @@
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
-		&::after,
-		&::before // Hack for the arrow of the message box
-			content: ""
-			position: absolute
-		&::after,
-		&::before // Hack for the arrow of the message box
-			right: -2px;
-			top: 1px;
-			border-right: 9px solid white
-			border-bottom: 13px solid transparent
-		&::before // Hack for the arrow of the message box
-			border-right: 10px solid silver-dark
-			border-bottom: 14px solid transparent
-			right: -1px;
-			top: 0px;
-
+	&.user
+		.avatar
+			&::after,
+			&::before // Hack for the arrow of the message box
+				content: ""
+				position: absolute
+			&::after
+				right: -2px;
+				top: 1px;
+				border-right: 9px solid white
+				border-bottom: 13px solid transparent
+			&::before // Hack for the arrow of the message box
+				border-right: 10px solid silver-dark
+				border-bottom: 14px solid transparent
+				right: -1px;
+				top: 0px;
+		.text.main
+			border: 1px solid silver-dark
+			background-color: #fff
+			padding: 10px 16px 9px
+			border-radius: 3px
+			@extend $big-font-size
+	&.service
+		.text.main
+			border-left: 3px silver-dark
 	&.deleted //When a user was removed from the organization, #867
 		color: gainsboro-dark
 		.message-author
@@ -162,6 +171,7 @@ span.author-deleted
 		clear: both
 		margin-bottom: 3px
 		color: gainsboro-dark
+		padding: 0px 16px 0
 		span
 			color: #b3b3b3
 	.time
@@ -178,13 +188,7 @@ span.author-deleted
 		.user-tz
 			display: inline
 	.message
-		margin-bottom: 3px
 		overflow: hidden // clearfix
-		border: 1px solid silver-dark
-		background-color: #fff
-		padding: 2px 10px 1px
-		border-radius: 3px
-		float: left;
 		clear: both;
 		.time,
 		.edit,
@@ -246,11 +250,14 @@ span.author-deleted
 					.unsent
 						display: none
 		&.editing
-			background: lighten(gold, 80%)
+			.text.main
+				background: lighten(gold, 80%)
 		&.removing
-			background: lighten(gold, 60%)
+			.text.main
+				background: lighten(gold, 60%)
 		&.removed
-			background: lighten(bittersweet-light, 60%)
+			.text.main
+				background: lighten(bittersweet-light, 60%)
 		a.attachment
 			white-space: nowrap
 			border-bottom: 1px solid link-color
