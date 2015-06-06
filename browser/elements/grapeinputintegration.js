@@ -51,6 +51,7 @@ GrapeInputIntegration.prototype.init = function () {
 GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow');
+	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
@@ -311,6 +312,11 @@ GrapeInputIntegration.prototype.onFocus = function () {
 
 GrapeInputIntegration.prototype.onBlur = function () {
 	this.el.classList.remove('focus');
+};
+
+GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
+	e.preventDefault()
+	this.input.setProps({type: 'emoji'})
 };
 
 GrapeInputIntegration.prototype.onOrgReady = function (org) {
