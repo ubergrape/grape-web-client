@@ -315,8 +315,8 @@ GrapeInputIntegration.prototype.onBlur = function () {
 };
 
 GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
-	e.preventDefault()
-	this.input.setProps({type: 'emoji'})
+	e.preventDefault();
+	this.input.setProps({type: 'emoji'});
 };
 
 GrapeInputIntegration.prototype.onOrgReady = function (org) {
