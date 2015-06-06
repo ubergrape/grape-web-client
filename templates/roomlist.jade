@@ -12,8 +12,4 @@ ul.nav-list.rooms
 							span(class="fl-notification tt", title="unread messages")=room.unread.toString()
 						if room.mentioned > 0
 							span.fl-mention(title="mentioning you")=room.mentioned.toString()
-						span.fl-notification.tt
-							=_("5")
-						span.fl-mention
-							=_("12")
 						span.name=room.name
