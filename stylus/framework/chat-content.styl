@@ -145,7 +145,7 @@
 			@extend $big-font-size
 	&.service
 		.message-content
-			border-left: 3px silver-dark
+			border-left: 3px solid silver-dark
 		.message
 			padding: 10px 16px 9px
 
@@ -163,6 +163,7 @@
 			.image
 				margin-left: (horizontal-space / 2)
 				margin-right: 0
+				display: none
 			&::after
 				left: -2px;
 				right: auto;
@@ -185,16 +186,6 @@
 			float: right
 			color: #f2f2f2
 			background: grape-light
-.message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
-	display: inline
-//When a user was removed from the organization, #867
-span.author-deleted
-	@extend $small-font-size
-	font-weight: bold
-	text-transform: uppercase
-	margin-left: 4px
-
-
 .message-content // The message bubble with all the content
 	overflow: hidden
 	.messageinfo
@@ -202,6 +193,7 @@ span.author-deleted
 		margin-bottom: 3px
 		color: gainsboro-dark
 		padding: 0px 16px
+		@extend $ellipsis
 		span
 			color: #b3b3b3
 	.time
@@ -372,6 +364,18 @@ span.author-deleted
 			overflow: hidden
 			img
 				max-width: 100%
+
+
+.message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
+	display: inline
+//When a user was removed from the organization, #867
+span.author-deleted
+	@extend $small-font-size
+	font-weight: bold
+	text-transform: uppercase
+	margin-left: 4px
+
+
 
 
 // ****
