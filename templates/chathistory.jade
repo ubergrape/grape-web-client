@@ -93,13 +93,6 @@
 							a
 								.label
 									=_('#Label')
-						//- show the edit stuff only if current user is the author
-						if user.id == line.author.id && status == 'sent'
-							div.edit
-								//- only show the edit button when there is no image attached
-								if line.attachments.length == 0
-									i.fa.fa-pencil.btn-edit
-								i.fa.fa-times.btn-delete
 						i.fa.fa-tag.btn-label
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
@@ -176,6 +169,13 @@
 										i.fa.fa-exclamation-circle.fa-lg
 								if status == 'pending'
 									div.pending
+						//- show the edit stuff only if current user is the author
+						if user.id == line.author.id && status == 'sent'
+							div.edit
+								//- only show the edit button when there is no image attached
+								if line.attachments.length == 0
+									i.fa.fa-pencil.btn-edit
+								i.fa.fa-times.btn-delete
 				.messageinfo
 					if (first.author.type==='user')
 						if(first.author.active)
