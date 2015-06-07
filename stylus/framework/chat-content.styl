@@ -157,7 +157,34 @@
 			color: gainsboro-dark
 	&:last-child
 		margin-bottom: 10px
-
+	&.creator.user
+		.avatar
+			float: right
+			.image
+				margin-left: (horizontal-space / 2)
+				margin-right: 0
+			&::after
+				left: -2px;
+				right: auto;
+				top: 1px;
+				border-left: 9px solid grape-light
+				border-right: none
+				border-bottom: 13px solid transparent
+			&::before // Hack for the arrow of the message box
+				border-left: 10px solid #F2F2F2
+				border-right: none
+				border-bottom: 14px solid transparent
+				left: -1px;
+				right: auto;
+				top: 0px;
+		.message-content
+			float: right
+		.messageinfo
+			text-align: right
+		.text.main
+			float: right
+			color: #f2f2f2
+			background: grape-light
 .message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
 	display: inline
 //When a user was removed from the organization, #867
@@ -174,7 +201,7 @@ span.author-deleted
 		clear: both
 		margin-bottom: 3px
 		color: gainsboro-dark
-		padding: 0px 16px 0
+		padding: 0px 16px
 		span
 			color: #b3b3b3
 	.time
@@ -255,12 +282,24 @@ span.author-deleted
 		&.editing
 			.text.main
 				background: lighten(gold, 80%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(gold, 80%)
 		&.removing
 			.text.main
 				background: lighten(gold, 60%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(gold, 80%)
 		&.removed
 			.text.main
 				background: lighten(bittersweet-light, 60%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(bittersweet-light, 60%)
 		a.attachment
 			white-space: nowrap
 			border-bottom: 1px solid link-color
