@@ -198,6 +198,10 @@
 		@extend $ellipsis
 		span
 			color: #b3b3b3
+	.message-author
+		display: inline
+		color: gainsboro-dark
+		@extend $subtle-link
 	.time
 		display: inline
 		.dif-tz,
@@ -365,9 +369,6 @@
 			img
 				max-width: 100%
 
-
-.message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
-	display: inline
 //When a user was removed from the organization, #867
 span.author-deleted
 	@extend $small-font-size
