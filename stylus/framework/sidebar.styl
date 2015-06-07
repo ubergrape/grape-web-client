@@ -33,7 +33,7 @@
 	background: organisation-background
 	@extend $functional-list
 	a
-		padding: 0 20px
+		padding: 0 16px
 		display: block
 	.logo
 		height: header-height
@@ -46,7 +46,7 @@
 			height: 36px
 			border-radius: 50%
 		.name
-			@extend $normal-font-size
+			@extend $big-font-size
 			margin-left: 5px
 			max-width: 172px
 			overflow: hidden
@@ -69,8 +69,42 @@
 //
 // ****
 
+.nav-tabs
+	background: chat-background
+	border-bottom: 1px solid silver-dark
+	border-right: 1px solid silver-dark
+	width: 100%
+	@extend $clearfix
+	> div
+		float: left
+		width: 44%
+		a
+			display: block
+			width: 100%
+			height: 42px
+			text-align: center
+			line-height: 45px
+			color: gainsboro-dark
+			text-decoration: none
+			&:hover
+				background: navigation-background
+				color: darken(gainsboro-dark, 10)
+		.fl-notification
+			margin: 12px 5px 5px 
+	.nav-tab-search
+		width: 12%
+		a
+			color: gainsboro-dark
+			border-left: 1px dashed silver-dark
+	.selected
+		a
+			border-bottom: 3px solid cherry
+			color: cherry !important
+			&:hover
+				background: inherit
+
 .room-list
-	padding: 23px 0 12px 0
+	padding: 14px 0 12px 0
 	height: 61%
 	border-right: 1px solid silver-dark
 	background: navigation-background
@@ -87,17 +121,20 @@
 	.nav-title
 		text-transform: uppercase
 		@extend $small-font-size
-		font-weight: bold
 		padding-left: 20px
 		overflow: hidden
 		&:hover
 			text-decoration: none
 			a
-				background: none
+				background: navigation-background
 	.nav-button
 		float: right
 		margin-right: 10px
 		margin-top: -3px
+		.fa
+			color: gainsboro-light
+	&:hover .fa
+		color: gainsboro-dark
 
 
 // Sidebar Link Styling
