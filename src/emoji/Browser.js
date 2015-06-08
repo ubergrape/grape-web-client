@@ -200,17 +200,16 @@ let Browser = React.createClass({
           item = currSection.items[nextIndex]
           rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
           if (item) id = item.id
-          // We are already on the last row of the current section,
-          // move to the next section or to the first one.
-          else if (nextRow == rowsAmount) {
+          // - We are already on the last row of the current section, move to
+          // the next section or to the first one.
+          // - We are not on the last row but the next one has no item at
+          // the current shift - jump to the prev section.
+          else {
             let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
             let nextSection = sections[currSectionIndex + 1]
             if (nextSection) id =  nextSection.items[itemsShift].id
             else id = sections[0].items[itemsShift].id
           }
-          // This must be the last row and it has no item at the current shift.
-          // Go to the last item of the section.
-          else id = currSection.items[currSection.items.length - 1].id
           break
         case 'prevRow':
           currSection = dataUtils.getCurrentSection(sections, item.id)
@@ -223,8 +222,10 @@ let Browser = React.createClass({
           rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
 
           if (item) id = item.id
-          // We are already on the fist row of the current section,
+          // - We are already on the fist row of the current section,
           // move to the last row of prev section.
+          // - We are not on the first row but the first one has no item at
+          // the current shift - jump to the prev section.
           else {
             let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
             let prevSection = sections[currSectionIndex - 1]
@@ -234,7 +235,11 @@ let Browser = React.createClass({
             let prevIndex = prevRow * this.itemsPerRow + itemsShift
             item = prevSection.items[prevIndex]
             if (item) id = item.id
-            else id = prevSection.items[prevSection.items.length - 1].id
+            else {
+              prevRow = rowsAmount - 2
+              prevIndex = prevRow * this.itemsPerRow + itemsShift
+              id = prevSection.items[prevIndex].id
+            }
           }
           break
       }
