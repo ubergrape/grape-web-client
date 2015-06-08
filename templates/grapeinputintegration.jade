@@ -8,10 +8,9 @@
 		span=_('@')
 		=_(' and autocomplete services with ')
 		span=_('#')
-	img.image(src="#{user.avatar}",width="36",alt="#{user.username}")
+	img.image(src="#{user.avatar}",width="36",height="36",alt="#{user.username}")
 	.input-highlighter
 		grape-input(id='intro-step1').grape-input
-		.input-hr
 		.input-helpers
 			.input-emoji
 				i.fa.fa-smile-o.js-emoji-browser-button
