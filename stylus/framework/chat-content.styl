@@ -117,19 +117,41 @@
 		position: relative
 		font-weight: bold
 		.image
-			width: 36px
+			width: 42px
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
-		&::after // Hack for the arrow of the message box
-			content: ""
-			position: absolute
-			right: 0
-			top: 12px
-			color: chat-content
-			border-right: 6px solid currentColor
-			border-top: 6px solid transparent
-			border-bottom: 6px solid transparent
+	&.user
+		.avatar
+			&::after,
+			&::before // Hack for the arrow of the message box
+				content: ""
+				position: absolute
+			&::after
+				right: -2px;
+				top: 1px;
+				border-right: 9px solid white
+				border-bottom: 13px solid transparent
+			&::before // Hack for the arrow of the message box
+				border-right: 10px solid #F2F2F2
+				border-bottom: 14px solid transparent
+				right: -1px;
+				top: 0px;
+		.text.main,
+		.image-wrap
+			border: 1px solid #F2F2F2
+			background-color: #fff
+			padding: 10px 16px 9px
+			border-radius: 3px
+			@extend $big-font-size
+		.text.main
+			max-width: 650px
+
+	&.service
+		.message-content
+			border-left: 3px solid silver-dark
+		.message
+			padding: 10px 16px 9px
 
 	&.deleted //When a user was removed from the organization, #867
 		color: gainsboro-dark
@@ -139,28 +161,53 @@
 			color: gainsboro-dark
 	&:last-child
 		margin-bottom: 10px
-
-.message-author // The message author text style, used to display Firstname, Lastname and Username in brackets // IMPORTANT: It's about the CLASS, not the TAG.
-	font-weight: bold
-	margin-bottom: 3px
-	display: inline-block
-//When a user was removed from the organization, #867
-span.author-deleted
-	@extend $small-font-size
-	font-weight: bold
-	text-transform: uppercase
-	margin-left: 4px
-
-
+	&.creator.user
+		.avatar
+			float: right
+			.image
+				margin-left: (horizontal-space / 2)
+				margin-right: 0
+				display: none
+			&::after
+				left: -2px
+				right: auto
+				top: 1px
+				border-left: 9px solid grape-light
+				border-right: none
+				border-bottom: 13px solid transparent
+			&::before // Hack for the arrow of the message box
+				border-left: 10px solid #815A7C
+				border-right: none
+				border-bottom: 14px solid transparent
+				left: -2px
+				right: auto
+				top: 0px
+		.message-content
+			float: right
+		.messageinfo
+			text-align: right
+		.text.main,
+		.image-wrap
+			float: right
+			color: #f2f2f2
+			border-color: #815A7C
+			background: grape-light
 .message-content // The message bubble with all the content
-	padding: 8px 10px 5px
 	overflow: hidden
-	background: chat-content
-	border-radius: main-border-radius
-	.time
-		float: right
-		font-size: small-font-size
+	.messageinfo
+		clear: both
+		margin-bottom: 3px
 		color: gainsboro-dark
+		padding: 0px 16px
+		@extend $ellipsis
+		span
+			color: #b3b3b3
+	.author-link
+		display: inline
+		color: gainsboro-dark
+		@extend $subtle-link
+	.time
+		display: inline
 		.dif-tz,
 		.user-tz
 			display: none
@@ -173,8 +220,10 @@ span.author-deleted
 		.user-tz
 			display: inline
 	.message
-		margin-bottom: 3px
 		overflow: hidden // clearfix
+		clear: both;
+		.text.main
+			@extend $roboto
 		.time,
 		.edit,
 		.btn-label
@@ -190,9 +239,9 @@ span.author-deleted
 			display: inline-block
 			vertical-align: top
 			color: gainsboro-light
+			float: right
 			i
-				margin-left: 6px
-				margin-left: 4px
+				margin-right: 4px
 				&:hover
 					color: gainsboro-dark
 				&:active
@@ -237,11 +286,26 @@ span.author-deleted
 		&.requested
 			color: red
 		&.editing
-			background: lighten(gold, 80%)
+			.text.main
+				background: lighten(gold, 80%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(gold, 80%)
 		&.removing
-			background: lighten(gold, 60%)
+			.text.main
+				background: lighten(gold, 60%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(gold, 80%)
 		&.removed
-			background: lighten(bittersweet-light, 60%)
+			.text.main
+				background: lighten(bittersweet-light, 60%)
+				color: grape-typo
+			~ .avatar
+				&::after
+					border-color: lighten(bittersweet-light, 60%)
 		a.attachment
 			white-space: nowrap
 			border-bottom: 1px solid link-color
@@ -307,13 +371,20 @@ span.author-deleted
 			display: inline-block
 		.image-wrap
 			display: inline-block
-			border-left: 2px solid silver-light
-			padding-left: 5px
 			line-height: 1px
 			max-height: 480px
 			overflow: hidden
 			img
 				max-width: 100%
+
+//When a user was removed from the organization, #867
+span.author-deleted
+	@extend $small-font-size
+	font-weight: bold
+	text-transform: uppercase
+	margin-left: 4px
+
+
 
 
 // ****
@@ -369,7 +440,7 @@ span.author-deleted
 .text
 	display: inline-block
 	padding: 0
-	margin-bottom: 3px
+	margin-bottom: 1px
 	max-width: 85%
 	word-wrap: break-word
 	transition: opacity .2s linear

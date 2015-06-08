@@ -73,7 +73,7 @@ function pipeEvents(ui) {
 	// notifications
 	broker(ui, 'selectchannel', ui.notifications, 'setRoom');
 	broker(ui, 'newNotification', ui.notifications, 'onNewNotification');
-	broker.pass(ui.notifications, 'notificationclicked', ui, 'selectchannel');
+	broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked');
 
 	// file upload
 	broker(ui, 'selectorganization', ui.upload, 'setOrganization');

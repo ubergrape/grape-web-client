@@ -105,7 +105,7 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 			icon: icon,
 			timeout: 6000,
 			onclick: function(ev) {
-				self.emit('notificationclicked', channel);
+				self.emit('notificationClicked', channel);
 				window.focus();
 				notification.close();
 			}
