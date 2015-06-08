@@ -60,7 +60,7 @@
 	- var lastDate
 	- var lastRead = true
 	if mode === 'search'
-		div.load-button.load-old-history= _('LOAD MOAR')
+		div.load-button.load-older-history= _('LOAD MOAR')
 	each lines in history
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
@@ -208,4 +208,5 @@
 							- var user_time = first.user_time.substr(0, first.user_time.length - 6)
 							time.user-tz= tz(user_time).format('h:mm a')
 	if mode === 'search'
-		div.load-button.load-new-history= _('LOAD MOAR')
+		div.load-button.load-newer-history= _('LOAD MOAR')
+		div.load-button.load-newest-history= _('LOAD NEWEST MESSAGES')
