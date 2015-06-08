@@ -127,7 +127,7 @@ export function getTabs(options) {
     assign(style, itemStyle.TAB_ICON)
     tabs.push({
       id: 'customEmoji',
-      label: 'Custom',
+      label: 'Grapemoji',
       amount: stats.customEmoji,
       selected: false,
       icon: <Icon style={style} />
