@@ -121,6 +121,12 @@
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
+	.message-inner-wrap
+		margin-bottom: 1px
+		display: inline-block
+		padding: 10px 16px 9px
+		border-radius: 3px
+		@extend $big-font-size
 	&.user
 		.avatar
 			&::after,
@@ -133,17 +139,13 @@
 				border-right: 9px solid white
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-right: 10px solid #F2F2F2
+				border-right: 10px solid #E0DFDF
 				border-bottom: 14px solid transparent
 				right: -1px;
 				top: 0px;
-		.text.main,
-		.image-wrap
-			border: 1px solid #F2F2F2
+		.message-inner-wrap
+			border: 1px solid #E0DFDF
 			background-color: #fff
-			padding: 10px 16px 9px
-			border-radius: 3px
-			@extend $big-font-size
 		.text.main
 			max-width: 650px
 
@@ -186,13 +188,16 @@
 			float: right
 		.messageinfo
 			text-align: right
-		.text.main,
-		.image-wrap
+		.message-inner-wrap
 			float: right
 			color: #f2f2f2
 			border-color: #815A7C
 			background: grape-light
-.message-content // The message bubble with all the content
+		.message-author,
+		.message-author:hover
+			color: #fff
+			text-decoration: none
+.message-content
 	overflow: hidden
 	.messageinfo
 		clear: both
@@ -202,10 +207,12 @@
 		@extend $ellipsis
 		span
 			color: #b3b3b3
-	.author-link
-		display: inline
+	.message-author
+		display: block
 		color: gainsboro-dark
 		@extend $subtle-link
+		font-weight: bold
+		margin-bottom: 4px
 	.time
 		display: inline
 		.dif-tz,
@@ -284,23 +291,31 @@
 					.unsent
 						display: none
 		&.editing
-			.text.main
+			.message-inner-wrap
 				background: lighten(gold, 80%)
 				color: grape-typo
+				z-index: 1
+				position: relative
+				.message-author
+					color: gainsboro-dark
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removing
-			.text.main
+			.message-inner-wrap
 				background: lighten(gold, 60%)
 				color: grape-typo
+				z-index: 1
+				position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			.text.main
+			.message-inner-wrap
 				background: lighten(bittersweet-light, 60%)
 				color: grape-typo
+				z-index: 1
+				position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
