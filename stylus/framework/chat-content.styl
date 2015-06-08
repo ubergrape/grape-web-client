@@ -44,6 +44,7 @@
 		text-align: center
 	body.notifications-disabled &
 		padding-top: 62px !important
+	@extend $big-font-size
 	.image
 		float: left
 		@media (max-width: 720px)
@@ -61,7 +62,7 @@
 		color: gainsboro-dark
 		margin-bottom: 4px
 	h3
-		@extend $big-font-size
+		@extend $bigger-font-size
 		font-weight: bold
 		color: darken(gainsboro-dark, 20%)
 		margin-bottom: 3px
@@ -174,32 +175,33 @@
 				margin-right: 0
 				display: none
 			&::after
-				left: -2px
+				left: -1px
 				right: auto
 				top: 1px
-				border-left: 9px solid grape-light
+				border-left: 9px solid blue-lighter
 				border-right: none
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-left: 10px solid #815A7C
+				border-left: 10px solid blue-light
 				border-right: none
 				border-bottom: 14px solid transparent
-				left: -2px
+				left: 0
 				right: auto
 				top: 0px
 		.message-content
 			text-align: right
+			padding-left: 68px
+			padding-right: 0
 		.messageinfo
 			text-align: right
 		.message-inner-wrap
 			text-align: left
-			color: #f2f2f2
-			border-color: #815A7C
-			background: grape-light
+			border-color: blue-light
+			background: blue-lighter
 			max-width: 100%
 		.message-author,
 		.message-author:hover
-			color: #fff
+			color: grape-typo-hl
 			text-decoration: none
 .message-content
 	overflow: hidden
@@ -539,17 +541,33 @@ span.author-deleted
 .newmessage-separator
 	text-align: center
 	color: gainsboro-dark
-	@extend $small-font-size
+	position: relative
+	span
+		color: grape-dark
+		background: chat-background
+		padding: 4px 16px
+		position: relative
+		z-index: 5
+		border: 2px solid grass-light
+		border-radius: 3px
 
 .date-separator
-	margin: 0 30px 0 20px
+	margin: 0 30px 20px 20px
 	padding:  5px 0 0 0
+	height: 30px
+	span
+		color: grass-light
+	&::before
+		content: ""
+		position: absolute
+		top: 50%
+		left: 0
+		right: 0
+		background-color: #d9d9d9
+		height: 1px
+		margin-top: 1px
 
 .newmessage-separator
 	border-bottom: 1px solid grape-dark
 	height: 7px
 	margin: 0px 30px 18px 20px
-	span
-		color: grape-dark
-		background: chat-background
-		padding: 0px 5px

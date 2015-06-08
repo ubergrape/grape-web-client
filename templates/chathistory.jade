@@ -64,9 +64,11 @@
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
 			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
 				.date-separator
-					| Today, #{strftime('%A, %d %b %Y', first.time)}
+					span
+						| Today, #{strftime('%A, %d %b %Y', first.time)}
 			else
-				.date-separator= strftime('%A, %d %b %Y', first.time)
+				.date-separator
+					span= strftime('%A, %d %b %Y', first.time)
 		if (lastRead && !first.read)
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
