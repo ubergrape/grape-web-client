@@ -112,6 +112,13 @@
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 						.message-inner-wrap
+							//- show the edit stuff only if current user is the author
+							if user.id == line.author.id && status == 'sent'
+								div.edit
+									//- only show the edit button when there is no image attached
+									if line.attachments.length == 0
+										i.fa.fa-pencil.btn-edit
+									i.fa.fa-times.btn-delete
 							if i === 0
 								if (first.author.type==='user')
 									if(first.author.active)
@@ -183,13 +190,6 @@
 										i.fa.fa-exclamation-circle.fa-lg
 								if status == 'pending'
 									div.pending
-						//- show the edit stuff only if current user is the author
-						if user.id == line.author.id && status == 'sent'
-							div.edit
-								//- only show the edit button when there is no image attached
-								if line.attachments.length == 0
-									i.fa.fa-pencil.btn-edit
-								i.fa.fa-times.btn-delete
 				.messageinfo
 					span
 						=_('At ')

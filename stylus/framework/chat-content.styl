@@ -127,6 +127,8 @@
 		padding: 10px 16px 9px
 		border-radius: 3px
 		@extend $big-font-size
+		min-width: 91px
+		position: relative
 	&.user
 		.avatar
 			&::after,
@@ -134,6 +136,7 @@
 				content: ""
 				position: absolute
 			&::after
+				z-index: 9
 				right: -2px;
 				top: 1px;
 				border-right: 9px solid white
@@ -185,14 +188,15 @@
 				right: auto
 				top: 0px
 		.message-content
-			float: right
+			text-align: right
 		.messageinfo
 			text-align: right
 		.message-inner-wrap
-			float: right
+			text-align: left
 			color: #f2f2f2
 			border-color: #815A7C
 			background: grape-light
+			max-width: 100%
 		.message-author,
 		.message-author:hover
 			color: #fff
@@ -237,7 +241,7 @@
 			opacity: 0
 		&:hover
 			> .time
-			> .edit
+			.message-inner-wrap > .edit
 			> .btn-label
 				opacity: 1
 		.edit,
@@ -246,7 +250,9 @@
 			display: inline-block
 			vertical-align: top
 			color: gainsboro-light
-			float: right
+			position: absolute
+			right: 100%
+			top: 0
 			i
 				margin-right: 4px
 				&:hover
@@ -294,7 +300,7 @@
 			.message-inner-wrap
 				background: lighten(gold, 80%)
 				color: grape-typo
-				z-index: 1
+				z-index: 10
 				position: relative
 				.message-author
 					color: gainsboro-dark
@@ -305,7 +311,7 @@
 			.message-inner-wrap
 				background: lighten(gold, 60%)
 				color: grape-typo
-				z-index: 1
+				z-index: 10
 				position: relative
 			~ .avatar
 				&::after
@@ -314,19 +320,18 @@
 			.message-inner-wrap
 				background: lighten(bittersweet-light, 60%)
 				color: grape-typo
-				z-index: 1
+				z-index: 10
 				position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
-		a.attachment
+		a.attachment			
 			white-space: nowrap
 			border-bottom: 1px solid link-color
-			display: inline-block
+			@extend $ellipsis
 			margin: 1px
 			padding: 1px 0
 			vertical-align: baseline
-			font-weight: bold
 			&:hover
 				color: lighten(link-color, 25%)
 				text-decoration: none
@@ -451,7 +456,6 @@ span.author-deleted
 // ****
 
 .text
-	display: inline-block
 	padding: 0
 	margin-bottom: 1px
 	max-width: 85%
