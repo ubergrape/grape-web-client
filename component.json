@@ -106,7 +106,7 @@
     "component/throttle": "v0.0.2",
     "component/debounce": "1.0.0",
     "sk7/inputarea": "master",
-    "component/escape-html": "1.0.1",
+    "component/escape-html": "v1.0.1",
     "component/emitter": "1.1.3",
     "component/events": "1.0.7",
     "component/upload": "0.2.0",
