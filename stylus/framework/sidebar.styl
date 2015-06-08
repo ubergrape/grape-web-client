@@ -5,11 +5,12 @@
 // ****
 .navigation
 	@extend $normal-font-size
-	width: client-navigation-width
-	height: 100%
+	height: 100vh
 	overflow: auto
-	float: left
-	display: block
+	position: absolute
+	top: 0
+	left: 0
+	width: client-navigation-width
 	color: gainsboro-dark
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -20,7 +21,7 @@
 	.navigation
 		padding: 0px
 		background: navigation-background
-	
+
 // ****
 //
 // Top left Info about the product and Organisation
@@ -30,33 +31,31 @@
 .org-info
 	height: header-height
 	background: organisation-background
-	color: white
 	@extend $functional-list
+	a
+		padding: 0 16px
+		display: block
 	.logo
-		padding-left: 20px
-		display: inline-block
-	a.logo
 		height: header-height
-		line-height: header-height
-		i
-			height: header-height
-			line-height: header-height
-			color: grape-light
-			margin-left: 10px
-		img
+		display: flex
+		align-items: center
+		.avatar-wrap
+			margin: 0
+			float: none
 			width: 36px
 			height: 36px
-			margin-top: 11px
-			margin-right: 7px
 			border-radius: 50%
 		.name
-			color: white
-			line-height: header-height
+			@extend $big-font-size
+			margin-left: 5px
+			max-width: 172px
 			overflow: hidden
+			color: white
 			white-space: nowrap
 			text-overflow: ellipsis
-			max-width: 172px
-			float: left
+		.fa
+			color: grape-light
+			margin-left: 5px
 		&:hover
 			background: lighten(organisation-background, 1%)
 			text-decoration: none
@@ -70,11 +69,45 @@
 //
 // ****
 
-.room-list
-	padding: 23px 0 12px 0
-	height: 61%
-	background: linear-gradient(to bottom, rgba(grape-dark, .5) 0%, navigation-background 1%)
+.nav-tabs
+	background: chat-background
+	border-bottom: 1px solid silver-dark
 	border-right: 1px solid silver-dark
+	width: 100%
+	@extend $clearfix
+	> div
+		float: left
+		width: 44%
+		a
+			display: block
+			width: 100%
+			height: 42px
+			text-align: center
+			line-height: 45px
+			color: gainsboro-dark
+			text-decoration: none
+			&:hover
+				background: navigation-background
+				color: darken(gainsboro-dark, 10)
+		.fl-notification
+			margin: 12px 5px 5px 
+	.nav-tab-search
+		width: 12%
+		a
+			color: gainsboro-dark
+			border-left: 1px dashed silver-dark
+	.selected
+		a
+			border-bottom: 3px solid cherry
+			color: cherry !important
+			&:hover
+				background: inherit
+
+.room-list
+	padding: 14px 0 12px 0
+	height: 61%
+	border-right: 1px solid silver-dark
+	background: navigation-background
 	.rooms
 		height: 100%
 
@@ -88,17 +121,20 @@
 	.nav-title
 		text-transform: uppercase
 		@extend $small-font-size
-		font-weight: bold
 		padding-left: 20px
 		overflow: hidden
 		&:hover
 			text-decoration: none
 			a
-				background: none
+				background: navigation-background
 	.nav-button
 		float: right
-		margin-right: 7px
+		margin-right: 10px
 		margin-top: -3px
+		.fa
+			color: gainsboro-light
+	&:hover .fa
+		color: gainsboro-dark
 
 
 // Sidebar Link Styling
@@ -112,19 +148,21 @@ a.nav-title-wrap
 	color: grape-typo
 	text-decoration: none!important
 	&:hover
-		color: lighten(grape-typo, 20%)
-		background: darken(navigation-background, 2%)
+		div.item-inner-wrp
+			color: lighten(grape-typo, 20%)
+			background: darken(navigation-background, 2%)
 		
 .nav-list
 	.item
 		@extend $functional-list
 		a
 			display: block
-			padding: 7px 12px 3px 20px
+			padding: 1px 10px
 			text-decoration: none
-			border-left: 0 solid grape-light
-		.icon
-			color: gainsboro-dark
+			color: #666
+			div.item-inner-wrp
+				padding: 10px 10px 8px 
+				border-radius: 4px
 		.name
 			height: 1.25em
 			line-height: 1em
@@ -132,6 +170,7 @@ a.nav-title-wrap
 			white-space: nowrap
 			overflow: hidden
 			display: block
+			@extend $big-font-size
 		&.deleted
 			.name
 				color: gainsboro-dark
@@ -140,20 +179,17 @@ a.nav-title-wrap
 			span.user-deleted
 				@extend $small-font-size
 				color: gainsboro-light
-				font-weight: bold
 				text-transform: uppercase
 				margin-left: 4px
 		&.selected
 			a
-				font-weight: bold
-				background: gainsboro-light
-				border-left-width: 3px
-				padding-left: 17px
+				div
+					background: cherry
+					color: #f8f8f8
 			.icon
-				color: grape-light
+				color: white
 			span.user-deleted
 				color: gainsboro-dark
-				font-weight: normal
 	.nav-list
 		padding: 0 0 12px 0
 
@@ -171,9 +207,9 @@ a.nav-title-wrap
 	max-height: 75%
 	min-height: 20%
 	top: auto !important
-	width: 260px
+	width: client-navigation-width
 	height: 25%
-	border-right: 1px solid silver-dark
+	border-right: 1px solid silver-grey-dark
 	background: navigation-background
 	.pms
 		height: 100%
@@ -210,10 +246,10 @@ span.no-messages
 .filter-pms
 	position: absolute
 	bottom: 0
-	background: white
+	background: navigation-background
 	border: none
 	border-top: 1px solid darken(navigation-background, 5)
-	border-right: 1px solid silver-dark
+	border-right: 1px solid silver-grey-dark
 	width: client-navigation-width
 	padding: 8px 12px 8px 20px
 	z-index: 14

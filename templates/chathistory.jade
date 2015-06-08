@@ -4,10 +4,11 @@
 		.preloader
 			div
 				h3
-					=_('Welcome to ChatGrape!')
+					=_('Hi '+ globalDisplayName +'!')
+
 				img.image(src="#{preloader}",width="40",alt="Loading")
 				p
-					=_("Give us a second while we're preparing everything for you!")
+					=_("Give us a second while we prepare everything for you!")
 	else if room.loading
 		.preloader
 			div
@@ -70,7 +71,7 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator", class=first.author.active == false ? "deleted" : "")
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator", class=first.author.type, class=first.author.active == false ? "deleted" : "")
 			if first.author.type === 'user' && first.author.id !== user.id && first.author.active
 				a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 					img.image(src="#{first.author.avatar}",width="20",alt="#{first.author.username}")
@@ -83,31 +84,7 @@
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="20",alt="#{alttext}")
 			.message-content
-				//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-				.time
-					time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-						first.user_time
-					if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
-						|  
-						i.fa.fa-globe
-						span.dif-tz
-							=_(' Local time: ')
-						//- the substr part is a hack to remove the tz information
-						- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-						time.user-tz= tz(user_time).format('h:mm a')
-				if (first.author.type==='user')
-					if(first.author.active)
-						//- Only create link when it's a user who is not deleted
-						a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-							author.message-author= first.author.displayName
-					else if (!first.author.active)
-						author.message-author= first.author.displayName
-						if (first.author.id !== user.id)
-							span.author-deleted
-								=_('Deleted user')
-				else
-					author.message-author= first.author.username
-				each line in lines
+				each line, i in lines
 					- var lineID = line.id ? line.id : line.clientSideID
 					- var status = line.status ? line.status : 'sent'
 					- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
@@ -134,29 +111,43 @@
 										| #{line.tag} 
 								if line.container
 									a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
-						if line.title
-							if line.times
-								span.times= 'x' + line.times
-							.text.main(class=line.times ? "collapsed" :"")
-								= html(markdown(line.title))
-						if line.text
-							if line.times
-								span.times= 'x' + line.times
-							.text.main(class=line.times ? "collapsed" :"")
-								= html(markdown(line.text))
-						if line.content
-							.message-content= line.content
-						if line.attachments
-							//- process attachments/uploads
-							each attachment in line.attachments
-								if attachment.type !== undefined
-									if attachment.type.indexOf("image") == 0
-										//- attachment is an image
-										div.image-wrap
-											img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
-									else
-										//- any other file
-										a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
+						.message-inner-wrap
+							if i === 0
+								if (first.author.type==='user')
+									if(first.author.active)
+										//- Only create link when it's a user who is not deleted
+										a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+											author.message-author= first.author.displayName
+									else if (!first.author.active)
+										author.message-author= first.author.displayName
+										if (first.author.id !== user.id)
+											span.author-deleted
+												=_('Deleted user')
+								else
+									author.message-author= first.author.username
+							if line.title
+								if line.times
+									span.times= 'x' + line.times
+								.text.main(class=line.times ? "collapsed" :"")
+									= html(markdown(line.title))
+							if line.text
+								if line.times
+									span.times= 'x' + line.times
+								.text.main(class=line.times ? "collapsed" :"")
+									= html(markdown(line.text))
+							if line.content
+								.message-content= line.content
+							if line.attachments
+								//- process attachments/uploads
+								each attachment in line.attachments
+									if attachment.type !== undefined
+										if attachment.type.indexOf("image") == 0
+											//- attachment is an image
+											div.image-wrap
+												img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+										else
+											//- any other file
+											a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
 						if line.objects
 							ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
 								each obj in line.objects
@@ -181,13 +172,6 @@
 												span.summary= obj.summary
 								if line.objects.length > 3 && line.author.id != 'jira'
 									a.show-more=_('Show More')
-						//- show the edit stuff only if current user is the author
-						if user.id == line.author.id && status == 'sent'
-							div.edit
-								//- only show the edit button when there is no image attached
-								if line.attachments.length == 0
-									i.fa.fa-pencil.btn-edit
-								i.fa.fa-times.btn-delete
 						if status !== 'sent'
 							div.status-control
 								if status == 'unsent'
@@ -199,4 +183,25 @@
 										i.fa.fa-exclamation-circle.fa-lg
 								if status == 'pending'
 									div.pending
-										i.fa.fa-spinner.fa-pulse.fa-lg
+						//- show the edit stuff only if current user is the author
+						if user.id == line.author.id && status == 'sent'
+							div.edit
+								//- only show the edit button when there is no image attached
+								if line.attachments.length == 0
+									i.fa.fa-pencil.btn-edit
+								i.fa.fa-times.btn-delete
+				.messageinfo
+					span
+						=_('At ')
+					//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+					.time
+						time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+							first.user_time
+						if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+							|  
+							i.fa.fa-globe
+							span.dif-tz
+								=_(' Local time: ')
+							//- the substr part is a hack to remove the tz information
+							- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+							time.user-tz= tz(user_time).format('h:mm a')

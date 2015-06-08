@@ -257,7 +257,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 			self.queueDraw();
 		}, 1000);
 	});
-
+	room.off('change typing');
 	room.on('change typing', function() {
 		self.redrawTyping();
 	});

@@ -4,155 +4,101 @@
 //
 // ****
 .room-header
-	position: fixed
-	left: client-navigation-width
-	right: 0
-	top: 0
+	display: flex
+	align-items: center
 	height: header-height
 	z-index: 30
 	background: room-header-background
-	overflow: hidden
-	height: header-height
-	padding: 11px 30px 11px 20px
-	box-shadow: 0px 3px 2px 0px rgba(grape-dark, 0.4)
-	// fixes font bug in os x app and firefox on windows, see #1612
-	-webkit-font-smoothing: antialiased
-	-moz-osx-font-smoothing: grayscale
-	@extend $clearfix
-	.room-info-wrap, .search-form
-		max-width: 100%
-		overflow: hidden
-		//transition: all 200ms linear
-	.room-info-wrap
-		display: block
-		white-space: nowrap
-		overflow: hidden
-		padding-top: 3px
-		input.room-name
-			background: transparent
-			border: none
-			outline: none
-			padding: 0
-			margin-top: -2px
-			border-bottom: 1px solid lighten(grape-light, 20%)
-		input.submit-rename
-			display: none;
-		.room-name
-			@extend $bigger-font-size
-			float: left
-			margin: 0
-			padding-right: 8px
-			color: white
-			text-overflow: ellipsis
-			white-space: nowrap
-			overflow: hidden
-			height: 30px
-			line-height: 30px
-			max-width: 220px
-			@media (max-width: 1024px)
-				max-width: 200px
-			@media (max-width: 768px)
-				max-width: 180px
-			&.editable:hover
-				border-bottom: 1px solid grape-light
-				&+.options-wrap .option-rename-room
-					background: grape-light
-					color: white
-		.options-wrap
-		.rename-options-wrap
-			@extend $hoverable
-			@extend $clearfix
-			display: inline-block
-			float: left
-			padding-top: 6px
-			@media (max-width: 800px)
-				display: none
-		.header-option
-			display: inline-block
-			color: grape-light
-			width: 21px
-			height: 21px
-			border-radius: main-border-radius
-			text-align: center
-			line-height: 21px
-			font-size: 15px
-			margin-right: 4px
-			&:hover
-				background: grape-light
+	-webkit-font-smoothing: antialiased // fixes font bug in os x app and firefox on windows, see #1612
+	-moz-osx-font-smoothing: grayscale // fixes font bug in os x app and firefox on windows, see #1612
+
+	.room-header-wrap
+		width: 100%
+		display: flex
+		justify-content: flex-end
+		align-items: center
+		padding: 0 10px 0 20px
+
+		.room-info-wrap
+			flex: 1
+			display: flex
+			align-items: center
+
+			input.room-name
+				background: transparent
+				border: none
+				outline: none
+				padding: 0
+				border-bottom: 1px solid lighten(grape-light, 20%)
+			input.submit-rename
+				display: none;
+			.room-name
+				@extend $bigger-font-size
+				margin: 0
 				color: white
-		// RED button icons (destructive, cancel, etc.)
-		.option-delete-room
-		.option-rename-cancel
-			&:hover
-				color: bittersweet-dark
-		// GREEN button icons (desired, save, etc.)
-		.option-add-users
-		.option-rename-ok
-			&:hover
-				color: grass-light
-		.room-users-wrap
+				text-overflow: ellipsis
+				white-space: nowrap
+				overflow: hidden
+				max-width: 220px
+				border-bottom: 1px solid room-header-background
+				@media (max-width: 1024px)
+					max-width: 200px
+				@media (max-width: 768px)
+					max-width: 180px
+				&.editable:hover
+					border-color: grape-light
+					&+.options-wrap .option-rename-room
+						color: white
+			.options-wrap
+			.rename-options-wrap
+				@extend $hoverable
+				@extend $clearfix
+				display: inline-block
+				margin-left: 5px
+				@media (max-width: 800px)
+					display: none
+			.header-option
+				display: inline-block
+				color: grape-light
+				padding: 0 6px
+				font-size: 14px
+				&:hover
+					color: white
+			.room-users-wrap
+				@extend $hoverable
+				margin-left: 20px
+				&:hover
+					.user-count
+						color: white
+						.fa
+							color: white
+				span.user-count
+					font-weight: bold
+					color: grape-light
+					.fa.fa-user
+						font-size: 14px
+					.fa.fa-caret-down
+						margin-left: 5px
+						color: grape-light
+		.user-menu-wrap
 			@extend $hoverable
-			@extend $clearfix
-			display: inline-block
 			margin-left: 10px
+			display: flex
+			align-items: center
+			@media (max-width: 600px)
+					display: none
 			&:hover
-				.user-count
-				.remaining-users
+				.fa
 					color: white
-			@media (max-width: 680px)
-				display: none
-		.horizontal-user-list
-			display: inline-block
-			float: left
-			margin-top: 9px
-			padding: 0
-			overflow-x: visible
-			white-space: nowrap
-			li
-				display: inline-block
-				list-style-type: none
-				margin-right: 2px
-				padding-bottom: 4px
-		span.user-count
-		span.remaining-users
-			float: left
-			color: grape-light
-			line-height: 34px
-			padding-left: 2px
-		span.user-count
-			display: none
-			@media (max-width: 1024px)
-				display: inline-block
-		.horizontal-user-list
-		span.remaining-users
-			display: none
-			@media (min-width: 1024px)
-				display: inline-block
-	.user-menu-wrap
-		@extend $clearfix
-		@extend $hoverable
-		float: right
-		margin: 0 0 0 20px
-		display: table-cell
-		vertical-align: middle
-		@media (max-width: 600px)
-				display: none
-		&:hover
 			.fa
-				color: white
-		.fa
-			margin: 10px 0 0 5px
-			color: grape-light
-		.avatar-wrap
-			display: inline
-			margin-right: 6px
-		.online
-		.offline
-			top: -6px
-			width: 10px
-			height: 10px
-		.user-name
-			color: white
-			line-height: 36px
-			@media (max-width: 768px)
-				display: none
+				margin-left: 5px
+				color: grape-light
+			.avatar-wrap
+				margin: 0
+				img
+					float: none
+					vertical-align: bottom
+			.online
+			.offline
+				width: 10px
+				height: 10px

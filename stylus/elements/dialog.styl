@@ -6,23 +6,26 @@
 	margin-left: -300px
 	overflow: auto
 	width: 600px
-	.content
-		background: white
-		padding: 15px
-		border-radius: main-border-radius
-		border: 1px solid gainsboro-light
-		opacity: 1
-		box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
-		transition: opacity 500ms
-		max-width: 100%
-		white-space: normal
-		overflow: auto
-		animation: hifromthebottom 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-		.body
-			position: relative
-			height: 100%
-			img
-				max-width: 100%
+
+.dialog .content
+	background: white
+	padding: 15px
+	border-radius: main-border-radius
+	border: 1px solid gainsboro-light
+	opacity: 1
+	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
+	transition: opacity 500ms
+	max-width: 100%
+	white-space: normal
+	overflow: auto
+	animation: hifromthebottom 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+	.body
+		position: relative
+		height: 100%
+		img
+			max-width: 100%
+
+#dialog, .dialog, .introjs-tooltip
 	.close
 		cursor: pointer
 		position: absolute
@@ -33,19 +36,26 @@
 		line-height: 20px
 		z-index: 20
 		background: #fff
+	h2
+		@extend $bigger-font-size
+		margin-bottom: 6px
 	h3, h4, h5
 		color: gainsboro-dark
 		@extend $normal-font-size
 		font-weight: normal
 	h3
 		text-transform: uppercase
-		margin-bottom: 10px
+		margin-bottom: 6px
 	h4, h5
-		margin-bottom: 5px
+		margin-bottom: 6px
 	h4
 		font-weight: bold
 	p
 		margin-bottom: 8px
+		line-height: 17px
+	ul.ver-list
+		padding-left: 20px
+		list-style-type: disc
 	.delete-room-form
 		margin-top: 12px
 		.delete
@@ -67,16 +77,18 @@
 	td
 		width: 50%
 		> em
-			background: grape-dark
-			color: #fff
-			padding: 0 4px
-			border-radius: 4px
 			margin-bottom: 5px
 	td:first-of-type
 		padding-right: 22px
+	pre
+		padding-bottom: 3px
 	code
 		width: 100%
-
+	.example-text
+		background: #f8f8f8
+		border-radius: 3px
+		border: 1px solid #dad6e0
+		padding: 0 2px
 #IModalOverlay, .overlay
 	background: rgba(0, 0, 0, 0.75)
 	opacity: 1
