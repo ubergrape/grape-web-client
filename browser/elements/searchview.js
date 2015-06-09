@@ -37,14 +37,11 @@ SearchView.prototype.init = function SearchView_init() {
 	}.bind(this));
 };
 
-SearchView.prototype.bind = function SearchView_bind () {}
-
 SearchView.prototype.redraw = function SearchView_redraw() {
 	render(this.search, template('searchresults.jade', {
 		'results': this.results
 	}));
 };
-
 
 SearchView.prototype.showResults = function SearchView_showResults(results) {
 	this.results = results;

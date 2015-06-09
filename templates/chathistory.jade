@@ -59,7 +59,7 @@
 							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
 	- var lastDate
 	- var lastRead = true
-	if mode === 'search'
+	if mode === 'search' && !isFirstMsgLoaded
 		div.load-button.load-older-history= _('LOAD MOAR')
 	each lines in history
 		- var first = lines[0]

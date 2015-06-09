@@ -36,6 +36,8 @@ function HistoryView() {
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
 	this.requestedMsgID = null;
+	this.isFirstMsgLoaded = false;
+	this.isLastMsgLoaded = false;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -178,7 +180,9 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		room: this.room,
 		history: groupedHistory,
 		mode: this.mode,
-		requestedMsgID: this.requestedMsgID
+		requestedMsgID: this.requestedMsgID,
+		isFirstMsgLoaded: this.isFirstMsgLoaded,
+		isLastMsgLoaded: this.isLastMsgLoaded
 	}));
 
 	if (this.lastwindow.lastmsg !== this.room.history[0])
@@ -209,11 +213,9 @@ HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 };
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
-	// set the scrollMode to automatic when scrolling to the bottom
-	console.log('UGH');
-	if (direction === 'bottom') this.scrollMode = 'automatic';
 	if (this.mode === 'search') return;
 	if (direction === 'bottom') {
+		this.scrollMode = 'automatic';
 		var debouncedUpdateRead	= debounce(this.updateRead.bind(this), 1500)
 		debouncedUpdateRead();
 		return done();
@@ -225,19 +227,34 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
+HistoryView.prototype.firstMsgLoaded = function HistoryView_firstMsgLoaded (history) {
+	var firstLoadedMsg = history[0];
+	if (new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
+		return true;
+	return false;
+}
+
+HistoryView.prototype.lastMsgLoaded = function HistoryView_lastMsgLoaded (history) {
+	var lastLoadedMsg = history[history.length - 1];
+	if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
+		return true;
+	return false;
+}
+
 HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (direction) {
 	this.room.loading = false;
 	this.room.empty = false;
+	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
+	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
+
 	if (direction === 'new') {
 		this.scrollMode = 'automatic';
 		var lastLoadedMsg = this.room.searchHistory[this.room.searchHistory.length - 1];
-		// is it needed to switch to chat mode here?
-		// maybe we can just hide the buttons with flags
-		// but maybe it is important for keep on appending new messages
 		if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 			this.switchToChatMode(this.room);
+	}
 
-	} // else we are going to check if oldest loaded message is 
+	// else we are going to check if oldest loaded message is 
 	// equal to the oldest message in history
 	// if so, we will turn the flag maxHistoryLoaded to true
 	// and avoid outputting the button "LOAD MOAR" on top
@@ -282,7 +299,12 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	this.scrollMode = 'automatic';
 
 	if (!msgID) {
-		if (!this.room.empty) this.emit('needhistory', room);
+		if (!this.room.empty) {
+			this.emit('needhistory', room);
+		} else {
+			this.isFirstMsgLoaded = this.firstMsgLoaded(room.history);
+			this.isLastMsgLoaded = this.lastMsgLoaded(room.history);
+		}
 		this.mode = 'chat';
 		this.queueDraw();
 	} else {
@@ -362,6 +384,8 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
+	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
+	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
 	this.queueDraw();
 	this.scrollWindow.scrollTop = 0;
 }
