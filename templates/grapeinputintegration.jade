@@ -8,8 +8,6 @@
 		span=_('@')
 		=_(' and autocomplete services with ')
 		span=_('#')
-	.avatar
-		img.image(src="#{user.avatar}",width="42",height="42",alt="#{user.username}")
 	.input-highlighter
 		grape-input(id='intro-step1').grape-input
 		.input-helpers
@@ -18,3 +16,5 @@
 			.uploader
 			.info-markdown.js-markdown-tips
 				i.fa.fa-question
+	.avatar
+		img.image(src="#{user.avatar}",width="42",height="42",alt="#{user.username}")
