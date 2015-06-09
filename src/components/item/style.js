@@ -35,14 +35,13 @@ export let style = {
   containerFocused: {
     extend: container,
     color: colors.white,
-    background: colors.grapeLight
+    background: colors.gainsboroDark
   },
   iconContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '6px',
-    width: 40
+    padding: '6px 16px'
   },
   icon: {
     extend: icon,
@@ -69,14 +68,14 @@ export let style = {
   metaContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: 6
+    padding: '6px 12px'
   },
   metaItem: {
     extend: metaItem
   },
   metaItemFocused: {
     extend: metaItem,
-    background: Color(colors.grapeLight).lighten(.2).rgbaString(),
+    background: Color(colors.gainsboroDark).lighten(.2).rgbaString(),
     color: colors.white
   }
 }

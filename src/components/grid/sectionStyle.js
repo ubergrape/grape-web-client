@@ -6,7 +6,7 @@ export default {
     extend: fonts.small,
     background: colors.silverLight,
     borderBottom: '1px solid ' + colors.silverDark,
-    padding: '5px 10px',
+    padding: '5px 12px',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
     color: colors.gainsboroDark
