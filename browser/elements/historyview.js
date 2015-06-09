@@ -210,9 +210,10 @@ HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
 	// set the scrollMode to automatic when scrolling to the bottom
+	console.log('UGH');
+	if (direction === 'bottom') this.scrollMode = 'automatic';
 	if (this.mode === 'search') return;
 	if (direction === 'bottom') {
-		this.scrollMode = 'automatic';
 		var debouncedUpdateRead	= debounce(this.updateRead.bind(this), 1500)
 		debouncedUpdateRead();
 		return done();
@@ -255,6 +256,7 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (room) {
 	this.mode = 'chat';
 	if (!room.empty) this.emit('needhistory', room);
+	this.scroll.reset();
 }
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
