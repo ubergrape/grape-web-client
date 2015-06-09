@@ -230,6 +230,8 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	if (direction === 'new') {
 		this.scrollMode = 'automatic';
 		var lastLoadedMsg = this.room.searchHistory[this.room.searchHistory.length - 1];
+		// is it needed to switch to chat mode here?
+		// maybe we can just hide the buttons with flags
 		if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 			this.switchToChatMode(this.room);
 
@@ -237,6 +239,9 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	// equal to the oldest message in history
 	// if so, we will turn the flag maxHistoryLoaded to true
 	// and avoid outputting the button "LOAD MOAR" on top
+
+	// this needs to be done on focus message somehow too,
+	// maybe adding flags latestMsgLoaded and oldestMsgLoaded
 	this.queueDraw();
 };
 
