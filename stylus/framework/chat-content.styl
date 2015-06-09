@@ -123,7 +123,6 @@
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
 	.message-inner-wrap
-		margin-bottom: 1px
 		display: inline-block
 		padding: 10px 16px 9px
 		border-radius: 3px
@@ -138,8 +137,8 @@
 				position: absolute
 			&::after
 				z-index: 9
-				right: -2px;
-				top: 1px;
+				right: -2px
+				top: 1px
 				border-right: 9px solid white
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
@@ -152,6 +151,7 @@
 			background-color: #fff
 		.text.main
 			max-width: 650px
+			min-width: 350px
 
 	&.service
 		.message-content
@@ -193,8 +193,6 @@
 			padding-right: 0
 		.message
 			padding-left: 68px
-		.messageinfo
-			text-align: right
 		.message-inner-wrap
 			text-align: left
 			border-color: blue-light
@@ -202,48 +200,45 @@
 			max-width: 100%
 		.message-author,
 		.message-author:hover
-			color: grape-typo-hl
+			color: gainsboro-dark
 			text-decoration: none
-.message-content
-	overflow: hidden
-	.messageinfo
-		clear: both
-		margin-bottom: 3px
-		color: gainsboro-dark
-		padding: 0px 16px
-		@extend $ellipsis
-		span
-			color: #b3b3b3
+.messageinfo
+	color: gainsboro-dark
+	text-align: left
+	margin-bottom: 5px
+	@extend $normal-font-size
+	span
+		color: #b3b3b3
 	.message-author
-		display: block
-		color: grape-typo-hl
+		display: inline
 		@extend $subtle-link
-		font-weight: bold
+		color: gainsboro-dark
 		margin-bottom: 4px
 	.time
 		display: inline
 		.dif-tz,
 		.user-tz
-			display: none
+			opacity: 0
 		.dif-tz
 			font-weight: bold
-	> .time
-		opacity: 1
+.message-content
+	overflow: hidden
 	&:hover
 		.dif-tz,
 		.user-tz
-			display: inline
+			opacity: 1
 	.message
+		margin-top: -1px
 		overflow: hidden // clearfix
-		clear: both;
+		clear: both
+		&.first
+			margin-top: 0
 		.text.main
 			@extend $roboto
-		.time,
 		.edit,
 		.btn-label
 			opacity: 0
 		&:hover
-			> .time
 			.message-inner-wrap > .edit
 			> .btn-label
 				opacity: 1
