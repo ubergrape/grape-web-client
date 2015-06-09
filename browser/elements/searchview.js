@@ -5,7 +5,6 @@ var qs = require('query');
 var template = require('template');
 var render = require('../rendervdom');
 var Emitter = require('emitter');
-var events = require('events');
 
 module.exports = SearchView;
 
