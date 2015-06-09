@@ -35,8 +35,9 @@ export default React.createClass({
     let {id, icon, focused} = this.props
     return (
       <div
-        onClick={this.onClick}
         className={focused ? classes.itemFocused : classes.item}
+        onClick={this.onClick}
+        onMouseOver={this.onMouseOver}
         key={id}>
         {focused && <Sensor
           onChange={this.onVisibilityChange}
@@ -48,7 +49,14 @@ export default React.createClass({
   },
 
   checkVisibility() {
-    this.refs.sensor.check()
+    let {sensor} = this.refs
+    if (sensor) sensor.check()
+  },
+
+  onVisibilityChange(isVisible, visibilityRect) {
+    if (!isVisible && this.props.focused) {
+      this.props.onInvisible(this, visibilityRect)
+    }
   },
 
   onFocus() {
@@ -56,13 +64,10 @@ export default React.createClass({
   },
 
   onClick() {
-    if (this.props.focused) this.props.onSelect({id: this.props.id})
-    else this.onFocus()
+    this.props.onSelect({id: this.props.id})
   },
 
-  onVisibilityChange(isVisible, visibilityRect) {
-    if (!isVisible && this.props.focused) {
-      this.props.onInvisible(this, visibilityRect)
-    }
+  onMouseOver: function() {
+    this.onFocus()
   }
 })

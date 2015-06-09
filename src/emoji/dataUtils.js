@@ -79,7 +79,7 @@ export function getSections(tabId, search) {
   if (search) {
     search = search.toLowerCase()
     found = []
-    sections.forEach(section => {
+    sections[tabId].forEach(section => {
       let items = section.items.filter(item => {
          return item.name.indexOf(search) >= 0
       })
@@ -127,7 +127,7 @@ export function getTabs(options) {
     assign(style, itemStyle.TAB_ICON)
     tabs.push({
       id: 'customEmoji',
-      label: 'Custom',
+      label: 'Grapemoji',
       amount: stats.customEmoji,
       selected: false,
       icon: <Icon style={style} />
