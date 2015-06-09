@@ -131,9 +131,8 @@
 									else
 										author.message-author= first.author.username
 
-									if (first.author.type==='user')
-										span
-											=_(' at ')
+									span
+										=_(' at ')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 									.time
 										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)

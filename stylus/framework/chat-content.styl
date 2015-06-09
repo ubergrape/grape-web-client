@@ -11,6 +11,7 @@
 	margin-left: client-navigation-width
 	position: relative
 	overflow: hidden
+	transition: width 400ms ease
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -127,8 +128,8 @@
 		padding: 10px 16px 9px
 		border-radius: 3px
 		@extend $big-font-size
-		min-width: 91px
 		position: relative
+		max-width: 100%
 	&.user
 		.avatar
 			&::after,
@@ -150,12 +151,12 @@
 			border: 1px solid #E0DFDF
 			background-color: #fff
 		.text.main
-			max-width: 650px
-			min-width: 350px
+			max-width: 600px
 
 	&.service
 		.message-content
-			border-left: 3px solid silver-dark
+			border-left: 2px solid link-color
+			max-width: 740px
 		.message
 			padding: 10px 16px 9px
 
@@ -200,10 +201,10 @@
 			max-width: 100%
 		.message-author,
 		.message-author:hover
-			color: gainsboro-dark
+			color: grape-typo-hl
 			text-decoration: none
 .messageinfo
-	color: gainsboro-dark
+	color: #b3b3b3
 	text-align: left
 	margin-bottom: 5px
 	@extend $normal-font-size
@@ -212,15 +213,13 @@
 	.message-author
 		display: inline
 		@extend $subtle-link
-		color: gainsboro-dark
-		margin-bottom: 4px
+		color: grape-typo-hl
+		font-weight: bold
 	.time
 		display: inline
 		.dif-tz,
 		.user-tz
 			opacity: 0
-		.dif-tz
-			font-weight: bold
 .message-content
 	overflow: hidden
 	&:hover
@@ -233,8 +232,6 @@
 		clear: both
 		&.first
 			margin-top: 0
-		.text.main
-			@extend $roboto
 		.edit,
 		.btn-label
 			opacity: 0
@@ -323,10 +320,9 @@
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
-		a.attachment			
-			white-space: nowrap
+		a.attachment	
+			display: inline		
 			border-bottom: 1px solid link-color
-			@extend $ellipsis
 			margin: 1px
 			padding: 1px 0
 			vertical-align: baseline
