@@ -1,5 +1,6 @@
 import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
+import sizes from 'grape-theme/sizes'
 import utils from 'grape-jss-utils'
 import Color from 'color'
 
@@ -22,7 +23,7 @@ let metaItem = {
   display: 'block',
   marginLeft: 4,
   padding: '2px 4px',
-  borderRadius: '2px',
+  borderRadius: sizes.borderRadius.small,
   background: colors.silverDark,
   color: colors.gainsboroDark
 }
