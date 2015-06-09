@@ -38,7 +38,7 @@ export default React.createClass({
       <div className={classes.column}>
         <div className={classes.row}>
           <Grid {...props} className={classes.leftColumn} />
-          <Sidebar content={sidebarContent} height={props.height} className={classes.rightColumn} />
+          <Sidebar content={sidebarContent} className={classes.rightColumn} />
         </div>
       </div>
     )

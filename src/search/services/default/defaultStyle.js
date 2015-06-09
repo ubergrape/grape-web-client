@@ -2,10 +2,12 @@ export const INFO_HEADER_HEIGHT = 128
 
 export let style = {
   column: {
-    flex: 9,
+    flex: 1,
+    display: 'flex',
     overflow: 'hidden'
   },
   row: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'row'
   },
@@ -15,6 +17,7 @@ export let style = {
   },
   rightColumn: {
     flex: 4,
+    display: 'flex',
     minWidth: 256,
     maxWidth: 384,
     overflowX: 'hidden',

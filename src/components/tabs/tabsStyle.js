@@ -1,12 +1,13 @@
 import webColors from 'grape-theme/web-colors'
+import colors from 'grape-theme/base-colors'
+
 
 export default {
   tabs: {
     display: 'block',
     padding: 0,
-    height: '100%',
-    overflow: 'hidden',
     whiteSpace: 'nowrap',
-    background: webColors.roomHeaderBackground
+    backgroundColor: colors.white,
+    borderBottom: '2px solid ' + colors.silverDark
   }
 }

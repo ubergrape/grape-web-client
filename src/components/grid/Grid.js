@@ -54,14 +54,9 @@ export default React.createClass({
       })
     }
 
-    let style = {
-      height: `${this.props.height}px`
-    }
-
     return (
       <div
         className={`${classes.grid} ${this.props.className}`}
-        style={style}
         onScroll={this.onScroll}>
         {sections}
       </div>

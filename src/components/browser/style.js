@@ -5,7 +5,6 @@ export default {
   browser: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
     background: colors.white,
     borderRadius: sizes.borderRadius.small,
     overflow: 'hidden',

@@ -3,7 +3,7 @@ import fonts from 'grape-theme/fonts'
 
 export default {
   detail: {
-    height: '100%'
+    flex: 1
   },
   header: {
     display: 'flex',

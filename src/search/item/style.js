@@ -22,9 +22,10 @@ let metaItem = {
   extend: fonts.small,
   display: 'block',
   marginLeft: 4,
-  padding: '2px 4px',
+  padding: '2px 6px',
   borderRadius: sizes.borderRadius.small,
-  background: colors.silverDark,
+  border: '1px solid ' + colors.silverDark,
+  backgroundColor: colors.silverLight,
   color: colors.gainsboroDark
 }
 
@@ -35,14 +36,13 @@ export let style = {
   containerFocused: {
     extend: container,
     color: colors.white,
-    background: colors.grapeLight
+    background: colors.gainsboroDark
   },
   iconContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '6px',
-    width: 40
+    padding: '6px 16px'
   },
   icon: {
     extend: icon,
@@ -69,14 +69,15 @@ export let style = {
   metaContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: 6
+    padding: '6px 12px'
   },
   metaItem: {
     extend: metaItem
   },
   metaItemFocused: {
     extend: metaItem,
-    background: Color(colors.grapeLight).lighten(.2).rgbaString(),
-    color: colors.white
+    color: colors.white,
+    backgroundColor: Color(colors.gainsboroDark).lighten(.2).rgbaString(),
+    borderColor: Color(colors.gainsboroDark).lighten(.4).rgbaString()
   }
 }
