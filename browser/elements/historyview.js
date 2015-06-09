@@ -257,6 +257,7 @@ HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (
 	this.mode = 'chat';
 	if (!room.empty) this.emit('needhistory', room);
 	this.scroll.reset();
+	this.scrollMode = 'automatic';
 }
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
@@ -341,7 +342,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	if (line.channel != this.room) return;
+	if (line.channel != this.room || this.mode === 'search') return;
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
