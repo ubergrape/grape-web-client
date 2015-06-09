@@ -11,10 +11,11 @@ export default {
     boxShadow: '0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)'
   },
   column: {
-    flex: 9,
-    overflow: 'hidden'
+    flex: 1,
+    display: 'flex'
   },
   row: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'row'
   },
@@ -24,6 +25,7 @@ export default {
   },
   rightColumn: {
     flex: 4,
+    display: 'flex',
     minWidth: 256,
     maxWidth: 384,
     overflowX: 'hidden',
