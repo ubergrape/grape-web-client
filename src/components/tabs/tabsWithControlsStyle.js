@@ -1,5 +1,6 @@
 import colors from 'grape-theme/base-colors'
 import webColors from 'grape-theme/web-colors'
+import fonts from 'grape-theme/fonts'
 import defaults from 'lodash-es/object/defaults'
 import Color from 'color'
 
@@ -8,12 +9,14 @@ import * as tabStyle from './tabStyle'
 let arrow = defaults({
   position: 'absolute',
   top: 0,
-  padding: '0 6px',
-  color: Color(colors.white).alpha(.35).rgbaString(),
+  padding: '0 12px',
+  extend: fonts.small,
+  color: Color(colors.grapeTypo).alpha(.3).rgbaString(),
   zIndex: 1,
-  border: '0px solid ' + Color(colors.grapeDark).darken(.5).rgbaString(),
+  border: '0px solid ' + colors.silverDark,
+  backgroundColor: colors.white,
   '&:hover': {
-    background: Color(webColors.roomHeaderBackground).lighten(.2).rgbaString()
+    color: Color(colors.grapeTypo).alpha(.6).rgbaString(),
   },
 }, tabStyle.container)
 
