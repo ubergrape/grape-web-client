@@ -6,10 +6,8 @@ import fonts from 'grape-theme/fonts'
 export let text = {
   extend: fonts.small,
   fontWeight: 'bold',
-  lineHeight: 0,
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
-  verticalAlign: 'middle'
 }
 
 export let amount = {
