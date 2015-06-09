@@ -233,7 +233,10 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 		if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 			this.switchToChatMode(this.room);
 
-	}
+	} // else we are going to check if oldest loaded message is 
+	// equal to the oldest message in history
+	// if so, we will turn the flag maxHistoryLoaded to true
+	// and avoid outputting the button "LOAD MOAR" on top
 	this.queueDraw();
 };
 
@@ -311,7 +314,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 };
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
-	if (this.mode == 'search') this.switchToChatMode(room);
+	if (this.mode === 'search') this.switchToChatMode(room);
 	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
 		clientSideID: (Math.random() + 1).toString(36).substring(7),
