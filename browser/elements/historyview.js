@@ -298,6 +298,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	this.scroll.reset();
 	this.scrollMode = 'automatic';
 
+	// TODO: lastMsgLoaded to template
+	// how to maitain consistent scroll if the user is in chat mode
+	// because the last message is visible,
+	// but has just clicked on a message link
 	if (!msgID) {
 		if (!this.room.empty) {
 			this.emit('needhistory', room);
