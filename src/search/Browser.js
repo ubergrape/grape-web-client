@@ -163,7 +163,6 @@ export default React.createClass({
       assign(props, {
         data: data,
         focusedItem: this.getFocusedItem(),
-        height: this.props.height - tabsWithControlsStyle.container.height,
         onFocus: this.onFocusItem,
         onSelect: this.onSelectItem,
       })

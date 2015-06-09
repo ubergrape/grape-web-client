@@ -21,8 +21,7 @@ export default {
   container: {
     position: 'relative',
     margin: 0,
-    padding: 0,
-    height: 27
+    padding: 0
   },
   prevArrow: {
     extend: arrow,

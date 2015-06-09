@@ -2,7 +2,6 @@ import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 
 let info = {
-  height: '100%',
   overflow: 'auto',
   '& h2': {
     extend: fonts.big,

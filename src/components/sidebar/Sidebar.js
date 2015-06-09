@@ -11,7 +11,6 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      height: null,
       className: '',
       content: null
     }
@@ -20,12 +19,8 @@ export default React.createClass({
   render() {
     let {classes} = this.sheet
 
-    let style = {
-      height: `${this.props.height}px`
-    }
-
     return (
-      <aside className={`${classes.sidebar} ${this.props.className}`} style={style}>
+      <aside className={`${classes.sidebar} ${this.props.className}`}>
         {this.props.content}
       </aside>
     )
