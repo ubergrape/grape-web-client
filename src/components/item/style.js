@@ -22,9 +22,10 @@ let metaItem = {
   extend: fonts.small,
   display: 'block',
   marginLeft: 4,
-  padding: '2px 4px',
+  padding: '2px 6px',
   borderRadius: sizes.borderRadius.small,
-  background: colors.silverDark,
+  border: '1px solid ' + colors.silverDark,
+  backgroundColor: colors.silverLight,
   color: colors.gainsboroDark
 }
 
@@ -75,7 +76,8 @@ export let style = {
   },
   metaItemFocused: {
     extend: metaItem,
-    background: Color(colors.gainsboroDark).lighten(.2).rgbaString(),
-    color: colors.white
+    color: colors.white,
+    backgroundColor: Color(colors.gainsboroDark).lighten(.2).rgbaString(),
+    borderColor: Color(colors.gainsboroDark).lighten(.4).rgbaString()
   }
 }
