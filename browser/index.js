@@ -392,3 +392,9 @@ UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	this.router.replace('/chat/' + room.slug);
 }
+
+UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
+	if (this.room === channel) return;
+	var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug;
+	this.router.go('/chat/' + slug);
+}

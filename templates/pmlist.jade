@@ -7,17 +7,18 @@ ul.nav-list.pms
 			- var deletedClass = user.active ? "" : 'deleted'
 			li.item(class=selectedClass, class=deletedClass, data-id=userID, key=userID)
 				a(href="/chat/@" + user.username.toLowerCase())
-					.avatar-wrap
-						if user.status === 16
-							span.online
-						else
-							span.offline
-						img(src="#{user.avatar}",width="20",alt="#{user.username}")
-						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
-					if unread > 0
-						span.notification=unread.toString()
-					span.name
-						| #{user.displayName}
-						if !user.active
-							span.user-deleted
-								=_('Deleted user')
+					.item-inner-wrp
+						.avatar-wrap
+							if user.status === 16
+								span.online
+							else
+								span.offline
+							img(src="#{user.avatar}",width="20",alt="#{user.username}")
+							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+						if unread > 0
+							span.fl-notification=unread.toString()
+						span.name
+							| #{user.displayName}
+							if !user.active
+								span.user-deleted
+									=_('Deleted user')

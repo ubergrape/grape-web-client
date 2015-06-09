@@ -59,7 +59,7 @@ Navigation.prototype.init = function Navigation_init() {
 			orgInfoHeight = qs('.org-info', self.el).clientHeight,
 			roomWrapper = roomScrollbar.wrapper.parentNode,
 			pmResizableHeight = pmResizable.element.clientHeight,
-			remainingPadding = 12;
+			remainingPadding = 14;
 		// saving new sidebar height in localStorage
 		store.set('pmListHeight', pmResizableHeight);
 		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
