@@ -232,6 +232,7 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 		var lastLoadedMsg = this.room.searchHistory[this.room.searchHistory.length - 1];
 		// is it needed to switch to chat mode here?
 		// maybe we can just hide the buttons with flags
+		// but maybe it is important for keep on appending new messages
 		if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 			this.switchToChatMode(this.room);
 
