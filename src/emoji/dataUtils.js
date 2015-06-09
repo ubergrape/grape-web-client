@@ -5,6 +5,7 @@ import get from 'lodash-es/object/get'
 import values from 'lodash-es/object/values'
 
 import * as dataUtils from '../components/browser/dataUtils'
+import * as grid from './grid'
 import meta from './meta.json'
 import * as emoji from './emoji'
 import Icon from './Icon'
@@ -20,8 +21,8 @@ const CATEGORY_ORDER = {
 
 export let {getFocusedItem} = dataUtils
 export let {setFocusedItem} = dataUtils
-export let {extractItems} = dataUtils
 export let {setSelectedTab} = dataUtils
+export let {getItem} = grid
 let {unsetFocusedItem} = dataUtils
 
 let sections = {}
@@ -97,12 +98,6 @@ export function getSections(tabId, search) {
   return found
 }
 
-export function getCurrentSection(sections, id) {
-  return find(sections, section => {
-    return section.items.some(item => item.id == id)
-  })
-}
-
 export function getTabs(options) {
   if (!emoji.get()) return []
 
@@ -136,3 +131,6 @@ export function getTabs(options) {
 
   return tabs
 }
+
+
+

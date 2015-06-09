@@ -16,8 +16,6 @@ import Icon from './Icon'
 import * as dataUtils from './dataUtils'
 import * as emoji from './emoji'
 
-const FOCUS_COMMANDS = ['prev', 'next', 'prevRow', 'nextRow']
-
 /**
  * Main emoji browser component.
  */
@@ -171,80 +169,8 @@ let Browser = React.createClass({
 
   focusItem(id) {
     let {sections} = this.state
-
-    if (FOCUS_COMMANDS.indexOf(id) >= 0) {
-      let items = dataUtils.extractItems(sections)
-      let currIndex = findIndex(items, item => item.focused)
-      let item = items[currIndex]
-      let currSection
-      let rowsAmount
-      let currRow
-      let itemsShift
-
-      switch (id) {
-        case 'next':
-          item = items[currIndex + 1]
-          id = item ? item.id : items[0].id
-          break
-        case 'prev':
-          item = items[currIndex - 1]
-          id = item ? item.id : items[items.length - 1].id
-          break
-        case 'nextRow':
-          currSection = dataUtils.getCurrentSection(sections, item.id)
-          currIndex = findIndex(currSection.items, item => item.focused)
-          currRow = Math.floor(currIndex / this.itemsPerRow)
-          itemsShift = currIndex - currRow * this.itemsPerRow
-          let nextRow = currRow + 1
-          let nextIndex = nextRow * this.itemsPerRow + itemsShift
-          item = currSection.items[nextIndex]
-          rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
-          if (item) id = item.id
-          // - We are already on the last row of the current section, move to
-          // the next section or to the first one.
-          // - We are not on the last row but the next one has no item at
-          // the current shift - jump to the prev section.
-          else {
-            let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
-            let nextSection = sections[currSectionIndex + 1]
-            if (nextSection) id =  nextSection.items[itemsShift].id
-            else id = sections[0].items[itemsShift].id
-          }
-          break
-        case 'prevRow':
-          currSection = dataUtils.getCurrentSection(sections, item.id)
-          currIndex = findIndex(currSection.items, item => item.focused)
-          currRow = Math.floor(currIndex / this.itemsPerRow)
-          itemsShift = currIndex - currRow * this.itemsPerRow
-          let prevRow = currRow - 1
-          let prevIndex = prevRow * this.itemsPerRow + itemsShift
-          item = currSection.items[prevIndex]
-          rowsAmount = Math.ceil(currSection.items.length / this.itemsPerRow)
-
-          if (item) id = item.id
-          // - We are already on the fist row of the current section,
-          // move to the last row of prev section.
-          // - We are not on the first row but the first one has no item at
-          // the current shift - jump to the prev section.
-          else {
-            let currSectionIndex = findIndex(sections, section => section.id == currSection.id)
-            let prevSection = sections[currSectionIndex - 1]
-            if (!prevSection) prevSection = sections[sections.length - 1]
-            rowsAmount = Math.ceil(prevSection.items.length / this.itemsPerRow)
-            let prevRow = rowsAmount - 1
-            let prevIndex = prevRow * this.itemsPerRow + itemsShift
-            item = prevSection.items[prevIndex]
-            if (item) id = item.id
-            else {
-              prevRow = rowsAmount - 2
-              prevIndex = prevRow * this.itemsPerRow + itemsShift
-              id = prevSection.items[prevIndex].id
-            }
-          }
-          break
-      }
-    }
-
+    let item = dataUtils.getItem(sections, id, this.itemsPerRow)
+    if (item) id = item.id
     dataUtils.setFocusedItem(sections, id)
     this.setState({sections: sections})
   },
