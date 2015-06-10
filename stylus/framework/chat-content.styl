@@ -12,6 +12,7 @@
 	min-width: client-body-minwidth
 	position: relative
 	overflow: hidden
+	transition: width 400ms ease
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -124,13 +125,12 @@
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
 	.message-inner-wrap
-		margin-bottom: 1px
 		display: inline-block
 		padding: 10px 16px 9px
 		border-radius: 3px
 		@extend $big-font-size
-		min-width: 91px
 		position: relative
+		max-width: 100%
 	&.user
 		.avatar
 			&::after,
@@ -139,8 +139,8 @@
 				position: absolute
 			&::after
 				z-index: 9
-				right: -2px;
-				top: 1px;
+				right: -2px
+				top: 1px
 				border-right: 9px solid white
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
@@ -152,11 +152,12 @@
 			border: 1px solid #E0DFDF
 			background-color: #fff
 		.text.main
-			max-width: 650px
+			max-width: 600px
 
 	&.service
 		.message-content
-			border-left: 3px solid silver-dark
+			border-left: 2px solid link-color
+			max-width: 740px
 		.message
 			padding: 10px 16px 9px
 
@@ -194,8 +195,6 @@
 			padding-right: 0
 		.message
 			padding-left: 68px
-		.messageinfo
-			text-align: right
 		.message-inner-wrap
 			text-align: left
 			border-color: blue-light
@@ -205,46 +204,39 @@
 		.message-author:hover
 			color: grape-typo-hl
 			text-decoration: none
-.message-content
-	overflow: hidden
-	.messageinfo
-		clear: both
-		margin-bottom: 3px
-		color: gainsboro-dark
-		padding: 0px 16px
-		@extend $ellipsis
-		span
-			color: #b3b3b3
+.messageinfo
+	color: #b3b3b3
+	text-align: left
+	margin-bottom: 5px
+	@extend $normal-font-size
+	span
+		color: #b3b3b3
 	.message-author
-		display: block
-		color: grape-typo-hl
+		display: inline
 		@extend $subtle-link
+		color: grape-typo-hl
 		font-weight: bold
-		margin-bottom: 4px
 	.time
 		display: inline
 		.dif-tz,
 		.user-tz
-			display: none
-		.dif-tz
-			font-weight: bold
-	> .time
-		opacity: 1
+			opacity: 0
+.message-content
+	overflow: hidden
 	&:hover
 		.dif-tz,
 		.user-tz
-			display: inline
+			opacity: 1
 	.message
+		margin-top: -1px
 		overflow: hidden // clearfix
-		clear: both;
-		.text.main
-			@extend $roboto
-		.time,
+		clear: both
+		&.first
+			margin-top: 0
 		.edit,
 		.btn-label
 			opacity: 0
 		&:hover
-			> .time
 			.message-inner-wrap > .edit
 			> .btn-label
 				opacity: 1
@@ -329,10 +321,9 @@
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
-		a.attachment			
-			white-space: nowrap
+		a.attachment	
+			display: inline		
 			border-bottom: 1px solid link-color
-			@extend $ellipsis
 			margin: 1px
 			padding: 1px 0
 			vertical-align: baseline

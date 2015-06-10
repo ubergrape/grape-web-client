@@ -90,12 +90,7 @@
 					- var lineID = line.id ? line.id : line.clientSideID
 					- var status = line.status ? line.status : 'sent'
 					- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
-					div.message(data-id=lineID, class=msgType, class=status)
-						.labels(style='display: none;')
-							a
-								.label
-									=_('#Label')
-						i.fa.fa-tag.btn-label
+					div.message(data-id=lineID, class=msgType, class=status, class=i === 0 ? "first" : "")
 						if line.actor && line.actor.image && line.actor.image.url
 							a(href=line.actor.url, class="actor avatar-wrap")
 								img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
@@ -122,18 +117,34 @@
 										i.fa.fa-pencil.btn-edit
 									i.fa.fa-times.btn-delete
 							if i === 0
-								if (first.author.type==='user')
-									if(first.author.active)
-										//- Only create link when it's a user who is not deleted
-										a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+								.messageinfo
+									if (first.author.type==='user')
+										if(first.author.active)
+											//- Only create link when it's a user who is not deleted
+											a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+												author.message-author= first.author.displayName
+										else if (!first.author.active)
 											author.message-author= first.author.displayName
-									else if (!first.author.active)
-										author.message-author= first.author.displayName
-										if (first.author.id !== user.id)
-											span.author-deleted
-												=_('Deleted user')
-								else
-									author.message-author= first.author.username
+											if (first.author.id !== user.id)
+												span.author-deleted
+													=_('Deleted user')
+									else
+										author.message-author= first.author.username
+
+									span
+										=_(' at ')
+									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+									.time
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+											first.user_time
+										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+											|  
+											i.fa.fa-globe
+											span.dif-tz
+												=_(' Local time: ')
+											//- the substr part is a hack to remove the tz information
+											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+											time.user-tz= tz(user_time).format('h:mm a')
 							if line.title
 								if line.times
 									span.times= 'x' + line.times
@@ -192,18 +203,3 @@
 										i.fa.fa-exclamation-circle.fa-lg
 								if status == 'pending'
 									div.pending
-				.messageinfo
-					span
-						=_('At ')
-					//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-					.time
-						time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-							first.user_time
-						if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
-							|  
-							i.fa.fa-globe
-							span.dif-tz
-								=_(' Local time: ')
-							//- the substr part is a hack to remove the tz information
-							- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-							time.user-tz= tz(user_time).format('h:mm a')
