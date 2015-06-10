@@ -32,7 +32,6 @@
 		&:hover
 			color: lighten(link-color, 15%)
 
-
 // ****
 //
 // Welcome messages inside of the history
@@ -126,7 +125,7 @@
 			border-radius: 50%
 	.message-inner-wrap
 		display: inline-block
-		padding: 10px 16px 9px
+		padding: 0 16px 0
 		border-radius: 3px
 		@extend $big-font-size
 		position: relative
@@ -193,13 +192,14 @@
 		.message-content
 			text-align: right
 			padding-right: 0
-		.message
 			padding-left: 68px
 		.message-inner-wrap
 			text-align: left
 			border-color: blue-light
 			background: blue-lighter
 			max-width: 100%
+		.message
+			border-color: blue-light
 		.message-author,
 		.message-author:hover
 			color: grape-typo-hl
@@ -207,7 +207,7 @@
 .messageinfo
 	color: #b3b3b3
 	text-align: left
-	margin-bottom: 5px
+	margin-bottom: 8px
 	@extend $normal-font-size
 	span
 		color: #b3b3b3
@@ -228,16 +228,18 @@
 		.user-tz
 			opacity: 1
 	.message
-		margin-top: -1px
 		overflow: hidden // clearfix
 		clear: both
+		padding: 10px 0
+		border-top: 1px solid #E0DFDF
 		&.first
 			margin-top: 0
+			border-top: 1px
 		.edit,
 		.btn-label
 			opacity: 0
 		&:hover
-			.message-inner-wrap > .edit
+			.message > .edit
 			> .btn-label
 				opacity: 1
 		.edit,
