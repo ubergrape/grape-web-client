@@ -78,7 +78,6 @@ export function getSections(tabId, search) {
   let found = sections[tabId]
 
   if (search) {
-    search = search.toLowerCase()
     found = []
     sections[tabId].forEach(section => {
       let items = section.items.filter(item => {
