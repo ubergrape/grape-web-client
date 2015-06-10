@@ -229,14 +229,14 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 
 HistoryView.prototype.firstMsgLoaded = function HistoryView_firstMsgLoaded (history) {
 	var firstLoadedMsg = history[0];
-	if (new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
+	if (firstLoadedMsg && new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
 		return true;
 	return false;
 }
 
 HistoryView.prototype.lastMsgLoaded = function HistoryView_lastMsgLoaded (history) {
 	var lastLoadedMsg = history[history.length - 1];
-	if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
+	if (lastLoadedMsg && new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 		return true;
 	return false;
 }
@@ -246,6 +246,7 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	this.room.empty = false;
 	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
+	this.isLastMsgLoaded = this.lastMsgLoaded(displayedHistory);
 
 	if (direction === 'new') {
 		this.scrollMode = 'automatic';
@@ -267,13 +268,15 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.room.empty = true;
 	this.room.loading = false;
+	this.isFirstMsgLoaded = false;
+	this.isLastMsgLoaded = false;
 	this.queueDraw();
 };
 
 HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (room) {
 	this.mode = 'chat';
 	if (!room.empty) this.emit('needhistory', room);
-	this.scroll.reset();
+	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
 }
 
@@ -294,8 +297,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
-	// reset, otherwise we wonâ€™t get future events
-	this.scroll.reset();
+	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
 
 	// TODO: lastMsgLoaded to template

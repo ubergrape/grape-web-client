@@ -21,10 +21,10 @@ div
 							=_('Room ') + message.options.room + _(' was successfully deleted.')
 					else if message.type == 'url not found'
 						p
-							=("We could not find what you were looking for - the room might have been deleted, renamed or moved.")
+							=_("We could not find what you were looking for - the room might have been deleted, renamed or moved.")
 					else if message.type == 'message not found'
 						p
-							=("We could not find the message you were looking for.")
+							=_("We could not find the message you were looking for.")
 					else
 						p
 							message.type
