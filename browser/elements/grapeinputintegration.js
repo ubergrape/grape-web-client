@@ -275,9 +275,12 @@ GrapeInputIntegration.prototype.onPreviousEdit = function () {
 };
 
 GrapeInputIntegration.prototype.onAbort = function (e) {
-	this.completePreviousEdit();
-    if (e.detail.reason == 'esc') {
-        analytics.track('abort autocomplete', e.detail);
+	var data = e.detail;
+
+	// Don't abort editing if browser has been open.
+	if (!data.type) this.completePreviousEdit();
+    if (data.type == 'search' && data.reason == 'esc') {
+    	analytics.track('abort autocomplete', data);
     }
 };
 
