@@ -158,13 +158,13 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 
-	// update the read messages. Do this before we redraw, so the new message
-	// indicator is up to date
-	if (this.room.history.length && (!this.lastwindow.lastmsg ||
-		(this.scrollMode === 'automatic' && focus.state === 'focus')))
-		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
-
-	if (this.mode == 'chat') {
+	if (this.mode === 'chat') {
+		// update the read messages. Do this before we redraw, so the new message
+		// indicator is up to date
+		if (this.room.history.length && (!this.lastwindow.lastmsg ||
+			(this.scrollMode === 'automatic' && focus.state === 'focus'))) {
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+		}
 		// create a copy of the history
 		var history = this.room.history.slice();
 		// merge buffered messages with copy of history
@@ -247,21 +247,7 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(displayedHistory);
-
-	if (direction === 'new') {
-		this.scrollMode = 'automatic';
-		var lastLoadedMsg = this.room.searchHistory[this.room.searchHistory.length - 1];
-		if (new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
-			this.switchToChatMode(this.room);
-	}
-
-	// else we are going to check if oldest loaded message is 
-	// equal to the oldest message in history
-	// if so, we will turn the flag maxHistoryLoaded to true
-	// and avoid outputting the button "LOAD MOAR" on top
-
-	// this needs to be done on focus message somehow too,
-	// maybe adding flags latestMsgLoaded and oldestMsgLoaded
+	if (direction === 'new') { this.scrollMode = 'automatic'; }
 	this.queueDraw();
 };
 
@@ -299,11 +285,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	this.room = room;
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
-
-	// TODO: lastMsgLoaded to template
-	// how to maitain consistent scroll if the user is in chat mode
-	// because the last message is visible,
-	// but has just clicked on a message link
 	if (!msgID) {
 		if (!this.room.empty) {
 			this.emit('needhistory', room);
@@ -370,7 +351,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	if (line.channel != this.room || this.mode === 'search') return;
+	if (line.channel != this.room) return;
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
@@ -387,6 +368,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
 	this.mode = 'search';
+	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
 	this.room.loading = false;

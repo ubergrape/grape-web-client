@@ -648,7 +648,6 @@ App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (dire
 }
 
 App.prototype.setRead = function App_setRead(room, line) {
-	console.log('bubi');
 	// update the unread count
 	// iterate the history in reverse order
 	// (its more likely the read line is at the end)

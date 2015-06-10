@@ -195,6 +195,7 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 
 Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
 	if (this.filtering || ui.user == line.author) return;
+	console.log('navigation redraw triggered');
 	this.redraw();
 }
 

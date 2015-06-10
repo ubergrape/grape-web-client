@@ -208,5 +208,6 @@
 							- var user_time = first.user_time.substr(0, first.user_time.length - 6)
 							time.user-tz= tz(user_time).format('h:mm a')
 	if mode === 'search'
-		div.load-button.load-newer-history= _('LOAD MOAR')
-		div.load-button.load-newest-history= _('LOAD NEWEST MESSAGES')
+		if !isLastMsgLoaded
+			div.load-button.load-newer-history= _('LOAD MOAR')
+		div.load-button.load-newest-history= _('LOAD NEWEST MESSAGES AND REPLY')
