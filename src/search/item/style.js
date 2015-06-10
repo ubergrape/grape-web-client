@@ -36,7 +36,7 @@ export let style = {
   containerFocused: {
     extend: container,
     color: colors.white,
-    background: colors.gainsboroDark
+    background: colors.grapeLight
   },
   iconContainer: {
     display: 'flex',
@@ -77,7 +77,7 @@ export let style = {
   metaItemFocused: {
     extend: metaItem,
     color: colors.white,
-    backgroundColor: Color(colors.gainsboroDark).lighten(.2).rgbaString(),
-    borderColor: Color(colors.gainsboroDark).lighten(.4).rgbaString()
+    backgroundColor: Color(colors.grapeLight).lighten(.2).rgbaString(),
+    borderColor: Color(colors.grapeLight).lighten(.4).rgbaString()
   }
 }
