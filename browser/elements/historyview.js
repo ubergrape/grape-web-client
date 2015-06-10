@@ -247,7 +247,7 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(displayedHistory);
-	if (direction === 'new') { this.scrollMode = 'automatic'; }
+	if (direction === 'new') this.scrollMode = 'automatic';
 	this.queueDraw();
 };
 

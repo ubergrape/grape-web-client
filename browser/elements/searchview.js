@@ -21,8 +21,7 @@ SearchView.prototype.init = function SearchView_init() {
 	this.results = [];
 	this.hidden = true;
 	document.addEventListener('keyup', function(ev) {
-		if (!this.hidden)
-			if (ev.keyCode === 27) this.hideResults();
+		if (!this.hidden && ev.keyCode === 27) this.hideResults();
 	}.bind(this));
 	document.addEventListener('click', function (ev) {
 		if (!this.hidden) {
