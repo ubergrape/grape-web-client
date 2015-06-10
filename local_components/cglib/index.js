@@ -445,7 +445,6 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 
 		var rooms = res.channels.map(self._newRoom.bind(self));
 		org.rooms = rooms.filter(function (r) { return r.type === 'room'; });
-		console.log(org.rooms);
 		org.pms = rooms.filter(function (r) { return r.type === 'pm'; });
 		if (res.logo !== null) org.logo = res.logo;
 		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;

@@ -284,7 +284,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
 	this.scroll.reset(); // reset, otherwise we won't get future events
-	this.scrollMode = 'automatic';
 	if (!msgID) {
 		if (!this.room.empty) {
 			this.emit('needhistory', room);
@@ -293,6 +292,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 			this.isLastMsgLoaded = this.lastMsgLoaded(room.history);
 		}
 		this.mode = 'chat';
+		this.scrollMode = 'automatic';
 		this.queueDraw();
 	} else {
 		this.emit('requestMessage', room, msgID);
