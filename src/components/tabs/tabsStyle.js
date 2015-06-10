@@ -8,6 +8,7 @@ export default {
     padding: 0,
     whiteSpace: 'nowrap',
     backgroundColor: colors.white,
-    borderBottom: '2px solid ' + colors.silverDark
+    borderBottom: '2px solid ' + colors.silverDark,
+    overflow: 'hidden'
   }
 }
