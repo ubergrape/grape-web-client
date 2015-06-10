@@ -682,7 +682,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 			var exists = models.Line.get(line.id);
 			if (!exists || !~room.searchHistory.indexOf(exists)) {
 				line = new models.Line(line);
-				line.read = 1;
+				line.read = true;
 				room.searchHistory.push(line);
 			}
 		});
