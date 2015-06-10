@@ -351,7 +351,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	if (line.channel != this.room) return;
+	if (line.channel != this.room || this.mode === 'search') return;
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
