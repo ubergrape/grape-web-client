@@ -13,8 +13,8 @@ export let text = {
 export let amount = {
   letterSpacing: 0,
   fontWeight: 'normal',
-  marginLeft: '4px',
-  opacity: '0.75'
+  marginLeft: 4,
+  opacity: 0.75
 }
 
 export let container = {
@@ -25,7 +25,7 @@ export let container = {
   padding: '0 12px',
   listStyleType: 'none',
   cursor: 'pointer',
-  height: '32px',
+  height: 32,
   color: Color(colors.grapeTypo).alpha(.7).rgbaString(),
   userSelect: 'none',
 }
