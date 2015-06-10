@@ -30,7 +30,8 @@ let Browser = React.createClass({
       maxWidth: 920,
       className: '',
       onSelectItem: undefined,
-      search: ''
+      search: '',
+      onNotFound: undefined
     }
   },
 
@@ -39,7 +40,9 @@ let Browser = React.createClass({
   },
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
+    let state = this.createState(props)
+    if (state.sections.length) this.setState(state)
+    else this.props.onNotFound()
   },
 
   createState(props) {
