@@ -125,7 +125,7 @@
 			border-radius: 50%
 	.message-inner-wrap
 		display: inline-block
-		padding: 0 16px 0
+		padding: 0
 		border-radius: 3px
 		@extend $big-font-size
 		position: relative
@@ -199,7 +199,7 @@
 			background: blue-lighter
 			max-width: 100%
 		.message
-			border-color: blue-light
+			border-color: #DBE7ED
 		.message-author,
 		.message-author:hover
 			color: grape-typo-hl
@@ -228,29 +228,29 @@
 		.user-tz
 			opacity: 1
 	.message
-		overflow: hidden // clearfix
 		clear: both
-		padding: 10px 0
-		border-top: 1px solid #E0DFDF
+		padding: 10px 30px 10px 16px
+		border-top: 1px solid silver-light
+		position: relative
 		&.first
 			margin-top: 0
 			border-top: 1px
+		&:hover
+			> .edit
+				opacity: 1
 		.edit,
 		.btn-label
 			opacity: 0
-		&:hover
-			.message > .edit
-			> .btn-label
-				opacity: 1
 		.edit,
 		.btn-label
 			@extend $hoverable
 			display: inline-block
 			vertical-align: top
-			color: gainsboro-light
+			color: blue-light
 			position: absolute
-			right: 100%
+			right: 0
 			top: 0
+			width: 20px
 			i
 				margin-right: 4px
 				&:hover
@@ -295,31 +295,28 @@
 					.unsent
 						display: none
 		&.editing
-			.message-inner-wrap
-				background: lighten(gold, 80%)
-				color: grape-typo
-				z-index: 10
-				position: relative
-				.message-author
-					color: gainsboro-dark
+			background: lighten(gold, 80%)
+			color: grape-typo
+			z-index: 10
+			position: relative
+			.message-author
+				color: gainsboro-dark
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removing
-			.message-inner-wrap
-				background: lighten(gold, 60%)
-				color: grape-typo
-				z-index: 10
-				position: relative
+			background: lighten(gold, 60%)
+			color: grape-typo
+			z-index: 10
+			position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			.message-inner-wrap
-				background: lighten(bittersweet-light, 60%)
-				color: grape-typo
-				z-index: 10
-				position: relative
+			background: lighten(bittersweet-light, 60%)
+			color: grape-typo
+			z-index: 10
+			position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
@@ -413,6 +410,7 @@ span.author-deleted
 	margin: 0 30px 0px 66px
 	color: gainsboro-dark
 	min-height: 11px
+	text-align: center
 	i.fa
 		margin-left: 1px
 	.dotOne
