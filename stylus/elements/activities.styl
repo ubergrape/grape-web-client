@@ -23,7 +23,7 @@
 	.source-wrap // Used to display info on the right side of the message
 		float: right
 		padding: 0 5px
-		border: 2px solid grass-light
+		border: 2px solid gainsboro-dark
 		border-radius: 3px
 		color: gainsboro-dark
 		margin-left: 5px
@@ -31,7 +31,7 @@
 		@extend $ellipsis
 		display: block
 		a
-			color: grass-light
+			color: gainsboro-dark
 		@media (max-width: 800px)
 			max-width: 70px
 
@@ -96,7 +96,7 @@
 
 	.comment,
 	&.commentCard .short-list 
-		li
+		> li
 			padding: 0 10px
 			margin: 4px -10px
 			overflow: hidden
@@ -113,6 +113,8 @@
 
 	.comment .text ol
 		padding-left: 22px
+		li
+			list-style-type: decimal
 
 	/* TRELLO SPECIFIC */
 	//Removing unnecessary elements
@@ -135,9 +137,9 @@
 		margin-left: 5px
 		padding: 0 5px
 		border-radius: 4px
-		color: gainsboro-dark
+		color: gold
 		float: right
-		border: 2px solid gainsboro-dark
+		border: 2px solid gold
 /*
 
 	&.github
