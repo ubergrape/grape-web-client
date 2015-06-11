@@ -120,6 +120,7 @@
 		font-weight: bold
 		.image
 			width: 42px
+			height: 42px
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
@@ -232,7 +233,8 @@
 		padding: 10px 30px 10px 16px
 		border-top: 1px solid silver-grey
 		position: relative
-		animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		&.freshmessage
+			animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&.first
 			margin-top: 0
 			border-top: 1px
@@ -544,6 +546,15 @@ span.author-deleted
 		z-index: 5
 		border: 2px solid grass-light
 		border-radius: 3px
+	&::before
+		content: ""
+		position: absolute
+		top: 50%
+		left: 0
+		right: 0
+		background-color: #d9d9d9
+		height: 1px
+		margin-top: 1px
 
 .date-separator
 	margin: 0 30px 20px 20px
@@ -562,6 +573,10 @@ span.author-deleted
 		margin-top: 1px
 
 .newmessage-separator
-	border-bottom: 1px solid grape-dark
 	height: 7px
 	margin: 0px 30px 18px 20px
+	span
+		border-color: aqua-light
+		color: aqua-light
+
+
