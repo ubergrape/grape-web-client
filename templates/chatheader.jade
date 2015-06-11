@@ -12,6 +12,8 @@
 						i.fa.fa-check
 			else
 				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') 
+					if mode === 'search'
+						=_("History: ")
 					if !room.is_public
 						i.fa.fa-lock
 						|  

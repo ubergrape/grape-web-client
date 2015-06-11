@@ -62,7 +62,13 @@
 	- var lastDate
 	- var lastRead = true
 	if mode === 'search' && !isFirstMsgLoaded
-		div.load-button.load-older-history= _('LOAD MOAR')
+		if !isLastMsgLoaded
+			div.load-older-history.load-button
+				a.button
+					i.fa.fa-arrow-up
+					br
+					=_('load older messages')
+		.content-break
 	each lines in history
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
@@ -77,7 +83,8 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator", class=first.author.type, class=first.author.active == false ? "deleted" : "")
+		- var requestedFirst = first.id && first.id === requestedMsgID ? 'requested' : ''
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=requestedFirst, class=first.author.id !== user.id ? "" : "creator", class=first.author.type, class=first.author.active == false ? "deleted" : "")
 			if first.author.type === 'user' && first.author.id !== user.id && first.author.active
 				a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
@@ -123,6 +130,19 @@
 									if line.attachments.length == 0
 										i.fa.fa-pencil.btn-edit
 									i.fa.fa-times.btn-delete
+							if i !== 0
+								a(href='/chat/' + payload + '/' + line.id, class='outertime')
+									.time
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+											first.user_time
+										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+											|  
+											i.fa.fa-globe
+											span.dif-tz
+												=_(' Local time: ')
+											//- the substr part is a hack to remove the tz information
+											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+											time.user-tz= tz(user_time).format('h:mm a')
 							if i === 0
 								.messageinfo
 									if (first.author.type==='user')
@@ -138,10 +158,10 @@
 									else
 										author.message-author= first.author.username
 									- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug  
+									span
+										=_(' at ')
+									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 									a(href='/chat/' + payload + '/' + line.id)
-										span
-											=_(' at ')
-										//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 										.time
 											time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 												first.user_time
@@ -212,6 +232,18 @@
 									if status == 'pending'
 										div.pending
 	if mode === 'search'
+		.content-break
 		if !isLastMsgLoaded
-			div.load-button.load-newer-history= _('LOAD MOAR')
-		div.load-button.load-newest-history= _('LOAD NEWEST MESSAGES AND REPLY')
+			.load-button.load-newer-history
+				a.button
+					=_('load newer messages')
+					br
+					i.fa.fa-arrow-down
+		.load-button.load-newest-history.breakpointmessage
+			a.button
+				=_('newest messages')
+				br
+				i.fa.fa-arrow-circle-o-down
+		.load-button.load-newest-history.bigarrow
+			i.fa.fa-arrow-down
+
