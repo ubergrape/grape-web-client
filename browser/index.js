@@ -406,3 +406,8 @@ UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel)
 	var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug;
 	page('/chat/' + slug);
 }
+
+UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
+	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
+	page('/chat/' + redirectSlug);
+}

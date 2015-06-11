@@ -63,6 +63,7 @@ function pipeEvents(ui) {
 	broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage');
 	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
+	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
 	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
 	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
 

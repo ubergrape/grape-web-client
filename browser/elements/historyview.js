@@ -95,7 +95,7 @@ HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
 };
 
 HistoryView.prototype.loadNewestHistory = function HistoryView_loadNewestHistory () {
-	this.switchToChatMode(this.room);
+	this.emit('switchToChatMode', this.room);
 }
 
 HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
@@ -261,15 +261,6 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.queueDraw();
 };
 
-HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (room) {
-	this.mode = 'chat';
-	this.scroll.reset(); // reset, otherwise we won't get future events
-	this.scrollMode = 'automatic';
-	this.redrawTyping();
-	if (!room.history.length) return this.emit('needhistory', room);
-	this.queueDraw();
-}
-
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
 	var history = this.history.el;
 	var scrollWindow = this.scrollWindow;
@@ -339,7 +330,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 };
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
-	if (this.mode === 'search') this.switchToChatMode(room);
+	if (this.mode === 'search') this.emit('switchToChatMode', room);
 	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
 		clientSideID: (Math.random() + 1).toString(36).substring(7),
