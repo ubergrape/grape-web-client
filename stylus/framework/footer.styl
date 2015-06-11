@@ -49,6 +49,7 @@
 		flex: 1
 		position: relative
 		display: flex
+		overflow: hidden
 		border: 1px solid gainsboro-light
 		border-radius: 3px
 		background-color: #fff
@@ -64,28 +65,46 @@
 				position: absolute
 				pointer-events: none // prevent cursor change
 
+	.input-browserbtn,
 	.input-helpers
 		padding: 9px
 		display: flex
+		justify-content: center
 		align-items: flex-end
+
+	.input-browserbtn
+		@extend $hoverable
+		border-right: 1px solid gainsboro-light
+		font-size: bigger-font-size
+		color: gainsboro-dark
+		width: 52px
+		cursor: pointer
+		opacity: .7
+		&:hover
+			opacity: 1
+			background-color: silver-light
+
+	.input-helpers
 		.input-emoji,
 		.uploader,
 		.info-markdown
 			@extend $hoverable
-			padding: 0 8px
+			padding: 0 6px
 			color: gainsboro-dark
 			font-size: 20px
 			opacity: .5
 			transition: transform .2s ease-in-out, opacity .1s ease-out
 			&:hover
 				opacity: .8
+				transition: none
+
 
 	// hints
 	.edit-message, .hint-box
 		@extend $small-font-size
 		position: absolute
 		top: -18px
-		left: 15px
+		left: 68px
 		color: gainsboro-dark
 		span
 			border-radius: 3px
