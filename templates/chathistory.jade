@@ -92,8 +92,10 @@
 					each line, i in lines
 						- var lineID = line.id ? line.id : line.clientSideID
 						- var status = line.status ? line.status : 'sent'
-						- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
-						div.message(data-id=lineID, class=msgType, class=status, class=i === 0 ? "first" : "",class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 ? "freshmessage" : "")
+						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
+						- var msgTypeII = line.author.type==='service' ? line.type : ''
+						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
+						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=status, class=i === 0 ? "first" : "",class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 ? "freshmessage" : "")
 							if line.actor && line.actor.image && line.actor.image.url
 								a(href=line.actor.url, class="actor avatar-wrap")
 									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
