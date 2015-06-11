@@ -98,7 +98,7 @@
 						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
 						- var msgTypeII = line.author.type==='service' ? line.type : ''
 						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
-						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "",class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 ? "freshmessage" : "")
+						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 							if line.actor && line.actor.image && line.actor.image.url
 								a(href=line.actor.url, class="actor avatar-wrap")
 									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)

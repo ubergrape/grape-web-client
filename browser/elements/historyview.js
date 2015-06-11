@@ -361,7 +361,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 		});
 		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
 	}
-	this.queueDraw();
+	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
 }
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
