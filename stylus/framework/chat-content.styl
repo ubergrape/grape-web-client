@@ -169,7 +169,25 @@
 			color: gainsboro-dark
 	&:last-child
 		margin-bottom: 10px
-	&.creator.user
+.message-group.creator.user
+	margin-left: 30px
+	.avatar
+		.image
+			display: none
+		&::after
+			border-right-color: blue-lighter
+		&::before // Hack for the arrow of the message box
+			border-right-color: blue-light
+	.message-inner-wrap
+		border-color: blue-light
+		background: blue-lighter
+	.message
+		border-color: #DBE7ED
+	.message-author,
+	.message-author:hover
+		color: grape-typo-hl
+		text-decoration: none
+	@media (max-width: 850px)
 		.avatar
 			float: right
 			.image
@@ -196,15 +214,8 @@
 			padding-left: 68px
 		.message-inner-wrap
 			text-align: left
-			border-color: blue-light
-			background: blue-lighter
 			max-width: 100%
-		.message
-			border-color: #DBE7ED
-		.message-author,
-		.message-author:hover
-			color: grape-typo-hl
-			text-decoration: none
+			
 .messageinfo
 	color: #b3b3b3
 	text-align: left
@@ -297,9 +308,6 @@
 						display: block
 					.unsent
 						display: none
-		&.requested
-			.text.main
-				color: red
 		&.editing
 			background: lighten(gold, 80%)
 			color: grape-typo
