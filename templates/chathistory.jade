@@ -161,7 +161,7 @@
 									span
 										=_(' at ')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-									a(href='/chat/' + payload + '/' + line.id)
+									a(href='/chat/' + payload + '/' + line.id, class="timelink")
 										.time
 											time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 												first.user_time

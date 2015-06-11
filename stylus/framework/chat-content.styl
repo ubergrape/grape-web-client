@@ -234,18 +234,22 @@
 		@extend $subtle-link
 		color: grape-typo-hl
 		font-weight: bold
-	.time
-		display: inline
+	a.timelink
 		@extend $subtle-link
 		color: #b3b3b3
-		.dif-tz,
-		.user-tz
-			opacity: 0
+		&:hover
+			text-decoration: none !important
+		.time
+			display: inline
+			.dif-tz,
+			.user-tz
+				opacity: 0
+		&:hover
+			.dif-tz,
+			.user-tz
+				opacity: 1
+				text-decoration: none !important
 .message-content
-	&:hover
-		.dif-tz,
-		.user-tz
-			opacity: 1
 	.message
 		clear: both
 		padding: 10px 30px 10px 16px
