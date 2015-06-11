@@ -9,8 +9,10 @@
 	flex-direction: column
 	height: 100vh
 	margin-left: client-navigation-width
+	min-width: client-body-minwidth
 	position: relative
 	overflow: hidden
+	transition: width 400ms ease
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -30,7 +32,6 @@
 		&:hover
 			color: lighten(link-color, 15%)
 
-
 // ****
 //
 // Welcome messages inside of the history
@@ -44,6 +45,7 @@
 		text-align: center
 	body.notifications-disabled &
 		padding-top: 62px !important
+	@extend $big-font-size
 	.image
 		float: left
 		@media (max-width: 720px)
@@ -61,7 +63,7 @@
 		color: gainsboro-dark
 		margin-bottom: 4px
 	h3
-		@extend $big-font-size
+		@extend $bigger-font-size
 		font-weight: bold
 		color: darken(gainsboro-dark, 20%)
 		margin-bottom: 3px
@@ -118,9 +120,17 @@
 		font-weight: bold
 		.image
 			width: 42px
+			height: 42px
 			float: left
 			margin-right: (horizontal-space / 2)
 			border-radius: 50%
+	.message-inner-wrap
+		display: inline-block
+		padding: 0
+		border-radius: 3px
+		@extend $big-font-size
+		position: relative
+		max-width: 100%
 	&.user
 		.avatar
 			&::after,
@@ -128,28 +138,26 @@
 				content: ""
 				position: absolute
 			&::after
-				right: -2px;
-				top: 1px;
+				z-index: 9
+				right: -2px
+				top: 1px
 				border-right: 9px solid white
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-right: 10px solid #F2F2F2
+				border-right: 10px solid #E0DFDF
 				border-bottom: 14px solid transparent
 				right: -1px;
 				top: 0px;
-		.text.main,
-		.image-wrap
-			border: 1px solid #F2F2F2
+		.message-inner-wrap
+			border: 1px solid #E0DFDF
 			background-color: #fff
-			padding: 10px 16px 9px
-			border-radius: 3px
-			@extend $big-font-size
 		.text.main
-			max-width: 650px
+			max-width: 600px
 
 	&.service
 		.message-content
-			border-left: 3px solid silver-dark
+			border-left: 2px solid link-color
+			max-width: 740px
 		.message
 			padding: 10px 16px 9px
 
@@ -169,77 +177,83 @@
 				margin-right: 0
 				display: none
 			&::after
-				left: -2px
+				left: -1px
 				right: auto
 				top: 1px
-				border-left: 9px solid grape-light
+				border-left: 9px solid blue-lighter
 				border-right: none
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-left: 10px solid #815A7C
+				border-left: 10px solid blue-light
 				border-right: none
 				border-bottom: 14px solid transparent
-				left: -2px
+				left: 0
 				right: auto
 				top: 0px
 		.message-content
-			float: right
-		.messageinfo
 			text-align: right
-		.text.main,
-		.image-wrap
-			float: right
-			color: #f2f2f2
-			border-color: #815A7C
-			background: grape-light
-.message-content // The message bubble with all the content
-	overflow: hidden
-	.messageinfo
-		clear: both
-		margin-bottom: 3px
-		color: gainsboro-dark
-		padding: 0px 16px
-		@extend $ellipsis
-		span
-			color: #b3b3b3
-	.author-link
+			padding-right: 0
+			padding-left: 68px
+		.message-inner-wrap
+			text-align: left
+			border-color: blue-light
+			background: blue-lighter
+			max-width: 100%
+		.message
+			border-color: #DBE7ED
+		.message-author,
+		.message-author:hover
+			color: grape-typo-hl
+			text-decoration: none
+.messageinfo
+	color: #b3b3b3
+	text-align: left
+	margin-bottom: 8px
+	@extend $normal-font-size
+	span
+		color: #b3b3b3
+	.message-author
 		display: inline
-		color: gainsboro-dark
 		@extend $subtle-link
+		color: grape-typo-hl
+		font-weight: bold
 	.time
 		display: inline
 		.dif-tz,
 		.user-tz
-			display: none
-		.dif-tz
-			font-weight: bold
-	> .time
-		opacity: 1
+			opacity: 0
+.message-content
+	overflow: hidden
 	&:hover
 		.dif-tz,
 		.user-tz
-			display: inline
+			opacity: 1
 	.message
-		overflow: hidden // clearfix
-		clear: both;
-		.text.main
-			@extend $roboto
-		.time,
+		clear: both
+		padding: 10px 30px 10px 16px
+		border-top: 1px solid silver-grey
+		position: relative
+		&.freshmessage
+			animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		&.first
+			margin-top: 0
+			border-top: 1px
+		&:hover
+			> .edit
+				opacity: 1
 		.edit,
 		.btn-label
 			opacity: 0
-		&:hover
-			> .time
-			> .edit
-			> .btn-label
-				opacity: 1
 		.edit,
 		.btn-label
 			@extend $hoverable
 			display: inline-block
 			vertical-align: top
-			color: gainsboro-light
-			float: right
+			color: blue-light
+			position: absolute
+			right: 0
+			top: 0
+			width: 20px
 			i
 				margin-right: 4px
 				&:hover
@@ -287,34 +301,37 @@
 			.text.main
 				color: red
 		&.editing
-			.text.main
-				background: lighten(gold, 80%)
-				color: grape-typo
+			background: lighten(gold, 80%)
+			color: grape-typo
+			z-index: 10
+			position: relative
+			.message-author
+				color: gainsboro-dark
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removing
-			.text.main
-				background: lighten(gold, 60%)
-				color: grape-typo
+			background: lighten(gold, 60%)
+			color: grape-typo
+			z-index: 10
+			position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			.text.main
-				background: lighten(bittersweet-light, 60%)
-				color: grape-typo
+			background: lighten(bittersweet-light, 60%)
+			color: grape-typo
+			z-index: 10
+			position: relative
 			~ .avatar
 				&::after
 					border-color: lighten(bittersweet-light, 60%)
-		a.attachment
-			white-space: nowrap
+		a.attachment	
+			display: inline		
 			border-bottom: 1px solid link-color
-			display: inline-block
 			margin: 1px
 			padding: 1px 0
 			vertical-align: baseline
-			font-weight: bold
 			&:hover
 				color: lighten(link-color, 25%)
 				text-decoration: none
@@ -399,6 +416,7 @@ span.author-deleted
 	margin: 0 30px 0px 66px
 	color: gainsboro-dark
 	min-height: 11px
+	text-align: center
 	i.fa
 		margin-left: 1px
 	.dotOne
@@ -439,7 +457,6 @@ span.author-deleted
 // ****
 
 .text
-	display: inline-block
 	padding: 0
 	margin-bottom: 1px
 	max-width: 85%
@@ -462,6 +479,7 @@ span.author-deleted
 		color: gainsboro-dark
 	pre
 		overflow: hidden
+		color: grape-typo
 	code
 		border: 1px solid gainsboro-light
 		border-radius: main-border-radius
@@ -474,6 +492,7 @@ span.author-deleted
 		white-space: -pre-wrap; /* Opera 4-6 */
 		white-space: -o-pre-wrap; /* Opera 7 */
 		word-wrap: break-word; /* Internet Explorer 5.5+ */
+		color: grape-typo
 	.warning-unsent
 		color: gainsboro-light
 		&:before
@@ -521,20 +540,47 @@ span.author-deleted
 .newmessage-separator
 	text-align: center
 	color: gainsboro-dark
-	@extend $small-font-size
-
-.date-separator
-	margin: 0 30px 0 20px
-	padding:  5px 0 0 0
-
-.newmessage-separator
-	border-bottom: 1px solid grape-dark
-	height: 7px
-	margin: 0px 30px 18px 20px
+	position: relative
 	span
 		color: grape-dark
 		background: chat-background
-		padding: 0px 5px
+		padding: 4px 16px
+		position: relative
+		z-index: 5
+		border: 2px solid grass-light
+		border-radius: 3px
+	&::before
+		content: ""
+		position: absolute
+		top: 50%
+		left: 0
+		right: 0
+		background-color: #d9d9d9
+		height: 1px
+		margin-top: 1px
+
+.date-separator
+	margin: 0 30px 20px 20px
+	padding:  5px 0 0 0
+	height: 30px
+	span
+		color: grass-light
+	&::before
+		content: ""
+		position: absolute
+		top: 50%
+		left: 0
+		right: 0
+		background-color: #d9d9d9
+		height: 1px
+		margin-top: 1px
+
+.newmessage-separator
+	height: 7px
+	margin: 0px 30px 18px 20px
+	span
+		border-color: aqua-light
+		color: aqua-light
 
 .load-button
 	text-align: center

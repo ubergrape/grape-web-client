@@ -22,6 +22,7 @@ template.locals.tz = require('moment-timezone');
 
 module.exports = HistoryView;
 
+// TODO set firstMsgTime for thr very first message in a room
 function HistoryView() {
 	Emitter.call(this);
 	this.mode = 'chat'; // can be either "search" or "chat"
@@ -261,9 +262,10 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 
 HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (room) {
 	this.mode = 'chat';
-	if (!room.empty) this.emit('needhistory', room);
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
+	if (!room.history.length) return this.emit('needhistory', room);
+	this.queueDraw();
 }
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {

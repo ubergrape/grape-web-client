@@ -25,6 +25,7 @@ function GrapeInputIntegration() {
 	Emitter.call(this);
 	this.room = null;
 	this.previous = null;
+	this.org = null;
 	this.redraw();
 	this.placeholder = 'Enter a message ...';
 	this.typing = false;
@@ -38,9 +39,10 @@ GrapeInputIntegration.prototype.init = function () {
 	this.initialized = true;
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
+	images.orgLogo = this.org.logo
 	this.input.setProps({
 		images: images,
-		customEmojis: app.organization.custom_emojis,
+		customEmojis: this.org.custom_emojis,
 		focused: true,
 		placeholder: this.placeholder
 	});
@@ -49,6 +51,7 @@ GrapeInputIntegration.prototype.init = function () {
 GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow');
+	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
@@ -102,7 +105,7 @@ GrapeInputIntegration.prototype.showBrowser = function (queryObj) {
 			data: data,
 			type: 'search',
 			queryObj: queryObj,
-			hasIntegrations: app.organization.has_integrations
+			hasIntegrations: this.org.has_integrations
 		});
 	}.bind(this));
 };
@@ -128,7 +131,7 @@ GrapeInputIntegration.prototype.showEmojis = function (queryObj) {
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
-	var users = app.organization.users.toArray();
+	var users = this.org.users.toArray();
 
 	// Remove unactive users.
 	users = users.filter(function(user) {
@@ -164,7 +167,7 @@ GrapeInputIntegration.prototype.findUsers = function (key) {
 };
 
 GrapeInputIntegration.prototype.findRooms = function (key) {
-	var rooms = app.organization.rooms.toArray();
+	var rooms = this.org.rooms.toArray();
 
 	rooms = rooms.map(function (room) {
 		return {
@@ -272,9 +275,12 @@ GrapeInputIntegration.prototype.onPreviousEdit = function () {
 };
 
 GrapeInputIntegration.prototype.onAbort = function (e) {
-	this.completePreviousEdit();
-    if (e.detail.reason == 'esc') {
-        analytics.track('abort autocomplete', e.detail);
+	var data = e.detail;
+
+	// Don't abort editing if browser has been open.
+	if (!data.type) this.completePreviousEdit();
+    if (data.type == 'search' && data.reason == 'esc') {
+    	analytics.track('abort autocomplete', data);
     }
 };
 
@@ -311,7 +317,13 @@ GrapeInputIntegration.prototype.onBlur = function () {
 	this.el.classList.remove('focus');
 };
 
-GrapeInputIntegration.prototype.onOrgReady = function () {
+GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
+	e.preventDefault();
+	this.input.setProps({type: 'emoji'});
+};
+
+GrapeInputIntegration.prototype.onOrgReady = function (org) {
+	this.org = org;
 	this.init();
 };
 
