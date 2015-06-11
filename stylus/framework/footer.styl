@@ -45,7 +45,7 @@
 				position: relative
 				vertical-align: bottom
 
-	.input-highlighter
+	.controls-wrapper
 		flex: 1
 		position: relative
 		display: flex
@@ -64,28 +64,46 @@
 				position: absolute
 				pointer-events: none // prevent cursor change
 
-	.input-helpers
+	.search-browser-button,
+	.controls-group
 		padding: 9px
 		display: flex
+		justify-content: center
 		align-items: flex-end
-		.input-emoji,
+
+	.search-browser-button
+		@extend $hoverable
+		border-right: 1px solid gainsboro-light
+		font-size: bigger-font-size
+		color: gainsboro-dark
+		width: 52px
+		cursor: pointer
+		opacity: .7
+		&:hover
+			opacity: 1
+			background-color: silver-light
+
+	.controls-group
+		.emoji-browser-button,
 		.uploader,
 		.info-markdown
 			@extend $hoverable
-			padding: 0 8px
+			padding: 0 6px
 			color: gainsboro-dark
 			font-size: 20px
 			opacity: .5
 			transition: transform .2s ease-in-out, opacity .1s ease-out
 			&:hover
 				opacity: .8
+				transition: none
+
 
 	// hints
 	.edit-message, .hint-box
 		@extend $small-font-size
 		position: absolute
 		top: -18px
-		left: 15px
+		left: 68px
 		color: gainsboro-dark
 		span
 			border-radius: 3px
@@ -131,10 +149,10 @@
 	.editing-previous
 		.input-highlighter
 			background: lighten(gold, 80%)
-		.input-helpers-item
+		.controls-group-item
 			cursor: default
 		.uploader,
-		.input-emoji
+		.emoji-browser-button
 			transform: scale(0)
 			opacity: 0
 			pointer-events: none

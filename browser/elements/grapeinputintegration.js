@@ -52,6 +52,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow');
 	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
+	this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
@@ -98,8 +99,9 @@ GrapeInputIntegration.prototype.redraw = function () {
 	render(this, vdom);
 };
 
-GrapeInputIntegration.prototype.showBrowser = function (queryObj) {
-	this.emit('autocomplete', queryObj.key, function (err, data) {
+GrapeInputIntegration.prototype.showSearchBrowser = function (queryObj) {
+	var key = queryObj ? queryObj.key : '';
+	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.input.setProps({
 			data: data,
@@ -123,7 +125,7 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
 	});
 };
 
-GrapeInputIntegration.prototype.showEmojis = function (queryObj) {
+GrapeInputIntegration.prototype.showEmojiBrowser = function (queryObj) {
 	this.input.setProps({
 		type: 'emoji',
 		queryObj: queryObj
@@ -258,13 +260,13 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 	var queryObj = e.detail;
 	switch (queryObj.trigger) {
 		case '#':
-			this.showBrowser(queryObj)
+			this.showSearchBrowser(queryObj)
 			break;
 		case '@':
 			this.showUsersAndRooms(queryObj)
 			break;
 		case ':':
-			this.showEmojis(queryObj)
+			this.showEmojiBrowser(queryObj)
 			break;
 	}
 };
@@ -319,7 +321,12 @@ GrapeInputIntegration.prototype.onBlur = function () {
 
 GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
 	e.preventDefault();
-	this.input.setProps({type: 'emoji'});
+	this.showEmojiBrowser();
+};
+
+GrapeInputIntegration.prototype.onOpenSearchBrowser = function (e) {
+	e.preventDefault();
+	this.showSearchBrowser();
 };
 
 GrapeInputIntegration.prototype.onOrgReady = function (org) {

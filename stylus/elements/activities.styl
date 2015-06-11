@@ -1,12 +1,19 @@
 .service.message-group
 	.avatar
 		margin-left: 14px
+		.image
+			width: 28px
+			height: 28px
 .activity.message
-	padding: 8px 10px 12px 10px
 	margin: 1px -10px 3px !important
+	&.first
+		padding-top: 2px !important
+	.messageinfo
+		@extend $big-font-size
 	.message-inner-wrap
 		padding: 0 16px 0 5px
 		display: block
+		min-width: 390px
 	.main // Main Activity Text Styling
 		font-weight: bold
 	.actor // Avatar of person that caused the notification
@@ -16,10 +23,18 @@
 	.source-wrap // Used to display info on the right side of the message
 		float: right
 		padding: 0 5px
-		border: 1px solid gainsboro-light
+		border: 2px solid gainsboro-dark
 		border-radius: 3px
-		background: silver-light
-		margin-left: 5px;
+		color: gainsboro-dark
+		margin-left: 5px
+		max-width: 190px
+		@extend $ellipsis
+		display: block
+		a
+			color: gainsboro-dark
+		@media (max-width: 800px)
+			max-width: 70px
+
 		// a
 		// 	color: grape-light
 		// 	&:hover
@@ -81,7 +96,7 @@
 
 	.comment,
 	&.commentCard .short-list 
-		li
+		> li
 			padding: 0 10px
 			margin: 4px -10px
 			overflow: hidden
@@ -98,6 +113,8 @@
 
 	.comment .text ol
 		padding-left: 22px
+		li
+			list-style-type: decimal
 
 	/* TRELLO SPECIFIC */
 	//Removing unnecessary elements
@@ -118,11 +135,11 @@
 			display: none
 	.times
 		margin-left: 5px
-		background: #D0C8D5
 		padding: 0 5px
 		border-radius: 4px
-		color: #542F59
+		color: gold
 		float: right
+		border: 2px solid gold
 /*
 
 	&.github

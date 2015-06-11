@@ -83,20 +83,22 @@
 					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
 			else if first.author.type==='user' && (first.author.id === user.id || !first.author.active)
 				div.avatar
-					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
+					img.image(src="#{first.author.avatar}",width="28",height="28",alt="#{first.author.username}")
 			else if first.author.type==='service'
 				div.avatar
 					- var icon = staticurl("images/service-icons/" + first.author.id + "-32.png")
 					- var alttext = first.author.id
-					img.image(src="#{icon}",width="32",height="32",alt="#{alttext}")
+					img.image(src="#{icon}",width="28",height="28",alt="#{alttext}")
 			.message-content
 				.message-inner-wrap
 					each line, i in lines
 						- var lineID = line.id ? line.id : line.clientSideID
 						- var status = line.status ? line.status : 'sent'
-						- var msgType = line.author.type==='service' ? 'activity ' + line.type + ' ' + line.author.id : 'simpletext'
 						- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
-						div.message(data-id=lineID, class=msgType, class=status, class=i === 0 ? "first" : "", class=requested, class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 ? "freshmessage" : "")
+						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
+						- var msgTypeII = line.author.type==='service' ? line.type : ''
+						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
+						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "",class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 ? "freshmessage" : "")
 							if line.actor && line.actor.image && line.actor.image.url
 								a(href=line.actor.url, class="actor avatar-wrap")
 									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
