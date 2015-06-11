@@ -1,5 +1,6 @@
 import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
+import indexBy from 'lodash-es/collection/indexBy'
 import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
 import values from 'lodash-es/object/values'
@@ -26,6 +27,8 @@ export let {getItem} = grid
 let {unsetFocusedItem} = dataUtils
 
 let sections = {}
+
+const META_MAP = indexBy(meta, 'name')
 
 sections.emoji = (function() {
   let sections = []
@@ -62,7 +65,10 @@ export function init() {
     section.items = []
     section.itemNames.forEach(name => {
       let item = emoji.get(name)
-      if (item) section.items.push(item)
+      if (item) {
+
+        section.items.push(item)
+      }
     })
   })
 
@@ -80,9 +86,7 @@ export function getSections(tabId, search) {
   if (search) {
     found = []
     sections[tabId].forEach(section => {
-      let items = section.items.filter(item => {
-         return item.name.indexOf(search) >= 0
-      })
+      let items = filter(section, search)
 
       if (items.length) {
         section = assign({}, section, {items: items})
@@ -129,6 +133,16 @@ export function getTabs(options) {
   }
 
   return tabs
+}
+
+function filter(section, search) {
+  return section.items.filter(item => {
+    if (item.name.indexOf(search) >= 0) return true
+    return META_MAP[item.name].aliases.some(function (alias) {
+      return alias.indexOf(search) >= 0
+    })
+    return false
+  })
 }
 
 

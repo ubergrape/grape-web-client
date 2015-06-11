@@ -8,7 +8,8 @@ var meta = require('emojione/emoji.json')
 meta = Object.keys(meta).map(function (name) {
   return {
     name: name,
-    cat: meta[name].category
+    cat: meta[name].category,
+    aliases: meta[name].aliases
   }
 })
 
