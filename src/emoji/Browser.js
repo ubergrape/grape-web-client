@@ -40,9 +40,7 @@ let Browser = React.createClass({
   },
 
   componentWillReceiveProps(props) {
-    let state = this.createState(props)
-    if (state.sections.length) this.setState(state)
-    else this.props.onNotFound()
+    this.setState(this.createState(props), this.notFound)
   },
 
   createState(props) {
@@ -65,6 +63,7 @@ let Browser = React.createClass({
   componentWillMount() {
     this.onResize = this.onResize.bind(this)
     window.addEventListener('resize', this.onResize)
+    this.notFound()
   },
 
   componentWillUnmount() {
@@ -181,6 +180,10 @@ let Browser = React.createClass({
   selectItem(id) {
     this.focusItem(id)
     this.props.onSelectItem(this.getFocusedItem())
+  },
+
+  notFound() {
+    if (!this.state.sections.length) this.props.onNotFound()
   },
 
   onFocusItem(data) {
