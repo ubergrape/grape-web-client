@@ -1,5 +1,5 @@
 .typing-notification
-	if room.typing && room.typing.length != 0
+	if mode !== 'search' && room.typing && room.typing.length != 0
 		| _
 		i.fa.fa-pencil
 		|  

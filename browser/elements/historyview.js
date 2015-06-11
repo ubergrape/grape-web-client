@@ -265,6 +265,7 @@ HistoryView.prototype.switchToChatMode = function HistoryView_switchToChatMode (
 	this.mode = 'chat';
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
+	this.redrawTyping();
 	if (!room.history.length) return this.emit('needhistory', room);
 	this.queueDraw();
 }
@@ -322,7 +323,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 };
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
-	render(this.typing, template('typingnotifications.jade', { room: this.room }));
+	render(this.typing, template('typingnotifications.jade', {
+		room: this.room,
+		mode: this.mode
+	}));
 }
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
@@ -377,6 +381,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.room.loading = false;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
+	this.redrawTyping();
 	this.queueDraw();
 }
 
