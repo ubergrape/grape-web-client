@@ -7,6 +7,7 @@
 	.message-inner-wrap
 		padding: 0 16px 0 5px
 		display: block
+		min-width: 390px
 	.main // Main Activity Text Styling
 		font-weight: bold
 	.actor // Avatar of person that caused the notification
@@ -20,6 +21,14 @@
 		border-radius: 3px
 		background: silver-light
 		margin-left: 5px;
+		background: #fff
+		max-width: 120px
+		.container
+			@extend $ellipsis
+			display: block
+		@media (max-width: 800px)
+			max-width: 70px
+
 		// a
 		// 	color: grape-light
 		// 	&:hover
