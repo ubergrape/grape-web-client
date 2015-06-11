@@ -81,12 +81,12 @@
 					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
 			else if first.author.type==='user' && (first.author.id === user.id || !first.author.active)
 				div.avatar
-					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
+					img.image(src="#{first.author.avatar}",width="28",height="28",alt="#{first.author.username}")
 			else if first.author.type==='service'
 				div.avatar
 					- var icon = staticurl("images/service-icons/" + first.author.id + "-32.png")
 					- var alttext = first.author.id
-					img.image(src="#{icon}",width="32",height="32",alt="#{alttext}")
+					img.image(src="#{icon}",width="28",height="28",alt="#{alttext}")
 			.message-content
 				.message-inner-wrap
 					each line, i in lines
