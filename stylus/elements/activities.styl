@@ -1,9 +1,15 @@
 .service.message-group
 	.avatar
 		margin-left: 14px
+		.image
+			width: 28px
+			height: 28px
 .activity.message
-	padding: 8px 10px 12px 10px
 	margin: 1px -10px 3px !important
+	&.first
+		padding-top: 2px !important
+	.messageinfo
+		@extend $big-font-size
 	.message-inner-wrap
 		padding: 0 16px 0 5px
 		display: block
@@ -17,15 +23,15 @@
 	.source-wrap // Used to display info on the right side of the message
 		float: right
 		padding: 0 5px
-		border: 1px solid gainsboro-light
+		border: 2px solid grass-light
 		border-radius: 3px
-		background: silver-light
-		margin-left: 5px;
-		background: #fff
-		max-width: 120px
-		.container
-			@extend $ellipsis
-			display: block
+		color: gainsboro-dark
+		margin-left: 5px
+		max-width: 190px
+		@extend $ellipsis
+		display: block
+		a
+			color: grass-light
 		@media (max-width: 800px)
 			max-width: 70px
 
@@ -127,11 +133,11 @@
 			display: none
 	.times
 		margin-left: 5px
-		background: #D0C8D5
 		padding: 0 5px
 		border-radius: 4px
-		color: #542F59
+		color: gainsboro-dark
 		float: right
+		border: 2px solid gainsboro-dark
 /*
 
 	&.github
