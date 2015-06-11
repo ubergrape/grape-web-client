@@ -189,7 +189,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	if (this.lastwindow.lastmsg !== this.room.history[0])
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 
-	if (this.scrollMode == 'automatic') this.scrollBottom();
+	if (this.scrollMode === 'automatic') this.scrollBottom();
+	if (this.scrollMode === 'manual' && this.mode === 'search') this.scrollWindow.scrollTop = 0;
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
 };
 
@@ -344,7 +345,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 		time: new Date(),
 		attachments: attachments,
 		read: true,
-		room: room
+		channel: room
 	};
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
@@ -377,7 +378,6 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
 	this.queueDraw();
-	this.scrollWindow.scrollTop = 0;
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
@@ -401,7 +401,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 		clientside_id: msg.clientSideID,
 		attachments: msg.attachments		
 	}
-	this.emit('send', msg.room, msg.text, options);
+	this.emit('send', msg.channel, msg.text, options);
 
 	setTimeout(function() {
 		if (this.messageBuffer.indexOf(msg) > -1) {

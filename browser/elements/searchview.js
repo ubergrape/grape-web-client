@@ -58,7 +58,7 @@ SearchView.prototype.hideResults = function SearchView_removeResults() {
 	var messageLinks = qs.all('a.message-link', this.el);
 	for (var i = 0; i < messageLinks.length; i++)
 		messageLinks[i].removeEventListener('click', this.hideResults.bind(this));
-	if (!self.hidden) {
+	if (!this.hidden) {
 		this.results = [];
 		this.el.parentNode.removeChild(this.el);
 		this.hidden = true;
