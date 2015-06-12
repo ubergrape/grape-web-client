@@ -4,6 +4,8 @@
 		.image
 			width: 28px
 			height: 28px
+	.message-inner-wrap
+		display: block
 .activity.message
 	margin: 1px -10px 3px !important
 	&.first
@@ -12,7 +14,7 @@
 		@extend $big-font-size
 	.message-inner-wrap
 		padding: 0 16px 0 5px
-		display: block
+		display: block 
 		min-width: 390px
 	.main // Main Activity Text Styling
 		font-weight: bold
@@ -23,8 +25,7 @@
 	.source-wrap // Used to display info on the right side of the message
 		float: right
 		padding: 0 5px
-		border: 2px solid gainsboro-dark
-		border-radius: 3px
+		border-bottom: 2px solid gainsboro-dark
 		color: gainsboro-dark
 		margin-left: 5px
 		max-width: 190px
