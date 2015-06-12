@@ -250,11 +250,19 @@
 				opacity: 1
 				text-decoration: none !important
 .message-content
+	margin-left: 52px
 	.message
 		clear: both
-		padding: 10px 30px 10px 16px
-		border-top: 1px solid silver-grey
+		padding: 10px 16px
 		position: relative
+		&:after
+			content: ""
+			position: absolute
+			top: 0
+			left: 16px
+			right: 16px
+			height: 1px
+			border-top: 1px solid silver-grey
 		&.freshmessage
 			animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&.first
@@ -337,8 +345,8 @@
 					.unsent
 						display: none
 		&.editing
-			background: lighten(gold, 80%)
-			color: grape-typo
+			background: lighten(gold, 80%) !important
+			color: grape-typo !important
 			z-index: 10
 			position: relative
 			.message-author
@@ -347,7 +355,7 @@
 				&::after
 					border-color: lighten(gold, 80%)
 		&.requested
-			background: rgb(207, 255, 203)
+			background: rgba(201, 255, 174, 0.53)
 			color: grape-typo
 			.message-author
 				color: gainsboro-dark
@@ -630,6 +638,8 @@ span.author-deleted
 	a
 		padding: 12px 20px
 		display: block
+		text-transform: uppercase
+		font-weight: bold
 		i
 			transition: all 0.2s cg-animation-speed
 		&:hover
