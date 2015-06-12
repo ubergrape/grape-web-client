@@ -33,6 +33,7 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		canRenameRoom: false,
 		renamingRoom: false
 	};
+	this.mode = 'chat';
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -117,7 +118,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader.jade', {
 		room: this.room,
-		editOptions: this.editOptions
+		editOptions: this.editOptions,
+		mode: this.mode
 	});
 	render(this, vdom);
 };
@@ -126,11 +128,12 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 	this.searchInput.value = '';
 };
 
-ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room) {
+ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.room.off('change', this.redraw);
 	this.room = room;
 	this.editOptions.canRenameRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
+	this.mode = msgID ? 'search' : 'chat',
 	room.on('change', this.redraw);
 	this.redraw();
 };
@@ -151,4 +154,14 @@ ChatHeader.prototype.onNewRoomMember = function ChatHeader_onNewRoomMember(room)
 
 ChatHeader.prototype.onMemberLeftChannel = function ChatHeader_onMemberLeftChannel(room) {
 	if (room == this.room) this.redraw();
+}
+
+ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode () {
+	this.mode = 'chat';
+	this.redraw();
+}
+
+ChatHeader.prototype.onSwitchToSearchMode = function ChatHeader_onSwitchToChatMode () {
+	this.mode = 'search';
+	this.redraw();
 }

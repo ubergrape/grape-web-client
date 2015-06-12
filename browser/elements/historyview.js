@@ -373,6 +373,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
 	this.mode = 'search';
+	this.emit('switchToSearchMode');
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
