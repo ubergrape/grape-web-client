@@ -175,7 +175,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 			requestedMsg	= history.filter( function (msg) {
 				return msg.id === this.requestedMsgID;
 			}.bind(this))[0],
-			prevMsgID		= history[history.indexOf(requestedMsg) - 1].id;
+			prevMsgID		= history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID;
 	}
 
 	// eventually group history
