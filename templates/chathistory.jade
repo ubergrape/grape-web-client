@@ -149,6 +149,17 @@
 											//- the substr part is a hack to remove the tz information
 											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
 											time.user-tz= tz(user_time).format('h:mm a')
+							if status !== 'sent'
+								div.status-control
+									if status == 'unsent'
+										div.resend(data-id=lineID)
+											span.status-label Retry
+											i.fa.fa-repeat.fa-lg
+										div.unsent
+											span.status-label Not sent
+											i.fa.fa-exclamation-circle.fa-lg
+									if status == 'pending'
+										div.pending
 							if line.title
 								if line.times
 									span.times= 'x' + line.times
@@ -196,14 +207,3 @@
 													span.summary= obj.summary
 									if line.objects.length > 3 && line.author.id != 'jira'
 										a.show-more=_('Show More')
-							if status !== 'sent'
-								div.status-control
-									if status == 'unsent'
-										div.resend(data-id=lineID)
-											span.status-label Retry
-											i.fa.fa-repeat.fa-lg
-										div.unsent
-											span.status-label Not sent
-											i.fa.fa-exclamation-circle.fa-lg
-									if status == 'pending'
-										div.pending
