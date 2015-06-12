@@ -186,7 +186,8 @@
 		border-color: blue-light
 		background: blue-lighter
 	.message
-		border-color: #DBE7ED
+		&:after
+			border-color: #DBE7ED
 	.message-author,
 	.message-author:hover
 		color: grape-typo-hl
@@ -268,6 +269,8 @@
 		&.first
 			margin-top: 0
 			border-top: 1px
+			&:after
+				border: none
 		&:hover
 			> .edit
 				opacity: 1
