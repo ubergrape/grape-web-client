@@ -62,12 +62,11 @@
 	- var lastDate
 	- var lastRead = true
 	if mode === 'search' && !isFirstMsgLoaded
-		if !isLastMsgLoaded
-			div.load-older-history.load-button
-				a.button
-					i.fa.fa-arrow-up
-					br
-					=_('load older messages')
+		div.load-older-history.load-button
+			a.button
+				i.fa.fa-arrow-up
+				br
+				=_('load older messages')
 		.content-break
 	each lines in history
 		- var first = lines[0]

@@ -675,7 +675,7 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 	// strict is false by default
 	// when false, fallback results will be returned
 	// when true, unexisting msg IDs will throw an error
-	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 2, 25, true, function (err, res ) {
+	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 25, true, function (err, res ) {
 		if (err) return this.emit('messageNotFound', room);
 		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {

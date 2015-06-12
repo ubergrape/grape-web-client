@@ -171,7 +171,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// merge buffered messages with copy of history
 		if (this.messageBuffer) history = history.concat(this.messageBuffer);
 	} else {
-		var history = this.room.searchHistory.slice();
+		var	history			= this.room.searchHistory.slice(),
+			requestedMsg	= history.filter( function (msg) {
+				return msg.id === this.requestedMsgID;
+			}.bind(this))[0],
+			prevMsgID		= history[history.indexOf(requestedMsg) - 1].id;
 	}
 
 	// eventually group history
@@ -189,9 +193,13 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 	if (this.lastwindow.lastmsg !== this.room.history[0])
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
 
-	if (this.scrollMode === 'automatic') this.scrollBottom();
-	if (this.scrollMode === 'manual' && this.mode === 'search') this.scrollWindow.scrollTop = 0;
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
+
+	if (this.scrollMode === 'automatic') {
+		if (this.mode === 'chat') return this.scrollBottom();
+		var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
+		prevMsgEl.scrollIntoView();	
+	}
 };
 
 HistoryView.prototype.scrollBottom = function() {
@@ -249,7 +257,6 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
 	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(displayedHistory);
-	if (direction === 'new') this.scrollMode = 'automatic';
 	this.queueDraw();
 };
 
@@ -367,7 +374,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
 	this.mode = 'search';
 	this.scroll.reset(); // reset, otherwise we won't get future events
-	this.scrollMode = 'manual';
+	//this.scrollMode = 'manual';
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);

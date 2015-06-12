@@ -133,7 +133,7 @@
     "ubergrape/moment-timezone": "master",
     "darsain/tooltip": "master",
     "pgherveou/store": "0.0.6",
-    "visionmedia/page.js": "1.6.3"    
+    "visionmedia/page.js": "1.6.3"   
   },
   "development": {
     "dependencies": {
