@@ -313,7 +313,6 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
 			this.emit('input', this.room, '', {attachments: attachments});
 		}
 		this.input.setTextContent('');
-		console.log('bubi');
 	}
 };
 
