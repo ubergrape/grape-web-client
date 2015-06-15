@@ -147,7 +147,7 @@
 		display: block
 
 	.editing-previous
-		.input-highlighter
+		.controls-wrapper
 			background: lighten(gold, 80%)
 		.controls-group-item
 			cursor: default
@@ -158,7 +158,9 @@
 			pointer-events: none
 		.hint-box
 			display: none
-
+		.avatar
+			&::after
+				border-left-color: lighten(gold, 80%)
 	// Toggle for edit message input
 	.grape-input-wrapper .edit-message
 		display:none

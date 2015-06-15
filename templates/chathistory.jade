@@ -63,7 +63,7 @@
 	- var lastRead = true
 	if mode === 'search' && !isFirstMsgLoaded
 		div.load-older-history.load-button
-			a.button
+			a
 				i.fa.fa-arrow-up
 				br
 				=_('load older messages')
@@ -234,12 +234,12 @@
 		.content-break
 		if !isLastMsgLoaded
 			.load-button.load-newer-history
-				a.button
+				a
 					=_('load newer messages')
 					br
 					i.fa.fa-arrow-down
 		.load-button.load-newest-history.breakpointmessage
-			a.button
+			a
 				=_('newest messages')
 				br
 				i.fa.fa-arrow-circle-o-down
