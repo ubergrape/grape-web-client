@@ -55,6 +55,7 @@ Uploader.prototype.doUpload = function Uploader_doUpload(file) {
 	self.progress.update(0);
 	self.showPreview(file);
 	var upload = new Upload(file);
+	this.emit('uploading');
 	upload.on('progress', function (progress) {
 		self.progress.update(progress.percent);
 	});

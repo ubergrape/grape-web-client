@@ -413,3 +413,8 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 		}
 	}.bind(this), 10000);
 }
+
+HistoryView.prototype.onUploading = function HistoryView_onUploading () {
+	if (this.mode === 'chat') return;
+	this.emit('switchToChatMode', this.room);
+}

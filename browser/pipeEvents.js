@@ -80,6 +80,7 @@ function pipeEvents(ui) {
 
 	// file upload
 	broker(ui, 'selectorganization', ui.upload, 'setOrganization');
+	broker(ui.upload, 'uploading', ui.historyView, 'onUploading');
 
 	// clipboard
 	broker(ui.clipboard, 'upload', ui.upload, 'doUpload');
