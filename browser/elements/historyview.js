@@ -197,8 +197,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 	if (this.scrollMode === 'automatic') {
 		if (this.mode === 'chat') return this.scrollBottom();
-		var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
-		prevMsgEl.scrollIntoView();	
+		var prevMsgEl		= qs("div.message[data-id='" + prevMsgID + "']", this.el),
+			requestedMsgEl	= qs("div.message[data-id='" + requestedMsg.id + "']", this.el),
+			scrollTarget	= prevMsgEl ? prevMsgEl : requestedMsgEl;
+		scrollTarget.scrollIntoView();
 	}
 };
 
