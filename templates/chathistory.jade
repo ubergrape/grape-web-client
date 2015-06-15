@@ -123,7 +123,7 @@
 									if line.container
 										a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 							//- show the edit stuff only if current user is the author
-							if user.id == line.author.id && status == 'sent'
+							if user.id == line.author.id && status == 'sent' && mode === 'chat'
 								div.edit
 									//- only show the edit button when there is no image attached
 									if line.attachments.length == 0
