@@ -174,7 +174,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		var	history			= this.room.searchHistory.slice(),
 			requestedMsg	= history.filter( function (msg) {
 				return msg.id === this.requestedMsgID;
-			}.bind(this))[0]
+			}.bind(this))[0],
+			prevMsgID		= history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID;
 	}
 
 	// eventually group history
@@ -196,9 +197,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 	if (this.scrollMode === 'automatic') {
 		if (this.mode === 'chat') return this.scrollBottom();
-		var requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el);
-		if (this.room.searchHistory.indexOf(requestedMsg) > 0) return requestedMsgEl.previousSibling.scrollIntoView();
-		requestedMsgEl.scrollIntoView();	
+		var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
+		prevMsgEl.scrollIntoView();	
 	}
 };
 
