@@ -53,10 +53,24 @@ let Browser = React.createClass({
       })
     }
 
-    let tabs = dataUtils.getTabs({orgLogo: props.images.orgLogo})
+    let facet = this.state ? this.state.facet : undefined
+
+    let tabs = dataUtils.getTabs({
+      orgLogo: props.images.orgLogo,
+      selected: facet
+    })
+
+    let sections = []
+
+    if (tabs.length) {
+      if (!facet) facet = tabs[0].id
+      sections = dataUtils.getSections(facet, props.search)
+    }
+
     return {
       tabs: tabs,
-      sections: tabs.length ? dataUtils.getSections(tabs[0].id, props.search) : []
+      facet: facet,
+      sections: sections
     }
   },
 
@@ -166,7 +180,11 @@ let Browser = React.createClass({
     let {id} = tabs[newIndex]
     dataUtils.setSelectedTab(tabs, newIndex)
     let sections = dataUtils.getSections(id, this.props.search)
-    this.setState({tabs: tabs, sections: sections}, callback)
+    this.setState({
+      tabs: tabs,
+      sections: sections,
+      facet: id
+    }, callback)
   },
 
   focusItem(id) {

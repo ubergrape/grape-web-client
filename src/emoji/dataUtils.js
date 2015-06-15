@@ -80,12 +80,12 @@ export function init() {
   }]
 }
 
-export function getSections(tabId, search) {
-  let found = sections[tabId]
+export function getSections(facet, search) {
+  let found = sections[facet]
 
   if (search) {
     found = []
-    sections[tabId].forEach(section => {
+    sections[facet].forEach(section => {
       let items = filter(section, search)
 
       if (items.length) {
@@ -102,9 +102,10 @@ export function getSections(tabId, search) {
 }
 
 export function getTabs(options) {
-  if (!emoji.get()) return []
-
   let tabs = []
+
+  if (!emoji.get()) return tabs
+
   let stats = emoji.getStats()
 
   if (stats.emoji) {
@@ -115,7 +116,7 @@ export function getTabs(options) {
       id: 'emoji',
       label: 'Emoji',
       amount: stats.emoji,
-      selected: true,
+      selected: !options.selected || options.selected == 'emoji',
       icon: <Icon style={style} />
     })
   }
@@ -127,7 +128,7 @@ export function getTabs(options) {
       id: 'customEmoji',
       label: 'Grapemoji',
       amount: stats.customEmoji,
-      selected: false,
+      selected: options.selected == 'customEmoji',
       icon: <Icon style={style} />
     })
   }
@@ -138,7 +139,9 @@ export function getTabs(options) {
 function filter(section, search) {
   return section.items.filter(item => {
     if (item.name.indexOf(search) >= 0) return true
-    return META_MAP[item.name].aliases.some(function (alias) {
+    let meta = META_MAP[item.name]
+    if (!meta) return false
+    return meta.aliases.some(function (alias) {
       return alias.indexOf(search) >= 0
     })
     return false
