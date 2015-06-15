@@ -174,7 +174,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		var	history			= this.room.searchHistory.slice(),
 			requestedMsg	= history.filter( function (msg) {
 				return msg.id === this.requestedMsgID;
-			}.bind(this))[0]
+			}.bind(this))[0];
 	}
 
 	// eventually group history
