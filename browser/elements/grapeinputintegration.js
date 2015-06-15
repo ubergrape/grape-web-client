@@ -228,11 +228,16 @@ GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.emit('stoptyping', this.room);
 }, 1000);
 
-var EXTERNAL_ATTACHMENTS = ['giphy'];
-
 GrapeInputIntegration.prototype.getAttachments = function (objects) {
+	// Find embeddable images.
 	objects = objects.filter(function (obj) {
-		return EXTERNAL_ATTACHMENTS.indexOf(obj.service) > -1;
+		if (isImage(obj.mime_type) &&
+			obj.detail &&
+			obj.detail.preview &&
+			obj.detail.preview.embeddable) {
+			return true;
+		}
+		return false;
 	});
 
 	var attachments = objects.map(function (obj) {
@@ -346,3 +351,6 @@ GrapeInputIntegration.prototype.onInsertObject = function (e) {
 	analytics.track('insert autocomplete object', e.detail);
 };
 
+function isImage(mime) {
+	return String(mime).substr(0, 5) == 'image';
+}
