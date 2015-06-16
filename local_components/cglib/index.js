@@ -302,8 +302,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'organization#joined', function (data) {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
-		if (!user)
-			user = new models.User(data.user);
+		if (!user) user = new models.User(data.user);
 		// make sure we're joining the right organization
 		// and the user isnt in there yet
 		if (data.organization===self.organization.id &&
@@ -381,6 +380,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
+		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}
