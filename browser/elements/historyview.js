@@ -125,10 +125,10 @@ HistoryView.prototype.unselectForEditing = function () {
 var TIME_THRESHOLD = 5 * 60 * 1000;
 
 function groupHistory(history) {
-	var	groups	= [],
-		counter	= 1,
-		last,
-		group;
+	var groups= [];
+	var counter	= 1;
+	var last;
+	var group;
 
 	for (var i = 0; i < history.length; i++) {
 		var	line			= history[i],
@@ -171,11 +171,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// merge buffered messages with copy of history
 		if (this.messageBuffer) history = history.concat(this.messageBuffer);
 	} else {
-		var	history			= this.room.searchHistory.slice(),
-			requestedMsg	= history.filter( function (msg) {
+		var history	= this.room.searchHistory.slice();
+		var requestedMsg = history.filter( function (msg) {
 				return msg.id === this.requestedMsgID;
-			}.bind(this))[0],
-			prevMsgID		= history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID;
+			}.bind(this))[0];
+		var prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID;
 	}
 
 	// eventually group history
@@ -197,9 +197,9 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 
 	if (this.scrollMode === 'automatic') {
 		if (this.mode === 'chat') return this.scrollBottom();
-		var prevMsgEl		= qs("div.message[data-id='" + prevMsgID + "']", this.el),
-			requestedMsgEl	= qs("div.message[data-id='" + requestedMsg.id + "']", this.el),
-			scrollTarget	= prevMsgEl ? prevMsgEl : requestedMsgEl;
+		var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
+		var requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el);
+		var scrollTarget = prevMsgEl ? prevMsgEl : requestedMsgEl;
 		scrollTarget.scrollIntoView();
 	}
 };
