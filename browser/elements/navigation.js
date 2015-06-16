@@ -181,7 +181,7 @@ Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 	this.pmList.redraw();
 }
 
-Navigation.prototype.deleteUser = function Navigation_deleteUser(item) {
+Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
 	// TODO unbind events
 	if (this.filtering) return;
 	var itemIndex = this.pmList.items.indexOf(item);

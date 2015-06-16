@@ -93,11 +93,12 @@ function pipeEvents(ui) {
 	// invite
 	broker(ui, 'orgReady', ui.invite, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.invite, 'setRoom');
+	//broker(ui, 'userDeleted', ui.invite, 'onUserDeleted');
 	broker.pass(ui.invite, 'invitetoroom', ui, 'invitetoroom');
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
-	broker(ui, 'deleteduser', ui.navigation, 'deleteUser');
+	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
 	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');

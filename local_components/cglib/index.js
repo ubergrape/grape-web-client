@@ -328,7 +328,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 			if (inactivePm) {
 				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
 				self.organization.pms.splice(inactivePmIndex, 1);
-				self.emit('deleteduser', user);
+				self.emit('userDeleted', user);
 			}
 			user.active = false;
 		}
