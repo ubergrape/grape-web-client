@@ -7,7 +7,6 @@ import get from 'lodash-es/object/get'
 import debounce from 'lodash-es/function/debounce'
 
 import style from './browserStyle'
-import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
 import Empty from '../components/empty/Empty'
@@ -104,7 +103,6 @@ let Browser = React.createClass({
         data: sections,
         Item: Item,
         focusedItem: dataUtils.getFocusedItem(sections),
-        height: this.props.height - tabsWithControlsStyle.container.height,
         onFocus: this.onFocusItem,
         onSelect: this.onSelectItem
       })
@@ -177,7 +175,7 @@ let Browser = React.createClass({
       else id = tabs[0].id
     }
     let newIndex = findIndex(tabs, tab => tab.id == id)
-    let {id} = tabs[newIndex]
+    id = tabs[newIndex].id
     dataUtils.setSelectedTab(tabs, newIndex)
     let sections = dataUtils.getSections(id, this.props.search)
     this.setState({

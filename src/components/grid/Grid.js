@@ -1,6 +1,5 @@
 import React from 'react'
 import useSheet from 'react-jss'
-import assign from 'lodash-es/object/assign'
 import find from 'lodash-es/collection/find'
 import pick from 'lodash-es/object/pick'
 import debounce from 'lodash-es/function/debounce'
@@ -17,7 +16,6 @@ export default React.createClass({
   getDefaultProps() {
     return {
       Item: undefined,
-      height: undefined,
       className: '',
       data: undefined,
       onFocus: undefined,
@@ -35,30 +33,24 @@ export default React.createClass({
   },
 
   render() {
-    let {data} = this.props
     let {classes} = this.sheet
-    let sections
-
-    if (data.length) {
-      sections = data.map((data, i) => {
-        data = assign({}, data, pick(this.props, 'onSelect', 'Item'), this.props.section)
-        return (
-          <Section
-            {...data}
-            onFocus={this.onFocus}
-            onInvisible={this.onInvisible}
-            visibilityContainment={this}
-            key={data.id}
-            ref={data.id} />
-        )
-      })
-    }
 
     return (
       <div
         className={`${classes.grid} ${this.props.className}`}
         onScroll={this.onScroll}>
-        {sections}
+        {this.props.data.map(data => {
+          let props = {...data, ...pick(this.props, 'onSelect', 'Item'), ...this.props.section}
+          return (
+            <Section
+              {...props}
+              onFocus={this.onFocus}
+              onInvisible={this.onInvisible}
+              visibilityContainment={this}
+              key={props.id}
+              ref={props.id} />
+          )
+        })}
       </div>
     )
   },
@@ -68,7 +60,7 @@ export default React.createClass({
 
     find(this.refs, section =>  {
       component = find(section.refs, item => item.props.id == id)
-      return component ? true : false
+      return Boolean(component)
     })
 
     return component
@@ -88,13 +80,15 @@ export default React.createClass({
   onInvisible(item, visibilityRect) {
     if (this.scrolling) return
     let viewPortNode = this.getDOMNode()
-    let viewPortHeight = this.props.height
+    let viewPortHeight = viewPortNode.offsetHeight
     let itemNode = item.getDOMNode()
     let itemHeight = this.itemHeight
     if (!itemHeight) itemHeight = itemNode.offsetHeight
     let itemTop = itemNode.offsetTop
-    if (!visibilityRect.top) itemTop -= viewPortHeight - itemHeight
-    viewPortNode.scrollTop = itemTop
+    let scrollTop = itemTop - viewPortHeight + itemHeight
+    // Scrolling up.
+    if (!visibilityRect.top) scrollTop = itemTop
+    viewPortNode.scrollTop = scrollTop
   },
 
   onScroll() {
@@ -104,5 +98,5 @@ export default React.createClass({
 
   onScrollStop: debounce(function() {
     this.scrolling = false
-  }, 30),
+  }, 30)
 })

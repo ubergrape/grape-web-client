@@ -26,7 +26,7 @@ var config = module.exports = {
   module: {
     loaders: [
       {
-        loader: 'babel-loader',
+        loader: 'babel-loader?stage=1',
         test: /\.js$/,
         include: [
           __dirname + '/index.js',

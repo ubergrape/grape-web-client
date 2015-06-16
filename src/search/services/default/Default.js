@@ -16,8 +16,6 @@ export default React.createClass({
   getDefaultProps() {
     return {
       focusedItem: undefined,
-      height: undefined,
-      images: undefined,
       headerHeight: 128
     }
   },
