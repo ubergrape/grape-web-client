@@ -104,6 +104,8 @@
 						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
 						- var msgTypeII = line.author.type==='service' ? line.type : ''
 						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
+						- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
+						- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
 						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 							if line.actor && line.actor.image && line.actor.image.url
 								a(href=line.actor.url, class="actor avatar-wrap")
@@ -129,8 +131,8 @@
 									if line.attachments.length == 0
 										i.fa.fa-pencil.btn-edit
 									i.fa.fa-times.btn-delete
-							if i !== 0
-								a(href='/chat/' + payload + '/' + line.id, class='outertime')
+							if i !== 0 && status === 'sent'
+								a(href=msgLink, class='outertime')
 									.time
 										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 											first.user_time
@@ -156,11 +158,10 @@
 													=_('Deleted user')
 									else
 										author.message-author= first.author.username
-									- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug  
 									span
 										=_(' at ')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-									a(href='/chat/' + payload + '/' + line.id, class="timelink")
+									a(href=msgLink, class="timelink")
 										.time
 											time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 												first.user_time
