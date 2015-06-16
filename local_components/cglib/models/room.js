@@ -12,16 +12,18 @@ module.exports = new Model([
 		'name',
 		'slug',
 		'creator',
-		// TODO: ideally the room should not contain user specific data?
 		'joined',
 		'unread',
 		'mentioned',
 		'typing',
-		'is_public'
+		'is_public',
+		'first_message_time',
+		'latest_message_time'
 	])
 	.use(cache('id'))
 	.use(array)
 	.array('history', {events: false})
+	.array('searchHistory', {events: false})
 	.array('typing', {events: false})
 	.array('users', {childEvents: true}) // TODO: maybe make this a map?
 	.use(cast)

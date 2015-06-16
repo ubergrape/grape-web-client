@@ -43,6 +43,7 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
 	broker(ui.grapeInput, 'input', ui.historyView, 'onInput');
 	broker.pass(ui.historyView, 'send', ui, 'send');
+	broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch');
 	broker.pass(ui.grapeInput, 'update', ui, 'update');
 	broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing');
 	broker.pass(ui.grapeInput, 'starttyping', ui, 'starttyping');
@@ -54,14 +55,19 @@ function pipeEvents(ui) {
 
 	// history view
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
-	broker(ui, 'gothistory', ui.historyView, 'gotHistory');
+	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
 	broker.pass(ui.historyView, 'hasread', ui, 'hasread');
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
 	broker.pass(ui.historyView, 'deleteMessage', ui, 'deleteMessage');
+	broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage');
 	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
+	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
+	broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode');
+	broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode');
 	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
+	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
 
 	// title
 	broker(ui, 'selectchannel', ui.title, 'setRoom');
@@ -74,6 +80,7 @@ function pipeEvents(ui) {
 
 	// file upload
 	broker(ui, 'selectorganization', ui.upload, 'setOrganization');
+	broker(ui.upload, 'uploading', ui.historyView, 'onUploading');
 
 	// clipboard
 	broker(ui.clipboard, 'upload', ui.upload, 'doUpload');

@@ -61,6 +61,13 @@
 							| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
 	- var lastDate
 	- var lastRead = true
+	if mode === 'search' && !isFirstMsgLoaded
+		div.load-older-history.load-button
+			a
+				i.fa.fa-arrow-up
+				br
+				=_('load older messages')
+		.content-break
 	each lines in history
 		- var first = lines[0]
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
@@ -75,7 +82,8 @@
 			.newmessage-separator: span= _('new messages')
 		- var lastDate = first.time
 		- var lastRead = first.read
-		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=first.author.id !== user.id ? "" : "creator", class=first.author.type, class=first.author.active == false ? "deleted" : "")
+		- var requestedFirst = first.id && first.id === requestedMsgID ? 'requested' : ''
+		.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=requestedFirst, class=first.author.id !== user.id ? "" : "creator", class=first.author.type, class=first.author.active == false ? "deleted" : "")
 			if first.author.type === 'user' && first.author.id !== user.id && first.author.active
 				a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 					img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
@@ -92,10 +100,11 @@
 					each line, i in lines
 						- var lineID = line.id ? line.id : line.clientSideID
 						- var status = line.status ? line.status : 'sent'
+						- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
 						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
 						- var msgTypeII = line.author.type==='service' ? line.type : ''
 						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
-						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=status, class=i === 0 ? "first" : "",class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
+						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 							if line.actor && line.actor.image && line.actor.image.url
 								a(href=line.actor.url, class="actor avatar-wrap")
 									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
@@ -114,12 +123,25 @@
 									if line.container
 										a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 							//- show the edit stuff only if current user is the author
-							if user.id == line.author.id && status == 'sent'
+							if user.id == line.author.id && status == 'sent' && mode === 'chat'
 								div.edit
 									//- only show the edit button when there is no image attached
 									if line.attachments.length == 0
 										i.fa.fa-pencil.btn-edit
 									i.fa.fa-times.btn-delete
+							if i !== 0
+								a(href='/chat/' + payload + '/' + line.id, class='outertime')
+									.time
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+											first.user_time
+										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+											|  
+											i.fa.fa-globe
+											span.dif-tz
+												=_(' Local time: ')
+											//- the substr part is a hack to remove the tz information
+											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+											time.user-tz= tz(user_time).format('h:mm a')
 							if i === 0
 								.messageinfo
 									if (first.author.type==='user')
@@ -134,21 +156,22 @@
 													=_('Deleted user')
 									else
 										author.message-author= first.author.username
-
+									- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug  
 									span
 										=_(' at ')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-									.time
-										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-											first.user_time
-										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
-											|  
-											i.fa.fa-globe
-											span.dif-tz
-												=_(' Local time: ')
-											//- the substr part is a hack to remove the tz information
-											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-											time.user-tz= tz(user_time).format('h:mm a')
+									a(href='/chat/' + payload + '/' + line.id, class="timelink")
+										.time
+											time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+												first.user_time
+											if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+												|  
+												i.fa.fa-globe
+												span.dif-tz
+													=_(' Local time: ')
+												//- the substr part is a hack to remove the tz information
+												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												time.user-tz= tz(user_time).format('h:mm a')
 							if status !== 'sent'
 								div.status-control
 									if status == 'unsent'
@@ -207,3 +230,18 @@
 													span.summary= obj.summary
 									if line.objects.length > 3 && line.author.id != 'jira'
 										a.show-more=_('Show More')
+	if mode === 'search'
+		.content-break
+		if !isLastMsgLoaded
+			.load-button.load-newer-history
+				a
+					=_('load newer messages')
+					br
+					i.fa.fa-arrow-down
+		.load-button.load-newest-history.breakpointmessage
+			a
+				=_('newest messages')
+				br
+				i.fa.fa-arrow-circle-o-down
+		.load-button.load-newest-history.bigarrow
+			i.fa.fa-arrow-down

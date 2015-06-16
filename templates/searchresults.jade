@@ -6,35 +6,37 @@
 	ul.result-list
 		each result in results.results
 			li.result-object(class=(result.index_type === 'object' ?  'objects' : 'messages'))
-				if (result.index_type === 'object')
-					a.direct-link(href="#{result.index_type === 'object' ? result.url : '#'}")
-				.item-object.main(class=(result.index_type === 'object' ? result.service + result.type : ''))
-					.item-type
-						if (result.index_type !== 'object')
-							| Message
-						else
-							| #{result.service} #{result.type}
-					.item-content
-						.item-text
+				- var payload = result.channel.type === 'room' ? result.channel.slug : '@' + result.channel.users[0].username.toLowerCase()
+				a.message-link(href='/chat/' + payload + '/' + result.id)
+					if (result.index_type === 'object')
+						a.direct-link(href="#{result.index_type === 'object' ? result.url : '#'}")
+					.item-object.main(class=(result.index_type === 'object' ? result.service + result.type : ''))
+						.item-type
 							if (result.index_type !== 'object')
-								span.user= result.author.username
+								| Message
 							else
-								span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
-							= html(result.highlighted)
-							if (result.index_type === 'object')
-								span
-									| 
-									| #{result.container}
-						if (result.index_type !== 'object')
-							ul.item-footer
-								li
-									i.fa.fa-comment
-									if result.channel.type === "room"
-										span= result.channel.name
-									else if result.channel.type === "pm"
-										span
-											each u in result.channel.users
-												if u.id !== user.id
-													= u.username
-								li.time
-									time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
+								| #{result.service} #{result.type}
+						.item-content
+							.item-text
+								if (result.index_type !== 'object')
+									span.user= result.author.username
+								else
+									span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
+								= html(result.highlighted)
+								if (result.index_type === 'object')
+									span
+										| 
+										| #{result.container}
+							if (result.index_type !== 'object')
+								ul.item-footer
+									li
+										i.fa.fa-comment
+										if result.channel.type === "room"
+											span= result.channel.name
+										else if result.channel.type === "pm"
+											span
+												each u in result.channel.users
+													if u.id !== user.id
+														= u.username
+									li.time
+										time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)

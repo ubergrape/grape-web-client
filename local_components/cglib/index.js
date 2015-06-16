@@ -341,6 +341,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		var room = models.Room.get(data.channel);
 		room.unread++;
 		room.history.push(line);
+		room.latest_message_time = new Date(line.time).getTime();
 		// users message and everything before that is read
 		if (line.author === self.user)
 			self.setRead(room, line);
@@ -636,9 +637,26 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 				room.history.unshift(line);
 			}
 		});
-		self.emit('gothistory');
+		self.emit('gotHistory');
 	});
 };
+
+App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (direction, room, options) {
+	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
+		var lines = res.map(function (line) {
+			var exists = models.Line.get(line.id);
+			if (!exists || !~room.searchHistory.indexOf(exists)) {
+				line.read = true;
+				line = new models.Line(line);
+				if (direction === 'old')
+					room.searchHistory.unshift(line);
+				else
+					room.searchHistory.push(line);
+			}
+		});
+		this.emit('gotHistory', direction);	
+	}.bind(this));
+}
 
 App.prototype.setRead = function App_setRead(room, line) {
 	// update the unread count
@@ -663,6 +681,26 @@ App.prototype.setRead = function App_setRead(room, line) {
 	// TODO: emit error?
 	this.wamp.call(PREFIX + 'channels/read', room.id, line.id);
 };
+
+App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
+	// channels/focus_message, room ID, msg ID, before, after, strict
+	// strict is false by default
+	// when false, fallback results will be returned
+	// when true, unexisting msg IDs will throw an error
+	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 25, true, function (err, res ) {
+		if (err) return this.emit('messageNotFound', room);
+		room.searchHistory.splice(0, room.searchHistory.length);
+		var lines = res.map(function (line) {
+			var exists = models.Line.get(line.id);
+			if (!exists || !~room.searchHistory.indexOf(exists)) {
+				line = new models.Line(line);
+				line.read = true;
+				room.searchHistory.push(line);
+			}
+		});
+		this.emit('focusMessage', msgID);
+	}.bind(this));
+}
 
 App.prototype.setTyping = function App_setTyping(room, typing) {
 	// TODO: emit error?

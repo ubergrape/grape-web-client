@@ -9,7 +9,6 @@ var debounce = require('debounce');
 var Scrollbars = require('scrollbars');
 var qs = require('query');
 var classes = require('classes');
-var query = require('query');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
@@ -23,20 +22,23 @@ template.locals.tz = require('moment-timezone');
 
 module.exports = HistoryView;
 
+// TODO set firstMsgTime for thr very first message in a room
 function HistoryView() {
 	Emitter.call(this);
-
+	this.mode = 'chat'; // can be either "search" or "chat"
 	this.redraw = this.redraw.bind(this);
 	this.queueDraw = this.queueDraw.bind(this);
 	this.room = {history: new Emitter([])};
 	this.lastwindow = {lastmsg: null, sH: 0};
 	this.init();
 	this.bind();
-	this._bindScroll();
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
+	this.requestedMsgID = null;
+	this.isFirstMsgLoaded = false;
+	this.isLastMsgLoaded = false;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -63,6 +65,14 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'showMore');
 	this.events.bind('click div.resend', 'resend');
+	this.events.bind('click div.load-newer-history', 'loadNewHistory');
+	this.events.bind('click div.load-older-history', 'loadOldHistory');
+	this.events.bind('click div.load-newest-history', 'loadNewestHistory');
+	var debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500);
+	focus.on('focus', debouncedUpdateRead);
+	this.scrollWindow.addEventListener('scroll', function () {
+		this.scrollMode = 'manual';
+	}.bind(this));
 };
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -75,6 +85,27 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	classes(el).remove('removing');
 };
 
+HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
+	var options = {
+		time_from	: this.room.searchHistory[this.room.searchHistory.length - 1].time,
+		sort		: 'time:asc',
+		limit		: 5
+	}
+	this.emit('loadHistoryForSearch', 'new', this.room, options);
+};
+
+HistoryView.prototype.loadNewestHistory = function HistoryView_loadNewestHistory () {
+	this.emit('switchToChatMode', this.room);
+}
+
+HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
+	var options = {
+		time_to	: this.room.searchHistory[0].time,
+		limit	: 5
+	};
+	this.emit('loadHistoryForSearch', 'old', this.room, options);
+}
+
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
@@ -83,7 +114,7 @@ HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(e
 };
 
 HistoryView.prototype.unselectForEditing = function () {
-	var msg = query(".message.editing", this.el);
+	var msg = qs(".message.editing", this.el);
 	if (msg) {
 		classes(msg).add('edited');
 		classes(msg).remove('editing');
@@ -94,10 +125,10 @@ HistoryView.prototype.unselectForEditing = function () {
 var TIME_THRESHOLD = 5 * 60 * 1000;
 
 function groupHistory(history) {
-	var	groups	= [],
-		counter	= 1,
-		last,
-		group;
+	var groups = [];
+	var counter = 1;
+	var last;
+	var group;
 
 	for (var i = 0; i < history.length; i++) {
 		var	line			= history[i],
@@ -116,7 +147,7 @@ function groupHistory(history) {
 				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
 			}
 		} else {
-			groups.push(group = []);
+			groups.push(group = []); 
 			counter = 1;		
 		}
 
@@ -128,35 +159,64 @@ function groupHistory(history) {
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
 
-	// update the read messages. Do this before we redraw, so the new message
-	// indicator is up to date
-	if (this.room.history.length && (!this.lastwindow.lastmsg ||
-		(this.scrollMode === 'automatic' && focus.state === 'focus')))
-		this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+	if (this.mode === 'chat') {
+		// update the read messages. Do this before we redraw, so the new message
+		// indicator is up to date
+		if (this.room.history.length && (!this.lastwindow.lastmsg ||
+			(this.scrollMode === 'automatic' && focus.state === 'focus'))) {
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+		}
+		// create a copy of the history
+		var history = this.room.history.slice();
+		// merge buffered messages with copy of history
+		if (this.messageBuffer) history = history.concat(this.messageBuffer);
+	} else {
+		var history = this.room.searchHistory.slice();
+		var requestedMsg = history.filter( function (msg) {
+				return msg.id === this.requestedMsgID;
+			}.bind(this))[0];
+		var prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID;
+	}
 
-	// create a copy of the history
-	var history = this.room.history.slice();
-	// merge buffered messages with copy of history
-	if (this.messageBuffer && this.messageBuffer.length) history = history.concat(this.messageBuffer);
 	// eventually group history
 	var groupedHistory = groupHistory(history);
 
 	render(this.history, template('chathistory.jade', {
 		room: this.room,
-		history: groupedHistory
+		history: groupedHistory,
+		mode: this.mode,
+		requestedMsgID: this.requestedMsgID,
+		isFirstMsgLoaded: this.isFirstMsgLoaded,
+		isLastMsgLoaded: this.isLastMsgLoaded
 	}));
 
-	if (this.lastwindow.lastmsg !== this.room.history[0]) {
+	if (this.lastwindow.lastmsg !== this.room.history[0])
 		this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH;
-	}
 
-	if (this.scrollMode == 'automatic') this.scrollBottom();
 	this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
+
+	if (this.scrollMode === 'automatic') {
+		if (this.mode === 'chat') return this.scrollBottom();
+		var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
+		var requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el);
+		var scrollTarget = prevMsgEl ? prevMsgEl : requestedMsgEl;
+		scrollTarget.scrollIntoView();
+	}
 };
 
 HistoryView.prototype.scrollBottom = function() {
 	this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
+
+HistoryView.prototype.updateRead = function HistoryView_updateRead () {
+	if (focus.state !== 'focus') return; // we get scroll events even when the window is not focused
+	var bottomElem = this._findBottomVisible();
+	if (!bottomElem) return;
+	var line = Line.get(bottomElem.getAttribute('data-id'));
+	if (!line || line.time < this.room.latest_message_time) return;
+	this.emit('hasread', this.room, line);
+	this.queueDraw()
+}
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
@@ -164,18 +224,12 @@ HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	raf(this.redraw);
 };
 
-HistoryView.prototype.scrollTo = function HistoryView_scrollTo(el) {
-	if (!el) return;
-	// get the last .text and scroll to that
-	var texts = qs.all('.text', el);
-	if (!texts.length) return;
-	texts[texts.length - 1].scrollIntoView();
-};
-
 HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
-	// set the scrollMode to automatic when scrolling to the bottom
+	if (this.mode === 'search') return;
 	if (direction === 'bottom') {
 		this.scrollMode = 'automatic';
+		var debouncedUpdateRead	= debounce(this.updateRead.bind(this), 1500)
+		debouncedUpdateRead();
 		return done();
 	} else {
 		if (!this.room.empty) done();
@@ -185,34 +239,35 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
 	this.emit('needhistory', this.room, options);
 };
 
-HistoryView.prototype.gotHistory = function HistoryView_gotHistory() {
+HistoryView.prototype.firstMsgLoaded = function HistoryView_firstMsgLoaded (history) {
+	var firstLoadedMsg = history[0];
+	if (firstLoadedMsg && new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
+		return true;
+	return false;
+}
+
+HistoryView.prototype.lastMsgLoaded = function HistoryView_lastMsgLoaded (history) {
+	var lastLoadedMsg = history[history.length - 1];
+	if (lastLoadedMsg && new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
+		return true;
+	return false;
+}
+
+HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (direction) {
 	this.room.loading = false;
 	this.room.empty = false;
+	var displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory;
+	this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory);
+	this.isLastMsgLoaded = this.lastMsgLoaded(displayedHistory);
 	this.queueDraw();
 };
 
 HistoryView.prototype.noHistory = function HistoryView_noHistory() {
 	this.room.empty = true;
 	this.room.loading = false;
+	this.isFirstMsgLoaded = false;
+	this.isLastMsgLoaded = false;
 	this.queueDraw();
-};
-
-HistoryView.prototype._bindScroll = function HistoryView__bindScroll() {
-	var self = this;
-	var updateRead = debounce(function updateRead() {
-		if (focus.state !== 'focus')
-			return; // we get scroll events even when the window is not focused
-		var bottomElem = self._findBottomVisible();
-		if (!bottomElem) return;
-		var line = Line.get(bottomElem.getAttribute('data-id'));
-		self.emit('hasread', self.room, line);
-		self.redraw();
-	}, 1500);
-	focus.on('focus', updateRead);
-	this.scrollWindow.addEventListener('scroll', updateRead);
-	this.scrollWindow.addEventListener('scroll', function () {
-		self.scrollMode = 'manual';
-	});
 };
 
 HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
@@ -226,29 +281,33 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 	}
 };
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
+HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
+	this.requestedMsgID = null;
 	if (this.room) this.room.history.off('removed');
 	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
-	// reset, otherwise we wonâ€™t get future events
-	this.scroll.reset();
-	// and make scrolling mode automatic
+	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
-
-	// mark the last message as read
-	if (room.history.length)
-		this.emit('hasread', this.room, room.history[room.history.length - 1]);
-	else
-		if (!this.room.empty) this.emit('needhistory', room);
-
-	this.redraw();
+	if (!msgID) {
+		if (!this.room.empty) {
+			this.emit('needhistory', room);
+		} else {
+			this.isFirstMsgLoaded = this.firstMsgLoaded(room.history);
+			this.isLastMsgLoaded = this.lastMsgLoaded(room.history);
+		}
+		this.mode = 'chat';
+		this.queueDraw();
+	} else {
+		this.emit('requestMessage', room, msgID);
+		this.room.loading = true;
+	}
 	this.redrawTyping();
-
+	
 	room.history.on('remove', function (msg, idx) {
 		// find removed element and highlight it....
 		// then redraw after timeout
-		var el = query("div.message[data-id='" + msg.id + "']", self.el);
+		var el = qs("div.message[data-id='" + msg.id + "']", self.el);
 		classes(el).add('removed');
 		setTimeout(function () {
 			// vdom seems to bug a bit so remove the class manually
@@ -264,7 +323,10 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room) {
 };
 
 HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
-	render(this.typing, template('typingnotifications.jade', { room: this.room }));
+	render(this.typing, template('typingnotifications.jade', {
+		room: this.room,
+		mode: this.mode
+	}));
 }
 
 HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
@@ -277,6 +339,7 @@ HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
 };
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
+	if (this.mode === 'search') this.emit('switchToChatMode', room);
 	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
 		clientSideID: (Math.random() + 1).toString(36).substring(7),
@@ -286,7 +349,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 		time: new Date(),
 		attachments: attachments,
 		read: true,
-		room: room
+		channel: room
 	};
 	this.messageBuffer.push(newMessage);
 	this.scrollMode = 'automatic';
@@ -295,7 +358,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 }
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
-	if (line.channel != this.room) return;
+	if (line.channel != this.room || this.mode === 'search') return;
 	if (line.author == ui.user) {
 		var bufferedMsg = null;
 		this.messageBuffer.every(function(message) {
@@ -308,6 +371,18 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
 	}
 	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
+}
+
+HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
+	this.mode = 'search';
+	this.emit('switchToSearchMode');
+	this.scroll.reset(); // reset, otherwise we won't get future events
+	this.requestedMsgID = msgID;
+	this.room.loading = false;
+	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
+	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
+	this.redrawTyping();
+	this.queueDraw();
 }
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
@@ -331,7 +406,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 		clientside_id: msg.clientSideID,
 		attachments: msg.attachments		
 	}
-	this.emit('send', msg.room, msg.text, options);
+	this.emit('send', msg.channel, msg.text, options);
 
 	setTimeout(function() {
 		if (this.messageBuffer.indexOf(msg) > -1) {
@@ -339,4 +414,9 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 			this.queueDraw();
 		}
 	}.bind(this), 10000);
+}
+
+HistoryView.prototype.onUploading = function HistoryView_onUploading () {
+	if (this.mode === 'chat') return;
+	this.emit('switchToChatMode', this.room);
 }
