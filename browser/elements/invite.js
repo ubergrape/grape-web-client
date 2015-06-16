@@ -40,9 +40,7 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 	var el = qs('.autocomplete-wrapper', this.el);
 	if (el !== null) {
 		var complete = this.complete = textcomplete(this.inviteInput, el);
-		var users = this.users.filter(function(user) {
-			return ui.user != user && user.active;
-		});;
+		var users = this.users;
 		complete.re = /([\w.+-]+)$/;
 		complete.formatSelection = function (option) {
 			return option.insert + ", ";
