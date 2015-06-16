@@ -125,8 +125,8 @@ HistoryView.prototype.unselectForEditing = function () {
 var TIME_THRESHOLD = 5 * 60 * 1000;
 
 function groupHistory(history) {
-	var groups= [];
-	var counter	= 1;
+	var groups = [];
+	var counter = 1;
 	var last;
 	var group;
 
@@ -171,7 +171,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// merge buffered messages with copy of history
 		if (this.messageBuffer) history = history.concat(this.messageBuffer);
 	} else {
-		var history	= this.room.searchHistory.slice();
+		var history = this.room.searchHistory.slice();
 		var requestedMsg = history.filter( function (msg) {
 				return msg.id === this.requestedMsgID;
 			}.bind(this))[0];
