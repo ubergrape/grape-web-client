@@ -271,19 +271,31 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
-		if (!~room.users.indexOf(user)) {
-			room.users.push(user);
-			self.emit('newRoomMember', room);
+		if (~room.users.indexOf(user)) return;
+		// if the user joining the room is the visitor,
+		// we need to emit the leftChannel event as well
+		// to ensure consistent behaviour across clients
+		if (user === self.user) {
+			room.joined = true;
+			self.emit('joinedChannel');
 		}
+		room.users.push(user);
+		self.emit('newRoomMember', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
-		if (~index) {
-			room.users.splice(index, 1);
-			self.emit('memberLeftChannel', room);
+		if (!~index) return;
+		// if the user leaving the room is the visitor,
+		// we need to emit the leftChannel event as well
+		// to ensure consistent behaviour across clients
+		if (user === self.user) {
+			room.joined = false;
+			self.emit('leftChannel', room);
 		}
+		room.users.splice(index, 1);
+		self.emit('memberLeftChannel', room);
 	});
 
 	// organization events
