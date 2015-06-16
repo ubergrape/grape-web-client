@@ -79,15 +79,22 @@ export default React.createClass({
 
   onInvisible(item, visibilityRect) {
     if (this.scrolling) return
+
     let viewPortNode = this.getDOMNode()
-    let viewPortHeight = viewPortNode.offsetHeight
     let itemNode = item.getDOMNode()
-    let itemHeight = this.itemHeight
-    if (!itemHeight) itemHeight = itemNode.offsetHeight
     let itemTop = itemNode.offsetTop
-    let scrollTop = itemTop - viewPortHeight + itemHeight
+
     // Scrolling up.
-    if (!visibilityRect.top) scrollTop = itemTop
+    let scrollTop = itemTop
+
+    // Scrolling down.
+    if (visibilityRect.top) {
+      let viewPortHeight = viewPortNode.offsetHeight
+      let itemHeight = this.itemHeight
+      if (!itemHeight) itemHeight = itemNode.offsetHeight
+      scrollTop = itemTop - viewPortHeight + itemHeight
+    }
+
     viewPortNode.scrollTop = scrollTop
   },
 

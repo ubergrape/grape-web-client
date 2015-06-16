@@ -12,12 +12,12 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      id: null,
-      icon: null,
-      onFocus: null,
-      onSelect: null,
-      onInvisible: null,
-      visibilityContainment: null,
+      id: undefined,
+      icon: undefined,
+      onFocus: undefined,
+      onSelect: undefined,
+      onInvisible: undefined,
+      visibilityContainment: undefined,
       focused: false
     }
   },

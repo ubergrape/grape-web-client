@@ -21,10 +21,11 @@ export default React.createClass({
     return (
       <VisibilitySensor
         active={false}
-        className={this.sheet.classes.sensor}
         onChange={this.props.onChange}
         containment={this.props.containment}
-        ref="sensor" />
+        ref="sensor" >
+        <div className={this.sheet.classes.sensor}></div>
+      </VisibilitySensor>
     )
   },
 
