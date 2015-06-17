@@ -1,7 +1,7 @@
 import React from 'react'
 import useSheet from 'react-jss'
+import VisibilitySensor from 'react-visibility-sensor'
 
-import Sensor from '../../components/sensor/Sensor'
 import * as style from './style'
 
 /**
@@ -34,17 +34,19 @@ export default React.createClass({
     let {classes} = this.sheet
     let {id, icon, focused} = this.props
     return (
-      <div
-        className={focused ? classes.itemFocused : classes.item}
-        onClick={this.onClick}
-        onMouseOver={this.onMouseOver}
-        key={id}>
-        {focused && <Sensor
-          onChange={this.onVisibilityChange}
-          containment={this.visibilityContainmentNode}
-          ref="sensor" />}
-        {icon}
-      </div>
+      <VisibilitySensor
+        onChange={this.onVisibilityChange}
+        containment={this.visibilityContainmentNode}
+        active={false}
+        ref="sensor">
+        <div
+          className={focused ? classes.itemFocused : classes.item}
+          onClick={this.onClick}
+          onMouseOver={this.onMouseOver}
+          key={id}>
+          {icon}
+        </div>
+      </VisibilitySensor>
     )
   },
 

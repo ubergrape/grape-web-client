@@ -199,7 +199,8 @@ let Browser = React.createClass({
   },
 
   notFound() {
-    if (!this.state.sections.length) this.props.onNotFound()
+    let {onNotFound} = this.props
+    if (!this.state.sections.length && onNotFound) onNotFound()
   },
 
   onFocusItem(data) {

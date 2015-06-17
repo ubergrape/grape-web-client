@@ -1,10 +1,10 @@
 import React from 'react'
 import useSheet from 'react-jss'
 import moment from 'moment'
+import VisibilitySensor from 'react-visibility-sensor'
 
 import * as style from './style'
 import * as utils from './utils'
-import Sensor from '../../components/sensor/Sensor'
 
 /**
  * One grid item.
@@ -43,32 +43,34 @@ export default React.createClass({
     let state = utils.getState(this.props.detail)
 
     return (
-      <div
-        onClick={this.onClick}
-        className={focused ? classes.containerFocused : classes.container}
-        key={id}>
-        {focused && <Sensor
-          onChange={this.onVisibilityChange}
-          containment={this.visibilityContainmentNode}
-          ref="sensor" />}
-        <div className={classes.iconContainer}>
-          <span className={iconClassNames}></span>
+      <VisibilitySensor
+        onChange={this.onVisibilityChange}
+        containment={this.visibilityContainmentNode}
+        active={false}
+        ref="sensor">
+        <div
+          onClick={this.onClick}
+          className={focused ? classes.containerFocused : classes.container}
+          key={id}>
+          <div className={classes.iconContainer}>
+            <span className={iconClassNames}></span>
+          </div>
+          <div className={classes.nameContainer}>
+            <div className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
+            <div className={classes.info}>{info}</div>
+          </div>
+          <div className={classes.metaContainer}>
+            {this.props.date &&
+              <span className={metaItemClassName}>
+                {moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}
+              </span>
+            }
+            {state &&
+              <span className={metaItemClassName}>{state}</span>
+            }
+          </div>
         </div>
-        <div className={classes.nameContainer}>
-          <div className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
-          <div className={classes.info}>{info}</div>
-        </div>
-        <div className={classes.metaContainer}>
-          {this.props.date &&
-            <span className={metaItemClassName}>
-              {moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}
-            </span>
-          }
-          {state &&
-            <span className={metaItemClassName}>{state}</span>
-          }
-        </div>
-      </div>
+      </VisibilitySensor>
     )
   },
 

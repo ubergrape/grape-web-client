@@ -57,6 +57,7 @@ export default React.createClass({
 
   getItemComponent(id) {
     let component
+    if (!id) return component
 
     find(this.refs, section =>  {
       component = find(section.refs, item => item.props.id == id)
@@ -72,9 +73,11 @@ export default React.createClass({
 
   onFocus(data) {
     if (data.id == this.focusedItemId) return
+    let prevItem = this.getItemComponent(this.focusedItemId)
+    if (prevItem) prevItem.checkVisibility()
+    this.getItemComponent(data.id).checkVisibility()
     this.focusedItemId = data.id
     this.props.onFocus(data)
-    this.getItemComponent(data.id).checkVisibility()
   },
 
   onInvisible(item, visibilityRect) {
