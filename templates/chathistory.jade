@@ -233,7 +233,8 @@
 												if obj.summary
 													span.summary= obj.summary
 									if line.objects.length > 3 && line.author.id != 'jira'
-										a.show-more=_('Show More')
+										a.show-more= _('Show More')
+										a.show-less= _('Show Less')
 	if mode === 'search'
 		.content-break
 		if !isLastMsgLoaded

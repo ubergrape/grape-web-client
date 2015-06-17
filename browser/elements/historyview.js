@@ -64,7 +64,8 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
 	this.events.bind('click a.show-invite', 'toggleInvite');
-	this.events.bind('click a.show-more', 'showMore');
+	this.events.bind('click a.show-more', 'expandActivityList');
+	this.events.bind('click a.show-less', 'collapseActivityList')
 	this.events.bind('click div.resend', 'resend');
 	this.events.bind('click div.load-newer-history', 'loadNewHistory');
 	this.events.bind('click div.load-older-history', 'loadOldHistory');
@@ -338,14 +339,19 @@ HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 	}));
 };
 
-HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
+HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite (ev) {
 	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
 };
 
-HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
+HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
 };
+
+HistoryView.prototype.collapseActivityList = function HistoryView_collapseActivityList (ev) {
+	var el = closest(ev.target, 'ul', true);
+	classes(el).add('list-previewed');
+}
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
 	if (this.mode === 'search') this.emit('switchToChatMode', room);
