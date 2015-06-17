@@ -3,70 +3,63 @@ import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import find from 'lodash-es/collection/find'
 
-import tabsWithControlsStyle from './tabsWithControlsStyle'
+import style from './tabsWithControlsStyle'
 import Tabs from './Tabs'
 
 /**
  * Tabs controls.
  */
 export default React.createClass({
-  mixins: [useSheet(tabsWithControlsStyle)],
+  mixins: [useSheet(style)],
 
   getDefaultProps() {
     return {
-      data: null,
-      onSelect: null
+      data: undefined,
+      onSelect: undefined
     }
   },
 
   getInitialState() {
     return {
-      shift: 'start'
+      leftEdge: true,
+      rightEdge: true
     }
   },
 
   componentDidUpdate() {
     let tab = find(this.props.data, item => item.selected)
-    if (tab && tab.id != this.prevTabId) {
-      this.checkVisibility(this.prevTabId, tab.id)
-      this.prevTabId = tab.id
+    if (tab && tab.id != this.selected) {
+      this.checkVisibility(this.selected, tab.id)
+      this.selected = tab.id
     }
+
+    this.setEdgesState()
   },
 
   render() {
     let {classes} = this.sheet
-    let {data} = this.props
-    let arrowPrev, arrowNext
-
-    if (this.state.shift == 'end') {
-      arrowPrev = (
-        <li
-          onClick={this.onArrowClick.bind(this, 'prev')}
-          className={classes.prevArrow}>
-            <span>&#9664;</span>
-        </li>
-      )
-    }
-
-    if (this.state.shift == 'start') {
-      arrowNext = (
-        <li
-          onClick={this.onArrowClick.bind(this, 'next')}
-          className={classes.nextArrow}>
-            <span>&#9654;</span>
-        </li>
-      )
-    }
 
     return (
-      <ul className={classes.container}>
-        {arrowPrev}
+      <ul className={classes.controls}>
+        {!this.state.leftEdge &&
+          <li
+            onClick={this.onScrollPrev}
+            className={classes.prevArrow}>
+              <span>&#9664;</span>
+          </li>
+        }
         <Tabs
           data={this.props.data}
           onSelect={this.onSelect}
           onInvisible={this.onInvisible}
           ref="tabs" />
-        {arrowNext}
+        {!this.state.rightEdge &&
+          <li
+            onClick={this.onScrollNext}
+            className={classes.nextArrow}>
+              <span>&#9654;</span>
+          </li>
+        }
       </ul>
     )
   },
@@ -77,12 +70,49 @@ export default React.createClass({
     tabs.checkVisibility(nextTabId || 'all')
   },
 
-  onArrowClick(dir, e) {
-    let {data} = this.props
-    let selectedIndex = findIndex(data, item => item.selected)
-    if (selectedIndex < 0) selectedIndex = 0
-    selectedIndex += dir == 'next' ? 1 : -1
-    if (data[selectedIndex]) this.onSelect({id: data[selectedIndex].id})
+  setEdgesState() {
+    let {leftEdge, rightEdge} = this.state
+    let innerWidth = this.getInnerWidth()
+    let outerWidth = this.getOuterWidth()
+
+    if (innerWidth < outerWidth) {
+      leftEdge = true
+      rightEdge = true
+    }
+    else {
+      let scrollLeft = this.getViewportNode().scrollLeft
+      leftEdge = scrollLeft == 0
+      rightEdge = scrollLeft + outerWidth == innerWidth
+    }
+
+    if (leftEdge != this.state.leftEdge || rightEdge != this.state.rightEdge) {
+      this.setState({leftEdge, rightEdge})
+    }
+  },
+
+  getInnerWidth() {
+    let inner = this.refs.tabs.getInnerComponent()
+    return inner.getDOMNode().offsetWidth
+  },
+
+  getOuterWidth() {
+    return this.getDOMNode().offsetWidth
+  },
+
+  getViewportNode() {
+    return this.refs.tabs.getDOMNode()
+  },
+
+  onScrollNext() {
+    let viewportNode = this.getViewportNode()
+    viewportNode.scrollLeft += viewportNode.offsetWidth
+    this.setEdgesState()
+  },
+
+  onScrollPrev() {
+    let viewportNode = this.getViewportNode()
+    viewportNode.scrollLeft -= viewportNode.offsetWidth
+    this.setEdgesState()
   },
 
   onSelect(data) {
@@ -93,15 +123,12 @@ export default React.createClass({
   },
 
   onInvisible(item, visibilityRect) {
-    let viewportNode = this.refs.tabs.getDOMNode()
+    let viewportNode = this.getViewportNode()
     let viewportWidth = viewportNode.offsetWidth
     let itemNode = item.getDOMNode()
     let itemLeft= itemNode.offsetLeft
     if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
     viewportNode.scrollLeft = itemLeft
-    let {scrollLeft} = viewportNode
-    let shift = 'start'
-    if (scrollLeft > 0 && itemLeft != scrollLeft) shift = 'end'
-    this.setState({shift: shift})
+    this.setEdgesState()
   }
 })

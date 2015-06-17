@@ -10,5 +10,9 @@ export default {
     backgroundColor: colors.white,
     boxShadow: 'inset 0 -2px 0 ' + colors.silverDark,
     overflow: 'hidden'
+  },
+  inner: {
+    display: 'inline-block',
+    padding: 0
   }
 }

@@ -21,7 +21,7 @@ let arrow = defaults({
 }, tabStyle.container)
 
 export default {
-  container: {
+  controls: {
     position: 'relative',
     margin: 0,
     padding: 0

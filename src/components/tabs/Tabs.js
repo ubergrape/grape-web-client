@@ -22,19 +22,25 @@ export default React.createClass({
     let {classes} = this.sheet
 
     return (
-      <ul className={classes.tabs}>
-        {this.props.data.map(item => {
-          let id = item.id || 'all'
-          return <Tab
-            {...item}
-            onSelect={this.props.onSelect}
-            onInvisible={this.props.onInvisible}
-            visibilityContainment={this}
-            key={id}
-            ref={id} />
-        })}
-      </ul>
+      <div className={classes.tabs}>
+        <ul className={classes.inner} ref="inner">
+          {this.props.data.map(item => {
+            let id = item.id || 'all'
+            return <Tab
+              {...item}
+              onSelect={this.props.onSelect}
+              onInvisible={this.props.onInvisible}
+              visibilityContainment={this}
+              key={id}
+              ref={id} />
+          })}
+        </ul>
+      </div>
     )
+  },
+
+  getInnerComponent() {
+    return this.refs.inner
   },
 
   checkVisibility(id) {
