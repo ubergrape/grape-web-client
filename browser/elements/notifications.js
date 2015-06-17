@@ -25,11 +25,39 @@ Notifications.prototype.init = function Notifications_init() {
 	});
 };
 
-Notifications.prototype.setRoom = function Notifications_setRoom(room) {
+Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 	this.room = room;
 };
 
-Notifications.prototype.onNewNotification = function Notifications_onNewNotification(message) {
+Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
+	var inviter = item.inviter;
+	var room = item.room;
+	var content = inviter.displayName + ' invited you to the room ' + room.name;
+	var title = "Room Invite";
+	// strip html
+	content = content.textContent || content.innerText || "";
+	var self = this;
+	if (typeof MacGap !== 'undefined') {
+		MacGap.notify({
+			title: title,
+			content: content,
+			sound: false
+		});
+	} else {
+		var notification = notify.createNotification(title, {
+			body: inviter.displayName + ' invited you to the room ' + room.name,
+			icon: inviter.avatar,
+			timeout: 6000,
+			onclick: function(ev) {
+				self.emit('notificationClicked', room);
+				window.focus();
+				this.close();
+			}.bind(this)
+		});
+	}
+}
+
+Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
 	var self = this;
 	var i, opts, content_dom, imgs, img, replacement, filename;
 	var	author		= message.author,

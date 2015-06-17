@@ -376,8 +376,20 @@ App.prototype.bindEvents = function App_bindEvents() {
 		self.emit('change user', user);
 	});
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
-		var msg = models.Line.get(notification.message_id);
-		if (msg) self.emit('newNotification', msg);
+		var dispatcher = notification.dispatcher;
+		if (dispatcher === 'message' || dispatcher === 'pm') {
+			var notificationItem = models.Line.get(notification.message_id);
+			if (notificationItem) self.emit('newMsgNotification', notificationItem);
+		} else {
+			var inviter = models.User.get(notification.inviter_id);
+			var room = models.Room.get(notification.channel_id);
+			if (!inviter || !room) return;
+			var notificationItem = {
+				inviter: inviter,
+				room: room
+			};
+			self.emit('newInviteNotification', notificationItem)
+		}
 	});
 };
 
