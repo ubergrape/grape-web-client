@@ -2,7 +2,6 @@ import React from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
-import assign from 'lodash-es/object/assign'
 
 import style from '../components/browser/style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
@@ -161,15 +160,14 @@ export default React.createClass({
       let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
         'images', 'onAddIntegration', 'orgName', 'orgOwner')
 
-      assign(props, {
+      content = React.createElement(services.Default, {
+        ...props,
         Item: Item,
         data: data,
         focusedItem: this.getFocusedItem(),
         onFocus: this.onFocusItem,
-        onSelect: this.onSelectItem,
+        onSelect: this.onSelectItem
       })
-
-      content = React.createElement(services.Default, props)
     }
     else {
       let text

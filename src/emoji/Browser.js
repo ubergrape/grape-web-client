@@ -2,7 +2,6 @@ import React from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
-import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
 import debounce from 'lodash-es/function/debounce'
 
@@ -94,26 +93,22 @@ let Browser = React.createClass({
   render() {
     let {classes} = this.sheet
     let {sections} = this.state
-    let props
     let content
 
     if (sections.length) {
-      props = pick(this.props, 'images')
-      assign(props, {
-        data: sections,
-        Item: Item,
-        focusedItem: dataUtils.getFocusedItem(sections),
-        onFocus: this.onFocusItem,
-        onSelect: this.onSelectItem
-      })
       content = (
         <div className={classes.column}>
           <div className={classes.row}>
             <Grid
-              {...props}
+              data={sections}
+              images={this.props.images}
+              Item={Item}
+              focusedItem={dataUtils.getFocusedItem(sections)}
               className={classes.leftColumn}
               section={{contentClassName: classes.sectionContent}}
-              ref="grid" />
+              ref="grid"
+              onFocus={this.onFocusItem}
+              onSelect={this.onSelectItem} />
           </div>
         </div>
       )
@@ -122,12 +117,10 @@ let Browser = React.createClass({
       content = <Empty />
     }
 
-    let style = pick(this.props, 'height', 'maxWidth')
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={style}
+        style={pick(this.props, 'height', 'maxWidth')}
         onMouseDown={this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         {content}

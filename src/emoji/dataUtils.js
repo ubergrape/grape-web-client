@@ -1,7 +1,6 @@
 import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import indexBy from 'lodash-es/collection/indexBy'
-import assign from 'lodash-es/object/assign'
 import get from 'lodash-es/object/get'
 import values from 'lodash-es/object/values'
 
@@ -87,11 +86,7 @@ export function getSections(facet, search) {
     found = []
     sections[facet].forEach(section => {
       let items = filter(section, search)
-
-      if (items.length) {
-        section = assign({}, section, {items: items})
-        found.push(section)
-      }
+      if (items.length) found.push({...section, ...items})
     })
   }
 
@@ -110,8 +105,7 @@ export function getTabs(options) {
 
   if (stats.emoji) {
     let smiley = emoji.get('smiley')
-    let style = emoji.getSliceStyle(smiley.id)
-    assign(style, itemStyle.TAB_ICON)
+    let style = {...emoji.getSliceStyle(smiley.id), ...itemStyle.TAB_ICON}
     tabs.push({
       id: 'emoji',
       label: 'Emoji',
@@ -122,8 +116,7 @@ export function getTabs(options) {
   }
 
   if (stats.customEmoji) {
-    let style = {backgroundImage: `url(${options.orgLogo})`}
-    assign(style, itemStyle.TAB_ICON)
+    let style = {backgroundImage: `url(${options.orgLogo})`, ...itemStyle.TAB_ICON}
     tabs.push({
       id: 'customEmoji',
       label: 'Grapemoji',
