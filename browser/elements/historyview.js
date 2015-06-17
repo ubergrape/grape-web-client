@@ -372,10 +372,10 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 	this.handlePendingMsg(newMessage);
 };
 
-HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (lineclientSideID) {
+HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (clientSideID) {
 	var bufferedMsg = null;
 	this.messageBuffer.every(function(message) {
-		if (lineclientSideID == message.clientSideID) {
+		if (clientSideID == message.clientSideID) {
 			bufferedMsg = message;
 			return false;
 		}
