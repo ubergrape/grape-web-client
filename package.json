@@ -18,7 +18,7 @@
     "moment": "^2.10.3",
     "react": "^0.12.2",
     "react-jss": "^0.1.2",
-    "react-visibility-sensor": "^1.7.0"
+    "react-visibility-sensor": "^2.0.0"
   },
   "devDependencies": {
     "babel-core": "^5.5.8",
