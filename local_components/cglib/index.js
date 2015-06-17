@@ -383,7 +383,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		} else {
 			var inviter = models.User.get(notification.inviter_id);
 			var room = models.Room.get(notification.channel_id);
-			if (!inviter || !room) return;
+			if (!(inviter && room)) return;
 			var notificationItem = {
 				inviter: inviter,
 				room: room

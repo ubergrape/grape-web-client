@@ -33,7 +33,7 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
 	var inviter = item.inviter;
 	var room = item.room;
 	var content = inviter.displayName + _(' invited you to the room ') + room.name;
-	var title = _('Room Invite');
+	var title = inviter.displayName + _(' (Room Invite)');
 	var self = this;
 	if (typeof MacGap !== 'undefined') {
 		MacGap.notify({
