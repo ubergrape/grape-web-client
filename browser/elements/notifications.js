@@ -34,25 +34,8 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
 	var room = item.room;
 	var content = inviter.displayName + _(' invited you to the room ') + room.name;
 	var title = inviter.displayName + _(' (Room Invite)');
-	var self = this;
-	if (typeof MacGap !== 'undefined') {
-		MacGap.notify({
-			title: title,
-			content: content,
-			sound: false
-		});
-	} else {
-		var notification = notify.createNotification(title, {
-			body: content,
-			icon: inviter.avatar,
-			timeout: 6000,
-			onclick: function(ev) {
-				self.emit('notificationClicked', room);
-				window.focus();
-				notification.close();
-			}
-		});
-	}
+	var icon = inviter.avatar;
+	this.dispatch(title, content, icon, room);
 }
 
 Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
@@ -119,6 +102,11 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 		}
 	}
 
+	this.dispatch(title, content, icon, channel);
+};
+
+Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
+	var self = this;
 	if (typeof MacGap !== 'undefined') {
 		MacGap.notify({
 			title: title,
@@ -137,4 +125,4 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 			}
 		});
 	}
-};
+}
