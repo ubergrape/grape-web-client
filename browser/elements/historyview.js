@@ -65,7 +65,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
 	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'expandActivityList');
-	this.events.bind('click a.show-less', 'collapseActivityList')
+	this.events.bind('click a.show-less', 'collapseActivityList');
 	this.events.bind('click div.resend', 'resend');
 	this.events.bind('click div.load-newer-history', 'loadNewHistory');
 	this.events.bind('click div.load-older-history', 'loadOldHistory');
