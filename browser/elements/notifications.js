@@ -32,10 +32,8 @@ Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
 	var inviter = item.inviter;
 	var room = item.room;
-	var content = inviter.displayName + ' invited you to the room ' + room.name;
-	var title = "Room Invite";
-	// strip html
-	content = content.textContent || content.innerText || "";
+	var content = inviter.displayName + _(' invited you to the room ') + room.name;
+	var title = _('Room Invite');
 	var self = this;
 	if (typeof MacGap !== 'undefined') {
 		MacGap.notify({
@@ -45,14 +43,14 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
 		});
 	} else {
 		var notification = notify.createNotification(title, {
-			body: inviter.displayName + ' invited you to the room ' + room.name,
+			body: content,
 			icon: inviter.avatar,
 			timeout: 6000,
 			onclick: function(ev) {
 				self.emit('notificationClicked', room);
 				window.focus();
-				this.close();
-			}.bind(this)
+				notification.close();
+			}
 		});
 	}
 }
