@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
@@ -14,36 +14,40 @@ import * as dataUtils from './dataUtils'
 /**
  * Main search browser component.
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
+@useSheet(style)
+export default class Browser extends Component {
+  static defaultProps = {
+    data: undefined,
+    height: 400,
+    maxWidth: 920,
+    className: '',
+    maxItemsPerSectionInAll: 5,
+    isExternal: false,
+    itemId: undefined,
+    hasIntegrations: undefined,
+    canAddIntegrations: undefined,
+    orgName: undefined,
+    orgOwner: undefined,
+    images: undefined,
+    onAddIntegration: undefined,
+    onSelectTab: undefined,
+    onSelectItem: undefined,
+    onDidUpdate: undefined
+  }
 
-  getDefaultProps() {
-    return {
-      data: undefined,
-      height: 400,
-      maxWidth: 920,
-      className: '',
-      maxItemsPerSectionInAll: 5,
-      isExternal: false,
-      itemId: undefined,
-      hasIntegrations: undefined,
-      canAddIntegrations: undefined,
-      orgName: undefined,
-      orgOwner: undefined,
-      images: undefined,
-      onAddIntegration: undefined,
-      onSelectTab: undefined,
-      onSelectItem: undefined
-    }
-  },
-
-  getInitialState() {
-    return this.createState(this.props)
-  },
+  constructor(props) {
+    super(props)
+    this.state = this.createState(this.props)
+  }
 
   componentWillReceiveProps(props) {
     this.setState(this.createState(props))
-  },
+  }
+
+  componentDidUpdate() {
+    let {onDidUpdate} = this.props
+    if (onDidUpdate) onDidUpdate(this)
+  }
 
   createState(props) {
     let maxItems = this.getMaxItemsPerSection(props.itemId)
@@ -59,11 +63,11 @@ export default React.createClass({
       tabs: tabs,
       itemId: props.itemId
     }
-  },
+  }
 
   getMaxItemsPerSection(service) {
     return service ? undefined : this.props.maxItemsPerSectionInAll
-  },
+  }
 
   /**
    * Select tab.
@@ -106,7 +110,7 @@ export default React.createClass({
       this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
       if (!options.silent) this.props.onSelectTab({id: id})
     }
-  },
+  }
 
   focusItem(id) {
     let {sections} = this.state
@@ -138,19 +142,19 @@ export default React.createClass({
       dataUtils.setFocusedItem(sections, id)
       this.setState({sections: sections})
     }
-  },
+  }
 
   getFocusedItem() {
     return dataUtils.getFocusedItem(this.state.sections)
-  },
+  }
 
   selectItem(id) {
     this.focusItem(id)
     this.props.onSelectItem(this.getFocusedItem())
-  },
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {sections} = this.state
     let selectedSection = dataUtils.getSelectedSection(sections)
     let data = selectedSection ? [selectedSection] : sections
@@ -165,8 +169,8 @@ export default React.createClass({
         Item: Item,
         data: data,
         focusedItem: this.getFocusedItem(),
-        onFocus: this.onFocusItem,
-        onSelect: this.onSelectItem
+        onFocus: ::this.onFocusItem,
+        onSelect: ::this.onSelectItem
       })
     }
     else {
@@ -186,28 +190,28 @@ export default React.createClass({
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={style}
-        onMouseDown={this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
+        onMouseDown={::this.onMouseDown}>
+        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
       </div>
     )
-  },
+  }
 
   onFocusItem(data) {
     this.focusItem(data.id)
-  },
+  }
 
   onSelectItem(data) {
     this.selectItem(data.id)
-  },
+  }
 
   onSelectTab(data, callback) {
     this.selectTab(data.id, {}, callback)
-  },
+  }
 
   onMouseDown(e) {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
   }
-})
+}

@@ -25,8 +25,9 @@
 
     <script>
       function emoji() {
-        var component = document.querySelectorAll('grape-emoji-browser')[0]
-        component.setProps({
+        var element = document.querySelectorAll('grape-emoji-browser')[0]
+        var component
+        element.props = {
           onSelectTab: function(data) {
             console.log('onSelectTab', data)
           },
@@ -42,8 +43,11 @@
           },
           customEmojis: {
             test: '../images/trauby-reading.png'
+          },
+          onDidUpdate: function(_component) {
+            component = _component
           }
-        })
+        }
 
         var keysMap = {
           40: 'down',

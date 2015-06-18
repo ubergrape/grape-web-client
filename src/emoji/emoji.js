@@ -1,7 +1,7 @@
+import React, {Component} from 'react'
 import each from 'lodash-es/collection/each'
 import clone from 'lodash-es/lang/clone'
 import emoji from 'js-emoji'
-import React from 'react'
 
 import Icon from './Icon'
 

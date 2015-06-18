@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import get from 'lodash-es/object/get'
 
@@ -8,19 +8,16 @@ import * as utils from './utils'
 /**
  * Detail view for objects.
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
-
-  getDefaultProps() {
-    return {
-      data: undefined,
-      headerHeight: undefined,
-      images: undefined
-    }
-  },
+@useSheet(style)
+export default class Detail extends Component {
+  static defaultProps = {
+    data: undefined,
+    headerHeight: undefined,
+    images: undefined
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let data = this.props.data || {}
 
     let previewUrl = get(data, 'preview.image.url')
@@ -73,4 +70,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
@@ -9,32 +9,32 @@ import * as utils from './utils'
 /**
  * One grid item.
  */
-export default React.createClass({
-  mixins: [useSheet(style.style)],
-
-  getDefaultProps() {
-    return {
-      id: null,
-      date: null,
-      detail: null,
-      onFocus: null,
-      onSelect: null,
-      onInvisible: null,
-      visibilityContainment: null,
-      focused: false
-    }
-  },
+@useSheet(style.rules)
+export default class Item extends Component {
+  static defaultProps = {
+    id: undefined,
+    date: undefined,
+    detail: undefined,
+    onFocus: undefined,
+    onSelect: undefined,
+    onInvisible: undefined,
+    visibilityContainment: undefined,
+    focused: false
+  }
 
   componentDidUpdate(prevProps) {
-    if (this.props.focused && !prevProps.focused) this.onFocus()
-  },
+    if (this.props.focused != prevProps.focused) {
+      this.refs.sensor.check()
+      if (this.props.focused) this.onFocus()
+    }
+  }
 
   componentDidMount() {
-    this.visibilityContainmentNode = this.props.visibilityContainment.getDOMNode()
-  },
+    this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {id, focused, icon, info, highlighted} = this.props
     let iconClassName = focused ? classes.iconFocused : classes.icon
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
@@ -44,12 +44,12 @@ export default React.createClass({
 
     return (
       <VisibilitySensor
-        onChange={this.onVisibilityChange}
+        onChange={::this.onVisibilityChange}
         containment={this.visibilityContainmentNode}
         active={false}
         ref="sensor">
         <div
-          onClick={this.onClick}
+          onClick={::this.onClick}
           className={focused ? classes.containerFocused : classes.container}
           key={id}>
           <div className={classes.iconContainer}>
@@ -72,24 +72,20 @@ export default React.createClass({
         </div>
       </VisibilitySensor>
     )
-  },
-
-  checkVisibility() {
-    this.refs.sensor.check()
-  },
+  }
 
   onFocus() {
     this.props.onFocus({id: this.props.id})
-  },
+  }
 
   onClick() {
     if (this.props.focused) this.props.onSelect({id: this.props.id})
     else this.onFocus()
-  },
+  }
 
   onVisibilityChange(isVisible, visibilityRect) {
     if (!isVisible && this.props.focused) {
       this.props.onInvisible(this, visibilityRect)
     }
   }
-})
+}

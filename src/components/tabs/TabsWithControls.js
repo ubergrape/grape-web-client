@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import find from 'lodash-es/collection/find'
@@ -9,66 +9,52 @@ import Tabs from './Tabs'
 /**
  * Tabs controls.
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
+@useSheet(style)
+export default class TabsWithControls extends Component {
+  static defaultProps = {
+    data: undefined,
+    onSelect: undefined
+  }
 
-  getDefaultProps() {
-    return {
-      data: undefined,
-      onSelect: undefined
-    }
-  },
-
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       leftEdge: true,
       rightEdge: true
     }
-  },
+  }
 
   componentDidUpdate() {
-    let tab = find(this.props.data, item => item.selected)
-    if (tab && tab.id != this.selected) {
-      this.checkVisibility(this.selected, tab.id)
-      this.selected = tab.id
-    }
-
     this.setEdgesState()
-  },
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
 
     return (
       <ul className={classes.controls}>
         {!this.state.leftEdge &&
           <li
-            onClick={this.onScrollPrev}
+            onClick={::this.onScrollPrev}
             className={classes.prevArrow}>
               <span>&#9664;</span>
           </li>
         }
         <Tabs
           data={this.props.data}
-          onSelect={this.onSelect}
-          onInvisible={this.onInvisible}
-          ref="tabs" />
+          onSelect={this.props.onSelect}
+          onInvisible={::this.onInvisible}
+          onDidMount={::this.onTabsDidMount} />
         {!this.state.rightEdge &&
           <li
-            onClick={this.onScrollNext}
+            onClick={::this.onScrollNext}
             className={classes.nextArrow}>
               <span>&#9654;</span>
           </li>
         }
       </ul>
     )
-  },
-
-  checkVisibility(prevTabId, nextTabId) {
-    let {tabs} = this.refs
-    tabs.checkVisibility(prevTabId || 'all')
-    tabs.checkVisibility(nextTabId || 'all')
-  },
+  }
 
   setEdgesState() {
     let {leftEdge, rightEdge} = this.state
@@ -88,47 +74,44 @@ export default React.createClass({
     if (leftEdge != this.state.leftEdge || rightEdge != this.state.rightEdge) {
       this.setState({leftEdge, rightEdge})
     }
-  },
+  }
 
   getInnerWidth() {
-    let inner = this.refs.tabs.getInnerComponent()
-    return inner.getDOMNode().offsetWidth
-  },
+    let inner = this.tabs.getInnerComponent()
+    return React.findDOMNode(inner).offsetWidth
+  }
 
   getOuterWidth() {
-    return this.getDOMNode().offsetWidth
-  },
+    return React.findDOMNode(this).offsetWidth
+  }
 
   getViewportNode() {
-    return this.refs.tabs.getDOMNode()
-  },
+    return React.findDOMNode(this.tabs)
+  }
 
   onScrollNext() {
     let viewportNode = this.getViewportNode()
     viewportNode.scrollLeft += viewportNode.offsetWidth
     this.setEdgesState()
-  },
+  }
 
   onScrollPrev() {
     let viewportNode = this.getViewportNode()
     viewportNode.scrollLeft -= viewportNode.offsetWidth
     this.setEdgesState()
-  },
-
-  onSelect(data) {
-    this.props.onSelect(data, () => {
-      let prevTabId = find(this.props.data, tab => tab.selected).id
-      this.checkVisibility(prevTabId, data.id)
-    })
-  },
+  }
 
   onInvisible(item, visibilityRect) {
     let viewportNode = this.getViewportNode()
     let viewportWidth = viewportNode.offsetWidth
-    let itemNode = item.getDOMNode()
+    let itemNode = React.findDOMNode(item)
     let itemLeft= itemNode.offsetLeft
     if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
     viewportNode.scrollLeft = itemLeft
     this.setEdgesState()
   }
-})
+
+  onTabsDidMount(tabs) {
+    this.tabs = tabs
+  }
+}

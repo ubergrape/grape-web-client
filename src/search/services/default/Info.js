@@ -1,36 +1,33 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 
-import infoStyle from './infoStyle'
+import style from './infoStyle'
 import * as contents from './infoContents'
 import Button from '../../../components/button/Button'
 
 /**
  * Info messages for the user for e.g. to explain integrations.
  */
-export default React.createClass({
-  mixins: [useSheet(infoStyle)],
-
-  getDefaultProps() {
-    return {
-      canAddIntegrations: true,
-      hasIntegrations: false,
-      orgName: 'Organisation',
-      orgOwner: 'org owner',
-      headerHeight: undefined,
-      images: undefined,
-      onAddIntegration: undefined
-    }
-  },
+@useSheet(style)
+export default class Info extends Component {
+  static defaultProps = {
+    canAddIntegrations: true,
+    hasIntegrations: false,
+    orgName: 'Organisation',
+    orgOwner: 'org owner',
+    headerHeight: undefined,
+    images: undefined,
+    onAddIntegration: undefined
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {images} = this.props
 
     let addIntegration
     if (this.props.canAddIntegrations) {
       addIntegration = <Button
-        onClick={this.onAddIntegration}
+        onClick={::this.onAddIntegration}
         text="Add a Service Integration"
         className={classes.button} />
     }
@@ -58,9 +55,9 @@ export default React.createClass({
         </div>
       </article>
     )
-  },
+  }
 
   onAddIntegration() {
     this.props.onAddIntegration()
   }
-})
+}

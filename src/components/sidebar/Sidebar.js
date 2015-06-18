@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 
 import style from './style'
@@ -6,18 +6,15 @@ import style from './style'
 /**
  * Sidebar container.
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
-
-  getDefaultProps() {
-    return {
-      className: '',
-      content: null
-    }
-  },
+@useSheet(style)
+export default class Sidebar extends Component {
+  static defaultProps = {
+    className: '',
+    content: undefined
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
 
     return (
       <aside className={`${classes.sidebar} ${this.props.className}`}>
@@ -25,4 +22,4 @@ export default React.createClass({
       </aside>
     )
   }
-})
+}

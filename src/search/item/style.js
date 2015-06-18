@@ -29,7 +29,7 @@ let metaItem = {
   color: colors.gainsboroDark
 }
 
-export let style = {
+export let rules = {
   container: {
     extend: container
   },

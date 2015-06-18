@@ -1,25 +1,27 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 
-import tabsStyle from './tabsStyle'
+import style from './tabsStyle'
 import Tab from './Tab'
 
 /**
  * Tabs container.
  */
-export default React.createClass({
-  mixins: [useSheet(tabsStyle)],
+@useSheet(style)
+export default class Tabs extends Component {
+  static defaultProps = {
+    data: undefined,
+    onSelect: undefined,
+    onInvisible: undefined,
+    onDidMount: undefined
+  }
 
-  getDefaultProps() {
-    return {
-      data: null,
-      onSelect: null,
-      onInvisible: null
-    }
-  },
+  componentDidMount() {
+    this.props.onDidMount(this)
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
 
     return (
       <div className={classes.tabs}>
@@ -37,14 +39,9 @@ export default React.createClass({
         </ul>
       </div>
     )
-  },
+  }
 
   getInnerComponent() {
     return this.refs.inner
-  },
-
-  checkVisibility(id) {
-    let tab = this.refs[id]
-    if (tab) tab.checkVisibility()
   }
-})
+}

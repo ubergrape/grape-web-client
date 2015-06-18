@@ -26,8 +26,10 @@
 
     <script>
       function search() {
-        var component = document.querySelectorAll('grape-search-browser')[0]
-        component.setProps({
+        var element = document.querySelectorAll('grape-search-browser')[0]
+        var component
+
+        element.props = {
           data: window.data,
           isExternal: true,
           images: {
@@ -43,8 +45,11 @@
           },
           onSelectItem: function(data) {
             console.log('onSelectItem', data)
+          },
+          onDidUpdate: function(_component) {
+            component = _component
           }
-        })
+        }
 
         var keysMap = {
           40: 'down',

@@ -1,25 +1,22 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import style from './style'
 
 /**
  * Display information when grid is empty
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
-
-  getDefaultProps() {
-    return {
-      text: 'Nothing found.'
-    }
-  },
+@useSheet(style)
+export default class Empty extends Component {
+  static defaultProps = {
+    text: 'Nothing found.'
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     return (
       <div className={classes.container}>
         <div className={classes.info}>{this.props.text}</div>
       </div>
     )
   }
-})
+}

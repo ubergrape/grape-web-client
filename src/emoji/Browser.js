@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
@@ -17,29 +17,58 @@ import * as emoji from './emoji'
 /**
  * Main emoji browser component.
  */
-let Browser = React.createClass({
-  mixins: [useSheet(style)],
+class Browser extends Component {
+  static defaultProps = {
+    customEmojis: undefined,
+    images: {},
+    height: 400,
+    maxWidth: 920,
+    className: '',
+    search: '',
+    onSelectItem: undefined,
+    onNotFound: undefined,
+    onDidUpdate: undefined
+  }
 
-  getDefaultProps() {
-    return {
-      customEmojis: undefined,
-      images: {},
-      height: 400,
-      maxWidth: 920,
-      className: '',
-      onSelectItem: undefined,
-      search: '',
-      onNotFound: undefined
-    }
-  },
+  static init = (options) => {
+    let {emojiSheet, customEmojis} = options
+    if (emojiSheet) emoji.setSheet(emojiSheet)
+    if (customEmojis) emoji.defineCustom(customEmojis)
+    dataUtils.init()
+  }
 
-  getInitialState() {
-    return this.createState(this.props)
-  },
+  static replace = emoji.replace
+  static get = emoji.get
+  static Icon = Icon
+
+  constructor(props) {
+    super(props)
+    this.onResize = debounce(::this.cacheItemsPerRow, 500)
+    this.state = this.createState(this.props)
+  }
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props), this.notFound)
-  },
+    this.setState(this.createState(props), ::this.onNotFound)
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.onResize)
+    this.onNotFound()
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
+  }
+
+  componentDidMount() {
+    this.cacheItemsPerRow()
+  }
+
+  componentDidUpdate() {
+    this.cacheItemsPerRow()
+    let {onDidUpdate} = this.props
+    if (onDidUpdate) onDidUpdate(this)
+  }
 
   createState(props) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
@@ -70,28 +99,10 @@ let Browser = React.createClass({
       facet: facet,
       sections: sections
     }
-  },
-
-  componentWillMount() {
-    this.onResize = this.onResize.bind(this)
-    window.addEventListener('resize', this.onResize)
-    this.notFound()
-  },
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize)
-  },
-
-  componentDidMount() {
-    this.cacheItemsPerRow()
-  },
-
-  componentDidUpdate() {
-    this.cacheItemsPerRow()
-  },
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {sections} = this.state
     let content
 
@@ -107,8 +118,9 @@ let Browser = React.createClass({
               className={classes.leftColumn}
               section={{contentClassName: classes.sectionContent}}
               ref="grid"
-              onFocus={this.onFocusItem}
-              onSelect={this.onSelectItem} />
+              onFocus={::this.onFocusItem}
+              onSelect={::this.onSelectItem}
+              onDidMount={::this.onGridDidMount} />
           </div>
         </div>
       )
@@ -121,25 +133,25 @@ let Browser = React.createClass({
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}
-        onMouseDown={this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
+        onMouseDown={::this.onMouseDown}>
+        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
       </div>
     )
-  },
+  }
 
   getFocusedItem() {
     return dataUtils.getFocusedItem(this.state.sections)
-  },
+  }
 
   cacheItemsPerRow() {
-    let {grid} = this.refs
     let {sections} = this.state
 
     if (!sections.length) return
-
-    let contentRect = grid.getSectionComponent(this.state.sections[0].id).getContentClientRect()
-    let {width: gridWidth} = contentRect
+    let contentComponent = this.grid
+      .getSectionComponent(this.state.sections[0].id)
+      .getContentComponent()
+    let {width: gridWidth} = React.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
     if (this.itemsPerRow && gridWidth == this.gridWidth) return
@@ -148,10 +160,10 @@ let Browser = React.createClass({
     let id = get(this.state, 'sections[0].items[0].id')
     if (!id) return
 
-    let component = grid.getItemComponent(id)
-    let itemWidth = component.getDOMNode().offsetWidth
+    let component = this.grid.getItemComponent(id)
+    let itemWidth = React.findDOMNode(component).offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
-  },
+  }
 
   /**
    * Select tab.
@@ -176,7 +188,7 @@ let Browser = React.createClass({
       sections: sections,
       facet: id
     }, callback)
-  },
+  }
 
   focusItem(id) {
     let {sections} = this.state
@@ -184,50 +196,39 @@ let Browser = React.createClass({
     if (item) id = item.id
     dataUtils.setFocusedItem(sections, id)
     this.setState({sections: sections})
-  },
+  }
 
   selectItem(id) {
     this.focusItem(id)
     this.props.onSelectItem(this.getFocusedItem())
-  },
+  }
 
-  notFound() {
+  onNotFound() {
     let {onNotFound} = this.props
     if (!this.state.sections.length && onNotFound) onNotFound()
-  },
+  }
 
   onFocusItem(data) {
     this.focusItem(data.id)
-  },
+  }
 
   onSelectItem(data) {
     this.selectItem(data.id)
-  },
+  }
 
   onSelectTab(data, callback) {
     this.selectTab(data.id, {}, callback)
-  },
+  }
 
   onMouseDown(e) {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
-  },
+  }
 
-  onResize: debounce(function() {
-    this.cacheItemsPerRow()
-  }, 500)
-})
-
-Browser.init = function (options) {
-  let {emojiSheet, customEmojis} = options
-  if (emojiSheet) emoji.setSheet(emojiSheet)
-  if (customEmojis) emoji.defineCustom(customEmojis)
-  dataUtils.init()
+  onGridDidMount(grid) {
+    this.grid = grid
+  }
 }
 
-Browser.replace = emoji.replace
-Browser.get = emoji.get
-Browser.Icon = Icon
-
-export default Browser
+export default useSheet(Browser, style)

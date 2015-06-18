@@ -1,23 +1,20 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import style from './style'
 
 /**
  * Button component
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
-
-  getDefaultProps() {
-    return {
-      text: 'My Button',
-      className: '',
-      onClick: undefined
-    }
-  },
+@useSheet(style)
+export default class Button extends Component {
+  static defaultProps = {
+    text: 'My Button',
+    className: '',
+    onClick: undefined
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     return (
       <button
         onClick={this.props.onClick}
@@ -26,4 +23,4 @@ export default React.createClass({
       </button>
     )
   }
-})
+}

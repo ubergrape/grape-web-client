@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 
 import style from '../../../components/browser/style'
@@ -10,18 +10,15 @@ import Detail from '../../detail/Detail'
 /**
  * Default search rendering.
  */
-export default React.createClass({
-  mixins: [useSheet(style)],
-
-  getDefaultProps() {
-    return {
-      focusedItem: undefined,
-      headerHeight: 128
-    }
-  },
+@useSheet(style)
+export default class Default extends Component {
+  static defaultProps = {
+    focusedItem: undefined,
+    headerHeight: 128
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {props} = this
     let sidebarContent
 
@@ -41,4 +38,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

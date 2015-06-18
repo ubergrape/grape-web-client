@@ -1,27 +1,36 @@
-import React from 'react'
+import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import pick from 'lodash-es/object/pick'
 
-import sectionStyle from './sectionStyle'
+import style from './sectionStyle'
 
 /**
  * One grid section which has a title and items.
  */
-export default React.createClass({
-  mixins: [useSheet(sectionStyle)],
+@useSheet(style)
+export default class Section extends Component {
+  static defaultProps = {
+    contentClassName: '',
+    onDidMount: undefined
+  }
 
-  getDefaultProps() {
-    contentClassName: ''
-  },
+  constructor(props) {
+    super(props)
+    this.items = {}
+  }
+
+  componentDidMount() {
+    this.props.onDidMount(this)
+  }
 
   render() {
-    let {classes} = this.sheet
+    let {classes} = this.props.sheet
     let {Item, items, label} = this.props
 
     items = items.map((item, i) => {
       let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
         'visibilityContainment')
-      return {...item, ...props, ref: 'item' + item.id, key: 'item' + i}
+      return {...item, ...props, key: 'item' + i, onDidMount: ::this.onItemDidMount}
     })
 
     return (
@@ -32,9 +41,13 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
-
-  getContentClientRect() {
-    return this.refs.content.getDOMNode().getBoundingClientRect()
   }
-})
+
+  getContentComponent() {
+    return this.refs.content
+  }
+
+  onItemDidMount(item) {
+    this.items[item.props.id] = item
+  }
+}
