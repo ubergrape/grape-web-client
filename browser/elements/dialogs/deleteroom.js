@@ -33,7 +33,7 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
 
 	var roomName = self.roomNameInput.value.trim();
 	if (!roomName) {
-		self.roomNameInput.setCustomValidity(_("Please enter the name of the room you want to delete"));
+		self.roomNameInput.setCustomValidity(_("Please type in the name of the room to confirm."));
 		self.button.click();
 		return;
 	}
