@@ -326,14 +326,15 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// message events
 	wamp.subscribe(PREFIX + 'message#new', function (data) {
 		data.read = false;
-		var line = new models.Line(data);
+		var line = models.Line.get(data['id']);
 		var room = models.Room.get(data.channel);
+		if (~room.history.indexOf(line)) return;
+		line = new models.Line(data);
 		room.unread++;
 		room.history.push(line);
 		room.latest_message_time = new Date(line.time).getTime();
 		// users message and everything before that is read
-		if (line.author === self.user)
-			self.setRead(room, line);
+		if (line.author === self.user) self.setRead(room, line);
 		self.emit('newMessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
