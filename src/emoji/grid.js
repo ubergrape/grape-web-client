@@ -4,7 +4,7 @@ import find from 'lodash-es/collection/find'
 /**
  * Get item from sections.
  */
-export function getItem(sections, dir, length) {
+export function getItem(sections, dir, length = 10) {
   if (dir == 'next' || dir == 'prev') {
     return findHorizontalItem(sections, length, dir)
   }

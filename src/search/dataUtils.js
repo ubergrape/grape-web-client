@@ -61,7 +61,7 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
       sections.push(section)
     }
 
-    if (section.items.length < limitPerSection) {
+    if (serviceId || section.items.length < limitPerSection) {
       result.detail || (result.detail = {})
       result.detail.iconUrl = service.icon_url
       section.items.push({
@@ -148,4 +148,3 @@ export function getTabs(items = [], selectedId) {
 
   return tabs
 }
-

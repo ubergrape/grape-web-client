@@ -18,16 +18,15 @@
   <body>
     <script src="../../node_modules/webcomponents.js/webcomponents-lite.js"></script>
     <script src="../../node_modules/react/dist/react.js"></script>
-    <script src="../../node_modules/reactive-elements/src/reactive-elements.js"></script>
+    <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
     <script src="../../dist/grape-browser.js"></script>
 
     <grape-emoji-browser></grape-emoji-browser>
 
     <script>
       function emoji() {
-        var element = document.querySelectorAll('grape-emoji-browser')[0]
-        var component
-        element.props = {
+        var component = document.querySelectorAll('grape-emoji-browser')[0]
+        component.props = {
           onSelectTab: function(data) {
             console.log('onSelectTab', data)
           },
@@ -43,9 +42,6 @@
           },
           customEmojis: {
             test: '../images/trauby-reading.png'
-          },
-          onDidUpdate: function(_component) {
-            component = _component
           }
         }
 

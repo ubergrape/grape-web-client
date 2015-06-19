@@ -31,27 +31,31 @@ export default class Browser extends Component {
     images: undefined,
     onAddIntegration: undefined,
     onSelectTab: undefined,
-    onSelectItem: undefined,
-    onDidUpdate: undefined
+    onSelectItem: undefined
   }
 
   constructor(props) {
     super(props)
     this.state = this.createState(this.props)
+    this.exposePublicMethods()
   }
 
   componentWillReceiveProps(props) {
     this.setState(this.createState(props))
   }
 
-  componentDidUpdate() {
-    let {onDidUpdate} = this.props
-    if (onDidUpdate) onDidUpdate(this)
+  exposePublicMethods() {
+    ['selectTab', 'focusItem', 'getFocusedItem'].forEach(method => {
+      this.props.container[method] = ::this[method]
+    })
   }
 
   createState(props) {
-    let maxItems = this.getMaxItemsPerSection(props.itemId)
-    let sections = dataUtils.getSections(props.data, props.itemId, maxItems)
+    let sections = dataUtils.getSections(
+      props.data,
+      props.itemId,
+      props.maxItemsPerSectionInAll
+    )
     let tabs = []
 
     if (props.data) {
@@ -65,18 +69,12 @@ export default class Browser extends Component {
     }
   }
 
-  getMaxItemsPerSection(service) {
-    return service ? undefined : this.props.maxItemsPerSectionInAll
-  }
-
   /**
    * Select tab.
    *
    * @param {String} id can be item id or "prev" or "next"
-   * @param {Object} [options]
-   * @param {Function} [callback]
    */
-  selectTab(id, options = {}, callback) {
+  selectTab(id) {
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
 
@@ -103,12 +101,15 @@ export default class Browser extends Component {
     if (set) {
       let {id} = tabs[newIndex]
       dataUtils.setSelectedTab(tabs, newIndex)
-      let maxItems = this.getMaxItemsPerSection(id)
-      let sections = dataUtils.getSections(this.props.data, id, maxItems)
+      let sections = dataUtils.getSections(
+        this.props.data,
+        id,
+        this.props.maxItemsPerSectionInAll
+      )
       dataUtils.setSelectedSection(sections, id)
       dataUtils.setFocusedItemAt(sections, id, 0)
-      this.setState({tabs: tabs, sections: sections, itemId: id}, callback)
-      if (!options.silent) this.props.onSelectTab({id: id})
+      this.setState({tabs: tabs, sections: sections, itemId: id})
+      this.props.onSelectTab({id: id})
     }
   }
 
@@ -205,8 +206,8 @@ export default class Browser extends Component {
     this.selectItem(data.id)
   }
 
-  onSelectTab(data, callback) {
-    this.selectTab(data.id, {}, callback)
+  onSelectTab(data) {
+    this.selectTab(data.id)
   }
 
   onMouseDown(e) {

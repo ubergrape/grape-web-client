@@ -26,8 +26,7 @@ class Browser extends Component {
     className: '',
     search: '',
     onSelectItem: undefined,
-    onNotFound: undefined,
-    onDidUpdate: undefined
+    onNotFound: undefined
   }
 
   static init = (options) => {
@@ -43,12 +42,16 @@ class Browser extends Component {
 
   constructor(props) {
     super(props)
+    this.exposePublicMethods()
     this.onResize = debounce(::this.cacheItemsPerRow, 500)
     this.state = this.createState(this.props)
   }
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props), ::this.onNotFound)
+    this.setState(this.createState(props), () => {
+      this.cacheItemsPerRow()
+      this.onNotFound()
+    })
   }
 
   componentWillMount() {
@@ -64,10 +67,10 @@ class Browser extends Component {
     this.cacheItemsPerRow()
   }
 
-  componentDidUpdate() {
-    this.cacheItemsPerRow()
-    let {onDidUpdate} = this.props
-    if (onDidUpdate) onDidUpdate(this)
+  exposePublicMethods() {
+    ['focusItem', 'getFocusedItem'].forEach(method => {
+      this.props.container[method] = ::this[method]
+    })
   }
 
   createState(props) {
@@ -169,10 +172,8 @@ class Browser extends Component {
    * Select tab.
    *
    * @param {String} id can be item id or "prev" or "next"
-   * @param {Object} [options]
-   * @param {Function} [callback]
    */
-  selectTab(id, options = {}, callback) {
+  selectTab(id) {
     let {tabs} = this.state
     if (id == 'next') {
       let currIndex = findIndex(tabs, tab => tab.selected)
@@ -187,7 +188,7 @@ class Browser extends Component {
       tabs: tabs,
       sections: sections,
       facet: id
-    }, callback)
+    })
   }
 
   focusItem(id) {
@@ -216,8 +217,8 @@ class Browser extends Component {
     this.selectItem(data.id)
   }
 
-  onSelectTab(data, callback) {
-    this.selectTab(data.id, {}, callback)
+  onSelectTab(data) {
+    this.selectTab(data.id)
   }
 
   onMouseDown(e) {
