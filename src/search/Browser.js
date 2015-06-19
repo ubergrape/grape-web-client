@@ -31,7 +31,8 @@ export default class Browser extends Component {
     images: undefined,
     onAddIntegration: undefined,
     onSelectTab: undefined,
-    onSelectItem: undefined
+    onSelectItem: undefined,
+    onDidMount: undefined
   }
 
   constructor(props) {
@@ -44,9 +45,16 @@ export default class Browser extends Component {
     this.setState(this.createState(props))
   }
 
+  componentDidMount() {
+    let {onDidMount} = this.props
+    if (onDidMount) onDidMount(this)
+  }
+
   exposePublicMethods() {
+    let {container} = this.props
+    if (!container) return
     ['selectTab', 'focusItem', 'getFocusedItem'].forEach(method => {
-      this.props.container[method] = ::this[method]
+      container[method] = ::this[method]
     })
   }
 

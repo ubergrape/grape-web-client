@@ -26,19 +26,9 @@ class Browser extends Component {
     className: '',
     search: '',
     onSelectItem: undefined,
-    onNotFound: undefined
+    onNotFound: undefined,
+    onDidMount: undefined
   }
-
-  static init = (options) => {
-    let {emojiSheet, customEmojis} = options
-    if (emojiSheet) emoji.setSheet(emojiSheet)
-    if (customEmojis) emoji.defineCustom(customEmojis)
-    dataUtils.init()
-  }
-
-  static replace = emoji.replace
-  static get = emoji.get
-  static Icon = Icon
 
   constructor(props) {
     super(props)
@@ -65,11 +55,15 @@ class Browser extends Component {
 
   componentDidMount() {
     this.cacheItemsPerRow()
+    let {onDidMount} = this.props
+    if (onDidMount) onDidMount(this)
   }
 
   exposePublicMethods() {
+    let {container} = this.props
+    if (!container) return
     ['focusItem', 'getFocusedItem'].forEach(method => {
-      this.props.container[method] = ::this[method]
+      container[method] = ::this[method]
     })
   }
 
@@ -77,7 +71,7 @@ class Browser extends Component {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
-      Browser.init({
+      PublicBrowser.init({
         emojiSheet: newEmojiSheet,
         customEmojis: props.customEmojis
       })
@@ -232,4 +226,16 @@ class Browser extends Component {
   }
 }
 
-export default useSheet(Browser, style)
+let PublicBrowser = useSheet(Browser, style)
+PublicBrowser.init = (options) => {
+  let {emojiSheet, customEmojis} = options
+  if (emojiSheet) emoji.setSheet(emojiSheet)
+  if (customEmojis) emoji.defineCustom(customEmojis)
+  dataUtils.init()
+}
+
+PublicBrowser.replace = emoji.replace
+PublicBrowser.get = emoji.get
+PublicBrowser.Icon = Icon
+
+export default PublicBrowser
