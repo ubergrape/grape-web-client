@@ -86,7 +86,7 @@ export function getSections(facet, search) {
     found = []
     sections[facet].forEach(section => {
       let items = filter(section, search)
-      if (items.length) found.push({...section, ...items})
+      if (items.length) found.push({...section, items})
     })
   }
 
@@ -140,6 +140,3 @@ function filter(section, search) {
     return false
   })
 }
-
-
-
