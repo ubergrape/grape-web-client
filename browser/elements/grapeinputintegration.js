@@ -40,7 +40,7 @@ GrapeInputIntegration.prototype.init = function () {
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
 	images.orgLogo = this.org.logo
-	this.input.setProps({
+	this.input.props = {
 		images: images,
 		customEmojis: this.org.custom_emojis,
 		focused: true,
@@ -79,19 +79,18 @@ GrapeInputIntegration.prototype.setRoom = function (room) {
 GrapeInputIntegration.prototype.disable = function () {
 	this.completePreviousEdit();
 	this.el.classList.add('disabled');
-	this.input.setProps({
+	this.input.props = {
 		disabled: true,
 		placeholder: 'You cannot reply to this conversation.'
-	});
-	this.input.blur();
+	};
 };
 
 GrapeInputIntegration.prototype.enable = function () {
 	this.el.classList.remove('disabled');
-	this.input.setProps({
+	this.input.props = {
 		disabled: false,
 		placeholder: this.placeholder
-	});
+	};
 };
 
 GrapeInputIntegration.prototype.redraw = function () {
@@ -103,12 +102,12 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (queryObj) {
 	var key = queryObj ? queryObj.key : '';
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
-		this.input.setProps({
+		this.input.props = {
 			data: data,
 			type: 'search',
 			queryObj: queryObj,
 			hasIntegrations: this.org.has_integrations
-		});
+		};
 	}.bind(this));
 };
 
@@ -118,18 +117,18 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
 
-	this.input.setProps({
+	this.input.props = {
 		data: data,
 		type: 'user',
 		queryObj: queryObj
-	});
+	};
 };
 
 GrapeInputIntegration.prototype.showEmojiBrowser = function (queryObj) {
-	this.input.setProps({
+	this.input.props = {
 		type: 'emoji',
 		queryObj: queryObj
-	});
+	};
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
