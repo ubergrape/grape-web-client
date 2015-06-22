@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from '../../../components/browser/style'
 import Info from './Info'
@@ -16,6 +17,8 @@ export default class Default extends Component {
     focusedItem: undefined,
     headerHeight: 128
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     let {classes} = this.props.sheet

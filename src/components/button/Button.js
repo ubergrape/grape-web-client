@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
+import {shouldPureComponentUpdate} from 'react-pure-render'
+
 import style from './style'
 
 /**
@@ -12,6 +14,8 @@ export default class Button extends Component {
     className: '',
     onClick: undefined
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     let {classes} = this.props.sheet

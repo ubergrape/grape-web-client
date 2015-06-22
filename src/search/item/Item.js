@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import * as style from './style'
 import * as utils from './utils'
@@ -21,6 +22,8 @@ export default class Item extends Component {
     visibilityContainment: undefined,
     focused: false
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps) {
     if (this.props.focused != prevProps.focused) {

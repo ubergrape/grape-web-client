@@ -10,6 +10,7 @@ import Item from './item/Item'
 import Empty from '../components/empty/Empty'
 import * as services from './services'
 import * as dataUtils from './dataUtils'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 /**
  * Main search browser component.
@@ -40,6 +41,8 @@ export default class Browser extends Component {
     this.state = this.createState(this.props)
     this.exposePublicMethods()
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(props) {
     this.setState(this.createState(props))
@@ -149,7 +152,7 @@ export default class Browser extends Component {
 
     if (set) {
       dataUtils.setFocusedItem(sections, id)
-      this.setState({sections: sections})
+      this.setState({sections: [...sections]})
     }
   }
 

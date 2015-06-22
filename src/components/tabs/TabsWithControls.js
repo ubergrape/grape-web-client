@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import find from 'lodash-es/collection/find'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './tabsWithControlsStyle'
 import Tabs from './Tabs'
@@ -23,6 +24,8 @@ export default class TabsWithControls extends Component {
       rightEdge: true
     }
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate() {
     this.setEdgesState()

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import get from 'lodash-es/object/get'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './style'
 import * as utils from './utils'
@@ -15,6 +16,8 @@ export default class Detail extends Component {
     headerHeight: undefined,
     images: undefined
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     let {classes} = this.props.sheet

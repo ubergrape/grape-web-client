@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './infoStyle'
 import * as contents from './infoContents'
@@ -19,6 +20,8 @@ export default class Info extends Component {
     images: undefined,
     onAddIntegration: undefined
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     let {classes} = this.props.sheet

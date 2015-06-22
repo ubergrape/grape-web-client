@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import pick from 'lodash-es/object/pick'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './sectionStyle'
 
@@ -18,6 +19,8 @@ export default class Section extends Component {
     super(props)
     this.items = {}
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
     this.props.onDidMount(this)

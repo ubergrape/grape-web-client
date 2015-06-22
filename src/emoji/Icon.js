@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import defaults from 'lodash-es/object/defaults'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './iconStyle'
 

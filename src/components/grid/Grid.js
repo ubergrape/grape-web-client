@@ -3,6 +3,7 @@ import useSheet from 'react-jss'
 import find from 'lodash-es/collection/find'
 import pick from 'lodash-es/object/pick'
 import debounce from 'lodash-es/function/debounce'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import Section from './Section'
 import style from './gridStyle'

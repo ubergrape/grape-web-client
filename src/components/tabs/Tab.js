@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import VisibilitySensor from 'react-visibility-sensor'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import * as style from './tabStyle'
 
@@ -19,6 +20,8 @@ export default class Tab extends Component {
     amount: undefined,
     id: undefined
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
     this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)

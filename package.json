@@ -18,6 +18,7 @@
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-jss": "^1.0.0",
+    "react-pure-render": "^1.0.2",
     "react-visibility-sensor": "^2.0.0"
   },
   "devDependencies": {

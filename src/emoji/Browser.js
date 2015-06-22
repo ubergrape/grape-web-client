@@ -4,6 +4,7 @@ import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
 import get from 'lodash-es/object/get'
 import debounce from 'lodash-es/function/debounce'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './browserStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
@@ -36,6 +37,8 @@ class Browser extends Component {
     this.onResize = debounce(::this.cacheItemsPerRow, 500)
     this.state = this.createState(this.props)
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(props) {
     this.setState(this.createState(props), () => {
@@ -190,7 +193,7 @@ class Browser extends Component {
     let item = dataUtils.getItem(sections, id, this.itemsPerRow)
     if (item) id = item.id
     dataUtils.setFocusedItem(sections, id)
-    this.setState({sections: sections})
+    this.setState({sections: [...sections]})
   }
 
   selectItem(id) {

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './tabsStyle'
 import Tab from './Tab'
@@ -15,6 +16,8 @@ export default class Tabs extends Component {
     onInvisible: undefined,
     onDidMount: undefined
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
     this.props.onDidMount(this)
