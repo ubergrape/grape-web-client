@@ -45,7 +45,7 @@ GrapeInputIntegration.prototype.init = function () {
 		customEmojis: this.org.custom_emojis,
 		focused: true,
 		placeholder: this.placeholder
-	});
+	};
 };
 
 GrapeInputIntegration.prototype.bindEvents = function () {
