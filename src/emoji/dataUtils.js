@@ -1,3 +1,4 @@
+import React from 'react'
 import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import indexBy from 'lodash-es/collection/indexBy'
