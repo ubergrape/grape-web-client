@@ -172,6 +172,11 @@ UI.prototype.init = function UI_init() {
 
 	// initialize user guide
 	this.intro = new Introjs();
+	this.intro.onchange(function(el) {
+		if (el.dataset.step !== undefined) {
+			window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic});
+		}
+	});
 	this.intro.setOptions({
 		nextLabel: '<strong>' + _('Next') + '</strong>',
 		skipLabel: _('Skip'),
@@ -294,6 +299,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 UI.prototype.setSettings = function UI_setSettings(settings) {
 	this.settings = settings;
 	if (this.settings.show_intro) {
+		window.analytics.track("Started Tutorial", {via: "onboarding"});
 		this.intro.start();
 	}
 

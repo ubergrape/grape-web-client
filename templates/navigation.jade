@@ -9,7 +9,7 @@ div.navigation
 			div
 				h3
 					=_('Loading')
-		div(id='intro-step2', class='room-list')
+		div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
 			a.nav-title-wrap.addroom
 				div.nav-button.button-inset=_('Manage rooms')
 				h2.nav-title=_('Rooms')
@@ -18,7 +18,7 @@ div.navigation
 				div.nav-button.button-inset=_('All labels')
 				h2.nav-title=_('Labels')
 			ul.nav-list.labels
-		div(id="intro-step3", class='pm-list')
+		div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
 			.nav-title-wrap.addpm
 				h2.nav-title=_('Private messages')
 			ul.nav-list.pms
