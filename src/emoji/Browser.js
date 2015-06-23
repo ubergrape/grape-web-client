@@ -193,13 +193,11 @@ class Browser extends Component {
     if (nextItem) nextItemId = nextItem.id
 
     let prevItem = dataUtils.getFocusedItem(sections)
-    this.grid
-      .getItemComponent(prevItem.id)
-      .setState({focused: false})
+    let prevComponent = this.grid.getItemComponent(prevItem.id)
+    if (prevComponent) prevComponent.setState({focused: false})
 
-    this.grid
-      .getItemComponent(nextItemId)
-      .setState({focused: true})
+    let nextComponent = this.grid.getItemComponent(nextItemId)
+    if (nextComponent) nextComponent.setState({focused: true})
 
     dataUtils.setFocusedItem(sections, nextItemId)
   }
