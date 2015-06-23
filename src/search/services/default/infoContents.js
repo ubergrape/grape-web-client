@@ -1,3 +1,5 @@
+import React from 'react'
+
 export function basic() {
   return {
     title: <h2>Write what you are looking for or use one of the filters on the left.</h2>,
