@@ -271,27 +271,38 @@ App.prototype.bindEvents = function App_bindEvents() {
 	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
-		if (!~room.users.indexOf(user)) {
-			room.users.push(user);
-			self.emit('newRoomMember', room);
+		if (~room.users.indexOf(user)) return;
+		// if the user joining the room is the visitor,
+		// we need to emit the leftChannel event as well
+		// to ensure consistent behaviour across clients
+		if (user === self.user) {
+			room.joined = true;
+			self.emit('joinedChannel');
 		}
+		room.users.push(user);
+		self.emit('newRoomMember', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
-		if (~index) {
-			room.users.splice(index, 1);
-			self.emit('memberLeftChannel', room);
+		if (!~index) return;
+		// if the user leaving the room is the visitor,
+		// we need to emit the leftChannel event as well
+		// to ensure consistent behaviour across clients
+		if (user === self.user) {
+			room.joined = false;
+			self.emit('leftChannel', room);
 		}
+		room.users.splice(index, 1);
+		self.emit('memberLeftChannel', room);
 	});
 
 	// organization events
 	wamp.subscribe(PREFIX + 'organization#joined', function (data) {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
-		if (!user)
-			user = new models.User(data.user);
+		if (!user) user = new models.User(data.user);
 		// make sure we're joining the right organization
 		// and the user isnt in there yet
 		if (data.organization===self.organization.id &&
@@ -317,7 +328,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 			if (inactivePm) {
 				var inactivePmIndex = self.organization.pms.indexOf(inactivePm);
 				self.organization.pms.splice(inactivePmIndex, 1);
-				self.emit('deleteduser', user);
+				self.emit('userDeleted', user);
 			}
 			user.active = false;
 		}
@@ -371,6 +382,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
+		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) {
 			user.avatar = data.user.avatar;
 		}

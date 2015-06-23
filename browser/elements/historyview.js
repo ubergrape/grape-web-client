@@ -62,8 +62,10 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
+	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
 	this.events.bind('click a.show-invite', 'toggleInvite');
-	this.events.bind('click a.show-more', 'showMore');
+	this.events.bind('click a.show-more', 'expandActivityList');
+	this.events.bind('click a.show-less', 'collapseActivityList');
 	this.events.bind('click div.resend', 'resend');
 	this.events.bind('click div.load-newer-history', 'loadNewHistory');
 	this.events.bind('click div.load-older-history', 'loadOldHistory');
@@ -85,6 +87,14 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	classes(el).remove('removing');
 };
 
+HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (ev) {
+	var msgClientSideID = closest(ev.target, '.message', true).getAttribute('data-id');
+	var bufferedMsg = this.findBufferedMsg(msgClientSideID);
+	if (!bufferedMsg) return;
+	this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	this.queueDraw();
+};
+
 HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
 	var options = {
 		time_from	: this.room.searchHistory[this.room.searchHistory.length - 1].time,
@@ -96,7 +106,7 @@ HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
 
 HistoryView.prototype.loadNewestHistory = function HistoryView_loadNewestHistory () {
 	this.emit('switchToChatMode', this.room);
-}
+};
 
 HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 	var options = {
@@ -104,7 +114,7 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 		limit	: 5
 	};
 	this.emit('loadHistoryForSearch', 'old', this.room, options);
-}
+};
 
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
@@ -154,7 +164,7 @@ function groupHistory(history) {
 		group.push(last = line);
 	}
 	return groups;
-}
+};
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
 	this.queued = false;
@@ -216,7 +226,7 @@ HistoryView.prototype.updateRead = function HistoryView_updateRead () {
 	if (!line || line.time < this.room.latest_message_time) return;
 	this.emit('hasread', this.room, line);
 	this.queueDraw()
-}
+};
 
 HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
 	if (this.queued) return;
@@ -244,14 +254,14 @@ HistoryView.prototype.firstMsgLoaded = function HistoryView_firstMsgLoaded (hist
 	if (firstLoadedMsg && new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
 		return true;
 	return false;
-}
+};
 
 HistoryView.prototype.lastMsgLoaded = function HistoryView_lastMsgLoaded (history) {
 	var lastLoadedMsg = history[history.length - 1];
 	if (lastLoadedMsg && new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
 		return true;
 	return false;
-}
+};
 
 HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (direction) {
 	this.room.loading = false;
@@ -327,16 +337,21 @@ HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 		room: this.room,
 		mode: this.mode
 	}));
-}
+};
 
-HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite(ev) {
+HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite (ev) {
 	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
 };
 
-HistoryView.prototype.showMore = function HistoryView_showMore(ev) {
+HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {
 	var el = closest(ev.target, 'ul', true);
 	classes(el).remove('list-previewed');
 };
+
+HistoryView.prototype.collapseActivityList = function HistoryView_collapseActivityList (ev) {
+	var el = closest(ev.target, 'ul', true);
+	classes(el).add('list-previewed');
+}
 
 HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
 	if (this.mode === 'search') this.emit('switchToChatMode', room);
@@ -355,23 +370,28 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 	this.scrollMode = 'automatic';
 	this.queueDraw();
 	this.handlePendingMsg(newMessage);
-}
+};
+
+HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (clientSideID) {
+	var bufferedMsg = null;
+	this.messageBuffer.every(function(message) {
+		if (clientSideID == message.clientSideID) {
+			bufferedMsg = message;
+			return false;
+		}
+		return true;
+	});
+	return bufferedMsg;
+};
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
 	if (line.channel != this.room || this.mode === 'search') return;
 	if (line.author == ui.user) {
-		var bufferedMsg = null;
-		this.messageBuffer.every(function(message) {
-			if (line.clientside_id == message.clientSideID) {
-				bufferedMsg = message;
-				return false;
-			}
-			return true;
-		});
+		var bufferedMsg = this.findBufferedMsg(line.clientside_id);
 		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
 	}
 	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
-}
+};
 
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
 	this.mode = 'search';
@@ -383,23 +403,16 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
 	this.redrawTyping();
 	this.queueDraw();
-}
+};
 
 HistoryView.prototype.resend = function HistoryView_resend(e) {
 	var clientSideID = e.target.getAttribute('data-id');
-	var bufferedMsg = null;
-	this.messageBuffer.every(function(message) {
-		if (message.clientSideID == clientSideID) {
-			bufferedMsg = message;
-			return false;
-		}
-		return true;
-	});
+	var bufferedMsg = this.findBufferedMsg(clientSideID);
 	if (!bufferedMsg) return;
 	bufferedMsg.status = "pending";
 	this.queueDraw();
 	this.handlePendingMsg(bufferedMsg);
-}
+};
 
 HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(msg) {
 	var options = {
@@ -414,9 +427,9 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 			this.queueDraw();
 		}
 	}.bind(this), 10000);
-}
+};
 
 HistoryView.prototype.onUploading = function HistoryView_onUploading () {
 	if (this.mode === 'chat') return;
 	this.emit('switchToChatMode', this.room);
-}
+};
