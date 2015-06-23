@@ -49,9 +49,12 @@ Invite.prototype._bindAutocomplete = function Invite__bindAutocomplete() {
 			var match = matches[0];
 			this.clear();
 			users.forEach(function (user) {
-				if (  user.firstName.startsWithIgnoreCase(match)
+				// we check if the user is still active since it 
+				// may have been deleted while the visitor is using the app
+				if ( user.active && (
+					user.firstName.startsWithIgnoreCase(match)
 				   || user.lastName.startsWithIgnoreCase(match)
-				   || user.username.startsWithIgnoreCase(match)) {
+				   || user.username.startsWithIgnoreCase(match))) {
 					this.push({
 						id: user.username,
 						title: '<img src="' + user.avatar + '" width="16" alt="Avatar of ' + user.firstName + ' ' + user.lastName + '" style="border-radius:50%;margin-bottom:-3px;"/>&nbsp;'+ user.firstName + ' ' + user.lastName + ' <em>' + user.username + '</em>',

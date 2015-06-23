@@ -68,11 +68,11 @@
 					border-top: 2px dotted gainsboro-light
 			.show-more
 				display: none
-				position: absolute
-				bottom: 0
-				left: 0
-				right: 0
+			.show-less
+				display: block
+				z-index: 12
 				padding-left: 13px
+				margin-top: 7px
 			&.list-previewed
 				max-height: 99px
 				position: relative
@@ -94,6 +94,8 @@
 					left: 0
 					right: 0
 					padding-left: 13px
+				.show-less
+					display: none
 
 	.comment,
 	&.commentCard .short-list 

@@ -104,7 +104,7 @@ function pipeEvents(ui) {
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
-	broker(ui, 'deleteduser', ui.navigation, 'deleteUser');
+	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
 	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
