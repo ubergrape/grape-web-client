@@ -21,12 +21,17 @@ export default class Item extends Component {
     focused: false
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {...props}
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentDidUpdate(prevProps) {
-    if (this.props.focused != prevProps.focused) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.focused != prevState.focused) {
       this.refs.sensor.check()
-      if (this.props.focused) this.onFocus()
+      if (this.state.focused) this.onFocus()
     }
   }
 
@@ -37,7 +42,7 @@ export default class Item extends Component {
 
   render() {
     let {classes} = this.props.sheet
-    let {id, icon, focused} = this.props
+    let {id, icon, focused} = this.state
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -56,17 +61,17 @@ export default class Item extends Component {
   }
 
   onVisibilityChange(isVisible, visibilityRect) {
-    if (!isVisible && this.props.focused) {
+    if (!isVisible && this.state.focused) {
       this.props.onInvisible(this, visibilityRect)
     }
   }
 
   onFocus() {
-    this.props.onFocus({id: this.props.id})
+    this.props.onFocus({id: this.state.id})
   }
 
   onClick() {
-    this.props.onSelect({id: this.props.id})
+    this.props.onSelect({id: this.state.id})
   }
 
   onMouseOver() {

@@ -117,7 +117,6 @@ class Browser extends Component {
               focusedItem={dataUtils.getFocusedItem(sections)}
               className={classes.leftColumn}
               section={{contentClassName: classes.sectionContent}}
-              ref="grid"
               onFocus={::this.onFocusItem}
               onSelect={::this.onSelectItem}
               onDidMount={::this.onGridDidMount} />
@@ -188,12 +187,21 @@ class Browser extends Component {
     })
   }
 
-  focusItem(id) {
+  focusItem(nextItemId) {
     let {sections} = this.state
-    let item = dataUtils.getItem(sections, id, this.itemsPerRow)
-    if (item) id = item.id
-    dataUtils.setFocusedItem(sections, id)
-    this.setState({sections: [...sections]})
+    let nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
+    if (nextItem) nextItemId = nextItem.id
+
+    let prevItem = dataUtils.getFocusedItem(sections)
+    this.grid
+      .getItemComponent(prevItem.id)
+      .setState({focused: false})
+
+    this.grid
+      .getItemComponent(nextItemId)
+      .setState({focused: true})
+
+    dataUtils.setFocusedItem(sections, nextItemId)
   }
 
   selectItem(id) {
