@@ -215,6 +215,10 @@ Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
 	this.roomList.redraw();
 }
 
+Navigation.prototype.onUserMention = function Navigation_onUserMention () {
+	this.roomList.redraw();
+}
+
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {

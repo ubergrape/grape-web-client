@@ -115,4 +115,5 @@ function pipeEvents(ui) {
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
+	broker(ui, 'userMention', ui.navigation, 'onUserMention');
 }

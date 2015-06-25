@@ -371,7 +371,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
+		var line = models.Line.get(data.message.id);
+		if (!line) line = new models.Line(data.message.id);
 		line.channel.mentioned++;
+		self.emit('userMention');
 	});
 	wamp.subscribe(PREFIX + 'user#updated', function (data) {
 		var user = models.User.get(data.user.id);
