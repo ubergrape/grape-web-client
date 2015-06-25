@@ -170,38 +170,35 @@ export default class Browser extends Component {
     let {sections} = this.state
     let selectedSection = dataUtils.getSelectedSection(sections)
     let data = selectedSection ? [selectedSection] : sections
+    let Service = services.Default
     let content
 
     if (data.length) {
       let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
         'images', 'onAddIntegration', 'orgName', 'orgOwner')
 
-      content = React.createElement(services.Default, {
-        ...props,
-        Item: Item,
-        data: data,
-        focusedItem: this.getFocusedItem(),
-        onFocus: ::this.onFocusItem,
-        onSelect: ::this.onSelectItem
-      })
+      content = (
+        <Service
+          {...props}
+          Item = {Item}
+          data = {data}
+          focusedItem = {this.getFocusedItem()}
+          onFocus = {::this.onFocusItem}
+          onSelect = {::this.onSelectItem} />
+      )
     }
     else {
       let text
       if (this.props.isExternal) {
         text = `Write the search term to search ${this.props.data.search.service}.`
       }
-      content = <Empty text={text}/>
-    }
-
-    let style = {
-      height: `${this.props.height}px`,
-      maxWidth: this.props.maxWidth
+      content = <Empty text={text} />
     }
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={style}
+        style={pick(this.props, 'height', 'maxWidth')}
         onMouseDown={::this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
