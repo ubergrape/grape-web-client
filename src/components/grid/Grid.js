@@ -23,6 +23,8 @@ export default class Grid extends Component {
     onDidMount: undefined
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   componentDidMount() {
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)

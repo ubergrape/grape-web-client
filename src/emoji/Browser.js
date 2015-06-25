@@ -9,7 +9,6 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import style from './browserStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Grid from '../components/grid/Grid'
-import Empty from '../components/empty/Empty'
 import Item from './item/Item'
 import Icon from './Icon'
 import * as dataUtils from './dataUtils'
@@ -41,15 +40,16 @@ class Browser extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(props) {
-    this.setState(this.createState(props), () => {
-      this.cacheItemsPerRow()
-      this.onNotFound()
-    })
+    this.setState(this.createState(props))
+  }
+
+  componentDidUpdate() {
+    this.cacheItemsPerRow()
+    this.onNotFound()
   }
 
   componentWillMount() {
     window.addEventListener('resize', this.onResize)
-    this.onNotFound()
   }
 
   componentWillUnmount() {
@@ -60,6 +60,7 @@ class Browser extends Component {
     this.cacheItemsPerRow()
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
+    this.onNotFound()
   }
 
   exposePublicMethods() {
@@ -94,20 +95,21 @@ class Browser extends Component {
       sections = dataUtils.getSections(facet, props.search)
     }
 
-    return {
-      tabs: tabs,
-      facet: facet,
-      sections: sections
-    }
+    return {tabs, facet, sections}
   }
 
   render() {
     let {classes} = this.props.sheet
     let {sections} = this.state
-    let content
 
-    if (sections.length) {
-      content = (
+    if (!sections.length) return null
+
+    return (
+      <div
+        className={`${classes.browser} ${this.props.className}`}
+        style={pick(this.props, 'height', 'maxWidth')}
+        onMouseDown={::this.onMouseDown}>
+        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         <div className={classes.column}>
           <div className={classes.row}>
             <Grid
@@ -122,19 +124,6 @@ class Browser extends Component {
               onDidMount={::this.onGridDidMount} />
           </div>
         </div>
-      )
-    }
-    else {
-      content = <Empty />
-    }
-
-    return (
-      <div
-        className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}
-        onMouseDown={::this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        {content}
       </div>
     )
   }
@@ -169,22 +158,18 @@ class Browser extends Component {
    *
    * @param {String} id can be item id or "prev" or "next"
    */
-  selectTab(id) {
+  selectTab(facet) {
     let {tabs} = this.state
-    if (id == 'next') {
+    if (facet == 'next') {
       let currIndex = findIndex(tabs, tab => tab.selected)
-      if (tabs[currIndex + 1]) id = tabs[currIndex + 1].id
-      else id = tabs[0].id
+      if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
+      else facet = tabs[0].id
     }
-    let newIndex = findIndex(tabs, tab => tab.id == id)
-    id = tabs[newIndex].id
+    let newIndex = findIndex(tabs, tab => tab.id == facet)
+    facet = tabs[newIndex].id
     dataUtils.setSelectedTab(tabs, newIndex)
-    let sections = dataUtils.getSections(id, this.props.search)
-    this.setState({
-      tabs: tabs,
-      sections: sections,
-      facet: id
-    })
+    let sections = dataUtils.getSections(facet, this.props.search)
+    this.setState({tabs, sections, facet})
   }
 
   focusItem(nextItemId) {

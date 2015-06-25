@@ -28,19 +28,23 @@ export default class Section extends Component {
 
   render() {
     let {classes} = this.props.sheet
-    let {Item, items, label} = this.props
-
-    items = items.map((item, i) => {
-      let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
-        'visibilityContainment')
-      return {...item, ...props, key: 'item' + i, onDidMount: ::this.onItemDidMount}
-    })
+    let {Item} = this.props
 
     return (
       <section>
-        <header className={classes.header}>{label}</header>
+        <header className={classes.header}>{this.props.label}</header>
         <div className={this.props.contentClassName} ref="content">
-          {items.map(item => <Item {...item} />)}
+          {this.props.items.map((data, i) => {
+            let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
+              'visibilityContainment')
+            return (
+              <Item
+                {...data}
+                {...props}
+                key = {'item' + i}
+                onDidMount = {::this.onItemDidMount} />
+            )
+          })}
         </div>
       </section>
     )

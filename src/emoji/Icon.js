@@ -15,6 +15,8 @@ export default class Icon extends Component {
     className: undefined
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   render() {
     return (
       // Space inside is required for webkit browsers. Otherwise icon won't get

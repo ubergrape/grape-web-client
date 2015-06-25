@@ -28,6 +28,10 @@ export default class Item extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  componentWillReceiveProps(newProps) {
+    this.setState({...newProps})
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.focused != prevState.focused) {
       this.refs.sensor.check()

@@ -65,10 +65,7 @@ export function init() {
     section.items = []
     section.itemNames.forEach(name => {
       let item = emoji.get(name)
-      if (item) {
-
-        section.items.push(item)
-      }
+      if (item) section.items.push(item)
     })
   })
 
@@ -86,7 +83,15 @@ export function getSections(facet, search) {
   if (search) {
     found = []
     sections[facet].forEach(section => {
-      let items = filter(section, search)
+      let items = section.items.filter(item => {
+        if (item.name.indexOf(search) >= 0) return true
+        let meta = META_MAP[item.name]
+        if (!meta) return false
+        return meta.aliases.some(function (alias) {
+          return alias.indexOf(search) >= 0
+        })
+        return false
+      })
       if (items.length) found.push({...section, items})
     })
   }
@@ -128,16 +133,4 @@ export function getTabs(options) {
   }
 
   return tabs
-}
-
-function filter(section, search) {
-  return section.items.filter(item => {
-    if (item.name.indexOf(search) >= 0) return true
-    let meta = META_MAP[item.name]
-    if (!meta) return false
-    return meta.aliases.some(function (alias) {
-      return alias.indexOf(search) >= 0
-    })
-    return false
-  })
 }
