@@ -30,6 +30,10 @@ RoomMembersPopover.prototype.init = function RoomMembersPopover_init() {
 RoomMembersPopover.prototype.bind=  function RoomMembersPopover_bind() {
 	var self = this;
 	Popover.prototype.bind.call(this);
+	this.events.obj.deleteRoomMember = function () {
+
+	}
+	this.events.bind('click span.btn-delete', 'deleteRoomMember');
 };
 
 RoomMembersPopover.prototype.redraw = function RoomMembersPopover_redraw() {
