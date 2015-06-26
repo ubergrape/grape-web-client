@@ -25,11 +25,20 @@ Notifications.prototype.init = function Notifications_init() {
 	});
 };
 
-Notifications.prototype.setRoom = function Notifications_setRoom(room) {
+Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 	this.room = room;
 };
 
-Notifications.prototype.onNewNotification = function Notifications_onNewNotification(message) {
+Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
+	var inviter = item.inviter;
+	var room = item.room;
+	var content = inviter.displayName + _(' invited you to the room ') + room.name;
+	var title = inviter.displayName + _(' (Room Invite)');
+	var icon = inviter.avatar;
+	this.dispatch(title, content, icon, room);
+}
+
+Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
 	var self = this;
 	var i, opts, content_dom, imgs, img, replacement, filename;
 	var	author		= message.author,
@@ -93,6 +102,11 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 		}
 	}
 
+	this.dispatch(title, content, icon, channel);
+};
+
+Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
+	var self = this;
 	if (typeof MacGap !== 'undefined') {
 		MacGap.notify({
 			title: title,
@@ -111,4 +125,4 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 			}
 		});
 	}
-};
+}
