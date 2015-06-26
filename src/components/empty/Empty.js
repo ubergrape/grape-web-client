@@ -10,7 +10,7 @@ import style from './style'
 @useSheet(style)
 export default class Empty extends Component {
   static defaultProps = {
-    text: 'Nothing found.'
+    text: ''
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

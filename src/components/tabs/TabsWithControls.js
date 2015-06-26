@@ -33,6 +33,8 @@ export default class TabsWithControls extends Component {
 
   render() {
     let {classes} = this.props.sheet
+    let {data} = this.props
+    if (!data.length) return null
 
     return (
       <ul className={classes.controls}>

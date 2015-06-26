@@ -8,6 +8,7 @@ import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../components/empty/Empty'
+import Spinner from '../components/spinner/Spinner'
 import * as services from './services'
 import * as dataUtils from './dataUtils'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -189,9 +190,14 @@ export default class Browser extends Component {
     }
     else {
       let text
+
       if (this.props.isExternal) {
         text = `Write the search term to search ${this.props.data.search.service}.`
       }
+      else if (this.props.data.results) {
+        text = 'Nothing found.'
+      }
+
       content = <Empty text={text} />
     }
 
@@ -202,6 +208,7 @@ export default class Browser extends Component {
         onMouseDown={::this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
+        {!data.length && <Spinner />}
       </div>
     )
   }
