@@ -92,6 +92,7 @@ function pipeEvents(ui) {
 	// membersMenu
 	broker(ui, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
+	broker.pass(ui.membersMenu, 'kickMember', ui, 'kickMember');
 
 	// roomCreation
 	broker.pass(ui.roomCreation, 'createroom', ui, 'createroom');
