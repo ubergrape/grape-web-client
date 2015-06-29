@@ -39,13 +39,21 @@ GrapeInputIntegration.prototype.init = function () {
 	this.initialized = true;
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
-	images.orgLogo = this.org.logo
-	this.input.props = {
+	images.orgLogo = this.org.logo;
+	this.setProps();
+};
+
+GrapeInputIntegration.prototype.setProps = function (newProps) {
+	var props = {
 		images: images,
 		customEmojis: this.org.custom_emojis,
 		focused: true,
-		placeholder: this.placeholder
+		placeholder: this.placeholder,
+		hasIntegrations: this.org.has_integrations
 	};
+
+	for (var name in newProps) props[name] = newProps[name];
+	this.input.props = props;
 };
 
 GrapeInputIntegration.prototype.bindEvents = function () {
@@ -54,6 +62,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
 	this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
+	this.events.bind('grapeFilterSelect grape-input', 'onFilterSelect');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
 	this.events.bind('grapeChange grape-input', 'onChange');
@@ -77,20 +86,22 @@ GrapeInputIntegration.prototype.setRoom = function (room) {
 };
 
 GrapeInputIntegration.prototype.disable = function () {
+	if (this.input.props.disabled) return;
 	this.completePreviousEdit();
 	this.el.classList.add('disabled');
-	this.input.props = {
+	this.setProps({
 		disabled: true,
 		placeholder: 'You cannot reply to this conversation.'
-	};
+	});
 };
 
 GrapeInputIntegration.prototype.enable = function () {
+	if (!this.input.props.disabled) return;
 	this.el.classList.remove('disabled');
-	this.input.props = {
+	this.setProps({
 		disabled: false,
 		placeholder: this.placeholder
-	};
+	});
 };
 
 GrapeInputIntegration.prototype.redraw = function () {
@@ -99,15 +110,23 @@ GrapeInputIntegration.prototype.redraw = function () {
 };
 
 GrapeInputIntegration.prototype.showSearchBrowser = function (queryObj) {
+	// Show browser immediately with empty state.
+	if (this.input.props.type != 'search') {
+		this.setProps({
+			type: 'search',
+			queryObj: queryObj
+		});
+	}
+
 	var key = queryObj ? queryObj.key : '';
+
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
-		this.input.props = {
-			data: data,
+		this.setProps({
 			type: 'search',
 			queryObj: queryObj,
-			hasIntegrations: this.org.has_integrations
-		};
+			data: data
+		});
 	}.bind(this));
 };
 
@@ -116,19 +135,18 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
 	var users = this.findUsers(key);
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
-
-	this.input.props = {
-		data: data,
+	this.setProps({
 		type: 'user',
-		queryObj: queryObj
-	};
+		queryObj: queryObj,
+		data: data
+	});
 };
 
 GrapeInputIntegration.prototype.showEmojiBrowser = function (queryObj) {
-	this.input.props = {
+	this.setProps({
 		type: 'emoji',
 		queryObj: queryObj
-	};
+	});
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
@@ -273,6 +291,19 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 			this.showEmojiBrowser(queryObj)
 			break;
 	}
+};
+
+GrapeInputIntegration.prototype.onFilterSelect = function (e) {
+	var item = e.detail;
+	var key = item.id + ':';
+
+	this.emit('autocomplete', key, function (err, data) {
+		if (err) return this.emit('error', err);
+		this.setProps({
+			type: 'search',
+			data: data
+		});
+	}.bind(this));
 };
 
 GrapeInputIntegration.prototype.onPreviousEdit = function () {
