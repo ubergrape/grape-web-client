@@ -7,29 +7,36 @@ var emoji = require('./emoji');
 
 var renderer = new marked.Renderer();
 
-
 renderer.link_simple = function(href, title, text) {
 	// Renderer.prototype.link, but with target blank
 	var out = '<a target="_blank" href="' + href + '"';
-	if (title) {
+	if (title)
 		out += ' title="' + title + '"';
-	}
 	out += '>' + text + '</a>';
 	return out;
 };
 renderer.link = function(href, title, text) {
-	if (href.slice(0, 5) === "cg://") {
-		return markdown_renderlink(href, title, text);
-	} else {
-		return this.link_simple(href, title, text);
+	if (this.options.sanitize) {
+	    try {
+	      var prot = decodeURIComponent(unescape(href))
+	        .replace(/[^\w:]/g, '')
+	        .toLowerCase();
+	    } catch (e) {
+	      return '';
+	    }
+	    if (prot.indexOf('javascript:') === 0) return '';
 	}
+	if (href.slice(0, 5) === "cg://")
+		return markdown_renderlink(href, title, text);
+	else
+		return this.link_simple(href, title, text);
 };
 renderer.heading = function (text, level) {
 	// this is a hack, we should replace the markdown parser
 	return (new Array(level+1)).join("#") + text;
 };
 renderer.hr = function() {
-		return "--";
+	return "--";
 };
 renderer.image = function (href, title, text) {
   var out = '<span class="markdown-img-wrapper">';
@@ -39,7 +46,6 @@ renderer.image = function (href, title, text) {
   out += '</span>';
   return out;
 };
-
 
 marked.setOptions({
 	renderer: renderer,
