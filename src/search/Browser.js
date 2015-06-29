@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import findIndex from 'lodash-es/array/findIndex'
 import pick from 'lodash-es/object/pick'
+import get from 'lodash-es/object/get'
 
 import style from '../components/browser/style'
 import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
@@ -63,22 +64,20 @@ export default class Browser extends Component {
   }
 
   createState(props) {
+    let {itemId} = props
     let sections = dataUtils.getSections(
       props.data,
-      props.itemId,
+      itemId,
       props.maxItemsPerSectionInAll
     )
+
     let tabs = []
 
     if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, props.itemId)
+      tabs = dataUtils.getTabs(props.data.services, itemId)
     }
 
-    return {
-      sections: sections,
-      tabs: tabs,
-      itemId: props.itemId
-    }
+    return {sections, tabs, itemId}
   }
 
   /**
@@ -194,11 +193,11 @@ export default class Browser extends Component {
       if (this.props.isExternal) {
         text = `Write the search term to search ${this.props.data.search.service}.`
       }
-      else if (this.props.data.results) {
+      else if (get(this.props, 'data.search.text')) {
         text = 'Nothing found.'
       }
 
-      content = <Empty text={text} />
+      content = text ? <Empty text={text} /> : <Spinner />
     }
 
     return (
@@ -208,7 +207,6 @@ export default class Browser extends Component {
         onMouseDown={::this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
-        {!data.length && <Spinner />}
       </div>
     )
   }
