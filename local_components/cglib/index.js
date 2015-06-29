@@ -738,5 +738,5 @@ App.prototype.updateMsg = function App_updateMessage(msg, text) {
 };
 
 App.prototype.onKickMember = function App_onKickMember (roomID, memberID) {
-	this.wamp.call(PREFIX + 'channels/kick', roomID, memberID);
+	this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID));
 }

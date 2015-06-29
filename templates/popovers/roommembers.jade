@@ -14,7 +14,7 @@
 								span.user-name #{member.firstName} #{member.lastName} 
 							else
 								span.user-name= member.username
-						if canKickMembers
+						if canKickMembers && member != room.creator
 							span.fa.fa-times.btn-delete(data-id=member.id)
 					else
 						div
