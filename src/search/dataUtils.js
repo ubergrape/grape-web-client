@@ -126,7 +126,7 @@ export function setFocusedItemAt(sections, id, index) {
 export function getTabs(items = [], selectedId) {
   if (!items.length) return items
 
-  items = items.filter(item => !item.hidden)
+  items = items.filter(item => !item.hidden && item.count !== undefined)
 
   let tabs = items.map(item => {
     return {
