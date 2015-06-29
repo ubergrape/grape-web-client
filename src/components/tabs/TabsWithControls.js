@@ -62,7 +62,7 @@ export default class TabsWithControls extends Component {
   }
 
   setEdgesState() {
-    if (!this.tabs) return
+    if (!this.props.data.length) return
 
     let {leftEdge, rightEdge} = this.state
     let innerWidth = this.getInnerWidth()

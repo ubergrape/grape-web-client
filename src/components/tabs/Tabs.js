@@ -31,13 +31,15 @@ export default class Tabs extends Component {
         <ul className={classes.inner} ref="inner">
           {this.props.data.map(item => {
             let id = item.id || 'all'
-            return <Tab
-              {...item}
-              onSelect={this.props.onSelect}
-              onInvisible={this.props.onInvisible}
-              visibilityContainment={this}
-              key={id}
-              ref={id} />
+            return (
+              <Tab
+                {...item}
+                onSelect={this.props.onSelect}
+                onInvisible={this.props.onInvisible}
+                visibilityContainment={this}
+                key={id}
+                ref={id} />
+            )
           })}
         </ul>
       </div>
