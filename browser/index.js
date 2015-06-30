@@ -379,14 +379,14 @@ UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
 
 UI.prototype.roomDeleted = function UI_roomDeleted(room) {
 	if (this.room != room) return;
-	page('/chat/');
+	page.replace('/chat/');
 	var msg = this.messages.success('room deleted', { room : room.name });
 	setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
 	if (this.room != room) return;
-	page('/chat/');
+	page.replace('/chat/');
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
