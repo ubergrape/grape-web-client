@@ -71,7 +71,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
 	this.events.bind('grapeSearch grape-input', 'onSearch');
-	this.events.bind('grapeInsertObject grape-input', 'onInsertObject');
+	this.events.bind('grapeInsertItem grape-input', 'onInsertItem');
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
@@ -109,44 +109,34 @@ GrapeInputIntegration.prototype.redraw = function () {
 	render(this, vdom);
 };
 
-GrapeInputIntegration.prototype.showSearchBrowser = function (queryObj) {
+GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 	// Show browser immediately with empty state.
 	if (this.input.props.type != 'search') {
-		this.setProps({
-			type: 'search',
-			queryObj: queryObj
-		});
+		this.setProps({type: 'search'});
 	}
-
-	var key = queryObj ? queryObj.key : '';
 
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.setProps({
 			type: 'search',
-			queryObj: queryObj,
 			data: data
 		});
 	}.bind(this));
 };
 
-GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
-	var key = queryObj.key.toLowerCase();
+GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
+	key = key.toLowerCase();
 	var users = this.findUsers(key);
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
 	this.setProps({
 		type: 'user',
-		queryObj: queryObj,
 		data: data
 	});
 };
 
-GrapeInputIntegration.prototype.showEmojiBrowser = function (queryObj) {
-	this.setProps({
-		type: 'emoji',
-		queryObj: queryObj
-	});
+GrapeInputIntegration.prototype.showEmojiBrowser = function () {
+	this.setProps({type: 'emoji'});
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
@@ -279,25 +269,23 @@ GrapeInputIntegration.prototype.onMarkdownTipsShow = function () {
 };
 
 GrapeInputIntegration.prototype.onComplete = function (e) {
-	var queryObj = e.detail;
-	switch (queryObj.trigger) {
+	var query = e.detail;
+
+	switch (query.trigger) {
 		case '#':
-			this.showSearchBrowser(queryObj)
+			this.showSearchBrowser(query.key)
 			break;
 		case '@':
-			this.showUsersAndRooms(queryObj)
+			this.showUsersAndRooms(query.key)
 			break;
 		case ':':
-			this.showEmojiBrowser(queryObj)
+			this.showEmojiBrowser()
 			break;
 	}
 };
 
 GrapeInputIntegration.prototype.onFilterSelect = function (e) {
-	var item = e.detail;
-	var key = item.id + ':';
-
-	this.emit('autocomplete', key, function (err, data) {
+	this.emit('autocomplete', e.detail.key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.setProps({
 			type: 'search',
@@ -361,7 +349,7 @@ GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
 
 GrapeInputIntegration.prototype.onOpenSearchBrowser = function (e) {
 	e.preventDefault();
-	this.showSearchBrowser();
+	this.showSearchBrowser('');
 };
 
 GrapeInputIntegration.prototype.onOrgReady = function (org) {
@@ -377,7 +365,7 @@ GrapeInputIntegration.prototype.onSearch = function (e) {
 	analytics.track('open grape-browser', e.detail);
 };
 
-GrapeInputIntegration.prototype.onInsertObject = function (e) {
+GrapeInputIntegration.prototype.onInsertItem = function (e) {
 	analytics.track('insert autocomplete object', e.detail);
 };
 
