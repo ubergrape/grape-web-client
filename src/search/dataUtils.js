@@ -123,7 +123,7 @@ export function setFocusedItemAt(sections, id, index) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(items = [], selectedId) {
+export function getTabs(items = [], serviceId) {
   if (!items.length) return items
 
   items = items.filter(item => !item.hidden && item.count !== undefined)
@@ -133,7 +133,7 @@ export function getTabs(items = [], selectedId) {
       label: item.label,
       amount: item.count,
       id: item.id,
-      selected: selectedId == item.id
+      selected: serviceId == item.id
     }
   })
 
@@ -143,7 +143,7 @@ export function getTabs(items = [], selectedId) {
   tabs.unshift({
     label: 'All',
     amount: total,
-    selected: !selectedId
+    selected: !serviceId
   })
 
   return tabs

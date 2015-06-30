@@ -26,7 +26,7 @@ export default class Browser extends Component {
     className: '',
     maxItemsPerSectionInAll: 5,
     isExternal: false,
-    itemId: undefined,
+    serviceId: undefined,
     hasIntegrations: undefined,
     canAddIntegrations: undefined,
     orgName: undefined,
@@ -64,20 +64,20 @@ export default class Browser extends Component {
   }
 
   createState(props) {
-    let {itemId} = props
+    let {serviceId} = props
     let sections = dataUtils.getSections(
       props.data,
-      itemId,
+      serviceId,
       props.maxItemsPerSectionInAll
     )
 
     let tabs = []
 
     if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, itemId)
+      tabs = dataUtils.getTabs(props.data.services, serviceId)
     }
 
-    return {sections, tabs, itemId}
+    return {sections, tabs, serviceId}
   }
 
   /**
@@ -119,7 +119,7 @@ export default class Browser extends Component {
       )
       dataUtils.setSelectedSection(sections, id)
       dataUtils.setFocusedItemAt(sections, id, 0)
-      this.setState({tabs: tabs, sections: sections, itemId: id})
+      this.setState({tabs: tabs, sections: sections, serviceId: id})
       this.props.onSelectTab({id: id})
     }
   }
