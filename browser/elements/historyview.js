@@ -300,7 +300,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
 	if (!msgID) {
-		if (!this.room.empty) {
+		if (this.room.empty === undefined) {
 			this.emit('needhistory', room);
 		} else {
 			this.isFirstMsgLoaded = this.firstMsgLoaded(room.history);
@@ -399,6 +399,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
+	this.room.empty = false;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
 	this.redrawTyping();
