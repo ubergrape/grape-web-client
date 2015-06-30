@@ -22,9 +22,9 @@ renderer.link = function(href, title, text) {
 	        .replace(/[^\w:]/g, '')
 	        .toLowerCase();
 	    } catch (e) {
-	      return '';
+	      href = '';
 	    }
-	    if (prot.indexOf('javascript:') === 0) return '';
+		if (!href.match(/((mailto\:|cg\:|(news|(ht|f)tp(s?))\:\/){1}\S+)/)) href = '';
 	}
 	if (href.slice(0, 5) === "cg://")
 		return markdown_renderlink(href, title, text);
