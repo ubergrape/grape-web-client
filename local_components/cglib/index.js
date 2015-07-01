@@ -91,7 +91,7 @@ App.prototype.heartbeat = function App_heartbeat() {
 App.prototype.onDisconnect = function App_onDisconnect() {
 	this.disconnect();
 	this.emit('disconnected', this._ws);
-	this.reconnect();
+	//this.reconnect();
 };
 
 App.prototype.onConnect = function App_onConnect(data) {
