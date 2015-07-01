@@ -36,6 +36,7 @@ function HistoryView() {
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
 	this.messageBuffer = [];
+	this.unsentBuffer = {};
 	this.requestedMsgID = null;
 	this.isFirstMsgLoaded = false;
 	this.isLastMsgLoaded = false;
@@ -76,6 +77,18 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 		this.scrollMode = 'manual';
 	}.bind(this));
 };
+
+HistoryView.prototype.onOrgReady = function HistoryView_onOrgReady (org) {
+	var channels = org.rooms.slice().map(function (channel) {
+		return channel.id;
+	});
+	org.pms.forEach(function (pm) {
+		channels.push(pm.id);
+	});
+	channels.forEach(function (channel) {
+		this.unsentBuffer[channel] = [];
+	}.bind(this));
+}
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);

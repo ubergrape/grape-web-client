@@ -54,6 +54,7 @@ function pipeEvents(ui) {
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
 
 	// history view
+	broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
 	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
