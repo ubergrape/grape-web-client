@@ -79,14 +79,11 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 
 HistoryView.prototype.onOrgReady = function HistoryView_onOrgReady (org) {
 	if (Object.keys(this.unsentBuffer) != 0) return;
-	var channels = org.rooms.slice().map(function (channel) {
-		return channel.id;
-	});
-	org.pms.forEach(function (pm) {
-		channels.push(pm.id);
-	});
-	channels.forEach(function (channel) {
-		this.unsentBuffer[channel] = [];
+	org.rooms.forEach( function (room) {
+		this.unsentBuffer[room.id] = [];
+	}.bind(this));
+	org.pms.forEach( function (pm) {
+		this.unsentBuffer[pm.id] = [];
 	}.bind(this));
 }
 
@@ -106,7 +103,6 @@ HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (
 	if (!bufferedMsg) return;
 	var roomUnsentMsgs = this.unsentBuffer[this.room.id];
 	roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1);
-	//this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
 	this.queueDraw();
 };
 
@@ -198,7 +194,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 			var roomUnsentMsgs = this.unsentBuffer[this.room.id];
 			if (roomUnsentMsgs) history = history.concat(roomUnsentMsgs);			
 		};
-		//if (this.messageBuffer) history = history.concat(this.messageBuffer);
 	} else {
 		var history = this.room.searchHistory.slice();
 		var requestedMsg = history.filter( function (msg) {
@@ -314,7 +309,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
 	this.requestedMsgID = null;
 	if (this.room) this.room.history.off('removed');
-	//if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
