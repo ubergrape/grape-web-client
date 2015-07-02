@@ -111,9 +111,10 @@ GrapeInputIntegration.prototype.redraw = function () {
 
 GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 	// Show browser immediately with empty state.
-	if (this.input.props.type != 'search') {
-		this.setProps({type: 'search'});
-	}
+	this.setProps({
+		type: 'search',
+		data: this.input.props.data
+	});
 
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
