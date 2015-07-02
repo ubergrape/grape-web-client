@@ -407,6 +407,18 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
 	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
 };
 
+HistoryView.prototype.onNewPMOpened = function HistoryView_onNewPMOpened (pm) {
+	// on new pms opened by the visitor
+	this.unsentBuffer[pm.id] = [];
+};
+
+HistoryView.prototype.onNewRoom = function HistoryView_onNewRoon (channel) {
+	// on new public rooms
+	// new private rooms the visitor get invited to
+	// new pms opened by the pm partner
+	this.unsentBuffer[channel.id] = [];
+};
+
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgID) {
 	this.mode = 'search';
 	this.emit('switchToSearchMode');
