@@ -7,6 +7,7 @@ var _ = require('t');
 var markdown = require('../markdown');
 var domify = require('domify');
 var staticurl = require('staticurl');
+var emoji = require('../emoji');
 
 module.exports = Notifications;
 
@@ -60,8 +61,10 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 	if (typeof content !== "undefined" && content !== "") {
 		opts = {
 			emoji: function (emo) {
-				// render emojis as text
-				return ':' + emo + ':';
+				emoji.init_colons();
+				// we can't display custom emojis here because we only have them as images, they will automatically be displayed as :xyz:
+				var val = emoji.map.colons[emo];
+				return val ? emoji.data[val][0][0] : ':' + emo + ':';
 			}
 		};
 		content_dom = domify(markdown(content, opts));
