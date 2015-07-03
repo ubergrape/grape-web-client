@@ -7,6 +7,7 @@
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git",
+    "images-loader": "^0.1.2",
     "js-emoji": "git+ssh://git@github.com/ubergrape/js-emoji.git",
     "jss": "^1.0.4",
     "jss-camel-case": "^0.1.1",
