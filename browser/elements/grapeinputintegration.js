@@ -16,7 +16,8 @@ var images = {
 	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
     traubyReading: IMAGES_BASE + '/trauby-reading.png',
     traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
-    noDetail: IMAGES_BASE + '/no-detail.png'
+    noDetail: IMAGES_BASE + '/no-detail.png',
+    spinner: staticurl('/images/loading.gif')
 };
 
 require('grape-input');
@@ -113,7 +114,8 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 	// Show browser immediately with empty state.
 	this.setProps({
 		type: 'search',
-		data: this.input.props.data
+		data: this.input.props.data,
+		isLoading: true
 	});
 
 	this.emit('autocomplete', key, function (err, data) {
