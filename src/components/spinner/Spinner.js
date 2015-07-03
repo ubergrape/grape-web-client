@@ -7,7 +7,8 @@ import style from './style'
 export default class Spinner extends Component {
   static defaultProps = {
     active: false,
-    delay: 1000
+    delay: 1000,
+    image: undefined
   }
 
   constructor(props) {
@@ -36,7 +37,8 @@ export default class Spinner extends Component {
   render() {
     if (!this.state.active) return null
     let {classes} = this.props.sheet
+    let style = {backgroundImage: `url(${this.props.image})`}
     // TODO use svg.
-    return <i className={`fa fa-spinner fa-pulse ${classes.spinner}`}></i>
+    return <div className={classes.spinner} style={style}></div>
   }
 }

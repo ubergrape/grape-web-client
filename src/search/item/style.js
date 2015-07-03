@@ -8,6 +8,7 @@ export let container = {
   display: 'flex',
   height: 42,
   position: 'relative',
+  background: colors.white,
   color: colors.grapeTypo,
   cursor: 'pointer',
   userSelect: 'none',

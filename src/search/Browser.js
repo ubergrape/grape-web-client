@@ -26,6 +26,7 @@ export default class Browser extends Component {
     className: '',
     maxItemsPerSectionInAll: 5,
     isExternal: false,
+    isLoading: false,
     serviceId: undefined,
     hasIntegrations: undefined,
     canAddIntegrations: undefined,
@@ -188,16 +189,16 @@ export default class Browser extends Component {
       )
     }
     else {
+      let hasSearch = Boolean(get(this.props, 'data.search.text'))
       let text
 
-      if (this.props.isExternal) {
-        text = `Write the search term to search ${this.props.data.search.service}.`
-      }
-      else if (get(this.props, 'data.search.text')) {
+      if (hasSearch) {
         text = 'Nothing found.'
       }
-
-      content = text ? <Empty text={text} /> : <Spinner />
+      else if (this.props.isExternal) {
+        text = `Write the search term to search ${this.props.data.search.service}.`
+      }
+      content = <Empty text={text} />
     }
 
     return (
@@ -207,6 +208,7 @@ export default class Browser extends Component {
         onMouseDown={::this.onMouseDown}>
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {content}
+        {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
     )
   }
