@@ -5,6 +5,7 @@ export default {
   sidebar: {
     extend: fonts.normal,
     color: colors.grapeTypo,
-    borderLeft: '1px solid ' + colors.silverDark
+    borderLeft: '1px solid ' + colors.silverDark,
+    backgroundColor: colors.white
   }
 }
