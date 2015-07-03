@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import get from 'lodash-es/object/get'
 import isEmpty from 'lodash-es/lang/isEmpty'
-import ImagesLoader from 'images-loader'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import Preview from './Preview'
 import style from './style'
 import * as utils from './utils'
 
@@ -19,37 +19,30 @@ export default class Detail extends Component {
     images: undefined
   }
 
-  constructor(props) {
-    super(props)
-    this.loader = new ImagesLoader()
-    this.state = this.createState(this.props)
-  }
 
   shouldComponentUpdate = shouldPureComponentUpdate
-
-  componentDidMount() {
-    if (this.state.isPreview) this.loadPreview(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    let state = this.createState(nextProps)
-    this.setState(state)
-    if (state.isPreview) this.loadPreview(nextProps)
-  }
 
   render() {
     let {classes} = this.props.sheet
     let {data} = this.props
-    let {imageUrl} = this.state
+    let previewUrl = get(data, 'preview.image.url')
+    let {iconUrl} = data
 
     let header
-    if (imageUrl) {
+    if (previewUrl || iconUrl) {
+      let image
+
+      if (previewUrl) {
+        image = <Preview image={previewUrl} spinner={this.props.images.spinner} />
+      }
+      else {
+        image = <img src={iconUrl} className={classes.icon}/>
+      }
+
       let style = {height: this.props.headerHeight}
       header = (
         <header className={classes.header} style={style}>
-          <img
-            src={imageUrl}
-            className={this.state.isPreview ? classes.preview : classes.icon} />
+          {image}
         </header>
       )
     }
@@ -89,30 +82,5 @@ export default class Detail extends Component {
         </div>
       </div>
     )
-  }
-
-  createState(props) {
-    let isPreview = Boolean(this.getPreviewUrl(props))
-    let {iconUrl} = props.data
-    let imageUrl
-
-    if (isPreview) imageUrl = props.images.spinner
-    else if (iconUrl) imageUrl = iconUrl
-
-    return {imageUrl, isPreview}
-  }
-
-  getPreviewUrl(props) {
-    return get(props, 'data.preview.image.url')
-  }
-
-  loadPreview(props) {
-    let imageUrl = this.getPreviewUrl(props)
-    if (!imageUrl) return
-    this.loader.load(imageUrl, err => {
-      // TODO maybe show an error image.
-      if (err) imageUrl = ImagesLoader.emptyGif
-      this.setState({imageUrl})
-    })
   }
 }

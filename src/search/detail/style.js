@@ -12,12 +12,6 @@ export default {
     background: colors.silverLight,
     borderBottom: '1px solid ' + colors.silverDark
   },
-  preview: {
-    maxWidth: '100%',
-    maxHeight: '100%',
-    height: 'auto',
-    width: 'auto'
-  },
   icon: {
     height: 64,
     width: 64
