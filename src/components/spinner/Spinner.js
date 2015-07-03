@@ -8,7 +8,8 @@ export default class Spinner extends Component {
   static defaultProps = {
     active: false,
     delay: 1000,
-    image: undefined
+    image: undefined,
+    overlay: false
   }
 
   constructor(props) {
@@ -38,7 +39,9 @@ export default class Spinner extends Component {
     if (!this.state.active) return null
     let {classes} = this.props.sheet
     let style = {backgroundImage: `url(${this.props.image})`}
+    let className = classes.spinner
+    if (this.props.overlay) className += ' ' + classes.overlay
     // TODO use svg.
-    return <div className={classes.spinner} style={style}></div>
+    return <div className={className} style={style}></div>
   }
 }

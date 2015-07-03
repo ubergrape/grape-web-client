@@ -1,3 +1,6 @@
+import colors from 'grape-theme/base-colors'
+import Color from 'color'
+
 export default {
   spinner: {
     position: 'absolute',
@@ -6,5 +9,8 @@ export default {
     height: '100%',
     width: '100%',
     background: 'no-repeat center'
+  },
+  overlay: {
+    backgroundColor: Color(colors.white).alpha(.7).rgbaString(),
   }
 }
