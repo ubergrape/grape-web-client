@@ -6,6 +6,7 @@ export default {
     flex: 1
   },
   header: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -22,6 +22,7 @@ export default class Spinner extends Component {
   }
 
   componentDidMount() {
+    if (this.state.active) return
     this.timeoutId = setTimeout(() => {
       this.setState({active: true})
     }, this.props.delay)
