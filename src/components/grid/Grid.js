@@ -23,18 +23,23 @@ export default class Grid extends Component {
     onDidMount: undefined
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  componentDidMount() {
-    let {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
-  }
-
   constructor(props) {
     super(props)
     this.sections = {}
     this.items = {}
     this.onScrollStop = debounce(this.onScrollStop, 30)
+  }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  componentWillUnmount() {
+    this.sections = {}
+    this.items = {}
+  }
+
+  componentDidMount() {
+    let {onDidMount} = this.props
+    if (onDidMount) onDidMount(this)
   }
 
   componentDidUpdate(prevProps) {

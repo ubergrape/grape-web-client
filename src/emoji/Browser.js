@@ -53,14 +53,20 @@ class Browser extends Component {
   }
 
   componentWillUnmount() {
+    this.grid = null
     window.removeEventListener('resize', this.onResize)
   }
 
   componentDidMount() {
-    this.cacheItemsPerRow()
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
     this.onNotFound()
+    if (this.state.isFirstRender) {
+      // Rendering emojis is slow right now.
+      // We need to show the browser first for fast perceptional UX.
+      setTimeout(() => this.setState({isFirstRender: false}))
+    }
+    else this.cacheItemsPerRow()
   }
 
   exposePublicMethods() {
@@ -72,6 +78,7 @@ class Browser extends Component {
   }
 
   createState(props) {
+    let state = this.state || {}
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
@@ -81,7 +88,7 @@ class Browser extends Component {
       })
     }
 
-    let facet = this.state ? this.state.facet : undefined
+    let {facet} = state
 
     let tabs = dataUtils.getTabs({
       orgLogo: props.images.orgLogo,
@@ -95,7 +102,9 @@ class Browser extends Component {
       sections = dataUtils.getSections(facet, props.search)
     }
 
-    return {tabs, facet, sections}
+    let isFirstRender = state.isFirstRender == null ? true : false
+
+    return {tabs, facet, sections, isFirstRender}
   }
 
   render() {
@@ -112,16 +121,18 @@ class Browser extends Component {
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         <div className={classes.column}>
           <div className={classes.row}>
-            <Grid
-              data={sections}
-              images={this.props.images}
-              Item={Item}
-              focusedItem={dataUtils.getFocusedItem(sections)}
-              className={classes.leftColumn}
-              section={{contentClassName: classes.sectionContent}}
-              onFocus={::this.onFocusItem}
-              onSelect={::this.onSelectItem}
-              onDidMount={::this.onGridDidMount} />
+            {!this.state.isFirstRender &&
+              <Grid
+                data={sections}
+                images={this.props.images}
+                Item={Item}
+                focusedItem={dataUtils.getFocusedItem(sections)}
+                className={classes.leftColumn}
+                section={{contentClassName: classes.sectionContent}}
+                onFocus={::this.onFocusItem}
+                onSelect={::this.onSelectItem}
+                onDidMount={::this.onGridDidMount} />
+            }
           </div>
         </div>
       </div>
@@ -136,9 +147,9 @@ class Browser extends Component {
     let {sections} = this.state
 
     if (!sections.length) return
-    let contentComponent = this.grid
-      .getSectionComponent(this.state.sections[0].id)
-      .getContentComponent()
+
+    let sectionComponent = this.grid.getSectionComponent(sections[0].id)
+    let contentComponent = sectionComponent.getContentComponent()
     let {width: gridWidth} = React.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
