@@ -195,7 +195,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
-		self.emit('newroom');
+		self.emit('newRoom', data.channel);
 	});
 	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
 		var room = models.Room.get(data.channel.id);
@@ -505,6 +505,7 @@ App.prototype.openPM = function App_openPM(user, callback) {
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
 		user.pm = pm;
+		self.emit('newPMOpened', pm);
 		callback();
 	});
 };

@@ -13,7 +13,7 @@ function pipeEvents(ui) {
 	broker(ui, 'orgReady', ui.addRoom, 'onOrgReady');
 	broker.pass(ui.addRoom, 'createroom', ui, 'createroom');
 	broker.pass(ui.addRoom, 'leaveroom', ui, 'leaveroom');
-	broker(ui, 'newroom', ui.addRoom, 'newRoom');
+	broker(ui, 'newRoom', ui.addRoom, 'onNewRoom');
 	broker(ui.addRoom, 'toggleroomcreation', ui.roomCreation, 'toggle');
 	broker(ui.roomCreation, 'toggleaddroom', ui.addRoom, 'toggle');
 	broker(ui, 'newRoomMember', ui.addRoom, 'onNewRoomMember');
@@ -54,6 +54,7 @@ function pipeEvents(ui) {
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
 
 	// history view
+	broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
 	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
 	broker(ui, 'nohistory', ui.historyView, 'noHistory');
@@ -68,6 +69,8 @@ function pipeEvents(ui) {
 	broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode');
 	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
 	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
+	broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened');
+	broker(ui, 'newRoom', ui.historyView, 'onNewRoom');
 
 	// title
 	broker(ui, 'selectchannel', ui.title, 'setRoom');
