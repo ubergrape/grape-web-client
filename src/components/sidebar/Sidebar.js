@@ -10,8 +10,7 @@ import style from './style'
 @useSheet(style)
 export default class Sidebar extends Component {
   static defaultProps = {
-    className: '',
-    content: undefined
+    className: ''
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -21,7 +20,7 @@ export default class Sidebar extends Component {
 
     return (
       <aside className={`${classes.sidebar} ${this.props.className}`}>
-        {this.props.content}
+        {this.props.children}
       </aside>
     )
   }

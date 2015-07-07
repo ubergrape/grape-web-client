@@ -36,7 +36,9 @@ export default class Default extends Component {
       <div className={classes.column}>
         <div className={classes.row}>
           <Grid {...props} className={classes.leftColumn} />
-          <Sidebar content={sidebarContent} className={classes.rightColumn} />
+          <Sidebar className={classes.rightColumn}>
+            {sidebarContent}
+          </Sidebar>
         </div>
       </div>
     )
