@@ -12,12 +12,14 @@ export default {
   },
   column: {
     flex: 1,
-    display: 'flex'
+    display: 'flex',
+    minHeight: 1 // firefox 34+ flexbox bug workaround
   },
   row: {
     flex: 1,
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    minWidth: 1 // firefox 34+ flexbox bug workaround
   },
   leftColumn: {
     flex: 6,
