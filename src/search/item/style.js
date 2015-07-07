@@ -56,7 +56,8 @@ export let rules = {
   nameContainer: {
     flex: 1,
     alignSelf: 'center',
-    padding: '6px 0'
+    padding: '6px 0',
+    minWidth: '1px' // firefox 34+ flexbox bug workaround
   },
   name: {
     extend: [fonts.normal, utils.ellipsis],
