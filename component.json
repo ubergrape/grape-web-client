@@ -85,6 +85,7 @@
   ],
   "dependencies": {
     "samsonjs/strftime": "v0.8.2",
+    "necolas/normalize.css": "3.0.2",
     "ubergrape/marked": "master",
     "Swatinem/scrollbars": "0.0.1",
     "Swatinem/broker": "0.0.2",
