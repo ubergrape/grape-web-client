@@ -85,8 +85,6 @@
   ],
   "dependencies": {
     "samsonjs/strftime": "v0.8.2",
-    "ianstormtaylor/meyer-reset": "*",
-    "necolas/normalize.css": "3.0.2",
     "ubergrape/marked": "master",
     "Swatinem/scrollbars": "0.0.1",
     "Swatinem/broker": "0.0.2",
@@ -103,7 +101,6 @@
     "component/notification": "0.0.5",
     "component/query": "0.0.3",
     "component/classes": "1.2.3",
-    "component/throttle": "v0.0.2",
     "component/debounce": "1.0.0",
     "component/escape-html": "v1.0.1",
     "component/emitter": "1.1.3",
@@ -113,7 +110,7 @@
     "component/file": "0.1.1",
     "component/dialog": "0.3.0",
     "component/keyname": "0.0.1",
-    "discore/closest": "0.1.3",
+    "component/closest": "0.1.4",
     "MatthewMueller/array": "0.4.3",
     "ubergrape/websocket": "master",
     "ubergrape/datejs": "master",
@@ -131,14 +128,7 @@
     "moment/moment": "2.7.0",
     "ubergrape/resizable": "master",
     "ubergrape/moment-timezone": "master",
-    "darsain/tooltip": "master",
     "pgherveou/store": "0.0.6",
     "visionmedia/page.js": "1.6.3"   
-  },
-  "development": {
-    "dependencies": {
-      "chaijs/chai": "2.3.0",
-      "adamsanderson/trigger-event": "*"
-    }
   }
 }

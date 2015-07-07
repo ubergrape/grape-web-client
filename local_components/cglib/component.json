@@ -35,10 +35,5 @@
     "MatthewMueller/array": "0.4.3",
     "ubergrape/wamp1": "master",
     "ubergrape/websocket": "master"
-  },
-  "development": {
-    "dependencies": {
-      "adamsanderson/trigger-event": "*"
-    }
   }
 }
