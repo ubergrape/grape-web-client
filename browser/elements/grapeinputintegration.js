@@ -17,7 +17,7 @@ var images = {
     traubyReading: IMAGES_BASE + '/trauby-reading.png',
     traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
     noDetail: IMAGES_BASE + '/no-detail.png',
-    spinner: staticurl('/images/loading.gif')
+    spinner: staticurl('/images/preloader-onwhite.gif')
 };
 
 require('grape-input');
