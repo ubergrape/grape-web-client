@@ -1,4 +1,4 @@
-{
+/*{
   "name": "cg",
   "version": "0.0.2",
   "private": true,
@@ -84,8 +84,9 @@
     "images/trauby-reading.png"
   ],
   "dependencies": {
+    // TODO : lots of stuff does not include correct dependencies
     "samsonjs/strftime": "v0.8.2",
-    "ianstormtaylor/meyer-reset": "*",
+    "ianstormtaylor/meyer-reset": "*", //T ODO this does not have a package.json
     "necolas/normalize.css": "3.0.2",
     "ubergrape/marked": "master",
     "Swatinem/scrollbars": "0.0.1",
@@ -100,7 +101,7 @@
     "jadejs/jade": "1.8.2",
     "component/raf": "1.2.0",
     "component/domify": "1.3.1",
-    "component/notification": "0.0.5",
+    "component/notification": "0.0.5", // TODO could not include for some reason
     "component/query": "0.0.3",
     "component/classes": "1.2.3",
     "component/debounce": "1.0.0",
@@ -118,7 +119,7 @@
     "ubergrape/datejs": "master",
     "bmcmahen/image-zoom": "1.1.1",
     "jkroso/computed-style": "0.1.0",
-    "ubergrape/textcomplete": "master",
+    "ubergrape/textcomplete": "master", // TODO unsure about child components, check again
     "sk7/startswith": "master",
     "sk7/endswith": "master",
     "matthewp/attr": "*",
@@ -133,4 +134,4 @@
     "pgherveou/store": "0.0.6",
     "visionmedia/page.js": "1.6.3"   
   }
-}
+}*/

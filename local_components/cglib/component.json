@@ -1,4 +1,4 @@
-{
+/*{
   "name": "cglib",
   "description": "API Library for chatgrape",
   "keywords": [],
@@ -36,4 +36,4 @@
     "ubergrape/wamp1": "master",
     "ubergrape/websocket": "master"
   }
-}
+}*/

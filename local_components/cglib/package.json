@@ -1,0 +1,16 @@
+{
+	"name": "cglib",
+	"description": "API Library for chatgrape",
+	"main": "index.js",
+	"dependencies": {
+		"Swatinem/broker": "0.0.2",
+		"Swatinem/model": "0.0.4",
+		"Swatinem/model-cache": "0.0.2",
+		"Swatinem/model-cast": "0.0.1",
+		"Swatinem/model-array": "*",
+		"component/emitter": "1.1.3",
+		"MatthewMueller/array": "0.4.3",
+		"ubergrape/wamp1": "master",
+		"ubergrape/websocket": "master"
+	}	
+}
