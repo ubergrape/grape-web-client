@@ -78,7 +78,7 @@ RoomPopover.prototype.onNewRoomMember = function RoomPopover_onNewRoomMember() {
 	this.itemList.redraw();
 }
 
-RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
+RoomPopover.prototype.onNewRoom = function RoomPopover_onNewRoom() {
 	this.itemList.redraw();
 }
 

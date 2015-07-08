@@ -35,7 +35,7 @@ function HistoryView() {
 	this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0);
 	this.scrollMode = 'automatic';
 	this.on('needhistory', function () { this.room.loading = true; });
-	this.messageBuffer = [];
+	this.unsentBuffer = {};
 	this.requestedMsgID = null;
 	this.isFirstMsgLoaded = false;
 	this.isLastMsgLoaded = false;
@@ -77,6 +77,16 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	}.bind(this));
 };
 
+HistoryView.prototype.onOrgReady = function HistoryView_onOrgReady (org) {
+	if (Object.keys(this.unsentBuffer) != 0) return;
+	org.rooms.forEach( function (room) {
+		this.unsentBuffer[room.id] = [];
+	}.bind(this));
+	org.pms.forEach( function (pm) {
+		this.unsentBuffer[pm.id] = [];
+	}.bind(this));
+}
+
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('removing');
@@ -91,7 +101,8 @@ HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (
 	var msgClientSideID = closest(ev.target, '.message', true).getAttribute('data-id');
 	var bufferedMsg = this.findBufferedMsg(msgClientSideID);
 	if (!bufferedMsg) return;
-	this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+	var roomUnsentMsgs = this.unsentBuffer[this.room.id];
+	roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1);
 	this.queueDraw();
 };
 
@@ -179,7 +190,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// create a copy of the history
 		var history = this.room.history.slice();
 		// merge buffered messages with copy of history
-		if (this.messageBuffer) history = history.concat(this.messageBuffer);
+		if (this.unsentBuffer) {
+			var roomUnsentMsgs = this.unsentBuffer[this.room.id];
+			if (roomUnsentMsgs) history = history.concat(roomUnsentMsgs);			
+		};
 	} else {
 		var history = this.room.searchHistory.slice();
 		var requestedMsg = history.filter( function (msg) {
@@ -295,7 +309,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
 	this.requestedMsgID = null;
 	if (this.room) this.room.history.off('removed');
-	if (this.room.id !== room.id) this.messageBuffer = [];
 	this.room = room;
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
@@ -353,7 +366,7 @@ HistoryView.prototype.collapseActivityList = function HistoryView_collapseActivi
 	classes(el).add('list-previewed');
 }
 
-HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options) {
+HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options) {
 	if (this.mode === 'search') this.emit('switchToChatMode', room);
 	var attachments = options && options.attachments ? options.attachments : [];
 	var newMessage = {
@@ -366,7 +379,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 		read: true,
 		channel: room
 	};
-	this.messageBuffer.push(newMessage);
+	this.unsentBuffer[room.id].push(newMessage);
 	this.scrollMode = 'automatic';
 	this.queueDraw();
 	this.handlePendingMsg(newMessage);
@@ -374,7 +387,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput(room, msg, options)
 
 HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (clientSideID) {
 	var bufferedMsg = null;
-	this.messageBuffer.every(function(message) {
+	this.unsentBuffer[this.room.id].every(function(message) {
 		if (clientSideID == message.clientSideID) {
 			bufferedMsg = message;
 			return false;
@@ -384,16 +397,29 @@ HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (cl
 	return bufferedMsg;
 };
 
-HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage(line) {
+HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
 	if (line.channel != this.room || this.mode === 'search') return;
 	if (line.author == ui.user) {
 		var bufferedMsg = this.findBufferedMsg(line.clientside_id);
-		if (bufferedMsg) this.messageBuffer.splice(this.messageBuffer.indexOf(bufferedMsg), 1);
+		var roomUnsentMsgs = this.unsentBuffer[line.channel.id];
+		if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1);
 	}
 	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
 };
 
-HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID) {
+HistoryView.prototype.onNewPMOpened = function HistoryView_onNewPMOpened (pm) {
+	// on new pms opened by the visitor
+	this.unsentBuffer[pm.id] = [];
+};
+
+HistoryView.prototype.onNewRoom = function HistoryView_onNewRoon (channel) {
+	// on new public rooms
+	// new private rooms the visitor get invited to
+	// new pms opened by the pm partner
+	this.unsentBuffer[channel.id] = [];
+};
+
+HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgID) {
 	this.mode = 'search';
 	this.emit('switchToSearchMode');
 	this.scroll.reset(); // reset, otherwise we won't get future events
@@ -406,7 +432,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage(msgID
 	this.queueDraw();
 };
 
-HistoryView.prototype.resend = function HistoryView_resend(e) {
+HistoryView.prototype.resend = function HistoryView_resend (e) {
 	var clientSideID = e.target.getAttribute('data-id');
 	var bufferedMsg = this.findBufferedMsg(clientSideID);
 	if (!bufferedMsg) return;
@@ -415,7 +441,7 @@ HistoryView.prototype.resend = function HistoryView_resend(e) {
 	this.handlePendingMsg(bufferedMsg);
 };
 
-HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(msg) {
+HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (msg) {
 	var options = {
 		clientside_id: msg.clientSideID,
 		attachments: msg.attachments		
@@ -423,7 +449,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg(m
 	this.emit('send', msg.channel, msg.text, options);
 
 	setTimeout(function() {
-		if (this.messageBuffer.indexOf(msg) > -1) {
+		if (this.unsentBuffer[msg.channel.id].indexOf(msg) > -1) {
 			msg.status = "unsent";
 			this.queueDraw();
 		}

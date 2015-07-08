@@ -155,7 +155,11 @@
 											a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
 												author.message-author= first.author.displayName
 										else if (!first.author.active)
-											author.message-author= first.author.displayName
+											if (user.id !== first.author.id)
+												author.message-author= first.author.displayName
+											else
+												author.message-author
+													=_('You')
 											if (first.author.id !== user.id)
 												span.author-deleted
 													=_('Deleted user')
