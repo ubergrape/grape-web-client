@@ -41,8 +41,9 @@ export default class Section extends Component {
               <Item
                 {...data}
                 {...props}
-                key = {'item' + i}
-                onDidMount = {::this.onItemDidMount} />
+                key={'item' + i}
+                onDidMount={::this.onItemDidMount}
+                onWillUnmount={::this.onItemWillUnmount} />
             )
           })}
         </div>
@@ -56,5 +57,9 @@ export default class Section extends Component {
 
   onItemDidMount(item) {
     this.items[item.props.id] = item
+  }
+
+  onItemWillUnmount(item) {
+    delete this.items[item.props.id]
   }
 }

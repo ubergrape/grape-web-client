@@ -17,6 +17,7 @@ export default class Item extends Component {
     onSelect: undefined,
     onInvisible: undefined,
     onDidMount: undefined,
+    onWillUnmount: undefined,
     visibilityContainment: undefined,
     focused: false
   }
@@ -42,6 +43,10 @@ export default class Item extends Component {
   componentDidMount() {
     this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)
     this.props.onDidMount(this)
+  }
+
+  componentWillUnmount() {
+    this.props.onWillUnmount(this)
   }
 
   render() {
