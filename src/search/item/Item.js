@@ -14,6 +14,7 @@ import * as utils from './utils'
 export default class Item extends Component {
   static defaultProps = {
     id: undefined,
+    name: undefined,
     date: undefined,
     detail: undefined,
     onFocus: undefined,
@@ -38,7 +39,7 @@ export default class Item extends Component {
 
   render() {
     let {classes} = this.props.sheet
-    let {id, focused, icon, info, highlighted} = this.props
+    let {id, focused, icon, info} = this.props
     let iconClassName = focused ? classes.iconFocused : classes.icon
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
@@ -59,7 +60,7 @@ export default class Item extends Component {
             <span className={iconClassNames}></span>
           </div>
           <div className={classes.nameContainer}>
-            <div className={classes.name} dangerouslySetInnerHTML={{__html: highlighted}} />
+            {this.renderName()}
             <div className={classes.info}>{info}</div>
           </div>
           <div className={classes.metaContainer}>
@@ -74,6 +75,25 @@ export default class Item extends Component {
           </div>
         </div>
       </VisibilitySensor>
+    )
+  }
+
+  renderName() {
+    let {classes} = this.props.sheet
+    let {name} = this.props
+    let matches = utils.findMatches(name, this.props.search)
+
+    if (matches.length) {
+      name = matches.map(match => {
+        if (match.found) return <b>{match.text}</b>
+        return <span>{match.text}</span>
+      })
+    }
+
+    return (
+      <div className={classes.name}>
+        {name}
+      </div>
     )
   }
 

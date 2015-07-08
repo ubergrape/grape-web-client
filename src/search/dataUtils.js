@@ -67,12 +67,13 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
       section.items.push({
         id: result.id,
         type: result.type,
-        highlighted: result.highlighted,
+        name: result.name,
         info: result.container,
         date: result.start,
         focused: false,
         icon: serviceIconMap[result.service],
-        detail: result.detail
+        detail: result.detail,
+        search: data.search.text
       })
     }
   })

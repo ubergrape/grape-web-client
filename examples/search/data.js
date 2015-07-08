@@ -38,6 +38,7 @@ window.data = {
   'results': [
     {
       'container': '#github',
+      'name': 'Search Github',
       'highlighted': 'Search Github',
       'id': 'github',
       'service': 'filters',
@@ -48,7 +49,7 @@ window.data = {
       'name': 'Plans/Discussions',
       'service': 'googledrive',
       'url': 'https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk',
-      'highlighted': '<b>Plans</b>/Discussions',
+      'highlighted': '<b>Plans</b>/Discussion<b>s</b>',
       'connection': 80,
       'eid': '0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj',
       'indexed': '2014-12-02T09:42:27.947930',
