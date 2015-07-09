@@ -3,14 +3,14 @@
 	"description": "API Library for chatgrape",
 	"main": "index.js",
 	"dependencies": {
-		"Swatinem/broker": "0.0.2",
-		"Swatinem/model": "0.0.4",
-		"Swatinem/model-cache": "0.0.2",
-		"Swatinem/model-cast": "0.0.1",
-		"Swatinem/model-array": "*",
-		"component/emitter": "1.1.3",
-		"MatthewMueller/array": "0.4.3",
-		"ubergrape/wamp1": "master",
-		"ubergrape/websocket": "master"
+		"array": "git://github.com/MatthewMueller/array#0.4.3",
+    	"broker": "git://github.com/Swatinem/broker#0.0.2",
+    	"model": "git://github.com/Swatinem/model#0.0.4",
+		"model-array": "git://github.com/Swatinem/model-array",		
+		"model-cache": "git://github.com/Swatinem/model-cache#0.0.2",
+		"model-cast": "git://github.com/Swatinem/model-cast#0.0.1",
+    	"component-emitter": "^1.1.3",
+		"wamp1": "ubergrape/wamp1",
+		"websocket": "ubergrape/websocket"
 	}	
 }
