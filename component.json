@@ -119,7 +119,7 @@
     "ubergrape/datejs": "master",
     "bmcmahen/image-zoom": "1.1.1",
     "jkroso/computed-style": "0.1.0",
-    "ubergrape/textcomplete": "master", // TODO unsure about child components, check again
+    "ubergrape/textcomplete": "master",
     "sk7/startswith": "master",
     "sk7/endswith": "master",
     "matthewp/attr": "*", // TODO no package.json
