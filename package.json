@@ -5,8 +5,6 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
-    "array": "git://github.com/MatthewMueller/array#0.4.3",
     "broker": "git://github.com/Swatinem/broker#0.0.2",
     "component-classes": "^1.2.3",
     "component-clipboard": "^0.1.6",
@@ -27,6 +25,7 @@
     "endswith": "git://github.com/sk7/endswith",
     "escape-html": "git://github.com/component/escape-html#v1.0.1",
     "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git",
+    "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "image-zoom": "git://github.com/bmcmahen/image-zoom#1.1.1",
     "intro": "ubergrape/intro.js",
     "jade": "git://github.com/jadejs/jade#1.8.2",
