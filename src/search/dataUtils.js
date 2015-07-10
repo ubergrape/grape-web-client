@@ -29,7 +29,7 @@ let serviceIconMap = {
  *     {
  *       id: '10',
  *       type: 'file',
- *       highlighted: '1. Tagging+<b>GitHub.mp4</b>',
+ *       name: '1. Tagging+GitHub.mp4',
  *       info: '/UberGrape/ChatGrape/...',
  *       date: ...
  *     }
@@ -39,7 +39,7 @@ let serviceIconMap = {
 export function getSections(data, serviceId, limitPerSection = Infinity) {
   let sections = []
 
-  if (!data || !data.results) return sections
+  data = addFilterObjects({...data})
 
   // Group by sections.
   data.results.forEach(result => {
@@ -48,7 +48,7 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
     let section = findService(sections, result.service)
     let service = findService(data.services, result.service)
 
-    if (!service) return console.warn('No service corresponding item.', result)
+    if (!service) return console.warn('No service corresponding the item.', result)
 
     // We have no section for this service yet.
     if (!section) {
@@ -61,7 +61,9 @@ export function getSections(data, serviceId, limitPerSection = Infinity) {
       sections.push(section)
     }
 
-    if (serviceId || section.items.length < limitPerSection) {
+    if (serviceId ||
+      section.items.length < limitPerSection ||
+      result.service == 'filters') {
       result.detail || (result.detail = {})
       result.detail.iconUrl = service.icon_url
       section.items.push({
@@ -148,4 +150,37 @@ export function getTabs(items = [], serviceId) {
   })
 
   return tabs
+}
+
+/**
+ * Generate data for queries section.
+ */
+function addFilterObjects(data) {
+  let queries = data.search.queries
+
+  if (!queries.length) return data
+
+  // Add fake service.
+  let service = {
+    hidden: true,
+    count: queries.length,
+    id: 'filters',
+    key: 'filters',
+    label: 'Queries'
+  }
+
+  let results = queries.map(query => {
+    return {
+      id: query.id,
+      name: `Search ${query.name}`,
+      type: service.id,
+      container: `#${query.query}`,
+      service: service.id
+    }
+  })
+
+  data.services = [service, ...data.services]
+  data.results = [...results, ...data.results]
+
+  return data
 }

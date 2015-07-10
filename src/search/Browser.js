@@ -65,18 +65,18 @@ export default class Browser extends Component {
   }
 
   createState(props) {
-    let {serviceId} = props
+    let {data, serviceId} = props
+
+    if (!data) return {}
+
     let sections = dataUtils.getSections(
-      props.data,
+      data,
       serviceId,
       props.maxItemsPerSectionInAll
     )
 
     let tabs = []
-
-    if (props.data) {
-      tabs = dataUtils.getTabs(props.data.services, serviceId)
-    }
+    if (data) tabs = dataUtils.getTabs(data.services, serviceId)
 
     return {sections, tabs, serviceId}
   }
@@ -168,48 +168,58 @@ export default class Browser extends Component {
 
   render() {
     let {classes} = this.props.sheet
-    let {sections} = this.state
-    let selectedSection = dataUtils.getSelectedSection(sections)
-    let data = selectedSection ? [selectedSection] : sections
-    let Service = services.Default
-    let content
-
-    if (data.length) {
-      let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
-        'images', 'onAddIntegration', 'orgName', 'orgOwner')
-
-      content = (
-        <Service
-          {...props}
-          Item = {Item}
-          data = {data}
-          focusedItem = {this.getFocusedItem()}
-          onFocus = {::this.onFocusItem}
-          onSelect = {::this.onSelectItem} />
-      )
-    }
-    else {
-      let hasSearch = Boolean(get(this.props, 'data.search.text'))
-      let text
-
-      if (hasSearch) {
-        text = 'Nothing found.'
-      }
-      else if (this.props.isExternal) {
-        text = `Write the search term to search ${this.props.data.search.service}.`
-      }
-      content = <Empty text={text} />
-    }
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}
         onMouseDown={::this.onMouseDown}>
-        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        {content}
+        {this.state.tabs &&
+          <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        }
+        {this.renderContent()}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
+    )
+  }
+
+  renderContent() {
+    let {sections} = this.state
+    let {data} = this.props
+
+    if (!data) return null
+
+    let selectedSection = dataUtils.getSelectedSection(sections)
+    if (selectedSection) sections = [selectedSection]
+
+    if (data.results.length) return this.renderService(sections)
+
+    let hasSearch = Boolean(get(data, 'search.text'))
+
+    if (hasSearch) return <Empty text="Nothing found" />
+
+    if (this.props.isExternal) {
+      let text = `Write the search term to search ${data.search.service}.`
+      return <Empty text={text} />
+    }
+
+    // We have no search, no results and its not an external search.
+    return this.renderService(sections)
+  }
+
+  renderService(data) {
+    let Service = services.Default
+    let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
+      'images', 'onAddIntegration', 'orgName', 'orgOwner')
+
+    return (
+      <Service
+        {...props}
+        Item={Item}
+        data={data}
+        focusedItem={this.getFocusedItem()}
+        onFocus={::this.onFocusItem}
+        onSelect={::this.onSelectItem} />
     )
   }
 
