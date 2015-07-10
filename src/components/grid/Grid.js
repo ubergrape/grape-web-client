@@ -57,16 +57,18 @@ export default class Grid extends Component {
       <div
         className={`${classes.grid} ${this.props.className}`}
         onScroll={::this.onScroll}>
+
         {this.props.data.map(data => {
-          let props = {...data, ...pick(this.props, 'onSelect', 'Item'), ...this.props.section}
           return (
             <Section
-              {...props}
+              {...data}
+              {...pick(this.props, 'onSelect', 'Item')}
+              {...this.props.section}
               onFocus={::this.onFocus}
               onInvisible={::this.onInvisible}
               onDidMount={::this.onSectionDidMount}
               visibilityContainment={this}
-              key={props.id} />
+              key={data.id} />
           )
         })}
       </div>

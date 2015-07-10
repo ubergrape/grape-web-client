@@ -45,7 +45,6 @@ export default class Item extends Component {
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
     let state = utils.getState(this.props.detail)
-
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -54,13 +53,14 @@ export default class Item extends Component {
         ref="sensor">
         <div
           onClick={::this.onClick}
-          className={focused ? classes.containerFocused : classes.container}
-          key={id}>
+          className={focused ? classes.containerFocused : classes.container}>
           <div className={classes.iconContainer}>
             <span className={iconClassNames}></span>
           </div>
           <div className={classes.nameContainer}>
-            {this.renderName()}
+            <div className={classes.name}>
+              {this.renderName()}
+            </div>
             <div className={classes.info}>{info}</div>
           </div>
           <div className={classes.metaContainer}>
@@ -79,22 +79,20 @@ export default class Item extends Component {
   }
 
   renderName() {
-    let {classes} = this.props.sheet
     let {name} = this.props
     let matches = utils.findMatches(name, this.props.search)
 
     if (matches.length) {
-      name = matches.map(match => {
-        if (match.found) return <b>{match.text}</b>
-        return <span>{match.text}</span>
-      })
+      name = matches.map((match, i) =>
+        React.createElement(
+          match.found ? 'b' : 'span',
+          {key: i},
+          match.text
+        )
+      )
     }
 
-    return (
-      <div className={classes.name}>
-        {name}
-      </div>
-    )
+    return name
   }
 
   onFocus() {
