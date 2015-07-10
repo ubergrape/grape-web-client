@@ -101,7 +101,7 @@
     "jadejs/jade": "1.8.2",
     "component/raf": "1.2.0",
     "component/domify": "1.3.1",
-    "component/notification": "0.0.5", // its package.json has error
+    "component/notification": "0.0.5",
     "component/query": "0.0.3",
     "component/classes": "1.2.3",
      "component/debounce": "1.0.0",

@@ -1,4 +1,5 @@
 var path = require('path');
+var extractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
 	entry: path.resolve(__dirname, 'index.js'),
@@ -6,6 +7,17 @@ module.exports = {
 		path: path.resolve(__dirname, 'loip'),
 		filename: 'loip.js',
 	},
+	module: {
+		loaders: [
+			{
+				test: /\.styl$/,
+				loader: extractTextPlugin.extract('style-loader!css-loader!stylus-loader')
+			}
+		]
+	},
+	plugins: [
+		new extractTextPlugin("./loip/styles.css")
+	],
 	resolve: {
 		alias: {
 			"classes": "component-classes",
@@ -14,7 +26,6 @@ module.exports = {
 			"dialog": "dialog-component",
 			"emitter": "component-emitter",
 			"file": "component-file",
-			"notification": "component-notification",
 			"page": "visionmedia-page.js",
 			"progress": "progress-component",
 			"query": "component-query",
