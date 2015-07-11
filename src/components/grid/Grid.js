@@ -42,15 +42,15 @@ export default class Grid extends Component {
     if (onDidMount) onDidMount(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     let currFocused = this.props.focusedItem
     let prevFocused = prevProps.focusedItem
-    if (currFocused && prevFocused && prevFocused.id != currFocused.id) {
+    if (currFocused && prevFocused && prevFocused.id !== currFocused.id) {
       this.onFocus({id: currFocused.id})
     }
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
 
     return (
@@ -58,7 +58,7 @@ export default class Grid extends Component {
         className={`${classes.grid} ${this.props.className}`}
         onScroll={::this.onScroll}>
 
-        {this.props.data.map(data => {
+        {this.props.data.map(data => {
           return (
             <Section
               {...data}
@@ -75,7 +75,7 @@ export default class Grid extends Component {
     )
   }
 
-  getSectionComponent(id) {
+  getSectionComponent(id) {
     return this.sections[id]
   }
 
@@ -83,15 +83,15 @@ export default class Grid extends Component {
     let component
     if (!id) return component
 
-    find(this.sections, section =>  {
-      component = find(section.items, item => item.props.id == id)
+    find(this.sections, section => {
+      component = find(section.items, item => item.props.id === id)
       return Boolean(component)
     })
 
     return component
   }
 
-  onFocus(data) {
+  onFocus(data) {
     this.props.onFocus(data)
   }
 
@@ -116,7 +116,7 @@ export default class Grid extends Component {
     viewPortNode.scrollTop = scrollTop
   }
 
-  onScroll() {
+  onScroll() {
     this.scrolling = true
     this.onScrollStop()
   }
@@ -125,7 +125,7 @@ export default class Grid extends Component {
     this.scrolling = false
   }
 
-  onSectionDidMount(component) {
+  onSectionDidMount(component) {
     this.sections[component.props.id] = component
   }
 }

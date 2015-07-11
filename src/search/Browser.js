@@ -5,7 +5,6 @@ import pick from 'lodash-es/object/pick'
 import get from 'lodash-es/object/get'
 
 import style from '../components/browser/style'
-import tabsWithControlsStyle from '../components/tabs/tabsWithControlsStyle'
 import TabsWithControls from '../components/tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../components/empty/Empty'
@@ -86,27 +85,27 @@ export default class Browser extends Component {
    *
    * @param {String} id can be item id or "prev" or "next"
    */
-  selectTab(id) {
+  selectTab(selector) {
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
 
     let newIndex
     let set = false
 
-    if (id == 'next') {
+    if (selector === 'next') {
       newIndex = currIndex + 1
-      if (newIndex < tabs.length) {
+      if (newIndex < tabs.length) {
         set = true
       }
     }
-    else if (id == 'prev') {
+    else if (selector === 'prev') {
       newIndex = currIndex - 1
       if (newIndex >= 0) {
         set = true
       }
     }
     else {
-      newIndex = findIndex(tabs, tab => tab.id == id)
+      newIndex = findIndex(tabs, tab => tab.id === selector)
       set = true
     }
 
@@ -125,33 +124,24 @@ export default class Browser extends Component {
     }
   }
 
-  focusItem(id) {
+  focusItem(selector) {
     let {sections} = this.state
-    let set = false
+    let id
 
-    if (id == 'next' || id == 'prev') {
+    if (selector === 'next' || selector === 'prev') {
       let selectedSection = dataUtils.getSelectedSection(sections)
       let items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
       let focusedIndex = findIndex(items, item => item.focused)
       let newItem
 
-      if (id == 'next') {
-        newItem = items[focusedIndex + 1]
-      }
-      else if (id == 'prev') {
-        newItem = items[focusedIndex - 1]
-      }
+      if (selector === 'next') newItem = items[focusedIndex + 1]
+      else if (selector === 'prev') newItem = items[focusedIndex - 1]
 
-      if (newItem) {
-        id = newItem.id
-        set = true
-      }
+      if (newItem) id = newItem.id
     }
-    else {
-      set = true
-    }
+    else id = selector
 
-    if (set) {
+    if (id) {
       dataUtils.setFocusedItem(sections, id)
       this.setState({sections: [...sections]})
     }
@@ -166,7 +156,7 @@ export default class Browser extends Component {
     this.props.onSelectItem(this.getFocusedItem())
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
 
     return (
@@ -183,7 +173,7 @@ export default class Browser extends Component {
     )
   }
 
-  renderContent() {
+  renderContent() {
     let {sections} = this.state
     let {data} = this.props
 
@@ -198,7 +188,7 @@ export default class Browser extends Component {
 
     if (hasSearch) return <Empty text="Nothing found" />
 
-    if (this.props.isExternal) {
+    if (this.props.isExternal) {
       let text = `Write the search term to search ${data.search.service}.`
       return <Empty text={text} />
     }
@@ -235,7 +225,7 @@ export default class Browser extends Component {
     this.selectTab(data.id)
   }
 
-  onMouseDown(e) {
+  onMouseDown(e) {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()

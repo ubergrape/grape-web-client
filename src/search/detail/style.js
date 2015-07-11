@@ -29,7 +29,7 @@ export default {
     margin: '5px 0',
     color: colors.gainsboroDark
   },
-  description: {
+  description: {
     margin: '0 0 10px 0'
   },
   empty: {
@@ -37,7 +37,7 @@ export default {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.silverLight,
+    backgroundColor: colors.silverLight
   },
   emptyNote: {
     marginTop: 16,

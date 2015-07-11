@@ -34,7 +34,7 @@ export default class Item extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.focused != prevState.focused) {
+    if (this.state.focused !== prevState.focused) {
       this.refs.sensor.check()
       if (this.state.focused) this.onFocus()
     }
@@ -45,11 +45,11 @@ export default class Item extends Component {
     this.props.onDidMount(this)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount() {
     this.props.onWillUnmount(this)
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {id, icon, focused} = this.state
     return (
@@ -83,7 +83,7 @@ export default class Item extends Component {
     this.props.onSelect({id: this.state.id})
   }
 
-  onMouseOver() {
+  onMouseOver() {
     this.onFocus()
   }
 }

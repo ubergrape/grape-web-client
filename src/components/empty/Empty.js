@@ -15,7 +15,7 @@ export default class Empty extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     return (
       <div className={classes.container}>

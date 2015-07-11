@@ -23,7 +23,7 @@ export default class Info extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {images} = this.props
 

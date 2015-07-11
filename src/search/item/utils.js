@@ -5,8 +5,8 @@ import isEmpty from 'lodash-es/lang/isEmpty'
  * Find state meta.
  */
 export function getState(detail) {
-  if (!detail || isEmpty(detail.meta)) return
-  let state = find(detail.meta, meta => meta.label == 'State')
+  if (!detail || isEmpty(detail.meta)) return ''
+  let state = find(detail.meta, meta => meta.label === 'State')
   if (state) return state.value
 }
 
@@ -20,25 +20,25 @@ export function findMatches(text, search) {
   let lowerSearch = search.toLowerCase()
   let parts = lowerText.split(lowerSearch)
   let matches = []
-  if (parts.length == 1) return matches
+  if (parts.length === 1) return matches
 
   let index = 0
   parts.forEach(part => {
-    part = text.substr(index, part.length)
+    let match = text.substr(index, part.length)
 
-    if (part) {
+    if (match) {
       matches.push({
-        text: part,
+        text: match,
         found: false
       })
-      index += part.length
+      index += match.length
     }
 
-    part = text.substr(index, search.length)
+    match = text.substr(index, search.length)
 
-    if (part) {
+    if (match) {
       matches.push({
-        text: part,
+        text: match,
         found: true
       })
       index += search.length

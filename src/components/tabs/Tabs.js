@@ -23,13 +23,13 @@ export default class Tabs extends Component {
     this.props.onDidMount(this)
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
 
     return (
       <div className={classes.tabs}>
         <ul className={classes.inner} ref="inner">
-          {this.props.data.map(item => {
+          {this.props.data.map(item => {
             let id = item.id || 'all'
             return (
               <Tab

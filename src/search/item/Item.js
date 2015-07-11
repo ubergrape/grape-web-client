@@ -27,7 +27,7 @@ export default class Item extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps) {
-    if (this.props.focused != prevProps.focused) {
+    if (this.props.focused !== prevProps.focused) {
       this.refs.sensor.check()
       if (this.props.focused) this.onFocus()
     }
@@ -37,9 +37,9 @@ export default class Item extends Component {
     this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
-    let {id, focused, icon, info} = this.props
+    let {focused, icon, info} = this.props
     let iconClassName = focused ? classes.iconFocused : classes.icon
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.

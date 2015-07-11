@@ -1,6 +1,4 @@
-import webColors from 'grape-theme/web-colors'
 import colors from 'grape-theme/base-colors'
-
 
 export default {
   tabs: {

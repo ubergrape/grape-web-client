@@ -20,18 +20,18 @@ export default class Default extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {props} = this
     let sidebarContent
 
-    if (props.focusedItem.type == 'filters') {
+    if (props.focusedItem.type === 'filters') {
       sidebarContent = <Info {...props} />
     }
     else {
       sidebarContent = <Detail {...props} data={props.focusedItem.detail} />
     }
-       
+
     return (
       <div className={classes.column}>
         <div className={classes.row}>

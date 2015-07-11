@@ -30,7 +30,7 @@ class Browser extends Component {
     onDidMount: undefined
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.exposePublicMethods()
     this.onResize = debounce(::this.cacheItemsPerRow, 500)
@@ -81,7 +81,7 @@ class Browser extends Component {
     let state = this.state || {}
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
     let newEmojiSheet = get(props, 'images.emojiSheet')
-    if (newEmojiSheet && (newEmojiSheet != currEmojiSheet || !emoji.get())) {
+    if (newEmojiSheet && (newEmojiSheet !== currEmojiSheet || !emoji.get())) {
       PublicBrowser.init({
         emojiSheet: newEmojiSheet,
         customEmojis: props.customEmojis
@@ -107,7 +107,7 @@ class Browser extends Component {
     return {tabs, facet, sections, isFirstRender}
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {sections} = this.state
 
@@ -139,7 +139,7 @@ class Browser extends Component {
     )
   }
 
-  getFocusedItem() {
+  getFocusedItem() {
     return dataUtils.getFocusedItem(this.state.sections)
   }
 
@@ -153,7 +153,7 @@ class Browser extends Component {
     let {width: gridWidth} = React.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
-    if (this.itemsPerRow && gridWidth == this.gridWidth) return
+    if (this.itemsPerRow && gridWidth === this.gridWidth) return
     this.gridWidth = gridWidth
 
     let id = get(this.state, 'sections[0].items[0].id')
@@ -169,22 +169,24 @@ class Browser extends Component {
    *
    * @param {String} id can be item id or "prev" or "next"
    */
-  selectTab(facet) {
+  selectTab(selector) {
     let {tabs} = this.state
-    if (facet == 'next') {
+    let facet
+    if (selector === 'next') {
       let currIndex = findIndex(tabs, tab => tab.selected)
       if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
       else facet = tabs[0].id
     }
-    let newIndex = findIndex(tabs, tab => tab.id == facet)
+    let newIndex = findIndex(tabs, tab => tab.id === facet)
     facet = tabs[newIndex].id
     dataUtils.setSelectedTab(tabs, newIndex)
     let sections = dataUtils.getSections(facet, this.props.search)
     this.setState({tabs, sections, facet})
   }
 
-  focusItem(nextItemId) {
+  focusItem(id) {
     let {sections} = this.state
+    let nextItemId = id
     let nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
     if (nextItem) nextItemId = nextItem.id
 
@@ -220,7 +222,7 @@ class Browser extends Component {
     this.selectTab(data.id)
   }
 
-  onMouseDown(e) {
+  onMouseDown(e) {
     // Important!!!
     // Avoids loosing focus and though caret position in editable.
     e.preventDefault()
@@ -232,7 +234,7 @@ class Browser extends Component {
 }
 
 let PublicBrowser = useSheet(Browser, style)
-PublicBrowser.init = (options) => {
+PublicBrowser.init = (options) => {
   let {emojiSheet, customEmojis} = options
   if (emojiSheet) emoji.setSheet(emojiSheet)
   if (customEmojis) emoji.defineCustom(customEmojis)

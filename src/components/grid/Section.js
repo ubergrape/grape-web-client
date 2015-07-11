@@ -15,7 +15,7 @@ export default class Section extends Component {
     onDidMount: undefined
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.items = {}
   }
@@ -26,7 +26,7 @@ export default class Section extends Component {
     this.props.onDidMount(this)
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {Item} = this.props
 
@@ -34,7 +34,7 @@ export default class Section extends Component {
       <section>
         <header className={classes.header}>{this.props.label}</header>
         <div className={this.props.contentClassName} ref="content">
-          {this.props.items.map((data, i) => {
+          {this.props.items.map((data, i) => {
             let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
               'visibilityContainment')
             return (
@@ -51,7 +51,7 @@ export default class Section extends Component {
     )
   }
 
-  getContentComponent() {
+  getContentComponent() {
     return this.refs.content
   }
 
@@ -59,7 +59,7 @@ export default class Section extends Component {
     this.items[item.props.id] = item
   }
 
-  onItemWillUnmount(item) {
+  onItemWillUnmount(item) {
     delete this.items[item.props.id]
   }
 }

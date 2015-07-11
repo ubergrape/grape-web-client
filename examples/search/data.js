@@ -33,7 +33,8 @@ window.data = {
   ],
   'search': {
     'text': 'plan',
-    'type': 'external'
+    'type': 'external',
+    'queries': []
   },
   'results': [
     {

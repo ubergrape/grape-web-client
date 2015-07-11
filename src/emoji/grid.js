@@ -4,12 +4,12 @@ import find from 'lodash-es/collection/find'
 /**
  * Get item from sections.
  */
-export function getItem(sections, dir, length = 10) {
-  if (dir == 'next' || dir == 'prev') {
+export function getItem(sections, dir, length = 10) {
+  if (dir === 'next' || dir === 'prev') {
     return findHorizontalItem(sections, length, dir)
   }
 
-  if (dir == 'nextRow' || dir == 'prevRow') {
+  if (dir === 'nextRow' || dir === 'prevRow') {
     return findVerticalItem(sections, length, dir.substr(0, 4))
   }
 }
@@ -30,7 +30,7 @@ function findHorizontalItem(sections, length, dir) {
   let row = Math.floor(index / length)
   let shift = index - row * length
 
-  if (dir == 'next') {
+  if (dir === 'next') {
     if (items[index + 1] && shift + 1 < length) index++
     else index = index - shift
   }
@@ -54,20 +54,20 @@ function findHorizontalItem(sections, length, dir) {
  * - Next row has no item at current position shift, we need to go to the
  * next row until we find one.
  */
-function findVerticalItem(sections, length, dir) {
+function findVerticalItem(sections, length, dir) {
   let currSection = getCurrentSection(sections)
   let currIndex = findIndex(currSection.items, item => item.focused)
   let currRow = Math.floor(currIndex / length)
   let shift = currIndex - currRow * length
-  let nextRow = currRow + (dir == 'next' ? 1 : -1)
+  let nextRow = currRow + (dir === 'next' ? 1 : -1)
 
-  function find() {
+  function findItem() {
     let nextIndex = nextRow * length + shift
     let item = currSection.items[nextIndex]
 
     if (item) return item
 
-    if (dir == 'next') {
+    if (dir === 'next') {
       let rowsAmount = getRowsAmount(currSection, length)
       // Last row of the current section.
       if (nextRow > rowsAmount - 1) {
@@ -85,26 +85,26 @@ function findVerticalItem(sections, length, dir) {
       } else nextRow--
     }
 
-    return find()
+    return findItem()
   }
 
-  return find()
+  return findItem()
 }
 
-function getCurrentSection(sections) {
-  return find(sections, section => {
+function getCurrentSection(sections) {
+  return find(sections, section => {
     return section.items.some(item => item.focused)
   })
 }
 
-function getNextSection(sections, current) {
-  let index = findIndex(sections, section => section.id == current.id)
+function getNextSection(sections, current) {
+  let index = findIndex(sections, section => section.id === current.id)
   let next = sections[index + 1]
   return next ? next : sections[0]
 }
 
-function getPrevSection(sections, current) {
-  let index = findIndex(sections, section => section.id == current.id)
+function getPrevSection(sections, current) {
+  let index = findIndex(sections, section => section.id === current.id)
   let prev = sections[index - 1]
   return prev ? prev : sections[sections.length - 1]
 }

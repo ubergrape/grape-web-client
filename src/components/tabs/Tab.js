@@ -28,12 +28,12 @@ export default class Tab extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selected != prevProps.selected) {
+    if (this.props.selected !== prevProps.selected) {
       this.refs.sensor.check()
     }
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {icon, amount, label, selected} = this.props
     let className = selected ? classes.containerSelected : classes.container

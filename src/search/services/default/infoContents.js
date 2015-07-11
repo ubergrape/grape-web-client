@@ -16,7 +16,7 @@ export function canAdd(data) {
   }
 }
 
-export function needsHelp(data) {
+export function needsHelp(data) {
   let ret = canAdd(data)
   ret.description.props.children.push(<p>Ask a team member with proper permissions (like {data.orgOwner}) to add them!</p>)
   return ret

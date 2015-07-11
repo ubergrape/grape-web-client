@@ -17,7 +17,7 @@ export default class Button extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     return (
       <button

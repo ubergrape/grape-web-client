@@ -24,9 +24,7 @@ function getItem(sections, fn) {
  * Get item by id.
  */
 function getItemById(sections, id) {
-  return getItem(sections, item => {
-    return item.id == id
-  })
+  return getItem(sections, item => item.id === id)
 }
 
 /**
@@ -50,7 +48,7 @@ export function setFocusedItem(sections, id) {
  * Mark currently focused item as not focused.
  */
 export function unsetFocusedItem(sections) {
-  sections.forEach(section => {
+  sections.forEach(section => {
     section.items.forEach(item => item.focused = false)
   })
 }

@@ -12,12 +12,12 @@ export default class Spinner extends Component {
     overlay: false
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.state = this.createState(this.props)
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     this.setState(this.createState(props))
   }
 
@@ -32,17 +32,17 @@ export default class Spinner extends Component {
     clearTimeout(this.timeoutId)
   }
 
-  createState(props) {
+  createState(props) {
     return {...props}
   }
 
-  render() {
+  render() {
     if (!this.state.active) return null
     let {classes} = this.props.sheet
-    let style = {backgroundImage: `url(${this.props.image})`}
+    let backgroundImage = `url(${this.props.image})`
     let className = classes.spinner
     if (this.props.overlay) className += ' ' + classes.overlay
     // TODO use svg.
-    return <div className={className} style={style}></div>
+    return <div className={className} style={{backgroundImage}}></div>
   }
 }

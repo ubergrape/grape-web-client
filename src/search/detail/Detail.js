@@ -22,7 +22,7 @@ export default class Detail extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {data} = this.props
     let previewUrl = get(data, 'preview.image.url')
@@ -39,9 +39,10 @@ export default class Detail extends Component {
         image = <img src={iconUrl} className={classes.icon}/>
       }
 
-      let style = {height: this.props.headerHeight}
       header = (
-        <header className={classes.header} style={style}>
+        <header
+          className={classes.header}
+          style={{height: this.props.headerHeight}}>
           {image}
         </header>
       )

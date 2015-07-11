@@ -14,7 +14,7 @@ let item = {
 }
 
 export const rules = {
-  item: item,
+  item: item,
   itemFocused: {
     extend: item,
     background: colors.gainsboroLight,

@@ -1,5 +1,4 @@
 import React from 'react'
-import each from 'lodash-es/collection/each'
 import find from 'lodash-es/collection/find'
 import indexBy from 'lodash-es/collection/indexBy'
 import get from 'lodash-es/object/get'
@@ -24,17 +23,16 @@ export let {getFocusedItem} = dataUtils
 export let {setFocusedItem} = dataUtils
 export let {setSelectedTab} = dataUtils
 export let {getItem} = grid
-let {unsetFocusedItem} = dataUtils
 
 let sections = {}
 
 const META_MAP = indexBy(meta, 'name')
 
-sections.emoji = (function() {
-  let sections = []
+sections.emoji = (() => {
+  let staticSections = []
 
   meta.forEach(data => {
-    let section = find(sections, section => section.id == data.cat)
+    let section = find(staticSections, item => item.id === data.cat)
 
     if (!section) {
       section = {
@@ -44,17 +42,17 @@ sections.emoji = (function() {
         items: [],
         selected: false
       }
-      sections.push(section)
+      staticSections.push(section)
     }
 
     section.itemNames.push(data.name)
   })
 
-  sections = sections.sort((section1, section2) =>  {
+  staticSections = staticSections.sort((section1, section2) => {
     return CATEGORY_ORDER[section1.id] - CATEGORY_ORDER[section2.id]
   })
 
-  return sections
+  return staticSections
 }())
 
 export function init() {
@@ -77,7 +75,7 @@ export function init() {
   }]
 }
 
-export function getSections(facet, search) {
+export function getSections(facet, search) {
   let found = sections[facet]
 
   if (search) {
@@ -85,12 +83,9 @@ export function getSections(facet, search) {
     sections[facet].forEach(section => {
       let items = section.items.filter(item => {
         if (item.name.indexOf(search) >= 0) return true
-        let meta = META_MAP[item.name]
-        if (!meta) return false
-        return meta.aliases.some(function (alias) {
-          return alias.indexOf(search) >= 0
-        })
-        return false
+        let metaItem = META_MAP[item.name]
+        if (!metaItem) return false
+        return metaItem.aliases.some(alias => alias.indexOf(search) >= 0)
       })
       if (items.length) found.push({...section, items})
     })
@@ -102,7 +97,7 @@ export function getSections(facet, search) {
   return found
 }
 
-export function getTabs(options) {
+export function getTabs(options) {
   let tabs = []
 
   if (!emoji.get()) return tabs
@@ -116,7 +111,7 @@ export function getTabs(options) {
       id: 'emoji',
       label: 'Emoji',
       amount: stats.emoji,
-      selected: !options.selected || options.selected == 'emoji',
+      selected: !options.selected || options.selected === 'emoji',
       icon: <Icon style={style} />
     })
   }
@@ -127,7 +122,7 @@ export function getTabs(options) {
       id: 'customEmoji',
       label: 'Grapemoji',
       amount: stats.customEmoji,
-      selected: options.selected == 'customEmoji',
+      selected: options.selected === 'customEmoji',
       icon: <Icon style={style} />
     })
   }

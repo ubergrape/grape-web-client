@@ -18,7 +18,7 @@ export default class Preview extends Component {
     spinner: undefined
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: false,
@@ -28,7 +28,7 @@ export default class Preview extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentDidMount() {
+  componentDidMount() {
     this.load(this.props.image)
   }
 
@@ -40,7 +40,7 @@ export default class Preview extends Component {
     this.load(nextProps.image)
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {error} = this.state
 

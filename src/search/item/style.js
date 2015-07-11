@@ -2,7 +2,7 @@ import colors from 'grape-theme/base-colors'
 import fonts from 'grape-theme/fonts'
 import sizes from 'grape-theme/sizes'
 import utils from 'grape-jss-utils'
-import Color from 'color'
+import color from 'color'
 
 export let container = {
   display: 'flex',
@@ -47,7 +47,7 @@ export let rules = {
   },
   icon: {
     extend: icon,
-    color: Color(colors.gainsboroDark).lighten(.5).rgbaString()
+    color: color(colors.gainsboroDark).lighten(0.5).rgbaString()
   },
   iconFocused: {
     extend: icon,
@@ -79,7 +79,7 @@ export let rules = {
   metaItemFocused: {
     extend: metaItem,
     color: colors.white,
-    backgroundColor: Color(colors.grapeLight).lighten(.2).rgbaString(),
-    borderColor: Color(colors.grapeLight).lighten(.4).rgbaString()
+    backgroundColor: color(colors.grapeLight).lighten(0.2).rgbaString(),
+    borderColor: color(colors.grapeLight).lighten(0.4).rgbaString()
   }
 }

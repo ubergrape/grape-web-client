@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import findIndex from 'lodash-es/array/findIndex'
-import find from 'lodash-es/collection/find'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './tabsWithControlsStyle'
@@ -17,7 +15,7 @@ export default class TabsWithControls extends Component {
     onSelect: undefined
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.state = {
       leftEdge: true,
@@ -27,11 +25,11 @@ export default class TabsWithControls extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentDidUpdate() {
+  componentDidUpdate() {
     this.setEdgesState()
   }
 
-  render() {
+  render() {
     let {classes} = this.props.sheet
     let {data} = this.props
     if (!data.length) return null
@@ -61,7 +59,7 @@ export default class TabsWithControls extends Component {
     )
   }
 
-  setEdgesState() {
+  setEdgesState() {
     if (!this.props.data.length) return
 
     let {leftEdge, rightEdge} = this.state
@@ -74,11 +72,11 @@ export default class TabsWithControls extends Component {
     }
     else {
       let scrollLeft = this.getViewportNode().scrollLeft
-      leftEdge = scrollLeft == 0
-      rightEdge = scrollLeft + outerWidth == innerWidth
+      leftEdge = scrollLeft === 0
+      rightEdge = scrollLeft + outerWidth === innerWidth
     }
 
-    if (leftEdge != this.state.leftEdge || rightEdge != this.state.rightEdge) {
+    if (leftEdge !== this.state.leftEdge || rightEdge !== this.state.rightEdge) {
       this.setState({leftEdge, rightEdge})
     }
   }
@@ -92,17 +90,17 @@ export default class TabsWithControls extends Component {
     return React.findDOMNode(this).offsetWidth
   }
 
-  getViewportNode() {
+  getViewportNode() {
     return React.findDOMNode(this.tabs)
   }
 
-  onScrollNext() {
+  onScrollNext() {
     let viewportNode = this.getViewportNode()
     viewportNode.scrollLeft += viewportNode.offsetWidth
     this.setEdgesState()
   }
 
-  onScrollPrev() {
+  onScrollPrev() {
     let viewportNode = this.getViewportNode()
     viewportNode.scrollLeft -= viewportNode.offsetWidth
     this.setEdgesState()
@@ -112,7 +110,7 @@ export default class TabsWithControls extends Component {
     let viewportNode = this.getViewportNode()
     let viewportWidth = viewportNode.offsetWidth
     let itemNode = React.findDOMNode(item)
-    let itemLeft= itemNode.offsetLeft
+    let itemLeft = itemNode.offsetLeft
     if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
     viewportNode.scrollLeft = itemLeft
     this.setEdgesState()

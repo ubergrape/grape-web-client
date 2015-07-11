@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
 import each from 'lodash-es/collection/each'
-import clone from 'lodash-es/lang/clone'
 import emoji from 'js-emoji'
 
 import Icon from './Icon'
@@ -32,7 +31,7 @@ export function defineCustom(emojis) {
       id: url,
       name: name,
       shortname: shortname,
-      icon:  <Icon name={shortname} style={style} />,
+      icon: <Icon name={shortname} style={style} />,
       style: style,
       type: 'customEmoji'
     }
@@ -44,17 +43,17 @@ export function defineCustom(emojis) {
 /**
  * Get custom emoji map.
  */
-export function getCustom() {
+export function getCustom() {
   return customMap
 }
 
 /**
  * Get emoji data.
  */
-export function get(name) {
-  if (!name) return map
-  name = name.replace(/:/g, '')
-  return map[name] || customMap[name]
+export function get(shortName) {
+  if (!shortName) return map
+  let name = shortName.replace(/:/g, '')
+  return map[name] || customMap[name]
 }
 
 /**
@@ -84,9 +83,9 @@ export function setSheet(url) {
  * Replace :smile: by html icon.
  */
 export function replace(text) {
-  return text.replace(colonsRegExp, function (name) {
-    let emoji = get(name)
-    if (emoji) return React.renderToStaticMarkup(emoji.icon)
+  return text.replace(colonsRegExp, name => {
+    let def = get(name)
+    if (def) return React.renderToStaticMarkup(def.icon)
     return name
   })
 }
@@ -95,37 +94,37 @@ export function replace(text) {
  * Create map from emoji colons.
  */
 function createMap() {
-  let map = {}
+  let newMap = {}
   stats.emoji = 0
   each(emoji.map.colons, (id, name) => {
     let style = getSliceStyle(id)
     let shortname = `:${name}:`
-    map[name] = {
+    newMap[name] = {
       id: id,
       name: name,
       shortname: shortname,
-      icon:  <Icon name={shortname} style={style} />,
+      icon: <Icon name={shortname} style={style} />,
       style: style,
       type: 'emoji'
     }
     stats.emoji++
   })
 
-  return map
+  return newMap
 }
 
 /**
  * Creates an index out of the map.
  */
 function createIndex() {
-  let index = []
+  let newIndex = []
   each(map, item => {
-    index.push(item)
+    newIndex.push(item)
   })
   each(customMap, item => {
-    index.push(item)
+    newIndex.push(item)
   })
-  return index
+  return newIndex
 }
 
 export function getSliceStyle(id) {
