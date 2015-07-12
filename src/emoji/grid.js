@@ -1,5 +1,5 @@
-import findIndex from 'lodash-es/array/findIndex'
-import find from 'lodash-es/collection/find'
+import findIndex from 'lodash/array/findIndex'
+import find from 'lodash/collection/find'
 
 /**
  * Get item from sections.

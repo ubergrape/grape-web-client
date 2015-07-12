@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import findIndex from 'lodash-es/array/findIndex'
-import pick from 'lodash-es/object/pick'
-import get from 'lodash-es/object/get'
+import findIndex from 'lodash/array/findIndex'
+import pick from 'lodash/object/pick'
+import get from 'lodash/object/get'
 
 import style from '../components/browser/style'
 import TabsWithControls from '../components/tabs/TabsWithControls'

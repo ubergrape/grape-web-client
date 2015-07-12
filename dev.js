@@ -1,4 +1,4 @@
-require('./index')
-var jss = require('jss')
-var debug = require('jss-debug')
+import './index'
+import jss from 'jss'
+import debug from 'jss-debug'
 jss.use(debug)

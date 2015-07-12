@@ -1,5 +1,5 @@
 import React from 'react'
-import each from 'lodash-es/collection/each'
+import each from 'lodash/collection/each'
 import emoji from 'js-emoji'
 
 import Icon from './Icon'

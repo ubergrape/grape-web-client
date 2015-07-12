@@ -1,4 +1,4 @@
-import find from 'lodash-es/collection/find'
+import find from 'lodash/collection/find'
 import * as dataUtils from '../components/browser/dataUtils'
 
 export let {getFocusedItem} = dataUtils

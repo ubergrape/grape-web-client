@@ -27,15 +27,7 @@ var config = module.exports = {
     loaders: [
       {
         loader: 'babel-loader?stage=0',
-        test: /\.js$/,
-        include: [
-          __dirname + '/index.js',
-          __dirname + '/component.js',
-          __dirname + '/src',
-          __dirname + '/node_modules/lodash-es',
-          __dirname + '/node_modules/grape-theme',
-          __dirname + '/node_modules/grape-jss-utils'
-        ]
+        test: /\.js$/
       },
       {
         loader: 'json-loader',

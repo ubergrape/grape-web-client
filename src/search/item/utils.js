@@ -1,5 +1,5 @@
-import find from 'lodash-es/collection/find'
-import isEmpty from 'lodash-es/lang/isEmpty'
+import find from 'lodash/collection/find'
+import isEmpty from 'lodash/lang/isEmpty'
 
 /**
  * Find state meta.

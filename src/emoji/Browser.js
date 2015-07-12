@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import findIndex from 'lodash-es/array/findIndex'
-import pick from 'lodash-es/object/pick'
-import get from 'lodash-es/object/get'
-import debounce from 'lodash-es/function/debounce'
+import findIndex from 'lodash/array/findIndex'
+import pick from 'lodash/object/pick'
+import get from 'lodash/object/get'
+import debounce from 'lodash/function/debounce'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './browserStyle'

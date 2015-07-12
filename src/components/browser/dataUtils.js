@@ -1,4 +1,4 @@
-import find from 'lodash-es/collection/find'
+import find from 'lodash/collection/find'
 
 /**
  * Get all items from all sections.

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import pick from 'lodash-es/object/pick'
+import pick from 'lodash/object/pick'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './sectionStyle'

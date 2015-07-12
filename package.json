@@ -15,7 +15,7 @@
     "jss-nested": "^0.1.7",
     "jss-px": "^0.1.2",
     "jss-vendor-prefixer": "^0.2.0",
-    "lodash-es": "^3.9.3",
+    "lodash": "^3.10.0",
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-jss": "^1.0.0",

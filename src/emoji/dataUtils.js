@@ -1,8 +1,8 @@
 import React from 'react'
-import find from 'lodash-es/collection/find'
-import indexBy from 'lodash-es/collection/indexBy'
-import get from 'lodash-es/object/get'
-import values from 'lodash-es/object/values'
+import find from 'lodash/collection/find'
+import indexBy from 'lodash/collection/indexBy'
+import get from 'lodash/object/get'
+import values from 'lodash/object/values'
 
 import * as dataUtils from '../components/browser/dataUtils'
 import * as grid from './grid'

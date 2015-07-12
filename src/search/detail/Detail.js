@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import useSheet from 'react-jss'
-import get from 'lodash-es/object/get'
-import isEmpty from 'lodash-es/lang/isEmpty'
+import get from 'lodash/object/get'
+import isEmpty from 'lodash/lang/isEmpty'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import Preview from './Preview'
