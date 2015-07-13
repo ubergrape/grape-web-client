@@ -3,7 +3,7 @@
 	"description": "API Library for chatgrape",
 	"main": "index.js",
 	"dependencies": {
-		"array": "git://github.com/MatthewMueller/array#0.4.3",
+		"array": "ubergrape/array",
 		"broker": "git://github.com/Swatinem/broker#0.0.2",
 		"model": "git://github.com/Swatinem/model#0.0.4",
 		"model-array": "git://github.com/Swatinem/model-array",		
