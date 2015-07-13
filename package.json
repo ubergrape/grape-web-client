@@ -27,7 +27,7 @@
     "endswith": "git://github.com/sk7/endswith",
     "escape-html": "git://github.com/component/escape-html#v1.0.1",
     "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git",
-    "image-zoom": "git://github.com/bmcmahen/image-zoom#1.1.1",
+    "image-zoom": "ubergrape/image-zoom",
     "intro": "ubergrape/intro.js",
     "jade": "git://github.com/jadejs/jade#1.8.2",
     "js-emoji": "git://github.com/sk7/js-emoji",
