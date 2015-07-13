@@ -111,18 +111,18 @@
     "component/upload": "0.2.0", // TODO check if newr version is fine too
     "component/progress": "0.0.4",
     "component/file": "0.1.1",
-    "component/dialog": "0.3.0", // TODO install again
+    "component/dialog": "0.3.0", // TODO check again
     "component/keyname": "0.0.1",
     "component/closest": "0.1.4",
     "MatthewMueller/array": "0.4.3",
     "ubergrape/websocket": "master",
     "ubergrape/datejs": "master",
-    "bmcmahen/image-zoom": "1.1.1",
+    "bmcmahen/image-zoom": "1.1.1", // check again
     "jkroso/computed-style": "0.1.0",
     "ubergrape/textcomplete": "master",
     "sk7/startswith": "master",
     "sk7/endswith": "master",
-    "matthewp/attr": "*", // TODO no package.json
+    "matthewp/attr": "*", // TODO no package.json - seems not to be used
     "ubergrape/HTML5-Desktop-Notifications": "master",
     "ubergrape/intro.js": "master",
     "sk7/js-emoji": "master",
