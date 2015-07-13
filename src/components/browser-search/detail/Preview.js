@@ -3,7 +3,7 @@ import useSheet from 'react-jss'
 import ImagesLoader from 'images-loader'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import Spinner from '../../components/spinner/Spinner'
+import Spinner from '../../spinner/Spinner'
 import style from './previewStyle'
 
 let loader = new ImagesLoader()

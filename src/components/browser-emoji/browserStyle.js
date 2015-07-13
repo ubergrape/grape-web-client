@@ -1,4 +1,4 @@
-import style from '../components/browser/style'
+import style from '../browser/style'
 
 export default {
   ...style,

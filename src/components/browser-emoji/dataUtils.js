@@ -4,7 +4,7 @@ import indexBy from 'lodash/collection/indexBy'
 import get from 'lodash/object/get'
 import values from 'lodash/object/values'
 
-import * as dataUtils from '../components/browser/dataUtils'
+import * as dataUtils from '../browser/dataUtils'
 import * as grid from './grid'
 import meta from './meta.json'
 import * as emoji from './emoji'

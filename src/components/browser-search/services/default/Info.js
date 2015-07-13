@@ -4,7 +4,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './infoStyle'
 import * as contents from './infoContents'
-import Button from '../../../components/button/Button'
+import Button from '../../../button/Button'
 
 /**
  * Info messages for the user for e.g. to explain integrations.

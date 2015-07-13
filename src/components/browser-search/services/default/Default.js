@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import useSheet from 'react-jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import style from '../../../components/browser/style'
+import style from '../../../browser/style'
 import Info from './Info'
-import Grid from '../../../components/grid/Grid'
-import Sidebar from '../../../components/sidebar/Sidebar'
+import Grid from '../../../grid/Grid'
+import Sidebar from '../../../sidebar/Sidebar'
 import Detail from '../../detail/Detail'
 
 /**

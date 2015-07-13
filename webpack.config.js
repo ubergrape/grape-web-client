@@ -38,5 +38,6 @@ var config = module.exports = {
 }
 
 config.externals = {
-  react: 'React'
+  react: 'React',
+  'reactive-elements': 'ReactiveElements'
 }
