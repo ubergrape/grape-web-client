@@ -10,9 +10,9 @@ import style from './browserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Grid from '../grid/Grid'
 import Item from './item/Item'
-import Icon from './Icon'
 import * as dataUtils from './dataUtils'
-import * as emoji from './emoji'
+import Icon from '../emoji/Icon'
+import * as emoji from '../emoji'
 
 /**
  * Main emoji browser component.

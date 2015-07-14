@@ -6,9 +6,9 @@ import values from 'lodash/object/values'
 
 import * as dataUtils from '../browser/dataUtils'
 import * as grid from './grid'
-import meta from './meta.json'
-import * as emoji from './emoji'
-import Icon from './Icon'
+import meta from '../emoji/meta'
+import * as emoji from '../emoji'
+import Icon from '../emoji/Icon'
 import * as itemStyle from './item/style'
 
 const CATEGORY_ORDER = {
