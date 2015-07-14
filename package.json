@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-core": "^5.6.20",
+    "babel-loader": "^5.3.1",
     "color": "^0.7.3",
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git",
@@ -17,24 +19,23 @@
     "jss-vendor-prefixer": "^0.2.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
+    "node-libs-browser": "^0.5.2",
     "react": "^0.13.3",
     "react-jss": "^1.0.0",
     "react-pure-render": "^1.0.2",
-    "react-visibility-sensor": "^2.0.0"
+    "react-visibility-sensor": "^2.0.0",
+    "webpack": "^1.5.3"
   },
   "devDependencies": {
-    "babel-core": "^5.5.8",
     "babel-eslint": "^3.1.23",
-    "babel-loader": "^5.1.4",
     "eslint": "^0.24.1",
     "eslint-config-airbnb": "0.0.6",
     "eslint-plugin-react": "^2.7.0",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
     "jss-debug": "^0.1.0",
-    "reactive-elements": "git+ssh://git@github.com/ubergrape/ReactiveElements.git",
-    "webcomponents.js": "^0.5.4-1",
-    "webpack": "^1.5.3"
+    "reactive-elements": "ubergrape/ReactiveElements",
+    "webcomponents.js": "^0.5.4-1"
   },
   "scripts": {
     "build": "npm run lint; npm run build-dev",
