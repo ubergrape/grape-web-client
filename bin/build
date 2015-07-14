@@ -14,11 +14,11 @@ fs.readdirSync(SOURCE).forEach(function (fileName) {
 
   // Create js files
   var data = to5.transform(fs.readFileSync(path.join(SOURCE, fileName))).code
-  var js = path.join(DIST, 'js', name + '.js')
+  var js = path.join(DIST, name + '.js')
   fs.writeFileSync(js, data)
 
   // Create json files
   var data = JSON.stringify(require(js), null, '  ')
-  var json = path.join(DIST,'json', name + '.json')
+  var json = path.join(DIST, name + '.json')
   fs.writeFileSync(json, data)
 })
