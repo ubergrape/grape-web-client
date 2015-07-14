@@ -27,7 +27,8 @@ var config = module.exports = {
     loaders: [
       {
         loader: 'babel-loader?stage=0',
-        test: /\.js$/
+        test: /\.js$/,
+        //exclude: /node_modules/
       },
       {
         loader: 'json-loader',
