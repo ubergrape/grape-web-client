@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
+    "array": "ubergrape/array",
     "broker": "git://github.com/Swatinem/broker#0.0.2",
     "component-classes": "^1.2.3",
     "component-clipboard": "^0.1.6",
@@ -34,6 +35,9 @@
     "keyname": "0.0.1",
     "marked": "ubergrape/marked",
     "model": "ubergrape/model#1.0.0",
+    "model-array": "git://github.com/Swatinem/model-array",     
+    "model-cache": "git://github.com/Swatinem/model-cache",
+    "model-cast": "git://github.com/Swatinem/model-cast",
     "moment": "git://github.com/moment/moment#2.7.0",
     "moment-timezone": "ubergrape/moment-timezone",
     "normalize.css": "git://github.com/necolas/normalize.css#3.0.2",
@@ -47,7 +51,9 @@
     "t": "ubergrape/t",
     "template": "ubergrape/template",
     "textcomplete": "ubergrape/textcomplete",
-    "virtualdom": "ubergrape/virtualdom"
+    "virtualdom": "ubergrape/virtualdom",
+    "wamp1": "ubergrape/wamp1",
+    "websocket": "ubergrape/websocket"
   },
   "devDependencies": {
     "babel-core": "^5.5.8",
