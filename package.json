@@ -9,6 +9,11 @@
     "6to5-core": "^3.3.12"
   },
   "scripts": {
-    "build": "./build"
-  }
+    "build": "./bin/build"
+  },
+  "npmFileMap": [
+    {
+      "basePath": "/dist/js/"
+    }
+  ]
 }

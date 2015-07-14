@@ -1,5 +1,3 @@
-'use strict'
-
 var base = 13
 
 function calc(fontSize, lineHeight) {

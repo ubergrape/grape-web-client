@@ -1,5 +1,3 @@
-'use strict'
-
 import colors from './base-colors'
 
 export default {
