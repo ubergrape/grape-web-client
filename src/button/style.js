@@ -1,6 +1,6 @@
-import colors from 'grape-theme/base-colors'
-import fonts from 'grape-theme/fonts'
-import sizes from 'grape-theme/sizes'
+import colors from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
+import sizes from 'grape-theme/dist/sizes'
 
 export default {
   button: {

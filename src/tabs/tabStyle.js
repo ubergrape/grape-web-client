@@ -1,6 +1,6 @@
-import colors from 'grape-theme/base-colors'
+import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
-import fonts from 'grape-theme/fonts'
+import fonts from 'grape-theme/dist/fonts'
 
 export let text = {
   extend: fonts.small,

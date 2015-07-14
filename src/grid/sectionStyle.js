@@ -1,5 +1,5 @@
-import colors from 'grape-theme/base-colors'
-import fonts from 'grape-theme/fonts'
+import colors from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
 export default {
   header: {

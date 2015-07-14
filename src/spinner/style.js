@@ -1,4 +1,4 @@
-import colors from 'grape-theme/base-colors'
+import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
 
 export default {
