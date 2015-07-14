@@ -1,6 +1,6 @@
 import './setup'
-import SearchBrowser from './components/browser-search/Browser'
+import SearchBrowser from './browser-search/Browser'
 export {SearchBrowser as SearchBrowser}
 
-import EmojiBrowser from './components/browser-emoji/Browser'
+import EmojiBrowser from './browser-emoji/Browser'
 export {EmojiBrowser as EmojiBrowser}

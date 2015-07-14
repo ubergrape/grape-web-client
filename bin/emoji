@@ -4,7 +4,6 @@ var path = require('path')
 var fs = require('fs')
 var meta = require('emojione/emoji.json')
 
-
 meta = Object.keys(meta).map(function (name) {
   return {
     name: name,

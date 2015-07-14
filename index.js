@@ -1,6 +1,5 @@
-import 'reactive-elements'
-import * as browsers from './src'
-export default browsers
+require('reactive-elements')
+var browsers = module.exports = require('./lib/grape-browser')
 
 // Register reactive element.
 if (document.registerReact) {
