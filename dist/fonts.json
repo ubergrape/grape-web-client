@@ -1,0 +1,22 @@
+{
+  "small": {
+    "fontSize": "9.75px",
+    "lineHeight": "11.375px"
+  },
+  "big": {
+    "fontSize": "16.25px",
+    "lineHeight": "19.5px"
+  },
+  "bigger": {
+    "fontSize": "20.8px",
+    "lineHeight": "23.400000000000002px"
+  },
+  "biggest": {
+    "fontSize": "26px",
+    "lineHeight": "28.6px"
+  },
+  "normal": {
+    "fontSize": "13px",
+    "lineHeight": "19.5px"
+  }
+}
