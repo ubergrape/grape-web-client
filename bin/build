@@ -8,6 +8,10 @@ var ROOT = path.resolve(__dirname, '..')
 var SOURCE = path.join(ROOT, 'src')
 var DIST = path.join(ROOT, 'dist')
 
+try {
+  fs.mkdirSync(DIST)
+} catch (err) {}
+
 fs.readdirSync(SOURCE).forEach(function (fileName) {
   if (path.extname(fileName) != '.js') return
   var name = path.basename(fileName, '.js')
