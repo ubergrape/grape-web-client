@@ -1,4 +1,3 @@
-import './setup'
 import SearchBrowser from './browser-search/Browser'
 export {SearchBrowser as SearchBrowser}
 
