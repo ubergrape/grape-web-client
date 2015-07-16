@@ -19,7 +19,6 @@ export default class Detail extends Component {
     images: undefined
   }
 
-
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {

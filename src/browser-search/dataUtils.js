@@ -7,7 +7,8 @@ export let {unsetFocusedItem} = dataUtils
 export let {extractItems} = dataUtils
 export let {setSelectedTab} = dataUtils
 
-let warn = console.warn.bind(console)
+let {warn} = console
+warn = warn.bind(console)
 
 // Service/icon map.
 // TODO it should be a service implementation detail.
