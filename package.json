@@ -64,6 +64,7 @@
     "json-loader": "^0.5.2",
     "require-cwd": "0.0.2",
     "style-loader": "^0.12.3",
+    "stylus": "^0.42.1",
     "stylus-loader": "^1.2.1",
     "url-loader": "^0.5.6",
     "webpack": "^1.10.1"

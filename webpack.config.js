@@ -12,7 +12,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.styl$/,
-				loader: extractTextPlugin.extract('style-loader!css-loader!stylus-loader')
+				loader: extractTextPlugin.extract('css-loader!stylus-loader?paths=node_modules/stylus/')
 			},
 			{
 				test: /\.js$/,
