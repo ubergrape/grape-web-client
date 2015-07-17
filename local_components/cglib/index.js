@@ -195,7 +195,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function (data) {
 		self._tryAddRoom(data.channel);
-		self.emit('newroom');
+		self.emit('newRoom', data.channel);
 	});
 	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
 		var room = models.Room.get(data.channel.id);
@@ -354,15 +354,13 @@ App.prototype.bindEvents = function App_bindEvents() {
 		msg.text = data.text;
 		var ch = models.Room.get(data['channel']);
 		var idx = ch.history.indexOf(msg);
-		if (~idx)
-			ch.history.splice(idx, 1, msg);
+		if (~idx) ch.history.splice(idx, 1, msg);
 	});
 	wamp.subscribe(PREFIX + 'message#removed', function(data) {
 		var msg = models.Line.get(data['id']);
 		var ch = models.Room.get(data['channel']);
 		var idx = ch.history.indexOf(msg);
-		if (~idx)
-			ch.history.splice(idx, 1);
+		if (~idx) ch.history.splice(idx, 1);
 	});
 
 	// user events
@@ -373,8 +371,10 @@ App.prototype.bindEvents = function App_bindEvents() {
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
-		var msg = new models.Line(data.message);
-		msg.channel.mentioned++;
+		var line = models.Line.get(data.message.id);
+		if (!line) line = new models.Line(data.message.id);
+		line.channel.mentioned++;
+		self.emit('userMention');
 	});
 	wamp.subscribe(PREFIX + 'user#updated', function (data) {
 		var user = models.User.get(data.user.id);
@@ -383,14 +383,25 @@ App.prototype.bindEvents = function App_bindEvents() {
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
 		user.is_only_invited = data.user.is_only_invited;
-		if (data.user.avatar !== null) {
-			user.avatar = data.user.avatar;
-		}
+		if (data.user.avatar !== null) user.avatar = data.user.avatar;
 		self.emit('change user', user);
 	});
+
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
-		var msg = models.Line.get(notification.message_id);
-		if (msg) self.emit('newNotification', msg);
+		var dispatcher = notification.dispatcher;
+		if (dispatcher === 'message' || dispatcher === 'pm') {
+			var notificationItem = models.Line.get(notification.message_id);
+			if (notificationItem) self.emit('newMsgNotification', notificationItem);
+		} else {
+			var inviter = models.User.get(notification.inviter_id);
+			var room = models.Room.get(notification.channel_id);
+			if (!(inviter && room)) return;
+			var notificationItem = {
+				inviter: inviter,
+				room: room
+			};
+			self.emit('newInviteNotification', notificationItem)
+		}
 	});
 };
 
@@ -494,6 +505,7 @@ App.prototype.openPM = function App_openPM(user, callback) {
 		pm = self._newRoom(pm);
 		self.organization.pms.push(pm);
 		user.pm = pm;
+		self.emit('newPMOpened', pm);
 		callback();
 	});
 };
@@ -725,3 +737,7 @@ App.prototype.updateMsg = function App_updateMessage(msg, text) {
 
 	});
 };
+
+App.prototype.onKickMember = function App_onKickMember (roomID, memberID) {
+	this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID));
+}

@@ -7,6 +7,7 @@ var _ = require('t');
 var markdown = require('../markdown');
 var domify = require('domify');
 var staticurl = require('staticurl');
+var emoji = require('../emoji');
 
 module.exports = Notifications;
 
@@ -25,11 +26,20 @@ Notifications.prototype.init = function Notifications_init() {
 	});
 };
 
-Notifications.prototype.setRoom = function Notifications_setRoom(room) {
+Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 	this.room = room;
 };
 
-Notifications.prototype.onNewNotification = function Notifications_onNewNotification(message) {
+Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
+	var inviter = item.inviter;
+	var room = item.room;
+	var content = inviter.displayName + _(' invited you to the room ') + room.name;
+	var title = inviter.displayName + _(' (Room Invite)');
+	var icon = inviter.avatar;
+	this.dispatch(title, content, icon, room);
+}
+
+Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
 	var self = this;
 	var i, opts, content_dom, imgs, img, replacement, filename;
 	var	author		= message.author,
@@ -51,8 +61,10 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 	if (typeof content !== "undefined" && content !== "") {
 		opts = {
 			emoji: function (emo) {
-				// render emojis as text
-				return ':' + emo + ':';
+				emoji.init_colons();
+				// we can't display custom emojis here because we only have them as images, they will automatically be displayed as :xyz:
+				var val = emoji.map.colons[emo];
+				return val ? emoji.data[val][0][0] : ':' + emo + ':';
 			}
 		};
 		content_dom = domify(markdown(content, opts));
@@ -93,6 +105,11 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 		}
 	}
 
+	this.dispatch(title, content, icon, channel);
+};
+
+Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
+	var self = this;
 	if (typeof MacGap !== 'undefined') {
 		MacGap.notify({
 			title: title,
@@ -111,4 +128,4 @@ Notifications.prototype.onNewNotification = function Notifications_onNewNotifica
 			}
 		});
 	}
-};
+}

@@ -16,7 +16,8 @@ var images = {
 	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
     traubyReading: IMAGES_BASE + '/trauby-reading.png',
     traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
-    noDetail: IMAGES_BASE + '/no-detail.png'
+    noDetail: IMAGES_BASE + '/no-detail.png',
+    spinner: staticurl('/images/preloader-onwhite.gif')
 };
 
 require('grape-input');
@@ -39,13 +40,21 @@ GrapeInputIntegration.prototype.init = function () {
 	this.initialized = true;
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
-	images.orgLogo = this.org.logo
-	this.input.setProps({
+	images.orgLogo = this.org.logo;
+	this.setProps();
+};
+
+GrapeInputIntegration.prototype.setProps = function (newProps) {
+	var props = {
 		images: images,
 		customEmojis: this.org.custom_emojis,
 		focused: true,
-		placeholder: this.placeholder
-	});
+		placeholder: this.placeholder,
+		hasIntegrations: this.org.has_integrations
+	};
+
+	for (var name in newProps) props[name] = newProps[name];
+	this.input.props = props;
 };
 
 GrapeInputIntegration.prototype.bindEvents = function () {
@@ -54,6 +63,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
 	this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
+	this.events.bind('grapeFilterSelect grape-input', 'onFilterSelect');
 	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
 	this.events.bind('grapeChange grape-input', 'onChange');
@@ -62,7 +72,7 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
 	this.events.bind('grapeSearch grape-input', 'onSearch');
-	this.events.bind('grapeInsertObject grape-input', 'onInsertObject');
+	this.events.bind('grapeInsertItem grape-input', 'onInsertItem');
 };
 
 GrapeInputIntegration.prototype.setRoom = function (room) {
@@ -77,18 +87,19 @@ GrapeInputIntegration.prototype.setRoom = function (room) {
 };
 
 GrapeInputIntegration.prototype.disable = function () {
+	if (this.input.props.disabled) return;
 	this.completePreviousEdit();
 	this.el.classList.add('disabled');
-	this.input.setProps({
+	this.setProps({
 		disabled: true,
 		placeholder: 'You cannot reply to this conversation.'
 	});
-	this.input.blur();
 };
 
 GrapeInputIntegration.prototype.enable = function () {
+	if (!this.input.props.disabled) return;
 	this.el.classList.remove('disabled');
-	this.input.setProps({
+	this.setProps({
 		disabled: false,
 		placeholder: this.placeholder
 	});
@@ -99,37 +110,36 @@ GrapeInputIntegration.prototype.redraw = function () {
 	render(this, vdom);
 };
 
-GrapeInputIntegration.prototype.showSearchBrowser = function (queryObj) {
-	var key = queryObj ? queryObj.key : '';
+GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
+	// Show browser immediately with empty state.
+	this.setProps({
+		type: 'search',
+		data: this.input.props.data,
+		isLoading: true
+	});
+
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
-		this.input.setProps({
-			data: data,
+		this.setProps({
 			type: 'search',
-			queryObj: queryObj,
-			hasIntegrations: this.org.has_integrations
+			data: data
 		});
 	}.bind(this));
 };
 
-GrapeInputIntegration.prototype.showUsersAndRooms = function (queryObj) {
-	var key = queryObj.key.toLowerCase();
+GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
+	key = key.toLowerCase();
 	var users = this.findUsers(key);
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
-
-	this.input.setProps({
-		data: data,
+	this.setProps({
 		type: 'user',
-		queryObj: queryObj
+		data: data
 	});
 };
 
-GrapeInputIntegration.prototype.showEmojiBrowser = function (queryObj) {
-	this.input.setProps({
-		type: 'emoji',
-		queryObj: queryObj
-	});
+GrapeInputIntegration.prototype.showEmojiBrowser = function () {
+	this.setProps({type: 'emoji'});
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
@@ -262,18 +272,29 @@ GrapeInputIntegration.prototype.onMarkdownTipsShow = function () {
 };
 
 GrapeInputIntegration.prototype.onComplete = function (e) {
-	var queryObj = e.detail;
-	switch (queryObj.trigger) {
+	var query = e.detail;
+
+	switch (query.trigger) {
 		case '#':
-			this.showSearchBrowser(queryObj)
+			this.showSearchBrowser(query.key)
 			break;
 		case '@':
-			this.showUsersAndRooms(queryObj)
+			this.showUsersAndRooms(query.key)
 			break;
 		case ':':
-			this.showEmojiBrowser(queryObj)
+			this.showEmojiBrowser()
 			break;
 	}
+};
+
+GrapeInputIntegration.prototype.onFilterSelect = function (e) {
+	this.emit('autocomplete', e.detail.key, function (err, data) {
+		if (err) return this.emit('error', err);
+		this.setProps({
+			type: 'search',
+			data: data
+		});
+	}.bind(this));
 };
 
 GrapeInputIntegration.prototype.onPreviousEdit = function () {
@@ -331,7 +352,7 @@ GrapeInputIntegration.prototype.onOpenEmojiBrowser = function (e) {
 
 GrapeInputIntegration.prototype.onOpenSearchBrowser = function (e) {
 	e.preventDefault();
-	this.showSearchBrowser();
+	this.showSearchBrowser('');
 };
 
 GrapeInputIntegration.prototype.onOrgReady = function (org) {
@@ -347,7 +368,7 @@ GrapeInputIntegration.prototype.onSearch = function (e) {
 	analytics.track('open grape-browser', e.detail);
 };
 
-GrapeInputIntegration.prototype.onInsertObject = function (e) {
+GrapeInputIntegration.prototype.onInsertItem = function (e) {
 	analytics.track('insert autocomplete object', e.detail);
 };
 

@@ -70,7 +70,7 @@ RoomPopover.prototype.redraw = function RoomPopover_redraw() {
 	if (this.itemList) this.itemList.redraw();
 };
 
-RoomPopover.prototype.onMemberLeftChannel = function RoomPopover_onMemberLeftChannel() {
+RoomPopover.prototype.onMemberLeftChannel = function RoomPopover_onMemberLeftChannel (room) {
 	this.itemList.redraw();
 }
 
@@ -78,7 +78,7 @@ RoomPopover.prototype.onNewRoomMember = function RoomPopover_onNewRoomMember() {
 	this.itemList.redraw();
 }
 
-RoomPopover.prototype.newRoom = function RoomPopover_newRoom() {
+RoomPopover.prototype.onNewRoom = function RoomPopover_onNewRoom() {
 	this.itemList.redraw();
 }
 
@@ -94,7 +94,11 @@ RoomPopover.prototype.onJoinedChannel = function RoomPopover_onJoinedChannel() {
 	this.itemList.redraw();
 }
 
-RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel() {
+RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel (room) {
+	if (!room.is_public) {
+		var roomIndex = this.itemList.items.indexOf(room);
+		this.itemList.items.splice(roomIndex, 1);
+	}	
 	this.itemList.redraw();
 }
 
