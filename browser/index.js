@@ -36,7 +36,7 @@ var _ = require('t');
 // ['de', 'en'].forEach(function (lang) {
 // 	_.merge(lang, require('../locale/' + lang));
 // });
-//_.lang('en');
+_.lang('en');
 // _ is set here so that the tests which don't load the UI work as well
 template.locals._ = _;
 template.locals.escape_html = escape_html;

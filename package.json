@@ -46,7 +46,7 @@
     "startswith": "git://github.com/sk7/startswith",
     "store": "git://github.com/pgherveou/store",
     "strftime": "git://github.com/samsonjs/strftime#v0.8.2",
-    "t": "ubergrape/t",
+    "t": "ubergrape/t#master",
     "template": "ubergrape/template",
     "textcomplete": "ubergrape/textcomplete",
     "virtualdom": "ubergrape/virtualdom",
