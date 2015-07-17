@@ -52,7 +52,6 @@ template.locals.html = function (html) {
 // this should be done via a switch in the UI
 
 exports.ItemList = require('./elements/itemlist');
-var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');

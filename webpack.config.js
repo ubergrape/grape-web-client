@@ -1,12 +1,11 @@
 var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
-var jadeVirtualDomLoader = require('./jade-virtualdom-loader');
 
 module.exports = {
 	entry: path.resolve(__dirname, 'index.js'),
 	output: {
-		path: path.resolve(__dirname, 'loip'),
-		filename: 'loip.js',
+		path: path.resolve('../chatgrape/static/app'),
+		filename: 'app.js',
 	},
 	module: {
 		loaders: [
@@ -21,10 +20,6 @@ module.exports = {
 			{
 				test: /\.json$/,
 				loader: 'json-loader'
-			},
-			{
-				test: /\.jade$/,
-				loader: jadeVirtualDomLoader
 			}
 		]
 	},
