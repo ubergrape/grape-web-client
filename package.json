@@ -39,10 +39,11 @@
     "webpack": "^1.5.3"
   },
   "scripts": {
-    "build": "npm run lint; npm run build-dev; npm run build-lib",
-    "emoji": "bin/emoji",
+    "all": "npm run lint; npm run build",
+    "build": "npm run build-dev; npm run build-lib",
     "build-dev": "webpack dev.js dist/grape-browser.js",
     "build-lib": "babel src --out-dir lib",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "emoji": "bin/emoji"
   }
 }
