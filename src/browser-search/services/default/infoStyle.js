@@ -4,11 +4,11 @@ import fonts from 'grape-theme/dist/fonts'
 let info = {
   overflow: 'auto',
   '& h2': {
-    extend: fonts.big,
+    ...fonts.big,
     margin: 0
   },
   '& p': {
-    extend: fonts.normal,
+    ...fonts.normal,
     margin: `${fonts.normal.fontSize} 0`
   }
 }
@@ -20,19 +20,19 @@ let header = {
 
 export default {
   infoOk: {
-    extend: info,
+    ...info,
     background: colors.grassLightest
   },
   infoNok: {
-    extend: info,
+    ...info,
     background: colors.sandLighter
   },
   headerOk: {
-    extend: header,
+    ...header,
     backgroundColor: colors.grassLighter
   },
   headerNok: {
-    extend: header,
+    ...header,
     backgroundColor: colors.sandLight
   },
   body: {

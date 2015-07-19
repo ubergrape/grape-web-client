@@ -3,7 +3,7 @@ import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 
 export let text = {
-  extend: fonts.small,
+  ...fonts.small,
   fontWeight: 'bold',
   textTransform: 'uppercase',
   letterSpacing: '0.05em'
@@ -31,13 +31,13 @@ export let container = {
 
 export let rules = {
   container: {
-    extend: container,
+    ...container,
     '&:hover': {
       color: colors.grapeTypo
     }
   },
   containerSelected: {
-    extend: container,
+    ...container,
     color: colors.grapeTypo,
     boxShadow: '0 2px 0 ' + colors.grapeLight
   },

@@ -16,7 +16,7 @@ let item = {
 export const rules = {
   item: item,
   itemFocused: {
-    extend: item,
+    ...item,
     background: colors.gainsboroLight,
     borderRadius: 3
   }

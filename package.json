@@ -12,7 +12,6 @@
     "js-emoji": "ubergrape/js-emoji",
     "jss": "^1.0.4",
     "jss-camel-case": "^0.1.1",
-    "jss-extend": "^0.1.6",
     "jss-nested": "^0.1.7",
     "jss-px": "^0.1.2",
     "jss-vendor-prefixer": "^0.2.0",

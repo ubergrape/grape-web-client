@@ -20,7 +20,7 @@ let icon = {
 }
 
 let metaItem = {
-  extend: fonts.small,
+  ...fonts.small,
   display: 'block',
   marginLeft: 4,
   padding: '2px 6px',
@@ -31,11 +31,9 @@ let metaItem = {
 }
 
 export let rules = {
-  container: {
-    extend: container
-  },
+  container: container,
   containerFocused: {
-    extend: container,
+    ...container,
     color: colors.white,
     background: colors.grapeLight
   },
@@ -46,11 +44,11 @@ export let rules = {
     padding: '6px 16px'
   },
   icon: {
-    extend: icon,
+    ...icon,
     color: color(colors.gainsboroDark).lighten(0.5).rgbaString()
   },
   iconFocused: {
-    extend: icon,
+    ...icon,
     color: colors.white
   },
   nameContainer: {
@@ -60,11 +58,13 @@ export let rules = {
     minWidth: 1 // firefox 34+ flexbox bug workaround
   },
   name: {
-    extend: [fonts.normal, utils.ellipsis],
+    ...fonts.normal,
+    ...utils.ellipsis,
     lineHeight: 1.2
   },
   info: {
-    extend: [fonts.small, utils.ellipsis],
+    ...fonts.small,
+    ...utils.ellipsis,
     marginTop: 4,
     opacity: 0.5
   },
@@ -73,11 +73,9 @@ export let rules = {
     alignItems: 'center',
     padding: '6px 12px'
   },
-  metaItem: {
-    extend: metaItem
-  },
+  metaItem: metaItem,
   metaItemFocused: {
-    extend: metaItem,
+    ...metaItem,
     color: colors.white,
     backgroundColor: color(colors.grapeLight).lighten(0.2).rgbaString(),
     borderColor: color(colors.grapeLight).lighten(0.4).rgbaString()

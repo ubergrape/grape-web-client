@@ -3,7 +3,7 @@ import fonts from 'grape-theme/dist/fonts'
 
 export default {
   header: {
-    extend: fonts.small,
+    ...fonts.small,
     background: colors.silverLight,
     borderBottom: '1px solid ' + colors.silverDark,
     padding: '5px 12px',

@@ -3,7 +3,7 @@ import fonts from 'grape-theme/dist/fonts'
 
 export default {
   sidebar: {
-    extend: fonts.normal,
+    ...fonts.normal,
     color: colors.grapeTypo,
     borderLeft: '1px solid ' + colors.silverDark,
     backgroundColor: colors.white

@@ -4,7 +4,7 @@ import sizes from 'grape-theme/dist/sizes'
 
 export default {
   button: {
-    extend: fonts.normal,
+    ...fonts.normal,
     borderRadius: sizes.borderRadius.small,
     background: colors.grapeDark,
     border: 'none',

@@ -9,7 +9,7 @@ let arrow = defaults({
   position: 'absolute',
   top: 0,
   padding: '0 12px',
-  extend: fonts.small,
+  ...fonts.small,
   color: color(colors.grapeTypo).alpha(0.3).rgbaString(),
   zIndex: 1,
   border: '0px solid ' + colors.silverDark,
@@ -26,12 +26,12 @@ export default {
     padding: 0
   },
   prevArrow: {
-    extend: arrow,
+    ...arrow,
     borderRightWidth: 1,
     left: 0
   },
   nextArrow: {
-    extend: arrow,
+    ...arrow,
     borderLeftWidth: 1,
     right: 0
   }

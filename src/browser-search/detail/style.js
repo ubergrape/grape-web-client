@@ -21,11 +21,11 @@ export default {
     padding: 15
   },
   title: {
-    extend: fonts.big,
+    ...fonts.big,
     margin: 0
   },
   subtitle: {
-    extend: fonts.normal,
+    ...fonts.normal,
     margin: '5px 0',
     color: colors.gainsboroDark
   },
