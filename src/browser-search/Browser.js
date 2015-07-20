@@ -185,8 +185,9 @@ export default class Browser extends Component {
     if (data.results.length) return this.renderService(sections)
 
     let hasSearch = Boolean(get(data, 'search.text'))
+    let hasService = Boolean(get(data, 'search.container'))
 
-    if (hasSearch) return <Empty text="Nothing found" />
+    if (hasSearch || hasService) return <Empty text="Nothing found" />
 
     if (this.props.isExternal) {
       let text = `Write the search term to search ${data.search.service}.`
