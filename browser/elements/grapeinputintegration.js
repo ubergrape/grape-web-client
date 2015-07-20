@@ -111,10 +111,11 @@ GrapeInputIntegration.prototype.redraw = function () {
 };
 
 GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
+	var props = this.input.props
 	// Show browser immediately with empty state.
 	this.setProps({
 		type: 'search',
-		data: this.input.props.data,
+		data: props.type == 'search' ? props.data : null,
 		isLoading: true
 	});
 
