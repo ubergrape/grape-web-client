@@ -32,6 +32,10 @@ module.exports = {
 			{
 				test: /\.(png|jpg|gif)$/,
 				loader: 'url-loader?limit=8192'
+			},
+			{
+				test: /\.jade$/,
+				loader: 'jade-VDOM-loader'
 			}
 		]
 	},
@@ -59,5 +63,10 @@ module.exports = {
 			'node_modules'
 		],
 		subDirectories: true
+	},
+	resolveLoader: {
+		alias: {
+			'jade-VDOM-loader': path.join(__dirname, './jade-VDOM-loader')
+		}
 	}
 };
