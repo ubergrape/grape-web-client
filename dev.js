@@ -13,7 +13,6 @@ import jssCamelCase from 'jss-camel-case'
 import jssPx from 'jss-px'
 import jssVendorPrefixer from 'jss-vendor-prefixer'
 import jssDebug from 'jss-debug'
-jss.use(jssExtend)
 jss.use(jssNested)
 jss.use(jssCamelCase)
 jss.use(jssPx)

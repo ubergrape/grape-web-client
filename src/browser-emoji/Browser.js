@@ -171,7 +171,7 @@ class Browser extends Component {
    */
   selectTab(selector) {
     let {tabs} = this.state
-    let facet
+    let facet = selector
     if (selector === 'next') {
       let currIndex = findIndex(tabs, tab => tab.selected)
       if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
