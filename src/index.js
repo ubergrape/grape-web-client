@@ -1,10 +1,13 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
-require('./stylus/app.styl');
+
+require('document-register-element');
+require('reactive-elements');
+require('../stylus/app.styl');
 require('./templates')
 var App = require('cglib');
 var UI = require('./browser');
-var initBroker = require('init-broker');
+var initBroker = require('./init-broker');
 var conf = require('conf');
 
 // TODO maybe use pick

@@ -1,4 +1,6 @@
-module.exports = {
+var template = require('template')
+
+template.templates = {
 	'chatheader.jade': require('./chatheader.jade'),
 	'chathistory.jade': require('./chathistory.jade'),
 	'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),

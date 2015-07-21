@@ -1,8 +1,9 @@
 var path = require('path');
+var webpack = require('webpack');
 var extractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-	entry: path.resolve(__dirname, 'index.js'),
+	entry: path.resolve(__dirname, 'src/index.js'),
 	output: {
 		path: path.resolve('../chatgrape/static/app'),
 		filename: 'app.js',
@@ -45,7 +46,11 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new extractTextPlugin('app.css')
+		new extractTextPlugin('app.css'),
+	    new webpack.DefinePlugin({
+	      __DEV__: process.env.NODE_ENV === 'development',
+	      __TEST__: process.env.NODE_ENV === 'test'
+	    })
 	],
 	resolve: {
 		alias: {
@@ -63,15 +68,6 @@ module.exports = {
 			'upload': 'component-upload',
 			'events': 'component-events'
 		},
-		modulesDirectories: [
-			'./local_modules',
-			'./node_modules'
-		],
 		subDirectories: true
-	},
-	resolveLoader: {
-		alias: {
-			'jade-VDOM-loader': path.join(__dirname, './jade-VDOM-loader')
-		}
 	}
 };
