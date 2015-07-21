@@ -4,18 +4,19 @@ require('./stylus/app.styl');
 require('./templates')
 var App = require('cglib');
 var UI = require('./browser');
-var broker = require('./lib/broker');
+var initBroker = require('init-broker');
+var conf = require('conf');
 
 // TODO maybe use pick
 // initialize the UI and add it to the DOM
-var ui = new UI(CHATGRAPE_CONFIG);
+window.ui = new UI(conf);
 document.body.appendChild(ui.el);
 
 // initialize the App
 var app = new App();
 
 // hook up UI to App
-broker(ui, app);
+initBroker(ui, app);
 
 // and connect to the server
 // TODO: this might come directly from the backend at some point?

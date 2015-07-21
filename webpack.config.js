@@ -64,9 +64,8 @@ module.exports = {
 			'events': 'component-events'
 		},
 		modulesDirectories: [
-			'lib',
-			'local_components',
-			'node_modules'
+			'./local_modules',
+			'./node_modules'
 		],
 		subDirectories: true
 	},

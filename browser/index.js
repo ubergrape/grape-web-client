@@ -21,7 +21,7 @@ var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
-var Router = require('../lib/router');
+var Router = require('router');
 
 var exports = module.exports = UI;
 
