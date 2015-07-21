@@ -4,10 +4,10 @@ ul.nav-list.rooms
 			li.item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
 					.item-inner-wrp
-						if room.is_public
-							i.icon.fa.fa-comments
-						else
-							i.icon.fa.fa-lock
+						.room-face
+							=_("FH")
+							if !room.is_public
+								i.room-icon.fa.fa-lock
 						if room.unread > 0
 							span(class="fl-notification tt", title="unread messages")=room.unread.toString()
 						if room.mentioned > 0

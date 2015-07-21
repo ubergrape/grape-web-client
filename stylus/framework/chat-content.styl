@@ -10,7 +10,7 @@
 	height: 100vh
 	position: relative
 	overflow: hidden
-	float: right
+	margin-left: client-navigation-width
 	//transition: width 400ms ease
 	background: chat-background
 	&,
@@ -135,7 +135,7 @@
 	.message-inner-wrap
 		display: inline-block
 		padding: 0
-		border-radius: 3px
+		border-radius: 0 4px 4px 4px
 		@extend $big-font-size
 		position: relative
 		max-width: 100%
@@ -226,6 +226,7 @@
 		.message-inner-wrap
 			text-align: left
 			max-width: 100%
+			border-radius: 4px 0 4px 4px
 		.edit
 			width: 20px
 			padding-top: 0

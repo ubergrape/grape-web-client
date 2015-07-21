@@ -8,7 +8,6 @@
 	position: absolute
 	z-index: 200
 	background: white
-	padding: 11px 15px 15px 15px
 	border-radius: 5px
 	border: 1px solid gainsboro-light
 	opacity: 1
@@ -22,38 +21,15 @@
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 	.po-scroll-wrap
 		padding: 0
-		max-height: 250px
 		display: block
 		overflow: auto
-		> li:hover
-			.icon-wrap
-				color: grape-light
-			.toggle.leave
-				color: bittersweet-light
-				.fa-check-circle-o, .j-info
-					display: none
-				.fa.fa-times-circle-o, .l-info
-					display: inline-block
-			.toggle.join
-				color: grass-light
-	li
-		padding: 6px 0
-		@extend $functional-list
-	li.item
-		padding: 0 0 5px 4px
-		cursor: pointer
-		a
-			color: grape-typo
-			&:hover
-				color: grape-typo
-		&:hover
-			background: silver-light
+		max-height: 450px
 	.name, author
 		height: 1.3em
 		line-height: 1em	
 		overflow: hidden
 		white-space: nowrap
-		max-width: 180px
+		max-width: 220px
 		text-overflow: ellipsis
 	&.left
 		animation: hifromtheleft 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -95,33 +71,23 @@
 			border-width: 0 arrow-size - 2 arrow-size - 2
 			border-color: white transparent
 	&.hide
-		opacity: 0
 		transition: opacity .2s
-	.close
-		cursor: pointer
-		position: absolute
-		top: 10px
-		right: 10px
-		color: gainsboro-dark
-		font-size: 30px
-		line-height: 20px
+	.inner-popover
+		padding-left: 16px
+		padding-right: 16px
+		&:last-of-type
+			padding-bottom: 12px
 	h3
 		color: gainsboro-dark
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
-		margin-bottom: 10px
+		margin-top: 16px
 	h4
 		color: gainsboro-dark
 		@extend $small-font-size
-		font-weight: bold
 		text-transform: uppercase
-		margin-bottom: 4px
-		margin-right: 12px
-	&.user-po
-		margin: 34px 0 0 -213px
-		right: 20px !important
-		left: auto !important
+		margin-top: 16px
 	&.item-po
 		margin-top: -90px
 		&:before, &:after
@@ -158,6 +124,37 @@
 				display: none
 			&:active
 				color: bittersweet-dark
+.popover-list
+	li
+		margin: 0
+		padding: 0
+		@extend $functional-list
+		&.break-line
+			border-top: 1px solid silver-dark
+		&:last-child a // let's have nice rounded edges at the bottom
+			border-bottom-right-radius: main-border-radius
+			border-bottom-left-radius: main-border-radius
+		&:first-child a // let's have nice rounded edges at the top
+			border-top-right-radius: main-border-radius
+			border-top-left-radius: main-border-radius
+		a
+			padding: 8px 16px
+			color: gainsboro-dark
+			min-width: 224px
+			.fa
+				margin-right: 10px
+				@extend $big-font-size
+			&:hover
+				color: grape-typo
+				background: silver-light
+		span.btn-delete
+			visibility: hidden
+			color: gainsboro-dark
+			float: right
+			margin: 4px 5px 0 0
+		&:hover
+			span.btn-delete
+				visibility: visible
 
 // ****
 //
@@ -165,9 +162,7 @@
 // > merged because they have similar look
 //
 // ****
-.userpopover
 .organizationpopover
-	width: 180px
 	.user-status-form
 		height: 30px
 		input[type="text"].user-status
@@ -187,23 +182,6 @@
 			border-radius: 50%
 		.user-status-submit
 			display: none
-	li
-		margin: 0
-		padding: 0
-		&.break-line
-			border-top: 1px solid silver-dark
-		&:last-child a // let's have nice rounded edges at the bottom
-			border-bottom-right-radius: main-border-radius
-			border-bottom-left-radius: main-border-radius
-		a
-			padding: 8px 16px
-			color: grape-typo
-			font-weight: bold
-			.fa
-				color: gainsboro-light
-				margin-right: 8px
-			&:hover
-				background: silver-light
 
 
 // ****
@@ -307,41 +285,7 @@ label.radio-label
 
 
 .pmpopover
-.roommemberspopover
-	li.item
-		padding: 6px 4px
-		@extend $hoverable
-		.avatar-wrap
-			margin-top: 1px
-		&:hover
-			background: silver-dark
-	.manage-users
-		float: left
-		&:hover
-			color: white
-			text-decoration: none
-		i
-			margin-left: 6px
-
-.pmpopover
 	width: 320px
-
-.user-list
-	li
-		@extend $functional-list
-		.avatar-wrap
-			margin-right: 5px
-		a
-			float: left
-		span.btn-delete
-			display: none
-			color: gainsboro-dark
-			float: right
-			margin: 4px 5px 0 0
-		&:hover
-			span.btn-delete
-				display: inline-block
-
 .empty-message
 	padding: 14px 0
 

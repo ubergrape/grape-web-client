@@ -49,40 +49,32 @@
 		display: flex
 		align-items: center
 		@extend $big-font-size
-		color: gainsboro-light
+		color: white
 		display: none
 		&:hover
-			color: grape-typo
+			opacity: 0.7
 	.logo
 		height: header-height
 		display: flex
 		align-items: center
 		padding: 0 8px
 		overflow: hidden
-		.avatar-wrap
-			margin: 0
-			float: none
-			width: 32px
-			height: 32px
-			border-radius: 50%
 		.name
-			@extend $big-font-size
-			margin-left: 5px
+		i
+			color: white
+		.name
 			max-width: 172px
-			overflow: hidden
-			color: gainsboro-dark
-			white-space: nowrap
-			text-overflow: ellipsis
-		.fa
-			color: gainsboro-dark
+		i
 			margin-left: 8px
 			@extend $small-font-size
+
 	a:hover
 		text-decoration: none
 		i,
 		.name
-			color: grape-typo
+			opacity: 0.7
 			text-decoration: none
+
 // ****
 //
 // The room list of the organisation
@@ -122,7 +114,6 @@
 			color: cherry !important
 			&:hover
 				background: inherit
-
 .room-list
 	padding: 14px 0 0 0
 	.rooms
@@ -149,12 +140,12 @@
 		float: right
 		margin-right: 10px
 		margin-top: -3px
-		border: 2px solid 
+		border: 1px solid 
 		border-radius: 50%
-		width: 16px
-		height: 16px
+		width: 17px
+		height: 17px
 		text-align: center
-		line-height: 11px
+		line-height: 14px
 		color: gainsboro-light
 	&:hover .nav-button
 		color: gainsboro-dark
@@ -175,17 +166,9 @@ a.nav-title-wrap
 			display: block
 			text-decoration: none
 			color: #666
-			padding: 10px 10px 7px 
+			padding: 9px 10px 8px
 			&:hover
 				background: darken(navigation-background, 2%)
-		.name
-			height: 1.25em
-			line-height: 1em
-			text-overflow: ellipsis 
-			white-space: nowrap
-			overflow: hidden
-			display: block
-			@extend $big-font-size
 		&.deleted
 			.name
 				color: gainsboro-dark

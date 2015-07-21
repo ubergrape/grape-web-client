@@ -60,12 +60,70 @@ $functional-list // this has to be the LI
 	.icon
 	.avatar-wrap
 	.unread
+	.room-face
 		text-align: center
 	.icon
 	.avatar-wrap
-		float: left
+	.room-face
+		width: 24px
+		height: 24px
 		margin-right: 8px
-		width: 20px
+		margin-top: -3px
+		float: left
+		line-height: 24px
+	.icon
+		padding: 3px 0
+	.room-face
+		border-radius: 4px
+		background: grape-dark
+		position: relative
+		font-size: 11px
+		color: white
+		color: rgba(white, 0.9)
+	.room-icon
+		position: absolute
+		right: -3px
+		top: -3px
+		width: 13px
+		height: 13px
+		z-index: 12
+		line-height: 12px
+		text-align: center
+		border-radius: 50%
+		background: grape-typo
+		background: rgba(grape-typo, 0.9)
+		font-size: 8px
+		color: white
+/*______ Avatar wrap ______*/
+.avatar-wrap
+	position: relative
+	display: inline-block
+	img
+		float: left
+		border-radius: 50%
+		z-index: 2
+	.online, .offline
+		position: absolute
+		right: 0
+		bottom: 0px
+		height: 8px
+		z-index: 12
+		border-radius: 50%
+		border: 1px solid navigation-background
+	.online
+		background: grass-light
+	.offline
+		background: bittersweet-light
+	div
+		overflow: hidden
+		margin-left: 4px
+	.name
+		@extend $big-font-size
+		@extend $ellipsis
+		margin-left: 5px
+		height: 1.25em
+		line-height: 1em
+
 
 .fl-notification
 .fl-mention
@@ -105,34 +163,6 @@ $overlay // used for search - infos, etc.
 	overflow: hidden
 	overflow-y: auto
 
-/*______ Avatar wrap ______*/
-.avatar-wrap
-	position: relative
-	display: inline-block
-	margin-top: -3px // needed for all things up until now
-	img
-		float: left
-		border-radius: 50%
-		z-index: 2
-	.online, .offline
-		position: absolute
-		right: 0
-		bottom: 0
-		width: 8px
-		height: 8px
-		z-index: 12
-		border-radius: 50%
-		border: 1px solid navigation-background
-	div
-		overflow: hidden
-		margin-left: 4px
-
-/*______ User Status Colors  ______*/
-// We need this as general classes here, because we use this in different elements.
-.online
-	background: grass-light
-.offline
-	background: bittersweet-light
 
 /*______ Invisible Class  ______*/
 .invisible

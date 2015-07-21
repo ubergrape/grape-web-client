@@ -4,7 +4,8 @@ div.navigation.nav-outer
 			a.quick-search-trigger
 				i.fa.fa-search
 			a.logo(title="Your Organization")
-				img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
+				.avatar-wrap
+					img(src='#{org.logo}',height='24',width='24',alt='#{org.name}')
 				span.name=org.name
 				i.fa.fa-chevron-down
 		.preloader.hide

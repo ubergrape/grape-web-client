@@ -1,7 +1,9 @@
 .roompopover.popover-left
-	h3
-		=_('Manage rooms')
-		span.close ×
-	ul
-	button.button.new.mar-t20.btn-primary
-		=_('Create new chatroom')
+	.inner-popover
+		h3
+			=_('Manage rooms')
+	.po-scroll-wrap
+		ul
+	.inner-popover
+		button.button.new.btn-primary
+			=_('Create new chatroom')

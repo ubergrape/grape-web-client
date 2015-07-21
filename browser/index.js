@@ -232,7 +232,7 @@ UI.prototype.init = function UI_init() {
 			clientBodyWidth = qs('.client-body', self.el),
 			navBodyWidth = qs('.nav-outer', self.el).clientWidth;
 		// saving new sidebar height in localStorage
-		clientBodyWidth.style.width = totWidth - navBodyWidth + 'px';
+		clientBodyWidth.style.marginLeft = navBodyWidth + 'px';
 		store.set('clientBodyWidth', clientBodyWidth);
 	}, 0);
 

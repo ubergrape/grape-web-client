@@ -1,4 +1,4 @@
-ul.po-scroll-wrap
+ul.popover-list
 	li.list-hl
 		h4=_("Rooms you haven't joined")
 	each room in items
@@ -29,23 +29,24 @@ ul.po-scroll-wrap
 	each room in items
 		if room.joined
 			li.item.room.leave(data-id=room.id, key=room.id)
-				button.button.toggle.leave
-					span.info.j-info
-						=_('joined')
-					span.info.l-info
-						=_('leave')
-				.icon-wrap
-					if room.is_public
-						i.icon.fa.fa-comments
-					else
-						i.icon.fa.fa-lock
-				.main
-					.name=room.name
-					ul.room-info
-						li.users
-							i.fa.fa-user
-							|  #{room.users.length}
-						if room.creator
-							li.creator
-								=_('created by ')
-								span.user-name= room.creator.displayName
+				div
+					button.button.toggle.leave
+						span.info.j-info
+							=_('joined')
+						span.info.l-info
+							=_('leave')
+					.icon-wrap
+						if room.is_public
+							i.icon.fa.fa-comments
+						else
+							i.icon.fa.fa-lock
+					.main
+						.name=room.name
+						ul.room-info
+							li.users
+								i.fa.fa-user
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									=_('created by ')
+									span.user-name= room.creator.displayName
