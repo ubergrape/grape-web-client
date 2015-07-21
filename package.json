@@ -14,7 +14,7 @@
     "component-emitter": "^1.1.3",
     "component-events": "^1.0.7",
     "component-file": "^0.1.1",
-    "component-notification": "ubergrape/notification",
+    "component-notification": "component/notification#0.0.7",
     "component-query": "0.0.3",
     "component-raf": "^1.2.0",
     "component-upload": "^0.3.0",
@@ -74,7 +74,7 @@
   },
   "scripts": {
     "build-dev": "NODE_ENV=development webpack",
-    "install": "npm i local_modules/conf; npm i local_modules/cglib; npm i local_modules/conf; npm i local_modules/jade-VDOM-loader; npm i local_modules/router; npm i local_modules/staticurl; npm i local_modules/template"
+    "install": "npm i local_modules/conf; npm i local_modules/cglib; npm i local_modules/jade-VDOM-loader; npm i local_modules/router; npm i local_modules/staticurl; npm i local_modules/template"
   },
   "repository": "ubergrape/chatgrape.git"
 }
