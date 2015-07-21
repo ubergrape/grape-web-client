@@ -60,7 +60,6 @@ module.exports = {
 			'dialog': 'dialog-component',
 			'emitter': 'component-emitter',
 			'file': 'component-file',
-			'page': 'visionmedia-page.js',
 			'progress': 'progress-component',
 			'query': 'component-query',
 			'raf': 'component-raf',
