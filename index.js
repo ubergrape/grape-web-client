@@ -2,6 +2,21 @@
 "use strict";
 require('./stylus/app.styl');
 require('./templates')
-exports.App = require('cglib');
-exports.UI = require('./browser');
-exports.broker = require('./lib/broker');
+var App = require('cglib');
+var UI = require('./browser');
+var broker = require('./lib/broker');
+
+// TODO maybe use pick
+// initialize the UI and add it to the DOM
+var ui = new UI(CHATGRAPE_CONFIG);
+document.body.appendChild(ui.el);
+
+// initialize the App
+var app = new App();
+
+// hook up UI to App
+broker(ui, app);
+
+// and connect to the server
+// TODO: this might come directly from the backend at some point?
+app.connect((location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host + '/ws/');

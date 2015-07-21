@@ -30,7 +30,6 @@ require("endswith");
 
 // configure locales and template locals
 var template = require('template');
-template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
 // ['de', 'en'].forEach(function (lang) {

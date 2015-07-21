@@ -20,7 +20,7 @@ var images = {
     spinner: staticurl('/images/preloader-onwhite.gif')
 };
 
-require('grape-input');
+//require('grape-input');
 
 function GrapeInputIntegration() {
 	Emitter.call(this);

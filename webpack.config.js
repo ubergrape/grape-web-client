@@ -15,7 +15,8 @@ module.exports = {
 			},
 			{
 				test: /\.js$/,
-				loader: 'babel-loader?stage=0'
+				loader: 'babel-loader?stage=0',
+				exclude: /node_modules/
 			},
 			{
 				test: /\.json$/,
@@ -36,6 +37,10 @@ module.exports = {
 			{
 				test: /\.jade$/,
 				loader: 'jade-VDOM-loader'
+			},
+			{
+				test: /\.html$/,
+				loader: 'html-loader'
 			}
 		]
 	},

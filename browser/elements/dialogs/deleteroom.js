@@ -10,7 +10,7 @@ var _ = require('t');
 module.exports = DeleteRoomDialog;
 
 function DeleteRoomDialog(context) {
-	this.template_path = 'dialogs/deleteroom.jade';
+	this.template_path = 'dialogsdeleteroom';
 	Dialog.call(this, context);
 	this.button = qs('.delete', this.el);
 	this.form = qs('.delete-room-form', this.el);
