@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git#92ea35f937b1d5a666652114b015325c2d1193fe",
+    "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git#b414316c09f9d2749f62851cfb881384ccb2131b",
     "document-register-element": "^0.1.9"
   },
   "devDependencies": {
