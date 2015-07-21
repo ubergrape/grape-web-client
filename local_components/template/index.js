@@ -1,11 +1,12 @@
-module.exports = template;
-var templates = require('../../templates')
-console.log(templates);
+var templates = require('../../templates');
 
 function template(name, locals) {
 	locals = extend(extend({}, template.locals), locals || {});
+	if (!templates[name]) throw new Error('Tempalte not found: ' + name)
 	return templates[name](locals);
 }
+
+module.exports = template;
 
 template.locals = {};
 

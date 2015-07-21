@@ -60,7 +60,8 @@ module.exports = {
 			'query': 'component-query',
 			'raf': 'component-raf',
 			'resizable': 'jh3y-resizable',
-			'upload': 'component-upload'	
+			'upload': 'component-upload',
+			'events': 'component-events'
 		},
 		modulesDirectories: [
 			'lib',

@@ -6,7 +6,7 @@ var Dialog = require('./dialog');
 module.exports = MarkdownTipsDialog;
 
 function MarkdownTipsDialog() {
-	this.template_path = 'markdowntips';
+	this.template_path = 'dialogs/markdowntips.jade';
 	Dialog.call(this);
 }
 
