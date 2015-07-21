@@ -24,6 +24,9 @@
 		display: block
 		overflow: auto
 		max-height: 450px
+		border-top: 1px solid silver-dark
+		border-bottom: 1px solid silver-dark
+		background: silver-light
 	.name, author
 		height: 1.3em
 		line-height: 1em	
@@ -73,10 +76,13 @@
 	&.hide
 		transition: opacity .2s
 	.inner-popover
+		@extend $clearfix
 		padding-left: 16px
 		padding-right: 16px
-		&:last-of-type
+		&:last-of-type,
+		.last
 			padding-bottom: 12px
+			padding-top: 8px
 	h3
 		color: gainsboro-dark
 		font-size: 14px
@@ -107,23 +113,13 @@
 		&::after
 			left: 15%
 	.toggle
-		padding-left: 4px
-		border: none
+		margin-left: 4px
 		float: right
-		line-height: 1em
-		background: transparent
-		&:hover
-			background: transparent
-		&.join
-			color: grape-typo
-			&:active
-				color: grass-dark
-		&.leave
-			color: grass-light
-			.fa.fa-times-circle-o, .l-info
-				display: none
-			&:active
-				color: bittersweet-dark
+		margin-top: 4px
+	input[type="text"]
+		margin: 5px 0
+
+
 .popover-list
 	li
 		margin: 0
@@ -146,7 +142,7 @@
 				@extend $big-font-size
 			&:hover
 				color: grape-typo
-				background: silver-light
+				background: silver-dark
 		span.btn-delete
 			visibility: hidden
 			color: gainsboro-dark
@@ -155,7 +151,8 @@
 		&:hover
 			span.btn-delete
 				visibility: visible
-
+		.avatar-wrap
+			margin-top: -1px
 // ****
 //
 // user- and organization-popup-specific things go here
@@ -204,21 +201,27 @@
 	.main
 		margin: 0px
 		overflow: hidden
-	.icon-wrap
-		font-size: 1.5em
-		padding: 0
-		float: left
-		margin-right: 3px
-		color: gainsboro-light
-		padding-top: 2px
 	.room-info
-		@extend $horizontal-list
 		@extend $small-font-size
 		margin: 0
 		color: gainsboro-dark
 		li
 			padding: 0
-
+			margin-right: 10px
+			display: inline-block
+			.fa
+				margin-right: 3px
+	.popover-list .room-face
+		width: 42px
+		height: 42px
+		line-height: 42px
+		font-size: 16px
+		.room-icon
+			right: -14px
+			width: 18px
+			height: 18px
+			line-height: 19px
+			font-size: 11px
 // ****
 //
 // FORM-specific things go here
@@ -263,6 +266,7 @@ label.radio-label
 		font-family: sans-serif // need this here, otherwise the dot isn't all round.
 		font-size: 38px
 		text-align: center
+		line-height: 18px
 	&:hover
 		&:before
 			content: "\2022"
@@ -275,6 +279,7 @@ label.radio-label
 .button.new
 .button.delete
 	float: right
+	margin-bottom: 12px
 
 
 // ****

@@ -120,22 +120,22 @@
 		height: 100%
 
 
-.nav-title-wrap
-	@extend $hoverable
+.nav-title-wrap,
+a.nav-title-wrap
 	@extend $clearfix
 	display: block
 	padding-bottom: 6px
 	padding-top: 6px
+	color: gainsboro-dark
+	text-decoration: none
 	.nav-title
 		text-transform: uppercase
 		@extend $small-font-size
 		padding-left: 8px
 		overflow: hidden
-		color: gainsboro-light
-		&:hover
-			text-decoration: none
-			a
-				background: navigation-background
+	&:hover
+		text-decoration: none
+		color: grape-typo
 	.nav-button
 		float: right
 		margin-right: 10px
@@ -146,18 +146,9 @@
 		height: 17px
 		text-align: center
 		line-height: 14px
-		color: gainsboro-light
-	&:hover .nav-button
-		color: gainsboro-dark
 
 
 // Sidebar Link Styling
-
-a.nav-title-wrap
-	text-decoration: none!important
-	color: gainsboro-light
-	&:hover
-		color: gainsboro-dark
 		
 .nav-list
 	.item

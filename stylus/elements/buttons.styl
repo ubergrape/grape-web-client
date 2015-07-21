@@ -2,12 +2,13 @@
 .new
 .toggle
 button
+.btn
 	outline: none
 	background: none
 
 .button
+.btn
 	border: none
-	text-transform: uppercase
 	display: inline-block
 	text-align: center
 	font-weight: bold
@@ -55,6 +56,26 @@ button
 	&.disabled
 		background: lighten(grass-dark, 20%)
 		border-bottom: 2px solid grass-dark
+
+.btn-primary
+	color: darken(grass-dark, 50%) !important
+	background: grass-light
+	&:hover, &:active
+		color: darken(grass-dark, 60%)
+		background: lighten(grass-light, 40%)
+	&.disabled
+		background: lighten(grass-dark, 20%)
+		border-bottom: 2px solid grass-dark
+
+.btn-tomato
+	color: white !important
+	background: bittersweet-light
+	&:hover, &:active
+		color: white
+		background: lighten(bittersweet-light, 8%)
+	&.disabled
+		background: white
+		border-bottom: 2px solid bittersweet-dark
 
 .button-delete
 	color: bittersweet-dark

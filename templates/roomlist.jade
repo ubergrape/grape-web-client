@@ -5,7 +5,7 @@ ul.nav-list.rooms
 				a(href="/chat/" + room.slug)
 					.item-inner-wrp
 						.room-face
-							=_("FH")
+							=room.name.slice(0,2)
 							if !room.is_public
 								i.room-icon.fa.fa-lock
 						if room.unread > 0
