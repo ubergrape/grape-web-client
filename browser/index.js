@@ -17,11 +17,14 @@ var constants = require('cglib').constants;
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
+var resizable = require('resizable');
+var debounce = require('debounce');
 var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
 var Router = require('../lib/router');
+var store = require('store').prefix('navigation');
 
 var exports = module.exports = UI;
 
@@ -220,6 +223,32 @@ UI.prototype.init = function UI_init() {
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
 	this.firstTimeConnect = true;
+
+
+	var navResizable = new resizable(qs('.nav-outer', this.el), { directions: ['east'] });
+
+	var resizeClient = debounce(function resizeClient() {
+		var	totWidth = self.el.clientWidth,
+			clientBodyWidth = qs('.client-body', self.el),
+			navBodyWidth = qs('.nav-outer', self.el).clientWidth;
+		// saving new sidebar height in localStorage
+		clientBodyWidth.style.width = totWidth - navBodyWidth + 'px';
+		store.set('clientBodyWidth', clientBodyWidth);
+	}, 0);
+
+
+	// listening to the event fired by the resizable in the resize
+	// method in the resizable component (our ubergrape fork)
+	navResizable.element.addEventListener('resize', resizeClient);
+
+	// if the pm list height in not saved in localStorage,
+	// the height will fall back to the default one (25%)
+	navResizable.element.style.height = store.get('clientBodyWidth') + 'px';
+	resizeClient();
+
+	// and on window resize
+	window.addEventListener('resize', resizeClient);
+
 };
 
 UI.prototype.bind = function UI_bind() {

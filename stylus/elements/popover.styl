@@ -9,7 +9,7 @@
 	z-index: 200
 	background: white
 	padding: 11px 15px 15px 15px
-	border-radius: main-border-radius
+	border-radius: 5px
 	border: 1px solid gainsboro-light
 	opacity: 1
 	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
@@ -21,7 +21,7 @@
 	animation: hifromthetop 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 	.po-scroll-wrap
-		padding: 5px 5px 0 0
+		padding: 0
 		max-height: 250px
 		display: block
 		overflow: auto
@@ -40,7 +40,7 @@
 		padding: 6px 0
 		@extend $functional-list
 	li.item
-		padding: 7px 0 5px 4px
+		padding: 0 0 5px 4px
 		cursor: pointer
 		a
 			color: grape-typo
@@ -127,7 +127,13 @@
 		&:before, &:after
 			margin-top: 85px
 	&.orga-po
-		margin: 9px 0 0 -4px
+		margin: 0
+		left: 4px !important
+		top: header-height - 3px !important
+		&::before
+			left: 13px
+		&::after
+			left: 14px
 	&.members-po
 		margin: 42px 0 0 -76px
 		&::before
@@ -161,7 +167,7 @@
 // ****
 .userpopover
 .organizationpopover
-	width: 210px
+	width: 180px
 	.user-status-form
 		height: 30px
 		input[type="text"].user-status
@@ -181,12 +187,11 @@
 			border-radius: 50%
 		.user-status-submit
 			display: none
-	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
-		margin: 10px -20px -15px -15px
 	li
-		border-top: 1px solid silver-dark
 		margin: 0
 		padding: 0
+		&.break-line
+			border-top: 1px solid silver-dark
 		&:last-child a // let's have nice rounded edges at the bottom
 			border-bottom-right-radius: main-border-radius
 			border-bottom-left-radius: main-border-radius
@@ -371,5 +376,3 @@ label.radio-label
 		button
 			float: right
 			margin-left: 5px
-			.icon
-				color: button-color

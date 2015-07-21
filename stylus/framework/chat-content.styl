@@ -8,17 +8,22 @@
 	display: flex
 	flex-direction: column
 	height: 100vh
-	margin-left: client-navigation-width
-	min-width: client-body-minwidth
 	position: relative
 	overflow: hidden
-	transition: width 400ms ease
+	float: right
+	//transition: width 400ms ease
+	background: chat-background
+	&,
+	.history
+		background: url(http://subtlepatterns.com/patterns/sativa.png)
+		background: url(http://subtlepatterns.com/patterns/square_bg.png) 
+		background: url("../images/cgbg.gif")
+		background-attachment: scroll
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
 		flex-direction: column
 		position: relative
-		background: chat-background
 		overflow: auto
 		padding: 0
 		z-index: 10

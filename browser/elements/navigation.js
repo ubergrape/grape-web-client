@@ -11,7 +11,6 @@ var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
-var store = require('../store').prefix('navigation');
 
 module.exports = Navigation;
 
@@ -42,9 +41,7 @@ Navigation.prototype.init = function Navigation_init() {
 
 	this.filtering = false;
 
-	var	roomScrollbar = new Scrollbars(qs('.rooms', this.el)),
-		pmScrollbar = new Scrollbars(qs('.pms', this.el)),
-		pmResizable = new resizable(qs('.pm-list', this.el), { directions: ['north'] });
+	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
 
 
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -57,23 +54,11 @@ Navigation.prototype.init = function Navigation_init() {
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var	totHeight = self.el.clientHeight,
 			orgInfoHeight = qs('.org-info', self.el).clientHeight,
-			roomWrapper = roomScrollbar.wrapper.parentNode,
-			pmResizableHeight = pmResizable.element.clientHeight,
-			remainingPadding = 14;
+			navigationHeight = qs('.nav-wrap-out', self.el).clientHeight;
 		// saving new sidebar height in localStorage
-		store.set('pmListHeight', pmResizableHeight);
-		roomWrapper.style.height = totHeight - orgInfoHeight - pmResizableHeight - remainingPadding + 'px';
+		navigationHeight.style.height = totHeight - orgInfoHeight + 'px';
 	}, 200);
 
-
-	// listening to the event fired by the resizable in the resize
-	// method in the resizable component (our ubergrape fork)
-	pmResizable.element.addEventListener('resize', resizeRoomList);
-
-	// if the pm list height in not saved in localStorage,
-	// the height will fall back to the default one (25%)
-	pmResizable.element.style.height = store.get('pmListHeight') + 'px';
-	resizeRoomList();
 
 	// and on window resize
 	window.addEventListener('resize', resizeRoomList);

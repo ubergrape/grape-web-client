@@ -10,7 +10,6 @@
 	position: absolute
 	top: 0
 	left: 0
-	width: client-navigation-width
 	color: gainsboro-dark
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -18,10 +17,18 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	overflow: hidden
 	.navigation
 		padding: 0px
 		background: navigation-background
-
+	.nav-wrap-out
+		height: 100vh
+		border-right: 1px solid silver-grey-dark
+.nav-outer
+	min-width: client-navigation-width
+	max-width: 33%
+.nav-inner
+	width: 100%
 // ****
 //
 // Top left Info about the product and Organisation
@@ -31,38 +38,51 @@
 .org-info
 	height: header-height
 	background: organisation-background
+	border-bottom: 1px solid gainsboro-light
 	@extend $functional-list
-	a
-		padding: 0 16px
-		display: block
+	box-shadow: 0 1px 3px silver-light
+	border-right: 1px solid darken(organisation-background, 2)
+	.quick-search-trigger
+		float: right
+		height: header-height
+		padding: 0 10px 0 8px
+		display: flex
+		align-items: center
+		@extend $big-font-size
+		color: gainsboro-light
+		display: none
+		&:hover
+			color: grape-typo
 	.logo
 		height: header-height
 		display: flex
 		align-items: center
+		padding: 0 8px
+		overflow: hidden
 		.avatar-wrap
 			margin: 0
 			float: none
-			width: 36px
-			height: 36px
+			width: 32px
+			height: 32px
 			border-radius: 50%
 		.name
 			@extend $big-font-size
 			margin-left: 5px
 			max-width: 172px
 			overflow: hidden
-			color: white
+			color: gainsboro-dark
 			white-space: nowrap
 			text-overflow: ellipsis
 		.fa
-			color: grape-light
-			margin-left: 5px
-		&:hover
-			background: lighten(organisation-background, 1%)
+			color: gainsboro-dark
+			margin-left: 8px
+			@extend $small-font-size
+	a:hover
+		text-decoration: none
+		i,
+		.name
+			color: grape-typo
 			text-decoration: none
-			i,
-			.name
-				color: white
-				text-decoration: none
 // ****
 //
 // The room list of the organisation
@@ -104,10 +124,7 @@
 				background: inherit
 
 .room-list
-	padding: 14px 0 12px 0
-	height: 61%
-	border-right: 1px solid silver-dark
-	background: navigation-background
+	padding: 14px 0 0 0
 	.rooms
 		height: 100%
 
@@ -121,8 +138,9 @@
 	.nav-title
 		text-transform: uppercase
 		@extend $small-font-size
-		padding-left: 20px
+		padding-left: 8px
 		overflow: hidden
+		color: gainsboro-light
 		&:hover
 			text-decoration: none
 			a
@@ -131,9 +149,14 @@
 		float: right
 		margin-right: 10px
 		margin-top: -3px
-		.fa
-			color: gainsboro-light
-	&:hover .fa
+		border: 2px solid 
+		border-radius: 50%
+		width: 16px
+		height: 16px
+		text-align: center
+		line-height: 11px
+		color: gainsboro-light
+	&:hover .nav-button
 		color: gainsboro-dark
 
 
@@ -141,28 +164,20 @@
 
 a.nav-title-wrap
 	text-decoration: none!important
-	color: gainsboro-dark
+	color: gainsboro-light
 	&:hover
 		color: gainsboro-dark
-.nav-list a 
-	color: grape-typo
-	text-decoration: none!important
-	&:hover
-		div.item-inner-wrp
-			color: lighten(grape-typo, 20%)
-			background: darken(navigation-background, 2%)
 		
 .nav-list
 	.item
 		@extend $functional-list
 		a
 			display: block
-			padding: 1px 10px
 			text-decoration: none
 			color: #666
-			div.item-inner-wrp
-				padding: 10px 10px 7px 
-				border-radius: 4px
+			padding: 10px 10px 7px 
+			&:hover
+				background: darken(navigation-background, 2%)
 		.name
 			height: 1.25em
 			line-height: 1em
@@ -178,16 +193,14 @@ a.nav-title-wrap
 				background: gainsboro-dark
 			span.user-deleted
 				@extend $small-font-size
-				color: gainsboro-light
 				text-transform: uppercase
 				margin-left: 4px
 		&.selected
 			a
-				.item-inner-wrp
-					background: cherry
-					color: #f8f8f8
+				background: silver-dark
+				color: grape-typo
 			.icon
-				color: white
+				color: gainsboro-dark
 			span.user-deleted
 				color: gainsboro-dark
 	.nav-list
@@ -200,37 +213,8 @@ a.nav-title-wrap
 // ****
 .pm-list
 	padding: 12px 0 58px
-	position: absolute
-	bottom: 0
-	left: 0
-	right: 0
-	max-height: 75%
-	min-height: 20%
-	top: auto !important
-	width: client-navigation-width
-	height: 25%
-	border-right: 1px solid silver-grey-dark
-	background: navigation-background
 	.pms
 		height: 100%
-	&::after
-		content: "\b7\b7\b7"
-		position: absolute
-		top: 0
-		left: 0
-		right: 0
-		height: 8px
-		border-top: 1px solid darken(navigation-background, 10%)
-		text-align: center
-		line-height: 6px
-		color: gainsboro-light
-		background: darken(navigation-background, 2%)
-	&:hover::after
-		color: gainsboro-dark
-		background: darken(navigation-background, 3%)
-	.rsize-d
-		top: 0
-		z-index: 15
 
 span.no-messages
 	@extend $small-font-size
@@ -244,12 +228,10 @@ span.no-messages
 //
 // ****
 .filter-pms
-	position: absolute
-	bottom: 0
 	background: navigation-background
 	border: none
-	border-top: 1px solid darken(navigation-background, 5)
-	border-right: 1px solid silver-grey-dark
+	border: 1px solid darken(navigation-background, 5)
+	border-radius: 25px
 	width: client-navigation-width
 	padding: 8px 12px 8px 20px
 	z-index: 14
