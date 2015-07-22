@@ -10,7 +10,6 @@ JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
 	npm run build-dev
-	cp ./node_modules/document-register-element/build/document-register-element.js $(OUTPUT)/polyfills.js
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
 	node ./po2json.js $< > $@
@@ -31,4 +30,4 @@ node_modules/.bin: package.json
 clean:
 	rm -rf node_modules
 
-.PHONY: all clean po
+.PHONY: all clean
