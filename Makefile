@@ -5,7 +5,6 @@ LANG_JSON := $(addprefix locale/, $(addsuffix .json,$(LANGUAGES)))
 OUTPUT := ../chatgrape/static/app
 JS_FILES := index.js $(shell find src/browser -name "*.js")
 TEMPLATE_FILES := $(shell find src/templates -name "*.jade")
-STYLUS_FILES := $(shell find stylus -name "*.styl")
 
 JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
