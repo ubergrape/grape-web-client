@@ -16,7 +16,9 @@ div.navigation.nav-outer
 			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
 				a.nav-title-wrap.addroom
 					div.nav-button=_('+')
-					h2.nav-title=_('Rooms')
+					h2.nav-title
+						=_('Rooms ')
+						i.fa.fa-angle-right
 				ul.nav-list.rooms
 				a.nav-title-wrap.addlabel
 					div.nav-button.button-inset=_('All labels')

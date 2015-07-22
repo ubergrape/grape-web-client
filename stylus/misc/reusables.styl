@@ -42,13 +42,13 @@ $horizontal-list
 			margin-right: 0
 
 /*______ Ellipsis ______*/
-$ellipsis
+ellipsis()
 	text-overflow: ellipsis
 	white-space: nowrap
 	overflow: hidden
 	display: block
-
-
+$ellipsis
+	ellipsis()
 /*______ Functional LIST ______*/
 
 $functional-list // this has to be the LI
@@ -57,7 +57,7 @@ $functional-list // this has to be the LI
 	> a // If the List is one clickable Link
 		display: block
 		text-decoration: none
-		padding: 7px 10px 6px
+		padding: 9px 10px 8px
 		color: gainsboro-dark
 		&:hover
 			color: grape-typo
@@ -99,6 +99,9 @@ $functional-list // this has to be the LI
 		background: rgba(grape-typo, 0.9)
 		font-size: 8px
 		color: white
+	.name
+		ellipsis()
+
 /*______ Avatar wrap ______*/
 .avatar-wrap
 	position: relative
@@ -129,6 +132,7 @@ $functional-list // this has to be the LI
 		height: 1.25em
 		line-height: 1em
 
+/*______ Navigation Count ______*/
 
 .fl-notification
 .fl-mention
@@ -138,7 +142,7 @@ $functional-list // this has to be the LI
 	font-family: roboto
 .fl-notification
 .fl-mention
-	margin: -3px 0 0 5px
+	margin: -1px 0 0 5px
 	font-size: 10px
 	line-height: 16px
 	min-width: 21px
