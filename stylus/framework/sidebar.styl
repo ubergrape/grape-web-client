@@ -39,7 +39,6 @@
 	height: header-height
 	background: organisation-background
 	border-bottom: 1px solid gainsboro-light
-	@extend $functional-list
 	box-shadow: 0 1px 3px silver-light
 	border-right: 1px solid darken(organisation-background, 2)
 	.quick-search-trigger
@@ -59,6 +58,8 @@
 		align-items: center
 		padding: 0 8px
 		overflow: hidden
+		text-decoration: none
+		@extend $functional-list
 		.name
 		i
 			color: white
@@ -153,13 +154,9 @@ a.nav-title-wrap
 .nav-list
 	.item
 		@extend $functional-list
-		a
-			display: block
-			text-decoration: none
-			color: #666
-			padding: 9px 10px 8px
-			&:hover
-				background: darken(navigation-background, 2%)
+		&:hover
+			a
+				background: silver-light
 		&.deleted
 			.name
 				color: gainsboro-dark
