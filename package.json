@@ -72,11 +72,16 @@
     "stylus": "^0.42.1",
     "stylus-loader": "^1.2.1",
     "url-loader": "^0.5.6",
-    "webpack": "^1.10.1"
+    "webpack": "^1.10.1",
+    "conf": "./local_modules/conf",
+    "jade-VDOM-loader": "./local_modules/jade-VDOM-loader",
+    "cglib": "./local_modules/cglib",
+    "router": "./local_modules/router",
+    "staticurl": "./local_modules/staticurl",
+    "template": "./local_modules/template"
   },
   "scripts": {
-    "build-dev": "NODE_ENV=development webpack",
-    "install": "npm i local_modules/conf; npm i local_modules/cglib; npm i local_modules/jade-VDOM-loader; npm i local_modules/router; npm i local_modules/staticurl; npm i local_modules/template"
+    "build-dev": "NODE_ENV=development webpack"
   },
   "repository": "ubergrape/chatgrape.git"
 }
