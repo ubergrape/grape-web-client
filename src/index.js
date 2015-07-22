@@ -30,7 +30,7 @@ window.ui = new UI(conf);
 document.body.appendChild(ui.el);
 
 // initialize the App
-var app = new App();
+window.app = new App();
 
 // hook up UI to App
 initBroker(ui, app);
