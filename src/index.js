@@ -4,7 +4,21 @@
 require('document-register-element');
 require('reactive-elements');
 require('../stylus/app.styl');
-require('./templates')
+require('./templates');
+require('../node_modules/meyer-reset/index.css');
+require('../node_modules/normalize.css/normalize.css');
+require('../node_modules/notification/notification.css');
+require('../node_modules/scrollbars/scrollbars.css');
+require('../node_modules/dialog-component/dialog.css');
+require('../node_modules/dialog-component/node_modules/overlay-component/overlay.css')
+require('../node_modules/image-zoom/dist/imagezoom.css');
+require('../node_modules/image-zoom/node_modules/overlay/dist/overlay.css');
+require('../node_modules/textcomplete/lib/index.css');
+require('../node_modules/intro.js/introjs.css');
+require('../node_modules/drop-anywhere/drop-anywhere.css');
+require('../node_modules/jh3y-resizable/resizable.css');
+require('../node_modules/js-emoji/emoji.css');
+
 var App = require('cglib');
 var UI = require('./browser');
 var initBroker = require('./init-broker');

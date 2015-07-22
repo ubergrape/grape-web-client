@@ -1,18 +1,24 @@
 var path = require('path');
 var webpack = require('webpack');
-var extractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var appETP = new ExtractTextPlugin('app.css');
+var componentETP = new ExtractTextPlugin('components.css');
 
 module.exports = {
 	entry: path.resolve(__dirname, 'src/index.js'),
 	output: {
 		path: path.resolve('../chatgrape/static/app'),
-		filename: 'app.js',
+		filename: 'app.js'
 	},
 	module: {
 		loaders: [
 			{
+				test: /\.css$/,
+				loader: componentETP.extract('style-loader','css-loader')
+			},
+			{
 				test: /\.styl$/,
-				loader: extractTextPlugin.extract('css-loader!stylus-loader?paths=node_modules/stylus/')
+				loader: appETP.extract('css-loader!stylus-loader?paths=node_modules/stylus/')
 			},
 			{
 				test: /\.js$/,
@@ -46,7 +52,8 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new extractTextPlugin('app.css'),
+		componentETP,
+		appETP,
 	    new webpack.DefinePlugin({
 	      __DEV__: process.env.NODE_ENV === 'development',
 	      __TEST__: process.env.NODE_ENV === 'test'
