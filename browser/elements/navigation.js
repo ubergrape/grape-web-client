@@ -54,11 +54,12 @@ Navigation.prototype.init = function Navigation_init() {
 	var resizeRoomList = debounce(function resizeRoomList() {
 		var	totHeight = self.el.clientHeight,
 			orgInfoHeight = qs('.org-info', self.el).clientHeight,
-			navigationHeight = qs('.nav-wrap-out', self.el).clientHeight;
+			navigationHeight = qs('.nav-wrap-out', self.el);
 		// saving new sidebar height in localStorage
 		navigationHeight.style.height = totHeight - orgInfoHeight + 'px';
 	}, 200);
 
+	resizeRoomList();
 
 	// and on window resize
 	window.addEventListener('resize', resizeRoomList);
