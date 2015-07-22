@@ -3,11 +3,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var appETP = new ExtractTextPlugin('app.css');
 var componentETP = new ExtractTextPlugin('components.css');
+var outputPath = '../chatgrape/static/app';
 
 module.exports = {
 	entry: path.resolve(__dirname, 'src/index.js'),
 	output: {
-		path: path.resolve('../chatgrape/static/app'),
+		path: path.resolve(outputPath),
 		filename: 'app.js'
 	},
 	module: {
