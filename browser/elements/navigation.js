@@ -154,18 +154,6 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
 	list.redraw();
-
-/*
-	if (line.channel.type == 'pm') {
-		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
-		if (pmPartnerIndex == -1) return;
-		this.pmList.items.splice(pmPartnerIndex, 1);
-		this.pmList.items.unshift(line.channel.users[0]);
-		this.pmList.redraw();
-	} else {
-		if (line.channel.joined && line.author != ui.user) this.roomList.redraw();
-	}
-*/
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
