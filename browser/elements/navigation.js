@@ -83,6 +83,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.pms.sort(this.pmCompare);
 	this.pmList.setItems(lists.pms);
+	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
 	this.pmList.unfiltered = this.pmList.items;
 };
@@ -103,6 +104,10 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return bLastMessage - aLastMessage;
 	else
 		return getStatusValue(b) - getStatusValue(a);
+}
+
+Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
+	return b.latest_message_time - a.latest_message_time;
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
@@ -141,7 +146,16 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
-	if (this.filtering) return;
+	if (this.filtering && line.channel.type === 'pm') return;
+	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
+	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
+	var itemIndex = list.items.indexOf(item);
+	if (itemIndex == -1) return;
+	list.items.splice(itemIndex, 1);
+	list.items.unshift(item);
+	list.redraw();
+
+/*
 	if (line.channel.type == 'pm') {
 		var pmPartnerIndex = this.pmList.items.indexOf(line.channel.users[0]);
 		if (pmPartnerIndex == -1) return;
@@ -151,6 +165,7 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	} else {
 		if (line.channel.joined && line.author != ui.user) this.roomList.redraw();
 	}
+*/
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
