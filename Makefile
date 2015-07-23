@@ -11,7 +11,7 @@ JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
 	npm run build-dev
-	cp -r $(IMAGES_PATH) $(OUTPUT)/$(IMAGES_PATH)
+	cp -r $(IMAGES_PATH) $(OUTPUT)/cg/$(IMAGES_PATH)
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
 	node ./po2json.js $< > $@
