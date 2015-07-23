@@ -17,7 +17,7 @@
 						if canKickMembers && member != room.creator
 							span.fa.fa-times.btn-delete(data-id=member.id)
 					else
-						a
+						.func-inner-wrap
 							aside.avatar-wrap
 								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))

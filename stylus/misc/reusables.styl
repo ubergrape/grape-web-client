@@ -55,10 +55,12 @@ $functional-list // this has to be the LI
 	@extend $clearfix
 	padding: 0px
 	> a // If the List is one clickable Link
+	.func-inner-wrap
 		display: block
 		text-decoration: none
-		padding: 9px 10px 8px
+		padding: 9px 16px 8px
 		color: gainsboro-dark
+	> a // If the List is one clickable Link
 		&:hover
 			color: grape-typo
 			background: silver-dark
@@ -112,9 +114,10 @@ $functional-list // this has to be the LI
 		z-index: 2
 	.online, .offline
 		position: absolute
-		right: 0
-		bottom: 0px
-		height: 8px
+		right: -1px
+		bottom: -1px
+		height: 9px
+		width: 9px
 		z-index: 12
 		border-radius: 50%
 		border: 1px solid navigation-background
