@@ -159,7 +159,8 @@
 												author.message-author= first.author.displayName
 											else
 												author.message-author
-													=_('You')
+													= first.author.displayName
+													=_(' (You)')
 											if (first.author.id !== user.id)
 												span.author-deleted
 													=_('Deleted user')
