@@ -43,6 +43,7 @@
     "normalize.css": "necolas/normalize.css#3.0.2",
     "page": "^1.6.3",
     "progress": "component/progress#0.0.4",
+    "react": "^0.13.3",
     "reactive-elements": "ubergrape/ReactiveElements",
     "resizable": "ubergrape/resizable",
     "scrollbars": "ubergrape/scrollbars",
