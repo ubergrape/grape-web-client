@@ -3,8 +3,10 @@
 
 require('document-register-element');
 require('reactive-elements');
-require('../stylus/app.styl');
+
 require('./templates');
+
+require('../stylus/app.styl');
 require('meyer-reset/index.css');
 require('normalize.css/normalize.css');
 require('notification/notification.css');
