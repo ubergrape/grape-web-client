@@ -119,7 +119,6 @@
 	input[type="text"]
 		margin: 5px 0
 
-
 .popover-list
 	li
 		margin: 0
@@ -141,14 +140,6 @@
 			.fa
 				margin-right: 10px
 				@extend $big-font-size
-		span.btn-delete
-			visibility: hidden
-			color: gainsboro-dark
-			float: right
-			margin: 4px 5px 0 0
-		&:hover
-			span.btn-delete
-				visibility: visible
 		.avatar-wrap
 			margin-top: -1px
 // ****
@@ -297,6 +288,24 @@ label.radio-label
 //
 // ****
 .roommemberspopover
+	.popover-list > li
+		&:hover
+			background-color:  silver-dark
+		a
+			min-width: 290px
+			float: left
+			&:hover
+				background-color:  silver-dark
+		span.btn-delete
+			visibility: hidden
+			color: gainsboro-dark
+			float: right
+			margin: 13px 15px 0 0
+			cursor: pointer
+		&:hover
+			span.btn-delete
+				visibility: visible
+				display: inline-block
 	width: 320px
 	.input-invite
 		@extend $textinput
