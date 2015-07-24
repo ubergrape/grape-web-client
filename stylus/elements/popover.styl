@@ -8,8 +8,7 @@
 	position: absolute
 	z-index: 200
 	background: white
-	padding: 11px 15px 15px 15px
-	border-radius: main-border-radius
+	border-radius: 5px
 	border: 1px solid gainsboro-light
 	opacity: 1
 	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
@@ -21,39 +20,19 @@
 	animation: hifromthetop 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 	.po-scroll-wrap
-		padding: 5px 5px 0 0
-		max-height: 250px
+		padding: 0
 		display: block
 		overflow: auto
-		> li:hover
-			.icon-wrap
-				color: grape-light
-			.toggle.leave
-				color: bittersweet-light
-				.fa-check-circle-o, .j-info
-					display: none
-				.fa.fa-times-circle-o, .l-info
-					display: inline-block
-			.toggle.join
-				color: grass-light
-	li
-		padding: 6px 0
-		@extend $functional-list
-	li.item
-		padding: 7px 0 5px 4px
-		cursor: pointer
-		a
-			color: grape-typo
-			&:hover
-				color: grape-typo
-		&:hover
-			background: silver-light
+		max-height: 450px
+		border-top: 1px solid silver-dark
+		border-bottom: 1px solid silver-dark
+		background: silver-light
 	.name, author
 		height: 1.3em
 		line-height: 1em	
 		overflow: hidden
 		white-space: nowrap
-		max-width: 180px
+		max-width: 220px
 		text-overflow: ellipsis
 	&.left
 		animation: hifromtheleft 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -95,39 +74,38 @@
 			border-width: 0 arrow-size - 2 arrow-size - 2
 			border-color: white transparent
 	&.hide
-		opacity: 0
 		transition: opacity .2s
-	.close
-		cursor: pointer
-		position: absolute
-		top: 10px
-		right: 10px
-		color: gainsboro-dark
-		font-size: 30px
-		line-height: 20px
+	.inner-popover
+		@extend $clearfix
+		padding-left: 16px
+		padding-right: 16px
+		&:last-of-type,
+		.last
+			padding-bottom: 12px
+			padding-top: 8px
 	h3
 		color: gainsboro-dark
 		font-size: 14px
 		font-weight: normal
 		text-transform: uppercase
-		margin-bottom: 10px
+		margin-top: 16px
 	h4
 		color: gainsboro-dark
 		@extend $small-font-size
-		font-weight: bold
 		text-transform: uppercase
-		margin-bottom: 4px
-		margin-right: 12px
-	&.user-po
-		margin: 34px 0 0 -213px
-		right: 20px !important
-		left: auto !important
+		margin-top: 16px
 	&.item-po
 		margin-top: -90px
 		&:before, &:after
 			margin-top: 85px
 	&.orga-po
-		margin: 9px 0 0 -4px
+		margin: 0
+		left: 4px !important
+		top: header-height - 3px !important
+		&::before
+			left: 13px
+		&::after
+			left: 14px
 	&.members-po
 		margin: 42px 0 0 -76px
 		&::before
@@ -135,33 +113,51 @@
 		&::after
 			left: 15%
 	.toggle
-		padding-left: 4px
-		border: none
+		margin-left: 4px
 		float: right
-		line-height: 1em
-		background: transparent
-		&:hover
-			background: transparent
-		&.join
-			color: grape-typo
-			&:active
-				color: grass-dark
-		&.leave
-			color: grass-light
-			.fa.fa-times-circle-o, .l-info
-				display: none
-			&:active
-				color: bittersweet-dark
+		margin-top: 4px
+	input[type="text"]
+		margin: 5px 0
 
+
+.popover-list
+	li
+		margin: 0
+		padding: 0
+		@extend $functional-list
+		&.break-line
+			border-top: 1px solid silver-dark
+		&:last-child a // let's have nice rounded edges at the bottom
+			border-bottom-right-radius: main-border-radius
+			border-bottom-left-radius: main-border-radius
+		&:first-child a // let's have nice rounded edges at the top
+			border-top-right-radius: main-border-radius
+			border-top-left-radius: main-border-radius
+		a
+		.func-inner-wrap
+			min-width: 224px
+			padding-left: 16px
+			padding-right: 16px
+			.fa
+				margin-right: 10px
+				@extend $big-font-size
+		span.btn-delete
+			visibility: hidden
+			color: gainsboro-dark
+			float: right
+			margin: 4px 5px 0 0
+		&:hover
+			span.btn-delete
+				visibility: visible
+		.avatar-wrap
+			margin-top: -1px
 // ****
 //
 // user- and organization-popup-specific things go here
 // > merged because they have similar look
 //
 // ****
-.userpopover
 .organizationpopover
-	width: 210px
 	.user-status-form
 		height: 30px
 		input[type="text"].user-status
@@ -181,24 +177,6 @@
 			border-radius: 50%
 		.user-status-submit
 			display: none
-	ul // we need negative margins here to make the area fully clickable, let's rewrite this at some time
-		margin: 10px -20px -15px -15px
-	li
-		border-top: 1px solid silver-dark
-		margin: 0
-		padding: 0
-		&:last-child a // let's have nice rounded edges at the bottom
-			border-bottom-right-radius: main-border-radius
-			border-bottom-left-radius: main-border-radius
-		a
-			padding: 8px 16px
-			color: grape-typo
-			font-weight: bold
-			.fa
-				color: gainsboro-light
-				margin-right: 8px
-			&:hover
-				background: silver-light
 
 
 // ****
@@ -211,7 +189,6 @@
 .roomcreationpopover
 	// Make em same height
 	width: 360px
-	height: 340px
 	.po-scroll-wrap
 		padding-top: 0
 	.list-hl
@@ -221,21 +198,27 @@
 	.main
 		margin: 0px
 		overflow: hidden
-	.icon-wrap
-		font-size: 1.5em
-		padding: 0
-		float: left
-		margin-right: 3px
-		color: gainsboro-light
-		padding-top: 2px
 	.room-info
-		@extend $horizontal-list
 		@extend $small-font-size
 		margin: 0
 		color: gainsboro-dark
 		li
 			padding: 0
-
+			margin-right: 10px
+			display: inline-block
+			.fa
+				margin-right: 3px
+	.popover-list .room-face
+		width: 42px
+		height: 42px
+		line-height: 42px
+		font-size: 16px
+		.room-icon
+			right: -14px
+			width: 18px
+			height: 18px
+			line-height: 19px
+			font-size: 11px
 // ****
 //
 // FORM-specific things go here
@@ -280,6 +263,7 @@ label.radio-label
 		font-family: sans-serif // need this here, otherwise the dot isn't all round.
 		font-size: 38px
 		text-align: center
+		line-height: 18px
 	&:hover
 		&:before
 			content: "\2022"
@@ -302,41 +286,7 @@ label.radio-label
 
 
 .pmpopover
-.roommemberspopover
-	li.item
-		padding: 6px 4px
-		@extend $hoverable
-		.avatar-wrap
-			margin-top: 1px
-		&:hover
-			background: silver-dark
-	.manage-users
-		float: left
-		&:hover
-			color: white
-			text-decoration: none
-		i
-			margin-left: 6px
-
-.pmpopover
 	width: 320px
-
-.user-list
-	li
-		@extend $functional-list
-		.avatar-wrap
-			margin-right: 5px
-		a
-			float: left
-		span.btn-delete
-			display: none
-			color: gainsboro-dark
-			float: right
-			margin: 4px 5px 0 0
-		&:hover
-			span.btn-delete
-				display: inline-block
-
 .empty-message
 	padding: 14px 0
 
@@ -371,5 +321,3 @@ label.radio-label
 		button
 			float: right
 			margin-left: 5px
-			.icon
-				color: button-color

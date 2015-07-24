@@ -1,7 +1,9 @@
 .organizationpopover
-	h3=_('Your Organization')
-	span.close(onclick="document.getElementById('make-me-dynamic-1').style.display='none';return false;") ×
-	ul.po-scroll-wrap
+	ul.popover-list
+		li.hide
+			a(href='#')
+				i.fa.fa-eye
+				=_('Compact View')
 		li
 			a(href='/accounts/organization/settings/', target='_self')
 				i.fa.fa-cog
@@ -14,7 +16,27 @@
 			a(href='/services/list/', target='_self')
 				i.fa.fa-link
 				=_('Service Integrations')
+		li.break-line
+			a(href='/accounts/settings/', target='_self')
+				i.fa.fa-cog
+				=_('User Settings')
+		li
+			a(href='/accounts/settings/notifications/', target='_self')
+				i.fa.fa-bell
+				=_('Notification Settings')
+		li.break-line
+			a#Intercom(href='mailto:dbd2d8fc25c5583bad9c3fa7bafa0eba83c54631@incoming.intercom.io')
+				i.fa.fa-bullhorn
+				=_('Give Feedback')
+		li
+			a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
+				i.fa.fa-life-saver
+				=_('Tutorial')
 		li
 			a(href='/accounts/organization/dashboard/', target='_self')
 				i.fa.fa-random
 				=_('Switch Organizations')
+		li
+			a(href='/accounts/logout/', target='_self')
+				i.fa.fa-sign-out
+				=_('Sign Out')

@@ -7,7 +7,7 @@ if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === c
 	form.delete-room-form
 		.formrow
 			input.roomname(type="text", name="roomname", id="roomname", placeholder="Please type in the name of the room to confirm.")
-		input.button.delete(type="submit", name="submit", value=_('Delete'))
+		input.button.btn-tomato.delete(type="submit", name="submit", value=_('Delete'))
 else
 	h3=_("Delete ") + room.name
 	if room.creator

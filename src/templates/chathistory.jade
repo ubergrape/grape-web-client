@@ -34,11 +34,11 @@
 						=_(welcomemsg)
 					ul.welcome-tasks
 						li.option
-							a.show-invite.disable-document-click-handler.button.raised
+							a.show-invite.disable-document-click-handler.button.btn-gainsboro
 								i.fa.fa-user-plus
 								=_('Add members to this room')
 						li.option
-							a.button.raised(href='/services/', target='_self')
+							a.button.btn-gainsboro(href='/services/', target='_self')
 								i.fa.fa-link
 								=_('Integrate external services')
 		else
@@ -159,7 +159,8 @@
 												author.message-author= first.author.displayName
 											else
 												author.message-author
-													=_('You')
+													= first.author.displayName
+													=_(' (You)')
 											if (first.author.id !== user.id)
 												span.author-deleted
 													=_('Deleted user')

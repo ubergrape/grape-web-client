@@ -15,10 +15,10 @@
 				i.fa.fa-bullhorn
 				=_('Give Feedback')
 		li
-			a(href='#',onclick='ui.intro.start();')
+			a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
 				i.fa.fa-life-saver
 				=_('Tutorial')
-		li
+		li.break-line
 			a(href='/accounts/settings/', target='_self')
 				i.fa.fa-cog
 				=_('User Settings')
@@ -26,7 +26,7 @@
 			a(href='/accounts/settings/notifications/', target='_self')
 				i.fa.fa-bell
 				=_('Notification Settings')
-		li
+		li.break-line
 			a(href='/accounts/logout/', target='_self')
 				i.fa.fa-sign-out
 				=_('Sign Out')

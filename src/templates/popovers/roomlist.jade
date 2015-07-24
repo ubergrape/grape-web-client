@@ -1,18 +1,41 @@
-ul.po-scroll-wrap
-	li.list-hl
-		h4=_("Rooms you haven't joined")
+ul.popover-list
+	li.inner-popover
+		h4(style="padding-bottom: 5px")
+			=_("Rooms you haven't joined")
 	each room in items
 		if !room.joined
 			li.item.room(data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
-					button.button.toggle.join
-						span.info
-							=_('join')
-					.icon-wrap
-						if room.is_public
-							i.icon.fa.fa-comments
-						else
-							i.icon.fa.fa-lock
+					button.btn.toggle.join.btn-gainsboro
+						=_('join')
+					.room-face
+						=room.name.slice(0,2)
+						if !room.is_public
+							i.room-icon.fa.fa-lock
+					.main
+						.name=room.name
+						ul.room-info
+							li.users
+								i.fa.fa-user
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									=_('by ')
+									span.user-name= room.creator.displayName
+	li.mar-t10.inner-popover
+		hr.mar-b10
+		h4(style="padding-bottom: 5px")
+			=_("Rooms you have already joined")
+	each room in items
+		if room.joined
+			li.item.room.leave(data-id=room.id, key=room.id)
+				a
+					button.btn.toggle.btn-tomato
+						=_('leave')
+					.room-face(style="width: 42px;height: 42px;line-height: 42px;font-size: 16px;")
+						=room.name.slice(0,2)
+						if !room.is_public
+							i.room-icon.fa.fa-lock
 					.main
 						.name=room.name
 						ul.room-info
@@ -23,29 +46,3 @@ ul.po-scroll-wrap
 								li.creator
 									=_('created by ')
 									span.user-name= room.creator.displayName
-	li.list-hl.mar-t10
-		hr.mar-b10
-		h4=_("Rooms you have already joined")
-	each room in items
-		if room.joined
-			li.item.room.leave(data-id=room.id, key=room.id)
-				button.button.toggle.leave
-					span.info.j-info
-						=_('joined')
-					span.info.l-info
-						=_('leave')
-				.icon-wrap
-					if room.is_public
-						i.icon.fa.fa-comments
-					else
-						i.icon.fa.fa-lock
-				.main
-					.name=room.name
-					ul.room-info
-						li.users
-							i.fa.fa-user
-							|  #{room.users.length}
-						if room.creator
-							li.creator
-								=_('created by ')
-								span.user-name= room.creator.displayName

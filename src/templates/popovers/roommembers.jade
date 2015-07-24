@@ -1,14 +1,14 @@
 .roommemberspopover
-	h3=_('Members in ') + room.name
-	span.close ×
+	.inner-popover
+		h3=_('Members in ') + room.name
 	div.po-scroll-wrap
-		ul.user-list
+		ul.user-list.popover-list
 			each member in room.users
 				li.item.user
 					if member != user
 						a(href='/chat/@' + member.username.toLowerCase())
 							aside.avatar-wrap
-								img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
 							if (member.firstName || member.lastName)
 								span.user-name #{member.firstName} #{member.lastName} 
@@ -17,10 +17,11 @@
 						if canKickMembers && member != room.creator
 							span.fa.fa-times.btn-delete(data-id=member.id)
 					else
-						div
+						.func-inner-wrap
 							aside.avatar-wrap
-								img.image(src="#{member.avatar}",width="20",alt="#{member.username}")
+								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
 							span.user-name= member.displayName
-	h4.mar-t20=_('Invite more members')
-	a.invite
+	.inner-popover
+		h4.mar-t20=_('Invite more members')
+		a.invite
