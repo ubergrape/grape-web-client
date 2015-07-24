@@ -110,7 +110,7 @@ class Browser extends Component {
   render() {
     let {classes} = this.props.sheet
     let {sections} = this.state
-console.log(classes)
+
     if (!sections.length) return null
 
     return (
