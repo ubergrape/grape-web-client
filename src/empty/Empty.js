@@ -18,7 +18,7 @@ export default class Empty extends Component {
   render() {
     let {classes} = this.props.sheet
     return (
-      <div className={classes.container}>
+      <div className={classes.container} data-test="empty">
         <div className={classes.info}>{this.props.text}</div>
       </div>
     )
