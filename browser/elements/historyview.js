@@ -425,6 +425,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgI
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.requestedMsgID = msgID;
 	this.room.loading = false;
+	this.room.empty = false;
 	this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory);
 	this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory);
 	this.redrawTyping();

@@ -23,7 +23,7 @@ var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
-var Router = require('router');
+var Router = require('../lib/router');
 var store = require('store').prefix('navigation');
 
 var exports = module.exports = UI;
@@ -33,6 +33,7 @@ require("endswith");
 
 // configure locales and template locals
 var template = require('template');
+template.root = 'cg/templates';
 template.locals.strftime = require('strftime');
 var _ = require('t');
 // ['de', 'en'].forEach(function (lang) {
@@ -54,6 +55,7 @@ template.locals.html = function (html) {
 // this should be done via a switch in the UI
 
 exports.ItemList = require('./elements/itemlist');
+var datejs = require("datejs");
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
