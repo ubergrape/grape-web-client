@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 
+import {useSheet} from '../jss'
 import style from '../browser/style'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'

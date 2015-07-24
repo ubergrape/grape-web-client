@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import {useSheet} from '../../jss'
 import * as style from './style'
 
 /**

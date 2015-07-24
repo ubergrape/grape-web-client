@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import {useSheet} from '../jss'
 import style from './style'
 
 /**

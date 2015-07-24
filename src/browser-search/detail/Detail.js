@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import {useSheet} from '../../jss'
 import Preview from './Preview'
 import style from './style'
 import * as utils from './utils'

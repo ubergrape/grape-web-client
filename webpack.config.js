@@ -1,27 +1,17 @@
 var webpack = require('webpack')
 
-var plugins = [
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-  })
-]
-
-if (process.env.COMPRESS) {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    })
-  )
-}
-
-var config = module.exports = {
+module.exports = exports = {
   node: {
     Buffer: false
   },
 
-  plugins: plugins,
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      __DEV__: process.env.NODE_ENV === 'development',
+      __TEST__: process.env.NODE_ENV === 'test'
+    })
+  ],
 
   module: {
     loaders: [
@@ -38,7 +28,7 @@ var config = module.exports = {
   }
 }
 
-config.externals = {
+exports.externals = {
   react: 'React',
   'reactive-elements': 'ReactiveElements'
 }

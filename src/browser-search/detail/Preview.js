@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import ImagesLoader from 'images-loader'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import {useSheet} from '../../jss'
 import Spinner from '../../spinner/Spinner'
 import style from './previewStyle'
 

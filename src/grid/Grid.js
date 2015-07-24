@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import find from 'lodash/collection/find'
 import pick from 'lodash/object/pick'
 import debounce from 'lodash/function/debounce'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import {useSheet} from '../jss'
 import Section from './Section'
 import style from './gridStyle'
 

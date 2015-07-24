@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import useSheet from 'react-jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './infoStyle'
 import * as contents from './infoContents'
 import Button from '../../../button/Button'
+import {useSheet} from '../../../jss'
 
 /**
  * Info messages for the user for e.g. to explain integrations.
