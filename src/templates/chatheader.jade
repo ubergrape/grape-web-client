@@ -29,7 +29,7 @@
 					span.user-count
 						i.fa.fa-user
 						|  #{room.users.length}
-						i.fa.fa-caret-down
+						i.fa.fa-chevron-down
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
@@ -43,9 +43,9 @@
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
 	
-	.user-menu-wrap(id='intro-step5', title="My Settings")
+	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap
 			span.online
 			img(src="#{user.avatar}",width="28",alt="Avatar of #{user.username}")
 				.avatar-status(class='online')
-		i.fa.fa-caret-down
+		i.fa.fa-chevron-down

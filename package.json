@@ -27,7 +27,7 @@
     "drop-anywhere": "ubergrape/drop-anywhere",
     "endswith": "sk7/endswith",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git#dev",
+    "grape-input": "git+ssh://git@github.com/ubergrape/grape-input.git#b414316c09f9d2749f62851cfb881384ccb2131b",
     "image-zoom": "ubergrape/image-zoom",
     "intro": "ubergrape/intro.js",
     "js-emoji": "sk7/js-emoji",

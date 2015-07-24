@@ -42,30 +42,100 @@ $horizontal-list
 			margin-right: 0
 
 /*______ Ellipsis ______*/
-$ellipsis
+ellipsis()
 	text-overflow: ellipsis
 	white-space: nowrap
 	overflow: hidden
 	display: block
-
-
+$ellipsis
+	ellipsis()
 /*______ Functional LIST ______*/
 
 $functional-list // this has to be the LI
 	@extend $clearfix
 	padding: 0px
 	> a // If the List is one clickable Link
+	.func-inner-wrap
 		display: block
 		text-decoration: none
+		padding: 9px 16px 8px
+		color: gainsboro-dark
+	> a // If the List is one clickable Link
+		&:hover
+			color: grape-typo
+			background: silver-dark
 	.icon
 	.avatar-wrap
 	.unread
+	.room-face
 		text-align: center
 	.icon
 	.avatar-wrap
+	.room-face
+		width: 24px
+		height: 24px
+		margin-right: 8px
+		margin-top: -3px
 		float: left
-		margin-right: 5px
-		width: 20px
+		line-height: 24px
+	.icon
+		padding: 3px 0
+	.room-face
+		border-radius: 4px
+		background: grape-dark
+		position: relative
+		font-size: 11px
+		color: white
+		color: rgba(white, 0.9)
+	.room-icon
+		position: absolute
+		right: -3px
+		top: -3px
+		width: 13px
+		height: 13px
+		z-index: 12
+		line-height: 12px
+		text-align: center
+		border-radius: 50%
+		background: grape-typo
+		background: rgba(grape-typo, 0.9)
+		font-size: 8px
+		color: white
+	.name
+		ellipsis()
+
+/*______ Avatar wrap ______*/
+.avatar-wrap
+	position: relative
+	display: inline-block
+	img
+		float: left
+		border-radius: 50%
+		z-index: 2
+	.online, .offline
+		position: absolute
+		right: -1px
+		bottom: -1px
+		height: 9px
+		width: 9px
+		z-index: 12
+		border-radius: 50%
+		border: 1px solid navigation-background
+	.online
+		background: grass-light
+	.offline
+		background: bittersweet-light
+	div
+		overflow: hidden
+		margin-left: 4px
+	.name
+		@extend $big-font-size
+		@extend $ellipsis
+		margin-left: 5px
+		height: 1.25em
+		line-height: 1em
+
+/*______ Navigation Count ______*/
 
 .fl-notification
 .fl-mention
@@ -75,7 +145,7 @@ $functional-list // this has to be the LI
 	font-family: roboto
 .fl-notification
 .fl-mention
-	margin: -3px 0 0 5px
+	margin: -1px 0 0 5px
 	font-size: 10px
 	line-height: 16px
 	min-width: 21px
@@ -105,33 +175,6 @@ $overlay // used for search - infos, etc.
 	overflow: hidden
 	overflow-y: auto
 
-/*______ Avatar wrap ______*/
-.avatar-wrap
-	position: relative
-	display: inline-block
-	margin-top: -3px // needed for all things up until now
-	img
-		float: left
-		border-radius: 50%
-		z-index: 2
-	.online, .offline
-		position: absolute
-		right: 0
-		top: 0
-		width: 8px
-		height: 8px
-		z-index: 12
-		border-radius: 50%
-	div
-		overflow: hidden
-		margin-left: 4px
-
-/*______ User Status Colors  ______*/
-// We need this as general classes here, because we use this in different elements.
-.online
-	background: grass-light
-.offline
-	background: bittersweet-light
 
 /*______ Invisible Class  ______*/
 .invisible

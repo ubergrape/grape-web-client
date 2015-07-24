@@ -2,44 +2,80 @@
 .new
 .toggle
 button
+.btn
 	outline: none
 	background: none
 
 .button
-	color: button-color
-	padding: 10px 15px // must be the same as waves-button
-	outline: none
-	text-decoration: none !important
-	text-transform: uppercase
+.btn
 	border: none
-	border-radius: main-border-radius
-	background: none
-	font-weight: bold
 	display: inline-block
+	text-align: center
+	font-weight: bold
+	border-radius: 4px
 	overflow: hidden
 	word-break: break-word
-
-	.icon
-		color: white
+	padding: 4px 10px
+	outline: none
+	text-decoration: none !important
+	.icon,i
 		width: 20px
 		text-align: right
+		margin-left: -4px
 	&:hover
 		background: rgba(silver-dark, .7)
+		text-decoration: none !important
 	&:active
 		background: silver-dark
 	&:disabled
 		color: gainsboro-light !important
-	&.raised // RAISED BUTTON STYLE
-		box-shadow: 0px 2px 5px 0px rgba(gainsboro-dark, 0.75)
-		background: silver-dark
-		color: grape-typo
-		i
-			color: grape-light
-		&:hover
-			color: grape-typo
-			background: darken(silver-dark, 5%)
-		&:active
-			box-shadow: 0px 5px 10px 0px rgba(gainsboro-dark, 0.75)
+	@media $media-max-phone
+		margin-top: 8px
+		display: block
+		width: 100%
+		float: none !important
+		white-space: pre-wrap
+		height: auto !important
+
+.btn-gainsboro // RAISED BUTTON STYLE
+	color: darken(gainsboro-dark, 50%) !important
+	background: gainsboro-light
+	&:hover, &:active
+		color: darken(gainsboro-dark, 60%)
+		background: lighten(gainsboro-light, 40%)
+	&.disabled
+		background: lighten(gainsboro-dark, 20%)
+		border-bottom: 2px solid gainsboro-dark
+
+.btn-primary
+	color: darken(grass-dark, 50%) !important
+	background: grass-light
+	&:hover, &:active
+		color: darken(grass-dark, 60%)
+		background: lighten(grass-light, 40%)
+	&.disabled
+		background: lighten(grass-dark, 20%)
+		border-bottom: 2px solid grass-dark
+
+.btn-primary
+	color: darken(grass-dark, 50%) !important
+	background: grass-light
+	&:hover, &:active
+		color: darken(grass-dark, 60%)
+		background: lighten(grass-light, 40%)
+	&.disabled
+		background: lighten(grass-dark, 20%)
+		border-bottom: 2px solid grass-dark
+
+.btn-tomato
+	color: white !important
+	background: bittersweet-light
+	&:hover, &:active
+		color: white
+		background: lighten(bittersweet-light, 8%)
+	&.disabled
+		background: white
+		border-bottom: 2px solid bittersweet-dark
 
 .button-delete
 	color: bittersweet-dark

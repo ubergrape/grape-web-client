@@ -1,25 +1,31 @@
-div.navigation
-	nav.navigation
+div.navigation.nav-outer
+	nav.navigation.nav-inner
 		.org-info
+			a.quick-search-trigger
+				i.fa.fa-search
 			a.logo(title="Your Organization")
-				img(src='#{org.logo}',class="avatar-wrap",height='36',width='36',alt='#{org.name}')
+				.avatar-wrap
+					img(src='#{org.logo}',height='24',width='24',alt='#{org.name}')
 				span.name=org.name
-				i.fa.fa-caret-down
+				i.fa.fa-chevron-down
 		.preloader.hide
 			div
 				h3
 					=_('Loading')
-		div(id='intro-step2', class='room-list')
-			a.nav-title-wrap.addroom
-				div.nav-button.button-inset=_('Manage rooms')
-				h2.nav-title=_('Rooms')
-			ul.nav-list.rooms
-			a.nav-title-wrap.addlabel
-				div.nav-button.button-inset=_('All labels')
-				h2.nav-title=_('Labels')
-			ul.nav-list.labels
-		div(id="intro-step3", class='pm-list')
-			.nav-title-wrap.addpm
-				h2.nav-title=_('Private messages')
-			ul.nav-list.pms
-		input.filter-pms(type="filter", name="filter-input", placeholder=_("Search users"))
+		.nav-wrap-out
+			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
+				a.nav-title-wrap.addroom
+					div.nav-button=_('+')
+					h2.nav-title
+						=_('Rooms ')
+						i.fa.fa-angle-right
+				ul.nav-list.rooms
+				a.nav-title-wrap.addlabel
+					div.nav-button.button-inset=_('All labels')
+					h2.nav-title=_('Labels')
+				ul.nav-list.labels
+			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
+				.nav-title-wrap.addpm
+					h2.nav-title=_('Private messages')
+				ul.nav-list.pms
+			input.filter-pms.hide(type="filter", name="filter-input", placeholder=_("Search users"))

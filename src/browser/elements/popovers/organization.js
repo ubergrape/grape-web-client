@@ -24,6 +24,6 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
 	this.classes.add('orga-po');
-	this.classes.add('left');
+	this.classes.add('top');
 	render(this.content, template('popovers/organization.jade'));
 };
