@@ -1,4 +1,4 @@
-if (room.creator === user || org.role === constants.ROLE_ADMIN || org.role === constants.ROLE_OWNER)
+if (room.creator === user || org.role === constants.roles.ROLE_ADMIN || org.role === constants.roles.ROLE_OWNER)
 	h3=_("Delete ") + room.name
 	p
 		=_("Are you sure you want to delete room ") + room.name + _("?")

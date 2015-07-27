@@ -9,7 +9,7 @@ var classes = require('classes');
 var qs = require('query');
 var events = require('events');
 var broker = require('broker');
-var constants = require('cglib').constants;
+var constants = require('conf').constants;
 
 module.exports = RoomMembersPopover;
 

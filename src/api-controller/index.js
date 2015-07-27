@@ -16,8 +16,6 @@ var models = exports.models = {
 	Organization: require('./models/organization'),
 };
 
-exports.constants = require('./constants');
-
 var PREFIX = 'http://domain/';
 
 // Time we wait until we destroy connection and reconect.
@@ -358,7 +356,7 @@ App.prototype.bindEvents = function App_bindEvents() {
 		room.history.push(line);
 		room.latest_message_time = new Date(line.time).getTime();
 		// users message and everything before that is read
-		if (line.author === self.user) self.setRead(room, line);
+		if (line.author === self.user) self.setRead(room, line.id);
 		self.emit('newMessage', line);
 	});
 	wamp.subscribe(PREFIX + 'message#updated', function(data) {
@@ -684,10 +682,12 @@ App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (dire
 	}.bind(this));
 }
 
-App.prototype.setRead = function App_setRead(room, line) {
+App.prototype.setRead = function App_setRead(room, lineID) {
 	// update the unread count
 	// iterate the history in reverse order
 	// (its more likely the read line is at the end)
+	var line = models.Line.get(lineID);
+	if (!line) return;
 	room.mentioned = 0;
 	var setread = false;
 	for (var i = room.history.length - 1; i >= 0; i--) {
@@ -705,7 +705,7 @@ App.prototype.setRead = function App_setRead(room, line) {
 		return;
 	// and notify the server
 	// TODO: emit error?
-	this.wamp.call(PREFIX + 'channels/read', room.id, line.id);
+	this.wamp.call(PREFIX + 'channels/read', room.id, lineID);
 };
 
 App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
