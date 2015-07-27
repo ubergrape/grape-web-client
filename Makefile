@@ -3,13 +3,16 @@ LANG_PO := $(addprefix locale/, $(addsuffix /LC_MESSAGES/client.po,$(LANGUAGES))
 LANG_JSON := $(addprefix locale/, $(addsuffix .json,$(LANGUAGES)))
 
 OUTPUT := ../chatgrape/static/app
-JS_FILES := index.js $(shell find lib browser local_components -name "*.js")
-TEMPLATE_FILES := $(shell find templates -name "*.jade")
-STYLUS_FILES := $(shell find stylus -name "*.styl")
+JS_FILES := index.js $(shell find src/browser -name "*.js")
+TEMPLATE_FILES := $(shell find src/templates -name "*.jade")
+IMAGES_PATH := images
 
 JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
-all: $(OUTPUT)/app.js $(OUTPUT)/app.css
+all: node_modules/.bin
+	npm run build-dev
+	mkdir $(OUTPUT)/cg
+	cp -r $(IMAGES_PATH) $(OUTPUT)/cg/$(IMAGES_PATH)
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
 	node ./po2json.js $< > $@
@@ -23,39 +26,11 @@ locale/%/LC_MESSAGES/client.po:
 	$(JSXGETTEXT) --keyword=t --keyword=_ --language=javascript --join-existing --output $@ $(JS_FILES)
 	$(JSXGETTEXT) --keyword=_ --language=jade --join-existing --output $@ $(TEMPLATE_FILES)
 
-build/build.js: $(OUTPUT)/app.js
-	./build.js --dev --copy
-
-test: build/build.js
-	./node_modules/.bin/component-test phantom --coverage && \
-	./node_modules/.bin/istanbul report lcov && \
-	./node_modules/.bin/istanbul report text-summary
-
-lint:
-	./node_modules/.bin/jshint lib local_components browser test index.js
-
-$(OUTPUT)/app.js: components $(JS_FILES) $(TEMPLATE_FILES) $(LANG_JSON)
-	rm -f $(OUTPUT)/app.css
-	./build.js --dev --prefix /static/app --copy --out $(OUTPUT) --name app
-	touch $(OUTPUT)/app.css
-	mv $(OUTPUT)/app.css $(OUTPUT)/components.css
-	cp ./node_modules/document-register-element/build/document-register-element.js $(OUTPUT)/polyfills.js
-
-$(OUTPUT)/app.css: $(OUTPUT)/app.js $(STYLUS_FILES)
-	./node_modules/.bin/stylus -l --include-css --out $(OUTPUT) stylus/app.styl
-	./node_modules/.bin/autoprefixer $(OUTPUT)/app.css
-
-mobile: $(OUTPUT)/mobile/mobile.js $(OUTPUT)/mobile/mobile.css
-
 node_modules/.bin: package.json
 	npm install
 	touch node_modules
 
-components: node_modules/.bin component.json
-	./node_modules/.bin/component install --timeout 15000 --dev && \
-	touch components
-
 clean:
-	rm -rf components
+	rm -rf node_modules
 
-.PHONY: all clean lint test po
+.PHONY: all clean
