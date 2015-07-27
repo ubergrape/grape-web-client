@@ -22,7 +22,7 @@ require('jh3y-resizable/resizable.css');
 require('js-emoji/emoji.css');
 
 var App = require('./api-controller');
-var UI = require('./UI');
+var UI = require('./ui');
 var initBroker = require('./init-broker');
 var conf = require('conf');
 
