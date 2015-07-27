@@ -11,7 +11,7 @@ JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
 	npm run build-dev
-	mkdir $(OUTPUT)/cg
+	mkdir -p $(OUTPUT)/cg
 	cp -r $(IMAGES_PATH) $(OUTPUT)/cg/$(IMAGES_PATH)
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
