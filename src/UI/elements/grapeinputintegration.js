@@ -7,7 +7,7 @@ var q = require('query');
 var debounce = require('debounce');
 
 var staticurl = require('staticurl');
-var constants = require('cglib').constants;
+var constants = require('conf').constants;
 var render = require('../rendervdom');
 
 var IMAGES_BASE = staticurl('app/cg/images');

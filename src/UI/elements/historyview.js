@@ -16,7 +16,7 @@ var zoom = require('image-zoom');
 // WTFjshint
 var focus = require('../focus'); // jshint ignore:line
 var InfiniteScroll = require('../infinite-scroll');
-var Line = require('cglib').models.Line; // TODO: clean this up a bit
+//var Line = App.models.Line; // TODO: clean this up a bit
 
 template.locals.tz = require('moment-timezone');
 
@@ -236,9 +236,8 @@ HistoryView.prototype.updateRead = function HistoryView_updateRead () {
 	if (focus.state !== 'focus') return; // we get scroll events even when the window is not focused
 	var bottomElem = this._findBottomVisible();
 	if (!bottomElem) return;
-	var line = Line.get(bottomElem.getAttribute('data-id'));
-	if (!line || line.time < this.room.latest_message_time) return;
-	this.emit('hasread', this.room, line);
+	var lineID = bottomElem.getAttribute('data-id');
+	this.emit('hasread', this.room, lineID);
 	this.queueDraw()
 };
 
