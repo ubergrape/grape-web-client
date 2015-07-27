@@ -12,11 +12,8 @@ var classes = require('classes');
 var closest = require('closest');
 var events = require('events');
 var zoom = require('image-zoom');
-
-// WTFjshint
-var focus = require('../focus'); // jshint ignore:line
+var focus = require('../focus');
 var InfiniteScroll = require('../infinite-scroll');
-//var Line = App.models.Line; // TODO: clean this up a bit
 
 template.locals.tz = require('moment-timezone');
 
