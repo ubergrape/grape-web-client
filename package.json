@@ -11,7 +11,6 @@
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
     "broker": "Swatinem/broker#0.0.2",
-    "cglib": "./local_modules/cglib",
     "component-classes": "^1.2.3",
     "component-clipboard": "^0.1.6",
     "component-closest": "^0.1.4",

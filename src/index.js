@@ -21,8 +21,8 @@ require('drop-anywhere/drop-anywhere.css');
 require('jh3y-resizable/resizable.css');
 require('js-emoji/emoji.css');
 
-var App = require('cglib');
-var UI = require('./browser');
+var App = require('./api-controller');
+var UI = require('./UI');
 var initBroker = require('./init-broker');
 var conf = require('conf');
 

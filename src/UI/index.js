@@ -13,7 +13,6 @@ var classes = require('classes');
 var staticurl = require('staticurl');
 var events = require('events');
 var notify = require('HTML5-Desktop-Notifications');
-var constants = require('cglib').constants;
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
@@ -25,6 +24,7 @@ var pipeEvents = require('./pipeEvents');
 var page = require('page');
 var Router = require('router');
 var store = require('store').prefix('navigation');
+var constants = require('conf').constants;
 
 var exports = module.exports = UI;
 
