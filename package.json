@@ -4,7 +4,9 @@
   "description": "",
   "version": "0.0.1",
   "keywords": [],
-  "engines": { "node" : "2.4.0" },
+  "engines": {
+    "node": "2.4.0"
+  },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
@@ -58,6 +60,7 @@
     "websocket": "ubergrape/websocket"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^2.0.0",
     "babel-core": "^5.5.8",
     "babel-loader": "^5.1.4",
     "cglib": "./local_modules/cglib",

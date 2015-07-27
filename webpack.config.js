@@ -19,7 +19,7 @@ module.exports = {
 			},
 			{
 				test: /\.styl$/,
-				loader: appETP.extract('css-loader!stylus-loader?paths=node_modules/stylus/')
+				loader: appETP.extract('css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/')
 			},
 			{
 				test: /\.js$/,
