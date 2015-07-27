@@ -38,9 +38,9 @@
 .org-info
 	height: header-height
 	background: organisation-background
-	border-bottom: 1px solid gainsboro-light
-	box-shadow: 0 1px 3px silver-light
 	border-right: 1px solid darken(organisation-background, 2)
+	-webkit-font-smoothing: antialiased // fixes font bug in os x app and firefox on windows, see #1612
+	-moz-osx-font-smoothing: grayscale // fixes font bug in os x app and firefox on windows, see #1612
 	.quick-search-trigger
 		float: right
 		height: header-height
@@ -103,7 +103,7 @@
 				background: navigation-background
 				color: darken(gainsboro-dark, 10)
 		.fl-notification
-			margin: 12px 5px 5px 
+			margin: 12px 5px 5px
 	.nav-tab-search
 		width: 12%
 		a
@@ -131,8 +131,8 @@ a.nav-title-wrap
 	text-decoration: none
 	.nav-title
 		text-transform: uppercase
-		@extend $small-font-size
-		padding-left: 10px
+		font-size: 12px;
+		padding-left: 15px
 		overflow: hidden
 	&:hover
 		text-decoration: none
@@ -141,16 +141,16 @@ a.nav-title-wrap
 		float: right
 		margin-right: 10px
 		margin-top: -3px
-		border: 1px solid 
+		border: 1px solid
 		border-radius: 50%
 		width: 17px
 		height: 17px
 		text-align: center
-		line-height: 14px
+		line-height: 15px
 
 
 // Sidebar Link Styling
-		
+
 .nav-list
 	.item
 		@extend $functional-list
@@ -183,7 +183,7 @@ a.nav-title-wrap
 //
 // ****
 .pm-list
-	padding: 12px 0 22px
+	padding: 22px 0
 	.pms
 		height: 100%
 
