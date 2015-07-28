@@ -14,16 +14,12 @@ div.navigation.nav-outer
 					=_('Loading')
 		.nav-wrap-out
 			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
-				a.nav-title-wrap.addroom
-					div.nav-button=_('+')
+				a.nav-title-wrap
 					h2.nav-title
-						=_('Rooms ')
+						=_('Manage rooms ')
 						i.fa.fa-angle-right
+				div.nav-button.addroom=_('+')
 				ul.nav-list.rooms
-				a.nav-title-wrap.addlabel
-					div.nav-button.button-inset=_('All labels')
-					h2.nav-title=_('Labels')
-				ul.nav-list.labels
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
 				.nav-title-wrap.addpm
 					h2.nav-title=_('Private messages')

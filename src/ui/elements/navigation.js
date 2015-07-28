@@ -69,12 +69,11 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
-// route the events
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
 		addroom: function (ev) {
-			self.emit('addroom', closest(ev.target, 'a', true));
+			self.emit('addroom', closest(ev.target, 'div', true));
 		}
 	});
 	this.events.bind('click .addroom', 'addroom');

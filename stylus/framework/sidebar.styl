@@ -137,21 +137,28 @@ a.nav-title-wrap
 	&:hover
 		text-decoration: none
 		color: grape-typo
-	.nav-button
-		float: right
-		margin-right: 10px
-		margin-top: -3px
-		border: 1px solid
-		border-radius: 50%
-		width: 17px
-		height: 17px
-		text-align: center
-		line-height: 15px
 
+a.nav-title-wrap
+	display: inline-block
+	float: left
+
+.nav-button
+	float: right
+	margin: 8px 10px 0 0
+	border: 1px solid
+	border-radius: 50%
+	width: 17px
+	height: 17px
+	text-align: center
+	line-height: 15px
+	cursor: pointer
+	&:hover
+		color: grape-typo
 
 // Sidebar Link Styling
 
 .nav-list
+	clear: both
 	.item
 		@extend $functional-list
 		&:hover
