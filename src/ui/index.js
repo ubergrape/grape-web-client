@@ -55,7 +55,7 @@ template.locals.html = function (html) {
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
+var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -106,7 +106,7 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the popovers
-	this.addRoom = new RoomPopover();
+	this.roomManager = new RoomManagerPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();

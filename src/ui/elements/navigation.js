@@ -63,7 +63,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
-	this.events.bind('click .add-room', 'triggerRoomManager');
+	this.events.bind('click .manage-rooms', 'triggerRoomManager');
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {

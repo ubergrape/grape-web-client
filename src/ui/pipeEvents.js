@@ -9,19 +9,17 @@ function pipeEvents(ui) {
 	// ui
 	broker(ui, 'selectchannel', ui, 'setRoomContext');
 
-	// addRoom popover
-	broker(ui, 'orgReady', ui.addRoom, 'onOrgReady');
-	broker.pass(ui.addRoom, 'createroom', ui, 'createroom');
-	broker.pass(ui.addRoom, 'leaveroom', ui, 'leaveroom');
-	broker(ui, 'newRoom', ui.addRoom, 'onNewRoom');
-	broker(ui.addRoom, 'toggleroomcreation', ui.roomCreation, 'toggle');
-	broker(ui.roomCreation, 'toggleaddroom', ui.addRoom, 'toggle');
-	broker(ui, 'newRoomMember', ui.addRoom, 'onNewRoomMember');
-	broker(ui, 'memberLeftChannel', ui.addRoom, 'onMemberLeftChannel');
-	broker(ui, 'channelupdate', ui.addRoom, 'onChannelUpdate');
-	broker(ui, 'roomdeleted', ui.addRoom, 'onRoomDeleted');
-	broker(ui, 'joinedChannel', ui.addRoom, 'onJoinedChannel');
-	broker(ui, 'leftChannel', ui.addRoom, 'onLeftChannel');
+	// roomManager popover
+	broker(ui, 'orgReady', ui.roomManager, 'onOrgReady');
+	broker.pass(ui.roomManager, 'createroom', ui, 'createroom');
+	broker.pass(ui.roomManager, 'leaveroom', ui, 'leaveroom');
+	broker(ui, 'newRoom', ui.roomManager, 'onNewRoom');
+	broker(ui, 'newRoomMember', ui.roomManager, 'onNewRoomMember');
+	broker(ui, 'memberLeftChannel', ui.roomManager, 'onMemberLeftChannel');
+	broker(ui, 'channelupdate', ui.roomManager, 'onChannelUpdate');
+	broker(ui, 'roomdeleted', ui.roomManager, 'onRoomDeleted');
+	broker(ui, 'joinedChannel', ui.roomManager, 'onJoinedChannel');
+	broker(ui, 'leftChannel', ui.roomManager, 'onLeftChannel');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -115,7 +113,7 @@ function pipeEvents(ui) {
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomCreation, 'onTriggerRoomCreation');
-	broker(ui.navigation, 'triggerRoomManager', ui.addRoom, 'onTriggerRoomManager');
+	broker(ui.navigation, 'triggerRoomManager', ui.roomManager, 'onTriggerRoomManager');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
