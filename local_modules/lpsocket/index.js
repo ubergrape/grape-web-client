@@ -96,7 +96,7 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 		xhr = new ActiveXObject('Microsoft.XMLHTTP');
 	}
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState !== XMLHttpRequest.DONE return
+		if (xhr.readyState !== XMLHttpRequest.DONE) return;
 		
 		if (xhr.status === 200) {
 		    if (opts.success) opts.success(xhr)
