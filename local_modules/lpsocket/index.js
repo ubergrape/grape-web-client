@@ -22,8 +22,8 @@ LPSocket.prototype.connect = function LPSocket_connect() {
 		method: 'PUT', 
 		path: this.uri,
 		success: function (xhr) {
-		  var resp = JSON.parse(xhr.responseText);
-		  // the responded urls already contain the 
+			var resp = JSON.parse(xhr.responseText);
+			// the responded urls already contain the 
 			// sessionId for the new session
 			this.pollUri = resp.poll;
 			this.pushUri = resp.push;
@@ -75,7 +75,7 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 			if (xhr.status == 404) {
 				// session expired or invalid; reconnect!
 				this.pushUri = undefined;
-			  this.emit('close', xhr.status);
+				this.emit('close', xhr.status);
 			} else {
 				this.emit('error', xhr.status);
 			}
@@ -100,11 +100,11 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 		if (xhr.readyState !== XMLHttpRequest.DONE) return;
 		
 		if (xhr.status === 200) {
-		    if (opts.success) opts.success(xhr)
+			if (opts.success) opts.success(xhr)
 		} else if (xhr.status === 0) {
-		    // request aborted. something should be done here
+			// request aborted. something should be done here
 		} else {
-		    if (opts.error) opts.error(xhr)
+			if (opts.error) opts.error(xhr)
 		}
 	}
 	xhr.open(opts.method, opts.path, true);
@@ -112,4 +112,3 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 	xhr.send(JSON.stringify(opts.data));
 	return xhr;
 };
-

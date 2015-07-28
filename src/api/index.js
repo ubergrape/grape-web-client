@@ -139,7 +139,7 @@ App.prototype.initSocket = function App_initSocket(opts) {
 		});
 	});
 	lp.once('error', function(err) {
-	  opts.error(err);
+		opts.error(err);
 	});
 };
 
