@@ -8,9 +8,8 @@ var exports = module.exports = LPSocket;
 function LPSocket(uri) {
 	Emitter.call(this);
 	var self = this;
-	this.sessionId = undefined;
 
-	// get longpolling endpoint w/ session-id
+	// get longpolling endpoints
 	this.ajax({
 		method: 'PUT', 
 		path: uri,
@@ -71,7 +70,6 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 		error: function(xhr) {
 			if (xhr.status == 404) {
 				// session expired or invalid; reconnect!
-				console.log("NEED TO RECONNECT (session key not valid anymore)");
 				self.pushUri = undefined;
 			  self.emit('close', xhr.status);
 			} else {
