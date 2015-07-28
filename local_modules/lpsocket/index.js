@@ -7,17 +7,26 @@ var exports = module.exports = LPSocket;
 
 function LPSocket(uri) {
 	Emitter.call(this);
-	var self = this;
+	this.pollUri = undefined;
+	this.pushUri = undefined;
+	this.xhr = undefined;
 
-	// get longpolling endpoints
+};
+
+LPSocket.prototype = Object.create(Emitter.prototype);
+
+LPSocket.prototype.connect = function LPSocket_connect() {
+	// initialize a long polling session
+	var self = this;
 	this.ajax({
 		method: 'PUT', 
 		path: uri,
 		success: function (xhr) {
 		  var resp = JSON.parse(xhr.responseText);
+		  // the responded urls already contain the 
+			// sessionId for the new session
 			self.pollUri = resp.poll;
 			self.pushUri = resp.push;
-			self.currentPoll = undefined;
 			self.poll();
 			self.emit('open');
 		},
@@ -27,8 +36,6 @@ function LPSocket(uri) {
 	});
 };
 
-LPSocket.prototype = Object.create(Emitter.prototype);
-
 LPSocket.prototype.poll = function LPSocket_poll() {
 	if (this.pollUri === undefined) {
 		// cannot poll without uri
@@ -36,7 +43,7 @@ LPSocket.prototype.poll = function LPSocket_poll() {
 		return;
 	}
 	var self = this;
-	this.currentPoll = this.ajax({
+	this.xhr = this.ajax({
 		method: 'GET',
 		path: this.pollUri,
 		success: function(xhr) {
@@ -80,8 +87,8 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 };
 
 LPSocket.prototype.close = function LPSocket_close(whatisthis) {
-	if (this.currentPoll !== undefined) {
-		this.currentPoll.abort();
+	if (this.xhr !== undefined) {
+		this.xhr.abort();
 	}
 	return null
 };

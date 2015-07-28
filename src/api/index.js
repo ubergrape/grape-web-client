@@ -119,10 +119,10 @@ App.prototype.onConnect = function App_onConnect(data) {
  * @param {Function} [callback]
  */
 App.prototype.initSocket = function App_initSocket(opts) {
-	var lp = undefined;
-	var ws = undefined;
+	var lp, ws;
 	// first try longpolling
 	lp = new LPSocket(opts.lpUri);
+	lp.connect();
 	lp.once('open', function() {
 		// try upgrade to websocket
 		ws = new WebSocket(opts.wsUri); 
