@@ -4,9 +4,7 @@
   "description": "",
   "version": "0.0.1",
   "keywords": [],
-  "engines": {
-    "node": "2.4.0"
-  },
+  "engines": { "node": "2.4.0" },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
