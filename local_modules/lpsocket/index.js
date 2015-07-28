@@ -45,7 +45,6 @@ LPSocket.prototype.poll = function LPSocket_poll() {
 		method: 'GET',
 		path: this.pollUri,
 		success: function(xhr) {
-			console.log(JSON.parse(xhr.responseText));
 			this.emit('message', xhr.responseText);
 			this.poll();
 		}.bind(this),
