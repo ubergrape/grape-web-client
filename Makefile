@@ -3,7 +3,7 @@ LANG_PO := $(addprefix locale/, $(addsuffix /LC_MESSAGES/client.po,$(LANGUAGES))
 LANG_JSON := $(addprefix locale/, $(addsuffix .json,$(LANGUAGES)))
 
 OUTPUT := ../chatgrape/static/app
-JS_FILES := index.js $(shell find src/browser -name "*.js")
+JS_FILES := index.js $(shell find src/ui -name "*.js")
 TEMPLATE_FILES := $(shell find src/templates -name "*.jade")
 IMAGES_PATH := images
 
