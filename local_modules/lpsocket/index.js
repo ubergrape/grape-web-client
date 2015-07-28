@@ -82,11 +82,10 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 	});
 };
 
-LPSocket.prototype.close = function LPSocket_close(whatisthis) {
-	if (this.xhr !== undefined) {
+LPSocket.prototype.close = function LPSocket_close() {
+	if (this.xhr) {
 		this.xhr.abort();
 	}
-	return null
 };
 
 LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
@@ -94,23 +93,21 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 	if (window.XMLHttpRequest) {
 		xhr = new XMLHttpRequest();
 	} else {
-		xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		xhr = new ActiveXObject('Microsoft.XMLHTTP');
 	}
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState == XMLHttpRequest.DONE ) {
-			if(xhr.status == 200 && opts.success !== undefined){
-				opts.success(xhr);
-			}
-			else if (xhr.status == 0) {
-				// aborted. doing nothing.
-			}
-			else if (xhr.status != 200 && opts.error !== undefined) {
-				opts.error(xhr);
-			}
+		if (xhr.readyState !== XMLHttpRequest.DONE return
+		
+		if (xhr.status === 200) {
+		    if (opts.success) opts.success(xhr)
+		} else if (xhr.status === 0) {
+		    // request aborted. something should be done here
+		} else {
+		    if (opts.error) opts.error(xhr)
 		}
 	}
 	xhr.open(opts.method, opts.path, true);
-	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 	xhr.send(JSON.stringify(opts.data));
 	return xhr;
 };
