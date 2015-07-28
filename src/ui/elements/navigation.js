@@ -10,6 +10,8 @@ var closest = require('closest');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
+var resizable = require('resizable');
+var store = require('../store').prefix('navigation');
 
 module.exports = Navigation;
 
@@ -201,6 +203,22 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
 	this.setLists({ rooms: rooms, pms: pms });
+
+	qs('.client-body').style.marginLeft = store.get('sidebarWidth') + 'px';
+	this.el.style.width = store.get('sidebarWidth') + 'px';
+	var navResizable = new resizable(this.el, { directions: ['east'] });
+	// the `orgReady` event is fired on reconnection as well
+	// so we need to unbind the resizable
+	navResizable.element.removeEventListener('resize', resizeClient);
+	
+	var resizeClient = function resizeClient() {
+		qs('.client-body').style.marginLeft = this.el.clientWidth + 'px';
+		store.set('sidebarWidth', this.el.clientWidth);
+	}.bind(this);
+
+	// listening to the event fired by the resizable component
+	navResizable.element.addEventListener('resize', resizeClient);
+
 	// we need this redraw for the organization logo
 	// cause that is part of the navigation too
 	this.redraw();
