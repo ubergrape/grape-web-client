@@ -7,7 +7,6 @@ var template = require('template');
 var qs = require('query');
 var events = require('events');
 var closest = require('closest');
-var resizable = require('resizable');
 var ItemList = require('./itemlist');
 var render = require('../rendervdom');
 var debounce = require('debounce');
@@ -27,6 +26,7 @@ Navigation.prototype.init = function Navigation_init() {
 	this.nav = {};
 	this.redraw();
 	this.el = this.nav.el;
+
 	var roomList = this.roomList = new ItemList({
 		template: 'roomlist.jade',
 		selector: '.item a'
@@ -39,30 +39,13 @@ Navigation.prototype.init = function Navigation_init() {
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
-	this.filtering = false;
-
 	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
 
-
+	this.filtering = false;
 	this.pmFilterEl = qs('.filter-pms', this.el);
 	this.pmFilterEl.addEventListener('keyup', function(ev) {
 		self.pmFilter();
 	});
-
-	// compute the height of the room list area
-	// called every time the pm area is resized
-	var resizeRoomList = debounce(function resizeRoomList() {
-		var	totHeight = self.el.clientHeight,
-			orgInfoHeight = qs('.org-info', self.el).clientHeight,
-			navigationHeight = qs('.nav-wrap-out', self.el);
-		// saving new sidebar height in localStorage
-		navigationHeight.style.height = totHeight - orgInfoHeight + 'px';
-	}, 200);
-
-	resizeRoomList();
-
-	// and on window resize
-	window.addEventListener('resize', resizeRoomList);
 };
 
 function replace(from, to) {
@@ -74,9 +57,13 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events = events(this.el, {
 		triggerRoomCreation: function (ev) {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
+		},
+		triggerRoomManager: function(ev) {
+			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
+	this.events.bind('click .add-room', 'triggerRoomManager');
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {

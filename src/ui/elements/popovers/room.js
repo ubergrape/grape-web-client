@@ -102,6 +102,10 @@ RoomPopover.prototype.onLeftChannel = function RoomPopover_onLeftChannel (room) 
 	this.itemList.redraw();
 }
 
+RoomPopover.prototype.onTriggerRoomManager = function RoomPopover_onTriggerRoomManager (target) {
+	this.toggle(target);
+}
+
 RoomPopover.prototype.setItems = function RoomPopover_setItems(items) {
 	this.itemList.setItems(items);
 };
