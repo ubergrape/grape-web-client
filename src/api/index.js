@@ -152,39 +152,38 @@ App.prototype.connect = function App_connect(ws, callback) {
 
 	if (this.connecting) return;
 
-  var self = this;
 	this.connecting = true;
 	this.initSocket({
-		lpUri: self.lpUri, 
+		lpUri: this.lpUri, 
 		wsUri: (typeof ws == 'string' && ws !== '') ? ws : this.wsUri,
 		connected: function(socket) {
 			// connection established; bootstrap client state
-			self._socket = socket;
-			self.wamp = new Wamp(socket, {omitSubscribe: true});
-			self.bindEvents();
-			self.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
+			this._socket = socket;
+			this.wamp = new Wamp(socket, {omitSubscribe: true});
+			this.bindEvents();
+			this.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
 				if (err) {
-					self.emit('error', err);
-					self.onDisconnect();
+					this.emit('error', err);
+					this.onDisconnect();
 					return;
 				}
-				self.onConnect(data);
-				self.heartbeat();
-			}.bind(self));
+				this.onConnect(data);
+				this.heartbeat();
+			}.bind(this));
 
 			socket.on('close', function(e) {
 				console.log('Socket closed, disconnecting!', e);
-				self.onDisconnect();
-			}.bind(self));
+				this.onDisconnect();
+			}.bind(this));
 
 			socket.on('error', function(err) {
 				console.log('Socket error, disconnecting!', err);
-				self.onDisconnect();
-			}.bind(self));
-		},
+				this.onDisconnect();
+			}.bind(this));
+		}.bind(this),
 		error: function(err) {
-			self.reconnect();
-		}
+			this.reconnect();
+		}.bind(this)
 	});
 };
 

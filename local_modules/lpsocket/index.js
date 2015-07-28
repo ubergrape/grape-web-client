@@ -17,7 +17,6 @@ LPSocket.prototype = Object.create(Emitter.prototype);
 
 LPSocket.prototype.connect = function LPSocket_connect() {
 	// initialize a long polling session
-	var self = this;
 	this.ajax({
 		method: 'PUT', 
 		path: uri,
@@ -25,14 +24,14 @@ LPSocket.prototype.connect = function LPSocket_connect() {
 		  var resp = JSON.parse(xhr.responseText);
 		  // the responded urls already contain the 
 			// sessionId for the new session
-			self.pollUri = resp.poll;
-			self.pushUri = resp.push;
-			self.poll();
-			self.emit('open');
-		},
+			this.pollUri = resp.poll;
+			this.pushUri = resp.push;
+			this.poll();
+			this.emit('open');
+		}.bind(this),
 		error: function(xhr) {
-			self.emit('error', xhr.responseText);
-		}
+			this.emit('error', xhr.responseText);
+		}.bind(this)
 	});
 };
 
@@ -42,24 +41,23 @@ LPSocket.prototype.poll = function LPSocket_poll() {
 		this.emit("error", "No poll URL specified");
 		return;
 	}
-	var self = this;
 	this.xhr = this.ajax({
 		method: 'GET',
 		path: this.pollUri,
 		success: function(xhr) {
 			console.log(JSON.parse(xhr.responseText));
-			self.emit('message', xhr.responseText);
-			self.poll();
-		},
+			this.emit('message', xhr.responseText);
+			this.poll();
+		}.bind(this),
 		error: function(xhr) {
 			if (xhr.status == 404) {
 				// session expired or invalid; reconnect!
-				self.pollUri = undefined;
-			  self.emit('close', xhr.status);
+				this.pollUri = undefined;
+				this.emit('close', xhr.status);
 			} else {
-				self.emit('error', xhr.status);
+				this.emit('error', xhr.status);
 			}
-		}
+		}.bind(this)
 	});
 };
 
@@ -69,7 +67,6 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 		this.emit("error", "No push URL specified");
 		return;
 	}
-	var self = this;
 	this.ajax({
 		method: 'POST',
 		path: this.pushUri,
@@ -77,12 +74,12 @@ LPSocket.prototype.send = function LPSocket_send(msg) {
 		error: function(xhr) {
 			if (xhr.status == 404) {
 				// session expired or invalid; reconnect!
-				self.pushUri = undefined;
-			  self.emit('close', xhr.status);
+				this.pushUri = undefined;
+			  this.emit('close', xhr.status);
 			} else {
-				self.emit('error', xhr.status);
+				this.emit('error', xhr.status);
 			}
-		}
+		}.bind(this)
 	});
 };
 
