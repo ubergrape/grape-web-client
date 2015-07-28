@@ -119,21 +119,30 @@ App.prototype.onConnect = function App_onConnect(data) {
  * @param {Function} [callback]
  */
 App.prototype.initSocket = function App_initSocket(opts) {
-	var sock;
-	if (this.transport === 'ws') {
-		sock = opts.ws
-		if (typeof sock === 'string') {
-			this.wsUri = opts.ws;
-			sock = null
-		}
-		if (!sock) {
-			sock = new WebSocket(this.wsUri);
-		}
-	} else if (this.transport === 'lp') {
-		sock = new LPSocket(this.lpUri);
-	}
-	return sock;
-}
+	var lp = undefined;
+	var ws = undefined;
+	// first try longpolling
+	lp = new LPSocket(opts.lpUri);
+	lp.once('open', function() {
+		// try upgrade to websocket
+		ws = new WebSocket(opts.wsUri); 
+		ws.once('open', function() {
+			// websocket upgrade successful. 
+			// close longpolling and continue w/ websocket
+			// TODO(flo): explicitly kill lp session
+			lp.close();
+			opts.connected(ws);
+		});
+		ws.once('error', function() {
+			// use longpolling fallback as websocket failed
+			opts.connected(lp);
+		});
+	});
+	lp.once('error', function(err) {
+	  opts.error(err);
+	});
+};
+
 
 App.prototype.connect = function App_connect(ws, callback) {
 	if (this.connected) return;
@@ -143,35 +152,40 @@ App.prototype.connect = function App_connect(ws, callback) {
 
 	if (this.connecting) return;
 
+  var self = this;
 	this.connecting = true;
+	this.initSocket({
+		lpUri: self.lpUri, 
+		wsUri: (typeof ws == 'string' && ws !== '') ? ws : this.wsUri,
+		connected: function(socket) {
+			// connection established; bootstrap client state
+			self._socket = socket;
+			self.wamp = new Wamp(socket, {omitSubscribe: true});
+			self.bindEvents();
+			self.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
+				if (err) {
+					self.emit('error', err);
+					self.onDisconnect();
+					return;
+				}
+				self.onConnect(data);
+				self.heartbeat();
+			}.bind(self));
 
-  var socket = this.initSocket({ws: ws});
-	this._socket = socket;
+			socket.on('close', function(e) {
+				console.log('Socket closed, disconnecting!', e);
+				self.onDisconnect();
+			}.bind(self));
 
-	socket.on('open', function() {
-		console.log('Websocket Connection opened!');
-		this.wamp = new Wamp(socket, {omitSubscribe: true});
-		this.bindEvents();
-		this.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
-            if (err) {
-            	this.emit('error', err);
-            	this.onDisconnect();
-            	return;
-            }
-            this.onConnect(data);
-            this.heartbeat();
-		}.bind(this));
-	}.bind(this));
-
-	socket.on('close', function(e) {
-		console.log('Websocket closed, disconnecting!', e);
-		this.onDisconnect();
-	}.bind(this));
-
-	socket.on('error', function(err) {
-		console.log('Websocket error, disconnecting!', err);
-		this.onDisconnect();
-	}.bind(this));
+			socket.on('error', function(err) {
+				console.log('Socket error, disconnecting!', err);
+				self.onDisconnect();
+			}.bind(self));
+		},
+		error: function(err) {
+			self.reconnect();
+		}
+	});
 };
 
 App.prototype.disconnect = function App_disconnect() {
