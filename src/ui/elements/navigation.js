@@ -72,11 +72,11 @@ function replace(from, to) {
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
-		addroom: function (ev) {
-			self.emit('addroom', closest(ev.target, 'div', true));
+		triggerRoomCreation: function (ev) {
+			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		}
 	});
-	this.events.bind('click .addroom', 'addroom');
+	this.events.bind('click .create-room', 'triggerRoomCreation');
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {

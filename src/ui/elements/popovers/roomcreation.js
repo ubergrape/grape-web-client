@@ -69,3 +69,7 @@ RoomCreationPopover.prototype.errorFeedback = function RoomCreationPopover_error
 RoomCreationPopover.prototype.end = function RoomCreationPopover_end() {
 	this.hide();
 }
+
+RoomCreationPopover.prototype.onTriggerRoomCreation = function RoomCreationPopover_onTriggerRoomCreation (target) {
+	this.toggle(target);
+}
