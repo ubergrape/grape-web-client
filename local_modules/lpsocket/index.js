@@ -7,6 +7,7 @@ var exports = module.exports = LPSocket;
 
 function LPSocket(uri) {
 	Emitter.call(this);
+	this.uri = uri;
 	this.pollUri = undefined;
 	this.pushUri = undefined;
 	this.xhr = undefined;
@@ -19,7 +20,7 @@ LPSocket.prototype.connect = function LPSocket_connect() {
 	// initialize a long polling session
 	this.ajax({
 		method: 'PUT', 
-		path: uri,
+		path: this.uri,
 		success: function (xhr) {
 		  var resp = JSON.parse(xhr.responseText);
 		  // the responded urls already contain the 
