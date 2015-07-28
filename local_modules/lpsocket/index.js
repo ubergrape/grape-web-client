@@ -22,6 +22,9 @@ function LPSocket(uri) {
 			self.poll();
 			self.emit('open');
 		},
+		error: function(xhr) {
+			self.emit('error', xhr.responseText);
+		}
 	});
 };
 
@@ -97,6 +100,9 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 			if(xhr.status == 200 && opts.success !== undefined){
 				opts.success(xhr);
 			}
+			else if (xhr.status == 0) {
+				// aborted. doing nothing.
+			}
 			else if (xhr.status != 200 && opts.error !== undefined) {
 				opts.error(xhr);
 			}
@@ -105,5 +111,6 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 	xhr.open(opts.method, opts.path, true);
 	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	xhr.send(JSON.stringify(opts.data));
+	return xhr;
 };
 
