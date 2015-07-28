@@ -21,7 +21,7 @@ require('drop-anywhere/drop-anywhere.css');
 require('jh3y-resizable/resizable.css');
 require('js-emoji/emoji.css');
 
-var App = require('./api');
+var API = require('./api');
 var UI = require('./ui');
 var initBroker = require('./init-broker');
 var conf = require('conf');
@@ -32,11 +32,11 @@ window.ui = new UI(conf);
 document.body.appendChild(ui.el);
 
 // initialize the App
-window.app = new App();
+window.api = new API();
 
 // hook up UI to App
-initBroker(ui, app);
+initBroker(ui, api);
 
 // and connect to the server
 // TODO: this might come directly from the backend at some point?
-app.connect((location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host + '/ws/');
+api.connect((location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host + '/ws/');
