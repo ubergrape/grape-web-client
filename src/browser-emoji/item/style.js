@@ -1,8 +1,8 @@
 import colors from 'grape-theme/dist/base-colors'
 
 export const TAB_ICON = {
-  width: '1em',
-  height: '1em',
+  width: '1.539em',
+  height: '1.539em',
   marginRight: 5
 }
 

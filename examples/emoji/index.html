@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
     <title>Basic Example</title>
-    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css"/>
     <style>
       * {
         font-family: Roboto, sans-serif;
@@ -16,9 +16,12 @@
     </style>
   </head>
   <body>
-    <script src="../../node_modules/webcomponents.js/webcomponents-lite.js"></script>
-    <script src="../../node_modules/react/dist/react.js"></script>
-    <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
+    <script src="../node_modules/es5-shim/es5-shim.js"></script>
+    <script src="../node_modules/es6-shim/es6-shim.js"></script>
+    <script src="../node_modules/custom-event-polyfill/custom-event-polyfill.js"></script>
+    <script src="../node_modules/document-register-element/build/document-register-element.max.js"></script>
+    <script src="../node_modules/react/dist/react.js"></script>
+    <script src="../node_modules/reactive-elements/dist/reactive-elements.js"></script>
     <script src="../../dist/grape-browser.js"></script>
 
     <grape-emoji-browser></grape-emoji-browser>

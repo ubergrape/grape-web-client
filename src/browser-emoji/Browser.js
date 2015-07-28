@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
+import assign from 'lodash/object/assign'
 import debounce from 'lodash/function/debounce'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -34,13 +35,13 @@ class Browser extends Component {
     super(props)
     this.exposePublicMethods()
     this.onResize = debounce(::this.cacheItemsPerRow, 500)
-    this.state = this.createState(this.props)
+    this.state = this.createState(this.props, {})
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
+  componentWillUpdate(nextProps, nextState) {
+    assign(nextState, this.createState(nextProps, nextState))
   }
 
   componentDidUpdate() {
@@ -77,32 +78,27 @@ class Browser extends Component {
     })
   }
 
-  createState(props) {
-    let state = this.state || {}
+  createState(nextProps, nextState) {
     let currEmojiSheet = get(this.props, 'images.emojiSheet')
-    let newEmojiSheet = get(props, 'images.emojiSheet')
+    let newEmojiSheet = get(nextProps, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet !== currEmojiSheet || !emoji.get())) {
       PublicBrowser.init({
         emojiSheet: newEmojiSheet,
-        customEmojis: props.customEmojis
+        customEmojis: nextProps.customEmojis
       })
     }
 
-    let {facet} = state
+    let sections = dataUtils.getSections(nextProps.search)
+    let {facet} = nextState
+    if (!facet && sections.length) facet = sections[0].id
 
-    let tabs = dataUtils.getTabs({
-      orgLogo: props.images.orgLogo,
+    let tabs = dataUtils.getTabs(sections, {
+      orgLogo: nextProps.images.orgLogo,
       selected: facet
     })
 
-    let sections = []
-
-    if (tabs.length) {
-      if (!facet) facet = tabs[0].id
-      sections = dataUtils.getSections(facet, props.search)
-    }
-
-    let isFirstRender = state.isFirstRender == null ? true : false
+    sections = [dataUtils.getSection(sections, facet)]
+    let isFirstRender = nextState.isFirstRender == null ? true : false
 
     return {tabs, facet, sections, isFirstRender}
   }
@@ -179,9 +175,7 @@ class Browser extends Component {
     }
     let newIndex = findIndex(tabs, tab => tab.id === facet)
     facet = tabs[newIndex].id
-    dataUtils.setSelectedTab(tabs, newIndex)
-    let sections = dataUtils.getSections(facet, this.props.search)
-    this.setState({tabs, sections, facet})
+    this.setState({facet})
   }
 
   focusItem(id) {
@@ -191,6 +185,7 @@ class Browser extends Component {
     if (nextItem) nextItemId = nextItem.id
 
     let prevItem = dataUtils.getFocusedItem(sections)
+
     let prevComponent = this.grid.getItemComponent(prevItem.id)
     if (prevComponent) prevComponent.setState({focused: false})
 

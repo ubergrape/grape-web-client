@@ -24,7 +24,7 @@ export let container = {
   padding: '0 12px',
   listStyleType: 'none',
   cursor: 'pointer',
-  height: 32,
+  height: 34,
   color: color(colors.grapeTypo).alpha(0.7).rgbaString(),
   userSelect: 'none'
 }

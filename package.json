@@ -10,7 +10,7 @@
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git",
     "images-loader": "^0.1.2",
     "js-emoji": "ubergrape/js-emoji",
-    "jss": "^2.1.0",
+    "jss": "^2.1.2",
     "jss-camel-case": "^0.1.2",
     "jss-debug": "^0.1.1",
     "jss-nested": "^0.1.7",
@@ -31,11 +31,8 @@
     "eslint": "^0.24.1",
     "eslint-config-airbnb": "0.0.6",
     "eslint-plugin-react": "^2.7.0",
-    "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
     "node-libs-browser": "^0.5.2",
-    "reactive-elements": "ubergrape/ReactiveElements",
-    "webcomponents.js": "^0.5.4-1",
     "webpack": "^1.5.3"
   },
   "scripts": {
