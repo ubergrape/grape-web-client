@@ -12,6 +12,7 @@ function ItemList(options) {
 	Emitter.call(this);
 	this.template = options.template;
 	this.selector = options.selector + ', .item .name, .item .icon, .item .unread, .item .room-info, .item';
+	this.parameters = options.parameters ? options.parameters : null;
 	this.items = [];
 	this.selected = null;
 	this.redraw = this.redraw.bind(this);
@@ -23,7 +24,8 @@ ItemList.prototype = Object.create(Emitter.prototype);
 ItemList.prototype.redraw = function ItemList_redraw() {
 	var vdom = template(this.template, {
 		items: this.items,
-		selected: this.selected
+		selected: this.selected,
+		parameters: this.parameters
 	});
 	render(this, vdom);
 };
