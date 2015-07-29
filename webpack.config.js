@@ -1,8 +1,14 @@
 var webpack = require('webpack')
 
 module.exports = exports = {
-  node: {
-    Buffer: false
+  entry: {
+    browser: ['webpack/hot/dev-server', './src/index.js']
+  },
+
+  output: {
+    path: './examples/build',
+    publicPath: '/build/',
+    filename: 'grape-browser.js'
   },
 
   plugins: [
@@ -10,11 +16,21 @@ module.exports = exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__: process.env.NODE_ENV === 'development',
       __TEST__: process.env.NODE_ENV === 'test'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
 
   module: {
     loaders: [
+    /*
+      FIXME
+      {
+        loader: 'react-hot',
+        test: /\.js$/,
+        exclude: /node_modules/
+      },
+    */
       {
         loader: 'babel-loader',
         test: /\.js$/,
@@ -25,10 +41,9 @@ module.exports = exports = {
         test: /\.json$/
       }
     ]
-  }
-}
+  },
 
-exports.externals = {
-  react: 'React',
-  'reactive-elements': 'ReactiveElements'
+  externals: {
+    react: 'React'
+  }
 }

@@ -33,13 +33,22 @@
     "eslint-plugin-react": "^2.7.0",
     "json-loader": "^0.5.1",
     "node-libs-browser": "^0.5.2",
-    "webpack": "^1.5.3"
+    "react-hot-loader": "^1.2.8",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.10.1",
+    "document-register-element": "^0.1.8",
+    "es5-shim": "^4.1.10",
+    "es6-shim": "^0.32.2",
+    "font-awesome": "^4.3.0",
+    "reactive-elements": "ubergrape/ReactiveElements",
+    "custom-event-polyfill": "^0.2.1"
   },
   "scripts": {
     "all": "npm run lint; npm run build",
     "build": "npm run build-dev; npm run build-lib",
-    "build-dev": "NODE_ENV=development webpack src/index.js dist/grape-browser.js",
+    "build-dev": "NODE_ENV=development webpack src/index.js examples/build/grape-browser.js",
     "build-lib": "babel src --out-dir lib",
+    "start": "webpack-dev-server --hot",
     "lint": "eslint ./src",
     "emoji": "bin/emoji"
   }
