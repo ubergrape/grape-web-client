@@ -63,6 +63,7 @@ var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var RoomCreationPopover = exports.RoomCreationPopover = require('./elements/popovers/roomcreation');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
+var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
 var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
@@ -117,6 +118,9 @@ UI.prototype.init = function UI_init() {
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
+
+	this.rightSidebar = new RightSidebar();
+	qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
 
 	// initialize the input field
 	this.grapeInput = new GrapeInputIntegration();

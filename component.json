@@ -17,6 +17,7 @@
   "scripts": [
     "index.js",
     "browser/elements/chatheader.js",
+    "browser/elements/rightsidebar.js",
     "browser/elements/grapeinputintegration.js",
     "browser/elements/fileuploader.js",
     "browser/elements/historyview.js",
@@ -55,6 +56,7 @@
   "templates": [
     "templates/chatheader.jade",
     "templates/chathistory.jade",
+    "templates/rightsidebar.jade",
     "templates/typingnotifications.jade",
     "templates/searchresults.jade",
     "templates/grapeinputintegration.jade",

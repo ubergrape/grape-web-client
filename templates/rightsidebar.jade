@@ -1,0 +1,25 @@
+.right-sidebar-content
+	if room.type == 'room'
+		.right-sidebar-header
+			i.mdi.mdi-account-multiple
+			span.title Members in this room (#{userCount})
+		ul.user-list.popover-list
+			each member in room.users
+				li.item.user
+					if member != user
+						a(href='/chat/@' + member.username.toLowerCase())
+							aside.avatar-wrap
+								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
+								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
+							if (member.firstName || member.lastName)
+								span.right-sidebar-item #{member.firstName} #{member.lastName}
+							else
+								span.right-sidebar-item= member.username
+						if canKickMembers && member != room.creator
+							span.fa.fa-times.btn-delete(data-id=member.id)
+					else
+						.func-inner-wrap
+							aside.avatar-wrap
+								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
+								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
+							span.right-sidebar-item.inactive= member.displayName

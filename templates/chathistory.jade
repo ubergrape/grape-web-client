@@ -142,11 +142,12 @@
 										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
 											|  
 											i.fa.fa-globe
-											span.dif-tz
-												=_(' Local time: ')
-											//- the substr part is a hack to remove the tz information
-											- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-											time.user-tz= tz(user_time).format('h:mm a')
+											.different-timezone
+												span.dif-tz
+													=_(' Local time: ')
+												//- the substr part is a hack to remove the tz information
+												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												time.user-tz= tz(user_time).format('hh:mm A')
 							if i === 0
 								.messageinfo
 									if (first.author.type==='user')
@@ -176,11 +177,12 @@
 											if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
 												|  
 												i.fa.fa-globe
-												span.dif-tz
-													=_(' Local time: ')
-												//- the substr part is a hack to remove the tz information
-												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-												time.user-tz= tz(user_time).format('h:mm a')
+												.different-timezone
+													span.dif-tz
+														=_(' Local time: ')
+													//- the substr part is a hack to remove the tz information
+													- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+													time.user-tz= tz(user_time).format('hh:mm A')
 							if status !== 'sent'
 								div.status-control
 									if status == 'unsent'

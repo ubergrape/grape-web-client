@@ -28,6 +28,8 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
+	this.tagsToggle = qs('#tagsToggle', this.el);
+	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
 	this.editOptions = {
 		canRenameRoom: false,
@@ -78,6 +80,34 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
+		},
+		'toggleTags' : function(e) {
+			if (tagsToggle.className == "room-header-button") {
+				if (menuToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
+
+				tagsToggle.className = "room-header-button-active"
+				menuToggle.className = "room-header-button"
+			} else {
+				tagsToggle.className = "room-header-button"
+
+				self.emit('togglerightsidebar');
+			}
+		},
+		'toggleMenu' : function(e) {
+			if (menuToggle.className == "room-header-button") {
+				if (tagsToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
+
+				menuToggle.className = "room-header-button-active"
+				tagsToggle.className = "room-header-button"
+			} else {
+				menuToggle.className = "room-header-button"
+
+				self.emit('togglerightsidebar');
+			}
 		}
 	});
 
@@ -89,6 +119,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-rename-room', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
+	this.events.bind('click #tagsToggle', 'toggleTags');
+	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');

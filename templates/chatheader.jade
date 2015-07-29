@@ -1,4 +1,5 @@
 .room-header-wrap
+	.room-header-color-shade
 	.room-info-wrap
 		if room.type === 'room'
 			if editOptions.renamingRoom
@@ -15,21 +16,9 @@
 					if mode === 'search'
 						i.fa.fa-link
 						=_(" in ")
-					if !room.is_public
-						i.fa.fa-lock
-						|  
 					| #{room.name}
-				.options-wrap
-					if editOptions.canRenameRoom
-						a.header-option.option-rename-room(title="Rename Room")
-							i.fa.fa-pencil
-						a.header-option.option-delete-room(title="Delete Room")
-							i.fa.fa-trash
-				.room-users-wrap(title="View Members")
-					span.user-count
-						i.fa.fa-user
-						|  #{room.users.length}
-						i.fa.fa-chevron-down
+					br
+					span.room-topic Set a topic for this room!
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
@@ -38,11 +27,16 @@
 				| #{room.users[0].displayName}
 		
 	form.search-form
-		input.search(type="search", name="search-input", placeholder=_("Search"))
+		input.search(type="search", name="search-input", placeholder=_("Search for messages, files, etc."))
 		input.search-submit(type="submit")
 		i.fa.fa-search.search-icon
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	
+
+	#tagsToggle.room-header-button
+		i.mdi.mdi-tag-multiple
+	#menuToggle.room-header-button
+		i.mdi.mdi-menu
+
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap
 			span.online

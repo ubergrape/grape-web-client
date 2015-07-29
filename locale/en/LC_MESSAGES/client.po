@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2015-07-20 22:44+0000\n"
+"POT-Creation-Date: 2015-07-29 14:30+0000\n"
 
 #: client/templates/chathistory.jade:25
 #: client/templates/chathistory.jade:31
@@ -70,6 +70,8 @@ msgstr ""
 #: browser/index.js:174
 #: browser/index.js:175
 #: browser/index.js:176
+#: browser/index.js:184
+#: browser/index.js:188
 msgid "Next"
 msgstr ""
 
@@ -80,6 +82,8 @@ msgstr ""
 #: browser/index.js:175
 #: browser/index.js:176
 #: browser/index.js:177
+#: browser/index.js:185
+#: browser/index.js:189
 msgid "Skip"
 msgstr ""
 
@@ -225,6 +229,7 @@ msgstr ""
 #: templates/chathistory.jade:203
 #: templates/chathistory.jade:146
 #: templates/chathistory.jade:179
+#: templates/chathistory.jade:180
 msgid " Local time: "
 msgstr ""
 
@@ -248,6 +253,7 @@ msgstr ""
 #: templates/chathistory.jade:185
 #: templates/chathistory.jade:179
 #: templates/chathistory.jade:240
+#: templates/chathistory.jade:241
 msgid "Show More"
 msgstr ""
 
@@ -538,6 +544,7 @@ msgstr ""
 #: client/templates/navigation.jade:5
 #: templates/navigation.jade:5
 #: templates/navigation.jade:11
+#: templates/navigation.jade:14
 msgid "Loading"
 msgstr ""
 
@@ -567,6 +574,7 @@ msgstr ""
 #: templates/navigation.jade:17
 #: templates/navigation.jade:19
 #: templates/navigation.jade:18
+#: templates/navigation.jade:24
 msgid "All labels"
 msgstr ""
 
@@ -574,6 +582,7 @@ msgstr ""
 #: templates/navigation.jade:18
 #: templates/navigation.jade:20
 #: templates/navigation.jade:19
+#: templates/navigation.jade:25
 msgid "Labels"
 msgstr ""
 
@@ -594,6 +603,7 @@ msgstr ""
 
 #: client/templates/popovers/organization.jade:8
 #: templates/popovers/organization.jade:8
+#: templates/popovers/organization.jade:10
 msgid "Organization Settings"
 msgstr ""
 
@@ -601,11 +611,14 @@ msgstr ""
 #: client/templates/popovers/pm.jade:30
 #: templates/popovers/organization.jade:12
 #: templates/popovers/pm.jade:30
+#: templates/popovers/organization.jade:14
+#: templates/popovers/pm.jade:29
 msgid "Manage Members"
 msgstr ""
 
 #: client/templates/popovers/organization.jade:16
 #: templates/popovers/organization.jade:16
+#: templates/popovers/organization.jade:18
 msgid "Service Integrations"
 msgstr ""
 
@@ -616,11 +629,13 @@ msgstr ""
 
 #: client/templates/popovers/pm.jade:10
 #: templates/popovers/pm.jade:10
+#: templates/popovers/pm.jade:9
 msgid "x"
 msgstr ""
 
 #: client/templates/popovers/pm.jade:28
 #: templates/popovers/pm.jade:28
+#: templates/popovers/pm.jade:27
 msgid "There are no members in your organization yet."
 msgstr ""
 
@@ -634,6 +649,7 @@ msgstr ""
 #: templates/popovers/room.jade:7
 #: templates/popovers/room.jade:9
 #: templates/popovers/roomcreation.jade:3
+#: templates/popovers/roomcreation.jade:4
 msgid "Create new chatroom"
 msgstr ""
 
@@ -647,6 +663,7 @@ msgstr ""
 #: templates/popovers/room.jade:25
 #: templates/popovers/room.jade:23
 #: templates/popovers/roomcreation.jade:24
+#: templates/popovers/roomcreation.jade:25
 msgid "Cancel"
 msgstr ""
 
@@ -654,11 +671,13 @@ msgstr ""
 #: templates/popovers/room.jade:26
 #: templates/popovers/room.jade:24
 #: templates/popovers/roomcreation.jade:25
+#: templates/popovers/roomcreation.jade:26
 msgid "Create"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:3
 #: templates/popovers/roomlist.jade:3
+#: templates/popovers/roomlist.jade:4
 msgid "Rooms you haven't joined"
 msgstr ""
 
@@ -674,6 +693,7 @@ msgstr ""
 #: templates/popovers/roomlist.jade:52
 #: templates/popovers/roomlist.jade:21
 #: templates/popovers/roomlist.jade:47
+#: templates/popovers/roomlist.jade:23
 msgid "by "
 msgstr ""
 
@@ -693,11 +713,13 @@ msgstr ""
 #: templates/popovers/roomlist.jade:38
 #: templates/popovers/roomlist.jade:36
 #: templates/popovers/roomlist.jade:41
+#: templates/popovers/roomlist.jade:34
 msgid "leave"
 msgstr ""
 
 #: client/templates/popovers/roommembers.jade:2
 #: templates/popovers/roommembers.jade:2
+#: templates/popovers/roommembers.jade:3
 msgid "Members in "
 msgstr ""
 
@@ -708,6 +730,8 @@ msgstr ""
 #: templates/popovers/roommembers.jade:18
 #: templates/popovers/roommembers.jade:23
 #: templates/popovers/roommembers.jade:25
+#: templates/popovers/roommembers.jade:26
+#: templates/rightsidebar.jade:25
 msgid "Invite more members"
 msgstr ""
 
@@ -732,18 +756,21 @@ msgstr ""
 #: client/templates/popovers/user.jade:13
 #: templates/popovers/user.jade:13
 #: templates/popovers/user.jade:12
+#: templates/popovers/organization.jade:6
 msgid "Compact View"
 msgstr ""
 
 #: client/templates/popovers/user.jade:17
 #: templates/popovers/user.jade:17
 #: templates/popovers/user.jade:20
+#: templates/popovers/organization.jade:34
 msgid "Tutorial"
 msgstr ""
 
 #: client/templates/popovers/user.jade:21
 #: templates/popovers/user.jade:21
 #: templates/popovers/user.jade:24
+#: templates/popovers/organization.jade:22
 msgid "User Settings"
 msgstr ""
 
@@ -751,6 +778,7 @@ msgstr ""
 #: templates/popovers/user.jade:25
 #: templates/popovers/user.jade:28
 #: templates/popovers/user.jade:32
+#: templates/popovers/organization.jade:42
 msgid "Sign Out"
 msgstr ""
 
@@ -835,6 +863,7 @@ msgid "Rooms you have currently joined"
 msgstr ""
 
 #: templates/popovers/user.jade:16
+#: templates/popovers/organization.jade:30
 msgid "Give Feedback"
 msgstr ""
 
@@ -858,6 +887,7 @@ msgstr ""
 #: templates/chathistory.jade:124
 #: templates/pmlist.jade:24
 #: templates/chathistory.jade:165
+#: templates/chathistory.jade:166
 msgid "Deleted user"
 msgstr ""
 
@@ -922,20 +952,24 @@ msgstr ""
 
 #: templates/navigation.jade:14
 #: templates/popovers/room.jade:3
+#: templates/popovers/room.jade:4
 msgid "Manage rooms"
 msgstr ""
 
 #: templates/navigation.jade:23
+#: templates/navigation.jade:29
 msgid "Private messages"
 msgstr ""
 
 #: templates/navigation.jade:25
+#: templates/navigation.jade:31
 msgid "Search users"
 msgstr ""
 
 #: templates/popovers/roomlist.jade:24
 #: templates/popovers/roomlist.jade:55
 #: templates/popovers/roomlist.jade:50
+#: templates/popovers/roomlist.jade:47
 msgid "created by "
 msgstr ""
 
@@ -994,26 +1028,32 @@ msgid " was successfully deleted."
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:8
+#: templates/popovers/roomcreation.jade:9
 msgid "Room name"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:12
+#: templates/popovers/roomcreation.jade:13
 msgid "Room type"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:15
+#: templates/popovers/roomcreation.jade:16
 msgid "Public room"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:17
+#: templates/popovers/roomcreation.jade:18
 msgid "A public room that everybody can see and join."
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:20
+#: templates/popovers/roomcreation.jade:21
 msgid "Private room"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:22
+#: templates/popovers/roomcreation.jade:23
 msgid "A private room that only invited users can see and join."
 msgstr ""
 
@@ -1028,6 +1068,8 @@ msgstr ""
 
 #: browser/index.js:198
 #: browser/index.js:199
+#: browser/index.js:207
+#: browser/index.js:211
 msgid ""
 "<h2>Communicate 1-on-1</h2><h3>Click on your team members to start private "
 "conversations</h3><p>The color dot indicates each user's current state:<ul "
@@ -1041,6 +1083,8 @@ msgstr ""
 
 #: browser/index.js:204
 #: browser/index.js:205
+#: browser/index.js:213
+#: browser/index.js:217
 msgid ""
 "<h2>The Room header</h2><h3>At ChatGrape everything is just one click "
 "away.</h3><p>As an admin or room owner, you can modify a <u>Room Name</u> "
@@ -1073,10 +1117,12 @@ msgid "Enable notifications"
 msgstr ""
 
 #: templates/popovers/organization.jade:20
+#: templates/popovers/organization.jade:38
 msgid "Switch Organizations"
 msgstr ""
 
 #: templates/popovers/user.jade:28
+#: templates/popovers/organization.jade:26
 msgid "Notification Settings"
 msgstr ""
 
@@ -1093,6 +1139,7 @@ msgid " (Room Invite)"
 msgstr ""
 
 #: templates/chatheader.jade:17
+#: templates/chatheader.jade:18
 msgid " in "
 msgstr ""
 
@@ -1113,26 +1160,32 @@ msgid "You"
 msgstr ""
 
 #: templates/chathistory.jade:169
+#: templates/chathistory.jade:170
 msgid " at "
 msgstr ""
 
 #: templates/chathistory.jade:187
+#: templates/chathistory.jade:188
 msgid "Retry"
 msgstr ""
 
 #: templates/chathistory.jade:190
+#: templates/chathistory.jade:191
 msgid "Not sent"
 msgstr ""
 
 #: templates/chathistory.jade:241
+#: templates/chathistory.jade:242
 msgid "Show Less"
 msgstr ""
 
 #: templates/chathistory.jade:247
+#: templates/chathistory.jade:248
 msgid "load newer messages"
 msgstr ""
 
 #: templates/chathistory.jade:252
+#: templates/chathistory.jade:253
 msgid "newest messages"
 msgstr ""
 
@@ -1144,4 +1197,20 @@ msgstr ""
 
 #: templates/messages.jade:27
 msgid "We could not find the message you were looking for."
+msgstr ""
+
+#: templates/chathistory.jade:163
+msgid " (You)"
+msgstr ""
+
+#: templates/navigation.jade:18
+msgid "+"
+msgstr ""
+
+#: templates/navigation.jade:20
+msgid "Rooms "
+msgstr ""
+
+#: templates/chatheader.jade:30
+msgid "Search for messages, files, etc."
 msgstr ""

@@ -5,10 +5,12 @@
 // ****
 .footer
 	z-index: 30
-	padding: 25px horizontal-space 15px
-	background: footer-background
+	padding: 18px horizontal-space 15px
+	background: url("../images/cgbg-new.png")
+	background-attachment: fixed
 	transform: translate3d(0,0,0)
 	will-change: transform
+	border-top: solid 1px #F3F3F3
 
 	.grape-input-wrapper
 		display: flex
@@ -103,15 +105,22 @@
 
 	// hints
 	.edit-message, .hint-box
-		@extend $small-font-size
+		font-size: 0.8em
 		position: absolute
-		top: -18px
-		left: 68px
-		color: gainsboro-dark
+		top: -35px
+		left: 64px
+		color: #666666
+		background: linear-gradient(#FBFBFB, #F7F7F7);
+		border: solid 1px #E5E5E5
+		border-radius: 3px
+		padding: 2px 12px 1px 12px
 		span
 			border-radius: 3px
-			border: 1px solid gainsboro-light
-			padding: 0 2px
+			border: 1px solid #CCCCCC
+			padding: 1px 3px
+			margin: 0 2px
+			color: #666666
+			background: #FBFBFB
 
 	// uploader styling
 	.uploader

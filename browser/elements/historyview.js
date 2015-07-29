@@ -130,6 +130,12 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
+
+	if (el.parentNode.childNodes[0] === el) {
+		var avatar = qs('.avatar', el.parentNode.parentNode.parentNode);
+		classes(avatar).add('editing');
+	}
+
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('selectedforediting', msg, this.room);
 };
