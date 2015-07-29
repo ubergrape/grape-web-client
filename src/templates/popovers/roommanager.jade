@@ -2,9 +2,9 @@
 	.inner-popover(style="box-shadow:0 1px 0px rgba(0,0,0,0.1); padding-bottom: 5px")
 		h3
 			=_('Manage rooms')
-		div.room-manager-navigation
-			a.rooms-to-join(class=(roomListType === 'unjoined' ? 'selected' : ''))= _("Rooms to join")
-			a.joined-rooms(class=(roomListType === 'joined' ? 'selected' : ''))= _("Joined rooms")
-			a.new-room= _("New room")
+	div.room-manager-navigation
+		a.rooms-to-join(class=(roomListType === 'unjoined' ? 'selected' : ''))= _("Rooms to join")
+		a.joined-rooms(class=(roomListType === 'joined' ? 'selected' : ''))= _("Joined rooms")
+		a.new-room= _("New room")
 	.po-scroll-wrap
 		ul
