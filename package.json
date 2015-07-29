@@ -59,7 +59,8 @@
     "textcomplete": "ubergrape/textcomplete",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1",
-    "websocket": "ubergrape/websocket"
+    "websocket": "ubergrape/websocket",
+    "lpsocket": "./local_modules/lpsocket"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
