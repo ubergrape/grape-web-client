@@ -61,10 +61,32 @@ RoomManagerPopover.prototype.bind = function RoomManagerPopover_bind() {
 		self.roomListType = 'creation';
 		self.redraw();
 	}
+	this.events.obj.createRoom = function(e) {
+		e.preventDefault();
+		var form = qs('form.create-room-form', this.el);
+		var newRoomName = form['newroom-name'];
+		var room = {
+			'name': newRoomName.value.trim(),
+			'is_public': qs('input:checked', form).value
+		};
+		self.emit('createroom', room);
+	};
+	this.events.obj.resetValidity = function() {
+		var form = qs('form.create-room-form', this.el);
+		var newRoomName = form['newroom-name'];
+		newRoomName.setCustomValidity('');
+	};
+	this.events.obj.cancel = function () {
+		self.end();
+	};
+
 	this.events.bind('click li.leave', 'leaveRoom');
 	this.events.bind('click a.rooms-to-join', 'setUnjoinedList');
 	this.events.bind('click a.joined-rooms', 'setJoinedList');
 	this.events.bind('click a.new-room', 'triggerRoomCreation');
+	this.events.bind('submit form.create-room-form', 'createRoom');
+	this.events.bind('click input.back', 'cancel');
+	this.events.bind('keydown input#newroom-name', 'resetValidity');
 };
 
 RoomManagerPopover.prototype.onTriggerRoomCreation = function RoomManagerPopover_onTriggerRoomCreation (target) {
@@ -126,4 +148,16 @@ RoomManagerPopover.prototype.setItems = function RoomManagerPopover_setItems(ite
 
 RoomManagerPopover.prototype.onOrgReady = function RoomManagerPopover_onOrgReady(org) {
 	this.setItems(org.rooms);
+}
+
+RoomManagerPopover.prototype.errorFeedback = function RoomCreationPopover_errorFeedback(err) {
+	var form = qs('form.create-room-form', this.el);
+	var newRoomName = form['newroom-name'];
+	var createButton = qs('input.create', form);
+	newRoomName.setCustomValidity(err.msg);
+	createButton.click();
+}
+
+RoomManagerPopover.prototype.end = function RoomCreationPopover_end() {
+	this.hide();
 }

@@ -57,7 +57,6 @@ var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popove
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
-var RoomCreationPopover = exports.RoomCreationPopover = require('./elements/popovers/roomcreation');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -109,7 +108,6 @@ UI.prototype.init = function UI_init() {
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
-	this.roomCreation = new RoomCreationPopover();
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
