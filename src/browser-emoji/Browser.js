@@ -97,7 +97,8 @@ class Browser extends Component {
       selected: facet
     })
 
-    sections = [dataUtils.getSection(sections, facet)]
+    let section = dataUtils.getSection(sections, facet)
+    sections = section ? [section] : []
     let isFirstRender = nextState.isFirstRender == null ? true : false
 
     return {tabs, facet, sections, isFirstRender}
