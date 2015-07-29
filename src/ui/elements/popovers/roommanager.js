@@ -57,10 +57,21 @@ RoomManagerPopover.prototype.bind = function RoomManagerPopover_bind() {
 		self.itemList.parameters.roomListType = self.roomListType;
 		self.redraw();
 	};
+	this.events.obj.triggerRoomCreation = function(e) {
+		self.roomListType = 'creation';
+		self.redraw();
+	}
 	this.events.bind('click li.leave', 'leaveRoom');
 	this.events.bind('click a.rooms-to-join', 'setUnjoinedList');
 	this.events.bind('click a.joined-rooms', 'setJoinedList');
+	this.events.bind('click a.new-room', 'triggerRoomCreation');
 };
+
+RoomManagerPopover.prototype.onTriggerRoomCreation = function RoomManagerPopover_onTriggerRoomCreation (target) {
+	this.roomListType = 'creation';
+	this.redraw();
+	this.toggle(target);
+}
 
 RoomManagerPopover.prototype.redraw = function RoomManagerPopover_redraw() {
 	this.classes.add('room-po');
@@ -104,6 +115,8 @@ RoomManagerPopover.prototype.onLeftChannel = function RoomManagerPopover_onLeftC
 }
 
 RoomManagerPopover.prototype.onTriggerRoomManager = function RoomManagerPopover_onTriggerRoomManager (target) {
+	this.roomListType = 'unjoined';
+	this.redraw();
 	this.toggle(target);
 }
 
