@@ -48,39 +48,13 @@
           },
           onSelectItem: function(data) {
             console.log('onSelectItem', data)
+          },
+          onInput: function(data) {
+            console.log('onInput', data)
           }
         }
-
-        var keysMap = {
-          40: 'down',
-          38: 'up',
-          39: 'right',
-          37: 'left',
-          13: 'enter'
-        }
-
-        window.addEventListener('keydown', function (e) {
-          var action = keysMap[e.keyCode]
-          if (action == 'enter') {
-            console.log(component.getFocusedItem())
-          } else {
-            switch (action) {
-              case 'right':
-                component.selectTab('next')
-                break
-              case 'left':
-                component.selectTab('prev')
-                break
-              case 'down':
-                component.focusItem('next')
-                break
-              case 'up':
-                component.focusItem('prev')
-                break
-            }
-          }
-        })
       }
+
       document.addEventListener('DOMContentLoaded', search)
     </script>
     <script src="http://localhost:8080/webpack-dev-server.js"></script>

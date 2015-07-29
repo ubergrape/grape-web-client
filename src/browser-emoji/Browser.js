@@ -4,6 +4,7 @@ import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import assign from 'lodash/object/assign'
 import debounce from 'lodash/function/debounce'
+import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -14,6 +15,8 @@ import Item from './item/Item'
 import * as dataUtils from './dataUtils'
 import Icon from '../emoji/Icon'
 import * as emoji from '../emoji'
+import Input from '../input/Input'
+import Empty from '../empty/Empty'
 
 /**
  * Main emoji browser component.
@@ -25,9 +28,7 @@ class Browser extends Component {
     height: 400,
     maxWidth: 920,
     className: '',
-    search: '',
     onSelectItem: undefined,
-    onNotFound: undefined,
     onDidMount: undefined
   }
 
@@ -46,7 +47,6 @@ class Browser extends Component {
 
   componentDidUpdate() {
     this.cacheItemsPerRow()
-    this.onNotFound()
   }
 
   componentWillMount() {
@@ -61,13 +61,7 @@ class Browser extends Component {
   componentDidMount() {
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
-    this.onNotFound()
-    if (this.state.isFirstRender) {
-      // Rendering emojis is slow right now.
-      // We need to show the browser first for fast perceptional UX.
-      setTimeout(() => this.setState({isFirstRender: false}))
-    }
-    else this.cacheItemsPerRow()
+    this.cacheItemsPerRow()
   }
 
   exposePublicMethods() {
@@ -88,37 +82,34 @@ class Browser extends Component {
       })
     }
 
-    let sections = dataUtils.getSections(nextProps.search)
-    let {facet} = nextState
-    if (!facet && sections.length) facet = sections[0].id
+    let {facet, search} = nextState
 
-    let tabs = dataUtils.getTabs(sections, {
+    if (facet !== 'search') search = null
+    let sections = dataUtils.getSections(search, facet)
+
+    let tabs = dataUtils.getTabs({
       orgLogo: nextProps.images.orgLogo,
-      selected: facet
+      selected: facet,
+      hasSearch: Boolean(nextState.search)
     })
 
-    let section = dataUtils.getSection(sections, facet)
-    sections = section ? [section] : []
-    let isFirstRender = nextState.isFirstRender == null ? true : false
-
-    return {tabs, facet, sections, isFirstRender}
+    return {tabs, facet, sections}
   }
 
   render() {
     let {classes} = this.props.sheet
     let {sections} = this.state
 
-    if (!sections.length) return null
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}
-        onMouseDown={::this.onMouseDown}>
+        style={pick(this.props, 'height', 'maxWidth')}>
+        <Input onInput={::this.onInput} onKeyDown={::this.onKeyDown}/>
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        <div className={classes.column}>
-          <div className={classes.row}>
-            {!this.state.isFirstRender &&
+        {!sections.length && <Empty text="No emoji found." />}
+        {sections.length > 0 &&
+          <div className={classes.column}>
+            <div className={classes.row}>
               <Grid
                 data={sections}
                 images={this.props.images}
@@ -129,9 +120,9 @@ class Browser extends Component {
                 onFocus={::this.onFocusItem}
                 onSelect={::this.onSelectItem}
                 onDidMount={::this.onGridDidMount} />
-            }
+            </div>
           </div>
-        </div>
+        }
       </div>
     )
   }
@@ -181,6 +172,7 @@ class Browser extends Component {
 
   focusItem(id) {
     let {sections} = this.state
+    if (!sections.length) return
     let nextItemId = id
     let nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
     if (nextItem) nextItemId = nextItem.id
@@ -201,31 +193,64 @@ class Browser extends Component {
     this.props.onSelectItem(this.getFocusedItem())
   }
 
-  onNotFound() {
-    let {onNotFound} = this.props
-    if (!this.state.sections.length && onNotFound) onNotFound()
+  /**
+   * Keyboard navigation.
+   */
+  navigate(e) {
+    switch (keyname(e.keyCode)) {
+      case 'down':
+        this.focusItem('nextRow')
+        e.preventDefault()
+        break
+      case 'up':
+        this.focusItem('prevRow')
+        e.preventDefault()
+        break
+      case 'left':
+        this.focusItem('prev')
+        e.preventDefault()
+        break
+      case 'right':
+        this.focusItem('next')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.props.onSelectItem(this.getFocusedItem())
+        e.preventDefault()
+        break
+      case 'tab':
+        this.selectTab('next')
+        e.preventDefault()
+        break
+      default:
+    }
   }
 
-  onFocusItem(data) {
-    this.focusItem(data.id)
+  onFocusItem({id}) {
+    this.focusItem(id)
   }
 
-  onSelectItem(data) {
-    this.selectItem(data.id)
+  onSelectItem({id}) {
+    this.selectItem(id)
   }
 
-  onSelectTab(data) {
-    this.selectTab(data.id)
-  }
-
-  onMouseDown(e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
+  onSelectTab({id}) {
+    this.selectTab(id)
   }
 
   onGridDidMount(grid) {
     this.grid = grid
+  }
+
+  onInput({value}) {
+    this.setState({
+      search: value,
+      facet: value ? 'search' : undefined
+    })
+  }
+
+  onKeyDown(e) {
+    this.navigate(e)
   }
 }
 

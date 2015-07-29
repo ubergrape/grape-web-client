@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
+import keyname from 'keyname'
 
 import {useSheet} from '../jss'
 import style from '../browser/style'
@@ -9,6 +10,7 @@ import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../empty/Empty'
 import Spinner from '../spinner/Spinner'
+import Input from '../input/Input'
 import * as services from './services'
 import * as dataUtils from './dataUtils'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -32,10 +34,12 @@ export default class Browser extends Component {
     orgName: undefined,
     orgOwner: undefined,
     images: undefined,
+    inputDelay: 500,
     onAddIntegration: undefined,
     onSelectTab: undefined,
     onSelectItem: undefined,
-    onDidMount: undefined
+    onDidMount: undefined,
+    onInput: undefined
   }
 
   constructor(props) {
@@ -74,8 +78,7 @@ export default class Browser extends Component {
       props.maxItemsPerSectionInAll
     )
 
-    let tabs = []
-    if (data) tabs = dataUtils.getTabs(data.services, serviceId)
+    let tabs = dataUtils.getTabs(data.services, serviceId)
 
     return {sections, tabs, serviceId}
   }
@@ -88,40 +91,31 @@ export default class Browser extends Component {
   selectTab(selector) {
     let {tabs} = this.state
     let currIndex = findIndex(tabs, tab => tab.selected)
-
     let newIndex
-    let set = false
 
     if (selector === 'next') {
       newIndex = currIndex + 1
-      if (newIndex < tabs.length) {
-        set = true
-      }
+      if (!tabs[newIndex]) newIndex = 0
     }
     else if (selector === 'prev') {
       newIndex = currIndex - 1
-      if (newIndex >= 0) {
-        set = true
-      }
+      if (newIndex < 0) newIndex = tabs.length - 1
     }
     else {
       newIndex = findIndex(tabs, tab => tab.id === selector)
-      set = true
     }
 
-    if (set) {
-      let {id} = tabs[newIndex]
-      dataUtils.setSelectedTab(tabs, newIndex)
-      let sections = dataUtils.getSections(
-        this.props.data,
-        id,
-        this.props.maxItemsPerSectionInAll
-      )
-      dataUtils.setSelectedSection(sections, id)
-      dataUtils.setFocusedItemAt(sections, id, 0)
-      this.setState({tabs: tabs, sections: sections, serviceId: id})
-      this.props.onSelectTab({id: id})
-    }
+    let {id} = tabs[newIndex]
+    dataUtils.setSelectedTab(tabs, newIndex)
+    let sections = dataUtils.getSections(
+      this.props.data,
+      id,
+      this.props.maxItemsPerSectionInAll
+    )
+    dataUtils.setSelectedSection(sections, id)
+    dataUtils.setFocusedItemAt(sections, id, 0)
+    this.setState({tabs: tabs, sections: sections, serviceId: id})
+    this.props.onSelectTab({id: id})
   }
 
   focusItem(selector) {
@@ -134,10 +128,16 @@ export default class Browser extends Component {
       let focusedIndex = findIndex(items, item => item.focused)
       let newItem
 
-      if (selector === 'next') newItem = items[focusedIndex + 1]
-      else if (selector === 'prev') newItem = items[focusedIndex - 1]
+      if (selector === 'next') {
+        newItem = items[focusedIndex + 1]
+        if (!newItem) newItem = items[0]
+      }
+      else if (selector === 'prev') {
+        newItem = items[focusedIndex - 1]
+        if (!newItem) newItem = items[items.length - 1]
+      }
 
-      if (newItem) id = newItem.id
+      id = newItem.id
     }
     else id = selector
 
@@ -158,12 +158,17 @@ export default class Browser extends Component {
 
   render() {
     let {classes} = this.props.sheet
+    let {inputDelay} = this.props
+    if (!this.props.isExternal) inputDelay = undefined
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}
-        onMouseDown={::this.onMouseDown}>
+        style={pick(this.props, 'height', 'maxWidth')}>
+        <Input
+          onInput={this.props.onInput}
+          delay={inputDelay}
+          onKeyDown={::this.onKeyDown} />
         {this.state.tabs &&
           <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         }
@@ -214,21 +219,49 @@ export default class Browser extends Component {
     )
   }
 
-  onFocusItem(data) {
-    this.focusItem(data.id)
+  /**
+   * Keyboard navigation.
+   */
+  navigate(e) {
+    switch (keyname(e.keyCode)) {
+      case 'down':
+        this.focusItem('next')
+        e.preventDefault()
+        break
+      case 'up':
+        this.focusItem('prev')
+        e.preventDefault()
+        break
+      case 'right':
+      case 'tab':
+        this.selectTab('next')
+        e.preventDefault()
+        break
+      case 'left':
+        this.selectTab('prev')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.props.onSelectItem(this.getFocusedItem())
+        e.preventDefault()
+        break
+      default:
+    }
   }
 
-  onSelectItem(data) {
-    this.selectItem(data.id)
+  onFocusItem({id}) {
+    this.focusItem(id)
   }
 
-  onSelectTab(data) {
-    this.selectTab(data.id)
+  onSelectItem({id}) {
+    this.selectItem(id)
   }
 
-  onMouseDown(e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
+  onSelectTab({id}) {
+    this.selectTab(id)
+  }
+
+  onKeyDown(e) {
+    this.navigate(e)
   }
 }

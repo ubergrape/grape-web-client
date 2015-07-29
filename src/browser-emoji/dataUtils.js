@@ -3,6 +3,7 @@ import find from 'lodash/collection/find'
 import indexBy from 'lodash/collection/indexBy'
 import values from 'lodash/object/values'
 import compact from 'lodash/array/compact'
+import clone from 'lodash/lang/clone'
 
 import * as dataUtils from '../browser/dataUtils'
 import * as grid from './grid'
@@ -20,12 +21,13 @@ const EMOJI_CATEGORY_ORDER = {
 }
 
 const EMOJI_CATEGORY_ICON = {
+  search: 'mag',
   emoticons: 'smiley',
   nature: 'four_leaf_clover',
   objects: 'soccer',
   places: 'airplane',
   other: '1234',
-  customEmoji: 'customEmoji'
+  grapemoji: 'grapemoji'
 }
 
 const EMOJI_META_MAP = indexBy(EMOJI_META, 'name')
@@ -71,17 +73,17 @@ export function init() {
   })
 
   allSections.push({
-    id: 'customEmoji',
-    label: 'Grapemoji',
+    id: 'grapemoji',
+    label: 'grapemoji',
     selected: false,
     items: values(emoji.getCustom())
   })
 }
 
-export function getSections(search) {
+export function getSections(search, facet = 'emoticons') {
   let ret = allSections
 
-  if (search) {
+  if (search && facet === 'search') {
     ret = ret.map(section => {
       let items = section.items.filter(item => {
         if (item.name.indexOf(search) >= 0) return true
@@ -94,26 +96,37 @@ export function getSections(search) {
     ret = compact(ret)
   }
 
+  if (ret.length) {
+    if (facet) {
+      let section = find(ret, ({id}) => id === facet)
+      if (section) ret = [section]
+    }
+    setFocusedItem(ret, ret[0].items[0].id)
+  }
+
   return ret
 }
 
 export function getSection(sections, facet) {
-  let section = find(sections, sect => sect.id === facet)
+  let section = find(sections, ({id}) => id === facet)
   if (section) setFocusedItem([section], section.items[0].id)
   return section
 }
 
-export function getTabs(sections, options) {
-  let selected = options.selected || 'emoticons'
+export function getTabs({hasSearch, selected, orgLogo}) {
+  if (!allSections.length) return []
 
-  return allSections.map(section => {
-    let id = section.id
-    let iconId = EMOJI_CATEGORY_ICON[section.id]
+  let sections = clone(allSections)
+
+  if (hasSearch) sections.unshift({id: 'search'})
+
+  let tabs = sections.map(({id}) => {
+    let iconId = EMOJI_CATEGORY_ICON[id]
     let style
 
-    if (iconId === 'customEmoji') {
+    if (iconId === 'grapemoji') {
       style = {
-        backgroundImage: `url(${options.orgLogo})`,
+        backgroundImage: `url(${orgLogo})`,
         ...itemStyle.TAB_ICON
       }
     }
@@ -123,6 +136,13 @@ export function getTabs(sections, options) {
     }
 
     let icon = <Icon style={style} />
-    return {id, selected: selected === section.id, icon}
+    return {id, selected: false, icon}
   })
+
+  let tab
+  if (selected) tab = find(tabs, ({id}) => id === selected)
+  else tab = tabs[0]
+  tab.selected = true
+
+  return tabs
 }
