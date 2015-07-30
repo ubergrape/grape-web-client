@@ -126,7 +126,6 @@ Navigation.prototype.pmFilter = function Navigation_pmFilter() {
 	self.redraw();
 };
 
-// redraw everything, eg when the language changes
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
