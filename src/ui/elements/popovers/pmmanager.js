@@ -21,19 +21,21 @@ PMManagerPopover.prototype.init = function PMManagerPopover_init() {
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
-	/*this.itemList = new ItemList({
+	this.PMList = new ItemList({
 		template: 'popovers/pmlist.jade',
 		selector: '.toggle'
 	});
-	replace(qs('ul', this.el), this.itemList.el);
-	*/
+	function replace(from, to) {
+		from.parentNode.replaceChild(to, from);
+	};
+	replace(qs('ul', this.el), this.PMList.el);
 }
 
 PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.classes.add('room-po');
 	this.classes.add('left');
 	render(this.content, template('popovers/pmmanager.jade'));
-	//if (this.itemList) this.itemList.redraw();
+	if (this.PMList) this.PMList.redraw();
 };
 
 PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (target) {

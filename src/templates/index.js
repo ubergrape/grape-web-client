@@ -15,6 +15,7 @@ template.templates = {
 	'pmlist.jade': require('./pmlist.jade'),
 	'popovers/organization.jade': require('./popovers/organization.jade'),
 	'popovers/pmmanager.jade': require('./popovers/pmmanager.jade'),
+	'popovers/pmlist.jade': require('./popovers/pmlist.jade'),
 	'popovers/roommanager.jade': require('./popovers/roommanager.jade'),
 	'popovers/roomlist.jade': require('./popovers/roomlist.jade'),
 	'popovers/roommembers.jade': require('./popovers/roommembers.jade'),
