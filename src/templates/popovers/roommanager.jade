@@ -3,12 +3,12 @@
 		h3
 			=_('Manage rooms')
 	div.room-manager-navigation
-		a.rooms-to-join(class=(roomListType === 'unjoined' ? 'selected' : ''))= _("Rooms to join")
-		a.joined-rooms(class=(roomListType === 'joined' ? 'selected' : ''))= _("Joined rooms")
-		a.new-room(class=(roomListType === 'creation' ? 'selected' : ''))= _("New room")
-	.po-scroll-wrap(class=(roomListType === 'creation' ? 'hidden' : ''))
+		a.rooms-to-join(class=(tabSelection === 'unjoined' ? 'selected' : ''))= _("Rooms to join")
+		a.joined-rooms(class=(tabSelection === 'joined' ? 'selected' : ''))= _("Joined rooms")
+		a.new-room(class=(tabSelection === 'creation' ? 'selected' : ''))= _("New room")
+	.po-scroll-wrap(class=(tabSelection === 'creation' ? 'hidden' : ''))
 		ul
-	if (roomListType === 'creation')
+	if (tabSelection === 'creation')
 		form.create-room-form
 			.inner-popover
 				.formrow

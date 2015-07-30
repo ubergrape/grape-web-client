@@ -1,6 +1,6 @@
 ul.popover-list
 	li.inner-popover
-	if (parameters.roomListType == 'unjoined')
+	if (tabSelection == 'unjoined')
 		each room in items
 			if !room.joined
 				li.item.room(data-id=room.id, key=room.id)

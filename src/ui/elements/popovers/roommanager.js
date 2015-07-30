@@ -21,15 +21,15 @@ RoomManagerPopover.prototype = Object.create(Popover.prototype);
 RoomManagerPopover.prototype.init = function RoomManagerPopover_init() {
 	Popover.prototype.init.call(this);
 	this.content = {};
-	this.roomListType = 'unjoined';
+	this.tabSelection = 'unjoined';
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
 	this.itemList = new ItemList({
 		template: 'popovers/roomlist.jade',
 		selector: '.toggle',
-		parameters: {
-			roomListType: this.roomListType
+		templateOptions: {
+			tabSelection: this.tabSelection
 		}
 	});
 	replace(qs('ul', this.el), this.itemList.el);
@@ -48,17 +48,17 @@ RoomManagerPopover.prototype.bind = function RoomManagerPopover_bind() {
 		self.emit('leaveroom', roomID);
 	};
 	this.events.obj.setJoinedList = function(e) {
-		self.roomListType = 'joined';
-		self.itemList.parameters.roomListType = self.roomListType;
+		self.tabSelection = 'joined';
+		self.itemList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
 	};
 	this.events.obj.setUnjoinedList = function(e) {
-		self.roomListType = 'unjoined';
-		self.itemList.parameters.roomListType = self.roomListType;
+		self.tabSelection = 'unjoined';
+		self.itemList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
 	};
 	this.events.obj.triggerRoomCreation = function(e) {
-		self.roomListType = 'creation';
+		self.tabSelection = 'creation';
 		self.redraw();
 	}
 	this.events.obj.createRoom = function(e) {
@@ -90,7 +90,7 @@ RoomManagerPopover.prototype.bind = function RoomManagerPopover_bind() {
 };
 
 RoomManagerPopover.prototype.onTriggerRoomCreation = function RoomManagerPopover_onTriggerRoomCreation (target) {
-	this.roomListType = 'creation';
+	this.tabSelection = 'creation';
 	this.redraw();
 	this.toggle(target);
 }
@@ -99,7 +99,7 @@ RoomManagerPopover.prototype.redraw = function RoomManagerPopover_redraw() {
 	this.classes.add('room-po');
 	this.classes.add('left');
 	render(this.content, template('popovers/roommanager.jade', {
-		roomListType: this.roomListType
+		tabSelection: this.tabSelection
 	}));
 	if (this.itemList) this.itemList.redraw();
 };
@@ -137,7 +137,8 @@ RoomManagerPopover.prototype.onLeftChannel = function RoomManagerPopover_onLeftC
 }
 
 RoomManagerPopover.prototype.onTriggerRoomManager = function RoomManagerPopover_onTriggerRoomManager (target) {
-	this.roomListType = 'unjoined';
+	this.tabSelection = 'unjoined';
+	this.itemList.templateOptions.tabSelection = this.tabSelection;
 	this.redraw();
 	this.toggle(target);
 }
