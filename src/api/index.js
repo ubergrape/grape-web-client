@@ -135,6 +135,7 @@ App.prototype.initSocket = function App_initSocket(opts) {
 		});
 		ws.once('error', function() {
 			// use longpolling fallback as websocket failed
+			lp.poll();
 			opts.connected(lp);
 		});
 	});
