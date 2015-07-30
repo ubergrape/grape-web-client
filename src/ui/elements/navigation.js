@@ -62,10 +62,14 @@ Navigation.prototype.bind = function Navigation_bind() {
 		},
 		triggerRoomManager: function(ev) {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
+		},
+		triggerPMManager: function(ev) {
+			self.emit('triggerPMManager', closest(ev.target, 'a', true));
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms', 'triggerRoomManager');
+	this.events.bind('click .manage-pms', 'triggerPMManager');
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {

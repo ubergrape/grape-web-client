@@ -21,7 +21,9 @@ div.navigation.nav-outer
 				div.nav-button.create-room=_('+')
 				ul.nav-list.rooms
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
-				.nav-title-wrap.addpm
-					h2.nav-title=_('Private messages')
+				a.nav-title-wrap.manage-pms
+					h2.nav-title
+						=_('Private messages ')
+						i.fa.fa-angle-right
 				ul.nav-list.pms
 			input.filter-pms.hide(type="filter", name="filter-input", placeholder=_("Search users"))
