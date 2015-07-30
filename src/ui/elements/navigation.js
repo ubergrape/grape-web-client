@@ -198,8 +198,10 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return self.user != user &&
-		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		//return self.user != user &&
+		//(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return self.user != user && user.active && user.pm && user.pm.latest_message_time;
+
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
