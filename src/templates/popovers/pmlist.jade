@@ -2,7 +2,7 @@ ul.popover-list
 	li.inner-popover
 	each user in items
 		li.item.room
-			a(href="/chat/" + user.username.toLowerCase())
+			a(href="/chat/@" + user.username.toLowerCase())
 				aside.avatar-wrap
 					img(src="#{user.avatar}",width="28",alt="#{user.username}")
 					.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
