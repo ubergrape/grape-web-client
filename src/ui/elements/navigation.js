@@ -146,7 +146,8 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
 	var itemIndex = list.items.indexOf(item);
-	if (itemIndex == -1) return;
+	if (itemIndex == -1 && line.channel.type === 'room') return;
+	if (itemIndex == -1 && line.channel.type === 'pm') list.items.push(item);
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
 	list.redraw();
