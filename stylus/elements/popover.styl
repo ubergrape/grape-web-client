@@ -216,9 +216,10 @@
 			font-size: 11px
 
 .roompopover
+.pmpopover
 	.po-scroll-wrap.hidden
 		display: none
-	.room-manager-navigation
+	.manager-navigation
 		a
 			display: inline-block
 			text-decoration: none
@@ -230,6 +231,14 @@
 				border-bottom: 2px solid grape-light
 			&:hover
 				color: grape-typo
+	.pm.deleted
+		color: gainsboro-dark
+		.avatar-status
+			background: gainsboro-dark
+		span.user-deleted
+			@extend $small-font-size
+			text-transform: uppercase
+			margin-left: 4px
 
 // ****
 //

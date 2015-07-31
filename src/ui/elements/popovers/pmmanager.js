@@ -18,12 +18,16 @@ PMManagerPopover.prototype = Object.create(Popover.prototype);
 PMManagerPopover.prototype.init = function PMManagerPopover_init() {
 	Popover.prototype.init.call(this);
 	this.content = {};
+	this.tabSelection = 'active';
 	this.redraw();
 	this.content.classes = classes(this.content.el);
 	this.el.appendChild(this.content.el);
 	this.PMList = new ItemList({
 		template: 'popovers/pmlist.jade',
-		selector: '.toggle'
+		selector: '.toggle',
+		templateOptions: {
+			tabSelection: this.tabSelection
+		}
 	});
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
@@ -31,10 +35,36 @@ PMManagerPopover.prototype.init = function PMManagerPopover_init() {
 	replace(qs('ul', this.el), this.PMList.el);
 };
 
+PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
+	Popover.prototype.bind.call(this);
+	var self = this;
+
+	this.events.obj.setActive = function(e) {
+		self.tabSelection = 'active';
+		self.PMList.templateOptions.tabSelection = self.tabSelection;
+		self.redraw();
+	};
+	this.events.obj.setInvited = function(e) {
+		self.tabSelection = 'invited';
+		self.PMList.templateOptions.tabSelection = self.tabSelection;
+		self.redraw();
+	};
+	this.events.obj.setDeleted = function(e) {
+		self.tabSelection = 'deleted';
+		self.PMList.templateOptions.tabSelection = self.tabSelection;
+		self.redraw();
+	};
+	this.events.bind('click a.active-users', 'setActive');
+	this.events.bind('click a.invited-users', 'setInvited');
+	this.events.bind('click a.deleted-users', 'setDeleted');
+}
+
 PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.classes.add('room-po');
 	this.classes.add('left');
-	render(this.content, template('popovers/pmmanager.jade'));
+	render(this.content, template('popovers/pmmanager.jade', {
+		tabSelection: this.tabSelection
+	}));
 	if (this.PMList) this.PMList.redraw();
 };
 
