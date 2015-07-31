@@ -6,5 +6,4 @@ ul.popover-list
 				aside.avatar-wrap
 					img(src="#{user.avatar}",width="28",alt="#{user.username}")
 					.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
-				.main
-					.name=user.displayName
+				span.user-name=user.displayName

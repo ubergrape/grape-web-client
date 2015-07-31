@@ -289,45 +289,20 @@ label.radio-label
 .button.delete
 	float: right
 
-
 // ****
 //
-// PERSONAL MESSAGE-popup-specific things go here
-//
-// ****
-
-
+// ROOM MEMBER-and-PM-popup-specific things go here
+// 
+// ****	
+.roommemberspopover
 .pmpopover
 	width: 320px
-.empty-message
-	padding: 14px 0
-
-
-// ****
-//
-// ROOM MEMBER-popup-specific things go here
-//
-// ****
-.roommemberspopover
 	.popover-list > li
 		&:hover
 			background-color:  silver-dark
-		a
-			min-width: 290px
-			float: left
-			&:hover
-				background-color:  silver-dark
-		span.btn-delete
-			visibility: hidden
-			color: gainsboro-dark
-			float: right
-			margin: 13px 15px 0 0
-			cursor: pointer
-		&:hover
 			span.btn-delete
 				visibility: visible
 				display: inline-block
-	width: 320px
 	.input-invite
 		@extend $textinput
 		width: 100%
@@ -351,3 +326,22 @@ label.radio-label
 		button
 			float: right
 			margin-left: 5px
+
+.roommemberspopover
+	.popover-list > li
+		a
+			min-width: 290px
+			float: left
+			&:hover
+				background-color:  silver-dark
+		span.btn-delete
+			visibility: hidden
+			color: gainsboro-dark
+			float: right
+			margin: 13px 15px 0 0
+			cursor: pointer
+
+.pmpopover
+	.po-scroll-wrap
+		max-height: 350px
+	
