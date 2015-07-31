@@ -27,7 +27,6 @@ LPSocket.prototype.connect = function LPSocket_connect() {
 			// sessionId for the new session
 			this.pollUri = resp.poll;
 			this.pushUri = resp.push;
-			this.poll();
 			this.emit('open');
 		}.bind(this),
 		error: function(xhr) {
