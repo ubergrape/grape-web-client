@@ -1,6 +1,6 @@
 function template(name, locals) {
 	locals = extend(extend({}, template.locals), locals || {});
-	if (!template.templates[name]) throw new Error('Tempalte not found: ' + name)
+	if (!template.templates[name]) throw new Error('Template not found: ' + name)
 	return template.templates[name](locals);
 }
 

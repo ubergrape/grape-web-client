@@ -7,7 +7,7 @@ var LPSocket = require('lpsocket');
 var array = require('array');
 var Emitter = require('emitter');
 
-var exports = module.exports = App;
+var exports = module.exports = API;
 
 var models = exports.models = {
 	Room: require('./models/room'),
@@ -24,7 +24,7 @@ var PONG_MAX_WAIT = 15000;
 // Time we wait after we got a pong before we send another ping.
 var PING_DELAY = 5000;
 
-function App() {
+function API() {
 	Emitter.call(this);
 
 	var self = this;
@@ -48,9 +48,9 @@ function App() {
 	this._typingTimeouts = [];
 }
 
-App.prototype = Object.create(Emitter.prototype);
+API.prototype = Object.create(Emitter.prototype);
 
-App.prototype.logTraffic = function App_logTraffic() {
+API.prototype.logTraffic = function API_logTraffic() {
 	var socket = this.wamp.socket;
 	var send = socket.send;
 	socket.send = function (msg) {
@@ -68,7 +68,7 @@ App.prototype.logTraffic = function App_logTraffic() {
 	}
 };
 
-App.prototype.heartbeat = function App_heartbeat() {
+API.prototype.heartbeat = function API_heartbeat() {
 	if (!this.connected) return;
 	var timedout = false;
 
@@ -89,13 +89,13 @@ App.prototype.heartbeat = function App_heartbeat() {
 	}.bind(this));
 };
 
-App.prototype.onDisconnect = function App_onDisconnect() {
+API.prototype.onDisconnect = function API_onDisconnect() {
 	this.disconnect();
 	this.emit('disconnected', this._ws);
 	this.reconnect();
 };
 
-App.prototype.onConnect = function App_onConnect(data) {
+API.prototype.onConnect = function API_onConnect(data) {
     this.user = new models.User(data);
     this.settings = this.user.settings;
     this.organizations = array(data.organizations.map(function (org) {
@@ -118,7 +118,7 @@ App.prototype.onConnect = function App_onConnect(data) {
  * only when first time.
  * @param {Function} [callback]
  */
-App.prototype.initSocket = function App_initSocket(opts) {
+API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
 	// first try longpolling
 	lp = new LPSocket(opts.lpUri);
@@ -145,7 +145,7 @@ App.prototype.initSocket = function App_initSocket(opts) {
 };
 
 
-App.prototype.connect = function App_connect(ws, callback) {
+API.prototype.connect = function API_connect(ws, callback) {
 	if (this.connected) return;
 
 	// Legacy callback, used in mobile_history.html
@@ -188,7 +188,7 @@ App.prototype.connect = function App_connect(ws, callback) {
 	});
 };
 
-App.prototype.disconnect = function App_disconnect() {
+API.prototype.disconnect = function API_disconnect() {
 	// our wamp implementation has no off() right now
 	// so we do some hacking
 	if (this.wamp) this.wamp._listeners = {};
@@ -202,7 +202,7 @@ App.prototype.disconnect = function App_disconnect() {
 	this.connecting = false;
 };
 
-App.prototype.reconnect = function App_reconnect() {
+API.prototype.reconnect = function API_reconnect() {
 	var self = this;
 	var timeout = Math.floor((Math.random() * 5000) + 1);
 	console.log('Attempting reconnect in ms:', timeout);
@@ -211,7 +211,7 @@ App.prototype.reconnect = function App_reconnect() {
 	}.bind(this), timeout);
 };
 
-App.prototype.bindEvents = function App_bindEvents() {
+API.prototype.bindEvents = function API_bindEvents() {
 	var self = this;
 	var wamp = this.wamp;
 	function dump(name) {
@@ -436,7 +436,7 @@ var unknownUser = {
 	lastName: 'User'
 };
 
-App.prototype._newRoom = function App__newRoom(room) {
+API.prototype._newRoom = function API__newRoom(room) {
 	room.users = room.users.map(function (u) {
 		// if the user was not in the models array for some reason
 		// create an unknown user so the room loads correctly
@@ -458,7 +458,7 @@ App.prototype._newRoom = function App__newRoom(room) {
 	return room;
 };
 
-App.prototype._tryAddRoom = function App__tryAddRoom(room) {
+API.prototype._tryAddRoom = function API__tryAddRoom(room) {
 	var gotroom = models.Room.get(room.id);
 	if (gotroom) return gotroom;
 	room = this._newRoom(room);
@@ -478,7 +478,7 @@ App.prototype._tryAddRoom = function App__tryAddRoom(room) {
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
  */
-App.prototype.setOrganization = function App_setOrganization(org, callback) {
+API.prototype.setOrganization = function API_setOrganization(org, callback) {
 	callback = callback || function() {};
 	var self = this;
 	// TODO: this should also leave any old organization
@@ -514,15 +514,15 @@ App.prototype.setOrganization = function App_setOrganization(org, callback) {
 	});
 };
 
-App.prototype.endedIntro = function App_endedIntro() {
+API.prototype.endedIntro = function API_endedIntro() {
 	this.wamp.call(PREFIX + 'users/set_profile', {'show_intro': false});
 };
 
-App.prototype.changedTimezone = function App_changedTimezone(tz) {
+API.prototype.changedTimezone = function API_changedTimezone(tz) {
 	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
 };
 
-App.prototype.openPM = function App_openPM(user, callback) {
+API.prototype.openPM = function API_openPM(user, callback) {
 	callback = callback || function() {};
 	var self = this;
 	this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
@@ -535,7 +535,7 @@ App.prototype.openPM = function App_openPM(user, callback) {
 	});
 };
 
-App.prototype.createRoom = function App_createRoom(room) {
+API.prototype.createRoom = function API_createRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
@@ -544,7 +544,7 @@ App.prototype.createRoom = function App_createRoom(room) {
 	});
 };
 
-App.prototype.deleteRoom = function App_deleteRoom(room, roomName, callback) {
+API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'channels/delete', room.id, roomName, function (err, result) {
@@ -554,7 +554,7 @@ App.prototype.deleteRoom = function App_deleteRoom(room, roomName, callback) {
 	});
 };
 
-App.prototype.joinRoom = function App_joinRoom(room, callback) {
+API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	var self = this;
 	if (room.joined) return;
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
@@ -565,7 +565,7 @@ App.prototype.joinRoom = function App_joinRoom(room, callback) {
 	});
 };
 
-App.prototype.leaveRoom = function App_leaveRoom(roomID) {
+API.prototype.leaveRoom = function API_leaveRoom(roomID) {
 	var self = this;
 	var room = models.Room.get(roomID);
 	if (!room.joined) return;
@@ -576,18 +576,18 @@ App.prototype.leaveRoom = function App_leaveRoom(roomID) {
 	});
 };
 
-App.prototype.renameRoom = function App_renameRoom(roomID, newName) {
+API.prototype.renameRoom = function API_renameRoom(roomID, newName) {
 	var emit = this.emit.bind(this);
 	this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
 		if (err) emit('roomrenameerror', err);
 	});
 }
 
-App.prototype.onSetNotificationsSession = function App_onSetNotificationsSession (orgID) {
+API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession (orgID) {
 	this.wamp.call(PREFIX + 'notifications/set_notification_session', orgID);
 };
 
-App.prototype.autocomplete = function App_autocomplete(text, callback) {
+API.prototype.autocomplete = function API_autocomplete(text, callback) {
 	this.wamp.call(
 		PREFIX + 'search/autocomplete',
 		text,
@@ -607,7 +607,7 @@ App.prototype.autocomplete = function App_autocomplete(text, callback) {
 	);
 };
 
-App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
+API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
 	this.wamp.call(PREFIX + 'search/autocomplete_date', text, this.organization.id,
 			function (err, result) {
 			if (callback !== undefined) {
@@ -617,7 +617,7 @@ App.prototype.autocompleteDate = function App_autocompleteDate(text, callback) {
 	});
 };
 
-App.prototype.search = function App_search(text) {
+API.prototype.search = function API_search(text) {
 	var self = this;
 	this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
 			function (err, results) {
@@ -640,7 +640,7 @@ App.prototype.search = function App_search(text) {
 		});
 };
 
-App.prototype.inviteToRoom = function App_inviteToRoom(room, users, callback) {
+API.prototype.inviteToRoom = function API_inviteToRoom(room, users, callback) {
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
 			callback(err, result);
@@ -651,7 +651,7 @@ App.prototype.inviteToRoom = function App_inviteToRoom(room, users, callback) {
 /**
  * Loads history for `room`
  */
-App.prototype.getHistory = function App_getHistory(room, options) {
+API.prototype.getHistory = function API_getHistory(room, options) {
 	var self = this;
 	options = options || {};
 	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
@@ -679,7 +679,7 @@ App.prototype.getHistory = function App_getHistory(room, options) {
 	});
 };
 
-App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (direction, room, options) {
+API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (direction, room, options) {
 	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
 		var lines = res.map(function (line) {
 			var exists = models.Line.get(line.id);
@@ -696,7 +696,7 @@ App.prototype.onLoadHistoryForSearch = function App_onLoadHistoryForSearch (dire
 	}.bind(this));
 }
 
-App.prototype.setRead = function App_setRead(room, lineID) {
+API.prototype.setRead = function API_setRead(room, lineID) {
 	// update the unread count
 	// iterate the history in reverse order
 	// (its more likely the read line is at the end)
@@ -722,7 +722,7 @@ App.prototype.setRead = function App_setRead(room, lineID) {
 	this.wamp.call(PREFIX + 'channels/read', room.id, lineID);
 };
 
-App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
+API.prototype.onRequestMessage = function API_onRequestMessage(room, msgID) {
 	// channels/focus_message, room ID, msg ID, before, after, strict
 	// strict is false by default
 	// when false, fallback results will be returned
@@ -742,16 +742,16 @@ App.prototype.onRequestMessage = function App_onRequestMessage(room, msgID) {
 	}.bind(this));
 }
 
-App.prototype.setTyping = function App_setTyping(room, typing) {
+API.prototype.setTyping = function API_setTyping(room, typing) {
 	// TODO: emit error?
 	this.wamp.call(PREFIX + 'channels/set_typing', room.id, typing);
 };
 
-App.prototype.onDeleteMessage = function App_onDeleteMessage(ch, msgId) {
+API.prototype.onDeleteMessage = function API_onDeleteMessage(ch, msgId) {
 	this.wamp.call(PREFIX + 'channels/delete_message', ch['id'], msgId);
 };
 
-App.prototype.publish = function App_publish(room, msg, options) {
+API.prototype.publish = function API_publish(room, msg, options) {
 	var self = this;
 	msg = msg.text ? msg.text : msg;
 	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
@@ -759,12 +759,12 @@ App.prototype.publish = function App_publish(room, msg, options) {
 	});
 };
 
-App.prototype.updateMsg = function App_updateMessage(msg, text) {
+API.prototype.updateMsg = function API_updateMessage(msg, text) {
 	this.wamp.call(PREFIX + 'channels/update_message', msg['channel'].id, msg['id'], text, function (err) {
 
 	});
 };
 
-App.prototype.onKickMember = function App_onKickMember (roomID, memberID) {
+API.prototype.onKickMember = function API_onKickMember (roomID, memberID) {
 	this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID));
 }

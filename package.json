@@ -85,7 +85,7 @@
   },
   "scripts": {
     "build-dev": "NODE_ENV=development webpack",
-    "watch-dev": "NODE_ENV=development webpack --progress --colors --watch --watch-poll"
+    "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll"
   },
   "repository": "ubergrape/chatgrape.git"
 }

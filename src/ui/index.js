@@ -16,14 +16,12 @@ var notify = require('HTML5-Desktop-Notifications');
 var Introjs = require("intro.js").introJs;
 var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
-var resizable = require('resizable');
 var debounce = require('debounce');
 var timezone = require('./jstz');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
 var Router = require('router');
-var store = require('store').prefix('navigation');
 var constants = require('conf').constants;
 
 var exports = module.exports = UI;
@@ -55,11 +53,10 @@ template.locals.html = function (html) {
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomPopover = exports.RoomPopover = require('./elements/popovers/room');
+var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
-var RoomCreationPopover = exports.RoomCreationPopover = require('./elements/popovers/roomcreation');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
@@ -106,12 +103,11 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the popovers
-	this.addRoom = new RoomPopover();
+	this.roomManager = new RoomManagerPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
-	this.roomCreation = new RoomCreationPopover();
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
@@ -221,31 +217,6 @@ UI.prototype.init = function UI_init() {
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
 	this.firstTimeConnect = true;
-
-
-	var navResizable = new resizable(qs('.nav-outer', this.el), { directions: ['east'] });
-
-	var resizeClient = debounce(function resizeClient() {
-		var	totWidth = self.el.clientWidth,
-			clientBodyWidth = qs('.client-body', self.el),
-			navBodyWidth = qs('.nav-outer', self.el).clientWidth;
-		// saving new sidebar height in localStorage
-		clientBodyWidth.style.marginLeft = navBodyWidth + 'px';
-		store.set('clientBodyWidth', clientBodyWidth);
-	}, 0);
-
-
-	// listening to the event fired by the resizable in the resize
-	// method in the resizable component (our ubergrape fork)
-	navResizable.element.addEventListener('resize', resizeClient);
-
-	// if the pm list height in not saved in localStorage,
-	// the height will fall back to the default one (25%)
-	navResizable.element.style.height = store.get('clientBodyWidth') + 'px';
-	resizeClient();
-
-	// and on window resize
-	window.addEventListener('resize', resizeClient);
 
 };
 

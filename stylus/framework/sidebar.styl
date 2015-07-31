@@ -25,7 +25,8 @@
 		height: 100vh
 		border-right: 1px solid silver-grey-dark
 .nav-outer
-	min-width: client-navigation-width
+	min-width: 180px
+	width: client-navigation-width
 	max-width: 38.2%
 .nav-inner
 	width: 100%
@@ -137,21 +138,30 @@ a.nav-title-wrap
 	&:hover
 		text-decoration: none
 		color: grape-typo
-	.nav-button
-		float: right
-		margin-right: 10px
-		margin-top: -3px
-		border: 1px solid
-		border-radius: 50%
-		width: 17px
-		height: 17px
-		text-align: center
-		line-height: 15px
 
+a.nav-title-wrap
+	display: inline-block
+	float: left
+	width: 100%
+
+.nav-button
+	position: absolute
+	right: 0
+	margin: 7px 10px 0 0
+	border: 1px solid
+	border-radius: 50%
+	width: 17px
+	height: 17px
+	text-align: center
+	line-height: 15px
+	cursor: pointer
+	&:hover
+		color: grape-typo
 
 // Sidebar Link Styling
 
 .nav-list
+	clear: both
 	.item
 		@extend $functional-list
 		&:hover
@@ -184,6 +194,7 @@ a.nav-title-wrap
 // ****
 .pm-list
 	padding: 22px 0
+	margin-bottom: 40px
 	.pms
 		height: 100%
 
