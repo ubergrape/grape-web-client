@@ -26,6 +26,7 @@ function pipeEvents(ui) {
 	// PMManager popover
 	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
 	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
+	broker(ui, 'selectchannel', ui.PMManager, 'onSelectChannel');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
