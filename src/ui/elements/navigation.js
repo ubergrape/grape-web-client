@@ -105,6 +105,11 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 Navigation.prototype.select = function Navigation_select(item) {
 	this.roomList.selectItem(null);
 	this.pmList.selectItem(null);
+	if (item.type === 'pm') {
+		var pm = item.users[0];
+		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
+		if (!isInList) this.pmList.items.unshift(pm);
+	}
 	this[item.type + 'List'].selectItem(item);
 };
 
