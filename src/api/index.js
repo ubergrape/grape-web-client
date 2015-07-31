@@ -97,6 +97,8 @@ API.prototype.onDisconnect = function API_onDisconnect() {
 
 API.prototype.onConnect = function API_onConnect(data) {
     this.user = new models.User(data);
+    this.user.active = true;
+    console.log(this.user);
     this.settings = this.user.settings;
     this.organizations = array(data.organizations.map(function (org) {
         return new models.Organization(org);

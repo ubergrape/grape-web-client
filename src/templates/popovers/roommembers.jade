@@ -10,10 +10,7 @@
 							aside.avatar-wrap
 								img.image(src="#{member.avatar}",width="24",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-							if (member.firstName || member.lastName)
-								span.user-name #{member.firstName} #{member.lastName} 
-							else
-								span.user-name= member.username
+							span.user-name= member.displayName
 						if canKickMembers && member != room.creator
 							span.fa.fa-times.btn-delete(data-id=member.id)
 					else

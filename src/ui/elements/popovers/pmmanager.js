@@ -11,7 +11,7 @@ module.exports = PMManagerPopover;
 
 function PMManagerPopover() {
 	Popover.call(this);
-}
+};
 
 PMManagerPopover.prototype = Object.create(Popover.prototype);
 
@@ -29,7 +29,7 @@ PMManagerPopover.prototype.init = function PMManagerPopover_init() {
 		from.parentNode.replaceChild(to, from);
 	};
 	replace(qs('ul', this.el), this.PMList.el);
-}
+};
 
 PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.classes.add('room-po');
@@ -40,4 +40,12 @@ PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 
 PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (target) {
 	this.toggle(target);
-}
+};
+
+PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (org) {
+	var pms = org.users.filter(function(user) {
+		return ui.user != user && (!user.active || !user.pm || (user.pm && !user.pm.latest_message_time));
+
+	});
+	this.PMList.setItems(pms);
+};

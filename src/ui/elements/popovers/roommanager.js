@@ -143,12 +143,8 @@ RoomManagerPopover.prototype.onTriggerRoomManager = function RoomManagerPopover_
 	this.toggle(target);
 }
 
-RoomManagerPopover.prototype.setItems = function RoomManagerPopover_setItems(items) {
-	this.itemList.setItems(items);
-};
-
 RoomManagerPopover.prototype.onOrgReady = function RoomManagerPopover_onOrgReady(org) {
-	this.setItems(org.rooms);
+	this.itemList.setItems(org.rooms);
 }
 
 RoomManagerPopover.prototype.errorFeedback = function RoomCreationPopover_errorFeedback(err) {
