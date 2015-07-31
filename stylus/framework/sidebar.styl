@@ -25,7 +25,8 @@
 		height: 100vh
 		border-right: 1px solid silver-grey-dark
 .nav-outer
-	min-width: client-navigation-width
+	min-width: 180px
+	width: client-navigation-width
 	max-width: 38.2%
 .nav-inner
 	width: 100%
@@ -38,9 +39,9 @@
 .org-info
 	height: header-height
 	background: organisation-background
-	border-bottom: 1px solid gainsboro-light
-	box-shadow: 0 1px 3px silver-light
 	border-right: 1px solid darken(organisation-background, 2)
+	-webkit-font-smoothing: antialiased // fixes font bug in os x app and firefox on windows, see #1612
+	-moz-osx-font-smoothing: grayscale // fixes font bug in os x app and firefox on windows, see #1612
 	.quick-search-trigger
 		float: right
 		height: header-height
@@ -103,7 +104,7 @@
 				background: navigation-background
 				color: darken(gainsboro-dark, 10)
 		.fl-notification
-			margin: 12px 5px 5px 
+			margin: 12px 5px 5px
 	.nav-tab-search
 		width: 12%
 		a
@@ -131,27 +132,36 @@ a.nav-title-wrap
 	text-decoration: none
 	.nav-title
 		text-transform: uppercase
-		@extend $small-font-size
-		padding-left: 10px
+		font-size: 12px;
+		padding-left: 15px
 		overflow: hidden
 	&:hover
 		text-decoration: none
 		color: grape-typo
-	.nav-button
-		float: right
-		margin-right: 10px
-		margin-top: -3px
-		border: 1px solid 
-		border-radius: 50%
-		width: 17px
-		height: 17px
-		text-align: center
-		line-height: 14px
 
+a.nav-title-wrap
+	display: inline-block
+	float: left
+	width: 100%
+
+.nav-button
+	position: absolute
+	right: 0
+	margin: 7px 10px 0 0
+	border: 1px solid
+	border-radius: 50%
+	width: 17px
+	height: 17px
+	text-align: center
+	line-height: 15px
+	cursor: pointer
+	&:hover
+		color: grape-typo
 
 // Sidebar Link Styling
-		
+
 .nav-list
+	clear: both
 	.item
 		@extend $functional-list
 		&:hover
@@ -183,7 +193,8 @@ a.nav-title-wrap
 //
 // ****
 .pm-list
-	padding: 12px 0 22px
+	padding: 22px 0
+	margin-bottom: 40px
 	.pms
 		height: 100%
 

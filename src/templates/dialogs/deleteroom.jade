@@ -1,0 +1,20 @@
+if (room.creator === user || org.role === constants.roles.ROLE_ADMIN || org.role === constants.roles.ROLE_OWNER)
+	h3=_("Delete ") + room.name
+	p
+		=_("Are you sure you want to delete room ") + room.name + _("?")
+		br
+		strong=_("This action can't be undone.")
+	form.delete-room-form
+		.formrow
+			input.roomname(type="text", name="roomname", id="roomname", placeholder="Please type in the name of the room to confirm.")
+		input.button.btn-tomato.delete(type="submit", name="submit", value=_('Delete'))
+else
+	h3=_("Delete ") + room.name
+	if room.creator
+		p=_("Sorry, you can't delete ") + room.name + _(". You need to be either owner or admin of ") + org.name + _(" or the creator of this room to delete it.")
+		p
+			=_("This room was created by ")
+			a.creator-name(href="/chat/@" + room.creator.username)="@" + room.creator.displayName
+			=_(". You can kindly ask him to delete it for you.")
+	else
+		p=_("Sorry, this room can't be deleted.")
