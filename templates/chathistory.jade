@@ -92,9 +92,15 @@
 					img.image(src="#{first.author.avatar}",width="28",height="28",alt="#{first.author.username}")
 			else if first.author.type==='service'
 				div.avatar
-					- var icon = staticurl("images/service-icons/" + first.author.id + "-32.png")
+					- var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="28",height="28",alt="#{alttext}")
+				if (first.author.id == "trello")
+					.vertical-line.trello
+				else if (first.author.id == "github")
+					.vertical-line.github
+				else
+					.vertical-line
 			.message-content
 				.message-inner-wrap
 					each line, i in lines
@@ -106,10 +112,7 @@
 						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
 						- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
 						- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
-						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=i === 0 ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
-							if line.actor && line.actor.image && line.actor.image.url
-								a(href=line.actor.url, class="actor avatar-wrap")
-									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
+						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 							if (line.container || line.branch || line.tag)
 								.source-wrap
 									if line.branch
@@ -121,9 +124,12 @@
 										span.tag
 											i(class="fa fa-tag")
 											| 
-											| #{line.tag} 
+											| #{line.tag}
 									if line.container
-										a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
+										span.container
+											i(class="mdi mdi-link-variant")
+											| 
+											a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 							//- show the edit stuff only if current user is the author
 							if user.id == line.author.id && mode === 'chat' && status != 'pending'
 								div.edit
@@ -160,15 +166,14 @@
 												author.message-author= first.author.displayName
 											else
 												author.message-author
-													= first.author.displayName
-													=_(' (You)')
+													=_('You')
 											if (first.author.id !== user.id)
 												span.author-deleted
 													=_('Deleted user')
 									else
 										author.message-author= first.author.username
 									span
-										=_(' at ')
+										=_('at')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 									a(href=msgLink, class="timelink")
 										.time
@@ -194,6 +199,9 @@
 											i.fa.fa-exclamation-circle.fa-lg
 									if status == 'pending'
 										div.pending
+							if line.actor && line.actor.image && line.actor.image.url
+								a(href=line.actor.url, class="actor avatar-wrap")
+									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
 							if line.title
 								if line.times
 									span.times= 'x' + line.times

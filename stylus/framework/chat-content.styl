@@ -50,8 +50,8 @@
 		margin-top: header-height
 		background: #F2F2F2
 		border-left: solid 1px #E5E5E5
-		-webkit-transition: -webkit-transform 0.3s
-		transition: transform 0.3s
+		-webkit-transition: -webkit-transform 0.5s
+		transition: transform 0.5s
 		transition-timing-function: ease-out
 		transform: translateX(250px)
 
@@ -138,7 +138,7 @@
 
 .message-group
 	@extend $clearfix
-	margin: 10px 30px 20px 20px
+	margin: 10px 25px 20px 25px
 	position: relative
 	.avatar
 		float: left
@@ -183,13 +183,6 @@
 		.text.main
 			max-width: 740px
 
-	&.service
-		.message-content
-			border-left: 2px solid link-color
-			max-width: 740px
-		.message
-			padding: 10px 16px 9px 26px
-
 	&.deleted //When a user was removed from the organization, #867
 		color: gainsboro-dark
 		.message-author
@@ -229,6 +222,7 @@
 	@media (max-width: 950px)
 		.avatar
 			float: right
+			padding-right: 5px;
 			.image
 				margin-left: (horizontal-space / 2)
 				margin-right: 0
@@ -273,30 +267,37 @@
 	.author-link:hover
 		text-decoration: none !important
 		color: #7B477B
+	span
+		font-size: 0.9em
+		margin-left: 4px
+		margin-right: 4px
 	a.timelink
 		@extend $subtle-link
 		color: gainsboro-dark
-		&:hover
-			color: #7B477B
-			text-decoration: none !important
+		position: relative
+		margin-right: 12px
+		font-size: 0.9em
+		.fa-globe
+			margin-left: 1px
 		.time
-			display: inline
+			display: inline-block
 			.different-timezone
-				font-size: 1em
 				display: inline-block
 				opacity: 0
-				margin-right: 10px
 				top: 0px
 				left: 0px
 				color: #666666
+				.dif-tz
+					font-size: 1.05em
 		&:hover
+			color: #7B477B
+			text-decoration: none !important
 			.different-timezone
-				display: inline-block
 				text-decoration: none !important
 				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
 				transition: opacity 0.2s, transform 0.2s
 				transition-timing-function: ease-out
-				transform: translateX(10px)
+				transform: translateX(6px)
 				opacity: 1
 
 .message-content
@@ -312,9 +313,9 @@
 		margin-left: 0px
 		margin-right: auto
 		display: table
-		box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05);
+		box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05)
 		&.freshmessage
-			animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+			animation: hifromtheleftNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&.first
 			margin-top: 0
 			border-radius: 0px 6px 6px 6px;
@@ -525,8 +526,8 @@ span.author-deleted
 // ****
 
 .right-sidebar-show {
-    -webkit-transition: -webkit-transform 0.25s
-    transition: transform 0.25s
+    -webkit-transition: -webkit-transform 1s
+    transition: transform 1s
     transition-timing-function: ease-out
     transform: translateX(0px) !important
 }

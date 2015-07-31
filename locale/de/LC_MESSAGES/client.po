@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2015-07-29 14:30+0000\n"
+"POT-Creation-Date: 2015-07-31 00:26+0000\n"
 
 #: client/templates/chathistory.jade:25
 #: client/templates/chathistory.jade:31
@@ -230,6 +230,10 @@ msgstr ""
 #: templates/chathistory.jade:146
 #: templates/chathistory.jade:179
 #: templates/chathistory.jade:180
+#: templates/chathistory.jade:147
+#: templates/chathistory.jade:182
+#: templates/chathistory.jade:153
+#: templates/chathistory.jade:187
 msgid " Local time: "
 msgstr ""
 
@@ -254,6 +258,8 @@ msgstr ""
 #: templates/chathistory.jade:179
 #: templates/chathistory.jade:240
 #: templates/chathistory.jade:241
+#: templates/chathistory.jade:243
+#: templates/chathistory.jade:251
 msgid "Show More"
 msgstr ""
 
@@ -888,6 +894,8 @@ msgstr ""
 #: templates/pmlist.jade:24
 #: templates/chathistory.jade:165
 #: templates/chathistory.jade:166
+#: templates/chathistory.jade:167
+#: templates/chathistory.jade:172
 msgid "Deleted user"
 msgstr ""
 
@@ -1156,36 +1164,48 @@ msgid "load older messages"
 msgstr ""
 
 #: templates/chathistory.jade:162
+#: templates/chathistory.jade:169
 msgid "You"
 msgstr ""
 
 #: templates/chathistory.jade:169
 #: templates/chathistory.jade:170
+#: templates/chathistory.jade:171
 msgid " at "
 msgstr ""
 
 #: templates/chathistory.jade:187
 #: templates/chathistory.jade:188
+#: templates/chathistory.jade:190
+#: templates/chathistory.jade:195
 msgid "Retry"
 msgstr ""
 
 #: templates/chathistory.jade:190
 #: templates/chathistory.jade:191
+#: templates/chathistory.jade:193
+#: templates/chathistory.jade:198
 msgid "Not sent"
 msgstr ""
 
 #: templates/chathistory.jade:241
 #: templates/chathistory.jade:242
+#: templates/chathistory.jade:244
+#: templates/chathistory.jade:252
 msgid "Show Less"
 msgstr ""
 
 #: templates/chathistory.jade:247
 #: templates/chathistory.jade:248
+#: templates/chathistory.jade:250
+#: templates/chathistory.jade:258
 msgid "load newer messages"
 msgstr ""
 
 #: templates/chathistory.jade:252
 #: templates/chathistory.jade:253
+#: templates/chathistory.jade:255
+#: templates/chathistory.jade:263
 msgid "newest messages"
 msgstr ""
 
@@ -1200,6 +1220,7 @@ msgid "We could not find the message you were looking for."
 msgstr ""
 
 #: templates/chathistory.jade:163
+#: templates/chathistory.jade:164
 msgid " (You)"
 msgstr ""
 
@@ -1213,4 +1234,8 @@ msgstr ""
 
 #: templates/chatheader.jade:30
 msgid "Search for messages, files, etc."
+msgstr ""
+
+#: templates/chathistory.jade:176
+msgid "at"
 msgstr ""

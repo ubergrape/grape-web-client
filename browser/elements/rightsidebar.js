@@ -46,7 +46,6 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
 RightSidebar.prototype.redraw = function RightSidebar_redraw() {
 	var vdom = template('rightsidebar.jade', {
 		room: this.room,
-		userCount: this.room.users.length,
 		canKickMembers: this.canKickMembers
 	});
 

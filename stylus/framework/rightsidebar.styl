@@ -14,6 +14,8 @@
         .mdi-account-multiple
             font-size: 1em
             transform: translateY(1px)
+        .mdi-attachment
+            font-size: 1.05em
         .title
             margin-left: 14px
             cursor: default
@@ -27,13 +29,43 @@
 .right-sidebar-content .offline
     border: 1px solid #F2F2F2
 
+.right-sidebar
+    .user-list > li
+        @extend $functional-list
+        a
+        .func-inner-wrap
+            width: 250px
+            padding-left: 16px
+            padding-right: 16px
+            .fa
+                margin-right: 10px
+                @extend $big-font-size
+        .avatar-wrap
+            margin-top: -1px
+        a
+            min-width: 250px
+            float: left
+            &:hover
+                color: #333333
+                background-color: rgba(75, 150, 165, 0.1)
+        span.btn-delete
+            visibility: hidden
+            color: gainsboro-dark
+            float: right
+            margin: 13px 15px 0 0
+            cursor: pointer
+        &:hover
+            span.btn-delete
+                visibility: visible
+                display: inline-block
+
 .right-sidebar-item
     margin-left: 4px
     color: #666666
     font-size: 1.1em
 
 .right-sidebar-item:hover
-    color: #4A324B
+    color: rgba(75, 150, 165, 1.0)
     text-decoration: none !important
 
 .right-sidebar-item.inactive

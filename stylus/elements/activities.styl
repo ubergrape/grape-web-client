@@ -1,38 +1,74 @@
 .service.message-group
+	@extend $clearfix
+	margin-top: 20px !important
+	margin-bottom: 24px !important
+	a
+		color: #3bafda !important
 	.avatar
 		margin-left: 14px
+		margin-top: 3px
 		.image
 			width: 28px
 			height: 28px
 	.message-inner-wrap
 		width: 100%
+		display: inline-block
+	.message-content
+		display: table
+		margin-left: 0px
+		position: relative
+		top: -4px
+	.vertical-line
+		display: block
+		position: absolute;
+		width: 5px
+		top: -1px
+		bottom: 4px
+		left: 52px
+		background: #C3C3C3
+		border-radius: 4px 0px 0px 4px
+		z-index: 50
 .activity.message
-	margin: 1px -10px 3px !important
-	&.first
-		padding-top: 2px !important
-	.messageinfo
-		@extend $big-font-size
+	@extend $clearfix
+	border-radius: 0px 6px 6px 0px
+	margin-top: 3px
+	display: block
 	.message-inner-wrap
 		padding: 0 16px 0 5px
-		display: block 
+		display: inline-block
 		min-width: 390px
-	.main // Main Activity Text Styling
-		font-weight: bold
 	.actor // Avatar of person that caused the notification
-		margin-right: 3px
-		margin-top: 1px
+		margin-right: 4px
+		margin-top: 0px
 		float: left
+		border: solid 1px #CCCCCC
+		border-radius: 50%
+	.message-author
+		margin-left: 2px
+		color: #666666
+		cursor: default
+	a.timelink
+		color: #666666 !important
+		&:hover
+			color: #999999 !important
+	.text.main
+		margin-left: 2px
+		max-width: 740px
 	.source-wrap // Used to display info on the right side of the message
-		float: right
-		padding: 0 5px
-		border-bottom: 2px solid gainsboro-dark
-		color: gainsboro-dark
-		margin-left: 5px
-		max-width: 190px
 		@extend $ellipsis
+		float: right
+		background-color: #FBFBFB
+		border: solid 1px #E5E5E5
+		border-radius: 3px
+		font-size: 0.9em
+		padding: 0px 8px 0px 8px
+		color: #666666 !important
+		margin-top: -3px
+		margin-right: -11px
+		max-width: 190px
 		display: block
 		a
-			color: gainsboro-dark
+			color: #666666 !important
 		@media (max-width: 800px)
 			max-width: 70px
 
@@ -41,9 +77,12 @@
 		// 	&:hover
 		// 		color: lighten(grape-light, 10)
 		span
-			color: gainsboro-dark 
+			color: #666666
 	.short-list
 		clear: both
+		left: 2px
+		padding-bottom: 3px
+		position: relative
 	/* GITHUB and BITBUCKET SPECIFIC */
 
 	&.commits,
@@ -84,7 +123,7 @@
 					left: 0
 					right: 0
 					height: 70px
-					background: linear-gradient(to bottom, rgba(chat-background,0) 0%, rgba(chat-background,1) 70%);
+					background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%);
 					z-index: 10
 				.show-more
 					display: block
@@ -98,7 +137,7 @@
 					display: none
 
 	.comment,
-	&.commentCard .short-list 
+	&.commentCard .short-list
 		> li
 			padding: 0 10px
 			margin: 4px -10px
@@ -204,4 +243,10 @@
 				margin-right: 4px
 		.option
 			margin-right: 22px
-*/
+
+/*______ Brands ______*/
+.vertical-line
+	&.trello
+		background: #3278A5 !important
+	&.github
+		background: #4B4B4B !important

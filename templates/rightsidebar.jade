@@ -1,9 +1,14 @@
 .right-sidebar-content
 	if room.type == 'room'
 		.right-sidebar-header
+			i.mdi.mdi-attachment
+			span.title Recently uploaded files
+		.ul.file-list
+			li.item.no-uploads
+		.right-sidebar-header
 			i.mdi.mdi-account-multiple
-			span.title Members in this room (#{userCount})
-		ul.user-list.popover-list
+			span.title Members in this room (#{room.users.length})
+		ul.user-list
 			each member in room.users
 				li.item.user
 					if member != user
