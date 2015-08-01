@@ -9,17 +9,35 @@ export default class Input extends Component {
   static defaultProps = {
     onInput: undefined,
     onKeyDown: undefined,
-    delay: undefined
+    delay: undefined,
+    focused: false
   }
 
   constructor(props) {
     super(props)
+    this.state = {
+      focused: props.focused
+    }
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
-    this.focus()
+    if (this.state.focused) this.focus()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let {focused} = nextProps
+    if (focused !== this.state.focused) {
+      this.setState({focused})
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    let {focused} = this.state
+    if (focused && prevState.focused !== focused) {
+      this.focus()
+    }
   }
 
   render() {
@@ -31,7 +49,8 @@ export default class Input extends Component {
         className={classes.input}
         ref="input"
         onChange={::this.onInputDebounced}
-        onKeyDown={this.props.onKeyDown} />
+        onKeyDown={this.props.onKeyDown}
+        onBlur={::this.onBlur} />
     )
   }
 
@@ -49,5 +68,9 @@ export default class Input extends Component {
     if (!delay) return this.onInput(e)
     clearTimeout(this.inputTimeoutId)
     this.inputTimeoutId = setTimeout(this.onInput.bind(this, e.nativeEvent), delay)
+  }
+
+  onBlur() {
+    this.setState({focused: false})
   }
 }

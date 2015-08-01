@@ -35,6 +35,7 @@ export default class Browser extends Component {
     orgOwner: undefined,
     images: undefined,
     inputDelay: 500,
+    focused: undefined,
     onAddIntegration: undefined,
     onSelectTab: undefined,
     onSelectItem: undefined,
@@ -168,6 +169,7 @@ export default class Browser extends Component {
         <Input
           onInput={this.props.onInput}
           delay={inputDelay}
+          focused={this.props.focused}
           onKeyDown={::this.onKeyDown} />
         {this.state.tabs &&
           <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />

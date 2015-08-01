@@ -28,6 +28,7 @@ class Browser extends Component {
     height: 400,
     maxWidth: 920,
     className: '',
+    focused: undefined,
     onSelectItem: undefined,
     onDidMount: undefined
   }
@@ -104,7 +105,10 @@ class Browser extends Component {
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}>
-        <Input onInput={::this.onInput} onKeyDown={::this.onKeyDown}/>
+        <Input
+          onInput={::this.onInput}
+          onKeyDown={::this.onKeyDown}
+          focused={this.props.focused} />
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {!sections.length && <Empty text="No emoji found." />}
         {sections.length > 0 &&

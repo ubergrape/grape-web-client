@@ -25,14 +25,19 @@
     <script src="/build/grape-browser.js"></script>
     <script src="./data.js"></script>
 
+    <button onclick="setProps({focused: true})">Focus</button>
     <grape-search-browser></grape-search-browser>
 
     <script>
-      function search() {
-        var component = document.querySelectorAll('grape-search-browser')[0]
+      function setProps(props) {
+        var newProps = getDefaultProps()
+        for (var name in props) newProps[name] = props[name]
+        component.props = newProps
+      }
 
-        component.props = {
-          data: window.data,
+      function getDefaultProps() {
+        return {
+         data: window.data,
           isExternal: true,
           images: {
             traubyReading: '../images/trauby-reading.png',
@@ -53,6 +58,11 @@
             console.log('onInput', data)
           }
         }
+      }
+
+      function search() {
+        window.component = document.querySelectorAll('grape-search-browser')[0]
+        setProps()
       }
 
       document.addEventListener('DOMContentLoaded', search)

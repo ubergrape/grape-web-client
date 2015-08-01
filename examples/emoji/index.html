@@ -24,12 +24,18 @@
     <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
     <script src="/build/grape-browser.js"></script>
 
+    <button onclick="setProps({focused: true})">Focus</button>
     <grape-emoji-browser></grape-emoji-browser>
 
     <script>
-      function emoji() {
-        var component = document.querySelectorAll('grape-emoji-browser')[0]
-        component.props = {
+      function setProps(props) {
+        var newProps = getDefaultProps()
+        for (var name in props) newProps[name] = props[name]
+        component.props = newProps
+      }
+
+      function getDefaultProps() {
+        return {
           onSelectTab: function(data) {
             console.log('onSelectTab', data)
           },
@@ -47,6 +53,11 @@
             test: '../images/trauby-reading.png'
           }
         }
+      }
+
+      function emoji() {
+        window.component = document.querySelectorAll('grape-emoji-browser')[0]
+        setProps()
       }
 
       document.addEventListener('DOMContentLoaded', emoji)
