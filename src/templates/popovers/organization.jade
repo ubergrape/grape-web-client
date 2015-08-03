@@ -1,9 +1,5 @@
 .organizationpopover
 	ul.popover-list
-		li.hide
-			a(href='#')
-				i.fa.fa-eye
-				=_('Compact View')
 		li
 			a(href='/accounts/organization/settings/', target='_self')
 				i.fa.fa-cog
@@ -19,7 +15,11 @@
 		li.break-line
 			a(href='/accounts/settings/', target='_self')
 				i.fa.fa-cog
-				=_('User Settings')
+				=_('Account Settings')
+		li
+			a.preferences(href='#')
+				i.fa.fa-eye
+				=_('Preferences')
 		li
 			a(href='/accounts/settings/notifications/', target='_self')
 				i.fa.fa-bell

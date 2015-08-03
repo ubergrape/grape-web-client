@@ -70,6 +70,7 @@ var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
+var PreferencesDialog = exports.PreferencesDialog = require('./elements/dialogs/preferences');
 
 function UI(options) {
 	Emitter.call(this);
@@ -118,7 +119,9 @@ UI.prototype.init = function UI_init() {
 	this.grapeInput = new GrapeInputIntegration();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
+	// initialize dialogs
 	this.markdownTips = new MarkdownTipsDialog().closable();
+	this.preferencesDialog = new PreferencesDialog().closable();
 
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);

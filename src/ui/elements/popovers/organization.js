@@ -22,6 +22,17 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 	this.el.appendChild(this.content.el);
 };
 
+OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
+	Popover.prototype.bind.call(this);
+	var self = this;
+
+	this.events.obj.showPreferences = function(e) {
+		self.emit('showpreferences');
+	};
+
+	this.events.bind('click a.preferences', 'showPreferences');
+};
+
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
 	this.classes.add('orga-po');
 	this.classes.add('top');
