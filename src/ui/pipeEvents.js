@@ -103,6 +103,10 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
 	broker.pass(ui.membersMenu, 'kickMember', ui, 'kickMember');
 
+	// preferences
+	broker.pass(ui.preferencesDialog, 'compactmodechange', ui, 'compactmodechange');
+	broker.pass(ui.preferencesDialog, 'darkmodechange', ui, 'darkmodechange');
+
 	// invite
 	broker(ui, 'orgReady', ui.invite, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.invite, 'setRoom');

@@ -523,6 +523,14 @@ API.prototype.changedTimezone = function API_changedTimezone(tz) {
 	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
 };
 
+API.prototype.changedCompactMode = function API_changedCompactMode(status) {
+	this.wamp.call(PREFIX + 'users/set_profile', {'compact_mode': status});
+};
+
+API.prototype.changedDarkMode = function API_changedDarkMode(status) {
+	this.wamp.call(PREFIX + 'users/set_profile', {'dark_mode': status});
+};
+
 API.prototype.openPM = function API_openPM(user, callback) {
 	callback = callback || function() {};
 	var self = this;

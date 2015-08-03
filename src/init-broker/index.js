@@ -33,6 +33,8 @@ function doBroker(ui, api) {
 	broker(ui, 'hasread', api, 'setRead');
 	broker(ui, 'introend', api, 'endedIntro');
 	broker(ui, 'timezonechange', api, 'changedTimezone');
+	broker(ui, 'compactmodechange', api, 'changedCompactMode');
+	broker(ui, 'darkmodechange', api, 'changedDarkMode');
 	broker(ui, 'needhistory', api, 'getHistory');
 	broker(ui, 'requestMessage', api, 'onRequestMessage');
 	broker(ui, 'loadHistoryForSearch', api, 'onLoadHistoryForSearch');
