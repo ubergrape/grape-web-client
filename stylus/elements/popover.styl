@@ -35,12 +35,12 @@
 		max-width: 220px
 		text-overflow: ellipsis
 	&.left
+	&.top-left
 		animation: hifromtheleft 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&::before
 			content: ""
 			display: block
 			position: absolute
-			top: 10px
 			left: - arrow-size
 			border-right: arrow-size solid gainsboro-light
 			border-top: arrow-size solid transparent
@@ -49,11 +49,20 @@
 			content: ""
 			display: block
 			position: absolute
-			top: 10px + 2
 			left: - arrow-size + 2
 			border-right: arrow-size - 2 solid white
 			border-top: arrow-size - 2 solid transparent
 			border-bottom: arrow-size - 2 solid transparent
+	&.left
+		&::before
+			top: 10px
+		&::after
+			top: 10px + 2
+	&.top-left
+		&::before
+			bottom: 10px
+		&::after
+			bottom: 10px + 2	
 	&.top
 		&::before
 			content: ""
@@ -216,9 +225,10 @@
 			font-size: 11px
 
 .roompopover
+.pmpopover
 	.po-scroll-wrap.hidden
 		display: none
-	.room-manager-navigation
+	.manager-navigation
 		a
 			display: inline-block
 			text-decoration: none
@@ -230,6 +240,15 @@
 				border-bottom: 2px solid grape-light
 			&:hover
 				color: grape-typo
+	.pm.deleted
+		color: gainsboro-dark
+		.avatar-status
+			background: gainsboro-dark
+		span.user-deleted
+			@extend $small-font-size
+			text-transform: uppercase
+			margin-left: 4px
+
 // ****
 //
 // FORM-specific things go here
@@ -288,45 +307,20 @@ label.radio-label
 .button.delete
 	float: right
 
-
 // ****
 //
-// PERSONAL MESSAGE-popup-specific things go here
-//
-// ****
-
-
+// ROOM MEMBER-and-PM-popup-specific things go here
+// 
+// ****	
+.roommemberspopover
 .pmpopover
 	width: 320px
-.empty-message
-	padding: 14px 0
-
-
-// ****
-//
-// ROOM MEMBER-popup-specific things go here
-//
-// ****
-.roommemberspopover
 	.popover-list > li
 		&:hover
 			background-color:  silver-dark
-		a
-			min-width: 290px
-			float: left
-			&:hover
-				background-color:  silver-dark
-		span.btn-delete
-			visibility: hidden
-			color: gainsboro-dark
-			float: right
-			margin: 13px 15px 0 0
-			cursor: pointer
-		&:hover
 			span.btn-delete
 				visibility: visible
 				display: inline-block
-	width: 320px
 	.input-invite
 		@extend $textinput
 		width: 100%
@@ -350,3 +344,22 @@ label.radio-label
 		button
 			float: right
 			margin-left: 5px
+
+.roommemberspopover
+	.popover-list > li
+		a
+			min-width: 290px
+			float: left
+			&:hover
+				background-color:  silver-dark
+		span.btn-delete
+			visibility: hidden
+			color: gainsboro-dark
+			float: right
+			margin: 13px 15px 0 0
+			cursor: pointer
+
+.pmpopover
+	.po-scroll-wrap
+		max-height: 303px
+	

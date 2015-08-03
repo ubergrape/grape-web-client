@@ -23,6 +23,11 @@ function pipeEvents(ui) {
 	broker(ui, 'endroomcreation', ui.roomManager, 'end');
 	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
 
+	// PMManager popover
+	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
+	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
+	broker(ui, 'selectchannel', ui.PMManager, 'onSelectChannel');
+
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');

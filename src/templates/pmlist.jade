@@ -9,10 +9,6 @@ ul.nav-list.pms
 				a(href="/chat/@" + user.username.toLowerCase())
 					.item-inner-wrp
 						.avatar-wrap
-							if user.status === 16
-								span.online
-							else
-								span.offline
 							img(src="#{user.avatar}",width="28",alt="#{user.username}")
 							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 						if unread > 0

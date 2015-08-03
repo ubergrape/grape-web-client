@@ -62,10 +62,14 @@ Navigation.prototype.bind = function Navigation_bind() {
 		},
 		triggerRoomManager: function(ev) {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
+		},
+		triggerPMManager: function(ev) {
+			self.emit('triggerPMManager', closest(ev.target, 'a', true));
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms', 'triggerRoomManager');
+	this.events.bind('click .manage-pms', 'triggerPMManager');
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
@@ -101,6 +105,11 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 Navigation.prototype.select = function Navigation_select(item) {
 	this.roomList.selectItem(null);
 	this.pmList.selectItem(null);
+	if (item.type === 'pm') {
+		var pm = item.users[0];
+		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
+		if (!isInList) this.pmList.items.unshift(pm);
+	}
 	this[item.type + 'List'].selectItem(item);
 };
 
@@ -137,7 +146,8 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
 	var itemIndex = list.items.indexOf(item);
-	if (itemIndex == -1) return;
+	if (itemIndex == -1 && line.channel.type === 'room') return;
+	if (itemIndex == -1 && line.channel.type === 'pm') list.items.push(item);
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
 	list.redraw();
@@ -198,8 +208,10 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return self.user != user &&
-		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		//return self.user != user &&
+		//(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return user.active && user.pm && user.pm.latest_message_time;
+
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
