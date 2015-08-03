@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "color": "^0.7.3",
+    "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#0.1.0",
@@ -22,7 +23,9 @@
     "react": "^0.13.3",
     "react-jss": "^1.0.4",
     "react-pure-render": "^1.0.2",
-    "react-visibility-sensor": "^2.0.0"
+    "react-visibility-sensor": "^2.0.0",
+    "scribe-editor": "^1.3.6",
+    "scribe-plugin-formatter-plain-text-convert-new-lines-to-html": "^0.1.1"
   },
   "devDependencies": {
     "babel": "^5.6.14",
@@ -42,13 +45,25 @@
     "es6-shim": "^0.32.2",
     "font-awesome": "^4.3.0",
     "reactive-elements": "ubergrape/ReactiveElements",
-    "custom-event-polyfill": "^0.2.1"
+    "custom-event-polyfill": "^0.2.1",
+    "expect.js": "^0.3.1",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.10",
+    "karma-cli": "^0.0.4",
+    "karma-mocha": "^0.1.10",
+    "karma-sourcemap-loader": "^0.3.4",
+    "karma-webpack": "^1.5.1",
+    "mocha": "^2.2.5",
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
     "all": "npm run lint; npm run build",
     "build": "babel src --out-dir lib",
     "start": "webpack-dev-server --hot",
     "lint": "eslint ./src",
-    "emoji": "bin/emoji"
+    "emoji": "bin/emoji",
+    "test-watch": "NODE_ENV=test karma start",
+    "test": "karma start"
   }
 }

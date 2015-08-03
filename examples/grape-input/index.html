@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'/>
+    <title>Basic Example</title>
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
+    <style>
+      * {
+        font-family: Roboto, sans-serif;
+      }
+      grape-input {
+        position: relative;
+        display: block;
+        margin-top: 400px;
+        border: 1px solid #666;
+        min-height: 35px;
+        font-size: 13px;
+      }
+      .pure {
+        margin-top: 50px;
+        width: 300px;
+        height: 300px;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../../node_modules/es5-shim/es5-shim.js"></script>
+    <script src="../../node_modules/es6-shim/es6-shim.js"></script>
+    <script src="../../node_modules/document-register-element/build/document-register-element.max.js"></script>
+    <script src="../../node_modules/react/dist/react.js"></script>
+    <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
+    <script src="/build/grape-browser.js"></script>
+    <script src="./data.js"></script>
+    <button onclick="input.setTextContent('')">Empty content</button>
+    <button onclick="input.setTextContent('new text content')">Set text content</button>
+    <button onclick="input.setTextContent('new multiline \n text content')">Set multiline text content</button>
+    <button onclick="input.setTextContent('[Marketing Plan](cg://googledrive|file|e1331cc1513186b0e0a2d622e0111231|https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk||)')">Set markdown content</button>
+    <button onclick="input.setTextContent('hello :smile:')">Set emoji content</button>
+    <button onclick="input.setTextContent('<h1>must be rendered as text</h1>')">Set html content</button>
+
+    <button onclick="setProps({focused: true})">Set focus</button>
+    <button onclick="setProps({disabled: true})">Disable</button>
+    <button onclick="setProps({disabled: false})">Enable</button>
+    <button onmousedown="setProps({type: 'emoji'}); return false;">Show emoji browser</button>
+    <button onmousedown="showSearchDelayed(); return false;">Show search browser</button>
+    <button onmousedown="showSearchDelayed(500); return false;">Show search browser delayed 500ms</button>
+    <button onmousedown="showSearchDelayed(2000); return false;">Show search browser delayed 2s</button>
+
+    <grape-input></grape-input>
+
+    <div class="pure" contenteditable=true>
+      Pure contenteditable.
+    </div>
+
+    <script>
+      var searchResults = window.searchData.results
+
+      var input = document.querySelectorAll('grape-input')[0]
+
+      function setProps(newProps) {
+        var props = getDefaultProps()
+        for (var key in newProps) props[key] = newProps[key]
+        input.props = props
+      }
+
+      function getDefaultProps() {
+        return {
+          customEmojis: {test: '../images/avatar.gif'},
+          focused: true,
+          placeholder: 'Some placeholder',
+          images: {
+            emojiSheet: '../../node_modules/js-emoji/images/sheet_32.png',
+            traubyReading: '../images/trauby-reading.png',
+            traubyJuggling: '../images/trauby-juggling.png',
+            noDetail: '../images/no-detail.png',
+            orgLogo: '../images/avatar.gif',
+            spinner: '../images/loading.gif'
+          }
+        }
+      }
+
+      function init() {
+        setProps()
+
+        input.addEventListener('grapeComplete', function (e) {
+          console.log('complete', e.detail)
+          if (e.detail.trigger == '#') {
+              var data = window.searchData
+              data.results = searchResults.filter(match)
+              setProps({
+                type: 'search',
+                data: data
+              })
+          }
+          else if (e.detail.trigger == '@') {
+            var data = window.userData
+            if (e.detail.search) data = data.filter(match)
+            setProps({
+              data: data,
+              type: 'user'
+            })
+          }
+          else if (e.detail.trigger == ':') {
+            setProps({type: 'emoji'})
+          }
+
+          function match(result) {
+            return result.name.toLowerCase().indexOf(e.detail.search) >= 0
+          }
+        })
+        input.addEventListener('grapeSubmit', function (e) {
+          console.log('submit', e.detail)
+          input.setTextContent('')
+        })
+
+        input.addEventListener('grapeEditPrevious', function (e) {
+          console.log('edit previous')
+        })
+
+        input.addEventListener('grapeChange', function (e) {
+          console.log(input.getTextContent())
+        })
+
+        input.addEventListener('grapeFocus', function (e) {
+          console.log('focus')
+        })
+
+        input.addEventListener('grapeBlur', function (e) {
+          console.log('blur')
+        })
+
+        input.addEventListener('grapeSearch', function (e) {
+          console.log('search')
+        })
+
+        input.addEventListener('grapeAbort', function (e) {
+          console.log('abort')
+        })
+
+        input.addEventListener('grapeInsertItem', function (e) {
+          console.log('grapeInsertItem', e.detail)
+        })
+
+        input.addEventListener('grapeAddIntegration', function (e) {
+          console.log('add integration')
+        })
+
+        input.addEventListener('grapeFilterSelect', function (e) {
+          console.log('filter select', e.detail)
+          setProps({
+            type: 'search',
+            data: window.searchData
+          })
+        })
+
+      }
+
+      function showSearchDelayed(delay) {
+        setProps({type: 'search', isLoading: true})
+        setTimeout(function() {
+          setProps({
+            type: 'search',
+            data: window.searchData
+          })
+        }, delay)
+      }
+
+      document.addEventListener('DOMContentLoaded', init)
+    </script>
+  </body>
+</html>

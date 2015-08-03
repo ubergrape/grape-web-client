@@ -13,7 +13,6 @@ import TabsWithControls from '../tabs/TabsWithControls'
 import Grid from '../grid/Grid'
 import Item from './item/Item'
 import * as dataUtils from './dataUtils'
-import Icon from '../emoji/Icon'
 import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
@@ -265,9 +264,5 @@ PublicBrowser.init = (options) => {
   if (customEmojis) emoji.defineCustom(customEmojis)
   dataUtils.init()
 }
-
-PublicBrowser.replace = emoji.replace
-PublicBrowser.get = emoji.get
-PublicBrowser.Icon = Icon
 
 export default PublicBrowser

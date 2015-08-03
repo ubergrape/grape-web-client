@@ -41,9 +41,11 @@ module.exports = exports = {
         test: /\.json$/
       }
     ]
-  },
+  }
+}
 
-  externals: {
+if (process.env.NODE_ENV === 'development') {
+  exports.externals = {
     react: 'React'
   }
 }
