@@ -43,19 +43,16 @@ PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
 		self.tabSelection = 'active';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
-		self.getPos();
 	};
 	this.events.obj.setInvited = function(e) {
 		self.tabSelection = 'invited';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
-		self.getPos();
 	};
 	this.events.obj.setDeleted = function(e) {
 		self.tabSelection = 'deleted';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
-		self.getPos();
 	};
 	this.events.bind('click a.active-users', 'setActive');
 	this.events.bind('click a.invited-users', 'setInvited');
@@ -69,6 +66,7 @@ PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 		tabSelection: this.tabSelection
 	}));
 	if (this.PMList) this.PMList.redraw();
+	this.getPos();
 };
 
 PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (trigger) {
@@ -79,8 +77,10 @@ PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTrig
 };
 
 PMManagerPopover.prototype.getPos = function PMManagerPopover_getPos() {
-	var offset = this.trigger.getBoundingClientRect();
-	this.el.style.top = (offset.top - this.el.offsetHeight + 40) + 'px';
+	if (this.trigger) {
+		var offset = this.trigger.getBoundingClientRect();
+		this.el.style.top = (offset.top - this.el.offsetHeight + 40) + 'px';
+	}
 }
 
 PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectChannel (channel) {
