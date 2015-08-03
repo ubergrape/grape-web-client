@@ -41,3 +41,8 @@ var toggleBodyClass = function toggleBodyClass(condition, classname) {
 		classes(qs('body')).remove(classname);
 	}
 };
+
+PreferencesDialog.prototype.preferencesChanged = function PreferencesDialog_preferencesChanged(ev) {
+	this.redraw();
+	this.closable(); // lol hack
+};

@@ -306,6 +306,16 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 		this.intro.start();
 	}
 
+	if (this.settings.compact_mode) {
+		classes(document.body).add('compact');
+		this.emit('preferenceschange');
+	}
+
+	if (this.settings.dark_mode) {
+		classes(document.body).add('dark');
+		this.emit('preferenceschange');
+	}
+
 	// javscript timezone should always override server timezone setting?
 	if (!this.settings.timezone || this.settings.timezone != this.tz) {
 		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);

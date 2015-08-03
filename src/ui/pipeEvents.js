@@ -106,6 +106,7 @@ function pipeEvents(ui) {
 	// preferences
 	broker.pass(ui.preferencesDialog, 'compactmodechange', ui, 'compactmodechange');
 	broker.pass(ui.preferencesDialog, 'darkmodechange', ui, 'darkmodechange');
+	broker(ui, 'preferenceschange', ui.preferencesDialog, 'preferencesChanged');
 
 	// invite
 	broker(ui, 'orgReady', ui.invite, 'onOrgReady');

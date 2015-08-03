@@ -1,9 +1,15 @@
 form.preferences
-	
-	input.compactmode(type="checkbox", name="compactmode", id="compactmode")
-	label(for="compactmode")
-		=_("Compact mode")
-	
-	input.darkmode(type="checkbox", name="darkmode", id="darkmode")
-	label(for="darkmode")
-		=_("Dark mode")
+	if user.settings !== undefined
+		if user.settings.compact_mode
+			input.compactmode(type="checkbox", name="compactmode", id="compactmode", checked)
+		else
+			input.compactmode(type="checkbox", name="compactmode", id="compactmode")
+		label(for="compactmode")
+			=_("Compact mode")
+		
+		if user.settings.dark_mode
+			input.darkmode(type="checkbox", name="darkmode", id="darkmode", checked)
+		else
+			input.darkmode(type="checkbox", name="darkmode", id="darkmode")
+		label(for="darkmode")
+			=_("Dark mode")
