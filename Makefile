@@ -31,6 +31,7 @@ node_modules/.bin: package.json
 	touch node_modules
 
 clean:
-	rm -rf node_modules/* node_modules/.bin
+	[ -d node_modules/.bin ] && rm -rf node_modules/.bin || true
+	ls node_modules/* > /dev/null 2>&1 || rm -rf node_modules/* || true
 
 .PHONY: all clean
