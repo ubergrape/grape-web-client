@@ -43,16 +43,19 @@ PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
 		self.tabSelection = 'active';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
 	};
 	this.events.obj.setInvited = function(e) {
 		self.tabSelection = 'invited';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
 	};
 	this.events.obj.setDeleted = function(e) {
 		self.tabSelection = 'deleted';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
 	};
 	this.events.bind('click a.active-users', 'setActive');
 	this.events.bind('click a.invited-users', 'setInvited');
@@ -61,16 +64,24 @@ PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
 
 PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.classes.add('room-po');
-	this.classes.add('left');
+	this.classes.add('top-left');
 	render(this.content, template('popovers/pmmanager.jade', {
 		tabSelection: this.tabSelection
 	}));
 	if (this.PMList) this.PMList.redraw();
 };
 
-PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (target) {
-	this.toggle(target);
+PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (trigger) {
+	this.trigger = trigger;
+	this.toggle(trigger);
+	this.getPos();
+	this.redraw();
 };
+
+PMManagerPopover.prototype.getPos = function PMManagerPopover_getPos() {
+	var offset = this.trigger.getBoundingClientRect();
+	this.el.style.top = (offset.top - this.el.offsetHeight + 40) + 'px';
+}
 
 PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectChannel (channel) {
 	if (channel.type === 'room') return;
