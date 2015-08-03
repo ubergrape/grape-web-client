@@ -3,8 +3,8 @@ var page = require('page');
 module.exports = Router;
 
 function Router(ui) {	
-	var	baseURL	= '/chat';
-	var	cUser = ui.user;
+	var baseURL = '/chat';
+	var cUser = ui.user;
 	var navRoomList = ui.navigation.roomList.items;
 	var navPMList = ui.navigation.pmList.items;
 	page.stop();
@@ -31,7 +31,7 @@ function Router(ui) {
 	}
 
 	function goToPM (cxt) {
-		var	username = cxt.params.pm;
+		var username = cxt.params.pm;
 		var user = findPM(username);
 		var message = cxt.params.message ? cxt.params.message : null;
 		if (user) {
@@ -59,7 +59,7 @@ function Router(ui) {
 	}
 
 	function goToRoom (cxt) {
-		var	slug = cxt.params.room;
+		var slug = cxt.params.room;
 		var room = findRoom(slug);
 		var message = cxt.params.message ? cxt.params.message : null;
 		if (room) {
