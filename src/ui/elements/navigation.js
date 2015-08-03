@@ -64,7 +64,11 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
 		triggerPMManager: function(ev) {
-			self.emit('triggerPMManager', closest(ev.target, 'a', true));
+			var roomSectionH = qs('.room-list', this.el).clientHeight;
+			var infoSectionH = qs('.org-info', this.el).clientHeight;
+			var isTop = Math.round(self.el.clientHeight/2) - infoSectionH > roomSectionH ? false : true;
+			console.log(isTop)
+			self.emit('triggerPMManager', closest(ev.target, 'a', true), isTop);
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');

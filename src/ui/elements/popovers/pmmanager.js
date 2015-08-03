@@ -61,7 +61,13 @@ PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
 
 PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.classes.add('room-po');
-	this.classes.add('top-left');
+	if (this.isTop) {
+		this.classes.remove('left');
+		this.classes.add('top-left');
+	} else {
+		this.classes.remove('top-left');
+		this.classes.add('left');
+	}
 	render(this.content, template('popovers/pmmanager.jade', {
 		tabSelection: this.tabSelection
 	}));
@@ -69,15 +75,16 @@ PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
 	this.getPos();
 };
 
-PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (trigger) {
+PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (trigger, isTop) {
 	this.trigger = trigger;
+	this.isTop = isTop;
 	this.toggle(trigger);
 	this.getPos();
 	this.redraw();
 };
 
 PMManagerPopover.prototype.getPos = function PMManagerPopover_getPos() {
-	if (this.trigger) {
+	if (this.trigger && this.isTop) {
 		var offset = this.trigger.getBoundingClientRect();
 		this.el.style.top = (offset.top - this.el.offsetHeight + 40) + 'px';
 	}
@@ -92,7 +99,8 @@ PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectC
 
 PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (org) {
 	var pms = org.users.filter(function(user) {
-		return ui.user != user && (!user.active || !user.pm || (user.pm && !user.pm.latest_message_time));
+		console.log(user);
+		return ui.user != user && ((user.active && (!user.pm || !user.pm.latest_message_time || user.is_only_invited)) || (!user.active && user.pm && user.pm.latest_message_time));
 
 	});
 	this.PMList.setItems(pms);
