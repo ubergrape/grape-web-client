@@ -213,18 +213,15 @@
 											i.fa.fa-exclamation-circle.fa-lg
 									if status == 'pending'
 										div.pending
-							if line.actor && line.actor.image && line.actor.image.url
-								a(href=line.actor.url, class="actor avatar-wrap")
-									img(src=line.actor.image.url, width=20, height=20, alt=line.actor.name)
 							if line.title
 								if line.times
 									span.times= 'x' + line.times
-								.text.main(class=line.times ? "collapsed" :"")
+								.text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
 									= html(markdown(line.title))
 							if line.text
 								if line.times
 									span.times= 'x' + line.times
-								.text.main(class=line.times ? "collapsed" :"")
+								.text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
 									= html(markdown(line.text))
 							if line.content
 								.message-content= line.content

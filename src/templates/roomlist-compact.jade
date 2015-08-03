@@ -1,4 +1,4 @@
-ul.nav-list.rooms
+ul.nav-list.rooms-compact
 	each room in items
 		if room.joined
 			li.channel-item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
@@ -17,4 +17,3 @@ ul.nav-list.rooms
 								span.fl-notification=room.unread.toString()
 						if room.mentioned > 0
 							span.fl-mention(title="mentioning you")=room.mentioned.toString()
-						span.channel-name=room.name

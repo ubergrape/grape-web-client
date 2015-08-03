@@ -1,20 +1,26 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
-var template = require('template');
 var Emitter = require('emitter');
+var template = require('template');
+var Scrollbars = require('scrollbars');
 var render = require('../rendervdom');
-var classes = require('classes');
+var ItemList = require('./itemlist');
 var qs = require('query');
 var events = require('events');
+var classes = require('classes');
 var broker = require('broker');
 var constants = require('conf').constants;
+var hexToRgb = require('../color-converter')
 
 module.exports = RightSidebar;
 
 function RightSidebar() {
 	Emitter.call(this);
+	this.content = {};
 	this.room = new Emitter({name: '', users: []});
+	this.redraw();
+	this.el = this.content.el;
 	this.init();
 	this.bind();
 }
@@ -22,10 +28,23 @@ function RightSidebar() {
 RightSidebar.prototype = Object.create(Emitter.prototype);
 
 RightSidebar.prototype.init = function RightSidebar_init() {
-	this.el = document.createElement('div');
 	this.classes = classes(this.el);
-	this.redraw();
 	this.canKickMembers = false;
+	this.redraw();
+
+	var uploadsList = this.uploadsList = new ItemList({
+		template: 'uploads.jade',
+		selector: '.item a'
+	});
+	replace(qs('.uploads', this.el), uploadsList.el);
+
+	var membersList = this.membersList = new ItemList({
+		template: 'roommembers.jade',
+		selector: '.item a'
+	});
+	replace(qs('.members', this.el), membersList.el);
+
+	var	navScrollbar = new Scrollbars(qs('.right-sidebar-room-wrap', this.el));
 };
 
 RightSidebar.prototype.bind = function RightSidebar_bind() {
@@ -40,16 +59,41 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
 		var memberID = ev.target.getAttribute('data-id');
 		this.emit('kickMember', roomID, memberID);
 	}.bind(this);
-	this.events.bind('click span.btn-delete', 'deleteRoomMember');
+	this.events.bind('click i.btn-delete', 'deleteRoomMember');
+};
+
+function replace(from, to) {
+	from.parentNode.replaceChild(to, from);
+}
+
+RightSidebar.prototype.setListItems = function RightSidebar_setListItems(items) {
+	this.uploadsList.setItems(items);
+	this.membersList.setItems(items);
+};
+
+RightSidebar.prototype.select = function RightSidebar_select(item) {
+	this.uploadsList.selectItem(null);
+	this.membersList.selectItem(null);
+	this[item.type + 'List'].selectItem(item);
 };
 
 RightSidebar.prototype.redraw = function RightSidebar_redraw() {
+	var color = {r: 100, g: 50, b: 100};
+
+	if (this.room.color) {
+		color = hexToRgb(this.room.color.toLowerCase());
+	}
+
 	var vdom = template('rightsidebar.jade', {
 		room: this.room,
-		canKickMembers: this.canKickMembers
+		canKickMembers: this.canKickMembers,
+		color: color
 	});
 
-	render(this, vdom);
+	render(this.content, vdom);
+
+	if (this.uploadsList) this.uploadsList.redraw();
+	if (this.membersList) this.membersList.redraw();
 };
 
 /* scroll down in the members list */
@@ -73,18 +117,17 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 	room.off('change', redraw_wrapped);
 	room.users.on('add', user_added);
 	room.on('change', redraw_wrapped);
-	this.canKickMembers = ui.user === room.creator || ui.user.role >= constants.ROLE_ADMIN ? true : false;
+	this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
+
+	this.setListItems({room: this.room});
 	this.redraw();
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
-	if (room == this.room) this.redraw();
+	if (room == this.room) this.members.redraw();
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
 	var rightSidebar = qs('.right-sidebar', self.el)
 	rightSidebar.classList.toggle("right-sidebar-show")
-
-	var mainWindow = qs('.main-window', self.el)
-	mainWindow.classList.toggle("main-window-minimize")
 }

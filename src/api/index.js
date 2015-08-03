@@ -502,8 +502,6 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		// connect users and pms
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
 
-		org.rooms.forEach( function(room) { console.log("Room colors", "Room name: " + room.name + " - Color: " + room.color) } )
-
 		// then join
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);

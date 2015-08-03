@@ -146,20 +146,26 @@ $functional-list // this has to be the LI
 	font-family: roboto
 .fl-notification
 .fl-mention
-	margin: -1px 0 0 5px
-	font-size: 10px
+	margin-right: 4px
+	margin-top: 12px
+	float: right
+	position: relative
+	font-size: 0.9em
 	line-height: 16px
+	padding: 5px 6px 3px 5px
 	min-width: 21px
-	padding: 0px 3px
 	border-radius: main-border-radius
 	text-align: center
 	border: none
+	z-index: 50
+	&.infinity
+		font-size: 1.25em
 .fl-notification
-	border: 2px solid grass-light
-	color: grass-light
+	background: #CB325F
+	color: white
 .fl-mention
-	border: 2px solid grass-dark
-	color: grass-dark
+	background: #EB3264
+	color: white
 
 /*______ OVERLAY ______*/
 $overlay // used for search - infos, etc.
@@ -310,11 +316,11 @@ placeholder(color = $input-color-placeholder) {
 
 @keyframes hifromtheleftNoShadow {
 	0% {
-		transform: scaleX(.96) translate3d(-20px, 0, 0);
+		transform: translate3d(-20px, 0, 0);
 		opacity: 0
 	}
 	100% {
-		transform: scaleX(1) translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
 		opacity: 1
 	}
 }

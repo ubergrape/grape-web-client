@@ -99,6 +99,9 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
 	broker.pass(ui.membersMenu, 'kickMember', ui, 'kickMember');
 
+	// organization popover
+	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
+
 	// invite
 	broker(ui, 'orgReady', ui.invite, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.invite, 'setRoom');
@@ -119,4 +122,7 @@ function pipeEvents(ui) {
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
 	broker(ui, 'userMention', ui.navigation, 'onUserMention');
+
+	// right sidebar
+	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
 }

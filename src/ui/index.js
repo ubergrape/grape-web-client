@@ -18,6 +18,8 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var debounce = require('debounce');
 var timezone = require('./jstz');
+var hexToRgb = require('./color-converter');
+var clamp = require('./clamp');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
@@ -231,7 +233,10 @@ UI.prototype.bind = function UI_bind() {
 
 	this.events = events(this.el, {
 		'toggleOrganizationMenu': function() {
-			self.organizationMenu.toggle(qs('.logo'));
+			self.organizationMenu.toggle(qs('.settings-icon'));
+		},
+		'toggleOrganizationMenuCompact': function() {
+			self.organizationMenu.toggle(qs('.settings-icon-compact'));
 		},
 		'requestPermission': function() {
 			notify.requestPermission(function(permission){
@@ -242,7 +247,8 @@ UI.prototype.bind = function UI_bind() {
 			});
 		}
 	});
-	this.events.bind('click .logo', 'toggleOrganizationMenu');
+	this.events.bind('click .settings-icon', 'toggleOrganizationMenu');
+	this.events.bind('click .settings-icon-compact', 'toggleOrganizationMenuCompact');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;

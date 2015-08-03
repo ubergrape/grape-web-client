@@ -10,6 +10,7 @@ var debounce = require('debounce');
 var classes = require('classes');
 var constants = require('conf').constants;
 var keyname = require('keyname');
+var hexToRgb = require('../color-converter')
 
 module.exports = ChatHeader;
 
@@ -82,29 +83,51 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			e.preventDefault();
 		},
 		'toggleTags' : function(e) {
+			var color = {r: 100, g: 50, b: 100};
+
+			if (self.room.color) {
+				color = hexToRgb(self.room.color.toLowerCase());
+			}
+
 			if (tagsToggle.className == "room-header-button") {
 				if (menuToggle.className == "room-header-button") {
 					self.emit('togglerightsidebar');
 				}
 
 				tagsToggle.className = "room-header-button-active"
+				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+
 				menuToggle.className = "room-header-button"
+				menuToggle.style.background = "";
 			} else {
 				tagsToggle.className = "room-header-button"
+				tagsToggle.style.background = "";
 
 				self.emit('togglerightsidebar');
 			}
+
+			qs('')
 		},
 		'toggleMenu' : function(e) {
+			var color = {r: 100, g: 50, b: 100};
+
+			if (self.room.color) {
+				color = hexToRgb(self.room.color.toLowerCase());
+			}
+
 			if (menuToggle.className == "room-header-button") {
 				if (tagsToggle.className == "room-header-button") {
 					self.emit('togglerightsidebar');
 				}
 
 				menuToggle.className = "room-header-button-active"
+				menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+
 				tagsToggle.className = "room-header-button"
+				tagsToggle.style.background = "";
 			} else {
 				menuToggle.className = "room-header-button"
+				menuToggle.style.background = "";
 
 				self.emit('togglerightsidebar');
 			}
@@ -148,12 +171,24 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
+	var color = {r: 100, g: 50, b: 100};
+
+	if (this.room.color) {
+		color = hexToRgb(this.room.color.toLowerCase());
+	}
+
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		editOptions: this.editOptions,
-		mode: this.mode
+		mode: this.mode,
+		color: color
 	});
+
 	render(this, vdom);
+
+	if (qs('.room-header-button-active')) {
+		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+	}
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -167,6 +202,7 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.editOptions.renamingRoom = false;
 	this.mode = msgID ? 'search' : 'chat',
 	room.on('change', this.redraw);
+
 	this.redraw();
 };
 

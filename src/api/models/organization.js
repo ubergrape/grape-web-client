@@ -17,7 +17,7 @@ module.exports = new Model([
 	.array('rooms')
 	.array('pms')
 	.array('users')
-	.use(defaultLogo('images/head.png'));
+	.use(defaultLogo('images/cg-company.png'));
 
 function defaultLogo(url) {
 	return function (Model) {
