@@ -1,7 +1,7 @@
 import {$} from '../../test'
 import expect from 'expect.js'
 import React from 'react/addons'
-import Input from '../..'
+import Input from '../Input'
 import data0 from './mocks/data0.json'
 
 let {render} = React
