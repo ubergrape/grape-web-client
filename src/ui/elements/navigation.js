@@ -41,7 +41,7 @@ Navigation.prototype.init = function Navigation_init() {
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
-	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
 
 	this.filtering = false;
 	this.pmFilterEl = qs('.filter-pms', this.el);
@@ -70,6 +70,9 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms', 'triggerRoomManager');
 	this.events.bind('click .manage-pms', 'triggerPMManager');
+	this.navScrollbar.elem.addEventListener('scroll', debounce(function() {
+		this.emit('closeNavPopovers');
+	}).bind(this), 500);
 };
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {

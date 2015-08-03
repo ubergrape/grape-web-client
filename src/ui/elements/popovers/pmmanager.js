@@ -97,3 +97,8 @@ PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (or
 	});
 	this.PMList.setItems(pms);
 };
+
+PMManagerPopover.prototype.end = function PMManagerPopover_end() {
+	if(this.el.classList.contains('hide')) return;
+	this.hide();
+}

@@ -156,5 +156,6 @@ RoomManagerPopover.prototype.errorFeedback = function RoomCreationPopover_errorF
 }
 
 RoomManagerPopover.prototype.end = function RoomCreationPopover_end() {
+	if(this.el.classList.contains('hide')) return;
 	this.hide();
 }
