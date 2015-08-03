@@ -48,8 +48,6 @@ Navigation.prototype.init = function Navigation_init() {
 	this.pmFilterEl.addEventListener('keyup', function(ev) {
 		self.pmFilter();
 	});
-	this.orgInfo = qs('.org-info', this.el);
-	this.roomSection = qs('.room-list', this.el);
 };
 
 function replace(from, to) {
@@ -66,10 +64,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
 		triggerPMManager: function(ev) {
-			// TODO: 55 is padding-top of pmList, nav-title height and padding of roomlist
-			// needs to be properly computed in the future
-			var bottom = self.el.clientHeight - self.orgInfo.clientHeight - self.roomSection.clientHeight - 55;
-			self.emit('triggerPMManager', closest(ev.target, 'a', true), bottom);
+			self.emit('triggerPMManager', closest(ev.target, 'a', true));
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');

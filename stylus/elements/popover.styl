@@ -35,12 +35,12 @@
 		max-width: 220px
 		text-overflow: ellipsis
 	&.left
-	&.top-left
 		animation: hifromtheleft 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&::before
 			content: ""
 			display: block
 			position: absolute
+			top: 10px
 			left: - arrow-size
 			border-right: arrow-size solid gainsboro-light
 			border-top: arrow-size solid transparent
@@ -49,20 +49,11 @@
 			content: ""
 			display: block
 			position: absolute
+			top: 10px + 2
 			left: - arrow-size + 2
 			border-right: arrow-size - 2 solid white
 			border-top: arrow-size - 2 solid transparent
 			border-bottom: arrow-size - 2 solid transparent
-	&.left
-		&::before
-			top: 10px
-		&::after
-			top: 10px + 2
-	&.top-left
-		&::before
-			bottom: 10px
-		&::after
-			bottom: 10px + 2
 	&.top
 		&::before
 			content: ""
@@ -361,5 +352,5 @@ label.radio-label
 
 .pmpopover
 	.po-scroll-wrap
-		max-height: 303px
+		max-height: 300px
 	

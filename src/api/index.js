@@ -313,12 +313,10 @@ API.prototype.bindEvents = function API_bindEvents() {
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
 		if (!~index) return;
-		console.log(room);
 		// if the user leaving the room is the visitor,
 		// we need to emit the leftChannel event as well
 		// to ensure consistent behaviour across clients
 		if (user === self.user) {
-			console.log('user is same');
 			room.joined = false;
 			self.emit('leftChannel', room);
 		}
