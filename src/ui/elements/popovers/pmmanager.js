@@ -43,33 +43,55 @@ PMManagerPopover.prototype.bind = function PMManagerPopover_bind() {
 		self.tabSelection = 'active';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
+
 	};
 	this.events.obj.setInvited = function(e) {
 		self.tabSelection = 'invited';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
 	};
 	this.events.obj.setDeleted = function(e) {
 		self.tabSelection = 'deleted';
 		self.PMList.templateOptions.tabSelection = self.tabSelection;
 		self.redraw();
+		self.getPos();
 	};
 	this.events.bind('click a.active-users', 'setActive');
 	this.events.bind('click a.invited-users', 'setInvited');
 	this.events.bind('click a.deleted-users', 'setDeleted');
 }
 
-PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw() {
+PMManagerPopover.prototype.redraw = function PMManagerPopover_redraw () {
 	this.classes.add('room-po');
-	this.classes.add('left');
 	render(this.content, template('popovers/pmmanager.jade', {
 		tabSelection: this.tabSelection
 	}));
 	if (this.PMList) this.PMList.redraw();
 };
 
-PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (target) {
+PMManagerPopover.prototype.getPos = function PMManagerPopover_getPos () {
+	if (this.bottom <= this.el.clientHeight) {
+		this.el.style.top = 'inherit';
+		this.classes.remove('left');
+		this.classes.add('top-left');
+		this.el.style.bottom = this.bottom + 'px';
+	} else {
+		this.classes.remove('top-left');
+		this.classes.add('left');
+		if (!this.el.classList.contains('hide')) this.getInitialPos();
+		this.el.style.bottom = 'inherit';
+	}
+};
+
+PMManagerPopover.prototype.onTriggerPMManager = function PMManagerPopover_onTriggerPMManager (target, bottom) {
+	this.tabSelection = 'active';
+	this.PMList.templateOptions.tabSelection = this.tabSelection;
+	this.bottom = bottom;
+	this.redraw();	
 	this.toggle(target);
+	this.getPos();
 };
 
 PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectChannel (channel) {

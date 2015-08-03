@@ -50,13 +50,17 @@ Popover.prototype.bind = function Popover_bind() {
 Popover.prototype.show = function Popover_show(trigger) {
 	this.trigger = trigger;
 	this.classes.remove('hide');
-	var offset = trigger.getBoundingClientRect();
-	this.el.style.top = offset.top + 'px';
-	this.el.style.left = offset.left + offset.width + 'px';
+	this.getInitialPos();
 	document.body.appendChild(this.el);
 	this.hidden = false;
 	this.emit('show');
 };
+
+Popover.prototype.getInitialPos = function Popover_getInitialPos() {
+	var offset = this.trigger.getBoundingClientRect();
+	this.el.style.top = offset.top + 'px';
+	this.el.style.left = offset.left + offset.width + 'px';
+}
 
 Popover.prototype.hide = function Popover_hide() {
 	this.classes.add('hide');
