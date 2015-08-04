@@ -159,20 +159,6 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	list.redraw();
 }
 
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-}
-
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 	this.roomList.redraw();
 }
@@ -188,7 +174,9 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	if (user == ui.user) return;
-	this.pmList.redraw();
+	var pmList = this.pmList;
+	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
+	pmList.redraw();
 }
 
 Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {

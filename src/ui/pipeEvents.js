@@ -114,7 +114,6 @@ function pipeEvents(ui) {
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
-	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
