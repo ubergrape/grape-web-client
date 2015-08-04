@@ -92,9 +92,7 @@ PMManagerPopover.prototype.getPos = function PMManagerPopover_getPos() {
 
 PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectChannel (channel) {
 	if (channel.type === 'room') return;
-	var pmIndex = this.PMList.items.indexOf(channel.users[0]);
-	if (pmIndex > -1) this.PMList.items.splice(pmIndex, 1);
-	this.redraw();
+	this.end();
 };
 
 PMManagerPopover.prototype.onChangeUser = function PMManagerPopover_onChangeUser(user) {
@@ -109,7 +107,7 @@ PMManagerPopover.prototype.newOrgMember = function PMManagerPopover_newOrgMember
 
 PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (org) {
 	var pms = org.users.filter(function(user) {
-		return ui.user != user && ((user.active && (!user.pm || !user.pm.latest_message_time || user.is_only_invited)) || (!user.active && user.pm && user.pm.latest_message_time));
+		return ui.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
 
 	});
 	this.PMList.setItems(pms);
