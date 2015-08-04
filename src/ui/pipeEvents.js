@@ -31,7 +31,6 @@ function pipeEvents(ui) {
 	broker(ui, 'change user', ui.PMManager, 'onChangeUser');
 	broker(ui, 'new org member', ui.PMManager, 'newOrgMember');
 	broker(ui.navigation, 'closeNavPopovers', ui.PMManager, 'end');
-	broker(ui, 'userDeleted', ui.PMManager, 'onUserDeleted');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -114,7 +113,6 @@ function pipeEvents(ui) {
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
-	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
 	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
