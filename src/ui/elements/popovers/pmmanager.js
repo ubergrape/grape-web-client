@@ -97,6 +97,16 @@ PMManagerPopover.prototype.onSelectChannel = function PMManagerPopover_onSelectC
 	this.redraw();
 };
 
+PMManagerPopover.prototype.onChangeUser = function PMManagerPopover_onChangeUser(user) {
+	if (user == ui.user) return;
+	this.redraw();
+}
+
+PMManagerPopover.prototype.newOrgMember = function PMManagerPopover_newOrgMember(user) {
+	this.PMList.items.push(user);
+	this.redraw();
+}
+
 PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (org) {
 	var pms = org.users.filter(function(user) {
 		return ui.user != user && ((user.active && (!user.pm || !user.pm.latest_message_time || user.is_only_invited)) || (!user.active && user.pm && user.pm.latest_message_time));

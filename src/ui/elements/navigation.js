@@ -173,14 +173,6 @@ Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 	this.pmList.redraw();
 }
 
-Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
-	// TODO unbind events
-	if (this.filtering) return;
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-};
-
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 	this.roomList.redraw();
 }
