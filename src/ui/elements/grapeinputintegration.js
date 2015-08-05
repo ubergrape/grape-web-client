@@ -71,7 +71,6 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeFocus grape-input', 'onFocus');
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
-	this.events.bind('grapeSearch grape-input', 'onSearch');
 	this.events.bind('grapeInsertItem grape-input', 'onInsertItem');
 };
 
@@ -363,10 +362,6 @@ GrapeInputIntegration.prototype.onOrgReady = function (org) {
 
 GrapeInputIntegration.prototype.onAddIntegration = function () {
 	location.href = '/services/list'
-};
-
-GrapeInputIntegration.prototype.onSearch = function (e) {
-	analytics.track('open grape-browser', e.detail);
 };
 
 GrapeInputIntegration.prototype.onInsertItem = function (e) {
