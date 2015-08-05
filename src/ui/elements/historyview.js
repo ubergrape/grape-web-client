@@ -153,6 +153,7 @@ function groupHistory(history) {
 	var counter = 1;
 	var last;
 	var group;
+	var previousLine;
 
 	for (var i = 0; i < history.length; i++) {
 		var	line			= history[i],
@@ -162,25 +163,28 @@ function groupHistory(history) {
 			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
 			hasSameMsg		= last && last.message && line.message && last.message == line.message,
 			hasSameAuthor	= last && last.author.id == author.id,
+			afterAttachment = last && last.attachments && last.attachments.length != 0,
 			hasAttachments	= line.attachments && line.attachments.length != 0,
-			isGroupable		= isTimeSpanShort && hasSameAuthor && !hasAttachments;
+			isGroupable		= isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment;
 
+		// Message is groupable, nice and easy
 		if (isGroupable) {
 			if (isService && ( hasSameTitle || hasSameMsg )) {
 				group.pop();
 				counter++;
-				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
+				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers
 			} else if (isService) {
 				groups.push(group = []);
 				counter = 1;
 			}
 		} else {
-			groups.push(group = []); 
-			counter = 1;		
+			groups.push(group = []);
+			counter = 1;
 		}
 
 		group.push(last = line);
 	}
+
 	return groups;
 };
 

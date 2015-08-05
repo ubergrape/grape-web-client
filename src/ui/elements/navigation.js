@@ -55,6 +55,7 @@ Navigation.prototype.init = function Navigation_init() {
 	replace(qs('.pms-compact', this.el), pmListCompact.el);
 
 	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
 
 	document.addEventListener("DOMContentLoaded", function(event) {
 		qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling(); }

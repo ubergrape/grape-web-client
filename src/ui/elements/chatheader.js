@@ -106,7 +106,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 				self.emit('togglerightsidebar');
 			}
 
-			qs('')
+			qs('.right-sidebar-room-info').style.display = "none";
+			qs('.right-sidebar-tags').style.display = "block";
 		},
 		'toggleMenu' : function(e) {
 			var color = {r: 100, g: 50, b: 100};
@@ -131,6 +132,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
 				self.emit('togglerightsidebar');
 			}
+
+			qs('.right-sidebar-room-info').style.display = "block";
+			qs('.right-sidebar-tags').style.display = "none";
 		}
 	});
 

@@ -36,7 +36,7 @@ RightSidebar.prototype.init = function RightSidebar_init() {
 		template: 'uploads.jade',
 		selector: '.item a'
 	});
-	replace(qs('.uploads', this.el), uploadsList.el);
+//	replace(qs('.uploads', this.el), uploadsList.el);
 
 	var membersList = this.membersList = new ItemList({
 		template: 'roommembers.jade',
@@ -92,7 +92,7 @@ RightSidebar.prototype.redraw = function RightSidebar_redraw() {
 
 	render(this.content, vdom);
 
-	if (this.uploadsList) this.uploadsList.redraw();
+//	if (this.uploadsList) this.uploadsList.redraw();
 	if (this.membersList) this.membersList.redraw();
 };
 
