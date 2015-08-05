@@ -90,6 +90,13 @@ export default class Input extends Component {
     objectStyle.sheet.detach()
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.type &&
+      (nextState.type === 'search' || nextState.type === 'emoji')) {
+      nextState.disabled = true
+    } else nextState.disabled = nextProps.disabled
+  }
+
   componentDidUpdate(prevProps, prevState) {
     let {type} = this.state
     if (type && type !== prevState.type) {
@@ -126,7 +133,7 @@ export default class Input extends Component {
           onSubmit={::this.onSubmit}
           onChange={::this.onChangeEditable}
           onFocus={::this.onFocus}
-          onBlur={::this.onBlur}
+          onBlur={::this.onEditableBlur}
           onDidMount={this.onDidMount.bind(this, 'editable')} />
       </div>
     )
@@ -169,6 +176,7 @@ export default class Input extends Component {
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onInput={::this.onInputSearchBrowser}
           onAbort={::this.onAbort}
+          onBlur={::this.onBrowserBlur}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -179,6 +187,7 @@ export default class Input extends Component {
           {...options}
           customEmojis={this.props.customEmojis}
           onSelectItem={::this.onSelectEmojiBrowserItem}
+          onBlur={::this.onBrowserBlur}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -362,7 +371,7 @@ export default class Input extends Component {
     this.emit('focus')
   }
 
-  onBlur() {
+  onEditableBlur() {
     if (this.state.type !== 'user') return
     // We use the timeout to avoid closing suggestions when whole window
     // got unfocused. We want still to close it when
@@ -371,6 +380,11 @@ export default class Input extends Component {
       this.setState({type: null, focused: false})
       this.emit('blur')
     }, 50)
+  }
+
+  onBrowserBlur() {
+    this.setState({type: null, focused: false})
+    this.emit('blur')
   }
 
   onWindowBlur() {

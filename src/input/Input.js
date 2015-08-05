@@ -13,6 +13,7 @@ export default class Input extends Component {
     onInput: undefined,
     onKeyDown: undefined,
     onChangeFilters: undefined,
+    onBlur: undefined,
     delay: undefined,
     type: undefined,
     focused: true,
@@ -96,6 +97,7 @@ export default class Input extends Component {
 
   onBlur() {
     this.setState({focused: false})
+    this.props.onBlur()
   }
 
   onChangeQuery() {

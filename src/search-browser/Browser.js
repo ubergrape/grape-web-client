@@ -42,7 +42,8 @@ export default class Browser extends Component {
     onSelectFilter: undefined,
     onDidMount: undefined,
     onChange: undefined,
-    onAbort: undefined
+    onAbort: undefined,
+    onBlur: undefined
   }
 
   constructor(props) {
@@ -168,10 +169,12 @@ export default class Browser extends Component {
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}>
+        style={pick(this.props, 'height', 'maxWidth')}
+        onMouseDown={::this.onMouseDown}>
         <Input
           onInput={::this.onInput}
           onChangeFilters={this.props.onSelectFilter}
+          onBlur={this.props.onBlur}
           onKeyDown={::this.onKeyDown}
           delay={this.state.inputDelay}
           focused={this.props.focused}
@@ -303,5 +306,11 @@ export default class Browser extends Component {
       search: query.search,
       filters: query.filters
     }, this.props.onInput.bind(null, query))
+  }
+
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in input.
+    e.preventDefault()
   }
 }
