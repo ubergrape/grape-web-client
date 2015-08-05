@@ -3,6 +3,7 @@ import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
 import style from '../browser/style'
@@ -13,7 +14,8 @@ import Spinner from '../spinner/Spinner'
 import Input from '../input/Input'
 import * as services from './services'
 import * as dataUtils from './dataUtils'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import buildQuery from '../query/build'
+import {TYPES as QUERY_TYPES} from '../query/constants'
 
 /**
  * Main search browser component.
@@ -28,7 +30,6 @@ export default class Browser extends Component {
     maxItemsPerSectionInAll: 5,
     isExternal: false,
     isLoading: false,
-    serviceId: undefined,
     hasIntegrations: undefined,
     canAddIntegrations: undefined,
     orgName: undefined,
@@ -37,10 +38,11 @@ export default class Browser extends Component {
     inputDelay: 500,
     focused: undefined,
     onAddIntegration: undefined,
-    onSelectTab: undefined,
     onSelectItem: undefined,
+    onSelectFilter: undefined,
     onDidMount: undefined,
-    onInput: undefined
+    onChange: undefined,
+    onAbort: undefined
   }
 
   constructor(props) {
@@ -69,9 +71,14 @@ export default class Browser extends Component {
   }
 
   createState(props) {
-    let {data, serviceId} = props
+    let {data} = props
 
     if (!data) return {}
+
+    let serviceId
+    if (this.state && this.state.filters) {
+      serviceId = dataUtils.filtersToServiceId(data, this.state.filters)
+    }
 
     let sections = dataUtils.getSections(
       data,
@@ -81,7 +88,9 @@ export default class Browser extends Component {
 
     let tabs = dataUtils.getTabs(data.services, serviceId)
 
-    return {sections, tabs, serviceId}
+    let inputDelay = props.isExternal ? props.inputDelay : undefined
+
+    return {sections, tabs, inputDelay}
   }
 
   /**
@@ -115,8 +124,9 @@ export default class Browser extends Component {
     )
     dataUtils.setSelectedSection(sections, id)
     dataUtils.setFocusedItemAt(sections, id, 0)
-    this.setState({tabs: tabs, sections: sections, serviceId: id})
-    this.props.onSelectTab({id: id})
+    let service = dataUtils.findById(this.props.data.services, id)
+    let filters = service ? [service.key] : []
+    this.setState({tabs, sections, filters})
   }
 
   focusItem(selector) {
@@ -152,25 +162,22 @@ export default class Browser extends Component {
     return dataUtils.getFocusedItem(this.state.sections)
   }
 
-  selectItem(id) {
-    this.focusItem(id)
-    this.props.onSelectItem(this.getFocusedItem())
-  }
-
   render() {
     let {classes} = this.props.sheet
-    let {inputDelay} = this.props
-    if (!this.props.isExternal) inputDelay = undefined
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}>
         <Input
-          onInput={this.props.onInput}
-          delay={inputDelay}
+          onInput={::this.onInput}
+          onChangeFilters={this.props.onSelectFilter}
+          onKeyDown={::this.onKeyDown}
+          delay={this.state.inputDelay}
           focused={this.props.focused}
-          onKeyDown={::this.onKeyDown} />
+          filters={this.state.filters}
+          search={this.state.search}
+          type="search" />
         {this.state.tabs &&
           <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         }
@@ -189,7 +196,7 @@ export default class Browser extends Component {
     let selectedSection = dataUtils.getSelectedSection(sections)
     if (selectedSection) sections = [selectedSection]
 
-    if (data.results.length) return this.renderService(sections)
+    if (data.results.length && sections.length) return this.renderService(sections)
 
     let hasSearch = Boolean(get(data, 'search.text'))
     let hasService = Boolean(get(data, 'search.container'))
@@ -202,6 +209,7 @@ export default class Browser extends Component {
     }
 
     // We have no search, no results and its not an external search.
+    // Yet we can always render queries suggestions.
     return this.renderService(sections)
   }
 
@@ -244,7 +252,14 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.props.onSelectItem(this.getFocusedItem())
+        this.onSelectItem()
+        e.preventDefault()
+        break
+      case 'esc':
+        this.props.onAbort({
+          reason: 'esc',
+          query: e.detail.query
+        })
         e.preventDefault()
         break
       default:
@@ -255,8 +270,24 @@ export default class Browser extends Component {
     this.focusItem(id)
   }
 
-  onSelectItem({id}) {
-    this.selectItem(id)
+  onSelectItem({id} = {}) {
+    if (id) this.focusItem(id)
+    let item = this.getFocusedItem()
+
+    if (item.type === 'filters') {
+      let query = buildQuery({
+        trigger: QUERY_TYPES.search,
+        filters: [item.id]
+      })
+      this.setState({
+        search: '',
+        filters: query.filters
+      })
+      this.props.onSelectFilter(query)
+      return
+    }
+
+    this.props.onSelectItem(item)
   }
 
   onSelectTab({id}) {
@@ -265,5 +296,12 @@ export default class Browser extends Component {
 
   onKeyDown(e) {
     this.navigate(e)
+  }
+
+  onInput(query) {
+    this.setState({
+      search: query.search,
+      filters: query.filters
+    }, this.props.onInput.bind(null, query))
   }
 }

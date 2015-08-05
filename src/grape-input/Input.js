@@ -30,7 +30,6 @@ import * as utils from './utils'
 export default class Input extends Component {
   static defaultProps = {
     maxCompleteItems: 12,
-    changeDelay: 500,
     type: undefined,
     data: undefined,
     images: {},
@@ -46,9 +45,8 @@ export default class Input extends Component {
     onSubmit: undefined,
     onComplete: undefined,
     onChange: undefined,
-    onAddIntegration: undefined,
+    onAddSearchBrowserIntegration: undefined,
     onFilterSelect: undefined,
-    onSearch: undefined,
     onInsertItem: undefined,
     onFocus: undefined,
     onBlur: undefined,
@@ -57,7 +55,7 @@ export default class Input extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onQueryChange})
+    this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.exposePublicMethods()
     this.onWindowBlur = ::this.onWindowBlur
     this.state = this.createState(this.props)
@@ -76,10 +74,6 @@ export default class Input extends Component {
     }
 
     let nextState = this.createState(nextProps)
-
-    if (nextState.type && nextState.type !== this.state.type) {
-      this.onSearch({type: nextState.type})
-    }
 
     this.setState(nextState)
   }
@@ -124,14 +118,13 @@ export default class Input extends Component {
         </div>
         <Editable
           placeholder={this.props.placeholder}
-          disabled={this.props.disabled}
+          disabled={this.state.disabled}
           focused={this.state.focused}
           insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
           onAbort={::this.onAbort}
           onEditPrevious={::this.onEditPrevious}
-          changeDelay={isExternal ? this.props.changeDelay : undefined}
           onSubmit={::this.onSubmit}
-          onChange={::this.onChange}
+          onChange={::this.onChangeEditable}
           onFocus={::this.onFocus}
           onBlur={::this.onBlur}
           onDidMount={this.onDidMount.bind(this, 'editable')} />
@@ -163,20 +156,19 @@ export default class Input extends Component {
 
     if (!type) return null
 
-    let query = this.query.toJSON()
-
     if (type === 'search') {
       return (
         <SearchBrowser
           {...options}
           data={data}
-          serviceId={utils.detectService(query, data)}
           isLoading={this.props.isLoading}
           hasIntegrations={this.props.hasIntegrations}
           canAddIntegrations={this.props.canAddIntegrations}
           onSelectItem={::this.onSelectSearchBrowserItem}
-          onSelectTab={::this.onFacetChange}
-          onAddIntegration={::this.onAddIntegration}
+          onSelectFilter={::this.onSelectSearchBrowserFilter}
+          onAddIntegration={::this.onAddSearchBrowserIntegration}
+          onInput={::this.onInputSearchBrowser}
+          onAbort={::this.onAbort}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -186,9 +178,7 @@ export default class Input extends Component {
         <EmojiBrowser
           {...options}
           customEmojis={this.props.customEmojis}
-          search={query.key}
           onSelectItem={::this.onSelectEmojiBrowserItem}
-          onNotFound={::this.onAbort}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -216,39 +206,6 @@ export default class Input extends Component {
   }
 
   /**
-   * Keyboard navigation for the search browser.
-   */
-  navigateSearchBrowser(e) {
-    let {browser} = this
-    if (!browser) return
-
-    switch (keyname(e.keyCode)) {
-      case 'down':
-        browser.focusItem('next')
-        e.preventDefault()
-        break
-      case 'up':
-        browser.focusItem('prev')
-        e.preventDefault()
-        break
-      case 'right':
-      case 'tab':
-        browser.selectTab('next')
-        e.preventDefault()
-        break
-      case 'left':
-        browser.selectTab('prev')
-        e.preventDefault()
-        break
-      case 'enter':
-        this.onSelectSearchBrowserItem(browser.getFocusedItem())
-        e.preventDefault()
-        break
-      default:
-    }
-  }
-
-  /**
    * Keyboard navigation for the datalist (mention, emoji).
    */
   navigateDatalist(e) {
@@ -266,41 +223,6 @@ export default class Input extends Component {
         break
       case 'enter':
         this.insertItem(datalist.state.focused)
-        e.preventDefault()
-        break
-      default:
-    }
-  }
-
-  /**
-   * Keyboard navigation for the emoji browser.
-   */
-  navigateEmojiBrowser(e) {
-    let {browser} = this
-    if (!browser) return
-    switch (keyname(e.keyCode)) {
-      case 'down':
-        browser.focusItem('nextRow')
-        e.preventDefault()
-        break
-      case 'up':
-        browser.focusItem('prevRow')
-        e.preventDefault()
-        break
-      case 'left':
-        browser.focusItem('prev')
-        e.preventDefault()
-        break
-      case 'right':
-        browser.focusItem('next')
-        e.preventDefault()
-        break
-      case 'enter':
-        this.insertItem(browser.getFocusedItem())
-        e.preventDefault()
-        break
-      case 'tab':
-        browser.selectTab('next')
         e.preventDefault()
         break
       default:
@@ -369,32 +291,27 @@ export default class Input extends Component {
     this.emit('submit', data)
   }
 
-  onChange(query) {
+  onChangeEditable(query) {
     if (query) {
+      // Used by datalist only.
       let changed = this.query.set(query, {silent: true})
       if (changed) this.emit('complete', this.query.toJSON())
     }
     // Query has been removed or caret position changed.
     else if (!this.query.isEmpty()) {
       this.query.reset()
-      this.onAbort({reason: 'deleteQuery'})
+      this.onAbort({reason: 'deleteTrigger'})
     }
 
     this.emit('change')
   }
 
-  onFacetChange(data) {
-    let filters
-    if (data.id) {
-      let service = utils.findServiceById(data.id, this.state.data)
-      if (service) filters = [service.key]
-    }
-    this.query.set('filters', filters)
+  onSelectSearchBrowserItem(data) {
+    this.insertItem(data)
   }
 
-  onSelectSearchBrowserItem(data) {
-    if (data.type === 'filters') this.onFilterSelect(data)
-    else this.insertItem(data)
+  onSelectSearchBrowserFilter(query) {
+    this.emit('selectFilter', query)
   }
 
   onSelectEmojiBrowserItem(data) {
@@ -405,19 +322,9 @@ export default class Input extends Component {
     this.insertItem(data)
   }
 
-  onAddIntegration() {
+  onAddSearchBrowserIntegration() {
     this.closeViewer()
     this.emit('addIntegration')
-  }
-
-  onFilterSelect(data) {
-    this.query.set('filters', [data.id])
-    this.query.set('search', '')
-    this.emit('filterSelect', this.query.toJSON())
-  }
-
-  onSearch(data) {
-    this.emit('search', data)
   }
 
   onInsertItem(item) {
@@ -443,12 +350,6 @@ export default class Input extends Component {
 
   onKeyDown(e) {
     switch (this.state.type) {
-      case 'search':
-        this.navigateSearchBrowser(e)
-        break
-      case 'emoji':
-        this.navigateEmojiBrowser(e)
-        break
       case 'user':
         this.navigateDatalist(e)
         break
@@ -462,6 +363,7 @@ export default class Input extends Component {
   }
 
   onBlur() {
+    if (this.state.type !== 'user') return
     // We use the timeout to avoid closing suggestions when whole window
     // got unfocused. We want still to close it when
     this.blurTimeoutId = setTimeout(() => {
@@ -475,8 +377,13 @@ export default class Input extends Component {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onQueryChange(newQueryStr) {
+  onChangeQuery(newQueryStr) {
     let replaced = this.replaceQuery(newQueryStr)
     if (!replaced) this.insertQuery(newQueryStr)
+  }
+
+  onInputSearchBrowser(data) {
+    this.emit('complete', data)
+    this.emit('change')
   }
 }

@@ -187,6 +187,17 @@ export function getTabs(items = [], serviceId) {
   return tabs
 }
 
-function findById(collection, id) {
+/**
+ * Get service id from the data using filters array.
+ */
+export function filtersToServiceId({services=[]}, filters=[]) {
+  if (filters[0]) {
+    let service = find(services, ({key}) => key === filters[0])
+    if (service) return service.id
+  }
+  return ''
+}
+
+export function findById(collection, id) {
   return find(collection, item => item.id === id)
 }

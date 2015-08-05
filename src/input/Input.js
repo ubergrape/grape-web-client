@@ -3,21 +3,32 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
 import style from './style'
+import {TYPES as QUERY_TYPES} from '../query/constants'
+import QueryModel from '../query/Model'
+import parseQuery from '../query/parse'
 
 @useSheet(style)
 export default class Input extends Component {
   static defaultProps = {
     onInput: undefined,
     onKeyDown: undefined,
+    onChangeFilters: undefined,
     delay: undefined,
-    focused: false
+    type: undefined,
+    focused: true,
+    filters: undefined,
+    search: undefined
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      focused: props.focused
-    }
+    this.query = new QueryModel({onChange: ::this.onChangeQuery})
+    this.query.set({
+      trigger: QUERY_TYPES[this.props.type],
+      filters: props.filters,
+      search: props.search
+    }, {silent: true})
+    this.state = this.createState(props)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -27,15 +38,19 @@ export default class Input extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let {focused} = nextProps
-    if (focused !== this.state.focused) {
-      this.setState({focused})
+    if (nextProps.filters && String(nextProps.filters) !== String(this.query.get('filters'))) {
+      this.onChangeFilters(nextProps)
     }
+
+    if (nextProps.search !== undefined && nextProps.search !== this.query.get('search')) {
+      this.query.set('search', nextProps.search, {silent: true})
+    }
+    let nextState = this.createState(nextProps)
+    this.setState(nextState)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let {focused} = this.state
-    if (focused && prevState.focused !== focused) {
+    if (this.state.focused && !prevState.focused) {
       this.focus()
     }
   }
@@ -45,13 +60,21 @@ export default class Input extends Component {
 
     return (
       <input
+        value={this.state.value}
         type="text"
         className={classes.input}
         ref="input"
         onChange={::this.onInputDebounced}
-        onKeyDown={this.props.onKeyDown}
+        onKeyDown={::this.onKeyDown}
         onBlur={::this.onBlur} />
     )
+  }
+
+  createState({focused}) {
+    return {
+      focused,
+      value: this.query.get('key')
+    }
   }
 
   focus() {
@@ -59,8 +82,9 @@ export default class Input extends Component {
   }
 
   onInput(e) {
-    let {value} = e.target
-    this.props.onInput({value})
+    let queryStr = QUERY_TYPES[this.props.type] + e.target.value
+    let query = parseQuery(queryStr)
+    this.query.set(query)
   }
 
   onInputDebounced(e) {
@@ -72,5 +96,21 @@ export default class Input extends Component {
 
   onBlur() {
     this.setState({focused: false})
+  }
+
+  onChangeQuery() {
+    let query = this.query.toJSON()
+    this.setState({value: query.key})
+    this.props.onInput(query)
+  }
+
+  onKeyDown(e) {
+    e.detail = {query: this.query.toJSON()}
+    this.props.onKeyDown(e)
+  }
+
+  onChangeFilters({filters}) {
+    this.query.set('filters', filters, {silent: true})
+    this.props.onChangeFilters(this.state.value)
   }
 }

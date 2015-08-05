@@ -1,13 +1,5 @@
-import find from 'lodash/collection/find'
 import isEmpty from 'lodash/lang/isEmpty'
 import get from 'lodash/object/get'
-
-/**
- * Get service object by id.
- */
-export function findServiceById(id, data) {
-  return find(data.services, service => service.id === id)
-}
 
 /**
  * Returns true if search is external.
@@ -37,12 +29,3 @@ export function canSuggest(prevState = {}, nextState) {
   return true
 }
 
-/**
- * Get service id from the data using service key.
- */
-export function detectService(queryObj, data) {
-  let key = get(queryObj, 'filters[0]')
-  if (!key) return ''
-  let service = find(data.services, item => item.key === key)
-  if (service) return service.id
-}

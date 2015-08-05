@@ -22,7 +22,6 @@ export default class Editable extends Component {
     placeholder: '',
     focused: false,
     disabled: false,
-    changeDelay: undefined,
     onAbort: undefined,
     onEditPrevious: undefined,
     onSubmit: undefined,
@@ -329,7 +328,7 @@ export default class Editable extends Component {
 
   onInput() {
     // During this mode we shouldn't place markers as they it will end accent mode.
-    if (!this.accentMode.active) this.onChangeDebounced()
+    if (!this.accentMode.active) this.onChange()
   }
 
   onKeyPress(e) {
@@ -363,12 +362,5 @@ export default class Editable extends Component {
 
   onChange() {
     this.props.onChange(this.getQuery())
-  }
-
-  onChangeDebounced() {
-    let {changeDelay} = this.props
-    if (!changeDelay) return this.onChange()
-    clearTimeout(this.changeTimeoutId)
-    this.changeTimeoutId = setTimeout(::this.onChange, changeDelay)
   }
 }

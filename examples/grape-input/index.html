@@ -68,7 +68,6 @@
       function getDefaultProps() {
         return {
           customEmojis: {test: '../images/avatar.gif'},
-          focused: true,
           placeholder: 'Some placeholder',
           images: {
             emojiSheet: '../../node_modules/js-emoji/images/sheet_32.png',
@@ -82,7 +81,7 @@
       }
 
       function init() {
-        setProps()
+        setProps({focused: true})
 
         input.addEventListener('grapeComplete', function (e) {
           console.log('complete', e.detail)
@@ -131,10 +130,6 @@
           console.log('blur')
         })
 
-        input.addEventListener('grapeSearch', function (e) {
-          console.log('search')
-        })
-
         input.addEventListener('grapeAbort', function (e) {
           console.log('abort')
         })
@@ -147,8 +142,9 @@
           console.log('add integration')
         })
 
-        input.addEventListener('grapeFilterSelect', function (e) {
-          console.log('filter select', e.detail)
+        input.addEventListener('grapeSelectFilter', function (e) {
+          //console.log('select filter', e.detail)
+          return
           setProps({
             type: 'search',
             data: window.searchData
@@ -169,5 +165,6 @@
 
       document.addEventListener('DOMContentLoaded', init)
     </script>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
   </body>
 </html>
