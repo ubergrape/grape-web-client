@@ -170,7 +170,8 @@ export default class Browser extends Component {
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}
-        onMouseDown={::this.onMouseDown}>
+        onMouseDown={::this.onMouseDown}
+        data-test="browser">
         <Input
           onInput={::this.onInput}
           onChangeFilters={this.props.onSelectFilter}

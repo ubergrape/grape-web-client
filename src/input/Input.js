@@ -65,6 +65,7 @@ export default class Input extends Component {
         type="text"
         className={classes.input}
         ref="input"
+        data-test="input"
         onChange={::this.onInputDebounced}
         onKeyDown={::this.onKeyDown}
         onBlur={::this.onBlur} />

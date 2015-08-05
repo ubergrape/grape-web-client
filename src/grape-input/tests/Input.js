@@ -12,7 +12,7 @@ describe('input', () => {
   describe('Input()', () => {
     it('should render without props', () => {
       render(<Input />, document.body)
-      expect($('input')).to.be.an(Element)
+      expect($('grape-input')).to.be.an(Element)
     })
   })
 
@@ -20,7 +20,7 @@ describe('input', () => {
     it('should open search browser', () => {
       let input = <Input type="search" data={data0} focused={true} />
       render(input, document.body)
-      let completeWrapper = $('input complete-wrapper')
+      let completeWrapper = $('grape-input complete-wrapper')
       expect(completeWrapper).to.be.an(Element)
       expect(completeWrapper.children.length).to.be(1)
     })
@@ -42,7 +42,7 @@ describe('input', () => {
 
     it('shound render "nothing found"', done => {
       create(() => {
-        expect($('empty', 'input')).to.be.an(Element)
+        expect($('grape-input empty')).to.be.an(Element)
         done()
       })
     })
@@ -51,7 +51,7 @@ describe('input', () => {
       create(component => {
         component.query.set('search', 'something ', {silent: true})
         create(null, () => {
-          let completeWrapper = $('input complete-wrapper')
+          let completeWrapper = $('grape-input complete-wrapper')
           expect(completeWrapper.children.length).to.be(0)
           done()
         })
@@ -62,7 +62,7 @@ describe('input', () => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
         create(null, () => {
-          let completeWrapper = $('input complete-wrapper')
+          let completeWrapper = $('grape-input complete-wrapper')
           expect(completeWrapper.children.length).to.be(1)
           done()
         })
@@ -71,7 +71,7 @@ describe('input', () => {
 
     it('should stay closed when user continued typing after space', (done) => {
       create(component => {
-        let completeWrapper = $('input complete-wrapper')
+        let completeWrapper = $('grape-input complete-wrapper')
         component.query.set('search', 'something else', {silent: true})
         create(null, () => {
           component.query.set('search', 'something else ', {silent: true})
@@ -88,9 +88,16 @@ describe('input', () => {
     function insert(onInsertItem, onDidMount) {
       let data = {...data0}
       data.search.queries = []
-      let input = <Input type="search" data={data} focused={true} onInsertItem={onInsertItem} onDidMount={onDidMount} />
+      let input = (
+        <Input
+          type="search"
+          data={data}
+          focused={true}
+          onInsertItem={onInsertItem}
+          onDidMount={onDidMount} />
+      )
       render(input, document.body)
-      Simulate.keyDown($('editable'), {keyCode: 13})
+      Simulate.keyDown($('grape-input browser input'), {keyCode: 13})
     }
 
     it('should call onInsertItem with correct argument', (done) => {
@@ -102,7 +109,7 @@ describe('input', () => {
       })
     })
 
-    it('should call onInsertItem with correct argument', (done) => {
+    it('should call replaceQuery with correct replacement', (done) => {
       insert(null, input => {
         input.replaceQuery = replacement => {
           // Verify there are no missing params in objects.

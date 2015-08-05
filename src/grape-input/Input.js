@@ -119,7 +119,7 @@ export default class Input extends Component {
       <div
         onKeyDown={::this.onKeyDown}
         className={classes.input}
-        data-test="input">
+        data-test="grape-input">
         <div className={classes.completeWrapper} data-test="complete-wrapper">
           {viewer}
         </div>
