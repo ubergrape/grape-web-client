@@ -276,23 +276,26 @@ export default class Browser extends Component {
   onSelectItem({id} = {}) {
     if (id) this.focusItem(id)
     let item = this.getFocusedItem()
+    let trigger = QUERY_TYPES.search
 
     if (item.type === 'filters') {
       let service = dataUtils.findById(this.props.data.services, item.id)
       let filters = service ? [service.key] : []
-      let query = buildQuery({
-        trigger: QUERY_TYPES.search,
-        filters
-      })
       this.setState({
         search: '',
         filters
       })
+      let query = buildQuery({trigger, filters})
       this.props.onSelectFilter(query)
       return
     }
 
-    this.props.onSelectItem(item)
+    let query = buildQuery({
+      trigger,
+      filters: this.state.filters,
+      search: this.state.search
+    })
+    this.props.onSelectItem({item, query})
   }
 
   onSelectTab({id}) {

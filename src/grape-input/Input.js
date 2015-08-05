@@ -238,23 +238,24 @@ export default class Input extends Component {
     }
   }
 
-  insertItem(item) {
+  insertItem(item, query) {
     if (item) {
       let results = get(this.state, 'data.results')
       let data = find(results, res => res.id === item.id) || item
       let Obj = objects[data.type] || objects.search
       let object = new Obj(data)
       // Add space to let user type next thing faster.
-      this.replaceQuery(object.toHTML() + '&nbsp;')
+      this.replaceQuery(object.toHTML() + '&nbsp;', query)
     }
-    this.onInsertItem(item)
+    this.onInsertItem(item, query)
     this.closeViewer()
     this.query.reset()
   }
 
-  replaceQuery(replacement) {
-    return this.editable.replaceQuery(replacement, {
-      query: this.query.toJSON()
+  replaceQuery(replacement, query, callback) {
+    this.setState({disabled: false, focused: true}, () => {
+      let replaced = this.editable.replaceQuery(replacement, {query})
+      if (callback) callback(replaced)
     })
   }
 
@@ -301,12 +302,12 @@ export default class Input extends Component {
   }
 
   onChangeEditable(query) {
+    // Used by datalist only.
     if (query) {
-      // Used by datalist only.
       let changed = this.query.set(query, {silent: true})
       if (changed) this.emit('complete', this.query.toJSON())
     }
-    // Query has been removed or caret position changed.
+    // Query has been removed or caret position changed, for datalist only.
     else if (!this.query.isEmpty()) {
       this.query.reset()
       this.onAbort({reason: 'deleteTrigger'})
@@ -315,20 +316,20 @@ export default class Input extends Component {
     this.emit('change')
   }
 
-  onSelectSearchBrowserItem(data) {
-    this.insertItem(data)
+  onSelectSearchBrowserItem({item, query}) {
+    this.insertItem(item, query)
   }
 
   onSelectSearchBrowserFilter(query) {
     this.emit('selectFilter', query)
   }
 
-  onSelectEmojiBrowserItem(data) {
-    this.insertItem(data)
+  onSelectEmojiBrowserItem({item, query}) {
+    this.insertItem(item, query)
   }
 
-  onSelectDatalistItem(data) {
-    this.insertItem(data)
+  onSelectDatalistItem(item) {
+    this.insertItem(item, this.query.toJSON())
   }
 
   onAddSearchBrowserIntegration() {
@@ -336,10 +337,8 @@ export default class Input extends Component {
     this.emit('addIntegration')
   }
 
-  onInsertItem(item) {
-    let query = this.query.toJSON()
-    let {type} = item
-    let {service} = item
+  onInsertItem(item, query) {
+    let {type, service} = item
     let rank = 0
 
     let results = get(this.state, 'data.results')

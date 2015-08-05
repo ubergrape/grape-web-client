@@ -102,14 +102,14 @@ export default class Editable extends Component {
   /**
    * Replace current query.
    */
-  replaceQuery(replacement, options) {
+  replaceQuery(replacement, data) {
     let query = this.getQuery()
     if (!query) return false
 
     this.modify((left, right) => {
       let newLeft = utils.replaceLastQuery(replacement, query.query, left)
       return [newLeft, right]
-    }, options)
+    }, data)
 
     return true
   }
@@ -118,7 +118,7 @@ export default class Editable extends Component {
    * Modify text at caret position.
    * Passed function will receive an array with text before and after the caret.
    */
-  modify(modifier, options = {}) {
+  modify(modifier, data) {
     let selection = this.caret.placeMarker()
     let caretsParent = this.caret.getParent(selection)
     let html = utils.htmlWhitespacesToText(caretsParent.innerHTML)
@@ -129,7 +129,7 @@ export default class Editable extends Component {
       caretsParent.innerHTML = newHtml
       selection.selectMarkers()
       this.afterInsertionAnimation()
-      this.props.onChange(options.query)
+      this.props.onChange(data)
     })
   }
 
@@ -159,14 +159,14 @@ export default class Editable extends Component {
   getQuery() {
     let caretsParent = this.caret.getParent()
 
-    if (!caretsParent || utils.isGrapeObject(caretsParent)) return null
+    if (!caretsParent || utils.isGrapeObject(caretsParent)) return undefined
 
     let text = this.caret.getText('before')
 
     text = utils.htmlWhitespacesToText(text)
     let matches = text.split(QUERY_REGEX)
 
-    if (matches.length < 3) return null
+    if (matches.length < 3) return undefined
 
     let key = matches.pop()
     let trigger = matches.pop()

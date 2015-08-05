@@ -193,7 +193,7 @@ class Browser extends Component {
 
   selectItem(id) {
     this.focusItem(id)
-    this.props.onSelectItem(this.getFocusedItem())
+    this.props.onSelectItem({item: this.getFocusedItem()})
   }
 
   /**
@@ -218,7 +218,7 @@ class Browser extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.props.onSelectItem(this.getFocusedItem())
+        this.props.onSelectItem({item: this.getFocusedItem()})
         e.preventDefault()
         break
       case 'tab':
