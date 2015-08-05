@@ -29,3 +29,9 @@ export function canSuggest(prevState = {}, nextState) {
   return true
 }
 
+/**
+ * Returns true if type will br rendered using grape-browser.
+ */
+export function isBrowserType(type) {
+  return type && (type === 'search' || type === 'emoji')
+}

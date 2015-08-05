@@ -57,7 +57,7 @@ export default class Input extends Component {
     super(props)
     this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.exposePublicMethods()
-    this.onWindowBlur = ::this.onWindowBlur
+    this.onBlurWindow = ::this.onBlurWindow
     this.state = this.createState(this.props)
   }
 
@@ -79,20 +79,19 @@ export default class Input extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('blur', this.onWindowBlur)
+    window.addEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.attach()
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
 
   componentDidUnmount() {
-    window.removeEventListener('blur', this.onWindowBlur)
+    window.removeEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.detach()
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.type &&
-      (nextState.type === 'search' || nextState.type === 'emoji')) {
+    if (utils.isBrowserType(nextState.type)) {
       nextState.disabled = true
     } else nextState.disabled = nextProps.disabled
   }
@@ -115,6 +114,7 @@ export default class Input extends Component {
       className: classes.browser,
       images: this.props.images
     })
+
     return (
       <div
         onKeyDown={::this.onKeyDown}
@@ -132,8 +132,8 @@ export default class Input extends Component {
           onEditPrevious={::this.onEditPrevious}
           onSubmit={::this.onSubmit}
           onChange={::this.onChangeEditable}
-          onFocus={::this.onFocus}
-          onBlur={::this.onEditableBlur}
+          onFocus={::this.onFocusEditable}
+          onBlur={::this.onBlurEditable}
           onDidMount={this.onDidMount.bind(this, 'editable')} />
       </div>
     )
@@ -366,13 +366,24 @@ export default class Input extends Component {
     }
   }
 
-  onFocus() {
-    this.setState({focused: true})
+  onFocusEditable() {
+    let {type} = this.state
+    if (utils.isBrowserType(type)) type = null
+
+    this.setState({
+      focused: true,
+      disabled: this.props.disabled,
+      type
+    })
     this.emit('focus')
   }
 
-  onEditableBlur() {
-    if (this.state.type !== 'user') return
+  onBlurEditable() {
+    if (utils.isBrowserType(this.state.type)) {
+      this.setState({focused: false})
+      return
+    }
+
     // We use the timeout to avoid closing suggestions when whole window
     // got unfocused. We want still to close it when
     this.blurTimeoutId = setTimeout(() => {
@@ -384,12 +395,12 @@ export default class Input extends Component {
 
   onBrowserBlur() {
     this.blurTimeoutId = setTimeout(() => {
-      this.setState({type: null, focused: false})
+      this.setState({type: null, focused: true})
       this.emit('blur')
     }, 50)
   }
 
-  onWindowBlur() {
+  onBlurWindow() {
     clearTimeout(this.blurTimeoutId)
   }
 

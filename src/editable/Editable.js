@@ -32,24 +32,26 @@ export default class Editable extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      focused: this.props.focused
-    }
+    this.state = this.createState(this.props)
     this.onKeyDownDebounced = debounce(::this.handleKeyDown, 20)
+    this.onPaste = ::this.onPaste
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.focused && !this.state.focused) {
+    this.setState(this.createState(nextProps))
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.focused && !prevState.focused) {
       this.focus()
     }
-    this.setState({focused: nextProps.focused})
   }
 
   componentDidMount() {
     this.node = React.findDOMNode(this)
-    this.node.addEventListener('paste', this.onPaste.bind(this))
+    this.node.addEventListener('paste', this.onPaste)
 
     // Todo add desroy method to scribe so that we can recreate everything on
     // mount. Right now this
@@ -62,6 +64,14 @@ export default class Editable extends Component {
 
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
+  }
+
+  componentWillUnmount() {
+    this.node.removeEventListener('paste', this.onPaste)
+  }
+
+  createState({focused}) {
+    return {focused}
   }
 
   render() {
@@ -336,6 +346,7 @@ export default class Editable extends Component {
   }
 
   onMouseDown(e) {
+    if (!this.state.focused) this.props.onFocus()
     if (utils.isGrapeObject(e.target)) {
       e.preventDefault()
       this.caret.move('after', e.target)

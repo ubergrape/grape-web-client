@@ -278,13 +278,15 @@ export default class Browser extends Component {
     let item = this.getFocusedItem()
 
     if (item.type === 'filters') {
+      let service = dataUtils.findById(this.props.data.services, item.id)
+      let filters = service ? [service.key] : []
       let query = buildQuery({
         trigger: QUERY_TYPES.search,
-        filters: [item.id]
+        filters
       })
       this.setState({
         search: '',
-        filters: query.filters
+        filters
       })
       this.props.onSelectFilter(query)
       return
@@ -308,8 +310,7 @@ export default class Browser extends Component {
     }, this.props.onInput.bind(null, query))
   }
 
-  onMouseDown(e) {
-    // Important!!!
+  onMouseDown(e) {
     // Avoids loosing focus and though caret position in input.
     e.preventDefault()
   }
