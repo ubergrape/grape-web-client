@@ -383,8 +383,10 @@ export default class Input extends Component {
   }
 
   onBrowserBlur() {
-    this.setState({type: null, focused: false})
-    this.emit('blur')
+    this.blurTimeoutId = setTimeout(() => {
+      this.setState({type: null, focused: false})
+      this.emit('blur')
+    }, 50)
   }
 
   onWindowBlur() {
