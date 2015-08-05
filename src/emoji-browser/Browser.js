@@ -29,6 +29,7 @@ class Browser extends Component {
     className: '',
     focused: undefined,
     onSelectItem: undefined,
+    onBlur: undefined,
     onDidMount: undefined
   }
 
@@ -103,11 +104,14 @@ class Browser extends Component {
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}>
+        style={pick(this.props, 'height', 'maxWidth')}
+        onMouseDown={::this.onMouseDown}>
         <Input
           onInput={::this.onInput}
+          onBlur={this.props.onBlur}
           onKeyDown={::this.onKeyDown}
-          focused={this.props.focused} />
+          focused={this.props.focused}
+          type="emoji" />
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {!sections.length && <Empty text="No emoji found." />}
         {sections.length > 0 &&
@@ -245,15 +249,20 @@ class Browser extends Component {
     this.grid = grid
   }
 
-  onInput({value}) {
+  onInput({search}) {
     this.setState({
-      search: value,
-      facet: value ? 'search' : undefined
+      search: search,
+      facet: search ? 'search' : undefined
     })
   }
 
   onKeyDown(e) {
     this.navigate(e)
+  }
+
+  onMouseDown(e) {
+    // Avoids loosing focus and though caret position in input.
+    e.preventDefault()
   }
 }
 

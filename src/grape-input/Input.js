@@ -176,7 +176,7 @@ export default class Input extends Component {
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onInput={::this.onInputSearchBrowser}
           onAbort={::this.onAbort}
-          onBlur={::this.onBrowserBlur}
+          onBlur={::this.onBlurBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -187,7 +187,7 @@ export default class Input extends Component {
           {...options}
           customEmojis={this.props.customEmojis}
           onSelectItem={::this.onSelectEmojiBrowserItem}
-          onBlur={::this.onBrowserBlur}
+          onBlur={::this.onBlurBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -392,7 +392,7 @@ export default class Input extends Component {
     }, 50)
   }
 
-  onBrowserBlur() {
+  onBlurBrowser() {
     this.blurTimeoutId = setTimeout(() => {
       this.setState({type: null, focused: true})
       this.emit('blur')
