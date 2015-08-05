@@ -657,6 +657,9 @@ API.prototype.getHistory = function API_getHistory(room, options) {
 	options = options || {};
 	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
 		if (err) return self.emit('error', err);
+		// so when the first message in history is read, assume the history as read
+		// as well
+		var read = !!room.history.length && room.history[0].read;
 		if (res.length === 0) return self.emit('nohistory');
 		// append all to the front of the array
 		// TODO: for now the results are sorted in reverse order, will this be
@@ -666,7 +669,7 @@ API.prototype.getHistory = function API_getHistory(room, options) {
 			// if it isnt in the history yet
 			var exists = models.Line.get(line.id);
 			if (!exists || !~room.history.indexOf(exists)) {
-				line.read = true;
+				line.read = read;
 				line = new models.Line(line);
 				// TODO: maybe check if everythings correctly sorted before
 				// inserting the line?
@@ -699,7 +702,7 @@ API.prototype.setRead = function API_setRead(room, lineID) {
 	// iterate the history in reverse order
 	// (its more likely the read line is at the end)
 	var line = models.Line.get(lineID);
-	if (!line || line.time.getTime() < room.latest_message_time) return;
+	if (!line) return;
 	room.mentioned = 0;
 	var setread = false;
 	for (var i = room.history.length - 1; i >= 0; i--) {
