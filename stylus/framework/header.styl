@@ -58,6 +58,7 @@
 				overflow: hidden
 				border-bottom: none
 				float:left
+				z-index: 2
 			.room-topic
 				font-size: 0.65em
 				color: #999999
@@ -74,7 +75,6 @@
 			.header-option
 				display: inline-block
 				color: white
-				padding: 0 6px
 				font-size: 14px
 				&:hover
 					opacity: 0.7
@@ -114,6 +114,13 @@
 			.offline
 				width: 10px
 				height: 10px
+	.option-delete-room
+		margin-top: 4px
+		padding: 0
+	.option-rename-room
+		padding: 0 0 0 15px
+	.option-rename-cancel
+		margin-right: 10px
 	.room-header-button
 		width: 90px
 		height: 100%

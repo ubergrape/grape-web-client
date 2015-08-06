@@ -29,7 +29,6 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.membersMenu, 'setRoom');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui.chatHeader, 'toggleusermenu', ui.userMenu, 'toggle');
-	broker(ui.chatHeader, 'togglemembersmenu', ui.membersMenu, 'toggle');
 	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 	broker(ui.searchView, 'show', ui, 'showSearchResults');
