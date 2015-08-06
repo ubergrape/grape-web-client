@@ -1,13 +1,13 @@
 h3
 	=_('Invite new members')
 form.invite-to-room
-	textarea.input-invite(name="invite-users", placeholder="Enter names or email addresses ...")
+	textarea.input-invite(name="invite-users", placeholder="Enter names or email addresses ..." style="max-width:77%")
 	button.button.btn-invite.btn-icon.btn-primary(type="submit", name="submit")
 		i.icon.fa.fa-user-plus
 		| Invite members
 ul.invite-list
 	each invitee in users
-		li.channel-item
+		li.channel-item.free(data-username="#{invitee.username}")
 			a
 				.item-inner-wrp
 					.avatar-wrap
@@ -16,9 +16,6 @@ ul.invite-list
 						else
 							span.offline
 						img(src="#{invitee.avatar}",width="28",alt="#{invitee.username}")
-						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+						.avatar-status(class=(invitee.status === 16 ? 'online' : 'offline'))
 					span.channel-name
 						| #{invitee.displayName}
-button.button.btn-invite.btn-icon.btn-primary(type="submit", name="submit")
-	i.icon.fa.fa-user-plus
-	| Invite members

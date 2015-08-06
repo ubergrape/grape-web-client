@@ -58,7 +58,6 @@
     "strftime": "samsonjs/strftime#v0.8.2",
     "t": "ubergrape/t#master",
     "template": "./local_modules/template",
-    "textcomplete": "ubergrape/textcomplete",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1",
     "websocket": "ubergrape/websocket",

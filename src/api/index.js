@@ -641,7 +641,8 @@ API.prototype.search = function API_search(text) {
 		});
 };
 
-API.prototype.inviteToRoom = function API_inviteToRoom(room, users, callback) {
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
+	console.log('ugh');
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
 			callback(err, result);
