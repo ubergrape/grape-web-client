@@ -319,7 +319,7 @@ Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return self.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return ui.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
