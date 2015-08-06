@@ -129,14 +129,13 @@
             display: inline-block
             margin-left: 10px
             margin-top: 7px
-    .right-sidebar-item:hover
-        color: #4A324B !important
-        text-decoration: none !important
-
-    .right-sidebar-item.inactive
-        cursor: default
+        .inactive
+            cursor: default
+            &:hover
+                color: #666666
         &:hover
-            color: #666666
+            color: #4A324B !important
+            text-decoration: none !important
 
 .no-tags
     width: 87%

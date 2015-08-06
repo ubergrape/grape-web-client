@@ -21,4 +21,5 @@
 							aside.avatar-wrap
 								img.image(src="#{member.avatar}",width="20",height="20",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-							span.right-sidebar-item.inactive= member.displayName
+							span.inactive= member.displayName
+						span(style="clear: both")
