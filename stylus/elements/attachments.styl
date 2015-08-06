@@ -1,0 +1,100 @@
+.attachments.message-group
+	@extend $clearfix
+	margin-top: 20px !important
+	margin-bottom: 24px !important
+	a
+		color: #3bafda !important
+	.avatar
+		margin-left: 14px
+		margin-top: 3px
+		.image
+			width: 28px
+			height: 28px
+	.message-inner-wrap
+		width: 100%
+		display: inline-block
+	.message-content
+		display: table
+		margin-left: 0px
+		position: relative
+		top: -4px
+	.vertical-line
+		display: block
+		position: absolute;
+		width: 5px
+		top: -4px
+		bottom: 4px
+		left: 52px
+		background: #C3C3C3
+		border-radius: 4px 0px 0px 4px
+		z-index: 50
+	&.creator
+		a.timelink
+			@extend $subtle-link
+			color: #788796 !important
+			&:hover
+				color: link-color !important
+				text-decoration: none !important
+
+.attachments.message
+	@extend $clearfix
+	border-radius: 0px 6px 6px 0px
+	margin-top: 3px
+	display: block
+	.message-inner-wrap
+		padding: 0 16px 0 5px
+		display: inline-block
+		min-width: 390px
+	.message-author
+		margin-left: 2px
+		cursor: default
+		font-size: 0.9em
+		color: gainsboro-dark
+		&.creator
+			color: #788796
+			&:hover
+				cursor: default
+				color: #788796
+		&:hover
+			cursor: pointer
+			color: #7B477B
+	a.timelink
+		@extend $subtle-link
+		color: gainsboro-dark !important
+		position: relative
+		margin-right: 12px
+		font-size: 0.9em
+		.fa-globe
+			margin-left: 4px
+		.time
+			display: inline-block
+			.different-timezone
+				display: inline-block
+				opacity: 0
+				top: 0px
+				left: 0px
+				color: #666666
+				.dif-tz
+					font-size: 1.05em
+		&:hover
+			color: #7B477B !important
+			text-decoration: none !important
+			.different-timezone
+				text-decoration: none !important
+				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
+				transition: opacity 0.2s, transform 0.2s
+				transition-timing-function: ease-out
+				transform: translateX(6px)
+				opacity: 1
+	.text.main
+		margin-left: 2px
+		max-width: 740px
+		&.add-margin
+			margin-top: 12px
+	.image-wrap
+		height: 125px
+		border: solid 1px #F2F2F2
+		border-radius: 4px
+		img
+			height: 100%
+			width: auto

@@ -1,6 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
+var Emitter = require('emitter');
 var template = require('template');
 var render = require('../../rendervdom');
 var Popover = require('./popover');
@@ -36,5 +37,20 @@ OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
 	this.classes.add('orga-po');
 	this.classes.add('top');
-	render(this.content, template('popovers/organization.jade'));
+
+	var userRole = 0;
+
+	if (typeof ui != 'undefined') {
+		userRole = ui.user.role;
+	}
+
+	var vdom = template('popovers/organization.jade', {
+		role: userRole
+	});
+
+	render(this.content, vdom);
 };
+
+OrganizationPopover.prototype.onOrgReady = function OrganizationPopover_onOrgReady(org) {
+	this.redraw();
+ }

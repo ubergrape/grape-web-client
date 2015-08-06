@@ -120,27 +120,12 @@ API.prototype.onConnect = function API_onConnect(data) {
  * @param {Function} [callback]
  */
 API.prototype.initSocket = function API_initSocket(opts) {
-	var lp, ws;
-	// first try longpolling
-	lp = new LPSocket(opts.lpUri);
-	lp.connect();
-	lp.once('open', function() {
-		// try upgrade to websocket
-		ws = new WebSocket(opts.wsUri); 
-		ws.once('open', function() {
-			// websocket upgrade successful. 
-			// close longpolling and continue w/ websocket
-			// TODO(flo): explicitly kill lp session
-			lp.close();
-			opts.connected(ws);
-		});
-		ws.once('error', function() {
-			// use longpolling fallback as websocket failed
-			lp.poll();
-			opts.connected(lp);
-		});
+	var ws = new WebSocket(opts.wsUri); 
+	ws.once('open', function() {
+		opts.connected(ws);
 	});
-	lp.once('error', function(err) {
+
+	ws.once('error', function(err) {
 		opts.error(err);
 	});
 };
@@ -154,10 +139,14 @@ API.prototype.connect = function API_connect(ws, callback) {
 
 	if (this.connecting) return;
 
+	if (typeof ws == 'string' && ws !== '') {
+		this.wsUri = ws;
+	}
+
 	this.connecting = true;
 	this.initSocket({
 		lpUri: this.lpUri, 
-		wsUri: (typeof ws == 'string' && ws !== '') ? ws : this.wsUri,
+		wsUri: this.wsUri,
 		connected: function(socket) {
 			// connection established; bootstrap client state
 			this._socket = socket;
@@ -515,6 +504,17 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 	});
 };
 
+API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
+	callback = callback || function() {};
+	var self = this;
+
+	self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
+		if (err) return self.emit('error', err);
+
+		console.log("List Room icons", "Result: " + res);
+	})
+}
+
 API.prototype.endedIntro = function API_endedIntro() {
 	this.wamp.call(PREFIX + 'users/set_profile', {'show_intro': false});
 };
@@ -649,7 +649,8 @@ API.prototype.search = function API_search(text) {
 		});
 };
 
-API.prototype.inviteToRoom = function API_inviteToRoom(room, users, callback) {
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
+	console.log('ugh');
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
 			callback(err, result);

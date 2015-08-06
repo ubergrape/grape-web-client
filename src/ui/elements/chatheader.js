@@ -10,6 +10,7 @@ var debounce = require('debounce');
 var classes = require('classes');
 var constants = require('conf').constants;
 var keyname = require('keyname');
+var hexToRgb = require('../color-converter')
 
 module.exports = ChatHeader;
 
@@ -28,6 +29,8 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
+	this.tagsToggle = qs('#tagsToggle', this.el);
+	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
 	this.editOptions = {
 		canRenameRoom: false,
@@ -43,20 +46,14 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleUserMenu': function () {
 			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
 		},
-		'toggleMembersMenu': function (e) {
-			self.emit('togglemembersmenu', qs('.room-users-wrap', self.el));
-		},
-		'toggleMembersMenu1': function (e) {
-			self.emit('togglemembersmenu', qs('.option-add-users', self.el));
-		},
 		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
 		'toggleRoomRename': function() {
 			self.editOptions.renamingRoom = true;
 			self.redraw();
-			var	roomNameInput = qs('input.room-name', this.el),
-				roomName = roomNameInput.value;
+			var roomNameInput = qs('input.room-name', this.el);
+			var roomName = roomNameInput.value;
 			roomNameInput.focus();
 			roomNameInput.setSelectionRange(roomName.length,roomName.length);
 		},
@@ -78,17 +75,70 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
+		},
+		'toggleTags' : function(e) {
+			var color = {r: 100, g: 50, b: 100};
+
+			if (self.room.color) {
+				color = hexToRgb(self.room.color.toLowerCase());
+			}
+
+			if (tagsToggle.className == "room-header-button") {
+				if (menuToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
+
+				tagsToggle.className = "room-header-button-active"
+				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+
+				menuToggle.className = "room-header-button"
+				menuToggle.style.background = "";
+			} else {
+				tagsToggle.className = "room-header-button"
+				tagsToggle.style.background = "";
+
+				self.emit('togglerightsidebar');
+			}
+
+			qs('.right-sidebar-room-info').style.display = "none";
+			qs('.right-sidebar-tags').style.display = "block";
+		},
+		'toggleMenu' : function(e) {
+			var color = {r: 100, g: 50, b: 100};
+
+			if (self.room.color) {
+				color = hexToRgb(self.room.color.toLowerCase());
+			}
+
+			if (menuToggle.className == "room-header-button") {
+				if (tagsToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
+
+				menuToggle.className = "room-header-button-active"
+				menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+
+				tagsToggle.className = "room-header-button"
+				tagsToggle.style.background = "";
+			} else {
+				menuToggle.className = "room-header-button"
+				menuToggle.style.background = "";
+
+				self.emit('togglerightsidebar');
+			}
+
+			qs('.right-sidebar-room-info').style.display = "block";
+			qs('.right-sidebar-tags').style.display = "none";
 		}
 	});
 
 	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
-	this.events.bind('click .option-add-users', 'toggleMembersMenu1');
-	this.events.bind('click .room-users-wrap', 'toggleMembersMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
-	this.events.bind('click .option-rename-room', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
+	this.events.bind('click #tagsToggle', 'toggleTags');
+	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');
@@ -116,12 +166,24 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
+	var color = {r: 100, g: 50, b: 100};
+
+	if (this.room.color) {
+		color = hexToRgb(this.room.color.toLowerCase());
+	}
+
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		editOptions: this.editOptions,
-		mode: this.mode
+		mode: this.mode,
+		color: color
 	});
+
 	render(this, vdom);
+
+	if (qs('.room-header-button-active')) {
+		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+	}
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -135,6 +197,14 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.editOptions.renamingRoom = false;
 	this.mode = msgID ? 'search' : 'chat',
 	room.on('change', this.redraw);
+
+	// TODO remove this when sidebar becomes useful for PMs too!
+	if (room.type == "room") {
+		qs('.right-sidebar').style.display = "block"
+	} else {
+		qs('.right-sidebar').style.display = "none"
+	}
+
 	this.redraw();
 };
 

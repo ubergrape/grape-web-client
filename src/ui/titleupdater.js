@@ -29,7 +29,12 @@ Title.prototype.refresh = function Title_refresh() {
 	}
 
 	if (unread)
-		title += '(' + unread + ') ';
+		if (unread > 99 && unread <= 400)
+			title += '(99+) ';
+		else if (unread > 400)
+			title += '(∞) ';
+		else
+			title += '(' + unread + ') ';
 
 	var name = this.room.name;
 	if (!name) {

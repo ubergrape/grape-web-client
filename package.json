@@ -4,7 +4,9 @@
   "description": "",
   "version": "0.0.1",
   "keywords": [],
-  "engines": { "node": "2.4.0" },
+  "engines": {
+    "node": "2.4.0"
+  },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
@@ -56,7 +58,6 @@
     "strftime": "samsonjs/strftime#v0.8.2",
     "t": "ubergrape/t#master",
     "template": "./local_modules/template",
-    "textcomplete": "ubergrape/textcomplete",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1",
     "websocket": "ubergrape/websocket",
@@ -66,7 +67,7 @@
     "autoprefixer-loader": "^2.0.0",
     "babel-core": "^5.5.8",
     "babel-loader": "^5.1.4",
-    "css-loader": "^0.15.2",
+    "css-loader": "^0.15.6",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
@@ -85,7 +86,8 @@
   },
   "scripts": {
     "build-dev": "NODE_ENV=development webpack",
-    "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll"
+    "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
+    "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch"
   },
   "repository": "ubergrape/chatgrape.git"
 }

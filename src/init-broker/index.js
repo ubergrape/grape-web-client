@@ -43,7 +43,7 @@ function doBroker(ui, api) {
 	broker(ui, 'searching', api, 'search');
 	broker(ui, 'confirmroomrename', api, 'renameRoom');
 	broker(ui, 'deleteMessage', api, 'onDeleteMessage');
-	broker(ui, 'invitetoroom', api, 'inviteToRoom');
+	broker(ui, 'inviteToRoom', api, 'onInviteToRoom');
 
 	broker.pass(api, 'newMessage', ui, 'newMessage');
 	broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification');

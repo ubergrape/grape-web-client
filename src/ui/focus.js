@@ -16,12 +16,6 @@ window.addEventListener('focus', function () {
 	exports.emit('focus');
 });
 
-// TODO: maybe use `yields/visibility`?
-//var visibility = require('visibility');
-//visibility(function () {
-//	console.log(arguments);
-//});
-
 
 
 

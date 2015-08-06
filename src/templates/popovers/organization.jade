@@ -1,17 +1,27 @@
 .organizationpopover
 	ul.popover-list
-		li
-			a(href='/accounts/organization/settings/', target='_self')
-				i.fa.fa-cog
-				=_('Organization Settings')
-		li
-			a(href='/accounts/organization/settings/members/', target='_self')
-				i.fa.fa-user
-				=_('Manage Members')
-		li
-			a(href='/services/list/', target='_self')
-				i.fa.fa-link
-				=_('Service Integrations')
+		li.hide
+			a(href='#')
+				i.fa.fa-eye
+				=_('Compact View')
+		if (role != "0")
+			li
+				a(href='/accounts/organization/settings/', target='_self')
+					i.fa.fa-cog
+					=_('Organization Settings')
+			li
+				a(href='/accounts/organization/settings/members/', target='_self')
+					i.fa.fa-user
+					=_('Manage Members')
+			li
+				a(href='/services/list/', target='_self')
+					i.fa.fa-link
+					=_('Service Integrations')
+		else
+			li
+				a(href='/services/list/', target='_self')
+					i.fa.fa-link
+					=_('Service Integrations')
 		li.break-line
 			a(href='/accounts/settings/', target='_self')
 				i.fa.fa-cog

@@ -60,7 +60,6 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
-	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'expandActivityList');
 	this.events.bind('click a.show-less', 'collapseActivityList');
 	this.events.bind('click div.resend', 'resend');
@@ -127,6 +126,12 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
+
+	if (el.parentNode.childNodes[0] === el) {
+		var avatar = qs('.avatar', el.parentNode.parentNode.parentNode);
+		classes(avatar).add('editing');
+	}
+
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('selectedforediting', msg, this.room);
 };
@@ -147,6 +152,7 @@ function groupHistory(history) {
 	var counter = 1;
 	var last;
 	var group;
+	var previousLine;
 
 	for (var i = 0; i < history.length; i++) {
 		var	line			= history[i],
@@ -156,21 +162,28 @@ function groupHistory(history) {
 			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
 			hasSameMsg		= last && last.message && line.message && last.message == line.message,
 			hasSameAuthor	= last && last.author.id == author.id,
-			isGroupable		= isTimeSpanShort && hasSameAuthor;
+			afterAttachment = last && last.attachments && last.attachments.length != 0,
+			hasAttachments	= line.attachments && line.attachments.length != 0,
+			isGroupable		= isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment;
 
+		// Message is groupable, nice and easy
 		if (isGroupable) {
 			if (isService && ( hasSameTitle || hasSameMsg )) {
 				group.pop();
 				counter++;
-				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
+				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers
+			} else if (isService) {
+				groups.push(group = []);
+				counter = 1;
 			}
 		} else {
-			groups.push(group = []); 
-			counter = 1;		
+			groups.push(group = []);
+			counter = 1;
 		}
 
 		group.push(last = line);
 	}
+
 	return groups;
 };
 
@@ -182,7 +195,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// indicator is up to date
 		if (this.room.history.length && (!this.lastwindow.lastmsg ||
 			(this.scrollMode === 'automatic' && focus.state === 'focus'))) {
-			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1].id);
 		}
 		// create a copy of the history
 		var history = this.room.history.slice();
@@ -346,10 +359,6 @@ HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 		room: this.room,
 		mode: this.mode
 	}));
-};
-
-HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite (ev) {
-	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
 };
 
 HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {

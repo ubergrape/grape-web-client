@@ -71,7 +71,6 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('grapeFocus grape-input', 'onFocus');
 	this.events.bind('grapeBlur grape-input', 'onBlur');
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
-	this.events.bind('grapeSearch grape-input', 'onSearch');
 	this.events.bind('grapeInsertItem grape-input', 'onInsertItem');
 };
 
@@ -203,6 +202,12 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
+
+	var avatar = q('.avatar.editing');
+	if (avatar) {
+		avatar.classList.remove('editing');
+	}
+
 	this.input.setTextContent('');
 	this.previous = null;
 };
@@ -363,10 +368,6 @@ GrapeInputIntegration.prototype.onOrgReady = function (org) {
 
 GrapeInputIntegration.prototype.onAddIntegration = function () {
 	location.href = '/services/list'
-};
-
-GrapeInputIntegration.prototype.onSearch = function (e) {
-	analytics.track('open grape-browser', e.detail);
 };
 
 GrapeInputIntegration.prototype.onInsertItem = function (e) {
