@@ -188,6 +188,7 @@ export default class Input extends Component {
           customEmojis={this.props.customEmojis}
           onSelectItem={::this.onSelectEmojiBrowserItem}
           onBlur={::this.onBlurBrowser}
+          onAbort={::this.onAbort}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -211,7 +212,10 @@ export default class Input extends Component {
   }
 
   closeViewer() {
-    this.setState({type: null})
+    this.setState({
+      type: null,
+      focused: true
+    })
   }
 
   /**

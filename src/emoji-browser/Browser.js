@@ -30,7 +30,8 @@ class Browser extends Component {
     focused: undefined,
     onSelectItem: undefined,
     onBlur: undefined,
-    onDidMount: undefined
+    onDidMount: undefined,
+    onAbort: undefined
   }
 
   constructor(props) {
@@ -227,6 +228,13 @@ class Browser extends Component {
         break
       case 'tab':
         this.selectTab('next')
+        e.preventDefault()
+        break
+      case 'esc':
+        this.props.onAbort({
+          reason: 'esc',
+          query: e.detail.query
+        })
         e.preventDefault()
         break
       default:
