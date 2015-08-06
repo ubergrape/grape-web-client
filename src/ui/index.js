@@ -56,7 +56,6 @@ template.locals.html = function (html) {
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
-var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
 var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
@@ -110,7 +109,6 @@ UI.prototype.init = function UI_init() {
 	this.roomManager = new RoomManagerPopover();
 	this.PMManager = new PMManagerPopover();
 	this.userMenu = new UserPopover();
-	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -130,12 +128,7 @@ UI.prototype.init = function UI_init() {
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-	this.invite = new Invite();
-	var invite_placeholder = qs('.invite',this.membersMenu.el);
-	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
-
 	this.title = new Title();
-
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 

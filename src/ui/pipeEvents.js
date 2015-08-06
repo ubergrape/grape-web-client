@@ -26,7 +26,6 @@ function pipeEvents(ui) {
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
-	broker(ui, 'selectchannel', ui.membersMenu, 'setRoom');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui.chatHeader, 'toggleusermenu', ui.userMenu, 'toggle');
 	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
@@ -63,7 +62,6 @@ function pipeEvents(ui) {
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
 	broker.pass(ui.historyView, 'deleteMessage', ui, 'deleteMessage');
 	broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage');
-	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
 	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
 	broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode');
@@ -93,18 +91,8 @@ function pipeEvents(ui) {
 	// dragAndDrop
 	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
 
-	// membersMenu
-	broker(ui, 'toggleinvite', ui.membersMenu, 'toggle');
-	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
-	broker.pass(ui.membersMenu, 'kickMember', ui, 'kickMember');
-
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
-
-	// invite
-	broker(ui, 'orgReady', ui.invite, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.invite, 'setRoom');
-	broker.pass(ui.invite, 'invitetoroom', ui, 'invitetoroom');
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
