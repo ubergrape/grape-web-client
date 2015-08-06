@@ -16,7 +16,7 @@
 								span #{member.firstName} #{member.lastName}
 							else
 								span member.username
-						if canKickMembers && member != room.creator
+						if items.canKickMembers && member != room.creator
 							i.mdi.mdi-close-circle-outline.btn-delete(data-id=member.id)
 						span(style="clear: both")
 					else
