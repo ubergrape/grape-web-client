@@ -101,26 +101,7 @@
 					- var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
 					- var alttext = first.author.id
 					img.image(src="#{icon}",width="28",height="28",alt="#{alttext}")
-				if (first.author.id == "trello")
-					.vertical-line.trello
-				else if (first.author.id == "github")
-					.vertical-line.github
-				else if (first.author.id == "googledrive")
-					.vertical-line.googledrive
-				else if (first.author.id == "gcal")
-					.vertical-line.gcal
-				else if (first.author.id == "jira")
-					.vertical-line.jira
-				else if (first.author.id == "bitbucket")
-					.vertical-line.bitbucket
-				else if (first.author.id == "dropbox")
-					.vertical-line.dropbox
-				else if (first.author.id == "gcal")
-					.vertical-line.gcal
-				else if (first.author.id == "box")
-					.vertical-line.box
-				else
-					.vertical-line
+				.vertical-line(class=first.author.id)
 
 			.message-content
 				.message-inner-wrap
