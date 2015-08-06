@@ -1,5 +1,5 @@
 .members
-	if (items && items.room)
+	if (items && items.room && items.room.type == "room")
 		- var room = items.room
 		.right-sidebar-header
 			i.mdi.mdi-account-multiple

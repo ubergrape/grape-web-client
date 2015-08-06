@@ -90,6 +90,18 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
+function scrollTo(element, to, duration) {
+    if (duration < 0) return;
+    var difference = to - element.scrollTop;
+    var perTick = difference / duration * 10;
+
+    setTimeout(function() {
+        element.scrollTop = element.scrollTop + perTick;
+        if (element.scrollTop === to) return;
+        scrollTo(element, to, duration - 10);
+    }, 10);
+}
+
 Navigation.prototype.bind = function Navigation_bind() {
 	var self = this;
 	this.events = events(this.el, {
@@ -125,6 +137,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
+	if (this.scrollStopChecker) {
+		clearInterval(this.scrollStopChecker);
+	}
+
 	var scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop;
 	var newHeight = Math.max(64, 150 - scrollTop);
 	var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100;
@@ -162,6 +178,16 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 			qs('.org-tagline').style.pointerEvents = "auto";
 		}
 	}
+
+	this.scrollStopChecker = setInterval(function() {
+		if (scrollTop > 0 && scrollTop < 86) {
+			if (scrollTop > 43) {
+				scrollTo(qs('.nav-wrap-out.scrollbars-override', this.el), 86, 200);
+			} else {
+				scrollTo(qs('.nav-wrap-out.scrollbars-override', this.el), 0, 200);
+			}
+		}
+	}, 400);
 }
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
@@ -226,8 +252,6 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
-	compactList.items.splice(itemIndex, 1);
-	compactList.items.unshift(item);
 	list.redraw();
 	compactList.redraw();
 }

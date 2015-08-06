@@ -207,6 +207,13 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.mode = msgID ? 'search' : 'chat',
 	room.on('change', this.redraw);
 
+	// TODO remove this when sidebar becomes useful for PMs too!
+	if (room.type == "room") {
+		qs('.right-sidebar').style.display = "block"
+	} else {
+		qs('.right-sidebar').style.display = "none"
+	}
+
 	this.redraw();
 };
 

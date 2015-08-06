@@ -17,8 +17,9 @@
 						i.fa.fa-link
 						=_(" in ")
 					| #{room.name}
-					br
-					span.room-topic Set a topic for this room!
+					if room.topic
+						br
+						span.room-topic=room.topic
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
@@ -34,7 +35,7 @@
 
 	#tagsToggle.room-header-button(style="display: none")
 		i.mdi.mdi-tag-multiple
-	#menuToggle.room-header-button
+	#menuToggle.room-header-button(style=room.type == "room" ? "display: block" : "display: none")
 		i.mdi.mdi-menu
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")

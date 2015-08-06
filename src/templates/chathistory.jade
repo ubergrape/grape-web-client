@@ -199,6 +199,9 @@
 									else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") == 0)
 										- var amount = line.attachments.length == 1 ? 'an image' : line.attachments.length + ' images'
 										span=_('added ' + amount + ' to the conversation at')
+									else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") != 0)
+										- var amount = line.attachments.length == 1 ? 'a file' : line.attachments.length + ' files'
+										span=_('added ' + amount + ' to the conversation at')
 									//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
 									a(href=msgLink, class="timelink")
 										.time
