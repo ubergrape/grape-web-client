@@ -1,4 +1,5 @@
-import {$, noop} from '../../test'
+import {$} from '../../test'
+import noop from 'lodash/utility/noop'
 import expect from 'expect.js'
 import React from 'react/addons'
 import Editable from '../Editable'

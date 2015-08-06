@@ -8,6 +8,7 @@ import findIndex from 'lodash/array/findIndex'
 import capitalize from 'lodash/string/capitalize'
 import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
+import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -92,8 +93,13 @@ export default class Input extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (utils.isBrowserType(nextState.type)) {
-      nextState.disabled = true
-    } else nextState.disabled = nextProps.disabled
+      //nextState.disabled = true
+    }
+    else nextState.disabled = nextProps.disabled
+
+    if (nextState.type && nextState.type !== this.state.type) {
+      this.query.set('trigger', QUERY_TYPES[nextState.type])
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -101,7 +107,7 @@ export default class Input extends Component {
     if (type && type !== prevState.type) {
       // Ensure a trigger inserted. For e.g. when triggering emoji
       // browser via icon, there might be no trigger in editable.
-      this.query.set('trigger', QUERY_TYPES[type])
+      //this.query.set('trigger', QUERY_TYPES[type])
     }
   }
 
@@ -256,21 +262,23 @@ export default class Input extends Component {
     this.query.reset()
   }
 
-  replaceQuery(replacement, query, callback) {
+  replaceQuery(replacement, query, callback = noop) {
     this.setState({disabled: false, focused: true}, () => {
       let replaced = this.editable.replaceQuery(replacement, {query})
-      if (callback) callback(replaced)
+      callback(replaced)
     })
   }
 
   insertQuery(queryStr) {
-    this.editable.modify((left, right) => {
-      let newLeft = left
-      // Add space after text if there is no.
-      if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
-      newLeft += queryStr
-      return [newLeft, right]
-    }, {query: this.query.toJSON()})
+    this.setState({disabled: false, focused: true}, () => {
+      this.editable.modify((left, right) => {
+        let newLeft = left
+        // Add space after text if there is no.
+        if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
+        newLeft += queryStr
+        return [newLeft, right]
+      }, {query: this.query.toJSON()})
+    })
   }
 
   /**
@@ -372,7 +380,7 @@ export default class Input extends Component {
   onFocusEditable() {
     let {type} = this.state
     if (utils.isBrowserType(type)) type = null
-
+console.log(222, type)
     this.setState({
       focused: true,
       disabled: this.props.disabled,
@@ -408,8 +416,9 @@ export default class Input extends Component {
   }
 
   onChangeQuery(newQueryStr) {
-    let replaced = this.replaceQuery(newQueryStr)
-    if (!replaced) this.insertQuery(newQueryStr)
+    this.replaceQuery(newQueryStr, this.query.toJSON(), replaced => {
+      if (!replaced) this.insertQuery(newQueryStr)
+    })
   }
 
   onInputSearchBrowser(data) {

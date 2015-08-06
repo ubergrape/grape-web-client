@@ -14,8 +14,6 @@ export function $(names) {
   return document.querySelector(selector)
 }
 
-export function noop() {}
-
 afterEach(() => {
   document.body.innerHTML = ''
 })
