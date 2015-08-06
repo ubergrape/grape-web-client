@@ -250,6 +250,14 @@ a.nav-title-wrap
 .invite-list
 .nav-wrap-out
 	.channel-item
+		&.taken
+			background-color: sidebar-selected
+			.channel-name
+				color: white
+			&:hover
+				background-color: sidebar-selected
+				.channel-name
+					color: white
 		clear: both
 		padding: 0px
 		padding-right: 8px
@@ -343,7 +351,7 @@ a.nav-title-wrap
 		&:hover
 			background-color: #e5e5e5
 		.channel-name
-			color: grape-darkest !important
+			color: grape-darkest
 
 // ****
 //

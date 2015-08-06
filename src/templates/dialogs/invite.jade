@@ -7,7 +7,7 @@ form.invite-to-room
 		| Invite members
 ul.invite-list
 	each invitee in users
-		li.channel-item(data-username="#{invitee.username}")
+		li.channel-item.free(data-username="#{invitee.username}")
 			a
 				.item-inner-wrp
 					.avatar-wrap

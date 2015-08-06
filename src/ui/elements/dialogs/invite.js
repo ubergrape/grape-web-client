@@ -6,6 +6,7 @@ var events = require('events');
 var qs = require('query');
 var _ = require('t');
 var closest = require('closest');
+var classes = require('classes');
 
 module.exports = InviteDialog;
 
@@ -20,7 +21,8 @@ InviteDialog.prototype.bind = function InviteDialog_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetValidity');
-	this.events.bind('click .channel-item', 'addUserToInvite');
+	this.events.bind('click .channel-item.free', 'addUserInvite');
+	this.events.bind('click .channel-item.taken', 'removeUserInvite');
 };
 
 InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
@@ -46,10 +48,11 @@ InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
 			setTimeout(function() {inviteButton.click();}.bind(this), 500)
 		} else {
 			inviteInput.value = '';
+			qs('.close', this.el).click();
 		}
 		inviteButton.disabled = false;
 		delete inviteButton.disabled;
-	});
+	}.bind(this));
 };
 
 InviteDialog.prototype.resetValidity = function InviteDialog_resetValidity() {
@@ -57,11 +60,26 @@ InviteDialog.prototype.resetValidity = function InviteDialog_resetValidity() {
 	inviteInput.setCustomValidity('');
 };
 
-InviteDialog.prototype.addUserToInvite = function InviteDialog_addUserToInvite(ev) {
+InviteDialog.prototype.addUserInvite = function InviteDialog_addUserInvite(ev) {
 	var user = closest(ev.target, '.channel-item', true);
 	var username = user.getAttribute('data-username');
 	var inviteInput = qs('.input-invite', this.el);
 	inviteInput.value = inviteInput.value + username + ', ';
+	setTimeout(function() {
+		classes(user).add('taken');
+		classes(user).remove('free');
+	});
+}
+
+InviteDialog.prototype.removeUserInvite = function InviteDialog_removeUserInvite(ev) {
+	var user = closest(ev.target, '.channel-item', true);
+	var username = user.getAttribute('data-username') + ', ';
+	var inviteInput = qs('.input-invite', this.el);
+	inviteInput.value = inviteInput.value.replace(username, '');
+	setTimeout(function() {
+		classes(user).remove('taken');
+		classes(user).add('free');
+	});
 }
 
 Array.prototype.clean = function(deleteValue) {
