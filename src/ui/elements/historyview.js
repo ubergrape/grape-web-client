@@ -60,7 +60,6 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
-	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'expandActivityList');
 	this.events.bind('click a.show-less', 'collapseActivityList');
 	this.events.bind('click div.resend', 'resend');
@@ -360,10 +359,6 @@ HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 		room: this.room,
 		mode: this.mode
 	}));
-};
-
-HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite (ev) {
-	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
 };
 
 HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {

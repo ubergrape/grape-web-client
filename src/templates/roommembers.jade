@@ -12,10 +12,7 @@
 							aside.avatar-wrap
 								img.image(src="#{member.avatar}",width="20",height="20",alt="#{member.username}")
 								.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-							if (member.firstName || member.lastName)
-								span #{member.firstName} #{member.lastName}
-							else
-								span member.username
+							span #{member.displayName}
 						if items.canKickMembers && member != room.creator
 							i.mdi.mdi-close-circle-outline.btn-delete(data-id=member.id)
 						span(style="clear: both")

@@ -112,4 +112,5 @@ function pipeEvents(ui) {
 
 	// right sidebar
 	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
+	broker(ui.rightSidebar, 'toggleInvite', ui, 'onToggleInvite');
 }

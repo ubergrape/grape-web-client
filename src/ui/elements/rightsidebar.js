@@ -54,12 +54,16 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
 			self.hide();
 		}
 	});
+	this.events.obj.toggleInvite = function(ev) {
+		this.emit('toggleInvite', this.room);
+	}.bind(this);
 	this.events.obj.deleteRoomMember = function (ev) {
 		var roomID = this.room.id;
 		var memberID = ev.target.getAttribute('data-id');
 		this.emit('kickMember', roomID, memberID);
 	}.bind(this);
 	this.events.bind('click i.btn-delete', 'deleteRoomMember');
+	this.events.bind('click .invite-members', 'toggleInvite');
 };
 
 function replace(from, to) {

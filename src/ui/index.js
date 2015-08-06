@@ -71,6 +71,7 @@ var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
+var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
 
 function UI(options) {
 	Emitter.call(this);
@@ -341,9 +342,6 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;
 	self.emit('joinroom', room, function() {
 		page('/chat/' + room.slug);
-		setTimeout(function() {
-			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
-		}, 100);
 		self.emit('endroomcreation');
 	});
 };
@@ -379,6 +377,13 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 };
+
+UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
+	var users = [];
+	var invite = new InviteDialog(({
+		users: users
+	})).closable().overlay().show();
+}
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
 	this.markdownTips.overlay().show();
