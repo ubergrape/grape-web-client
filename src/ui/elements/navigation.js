@@ -83,6 +83,14 @@ Navigation.prototype.init = function Navigation_init() {
 
 		// listening to the event fired by the resizable component
 		navResizable.element.addEventListener('resize', resizeClient);
+
+		// Initialize all the stuff that will be transitioned in handleScrolling
+		self.orgAreaBG = qs('.org-area-bg');
+		self.orgAreaBGOverlay = qs('.bg-overlay');
+		self.orgInfo = qs('.org-info');
+		self.orgLogoName = qs('.org-logo-name img');
+		self.orgName = qs('.org-name');
+		self.orgTagline = qs('.org-tagline');
     });
 };
 
@@ -145,37 +153,37 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 	var newHeight = Math.max(64, 150 - scrollTop);
 	var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100;
 
-	qs('.org-area-bg').style.height = newHeight + "px";
-	qs('.bg-overlay').style.height = newHeight + "px";
-	qs('.org-info').style.height = newHeight + "px";
+	this.orgAreaBG.style.height = newHeight + "px";
+	this.orgAreaBGOverlay.style.height = newHeight + "px";
+	this.orgInfo.style.height = newHeight + "px";
 
-	qs('.org-logo-name img').style.left = "-" + (30 * (1 - scaleFactor)) + "%";
-	qs('.org-logo-name img').style.top = (4 * (1 - scaleFactor)) + "px";
-	qs('.org-logo-name img').style.width = (42 - (18 * (1 - scaleFactor))) + "px";
-	qs('.org-logo-name img').style.height = (42 - (18 * (1 - scaleFactor))) + "px";
+	this.orgLogoName.style.left = "-" + (30 * (1 - scaleFactor)) + "%";
+	this.orgLogoName.style.top = (4 * (1 - scaleFactor)) + "px";
+	this.orgLogoName.style.width = (42 - (18 * (1 - scaleFactor))) + "px";
+	this.orgLogoName.style.height = (42 - (18 * (1 - scaleFactor))) + "px";
 
-	qs('.org-name').style.top = (-34 * (1 - scaleFactor)) + "px";
-	qs('.org-name').style.marginLeft = (32 * (1 - scaleFactor)) + "%";
-	qs('.org-name').style.marginRight = (2 * (1 - scaleFactor)) + "%";
-	qs('.org-name').style.fontSize = (1.25 - (0.1 * (1 - scaleFactor))) + "em";
+	this.orgName.style.top = (-34 * (1 - scaleFactor)) + "px";
+	this.orgName.style.marginLeft = (32 * (1 - scaleFactor)) + "%";
+	this.orgName.style.marginRight = (2 * (1 - scaleFactor)) + "%";
+	this.orgName.style.fontSize = (1.25 - (0.1 * (1 - scaleFactor))) + "em";
 
 	if (scaleFactor == 0.0) {
-		$clamp(qs('.org-name', self.el), {clamp: 1});
-		qs('.org-name').style.textAlign = "left";
+		$clamp(this.orgName, {clamp: 1});
+		this.orgName.style.textAlign = "left";
 	} else {
-		$clamp(qs('.org-name', self.el), {clamp: 2});
-		qs('.org-name').style.textAlign = "center";
+		$clamp(this.orgName, {clamp: 2});
+		this.orgName.style.textAlign = "center";
 	}
 
-	if (qs('.org-tagline')) {
-		qs('.org-tagline').style.opacity = Math.max(0, 0.6 - (1 - ((2 * scaleFactor) - 1))).toString();
+	if (this.orgTagline) {
+		this.orgTagline.style.opacity = Math.max(0, 0.6 - (1 - ((2 * scaleFactor) - 1))).toString();
 
 		if (scaleFactor != 1) {
-			qs('.org-tagline').disabled = true;
-			qs('.org-tagline').style.pointerEvents = "none";
+			this.orgTagline.disabled = true;
+			this.orgTagline.style.pointerEvents = "none";
 		} else {
-			qs('.org-tagline').disabled = false;
-			qs('.org-tagline').style.pointerEvents = "auto";
+			this.orgTagline.disabled = false;
+			this.orgTagline.style.pointerEvents = "auto";
 		}
 	}
 
