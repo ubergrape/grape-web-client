@@ -58,6 +58,7 @@ var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
 var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
+var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
@@ -107,6 +108,7 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the popovers
 	this.roomManager = new RoomManagerPopover();
+	this.PMManager = new PMManagerPopover();
 	this.userMenu = new UserPopover();
 	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();

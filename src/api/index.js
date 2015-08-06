@@ -717,17 +717,14 @@ API.prototype.setRead = function API_setRead(room, lineID) {
 	var setread = false;
 	for (var i = room.history.length - 1; i >= 0; i--) {
 		var l = room.history[i];
-		if (l.read)
-			break;
+		if (l.read) break;
 		if (l === line) {
 			setread = true;
 			room.unread = room.history.length - i - 1;
 		}
-		if (setread)
-			l.read = true;
+		if (setread) l.read = true;
 	}
-	if (!setread)
-		return;
+	if (!setread) return;
 	// and notify the server
 	// TODO: emit error?
 	this.wamp.call(PREFIX + 'channels/read', room.id, lineID);

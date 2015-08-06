@@ -129,10 +129,6 @@ RoomManagerPopover.prototype.onJoinedChannel = function RoomManagerPopover_onJoi
 }
 
 RoomManagerPopover.prototype.onLeftChannel = function RoomManagerPopover_onLeftChannel (room) {
-	if (!room.is_public) {
-		var roomIndex = this.itemList.items.indexOf(room);
-		this.itemList.items.splice(roomIndex, 1);
-	}	
 	this.itemList.redraw();
 }
 
@@ -143,12 +139,8 @@ RoomManagerPopover.prototype.onTriggerRoomManager = function RoomManagerPopover_
 	this.toggle(target);
 }
 
-RoomManagerPopover.prototype.setItems = function RoomManagerPopover_setItems(items) {
-	this.itemList.setItems(items);
-};
-
 RoomManagerPopover.prototype.onOrgReady = function RoomManagerPopover_onOrgReady(org) {
-	this.setItems(org.rooms);
+	this.itemList.setItems(org.rooms);
 }
 
 RoomManagerPopover.prototype.errorFeedback = function RoomCreationPopover_errorFeedback(err) {
@@ -160,5 +152,6 @@ RoomManagerPopover.prototype.errorFeedback = function RoomCreationPopover_errorF
 }
 
 RoomManagerPopover.prototype.end = function RoomCreationPopover_end() {
+	if(this.el.classList.contains('hide')) return;
 	this.hide();
 }

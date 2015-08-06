@@ -256,32 +256,6 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	compactList.redraw();
 }
 
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-	this.pmListCompact.items.splice(newPos, 0, user);
-	this.pmListCompact.redraw();
-}
-
-Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
-	// TODO unbind events
-	if (this.filtering) return;
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-	this.pmListCompact.items.splice(itemIndex, 1);
-	this.pmListCompact.redraw();
-};
-
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 	this.roomList.redraw();
 	this.roomListCompact.redraw();
@@ -317,11 +291,35 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 	this.roomListCompact.redraw();
 }
 
+Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
+	if (this.filtering) return;
+	var newPos = this.pmList.items.length;
+	this.pmList.items.every(function(pm, index) {
+		if (!pm.active) {
+			newPos = index;
+			return false;
+		}
+		return true;
+	});
+	this.pmList.items.splice(newPos, 0, user);
+	this.pmList.redraw();
+	this.pmListCompact.redraw();
+}
+
+Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
+	// TODO unbind events
+	if (this.filtering) return;
+	var itemIndex = this.pmList.items.indexOf(item);
+	this.pmList.items.splice(itemIndex, 1);
+	this.pmList.redraw();
+	this.pmListCompact.redraw();
+};
+
+
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return self.user != user &&
-		(user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return self.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 

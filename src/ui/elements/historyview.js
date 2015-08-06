@@ -196,7 +196,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
 		// indicator is up to date
 		if (this.room.history.length && (!this.lastwindow.lastmsg ||
 			(this.scrollMode === 'automatic' && focus.state === 'focus'))) {
-			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1]);
+			this.emit('hasread', this.room, this.room.history[this.room.history.length - 1].id);
 		}
 		// create a copy of the history
 		var history = this.room.history.slice();
