@@ -7,7 +7,7 @@ form.invite-to-room
 		| Invite members
 ul.invite-list
 	each invitee in users
-		li.channel-item
+		li.channel-item(data-username="#{invitee.username}")
 			a
 				.item-inner-wrp
 					.avatar-wrap
@@ -19,6 +19,3 @@ ul.invite-list
 						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 					span.channel-name
 						| #{invitee.displayName}
-button.button.btn-invite.btn-icon.btn-primary(type="submit", name="submit")
-	i.icon.fa.fa-user-plus
-	| Invite members
