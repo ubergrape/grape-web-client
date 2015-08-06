@@ -69,6 +69,7 @@ InviteDialog.prototype.addUserInvite = function InviteDialog_addUserInvite(ev) {
 		classes(user).add('taken');
 		classes(user).remove('free');
 	});
+	this.resetValidity();
 }
 
 InviteDialog.prototype.removeUserInvite = function InviteDialog_removeUserInvite(ev) {
