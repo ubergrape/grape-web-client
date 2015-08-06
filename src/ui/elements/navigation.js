@@ -120,6 +120,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
 		minimizeSidebar: function(ev) {
+			store.set('sidebarWidth', self.el.clientWidth);
 			qs('.client-body').style.marginLeft = '86px';
 
 			qs('.nav-inner').style.display = 'none';
@@ -128,7 +129,8 @@ Navigation.prototype.bind = function Navigation_bind() {
 			store.set('sidebarCompactMode', true);
 		},
 		expandSidebar: function(ev) {
-			qs('.client-body').style.marginLeft = store.get('sidebarWidth') + 'px';
+			var oldWidth = store.get('sidebarWidth') + 'px';
+			qs('.client-body').style.marginLeft = oldWidth;
 
 			qs('.nav-inner').style.display = 'block';
 			qs('.nav-compact').style.display = 'none';
