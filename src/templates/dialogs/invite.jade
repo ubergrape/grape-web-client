@@ -16,6 +16,6 @@ ul.invite-list
 						else
 							span.offline
 						img(src="#{invitee.avatar}",width="28",alt="#{invitee.username}")
-						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+						.avatar-status(class=(invitee.status === 16 ? 'online' : 'offline'))
 					span.channel-name
 						| #{invitee.displayName}
