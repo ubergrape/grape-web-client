@@ -15,5 +15,5 @@ function InviteDialog(context) {
 InviteDialog.prototype = Object.create(Dialog.prototype);
 
 InviteDialog.prototype.bind = function InviteDialog_bind() {
-
+	this.events = events(this.el, this);
 };

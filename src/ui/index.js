@@ -379,10 +379,12 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 };
 
 UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
-	var users = [];
-	var invite = new InviteDialog(({
+	var users = this.org.users.filter(function(user) {
+		return user.active && room.users.indexOf(user) == -1;
+	});
+	new InviteDialog({
 		users: users
-	})).closable().overlay().show();
+	}).closable().overlay().show();
 }
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
