@@ -80,9 +80,8 @@ RightSidebar.prototype.select = function RightSidebar_select(item) {
 RightSidebar.prototype.redraw = function RightSidebar_redraw() {
 	var color = {r: 100, g: 50, b: 100};
 
-	if (this.room.color) {
+	if (this.room.color)
 		color = hexToRgb(this.room.color.toLowerCase());
-	}
 
 	var vdom = template('rightsidebar.jade', {
 		room: this.room,
