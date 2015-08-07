@@ -410,7 +410,7 @@
 			color: #666666 !important
 			border-color: #DDDDDD !important
 			.message-author
-				color: #808080
+				color: #808080 !important
 		&.requested
 			background-color: rgba(201, 255, 174, 0.53) !important
 			color: grape-typo
@@ -427,14 +427,11 @@
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			background: lighten(bittersweet-light, 60%)
-			color: grape-typo
+			background: lighten(bittersweet-light, 80%) !important
+			color: grape-typo !important
 			z-index: 10
 			position: relative
-			~ .avatar
-				&::after
-					border-color: lighten(bittersweet-light, 60%)
-		a.attachment	
+		a.attachment
 			display: inline		
 			border-bottom: 1px solid link-color
 			margin: 1px
@@ -526,6 +523,14 @@ span.author-deleted
 	font-weight: bold
 	text-transform: uppercase
 	margin-left: 4px
+
+.avatar.removed
+	&::after
+		border-right-color: lighten(bittersweet-light, 80%) !important
+		border-top-color: lighten(bittersweet-light, 80%) !important
+	&::before // Hack for the arrow of the message box
+		border-top-color: #DDDDDD !important
+		border-right-color: #DDDDDD !important
 
 
 
