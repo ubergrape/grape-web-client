@@ -50,9 +50,9 @@
 		margin-top: header-height
 		background: #F2F2F2
 		border-left: solid 1px #E5E5E5
-		-webkit-transition: -webkit-transform 0.5s
-		transition: transform 0.5s
-		transition-timing-function: ease-out
+		-webkit-transition: -webkit-transform 0.4s
+		transition: transform 0.4s
+		transition-timing-function: grape-bezier
 		transform: translateX(250px)
 		z-index: 50
 
@@ -337,17 +337,17 @@
 			color: blue-light
 			position: absolute
 			left: 100%
-			top: 0
-			width: 38px
-			padding-left: 5px
+			top: 12px
+			width: 120px;
+			padding-left: 12px
 			bottom: 0
-			padding-top: 10px
+
 			i
-				margin-right: 8px
+				margin-right: 10px
 				&:hover
-					color: gainsboro-dark
+					color: aqua-darker
 				&:active
-					color: #7B477B
+					color: aqua-light
 			.btn-delete
 				&:hover
 					color: bittersweet-dark
@@ -407,7 +407,7 @@
 			color: #666666 !important
 			border-color: #DDDDDD !important
 			.message-author
-				color: #808080
+				color: #808080 !important
 		&.requested
 			background-color: rgba(201, 255, 174, 0.53) !important
 			color: grape-typo
@@ -424,14 +424,11 @@
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			background: lighten(bittersweet-light, 60%)
-			color: grape-typo
+			background: lighten(bittersweet-light, 80%) !important
+			color: grape-typo !important
 			z-index: 10
 			position: relative
-			~ .avatar
-				&::after
-					border-color: lighten(bittersweet-light, 60%)
-		a.attachment	
+		a.attachment
 			display: inline		
 			border-bottom: 1px solid link-color
 			margin: 1px
@@ -524,6 +521,14 @@ span.author-deleted
 	text-transform: uppercase
 	margin-left: 4px
 
+.avatar.removed
+	&::after
+		border-right-color: lighten(bittersweet-light, 80%) !important
+		border-top-color: lighten(bittersweet-light, 80%) !important
+	&::before // Hack for the arrow of the message box
+		border-top-color: #DDDDDD !important
+		border-right-color: #DDDDDD !important
+
 
 
 // ****
@@ -533,9 +538,6 @@ span.author-deleted
 // ****
 
 .right-sidebar-show {
-    -webkit-transition: -webkit-transform 0.5s
-    transition: transform 0.5s
-    transition-timing-function: ease-out
     transform: translateX(0px) !important
 }
 

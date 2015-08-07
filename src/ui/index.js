@@ -18,8 +18,6 @@ var Clipboard = require('clipboard');
 var dropAnywhere = require('drop-anywhere');
 var debounce = require('debounce');
 var timezone = require('./jstz');
-var hexToRgb = require('./color-converter');
-var clamp = require('./clamp');
 var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
@@ -391,9 +389,11 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 };
 
 UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
+	// org users who are not part of the room, sorted alphabetically
 	var users = this.org.users.filter(function(user) {
 		return user.active && room.users.indexOf(user) == -1;
-	});
+	})
+	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
 	var invite = new InviteDialog({
 		users: users
 	}).closable().overlay().show();

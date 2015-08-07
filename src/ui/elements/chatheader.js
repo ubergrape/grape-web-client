@@ -10,7 +10,7 @@ var debounce = require('debounce');
 var classes = require('classes');
 var constants = require('conf').constants;
 var keyname = require('keyname');
-var hexToRgb = require('../color-converter')
+var hexToRgb = require('color-converter')
 
 module.exports = ChatHeader;
 
