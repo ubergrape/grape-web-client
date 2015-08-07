@@ -104,17 +104,17 @@
 				.vertical-line(class=first.author.id)
 
 			.message-content
-				.message-inner-wrap
-					each line, i in lines
-						- var lineID = line.id ? line.id : line.clientSideID
-						- var status = line.status ? line.status : 'sent'
-						- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
-						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
-						- var msgTypeII = line.author.type==='service' ? line.type : ''
-						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
-						- var attachments = line.attachments && line.attachments.length != 0 ? 'attachments' : ''
-						- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
-						- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
+				each line, i in lines
+					- var lineID = line.id ? line.id : line.clientSideID
+					- var status = line.status ? line.status : 'sent'
+					- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
+					- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
+					- var msgTypeII = line.author.type==='service' ? line.type : ''
+					- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
+					- var attachments = line.attachments && line.attachments.length != 0 ? 'attachments' : ''
+					- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
+					- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
+					.message-inner-wrap
 						div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=attachments, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 							if (line.container || line.branch || line.tag)
 								.source-wrap

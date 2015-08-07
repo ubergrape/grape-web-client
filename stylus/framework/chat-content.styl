@@ -154,13 +154,6 @@
 			float: left
 			margin-right: 12px
 			border-radius: 50%
-	.message-inner-wrap
-		display: inline-block
-		padding: 0
-		border-radius: 0 6px 6px 6px
-		@extend $big-font-size
-		position: relative
-		max-width: 100%
 	&.user
 		.avatar
 			&::after,
@@ -182,8 +175,6 @@
 				border-bottom: 14px solid transparent
 				right: -1px;
 				top: 0px;
-		.message-inner-wrap
-			background: none
 		.text.main
 			max-width: 740px
 
@@ -223,6 +214,18 @@
 		color: #788796
 		&:hover
 			text-decoration: none !important
+	.avatar
+		&.requested
+			&::after
+				border-right-color: rgb(207, 255, 203) !important
+				border-top-color: rgb(207, 255, 203) !important
+		&.editing
+			&::after
+				border-right-color: lighten(gold, 80%) !important
+				border-top-color: lighten(gold, 80%) !important
+			&::before // Hack for the arrow of the message box
+				border-right-color: #DDDDDD !important
+				border-top-color: #DDDDDD !important
 	@media (max-width: 950px)
 		.avatar
 			float: right
@@ -232,7 +235,7 @@
 				margin-right: 0
 				display: none
 			&::after
-				left: -2px
+				left: 3px
 				right: auto
 				top: 1px
 				border-left: 9px solid blue-lighter
@@ -242,20 +245,34 @@
 				border-left: 10px solid blue-light
 				border-right: none
 				border-bottom: 14px solid transparent
-				left: -1px
+				left: 4px
 				right: auto
 				top: 0px
+			&.editing
+				&::after
+					border-left-color: lighten(gold, 80%) !important
+					border-top-color: lighten(gold, 80%) !important
+				&::before // Hack for the arrow of the message box
+					border-left-color: #DDDDDD !important
+					border-top-color: #DDDDDD !important
+		&.requested
+			.avatar
+				&::after
+					border-left-color: rgb(207, 255, 203) !important
+					border-top-color: rgb(207, 255, 203) !important
 		.message-content
 			text-align: right
 			padding-right: 0
 			padding-left: 68px
-		.message-inner-wrap
+		.message
 			text-align: left
-			max-width: 100%
-			border-radius: 4px 0 4px 4px
+			&.first
+				border-radius: 6px 0px 6px 6px
 		.edit
-			width: 20px
-			padding-top: 0
+			left: auto
+			right: 100%
+			padding-right: 7px
+			padding-left: 0
 
 .messageinfo
 	color: #b3b3b3
@@ -305,10 +322,11 @@
 				opacity: 1
 .message-group
 .message-content
-	margin-left: 52px
+	margin-left: 54px
 	.message
+		display: inline-block
 		clear: both
-		padding: 10px 20px 9px 14px
+		padding: 10px 56px 9px 14px
 		position: relative
 		border: solid 1px #E5E5E5
 		border-radius: 6px 6px 6px 6px
@@ -316,7 +334,6 @@
 		margin-top: 3px
 		margin-left: 0px
 		margin-right: auto
-		display: table
 		box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05)
 		&.freshmessage
 			animation: hifromtheleftNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -329,21 +346,18 @@
 			> .edit
 				opacity: 1
 		.edit
-			opacity: 0
-		.edit
 			@extend $hoverable
-			display: inline-block
 			vertical-align: top
 			color: blue-light
 			position: absolute
 			left: 100%
-			top: 12px
-			width: 120px;
-			padding-left: 12px
+			top: 9px
+			width: 54px;
+			padding-left: 7px
 			bottom: 0
-
+			opacity: 0
 			i
-				margin-right: 10px
+				margin: 0 5px
 				&:hover
 					color: aqua-darker
 				&:active
