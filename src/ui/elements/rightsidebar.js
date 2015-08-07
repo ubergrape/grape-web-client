@@ -11,7 +11,7 @@ var events = require('events');
 var classes = require('classes');
 var broker = require('broker');
 var constants = require('conf').constants;
-var hexToRgb = require('../color-converter')
+var hexToRgb = require('color-converter')
 
 module.exports = RightSidebar;
 
