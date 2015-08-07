@@ -307,13 +307,14 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 
 	if (this.settings.compact_mode) {
 		classes(document.body).add('compact');
-		this.emit('preferenceschange');
 	}
 
 	if (this.settings.dark_mode) {
 		classes(document.body).add('dark');
-		this.emit('preferenceschange');
 	}
+
+	// needed for the preference dialog
+	this.emit('preferenceschange');
 
 	// javscript timezone should always override server timezone setting?
 	if (!this.settings.timezone || this.settings.timezone != this.tz) {
