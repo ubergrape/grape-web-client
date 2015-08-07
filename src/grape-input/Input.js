@@ -31,7 +31,7 @@ import * as utils from './utils'
 export default class Input extends Component {
   static defaultProps = {
     maxCompleteItems: 12,
-    type: undefined,
+    browser: undefined,
     data: undefined,
     images: {},
     customEmojis: undefined,
@@ -82,6 +82,7 @@ export default class Input extends Component {
   componentDidMount() {
     window.addEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.attach()
+    this.setTrigger(this.state.browser)
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
@@ -92,30 +93,21 @@ export default class Input extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (utils.isBrowserType(nextState.type)) {
-      //nextState.disabled = true
-    }
-    else nextState.disabled = nextProps.disabled
-
-    if (nextState.type && nextState.type !== this.state.type) {
-      this.query.set('trigger', QUERY_TYPES[nextState.type])
+    if (nextState.browser !== this.state.browser) {
+      this.setTrigger(nextState.browser)
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    let {type} = this.state
-    if (type && type !== prevState.type) {
-      // Ensure a trigger inserted. For e.g. when triggering emoji
-      // browser via icon, there might be no trigger in editable.
-      //this.query.set('trigger', QUERY_TYPES[type])
-    }
+  setTrigger(browser) {
+    if (!browser) return
+    this.query.set('trigger', QUERY_TYPES[browser])
   }
 
   render() {
     let {classes} = this.props.sheet
     let {data} = this.state
     let isExternal = utils.isExternalSearch(data)
-    let viewer = this.getViewer({
+    let browser = this.renderBrowser({
       isExternal: isExternal,
       className: classes.browser,
       images: this.props.images
@@ -127,11 +119,11 @@ export default class Input extends Component {
         className={classes.input}
         data-test="grape-input">
         <div className={classes.completeWrapper} data-test="complete-wrapper">
-          {viewer}
+          {browser}
         </div>
         <Editable
           placeholder={this.props.placeholder}
-          disabled={this.state.disabled}
+          disabled={this.props.disabled}
           focused={this.state.focused}
           insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
           onAbort={::this.onAbort}
@@ -145,31 +137,12 @@ export default class Input extends Component {
     )
   }
 
-  createState(nextProps) {
-    let state = pick(nextProps, 'focused', 'type', 'data', 'disabled')
-    if (state.type === 'user') state.data = mentions.map(state.data)
-    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
-    state.query = this.query.toJSON()
-    let canSuggest = utils.canSuggest(this.state, state)
-    if (!canSuggest) state.type = null
+  renderBrowser(options) {
+    let {browser, browserOpened, data} = this.state
 
-    return state
-  }
+    if (!browser || !browserOpened) return null
 
-  exposePublicMethods() {
-    let {container} = this.props
-    if (!container) return
-    ['setTextContent', 'getTextContent'].forEach(method => {
-      container[method] = ::this[method]
-    })
-  }
-
-  getViewer(options) {
-    let {type, data} = this.state
-
-    if (!type) return null
-
-    if (type === 'search') {
+    if (browser === 'search') {
       return (
         <SearchBrowser
           {...options}
@@ -187,7 +160,7 @@ export default class Input extends Component {
       )
     }
 
-    if (type === 'emoji') {
+    if (browser === 'emoji') {
       return (
         <EmojiBrowser
           {...options}
@@ -208,6 +181,29 @@ export default class Input extends Component {
     )
   }
 
+  createState(nextProps) {
+    let state = pick(nextProps, 'browser', 'focused', 'data', 'isLoading')
+    if (state.browser === 'user') state.data = mentions.map(state.data)
+    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
+    state.query = this.query.toJSON()
+    let canShowBrowser = utils.canShowBrowser(this.state, state)
+    if (!canShowBrowser) state.browser = null
+    state.browserOpened = this.state ? this.state.browserOpened : false
+    if (canShowBrowser && state.query.trigger) {
+      state.browserOpened = true
+    }
+
+    return state
+  }
+
+  exposePublicMethods() {
+    let {container} = this.props
+    if (!container) return
+    ['setTextContent', 'getTextContent'].forEach(method => {
+      container[method] = ::this[method]
+    })
+  }
+
   getTextContent() {
     return this.editable.getTextContent()
   }
@@ -217,10 +213,11 @@ export default class Input extends Component {
     return this.editable.setTextContent(text)
   }
 
-  closeViewer() {
+  closeBrowser(data) {
     this.setState({
-      type: null,
-      focused: true
+      browser: null,
+      browserOpened: false,
+      ...data
     })
   }
 
@@ -258,26 +255,27 @@ export default class Input extends Component {
       this.replaceQuery(object.toHTML() + '&nbsp;', query)
     }
     this.onInsertItem(item, query)
-    this.closeViewer()
+    this.closeBrowser({focused: true})
     this.query.reset()
   }
 
   replaceQuery(replacement, query, callback = noop) {
-    this.setState({disabled: false, focused: true}, () => {
+    this.setState({focused: true}, () => {
       let replaced = this.editable.replaceQuery(replacement, {query})
       callback(replaced)
     })
   }
 
-  insertQuery(queryStr) {
-    this.setState({disabled: false, focused: true}, () => {
-      this.editable.modify((left, right) => {
+  insertQuery(queryStr, callback = noop) {
+    this.setState({focused: true}, () => {
+      let inserted = this.editable.modify((left, right) => {
         let newLeft = left
         // Add space after text if there is no.
         if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
         newLeft += queryStr
         return [newLeft, right]
       }, {query: this.query.toJSON()})
+      callback(inserted)
     })
   }
 
@@ -299,9 +297,8 @@ export default class Input extends Component {
   }
 
   onAbort(data = {}) {
-    this.closeViewer()
-    let {type} = this.state
-    this.emit('abort', {...data, type})
+    this.closeBrowser({focused: true})
+    this.emit('abort', {...data, browser: this.state.browser})
   }
 
   onEditPrevious() {
@@ -345,7 +342,7 @@ export default class Input extends Component {
   }
 
   onAddSearchBrowserIntegration() {
-    this.closeViewer()
+    this.closeBrowser()
     this.emit('addIntegration')
   }
 
@@ -369,7 +366,7 @@ export default class Input extends Component {
   }
 
   onKeyDown(e) {
-    switch (this.state.type) {
+    switch (this.state.browser) {
       case 'user':
         this.navigateDatalist(e)
         break
@@ -378,19 +375,12 @@ export default class Input extends Component {
   }
 
   onFocusEditable() {
-    let {type} = this.state
-    if (utils.isBrowserType(type)) type = null
-console.log(222, type)
-    this.setState({
-      focused: true,
-      disabled: this.props.disabled,
-      type
-    })
+    this.setState({focused: true})
     this.emit('focus')
   }
 
   onBlurEditable() {
-    if (utils.isBrowserType(this.state.type)) {
+    if (utils.isBrowserType(this.state.browser)) {
       this.setState({focused: false})
       return
     }
@@ -399,14 +389,14 @@ console.log(222, type)
     // got unfocused. We want still to close it when
     this.blurTimeoutId = setTimeout(() => {
       this.query.reset()
-      this.setState({type: null, focused: false})
+      this.closeBrowser({focused: false})
       this.emit('blur')
     }, 50)
   }
 
   onBlurBrowser() {
     this.blurTimeoutId = setTimeout(() => {
-      this.setState({type: null, focused: true})
+      this.closeBrowser()
       this.emit('blur')
     }, 50)
   }
@@ -417,7 +407,10 @@ console.log(222, type)
 
   onChangeQuery(newQueryStr) {
     this.replaceQuery(newQueryStr, this.query.toJSON(), replaced => {
-      if (!replaced) this.insertQuery(newQueryStr)
+      let open = inserted => {
+        if (inserted) this.setState({browserOpened: true})
+      }
+      return replaced ? open(replaced) : this.insertQuery(newQueryStr, open)
     })
   }
 

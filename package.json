@@ -45,7 +45,7 @@
     "expect.js": "^0.3.1",
     "font-awesome": "^4.3.0",
     "json-loader": "^0.5.1",
-    "karma": "^0.12.31",
+    "karma": "^0.13.8",
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
     "karma-mocha": "^0.1.10",

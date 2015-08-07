@@ -43,7 +43,7 @@
     <button onclick="setProps({focused: true})">Set focus</button>
     <button onclick="setProps({disabled: true})">Disable</button>
     <button onclick="setProps({disabled: false})">Enable</button>
-    <button onmousedown="setProps({type: 'emoji'}); return false;">Show emoji browser</button>
+    <button onmousedown="setProps({browser: 'emoji'}); return false;">Show emoji browser</button>
     <button onmousedown="showSearchDelayed(); return false;">Show search browser</button>
     <button onmousedown="showSearchDelayed(500); return false;">Show search browser delayed 500ms</button>
     <button onmousedown="showSearchDelayed(2000); return false;">Show search browser delayed 2s</button>
@@ -85,11 +85,12 @@
 
         input.addEventListener('grapeComplete', function (e) {
           console.log('complete', e.detail)
+
           if (e.detail.trigger == '#') {
               var data = window.searchData
               data.results = searchResults.filter(match)
               setProps({
-                type: 'search',
+                browser: 'search',
                 data: data
               })
           }
@@ -98,11 +99,11 @@
             if (e.detail.search) data = data.filter(match)
             setProps({
               data: data,
-              type: 'user'
+              browser: 'user'
             })
           }
           else if (e.detail.trigger == ':') {
-            setProps({type: 'emoji'})
+            setProps({browser: 'emoji'})
           }
 
           function match(result) {
@@ -145,7 +146,7 @@
         input.addEventListener('grapeSelectFilter', function (e) {
           console.log('select filter', e.detail)
           setProps({
-            type: 'search',
+            browser: 'search',
             data: window.searchData
           })
         })
@@ -153,10 +154,10 @@
       }
 
       function showSearchDelayed(delay) {
-        setProps({type: 'search', isLoading: true})
+        setProps({browser: 'search', isLoading: true})
         setTimeout(function() {
           setProps({
-            type: 'search',
+            browser: 'search',
             data: window.searchData
           })
         }, delay)

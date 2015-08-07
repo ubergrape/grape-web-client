@@ -8,7 +8,7 @@ let {render} = React
 let {TestUtils} = React.addons
 let {Simulate} = TestUtils
 
-describe('input', () => {
+describe('input:', () => {
   describe('Input()', () => {
     it('should render without props', () => {
       render(<Input />, document.body)
@@ -18,7 +18,7 @@ describe('input', () => {
 
   describe('Input() with search', () => {
     it('should open search browser', () => {
-      let input = <Input type="search" data={data0} focused={true} />
+      let input = <Input browser="search" data={data0} focused={true} />
       render(input, document.body)
       let completeWrapper = $('grape-input complete-wrapper')
       expect(completeWrapper).to.be.an(Element)
@@ -32,7 +32,7 @@ describe('input', () => {
       let data = {...data0, results: []}
       let input = (
         <Input
-          type="search"
+          browser="search"
           data={data}
           focused={true}
           onDidMount={onDidMount} />
@@ -41,7 +41,7 @@ describe('input', () => {
     }
 
     it('shound render "nothing found"', done => {
-      create(() => {
+      create(null, () => {
         expect($('grape-input empty')).to.be.an(Element)
         done()
       })
@@ -90,7 +90,7 @@ describe('input', () => {
       data.search.queries = []
       let input = (
         <Input
-          type="search"
+          browser="search"
           data={data}
           focused={true}
           onInsertItem={onInsertItem}

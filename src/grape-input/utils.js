@@ -9,20 +9,22 @@ export function isExternalSearch(data) {
 }
 
 /**
- * Returns true if autocomplete can be shown.
+ * Returns true if browser can be shown.
  */
-export function canSuggest(prevState = {}, nextState) {
-  let {query, disabled, data} = nextState
+export function canShowBrowser(prevState = {}, nextState) {
+  let {query, data} = nextState
 
-  if (!nextState.type || disabled) return false
+  if (!nextState.browser) return false
 
-  let isClosed = prevState.type == null
-  let isSearch = nextState.type === 'search'
+  if (nextState.isLoading) return true
+
+  let isClosed = !prevState.browser
+  let isSearch = nextState.browser === 'search'
   let noResults = !data || isEmpty(data.results)
   let hasSearch = query && query.search.length > 0
   let closedBySpace = hasSearch && query.search[query.search.length - 1] === ' '
 
-  if (isClosed && isSearch && noResults && hasSearch) return false
+  if (isClosed && noResults && hasSearch) return false
 
   if (isSearch && noResults && closedBySpace) return false
 

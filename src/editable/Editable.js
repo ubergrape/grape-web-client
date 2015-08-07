@@ -33,7 +33,7 @@ export default class Editable extends Component {
   constructor(props) {
     super(props)
     this.state = this.createState(this.props)
-    this.onKeyDownDebounced = debounce(::this.handleKeyDown, 20)
+    this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
     this.onPaste = ::this.onPaste
   }
 
@@ -106,12 +106,10 @@ export default class Editable extends Component {
     let query = this.getQuery()
     if (!query) return false
 
-    this.modify((left, right) => {
+    return this.modify((left, right) => {
       let newLeft = utils.replaceLastQuery(replacement, query.query, left)
       return [newLeft, right]
     }, data)
-
-    return true
   }
 
   /**
@@ -121,6 +119,7 @@ export default class Editable extends Component {
   modify(modifier, data) {
     let selection = this.caret.placeMarker()
     let caretsParent = this.caret.getParent(selection)
+    if (!caretsParent) return false
     let html = utils.htmlWhitespacesToText(caretsParent.innerHTML)
     let parts = html.split(Caret.MARKER_HTML)
     parts = modifier(...parts)
@@ -131,15 +130,13 @@ export default class Editable extends Component {
       this.afterInsertionAnimation()
       this.props.onChange(data)
     })
+    return true
   }
 
   /**
    * Set focus.
    */
   focus() {
-    // Node is disabled or already focused.
-    if (this.props.disabled || document.activeElement === this.node) return
-
     this.node.focus()
 
     let selection = new this.scribe.api.Selection()
@@ -261,7 +258,8 @@ export default class Editable extends Component {
           // We detect if caret is closer to the end of the element or beginning.
           if (this.caret.getText('before').length > this.caret.getText('after').length) {
             this.caret.move('after', caretsParent)
-          } else this.caret.move('before', caretsParent)
+          }
+          else this.caret.move('before', caretsParent)
         }
     }
   }
@@ -334,6 +332,13 @@ export default class Editable extends Component {
 
     this.ensureNewLine(key, nativeEvent)
     this.onKeyDownDebounced(key, nativeEvent)
+  }
+
+  onKeyDownDebounced(...args) {
+    // Only handle key down when editable is still focused.
+    // As this function is called with a  delay, focus might have changed
+    // already for a good reason.
+    if (this.state.focused) this.handleKeyDown(args)
   }
 
   onInput() {
