@@ -13,7 +13,7 @@ ul.nav-list.pms
 								span.online
 							else
 								span.offline
-							img(src="#{user.avatar}",width="28",alt="#{user.username}")
+							img(src="#{user.avatar}", alt="#{user.username}")
 							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 						if unread > 0
 							if (unread > 99 && unread <= 400)
