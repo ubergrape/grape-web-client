@@ -15,7 +15,6 @@ require('dialog-component/dialog.css');
 require('dialog-component/node_modules/overlay-component/overlay.css')
 require('image-zoom/dist/imagezoom.css');
 require('image-zoom/node_modules/overlay/dist/overlay.css');
-require('textcomplete/lib/index.css');
 require('intro.js/introjs.css');
 require('drop-anywhere/drop-anywhere.css');
 require('jh3y-resizable/resizable.css');

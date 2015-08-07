@@ -12,7 +12,7 @@ var render = require('../rendervdom');
 var debounce = require('debounce');
 var resizable = require('resizable');
 var store = require('../store').prefix('navigation');
-var clamp = require('../clamp');
+var clamp = require('clamp');
 
 module.exports = Navigation;
 
