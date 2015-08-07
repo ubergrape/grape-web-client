@@ -91,6 +91,9 @@ Navigation.prototype.init = function Navigation_init() {
 		self.orgLogoName = qs('.org-logo-name img');
 		self.orgName = qs('.org-name');
 		self.orgTagline = qs('.org-tagline');
+
+		$clamp(self.orgName, {clamp: 2});
+		self.clampedSingleLine = false;
     });
 };
 
@@ -143,7 +146,6 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events.bind('click .manage-rooms-button-compact', 'triggerRoomManager');
 	this.events.bind('click .minimize-sidebar', 'minimizeSidebar');
 	this.events.bind('click .expand-sidebar', 'expandSidebar');
-	$clamp(qs('.org-name', self.el), {clamp: 2});
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
@@ -172,9 +174,16 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 	if (scaleFactor == 0.0) {
 		$clamp(this.orgName, {clamp: 1});
 		this.orgName.style.textAlign = "left";
-	} else {
+//		this.orgName.style.whiteSpace = "nowrap";
+		this.clampedSingleLine = true;
+	} else if (this.clampedSingleLine) {
+//		this.orgName.innerHTML = ui.org.name;
+		this.clampedSingleLine = false;
+
 		$clamp(this.orgName, {clamp: 2});
 		this.orgName.style.textAlign = "center";
+
+		this.orgName.style.whiteSpace = "";
 	}
 
 	if (this.orgTagline) {

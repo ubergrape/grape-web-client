@@ -50,9 +50,9 @@
 		margin-top: header-height
 		background: #F2F2F2
 		border-left: solid 1px #E5E5E5
-		-webkit-transition: -webkit-transform 0.5s
-		transition: transform 0.5s
-		transition-timing-function: ease-out
+		-webkit-transition: -webkit-transform 0.4s
+		transition: transform 0.4s
+		transition-timing-function: grape-bezier
 		transform: translateX(250px)
 		z-index: 50
 
@@ -348,9 +348,9 @@
 			i
 				margin-right: 10px
 				&:hover
-					color: gainsboro-dark
+					color: aqua-darker
 				&:active
-					color: #7B477B
+					color: aqua-light
 			.btn-delete
 				&:hover
 					color: bittersweet-dark
@@ -536,9 +536,6 @@ span.author-deleted
 // ****
 
 .right-sidebar-show {
-    -webkit-transition: -webkit-transform 0.5s
-    transition: transform 0.5s
-    transition-timing-function: ease-out
     transform: translateX(0px) !important
 }
 
