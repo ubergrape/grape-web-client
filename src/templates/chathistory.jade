@@ -21,7 +21,7 @@
 		if room.type !== 'pm'
 			- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.' 
 			- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")	
-			.message-group.welcome-message
+			.welcome-message
 				img.image(src="#{welcomepic}",width="100",alt="Hi!")
 				div
 					h3
@@ -42,7 +42,7 @@
 								i.fa.fa-link
 								=_('Integrate external services')
 		else
-			.message-group.welcome-message
+			.welcome-message
 				- var head = staticurl("/images/head_lock.png")
 				img.image(src="#{head}",width="100",alt="Hi!")
 				div
@@ -143,8 +143,8 @@
 										i.fa.fa-times.btn-delete
 									else
 										i.fa.fa-times.btn-delete-from-buffer
-							if i !== 0 && status === 'sent'
-								a(href=msgLink, class='outertime')
+							if  status === 'sent'
+								a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
 									.time
 										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 											first.user_time

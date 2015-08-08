@@ -8,6 +8,7 @@ var qs = require('query');
 var events = require('events');
 var closest = require('closest');
 var ItemList = require('./itemlist');
+var classes = require('classes');
 var render = require('../rendervdom');
 var debounce = require('debounce');
 var resizable = require('resizable');

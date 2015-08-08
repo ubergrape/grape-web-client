@@ -26,7 +26,7 @@
 	.chat
 		flex: 1
 		position: relative
-		padding: 20px 0 10px 0
+		padding: 20px 0 0 0
 	a // Different styling for links within history
 		color: link-color
 		@extend $subtle-link
@@ -66,6 +66,7 @@
 .welcome-message
 	margin: 0
 	padding: 30px 40px 42px 20px
+	margin: 10px 25px 20px 52px
 	@media (max-width: 720px)
 		text-align: center
 	body.notifications-disabled &
@@ -161,18 +162,15 @@
 			&::before // Hack for the arrow of the message box
 				content: ""
 				position: absolute
-				border-top: 3px solid #FFFFFF
 				border-left: 3px solid transparent
 			&::after
 				z-index: 9
 				right: -2px
 				top: 1px
 				border-right: 9px solid white
-				border-top-color: white;
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
 				border-right: 10px solid #E5E5E5
-				border-top-color: #E5E5E5
 				border-bottom: 14px solid transparent
 				right: -1px;
 				top: 0px;
@@ -353,9 +351,8 @@
 			position: absolute
 			left: 100%
 			top: 9px
-			width: 54px;
+			// width: 54px
 			padding-left: 7px
-			bottom: 0
 			opacity: 0
 			i
 				margin: 0 5px
@@ -381,6 +378,8 @@
 			top: 0
 			bottom: 0
 			padding-top: 16px
+			&.first
+				display: none
 		&:hover
 			.outertime
 				visibility: visible
@@ -572,7 +571,7 @@ span.author-deleted
 
 .typing-notification
 	@extend $small-font-size
-	margin: 0 30px 0px 66px
+	margin: 5px 30px 5px 66px
 	color: gainsboro-dark
 	min-height: 11px
 	text-align: center

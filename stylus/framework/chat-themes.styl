@@ -1,4 +1,7 @@
 body.compact .client
+	.chat
+		padding: 0
+
 	//SIDEBAR
 	.org-area-bg,
 	.bg-overlay,
@@ -49,9 +52,9 @@ body.compact .client
 
 	.message-group
 		margin: 0 !important
-		padding: 5px 19px 5px 160px !important
-		min-height: 64px
-		border: 1px solid silver-light
+		padding: 0px 0 0px 160px !important
+		border-bottom: 1px solid silver-dark
+		border-top: 1px solid white
 		&::after
 			content: ""
 			position: absolute
@@ -62,43 +65,122 @@ body.compact .client
 			background: #fff
 		.avatar
 			display: none
+		.message-inner-wrap
+			position: relative
 		.message-content
 			margin-left: 0
+			min-height: 28px
+			background: #fff
+			display: block 
 		.message
 			border: none
 			box-shadow: none
 			background: none
-			margin: 0 56px 0 0 !important
-			padding-right: 20px !important
+			margin: 0 0 0 0 !important
+			padding: 9px 10px 9px 14px !important
+			border-radius: 0
+			position: inherit !important
+			display: block
+			@extend $clearfix
 			&.requested 
 				background-color: rgba(201, 255, 174, 0.53) !important
 			&.activity
 				top: 0 !important
 				background: #fff !important
 				.text
-					margin-top: 0
+					margin-top: 0			
+		.outertime
+			position: relative
+			right: inherit
+			left: inherit
+			float: right
+			display: block !important
+			width: 80px
+			visibility: visible
+			padding: 0
+			line-height: inherit
+			@extend $normal-font-size
+			&:hover
+				.different-timezone
+					opacity: 1
+		.edit
+			left: inherit
+			right: 107px
+			padding: 0 3px
+			top: 9px
+			background: #fff
+			border-radius: 4px
+		&.creator
+			background-color: rgba(204, 236, 251, 0.3)
+			.message
+				background: none
+			.message-content
+				background-color: lighten(blue-lighter, 1)
 		.messageinfo
-			width: 140px
+			width: 124px
 			position: absolute
 			left: -136px
-			span
+			line-height: inherit
+			text-align: right
+			span,
+			.timelink
 				margin-left: 0
+				display: none
+		.text
+			margin-right: 85px
 		.message-author
-			display: block
+			display: inline
 			font-weight: bold
+			color: grape-typo
 		.time
 			display: inline
+			.fa-globe
+				margin-left: 5px
 		.different-timezone
 			position: absolute
 			top: 0
 			background: #fff
 			z-index: 55
 			border-radius: 4px
-			padding: 0 3px
-			
+			padding: 5px 3px
+			left: -14px
+			@extend $small-font-size
+			opacity: 0
+			width: 100px
+			text-align: center
 		.vertical-line
 			width: 3px
-			left: 155px
-			top: 1px
-			bottom: 9px
+			left: 0 !important
+			top: 0
+			bottom: 0
+			border-radius: 0
 			
+		&.service
+			.message-content
+				display: block
+				top: inherit
+			.source-wrap
+				margin-right: -3px
+				
+	.date-separator
+		margin: 0
+		padding: 0
+		height: inherit
+		&::before
+			display: none
+		span
+			display: block
+			border-radius: 0
+			border: none
+			background: silver-dark
+			color: gainsboro-dark
+	
+	.search-form 
+		.search
+			min-height: 28px
+		.search-icon,
+		.close
+			line-height: 28px
+			
+
+	
