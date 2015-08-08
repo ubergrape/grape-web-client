@@ -307,6 +307,8 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 
 	if (this.settings.compact_mode) {
 		classes(document.body).add('compact');
+	} else {
+		classes(document.body).add('normal-style');
 	}
 
 	if (this.settings.dark_mode) {

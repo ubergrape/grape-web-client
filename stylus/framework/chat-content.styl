@@ -26,7 +26,7 @@
 	.chat
 		flex: 1
 		position: relative
-		padding: 20px 0
+		padding: 20px 0 10px 0
 	a // Different styling for links within history
 		color: link-color
 		@extend $subtle-link
@@ -40,12 +40,13 @@
 		transition: margin-right 0.2s, transform 0.2s
 		transition-timing-function: ease-out
 		margin-right: 0px;
+		position: relative
 	.right-sidebar
 		position: absolute
 		top: 0
 		float:right
 		width: 250px
-		height: calc(100% - 76px - 64px)
+		height: calc(100% - 64px - 64px)
 		right: 0
 		margin-top: header-height
 		background: #F2F2F2
@@ -226,6 +227,7 @@
 			&::before // Hack for the arrow of the message box
 				border-right-color: #DDDDDD !important
 				border-top-color: #DDDDDD !important
+.message-group.creator.user.normal-style
 	@media (max-width: 950px)
 		.avatar
 			float: right
@@ -295,7 +297,6 @@
 	a.timelink
 		@extend $subtle-link
 		color: gainsboro-dark
-		position: relative
 		margin-right: 12px
 		font-size: 0.9em
 		.fa-globe
