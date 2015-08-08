@@ -191,7 +191,7 @@
 				&::after
 					border-right-color: rgb(207, 255, 203) !important
 
-.message-group.creator.user
+.message-group.creator
 	.avatar
 		&::after
 			border-right-color: blue-lighter
@@ -200,6 +200,7 @@
 			border-right-color: blue-light
 			border-top-color: blue-light
 	.message
+		margin-right: 48px
 		&:after
 			border-color: #DBE7ED
 	.message-author
@@ -225,7 +226,8 @@
 			&::before // Hack for the arrow of the message box
 				border-right-color: #DDDDDD !important
 				border-top-color: #DDDDDD !important
-.message-group.creator.user.normal-style
+/*
+.client-style-normal .message-group.creator.user
 	@media (max-width: 950px)
 		.avatar
 			float: right
@@ -273,7 +275,7 @@
 			right: 100%
 			padding-right: 7px
 			padding-left: 0
-
+*/
 .messageinfo
 	color: #b3b3b3
 	text-align: left
@@ -325,7 +327,7 @@
 	.message
 		display: inline-block
 		clear: both
-		padding: 10px 56px 9px 14px
+		padding: 10px 14px 9px 14px
 		position: relative
 		border: solid 1px #E5E5E5
 		border-radius: 6px 6px 6px 6px
@@ -351,7 +353,7 @@
 			position: absolute
 			left: 100%
 			top: 9px
-			// width: 54px
+			width: 54px
 			padding-left: 7px
 			opacity: 0
 			i
@@ -771,6 +773,7 @@ span.author-deleted
 	@extend $hoverable
 	@extend $subtle-link
 	overflow: hidden
+	z-index: 99
 	i
 		transition: all 0.2s cg-animation-speed
 	&:hover

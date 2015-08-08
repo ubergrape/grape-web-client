@@ -67,9 +67,11 @@ Navigation.prototype.init = function Navigation_init() {
 		self.el.style.width = store.get('sidebarWidth') + 'px';
 
 		if (self.compactMode && self.compactMode == true) {
-			qs('.client-body').style.marginLeft = '86px';
-			qs('.nav-inner').style.display = 'none';
-			qs('.nav-compact').style.display = 'block';
+			classes(document.body).remove("nav-style-basic");
+			classes(document.body).add("nav-style-collapsed");
+		} else {
+			classes(document.body).add("nav-style-basic");
+			classes(document.body).remove("nav-style-collapsed");
 		}
 
 		var navResizable = new resizable(self.el, { directions: ['east'] });
@@ -125,19 +127,16 @@ Navigation.prototype.bind = function Navigation_bind() {
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
-			qs('.client-body').style.marginLeft = '86px';
-
-			qs('.nav-inner').style.display = 'none';
-			qs('.nav-compact').style.display = 'block';
+			classes(document.body).remove("nav-style-basic");
+			classes(document.body).add("nav-style-collapsed");
 
 			store.set('sidebarCompactMode', true);
 		},
 		expandSidebar: function(ev) {
 			var oldWidth = store.get('sidebarWidth') + 'px';
-			qs('.client-body').style.marginLeft = oldWidth;
 
-			qs('.nav-inner').style.display = 'block';
-			qs('.nav-compact').style.display = 'none';
+			classes(document.body).add("nav-style-basic");
+			classes(document.body).remove("nav-style-collapsed");
 
 			store.set('sidebarCompactMode', false);
 		}

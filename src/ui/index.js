@@ -306,9 +306,13 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 	}
 
 	if (this.settings.compact_mode) {
-		classes(document.body).add('compact');
+		classes(document.body).add('client-style-compact');
+		classes(document.body).remove('normal-style');
+		classes(document.body).remove('client-style-normal');
 	} else {
 		classes(document.body).add('normal-style');
+		classes(document.body).remove('client-style-compact');
+		classes(document.body).add('client-style-normal');
 	}
 
 	if (this.settings.dark_mode) {
