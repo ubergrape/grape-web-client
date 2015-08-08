@@ -266,6 +266,9 @@ a.nav-title-wrap
 .invite-list
 .nav-wrap-out
 	.channel-item
+		clear: both
+		padding: 0px
+		padding-right: 8px
 		&.taken
 			background-color: #785278
 			.channel-name
@@ -274,13 +277,13 @@ a.nav-title-wrap
 				background-color: #785278
 				.channel-name
 					color: white
-		clear: both
-		padding: 0px
-		padding-right: 8px
 		a
 			display: block
 			width: 100%
 			height: 100%
+			text-decoration: none
+		.item-inner-wrp
+			padding: 14px 0
 		.avatar-wrap
 		.room-face
 			float: left
@@ -289,7 +292,7 @@ a.nav-title-wrap
 			width: 32px
 			height: 32px
 			margin-left: 12px
-			margin-top: 8px
+			margin-top: -7px
 			line-height: 32px
 			border-radius: 3px
 			background: grape-dark
@@ -331,13 +334,10 @@ a.nav-title-wrap
 			font-size: 1.1em
 			left: 0px
 			right: 0px
-			display: inline-block
 			padding-left: 9px
 			padding-right: 6px
-			margin-top: 15px
 			color: white
 			overflow: hidden
-			margin-bottom: 9px
 		&:hover
 			background: sidebar-hover
 			.offline, .online

@@ -8,7 +8,7 @@ ul.nav-list.rooms
 							=room.abbr
 							if !room.is_public
 								i.room-icon.fa.fa-lock
-						span.channel-name=room.name
+
 						if room.unread > 0
 							if (room.unread > 99 && room.unread <= 400)
 								span.fl-notification=_('99+')
@@ -18,3 +18,5 @@ ul.nav-list.rooms
 								span.fl-notification=room.unread.toString()
 						if room.mentioned > 0
 							span.fl-mention(title="mentioning you")=room.mentioned.toString()
+
+						span.channel-name=room.name
