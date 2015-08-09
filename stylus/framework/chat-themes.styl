@@ -186,7 +186,8 @@ body.client-style-compact .client
 				display: block
 				top: inherit
 				
-	.date-separator
+	.date-separator,
+	.newmessage-separator
 		margin: 0
 		padding: 0
 		height: inherit
@@ -198,7 +199,11 @@ body.client-style-compact .client
 			border: none
 			background: silver-dark
 			color: gainsboro-dark
-	
+	.newmessage-separator
+		span
+			background: lighten(grass-light, 15)
+			color: grass-dark
+
 	.search-form 
 		.search
 			min-height: 28px
