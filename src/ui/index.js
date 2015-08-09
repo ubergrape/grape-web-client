@@ -294,6 +294,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 	if (this.user === undefined || user.id === this.user.id) {
 		this.user = user;
 		template.locals.user = user;
+		console.log(user);
 		this.grapeInput.redraw();
 	}
 };
@@ -319,8 +320,7 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 		classes(document.body).add('dark');
 	}
 
-	// needed for the preference dialog
-	this.emit('preferenceschange');
+	this.emit('settingsReady');
 
 	// javscript timezone should always override server timezone setting?
 	if (!this.settings.timezone || this.settings.timezone != this.tz) {

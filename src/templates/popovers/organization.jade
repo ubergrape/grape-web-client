@@ -22,9 +22,13 @@
 				i.fa.fa-cog
 				=_('Account Settings')
 		li
-			a.preferences(href='#')
-				i.fa.fa-eye
-				=_('Compact View')
+			a.edit-view(href='#')
+				if (user.settings && user.settings.compact_mode)
+						i.fa.fa-th-list
+						=_('Normal View')
+				else
+						i.fa.fa-list
+						=_('Compact View')
 		li
 			a(href='/accounts/settings/notifications/', target='_self')
 				i.fa.fa-bell

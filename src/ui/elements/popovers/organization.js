@@ -25,13 +25,11 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 
 OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
 	Popover.prototype.bind.call(this);
-	var self = this;
-
-	this.events.obj.showPreferences = function(e) {
-		self.emit('showpreferences');
-	};
-
-	this.events.bind('click a.preferences', 'showPreferences');
+	this.events.obj.editView = function (e) {
+		var newMode = ui.settings.compact_mode ? false : true;
+		this.emit('editView', newMode);
+	}.bind(this);
+	this.events.bind('click a.edit-view', 'editView');
 };
 
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
@@ -53,4 +51,21 @@ OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
 
 OrganizationPopover.prototype.onOrgReady = function OrganizationPopover_onOrgReady(org) {
 	this.redraw();
+ }
+
+ OrganizationPopover.prototype.onSettingsReady = function OrganizationPopover_onSettingsReady() {
+ 	this.redraw();
+ }
+
+ OrganizationPopover.prototype.onViewChanged = function OrganizationPopover_onViewChanged(compactMode) {
+	if (compactMode) {
+		classes(document.body).add('client-style-compact');
+		classes(document.body).remove('normal-style');
+		classes(document.body).remove('client-style-normal');
+	} else {
+		classes(document.body).add('normal-style');
+		classes(document.body).remove('client-style-compact');
+		classes(document.body).add('client-style-normal');
+	}
+ 	this.redraw();
  }
