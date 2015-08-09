@@ -16,38 +16,42 @@ body.client-style-compact
 			overflow: hidden
 		.org-logo-name img
 			left: -30% !important
-			top: -8px !important
-			width: 24px !important
-			height: 24px !important
+			top: -5px !important
+			width: 20px !important
+			height: 20px !important
 		.org-name
 			overflow: hidden !important
 			-webkit-box-orient: vertical !important
 			display: -webkit-box !important
 			-webkit-line-clamp: 1 !important
-			top: -34px !important
+			top: -28px !important
 			margin-left: 32% !important
 			margin-right: 2% !important
-			font-size: 1.15em !important
+			font-size: 1.1em !important
 			text-align: left !important
-			margin-top: 4px !important
+			margin-top: 5px !important
 		.pm-list
 			padding: 0
 		.manage-rooms-button
 			padding: 4px 5px
+			font-size: 1em
 		.channel-item
 			.room-face,
 			.avatar-wrap
 				height: 22px
-				width: 25px
+				width: 22px
 				margin-top: -2px
 				line-height: 22px
 				img
 					width: 22px !important
 					height: 22px
 			.item-inner-wrp
-				padding: 6px 0
+				padding: 7px 0 6px 0 !important
+			.room-face
+				font-size: 0.9em
 		.channel-name
-			padding-left: 8px
+			padding-left: 9px
+			font-size: 1em
 		.navigation .mdi
 			font-size: 13px
 		.settings-icon
@@ -57,22 +61,74 @@ body.client-style-compact
 			top: 25px
 		.fl-notification,
 		.fl-mention
-			margin-right: 3px
-			margin-top: 1px
-			padding: 0px 5px
-			line-height: 17px
-			height: 17px
+			margin-right: 3px;
+			margin-top: -1px;
+			padding: 2px 5px 1px 4px;
+			line-height: 17px;
+			height: 20px;
+			min-width: 18px;
 
-body.client-style-compact .client
+	&.nav-style-collapsed .client
+		.org-area-bg-compact,
+		.bg-overlay,
+		.org-info-compact
+			height: 43px !important
+			display: block !important
+		.org-topbar
+			top: -3px
+		.org-logo-name
+			display: block !important
+		.org-area-bg
+			overflow: hidden
+		.org-logo-name img
+			left: -32% !important
+			top: 12px !important
+			width: 20px !important
+			height: 20px !important
+		.navigation .mdi
+			font-size: 13px
+		.settings-icon
+			position: absolute
+		.toggle-sidebar-icon
+			top: 28px
+			left: 10px
+		.manage-rooms-button-compact
+			padding: 4px 5px
+			font-size: 0.9em
+		.channel-item
+			height: 32px !important
+			.room-face,
+			.avatar-wrap
+				height: 22px
+				width: 22px
+				margin-top: -2px
+				margin-left: 18px
+				line-height: 22px
+				img
+					width: 22px !important
+					height: 22px
+			.item-inner-wrp
+				padding: 7px 0 6px 0 !important
+			.room-face
+				font-size: 0.9em
+			.fl-notification,
+			.fl-mention
+				margin-right: 7px;
+				margin-top: 2px;
+				padding: 0px 3px 0px 3px;
+				line-height: 17px;
+				height: 17px;
+				min-width: 16px;
+
+
+body.client-style-compact
 	.room-header
-		height: 42px
+		height: 43px
 	.room-header-button-active
-		line-height: 42px
+		line-height: 43px
 	.right-sidebar
-		margin-top: 42px
-		height: calc(100% - 42px - 64px)
-
-
+		margin-top: 43px
+		height: calc(100% - 43px - 64px)
 
 	.message-group
 		margin: 0 !important
@@ -218,8 +274,17 @@ body.client-style-compact .client
 			
 	.nav-style-basic
 		.client-body
-			margin-left: inherit
+			margin-left: inherit !important
 		.nav-inner
 			display: block
 		.nav-compact
 			display: none
+
+	&.nav-style-collapsed
+		.client-body
+			margin-left: 64px !important
+		.nav-inner
+			display: none
+		.nav-compact
+			display: block
+			width: 64px !important
