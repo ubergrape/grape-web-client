@@ -46,7 +46,7 @@ body.client-style-compact
 					width: 22px !important
 					height: 22px
 			.item-inner-wrp
-				padding: 6px 0
+				padding: 7px 0 6px 0 !important
 			.room-face
 				font-size: 0.9em
 		.channel-name
@@ -67,16 +67,59 @@ body.client-style-compact
 			line-height: 17px
 			height: 17px
 
-body.client-style-compact .client
+	&.nav-style-collapsed .client
+		.org-area-bg-compact,
+		.bg-overlay,
+		.org-info-compact
+			height: 43px !important
+			display: block !important
+		.org-topbar
+			top: -3px
+		.org-logo-name
+			display: block !important
+		.org-area-bg
+			overflow: hidden
+		.org-logo-name img
+			left: -32% !important
+			top: 12px !important
+			width: 20px !important
+			height: 20px !important
+		.navigation .mdi
+			font-size: 13px
+		.settings-icon
+			position: absolute
+		.toggle-sidebar-icon
+			top: 28px
+			left: 10px
+		.manage-rooms-button-compact
+			padding: 4px 5px
+			font-size: 0.9em
+		.channel-item
+			height: 32px !important
+			.room-face,
+			.avatar-wrap
+				height: 22px
+				width: 22px
+				margin-top: -2px
+				margin-left: 18px
+				line-height: 22px
+				img
+					width: 22px !important
+					height: 22px
+			.item-inner-wrp
+				padding: 7px 0 6px 0 !important
+			.room-face
+				font-size: 0.9em
+
+
+body.client-style-compact
 	.room-header
-		height: 42px
+		height: 43px
 	.room-header-button-active
-		line-height: 42px
+		line-height: 43px
 	.right-sidebar
-		margin-top: 42px
-		height: calc(100% - 42px - 64px)
-
-
+		margin-top: 43px
+		height: calc(100% - 43px - 64px)
 
 	.message-group
 		margin: 0 !important
@@ -217,8 +260,17 @@ body.client-style-compact .client
 			
 	.nav-style-basic
 		.client-body
-			margin-left: inherit
+			margin-left: inherit !important
 		.nav-inner
 			display: block
 		.nav-compact
 			display: none
+
+	&.nav-style-collapsed
+		.client-body
+			margin-left: 64px !important
+		.nav-inner
+			display: none
+		.nav-compact
+			display: block
+			width: 64px !important
