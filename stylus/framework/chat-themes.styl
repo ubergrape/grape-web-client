@@ -1,46 +1,48 @@
-body.client-style-compact .client
+//SIDEBAR
+
+body.client-style-compact
 	.chat
 		padding: 0
 
-	//SIDEBAR
-	.org-area-bg,
-	.bg-overlay,
-	.org-info
-		height: 43px !important
-	.org-logo-name img
-		left: -30% !important
-		top: -8px !important
-		width: 24px !important
-		height: 24px !important
-	.org-name
-		overflow: hidden !important
-		-webkit-box-orient: vertical !important
-		display: -webkit-box !important
-		-webkit-line-clamp: 1 !important
-		top: -34px !important
-		margin-left: 32% !important
-		margin-right: 2% !important
-		font-size: 1.15em !important
-		text-align: left !important
-		margin-top: 4px !important
-	.org-topbar
-		.mdi-keyboard-caps
-			display: none
-	.pm-list
-		padding: 0
-	.manage-rooms-button
-		padding: 4px 5px
-	.channel-item
-		.room-face,
-		.avatar-wrap
-			display:none
-		.item-inner-wrp
-			padding: 8px 0
-	.channel-name
-		padding-left: 14px
-
-
-
+	&.nav-style-basic .client
+		.org-area-bg,
+		.bg-overlay,
+		.org-info
+			height: 43px !important
+		.org-logo-name img
+			left: -30% !important
+			top: -8px !important
+			width: 24px !important
+			height: 24px !important
+		.org-name
+			overflow: hidden !important
+			-webkit-box-orient: vertical !important
+			display: -webkit-box !important
+			-webkit-line-clamp: 1 !important
+			top: -34px !important
+			margin-left: 32% !important
+			margin-right: 2% !important
+			font-size: 1.15em !important
+			text-align: left !important
+			margin-top: 4px !important
+		.pm-list
+			padding: 0
+		.manage-rooms-button
+			padding: 4px 5px
+		.channel-item
+			.room-face,
+			.avatar-wrap
+				display:none
+			.item-inner-wrp
+				padding: 8px 0
+		.channel-name
+			padding-left: 14px
+		.mdi
+			font-size: 13px
+		.toggle-sidebar-icon
+			top: 29px
+			
+body.client-style-compact .client
 	.room-header
 		height: 42px
 	.room-header-button-active
