@@ -117,16 +117,17 @@ export default class Editable extends Component {
    * Passed function will receive an array with text before and after the caret.
    */
   modify(modifier, data) {
-    let selection = this.caret.placeMarker()
+    let selection = this.caret.getSelection(true)
     let caretsParent = this.caret.getParent(selection)
     if (!caretsParent) return false
+    this.caret.placeMarker(selection)
     let html = utils.htmlWhitespacesToText(caretsParent.innerHTML)
     let parts = html.split(Caret.MARKER_HTML)
     parts = modifier(...parts)
     let newHtml = parts.join(Caret.MARKER_HTML)
     this.scribe.transactionManager.run(() => {
       caretsParent.innerHTML = newHtml
-      selection.selectMarkers()
+      selection.selectMarkers(true)
       this.afterInsertionAnimation()
       this.props.onChange(data)
     })
@@ -137,9 +138,9 @@ export default class Editable extends Component {
    * Set focus.
    */
   focus() {
-    this.node.focus()
+    if (!this.caret.focus()) return
 
-    let selection = new this.scribe.api.Selection()
+    let selection = this.caret.getSelection()
 
     // Insert a marker into the first paragraph if there are no markers.
     if (!selection.getMarkers().length) {
@@ -154,11 +155,12 @@ export default class Editable extends Component {
    * Get search key and trigger.
    */
   getQuery() {
-    let caretsParent = this.caret.getParent()
+    let selection = this.caret.getSelection(true)
+    let caretsParent = this.caret.getParent(selection)
 
     if (!caretsParent || utils.isGrapeObject(caretsParent)) return undefined
 
-    let text = this.caret.getText('before')
+    let text = this.caret.getText('before', selection)
 
     text = utils.htmlWhitespacesToText(text)
     let matches = text.split(QUERY_REGEX)

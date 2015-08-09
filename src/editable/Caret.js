@@ -15,39 +15,44 @@ export default class Caret {
 
   constructor(scribe) {
     this.scribe = scribe
-    this.Selection = scribe.api.Selection
+  }
+
+  focus() {
+    let {el} = this.scribe
+    if (el !== document.activeElement) {
+      el.focus()
+      return true
+    }
+    return false
+  }
+
+  getSelection(focus) {
+    if (focus) this.focus()
+    return new this.scribe.api.Selection()
   }
 
   /**
    * Place markers and remove all markers except of the first one.
    */
-  placeMarker() {
-    this.scribe.el.focus()
-    let selection = new this.Selection()
+  placeMarker(selection = this.getSelection(true)) {
     selection.placeMarkers()
     let markers = toArray(selection.getMarkers())
     markers.shift()
     markers.forEach(utils.remove)
-    return selection
   }
 
   /**
    * Get parent node of the caret.
    */
-  getParent(sel) {
-    let selection = sel
-    if (!selection) {
-      this.scribe.el.focus()
-      selection = new this.Selection()
-    }
+  getParent(selection = this.getSelection(true)) {
     return selection.getContaining(utils.isElement)
   }
 
   /**
    * Get text before/after the caret position.
    */
-  getText(side) {
-    let selection = this.placeMarker()
+  getText(side, selection = this.getSelection(true)) {
+    this.placeMarker(selection)
     let parent = this.getParent(selection).cloneNode(true)
     // Remove all elements except of marker.
     toArray(parent.childNodes).forEach(node => {
@@ -63,9 +68,8 @@ export default class Caret {
    * Move caret before/after the node or after already existing marker.
    */
   move(side, node) {
-    this.scribe.el.focus()
+    let selection = this.getSelection(true)
     if (side) utils.insert(side, MARKER_EL, node)
-    let selection = new this.Selection()
     selection.selectMarkers()
   }
 }
