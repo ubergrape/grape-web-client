@@ -185,7 +185,10 @@ body.client-style-compact .client
 			.message-content
 				display: block
 				top: inherit
-				
+		&.attachments,
+		&.service
+			.message
+				display: block
 	.date-separator,
 	.newmessage-separator
 		margin: 0
@@ -199,6 +202,8 @@ body.client-style-compact .client
 			border: none
 			background: silver-dark
 			color: gainsboro-dark
+			padding: 2px 5px
+			border-top: 1px solid white
 	.newmessage-separator
 		span
 			background: lighten(grass-light, 15)
