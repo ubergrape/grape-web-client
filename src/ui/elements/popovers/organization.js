@@ -26,6 +26,7 @@ OrganizationPopover.prototype.init = function OrganizationPopover_init() {
 OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
 	Popover.prototype.bind.call(this);
 	this.events.obj.editView = function (e) {
+		e.preventDefault();
 		var newMode = ui.settings.compact_mode ? false : true;
 		this.emit('editView', newMode);
 	}.bind(this);
