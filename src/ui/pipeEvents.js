@@ -34,7 +34,6 @@ function pipeEvents(ui) {
 	broker(ui.searchView, 'hide', ui, 'hideSearchResults');
 	broker(ui.chatHeader, 'stopsearching', ui.searchView, 'hideResults');
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
-	//broker(ui.organizationMenu, 'showpreferences', ui.preferencesDialog, 'show');
 	broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
 	broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
 	broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');

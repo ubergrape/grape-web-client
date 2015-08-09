@@ -68,7 +68,6 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var PreferencesDialog = exports.PreferencesDialog = require('./elements/dialogs/preferences');
 var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
 
 function UI(options) {
@@ -121,7 +120,6 @@ UI.prototype.init = function UI_init() {
 
 	// initialize dialogs
 	this.markdownTips = new MarkdownTipsDialog().closable();
-	this.preferencesDialog = new PreferencesDialog().closable();
 
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
