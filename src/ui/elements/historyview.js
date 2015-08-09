@@ -412,7 +412,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
 		var roomUnsentMsgs = this.unsentBuffer[line.channel.id];
 		if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1);
 	}
-	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
+	this.queueDraw();
 };
 
 HistoryView.prototype.onNewPMOpened = function HistoryView_onNewPMOpened (pm) {
