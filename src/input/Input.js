@@ -23,7 +23,7 @@ export default class Input extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQuery})
+    this.query = new QueryModel({onChange: ::this.onChangeQueryDebounced})
     this.query.set({
       trigger: QUERY_TYPES[this.props.type],
       filters: props.filters,
@@ -66,7 +66,7 @@ export default class Input extends Component {
         className={classes.input}
         ref="input"
         data-test="input"
-        onChange={::this.onInputDebounced}
+        onChange={::this.onInput}
         onKeyDown={::this.onKeyDown}
         onBlur={::this.onBlur} />
     )
@@ -89,13 +89,6 @@ export default class Input extends Component {
     this.query.set(query)
   }
 
-  onInputDebounced(e) {
-    let {delay} = this.props
-    if (!delay) return this.onInput(e)
-    clearTimeout(this.inputTimeoutId)
-    this.inputTimeoutId = setTimeout(this.onInput.bind(this, e.nativeEvent), delay)
-  }
-
   onBlur() {
     this.setState({focused: false})
     this.props.onBlur()
@@ -105,6 +98,13 @@ export default class Input extends Component {
     let query = this.query.toJSON()
     this.setState({value: query.key})
     this.props.onInput(query)
+  }
+
+  onChangeQueryDebounced() {
+    let {delay} = this.props
+    if (!delay) return this.onChangeQuery()
+    clearTimeout(this.changeQueryTimeoutId)
+    this.changeQueryTimeoutId = setTimeout(::this.onChangeQuery, delay)
   }
 
   onKeyDown(e) {
