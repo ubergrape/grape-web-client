@@ -130,6 +130,9 @@ Navigation.prototype.bind = function Navigation_bind() {
 		triggerRoomManager: function(ev) {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
+		triggerPMManager: function(ev) {
+			self.emit('triggerPMManager', closest(ev.target, 'div', true));
+		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
 			classes(document.body).remove("nav-style-basic");
@@ -149,6 +152,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms-button', 'triggerRoomManager');
 	this.events.bind('click .manage-rooms-button-compact', 'triggerRoomManager');
+	this.events.bind('click .addpm', 'triggerPMManager');
 	this.events.bind('click .minimize-sidebar', 'minimizeSidebar');
 	this.events.bind('click .expand-sidebar', 'expandSidebar');
 };

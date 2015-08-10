@@ -91,6 +91,9 @@ function pipeEvents(ui) {
 	// dragAndDrop
 	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
 
+	// pm manager popover
+	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
+
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
 	broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady');
@@ -106,6 +109,7 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
 	broker(ui.navigation, 'triggerRoomManager', ui.roomManager, 'onTriggerRoomManager');
+	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
