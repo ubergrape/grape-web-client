@@ -57,6 +57,7 @@ Navigation.prototype.init = function Navigation_init() {
 
 	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
 	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
+	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
 		qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling(); }
@@ -75,9 +76,6 @@ Navigation.prototype.init = function Navigation_init() {
 		}
 
 		var navResizable = new resizable(self.el, { directions: ['east'] });
-		// the `orgReady` event is fired on reconnection as well
-		// so we need to unbind the resizable
-		navResizable.element.removeEventListener('resize', resizeClient);
 
 		var resizeClient = function resizeClient() {
 			qs('.client-body').style.marginLeft = self.el.clientWidth + 'px';
@@ -104,16 +102,17 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
-function scrollTo(element, to, duration) {
-    if (duration < 0) return;
-    var difference = to - element.scrollTop;
-    var perTick = difference / duration * 10;
+function animate(element, style, unit, from, to, time) {
+    if (!element) return;
 
-    setTimeout(function() {
-        element.scrollTop = element.scrollTop + perTick;
-        if (element.scrollTop === to) return;
-        scrollTo(element, to, duration - 10);
-    }, 10);
+    var start = new Date().getTime(),
+        timer = setInterval(function() {
+            var step = Math.min(1,(new Date().getTime() - start) / time);
+            element.style[style] = (from + step * (to - from)) + unit;
+            if (step == 1) clearInterval(timer);
+        }, 25);
+
+    element.style[style] = from + unit;
 }
 
 Navigation.prototype.bind = function Navigation_bind() {
@@ -149,64 +148,49 @@ Navigation.prototype.bind = function Navigation_bind() {
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
-	if (this.scrollStopChecker) {
-		clearInterval(this.scrollStopChecker);
-	}
-
 	var scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop;
 	var newHeight = Math.max(64, 150 - scrollTop);
 	var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100;
 
-	this.orgAreaBG.style.height = newHeight + "px";
-	this.orgAreaBGOverlay.style.height = newHeight + "px";
-	this.orgInfo.style.height = newHeight + "px";
+	if (newHeight < 150 && !this.headerCollapsed) {
+		classes(this.orgAreaBG).add("collapse-header-height");
+		classes(this.orgAreaBGOverlay).add("collapse-header-height");
+		classes(this.orgInfo).add("collapse-header-height");
 
-	this.orgLogoName.style.left = "-" + (30 * (1 - scaleFactor)) + "%";
-	this.orgLogoName.style.top = (4 * (1 - scaleFactor)) + "px";
-	this.orgLogoName.style.width = (42 - (18 * (1 - scaleFactor))) + "px";
-	this.orgLogoName.style.height = (42 - (18 * (1 - scaleFactor))) + "px";
+		classes(this.orgLogoName).add("collapse-logo");
+		classes(this.orgName).add("collapse-name");
+		this.orgName.style.opacity = "0";
 
-	this.orgName.style.top = (-34 * (1 - scaleFactor)) + "px";
-	this.orgName.style.marginLeft = (32 * (1 - scaleFactor)) + "%";
-	this.orgName.style.marginRight = (2 * (1 - scaleFactor)) + "%";
-	this.orgName.style.fontSize = (1.25 - (0.1 * (1 - scaleFactor))) + "em";
+		this.headerCollapsed = true;
 
-	if (scaleFactor == 0.0) {
-		$clamp(this.orgName, {clamp: 1});
-		this.orgName.style.textAlign = "left";
-//		this.orgName.style.whiteSpace = "nowrap";
-		this.clampedSingleLine = true;
-	} else if (this.clampedSingleLine) {
-//		this.orgName.innerHTML = ui.org.name;
-		this.clampedSingleLine = false;
+		setTimeout(function() {
+			var orgName = qs('.org-name');
+			orgName.style.textAlign = "left";
+			$clamp(orgName, {clamp: 1});
 
-		$clamp(this.orgName, {clamp: 2});
-		this.orgName.style.textAlign = "center";
+			orgName.style.opacity = "1";
+		}, 225);
+	} else if (newHeight == 150 && this.headerCollapsed) {
+		classes(this.orgAreaBG).remove("collapse-header-height");
+		classes(this.orgAreaBGOverlay).remove("collapse-header-height");
+		classes(this.orgInfo).remove("collapse-header-height");
 
-		this.orgName.style.whiteSpace = "";
+		classes(this.orgLogoName).remove("collapse-logo");
+		classes(this.orgName).remove("collapse-name");
+		this.orgName.style.opacity = "0";
+
+		this.headerCollapsed = false;
+
+		setTimeout(function() {
+			var orgName = qs('.org-name');
+
+			orgName.innerHTML = ui.org.name;
+			orgName.style.textAlign = "center";
+			$clamp(orgName, {clamp: 2});
+
+			orgName.style.opacity = "1";
+		}, 150);
 	}
-
-	if (this.orgTagline) {
-		this.orgTagline.style.opacity = Math.max(0, 0.6 - (1 - ((2 * scaleFactor) - 1))).toString();
-
-		if (scaleFactor != 1) {
-			this.orgTagline.disabled = true;
-			this.orgTagline.style.pointerEvents = "none";
-		} else {
-			this.orgTagline.disabled = false;
-			this.orgTagline.style.pointerEvents = "auto";
-		}
-	}
-
-	this.scrollStopChecker = setInterval(function() {
-		if (scrollTop > 0 && scrollTop < 86) {
-			if (scrollTop > 43) {
-				scrollTo(qs('.nav-wrap-out.scrollbars-override', this.el), 86, 200);
-			} else {
-				scrollTo(qs('.nav-wrap-out.scrollbars-override', this.el), 0, 200);
-			}
-		}
-	}, 400);
 }
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
