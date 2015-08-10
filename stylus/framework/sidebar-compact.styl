@@ -12,6 +12,19 @@
 	background: sidebar-background !important
 	z-index: 100
 	display: none
+	transition: width 0.3s
+	transition-timing-function: grape-bezier
+	&:hover
+		width: 250px !important
+		max-width: 100% !important
+		.channel-name
+			opacity: 1.0 !important
+			padding-left: 4px !important
+			transition-delay: 0.15s !important
+		.fl-notification
+			margin-top: 12px !important
+			padding: 4px 6px 4px 6px !important
+
 
 // ****
 //
@@ -20,7 +33,7 @@
 // ****
 
 .org-area-bg-compact
-	height: 60px
+	height: 64px
 	display: block
 	text-align: center
 	border-right: 1px solid darken(sidebar-background, 10%)
@@ -35,14 +48,14 @@
 		top: 0px
 		display: block
 		width: 100%
-		height: 60px
+		height: 64px
 		z-index: 30
 		background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 					linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.0))
 
 .org-info-compact
 	width: 100%
-	height: 60px
+	height: 64px
 	display: table
 	position: absolute
 	top: 0px
@@ -214,7 +227,10 @@ a.nav-title-wrap-compact
 			display: block
 			width: 100%
 			height: 100%
+			text-decoration: none
 		.item-inner-wrp
+			padding: 14px 0
+			white-space: nowrap
 			position: relative
 		.avatar-wrap
 		.room-face
@@ -225,7 +241,7 @@ a.nav-title-wrap-compact
 			height: 32px
 			margin-left: 24px
 			margin-right: 8px
-			margin-top: 8px
+			margin-top: -6px
 			line-height: 33px
 			border-radius: 3px
 			background: grape-dark
@@ -240,10 +256,10 @@ a.nav-title-wrap-compact
 				height: 32px
 			.offline, .online
 				border: solid 1px sidebar-background
-				width: 10px
-				height: 10px
-				bottom: -1px
-				right: -1px
+				width: 8px
+				height: 8px
+				bottom: 0px
+				right: 0px
 		.icon
 			padding: 3px 0
 		.room-icon
@@ -260,6 +276,21 @@ a.nav-title-wrap-compact
 			background: slate
 			font-size: 8px
 			color: white
+		.channel-name
+			white-space: nowrap
+			overflow: hidden
+			ellipsis()
+			font-size: 1.1em
+			border: none !important
+			left: 0px
+			right: 0px
+			padding-left: 16px
+			padding-right: 6px
+			color: white
+			z-index: 150
+			opacity: 0
+			transition: opacity 0.3s, padding-left 0.3s
+			transition-timing-function: grape-bezier
 		.fl-notification,
 		.fl-mention
 			position: absolute
@@ -272,6 +303,8 @@ a.nav-title-wrap-compact
 			font-size: 0.75em
 			padding: 2px 6px 2px 6px
 			z-index: 140
+			transition: margin-top 0.3s, height 0.3s, padding 0.3s
+			transition-timing-function: grape-bezier
 		&:hover
 			background: sidebar-hover
 			.offline, .online
@@ -326,3 +359,4 @@ span.no-messages
 	&:focus
 		outline: none
 		color: grape-typo
+
