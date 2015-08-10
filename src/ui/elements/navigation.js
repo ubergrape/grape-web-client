@@ -64,8 +64,13 @@ Navigation.prototype.init = function Navigation_init() {
 
 		self.compactMode = store.get('sidebarCompactMode');
 
-		qs('.client-body').style.marginLeft = store.get('sidebarWidth') + 'px';
-		self.el.style.width = store.get('sidebarWidth') + 'px';
+		var sidebarWidth = store.get('sidebarWidth');
+		if (sidebarWidth == null) {
+			sidebarWidth = "240";
+		}
+
+		qs('.client-body').style.marginLeft = sidebarWidth + 'px';
+		self.el.style.width = sidebarWidth + 'px';
 
 		if (self.compactMode && self.compactMode == true) {
 			classes(document.body).remove("nav-style-basic");
