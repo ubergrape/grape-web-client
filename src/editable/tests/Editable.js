@@ -30,7 +30,7 @@ describe('editable', () => {
           div.innerHTML = `a${Caret.MARKER_HTML}b&nbsp;`
           return div
         }
-        component.modify((left, right) => {
+        component.modifyAtCaret((left, right) => {
           expect(left).to.be('a')
           expect(right).to.be('b ')
           return []

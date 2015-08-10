@@ -100,38 +100,59 @@ export default class Editable extends Component {
   }
 
   /**
-   * Replace current query.
+   * Replace query.
    */
-  replaceQuery(replacement, data) {
+  replaceQuery(replacement, options = {}) {
+    let markers = this.caret.getMarkers({grape: true})
+    if (markers.length) {
+      Caret.renameMarkers(markers, 'scribe')
+      let selection = this.caret.createSelection(true)
+      selection.selectMarkers()
+    }
+
     let query = this.getQuery()
     if (!query) return false
 
-    return this.modify((left, right) => {
+    return this.modifyAtCaret((left, right) => {
       let newLeft = utils.replaceLastQuery(replacement, query.query, left)
       return [newLeft, right]
-    }, data)
+    }, {...options, silent: true})
   }
 
   /**
    * Modify text at caret position.
    * Passed function will receive an array with text before and after the caret.
    */
-  modify(modifier, data) {
-    let selection = this.caret.getSelection(true)
+  modifyAtCaret(modifier, options = {}) {
+    let selection = this.caret.createSelection(true)
     let caretsParent = this.caret.getParent(selection)
+
     if (!caretsParent) return false
+
     this.caret.placeMarker(selection)
-    let html = utils.htmlWhitespacesToText(caretsParent.innerHTML)
+
+    this.modify(caretsParent, modifier, options, () => {
+      selection.selectMarkers(options.keepMarkers)
+      if (options.keepMarkers) {
+        let markers = this.caret.getMarkers({selection})
+        Caret.renameMarkers(markers, 'grape')
+      }
+    })
+
+    return true
+  }
+
+  modify(el, modifier, options, callback) {
+    let html = utils.htmlWhitespacesToText(el.innerHTML)
     let parts = html.split(Caret.MARKER_HTML)
     parts = modifier(...parts)
     let newHtml = parts.join(Caret.MARKER_HTML)
     this.scribe.transactionManager.run(() => {
-      caretsParent.innerHTML = newHtml
-      selection.selectMarkers(true)
+      el.innerHTML = newHtml
       this.afterInsertionAnimation()
-      this.props.onChange(data)
+      callback()
+      if (!options.silent) this.props.onChange(options)
     })
-    return true
   }
 
   /**
@@ -140,10 +161,10 @@ export default class Editable extends Component {
   focus() {
     if (!this.caret.focus()) return
 
-    let selection = this.caret.getSelection()
+    let selection = this.caret.createSelection()
 
     // Insert a marker into the first paragraph if there are no markers.
-    if (!selection.getMarkers().length) {
+    if (!this.caret.getMarkers({selection}).length) {
       let rootP = this.node.firstChild
       rootP.innerHTML = Caret.MARKER_HTML + rootP.innerHTML
     }
@@ -155,7 +176,7 @@ export default class Editable extends Component {
    * Get search key and trigger.
    */
   getQuery() {
-    let selection = this.caret.getSelection(true)
+    let selection = this.caret.createSelection(true)
     let caretsParent = this.caret.getParent(selection)
 
     if (!caretsParent || utils.isGrapeObject(caretsParent)) return undefined
@@ -209,7 +230,7 @@ export default class Editable extends Component {
     this.scribe.transactionManager.run(() => {
       this.node.innerHTML = html
       this.caret.move()
-      this.props.onChange()
+      this.onChange()
     })
     return text
   }
@@ -344,7 +365,7 @@ export default class Editable extends Component {
   }
 
   onInput() {
-    // During this mode we shouldn't place markers as they it will end accent mode.
+    // During this mode we shouldn't place markers as they will end accent mode.
     if (!this.accentMode.active) this.onChange()
   }
 
@@ -379,6 +400,6 @@ export default class Editable extends Component {
   }
 
   onChange() {
-    this.props.onChange(this.getQuery())
+    this.props.onChange({query: this.getQuery()})
   }
 }

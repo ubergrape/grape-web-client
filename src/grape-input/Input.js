@@ -252,29 +252,29 @@ export default class Input extends Component {
       let Obj = objects[data.type] || objects.search
       let object = new Obj(data)
       // Add space to let user type next thing faster.
-      this.replaceQuery(object.toHTML() + '&nbsp;', query)
+      this.replaceQuery(object.toHTML() + '&nbsp;', {query})
     }
     this.onInsertItem(item, query)
     this.closeBrowser({focused: true})
     this.query.reset()
   }
 
-  replaceQuery(replacement, query, callback = noop) {
+  replaceQuery(replacement, options, callback = noop) {
     this.setState({focused: true}, () => {
-      let replaced = this.editable.replaceQuery(replacement, {query})
+      let replaced = this.editable.replaceQuery(replacement, options)
       callback(replaced)
     })
   }
 
-  insertQuery(queryStr, callback = noop) {
+  insertQuery(queryStr, options, callback = noop) {
     this.setState({focused: true}, () => {
-      let inserted = this.editable.modify((left, right) => {
+      let inserted = this.editable.modifyAtCaret((left, right) => {
         let newLeft = left
         // Add space after text if there is no.
         if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
         newLeft += queryStr
         return [newLeft, right]
-      }, {query: this.query.toJSON()})
+      }, {...options, query: this.query.toJSON()})
       callback(inserted)
     })
   }
@@ -310,7 +310,7 @@ export default class Input extends Component {
     this.emit('submit', data)
   }
 
-  onChangeEditable(query) {
+  onChangeEditable({query} = {}) {
     // Used by datalist only.
     if (query) {
       let changed = this.query.set(query, {silent: true})
@@ -406,11 +406,16 @@ export default class Input extends Component {
   }
 
   onChangeQuery(newQueryStr) {
-    this.replaceQuery(newQueryStr, this.query.toJSON(), replaced => {
+    let options = {
+      query: this.query.toJSON(),
+      keepMarkers: true
+    }
+
+    this.replaceQuery(newQueryStr, options, replaced => {
       let open = inserted => {
         if (inserted) this.setState({browserOpened: true})
       }
-      return replaced ? open(replaced) : this.insertQuery(newQueryStr, open)
+      return replaced ? open(replaced) : this.insertQuery(newQueryStr, options, open)
     })
   }
 
