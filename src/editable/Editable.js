@@ -361,7 +361,7 @@ export default class Editable extends Component {
     // Only handle key down when editable is still focused.
     // As this function is called with a  delay, focus might have changed
     // already for a good reason.
-    if (this.state.focused) this.handleKeyDown(args)
+    if (this.state.focused) this.handleKeyDown(...args)
   }
 
   onInput() {
