@@ -23,7 +23,7 @@ export default class Input extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQueryDebounced})
+    this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.query.set({
       trigger: QUERY_TYPES[this.props.type],
       filters: props.filters,
@@ -97,10 +97,13 @@ export default class Input extends Component {
   onChangeQuery() {
     let query = this.query.toJSON()
     this.setState({value: query.key})
-    this.props.onInput(query)
+    let {onInput, delay} = this.props
+    if (!delay) return onInput(query)
+    clearTimeout(this.onInputTimeoutId)
+    this.onInputTimeoutId = setTimeout(onInput.bind(this, query), delay)
   }
 
-  onChangeQueryDebounced() {
+  onInputCallDebounced() {
     let {delay} = this.props
     if (!delay) return this.onChangeQuery()
     clearTimeout(this.changeQueryTimeoutId)
