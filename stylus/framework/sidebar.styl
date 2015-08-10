@@ -63,6 +63,8 @@
 	background-position: center center
 	background-repeat: no-repeat
 	background-size: cover
+	transition: height header-animation-duration
+	transition-timing-function: grape-bezier
 	.bg-overlay
 		position: absolute
 		left: 0px
@@ -71,6 +73,8 @@
 		width: 100%
 		height: 150px
 		z-index: 30
+		transition: height header-animation-duration
+		transition-timing-function: grape-bezier
 		background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 					linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.0))
 .org-info
@@ -80,6 +84,8 @@
 	position: absolute
 	top: 0px
 	left: 0px
+	transition: height header-animation-duration
+	transition-timing-function: grape-bezier
 	.org-topbar
 		width: 100%
 		position: absolute
@@ -129,6 +135,9 @@
 			margin-right: auto
 			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
 			border-radius: 50%
+			left: 0%
+			transition: left header-animation-duration, top header-animation-duration, width header-animation-duration, height header-animation-duration
+			transition-timing-function: grape-bezier
 		.org-name
 			display: block
 			position: relative
@@ -137,6 +146,10 @@
 			font-size: 1.25em
 			text-shadow: 0px 1px 3px rgba(0, 0, 0, 1)
 			cursor: default
+			opacity: 1
+			transition: opacity 0.15s, margin-left header-animation-duration, margin-right header-animation-duration,
+						top header-animation-duration, font-size header-animation-duration
+			transition-timing-function: grape-bezier
 		.org-tagline
 			display: block
 			position: relative
@@ -403,3 +416,24 @@ span.no-messages
 	&:focus
 		outline: none
 		color: grape-typo
+
+.collapse-header-height
+	height: 64px !important
+
+.collapse-logo
+	left: -30% !important
+	top: 2px
+	width: 28px
+	height: 28px
+
+.collapse-name
+	top: -36px
+	margin-left: 36%
+	margin-right: 2%
+	font-size: 1.15em
+	animation: fadein 2s
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
