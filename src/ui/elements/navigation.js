@@ -86,6 +86,7 @@ Navigation.prototype.init = function Navigation_init() {
 
 		// listening to the event fired by the resizable component
 		navResizable.element.addEventListener('resize', resizeClient);
+		window.addEventListener('resize', resizeClient);
 
 		// Initialize all the stuff that will be transitioned in handleScrolling
 		self.orgAreaBG = qs('.org-area-bg');
