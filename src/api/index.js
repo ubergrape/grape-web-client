@@ -89,7 +89,12 @@ API.prototype.heartbeat = function API_heartbeat() {
 		return;
 	}
 	// send ping
-	this.wamp.call(PREFIX + 'ping', function() {});
+	this.wamp.call(PREFIX + 'ping', function(err, resp) {
+		if (resp == 'pong') {
+			this.awaitingPong = false;
+			this.lastAlive = Date.now();
+		}
+	}.bind(this));
 	this.awaitingPong = true;
 	setTimeout(this.heartbeat.bind(this), 8000);
 };
@@ -199,7 +204,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 			}.bind(this));
 		}.bind(this),
 		error: function(err) {
-			this.onDisconnect();
+			this.reconnect();
 		}.bind(this)
 	});
 };
