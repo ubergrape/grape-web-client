@@ -60,7 +60,8 @@
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
-    "build": "babel src --out-dir lib",
+    "clean": "rm -fr ./lib/*",
+    "build": "npm run clean && babel src --out-dir lib",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
