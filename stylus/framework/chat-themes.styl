@@ -135,6 +135,8 @@ body.client-style-compact
 		padding: 0px 0 0px 160px !important
 		border-bottom: 1px solid silver-dark
 		border-top: 1px solid white
+		&.service
+			max-width: 100%
 		&::after
 			content: ""
 			position: absolute
@@ -162,7 +164,7 @@ body.client-style-compact
 			position: inherit !important
 			display: block
 			@extend $clearfix
-			&.requested 
+			&.requested
 				background-color: rgba(201, 255, 174, 0.53) !important
 			&.activity
 				top: 0 !important
@@ -232,7 +234,7 @@ body.client-style-compact
 			text-align: center
 		.vertical-line
 			width: 3px
-			left: 0 !important
+			left: 158px !important
 			top: 0
 			bottom: 0
 			border-radius: 0
@@ -271,7 +273,7 @@ body.client-style-compact
 		.search-icon,
 		.close
 			line-height: 28px
-			
+
 	.nav-style-basic
 		.client-body
 			margin-left: inherit !important
