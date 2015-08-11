@@ -48,7 +48,6 @@ function doBroker(ui, api) {
 	broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification');
 	broker.pass(api, 'newInviteNotification', ui, 'newInviteNotification');
 	broker.pass(api, 'channelRead', ui, 'channelRead');
-	broker.pass(api, 'userMention', ui, 'userMention');
 	broker.pass(api, 'newPMOpened', ui, 'newPMOpened');
 	broker.pass(api, 'change user', ui, 'change user');
 	broker.pass(api, 'joinedChannel', ui, 'joinedChannel');
@@ -62,7 +61,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'roomcreateerror', ui, 'roomcreateerror');
 	broker.pass(api, 'channelupdate', ui, 'channelupdate');
 	broker.pass(api, 'userDeleted', ui, 'userDeleted');
-	broker.pass(api, 'new org member', ui, 'new org member');
+	broker.pass(api, 'newOrgMember', ui, 'newOrgMember');
 	broker.pass(api, 'newRoom', ui, 'newRoom');
 	broker.pass(api, 'roomdeleted', ui, 'roomdeleted');
 	broker.pass(api, 'viewChanged', ui, 'viewChanged');
