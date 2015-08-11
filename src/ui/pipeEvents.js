@@ -22,7 +22,6 @@ function pipeEvents(ui) {
 	broker.pass(ui.roomManager, 'createroom', ui, 'createroom');
 	broker(ui, 'endroomcreation', ui.roomManager, 'end');
 	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
-	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -92,11 +91,6 @@ function pipeEvents(ui) {
 	// dragAndDrop
 	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
 
-	// pm manager popover
-	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
-	broker(ui, 'newOrgMember', ui.PMManager, 'onNewOrgMember');
-	broker(ui.navigation, 'closeNavPopovers', ui.PMManager, 'end');
-
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
 	broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady');
@@ -105,17 +99,19 @@ function pipeEvents(ui) {
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
+	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
+	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
 	broker(ui.navigation, 'triggerRoomManager', ui.roomManager, 'onTriggerRoomManager');
-	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
+	broker(ui, 'userMention', ui.navigation, 'onUserMention');
 
 	// right sidebar
 	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
