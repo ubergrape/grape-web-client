@@ -61,6 +61,7 @@ Navigation.prototype.init = function Navigation_init() {
 
 	document.addEventListener("DOMContentLoaded", function(event) {
 		qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling(); }
+		qs('.nav-wrap-out-compact.scrollbars-override', this.el).onscroll = function() { self.emit('closeNavPopovers'); }
 
 		self.compactMode = store.get('sidebarCompactMode');
 
@@ -177,6 +178,8 @@ Navigation.prototype.bind = function Navigation_bind() {
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
+	this.emit('closeNavPopovers');
+
 	var scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop;
 	var newHeight = Math.max(64, 150 - scrollTop);
 	var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100;
