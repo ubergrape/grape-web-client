@@ -54,11 +54,10 @@ template.locals.html = function (html) {
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
-var RoomMembersPopover = exports.RoomMembersPopover = require('./elements/popovers/roommembers');
 var UserPopover = exports.UserPopover = require('./elements/popovers/user');
-var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
+var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
 var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
@@ -66,10 +65,10 @@ var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./elements/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
-var Invite = exports.Invite = require('./elements/invite.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
+var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
 
 function UI(options) {
 	Emitter.call(this);
@@ -105,31 +104,28 @@ UI.prototype.init = function UI_init() {
 
 	// initialize the popovers
 	this.roomManager = new RoomManagerPopover();
-	this.PMManager = new PMManagerPopover();
 	this.userMenu = new UserPopover();
-	this.membersMenu = new RoomMembersPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
+	this.rightSidebar = new RightSidebar();
+	qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
+
 	// initialize the input field
 	this.grapeInput = new GrapeInputIntegration();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
+	// initialize dialogs
 	this.markdownTips = new MarkdownTipsDialog().closable();
 
 	this.historyView = new HistoryView();
 	var chat = qs('.chat-wrapper .chat', this.el);
 	chat.parentNode.replaceChild(this.historyView.el, chat);
 
-	this.invite = new Invite();
-	var invite_placeholder = qs('.invite',this.membersMenu.el);
-	invite_placeholder.parentNode.replaceChild(this.invite.el, invite_placeholder);
-
 	this.title = new Title();
-
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
 
@@ -229,7 +225,10 @@ UI.prototype.bind = function UI_bind() {
 
 	this.events = events(this.el, {
 		'toggleOrganizationMenu': function() {
-			self.organizationMenu.toggle(qs('.logo'));
+			self.organizationMenu.toggle(qs('.settings-icon'));
+		},
+		'toggleOrganizationMenuCompact': function() {
+			self.organizationMenu.toggle(qs('.settings-icon-compact'));
 		},
 		'requestPermission': function() {
 			notify.requestPermission(function(permission){
@@ -240,7 +239,8 @@ UI.prototype.bind = function UI_bind() {
 			});
 		}
 	});
-	this.events.bind('click .logo', 'toggleOrganizationMenu');
+	this.events.bind('click .settings-icon', 'toggleOrganizationMenu');
+	this.events.bind('click .settings-icon-compact', 'toggleOrganizationMenuCompact');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;
@@ -303,6 +303,22 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 		this.intro.start();
 	}
 
+	if (this.settings.compact_mode) {
+		classes(document.body).add('client-style-compact');
+		classes(document.body).remove('normal-style');
+		classes(document.body).remove('client-style-normal');
+	} else {
+		classes(document.body).add('normal-style');
+		classes(document.body).remove('client-style-compact');
+		classes(document.body).add('client-style-normal');
+	}
+
+	if (this.settings.dark_mode) {
+		classes(document.body).add('dark');
+	}
+
+	this.emit('settingsReady');
+
 	// javscript timezone should always override server timezone setting?
 	if (!this.settings.timezone || this.settings.timezone != this.tz) {
 		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
@@ -340,9 +356,6 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;
 	self.emit('joinroom', room, function() {
 		page('/chat/' + room.slug);
-		setTimeout(function() {
-			self.emit('toggleinvite', qs('.room-header .room-users-wrap'))
-		}, 100);
 		self.emit('endroomcreation');
 	});
 };
@@ -378,6 +391,18 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 };
+
+UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
+	// org users who are not part of the room, sorted alphabetically
+	var users = this.org.users.filter(function(user) {
+		return user.active && room.users.indexOf(user) == -1;
+	})
+	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
+	var invite = new InviteDialog({
+		users: users
+	}).closable().overlay().show();
+	broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
+}
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
 	this.markdownTips.overlay().show();

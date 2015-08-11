@@ -190,11 +190,27 @@
 // ****
 
 .roompopover
-.roomcreationpopover
 	// Make em same height
 	width: 360px
 	.po-scroll-wrap
 		padding-top: 0
+		height: 370px
+		&.hidden
+			display: none
+	.create-room-form
+		height: 370px
+	.manager-navigation
+		a
+			display: inline-block
+			text-decoration: none
+			padding: 5px 17px
+			text-align: center
+			color: gainsboro-dark
+			&.selected
+				color: grape-dark
+				border-bottom: 2px solid grape-light
+			&:hover
+				color: grape-typo
 	.list-hl
 		padding-top: 0
 	.room
@@ -217,37 +233,13 @@
 		height: 42px
 		line-height: 42px
 		font-size: 16px
+		margin-top: -1px
 		.room-icon
 			right: -14px
 			width: 18px
 			height: 18px
 			line-height: 19px
 			font-size: 11px
-
-.roompopover
-.pmpopover
-	.po-scroll-wrap.hidden
-		display: none
-	.manager-navigation
-		a
-			display: inline-block
-			text-decoration: none
-			padding: 5px 17px
-			text-align: center
-			color: gainsboro-dark
-			&.selected
-				color: grape-dark
-				border-bottom: 2px solid grape-light
-			&:hover
-				color: grape-typo
-	.pm.deleted
-		color: gainsboro-dark
-		.avatar-status
-			background: gainsboro-dark
-		span.user-deleted
-			@extend $small-font-size
-			text-transform: uppercase
-			margin-left: 4px
 
 // ****
 //
@@ -313,7 +305,6 @@ label.radio-label
 // 
 // ****	
 .roommemberspopover
-.pmpopover
 	width: 320px
 	.popover-list > li
 		&:hover
@@ -333,14 +324,7 @@ label.radio-label
 		float: right
 	.invite-to-room
 		@extend $clearfix
-		.Textcomplete-hidden
-			display: none
-		.autocomplete-wrapper
-			margin: 0
-			top: -42px
-			.autocomplete
-				position: relative
-				max-height: 150px
+
 		button
 			float: right
 			margin-left: 5px
@@ -358,8 +342,4 @@ label.radio-label
 			float: right
 			margin: 13px 15px 0 0
 			cursor: pointer
-
-.pmpopover
-	.po-scroll-wrap
-		max-height: 260px
 	

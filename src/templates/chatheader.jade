@@ -1,4 +1,5 @@
 .room-header-wrap
+	.room-header-color-shade(style="background: rgba(#{color.r}, #{color.g}, #{color.b}, 0.05); border-bottom-color: rgba(#{color.r}, #{color.g}, #{color.b}, 0.1)")
 	.room-info-wrap
 		if room.type === 'room'
 			if editOptions.renamingRoom
@@ -6,30 +7,26 @@
 					input.room-name.editable(value=room.name, type="text")
 					input.submit-rename(type="submit")
 				.rename-options-wrap
-					a.header-option.option-rename-cancel(title="Cancel")
+					a.header-option.option-rename-cancel(title="Cancel", style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 						i.fa.fa-times
-					a.header-option.option-rename-ok(title="Save")
+					a.header-option.option-rename-ok(title="Save", style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 						i.fa.fa-check
 			else
-				.room-name(class=editOptions.canRenameRoom ? 'editable' : '') 
+				.room-name(class=editOptions.canRenameRoom ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
 					if mode === 'search'
 						i.fa.fa-link
 						=_(" in ")
-					if !room.is_public
-						i.fa.fa-lock
-						|  
 					| #{room.name}
-				.options-wrap
+					if room.topic
+						br
+						span.room-topic=room.topic
 					if editOptions.canRenameRoom
 						a.header-option.option-rename-room(title="Rename Room")
-							i.fa.fa-pencil
+							i.fa.fa-pencil(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+				.options-wrap
+					if editOptions.canRenameRoom
 						a.header-option.option-delete-room(title="Delete Room")
-							i.fa.fa-trash
-				.room-users-wrap(title="View Members")
-					span.user-count
-						i.fa.fa-user
-						|  #{room.users.length}
-						i.fa.fa-chevron-down
+							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
@@ -38,11 +35,16 @@
 				| #{room.users[0].displayName}
 		
 	form.search-form
-		input.search(type="search", name="search-input", placeholder=_("Search"))
+		input.search(type="search", name="search-input", placeholder=_("Search for messages, files, etc."))
 		input.search-submit(type="submit")
-		i.fa.fa-search.search-icon
-		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';")
-	
+		i.fa.fa-search.search-icon(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';", style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+
+	#tagsToggle.room-header-button(style="display: none")
+		i.mdi.mdi-tag-multiple
+	#menuToggle.room-header-button(style=room.type == "room" ? "display: block" : "display: none")
+		i.mdi.mdi-menu
+
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap
 			span.online

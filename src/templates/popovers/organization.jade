@@ -4,22 +4,31 @@
 			a(href='#')
 				i.fa.fa-eye
 				=_('Compact View')
-		li
-			a(href='/accounts/organization/settings/', target='_self')
-				i.fa.fa-cog
-				=_('Organization Settings')
-		li
-			a(href='/accounts/organization/settings/members/', target='_self')
-				i.fa.fa-user
-				=_('Manage Members')
-		li
-			a(href='/integrations/', target='_self')
-				i.fa.fa-link
-				=_('Service Integrations')
+		if (role != "0")
+			li
+				a(href='/accounts/organization/settings/', target='_self')
+					i.fa.fa-cog
+					=_('Organization Settings')
+			li
+				a(href='/accounts/organization/settings/members/', target='_self')
+					i.fa.fa-user
+					=_('Manage Members')
+			li
+				a(href='/integrations/', target='_self')
+					i.fa.fa-link
+					=_('Service Integrations')
 		li.break-line
 			a(href='/accounts/settings/', target='_self')
 				i.fa.fa-cog
-				=_('User Settings')
+				=_('Account Settings')
+		li
+			a.edit-view(href='#')
+				if (user.settings && user.settings.compact_mode)
+						i.fa.fa-th-list
+						=_('Normal View')
+				else
+						i.fa.fa-list
+						=_('Compact View')
 		li
 			a(href='/accounts/settings/notifications/', target='_self')
 				i.fa.fa-bell

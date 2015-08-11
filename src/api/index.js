@@ -43,7 +43,11 @@ function API() {
 	// Connected here includes that user data is loaded.
 	this.connected = false;
 	this.connecting = false;
-	this.transport = 'lp';
+	this.preferedTransport = undefined;
+
+	this.retries = 0;
+	this.lastAlive = 0;
+	this.pingTimeout = undefined;
 
 	this._typingTimeouts = [];
 }
@@ -68,25 +72,35 @@ API.prototype.logTraffic = function API_logTraffic() {
 	}
 };
 
-API.prototype.heartbeat = function API_heartbeat() {
-	if (!this.connected) return;
-	var timedout = false;
-
-	var timeoutId = setTimeout(function() {
-		console.log('NO PONG');
-		timedout = true;
-		this.onDisconnect();
-	}.bind(this), PONG_MAX_WAIT);
-
-	this.wamp.call(PREFIX + 'ping', function(err, res) {
-		// In case we get this callback after we timed out.
-		// Reconnect is already started, which will call .heartbeat.
-		if (timedout) return;
-
-		if (res === 'pong') clearTimeout(timeoutId);
-
-		setTimeout(this.heartbeat.bind(this), PING_DELAY);
+API.prototype.startPinging = function API_startPinging() {
+	// note: the backend will only set this session active
+	// if it receives regular pings from the client. 
+	// "normal" traffic will not be recognized as such
+	// which might lead into server-side disconencts
+	// from (false) idleness-detection.
+	if (!this.connected) {
+		clearTimeout(this.pingTimeout);
+		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
+		return;
+	}
+	this.wamp.call(PREFIX + 'ping', function(err, resp) {
+		if (resp == 'pong') {
+			this.lastAlive = Date.now();
+		}
+		clearTimeout(this.pingTimeout);
+		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
 	}.bind(this));
+}
+
+API.prototype.heartbeat = function API_heartbeat() {
+	var timeIdle = (Date.now() - this.lastAlive);
+	if (timeIdle > 11000) {
+		// haven't heard from server since 2 pings, consider
+		// disconnected
+		this.onDisconnect();
+		return;
+	}
+	setTimeout(this.heartbeat.bind(this), (11000-timeIdle));
 };
 
 API.prototype.onDisconnect = function API_onDisconnect() {
@@ -122,12 +136,26 @@ API.prototype.onConnect = function API_onConnect(data) {
 API.prototype.initSocket = function API_initSocket(opts) {
 	var ws = new WebSocket(opts.wsUri); 
 	ws.once('open', function() {
+		this.preferedTransport = 'ws';
 		opts.connected(ws);
-	});
+	}.bind(this));
 
 	ws.once('error', function(err) {
-		opts.error(err);
-	});
+		if (this.preferredTransport && this.preferedTransport != 'lp') {
+			opts.error(err);
+			return;
+		}
+		// try LP fallback
+		var lp = new LPSocket(opts.lpUri);
+		lp.connect();
+		lp.once('open', function() {
+			lp.poll();
+			opts.connected(lp);
+		});
+		lp.once('error', function(err) {
+			opts.error(err);
+		});
+	}.bind(this));
 };
 
 
@@ -150,6 +178,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 		connected: function(socket) {
 			// connection established; bootstrap client state
 			this._socket = socket;
+			this.retries = 0;
 			this.wamp = new Wamp(socket, {omitSubscribe: true});
 			this.bindEvents();
 			this.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
@@ -159,6 +188,8 @@ API.prototype.connect = function API_connect(ws, callback) {
 					return;
 				}
 				this.onConnect(data);
+				this.lastAlive = Date.now();
+				this.startPinging();
 				this.heartbeat();
 			}.bind(this));
 
@@ -170,6 +201,11 @@ API.prototype.connect = function API_connect(ws, callback) {
 			socket.on('error', function(err) {
 				console.log('Socket error, disconnecting!', err);
 				this.onDisconnect();
+			}.bind(this));
+
+			socket.on('message', function (msg) {
+				// used in heardbeat
+				this.lastAlive = Date.now();
 			}.bind(this));
 		}.bind(this),
 		error: function(err) {
@@ -193,12 +229,16 @@ API.prototype.disconnect = function API_disconnect() {
 };
 
 API.prototype.reconnect = function API_reconnect() {
-	var self = this;
-	var timeout = Math.floor((Math.random() * 5000) + 1);
-	console.log('Attempting reconnect in ms:', timeout);
+	if (this.connected) {
+		this.retries = 0;
+		return
+	}
+	// exponential back-off
+	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
+	this.retries += 1;
 	setTimeout(function() {
 		this.connect();
-	}.bind(this), timeout);
+	}.bind(this), backoff);
 };
 
 API.prototype.bindEvents = function API_bindEvents() {
@@ -504,12 +544,30 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 	});
 };
 
+API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
+	callback = callback || function() {};
+	var self = this;
+
+	self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
+		if (err) return self.emit('error', err);
+
+		console.log("List Room icons", "Result: " + res);
+	})
+}
+
 API.prototype.endedIntro = function API_endedIntro() {
 	this.wamp.call(PREFIX + 'users/set_profile', {'show_intro': false});
 };
 
 API.prototype.changedTimezone = function API_changedTimezone(tz) {
 	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
+};
+
+API.prototype.onEditView = function API_onEditView(status) {
+	this.wamp.call(PREFIX + 'users/set_profile', {'compact_mode': status}, function() {
+		this.user.settings.compact_mode = status;
+		this.emit('viewChanged', status);
+	}.bind(this));
 };
 
 API.prototype.openPM = function API_openPM(user, callback) {
@@ -630,7 +688,7 @@ API.prototype.search = function API_search(text) {
 		});
 };
 
-API.prototype.inviteToRoom = function API_inviteToRoom(room, users, callback) {
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
 			callback(err, result);

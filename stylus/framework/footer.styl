@@ -5,17 +5,19 @@
 // ****
 .footer
 	z-index: 30
-	padding: 25px horizontal-space 15px
-	background: footer-background
+	padding: 11px horizontal-space 10px
+	background: url("../images/cgbg-new.png")
+	background-attachment: fixed
 	transform: translate3d(0,0,0)
 	will-change: transform
+	border-top: solid 1px #F3F3F3
 
 	.grape-input-wrapper
 		display: flex
 		position: relative
 		&.disabled
 			.hint-box, .info-markdown, .uploader
-				display: none
+				opacity: 0
 		.avatar
 			padding-left: (horizontal-space / 2)
 			position: relative
@@ -32,7 +34,7 @@
 				border-right: none
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-left: 10px solid gainsboro-light
+				border-left: 10px solid #E5E5E5
 				border-right: none
 				border-bottom: 14px solid transparent
 				left: -1px;
@@ -49,14 +51,15 @@
 		flex: 1
 		position: relative
 		display: flex
-		border: 1px solid gainsboro-light
-		border-radius: 3px
+		border: 1px solid #E5E5E5
+		border-radius: 6px 0px 6px 6px
 		background-color: #fff
+		box-shadow: 0px 1px 1px 0px rgba(100, 100, 100, 0.05);
 
 	grape-input
 		flex: 1
 		[contenteditable="true"]
-			@extend $roboto
+			@extend $proximaNova
 			@extend $big-font-size
 			position: relative
 			padding: 9px 92px 7px 15px
@@ -103,15 +106,27 @@
 
 	// hints
 	.edit-message, .hint-box
-		@extend $small-font-size
+		font-size: 0.8em
 		position: absolute
-		top: -18px
-		left: 68px
-		color: gainsboro-dark
+		top: 0px
+		left: 64px
+		color: #666666
+		background: linear-gradient(#FBFBFB, #F7F7F7);
+		border: solid 1px #E5E5E5
+		border-radius: 3px
+		padding: 2px 12px 1px 12px
+		-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
+		transition: opacity 0.2s, transform 0.2s
+		transition-timing-function: ease-out
+		transform: translateY(-20px)
+		opacity: 1
 		span
 			border-radius: 3px
-			border: 1px solid gainsboro-light
-			padding: 0 2px
+			border: 1px solid #CCCCCC
+			padding: 1px 3px
+			margin: 0 2px
+			color: #666666
+			background: #FBFBFB
 
 	// uploader styling
 	.uploader
@@ -154,18 +169,19 @@
 			background: lighten(gold, 80%)
 		.controls-group-item
 			cursor: default
-		.uploader,
-		.emoji-browser-button
+		.uploader
 			transform: scale(0)
 			opacity: 0
-			pointer-events: none
 		.hint-box
-			display: none
+			opacity: 0
 		.avatar
 			&::after
 				border-left-color: lighten(gold, 80%)
 	// Toggle for edit message input
 	.grape-input-wrapper .edit-message
-		display:none
+		opacity: 0
+		transform: translateY(-20px)
 	.grape-input-wrapper.editing-previous .edit-message
-		display: block
+		opacity: 1
+		transform: translateY(-35px)
+

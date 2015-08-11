@@ -60,7 +60,6 @@ HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
-	this.events.bind('click a.show-invite', 'toggleInvite');
 	this.events.bind('click a.show-more', 'expandActivityList');
 	this.events.bind('click a.show-less', 'collapseActivityList');
 	this.events.bind('click div.resend', 'resend');
@@ -127,6 +126,12 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
 HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
 	var el = closest(ev.target, '.message', true);
 	classes(el).add('editing');
+
+	if (el.parentNode.childNodes[0] === el) {
+		var avatar = qs('.avatar', el.parentNode.parentNode.parentNode);
+		classes(avatar).add('editing');
+	}
+
 	var msg = this.room.history.find("id=='" + el.getAttribute('data-id') + "'");
 	this.emit('selectedforediting', msg, this.room);
 };
@@ -147,6 +152,7 @@ function groupHistory(history) {
 	var counter = 1;
 	var last;
 	var group;
+	var previousLine;
 
 	for (var i = 0; i < history.length; i++) {
 		var	line			= history[i],
@@ -156,21 +162,28 @@ function groupHistory(history) {
 			hasSameTitle	= last && line.title && line.title == last.title && !line.objects,
 			hasSameMsg		= last && last.message && line.message && last.message == line.message,
 			hasSameAuthor	= last && last.author.id == author.id,
-			isGroupable		= isTimeSpanShort && hasSameAuthor;
+			afterAttachment = last && last.attachments && last.attachments.length != 0,
+			hasAttachments	= line.attachments && line.attachments.length != 0,
+			isGroupable		= isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment;
 
+		// Message is groupable, nice and easy
 		if (isGroupable) {
 			if (isService && ( hasSameTitle || hasSameMsg )) {
 				group.pop();
 				counter++;
-				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers		
+				line.times = counter.toString(); // convert to string cause jade gets crazy with numbers
+			} else if (isService) {
+				groups.push(group = []);
+				counter = 1;
 			}
 		} else {
-			groups.push(group = []); 
-			counter = 1;		
+			groups.push(group = []);
+			counter = 1;
 		}
 
 		group.push(last = line);
 	}
+
 	return groups;
 };
 
@@ -327,11 +340,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 		// find removed element and highlight it....
 		// then redraw after timeout
 		var el = qs("div.message[data-id='" + msg.id + "']", self.el);
+		var avatar = qs(".avatar", el.parentNode.parentNode.parentNode);
 		classes(el).add('removed');
+		classes(avatar).add('removed');
 		setTimeout(function () {
 			// vdom seems to bug a bit so remove the class manually
 			// otherwise queueDraw() should be enough
 			classes(el).remove('removed');
+			classes(avatar).remove('removed');
 			self.queueDraw();
 		}, 1000);
 	});
@@ -346,10 +362,6 @@ HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
 		room: this.room,
 		mode: this.mode
 	}));
-};
-
-HistoryView.prototype.toggleInvite = function HistoryView_toggleInvite (ev) {
-	this.emit('toggleinvite', qs('.room-header .room-users-wrap'));
 };
 
 HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {
@@ -400,7 +412,7 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
 		var roomUnsentMsgs = this.unsentBuffer[line.channel.id];
 		if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1);
 	}
-	setTimeout(this.queueDraw.bind(this), 200); // give pending msg enough time to complete bubbly effect
+	this.queueDraw();
 };
 
 HistoryView.prototype.onNewPMOpened = function HistoryView_onNewPMOpened (pm) {

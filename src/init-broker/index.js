@@ -33,6 +33,7 @@ function doBroker(ui, api) {
 	broker(ui, 'hasread', api, 'setRead');
 	broker(ui, 'introend', api, 'endedIntro');
 	broker(ui, 'timezonechange', api, 'changedTimezone');
+	broker(ui, 'editView', api, 'onEditView');
 	broker(ui, 'needhistory', api, 'getHistory');
 	broker(ui, 'requestMessage', api, 'onRequestMessage');
 	broker(ui, 'loadHistoryForSearch', api, 'onLoadHistoryForSearch');
@@ -41,7 +42,7 @@ function doBroker(ui, api) {
 	broker(ui, 'searching', api, 'search');
 	broker(ui, 'confirmroomrename', api, 'renameRoom');
 	broker(ui, 'deleteMessage', api, 'onDeleteMessage');
-	broker(ui, 'invitetoroom', api, 'inviteToRoom');
+	broker(ui, 'inviteToRoom', api, 'onInviteToRoom');
 
 	broker.pass(api, 'newMessage', ui, 'newMessage');
 	broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification');
@@ -64,6 +65,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'new org member', ui, 'new org member');
 	broker.pass(api, 'newRoom', ui, 'newRoom');
 	broker.pass(api, 'roomdeleted', ui, 'roomdeleted');
+	broker.pass(api, 'viewChanged', ui, 'viewChanged');
 
 	ui.on('starttyping', function (room) {
 		api.setTyping(room, true);

@@ -1,51 +1,17 @@
 // ****
 //
-// Left navigation
+// Compact navigation
 //
 // ****
-.navigation
-	@extend $normal-font-size
+.nav-compact
+	width: 86px
 	height: 100vh
-	overflow: auto
 	position: absolute
-	top: 0
-	left: 0
-	color: gainsboro-dark
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	overflow: hidden
-	.navigation
-		padding: 0px
-		background: sidebar-background
-	.nav-wrap-out
-		height: 100vh
-		border-right: 1px solid darken(sidebar-background, 10%)
-.nav-outer
-	min-width: 200px
-	width: client-navigation-width
-	max-width: 38.2%
-.nav-inner
-	width: 100%
-
-.nav-style-collapsed
-	.client-body
-		margin-left: 86px !important
-	.nav-inner
-		display: none
-	.nav-compact
-		display: block
-
-.nav-style-basic
-	.client-body
-		margin-left: inherit
-	.nav-inner
-		display: block
-	.nav-compact
-		display: none
+	left: 0px
+	top: 0px
+	background: sidebar-background !important
+	z-index: 100
+	display: none
 
 // ****
 //
@@ -53,8 +19,8 @@
 //
 // ****
 
-.org-area-bg
-	height: 150px
+.org-area-bg-compact
+	height: 60px
 	display: block
 	text-align: center
 	border-right: 1px solid darken(sidebar-background, 10%)
@@ -63,37 +29,32 @@
 	background-position: center center
 	background-repeat: no-repeat
 	background-size: cover
-	transition: height header-animation-duration
-	transition-timing-function: grape-bezier
 	.bg-overlay
 		position: absolute
 		left: 0px
 		top: 0px
 		display: block
 		width: 100%
-		height: 150px
+		height: 60px
 		z-index: 30
-		transition: height header-animation-duration
-		transition-timing-function: grape-bezier
 		background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 					linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.0))
-.org-info
+
+.org-info-compact
 	width: 100%
-	height: 150px
+	height: 60px
 	display: table
 	position: absolute
 	top: 0px
 	left: 0px
-	transition: height header-animation-duration
-	transition-timing-function: grape-bezier
 	.org-topbar
 		width: 100%
 		position: absolute
 		left: 0px
 		top: 0px
-		z-index: 60
+		z-index: 120
 		padding: 10px
-		.settings-icon
+		.settings-icon-compact
 			text-align: center
 			font-size: 20px
 			color: rgba(255, 255, 255, 0.6)
@@ -105,13 +66,13 @@
 				color: rgba(255, 255, 255, 1)
 		.toggle-sidebar-icon
 			position: absolute
-			left: 9px
+			left: 11px
 			top: 33px
 			text-align: center
 			font-size: 18px
 			color: rgba(255, 255, 255, 0.6)
 			text-shadow: 0px 0px 5px rgba(0, 0, 0, 1)
-			transform: rotate(-90deg)
+			transform: rotate(90deg)
 			-webkit-transition: color 0.3s
 			transition: color 0.3s
 			cursor: pointer
@@ -124,10 +85,10 @@
 		position: relative
 		vertical-align: middle
 		text-align: center
-		padding: 16px 16px 8px 16px
+		padding: 0px 16px 0px 36px
 		overflow: hidden
 		text-decoration: none
-		z-index: 50
+		z-index: 110
 		img
 			display: block
 			position: relative
@@ -135,57 +96,22 @@
 			margin-right: auto
 			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
 			border-radius: 50%
-			left: 0%
-			transition: left header-animation-duration, top header-animation-duration, width header-animation-duration, height header-animation-duration
-			transition-timing-function: grape-bezier
-		.org-name
-			display: block
-			position: relative
-			color: white
-			margin-top: 16px
-			font-size: 1.25em
-			text-shadow: 0px 1px 3px rgba(0, 0, 0, 1)
-			cursor: default
-			opacity: 1
-			transition: opacity 0.15s, margin-left header-animation-duration, margin-right header-animation-duration,
-						top header-animation-duration, font-size header-animation-duration
-			transition-timing-function: grape-bezier
-		.org-tagline
-			display: block
-			position: relative
-			color: white
-			margin-top: 1px
-			font-size: 0.8em
-			text-shadow: 0px 1px 3px rgba(0, 0, 0, 1)
-			-webkit-transition: opacity 0.3s
-			transition: opacity 0.3s
-			opacity: 0.6
-			cursor: pointer
-			&:hover
-				opacity: 1.0
 		i
 			margin-left: 8px
 			@extend $small-font-size
 
-	a:hover
-		text-decoration: none
-		i,
-		.name
-			opacity: 0.7
-			text-decoration: none
-
-.manage-rooms-button
+.manage-rooms-button-compact
 	position: relative;
-	width: 90%;
+	width: 80%;
 	display: block;
 	text-align: center;
 	background: #6E4B6E;
 	margin: 0 auto;
-	font-size: 1.1em;
+	font-size: 1em;
 	color: #EDEDED;
-	padding-top: 9px;
-	padding-bottom: 9px;
-	border-radius: 4px;
+	padding-top: 6px;
+	padding-bottom: 5px;
+	border-radius: 3px;
 	left: -1px;
 	margin-bottom: 20px;
 	text-decoration: none
@@ -238,8 +164,8 @@
 		height: 100%
 
 
-.nav-title-wrap,
-a.nav-title-wrap
+.nav-title-wrap-compact,
+a.nav-title-wrap-compact
 	@extend $clearfix
 	display: block
 	color: sidebar-group-title
@@ -248,14 +174,14 @@ a.nav-title-wrap
 	.nav-title
 		color: sidebar-group-title
 		text-transform: uppercase
+		text-align: center
 		font-size: 0.8em;
-		padding-left: 14px
 		overflow: hidden
 	&:hover
 		color: sidebar-group-title
 		text-decoration: none
 
-a.nav-title-wrap
+a.nav-title-wrap-compact
 	display: inline-block
 	float: left
 	width: 100%
@@ -276,27 +202,20 @@ a.nav-title-wrap
 
 // Sidebar Link Styling
 
-.invite-list
-.nav-wrap-out
+.nav-wrap-out-compact
+	height: 100%
+	position: relative
 	.channel-item
 		clear: both
 		padding: 0px
 		padding-right: 8px
-		&.taken
-			background-color: #785278
-			.channel-name
-				color: white
-			&:hover
-				background-color: #785278
-				.channel-name
-					color: white
+		height: 48px !important
 		a
 			display: block
 			width: 100%
 			height: 100%
-			text-decoration: none
 		.item-inner-wrp
-			padding: 14px 0
+			position: relative
 		.avatar-wrap
 		.room-face
 			float: left
@@ -304,9 +223,10 @@ a.nav-title-wrap
 			text-align: center
 			width: 32px
 			height: 32px
-			margin-left: 12px
-			margin-top: -7px
-			line-height: 32px
+			margin-left: 24px
+			margin-right: 8px
+			margin-top: 8px
+			line-height: 33px
 			border-radius: 3px
 			background: grape-dark
 			position: relative
@@ -340,17 +260,18 @@ a.nav-title-wrap
 			background: slate
 			font-size: 8px
 			color: white
-		.channel-name
-			white-space: nowrap
-			overflow: hidden
-			ellipsis()
-			font-size: 1.1em
-			left: 0px
+		.fl-notification,
+		.fl-mention
+			position: absolute
+			display: inline-block
+			float: right
+			top: 0px
 			right: 0px
-			padding-left: 9px
-			padding-right: 6px
-			color: white
-			overflow: hidden
+			margin-right: 12px
+			margin-top: 6px
+			font-size: 0.75em
+			padding: 2px 6px 2px 6px
+			z-index: 140
 		&:hover
 			background: sidebar-hover
 			.offline, .online
@@ -372,28 +293,15 @@ a.nav-title-wrap
 	.nav-list
 		padding: 0 0 12px 0
 
-.invite-list
-	margin-bottom: 8px
-	.channel-item
-		border-radius: 4px
-		margin-bottom: 3px
-		&:hover
-			background-color: #e5e5e5
-		.avatar-wrap
-			margin-top: -5px
-		.channel-name
-			color: grape-darkest
-
-// ****
-//
-// The Private Message list
-//
-// ****
-.pm-list
-	padding: 22px 0
-	margin-bottom: 40px
-	.pms
-		height: 100%
+	// ****
+	//
+	// The Private Message list
+	//
+	// ****
+	.pm-list
+		margin-bottom: 40px
+		.pms
+			height: 100%
 
 span.no-messages
 	@extend $small-font-size
@@ -418,24 +326,3 @@ span.no-messages
 	&:focus
 		outline: none
 		color: grape-typo
-
-.collapse-header-height
-	height: 64px !important
-
-.collapse-logo
-	left: -30% !important
-	top: 2px
-	width: 28px
-	height: 28px
-
-.collapse-name
-	top: -36px
-	margin-left: 36%
-	margin-right: 2%
-	font-size: 1.15em
-	animation: fadein 2s
-
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}

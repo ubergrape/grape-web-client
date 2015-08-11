@@ -13,12 +13,6 @@
 	margin-left: client-navigation-width
 	//transition: width 400ms ease
 	background: chat-background
-	&,
-	.history
-		background: url(http://subtlepatterns.com/patterns/sativa.png)
-		background: url(http://subtlepatterns.com/patterns/square_bg.png) 
-		background: url("../../chatgrape/static/images/cgbg.gif")
-		background-attachment: scroll
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -27,15 +21,41 @@
 		overflow: auto
 		padding: 0
 		z-index: 10
+		background: url("../images/cgbg-new.png")
+		background-attachment: scroll
 	.chat
 		flex: 1
 		position: relative
-		padding: 20px 0
+		padding: 20px 0 0 0
 	a // Different styling for links within history
 		color: link-color
 		@extend $subtle-link
 		&:hover
 			color: lighten(link-color, 15%)
+	.main-window
+		display: flex
+		flex-direction: column
+		flex: 1
+		-webkit-transition: margin-right 0.2s, -webkit-transform 0.2s
+		transition: margin-right 0.2s, transform 0.2s
+		transition-timing-function: ease-out
+		margin-right: 0px;
+		position: relative
+	.right-sidebar
+		position: absolute
+		top: 0
+		float:right
+		width: 250px
+		height: calc(100% - 64px - 64px)
+		right: 0
+		margin-top: header-height
+		background: #F2F2F2
+		border-left: solid 1px #E5E5E5
+		-webkit-transition: -webkit-transform 0.4s
+		transition: transform 0.4s
+		transition-timing-function: grape-bezier
+		transform: translateX(250px)
+		z-index: 50
 
 // ****
 //
@@ -46,6 +66,7 @@
 .welcome-message
 	margin: 0
 	padding: 30px 40px 42px 20px
+	margin: 10px 25px 20px 52px
 	@media (max-width: 720px)
 		text-align: center
 	body.notifications-disabled &
@@ -94,16 +115,13 @@
 			@extend $clearfix
 			.input-invite
 				width: 70%
+				max-width: 70%
 				height: 38px
 				padding: 9px 12px 8px 12px
 				outline: none
 				box-sizing: border-box
 				float: left
 				margin-right: 8px
-			.btn-invite
-				max-width: 200px
-				text-overflow: ellipsis
-				height: 34px
 		.autocomplete-wrapper
 			margin: 0
 			top: 4px
@@ -111,6 +129,12 @@
 			.autocomplete
 				@extend $clearfix
 				top: 0px
+.btn-invite
+	max-width: 200px
+	text-overflow: ellipsis
+	height: 34px
+	float: right
+	margin-bottom: 8px
 
 // ****
 //
@@ -120,7 +144,7 @@
 
 .message-group
 	@extend $clearfix
-	margin: 10px 37px 20px 20px
+	margin: 10px 24px 20px 4%
 	position: relative
 	.avatar
 		float: left
@@ -130,21 +154,15 @@
 			width: 42px
 			height: 42px
 			float: left
-			margin-right: (horizontal-space / 2)
+			margin-right: 12px
 			border-radius: 50%
-	.message-inner-wrap
-		display: inline-block
-		padding: 0
-		border-radius: 0 4px 4px 4px
-		@extend $big-font-size
-		position: relative
-		max-width: 100%
 	&.user
 		.avatar
 			&::after,
 			&::before // Hack for the arrow of the message box
 				content: ""
 				position: absolute
+				border-left: 3px solid transparent
 			&::after
 				z-index: 9
 				right: -2px
@@ -152,29 +170,19 @@
 				border-right: 9px solid white
 				border-bottom: 13px solid transparent
 			&::before // Hack for the arrow of the message box
-				border-right: 10px solid #E0DFDF
+				border-right: 10px solid #E5E5E5
 				border-bottom: 14px solid transparent
 				right: -1px;
 				top: 0px;
-		.message-inner-wrap
-			border: 1px solid #E0DFDF
-			background-color: #fff
 		.text.main
-			max-width: 600px
-
-	&.service
-		.message-content
-			border-left: 2px solid link-color
 			max-width: 740px
-		.message
-			padding: 10px 16px 9px 26px
 
 	&.deleted //When a user was removed from the organization, #867
 		color: gainsboro-dark
 		.message-author
-			color: gainsboro-dark
+			color: gainsboro-light !important
 		.time
-			color: gainsboro-dark
+			color: #E5E5E6
 	&:last-child
 		margin-bottom: 10px
 	&.requested
@@ -182,31 +190,54 @@
 			.avatar
 				&::after
 					border-right-color: rgb(207, 255, 203) !important
-.message-group.creator.user
+
+.message-group.creator
 	.avatar
 		&::after
 			border-right-color: blue-lighter
+			border-top-color: blue-lighter
 		&::before // Hack for the arrow of the message box
 			border-right-color: blue-light
-	.message-inner-wrap
-		border-color: blue-light
-		background: blue-lighter
+			border-top-color: blue-light
 	.message
+		margin-right: 48px
 		&:after
 			border-color: #DBE7ED
-	.message-author,
-	.message-author:hover
-		color: grape-typo-hl
+	.message-author
+		color: #788796
 		text-decoration: none
+		cursor: default
+	.author-link
+		cursor: default
+	a.timelink
+		@extend $subtle-link
+		color: #788796
+		&:hover
+			text-decoration: none !important
+	.avatar
+		&.requested
+			&::after
+				border-right-color: rgb(207, 255, 203) !important
+				border-top-color: rgb(207, 255, 203) !important
+		&.editing
+			&::after
+				border-right-color: lighten(gold, 80%) !important
+				border-top-color: lighten(gold, 80%) !important
+			&::before // Hack for the arrow of the message box
+				border-right-color: #DDDDDD !important
+				border-top-color: #DDDDDD !important
+/*
+.client-style-normal .message-group.creator.user
 	@media (max-width: 950px)
 		.avatar
 			float: right
+			padding-right: 5px;
 			.image
 				margin-left: (horizontal-space / 2)
 				margin-right: 0
 				display: none
 			&::after
-				left: -2px
+				left: 3px
 				right: auto
 				top: 1px
 				border-left: 9px solid blue-lighter
@@ -216,20 +247,35 @@
 				border-left: 10px solid blue-light
 				border-right: none
 				border-bottom: 14px solid transparent
-				left: -1px
+				left: 4px
 				right: auto
 				top: 0px
+			&.editing
+				&::after
+					border-left-color: lighten(gold, 80%) !important
+					border-top-color: lighten(gold, 80%) !important
+				&::before // Hack for the arrow of the message box
+					border-left-color: #DDDDDD !important
+					border-top-color: #DDDDDD !important
+		&.requested
+			.avatar
+				&::after
+					border-left-color: rgb(207, 255, 203) !important
+					border-top-color: rgb(207, 255, 203) !important
 		.message-content
 			text-align: right
 			padding-right: 0
 			padding-left: 68px
-		.message-inner-wrap
+		.message
 			text-align: left
-			max-width: 100%
-			border-radius: 4px 0 4px 4px
+			&.first
+				border-radius: 6px 0px 6px 6px
 		.edit
-			width: 20px
-			padding-top: 0
+			left: auto
+			right: 100%
+			padding-right: 7px
+			padding-left: 0
+*/
 .messageinfo
 	color: #b3b3b3
 	text-align: left
@@ -239,68 +285,83 @@
 		color: #b3b3b3
 	.message-author
 		display: inline
-		@extend $subtle-link
-		color: grape-typo-hl
-		font-weight: bold
+	.author-link
+		color: gainsboro-dark
+	.author-link:hover
+		text-decoration: none !important
+		color: #7B477B
+	span
+		font-size: 0.9em
+		margin-left: 4px
+		margin-right: 4px
 	a.timelink
 		@extend $subtle-link
-		color: #b3b3b3
-		&:hover
-			text-decoration: none !important
+		color: gainsboro-dark
+		margin-right: 12px
+		font-size: 0.9em
+		.fa-globe
+			margin-left: 4px
 		.time
-			display: inline
-			.dif-tz,
-			.user-tz
+			display: inline-block
+			.different-timezone
+				display: inline-block
 				opacity: 0
+				top: 0px
+				left: 0px
+				color: #666666
+				.dif-tz
+					font-size: 1.05em
 		&:hover
-			.dif-tz,
-			.user-tz
-				opacity: 1
+			color: #7B477B
+			text-decoration: none !important
+			.different-timezone
 				text-decoration: none !important
+				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
+				transition: opacity 0.2s, transform 0.2s
+				transition-timing-function: grape-bezier
+				transform: translateX(6px)
+				opacity: 1
 .message-content
-	margin-left: 52px
+	margin-left: 54px
 	.message
+		display: inline-block
 		clear: both
-		padding: 9px 16px 10px 16px
+		font-size: 1.1em
+		padding: 10px 16px 9px 14px
 		position: relative
-		&:after
-			content: ""
-			position: absolute
-			top: -1px
-			left: 16px
-			right: 16px
-			height: 1px
-			border-top: 1px solid silver-grey
+		border: solid 1px #E5E5E5
+		border-radius: 6px 6px 6px 6px
+		background-color: #FFFFFF
+		margin-top: 3px
+		margin-left: 0px
+		margin-right: auto
+		box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05)
 		&.freshmessage
-			animation: hifromthebottomNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+			animation: hifromtheleftNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 		&.first
 			margin-top: 0
-			border-top: 1px
+			border-radius: 0px 6px 6px 6px;
 			&:after
 				border: none
 		&:hover
 			> .edit
 				opacity: 1
 		.edit
-			opacity: 0
-		.edit
 			@extend $hoverable
-			display: inline-block
 			vertical-align: top
 			color: blue-light
 			position: absolute
 			left: 100%
-			top: 0
-			width: 38px
-			padding-left: 5px
-			bottom: 0
-			padding-top: 10px
+			top: 9px
+			width: 54px
+			padding-left: 7px
+			opacity: 0
 			i
-				margin-right: 4px
+				margin: 0 5px
 				&:hover
-					color: gainsboro-dark
+					color: aqua-darker
 				&:active
-					color: darken(gainsboro-dark, 25%)
+					color: aqua-light
 			.btn-delete
 				&:hover
 					color: bittersweet-dark
@@ -319,6 +380,8 @@
 			top: 0
 			bottom: 0
 			padding-top: 16px
+			&.first
+				display: none
 		&:hover
 			.outertime
 				visibility: visible
@@ -357,16 +420,12 @@
 						display: none
 		&.editing
 			background: lighten(gold, 80%) !important
-			color: grape-typo !important
-			z-index: 10
-			position: relative
+			color: #666666 !important
+			border-color: #DDDDDD !important
 			.message-author
-				color: gainsboro-dark
-			~ .avatar
-				&::after
-					border-color: lighten(gold, 80%)
+				color: #808080 !important
 		&.requested
-			background: rgba(201, 255, 174, 0.53)
+			background-color: rgba(201, 255, 174, 0.53) !important
 			color: grape-typo
 			&:after
 				top: 0
@@ -381,15 +440,12 @@
 				&::after
 					border-color: lighten(gold, 80%)
 		&.removed
-			background: lighten(bittersweet-light, 60%)
-			color: grape-typo
+			background: lighten(bittersweet-light, 80%) !important
+			color: grape-typo !important
 			z-index: 10
 			position: relative
-			~ .avatar
-				&::after
-					border-color: lighten(bittersweet-light, 60%)
 		a.attachment
-			display: inline
+			display: inline		
 			border-bottom: 1px solid link-color
 			margin: 1px
 			padding: 1px 0
@@ -454,8 +510,25 @@
 			line-height: 1px
 			max-height: 480px
 			overflow: hidden
+			margin-left: 6px
+			&:first-of-type
+				margin-left: 0px
 			img
 				max-width: 100%
+
+.message-group.creator.user
+	.message-content
+		.message
+			background-color: blue-lighter
+			border-color: blue-light
+	.avatar
+		&.editing
+			&::after
+				border-right-color: lighten(gold, 80%) !important
+				border-top-color: lighten(gold, 80%) !important
+			&::before // Hack for the arrow of the message box
+				border-right-color: #DDDDDD !important
+				border-top-color: #DDDDDD !important
 
 //When a user was removed from the organization, #867
 span.author-deleted
@@ -464,7 +537,32 @@ span.author-deleted
 	text-transform: uppercase
 	margin-left: 4px
 
+.avatar.removed
+	&::after
+		border-right-color: lighten(bittersweet-light, 80%) !important
+		border-top-color: lighten(bittersweet-light, 80%) !important
+	&::before // Hack for the arrow of the message box
+		border-top-color: #DDDDDD !important
+		border-right-color: #DDDDDD !important
 
+
+
+// ****
+//
+// Sidebar animations
+//
+// ****
+
+.right-sidebar-show {
+    transform: translateX(0px) !important
+}
+
+.main-window-minimize {
+    -webkit-transition: margin-right 0.5s, -webkit-transform 0.5s
+    transition: margin-right 0.5s, transform 0.5s
+    transition-timing-function: ease-out
+    margin-right: 250px !important
+}
 
 
 // ****
@@ -475,7 +573,7 @@ span.author-deleted
 
 .typing-notification
 	@extend $small-font-size
-	margin: 0 30px 0px 66px
+	margin: 5px 30px 5px 66px
 	color: gainsboro-dark
 	min-height: 11px
 	text-align: center
@@ -604,15 +702,15 @@ span.author-deleted
 	color: gainsboro-dark
 	position: relative
 	height: 30px
-	padding:  5px 0 0 0
+	padding: 5px 0 0 0
 	margin: 0 30px 20px 20px
 	span
-		color: white
-		background: grape-dark
-		padding: 4px 16px
+		color: grape-dark
+		background-color: chat-background
+		padding: 7px 16px 6px 16px
 		position: relative
 		z-index: 5
-		border: 2px solid grape-dark
+		border: 1px solid slate
 		border-radius: 3px
 	&::before
 		content: ""
@@ -625,6 +723,8 @@ span.author-deleted
 		margin-top: 1px
 
 .date-separator
+	span
+		color: slate
 	&::before
 		content: ""
 		position: absolute
@@ -633,13 +733,12 @@ span.author-deleted
 		right: 0
 		background-color: #d9d9d9
 		height: 1px
-		margin-top: 1px
+		margin-top: 0px
 
 .newmessage-separator
 	span
-		border-color: aqua-light
-		color: aqua-light
-		background: chat-background
+		border-color: grass-light
+		color: grass-light
 
 .content-break
 	height: 1px
@@ -674,6 +773,7 @@ span.author-deleted
 	@extend $hoverable
 	@extend $subtle-link
 	overflow: hidden
+	z-index: 99
 	i
 		transition: all 0.2s cg-animation-speed
 	&:hover

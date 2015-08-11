@@ -1,0 +1,292 @@
+//SIDEBAR
+
+body.client-style-compact
+	.chat
+		padding: 0
+
+	&.nav-style-basic .client
+		.org-area-bg,
+		.bg-overlay,
+		.org-info
+			height: 43px !important
+			display: block !important
+		.org-logo-name
+			display: block !important
+		.org-area-bg
+			overflow: hidden
+		.org-logo-name img
+			left: -30% !important
+			top: -5px !important
+			width: 20px !important
+			height: 20px !important
+		.org-name
+			overflow: hidden !important
+			-webkit-box-orient: vertical !important
+			display: -webkit-box !important
+			-webkit-line-clamp: 1 !important
+			top: -28px !important
+			margin-left: 32% !important
+			margin-right: 2% !important
+			font-size: 1.1em !important
+			text-align: left !important
+			margin-top: 5px !important
+		.pm-list
+			padding: 0
+		.manage-rooms-button
+			padding: 4px 5px
+			font-size: 1em
+		.channel-item
+			.room-face,
+			.avatar-wrap
+				height: 22px
+				width: 22px
+				margin-top: -2px
+				line-height: 22px
+				img
+					width: 22px !important
+					height: 22px
+			.item-inner-wrp
+				padding: 7px 0 6px 0 !important
+			.room-face
+				font-size: 0.9em
+		.channel-name
+			padding-left: 9px
+			font-size: 1em
+		.navigation .mdi
+			font-size: 13px
+		.settings-icon
+			position: absolute
+			top: 9px
+		.toggle-sidebar-icon
+			top: 25px
+		.fl-notification,
+		.fl-mention
+			margin-right: 3px;
+			margin-top: -1px;
+			padding: 2px 5px 1px 4px;
+			line-height: 17px;
+			height: 20px;
+			min-width: 18px;
+
+	&.nav-style-collapsed .client
+		.org-area-bg-compact,
+		.bg-overlay,
+		.org-info-compact
+			height: 43px !important
+			display: block !important
+		.org-topbar
+			top: -3px
+		.org-logo-name
+			display: block !important
+		.org-area-bg
+			overflow: hidden
+		.org-logo-name img
+			left: -32% !important
+			top: 12px !important
+			width: 20px !important
+			height: 20px !important
+		.navigation .mdi
+			font-size: 13px
+		.settings-icon
+			position: absolute
+		.toggle-sidebar-icon
+			top: 28px
+			left: 10px
+		.manage-rooms-button-compact
+			padding: 4px 5px
+			font-size: 0.9em
+		.channel-item
+			height: 32px !important
+			.room-face,
+			.avatar-wrap
+				height: 22px
+				width: 22px
+				margin-top: -2px
+				margin-left: 18px
+				line-height: 22px
+				img
+					width: 22px !important
+					height: 22px
+			.item-inner-wrp
+				padding: 7px 0 6px 0 !important
+			.room-face
+				font-size: 0.9em
+			.fl-notification,
+			.fl-mention
+				margin-right: 7px;
+				margin-top: 2px;
+				padding: 0px 3px 0px 3px;
+				line-height: 17px;
+				height: 17px;
+				min-width: 16px;
+
+
+body.client-style-compact
+	.room-header
+		height: 43px
+	.room-header-button-active
+		line-height: 43px
+	.right-sidebar
+		margin-top: 43px
+		height: calc(100% - 43px - 64px)
+
+	.message-group
+		margin: 0 !important
+		padding: 0px 0 0px 160px !important
+		border-bottom: 1px solid silver-dark
+		border-top: 1px solid white
+		&.service
+			max-width: 100%
+		&::after
+			content: ""
+			position: absolute
+			top: 0
+			left: 0
+			bottom: 0
+			width: 145px
+			background: #fff
+		.avatar
+			display: none
+		.message-inner-wrap
+			position: relative
+		.message-content
+			margin-left: 0
+			min-height: 28px
+			background: #fff
+			display: block 
+		.message
+			border: none
+			box-shadow: none
+			background: none
+			margin: 0 0 0 0 !important
+			padding: 9px 10px 9px 14px !important
+			border-radius: 0
+			position: inherit !important
+			display: block
+			@extend $clearfix
+			&.requested
+				background-color: rgba(201, 255, 174, 0.53) !important
+			&.activity
+				top: 0 !important
+				background: #fff !important
+				.text
+					margin-top: 0
+		.outertime
+			position: relative
+			right: inherit
+			left: inherit
+			float: right
+			display: block !important
+			width: 80px
+			visibility: visible
+			padding: 0
+			line-height: inherit
+			@extend $normal-font-size
+			color: gainsboro-light !important
+			&:hover
+				.different-timezone
+					opacity: 1
+		.edit
+			left: inherit
+			right: 107px
+			padding: 0 3px
+			top: 9px
+			background: #fff
+			border-radius: 4px
+			width: auto
+		&.creator
+			background-color: rgba(204, 236, 251, 0.3)
+			.message
+				background: none
+			.message-content
+				background-color: lighten(blue-lighter, 1)
+		.messageinfo
+			width: 124px
+			position: absolute
+			left: -136px
+			line-height: inherit
+			text-align: right
+			span,
+			.timelink
+				margin-left: 0
+				display: none
+		.text
+			margin-right: 85px
+		.message-author
+			@extend $ellipsis;
+			font-weight: bold
+			color: grape-typo
+		.time
+			display: inline
+			.fa-globe
+				margin-left: 5px
+		.different-timezone
+			position: absolute
+			top: 0
+			background: #fff
+			z-index: 55
+			border-radius: 4px
+			padding: 5px 3px
+			left: -14px
+			@extend $small-font-size
+			opacity: 0
+			width: 100px
+			text-align: center
+		.vertical-line
+			width: 3px
+			left: 158px !important
+			top: 0
+			bottom: 0
+			border-radius: 0
+			
+		&.service
+			.message-content
+				display: block
+				top: inherit
+		&.attachments,
+		&.service
+			.message
+				display: block
+	.date-separator,
+	.newmessage-separator
+		margin: 0
+		padding: 0
+		height: inherit
+		&::before
+			display: none
+		span
+			display: block
+			border-radius: 0
+			border: none
+			background: silver-dark
+			color: gainsboro-dark
+			padding: 2px 5px
+			border-top: 1px solid white
+	.newmessage-separator
+		span
+			background: lighten(grass-light, 15)
+			color: grass-dark
+
+	.search-form 
+		.search
+			min-height: 28px
+		.search-icon,
+		.close
+			line-height: 28px
+
+	.nav-style-basic
+		.client-body
+			margin-left: inherit !important
+		.nav-inner
+			display: block
+		.nav-compact
+			display: none
+
+	&.nav-style-collapsed
+		.client-body
+			margin-left: 64px !important
+		.nav-inner
+			display: none
+		.nav-compact
+			display: block
+			width: 64px !important

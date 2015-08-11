@@ -22,22 +22,13 @@ function pipeEvents(ui) {
 	broker.pass(ui.roomManager, 'createroom', ui, 'createroom');
 	broker(ui, 'endroomcreation', ui.roomManager, 'end');
 	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
-	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');
-
-	// PMManager popover
-	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
-	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
-	broker(ui, 'selectchannel', ui.PMManager, 'onSelectChannel');
-	broker(ui, 'change user', ui.PMManager, 'onChangeUser');
-	broker(ui, 'new org member', ui.PMManager, 'newOrgMember');
-	broker(ui.navigation, 'closeNavPopovers', ui.PMManager, 'end');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
-	broker(ui, 'selectchannel', ui.membersMenu, 'setRoom');
+	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui.chatHeader, 'toggleusermenu', ui.userMenu, 'toggle');
-	broker(ui.chatHeader, 'togglemembersmenu', ui.membersMenu, 'toggle');
+	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 	broker(ui.searchView, 'show', ui, 'showSearchResults');
 	broker(ui.searchView, 'hide', ui, 'hideSearchResults');
@@ -71,7 +62,6 @@ function pipeEvents(ui) {
 	broker.pass(ui.historyView, 'needhistory', ui, 'needhistory');
 	broker.pass(ui.historyView, 'deleteMessage', ui, 'deleteMessage');
 	broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage');
-	broker(ui.historyView, 'toggleinvite', ui.membersMenu, 'toggle');
 	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage');
 	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
 	broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode');
@@ -101,19 +91,17 @@ function pipeEvents(ui) {
 	// dragAndDrop
 	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
 
-	// membersMenu
-	broker(ui, 'toggleinvite', ui.membersMenu, 'toggle');
-	broker(ui, 'memberLeftChannel', ui.membersMenu, 'onMemberLeftChannel');
-	broker.pass(ui.membersMenu, 'kickMember', ui, 'kickMember');
-
-	// invite
-	broker(ui, 'orgReady', ui.invite, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.invite, 'setRoom');
-	broker.pass(ui.invite, 'invitetoroom', ui, 'invitetoroom');
+	// organization popover
+	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
+	broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady');
+	broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged');
+	broker.pass(ui.organizationMenu, 'editView', ui, 'editView');
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
+	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
+	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
@@ -124,4 +112,8 @@ function pipeEvents(ui) {
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
 	broker(ui, 'userMention', ui.navigation, 'onUserMention');
+
+	// right sidebar
+	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
+	broker(ui.rightSidebar, 'toggleInvite', ui, 'onToggleInvite');
 }

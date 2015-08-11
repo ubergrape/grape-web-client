@@ -2,17 +2,22 @@
 .search-form
 	position: relative
 	transition: width .2s ease-out
-	width: 192px
+	width: 235px
+	margin-right: 20px
+	margin-left: 20px
 	@media (max-width: 800px)
 		width: 128px
 	.search
 		height: 28px
 		width: 100%
-		padding: 4px 15px 4px 27px
+		padding: 6px 16px 4px 32px
 		box-sizing: border-box
 		background: white
+		border: solid 1px rgba(150, 150, 150, 0.6)
 		outline: none
-		placeholder(color = grape-light)
+		font-size: 1em
+		placeholder(color = rgba(100, 100, 100, 1.0))
+		opacity: 0.6
 	.search-icon,
 	.close
 		position: absolute
@@ -23,7 +28,10 @@
 		font-size: 14px
 		text-align: center
 	.search-icon
-		left: 4px
+		left: 8px
+		color: rgba(100, 50, 100, 1.0)
+		opacity: 0.6
+
 	.close
 		right: 4px
 		@extend $hoverable

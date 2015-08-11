@@ -1,3 +1,6 @@
+grape-bezier= cubic-bezier(0.25, 0.46, 0.45, 0.94)
+header-animation-duration= 0.3s
+
 /*______ CLEARFIX ______*/
 clearfix()
 	zoom 1
@@ -117,8 +120,8 @@ $functional-list // this has to be the LI
 		position: absolute
 		right: -1px
 		bottom: -1px
-		height: 9px
-		width: 9px
+		height: avatar-status-size
+		width: avatar-status-size
 		z-index: 12
 		border-radius: 50%
 		border: 1px solid navigation-background
@@ -143,23 +146,29 @@ $functional-list // this has to be the LI
 .toggle
 	float: right
 	margin-left: 5px
-	font-family: roboto
+	font-family: proximaNova
 .fl-notification
 .fl-mention
-	margin: -1px 0 0 5px
-	font-size: 10px
+	margin-right: 4px
+	margin-top: -3px
+	float: right
+	position: relative
+	font-size: 0.9em
 	line-height: 16px
+	padding: 5px 6px 3px 5px
 	min-width: 21px
-	padding: 0px 3px
 	border-radius: main-border-radius
 	text-align: center
 	border: none
+	z-index: 50
+	&.infinity
+		font-size: 1.25em
 .fl-notification
-	border: 2px solid grass-light
-	color: grass-light
+	background: #CB325F
+	color: white
 .fl-mention
-	border: 2px solid grass-dark
-	color: grass-dark
+	background: #EB3264
+	color: white
 
 /*______ OVERLAY ______*/
 $overlay // used for search - infos, etc.
@@ -304,6 +313,17 @@ placeholder(color = $input-color-placeholder) {
 	100% {
 		box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 		transform: scaleX(1) translate3d(0, 0, 0);
+		opacity: 1
+	}
+}
+
+@keyframes hifromtheleftNoShadow {
+	0% {
+		transform: translate3d(-20px, 0, 0);
+		opacity: 0
+	}
+	100% {
+		transform: translate3d(0, 0, 0);
 		opacity: 1
 	}
 }

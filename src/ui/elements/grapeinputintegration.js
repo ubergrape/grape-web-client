@@ -202,6 +202,12 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 	if (!this.previous) return;
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
+
+	var avatar = q('.avatar.editing');
+	if (avatar) {
+		avatar.classList.remove('editing');
+	}
+
 	this.input.setTextContent('');
 	this.previous = null;
 };
