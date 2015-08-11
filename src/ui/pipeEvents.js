@@ -22,6 +22,7 @@ function pipeEvents(ui) {
 	broker.pass(ui.roomManager, 'createroom', ui, 'createroom');
 	broker(ui, 'endroomcreation', ui.roomManager, 'end');
 	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
+	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');
 
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -94,6 +95,7 @@ function pipeEvents(ui) {
 	// pm manager popover
 	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
 	broker(ui, 'newOrgMember', ui.PMManager, 'onNewOrgMember');
+	broker(ui.navigation, 'closeNavPopovers', ui.PMManager, 'end');
 
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');

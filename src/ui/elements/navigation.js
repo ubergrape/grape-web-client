@@ -55,8 +55,8 @@ Navigation.prototype.init = function Navigation_init() {
 	});
 	replace(qs('.pms-compact', this.el), pmListCompact.el);
 
-	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
-	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
+	var	navScrollbar = this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	var	navScrollbarCompact = this.navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
 	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
@@ -87,6 +87,11 @@ Navigation.prototype.init = function Navigation_init() {
 			store.set('sidebarWidth', self.el.clientWidth);
 		}.bind(self);
 
+		// the `orgReady` event is fired on reconnection as well
+		// so we need to unbind the resizable and the window
+		navResizable.element.removeEventListener('resize', resizeClient);
+		window.removeEventListener('resize', resizeClient);
+		
 		// listening to the event fired by the resizable component
 		navResizable.element.addEventListener('resize', resizeClient);
 		window.addEventListener('resize', resizeClient);
@@ -131,7 +136,14 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
 		triggerPMManager: function(ev) {
-			self.emit('triggerPMManager', closest(ev.target, 'div', true));
+			// TODO it is not ok to hardcode this
+			var pmPopoverH = 350;
+			// two pms list in the DOM for no reason at all
+			var pmSections = qs.all('.pm-list', this.el)
+			var pmSectionVisible = self.compactMode ? pmSections[1] : pmSections[0];
+			var pmSectionVisibleH = self.el.clientHeight - pmSectionVisible.getBoundingClientRect().top;
+			var isTop = pmSectionVisibleH - pmPopoverH >= 0 ? false : true;
+			self.emit('triggerPMManager', closest(ev.target, 'div', true), isTop);
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
@@ -155,6 +167,11 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events.bind('click .addpm', 'triggerPMManager');
 	this.events.bind('click .minimize-sidebar', 'minimizeSidebar');
 	this.events.bind('click .expand-sidebar', 'expandSidebar');
+	var closeNavPopovers = debounce(function() {
+		this.emit('closeNavPopovers');
+	}.bind(this), 500);
+	this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers);
+	this.navScrollbarCompact.elem.addEventListener('scroll', closeNavPopovers);
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
