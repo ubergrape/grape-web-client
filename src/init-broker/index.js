@@ -48,7 +48,6 @@ function doBroker(ui, api) {
 	broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification');
 	broker.pass(api, 'newInviteNotification', ui, 'newInviteNotification');
 	broker.pass(api, 'channelRead', ui, 'channelRead');
-	broker.pass(api, 'userMention', ui, 'userMention');
 	broker.pass(api, 'newPMOpened', ui, 'newPMOpened');
 	broker.pass(api, 'change user', ui, 'change user');
 	broker.pass(api, 'joinedChannel', ui, 'joinedChannel');

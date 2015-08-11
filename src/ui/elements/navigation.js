@@ -37,13 +37,26 @@ Navigation.prototype.init = function Navigation_init() {
 	});
 	replace(qs('.rooms', this.el), roomList.el);
 
+	var roomListCompact = this.roomListCompact = new ItemList({
+		template: 'roomlist-compact.jade',
+		selector: '.item a'
+	});
+	replace(qs('.rooms-compact', this.el), roomListCompact.el);
+
 	var pmList = this.pmList = new ItemList({
 		template: 'pmlist.jade',
 		selector: '.item a'
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
+	var pmListCompact = this.pmListCompact = new ItemList({
+		template: 'pmlist-compact.jade',
+		selector: '.item a'
+	});
+	replace(qs('.pms-compact', this.el), pmListCompact.el);
+
 	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
 	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
@@ -193,9 +206,11 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.pms.sort(this.pmCompare);
 	this.pmList.setItems(lists.pms);
+	this.pmListCompact.setItems(lists.pms);
 
 	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
+	this.roomListCompact.setItems(lists.rooms);
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -221,34 +236,44 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
+	console.log('select');
 	this.roomList.selectItem(null);
+	this.roomListCompact.selectItem(null);
 	this.pmList.selectItem(null);
+	this.pmListCompact.selectItem(null);
 	if (item.type === 'pm') {
 		var pm = item.users[0];
 		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
 		if (!isInList) this.pmList.items.unshift(pm);
 	}
 	this[item.type + 'List'].selectItem(item);
+	this[item.type + 'ListCompact'].selectItem(item);
 };
 
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
+	if (this.pmListCompact) this.pmListCompact.redraw();
 	if (this.roomList) this.roomList.redraw();
+	if (this.roomListCompact) this.roomListCompact.redraw();
 };
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
+	var compactList = list == this.pmList ? this.pmListCompact : this.roomListCompact;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
 	var itemIndex = list.items.indexOf(item);
 	if (itemIndex == -1) return;
+
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
 	list.redraw();
+	compactList.redraw();
 }
 
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 	this.roomList.redraw();
+	this.roomListCompact.redraw();
 }
 
 Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
@@ -258,6 +283,7 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
 	this.roomList.redraw();
+	this.roomListCompact.redraw();
 }
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
@@ -265,14 +291,17 @@ Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	var pmList = this.pmList;
 	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
 	pmList.redraw();
+	this.pmListCompact.redraw();
 }
 
 Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
 	this.roomList.redraw();
+	this.roomListCompact.redraw();
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
 	this.roomList.redraw();
+	this.roomListCompact.redraw();
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {

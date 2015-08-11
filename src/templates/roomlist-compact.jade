@@ -1,0 +1,19 @@
+ul.nav-list.rooms-compact
+	each room in items
+		if room.joined
+			li.channel-item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
+				a(href="/chat/" + room.slug)
+					.item-inner-wrp
+						.room-face(style="background: #{room.color}")
+							=room.abbr
+							if !room.is_public
+								i.room-icon.fa.fa-lock
+						if room.unread > 0
+							if (room.unread > 99 && room.unread <= 400)
+								span.fl-notification=_('99+')
+							else if (room.unread > 400)
+								span.fl-notification.infinity=_('∞')
+							else
+								span.fl-notification=room.unread.toString()
+						if room.mentioned > 0
+							span.fl-mention(title="mentioning you")=room.mentioned.toString()
