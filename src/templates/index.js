@@ -16,7 +16,6 @@ template.templates = {
 	'messages.jade': require('./messages.jade'),
 	'navigation.jade': require('./navigation.jade'),
 	'pmlist.jade': require('./pmlist.jade'),
-	'pmlist-compact.jade': require('./pmlist-compact.jade'),
 	'popovers/organization.jade': require('./popovers/organization.jade'),
 	'popovers/pmmanager.jade': require('./popovers/pmmanager.jade'),
 	'popovers/pmlist.jade': require('./popovers/pmlist.jade'),
@@ -24,7 +23,6 @@ template.templates = {
 	'popovers/roomlist.jade': require('./popovers/roomlist.jade'),
 	'popovers/user.jade': require('./popovers/user.jade'),
 	'roomlist.jade': require('./roomlist.jade'),
-	'roomlist-compact.jade': require('./roomlist-compact.jade'),
 	'searchresults.jade': require('./searchresults.jade'),
 	'typingnotifications.jade': require('./typingnotifications.jade')
 }
