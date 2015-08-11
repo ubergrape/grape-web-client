@@ -150,7 +150,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).remove("nav-style-basic");
 			classes(document.body).add("nav-style-collapsed");
 
-			store.set('sidebarCompactMode', true);
+			store.set('sidebarCompactMode', self.compactMode = true);
 		},
 		expandSidebar: function(ev) {
 			var oldWidth = store.get('sidebarWidth') + 'px';
@@ -158,7 +158,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).add("nav-style-basic");
 			classes(document.body).remove("nav-style-collapsed");
 
-			store.set('sidebarCompactMode', false);
+			store.set('sidebarCompactMode', self.compactMode = false);
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
