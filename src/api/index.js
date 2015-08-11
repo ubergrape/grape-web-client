@@ -550,8 +550,6 @@ API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
 
 	self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
 		if (err) return self.emit('error', err);
-
-		console.log("List Room icons", "Result: " + res);
 	})
 }
 
