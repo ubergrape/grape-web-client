@@ -2,16 +2,12 @@
 <html>
   <head>
     <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
-    <title>Emoji Example</title>
+    <title>Modal Example</title>
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
     <style>
       * {
         font-family: Roboto, sans-serif;
         box-sizing: border-box;
-      }
-      grape-emoji-browser {
-        display: block;
-        font-size: 13px;
       }
     </style>
   </head>
@@ -23,9 +19,10 @@
     <script src="../../node_modules/react/dist/react.js"></script>
     <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
     <script src="/build/grape-browser.js"></script>
+    <script src="../search/data.js"></script>
 
-    <button onclick="setProps({focused: true})">Focus</button>
-    <grape-emoji-browser></grape-emoji-browser>
+
+    <grape-search-modal-browser></grape-search-modal-browser>
 
     <script>
       function setProps(props) {
@@ -36,18 +33,25 @@
 
       function getDefaultProps() {
         return {
+          data: window.data,
+          isExternal: true,
+          images: {
+            traubyReading: '../images/trauby-reading.png',
+            traubyJuggling: '../images/trauby-juggling.png',
+            noDetail: '../images/no-detail.png',
+            spinner: '../images/loading.gif'
+          },
+          onAddIntegration: function() {
+            console.log('onAddIntegration')
+          },
           onSelectTab: function(data) {
             console.log('onSelectTab', data)
           },
           onSelectItem: function(data) {
             console.log('onSelectItem', data)
           },
-          images: {
-            emojiSheet: '../../node_modules/js-emoji/images/sheet_32.png',
-            orgLogo: '../images/trauby-juggling.png'
-          },
-          customEmojis: {
-            test: '../images/trauby-reading.png'
+          onChange: function(data) {
+            console.log('onChange', data)
           },
           onBlur: function () {
             console.log('onBlur')
@@ -58,12 +62,12 @@
         }
       }
 
-      function emoji() {
-        window.component = document.querySelectorAll('grape-emoji-browser')[0]
+      function search() {
+        window.component = document.querySelectorAll('grape-search-modal-browser')[0]
         setProps()
       }
 
-      document.addEventListener('DOMContentLoaded', emoji)
+      document.addEventListener('DOMContentLoaded', search)
     </script>
     <script src="http://localhost:8080/webpack-dev-server.js"></script>
   </body>
