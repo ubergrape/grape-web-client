@@ -47,6 +47,7 @@ function API() {
 
 	this.retries = 0;
 	this.lastAlive = 0;
+	this.pingTimeout = undefined;
 
 	this._typingTimeouts = [];
 }
@@ -78,14 +79,16 @@ API.prototype.startPinging = function API_startPinging() {
 	// which might lead into server-side disconencts
 	// from (false) idleness-detection.
 	if (!this.connected) {
-		setTimeout(this.startPinging.bind(this), 5000);
+		clearTimeout(this.pingTimeout);
+		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
 		return;
 	}
 	this.wamp.call(PREFIX + 'ping', function(err, resp) {
 		if (resp == 'pong') {
 			this.lastAlive = Date.now();
 		}
-		setTimeout(this.startPinging.bind(this), 5000);
+		clearTimeout(this.pingTimeout);
+		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
 	}.bind(this));
 }
 
