@@ -89,13 +89,13 @@ API.prototype.heartbeat = function API_heartbeat() {
 		return;
 	}
 	// send ping
+	this.awaitingPong = true;
 	this.wamp.call(PREFIX + 'ping', function(err, resp) {
 		if (resp == 'pong') {
 			this.awaitingPong = false;
 			this.lastAlive = Date.now();
 		}
 	}.bind(this));
-	this.awaitingPong = true;
 	setTimeout(this.heartbeat.bind(this), 8000);
 };
 
