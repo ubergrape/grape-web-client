@@ -211,9 +211,6 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
 	this.roomListCompact.setItems(lists.rooms);
-
-	this.pmList.unfiltered = this.pmList.items;
-	this.pmListCompact.unfiltered = this.pmListCompact.items;
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -256,7 +253,7 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
-	if (this.filtering && line.channel.type === 'pm') return;
+	if (line.channel.type === 'pm') return;
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
 	var compactList = list == this.pmList ? this.pmListCompact : this.roomListCompact;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
@@ -275,7 +272,7 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 }
 
 Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
-	if (this.filtering || ui.user == line.author) return;
+	if (ui.user == line.author) return;
 	this.redraw();
 }
 
@@ -305,11 +302,10 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 }
 
 Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
 	var newPos = this.pmList.items.length;
 	this.pmList.items.every(function(pm, index) {
 		if (!pm.active) {
-			newPos = index;
+			newPos = index;f
 			return false;
 		}
 		return true;
@@ -321,7 +317,7 @@ Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
 
 Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
 	// TODO unbind events
-	if (this.filtering) return;
+	// check THIS
 	var itemIndex = this.pmList.items.indexOf(item);
 	this.pmList.items.splice(itemIndex, 1);
 	this.pmList.redraw();
@@ -332,7 +328,7 @@ Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return ui.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return user != ui.user && user.active && !user.is_only_invited;
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
