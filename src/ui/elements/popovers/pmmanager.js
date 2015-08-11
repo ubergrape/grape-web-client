@@ -108,7 +108,6 @@ PMManagerPopover.prototype.onNewOrgMember = function PMManagerPopover_onNewOrgMe
 PMManagerPopover.prototype.onOrgReady = function PMManagerPopover_onOrgReady (org) {
 	var pms = org.users.filter(function(user) {
 		return ui.user != user
-
 	});
 	this.PMList.setItems(pms);
 };

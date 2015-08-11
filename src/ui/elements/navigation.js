@@ -150,6 +150,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).remove("nav-style-basic");
 			classes(document.body).add("nav-style-collapsed");
 
+			self.compactMode = true;
 			store.set('sidebarCompactMode', true);
 		},
 		expandSidebar: function(ev) {
@@ -158,6 +159,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).add("nav-style-basic");
 			classes(document.body).remove("nav-style-collapsed");
 
+			self.compactMode = false;
 			store.set('sidebarCompactMode', false);
 		}
 	});
