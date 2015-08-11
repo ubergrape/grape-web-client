@@ -223,6 +223,11 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 Navigation.prototype.select = function Navigation_select(item) {
 	this.roomList.selectItem(null);
 	this.pmList.selectItem(null);
+	if (item.type === 'pm') {
+		var pm = item.users[0];
+		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
+		if (!isInList) this.pmList.items.unshift(pm);
+	}
 	this[item.type + 'List'].selectItem(item);
 };
 
@@ -257,7 +262,9 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	if (user == ui.user) return;
-	this.pmList.redraw();
+	var pmList = this.pmList;
+	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
+	pmList.redraw();
 }
 
 Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
@@ -267,28 +274,6 @@ Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
 	this.roomList.redraw();
 }
-
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;f
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-}
-
-Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
-	// TODO unbind events
-	// check THIS
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-};
-
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;

@@ -62,7 +62,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'roomcreateerror', ui, 'roomcreateerror');
 	broker.pass(api, 'channelupdate', ui, 'channelupdate');
 	broker.pass(api, 'userDeleted', ui, 'userDeleted');
-	broker.pass(api, 'new org member', ui, 'new org member');
+	broker.pass(api, 'newOrgMember', ui, 'newOrgMember');
 	broker.pass(api, 'newRoom', ui, 'newRoom');
 	broker.pass(api, 'roomdeleted', ui, 'roomdeleted');
 	broker.pass(api, 'viewChanged', ui, 'viewChanged');

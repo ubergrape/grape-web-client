@@ -100,7 +100,7 @@ PMManagerPopover.prototype.onChangeUser = function PMManagerPopover_onChangeUser
 	this.redraw();
 }
 
-PMManagerPopover.prototype.newOrgMember = function PMManagerPopover_newOrgMember(user) {
+PMManagerPopover.prototype.onNewOrgMember = function PMManagerPopover_onNewOrgMember(user) {
 	this.PMList.items.push(user);
 	this.redraw();
 }

@@ -366,7 +366,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			user.status = 0;
 			user.pm = null;
 			self.organization.users.push(user);
-			self.emit('new org member', user);
+			self.emit('newOrgMember', user);
 		}
 	});
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {

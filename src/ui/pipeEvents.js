@@ -93,6 +93,7 @@ function pipeEvents(ui) {
 
 	// pm manager popover
 	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
+	broker(ui, 'newOrgMember', ui.PMManager, 'onNewOrgMember');
 
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
@@ -102,9 +103,7 @@ function pipeEvents(ui) {
 
 	// navigation
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
-	broker(ui, 'userDeleted', ui.navigation, 'onUserDeleted');
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
-	broker(ui, 'new org member', ui.navigation, 'newOrgMember');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
