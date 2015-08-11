@@ -47,7 +47,6 @@ function API() {
 
 	this.retries = 0;
 	this.lastAlive = 0;
-	this.awaitingPong = false;
 
 	this._typingTimeouts = [];
 }
@@ -72,31 +71,33 @@ API.prototype.logTraffic = function API_logTraffic() {
 	}
 };
 
-API.prototype.heartbeat = function API_heartbeat() {
-	var timeIdle = (Date.now() - this.lastAlive);
-	if (timeIdle < 10000) {
-		// all fine, there was at least 1 server response
-		// during the last 10s. 
-		this.awaitingPong = false;
-		setTimeout(this.heartbeat.bind(this), (10000-timeIdle));
+API.prototype.startPinging = function API_startPinging() {
+	// note: the backend will only set this session active
+	// if it receives regular pings from the client. 
+	// "normal" traffic will not be recognized as such
+	// which might lead into server-side disconencts
+	// from (false) idleness-detection.
+	if (!this.connected) {
+		setTimeout(this.startPinging.bind(this), 5000);
 		return;
 	}
-	// haven't heard from the server in the last 10s
-	if (this.awaitingPong) {
-		// we already sent a ping, but no pong
-		// arrived. signalling disconnect
+	this.wamp.call(PREFIX + 'ping', function(err, resp) {
+		if (resp == 'pong') {
+			this.lastAlive = Date.now();
+		}
+		setTimeout(this.startPinging.bind(this), 5000);
+	}.bind(this));
+}
+
+API.prototype.heartbeat = function API_heartbeat() {
+	var timeIdle = (Date.now() - this.lastAlive);
+	if (timeIdle > 11000) {
+		// haven't heard from server since 2 pings, consider
+		// disconnected
 		this.onDisconnect();
 		return;
 	}
-	// send ping
-	this.awaitingPong = true;
-	this.wamp.call(PREFIX + 'ping', function(err, resp) {
-		if (resp == 'pong') {
-			this.awaitingPong = false;
-			this.lastAlive = Date.now();
-		}
-	}.bind(this));
-	setTimeout(this.heartbeat.bind(this), 8000);
+	setTimeout(this.heartbeat.bind(this), (11000-timeIdle));
 };
 
 API.prototype.onDisconnect = function API_onDisconnect() {
@@ -185,6 +186,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 				}
 				this.onConnect(data);
 				this.lastAlive = Date.now();
+				this.startPinging();
 				this.heartbeat();
 			}.bind(this));
 
