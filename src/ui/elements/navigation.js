@@ -167,6 +167,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).remove("nav-style-collapsed");
 
 			classes(qs('.nav-collapsed')).remove('auto-expand');
+			qs('.nav-collapsed').onmouseleave = null;
 
 			self.collapsedMode = false;
 			store.set('sidebarCollapsedMode', false);

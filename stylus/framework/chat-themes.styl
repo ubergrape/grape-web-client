@@ -69,9 +69,9 @@ body.client-style-compact
 			min-width: 18px;
 
 	&.nav-style-collapsed .client
-		.org-area-bg-compact,
+		.org-area-bg-collapsed,
 		.bg-overlay,
-		.org-info-compact
+		.org-info-collapsed
 			height: 43px !important
 			display: block !important
 		.org-topbar
@@ -92,7 +92,7 @@ body.client-style-compact
 		.toggle-sidebar-icon
 			top: 28px
 			left: 10px
-		.manage-rooms-button-compact
+		.manage-rooms-button-collapsed
 			padding: 4px 5px
 			font-size: 0.9em
 		.channel-item
@@ -282,7 +282,7 @@ body.client-style-compact
 			margin-left: inherit !important
 		.nav-inner
 			display: block
-		.nav-compact
+		.nav-collapsed
 			display: none
 
 	&.nav-style-collapsed
@@ -290,9 +290,10 @@ body.client-style-compact
 			margin-left: 64px !important
 		.nav-inner
 			display: none
-		.nav-compact
+		.nav-collapsed
 			display: block
 			width: 64px !important
+		.auto-expand
 			&:hover
 				width: 200px !important
 				max-width: 100% !important

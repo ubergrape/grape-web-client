@@ -1,4 +1,4 @@
-ul.nav-list.rooms-compact
+ul.nav-list.rooms-collapsed
 	each room in items
 		if room.joined
 			li.channel-item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)

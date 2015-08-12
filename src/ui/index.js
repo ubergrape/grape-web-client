@@ -229,8 +229,8 @@ UI.prototype.bind = function UI_bind() {
 		'toggleOrganizationMenu': function() {
 			self.organizationMenu.toggle(qs('.settings-icon'));
 		},
-		'toggleOrganizationMenuCompact': function() {
-			self.organizationMenu.toggle(qs('.settings-icon-compact'));
+		'toggleOrganizationMenuCollapsed': function() {
+			self.organizationMenu.toggle(qs('.settings-icon-collapsed'));
 		},
 		'requestPermission': function() {
 			notify.requestPermission(function(permission){
@@ -242,7 +242,7 @@ UI.prototype.bind = function UI_bind() {
 		}
 	});
 	this.events.bind('click .settings-icon', 'toggleOrganizationMenu');
-	this.events.bind('click .settings-icon-compact', 'toggleOrganizationMenuCompact');
+	this.events.bind('click .settings-icon-collapsed', 'toggleOrganizationMenuCollapsed');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;
