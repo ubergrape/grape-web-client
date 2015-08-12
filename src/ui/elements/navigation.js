@@ -55,8 +55,8 @@ Navigation.prototype.init = function Navigation_init() {
 	});
 	replace(qs('.pms-compact', this.el), pmListCompact.el);
 
-	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
-	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
+	var	navScrollbar = this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	var	navScrollbarCompact = this.navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
 	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
@@ -87,8 +87,14 @@ Navigation.prototype.init = function Navigation_init() {
 			store.set('sidebarWidth', self.el.clientWidth);
 		}.bind(self);
 
+		// the `orgReady` event is fired on reconnection as well
+		// so we need to unbind the resizable and the window
+		navResizable.element.removeEventListener('resize', resizeClient);
+		window.removeEventListener('resize', resizeClient);
+		
 		// listening to the event fired by the resizable component
 		navResizable.element.addEventListener('resize', resizeClient);
+		window.addEventListener('resize', resizeClient);
 
 		// Initialize all the stuff that will be transitioned in handleScrolling
 		self.orgAreaBG = qs('.org-area-bg');
@@ -129,11 +135,22 @@ Navigation.prototype.bind = function Navigation_bind() {
 		triggerRoomManager: function(ev) {
 			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
 		},
+		triggerPMManager: function(ev) {
+			// TODO it is not ok to hardcode this
+			var pmPopoverH = 350;
+			// two pms list in the DOM for no reason at all
+			var pmSections = qs.all('.pm-list', this.el)
+			var pmSectionVisible = self.compactMode ? pmSections[1] : pmSections[0];
+			var pmSectionVisibleH = self.el.clientHeight - pmSectionVisible.getBoundingClientRect().top;
+			var isTop = pmSectionVisibleH - pmPopoverH >= 0 ? false : true;
+			self.emit('triggerPMManager', closest(ev.target, 'div', true), isTop);
+		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
 			classes(document.body).remove("nav-style-basic");
 			classes(document.body).add("nav-style-collapsed");
 
+			self.compactMode = true;
 			store.set('sidebarCompactMode', true);
 		},
 		expandSidebar: function(ev) {
@@ -142,14 +159,21 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).add("nav-style-basic");
 			classes(document.body).remove("nav-style-collapsed");
 
+			self.compactMode = false;
 			store.set('sidebarCompactMode', false);
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms-button', 'triggerRoomManager');
 	this.events.bind('click .manage-rooms-button-compact', 'triggerRoomManager');
+	this.events.bind('click .addpm', 'triggerPMManager');
 	this.events.bind('click .minimize-sidebar', 'minimizeSidebar');
 	this.events.bind('click .expand-sidebar', 'expandSidebar');
+	var closeNavPopovers = debounce(function() {
+		this.emit('closeNavPopovers');
+	}.bind(this), 500);
+	this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers);
+	this.navScrollbarCompact.elem.addEventListener('scroll', closeNavPopovers);
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
@@ -206,9 +230,6 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
 	this.roomListCompact.setItems(lists.rooms);
-
-	this.pmList.unfiltered = this.pmList.items;
-	this.pmListCompact.unfiltered = this.pmListCompact.items;
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -234,10 +255,16 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
+	console.log('select');
 	this.roomList.selectItem(null);
 	this.roomListCompact.selectItem(null);
 	this.pmList.selectItem(null);
 	this.pmListCompact.selectItem(null);
+	if (item.type === 'pm') {
+		var pm = item.users[0];
+		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
+		if (!isInList) this.pmList.items.unshift(pm);
+	}
 	this[item.type + 'List'].selectItem(item);
 	this[item.type + 'ListCompact'].selectItem(item);
 };
@@ -251,7 +278,6 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 };
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
-	if (this.filtering && line.channel.type === 'pm') return;
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
 	var compactList = list == this.pmList ? this.pmListCompact : this.roomListCompact;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
@@ -270,7 +296,7 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
 }
 
 Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
-	if (this.filtering || ui.user == line.author) return;
+	if (ui.user == line.author) return;
 	this.redraw();
 }
 
@@ -281,7 +307,9 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	if (user == ui.user) return;
-	this.pmList.redraw();
+	var pmList = this.pmList;
+	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
+	pmList.redraw();
 	this.pmListCompact.redraw();
 }
 
@@ -295,39 +323,10 @@ Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
 	this.roomListCompact.redraw();
 }
 
-Navigation.prototype.onUserMention = function Navigation_onUserMention () {
-	this.roomListCompact.redraw();
-}
-
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-	this.pmListCompact.redraw();
-}
-
-Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
-	// TODO unbind events
-	if (this.filtering) return;
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-	this.pmListCompact.redraw();
-};
-
-
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
-		return ui.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return user != ui.user && user.active && !user.is_only_invited;
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
