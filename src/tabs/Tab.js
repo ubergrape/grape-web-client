@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
+import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -11,8 +12,8 @@ import * as style from './tabStyle'
 @useSheet(style.rules)
 export default class Tab extends Component {
   static defaultProps = {
-    onSelect: undefined,
-    onInvisible: undefined,
+    onSelect: noop,
+    onInvisible: noop,
     getContainmentNode: undefined,
     selected: false,
     icon: undefined,

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -10,10 +11,10 @@ import parseQuery from '../query/parse'
 @useSheet(style)
 export default class Input extends Component {
   static defaultProps = {
-    onInput: undefined,
-    onKeyDown: undefined,
-    onChangeFilters: undefined,
-    onBlur: undefined,
+    onInput: noop,
+    onKeyDown: noop,
+    onChangeFilters: noop,
+    onBlur: noop,
     delay: undefined,
     type: undefined,
     focused: true,

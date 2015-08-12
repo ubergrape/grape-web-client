@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -12,7 +13,7 @@ export default class Button extends Component {
   static defaultProps = {
     text: 'My Button',
     className: '',
-    onClick: undefined
+    onClick: noop
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

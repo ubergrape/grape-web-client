@@ -5,6 +5,7 @@ import Scribe from 'scribe-editor'
 import scribePluginFormatterPlainTextConvertNewLinesToHtml from 'scribe-plugin-formatter-plain-text-convert-new-lines-to-html'
 import debounce from 'lodash/function/debounce'
 import escape from 'lodash/string/escape'
+import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 
 import * as emoji from '../emoji'
@@ -22,12 +23,12 @@ export default class Editable extends Component {
     placeholder: '',
     focused: false,
     disabled: false,
-    onAbort: undefined,
-    onEditPrevious: undefined,
-    onSubmit: undefined,
-    onChange: undefined,
-    onBlur: undefined,
-    onDidMount: undefined
+    onAbort: noop,
+    onEditPrevious: noop,
+    onSubmit: noop,
+    onChange: noop,
+    onBlur: noop,
+    onDidMount: noop
   }
 
   constructor(props) {

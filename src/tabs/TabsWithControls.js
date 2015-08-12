@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -12,7 +13,7 @@ import Tabs from './Tabs'
 export default class TabsWithControls extends Component {
   static defaultProps = {
     data: undefined,
-    onSelect: undefined
+    onSelect: noop
   }
 
   constructor(props) {

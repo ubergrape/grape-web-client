@@ -4,6 +4,7 @@ import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
+import noop from 'lodash/utility/noop'
 
 import {useSheet} from '../jss'
 import style from '../browser/style'
@@ -31,19 +32,19 @@ export default class Browser extends Component {
     isExternal: false,
     isLoading: false,
     hasIntegrations: undefined,
-    canAddIntegrations: undefined,
+    canAddIntegrations: false,
     orgName: undefined,
     orgOwner: undefined,
     images: undefined,
     inputDelay: 500,
     focused: undefined,
-    onAddIntegration: undefined,
-    onSelectItem: undefined,
-    onSelectFilter: undefined,
-    onDidMount: undefined,
-    onChange: undefined,
-    onAbort: undefined,
-    onBlur: undefined
+    onAddIntegration: noop,
+    onSelectItem: noop,
+    onSelectFilter: noop,
+    onDidMount: noop,
+    onChange: noop,
+    onAbort: noop,
+    onBlur: noop
   }
 
   constructor(props) {
@@ -59,8 +60,7 @@ export default class Browser extends Component {
   }
 
   componentDidMount() {
-    let {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+    this.props.onDidMount(this)
   }
 
   exposePublicMethods() {

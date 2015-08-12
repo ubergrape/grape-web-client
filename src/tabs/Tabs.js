@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
@@ -12,9 +13,9 @@ import Tab from './Tab'
 export default class Tabs extends Component {
   static defaultProps = {
     data: undefined,
-    onSelect: undefined,
-    onInvisible: undefined,
-    onDidMount: undefined
+    onSelect: noop,
+    onInvisible: noop,
+    onDidMount: noop
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

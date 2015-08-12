@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {useSheet} from '../jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
+import noop from 'lodash/utility/noop'
 
 import style from './style'
 
@@ -10,8 +11,8 @@ export default class Datalist extends Component {
   static defaultProps = {
     data: [],
     className: '',
-    onDidMount: undefined,
-    onSelect: undefined
+    onDidMount: noop,
+    onSelect: noop
   }
 
   constructor(props) {

@@ -4,6 +4,7 @@ import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import assign from 'lodash/object/assign'
 import debounce from 'lodash/function/debounce'
+import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -28,10 +29,10 @@ class Browser extends Component {
     maxWidth: 920,
     className: '',
     focused: undefined,
-    onSelectItem: undefined,
-    onBlur: undefined,
-    onDidMount: undefined,
-    onAbort: undefined
+    onSelectItem: noop,
+    onBlur: noop,
+    onDidMount: noop,
+    onAbort: noop
   }
 
   constructor(props) {
@@ -61,8 +62,7 @@ class Browser extends Component {
   }
 
   componentDidMount() {
-    let {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+    this.props.onDidMount(this)
     this.cacheItemsPerRow()
   }
 
