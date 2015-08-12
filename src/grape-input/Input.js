@@ -313,8 +313,10 @@ export default class Input extends Component {
   onChangeEditable({query} = {}) {
     // Used by datalist only.
     if (query) {
-      let changed = this.query.set(query, {silent: true})
-      if (changed) this.emit('complete', this.query.toJSON())
+      if (!query.key) {
+        let changed = this.query.set(query, {silent: true})
+        if (changed) this.emit('complete', this.query.toJSON())
+      }
     }
     // Query has been removed or caret position changed, for datalist only.
     else if (!this.query.isEmpty()) {
