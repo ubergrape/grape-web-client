@@ -78,6 +78,14 @@ export default class Caret {
     return markers
   }
 
+  selectMarkers(keepMarkers) {
+    // Convert grape markers first.
+    let markers = this.getMarkers({grape: true})
+    Caret.renameMarkers(markers, 'scribe')
+    let selection = this.createSelection(true)
+    selection.selectMarkers(keepMarkers)
+  }
+
   /**
    * Get parent node of the caret.
    */

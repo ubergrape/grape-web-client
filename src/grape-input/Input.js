@@ -46,12 +46,12 @@ export default class Input extends Component {
     onSubmit: undefined,
     onComplete: undefined,
     onChange: undefined,
-    onAddSearchBrowserIntegration: undefined,
-    onFilterSelect: undefined,
-    onInsertItem: undefined,
-    onFocus: undefined,
-    onBlur: undefined,
-    onDidMount: undefined
+    onAddSearchBrowserIntegration: noop,
+    onFilterSelect: noop,
+    onInsertItem: noop,
+    onFocus: noop,
+    onBlur: noop,
+    onDidMount: noop
   }
 
   constructor(props) {

@@ -104,13 +104,7 @@ export default class Editable extends Component {
    * Replace query.
    */
   replaceQuery(replacement, options = {}) {
-    let markers = this.caret.getMarkers({grape: true})
-    if (markers.length) {
-      Caret.renameMarkers(markers, 'scribe')
-      let selection = this.caret.createSelection(true)
-      selection.selectMarkers()
-    }
-
+    this.caret.selectMarkers()
     let query = this.getQuery()
     if (!query) return false
 
@@ -161,16 +155,7 @@ export default class Editable extends Component {
    */
   focus() {
     if (!this.caret.focus()) return
-
-    let selection = this.caret.createSelection()
-
-    // Insert a marker into the first paragraph if there are no markers.
-    if (!this.caret.getMarkers({selection}).length) {
-      let rootP = this.node.firstChild
-      rootP.innerHTML = Caret.MARKER_HTML + rootP.innerHTML
-    }
-
-    selection.selectMarkers()
+    this.caret.selectMarkers()
   }
 
   /**
