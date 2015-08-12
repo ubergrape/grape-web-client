@@ -134,7 +134,20 @@ API.prototype.onConnect = function API_onConnect(data) {
  * @param {Function} [callback]
  */
 API.prototype.initSocket = function API_initSocket(opts) {
-	var ws = new WebSocket(opts.wsUri); 
+	var lp, ws;
+	if (window.location.hash.indexOf('disable-ws') > -1) {
+		lp = new LPSocket(opts.lpUri);
+		lp.connect();
+		lp.once('open', function() {
+			lp.poll();
+			opts.connected(lp);
+		});
+		lp.once('error', function(err) {
+			opts.error(err);
+		});
+		return;
+	}
+	ws = new WebSocket(opts.wsUri); 
 	ws.once('open', function() {
 		this.preferedTransport = 'ws';
 		opts.connected(ws);
