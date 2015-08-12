@@ -15,7 +15,7 @@ ul.popover-list
 						img(src="#{user.avatar}",width="28",alt="#{user.username}")
 						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 					span.user-name=user.displayName
-		if tabSelection === 'deleted' && !user.active && user.pm && user.pm.latest_message_time != 0
+		if tabSelection === 'deleted' && !user.active && user.pm.latest_message_time
 			li.item.pm.deleted
 				a(href="/chat/@" + user.username.toLowerCase())
 					aside.avatar-wrap
