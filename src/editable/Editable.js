@@ -327,7 +327,8 @@ export default class Editable extends Component {
     e.preventDefault()
 
     this.scribe.transactionManager.run(() => {
-      let selection = this.caret.placeMarker()
+      let selection = this.caret.createSelection(true)
+      this.caret.placeMarker(selection)
       let caretsParent = this.caret.getParent(selection)
 
       let lines = caretsParent.innerHTML.split(Caret.MARKER_HTML)
