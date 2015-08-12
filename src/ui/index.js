@@ -401,7 +401,8 @@ UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
 	})
 	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
 	var invite = new InviteDialog({
-		users: users
+		users: users,
+		room: room
 	}).closable().overlay().show();
 	broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
 }

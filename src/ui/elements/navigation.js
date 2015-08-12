@@ -255,7 +255,6 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
-	console.log('select');
 	this.roomList.selectItem(null);
 	this.roomListCompact.selectItem(null);
 	this.pmList.selectItem(null);

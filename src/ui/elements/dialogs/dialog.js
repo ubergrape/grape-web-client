@@ -6,6 +6,7 @@ var events = require('events');
 var dialog = require('dialog');
 var v = require('virtualdom');
 var template = require('template');
+var render = require('../../rendervdom');
 
 module.exports = Dialog;
 
@@ -25,11 +26,8 @@ Dialog.prototype.init = function Dialog_init() {
 	this.el = this.dialog.el;
 };
 
-Dialog.prototype.redraw = function Dialog_redraw() {
-	// WARNING: this closes the dialog an removes classes that where added with
-	// closable() and show() etc.
-	this.init();
-	this.bind();
+Dialog.prototype.redraw = function Dialog_redraw (context) {
+	render(this.dialog, template(this.template_path, context));
 };
 
 Dialog.prototype.bind = function Dialog_bind() {
