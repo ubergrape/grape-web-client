@@ -74,7 +74,7 @@ API.prototype.logTraffic = function API_logTraffic() {
 
 API.prototype.startPinging = function API_startPinging() {
 	// note: the backend will only set this session active
-	// if it receives regular pings from the client. 
+	// if it receives regular pings from the client.
 	// "normal" traffic will not be recognized as such
 	// which might lead into server-side disconencts
 	// from (false) idleness-detection.
@@ -136,6 +136,7 @@ API.prototype.onConnect = function API_onConnect(data) {
 API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
 	if (window.location.hash.indexOf('disable-ws') > -1) {
+		console.log("connection: forcing longpolling");
 		lp = new LPSocket(opts.lpUri);
 		lp.connect();
 		lp.once('open', function() {
@@ -147,18 +148,22 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		});
 		return;
 	}
-	ws = new WebSocket(opts.wsUri); 
+	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
+		console.log("connection: websocket connection opened")
 		this.preferedTransport = 'ws';
 		opts.connected(ws);
 	}.bind(this));
 
 	ws.once('error', function(err) {
+		console.log("connection: websocket error");
 		if (this.preferredTransport && this.preferedTransport != 'lp') {
 			opts.error(err);
+			console.log("connection: stop");
 			return;
 		}
-		// try LP fallback
+
+		console.log("connections: try lp fallback");
 		var lp = new LPSocket(opts.lpUri);
 		lp.connect();
 		lp.once('open', function() {
@@ -186,7 +191,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 
 	this.connecting = true;
 	this.initSocket({
-		lpUri: this.lpUri, 
+		lpUri: this.lpUri,
 		wsUri: this.wsUri,
 		connected: function(socket) {
 			// connection established; bootstrap client state
@@ -753,7 +758,7 @@ API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (dire
 					room.searchHistory.push(line);
 			}
 		});
-		this.emit('gotHistory', direction);	
+		this.emit('gotHistory', direction);
 	}.bind(this));
 }
 
