@@ -1,6 +1,40 @@
 ui.room-list
 	each room in items
 		if mode == 'unjoined' && !room.joined
-			li.item.room(data-id=room.id, key=room.id)= room.name
+			li.item.room(data-id=room.id, key=room.id)
+				a(href="/chat/" + room.slug)
+					button.btn.toggle.join.btn-gainsboro
+						=_('join')
+					.room-face(style='background-color:#{room.color}')
+						=room.abbr
+						if !room.is_public
+							i.room-icon.fa.fa-lock
+					.main
+						.name=room.name
+						ul.room-info
+							li.users
+								i.fa.fa-user
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									=_('by ')
+									span.user-name= room.creator.displayName
 		if mode == 'joined' && room.joined
-			li.item.room.leave(data-id=room.id, key=room.id)= room.name
+			li.item.room.leave(data-id=room.id, key=room.id)
+				a
+					button.btn.toggle.btn-tomato
+						=_('leave')
+					.room-face(style="background-color:#{room.color}")
+						=room.abbr
+						if !room.is_public
+							i.room-icon.fa.fa-lock
+					.main
+						.name=room.name
+						ul.room-info
+							li.users
+								i.fa.fa-user
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									=_('created by ')
+									span.user-name= room.creator.displayName

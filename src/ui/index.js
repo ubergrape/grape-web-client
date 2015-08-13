@@ -453,4 +453,5 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 	}).closable().overlay().show();
 	broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
 	broker(this, 'leftChannel', roommanager, 'onLeftChannel');
+	broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
 }

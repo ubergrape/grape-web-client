@@ -95,3 +95,7 @@ RoomManager.prototype.leaveRoom = function (ev) {
 RoomManager.prototype.onLeftChannel = function () {
 	this.roomList.redraw();
 }
+
+RoomManager.prototype.onJoinedChannel = function () {
+	this.roomList.redraw();
+}
