@@ -7,7 +7,6 @@ function Menu (options) {
 	this.template = options.template;
 	this.items = [];
 	this.selected = null;
-	//this.redraw();
 }
 
 Menu.prototype.redraw = function Menu_redraw() {

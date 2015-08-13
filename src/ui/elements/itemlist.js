@@ -21,12 +21,12 @@ function ItemList(options) {
 
 ItemList.prototype = Object.create(Emitter.prototype);
 
-ItemList.prototype.redraw = function ItemList_redraw() {
+ItemList.prototype.redraw = function () {
 	var vdom = template(this.template, this.extendTemplateOptions());
 	render(this, vdom);
 };
 
-ItemList.prototype.extendTemplateOptions = function ItemList_extendTemplateOptions () {
+ItemList.prototype.extendTemplateOptions = function () {
 	var options = {
 		items: this.items,
 		selected: this.selected	
@@ -37,14 +37,14 @@ ItemList.prototype.extendTemplateOptions = function ItemList_extendTemplateOptio
 	return options;
 }
 
-ItemList.prototype.setItems = function ItemList_setItems(items) {
+ItemList.prototype.setItems = function (items) {
 	var self = this;
 	this.selected = null;
 	this.items = items;
 	this.redraw();
 };
 
-ItemList.prototype.selectItem = function ItemList_selectItem(item) {
+ItemList.prototype.selectItem = function (item) {
 	this.selected = item;
 	this.redraw();
 };
