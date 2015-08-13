@@ -32,26 +32,22 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = this.nav.el;
 
 	var roomList = this.roomList = new ItemList({
-		template: 'roomlist.jade',
-		selector: '.item a'
+		template: 'roomlist.jade'
 	});
 	replace(qs('.rooms', this.el), roomList.el);
 
 	var roomListCompact = this.roomListCompact = new ItemList({
-		template: 'roomlist-compact.jade',
-		selector: '.item a'
+		template: 'roomlist-compact.jade'
 	});
 	replace(qs('.rooms-compact', this.el), roomListCompact.el);
 
 	var pmList = this.pmList = new ItemList({
-		template: 'pmlist.jade',
-		selector: '.item a'
+		template: 'pmlist.jade'
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
 	var pmListCompact = this.pmListCompact = new ItemList({
-		template: 'pmlist-compact.jade',
-		selector: '.item a'
+		template: 'pmlist-compact.jade'
 	});
 	replace(qs('.pms-compact', this.el), pmListCompact.el);
 

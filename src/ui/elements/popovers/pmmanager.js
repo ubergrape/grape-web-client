@@ -24,7 +24,6 @@ PMManagerPopover.prototype.init = function PMManagerPopover_init() {
 	this.el.appendChild(this.content.el);
 	this.PMList = new ItemList({
 		template: 'popovers/pmlist.jade',
-		selector: '.toggle',
 		templateOptions: {
 			tabSelection: this.tabSelection
 		}
