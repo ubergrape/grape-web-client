@@ -12,7 +12,7 @@ function doBroker(ui, api) {
 	broker(api, 'change settings', ui, 'setSettings');
 	broker(api, 'leftChannel', ui, 'leftChannel');
 	broker(api, 'gotsearchresults', ui, 'displaySearchResults');
-	broker(api, 'roomcreated', ui, 'roomCreated');
+	broker(api, 'roomCreated', ui, 'roomCreated');
 	broker(api, 'roomdeleted', ui, 'roomDeleted');
 	broker(api, 'error', ui, 'gotError');
 	broker(api, 'messageNotFound', ui, 'onMessageNotFound');
@@ -58,7 +58,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'gotHistory', ui, 'gotHistory');
 	broker.pass(api, 'nohistory', ui, 'nohistory');
 	broker.pass(api, 'roomrenameerror', ui, 'roomrenameerror');
-	broker.pass(api, 'roomcreateerror', ui, 'roomcreateerror');
+	broker.pass(api, 'roomCreationError', ui, 'roomCreationError');
 	broker.pass(api, 'channelupdate', ui, 'channelupdate');
 	broker.pass(api, 'userDeleted', ui, 'userDeleted');
 	broker.pass(api, 'newOrgMember', ui, 'newOrgMember');

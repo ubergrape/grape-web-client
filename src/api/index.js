@@ -600,8 +600,8 @@ API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', err.details);
-		self.emit('roomcreated', self._tryAddRoom(room));
+		if (err) return self.emit('roomCreationError', err.details);
+		self.emit('roomCreated', self._tryAddRoom(room));
 	});
 };
 

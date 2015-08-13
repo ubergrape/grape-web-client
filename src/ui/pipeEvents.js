@@ -11,13 +11,9 @@ function pipeEvents(ui) {
 
 	// roomManager popover
 	broker(ui, 'orgReady', ui.roomManager, 'onOrgReady');
-	broker(ui, 'newRoom', ui.roomManager, 'onNewRoom');
 	broker(ui, 'newRoomMember', ui.roomManager, 'onNewRoomMember');
 	broker(ui, 'memberLeftChannel', ui.roomManager, 'onMemberLeftChannel');
-	broker(ui, 'channelupdate', ui.roomManager, 'onChannelUpdate');
 	broker(ui, 'roomdeleted', ui.roomManager, 'onRoomDeleted');
-	broker(ui, 'endroomcreation', ui.roomManager, 'end');
-	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
 	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');
 
 	// chat header/search functionality

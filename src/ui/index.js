@@ -359,7 +359,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;
 	self.emit('joinroom', room, function() {
 		page('/chat/' + room.slug);
-		self.emit('endroomcreation');
+		self.emit('endRoomCreation');
 	});
 };
 
@@ -455,4 +455,8 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 	broker.pass(roommanager, 'createRoom', ui, 'createRoom');
 	broker(this, 'leftChannel', roommanager, 'onLeftChannel');
 	broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
+	broker(this, 'roomCreationError', roommanager, 'onRoomCreationError');
+	broker(ui, 'newRoom', roommanager, 'onNewRoom');
+	broker(ui, 'channelupdate', roommanager, 'onChannelUpdate');
+	broker(ui, 'endRoomCreation', roommanager, 'onEndRoomCreation');
 }

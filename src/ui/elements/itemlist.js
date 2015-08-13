@@ -22,7 +22,6 @@ ItemList.prototype = Object.create(Emitter.prototype);
 
 ItemList.prototype.redraw = function () {
 	var vdom = template(this.template, this.extendTemplateOptions());
-	console.log(this.extendTemplateOptions());
 	render(this, vdom);
 };
 

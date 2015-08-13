@@ -63,6 +63,7 @@ RoomManager.prototype.bind = function () {
 	this.events.bind('click .new-room', 'setCreate');
 	this.events.bind('click li.leave', 'leaveRoom');
 	this.events.bind('submit form.create-room-form', 'createRoom');
+	this.events.bind('keydown input#newroom-name', 'resetValidity');
 }
 
 RoomManager.prototype.setUnjoined = function () {
@@ -102,7 +103,7 @@ RoomManager.prototype.leaveRoom = function (ev) {
 
 RoomManager.prototype.createRoom = function (ev) {
 	ev.preventDefault();
-	var form = qs('form.create-room-form', this.el);
+	var form = this.creationForm.el;
 	var newRoomName = form['newroom-name'];
 	var room = {
 		'name': newRoomName.value.trim(),
@@ -117,10 +118,36 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 	}));
 }
 
+RoomManager.prototype.resetValidity = function () {
+	var newRoomName = this.creationForm.el['newroom-name'];
+	newRoomName.setCustomValidity('');
+}
+
 RoomManager.prototype.onLeftChannel = function () {
 	this.roomList.redraw();
 }
 
 RoomManager.prototype.onJoinedChannel = function () {
 	this.roomList.redraw();
+}
+
+RoomManager.prototype.onNewRoom = function () {
+	this.roomList.redraw();
+}
+
+RoomManager.prototype.onChannelUpdate = function () {
+	this.roomList.redraw();
+}
+
+RoomManager.prototype.onRoomCreationError = function (err) {
+	var form = this.creationForm.el;
+	var newRoomName = form['newroom-name'];
+	var createButton = qs('input.create', form);
+	newRoomName.setCustomValidity(err.msg);
+	createButton.click();	
+}
+
+RoomManager.prototype.onEndRoomCreation = function () {
+	// yes, this is how we can close the dialog
+	qs('.close', this.el).click();
 }
