@@ -16,7 +16,6 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.roomManager, 'onMemberLeftChannel');
 	broker(ui, 'channelupdate', ui.roomManager, 'onChannelUpdate');
 	broker(ui, 'roomdeleted', ui.roomManager, 'onRoomDeleted');
-	broker.pass(ui.roomManager, 'createroom', ui, 'createroom');
 	broker(ui, 'endroomcreation', ui.roomManager, 'end');
 	broker(ui, 'roomcreateerror', ui.roomManager, 'errorFeedback');
 	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');

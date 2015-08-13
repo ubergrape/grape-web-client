@@ -4,6 +4,8 @@ var ItemList = require('../itemlist');
 var qs = require('query');
 var events = require('events');
 var closest = require('closest');
+var template = require('template');
+var render = require('../../rendervdom');
 
 module.exports = RoomManager;
 
@@ -46,10 +48,12 @@ RoomManager.prototype.init = function () {
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
 	}
-
+	this.creationForm = {};
+	this.redrawCreationForm();
 	protoInit.call(this);
 	replace(qs('.manager-menu', this.dialog.el), menu.el);
 	replace(qs('ul', this.dialog.el), roomList.el);
+	replace(qs('form', this.dialog.el), this.creationForm.el);
 }
 
 RoomManager.prototype.bind = function () {
@@ -58,6 +62,7 @@ RoomManager.prototype.bind = function () {
 	this.events.bind('click .joined-rooms', 'setJoined');
 	this.events.bind('click .new-room', 'setCreate');
 	this.events.bind('click li.leave', 'leaveRoom');
+	this.events.bind('submit form.create-room-form', 'createRoom');
 }
 
 RoomManager.prototype.setUnjoined = function () {
@@ -67,6 +72,7 @@ RoomManager.prototype.setUnjoined = function () {
 	menu.selectItem(menu.items[0]);
 	this.mode = roomList.templateOptions.mode = 'unjoined';
 	roomList.redraw();
+	this.redrawCreationForm();
 }
 
 RoomManager.prototype.setJoined = function () {
@@ -76,6 +82,7 @@ RoomManager.prototype.setJoined = function () {
 	menu.selectItem(menu.items[1]);
 	this.mode = roomList.templateOptions.mode = 'joined';
 	roomList.redraw();
+	this.redrawCreationForm();
 }
 
 RoomManager.prototype.setCreate = function () {
@@ -85,11 +92,29 @@ RoomManager.prototype.setCreate = function () {
 	menu.selectItem(menu.items[2]);
 	this.mode = roomList.templateOptions.mode = 'creation';
 	roomList.redraw();
+	this.redrawCreationForm();
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {
 	var roomID = closest(ev.target, '.item', true).getAttribute('data-id');
 	this.emit('leaveRoom', roomID);	
+}
+
+RoomManager.prototype.createRoom = function (ev) {
+	ev.preventDefault();
+	var form = qs('form.create-room-form', this.el);
+	var newRoomName = form['newroom-name'];
+	var room = {
+		'name': newRoomName.value.trim(),
+		'is_public': qs('input:checked', form).value
+	};
+	this.emit('createRoom', room);
+}
+
+RoomManager.prototype.redrawCreationForm = function (ev) {
+	render(this.creationForm, template('dialogs/room-creation-form.jade', {
+		mode: this.mode
+	}));
 }
 
 RoomManager.prototype.onLeftChannel = function () {

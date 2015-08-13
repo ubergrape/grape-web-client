@@ -596,7 +596,7 @@ API.prototype.openPM = function API_openPM(user, callback) {
 	});
 };
 
-API.prototype.createRoom = function API_createRoom(room) {
+API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {

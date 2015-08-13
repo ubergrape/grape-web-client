@@ -1,0 +1,20 @@
+form.create-room-form(class=mode != 'creation' ? 'hidden' : '')
+	.formrow
+		h4
+			=_("Room name")
+		input(type="text", id="newroom-name", placeholder="Enter name ...")
+	.mar-t20
+		h4.mar-b20
+			=_('Room type')
+		input(type="radio", id="public", name="is_public", value="true", checked)
+		label.radio-label(for="public")
+			=_("Public room")
+			span.radio-label-subline
+				=_("A public room that everybody can see and join.")
+		input(type="radio", id="private", name="is_public", value="false")
+		label.radio-label(for="private")
+			=_("Private room")
+			span.radio-label-subline
+				=_("A private room that only invited users can see and join.")
+	input.button.back(type="button", value=_("Cancel"))
+	input.button.create.btn-primary(type="submit", name="submit", value=_("Create"))
