@@ -133,7 +133,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		},
 		triggerRoomManager: function(ev) {
-			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
+			self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
 			// TODO it is not ok to hardcode this

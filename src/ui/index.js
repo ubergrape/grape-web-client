@@ -70,6 +70,7 @@ var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
+var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 
 function UI(options) {
 	Emitter.call(this);
@@ -443,4 +444,9 @@ UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel)
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
 	page('/chat/' + redirectSlug);
+}
+
+UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
+	var roomManager = new RoomManager().closable().overlay().show();
+
 }
