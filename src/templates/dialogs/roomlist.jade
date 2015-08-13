@@ -1,0 +1,6 @@
+ui.room-list
+	each room in items
+		if mode == 'unjoined' && !room.joined
+			li.item.room(data-id=room.id, key=room.id)= room.name
+		if mode == 'joined' && room.joined
+			li.item.room.leave(data-id=room.id, key=room.id)= room.name

@@ -1,5 +1,6 @@
 var Dialog = require('./dialog');
 var Menu = require('./menu');
+var ItemList = require('../itemlist');
 var qs = require('query');
 var events = require('events');
 
@@ -7,6 +8,7 @@ module.exports = RoomManager;
 
 function RoomManager (context) {
 	this.template_path = 'dialogs/roommanager.jade';
+	this.mode = 'unjoined';
 	Dialog.call(this, context);
 }
 
@@ -17,21 +19,28 @@ RoomManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
 		template: 'dialogs/menu.jade',
 	});
-
 	menu.setItems([
 		{
-			className: 'active-users',
-			title: 'Active'
+			className: 'rooms-to-join',
+			title: 'Rooms to join'
 		},
 		{
-			className: 'invited-users',
-			title: 'Invited'
+			className: 'joined-rooms',
+			title: 'Joined rooms'
 		},
 		{
-			className: 'deleted-users',
-			title: 'Deleted'
+			className: 'new-room',
+			title: 'New room'
 		}
 	]);
+
+	var roomList = this.roomList = new ItemList({
+		template: 'dialogs/roomlist.jade',
+		templateOptions: {
+			mode: this.mode
+		}
+	});
+	roomList.setItems(this.context.rooms);
 
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
@@ -39,29 +48,39 @@ RoomManager.prototype.init = function () {
 
 	protoInit.call(this);
 	replace(qs('.manager-menu', this.dialog.el), menu.el);
+	replace(qs('ul', this.dialog.el), roomList.el);
 }
 
 RoomManager.prototype.bind = function () {
 	this.events = events(this.el, this);
-	this.events.bind('click .active-users', 'setActive');
-	this.events.bind('click .invited-users', 'setInvited');
-	this.events.bind('click .deleted-users', 'setDeleted');
+	this.events.bind('click .rooms-to-join', 'setUnjoined');
+	this.events.bind('click .joined-rooms', 'setJoined');
+	this.events.bind('click .new-room', 'setCreate');
 }
 
-RoomManager.prototype.setActive = function () {
+RoomManager.prototype.setUnjoined = function () {
 	var menu = this.menu;
+	var roomList = this.roomList;
 	menu.selectItem(null);
 	menu.selectItem(menu.items[0]);
+	this.mode = roomList.templateOptions.mode = 'unjoined';
+	roomList.redraw();
 }
 
-RoomManager.prototype.setInvited = function () {
+RoomManager.prototype.setJoined = function () {
 	var menu = this.menu;
+	var roomList = this.roomList;
 	menu.selectItem(null);
 	menu.selectItem(menu.items[1]);
+	this.mode = roomList.templateOptions.mode = 'joined';
+	roomList.redraw();
 }
 
-RoomManager.prototype.setDeleted = function () {
+RoomManager.prototype.setCreate = function () {
 	var menu = this.menu;
+	var roomList = this.roomList;
 	menu.selectItem(null);
 	menu.selectItem(menu.items[2]);
+	this.mode = roomList.templateOptions.mode = 'creation';
+	roomList.redraw();
 }

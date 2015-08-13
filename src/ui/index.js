@@ -448,5 +448,7 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-	var roommanager = new RoomManager().closable().overlay().show();
+	var roommanager = new RoomManager({
+		rooms: this.org.rooms
+	}).closable().overlay().show();
 }

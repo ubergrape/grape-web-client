@@ -26,10 +26,6 @@ Dialog.prototype.init = function Dialog_init() {
 	this.el = this.dialog.el;
 };
 
-Dialog.prototype.redraw = function Dialog_redraw (context) {
-	render(this.dialog, template(this.template_path, context));
-};
-
 Dialog.prototype.bind = function Dialog_bind() {
 	this.events = events(this.el, this);
 };

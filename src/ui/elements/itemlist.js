@@ -11,7 +11,6 @@ module.exports = ItemList;
 function ItemList(options) {
 	Emitter.call(this);
 	this.template = options.template;
-	this.selector = options.selector + ', .item .name, .item .icon, .item .unread, .item .room-info, .item';
 	this.templateOptions = options.templateOptions ? options.templateOptions : null;
 	this.items = [];
 	this.selected = null;
@@ -23,6 +22,7 @@ ItemList.prototype = Object.create(Emitter.prototype);
 
 ItemList.prototype.redraw = function () {
 	var vdom = template(this.template, this.extendTemplateOptions());
+	console.log(this.extendTemplateOptions());
 	render(this, vdom);
 };
 

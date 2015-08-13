@@ -10,6 +10,7 @@ template.templates = {
 	'dialogs/invite.jade': require('./dialogs/invite.jade'),
 	'dialogs/markdowntips.jade': require('./dialogs/markdowntips.jade'),
 	'dialogs/menu.jade': require('./dialogs/menu.jade'),
+	'dialogs/roomlist.jade': require('./dialogs/roomlist.jade'),
 	'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
 	'draganddrop.jade': require('./draganddrop.jade'),
 	'fileuploader.jade': require('./fileuploader.jade'),
