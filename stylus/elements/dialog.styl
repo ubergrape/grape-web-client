@@ -88,6 +88,54 @@
 		border-radius: 3px
 		border: 1px solid #dad6e0
 		padding: 0 2px
+	.manager-menu
+		a
+			display: inline-block
+			text-decoration: none
+			padding: 5px 17px
+			text-align: center
+			color: gainsboro-dark
+			&.selected
+				color: grape-dark
+				border-bottom: 2px solid grape-light
+			&:hover
+				color: grape-typo
+	.room-list
+		.room
+			@extend $clearfix
+		.main
+			margin: 0px
+			overflow: hidden
+		.room-info
+			@extend $small-font-size
+			margin: 0
+			color: gainsboro-dark
+			li
+				padding: 0
+				margin-right: 10px
+				display: inline-block
+				.fa
+					margin-right: 3px
+		.room-face
+			width: 42px
+			height: 42px
+			line-height: 42px
+			font-size: 16px
+			margin-top: -1px
+			.room-icon
+				right: -14px
+				width: 18px
+				height: 18px
+				line-height: 19px
+				font-size: 11px
+		.pm.deleted
+			color: gainsboro-dark
+			.avatar-status
+				background: gainsboro-dark
+			span.user-deleted
+				@extend $small-font-size
+				text-transform: uppercase
+				margin-left: 4px
 #IModalOverlay, .overlay
 	background: rgba(0, 0, 0, 0.75)
 	opacity: 1
