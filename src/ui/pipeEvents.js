@@ -9,13 +9,6 @@ function pipeEvents(ui) {
 	// ui
 	broker(ui, 'selectchannel', ui, 'setRoomContext');
 
-	// roomManager popover
-	broker(ui, 'orgReady', ui.roomManager, 'onOrgReady');
-	broker(ui, 'newRoomMember', ui.roomManager, 'onNewRoomMember');
-	broker(ui, 'memberLeftChannel', ui.roomManager, 'onMemberLeftChannel');
-	broker(ui, 'roomdeleted', ui.roomManager, 'onRoomDeleted');
-	broker(ui.navigation, 'closeNavPopovers', ui.roomManager, 'end');
-
 	// chat header/search functionality
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
@@ -100,7 +93,6 @@ function pipeEvents(ui) {
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
 	broker(ui, 'selectchannel', ui.navigation, 'select');
-	broker(ui.navigation, 'triggerRoomCreation', ui.roomManager, 'onTriggerRoomCreation');
 	broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager');
 	broker(ui.navigation, 'triggerPMManager', ui.PMManager, 'onTriggerPMManager');
 	broker(ui, 'change user', ui.navigation, 'onChangeUser');
