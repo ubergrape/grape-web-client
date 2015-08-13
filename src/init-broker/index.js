@@ -24,7 +24,7 @@ function doBroker(ui, api) {
 	broker(ui, 'setNotificationsSession', api, 'onSetNotificationsSession');
 	broker(ui, 'kickMember', api, 'onKickMember');
 	broker(ui, 'joinroom', api, 'joinRoom');
-	broker(ui, 'leaveroom', api, 'leaveRoom');
+	broker(ui, 'leaveRoom', api, 'onLeaveRoom');
 	broker(ui, 'createroom', api, 'createRoom');
 	broker(ui, 'deleteroom', api, 'deleteRoom');
 	broker(ui, 'openpm', api, 'openPM');

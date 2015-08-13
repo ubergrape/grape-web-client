@@ -626,7 +626,7 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	});
 };
 
-API.prototype.leaveRoom = function API_leaveRoom(roomID) {
+API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 	var self = this;
 	var room = models.Room.get(roomID);
 	if (!room.joined) return;

@@ -3,6 +3,7 @@ var Menu = require('./menu');
 var ItemList = require('../itemlist');
 var qs = require('query');
 var events = require('events');
+var closest = require('closest');
 
 module.exports = RoomManager;
 
@@ -56,6 +57,7 @@ RoomManager.prototype.bind = function () {
 	this.events.bind('click .rooms-to-join', 'setUnjoined');
 	this.events.bind('click .joined-rooms', 'setJoined');
 	this.events.bind('click .new-room', 'setCreate');
+	this.events.bind('click li.leave', 'leaveRoom');
 }
 
 RoomManager.prototype.setUnjoined = function () {
@@ -83,4 +85,13 @@ RoomManager.prototype.setCreate = function () {
 	menu.selectItem(menu.items[2]);
 	this.mode = roomList.templateOptions.mode = 'creation';
 	roomList.redraw();
+}
+
+RoomManager.prototype.leaveRoom = function (ev) {
+	var roomID = closest(ev.target, '.item', true).getAttribute('data-id');
+	this.emit('leaveRoom', roomID);	
+}
+
+RoomManager.prototype.onLeftChannel = function () {
+	this.roomList.redraw();
 }
