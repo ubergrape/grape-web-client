@@ -176,11 +176,8 @@ API.prototype.initSocket = function API_initSocket(opts) {
 };
 
 
-API.prototype.connect = function API_connect(ws, callback) {
+API.prototype.connect = function API_connect(ws) {
 	if (this.connected) return;
-
-	// Legacy callback, used in mobile_history.html
-	if (callback) this.once('connected', callback);
 
 	if (this.connecting) return;
 
