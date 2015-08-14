@@ -74,7 +74,7 @@ API.prototype.logTraffic = function API_logTraffic() {
 
 API.prototype.startPinging = function API_startPinging() {
 	// note: the backend will only set this session active
-	// if it receives regular pings from the client. 
+	// if it receives regular pings from the client.
 	// "normal" traffic will not be recognized as such
 	// which might lead into server-side disconencts
 	// from (false) idleness-detection.
@@ -104,6 +104,10 @@ API.prototype.heartbeat = function API_heartbeat() {
 };
 
 API.prototype.onDisconnect = function API_onDisconnect() {
+	Raven.captureMessage("disconnect");
+	if (this.user !== undefined) {
+		Raven.captureMessage("disconnect " + this.user.id);
+	}
 	this.disconnect();
 	this.emit('disconnected', this._ws);
 	this.reconnect();
@@ -136,6 +140,7 @@ API.prototype.onConnect = function API_onConnect(data) {
 API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
 	if (window.location.hash.indexOf('disable-ws') > -1) {
+		console.log("connection: forcing longpolling");
 		lp = new LPSocket(opts.lpUri);
 		lp.connect();
 		lp.once('open', function() {
@@ -147,18 +152,22 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		});
 		return;
 	}
-	ws = new WebSocket(opts.wsUri); 
+	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
+		console.log("connection: websocket connection opened")
+		Raven.captureMessage("connection: websocket connection opened");
 		this.preferedTransport = 'ws';
 		opts.connected(ws);
 	}.bind(this));
 
 	ws.once('error', function(err) {
+		console.log("connection: websocket error");
 		if (this.preferredTransport && this.preferedTransport != 'lp') {
 			opts.error(err);
 			return;
 		}
-		// try LP fallback
+
+		console.log("connections: try lp fallback");
 		var lp = new LPSocket(opts.lpUri);
 		lp.connect();
 		lp.once('open', function() {
@@ -172,11 +181,8 @@ API.prototype.initSocket = function API_initSocket(opts) {
 };
 
 
-API.prototype.connect = function API_connect(ws, callback) {
+API.prototype.connect = function API_connect(ws) {
 	if (this.connected) return;
-
-	// Legacy callback, used in mobile_history.html
-	if (callback) this.once('connected', callback);
 
 	if (this.connecting) return;
 
@@ -186,7 +192,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 
 	this.connecting = true;
 	this.initSocket({
-		lpUri: this.lpUri, 
+		lpUri: this.lpUri,
 		wsUri: this.wsUri,
 		connected: function(socket) {
 			// connection established; bootstrap client state
@@ -222,6 +228,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 			}.bind(this));
 		}.bind(this),
 		error: function(err) {
+			console.log("connection: error - reconnect");
 			this.reconnect();
 		}.bind(this)
 	});
@@ -242,13 +249,24 @@ API.prototype.disconnect = function API_disconnect() {
 };
 
 API.prototype.reconnect = function API_reconnect() {
+	console.log("connection: reconnect");
+	Raven.captureMessage("reconnect");
+	if (this.user !== undefined) {
+		Raven.captureMessage("reconnect " + this.user.id);
+	}
+
 	if (this.connected) {
 		this.retries = 0;
 		return
 	}
 	// exponential back-off
+	// 250 * 2^1 = 500
+	// 250 * 2^2 = 1000
+	// ...
+	// 250 * 2^6 = 16000
 	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
 	this.retries += 1;
+	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
@@ -753,7 +771,7 @@ API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (dire
 					room.searchHistory.push(line);
 			}
 		});
-		this.emit('gotHistory', direction);	
+		this.emit('gotHistory', direction);
 	}.bind(this));
 }
 
