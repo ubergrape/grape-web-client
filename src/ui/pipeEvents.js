@@ -71,6 +71,7 @@ function pipeEvents(ui) {
 	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
 	broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened');
 	broker(ui, 'newRoom', ui.historyView, 'onNewRoom');
+	broker(ui.historyView, 'toggleInvite', ui, 'onToggleInvite');
 
 	// title
 	broker(ui, 'selectchannel', ui.title, 'setRoom');
