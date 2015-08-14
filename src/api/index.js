@@ -159,7 +159,6 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		console.log("connection: websocket error");
 		if (this.preferredTransport && this.preferedTransport != 'lp') {
 			opts.error(err);
-			console.log("connection: stop");
 			return;
 		}
 
@@ -227,6 +226,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 			}.bind(this));
 		}.bind(this),
 		error: function(err) {
+			console.log("connection: error - reconnect");
 			this.reconnect();
 		}.bind(this)
 	});
@@ -252,6 +252,10 @@ API.prototype.reconnect = function API_reconnect() {
 		return
 	}
 	// exponential back-off
+	// 250 * 2^1 = 500
+	// 250 * 2^2 = 1000
+	// ...
+	// 250 * 2^6 = 16000
 	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
 	this.retries += 1;
 	setTimeout(function() {
