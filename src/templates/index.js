@@ -9,8 +9,6 @@ template.templates = {
 	'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
 	'dialogs/invite.jade': require('./dialogs/invite.jade'),
 	'dialogs/markdowntips.jade': require('./dialogs/markdowntips.jade'),
-	'dialogs/menu.jade': require('./dialogs/menu.jade'),
-	'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
 	'draganddrop.jade': require('./draganddrop.jade'),
 	'fileuploader.jade': require('./fileuploader.jade'),
 	'grapeinputintegration.jade': require('./grapeinputintegration.jade'),
