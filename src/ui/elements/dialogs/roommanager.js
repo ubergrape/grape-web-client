@@ -63,33 +63,18 @@ RoomManager.prototype.bind = function () {
 }
 
 RoomManager.prototype.setUnjoined = function () {
-	var menu = this.menu;
-	var roomList = this.roomList;
-	menu.selectItem(null);
-	menu.selectItem(menu.items[0]);
-	this.mode = roomList.templateOptions.mode = 'unjoined';
-	roomList.redraw();
-	this.redrawCreationForm();
+	this.mode = this.roomList.templateOptions.mode = 'creation';
+	this.redrawContent(0);
 }
 
 RoomManager.prototype.setJoined = function () {
-	var menu = this.menu;
-	var roomList = this.roomList;
-	menu.selectItem(null);
-	menu.selectItem(menu.items[1]);
-	this.mode = roomList.templateOptions.mode = 'joined';
-	roomList.redraw();
-	this.redrawCreationForm();
+	this.mode = this.roomList.templateOptions.mode = 'joined';
+	this.redrawContent(1);
 }
 
 RoomManager.prototype.setCreate = function () {
-	var menu = this.menu;
-	var roomList = this.roomList;
-	menu.selectItem(null);
-	menu.selectItem(menu.items[2]);
-	this.mode = roomList.templateOptions.mode = 'creation';
-	roomList.redraw();
-	this.redrawCreationForm();
+	this.mode = this.roomList.templateOptions.mode = 'creation';
+	this.redrawContent(2);
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {
@@ -112,6 +97,14 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 	render(this.creationForm, template('dialogs/room-creation-form.jade', {
 		mode: this.mode
 	}));
+}
+
+RoomManager.prototype.redrawContent = function (selected) {
+	var menu = this.menu;
+	menu.selectItem(null);
+	menu.selectItem(menu.items[selected]);
+	this.roomList.redraw();
+	this.redrawCreationForm();
 }
 
 RoomManager.prototype.resetValidity = function () {
@@ -144,6 +137,6 @@ RoomManager.prototype.onRoomCreationError = function (err) {
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {
-	// yes, this is how we can close the dialog
+	// yes, this is how we can close the dialog - HACK
 	qs('.close', this.el).click();
 }
