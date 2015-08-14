@@ -70,6 +70,7 @@ var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/de
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
+var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
 
 function UI(options) {
 	Emitter.call(this);
@@ -457,4 +458,8 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 	broker(this, 'newRoom', roommanager, 'onNewRoom');
 	broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
 	broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
+}
+
+UI.prototype.onTriggerPMManager = function () {
+	var pmmanager = new PMManager().closable().overlay().show();
 }

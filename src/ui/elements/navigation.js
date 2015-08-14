@@ -141,7 +141,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			var pmSectionVisible = self.collapsedMode ? pmSections[1] : pmSections[0];
 			var pmSectionVisibleH = self.el.clientHeight - pmSectionVisible.getBoundingClientRect().top;
 			var isTop = pmSectionVisibleH - pmPopoverH >= 0 ? false : true;
-			self.emit('triggerPMManager', closest(ev.target, 'div', true), isTop);
+			self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
