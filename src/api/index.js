@@ -104,6 +104,10 @@ API.prototype.heartbeat = function API_heartbeat() {
 };
 
 API.prototype.onDisconnect = function API_onDisconnect() {
+	Raven.captureMessage("disconnect");
+	if (this.user !== undefined) {
+		Raven.captureMessage("disconnect " + this.user.id);
+	}
 	this.disconnect();
 	this.emit('disconnected', this._ws);
 	this.reconnect();
@@ -151,6 +155,7 @@ API.prototype.initSocket = function API_initSocket(opts) {
 	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
 		console.log("connection: websocket connection opened")
+		Raven.captureMessage("connection: websocket connection opened");
 		this.preferedTransport = 'ws';
 		opts.connected(ws);
 	}.bind(this));
@@ -245,6 +250,11 @@ API.prototype.disconnect = function API_disconnect() {
 
 API.prototype.reconnect = function API_reconnect() {
 	console.log("connection: reconnect");
+	Raven.captureMessage("reconnect");
+	if (this.user !== undefined) {
+		Raven.captureMessage("reconnect " + this.user.id);
+	}
+
 	if (this.connected) {
 		this.retries = 0;
 		return
