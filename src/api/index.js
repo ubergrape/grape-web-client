@@ -244,6 +244,7 @@ API.prototype.disconnect = function API_disconnect() {
 };
 
 API.prototype.reconnect = function API_reconnect() {
+	console.log("connection: reconnect");
 	if (this.connected) {
 		this.retries = 0;
 		return
@@ -255,6 +256,7 @@ API.prototype.reconnect = function API_reconnect() {
 	// 250 * 2^6 = 16000
 	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
 	this.retries += 1;
+	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
