@@ -139,19 +139,17 @@ API.prototype.onConnect = function API_onConnect(data) {
  */
 API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
-	if (window.location.hash.indexOf('disable-ws') > -1) {
-		console.log("connection: forcing longpolling");
-		lp = new LPSocket(opts.lpUri);
-		lp.connect();
-		lp.once('open', function() {
-			lp.poll();
-			opts.connected(lp);
-		});
-		lp.once('error', function(err) {
-			opts.error(err);
-		});
-		return;
-	}
+	console.log("connection: forcing longpolling");
+	lp = new LPSocket(opts.lpUri);
+	lp.connect();
+	lp.once('open', function() {
+		lp.poll();
+		opts.connected(lp);
+	});
+	lp.once('error', function(err) {
+		opts.error(err);
+	});
+	return;
 	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
 		console.log("connection: websocket connection opened")
