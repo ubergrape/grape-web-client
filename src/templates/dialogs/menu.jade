@@ -1,3 +1,6 @@
 div.manager-menu
 	each item in items
 		a(class=item.className, class= item == selected ? 'selected' : '')= _(item.title)
+	.new-room
+		.new-room-button
+			=_("Create a new room")

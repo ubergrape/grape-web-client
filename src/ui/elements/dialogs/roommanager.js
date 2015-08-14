@@ -25,15 +25,11 @@ RoomManager.prototype.init = function () {
 	menu.setItems([
 		{
 			className: 'rooms-to-join',
-			title: 'Rooms to join'
+			title: 'Join rooms'
 		},
 		{
 			className: 'joined-rooms',
-			title: 'Joined rooms'
-		},
-		{
-			className: 'new-room',
-			title: 'New room'
+			title: 'Manage your rooms'
 		}
 	]);
 
