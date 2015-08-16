@@ -19,11 +19,11 @@ LPSocket.prototype = Object.create(Emitter.prototype);
 LPSocket.prototype.connect = function LPSocket_connect() {
 	// initialize a long polling session
 	this.ajax({
-		method: 'PUT', 
+		method: 'PUT',
 		path: this.uri,
 		success: function (xhr) {
 			var resp = JSON.parse(xhr.responseText);
-			// the responded urls already contain the 
+			// the responded urls already contain the
 			// sessionId for the new session
 			this.pollUri = resp.poll;
 			this.pushUri = resp.push;
@@ -97,13 +97,11 @@ LPSocket.prototype.ajax = function LPSocket_ajax(opts) {
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState !== XMLHttpRequest.DONE) return;
-		
+
 		if (xhr.status === 200) {
-			if (opts.success) opts.success(xhr)
-		} else if (xhr.status === 0) {
-			// request aborted. something should be done here
-		} else {
-			if (opts.error) opts.error(xhr)
+			if (opts.success) opts.success(xhr);
+		} else if (opts.error) {
+			opts.error(xhr);
 		}
 	}
 	xhr.open(opts.method, opts.path, true);
