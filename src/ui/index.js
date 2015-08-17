@@ -53,8 +53,6 @@ template.locals.html = function (html) {
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var UserPopover = exports.UserPopover = require('./elements/popovers/user');
-var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
@@ -105,8 +103,6 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the popovers
-	this.PMManager = new PMManagerPopover();
-	this.userMenu = new UserPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 

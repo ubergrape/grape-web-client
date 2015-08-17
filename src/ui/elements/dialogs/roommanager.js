@@ -67,7 +67,7 @@ RoomManager.prototype.bind = function () {
 }
 
 RoomManager.prototype.setUnjoined = function () {
-	this.mode = this.roomList.templateOptions.mode = 'creation';
+	this.mode = this.roomList.templateOptions.mode = 'unjoined';
 	this.redrawContent(0);
 }
 

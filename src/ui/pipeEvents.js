@@ -13,7 +13,6 @@ function pipeEvents(ui) {
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
-	broker(ui.chatHeader, 'toggleusermenu', ui.userMenu, 'toggle');
 	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 	broker(ui.searchView, 'show', ui, 'showSearchResults');
@@ -77,11 +76,6 @@ function pipeEvents(ui) {
 
 	// dragAndDrop
 	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
-
-	// pm manager popover
-	broker(ui, 'orgReady', ui.PMManager, 'onOrgReady');
-	broker(ui, 'newOrgMember', ui.PMManager, 'onNewOrgMember');
-	broker(ui.navigation, 'closeNavPopovers', ui.PMManager, 'end');
 
 	// organization popover
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');

@@ -80,3 +80,8 @@ PMManager.prototype.redrawContent = function (selected) {
 	menu.selectItem(menu.items[selected]);
 	this.pmList.redraw();
 }
+
+PMManager.prototype.end = function () {
+	// hack to close the dialog
+	qs('.close', this.el).click();
+}

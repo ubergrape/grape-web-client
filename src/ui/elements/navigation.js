@@ -134,13 +134,6 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
-			// TODO it is not ok to hardcode this
-			var pmPopoverH = 350;
-			// two pms list in the DOM for no reason at all
-			var pmSections = qs.all('.pm-list', this.el)
-			var pmSectionVisible = self.collapsedMode ? pmSections[1] : pmSections[0];
-			var pmSectionVisibleH = self.el.clientHeight - pmSectionVisible.getBoundingClientRect().top;
-			var isTop = pmSectionVisibleH - pmPopoverH >= 0 ? false : true;
 			self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
