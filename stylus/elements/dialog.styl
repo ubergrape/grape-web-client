@@ -30,12 +30,17 @@
 .dialog .container
 	overflow-x: hidden
 	overflow-y: auto
-	height: 356px
+	padding: 16px
 	border-bottom-left-radius: 4px
 	border-bottom-right-radius: 4px
 	background: #FBFBFB
 	position: relative
 	z-index: 3
+	&.room-list-container
+		height: 356px
+		padding: 0px !important
+		padding-left: 16px
+		padding-right: 16px
 
 .dialog .title
 	display: flex
@@ -158,6 +163,7 @@
 		padding: 4px 16px 4px 14px
 		background: sidebar-button-background
 		border-radius: 4px
+		border: none
 		cursor: pointer
 		pointer-events: auto
 		transition: background 0.3s, color 0.3s, font-size 0.3s
@@ -302,19 +308,36 @@
 				@extend $small-font-size
 				text-transform: uppercase
 				margin-left: 4px
-	form.create-room-form
+	p
+		display: inline-block
+		font-size: 1.1em
+		color: #999999
+		line-height: inherit
+	.warning
+		color: geraldine
+		font-size: 1.1em
+	i.warning
+		display: inline-block;
+		font-size: 4em;
+		top: 3px;
+		position: relative;
+		padding-right: 10px;
+		color: #BBB;
+	form
 		pointer-events: auto
-		position: absolute
 		top: 0px
 		width: 100%
 		opacity: 1
 		transition: opacity 0.5s
+		&.create-room-form
+			position: absolute
+			padding-left: 16px
+			padding-right: 16px
+		&.delete-room-form
+			margin-top: 0px
 		&.hidden
 			opacity: 0
 			pointer-events: none
-		.formrow
-			padding-left: 16px
-			padding-right: 16px
 		.header
 			padding-left: 2px
 			padding-top: 12px
@@ -324,16 +347,15 @@
 			cursor: default
 			&:first-of-type
 				padding-top: 14px
-		input
-			&.room-name-input
-				width: 100%
-				border: solid 1px #E5E5E5
-				padding: 11px 14px 11px 14px
-				font-size: 1.25em
-				color: #808080
-				&:focus
-					color: #333333
-					border-color: #CCCCCC
+		input[type="text"]
+			width: 100%
+			border: solid 1px #E5E5E5
+			padding: 11px 14px 11px 14px
+			font-size: 1.1em
+			color: #808080
+			&:focus
+				color: #333333
+				border-color: #CCCCCC
 		.room-type-picker
 			display: flex
 		input[type="radio"]
@@ -376,6 +398,17 @@
 			border: none
 			margin-top: 12px
 			font-size: 1.1em
+		.delete-room-button
+			float: right
+			padding: 12px 16px 12px 16px
+			border: none
+			margin-top: 6px
+			font-size: 1.1em
+			background: geraldine
+			color: rgba(white, 0.9)
+			&:hover
+				background: lighten(geraldine, 10%)
+				color: white
 
 #IModalOverlay, .overlay
 	background: rgba(0, 0, 0, 0.3)
