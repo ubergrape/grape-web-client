@@ -1,13 +1,16 @@
 if (room.creator === user || org.role === constants.roles.ROLE_ADMIN || org.role === constants.roles.ROLE_OWNER)
-	h3=_("Delete ") + room.name
-	p
-		=_("Are you sure you want to delete room ") + room.name + _("?")
+	.top-bar
+		.title
+			span=_("Delete ") + room.name
+	.container
+		p=_("Are you sure you want to delete room ") + room.name + _("?")
 		br
 		strong=_("This action can't be undone.")
 	form.delete-room-form
 		.formrow
 			input.roomname(type="text", name="roomname", id="roomname", placeholder="Please type in the name of the room to confirm.")
-		input.button.btn-tomato.delete(type="submit", name="submit", value=_('Delete'))
+		.formrow
+			input.button.btn-tomato.delete(type="submit", name="submit", value=_('Delete'))
 else
 	h3=_("Delete ") + room.name
 	if room.creator

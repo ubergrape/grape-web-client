@@ -1,19 +1,23 @@
 form.create-room-form(class=mode != 'creation' ? 'hidden' : '')
 	.formrow
-		h4
+		.header
 			=_("Room name")
-		input(type="text", id="newroom-name", placeholder="Enter name ...")
-	.mar-t20
-		h4.mar-b20
+		input(class="room-name-input", type="text", id="newroom-name", placeholder="Enter name ...")
+	.formrow
+		.header
 			=_('Room type')
-		input(type="radio", id="public", name="is_public", value="true", checked)
-		label.radio-label(for="public")
-			=_("Public room")
-			span.radio-label-subline
-				=_("A public room that everybody can see and join.")
-		input(type="radio", id="private", name="is_public", value="false")
-		label.radio-label(for="private")
-			=_("Private room")
-			span.radio-label-subline
-				=_("A private room that only invited users can see and join.")
-	input.button.create.btn-primary(type="submit", name="submit", value=_("Create"))
+		.room-type-picker
+			input(type="radio", id="public", name="is_public", value="true", checked)
+			label.radio-label(for="public")
+				i.mdi.mdi-forum
+				span.radio-label-name=_("Public room")
+				span.radio-label-subline
+					=_("Public rooms can be seen and joined by your whole team.")
+			input(type="radio", id="private", name="is_public", value="false")
+			label.radio-label(for="private")
+				i.mdi.mdi-lock
+				span.radio-label-name=_("Private room")
+				span.radio-label-subline
+					=_("Private rooms can only be seen and joined by invited users.")
+	.formrow
+		input.dialog-button.create-room-button(type="submit", name="submit", value=_("Create room"))

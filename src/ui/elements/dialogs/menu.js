@@ -6,15 +6,23 @@ module.exports = Menu;
 function Menu (options) {
 	this.template = options.template;
 	this.items = [];
+	this.templateOptions = options.templateOptions ? options.templateOptions : null;
 	this.selected = null;
 }
 
 Menu.prototype.redraw = function Menu_redraw() {
+	render(this, template(this.template, this.extendTemplateOptions()));
+}
+
+Menu.prototype.extendTemplateOptions = function () {
 	var options = {
 		items: this.items,
 		selected: this.selected
 	};
-	render(this, template(this.template, options));
+	for (var item in this.templateOptions) {
+		options[item] = this.templateOptions[item];
+	}
+	return options;
 }
 
 Menu.prototype.setItems = function Menu_setItems(items, selected) {

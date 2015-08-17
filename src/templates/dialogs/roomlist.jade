@@ -1,16 +1,16 @@
-ul.room-list
+ul.room-list(class=mode == 'creation' ? 'hidden' : '')
 	if mode == 'unjoined'
 		li.item.header
 			=_('Rooms you can join')
-	else
+	else if mode == 'joined'
 		li.item.header
 			=_('Rooms you have joined')
 	each room in items
 		if mode == 'unjoined' && !room.joined
 			li.item.room(data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
-					button.btn.toggle.join.btn-gainsboro
-						=_('join')
+					button.toggle.join
+						=_('Join')
 					.room-face(style='background-color:#{room.color}')
 						=room.abbr
 						if !room.is_public
@@ -28,8 +28,8 @@ ul.room-list
 		if mode == 'joined' && room.joined
 			li.item.room.leave(data-id=room.id, key=room.id)
 				a
-					button.btn.toggle.btn-tomato
-						=_('leave')
+					button.toggle.leave
+						=_('Leave')
 					.room-face(style="background-color:#{room.color}")
 						=room.abbr
 						if !room.is_public
