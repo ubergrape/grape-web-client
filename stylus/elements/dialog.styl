@@ -100,7 +100,34 @@
 				border-bottom: 2px solid grape-light
 			&:hover
 				color: grape-typo
+	.dialog-list
+		li
+			margin: 0
+			padding: 0
+			@extend $functional-list
+			&.break-line
+				border-top: 1px solid silver-dark
+			&:last-child a // let's have nice rounded edges at the bottom
+				border-bottom-right-radius: main-border-radius
+				border-bottom-left-radius: main-border-radius
+			&:first-child a // let's have nice rounded edges at the top
+				border-top-right-radius: main-border-radius
+				border-top-left-radius: main-border-radius
+			a
+			.func-inner-wrap
+				min-width: 224px
+				padding-left: 16px
+				padding-right: 16px
+				.fa
+					margin-right: 10px
+					@extend $big-font-size
+			.avatar-wrap
+				img
+					margin-top: 2px
+				.avatar-status
+					bottom: -3px
 	.room-list
+	.pm-list
 		.room
 			@extend $clearfix
 		.main

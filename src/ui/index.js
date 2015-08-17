@@ -461,5 +461,7 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 }
 
 UI.prototype.onTriggerPMManager = function () {
-	var pmmanager = new PMManager().closable().overlay().show();
+	var pmmanager = new PMManager({
+		users: this.org.users
+	}).closable().overlay().show();
 }

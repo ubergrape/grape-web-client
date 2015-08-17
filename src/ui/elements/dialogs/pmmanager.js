@@ -34,11 +34,22 @@ PMManager.prototype.init = function () {
 		}
 	]);
 
+	var pmList = this.pmList = new ItemList({
+		template: 'dialogs/pmlist.jade',
+		templateOptions: {
+			mode: this.mode
+		}
+	});
+	pmList.setItems(this.context.users.filter(function(user){
+		return user != ui.user
+	}));
+
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
 	}
 	protoInit.call(this);
 	replace(qs('.manager-menu', this.dialog.el), menu.el);
+	replace(qs('ul', this.dialog.el), pmList.el);
 }
 
 PMManager.prototype.bind = function () {
@@ -49,17 +60,17 @@ PMManager.prototype.bind = function () {
 }
 
 PMManager.prototype.setActive = function () {
-	this.mode = 'active';
+	this.mode = this.pmList.templateOptions.mode = 'active';
 	this.redrawContent(0);
 }
 
 PMManager.prototype.setInvited = function () {
-	this.mode = 'invited';
+	this.mode = this.pmList.templateOptions.mode = 'invited';
 	this.redrawContent(1);
 }
 
 PMManager.prototype.setDeleted = function () {
-	this.mode = 'deleted';
+	this.mode = this.pmList.templateOptions.mode = 'deleted';
 	this.redrawContent(2);
 }
 
@@ -67,4 +78,5 @@ PMManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
 	menu.selectItem(null);
 	menu.selectItem(menu.items[selected]);
+	this.pmList.redraw();
 }
