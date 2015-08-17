@@ -5,6 +5,7 @@ var qs = require('query');
 var events = require('events');
 var closest = require('closest');
 var template = require('template');
+var classes = require('classes');
 var render = require('../../rendervdom');
 
 module.exports = RoomManager;
@@ -12,6 +13,7 @@ module.exports = RoomManager;
 function RoomManager (context) {
 	this.template_path = 'dialogs/roommanager.jade';
 	this.mode = 'unjoined';
+	this.title = "Manage Rooms";
 	Dialog.call(this, context);
 }
 
@@ -21,21 +23,22 @@ var protoInit = RoomManager.prototype.init;
 RoomManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
 		template: 'dialogs/menu.jade',
+		templateOptions: {
+			mode: this.mode
+		}
 	});
+
 	menu.setItems([
 		{
 			className: 'rooms-to-join',
-			title: 'Rooms to join'
+			title: 'Join rooms'
 		},
 		{
 			className: 'joined-rooms',
-			title: 'Joined rooms'
-		},
-		{
-			className: 'new-room',
-			title: 'New room'
+			title: 'Manage your rooms'
 		}
 	]);
+
 
 	var roomList = this.roomList = new ItemList({
 		template: 'dialogs/roomlist.jade',
@@ -68,17 +71,26 @@ RoomManager.prototype.bind = function () {
 
 RoomManager.prototype.setUnjoined = function () {
 	this.mode = this.roomList.templateOptions.mode = 'unjoined';
+	this.title = "Manage Rooms";
 	this.redrawContent(0);
 }
 
 RoomManager.prototype.setJoined = function () {
 	this.mode = this.roomList.templateOptions.mode = 'joined';
+	this.title = "Manage Rooms";
 	this.redrawContent(1);
 }
 
 RoomManager.prototype.setCreate = function () {
-	this.mode = this.roomList.templateOptions.mode = 'creation';
+	this.mode = this.menu.templateOptions.mode = this.roomList.templateOptions.mode = 'creation';
+	this.title = "Create new room";
 	this.redrawContent(2);
+
+	// Animations
+	var container = qs('.container', this.dialog.el);
+
+	classes(qs('.new-room', this.dialog.el)).add('hidden');
+	classes(qs('.title span', this.dialog.el)).add('hidden');
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {
@@ -107,6 +119,7 @@ RoomManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
 	menu.selectItem(null);
 	menu.selectItem(menu.items[selected]);
+	menu.redraw();
 	this.roomList.redraw();
 	this.redrawCreationForm();
 }
