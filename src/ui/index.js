@@ -53,8 +53,6 @@ template.locals.html = function (html) {
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var UserPopover = exports.UserPopover = require('./elements/popovers/user');
-var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
@@ -70,6 +68,7 @@ var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/de
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
+var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
 
 function UI(options) {
 	Emitter.call(this);
@@ -104,8 +103,6 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	// initialize the popovers
-	this.PMManager = new PMManagerPopover();
-	this.userMenu = new UserPopover();
 	this.organizationMenu = new OrganizationPopover();
 	this.searchView = new SearchView();
 
@@ -228,8 +225,8 @@ UI.prototype.bind = function UI_bind() {
 		'toggleOrganizationMenu': function() {
 			self.organizationMenu.toggle(qs('.settings-icon'));
 		},
-		'toggleOrganizationMenuCompact': function() {
-			self.organizationMenu.toggle(qs('.settings-icon-compact'));
+		'toggleOrganizationMenuCollapsed': function() {
+			self.organizationMenu.toggle(qs('.settings-icon-collapsed'));
 		},
 		'requestPermission': function() {
 			notify.requestPermission(function(permission){
@@ -241,7 +238,7 @@ UI.prototype.bind = function UI_bind() {
 		}
 	});
 	this.events.bind('click .settings-icon', 'toggleOrganizationMenu');
-	this.events.bind('click .settings-icon-compact', 'toggleOrganizationMenuCompact');
+	this.events.bind('click .settings-icon-collapsed', 'toggleOrganizationMenuCollapsed');
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;
@@ -457,4 +454,10 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 	broker(this, 'newRoom', roommanager, 'onNewRoom');
 	broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
 	broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
+}
+
+UI.prototype.onTriggerPMManager = function () {
+	var pmmanager = new PMManager({
+		users: this.org.users
+	}).closable().overlay().show();
 }
