@@ -135,19 +135,21 @@ API.prototype.onConnect = function API_onConnect(data) {
  */
 API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
-	console.log("connection: forcing longpolling");
-	this.connecting = false;
-	this.connected = false;
-	lp = new LPSocket(opts.lpUri);
-	lp.connect();
-	lp.once('open', function() {
-		lp.poll();
-		opts.connected(lp);
-	});
-	lp.once('error', function(err) {
-		opts.error(err);
-	});
-	return;
+	if (window.location.hash.indexOf('disable-ws') > -1) {
+		console.log("connection: forcing longpolling");
+		this.connecting = false;
+		this.connected = false;
+		lp = new LPSocket(opts.lpUri);
+		lp.connect();
+		lp.once('open', function() {
+			lp.poll();
+			opts.connected(lp);
+		});
+		lp.once('error', function(err) {
+			opts.error(err);
+		});
+		return;
+	}
 	// Temporary disabled.
 	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
