@@ -72,6 +72,7 @@ RoomManager.prototype.bind = function () {
 	this.events.bind('click li.leave', 'leaveRoom');
 	this.events.bind('submit form.create-room-form', 'createRoom');
 	this.events.bind('keydown input#newroom-name', 'resetValidity');
+	this.events.bind('click .back-button', 'setUnjoined');
 }
 
 RoomManager.prototype.setUnjoined = function () {
@@ -153,7 +154,7 @@ RoomManager.prototype.onChannelUpdate = function () {
 RoomManager.prototype.onRoomCreationError = function (err) {
 	var form = this.creationForm.el;
 	var newRoomName = form['newroom-name'];
-	var createButton = qs('input.create', form);
+	var createButton = qs('input.create-room-button', form);
 	newRoomName.setCustomValidity(err.msg);
 	createButton.click();	
 }
