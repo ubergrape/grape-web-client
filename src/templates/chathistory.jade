@@ -196,7 +196,7 @@
 													//- the substr part is a hack to remove the tz information
 													- var user_time = first.user_time.substr(0, first.user_time.length - 6)
 													time.user-tz= tz(user_time).format('hh:mm A')
-							if status !== 'sent'
+							if status === 'unsent'
 								div.status-control
 									if status == 'unsent'
 										div.resend(data-id=lineID)
@@ -205,8 +205,6 @@
 										div.unsent
 											span.status-label= _('Not sent')
 											i.fa.fa-exclamation-circle.fa-lg
-									if status == 'pending'
-										div.pending
 							if line.title
 								if line.times
 									span.times= 'x' + line.times
