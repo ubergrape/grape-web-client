@@ -118,7 +118,7 @@ API.prototype.onConnect = function API_onConnect(data) {
     }));
     this.connected = true;
     this.connecting = false;
-    this.emit('change user', this.user);
+    this.emit('changeUser', this.user);
     this.emit('change settings', this.settings);
     this.emit('change organizations', this.organizations);
     this.emit('connected');
@@ -446,7 +446,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#status', function (data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
@@ -463,7 +463,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.displayName = data.user.displayName;
 		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {

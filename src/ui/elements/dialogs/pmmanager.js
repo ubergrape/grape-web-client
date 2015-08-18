@@ -84,6 +84,15 @@ PMManager.prototype.redrawContent = function (selected) {
 	this.pmList.redraw();
 }
 
+PMManager.prototype.onChangeUser = function () {
+	this.pmList.redraw();
+}
+
+PMManager.prototype.onNewOrgMember = function (user) {
+	this.pmList.items.push(user);
+	this.pmList.redraw();
+}
+
 PMManager.prototype.end = function () {
 	// hack to close the dialog
 	qs('.close', this.el).click();

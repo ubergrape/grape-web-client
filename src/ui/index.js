@@ -461,4 +461,6 @@ UI.prototype.onTriggerPMManager = function () {
 		users: this.org.users
 	}).closable().overlay().show();
 	broker(this, 'selectchannel', pmmanager, 'end');
+	broker(this, 'changeUser', pmmanager, 'onChangeUser');
+	broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
 }

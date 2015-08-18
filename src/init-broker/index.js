@@ -8,7 +8,7 @@ module.exports = doBroker;
 function doBroker(ui, api) {
 	broker(api, 'change organization', ui, 'setOrganization');
 	broker(api, 'change organizations', ui, 'setOrganizations');
-	broker(api, 'change user', ui, 'setUser');
+	broker(api, 'changeUser', ui, 'setUser');
 	broker(api, 'change settings', ui, 'setSettings');
 	broker(api, 'leftChannel', ui, 'leftChannel');
 	broker(api, 'gotsearchresults', ui, 'displaySearchResults');
@@ -49,7 +49,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'newInviteNotification', ui, 'newInviteNotification');
 	broker.pass(api, 'channelRead', ui, 'channelRead');
 	broker.pass(api, 'newPMOpened', ui, 'newPMOpened');
-	broker.pass(api, 'change user', ui, 'change user');
+	broker.pass(api, 'changeUser', ui, 'changeUser');
 	broker.pass(api, 'joinedChannel', ui, 'joinedChannel');
 	broker.pass(api, 'leftChannel', ui, 'leftChannel');
 	broker.pass(api, 'newRoomMember', ui, 'newRoomMember');
