@@ -13,7 +13,6 @@ module.exports = RoomManager;
 function RoomManager (context) {
 	this.template_path = 'dialogs/roommanager.jade';
 	this.mode = 'unjoined';
-	this.title = "Manage Rooms";
 	Dialog.call(this, context);
 }
 
@@ -24,7 +23,13 @@ RoomManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
 		template: 'dialogs/menu.jade',
 		templateOptions: {
-			mode: this.mode
+			mode: this.mode,
+			header: 'Manage Rooms',
+			button: {
+				className: 'new-room',
+				text: 'Create new room',
+				visible: true
+			}
 		}
 	});
 
@@ -70,27 +75,27 @@ RoomManager.prototype.bind = function () {
 }
 
 RoomManager.prototype.setUnjoined = function () {
-	this.mode = this.roomList.templateOptions.mode = 'unjoined';
-	this.title = "Manage Rooms";
+	var menuOptions = this.menu.templateOptions;
+	this.mode = menuOptions.mode = this.roomList.templateOptions.mode = 'unjoined';
+	menuOptions.button.visible = true;
+	menuOptions.header = 'Manager Rooms';
 	this.redrawContent(0);
 }
 
 RoomManager.prototype.setJoined = function () {
-	this.mode = this.roomList.templateOptions.mode = 'joined';
-	this.title = "Manage Rooms";
+	var menuOptions = this.menu.templateOptions;
+	this.mode = this.menu.templateOptions.mode = this.roomList.templateOptions.mode = 'joined';
+	menuOptions.button.visible = true;
+	menuOptions.header = 'Manager Rooms';
 	this.redrawContent(1);
 }
 
 RoomManager.prototype.setCreate = function () {
-	this.mode = this.menu.templateOptions.mode = this.roomList.templateOptions.mode = 'creation';
-	this.title = "Create new room";
+	var menuOptions = this.menu.templateOptions;
+	this.mode = menuOptions.mode = this.roomList.templateOptions.mode = 'creation';
+	menuOptions.button.visible = false;
+	menuOptions.header = 'Create new room';
 	this.redrawContent(2);
-
-	// Animations
-	var container = qs('.container', this.dialog.el);
-
-	classes(qs('.new-room', this.dialog.el)).add('hidden');
-	classes(qs('.title span', this.dialog.el)).add('hidden');
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {

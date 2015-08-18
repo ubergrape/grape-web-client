@@ -17,7 +17,10 @@ var protoInit = PMManager.prototype.init;
 
 PMManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
-		template: 'dialogs/menu.jade'
+		template: 'dialogs/menu.jade',
+		templateOptions: {
+			header: 'Manage Private Messages'
+		}
 	});
 	menu.setItems([
 		{
