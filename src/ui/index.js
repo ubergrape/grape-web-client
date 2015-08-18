@@ -460,4 +460,5 @@ UI.prototype.onTriggerPMManager = function () {
 	var pmmanager = new PMManager({
 		users: this.org.users
 	}).closable().overlay().show();
+	broker(this, 'selectchannel', pmmanager, 'end');
 }

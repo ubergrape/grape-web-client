@@ -5,7 +5,6 @@ var qs = require('query');
 var events = require('events');
 var closest = require('closest');
 var template = require('template');
-var classes = require('classes');
 var render = require('../../rendervdom');
 
 module.exports = RoomManager;
