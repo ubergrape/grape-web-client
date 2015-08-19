@@ -48,6 +48,7 @@ PMManager.prototype.init = function () {
 	pmList.setItems(this.context.users.filter(function(user){
 		return user != ui.user
 	}));
+	pmList.order('displayName');
 
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
@@ -83,7 +84,7 @@ PMManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
 	menu.selectTab(null);
 	menu.selectTab(menu.options.tabs.items[selected]);
-	this.pmList.redraw();
+	this.pmList.order('displayName');
 }
 
 PMManager.prototype.onChangeUser = function () {

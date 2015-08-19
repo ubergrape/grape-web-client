@@ -50,6 +50,7 @@ RoomManager.prototype.init = function () {
 		}
 	});
 	roomList.setItems(this.context.rooms);
+	roomList.order('name');
 
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
@@ -127,7 +128,7 @@ RoomManager.prototype.redrawContent = function (selected) {
 	menu.selectTab(null);
 	menu.selectTab(menu.options.tabs.items[selected]);
 	menu.redraw();
-	this.roomList.redraw();
+	this.roomList.order('name');
 	this.redrawCreationForm();
 }
 

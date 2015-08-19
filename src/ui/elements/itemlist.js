@@ -48,3 +48,9 @@ ItemList.prototype.selectItem = function (item) {
 	this.redraw();
 };
 
+ItemList.prototype.order = function (whatBy) {
+	this.items.sort(function(a, b) {
+		return a[whatBy].localeCompare(b[whatBy]);
+	});
+	this.redraw();
+}
