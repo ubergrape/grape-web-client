@@ -43,9 +43,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	var self = this;
 
 	this.events = events(this.el, {
-		'toggleUserMenu': function () {
-			self.emit('toggleusermenu', qs('.user-menu-wrap', self.el));
-		},
 		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
@@ -132,7 +129,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		}
 	});
 
-	this.events.bind('click .user-menu-wrap', 'toggleUserMenu');
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');

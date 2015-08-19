@@ -260,15 +260,8 @@ UI.prototype.bind = function UI_bind() {
 	if (typeof MacGap !== 'undefined') {
 		var as, i;
 		as = qs.all('a', this.organizationMenu.el);
-		for (i = 0; i < as.length; ++i) {
+		for (i = 0; i < as.length; ++i)
 			as[i].target = '_blank';
-		}
-		as = qs.all('a', this.userMenu.el);
-		for (i = 0; i < as.length; ++i) {
-			if (as[i].href.endsWith('/accounts/settings/')) {
-				as[i].target = '_blank';
-			}
-		}
 	}
 };
 
