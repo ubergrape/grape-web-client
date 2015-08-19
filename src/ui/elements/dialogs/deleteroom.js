@@ -12,7 +12,7 @@ module.exports = DeleteRoomDialog;
 function DeleteRoomDialog(context) {
 	this.template_path = 'dialogs/deleteroom.jade';
 	Dialog.call(this, context);
-	this.button = qs('.delete', this.el);
+	this.button = qs('.delete-room-button', this.el);
 	this.form = qs('.delete-room-form', this.el);
 	if (this.form) this.roomNameInput = this.form.roomname;
 }
