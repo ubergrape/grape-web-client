@@ -4,7 +4,8 @@ if (room.creator === user || org.role === constants.roles.ROLE_ADMIN || org.role
 			span=_('Delete "') + room.name + _('"?')
 	.container
 		i.warning.mdi.mdi-alert-octagon
-		p= _('Are you sure you want to delete this room?')
+		p
+			| Are you sure you want to delete this room?
 			br
 			.warning
 				=_("Warning: This action can't be undone!")
