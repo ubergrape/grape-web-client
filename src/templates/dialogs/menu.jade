@@ -7,5 +7,5 @@
 					=_(button.text)
 	if tabs
 		div.manager-menu(class=tabs.visible ? '' : 'hidden')
-			each item in items
-				a(class=item.className, class= item == selected ? 'selected' : '')= _(item.title)
+			each tab in tabs.items
+				a(class=tab.className, class= tab == tabs.selected ? 'selected' : '')= _(tab.title)

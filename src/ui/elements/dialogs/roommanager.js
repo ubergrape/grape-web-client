@@ -20,19 +20,17 @@ var protoInit = RoomManager.prototype.init;
 
 RoomManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
-		template: 'dialogs/menu.jade',
-		templateOptions: {
-			header: 'Manage Rooms',
-			tabs: {
-				visible: true
-			},
-			button: {
-				className: 'new-room',
-				text: 'Create new room',
-				visible: true
-			}
+		header: 'Manage Rooms',
+		tabs: {
+			visible: true
+		},
+		button: {
+			className: 'new-room',
+			text: 'Create new room',
+			visible: true
 		}
 	});
+
 	menu.setTabs([
 		{
 			className: 'rooms-to-join',
@@ -76,7 +74,7 @@ RoomManager.prototype.bind = function () {
 }
 
 RoomManager.prototype.setUnjoined = function () {
-	var menuOptions = this.menu.templateOptions;
+	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'unjoined';
 	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
@@ -85,7 +83,7 @@ RoomManager.prototype.setUnjoined = function () {
 }
 
 RoomManager.prototype.setJoined = function () {
-	var menuOptions = this.menu.templateOptions;
+	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'joined';
 	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
@@ -94,7 +92,7 @@ RoomManager.prototype.setJoined = function () {
 }
 
 RoomManager.prototype.setCreate = function () {
-	var menuOptions = this.menu.templateOptions;
+	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'creation';
 	menuOptions.button.visible = false;
 	menuOptions.tabs.visible = false;
@@ -126,8 +124,8 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 
 RoomManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
-	menu.selectItem(null);
-	menu.selectItem(menu.items[selected]);
+	menu.selectTab(null);
+	menu.selectTab(menu.options.tabs.items[selected]);
 	menu.redraw();
 	this.roomList.redraw();
 	this.redrawCreationForm();

@@ -17,15 +17,13 @@ var protoInit = PMManager.prototype.init;
 
 PMManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
-		template: 'dialogs/menu.jade',
-		templateOptions: {
-			header: 'Manage Private Messages',
-			tabs: {
-				visible: true
-			},
-			button: null
-		}
+		header: 'Manage Private Messages',
+		tabs: {
+			visible: true
+		},
+		button: null
 	});
+
 	menu.setTabs([
 		{
 			className: 'active-users',
@@ -83,8 +81,8 @@ PMManager.prototype.setDeleted = function () {
 
 PMManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
-	menu.selectItem(null);
-	menu.selectItem(menu.items[selected]);
+	menu.selectTab(null);
+	menu.selectTab(menu.options.tabs.items[selected]);
 	this.pmList.redraw();
 }
 

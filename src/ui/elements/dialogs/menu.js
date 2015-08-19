@@ -4,34 +4,21 @@ var render = require('../../rendervdom')
 module.exports = Menu;
 
 function Menu (options) {
-	this.template = options.template;
-	this.items = [];
-	this.templateOptions = options.templateOptions ? options.templateOptions : null;
-	this.selected = null;
+	this.template = 'dialogs/menu.jade';
+	this.options = options;
 }
 
-Menu.prototype.redraw = function Menu_redraw() {
-	render(this, template(this.template, this.extendTemplateOptions()));
+Menu.prototype.redraw = function () {
+	render(this, template(this.template, this.options));
 }
 
-Menu.prototype.extendTemplateOptions = function () {
-	var options = {
-		items: this.items,
-		selected: this.selected
-	};
-	for (var item in this.templateOptions) {
-		options[item] = this.templateOptions[item];
-	}
-	return options;
-}
-
-Menu.prototype.setTabs = function Menu_setItems(items, selected) {
-	this.selected = items[0];
-	this.items = items;
+Menu.prototype.setTabs = function (tabs, selected) {
+	this.options.tabs.selected = tabs[0];
+	this.options.tabs.items = tabs;
 	this.redraw();
 }
 
-Menu.prototype.selectItem = function Menu_selectItem(item) {
-	this.selected = item;
+Menu.prototype.selectTab = function (tab) {
+	this.options.tabs.selected = tab;
 	this.redraw();
 }
