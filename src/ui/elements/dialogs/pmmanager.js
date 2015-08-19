@@ -19,10 +19,14 @@ PMManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
 		template: 'dialogs/menu.jade',
 		templateOptions: {
-			header: 'Manage Private Messages'
+			header: 'Manage Private Messages',
+			tabs: {
+				visible: true
+			},
+			button: null
 		}
 	});
-	menu.setItems([
+	menu.setTabs([
 		{
 			className: 'active-users',
 			title: 'Active'

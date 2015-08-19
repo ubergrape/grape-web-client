@@ -25,7 +25,7 @@ Menu.prototype.extendTemplateOptions = function () {
 	return options;
 }
 
-Menu.prototype.setItems = function Menu_setItems(items, selected) {
+Menu.prototype.setTabs = function Menu_setItems(items, selected) {
 	this.selected = items[0];
 	this.items = items;
 	this.redraw();

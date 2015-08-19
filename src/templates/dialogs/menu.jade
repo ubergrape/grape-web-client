@@ -5,6 +5,7 @@
 			div(class=button.className)
 				.dialog-button
 					=_(button.text)
-	div.manager-menu(class=mode == 'creation' ? 'hidden' : '')
-		each item in items
-			a(class=item.className, class= item == selected ? 'selected' : '')= _(item.title)
+	if tabs
+		div.manager-menu(class=tabs.visible ? '' : 'hidden')
+			each item in items
+				a(class=item.className, class= item == selected ? 'selected' : '')= _(item.title)

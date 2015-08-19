@@ -22,8 +22,10 @@ RoomManager.prototype.init = function () {
 	var menu = this.menu = new Menu({
 		template: 'dialogs/menu.jade',
 		templateOptions: {
-			mode: this.mode,
 			header: 'Manage Rooms',
+			tabs: {
+				visible: true
+			},
 			button: {
 				className: 'new-room',
 				text: 'Create new room',
@@ -31,8 +33,7 @@ RoomManager.prototype.init = function () {
 			}
 		}
 	});
-
-	menu.setItems([
+	menu.setTabs([
 		{
 			className: 'rooms-to-join',
 			title: 'Join rooms'
@@ -76,24 +77,27 @@ RoomManager.prototype.bind = function () {
 
 RoomManager.prototype.setUnjoined = function () {
 	var menuOptions = this.menu.templateOptions;
-	this.mode = menuOptions.mode = this.roomList.templateOptions.mode = 'unjoined';
+	this.mode = this.roomList.templateOptions.mode = 'unjoined';
 	menuOptions.button.visible = true;
+	menuOptions.tabs.visible = true;
 	menuOptions.header = 'Manager Rooms';
 	this.redrawContent(0);
 }
 
 RoomManager.prototype.setJoined = function () {
 	var menuOptions = this.menu.templateOptions;
-	this.mode = this.menu.templateOptions.mode = this.roomList.templateOptions.mode = 'joined';
+	this.mode = this.roomList.templateOptions.mode = 'joined';
 	menuOptions.button.visible = true;
+	menuOptions.tabs.visible = true;
 	menuOptions.header = 'Manager Rooms';
 	this.redrawContent(1);
 }
 
 RoomManager.prototype.setCreate = function () {
 	var menuOptions = this.menu.templateOptions;
-	this.mode = menuOptions.mode = this.roomList.templateOptions.mode = 'creation';
+	this.mode = this.roomList.templateOptions.mode = 'creation';
 	menuOptions.button.visible = false;
+	menuOptions.tabs.visible = false;
 	menuOptions.header = 'Create new room';
 	this.redrawContent(2);
 }
