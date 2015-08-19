@@ -102,8 +102,8 @@ UI.prototype.init = function UI_init() {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// initialize the popovers
 	this.organizationMenu = new OrganizationPopover();
+
 	this.searchView = new SearchView();
 
 	this.chatHeader = new ChatHeader();
