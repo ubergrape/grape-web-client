@@ -1,5 +1,13 @@
 ul.dialog-list.pm-list
-	li
+	if mode == 'active'
+		li.item.header
+			=_('All active users in your organization')
+	if mode == 'invited'
+		li.item.header
+			=_('Users who have not accepted their invitation yet')
+	if mode == 'deleted'
+		li.item.header
+			=_('Archived messages with deleted users')
 	each user in items
 		if mode === 'active' && user.active && !user.is_only_invited
 			li.item.pm
