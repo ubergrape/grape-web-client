@@ -6,7 +6,6 @@ var events = require('events');
 var dialog = require('dialog');
 var v = require('virtualdom');
 var template = require('template');
-var render = require('../../rendervdom');
 
 module.exports = Dialog;
 
