@@ -278,6 +278,7 @@
 	.room-list
 	.pm-list
 		padding: 4px 0px 10px 0px
+		margin-bottom: 0px
 		a
 			text-decoration: none
 		.main
@@ -295,6 +296,20 @@
 			@extend $clearfix
 			padding-top: 9px
 			padding-bottom: 9px
+			&:hover
+				background: rgba(sidebar-button-background, 0.1)
+				.room-name
+					color: #404040 !important
+				.room-info
+					color: darken(gainsboro-dark, 40%) !important
+				button
+					opacity: 1
+		.pm
+			@extend $clearfix
+			padding-top: 3px
+			padding-bottom: 3px
+			a:hover
+				background: none !important
 			&:hover
 				background: rgba(sidebar-button-background, 0.1)
 				.room-name
