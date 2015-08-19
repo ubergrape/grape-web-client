@@ -78,7 +78,7 @@ RoomManager.prototype.setUnjoined = function () {
 	this.mode = this.roomList.templateOptions.mode = 'unjoined';
 	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
-	menuOptions.header = 'Manager Rooms';
+	menuOptions.header = 'Manage Rooms';
 	this.redrawContent(0);
 }
 
@@ -87,7 +87,7 @@ RoomManager.prototype.setJoined = function () {
 	this.mode = this.roomList.templateOptions.mode = 'joined';
 	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
-	menuOptions.header = 'Manager Rooms';
+	menuOptions.header = 'Manage Rooms';
 	this.redrawContent(1);
 }
 
