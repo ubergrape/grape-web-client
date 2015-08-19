@@ -465,7 +465,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
 			msg.status = "unsent";
 			this.queueDraw();
 		}
-	}.bind(this), 10000);
+	}.bind(this), 5000);
 };
 
 HistoryView.prototype.onUploading = function HistoryView_onUploading () {
