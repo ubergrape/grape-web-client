@@ -118,7 +118,7 @@ API.prototype.onConnect = function API_onConnect(data) {
     }));
     this.connected = true;
     this.connecting = false;
-    this.emit('change user', this.user);
+    this.emit('changeUser', this.user);
     this.emit('change settings', this.settings);
     this.emit('change organizations', this.organizations);
     this.emit('connected');
@@ -150,7 +150,6 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		});
 		return;
 	}
-	// Temporary disabled.
 	ws = new WebSocket(opts.wsUri);
 	ws.once('open', function() {
 		console.log("connection: websocket connection opened")
@@ -447,7 +446,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#status', function (data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
@@ -464,7 +463,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.displayName = data.user.displayName;
 		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
@@ -608,12 +607,12 @@ API.prototype.openPM = function API_openPM(user, callback) {
 	});
 };
 
-API.prototype.createRoom = function API_createRoom(room) {
+API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', err.details);
-		self.emit('roomcreated', self._tryAddRoom(room));
+		if (err) return self.emit('roomCreationError', err.details);
+		self.emit('roomCreated', self._tryAddRoom(room));
 	});
 };
 
@@ -638,7 +637,7 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	});
 };
 
-API.prototype.leaveRoom = function API_leaveRoom(roomID) {
+API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 	var self = this;
 	var room = models.Room.get(roomID);
 	if (!room.joined) return;

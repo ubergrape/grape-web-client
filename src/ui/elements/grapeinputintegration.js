@@ -225,8 +225,7 @@ GrapeInputIntegration.prototype.editMessage = function (msg) {
 
 GrapeInputIntegration.prototype.findPreviousMessage = function () {
 	var message;
-	var history = this.room.history.slice();
-	history.reverse();
+	var history = this.room.history.slice().reverse();
 	history.some(function(msg) {
 		// TODO avoid globals.
 		if (msg.author == ui.user && !msg.attachments.length) {

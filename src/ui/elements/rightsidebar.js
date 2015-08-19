@@ -33,8 +33,7 @@ RightSidebar.prototype.init = function RightSidebar_init() {
 	this.redraw();
 
 	var uploadsList = this.uploadsList = new ItemList({
-		template: 'uploads.jade',
-		selector: '.item a'
+		template: 'uploads.jade'
 	});
 //	replace(qs('.uploads', this.el), uploadsList.el);
 

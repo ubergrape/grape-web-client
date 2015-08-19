@@ -53,9 +53,6 @@ template.locals.html = function (html) {
 
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
-var RoomManagerPopover = exports.RoomManagerPopover = require('./elements/popovers/roommanager');
-var UserPopover = exports.UserPopover = require('./elements/popovers/user');
-var PMManagerPopover = exports.PMPopover = require('./elements/popovers/pmmanager');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
@@ -70,6 +67,8 @@ var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
 var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
+var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
+var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
 
 function UI(options) {
 	Emitter.call(this);
@@ -103,11 +102,8 @@ UI.prototype.init = function UI_init() {
 	var navigation = this.navigation = new Navigation();
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
-	// initialize the popovers
-	this.roomManager = new RoomManagerPopover();
-	this.PMManager = new PMManagerPopover();
-	this.userMenu = new UserPopover();
 	this.organizationMenu = new OrganizationPopover();
+
 	this.searchView = new SearchView();
 
 	this.chatHeader = new ChatHeader();
@@ -358,7 +354,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;
 	self.emit('joinroom', room, function() {
 		page('/chat/' + room.slug);
-		self.emit('endroomcreation');
+		self.emit('endRoomCreation');
 	});
 };
 
@@ -401,7 +397,8 @@ UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
 	})
 	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
 	var invite = new InviteDialog({
-		users: users
+		users: users,
+		room: room
 	}).closable().overlay().show();
 	broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
 }
@@ -443,4 +440,27 @@ UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel)
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
 	page('/chat/' + redirectSlug);
+}
+
+UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
+	var roommanager = new RoomManager({
+		rooms: this.org.rooms
+	}).closable().overlay().show();
+	broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
+	broker.pass(roommanager, 'createRoom', this, 'createRoom');
+	broker(this, 'leftChannel', roommanager, 'onLeftChannel');
+	broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
+	broker(this, 'roomCreationError', roommanager, 'onRoomCreationError');
+	broker(this, 'newRoom', roommanager, 'onNewRoom');
+	broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
+	broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
+}
+
+UI.prototype.onTriggerPMManager = function () {
+	var pmmanager = new PMManager({
+		users: this.org.users
+	}).closable().overlay().show();
+	broker(this, 'selectchannel', pmmanager, 'end');
+	broker(this, 'changeUser', pmmanager, 'onChangeUser');
+	broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
 }

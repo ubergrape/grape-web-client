@@ -41,7 +41,7 @@ InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
 
 	inviteButton.disabled = true;
 
-	this.emit('inviteToRoom', ui.room, users, function inviteToRoom_callback(err, result){
+	this.emit('inviteToRoom', this.context.room, users, function inviteToRoom_callback(err, result){
 		if (err) {
 			var errorText = err.details ? err.details : _('You cannot invite those users.')
 			inviteInput.setCustomValidity(err.details);

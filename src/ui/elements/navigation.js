@@ -32,26 +32,22 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = this.nav.el;
 
 	var roomList = this.roomList = new ItemList({
-		template: 'roomlist.jade',
-		selector: '.item a'
+		template: 'roomlist.jade'
 	});
 	replace(qs('.rooms', this.el), roomList.el);
 
 	var roomListCollapsed = this.roomListCollapsed = new ItemList({
-		template: 'roomlist-collapsed.jade',
-		selector: '.item a'
+		template: 'roomlist-collapsed.jade'
 	});
 	replace(qs('.rooms-collapsed', this.el), roomListCollapsed.el);
 
 	var pmList = this.pmList = new ItemList({
-		template: 'pmlist.jade',
-		selector: '.item a'
+		template: 'pmlist.jade'
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
 	var pmListCollapsed = this.pmListCollapsed = new ItemList({
-		template: 'pmlist-collapsed.jade',
-		selector: '.item a'
+		template: 'pmlist-collapsed.jade'
 	});
 	replace(qs('.pms-collapsed', this.el), pmListCollapsed.el);
 
@@ -135,17 +131,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		},
 		triggerRoomManager: function(ev) {
-			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
+			self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
-			// TODO it is not ok to hardcode this
-			var pmPopoverH = 350;
-			// two pms list in the DOM for no reason at all
-			var pmSections = qs.all('.pm-list', this.el)
-			var pmSectionVisible = self.collapsedMode ? pmSections[1] : pmSections[0];
-			var pmSectionVisibleH = self.el.clientHeight - pmSectionVisible.getBoundingClientRect().top;
-			var isTop = pmSectionVisibleH - pmPopoverH >= 0 ? false : true;
-			self.emit('triggerPMManager', closest(ev.target, 'div', true), isTop);
+			self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);

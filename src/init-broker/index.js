@@ -8,11 +8,11 @@ module.exports = doBroker;
 function doBroker(ui, api) {
 	broker(api, 'change organization', ui, 'setOrganization');
 	broker(api, 'change organizations', ui, 'setOrganizations');
-	broker(api, 'change user', ui, 'setUser');
+	broker(api, 'changeUser', ui, 'setUser');
 	broker(api, 'change settings', ui, 'setSettings');
 	broker(api, 'leftChannel', ui, 'leftChannel');
 	broker(api, 'gotsearchresults', ui, 'displaySearchResults');
-	broker(api, 'roomcreated', ui, 'roomCreated');
+	broker(api, 'roomCreated', ui, 'roomCreated');
 	broker(api, 'roomdeleted', ui, 'roomDeleted');
 	broker(api, 'error', ui, 'gotError');
 	broker(api, 'messageNotFound', ui, 'onMessageNotFound');
@@ -24,8 +24,8 @@ function doBroker(ui, api) {
 	broker(ui, 'setNotificationsSession', api, 'onSetNotificationsSession');
 	broker(ui, 'kickMember', api, 'onKickMember');
 	broker(ui, 'joinroom', api, 'joinRoom');
-	broker(ui, 'leaveroom', api, 'leaveRoom');
-	broker(ui, 'createroom', api, 'createRoom');
+	broker(ui, 'leaveRoom', api, 'onLeaveRoom');
+	broker(ui, 'createRoom', api, 'onCreateRoom');
 	broker(ui, 'deleteroom', api, 'deleteRoom');
 	broker(ui, 'openpm', api, 'openPM');
 	broker(ui, 'send', api, 'publish');
@@ -49,7 +49,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'newInviteNotification', ui, 'newInviteNotification');
 	broker.pass(api, 'channelRead', ui, 'channelRead');
 	broker.pass(api, 'newPMOpened', ui, 'newPMOpened');
-	broker.pass(api, 'change user', ui, 'change user');
+	broker.pass(api, 'changeUser', ui, 'changeUser');
 	broker.pass(api, 'joinedChannel', ui, 'joinedChannel');
 	broker.pass(api, 'leftChannel', ui, 'leftChannel');
 	broker.pass(api, 'newRoomMember', ui, 'newRoomMember');
@@ -58,7 +58,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'gotHistory', ui, 'gotHistory');
 	broker.pass(api, 'nohistory', ui, 'nohistory');
 	broker.pass(api, 'roomrenameerror', ui, 'roomrenameerror');
-	broker.pass(api, 'roomcreateerror', ui, 'roomcreateerror');
+	broker.pass(api, 'roomCreationError', ui, 'roomCreationError');
 	broker.pass(api, 'channelupdate', ui, 'channelupdate');
 	broker.pass(api, 'userDeleted', ui, 'userDeleted');
 	broker.pass(api, 'newOrgMember', ui, 'newOrgMember');
