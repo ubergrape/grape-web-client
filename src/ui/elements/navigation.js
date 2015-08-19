@@ -133,7 +133,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			if (self.ready) self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
-			if (self.ready) <self.emit('triggerPMManager');
+			if (self.ready) self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
