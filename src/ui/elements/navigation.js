@@ -133,7 +133,7 @@ Navigation.prototype.bind = function Navigation_bind() {
 			if (self.ready) self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
-			if (self.ready) self.emit('triggerPMManager');
+			if (self.ready) <self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
@@ -331,7 +331,6 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	// we need this redraw for the organization logo
 	// cause that is part of the navigation too
 	this.redraw();
-
 	this.ready = true;
 }
 
