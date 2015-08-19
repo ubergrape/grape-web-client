@@ -20,7 +20,7 @@ var images = {
     spinner: staticurl('/images/preloader-onwhite.gif')
 };
 
-require('grape-input');
+require('grape-browser');
 
 function GrapeInputIntegration() {
 	Emitter.call(this);
@@ -41,14 +41,13 @@ GrapeInputIntegration.prototype.init = function () {
 	this.bindEvents();
 	this.input = q('grape-input', this.el);
 	images.orgLogo = this.org.logo;
-	this.setProps();
+	this.setProps({focused: true});
 };
 
 GrapeInputIntegration.prototype.setProps = function (newProps) {
 	var props = {
 		images: images,
 		customEmojis: this.org.custom_emojis,
-		focused: true,
 		placeholder: this.placeholder,
 		hasIntegrations: this.org.has_integrations
 	};
@@ -63,8 +62,8 @@ GrapeInputIntegration.prototype.bindEvents = function () {
 	this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser');
 	this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser');
 	this.events.bind('grapeComplete grape-input', 'onComplete');
-	this.events.bind('grapeFilterSelect grape-input', 'onFilterSelect');
-	this.events.bind('grapeEditPrevious grape-input', 'onPreviousEdit');
+	this.events.bind('grapeSelectFilter grape-input', 'onSelectFilter');
+	this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious');
 	this.events.bind('grapeAbort grape-input', 'onAbort');
 	this.events.bind('grapeChange grape-input', 'onChange');
 	this.events.bind('grapeSubmit grape-input', 'onSubmit');
@@ -113,15 +112,15 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 	var props = this.input.props
 	// Show browser immediately with empty state.
 	this.setProps({
-		type: 'search',
-		data: props.type == 'search' ? props.data : null,
+		browser: 'search',
+		data: props.browser == 'search' ? props.data : null,
 		isLoading: true
 	});
 
 	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.setProps({
-			type: 'search',
+			browser: 'search',
 			data: data
 		});
 	}.bind(this));
@@ -133,13 +132,13 @@ GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
 	var rooms = this.findRooms(key);
 	var data = users.concat(rooms);
 	this.setProps({
-		type: 'user',
+		browser: 'user',
 		data: data
 	});
 };
 
 GrapeInputIntegration.prototype.showEmojiBrowser = function () {
-	this.setProps({type: 'emoji'});
+	this.setProps({browser: 'emoji'});
 };
 
 GrapeInputIntegration.prototype.findUsers = function (key) {
@@ -292,17 +291,17 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 	}
 };
 
-GrapeInputIntegration.prototype.onFilterSelect = function (e) {
+GrapeInputIntegration.prototype.onSelectFilter = function (e) {
 	this.emit('autocomplete', e.detail.key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.setProps({
-			type: 'search',
+			browser: 'search',
 			data: data
 		});
 	}.bind(this));
 };
 
-GrapeInputIntegration.prototype.onPreviousEdit = function () {
+GrapeInputIntegration.prototype.onEditPrevious = function () {
 	var msg = this.findPreviousMessage();
 	if (msg) this.editMessage(msg);
 };
@@ -311,8 +310,8 @@ GrapeInputIntegration.prototype.onAbort = function (e) {
 	var data = e.detail;
 
 	// Don't abort editing if browser has been open.
-	if (!data.type) this.completePreviousEdit();
-    if (data.type == 'search' && data.reason == 'esc') {
+	if (!data.browser) this.completePreviousEdit();
+    if (data.browser == 'search' && data.reason == 'esc') {
     	analytics.track('abort autocomplete', data);
     }
 };
