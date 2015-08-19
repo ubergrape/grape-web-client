@@ -311,9 +311,12 @@ export default class Input extends Component {
   }
 
   onChangeEditable({query} = {}) {
-    // Used by datalist only.
     if (query) {
-      if (!query.key) {
+      // If it is a browser trigger, we don't reopen browser, but let user type
+      // whatever he wants.
+      // If its a mentioning, user types the search.
+      // TODO migrate mentioning to the browser.
+      if (!query.key || !utils.isBrowserType(query.trigger)) {
         let changed = this.query.set(query, {silent: true})
         if (changed) this.emit('complete', this.query.toJSON())
       }

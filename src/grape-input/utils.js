@@ -1,5 +1,6 @@
 import isEmpty from 'lodash/lang/isEmpty'
 import get from 'lodash/object/get'
+import {EMOJI_TRIGGER, SEARCH_TRIGGER} from '../query/constants'
 
 /**
  * Returns true if search is external.
@@ -34,6 +35,9 @@ export function canShowBrowser(prevState = {}, nextState) {
 /**
  * Returns true if type will br rendered using grape-browser.
  */
-export function isBrowserType(type) {
-  return type && (type === 'search' || type === 'emoji')
+export function isBrowserType(typeOrTrigger) {
+  return typeOrTrigger === EMOJI_TRIGGER ||
+    typeOrTrigger === SEARCH_TRIGGER ||
+    typeOrTrigger === 'search' ||
+    typeOrTrigger === 'emoji'
 }
