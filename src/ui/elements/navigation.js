@@ -21,6 +21,7 @@ function Navigation() {
 	Emitter.call(this);
 	this.init();
 	this.bind();
+	this.ready = false;
 }
 
 Navigation.prototype = Object.create(Emitter.prototype);
@@ -61,9 +62,7 @@ Navigation.prototype.init = function Navigation_init() {
 		self.collapsedMode = store.get('sidebarCollapsedMode');
 
 		var sidebarWidth = store.get('sidebarWidth');
-		if (sidebarWidth == null) {
-			sidebarWidth = "240";
-		}
+		if (sidebarWidth == null) sidebarWidth = "240";
 
 		qs('.client-body').style.marginLeft = sidebarWidth + 'px';
 		self.el.style.width = sidebarWidth + 'px';
@@ -131,10 +130,10 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		},
 		triggerRoomManager: function(ev) {
-			self.emit('triggerRoomManager');
+			if (self.ready) self.emit('triggerRoomManager');
 		},
 		triggerPMManager: function(ev) {
-			self.emit('triggerPMManager');
+			if (self.ready) self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
@@ -322,6 +321,7 @@ Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
+
 	var rooms = org.rooms;
 	var pms = org.users.filter(function(user) {
 		return user != ui.user && user.active && !user.is_only_invited;
@@ -331,5 +331,7 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	// we need this redraw for the organization logo
 	// cause that is part of the navigation too
 	this.redraw();
+
+	this.ready = true;
 }
 
