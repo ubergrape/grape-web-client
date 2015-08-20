@@ -46,7 +46,7 @@ SearchView.prototype.showResults = function SearchView_showResults(results) {
 	this.results = results;
 	this.redraw();
 	this.el = this.search.el;
-	qs('div.chat-wrapper').appendChild(this.el);
+	qs('div.client-body').appendChild(this.el);
 	var messageLinks = qs.all('a.message-link', this.el);
 	for (var i = 0; i < messageLinks.length; i++)
 		messageLinks[i].addEventListener('click', this.hideResults.bind(this));
