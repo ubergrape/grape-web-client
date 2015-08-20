@@ -19,10 +19,7 @@
 									| #{result.service} #{result.type}
 							.item-content
 								.item-text
-									if (result.index_type !== 'object')
-										span.user= result.author.username
-									else
-										span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
+									span(class=result.service + " entry-type-icon service-" + result.service + " type-" + result.service + result.type)
 									= html(result.highlighted)
 									if (result.index_type === 'object')
 										span
@@ -30,8 +27,12 @@
 											| #{result.container}
 								if (result.index_type !== 'object')
 									ul.item-footer
+										if (result.index_type !== 'object')
+											li
+												i.mdi.mdi-account-box
+												span.user= result.author.username
 										li
-											i.fa.fa-comment
+											i.mdi.mdi-forum
 											if result.channel.type === "room"
 												span= result.channel.name
 											else if result.channel.type === "pm"
@@ -40,4 +41,5 @@
 														if u.id !== user.id
 															= u.username
 										li.time
+											i.mdi.mdi-calendar
 											time(datetime=result.time.toISOString())= strftime('%e %B %Y %H:%M', result.time)
