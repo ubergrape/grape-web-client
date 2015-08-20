@@ -1,5 +1,8 @@
 .top-bar
 	.title
+		if (back && back.visible)
+			div(class=back.className)
+				i.fa.fa-arrow-left
 		span=_(header)
 		if (button && button.visible)
 			div(class=button.className)
