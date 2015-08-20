@@ -356,7 +356,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		// to ensure consistent behaviour across clients
 		if (user === self.user) {
 			room.joined = true;
-			self.emit('joinedChannel');
+			self.emit('joinedChannel', room);
 		}
 		room.users.push(user);
 		self.emit('newRoomMember', room);
@@ -632,7 +632,6 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
-		self.emit('joinedChannel');
 		if (callback !== undefined) callback();
 	});
 };
@@ -644,7 +643,6 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
-		self.emit('leftChannel', room);
 	});
 };
 

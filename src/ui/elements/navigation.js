@@ -287,22 +287,25 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	collapsedList.redraw();
 }
 
-Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
+Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
+	var newRoomIndex = this.roomList.items.indexOf(room);
+	if (newRoomIndex == -1) return;
+	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead (line) {
 	if (ui.user == line.author) return;
 	this.redraw();
 }
 
-Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
+Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
+Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
 	if (user == ui.user) return;
 	var pmList = this.pmList;
 	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
@@ -310,19 +313,23 @@ Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
 	this.pmListCollapsed.redraw();
 }
 
-Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
+Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel (room) {
+	var joinedRoomIndex = this.roomList.items.indexOf(room);
+	if (joinedRoomIndex > -1) return;
+	this.roomList.items.push(room);
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
+Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel (room) {
+	var newRoomIndex = this.roomList.items.indexOf(room);
+	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-
-	var rooms = org.rooms;
+	var rooms = org.rooms.slice();
 	var pms = org.users.filter(function(user) {
 		return user != ui.user && user.active && !user.is_only_invited;
 	});

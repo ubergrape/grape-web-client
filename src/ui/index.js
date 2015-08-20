@@ -437,7 +437,7 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 	var roommanager = new RoomManager({
-		rooms: this.org.rooms
+		rooms: this.org.rooms.slice()
 	}).closable().overlay().show();
 	broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
 	broker.pass(roommanager, 'createRoom', this, 'createRoom');
@@ -451,7 +451,7 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 
 UI.prototype.onTriggerPMManager = function () {
 	var pmmanager = new PMManager({
-		users: this.org.users
+		users: this.org.users.slice()
 	}).closable().overlay().show();
 	broker(this, 'selectchannel', pmmanager, 'end');
 	broker(this, 'changeUser', pmmanager, 'onChangeUser');
