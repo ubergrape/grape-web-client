@@ -1,0 +1,46 @@
+ul.room-list(class=mode == 'creation' ? 'hidden' : '')
+	if mode == 'unjoined'
+		li.item.header
+			=_('Rooms you can join')
+	else if mode == 'joined'
+		li.item.header
+			=_('Rooms you have joined')
+	each room in items
+		if mode == 'unjoined' && !room.joined
+			li.item.room(data-id=room.id, key=room.id)
+				a(href="/chat/" + room.slug)
+					button.toggle.join
+						=_('Join')
+					.room-face(style='background-color:#{room.color}')
+						=room.abbr
+						if !room.is_public
+							i.room-icon.fa.fa-lock
+					.main
+						.room-name=room.name
+						ul.room-info
+							li.users
+								i.mdi.mdi-account-multiple
+								|  #{room.users.length}
+							if room.creator
+								li.creator(title="Creator of this room")
+									i.mdi.mdi-account-box
+									span.user-name= room.creator.displayName
+		if mode == 'joined' && room.joined
+			li.item.room.leave(data-id=room.id, key=room.id)
+				a
+					button.toggle.leave
+						=_('Leave')
+					.room-face(style="background-color:#{room.color}")
+						=room.abbr
+						if !room.is_public
+							i.room-icon.fa.fa-lock
+					.main
+						.room-name=room.name
+						ul.room-info
+							li.users
+								i.mdi.mdi-account-multiple
+								|  #{room.users.length}
+							if room.creator
+								li.creator
+									i.mdi.mdi-account-box
+									span.user-name= room.creator.displayName

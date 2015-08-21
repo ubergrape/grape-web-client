@@ -1,28 +1,33 @@
-h2=_("ChatGrape Markdown ")
-p=_("How to improve your chat messages with some nifty styles")
+.top-bar.markdown-tips
+	.title
+		span=_('Markdown tips')
+.container.markdown-tips
+	p=_("How to improve your chat messages with some nifty styles")
 
-h3=_("Inline styles")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Inline styles")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code=_("You can write in *italic*, **bold** and in ~~strike trough~~")
-		td
-			em=_("Result")
+		.cell
+			.cell-title
+				=_("Result")
 			p
 				=_("You can write in ")
-				em=_("italic") 
-				| , 
+				em=_("italic")
+				| ,
 				strong=_("bold ")
 				=_("and in ")
 				s=_("strike trough")
-hr
-h3=_("Lists")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Lists")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code
 					=_("- unordered list element")
@@ -33,8 +38,9 @@ table.text
 					=_("1. An ordered list")
 					br
 					=_("1. A second one")
-		td
-			em=_("Result")
+		.cell
+			.cell-title
+				=_("Result")
 			ul
 				li=_("This is an unordered list element")
 				li=_("This is another one")
@@ -42,38 +48,42 @@ table.text
 			ol
 				li=_("An ordered list")
 				li=_("A second one")
-hr
-h3=_("Links")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Links")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code
 					=_("[A link to ChatGrape](https://chatgrape.com)")
-		td
-			em=_("Result")
+		.cell
+			.cell-title
+				=_("Result")
+			br
 			p
 				a(href="https://chatgrape.com")=_("A link to ChatGrape")
-hr
-h3=_("Images")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Images")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code
-					=_("![description](static/chatgrape/static/images/logo.svg)")
-		td
-			em=_("Result")
+					=_("![description](https://ug-cdn.com/static/chatgrape/static/images/logo.svg)")
+	.table(style="margin-top: 6px")
+		.cell
+			.cell-title
+				=_("Result")
 			p
 				img(alt="description", src="https://ug-cdn.com/static/chatgrape/static/images/logo.svg")
-hr
-h3=_("Code Snippets")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Code Snippets")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code
 					=_("This is `Inline` Code")
@@ -88,8 +98,9 @@ table.text
 					| </p>
 					br
 					| ```
-		td
-			em=_("Result")
+		.cell
+			.cell-title
+				=_("Result")
 			p
 				=_("This is ")
 				code(style="display:inline")=_("Inline")
@@ -103,17 +114,18 @@ table.text
 						=_("    This is a Code Block")
 						br
 						| </p>
-hr
-h3=_("Blockquote")
-table.text
-	tr
-		td
-			em=_("Example")
+	.header
+		=_("Blockquote")
+	.table
+		.cell
+			.cell-title
+				=_("Example")
 			pre
 				code
 					=_("> One of the coolest products I've used in a while")
-		td
-			em=_("Result")
+		.cell
+			.cell-title
+				=_("Result")
 			p
 				blockquote
-					=_("> One of the coolest products I've used in a while")
+					=_("One of the coolest products I've used in a while")

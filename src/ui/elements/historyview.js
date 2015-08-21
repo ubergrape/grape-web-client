@@ -57,6 +57,7 @@ HistoryView.prototype.init = function HistoryView_init() {
 
 HistoryView.prototype.bind = function HistoryView_bind() {
 	this.events = events(this.el, this);
+	this.events.bind('click .show-invite', 'toggleInvite');
 	this.events.bind('click i.btn-delete', 'deleteMessage');
 	this.events.bind('click i.btn-edit', 'selectForEditing');
 	this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer');
@@ -81,6 +82,10 @@ HistoryView.prototype.onOrgReady = function HistoryView_onOrgReady (org) {
 	org.pms.forEach( function (pm) {
 		this.unsentBuffer[pm.id] = [];
 	}.bind(this));
+}
+
+HistoryView.prototype.toggleInvite = function () {
+	this.emit('toggleInvite', this.room);
 }
 
 HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
@@ -460,7 +465,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
 			msg.status = "unsent";
 			this.queueDraw();
 		}
-	}.bind(this), 10000);
+	}.bind(this), 5000);
 };
 
 HistoryView.prototype.onUploading = function HistoryView_onUploading () {

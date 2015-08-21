@@ -21,6 +21,7 @@ function Navigation() {
 	Emitter.call(this);
 	this.init();
 	this.bind();
+	this.ready = false;
 }
 
 Navigation.prototype = Object.create(Emitter.prototype);
@@ -32,49 +33,45 @@ Navigation.prototype.init = function Navigation_init() {
 	this.el = this.nav.el;
 
 	var roomList = this.roomList = new ItemList({
-		template: 'roomlist.jade',
-		selector: '.item a'
+		template: 'roomlist.jade'
 	});
 	replace(qs('.rooms', this.el), roomList.el);
 
-	var roomListCompact = this.roomListCompact = new ItemList({
-		template: 'roomlist-compact.jade',
-		selector: '.item a'
+	var roomListCollapsed = this.roomListCollapsed = new ItemList({
+		template: 'roomlist-collapsed.jade'
 	});
-	replace(qs('.rooms-compact', this.el), roomListCompact.el);
+	replace(qs('.rooms-collapsed', this.el), roomListCollapsed.el);
 
 	var pmList = this.pmList = new ItemList({
-		template: 'pmlist.jade',
-		selector: '.item a'
+		template: 'pmlist.jade'
 	});
 	replace(qs('.pms', this.el), pmList.el);
 
-	var pmListCompact = this.pmListCompact = new ItemList({
-		template: 'pmlist-compact.jade',
-		selector: '.item a'
+	var pmListCollapsed = this.pmListCollapsed = new ItemList({
+		template: 'pmlist-collapsed.jade'
 	});
-	replace(qs('.pms-compact', this.el), pmListCompact.el);
+	replace(qs('.pms-collapsed', this.el), pmListCollapsed.el);
 
-	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
-	var	navScrollbarCompact = new Scrollbars(qs('.nav-wrap-out-compact', this.el));
+	var	navScrollbar = this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
+	var	navScrollbarCollapsed = this.navScrollbarCollapsed = new Scrollbars(qs('.nav-wrap-out-collapsed', this.el));
 	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
 		qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling(); }
 
-		self.compactMode = store.get('sidebarCompactMode');
+		self.collapsedMode = store.get('sidebarCollapsedMode');
 
 		var sidebarWidth = store.get('sidebarWidth');
-		if (sidebarWidth == null) {
-			sidebarWidth = "240";
-		}
+		if (sidebarWidth == null) sidebarWidth = "240";
 
 		qs('.client-body').style.marginLeft = sidebarWidth + 'px';
 		self.el.style.width = sidebarWidth + 'px';
 
-		if (self.compactMode && self.compactMode == true) {
+		if (self.collapsedMode && self.collapsedMode == true) {
 			classes(document.body).remove("nav-style-basic");
 			classes(document.body).add("nav-style-collapsed");
+
+			classes(qs('.nav-collapsed')).add('auto-expand');
 		} else {
 			classes(document.body).add("nav-style-basic");
 			classes(document.body).remove("nav-style-collapsed");
@@ -87,6 +84,11 @@ Navigation.prototype.init = function Navigation_init() {
 			store.set('sidebarWidth', self.el.clientWidth);
 		}.bind(self);
 
+		// the `orgReady` event is fired on reconnection as well
+		// so we need to unbind the resizable and the window
+		navResizable.element.removeEventListener('resize', resizeClient);
+		window.removeEventListener('resize', resizeClient);
+		
 		// listening to the event fired by the resizable component
 		navResizable.element.addEventListener('resize', resizeClient);
 		window.addEventListener('resize', resizeClient);
@@ -128,14 +130,23 @@ Navigation.prototype.bind = function Navigation_bind() {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		},
 		triggerRoomManager: function(ev) {
-			self.emit('triggerRoomManager', closest(ev.target, 'a', true));
+			if (self.ready) self.emit('triggerRoomManager');
+		},
+		triggerPMManager: function(ev) {
+			if (self.ready) self.emit('triggerPMManager');
 		},
 		minimizeSidebar: function(ev) {
 			store.set('sidebarWidth', self.el.clientWidth);
 			classes(document.body).remove("nav-style-basic");
 			classes(document.body).add("nav-style-collapsed");
 
-			store.set('sidebarCompactMode', true);
+			qs('.nav-collapsed').onmouseleave = function () {
+				classes(qs('.nav-collapsed')).add('auto-expand');
+				this.onmouseleave = null;
+			}
+
+			self.collapsedMode = true;
+			store.set('sidebarCollapsedMode', true);
 		},
 		expandSidebar: function(ev) {
 			var oldWidth = store.get('sidebarWidth') + 'px';
@@ -143,14 +154,24 @@ Navigation.prototype.bind = function Navigation_bind() {
 			classes(document.body).add("nav-style-basic");
 			classes(document.body).remove("nav-style-collapsed");
 
-			store.set('sidebarCompactMode', false);
+			classes(qs('.nav-collapsed')).remove('auto-expand');
+			qs('.nav-collapsed').onmouseleave = null;
+
+			self.collapsedMode = false;
+			store.set('sidebarCollapsedMode', false);
 		}
 	});
 	this.events.bind('click .create-room', 'triggerRoomCreation');
 	this.events.bind('click .manage-rooms-button', 'triggerRoomManager');
-	this.events.bind('click .manage-rooms-button-compact', 'triggerRoomManager');
+	this.events.bind('click .manage-rooms-button-collapsed', 'triggerRoomManager');
+	this.events.bind('click .addpm', 'triggerPMManager');
 	this.events.bind('click .minimize-sidebar', 'minimizeSidebar');
 	this.events.bind('click .expand-sidebar', 'expandSidebar');
+	var closeNavPopovers = debounce(function() {
+		this.emit('closeNavPopovers');
+	}.bind(this), 500);
+	this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers);
+	this.navScrollbarCollapsed.elem.addEventListener('scroll', closeNavPopovers);
 };
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
@@ -202,14 +223,11 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.pms.sort(this.pmCompare);
 	this.pmList.setItems(lists.pms);
-	this.pmListCompact.setItems(lists.pms);
+	this.pmListCollapsed.setItems(lists.pms);
 
 	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
-	this.roomListCompact.setItems(lists.rooms);
-
-	this.pmList.unfiltered = this.pmList.items;
-	this.pmListCompact.unfiltered = this.pmListCompact.items;
+	this.roomListCollapsed.setItems(lists.rooms);
 };
 
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
@@ -236,25 +254,29 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 
 Navigation.prototype.select = function Navigation_select(item) {
 	this.roomList.selectItem(null);
-	this.roomListCompact.selectItem(null);
+	this.roomListCollapsed.selectItem(null);
 	this.pmList.selectItem(null);
-	this.pmListCompact.selectItem(null);
+	this.pmListCollapsed.selectItem(null);
+	if (item.type === 'pm') {
+		var pm = item.users[0];
+		var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false;
+		if (!isInList) this.pmList.items.unshift(pm);
+	}
 	this[item.type + 'List'].selectItem(item);
-	this[item.type + 'ListCompact'].selectItem(item);
+	this[item.type + 'ListCollapsed'].selectItem(item);
 };
 
 Navigation.prototype.redraw = function Navigation_redraw() {
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
-	if (this.pmListCompact) this.pmListCompact.redraw();
+	if (this.pmListCollapsed) this.pmListCollapsed.redraw();
 	if (this.roomList) this.roomList.redraw();
-	if (this.roomListCompact) this.roomListCompact.redraw();
+	if (this.roomListCollapsed) this.roomListCollapsed.redraw();
 };
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
-	if (this.filtering && line.channel.type === 'pm') return;
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
-	var compactList = list == this.pmList ? this.pmListCompact : this.roomListCompact;
+	var collapsedList = list == this.pmList ? this.pmListCollapsed : this.roomListCollapsed;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
 	var itemIndex = list.items.indexOf(item);
 	if (itemIndex == -1) return;
@@ -262,78 +284,60 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	list.items.splice(itemIndex, 1);
 	list.items.unshift(item);
 	list.redraw();
-	compactList.redraw();
+	collapsedList.redraw();
 }
 
-Navigation.prototype.deleteRoom = function Navigation_deleteRoom() {
+Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
+	var newRoomIndex = this.roomList.items.indexOf(room);
+	if (newRoomIndex == -1) return;
+	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
-	this.roomListCompact.redraw();
+	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onChannelRead = function Navigation_onChannelRead(line) {
-	if (this.filtering || ui.user == line.author) return;
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead (line) {
+	if (ui.user == line.author) return;
 	this.redraw();
 }
 
-Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate() {
+Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 	this.roomList.redraw();
-	this.roomListCompact.redraw();
+	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onChangeUser = function Navigation_onChangeUser(user) {
+Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
 	if (user == ui.user) return;
-	this.pmList.redraw();
-	this.pmListCompact.redraw();
+	var pmList = this.pmList;
+	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
+	pmList.redraw();
+	this.pmListCollapsed.redraw();
 }
 
-Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel() {
+Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel (room) {
+	var joinedRoomIndex = this.roomList.items.indexOf(room);
+	if (joinedRoomIndex > -1) return;
+	this.roomList.items.push(room);
 	this.roomList.redraw();
-	this.roomListCompact.redraw();
+	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel() {
+Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel (room) {
+	var newRoomIndex = this.roomList.items.indexOf(room);
+	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
-	this.roomListCompact.redraw();
+	this.roomListCollapsed.redraw();
 }
-
-Navigation.prototype.onUserMention = function Navigation_onUserMention () {
-	this.roomListCompact.redraw();
-}
-
-Navigation.prototype.newOrgMember = function Navigation_newOrgMember(user) {
-	if (this.filtering) return;
-	var newPos = this.pmList.items.length;
-	this.pmList.items.every(function(pm, index) {
-		if (!pm.active) {
-			newPos = index;
-			return false;
-		}
-		return true;
-	});
-	this.pmList.items.splice(newPos, 0, user);
-	this.pmList.redraw();
-	this.pmListCompact.redraw();
-}
-
-Navigation.prototype.onUserDeleted = function Navigation_onUserDeleted (item) {
-	// TODO unbind events
-	if (this.filtering) return;
-	var itemIndex = this.pmList.items.indexOf(item);
-	this.pmList.items.splice(itemIndex, 1);
-	this.pmList.redraw();
-	this.pmListCompact.redraw();
-};
-
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-	var rooms = org.rooms;
+	var rooms = org.rooms.slice();
 	var pms = org.users.filter(function(user) {
-		return ui.user != user && (user.active || (!user.active && user.pm && user.pm.latest_message_time));
+		return user != ui.user && user.active && !user.is_only_invited;
 	});
 	this.setLists({ rooms: rooms, pms: pms });
 
 	// we need this redraw for the organization logo
 	// cause that is part of the navigation too
 	this.redraw();
+	this.ready = true;
 }
 

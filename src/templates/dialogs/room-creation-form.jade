@@ -1,0 +1,23 @@
+form.create-room-form(class=mode != 'creation' ? 'hidden' : '')
+	.formrow
+		.header
+			=_("Room name")
+		input(class="room-name-input", type="text", id="newroom-name", placeholder="Enter name ...")
+	.formrow
+		.header
+			=_('Room type')
+		.room-type-picker
+			input(type="radio", id="public", name="is_public", value="true", checked)
+			label.radio-label(for="public")
+				i.mdi.mdi-forum
+				span.radio-label-name=_("Public room")
+				span.radio-label-subline
+					=_("Public rooms can be seen and joined by your whole team.")
+			input(type="radio", id="private", name="is_public", value="false")
+			label.radio-label(for="private")
+				i.mdi.mdi-lock
+				span.radio-label-name=_("Private room")
+				span.radio-label-subline
+					=_("Private rooms can only be seen and joined by invited users.")
+	.formrow
+		input.dialog-button.create-room-button(type="submit", name="submit", value=_("Create room"))

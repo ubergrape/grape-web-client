@@ -36,7 +36,7 @@
 		margin-left: 86px !important
 	.nav-inner
 		display: none
-	.nav-compact
+	.nav-collapsed
 		display: block
 
 .nav-style-basic
@@ -44,7 +44,7 @@
 		margin-left: inherit
 	.nav-inner
 		display: block
-	.nav-compact
+	.nav-collapsed
 		display: none
 
 // ****
@@ -179,7 +179,7 @@
 	width: 90%;
 	display: block;
 	text-align: center;
-	background: #6E4B6E;
+	background: sidebar-button-background
 	margin: 0 auto;
 	font-size: 1.1em;
 	color: #EDEDED;
@@ -190,7 +190,7 @@
 	margin-bottom: 20px;
 	text-decoration: none
 	&:hover
-		background: lighten(#6E4B6E, 5%)
+		background: lighten(sidebar-button-background, 5%)
 		color: white;
 		text-decoration: none
 
@@ -251,9 +251,23 @@ a.nav-title-wrap
 		font-size: 0.8em;
 		padding-left: 14px
 		overflow: hidden
+		float: left
+		transition: color 1s
 	&:hover
 		color: sidebar-group-title
 		text-decoration: none
+	i
+		margin-left: 3px
+		margin-top: 3px
+	&.manage-rooms
+		cursor: default
+	&.addpm
+		cursor: pointer
+		transition: color 1s
+		&:hover
+			color: sidebar-group-title-highlight !important
+			.nav-title
+				color: sidebar-group-title-highlight !important
 
 a.nav-title-wrap
 	display: inline-block
@@ -320,10 +334,10 @@ a.nav-title-wrap
 				height: 32px
 			.offline, .online
 				border: solid 1px sidebar-background
-				width: 10px
-				height: 10px
-				bottom: -1px
-				right: -1px
+				width: 8px
+				height: 8px
+				bottom: 0px
+				right: 0px
 		.icon
 			padding: 3px 0
 		.room-icon
@@ -347,10 +361,9 @@ a.nav-title-wrap
 			font-size: 1.1em
 			left: 0px
 			right: 0px
-			padding-left: 9px
+			padding-left: 10px
 			padding-right: 6px
 			color: white
-			overflow: hidden
 		&:hover
 			background: sidebar-hover
 			.offline, .online

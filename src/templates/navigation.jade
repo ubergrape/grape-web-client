@@ -26,25 +26,26 @@ div.navigation.nav-outer
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
 				.nav-title-wrap.addpm
 					h2.nav-title=_('Private messages')
+					i.mdi.mdi-chevron-right
 				ul.nav-list.pms
-	nav.navigation.nav-compact
-		.org-area-bg-compact
+	nav.navigation.nav-collapsed
+		.org-area-bg-collapsed
 			.bg-overlay
-		.org-info-compact
+		.org-info-collapsed
 			.org-topbar
-				i.mdi.mdi-settings.settings-icon-compact
+				i.mdi.mdi-settings.settings-icon-collapsed
 				i.mdi.mdi-keyboard-caps.toggle-sidebar-icon.expand-sidebar
 			.org-logo-name
 				img(src='#{org.logo}',height='28',width='28',alt='#{org.name}')
-		.nav-wrap-out-compact
+		.nav-wrap-out-collapsed
 			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
-				a.manage-rooms-button-compact
+				a.manage-rooms-button-collapsed
 					=_('Manage')
-				a.nav-title-wrap-compact.manage-rooms
+				a.nav-title-wrap-collapsed.manage-rooms
 					h2.nav-title
 						=_('Rooms')
-				ul.nav-list.rooms-compact
+				ul.nav-list.rooms-collapsed
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
-				.nav-title-wrap-compact.addpm
+				.nav-title-wrap-collapsed.addpm
 					h2.nav-title=_('Messages')
-				ul.nav-list.pms-compact
+				ul.nav-list.pms-collapsed

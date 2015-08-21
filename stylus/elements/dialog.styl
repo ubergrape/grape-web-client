@@ -1,40 +1,111 @@
 #dialog, .dialog
 	background: none
 	border: none
-	top: 72px
-	bottom: 72px
+	top: 50%
+	transform: translateY(-50%)
 	pointer-events: none
 .dialog .content
 	background: white
-	padding: 15px
-	border-radius: main-border-radius
-	border: 1px solid gainsboro-light
-	opacity: 1
+	padding: 0px
+	border: none
+	border-radius: 4px
 	box-shadow: 0px 4px 10px -1px rgba(jet, 0.5)
-	transition: opacity 500ms
-	width: 600px;
-	max-height: 525px;
+	width: 525px;
 	white-space: normal
-	overflow: auto
-	animation: hifromthebottom 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 	pointer-events: auto
+	animation-name: show-dialog
+	animation-duration: 0.25s
+	animation-timing-function: grape-bezier
 	.body
 		position: relative
 		height: 100%
 		img
 			max-width: 100%
 
+.dialog .top-bar
+	position: relative
+	width: 100%
+	border: none
+
+.dialog .container
+	overflow-x: hidden
+	overflow-y: auto
+	padding: 16px
+	border-bottom-left-radius: 4px
+	border-bottom-right-radius: 4px
+	background: #FBFBFB
+	position: relative
+	z-index: 3
+	&.room-list-container
+	&.pm-list-container
+		height: 356px
+		max-height: 60%
+		padding: 0px !important
+		padding-left: 16px
+		padding-right: 16px
+	&.markdown-tips
+		height: 480px
+		max-height: 70%
+	&.invite-to-room
+		height: 480px
+		max-height: 70%
+
+.dialog .title
+	display: flex
+	padding-bottom: 16px
+	font-size: 1.2em
+	color: sidebar-group-title
+	cursor: default
+	background: sidebar-background
+	border-top-left-radius: 4px
+	border-top-right-radius: 4px
+	z-index: 4
+	position: relative
+	span
+		padding-left: 20px
+		padding-top: 16px
+		text-align: left
+		flex: 2
+		font-size: 1em
+		transition: opacity 0.2s
+		&.hidden
+			opacity: 0
+
 #dialog, .dialog, .introjs-tooltip
+	.back-button
+		cursor: pointer
+		position: relative
+		top: 12px
+		margin-left: 12px
+		margin-bottom: 8px
+		padding: 5px 10px 4px 9px
+		color: white
+		font-size: 0.8em
+		font-weight: lighter
+		z-index: 20
+		border-radius: 4px
+		opacity: 0.8
+		background: sidebar-button-background
+		&:hover
+			opacity: 1.0
+			color: white
+			background: lighten(sidebar-button-background, 10%)
 	.close
 		cursor: pointer
 		position: absolute
-		top: 10px
-		right: 10px
-		color: gainsboro-dark
-		font-size: 30px
-		line-height: 20px
+		top: 12px
+		right: 12px
+		padding: 4px 10px 4px 9px
+		color: white
+		font-size: 1.5em
 		z-index: 20
-		background: #fff
+		border-radius: 4px
+		opacity: 0.8
+		background: sidebar-button-background
+		&:hover
+			opacity: 1.0
+			color: white
+			background: lighten(sidebar-button-background, 10%)
 	h2
 		@extend $bigger-font-size
 		margin-bottom: 6px
@@ -88,7 +159,382 @@
 		border-radius: 3px
 		border: 1px solid #dad6e0
 		padding: 0 2px
+	.new-room
+		flex: 1
+		right: 52px
+		top: 12px
+		text-align: center
+		position: absolute
+		pointer-events: none
+		font-size: 0.9em
+		transition: right 0.3s, top 0.3s
+		transition-timing-function: grape-bezier
+		z-index: 1
+		&.hidden
+			right: 280px
+			pointer-events: none !important
+			.dialog-button
+				background: sidebar-background !important
+				color: sidebar-group-title !important
+				font-size: 1.1em !important
+				pointer-events: none !important
+				&:hover
+					background: sidebar-background
+					color: sidebar-group-title
+					pointer-events: none
+	.dialog-button
+		position: relative
+		color: #EDEDED
+		font-size: 1em
+		padding: 4px 16px 4px 14px
+		background: sidebar-button-background
+		border-radius: 4px
+		border: none
+		cursor: pointer
+		pointer-events: auto
+		transition: background 0.3s, color 0.3s, font-size 0.3s
+		&:hover
+			background: lighten(sidebar-button-background, 5%)
+			color: white
+	.manager-menu
+		width: 100%
+		background: #EEEEEE
+		display: flex
+		transition: height 0.2s
+		position: relative
+		z-index: 2
+		transition: margin-top 0.25s
+		&.hidden
+			margin-top: -47px
+		a
+			display: inline-block
+			text-decoration: none !important
+			padding: 12px 0 12px 0px
+			text-align: center
+			color: #999999
+			font-size: 1.1em
+			border-left: solid 1px #E5E5E5
+			border-bottom: solid 1px #E5E5E5
+			flex: 1
+			&:first-of-type
+				border-left: none
+			&.selected
+				color: sidebar-button-background
+				background: #F9F9F9
+				border-bottom: solid 1px #EBEBEB
+				&:hover
+					color: sidebar-button-background
+			&:hover
+				color: #999999
+	.dialog-list
+		li
+			margin: 0
+			padding: 0
+			@extend $functional-list
+			&.break-line
+				border-top: 1px solid silver-dark
+			&:last-child a // let's have nice rounded edges at the bottom
+				border-bottom-right-radius: main-border-radius
+				border-bottom-left-radius: main-border-radius
+			&:first-child a // let's have nice rounded edges at the top
+				border-top-right-radius: main-border-radius
+				border-top-left-radius: main-border-radius
+			a
+			.func-inner-wrap
+				min-width: 224px
+				padding-left: 16px
+				padding-right: 16px
+				.fa
+					margin-right: 10px
+					@extend $big-font-size
+			.avatar-wrap
+				img
+					margin-top: 2px
+				.avatar-status
+					bottom: -3px
+	.markdown-tips
+		.header
+			padding-top: 24px
+			padding-bottom: 4px
+			font-size: 1.1em
+			color: sidebar-button-background
+			cursor: default
+			&:first-of-type
+				padding-top: 4px
+		.table
+			display: flex
+			.cell
+				flex: 1
+				&:first-of-type
+					margin-right: 24px
+			.cell-title
+				color: #999999
+				font-size: 0.9em
+				font-style: italic
+				padding-bottom: 4px
+			code
+				border: 1px solid #E5E5E5
+				border-radius: 4px
+				background: #FFFFFF
+				padding: 0 4px
+				display: inline-block
+				margin-bottom: -1px
+				word-wrap: break-word
+				color: #4D4D4D
+			ul,
+			ol
+				padding-left: 18px
+			ul
+				list-style: disc outside none
+			ol
+				list-style: decimal outside none
+			blockquote
+				font-style: italic
+				color: #888291
+				padding: 2px 6px
+				border-left: 3px solid #dad6e0
+	.room-list
+	.pm-list
+		padding: 4px 0px 10px 0px
+		margin-bottom: 0px
+		a
+			text-decoration: none
+		.main
+			padding-left: 10px
+			margin: 0px
+			overflow: hidden
+		.header
+			padding-left: 16px
+			padding-top: 8px
+			padding-bottom: 4px
+			font-size: 0.9em
+			color: sidebar-button-background
+			cursor: default
+		.room
+			@extend $clearfix
+			padding-top: 9px
+			padding-bottom: 9px
+			&:hover
+				background: rgba(sidebar-button-background, 0.1)
+				.room-name
+					color: #404040 !important
+				.room-info
+					color: darken(gainsboro-dark, 40%) !important
+				button
+					opacity: 1
+		.pm
+			@extend $clearfix
+			padding-top: 3px
+			padding-bottom: 3px
+			a:hover
+				background: none !important
+			&:hover
+				background: rgba(sidebar-button-background, 0.1)
+				.room-name
+					color: #404040 !important
+				.room-info
+					color: darken(gainsboro-dark, 40%) !important
+				button
+					opacity: 1
+		.room-face
+			float: left
+			display: inline-block
+			text-align: center
+			width: 42px
+			height: 42px
+			margin-left: 16px
+			line-height: 42px
+			border-radius: 4px
+			background: grape-dark
+			position: relative
+			font-size: 1.1em
+			color: white
+			color: rgba(white, 0.9)
+			.room-icon
+				position: absolute
+				right: -6px
+				bottom: -4px
+				width: 14px
+				height: 14px
+				z-index: 12
+				padding-left: 1px
+				line-height: 14px
+				text-align: center
+				border-radius: 50%
+				background: slate
+				font-size: 12px
+				color: white
+			i
+				font-size: 0.6em !important
+				padding-left: 0px !important
+		.room-name
+			padding-top: 2px
+			padding-bottom: 2px
+			color: #808080
+			font-size: 1.2em
+		.room-info
+			@extend $small-font-size
+			margin: 0
+			color: gainsboro-dark
+			li
+				padding: 0
+				margin-right: 10px
+				display: inline-block
+				i
+					margin-right: 3px
+		button
+			margin-top: 4px
+			margin-right: 12px
+			border-radius: 4px
+			padding: 4px 12px 4px 11px
+			color: rgba(white, 0.9)
+			opacity: 0
+			&.join
+				border: solid 1px grass-light
+				padding: 4px 12px 4px 12px
+				background: grass-light
+				&:hover
+					color: white
+					background: lighten(grass-light, 10%)
+			&.leave
+				border: solid 1px geraldine
+				color: rgba(white, 0.9)
+				background: geraldine
+				opacity: 0
+				&:hover
+					color: white
+					background: lighten(geraldine, 10%)
+		.pm.deleted
+			color: gainsboro-dark
+			.avatar-status
+				background: gainsboro-dark
+			span.user-deleted
+				@extend $small-font-size
+				text-transform: uppercase
+				margin-left: 4px
+	p
+		display: inline-block
+		font-size: 1.1em
+		height: inherit
+	.warning
+		color: geraldine
+		font-size: 1.1em
+	i.warning
+		display: inline-block;
+		font-size: 4em;
+		top: 3px;
+		position: relative;
+		padding-right: 10px;
+		color: #BBB;
+	form
+		pointer-events: auto
+		top: 0px
+		width: 100%
+		opacity: 1
+		&.create-room-form
+			position: absolute
+			padding-left: 16px
+			padding-right: 16px
+		&.delete-room-form
+			margin-top: 0px
+		&.hidden
+			opacity: 0
+			pointer-events: none
+		.header
+			padding-left: 2px
+			padding-top: 12px
+			padding-bottom: 4px
+			font-size: 0.9em
+			color: sidebar-button-background
+			cursor: default
+			&:first-of-type
+				padding-top: 14px
+		input[type="text"]
+			width: 100%
+			border: solid 1px #E5E5E5
+			padding: 11px 14px 11px 14px
+			font-size: 1.1em
+			color: #808080
+			&:focus
+				color: #333333
+				border-color: #CCCCCC
+		.room-type-picker
+			display: flex
+		input[type="radio"]
+			&:checked + label
+				border: solid 1px rgba(sidebar-background, 0.5) !important
+				background: #FDFDFD
+				i
+					color: sidebar-button-background !important
+				span
+					color: sidebar-button-background !important
+		label
+			&:before
+				display: none
+			&:first-of-type
+				margin-right: 16px
+			flex: 1
+			display: inline-block
+			padding: 12px 16px 12px 16px
+			text-align: left
+			margin: 0
+			border: solid 1px #E5E5E5
+			border-radius: 4px
+			background: #F7F7F7
+			i
+				display: inline-block
+				padding-right: 6px
+				font-size: 1.2em
+				color: #A5A5A5
+			span.radio-label-name
+				font-size: 1.2em
+				color: #9D9D9D
+			span.radio-label-subline
+				color: #A5A5A5
+				display: block
+				font-size: 0.8em
+				line-height: 1.5em
+		.create-room-button
+			float: right
+		.create-room-button
+			padding: 12px 16px 12px 16px
+			font-size: 1.1em
+			border: none
+			margin-top: 12px
+		.delete-room-button
+			float: right
+			padding: 12px 16px 12px 16px
+			border: none
+			margin-top: 6px
+			font-size: 1.1em
+			background: geraldine
+			color: rgba(white, 0.9)
+			&:hover
+				background: lighten(geraldine, 10%)
+				color: white
+
 #IModalOverlay, .overlay
-	background: rgba(0, 0, 0, 0.75)
+	background: rgba(0, 0, 0, 0.3)
 	opacity: 1
-	animation: overlayFlowIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+
+@keyframes show-dialog {
+	from {
+		opacity: 0;
+		margin-top: 100px;
+	}
+
+    to {
+    	opacity: 1;
+    	margin-top: 0px;
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

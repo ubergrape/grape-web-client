@@ -1,0 +1,14 @@
+.top-bar
+	.title
+		if (back && back.visible)
+			div(class=back.className)
+				i.fa.fa-arrow-left
+		span=_(header)
+		if (button && button.visible)
+			div(class=button.className)
+				.dialog-button
+					=_(button.text)
+	if tabs
+		div.manager-menu(class=tabs.visible ? '' : 'hidden')
+			each tab in tabs.items
+				a(class=tab.className, class= tab == tabs.selected ? 'selected' : '')= _(tab.title)

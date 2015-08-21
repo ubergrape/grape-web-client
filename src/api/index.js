@@ -74,7 +74,7 @@ API.prototype.logTraffic = function API_logTraffic() {
 
 API.prototype.startPinging = function API_startPinging() {
 	// note: the backend will only set this session active
-	// if it receives regular pings from the client. 
+	// if it receives regular pings from the client.
 	// "normal" traffic will not be recognized as such
 	// which might lead into server-side disconencts
 	// from (false) idleness-detection.
@@ -118,7 +118,7 @@ API.prototype.onConnect = function API_onConnect(data) {
     }));
     this.connected = true;
     this.connecting = false;
-    this.emit('change user', this.user);
+    this.emit('changeUser', this.user);
     this.emit('change settings', this.settings);
     this.emit('change organizations', this.organizations);
     this.emit('connected');
@@ -134,19 +134,12 @@ API.prototype.onConnect = function API_onConnect(data) {
  * @param {Function} [callback]
  */
 API.prototype.initSocket = function API_initSocket(opts) {
-	var ws = new WebSocket(opts.wsUri); 
-	ws.once('open', function() {
-		this.preferedTransport = 'ws';
-		opts.connected(ws);
-	}.bind(this));
-
-	ws.once('error', function(err) {
-		if (this.preferredTransport && this.preferedTransport != 'lp') {
-			opts.error(err);
-			return;
-		}
-		// try LP fallback
-		var lp = new LPSocket(opts.lpUri);
+	var lp, ws;
+	if (window.location.hash.indexOf('disable-ws') > -1) {
+		console.log("connection: forcing longpolling");
+		this.connecting = false;
+		this.connected = false;
+		lp = new LPSocket(opts.lpUri);
 		lp.connect();
 		lp.once('open', function() {
 			lp.poll();
@@ -155,15 +148,38 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		lp.once('error', function(err) {
 			opts.error(err);
 		});
+		return;
+	}
+	ws = new WebSocket(opts.wsUri);
+	ws.once('open', function() {
+		console.log("connection: websocket connection opened")
+		this.preferedTransport = 'ws';
+		opts.connected(ws);
+	}.bind(this));
+
+	ws.once('error', function(err) {
+		console.log("connection: websocket error");
+		//if (this.preferredTransport && this.preferedTransport != 'lp') {
+			opts.error(err);
+			return;
+		//}
+
+		// console.log("connections: try lp fallback");
+		// var lp = new LPSocket(opts.lpUri);
+		// lp.connect();
+		// lp.once('open', function() {
+		// 	lp.poll();
+		// 	opts.connected(lp);
+		// });
+		// lp.once('error', function(err) {
+		// 	opts.error(err);
+		// });
 	}.bind(this));
 };
 
 
-API.prototype.connect = function API_connect(ws, callback) {
+API.prototype.connect = function API_connect(ws) {
 	if (this.connected) return;
-
-	// Legacy callback, used in mobile_history.html
-	if (callback) this.once('connected', callback);
 
 	if (this.connecting) return;
 
@@ -173,7 +189,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 
 	this.connecting = true;
 	this.initSocket({
-		lpUri: this.lpUri, 
+		lpUri: this.lpUri,
 		wsUri: this.wsUri,
 		connected: function(socket) {
 			// connection established; bootstrap client state
@@ -209,6 +225,7 @@ API.prototype.connect = function API_connect(ws, callback) {
 			}.bind(this));
 		}.bind(this),
 		error: function(err) {
+			console.log("connection: error - reconnect");
 			this.reconnect();
 		}.bind(this)
 	});
@@ -229,13 +246,20 @@ API.prototype.disconnect = function API_disconnect() {
 };
 
 API.prototype.reconnect = function API_reconnect() {
+	console.log("connection: reconnect");
+
 	if (this.connected) {
 		this.retries = 0;
 		return
 	}
 	// exponential back-off
+	// 250 * 2^1 = 500
+	// 250 * 2^2 = 1000
+	// ...
+	// 250 * 2^6 = 16000
 	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
 	this.retries += 1;
+	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
@@ -332,7 +356,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		// to ensure consistent behaviour across clients
 		if (user === self.user) {
 			room.joined = true;
-			self.emit('joinedChannel');
+			self.emit('joinedChannel', room);
 		}
 		room.users.push(user);
 		self.emit('newRoomMember', room);
@@ -366,7 +390,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			user.status = 0;
 			user.pm = null;
 			self.organization.users.push(user);
-			self.emit('new org member', user);
+			self.emit('newOrgMember', user);
 		}
 	});
 	wamp.subscribe(PREFIX + 'organization#left', function (data) {
@@ -422,7 +446,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	wamp.subscribe(PREFIX + 'user#status', function (data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
 		if (data.message.organization !== self.organization.id) return;
@@ -439,7 +463,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.displayName = data.user.displayName;
 		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
-		self.emit('change user', user);
+		self.emit('changeUser', user);
 	});
 
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
@@ -583,12 +607,12 @@ API.prototype.openPM = function API_openPM(user, callback) {
 	});
 };
 
-API.prototype.createRoom = function API_createRoom(room) {
+API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 	room.organization = this.organization.id;
 	var self = this;
 	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomcreateerror', err.details);
-		self.emit('roomcreated', self._tryAddRoom(room));
+		if (err) return self.emit('roomCreationError', err.details);
+		self.emit('roomCreated', self._tryAddRoom(room));
 	});
 };
 
@@ -608,19 +632,17 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
-		self.emit('joinedChannel');
 		if (callback !== undefined) callback();
 	});
 };
 
-API.prototype.leaveRoom = function API_leaveRoom(roomID) {
+API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 	var self = this;
 	var room = models.Room.get(roomID);
 	if (!room.joined) return;
 	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
-		self.emit('leftChannel', room);
 	});
 };
 
@@ -740,7 +762,7 @@ API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (dire
 					room.searchHistory.push(line);
 			}
 		});
-		this.emit('gotHistory', direction);	
+		this.emit('gotHistory', direction);
 	}.bind(this));
 }
 

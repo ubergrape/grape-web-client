@@ -182,65 +182,6 @@
 		.user-status-submit
 			display: none
 
-
-// ****
-//
-// MANAGE CHATROOMS-popup-specific things go here
-//
-// ****
-
-.roompopover
-	// Make em same height
-	width: 360px
-	.po-scroll-wrap
-		padding-top: 0
-		height: 370px
-		&.hidden
-			display: none
-	.create-room-form
-		height: 370px
-	.manager-navigation
-		a
-			display: inline-block
-			text-decoration: none
-			padding: 5px 17px
-			text-align: center
-			color: gainsboro-dark
-			&.selected
-				color: grape-dark
-				border-bottom: 2px solid grape-light
-			&:hover
-				color: grape-typo
-	.list-hl
-		padding-top: 0
-	.room
-		@extend $clearfix
-	.main
-		margin: 0px
-		overflow: hidden
-	.room-info
-		@extend $small-font-size
-		margin: 0
-		color: gainsboro-dark
-		li
-			padding: 0
-			margin-right: 10px
-			display: inline-block
-			.fa
-				margin-right: 3px
-	.popover-list .room-face
-		width: 42px
-		height: 42px
-		line-height: 42px
-		font-size: 16px
-		margin-top: -1px
-		.room-icon
-			right: -14px
-			width: 18px
-			height: 18px
-			line-height: 19px
-			font-size: 11px
-
 // ****
 //
 // FORM-specific things go here
@@ -303,8 +244,9 @@ label.radio-label
 //
 // ROOM MEMBER-and-PM-popup-specific things go here
 // 
-// ****	
-.roommemberspopover
+// ****
+
+.pmpopover
 	width: 320px
 	.popover-list > li
 		&:hover
@@ -342,4 +284,9 @@ label.radio-label
 			float: right
 			margin: 13px 15px 0 0
 			cursor: pointer
+
+.pmpopover
+	.po-scroll-wrap
+		max-height: 260px
+
 	

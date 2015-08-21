@@ -46,9 +46,9 @@
 		top: 0
 		float:right
 		width: 250px
-		height: calc(100% - 64px - 64px)
+		height: calc(100% - 64px - 64px + 1px)
 		right: 0
-		margin-top: header-height
+		margin-top: 63px
 		background: #F2F2F2
 		border-left: solid 1px #E5E5E5
 		-webkit-transition: -webkit-transform 0.4s
@@ -341,6 +341,7 @@
 		&.first
 			margin-top: 0
 			border-radius: 0px 6px 6px 6px;
+			min-width: 280px
 			&:after
 				border: none
 		&:hover
@@ -398,15 +399,13 @@
 				display: none
 				color: aqua-dark
 				cursor: pointer
-			.pending
-				color: gainsboro-light
 			i
 				margin-left: 6px
 				pointer-events: none
 			.status-label
 				font-weight: bold
 				pointer-events: none
-		&.pending,
+		&.pending
 		&.unsent
 			.text
 				color: #b7bcbf

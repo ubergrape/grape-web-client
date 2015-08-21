@@ -25,13 +25,6 @@ Dialog.prototype.init = function Dialog_init() {
 	this.el = this.dialog.el;
 };
 
-Dialog.prototype.redraw = function Dialog_redraw() {
-	// WARNING: this closes the dialog an removes classes that where added with
-	// closable() and show() etc.
-	this.init();
-	this.bind();
-};
-
 Dialog.prototype.bind = function Dialog_bind() {
 	this.events = events(this.el, this);
 };
