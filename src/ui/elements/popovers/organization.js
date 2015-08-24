@@ -31,7 +31,11 @@ OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
 		var newMode = ui.settings.compact_mode ? false : true;
 		this.emit('editView', newMode);
 	}.bind(this);
+	this.events.obj.toggleOrgInvite = function () {
+		this.emit('toggleOrgInvite');
+	}.bind(this);
 	this.events.bind('click a.edit-view', 'editView');
+	this.events.bind('click .invite-new-members', 'toggleOrgInvite');
 };
 
 OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {

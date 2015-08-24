@@ -91,6 +91,7 @@ function pipeEvents(ui) {
 	broker(ui.clipboard, 'upload', ui.upload, 'doUpload');
 
 	// organization popover
+	broker(ui.organizationMenu, 'toggleOrgInvite', ui, 'onToggleOrgInvite');
 	broker.pass(ui.organizationMenu, 'editView', ui, 'editView');
 
 	// navigation
