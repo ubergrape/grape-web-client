@@ -31,6 +31,7 @@
 	overflow-x: hidden
 	overflow-y: auto
 	padding: 16px
+	padding-bottom: 0px
 	border-bottom-left-radius: 4px
 	border-bottom-right-radius: 4px
 	background: #FBFBFB
@@ -272,6 +273,10 @@
 				font-size: 0.9em
 				font-style: italic
 				padding-bottom: 4px
+			pre
+				white-space: pre-wrap
+			img
+				width: 100%
 			code
 				border: 1px solid #E5E5E5
 				border-radius: 4px
@@ -281,6 +286,8 @@
 				margin-bottom: -1px
 				word-wrap: break-word
 				color: #4D4D4D
+			em
+				font-style: italic
 			ul,
 			ol
 				padding-left: 18px
@@ -415,7 +422,6 @@
 	p
 		display: inline-block
 		font-size: 1.1em
-		height: inherit
 	.warning
 		color: geraldine
 		font-size: 1.1em
@@ -496,11 +502,12 @@
 				line-height: 1.5em
 		.create-room-button
 			float: right
-		.create-room-button
 			padding: 12px 16px 12px 16px
 			font-size: 1.1em
 			border: none
 			margin-top: 12px
+			&.hidden
+				pointer-events: none
 		.delete-room-button
 			float: right
 			padding: 12px 16px 12px 16px
