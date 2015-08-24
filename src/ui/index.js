@@ -69,6 +69,7 @@ var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialog
 var RoomInvite = exports.RoomInvite = require('./elements/dialogs/room-invite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
+var OrgInvite = exports.OrgInvite = require('./elements/dialogs/orginvite');
 
 function UI(options) {
 	Emitter.call(this);
@@ -386,6 +387,11 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 		room: room
 	}).closable().overlay().show();
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
+};
+
+UI.prototype.onToggleOrgInvite = function () {
+	var invite = new OrgInvite().closable().overlay().show();
+	broker.pass(invite, 'inviteToOrg', ui, 'inviteToOrg');
 };
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {

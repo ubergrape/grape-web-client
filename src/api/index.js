@@ -715,6 +715,16 @@ API.prototype.search = function API_search(text) {
 		});
 };
 
+API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
+	var orgID = this.organization.id;
+	var options = {
+		emails: emails
+	}
+	this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function(err, res) {
+		if (callback) callback(err, res);
+	});
+};
+
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
