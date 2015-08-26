@@ -90,6 +90,7 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.navigation, 'select');
 	broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager');
 	broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager');
+	broker(ui, 'userMention', ui.navigation, 'onUserMention');
 	broker(ui, 'changeUser', ui.navigation, 'onChangeUser');
 	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
