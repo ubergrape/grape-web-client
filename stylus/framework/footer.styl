@@ -11,10 +11,11 @@
 	transform: translate3d(0,0,0)
 	will-change: transform
 	border-top: solid 1px #F3F3F3
-
 	.grape-input-wrapper
 		display: flex
 		position: relative
+		&.shrunk
+			margin-right: 250px
 		&.disabled
 			.hint-box, .info-markdown, .uploader
 				opacity: 0

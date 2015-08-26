@@ -36,6 +36,7 @@ function HistoryView() {
 	this.requestedMsgID = null;
 	this.isFirstMsgLoaded = false;
 	this.isLastMsgLoaded = false;
+	this.shrunk = false;
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype);
@@ -49,7 +50,6 @@ HistoryView.prototype.init = function HistoryView_init() {
 	el.appendChild(this.history.el);
 	this.redrawTyping();
 	el.appendChild(this.typing.el);
-	// and make it work with custom scrollbars
 	document.createElement('div').appendChild(el);
 	var scr = new Scrollbars(el);
 	this.el = scr.wrapper;
@@ -471,4 +471,12 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
 HistoryView.prototype.onUploading = function HistoryView_onUploading () {
 	if (this.mode === 'chat') return;
 	this.emit('switchToChatMode', this.room);
+};
+
+HistoryView.prototype.onToggleRightSidebar = function () {
+	if (this.shrunk)
+		classes(this.el).remove('shrunk')
+	else
+		classes(this.el).add('shrunk')
+	this.shrunk = !this.shrunk
 };
