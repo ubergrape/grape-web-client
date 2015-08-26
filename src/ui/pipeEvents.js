@@ -13,9 +13,7 @@ function pipeEvents(ui) {
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
-	broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'toggle');
-	broker(ui.chatHeader, 'toggleRightSidebar', ui.historyView, 'onToggleRightSidebar');
-	broker(ui.chatHeader, 'toggleRightSidebar', ui.grapeInput, 'onToggleRightSidebar');
+	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 	broker(ui.searchView, 'show', ui, 'showSearchResults');
 	broker(ui.searchView, 'hide', ui, 'hideSearchResults');

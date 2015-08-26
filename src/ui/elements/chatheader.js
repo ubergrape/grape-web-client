@@ -76,12 +76,14 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleTags' : function(e) {
 			var color = {r: 100, g: 50, b: 100};
 
-			if (self.room.color)
+			if (self.room.color) {
 				color = hexToRgb(self.room.color.toLowerCase());
+			}
 
 			if (tagsToggle.className == "room-header-button") {
-				if (menuToggle.className == "room-header-button")
-					self.emit('toggleRightSidebar');
+				if (menuToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
 
 				tagsToggle.className = "room-header-button-active"
 				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
@@ -92,7 +94,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 				tagsToggle.className = "room-header-button"
 				tagsToggle.style.background = "";
 
-				self.emit('toggleRightSidebar');
+				self.emit('togglerightsidebar');
 			}
 
 			qs('.right-sidebar-room-info').style.display = "none";
@@ -106,8 +108,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			}
 
 			if (menuToggle.className == "room-header-button") {
-				if (tagsToggle.className == "room-header-button")
-					self.emit('toggleRightSidebar');
+				if (tagsToggle.className == "room-header-button") {
+					self.emit('togglerightsidebar');
+				}
 
 				menuToggle.className = "room-header-button-active"
 				menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
@@ -118,7 +121,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 				menuToggle.className = "room-header-button"
 				menuToggle.style.background = "";
 
-				self.emit('toggleRightSidebar');
+				self.emit('togglerightsidebar');
 			}
 
 			qs('.right-sidebar-room-info').style.display = "block";
@@ -174,8 +177,9 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 
 	render(this, vdom);
 
-	if (qs('.room-header-button-active'))
+	if (qs('.room-header-button-active')) {
 		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
+	}
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {

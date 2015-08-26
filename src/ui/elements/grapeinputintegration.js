@@ -30,7 +30,6 @@ function GrapeInputIntegration() {
 	this.redraw();
 	this.placeholder = 'Enter a message ...';
 	this.typing = false;
-	this.shrunk = false;
 }
 
 GrapeInputIntegration.prototype = Object.create(Emitter.prototype);
@@ -105,9 +104,7 @@ GrapeInputIntegration.prototype.enable = function () {
 };
 
 GrapeInputIntegration.prototype.redraw = function () {
-	var vdom = template('grapeinputintegration.jade', {
-		shrunk: this.shrunk
-	});
+	var vdom = template('grapeinputintegration.jade', {});
 	render(this, vdom);
 };
 
@@ -374,11 +371,6 @@ GrapeInputIntegration.prototype.onAddIntegration = function () {
 GrapeInputIntegration.prototype.onInsertItem = function (e) {
 	analytics.track('insert autocomplete object', e.detail);
 };
-
-GrapeInputIntegration.prototype.onToggleRightSidebar = function () {
-	this.shrunk = !this.shrunk;
-	this.redraw();
-}
 
 function isImage(mime) {
 	return String(mime).substr(0, 5) == 'image';
