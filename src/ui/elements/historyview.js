@@ -479,5 +479,4 @@ HistoryView.prototype.onToggleRightSidebar = function () {
 	else
 		classes(this.el).add('shrunk')
 	this.shrunk = !this.shrunk
-	this.queueDraw();
 };
