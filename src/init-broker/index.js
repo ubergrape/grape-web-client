@@ -65,6 +65,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'newRoom', ui, 'newRoom');
 	broker.pass(api, 'roomdeleted', ui, 'roomdeleted');
 	broker.pass(api, 'viewChanged', ui, 'viewChanged');
+	broker.pass(api, 'userMention', ui, 'userMention');
 
 	ui.on('starttyping', function (room) {
 		api.setTyping(room, true);

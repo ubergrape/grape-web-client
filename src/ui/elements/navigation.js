@@ -328,6 +328,11 @@ Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel (room) {
 	this.roomListCollapsed.redraw();
 }
 
+Navigation.prototype.onUserMention = function Navigation_onUserMention () {
+	this.roomList.redraw();
+	this.roomListCollapsed.redraw();
+}
+
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	var rooms = org.rooms.slice();
 	var pms = org.users.filter(function(user) {
