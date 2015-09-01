@@ -331,14 +331,18 @@ API.prototype.bindEvents = function API_bindEvents() {
 		}
 	});
 	wamp.subscribe(PREFIX + 'channel#read', function (data) {
+		console.log(data.user);
 		var user = models.User.get(data.user);
+		console.log(user);
 		var line = models.Line.get(data.message);
 		if (!line) return; // ignore read notifications for messages we don’t have
 		var room = line.channel;
 		// ignore this for the current user, we track somewhere else
 		if (user === self.user) {
+			console.log('same user');
 			room.unread = 0;
-			return self.emit('channelRead');
+			room.mentioned = 0;
+			return self.emit('channelRead', line);
 		}
 		var last = room._readingStatus[data.user];
 		// remove the user from the last lines readers
