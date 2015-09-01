@@ -295,8 +295,7 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
 	this.roomListCollapsed.redraw();
 }
 
-Navigation.prototype.onChannelRead = function Navigation_onChannelRead (line) {
-	console.log('issue redraw by channel ' + line.channel.name);
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
 	this.redraw();
 }
 
