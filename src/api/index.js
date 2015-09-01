@@ -336,7 +336,10 @@ API.prototype.bindEvents = function API_bindEvents() {
 		if (!line) return; // ignore read notifications for messages we don’t have
 		var room = line.channel;
 		// ignore this for the current user, we track somewhere else
-		if (user === self.user) return self.emit('channelRead');
+		if (user === self.user) {
+			room.unread = 0;
+			return self.emit('channelRead');
+		}
 		var last = room._readingStatus[data.user];
 		// remove the user from the last lines readers
 		if (last) {
