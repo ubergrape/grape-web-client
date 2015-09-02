@@ -325,7 +325,7 @@ GrapeInputIntegration.prototype.debouncedSearch = debounce(function () {
 			data: data
 		});
 	}.bind(this));
-}, 500);
+}, 200);
 
 GrapeInputIntegration.prototype.onSubmit = function (e) {
 	var data = e.detail;
