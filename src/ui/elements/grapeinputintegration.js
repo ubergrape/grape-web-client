@@ -116,7 +116,7 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 		data: props.browser == 'search' ? props.data : null,
 		isLoading: true
 	});
-	this.debouncedSearch();
+	this.debouncedSearch(key);
 };
 
 GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
@@ -317,8 +317,8 @@ GrapeInputIntegration.prototype.onChange = function () {
 	this.debouncedStopTyping();
 };
 
-GrapeInputIntegration.prototype.debouncedSearch = debounce(function () {
-	this.emit('autocomplete', q('input', this.el).value, function (err, data) {
+GrapeInputIntegration.prototype.debouncedSearch = debounce(function (key) {
+	this.emit('autocomplete', key, function (err, data) {
 		if (err) return this.emit('error', err);
 		this.setProps({
 			browser: 'search',
