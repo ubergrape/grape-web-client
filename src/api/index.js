@@ -159,21 +159,21 @@ API.prototype.initSocket = function API_initSocket(opts) {
 
 	ws.once('error', function(err) {
 		console.log("connection: websocket error");
-		//if (this.preferredTransport && this.preferedTransport != 'lp') {
+		if (this.preferredTransport && this.preferedTransport != 'lp') {
 			opts.error(err);
 			return;
-		//}
+		}
 
-		// console.log("connections: try lp fallback");
-		// var lp = new LPSocket(opts.lpUri);
-		// lp.connect();
-		// lp.once('open', function() {
-		// 	lp.poll();
-		// 	opts.connected(lp);
-		// });
-		// lp.once('error', function(err) {
-		// 	opts.error(err);
-		// });
+		console.log("connections: try lp fallback");
+		var lp = new LPSocket(opts.lpUri);
+		lp.connect();
+		lp.once('open', function() {
+			lp.poll();
+			opts.connected(lp);
+		});
+		lp.once('error', function(err) {
+			opts.error(err);
+		});
 	}.bind(this));
 };
 
