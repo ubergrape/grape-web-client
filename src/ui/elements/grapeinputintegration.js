@@ -116,14 +116,7 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 		data: props.browser == 'search' ? props.data : null,
 		isLoading: true
 	});
-
-	this.emit('autocomplete', key, function (err, data) {
-		if (err) return this.emit('error', err);
-		this.setProps({
-			browser: 'search',
-			data: data
-		});
-	}.bind(this));
+	this.debouncedSearch();
 };
 
 GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
@@ -316,13 +309,23 @@ GrapeInputIntegration.prototype.onAbort = function (e) {
     }
 };
 
-GrapeInputIntegration.prototype.onChange = function () {
+GrapeInputIntegration.prototype.onChange = function (key) {
 	if (!this.typing) {
 		this.typing = true;
 		this.emit('starttyping', this.room);
 	}
 	this.debouncedStopTyping();
 };
+
+GrapeInputIntegration.prototype.debouncedSearch = debounce(function () {
+	this.emit('autocomplete', q('input', this.el).value, function (err, data) {
+		if (err) return this.emit('error', err);
+		this.setProps({
+			browser: 'search',
+			data: data
+		});
+	}.bind(this));
+}, 500);
 
 GrapeInputIntegration.prototype.onSubmit = function (e) {
 	var data = e.detail;
