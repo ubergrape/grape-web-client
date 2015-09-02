@@ -309,7 +309,7 @@ GrapeInputIntegration.prototype.onAbort = function (e) {
     }
 };
 
-GrapeInputIntegration.prototype.onChange = function (key) {
+GrapeInputIntegration.prototype.onChange = function () {
 	if (!this.typing) {
 		this.typing = true;
 		this.emit('starttyping', this.room);
