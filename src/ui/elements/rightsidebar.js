@@ -130,6 +130,6 @@ RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftC
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
-	var rightSidebar = qs('.right-sidebar', self.el)
-	rightSidebar.classList.toggle("right-sidebar-show")
+	var clientBody = qs('.client-body')
+	clientBody.classList.toggle("right-sidebar-show")
 }

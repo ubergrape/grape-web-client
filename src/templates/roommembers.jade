@@ -3,7 +3,7 @@
 		- var room = items.room
 		.right-sidebar-header
 			i.mdi.mdi-account-multiple
-			span.title Members in this room (#{room.users.length})
+			span.title #{room.users.length} Members 
 		ul.user-list
 			each member in room.users
 				li.item.user
