@@ -71,14 +71,3 @@ OrganizationPopover.prototype.onViewChanged = function OrganizationPopover_onVie
 	}
  	this.redraw();
 }
-
-OrganizationPopover.prototype.show = function RoomPopover_show() {
-	Popover.prototype.show.apply(this, arguments);
-	// intercom button
-	// first, fix app_id, based on settings
-	var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.content.el);
-	intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-	// now rebind
-	// alternative: bind call window.Intercom.public_api.show() in a click handler
-	window.Intercom('reattach_activator');
-};
