@@ -285,9 +285,6 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 		case '@':
 			this.showUsersAndRooms(query.key)
 			break;
-		case ':':
-			this.showEmojiBrowser()
-			break;
 	}
 };
 
