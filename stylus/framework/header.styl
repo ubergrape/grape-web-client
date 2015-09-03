@@ -26,7 +26,7 @@
 		display: flex
 		justify-content: flex-end
 		align-items: center
-		padding-right: 0px
+		padding-right: 15px
 
 		.room-info-wrap
 			flex: 1
@@ -122,31 +122,24 @@
 	.option-rename-cancel
 		margin-right: 10px
 	.room-header-button
-		width: 30px
-		height: 100%
-		padding: 0
-		margin: 0
+	.room-header-button-active
+		width: 34px
+		height: 34px
+		border-radius: 34px
+		line-height: 36px
+		margin: 0 5px
 		text-align: center
-		line-height: header-height
 		font-size: 2em
 		color: rgba(175, 175, 175, 1.0)
 		display: inline-block
 		cursor: pointer
-		overflow:hidden
+		overflow: hidden
 		a
 			color: #afafaf
+	.room-header-button
+		background-color: transparent
 	.room-header-button-active
-		width: 90px
-		height: 100%
-		padding: 0
-		margin: 0
-		text-align: center
-		line-height: header-height
-		font-size: 2em
-		color: #FFFFFF
-		background-color: rgba(230, 230, 230, 0.25)
-		display: inline-block
-		cursor: pointer
-		overflow:hidden
+		background-color: white
+		color: white
 	#tagsToggle
 		display: none
