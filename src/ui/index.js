@@ -213,7 +213,7 @@ UI.prototype.init = function UI_init() {
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
 	this.firstTimeConnect = true;
-
+	this.uploadRoom = null;
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -242,11 +242,6 @@ UI.prototype.bind = function UI_bind() {
 	this.events.bind('click .enable_notifications', 'requestPermission');
 
 	this.room = null;
-
-	this.upload.on('uploaded', function (attachment) {
-		self.emit('send', self.room, '', {attachments: [attachment.id]});
-		self.upload.hide();
-	});
 
 	// intro
 	this.intro.oncomplete(function() {
@@ -415,6 +410,15 @@ UI.prototype.leftChannel = function UI_leftChannel(room) {
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	page.replace('/chat/' + room.slug);
+}
+
+UI.prototype.onUploading = function () {
+	this.uploadRoom = this.room;
+};
+
+UI.prototype.onUploaded = function (attachment) {
+	this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
+	this.upload.hide();
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
