@@ -1,7 +1,7 @@
 ul.nav-list.rooms
 	each room in items
 		if room.joined
-			li.channel-item(class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
+			li.channel-item(style=(room == selected ? 'background: #{room.color}' : ''), class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
 				a(href="/chat/" + room.slug)
 					.item-inner-wrp
 						.room-face(style="background: #{room.color}")

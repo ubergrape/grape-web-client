@@ -20,10 +20,10 @@
 	overflow: hidden
 	.navigation
 		padding: 0px
-		background: sidebar-background
+		background: #F3F5F8
+		box-shadow: -1px 0 0px rgba(0,0,0,0.1) inset
 	.nav-wrap-out
 		height: 100vh
-		border-right: 1px solid darken(sidebar-background, 10%)
 .nav-outer
 	min-width: 200px
 	width: client-navigation-width
@@ -57,26 +57,11 @@
 	height: 150px
 	display: block
 	text-align: center
-	border-right: 1px solid darken(sidebar-background, 10%)
-	border-bottom: 1px solid lighten(sidebar-background, 25%)
-	background-image: url("../images/cg-header.jpg")
-	background-position: center center
-	background-repeat: no-repeat
-	background-size: cover
+	background: #3C2745
 	transition: height header-animation-duration
 	transition-timing-function: grape-bezier
 	.bg-overlay
-		position: absolute
-		left: 0px
-		top: 0px
-		display: block
-		width: 100%
-		height: 150px
-		z-index: 30
-		transition: height header-animation-duration
-		transition-timing-function: grape-bezier
-		background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-					linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.0))
+		display: none
 .org-info
 	width: 100%
 	height: 150px
@@ -246,9 +231,9 @@ a.nav-title-wrap
 	padding-bottom: 2px
 	text-decoration: none
 	.nav-title
-		color: sidebar-group-title
+		color: #898E96
 		text-transform: uppercase
-		font-size: 0.8em;
+		font-size: 0.925em;
 		padding-left: 14px
 		overflow: hidden
 		float: left
@@ -296,6 +281,7 @@ a.nav-title-wrap
 		clear: both
 		padding: 0px
 		padding-right: 8px
+		border-radius: 0 100px 100px 0
 		&.taken
 			background-color: #785278
 			.channel-name
@@ -310,7 +296,7 @@ a.nav-title-wrap
 			height: 100%
 			text-decoration: none
 		.item-inner-wrp
-			padding: 14px 0
+			padding: 10px 0 9px
 		.avatar-wrap
 		.room-face
 			float: left
@@ -318,10 +304,10 @@ a.nav-title-wrap
 			text-align: center
 			width: 32px
 			height: 32px
-			margin-left: 12px
+			margin-left: 20px
 			margin-top: -7px
 			line-height: 32px
-			border-radius: 3px
+			border-radius: 32px
 			background: grape-dark
 			position: relative
 			font-size: 1.1em
@@ -333,7 +319,7 @@ a.nav-title-wrap
 				width: 32px !important
 				height: 32px
 			.offline, .online
-				border: solid 1px sidebar-background
+				border: solid 1px #F3F5F8
 				width: 8px
 				height: 8px
 				bottom: 0px
@@ -363,11 +349,11 @@ a.nav-title-wrap
 			right: 0px
 			padding-left: 10px
 			padding-right: 6px
-			color: white
+			color: #707782
 		&:hover
-			background: sidebar-hover
+			background: #D9DEE5
 			.offline, .online
-				border-color: sidebar-hover
+				border-color: #D9DEE5
 		&.deleted
 			.name
 				color: gainsboro-dark
@@ -378,12 +364,18 @@ a.nav-title-wrap
 				text-transform: uppercase
 				margin-left: 4px
 		&.selected
-			background: sidebar-selected !important
+			background: #8C448E
 			color: white !important
+			.channel-name
+				color: white
 			.offline, .online
 				border-color: #a0284b
 	.nav-list
 		padding: 0 0 12px 0
+
+.nav-list.rooms,
+.nav-list.pms
+	padding: 0 10px 12px 0
 
 .invite-list
 	margin-bottom: 8px

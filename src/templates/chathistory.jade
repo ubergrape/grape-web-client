@@ -73,8 +73,8 @@
 		if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
 			if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
 				.date-separator
-					span
-						| Today, #{strftime('%A, %d %b %Y', first.time)}
+					span.today
+						| Today
 			else
 				.date-separator
 					span= strftime('%A, %d %b %Y', first.time)

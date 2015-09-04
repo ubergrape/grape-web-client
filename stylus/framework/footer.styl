@@ -5,12 +5,11 @@
 // ****
 .footer
 	z-index: 30
-	padding: 11px horizontal-space 10px
-	background: url("../images/cgbg-new.png")
+	padding: 0px horizontal-space 20px
+	background: white
 	background-attachment: fixed
 	transform: translate3d(0,0,0)
 	will-change: transform
-	border-top: solid 1px #F3F3F3
 
 	.grape-input-wrapper
 		display: flex
@@ -19,6 +18,7 @@
 			.hint-box, .info-markdown, .uploader
 				opacity: 0
 		.avatar
+			display: none;
 			padding-left: (horizontal-space / 2)
 			position: relative
 			&::after,
@@ -51,8 +51,8 @@
 		flex: 1
 		position: relative
 		display: flex
-		border: 1px solid #E5E5E5
-		border-radius: 6px 0px 6px 6px
+		border: 1px solid #d3d3d3
+		border-radius: 100px
 		background-color: #fff
 		box-shadow: 0px 1px 1px 0px rgba(100, 100, 100, 0.05);
 
@@ -76,15 +76,19 @@
 
 	.search-browser-button
 		@extend $hoverable
-		border-right: 1px solid gainsboro-light
 		font-size: bigger-font-size
-		color: gainsboro-dark
-		width: 52px
+		color: white
+		border-radius: 34px
+		width: 36px
+		height: 36px
+		padding: 6px 0
+		text-align: center
 		cursor: pointer
-		opacity: .7
+		background: #7B477B
+		margin: 4px
 		&:hover
 			opacity: 1
-			background-color: silver-light
+			background-color: #8E518E
 
 	.controls-group
 		position: absolute
@@ -184,4 +188,3 @@
 	.grape-input-wrapper.editing-previous .edit-message
 		opacity: 1
 		transform: translateY(-35px)
-
