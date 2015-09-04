@@ -3,7 +3,7 @@
 var Emitter = require('emitter');
 var template = require('template');
 var events = require('events');
-var q = require('query');
+var qs = require('query');
 var debounce = require('debounce');
 
 var staticurl = require('staticurl');
@@ -39,7 +39,7 @@ GrapeInputIntegration.prototype.init = function () {
 	if (this.initialized) return;
 	this.initialized = true;
 	this.bindEvents();
-	this.input = q('grape-input', this.el);
+	this.input = qs('grape-input', this.el);
 	images.orgLogo = this.org.logo;
 	this.setProps({focused: true});
 };
@@ -202,7 +202,7 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
 
-	var avatar = q('.avatar.editing');
+	var avatar = qs('.avatar.editing');
 	if (avatar) {
 		avatar.classList.remove('editing');
 	}
@@ -213,7 +213,7 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 
 GrapeInputIntegration.prototype.editMessage = function (msg) {
 	this.completePreviousEdit();
-	var el = q('.message[data-id="' + msg.id + '"]');
+	var el = qs('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
 	this.input.setTextContent(msg.text);
