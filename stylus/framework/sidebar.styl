@@ -23,6 +23,7 @@
 		background: #F3F5F8
 		box-shadow: -1px 0 0px rgba(0,0,0,0.1) inset
 	.nav-wrap-out
+		margin-top: 64px
 		height: 100vh
 .nav-outer
 	min-width: 200px
@@ -63,32 +64,34 @@
 	.bg-overlay
 		display: none
 .org-info
+	background: #3C2745
+	color: white
 	width: 100%
-	height: 150px
+	height: 64px
 	display: table
 	position: absolute
 	top: 0px
 	left: 0px
-	transition: height header-animation-duration
-	transition-timing-function: grape-bezier
 	.org-topbar
 		width: 100%
 		position: absolute
 		left: 0px
 		top: 0px
+		bottom: 0
 		z-index: 60
-		padding: 10px
 		.settings-icon
-			text-align: center
+			position: absolute
+			top: 50%
+			right: 20px
 			font-size: 20px
-			color: rgba(255, 255, 255, 0.6)
-			text-shadow: 0px 0px 5px rgba(0, 0, 0, 1)
-			-webkit-transition: color 0.3s
+			transform: translateY(-50%)
+			color: rgba(255, 255, 255, 0.5)
 			transition: color 0.3s
 			cursor: pointer
 			&:hover
 				color: rgba(255, 255, 255, 1)
 		.toggle-sidebar-icon
+			display: none
 			position: absolute
 			left: 9px
 			top: 33px
@@ -103,51 +106,29 @@
 			&:hover
 				color: rgba(255, 255, 255, 1)
 	.org-logo-name
-		width: 100%
-		height: 100%
 		display: table-cell
 		position: relative
 		vertical-align: middle
-		text-align: center
-		padding: 16px 16px 8px 16px
+		padding: 2px 50px 0 60px
 		overflow: hidden
-		text-decoration: none
-		z-index: 50
+		line-height: 1.2
+		color: white
 		img
-			display: block
-			position: relative
-			margin-left: auto
-			margin-right: auto
-			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
+			position: absolute
+			left: 20px
+			top: 50%
+			height: 32px
+			width: 32px
+			transform: translateY(-50%)
 			border-radius: 50%
-			left: 0%
-			transition: left header-animation-duration, top header-animation-duration, width header-animation-duration, height header-animation-duration
-			transition-timing-function: grape-bezier
 		.org-name
 			display: block
-			position: relative
-			color: white
-			margin-top: 16px
-			font-size: 1.25em
-			text-shadow: 0px 1px 3px rgba(0, 0, 0, 1)
-			cursor: default
+			font-size: 17px
 			opacity: 1
-			transition: opacity 0.15s, margin-left header-animation-duration, margin-right header-animation-duration,
-						top header-animation-duration, font-size header-animation-duration
-			transition-timing-function: grape-bezier
 		.org-tagline
 			display: block
-			position: relative
-			color: white
-			margin-top: 1px
-			font-size: 0.8em
-			text-shadow: 0px 1px 3px rgba(0, 0, 0, 1)
-			-webkit-transition: opacity 0.3s
-			transition: opacity 0.3s
-			opacity: 0.6
-			cursor: pointer
-			&:hover
-				opacity: 1.0
+			font-size: 13px
+			opacity: 0.5
 		i
 			margin-left: 8px
 			@extend $small-font-size
@@ -158,26 +139,6 @@
 		.name
 			opacity: 0.7
 			text-decoration: none
-
-.manage-rooms-button
-	position: relative;
-	width: 90%;
-	display: block;
-	text-align: center;
-	background: sidebar-button-background
-	margin: 0 auto;
-	font-size: 1.1em;
-	color: #EDEDED;
-	padding-top: 9px;
-	padding-bottom: 9px;
-	border-radius: 4px;
-	left: -1px;
-	margin-bottom: 20px;
-	text-decoration: none
-	&:hover
-		background: lighten(sidebar-button-background, 5%)
-		color: white;
-		text-decoration: none
 
 
 // ****
