@@ -29,7 +29,6 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
-	this.tagsToggle = qs('#tagsToggle', this.el);
 	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
 	this.editOptions = {
@@ -73,57 +72,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
 		},
-		'toggleTags' : function(e) {
-			var color = {r: 100, g: 50, b: 100};
-
-			if (self.room.color) {
-				color = hexToRgb(self.room.color.toLowerCase());
-			}
-
-			if (tagsToggle.className == "room-header-button") {
-				if (menuToggle.className == "room-header-button") {
-					self.emit('togglerightsidebar');
-				}
-
-				tagsToggle.className = "room-header-button-active"
-				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-
-				menuToggle.className = "room-header-button"
-				menuToggle.style.background = "";
-			} else {
-				tagsToggle.className = "room-header-button"
-				tagsToggle.style.background = "";
-
-				self.emit('togglerightsidebar');
-			}
-
-			qs('.right-sidebar-room-info').style.display = "none";
-			qs('.right-sidebar-tags').style.display = "block";
-		},
 		'toggleMenu' : function(e) {
-			var color = {r: 100, g: 50, b: 100};
-
-			if (self.room.color) {
-				color = hexToRgb(self.room.color.toLowerCase());
-			}
-
-			if (menuToggle.className == "room-header-button") {
-				if (tagsToggle.className == "room-header-button") {
-					self.emit('togglerightsidebar');
-				}
-
-				menuToggle.className = "room-header-button-active"
-				menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-
-				tagsToggle.className = "room-header-button"
-				tagsToggle.style.background = "";
-			} else {
-				menuToggle.className = "room-header-button"
-				menuToggle.style.background = "";
-
-				self.emit('togglerightsidebar');
-			}
-
+			self.emit('togglerightsidebar');
 			qs('.right-sidebar-room-info').style.display = "block";
 			qs('.right-sidebar-tags').style.display = "none";
 		}
@@ -133,7 +83,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
-	this.events.bind('click #tagsToggle', 'toggleTags');
 	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
@@ -162,24 +111,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 };
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-	var color = {r: 100, g: 50, b: 100};
-
-	if (this.room.color) {
-		color = hexToRgb(this.room.color.toLowerCase());
-	}
-
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		editOptions: this.editOptions,
-		mode: this.mode,
-		color: color
+		mode: this.mode
 	});
 
 	render(this, vdom);
-
-	if (qs('.room-header-button-active')) {
-		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-	}
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
@@ -212,14 +150,6 @@ ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
 ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
 	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
 	qs('input.submit-rename', this.el).click();
-}
-
-ChatHeader.prototype.onNewRoomMember = function ChatHeader_onNewRoomMember(room) {
-	if (room == this.room) this.redraw();
-}
-
-ChatHeader.prototype.onMemberLeftChannel = function ChatHeader_onMemberLeftChannel(room) {
-	if (room == this.room) this.redraw();
 }
 
 ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode () {

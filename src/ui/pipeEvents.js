@@ -11,8 +11,6 @@ function pipeEvents(ui) {
 	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
 	broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
 	broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
-	broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');
-	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
