@@ -71,7 +71,6 @@ function doBroker(ui, api) {
 		api.setTyping(room, true);
 	});
 	ui.on('stoptyping', function (room) {
-		console.log('UGH');
 		api.setTyping(room, false);
 	});
 }
