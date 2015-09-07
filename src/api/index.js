@@ -134,21 +134,48 @@ API.prototype.onConnect = function API_onConnect(data) {
  * @param {Function} [callback]
  */
 API.prototype.initSocket = function API_initSocket(opts) {
-	var lp;
+	var lp, ws;
+	if (window.CHATGRAPE_CONFIG.forceLongpolling || window.location.hash.indexOf('disable-ws') > -1) {
+		console.log("connection: forcing longpolling");
+		this.preferedTransport = 'lp';
+		this.connecting = false;
+		this.connected = false;
+		lp = new LPSocket(opts.lpUri);
+		lp.connect();
+		lp.once('open', function() {
+			lp.poll();
+			opts.connected(lp);
+		});
+		lp.once('error', function(err) {
+			opts.error(err);
+		});
+		return;
+	}
+	ws = new WebSocket(opts.wsUri);
+	ws.once('open', function() {
+		console.log("connection: websocket connection opened")
+		this.preferedTransport = 'ws';
+		opts.connected(ws);
+	}.bind(this));
 
-	console.log("connection: forcing longpolling");
-	this.connecting = false;
-	this.connected = false;
-	lp = new LPSocket(opts.lpUri);
-	lp.connect();
-	lp.once('open', function() {
-		lp.poll();
-		opts.connected(lp);
-	});
-	lp.once('error', function(err) {
-		opts.error(err);
-	});
-	return;
+	ws.once('error', function(err) {
+		console.log("connection: websocket error");
+		//if (this.preferredTransport && this.preferedTransport != 'lp') {
+			opts.error(err);
+			return;
+		//}
+
+		// console.log("connections: try lp fallback");
+		// var lp = new LPSocket(opts.lpUri);
+		// lp.connect();
+		// lp.once('open', function() {
+		//  lp.poll();
+		//  opts.connected(lp);
+		// });
+		// lp.once('error', function(err) {
+		//  opts.error(err);
+		// });
+	}.bind(this));
 };
 
 
@@ -179,8 +206,12 @@ API.prototype.connect = function API_connect(ws) {
 				}
 				this.onConnect(data);
 				this.lastAlive = Date.now();
-				// this.startPinging();
-				// this.heartbeat();
+				if (this.preferedTransport == 'ws') {
+					this.startPinging();
+					this.heartbeat();
+				} else {
+					console.log("No heartbeat/pinging with longpolling");
+				}
 			}.bind(this));
 
 			socket.on('close', function(e) {
