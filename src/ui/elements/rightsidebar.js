@@ -123,6 +123,7 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 
 	this.setListItems({room: this.room, canKickMembers: this.canKickMembers});
 	this.redraw();
+	if (room.type == 'pm') classes(qs('.client-body')).remove('right-sidebar-show');
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {

@@ -84,6 +84,7 @@ UI.prototype.init = function UI_init() {
 	_.lang(this.options.languageCode || 'en');
 	template.locals._ = _;
 	template.locals.staticurl = staticurl;
+	template.locals.intercomSettings = intercomSettings;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),

@@ -19,9 +19,6 @@ function ChatHeader() {
 	this.room = new Emitter({name: '', users: []});
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
-	var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
-	intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-	window.Intercom('reattach_activator');
 	this.init();
 	this.bind();
 }
