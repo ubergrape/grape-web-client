@@ -13,7 +13,6 @@ var render = require('../rendervdom');
 var debounce = require('debounce');
 var resizable = require('resizable');
 var store = require('../store').prefix('navigation');
-var clamp = require('clamp');
 
 module.exports = Navigation;
 
@@ -57,8 +56,6 @@ Navigation.prototype.init = function Navigation_init() {
 	var headerCollapsed = false;
 
 	document.addEventListener("DOMContentLoaded", function(event) {
-		qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling(); }
-
 		self.collapsedMode = store.get('sidebarCollapsedMode');
 
 		var sidebarWidth = store.get('sidebarWidth');
@@ -93,16 +90,6 @@ Navigation.prototype.init = function Navigation_init() {
 		navResizable.element.addEventListener('resize', resizeClient);
 		window.addEventListener('resize', resizeClient);
 
-		// Initialize all the stuff that will be transitioned in handleScrolling
-		self.orgAreaBG = qs('.org-area-bg');
-		self.orgAreaBGOverlay = qs('.bg-overlay');
-		self.orgInfo = qs('.org-info');
-		self.orgLogoName = qs('.org-logo-name img');
-		self.orgName = qs('.org-name');
-		self.orgTagline = qs('.org-tagline');
-
-		$clamp(self.orgName, {clamp: 2});
-		self.clampedSingleLine = false;
     });
 };
 
@@ -173,52 +160,6 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers);
 	this.navScrollbarCollapsed.elem.addEventListener('scroll', closeNavPopovers);
 };
-
-Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
-	var scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop;
-	var newHeight = Math.max(64, 150 - scrollTop);
-	var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100;
-
-	if (newHeight < 150 && !this.headerCollapsed) {
-		classes(this.orgAreaBG).add("collapse-header-height");
-		classes(this.orgAreaBGOverlay).add("collapse-header-height");
-		classes(this.orgInfo).add("collapse-header-height");
-
-		classes(this.orgLogoName).add("collapse-logo");
-		classes(this.orgName).add("collapse-name");
-		this.orgName.style.opacity = "0";
-
-		this.headerCollapsed = true;
-
-		setTimeout(function() {
-			var orgName = qs('.org-name');
-			orgName.style.textAlign = "left";
-			$clamp(orgName, {clamp: 1});
-
-			orgName.style.opacity = "1";
-		}, 225);
-	} else if (newHeight == 150 && this.headerCollapsed) {
-		classes(this.orgAreaBG).remove("collapse-header-height");
-		classes(this.orgAreaBGOverlay).remove("collapse-header-height");
-		classes(this.orgInfo).remove("collapse-header-height");
-
-		classes(this.orgLogoName).remove("collapse-logo");
-		classes(this.orgName).remove("collapse-name");
-		this.orgName.style.opacity = "0";
-
-		this.headerCollapsed = false;
-
-		setTimeout(function() {
-			var orgName = qs('.org-name');
-
-			orgName.innerHTML = ui.org.name;
-			orgName.style.textAlign = "center";
-			$clamp(orgName, {clamp: 2});
-
-			orgName.style.opacity = "1";
-		}, 150);
-	}
-}
 
 Navigation.prototype.setLists = function Navigation_setLists(lists) {
 	lists.pms.sort(this.pmCompare);
