@@ -123,6 +123,7 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 
 	this.setListItems({room: this.room, canKickMembers: this.canKickMembers});
 	this.redraw();
+	if (room.type == 'pm') classes(qs('.client-body')).remove('right-sidebar-show');
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
@@ -130,6 +131,6 @@ RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftC
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
-	var rightSidebar = qs('.right-sidebar', self.el)
-	rightSidebar.classList.toggle("right-sidebar-show")
+	var clientBody = qs('.client-body')
+	clientBody.classList.toggle("right-sidebar-show")
 }

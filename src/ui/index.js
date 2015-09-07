@@ -84,6 +84,7 @@ UI.prototype.init = function UI_init() {
 	_.lang(this.options.languageCode || 'en');
 	template.locals._ = _;
 	template.locals.staticurl = staticurl;
+	template.locals.intercomSettings = intercomSettings;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),
@@ -213,7 +214,7 @@ UI.prototype.init = function UI_init() {
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
 	this.firstTimeConnect = true;
-
+	this.uploadRoom = null;
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -243,11 +244,6 @@ UI.prototype.bind = function UI_bind() {
 
 	this.room = null;
 
-	this.upload.on('uploaded', function (attachment) {
-		self.emit('send', self.room, '', {attachments: [attachment.id]});
-		self.upload.hide();
-	});
-
 	// intro
 	this.intro.oncomplete(function() {
 		self.emit('introend');
@@ -255,6 +251,13 @@ UI.prototype.bind = function UI_bind() {
 	this.intro.onexit(function() {
 		self.emit('introend');
 	});
+
+	Intercom('onShow', function () {
+		classes(qs('.client-body', this.el)).add('intercom-show');
+	}.bind(this));
+	Intercom('onHide', function () {
+		classes(qs('.client-body', this.el)).remove('intercom-show');
+	}.bind(this));
 
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
@@ -415,6 +418,15 @@ UI.prototype.leftChannel = function UI_leftChannel(room) {
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	page.replace('/chat/' + room.slug);
+}
+
+UI.prototype.onUploading = function () {
+	this.uploadRoom = this.room;
+};
+
+UI.prototype.onUploaded = function (attachment) {
+	this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
+	this.upload.hide();
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {

@@ -36,23 +36,21 @@
 		display: flex
 		flex-direction: column
 		flex: 1
-		-webkit-transition: margin-right 0.2s, -webkit-transform 0.2s
 		transition: margin-right 0.2s, transform 0.2s
-		transition-timing-function: ease-out
+		transition-timing-function: grape-bezier
 		margin-right: 0px;
 		position: relative
 	.right-sidebar
-		position: absolute
+		position: fixed
 		top: 0
-		float:right
-		width: 250px
-		height: calc(100% - 64px - 64px + 1px)
 		right: 0
+		bottom: 0
+		width: 250px
+		height: calc(100%-64px)
 		margin-top: 63px
 		background: #F2F2F2
 		border-left: solid 1px #E5E5E5
-		-webkit-transition: -webkit-transform 0.4s
-		transition: transform 0.4s
+		transition: transform 0.2s
 		transition-timing-function: grape-bezier
 		transform: translateX(250px)
 		z-index: 50
@@ -444,7 +442,7 @@
 			z-index: 10
 			position: relative
 		a.attachment
-			display: inline		
+			display: inline
 			border-bottom: 1px solid link-color
 			margin: 1px
 			padding: 1px 0
@@ -552,8 +550,21 @@ span.author-deleted
 //
 // ****
 
-.right-sidebar-show {
-    transform: translateX(0px) !important
+.right-sidebar-show .right-sidebar {
+  transform: translateX(0px) !important
+}
+.right-sidebar-show .main-window {
+	margin-right: 250px
+}
+.right-sidebar-show .bigarrow {
+	right: 270px
+}
+
+.intercom-messenger-active .main-window {
+	margin-right: 368px;
+}
+.intercom-messenger-active .bigarrow {
+	margin-right: 388px;
 }
 
 .main-window-minimize {
@@ -757,6 +768,8 @@ span.author-deleted
 				transform: scale(1.3,1.3)
 
 .bigarrow
+	transition: right 0.2s
+	transition-timing-function: grape-bezier
 	@extend $bigger-font-size
 	border: 2px solid gainsboro-dark
 	background: lighten(gainsboro-light, 20)

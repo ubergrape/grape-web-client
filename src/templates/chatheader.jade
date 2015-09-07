@@ -41,8 +41,11 @@
 
 	#tagsToggle.room-header-button
 		i.mdi.mdi-tag-multiple
+	#intercomTrigger.room-header-button
+		a#Intercom(href='mailto:' + intercomSettings.app_id + '1@incoming.intercom.io')
+			i.fa.fa-question-circle
 	#menuToggle.room-header-button(style=room.type == "room" ? "display: block" : "display: none")
-		i.mdi.mdi-menu
+		i.fa.fa-user
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap

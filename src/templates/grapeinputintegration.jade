@@ -11,7 +11,8 @@
 			.uploader
 			.emoji-browser-button.js-emoji-browser-button
 				i.fa.fa-smile-o
-			.info-markdown.js-markdown-tips
-				i.fa.fa-question
 	.avatar
 		img.image(src="#{user.avatar}",width="42",height="42",alt="#{user.username}")
+	.js-markdown-tips
+		=_('You can also use ')
+		span=_('markdown')
