@@ -233,7 +233,7 @@ GrapeInputIntegration.prototype.findPreviousMessage = function () {
 GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
 	this.typing = false;
 	this.emit('stoptyping', this.room);
-}, 1000);
+}, 5000);
 
 GrapeInputIntegration.prototype.getAttachments = function (objects) {
 	// Find embeddable images.

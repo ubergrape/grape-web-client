@@ -312,14 +312,12 @@ API.prototype.bindEvents = function API_bindEvents() {
 			self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
-			}, 10000);
+			}, 30000);
 		} else if (!data.typing && ~index) {
-			// we want the typing notification to be displayed at least five
-			// seconds
 			self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
 				room.typing.splice(index, 1);
 				trigger();
-			}, 5000);
+			}, 200);
 		}
 		function trigger() {
 			// FIXME: model needs an api to do this:
