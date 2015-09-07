@@ -22,10 +22,8 @@ template.templates = {
 	'messages.jade': require('./messages.jade'),
 	'navigation.jade': require('./navigation.jade'),
 	'pmlist.jade': require('./pmlist.jade'),
-	'pmlist-collapsed.jade': require('./pmlist-collapsed.jade'),
 	'popovers/organization.jade': require('./popovers/organization.jade'),
 	'roomlist.jade': require('./roomlist.jade'),
-	'roomlist-collapsed.jade': require('./roomlist-collapsed.jade'),
 	'searchresults.jade': require('./searchresults.jade'),
 	'typingnotifications.jade': require('./typingnotifications.jade')
 }
