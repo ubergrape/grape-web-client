@@ -39,26 +39,6 @@ Navigation.prototype.init = function Navigation_init() {
 		template: 'pmlist.jade'
 	});
 	replace(qs('.pms', this.el), pmList.el);
-
-	document.addEventListener("DOMContentLoaded", function(event) {
-
-		var navResizable = new resizable(self.el, { directions: ['east'] });
-		
-		var resizeClient = function resizeClient() {
-			qs('.client-body').style.marginLeft = self.el.clientWidth + 'px';
-			store.set('sidebarWidth', self.el.clientWidth);
-		}.bind(self);
-
-		// the `orgReady` event is fired on reconnection as well
-		// so we need to unbind the resizable and the window
-		navResizable.element.removeEventListener('resize', resizeClient);
-		window.removeEventListener('resize', resizeClient);
-		
-		// listening to the event fired by the resizable component
-		navResizable.element.addEventListener('resize', resizeClient);
-		window.addEventListener('resize', resizeClient);
-
-    });
 };
 
 function replace(from, to) {
@@ -190,5 +170,28 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	// cause that is part of the navigation too
 	this.redraw();
 	this.ready = true;
+
+	var sidebarWidth = store.get('sidebarWidth');
+	var navResizable = new resizable(this.el, { directions: ['east'] });
+	var chatContent = qs('.client-body');
+
+	if (sidebarWidth) {
+		chatContent.style.marginLeft = sidebarWidth + 'px';
+		this.el.style.width = sidebarWidth + 'px';
+	}
+
+	var resizeClient = function resizeClient() {
+		chatContent.style.marginLeft = this.el.clientWidth + 'px';
+		store.set('sidebarWidth', this.el.clientWidth);
+	}.bind(this);
+
+	// the `orgReady` event is fired on reconnection as well
+	// so we need to unbind the resizable and the window
+	navResizable.element.removeEventListener('resize', resizeClient);
+	window.removeEventListener('resize', resizeClient);
+	
+	// listening to the event fired by the resizable component
+	navResizable.element.addEventListener('resize', resizeClient);
+	window.addEventListener('resize', resizeClient);
 }
 
