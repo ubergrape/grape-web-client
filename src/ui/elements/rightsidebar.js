@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var template = require('template');
-var Scrollbars = require('scrollbars');
 var render = require('../rendervdom');
 var ItemList = require('./itemlist');
 var qs = require('query');

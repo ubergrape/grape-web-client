@@ -39,6 +39,8 @@ Navigation.prototype.init = function Navigation_init() {
 		template: 'pmlist.jade'
 	});
 	replace(qs('.pms', this.el), pmList.el);
+
+	var	navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el));
 };
 
 function replace(from, to) {
