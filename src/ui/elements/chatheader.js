@@ -75,7 +75,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleMenu' : function(e) {
 			self.emit('toggleRightSidebar');
 			qs('.right-sidebar-room-info').style.display = "block";
-			qs('.right-sidebar-tags').style.display = "none";
 		}
 	});
 

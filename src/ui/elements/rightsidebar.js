@@ -32,6 +32,20 @@ RightSidebar.prototype.init = function () {
 	membersList.setItems(this.room.users.slice());
 	this.redraw();
 	qs('.right-sidebar').appendChild(this.content.el);
+
+	// TODO: to implement the 3 views, 
+	// set up all the template at init time
+	// browsed files is also an itemlist with a menu - reuse those templates
+
+	// when triggering the right sidebar
+	// pass a parameter according to the trigger el
+	// to change this.mode
+
+	// this.mode can be 'files', 'members', 'search'
+
+	// when redrawing, replace the same element  in the main template right-sidebar.jade
+	// with one of the sub-templates (files, members, search)
+
 	replace(qs('.members ul', this.content.el), membersList.el);
 	this.bind();
 };
@@ -63,7 +77,7 @@ RightSidebar.prototype.redraw = function () {
 
 RightSidebar.prototype.setRoom = function (room) {
 	this.room = room;
-	this.canKickMembers = (ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN) ? true : false;
+	this.canKickMembers = ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN ? true : false;
 	
 	if (room.type == 'pm') return this.emit('hideRightSidebar');
 	
@@ -78,11 +92,10 @@ RightSidebar.prototype.setRoom = function (room) {
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function (room, user) {
-	if (room == this.room) {
-		var userIndex = this.membersList.items.indexOf(user);
-		if (userIndex > -1) this.membersList.items.splice(userIndex, 1);
-		this.redraw();
-	}
+	if (room != this.room) return;
+	var userIndex = this.membersList.items.indexOf(user);
+	if (userIndex > -1) this.membersList.items.splice(userIndex, 1);
+	this.redraw();
 };
 
 RightSidebar.prototype.onChangeUser = function (user) {
@@ -90,8 +103,7 @@ RightSidebar.prototype.onChangeUser = function (user) {
 };
 
 RightSidebar.prototype.onNewRoomMember = function (room, user) {
-	if (room == this.room) {
-		this.membersList.items.push(user);
-		this.redraw();
-	}
+	if (room != this.room) return;
+	this.membersList.items.push(user);
+	this.redraw();
 };
