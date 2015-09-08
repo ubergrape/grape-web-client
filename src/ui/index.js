@@ -97,6 +97,7 @@ UI.prototype.init = function UI_init() {
 	};
 
 	this.el = v.toDOM(template('index.jade'));
+	this.clientBody = qs('.client-body', this.el);
 
 	// add the navigation to the layout
 	var sidebar = qs('.navigation', this.el);
@@ -111,7 +112,6 @@ UI.prototype.init = function UI_init() {
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
 
 	this.rightSidebar = new RightSidebar();
-	qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
 
 	// initialize the input field
 	this.grapeInput = new GrapeInputIntegration();
@@ -249,10 +249,10 @@ UI.prototype.bind = function UI_bind() {
 	});
 
 	Intercom('onShow', function () {
-		classes(qs('.client-body', this.el)).add('intercom-show');
+		classes(this.clientBody).add('intercom-show');
 	}.bind(this));
 	Intercom('onHide', function () {
-		classes(qs('.client-body', this.el)).remove('intercom-show');
+		classes(this.clientBody).remove('intercom-show');
 	}.bind(this));
 
 	// Open certain link in the external browser in the OS X app
@@ -464,4 +464,12 @@ UI.prototype.onTriggerPMManager = function () {
 	broker(this, 'selectchannel', pmmanager, 'end');
 	broker(this, 'changeUser', pmmanager, 'onChangeUser');
 	broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
+}
+
+UI.prototype.onToggleRightSidebar = function () {
+	this.clientBody.classList.toggle('right-sidebar-show');
+}
+
+UI.prototype.onHideRightSidebar = function () {
+	classes(this.clientBody).remove('right-sidebar-show')
 }

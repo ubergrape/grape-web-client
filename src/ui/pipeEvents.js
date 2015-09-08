@@ -42,11 +42,14 @@ function pipeEvents(ui) {
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
+	broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
+	broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
+	broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
 
 	// chat header 
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
-	broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
+	broker(ui.chatHeader, 'toggleRightSidebar', ui, 'onToggleRightSidebar');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 	broker(ui.chatHeader, 'stopsearching', ui.searchView, 'hideResults');
 
@@ -98,4 +101,5 @@ function pipeEvents(ui) {
 	// right sidebar
 	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
 	broker(ui.rightSidebar, 'toggleInvite', ui, 'onToggleInvite');
+	broker(ui.rightSidebar, 'hideRightSidebar', ui, 'onHideRightSidebar');
 }

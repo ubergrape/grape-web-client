@@ -363,7 +363,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			self.emit('joinedChannel', room);
 		}
 		room.users.push(user);
-		self.emit('newRoomMember', room);
+		self.emit('newRoomMember', room, user);
 	});
 	wamp.subscribe(PREFIX + 'channel#left', function (data) {
 		var user = models.User.get(data.user);
@@ -378,7 +378,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			self.emit('leftChannel', room);
 		}
 		room.users.splice(index, 1);
-		self.emit('memberLeftChannel', room);
+		self.emit('memberLeftChannel', room, user);
 	});
 
 	// organization events

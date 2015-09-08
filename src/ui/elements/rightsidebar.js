@@ -8,129 +8,90 @@ var render = require('../rendervdom');
 var ItemList = require('./itemlist');
 var qs = require('query');
 var events = require('events');
-var classes = require('classes');
-var broker = require('broker');
-var constants = require('conf').constants;
-var hexToRgb = require('color-converter')
 
 module.exports = RightSidebar;
 
-function RightSidebar() {
+function RightSidebar () {
 	Emitter.call(this);
 	this.content = {};
-	this.room = new Emitter({name: '', users: []});
-	this.redraw();
-	this.el = this.content.el;
-	this.init();
-	this.bind();
+	this.initialized = false;
 }
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
 
-RightSidebar.prototype.init = function RightSidebar_init() {
-	this.classes = classes(this.el);
-	this.canKickMembers = false;
-	this.redraw();
-
-	var uploadsList = this.uploadsList = new ItemList({
-		template: 'uploads.jade'
-	});
-//	replace(qs('.uploads', this.el), uploadsList.el);
-
+RightSidebar.prototype.init = function () {
+	function replace(from, to) {
+		from.parentNode.replaceChild(to, from);
+	}
 	var membersList = this.membersList = new ItemList({
 		template: 'roommembers.jade',
-		selector: '.item a'
-	});
-	replace(qs('.members', this.el), membersList.el);
-
-	var	navScrollbar = new Scrollbars(qs('.right-sidebar-room-wrap', this.el));
-};
-
-RightSidebar.prototype.bind = function RightSidebar_bind() {
-	var self = this;
-	this.events = events(this.el, {
-		close: function () {
-			self.hide();
+		templateOptions: {
+			canKickMembers: this.canKickMembers
 		}
 	});
-	this.events.obj.toggleInvite = function(ev) {
-		this.emit('toggleInvite', this.room);
-	}.bind(this);
-	this.events.obj.deleteRoomMember = function (ev) {
-		var roomID = this.room.id;
-		var memberID = ev.target.getAttribute('data-id');
-		this.emit('kickMember', roomID, memberID);
-	}.bind(this);
+	membersList.setItems(this.room.users.slice());
+	this.redraw();
+	qs('.right-sidebar').appendChild(this.content.el);
+	replace(qs('.members ul', this.content.el), membersList.el);
+	this.bind();
+};
+
+RightSidebar.prototype.bind = function () {
+	this.events = events(this.content.el, this);
 	this.events.bind('click i.btn-delete', 'deleteRoomMember');
 	this.events.bind('click .invite-members', 'toggleInvite');
 };
 
-function replace(from, to) {
-	from.parentNode.replaceChild(to, from);
-}
-
-RightSidebar.prototype.setListItems = function RightSidebar_setListItems(items) {
-	this.uploadsList.setItems(items);
-	this.membersList.setItems(items);
+RightSidebar.prototype.toggleInvite = function (ev) {
+	this.emit('toggleInvite', this.room);
 };
 
-RightSidebar.prototype.select = function RightSidebar_select(item) {
-	this.uploadsList.selectItem(null);
-	this.membersList.selectItem(null);
-	this[item.type + 'List'].selectItem(item);
+RightSidebar.prototype.deleteRoomMember = function (ev) {
+	var roomID = this.room.id;
+	var memberID = ev.target.getAttribute('data-id');
+	this.emit('kickMember', roomID, memberID);
 };
 
-RightSidebar.prototype.redraw = function RightSidebar_redraw() {
-	var color = {r: 100, g: 50, b: 100};
-
-	if (this.room.color)
-		color = hexToRgb(this.room.color.toLowerCase());
-
-	var vdom = template('rightsidebar.jade', {
-		room: this.room,
-		canKickMembers: this.canKickMembers,
-		color: color
-	});
-
-	render(this.content, vdom);
-
-//	if (this.uploadsList) this.uploadsList.redraw();
-	if (this.membersList) this.membersList.redraw();
+RightSidebar.prototype.redraw = function () {
+	var memberCount = this.room.users.length.toString();
+	render(this.content, template('rightsidebar.jade', {
+		memberCount: memberCount
+	}));
+	this.membersList.order('displayName');
+	this.membersList.redraw();
 };
 
-/* scroll down in the members list */
-RightSidebar.prototype.scrollDown = function RightSidebar_scrollDown() {
-	var list = qs('.user-list', this.el);
-	var scrollHeight = list.scrollHeight;
-	list.scrollTop = scrollHeight;
-};
-
-RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
-	var self = this;
-	var redraw_wrapped = function(ev) {
-		self.redraw();
-	};
-	var user_added = function(ev) {
-		self.redraw();
-		self.scrollDown();
-	};
+RightSidebar.prototype.setRoom = function (room) {
 	this.room = room;
-	room.users.off('add', user_added);
-	room.off('change', redraw_wrapped);
-	room.users.on('add', user_added);
-	room.on('change', redraw_wrapped);
 	this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
-
-	this.setListItems({room: this.room, canKickMembers: this.canKickMembers});
-	this.redraw();
-	if (room.type == 'pm') classes(qs('.client-body')).remove('right-sidebar-show');
+	
+	if (room.type == 'pm') return this.emit('hideRightSidebar');
+	
+	if (!this.initialized) {
+		this.init();
+		this.initialized = true;
+	} else {
+		this.membersList.items = this.room.users.slice();
+		this.membersList.templateOptions.canKickMembers = this.canKickMembers;
+		this.redraw();
+	}
 };
 
-RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
-	if (room == this.room) this.members.redraw();
-}
+RightSidebar.prototype.onMemberLeftChannel = function (room, user) {
+	if (room == this.room) {
+		var userIndex = this.membersList.items.indexOf(user);
+		if (userIndex > -1) this.membersList.items.splice(userIndex, 1);
+		this.redraw();
+	}
+};
 
-RightSidebar.prototype.toggle = function RightSidebar_toggle() {
-	var clientBody = qs('.client-body')
-	clientBody.classList.toggle("right-sidebar-show")
-}
+RightSidebar.prototype.onChangeUser = function (user) {
+	if (this.initialized && this.room.users.indexOf(user) > -1) this.membersList.redraw();
+};
+
+RightSidebar.prototype.onNewRoomMember = function (room, user) {
+	if (room == this.room) {
+		this.membersList.items.push(user);
+		this.redraw();
+	}
+};

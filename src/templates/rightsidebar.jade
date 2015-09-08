@@ -1,8 +1,11 @@
 .right-sidebar-wrapper
 	.right-sidebar-room-info
 		.right-sidebar-room-wrap
-			.uploads
 			.members
+				.right-sidebar-header
+					i.mdi.mdi-account-multiple
+					span.title= memberCount + _(' Members')
+				ul
 	a.button.btn-gainsboro.invite-members
 		=_('Invite')
 	.right-sidebar-tags
