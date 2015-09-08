@@ -8,6 +8,7 @@ var render = require('../rendervdom');
 var ItemList = require('./itemlist');
 var qs = require('query');
 var events = require('events');
+var roles = require('conf').constants.roles;
 
 module.exports = RightSidebar;
 
@@ -63,7 +64,7 @@ RightSidebar.prototype.redraw = function () {
 
 RightSidebar.prototype.setRoom = function (room) {
 	this.room = room;
-	this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
+	this.canKickMembers = (ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN) ? true : false;
 	
 	if (room.type == 'pm') return this.emit('hideRightSidebar');
 	
