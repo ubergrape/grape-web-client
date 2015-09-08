@@ -12,7 +12,7 @@
 					a.header-option.option-rename-ok(title="Save", style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 						i.fa.fa-check
 			else
-				.room-name(class=editOptions.canRenameRoom ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
+				.room-name(class=editOptions.canManageRoom ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
 					if mode === 'search'
 						i.fa.fa-link
 						=_(" in ")
@@ -20,11 +20,11 @@
 					if room.topic
 						br
 						span.room-topic=room.topic
-					if editOptions.canRenameRoom
+					if editOptions.canManageRoom
 						a.header-option.option-rename-room(title="Rename Room")
 							i.fa.fa-pencil(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 				.options-wrap
-					if editOptions.canRenameRoom
+					if editOptions.canManageRoom
 						a.header-option.option-delete-room(title="Delete Room")
 							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 		else if room.type === 'pm'
