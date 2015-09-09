@@ -261,10 +261,11 @@ API.prototype.reconnect = function API_reconnect() {
 	// 150 * 2^1 = 300
 	// 150 * 2^2 = 600
 	// ...
-	// 150 * 2^6 = 4800
-	var backoff = 150 * Math.pow(2, Math.min(5, this.retries));
-	this.retries += 1;
+	// 150 * 2^5 = 4800
+	// First reconnect is instant: Math.min(this.retries, 1) * ...
+	var backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries));
 	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
+	this.retries += 1;
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
