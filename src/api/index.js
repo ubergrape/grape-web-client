@@ -258,11 +258,11 @@ API.prototype.reconnect = function API_reconnect() {
 		return
 	}
 	// exponential back-off
-	// 250 * 2^1 = 500
-	// 250 * 2^2 = 1000
+	// 150 * 2^1 = 300
+	// 150 * 2^2 = 600
 	// ...
-	// 250 * 2^6 = 16000
-	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
+	// 150 * 2^6 = 4800
+	var backoff = 150 * Math.pow(2, Math.min(5, this.retries));
 	this.retries += 1;
 	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
 	setTimeout(function() {
