@@ -63,6 +63,8 @@ InviteDialog.prototype.toggleUser = function (ev) {
 	})[0];
 	this.userList.toggleItem(item);
 	this.redrawFormContent(this.userList.highlighted);
+	this.filterUsers();
+	this.userList.redraw();
 	/*
 	var usernames = this.userList.highlighted.map(function (user) {
 		return user.username;
