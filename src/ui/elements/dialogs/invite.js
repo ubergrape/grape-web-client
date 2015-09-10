@@ -27,6 +27,7 @@ InviteDialog.prototype.init = function () {
 	userList.order('displayName');
 	this.uninvitedUsers = context.users;
 	protoInit.call(this);
+	this.filterInput = qs('.input-invite', this.dialog.el);
 	replace(qs('.invite-list', this.dialog.el), userList.el);
 }
 
@@ -55,8 +56,7 @@ InviteDialog.prototype.toggleUser = function (ev) {
 }
 
 InviteDialog.prototype.filterUsers = function () {
-	/*var query = this.filterBar.value.toLowerCase();
-	
+	var query = this.filterInput.value.toLowerCase();	
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
@@ -75,7 +75,6 @@ InviteDialog.prototype.filterUsers = function () {
 	}
 
 	this.userList.redraw();
-	*/
 }
 
 InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
