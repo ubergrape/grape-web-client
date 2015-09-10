@@ -390,15 +390,17 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 
 UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
 	// org users who are not part of the room, sorted alphabetically
+	// org users who are not part of the room, sorted alphabetically
 	var users = this.org.users.filter(function(user) {
 		return user.active && room.users.indexOf(user) == -1;
-	})
-	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
+	});
 	var invite = new InviteDialog({
+		org: this.org,
 		users: users,
 		room: room
 	}).closable().overlay().show();
-	broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
+
+	broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom');
 }
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {

@@ -13,6 +13,7 @@ function ItemList(options) {
 	this.template = options.template;
 	this.templateOptions = options.templateOptions ? options.templateOptions : null;
 	this.items = [];
+	this.highlighted = [];
 	this.selected = null;
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
@@ -28,7 +29,8 @@ ItemList.prototype.redraw = function () {
 ItemList.prototype.extendTemplateOptions = function () {
 	var options = {
 		items: this.items,
-		selected: this.selected	
+		selected: this.selected,
+		highlighted: this.highlighted
 	};
 	for (var item in this.templateOptions) {
 		options[item] = this.templateOptions[item];
@@ -47,6 +49,15 @@ ItemList.prototype.selectItem = function (item) {
 	this.selected = item;
 	this.redraw();
 };
+
+ItemList.prototype.toggleItem = function (item) {
+	var itemIndex = this.highlighted.indexOf(item);
+	if (itemIndex == -1)
+		this.highlighted.push(item)
+	else
+		this.highlighted.splice(itemIndex, 1);
+	this.redraw();
+}
 
 ItemList.prototype.order = function (whatBy) {
 	this.items.sort(function(a, b) {
