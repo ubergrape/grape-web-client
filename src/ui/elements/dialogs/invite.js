@@ -61,7 +61,7 @@ InviteDialog.prototype.toggleUser = function (ev) {
 }
 
 InviteDialog.prototype.filterUsers = function () {
-	var query = this.filterInput.value.split(', ');
+	var query = this.filterInput.value.replace(/ /g, '').split(',');
 	query = query[query.length - 1];
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
