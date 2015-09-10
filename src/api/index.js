@@ -253,13 +253,14 @@ API.prototype.reconnect = function API_reconnect() {
 		return
 	}
 	// exponential back-off
-	// 250 * 2^1 = 500
-	// 250 * 2^2 = 1000
+	// 150 * 2^1 = 300
+	// 150 * 2^2 = 600
 	// ...
-	// 250 * 2^6 = 16000
-	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
-	this.retries += 1;
+	// 150 * 2^5 = 4800
+	// First reconnect is instant: Math.min(this.retries, 1) * ...
+	var backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries));
 	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
+	this.retries += 1;
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
