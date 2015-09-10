@@ -6,11 +6,15 @@ var events = require('events');
 var qs = require('query');
 var closest = require('closest');
 var ItemList = require('../itemlist');
+var keyname = require('keyname');
+var render = require('../../rendervdom');
+var template = require('template');
 
 module.exports = InviteDialog;
 
 function InviteDialog(context) {
 	this.template_path = 'dialogs/invite.jade';
+	this.formContent = {};
 	Dialog.call(this, context);
 };
 
@@ -25,10 +29,19 @@ InviteDialog.prototype.init = function () {
 	});
 	userList.setItems(context.users);
 	userList.order('displayName');
+
 	this.uninvitedUsers = context.users;
 	protoInit.call(this);
-	this.filterInput = qs('.input-invite', this.dialog.el);
+
 	replace(qs('.invite-list', this.dialog.el), userList.el);
+	render(
+		this.formContent,
+		template('dialogs/invite-form-content.jade', {
+			items: []
+		})
+	);
+	replace(qs('.form-content', this.dialog.el), this.formContent.el);
+	this.filterInput = qs('.input-invite', this.dialog.el);
 }
 
 function replace(from, to) {
@@ -39,7 +52,7 @@ InviteDialog.prototype.bind = function InviteDialog_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click .invite-to-room .user', 'toggleUser');
 	this.events.bind('click .room-invite-button', 'inviteToRoom');
-	this.events.bind('keyup .input-invite', 'filterUsers');
+	this.events.bind('keyup .input-invite', 'onInput');
 	/*
 	this.events.bind('submit .invite-to-room', 'inviteToRoom');
 	this.events.bind('input .input-invite', 'resetValidity');
@@ -58,11 +71,27 @@ InviteDialog.prototype.toggleUser = function (ev) {
 	}).toString().replace(/,/g, ', ').concat(', ');
 	this.filterInput.value = usernames;
 	this.filterUsers();
+	this.userList.redraw();
 }
 
-InviteDialog.prototype.filterUsers = function () {
-	var query = this.filterInput.value.replace(/ /g, '').split(',');
-	query = query[query.length - 1];
+InviteDialog.prototype.onInput = function (ev) {
+	var usernames = this.filterInput.value.replace(/ /g, '').split(',');
+	var query = usernames[usernames.length - 1];
+	if (this.filterInput.value[this.filterInput.value.length - 1] == ',' 
+	&& keyname(ev.which) == 'backspace') {
+		var username = usernames[usernames.length - 2]
+		this.filterInput.value = this.filterInput.value.replace(username + ',', '');
+		var user = this.userList.items.filter( function (user) {
+			return user.username == username;
+		})[0];
+		this.userList.toggleItem(user);
+		query = null;
+	};
+	this.filterUsers(query);
+	this.userList.redraw();
+}
+
+InviteDialog.prototype.filterUsers = function (query) {
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
@@ -79,8 +108,6 @@ InviteDialog.prototype.filterUsers = function () {
 	} else {
 		this.userList.items = this.uninvitedUsers;
 	}
-
-	this.userList.redraw();
 }
 
 InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
