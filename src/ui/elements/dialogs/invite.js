@@ -34,12 +34,7 @@ InviteDialog.prototype.init = function () {
 	protoInit.call(this);
 
 	replace(qs('.invite-list', this.dialog.el), userList.el);
-	render(
-		this.formContent,
-		template('dialogs/invite-form-content.jade', {
-			items: []
-		})
-	);
+	this.redrawFormContent([]);
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
 	this.filterInput = qs('.input-invite', this.dialog.el);
 }
@@ -51,6 +46,7 @@ function replace(from, to) {
 InviteDialog.prototype.bind = function InviteDialog_bind() {
 	this.events = events(this.el, this);
 	this.events.bind('click .invite-to-room .user', 'toggleUser');
+	this.events.bind('click .selected-list li', 'toggleUser');
 	this.events.bind('click .room-invite-button', 'inviteToRoom');
 	this.events.bind('keyup .input-invite', 'onInput');
 	/*
@@ -66,12 +62,15 @@ InviteDialog.prototype.toggleUser = function (ev) {
 		return el.id == itemID;
 	})[0];
 	this.userList.toggleItem(item);
+	this.redrawFormContent(this.userList.highlighted);
+	/*
 	var usernames = this.userList.highlighted.map(function (user) {
 		return user.username;
 	}).toString().replace(/,/g, ', ').concat(', ');
 	this.filterInput.value = usernames;
 	this.filterUsers();
 	this.userList.redraw();
+	*/
 }
 
 InviteDialog.prototype.onInput = function (ev) {
@@ -108,6 +107,16 @@ InviteDialog.prototype.filterUsers = function (query) {
 	} else {
 		this.userList.items = this.uninvitedUsers;
 	}
+}
+
+InviteDialog.prototype.redrawFormContent = function (items) {
+	console.log(items);
+	render(
+		this.formContent,
+		template('dialogs/invite-form-content.jade', {
+			items: items
+		})
+	);
 }
 
 InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
