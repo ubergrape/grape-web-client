@@ -53,10 +53,16 @@ InviteDialog.prototype.toggleUser = function (ev) {
 		return el.id == itemID;
 	})[0];
 	this.userList.toggleItem(item);
+	var usernames = this.userList.highlighted.map(function (user) {
+		return user.username;
+	}).toString().replace(/,/g, ', ').concat(', ');
+	this.filterInput.value = usernames;
+	this.filterUsers();
 }
 
 InviteDialog.prototype.filterUsers = function () {
-	var query = this.filterInput.value.toLowerCase();	
+	var query = this.filterInput.value.split(', ');
+	query = query[query.length - 1];
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
