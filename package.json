@@ -14,7 +14,7 @@
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#0.1.0",
     "images-loader": "^0.1.2",
     "js-emoji": "ubergrape/js-emoji",
-    "jss": "^2.1.2",
+    "jss": "^2.3.0",
     "jss-camel-case": "^0.1.2",
     "jss-debug": "^0.1.1",
     "jss-nested": "^0.1.7",
