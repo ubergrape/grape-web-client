@@ -109,6 +109,7 @@ RoomInvite.prototype.inviteToRoom = function () {
 	var usernames = this.userList.highlighted.map(function (user) {
 		return user.username;
 	});
+	if (!usernames.length) return;
 	this.emit('inviteToRoom', this.context.room, usernames, function (err, result) {
 		qs('.close', this.el).click();
 	}.bind(this));
