@@ -34,7 +34,7 @@ RoomInvite.prototype.init = function () {
 	protoInit.call(this);
 
 	replace(qs('.invite-list', this.dialog.el), userList.el);
-	this.redrawFormContent([]);
+	this.redrawFormContent([], '');
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
 }
 
@@ -58,7 +58,7 @@ RoomInvite.prototype.toggleUser = function (ev) {
 		return el.id == itemID;
 	})[0];
 	this.userList.toggleItem(item);
-	this.redrawFormContent(this.userList.highlighted);
+	this.redrawFormContent(this.userList.highlighted, '');
 	this.filterUsers();
 	this.userList.redraw();
 	this.focusInput();
@@ -71,9 +71,9 @@ RoomInvite.prototype.focusInput = function () {
 RoomInvite.prototype.onKeyDown = function (ev) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
-	if (!query && keyname(ev.which) == 'backspace') {
+	if (!filterInput.selectionEnd && keyname(ev.which) == 'backspace') {
 		this.userList.highlighted.pop();
-		this.redrawFormContent(this.userList.highlighted);
+		this.redrawFormContent(this.userList.highlighted, query);
 		this.focusInput();
 	}
 }
@@ -115,11 +115,12 @@ RoomInvite.prototype.inviteToRoom = function () {
 	}.bind(this));
 }
 
-RoomInvite.prototype.redrawFormContent = function (items) {
+RoomInvite.prototype.redrawFormContent = function (items, query) {
 	render(
 		this.formContent,
 		template('dialogs/invite-form-content.jade', {
-			items: items
+			items: items,
+			query: query
 		})
 	);
 }
