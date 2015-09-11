@@ -10,19 +10,19 @@ var keyname = require('keyname');
 var render = require('../../rendervdom');
 var template = require('template');
 
-module.exports = InviteDialog;
+module.exports = RoomInvite;
 
-function InviteDialog(context) {
-	this.template_path = 'dialogs/invite.jade';
+function RoomInvite(context) {
+	this.template_path = 'dialogs/room-invite.jade';
 	this.formContent = {};
 	Dialog.call(this, context);
 };
 
-InviteDialog.prototype = Object.create(Dialog.prototype);
+RoomInvite.prototype = Object.create(Dialog.prototype);
 
-var protoInit = InviteDialog.prototype.init;
+var protoInit = RoomInvite.prototype.init;
 
-InviteDialog.prototype.init = function () {
+RoomInvite.prototype.init = function () {
 	var context = this.context;
 	var userList = this.userList = new ItemList({
 		template: 'dialogs/userlist.jade'
@@ -42,7 +42,7 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
-InviteDialog.prototype.bind = function InviteDialog_bind() {
+RoomInvite.prototype.bind = function () {
 	console.log(this.el);
 	this.events = events(this.el, this);
 	this.events.bind('click .form-content', 'focusInput');
@@ -52,7 +52,7 @@ InviteDialog.prototype.bind = function InviteDialog_bind() {
 	this.events.bind('keydown .input-invite', 'onKeyDown');
 };
 
-InviteDialog.prototype.toggleUser = function (ev) {
+RoomInvite.prototype.toggleUser = function (ev) {
 	var itemID = closest(ev.target, 'li', true).getAttribute('data-id');
 	var item = this.userList.items.filter(function (el){
 		return el.id == itemID;
@@ -64,11 +64,11 @@ InviteDialog.prototype.toggleUser = function (ev) {
 	this.focusInput();
 }
 
-InviteDialog.prototype.focusInput = function () {
+RoomInvite.prototype.focusInput = function () {
 	qs('.input-invite', this.dialog.el).focus();
 }
 
-InviteDialog.prototype.onKeyDown = function (ev) {
+RoomInvite.prototype.onKeyDown = function (ev) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
 	if (!query && keyname(ev.which) == 'backspace') {
@@ -78,7 +78,7 @@ InviteDialog.prototype.onKeyDown = function (ev) {
 	}
 }
 
-InviteDialog.prototype.onKeyUp = function (ev) {
+RoomInvite.prototype.onKeyUp = function (ev) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
 	this.filterUsers(query);
@@ -86,7 +86,7 @@ InviteDialog.prototype.onKeyUp = function (ev) {
 	this.userList.redraw();
 }
 
-InviteDialog.prototype.filterUsers = function (query) {
+RoomInvite.prototype.filterUsers = function (query) {
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
@@ -105,7 +105,7 @@ InviteDialog.prototype.filterUsers = function (query) {
 	}
 }
 
-InviteDialog.prototype.inviteToRoom = function () {
+RoomInvite.prototype.inviteToRoom = function () {
 	var usernames = this.userList.highlighted.map(function (user) {
 		return user.username;
 	});
@@ -114,7 +114,7 @@ InviteDialog.prototype.inviteToRoom = function () {
 	}.bind(this));
 }
 
-InviteDialog.prototype.redrawFormContent = function (items) {
+RoomInvite.prototype.redrawFormContent = function (items) {
 	render(
 		this.formContent,
 		template('dialogs/invite-form-content.jade', {

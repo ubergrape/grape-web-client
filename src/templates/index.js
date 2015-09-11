@@ -7,7 +7,7 @@ template.templates = {
 	'roommembers.jade': require('./roommembers.jade'),
 	'chathistory.jade': require('./chathistory.jade'),
 	'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
-	'dialogs/invite.jade': require('./dialogs/invite.jade'),
+	'dialogs/room-invite.jade': require('./dialogs/room-invite.jade'),
 	'dialogs/invite-form-content.jade': require('./dialogs/invite-form-content.jade'),
 	'dialogs/markdowntips.jade': require('./dialogs/markdowntips.jade'),
 	'dialogs/menu.jade': require('./dialogs/menu.jade'),

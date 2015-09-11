@@ -77,7 +77,7 @@ function pipeEvents(ui) {
 	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
 	broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode');
 	broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode');
-	broker(ui.historyView, 'toggleInvite', ui, 'onToggleInvite');
+	broker(ui.historyView, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
 
 	// notifications
 	broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked');
@@ -99,5 +99,5 @@ function pipeEvents(ui) {
 
 	// right sidebar
 	broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
-	broker(ui.rightSidebar, 'toggleInvite', ui, 'onToggleInvite');
+	broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
 }

@@ -66,7 +66,7 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
+var RoomInvite = exports.RoomInvite = require('./elements/dialogs/room-invite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
 
@@ -388,13 +388,13 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 };
 
-UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
+UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
 	// org users who are not part of the room, sorted alphabetically
 	// org users who are not part of the room, sorted alphabetically
 	var users = this.org.users.filter(function(user) {
 		return user.active && room.users.indexOf(user) == -1;
 	});
-	var invite = new InviteDialog({
+	var invite = new RoomInvite({
 		org: this.org,
 		users: users,
 		room: room
