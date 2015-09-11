@@ -1,10 +1,10 @@
 ul.invite-list
 	each invitee in items
-		li.user(data-id='#{invitee.id}', class=highlighted.indexOf(invitee) == -1 ? 'free' : 'taken')
+		li.user(data-id='#{invitee.id}', class=highlighted.indexOf(invitee) == -1 ? '' : 'active')
 			a
 				.item-inner-wrp
 					.avatar-wrap
-						img(src="#{invitee.avatar}", alt="#{invitee.username}")
+						img(src="#{invitee.avatar}", alt="#{invitee.username}", width='20', height='20')
 						.avatar-status(class=(invitee.status === 16 ? 'online' : 'offline'))
 					span.user-name
 						| #{invitee.displayName}

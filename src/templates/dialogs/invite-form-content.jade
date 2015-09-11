@@ -1,9 +1,9 @@
 .form-content
-	span.selected-list(style = 'position: absolute; top: 24px; left: 26px; max-width: 467px')
+	span.selected-list
 		ul
 			each item in items
-				li(data-id= item.id, style = 'cursor: pointer; padding: 2px; background-color: yellow; margin-right: 5px; display: inline-block; text-decoration: none')
+				li.user(data-id= item.id)
 					= item.username
 					i.mdi.mdi-close-circle-outline
-	form.invite-to-room
-	textarea.input-invite(name="invite-users")
+			li
+				input.input-invite

@@ -50,10 +50,35 @@
 	&.invite-to-room
 		height: 480px
 		max-height: 70%
-		.input-invite
-			max-width: 100%
-			max-height: 62px
-
+		.invite-list
+			height: 290px
+			overflow-y: scroll
+			li.active
+				background-color: yellow
+		.form-content
+			width: 100%
+			height: 100px
+			border: 1px solid black
+			.selected-list
+				position: absolute
+				top: 24px
+				left: 26px
+				max-width: 467px
+				li
+					display: inline-block
+						input
+						input:focus
+							display: inline-block
+							width: 15px
+							border: none
+							outline: none
+				.user
+					cursor: pointer
+					padding: 2px
+					background-color: yellow
+					margin-right: 5px
+					display: inline-block
+					text-decoration: none					
 .dialog .title
 	display: flex
 	padding-bottom: 16px

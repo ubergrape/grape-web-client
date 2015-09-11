@@ -36,7 +36,6 @@ InviteDialog.prototype.init = function () {
 	replace(qs('.invite-list', this.dialog.el), userList.el);
 	this.redrawFormContent([]);
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
-	this.filterInput = qs('.input-invite', this.dialog.el);
 }
 
 function replace(from, to) {
@@ -45,15 +44,11 @@ function replace(from, to) {
 
 InviteDialog.prototype.bind = function InviteDialog_bind() {
 	this.events = events(this.el, this);
+	this.events.bind('click .form-content', 'focusInput');
 	this.events.bind('click .invite-to-room .user', 'toggleUser');
-	this.events.bind('click .selected-list li', 'toggleUser');
 	this.events.bind('click .room-invite-button', 'inviteToRoom');
-	this.events.bind('keyup .input-invite', 'onInput');
-	/*
-	this.events.bind('submit .invite-to-room', 'inviteToRoom');
-	this.events.bind('input .input-invite', 'resetValidity');
-	this.events.bind('click .channel-item.free', 'addUserInvite');
-	this.events.bind('click .channel-item.taken', 'removeUserInvite');*/
+	this.events.bind('keyup .input-invite', 'onKeyUp');
+	this.events.bind('keydown .input-invite', 'onKeyDown');
 };
 
 InviteDialog.prototype.toggleUser = function (ev) {
@@ -65,30 +60,28 @@ InviteDialog.prototype.toggleUser = function (ev) {
 	this.redrawFormContent(this.userList.highlighted);
 	this.filterUsers();
 	this.userList.redraw();
-	/*
-	var usernames = this.userList.highlighted.map(function (user) {
-		return user.username;
-	}).toString().replace(/,/g, ', ').concat(', ');
-	this.filterInput.value = usernames;
-	this.filterUsers();
-	this.userList.redraw();
-	*/
+	this.focusInput();
 }
 
-InviteDialog.prototype.onInput = function (ev) {
-	var usernames = this.filterInput.value.replace(/ /g, '').split(',');
-	var query = usernames[usernames.length - 1];
-	if (this.filterInput.value[this.filterInput.value.length - 1] == ',' 
-	&& keyname(ev.which) == 'backspace') {
-		var username = usernames[usernames.length - 2]
-		this.filterInput.value = this.filterInput.value.replace(username + ',', '');
-		var user = this.userList.items.filter( function (user) {
-			return user.username == username;
-		})[0];
-		this.userList.toggleItem(user);
-		query = null;
-	};
+InviteDialog.prototype.focusInput = function () {
+	qs('.input-invite', this.dialog.el).focus();
+}
+
+InviteDialog.prototype.onKeyDown = function (ev) {
+	var filterInput = qs('.input-invite', this.dialog.el);
+	var query = filterInput.value;
+	if (!query && keyname(ev.which) == 'backspace') {
+		this.userList.highlighted.pop();
+		this.redrawFormContent(this.userList.highlighted);
+		this.focusInput();
+	}
+}
+
+InviteDialog.prototype.onKeyUp = function (ev) {
+	var filterInput = qs('.input-invite', this.dialog.el);
+	var query = filterInput.value;
 	this.filterUsers(query);
+	filterInput.style.width = 15 + filterInput.value.length * 7 + 'px';
 	this.userList.redraw();
 }
 
@@ -112,7 +105,6 @@ InviteDialog.prototype.filterUsers = function (query) {
 }
 
 InviteDialog.prototype.redrawFormContent = function (items) {
-	console.log(items);
 	render(
 		this.formContent,
 		template('dialogs/invite-form-content.jade', {
@@ -120,73 +112,3 @@ InviteDialog.prototype.redrawFormContent = function (items) {
 		})
 	);
 }
-
-InviteDialog.prototype.inviteToRoom = function InviteDialog_inviteToRoom(ev) {
-	/*ev.preventDefault();
-	var inviteInput = qs('.input-invite', this.el);
-	var inviteButton = qs('.btn-invite', this.el);
-	this.resetValidity();
-	if (inviteInput.value === '') {
-		inviteInput.setCustomValidity(_('Please enter at least one user to invite'));
-		setTimeout(function() {inviteButton.click();}.bind(this), 500)
-		return;
-	}
-
-	var users = inviteInput.value.split(/[\s,;]+/);
-	users.clean("");
-
-	inviteButton.disabled = true;
-
-	this.emit('inviteToRoom', this.context.room, users, function inviteToRoom_callback(err, result){
-		if (err) {
-			var errorText = err.details ? err.details : _('You cannot invite those users.')
-			inviteInput.setCustomValidity(err.details);
-			setTimeout(function() {inviteButton.click();}.bind(this), 500)
-		} else {
-			inviteInput.value = '';
-			qs('.close', this.el).click();
-		}
-		inviteButton.disabled = false;
-		delete inviteButton.disabled;
-	}.bind(this));*/
-};
-
-InviteDialog.prototype.resetValidity = function InviteDialog_resetValidity() {
-	/*var inviteInput = qs('.input-invite', this.el);
-	inviteInput.setCustomValidity('');
-	*/
-};
-
-InviteDialog.prototype.addUserInvite = function InviteDialog_addUserInvite(ev) {
-	/*var user = closest(ev.target, '.channel-item', true);
-	var username = user.getAttribute('data-username');
-	var inviteInput = qs('.input-invite', this.el);
-	inviteInput.value = inviteInput.value + username + ', ';
-	setTimeout(function() {
-		classes(user).add('taken');
-		classes(user).remove('free');
-	});
-	this.resetValidity();*/
-}
-
-InviteDialog.prototype.removeUserInvite = function InviteDialog_removeUserInvite(ev) {
-	/*var user = closest(ev.target, '.channel-item', true);
-	var username = user.getAttribute('data-username') + ', ';
-	var inviteInput = qs('.input-invite', this.el);
-	inviteInput.value = inviteInput.value.replace(username, '');
-	setTimeout(function() {
-		classes(user).remove('taken');
-		classes(user).add('free');
-	});*/
-}
-
-/*Array.prototype.clean = function(deleteValue) {
-  for (var i = 0; i < this.length; i++) {
-	if (this[i] === deleteValue) {
-	  this.splice(i, 1);
-	  i--;
-	}
-  }
-  return this;
-};
-*/
