@@ -471,6 +471,20 @@ API.prototype.bindEvents = function API_bindEvents() {
 		self.emit('changeUser', user);
 	});
 
+	wamp.subscribe(PREFIX + 'membership#updated', function (data) {
+		var user = models.User.get(data.membership.user);
+		var changed = [];
+		if (user.role != data.membership.role) {
+			changed.push('role')
+			user.role = data.membership.role;
+		}
+		if (user.title != data.membership.title) {
+			changed.push('title')
+			user.title = data.membership.title;
+		}
+		self.emit('changeUser', user, changed);
+	});
+
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
 		var dispatcher = notification.dispatcher;
 		if (dispatcher === 'message' || dispatcher === 'pm') {
