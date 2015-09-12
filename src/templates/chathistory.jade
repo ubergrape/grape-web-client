@@ -175,6 +175,8 @@
 														=_('Deleted user')
 									else
 										author.message-author= first.author.username
+									if (first.author.title)
+										span.title=first.author.title
 									if (!line.attachments || line.attachments.length == 0)
 										span=_('at')
 									else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") == 0)

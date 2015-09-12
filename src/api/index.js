@@ -565,8 +565,9 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
-			// put role in user object for consistency with other user objects
+			// put role and title in user object for consistency with other user objects
 			self.user.role = self.organization.role;
+			self.user.title = self.organization.title;
 			self.emit('change organization', org);
 			callback();
 		});
