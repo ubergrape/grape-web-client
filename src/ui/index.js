@@ -165,6 +165,11 @@ UI.prototype.init = function UI_init() {
 			classes(qs('body')).add('notifications-disabled');
 	}
 
+	// show user title if it is enabled
+	if (window.CHATGRAPE_CONFIG.userTitleEnabled) {
+		classes(qs('body')).add('user-title-enabled');
+	}
+
 	// initialize user guide
 	this.intro = new Introjs();
 	this.intro.onchange(function(el) {

@@ -14,6 +14,7 @@ module.exports = new Model([
 		'avatar',
 		'is_only_invited',
 		'role',
+		'title',
 		'pm',
 	])
 	.use(cache('id'))
