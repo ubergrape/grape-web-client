@@ -27,3 +27,6 @@ ul.nav-list.pms
 							if !user.active
 								span.user-deleted
 									=_('Deleted user')
+							if user.title && user.title == "Mentor"
+								span.mentor
+									i.fa.fa-star
