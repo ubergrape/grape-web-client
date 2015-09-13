@@ -22,6 +22,7 @@ function pipeEvents(ui) {
 	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
 	broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened');
 	broker(ui, 'newRoom', ui.historyView, 'onNewRoom');
+	broker(ui, 'changeUser', ui.historyView, 'onChangeUser');
 	broker(ui, 'selectchannel', ui.title, 'setRoom');
 	broker(ui, 'selectorganization', ui.title, 'setOrganization');
 	broker(ui, 'selectchannel', ui.notifications, 'setRoom');
@@ -46,7 +47,7 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
 	broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
 
-	// chat header 
+	// chat header
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
 	broker(ui.chatHeader, 'toggleRightSidebar', ui, 'onToggleRightSidebar');

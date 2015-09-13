@@ -100,7 +100,7 @@
 				div.avatar
 					- var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
 					- var alttext = first.author.id
-					img.image(src="#{icon}",width="28",height="28",alt="#{alttext}")
+					img.image(src="#{icon}",width="42",height="42",alt="#{alttext}")
 				.vertical-line(class=first.author.id)
 
 			.message-content
@@ -175,6 +175,14 @@
 														=_('Deleted user')
 									else
 										author.message-author= first.author.username
+									if first.author.title
+										if first.author.title === "Mentor"
+											span.author-title.author-title-mentor
+												span.author-title-icon
+													i.fa.fa-graduation-cap
+												=first.author.title
+										else
+											span.author-title=first.author.title
 									if (!line.attachments || line.attachments.length == 0)
 										span=_('at')
 									else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") == 0)
