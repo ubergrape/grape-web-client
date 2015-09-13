@@ -354,18 +354,20 @@ UI.prototype.gotError = function UI_gotError(err) {
 	notification.error(err.message, err.details);
 };
 
-UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
-	classes(qs('body')).add('disconnected');
-	this.firstTimeConnect = false;
+UI.prototype.onDisconnected = function () {
+	this.disconnectedAlert = setTimeout(function () {
+		this.firstTimeConnect = false;
+		if (this._connErrMsg) return;
+		this._connErrMsg = this.messages.danger('connection lost');
+		classes(qs('body')).add('disconnected');
+	}.bind(this), 7000);
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection() {
-	if (this.firstTimeConnect) return;
-	if (this._connErrMsg) {
-		this._connErrMsg.remove();
-		delete this._connErrMsg;
-	}
+UI.prototype.onConnected = function () {
+	clearTimeout(this.disconnectedAlert);
+	if (!this._connErrMsg || this.firstTimeConnect) return;
+	this._connErrMsg.remove();
+	delete this._connErrMsg;
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);

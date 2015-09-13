@@ -226,6 +226,7 @@ API.prototype.connect = function API_connect(ws) {
 		}.bind(this),
 		error: function(err) {
 			console.log("connection: error - reconnect");
+			this.connecting = false;
 			this.reconnect();
 		}.bind(this)
 	});
@@ -247,7 +248,6 @@ API.prototype.disconnect = function API_disconnect() {
 
 API.prototype.reconnect = function API_reconnect() {
 	console.log("connection: reconnect");
-
 	if (this.connected) {
 		this.retries = 0;
 		return
