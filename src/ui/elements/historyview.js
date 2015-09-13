@@ -432,6 +432,13 @@ HistoryView.prototype.onNewRoom = function HistoryView_onNewRoon (channel) {
 	this.unsentBuffer[channel.id] = [];
 };
 
+HistoryView.prototype.onChangeUser = function HistoryView_onChangeUser (channel, changed) {
+	if (changed && changed.indexOf('title') != -1) {
+		this.queueDraw();
+	}
+	// TODO: also handle first_name, last_name changes
+};
+
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgID) {
 	this.mode = 'search';
 	this.emit('switchToSearchMode');

@@ -471,6 +471,20 @@ API.prototype.bindEvents = function API_bindEvents() {
 		self.emit('changeUser', user);
 	});
 
+	wamp.subscribe(PREFIX + 'membership#updated', function (data) {
+		var user = models.User.get(data.membership.user);
+		var changed = [];
+		if (user.role != data.membership.role) {
+			changed.push('role')
+			user.role = data.membership.role;
+		}
+		if (user.title != data.membership.title) {
+			changed.push('title')
+			user.title = data.membership.title;
+		}
+		self.emit('changeUser', user, changed);
+	});
+
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
 		var dispatcher = notification.dispatcher;
 		if (dispatcher === 'message' || dispatcher === 'pm') {
@@ -565,8 +579,9 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
-			// put role in user object for consistency with other user objects
+			// put role and title in user object for consistency with other user objects
 			self.user.role = self.organization.role;
+			self.user.title = self.organization.title;
 			self.emit('change organization', org);
 			callback();
 		});
