@@ -32,7 +32,7 @@ RoomInvite.prototype.init = function () {
 
 	this.uninvitedUsers = context.users;
 	protoInit.call(this);
-
+	if (!this.uninvitedUsers.length) return;
 	replace(qs('.invite-list', this.dialog.el), userList.el);
 	this.redrawFormContent([], '');
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
@@ -43,7 +43,6 @@ function replace(from, to) {
 }
 
 RoomInvite.prototype.bind = function () {
-	console.log(this.el);
 	this.events = events(this.el, this);
 	this.events.bind('click .form-content', 'focusInput');
 	this.events.bind('click .invite-to-room .user', 'toggleUser');
