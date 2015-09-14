@@ -256,12 +256,14 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	Intercom('onShow', function () {
-		classes(qs('.client-body', this.el)).add('intercom-show');
-	}.bind(this));
-	Intercom('onHide', function () {
-		classes(qs('.client-body', this.el)).remove('intercom-show');
-	}.bind(this));
+	if (typeof Intercom !== 'undefined') {
+		Intercom('onShow', function () {
+			classes(qs('.client-body', this.el)).add('intercom-show');
+		}.bind(this));
+		Intercom('onHide', function () {
+			classes(qs('.client-body', this.el)).remove('intercom-show');
+		}.bind(this));
+	}
 
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
