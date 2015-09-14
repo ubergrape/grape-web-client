@@ -264,13 +264,14 @@ UI.prototype.bind = function UI_bind() {
 			as[i].target = '_blank';
 	}
 
-	if (typeof Intercom === 'undefined') return;
-	Intercom('onShow', function () {
-		classes(qs('.client-body', this.el)).add('intercom-show');
-	}.bind(this));
-	Intercom('onHide', function () {
-		classes(qs('.client-body', this.el)).remove('intercom-show');
-	}.bind(this));
+	if (typeof Intercom !== 'undefined') {
+		Intercom('onShow', function () {
+			classes(qs('.client-body', this.el)).add('intercom-show');
+		}.bind(this));
+		Intercom('onHide', function () {
+			classes(qs('.client-body', this.el)).remove('intercom-show');
+		}.bind(this));
+	}
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {

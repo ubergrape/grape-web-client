@@ -37,10 +37,11 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		renamingRoom: false
 	};
 	this.mode = 'chat';
-	if (typeof Intercom === 'undefined') return;
-	var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
-	intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-	window.Intercom('reattach_activator');
+	if (typeof Intercom !== 'undefined') { 
+		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
+		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
+		window.Intercom('reattach_activator');
+	}
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
