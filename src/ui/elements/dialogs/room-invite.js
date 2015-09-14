@@ -69,11 +69,14 @@ RoomInvite.prototype.focusInput = function () {
 
 RoomInvite.prototype.onKeyDown = function (ev) {
 	var filterInput = qs('.input-invite', this.dialog.el);
-	var query = filterInput.value;
-	if (!filterInput.selectionEnd && keyname(ev.which) == 'backspace') {
-		this.userList.highlighted.pop();
-		this.redrawFormContent(this.userList.highlighted, query);
-		this.focusInput();
+
+	switch (keyname(ev.which)) {
+		case 'backspace':
+			if (filterInput.selectionEnd) return;
+			this.userList.highlighted.pop();
+			this.redrawFormContent(this.userList.highlighted, filterInput.value);
+			this.focusInput();
+			break;
 	}
 }
 
