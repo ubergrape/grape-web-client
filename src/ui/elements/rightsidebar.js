@@ -18,7 +18,7 @@ function RightSidebar() {
 	Emitter.call(this);
 	this.content = {};
 	this.room = new Emitter({name: '', users: []});
-	this.redraw();
+	this.redraw(true);
 	this.el = this.content.el;
 	this.init();
 	this.bind();
@@ -29,7 +29,8 @@ RightSidebar.prototype = Object.create(Emitter.prototype);
 RightSidebar.prototype.init = function RightSidebar_init() {
 	this.classes = classes(this.el);
 	this.canKickMembers = false;
-	this.redraw();
+	this.visible = false;
+	this.redraw(true);
 
 	var uploadsList = this.uploadsList = new ItemList({
 		template: 'uploads.jade'
@@ -79,7 +80,9 @@ RightSidebar.prototype.select = function RightSidebar_select(item) {
 	this[item.type + 'List'].selectItem(item);
 };
 
-RightSidebar.prototype.redraw = function RightSidebar_redraw() {
+RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
+	if (!this.visible && !force) return;
+
 	var color = {r: 100, g: 50, b: 100};
 
 	if (this.room.color)
@@ -130,6 +133,7 @@ RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftC
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
+	this.visible = !this.visible;
 	var clientBody = qs('.client-body')
 	clientBody.classList.toggle("right-sidebar-show")
 }
