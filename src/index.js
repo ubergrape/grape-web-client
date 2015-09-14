@@ -37,6 +37,4 @@ window.api = new API();
 // hook up UI to App
 initBroker(ui, api);
 
-// and connect to the server
-// TODO: this might come directly from the backend at some point?
-api.connect((location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host + '/ws/');
+api.connect();

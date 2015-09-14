@@ -2,35 +2,19 @@
 'use strict';
 
 var Wamp = require('wamp1');
-var WebSocket = require('websocket');
-var LPSocket = require('lpsocket');
+var rpc = require('./rpc');
 var array = require('array');
 var Emitter = require('emitter');
+var WampSocketAdapter = require('./WampSocketAdapter');
+var models = require('./models');
 
 var exports = module.exports = API;
-
-var models = exports.models = {
-	Room: require('./models/room'),
-	User: require('./models/user'),
-	Line: require('./models/chatline'),
-	Organization: require('./models/organization'),
-};
+exports.models = models;
 
 var PREFIX = 'http://domain/';
 
-// Time we wait until we destroy connection and reconect.
-var PONG_MAX_WAIT = 15000;
-
-// Time we wait after we got a pong before we send another ping.
-var PING_DELAY = 5000;
-
 function API() {
 	Emitter.call(this);
-
-	var self = this;
-	// Will be defined from .connect()
-	this.wsUri = undefined;
-	this.lpUri = '/lp/';
 	// the currently signed in user
 	this.user = undefined;
 	// user settings
@@ -39,244 +23,43 @@ function API() {
 	this.organizations = undefined;
 	// the currently active organization
 	this.organization = undefined;
-
-	// Connected here includes that user data is loaded.
-	this.connected = false;
-	this.connecting = false;
-	this.preferedTransport = undefined;
-
-	this.retries = 0;
-	this.lastAlive = 0;
-	this.pingTimeout = undefined;
-
 	this._typingTimeouts = [];
+	this.socket = new WampSocketAdapter();
+	this.wamp = new Wamp(this.socket, {omitSubscribe: true});
+	this.subscribe();
 }
 
 API.prototype = Object.create(Emitter.prototype);
 
-API.prototype.logTraffic = function API_logTraffic() {
-	var socket = this.wamp.socket;
-	var send = socket.send;
-	socket.send = function (msg) {
-		console.log('sending', tryJSON(msg));
-		send.call(socket, msg);
-	};
-	socket.on('message', function (msg) {
-		console.log('received', tryJSON(msg));
-	});
-	function tryJSON(msg) {
-		try {
-			return JSON.parse(msg);
-		} catch(e) {}
-		return msg;
-	}
-};
-
-API.prototype.startPinging = function API_startPinging() {
-	// note: the backend will only set this session active
-	// if it receives regular pings from the client.
-	// "normal" traffic will not be recognized as such
-	// which might lead into server-side disconencts
-	// from (false) idleness-detection.
-	if (!this.connected) {
-		clearTimeout(this.pingTimeout);
-		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
-		return;
-	}
-	this.wamp.call(PREFIX + 'ping', function(err, resp) {
-		if (resp == 'pong') {
-			this.lastAlive = Date.now();
-		}
-		clearTimeout(this.pingTimeout);
-		this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000);
-	}.bind(this));
-}
-
-API.prototype.heartbeat = function API_heartbeat() {
-	var timeIdle = (Date.now() - this.lastAlive);
-	if (timeIdle > 11000) {
-		// haven't heard from server since 2 pings, consider
-		// disconnected
-		this.onDisconnect();
-		return;
-	}
-	setTimeout(this.heartbeat.bind(this), (11000-timeIdle));
-};
-
-API.prototype.onDisconnect = function API_onDisconnect() {
-	this.disconnect();
-	this.emit('disconnected', this._ws);
-	this.reconnect();
-};
-
-API.prototype.onConnect = function API_onConnect(data) {
-    this.user = new models.User(data);
-    this.user.active = true;
-    this.settings = this.user.settings;
-    this.organizations = array(data.organizations.map(function (org) {
-        return new models.Organization(org);
-    }));
-    this.connected = true;
-    this.connecting = false;
-    this.emit('changeUser', this.user);
-    this.emit('change settings', this.settings);
-    this.emit('change organizations', this.organizations);
-    this.emit('connected');
-    console.log('Connected!');
-};
-
-/**
- * Initializes the connection and gets all the user profile and organization
- * details and joins the first one.
- *
- * @param {WebSocket|String} WebSocket is used for testing only, uri is provided
- * only when first time.
- * @param {Function} [callback]
- */
-API.prototype.initSocket = function API_initSocket(opts) {
-	var lp, ws;
-	if (window.CHATGRAPE_CONFIG.forceLongpolling || window.location.hash.indexOf('disable-ws') > -1) {
-		console.log("connection: forcing longpolling");
-		this.preferedTransport = 'lp';
-		this.connecting = false;
-		this.connected = false;
-		lp = new LPSocket(opts.lpUri);
-		lp.connect();
-		lp.once('open', function() {
-			lp.poll();
-			opts.connected(lp);
-		});
-		lp.once('error', function(err) {
-			opts.error(err);
-		});
-		return;
-	}
-	ws = new WebSocket(opts.wsUri);
-	ws.once('open', function() {
-		console.log("connection: websocket connection opened")
-		this.preferedTransport = 'ws';
-		opts.connected(ws);
-	}.bind(this));
-
-	ws.once('error', function(err) {
-		console.log("connection: websocket error");
-		//if (this.preferredTransport && this.preferedTransport != 'lp') {
-			opts.error(err);
-			return;
-		//}
-
-		// console.log("connections: try lp fallback");
-		// var lp = new LPSocket(opts.lpUri);
-		// lp.connect();
-		// lp.once('open', function() {
-		//  lp.poll();
-		//  opts.connected(lp);
-		// });
-		// lp.once('error', function(err) {
-		//  opts.error(err);
-		// });
+API.prototype.connect = function API_connect() {
+	var channel = this.socket.connect();
+	channel.on('connected', this.onConnected.bind(this));
+	channel.on('disconnected', function() {
+		this.emit('disconnected');
 	}.bind(this));
 };
 
 
-API.prototype.connect = function API_connect(ws) {
-	if (this.connected) return;
-
-	if (this.connecting) return;
-
-	if (typeof ws == 'string' && ws !== '') {
-		this.wsUri = ws;
-	}
-
-	this.connecting = true;
-	this.initSocket({
-		lpUri: this.lpUri,
-		wsUri: this.wsUri,
-		connected: function(socket) {
-			// connection established; bootstrap client state
-			this._socket = socket;
-			this.retries = 0;
-			this.wamp = new Wamp(socket, {omitSubscribe: true});
-			this.bindEvents();
-			this.wamp.call(PREFIX + 'users/get_profile', function (err, data) {
-				if (err) {
-					this.emit('error', err);
-					this.onDisconnect();
-					return;
-				}
-				this.onConnect(data);
-				this.lastAlive = Date.now();
-				if (this.preferedTransport == 'ws') {
-					this.startPinging();
-					this.heartbeat();
-				} else {
-					console.log("No heartbeat/pinging with longpolling");
-				}
-			}.bind(this));
-
-			socket.on('close', function(e) {
-				console.log('Socket closed, disconnecting!', e);
-				this.onDisconnect();
-			}.bind(this));
-
-			socket.on('error', function(err) {
-				console.log('Socket error, disconnecting!', err);
-				this.onDisconnect();
-			}.bind(this));
-
-			socket.on('message', function (msg) {
-				// used in heardbeat
-				this.lastAlive = Date.now();
-			}.bind(this));
-		}.bind(this),
-		error: function(err) {
-			console.log("connection: error - reconnect");
-			this.connecting = false;
-			this.reconnect();
-		}.bind(this)
-	});
+API.prototype.onConnected = function API_onConnected() {
+	rpc('users', 'get_profile', function (err, data) {
+		if (err) return this.emit('error', err);
+	    this.user = new models.User(data);
+	    this.user.active = true;
+	    this.settings = this.user.settings;
+	    this.organizations = array(data.organizations.map(function (org) {
+	        return new models.Organization(org);
+	    }));
+	    this.emit('changeUser', this.user);
+	    this.emit('change settings', this.settings);
+	    this.emit('change organizations', this.organizations);
+	    this.emit('connected');
+	}.bind(this));
 };
 
-API.prototype.disconnect = function API_disconnect() {
-	// our wamp implementation has no off() right now
-	// so we do some hacking
-	if (this.wamp) this.wamp._listeners = {};
 
-	if (this._socket) {
-		this._socket.off();
-		this._socket.close(3001);
-	}
-
-	this.connected = false;
-	this.connecting = false;
-};
-
-API.prototype.reconnect = function API_reconnect() {
-	console.log("connection: reconnect");
-	if (this.connected) {
-		this.retries = 0;
-		return
-	}
-	// exponential back-off
-	// 150 * 2^1 = 300
-	// 150 * 2^2 = 600
-	// ...
-	// 150 * 2^5 = 4800
-	// First reconnect is instant: Math.min(this.retries, 1) * ...
-	var backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries));
-	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
-	this.retries += 1;
-	setTimeout(function() {
-		this.connect();
-	}.bind(this), backoff);
-};
-
-API.prototype.bindEvents = function API_bindEvents() {
+API.prototype.subscribe = function API_subscribe() {
 	var self = this;
 	var wamp = this.wamp;
-	function dump(name) {
-		return function (data) {console.log('FIXME: '+ name, data);};
-	}
 	// channel events
 	wamp.subscribe(PREFIX + 'channel#new', function wamp_channel_new(data) {
 		self._tryAddRoom(data.channel);
@@ -340,11 +123,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		if (!line) return; // ignore read notifications for messages we don’t have
 		var room = line.channel;
 		// ignore this for the current user, we track somewhere else
-		if (user === self.user) {
-			room.unread = 0;
-			room.mentioned = 0;
-			return self.emit('channelRead');
-		}
+		if (user === self.user) return self.emit('channelRead', line);
 		var last = room._readingStatus[data.user];
 		// remove the user from the last lines readers
 		if (last) {
@@ -560,7 +339,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 	// TODO: this should also leave any old organization
 
 	// first get the details
-	self.wamp.call(PREFIX + 'organizations/get_organization', org.id, function (err, res) {
+	rpc('organizations', 'get_organization', org.id, function (err, res) {
 		if (err) return self.emit('error', err);
 		org.users = res.users.map(function (u) {
 			var user = models.User.get(u.id) || new models.User(u);
@@ -579,7 +358,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
 
 		// then join
-		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
+		rpc('organizations', 'join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
 			// put role and title in user object for consistency with other user objects
@@ -595,7 +374,7 @@ API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
 	callback = callback || function() {};
 	var self = this;
 
-	self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
+	rpc('organizations', 'list_icons', org.id, function (err, res) {
 		if (err) return self.emit('error', err);
 
 		console.log("List Room icons", "Result: " + res);
@@ -603,15 +382,15 @@ API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
 }
 
 API.prototype.endedIntro = function API_endedIntro() {
-	this.wamp.call(PREFIX + 'users/set_profile', {'show_intro': false});
+	rpc('users', 'set_profile', {'show_intro': false});
 };
 
 API.prototype.changedTimezone = function API_changedTimezone(tz) {
-	this.wamp.call(PREFIX + 'users/set_profile', {'timezone': tz});
+	rpc('users', 'set_profile', {'timezone': tz});
 };
 
 API.prototype.onEditView = function API_onEditView(status) {
-	this.wamp.call(PREFIX + 'users/set_profile', {'compact_mode': status}, function() {
+	rpc('users', 'set_profile', {'compact_mode': status}, function() {
 		this.user.settings.compact_mode = status;
 		this.emit('viewChanged', status);
 	}.bind(this));
@@ -619,30 +398,27 @@ API.prototype.onEditView = function API_onEditView(status) {
 
 API.prototype.openPM = function API_openPM(user, callback) {
 	callback = callback || function() {};
-	var self = this;
-	this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
-		if (err) return self.emit('error', err);
-		pm = self._newRoom(pm);
-		self.organization.pms.push(pm);
+	rpc('pm', 'open', this.organization.id, user.id, function (err, pm) {
+		if (err) return this.emit('error', err);
+		pm = this._newRoom(pm);
+		this.organization.pms.push(pm);
 		user.pm = pm;
-		self.emit('newPMOpened', pm);
+		this.emit('newPMOpened', pm);
 		callback();
-	});
+	}.bind(this));
 };
 
 API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 	room.organization = this.organization.id;
-	var self = this;
-	this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
-		if (err) return self.emit('roomCreationError', err.details);
-		self.emit('roomCreated', self._tryAddRoom(room));
-	});
+	rpc('rooms', 'create', room, function (err, room) {
+		if (err) return this.emit('roomCreationError', err.details);
+		this.emit('roomCreated', self._tryAddRoom(room));
+	}.bind(this));
 };
 
 API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
 	room.organization = this.organization.id;
-	var self = this;
-	this.wamp.call(PREFIX + 'channels/delete', room.id, roomName, function (err, result) {
+	rpc('channels', 'delete', room.id, roomName, function (err, result) {
 		if (callback !== undefined) {
 			callback(err, result);
 		}
@@ -652,7 +428,7 @@ API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
 API.prototype.joinRoom = function API_joinRoom(room, callback) {
 	var self = this;
 	if (room.joined) return;
-	this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
+	rpc('channels', 'join', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = true;
 		if (callback !== undefined) callback();
@@ -663,7 +439,7 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 	var self = this;
 	var room = models.Room.get(roomID);
 	if (!room.joined) return;
-	this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
+	rpc('channels', 'leave', room.id, function (err) {
 		if (err) return self.emit('error', err);
 		room.joined = false;
 	});
@@ -671,18 +447,20 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 
 API.prototype.renameRoom = function API_renameRoom(roomID, newName) {
 	var emit = this.emit.bind(this);
-	this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
+
+	rpc('rooms', 'rename', roomID, newName, function(err) {
 		if (err) emit('roomrenameerror', err);
 	});
 }
 
 API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession (orgID) {
-	this.wamp.call(PREFIX + 'notifications/set_notification_session', orgID);
+	rpc('notifications', 'set_notification_session', orgID);
 };
 
 API.prototype.autocomplete = function API_autocomplete(text, callback) {
-	this.wamp.call(
-		PREFIX + 'search/autocomplete',
+	rpc(
+		'search',
+		'autocomplete',
 		text,
 		this.organization.id,
 		// Show all.
@@ -701,18 +479,16 @@ API.prototype.autocomplete = function API_autocomplete(text, callback) {
 };
 
 API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
-	this.wamp.call(PREFIX + 'search/autocomplete_date', text, this.organization.id,
-			function (err, result) {
-			if (callback !== undefined) {
-				callback(err, result);
-			}
-
+	rpc('search', 'autocomplete_date', text, this.organization.id, function (err, result) {
+		if (callback !== undefined) {
+			callback(err, result);
+		}
 	});
 };
 
 API.prototype.search = function API_search(text) {
 	var self = this;
-	this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
+	rpc('search', 'search', text, this.organization.id,
 			function (err, results) {
 			var r = [];
 			var lines = results.results.map(function(l) {
@@ -734,7 +510,7 @@ API.prototype.search = function API_search(text) {
 };
 
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
-	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
+	rpc('channels', 'invite', room.id, users, function(err, result) {
 		if (callback !== undefined) {
 			callback(err, result);
 		}
@@ -747,7 +523,7 @@ API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback
 API.prototype.getHistory = function API_getHistory(room, options) {
 	var self = this;
 	options = options || {};
-	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
+	rpc('channels', 'get_history', room.id, options, function (err, res) {
 		if (err) return self.emit('error', err);
 		// so when the first message in history is read, assume the history as read
 		// as well
@@ -773,7 +549,7 @@ API.prototype.getHistory = function API_getHistory(room, options) {
 };
 
 API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (direction, room, options) {
-	this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
+	rpc('channels', 'get_history', room.id, options, function (err, res) {
 		var lines = res.map(function (line) {
 			var exists = models.Line.get(line.id);
 			if (!exists || !~room.searchHistory.indexOf(exists)) {
@@ -809,7 +585,7 @@ API.prototype.setRead = function API_setRead(room, lineID) {
 	if (!setread) return;
 	// and notify the server
 	// TODO: emit error?
-	this.wamp.call(PREFIX + 'channels/read', room.id, lineID);
+	rpc('channels', 'read', room.id, lineID);
 };
 
 API.prototype.onRequestMessage = function API_onRequestMessage(room, msgID) {
@@ -817,7 +593,7 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgID) {
 	// strict is false by default
 	// when false, fallback results will be returned
 	// when true, unexisting msg IDs will throw an error
-	this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 25, true, function (err, res ) {
+	rpc('channels', 'focus_message', room.id, msgID, 25, 25, true, function (err, res ) {
 		if (err) return this.emit('messageNotFound', room);
 		room.searchHistory.splice(0, room.searchHistory.length);
 		var lines = res.map(function (line) {
@@ -834,27 +610,27 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgID) {
 
 API.prototype.setTyping = function API_setTyping(room, typing) {
 	// TODO: emit error?
-	this.wamp.call(PREFIX + 'channels/set_typing', room.id, typing);
+	rpc('channels', 'set_typing', room.id, typing);
 };
 
 API.prototype.onDeleteMessage = function API_onDeleteMessage(ch, msgId) {
-	this.wamp.call(PREFIX + 'channels/delete_message', ch['id'], msgId);
+	rpc('channels', 'delete_message', ch['id'], msgId);
 };
 
 API.prototype.publish = function API_publish(room, msg, options) {
 	var self = this;
 	msg = msg.text ? msg.text : msg;
-	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
+	rpc('channels', 'post', room.id, msg, options, function (err) {
 		if (err) return self.emit('error', err);
 	});
 };
 
 API.prototype.updateMsg = function API_updateMessage(msg, text) {
-	this.wamp.call(PREFIX + 'channels/update_message', msg['channel'].id, msg['id'], text, function (err) {
+	rpc('channels', 'update_message', msg['channel'].id, msg['id'], text, function (err) {
 
 	});
 };
 
 API.prototype.onKickMember = function API_onKickMember (roomID, memberID) {
-	this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID));
-}
+	rpc('channels', 'kick', roomID, parseInt(memberID));
+};
