@@ -37,6 +37,10 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		renamingRoom: false
 	};
 	this.mode = 'chat';
+	if (typeof Intercom === 'undefined') return;
+	var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
+	intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
+	window.Intercom('reattach_activator');
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -180,6 +184,8 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	if (qs('.room-header-button-active')) {
 		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
 	}
+
+	Intercom('reattach_activator');
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
