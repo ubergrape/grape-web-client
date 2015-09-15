@@ -59,6 +59,7 @@ RoomInvite.prototype.bind = function () {
 			return userList.highlighted.indexOf(item) == -1;
 		});
 		var selectedIndex = items.indexOf(userList.selected);
+
 		switch (keyname(ev.which)) {
 
 			case 'up':
@@ -95,7 +96,8 @@ RoomInvite.prototype.bind = function () {
 	});
 	this.dialog.on('show', function () {
 		document.addEventListener('keyup', navigate);
-	});
+		this.focusInput();
+	}.bind(this));
 };
 
 RoomInvite.prototype.onUserClick = function (ev) {
