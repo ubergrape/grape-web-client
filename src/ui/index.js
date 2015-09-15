@@ -275,7 +275,6 @@ UI.prototype.bind = function UI_bind() {
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
