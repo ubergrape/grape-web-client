@@ -20,5 +20,8 @@ module.exports = function rpc(ns, action) {
             action: action,
             args: args
         })
-        .end(callback);
+        .end(function(err, res) {
+            if (err) return callback(err);
+            callback(null, res.body.response);
+        });
 };
