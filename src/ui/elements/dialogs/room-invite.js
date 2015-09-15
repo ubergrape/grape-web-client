@@ -32,7 +32,9 @@ RoomInvite.prototype.init = function () {
 
 	this.uninvitedUsers = context.users;
 	protoInit.call(this);
+
 	if (!this.uninvitedUsers.length) return;
+
 	replace(qs('.invite-list', this.dialog.el), userList.el);
 	this.redrawFormContent([], '');
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
@@ -45,21 +47,70 @@ function replace(from, to) {
 RoomInvite.prototype.bind = function () {
 	this.events = events(this.el, this);
 	this.events.bind('click .form-content', 'focusInput');
-	this.events.bind('click .invite-to-room .user', 'toggleUser');
+	this.events.bind('click .invite-to-room .user', 'onUserClick');
 	this.events.bind('click .btn-invite', 'inviteToRoom');
 	this.events.bind('keyup .input-invite', 'onKeyUp');
 	this.events.bind('keydown .input-invite', 'onKeyDown');
+
+	var navigate = function (ev) {
+		ev.preventDefault();
+		var userList = this.userList;
+		var items = userList.items.filter(function (item) {
+			return userList.highlighted.indexOf(item) == -1;
+		});
+		var selectedIndex = items.indexOf(userList.selected);
+		switch (keyname(ev.which)) {
+
+			case 'up':
+				if (!userList.selected) return;
+				var isSelectedFirst = selectedIndex == 0 ? true : false;
+				if (isSelectedFirst) {
+					userList.selectItem(items[items.length - 1]);
+				} else {
+					userList.selectItem(items[selectedIndex - 1]);
+				}
+			break;
+
+			case 'down':
+				if (!userList.selected) {
+					userList.selectItem(items[0]);
+				} else {
+					var isSelectedLast = selectedIndex == items.length - 1 ? true : false;
+					if (isSelectedLast) {
+						userList.selectItem(items[0]);
+					} else {
+						userList.selectItem(items[selectedIndex + 1]);
+					}
+				}
+			break;
+
+			case 'enter':
+				if (!userList.selected) return;
+				this.toggleUser(userList.selected);
+		}
+	}.bind(this);
+
+	this.dialog.on('hide', function () {
+		document.removeEventListener('keyup', navigate);
+	});
+	this.dialog.on('show', function () {
+		document.addEventListener('keyup', navigate);
+	});
 };
 
-RoomInvite.prototype.toggleUser = function (ev) {
+RoomInvite.prototype.onUserClick = function (ev) {
 	var itemID = closest(ev.target, 'li', true).getAttribute('data-id');
 	var item = this.userList.items.filter(function (el){
 		return el.id == itemID;
 	})[0];
+	this.toggleUser(item);
+}
+
+RoomInvite.prototype.toggleUser = function (item) {
 	this.userList.toggleItem(item);
 	this.redrawFormContent(this.userList.highlighted, '');
 	this.filterUsers();
-	this.userList.redraw();
+	this.userList.selectItem(null);
 	this.focusInput();
 }
 
@@ -81,7 +132,7 @@ RoomInvite.prototype.onKeyUp = function (ev) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
 	this.filterUsers(query);
-	filterInput.style.width = 15 + filterInput.value.length * 7 + 'px';
+	filterInput.style.width = 20 + filterInput.value.length * 7 + 'px';
 	this.userList.redraw();
 }
 

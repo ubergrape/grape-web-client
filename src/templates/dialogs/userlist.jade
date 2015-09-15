@@ -1,7 +1,7 @@
 ul.invite-list
 	each invitee in items
 		if (highlighted.indexOf(invitee) == -1)
-			li.user(data-id='#{invitee.id}')
+			li.user(data-id='#{invitee.id}', class= selected == invitee ? 'selected' : '')
 				a
 					.item-inner-wrp
 						.avatar-wrap
