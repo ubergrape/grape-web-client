@@ -4,22 +4,13 @@ var request = require('superagent');
 var noop = require('lodash/utility/noop');
 var toArray = require('lodash/lang/toArray');
 var conf = require('conf');
+var convertCase = require('./convertCase');
 
-module.exports = function rpc(ns, action) {
-    var args = toArray(arguments).slice(2);
-    var callback = args.pop();
-    if (typeof callback !== 'function') {
-        // add back the argument, and add a bogus function
-        args.push(callback);
-        callback = noop;
-    }
+module.exports = function rpc(data, callback) {
+    callback || (callback = noop);
     request
         .post(conf.rpcUrl)
-        .send({
-            ns: ns,
-            action: action,
-            args: args
-        })
+        .send(convertCase.toSnake(data))
         .end(function(err, res) {
             if (err) return callback(err);
             callback(null, res.body.response);
