@@ -122,8 +122,6 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	});
 
 	render(this, vdom);
-
-	Intercom('reattach_activator');
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {

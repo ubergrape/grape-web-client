@@ -15,11 +15,6 @@ function RightSidebar () {
 	Emitter.call(this);
 	this.content = {};
 	this.initialized = false;
-	this.room = new Emitter({name: '', users: []});
-	this.redraw();
-	this.el = this.content.el;
-	this.init();
-	this.bind();
 }
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
