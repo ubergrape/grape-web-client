@@ -61,7 +61,6 @@ RoomInvite.prototype.bind = function () {
 		var selectedIndex = items.indexOf(userList.selected);
 
 		switch (keyname(ev.which)) {
-
 			case 'up':
 				if (!userList.selected) return;
 				var isSelectedFirst = selectedIndex == 0 ? true : false;
@@ -70,11 +69,11 @@ RoomInvite.prototype.bind = function () {
 				} else {
 					userList.selectItem(items[selectedIndex - 1]);
 				}
-			break;
+				break;
 
 			case 'down':
 				if (!userList.selected) {
-					userList.selectItem(items[0]);
+					return userList.selectItem(items[0]);
 				} else {
 					var isSelectedLast = selectedIndex == items.length - 1 ? true : false;
 					if (isSelectedLast) {
@@ -83,12 +82,17 @@ RoomInvite.prototype.bind = function () {
 						userList.selectItem(items[selectedIndex + 1]);
 					}
 				}
-			break;
+				break;
 
 			case 'enter':
 				if (!userList.selected) return;
 				this.toggleUser(userList.selected);
+				break;
+
+			default:
+				break;
 		}
+
 	}.bind(this);
 
 	this.dialog.on('hide', function () {
