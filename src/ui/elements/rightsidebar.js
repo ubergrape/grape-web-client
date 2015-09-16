@@ -15,6 +15,11 @@ function RightSidebar () {
 	Emitter.call(this);
 	this.content = {};
 	this.initialized = false;
+	this.room = new Emitter({name: '', users: []});
+	this.redraw();
+	this.el = this.content.el;
+	this.init();
+	this.bind();
 }
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
@@ -23,6 +28,7 @@ RightSidebar.prototype.init = function () {
 	function replace(from, to) {
 		from.parentNode.replaceChild(to, from);
 	}
+
 	var membersList = this.membersList = new ItemList({
 		template: 'roommembers.jade',
 		templateOptions: {
@@ -107,3 +113,8 @@ RightSidebar.prototype.onNewRoomMember = function (room, user) {
 	this.membersList.items.push(user);
 	this.redraw();
 };
+
+RightSidebar.prototype.toggle = function RightSidebar_toggle() {
+	var clientBody = qs('.client-body')
+	clientBody.classList.toggle("right-sidebar-show")
+}

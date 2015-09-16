@@ -84,7 +84,6 @@ UI.prototype.init = function UI_init() {
 	_.lang(this.options.languageCode || 'en');
 	template.locals._ = _;
 	template.locals.staticurl = staticurl;
-	template.locals.intercomSettings = intercomSettings;
 	// initialize user and org with dummy image
 	template.locals.user = {
 		avatar: staticurl("images/orga-image-load.gif"),
@@ -253,13 +252,6 @@ UI.prototype.bind = function UI_bind() {
 		self.emit('introend');
 	});
 
-	Intercom('onShow', function () {
-		classes(this.clientBody).add('intercom-show');
-	}.bind(this));
-	Intercom('onHide', function () {
-		classes(this.clientBody).remove('intercom-show');
-	}.bind(this));
-
 	// Open certain link in the external browser in the OS X app
 	if (typeof MacGap !== 'undefined') {
 		var as, i;
@@ -267,10 +259,18 @@ UI.prototype.bind = function UI_bind() {
 		for (i = 0; i < as.length; ++i)
 			as[i].target = '_blank';
 	}
+
+	if (typeof Intercom !== 'undefined') {
+		Intercom('onShow', function () {
+			classes(qs('.client-body', this.el)).add('intercom-show');
+		}.bind(this));
+		Intercom('onHide', function () {
+			classes(qs('.client-body', this.el)).remove('intercom-show');
+		}.bind(this));
+	}
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);

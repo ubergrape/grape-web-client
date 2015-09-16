@@ -278,24 +278,24 @@ API.prototype.bindEvents = function API_bindEvents() {
 		return function (data) {console.log('FIXME: '+ name, data);};
 	}
 	// channel events
-	wamp.subscribe(PREFIX + 'channel#new', function (data) {
+	wamp.subscribe(PREFIX + 'channel#new', function wamp_channel_new(data) {
 		self._tryAddRoom(data.channel);
 		self.emit('newRoom', data.channel);
 	});
-	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
+	wamp.subscribe(PREFIX + 'channel#updated', function wamp_channel_updated(data) {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
 		self.emit('channelupdate', room);
 	});
-	wamp.subscribe(PREFIX + 'channel#removed', function(data) {
+	wamp.subscribe(PREFIX + 'channel#removed', function wamp_channel_removed(data) {
 		var room = models.Room.get(data.channel);
 		var index = self.organization.rooms.indexOf(room);
 		if (~index)
 			self.organization.rooms.splice(index, 1);
 		self.emit('roomdeleted', room);
 	});
-	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
+	wamp.subscribe(PREFIX + 'channel#typing', function wamp_channel_typing(data) {
 		var user = models.User.get(data.user);
 		if (user === self.user) {
 			return
@@ -336,7 +336,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			room.emit('change ' + name);
 		}
 	});
-	wamp.subscribe(PREFIX + 'channel#read', function (data) {
+	wamp.subscribe(PREFIX + 'channel#read', function wamp_channel_read(data) {
 		var user = models.User.get(data.user);
 		var line = models.Line.get(data.message);
 		if (!line) return; // ignore read notifications for messages we don’t have
@@ -357,7 +357,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		room._readingStatus[data.user] = line;
 		line.readers.push(user);
 	});
-	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
+	wamp.subscribe(PREFIX + 'channel#joined', function wamp_channel_joined(data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		if (~room.users.indexOf(user)) return;
@@ -371,7 +371,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		room.users.push(user);
 		self.emit('newRoomMember', room, user);
 	});
-	wamp.subscribe(PREFIX + 'channel#left', function (data) {
+	wamp.subscribe(PREFIX + 'channel#left', function wamp_channel_left(data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
@@ -388,7 +388,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// organization events
-	wamp.subscribe(PREFIX + 'organization#joined', function (data) {
+	wamp.subscribe(PREFIX + 'organization#joined', function wamp_organization_joined(data) {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
 		if (!user) user = new models.User(data.user);
@@ -403,7 +403,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			self.emit('newOrgMember', user);
 		}
 	});
-	wamp.subscribe(PREFIX + 'organization#left', function (data) {
+	wamp.subscribe(PREFIX + 'organization#left', function wamp_organization_left(data) {
 		var user = models.User.get(data.user);
 		var index = self.organization.users.indexOf(user);
 		if (user && ~index && data.organization===self.organization.id) {
@@ -424,7 +424,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// message events
-	wamp.subscribe(PREFIX + 'message#new', function (data) {
+	wamp.subscribe(PREFIX + 'message#new', function wamp_message_new(data) {
 		data.read = false;
 		var line = models.Line.get(data['id']);
 		var room = models.Room.get(data.channel);
@@ -437,7 +437,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		if (line.author === self.user) self.setRead(room, line.id);
 		self.emit('newMessage', line);
 	});
-	wamp.subscribe(PREFIX + 'message#updated', function(data) {
+	wamp.subscribe(PREFIX + 'message#updated', function wamp_message_updated(data) {
 		var msg = models.Line.get(data['id']);
 		// right now only text can be updated
 		msg.text = data.text;
@@ -445,7 +445,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		var idx = ch.history.indexOf(msg);
 		if (~idx) ch.history.splice(idx, 1, msg);
 	});
-	wamp.subscribe(PREFIX + 'message#removed', function(data) {
+	wamp.subscribe(PREFIX + 'message#removed', function wamp_message_removed(data) {
 		var msg = models.Line.get(data['id']);
 		var ch = models.Room.get(data['channel']);
 		var idx = ch.history.indexOf(msg);
@@ -453,19 +453,19 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// user events
-	wamp.subscribe(PREFIX + 'user#status', function (data) {
+	wamp.subscribe(PREFIX + 'user#status', function wamp_user_status(data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
 		self.emit('changeUser', user);
 	});
-	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
+	wamp.subscribe(PREFIX + 'user#mentioned', function wamp_user_mentioned(data) {
 		if (data.message.organization !== self.organization.id) return;
 		var line = models.Line.get(data.message.id);
 		if (!line) line = new models.Line(data.message.id);
 		line.channel.mentioned++;
 		self.emit('userMention');
 	});
-	wamp.subscribe(PREFIX + 'user#updated', function (data) {
+	wamp.subscribe(PREFIX + 'user#updated', function wamp_user_updated(data) {
 		var user = models.User.get(data.user.id);
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
@@ -476,7 +476,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		self.emit('changeUser', user);
 	});
 
-	wamp.subscribe(PREFIX + 'membership#updated', function (data) {
+	wamp.subscribe(PREFIX + 'membership#updated', function wamp_membership_updated(data) {
 		var user = models.User.get(data.membership.user);
 		var changed = [];
 		if (user.role != data.membership.role) {

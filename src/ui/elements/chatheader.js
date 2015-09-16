@@ -36,6 +36,11 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		renamingRoom: false
 	};
 	this.mode = 'chat';
+	if (typeof Intercom !== 'undefined') { 
+		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
+		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
+		window.Intercom('reattach_activator');
+	}
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -117,6 +122,8 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	});
 
 	render(this, vdom);
+
+	Intercom('reattach_activator');
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
