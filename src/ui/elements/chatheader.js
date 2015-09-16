@@ -79,7 +79,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		'toggleMenu' : function(e) {
 			self.emit('toggleRightSidebar');
-			qs('.right-sidebar-room-info').style.display = "block";
 		}
 	});
 
@@ -135,14 +134,6 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.editOptions.renamingRoom = false;
 	this.mode = msgID ? 'search' : 'chat',
 	room.on('change', this.redraw);
-
-	// TODO remove this when sidebar becomes useful for PMs too!
-	if (room.type == "room") {
-		qs('.right-sidebar').style.display = "block"
-	} else {
-		qs('.right-sidebar').style.display = "none"
-	}
-
 	this.redraw();
 };
 
