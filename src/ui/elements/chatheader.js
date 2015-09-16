@@ -157,7 +157,7 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.room = room;
 	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
-	this.mode = msgID ? 'search' : 'chat',
+	this.mode = msgID ? 'search' : 'chat';
 	this.intercom.visible = room.type == 'pm' ? false : true;
 	this.redraw();
 };
