@@ -1,5 +1,5 @@
 var Dialog = require('./dialog');
-var Menu = require('./menu');
+var Menu = require('../../utils/menu');
 var ItemList = require('../../utils/itemlist');
 var qs = require('query');
 var events = require('events');
