@@ -181,12 +181,6 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	});
 
 	render(this, vdom);
-
-	if (qs('.room-header-button-active')) {
-		qs('.room-header-button-active').style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-	}
-
-	Intercom('reattach_activator');
 };
 
 ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
