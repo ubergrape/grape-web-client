@@ -51,7 +51,7 @@ template.locals.html = function (html) {
 // FIXME: change language, for now
 // this should be done via a switch in the UI
 
-exports.ItemList = require('./elements/itemlist');
+exports.ItemList = require('./utils/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
@@ -60,7 +60,7 @@ var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
-var Messages = exports.Messages = require('./elements/messages');
+var Messages = exports.Messages = require('./utils/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
 var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');

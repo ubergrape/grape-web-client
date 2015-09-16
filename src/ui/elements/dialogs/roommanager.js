@@ -1,6 +1,6 @@
 var Dialog = require('./dialog');
 var Menu = require('./menu');
-var ItemList = require('../itemlist');
+var ItemList = require('../../utils/itemlist');
 var qs = require('query');
 var events = require('events');
 var closest = require('closest');

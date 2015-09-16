@@ -4,7 +4,7 @@
 var Emitter = require('emitter');
 var template = require('template');
 var render = require('../rendervdom');
-var ItemList = require('./itemlist');
+var ItemList = require('../utils/itemlist');
 var qs = require('query');
 var events = require('events');
 var roles = require('conf').constants.roles;
@@ -111,5 +111,10 @@ RightSidebar.prototype.onNewRoomMember = function (room, user) {
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
 	var clientBody = qs('.client-body')
-	clientBody.classList.toggle("right-sidebar-show")
+	/*
+	if mode is the same which has been saved before,
+	then close
+	otherwise open
+	*/
+	clientBody.classList.toggle('right-sidebar-show')
 }
