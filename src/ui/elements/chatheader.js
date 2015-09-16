@@ -192,13 +192,11 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 };
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
-	this.room.off('change', this.redraw);
 	this.room = room;
 	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
-	this.mode = msgID ? 'search' : 'chat',
-	room.on('change', this.redraw);
-
+	this.mode = msgID ? 'search' : 'chat';
+	
 	// TODO remove this when sidebar becomes useful for PMs too!
 	if (room.type == "room") {
 		qs('.right-sidebar').style.display = "block"
