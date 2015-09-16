@@ -473,10 +473,6 @@ UI.prototype.onTriggerPMManager = function () {
 	broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
 }
 
-UI.prototype.onToggleRightSidebar = function () {
-	this.clientBody.classList.toggle('right-sidebar-show');
-}
-
 UI.prototype.onHideRightSidebar = function () {
 	classes(this.clientBody).remove('right-sidebar-show')
 }

@@ -8,6 +8,7 @@ var ItemList = require('../utils/itemlist');
 var qs = require('query');
 var events = require('events');
 var roles = require('conf').constants.roles;
+var classes = require('classes');
 
 module.exports = RightSidebar;
 
@@ -15,6 +16,7 @@ function RightSidebar () {
 	Emitter.call(this);
 	this.content = {};
 	this.initialized = false;
+	this.mode = null;
 }
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
@@ -109,12 +111,13 @@ RightSidebar.prototype.onNewRoomMember = function (room, user) {
 	this.redraw();
 };
 
-RightSidebar.prototype.toggle = function RightSidebar_toggle() {
+RightSidebar.prototype.toggle = function (mode) {
 	var clientBody = qs('.client-body')
-	/*
-	if mode is the same which has been saved before,
-	then close
-	otherwise open
-	*/
-	clientBody.classList.toggle('right-sidebar-show')
+	if (mode == this.mode) {
+		classes(clientBody).remove('right-sidebar-show')
+		this.mode = null;
+	} else {
+		classes(clientBody).add('right-sidebar-show')
+		this.mode = mode;
+	}
 }
