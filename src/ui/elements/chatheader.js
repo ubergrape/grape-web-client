@@ -37,15 +37,9 @@ function ChatHeader() {
 		icon: 'fa-user',
 		visible: true
 	};
-	this.searchToggler = {
-		className: 'search-toggler',
-		icon: 'fa-search',
-		visible: true
-	};
 	this.menuItems =[
 		this.intercom,
 		this.fileBrowserToggler,
-		this.searchToggler,
 		this.membersToggler
 	];
 	this.selected = null;
@@ -115,7 +109,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.redraw();
 		},
 		'toggleSearch': function(e) {
-			self.selected = self.searchToggler == self.selected ? null : self.searchToggler;
+			self.selected = null;
 			self.emit('toggleRightSidebar', 'search');
 			self.redraw();		
 		}
@@ -130,12 +124,18 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');
 	this.events.bind('click .file-browser-toggler', 'toggleFileBrowser');
-	this.events.bind('click .search-toggler', 'toggleSearch');
 
 	var	callbacks = this.events.obj;
 
 	document.addEventListener('keyup', function(e) {		
 		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();		
+	});
+
+	this.searchInput.addEventListener('focus', function () {
+		callbacks.toggleSearch();
+	});
+	this.searchInput.addEventListener('blur', function () {
+		callbacks.toggleSearch();
 	});
 
 	var startSearching = debounce(function () {
