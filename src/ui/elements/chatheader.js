@@ -17,6 +17,34 @@ module.exports = ChatHeader;
 function ChatHeader() {
 	Emitter.call(this);
 	this.room = new Emitter({name: '', users: []});
+	this.editOptions = {
+		canManageRoom: false,
+		renamingRoom: false
+	};
+	this.intercom = {
+		className: 'intercom-trigger',
+		icon: 'fa-question-circle',
+		id: 'Intercom',
+		visible: true,
+		selected: false
+	};
+	this.fileBrowserToggler = {
+		className: 'file-browser-toggler',
+		icon: 'fa-file',
+		visible: true,
+		selected: false
+	};
+	this.membersToggler = {
+		className: 'members-menu-toggler',
+		icon: 'fa-user',
+		visible: true,
+		selected: false	
+	};
+	this.menuItems =[
+		this.intercom,
+		this.fileBrowserToggler,
+		this.membersToggler
+	];
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
 	this.init();
@@ -29,17 +57,12 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
-	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
-	this.editOptions = {
-		canManageRoom: false,
-		renamingRoom: false
-	};
 	this.mode = 'chat';
-	if (typeof Intercom !== 'undefined') { 
-		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
-		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-		window.Intercom('reattach_activator');
+	if (typeof Intercom !== 'undefined') {
+		var intercomButton = qs(intercomSettings.widget.activator + ' a', this.el);
+		intercomButton.href = 'mailto:' + intercomSettings.app_id + '@incoming.intercom.io';
+		Intercom('reattach_activator');
 	}
 };
 
@@ -63,9 +86,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.redraw();
 		},
 		'confirmRoomRename': function() {
-			var newRoomName = qs('input.room-name', this.el).value;
+			var newRoomName = qs('input.room-name', self.el).value;
 			self.emit('confirmroomrename', self.room.id, newRoomName);
-		},
+		}, 
 		'roomRenameShortcuts' : function(e) {
 			switch(keyname(e.which)) {
 				case 'enter':
@@ -77,8 +100,10 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
 		},
-		'toggleMenu' : function(e) {
+		'toggleMembersMenu' : function(e) {
+			self.membersToggler.selected = !self.membersToggler.selected;
 			self.emit('toggleRightSidebar');
+			self.redraw();
 		}
 	});
 
@@ -86,7 +111,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
-	this.events.bind('click #menuToggle', 'toggleMenu');
+	this.events.bind('click .members-menu-toggler', 'toggleMembersMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');
@@ -117,7 +142,8 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		editOptions: this.editOptions,
-		mode: this.mode
+		mode: this.mode,
+		menuItems: this.menuItems
 	});
 
 	render(this, vdom);
@@ -128,12 +154,11 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 };
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
-	this.room.off('change', this.redraw);
 	this.room = room;
 	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
 	this.mode = msgID ? 'search' : 'chat',
-	room.on('change', this.redraw);
+	this.intercom.visible = room.type == 'pm' ? false : true;
 	this.redraw();
 };
 

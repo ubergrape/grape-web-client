@@ -1,5 +1,4 @@
 .room-header-wrap
-	.room-header-color-shade
 	.room-info-wrap
 		if room.type === 'room'
 			if editOptions.renamingRoom
@@ -31,7 +30,7 @@
 			h1.room-name
 				if room.users[0].is_only_invited
 					i.fa.fa-envelope
-					| 
+					| <
 				| #{room.users[0].displayName}
 		
 	form.search-form
@@ -39,11 +38,11 @@
 		i.fa.fa-search.search-icon()
 		i.fa.fa-times.close()
 
-	#intercomTrigger.room-header-button
-		a#Intercom
-			i.fa.fa-question-circle
-	#menuToggle.room-header-button(style=room.type == 'room' ? 'display: block' : 'display: none')
-		i.fa.fa-user
+	each item in menuItems
+		if (item.visible)
+			div.room-header-button(class= item.className, class= item.selected ? 'selected' : '', id= item.id ? item.id : '')
+				a
+					i.fa(class= item.icon)
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap

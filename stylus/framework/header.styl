@@ -127,12 +127,10 @@
 		display: inline-block
 		cursor: pointer
 		overflow: hidden
+		background-color: transparent
 		a
 			color: white
-	.room-header-button
-		background-color: transparent
-
-.right-sidebar-show
-	#menuToggle
-		background-color: white
-		color: #3C2745
+		&.selected
+			background-color: white
+			a
+				color: #3C2745
