@@ -38,9 +38,9 @@
 		i.fa.fa-search.search-icon()
 		i.fa.fa-times.close()
 
-	each item in menuItems
+	each item in menu.items
 		if (item.visible)
-			div.room-header-button(class= item.className, class= item.selected ? 'selected' : '', id= item.id ? item.id : '')
+			div.room-header-button(class= item.className, class= item == menu.selected ? 'selected' : '', id= item.id ? item.id : '')
 				a
 					i.fa(class= item.icon)
 

@@ -25,26 +25,24 @@ function ChatHeader() {
 		className: 'intercom-trigger',
 		icon: 'fa-question-circle',
 		id: 'Intercom',
-		visible: true,
-		selected: false
+		visible: true
 	};
 	this.fileBrowserToggler = {
 		className: 'file-browser-toggler',
 		icon: 'fa-file',
-		visible: true,
-		selected: false
+		visible: true
 	};
 	this.membersToggler = {
 		className: 'members-menu-toggler',
 		icon: 'fa-user',
-		visible: true,
-		selected: false	
+		visible: true
 	};
 	this.menuItems =[
 		this.intercom,
 		this.fileBrowserToggler,
 		this.membersToggler
 	];
+	this.selected = null;
 	this.redraw = this.redraw.bind(this);
 	this.redraw();
 	this.init();
@@ -101,8 +99,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			e.preventDefault();
 		},
 		'toggleMembersMenu' : function(e) {
-			self.membersToggler.selected = !self.membersToggler.selected;
-			self.emit('toggleRightSidebar');
+			self.selected = self.membersToggler == self.selected ? null : self.membersToggler;
+			//self.emit('toggleRightSidebar');
+			self.redraw();
+		},
+		'toggleFileBrowser': function(e) {
+			self.selected = self.fileBrowserToggler == self.selected ? null : self.fileBrowserToggler;
+			//self.emit('toggleRightSidebar');
 			self.redraw();
 		}
 	});
@@ -115,6 +118,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');
+	this.events.bind('click .file-browser-toggler', 'toggleFileBrowser');
 
 	var	callbacks = this.events.obj;
 
@@ -143,7 +147,10 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 		room: this.room,
 		editOptions: this.editOptions,
 		mode: this.mode,
-		menuItems: this.menuItems
+		menu: {
+			items: this.menuItems,
+			selected: this.selected
+		}
 	});
 
 	render(this, vdom);
