@@ -29,7 +29,7 @@ function ChatHeader() {
 	};
 	this.fileBrowserToggler = {
 		className: 'file-browser-toggler',
-		icon: 'fa-file',
+		icon: 'fa-files-o',
 		visible: true
 	};
 	this.membersToggler = {
