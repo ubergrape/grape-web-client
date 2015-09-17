@@ -5,7 +5,7 @@
 // ****
 .footer
 	z-index: 30
-	padding: 11px horizontal-space 10px
+	padding: 11px horizontal-space 20px
 	background: url("../images/cgbg-new.png")
 	background-attachment: fixed
 	transform: translate3d(0,0,0)
@@ -16,7 +16,7 @@
 		display: flex
 		position: relative
 		&.disabled
-			.hint-box, .info-markdown, .uploader
+			.hint-box, .uploader
 				opacity: 0
 		.avatar
 			padding-left: (horizontal-space / 2)
@@ -91,8 +91,7 @@
 		bottom: 0
 		right: 0
 		.emoji-browser-button,
-		.uploader,
-		.info-markdown
+		.uploader
 			@extend $hoverable
 			padding: 0 6px
 			color: gainsboro-dark
@@ -103,14 +102,17 @@
 				opacity: .8
 				transition: none
 
+	.edit-message,
+	.js-markdown-tips
+		color: #666666
+		font-size: 0.8em
+
 
 	// hints
 	.edit-message, .hint-box
-		font-size: 0.8em
 		position: absolute
 		top: 0px
 		left: 64px
-		color: #666666
 		background: linear-gradient(#FBFBFB, #F7F7F7);
 		border: solid 1px #E5E5E5
 		border-radius: 3px
@@ -127,6 +129,14 @@
 			margin: 0 2px
 			color: #666666
 			background: #FBFBFB
+
+	.js-markdown-tips
+		position: absolute
+		bottom: -22px
+		right: 52px
+		cursor: pointer
+		span
+			text-decoration: underline
 
 	// uploader styling
 	.uploader

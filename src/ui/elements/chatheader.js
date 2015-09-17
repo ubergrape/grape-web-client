@@ -33,10 +33,15 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
 	this.editOptions = {
-		canRenameRoom: false,
+		canManageRoom: false,
 		renamingRoom: false
 	};
 	this.mode = 'chat';
+	if (typeof Intercom !== 'undefined') { 
+		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
+		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
+		window.Intercom('reattach_activator');
+	}
 };
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
@@ -187,13 +192,11 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 };
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
-	this.room.off('change', this.redraw);
 	this.room = room;
-	this.editOptions.canRenameRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.ROLE_ADMIN) ? true : false;
+	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
-	this.mode = msgID ? 'search' : 'chat',
-	room.on('change', this.redraw);
-
+	this.mode = msgID ? 'search' : 'chat';
+	
 	// TODO remove this when sidebar becomes useful for PMs too!
 	if (room.type == "room") {
 		qs('.right-sidebar').style.display = "block"

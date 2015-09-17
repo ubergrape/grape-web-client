@@ -3,11 +3,10 @@
 var Emitter = require('emitter');
 var template = require('template');
 var events = require('events');
-var q = require('query');
+var qs = require('query');
 var debounce = require('debounce');
 
 var staticurl = require('staticurl');
-var constants = require('conf').constants;
 var render = require('../rendervdom');
 
 var IMAGES_BASE = staticurl('app/cg/images');
@@ -39,7 +38,7 @@ GrapeInputIntegration.prototype.init = function () {
 	if (this.initialized) return;
 	this.initialized = true;
 	this.bindEvents();
-	this.input = q('grape-input', this.el);
+	this.input = qs('grape-input', this.el);
 	images.orgLogo = this.org.logo;
 	this.setProps({focused: true});
 };
@@ -116,14 +115,7 @@ GrapeInputIntegration.prototype.showSearchBrowser = function (key) {
 		data: props.browser == 'search' ? props.data : null,
 		isLoading: true
 	});
-
-	this.emit('autocomplete', key, function (err, data) {
-		if (err) return this.emit('error', err);
-		this.setProps({
-			browser: 'search',
-			data: data
-		});
-	}.bind(this));
+	this.debouncedSearch(key);
 };
 
 GrapeInputIntegration.prototype.showUsersAndRooms = function (key) {
@@ -202,7 +194,7 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 	this.previous.el.classList.remove('editing');
 	this.el.classList.remove('editing-previous');
 
-	var avatar = q('.avatar.editing');
+	var avatar = qs('.avatar.editing');
 	if (avatar) {
 		avatar.classList.remove('editing');
 	}
@@ -213,7 +205,7 @@ GrapeInputIntegration.prototype.completePreviousEdit = function () {
 
 GrapeInputIntegration.prototype.editMessage = function (msg) {
 	this.completePreviousEdit();
-	var el = q('.message[data-id="' + msg.id + '"]');
+	var el = qs('.message[data-id="' + msg.id + '"]');
 	el.classList.add('editing');
 	this.el.classList.add('editing-previous');
 	this.input.setTextContent(msg.text);
@@ -285,9 +277,6 @@ GrapeInputIntegration.prototype.onComplete = function (e) {
 		case '@':
 			this.showUsersAndRooms(query.key)
 			break;
-		case ':':
-			this.showEmojiBrowser()
-			break;
 	}
 };
 
@@ -323,6 +312,16 @@ GrapeInputIntegration.prototype.onChange = function () {
 	}
 	this.debouncedStopTyping();
 };
+
+GrapeInputIntegration.prototype.debouncedSearch = debounce(function (key) {
+	this.emit('autocomplete', key, function (err, data) {
+		if (err) return this.emit('error', err);
+		this.setProps({
+			browser: 'search',
+			data: data
+		});
+	}.bind(this));
+}, 200);
 
 GrapeInputIntegration.prototype.onSubmit = function (e) {
 	var data = e.detail;

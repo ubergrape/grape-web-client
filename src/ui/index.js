@@ -163,6 +163,11 @@ UI.prototype.init = function UI_init() {
 			classes(qs('body')).add('notifications-disabled');
 	}
 
+	// show user title if it is enabled
+	if (window.CHATGRAPE_CONFIG.userTitleEnabled) {
+		classes(qs('body')).add('user-title-enabled');
+	}
+
 	// initialize user guide
 	this.intro = new Introjs();
 	this.intro.onchange(function(el) {
@@ -213,7 +218,7 @@ UI.prototype.init = function UI_init() {
 	this.tz = timezone.determine().name();
 	this.notificationSessionSet = false;
 	this.firstTimeConnect = true;
-
+	this.uploadRoom = null;
 };
 
 UI.prototype.bind = function UI_bind() {
@@ -243,11 +248,6 @@ UI.prototype.bind = function UI_bind() {
 
 	this.room = null;
 
-	this.upload.on('uploaded', function (attachment) {
-		self.emit('send', self.room, '', {attachments: [attachment.id]});
-		self.upload.hide();
-	});
-
 	// intro
 	this.intro.oncomplete(function() {
 		self.emit('introend');
@@ -263,10 +263,18 @@ UI.prototype.bind = function UI_bind() {
 		for (i = 0; i < as.length; ++i)
 			as[i].target = '_blank';
 	}
+
+	if (typeof Intercom !== 'undefined') {
+		Intercom('onShow', function () {
+			classes(qs('.client-body', this.el)).add('intercom-show');
+		}.bind(this));
+		Intercom('onHide', function () {
+			classes(qs('.client-body', this.el)).remove('intercom-show');
+		}.bind(this));
+	}
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-	var self = this;
 	this.org = org;
 	template.locals.org = this.org;
 	this.emit('orgReady', this.org);
@@ -355,18 +363,20 @@ UI.prototype.gotError = function UI_gotError(err) {
 	notification.error(err.message, err.details);
 };
 
-UI.prototype.handleConnectionClosed = function UI_handleConnectionClosed() {
-	if (this._connErrMsg == undefined) this._connErrMsg = this.messages.danger('connection lost');
-	classes(qs('body')).add('disconnected');
-	this.firstTimeConnect = false;
+UI.prototype.onDisconnected = function () {
+	this.disconnectedAlert = setTimeout(function () {
+		this.firstTimeConnect = false;
+		if (this._connErrMsg) return;
+		this._connErrMsg = this.messages.danger('connection lost');
+		classes(qs('body')).add('disconnected');
+	}.bind(this), 7000);
 };
 
-UI.prototype.handleReconnection = function UI_handleReconnection() {
-	if (this.firstTimeConnect) return;
-	if (this._connErrMsg) {
-		this._connErrMsg.remove();
-		delete this._connErrMsg;
-	}
+UI.prototype.onConnected = function () {
+	clearTimeout(this.disconnectedAlert);
+	if (!this._connErrMsg || this.firstTimeConnect) return;
+	this._connErrMsg.remove();
+	delete this._connErrMsg;
 	classes(qs('body')).remove('disconnected');
 	var msg = this.messages.success('reconnected')
 	setTimeout(function(){ msg.remove(); }, 2000);
@@ -415,6 +425,15 @@ UI.prototype.leftChannel = function UI_leftChannel(room) {
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
 	if(this.room != room) return;
 	page.replace('/chat/' + room.slug);
+}
+
+UI.prototype.onUploading = function () {
+	this.uploadRoom = this.room;
+};
+
+UI.prototype.onUploaded = function (attachment) {
+	this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
+	this.upload.hide();
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {

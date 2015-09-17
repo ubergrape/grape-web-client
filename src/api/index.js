@@ -135,8 +135,9 @@ API.prototype.onConnect = function API_onConnect(data) {
  */
 API.prototype.initSocket = function API_initSocket(opts) {
 	var lp, ws;
-	if (window.location.hash.indexOf('disable-ws') > -1) {
+	if (window.CHATGRAPE_CONFIG.forceLongpolling || window.location.hash.indexOf('disable-ws') > -1) {
 		console.log("connection: forcing longpolling");
+		this.preferedTransport = 'lp';
 		this.connecting = false;
 		this.connected = false;
 		lp = new LPSocket(opts.lpUri);
@@ -168,11 +169,11 @@ API.prototype.initSocket = function API_initSocket(opts) {
 		// var lp = new LPSocket(opts.lpUri);
 		// lp.connect();
 		// lp.once('open', function() {
-		// 	lp.poll();
-		// 	opts.connected(lp);
+		//  lp.poll();
+		//  opts.connected(lp);
 		// });
 		// lp.once('error', function(err) {
-		// 	opts.error(err);
+		//  opts.error(err);
 		// });
 	}.bind(this));
 };
@@ -205,8 +206,12 @@ API.prototype.connect = function API_connect(ws) {
 				}
 				this.onConnect(data);
 				this.lastAlive = Date.now();
-				this.startPinging();
-				this.heartbeat();
+				if (this.preferedTransport == 'ws') {
+					this.startPinging();
+					this.heartbeat();
+				} else {
+					console.log("No heartbeat/pinging with longpolling");
+				}
 			}.bind(this));
 
 			socket.on('close', function(e) {
@@ -226,6 +231,7 @@ API.prototype.connect = function API_connect(ws) {
 		}.bind(this),
 		error: function(err) {
 			console.log("connection: error - reconnect");
+			this.connecting = false;
 			this.reconnect();
 		}.bind(this)
 	});
@@ -247,19 +253,19 @@ API.prototype.disconnect = function API_disconnect() {
 
 API.prototype.reconnect = function API_reconnect() {
 	console.log("connection: reconnect");
-
 	if (this.connected) {
 		this.retries = 0;
 		return
 	}
 	// exponential back-off
-	// 250 * 2^1 = 500
-	// 250 * 2^2 = 1000
+	// 150 * 2^1 = 300
+	// 150 * 2^2 = 600
 	// ...
-	// 250 * 2^6 = 16000
-	var backoff = 250 * Math.pow(2, Math.min(6, this.retries));
-	this.retries += 1;
+	// 150 * 2^5 = 4800
+	// First reconnect is instant: Math.min(this.retries, 1) * ...
+	var backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries));
 	console.log("reconnect: retries ", this.retries, ", backoff", backoff);
+	this.retries += 1;
 	setTimeout(function() {
 		this.connect();
 	}.bind(this), backoff);
@@ -272,24 +278,24 @@ API.prototype.bindEvents = function API_bindEvents() {
 		return function (data) {console.log('FIXME: '+ name, data);};
 	}
 	// channel events
-	wamp.subscribe(PREFIX + 'channel#new', function (data) {
+	wamp.subscribe(PREFIX + 'channel#new', function wamp_channel_new(data) {
 		self._tryAddRoom(data.channel);
 		self.emit('newRoom', data.channel);
 	});
-	wamp.subscribe(PREFIX + 'channel#updated', function (data) {
+	wamp.subscribe(PREFIX + 'channel#updated', function wamp_channel_updated(data) {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
 		self.emit('channelupdate', room);
 	});
-	wamp.subscribe(PREFIX + 'channel#removed', function(data) {
+	wamp.subscribe(PREFIX + 'channel#removed', function wamp_channel_removed(data) {
 		var room = models.Room.get(data.channel);
 		var index = self.organization.rooms.indexOf(room);
 		if (~index)
 			self.organization.rooms.splice(index, 1);
 		self.emit('roomdeleted', room);
 	});
-	wamp.subscribe(PREFIX + 'channel#typing', function (data) {
+	wamp.subscribe(PREFIX + 'channel#typing', function wamp_channel_typing(data) {
 		var user = models.User.get(data.user);
 		if (user === self.user) {
 			return
@@ -330,13 +336,17 @@ API.prototype.bindEvents = function API_bindEvents() {
 			room.emit('change ' + name);
 		}
 	});
-	wamp.subscribe(PREFIX + 'channel#read', function (data) {
+	wamp.subscribe(PREFIX + 'channel#read', function wamp_channel_read(data) {
 		var user = models.User.get(data.user);
 		var line = models.Line.get(data.message);
 		if (!line) return; // ignore read notifications for messages we don’t have
 		var room = line.channel;
 		// ignore this for the current user, we track somewhere else
-		if (user === self.user) return self.emit('channelRead', line);
+		if (user === self.user) {
+			room.unread = 0;
+			room.mentioned = 0;
+			return self.emit('channelRead');
+		}
 		var last = room._readingStatus[data.user];
 		// remove the user from the last lines readers
 		if (last) {
@@ -347,7 +357,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		room._readingStatus[data.user] = line;
 		line.readers.push(user);
 	});
-	wamp.subscribe(PREFIX + 'channel#joined', function (data) {
+	wamp.subscribe(PREFIX + 'channel#joined', function wamp_channel_joined(data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		if (~room.users.indexOf(user)) return;
@@ -361,7 +371,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		room.users.push(user);
 		self.emit('newRoomMember', room);
 	});
-	wamp.subscribe(PREFIX + 'channel#left', function (data) {
+	wamp.subscribe(PREFIX + 'channel#left', function wamp_channel_left(data) {
 		var user = models.User.get(data.user);
 		var room = models.Room.get(data.channel);
 		var index = room.users.indexOf(user);
@@ -378,7 +388,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// organization events
-	wamp.subscribe(PREFIX + 'organization#joined', function (data) {
+	wamp.subscribe(PREFIX + 'organization#joined', function wamp_organization_joined(data) {
 		// make sure the user doesnt exist yet in the client
 		var user = models.User.get(data.user.id);
 		if (!user) user = new models.User(data.user);
@@ -393,7 +403,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			self.emit('newOrgMember', user);
 		}
 	});
-	wamp.subscribe(PREFIX + 'organization#left', function (data) {
+	wamp.subscribe(PREFIX + 'organization#left', function wamp_organization_left(data) {
 		var user = models.User.get(data.user);
 		var index = self.organization.users.indexOf(user);
 		if (user && ~index && data.organization===self.organization.id) {
@@ -414,7 +424,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// message events
-	wamp.subscribe(PREFIX + 'message#new', function (data) {
+	wamp.subscribe(PREFIX + 'message#new', function wamp_message_new(data) {
 		data.read = false;
 		var line = models.Line.get(data['id']);
 		var room = models.Room.get(data.channel);
@@ -427,7 +437,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		if (line.author === self.user) self.setRead(room, line.id);
 		self.emit('newMessage', line);
 	});
-	wamp.subscribe(PREFIX + 'message#updated', function(data) {
+	wamp.subscribe(PREFIX + 'message#updated', function wamp_message_updated(data) {
 		var msg = models.Line.get(data['id']);
 		// right now only text can be updated
 		msg.text = data.text;
@@ -435,7 +445,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		var idx = ch.history.indexOf(msg);
 		if (~idx) ch.history.splice(idx, 1, msg);
 	});
-	wamp.subscribe(PREFIX + 'message#removed', function(data) {
+	wamp.subscribe(PREFIX + 'message#removed', function wamp_message_removed(data) {
 		var msg = models.Line.get(data['id']);
 		var ch = models.Room.get(data['channel']);
 		var idx = ch.history.indexOf(msg);
@@ -443,19 +453,19 @@ API.prototype.bindEvents = function API_bindEvents() {
 	});
 
 	// user events
-	wamp.subscribe(PREFIX + 'user#status', function (data) {
+	wamp.subscribe(PREFIX + 'user#status', function wamp_user_status(data) {
 		var user = models.User.get(data.user);
 		user.status = data.status;
 		self.emit('changeUser', user);
 	});
-	wamp.subscribe(PREFIX + 'user#mentioned', function (data) {
+	wamp.subscribe(PREFIX + 'user#mentioned', function wamp_user_mentioned(data) {
 		if (data.message.organization !== self.organization.id) return;
 		var line = models.Line.get(data.message.id);
 		if (!line) line = new models.Line(data.message.id);
 		line.channel.mentioned++;
 		self.emit('userMention');
 	});
-	wamp.subscribe(PREFIX + 'user#updated', function (data) {
+	wamp.subscribe(PREFIX + 'user#updated', function wamp_user_updated(data) {
 		var user = models.User.get(data.user.id);
 		user.username = data.user.username;
 		user.firstName = data.user.firstName;
@@ -464,6 +474,20 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.is_only_invited = data.user.is_only_invited;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
 		self.emit('changeUser', user);
+	});
+
+	wamp.subscribe(PREFIX + 'membership#updated', function wamp_membership_updated(data) {
+		var user = models.User.get(data.membership.user);
+		var changed = [];
+		if (user.role != data.membership.role) {
+			changed.push('role')
+			user.role = data.membership.role;
+		}
+		if (user.title != data.membership.title) {
+			changed.push('title')
+			user.title = data.membership.title;
+		}
+		self.emit('changeUser', user, changed);
 	});
 
 	wamp.subscribe(PREFIX + 'notification#new', function (notification) {
@@ -560,8 +584,9 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
 			if (err) return self.emit('error', err);
 			self.organization = org;
-			// put role in user object for consistency with other user objects
+			// put role and title in user object for consistency with other user objects
 			self.user.role = self.organization.role;
+			self.user.title = self.organization.title;
 			self.emit('change organization', org);
 			callback();
 		});
