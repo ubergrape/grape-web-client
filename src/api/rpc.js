@@ -13,6 +13,6 @@ module.exports = function rpc(data, callback) {
         .send(convertCase.toSnake(data))
         .end(function(err, res) {
             if (err) return callback(err);
-            callback(null, res.body.response);
+            callback(null, res.body && res.body.response);
         });
 };
