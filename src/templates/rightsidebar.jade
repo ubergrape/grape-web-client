@@ -1,10 +1,19 @@
 .right-sidebar-wrapper
-	.right-sidebar-room-info
-		.right-sidebar-room-wrap
-			.members
-				.right-sidebar-header
-					i.mdi.mdi-account-multiple
-					span.title= memberCount + _(' Members')
-				ul
-	a.button.btn-gainsboro.invite-members
-		=_('Invite')
+    .right-sidebar-room-info
+        .right-sidebar-room-wrap
+            if (mode == 'user')
+                .members
+                    .right-sidebar-header
+                        i.mdi.mdi-account-multiple
+                        span.title= memberCount + _(' Members')
+                    ul.user-list
+                    a.button.btn-gainsboro.invite-members
+                        =_('Invite')
+            else if (mode == 'search')
+                .search
+                    .right-sidebar-header
+                        span.title= _('Search your conversations')
+                        span.close-search
+                            i.fa.fa-times
+                    ul.search-list
+            else if (mode == 'file')

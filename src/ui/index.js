@@ -62,7 +62,6 @@ var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
 var Messages = exports.Messages = require('./utils/messages');
 var Notifications = exports.Notifications = require('./elements/notifications');
-var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
@@ -104,8 +103,6 @@ UI.prototype.init = function UI_init() {
 	sidebar.parentNode.replaceChild(navigation.el, sidebar);
 
 	this.organizationMenu = new OrganizationPopover();
-
-	this.searchView = new SearchView();
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
@@ -333,19 +330,6 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
 	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
 		this.emit('setNotificationsSession', this.org.id);
 }
-
-UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
-	this.searchView.showResults(results);
-};
-
-UI.prototype.showSearchResults = function() {
-	classes(this.el).add('searching');
-};
-
-UI.prototype.hideSearchResults = function() {
-	classes(this.el).remove('searching');
-	this.chatHeader.clearSearch();
-};
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
 	var self = this;

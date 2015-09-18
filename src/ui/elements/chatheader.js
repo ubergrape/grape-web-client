@@ -108,9 +108,9 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggleRightSidebar', 'file');
 			self.redraw();
 		},
-		'toggleSearch': function(e) {
+		'showSearch': function(e) {
 			self.selected = null;
-			self.emit('toggleRightSidebar', 'search');
+			self.emit('showSearch', 'search');
 			self.redraw();		
 		}
 	});
@@ -132,10 +132,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	});
 
 	this.searchInput.addEventListener('focus', function () {
-		callbacks.toggleSearch();
-	});
-	this.searchInput.addEventListener('blur', function () {
-		callbacks.toggleSearch();
+		callbacks.showSearch();
 	});
 
 	var startSearching = debounce(function () {

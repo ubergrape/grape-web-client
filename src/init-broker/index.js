@@ -11,7 +11,6 @@ function doBroker(ui, api) {
 	broker(api, 'changeUser', ui, 'setUser');
 	broker(api, 'change settings', ui, 'setSettings');
 	broker(api, 'leftChannel', ui, 'leftChannel');
-	broker(api, 'gotsearchresults', ui, 'displaySearchResults');
 	broker(api, 'roomCreated', ui, 'roomCreated');
 	broker(api, 'roomdeleted', ui, 'roomDeleted');
 	broker(api, 'error', ui, 'gotError');
@@ -66,6 +65,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'roomdeleted', ui, 'roomdeleted');
 	broker.pass(api, 'viewChanged', ui, 'viewChanged');
 	broker.pass(api, 'userMention', ui, 'userMention');
+	broker.pass(api, 'gotSearchResults', ui, 'gotSearchResults');
 
 	ui.on('starttyping', function (room) {
 		api.setTyping(room, true);

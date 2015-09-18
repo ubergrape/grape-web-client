@@ -46,17 +46,14 @@ function pipeEvents(ui) {
 	broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
 	broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
 	broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
+	broker(ui, 'gotSearchResults', ui.rightSidebar, 'gotSearchResults');
 
 	// chat header
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');
 	broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
 	broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'toggle');
+	broker(ui.chatHeader, 'showSearch', ui.rightSidebar, 'show');
 	broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
-	broker(ui.chatHeader, 'stopsearching', ui.searchView, 'hideResults');
-
-	// search
-	broker(ui.searchView, 'show', ui, 'showSearchResults');
-	broker(ui.searchView, 'hide', ui, 'hideSearchResults');
 
 	// grape input
 	broker.pass(ui.grapeInput, 'update', ui, 'update');

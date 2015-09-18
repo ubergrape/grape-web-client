@@ -726,7 +726,7 @@ API.prototype.search = function API_search(text) {
 				}
 			});
 			var f = [];
-			self.emit('gotsearchresults', {
+			self.emit('gotSearchResults', {
 				'results': r,
 				'facets': f,
 				'total': results.total,
