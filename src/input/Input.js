@@ -15,7 +15,6 @@ export default class Input extends Component {
     onKeyDown: noop,
     onChangeFilters: noop,
     onBlur: noop,
-    delay: undefined,
     type: undefined,
     focused: true,
     filters: undefined,
@@ -98,17 +97,7 @@ export default class Input extends Component {
   onChangeQuery() {
     let query = this.query.toJSON()
     this.setState({value: query.key})
-    let {onInput, delay} = this.props
-    if (!delay) return onInput(query)
-    clearTimeout(this.onInputTimeoutId)
-    this.onInputTimeoutId = setTimeout(onInput.bind(this, query), delay)
-  }
-
-  onInputCallDebounced() {
-    let {delay} = this.props
-    if (!delay) return this.onChangeQuery()
-    clearTimeout(this.changeQueryTimeoutId)
-    this.changeQueryTimeoutId = setTimeout(::this.onChangeQuery, delay)
+    this.props.onInput(query)
   }
 
   onKeyDown(e) {

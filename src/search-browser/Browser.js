@@ -177,7 +177,6 @@ export default class Browser extends Component {
           onChangeFilters={this.props.onSelectFilter}
           onBlur={this.props.onBlur}
           onKeyDown={::this.onKeyDown}
-          delay={this.state.inputDelay}
           focused={this.props.focused}
           filters={this.state.filters}
           search={this.state.search}
@@ -311,7 +310,12 @@ export default class Browser extends Component {
     this.setState({
       search: query.search,
       filters: query.filters
-    }, this.props.onInput.bind(null, query))
+    }, () => {
+      let {inputDelay, onInput} = this.props
+      if (!inputDelay) return onInput(query)
+      clearTimeout(this.onInputTimeoutId)
+      this.onInputTimeoutId = setTimeout(onInput.bind(null, query), inputDelay)
+    })
   }
 
   onMouseDown(e) {
