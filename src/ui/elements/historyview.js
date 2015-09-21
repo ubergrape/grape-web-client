@@ -322,7 +322,7 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
 HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 	var self = this;
 	this.requestedMsgID = null;
-	if (this.room) this.room.history.off('removed');
+	if (this.room) this.room.history.off('remove');
 	this.room = room;
 	this.scroll.reset(); // reset, otherwise we won't get future events
 	this.scrollMode = 'automatic';
@@ -345,14 +345,14 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
 		// find removed element and highlight it....
 		// then redraw after timeout
 		var el = qs("div.message[data-id='" + msg.id + "']", self.el);
-		// var avatar = qs(".avatar", el.parentNode.parentNode.parentNode);
+		var avatar = qs(".avatar", el.parentNode.parentNode.parentNode);
 		classes(el).add('removed');
-		// classes(avatar).add('removed');
+		classes(avatar).add('removed');
 		setTimeout(function () {
 			// vdom seems to bug a bit so remove the class manually
 			// otherwise queueDraw() should be enough
 			classes(el).remove('removed');
-			// classes(avatar).remove('removed');
+			classes(avatar).remove('removed');
 			self.queueDraw();
 		}, 1000);
 	});
@@ -394,7 +394,6 @@ HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options
 	};
 	this.unsentBuffer[room.id].push(newMessage);
 	this.scrollMode = 'automatic';
-	this.emit('stoptyping', room);
 	this.queueDraw();
 	this.handlePendingMsg(newMessage);
 };
