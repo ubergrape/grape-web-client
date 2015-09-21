@@ -227,6 +227,7 @@ API.prototype.subscribe = function API_subscribe() {
     });
     this.in.on('message.updated', function(data) {
         var msg = models.Line.get(data['id']);
+        if (!msg) return;
         // right now only text can be updated
         msg.text = data.text;
         var ch = models.Room.get(data['channel']);
