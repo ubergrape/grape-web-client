@@ -37,7 +37,13 @@ API.prototype.connect = function API_connect() {
         this.emit('disconnected');
     }.bind(this));
     channel.on('data', function(data) {
-        this.in.emit(data.event, data);
+        // We don't want any errors in our code have effect on the lp.
+        // Events are sync and errors are not catched when emitting.
+        try {
+            this.in.emit(data.event, data);
+        } catch (err) {
+            console.error(err)
+        }
     }.bind(this));
     channel.on('unauthorized', function() {
         location.href = '/accounts/login';
