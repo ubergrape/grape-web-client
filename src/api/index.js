@@ -32,18 +32,20 @@ API.prototype = Object.create(Emitter.prototype);
 
 API.prototype.connect = function API_connect() {
     var channel = this.client.connect();
-    channel.on('connected', this.onConnected.bind(this));
+    // TODO We might want to differentiate here and log some errors to sentry.
+    channel.on('error', console.error.bind(console));
+    channel.on('connected', function() {
+        // Resync the whole data if we got a new client id, because we might have
+        // missed some messages. This is related to the current serverside arch.
+        channel.on('set:id', this.onConnected.bind(this));
+        this.onConnected();
+    }.bind(this));
     channel.on('disconnected', function() {
+        channel.off('set:id');
         this.emit('disconnected');
     }.bind(this));
     channel.on('data', function(data) {
-        // We don't want any errors in our code have effect on the lp.
-        // Events are sync and errors are not catched when emitting.
-        try {
-            this.in.emit(data.event, data);
-        } catch (err) {
-            console.error(err)
-        }
+        this.in.emit(data.event, data);
     }.bind(this));
     channel.on('unauthorized', function() {
         location.href = '/accounts/login';
