@@ -32,7 +32,7 @@
     "drop-anywhere": "ubergrape/drop-anywhere",
     "endswith": "sk7/endswith",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-input": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.2",
+    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.3",
     "hexToRgb": "./local_modules/color-converter",
     "image-zoom": "ubergrape/image-zoom",
     "intro": "ubergrape/intro.js",
@@ -64,7 +64,15 @@
     "template": "./local_modules/template",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1",
-    "websocket": "ubergrape/websocket"
+    "websocket": "ubergrape/websocket",
+    "karma": "^0.13.8",
+    "karma-chrome-launcher": "^0.1.10",
+    "karma-cli": "^0.0.4",
+    "karma-mocha": "^0.1.10",
+    "karma-sourcemap-loader": "^0.3.5",
+    "karma-webpack": "^1.5.1",
+    "mocha": "^2.2.5",
+    "expect.js": "^0.3.1"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -90,7 +98,9 @@
   "scripts": {
     "build-dev": "NODE_ENV=development webpack",
     "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
-    "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch"
+    "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch",
+    "test-watch": "NODE_ENV=test karma start",
+    "test": "karma start"
   },
   "repository": "ubergrape/chatgrape.git"
 }
