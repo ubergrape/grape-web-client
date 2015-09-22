@@ -37,8 +37,10 @@ API.prototype.connect = function API_connect() {
     channel.on('connected', function() {
         // Resync the whole data if we got a new client id, because we might have
         // missed some messages. This is related to the current serverside arch.
-        channel.on('set:id', this.onConnected.bind(this));
-        this.onConnected();
+        channel.on('set:id', function() {
+            this.sync();
+        }.bind(this));
+        this.sync();
     }.bind(this));
     channel.on('disconnected', function() {
         channel.off('set:id');
@@ -52,7 +54,7 @@ API.prototype.connect = function API_connect() {
     });
 };
 
-API.prototype.onConnected = function API_onConnected() {
+API.prototype.sync = function API_sync() {
     rpc({
         ns: 'users',
         action: 'get_profile'
