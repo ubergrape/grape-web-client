@@ -35,7 +35,7 @@ OrgInvite.prototype.inviteToOrg = function (ev) {
 			inviteButton.disabled = false;
 			setTimeout(function() {inviteButton.click();}.bind(this), 500)	
 		} else {
-			qs('.close', this.el).click();
+			this.dialog.hide();
 		}
 	}.bind(this));
 }
