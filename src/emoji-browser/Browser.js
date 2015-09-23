@@ -205,6 +205,7 @@ class Browser extends Component {
    * Keyboard navigation.
    */
   navigate(e) {
+    let {query} = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
         this.focusItem('nextRow')
@@ -233,10 +234,20 @@ class Browser extends Component {
       case 'esc':
         this.props.onAbort({
           reason: 'esc',
-          query: e.detail.query
+          query: query
         })
         e.preventDefault()
         break
+      case 'backspace':
+        if (!query.key) {
+          this.props.onAbort({
+            reason: 'backspace',
+            query
+          })
+          e.preventDefault()
+        }
+        break
+
       default:
     }
   }
