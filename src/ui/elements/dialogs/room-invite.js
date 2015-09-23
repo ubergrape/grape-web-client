@@ -100,6 +100,7 @@ RoomInvite.prototype.bind = function () {
 		document.removeEventListener('keyup', navigate);
 	});
 	this.dialog.on('show', function () {
+		if (!this.userList.items.length) return;
 		document.addEventListener('keyup', navigate);
 		this.focusInput();
 	}.bind(this));
@@ -172,7 +173,7 @@ RoomInvite.prototype.inviteToRoom = function () {
 	});
 	if (!usernames.length) return;
 	this.emit('inviteToRoom', this.context.room, usernames, function (err, result) {
-		qs('.close', this.el).click();
+		this.dialog.hide();
 	}.bind(this));
 }
 
