@@ -5,7 +5,7 @@ ul.invite-list
 				a
 					.item-inner-wrp
 						.avatar-wrap
-							img(src="#{invitee.avatar}", alt="#{invitee.username}", width='20', height='20')
+							img(src="#{invitee.avatar}", alt="#{invitee.username}")
 							.avatar-status(class=(invitee.status === 16 ? 'online' : 'offline'))
 						span.user-name
 							| #{invitee.displayName}
