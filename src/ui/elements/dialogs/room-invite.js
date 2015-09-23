@@ -15,6 +15,7 @@ module.exports = RoomInvite;
 function RoomInvite(context) {
 	this.template_path = 'dialogs/room-invite.jade';
 	this.formContent = {};
+	this.query = null;
 	Dialog.call(this, context);
 };
 
@@ -143,6 +144,8 @@ RoomInvite.prototype.onKeyUp = function (ev) {
 }
 
 RoomInvite.prototype.filterUsers = function (query) {
+	if (query == this.query) return;
+	this.query = query;
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
@@ -156,8 +159,10 @@ RoomInvite.prototype.filterUsers = function (query) {
 				return 1
 		});
 		this.userList.items = suggestions;
+		this.userList.selectItem(suggestions[0]);
 	} else {
 		this.userList.items = this.uninvitedUsers;
+		this.userList.selectItem(null);
 	}
 }
 
