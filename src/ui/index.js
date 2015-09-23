@@ -321,7 +321,6 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 
 	// javscript timezone should always override server timezone setting?
 	if (!this.settings.timezone || this.settings.timezone != this.tz) {
-		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
 		this.emit('timezonechange', this.tz);
 	}
 };
