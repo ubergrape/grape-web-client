@@ -16,7 +16,7 @@ OrgInvite.prototype.bind = function () {
 	this.events = events(this.el, this);
 	this.events.bind('input .input-invite', 'resetValidity');
 	this.events.bind('submit .invite-to-org', 'inviteToOrg');
-}
+};
 
 OrgInvite.prototype.inviteToOrg = function (e) {
 	e.preventDefault();
