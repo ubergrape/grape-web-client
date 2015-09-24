@@ -118,6 +118,7 @@ RoomInvite.prototype.toggleUser = function (item) {
 	this.userList.toggleItem(item);
 	this.redrawFormContent(this.userList.highlighted, '');
 	this.filterUsers();
+	this.query = '';
 	this.userList.selectItem(null);
 	this.focusInput();
 };
@@ -139,14 +140,13 @@ RoomInvite.prototype.onKeyDown = function (e) {
 RoomInvite.prototype.onKeyUp = function (e) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
-	this.filterUsers(query);
+	if (query != this.query) this.filterUsers(query);
+	this.query = query;
 	filterInput.style.width = 20 + filterInput.value.length * 7 + 'px';
 	this.userList.redraw();
 };
 
 RoomInvite.prototype.filterUsers = function (query) {
-	if (query == this.query) return;
-	this.query = query;
 	if (query) {
 		var suggestions = this.uninvitedUsers.filter(function (user) {
 			return user.username.toLowerCase().indexOf(query) != -1
