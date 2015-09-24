@@ -395,11 +395,12 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
 
 UI.prototype.onToggleOrgInvite = function () {
 	var invite = new OrgInvite().closable().overlay().show();
-	broker.pass(invite, 'inviteToOrg', ui, 'inviteToOrg');
+	broker(this, 'inviteSuccess', invite, 'onInviteSuccess');
+	broker(this, 'inviteError', invite, 'onInviteError');
+	broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg');
 };
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
-	// org users who are not part of the room, sorted alphabetically
 	// org users who are not part of the room, sorted alphabetically
 	var users = this.org.users.filter(function(user) {
 		return user.active && room.users.indexOf(user) == -1;

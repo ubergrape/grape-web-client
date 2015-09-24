@@ -8,7 +8,7 @@ module.exports = OrgInvite;
 function OrgInvite(context) {
 	this.template_path = 'dialogs/orginvite.jade';
 	Dialog.call(this, context);
-}
+};
 
 OrgInvite.prototype = Object.create(Dialog.prototype);
 
@@ -29,12 +29,19 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 		return;
 	}
 	inviteButton.disabled = true;
-	this.emit('inviteToOrg', inviteInput.value, function(err, res) {
-		if (!err) this.dialog.hide();
-		inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'));
-		inviteButton.disabled = false;
-		setTimeout(function () { inviteButton.click() });
-	}.bind(this));
+	this.emit('inviteToOrg', inviteInput.value);
+};
+
+OrgInvite.prototype.onInviteError = function () {
+	var inviteInput = qs('.input-invite', this.el);
+	var inviteButton = qs('.btn-invite', this.el);
+	inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'));
+	inviteButton.disabled = false;
+	setTimeout(function () { inviteButton.click() });
+};
+
+OrgInvite.prototype.onInviteSuccess = function () {
+	this.dialog.hide()
 };
 
 OrgInvite.prototype.resetValidity = function () {

@@ -739,10 +739,11 @@ API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
 	var orgID = this.organization.id;
 	var options = {
 		emails: emails
-	}
+	};
 	this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function(err, res) {
-		if (callback) callback(err, res);
-	});
+		if (err) return this.emit('inviteError');
+		this.emit('inviteSuccess');
+	}.bind(this));
 };
 
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
