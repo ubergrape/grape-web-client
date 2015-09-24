@@ -69,6 +69,7 @@ function doBroker(ui, api) {
 	broker.pass(api, 'userMention', ui, 'userMention');
 	broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess');
 	broker.pass(api, 'inviteError', ui, 'inviteError');
+	broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess');
 
 	ui.on('starttyping', function (room) {
 		api.setTyping(room, true);

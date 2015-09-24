@@ -173,9 +173,11 @@ RoomInvite.prototype.inviteToRoom = function () {
 		return user.username;
 	});
 	if (!usernames.length) return;
-	this.emit('inviteToRoom', this.context.room, usernames, function (err, result) {
-		this.dialog.hide();
-	}.bind(this));
+	this.emit('inviteToRoom', this.context.room, usernames);
+};
+
+RoomInvite.prototype.onRoomInviteSuccess = function () {
+	this.dialog.hide();
 };
 
 RoomInvite.prototype.redrawFormContent = function (items, query) {

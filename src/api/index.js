@@ -744,12 +744,11 @@ API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
 	}.bind(this));
 };
 
-API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
-		if (callback !== undefined) {
-			callback(err, result);
-		}
-	});
+		if (err) return;
+		this.emit('roomInviteSuccess');
+	}.bind(this));
 };
 
 /**

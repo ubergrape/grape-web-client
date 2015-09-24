@@ -412,6 +412,7 @@ UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
 	}).closable().overlay().show();
 
 	broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom');
+	broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess');
 };
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
