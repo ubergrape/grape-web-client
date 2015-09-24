@@ -5,7 +5,7 @@ var Emitter = require('emitter');
 var template = require('template');
 var events = require('events');
 var render = require('../rendervdom');
-var _ = require('lodash');
+var defaults = require('lodash/object/defaults');
 
 module.exports = ItemList;
 
@@ -33,7 +33,7 @@ ItemList.prototype.extendTemplateOptions = function () {
 		selected: this.selected,
 		highlighted: this.highlighted
 	};
-	_.defaults(options, this.templateOptions);
+	defaults(options, this.templateOptions);
 	return options;
 }
 

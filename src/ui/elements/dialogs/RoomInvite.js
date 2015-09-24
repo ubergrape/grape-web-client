@@ -53,55 +53,16 @@ RoomInvite.prototype.bind = function () {
 	this.events.bind('keyup .input-invite', 'onKeyUp');
 	this.events.bind('keydown .input-invite', 'onKeyDown');
 
-	var navigate = function (e) {
-		e.preventDefault();
-		var userList = this.userList;
-		var items = userList.items.filter(function (item) {
-			return userList.highlighted.indexOf(item) == -1;
-		});
-		var selectedIndex = items.indexOf(userList.selected);
-
-		switch (keyname(e.keyCode)) {
-			case 'up':
-				if (!userList.selected) return;
-				var isSelectedFirst = selectedIndex == 0 ? true : false;
-				if (isSelectedFirst) {
-					userList.selectItem(items[items.length - 1]);
-				} else {
-					userList.selectItem(items[selectedIndex - 1]);
-				}
-				break;
-
-			case 'down':
-				if (!userList.selected) {
-					return userList.selectItem(items[0]);
-				} else {
-					var isSelectedLast = selectedIndex == items.length - 1 ? true : false;
-					if (isSelectedLast) {
-						userList.selectItem(items[0]);
-					} else {
-						userList.selectItem(items[selectedIndex + 1]);
-					}
-				}
-				break;
-
-			case 'enter':
-				if (!userList.selected) return;
-				this.toggleUser(userList.selected);
-				break;
-
-			default:
-				break;
-		}
-
+	var onKeyUp = function (e) {
+		this.navigate(e);
 	}.bind(this);
 
 	this.dialog.on('hide', function () {
-		document.removeEventListener('keyup', navigate);
+		document.removeEventListener('keyup', onKeyUp);
 	});
 	this.dialog.on('show', function () {
 		if (!this.userList.items.length) return;
-		document.addEventListener('keyup', navigate);
+		document.addEventListener('keyup', onKeyUp);
 		this.focusInput();
 	}.bind(this));
 };
@@ -121,6 +82,48 @@ RoomInvite.prototype.toggleUser = function (item) {
 	this.query = '';
 	this.userList.selectItem(null);
 	this.focusInput();
+};
+
+RoomInvite.prototype.navigate = function (e) {
+	e.preventDefault();
+	var userList = this.userList;
+	var items = userList.items.filter(function (item) {
+		return userList.highlighted.indexOf(item) == -1;
+	});
+	var selectedIndex = items.indexOf(userList.selected);
+
+	switch (keyname(e.keyCode)) {
+		case 'up':
+			if (!userList.selected) return;
+			var isSelectedFirst = selectedIndex == 0 ? true : false;
+			if (isSelectedFirst) {
+				userList.selectItem(items[items.length - 1]);
+			} else {
+				userList.selectItem(items[selectedIndex - 1]);
+			}
+			break;
+			
+		case 'down':
+			if (!userList.selected) {
+				return userList.selectItem(items[0]);
+			} else {
+				var isSelectedLast = selectedIndex == items.length - 1 ? true : false;
+				if (isSelectedLast) {
+					userList.selectItem(items[0]);
+				} else {
+					userList.selectItem(items[selectedIndex + 1]);
+				}
+			}
+			break;
+
+		case 'enter':
+			if (!userList.selected) return;
+			this.toggleUser(userList.selected);
+			break;
+
+		default:
+			break;
+	};
 };
 
 RoomInvite.prototype.focusInput = function () {
