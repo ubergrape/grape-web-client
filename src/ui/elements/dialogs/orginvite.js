@@ -25,7 +25,7 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 	this.resetValidity();
 	if (inviteInput.value === '') {
 		inviteInput.setCustomValidity(_('Please enter at least one user to invite'));
-		setTimeout(function() {inviteButton.click();}.bind(this), 500)
+		inviteButton.click();
 		return;
 	}
 	inviteButton.disabled = true;

@@ -140,7 +140,7 @@ RoomInvite.prototype.onKeyUp = function (e) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
 	this.filterUsers(query);
-	filterInput.style.width = filterInput.clientWidth + filterInput.value.length * 7 + 'px';
+	filterInput.style.width = 20 + filterInput.value.length * 7 + 'px';
 	this.userList.redraw();
 };
 
