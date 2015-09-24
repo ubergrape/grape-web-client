@@ -52,10 +52,11 @@ ItemList.prototype.selectItem = function (item) {
 
 ItemList.prototype.toggleItem = function (item) {
 	var itemIndex = this.highlighted.indexOf(item);
-	if (itemIndex == -1)
+	if (itemIndex == -1) {
 		this.highlighted.push(item)
-	else
+	} else {
 		this.highlighted.splice(itemIndex, 1);
+	};
 	this.redraw();
 }
 

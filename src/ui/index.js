@@ -66,7 +66,7 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var RoomInvite = exports.RoomInvite = require('./elements/dialogs/room-invite');
+var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
 var OrgInvite = exports.OrgInvite = require('./elements/dialogs/orginvite');

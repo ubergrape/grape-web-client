@@ -24,26 +24,26 @@ RoomInvite.prototype = Object.create(Dialog.prototype);
 var protoInit = RoomInvite.prototype.init;
 
 RoomInvite.prototype.init = function () {
+	protoInit.call(this);
+
 	var context = this.context;
 	var userList = this.userList = new ItemList({
 		template: 'dialogs/userlist.jade'
 	});
 	userList.setItems(context.users);
 	userList.order('displayName');
-
 	this.uninvitedUsers = context.users;
-	protoInit.call(this);
 
 	if (!this.uninvitedUsers.length) return;
 
 	replace(qs('.invite-list', this.dialog.el), userList.el);
 	this.redrawFormContent([], '');
 	replace(qs('.form-content', this.dialog.el), this.formContent.el);
-}
+};
 
 function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
-}
+};
 
 RoomInvite.prototype.bind = function () {
 	this.events = events(this.el, this);
@@ -53,15 +53,15 @@ RoomInvite.prototype.bind = function () {
 	this.events.bind('keyup .input-invite', 'onKeyUp');
 	this.events.bind('keydown .input-invite', 'onKeyDown');
 
-	var navigate = function (ev) {
-		ev.preventDefault();
+	var navigate = function (e) {
+		e.preventDefault();
 		var userList = this.userList;
 		var items = userList.items.filter(function (item) {
 			return userList.highlighted.indexOf(item) == -1;
 		});
 		var selectedIndex = items.indexOf(userList.selected);
 
-		switch (keyname(ev.which)) {
+		switch (keyname(e.keyCode)) {
 			case 'up':
 				if (!userList.selected) return;
 				var isSelectedFirst = selectedIndex == 0 ? true : false;
@@ -106,13 +106,13 @@ RoomInvite.prototype.bind = function () {
 	}.bind(this));
 };
 
-RoomInvite.prototype.onUserClick = function (ev) {
-	var itemID = closest(ev.target, 'li', true).getAttribute('data-id');
+RoomInvite.prototype.onUserClick = function (e) {
+	var itemID = closest(e.target, 'li', true).getAttribute('data-id');
 	var item = this.userList.items.filter(function (el){
 		return el.id == itemID;
 	})[0];
 	this.toggleUser(item);
-}
+};
 
 RoomInvite.prototype.toggleUser = function (item) {
 	this.userList.toggleItem(item);
@@ -120,29 +120,29 @@ RoomInvite.prototype.toggleUser = function (item) {
 	this.filterUsers();
 	this.userList.selectItem(null);
 	this.focusInput();
-}
+};
 
 RoomInvite.prototype.focusInput = function () {
 	qs('.input-invite', this.dialog.el).focus();
-}
+};
 
-RoomInvite.prototype.onKeyDown = function (ev) {
+RoomInvite.prototype.onKeyDown = function (e) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
-	if (!filterInput.selectionEnd && keyname(ev.which) == 'backspace') {
+	if (!filterInput.selectionEnd && keyname(e.keyCode) == 'backspace') {
 		this.userList.highlighted.pop();
 		this.redrawFormContent(this.userList.highlighted, query);
 		this.focusInput();
-	}
-}
+	};
+};
 
-RoomInvite.prototype.onKeyUp = function (ev) {
+RoomInvite.prototype.onKeyUp = function (e) {
 	var filterInput = qs('.input-invite', this.dialog.el);
 	var query = filterInput.value;
 	this.filterUsers(query);
-	filterInput.style.width = 20 + filterInput.value.length * 7 + 'px';
+	filterInput.style.width = filterInput.clientWidth + filterInput.value.length * 7 + 'px';
 	this.userList.redraw();
-}
+};
 
 RoomInvite.prototype.filterUsers = function (query) {
 	if (query == this.query) return;
@@ -154,10 +154,11 @@ RoomInvite.prototype.filterUsers = function (query) {
 		});
 		suggestions.sort(function (a, b) {
 			if (a.username.toLowerCase().startsWith(query)
-				|| a.displayName.toLowerCase().startsWith(query))
+				|| a.displayName.toLowerCase().startsWith(query)) {
 				return -1
-			else
+			} else {
 				return 1
+			}
 		});
 		this.userList.items = suggestions;
 		this.userList.selectItem(suggestions[0]);
@@ -165,7 +166,7 @@ RoomInvite.prototype.filterUsers = function (query) {
 		this.userList.items = this.uninvitedUsers;
 		this.userList.selectItem(null);
 	}
-}
+};
 
 RoomInvite.prototype.inviteToRoom = function () {
 	var usernames = this.userList.highlighted.map(function (user) {
@@ -175,7 +176,7 @@ RoomInvite.prototype.inviteToRoom = function () {
 	this.emit('inviteToRoom', this.context.room, usernames, function (err, result) {
 		this.dialog.hide();
 	}.bind(this));
-}
+};
 
 RoomInvite.prototype.redrawFormContent = function (items, query) {
 	render(
@@ -185,4 +186,4 @@ RoomInvite.prototype.redrawFormContent = function (items, query) {
 			query: query
 		})
 	);
-}
+};

@@ -18,8 +18,8 @@ OrgInvite.prototype.bind = function () {
 	this.events.bind('submit .invite-to-org', 'inviteToOrg');
 }
 
-OrgInvite.prototype.inviteToOrg = function (ev) {
-	ev.preventDefault();
+OrgInvite.prototype.inviteToOrg = function (e) {
+	e.preventDefault();
 	var inviteInput = qs('.input-invite', this.el);
 	var inviteButton = qs('.btn-invite', this.el);
 	this.resetValidity();
@@ -30,13 +30,10 @@ OrgInvite.prototype.inviteToOrg = function (ev) {
 	}
 	inviteButton.disabled = true;
 	this.emit('inviteToOrg', inviteInput.value, function(err, res) {
-		if (err) {
-			inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'));
-			inviteButton.disabled = false;
-			setTimeout(function() {inviteButton.click();}.bind(this), 500)	
-		} else {
-			this.dialog.hide();
-		}
+		if (!err) this.dialog.hide();
+		inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'));
+		inviteButton.disabled = false;
+		inviteButton.click();
 	}.bind(this));
 }
 
