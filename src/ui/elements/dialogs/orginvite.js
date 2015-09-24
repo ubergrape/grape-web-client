@@ -25,7 +25,7 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 	this.resetValidity();
 	if (inviteInput.value === '') {
 		inviteInput.setCustomValidity(_('Please enter at least one user to invite'));
-		inviteButton.click();
+		setTimeout(function () { inviteButton.click() });
 		return;
 	}
 	inviteButton.disabled = true;
@@ -35,9 +35,9 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 		inviteButton.disabled = false;
 		inviteButton.click();
 	}.bind(this));
-}
+};
 
 OrgInvite.prototype.resetValidity = function () {
 	var inviteInput = qs('.input-invite', this.el);
 	inviteInput.setCustomValidity('');
-}
+};
