@@ -33,7 +33,7 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 		if (!err) this.dialog.hide();
 		inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'));
 		inviteButton.disabled = false;
-		inviteButton.click();
+		setTimeout(function () { inviteButton.click() });
 	}.bind(this));
 };
 
