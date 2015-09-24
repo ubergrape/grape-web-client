@@ -1,5 +1,4 @@
 var expect = require('expect.js');
-var Chatline = require('../chatline');
 var Emitter = require('emitter');
 var Room = require('../room');
 var Org = require('../organization');
@@ -7,30 +6,6 @@ var User = require('../user');
 var Chatline = require('../chatline');
 
 var staticPath = CHATGRAPE_CONFIG.staticPath;
-var user = new User({
-    'id': 1,
-    'username': 'alice'
-});
-var onlyInvitedUser = new User({
-    'id': 2,
-    'username': 'bob',
-    'is_only_invited': true
-});
-var room = new Room({
-    'id': 1,
-    'slug': 'foo',
-    'creator': 1
-});
-var org = new Org({
-    'id': 1
-});
-var chatline = new Chatline({
-    'author': {
-        'type': 'user',
-        'id': 1
-    },
-    'channel': 1
-});
 
 describe('Models', function() {
     describe('Room', function () {
