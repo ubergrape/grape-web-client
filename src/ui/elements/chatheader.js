@@ -37,7 +37,13 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		renamingRoom: false
 	};
 	this.mode = 'chat';
-	if (typeof Intercom !== 'undefined') { 
+	if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
+		console.log("CUSTOM");
+		// we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
+		var intercomButton = qs('a#Intercom', this.el);
+		intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress'];
+
+	} else if (typeof Intercom !== 'undefined') {
 		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
 		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
 		window.Intercom('reattach_activator');
