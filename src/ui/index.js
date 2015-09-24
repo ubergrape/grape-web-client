@@ -138,7 +138,7 @@ UI.prototype.init = function UI_init() {
     // then emit an upload event to the broker to call the uploader
     this.clipboard.on('paste', function(e){
         if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
-      });
+	});
 
     // initialize dragAndDrop
     // receive the dragged items and emit
