@@ -96,7 +96,7 @@
     "webpack": "^1.10.1"
   },
   "scripts": {
-    "build-dev": "NODE_ENV=development webpack",
+    "build-dev": "NODE_ENV=development webpack --bail",
     "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
     "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch",
     "test-watch": "NODE_ENV=test karma start",
