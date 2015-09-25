@@ -67,6 +67,7 @@ GrapeInput.prototype.bindEvents = function () {
 	this.events.bind('grapeSubmit grape-input', 'onSubmit')
 	this.events.bind('grapeFocus grape-input', 'onFocus')
 	this.events.bind('grapeBlur grape-input', 'onBlur')
+	this.events.bind('grapeResize grape-input', 'onResize')
 	this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration')
 	this.events.bind('grapeInsertItem grape-input', 'onInsertItem')
 }
@@ -341,6 +342,10 @@ GrapeInput.prototype.onFocus = function () {
 
 GrapeInput.prototype.onBlur = function () {
 	this.el.classList.remove('focus')
+}
+
+GrapeInputIntegration.prototype.onResize = function () {
+    this.emit('resize')
 }
 
 GrapeInput.prototype.onOpenEmojiBrowser = function (e) {

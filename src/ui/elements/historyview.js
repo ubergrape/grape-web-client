@@ -235,7 +235,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     this.lastwindow = { lastmsg: this.room.history[0], sH: this.scrollWindow.scrollHeight };
 
     if (this.scrollMode === 'automatic') {
-        if (this.mode === 'chat') return this.scrollBottom();
+        if (this.mode === 'chat') return this.scrollToBottom();
         var prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el);
         var requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el);
         var scrollTarget = prevMsgEl ? prevMsgEl : requestedMsgEl;
@@ -243,7 +243,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     }
 };
 
-HistoryView.prototype.scrollBottom = function() {
+HistoryView.prototype.scrollToBottom = function() {
     this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
 };
 
@@ -479,4 +479,8 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
 HistoryView.prototype.onUploading = function HistoryView_onUploading () {
     if (this.mode === 'chat') return;
     this.emit('switchToChatMode', this.room);
+};
+
+HistoryView.prototype.onInputResize = function HistoryView_onInputResize () {
+    if (this.scrollMode === 'automatic') this.scrollToBottom();
 };

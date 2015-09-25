@@ -70,6 +70,7 @@ function pipeEvents(ui) {
     broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing');
     broker(ui.grapeInput, 'input', ui.historyView, 'onInput');
     broker(ui.grapeInput, 'showmarkdowntips', ui, 'showMarkdownTips');
+    broker(ui.grapeInput, 'resize', ui.historyView, 'onInputResize');
 
     // history view
     broker.pass(ui.historyView, 'hasread', ui, 'hasread');
