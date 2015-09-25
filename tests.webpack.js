@@ -31,6 +31,11 @@ window.room = new Room({
     'slug': 'foo',
     'creator': 1
 });
+window.anotherRoom = new Room({
+    'id': 2,
+    'slug': 'boo',
+    'creator': 1
+});
 window.org = new Org({
     'id': 1
 });
