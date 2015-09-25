@@ -242,7 +242,7 @@ export default class Editable extends Component {
         }
         break
       case 'esc':
-        this.onAbort('esc');
+        this.onAbort('esc')
         e.preventDefault()
         break
       case 'up':
