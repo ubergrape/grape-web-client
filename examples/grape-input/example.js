@@ -78,6 +78,10 @@ function init() {
     console.log('abort')
   })
 
+  input.addEventListener('grapeResize', function (e) {
+    console.log('resize')
+  })
+
   input.addEventListener('grapeInsertItem', function (e) {
     console.log('grapeInsertItem', e.detail)
   })

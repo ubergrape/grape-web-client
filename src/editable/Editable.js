@@ -28,13 +28,15 @@ export default class Editable extends Component {
     onSubmit: noop,
     onChange: noop,
     onBlur: noop,
-    onDidMount: noop
+    onDidMount: noop,
+    onResize: noop
   }
 
   constructor(props) {
     super(props)
     this.state = this.createState(this.props)
     this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
+    this.onResizeWindowDebounced = debounce(::this.checkSize, 500)
     this.onPaste = ::this.onPaste
   }
 
@@ -53,6 +55,7 @@ export default class Editable extends Component {
   componentDidMount() {
     this.node = React.findDOMNode(this)
     this.node.addEventListener('paste', this.onPaste)
+    window.addEventListener('resize', this.onResizeWindowDebounced)
 
     // Todo add desroy method to scribe so that we can recreate everything on
     // mount. Right now this
@@ -63,12 +66,15 @@ export default class Editable extends Component {
       this.accentMode = new AccentMode(this.node)
     }
 
+    this.checkSize({silent: true})
+
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
 
   componentWillUnmount() {
     this.node.removeEventListener('paste', this.onPaste)
+    window.removeEventListener('resize', this.onResizeWindowDebounced)
   }
 
   createState({focused}) {
@@ -145,6 +151,7 @@ export default class Editable extends Component {
     this.scribe.transactionManager.run(() => {
       el.innerHTML = newHtml
       this.afterInsertionAnimation()
+      this.checkSize()
       callback()
       if (!options.silent) this.props.onChange(options)
     })
@@ -216,6 +223,7 @@ export default class Editable extends Component {
     this.scribe.transactionManager.run(() => {
       this.node.innerHTML = html
       this.caret.move()
+      this.checkSize()
       this.onChange()
     })
     return text
@@ -336,12 +344,28 @@ export default class Editable extends Component {
     })
   }
 
+  checkSize(options = {}) {
+    let width = this.node.offsetWidth
+    let height = this.node.offsetHeight
+    let resized = false
+    if (this.width !== width) {
+      resized = true
+      this.width = width
+    }
+    if (this.height !== height) {
+      resized = true
+      this.height = height
+    }
+    if (resized && !options.silent) this.props.onResize()
+  }
+
   onKeyDown(e) {
     let key = keyname(e.keyCode)
     let {nativeEvent} = e
 
     this.ensureNewLine(key, nativeEvent)
     this.onKeyDownDebounced(key, nativeEvent)
+    this.checkSize()
   }
 
   onKeyDownDebounced(...args) {
@@ -352,12 +376,14 @@ export default class Editable extends Component {
   }
 
   onInput() {
+    this.checkSize()
     // During this mode we shouldn't place markers as they will end accent mode.
     if (!this.accentMode.active) this.onChange()
   }
 
   onKeyPress(e) {
     this.submit(e.nativeEvent)
+    this.checkSize()
   }
 
   onMouseDown(e) {
@@ -366,6 +392,7 @@ export default class Editable extends Component {
       e.preventDefault()
       this.caret.move('after', e.target)
     }
+    this.checkSize()
   }
 
   onPaste(e) {
@@ -377,6 +404,7 @@ export default class Editable extends Component {
     e.stopImmediatePropagation()
     let html = utils.textToHtml(text)
     this.scribe.insertHTML(html)
+    this.checkSize()
   }
 
   onAbort(reason) {

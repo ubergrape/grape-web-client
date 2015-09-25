@@ -51,6 +51,7 @@ export default class Input extends Component {
     onInsertItem: noop,
     onFocus: noop,
     onBlur: noop,
+    onResize: noop,
     onDidMount: noop
   }
 
@@ -132,6 +133,7 @@ export default class Input extends Component {
           onChange={::this.onChangeEditable}
           onFocus={::this.onFocusEditable}
           onBlur={::this.onBlurEditable}
+          onResize={::this.onResize}
           onDidMount={this.onDidMount.bind(this, 'editable')} />
       </div>
     )
@@ -427,5 +429,9 @@ export default class Input extends Component {
   onInputSearchBrowser(data) {
     this.emit('complete', data)
     this.emit('change')
+  }
+
+  onResize() {
+    this.emit('resize')
   }
 }

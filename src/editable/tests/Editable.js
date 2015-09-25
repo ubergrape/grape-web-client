@@ -1,5 +1,4 @@
 import {$} from '../../test'
-import noop from 'lodash/utility/noop'
 import expect from 'expect.js'
 import React from 'react/addons'
 import Editable from '../Editable'
@@ -20,7 +19,6 @@ describe('editable', () => {
       let editable = (
         <Editable
           onDidMount={onDidMount}
-          onChange={noop}
           focused={true} />
       )
       render(editable, document.body)
@@ -35,6 +33,25 @@ describe('editable', () => {
           expect(right).to.be('b ')
           return []
         })
+        done()
+      }
+    })
+  })
+
+  describe('Editable#setTextContent', () => {
+    it('should call onResize', done => {
+      let editable = (
+        <Editable
+          onDidMount={onDidMount}
+          onResize={onResize}
+          focused={true} />
+      )
+      render(editable, document.body)
+      function onDidMount(component) {
+        component.setTextContent('something\nmultiline')
+      }
+      function onResize() {
+        expect(true).to.be.ok()
         done()
       }
     })
