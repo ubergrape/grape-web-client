@@ -69,13 +69,13 @@ describe('Models', function() {
     });
     describe('Chatline', function () {
         it('should be able to emit events', function () {
-            expect(chatline).to.be.a(Emitter);
+            expect(chatLine).to.be.a(Emitter);
         });
         it('should have a user as author', function () {
-            expect(chatline.author).to.be.a(User)
+            expect(chatLine.author).to.be.a(User)
         });
         it('should have a room as channel', function () {
-            expect(chatline.channel).to.be.a(Room);
+            expect(chatLine.channel).to.be.a(Room);
         });
     });
 });

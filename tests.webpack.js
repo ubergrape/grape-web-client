@@ -40,7 +40,7 @@ window.anotherRoom = new Room({
 window.org = new Org({
     'id': 1
 });
-window.chatline = new Chatline({
+window.chatLine = new Chatline({
     'author': {
         'type': 'user',
         'id': 1
