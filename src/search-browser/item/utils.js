@@ -4,10 +4,11 @@ import isEmpty from 'lodash/lang/isEmpty'
 /**
  * Find state meta.
  */
-export function getState(detail) {
+export function getLabel(detail) {
   if (!detail || isEmpty(detail.meta)) return ''
-  let state = find(detail.meta, meta => meta.label === 'State')
-  if (state) return state.value
+  let label = find(detail.meta, meta => (meta.label === 'State' ||
+    meta.label === 'Kind'))
+  if (label) return label.value
 }
 
 /**

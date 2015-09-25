@@ -44,7 +44,7 @@ export default class Item extends Component {
     let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
     let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
-    let state = utils.getState(this.props.detail)
+    let state = utils.getLabel(this.props.detail)
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
