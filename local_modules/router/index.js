@@ -15,7 +15,9 @@ function Router(ui) {
 	page('/@:pm/:message', goToPM);
 	page('/:room/:message', goToRoom);
 	page('*', notFound);
-	page();
+	page({
+		decodeURLComponents: false
+	});
 
 	function pickChannel () {
 		var redirectRoom = false;

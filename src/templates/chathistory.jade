@@ -176,7 +176,7 @@
 									else
 										author.message-author= first.author.username
 									if first.author.title
-										if first.author.title === "Mentor"
+										if first.author.title.indexOf("Mentor") === 0
 											span.author-title.author-title-mentor
 												span.author-title-icon
 													i.fa.fa-graduation-cap
