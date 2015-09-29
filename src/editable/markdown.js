@@ -4,13 +4,13 @@ import Search from '../objects/Search'
 // At the beginning "^!?" has been removed to match all objects.
 // We don't use full md parser because its harder to setup it to ignore
 // everything except of links.
-const regExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
+const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
 /**
  * Replace md links which use cg protocol to our html representation.
  */
 export function replace(content) {
-  return content.replace(regExp, (match, text, url) => {
+  return content.replace(linkRegExp, (match, text, url) => {
     if (url.indexOf('cg://') === 0) return toHTML(text, url)
     return match
   })
@@ -21,7 +21,7 @@ export function replace(content) {
  */
 export function parse(content) {
   let data = []
-  content.replace(regExp, (match, text, url) => {
+  content.replace(linkRegExp, (match, text, url) => {
     data.push(toData(text, url))
   })
   return data
@@ -48,4 +48,3 @@ function toHTML(text, url) {
   let data = toData(text, url)
   return new Search(data).toHTML()
 }
-
