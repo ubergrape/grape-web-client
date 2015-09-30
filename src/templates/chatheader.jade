@@ -27,6 +27,7 @@
 					if editOptions.canManageRoom
 						a.header-option.option-delete-room(title="Delete Room")
 							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+			div.description=room.description
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited

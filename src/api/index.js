@@ -286,6 +286,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
+		room.description = data.channel.description;
 		self.emit('channelupdate', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#removed', function wamp_channel_removed(data) {
