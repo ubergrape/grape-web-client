@@ -62,7 +62,7 @@ function replace(from, to) {
 }
 
 RightSidebar.prototype.renderUserProfile = function (user) {
-	console.log(user);
+	this.user = user;
 	render(this.userProfile, template('user-profile.jade', {
 		user: user
 	}));
@@ -91,7 +91,6 @@ RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
 		color: color,
 		mode: this.mode
 	});
-
 	render(this.content, vdom);
 };
 
@@ -121,16 +120,23 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
-	if (room == this.room) this.members.redraw();
+	if (room == this.room) this.membersList.redraw();
+}
+
+RightSidebar.prototype.onNewRoomMember = function (room) {
+	if (room == this.room) this.membersList.redraw();
 }
 
 RightSidebar.prototype.onChangeUser = function (user) {
+	if (!this.visible) return;
 	this.membersList.redraw();
 	this.renderUserProfile(user);
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
 	this.visible = !this.visible;
+	this.membersList.redraw();
+	if (this.user) this.renderUserProfile(this.user);
 	var clientBody = qs('.client-body')
 	clientBody.classList.toggle('right-sidebar-show')
 }
