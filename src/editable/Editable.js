@@ -362,7 +362,6 @@ export default class Editable extends Component {
   onKeyDown(e) {
     let key = keyname(e.keyCode)
     let {nativeEvent} = e
-
     this.ensureNewLine(key, nativeEvent)
     this.onKeyDownDebounced(key, nativeEvent)
     this.checkSize()
@@ -408,10 +407,8 @@ export default class Editable extends Component {
   }
 
   onAbort(reason) {
-    this.props.onAbort({
-      reason,
-      query: this.getQuery()
-    })
+    let query = this.getQuery()
+    this.props.onAbort({reason, query})
   }
 
   onChange() {

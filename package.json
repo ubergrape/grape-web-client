@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "private": true,
   "main": "lib/index.js",
   "engines": {

@@ -33,7 +33,7 @@ export function canShowBrowser(prevState = {}, nextState) {
 }
 
 /**
- * Returns true if type will br rendered using grape-browser.
+ * Returns true if type will be rendered using grape-browser.
  */
 export function isBrowserType(typeOrTrigger) {
   return typeOrTrigger === EMOJI_TRIGGER ||

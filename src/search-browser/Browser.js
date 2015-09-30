@@ -18,6 +18,8 @@ import * as dataUtils from './dataUtils'
 import buildQuery from '../query/build'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 
+const PUBLIC_METHODS = ['selectTab', 'focusItem', 'getFocusedItem']
+
 /**
  * Main search browser component.
  */
@@ -66,9 +68,7 @@ export default class Browser extends Component {
   exposePublicMethods() {
     let {container} = this.props
     if (!container) return
-    ['selectTab', 'focusItem', 'getFocusedItem'].forEach(method => {
-      container[method] = ::this[method]
-    })
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   createState(props) {
@@ -260,7 +260,7 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'esc':
-        this.props.onAbort({
+        this.onAbort({
           reason: 'esc',
           query
         })
@@ -268,7 +268,7 @@ export default class Browser extends Component {
         break
       case 'backspace':
         if (!query.key) {
-          this.props.onAbort({
+          this.onAbort({
             reason: 'backspace',
             query
           })
@@ -331,5 +331,11 @@ export default class Browser extends Component {
   onMouseDown(e) {
     // Avoids loosing focus and though caret position in input.
     e.preventDefault()
+  }
+
+  onAbort(data) {
+    // After abortion we don't care about scheduled inputs.
+    clearTimeout(this.onInputTimeoutId)
+    this.props.onAbort(data)
   }
 }

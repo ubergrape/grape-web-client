@@ -18,6 +18,8 @@ import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
 
+const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
+
 /**
  * Main emoji browser component.
  */
@@ -69,9 +71,7 @@ class Browser extends Component {
   exposePublicMethods() {
     let {container} = this.props
     if (!container) return
-    ['focusItem', 'getFocusedItem'].forEach(method => {
-      container[method] = ::this[method]
-    })
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   createState(nextProps, nextState) {

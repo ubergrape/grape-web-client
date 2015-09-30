@@ -24,6 +24,8 @@ import QueryModel from '../query/Model'
 import style from './style'
 import * as utils from './utils'
 
+const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
+
 /**
  * Uses all types of auto completes and content editable to provide end component.
  */
@@ -201,9 +203,7 @@ export default class Input extends Component {
   exposePublicMethods() {
     let {container} = this.props
     if (!container) return
-    ['setTextContent', 'getTextContent'].forEach(method => {
-      container[method] = ::this[method]
-    })
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   getTextContent() {
@@ -215,11 +215,11 @@ export default class Input extends Component {
     return this.editable.setTextContent(text)
   }
 
-  closeBrowser(data) {
+  closeBrowser(state) {
     this.setState({
       browser: null,
       browserOpened: false,
-      ...data
+      ...state
     })
   }
 

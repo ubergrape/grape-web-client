@@ -63,7 +63,7 @@ function init() {
   })
 
   input.addEventListener('grapeChange', function (e) {
-    console.log(input.getTextContent())
+    console.log('change', input.getTextContent())
   })
 
   input.addEventListener('grapeFocus', function (e) {
