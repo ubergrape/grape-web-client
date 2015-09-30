@@ -93,7 +93,6 @@ RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
 	});
 
 	render(this.content, vdom);
-	if (this.membersList) this.membersList.redraw();
 };
 
 /* scroll down in the members list */
@@ -123,6 +122,11 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
 	if (room == this.room) this.members.redraw();
+}
+
+RightSidebar.prototype.onChangeUser = function (user) {
+	this.membersList.redraw();
+	this.renderUserProfile(user);
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {

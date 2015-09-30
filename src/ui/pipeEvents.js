@@ -45,6 +45,7 @@ function pipeEvents(ui) {
 	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
 	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
 	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
+	broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
 
 	// chat header
 	broker.pass(ui.chatHeader, 'searching', ui, 'searching');

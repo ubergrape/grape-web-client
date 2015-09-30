@@ -470,6 +470,9 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
 		user.is_only_invited = data.user.is_only_invited;
+		user.what_i_do = data.user.what_i_do;
+		user.skype_username = data.user.skype_username;
+		user.phone_number = data.user.phone_number;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
 		self.emit('changeUser', user);
 	});
