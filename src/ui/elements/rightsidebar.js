@@ -106,6 +106,7 @@ RightSidebar.prototype.scrollDown = function RightSidebar_scrollDown() {
 RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 	this.mode = room.type;
 	this.redraw(true);
+	this.room = room;
 	if (this.mode == 'room') {
 		this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
 		this.setListItems({
@@ -127,5 +128,5 @@ RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftC
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
 	this.visible = !this.visible;
 	var clientBody = qs('.client-body')
-	clientBody.classList.toggle("right-sidebar-show")
+	clientBody.classList.toggle('right-sidebar-show')
 }

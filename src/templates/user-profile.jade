@@ -18,3 +18,15 @@
             .last-name
                 span.label= _('last name: ')
                 span #{user.lastName}
+        if (user.skype_username)
+            .skype
+                span.label= _('skype username: ')
+                span #{user.skype_username}
+        if (user.phone_number)
+            .phone
+                span.label= _('phone number: ')
+                span #{user.phone_number}
+        if (user.what_i_do)
+            .bio
+                span.label= _('bio: ')
+                span #{user.what_i_do}
