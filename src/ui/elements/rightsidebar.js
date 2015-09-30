@@ -3,7 +3,6 @@
 
 var Emitter = require('emitter');
 var template = require('template');
-var Scrollbars = require('scrollbars');
 var render = require('../rendervdom');
 var ItemList = require('./itemlist');
 var qs = require('query');
@@ -30,20 +29,13 @@ RightSidebar.prototype.init = function RightSidebar_init() {
 	this.classes = classes(this.el);
 	this.canKickMembers = false;
 	this.visible = false;
+	this.mode = null;
 	this.redraw(true);
-
-	var uploadsList = this.uploadsList = new ItemList({
-		template: 'uploads.jade'
-	});
-//	replace(qs('.uploads', this.el), uploadsList.el);
+	this.userProfile = {};
 
 	var membersList = this.membersList = new ItemList({
-		template: 'roommembers.jade',
-		selector: '.item a'
+		template: 'roommembers.jade'
 	});
-	replace(qs('.members', this.el), membersList.el);
-
-	var	navScrollbar = new Scrollbars(qs('.right-sidebar-room-wrap', this.el));
 };
 
 RightSidebar.prototype.bind = function RightSidebar_bind() {
@@ -69,13 +61,18 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
+RightSidebar.prototype.renderUserProfile = function (user) {
+	console.log(user);
+	render(this.userProfile, template('user-profile.jade', {
+		user: user
+	}));
+}
+
 RightSidebar.prototype.setListItems = function RightSidebar_setListItems(items) {
-	this.uploadsList.setItems(items);
 	this.membersList.setItems(items);
 };
 
 RightSidebar.prototype.select = function RightSidebar_select(item) {
-	this.uploadsList.selectItem(null);
 	this.membersList.selectItem(null);
 	this[item.type + 'List'].selectItem(item);
 };
@@ -91,12 +88,11 @@ RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
 	var vdom = template('rightsidebar.jade', {
 		room: this.room,
 		canKickMembers: this.canKickMembers,
-		color: color
+		color: color,
+		mode: this.mode
 	});
 
 	render(this.content, vdom);
-
-//	if (this.uploadsList) this.uploadsList.redraw();
 	if (this.membersList) this.membersList.redraw();
 };
 
@@ -108,24 +104,20 @@ RightSidebar.prototype.scrollDown = function RightSidebar_scrollDown() {
 };
 
 RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
-	var self = this;
-	var redraw_wrapped = function(ev) {
-		self.redraw();
-	};
-	var user_added = function(ev) {
-		self.redraw();
-		self.scrollDown();
-	};
-	this.room = room;
-	room.users.off('add', user_added);
-	room.off('change', redraw_wrapped);
-	room.users.on('add', user_added);
-	room.on('change', redraw_wrapped);
-	this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
-
-	this.setListItems({room: this.room, canKickMembers: this.canKickMembers});
-	this.redraw();
-	if (room.type == 'pm') classes(qs('.client-body')).remove('right-sidebar-show');
+	this.mode = room.type;
+	this.redraw(true);
+	if (this.mode == 'room') {
+		this.canKickMembers = (ui.user === room.creator || ui.user.role >= 1) ? true : false;
+		this.setListItems({
+			room: room,
+			canKickMembers: this.canKickMembers
+		});
+		replace(qs('.right-sidebar-room-wrap', this.el), this.membersList.el);
+	} else {
+		this.renderUserProfile(room.users[0]);
+		replace(qs('.right-sidebar-room-wrap', this.el), this.userProfile.el);
+	}
+	this.redraw(true);
 };
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {

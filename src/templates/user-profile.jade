@@ -1,0 +1,20 @@
+.right-sidebar-room-wrap
+    .user-profile-view
+        .avatar-wrap
+            if user.status === 16
+                span.online
+            else
+                span.offline
+                img(src="#{user.avatar}", alt="#{user.username}")
+                .avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+        .username
+            span.label= _('username: ')
+            span #{user.username}
+        if (user.firstName)
+            .first-name
+                span.label= _('first name: ')
+                span #{user.firstName}
+        if (user.lastName)
+            .last-name
+                span.label= _('last name: ')
+                span #{user.lastName}

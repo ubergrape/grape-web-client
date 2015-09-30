@@ -109,7 +109,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			}
 
 			qs('.right-sidebar-room-info').style.display = "none";
-			qs('.right-sidebar-tags').style.display = "block";
 		},
 		'toggleMenu' : function(e) {
 			var color = {r: 100, g: 50, b: 100};
@@ -136,7 +135,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			}
 
 			qs('.right-sidebar-room-info').style.display = "block";
-			qs('.right-sidebar-tags').style.display = "none";
 		}
 	});
 
@@ -202,13 +200,6 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
 	this.mode = msgID ? 'search' : 'chat';
-	
-	// TODO remove this when sidebar becomes useful for PMs too!
-	if (room.type == "room") {
-		qs('.right-sidebar').style.display = "block"
-	} else {
-		qs('.right-sidebar').style.display = "none"
-	}
 
 	this.redraw();
 };

@@ -27,5 +27,6 @@ template.templates = {
 	'roomlist.jade': require('./roomlist.jade'),
 	'roomlist-collapsed.jade': require('./roomlist-collapsed.jade'),
 	'searchresults.jade': require('./searchresults.jade'),
-	'typingnotifications.jade': require('./typingnotifications.jade')
+	'typingnotifications.jade': require('./typingnotifications.jade'),
+	'user-profile.jade': require('./user-profile.jade')
 }
