@@ -331,8 +331,15 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
         this.completePreviousEdit();
     }
     else {
-        this.emit('input', this.room, data.content);
+        var sendText = true;
         var attachments = this.getAttachments(data.objects);
+        // Don't send message which contains only links which are will be sent
+        // again as an attachment.
+        if (data.objectsOnly && attachments.length === data.objects.length) {
+            sendText = false;
+        }
+        // Separate message to make it separately editable and removable.
+        if (sendText) this.emit('input', this.room, data.content);
         if (attachments.length) {
             this.emit('input', this.room, '', {attachments: attachments});
         }
