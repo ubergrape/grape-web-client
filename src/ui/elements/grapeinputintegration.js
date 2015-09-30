@@ -234,7 +234,7 @@ GrapeInputIntegration.prototype.debouncedStopTyping = debounce(function () {
     this.emit('stoptyping', this.room);
 }, 5000);
 
-GrapeInputIntegration.prototype.getAttachments = function (objects) {
+GrapeInputIntegration.prototype.getImageAttachments = function (objects) {
     // Find embeddable images.
     objects = objects.filter(function (obj) {
         if (isImage(obj.mime_type) &&
@@ -332,9 +332,9 @@ GrapeInputIntegration.prototype.onSubmit = function (e) {
     }
     else {
         var sendText = true;
-        var attachments = this.getAttachments(data.objects);
-        // Don't send message which contains only links which are will be sent
-        // again as an attachment.
+        var attachments = this.getImageAttachments(data.objects);
+        // If a message text contains only media objects we will render a preview
+        // in the history for, there is no need to send this objects as text.
         if (data.objectsOnly && attachments.length === data.objects.length) {
             sendText = false;
         }
