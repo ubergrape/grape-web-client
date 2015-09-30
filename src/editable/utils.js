@@ -76,8 +76,8 @@ export function isGrapeObject(el) {
 /**
  * Find elements which are grape objects and contain md data.
  */
-export function findGrapeObjects(parent) {
-  return toArray(query.all('[data-object]', parent))
+export function findGrapeObjects(node) {
+  return toArray(query.all('[data-object]', node))
 }
 
 /**
@@ -97,19 +97,19 @@ export function getResultsFromGrapeObjects(node) {
  * - Convert html to text.
  * - Convert grape elements to markdown.
  */
-export function getText(node) {
-  // Avoid modifying original nodes.
+export function getText(node, options = {}) {
+  // We are going to modify it.
   let newNode = node.cloneNode(true)
 
   // Replace all grape object elements by their md representation.
-  findGrapeObjects(newNode).forEach((el) => {
-    let text = document.createTextNode(el.dataset.object)
-    el.parentNode.replaceChild(text, el)
+  findGrapeObjects(newNode).forEach(el => {
+    if (options.skipObjects) remove(el)
+    else replace(el, document.createTextNode(el.dataset.object))
   })
 
   // Replace br tags by new lines.
-  toArray(query.all('br', newNode)).forEach((el) => {
-    el.parentNode.replaceChild(document.createTextNode('\n'), el)
+  toArray(query.all('br', newNode)).forEach(el => {
+    replace(el, document.createTextNode('\n'))
   })
 
   // .textContent will strip all tags, we need to ensure line breaks persist.
@@ -136,6 +136,13 @@ export function isElement(node) {
 export function remove(node) {
   let {parentNode} = node
   if (parentNode) parentNode.removeChild(node)
+}
+
+/**
+ * Replace node.
+ */
+function replace(oldNode, newNode) {
+  oldNode.parentNode.replaceChild(newNode, oldNode)
 }
 
 /**

@@ -193,8 +193,8 @@ export default class Editable extends Component {
    * Serialize content to text, use data-object strings instead of
    * textContent if given.
    */
-  getTextContent() {
-    return utils.getText(this.node)
+  getTextContent(options) {
+    return utils.getText(this.node, options)
   }
 
   /**
@@ -294,7 +294,8 @@ export default class Editable extends Component {
 
     let content = this.getTextContent()
     let objects = utils.getResultsFromGrapeObjects(this.node)
-    this.props.onSubmit({content, objects})
+    let objectsOnly = !this.getTextContent({skipObjects: true}).trim().length
+    this.props.onSubmit({content, objects, objectsOnly})
   }
 
   /**
