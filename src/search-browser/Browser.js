@@ -305,6 +305,10 @@ export default class Browser extends Component {
       filters: this.state.filters,
       search: this.state.search
     })
+
+    // After selection we don't care about scheduled inputs.
+    clearTimeout(this.onInputTimeoutId)
+
     this.props.onSelectItem({item, query})
   }
 
