@@ -38,11 +38,9 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	}
 	this.mode = 'chat';
 	if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
-		console.log("CUSTOM");
 		// we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
 		var intercomButton = qs('a#Intercom', this.el);
 		intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress'];
-
 	} else if (typeof Intercom !== 'undefined') {
 		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
 		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
@@ -57,7 +55,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'toggleDeleteRoomDialog': function(e) {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
-		'toggleRoomRename': function() {
+		'triggerRoomRename': function() {
 			self.editState.renaming = true;
 			self.redraw();
 			var roomNameInput = qs('input.room-name', this.el);
@@ -102,17 +100,26 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			}
 
 			qs('.right-sidebar-room-info').style.display = "block";
+		},
+		'triggerDescriptionEdit': function (e) {
+			self.editState.editingDescription = true;
+			self.redraw();
+			qs('input.description').focus();
+		},
+		'confirmDescriptionEdit': function (e) {
+			console.log(qs('input.description', this.el).value);
 		}
 	});
 
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
-	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
+	this.events.bind('click div.room-name.editable', 'triggerRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
 	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
-	this.events.bind('submit form.room-rename', 'preventFormSubmission');
-	this.events.bind('submit form.search-form', 'preventFormSubmission');
+	this.events.bind('keyup input.description', 'confirmDescriptionEdit');
+	this.events.bind('submit form', 'preventFormSubmission');
+	this.events.bind('click .description-edit', 'triggerDescriptionEdit');
 
 	var	callbacks = this.events.obj;
 
