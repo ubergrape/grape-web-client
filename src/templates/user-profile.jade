@@ -6,8 +6,7 @@
                   span.online
               else
                   span.offline
-                  img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
-                  .avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+              img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
           if (user.firstName && user.lastName)
               .fullname
                   span= user.firstName + " " + user.lastName
