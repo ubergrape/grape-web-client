@@ -133,8 +133,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
 	var	callbacks = this.events.obj;
 
-	document.addEventListener('keyup', function(e) {		
-		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();		
+	document.addEventListener('keyup', function(e) {
+		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();
 	});
 
 	var startSearching = debounce(function () {
@@ -184,7 +184,7 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
 	this.editState.renaming = false;
 	this.mode = msgID ? 'search' : 'chat';
-	
+
 	// TODO remove this when sidebar becomes useful for PMs too!
 	if (room.type == "room") {
 		qs('.right-sidebar').style.display = "block"
