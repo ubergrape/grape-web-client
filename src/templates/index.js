@@ -3,7 +3,6 @@ var template = require('template')
 template.templates = {
 	'chatheader.jade': require('./chatheader.jade'),
 	'rightsidebar.jade': require('./rightsidebar.jade'),
-	'uploads.jade': require('./uploads.jade'),
 	'roommembers.jade': require('./roommembers.jade'),
 	'chathistory.jade': require('./chathistory.jade'),
 	'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
@@ -27,5 +26,6 @@ template.templates = {
 	'roomlist.jade': require('./roomlist.jade'),
 	'roomlist-collapsed.jade': require('./roomlist-collapsed.jade'),
 	'searchresults.jade': require('./searchresults.jade'),
-	'typingnotifications.jade': require('./typingnotifications.jade')
+	'typingnotifications.jade': require('./typingnotifications.jade'),
+	'user-profile.jade': require('./user-profile.jade')
 }
