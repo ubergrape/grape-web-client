@@ -5,19 +5,23 @@
                 span.online
             else
                 span.offline
-                img(src="#{user.avatar}", alt="#{user.username}")
+                img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
                 .avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+        if (user.firstName && user.lastName)
+            .fullname
+                span= user.firstName + " " + user.lastName
         .username
-            span.label= _('username: ')
-            span #{user.username}
-        if (user.firstName)
-            .first-name
-                span.label= _('first name: ')
-                span #{user.firstName}
-        if (user.lastName)
-            .last-name
-                span.label= _('last name: ')
-                span #{user.lastName}
+          span #{user.username}
+        if (user.what_i_do)
+            .bio
+                span.label= _('bio: ')
+                span #{user.what_i_do}
+        if (user.email)
+            .email
+                span.label= _('skype username: ')
+                span
+                  i.fa.fa-skype
+                  | #{user.skype_username}
         if (user.skype_username)
             .skype
                 span.label= _('skype username: ')
@@ -26,7 +30,3 @@
             .phone
                 span.label= _('phone number: ')
                 span #{user.phone_number}
-        if (user.what_i_do)
-            .bio
-                span.label= _('bio: ')
-                span #{user.what_i_do}
