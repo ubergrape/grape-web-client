@@ -850,6 +850,10 @@ API.prototype.publish = function API_publish(room, msg, options) {
 	});
 };
 
+API.prototype.onSetDescription = function (room, description) {
+	this.wamp.call(PREFIX + 'rooms/set_description', room.id, description);
+};
+
 API.prototype.updateMsg = function API_updateMessage(msg, text) {
 	this.wamp.call(PREFIX + 'channels/update_message', msg['channel'].id, msg['id'], text, function (err) {
 

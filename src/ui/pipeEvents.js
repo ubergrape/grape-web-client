@@ -49,6 +49,7 @@ function pipeEvents(ui) {
     // chat header
     broker.pass(ui.chatHeader, 'searching', ui, 'searching');
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
+    broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription');
     broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle');
     broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
     broker(ui.chatHeader, 'stopsearching', ui.searchView, 'hideResults');

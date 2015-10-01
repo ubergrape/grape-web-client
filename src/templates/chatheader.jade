@@ -25,11 +25,11 @@
 						a.header-option.option-delete-room(title=_("Delete room"))
 							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 			if editState.editingDescription
-				form.description-edit
+				form.description-edit-form
 					input.description.editable(value=room.description ? room.description : _('Add a room description'))
 			else
 				if room.description
-					div.description=room.description
+					div.description(class=isRoomManager ? 'description-edit' : '')= room.description
 				else
 					if isRoomManager 
 						div.description-edit= _('Add a room description')

@@ -72,7 +72,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('confirmroomrename', self.room.id, newRoomName);
 		},
 		'roomRenameShortcuts' : function(e) {
-			switch(keyname(e.which)) {
+			switch(keyname(e.keyCode)) {
 				case 'enter':
 					this.confirmRoomRename();
 				default:
@@ -104,10 +104,20 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'triggerDescriptionEdit': function (e) {
 			self.editState.editingDescription = true;
 			self.redraw();
-			qs('input.description').focus();
+			var inputDescription = qs('input.description', this.el);
+			// unfortunately our events.bind method has no support or
+			// does not work for blur events, so here is a workaround
+			inputDescription.removeEventListener('blur', this.stopDescriptionEdit);
+			inputDescription.focus();
+			inputDescription.addEventListener('blur', this.stopDescriptionEdit);
 		},
-		'confirmDescriptionEdit': function (e) {
-			console.log(qs('input.description', this.el).value);
+		'stopDescriptionEdit': function () {
+			self.editState.editingDescription = false;
+			self.redraw();
+		},
+		'setDescription': function (e) {
+			if (keyname(e.keyCode) != 'enter') return;
+			self.emit('setDescription', self.room, e.target.value);
 		}
 	});
 
@@ -117,7 +127,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
 	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
-	this.events.bind('keyup input.description', 'confirmDescriptionEdit');
+	this.events.bind('keyup input.description', 'setDescription');
 	this.events.bind('submit form', 'preventFormSubmission');
 	this.events.bind('click .description-edit', 'triggerDescriptionEdit');
 
@@ -185,7 +195,9 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.redraw();
 };
 
-ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
+ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate (room) {
+	if (this.room != room) return;
+	this.editState.editingDescription = false;
 	this.editState.renaming = false;
 	this.redraw();
 }
