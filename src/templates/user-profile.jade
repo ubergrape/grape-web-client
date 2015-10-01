@@ -1,27 +1,28 @@
 .right-sidebar-room-wrap
     .user-profile-view
-        .avatar-wrap
-            if user.status === 16
-                span.online
-            else
-                span.offline
-                img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
-                .avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
-        if (user.firstName && user.lastName)
-            .fullname
-                span= user.firstName + " " + user.lastName
-        .username
-          span #{user.username}
+        .user-profile-view-header
+          .avatar-wrap
+              if user.status === 16
+                  span.online
+              else
+                  span.offline
+                  img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
+                  .avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+          if (user.firstName && user.lastName)
+              .fullname
+                  span= user.firstName + " " + user.lastName
+          .username
+            span #{user.username}
         if (user.what_i_do)
             .bio
-                span.label= _('bio: ')
-                span #{user.what_i_do}
+                i.fa.fa-envelope
+                |  
+                | #{user.what_i_do}
         if (user.email)
             .email
-                span.label= _('skype username: ')
-                span
-                  i.fa.fa-skype
-                  | #{user.skype_username}
+                i.fa.fa-envelope
+                |  
+                | #{user.email}
         if (user.skype_username)
             .skype
                 span.label= _('skype username: ')
