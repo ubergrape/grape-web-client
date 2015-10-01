@@ -29,7 +29,6 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
-	this.tagsToggle = qs('#tagsToggle', this.el);
 	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
 	this.isRoomManager = false;
@@ -85,33 +84,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
 		},
-		'toggleTags' : function(e) {
-			var color = {r: 100, g: 50, b: 100};
-
-			if (self.room.color) {
-				color = hexToRgb(self.room.color.toLowerCase());
-			}
-
-			if (tagsToggle.className == "room-header-button") {
-				if (menuToggle.className == "room-header-button") {
-					self.emit('togglerightsidebar');
-				}
-
-				tagsToggle.className = "room-header-button-active"
-				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-
-				menuToggle.className = "room-header-button"
-				menuToggle.style.background = "";
-			} else {
-				tagsToggle.className = "room-header-button"
-				tagsToggle.style.background = "";
-
-				self.emit('togglerightsidebar');
-			}
-
-			qs('.right-sidebar-room-info').style.display = "none";
-			qs('.right-sidebar-tags').style.display = "block";
-		},
 		'toggleMenu' : function(e) {
 			var color = {r: 100, g: 50, b: 100};
 
@@ -120,24 +92,16 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			}
 
 			if (menuToggle.className == "room-header-button") {
-				if (tagsToggle.className == "room-header-button") {
-					self.emit('togglerightsidebar');
-				}
-
+				self.emit('togglerightsidebar');
 				menuToggle.className = "room-header-button-active"
 				menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-
-				tagsToggle.className = "room-header-button"
-				tagsToggle.style.background = "";
 			} else {
 				menuToggle.className = "room-header-button"
 				menuToggle.style.background = "";
-
 				self.emit('togglerightsidebar');
 			}
 
 			qs('.right-sidebar-room-info').style.display = "block";
-			qs('.right-sidebar-tags').style.display = "none";
 		}
 	});
 
@@ -145,7 +109,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
-	this.events.bind('click #tagsToggle', 'toggleTags');
 	this.events.bind('click #menuToggle', 'toggleMenu');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
