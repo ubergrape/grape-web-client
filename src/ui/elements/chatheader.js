@@ -81,6 +81,30 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 					e.target.setCustomValidity('');
 			}
 		},
+		'toggleRoomDescriptionEdit': function() {
+			self.editOptions.editingRoomDescription = true;
+			self.redraw();
+			var roomDescriptionInput = qs('input.room-description', this.el);
+			var description = roomDescriptionInput.value;
+			roomDescriptionInput.focus();
+			roomDescriptionInput.setSelectionRange(description.length, description.length);
+		},
+		'stopRoomDescriptionEdit': function() {
+			self.editOptions.editingRoomDescription = false;
+			self.redraw();
+		},
+		'confirmRoomDescriptionEdit': function() {
+			var newRoomDescription = qs('input.room-description', this.el).value;
+			self.emit('confirmdescriptionedit', self.room.id, newRoomDescription);
+		},
+		'roomDescriptionEditShortcuts' : function(e) {
+			switch(keyname(e.which)) {
+				case 'enter':
+					this.confirmRoomRename();
+				default:
+					e.target.setCustomValidity('');
+			}
+		},
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
 		},
@@ -144,16 +168,24 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 	this.events.bind('click div.room-name.editable', 'toggleRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
+
+	this.events.bind('click div.room-description.editable', 'toggleRoomDescriptionEdit');
+	this.events.bind('click .option-description-edit-cancel', 'stopRoomDescriptionEdit');
+	this.events.bind('click .option-description-edit-ok', 'confirmRoomDescriptionEdit');
+
 	this.events.bind('click #tagsToggle', 'toggleTags');
 	this.events.bind('click #menuToggle', 'toggleMenu');
+
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('submit form.room-rename', 'preventFormSubmission');
+	this.events.bind('keyup input.room-description', 'roomDescriptionEditShortcuts');
+	this.events.bind('submit form.room-description', 'preventFormSubmission');
 	this.events.bind('submit form.search-form', 'preventFormSubmission');
 
 	var	callbacks = this.events.obj;
 
-	document.addEventListener('keyup', function(e) {		
-		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();		
+	document.addEventListener('keyup', function(e) {
+		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();
 	});
 
 	var startSearching = debounce(function () {
@@ -201,8 +233,9 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.room = room;
 	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
 	this.editOptions.renamingRoom = false;
+	this.editOptions.editingRoomDescription = false;
 	this.mode = msgID ? 'search' : 'chat';
-	
+
 	// TODO remove this when sidebar becomes useful for PMs too!
 	if (room.type == "room") {
 		qs('.right-sidebar').style.display = "block"
@@ -215,12 +248,18 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 
 ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
 	this.editOptions.renamingRoom = false;
+	this.editOptions.editingRoomDescription = false;
 	this.redraw();
 }
 
 ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
 	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
 	qs('input.submit-rename', this.el).click();
+}
+
+ChatHeader.prototype.roomDescriptionEditError = function ChatHeader_roomDescriptionEditError(err) {
+	qs('input.room-description', this.el).setCustomValidity(err.details.msg);
+	qs('input.submit-description-edit', this.el).click();
 }
 
 ChatHeader.prototype.onNewRoomMember = function ChatHeader_onNewRoomMember(room) {

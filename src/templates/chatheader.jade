@@ -24,7 +24,26 @@
 					if editOptions.canManageRoom
 						a.header-option.option-delete-room(title=_("Delete room"))
 							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
-			div.description=room.description
+
+			if editOptions.editingRoomDescription
+				form.room-description-edit
+					input.room-description.editable(value=room.description, type="text")
+					input.submit-description-edit(type="submit")
+				.description-edit-options-wrap
+					a.header-option.option-description-edit-cancel(title=_("Cancel"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+						i.fa.fa-times
+					a.header-option.option-description-edit-ok(title=_("Save"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+						i.fa.fa-check
+			else
+				.room-description(class=editOptions.canManageRoom ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
+					| #{room.description}
+					if editOptions.canManageRoom
+						a.header-option.option-edit-room-description(title=_("Change room description"))
+							i.fa.fa-pencil(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+				.options-wrap
+					if editOptions.canManageRoom
+						a.header-option.option-add-room-description
+							| _("Add room descrition")
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
