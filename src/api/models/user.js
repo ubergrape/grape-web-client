@@ -12,6 +12,7 @@ module.exports = new Model([
 		'displayName',
 		'status',
 		'avatar',
+		'email',
 		'skype_username',
 		'phone_number',
 		'what_i_do',

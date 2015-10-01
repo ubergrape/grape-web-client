@@ -469,6 +469,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
+		user.email = data.user.email;
 		user.is_only_invited = data.user.is_only_invited;
 		user.what_i_do = data.user.what_i_do;
 		user.skype_username = data.user.skype_username;
