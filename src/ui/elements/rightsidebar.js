@@ -17,6 +17,7 @@ function RightSidebar() {
 	Emitter.call(this);
 	this.content = {};
 	this.room = new Emitter({name: '', users: []});
+	this.user = null;
 	this.redraw(true);
 	this.el = this.content.el;
 	this.init();
@@ -61,10 +62,10 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
-RightSidebar.prototype.renderUserProfile = function (user) {
-	this.user = user;
+RightSidebar.prototype.renderUserProfile = function () {
+	if (!this.user) return;
 	render(this.userProfile, template('user-profile.jade', {
-		user: user
+		user: this.user
 	}));
 }
 
@@ -113,7 +114,8 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 		});
 		replace(qs('.right-sidebar-room-wrap', this.el), this.membersList.el);
 	} else {
-		this.renderUserProfile(room.users[0]);
+		this.user = room.users[0];
+		this.renderUserProfile();
 		replace(qs('.right-sidebar-room-wrap', this.el), this.userProfile.el);
 	}
 	this.redraw(true);
@@ -127,16 +129,16 @@ RightSidebar.prototype.onNewRoomMember = function (room) {
 	if (room == this.room) this.membersList.redraw();
 }
 
-RightSidebar.prototype.onChangeUser = function (user) {
+RightSidebar.prototype.onChangeUser = function () {
 	if (!this.visible) return;
 	this.membersList.redraw();
-	this.renderUserProfile(user);
+	this.renderUserProfile();
 }
 
 RightSidebar.prototype.toggle = function RightSidebar_toggle() {
 	this.visible = !this.visible;
 	this.membersList.redraw();
-	if (this.user) this.renderUserProfile(this.user);
+	this.renderUserProfile();
 	var clientBody = qs('.client-body')
 	clientBody.classList.toggle('right-sidebar-show')
 }
