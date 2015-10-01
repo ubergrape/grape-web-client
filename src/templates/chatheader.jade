@@ -43,7 +43,7 @@
 				.options-wrap
 					if editOptions.canManageRoom
 						a.header-option.option-add-room-description
-							| _("Add room descrition")
+						=_("Add room descrition")
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited
