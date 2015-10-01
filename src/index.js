@@ -1,7 +1,7 @@
 import SearchBrowser from './search-browser/Browser'
 export {SearchBrowser as SearchBrowser}
 
-import SearchModalBrowser from './search-browser/ModalBrowser'
+import SearchModalBrowser from './search-modal-browser/SearchModalBrowser'
 export {SearchModalBrowser as SearchModalBrowser}
 
 import EmojiBrowser from './emoji-browser/Browser'

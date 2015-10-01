@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
-import style from './iconStyle'
+import style from './style'
 
 /**
  * Styled icon component.

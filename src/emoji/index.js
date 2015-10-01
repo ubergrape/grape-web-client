@@ -2,7 +2,7 @@ import React from 'react'
 import each from 'lodash/collection/each'
 import emoji from 'js-emoji'
 
-import Icon from './Icon'
+import Icon from '../icon/Icon'
 
 let map
 let customMap = {}

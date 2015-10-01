@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {jss} from '../jss'
-import Icon from '../emoji/Icon'
+import Icon from '../icon/Icon'
 import style from './style'
 
 let sheet = jss.createStyleSheet(style).attach()

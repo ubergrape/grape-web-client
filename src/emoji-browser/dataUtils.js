@@ -9,7 +9,7 @@ import * as dataUtils from '../browser/dataUtils'
 import * as grid from './grid'
 import EMOJI_META from '../emoji/meta'
 import * as emoji from '../emoji'
-import Icon from '../emoji/Icon'
+import Icon from '../icon/Icon'
 import * as itemStyle from './item/style'
 
 const EMOJI_CATEGORY_ORDER = {
