@@ -32,10 +32,11 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	this.tagsToggle = qs('#tagsToggle', this.el);
 	this.menuToggle = qs('#menuToggle', this.el);
 	this.q = null;
-	this.editOptions = {
-		canManageRoom: false,
-		renamingRoom: false
-	};
+	this.isRoomManager = false;
+	this.editState = {
+		renaming: false,
+		editingDescription: false
+	}
 	this.mode = 'chat';
 	if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
 		console.log("CUSTOM");
@@ -58,7 +59,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			self.emit('toggledeleteroomdialog', self.room);
 		},
 		'toggleRoomRename': function() {
-			self.editOptions.renamingRoom = true;
+			self.editState.renaming = true;
 			self.redraw();
 			var roomNameInput = qs('input.room-name', this.el);
 			var roomName = roomNameInput.value;
@@ -66,7 +67,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 			roomNameInput.setSelectionRange(roomName.length,roomName.length);
 		},
 		'stopRoomRename': function() {
-			self.editOptions.renamingRoom = false;
+			self.editState.renaming = false;
 			self.redraw();
 		},
 		'confirmRoomRename': function() {
@@ -181,7 +182,8 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 
 	var vdom = template('chatheader.jade', {
 		room: this.room,
-		editOptions: this.editOptions,
+		isRoomManager: this.isRoomManager,
+		editState: this.editState,
 		mode: this.mode,
 		color: color
 	});
@@ -199,8 +201,8 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.room = room;
-	this.editOptions.canManageRoom = ( (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN) ? true : false;
-	this.editOptions.renamingRoom = false;
+	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
+	this.editState.renaming = false;
 	this.mode = msgID ? 'search' : 'chat';
 	
 	// TODO remove this when sidebar becomes useful for PMs too!
@@ -214,7 +216,7 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 };
 
 ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate() {
-	this.editOptions.renamingRoom = false;
+	this.editState.renaming = false;
 	this.redraw();
 }
 
