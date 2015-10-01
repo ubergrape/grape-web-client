@@ -7,9 +7,8 @@
               else
                   span.offline
               img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
-          if (user.firstName && user.lastName)
-              .fullname
-                  span= user.firstName + " " + user.lastName
+          .fullname
+              span= user.displayName
           .username
             span=  "@" + user.username
         if (user.what_i_do)
