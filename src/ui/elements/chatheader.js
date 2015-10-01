@@ -82,34 +82,6 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		'preventFormSubmission' : function(e) {
 			e.preventDefault();
 		},
-<<<<<<< HEAD
-=======
-		'toggleTags' : function(e) {
-			var color = {r: 100, g: 50, b: 100};
-
-			if (self.room.color) {
-				color = hexToRgb(self.room.color.toLowerCase());
-			}
-
-			if (tagsToggle.className == "room-header-button") {
-				if (menuToggle.className == "room-header-button") {
-					self.emit('togglerightsidebar');
-				}
-
-				tagsToggle.className = "room-header-button-active"
-				tagsToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)";
-
-				menuToggle.className = "room-header-button"
-				menuToggle.style.background = "";
-			} else {
-				tagsToggle.className = "room-header-button"
-				tagsToggle.style.background = "";
-
-				self.emit('togglerightsidebar');
-			}
-
-			qs('.right-sidebar-room-info').style.display = "none";
-		},
 		'toggleMenu' : function(e) {
 			var color = {r: 100, g: 50, b: 100};
 
@@ -212,7 +184,6 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
 	this.editState.renaming = false;
 	this.mode = msgID ? 'search' : 'chat';
-
 	this.redraw();
 };
 
