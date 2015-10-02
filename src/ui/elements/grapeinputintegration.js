@@ -29,6 +29,8 @@ function GrapeInputIntegration() {
     this.redraw();
     this.placeholder = 'Enter a message ...';
     this.typing = false;
+    // Key is room id, value is unsent text message.
+    this.unsentMessages = {};
 }
 
 GrapeInputIntegration.prototype = Object.create(Emitter.prototype);
@@ -70,17 +72,6 @@ GrapeInputIntegration.prototype.bindEvents = function () {
     this.events.bind('grapeBlur grape-input', 'onBlur');
     this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration');
     this.events.bind('grapeInsertItem grape-input', 'onInsertItem');
-};
-
-GrapeInputIntegration.prototype.setRoom = function (room) {
-    this.completePreviousEdit();
-    if (!room || (room.type == "pm" && !room.users[0].active)) {
-        this.disable();
-    }
-    else {
-        this.enable();
-    }
-    this.room = room;
 };
 
 GrapeInputIntegration.prototype.disable = function () {
@@ -377,6 +368,20 @@ GrapeInputIntegration.prototype.onAddIntegration = function () {
 GrapeInputIntegration.prototype.onInsertItem = function (e) {
     analytics.track('insert autocomplete object', e.detail);
 };
+
+GrapeInputIntegration.prototype.onRoomChange = function (room) {
+    if (this.room) this.unsentMessages[this.room.id] = this.input.getTextContent();
+    this.completePreviousEdit();
+    if (!room || (room.type == "pm" && !room.users[0].active)) {
+        this.disable();
+    }
+    else {
+        this.enable();
+    }
+    this.room = room;
+    this.input.setTextContent(this.unsentMessages[room.id] || '');
+};
+
 
 function isImage(mime) {
     return String(mime).substr(0, 5) == 'image';

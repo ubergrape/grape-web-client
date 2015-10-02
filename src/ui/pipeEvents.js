@@ -15,7 +15,7 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
+	broker(ui, 'selectchannel', ui.grapeInput, 'onRoomChange');
 	broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
 	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
