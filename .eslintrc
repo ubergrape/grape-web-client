@@ -1,0 +1,7 @@
+{
+  "extends": "eslint-config-ubergrape",
+  "rules": {
+    "quotes": [2, "single", "avoid-escape"],
+    "indent": [2, "tab"]
+  }
+}
