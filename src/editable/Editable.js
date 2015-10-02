@@ -23,6 +23,8 @@ export default class Editable extends Component {
     placeholder: '',
     focused: false,
     disabled: false,
+    width: undefined,
+    height: undefined,
     onAbort: noop,
     onEditPrevious: noop,
     onSubmit: noop,
@@ -36,7 +38,7 @@ export default class Editable extends Component {
     super(props)
     this.state = this.createState(this.props)
     this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
-    this.onResizeWindowDebounced = debounce(::this.checkSize, 500)
+    this.onResizeWindowDebounced = debounce(::this.onResize, 500)
     this.onPaste = ::this.onPaste
   }
 
@@ -65,8 +67,6 @@ export default class Editable extends Component {
       this.caret = new Caret(this.scribe)
       this.accentMode = new AccentMode(this.node)
     }
-
-    this.checkSize({silent: true})
 
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
@@ -151,8 +151,8 @@ export default class Editable extends Component {
     this.scribe.transactionManager.run(() => {
       el.innerHTML = newHtml
       this.afterInsertionAnimation()
-      this.checkSize()
       callback()
+      this.onResize()
       if (!options.silent) this.props.onChange(options)
     })
   }
@@ -223,7 +223,7 @@ export default class Editable extends Component {
     this.scribe.transactionManager.run(() => {
       this.node.innerHTML = html
       this.caret.move()
-      this.checkSize()
+      this.onResize()
       this.onChange()
     })
     return text
@@ -339,25 +339,11 @@ export default class Editable extends Component {
         }
         fragment.appendChild(p)
       })
-      caretsParent.parentNode.replaceChild(fragment, caretsParent)
+      utils.replace(caretsParent, fragment)
       p.innerHTML = Caret.MARKER_HTML + p.innerHTML
       selection.selectMarkers()
+      p.scrollIntoView()
     })
-  }
-
-  checkSize(options = {}) {
-    let width = this.node.offsetWidth
-    let height = this.node.offsetHeight
-    let resized = false
-    if (this.width !== width) {
-      resized = true
-      this.width = width
-    }
-    if (this.height !== height) {
-      resized = true
-      this.height = height
-    }
-    if (resized && !options.silent) this.props.onResize()
   }
 
   onKeyDown(e) {
@@ -365,7 +351,7 @@ export default class Editable extends Component {
     let {nativeEvent} = e
     this.ensureNewLine(key, nativeEvent)
     this.onKeyDownDebounced(key, nativeEvent)
-    this.checkSize()
+    this.onResize()
   }
 
   onKeyDownDebounced(...args) {
@@ -376,14 +362,13 @@ export default class Editable extends Component {
   }
 
   onInput() {
-    this.checkSize()
+    this.onResize()
     // During this mode we shouldn't place markers as they will end accent mode.
     if (!this.accentMode.active) this.onChange()
   }
 
   onKeyPress(e) {
     this.submit(e.nativeEvent)
-    this.checkSize()
   }
 
   onMouseDown(e) {
@@ -392,7 +377,6 @@ export default class Editable extends Component {
       e.preventDefault()
       this.caret.move('after', e.target)
     }
-    this.checkSize()
   }
 
   onPaste(e) {
@@ -404,7 +388,7 @@ export default class Editable extends Component {
     e.stopImmediatePropagation()
     let html = utils.textToHtml(text)
     this.scribe.insertHTML(html)
-    this.checkSize()
+    this.onResize()
   }
 
   onAbort(reason) {
@@ -414,5 +398,13 @@ export default class Editable extends Component {
 
   onChange() {
     this.props.onChange({query: this.getQuery()})
+  }
+
+  onResize() {
+    let width = this.node.offsetWidth
+    let height = this.node.offsetHeight
+    if (this.props.width !== width || this.props.height !== height) {
+      this.props.onResize({width, height})
+    }
   }
 }

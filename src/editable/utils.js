@@ -141,7 +141,7 @@ export function remove(node) {
 /**
  * Replace node.
  */
-function replace(oldNode, newNode) {
+export function replace(oldNode, newNode) {
   oldNode.parentNode.replaceChild(newNode, oldNode)
 }
 

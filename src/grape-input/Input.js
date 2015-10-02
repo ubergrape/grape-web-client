@@ -17,6 +17,7 @@ import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
 import Editable from '../editable/Editable'
+import MaxSize from '../max-size/MaxSize'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
@@ -77,9 +78,7 @@ export default class Input extends Component {
       })
     }
 
-    let nextState = this.createState(nextProps)
-
-    this.setState(nextState)
+    this.setState(this.createState(nextProps))
   }
 
   componentDidMount() {
@@ -124,19 +123,26 @@ export default class Input extends Component {
         <div className={classes.completeWrapper} data-test="complete-wrapper">
           {browser}
         </div>
-        <Editable
-          placeholder={this.props.placeholder}
-          disabled={this.props.disabled}
-          focused={this.state.focused}
-          insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
-          onAbort={::this.onAbort}
-          onEditPrevious={::this.onEditPrevious}
-          onSubmit={::this.onSubmit}
-          onChange={::this.onChangeEditable}
-          onFocus={::this.onFocusEditable}
-          onBlur={::this.onBlurEditable}
-          onResize={::this.onResize}
-          onDidMount={this.onDidMount.bind(this, 'editable')} />
+        <MaxSize
+          innerWidth={this.state.editableWidth}
+          innerHeight={this.state.editableHeight}
+          onResize={::this.onInputResize}>
+            <Editable
+              width={this.state.editableWidth}
+              height={this.state.editableHeight}
+              placeholder={this.props.placeholder}
+              disabled={this.props.disabled}
+              focused={this.state.focused}
+              insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
+              onAbort={::this.onAbort}
+              onEditPrevious={::this.onEditPrevious}
+              onSubmit={::this.onSubmit}
+              onChange={::this.onChangeEditable}
+              onFocus={::this.onFocusEditable}
+              onBlur={::this.onBlurEditable}
+              onResize={::this.onEditableResize}
+              onDidMount={this.onDidMount.bind(this, 'editable')} />
+        </MaxSize>
       </div>
     )
   }
@@ -431,7 +437,14 @@ export default class Input extends Component {
     this.emit('change')
   }
 
-  onResize() {
+  onEditableResize({width, height}) {
+    this.setState({
+      editableWidth: width,
+      editableHeight: height
+    })
+  }
+
+  onInputResize() {
     this.emit('resize')
   }
 }
