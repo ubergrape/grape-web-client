@@ -115,7 +115,9 @@
     "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch",
     "test-watch": "NODE_ENV=test karma start",
     "test": "karma start",
-    "lint": "eslint ./src"
+    "lint-src": "eslint -c ./eslint-legacy.json ./src",
+    "lint-react": "eslint ./react-components",
+    "lint": "npm run lint-react && npm run lint-src"
   },
   "repository": "ubergrape/chatgrape.git"
 }

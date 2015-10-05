@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import noop from 'lodash/utility/noop'
 import mousetrap from 'mousetrap'
 
 import Dialog from '../dialog/Dialog'
@@ -33,7 +32,6 @@ export default class ChannelSearch extends Component {
   }
 
   render() {
-    let {classes} = this.props.sheet
     return (
       <Dialog
         show={this.state.show}
@@ -44,17 +42,17 @@ export default class ChannelSearch extends Component {
     )
   }
 
-  createState(props) {
+  createState(props) {
     return {
       show: props.show
     }
   }
 
-  onShortcut() {
+  onShortcut() {
     this.setState({show: true})
   }
 
-  onHide() {
+  onHide() {
     this.setState({show: false})
   }
 }
