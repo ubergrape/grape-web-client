@@ -31,7 +31,7 @@ export default class ChannelSearch extends Emitter {
     this.redraw()
   }
 
-  onSelect(item) {
+  onSelect(item) {
     page('/chat/' + item.slug)
     this.onHide()
   }
@@ -53,7 +53,7 @@ export default class ChannelSearch extends Emitter {
   }
 }
 
-function getItems(org) {
+function getItems(org) {
   let rooms = org.rooms.map(({id, name, slug}) => ({id, name, slug}))
   let users = org.users.map(({id, displayName, username}) => {
     return {
@@ -62,5 +62,5 @@ function getItems(org) {
       slug: `@${username}`
     }
   })
-  return [...rooms, ...users]
+  return [...users, ...rooms]
 }

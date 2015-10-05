@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import mousetrap from 'mousetrap'
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import noop from 'lodash/utility/noop'
+import keyname from 'keyname'
 
-import Datalist from '../datalist/Datalist'
+import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
 import {useSheet} from '../jss'
 import style from './style'
@@ -15,7 +17,7 @@ import * as utils from './utils'
 @useSheet(style)
 export default class ChannelSearch extends Component {
   static defaultProps = {
-    shortcuts: ['command+k', 'ctrl+k'],
+    shortcuts: ['mod+k'],
     show: false,
     items: [],
     onSelect: noop,
@@ -27,12 +29,12 @@ export default class ChannelSearch extends Component {
   constructor(props) {
     super(props)
     this.state = this.createState(props)
-    mousetrap.bind(props.shortcuts, ::this.onShow)
+    mousetrap.bindGlobal(props.shortcuts, ::this.onShow)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState(this.createState(nextProps), ::this.focus)
   }
 
@@ -41,34 +43,41 @@ export default class ChannelSearch extends Component {
     return (
       <Dialog
         show={this.state.show}
-        onHide={this.props.onHide}
+        onHide={::this.onHide}
         title="Jump to a conversation">
         <div className={classes.content}>
           <input
             className={classes.input}
             onChange={::this.onInput}
+            onKeyDown={::this.onKeyDown}
             type="text"
             ref="input" />
-          {this.renderItemsOrFallback()}
+          {this.state.items.length ? this.renderItems() : this.renderFallback()}
         </div>
       </Dialog>
     )
   }
 
-  renderItemsOrFallback() {
+  renderItems() {
     let {classes} = this.props.sheet
 
-    if (this.state.items.length) {
-      return <Datalist
+    return (
+      <List
         items={this.state.items}
-        className={classes.datalist}
-        renderItem={::this.renderItem} />
-    }
+        className={classes.list}
+        renderItem={::this.renderItem}
+        onSelect={::this.onSelect}
+        ref="list"/>
+    )
+  }
+
+  renderFallback() {
+    let {classes} = this.props.sheet
 
     return (
       <div className={classes.fallback}>
         <h3 className={classes.fallbackHeadline}>
-          There's nothing that matches <b>{this.state.search}</b>.
+          There&apos;s nothing that matches <b>{this.state.search}</b>.
         </h3>
         <button
           onClick={::this.onCreate}
@@ -79,13 +88,12 @@ export default class ChannelSearch extends Component {
     )
   }
 
-  renderItem(item, props, state) {
+  renderItem({item, focused}) {
     let {classes} = this.props.sheet
+    let itemClasses = [classes.item]
+    if (focused) itemClasses.push(classes.itemFocused)
     return (
-      <div
-        {...props}
-        className={classes.item}
-        onClick={this.onSelect.bind(this, item)}>
+      <div className={itemClasses.join(' ')}>
         {item.name}
       </div>
     )
@@ -100,7 +108,7 @@ export default class ChannelSearch extends Component {
     }
   }
 
-  focus() {
+  focus() {
     let {input} = this.refs
     if (input) React.findDOMNode(input).focus()
   }
@@ -113,15 +121,44 @@ export default class ChannelSearch extends Component {
     })
   }
 
-  onSelect(item) {
-    this.props.onSelect(item)
+  onKeyDown(e) {
+    let {list} = this.refs
+    if (!list) return
+    switch (keyname(e.keyCode)) {
+      case 'up':
+        list.focus('prev')
+        e.preventDefault()
+        break
+      case 'down':
+        list.focus('next')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.onSelect(list.state.focused)
+        e.preventDefault()
+        break
+      default:
+    }
+  }
+
+  onSelect(item) {
+    this.onBeforeHide(this.props.onSelect.bind(null, item))
   }
 
   onCreate() {
-    this.props.onCreate({name: this.state.search})
+    let name = this.state.search
+    this.onBeforeHide(this.props.onCreate.bind(null, {name}))
   }
 
   onShow() {
     this.props.onShow()
+  }
+
+  onHide() {
+    this.onBeforeHide(this.props.onHide)
+  }
+
+  onBeforeHide(callback) {
+    this.setState({search: ''}, callback)
   }
 }

@@ -11,14 +11,13 @@ export default {
   input: {
     width: '100%'
   },
-  datalist: {
-    overflow: 'auto'
+  list: {
   },
   item: {
-    cursor: 'pointer',
-    '&:hover': {
-      background: 'blue'
-     }
+    cursor: 'pointer'
+  },
+  itemFocused: {
+    background: 'blue'
   },
   fallback: {
     display: 'flex',
@@ -33,4 +32,3 @@ export default {
   },
   button: button
 }
-
