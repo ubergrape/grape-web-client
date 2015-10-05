@@ -1,0 +1,33 @@
+.right-sidebar-room-wrap
+    .user-profile-view
+        .user-profile-view-header
+          .avatar-wrap
+              if user.status === 16
+                  span.online
+              else
+                  span.offline
+              img(src="#{user.avatar}", alt="#{user.username}", width="80", height="80")
+          .fullname
+              span= user.displayName
+          .username
+            span=  "@" + user.username
+        if (user.what_i_do)
+            .user-profile-item.bio
+                i.fa.fa-comment
+                |  
+                | #{user.what_i_do}
+        if (user.email)
+            .user-profile-item.email
+                i.fa.fa-envelope
+                |  
+                a(href="mailto:#{user.email}")=user.email
+        if (user.skype_username)
+            .user-profile-item.skype
+                i.fa.fa-skype
+                |  
+                a(href="skype:#{user.skype_username}")=user.skype_username
+        if (user.phone_number)
+            .user-profile-item.phone
+                i.fa.fa-phone
+                |  
+                a(href="tel:#{user.phone_number}")=user.phone_number

@@ -286,6 +286,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 		var room = models.Room.get(data.channel.id);
 		room.name = data.channel.name;
 		room.slug = data.channel.slug;
+		room.description = data.channel.description;
 		self.emit('channelupdate', room);
 	});
 	wamp.subscribe(PREFIX + 'channel#removed', function wamp_channel_removed(data) {
@@ -469,7 +470,11 @@ API.prototype.bindEvents = function API_bindEvents() {
 		user.firstName = data.user.firstName;
 		user.lastName = data.user.lastName;
 		user.displayName = data.user.displayName;
+		user.email = data.user.email;
 		user.is_only_invited = data.user.is_only_invited;
+		user.what_i_do = data.user.what_i_do;
+		user.skype_username = data.user.skype_username;
+		user.phone_number = data.user.phone_number;
 		if (data.user.avatar !== null) user.avatar = data.user.avatar;
 		self.emit('changeUser', user);
 	});
@@ -857,6 +862,10 @@ API.prototype.publish = function API_publish(room, msg, options) {
 	this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
 		if (err) return self.emit('error', err);
 	});
+};
+
+API.prototype.onSetDescription = function (room, description) {
+	this.wamp.call(PREFIX + 'rooms/set_description', room.id, description);
 };
 
 API.prototype.updateMsg = function API_updateMessage(msg, text) {

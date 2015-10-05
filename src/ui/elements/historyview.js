@@ -109,9 +109,9 @@ HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (
 
 HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
     var options = {
-        time_from    : this.room.searchHistory[this.room.searchHistory.length - 1].time,
+        time_from   : this.room.searchHistory[this.room.searchHistory.length - 1].time,
         sort        : 'time:asc',
-        limit        : 5
+        limit       : 5
     }
     this.emit('loadHistoryForSearch', 'new', this.room, options);
 };
@@ -122,8 +122,8 @@ HistoryView.prototype.loadNewestHistory = function HistoryView_loadNewestHistory
 
 HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
     var options = {
-        time_to    : this.room.searchHistory[0].time,
-        limit    : 5
+        time_to : this.room.searchHistory[0].time,
+        limit   : 5
     };
     this.emit('loadHistoryForSearch', 'old', this.room, options);
 };
@@ -160,16 +160,16 @@ function groupHistory(history) {
     var previousLine;
 
     for (var i = 0; i < history.length; i++) {
-        var    line            = history[i],
-            author            = line.author,
-            isService        = author.type == "service",
-            isTimeSpanShort    = last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
+        var line            = history[i],
+            author          = line.author,
+            isService       = author.type == "service",
+            isTimeSpanShort = last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
             hasSameTitle    = last && line.title && line.title == last.title && !line.objects,
-            hasSameMsg        = last && last.message && line.message && last.message == line.message,
-            hasSameAuthor    = last && last.author.id == author.id,
+            hasSameMsg      = last && last.message && line.message && last.message == line.message,
+            hasSameAuthor   = last && last.author.id == author.id,
             afterAttachment = last && last.attachments && last.attachments.length != 0,
-            hasAttachments    = line.attachments && line.attachments.length != 0,
-            isGroupable        = isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment;
+            hasAttachments  = line.attachments && line.attachments.length != 0,
+            isGroupable     = isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment;
 
         // Message is groupable, nice and easy
         if (isGroupable) {
@@ -207,7 +207,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
         // merge buffered messages with copy of history
         if (this.unsentBuffer) {
             var roomUnsentMsgs = this.unsentBuffer[this.room.id];
-            if (roomUnsentMsgs) history = history.concat(roomUnsentMsgs);            
+            if (roomUnsentMsgs) history = history.concat(roomUnsentMsgs);
         };
     } else {
         var history = this.room.searchHistory.slice();
@@ -266,7 +266,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
     if (this.mode === 'search') return;
     if (direction === 'bottom') {
         this.scrollMode = 'automatic';
-        var debouncedUpdateRead    = debounce(this.updateRead.bind(this), 1500)
+        var debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500)
         debouncedUpdateRead();
         return done();
     } else {
@@ -340,7 +340,6 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
         this.room.loading = true;
     }
     this.redrawTyping();
-    
     room.history.on('remove', function (msg, idx) {
         // find removed element and highlight it....
         // then redraw after timeout
@@ -464,7 +463,7 @@ HistoryView.prototype.resend = function HistoryView_resend (e) {
 HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (msg) {
     var options = {
         clientside_id: msg.clientSideID,
-        attachments: msg.attachments        
+        attachments: msg.attachments
     }
     this.emit('send', msg.channel, msg.text, options);
 
