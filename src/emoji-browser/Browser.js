@@ -168,10 +168,16 @@ class Browser extends Component {
   selectTab(selector) {
     let {tabs} = this.state
     let facet = selector
-    if (selector === 'next') {
+    if (typeof selector == 'string') {
       let currIndex = findIndex(tabs, tab => tab.selected)
-      if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
-      else facet = tabs[0].id
+      if (selector === 'next') {
+        if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
+        else facet = tabs[0].id
+      }
+      else {
+        if (tabs[currIndex - 1]) facet = tabs[currIndex - 1].id
+        else facet = tabs[tabs.length - 1].id
+      }
     }
     let newIndex = findIndex(tabs, tab => tab.id === facet)
     facet = tabs[newIndex].id
@@ -228,7 +234,7 @@ class Browser extends Component {
         e.preventDefault()
         break
       case 'tab':
-        this.selectTab('next')
+        this.selectTab(e.shiftKey ? 'prev' : 'next')
         e.preventDefault()
         break
       case 'esc':

@@ -246,13 +246,8 @@ export default class Browser extends Component {
         this.focusItem('prev')
         e.preventDefault()
         break
-      case 'right':
       case 'tab':
-        this.selectTab('next')
-        e.preventDefault()
-        break
-      case 'left':
-        this.selectTab('prev')
+        this.selectTab(e.shiftKey ? 'prev' : 'next')
         e.preventDefault()
         break
       case 'enter':
