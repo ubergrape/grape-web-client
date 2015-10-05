@@ -23,7 +23,7 @@
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
-    "react-jss": "^1.0.4",
+    "react-jss": "^1.1.1",
     "react-overlays": "^0.4.2",
     "react-pure-render": "^1.0.2",
     "react-visibility-sensor": "^2.0.0",
