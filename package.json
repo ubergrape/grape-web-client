@@ -32,7 +32,7 @@
     "drop-anywhere": "ubergrape/drop-anywhere",
     "endswith": "sk7/endswith",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.4",
+    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.7",
     "hexToRgb": "./local_modules/color-converter",
     "image-zoom": "ubergrape/image-zoom",
     "intro": "ubergrape/intro.js",
