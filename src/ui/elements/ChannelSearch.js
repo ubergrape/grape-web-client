@@ -1,21 +1,18 @@
-'use strict';
+import Emitter from 'emitter'
 
-var Emitter = require('emitter');
+import channelSearch from '../../../react-components/channel-search'
 
-require('../../../react-components/channel-search');
+export default class ChannelSearch extends Emitter {
+  constructor() {
+    super()
+    this.el = document.createElement('grape-channel-search')
+  }
 
-function ChannelSearch() {
-    Emitter.call(this);
-    this.el = document.createElement('grape-channel-search');
+  redraw() {
+  }
+
+  onOrgReady(org) {
+    this.org = org
+    this.redraw()
+  }
 }
-
-ChannelSearch.prototype = Object.create(Emitter.prototype);
-module.exports = ChannelSearch;
-
-ChannelSearch.prototype.redraw = function () {
-};
-
-ChannelSearch.prototype.onOrgReady = function (org) {
-    this.org = org;
-    this.redraw();
-};
