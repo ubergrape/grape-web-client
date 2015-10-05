@@ -26,7 +26,7 @@ export default class Dialog extends Component {
         <div className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{this.props.title}</h2>
-            <button className={classes.close} onClose={this.props.onHide}></button>
+            <button className={classes.close} onClick={this.props.onHide}></button>
           </header>
           <div className={classes.body}>
             {this.props.children}
