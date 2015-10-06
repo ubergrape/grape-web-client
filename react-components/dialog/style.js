@@ -1,49 +1,47 @@
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
+import sizes from 'grape-theme/dist/sizes'
+
+const overlay = {
+  position: 'fixed',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0
+}
 
 export default {
   modal: {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000
+    ...overlay,
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   backdrop: {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    ...overlay,
     backgroundColor: '#000',
-    opacity: 0.3
+    opacity: 0.3,
+    zIndex: -1
   },
   content: {
-    position: 'absolute',
     width: 525,
-    top: '50%',
-    left: '50%',
-    transform: 'translate3d(-50%, -50%, 0)',
-    borderRadius: 4,
+    borderRadius: sizes.borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden'
   },
   header: {
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
     background: webColors.sidebarBackground,
-    padding: '15px 20px'
+    height: 50
   },
   close: {
-    position: 'absolute',
     color: colors.white,
-    padding: '4px 10px 4px 9px',
-    fontSize: '1.5em',
+    padding: '0 20px',
+    fontSize: fonts.big.fontSize,
     opacity: 0.8,
-    right: 10,
-    top: '50%',
-    transform: 'translateY(-50%)',
     border: 'none',
     '&:before': {
       content: '"x"'
@@ -54,7 +52,11 @@ export default {
   },
   title: {
     ...fonts.big,
-    color: webColors.sidebarGroupTitle
+    display: 'flex',
+    flex: 2,
+    alignSelf: 'center',
+    color: webColors.sidebarGroupTitle,
+    paddingLeft: 20
   },
   body: {
     background: colors.white
