@@ -35,7 +35,7 @@
     "eslint-config-ubergrape": "^0.1.1",
     "eslint-plugin-react": "^2.7.0",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.7",
+    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.9",
     "hexToRgb": "./local_modules/color-converter",
     "image-zoom": "ubergrape/image-zoom",
     "intro": "ubergrape/intro.js",
