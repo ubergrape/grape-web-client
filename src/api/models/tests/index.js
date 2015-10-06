@@ -44,7 +44,7 @@ describe('Models', function() {
             expect(user).to.be.a(User);
         });
         it('should be initialised with a default avatar', function () {
-            expect(user.avatar).to.eql(staticPath + 'images/avatar.gif');
+            expect(user.avatar).to.contain(staticPath);
         });
         it('should be possible to query by id', function () {
             expect(User.get(1)).to.eql(user);
