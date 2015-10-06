@@ -344,7 +344,7 @@ GrapeInput.prototype.onBlur = function () {
 	this.el.classList.remove('focus')
 }
 
-GrapeInputIntegration.prototype.onResize = function () {
+GrapeInput.prototype.onResize = function () {
     this.emit('resize')
 }
 
