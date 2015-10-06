@@ -1,5 +1,8 @@
 var Emitter = require('emitter');
 var ItemList = require('../itemlist');
+var fixtures = require('../../../../fixtures');
+var room = fixtures.room;
+var anotherRoom = fixtures.anotherRoom;
 
 var roomList = new ItemList({
     'template': 'roomlist.jade'

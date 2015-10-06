@@ -5,6 +5,11 @@ var MDTip = require('../markdowntips');
 var RoomDelete = require('../deleteroom');
 var PMManager = require('../pmmanager');
 var RoomManager = require('../roommanager');
+var fixtures = require('../../../../../fixtures');
+var room = fixtures.room;
+var user = fixtures.user;
+var template = require('template');
+template.locals.user = user;
 
 var mdTip = new MDTip();
 var roomDelete = new RoomDelete({
@@ -18,7 +23,7 @@ describe('Dialog', function (){
     describe('Markdown Dialog', function () {
         it('should have a DOM element', function () {
             expect(mdTip).to.have.property('el');
-            expect(mdTip.el).to.be.a(Element);
+            expect(mdTip.el).to.be.an(Element);
         });
         it('should open', function () {
             mdTip.show();
@@ -29,7 +34,7 @@ describe('Dialog', function (){
     describe('Room Delete Dialog', function () {
         it('should have a DOM element', function () {
             expect(roomDelete).to.have.property('el');
-            expect(roomDelete.el).to.be.a(Element);
+            expect(roomDelete.el).to.be.an(Element);
         });
         it('should open', function () {
             roomDelete.show();
@@ -40,7 +45,7 @@ describe('Dialog', function (){
     describe('Room Manager', function () {
         it('should have a DOM element', function () {
             expect(roomManager).to.have.property('el');
-            expect(roomManager.el).to.be.a(Element);
+            expect(roomManager.el).to.be.an(Element);
         });
         it('should open', function () {
             roomManager.show();

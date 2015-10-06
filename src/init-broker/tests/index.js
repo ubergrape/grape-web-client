@@ -1,5 +1,10 @@
 var Emitter = require('emitter');
 var doBroker = require('../');
+var fixtures = require('../../../fixtures');
+var room = fixtures.room;
+var user = fixtures.user;
+var org = fixtures.org;
+var chatLine = fixtures.chatLine;
 
 describe('Events Router', function () {
     it('should route user change events', function () {

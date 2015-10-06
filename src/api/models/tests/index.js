@@ -4,8 +4,13 @@ var Room = require('../room');
 var Org = require('../organization');
 var User = require('../user');
 var Chatline = require('../chatline');
-
-var staticPath = CHATGRAPE_CONFIG.staticPath;
+var fixtures = require('../../../../fixtures');
+var room = fixtures.room;
+var user = fixtures.user;
+var onlyInvitedUser = fixtures.onlyInvitedUser;
+var chatLine = fixtures.chatLine;
+var org = fixtures.org;
+var staticPath = require('conf').staticPath;
 
 describe('Models', function() {
     describe('Room', function () {
@@ -13,7 +18,7 @@ describe('Models', function() {
             expect(room).to.be.a(Room);
         });
         it('should be able to emit events', function () {
-            expect(room).to.be.a(Emitter);
+            expect(room).to.be.an(Emitter);
         });
         it('should have a history', function () {
             expect(room.history).to.be.empty();            
@@ -33,7 +38,7 @@ describe('Models', function() {
     });
     describe('User', function () {
         it('should be able to emit events', function () {
-            expect(user).to.be.a(Emitter);
+            expect(user).to.be.an(Emitter);
         });
         it('should be possible to initialise', function () {
             expect(user).to.be.a(User);
@@ -47,15 +52,15 @@ describe('Models', function() {
     });
     describe('User who has not accepted invitation yet', function () {
         it('should be initiliased with a special default avatar', function () {
-            expect(onlyInvitedUser.avatar).to.eql(staticPath + 'images/avatar_invited.gif');
+            expect(onlyInvitedUser.avatar).to.contain(staticPath);
         });
     });
     describe('Org', function () {
         it('should be able to emit events', function () {
-            expect(org).to.be.a(Emitter);
+            expect(org).to.be.an(Emitter);
         });
         it('should be initialised with a default logo', function () {
-            expect(org.logo).to.eql(staticPath + 'images/cg-company.png');
+            expect(org.logo).to.contain(staticPath);
         });
         it('should have rooms', function () {
             expect(org.rooms).to.be.empty();
@@ -69,7 +74,7 @@ describe('Models', function() {
     });
     describe('Chatline', function () {
         it('should be able to emit events', function () {
-            expect(chatLine).to.be.a(Emitter);
+            expect(chatLine).to.be.an(Emitter);
         });
         it('should have a user as author', function () {
             expect(chatLine.author).to.be.a(User)
