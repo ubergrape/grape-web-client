@@ -345,7 +345,7 @@ GrapeInput.prototype.onBlur = function () {
 }
 
 GrapeInput.prototype.onResize = function () {
-    this.emit('resize')
+	this.emit('resize')
 }
 
 GrapeInput.prototype.onOpenEmojiBrowser = function (e) {
