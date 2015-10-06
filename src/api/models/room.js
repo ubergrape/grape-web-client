@@ -11,6 +11,7 @@ var User = require('./user');
 module.exports = new Model([
 		'name',
 		'slug',
+		'description',
 		'creator',
 		'joined',
 		'unread',
