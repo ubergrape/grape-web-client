@@ -16,7 +16,7 @@ template.templates = {
 	'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
 	'draganddrop.jade': require('./draganddrop.jade'),
 	'fileuploader.jade': require('./fileuploader.jade'),
-	'grapeinputintegration.jade': require('./grapeinputintegration.jade'),
+	'grapeInput.jade': require('./grapeInput.jade'),
 	'index.jade': require('./index.jade'),
 	'messages.jade': require('./messages.jade'),
 	'navigation.jade': require('./navigation.jade'),

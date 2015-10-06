@@ -56,7 +56,7 @@ var Navigation = exports.Navigation = require('./elements/navigation');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
-var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
+var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -113,7 +113,7 @@ UI.prototype.init = function UI_init() {
     qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
 
     // initialize the input field
-    this.grapeInput = new GrapeInputIntegration();
+    this.grapeInput = new GrapeInput();
     qs('.footer', this.el).appendChild(this.grapeInput.el);
 
     // initialize dialogs
