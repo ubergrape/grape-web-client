@@ -9,8 +9,8 @@ var chatLine = fixtures.chatLine;
 describe('Events Router', function () {
     it('should route user change events', function () {
         var ui = Emitter({
-            'setUser': function (u) {
-                expect(u).to.eql(user);
+            setUser: function (_user) {
+                expect(_user).to.eql(user);
             }
         });
         var app = Emitter({});
@@ -19,11 +19,11 @@ describe('Events Router', function () {
     });
     it('should route organisation/s change events', function () {
         var ui = Emitter({
-            'setOrganizations': function (os) {
-                expect(os).to.be.eql(org);
+            setOrganizations: function (_orgs) {
+                expect(_orgs).to.be.eql(org);
             },
-            'setOrganization': function (o) {
-                expect(o).to.be.eql(org)
+            setOrganization: function (_org) {
+                expect(_org).to.be.eql(org)
             }
         });
         var app = Emitter({});
@@ -33,8 +33,8 @@ describe('Events Router', function () {
     });
     it('should route room join events', function () {
         var app = Emitter({
-            'joinRoom': function (r) {
-                expect(r).to.eql(room);
+            joinRoom: function (_room) {
+                expect(_room).to.eql(room);
             }
         });
         var ui = Emitter({});
@@ -43,14 +43,14 @@ describe('Events Router', function () {
     });
     it('should route history requests', function () {
         var ui = Emitter({
-            'gotHistory': function (r, lines) {
-                expect(r).to.eql(room);
+            gotHistory: function (_room, lines) {
+                expect(_room).to.eql(room);
                 expect(lines[0]).to.eql(chatLine);
             }
         });
         var app = Emitter({
-            'getHistory': function (r) {
-                expect(r).to.eql(room);
+            getHistory: function (_room) {
+                expect(_room).to.eql(room);
                 this.emit('gotHistory', room, [chatLine]);
             }
         });
