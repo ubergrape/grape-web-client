@@ -15,7 +15,7 @@ function pipeEvents(ui) {
 	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
 	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
 	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.grapeInput, 'setRoom');
+	broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel');
 	broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
 	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
 	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
@@ -70,6 +70,7 @@ function pipeEvents(ui) {
     broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing');
     broker(ui.grapeInput, 'input', ui.historyView, 'onInput');
     broker(ui.grapeInput, 'showmarkdowntips', ui, 'showMarkdownTips');
+    broker(ui.grapeInput, 'resize', ui.historyView, 'onInputResize');
 
     // history view
     broker.pass(ui.historyView, 'hasread', ui, 'hasread');
