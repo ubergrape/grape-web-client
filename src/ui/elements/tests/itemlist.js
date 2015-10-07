@@ -1,10 +1,7 @@
 import expect from 'expect.js'
 import Emitter from 'emitter'
 import ItemList from '../itemlist'
-import fixtures from '../../../../tests/fixtures/'
-
-let room = fixtures.room
-let anotherRoom = fixtures.anotherRoom
+import {room, anotherRoom} from '../../../../tests/fixtures/'
 
 let roomList = new ItemList({
     'template': 'roomlist.jade'

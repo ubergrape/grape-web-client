@@ -2,14 +2,8 @@ import expect from 'expect.js'
 import Emitter from 'emitter'
 import Room from '../room'
 import User from '../user'
-import fixtures from '../../../../tests/fixtures/'
-
-let room = fixtures.room
-let user = fixtures.user
-let onlyInvitedUser = fixtures.onlyInvitedUser
-let chatLine = fixtures.chatLine
-let org = fixtures.org
-let staticPath = require('conf').staticPath
+import {room, user, onlyInvitedUser, chatLine, org} from '../../../../tests/fixtures/'
+import {staticPath} from 'conf'
 
 describe('Models', function() {
     describe('Room', function() {

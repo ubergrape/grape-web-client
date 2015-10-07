@@ -3,11 +3,9 @@ import qs from 'query'
 import MDTip from '../markdowntips'
 import RoomDelete from '../deleteroom'
 import RoomManager from '../roommanager'
-import fixtures from '../../../../../tests/fixtures/'
+import {room, user} from '../../../../../tests/fixtures/'
 import template from 'template'
 
-let room = fixtures.room
-let user = fixtures.user
 template.locals.user = user
 
 let mdTip = new MDTip()

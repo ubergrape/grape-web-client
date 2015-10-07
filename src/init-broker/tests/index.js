@@ -1,12 +1,7 @@
 import expect from 'expect.js'
 import Emitter from 'emitter'
 import doBroker from '../'
-import fixtures from '../../../tests/fixtures/'
-
-let room = fixtures.room
-let user = fixtures.user
-let org = fixtures.org
-let chatLine = fixtures.chatLine
+import {room, user, org, chatLine} from '../../../tests/fixtures/'
 
 describe('Events Router', function() {
     it('should route user change events', function() {
