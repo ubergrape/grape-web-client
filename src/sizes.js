@@ -2,6 +2,7 @@
 
 export default {
   borderRadius: {
-    small: '2px'
+    small: 2,
+    big: 4
   }
 }

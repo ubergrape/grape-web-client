@@ -10,5 +10,8 @@
   "chatContent": "#f8f8f8",
   "navigationBackground": "#f8f8f8",
   "organisationBackground": "#542f59",
-  "searchHighlightColor": "#ffeead"
+  "searchHighlightColor": "#ffeead",
+  "sidebarBackground": "#503c50",
+  "sidebarButtonBackground": "#6e4b6e",
+  "sidebarGroupTitle": "#aa96aa"
 }

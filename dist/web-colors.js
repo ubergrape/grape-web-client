@@ -22,6 +22,9 @@ exports['default'] = {
   chatContent: _baseColors2['default'].silverLight,
   navigationBackground: _baseColors2['default'].silverLight,
   organisationBackground: _baseColors2['default'].grapeDark,
-  searchHighlightColor: '#ffeead'
+  searchHighlightColor: '#ffeead',
+  sidebarBackground: '#503c50',
+  sidebarButtonBackground: '#6e4b6e',
+  sidebarGroupTitle: '#aa96aa'
 };
 module.exports = exports['default'];

@@ -5,7 +5,8 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports['default'] = {
   borderRadius: {
-    small: '2px'
+    small: 2,
+    big: 4
   }
 };
 module.exports = exports['default'];

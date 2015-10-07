@@ -12,5 +12,8 @@ export default {
   chatContent: colors.silverLight,
   navigationBackground: colors.silverLight,
   organisationBackground: colors.grapeDark,
-  searchHighlightColor: '#ffeead'
+  searchHighlightColor: '#ffeead',
+  sidebarBackground: '#503c50',
+  sidebarButtonBackground: '#6e4b6e',
+  sidebarGroupTitle: '#aa96aa'
 }
