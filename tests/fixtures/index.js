@@ -9,30 +9,29 @@ module.exports = {
         id: 1
     }),
     user: new User({
-        'id': 1,
-        'username': 'alice'
+        id: 1,
+        username: 'alice'
     }),
     onlyInvitedUser: new User({
-        'id': 2,
-        'username': 'bob',
-        'is_only_invited': true
+        id: 2,
+        username: 'bob',
+        is_only_invited: true
     }),
     room: new Room({
-        'id': 1,
-        'slug': 'foo',
-        'creator': 1
+        id: 1,
+        slug: 'foo',
+        creator: 1
     }),
     anotherRoom: new Room({
-        'id': 2,
-        'slug': 'boo',
-        'creator': 1
+        id: 2,
+        slug: 'boo',
+        creator: 1
     }),
     chatLine: new Chatline({
-        'author': {
+        author: {
             'type': 'user',
             'id': 1
         },
-        'channel': 1
+        channel: 1
     })
 }
-
