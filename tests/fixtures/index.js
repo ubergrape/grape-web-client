@@ -2,7 +2,6 @@ import Room from '../../src/api/models/room'
 import Org from '../../src/api/models/organization'
 import User from '../../src/api/models/user'
 import Chatline from '../../src/api/models/chatline'
-import '../../src/ui'
 
 export default {
     org: new Org({

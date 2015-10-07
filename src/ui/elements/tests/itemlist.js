@@ -2,6 +2,7 @@ import expect from 'expect.js'
 import Emitter from 'emitter'
 import ItemList from '../itemlist'
 import {room, anotherRoom} from '../../../../tests/fixtures/'
+import '../../../../src/templates'
 
 let roomList = new ItemList({
     'template': 'roomlist.jade'

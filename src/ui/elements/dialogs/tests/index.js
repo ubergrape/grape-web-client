@@ -5,6 +5,7 @@ import RoomDelete from '../deleteroom'
 import RoomManager from '../roommanager'
 import {room, user} from '../../../../../tests/fixtures/'
 import template from 'template'
+import '../../../../../src/templates'
 
 template.locals.user = user
 

@@ -9,5 +9,4 @@ window.CHATGRAPE_CONFIG = {
       }
     }
 };
-require('./src/templates')
 context.keys().forEach(context)
