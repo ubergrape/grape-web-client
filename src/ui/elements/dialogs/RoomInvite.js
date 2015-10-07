@@ -7,9 +7,7 @@ import keyname from 'keyname'
 import render from '../../rendervdom'
 import template from 'template'
 
-export default RoomInvite
-
-function RoomInvite(context) {
+export default function RoomInvite(context) {
     this.template_path = 'dialogs/room-invite.jade'
     this.formContent = {}
     this.query = null

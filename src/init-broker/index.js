@@ -1,8 +1,6 @@
 import broker from 'broker'
 
-export default doBroker
-
-function doBroker(ui, api) {
+export default function doBroker(ui, api) {
     broker(api, 'change organization', ui, 'setOrganization')
     broker(api, 'change organizations', ui, 'setOrganizations')
     broker(api, 'changeUser', ui, 'setUser')

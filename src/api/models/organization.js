@@ -3,7 +3,7 @@ import cache from 'model-cache'
 import array from 'model-array'
 import staticurl from 'staticurl'
 
-module.exports = new Model([
+export default new Model([
 		'logo',
 		'role',
 		'custom_emojis',
