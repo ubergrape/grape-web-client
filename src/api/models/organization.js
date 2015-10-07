@@ -1,10 +1,7 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
-
-var Model = require('model');
-var cache = require('model-cache');
-var array = require('model-array');
-var staticurl = require('staticurl');
+import Model from 'model'
+import cache from 'model-cache'
+import array from 'model-array'
+import staticurl from 'staticurl'
 
 module.exports = new Model([
 		'logo',
@@ -18,13 +15,13 @@ module.exports = new Model([
 	.array('rooms')
 	.array('pms')
 	.array('users')
-	.use(defaultLogo('images/cg-company.png'));
+	.use(defaultLogo('images/cg-company.png'))
 
 function defaultLogo(url) {
-	return function (Model) {
-		Model.on('construct', function (instance, initial) {
-			initial.logo = initial.logo || staticurl(url);
-		});
-	};
+	return function(Model) {
+		Model.on('construct', function(instance, initial) {
+			initial.logo = initial.logo || staticurl(url)
+		})
+	}
 }
 
