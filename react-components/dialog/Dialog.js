@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Modal from 'react-overlays/lib/Modal'
+import noop from 'lodash/utility/noop'
 
 import style from './style'
 import {useSheet} from '../jss'
@@ -9,6 +10,11 @@ import {useSheet} from '../jss'
  */
 @useSheet(style)
 export default class Dialog extends Component {
+  static defaultProps = {
+    onHide: noop,
+    title: undefined,
+    show: undefined
+  }
   render() {
     let {classes} = this.props.sheet
     return (
@@ -20,7 +26,7 @@ export default class Dialog extends Component {
         <div className={classes.content}>
           <header className={classes.header}>
             <h2 className={classes.title}>{this.props.title}</h2>
-            <button className={classes.close}></button>
+            <button className={classes.close} onClose={this.props.onHide}></button>
           </header>
           <div className={classes.body}>
             {this.props.children}

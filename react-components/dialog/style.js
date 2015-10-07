@@ -38,13 +38,14 @@ export default {
     height: 50
   },
   close: {
+    ...fonts.bigger,
+    fontWeight: 'bold',
     color: colors.white,
     padding: '0 20px',
-    fontSize: fonts.big.fontSize,
     opacity: 0.8,
     border: 'none',
     '&:before': {
-      content: '"x"'
+      content: '"×"'
     },
     '&:hover': {
       opacity: 1
