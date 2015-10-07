@@ -35,3 +35,4 @@ module.exports = {
         'channel': 1
     })
 }
+
