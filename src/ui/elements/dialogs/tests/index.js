@@ -1,12 +1,13 @@
-let expect = require('expect.js')
-let qs = require('query')
-let MDTip = require('../markdowntips')
-let RoomDelete = require('../deleteroom')
-let RoomManager = require('../roommanager')
-let fixtures = require('../../../../../tests/fixtures/')
+import expect from 'expect.js'
+import qs from 'query'
+import MDTip from '../markdowntips'
+import RoomDelete from '../deleteroom'
+import RoomManager from '../roommanager'
+import fixtures from '../../../../../tests/fixtures/'
+import template from 'template'
+
 let room = fixtures.room
 let user = fixtures.user
-let template = require('template')
 template.locals.user = user
 
 let mdTip = new MDTip()

@@ -1,7 +1,8 @@
-let expect = require('expect.js')
-let Emitter = require('emitter')
-let doBroker = require('../')
-let fixtures = require('../../../tests/fixtures/')
+import expect from 'expect.js'
+import Emitter from 'emitter'
+import doBroker from '../'
+import fixtures from '../../../tests/fixtures/'
+
 let room = fixtures.room
 let user = fixtures.user
 let org = fixtures.org

@@ -1,8 +1,9 @@
-let expect = require('expect.js')
-let Emitter = require('emitter')
-let Room = require('../room')
-let User = require('../user')
-let fixtures = require('../../../../tests/fixtures/')
+import expect from 'expect.js'
+import Emitter from 'emitter'
+import Room from '../room'
+import User from '../user'
+import fixtures from '../../../../tests/fixtures/'
+
 let room = fixtures.room
 let user = fixtures.user
 let onlyInvitedUser = fixtures.onlyInvitedUser

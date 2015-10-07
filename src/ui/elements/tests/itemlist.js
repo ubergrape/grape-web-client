@@ -1,7 +1,8 @@
-let expect = require('expect.js')
-let Emitter = require('emitter')
-let ItemList = require('../itemlist')
-let fixtures = require('../../../../tests/fixtures/')
+import expect from 'expect.js'
+import Emitter from 'emitter'
+import ItemList from '../itemlist'
+import fixtures from '../../../../tests/fixtures/'
+
 let room = fixtures.room
 let anotherRoom = fixtures.anotherRoom
 

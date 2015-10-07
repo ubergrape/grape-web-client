@@ -1,10 +1,10 @@
-let Room = require('../../src/api/models/room')
-let Org = require('../../src/api/models/organization')
-let User = require('../../src/api/models/user')
-let Chatline = require('../../src/api/models/chatline')
-require('../../src/ui')
+import Room from '../../src/api/models/room'
+import Org from '../../src/api/models/organization'
+import User from '../../src/api/models/user'
+import Chatline from '../../src/api/models/chatline'
+import '../../src/ui'
 
-module.exports = {
+export default {
     org: new Org({
         id: 1
     }),
