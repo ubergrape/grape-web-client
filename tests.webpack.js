@@ -1,6 +1,6 @@
-var context = require.context('./src', true, /tests/);
+let context = require.context('./src', true, /tests/)
 window.CHATGRAPE_CONFIG = {
-    'staticPath': 'http://example/',
+    staticPath: 'http://example/',
     constants: {
       roles: {
         ROLE_USER: 0,
@@ -9,5 +9,5 @@ window.CHATGRAPE_CONFIG = {
       }
     }
 };
-require('./src/templates');
-context.keys().forEach(context);
+require('./src/templates')
+context.keys().forEach(context)

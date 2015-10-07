@@ -1,7 +1,7 @@
 let expect = require('expect.js')
 let Emitter = require('emitter')
 let ItemList = require('../itemlist')
-let fixtures = require('../../../../fixtures')
+let fixtures = require('../../../../tests/fixtures/')
 let room = fixtures.room
 let anotherRoom = fixtures.anotherRoom
 

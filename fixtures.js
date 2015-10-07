@@ -1,8 +1,8 @@
-let Room = require('./src/api/models/room')
-let Org = require('./src/api/models/organization')
-let User = require('./src/api/models/user')
-let Chatline = require('./src/api/models/chatline')
-require('./src/ui')
+let Room = require('../../../src/api/models/room')
+let Org = require('../../src/api/models/organization')
+let User = require('../../src/api/models/user')
+let Chatline = require('../../src/api/models/chatline')
+require('../../src/ui')
 
 module.exports = {
     org: new Org({
