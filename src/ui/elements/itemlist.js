@@ -23,11 +23,11 @@ function ItemList(options) {
 ItemList.prototype = Object.create(Emitter.prototype);
 
 ItemList.prototype.redraw = function () {
-    var vdom = template(this.template, this.extendTemplateOptions());
+    var vdom = template(this.template, this.getTemplateOptions());
     render(this, vdom);
 };
 
-ItemList.prototype.extendTemplateOptions = function () {
+ItemList.prototype.getTemplateOptions = function () {
     var options = {
         items: this.items,
         selected: this.selected,
