@@ -45,8 +45,7 @@ function children(Model) {
 function castCreator(creator_id) {
 	if (creator_id !== null) {
 		var user = User.get(creator_id);
-		if (user)
-			return user;
+		if (user) return user;
 	}
 
 	return null;

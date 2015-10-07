@@ -1,4 +1,15 @@
 var template = require('template')
+var v = require('virtualdom')
+var domify = require('domify')
+
+template.locals.strftime = require('strftime')
+template.locals._ = require('t')
+template.locals.escape_html = require('escape-html')
+template.locals.markdown = require('../ui/markdown')
+template.locals.constants = require('conf').constants
+template.locals.html = function (html) {
+    return v.fromDOM(domify(html))
+}
 
 template.templates = {
     'chatheader.jade': require('./chatheader.jade'),
@@ -32,3 +43,4 @@ template.templates = {
     'typingnotifications.jade': require('./typingnotifications.jade'),
     'user-profile.jade': require('./user-profile.jade')
 }
+
