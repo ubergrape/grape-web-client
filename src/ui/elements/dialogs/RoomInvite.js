@@ -91,12 +91,8 @@ RoomInvite.prototype.navigate = function(e) {
         case 'up':
             if (!userList.selected) return
             let isSelectedFirst = selectedIndex === 0
-            if (isSelectedFirst) {
-                userList.selectItem(items[items.length - 1])
-            }
-            else {
-                userList.selectItem(items[selectedIndex - 1])
-            }
+            if (isSelectedFirst) userList.selectItem(items[items.length - 1])
+            else userList.selectItem(items[selectedIndex - 1])
             break
 
         case 'down':
@@ -105,12 +101,8 @@ RoomInvite.prototype.navigate = function(e) {
             }
             else {
                 let isSelectedLast = selectedIndex === items.length - 1
-                if (isSelectedLast) {
-                    userList.selectItem(items[0])
-                }
-                else {
-                    userList.selectItem(items[selectedIndex + 1])
-                }
+                if (isSelectedLast) userList.selectItem(items[0])
+                else userList.selectItem(items[selectedIndex + 1])
             }
             break
 

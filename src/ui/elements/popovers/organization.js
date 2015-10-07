@@ -41,12 +41,9 @@ OrganizationPopover.prototype.redraw = function() {
     this.classes.add('orga-po');
     this.classes.add('top');
 
-    var isInviter = this.user.role >= this.org.inviter_role;
-    var isOrgManager = this.user.role >= roles.ROLE_ADMIN;
-
     var vdom = template('popovers/organization.jade', {
-        isInviter: isInviter,
-        isOrgManager: isOrgManager
+        isInviter: this.user.role >= this.org.inviter_role,
+        isOrgManager: this.user.role >= roles.ROLE_ADMIN
     });
 
     render(this.content, vdom);
