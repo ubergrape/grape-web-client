@@ -4,7 +4,7 @@
             a(href='#')
                 i.fa.fa-eye
                 =_('Compact View')
-        if (role != "0")
+        if (isOrgManager)
             li
                 a(href='/accounts/organization/settings/', target='_self')
                     i.fa.fa-cog
@@ -37,10 +37,11 @@
             a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
                 i.fa.fa-life-saver
                 =_('Tutorial')
-        li
-            a.invite-new-members
-                i.fa.fa-user-plus
-                =_('Invite new members')
+        if (isInviter)
+            li
+                a.invite-new-members
+                    i.fa.fa-user-plus
+                    =_('Invite new members')
         li
             a(href='/accounts/organization/dashboard/', target='_self')
                 i.fa.fa-random

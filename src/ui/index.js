@@ -269,6 +269,7 @@ UI.prototype.setUser = function UI_setUser(user) {
     if (this.user === undefined || user.id === this.user.id) {
         this.user = user;
         template.locals.user = user;
+        this.emit('setVisitor', user);
         this.grapeInput.redraw();
     }
 };

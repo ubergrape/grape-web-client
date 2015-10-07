@@ -579,6 +579,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		if (res.logo !== null) org.logo = res.logo;
 		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
 		if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
+		org.inviter_role = res.inviter_role;
 
 		// connect users and pms
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });

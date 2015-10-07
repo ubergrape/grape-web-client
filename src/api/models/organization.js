@@ -10,7 +10,8 @@ module.exports = new Model([
 		'logo',
 		'role',
 		'custom_emojis',
-		'has_integrations'
+		'has_integrations',
+		'inviter_role'
 	])
 	.use(cache('id'))
 	.use(array)
