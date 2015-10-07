@@ -7,7 +7,7 @@
     "node": "2.4.0"
   },
   "dependencies": {
-    "color": "^0.7.3",
+    "color": "^0.10.1",
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
