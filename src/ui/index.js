@@ -46,7 +46,7 @@ var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialog
 var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
-var OrgInvite = exports.OrgInvite = require('./elements/dialogs/orginvite');
+var OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite');
 
 function UI(options) {
     Emitter.call(this);
