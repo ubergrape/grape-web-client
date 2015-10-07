@@ -1,8 +1,8 @@
-var UI = require('./src/ui');
-var Room = require('./src/api/models/room');
-var Org = require('./src/api/models/organization');
-var User = require('./src/api/models/user');
-var Chatline = require('./src/api/models/chatline');
+let Room = require('./src/api/models/room')
+let Org = require('./src/api/models/organization')
+let User = require('./src/api/models/user')
+let Chatline = require('./src/api/models/chatline')
+require('./src/ui')
 
 module.exports = {
     org: new Org({
@@ -17,10 +17,10 @@ module.exports = {
         'username': 'bob',
         'is_only_invited': true
     }),
-    room : new Room({
+    room: new Room({
         'id': 1,
         'slug': 'foo',
-        'creator': 1        
+        'creator': 1
     }),
     anotherRoom: new Room({
         'id': 2,
