@@ -774,7 +774,6 @@ API.prototype.onInviteToOrg = function(emails) {
         action: 'invite',
         args: [this.organization.id, {emails: emails}]
     }, function(err, res) {
-        console.log(err, res);
         if (err) return this.emit('inviteError');
         this.emit('inviteSuccess');
     }.bind(this));
