@@ -295,8 +295,6 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
 	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
-	console.log(room)
-	console.log(this.room)
 	if (this.room === room) page.replace('/chat/');
 }
 
