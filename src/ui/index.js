@@ -2,12 +2,9 @@
 "use strict";
 
 var template = require('template');
-var v = require('virtualdom');
 var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
-var domify = require('domify');
-var escape_html = require('escape-html');
 var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('staticurl');
@@ -22,41 +19,21 @@ var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
 var Router = require('router');
-var constants = require('conf').constants;
+var template = require('template');
+var _ = require('t');
+var v = require('virtualdom');
 
 var exports = module.exports = UI;
 
 require("startswith");
 require("endswith");
 
-// configure locales and template locals
-var template = require('template');
-template.locals.strftime = require('strftime');
-var _ = require('t');
-// ['de', 'en'].forEach(function (lang) {
-//  _.merge(lang, require('../locale/' + lang));
-// });
-_.lang('en');
-// _ is set here so that the tests which don't load the UI work as well
-template.locals._ = _;
-template.locals.escape_html = escape_html;
-template.locals.markdown = require('./markdown');
-template.locals.constants = constants;
-// XXX: I really don’t want to hack in innerHTML support right now, so just
-// make a little workaround here
-template.locals.html = function (html) {
-    return v.fromDOM(domify(html));
-};
-
-// FIXME: change language, for now
-// this should be done via a switch in the UI
-
 exports.ItemList = require('./elements/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
-var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
+var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -113,7 +90,7 @@ UI.prototype.init = function UI_init() {
     qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
 
     // initialize the input field
-    this.grapeInput = new GrapeInputIntegration();
+    this.grapeInput = new GrapeInput();
     qs('.footer', this.el).appendChild(this.grapeInput.el);
 
     // initialize dialogs
