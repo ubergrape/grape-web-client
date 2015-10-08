@@ -131,6 +131,13 @@ export function isElement(node) {
 }
 
 /**
+ * Check if an element is focused.
+ */
+export function isFocused(node) {
+  return node === document.activeElement
+}
+
+/**
  * Remove node.
  */
 export function remove(node) {

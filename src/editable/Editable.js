@@ -84,10 +84,10 @@ export default class Editable extends Component {
   render() {
     let {classes} = this.props.sheet
     let {placeholder, disabled} = this.props
-    let className = classes.editable
+    let editableClasses = [classes.editable]
 
     if (utils.isEmpty(this.node) && !this.state.focused) {
-      className += ' ' + classes.placeholder
+      editableClasses.push(classes.placeholder)
     }
 
     return (
@@ -98,7 +98,7 @@ export default class Editable extends Component {
         onKeyPress={::this.onKeyPress}
         onKeyDown={::this.onKeyDown}
         onMouseDown={::this.onMouseDown}
-        className={className}
+        className={editableClasses.join(' ')}
         // CSS will take it from here.
         data-placeholder={placeholder}
         contentEditable={!disabled}
@@ -358,7 +358,7 @@ export default class Editable extends Component {
     // Only handle key down when editable is still focused.
     // As this function is called with a  delay, focus might have changed
     // already for a good reason.
-    if (this.state.focused) this.handleKeyDown(...args)
+    if (utils.isFocused(this.node)) this.handleKeyDown(...args)
   }
 
   onInput() {
@@ -372,7 +372,7 @@ export default class Editable extends Component {
   }
 
   onMouseDown(e) {
-    if (!this.state.focused) this.props.onFocus()
+    if (!utils.isFocused(this.node)) this.props.onFocus()
     if (utils.isGrapeObject(e.target)) {
       e.preventDefault()
       this.caret.move('after', e.target)

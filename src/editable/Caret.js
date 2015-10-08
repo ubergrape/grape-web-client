@@ -32,7 +32,7 @@ export default class Caret {
    */
   focus() {
     let {el} = this.scribe
-    if (el !== document.activeElement) {
+    if (!utils.isFocused(el)) {
       el.focus()
       return true
     }
