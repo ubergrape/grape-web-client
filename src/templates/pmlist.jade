@@ -27,6 +27,6 @@ ul.nav-list.pms
 							if !user.active
 								span.user-deleted
 									=_('Deleted user')
-							if user.title && user.title == "Mentor"
+							if user.title && user.title.indexOf("Mentor") === 0
 								span.author-title-icon
 									i.fa.fa-graduation-cap

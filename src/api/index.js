@@ -84,6 +84,7 @@ API.prototype.subscribe = function API_subscribe() {
         var room = models.Room.get(data.channel.id);
         room.name = data.channel.name;
         room.slug = data.channel.slug;
+        room.description = data.channel.description;
         self.emit('channelupdate', room);
     });
     this.in.on('channel.removed', function(data) {
@@ -270,7 +271,11 @@ API.prototype.subscribe = function API_subscribe() {
         user.firstName = data.user.firstName;
         user.lastName = data.user.lastName;
         user.displayName = data.user.displayName;
+        user.email = data.user.email;
         user.is_only_invited = data.user.is_only_invited;
+        user.what_i_do = data.user.what_i_do;
+        user.skype_username = data.user.skype_username;
+        user.phone_number = data.user.phone_number;
         if (data.user.avatar !== null) user.avatar = data.user.avatar;
         self.emit('changeUser', user);
     });
@@ -379,7 +384,8 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
         if (res.logo !== null) org.logo = res.logo;
         if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
         if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
-
+       
+        org.inviter_role = res.inviter_role;
         // connect users and pms
         org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
 
@@ -581,12 +587,15 @@ API.prototype.search = function API_search(text) {
     }.bind(this));
 };
 
-API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
     rpc({
         ns: 'channels',
         action: 'invite',
         args: [room.id, users]
-    }, callback);
+    }, function(err, res) {
+        if (err) return;
+        this.emit('roomInviteSuccess');
+    }.bind(this));
 };
 
 /**
@@ -746,5 +755,27 @@ API.prototype.onKickMember = function API_onKickMember (roomId, memberId) {
         args: [roomId, Number(memberId)]
     }, function(err) {
         if (err) return this.emit('error', err);
+    }.bind(this));
+};
+
+API.prototype.onSetDescription = function(room, description) {
+    rpc({
+        ns: 'rooms',
+        action: 'setDescription',
+        args: [room.id, description]
+    }, function(err) {
+        if (err) return this.emit('error', err);
+    }.bind(this));
+};
+
+API.prototype.onInviteToOrg = function(emails) {
+    rpc({
+        ns: 'organizations',
+        action: 'invite',
+        args: [this.organization.id, {emails: emails}]
+    }, function(err, res) {
+        console.log(err, res);
+        if (err) return this.emit('inviteError');
+        this.emit('inviteSuccess');
     }.bind(this));
 };
