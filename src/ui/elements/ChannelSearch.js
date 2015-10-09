@@ -2,7 +2,7 @@ import Emitter from 'emitter'
 import page from 'page'
 import pick from 'lodash/object/pick'
 
-import channelSearch from '../../../react-components/channel-search'
+import '../../../react-components/channel-search'
 
 export default class ChannelSearch extends Emitter {
 	constructor() {

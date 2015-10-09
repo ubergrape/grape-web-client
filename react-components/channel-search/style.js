@@ -10,7 +10,7 @@ export default {
     padding: 15,
     height: 300,
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   input: {
     width: '100%'
