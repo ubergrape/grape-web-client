@@ -30,6 +30,7 @@ export default class Editable extends Component {
     onSubmit: noop,
     onChange: noop,
     onBlur: noop,
+    onFocus: noop,
     onDidMount: noop,
     onResize: noop
   }
