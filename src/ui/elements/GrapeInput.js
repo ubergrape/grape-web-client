@@ -31,6 +31,7 @@ function GrapeInput() {
 	// Key is room id, value is unsent text message.
 	this.unsent = {}
 	this.images = clone(IMAGES)
+	this.in = new Emitter()
 }
 
 GrapeInput.prototype = Object.create(Emitter.prototype)
@@ -45,12 +46,14 @@ GrapeInput.prototype.init = function () {
 	this.setProps({focused: true})
 }
 
-GrapeInput.prototype.setProps = function (newProps) {
+GrapeInput.prototype.setProps = function (newProps, callback) {
+	if (callback) this.in.once('inputRendered', callback)
 	this.input.props = defaults(newProps, {
 		images: this.images,
 		customEmojis: this.org.custom_emojis,
 		placeholder: this.placeholder,
-		hasIntegrations: this.org.has_integrations
+		hasIntegrations: this.org.has_integrations,
+		onRender: ::this.onInputRender
 	})
 }
 
@@ -337,11 +340,11 @@ GrapeInput.prototype.onSubmit = function (e) {
 }
 
 GrapeInput.prototype.onFocus = function () {
-	this.el.classList.add('focus')
+    this.setProps({focused: true})
 }
 
 GrapeInput.prototype.onBlur = function () {
-	this.el.classList.remove('focus')
+    this.setProps({focused: false})
 }
 
 GrapeInput.prototype.onResize = function () {
@@ -374,16 +377,17 @@ GrapeInput.prototype.onInsertItem = function (e) {
 GrapeInput.prototype.onSelectChannel = function (room) {
 	if (this.room) this.unsent[this.room.id] = this.input.getTextContent()
 	this.completePreviousEdit()
-	if (!room || (room.type == "pm" && !room.users[0].active)) {
-		this.disable()
-	}
-	else {
-		this.enable()
-	}
+	if (!room || (room.type === 'pm' && !room.users[0].active)) this.disable()
+	else this.enable()
 	this.room = room
-	this.input.setTextContent(this.unsent[room.id] || '')
+	this.setProps({focused: true}, () => {
+		this.input.setTextContent(this.unsent[room.id] || '')
+	})
 }
 
+GrapeInput.prototype.onInputRender = function () {
+	this.in.emit('inputRendered')
+}
 
 function isImage(mime) {
 	return String(mime).substr(0, 5) == 'image'
