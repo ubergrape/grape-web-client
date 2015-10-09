@@ -36,18 +36,12 @@ function ChatHeader() {
 	this.membersToggler = {
 		className: 'members-menu-toggler',
 		icon: 'fa-user',
-		visible: false
-	};
-	this.profileToggler = {
-		className: 'profile-toggler',
-		icon: 'fa-user',
-		visible: false
+		visible: true
 	};
 	this.menuItems =[
 		this.intercom,
 		this.fileBrowserToggler,
-		this.membersToggler,
-		this.profileToggler
+		this.membersToggler
 	];
 	this.selected = null;
 	this.redraw = this.redraw.bind(this);
@@ -115,7 +109,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		toggleMembersMenu: function(e) {
 			self.selected = self.membersToggler == self.selected ? null : self.membersToggler;
-			self.emit('toggleRightSidebar', 'members');
+			var mode = self.room.type == 'room' ? 'members' : 'profile';
+			self.emit('toggleRightSidebar', mode);
 			self.redraw();
 		},
 		toggleFileBrowser: function(e) {
@@ -209,8 +204,6 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
 	this.editState.renaming = false;
 	this.mode = msgID ? 'search' : 'chat';
-	this.membersToggler.visible = room.type == 'room';
-	this.profileToggler.visible = room.type == 'pm';
 	this.redraw();
 };
 

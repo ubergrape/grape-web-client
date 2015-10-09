@@ -70,15 +70,16 @@ RightSidebar.prototype.redraw = function() {
         mode: this.mode,
         memberCount: memberCount
     }));
-    membersList.order('displayName');
-    membersList.redraw();
-    searchList.redraw();
 
+    console.log(this.mode);
     switch (this.mode) {
         case 'members':
+            membersList.order('displayName');
+            membersList.redraw();
             replace(qs('.user-list', this.content.el), membersList.el);
             break;
         case 'search':
+            searchList.redraw();
             replace(qs('.search-list', this.content.el), searchList.el);
             break;
         default:
@@ -96,7 +97,7 @@ RightSidebar.prototype.setRoom = function(room) {
     } else {
         this.membersList.items = this.room.users.slice();
         this.membersList.templateOptions.canKickMembers = this.canKickMembers;
-        this.membersList.redraw();
+        this.redraw();
     }
 };
 
@@ -122,10 +123,9 @@ RightSidebar.prototype.gotSearchResults = function(results) {
     this.searchList.redraw();
 };
 
-RightSidebar.prototype.show = function(mode) {
+RightSidebar.prototype.show = function() {
     var clientBody = qs('.client-body');
     classes(clientBody).add('right-sidebar-show')
-    this.mode = mode;
     this.redraw();
 };
 
@@ -137,6 +137,10 @@ RightSidebar.prototype.hide = function() {
 };
 
 RightSidebar.prototype.toggle = function(mode) {
-    if (mode == this.mode) this.hide();
-    else this.show(mode);
+    if (mode == this.mode) {
+        this.hide();
+    } else {
+        this.mode = mode;
+        this.show();
+    }
 }
