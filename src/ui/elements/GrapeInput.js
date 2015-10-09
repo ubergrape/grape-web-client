@@ -364,7 +364,7 @@ GrapeInput.prototype.onOrgReady = function (org) {
 }
 
 GrapeInput.prototype.onAddIntegration = function () {
-	location.href = '/services/list'
+	location.href = '/integrations/'
 }
 
 GrapeInput.prototype.onInsertItem = function (e) {
