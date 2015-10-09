@@ -12,6 +12,7 @@ var render = require('../rendervdom');
 var debounce = require('debounce');
 var resizable = require('resizable');
 var store = require('../store').prefix('navigation');
+var page = require('page');
 
 module.exports = Navigation;
 
@@ -24,7 +25,7 @@ function Navigation() {
 
 Navigation.prototype = Object.create(Emitter.prototype);
 
-Navigation.prototype.init = function Navigation_init() {
+Navigation.prototype.init = function() {
 	var self = this;
 	this.nav = {};
 	this.redraw();
@@ -47,10 +48,10 @@ function replace(from, to) {
 	from.parentNode.replaceChild(to, from);
 }
 
-Navigation.prototype.bind = function Navigation_bind() {
+Navigation.prototype.bind = function() {
 	var self = this;
 	this.events = events(this.el, {
-		triggerRoomCreation: function (ev) {
+		triggerRoomCreation: function(ev) {
 			self.emit('triggerRoomCreation', closest(ev.target, 'div', true));
 		},
 		triggerRoomManager: function(ev) {
@@ -65,14 +66,14 @@ Navigation.prototype.bind = function Navigation_bind() {
 	this.events.bind('click .addpm', 'triggerPMManager');
 };
 
-Navigation.prototype.setLists = function Navigation_setLists(lists) {
+Navigation.prototype.setLists = function(lists) {
 	lists.pms.sort(this.pmCompare);
 	this.pmList.setItems(lists.pms);
 	lists.rooms.sort(this.roomCompare);
 	this.roomList.setItems(lists.rooms);
 };
 
-Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
+Navigation.prototype.pmCompare = function(a, b) {
 
 	function getStatusValue(user) {
 		if (!user.active) return 0;
@@ -90,11 +91,12 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 		return getStatusValue(b) - getStatusValue(a);
 }
 
-Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
+Navigation.prototype.roomCompare = function(a, b) {
 	return b.latest_message_time - a.latest_message_time;
 }
 
-Navigation.prototype.select = function Navigation_select(item) {
+Navigation.prototype.select = function(item) {
+	this.room = item;
 	this.roomList.selectItem(null);
 	this.pmList.selectItem(null);
 	if (item.type === 'pm') {
@@ -105,13 +107,13 @@ Navigation.prototype.select = function Navigation_select(item) {
 	this[item.type + 'List'].selectItem(item);
 };
 
-Navigation.prototype.redraw = function Navigation_redraw() {
+Navigation.prototype.redraw = function() {
 	render(this.nav, template('navigation.jade'));
 	if (this.pmList) this.pmList.redraw();
 	if (this.roomList) this.roomList.redraw();
 };
 
-Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
+Navigation.prototype.onNewMessage = function(line) {
 	var list = line.channel.type === 'pm' ? this.pmList : this.roomList;
 	var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel;
 	var itemIndex = list.items.indexOf(item);
@@ -122,46 +124,47 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 	list.redraw();
 }
 
-Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
+Navigation.prototype.deleteRoom = function(room) {
 	var newRoomIndex = this.roomList.items.indexOf(room);
 	if (newRoomIndex == -1) return;
 	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
+	if (this.room === room) page.replace('/chat/');
 }
 
-Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
+Navigation.prototype.onChannelRead = function() {
 	this.redraw();
 }
 
-Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
+Navigation.prototype.onChannelUpdate = function() {
 	this.roomList.redraw();
 }
 
-Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
+Navigation.prototype.onChangeUser = function(user) {
 	if (user == ui.user) return;
 	var pmList = this.pmList;
 	if (pmList.items.indexOf(user) == -1) pmList.items.push(user);
 	pmList.redraw();
 }
 
-Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel (room) {
+Navigation.prototype.onJoinedChannel = function(room) {
 	var joinedRoomIndex = this.roomList.items.indexOf(room);
 	if (joinedRoomIndex > -1) return;
 	this.roomList.items.push(room);
 	this.roomList.redraw();
 }
 
-Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel (room) {
+Navigation.prototype.onLeftChannel = function(room) {
 	var newRoomIndex = this.roomList.items.indexOf(room);
 	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
 }
 
-Navigation.prototype.onUserMention = function Navigation_onUserMention () {
+Navigation.prototype.onUserMention = function() {
 	this.roomList.redraw();
 }
 
-Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
+Navigation.prototype.onOrgReady = function(org) {
 	var rooms = org.rooms.slice();
 	var pms = org.users.filter(function(user) {
 		return user != ui.user && user.active && !user.is_only_invited;
@@ -196,4 +199,3 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
 	navResizable.element.addEventListener('resize', resizeClient);
 	window.addEventListener('resize', resizeClient);
 }
-

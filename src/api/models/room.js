@@ -11,6 +11,7 @@ var User = require('./user');
 module.exports = new Model([
 		'name',
 		'slug',
+		'description',
 		'creator',
 		'joined',
 		'unread',
@@ -44,8 +45,7 @@ function children(Model) {
 function castCreator(creator_id) {
 	if (creator_id !== null) {
 		var user = User.get(creator_id);
-		if (user)
-			return user;
+		if (user) return user;
 	}
 
 	return null;

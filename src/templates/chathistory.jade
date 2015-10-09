@@ -146,15 +146,15 @@
 							if  status === 'sent'
 								a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
 									.time
-										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
 											first.user_time
-										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(line.user_time)._tzm)
 											i.fa.fa-globe
 											.different-timezone
 												span.dif-tz
 													=_(' Local time: ')
 												//- the substr part is a hack to remove the tz information
-												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												- var user_time = line.user_time.substr(0, line.user_time.length - 6)
 												time.user-tz= tz(user_time).format('hh:mm A')
 							if i === 0
 								.messageinfo
@@ -176,7 +176,7 @@
 									else
 										author.message-author= first.author.username
 									if first.author.title
-										if first.author.title === "Mentor"
+										if first.author.title.indexOf("Mentor") === 0
 											span.author-title.author-title-mentor
 												span.author-title-icon
 													i.fa.fa-graduation-cap

@@ -2,12 +2,9 @@
 "use strict";
 
 var template = require('template');
-var v = require('virtualdom');
 var Emitter = require('emitter');
 var broker = require('broker');
 var qs = require('query');
-var domify = require('domify');
-var escape_html = require('escape-html');
 var notification = require('notification');
 var classes = require('classes');
 var staticurl = require('staticurl');
@@ -22,41 +19,22 @@ var focus = require('./focus');
 var pipeEvents = require('./pipeEvents');
 var page = require('page');
 var Router = require('router');
-var constants = require('conf').constants;
+var template = require('template');
+var _ = require('t');
+var v = require('virtualdom');
+var conf = require('conf');
 
 var exports = module.exports = UI;
 
 require("startswith");
 require("endswith");
 
-// configure locales and template locals
-var template = require('template');
-template.locals.strftime = require('strftime');
-var _ = require('t');
-// ['de', 'en'].forEach(function (lang) {
-// 	_.merge(lang, require('../locale/' + lang));
-// });
-_.lang('en');
-// _ is set here so that the tests which don't load the UI work as well
-template.locals._ = _;
-template.locals.escape_html = escape_html;
-template.locals.markdown = require('./markdown');
-template.locals.constants = constants;
-// XXX: I really don’t want to hack in innerHTML support right now, so just
-// make a little workaround here
-template.locals.html = function (html) {
-	return v.fromDOM(domify(html));
-};
-
-// FIXME: change language, for now
-// this should be done via a switch in the UI
-
 exports.ItemList = require('./utils/itemlist');
 var Navigation = exports.Navigation = require('./elements/navigation');
 var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
-var GrapeInputIntegration = exports.GrapeInputIntegration = require('./elements/grapeinputintegration');
+var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -65,15 +43,16 @@ var Notifications = exports.Notifications = require('./elements/notifications');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
+var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
+var OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite');
 
 function UI(options) {
-	Emitter.call(this);
-	this.options = options || {};
-	this.init();
-	this.bind();
+    Emitter.call(this);
+    this.options = options || {};
+    this.init();
+    this.bind();
 }
 
 UI.prototype = Object.create(Emitter.prototype);
@@ -110,7 +89,7 @@ UI.prototype.init = function UI_init() {
 	this.rightSidebar = new RightSidebar();
 
 	// initialize the input field
-	this.grapeInput = new GrapeInputIntegration();
+	this.grapeInput = new new GrapeInput();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
 	// initialize dialogs
@@ -161,7 +140,7 @@ UI.prototype.init = function UI_init() {
 	}
 
 	// show user title if it is enabled
-	if (window.CHATGRAPE_CONFIG.userTitleEnabled) {
+	if (conf.userTitleEnabled) {
 		classes(qs('body')).add('user-title-enabled');
 	}
 
@@ -268,193 +247,196 @@ UI.prototype.bind = function UI_bind() {
 };
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-	this.org = org;
-	template.locals.org = this.org;
-	this.emit('orgReady', this.org);
-	Router(this);
-	this.setNotificationsSession();
-	if (this.notificationSessionSet == true) return;
-	focus.on('focus', this.setNotificationsSession.bind(this));
-	this.notificationSessionSet = true;
+    this.org = org;
+    template.locals.org = this.org;
+    this.emit('orgReady', this.org);
+    Router(this);
+    this.setNotificationsSession();
+    if (this.notificationSessionSet == true) return;
+    focus.on('focus', this.setNotificationsSession.bind(this));
+    this.notificationSessionSet = true;
 };
 
 UI.prototype.setUser = function UI_setUser(user) {
-	// the first time setUser will be called it hopefully contains the current
-	// user and not another one
-	if (this.user === undefined || user.id === this.user.id) {
-		this.user = user;
-		template.locals.user = user;
-		this.grapeInput.redraw();
-	}
+    // the first time setUser will be called it hopefully contains the current
+    // user and not another one
+    if (this.user === undefined || user.id === this.user.id) {
+        this.user = user;
+        template.locals.user = user;
+        this.emit('setVisitor', user);
+        this.grapeInput.redraw();
+    }
 };
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
-	this.settings = settings;
-	if (this.settings.show_intro) {
-		window.analytics.track("Started Tutorial", {via: "onboarding"});
-		this.intro.start();
-	}
+    this.settings = settings;
+    if (this.settings.show_intro) {
+        window.analytics.track("Started Tutorial", {via: "onboarding"});
+        this.intro.start();
+    }
 
-	if (this.settings.compact_mode) {
-		classes(document.body).add('client-style-compact');
-		classes(document.body).remove('normal-style');
-		classes(document.body).remove('client-style-normal');
-	} else {
-		classes(document.body).add('normal-style');
-		classes(document.body).remove('client-style-compact');
-		classes(document.body).add('client-style-normal');
-	}
+    if (this.settings.compact_mode) {
+        classes(document.body).add('client-style-compact');
+        classes(document.body).remove('normal-style');
+        classes(document.body).remove('client-style-normal');
+    } else {
+        classes(document.body).add('normal-style');
+        classes(document.body).remove('client-style-compact');
+        classes(document.body).add('client-style-normal');
+    }
 
-	if (this.settings.dark_mode) {
-		classes(document.body).add('dark');
-	}
+    if (this.settings.dark_mode) {
+        classes(document.body).add('dark');
+    }
 
-	this.emit('settingsReady');
+    this.emit('settingsReady');
 
-	// javscript timezone should always override server timezone setting?
-	if (!this.settings.timezone || this.settings.timezone != this.tz) {
-		console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
-		this.emit('timezonechange', this.tz);
-	}
+    // javscript timezone should always override server timezone setting?
+    if (!this.settings.timezone || this.settings.timezone != this.tz) {
+        this.emit('timezonechange', this.tz);
+    }
 };
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-	var self = this;
-	var org = orgs.filter(function(o) {
-		if (o.id === self.options.organizationID) return o;
-	})[0];
-	this.emit('selectorganization', org);
+    var self = this;
+    var org = orgs.filter(function(o) {
+        if (o.id === self.options.organizationID) return o;
+    })[0];
+    this.emit('selectorganization', org);
 };
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-	if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
-		this.emit('setNotificationsSession', this.org.id);
+    if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {
+        this.emit('setNotificationsSession', this.org.id);
+    }
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-	var self = this;
-	self.emit('joinroom', room, function() {
-		page('/chat/' + room.slug);
-		self.emit('endRoomCreation');
-	});
+    var self = this;
+    self.emit('joinroom', room, function() {
+        page('/chat/' + room.slug);
+        self.emit('endRoomCreation');
+    });
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
-	notification.error(err.message, err.details);
+    notification.error(err.message, err.details);
 };
 
 UI.prototype.onDisconnected = function () {
-	this.disconnectedAlert = setTimeout(function () {
-		this.firstTimeConnect = false;
-		if (this._connErrMsg) return;
-		this._connErrMsg = this.messages.danger('connection lost');
-		classes(qs('body')).add('disconnected');
-	}.bind(this), 7000);
+    this.disconnectedAlert = setTimeout(function () {
+        this.firstTimeConnect = false;
+        if (this._connErrMsg) return;
+        this._connErrMsg = this.messages.danger('connection lost');
+        classes(qs('body')).add('disconnected');
+    }.bind(this), 7000);
 };
 
 UI.prototype.onConnected = function () {
-	clearTimeout(this.disconnectedAlert);
-	if (!this._connErrMsg || this.firstTimeConnect) return;
-	this._connErrMsg.remove();
-	delete this._connErrMsg;
-	classes(qs('body')).remove('disconnected');
-	var msg = this.messages.success('reconnected')
-	setTimeout(function(){ msg.remove(); }, 2000);
+    clearTimeout(this.disconnectedAlert);
+    if (!this._connErrMsg || this.firstTimeConnect) return;
+    this._connErrMsg.remove();
+    delete this._connErrMsg;
+    classes(qs('body')).remove('disconnected');
+    var msg = this.messages.success('reconnected')
+    setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
-	this.room = room;
+    this.room = room;
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-	var deleteRoomDialog = new DeleteRoomDialog({
-		room: room
-	}).closable().overlay().show();
-	broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
+    var deleteRoomDialog = new DeleteRoomDialog({
+        room: room
+    }).closable().overlay().show();
+    broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 };
 
-UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
-	// org users who are not part of the room, sorted alphabetically
-	var users = this.org.users.filter(function(user) {
-		return user.active && room.users.indexOf(user) == -1;
-	})
-	users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
-	var invite = new InviteDialog({
-		users: users,
-		room: room
-	}).closable().overlay().show();
-	broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
-}
+UI.prototype.onToggleOrgInvite = function () {
+    var invite = new OrgInvite().closable().overlay().show();
+    broker(this, 'inviteSuccess', invite, 'onInviteSuccess');
+    broker(this, 'inviteError', invite, 'onInviteError');
+    broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg');
+};
+
+UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
+    // org users who are not part of the room, sorted alphabetically
+    var users = this.org.users.filter(function(user) {
+        return user.active && room.users.indexOf(user) == -1;
+    });
+    var invite = new RoomInvite({
+        org: this.org,
+        users: users,
+        room: room
+    }).closable().overlay().show();
+
+    broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom');
+    broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess');
+};
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-	this.markdownTips.overlay().show();
-};
-
-UI.prototype.roomDeleted = function UI_roomDeleted(room) {
-	if (this.room != room) return;
-	page.replace('/chat/');
-	var msg = this.messages.success('room deleted', { room : room.name });
-	setTimeout(function(){ msg.remove(); }, 2000);
+    this.markdownTips.overlay().show();
 };
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
-	if (this.room != room) return;
-	page.replace('/chat/');
+    if (this.room != room) return;
+    page.replace('/chat/');
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-	if(this.room != room) return;
-	page.replace('/chat/' + room.slug);
+    if(this.room != room) return;
+    page.replace('/chat/' + room.slug);
 }
 
 UI.prototype.onUploading = function () {
-	this.uploadRoom = this.room;
+    this.uploadRoom = this.room;
 };
 
 UI.prototype.onUploaded = function (attachment) {
-	this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
-	this.upload.hide();
+    this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
+    this.upload.hide();
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
-	page.replace('/chat/' + redirectSlug);
-	var msg = this.messages.warning('message not found');
-	setTimeout(function(){ msg.remove(); }, 6000);
+    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
+    page.replace('/chat/' + redirectSlug);
+    var msg = this.messages.warning('message not found');
+    setTimeout(function(){ msg.remove(); }, 6000);
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
-	if (this.room === channel) return;
-	var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug;
-	page('/chat/' + slug);
+    if (this.room === channel) return;
+    var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug;
+    page('/chat/' + slug);
 }
 
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-	var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
-	page('/chat/' + redirectSlug);
+    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
+    page('/chat/' + redirectSlug);
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-	var roommanager = new RoomManager({
-		rooms: this.org.rooms.slice()
-	}).closable().overlay().show();
-	broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
-	broker.pass(roommanager, 'createRoom', this, 'createRoom');
-	broker(this, 'leftChannel', roommanager, 'onLeftChannel');
-	broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
-	broker(this, 'roomCreationError', roommanager, 'onRoomCreationError');
-	broker(this, 'newRoom', roommanager, 'onNewRoom');
-	broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
-	broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
+    var roommanager = new RoomManager({
+        rooms: this.org.rooms.slice()
+    }).closable().overlay().show();
+    broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
+    broker.pass(roommanager, 'createRoom', this, 'createRoom');
+    broker(this, 'leftChannel', roommanager, 'onLeftChannel');
+    broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
+    broker(this, 'roomCreationError', roommanager, 'onRoomCreationError');
+    broker(this, 'newRoom', roommanager, 'onNewRoom');
+    broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
+    broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
 }
 
 UI.prototype.onTriggerPMManager = function () {
-	var pmmanager = new PMManager({
-		users: this.org.users.slice()
-	}).closable().overlay().show();
-	broker(this, 'selectchannel', pmmanager, 'end');
-	broker(this, 'changeUser', pmmanager, 'onChangeUser');
-	broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
+    var pmmanager = new PMManager({
+        users: this.org.users.slice()
+    }).closable().overlay().show();
+    broker(this, 'selectchannel', pmmanager, 'end');
+    broker(this, 'changeUser', pmmanager, 'onChangeUser');
+    broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
 }
 
 UI.prototype.onHideRightSidebar = function () {

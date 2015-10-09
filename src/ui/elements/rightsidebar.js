@@ -21,7 +21,7 @@ function RightSidebar () {
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
 
-RightSidebar.prototype.init = function () {
+RightSidebar.prototype.init = function() {
     var membersList = this.membersList = new ItemList({
         template: 'roommembers.jade',
         templateOptions: {
@@ -40,28 +40,28 @@ RightSidebar.prototype.init = function () {
     this.bind();
 };
 
-RightSidebar.prototype.bind = function () {
+RightSidebar.prototype.bind = function() {
     this.events = events(this.content.el, this);
     this.events.bind('click i.btn-delete', 'deleteRoomMember');
     this.events.bind('click .invite-members', 'toggleInvite');
     this.events.bind('click .close-search', 'hide');
 };
 
-RightSidebar.prototype.toggleInvite = function (ev) {
+RightSidebar.prototype.toggleInvite = function(ev) {
     this.emit('toggleInvite', this.room);
 };
 
-RightSidebar.prototype.deleteRoomMember = function (ev) {
+RightSidebar.prototype.deleteRoomMember = function(ev) {
     var roomID = this.room.id;
     var memberID = ev.target.getAttribute('data-id');
     this.emit('kickMember', roomID, memberID);
 };
 
-RightSidebar.prototype.redraw = function () {
+RightSidebar.prototype.redraw = function() {
     var membersList = this.membersList;
     var searchList = this.searchList;
 
-    var replace = function (from, to) {
+    var replace = function(from, to) {
         from.parentNode.replaceChild(to, from);
     };
     var memberCount = this.room.users.length.toString();
@@ -86,7 +86,7 @@ RightSidebar.prototype.redraw = function () {
     }
 };
 
-RightSidebar.prototype.setRoom = function (room) {
+RightSidebar.prototype.setRoom = function(room) {
     this.room = room;
     this.canKickMembers = ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN ? true : false;
 
@@ -102,46 +102,43 @@ RightSidebar.prototype.setRoom = function (room) {
     }
 };
 
-RightSidebar.prototype.onMemberLeftChannel = function (room, user) {
+RightSidebar.prototype.onMemberLeftChannel = function(room, user) {
     if (room != this.room) return;
     var userIndex = this.membersList.items.indexOf(user);
     if (userIndex > -1) this.membersList.items.splice(userIndex, 1);
     this.redraw();
 };
 
-RightSidebar.prototype.onChangeUser = function (user) {
+RightSidebar.prototype.onChangeUser = function(user) {
     if (this.initialized && this.room.users.indexOf(user) > -1) this.membersList.redraw();
 };
 
-RightSidebar.prototype.onNewRoomMember = function (room, user) {
+RightSidebar.prototype.onNewRoomMember = function(room, user) {
     if (room != this.room) return;
     this.membersList.items.push(user);
     this.redraw();
 };
 
-RightSidebar.prototype.gotSearchResults = function (results) {
+RightSidebar.prototype.gotSearchResults = function(results) {
     this.searchList.items = results.results;
     this.searchList.redraw();
 };
 
-RightSidebar.prototype.show = function (mode) {
+RightSidebar.prototype.show = function(mode) {
     var clientBody = qs('.client-body');
     classes(clientBody).add('right-sidebar-show')
     this.mode = mode;
     this.redraw();
 };
 
-RightSidebar.prototype.hide = function () {
+RightSidebar.prototype.hide = function() {
     var clientBody = qs('.client-body');
     classes(clientBody).remove('right-sidebar-show')
     this.mode = null;
     this.redraw();
 };
 
-RightSidebar.prototype.toggle = function (mode) {
-    if (mode == this.mode) {
-        this.hide();
-    } else {
-        this.show(mode);
-    }
+RightSidebar.prototype.toggle = function(mode) {
+    if (mode == this.mode) this.hide();
+    else this.show(mode);
 }

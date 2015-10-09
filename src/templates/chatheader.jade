@@ -1,31 +1,37 @@
 .room-header-wrap
 	.room-info-wrap
 		if room.type === 'room'
-			if editOptions.renamingRoom
+			if editState.renaming
 				form.room-rename
 					input.room-name.editable(value=room.name, type="text")
 					input.submit-rename(type="submit")
 				.rename-options-wrap
-					a.header-option.option-rename-cancel(title="Cancel")
+					a.header-option.option-rename-cancel(title=_("Cancel"))
 						i.fa.fa-times
-					a.header-option.option-rename-ok(title="Save")
+					a.header-option.option-rename-ok(title=_("Save"))
 						i.fa.fa-check
 			else
-				.room-name(class=editOptions.canManageRoom? 'editable' : '')
+				.room-name(class=isRoomManager ? 'editable' : '')
 					if mode === 'search'
 						i.fa.fa-link
 						=_(" in ")
 					| #{room.name}
-					if room.topic
-						br
-						span.room-topic=room.topic
-					if editOptions.canManageRoom
-						a.header-option.option-rename-room(title="Rename Room")
-							i.fa.fa-pencil()
+					if isRoomManager
+						a.header-option.option-rename-room(title=_("Rename room"))
+							i.fa.fa-pencil
 				.options-wrap
-					if editOptions.canManageRoom
-						a.header-option.option-delete-room(title="Delete Room")
-							i.fa.fa-trash()
+					if isRoomManager
+						a.header-option.option-delete-room(title=_("Delete room"))
+							i.fa.fa-trash
+			if editState.editingDescription
+				form.description-edit-form
+					input.description.editable(value=room.description ? room.description : '', maxlength=100)
+			else
+				if room.description
+					div.description(class=isRoomManager ? 'description-edit' : '')= room.description
+				else
+					if isRoomManager 
+						div.description-edit= _('Add a room description')
 		else if room.type === 'pm'
 			h1.room-name
 				if room.users[0].is_only_invited

@@ -1,0 +1,13 @@
+.top-bar.markdown-tips
+	.title
+		span=_('Invite to room')
+.container.invite-to-room
+	if (users.length)
+		.form-content
+		ul.invite-list
+		button.button.btn-invite.btn-icon.btn-primary(type="submit", name="submit")
+			i.icon.fa.fa-user-plus
+			| Invite members
+	else
+		.invite-placeholder
+			=_('Everyone in your organization has joined this room.')

@@ -18,7 +18,6 @@
 
 .right-sidebar-header
     font-size: 1.6em
-    margin-top: 30px
     margin-left: 18px
     color: #4A324B
     .mdi-account-multiple
@@ -26,8 +25,9 @@
         transform: translateY(1px)
     .mdi-attachment
         font-size: 1.05em
-    &:first-of-type
-        margin-top: 20px
+    .title
+        margin-left: 10px
+        cursor: default
 
 .right-sidebar-content a
     text-decoration: none !important
@@ -38,8 +38,39 @@
 .right-sidebar-content .offline
     border: 1px solid #F2F2F2
 
+.user-profile-view
+    padding: 0 20px
+    margin: auto
+    .label
+        font-weight: bold
+    .offline
+    .online
+        height: 20px
+        width: 20px
+        bottom: 2px
+        right: 2px
+
+.user-profile-view-header
+    text-align: center
+    padding-bottom: 15px
+.user-profile-item
+    position: relative
+    padding-left: 20px
+.username
+.user-profile-item,
+.user-profile-item a
+    color: #707782;
+.user-profile-item a:hover
+    text-decoration: underline;
+.user-profile-item .fa
+      position: absolute
+      top: 4px
+      left: 0
+
 .right-sidebar-room-wrap
+    overflow-y: auto
     height: 100%
+    margin-top : 20px
     .members title
         margin-left: 10px
 
@@ -155,3 +186,8 @@
 
 .hashtags
     display: none
+
+.fullname
+  margin-top: 10px
+  font-size: 17px
+  font-weight: bold
