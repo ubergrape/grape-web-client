@@ -72,6 +72,7 @@
     "page": "^1.6.3",
     "progress": "component/progress#0.0.4",
     "react": "^0.13.3",
+    "react-finite-list": "^0.1.0",
     "react-jss": "^1.1.1",
     "react-overlays": "^0.4.2",
     "react-pure-render": "^1.0.2",
