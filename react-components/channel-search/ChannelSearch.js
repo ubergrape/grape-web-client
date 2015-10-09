@@ -92,9 +92,29 @@ export default class ChannelSearch extends Component {
     let {classes} = this.props.sheet
     let itemClasses = [classes.item]
     if (focused) itemClasses.push(classes.itemFocused)
+
+    let icon
+    if (item.isRoom) {
+      icon = (
+        <span
+          className={classes.itemRoomIcon}
+          style={{backgroundColor: item.color}}>
+          {item.abbr}
+        </span>
+      )
+    }
+    else {
+      icon = (
+        <span
+          style={{backgroundImage: `url(${item.iconUrl})`}}
+          className={classes.itemUserIcon} />
+      )
+    }
+
     return (
       <div className={itemClasses.join(' ')}>
-        {item.name}
+        {icon}
+        <span className={classes.itemText}>{item.name}</span>
       </div>
     )
   }
