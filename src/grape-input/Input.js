@@ -132,7 +132,7 @@ export default class Input extends Component {
               height={this.state.editableHeight}
               placeholder={this.props.placeholder}
               disabled={this.props.disabled}
-              focused={this.state.focused}
+              focused={this.state.editableFocused}
               insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
               onAbort={::this.onAbort}
               onEditPrevious={::this.onEditPrevious}
@@ -192,7 +192,8 @@ export default class Input extends Component {
   }
 
   createState(nextProps) {
-    let state = pick(nextProps, 'browser', 'focused', 'data', 'isLoading')
+    let state = pick(nextProps, 'browser', 'data', 'isLoading')
+    state.editableFocused = nextProps.focused
     if (state.browser === 'user') state.data = mentions.map(state.data)
     if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
     state.query = this.query.toJSON()
@@ -221,12 +222,12 @@ export default class Input extends Component {
     return this.editable.setTextContent(text)
   }
 
-  closeBrowser(state) {
+  closeBrowser(state, callback) {
     this.setState({
       browser: null,
       browserOpened: false,
       ...state
-    })
+    }, callback)
   }
 
   /**
@@ -263,19 +264,19 @@ export default class Input extends Component {
       this.replaceQuery(object.toHTML() + '&nbsp;', {query})
     }
     this.onInsertItem(item, query)
-    this.closeBrowser({focused: true})
+    this.closeBrowser({editableFocused: true})
     this.query.reset()
   }
 
   replaceQuery(replacement, options, callback = noop) {
-    this.setState({focused: true}, () => {
+    this.setState({editableFocused: true}, () => {
       let replaced = this.editable.replaceQuery(replacement, options)
       callback(replaced)
     })
   }
 
   insertQuery(queryStr, options, callback = noop) {
-    this.setState({focused: true}, () => {
+    this.setState({editableFocused: true}, () => {
       let inserted = this.editable.modifyAtCaret((left, right) => {
         let newLeft = left
         // Add space after text if there is no.
@@ -305,8 +306,9 @@ export default class Input extends Component {
   }
 
   onAbort(data = {}) {
-    this.closeBrowser({focused: true})
-    this.emit('abort', {...data, browser: this.state.browser})
+    this.closeBrowser({editableFocused: true}, () => {
+      this.emit('abort', {...data, browser: this.state.browser})
+    })
   }
 
   onEditPrevious() {
@@ -355,8 +357,9 @@ export default class Input extends Component {
   }
 
   onAddSearchBrowserIntegration() {
-    this.closeBrowser()
-    this.emit('addIntegration')
+    this.closeBrowser(null, () => {
+      this.emit('addIntegration')
+    })
   }
 
   onInsertItem(item, query) {
@@ -388,29 +391,23 @@ export default class Input extends Component {
   }
 
   onFocusEditable() {
-    this.setState({focused: true})
-    this.emit('focus')
+    this.setState({editableFocused: true}, () => {
+      if (!this.props.focused) this.emit('focus')
+    })
   }
 
   onBlurEditable() {
-    if (utils.isBrowserType(this.state.browser)) {
-      this.setState({focused: false})
-      return
-    }
-
-    // We use the timeout to avoid closing suggestions when whole window
-    // got unfocused. We want still to close it when
-    this.blurTimeoutId = setTimeout(() => {
-      this.query.reset()
-      this.closeBrowser({focused: false})
-      this.emit('blur')
-    }, 50)
+    this.setState({editableFocused: false}, () => {
+      if (!utils.isBrowserType(this.state.browser)) {
+        this.onBlurBrowser()
+      }
+      if (this.props.focused) this.emit('blur')
+    })
   }
 
   onBlurBrowser() {
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser()
-      this.emit('blur')
     }, 50)
   }
 

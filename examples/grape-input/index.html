@@ -33,12 +33,12 @@
     <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
     <script src="/build/grape-browser.js"></script>
     <script src="./data.js"></script>
-    <button onclick="input.setTextContent('')">Empty content</button>
-    <button onclick="input.setTextContent('new text content')">Set text content</button>
-    <button onclick="input.setTextContent('new multiline \n text content')">Set multiline text content</button>
-    <button onclick="input.setTextContent('[Marketing Plan](cg://googledrive|file|e1331cc1513186b0e0a2d622e0111231|https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk||)')">Set markdown content</button>
-    <button onclick="input.setTextContent('hello :smile:')">Set emoji content</button>
-    <button onclick="input.setTextContent('<h1>must be rendered as text</h1>')">Set html content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('new text content')">Set text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('new multiline \n text content')">Set multiline text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('[Marketing Plan](cg://googledrive|file|e1331cc1513186b0e0a2d622e0111231|https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk||)')">Set markdown content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('hello :smile:')">Set emoji content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('<h1>must be rendered as text</h1>')">Set html content</button>
 
     <button onclick="setProps({focused: true})">Set focus</button>
     <button onclick="setProps({disabled: true})">Disable</button>

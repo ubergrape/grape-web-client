@@ -36,22 +36,18 @@ export default class Editable extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.createState(this.props)
     this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
     this.onResizeWindowDebounced = debounce(::this.onResize, 500)
     this.onPaste = ::this.onPaste
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(this.createState(nextProps))
+  shouldComponentUpdate() {
+    // We need to control updates of contenteditable manually.
+    return false
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.focused && !prevState.focused) {
-      this.focus()
-    }
+  componentWillReceiveProps(nextProps) {
+    this.applyProps(nextProps)
   }
 
   componentDidMount() {
@@ -68,6 +64,7 @@ export default class Editable extends Component {
       this.accentMode = new AccentMode(this.node)
     }
 
+    this.applyProps(this.props)
     let {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
@@ -77,33 +74,52 @@ export default class Editable extends Component {
     window.removeEventListener('resize', this.onResizeWindowDebounced)
   }
 
-  createState({focused}) {
-    return {focused}
-  }
-
   render() {
-    let {classes} = this.props.sheet
-    let {placeholder, disabled} = this.props
-    let editableClasses = [classes.editable]
-
-    if (utils.isEmpty(this.node) && !this.state.focused) {
-      editableClasses.push(classes.placeholder)
-    }
-
     return (
       <div
-        onFocus={this.props.onFocus}
-        onBlur={this.props.onBlur}
+        onFocus={::this.onFocus}
+        onBlur={::this.onBlur}
         onInput={::this.onInput}
         onKeyPress={::this.onKeyPress}
         onKeyDown={::this.onKeyDown}
         onMouseDown={::this.onMouseDown}
-        className={editableClasses.join(' ')}
-        // CSS will take it from here.
-        data-placeholder={placeholder}
-        contentEditable={!disabled}
-        data-test="editable"></div>
+        data-test="editable" />
     )
+  }
+
+  applyProps(props) {
+    this.setClassName(props)
+    this.setContentEditable(props)
+    this.setFocus(props)
+    this.setPlaceholder(props)
+  }
+
+  setClassName(props) {
+    let {classes} = props.sheet
+    let classNames = [classes.editable]
+    if (utils.isEmpty(this.node) && !props.focused) {
+      classNames.push(classes.placeholder)
+    }
+    this.node.className = classNames.join(' ')
+  }
+
+  setContentEditable(props) {
+    let action = props.disabled ? 'remove' : 'set'
+    this.node[`${action}Attribute`]('contenteditable', true)
+  }
+
+  /**
+   * Set focus.
+   */
+  setFocus(props) {
+    if (!props.focused || !this.caret.focus()) return
+    this.caret.selectMarkers()
+  }
+
+  setPlaceholder(props) {
+    if (props.placeholder !== this.props.placeholder) {
+      this.node.setAttribute('data-placeholder', props.placeholder)
+    }
   }
 
   /**
@@ -158,14 +174,6 @@ export default class Editable extends Component {
   }
 
   /**
-   * Set focus.
-   */
-  focus() {
-    if (!this.caret.focus()) return
-    this.caret.selectMarkers()
-  }
-
-  /**
    * Get search key and trigger.
    */
   getQuery() {
@@ -192,6 +200,8 @@ export default class Editable extends Component {
    *
    * Serialize content to text, use data-object strings instead of
    * textContent if given.
+   *
+   * @api public
    */
   getTextContent(options) {
     return utils.getText(this.node, options)
@@ -202,8 +212,12 @@ export default class Editable extends Component {
    *
    * When content passed - set text content and put caret at the end, otherwise
    * clean up the content.
+   *
+   * @api public
    */
   setTextContent(text) {
+    if (!this.props.focused) return false
+
     let html = ''
 
     if (text) {
@@ -226,7 +240,7 @@ export default class Editable extends Component {
       this.onResize()
       this.onChange()
     })
-    return text
+    return true
   }
 
   /**
@@ -372,7 +386,6 @@ export default class Editable extends Component {
   }
 
   onMouseDown(e) {
-    if (!utils.isFocused(this.node)) this.props.onFocus()
     if (utils.isGrapeObject(e.target)) {
       e.preventDefault()
       this.caret.move('after', e.target)
@@ -406,5 +419,13 @@ export default class Editable extends Component {
     if (this.props.width !== width || this.props.height !== height) {
       this.props.onResize({width, height})
     }
+  }
+
+  onBlur() {
+    this.props.onBlur()
+  }
+
+  onFocus() {
+    this.props.onFocus()
   }
 }
