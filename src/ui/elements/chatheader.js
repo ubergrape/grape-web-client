@@ -36,12 +36,18 @@ function ChatHeader() {
 	this.membersToggler = {
 		className: 'members-menu-toggler',
 		icon: 'fa-user',
-		visible: true
+		visible: false
+	};
+	this.profileToggler = {
+		className: 'profile-toggler',
+		icon: 'fa-user',
+		visible: false
 	};
 	this.menuItems =[
 		this.intercom,
 		this.fileBrowserToggler,
-		this.membersToggler
+		this.membersToggler,
+		this.profileToggler
 	];
 	this.selected = null;
 	this.redraw = this.redraw.bind(this);
@@ -63,14 +69,13 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 		editingDescription: false
 	}
 	this.mode = 'chat';
-	if (conf['customSupportEmailAddress'] !== '') {
-		// we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
-		var intercomButton = qs('a#Intercom', this.el);
-		intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress'];
-	} else if (typeof Intercom !== 'undefined') {
-		var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el);
+	var intercomButton = qs('div' + window.intercomSettings.widget.activator + ' a', this.el);
+	if (conf.customSupportEmailAddress) {
+		intercomButton.href = 'mailto:' + conf.customSupportEmailAddress;
+	}
+	else if (typeof Intercom !== 'undefined') {
 		intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io';
-		window.Intercom('reattach_activator');
+		window.Intercom('reattach_activator');	
 	}
 };
 
@@ -110,7 +115,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		},
 		toggleMembersMenu: function(e) {
 			self.selected = self.membersToggler == self.selected ? null : self.membersToggler;
-			self.emit('toggleRightSidebar', 'user');
+			self.emit('toggleRightSidebar', 'members');
 			self.redraw();
 		},
 		toggleFileBrowser: function(e) {
@@ -204,7 +209,8 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
 	this.editState.renaming = false;
 	this.mode = msgID ? 'search' : 'chat';
-	this.membersToggler.visible = room.type === 'room';
+	this.membersToggler.visible = room.type == 'room';
+	this.profileToggler.visible = room.type == 'pm';
 	this.redraw();
 };
 

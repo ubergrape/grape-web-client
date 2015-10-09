@@ -1,26 +1,19 @@
-.right-sidebar-room-wrap
-	.members
-		if (items && items.room && items.room.type == "room")
-			- var room = items.room
-			.right-sidebar-header
-				i.mdi.mdi-account-multiple
-				span.title #{room.users.length} Members 
-			ul.user-list
-				each member in room.users
-					li.item.user
-						if member != user
-							a(class="right-sidebar-item", href='/chat/@' + member.username.toLowerCase())
-								aside.avatar-wrap
-									img.image(src="#{member.avatar}",width="20",height="20",alt="#{member.username}")
-									.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-								span #{member.displayName}
-							if items.canKickMembers && member != room.creator
-								i.mdi.mdi-close-circle-outline.btn-delete(data-id=member.id)
-							span(style="clear: both")
-						else
-							.right-sidebar-item
-								aside.avatar-wrap
-									img.image(src="#{member.avatar}",width="20",height="20",alt="#{member.username}")
-									.avatar-status(class=(member.status === 16 || member.id == user.id ? 'online' : 'offline'))
-								span.inactive= member.displayName
-							span(style="clear: both")
+ul.user-list
+	each item in items
+		li.item.user
+			if item != user
+				a(class="right-sidebar-item", href='/chat/@' + item.username.toLowerCase())
+					aside.avatar-wrap
+						img.image(src="#{item.avatar}",width="20",height="20",alt="#{item.username}")
+						.avatar-status(class=(item.status === 16 || item.id == user.id ? 'online' : 'offline'))
+					span #{item.displayName}
+				if canKickMembers
+					i.mdi.mdi-close-circle-outline.btn-delete(data-id=item.id)
+				span(style="clear: both")
+			else
+				.right-sidebar-item
+					aside.avatar-wrap
+						img.image(src="#{item.avatar}",width="20",height="20",alt="#{item.username}")
+						.avatar-status(class=(item.status === 16 || item.id == user.id ? 'online' : 'offline'))
+					span.inactive= item.displayName
+				span(style="clear: both")

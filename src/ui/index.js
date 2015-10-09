@@ -89,7 +89,7 @@ UI.prototype.init = function UI_init() {
 	this.rightSidebar = new RightSidebar();
 
 	// initialize the input field
-	this.grapeInput = new new GrapeInput();
+	this.grapeInput = new GrapeInput();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
 	// initialize dialogs

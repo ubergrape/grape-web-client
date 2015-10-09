@@ -43,12 +43,12 @@ RightSidebar.prototype.init = function() {
 RightSidebar.prototype.bind = function() {
     this.events = events(this.content.el, this);
     this.events.bind('click i.btn-delete', 'deleteRoomMember');
-    this.events.bind('click .invite-members', 'toggleInvite');
+    this.events.bind('click .invite-members', 'toggleRoomInvite');
     this.events.bind('click .close-search', 'hide');
 };
 
-RightSidebar.prototype.toggleInvite = function(ev) {
-    this.emit('toggleInvite', this.room);
+RightSidebar.prototype.toggleRoomInvite = function(ev) {
+    this.emit('toggleRoomInvite', this.room);
 };
 
 RightSidebar.prototype.deleteRoomMember = function(ev) {
@@ -75,7 +75,7 @@ RightSidebar.prototype.redraw = function() {
     searchList.redraw();
 
     switch (this.mode) {
-        case 'user':
+        case 'members':
             replace(qs('.user-list', this.content.el), membersList.el);
             break;
         case 'search':
@@ -88,9 +88,7 @@ RightSidebar.prototype.redraw = function() {
 
 RightSidebar.prototype.setRoom = function(room) {
     this.room = room;
-    this.canKickMembers = ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN ? true : false;
-
-    if (room.type == 'pm' && this.mode == 'user') return this.emit('hideRightSidebar');
+    this.canKickMembers = ui.user === room.creator || ui.user.role >= roles.ROLE_ADMIN;
 
     if (!this.initialized) {
         this.init();
