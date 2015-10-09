@@ -67,6 +67,9 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 				return val ? emoji.data[val][0][0] : ':' + emo + ':';
 			}
 		};
+		// prefix mentions with '@' symbol
+		content = content.replace(/\[([^\]]+)\]\((cg:\/\/chatgrape\|(user|room)\|[^\)]+)\)+/g, '[@$1]($1)')
+		// build dom from parsed markdown message
 		content_dom = domify(markdown(content, opts));
 
 		// replace images
