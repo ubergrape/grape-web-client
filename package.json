@@ -34,6 +34,7 @@
     "endswith": "sk7/endswith",
     "escape-html": "component/escape-html#v1.0.1",
     "eslint": "^0.24.1",
+    "eslint-config-airbnb": "0.0.6",
     "eslint-config-ubergrape": "^0.1.1",
     "eslint-plugin-react": "^2.7.0",
     "expect.js": "^0.3.1",
