@@ -34,7 +34,7 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
 	var inviter = item.inviter;
 	var room = item.room;
 	var content = inviter.displayName + _(' invited you to the room ') + room.name;
-	var title = inviter.displayName + _(' (Room Invite)');
+	var title = _('New room!');
 	var icon = inviter.avatar;
 	this.dispatch(title, content, icon, room);
 }
