@@ -579,6 +579,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 		if (res.logo !== null) org.logo = res.logo;
 		if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
 		if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
+		org.inviter_role = res.inviter_role;
 
 		// connect users and pms
 		org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
@@ -738,12 +739,22 @@ API.prototype.search = function API_search(text) {
 		});
 };
 
-API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users, callback) {
+API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
+	var orgID = this.organization.id;
+	var options = {
+		emails: emails
+	};
+	this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function(err, res) {
+		if (err) return this.emit('inviteError');
+		this.emit('inviteSuccess');
+	}.bind(this));
+};
+
+API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
 	this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
-		if (callback !== undefined) {
-			callback(err, result);
-		}
-	});
+		if (err) return;
+		this.emit('roomInviteSuccess');
+	}.bind(this));
 };
 
 /**

@@ -46,8 +46,8 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
 			self.hide();
 		}
 	});
-	this.events.obj.toggleInvite = function(ev) {
-		this.emit('toggleInvite', this.room);
+	this.events.obj.toggleRoomInvite = function(ev) {
+		this.emit('toggleRoomInvite', this.room);
 	}.bind(this);
 	this.events.obj.deleteRoomMember = function (ev) {
 		var roomID = this.room.id;
@@ -55,7 +55,7 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
 		this.emit('kickMember', roomID, memberID);
 	}.bind(this);
 	this.events.bind('click i.btn-delete', 'deleteRoomMember');
-	this.events.bind('click .invite-members', 'toggleInvite');
+	this.events.bind('click .invite-members', 'toggleRoomInvite');
 };
 
 function replace(from, to) {

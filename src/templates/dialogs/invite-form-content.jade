@@ -1,0 +1,9 @@
+.form-content
+    span.selected-list
+        ul
+            each item in items
+                li.user(data-id=item.id)
+                    = item.username
+                    i.mdi.mdi-close-circle-outline
+            li
+                input.input-invite(value=query)

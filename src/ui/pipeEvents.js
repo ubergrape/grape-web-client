@@ -6,48 +6,49 @@ var broker = require('broker');
 module.exports = pipeEvents;
 
 function pipeEvents(ui) {
-	// ui
-	broker(ui, 'selectchannel', ui, 'setRoomContext');
-	broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
-	broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
-	broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
-	broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');
-	broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
-	broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
-	broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel');
-	broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
-	broker(ui, 'selectchannel', ui.historyView, 'setRoom');
-	broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
-	broker(ui, 'nohistory', ui.historyView, 'noHistory');
-	broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
-	broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
-	broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened');
-	broker(ui, 'newRoom', ui.historyView, 'onNewRoom');
-	broker(ui, 'changeUser', ui.historyView, 'onChangeUser');
-	broker(ui, 'selectchannel', ui.title, 'setRoom');
-	broker(ui, 'selectorganization', ui.title, 'setOrganization');
-	broker(ui, 'selectchannel', ui.notifications, 'setRoom');
-	broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification');
-	broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification');
-	broker(ui, 'selectorganization', ui.upload, 'setOrganization');
-	broker(ui, 'uploadDragged', ui.upload, 'doUpload');
-	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
-	broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady');
-	broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged');
-	broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
-	broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
-	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
-	broker(ui, 'selectchannel', ui.navigation, 'select');
-	broker(ui, 'userMention', ui.navigation, 'onUserMention');
-	broker(ui, 'changeUser', ui.navigation, 'onChangeUser');
-	broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
-	broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
-	broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
-	broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
-	broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
-	broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
-	broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
+    // ui
+    broker(ui, 'selectchannel', ui, 'setRoomContext');
+    broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
+    broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
+    broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
+    broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember');
+    broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel');
+    broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
+    broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
+    broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel');
+    broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
+    broker(ui, 'selectchannel', ui.historyView, 'setRoom');
+    broker(ui, 'gotHistory', ui.historyView, 'onGotHistory');
+    broker(ui, 'nohistory', ui.historyView, 'noHistory');
+    broker(ui, 'newMessage', ui.historyView, 'onNewMessage');
+    broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage');
+    broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened');
+    broker(ui, 'newRoom', ui.historyView, 'onNewRoom');
+    broker(ui, 'changeUser', ui.historyView, 'onChangeUser');
+    broker(ui, 'selectchannel', ui.title, 'setRoom');
+    broker(ui, 'selectorganization', ui.title, 'setOrganization');
+    broker(ui, 'selectchannel', ui.notifications, 'setRoom');
+    broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification');
+    broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification');
+    broker(ui, 'selectorganization', ui.upload, 'setOrganization');
+    broker(ui, 'uploadDragged', ui.upload, 'doUpload');
+    broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady');
+    broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady');
+    broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged');
+    broker(ui, 'setVisitor', ui.organizationMenu, 'onSetVisitor');
+    broker(ui, 'orgReady', ui.navigation, 'onOrgReady');
+    broker(ui, 'newMessage', ui.navigation, 'onNewMessage');
+    broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom');
+    broker(ui, 'selectchannel', ui.navigation, 'select');
+    broker(ui, 'userMention', ui.navigation, 'onUserMention');
+    broker(ui, 'changeUser', ui.navigation, 'onChangeUser');
+    broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate');
+    broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
+    broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
+    broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
+    broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
+    broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
+    broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
 
     // chat header
     broker.pass(ui.chatHeader, 'searching', ui, 'searching');
@@ -84,7 +85,7 @@ function pipeEvents(ui) {
     broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode');
     broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode');
     broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode');
-    broker(ui.historyView, 'toggleInvite', ui, 'onToggleInvite');
+    broker(ui.historyView, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
 
     // notifications
     broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked');
@@ -99,6 +100,7 @@ function pipeEvents(ui) {
 
     // organization popover
     broker.pass(ui.organizationMenu, 'editView', ui, 'editView');
+    broker(ui.organizationMenu, 'toggleOrgInvite', ui, 'onToggleOrgInvite');
 
     // navigation
     broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager');
@@ -106,5 +108,5 @@ function pipeEvents(ui) {
 
     // right sidebar
     broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
-    broker(ui.rightSidebar, 'toggleInvite', ui, 'onToggleInvite');
+    broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
 }

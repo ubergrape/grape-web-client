@@ -43,9 +43,10 @@ var SearchView = exports.SearchView = require('./elements/searchview.js');
 var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
 var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
 var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var InviteDialog = exports.InviteDialog = require('./elements/dialogs/invite');
+var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite');
 var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
 var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
+var OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite');
 
 function UI(options) {
     Emitter.call(this);
@@ -268,6 +269,7 @@ UI.prototype.setUser = function UI_setUser(user) {
     if (this.user === undefined || user.id === this.user.id) {
         this.user = user;
         template.locals.user = user;
+        this.emit('setVisitor', user);
         this.grapeInput.redraw();
     }
 };
@@ -297,7 +299,6 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 
     // javscript timezone should always override server timezone setting?
     if (!this.settings.timezone || this.settings.timezone != this.tz) {
-        console.log("new timezone; old:", this.settings.timezone, "new:", this.tz);
         this.emit('timezonechange', this.tz);
     }
 };
@@ -370,28 +371,30 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
     broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
 };
 
-UI.prototype.onToggleInvite = function UI_onToggleInvite (room) {
+UI.prototype.onToggleOrgInvite = function () {
+    var invite = new OrgInvite().closable().overlay().show();
+    broker(this, 'inviteSuccess', invite, 'onInviteSuccess');
+    broker(this, 'inviteError', invite, 'onInviteError');
+    broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg');
+};
+
+UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
     // org users who are not part of the room, sorted alphabetically
     var users = this.org.users.filter(function(user) {
         return user.active && room.users.indexOf(user) == -1;
-    })
-    users.sort(function(a, b) { return a.displayName.localeCompare(b.displayName) });
-    var invite = new InviteDialog({
+    });
+    var invite = new RoomInvite({
+        org: this.org,
         users: users,
         room: room
     }).closable().overlay().show();
-    broker.pass(invite, 'inviteToRoom', ui, 'inviteToRoom');
-}
+
+    broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom');
+    broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess');
+};
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
     this.markdownTips.overlay().show();
-};
-
-UI.prototype.roomDeleted = function UI_roomDeleted(room) {
-    if (this.room != room) return;
-    page.replace('/chat/');
-    var msg = this.messages.success('room deleted', { room : room.name });
-    setTimeout(function(){ msg.remove(); }, 2000);
 };
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
