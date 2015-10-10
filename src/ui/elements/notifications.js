@@ -39,26 +39,25 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
 	this.dispatch(title, content, icon, room);
 }
 
-Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
-	var self = this;
-	var i, opts, content_dom, imgs, img, replacement, filename;
-	var	author		= message.author,
-		channel		= message.channel,
-		isService	= author.type === 'service',
-		icon		= isService ? staticurl("images/service-icons/" + author.id + "-64.png") : author.avatar,
-		authorName	= isService ? author.username : author.displayName,
-		content 	= isService ? message.title : message.text,
-		type 		= channel.type === 'room' ? channel.name : _('Private message'),
-		title		= authorName + ' (' + type + ')',
-		hasExpired	= (new Date() - message.time)/1000 > 60;
+Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (notif) {
+	var i, opts, title, content_dom, imgs, img, replacement, filename;
+	var content = notif.content;
+	var attachments = notif.attachments;
+	var hasExpired	= (new Date() - notif.time)/1000 > 60;
 
 	// don't notify if:
 	// - message is too old - to prevent old msgs avalanche when server reloads or device resumes from standby
 	// - chat is focused on the room the notification comes from
-	if ((channel.id === this.room.id && document.hasFocus()) || hasExpired) return;
+	if ((notif.channel.id === this.room.id && document.hasFocus()) || hasExpired) return; 
+	
+	if (notif.channel.type === 'room') {
+		title = notif.author.name + ' (' + notif.channel.name + ')';
+	} else {
+		title = notif.author.name + ' (' + _('Private message') + ')';
+	}
 
 	// parse markdown
-	if (typeof content !== "undefined" && content !== "") {
+	if (content) {
 		opts = {
 			emoji: function (emo) {
 				emoji.init_colons();
@@ -67,8 +66,6 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 				return val ? emoji.data[val][0][0] : ':' + emo + ':';
 			}
 		};
-		// prefix mentions with '@' symbol
-		content = content.replace(/\[([^\]]+)\]\((cg:\/\/chatgrape\|(user|room)\|[^\)]+)\)+/g, '[@$1]($1)')
 		// build dom from parsed markdown message
 		content_dom = domify(markdown(content, opts));
 
@@ -86,10 +83,9 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 	}
 
 	// remove "[Image]" for service connections
-	if (author.type === "service") content.replace("[Image]", "");
+	if (notif.author.type === "service") content.replace("[Image]", "");
 
 	// attach files
-	var attachments = message.attachments;
 	if (typeof attachments !== "undefined" && attachments.length > 0) {
 		// currently the client doesn't supprt text content AND attachment
 		// but the API supports it
@@ -108,7 +104,7 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 		}
 	}
 
-	this.dispatch(title, content, icon, channel);
+	this.dispatch(title, content, notif.author.icon_url, notif.channel);
 };
 
 Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
