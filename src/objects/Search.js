@@ -1,4 +1,5 @@
-import escape from 'lodash/string/escape'
+import escapeHTML from 'lodash/string/escape'
+import escapeMDLink from './escapeMDLink'
 
 export default class Search {
   constructor(result) {
@@ -11,18 +12,25 @@ export default class Search {
     this.content = this.name
   }
 
+  // TODO get rid of global classes.
   toHTML() {
-    let url = escape(this.url)
-    let service = escape(this.service)
-    let type = escape(this.type)
-    let object = escape(String(this))
-    let content = escape(this.content)
-    let result = escape(JSON.stringify(this.result))
-    // TODO get rid of global classes.
-    return `<a href="${url}" target="_blank" class="ac service-${service} type-${service}${type} animate" data-object="${object}" data-result="${result}" tabindex="-1">${content}</a>`
+    let service = escapeHTML(this.service)
+    let type = escapeHTML(this.type)
+    return `
+      <a
+        tabindex="-1"
+        target="_blank"
+        href="${escapeHTML(this.url)}"
+        data-object="${escapeHTML(String(this))}"
+        data-result="${escapeHTML(JSON.stringify(this.result))}"
+        class="ac service-${service} type-${service}${type} animate">
+        ${escapeHTML(this.content)}
+      </a>
+    `
   }
 
   toString() {
-    return `[${this.name}](cg://${this.service}|${this.type}|${this.id}|${this.url}||)`
+    let url = `cg://${this.service}|${this.type}|${this.id}|${this.url}||`
+    return `[${this.name}](${escapeMDLink(url)})`
   }
 }

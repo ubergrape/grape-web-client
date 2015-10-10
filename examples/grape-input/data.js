@@ -34,9 +34,9 @@ window.searchData = {
   "results": [
     {
       "container": "/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/Tech",
-      "name": '"Plans/Discussions"',
+      "name": '>"Plans/Discussions"',
       "service": "googledrive",
-      "url": "https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk",
+      "url": "(https://docs.google.com/a/ubergrape.com(/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk)",
       "highlighted": "<b>Plans</b>/Discussions",
       "connection": 80,
       "eid": "0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj",

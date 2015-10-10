@@ -89,7 +89,7 @@ export default class Input extends Component {
     if (onDidMount) onDidMount(this)
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     window.removeEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.detach()
   }

@@ -1,4 +1,5 @@
-import escape from 'lodash/string/escape'
+import escapeHTML from 'lodash/string/escape'
+import escapeMDLink from './escapeMDLink'
 
 export default class Room {
   constructor(options) {
@@ -9,16 +10,21 @@ export default class Room {
     this.content = '@' + this.name
   }
 
+  // TODO get rid of global classes.
   toHTML() {
-    let url = escape(this.url)
-    let object = escape(String(this))
-    let content = escape(this.content)
-
-    // TODO get rid of global classes.
-    return `<a href="${url}" class="ac service-chatgrape type-chatgraperoom animate" data-object="${object}" tabindex="-1">${content}</a>`
+    return `
+      <a
+        href="${escapeHTML(this.url)}"
+        class="ac service-chatgrape type-chatgraperoom animate"
+        data-object="${escapeHTML(String(this))}"
+        tabindex="-1">
+        ${escapeHTML(this.content)}
+      </a>
+    `
   }
 
   toString() {
-    return `[${this.name}](cg://chatgrape|room|${this.id}|/chat/${this.slug})`
+    let url = `cg://chatgrape|room|${this.id}|/chat/${this.slug}`
+    return `[${this.name}](${escapeMDLink(url)})`
   }
 }
