@@ -1,5 +1,5 @@
 import escapeHTML from 'lodash/string/escape'
-import escapeMDLink from './escapeMDLink'
+import encodeMDLink from '../encodeMDLink'
 
 export default class Room {
   constructor(options) {
@@ -25,6 +25,6 @@ export default class Room {
 
   toString() {
     let url = `cg://chatgrape|room|${this.id}|/chat/${this.slug}`
-    return `[${this.name}](${escapeMDLink(url)})`
+    return `[${this.name}](${encodeMDLink(url)})`
   }
 }

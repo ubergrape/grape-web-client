@@ -1,10 +1,17 @@
-import User from './User'
-import Search from './Search'
-import Room from './Room'
-import Emoji from './Emoji'
+import User from './classes/User'
+import Search from './classes/Search'
+import Room from './classes/Room'
+import Emoji from './classes/Emoji'
 
-export {User as user}
-export {Search as search}
-export {Room as room}
-export {Emoji as emoji}
-export {Emoji as customEmoji}
+const types = {
+  user: User,
+  customEmoji: Emoji,
+  emoji: Emoji,
+  search: Search,
+  room: Room
+}
+
+export function create(type, options) {
+  let Obj = types[type] || Search
+  return new Obj(options)
+}

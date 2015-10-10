@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {useSheet} from '../jss'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 import Scribe from 'scribe-editor'
 import scribePluginFormatterPlainTextConvertNewLinesToHtml from 'scribe-plugin-formatter-plain-text-convert-new-lines-to-html'
 import debounce from 'lodash/function/debounce'
@@ -95,7 +94,7 @@ export default class Editable extends Component {
     this.setPlaceholder(props)
   }
 
-  setClassName(props) {
+  setClassName(props) {
     let {classes} = props.sheet
     let classNames = [classes.editable]
     if (utils.isEmpty(this.node) && !props.focused) {
@@ -104,7 +103,7 @@ export default class Editable extends Component {
     this.node.className = classNames.join(' ')
   }
 
-  setContentEditable(props) {
+  setContentEditable(props) {
     let action = props.disabled ? 'remove' : 'set'
     this.node[`${action}Attribute`]('contenteditable', true)
   }
@@ -422,7 +421,7 @@ export default class Editable extends Component {
     }
   }
 
-  onBlur() {
+  onBlur() {
     this.props.onBlur()
   }
 

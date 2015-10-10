@@ -1,4 +1,4 @@
-import {replace} from '../emoji'
+import {replace} from '../../emoji'
 
 export default class Emoji {
   constructor(options) {

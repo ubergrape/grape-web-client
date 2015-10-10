@@ -1,4 +1,4 @@
-import Search from '../objects/Search'
+import objects from '../objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -46,5 +46,5 @@ function toData(text, url) {
  */
 function toHTML(text, url) {
   let data = toData(text, url)
-  return new Search(data).toHTML()
+  return objects.create('search', data).toHTML()
 }

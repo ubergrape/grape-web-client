@@ -85,8 +85,7 @@ export function setSheet(url) {
 export function replace(text) {
   return text.replace(colonsRegExp, name => {
     let def = get(name)
-    if (def) return React.renderToStaticMarkup(def.icon)
-    return name
+    return def ? React.renderToStaticMarkup(def.icon) : name
   })
 }
 

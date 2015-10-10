@@ -1,5 +1,5 @@
 import escapeHTML from 'lodash/string/escape'
-import escapeMDLink from './escapeMDLink'
+import encodeMDLink from '../encodeMDLink'
 
 export default class Search {
   constructor(result) {
@@ -31,6 +31,6 @@ export default class Search {
 
   toString() {
     let url = `cg://${this.service}|${this.type}|${this.id}|${this.url}||`
-    return `[${this.name}](${escapeMDLink(url)})`
+    return `[${this.name}](${encodeMDLink(url)})`
   }
 }

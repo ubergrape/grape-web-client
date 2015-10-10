@@ -258,8 +258,7 @@ export default class Input extends Component {
     if (item) {
       let results = get(this.state, 'data.results')
       let data = find(results, res => res.id === item.id) || item
-      let Obj = objects[data.type] || objects.search
-      let object = new Obj(data)
+      let object = objects.create(data.type, data)
       // Add space to let user type next thing faster.
       this.replaceQuery(object.toHTML() + '&nbsp;', {query})
     }
@@ -398,7 +397,7 @@ export default class Input extends Component {
 
   onBlurEditable() {
     this.setState({editableFocused: false}, () => {
-      if (!utils.isBrowserType(this.state.browser)) {
+      if (!utils.isBrowserType(this.state.browser)) {
         this.onBlurBrowser()
       }
       if (this.props.focused) this.emit('blur')
