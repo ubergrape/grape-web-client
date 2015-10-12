@@ -2,8 +2,8 @@ import Emitter from 'emitter'
 import template from 'template'
 import events from 'events'
 import qs from 'query'
+import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
-import defaults from 'lodash/object/defaults'
 import clone from 'lodash/lang/clone'
 
 import staticurl from 'staticurl'
@@ -32,7 +32,6 @@ export default class GrapeInput extends Emitter {
 		// Key is room id, value is unsent text message.
 		this.unsent = {}
 		this.images = clone(IMAGES)
-		this.in = new Emitter()
 		this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
 		this.searchDebounced = debounce(::this.search, 200)
 	}
@@ -47,14 +46,14 @@ export default class GrapeInput extends Emitter {
 	}
 
 	setProps(newProps, callback) {
-		if (callback) this.in.once('inputRendered', callback)
-		this.input.props = defaults(newProps, {
+		this.input.props = {
 			images: this.images,
 			customEmojis: this.org.custom_emojis,
 			placeholder: this.placeholder,
 			hasIntegrations: this.org.has_integrations,
-			onRender: ::this.onInputRender
-		})
+			onRender: callback ? once(callback) : undefined,
+			...newProps
+		}
 	}
 
 	bindEvents() {
