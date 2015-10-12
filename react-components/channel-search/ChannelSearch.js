@@ -29,7 +29,7 @@ export default class ChannelSearch extends Component {
   constructor(props) {
     super(props)
     this.state = this.createState(props)
-    mousetrap.bindGlobal(props.shortcuts, ::this.onShow)
+    mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -170,7 +170,8 @@ export default class ChannelSearch extends Component {
     this.onBeforeHide(this.props.onCreate.bind(null, {name}))
   }
 
-  onShow() {
+  onShortcut(e) {
+    e.preventDefault()
     this.props.onShow()
   }
 
