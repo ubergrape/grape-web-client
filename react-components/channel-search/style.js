@@ -33,7 +33,7 @@ export default {
     padding: 5
   },
   itemFocused: {
-    background: '#EBEEF3'
+    background: colors.grayBlueLight
   },
   itemRoomIcon: {
     ...icon,

@@ -21,7 +21,7 @@ export default {
   },
   backdrop: {
     ...overlay,
-    backgroundColor: '#000',
+    backgroundColor: colors.black,
     opacity: 0.3,
     zIndex: -1
   },
