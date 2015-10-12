@@ -173,7 +173,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 		if (q.length !== 0 && self.q !== q) {
 			self.q = q;
 			startSearching();
-		} else if (q.length === 0 && self.q !== q) {
+		}
+		else if (q.length === 0 && self.q !== q) {
 			self.q = q;
 			self.emit("stopsearching");
 		}

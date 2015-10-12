@@ -17,6 +17,8 @@ function RightSidebar () {
     this.content = {};
     this.initialized = false;
     this.mode = null;
+    this.user = null;
+    this.userProfile = {};
 }
 
 RightSidebar.prototype = Object.create(Emitter.prototype);
@@ -34,6 +36,8 @@ RightSidebar.prototype.init = function() {
         template: 'searchresults.jade'
     });
     searchList.setItems([]);
+
+    var userProfile = 
 
     this.redraw();
     qs('.right-sidebar').appendChild(this.content.el);
@@ -71,7 +75,6 @@ RightSidebar.prototype.redraw = function() {
         memberCount: memberCount
     }));
 
-    console.log(this.mode);
     switch (this.mode) {
         case 'members':
             membersList.order('displayName');
@@ -82,8 +85,11 @@ RightSidebar.prototype.redraw = function() {
             searchList.redraw();
             replace(qs('.search-list', this.content.el), searchList.el);
             break;
-        default:
+        case 'profile':
+            this.renderUserProfile();
+            replace(qs('.user-profile-view', this.content.el), this.userProfile.el);
             break;
+        default:
     }
 };
 
@@ -94,9 +100,17 @@ RightSidebar.prototype.setRoom = function(room) {
     if (!this.initialized) {
         this.init();
         this.initialized = true;
-    } else {
-        this.membersList.items = this.room.users.slice();
-        this.membersList.templateOptions.canKickMembers = this.canKickMembers;
+    }
+    else {
+        if (room.type === 'room') {
+            var membersList = this.membersList;
+            if (this.mode === 'profile') this.mode = 'members';
+            membersList.items = room.users.slice();
+            membersList.templateOptions.canKickMembers = this.canKickMembers;
+        }
+        else {
+            if (this.mode === 'members') this.mode = 'profile';
+        }
         this.redraw();
     }
 };
@@ -109,7 +123,9 @@ RightSidebar.prototype.onMemberLeftChannel = function(room, user) {
 };
 
 RightSidebar.prototype.onChangeUser = function(user) {
-    if (this.initialized && this.room.users.indexOf(user) > -1) this.membersList.redraw();
+    if (this.initialized && this.room.users.indexOf(user) > -1) {
+        this.membersList.redraw();
+    }
 };
 
 RightSidebar.prototype.onNewRoomMember = function(room, user) {
@@ -121,6 +137,12 @@ RightSidebar.prototype.onNewRoomMember = function(room, user) {
 RightSidebar.prototype.gotSearchResults = function(results) {
     this.searchList.items = results.results;
     this.searchList.redraw();
+};
+
+RightSidebar.prototype.renderUserProfile = function () {
+    render(this.userProfile, template('user-profile.jade', {
+        user: this.room.users[0]
+    }));
 };
 
 RightSidebar.prototype.show = function() {
@@ -139,7 +161,8 @@ RightSidebar.prototype.hide = function() {
 RightSidebar.prototype.toggle = function(mode) {
     if (mode == this.mode) {
         this.hide();
-    } else {
+    }
+    else {
         this.mode = mode;
         this.show();
     }
