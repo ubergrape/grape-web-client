@@ -94,8 +94,7 @@ export default class GrapeInput extends Emitter {
 	}
 
 	redraw() {
-		let vdom = template('grapeInput.jade', {})
-		render(this, vdom)
+		render(this, template('grapeInput.jade', {}))
 	}
 
 	showSearchBrowser(key) {
