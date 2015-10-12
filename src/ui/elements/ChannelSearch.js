@@ -8,28 +8,29 @@ export default class ChannelSearch extends Emitter {
 	constructor() {
 		super()
 		this.el = document.createElement('grape-channel-search')
-		this.state = {
-			show: false,
-			items: []
-		}
-		this.defaultProps = {
+		this.el.props = {
 			onSelect: ::this.onSelect,
 			onCreate: ::this.onCreate,
 			onShow: ::this.onShow,
-			onHide: ::this.onHide
+			onHide: ::this.onHide,
+			show: false,
+			items: []
 		}
 	}
 
-	redraw() {
+	setProps(props) {
 		this.el.props = {
-			...this.defaultProps,
-			...this.state
+			...this.el.props,
+			...props
 		}
+	}
+
+	hide() {
+		this.setProps({show: false})
 	}
 
 	onOrgReady(org) {
-		this.state.items = getItems(org)
-		this.redraw()
+		this.org = org
 	}
 
 	onSelect(item) {
@@ -38,19 +39,19 @@ export default class ChannelSearch extends Emitter {
 	}
 
 	onCreate() {
-		this.state.show = false
-		this.redraw()
+		this.hide()
 		this.emit('triggerRoomManager')
 	}
 
 	onShow() {
-		this.state.show = true
-		this.redraw()
+		this.setProps({
+			show: true,
+			items: getItems(this.org)
+		})
 	}
 
 	onHide() {
-		this.state.show = false
-		this.redraw()
+		this.hide()
 	}
 }
 
