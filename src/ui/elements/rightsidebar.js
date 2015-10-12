@@ -145,9 +145,10 @@ RightSidebar.prototype.renderUserProfile = function () {
     }));
 };
 
-RightSidebar.prototype.show = function() {
+RightSidebar.prototype.show = function(mode) {
     var clientBody = qs('.client-body');
     classes(clientBody).add('right-sidebar-show')
+    this.mode = mode
     this.redraw();
 };
 
@@ -159,11 +160,6 @@ RightSidebar.prototype.hide = function() {
 };
 
 RightSidebar.prototype.toggle = function(mode) {
-    if (mode == this.mode) {
-        this.hide();
-    }
-    else {
-        this.mode = mode;
-        this.show();
-    }
+    if (mode == this.mode) this.hide();
+    else this.show(mode);
 }
