@@ -181,12 +181,6 @@ export default class GrapeInput extends Emitter {
 		if (!this.previous) return
 		this.previous.el.classList.remove('editing')
 		this.el.classList.remove('editing-previous')
-
-		let avatar = qs('.avatar.editing')
-		if (avatar) {
-			avatar.classList.remove('editing')
-		}
-
 		this.input.setTextContent('')
 		this.previous = null
 	}
