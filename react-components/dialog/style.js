@@ -29,7 +29,8 @@ export default {
     width: 525,
     borderRadius: sizes.borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    outline: 0 
   },
   header: {
     display: 'flex',
