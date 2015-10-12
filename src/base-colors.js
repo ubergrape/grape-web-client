@@ -20,5 +20,7 @@ export default {
   silverLight: '#f8f8f8',
   sandLight: '#e8dfbf',
   sandLighter: '#f9f6e8',
-  white: '#ffffff'
+  grayBlueLight: '#ebeef3',
+  black: '#000',
+  white: '#fff'
 }
