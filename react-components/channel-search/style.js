@@ -16,14 +16,16 @@ export default {
     width: '100%'
   },
   list: {
+    margin: '5px 0'
   },
   item: {
     cursor: 'pointer',
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    padding: '5px',
   },
   itemFocused: {
-    background: 'blue'
+    background: '#EBEEF3'
   },
   itemRoomIcon: {
     width: ICON_HEIGHT,
@@ -40,7 +42,12 @@ export default {
     background: 'no-repeat center',
     backgroundSize: '100%'
   },
-  itemText: {},
+  itemText: {
+    paddingLeft: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   fallback: {
     display: 'flex',
     flexDirection: 'column',
