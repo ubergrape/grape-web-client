@@ -2,8 +2,15 @@ import button from '../button/style'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import colors from 'grape-theme/dist/base-colors'
+import rules from 'grape-theme/dist/rules'
 
 const ICON_HEIGHT = 30
+
+let icon = {
+  flexShrink: 0,
+  width: ICON_HEIGHT,
+  height: ICON_HEIGHT
+}
 
 export default {
   content: {
@@ -22,31 +29,28 @@ export default {
     cursor: 'pointer',
     display: 'flex',
     flexDirection: 'row',
-    padding: '5px',
+    alignItems: 'center',
+    padding: 5
   },
   itemFocused: {
     background: '#EBEEF3'
   },
   itemRoomIcon: {
-    width: ICON_HEIGHT,
-    height: ICON_HEIGHT,
+    ...icon,
     borderRadius: sizes.borderRadius.small,
     color: colors.white,
     lineHeight: `${ICON_HEIGHT}px`,
     textAlign: 'center'
   },
   itemUserIcon: {
-    width: ICON_HEIGHT,
-    height: ICON_HEIGHT,
+    ...icon,
     borderRadius: '50%',
     background: 'no-repeat center',
     backgroundSize: '100%'
   },
   itemText: {
-    paddingLeft: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    ...rules.ellipsis,
+    paddingLeft: 10
   },
   fallback: {
     display: 'flex',
