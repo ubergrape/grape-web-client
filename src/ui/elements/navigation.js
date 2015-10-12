@@ -14,6 +14,7 @@ var debounce = require('debounce');
 var resizable = require('resizable');
 var store = require('../store').prefix('navigation');
 var clamp = require('clamp');
+var page = require('page');
 
 module.exports = Navigation;
 
@@ -253,6 +254,7 @@ Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
 }
 
 Navigation.prototype.select = function Navigation_select(item) {
+	this.room = item;
 	this.roomList.selectItem(null);
 	this.roomListCollapsed.selectItem(null);
 	this.pmList.selectItem(null);
@@ -293,6 +295,7 @@ Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
 	this.roomList.items.splice(newRoomIndex, 1);
 	this.roomList.redraw();
 	this.roomListCollapsed.redraw();
+	if (this.room === room) page.replace('/chat/');
 }
 
 Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {

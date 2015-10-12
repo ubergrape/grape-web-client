@@ -8,7 +8,6 @@ export default function doBroker(ui, api) {
     broker(api, 'leftChannel', ui, 'leftChannel')
     broker(api, 'gotsearchresults', ui, 'displaySearchResults')
     broker(api, 'roomCreated', ui, 'roomCreated')
-    broker(api, 'roomdeleted', ui, 'roomDeleted')
     broker(api, 'error', ui, 'gotError')
     broker(api, 'messageNotFound', ui, 'onMessageNotFound')
     broker(api, 'channelupdate', ui, 'channelUpdate')
