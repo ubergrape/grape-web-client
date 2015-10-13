@@ -338,7 +338,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 };
 
 UI.prototype.gotError = function UI_gotError(err) {
-    notification.error(err.message, err.details);
+    notification.error(err.message);
 };
 
 UI.prototype.onDisconnected = function () {
