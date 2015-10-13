@@ -110,7 +110,7 @@ RoomManager.prototype.setCreate = function () {
 
 RoomManager.prototype.leaveRoom = function (ev) {
 	var roomID = closest(ev.target, '.item', true).getAttribute('data-id');
-	this.emit('leaveRoom', roomID);	
+	this.emit('leaveRoom', roomID);
 }
 
 RoomManager.prototype.createRoom = function (ev) {
@@ -164,8 +164,8 @@ RoomManager.prototype.onRoomCreationError = function (err) {
 	var form = this.creationForm.el;
 	var newRoomName = form['newroom-name'];
 	var createButton = qs('input.create-room-button', form);
-	newRoomName.setCustomValidity(err.msg);
-	createButton.click();	
+	newRoomName.setCustomValidity(err.message);
+	createButton.click();
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {

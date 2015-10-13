@@ -384,7 +384,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
         if (res.logo !== null) org.logo = res.logo;
         if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis;
         if (res.has_integrations !== null) org.has_integrations = res.has_integrations;
-       
+
         org.inviter_role = res.inviter_role;
         // connect users and pms
         org.pms.forEach( function(pm) { pm.users[0].pm = pm; });
@@ -474,7 +474,7 @@ API.prototype.onCreateRoom = function API_onCreateRoom(room) {
         action: 'create',
         args: [room]
     }, function(err, room) {
-        if (err) return this.emit('roomCreationError', err.details);
+        if (err) return this.emit('roomCreationError', err);
         this.emit('roomCreated', this._tryAddRoom(room));
     }.bind(this));
 };
@@ -593,7 +593,7 @@ API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
         action: 'invite',
         args: [room.id, users]
     }, function(err, res) {
-        if (err) return;
+        if (err) return this.emit('error', err);
         this.emit('roomInviteSuccess');
     }.bind(this));
 };
