@@ -4,6 +4,7 @@ import events from 'events'
 import qs from 'query'
 import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
+import find from 'lodash/collection/find'
 import clone from 'lodash/lang/clone'
 
 import staticurl from 'staticurl'
@@ -198,17 +199,10 @@ export default class GrapeInput extends Emitter {
 	}
 
 	findPreviousMessage() {
-		let message
 		let history = this.room.history.slice().reverse()
-		history.some(msg => {
-			// TODO avoid globals.
-			if (msg.author === window.ui.user && !msg.attachments.length) {
-				message = msg
-				return true
-			}
+		return find(history, msg => {
+			return msg.author === this.user && !msg.attachments.length
 		})
-
-		return message
 	}
 
 	stopTyping() {
@@ -355,6 +349,10 @@ export default class GrapeInput extends Emitter {
 	onOrgReady(org) {
 		this.org = org
 		this.init()
+	}
+
+	onSetUser(user) {
+		this.user = user
 	}
 
 	onAddIntegration() {

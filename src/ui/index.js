@@ -274,7 +274,6 @@ UI.prototype.setUser = function UI_setUser(user) {
         this.user = user;
         template.locals.user = user;
         this.emit('setUser', user);
-        this.grapeInput.redraw();
     }
 };
 
