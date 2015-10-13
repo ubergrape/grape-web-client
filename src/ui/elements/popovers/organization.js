@@ -56,7 +56,7 @@ OrganizationPopover.prototype.onOrgReady = function(org) {
     this.redraw();
 }
 
-OrganizationPopover.prototype.onSetVisitor = function(user) {
+OrganizationPopover.prototype.onSetUser = function(user) {
     this.user = user;
     this.redraw();
 }

@@ -31,7 +31,7 @@ export default function pipeEvents(ui) {
 	broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady')
 	broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
 	broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
-	broker(ui, 'setVisitor', ui.organizationMenu, 'onSetVisitor')
+	broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
 	broker(ui, 'orgReady', ui.navigation, 'onOrgReady')
 	broker(ui, 'newMessage', ui.navigation, 'onNewMessage')
 	broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom')
