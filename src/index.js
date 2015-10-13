@@ -1,6 +1,7 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
 "use strict";
 
+require('array.from');
 require('custom-event-polyfill');
 require('document-register-element');
 require('reactive-elements');

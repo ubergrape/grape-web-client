@@ -10,6 +10,7 @@
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
+    "array.from": "^0.2.0",
     "broker": "Swatinem/broker#0.0.2",
     "clamp": "./local_modules/clamp",
     "color": "^0.10.1",
