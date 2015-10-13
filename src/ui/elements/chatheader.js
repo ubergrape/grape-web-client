@@ -17,7 +17,7 @@ module.exports = ChatHeader;
 
 function ChatHeader() {
 	Emitter.call(this);
-	this.room = new Emitter({name: '', users: []});
+	this.room = {};
 	this.editOptions = {
 		canManageRoom: false,
 		renamingRoom: false
@@ -33,15 +33,15 @@ function ChatHeader() {
 		icon: 'fa-files-o',
 		visible: true
 	};
-	this.membersToggler = {
-		className: 'members-menu-toggler',
+	this.userViewToggler = {
+		className: 'user-view-toggler',
 		icon: 'fa-user',
 		visible: true
 	};
 	this.menuItems =[
 		this.intercom,
 		this.fileBrowserToggler,
-		this.membersToggler
+		this.userViewToggler
 	];
 	this.selected = null;
 	this.redraw = this.redraw.bind(this);
@@ -52,7 +52,7 @@ function ChatHeader() {
 
 ChatHeader.prototype = Object.create(Emitter.prototype);
 
-ChatHeader.prototype.init = function ChatHeader_init() {
+ChatHeader.prototype.init = function() {
 	this.classes = classes(this.el);
 	this.searchForm = qs('.search-form', this.el);
 	this.searchInput = qs('.search', this.el);
@@ -73,115 +73,47 @@ ChatHeader.prototype.init = function ChatHeader_init() {
 	}
 };
 
-ChatHeader.prototype.bind = function ChatHeader_bind() {
+ChatHeader.prototype.bind = function() {
 	var self = this;
-
-	this.events = events(this.el, {
-		toggleDeleteRoomDialog: function(e) {
-			self.emit('toggledeleteroomdialog', self.room);
-		},
-		triggerRoomRename: function() {
-			self.editState.renaming = true;
-			self.redraw();
-			var roomNameInput = qs('input.room-name', this.el);
-			var roomName = roomNameInput.value;
-			roomNameInput.focus();
-			roomNameInput.setSelectionRange(roomName.length,roomName.length);
-		},
-		stopRoomRename: function() {
-			self.editState.renaming = false;
-			self.redraw();
-		},
-		confirmRoomRename: function() {
-			var newRoomName = qs('input.room-name', self.el).value;
-			self.emit('confirmroomrename', self.room.id, newRoomName);
-		}, 
-		roomRenameShortcuts: function(e) {
-			switch(keyname(e.keyCode)) {
-				case 'enter':
-					this.confirmRoomRename();
-				default:
-					e.target.setCustomValidity('');
-			}
-		},
-		preventFormSubmission: function(e) {
-			e.preventDefault();
-		},
-		toggleMembersMenu: function(e) {
-			self.selected = self.membersToggler == self.selected ? null : self.membersToggler;
-			var mode = self.room.type == 'room' ? 'members' : 'profile';
-			self.emit('toggleRightSidebar', mode);
-			self.redraw();
-		},
-		toggleFileBrowser: function(e) {
-			self.selected = self.fileBrowserToggler == self.selected ? null : self.fileBrowserToggler;
-			self.emit('toggleRightSidebar', 'file');
-			self.redraw();
-		},
-		showSearch: function(e) {
-			self.selected = null;
-			self.emit('showSearch', 'search');
-			self.redraw();		
-		},
-		triggerDescriptionEdit: function (e) {
-			self.editState.editingDescription = true;
-			self.redraw();
-			var inputDescription = qs('input.description', this.el);
-			// unfortunately our events.bind method has no support or
-			// does not work for blur events, so here is a workaround
-			inputDescription.removeEventListener('blur', this.stopDescriptionEdit);
-			inputDescription.focus();
-			inputDescription.addEventListener('blur', this.stopDescriptionEdit);
-		},
-		stopDescriptionEdit: function () {
-			self.editState.editingDescription = false;
-			self.redraw();
-		},
-		setDescription: function (e) {
-			if (keyname(e.keyCode) != 'enter') return;
-			self.emit('setDescription', self.room, e.target.value);
-		}
-	});
+	this.events = events(this.el, this);
 
 	this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog');
 	this.events.bind('click div.room-name.editable', 'triggerRoomRename');
 	this.events.bind('click .option-rename-cancel', 'stopRoomRename');
 	this.events.bind('click .option-rename-ok', 'confirmRoomRename');
-	this.events.bind('click .members-menu-toggler', 'toggleMembersMenu');
+	this.events.bind('click .user-view-toggler', 'toggleUserView');
 	this.events.bind('keyup input.room-name', 'roomRenameShortcuts');
 	this.events.bind('keyup input.description', 'setDescription');
 	this.events.bind('submit form', 'preventFormSubmission');
 	this.events.bind('click .file-browser-toggler', 'toggleFileBrowser');
 	this.events.bind('click .description-edit', 'triggerDescriptionEdit');
 
-	var	callbacks = this.events.obj;
-
 	document.addEventListener('keyup', function(e) {
-		if (keyname(e.which) == 'esc') callbacks.stopRoomRename();
+		if (keyname(e.which) == 'esc') this.stopRoomRename();
 	});
 
 	this.searchInput.addEventListener('focus', function () {
-		callbacks.showSearch();
-	});
+		this.showSearch();
+	}.bind(this));
 
 	var startSearching = debounce(function () {
-		self.emit('searching', self.q);
-	}, 200, false);
+		this.emit('searching', this.q);
+	}.bind(this), 200, false);
 
 	this.searchInput.addEventListener('keyup', function () {
-		var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '');
-		if (q.length !== 0 && self.q !== q) {
-			self.q = q;
+		var q = (qs('input.search', this.el).value || this.value).replace(/^\s+|\s+$/g, '');
+		if (q.length !== 0 && this.q !== q) {
+			this.q = q;
 			startSearching();
 		}
-		else if (q.length === 0 && self.q !== q) {
-			self.q = q;
-			self.emit("stopsearching");
+		else if (q.length === 0 && this.q !== q) {
+			this.q = q;
+			this.emit('stopsearching');
 		}
-	});
+	}.bind(this));
 };
 
-ChatHeader.prototype.redraw = function ChatHeader_redraw() {
+ChatHeader.prototype.redraw = function() {
 	var vdom = template('chatheader.jade', {
 		room: this.room,
 		isRoomManager: this.isRoomManager,
@@ -196,11 +128,29 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
 	render(this, vdom);
 };
 
-ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
+ChatHeader.prototype.toggleDeleteRoomDialog = function() {
+	this.emit('toggledeleteroomdialog', this.room);
+}
+
+ChatHeader.prototype.triggerRoomRename = function() {
+	this.editState.renaming = true;
+	this.redraw();
+	var roomNameInput = qs('input.room-name', this.el);
+	var roomName = roomNameInput.value;
+	roomNameInput.focus();
+	roomNameInput.setSelectionRange(roomName.length,roomName.length);
+}
+
+ChatHeader.prototype.stopRoomRename =  function() {
+	this.editState.renaming = false;
+	this.redraw();
+}
+
+ChatHeader.prototype.clearSearch = function() {
 	this.searchInput.value = '';
 };
 
-ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
+ChatHeader.prototype.setRoom = function(room, msgID) {
 	this.room = room;
 	this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN;
 	this.editState.renaming = false;
@@ -208,24 +158,85 @@ ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
 	this.redraw();
 };
 
-ChatHeader.prototype.channelUpdate = function ChatHeader_channelUpdate (room) {
+ChatHeader.prototype.preventFormSubmission = function(e) {
+	e.preventDefault()
+}
+
+ChatHeader.prototype.channelUpdate = function(room) {
 	if (this.room != room) return;
 	this.editState.editingDescription = false;
 	this.editState.renaming = false;
 	this.redraw();
 }
 
-ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
+ChatHeader.prototype.roomRenameError = function(err) {
 	qs('input.room-name', this.el).setCustomValidity(err.details.msg);
 	qs('input.submit-rename', this.el).click();
 }
 
-ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode () {
+ChatHeader.prototype.roomRenameShortcuts = function(e) {
+	switch(keyname(e.keyCode)) {
+		case 'enter':
+			this.confirmRoomRename();
+		default:
+			e.target.setCustomValidity('');
+	}
+}
+
+ChatHeader.prototype.confirmRoomRename = function() {
+	var newRoomName = qs('input.room-name', this.el).value;
+	this.emit('confirmroomrename', this.room.id, newRoomName);
+}
+
+ChatHeader.prototype.toggleUserView = function() {
+	this.selected = this.userViewToggler == this.selected ? null : this.userViewToggler;
+	var mode = this.room.type == 'room' ? 'members' : 'profile';
+	this.emit('toggleRightSidebar', mode);
+	this.redraw();
+}
+
+ChatHeader.prototype.toggleFileBrowser = function() {
+	this.selected = this.fileBrowserToggler == this.selected ? null : this.fileBrowserToggler;
+	this.emit('toggleRightSidebar', 'file');
+	this.redraw();	
+}
+
+ChatHeader.prototype.showSearch = function() {
+	this.selected = null;
+	this.emit('showSearch', 'search');
+	this.redraw();
+}
+
+ChatHeader.prototype.triggerDescriptionEdit = function() {
+	this.editState.editingDescription = true;
+	this.redraw();
+	var inputDescription = qs('input.description', this.el);
+	var onBlur = function() {
+		this.stopDescriptionEdit()
+	}.bind(this)
+	// unfortunately our events.bind method has no support or
+	// does not work for blur events, so here is a workaround
+	inputDescription.removeEventListener('blur', onBlur);
+	inputDescription.focus();
+	inputDescription.addEventListener('blur', onBlur);
+}
+
+ChatHeader.prototype.stopDescriptionEdit = function() {
+	this.editState.editingDescription = false;
+	this.redraw();
+}
+
+ChatHeader.prototype.setDescription = function(e) {
+	if (keyname(e.keyCode) !== 'enter') return;
+	this.emit('setDescription', this.room, e.target.value);
+}
+
+ChatHeader.prototype.onSwitchToChatMode = function() {
 	this.mode = 'chat';
 	this.redraw();
 }
 
-ChatHeader.prototype.onSwitchToSearchMode = function ChatHeader_onSwitchToChatMode () {
+ChatHeader.prototype.onSwitchToSearchMode = function() {
 	this.mode = 'search';
 	this.redraw();
 }
