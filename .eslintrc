@@ -1,9 +1,3 @@
 {
-  "extends": "eslint-config-ubergrape",
-  "rules": {
-    "quotes": [1, "single", "avoid-escape"],
-    "indent": [1, "tab"],
-    "semi": 1,
-    "camelcase": 0 // because we have functions like Title_removeRoom for debugging
-  }
+  "extends": "eslint-config-ubergrape"
 }

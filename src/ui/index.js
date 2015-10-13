@@ -34,6 +34,7 @@ var OrganizationPopover = exports.OrganizationPopover = require('./elements/popo
 var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
 var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
 var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput');
+var ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch');
 var HistoryView = exports.HistoryView = require('./elements/historyview');
 var Title = exports.Title = require('./titleupdater');
 var FileUploader = exports.FileUploader = require('./elements/fileuploader');
@@ -93,6 +94,9 @@ UI.prototype.init = function UI_init() {
     // initialize the input field
     this.grapeInput = new GrapeInput();
     qs('.footer', this.el).appendChild(this.grapeInput.el);
+
+    this.channelSearch = new ChannelSearch();
+    document.body.appendChild(this.channelSearch.el);
 
     // initialize dialogs
     this.markdownTips = new MarkdownTipsDialog().closable();
@@ -269,7 +273,7 @@ UI.prototype.setUser = function UI_setUser(user) {
     if (this.user === undefined || user.id === this.user.id) {
         this.user = user;
         template.locals.user = user;
-        this.emit('setVisitor', user);
+        this.emit('setUser', user);
         this.grapeInput.redraw();
     }
 };
