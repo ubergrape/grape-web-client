@@ -6,7 +6,10 @@ import style from './style'
 import {useSheet} from '../jss'
 
 /**
- * This renders Browser inside of Modal and connects those show/hide handlers.
+ * Dialog has
+ * - header (title, close button)
+ * - body
+ * - positioned in the middle
  */
 @useSheet(style)
 export default class Dialog extends Component {
