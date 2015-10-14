@@ -3,7 +3,6 @@ import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import assign from 'lodash/object/assign'
-import debounce from 'lodash/function/debounce'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -17,6 +16,7 @@ import * as dataUtils from './dataUtils'
 import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
+import GlobalEvent from '../global-event/GlobalEvent'
 
 const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
 
@@ -40,7 +40,6 @@ class Browser extends Component {
   constructor(props) {
     super(props)
     this.exposePublicMethods()
-    this.onResize = debounce(::this.cacheItemsPerRow, 500)
     this.state = this.createState(this.props, {})
   }
 
@@ -54,13 +53,8 @@ class Browser extends Component {
     this.cacheItemsPerRow()
   }
 
-  componentWillMount() {
-    window.addEventListener('resize', this.onResize)
-  }
-
   componentWillUnmount() {
     this.grid = null
-    window.removeEventListener('resize', this.onResize)
   }
 
   componentDidMount() {
@@ -107,6 +101,10 @@ class Browser extends Component {
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth')}
         onMouseDown={::this.onMouseDown}>
+        <GlobalEvent
+          event="resize"
+          handler={::this.onResize}
+          debounce={500} />
         <Input
           onInput={::this.onInput}
           onBlur={this.props.onBlur}
@@ -288,6 +286,10 @@ class Browser extends Component {
   onMouseDown(e) {
     // Avoids loosing focus and though caret position in input.
     e.preventDefault()
+  }
+
+  onResize() {
+    this.cacheItemsPerRow()
   }
 }
 

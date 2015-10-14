@@ -15,6 +15,7 @@ import Caret from './Caret'
 import AccentMode from './AccentMode'
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
+import GlobalEvent from '../global-event/GlobalEvent'
 
 @useSheet(style)
 export default class Editable extends Component {
@@ -37,7 +38,6 @@ export default class Editable extends Component {
   constructor(props) {
     super(props)
     this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
-    this.onResizeWindowDebounced = debounce(::this.onResize, 500)
     this.onPaste = ::this.onPaste
   }
 
@@ -53,7 +53,6 @@ export default class Editable extends Component {
   componentDidMount() {
     this.node = React.findDOMNode(this)
     this.node.addEventListener('paste', this.onPaste)
-    window.addEventListener('resize', this.onResizeWindowDebounced)
 
     // Todo add desroy method to scribe so that we can recreate everything on
     // mount. Right now this
@@ -71,7 +70,6 @@ export default class Editable extends Component {
 
   componentWillUnmount() {
     this.node.removeEventListener('paste', this.onPaste)
-    window.removeEventListener('resize', this.onResizeWindowDebounced)
   }
 
   render() {
@@ -83,7 +81,12 @@ export default class Editable extends Component {
         onKeyPress={::this.onKeyPress}
         onKeyDown={::this.onKeyDown}
         onMouseDown={::this.onMouseDown}
-        data-test="editable" />
+        data-test="editable">
+        <GlobalEvent
+          event="resize"
+          handler={::this.onResize}
+          debounce={500} />
+      </div>
     )
   }
 

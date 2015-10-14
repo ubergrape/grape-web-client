@@ -22,6 +22,7 @@ import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
+import GlobalEvent from '../global-event/GlobalEvent'
 import style from './style'
 import * as utils from './utils'
 
@@ -62,7 +63,6 @@ export default class Input extends Component {
     super(props)
     this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.exposePublicMethods()
-    this.onBlurWindow = ::this.onBlurWindow
     this.state = this.createState(this.props)
   }
 
@@ -82,7 +82,6 @@ export default class Input extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.attach()
     this.setTrigger(this.state.browser)
     let {onDidMount} = this.props
@@ -90,7 +89,6 @@ export default class Input extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('blur', this.onBlurWindow)
     objectStyle.sheet.detach()
   }
 
@@ -120,6 +118,7 @@ export default class Input extends Component {
         onKeyDown={::this.onKeyDown}
         className={classes.input}
         data-test="grape-input">
+        <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         <div className={classes.completeWrapper} data-test="complete-wrapper">
           {browser}
         </div>
