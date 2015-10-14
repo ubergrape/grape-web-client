@@ -33,6 +33,10 @@ export default class ChannelSearch extends Emitter {
 		this.org = org
 	}
 
+	onSetUser(user) {
+		this.user = user
+	}
+
 	onSelect(item) {
 		page('/chat/' + item.slug)
 		this.onHide()
@@ -46,7 +50,7 @@ export default class ChannelSearch extends Emitter {
 	onShow() {
 		this.setProps({
 			show: true,
-			items: getItems(this.org)
+			items: filterItem(getItems(this.org), this.user)
 		})
 	}
 
@@ -56,19 +60,24 @@ export default class ChannelSearch extends Emitter {
 }
 
 function getItems(org) {
-	let rooms = org.rooms.map(room => {
-		let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
-		item.isRoom = true
-		return item
-	})
 	let users = org.users.map(({id, displayName, username, avatar}) => {
 		return {
 			id,
+			type: 'user',
 			name: displayName,
 			slug: `@${username}`,
-			isRoom: false,
 			iconUrl: avatar
 		}
 	})
+	let rooms = org.rooms.map(room => {
+		let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
+		item.type = 'room'
+		return item
+	})
 	return [...users, ...rooms]
+}
+
+function filterItem(items, user) {
+	// Remove current user.
+	return items.filter(({id}) => id !== user.id)
 }

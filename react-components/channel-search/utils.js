@@ -1,5 +1,17 @@
+import sortBy from 'lodash/collection/sortBy'
+
 export function getItems(data, search) {
   if (!search) return data
   let lowerSearch = search.toLowerCase()
-  return data.filter(item => item.name.toLowerCase().indexOf(lowerSearch) >= 0)
+  let items = data.map(item => {
+    return {
+      item,
+      index: item.name.toLowerCase().indexOf(lowerSearch)
+    }
+  })
+
+  items = items.filter(({index}) => index >= 0)
+  items = sortBy(items, 'index')
+  items = items.map(({item}) => item)
+  return items
 }

@@ -94,7 +94,7 @@ export default class ChannelSearch extends Component {
     if (focused) itemClasses.push(classes.itemFocused)
 
     let icon
-    if (item.isRoom) {
+    if (item.type === 'room') {
       icon = (
         <span
           className={classes.itemRoomIcon}
