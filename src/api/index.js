@@ -500,7 +500,7 @@ API.prototype.bindEvents = function API_bindEvents() {
 			case 'pm':
 			case 'mention':
 			case 'group_mention':
-				notification['channel'] = models.Room.get(notification.channel_id);
+				notification.channel = models.Room.get(notification.channel_id);
 				self.emit('newMsgNotification', notification);
 				break;
 			case 'room_invite':
