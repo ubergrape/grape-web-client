@@ -20,7 +20,7 @@ export default class Room {
         tabindex="-1">
         ${escapeHTML(this.content)}
       </a>
-    `
+    `.replace(/\n/g, '')
   }
 
   toString() {

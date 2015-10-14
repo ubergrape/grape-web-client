@@ -1,4 +1,4 @@
-import objects from '../objects'
+import * as objects from '../objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.

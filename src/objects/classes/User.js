@@ -20,7 +20,7 @@ export default class User {
         tabindex="-1">
         ${escapeHTML(this.content)}
       </a>
-    `
+    `.replace(/\n/g, '')
   }
 
   toString() {

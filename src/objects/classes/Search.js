@@ -16,9 +16,7 @@ export default class Search {
   toHTML() {
     let service = escapeHTML(this.service)
     let type = escapeHTML(this.type)
-    return `
-      <a
-        tabindex="-1"
+    return `<a tabindex="-1"
         target="_blank"
         href="${escapeHTML(this.url)}"
         data-object="${escapeHTML(String(this))}"
@@ -26,7 +24,8 @@ export default class Search {
         class="ac service-${service} type-${service}${type} animate">
         ${escapeHTML(this.content)}
       </a>
-    `
+    `.replace(/\n/g, '')
+
   }
 
   toString() {
