@@ -1,7 +1,7 @@
 import sortBy from 'lodash/collection/sortBy'
 
 export function getItems(data, search) {
-  if (!search) return data
+  if (!search) return sortBy(data, 'name')
   let lowerSearch = search.toLowerCase()
   let items = data.map(item => {
     return {
