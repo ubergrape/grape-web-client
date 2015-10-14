@@ -82,7 +82,6 @@ PMManager.prototype.setDeleted = function () {
 
 PMManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
-	menu.selectTab(null);
 	menu.selectTab(menu.options.tabs.items[selected]);
 	this.pmList.order('displayName');
 }
@@ -97,6 +96,5 @@ PMManager.prototype.onNewOrgMember = function (user) {
 }
 
 PMManager.prototype.end = function () {
-	// hack to close the dialog
-	qs('.close', this.el).click();
+	this.dialog.hide()
 }

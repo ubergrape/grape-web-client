@@ -23,15 +23,6 @@ RoomManager.prototype.init = function () {
 		header: 'Manage Rooms',
 		tabs: {
 			visible: true
-		},
-		back: {
-			className: 'back-button',
-			visible: false
-		},
-		button: {
-			className: 'new-room',
-			text: 'Create new room',
-			visible: true
 		}
 	});
 
@@ -81,8 +72,6 @@ RoomManager.prototype.bind = function () {
 RoomManager.prototype.setUnjoined = function () {
 	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'unjoined';
-	menuOptions.back.visible = false;
-	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
 	menuOptions.header = 'Manage Rooms';
 	this.redrawContent(0);
@@ -91,8 +80,6 @@ RoomManager.prototype.setUnjoined = function () {
 RoomManager.prototype.setJoined = function () {
 	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'joined';
-	menuOptions.back.visible = false;
-	menuOptions.button.visible = true;
 	menuOptions.tabs.visible = true;
 	menuOptions.header = 'Manage Rooms';
 	this.redrawContent(1);
@@ -101,8 +88,6 @@ RoomManager.prototype.setJoined = function () {
 RoomManager.prototype.setCreate = function () {
 	var menuOptions = this.menu.options;
 	this.mode = this.roomList.templateOptions.mode = 'creation';
-	menuOptions.back.visible = true;
-	menuOptions.button.visible = false;
 	menuOptions.tabs.visible = false;
 	menuOptions.header = 'Create new room';
 	this.redrawContent(2);
@@ -132,7 +117,6 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 
 RoomManager.prototype.redrawContent = function (selected) {
 	var menu = this.menu;
-	menu.selectTab(null);
 	menu.selectTab(menu.options.tabs.items[selected]);
 	menu.redraw();
 	this.roomList.order('name');
@@ -169,6 +153,5 @@ RoomManager.prototype.onRoomCreationError = function (err) {
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {
-	// yes, this is how we can close the dialog - HACK
-	qs('.close', this.el).click();
+	this.dialog.hide()
 }
