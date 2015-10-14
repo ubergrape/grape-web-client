@@ -11,7 +11,7 @@ function pipeEvents(ui) {
     broker(ui, 'selectchannel', ui.chatHeader, 'setRoom');
     broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate');
     broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError');
-    broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
+    //broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom');
     broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady');
     broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel');
     broker(ui, 'orgReady', ui.historyView, 'onOrgReady');
@@ -44,17 +44,17 @@ function pipeEvents(ui) {
     broker(ui, 'channelRead', ui.navigation, 'onChannelRead');
     broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel');
     broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel');
-    broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
+    /*broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser');
     broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel');
     broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember');
-    broker(ui, 'gotSearchResults', ui.rightSidebar, 'gotSearchResults');
+    broker(ui, 'gotSearchResults', ui.rightSidebar, 'gotSearchResults');*/
 
     // chat header
     broker.pass(ui.chatHeader, 'searching', ui, 'searching');
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename');
     broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription');
-    broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'toggle');
-    broker(ui.chatHeader, 'showSearch', ui.rightSidebar, 'show');
+    broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'onToggle');
+    //broker(ui.chatHeader, 'showSearch', ui.rightSidebar, 'show');
     broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog');
 
     // grape input
@@ -102,7 +102,9 @@ function pipeEvents(ui) {
     broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager');
 
     // right sidebar
-    broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
-    broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
-    broker(ui.rightSidebar, 'hideRightSidebar', ui, 'onHideRightSidebar');
+    broker(ui.rightSidebar, 'show', ui, 'onShowRightSidebar');
+    broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar');
+    //broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember');
+    //broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite');
+    //broker(ui.rightSidebar, 'hideRightSidebar', ui, 'onHideRightSidebar');
 }

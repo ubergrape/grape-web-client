@@ -85,10 +85,8 @@ UI.prototype.init = function UI_init() {
 
 	this.chatHeader = new ChatHeader();
 	qs('.room-header', this.el).appendChild(this.chatHeader.el);
-
-	this.rightSidebar = new RightSidebar();
-
-	// initialize the input field
+	
+    // initialize the input field
 	this.grapeInput = new GrapeInput();
 	qs('.footer', this.el).appendChild(this.grapeInput.el);
 
@@ -102,6 +100,9 @@ UI.prototype.init = function UI_init() {
 	this.title = new Title();
 	this.messages = new Messages();
 	qs('.chat-wrapper', this.el).appendChild(this.messages.el);
+
+    this.rightSidebar = new RightSidebar();
+    qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
 
 	this.upload = new FileUploader(this.options.uploadPath);
 	var uploadContainer = qs('.uploader', this.grapeInput.el);
@@ -437,6 +438,10 @@ UI.prototype.onTriggerPMManager = function () {
     broker(this, 'selectchannel', pmmanager, 'end');
     broker(this, 'changeUser', pmmanager, 'onChangeUser');
     broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
+}
+
+UI.prototype.onShowRightSidebar = function() {
+    classes(this.clientBody).add('right-sidebar-show');
 }
 
 UI.prototype.onHideRightSidebar = function () {

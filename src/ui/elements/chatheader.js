@@ -203,7 +203,7 @@ ChatHeader.prototype.toggleFileBrowser = function() {
 
 ChatHeader.prototype.showSearch = function() {
 	this.selected = null;
-	this.emit('showSearch', 'search');
+	this.emit('toggleRightSidebar', 'search');
 	this.redraw();
 }
 
