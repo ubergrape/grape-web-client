@@ -42,7 +42,7 @@
     "js-emoji": "sk7/js-emoji",
     "keyname": "0.0.1",
     "lodash": "^3.10.0",
-    "lpio-client": "^0.2.7",
+    "lpio-client": "^0.2.8",
     "marked": "ubergrape/marked",
     "meyer-reset": "ubergrape/meyer-reset",
     "model": "ubergrape/model#1.0.0",
