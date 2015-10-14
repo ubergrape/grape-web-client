@@ -1,8 +1,0 @@
-{
-  "ellipsis": {
-    "display": "block",
-    "textOverflow": "ellipsis",
-    "whiteSpace": "nowrap",
-    "overflow": "hidden"
-  }
-}
