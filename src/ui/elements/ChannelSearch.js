@@ -70,7 +70,8 @@ function getItems(org) {
 			iconUrl: avatar
 		}
 	})
-	let rooms = org.rooms.map(room => {
+	let rooms = org.rooms.filter(({joined}) => joined)
+	rooms = rooms.map(room => {
 		let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
 		item.type = 'room'
 		return item
