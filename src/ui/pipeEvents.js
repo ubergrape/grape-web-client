@@ -79,7 +79,7 @@ export default function pipeEvents(ui) {
 	broker.pass(ui.historyView, 'send', ui, 'send')
 	broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch')
 	broker.pass(ui.historyView, 'stoptyping', ui, 'stoptyping')
-	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage')
+	broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
 	broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
 	broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
 	broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode')

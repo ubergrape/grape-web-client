@@ -384,6 +384,12 @@ export default class GrapeInput extends Emitter {
 	onInputRender() {
 		this.in.emit('inputRendered')
 	}
+
+	onEditMessage(msg) {
+		this.setProps({focused: true}, () => {
+			this.editMessage(msg)
+		})
+	}
 }
 
 function isImage(mime) {
