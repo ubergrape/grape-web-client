@@ -39,7 +39,7 @@
     "eslint-config-ubergrape": "^0.1.1",
     "eslint-plugin-react": "^2.7.0",
     "expect.js": "^0.3.1",
-    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.12",
+    "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.13",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#0.1.4",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
     "hexToRgb": "./local_modules/color-converter",
