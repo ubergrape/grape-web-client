@@ -161,24 +161,20 @@ class Browser extends Component {
   /**
    * Select tab.
    *
-   * @param {String} id can be item id or "prev" or "next"
+   * @param {String} selector can be facet, "prev" or "next"
    */
   selectTab(selector) {
     let {tabs} = this.state
     let facet = selector
-    if (typeof selector == 'string') {
-      let currIndex = findIndex(tabs, tab => tab.selected)
-      if (selector === 'next') {
-        if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
-        else facet = tabs[0].id
-      }
-      else {
-        if (tabs[currIndex - 1]) facet = tabs[currIndex - 1].id
-        else facet = tabs[tabs.length - 1].id
-      }
+    let currIndex = findIndex(tabs, tab => tab.selected)
+    if (selector === 'next') {
+      if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
+      else facet = tabs[0].id
     }
-    let newIndex = findIndex(tabs, tab => tab.id === facet)
-    facet = tabs[newIndex].id
+    else if (selector === 'prev') {
+      if (tabs[currIndex - 1]) facet = tabs[currIndex - 1].id
+      else facet = tabs[tabs.length - 1].id
+    }
     this.setState({facet})
   }
 
