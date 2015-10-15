@@ -1,5 +1,5 @@
-import escapeHTML from 'lodash/string/escape'
 import encodeMDLink from '../encodeMDLink'
+import buildLink from '../buildLink'
 
 export default class Room {
   constructor(options) {
@@ -8,19 +8,13 @@ export default class Room {
     this.slug = options.slug
     this.url = '/chat/' + this.name
     this.content = '@' + this.name
+    this.service = 'chatgrape'
+    this.type = 'chatgraperoom'
+    this.str = this.toString()
   }
 
-  // TODO get rid of global classes.
   toHTML() {
-    return `
-      <a
-        href="${escapeHTML(this.url)}"
-        class="ac service-chatgrape type-chatgraperoom animate"
-        data-object="${escapeHTML(String(this))}"
-        tabindex="-1">
-        ${escapeHTML(this.content)}
-      </a>
-    `.replace(/\n/g, '')
+    return buildLink(this)
   }
 
   toString() {

@@ -1,4 +1,4 @@
-import escapeHTML from 'lodash/string/escape'
+import buildLink from '../buildLink'
 import encodeMDLink from '../encodeMDLink'
 
 export default class Search {
@@ -10,22 +10,14 @@ export default class Search {
     this.type = result.type
     this.name = result.name
     this.content = this.name
+    this.str = this.toString()
   }
 
-  // TODO get rid of global classes.
   toHTML() {
-    let service = escapeHTML(this.service)
-    let type = escapeHTML(this.type)
-    return `
-      <a tabindex="-1"
-        target="_blank"
-        href="${escapeHTML(this.url)}"
-        data-object="${escapeHTML(String(this))}"
-        data-result="${escapeHTML(JSON.stringify(this.result))}"
-        class="ac service-${service} type-${service}${type} animate">
-        ${escapeHTML(this.content)}
-      </a>
-    `.replace(/\n/g, '')
+    return buildLink({
+      ...this,
+      type: this.service + this.type
+    })
   }
 
   toString() {

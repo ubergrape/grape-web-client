@@ -1,4 +1,4 @@
-import escapeHTML from 'lodash/string/escape'
+import buildLink from '../buildLink'
 import encodeMDLink from '../encodeMDLink'
 
 export default class User {
@@ -8,19 +8,13 @@ export default class User {
     this.name = options.name
     this.url = '/chat/@' + this.username
     this.content = '@' + this.name
+    this.service = 'chatgrape'
+    this.type = 'chatgrapeuser'
+    this.str = this.toString()
   }
 
-  // TODO get rid of global classes.
   toHTML() {
-    return `
-      <a
-        href="${escapeHTML(this.url)}"
-        class="ac service-chatgrape type-chatgrapeuser animate"
-        data-object="${escapeHTML(String(this))}"
-        tabindex="-1">
-        ${escapeHTML(this.content)}
-      </a>
-    `.replace(/\n/g, '')
+    return buildLink(this)
   }
 
   toString() {
