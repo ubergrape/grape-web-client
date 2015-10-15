@@ -353,6 +353,7 @@ export default class GrapeInput extends Emitter {
 
 	onSetUser(user) {
 		this.user = user
+		this.redraw()
 	}
 
 	onAddIntegration() {
