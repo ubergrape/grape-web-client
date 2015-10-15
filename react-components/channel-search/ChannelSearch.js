@@ -124,7 +124,7 @@ export default class ChannelSearch extends Component {
     return {
       show: props.show,
       search,
-      items: utils.getItems(props.items, search)
+      items: utils.find(props.items, search)
     }
   }
 
@@ -137,7 +137,7 @@ export default class ChannelSearch extends Component {
     let {value} = e.target
     this.setState({
       search: value,
-      items: utils.getItems(this.props.items, value)
+      items: utils.find(this.props.items, value)
     })
   }
 
