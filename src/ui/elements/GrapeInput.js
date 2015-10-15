@@ -48,6 +48,7 @@ export default class GrapeInput extends Emitter {
 
 	setProps(newProps, callback) {
 		this.input.props = {
+			...this.input.props,
 			images: this.images,
 			customEmojis: this.org.custom_emojis,
 			placeholder: this.placeholder,
@@ -81,7 +82,8 @@ export default class GrapeInput extends Emitter {
 		this.el.classList.add('disabled')
 		this.setProps({
 			disabled: true,
-			placeholder: 'You cannot reply to this conversation.'
+			focused: false,
+			placeholder: 'You can not reply to this conversation.'
 		})
 	}
 
@@ -367,12 +369,16 @@ export default class GrapeInput extends Emitter {
 	onSelectChannel(room) {
 		if (this.room) this.unsent[this.room.id] = this.input.getTextContent()
 		this.completePreviousEdit()
-		if (!room || (room.type === 'pm' && !room.users[0].active)) this.disable()
-		else this.enable()
-		this.room = room
-		this.setProps({focused: true}, () => {
-			this.input.setTextContent(this.unsent[room.id] || '')
-		})
+		if (!room || (room.type === 'pm' && !room.users[0].active)) {
+			this.disable()
+		}
+		else {
+			this.enable()
+			this.room = room
+			this.setProps({focused: true}, () => {
+				this.input.setTextContent(this.unsent[room.id] || '')
+			})
+		}
 	}
 
 	onInputRender() {
