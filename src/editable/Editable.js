@@ -74,19 +74,20 @@ export default class Editable extends Component {
 
   render() {
     return (
-      <div
-        onFocus={::this.onFocus}
-        onBlur={::this.onBlur}
-        onInput={::this.onInput}
-        onKeyPress={::this.onKeyPress}
-        onKeyDown={::this.onKeyDown}
-        onMouseDown={::this.onMouseDown}
-        data-test="editable">
-        <GlobalEvent
-          event="resize"
-          handler={::this.onResize}
-          debounce={500} />
-      </div>
+      <GlobalEvent
+        event="resize"
+        handler={::this.onResize}
+        debounce={500}>
+        <div
+          onFocus={::this.onFocus}
+          onBlur={::this.onBlur}
+          onInput={::this.onInput}
+          onKeyPress={::this.onKeyPress}
+          onKeyDown={::this.onKeyDown}
+          onMouseDown={::this.onMouseDown}
+          data-test="editable">
+        </div>
+      </GlobalEvent>
     )
   }
 

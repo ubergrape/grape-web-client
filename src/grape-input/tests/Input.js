@@ -8,7 +8,7 @@ let {render} = React
 let {TestUtils} = React.addons
 let {Simulate} = TestUtils
 
-describe('input:', () => {
+describe('grape-input:', () => {
   describe('Input()', () => {
     it('should render without props', () => {
       render(<Input />, document.body)

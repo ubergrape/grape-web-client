@@ -15,5 +15,5 @@ export function $(names) {
 }
 
 afterEach(() => {
-  //document.body.innerHTML = ''
+  document.body.innerHTML = ''
 })

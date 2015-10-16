@@ -37,6 +37,6 @@ export default class GlobalEvent extends Component {
   }
 
   render() {
-    return this.children || null
+    return this.props.children || null
   }
 }
