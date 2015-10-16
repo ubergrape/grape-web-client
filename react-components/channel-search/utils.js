@@ -1,7 +1,11 @@
 import sortBy from 'lodash/collection/sortBy'
 
 export function find(data, search) {
-  if (!search) return sortBy(data, 'name')
+  if (!search) {
+    return sortBy(data, item => {
+      return item.name.toLowerCase()
+    })
+  }
   let fuzzyIndexOf = fuzzySearch(search)
   let items = data.map(item => {
     return {
