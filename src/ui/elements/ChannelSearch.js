@@ -61,12 +61,12 @@ export default class ChannelSearch extends Emitter {
 
 function getItems(org) {
 	let users = org.users.filter(({active}) => active)
-	users = users.map(({id, displayName, username, avatar}) => {
+	users = users.map(({id, slug, displayName, avatar}) => {
 		return {
 			id,
+			slug,
 			type: 'user',
 			name: displayName,
-			slug: `@${username}`,
 			iconUrl: avatar
 		}
 	})

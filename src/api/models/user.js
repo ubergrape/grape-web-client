@@ -20,17 +20,27 @@ module.exports = new Model([
 		'role',
 		'title',
 		'pm',
+		'slug'
 	])
 	.use(cache('id'))
-	.use(defaultAvatar('images/avatar.gif', 'images/avatar_invited.gif'));
+	.use(defaultAvatar('images/avatar.gif', 'images/avatar_invited.gif'))
+	.use(setSlug());
 
-function defaultAvatar(url, url_invited) {
+function defaultAvatar(url, urlInvited) {
 	return function (Model) {
 		Model.on('construct', function (instance, initial) {
 			if (initial.is_only_invited) {
-				initial.avatar = staticurl(url_invited);
+				initial.avatar = staticurl(urlInvited);
 			}
 			initial.avatar = initial.avatar || staticurl(url);
 		});
 	};
+}
+
+function setSlug() {
+	return Model => {
+		Model.on('construct', (instance, initial) => {
+			initial.slug = `@${initial.username}`
+		})
+	}
 }
