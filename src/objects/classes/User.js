@@ -1,5 +1,16 @@
-import buildLink from '../buildLink'
 import encodeMDLink from '../encodeMDLink'
+import template from 'lodash/string/template'
+
+// TODO Stop using global classes
+let buildLink = template(`
+  <a
+    tabindex="-1"
+    href="<%- url %>"
+    data-object="<%- str %>"
+    class="ac animate service-<%- service %> type-<%- type %>">
+    <%- content %>
+  </a>
+`)
 
 export default class User {
   constructor(options) {

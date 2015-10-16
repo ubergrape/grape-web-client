@@ -18,10 +18,10 @@ describe('objects: User', () => {
     it('should return correct html', () => {
       expect(object.toHTML().replace(/\s/g, '')).to.be(`
         <a
+          tabindex="-1"
           href="/chat/@username"
-          class="ac service-chatgrape type-chatgrapeuser animate"
           data-object="[name](cg://chatgrape|user|1|/chat/@username)"
-          tabindex="-1">
+          class="ac animate service-chatgrape type-chatgrapeuser">
           @name
         </a>
       `.replace(/\s/g, ''))
