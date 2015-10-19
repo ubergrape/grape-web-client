@@ -191,6 +191,8 @@ function groupHistory(history) {
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
     let history
+    let requestedMsg
+    let prevMsgID
     this.queued = false
 
     if (this.mode === 'chat') {
@@ -209,10 +211,10 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
         }
     } else {
         history = this.room.searchHistory.slice()
-        let requestedMsg = history.filter( function (msg) {
+        requestedMsg = history.filter( function (msg) {
                 return msg.id === this.requestedMsgID
             }.bind(this))[0]
-        let prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID
+        prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID
     }
 
     // eventually group history
@@ -385,7 +387,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options
         clientSideID: (Math.random() + 1).toString(36).substring(7),
         text: msg,
         status: "pending",
-        author: ui.user,
+        author: window.ui.user,
         time: new Date(),
         attachments: attachments,
         read: true,
@@ -412,7 +414,7 @@ HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (cl
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
     if (line.channel != this.room || this.mode === 'search') return
-    if (line.author == ui.user) {
+    if (line.author == window.ui.user) {
         let bufferedMsg = this.findBufferedMsg(line.clientside_id)
         let roomUnsentMsgs = this.unsentBuffer[line.channel.id]
         if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1)

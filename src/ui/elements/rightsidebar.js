@@ -104,7 +104,7 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
   this.redraw(true)
   this.room = room
   if (this.mode == 'room') {
-    this.canKickMembers = ui.user === room.creator || ui.user.role >= 1
+    this.canKickMembers = window.ui.user === room.creator || window.ui.user.role >= 1
     this.setListItems({
       room: room,
       canKickMembers: this.canKickMembers

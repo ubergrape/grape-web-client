@@ -86,13 +86,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
         color = hexToRgb(self.room.color.toLowerCase())
       }
 
-      if (menuToggle.className == "room-header-button") {
+      if (self.menuToggle.className == "room-header-button") {
         self.emit('togglerightsidebar')
-        menuToggle.className = "room-header-button-active"
-        menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)"
+        self.menuToggle.className = "room-header-button-active"
+        self.menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)"
       } else {
-        menuToggle.className = "room-header-button"
-        menuToggle.style.background = ""
+        self.menuToggle.className = "room-header-button"
+        self.menuToggle.style.background = ""
         self.emit('togglerightsidebar')
       }
 
@@ -178,7 +178,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
   this.room = room
-  this.isRoomManager = (this.room.creator && ui.user == this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN
+  this.isRoomManager = (this.room.creator && window.ui.user == this.room.creator) || window.ui.user.role >= constants.roles.ROLE_ADMIN
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()

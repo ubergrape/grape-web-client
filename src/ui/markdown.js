@@ -52,7 +52,7 @@ marked.setOptions({
   emoji: function (emo) {
     emoji.init_colons()
     // TODO: app.organization
-    let custom_emojis = api.organization.custom_emojis
+    let custom_emojis = window.api.organization.custom_emojis
     if (custom_emojis.hasOwnProperty(emo)) {
       return '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'"/>'
     }
