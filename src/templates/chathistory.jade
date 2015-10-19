@@ -148,7 +148,11 @@
 									.time
 										time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
 											first.user_time
-										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(line.user_time)._tzm)
+										//- now we need to find out if the user timezone in the message is the same as our current timezone
+										//- if it is not, we display a little icon and hovering it reveils the timezone from the message
+										//- (new Date()).getTimezoneOffset() will be -120 for "GMT+0200 (CEST)" BUT
+										//- tz(line.user_time)._tzm will be 120
+										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
 											i.fa.fa-globe
 											.different-timezone
 												span.dif-tz
