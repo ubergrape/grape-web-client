@@ -16,15 +16,15 @@ describe('objects: Room', () => {
 
   describe('Room#toHTML', () => {
     it('should return correct html', () => {
-      expect(object.toHTML().replace(/\s/g, '')).to.be(`
-        <a
-          tabindex="-1"
-          href="/chat/name"
-          data-object="[name](cg://chatgrape|room|1|/chat/slug)"
-          class="ac animate service-chatgrape type-chatgraperoom">
-          @name
-        </a>
-      `.replace(/\s/g, ''))
+      expect(object.toHTML()).to.be(
+        '<a ' +
+          'tabindex="-1" ' +
+          'href="/chat/name" ' +
+          'data-object="[name](cg://chatgrape|room|1|/chat/slug)" ' +
+          'class="ac animate service-chatgrape type-chatgraperoom">' +
+          '@name' +
+        '</a>'
+      )
     })
   })
 })

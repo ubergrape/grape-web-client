@@ -16,15 +16,15 @@ describe('objects: User', () => {
 
   describe('User#toHTML', () => {
     it('should return correct html', () => {
-      expect(object.toHTML().replace(/\s/g, '')).to.be(`
-        <a
-          tabindex="-1"
-          href="/chat/@username"
-          data-object="[name](cg://chatgrape|user|1|/chat/@username)"
-          class="ac animate service-chatgrape type-chatgrapeuser">
-          @name
-        </a>
-      `.replace(/\s/g, ''))
+      expect(object.toHTML()).to.be(
+        '<a ' +
+          'tabindex="-1" ' +
+          'href="/chat/@username" ' +
+          'data-object="[name](cg://chatgrape|user|1|/chat/@username)" ' +
+          'class="ac animate service-chatgrape type-chatgrapeuser">' +
+          '@name' +
+        '</a>'
+      )
     })
   })
 })
