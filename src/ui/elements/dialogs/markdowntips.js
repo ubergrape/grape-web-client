@@ -1,13 +1,13 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+"use strict"
 
-var Dialog = require('./dialog');
+var Dialog = require('./dialog')
 
-module.exports = MarkdownTipsDialog;
+module.exports = MarkdownTipsDialog
 
 function MarkdownTipsDialog() {
-  this.template_path = 'dialogs/markdowntips.jade';
-  Dialog.call(this);
+  this.template_path = 'dialogs/markdowntips.jade'
+  Dialog.call(this)
 }
 
-MarkdownTipsDialog.prototype = Object.create(Dialog.prototype);
+MarkdownTipsDialog.prototype = Object.create(Dialog.prototype)

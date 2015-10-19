@@ -1,68 +1,68 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+"use strict"
 
-var qs = require('query');
-var template = require('template');
-var render = require('../rendervdom');
-var Emitter = require('emitter');
+var qs = require('query')
+var template = require('template')
+var render = require('../rendervdom')
+var Emitter = require('emitter')
 
-module.exports = SearchView;
+module.exports = SearchView
 
 function SearchView() {
-  Emitter.call(this);
-  this.redraw.bind(this);
-  this.init();
-  this.search = {};
+  Emitter.call(this)
+  this.redraw.bind(this)
+  this.init()
+  this.search = {}
 }
 
-SearchView.prototype = Object.create(Emitter.prototype);
+SearchView.prototype = Object.create(Emitter.prototype)
 
 SearchView.prototype.init = function SearchView_init() {
-  this.results = [];
-  this.hidden = true;
+  this.results = []
+  this.hidden = true
   document.addEventListener('keyup', function(ev) {
-    if (!this.hidden && ev.keyCode === 27) this.hideResults();
-  }.bind(this));
+    if (!this.hidden && ev.keyCode === 27) this.hideResults()
+  }.bind(this))
   document.addEventListener('click', function (ev) {
     if (!this.hidden) {
-      var parent = ev.target;
+      var parent = ev.target
       do {
         if (parent === this.el ||
           (parent.className === 'search' &&
-           parent.tagName === 'INPUT')) return;
-      } while ((parent = parent.parentNode));
-      this.hideResults();
+           parent.tagName === 'INPUT')) return
+      } while ((parent = parent.parentNode))
+      this.hideResults()
     }
-  }.bind(this));
-};
+  }.bind(this))
+}
 
 SearchView.prototype.redraw = function SearchView_redraw() {
   render(this.search, template('searchresults.jade', {
     'results': this.results
-  }));
-};
+  }))
+}
 
 SearchView.prototype.showResults = function SearchView_showResults(results) {
-  this.results = results;
-  this.redraw();
-  this.el = this.search.el;
-  qs('div.client-body').appendChild(this.el);
-  var messageLinks = qs.all('a.message-link', this.el);
+  this.results = results
+  this.redraw()
+  this.el = this.search.el
+  qs('div.client-body').appendChild(this.el)
+  var messageLinks = qs.all('a.message-link', this.el)
   for (var i = 0; i < messageLinks.length; i++)
-    messageLinks[i].addEventListener('click', this.hideResults.bind(this));
-  this.hidden = false;
-  this.emit('show');
-};
+    messageLinks[i].addEventListener('click', this.hideResults.bind(this))
+  this.hidden = false
+  this.emit('show')
+}
 
 SearchView.prototype.hideResults = function SearchView_removeResults() {
-  var messageLinks = qs.all('a.message-link', this.el);
+  var messageLinks = qs.all('a.message-link', this.el)
   for (var i = 0; i < messageLinks.length; i++)
-    messageLinks[i].removeEventListener('click', this.hideResults.bind(this));
+    messageLinks[i].removeEventListener('click', this.hideResults.bind(this))
   if (!this.hidden) {
-    this.results = [];
-    this.el.parentNode.removeChild(this.el);
-    this.hidden = true;
-    this.emit('hide');
+    this.results = []
+    this.el.parentNode.removeChild(this.el)
+    this.hidden = true
+    this.emit('hide')
   }
-};
+}
 

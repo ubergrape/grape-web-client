@@ -20,7 +20,7 @@
    * Namespace to hold all the code for timezone detection.
    */
   var jstz = (function () {
-      'use strict';
+      'use strict'
       var HEMISPHERE_SOUTH = 's',
 
           /**
@@ -29,26 +29,26 @@
            * @returns {Number}
            */
           get_date_offset = function (date) {
-              var offset = -date.getTimezoneOffset();
-              return (offset !== null ? offset : 0);
+              var offset = -date.getTimezoneOffset()
+              return (offset !== null ? offset : 0)
           },
 
           get_date = function (year, month, date) {
-              var d = new Date();
+              var d = new Date()
               if (year !== undefined) {
-                d.setFullYear(year);
+                d.setFullYear(year)
               }
-              d.setMonth(month);
-              d.setDate(date);
-              return d;
+              d.setMonth(month)
+              d.setDate(date)
+              return d
           },
 
           get_january_offset = function (year) {
-              return get_date_offset(get_date(year, 0 ,2));
+              return get_date_offset(get_date(year, 0 ,2))
           },
 
           get_june_offset = function (year) {
-              return get_date_offset(get_date(year, 5, 2));
+              return get_date_offset(get_date(year, 5, 2))
           },
 
           /**
@@ -65,13 +65,13 @@
                                               get_january_offset(date.getFullYear()),
                   date_offset = get_date_offset(date),
                   is_west = base_offset < 0,
-                  dst_offset = base_offset - date_offset;
+                  dst_offset = base_offset - date_offset
 
               if (!is_west && !is_southern) {
-                  return dst_offset < 0;
+                  return dst_offset < 0
               }
 
-              return dst_offset !== 0;
+              return dst_offset !== 0
           },
 
           /**
@@ -89,15 +89,15 @@
           lookup_key = function () {
               var january_offset = get_january_offset(),
                   june_offset = get_june_offset(),
-                  diff = january_offset - june_offset;
+                  diff = january_offset - june_offset
 
               if (diff < 0) {
-                  return january_offset + ",1";
+                  return january_offset + ",1"
               } else if (diff > 0) {
-                  return june_offset + ",1," + HEMISPHERE_SOUTH;
+                  return june_offset + ",1," + HEMISPHERE_SOUTH
               }
 
-              return january_offset + ",0";
+              return january_offset + ",0"
           },
 
           /**
@@ -109,8 +109,8 @@
            * @returns Object
            */
           determine = function () {
-              var key = lookup_key();
-              return new jstz.TimeZone(jstz.olson.timezones[key]);
+              var key = lookup_key()
+              return new jstz.TimeZone(jstz.olson.timezones[key])
           },
 
           /**
@@ -166,23 +166,23 @@
                     'Pacific/Apia': new Date(2010, 10, 1, 1, 0, 0, 0),
                     'Pacific/Fiji': new Date(2010, 11, 1, 0, 0, 0),
                     'Australia/Perth': new Date(2008, 10, 1, 1, 0, 0, 0)
-                };
+                }
 
-              return dst_starts[tz_name];
-          };
+              return dst_starts[tz_name]
+          }
 
       return {
           determine: determine,
           date_is_dst: date_is_dst,
           dst_start_for: dst_start_for
-      };
-  }());
+      }
+  }())
 
   /**
    * Simple object to perform ambiguity check and to return name of time zone.
    */
   jstz.TimeZone = function (tz_name) {
-      'use strict';
+      'use strict'
         /**
          * The keys in this object are timezones that we know may be ambiguous after
          * a preliminary scan through the olson_tz object.
@@ -230,14 +230,14 @@
               var ambiguity_list = AMBIGUITIES[timezone_name],
                   length = ambiguity_list.length,
                   i = 0,
-                  tz = ambiguity_list[0];
+                  tz = ambiguity_list[0]
 
               for (; i < length; i += 1) {
-                  tz = ambiguity_list[i];
+                  tz = ambiguity_list[i]
 
                   if (jstz.date_is_dst(jstz.dst_start_for(tz))) {
-                      timezone_name = tz;
-                      return;
+                      timezone_name = tz
+                      return
                   }
               }
           },
@@ -246,21 +246,21 @@
            * Checks if it is possible that the timezone is ambiguous.
            */
           is_ambiguous = function () {
-              return typeof (AMBIGUITIES[timezone_name]) !== 'undefined';
-          };
+              return typeof (AMBIGUITIES[timezone_name]) !== 'undefined'
+          }
 
       if (is_ambiguous()) {
-          ambiguity_check();
+          ambiguity_check()
       }
 
       return {
           name: function () {
-              return timezone_name;
+              return timezone_name
           }
-      };
-  };
+      }
+  }
 
-  jstz.olson = {};
+  jstz.olson = {}
 
   /*
    * The keys in this dictionary are comma separated as such:
@@ -274,7 +274,7 @@
    * only interesting for timezones with DST.
    *
    * The mapped arrays is used for constructing the jstz.TimeZone object from within
-   * jstz.determine_timezone();
+   * jstz.determine_timezone()
    */
   jstz.olson.timezones = {
       '-720,0'   : 'Pacific/Majuro',
@@ -348,13 +348,13 @@
       '780,0'    : 'Pacific/Tongatapu',
       '780,1,s'  : 'Pacific/Apia',
       '840,0'    : 'Pacific/Kiritimati'
-  };
+  }
 
   if (typeof exports !== 'undefined') {
-    exports.jstz = jstz;
+    exports.jstz = jstz
 
   } else {
-    root.jstz = jstz;
+    root.jstz = jstz
   }
-  module.exports = jstz;
+  module.exports = jstz
 })(this);

@@ -1,13 +1,13 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+"use strict"
 
-var Model = require('model');
-var cache = require('model-cache');
-var cast = require('model-cast');
-var array = require('model-array');
+var Model = require('model')
+var cache = require('model-cache')
+var cast = require('model-cast')
+var array = require('model-array')
 
-var User = require('./user');
-var Channel = require('./room');
+var User = require('./user')
+var Channel = require('./room')
 
 module.exports = new Model([
     'author',
@@ -22,15 +22,15 @@ module.exports = new Model([
   .cast('channel', castChannel)
   .cast('time', cast.Date)
   .use(array)
-  .array('readers');
+  .array('readers')
 
 function castAuthor(author) {
   if (author.type === 'user') {
-    var user = User.get(author.id) || new User({id: author.id});
+    var user = User.get(author.id) || new User({id: author.id})
     if (user) {
-      user['type'] = 'user';
+      user['type'] = 'user'
     }
-    return user;
+    return user
   }
 
   if (author.type === 'service'){
@@ -38,17 +38,17 @@ function castAuthor(author) {
       'id': author.id,
       'username': author.username || author.id,
       'type': 'service'
-    };
+    }
   }
 
-  return author;
+  return author
 }
 
 
 // for display in search results we need the channel name as well
 function castChannel(channel) {
-  var ch = Channel.get(channel);
+  var ch = Channel.get(channel)
   if (ch)
-    return ch;
-  return channel;
+    return ch
+  return channel
 }
