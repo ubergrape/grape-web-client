@@ -11,14 +11,22 @@ import staticurl from 'staticurl'
 import render from '../rendervdom'
 import 'grape-browser'
 
-const IMAGES_BASE = staticurl('app/cg/images')
+const imagesBase = staticurl('app/cg/images')
 
-const IMAGES = {
-	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
-	traubyReading: IMAGES_BASE + '/trauby-reading.png',
-	traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
-	noDetail: IMAGES_BASE + '/no-detail.png',
+const images = {
+	emojiSheet: imagesBase + '/emoji_sheet_32_optimized.png',
+	traubyReading: imagesBase + '/trauby-reading.png',
+	traubyJuggling: imagesBase + '/trauby-juggling.png',
+	noDetail: imagesBase + '/no-detail.png',
 	spinner: staticurl('/images/preloader-onwhite.gif')
+}
+
+const defaultBrowserProps = {
+	isLoading: false,
+	browser: null,
+	focused: false,
+	disabled: false,
+	data: null
 }
 
 export default class GrapeInput extends Emitter {
@@ -32,7 +40,7 @@ export default class GrapeInput extends Emitter {
 		this.typing = false
 		// Key is room id, value is unsent text message.
 		this.unsent = {}
-		this.images = clone(IMAGES)
+		this.images = clone(images)
 		this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
 		this.searchDebounced = debounce(::this.search, 200)
 	}
@@ -48,7 +56,7 @@ export default class GrapeInput extends Emitter {
 
 	setProps(newProps, callback) {
 		this.input.props = {
-			...this.input.props,
+			defaultBrowserProps,
 			images: this.images,
 			customEmojis: this.org.custom_emojis,
 			placeholder: this.placeholder,
@@ -367,7 +375,9 @@ export default class GrapeInput extends Emitter {
 	}
 
 	onSelectChannel(room) {
-		if (this.room) this.unsent[this.room.id] = this.input.getTextContent()
+		if (this.room) {
+			this.unsent[this.room.id] = this.input.getTextContent()
+		}
 		this.completePreviousEdit()
 		if (!room || (room.type === 'pm' && !room.users[0].active)) {
 			this.disable()
