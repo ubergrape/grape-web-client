@@ -20,7 +20,8 @@
    * Namespace to hold all the code for timezone detection.
    */
   var jstz = (function () {
-      'use strict'
+
+
       var HEMISPHERE_SOUTH = 's',
 
           /**
@@ -182,7 +183,8 @@
    * Simple object to perform ambiguity check and to return name of time zone.
    */
   jstz.TimeZone = function (tz_name) {
-      'use strict'
+
+
         /**
          * The keys in this object are timezones that we know may be ambiguous after
          * a preliminary scan through the olson_tz object.

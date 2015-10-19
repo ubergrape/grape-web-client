@@ -1,5 +1,5 @@
 /* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict"
+
 
 // TODO: this really makes sense to upstream
 module.exports = InfiniteScroll

@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-'use strict'
-
 var Wamp = require('wamp1')
 var WebSocket = require('websocket')
 var LPSocket = require('lpsocket')
