@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var qs = require('query')
 var template = require('template')
 var render = require('../rendervdom')

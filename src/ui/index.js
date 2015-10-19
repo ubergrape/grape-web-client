@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var template = require('template')
 var Emitter = require('emitter')
 var broker = require('broker')

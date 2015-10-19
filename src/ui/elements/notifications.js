@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var Emitter = require('emitter')
 var notify = require('HTML5-Desktop-Notifications')
 var _ = require('t')

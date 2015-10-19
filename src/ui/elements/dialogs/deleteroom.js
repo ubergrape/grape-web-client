@@ -1,8 +1,4 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var Dialog = require('./dialog')
-
 var events = require('events')
 var qs = require('query')
 var _ = require('t')

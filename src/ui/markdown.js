@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var marked = require('marked')
 var markdown_renderlink = require('./markdown_renderlink')
 var emoji = require('./emoji')

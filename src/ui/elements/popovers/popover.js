@@ -1,6 +1,3 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-
-
 var events = require('events')
 var classes = require('classes')
 var Emitter = require('emitter')
