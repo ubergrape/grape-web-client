@@ -1,8 +1,8 @@
-var Dialog = require('./dialog')
-var Menu = require('./menu')
-var ItemList = require('../itemlist')
-var qs = require('query')
-var events = require('events')
+let Dialog = require('./dialog')
+let Menu = require('./menu')
+let ItemList = require('../itemlist')
+let qs = require('query')
+let events = require('events')
 
 module.exports = PMManager
 
@@ -13,10 +13,10 @@ function PMManager (context) {
 }
 
 PMManager.prototype = Object.create(Dialog.prototype)
-var protoInit = PMManager.prototype.init
+let protoInit = PMManager.prototype.init
 
 PMManager.prototype.init = function () {
-  var menu = this.menu = new Menu({
+  let menu = this.menu = new Menu({
     header: 'Manage Private Messages',
     tabs: {
       visible: true
@@ -39,7 +39,7 @@ PMManager.prototype.init = function () {
     }
   ])
 
-  var pmList = this.pmList = new ItemList({
+  let pmList = this.pmList = new ItemList({
     template: 'dialogs/pmlist.jade',
     templateOptions: {
       mode: this.mode
@@ -81,7 +81,7 @@ PMManager.prototype.setDeleted = function () {
 }
 
 PMManager.prototype.redrawContent = function (selected) {
-  var menu = this.menu
+  let menu = this.menu
   menu.selectTab(null)
   menu.selectTab(menu.options.tabs.items[selected])
   this.pmList.order('displayName')

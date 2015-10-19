@@ -1,9 +1,9 @@
-var Model = require('model')
-var cache = require('model-cache')
-var cast = require('model-cast')
-var array = require('model-array')
+let Model = require('model')
+let cache = require('model-cache')
+let cast = require('model-cast')
+let array = require('model-array')
 
-var User = require('./user')
+let User = require('./user')
 
 module.exports = new Model([
     'name',
@@ -41,7 +41,7 @@ function children(Model) {
 
 function castCreator(creator_id) {
   if (creator_id !== null) {
-    var user = User.get(creator_id)
+    let user = User.get(creator_id)
     if (user) return user
   }
 

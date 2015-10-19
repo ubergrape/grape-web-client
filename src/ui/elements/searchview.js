@@ -1,7 +1,7 @@
-var qs = require('query')
-var template = require('template')
-var render = require('../rendervdom')
-var Emitter = require('emitter')
+let qs = require('query')
+let template = require('template')
+let render = require('../rendervdom')
+let Emitter = require('emitter')
 
 module.exports = SearchView
 
@@ -22,7 +22,7 @@ SearchView.prototype.init = function SearchView_init() {
   }.bind(this))
   document.addEventListener('click', function (ev) {
     if (!this.hidden) {
-      var parent = ev.target
+      let parent = ev.target
       do {
         if (parent === this.el ||
           (parent.className === 'search' &&
@@ -44,16 +44,16 @@ SearchView.prototype.showResults = function SearchView_showResults(results) {
   this.redraw()
   this.el = this.search.el
   qs('div.client-body').appendChild(this.el)
-  var messageLinks = qs.all('a.message-link', this.el)
-  for (var i = 0; i < messageLinks.length; i++)
+  let messageLinks = qs.all('a.message-link', this.el)
+  for (let i = 0; i < messageLinks.length; i++)
     messageLinks[i].addEventListener('click', this.hideResults.bind(this))
   this.hidden = false
   this.emit('show')
 }
 
 SearchView.prototype.hideResults = function SearchView_removeResults() {
-  var messageLinks = qs.all('a.message-link', this.el)
-  for (var i = 0; i < messageLinks.length; i++)
+  let messageLinks = qs.all('a.message-link', this.el)
+  for (let i = 0; i < messageLinks.length; i++)
     messageLinks[i].removeEventListener('click', this.hideResults.bind(this))
   if (!this.hidden) {
     this.results = []

@@ -1,6 +1,6 @@
-var events = require('events')
-var classes = require('classes')
-var Emitter = require('emitter')
+let events = require('events')
+let classes = require('classes')
+let Emitter = require('emitter')
 
 module.exports = Popover
 
@@ -21,7 +21,7 @@ Popover.prototype.init = function Popover_init() {
 }
 
 Popover.prototype.bind = function Popover_bind() {
-  var self = this
+  let self = this
   this.events = events(this.el, {
     close: function () {
       self.hide()
@@ -30,8 +30,8 @@ Popover.prototype.bind = function Popover_bind() {
   this.events.bind('click .close', 'close')
   document.addEventListener('click', function (ev) {
     if (self.hidden) return
-    var target = ev.target
-    var parent = target
+    let target = ev.target
+    let parent = target
         if (classes(target).has('disable-document-click-handler')) return; // TODO: refactor
     do {
       if (parent === self.el || parent === self.trigger) return
@@ -47,7 +47,7 @@ Popover.prototype.bind = function Popover_bind() {
 Popover.prototype.show = function Popover_show(trigger) {
   this.trigger = trigger
   this.classes.remove('hide')
-  var offset = trigger.getBoundingClientRect()
+  let offset = trigger.getBoundingClientRect()
   this.el.style.top = offset.top + 'px'
   this.el.style.left = offset.left + offset.width + 'px'
   document.body.appendChild(this.el)

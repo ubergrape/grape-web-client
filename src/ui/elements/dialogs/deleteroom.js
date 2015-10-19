@@ -1,7 +1,7 @@
-var Dialog = require('./dialog')
-var events = require('events')
-var qs = require('query')
-var _ = require('t')
+let Dialog = require('./dialog')
+let events = require('events')
+let qs = require('query')
+let _ = require('t')
 
 module.exports = DeleteRoomDialog
 
@@ -25,9 +25,9 @@ DeleteRoomDialog.prototype.bind = function DeleteRoomDialog_bind() {
 
 DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
   ev.preventDefault()
-  var self = this
+  let self = this
 
-  var roomName = self.roomNameInput.value.trim()
+  let roomName = self.roomNameInput.value.trim()
   if (!roomName) {
     self.roomNameInput.setCustomValidity(_("Please enter the name of the room you want to delete."))
     self.button.click()

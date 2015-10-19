@@ -1,12 +1,12 @@
-var Emitter = require('emitter')
-var template = require('template')
-var render = require('../rendervdom')
-var ItemList = require('./itemlist')
-var qs = require('query')
-var events = require('events')
-var classes = require('classes')
-var broker = require('broker')
-var hexToRgb = require('color-converter')
+let Emitter = require('emitter')
+let template = require('template')
+let render = require('../rendervdom')
+let ItemList = require('./itemlist')
+let qs = require('query')
+let events = require('events')
+let classes = require('classes')
+let broker = require('broker')
+let hexToRgb = require('color-converter')
 
 module.exports = RightSidebar
 
@@ -31,13 +31,13 @@ RightSidebar.prototype.init = function RightSidebar_init() {
   this.redraw(true)
   this.userProfile = {}
 
-  var membersList = this.membersList = new ItemList({
+  let membersList = this.membersList = new ItemList({
     template: 'roommembers.jade'
   })
 }
 
 RightSidebar.prototype.bind = function RightSidebar_bind() {
-  var self = this
+  let self = this
   this.events = events(this.el, {
     close: function () {
       self.hide()
@@ -47,8 +47,8 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
     this.emit('toggleRoomInvite', this.room)
   }.bind(this)
   this.events.obj.deleteRoomMember = function (ev) {
-    var roomID = this.room.id
-    var memberID = ev.target.getAttribute('data-id')
+    let roomID = this.room.id
+    let memberID = ev.target.getAttribute('data-id')
     this.emit('kickMember', roomID, memberID)
   }.bind(this)
   this.events.bind('click i.btn-delete', 'deleteRoomMember')
@@ -78,12 +78,12 @@ RightSidebar.prototype.select = function RightSidebar_select(item) {
 RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
   if (!this.visible && !force) return
 
-  var color = {r: 100, g: 50, b: 100}
+  let color = {r: 100, g: 50, b: 100}
 
   if (this.room.color)
     color = hexToRgb(this.room.color.toLowerCase())
 
-  var vdom = template('rightsidebar.jade', {
+  let vdom = template('rightsidebar.jade', {
     room: this.room,
     canKickMembers: this.canKickMembers,
     color: color,
@@ -94,8 +94,8 @@ RightSidebar.prototype.redraw = function RightSidebar_redraw(force) {
 
 /* scroll down in the members list */
 RightSidebar.prototype.scrollDown = function RightSidebar_scrollDown() {
-  var list = qs('.user-list', this.el)
-  var scrollHeight = list.scrollHeight
+  let list = qs('.user-list', this.el)
+  let scrollHeight = list.scrollHeight
   list.scrollTop = scrollHeight
 }
 
@@ -136,6 +136,6 @@ RightSidebar.prototype.toggle = function RightSidebar_toggle() {
   this.visible = !this.visible
   this.membersList.redraw()
   this.renderUserProfile()
-  var clientBody = qs('.client-body')
+  let clientBody = qs('.client-body')
   clientBody.classList.toggle('right-sidebar-show')
 }

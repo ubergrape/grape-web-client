@@ -1,10 +1,10 @@
-var Model = require('model')
-var cache = require('model-cache')
-var cast = require('model-cast')
-var array = require('model-array')
+let Model = require('model')
+let cache = require('model-cache')
+let cast = require('model-cast')
+let array = require('model-array')
 
-var User = require('./user')
-var Channel = require('./room')
+let User = require('./user')
+let Channel = require('./room')
 
 module.exports = new Model([
     'author',
@@ -23,7 +23,7 @@ module.exports = new Model([
 
 function castAuthor(author) {
   if (author.type === 'user') {
-    var user = User.get(author.id) || new User({id: author.id})
+    let user = User.get(author.id) || new User({id: author.id})
     if (user) {
       user['type'] = 'user'
     }
@@ -44,7 +44,7 @@ function castAuthor(author) {
 
 // for display in search results we need the channel name as well
 function castChannel(channel) {
-  var ch = Channel.get(channel)
+  let ch = Channel.get(channel)
   if (ch)
     return ch
   return channel

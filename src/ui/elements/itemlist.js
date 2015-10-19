@@ -1,8 +1,8 @@
-var Emitter = require('emitter')
-var template = require('template')
-var events = require('events')
-var render = require('../rendervdom')
-var defaults = require('lodash/object/defaults')
+let Emitter = require('emitter')
+let template = require('template')
+let events = require('events')
+let render = require('../rendervdom')
+let defaults = require('lodash/object/defaults')
 
 module.exports = ItemList
 
@@ -20,12 +20,12 @@ function ItemList(options) {
 ItemList.prototype = Object.create(Emitter.prototype)
 
 ItemList.prototype.redraw = function () {
-    var vdom = template(this.template, this.getTemplateOptions())
+    let vdom = template(this.template, this.getTemplateOptions())
     render(this, vdom)
 }
 
 ItemList.prototype.getTemplateOptions = function () {
-    var options = {
+    let options = {
         items: this.items,
         selected: this.selected,
         highlighted: this.highlighted
@@ -35,7 +35,7 @@ ItemList.prototype.getTemplateOptions = function () {
 }
 
 ItemList.prototype.setItems = function (items) {
-    var self = this
+    let self = this
     this.selected = null
     this.items = items
     this.redraw()
@@ -47,7 +47,7 @@ ItemList.prototype.selectItem = function (item) {
 }
 
 ItemList.prototype.toggleItem = function (item) {
-    var itemIndex = this.highlighted.indexOf(item)
+    let itemIndex = this.highlighted.indexOf(item)
     if (itemIndex == -1) {
         this.highlighted.push(item)
     } else {

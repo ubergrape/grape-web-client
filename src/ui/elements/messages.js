@@ -1,6 +1,6 @@
-var Emitter = require('emitter')
-var render = require('../rendervdom')
-var template = require('template')
+let Emitter = require('emitter')
+let render = require('../rendervdom')
+let template = require('template')
 
 module.exports = Messages
 
@@ -34,7 +34,7 @@ Messages.prototype.init = function() {
 }
 
 Messages.prototype.redraw = function() {
-  var vdom = template('messages.jade', {messages: this.messages})
+  let vdom = template('messages.jade', {messages: this.messages})
   render(this, vdom)
 }
 
@@ -44,14 +44,14 @@ Messages.prototype.add = function(msg) {
 }
 
 Messages.prototype.create = function(type, level, options) {
-  var msg = new Message(type, level, options)
+  let msg = new Message(type, level, options)
   msg.add(this)
   this.redraw()
   return msg
 }
 
 Messages.prototype.remove = function(message) {
-  var idx = this.messages.indexOf(message)
+  let idx = this.messages.indexOf(message)
   if (idx > -1) this.messages.splice(idx, 1)
   this.redraw()
 }

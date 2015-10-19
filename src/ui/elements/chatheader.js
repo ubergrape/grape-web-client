@@ -1,13 +1,13 @@
-var Emitter = require('emitter')
-var template = require('template')
-var qs = require('query')
-var events = require('events')
-var render = require('../rendervdom')
-var debounce = require('debounce')
-var classes = require('classes')
-var constants = require('conf').constants
-var keyname = require('keyname')
-var hexToRgb = require('color-converter')
+let Emitter = require('emitter')
+let template = require('template')
+let qs = require('query')
+let events = require('events')
+let render = require('../rendervdom')
+let debounce = require('debounce')
+let classes = require('classes')
+let constants = require('conf').constants
+let keyname = require('keyname')
+let hexToRgb = require('color-converter')
 
 module.exports = ChatHeader
 
@@ -36,17 +36,17 @@ ChatHeader.prototype.init = function ChatHeader_init() {
   this.mode = 'chat'
   if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
     // we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
-    var intercomButton = qs('a#Intercom', this.el)
+    let intercomButton = qs('a#Intercom', this.el)
     intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress']
   } else if (typeof Intercom !== 'undefined') {
-    var intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
+    let intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
     intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io'
     window.Intercom('reattach_activator')
   }
 }
 
 ChatHeader.prototype.bind = function ChatHeader_bind() {
-  var self = this
+  let self = this
 
   this.events = events(this.el, {
     'toggleDeleteRoomDialog': function(e) {
@@ -55,8 +55,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
     'triggerRoomRename': function() {
       self.editState.renaming = true
       self.redraw()
-      var roomNameInput = qs('input.room-name', this.el)
-      var roomName = roomNameInput.value
+      let roomNameInput = qs('input.room-name', this.el)
+      let roomName = roomNameInput.value
       roomNameInput.focus()
       roomNameInput.setSelectionRange(roomName.length,roomName.length)
     },
@@ -65,7 +65,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
       self.redraw()
     },
     'confirmRoomRename': function() {
-      var newRoomName = qs('input.room-name', this.el).value
+      let newRoomName = qs('input.room-name', this.el).value
       self.emit('confirmroomrename', self.room.id, newRoomName)
     },
     'roomRenameShortcuts' : function(e) {
@@ -80,7 +80,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
       e.preventDefault()
     },
     'toggleMenu' : function(e) {
-      var color = {r: 100, g: 50, b: 100}
+      let color = {r: 100, g: 50, b: 100}
 
       if (self.room.color) {
         color = hexToRgb(self.room.color.toLowerCase())
@@ -101,7 +101,7 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
     'triggerDescriptionEdit': function (e) {
       self.editState.editingDescription = true
       self.redraw()
-      var inputDescription = qs('input.description', this.el)
+      let inputDescription = qs('input.description', this.el)
       // unfortunately our events.bind method has no support or
       // does not work for blur events, so here is a workaround
       inputDescription.removeEventListener('blur', this.stopDescriptionEdit)
@@ -128,18 +128,18 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
   this.events.bind('submit form', 'preventFormSubmission')
   this.events.bind('click .description-edit', 'triggerDescriptionEdit')
 
-  var  callbacks = this.events.obj
+  let  callbacks = this.events.obj
 
   document.addEventListener('keyup', function(e) {
     if (keyname(e.which) == 'esc') callbacks.stopRoomRename()
   })
 
-  var startSearching = debounce(function () {
+  let startSearching = debounce(function () {
     self.emit('searching', self.q)
   }, 200, false)
 
   this.searchInput.addEventListener('keyup', function () {
-    var q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '')
+    let q = (qs('input.search', self.el).value || this.value).replace(/^\s+|\s+$/g, '')
     if (q.length !== 0 && self.q !== q) {
       self.q = q
       startSearching()
@@ -151,13 +151,13 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 }
 
 ChatHeader.prototype.redraw = function ChatHeader_redraw() {
-  var color = {r: 100, g: 50, b: 100}
+  let color = {r: 100, g: 50, b: 100}
 
   if (this.room.color) {
     color = hexToRgb(this.room.color.toLowerCase())
   }
 
-  var vdom = template('chatheader.jade', {
+  let vdom = template('chatheader.jade', {
     room: this.room,
     isRoomManager: this.isRoomManager,
     editState: this.editState,

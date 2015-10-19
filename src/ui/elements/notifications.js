@@ -1,10 +1,10 @@
-var Emitter = require('emitter')
-var notify = require('HTML5-Desktop-Notifications')
-var _ = require('t')
-var markdown = require('../markdown')
-var domify = require('domify')
-var staticurl = require('staticurl')
-var emoji = require('../emoji')
+let Emitter = require('emitter')
+let notify = require('HTML5-Desktop-Notifications')
+let _ = require('t')
+let markdown = require('../markdown')
+let domify = require('domify')
+let staticurl = require('staticurl')
+let emoji = require('../emoji')
 
 module.exports = Notifications
 
@@ -28,18 +28,18 @@ Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 }
 
 Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
-  var inviter = item.inviter
-  var room = item.room
-  var content = inviter.displayName + _(' invited you to the room ') + room.name
-  var title = inviter.displayName + _(' (Room Invite)')
-  var icon = inviter.avatar
+  let inviter = item.inviter
+  let room = item.room
+  let content = inviter.displayName + _(' invited you to the room ') + room.name
+  let title = inviter.displayName + _(' (Room Invite)')
+  let icon = inviter.avatar
   this.dispatch(title, content, icon, room)
 }
 
 Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (message) {
-  var self = this
-  var i, opts, content_dom, imgs, img, replacement, filename
-  var  author    = message.author,
+  let self = this
+  let i, opts, content_dom, imgs, img, replacement, filename
+  let  author    = message.author,
     channel    = message.channel,
     isService  = author.type === 'service',
     icon    = isService ? staticurl("images/service-icons/" + author.id + "-64.png") : author.avatar,
@@ -60,7 +60,7 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
       emoji: function (emo) {
         emoji.init_colons()
         // we can't display custom emojis here because we only have them as images, they will automatically be displayed as :xyz:
-        var val = emoji.map.colons[emo]
+        let val = emoji.map.colons[emo]
         return val ? emoji.data[val][0][0] : ':' + emo + ':'
       }
     }
@@ -83,7 +83,7 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
   if (author.type === "service") content.replace("[Image]", "")
 
   // attach files
-  var attachments = message.attachments
+  let attachments = message.attachments
   if (typeof attachments !== "undefined" && attachments.length > 0) {
     // currently the client doesn't supprt text content AND attachment
     // but the API supports it
@@ -106,7 +106,7 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 }
 
 Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
-  var self = this
+  let self = this
   if (typeof MacGap !== 'undefined') {
     MacGap.notify({
       title: title,
@@ -114,7 +114,7 @@ Notifications.prototype.dispatch = function Notifications_dispatch (title, conte
       sound: false
     })
   } else {
-    var notification = notify.createNotification(title, {
+    let notification = notify.createNotification(title, {
       body: content,
       icon: icon,
       timeout: 6000,

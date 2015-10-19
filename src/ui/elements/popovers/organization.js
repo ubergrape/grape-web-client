@@ -1,10 +1,10 @@
-var Emitter = require('emitter')
-var template = require('template')
-var render = require('../../rendervdom')
-var Popover = require('./popover')
-var classes = require('classes')
-var qs = require('query')
-var roles = require('conf').constants.roles
+let Emitter = require('emitter')
+let template = require('template')
+let render = require('../../rendervdom')
+let Popover = require('./popover')
+let classes = require('classes')
+let qs = require('query')
+let roles = require('conf').constants.roles
 
 module.exports = OrganizationPopover
 
@@ -23,7 +23,7 @@ OrganizationPopover.prototype.bind = function() {
     Popover.prototype.bind.call(this)
     this.events.obj.editView = function (e) {
         e.preventDefault()
-        var newMode = !ui.settings.compact_mode
+        let newMode = !ui.settings.compact_mode
         this.emit('editView', newMode)
     }.bind(this)
     this.events.obj.toggleOrgInvite = function () {
@@ -38,7 +38,7 @@ OrganizationPopover.prototype.redraw = function() {
     this.classes.add('orga-po')
     this.classes.add('top')
 
-    var vdom = template('popovers/organization.jade', {
+    let vdom = template('popovers/organization.jade', {
         isInviter: this.user.role >= this.org.inviter_role,
         isOrgManager: this.user.role >= roles.ROLE_ADMIN
     })

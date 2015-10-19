@@ -1,4 +1,4 @@
-var Emitter = require('emitter')
+let Emitter = require('emitter')
 
 module.exports = Title
 
@@ -12,9 +12,9 @@ function Title() {
 }
 
 Title.prototype.refresh = function Title_refresh() {
-  var title = ''
+  let title = ''
 
-  var unread = this.org.rooms.reduce(sum, 0) +
+  let unread = this.org.rooms.reduce(sum, 0) +
                this.org.pms.reduce(sum, 0)
 
   if (typeof MacGap !== "undefined") {
@@ -33,9 +33,9 @@ Title.prototype.refresh = function Title_refresh() {
     else
       title += '(' + unread + ') '
 
-  var name = this.room.name
+  let name = this.room.name
   if (!name) {
-    var user = this.room.users[0]
+    let user = this.room.users[0]
     if (user)
       name = '@' + user.username
   }

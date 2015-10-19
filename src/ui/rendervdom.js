@@ -1,4 +1,4 @@
-var v = require('virtualdom')
+let v = require('virtualdom')
 
 module.exports = render
 
@@ -8,7 +8,7 @@ function render(obj, vdom) {
     obj.el = v.toDOM(vdom)
     return
   }
-  var diff = v.diff(obj.vdom, vdom)
+  let diff = v.diff(obj.vdom, vdom)
   v.applyPatch(obj.el, diff)
   obj.vdom = vdom
 }

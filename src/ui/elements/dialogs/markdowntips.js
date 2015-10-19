@@ -1,4 +1,4 @@
-var Dialog = require('./dialog')
+let Dialog = require('./dialog')
 
 module.exports = MarkdownTipsDialog
 

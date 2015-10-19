@@ -19,10 +19,10 @@ require('drop-anywhere/drop-anywhere.css')
 require('jh3y-resizable/resizable.css')
 require('js-emoji/emoji.css')
 
-var API = require('./api')
-var UI = require('./ui')
-var initBroker = require('./init-broker')
-var conf = require('conf')
+let API = require('./api')
+let UI = require('./ui')
+let initBroker = require('./init-broker')
+let conf = require('conf')
 
 // TODO maybe use pick
 // initialize the UI and add it to the DOM

@@ -1,11 +1,11 @@
-var Dialog = require('./dialog')
-var Menu = require('./menu')
-var ItemList = require('../itemlist')
-var qs = require('query')
-var events = require('events')
-var closest = require('closest')
-var template = require('template')
-var render = require('../../rendervdom')
+let Dialog = require('./dialog')
+let Menu = require('./menu')
+let ItemList = require('../itemlist')
+let qs = require('query')
+let events = require('events')
+let closest = require('closest')
+let template = require('template')
+let render = require('../../rendervdom')
 
 module.exports = RoomManager
 
@@ -16,10 +16,10 @@ function RoomManager (context) {
 }
 
 RoomManager.prototype = Object.create(Dialog.prototype)
-var protoInit = RoomManager.prototype.init
+let protoInit = RoomManager.prototype.init
 
 RoomManager.prototype.init = function () {
-  var menu = this.menu = new Menu({
+  let menu = this.menu = new Menu({
     header: 'Manage Rooms',
     tabs: {
       visible: true
@@ -47,7 +47,7 @@ RoomManager.prototype.init = function () {
   ])
 
 
-  var roomList = this.roomList = new ItemList({
+  let roomList = this.roomList = new ItemList({
     template: 'dialogs/roomlist.jade',
     templateOptions: {
       mode: this.mode
@@ -79,7 +79,7 @@ RoomManager.prototype.bind = function () {
 }
 
 RoomManager.prototype.setUnjoined = function () {
-  var menuOptions = this.menu.options
+  let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'unjoined'
   menuOptions.back.visible = false
   menuOptions.button.visible = true
@@ -89,7 +89,7 @@ RoomManager.prototype.setUnjoined = function () {
 }
 
 RoomManager.prototype.setJoined = function () {
-  var menuOptions = this.menu.options
+  let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'joined'
   menuOptions.back.visible = false
   menuOptions.button.visible = true
@@ -99,7 +99,7 @@ RoomManager.prototype.setJoined = function () {
 }
 
 RoomManager.prototype.setCreate = function () {
-  var menuOptions = this.menu.options
+  let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'creation'
   menuOptions.back.visible = true
   menuOptions.button.visible = false
@@ -109,15 +109,15 @@ RoomManager.prototype.setCreate = function () {
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {
-  var roomID = closest(ev.target, '.item', true).getAttribute('data-id')
+  let roomID = closest(ev.target, '.item', true).getAttribute('data-id')
   this.emit('leaveRoom', roomID)
 }
 
 RoomManager.prototype.createRoom = function (ev) {
   ev.preventDefault()
-  var form = this.creationForm.el
-  var newRoomName = form['newroom-name']
-  var room = {
+  let form = this.creationForm.el
+  let newRoomName = form['newroom-name']
+  let room = {
     'name': newRoomName.value.trim(),
     'is_public': qs('input:checked', form).value
   }
@@ -131,7 +131,7 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 }
 
 RoomManager.prototype.redrawContent = function (selected) {
-  var menu = this.menu
+  let menu = this.menu
   menu.selectTab(null)
   menu.selectTab(menu.options.tabs.items[selected])
   menu.redraw()
@@ -140,7 +140,7 @@ RoomManager.prototype.redrawContent = function (selected) {
 }
 
 RoomManager.prototype.resetValidity = function () {
-  var newRoomName = this.creationForm.el['newroom-name']
+  let newRoomName = this.creationForm.el['newroom-name']
   newRoomName.setCustomValidity('')
 }
 
@@ -161,9 +161,9 @@ RoomManager.prototype.onChannelUpdate = function () {
 }
 
 RoomManager.prototype.onRoomCreationError = function (err) {
-  var form = this.creationForm.el
-  var newRoomName = form['newroom-name']
-  var createButton = qs('input.create-room-button', form)
+  let form = this.creationForm.el
+  let newRoomName = form['newroom-name']
+  let createButton = qs('input.create-room-button', form)
   newRoomName.setCustomValidity(err.msg)
   createButton.click()
 }

@@ -1,30 +1,30 @@
-var Wamp = require('wamp1')
-var WebSocket = require('websocket')
-var LPSocket = require('lpsocket')
-var array = require('array')
-var Emitter = require('emitter')
+let Wamp = require('wamp1')
+let WebSocket = require('websocket')
+let LPSocket = require('lpsocket')
+let array = require('array')
+let Emitter = require('emitter')
 
-var exports = module.exports = API
+let exports = module.exports = API
 
-var models = exports.models = {
+let models = exports.models = {
   Room: require('./models/room'),
   User: require('./models/user'),
   Line: require('./models/chatline'),
   Organization: require('./models/organization'),
 }
 
-var PREFIX = 'http://domain/'
+let PREFIX = 'http://domain/'
 
 // Time we wait until we destroy connection and reconect.
-var PONG_MAX_WAIT = 15000
+let PONG_MAX_WAIT = 15000
 
 // Time we wait after we got a pong before we send another ping.
-var PING_DELAY = 5000
+let PING_DELAY = 5000
 
 function API() {
   Emitter.call(this)
 
-  var self = this
+  let self = this
   // Will be defined from .connect()
   this.wsUri = undefined
   this.lpUri = '/lp/'
@@ -52,8 +52,8 @@ function API() {
 API.prototype = Object.create(Emitter.prototype)
 
 API.prototype.logTraffic = function API_logTraffic() {
-  var socket = this.wamp.socket
-  var send = socket.send
+  let socket = this.wamp.socket
+  let send = socket.send
   socket.send = function (msg) {
     console.log('sending', tryJSON(msg))
     send.call(socket, msg)
@@ -90,7 +90,7 @@ API.prototype.startPinging = function API_startPinging() {
 }
 
 API.prototype.heartbeat = function API_heartbeat() {
-  var timeIdle = (Date.now() - this.lastAlive)
+  let timeIdle = (Date.now() - this.lastAlive)
   if (timeIdle > 11000) {
     // haven't heard from server since 2 pings, consider
     // disconnected
@@ -131,7 +131,7 @@ API.prototype.onConnect = function API_onConnect(data) {
  * @param {Function} [callback]
  */
 API.prototype.initSocket = function API_initSocket(opts) {
-  var lp, ws
+  let lp, ws
   if (window.CHATGRAPE_CONFIG.forceLongpolling || window.location.hash.indexOf('disable-ws') > -1) {
     console.log("connection: forcing longpolling")
     this.preferedTransport = 'lp'
@@ -163,7 +163,7 @@ API.prototype.initSocket = function API_initSocket(opts) {
     //}
 
     // console.log("connections: try lp fallback")
-    // var lp = new LPSocket(opts.lpUri)
+    // let lp = new LPSocket(opts.lpUri)
     // lp.connect()
     // lp.once('open', function() {
     //  lp.poll()
@@ -260,7 +260,7 @@ API.prototype.reconnect = function API_reconnect() {
   // ...
   // 150 * 2^5 = 4800
   // First reconnect is instant: Math.min(this.retries, 1) * ...
-  var backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries))
+  let backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries))
   console.log("reconnect: retries ", this.retries, ", backoff", backoff)
   this.retries += 1
   setTimeout(function() {
@@ -269,8 +269,8 @@ API.prototype.reconnect = function API_reconnect() {
 }
 
 API.prototype.bindEvents = function API_bindEvents() {
-  var self = this
-  var wamp = this.wamp
+  let self = this
+  let wamp = this.wamp
   function dump(name) {
     return function (data) {console.log('FIXME: '+ name, data)}
   }
@@ -280,26 +280,26 @@ API.prototype.bindEvents = function API_bindEvents() {
     self.emit('newRoom', data.channel)
   })
   wamp.subscribe(PREFIX + 'channel#updated', function wamp_channel_updated(data) {
-    var room = models.Room.get(data.channel.id)
+    let room = models.Room.get(data.channel.id)
     room.name = data.channel.name
     room.slug = data.channel.slug
     room.description = data.channel.description
     self.emit('channelupdate', room)
   })
   wamp.subscribe(PREFIX + 'channel#removed', function wamp_channel_removed(data) {
-    var room = models.Room.get(data.channel)
-    var index = self.organization.rooms.indexOf(room)
+    let room = models.Room.get(data.channel)
+    let index = self.organization.rooms.indexOf(room)
     if (~index)
       self.organization.rooms.splice(index, 1)
     self.emit('roomdeleted', room)
   })
   wamp.subscribe(PREFIX + 'channel#typing', function wamp_channel_typing(data) {
-    var user = models.User.get(data.user)
+    let user = models.User.get(data.user)
     if (user === self.user) {
       return
     }
-    var room = models.Room.get(data.channel)
-    var index = room.typing.indexOf(user)
+    let room = models.Room.get(data.channel)
+    let index = room.typing.indexOf(user)
 
     // there might still be a timeout for this user if the user stops
     // typing and starts typing within one second.
@@ -325,7 +325,7 @@ API.prototype.bindEvents = function API_bindEvents() {
     }
     function trigger() {
       // FIXME: model needs an api to do this:
-      var name = 'typing'
+      let name = 'typing'
       room._model.emit('change', room, name)
       room._model.emit('change ' + name, room)
       room.emit('change', name)
@@ -333,20 +333,20 @@ API.prototype.bindEvents = function API_bindEvents() {
     }
   })
   wamp.subscribe(PREFIX + 'channel#read', function wamp_channel_read(data) {
-    var user = models.User.get(data.user)
-    var line = models.Line.get(data.message)
+    let user = models.User.get(data.user)
+    let line = models.Line.get(data.message)
     if (!line) return // ignore read notifications for messages we don’t have
-    var room = line.channel
+    let room = line.channel
     // ignore this for the current user, we track somewhere else
     if (user === self.user) {
       room.unread = 0
       room.mentioned = 0
       return self.emit('channelRead')
     }
-    var last = room._readingStatus[data.user]
+    let last = room._readingStatus[data.user]
     // remove the user from the last lines readers
     if (last) {
-      var i = last.readers.indexOf(user)
+      let i = last.readers.indexOf(user)
       last.readers.splice(i, 1)
     }
     // and add it to the new line
@@ -354,8 +354,8 @@ API.prototype.bindEvents = function API_bindEvents() {
     line.readers.push(user)
   })
   wamp.subscribe(PREFIX + 'channel#joined', function wamp_channel_joined(data) {
-    var user = models.User.get(data.user)
-    var room = models.Room.get(data.channel)
+    let user = models.User.get(data.user)
+    let room = models.Room.get(data.channel)
     if (~room.users.indexOf(user)) return
     // if the user joining the room is the visitor,
     // we need to emit the leftChannel event as well
@@ -368,9 +368,9 @@ API.prototype.bindEvents = function API_bindEvents() {
     self.emit('newRoomMember', room)
   })
   wamp.subscribe(PREFIX + 'channel#left', function wamp_channel_left(data) {
-    var user = models.User.get(data.user)
-    var room = models.Room.get(data.channel)
-    var index = room.users.indexOf(user)
+    let user = models.User.get(data.user)
+    let room = models.Room.get(data.channel)
+    let index = room.users.indexOf(user)
     if (!~index) return
     // if the user leaving the room is the visitor,
     // we need to emit the leftChannel event as well
@@ -386,7 +386,7 @@ API.prototype.bindEvents = function API_bindEvents() {
   // organization events
   wamp.subscribe(PREFIX + 'organization#joined', function wamp_organization_joined(data) {
     // make sure the user doesnt exist yet in the client
-    var user = models.User.get(data.user.id)
+    let user = models.User.get(data.user.id)
     if (!user) user = new models.User(data.user)
     // make sure we're joining the right organization
     // and the user isnt in there yet
@@ -400,10 +400,10 @@ API.prototype.bindEvents = function API_bindEvents() {
     }
   })
   wamp.subscribe(PREFIX + 'organization#left', function wamp_organization_left(data) {
-    var user = models.User.get(data.user)
-    var index = self.organization.users.indexOf(user)
+    let user = models.User.get(data.user)
+    let index = self.organization.users.indexOf(user)
     if (user && ~index && data.organization===self.organization.id) {
-      var inactivePm = false
+      let inactivePm = false
       self.organization.users.forEach(function(user) {
         if (user.id === data.user
         && (!user.pm || user.pm && user.pm.history.length === 0)) {
@@ -411,7 +411,7 @@ API.prototype.bindEvents = function API_bindEvents() {
         }
       })
       if (inactivePm) {
-        var inactivePmIndex = self.organization.pms.indexOf(inactivePm)
+        let inactivePmIndex = self.organization.pms.indexOf(inactivePm)
         self.organization.pms.splice(inactivePmIndex, 1)
         self.emit('userDeleted', user)
       }
@@ -422,8 +422,8 @@ API.prototype.bindEvents = function API_bindEvents() {
   // message events
   wamp.subscribe(PREFIX + 'message#new', function wamp_message_new(data) {
     data.read = false
-    var line = models.Line.get(data['id'])
-    var room = models.Room.get(data.channel)
+    let line = models.Line.get(data['id'])
+    let room = models.Room.get(data.channel)
     if (~room.history.indexOf(line)) return
     line = new models.Line(data)
     room.unread++
@@ -434,35 +434,35 @@ API.prototype.bindEvents = function API_bindEvents() {
     self.emit('newMessage', line)
   })
   wamp.subscribe(PREFIX + 'message#updated', function wamp_message_updated(data) {
-    var msg = models.Line.get(data['id'])
+    let msg = models.Line.get(data['id'])
     // right now only text can be updated
     msg.text = data.text
-    var ch = models.Room.get(data['channel'])
-    var idx = ch.history.indexOf(msg)
+    let ch = models.Room.get(data['channel'])
+    let idx = ch.history.indexOf(msg)
     if (~idx) ch.history.splice(idx, 1, msg)
   })
   wamp.subscribe(PREFIX + 'message#removed', function wamp_message_removed(data) {
-    var msg = models.Line.get(data['id'])
-    var ch = models.Room.get(data['channel'])
-    var idx = ch.history.indexOf(msg)
+    let msg = models.Line.get(data['id'])
+    let ch = models.Room.get(data['channel'])
+    let idx = ch.history.indexOf(msg)
     if (~idx) ch.history.splice(idx, 1)
   })
 
   // user events
   wamp.subscribe(PREFIX + 'user#status', function wamp_user_status(data) {
-    var user = models.User.get(data.user)
+    let user = models.User.get(data.user)
     user.status = data.status
     self.emit('changeUser', user)
   })
   wamp.subscribe(PREFIX + 'user#mentioned', function wamp_user_mentioned(data) {
     if (data.message.organization !== self.organization.id) return
-    var line = models.Line.get(data.message.id)
+    let line = models.Line.get(data.message.id)
     if (!line) line = new models.Line(data.message.id)
     line.channel.mentioned++
     self.emit('userMention')
   })
   wamp.subscribe(PREFIX + 'user#updated', function wamp_user_updated(data) {
-    var user = models.User.get(data.user.id)
+    let user = models.User.get(data.user.id)
     user.username = data.user.username
     user.firstName = data.user.firstName
     user.lastName = data.user.lastName
@@ -477,8 +477,8 @@ API.prototype.bindEvents = function API_bindEvents() {
   })
 
   wamp.subscribe(PREFIX + 'membership#updated', function wamp_membership_updated(data) {
-    var user = models.User.get(data.membership.user)
-    var changed = []
+    let user = models.User.get(data.membership.user)
+    let changed = []
     if (user.role != data.membership.role) {
       changed.push('role')
       user.role = data.membership.role
@@ -491,15 +491,15 @@ API.prototype.bindEvents = function API_bindEvents() {
   })
 
   wamp.subscribe(PREFIX + 'notification#new', function (notification) {
-    var dispatcher = notification.dispatcher
+    let dispatcher = notification.dispatcher
     if (dispatcher === 'message' || dispatcher === 'pm') {
-      var notificationItem = models.Line.get(notification.message_id)
+      let notificationItem = models.Line.get(notification.message_id)
       if (notificationItem) self.emit('newMsgNotification', notificationItem)
     } else {
-      var inviter = models.User.get(notification.inviter_id)
-      var room = models.Room.get(notification.channel_id)
+      let inviter = models.User.get(notification.inviter_id)
+      let room = models.Room.get(notification.channel_id)
       if (!(inviter && room)) return
-      var notificationItem = {
+      let notificationItem = {
         inviter: inviter,
         room: room
       }
@@ -508,7 +508,7 @@ API.prototype.bindEvents = function API_bindEvents() {
   })
 }
 
-var unknownUser = {
+let unknownUser = {
   username: 'unknown',
   firstName: 'unknown',
   lastName: 'User'
@@ -520,7 +520,7 @@ API.prototype._newRoom = function API__newRoom(room) {
     // create an unknown user so the room loads correctly
     return models.User.get(u) || new models.User(unknownUser)
   })
-  var selfindex = room.users.indexOf(this.user)
+  let selfindex = room.users.indexOf(this.user)
   room.joined = !!~selfindex
   // the user MUST NOT be the first in the list
   if (selfindex === 0)
@@ -537,7 +537,7 @@ API.prototype._newRoom = function API__newRoom(room) {
 }
 
 API.prototype._tryAddRoom = function API__tryAddRoom(room) {
-  var gotroom = models.Room.get(room.id)
+  let gotroom = models.Room.get(room.id)
   if (gotroom) return gotroom
   room = this._newRoom(room)
   if (room.type === 'room') {
@@ -558,19 +558,19 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
  */
 API.prototype.setOrganization = function API_setOrganization(org, callback) {
   callback = callback || function() {}
-  var self = this
+  let self = this
   // TODO: this should also leave any old organization
 
   // first get the details
   self.wamp.call(PREFIX + 'organizations/get_organization', org.id, function (err, res) {
     if (err) return self.emit('error', err)
     org.users = res.users.map(function (u) {
-      var user = models.User.get(u.id) || new models.User(u)
+      let user = models.User.get(u.id) || new models.User(u)
       user.status = u.status
       return user
     })
 
-    var rooms = res.channels.map(self._newRoom.bind(self))
+    let rooms = res.channels.map(self._newRoom.bind(self))
     org.rooms = rooms.filter(function (r) { return r.type === 'room' })
     org.pms = rooms.filter(function (r) { return r.type === 'pm' })
     if (res.logo !== null) org.logo = res.logo
@@ -596,7 +596,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 
 API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
   callback = callback || function() {}
-  var self = this
+  let self = this
 
   self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
     if (err) return self.emit('error', err)
@@ -622,7 +622,7 @@ API.prototype.onEditView = function API_onEditView(status) {
 
 API.prototype.openPM = function API_openPM(user, callback) {
   callback = callback || function() {}
-  var self = this
+  let self = this
   this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
     if (err) return self.emit('error', err)
     pm = self._newRoom(pm)
@@ -635,7 +635,7 @@ API.prototype.openPM = function API_openPM(user, callback) {
 
 API.prototype.onCreateRoom = function API_onCreateRoom(room) {
   room.organization = this.organization.id
-  var self = this
+  let self = this
   this.wamp.call(PREFIX + 'rooms/create', room, function (err, room) {
     if (err) return self.emit('roomCreationError', err.details)
     self.emit('roomCreated', self._tryAddRoom(room))
@@ -644,7 +644,7 @@ API.prototype.onCreateRoom = function API_onCreateRoom(room) {
 
 API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
   room.organization = this.organization.id
-  var self = this
+  let self = this
   this.wamp.call(PREFIX + 'channels/delete', room.id, roomName, function (err, result) {
     if (callback !== undefined) {
       callback(err, result)
@@ -653,7 +653,7 @@ API.prototype.deleteRoom = function API_deleteRoom(room, roomName, callback) {
 }
 
 API.prototype.joinRoom = function API_joinRoom(room, callback) {
-  var self = this
+  let self = this
   if (room.joined) return
   this.wamp.call(PREFIX + 'channels/join', room.id, function (err) {
     if (err) return self.emit('error', err)
@@ -663,8 +663,8 @@ API.prototype.joinRoom = function API_joinRoom(room, callback) {
 }
 
 API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
-  var self = this
-  var room = models.Room.get(roomID)
+  let self = this
+  let room = models.Room.get(roomID)
   if (!room.joined) return
   this.wamp.call(PREFIX + 'channels/leave', room.id, function (err) {
     if (err) return self.emit('error', err)
@@ -673,7 +673,7 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 }
 
 API.prototype.renameRoom = function API_renameRoom(roomID, newName) {
-  var emit = this.emit.bind(this)
+  let emit = this.emit.bind(this)
   this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
     if (err) emit('roomrenameerror', err)
   })
@@ -714,11 +714,11 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
 }
 
 API.prototype.search = function API_search(text) {
-  var self = this
+  let self = this
   this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
       function (err, results) {
-      var r = []
-      var lines = results.results.map(function(l) {
+      let r = []
+      let lines = results.results.map(function(l) {
         if(l.index !== 'objects_alias') {
           l = new models.Line(l)
           r.unshift(l)
@@ -726,7 +726,7 @@ API.prototype.search = function API_search(text) {
           r.unshift(l)
         }
       })
-      var f = []
+      let f = []
       self.emit('gotsearchresults', {
         'results': r,
         'facets': f,
@@ -737,8 +737,8 @@ API.prototype.search = function API_search(text) {
 }
 
 API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
-  var orgID = this.organization.id
-  var options = {
+  let orgID = this.organization.id
+  let options = {
     emails: emails
   }
   this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function(err, res) {
@@ -758,21 +758,21 @@ API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
  * Loads history for `room`
  */
 API.prototype.getHistory = function API_getHistory(room, options) {
-  var self = this
+  let self = this
   options = options || {}
   this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
     if (err) return self.emit('error', err)
     // so when the first message in history is read, assume the history as read
     // as well
-    var read = !!room.history.length && room.history[0].read
+    let read = !!room.history.length && room.history[0].read
     if (res.length === 0) return self.emit('nohistory')
     // append all to the front of the array
     // TODO: for now the results are sorted in reverse order, will this be
     // consistent?
-    var lines = res.map(function (line) {
+    let lines = res.map(function (line) {
       // check if line already exists and only add it to the history
       // if it isnt in the history yet
-      var exists = models.Line.get(line.id)
+      let exists = models.Line.get(line.id)
       if (!exists || !~room.history.indexOf(exists)) {
         line.read = read
         line = new models.Line(line)
@@ -787,8 +787,8 @@ API.prototype.getHistory = function API_getHistory(room, options) {
 
 API.prototype.onLoadHistoryForSearch = function API_onLoadHistoryForSearch (direction, room, options) {
   this.wamp.call(PREFIX + 'channels/get_history', room.id, options, function (err, res) {
-    var lines = res.map(function (line) {
-      var exists = models.Line.get(line.id)
+    let lines = res.map(function (line) {
+      let exists = models.Line.get(line.id)
       if (!exists || !~room.searchHistory.indexOf(exists)) {
         line.read = true
         line = new models.Line(line)
@@ -806,12 +806,12 @@ API.prototype.setRead = function API_setRead(room, lineID) {
   // update the unread count
   // iterate the history in reverse order
   // (its more likely the read line is at the end)
-  var line = models.Line.get(lineID)
+  let line = models.Line.get(lineID)
   if (!line) return
   room.mentioned = 0
-  var setread = false
-  for (var i = room.history.length - 1; i >= 0; i--) {
-    var l = room.history[i]
+  let setread = false
+  for (let i = room.history.length - 1; i >= 0; i--) {
+    let l = room.history[i]
     if (l.read) break
     if (l === line) {
       setread = true
@@ -833,8 +833,8 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgID) {
   this.wamp.call(PREFIX + 'channels/focus_message', room.id, msgID, 25, 25, true, function (err, res ) {
     if (err) return this.emit('messageNotFound', room)
     room.searchHistory.splice(0, room.searchHistory.length)
-    var lines = res.map(function (line) {
-      var exists = models.Line.get(line.id)
+    let lines = res.map(function (line) {
+      let exists = models.Line.get(line.id)
       if (!exists || !~room.searchHistory.indexOf(exists)) {
         line = new models.Line(line)
         line.read = true
@@ -855,7 +855,7 @@ API.prototype.onDeleteMessage = function API_onDeleteMessage(ch, msgId) {
 }
 
 API.prototype.publish = function API_publish(room, msg, options) {
-  var self = this
+  let self = this
   msg = msg.text ? msg.text : msg
   this.wamp.call(PREFIX + 'channels/post', room.id, msg, options, function (err) {
     if (err) return self.emit('error', err)

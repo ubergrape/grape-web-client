@@ -1,8 +1,8 @@
-var Emitter = require('emitter')
-var events = require('events')
-var dialog = require('dialog')
-var v = require('virtualdom')
-var template = require('template')
+let Emitter = require('emitter')
+let events = require('events')
+let dialog = require('dialog')
+let v = require('virtualdom')
+let template = require('template')
 
 module.exports = Dialog
 
@@ -17,7 +17,7 @@ function Dialog(context) {
 Dialog.prototype = Object.create(Emitter.prototype)
 
 Dialog.prototype.init = function Dialog_init() {
-  var vdom = v.toDOM(template(this.template_path, this.context))
+  let vdom = v.toDOM(template(this.template_path, this.context))
   this.dialog = dialog(vdom)
   this.el = this.dialog.el
 }

@@ -19,10 +19,10 @@
   /**
    * Namespace to hold all the code for timezone detection.
    */
-  var jstz = (function () {
+  let jstz = (function () {
 
 
-      var HEMISPHERE_SOUTH = 's',
+      let HEMISPHERE_SOUTH = 's',
 
           /**
            * Gets the offset in minutes from UTC for a certain date.
@@ -30,12 +30,12 @@
            * @returns {Number}
            */
           get_date_offset = function (date) {
-              var offset = -date.getTimezoneOffset()
+              let offset = -date.getTimezoneOffset()
               return (offset !== null ? offset : 0)
           },
 
           get_date = function (year, month, date) {
-              var d = new Date()
+              let d = new Date()
               if (year !== undefined) {
                 d.setFullYear(year)
               }
@@ -61,7 +61,7 @@
            * @returns {Boolean}
            */
           date_is_dst = function (date) {
-              var is_southern = date.getMonth() > 7,
+              let is_southern = date.getMonth() > 7,
                   base_offset = is_southern ? get_june_offset(date.getFullYear()) :
                                               get_january_offset(date.getFullYear()),
                   date_offset = get_date_offset(date),
@@ -88,7 +88,7 @@
            */
 
           lookup_key = function () {
-              var january_offset = get_january_offset(),
+              let january_offset = get_january_offset(),
                   june_offset = get_june_offset(),
                   diff = january_offset - june_offset
 
@@ -110,7 +110,7 @@
            * @returns Object
            */
           determine = function () {
-              var key = lookup_key()
+              let key = lookup_key()
               return new jstz.TimeZone(jstz.olson.timezones[key])
           },
 
@@ -126,7 +126,7 @@
            */
           dst_start_for = function (tz_name) {
 
-            var ru_pre_dst_change = new Date(2010, 6, 15, 1, 0, 0, 0), // In 2010 Russia had DST, this allows us to detect Russia :)
+            let ru_pre_dst_change = new Date(2010, 6, 15, 1, 0, 0, 0), // In 2010 Russia had DST, this allows us to detect Russia :)
                 dst_starts = {
                     'America/Denver': new Date(2011, 2, 13, 3, 0, 0, 0),
                     'America/Mazatlan': new Date(2011, 3, 3, 3, 0, 0, 0),
@@ -192,7 +192,7 @@
          * The array of timezones to compare must be in the order that daylight savings
          * starts for the regions.
          */
-      var AMBIGUITIES = {
+      let AMBIGUITIES = {
               'America/Denver':       ['America/Denver', 'America/Mazatlan'],
               'America/Chicago':      ['America/Chicago', 'America/Mexico_City'],
               'America/Santiago':     ['America/Santiago', 'America/Asuncion', 'America/Campo_Grande'],
@@ -229,7 +229,7 @@
            * timezones during 2010 and 2011.
            */
           ambiguity_check = function () {
-              var ambiguity_list = AMBIGUITIES[timezone_name],
+              let ambiguity_list = AMBIGUITIES[timezone_name],
                   length = ambiguity_list.length,
                   i = 0,
                   tz = ambiguity_list[0]

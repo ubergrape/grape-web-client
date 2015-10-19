@@ -10,12 +10,12 @@ function InfiniteScroll(el, fn, margin) {
 }
 
 InfiniteScroll.prototype.bind = function InfiniteScroll_bind() {
-  var self = this
-  var elem = this.elem
-  var fn = this.fn
+  let self = this
+  let elem = this.elem
+  let fn = this.fn
   elem.addEventListener('scroll', function () {
-    var sT = elem.scrollTop
-    var sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0)
+    let sT = elem.scrollTop
+    let sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0)
     if (!self._top && sT < self.margin) {
       self._top = true
       fn('top', function () { self._top = false })

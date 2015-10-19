@@ -1,6 +1,6 @@
-var Model = require('model')
-var cache = require('model-cache')
-var staticurl = require('staticurl')
+let Model = require('model')
+let cache = require('model-cache')
+let staticurl = require('staticurl')
 
 module.exports = new Model([
     'username',

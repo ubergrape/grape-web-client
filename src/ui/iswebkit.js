@@ -1,10 +1,10 @@
 module.exports = isWebkit
 
-var isWebkit_
+let isWebkit_
 
 function isWebkit() {
     if (typeof isWebkit_ === 'undefined') {
-        var div = document.createElement('div')
+        let div = document.createElement('div')
         div.setAttribute('contenteditable', 'PLAINTEXT-ONLY')
         isWebkit_ = div.contentEditable === 'plaintext-only'
     }

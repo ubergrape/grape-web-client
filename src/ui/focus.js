@@ -1,4 +1,4 @@
-var exports = module.exports = require('emitter')({})
+let exports = module.exports = require('emitter')({})
 
 exports.state = 'focus'
 

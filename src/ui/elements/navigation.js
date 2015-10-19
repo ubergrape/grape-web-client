@@ -1,17 +1,17 @@
-var Emitter = require('emitter')
-var Scrollbars = require('scrollbars')
-var template = require('template')
-var qs = require('query')
-var events = require('events')
-var closest = require('closest')
-var ItemList = require('./itemlist')
-var classes = require('classes')
-var render = require('../rendervdom')
-var debounce = require('debounce')
-var resizable = require('resizable')
-var store = require('../store').prefix('navigation')
-var clamp = require('clamp')
-var page = require('page')
+let Emitter = require('emitter')
+let Scrollbars = require('scrollbars')
+let template = require('template')
+let qs = require('query')
+let events = require('events')
+let closest = require('closest')
+let ItemList = require('./itemlist')
+let classes = require('classes')
+let render = require('../rendervdom')
+let debounce = require('debounce')
+let resizable = require('resizable')
+let store = require('../store').prefix('navigation')
+let clamp = require('clamp')
+let page = require('page')
 
 module.exports = Navigation
 
@@ -25,41 +25,41 @@ function Navigation() {
 Navigation.prototype = Object.create(Emitter.prototype)
 
 Navigation.prototype.init = function Navigation_init() {
-  var self = this
+  let self = this
   this.nav = {}
   this.redraw()
   this.el = this.nav.el
 
-  var roomList = this.roomList = new ItemList({
+  let roomList = this.roomList = new ItemList({
     template: 'roomlist.jade'
   })
   replace(qs('.rooms', this.el), roomList.el)
 
-  var roomListCollapsed = this.roomListCollapsed = new ItemList({
+  let roomListCollapsed = this.roomListCollapsed = new ItemList({
     template: 'roomlist-collapsed.jade'
   })
   replace(qs('.rooms-collapsed', this.el), roomListCollapsed.el)
 
-  var pmList = this.pmList = new ItemList({
+  let pmList = this.pmList = new ItemList({
     template: 'pmlist.jade'
   })
   replace(qs('.pms', this.el), pmList.el)
 
-  var pmListCollapsed = this.pmListCollapsed = new ItemList({
+  let pmListCollapsed = this.pmListCollapsed = new ItemList({
     template: 'pmlist-collapsed.jade'
   })
   replace(qs('.pms-collapsed', this.el), pmListCollapsed.el)
 
-  var  navScrollbar = this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el))
-  var  navScrollbarCollapsed = this.navScrollbarCollapsed = new Scrollbars(qs('.nav-wrap-out-collapsed', this.el))
-  var headerCollapsed = false
+  let  navScrollbar = this.navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el))
+  let  navScrollbarCollapsed = this.navScrollbarCollapsed = new Scrollbars(qs('.nav-wrap-out-collapsed', this.el))
+  let headerCollapsed = false
 
   document.addEventListener("DOMContentLoaded", function(event) {
     qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling() }
 
     self.collapsedMode = store.get('sidebarCollapsedMode')
 
-    var sidebarWidth = store.get('sidebarWidth')
+    let sidebarWidth = store.get('sidebarWidth')
     if (sidebarWidth == null) sidebarWidth = "240"
 
     qs('.client-body').style.marginLeft = sidebarWidth + 'px'
@@ -75,9 +75,9 @@ Navigation.prototype.init = function Navigation_init() {
       classes(document.body).remove("nav-style-collapsed")
     }
 
-    var navResizable = new resizable(self.el, { directions: ['east'] })
+    let navResizable = new resizable(self.el, { directions: ['east'] })
 
-    var resizeClient = function resizeClient() {
+    let resizeClient = function resizeClient() {
       qs('.client-body').style.marginLeft = self.el.clientWidth + 'px'
       store.set('sidebarWidth', self.el.clientWidth)
     }.bind(self)
@@ -111,9 +111,9 @@ function replace(from, to) {
 function animate(element, style, unit, from, to, time) {
     if (!element) return
 
-    var start = new Date().getTime(),
+    let start = new Date().getTime(),
         timer = setInterval(function() {
-            var step = Math.min(1,(new Date().getTime() - start) / time)
+            let step = Math.min(1,(new Date().getTime() - start) / time)
             element.style[style] = (from + step * (to - from)) + unit
             if (step == 1) clearInterval(timer)
         }, 25)
@@ -122,7 +122,7 @@ function animate(element, style, unit, from, to, time) {
 }
 
 Navigation.prototype.bind = function Navigation_bind() {
-  var self = this
+  let self = this
   this.events = events(this.el, {
     triggerRoomCreation: function (ev) {
       self.emit('triggerRoomCreation', closest(ev.target, 'div', true))
@@ -147,7 +147,7 @@ Navigation.prototype.bind = function Navigation_bind() {
       store.set('sidebarCollapsedMode', true)
     },
     expandSidebar: function(ev) {
-      var oldWidth = store.get('sidebarWidth') + 'px'
+      let oldWidth = store.get('sidebarWidth') + 'px'
 
       classes(document.body).add("nav-style-basic")
       classes(document.body).remove("nav-style-collapsed")
@@ -165,7 +165,7 @@ Navigation.prototype.bind = function Navigation_bind() {
   this.events.bind('click .addpm', 'triggerPMManager')
   this.events.bind('click .minimize-sidebar', 'minimizeSidebar')
   this.events.bind('click .expand-sidebar', 'expandSidebar')
-  var closeNavPopovers = debounce(function() {
+  let closeNavPopovers = debounce(function() {
     this.emit('closeNavPopovers')
   }.bind(this), 500)
   this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers)
@@ -173,9 +173,9 @@ Navigation.prototype.bind = function Navigation_bind() {
 }
 
 Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
-  var scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop
-  var newHeight = Math.max(64, 150 - scrollTop)
-  var scaleFactor = ((100 / 86) * (newHeight - 64)) / 100
+  let scrollTop = qs('.nav-wrap-out.scrollbars-override', this.el).scrollTop
+  let newHeight = Math.max(64, 150 - scrollTop)
+  let scaleFactor = ((100 / 86) * (newHeight - 64)) / 100
 
   if (newHeight < 150 && !this.headerCollapsed) {
     classes(this.orgAreaBG).add("collapse-header-height")
@@ -189,7 +189,7 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
     this.headerCollapsed = true
 
     setTimeout(function() {
-      var orgName = qs('.org-name')
+      let orgName = qs('.org-name')
       orgName.style.textAlign = "left"
       $clamp(orgName, {clamp: 1})
 
@@ -207,7 +207,7 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
     this.headerCollapsed = false
 
     setTimeout(function() {
-      var orgName = qs('.org-name')
+      let orgName = qs('.org-name')
 
       orgName.innerHTML = ui.org.name
       orgName.style.textAlign = "center"
@@ -237,8 +237,8 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
     return 2
   }
 
-  var aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0
-  var bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0
+  let aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0
+  let bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0
 
   if (bLastMessage - aLastMessage != 0)
     return bLastMessage - aLastMessage
@@ -257,8 +257,8 @@ Navigation.prototype.select = function Navigation_select(item) {
   this.pmList.selectItem(null)
   this.pmListCollapsed.selectItem(null)
   if (item.type === 'pm') {
-    var pm = item.users[0]
-    var isInList = this.pmList.items.indexOf(pm) > -1 ? true : false
+    let pm = item.users[0]
+    let isInList = this.pmList.items.indexOf(pm) > -1 ? true : false
     if (!isInList) this.pmList.items.unshift(pm)
   }
   this[item.type + 'List'].selectItem(item)
@@ -274,10 +274,10 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 }
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
-  var list = line.channel.type === 'pm' ? this.pmList : this.roomList
-  var collapsedList = list == this.pmList ? this.pmListCollapsed : this.roomListCollapsed
-  var item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel
-  var itemIndex = list.items.indexOf(item)
+  let list = line.channel.type === 'pm' ? this.pmList : this.roomList
+  let collapsedList = list == this.pmList ? this.pmListCollapsed : this.roomListCollapsed
+  let item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel
+  let itemIndex = list.items.indexOf(item)
   if (itemIndex == -1) return
 
   list.items.splice(itemIndex, 1)
@@ -287,7 +287,7 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 }
 
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
-  var newRoomIndex = this.roomList.items.indexOf(room)
+  let newRoomIndex = this.roomList.items.indexOf(room)
   if (newRoomIndex == -1) return
   this.roomList.items.splice(newRoomIndex, 1)
   this.roomList.redraw()
@@ -306,14 +306,14 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
   if (user == ui.user) return
-  var pmList = this.pmList
+  let pmList = this.pmList
   if (pmList.items.indexOf(user) == -1) pmList.items.push(user)
   pmList.redraw()
   this.pmListCollapsed.redraw()
 }
 
 Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel (room) {
-  var joinedRoomIndex = this.roomList.items.indexOf(room)
+  let joinedRoomIndex = this.roomList.items.indexOf(room)
   if (joinedRoomIndex > -1) return
   this.roomList.items.push(room)
   this.roomList.redraw()
@@ -321,7 +321,7 @@ Navigation.prototype.onJoinedChannel = function Navigation_onJoinedChannel (room
 }
 
 Navigation.prototype.onLeftChannel = function Navigation_onLeftChannel (room) {
-  var newRoomIndex = this.roomList.items.indexOf(room)
+  let newRoomIndex = this.roomList.items.indexOf(room)
   this.roomList.items.splice(newRoomIndex, 1)
   this.roomList.redraw()
   this.roomListCollapsed.redraw()
@@ -333,8 +333,8 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-  var rooms = org.rooms.slice()
-  var pms = org.users.filter(function(user) {
+  let rooms = org.rooms.slice()
+  let pms = org.users.filter(function(user) {
     return user != ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })

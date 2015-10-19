@@ -2,13 +2,13 @@
 // a check functionality that warns
 // if a prefix is already in use
 
-var Store = require('store')
+let Store = require('store')
 
-var prefixes = []
+let prefixes = []
 
 module.exports = Store
 
-var protoPrefix = Store.prefix
+let protoPrefix = Store.prefix
 
 Store.prefix = function (prefix) {
   check(prefix)

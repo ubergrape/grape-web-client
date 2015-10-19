@@ -1,50 +1,49 @@
-var template = require('template')
-var Emitter = require('emitter')
-var broker = require('broker')
-var qs = require('query')
-var notification = require('notification')
-var classes = require('classes')
-var staticurl = require('staticurl')
-var events = require('events')
-var notify = require('HTML5-Desktop-Notifications')
-var Introjs = require("intro.js").introJs
-var Clipboard = require('clipboard')
-var dropAnywhere = require('drop-anywhere')
-var debounce = require('debounce')
-var timezone = require('./jstz')
-var focus = require('./focus')
-var pipeEvents = require('./pipeEvents')
-var page = require('page')
-var Router = require('router')
-var template = require('template')
-var _ = require('t')
-var v = require('virtualdom')
+let Emitter = require('emitter')
+let broker = require('broker')
+let qs = require('query')
+let notification = require('notification')
+let classes = require('classes')
+let staticurl = require('staticurl')
+let events = require('events')
+let notify = require('HTML5-Desktop-Notifications')
+let Introjs = require("intro.js").introJs
+let Clipboard = require('clipboard')
+let dropAnywhere = require('drop-anywhere')
+let debounce = require('debounce')
+let timezone = require('./jstz')
+let focus = require('./focus')
+let pipeEvents = require('./pipeEvents')
+let page = require('page')
+let Router = require('router')
+let template = require('template')
+let _ = require('t')
+let v = require('virtualdom')
 
-var exports = module.exports = UI
+let exports = module.exports = UI
 
 require("startswith")
 require("endswith")
 
 exports.ItemList = require('./elements/itemlist')
-var Navigation = exports.Navigation = require('./elements/navigation')
-var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
-var ChatHeader = exports.ChatHeader = require('./elements/chatheader')
-var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
-var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-var ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
-var HistoryView = exports.HistoryView = require('./elements/historyview')
-var Title = exports.Title = require('./titleupdater')
-var FileUploader = exports.FileUploader = require('./elements/fileuploader')
-var Messages = exports.Messages = require('./elements/messages')
-var Notifications = exports.Notifications = require('./elements/notifications')
-var SearchView = exports.SearchView = require('./elements/searchview.js')
-var Dropzone = exports.Dropzone = require('./elements/dropzone.js')
-var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
-var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
-var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite')
-var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
-var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
-var OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
+let Navigation = exports.Navigation = require('./elements/navigation')
+let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
+let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
+let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
+let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
+let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
+let HistoryView = exports.HistoryView = require('./elements/historyview')
+let Title = exports.Title = require('./titleupdater')
+let FileUploader = exports.FileUploader = require('./elements/fileuploader')
+let Messages = exports.Messages = require('./elements/messages')
+let Notifications = exports.Notifications = require('./elements/notifications')
+let SearchView = exports.SearchView = require('./elements/searchview.js')
+let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
+let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
+let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
+let RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite')
+let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
+let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
+let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 function UI(options) {
     Emitter.call(this)
@@ -74,8 +73,8 @@ UI.prototype.init = function UI_init() {
     this.el = v.toDOM(template('index.jade'))
 
     // add the navigation to the layout
-    var sidebar = qs('.navigation', this.el)
-    var navigation = this.navigation = new Navigation()
+    let sidebar = qs('.navigation', this.el)
+    let navigation = this.navigation = new Navigation()
     sidebar.parentNode.replaceChild(navigation.el, sidebar)
 
     this.organizationMenu = new OrganizationPopover()
@@ -99,7 +98,7 @@ UI.prototype.init = function UI_init() {
     this.markdownTips = new MarkdownTipsDialog().closable()
 
     this.historyView = new HistoryView()
-    var chat = qs('.chat-wrapper .chat', this.el)
+    let chat = qs('.chat-wrapper .chat', this.el)
     chat.parentNode.replaceChild(this.historyView.el, chat)
 
     this.title = new Title()
@@ -107,7 +106,7 @@ UI.prototype.init = function UI_init() {
     qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
     this.upload = new FileUploader(this.options.uploadPath)
-    var uploadContainer = qs('.uploader', this.grapeInput.el)
+    let uploadContainer = qs('.uploader', this.grapeInput.el)
     uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
 
     this.clipboard = new Clipboard(window)
@@ -121,7 +120,7 @@ UI.prototype.init = function UI_init() {
     // initialize dragAndDrop
     // receive the dragged items and emit
     // an event to the uploader to upload them
-    var self = this
+    let self = this
     this.dropzone = new Dropzone()
     this.dragAndDrop = dropAnywhere(function(e){
         e.items.forEach(function(item){
@@ -202,8 +201,8 @@ UI.prototype.init = function UI_init() {
 
 UI.prototype.bind = function UI_bind() {
     pipeEvents(this)
-    var self = this
-    var navigation = this.navigation
+    let self = this
+    let navigation = this.navigation
 
     this.events = events(this.el, {
         'toggleOrganizationMenu': function() {
@@ -237,7 +236,7 @@ UI.prototype.bind = function UI_bind() {
 
     // Open certain link in the external browser in the OS X app
     if (typeof MacGap !== 'undefined') {
-        var as, i
+        let as, i
         as = qs.all('a', this.organizationMenu.el)
         for (i = 0; i < as.length; ++i)
             as[i].target = '_blank'
@@ -304,8 +303,8 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 }
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-    var self = this
-    var org = orgs.filter(function(o) {
+    let self = this
+    let org = orgs.filter(function(o) {
         if (o.id === self.options.organizationID) return o
     })[0]
     this.emit('selectorganization', org)
@@ -330,7 +329,7 @@ UI.prototype.hideSearchResults = function() {
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-    var self = this
+    let self = this
     self.emit('joinroom', room, function() {
         page('/chat/' + room.slug)
         self.emit('endRoomCreation')
@@ -356,7 +355,7 @@ UI.prototype.onConnected = function () {
     this._connErrMsg.remove()
     delete this._connErrMsg
     classes(qs('body')).remove('disconnected')
-    var msg = this.messages.success('reconnected')
+    let msg = this.messages.success('reconnected')
     setTimeout(function(){ msg.remove() }, 2000)
 }
 
@@ -365,14 +364,14 @@ UI.prototype.setRoomContext = function UI_setRoomContext(room) {
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-    var deleteRoomDialog = new DeleteRoomDialog({
+    let deleteRoomDialog = new DeleteRoomDialog({
         room: room
     }).closable().overlay().show()
     broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
 }
 
 UI.prototype.onToggleOrgInvite = function () {
-    var invite = new OrgInvite().closable().overlay().show()
+    let invite = new OrgInvite().closable().overlay().show()
     broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
     broker(this, 'inviteError', invite, 'onInviteError')
     broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
@@ -380,10 +379,10 @@ UI.prototype.onToggleOrgInvite = function () {
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
     // org users who are not part of the room, sorted alphabetically
-    var users = this.org.users.filter(function(user) {
+    let users = this.org.users.filter(function(user) {
         return user.active && room.users.indexOf(user) == -1
     })
-    var invite = new RoomInvite({
+    let invite = new RoomInvite({
         org: this.org,
         users: users,
         room: room
@@ -417,25 +416,25 @@ UI.prototype.onUploaded = function (attachment) {
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    let redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
     page.replace('/chat/' + redirectSlug)
-    var msg = this.messages.warning('message not found')
+    let msg = this.messages.warning('message not found')
     setTimeout(function(){ msg.remove() }, 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
     if (this.room === channel) return
-    var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
+    let slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
     page('/chat/' + slug)
 }
 
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    let redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
     page('/chat/' + redirectSlug)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-    var roommanager = new RoomManager({
+    let roommanager = new RoomManager({
         rooms: this.org.rooms.slice()
     }).closable().overlay().show()
     broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
@@ -449,7 +448,7 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
 }
 
 UI.prototype.onTriggerPMManager = function () {
-    var pmmanager = new PMManager({
+    let pmmanager = new PMManager({
         users: this.org.users.slice()
     }).closable().overlay().show()
     broker(this, 'selectchannel', pmmanager, 'end')

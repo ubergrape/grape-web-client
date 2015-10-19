@@ -1,10 +1,10 @@
-var isWebkit = require('./iswebkit')
+let isWebkit = require('./iswebkit')
 
 module.exports = renderAutocompleteItem
 
 function renderAutocompleteItem(obj, asButton) {
   asButton = asButton || false
-  var name = obj.id.replace(/"/g, '&quot;')
+  let name = obj.id.replace(/"/g, '&quot;')
 
   if (asButton===true) {
     if (isWebkit()) {
@@ -21,7 +21,7 @@ function renderAutocompleteItem(obj, asButton) {
       }
     }
   } else {
-    var target = ' target="_blank"'
+    let target = ' target="_blank"'
     if (obj.service==="chatgrape") {
       target = ''
     }

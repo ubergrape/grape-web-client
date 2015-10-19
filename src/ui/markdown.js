@@ -1,12 +1,12 @@
-var marked = require('marked')
-var markdown_renderlink = require('./markdown_renderlink')
-var emoji = require('./emoji')
+let marked = require('marked')
+let markdown_renderlink = require('./markdown_renderlink')
+let emoji = require('./emoji')
 
-var renderer = new marked.Renderer()
+let renderer = new marked.Renderer()
 
 renderer.link_simple = function(href, title, text) {
   // Renderer.prototype.link, but with target blank
-  var out = '<a target="_blank" href="' + href + '"'
+  let out = '<a target="_blank" href="' + href + '"'
   if (title)
     out += ' title="' + title + '"'
   out += '>' + text + '</a>'
@@ -15,7 +15,7 @@ renderer.link_simple = function(href, title, text) {
 renderer.link = function(href, title, text) {
   if (this.options.sanitize) {
       try {
-        var prot = decodeURIComponent(unescape(href))
+        let prot = decodeURIComponent(unescape(href))
           .replace(/[^\w:]/g, '')
           .toLowerCase()
       } catch (e) {
@@ -36,7 +36,7 @@ renderer.hr = function() {
   return "--"
 }
 renderer.image = function (href, title, text) {
-  var out = '<span class="markdown-img-wrapper">'
+  let out = '<span class="markdown-img-wrapper">'
   out += '<img src="' + href + '" alt="' + text + '"'
   if (title) out += ' title="' + title + '"'
   out += this.options.xhtml ? '/>' : '>'
@@ -52,11 +52,11 @@ marked.setOptions({
   emoji: function (emo) {
     emoji.init_colons()
     // TODO: app.organization
-    var custom_emojis = api.organization.custom_emojis
+    let custom_emojis = api.organization.custom_emojis
     if (custom_emojis.hasOwnProperty(emo)) {
       return '<img src="'+custom_emojis[emo]+'" class="emoji" alt="'+emo+'"/>'
     }
-    var val = emoji.map.colons[emo]
+    let val = emoji.map.colons[emo]
     return val ? emoji.replacement(val, emo, ':') : ':' + emo + ':'
   }
 })

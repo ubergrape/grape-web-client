@@ -1,11 +1,11 @@
-var Emitter = require('emitter')
-var Upload = require('upload')
-var Progress = require('progress')
-var file = require('file')
-var template = require('template')
-var qs = require('query')
-var render = require('../rendervdom')
-var classes = require('classes')
+let Emitter = require('emitter')
+let Upload = require('upload')
+let Progress = require('progress')
+let file = require('file')
+let template = require('template')
+let qs = require('query')
+let render = require('../rendervdom')
+let classes = require('classes')
 
 module.exports = Uploader
 
@@ -20,7 +20,7 @@ function Uploader(uploadPath) {
 Uploader.prototype = Object.create(Emitter.prototype)
 
 Uploader.prototype.init = function Uploader_init() {
-  var vdom = template('fileuploader.jade', {})
+  let vdom = template('fileuploader.jade', {})
   render(this, vdom)
   this.classes = classes(this.el)
 
@@ -35,10 +35,10 @@ Uploader.prototype.init = function Uploader_init() {
 }
 
 Uploader.prototype.bind = function Uploader_bind() {
-  var self = this
+  let self = this
   this.trigger.addEventListener('click', function () { self.input.click(); })
   this.input.addEventListener('change', function () {
-    for (var i = 0; i < this.files.length; i++){
+    for (let i = 0; i < this.files.length; i++){
       self.doUpload(this.files[i])
     }
     // the uploader input takes action only when the form changes,
@@ -48,10 +48,10 @@ Uploader.prototype.bind = function Uploader_bind() {
 }
 
 Uploader.prototype.doUpload = function Uploader_doUpload(file) {
-  var self = this
+  let self = this
   self.progress.update(0)
   self.showPreview(file)
-  var upload = new Upload(file)
+  let upload = new Upload(file)
   this.emit('uploading')
   upload.on('progress', function (progress) {
     self.progress.update(progress.percent)
@@ -72,7 +72,7 @@ Uploader.prototype.setOrganization = function Uploader_setOrganization(org) {
 }
 
 Uploader.prototype.showPreview = function Uploader_updatePreview(f) {
-  var self = this
+  let self = this
   file(f).toDataURL(function (err, url) {
     self.preview.src = url
     self.classes.add('open')
