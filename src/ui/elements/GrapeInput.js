@@ -6,6 +6,7 @@ import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
 import find from 'lodash/collection/find'
 import clone from 'lodash/lang/clone'
+import get from 'lodash/object/get'
 
 import staticurl from 'staticurl'
 import render from '../rendervdom'
@@ -220,35 +221,6 @@ export default class GrapeInput extends Emitter {
 		this.emit('stoptyping', this.room)
 	}
 
-	getImageAttachments(objects) {
-		// Find embeddable images.
-		let images = objects.filter(obj => {
-			if (isImage(obj.mime_type) &&
-				obj.detail &&
-				obj.detail.preview &&
-				obj.detail.preview.embeddable) {
-				return true
-			}
-			return false
-		})
-
-		let attachments = images.map(obj => {
-			let image = obj.detail.preview.image
-
-			return {
-				name: obj.name,
-				url: obj.url,
-				source: obj.service,
-				mime_type: obj.mime_type,
-				thumbnail_url: image.url,
-				thumbnail_width: image.width,
-				thumbnail_height: image.height
-			}
-		})
-
-		return attachments
-	}
-
 	onMarkdownTipsShow() {
 		this.emit('showmarkdowntips')
 	}
@@ -319,7 +291,7 @@ export default class GrapeInput extends Emitter {
 		}
 		else {
 			let sendText = true
-			let attachments = this.getImageAttachments(data.objects)
+			let attachments = getImageAttachments(data.objects)
 			// If a message text contains only media objects we will render a preview
 			// in the history for, there is no need to send this objects as text.
 			if (data.objectsOnly && attachments.length === data.objects.length) {
@@ -400,6 +372,28 @@ export default class GrapeInput extends Emitter {
 			this.editMessage(msg)
 		})
 	}
+}
+
+function getImageAttachments(objects) {
+	// Find embeddable images.
+	let images = objects.filter(obj => {
+		return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
+	})
+
+	let attachments = images.map(obj => {
+		let image = obj.detail.preview.image
+		return {
+			name: obj.name,
+			url: obj.url,
+			source: obj.service,
+			mime_type: obj.mime_type,
+			thumbnail_url: image.url,
+			thumbnail_width: image.width,
+			thumbnail_height: image.height
+		}
+	})
+
+	return attachments
 }
 
 function isImage(mime) {
