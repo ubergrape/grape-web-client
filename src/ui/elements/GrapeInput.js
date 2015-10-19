@@ -14,384 +14,384 @@ import 'grape-browser'
 const IMAGES_BASE = staticurl('app/cg/images')
 
 const IMAGES = {
-	emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
-	traubyReading: IMAGES_BASE + '/trauby-reading.png',
-	traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
-	noDetail: IMAGES_BASE + '/no-detail.png',
-	spinner: staticurl('/images/preloader-onwhite.gif')
+  emojiSheet: IMAGES_BASE + '/emoji_sheet_32_optimized.png',
+  traubyReading: IMAGES_BASE + '/trauby-reading.png',
+  traubyJuggling: IMAGES_BASE + '/trauby-juggling.png',
+  noDetail: IMAGES_BASE + '/no-detail.png',
+  spinner: staticurl('/images/preloader-onwhite.gif')
 }
 
 export default class GrapeInput extends Emitter {
-	constructor() {
-		super()
-		this.room = null
-		this.previous = null
-		this.org = null
-		this.redraw()
-		this.placeholder = 'Enter a message ...'
-		this.typing = false
-		// Key is room id, value is unsent text message.
-		this.unsent = {}
-		this.images = clone(IMAGES)
-		this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
-		this.searchDebounced = debounce(::this.search, 200)
-	}
+  constructor() {
+    super()
+    this.room = null
+    this.previous = null
+    this.org = null
+    this.redraw()
+    this.placeholder = 'Enter a message ...'
+    this.typing = false
+    // Key is room id, value is unsent text message.
+    this.unsent = {}
+    this.images = clone(IMAGES)
+    this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
+    this.searchDebounced = debounce(::this.search, 200)
+  }
 
-	init() {
-		if (this.initialized) return
-		this.initialized = true
-		this.bindEvents()
-		this.input = qs('grape-input', this.el)
-		this.images.orgLogo = this.org.logo
-		this.setProps({focused: true})
-	}
+  init() {
+    if (this.initialized) return
+    this.initialized = true
+    this.bindEvents()
+    this.input = qs('grape-input', this.el)
+    this.images.orgLogo = this.org.logo
+    this.setProps({focused: true})
+  }
 
-	setProps(newProps, callback) {
-		this.input.props = {
-			...this.input.props,
-			images: this.images,
-			customEmojis: this.org.custom_emojis,
-			placeholder: this.placeholder,
-			hasIntegrations: this.org.has_integrations,
-			onRender: callback ? once(callback) : undefined,
-			...newProps
-		}
-	}
+  setProps(newProps, callback) {
+    this.input.props = {
+      ...this.input.props,
+      images: this.images,
+      customEmojis: this.org.custom_emojis,
+      placeholder: this.placeholder,
+      hasIntegrations: this.org.has_integrations,
+      onRender: callback ? once(callback) : undefined,
+      ...newProps
+    }
+  }
 
-	bindEvents() {
-		this.events = events(this.el, this)
-		this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
-		this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
-		this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
-		this.events.bind('grapeComplete grape-input', 'onComplete')
-		this.events.bind('grapeSelectFilter grape-input', 'onSelectFilter')
-		this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious')
-		this.events.bind('grapeAbort grape-input', 'onAbort')
-		this.events.bind('grapeChange grape-input', 'onChange')
-		this.events.bind('grapeSubmit grape-input', 'onSubmit')
-		this.events.bind('grapeFocus grape-input', 'onFocus')
-		this.events.bind('grapeBlur grape-input', 'onBlur')
-		this.events.bind('grapeResize grape-input', 'onResize')
-		this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration')
-		this.events.bind('grapeInsertItem grape-input', 'onInsertItem')
-	}
+  bindEvents() {
+    this.events = events(this.el, this)
+    this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
+    this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
+    this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
+    this.events.bind('grapeComplete grape-input', 'onComplete')
+    this.events.bind('grapeSelectFilter grape-input', 'onSelectFilter')
+    this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious')
+    this.events.bind('grapeAbort grape-input', 'onAbort')
+    this.events.bind('grapeChange grape-input', 'onChange')
+    this.events.bind('grapeSubmit grape-input', 'onSubmit')
+    this.events.bind('grapeFocus grape-input', 'onFocus')
+    this.events.bind('grapeBlur grape-input', 'onBlur')
+    this.events.bind('grapeResize grape-input', 'onResize')
+    this.events.bind('grapeAddIntegration grape-input', 'onAddIntegration')
+    this.events.bind('grapeInsertItem grape-input', 'onInsertItem')
+  }
 
-	disable() {
-		if (this.input.props.disabled) return
-		this.completePreviousEdit()
-		this.el.classList.add('disabled')
-		this.setProps({
-			disabled: true,
-			focused: false,
-			placeholder: 'You can not reply to this conversation.'
-		})
-	}
+  disable() {
+    if (this.input.props.disabled) return
+    this.completePreviousEdit()
+    this.el.classList.add('disabled')
+    this.setProps({
+      disabled: true,
+      focused: false,
+      placeholder: 'You can not reply to this conversation.'
+    })
+  }
 
-	enable() {
-		if (!this.input.props.disabled) return
-		this.el.classList.remove('disabled')
-		this.setProps({
-			disabled: false,
-			placeholder: this.placeholder
-		})
-	}
+  enable() {
+    if (!this.input.props.disabled) return
+    this.el.classList.remove('disabled')
+    this.setProps({
+      disabled: false,
+      placeholder: this.placeholder
+    })
+  }
 
-	redraw() {
-		render(this, template('grapeInput.jade', {}))
-	}
+  redraw() {
+    render(this, template('grapeInput.jade', {}))
+  }
 
-	showSearchBrowser(key) {
-		let props = this.input.props
-		// Show browser immediately with empty state.
-		this.setProps({
-			browser: 'search',
-			data: props.browser === 'search' ? props.data : null,
-			isLoading: true
-		})
-		this.searchDebounced(key)
-	}
+  showSearchBrowser(key) {
+    let props = this.input.props
+    // Show browser immediately with empty state.
+    this.setProps({
+      browser: 'search',
+      data: props.browser === 'search' ? props.data : null,
+      isLoading: true
+    })
+    this.searchDebounced(key)
+  }
 
-	showUsersAndRooms(key) {
-		let lowerKey = key.toLowerCase()
-		let users = this.findUsers(lowerKey)
-		let rooms = this.findRooms(lowerKey)
-		let data = users.concat(rooms)
-		this.setProps({
-			browser: 'user',
-			data: data
-		})
-	}
+  showUsersAndRooms(key) {
+    let lowerKey = key.toLowerCase()
+    let users = this.findUsers(lowerKey)
+    let rooms = this.findRooms(lowerKey)
+    let data = users.concat(rooms)
+    this.setProps({
+      browser: 'user',
+      data: data
+    })
+  }
 
-	showEmojiBrowser() {
-		this.setProps({browser: 'emoji'})
-	}
+  showEmojiBrowser() {
+    this.setProps({browser: 'emoji'})
+  }
 
-	findUsers(key) {
-		let users = this.org.users.toArray()
+  findUsers(key) {
+    let users = this.org.users.toArray()
 
-		// Remove unactive users.
-		users = users.filter(user => user.active)
+    // Remove unactive users.
+    users = users.filter(user => user.active)
 
-		// Map to a unified data structure.
-		users = users.map(user => {
-			let name = user.username
-			if (user.firstName) {
-				name = user.firstName
-				if (user.lastName) name += ' ' + user.lastName
-			}
+    // Map to a unified data structure.
+    users = users.map(user => {
+      let name = user.username
+      if (user.firstName) {
+        name = user.firstName
+        if (user.lastName) name += ' ' + user.lastName
+      }
 
-			return {
-				id: user.id,
-				name: name,
-				username: user.username,
-				iconURL: user.avatar,
-				type: 'user'
-			}
-		})
+      return {
+        id: user.id,
+        name: name,
+        username: user.username,
+        iconURL: user.avatar,
+        type: 'user'
+      }
+    })
 
-		// Do the search.
-		users = users.filter(user => {
-			if (user.name.toLowerCase().indexOf(key) >= 0 ||
-				user.username.toLowerCase().indexOf(key) >= 0) {
-				return true
-			}
-		})
+    // Do the search.
+    users = users.filter(user => {
+      if (user.name.toLowerCase().indexOf(key) >= 0 ||
+        user.username.toLowerCase().indexOf(key) >= 0) {
+        return true
+      }
+    })
 
-		return users
-	}
+    return users
+  }
 
-	findRooms(key) {
-		let rooms = this.org.rooms.toArray()
+  findRooms(key) {
+    let rooms = this.org.rooms.toArray()
 
-		rooms = rooms.map(room => {
-			return {
-				id: room.id,
-				type: 'room',
-				name: room.name,
-				slug: room.slug
-			}
-		})
+    rooms = rooms.map(room => {
+      return {
+        id: room.id,
+        type: 'room',
+        name: room.name,
+        slug: room.slug
+      }
+    })
 
-		// Do the search.
-		rooms = rooms.filter(room => {
-			return room.name.toLowerCase().indexOf(key) >= 0
-		})
+    // Do the search.
+    rooms = rooms.filter(room => {
+      return room.name.toLowerCase().indexOf(key) >= 0
+    })
 
-		return rooms
-	}
+    return rooms
+  }
 
-	completePreviousEdit() {
-		if (!this.previous) return
-		this.previous.el.classList.remove('editing')
-		this.el.classList.remove('editing-previous')
-		this.input.setTextContent('')
-		this.previous = null
-	}
+  completePreviousEdit() {
+    if (!this.previous) return
+    this.previous.el.classList.remove('editing')
+    this.el.classList.remove('editing-previous')
+    this.input.setTextContent('')
+    this.previous = null
+  }
 
-	editMessage(msg) {
-		this.completePreviousEdit()
-		let el = qs('.message[data-id="' + msg.id + '"]')
-		el.classList.add('editing')
-		this.el.classList.add('editing-previous')
-		this.input.setTextContent(msg.text)
-		this.previous = {
-			msg: msg,
-			el: el
-		}
-	}
+  editMessage(msg) {
+    this.completePreviousEdit()
+    let el = qs('.message[data-id="' + msg.id + '"]')
+    el.classList.add('editing')
+    this.el.classList.add('editing-previous')
+    this.input.setTextContent(msg.text)
+    this.previous = {
+      msg: msg,
+      el: el
+    }
+  }
 
-	findPreviousMessage() {
-		let history = this.room.history.slice().reverse()
-		return find(history, msg => {
-			return msg.author === this.user && !msg.attachments.length
-		})
-	}
+  findPreviousMessage() {
+    let history = this.room.history.slice().reverse()
+    return find(history, msg => {
+      return msg.author === this.user && !msg.attachments.length
+    })
+  }
 
-	stopTyping() {
-		this.typing = false
-		this.emit('stoptyping', this.room)
-	}
+  stopTyping() {
+    this.typing = false
+    this.emit('stoptyping', this.room)
+  }
 
-	getImageAttachments(objects) {
-		// Find embeddable images.
-		let images = objects.filter(obj => {
-			if (isImage(obj.mime_type) &&
-				obj.detail &&
-				obj.detail.preview &&
-				obj.detail.preview.embeddable) {
-				return true
-			}
-			return false
-		})
+  getImageAttachments(objects) {
+    // Find embeddable images.
+    let images = objects.filter(obj => {
+      if (isImage(obj.mime_type) &&
+        obj.detail &&
+        obj.detail.preview &&
+        obj.detail.preview.embeddable) {
+        return true
+      }
+      return false
+    })
 
-		let attachments = images.map(obj => {
-			let image = obj.detail.preview.image
+    let attachments = images.map(obj => {
+      let image = obj.detail.preview.image
 
-			return {
-				name: obj.name,
-				url: obj.url,
-				source: obj.service,
-				mime_type: obj.mime_type,
-				thumbnail_url: image.url,
-				thumbnail_width: image.width,
-				thumbnail_height: image.height
-			}
-		})
+      return {
+        name: obj.name,
+        url: obj.url,
+        source: obj.service,
+        mime_type: obj.mime_type,
+        thumbnail_url: image.url,
+        thumbnail_width: image.width,
+        thumbnail_height: image.height
+      }
+    })
 
-		return attachments
-	}
+    return attachments
+  }
 
-	onMarkdownTipsShow() {
-		this.emit('showmarkdowntips')
-	}
+  onMarkdownTipsShow() {
+    this.emit('showmarkdowntips')
+  }
 
-	onComplete(e) {
-		let query = e.detail
+  onComplete(e) {
+    let query = e.detail
 
-		switch (query.trigger) {
-			case '#':
-				this.showSearchBrowser(query.key)
-				break
-			case '@':
-				this.showUsersAndRooms(query.key)
-				break
-			default:
-		}
-	}
+    switch (query.trigger) {
+      case '#':
+        this.showSearchBrowser(query.key)
+        break
+      case '@':
+        this.showUsersAndRooms(query.key)
+        break
+      default:
+    }
+  }
 
-	onSelectFilter(e) {
-		this.emit('autocomplete', e.detail.key, (err, data) => {
-			if (err) return this.emit('error', err)
-			this.setProps({
-				browser: 'search',
-				data: data
-			})
-		})
-	}
+  onSelectFilter(e) {
+    this.emit('autocomplete', e.detail.key, (err, data) => {
+      if (err) return this.emit('error', err)
+      this.setProps({
+        browser: 'search',
+        data: data
+      })
+    })
+  }
 
-	onEditPrevious() {
-		let msg = this.findPreviousMessage()
-		if (msg) this.editMessage(msg)
-	}
+  onEditPrevious() {
+    let msg = this.findPreviousMessage()
+    if (msg) this.editMessage(msg)
+  }
 
-	onAbort(e) {
-		let data = e.detail
+  onAbort(e) {
+    let data = e.detail
 
-		// Don't abort editing if browser has been open.
-		if (!data.browser) this.completePreviousEdit()
-		if (data.browser === 'search' && data.reason === 'esc') {
-			window.analytics.track('abort autocomplete', data)
-		}
-	}
+    // Don't abort editing if browser has been open.
+    if (!data.browser) this.completePreviousEdit()
+    if (data.browser === 'search' && data.reason === 'esc') {
+      window.analytics.track('abort autocomplete', data)
+    }
+  }
 
-	onChange() {
-		if (!this.typing) {
-			this.typing = true
-			this.emit('starttyping', this.room)
-		}
-		this.stopTypingDebounced()
-	}
+  onChange() {
+    if (!this.typing) {
+      this.typing = true
+      this.emit('starttyping', this.room)
+    }
+    this.stopTypingDebounced()
+  }
 
-	search(key) {
-		this.emit('autocomplete', key, (err, data) => {
-			if (err) return this.emit('error', err)
-			this.setProps({
-				browser: 'search',
-				data: data
-			})
-		})
-	}
+  search(key) {
+    this.emit('autocomplete', key, (err, data) => {
+      if (err) return this.emit('error', err)
+      this.setProps({
+        browser: 'search',
+        data: data
+      })
+    })
+  }
 
-	onSubmit(e) {
-		let data = e.detail
+  onSubmit(e) {
+    let data = e.detail
 
-		if (this.previous) {
-			this.emit('update', this.previous.msg, data.content)
-			this.completePreviousEdit()
-		}
-		else {
-			let sendText = true
-			let attachments = this.getImageAttachments(data.objects)
-			// If a message text contains only media objects we will render a preview
-			// in the history for, there is no need to send this objects as text.
-			if (data.objectsOnly && attachments.length === data.objects.length) {
-				sendText = false
-			}
-			// Separate message to make it separately editable and removable.
-			if (sendText) this.emit('input', this.room, data.content)
-			if (attachments.length) {
-				this.emit('input', this.room, '', {attachments: attachments})
-			}
-			this.input.setTextContent('')
-		}
-	}
+    if (this.previous) {
+      this.emit('update', this.previous.msg, data.content)
+      this.completePreviousEdit()
+    }
+    else {
+      let sendText = true
+      let attachments = this.getImageAttachments(data.objects)
+      // If a message text contains only media objects we will render a preview
+      // in the history for, there is no need to send this objects as text.
+      if (data.objectsOnly && attachments.length === data.objects.length) {
+        sendText = false
+      }
+      // Separate message to make it separately editable and removable.
+      if (sendText) this.emit('input', this.room, data.content)
+      if (attachments.length) {
+        this.emit('input', this.room, '', {attachments: attachments})
+      }
+      this.input.setTextContent('')
+    }
+  }
 
-	onFocus() {
-		this.setProps({focused: true})
-	}
+  onFocus() {
+    this.setProps({focused: true})
+  }
 
-	onBlur() {
-		this.setProps({focused: false})
-	}
+  onBlur() {
+    this.setProps({focused: false})
+  }
 
-	onResize() {
-		this.emit('resize')
-	}
+  onResize() {
+    this.emit('resize')
+  }
 
-	onOpenEmojiBrowser(e) {
-		e.preventDefault()
-		this.showEmojiBrowser()
-	}
+  onOpenEmojiBrowser(e) {
+    e.preventDefault()
+    this.showEmojiBrowser()
+  }
 
-	onOpenSearchBrowser(e) {
-		e.preventDefault()
-		this.showSearchBrowser('')
-	}
+  onOpenSearchBrowser(e) {
+    e.preventDefault()
+    this.showSearchBrowser('')
+  }
 
-	onOrgReady(org) {
-		this.org = org
-		this.init()
-	}
+  onOrgReady(org) {
+    this.org = org
+    this.init()
+  }
 
-	onSetUser(user) {
-		this.user = user
-		this.redraw()
-	}
+  onSetUser(user) {
+    this.user = user
+    this.redraw()
+  }
 
-	onAddIntegration() {
-		location.href = '/integrations/'
-	}
+  onAddIntegration() {
+    location.href = '/integrations/'
+  }
 
-	onInsertItem(e) {
-		window.analytics.track('insert autocomplete object', e.detail)
-	}
+  onInsertItem(e) {
+    window.analytics.track('insert autocomplete object', e.detail)
+  }
 
-	onSelectChannel(room) {
-		if (this.room) this.unsent[this.room.id] = this.input.getTextContent()
-		this.completePreviousEdit()
-		if (!room || (room.type === 'pm' && !room.users[0].active)) {
-			this.disable()
-		}
-		else {
-			this.enable()
-			this.room = room
-			this.setProps({focused: true}, () => {
-				this.input.setTextContent(this.unsent[room.id] || '')
-			})
-		}
-	}
+  onSelectChannel(room) {
+    if (this.room) this.unsent[this.room.id] = this.input.getTextContent()
+    this.completePreviousEdit()
+    if (!room || (room.type === 'pm' && !room.users[0].active)) {
+      this.disable()
+    }
+    else {
+      this.enable()
+      this.room = room
+      this.setProps({focused: true}, () => {
+        this.input.setTextContent(this.unsent[room.id] || '')
+      })
+    }
+  }
 
-	onInputRender() {
-		this.in.emit('inputRendered')
-	}
+  onInputRender() {
+    this.in.emit('inputRendered')
+  }
 
-	onEditMessage(msg) {
-		this.setProps({focused: true}, () => {
-			this.editMessage(msg)
-		})
-	}
+  onEditMessage(msg) {
+    this.setProps({focused: true}, () => {
+      this.editMessage(msg)
+    })
+  }
 }
 
 function isImage(mime) {
-	return String(mime).substr(0, 5) === 'image'
+  return String(mime).substr(0, 5) === 'image'
 }
