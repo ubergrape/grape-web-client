@@ -17,7 +17,7 @@ SearchView.prototype = Object.create(Emitter.prototype)
 SearchView.prototype.init = function SearchView_init() {
   this.results = []
   this.hidden = true
-  document.addEventListener('keyup', function(ev) {
+  document.addEventListener('keyup', function (ev) {
     if (!this.hidden && ev.keyCode === 27) this.hideResults()
   }.bind(this))
   document.addEventListener('click', function (ev) {

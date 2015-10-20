@@ -49,10 +49,10 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
   let self = this
 
   this.events = events(this.el, {
-    'toggleDeleteRoomDialog': function(e) {
+    'toggleDeleteRoomDialog': function (e) {
       self.emit('toggledeleteroomdialog', self.room)
     },
-    'triggerRoomRename': function() {
+    'triggerRoomRename': function () {
       self.editState.renaming = true
       self.redraw()
       let roomNameInput = qs('input.room-name', this.el)
@@ -60,15 +60,15 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
       roomNameInput.focus()
       roomNameInput.setSelectionRange(roomName.length,roomName.length)
     },
-    'stopRoomRename': function() {
+    'stopRoomRename': function () {
       self.editState.renaming = false
       self.redraw()
     },
-    'confirmRoomRename': function() {
+    'confirmRoomRename': function () {
       let newRoomName = qs('input.room-name', this.el).value
       self.emit('confirmroomrename', self.room.id, newRoomName)
     },
-    'roomRenameShortcuts' : function(e) {
+    'roomRenameShortcuts' : function (e) {
       switch(keyname(e.keyCode)) {
         case 'enter':
           this.confirmRoomRename()
@@ -76,17 +76,17 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
           e.target.setCustomValidity('')
       }
     },
-    'preventFormSubmission' : function(e) {
+    'preventFormSubmission' : function (e) {
       e.preventDefault()
     },
-    'toggleMenu' : function(e) {
+    'toggleMenu' : function (e) {
       let color = {r: 100, g: 50, b: 100}
 
       if (self.room.color) {
         color = hexToRgb(self.room.color.toLowerCase())
       }
 
-      if (self.menuToggle.className == "room-header-button") {
+      if (self.menuToggle.className === "room-header-button") {
         self.emit('togglerightsidebar')
         self.menuToggle.className = "room-header-button-active"
         self.menuToggle.style.background = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.75)"
@@ -130,8 +130,8 @@ ChatHeader.prototype.bind = function ChatHeader_bind() {
 
   let  callbacks = this.events.obj
 
-  document.addEventListener('keyup', function(e) {
-    if (keyname(e.which) == 'esc') callbacks.stopRoomRename()
+  document.addEventListener('keyup', function (e) {
+    if (keyname(e.which) === 'esc') callbacks.stopRoomRename()
   })
 
   let startSearching = debounce(function () {
@@ -178,7 +178,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
   this.room = room
-  this.isRoomManager = (this.room.creator && window.ui.user == this.room.creator) || window.ui.user.role >= constants.roles.ROLE_ADMIN
+  this.isRoomManager = (this.room.creator && window.ui.user === this.room.creator) || window.ui.user.role >= constants.roles.ROLE_ADMIN
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()
@@ -197,11 +197,11 @@ ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) 
 }
 
 ChatHeader.prototype.onNewRoomMember = function ChatHeader_onNewRoomMember(room) {
-  if (room == this.room) this.redraw()
+  if (room === this.room) this.redraw()
 }
 
 ChatHeader.prototype.onMemberLeftChannel = function ChatHeader_onMemberLeftChannel(room) {
-  if (room == this.room) this.redraw()
+  if (room === this.room) this.redraw()
 }
 
 ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode () {

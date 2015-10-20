@@ -54,18 +54,18 @@ Navigation.prototype.init = function Navigation_init() {
   let  navScrollbarCollapsed = this.navScrollbarCollapsed = new Scrollbars(qs('.nav-wrap-out-collapsed', this.el))
   let headerCollapsed = false
 
-  document.addEventListener("DOMContentLoaded", function(event) {
-    qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function() { self.handleScrolling() }
+  document.addEventListener("DOMContentLoaded", function (event) {
+    qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function () { self.handleScrolling() }
 
     self.collapsedMode = store.get('sidebarCollapsedMode')
 
     let sidebarWidth = store.get('sidebarWidth')
-    if (sidebarWidth == null) sidebarWidth = "240"
+    if (sidebarWidth === null) sidebarWidth = "240"
 
     qs('.client-body').style.marginLeft = sidebarWidth + 'px'
     self.el.style.width = sidebarWidth + 'px'
 
-    if (self.collapsedMode && self.collapsedMode == true) {
+    if (self.collapsedMode && self.collapsedMode === true) {
       classes(document.body).remove("nav-style-basic")
       classes(document.body).add("nav-style-collapsed")
 
@@ -112,10 +112,10 @@ function animate(element, style, unit, from, to, time) {
     if (!element) return
 
     let start = new Date().getTime(),
-        timer = setInterval(function() {
+        timer = setInterval(function () {
             let step = Math.min(1,(new Date().getTime() - start) / time)
             element.style[style] = (from + step * (to - from)) + unit
-            if (step == 1) clearInterval(timer)
+            if (step === 1) clearInterval(timer)
         }, 25)
 
     element.style[style] = from + unit
@@ -127,13 +127,13 @@ Navigation.prototype.bind = function Navigation_bind() {
     triggerRoomCreation: function (ev) {
       self.emit('triggerRoomCreation', closest(ev.target, 'div', true))
     },
-    triggerRoomManager: function(ev) {
+    triggerRoomManager: function (ev) {
       if (self.ready) self.emit('triggerRoomManager')
     },
-    triggerPMManager: function(ev) {
+    triggerPMManager: function (ev) {
       if (self.ready) self.emit('triggerPMManager')
     },
-    minimizeSidebar: function(ev) {
+    minimizeSidebar: function (ev) {
       store.set('sidebarWidth', self.el.clientWidth)
       classes(document.body).remove("nav-style-basic")
       classes(document.body).add("nav-style-collapsed")
@@ -146,7 +146,7 @@ Navigation.prototype.bind = function Navigation_bind() {
       self.collapsedMode = true
       store.set('sidebarCollapsedMode', true)
     },
-    expandSidebar: function(ev) {
+    expandSidebar: function (ev) {
       let oldWidth = store.get('sidebarWidth') + 'px'
 
       classes(document.body).add("nav-style-basic")
@@ -165,7 +165,7 @@ Navigation.prototype.bind = function Navigation_bind() {
   this.events.bind('click .addpm', 'triggerPMManager')
   this.events.bind('click .minimize-sidebar', 'minimizeSidebar')
   this.events.bind('click .expand-sidebar', 'expandSidebar')
-  let closeNavPopovers = debounce(function() {
+  let closeNavPopovers = debounce(function () {
     this.emit('closeNavPopovers')
   }.bind(this), 500)
   this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers)
@@ -188,13 +188,13 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 
     this.headerCollapsed = true
 
-    setTimeout(function() {
+    setTimeout(function () {
       let orgName = qs('.org-name')
       orgName.style.textAlign = "left"
       window.$clamp(orgName, {clamp: 1})
       orgName.style.opacity = "1"
     }, 225)
-  } else if (newHeight == 150 && this.headerCollapsed) {
+  } else if (newHeight === 150 && this.headerCollapsed) {
     classes(this.orgAreaBG).remove("collapse-header-height")
     classes(this.orgAreaBGOverlay).remove("collapse-header-height")
     classes(this.orgInfo).remove("collapse-header-height")
@@ -205,7 +205,7 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 
     this.headerCollapsed = false
 
-    setTimeout(function() {
+    setTimeout(function () {
       let orgName = qs('.org-name')
 
       orgName.innerHTML = window.ui.org.name
@@ -230,7 +230,7 @@ Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 
   function getStatusValue(user) {
     if (!user.active) return 0
-    if (user.status == 16) return 3
+    if (user.status === 16) return 3
     if (user.is_only_invited) return 1
     return 2
   }
@@ -273,10 +273,10 @@ Navigation.prototype.redraw = function Navigation_redraw() {
 
 Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
   let list = line.channel.type === 'pm' ? this.pmList : this.roomList
-  let collapsedList = list == this.pmList ? this.pmListCollapsed : this.roomListCollapsed
+  let collapsedList = list === this.pmList ? this.pmListCollapsed : this.roomListCollapsed
   let item = line.channel.type === 'pm' ? line.channel.users[0] : line.channel
   let itemIndex = list.items.indexOf(item)
-  if (itemIndex == -1) return
+  if (itemIndex === -1) return
 
   list.items.splice(itemIndex, 1)
   list.items.unshift(item)
@@ -286,7 +286,7 @@ Navigation.prototype.onNewMessage = function Navigation_onNewMessage(line) {
 
 Navigation.prototype.deleteRoom = function Navigation_deleteRoom (room) {
   let newRoomIndex = this.roomList.items.indexOf(room)
-  if (newRoomIndex == -1) return
+  if (newRoomIndex === -1) return
   this.roomList.items.splice(newRoomIndex, 1)
   this.roomList.redraw()
   this.roomListCollapsed.redraw()
@@ -303,9 +303,9 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 }
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
-  if (user == window.ui.user) return
+  if (user === window.ui.user) return
   let pmList = this.pmList
-  if (pmList.items.indexOf(user) == -1) pmList.items.push(user)
+  if (pmList.items.indexOf(user) === -1) pmList.items.push(user)
   pmList.redraw()
   this.pmListCollapsed.redraw()
 }
@@ -332,7 +332,7 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
-  let pms = org.users.filter(function(user) {
+  let pms = org.users.filter(function (user) {
     return user != window.ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })

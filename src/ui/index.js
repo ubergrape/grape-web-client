@@ -113,7 +113,7 @@ UI.prototype.init = function UI_init() {
 
     // on paste, check if the pasted item is a blob object -image-,
     // then emit an upload event to the broker to call the uploader
-    this.clipboard.on('paste', function(e){
+    this.clipboard.on('paste', function (e) {
         if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
     })
 
@@ -122,8 +122,8 @@ UI.prototype.init = function UI_init() {
     // an event to the uploader to upload them
     let self = this
     this.dropzone = new Dropzone()
-    this.dragAndDrop = dropAnywhere(function(e){
-        e.items.forEach(function(item){
+    this.dragAndDrop = dropAnywhere(function (e) {
+        e.items.forEach(function (item) {
             self.emit('uploadDragged', item)
         })
     }, this.dropzone.el)
@@ -148,7 +148,7 @@ UI.prototype.init = function UI_init() {
 
     // initialize user guide
     this.intro = new Introjs()
-    this.intro.onchange(function(el) {
+    this.intro.onchange(function (el) {
         if (el.dataset.step !== undefined) {
             window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic})
         }
@@ -205,14 +205,14 @@ UI.prototype.bind = function UI_bind() {
     let navigation = this.navigation
 
     this.events = events(this.el, {
-        'toggleOrganizationMenu': function() {
+        'toggleOrganizationMenu': function () {
             self.organizationMenu.toggle(qs('.settings-icon'))
         },
-        'toggleOrganizationMenuCollapsed': function() {
+        'toggleOrganizationMenuCollapsed': function () {
             self.organizationMenu.toggle(qs('.settings-icon-collapsed'))
         },
-        'requestPermission': function() {
-            notify.requestPermission(function(permission){
+        'requestPermission': function () {
+            notify.requestPermission(function (permission) {
                 if (permission !== "default") {
                     self.enableNotificationMessage.remove()
                     classes(qs('body')).remove('notifications-disabled')
@@ -227,10 +227,10 @@ UI.prototype.bind = function UI_bind() {
     this.room = null
 
     // intro
-    this.intro.oncomplete(function() {
+    this.intro.oncomplete(function () {
         self.emit('introend')
     })
-    this.intro.onexit(function() {
+    this.intro.onexit(function () {
         self.emit('introend')
     })
 
@@ -258,7 +258,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
     this.emit('orgReady', this.org)
     Router(this)
     this.setNotificationsSession()
-    if (this.notificationSessionSet == true) return
+    if (this.notificationSessionSet === true) return
     focus.on('focus', this.setNotificationsSession.bind(this))
     this.notificationSessionSet = true
 }
@@ -304,14 +304,14 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
     let self = this
-    let org = orgs.filter(function(o) {
+    let org = orgs.filter(function (o) {
         if (o.id === self.options.organizationID) return o
     })[0]
     this.emit('selectorganization', org)
 }
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-    if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
+    if(notify.permissionLevel() === notify.PERMISSION_GRANTED)
         this.emit('setNotificationsSession', this.org.id)
 }
 
@@ -319,18 +319,18 @@ UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
     this.searchView.showResults(results)
 }
 
-UI.prototype.showSearchResults = function() {
+UI.prototype.showSearchResults = function () {
     classes(this.el).add('searching')
 }
 
-UI.prototype.hideSearchResults = function() {
+UI.prototype.hideSearchResults = function () {
     classes(this.el).remove('searching')
     this.chatHeader.clearSearch()
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
     let self = this
-    self.emit('joinroom', room, function() {
+    self.emit('joinroom', room, function () {
         page('/chat/' + room.slug)
         self.emit('endRoomCreation')
     })
@@ -356,7 +356,7 @@ UI.prototype.onConnected = function () {
     delete this._connErrMsg
     classes(qs('body')).remove('disconnected')
     let msg = this.messages.success('reconnected')
-    setTimeout(function(){ msg.remove() }, 2000)
+    setTimeout(function () { msg.remove() }, 2000)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
@@ -379,8 +379,8 @@ UI.prototype.onToggleOrgInvite = function () {
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
     // org users who are not part of the room, sorted alphabetically
-    let users = this.org.users.filter(function(user) {
-        return user.active && room.users.indexOf(user) == -1
+    let users = this.org.users.filter(function (user) {
+        return user.active && room.users.indexOf(user) === -1
     })
     let invite = new RoomInvite({
         org: this.org,
@@ -416,10 +416,10 @@ UI.prototype.onUploaded = function (attachment) {
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-    let redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
     page.replace('/chat/' + redirectSlug)
     let msg = this.messages.warning('message not found')
-    setTimeout(function(){ msg.remove() }, 6000)
+    setTimeout(function () { msg.remove() }, 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
@@ -429,7 +429,7 @@ UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel)
 }
 
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-    let redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
     page('/chat/' + redirectSlug)
 }
 

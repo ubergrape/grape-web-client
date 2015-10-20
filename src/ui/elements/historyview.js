@@ -161,9 +161,9 @@ function groupHistory(history) {
         let author          = line.author
         let isService       = author.type === 'service'
         let isTimeSpanShort = last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime()
-        let hasSameTitle    = last && line.title && line.title == last.title && !line.objects
-        let hasSameMsg      = last && last.message && line.message && last.message == line.message
-        let hasSameAuthor   = last && last.author.id == author.id
+        let hasSameTitle    = last && line.title && line.title === last.title && !line.objects
+        let hasSameMsg      = last && last.message && line.message && last.message === line.message
+        let hasSameAuthor   = last && last.author.id === author.id
         let afterAttachment = last && last.attachments && last.attachments.length != 0
         let hasAttachments  = line.attachments && line.attachments.length != 0
         let isGroupable     = isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment
@@ -243,7 +243,7 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     }
 }
 
-HistoryView.prototype.scrollToBottom = function() {
+HistoryView.prototype.scrollToBottom = function () {
     this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight
 }
 
@@ -358,7 +358,7 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
         }, 1000)
     })
     room.off('change typing')
-    room.on('change typing', function() {
+    room.on('change typing', function () {
         self.redrawTyping()
     })
 }
@@ -402,8 +402,8 @@ HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options
 
 HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (clientSideID) {
     let bufferedMsg = null
-    this.unsentBuffer[this.room.id].every(function(message) {
-        if (clientSideID == message.clientSideID) {
+    this.unsentBuffer[this.room.id].every(function (message) {
+        if (clientSideID === message.clientSideID) {
             bufferedMsg = message
             return false
         }
@@ -414,7 +414,7 @@ HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (cl
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
     if (line.channel != this.room || this.mode === 'search') return
-    if (line.author == window.ui.user) {
+    if (line.author === window.ui.user) {
         let bufferedMsg = this.findBufferedMsg(line.clientside_id)
         let roomUnsentMsgs = this.unsentBuffer[line.channel.id]
         if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1)
@@ -470,7 +470,7 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
     }
     this.emit('send', msg.channel, msg.text, options)
 
-    setTimeout(function() {
+    setTimeout(function () {
         if (this.unsentBuffer[msg.channel.id].indexOf(msg) > -1) {
             msg.status = "unsent"
             this.queueDraw()

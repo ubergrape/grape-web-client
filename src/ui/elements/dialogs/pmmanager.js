@@ -45,7 +45,7 @@ PMManager.prototype.init = function () {
       mode: this.mode
     }
   })
-  pmList.setItems(this.context.users.filter(function(user){
+  pmList.setItems(this.context.users.filter(function (user) {
     return user != window.ui.user
   }))
   pmList.order('displayName')

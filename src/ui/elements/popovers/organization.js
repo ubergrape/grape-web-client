@@ -14,12 +14,12 @@ function OrganizationPopover() {
 
 OrganizationPopover.prototype = Object.create(Popover.prototype)
 
-OrganizationPopover.prototype.init = function() {
+OrganizationPopover.prototype.init = function () {
     Popover.prototype.init.call(this)
     this.content = {}
 }
 
-OrganizationPopover.prototype.bind = function() {
+OrganizationPopover.prototype.bind = function () {
     Popover.prototype.bind.call(this)
     this.events.obj.editView = function (e) {
         e.preventDefault()
@@ -33,7 +33,7 @@ OrganizationPopover.prototype.bind = function() {
     this.events.bind('click .invite-new-members', 'toggleOrgInvite')
 }
 
-OrganizationPopover.prototype.redraw = function() {
+OrganizationPopover.prototype.redraw = function () {
     if (!this.org || !this.user) return
     this.classes.add('orga-po')
     this.classes.add('top')
@@ -48,21 +48,21 @@ OrganizationPopover.prototype.redraw = function() {
     this.el.appendChild(this.content.el)
 }
 
-OrganizationPopover.prototype.onOrgReady = function(org) {
+OrganizationPopover.prototype.onOrgReady = function (org) {
     this.org = org
     this.redraw()
 }
 
-OrganizationPopover.prototype.onSetUser = function(user) {
+OrganizationPopover.prototype.onSetUser = function (user) {
     this.user = user
     this.redraw()
 }
 
-OrganizationPopover.prototype.onSettingsReady = function() {
+OrganizationPopover.prototype.onSettingsReady = function () {
     this.redraw()
 }
 
-OrganizationPopover.prototype.onViewChanged = function(compactMode) {
+OrganizationPopover.prototype.onViewChanged = function (compactMode) {
     if (compactMode) {
         classes(document.body).add('client-style-compact')
         classes(document.body).remove('normal-style')

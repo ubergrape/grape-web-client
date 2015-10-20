@@ -118,7 +118,7 @@ Notifications.prototype.dispatch = function Notifications_dispatch (title, conte
       body: content,
       icon: icon,
       timeout: 6000,
-      onclick: function(ev) {
+      onclick: function (ev) {
         self.emit('notificationClicked', channel)
         window.focus()
         notification.close()

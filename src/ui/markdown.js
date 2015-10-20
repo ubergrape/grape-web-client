@@ -4,7 +4,7 @@ let emoji = require('./emoji')
 
 let renderer = new marked.Renderer()
 
-renderer.link_simple = function(href, title, text) {
+renderer.link_simple = function (href, title, text) {
   // Renderer.prototype.link, but with target blank
   let out = '<a target="_blank" href="' + href + '"'
   if (title)
@@ -12,7 +12,7 @@ renderer.link_simple = function(href, title, text) {
   out += '>' + text + '</a>'
   return out
 }
-renderer.link = function(href, title, text) {
+renderer.link = function (href, title, text) {
   if (this.options.sanitize) {
       try {
         let prot = decodeURIComponent(unescape(href))
@@ -32,7 +32,7 @@ renderer.heading = function (text, level) {
   // this is a hack, we should replace the markdown parser
   return (new Array(level+1)).join("#") + text
 }
-renderer.hr = function() {
+renderer.hr = function () {
   return "--"
 }
 renderer.image = function (href, title, text) {

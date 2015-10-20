@@ -18,8 +18,8 @@ export default new Model([
   .use(defaultLogo('images/cg-company.png'))
 
 function defaultLogo(url) {
-  return function(Model) {
-    Model.on('construct', function(instance, initial) {
+  return function (Model) {
+    Model.on('construct', function (instance, initial) {
       initial.logo = initial.logo || staticurl(url)
     })
   }

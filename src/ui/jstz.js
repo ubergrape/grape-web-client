@@ -15,7 +15,7 @@
 /*jslint undef: true */
 /*global console, exports*/
 
-(function(root) {
+(function (root) {
   /**
    * Namespace to hold all the code for timezone detection.
    */

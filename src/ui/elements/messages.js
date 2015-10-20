@@ -29,50 +29,50 @@ function Messages() {
 
 Messages.prototype = Object.create(Emitter.prototype)
 
-Messages.prototype.init = function() {
+Messages.prototype.init = function () {
   this.messages = []
 }
 
-Messages.prototype.redraw = function() {
+Messages.prototype.redraw = function () {
   let vdom = template('messages.jade', {messages: this.messages})
   render(this, vdom)
 }
 
-Messages.prototype.add = function(msg) {
+Messages.prototype.add = function (msg) {
   this.messages.push(msg)
   this.redraw()
 }
 
-Messages.prototype.create = function(type, level, options) {
+Messages.prototype.create = function (type, level, options) {
   let msg = new Message(type, level, options)
   msg.add(this)
   this.redraw()
   return msg
 }
 
-Messages.prototype.remove = function(message) {
+Messages.prototype.remove = function (message) {
   let idx = this.messages.indexOf(message)
   if (idx > -1) this.messages.splice(idx, 1)
   this.redraw()
 }
 
-Messages.prototype.info = function(type, options) {
+Messages.prototype.info = function (type, options) {
   return this.create(type, 'info', options)
 }
 
-Messages.prototype.success = function(type, options) {
+Messages.prototype.success = function (type, options) {
   return this.create(type, 'success', options)
 }
 
-Messages.prototype.warning = function(type, options) {
+Messages.prototype.warning = function (type, options) {
   return this.create(type, 'warning', options)
 }
 
-Messages.prototype.danger = function(type, options) {
+Messages.prototype.danger = function (type, options) {
   return this.create(type, 'danger', options)
 }
 
-Messages.prototype.clear = function() {
+Messages.prototype.clear = function () {
   this.messages = []
   this.redraw()
 }

@@ -43,7 +43,7 @@ RightSidebar.prototype.bind = function RightSidebar_bind() {
       self.hide()
     }
   })
-  this.events.obj.toggleRoomInvite = function(ev) {
+  this.events.obj.toggleRoomInvite = function (ev) {
     this.emit('toggleRoomInvite', this.room)
   }.bind(this)
   this.events.obj.deleteRoomMember = function (ev) {
@@ -103,7 +103,7 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
   this.mode = room.type
   this.redraw(true)
   this.room = room
-  if (this.mode == 'room') {
+  if (this.mode === 'room') {
     this.canKickMembers = window.ui.user === room.creator || window.ui.user.role >= 1
     this.setListItems({
       room: room,
@@ -119,11 +119,11 @@ RightSidebar.prototype.setRoom = function RoomMembers_setRoom(room) {
 }
 
 RightSidebar.prototype.onMemberLeftChannel = function RightSidebar_onMemberLeftChannel(room) {
-  if (room == this.room) this.membersList.redraw()
+  if (room === this.room) this.membersList.redraw()
 }
 
 RightSidebar.prototype.onNewRoomMember = function (room) {
-  if (room == this.room) this.membersList.redraw()
+  if (room === this.room) this.membersList.redraw()
 }
 
 RightSidebar.prototype.onChangeUser = function () {

@@ -48,7 +48,7 @@ ItemList.prototype.selectItem = function (item) {
 
 ItemList.prototype.toggleItem = function (item) {
     let itemIndex = this.highlighted.indexOf(item)
-    if (itemIndex == -1) {
+    if (itemIndex === -1) {
         this.highlighted.push(item)
     } else {
         this.highlighted.splice(itemIndex, 1)
@@ -57,7 +57,7 @@ ItemList.prototype.toggleItem = function (item) {
 }
 
 ItemList.prototype.order = function (whatBy) {
-    this.items.sort(function(a, b) {
+    this.items.sort(function (a, b) {
         return a[whatBy].localeCompare(b[whatBy])
     })
     this.redraw()

@@ -80,8 +80,8 @@ API.prototype.startPinging = function API_startPinging() {
     this.pingTimeout = setTimeout(this.startPinging.bind(this), 5000)
     return
   }
-  this.wamp.call(PREFIX + 'ping', function(err, resp) {
-    if (resp == 'pong') {
+  this.wamp.call(PREFIX + 'ping', function (err, resp) {
+    if (resp === 'pong') {
       this.lastAlive = Date.now()
     }
     clearTimeout(this.pingTimeout)
@@ -139,23 +139,23 @@ API.prototype.initSocket = function API_initSocket(opts) {
     this.connected = false
     lp = new LPSocket(opts.lpUri)
     lp.connect()
-    lp.once('open', function() {
+    lp.once('open', function () {
       lp.poll()
       opts.connected(lp)
     })
-    lp.once('error', function(err) {
+    lp.once('error', function (err) {
       opts.error(err)
     })
     return
   }
   ws = new WebSocket(opts.wsUri)
-  ws.once('open', function() {
+  ws.once('open', function () {
     console.log("connection: websocket connection opened")
     this.preferedTransport = 'ws'
     opts.connected(ws)
   }.bind(this))
 
-  ws.once('error', function(err) {
+  ws.once('error', function (err) {
     console.log("connection: websocket error")
     //if (this.preferredTransport && this.preferedTransport != 'lp') {
       opts.error(err)
@@ -165,11 +165,11 @@ API.prototype.initSocket = function API_initSocket(opts) {
     // console.log("connections: try lp fallback")
     // let lp = new LPSocket(opts.lpUri)
     // lp.connect()
-    // lp.once('open', function() {
+    // lp.once('open', function () {
     //  lp.poll()
     //  opts.connected(lp)
     // })
-    // lp.once('error', function(err) {
+    // lp.once('error', function (err) {
     //  opts.error(err)
     // })
   }.bind(this))
@@ -181,7 +181,7 @@ API.prototype.connect = function API_connect(ws) {
 
   if (this.connecting) return
 
-  if (typeof ws == 'string' && ws !== '') {
+  if (typeof ws === 'string' && ws !== '') {
     this.wsUri = ws
   }
 
@@ -189,7 +189,7 @@ API.prototype.connect = function API_connect(ws) {
   this.initSocket({
     lpUri: this.lpUri,
     wsUri: this.wsUri,
-    connected: function(socket) {
+    connected: function (socket) {
       // connection established bootstrap client state
       this._socket = socket
       this.retries = 0
@@ -203,7 +203,7 @@ API.prototype.connect = function API_connect(ws) {
         }
         this.onConnect(data)
         this.lastAlive = Date.now()
-        if (this.preferedTransport == 'ws') {
+        if (this.preferedTransport === 'ws') {
           this.startPinging()
           this.heartbeat()
         } else {
@@ -211,12 +211,12 @@ API.prototype.connect = function API_connect(ws) {
         }
       }.bind(this))
 
-      socket.on('close', function(e) {
+      socket.on('close', function (e) {
         console.log('Socket closed, disconnecting!', e)
         this.onDisconnect()
       }.bind(this))
 
-      socket.on('error', function(err) {
+      socket.on('error', function (err) {
         console.log('Socket error, disconnecting!', err)
         this.onDisconnect()
       }.bind(this))
@@ -226,7 +226,7 @@ API.prototype.connect = function API_connect(ws) {
         this.lastAlive = Date.now()
       }.bind(this))
     }.bind(this),
-    error: function(err) {
+    error: function (err) {
       console.log("connection: error - reconnect")
       this.connecting = false
       this.reconnect()
@@ -263,7 +263,7 @@ API.prototype.reconnect = function API_reconnect() {
   let backoff = Math.min(this.retries, 1) * 150 * Math.pow(2, Math.min(5, this.retries))
   console.log("reconnect: retries ", this.retries, ", backoff", backoff)
   this.retries += 1
-  setTimeout(function() {
+  setTimeout(function () {
     this.connect()
   }.bind(this), backoff)
 }
@@ -313,12 +313,12 @@ API.prototype.bindEvents = function API_bindEvents() {
       // the typing notification should be removed after 10 seconds
       // automatically because the user might kill the connection and we
       // would never receive a `typing: false` event
-      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
+      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function () {
         room.typing.splice(index, 1)
         trigger()
       }, 30000)
     } else if (!data.typing && ~index) {
-      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function(){
+      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function () {
         room.typing.splice(index, 1)
         trigger()
       }, 200)
@@ -404,7 +404,7 @@ API.prototype.bindEvents = function API_bindEvents() {
     let index = self.organization.users.indexOf(user)
     if (user && ~index && data.organization===self.organization.id) {
       let inactivePm = false
-      self.organization.users.forEach(function(user) {
+      self.organization.users.forEach(function (user) {
         if (user.id === data.user
         && (!user.pm || user.pm && user.pm.history.length === 0)) {
           inactivePm = user
@@ -557,7 +557,7 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
  * organization details such as the users and rooms.
  */
 API.prototype.setOrganization = function API_setOrganization(org, callback) {
-  callback = callback || function() {}
+  callback = callback || function () {}
   let self = this
   // TODO: this should also leave any old organization
 
@@ -579,7 +579,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
     org.inviter_role = res.inviter_role
 
     // connect users and pms
-    org.pms.forEach( function(pm) { pm.users[0].pm = pm })
+    org.pms.forEach( function (pm) { pm.users[0].pm = pm })
 
     // then join
     self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {
@@ -595,7 +595,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 }
 
 API.prototype.getRoomIcons = function API_getRoomIcons(org, callback) {
-  callback = callback || function() {}
+  callback = callback || function () {}
   let self = this
 
   self.wamp.call(PREFIX + 'organizations/list_icons', org.id, function (err, res) {
@@ -614,14 +614,14 @@ API.prototype.changedTimezone = function API_changedTimezone(tz) {
 }
 
 API.prototype.onEditView = function API_onEditView(status) {
-  this.wamp.call(PREFIX + 'users/set_profile', {'compact_mode': status}, function() {
+  this.wamp.call(PREFIX + 'users/set_profile', {'compact_mode': status}, function () {
     this.user.settings.compact_mode = status
     this.emit('viewChanged', status)
   }.bind(this))
 }
 
 API.prototype.openPM = function API_openPM(user, callback) {
-  callback = callback || function() {}
+  callback = callback || function () {}
   let self = this
   this.wamp.call(PREFIX + 'pm/open', this.organization.id, user.id, function (err, pm) {
     if (err) return self.emit('error', err)
@@ -674,7 +674,7 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomID) {
 
 API.prototype.renameRoom = function API_renameRoom(roomID, newName) {
   let emit = this.emit.bind(this)
-  this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function(err) {
+  this.wamp.call(PREFIX + 'rooms/rename', roomID, newName, function (err) {
     if (err) emit('roomrenameerror', err)
   })
 }
@@ -718,7 +718,7 @@ API.prototype.search = function API_search(text) {
   this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
       function (err, results) {
       let r = []
-      let lines = results.results.map(function(l) {
+      let lines = results.results.map(function (l) {
         if(l.index !== 'objects_alias') {
           l = new models.Line(l)
           r.unshift(l)
@@ -741,14 +741,14 @@ API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
   let options = {
     emails: emails
   }
-  this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function(err, res) {
+  this.wamp.call(PREFIX + 'organizations/invite', orgID, options, function (err, res) {
     if (err) return this.emit('inviteError')
     this.emit('inviteSuccess')
   }.bind(this))
 }
 
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
-  this.wamp.call(PREFIX + 'channels/invite', room.id, users, function(err, result) {
+  this.wamp.call(PREFIX + 'channels/invite', room.id, users, function (err, result) {
     if (err) return
     this.emit('roomInviteSuccess')
   }.bind(this))
