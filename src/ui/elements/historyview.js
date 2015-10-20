@@ -193,7 +193,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     let history
     let requestedMsg
     let prevMsgID
-
     this.queued = false
 
     if (this.mode === 'chat') {
@@ -205,7 +204,6 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
         }
         // create a copy of the history
         history = this.room.history.slice()
-
         // merge buffered messages with copy of history
         if (this.unsentBuffer) {
             let roomUnsentMsgs = this.unsentBuffer[this.room.id]

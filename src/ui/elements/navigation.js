@@ -86,6 +86,7 @@ Navigation.prototype.init = function Navigation_init() {
     // so we need to unbind the resizable and the window
     navResizable.element.removeEventListener('resize', resizeClient)
     window.removeEventListener('resize', resizeClient)
+
     // listening to the event fired by the resizable component
     navResizable.element.addEventListener('resize', resizeClient)
     window.addEventListener('resize', resizeClient)
@@ -97,6 +98,7 @@ Navigation.prototype.init = function Navigation_init() {
     self.orgLogoName = qs('.org-logo-name img')
     self.orgName = qs('.org-name')
     self.orgTagline = qs('.org-tagline')
+
     window.$clamp(self.orgName, {clamp: 2})
     self.clampedSingleLine = false
     })
@@ -205,6 +207,7 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 
     setTimeout(function () {
       let orgName = qs('.org-name')
+
       orgName.innerHTML = window.ui.org.name
       orgName.style.textAlign = "center"
       window.$clamp(orgName, {clamp: 2})
