@@ -36,7 +36,7 @@
     "escape-html": "component/escape-html#v1.0.1",
     "eslint": "^0.24.1",
     "eslint-config-airbnb": "0.0.6",
-    "eslint-config-ubergrape": "^0.1.1",
+    "eslint-config-ubergrape": "^0.1.3",
     "eslint-plugin-react": "^2.7.0",
     "expect.js": "^0.3.1",
     "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.3.13",
@@ -120,7 +120,7 @@
     "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch",
     "test-watch": "NODE_ENV=test karma start",
     "test": "karma start",
-    "lint-src": "eslint -c ./eslint-legacy.json ./src",
+    "lint-src": "eslint ./src",
     "lint-react": "eslint ./react-components",
     "lint": "npm run lint-react && npm run lint-src"
   },

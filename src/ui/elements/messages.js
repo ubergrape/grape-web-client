@@ -1,78 +1,78 @@
-var Emitter = require('emitter');
-var render = require('../rendervdom');
-var template = require('template');
+let Emitter = require('emitter')
+let render = require('../rendervdom')
+let template = require('template')
 
-module.exports = Messages;
+module.exports = Messages
 
 function Message(type, level, options) {
-	this.type = type;
-	this.level = level;
-	this.options = options;
+  this.type = type
+  this.level = level
+  this.options = options
 }
 
 Message.prototype.add = function (messages) {
-	messages.add(this);
-	this.messages = messages;
-};
-
-Message.prototype.remove = function () {
-	setTimeout(this.messages.remove(this), 2000);
-	delete this.messages;
-};
-
-function Messages() {
-	Emitter.call(this);
-	this.redraw = this.redraw.bind(this);
-	this.init();
-	this.redraw();
+  messages.add(this)
+  this.messages = messages
 }
 
-Messages.prototype = Object.create(Emitter.prototype);
+Message.prototype.remove = function () {
+  setTimeout(this.messages.remove(this), 2000)
+  delete this.messages
+}
 
-Messages.prototype.init = function() {
-	this.messages = [];
-};
+function Messages() {
+  Emitter.call(this)
+  this.redraw = this.redraw.bind(this)
+  this.init()
+  this.redraw()
+}
 
-Messages.prototype.redraw = function() {
-	var vdom = template('messages.jade', {messages: this.messages});
-	render(this, vdom);
-};
+Messages.prototype = Object.create(Emitter.prototype)
 
-Messages.prototype.add = function(msg) {
-	this.messages.push(msg);
-	this.redraw();
-};
+Messages.prototype.init = function () {
+  this.messages = []
+}
 
-Messages.prototype.create = function(type, level, options) {
-	var msg = new Message(type, level, options);
-	msg.add(this);
-	this.redraw();
-	return msg;
-};
+Messages.prototype.redraw = function () {
+  let vdom = template('messages.jade', {messages: this.messages})
+  render(this, vdom)
+}
 
-Messages.prototype.remove = function(message) {
-	var idx = this.messages.indexOf(message);
-	if (idx > -1) this.messages.splice(idx, 1);
-	this.redraw();
-};
+Messages.prototype.add = function (msg) {
+  this.messages.push(msg)
+  this.redraw()
+}
 
-Messages.prototype.info = function(type, options) {
-	return this.create(type, 'info', options);
-};
+Messages.prototype.create = function (type, level, options) {
+  let msg = new Message(type, level, options)
+  msg.add(this)
+  this.redraw()
+  return msg
+}
 
-Messages.prototype.success = function(type, options) {
-	return this.create(type, 'success', options);
-};
+Messages.prototype.remove = function (message) {
+  let idx = this.messages.indexOf(message)
+  if (idx > -1) this.messages.splice(idx, 1)
+  this.redraw()
+}
 
-Messages.prototype.warning = function(type, options) {
-	return this.create(type, 'warning', options);
-};
+Messages.prototype.info = function (type, options) {
+  return this.create(type, 'info', options)
+}
 
-Messages.prototype.danger = function(type, options) {
-	return this.create(type, 'danger', options);
-};
+Messages.prototype.success = function (type, options) {
+  return this.create(type, 'success', options)
+}
 
-Messages.prototype.clear = function() {
-	this.messages = [];
-	this.redraw();
-};
+Messages.prototype.warning = function (type, options) {
+  return this.create(type, 'warning', options)
+}
+
+Messages.prototype.danger = function (type, options) {
+  return this.create(type, 'danger', options)
+}
+
+Messages.prototype.clear = function () {
+  this.messages = []
+  this.redraw()
+}
