@@ -232,7 +232,7 @@
 							if line.attachments
 								//- process attachments/uploads
 								each attachment in line.attachments
-									if attachment.type !== undefined
+									if attachment.type
 										if attachment.type.indexOf("image") == 0
 											//- attachment is an image
 											div.image-wrap
