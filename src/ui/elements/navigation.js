@@ -55,7 +55,7 @@ Navigation.prototype.init = function Navigation_init() {
   let headerCollapsed = false
 
   document.addEventListener("DOMContentLoaded", function (event) {
-    qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function () { self.handleScrolling(); }
+    qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function () { self.handleScrolling() }
 
     self.collapsedMode = store.get('sidebarCollapsedMode')
 
@@ -86,7 +86,6 @@ Navigation.prototype.init = function Navigation_init() {
     // so we need to unbind the resizable and the window
     navResizable.element.removeEventListener('resize', resizeClient)
     window.removeEventListener('resize', resizeClient)
-    
     // listening to the event fired by the resizable component
     navResizable.element.addEventListener('resize', resizeClient)
     window.addEventListener('resize', resizeClient)
@@ -98,8 +97,7 @@ Navigation.prototype.init = function Navigation_init() {
     self.orgLogoName = qs('.org-logo-name img')
     self.orgName = qs('.org-name')
     self.orgTagline = qs('.org-tagline')
-
-    $clamp(self.orgName, {clamp: 2})
+    window.$clamp(self.orgName, {clamp: 2})
     self.clampedSingleLine = false
     })
 }
@@ -191,8 +189,7 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
     setTimeout(function () {
       let orgName = qs('.org-name')
       orgName.style.textAlign = "left"
-      $clamp(orgName, {clamp: 1})
-
+      window.$clamp(orgName, {clamp: 1})
       orgName.style.opacity = "1"
     }, 225)
   } else if (newHeight === 150 && this.headerCollapsed) {
@@ -208,11 +205,9 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
 
     setTimeout(function () {
       let orgName = qs('.org-name')
-
-      orgName.innerHTML = ui.org.name
+      orgName.innerHTML = window.ui.org.name
       orgName.style.textAlign = "center"
-      $clamp(orgName, {clamp: 2})
-
+      window.$clamp(orgName, {clamp: 2})
       orgName.style.opacity = "1"
     }, 150)
   }
@@ -305,7 +300,7 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 }
 
 Navigation.prototype.onChangeUser = function Navigation_onChangeUser (user) {
-  if (user === ui.user) return
+  if (user === window.ui.user) return
   let pmList = this.pmList
   if (pmList.items.indexOf(user) === -1) pmList.items.push(user)
   pmList.redraw()
@@ -335,7 +330,7 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
   let pms = org.users.filter(function (user) {
-    return user != ui.user && user.active && !user.is_only_invited
+    return user != window.ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })
 
@@ -344,4 +339,3 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   this.redraw()
   this.ready = true
 }
-

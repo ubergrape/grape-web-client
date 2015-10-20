@@ -18,10 +18,10 @@ InfiniteScroll.prototype.bind = function InfiniteScroll_bind() {
     let sTM = elem.scrollTopMax || Math.max(elem.scrollHeight - elem.clientHeight, 0)
     if (!self._top && sT < self.margin) {
       self._top = true
-      fn('top', function () { self._top = false; })
+      fn('top', function () { self._top = false })
     } else if (!self._bottom && sT > sTM - self.margin) {
       self._bottom = true
-      fn('bottom', function () { self._bottom = false; })
+      fn('bottom', function () { self._bottom = false })
     }
   })
 }

@@ -32,9 +32,9 @@ function fuzzySearch(searchStr) {
     return str.toLowerCase().replace(alphaRegExp, '')
   }
 
-  const fuzzySearch = fuzzify(searchStr)
+  const fuzzySearchStr = fuzzify(searchStr)
 
   return function indexOf(key) {
-    return fuzzify(key).indexOf(fuzzySearch)
+    return fuzzify(key).indexOf(fuzzySearchStr)
   }
 }

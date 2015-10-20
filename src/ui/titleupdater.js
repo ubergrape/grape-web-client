@@ -17,11 +17,11 @@ Title.prototype.refresh = function Title_refresh() {
   let unread = this.org.rooms.reduce(sum, 0) +
                this.org.pms.reduce(sum, 0)
 
-  if (typeof MacGap !== "undefined") {
+  if (window.MacGap) {
     if (unread) {
-      MacGap.Dock.addBadge(unread)
+      window.MacGap.Dock.addBadge(unread)
     } else {
-      MacGap.Dock.removeBadge()
+      window.MacGap.Dock.removeBadge()
     }
   }
 

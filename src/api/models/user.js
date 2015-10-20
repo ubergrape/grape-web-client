@@ -24,8 +24,8 @@ module.exports = new Model([
   .use(setSlug())
 
 function defaultAvatar(url, urlInvited) {
-  return function (Model) {
-    Model.on('construct', function (instance, initial) {
+  return Model => {
+    Model.on('construct', (instance, initial) => {
       if (initial.is_only_invited) {
         initial.avatar = staticurl(urlInvited)
       }

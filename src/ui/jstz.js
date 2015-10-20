@@ -20,7 +20,8 @@
    * Namespace to hold all the code for timezone detection.
    */
   let jstz = (function () {
-            let HEMISPHERE_SOUTH = 's',
+
+      let HEMISPHERE_SOUTH = 's',
 
           /**
            * Gets the offset in minutes from UTC for a certain date.
@@ -181,7 +182,9 @@
    * Simple object to perform ambiguity check and to return name of time zone.
    */
   jstz.TimeZone = function (tz_name) {
-              /**
+
+
+        /**
          * The keys in this object are timezones that we know may be ambiguous after
          * a preliminary scan through the olson_tz object.
          *

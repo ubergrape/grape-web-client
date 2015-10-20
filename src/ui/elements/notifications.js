@@ -107,8 +107,8 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
 
 Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
   let self = this
-  if (typeof MacGap !== 'undefined') {
-    MacGap.notify({
+  if (window.MacGap) {
+    window.MacGap.notify({
       title: title,
       content: content,
       sound: false

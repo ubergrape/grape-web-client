@@ -23,7 +23,7 @@ OrganizationPopover.prototype.bind = function () {
     Popover.prototype.bind.call(this)
     this.events.obj.editView = function (e) {
         e.preventDefault()
-        let newMode = !ui.settings.compact_mode
+        let newMode = !window.ui.settings.compact_mode
         this.emit('editView', newMode)
     }.bind(this)
     this.events.obj.toggleOrgInvite = function () {

@@ -28,7 +28,7 @@ function HistoryView() {
     this.bind()
     this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0)
     this.scrollMode = 'automatic'
-    this.on('needhistory', function () { this.room.loading = true; })
+    this.on('needhistory', function () { this.room.loading = true })
     this.unsentBuffer = {}
     this.requestedMsgID = null
     this.isFirstMsgLoaded = false
@@ -157,23 +157,23 @@ function groupHistory(history) {
     let previousLine
 
     for (let i = 0; i < history.length; i++) {
-        let line            = history[i],
-            author          = line.author,
-            isService       = author.type === "service",
-            isTimeSpanShort = last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime(),
-            hasSameTitle    = last && line.title && line.title === last.title && !line.objects,
-            hasSameMsg      = last && last.message && line.message && last.message === line.message,
-            hasSameAuthor   = last && last.author.id === author.id,
-            afterAttachment = last && last.attachments && last.attachments.length != 0,
-            hasAttachments  = line.attachments && line.attachments.length != 0,
-            isGroupable     = isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment
+        let line            = history[i]
+        let author          = line.author
+        let isService       = author.type === 'service'
+        let isTimeSpanShort = last && last.time.getTime() + TIME_THRESHOLD > line.time.getTime()
+        let hasSameTitle    = last && line.title && line.title === last.title && !line.objects
+        let hasSameMsg      = last && last.message && line.message && last.message === line.message
+        let hasSameAuthor   = last && last.author.id === author.id
+        let afterAttachment = last && last.attachments && last.attachments.length != 0
+        let hasAttachments  = line.attachments && line.attachments.length != 0
+        let isGroupable     = isTimeSpanShort && hasSameAuthor && !hasAttachments && !afterAttachment
 
         // Message is groupable, nice and easy
         if (isGroupable) {
             if (isService && ( hasSameTitle || hasSameMsg )) {
                 group.pop()
                 counter++
-                line.times = counter.toString(); // convert to string cause jade gets crazy with numbers
+                line.times = counter.toString() // convert to string cause jade gets crazy with numbers
             } else if (isService) {
                 groups.push(group = [])
                 counter = 1
@@ -190,6 +190,10 @@ function groupHistory(history) {
 }
 
 HistoryView.prototype.redraw = function HistoryView_redraw() {
+    let history
+    let requestedMsg
+    let prevMsgID
+
     this.queued = false
 
     if (this.mode === 'chat') {
@@ -200,18 +204,19 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
             this.emit('hasread', this.room, this.room.history[this.room.history.length - 1].id)
         }
         // create a copy of the history
-        let history = this.room.history.slice()
+        history = this.room.history.slice()
+
         // merge buffered messages with copy of history
         if (this.unsentBuffer) {
             let roomUnsentMsgs = this.unsentBuffer[this.room.id]
             if (roomUnsentMsgs) history = history.concat(roomUnsentMsgs)
         }
     } else {
-        let history = this.room.searchHistory.slice()
-        let requestedMsg = history.filter( function (msg) {
+        history = this.room.searchHistory.slice()
+        requestedMsg = history.filter( function (msg) {
                 return msg.id === this.requestedMsgID
             }.bind(this))[0]
-        let prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID
+        prevMsgID = history.indexOf(requestedMsg) > 0 ? history[history.indexOf(requestedMsg) - 1].id : this.requestedMsgID
     }
 
     // eventually group history
@@ -245,7 +250,8 @@ HistoryView.prototype.scrollToBottom = function () {
 }
 
 HistoryView.prototype.updateRead = function HistoryView_updateRead () {
-    if (focus.state !== 'focus') return; // we get scroll events even when the window is not focused
+    // we get scroll events even when the window is not focused
+    if (focus.state !== 'focus') return
     let bottomElem = this._findBottomVisible()
     if (!bottomElem) return
     let lineID = bottomElem.getAttribute('data-id')
@@ -321,7 +327,8 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
     this.requestedMsgID = null
     if (this.room) this.room.history.off('remove')
     this.room = room
-    this.scroll.reset(); // reset, otherwise we won't get future events
+    // reset, otherwise we won't get future events
+    this.scroll.reset()
     this.scrollMode = 'automatic'
     if (!msgID) {
         if (this.room.empty === undefined) {
@@ -382,7 +389,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options
         clientSideID: (Math.random() + 1).toString(36).substring(7),
         text: msg,
         status: "pending",
-        author: ui.user,
+        author: window.ui.user,
         time: new Date(),
         attachments: attachments,
         read: true,
@@ -409,7 +416,7 @@ HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (cl
 
 HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
     if (line.channel != this.room || this.mode === 'search') return
-    if (line.author === ui.user) {
+    if (line.author === window.ui.user) {
         let bufferedMsg = this.findBufferedMsg(line.clientside_id)
         let roomUnsentMsgs = this.unsentBuffer[line.channel.id]
         if (bufferedMsg) roomUnsentMsgs.splice(roomUnsentMsgs.indexOf(bufferedMsg), 1)
@@ -439,7 +446,8 @@ HistoryView.prototype.onChangeUser = function HistoryView_onChangeUser (channel,
 HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgID) {
     this.mode = 'search'
     this.emit('switchToSearchMode')
-    this.scroll.reset(); // reset, otherwise we won't get future events
+    // reset, otherwise we won't get future events
+    this.scroll.reset()
     this.requestedMsgID = msgID
     this.room.loading = false
     this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory)
