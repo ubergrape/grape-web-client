@@ -1,8 +1,7 @@
-'use strict'
-
 export default {
   borderRadius: {
     small: 2,
-    big: 4
+    big: 4,
+    bigger: 6
   }
 }

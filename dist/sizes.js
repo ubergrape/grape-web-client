@@ -1,12 +1,13 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = {
+exports["default"] = {
   borderRadius: {
     small: 2,
-    big: 4
+    big: 4,
+    bigger: 6
   }
 };
-module.exports = exports['default'];
+module.exports = exports["default"];
