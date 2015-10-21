@@ -3,7 +3,7 @@ import noop from 'lodash/utility/noop'
 import assign from 'lodash/object/assign'
 
 import conf from 'conf'
-import convertCase from './convertCase'
+import * as convertCase from './convertCase'
 
 export default function rpc(data, callback = noop) {
   request
