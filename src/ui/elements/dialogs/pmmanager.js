@@ -46,7 +46,7 @@ PMManager.prototype.init = function () {
     }
   })
   pmList.setItems(this.context.users.filter(function (user) {
-    return user != ui.user
+    return user != window.ui.user
   }))
   pmList.order('displayName')
 
@@ -62,7 +62,7 @@ PMManager.prototype.bind = function () {
   this.events = events(this.el, this)
   this.events.bind('click .active-users', 'setActive')
   this.events.bind('click .invited-users', 'setInvited')
-  this.events.bind('click .deleted-users', 'setDeleted');  
+  this.events.bind('click .deleted-users', 'setDeleted')
 }
 
 PMManager.prototype.setActive = function () {

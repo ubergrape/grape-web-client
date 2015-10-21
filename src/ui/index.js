@@ -31,6 +31,7 @@ let OrganizationPopover = exports.OrganizationPopover = require('./elements/popo
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
+let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
@@ -82,9 +83,12 @@ UI.prototype.init = function UI_init() {
   this.chatHeader = new ChatHeader()
   qs('.room-header', this.el).appendChild(this.chatHeader.el)
   
-    // initialize the input field
+  // initialize the input field
   this.grapeInput = new GrapeInput()
   qs('.footer', this.el).appendChild(this.grapeInput.el)
+
+  this.channelSearch = new ChannelSearch()
+  document.body.appendChild(this.channelSearch.el)  
 
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
@@ -97,8 +101,8 @@ UI.prototype.init = function UI_init() {
   this.messages = new Messages()
   qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
-    this.rightSidebar = new RightSidebar()
-    qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el)
+  this.rightSidebar = new RightSidebar()
+  qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el)
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -110,7 +114,7 @@ UI.prototype.init = function UI_init() {
   // then emit an upload event to the broker to call the uploader
   this.clipboard.on('paste', function (e) {
     if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
-    })
+  })
 
   // initialize dragAndDrop
   // receive the dragged items and emit
@@ -137,9 +141,7 @@ UI.prototype.init = function UI_init() {
   }
 
   // show user title if it is enabled
-  if (conf.userTitleEnabled) {
-    classes(qs('body')).add('user-title-enabled')
-  }
+  if (conf.userTitleEnabled) classes(qs('body')).add('user-title-enabled')
 
   // initialize user guide
   this.intro = new Introjs()
@@ -233,11 +235,11 @@ UI.prototype.bind = function UI_bind() {
       as[i].target = '_blank'
   }
 
-  if (typeof Intercom !== 'undefined') {
-    Intercom('onShow', function () {
+  if (window.Intercom) {
+    window.Intercom('onShow', function () {
       classes(qs('.client-body', this.el)).add('intercom-show')
     }.bind(this))
-    Intercom('onHide', function () {
+    window.Intercom('onHide', function () {
       classes(qs('.client-body', this.el)).remove('intercom-show')
     }.bind(this))
   }
@@ -260,8 +262,7 @@ UI.prototype.setUser = function UI_setUser(user) {
     if (this.user === undefined || user.id === this.user.id) {
         this.user = user
         template.locals.user = user
-        this.emit('setVisitor', user)
-        this.grapeInput.redraw()
+        this.emit('setUser', user)
     }
 }
 
@@ -308,6 +309,19 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
     }
 }
 
+UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
+    this.searchView.showResults(results)
+}
+
+UI.prototype.showSearchResults = function () {
+    classes(this.el).add('searching')
+}
+
+UI.prototype.hideSearchResults = function () {
+    classes(this.el).remove('searching')
+    this.chatHeader.clearSearch()
+}
+
 UI.prototype.roomCreated = function UI_roomCreated(room) {
     let self = this
     self.emit('joinroom', room, function () {
@@ -336,7 +350,7 @@ UI.prototype.onConnected = function () {
     delete this._connErrMsg
     classes(qs('body')).remove('disconnected')
     let msg = this.messages.success('reconnected')
-    setTimeout(function () { msg.remove(); }, 2000)
+    setTimeout(function () { msg.remove() }, 2000)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
@@ -399,7 +413,7 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
     let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
     page.replace('/chat/' + redirectSlug)
     let msg = this.messages.warning('message not found')
-    setTimeout(function () { msg.remove(); }, 6000)
+    setTimeout(function () { msg.remove() }, 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {

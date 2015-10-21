@@ -272,7 +272,7 @@ API.prototype.bindEvents = function API_bindEvents() {
   let self = this
   let wamp = this.wamp
   function dump(name) {
-    return function (data) {console.log('FIXME: '+ name, data);}
+    return function (data) {console.log('FIXME: '+ name, data)}
   }
   // channel events
   wamp.subscribe(PREFIX + 'channel#new', function wamp_channel_new(data) {
@@ -335,7 +335,7 @@ API.prototype.bindEvents = function API_bindEvents() {
   wamp.subscribe(PREFIX + 'channel#read', function wamp_channel_read(data) {
     let user = models.User.get(data.user)
     let line = models.Line.get(data.message)
-    if (!line) return; // ignore read notifications for messages we don’t have
+    if (!line) return // ignore read notifications for messages we don’t have
     let room = line.channel
     // ignore this for the current user, we track somewhere else
     if (user === self.user) {
@@ -571,15 +571,15 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
     })
 
     let rooms = res.channels.map(self._newRoom.bind(self))
-    org.rooms = rooms.filter(function (r) { return r.type === 'room'; })
-    org.pms = rooms.filter(function (r) { return r.type === 'pm'; })
+    org.rooms = rooms.filter(function (r) { return r.type === 'room' })
+    org.pms = rooms.filter(function (r) { return r.type === 'pm' })
     if (res.logo !== null) org.logo = res.logo
     if (res.custom_emojis !== null) org.custom_emojis = res.custom_emojis
     if (res.has_integrations !== null) org.has_integrations = res.has_integrations
     org.inviter_role = res.inviter_role
 
     // connect users and pms
-    org.pms.forEach( function (pm) { pm.users[0].pm = pm; })
+    org.pms.forEach( function (pm) { pm.users[0].pm = pm })
 
     // then join
     self.wamp.call(PREFIX + 'organizations/join', org.id, function (err) {

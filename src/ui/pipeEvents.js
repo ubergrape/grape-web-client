@@ -1,8 +1,7 @@
-let broker = require('broker')
 
-module.exports = pipeEvents
+import broker from 'broker'
 
-function pipeEvents(ui) {
+export default function pipeEvents(ui) {
     // ui
     broker(ui, 'selectchannel', ui, 'setRoomContext')
     broker(ui, 'selectchannel', ui.chatHeader, 'setRoom')
@@ -10,7 +9,10 @@ function pipeEvents(ui) {
     broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError')
     //broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom')
     broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
+    broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
     broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
+    broker(ui, 'orgReady', ui.channelSearch, 'onOrgReady')
+    broker(ui, 'setUser', ui.channelSearch, 'onSetUser')
     broker(ui, 'orgReady', ui.historyView, 'onOrgReady')
     broker(ui, 'selectchannel', ui.historyView, 'setRoom')
     broker(ui, 'gotHistory', ui.historyView, 'onGotHistory')
@@ -30,7 +32,7 @@ function pipeEvents(ui) {
     broker(ui, 'orgReady', ui.organizationMenu, 'onOrgReady')
     broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
     broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
-    broker(ui, 'setVisitor', ui.organizationMenu, 'onSetVisitor')
+    broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
     broker(ui, 'orgReady', ui.navigation, 'onOrgReady')
     broker(ui, 'newMessage', ui.navigation, 'onNewMessage')
     broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom')
@@ -74,7 +76,7 @@ function pipeEvents(ui) {
     broker.pass(ui.historyView, 'send', ui, 'send')
     broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch')
     broker.pass(ui.historyView, 'stoptyping', ui, 'stoptyping')
-    broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'editMessage')
+    broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
     broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
     broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
     broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode')
@@ -105,4 +107,7 @@ function pipeEvents(ui) {
     //broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember')
     //broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
     //broker(ui.rightSidebar, 'hideRightSidebar', ui, 'onHideRightSidebar')
+
+    // channel search
+    broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 }

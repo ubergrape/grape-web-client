@@ -95,7 +95,7 @@ RoomManager.prototype.setCreate = function () {
 
 RoomManager.prototype.leaveRoom = function (ev) {
   let roomID = closest(ev.target, '.item', true).getAttribute('data-id')
-  this.emit('leaveRoom', roomID);  
+  this.emit('leaveRoom', roomID)
 }
 
 RoomManager.prototype.createRoom = function (ev) {
@@ -149,7 +149,7 @@ RoomManager.prototype.onRoomCreationError = function (err) {
   let newRoomName = form['newroom-name']
   let createButton = qs('input.create-room-button', form)
   newRoomName.setCustomValidity(err.msg)
-  createButton.click();  
+  createButton.click()
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {

@@ -64,7 +64,7 @@ ChatHeader.prototype.init = function () {
   if (conf.customSupportEmailAddress) {
     intercomButton.href = 'mailto:' + conf.customSupportEmailAddress
   }
-  else if (typeof Intercom !== 'undefined') {
+  else if (Intercom) {
     intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io'
     window.Intercom('reattach_activator');  
   }

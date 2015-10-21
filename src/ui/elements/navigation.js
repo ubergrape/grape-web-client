@@ -1,5 +1,4 @@
 let Emitter = require('emitter')
-let Scrollbars = require('scrollbars')
 let template = require('template')
 let qs = require('query')
 let events = require('events')
@@ -37,8 +36,6 @@ Navigation.prototype.init = function () {
     template: 'pmlist.jade'
   })
   replace(qs('.pms', this.el), pmList.el)
-
-  let  navScrollbar = new Scrollbars(qs('.nav-wrap-out', this.el))
 }
 
 function replace(from, to) {
@@ -94,14 +91,14 @@ Navigation.prototype.roomCompare = function (a, b) {
 
 Navigation.prototype.select = function (item) {
   this.room = item
-  this.roomList.selectItem(null)
-  this.pmList.selectItem(null)
-  if (item.type === 'pm') {
-    let pm = item.users[0]
-    let isInList = this.pmList.items.indexOf(pm) > -1 ? true : false
-    if (!isInList) this.pmList.items.unshift(pm)
+  if (item.type == 'pm') {
+    this.roomList.selectItem(null)
+    this.pmList.selectItem(item)
   }
-  this[item.type + 'List'].selectItem(item)
+  else {
+    this.pmList.selectItem(null)
+    this.roomList.selectItem(item) 
+  }
 }
 
 Navigation.prototype.redraw = function () {
@@ -161,10 +158,19 @@ Navigation.prototype.onUserMention = function () {
   this.roomList.redraw()
 }
 
-Navigation.prototype.onOrgReady = function (org) {
+Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
+  this.redraw()
+}
+
+Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
+  this.roomList.redraw()
+  this.roomListCollapsed.redraw()
+}
+
+Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
   let pms = org.users.filter(function (user) {
-    return user != ui.user && user.active && !user.is_only_invited
+    return user != window.ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })
 
@@ -172,27 +178,4 @@ Navigation.prototype.onOrgReady = function (org) {
   // cause that is part of the navigation too
   this.redraw()
   this.ready = true
-
-  let sidebarWidth = store.get('sidebarWidth')
-  let navResizable = new resizable(this.el, { directions: ['east'] })
-  let chatContent = qs('.client-body')
-
-  if (sidebarWidth) {
-    chatContent.style.marginLeft = sidebarWidth + 'px'
-    this.el.style.width = sidebarWidth + 'px'
-  }
-
-  let resizeClient = function resizeClient() {
-    chatContent.style.marginLeft = this.el.clientWidth + 'px'
-    store.set('sidebarWidth', this.el.clientWidth)
-  }.bind(this)
-
-  // the `orgReady` event is fired on reconnection as well
-  // so we need to unbind the resizable and the window
-  navResizable.element.removeEventListener('resize', resizeClient)
-  window.removeEventListener('resize', resizeClient)
-  
-  // listening to the event fired by the resizable component
-  navResizable.element.addEventListener('resize', resizeClient)
-  window.addEventListener('resize', resizeClient)
 }
