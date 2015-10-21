@@ -1,135 +1,135 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+let Emitter = require('emitter')
+let broker = require('broker')
+let qs = require('query')
+let notification = require('notification')
+let classes = require('classes')
+let staticurl = require('staticurl')
+let events = require('events')
+let notify = require('HTML5-Desktop-Notifications')
+let Introjs = require("intro.js").introJs
+let Clipboard = require('clipboard')
+let dropAnywhere = require('drop-anywhere')
+let debounce = require('debounce')
+let timezone = require('./jstz')
+let focus = require('./focus')
+let pipeEvents = require('./pipeEvents')
+let page = require('page')
+let Router = require('router')
+let template = require('template')
+let _ = require('t')
+let v = require('virtualdom')
 
-var template = require('template');
-var Emitter = require('emitter');
-var broker = require('broker');
-var qs = require('query');
-var notification = require('notification');
-var classes = require('classes');
-var staticurl = require('staticurl');
-var events = require('events');
-var notify = require('HTML5-Desktop-Notifications');
-var Introjs = require("intro.js").introJs;
-var Clipboard = require('clipboard');
-var dropAnywhere = require('drop-anywhere');
-var debounce = require('debounce');
-var timezone = require('./jstz');
-var focus = require('./focus');
-var pipeEvents = require('./pipeEvents');
-var page = require('page');
-var Router = require('router');
-var template = require('template');
-var _ = require('t');
-var v = require('virtualdom');
+let exports = module.exports = UI
 
-var exports = module.exports = UI;
+require("startswith")
+require("endswith")
 
-require("startswith");
-require("endswith");
-
-exports.ItemList = require('./elements/itemlist');
-var Navigation = exports.Navigation = require('./elements/navigation');
-var OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization');
-var ChatHeader = exports.ChatHeader = require('./elements/chatheader');
-var RightSidebar = exports.RightSidebar = require('./elements/rightsidebar');
-var GrapeInput = exports.GrapeInput = require('./elements/GrapeInput');
-var HistoryView = exports.HistoryView = require('./elements/historyview');
-var Title = exports.Title = require('./titleupdater');
-var FileUploader = exports.FileUploader = require('./elements/fileuploader');
-var Messages = exports.Messages = require('./elements/messages');
-var Notifications = exports.Notifications = require('./elements/notifications');
-var SearchView = exports.SearchView = require('./elements/searchview.js');
-var Dropzone = exports.Dropzone = require('./elements/dropzone.js');
-var DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom');
-var MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips');
-var RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite');
-var RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager');
-var PMManager = exports.PMManager = require('./elements/dialogs/pmmanager');
-var OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite');
+exports.ItemList = require('./elements/itemlist')
+let Navigation = exports.Navigation = require('./elements/navigation')
+let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
+let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
+let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
+let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
+let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
+let HistoryView = exports.HistoryView = require('./elements/historyview')
+let Title = exports.Title = require('./titleupdater')
+let FileUploader = exports.FileUploader = require('./elements/fileuploader')
+let Messages = exports.Messages = require('./elements/messages')
+let Notifications = exports.Notifications = require('./elements/notifications')
+let SearchView = exports.SearchView = require('./elements/searchview.js')
+let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
+let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
+let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
+let RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite')
+let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
+let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
+let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 function UI(options) {
-    Emitter.call(this);
-    this.options = options || {};
-    this.init();
-    this.bind();
+    Emitter.call(this)
+    this.options = options || {}
+    this.init()
+    this.bind()
 }
 
-UI.prototype = Object.create(Emitter.prototype);
+UI.prototype = Object.create(Emitter.prototype)
 
 UI.prototype.init = function UI_init() {
     // set the current language
-    _.lang(this.options.languageCode || 'en');
-    template.locals._ = _;
-    template.locals.staticurl = staticurl;
+    _.lang(this.options.languageCode || 'en')
+    template.locals._ = _
+    template.locals.staticurl = staticurl
     // initialize user and org with dummy image
     template.locals.user = {
         avatar: staticurl("images/orga-image-load.gif"),
         username: "Loading",
         displayName: "Loading"
-    };
+    }
     template.locals.org = {
         logo: staticurl("images/orga-image-load.gif"),
         name: "Loading"
-    };
+    }
 
-    this.el = v.toDOM(template('index.jade'));
+    this.el = v.toDOM(template('index.jade'))
 
     // add the navigation to the layout
-    var sidebar = qs('.navigation', this.el);
-    var navigation = this.navigation = new Navigation();
-    sidebar.parentNode.replaceChild(navigation.el, sidebar);
+    let sidebar = qs('.navigation', this.el)
+    let navigation = this.navigation = new Navigation()
+    sidebar.parentNode.replaceChild(navigation.el, sidebar)
 
-    this.organizationMenu = new OrganizationPopover();
+    this.organizationMenu = new OrganizationPopover()
 
-    this.searchView = new SearchView();
+    this.searchView = new SearchView()
 
-    this.chatHeader = new ChatHeader();
-    qs('.room-header', this.el).appendChild(this.chatHeader.el);
+    this.chatHeader = new ChatHeader()
+    qs('.room-header', this.el).appendChild(this.chatHeader.el)
 
-    this.rightSidebar = new RightSidebar();
-    qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el);
+    this.rightSidebar = new RightSidebar()
+    qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el)
 
     // initialize the input field
-    this.grapeInput = new GrapeInput();
-    qs('.footer', this.el).appendChild(this.grapeInput.el);
+    this.grapeInput = new GrapeInput()
+    qs('.footer', this.el).appendChild(this.grapeInput.el)
+
+    this.channelSearch = new ChannelSearch()
+    document.body.appendChild(this.channelSearch.el)
 
     // initialize dialogs
-    this.markdownTips = new MarkdownTipsDialog().closable();
+    this.markdownTips = new MarkdownTipsDialog().closable()
 
-    this.historyView = new HistoryView();
-    var chat = qs('.chat-wrapper .chat', this.el);
-    chat.parentNode.replaceChild(this.historyView.el, chat);
+    this.historyView = new HistoryView()
+    let chat = qs('.chat-wrapper .chat', this.el)
+    chat.parentNode.replaceChild(this.historyView.el, chat)
 
-    this.title = new Title();
-    this.messages = new Messages();
-    qs('.chat-wrapper', this.el).appendChild(this.messages.el);
+    this.title = new Title()
+    this.messages = new Messages()
+    qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
-    this.upload = new FileUploader(this.options.uploadPath);
-    var uploadContainer = qs('.uploader', this.grapeInput.el);
-    uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer);
+    this.upload = new FileUploader(this.options.uploadPath)
+    let uploadContainer = qs('.uploader', this.grapeInput.el)
+    uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
 
-    this.clipboard = new Clipboard(window);
+    this.clipboard = new Clipboard(window)
 
     // on paste, check if the pasted item is a blob object -image-,
     // then emit an upload event to the broker to call the uploader
-    this.clipboard.on('paste', function(e){
-        if(e.items[0] instanceof Blob) this.emit('upload', e.items[0]);
-    });
+    this.clipboard.on('paste', function (e) {
+        if(e.items[0] instanceof Blob) this.emit('upload', e.items[0])
+    })
 
     // initialize dragAndDrop
     // receive the dragged items and emit
     // an event to the uploader to upload them
-    var self = this;
-    this.dropzone = new Dropzone();
-    this.dragAndDrop = dropAnywhere(function(e){
-        e.items.forEach(function(item){
-            self.emit('uploadDragged', item);
-        });
-    }, this.dropzone.el);
+    let self = this
+    this.dropzone = new Dropzone()
+    this.dragAndDrop = dropAnywhere(function (e) {
+        e.items.forEach(function (item) {
+            self.emit('uploadDragged', item)
+        })
+    }, this.dropzone.el)
 
     // initialize notifications
-    this.notifications = new Notifications();
+    this.notifications = new Notifications()
     // only show notification info bar in supported browsers and only if the
     // user has't accepted or declined notifications before
     // don't show it in IE. it only supports notifications in "SiteMode" and
@@ -137,22 +137,22 @@ UI.prototype.init = function UI_init() {
     if (notify.isSupported
         && notify.permissionLevel() === notify.PERMISSION_DEFAULT
         && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-            this.enableNotificationMessage = this.messages.info('notifications reminder');
-            classes(qs('body')).add('notifications-disabled');
+            this.enableNotificationMessage = this.messages.info('notifications reminder')
+            classes(qs('body')).add('notifications-disabled')
     }
 
     // show user title if it is enabled
     if (window.CHATGRAPE_CONFIG.userTitleEnabled) {
-        classes(qs('body')).add('user-title-enabled');
+        classes(qs('body')).add('user-title-enabled')
     }
 
     // initialize user guide
-    this.intro = new Introjs();
-    this.intro.onchange(function(el) {
+    this.intro = new Introjs()
+    this.intro.onchange(function (el) {
         if (el.dataset.step !== undefined) {
-            window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic});
+            window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic})
         }
-    });
+    })
     this.intro.setOptions({
         nextLabel: '<strong>' + _('Next') + '</strong>',
         skipLabel: _('Skip'),
@@ -162,7 +162,7 @@ UI.prototype.init = function UI_init() {
         showBullets: false,
         steps: [
             {
-                intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_wave.png") +'"><div style="overflow: hidden"><h2>Hi '+ globalDisplayName +', welcome to ChatGrape!</h2><h3>My name is Trauby and I am here to give you a warm welcome at ChatGrape.</h3><p>The goal is to make your work life more <u>efficient</u>, <u>productive</u> and <u>enjoyable</u>. With the following 5 tips I will give you a quick overview of the chat and its nifty features.</p><p> If you want to talk to us, you can always reach out via <a target="_blank" href="mailto:support@chatgrape.com">support@chatgrape.com</a> or by tweeting at <a href="https://twitter.com/chatgrapecom" target="_blank">@chatgrapecom</a>.</p></div><div style="clear:both"></div>'),
+                intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_wave.png") +'"><div style="overflow: hidden"><h2>Hi '+ window.globalDisplayName +', welcome to ChatGrape!</h2><h3>My name is Trauby and I am here to give you a warm welcome at ChatGrape.</h3><p>The goal is to make your work life more <u>efficient</u>, <u>productive</u> and <u>enjoyable</u>. With the following 5 tips I will give you a quick overview of the chat and its nifty features.</p><p> If you want to talk to us, you can always reach out via <a target="_blank" href="mailto:support@chatgrape.com">support@chatgrape.com</a> or by tweeting at <a href="https://twitter.com/chatgrapecom" target="_blank">@chatgrapecom</a>.</p></div><div style="clear:both"></div>'),
                 tooltipClass: "intro-welcome"
             },
             {
@@ -190,269 +190,268 @@ UI.prototype.init = function UI_init() {
                 intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/gifs/trauby_space_sml.gif") +'"><div style="overflow: hidden"><h2>ChatGrape - We Have Lift-off!</h2><h3>With the tutorial out of the way, it\'s now time to set up your organization.</h3><p><u>Manage your rooms</u>, invite your <u>team members</u> and <u>add service integrations</u> in your organization settings.</p><p>If you need help with the setup, don\'t hesitate and contact us right away!</p><p>Cheerio, <br>-Trauby</p></div><div style="clear:both;height:1px;width:720px"></div>'),
             }
         ]
-    });
+    })
 
     // check timezone
-    this.tz = timezone.determine().name();
-    this.notificationSessionSet = false;
-    this.firstTimeConnect = true;
-    this.uploadRoom = null;
-};
+    this.tz = timezone.determine().name()
+    this.notificationSessionSet = false
+    this.firstTimeConnect = true
+    this.uploadRoom = null
+}
 
 UI.prototype.bind = function UI_bind() {
-    pipeEvents(this);
-    var self = this;
-    var navigation = this.navigation;
+    pipeEvents(this)
+    let self = this
+    let navigation = this.navigation
 
     this.events = events(this.el, {
-        'toggleOrganizationMenu': function() {
-            self.organizationMenu.toggle(qs('.settings-icon'));
+        'toggleOrganizationMenu': function () {
+            self.organizationMenu.toggle(qs('.settings-icon'))
         },
-        'toggleOrganizationMenuCollapsed': function() {
-            self.organizationMenu.toggle(qs('.settings-icon-collapsed'));
+        'toggleOrganizationMenuCollapsed': function () {
+            self.organizationMenu.toggle(qs('.settings-icon-collapsed'))
         },
-        'requestPermission': function() {
-            notify.requestPermission(function(permission){
+        'requestPermission': function () {
+            notify.requestPermission(function (permission) {
                 if (permission !== "default") {
-                    self.enableNotificationMessage.remove();
-                    classes(qs('body')).remove('notifications-disabled');
+                    self.enableNotificationMessage.remove()
+                    classes(qs('body')).remove('notifications-disabled')
                 }
-            });
+            })
         }
-    });
-    this.events.bind('click .settings-icon', 'toggleOrganizationMenu');
-    this.events.bind('click .settings-icon-collapsed', 'toggleOrganizationMenuCollapsed');
-    this.events.bind('click .enable_notifications', 'requestPermission');
+    })
+    this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
+    this.events.bind('click .settings-icon-collapsed', 'toggleOrganizationMenuCollapsed')
+    this.events.bind('click .enable_notifications', 'requestPermission')
 
-    this.room = null;
+    this.room = null
 
     // intro
-    this.intro.oncomplete(function() {
-        self.emit('introend');
-    });
-    this.intro.onexit(function() {
-        self.emit('introend');
-    });
+    this.intro.oncomplete(function () {
+        self.emit('introend')
+    })
+    this.intro.onexit(function () {
+        self.emit('introend')
+    })
 
     // Open certain link in the external browser in the OS X app
-    if (typeof MacGap !== 'undefined') {
-        var as, i;
-        as = qs.all('a', this.organizationMenu.el);
+    if (window.MacGap) {
+        let as, i
+        as = qs.all('a', this.organizationMenu.el)
         for (i = 0; i < as.length; ++i)
-            as[i].target = '_blank';
+            as[i].target = '_blank'
     }
 
-    if (typeof Intercom !== 'undefined') {
-        Intercom('onShow', function () {
-            classes(qs('.client-body', this.el)).add('intercom-show');
-        }.bind(this));
-        Intercom('onHide', function () {
-            classes(qs('.client-body', this.el)).remove('intercom-show');
-        }.bind(this));
+    if (window.Intercom) {
+        window.Intercom('onShow', function () {
+            classes(qs('.client-body', this.el)).add('intercom-show')
+        }.bind(this))
+        window.Intercom('onHide', function () {
+            classes(qs('.client-body', this.el)).remove('intercom-show')
+        }.bind(this))
     }
-};
+}
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-    this.org = org;
-    template.locals.org = this.org;
-    this.emit('orgReady', this.org);
-    Router(this);
-    this.setNotificationsSession();
-    if (this.notificationSessionSet == true) return;
-    focus.on('focus', this.setNotificationsSession.bind(this));
-    this.notificationSessionSet = true;
-};
+    this.org = org
+    template.locals.org = this.org
+    this.emit('orgReady', this.org)
+    Router(this)
+    this.setNotificationsSession()
+    if (this.notificationSessionSet === true) return
+    focus.on('focus', this.setNotificationsSession.bind(this))
+    this.notificationSessionSet = true
+}
 
 UI.prototype.setUser = function UI_setUser(user) {
     // the first time setUser will be called it hopefully contains the current
     // user and not another one
     if (this.user === undefined || user.id === this.user.id) {
-        this.user = user;
-        template.locals.user = user;
-        this.emit('setVisitor', user);
-        this.grapeInput.redraw();
+        this.user = user
+        template.locals.user = user
+        this.emit('setUser', user)
     }
-};
+}
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
-    this.settings = settings;
+    this.settings = settings
     if (this.settings.show_intro) {
-        window.analytics.track("Started Tutorial", {via: "onboarding"});
-        this.intro.start();
+        window.analytics.track("Started Tutorial", {via: "onboarding"})
+        this.intro.start()
     }
 
     if (this.settings.compact_mode) {
-        classes(document.body).add('client-style-compact');
-        classes(document.body).remove('normal-style');
-        classes(document.body).remove('client-style-normal');
+        classes(document.body).add('client-style-compact')
+        classes(document.body).remove('normal-style')
+        classes(document.body).remove('client-style-normal')
     } else {
-        classes(document.body).add('normal-style');
-        classes(document.body).remove('client-style-compact');
-        classes(document.body).add('client-style-normal');
+        classes(document.body).add('normal-style')
+        classes(document.body).remove('client-style-compact')
+        classes(document.body).add('client-style-normal')
     }
 
     if (this.settings.dark_mode) {
-        classes(document.body).add('dark');
+        classes(document.body).add('dark')
     }
 
-    this.emit('settingsReady');
+    this.emit('settingsReady')
 
     // javscript timezone should always override server timezone setting?
     if (!this.settings.timezone || this.settings.timezone != this.tz) {
-        this.emit('timezonechange', this.tz);
+        this.emit('timezonechange', this.tz)
     }
-};
+}
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-    var self = this;
-    var org = orgs.filter(function(o) {
-        if (o.id === self.options.organizationID) return o;
-    })[0];
-    this.emit('selectorganization', org);
-};
+    let self = this
+    let org = orgs.filter(function (o) {
+        if (o.id === self.options.organizationID) return o
+    })[0]
+    this.emit('selectorganization', org)
+}
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-    if(notify.permissionLevel() == notify.PERMISSION_GRANTED)
-        this.emit('setNotificationsSession', this.org.id);
+    if(notify.permissionLevel() === notify.PERMISSION_GRANTED)
+        this.emit('setNotificationsSession', this.org.id)
 }
 
 UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
-    this.searchView.showResults(results);
-};
+    this.searchView.showResults(results)
+}
 
-UI.prototype.showSearchResults = function() {
-    classes(this.el).add('searching');
-};
+UI.prototype.showSearchResults = function () {
+    classes(this.el).add('searching')
+}
 
-UI.prototype.hideSearchResults = function() {
-    classes(this.el).remove('searching');
-    this.chatHeader.clearSearch();
-};
+UI.prototype.hideSearchResults = function () {
+    classes(this.el).remove('searching')
+    this.chatHeader.clearSearch()
+}
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-    var self = this;
-    self.emit('joinroom', room, function() {
-        page('/chat/' + room.slug);
-        self.emit('endRoomCreation');
-    });
-};
+    let self = this
+    self.emit('joinroom', room, function () {
+        page('/chat/' + room.slug)
+        self.emit('endRoomCreation')
+    })
+}
 
 UI.prototype.gotError = function UI_gotError(err) {
-    notification.error(err.message, err.details);
-};
+    notification.error(err.message, err.details)
+}
 
 UI.prototype.onDisconnected = function () {
     this.disconnectedAlert = setTimeout(function () {
-        this.firstTimeConnect = false;
-        if (this._connErrMsg) return;
-        this._connErrMsg = this.messages.danger('connection lost');
-        classes(qs('body')).add('disconnected');
-    }.bind(this), 7000);
-};
+        this.firstTimeConnect = false
+        if (this._connErrMsg) return
+        this._connErrMsg = this.messages.danger('connection lost')
+        classes(qs('body')).add('disconnected')
+    }.bind(this), 7000)
+}
 
 UI.prototype.onConnected = function () {
-    clearTimeout(this.disconnectedAlert);
-    if (!this._connErrMsg || this.firstTimeConnect) return;
-    this._connErrMsg.remove();
-    delete this._connErrMsg;
-    classes(qs('body')).remove('disconnected');
-    var msg = this.messages.success('reconnected')
-    setTimeout(function(){ msg.remove(); }, 2000);
-};
+    clearTimeout(this.disconnectedAlert)
+    if (!this._connErrMsg || this.firstTimeConnect) return
+    this._connErrMsg.remove()
+    delete this._connErrMsg
+    classes(qs('body')).remove('disconnected')
+    let msg = this.messages.success('reconnected')
+    setTimeout(function () { msg.remove() }, 2000)
+}
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
-    this.room = room;
+    this.room = room
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-    var deleteRoomDialog = new DeleteRoomDialog({
+    let deleteRoomDialog = new DeleteRoomDialog({
         room: room
-    }).closable().overlay().show();
-    broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom');
-};
+    }).closable().overlay().show()
+    broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
+}
 
 UI.prototype.onToggleOrgInvite = function () {
-    var invite = new OrgInvite().closable().overlay().show();
-    broker(this, 'inviteSuccess', invite, 'onInviteSuccess');
-    broker(this, 'inviteError', invite, 'onInviteError');
-    broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg');
-};
+    let invite = new OrgInvite().closable().overlay().show()
+    broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
+    broker(this, 'inviteError', invite, 'onInviteError')
+    broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
+}
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
     // org users who are not part of the room, sorted alphabetically
-    var users = this.org.users.filter(function(user) {
-        return user.active && room.users.indexOf(user) == -1;
-    });
-    var invite = new RoomInvite({
+    let users = this.org.users.filter(function (user) {
+        return user.active && room.users.indexOf(user) === -1
+    })
+    let invite = new RoomInvite({
         org: this.org,
         users: users,
         room: room
-    }).closable().overlay().show();
+    }).closable().overlay().show()
 
-    broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom');
-    broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess');
-};
+    broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom')
+    broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess')
+}
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-    this.markdownTips.overlay().show();
-};
+    this.markdownTips.overlay().show()
+}
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
-    if (this.room != room) return;
-    page.replace('/chat/');
+    if (this.room != room) return
+    page.replace('/chat/')
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-    if(this.room != room) return;
-    page.replace('/chat/' + room.slug);
+    if(this.room != room) return
+    page.replace('/chat/' + room.slug)
 }
 
 UI.prototype.onUploading = function () {
-    this.uploadRoom = this.room;
-};
+    this.uploadRoom = this.room
+}
 
 UI.prototype.onUploaded = function (attachment) {
-    this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]});
-    this.upload.hide();
+    this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
+    this.upload.hide()
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
-    page.replace('/chat/' + redirectSlug);
-    var msg = this.messages.warning('message not found');
-    setTimeout(function(){ msg.remove(); }, 6000);
+    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    page.replace('/chat/' + redirectSlug)
+    let msg = this.messages.warning('message not found')
+    setTimeout(function () { msg.remove() }, 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
-    if (this.room === channel) return;
-    var slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug;
-    page('/chat/' + slug);
+    if (this.room === channel) return
+    let slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
+    page('/chat/' + slug)
 }
 
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-    var redirectSlug = room.type == 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug;
-    page('/chat/' + redirectSlug);
+    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+    page('/chat/' + redirectSlug)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-    var roommanager = new RoomManager({
+    let roommanager = new RoomManager({
         rooms: this.org.rooms.slice()
-    }).closable().overlay().show();
-    broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom');
-    broker.pass(roommanager, 'createRoom', this, 'createRoom');
-    broker(this, 'leftChannel', roommanager, 'onLeftChannel');
-    broker(this, 'joinedChannel', roommanager, 'onJoinedChannel');
-    broker(this, 'roomCreationError', roommanager, 'onRoomCreationError');
-    broker(this, 'newRoom', roommanager, 'onNewRoom');
-    broker(this, 'channelupdate', roommanager, 'onChannelUpdate');
-    broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation');
+    }).closable().overlay().show()
+    broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
+    broker.pass(roommanager, 'createRoom', this, 'createRoom')
+    broker(this, 'leftChannel', roommanager, 'onLeftChannel')
+    broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
+    broker(this, 'roomCreationError', roommanager, 'onRoomCreationError')
+    broker(this, 'newRoom', roommanager, 'onNewRoom')
+    broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
+    broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation')
 }
 
 UI.prototype.onTriggerPMManager = function () {
-    var pmmanager = new PMManager({
+    let pmmanager = new PMManager({
         users: this.org.users.slice()
-    }).closable().overlay().show();
-    broker(this, 'selectchannel', pmmanager, 'end');
-    broker(this, 'changeUser', pmmanager, 'onChangeUser');
-    broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember');
+    }).closable().overlay().show()
+    broker(this, 'selectchannel', pmmanager, 'end')
+    broker(this, 'changeUser', pmmanager, 'onChangeUser')
+    broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
 }
