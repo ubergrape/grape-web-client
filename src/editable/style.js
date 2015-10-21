@@ -8,6 +8,7 @@ export default {
     lineHeight: 1.5,
     padding: 8,
     outline: 'none',
+    minHeight: 38,
     '& p': {
       margin: 0
     }
