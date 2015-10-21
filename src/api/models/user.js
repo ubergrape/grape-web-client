@@ -37,7 +37,16 @@ function defaultAvatar(url, urlInvited) {
 function setSlug() {
   return Model => {
     Model.on('construct', (instance, initial) => {
-      initial.slug = `@${initial.username}`
+      initial.slug = createSlug(initial.username)
+    })
+
+    Model.on('change username', (instance, username) => {
+      instance.slug = createSlug(username)
     })
   }
 }
+
+function createSlug(username) {
+  return `@${username}`
+}
+
