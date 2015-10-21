@@ -54,6 +54,7 @@
     "page": "^1.6.3",
     "progress": "component/progress#0.0.4",
     "react": "^0.13.3",
+    "react-finite-list": "^0.1.0",
     "reactive-elements": "ubergrape/ReactiveElements",
     "resizable": "ubergrape/resizable",
     "router": "./local_modules/router",

@@ -1,15 +1,34 @@
 import React, {Component} from 'react'
+import List from 'react-finite-list'
 
 export default class RightSidebar extends Component {
     render() {
         return(
             <div className='right-sidebar-wrapper'>
-                {this.renderView()}
+                {this.renderContent()}
             </div>
         )
     }
 
-    renderView() {        
+    renderListItem({item}) {
+        let href = '/chat/@' + item.username
+        return(
+            <a href={href}>
+                <aside className='avatar-wrap'>
+                    <img
+                        className='image'
+                        width='20'
+                        height='20' 
+                        src={item.avatar}/>
+                </aside>
+                <span>
+                    {item.displayName}
+                </span>
+            </a>
+        )
+    }
+
+    renderContent() {        
         switch(this.props.mode) {
             case 'profile':
                 return(
@@ -34,6 +53,7 @@ export default class RightSidebar extends Component {
                 )
                 break
             case 'members':
+                let members = this.props.channel.users.toArray()
                 return(
                     <div className='members'>
                         <div className='right-sidebar-header'>
@@ -41,6 +61,11 @@ export default class RightSidebar extends Component {
                                 Members
                             </span>
                         </div>
+                        <List
+                            items={members}
+                            className='user-list'
+                            renderItem={::this.renderListItem}
+                            ref='list' />
                     </div>
                 )
                 break
