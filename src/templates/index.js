@@ -1,6 +1,6 @@
-var template = require('template')
-var v = require('virtualdom')
-var domify = require('domify')
+let template = require('template')
+let v = require('virtualdom')
+let domify = require('domify')
 
 template.locals.strftime = require('strftime')
 template.locals._ = require('t')

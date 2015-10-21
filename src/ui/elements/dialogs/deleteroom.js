@@ -1,5 +1,4 @@
 let Dialog = require('./dialog')
-
 let events = require('events')
 let qs = require('query')
 let _ = require('t')

@@ -1,3 +1,4 @@
+require('array.from')
 require('custom-event-polyfill')
 require('document-register-element')
 require('reactive-elements')
@@ -26,12 +27,14 @@ let conf = require('conf')
 // TODO maybe use pick
 // initialize the UI and add it to the DOM
 window.ui = new UI(conf)
-document.body.appendChild(ui.el)
+document.body.appendChild(window.ui.el)
 
 // initialize the App
 window.api = new API()
 
 // hook up UI to App
-initBroker(ui, api)
+initBroker(window.ui, window.api)
 
-api.connect();
+// and connect to the server
+// TODO: this might come directly from the backend at some point?
+window.api.connect((location.protocol === 'http:' ? 'ws://' : 'wss://') + location.host + '/ws/')
