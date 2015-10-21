@@ -10,7 +10,8 @@ export default class RightSidebar extends Emitter {
             hide: ::this.hide,
             show: ::this.show,
             mode: null,
-            channel: null
+            channel: null,
+            cUser: null
         }
     }
 
@@ -37,7 +38,7 @@ export default class RightSidebar extends Emitter {
     }
 
     onToggle(mode) {
-        if (mode == this.el.props.mode) this.hide();
+        if (mode === this.el.props.mode) this.hide()
         else this.show(mode); 
     }
 
@@ -52,6 +53,12 @@ export default class RightSidebar extends Emitter {
         this.setProps({
             mode: mode,
             channel: channel
+        })
+    }
+
+    onSetUser(user) {
+        this.setProps({
+            cUser: user
         })
     }
 }

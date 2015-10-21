@@ -18,7 +18,7 @@ RoomInvite.prototype = Object.create(Dialog.prototype)
 
 let protoInit = RoomInvite.prototype.init
 
-RoomInvite.prototype.init = function() {
+RoomInvite.prototype.init = function () {
     protoInit.call(this)
 
     let context = this.context
@@ -40,7 +40,7 @@ function replace(from, to) {
     from.parentNode.replaceChild(to, from)
 }
 
-RoomInvite.prototype.bind = function() {
+RoomInvite.prototype.bind = function () {
     this.events = events(this.el, this)
     this.events.bind('click .form-content', 'focusInput')
     this.events.bind('click .invite-to-room .user', 'onUserClick')
@@ -48,29 +48,29 @@ RoomInvite.prototype.bind = function() {
     this.events.bind('keyup .input-invite', 'onKeyUp')
     this.events.bind('keydown .input-invite', 'onKeyDown')
 
-    let onKeyUp = function(e) {
+    let onKeyUp = function (e) {
         this.navigate(e)
     }.bind(this)
 
-    this.dialog.on('hide', function() {
+    this.dialog.on('hide', function () {
         document.removeEventListener('keyup', onKeyUp)
     })
-    this.dialog.on('show', function() {
+    this.dialog.on('show', function () {
         if (!this.userList.items.length) return
         document.addEventListener('keyup', onKeyUp)
         this.focusInput()
     }.bind(this))
 }
 
-RoomInvite.prototype.onUserClick = function(e) {
+RoomInvite.prototype.onUserClick = function (e) {
     let itemID = closest(e.target, 'li', true).getAttribute('data-id')
-    let item = this.userList.items.filter(function(el) {
-        return el.id == itemID
+    let item = this.userList.items.filter(function (el) {
+        return el.id === itemID
     })[0]
     this.toggleUser(item)
 }
 
-RoomInvite.prototype.toggleUser = function(item) {
+RoomInvite.prototype.toggleUser = function (item) {
     this.userList.toggleItem(item)
     this.redrawFormContent(this.userList.highlighted, '')
     this.filterUsers()
@@ -79,10 +79,10 @@ RoomInvite.prototype.toggleUser = function(item) {
     this.focusInput()
 }
 
-RoomInvite.prototype.navigate = function(e) {
+RoomInvite.prototype.navigate = function (e) {
     e.preventDefault()
     let userList = this.userList
-    let items = userList.items.filter(function(item) {
+    let items = userList.items.filter(function (item) {
         return userList.highlighted.indexOf(item) === -1
     })
     let selectedIndex = items.indexOf(userList.selected)
@@ -116,11 +116,11 @@ RoomInvite.prototype.navigate = function(e) {
     }
 }
 
-RoomInvite.prototype.focusInput = function() {
+RoomInvite.prototype.focusInput = function () {
     qs('.input-invite', this.dialog.el).focus()
 }
 
-RoomInvite.prototype.onKeyDown = function(e) {
+RoomInvite.prototype.onKeyDown = function (e) {
     let filterInput = qs('.input-invite', this.dialog.el)
     let query = filterInput.value
     if (!filterInput.selectionEnd && keyname(e.keyCode) === 'backspace') {
@@ -130,7 +130,7 @@ RoomInvite.prototype.onKeyDown = function(e) {
     }
 }
 
-RoomInvite.prototype.onKeyUp = function() {
+RoomInvite.prototype.onKeyUp = function () {
     let filterInput = qs('.input-invite', this.dialog.el)
     let query = filterInput.value
     if (query !== this.query) this.filterUsers(query)
@@ -139,13 +139,13 @@ RoomInvite.prototype.onKeyUp = function() {
     this.userList.redraw()
 }
 
-RoomInvite.prototype.filterUsers = function(query) {
+RoomInvite.prototype.filterUsers = function (query) {
     if (query) {
-        let suggestions = this.uninvitedUsers.filter(function(user) {
+        let suggestions = this.uninvitedUsers.filter(function (user) {
             return user.username.toLowerCase().indexOf(query) !== -1
                 || user.displayName.toLowerCase().indexOf(query) !== -1
         })
-        suggestions.sort(function(a) {
+        suggestions.sort(function (a) {
             if (a.username.toLowerCase().startsWith(query)
                 || a.displayName.toLowerCase().startsWith(query)) {
                 return -1
@@ -161,19 +161,19 @@ RoomInvite.prototype.filterUsers = function(query) {
     }
 }
 
-RoomInvite.prototype.inviteToRoom = function() {
-    let usernames = this.userList.highlighted.map(function(user) {
+RoomInvite.prototype.inviteToRoom = function () {
+    let usernames = this.userList.highlighted.map(function (user) {
         return user.username
     })
     if (!usernames.length) return
     this.emit('inviteToRoom', this.context.room, usernames)
 }
 
-RoomInvite.prototype.onRoomInviteSuccess = function() {
+RoomInvite.prototype.onRoomInviteSuccess = function () {
     this.dialog.hide()
 }
 
-RoomInvite.prototype.redrawFormContent = function(items, query) {
+RoomInvite.prototype.redrawFormContent = function (items, query) {
     render(
         this.formContent,
         template('dialogs/invite-form-content.jade', {

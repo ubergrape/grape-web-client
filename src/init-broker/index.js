@@ -64,12 +64,12 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
     broker.pass(api, 'inviteError', ui, 'inviteError')
     broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
-    broker.pass(api, 'gotSearchResults', ui, 'gotSearchResults');
+    broker.pass(api, 'gotSearchResults', ui, 'gotSearchResults')
 
-    ui.on('starttyping', function(room) {
+    ui.on('starttyping', function (room) {
         api.setTyping(room, true)
     })
-    ui.on('stoptyping', function(room) {
+    ui.on('stoptyping', function (room) {
         api.setTyping(room, false)
     })
 }
