@@ -8,6 +8,7 @@ export default class RightSidebar extends Emitter {
         this.el.props = {
             onToggle: ::this.onToggle,
             hide: ::this.hide,
+            show: ::this.show,
             mode: null
         }
     }
@@ -36,5 +37,18 @@ export default class RightSidebar extends Emitter {
     onToggle(mode) {
         if (mode == this.el.props.mode) this.hide();
         else this.show(mode); 
+    }
+
+    onSelectChannel(channel) {
+        let mode = this.el.props.mode
+        if (mode === 'members' && channel.type === 'pm') {
+            mode = 'profile'
+        }
+        else if (mode === 'profile' && channel.type === 'room') {
+            mode = 'members'
+        }
+        this.setProps({
+            mode: mode
+        })
     }
 }
