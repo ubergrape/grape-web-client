@@ -2,7 +2,7 @@ let Emitter = require('emitter')
 let render = require('../rendervdom')
 let raf = require('raf')
 let template = require('template')
-let debounce = require('debounce')
+let debounce = require('lodash/function/debounce')
 let Scrollbars = require('scrollbars')
 let qs = require('query')
 let classes = require('classes')
@@ -24,6 +24,7 @@ function HistoryView() {
     this.queueDraw = this.queueDraw.bind(this)
     this.room = {history: new Emitter([])}
     this.lastwindow = {lastmsg: null, sH: 0}
+    this.updateReadDebounced = debounce(::this.updateRead, 1500)
     this.init()
     this.bind()
     this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0)
@@ -64,8 +65,7 @@ HistoryView.prototype.bind = function HistoryView_bind() {
     this.events.bind('click div.load-newer-history', 'loadNewHistory')
     this.events.bind('click div.load-older-history', 'loadOldHistory')
     this.events.bind('click div.load-newest-history', 'loadNewestHistory')
-    let debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500)
-    focus.on('focus', debouncedUpdateRead)
+    focus.on('focus', this.updateReadDebounced)
     this.scrollWindow.addEventListener('scroll', function () {
         this.scrollMode = 'manual'
     }.bind(this))
@@ -267,8 +267,7 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
     if (this.mode === 'search') return
     if (direction === 'bottom') {
         this.scrollMode = 'automatic'
-        let debouncedUpdateRead = debounce(this.updateRead.bind(this), 1500)
-        debouncedUpdateRead()
+        this.updateReadDebounced()
         return done()
     } else {
         if (!this.room.empty) done()
