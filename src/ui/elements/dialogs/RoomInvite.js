@@ -6,6 +6,7 @@ import ItemList from '../itemlist'
 import keyname from 'keyname'
 import render from '../../rendervdom'
 import template from 'template'
+import find from 'lodash/collection/find'
 
 export default function RoomInvite(context) {
     this.template_path = 'dialogs/room-invite.jade'
@@ -63,10 +64,8 @@ RoomInvite.prototype.bind = function () {
 }
 
 RoomInvite.prototype.onUserClick = function (e) {
-    let itemID = closest(e.target, 'li', true).getAttribute('data-id')
-    let item = this.userList.items.filter(function (el) {
-        return el.id === itemID
-    })[0]
+    let itemID = Number(closest(e.target, 'li', true).getAttribute('data-id'))
+    let item = find(this.userList.items, ({id}) => id === itemID)
     this.toggleUser(item)
 }
 
