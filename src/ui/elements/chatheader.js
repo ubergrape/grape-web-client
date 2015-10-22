@@ -61,10 +61,10 @@ ChatHeader.prototype.init = function () {
   this.mode = 'chat'
   let intercomButton = qs('div' + window.intercomSettings.widget.activator + ' a', this.el)
   if (conf.customSupportEmailAddress) {
-    intercomButton.href = 'mailto:' + conf.customSupportEmailAddress
+    intercomButton.href = `mailto:${conf.customSupportEmailAddress}`
   }
   else if (Intercom) {
-    intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io'
+    intercomButton.href = `mailto:${window.intercomSettings.app_id}@incoming.intercom.io`
     window.Intercom('reattach_activator');  
   }
 }

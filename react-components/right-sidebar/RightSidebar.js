@@ -11,7 +11,7 @@ export default class RightSidebar extends Component {
     }
 
     renderListItem({item}) {
-        let href = '/chat/@' + item.username
+        let href = '/chat/' + item.slug
         return(
             <a href={href}>
                 <aside className='avatar-wrap'>
