@@ -381,8 +381,9 @@ export default class GrapeInput extends Emitter {
    * outside, but not in some other input cabable field.
    */
   onKeyDown(e) {
-    let {nodeName} = e.target
-    if (inputNodes.indexOf(nodeName) >= 0 || e.target.isContentEditable) return
+    // For e.g. when trying to copy text from history.
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+    if (inputNodes.indexOf(e.target.nodeName) >= 0 || e.target.isContentEditable) return
     this.setProps({focused: true})
   }
 }
