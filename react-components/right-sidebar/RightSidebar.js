@@ -31,12 +31,44 @@ export default class RightSidebar extends Component {
     renderContent() {        
         switch(this.props.mode) {
             case 'profile':
+                let user = this.props.channel.users[0]
                 return(
                     <div className='profile'>
                         <div className='right-sidebar-header'>
-                            <span className='title'>
+                            <div className='title'>
                                 User profile
-                            </span>
+                            </div>
+                            <div className='avatar-wrap'>
+                                <img
+                                src={user.avatar}
+                                alt={user.username}
+                                width="80"
+                                height="80" />
+                            </div>
+                            <div className="fullname">
+                                {user.displayName}
+                            </div>
+                            <div className="username">
+                                {user.slug}
+                            </div>
+                            <div className="user-profile-item">
+                                {user.what_i_do}
+                            </div>
+                            <div className="user-profile-item">
+                                <a href={`mailto:${user.email}`}>
+                                    {user.email}
+                                </a>
+                            </div>
+                            <div className="user-profile-item">
+                                <a href={`skype:${user.skype_username}`}>
+                                    {user.skype_username}
+                                </a>
+                            </div>
+                            <div className="user-profile-item">
+                                <a href={`tel:${user.phone_number}`}>
+                                    {user.phone_number}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 )
