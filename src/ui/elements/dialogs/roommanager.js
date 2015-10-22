@@ -23,6 +23,15 @@ RoomManager.prototype.init = function () {
     header: 'Manage Rooms',
     tabs: {
       visible: true
+    },
+    back: {    
+      className: 'back-button',    
+      visible: false   
+    },   
+    button: {    
+      className: 'new-room',   
+      text: 'Create new room',   
+      visible: true
     }
   })
 
@@ -72,6 +81,8 @@ RoomManager.prototype.bind = function () {
 RoomManager.prototype.setUnjoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'unjoined'
+  menuOptions.back.visible = false   
+  menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
   this.redrawContent(0)
@@ -80,6 +91,8 @@ RoomManager.prototype.setUnjoined = function () {
 RoomManager.prototype.setJoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'joined'
+  menuOptions.back.visible = false   
+  menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
   this.redrawContent(1)
@@ -88,6 +101,8 @@ RoomManager.prototype.setJoined = function () {
 RoomManager.prototype.setCreate = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'creation'
+  menuOptions.back.visible = true    
+  menuOptions.button.visible = false
   menuOptions.tabs.visible = false
   menuOptions.header = 'Create new room'
   this.redrawContent(2)
