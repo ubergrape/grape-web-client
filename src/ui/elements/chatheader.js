@@ -7,7 +7,6 @@ let debounce = require('debounce')
 let classes = require('classes')
 let constants = require('conf').constants
 let keyname = require('keyname')
-let hexToRgb = require('color-converter')
 let conf = require('conf')
 
 module.exports = ChatHeader
