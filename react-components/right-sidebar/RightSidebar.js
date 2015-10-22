@@ -66,6 +66,11 @@ export default class RightSidebar extends Component {
                             className='user-list'
                             renderItem={::this.renderListItem}
                             ref='list' />
+                        <a
+                            className='invite-members'
+                            onClick={this.props.toggleRoomInvite}>
+                            Invite
+                        </a>
                     </div>
                 )
                 break
