@@ -54,7 +54,7 @@ export default function pipeEvents(ui) {
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
     broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription')
     broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'onToggle')
-    //broker(ui.chatHeader, 'showSearch', ui.rightSidebar, 'show')
+    broker(ui.chatHeader, 'showSidebar', ui.rightSidebar, 'onShow')
     broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
 
     // grape input

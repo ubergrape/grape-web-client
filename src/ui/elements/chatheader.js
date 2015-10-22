@@ -97,7 +97,9 @@ ChatHeader.prototype.bind = function () {
   }.bind(this), 200, false)
 
   this.searchInput.addEventListener('keyup', function () {
-    let q = (qs('input.search', this.el).value || this.value).replace(/^\s+|\s+$/g, '')
+    let q = qs('input.search', this.el).value
+    if (!q) return
+    q = q.replace(/^\s+|\s+$/g, '')
     if (q.length !== 0 && this.q !== q) {
       this.q = q
       startSearching()
@@ -199,7 +201,7 @@ ChatHeader.prototype.toggleFileBrowser = function () {
 
 ChatHeader.prototype.showSearch = function () {
   this.selected = null
-  this.emit('toggleRightSidebar', 'search')
+  this.emit('showSidebar', 'search')
   this.redraw()
 }
 
