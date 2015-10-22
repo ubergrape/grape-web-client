@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import List from 'react-finite-list'
+import { constants } from 'conf'
+
 
 export default class RightSidebar extends Component {
     render() {
@@ -12,19 +14,31 @@ export default class RightSidebar extends Component {
 
     renderListItem({item}) {
         let href = '/chat/' + item.slug
+        let deleteButton
+        let cUser = this.props.cUser
+
+        if (cUser === this.props.channel.creator || cUser.role >= constants.roles.ROLE_ADMIN) {
+            deleteButton = (
+                <span>X</span>
+            )
+        }
+        
         return(
-            <a href={href}>
-                <aside className='avatar-wrap'>
-                    <img
-                        className='image'
-                        width='20'
-                        height='20' 
-                        src={item.avatar}/>
-                </aside>
-                <span>
-                    {item.displayName}
-                </span>
-            </a>
+            <div>
+                <a href={href}>
+                    <aside className='avatar-wrap'>
+                        <img
+                            className='image'
+                            width='20'
+                            height='20' 
+                            src={item.avatar}/>
+                    </aside>
+                    <span>
+                        {item.displayName}
+                    </span>
+                </a>
+                { deleteButton }
+            </div>
         )
     }
 
@@ -114,9 +128,10 @@ export default class RightSidebar extends Component {
                                 Search your conversations
                             </span>
                             <span
-                            className='hide-sidebar'
-                            onClick={this.props.hide}>
-                            X</span>
+                                className='hide-sidebar'
+                                onClick={this.props.hide}>
+                                X
+                            </span>
                         </div>
                     </div>
                 )

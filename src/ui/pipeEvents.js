@@ -44,6 +44,7 @@ export default function pipeEvents(ui) {
     broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
     broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
     broker(ui, 'selectchannel', ui.rightSidebar, 'onSelectChannel')
+    broker(ui, 'setUser', ui.rightSidebar, 'onSetUser')
     /*broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser')
     broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
     broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')
