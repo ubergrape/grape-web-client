@@ -1,13 +1,17 @@
 import React, {Component} from 'react'
 import List from 'react-finite-list'
 import {constants} from 'conf'
+import {useSheet} from '../jss'
+import style from './style'
 
-export default class RoomMembersManager extends Component {
+@useSheet(style)
+export default class RoomInfo extends Component {
   render() {
+    let {classes} = this.props.sheet
     let plural = this.props.users.length > 1 ? 's' : ''
     return(
       <div className='members'>
-          <div className='right-sidebar-header'>
+          <div className='header'>
             <span className='title'>
               {`${this.props.users.length} Member${plural}`}
             </span>
@@ -17,11 +21,11 @@ export default class RoomMembersManager extends Component {
             className='user-list'
             renderItem={::this.renderItem}
             ref='list' />
-          <a
-            className='invite-members'
+          <button
+            className={classes.button}
             onClick={this.props.toggleRoomInvite}>
               Invite
-          </a>
+          </button>
       </div>
     )
   }

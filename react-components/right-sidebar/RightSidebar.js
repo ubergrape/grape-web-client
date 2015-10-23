@@ -1,13 +1,17 @@
 import React, {Component} from 'react'
 import UserProfile from '../user-profile/UserProfile'
-import RoomMembersManager from '../room-members-manager/RoomMembersManager'
+import RoomInfo from '../room-info/RoomInfo'
 import FileBrowser from '../file-browser/FileBrowser'
 import MessageSearch from '../message-search/MessageSearch'
+import {useSheet} from '../jss'
+import style from './style'
 
+@useSheet(style)
 export default class RightSidebar extends Component {
     render() {
+        let {classes} = this.props.sheet
         return(
-            <div className='right-sidebar-wrapper'>
+            <div className={classes.content}>
                 {this.renderContent()}
             </div>
         )
@@ -27,7 +31,7 @@ export default class RightSidebar extends Component {
                 break
             case 'members':
                 return(
-                    <RoomMembersManager
+                    <RoomInfo
                         users={this.props.channel.users.toArray()}
                         cUser={this.props.cUser}
                         roomCreator={this.props.channel.creator}

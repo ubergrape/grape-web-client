@@ -4,7 +4,7 @@ export default class MessageSearch extends Component {
   render() {
     return(
       <div className='search'>
-        <div className='right-sidebar-header'>
+        <div className='header'>
           <span className='title'>
             Search your conversations
           </span>
