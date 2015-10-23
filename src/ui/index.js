@@ -309,19 +309,6 @@ UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
     }
 }
 
-UI.prototype.displaySearchResults = function UI_displaySearchResults(results) {
-    this.searchView.showResults(results)
-}
-
-UI.prototype.showSearchResults = function () {
-    classes(this.el).add('searching')
-}
-
-UI.prototype.hideSearchResults = function () {
-    classes(this.el).remove('searching')
-    this.chatHeader.clearSearch()
-}
-
 UI.prototype.roomCreated = function UI_roomCreated(room) {
     let self = this
     self.emit('joinroom', room, function () {

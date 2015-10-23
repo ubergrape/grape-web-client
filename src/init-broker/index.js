@@ -32,7 +32,7 @@ export default function doBroker(ui, api) {
     broker(ui, 'loadHistoryForSearch', api, 'onLoadHistoryForSearch')
     broker(ui, 'autocomplete', api, 'autocomplete')
     broker(ui, 'autocompletedate', api, 'autocompleteDate')
-    broker(ui, 'searching', api, 'search')
+    broker(ui, 'search', api, 'search')
     broker(ui, 'confirmroomrename', api, 'renameRoom')
     broker(ui, 'deleteMessage', api, 'onDeleteMessage')
     broker(ui, 'inviteToRoom', api, 'onInviteToRoom')
@@ -64,7 +64,7 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
     broker.pass(api, 'inviteError', ui, 'inviteError')
     broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
-    broker.pass(api, 'gotSearchResults', ui, 'gotSearchResults')
+    broker.pass(api, 'gotSearchResult', ui, 'gotSearchResult')
 
     ui.on('starttyping', function (room) {
         api.setTyping(room, true)

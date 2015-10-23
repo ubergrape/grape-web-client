@@ -66,6 +66,10 @@ export default class RightSidebar extends Emitter {
         })
     }
 
+    onGotSearchResult(result) {
+        console.log(result)
+    }
+
     onSetUser(user) {
         this.setProps({
             cUser: user

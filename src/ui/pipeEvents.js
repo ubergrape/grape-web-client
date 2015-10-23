@@ -47,11 +47,11 @@ export default function pipeEvents(ui) {
     broker(ui, 'setUser', ui.rightSidebar, 'onSetUser')
     /*broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser')
     broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
-    broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')
-    broker(ui, 'gotSearchResults', ui.rightSidebar, 'gotSearchResults');*/
+    broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')*/
+    broker(ui, 'gotSearchResult', ui.rightSidebar, 'onGotSearchResult');
 
     // chat header
-    broker.pass(ui.chatHeader, 'searching', ui, 'searching')
+    broker.pass(ui.chatHeader, 'search', ui, 'search')
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
     broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription')
     broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'onToggle')

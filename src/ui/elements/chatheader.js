@@ -86,14 +86,14 @@ ChatHeader.prototype.bind = function () {
 
   document.addEventListener('keyup', function (e) {
     if (keyname(e.which) === 'esc') this.stopRoomRename()
-  })
+  }.bind(this))
 
   this.searchInput.addEventListener('focus', function () {
     this.showSearch()
   }.bind(this))
 
-  let startSearching = debounce(function () {
-    this.emit('searching', this.q)
+  let search = debounce(function () {
+    this.emit('search', this.q)
   }.bind(this), 200, false)
 
   this.searchInput.addEventListener('keyup', function () {
@@ -102,11 +102,7 @@ ChatHeader.prototype.bind = function () {
     q = q.replace(/^\s+|\s+$/g, '')
     if (q.length !== 0 && this.q !== q) {
       this.q = q
-      startSearching()
-    }
-    else if (q.length === 0 && this.q !== q) {
-      this.q = q
-      this.emit('stopsearching')
+      search()
     }
   }.bind(this))
 }
