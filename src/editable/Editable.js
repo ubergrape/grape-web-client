@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import {useSheet} from '../jss'
 import Scribe from 'scribe-editor'
 import scribePluginFormatterPlainTextConvertNewLinesToHtml from 'scribe-plugin-formatter-plain-text-convert-new-lines-to-html'
@@ -51,7 +52,7 @@ export default class Editable extends Component {
   }
 
   componentDidMount() {
-    this.node = React.findDOMNode(this)
+    this.node = ReactDOM.findDOMNode(this)
     this.node.addEventListener('paste', this.onPaste)
 
     // Todo add desroy method to scribe so that we can recreate everything on

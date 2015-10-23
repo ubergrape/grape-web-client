@@ -38,6 +38,7 @@ module.exports = exports = {
 
 if (process.env.NODE_ENV === 'development') {
   exports.externals = {
-    react: 'React'
+    react: 'React',
+    'react-dom': 'ReactDOM'
   }
 }

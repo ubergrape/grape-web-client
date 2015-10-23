@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -34,7 +35,7 @@ export default class Item extends Component {
   }
 
   componentDidMount() {
-    this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)
+    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
   }
 
   render() {

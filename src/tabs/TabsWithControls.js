@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -84,15 +85,15 @@ export default class TabsWithControls extends Component {
 
   getInnerWidth() {
     let inner = this.tabs.getInnerComponent()
-    return React.findDOMNode(inner).offsetWidth
+    return ReactDOM.findDOMNode(inner).offsetWidth
   }
 
   getOuterWidth() {
-    return React.findDOMNode(this).offsetWidth
+    return ReactDOM.findDOMNode(this).offsetWidth
   }
 
   getViewportNode() {
-    return React.findDOMNode(this.tabs)
+    return ReactDOM.findDOMNode(this.tabs)
   }
 
   onScrollNext() {
@@ -110,7 +111,7 @@ export default class TabsWithControls extends Component {
   onInvisible(item, visibilityRect) {
     let viewportNode = this.getViewportNode()
     let viewportWidth = viewportNode.offsetWidth
-    let itemNode = React.findDOMNode(item)
+    let itemNode = ReactDOM.findDOMNode(item)
     let itemLeft = itemNode.offsetLeft
     if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
     viewportNode.scrollLeft = itemLeft

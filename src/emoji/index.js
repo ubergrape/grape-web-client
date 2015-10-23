@@ -1,6 +1,7 @@
 import React from 'react'
 import each from 'lodash/collection/each'
 import emoji from 'js-emoji'
+import ReactDOMServer from 'react-dom/server'
 
 import Icon from '../icon/Icon'
 
@@ -85,7 +86,7 @@ export function setSheet(url) {
 export function replace(text) {
   return text.replace(colonsRegExp, name => {
     let def = get(name)
-    return def ? React.renderToStaticMarkup(def.icon) : name
+    return def ? ReactDOMServer.renderToStaticMarkup(def.icon) : name
   })
 }
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -25,7 +26,7 @@ export default class Tab extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
-    this.visibilityContainmentNode = React.findDOMNode(this.props.visibilityContainment)
+    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
   }
 
   componentDidUpdate(prevProps) {

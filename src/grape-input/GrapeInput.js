@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import {useSheet} from '../jss'
 import isArray from 'lodash/lang/isArray'
 import isEmpty from 'lodash/lang/isEmpty'
@@ -297,7 +298,7 @@ export default class Input extends Component {
       cancelable: true,
       detail: data
     })
-    React.findDOMNode(this).dispatchEvent(event)
+    ReactDOM.findDOMNode(this).dispatchEvent(event)
     name = `on${capType}`
     let callback = this.props[name]
     if (callback) callback(data)

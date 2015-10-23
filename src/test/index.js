@@ -1,3 +1,24 @@
+import ReactDOM from 'react-dom'
+
+/**
+ * Mount container for all components.
+ */
+let container
+
+beforeEach(() => {
+  container = document.createElement('div')
+  document.body.appendChild(container)
+})
+
+afterEach(() => {
+  ReactDOM.unmountComponentAtNode(container)
+  document.body.removeChild(container)
+})
+
+export function render(element, callback) {
+  ReactDOM.render(element, container, callback)
+}
+
 /**
  * Its a simplified version of `querySelector` where name is space separated
  * list names. Those names need to be defined in data-test attributes.
@@ -6,14 +27,9 @@
  */
 export function $(names) {
   let selector = ''
-
   names.split(' ').forEach(name => {
     selector += `[data-test="${name}"] `
   })
-
-  return document.querySelector(selector)
+  return container.querySelector(selector)
 }
 
-afterEach(() => {
-  document.body.innerHTML = ''
-})

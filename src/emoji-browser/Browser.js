@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
@@ -144,7 +145,7 @@ class Browser extends Component {
 
     let sectionComponent = this.grid.getSectionComponent(sections[0].id)
     let contentComponent = sectionComponent.getContentComponent()
-    let {width: gridWidth} = React.findDOMNode(contentComponent).getBoundingClientRect()
+    let {width: gridWidth} = ReactDOM.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
     if (this.itemsPerRow && gridWidth === this.gridWidth) return
@@ -154,7 +155,7 @@ class Browser extends Component {
     if (!id) return
 
     let component = this.grid.getItemComponent(id)
-    let itemWidth = React.findDOMNode(component).offsetWidth
+    let itemWidth = ReactDOM.findDOMNode(component).offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
   }
 

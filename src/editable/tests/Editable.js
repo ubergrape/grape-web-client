@@ -1,15 +1,13 @@
-import {$} from '../../test'
+import {$, render} from '../../test'
 import expect from 'expect.js'
-import React from 'react/addons'
+import React from 'react'
 import Editable from '../Editable'
 import Caret from '../Caret'
-
-let {render} = React
 
 describe('editable', () => {
   describe('Editable()', () => {
     it('should render without props', () => {
-      render(<Editable />, document.body)
+      render(<Editable />)
       expect($('editable')).to.be.an(Element)
     })
   })
@@ -21,7 +19,7 @@ describe('editable', () => {
           onDidMount={onDidMount}
           focused={true} />
       )
-      render(editable, document.body)
+      render(editable)
       function onDidMount(component) {
         component.caret.getParent = () => {
           let div = document.createElement('div')
@@ -46,7 +44,7 @@ describe('editable', () => {
           onResize={onResize}
           focused={true} />
       )
-      render(editable, document.body)
+      render(editable)
       function onDidMount(component) {
         component.setTextContent('something\nmultiline')
       }

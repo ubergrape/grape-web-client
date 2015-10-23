@@ -1,43 +1,40 @@
-import {$} from '../../test'
+import {$, render} from '../../test'
 import expect from 'expect.js'
-import React from 'react/addons'
-import Input from '../Input'
+import React from 'react'
+import {Simulate} from 'react-addons-test-utils'
+import GrapeInput from '../GrapeInput'
 import data0 from './mocks/data0.json'
 
-let {render} = React
-let {TestUtils} = React.addons
-let {Simulate} = TestUtils
-
 describe('grape-input:', () => {
-  describe('Input()', () => {
+  describe('GrapeInput()', () => {
     it('should render without props', () => {
-      render(<Input />, document.body)
+      render(<GrapeInput />)
       expect($('grape-input')).to.be.an(Element)
     })
   })
 
-  describe('Input() with search', () => {
+  describe('GrapeInput() with search', () => {
     it('should open search browser', () => {
-      let input = <Input browser="search" data={data0} focused={true} />
-      render(input, document.body)
+      let input = <GrapeInput browser="search" data={data0} focused={true} />
+      render(input)
       let completeWrapper = $('grape-input complete-wrapper')
       expect(completeWrapper).to.be.an(Element)
       expect(completeWrapper.children.length).to.be(1)
     })
   })
 
-  describe('Input() auto close', () => {
+  describe('GrapeInput() auto close', () => {
     function create(onDidMount, onRender) {
         // Results removed.
       let data = {...data0, results: []}
       let input = (
-        <Input
+        <GrapeInput
           browser="search"
           data={data}
           focused={true}
           onDidMount={onDidMount} />
       )
-      render(input, document.body, onRender)
+      render(input, onRender)
     }
 
     it('shound render "nothing found"', done => {
@@ -84,19 +81,19 @@ describe('grape-input:', () => {
     })
   })
 
-  describe('Input() insert object', () => {
+  describe('GrapeInput() insert object', () => {
     function insert(onInsertItem, onDidMount) {
       let data = {...data0}
       data.search.queries = []
       let input = (
-        <Input
+        <GrapeInput
           browser="search"
           data={data}
           focused={true}
           onInsertItem={onInsertItem}
           onDidMount={onDidMount} />
       )
-      render(input, document.body)
+      render(input)
       Simulate.keyDown($('grape-input browser input'), {keyCode: 13})
     }
 

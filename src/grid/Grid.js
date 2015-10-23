@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import find from 'lodash/collection/find'
 import pick from 'lodash/object/pick'
 import debounce from 'lodash/function/debounce'
@@ -98,8 +99,8 @@ export default class Grid extends Component {
   onInvisible(item, visibilityRect) {
     if (this.scrolling) return
 
-    let viewPortNode = React.findDOMNode(this)
-    let itemNode = React.findDOMNode(item)
+    let viewPortNode = ReactDOM.findDOMNode(this)
+    let itemNode = ReactDOM.findDOMNode(item)
     let itemTop = itemNode.offsetTop
 
     // Scrolling up.

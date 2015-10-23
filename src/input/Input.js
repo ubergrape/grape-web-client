@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -80,7 +81,7 @@ export default class Input extends Component {
   }
 
   focus() {
-    return React.findDOMNode(this.refs.input).focus()
+    return ReactDOM.findDOMNode(this.refs.input).focus()
   }
 
   onInput(e) {
