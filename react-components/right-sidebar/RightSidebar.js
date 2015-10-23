@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import List from 'react-finite-list'
-import { constants } from 'conf'
-
+import UserProfile from '../user-profile/UserProfile'
+import RoomMembersManager from '../room-members-manager/RoomMembersManager'
 
 export default class RightSidebar extends Component {
     render() {
@@ -12,79 +11,11 @@ export default class RightSidebar extends Component {
         )
     }
 
-    renderListItem({item}) {
-        let href = '/chat/' + item.slug
-        let deleteButton
-        let cUser = this.props.cUser
-
-        if (cUser === this.props.channel.creator || cUser.role >= constants.roles.ROLE_ADMIN) {
-            deleteButton = (
-                <span>X</span>
-            )
-        }
-        
-        return(
-            <div>
-                <a href={href}>
-                    <aside className='avatar-wrap'>
-                        <img
-                            className='image'
-                            width='20'
-                            height='20' 
-                            src={item.avatar}/>
-                    </aside>
-                    <span>
-                        {item.displayName}
-                    </span>
-                </a>
-                { deleteButton }
-            </div>
-        )
-    }
-
     renderContent() {        
         switch(this.props.mode) {
             case 'profile':
-                let user = this.props.channel.users[0]
                 return(
-                    <div className='profile'>
-                        <div className='right-sidebar-header'>
-                            <div className='title'>
-                                User profile
-                            </div>
-                            <div className='avatar-wrap'>
-                                <img
-                                src={user.avatar}
-                                alt={user.username}
-                                width="80"
-                                height="80" />
-                            </div>
-                            <div className="fullname">
-                                {user.displayName}
-                            </div>
-                            <div className="username">
-                                {user.slug}
-                            </div>
-                            <div className="user-profile-item">
-                                {user.what_i_do}
-                            </div>
-                            <div className="user-profile-item">
-                                <a href={`mailto:${user.email}`}>
-                                    {user.email}
-                                </a>
-                            </div>
-                            <div className="user-profile-item">
-                                <a href={`skype:${user.skype_username}`}>
-                                    {user.skype_username}
-                                </a>
-                            </div>
-                            <div className="user-profile-item">
-                                <a href={`tel:${user.phone_number}`}>
-                                    {user.phone_number}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <UserProfile user={this.props.channel.users[0]} />
                 )
                 break
             case 'file':
@@ -99,25 +30,12 @@ export default class RightSidebar extends Component {
                 )
                 break
             case 'members':
-                let members = this.props.channel.users.toArray()
                 return(
-                    <div className='members'>
-                        <div className='right-sidebar-header'>
-                            <span className='title'>
-                                Members
-                            </span>
-                        </div>
-                        <List
-                            items={members}
-                            className='user-list'
-                            renderItem={::this.renderListItem}
-                            ref='list' />
-                        <a
-                            className='invite-members'
-                            onClick={this.props.toggleRoomInvite}>
-                            Invite
-                        </a>
-                    </div>
+                    <RoomMembersManager
+                        users={this.props.channel.users.toArray()}
+                        cUser={this.props.cUser}
+                        roomCreator={this.props.channel.creator}
+                        toggleRoomInvite={this.props.toggleRoomInvite} />
                 )
                 break
             case 'search':
