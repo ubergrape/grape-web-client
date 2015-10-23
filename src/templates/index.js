@@ -36,7 +36,6 @@ template.templates = {
     'pmlist.jade': require('./pmlist.jade'),
     'popovers/organization.jade': require('./popovers/organization.jade'),
     'roomlist.jade': require('./roomlist.jade'),
-    'searchresults.jade': require('./searchresults.jade'),
     'typingnotifications.jade': require('./typingnotifications.jade')
 }
 
