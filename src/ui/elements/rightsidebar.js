@@ -13,7 +13,8 @@ export default class RightSidebar extends Emitter {
             onShow: ::this.onShow,
             mode: null,
             channel: null,
-            cUser: null
+            cUser: null,
+            searchItems: []
         }
     }
 
@@ -66,8 +67,10 @@ export default class RightSidebar extends Emitter {
         })
     }
 
-    onGotSearchResult(result) {
-        console.log(result)
+    onGotSearchPayload(payload) {
+        this.setProps({
+            searchItems: payload.results
+        })
     }
 
     onSetUser(user) {

@@ -41,7 +41,8 @@ export default class RightSidebar extends Component {
             case 'search':
                 return(
                     <MessageSearch
-                        hide={this.props.hide} />
+                        hide={this.props.hide}
+                        items={this.props.searchItems} />
                 )
                 break
             default:

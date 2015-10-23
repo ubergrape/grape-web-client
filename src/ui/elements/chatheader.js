@@ -98,7 +98,7 @@ ChatHeader.prototype.bind = function () {
 
   this.searchInput.addEventListener('keyup', function () {
     let q = qs('input.search', this.el).value
-    if (!q) return
+    if (!q || q.length < 2) return
     q = q.replace(/^\s+|\s+$/g, '')
     if (q.length !== 0 && this.q !== q) {
       this.q = q

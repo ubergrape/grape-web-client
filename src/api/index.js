@@ -727,7 +727,7 @@ API.prototype.search = function API_search(text) {
         }
       })
       let f = []
-      self.emit('gotSearchResult', {
+      self.emit('gotSearchPayload', {
         'results': r,
         'facets': f,
         'total': results.total,
