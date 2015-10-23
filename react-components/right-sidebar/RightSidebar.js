@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import UserProfile from '../user-profile/UserProfile'
 import RoomMembersManager from '../room-members-manager/RoomMembersManager'
+import FileBrowser from '../file-browser/FileBrowser'
+import MessageSearch from '../message-search/MessageSearch'
 
 export default class RightSidebar extends Component {
     render() {
@@ -20,13 +22,7 @@ export default class RightSidebar extends Component {
                 break
             case 'file':
                 return(
-                    <div className='file-browser'>
-                        <div className='right-sidebar-header'>
-                            <span className='title'>
-                                Shared files
-                            </span>
-                        </div>
-                    </div>
+                    <FileBrowser />
                 )
                 break
             case 'members':
@@ -40,18 +36,8 @@ export default class RightSidebar extends Component {
                 break
             case 'search':
                 return(
-                    <div className='search'>
-                        <div className='right-sidebar-header'>
-                            <span className='title'>
-                                Search your conversations
-                            </span>
-                            <span
-                                className='hide-sidebar'
-                                onClick={this.props.hide}>
-                                X
-                            </span>
-                        </div>
-                    </div>
+                    <MessageSearch
+                        hide={this.props.hide} />
                 )
                 break
             default:

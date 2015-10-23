@@ -31,7 +31,7 @@ export default class RoomMembersManager extends Component {
     let cUser = this.props.cUser
 
     if (cUser === this.roomCreator || cUser.role >= constants.roles.ROLE_ADMIN) {
-      deleteButton = (<span>X</span>)
+      deleteButton = <span>X</span>
     }
 
     return(
@@ -48,7 +48,7 @@ export default class RoomMembersManager extends Component {
             {item.displayName}
           </span>
         </a>
-        { deleteButton }
+        {deleteButton}
       </div>
     )
   }
