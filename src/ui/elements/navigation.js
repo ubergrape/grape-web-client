@@ -164,7 +164,6 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
   this.roomList.redraw()
-  this.roomListCollapsed.redraw()
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
