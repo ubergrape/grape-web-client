@@ -4,11 +4,12 @@ import {constants} from 'conf'
 
 export default class RoomMembersManager extends Component {
   render() {
+    let plural = this.props.users.length > 1 ? 's' : ''
     return(
       <div className='members'>
           <div className='right-sidebar-header'>
             <span className='title'>
-              Members
+              {`${this.props.users.length} Member${plural}`}
             </span>
           </div>
           <List
