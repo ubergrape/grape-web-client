@@ -30,6 +30,8 @@ const defaultBrowserProps = {
   data: null
 }
 
+const inputNodes =  ['INPUT', 'TEXT', 'SELECT']
+
 export default class GrapeInput extends Emitter {
   constructor() {
     super()
@@ -44,6 +46,7 @@ export default class GrapeInput extends Emitter {
     this.images = clone(images)
     this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
     this.searchDebounced = debounce(::this.search, 200)
+    window.addEventListener('keydown', ::this.onKeyDown)
   }
 
   init() {
@@ -371,6 +374,17 @@ export default class GrapeInput extends Emitter {
     this.setProps({focused: true}, () => {
       this.editMessage(msg)
     })
+  }
+
+  /**
+   * Focus grape input to make user type in it when he started to type somewhere
+   * outside, but not in some other input cabable field.
+   */
+  onKeyDown(e) {
+    // For e.g. when trying to copy text from history.
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+    if (inputNodes.indexOf(e.target.nodeName) >= 0 || e.target.isContentEditable) return
+    this.setProps({focused: true})
   }
 }
 
