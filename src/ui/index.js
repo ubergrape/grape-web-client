@@ -29,7 +29,7 @@ exports.ItemList = require('./utils/itemlist')
 let Navigation = exports.Navigation = require('./elements/navigation')
 let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
-let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
+let RightSidebar = exports.RightSidebar = require('./elements/RightSidebar')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
@@ -82,13 +82,13 @@ UI.prototype.init = function UI_init() {
 
   this.chatHeader = new ChatHeader()
   qs('.room-header', this.el).appendChild(this.chatHeader.el)
-  
+
   // initialize the input field
   this.grapeInput = new GrapeInput()
   qs('.footer', this.el).appendChild(this.grapeInput.el)
 
   this.channelSearch = new ChannelSearch()
-  document.body.appendChild(this.channelSearch.el)  
+  document.body.appendChild(this.channelSearch.el)
 
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
