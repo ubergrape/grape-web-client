@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
 
 export default class UserProfile extends Component {
+  static defaultProps = {
+    show: false
+  }
+
   render() {
-    let user = this.props.user
+    if (!this.props.show) return null
+    const {user} = this.props
     return (
       <div className='profile'>
         <div className='avatar-wrap'>

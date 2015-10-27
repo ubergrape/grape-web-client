@@ -2,15 +2,21 @@ import React, {Component} from 'react'
 import List from 'react-finite-list'
 
 export default class MessageSearch extends Component {
+  static defaultProps = {
+    items: [],
+    show: false
+  }
+
   render() {
+    if (!this.props.show) return null
     let messageList
     if (this.props.items.length) {
       messageList = (
         <List
-        items={this.props.items}
-        className="message-list"
-        renderItem={this.renderItem}
-        ref="list"/>
+          items={this.props.items}
+          className="message-list"
+          renderItem={this.renderItem}
+          ref="list" />
       )
     }
     return (

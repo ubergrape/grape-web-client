@@ -2,111 +2,130 @@ import Emitter from 'emitter'
 
 import '../../../react-components/file-browser'
 import '../../../react-components/message-search'
-import '../../../react-components/right-sidebar'
 import '../../../react-components/room-info'
 import '../../../react-components/user-profile'
+
+const modeElementMap = {
+  profile: 'userProfile',
+  file: 'fileBrowser',
+  members: 'roomInfo',
+  search: 'messageSearch'
+}
 
 export default class RightSidebar extends Emitter {
   constructor() {
     super()
-    this.elements = this.create()
+    this.elements = this.createElements()
     this.el = this.elements.sidebar
-/*
-    this.el.props = {
-      onToggle: ::this.onToggle,
-      hide: ::this.hide,
-      show: ::this.show,
-      toggleRoomInvite: ::this.toggleRoomInvite,
-      onShow: ::this.onShow,
-      kickMember: ::this.kickMember,
-      mode: null,
-      channel: null,
-      cUser: null,
-      searchItems: []
-    }
-    */
+    this.mode = null
   }
 
-  create() {
+  createElements() {
     const sidebar = document.createElement('div')
     sidebar.className = 'right-sidebar'
     const fileBrowser = document.createElement('grape-file-browser')
     sidebar.appendChild(fileBrowser)
-    /*
     const messageSearch = document.createElement('grape-message-search')
     sidebar.appendChild(messageSearch)
     const roomInfo = document.createElement('grape-room-info')
     sidebar.appendChild(roomInfo)
     const userProfile = document.createElement('grape-user-profile')
     sidebar.appendChild(userProfile)
-    */
-    return {sidebar, fileBrowser/*, messageSearch, roomInfo, userProfile*/}
+    return {sidebar, fileBrowser, messageSearch, roomInfo, userProfile}
   }
 
   setProps(props) {
-    this.el.props = {
-      ...this.el.props,
+    const elName = modeElementMap[this.mode]
+    const el = this.elements[elName]
+    el.props = {
+      ...el.props,
       ...props
     }
   }
 
   hide() {
-    this.setProps({
-      mode: null
-    })
+    this.setProps({show: false})
+    this.mode = null
     this.emit('hide')
   }
 
   show(mode) {
-    this.setProps({
-      mode: mode,
-      channel: this.el.props.channel
-    })
+    if (this.mode) this.setProps({show: false})
+    this.mode = mode
+    this.update()
     this.emit('show')
   }
 
-  toggleRoomInvite() {
-    this.emit('toggleRoomInvite', this.el.props.channel)
+  update() {
+    if (!this.mode) return
+    switch(this.mode) {
+      case 'profile':
+        this.setProps({
+          show: true,
+          user: this.channel.users[0]
+        })
+        break
+      case 'file':
+        this.setProps({
+          show: true
+        })
+        break
+      case 'members':
+        this.setProps({
+          show: true,
+          users: this.channel.users.toArray(),
+          user: this.user,
+          roomCreator: this.channel.creator,
+          toggleRoomInvite: ::this.toggleRoomInvite
+        })
+        break
+      case 'search':
+        this.setProps({
+          show: true,
+          items: this.searchResults
+        })
+        break
+      default:
+    }
   }
 
-  kickMember(ev) {
-    let channelID = this.el.props.channel.id
-    let userID = ev.target.getAttribute('data-id')
-    this.emit('kickMember', channelID, userID)
+  toggleRoomInvite() {
+    this.emit('toggleRoomInvite', this.channel)
+  }
+
+  kickMember(e) {
+    let userId = e.target.dataset.id
+    this.emit('kickMember', this.channel.id, userId)
   }
 
   onToggle(mode) {
-    if (mode === this.el.props.mode) this.hide()
+    if (mode === this.mode) this.hide()
     else this.show(mode)
+  }
+
+  onSelectChannel(channel) {
+    this.channel = channel
+    if (this.mode) this.setProps({show: false})
+    if (this.mode === 'members' && channel.type === 'pm') {
+      this.mode = 'profile'
+    }
+    else if (this.mode === 'profile' && channel.type === 'room') {
+      this.mode = 'members'
+    }
+    this.update()
+  }
+
+  onGotSearchPayload({results}) {
+    this.searchSesults = results
+    this.update()
+  }
+
+  onSetUser(user) {
+    this.user = user
+    this.update()
   }
 
   onShow(mode) {
     this.show(mode)
-  }
-
-  onSelectChannel(channel) {
-    let mode = this.el.props.mode
-    if (mode === 'members' && channel.type === 'pm') {
-      mode = 'profile'
-    }
-    else if (mode === 'profile' && channel.type === 'room') {
-      mode = 'members'
-    }
-    this.setProps({
-      mode: mode,
-      channel: channel
-    })
-  }
-
-  onGotSearchPayload(payload) {
-    this.setProps({
-      searchItems: payload.results
-    })
-  }
-
-  onSetUser(user) {
-    this.setProps({
-      cUser: user
-    })
   }
 }

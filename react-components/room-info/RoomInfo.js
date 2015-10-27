@@ -6,7 +6,12 @@ import style from './style'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
+  static defaultProps = {
+    show: false
+  }
+
   render() {
+    if (!this.props.show) return null
     let {classes} = this.props.sheet
     let plural = this.props.users.length > 1 ? 's' : ''
     return (
