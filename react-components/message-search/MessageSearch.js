@@ -32,6 +32,7 @@ export default class MessageSearch extends Component {
 
   renderItem({item}) {
     // TODO http://stackoverflow.com/questions/3410464/how-to-find-all-occurrences-of-one-string-in-another-in-javascript
+    console.log(item)
     return(
       <div>{item.text}</div>
     )
