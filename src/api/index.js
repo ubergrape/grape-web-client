@@ -716,7 +716,7 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
 API.prototype.search = function API_search(text) {
   let self = this
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
-  this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
+  this.wamp.call(PREFIX + 'search/search', text, this.organization.id, 'messages', 20,
       function (err, results) {
       let r = []
       let lines = results.results.map(function (l) {

@@ -3,7 +3,7 @@ import List from 'react-finite-list'
 
 export default class MessageSearch extends Component {
   render() {
-    console.log(this.props.items)
+    console.log(this.props.items.length)
     let messageList
     if (this.props.items.length) {
       messageList = (
