@@ -1,10 +1,17 @@
 import Emitter from 'emitter'
+
+import '../../../react-components/file-browser'
+import '../../../react-components/message-search'
 import '../../../react-components/right-sidebar'
+import '../../../react-components/room-info'
+import '../../../react-components/user-profile'
 
 export default class RightSidebar extends Emitter {
   constructor() {
     super()
-    this.el = document.createElement('grape-right-sidebar')
+    this.elements = this.create()
+    this.el = this.elements.sidebar
+/*
     this.el.props = {
       onToggle: ::this.onToggle,
       hide: ::this.hide,
@@ -17,6 +24,23 @@ export default class RightSidebar extends Emitter {
       cUser: null,
       searchItems: []
     }
+    */
+  }
+
+  create() {
+    const sidebar = document.createElement('div')
+    sidebar.className = 'right-sidebar'
+    const fileBrowser = document.createElement('grape-file-browser')
+    sidebar.appendChild(fileBrowser)
+    /*
+    const messageSearch = document.createElement('grape-message-search')
+    sidebar.appendChild(messageSearch)
+    const roomInfo = document.createElement('grape-room-info')
+    sidebar.appendChild(roomInfo)
+    const userProfile = document.createElement('grape-user-profile')
+    sidebar.appendChild(userProfile)
+    */
+    return {sidebar, fileBrowser/*, messageSearch, roomInfo, userProfile*/}
   }
 
   setProps(props) {

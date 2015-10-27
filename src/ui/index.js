@@ -102,7 +102,7 @@ UI.prototype.init = function UI_init() {
   qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
   this.rightSidebar = new RightSidebar()
-  qs('.right-sidebar', this.el).appendChild(this.rightSidebar.el)
+  this.clientBody.appendChild(this.rightSidebar.el)
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
