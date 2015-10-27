@@ -7,7 +7,7 @@ export default function pipeEvents(ui) {
     broker(ui, 'selectchannel', ui.chatHeader, 'setRoom')
     broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate')
     broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError')
-    //broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom')
+    broker(ui, 'setUser', ui.chatHeader, 'onSetUser')
     broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
     broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
     broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')

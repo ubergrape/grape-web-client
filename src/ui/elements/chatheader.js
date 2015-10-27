@@ -40,6 +40,7 @@ function ChatHeader() {
     this.userViewToggler
   ]
   this.selected = null
+  this.cUser = null
   this.redraw = this.redraw.bind(this)
   this.redraw()
   this.init()
@@ -146,7 +147,7 @@ ChatHeader.prototype.clearSearch = function () {
 
 ChatHeader.prototype.setRoom = function (room, msgID) {
   this.room = room
-  this.isRoomManager = (this.room.creator && ui.user === this.room.creator) || ui.user.role >= constants.roles.ROLE_ADMIN
+  this.isRoomManager = this.cUser && ((this.room.creator && this.cUser === this.room.creator) || (this.cUser.role >= constants.roles.ROLE_ADMIN))
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()
@@ -223,6 +224,11 @@ ChatHeader.prototype.stopDescriptionEdit = function () {
 ChatHeader.prototype.setDescription = function (e) {
   if (keyname(e.keyCode) !== 'enter') return
   this.emit('setDescription', this.room, e.target.value)
+}
+
+ChatHeader.prototype.onSetUser = function(user) {
+  this.cUser = user
+  this.redraw()
 }
 
 ChatHeader.prototype.onSwitchToChatMode = function () {
