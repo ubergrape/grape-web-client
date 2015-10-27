@@ -35,7 +35,8 @@ export default class RightSidebar extends Component {
                         users={this.props.channel.users.toArray()}
                         cUser={this.props.cUser}
                         roomCreator={this.props.channel.creator}
-                        toggleRoomInvite={this.props.toggleRoomInvite} />
+                        toggleRoomInvite={this.props.toggleRoomInvite}
+                        kickMember={this.props.kickMember} />
                 )
                 break
             case 'search':

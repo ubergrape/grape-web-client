@@ -11,6 +11,7 @@ export default class RightSidebar extends Emitter {
             show: ::this.show,
             toggleRoomInvite: ::this.toggleRoomInvite,
             onShow: ::this.onShow,
+            kickMember: ::this.kickMember,
             mode: null,
             channel: null,
             cUser: null,
@@ -42,6 +43,12 @@ export default class RightSidebar extends Emitter {
 
     toggleRoomInvite() {
         this.emit('toggleRoomInvite', this.el.props.channel)
+    }
+
+    kickMember(ev) {
+        let channelID = this.el.props.channel.id
+        let userID = ev.target.getAttribute('data-id')
+        this.emit('kickMember', channelID, userID)
     }
 
     onToggle(mode) {

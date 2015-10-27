@@ -103,11 +103,10 @@ export default function pipeEvents(ui) {
     broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
 
     // right sidebar
+    broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember')
     broker(ui.rightSidebar, 'show', ui, 'onShowRightSidebar')
     broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar')
-    //broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember')
     broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
-    //broker(ui.rightSidebar, 'hideRightSidebar', ui, 'onHideRightSidebar')
 
     // channel search
     broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')

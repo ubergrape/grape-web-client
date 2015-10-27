@@ -35,8 +35,15 @@ export default class RoomInfo extends Component {
     let deleteButton
     let cUser = this.props.cUser
 
-    if (cUser === this.roomCreator || cUser.role >= constants.roles.ROLE_ADMIN) {
-      deleteButton = <span>X</span>
+    if ((cUser === this.roomCreator || cUser.role >= constants.roles.ROLE_ADMIN) && cUser !== item) {
+      deleteButton = (
+        <span
+          className="kick-member"
+          data-id={item.id}
+          onClick={this.props.kickMember}>
+          X
+        </span>
+      )
     }
 
     return(
