@@ -53,7 +53,7 @@ export default class RightSidebar extends Emitter {
 
   onToggle(mode) {
     if (mode === this.el.props.mode) this.hide()
-    else this.show(mode);
+    else this.show(mode)
   }
 
   onShow(mode) {
