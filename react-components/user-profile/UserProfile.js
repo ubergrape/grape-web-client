@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 export default class UserProfile extends Component {
   render() {
     let user = this.props.user
-    return(
+    return (
       <div className='profile'>
         <div className='avatar-wrap'>
           <img

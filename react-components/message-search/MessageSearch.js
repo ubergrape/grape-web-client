@@ -3,7 +3,6 @@ import List from 'react-finite-list'
 
 export default class MessageSearch extends Component {
   render() {
-    console.log(this.props.items.length)
     let messageList
     if (this.props.items.length) {
       messageList = (
@@ -12,9 +11,9 @@ export default class MessageSearch extends Component {
         className="message-list"
         renderItem={this.renderItem}
         ref="list"/>
-      ) 
+      )
     }
-    return(
+    return (
       <div className='search'>
         <div className='header'>
           <span className='title'>
@@ -33,7 +32,7 @@ export default class MessageSearch extends Component {
   renderItem({item}) {
     let channel = item.channel
     let slug = channel.slug ? channel.slug : channel.users[0].slug
-    return(
+    return (
       <a href={`/chat/${slug}/${item.id}`}>
         <div>{item.highlighted}</div>
       </a>

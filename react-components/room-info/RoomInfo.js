@@ -9,7 +9,7 @@ export default class RoomInfo extends Component {
   render() {
     let {classes} = this.props.sheet
     let plural = this.props.users.length > 1 ? 's' : ''
-    return(
+    return (
       <div className='members'>
           <div className='header'>
             <span className='title'>
@@ -46,14 +46,14 @@ export default class RoomInfo extends Component {
       )
     }
 
-    return(
+    return (
       <div>
         <a href={href}>
           <aside className='avatar-wrap'>
             <img
               className='image'
               width='20'
-              height='20' 
+              height='20'
               src={item.avatar} />
           </aside>
           <span>

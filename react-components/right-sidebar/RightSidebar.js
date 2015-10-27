@@ -10,27 +10,27 @@ import style from './style'
 export default class RightSidebar extends Component {
     render() {
         let {classes} = this.props.sheet
-        return(
+        return (
             <div className={classes.content}>
                 {this.renderContent()}
             </div>
         )
     }
 
-    renderContent() {        
+    renderContent() {
         switch(this.props.mode) {
             case 'profile':
-                return(
+                return (
                     <UserProfile user={this.props.channel.users[0]} />
                 )
                 break
             case 'file':
-                return(
+                return (
                     <FileBrowser />
                 )
                 break
             case 'members':
-                return(
+                return (
                     <RoomInfo
                         users={this.props.channel.users.toArray()}
                         cUser={this.props.cUser}
@@ -40,7 +40,7 @@ export default class RightSidebar extends Component {
                 )
                 break
             case 'search':
-                return(
+                return (
                     <MessageSearch
                         hide={this.props.hide}
                         items={this.props.searchItems} />
