@@ -31,7 +31,7 @@ export default class RoomInfo extends Component {
   }
 
   renderItem({item}) {
-    let href = '/chat/' + item.slug
+    let href = `/chat/${item.slug}`
     let deleteButton
     let cUser = this.props.cUser
 

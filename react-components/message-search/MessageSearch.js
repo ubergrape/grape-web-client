@@ -31,10 +31,12 @@ export default class MessageSearch extends Component {
   }
 
   renderItem({item}) {
-    // TODO http://stackoverflow.com/questions/3410464/how-to-find-all-occurrences-of-one-string-in-another-in-javascript
-    console.log(item)
+    let channel = item.channel
+    let slug = channel.slug ? channel.slug : channel.users[0].slug
     return(
-      <div>{item.text}</div>
+      <a href={`/chat/${slug}/${item.id}`}>
+        <div>{item.highlighted}</div>
+      </a>
     )
   }
 }
