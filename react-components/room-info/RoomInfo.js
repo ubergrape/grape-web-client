@@ -10,7 +10,7 @@ export default class RoomInfo extends Component {
     show: false
   }
 
-  onRoomInvite() {
+  onInvite() {
     this.props.toggleRoomInvite()
   }
 
@@ -36,7 +36,7 @@ export default class RoomInfo extends Component {
             ref='list' />
           <button
             className={classes.button}
-            onClick={::this.onRoomInvite}>
+            onClick={::this.onInvite}>
               Invite
           </button>
       </div>
