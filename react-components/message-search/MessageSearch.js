@@ -18,7 +18,8 @@ export default class MessageSearch extends Component {
   }
 
   onShowMoreClick() {
-    this.offset = this.offset + this.limit
+    this.offset = this.props.items[this.props.items.length-1].time
+    console.log(this.offset)
   }
 
   render() {
