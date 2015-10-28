@@ -1,4 +1,5 @@
 import Emitter from 'emitter'
+import find from 'lodash/collection/find'
 
 import '../../../react-components/file-browser'
 import '../../../react-components/message-search'
@@ -165,9 +166,10 @@ export default class RightSidebar extends Emitter {
 
   onSearchFilesPayload(data) {
     const nextItems = data.results.map(item => {
+      let author = find(this.channel.users, ({id}) => id === item.author.id).displayName
       return {
         ...item,
-        author: 'Author',
+        author,
         channelName: this.channel.name,
       }
     })
