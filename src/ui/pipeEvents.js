@@ -48,7 +48,9 @@ export default function pipeEvents(ui) {
     /*broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser')
     broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
     broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')*/
-    broker(ui, 'gotSearchPayload', ui.rightSidebar, 'onGotSearchPayload');
+    broker(ui, 'gotSearchPayload', ui.rightSidebar, 'onGotSearchPayload')
+    broker(ui, 'searchFilesPayload', ui.rightSidebar, 'onSearchFilesPayload')
+    broker(ui, 'searchFilesError', ui.rightSidebar, 'searchFilesError')
 
     // chat header
     broker.pass(ui.chatHeader, 'search', ui, 'search')
@@ -107,6 +109,7 @@ export default function pipeEvents(ui) {
     broker(ui.rightSidebar, 'show', ui, 'onShowRightSidebar')
     broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar')
     broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
+    broker(ui.rightSidebar, 'searchFiles', ui, 'searchFiles')
 
     // channel search
     broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')

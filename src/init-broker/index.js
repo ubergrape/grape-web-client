@@ -38,6 +38,7 @@ export default function doBroker(ui, api) {
     broker(ui, 'inviteToRoom', api, 'onInviteToRoom')
     broker(ui, 'inviteToOrg', api, 'onInviteToOrg')
     broker(ui, 'setDescription', api, 'onSetDescription')
+    broker(ui, 'searchFiles', api, 'onSearchFiles')
 
     broker.pass(api, 'newMessage', ui, 'newMessage')
     broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification')
@@ -65,6 +66,8 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'inviteError', ui, 'inviteError')
     broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
     broker.pass(api, 'gotSearchPayload', ui, 'gotSearchPayload')
+    broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
+    broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
 
     ui.on('starttyping', function (room) {
         api.setTyping(room, true)

@@ -228,7 +228,7 @@ UI.prototype.bind = function UI_bind() {
   })
 
   // Open certain link in the external browser in the OS X app
-  if (typeof MacGap !== 'undefined') {
+  if (window.MacGap) {
     let as, i
     as = qs.all('a', this.organizationMenu.el)
     for (i = 0; i < as.length; ++i)

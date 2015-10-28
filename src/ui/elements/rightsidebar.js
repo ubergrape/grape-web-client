@@ -66,9 +66,7 @@ export default class RightSidebar extends Emitter {
         })
         break
       case 'file':
-        this.setProps({
-          show: true
-        })
+        this.showFileBrowser()
         break
       case 'members':
         this.setProps({
@@ -96,6 +94,16 @@ export default class RightSidebar extends Emitter {
   kickMember(e) {
     let userId = e.target.dataset.id
     this.emit('kickMember', this.channel.id, userId)
+  }
+
+  showFileBrowser() {
+    this.setProps({
+      show: true
+    })
+    this.emit('searchFiles', {
+      channel: this.channel.id,
+      limit: 200
+    })
   }
 
   onToggle(mode) {

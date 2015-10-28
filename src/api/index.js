@@ -876,3 +876,18 @@ API.prototype.updateMsg = function API_updateMessage(msg, text) {
 API.prototype.onKickMember = function API_onKickMember (roomID, memberID) {
   this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID))
 }
+
+API.prototype.onSearchFiles = function (params) {
+  this.wamp.call(
+    PREFIX + 'search/search_files',
+    this.organization.id,
+    params.channel
+    params.own,
+    params.limit,
+    params.offset,
+    (err, data) => {
+      if (err) return this.emit('searchFilesError', err)
+      this.emit('searchFilesPayload', data)
+    }
+  )
+}
