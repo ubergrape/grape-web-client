@@ -10,6 +10,14 @@ export default class RoomInfo extends Component {
     show: false
   }
 
+  onRoomInviteClick() {
+    this.props.toggleRoomInvite()
+  }
+
+  onDeleteButtonClick(e) {
+    this.props.kickMember(e)
+  }
+
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
@@ -28,7 +36,7 @@ export default class RoomInfo extends Component {
             ref='list' />
           <button
             className={classes.button}
-            onClick={this.props.toggleRoomInvite}>
+            onClick={this.onRoomInviteClick}>
               Invite
           </button>
       </div>
@@ -38,14 +46,14 @@ export default class RoomInfo extends Component {
   renderItem({item}) {
     let href = `/chat/${item.slug}`
     let deleteButton
-    let cUser = this.props.cUser
-
-    if ((cUser === this.roomCreator || cUser.role >= constants.roles.ROLE_ADMIN) && cUser !== item) {
+    let user = this.props.user
+    let canUserKick = user === this.props.roomCreator || user.role >= constants.roles.ROLE_ADMIN
+    if (canUserKick && user !== item && item !== this.props.roomCreator) {
       deleteButton = (
         <span
           className="kick-member"
           data-id={item.id}
-          onClick={this.props.kickMember}>
+          onClick={this.onDeleteButtonClick}>
           X
         </span>
       )

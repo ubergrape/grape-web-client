@@ -74,7 +74,8 @@ export default class RightSidebar extends Emitter {
           users: this.channel.users.toArray(),
           user: this.user,
           roomCreator: this.channel.creator,
-          toggleRoomInvite: ::this.toggleRoomInvite
+          toggleRoomInvite: ::this.toggleRoomInvite,
+          kickMember: ::this.kickMember
         })
         break
       case 'search':
