@@ -18,6 +18,9 @@ export default class RightSidebar extends Emitter {
     this.elements = this.createElements()
     this.el = this.elements.sidebar
     this.mode = null
+    this.channel = null
+    this.user = null
+    this.searchResults = []
   }
 
   createElements() {
@@ -125,7 +128,7 @@ export default class RightSidebar extends Emitter {
   }
 
   onGotSearchPayload({results}) {
-    this.searchSesults = results
+    this.searchResults = results
     this.update()
   }
 
