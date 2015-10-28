@@ -716,25 +716,26 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
 API.prototype.search = function API_search(text, limit, offset) {
   let self = this
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
-  this.wamp.call(PREFIX + 'search/search', text, this.organization.id, 'messages', limit, offset,
-      function (err, results) {
+  this.wamp.call(
+    PREFIX + 'search/search', 
+    text,
+    this.organization.id,
+    'messages',
+    limit,
+    offset,
+    (err, results) => {
       let r = []
       let lines = results.results.map(function (l) {
-        if(l.index !== 'objects_alias') {
-          l = new models.Line(l)
-          r.unshift(l)
-        } else {
-          r.unshift(l)
-        }
+        l = new models.Line(l)
+        r.push(l)
       })
-      let f = []
       self.emit('gotSearchPayload', {
         'results': r,
-        'facets': f,
         'total': results.total,
         'q': results.q
       })
-    })
+    }
+  )
 }
 
 API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {

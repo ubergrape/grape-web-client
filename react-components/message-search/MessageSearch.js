@@ -18,6 +18,7 @@ export default class MessageSearch extends Component {
   }
 
   onShowMoreClick() {
+    // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
     console.log(this.offset)
   }

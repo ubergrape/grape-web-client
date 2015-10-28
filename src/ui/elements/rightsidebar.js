@@ -128,15 +128,15 @@ export default class RightSidebar extends Emitter {
     this.update()
   }
 
-  onGotSearchPayload(payload) {
-    if (this.lastQuery === payload.q) {
-      this.searchResults = this.searchResults.concat(payload.results)    
+  onSearchPayload(data) {
+    if (this.lastQuery === data.q) {
+      this.searchResults = this.searchResults.concat(data.results)    
     }
     else {
-      this.searchResults = payload.results
+      this.searchResults = data.results
     }
-    this.lastQuery = payload.q
-    this.searchResultsTotal = payload.total
+    this.lastQuery = data.q
+    this.searchResultsTotal = data.total
     this.update()
   }
 
