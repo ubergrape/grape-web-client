@@ -42,6 +42,8 @@ function ChatHeader() {
   this.selected = null
   this.cUser = null
   this.redraw = this.redraw.bind(this)
+  this.searchLimit = 20
+  this.offset = ''
   this.redraw()
   this.init()
   this.bind()
@@ -94,7 +96,7 @@ ChatHeader.prototype.bind = function () {
   }.bind(this))
 
   let search = debounce(function () {
-    this.emit('search', this.q)
+    this.emit('search', this.q, this.searchLimit, this.searchOffset)
   }.bind(this), 200, false)
 
   this.searchInput.addEventListener('keyup', function () {

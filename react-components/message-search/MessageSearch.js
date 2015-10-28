@@ -14,7 +14,7 @@ export default class MessageSearch extends Component {
   constructor(props) {
     super(props)
     this.limit = 20
-    this.offset = 0
+    this.offset = ''
   }
 
   onShowMoreClick() {
