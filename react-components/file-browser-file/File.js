@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
 import {useSheet} from '../jss'
@@ -8,6 +9,8 @@ const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
 export default class FileBrowser extends Component {
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   render() {
     const {classes} = this.props.sheet
     return (

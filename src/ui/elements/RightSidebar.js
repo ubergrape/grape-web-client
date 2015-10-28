@@ -40,12 +40,16 @@ export default class RightSidebar extends Emitter {
   }
 
   setProps(props) {
-    const elName = modeElementMap[this.mode]
-    const el = this.elements[elName]
+    const el = this.getCurrElement()
     el.props = {
       ...el.props,
       ...props
     }
+  }
+
+  getCurrElement() {
+    const elName = modeElementMap[this.mode]
+    return this.elements[elName]
   }
 
   hide() {
@@ -105,10 +109,20 @@ export default class RightSidebar extends Emitter {
   }
 
   showFileBrowser() {
-    this.setProps({show: true})
+    this.setProps({
+      show: true,
+      onLoadMore: ::this.onLoadMoreFiles
+    })
+    this.loadFiles()
+  }
+
+  loadFiles() {
+    const el = this.getCurrElement()
+    const offset = el.props.items ? el.props.items.length : 0
     this.emit('searchFiles', {
       channel: this.channel.id,
-      limit: 200
+      offset,
+      limit: 30
     })
   }
 
@@ -150,14 +164,19 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchFilesPayload(data) {
-    const items = data.results.map(item => {
+    const nextItems = data.results.map(item => {
       return {
         ...item,
         author: 'Author',
         channelName: this.channel.name,
       }
     })
-    this.setProps({items})
+    const prevItems = this.getCurrElement().props.items || []
+    this.setProps({items: [...prevItems, ...nextItems]})
+  }
+
+  onLoadMoreFiles() {
+    this.loadFiles()
   }
 
   onSearchFilesError(err) {

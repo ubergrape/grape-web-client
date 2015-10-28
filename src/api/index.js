@@ -717,7 +717,7 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
 API.prototype.search = function API_search(params) {
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
   this.wamp.call(
-    PREFIX + 'search/search', 
+    PREFIX + 'search/search',
     params.text,
     this.organization.id,
     'messages',
