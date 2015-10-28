@@ -36,7 +36,7 @@ export default class RoomInfo extends Component {
             ref='list' />
           <button
             className={classes.button}
-            onClick={this.onRoomInviteClick}>
+            onClick={::this.onRoomInviteClick}>
               Invite
           </button>
       </div>
@@ -53,7 +53,7 @@ export default class RoomInfo extends Component {
         <span
           className="kick-member"
           data-id={item.id}
-          onClick={this.onDeleteButtonClick}>
+          onClick={::this.onDeleteButtonClick}>
           X
         </span>
       )
