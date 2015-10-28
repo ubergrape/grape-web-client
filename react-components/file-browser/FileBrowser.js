@@ -22,7 +22,9 @@ export default class FileBrowser extends Component {
     return (
       <div className={classes.fileBrowser}>
         {this.props.items.map((item, i) => <File {...item} key={i} />)}
-        <button onClick={::this.onLoadMore}>Show more</button>
+        <div className={classes.loadMoreContainer}>
+          <button onClick={::this.onLoadMore}>Show more</button>
+        </div>
       </div>
     )
   }
