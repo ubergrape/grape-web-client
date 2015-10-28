@@ -21,6 +21,8 @@ export default class RightSidebar extends Emitter {
     this.channel = null
     this.user = null
     this.searchResults = []
+    this.searchResultsTotal = 0
+    this.lastQuery = null
   }
 
   createElements() {
@@ -84,7 +86,8 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
-          items: this.searchResults
+          items: this.searchResults,
+          itemsTotal: this.searchResultsTotal
         })
         break
       default:
@@ -127,8 +130,15 @@ export default class RightSidebar extends Emitter {
     this.update()
   }
 
-  onGotSearchPayload({results}) {
-    this.searchResults = results
+  onGotSearchPayload(payload) {
+    if (this.lastQuery === payload.q) {
+      this.searchResults = this.searchResults.concat(payload.results)    
+    }
+    else {
+      this.searchResults = payload.results
+    }
+    this.lastQuery = payload.q
+    this.searchResultsTotal = payload.total
     this.update()
   }
 

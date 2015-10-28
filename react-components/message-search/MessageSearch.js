@@ -1,22 +1,41 @@
 import React, {Component} from 'react'
 import List from 'react-finite-list'
+import {useSheet} from '../jss'
+import style from './style'
 
+@useSheet(style)
 export default class MessageSearch extends Component {
   static defaultProps = {
     items: [],
-    show: false
+    itemsTotal: 0,
+    show: false,
+    limit: 20,
+    offset: 20
+  }
+
+  onShowMoreClick() {
+
   }
 
   render() {
+    let {classes} = this.props.sheet
     if (!this.props.show) return null
     let messageList
     if (this.props.items.length) {
       messageList = (
         <List
           items={this.props.items}
-          className="message-list"
+          className={classes.messageList}
           renderItem={this.renderItem}
           ref="list" />
+      )
+    }
+    let showMoreLink
+    if (this.props.items.length < this.props.itemsTotal) {
+      showMoreLink = (
+        <a onClick={this.onShowMoreClick}>
+          Show more
+        </a>
       )
     }
     return (
@@ -31,6 +50,7 @@ export default class MessageSearch extends Component {
           </span>
         </div>
         {messageList}
+        {showMoreLink}
       </div>
     )
   }
