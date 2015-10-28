@@ -881,7 +881,7 @@ API.prototype.onSearchFiles = function (params) {
   this.wamp.call(
     PREFIX + 'search/search_files',
     this.organization.id,
-    params.channel
+    params.channel,
     params.own,
     params.limit,
     params.offset,
