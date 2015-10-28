@@ -104,9 +104,7 @@ export default class RightSidebar extends Emitter {
   }
 
   showFileBrowser() {
-    this.setProps({
-      show: true
-    })
+    this.setProps({show: true})
     this.emit('searchFiles', {
       channel: this.channel.id,
       limit: 200
@@ -140,6 +138,14 @@ export default class RightSidebar extends Emitter {
     this.lastQuery = payload.q
     this.searchResultsTotal = payload.total
     this.update()
+  }
+
+  onSearchFilesPayload(data) {
+    this.setProps({items: data.results})
+  }
+
+  onSearchFilesError(err) {
+    // TODO render error
   }
 
   onSetUser(user) {
