@@ -10,11 +10,11 @@ export default class RoomInfo extends Component {
     show: false
   }
 
-  onRoomInviteClick() {
+  onRoomInvite() {
     this.props.toggleRoomInvite()
   }
 
-  onDeleteButtonClick(e) {
+  onDelete(e) {
     this.props.kickMember(e)
   }
 
@@ -36,7 +36,7 @@ export default class RoomInfo extends Component {
             ref='list' />
           <button
             className={classes.button}
-            onClick={::this.onRoomInviteClick}>
+            onClick={::this.onRoomInvite}>
               Invite
           </button>
       </div>
@@ -53,7 +53,7 @@ export default class RoomInfo extends Component {
         <span
           className="kick-member"
           data-id={item.id}
-          onClick={::this.onDeleteButtonClick}>
+          onClick={::this.onDelete}>
           X
         </span>
       )

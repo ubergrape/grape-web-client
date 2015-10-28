@@ -17,7 +17,7 @@ export default class MessageSearch extends Component {
     this.offset = ''
   }
 
-  onShowMoreClick() {
+  onShowMore() {
     // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
     console.log(this.offset)
@@ -39,7 +39,7 @@ export default class MessageSearch extends Component {
     let showMoreLink
     if (this.props.items.length < this.props.itemsTotal) {
       showMoreLink = (
-        <a onClick={::this.onShowMoreClick}>
+        <a onClick={::this.onShowMore}>
           Show more
         </a>
       )
