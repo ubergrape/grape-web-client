@@ -131,7 +131,7 @@ export default class RightSidebar extends Emitter {
 
   onSearchPayload(data) {
     if (this.lastQuery === data.q) {
-      this.searchResults = this.searchResults.concat(data.results)    
+      this.searchResults = this.searchResults.concat(data.results)
     }
     else {
       this.searchResults = data.results
@@ -151,8 +151,11 @@ export default class RightSidebar extends Emitter {
 
   onSearchFilesPayload(data) {
     const items = data.results.map(item => {
-      console.log(item)
-      return item
+      return {
+        ...item,
+        author: 'Author',
+        channelName: this.channel.name,
+      }
     })
     this.setProps({items})
   }

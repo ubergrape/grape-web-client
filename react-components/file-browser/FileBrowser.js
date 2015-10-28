@@ -10,10 +10,12 @@ export default class FileBrowser extends Component {
     show: false,
     items: []
   }
+
   render() {
     if (!this.props.show) return null
+    const {classes} = this.props.sheet
     return (
-      <div>
+      <div className={classes.fileBrowser}>
         {this.props.items.map((item, i) => <File {...item} key={i} />)}
       </div>
     )

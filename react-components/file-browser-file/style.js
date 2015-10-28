@@ -1,3 +1,6 @@
+import utils from 'grape-jss-utils'
+import fonts from 'grape-theme/dist/fonts'
+
 const height = 100
 
 export default {
@@ -23,12 +26,13 @@ export default {
 
   },
   name: {
-
+    ...utils.ellipsis,
+    ...fonts.big
   },
   meta: {
-
+    ...utils.ellipsis
   },
   channel: {
-
+    ...utils.ellipsis
   }
 }

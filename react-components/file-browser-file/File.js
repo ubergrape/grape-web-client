@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
+import tz from 'moment-timezone'
 
 import {useSheet} from '../jss'
 import style from './style'
+
+const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
 export default class FileBrowser extends Component {
@@ -14,7 +17,9 @@ export default class FileBrowser extends Component {
         </div>
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{this.props.name}</h2>
-          <p className={classes.meta}>{this.props.time}</p>
+          <p className={classes.meta}>
+            {this.props.author} &middot; {tz(this.props.time).format(dateFormat)}
+          </p>
           <p className={classes.channel}>Shared in <b>{this.props.channelName}</b></p>
         </div>
       </section>
