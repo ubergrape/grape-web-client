@@ -8,13 +8,17 @@ export default class MessageSearch extends Component {
   static defaultProps = {
     items: [],
     itemsTotal: 0,
-    show: false,
-    limit: 20,
-    offset: 20
+    show: false
+  }
+
+  constructor(props) {
+    super(props)
+    this.limit = 20
+    this.offset = 0
   }
 
   onShowMoreClick() {
-
+    this.offset = this.offset + this.limit
   }
 
   render() {
@@ -33,7 +37,7 @@ export default class MessageSearch extends Component {
     let showMoreLink
     if (this.props.items.length < this.props.itemsTotal) {
       showMoreLink = (
-        <a onClick={this.onShowMoreClick}>
+        <a onClick={::this.onShowMoreClick}>
           Show more
         </a>
       )
