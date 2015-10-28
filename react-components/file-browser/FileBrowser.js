@@ -12,7 +12,6 @@ export default class FileBrowser extends Component {
   }
   render() {
     if (!this.props.show) return null
-    console.log(this.props.items)
     return (
       <div>
         {this.props.items.map((item, i) => <File {...item} key={i} />)}

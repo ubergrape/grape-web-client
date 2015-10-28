@@ -12,6 +12,7 @@ let models = exports.models = {
   Line: require('./models/chatline'),
   Organization: require('./models/organization'),
 }
+let convertCase = require('./convertCase')
 
 let PREFIX = 'http://domain/'
 
@@ -887,7 +888,7 @@ API.prototype.onSearchFiles = function (params) {
     params.offset,
     (err, data) => {
       if (err) return this.emit('searchFilesError', err)
-      this.emit('searchFilesPayload', data)
+      this.emit('searchFilesPayload', convertCase.toCamel(data))
     }
   )
 }

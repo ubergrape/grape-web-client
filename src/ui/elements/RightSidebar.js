@@ -150,7 +150,11 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchFilesPayload(data) {
-    this.setProps({items: data.results})
+    const items = data.results.map(item => {
+      console.log(item)
+      return item
+    })
+    this.setProps({items})
   }
 
   onSearchFilesError(err) {

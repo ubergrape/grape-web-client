@@ -10,14 +10,35 @@ export default class FileBrowser extends Component {
     return (
       <section className={classes.file}>
         <div className={classes.leftColumn}>
-          <span className={classes.icon}></span>
+          {this.renderPreview()}
         </div>
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{this.props.name}</h2>
-          <p className={classes.meta}></p>
-          <p className={classes.channel}></p>
+          <p className={classes.meta}>{this.props.time}</p>
+          <p className={classes.channel}>Shared in <b>{this.props.channelName}</b></p>
         </div>
       </section>
     )
+  }
+
+  renderPreview() {
+    const {classes} = this.props.sheet
+    const {thumbnailUrl} = this.props
+    let className
+    let style
+
+    if (thumbnailUrl) {
+      className = classes.thumbnail
+      style = {
+        backgroundImage: `url(${thumbnailUrl})`
+      }
+    }
+    else {
+      className = classes.icon
+      style = {
+      }
+    }
+
+    return <div className={className} style={style}></div>
   }
 }
