@@ -20,7 +20,7 @@ export default class RightSidebar extends Emitter {
     this.mode = null
   }
 
-  createElements() {
+  createElements() {
     const sidebar = document.createElement('div')
     sidebar.className = 'right-sidebar'
     const fileBrowser = document.createElement('grape-file-browser')
@@ -58,7 +58,7 @@ export default class RightSidebar extends Emitter {
 
   update() {
     if (!this.mode) return
-    switch(this.mode) {
+    switch (this.mode) {
       case 'profile':
         this.setProps({
           show: true,
