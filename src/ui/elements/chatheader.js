@@ -96,7 +96,11 @@ ChatHeader.prototype.bind = function () {
   }.bind(this))
 
   let search = debounce(function () {
-    this.emit('search', this.q, this.searchLimit, this.searchOffset)
+    this.emit('search', {
+      text: this.q,
+      limit: this.searchLimit,
+      offset: this.searchOffset
+    })
   }.bind(this), 200, false)
 
   this.searchInput.addEventListener('keyup', function () {

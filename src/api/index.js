@@ -713,23 +713,22 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   })
 }
 
-API.prototype.search = function API_search(text, limit, offset) {
-  let self = this
+API.prototype.search = function API_search(params) {
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
   this.wamp.call(
     PREFIX + 'search/search', 
-    text,
+    params.text,
     this.organization.id,
     'messages',
-    limit,
-    offset,
+    params.limit,
+    params.offset,
     (err, results) => {
       let r = []
       let lines = results.results.map(function (l) {
         l = new models.Line(l)
         r.push(l)
       })
-      self.emit('gotSearchPayload', {
+      this.emit('gotSearchPayload', {
         'results': r,
         'total': results.total,
         'q': results.q
