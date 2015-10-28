@@ -20,7 +20,7 @@ export default class MessageSearch extends Component {
   onShowMore() {
     // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
-    console.log(this.offset)
+    this.props.showMoreMessages(this.limit, this.offset)
   }
 
   render() {
@@ -31,7 +31,6 @@ export default class MessageSearch extends Component {
       messageList = (
         <List
           items={this.props.items}
-          className={classes.messageList}
           renderItem={this.renderItem}
           ref="list" />
       )
@@ -55,8 +54,10 @@ export default class MessageSearch extends Component {
             onClick={this.props.hide}>X
           </span>
         </div>
-        {messageList}
-        {showMoreLink}
+        <div className={classes.scrollContent}>
+          {messageList}
+          {showMoreLink}
+        </div>
       </div>
     )
   }

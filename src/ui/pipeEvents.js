@@ -110,6 +110,7 @@ export default function pipeEvents(ui) {
     broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar')
     broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
     broker.pass(ui.rightSidebar, 'searchFiles', ui, 'searchFiles')
+    broker.pass(ui.rightSidebar, 'search', ui, 'search')
 
     // channel search
     broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')

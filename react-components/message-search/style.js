@@ -1,6 +1,6 @@
 export default {
-  messageList: {
-    maxHeight: '600px',
+  scrollContent: {
+    maxHeight: '700px',
     overflowY: 'auto'
   }
 }

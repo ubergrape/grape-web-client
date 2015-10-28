@@ -87,7 +87,8 @@ export default class RightSidebar extends Emitter {
         this.setProps({
           show: true,
           items: this.searchResults,
-          itemsTotal: this.searchResultsTotal
+          itemsTotal: this.searchResultsTotal,
+          showMoreMessages: ::this.showMoreMessages
         })
         break
       default:
@@ -134,10 +135,18 @@ export default class RightSidebar extends Emitter {
     }
     else {
       this.searchResults = data.results
+      this.searchResultsTotal = data.total
     }
     this.lastQuery = data.q
-    this.searchResultsTotal = data.total
     this.update()
+  }
+
+  showMoreMessages(limit, offset) {
+    this.emit('search', {
+      text: this.lastQuery,
+      limit: limit,
+      offset: offset
+    })
   }
 
   onSearchFilesPayload(data) {
