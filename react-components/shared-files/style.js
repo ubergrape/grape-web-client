@@ -6,5 +6,8 @@ export default {
   loadMoreContainer: {
     textAlign: 'center'
   },
-  button: button
+  button,
+  empty: {
+    textAlign: 'center'
+  }
 }

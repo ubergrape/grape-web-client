@@ -23,6 +23,7 @@ export default class SharedFiles extends Component {
     return (
       <div className={classes.sharedFiles}>
         {this.props.items.map((item, i) => <SharedFile {...item} key={i} />)}
+        {this.renderEmpty()}
         {this.renderLoadMore()}
       </div>
     )
@@ -38,6 +39,16 @@ export default class SharedFiles extends Component {
           className={classes.button}>
           Show more
         </button>
+      </div>
+    )
+  }
+
+  renderEmpty() {
+    const {classes} = this.props.sheet
+    if (this.props.items.length) return null
+    return (
+      <div className={classes.empty}>
+        No shared files.
       </div>
     )
   }

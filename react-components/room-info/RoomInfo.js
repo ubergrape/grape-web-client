@@ -85,8 +85,8 @@ export default class RoomInfo extends Component {
           <aside className={classes.avatarWrap}>
             <img
               className={classes.avatar}
-              width='20'
-              height='20'
+              width="20"
+              height="20"
               src={item.avatar} />
           </aside>
           <span>
