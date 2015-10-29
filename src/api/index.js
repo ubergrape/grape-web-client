@@ -729,7 +729,7 @@ API.prototype.search = function API_search(params) {
         l = new models.Line(l)
         r.push(l)
       })
-      this.emit('gotSearchPayload', {
+      this.emit('searchPayload', {
         'results': r,
         'total': results.total,
         'q': results.q

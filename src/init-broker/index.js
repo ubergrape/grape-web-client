@@ -65,7 +65,7 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
     broker.pass(api, 'inviteError', ui, 'inviteError')
     broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
-    broker.pass(api, 'gotSearchPayload', ui, 'gotSearchPayload')
+    broker.pass(api, 'searchPayload', ui, 'searchPayload')
     broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
     broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
 
