@@ -106,6 +106,7 @@ export default function pipeEvents(ui) {
 
     // right sidebar
     broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember')
+    broker.pass(ui.rightSidebar, 'leaveRoom', ui, 'leaveRoom')
     broker(ui.rightSidebar, 'show', ui, 'onShowRightSidebar')
     broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar')
     broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')

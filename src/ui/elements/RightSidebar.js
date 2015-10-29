@@ -84,7 +84,8 @@ export default class RightSidebar extends Emitter {
           channel: this.channel,
           user: this.user,
           toggleRoomInvite: ::this.toggleRoomInvite,
-          kickMember: ::this.kickMember
+          kickMember: ::this.kickMember,
+          leaveRoom: ::this.leaveRoom
         })
         break
       case 'search':
@@ -124,6 +125,10 @@ export default class RightSidebar extends Emitter {
       offset,
       limit: 30
     })
+  }
+
+  leaveRoom() {
+    this.emit('leaveRoom', this.channel.id)
   }
 
   onToggle(mode) {

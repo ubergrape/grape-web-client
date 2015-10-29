@@ -19,20 +19,23 @@ export default class RoomInfo extends Component {
   }
 
   onLeave() {
-
+    this.props.leaveRoom()
   }
 
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
     let {channel} = this.props
+    let creatorText
+    if (channel.creator) {
+      creatorText = ` and has been created by ${channel.creator.displayName}`
+    }
     let users = channel.users.toArray()
     let plural = users.length > 1 ? 's' : ''
     return (
       <div className='room-info'>
           <div>
-            {`The room ${channel.name} has ${users.length} member${plural}
-            and has been created by ${channel.creator.displayName}.`}
+            The room {channel.name} has {users.length} member{plural}{creatorText}.
           </div>
           <div onClick={::this.onInvite}>
             <a>Invite more people to this room</a>
