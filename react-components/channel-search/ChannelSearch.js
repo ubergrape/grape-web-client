@@ -42,7 +42,7 @@ export default class ChannelSearch extends Component {
     let {classes} = this.props.sheet
     return (
       <Dialog
-        show={this.state.show}
+        show={this.props.show}
         onHide={::this.onHide}
         title="Jump to a conversation">
         <div className={classes.content}>
@@ -121,7 +121,6 @@ export default class ChannelSearch extends Component {
   createState(props) {
     let search = this.state ? this.state.search : ''
     return {
-      show: props.show,
       search,
       items: utils.find(props.items, search)
     }
