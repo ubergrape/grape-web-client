@@ -3,6 +3,9 @@ import List from 'react-finite-list'
 import {constants} from 'conf'
 import {useSheet} from '../jss'
 import style from './style'
+import tz from 'moment-timezone'
+
+const dateFormat = 'MMMM Do, YYYY'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -24,7 +27,7 @@ export default class RoomInfo extends Component {
 
   render() {
     if (!this.props.show) return null
-      
+
     let {classes} = this.props.sheet
     let {channel} = this.props
     let users = channel.users.toArray()
@@ -37,7 +40,7 @@ export default class RoomInfo extends Component {
     return (
       <div className='room-info'>
         <div>
-          The room {channel.name} has {users.length} member{plural}{creatorText}.
+          The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
         </div>
         <div onClick={::this.onInvite}>
           <a>Invite more people to this room</a>
