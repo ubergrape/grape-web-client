@@ -1,29 +1,32 @@
 import React, {Component} from 'react'
 import List from 'react-finite-list'
-import {useSheet} from '../jss'
-import style from './style'
+import noop from 'lodash/utility/noop'
 import tz from 'moment-timezone'
 
+import {useSheet} from '../jss'
+import style from './style'
+
 const dateFormat = 'MMM Do YYYY, h:mm a'
+const limit = 20
 
 @useSheet(style)
 export default class MessageSearch extends Component {
   static defaultProps = {
     items: [],
     itemsTotal: 0,
-    show: false
+    show: false,
+    onLoadMore: noop
   }
 
   constructor(props) {
     super(props)
-    this.limit = 20
     this.offset = ''
   }
 
   onShowMore() {
     // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
-    this.props.loadMoreMessages(this.limit, this.offset)
+    this.props.onLoadMore(limit, this.offset)
   }
 
   onSelect(item) {
