@@ -8,13 +8,13 @@ import style from './style'
 const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
-export default class FileBrowser extends Component {
+export default class SharedFile extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     const {classes} = this.props.sheet
     return (
-      <section className={classes.file}>
+      <section className={classes.sharedFile}>
         <div className={classes.leftColumn}>
           {this.renderPreview()}
         </div>

@@ -1,14 +1,14 @@
 import Emitter from 'emitter'
 import find from 'lodash/collection/find'
 
-import '../../../react-components/file-browser'
+import '../../../react-components/shared-files'
 import '../../../react-components/message-search'
 import '../../../react-components/room-info'
 import '../../../react-components/user-profile'
 
 const modeElementMap = {
   profile: 'userProfile',
-  file: 'fileBrowser',
+  file: 'sharedFiles',
   members: 'roomInfo',
   search: 'messageSearch'
 }
@@ -29,15 +29,15 @@ export default class RightSidebar extends Emitter {
   createElements() {
     const sidebar = document.createElement('div')
     sidebar.className = 'right-sidebar'
-    const fileBrowser = document.createElement('grape-file-browser')
-    sidebar.appendChild(fileBrowser)
+    const sharedFiles = document.createElement('grape-shared-files')
+    sidebar.appendChild(sharedFiles)
     const messageSearch = document.createElement('grape-message-search')
     sidebar.appendChild(messageSearch)
     const roomInfo = document.createElement('grape-room-info')
     sidebar.appendChild(roomInfo)
     const userProfile = document.createElement('grape-user-profile')
     sidebar.appendChild(userProfile)
-    return {sidebar, fileBrowser, messageSearch, roomInfo, userProfile}
+    return {sidebar, sharedFiles, messageSearch, roomInfo, userProfile}
   }
 
   setProps(props) {
@@ -76,7 +76,7 @@ export default class RightSidebar extends Emitter {
         })
         break
       case 'file':
-        this.showFileBrowser()
+        this.showSharedFiles()
         break
       case 'members':
         this.setProps({
@@ -109,7 +109,7 @@ export default class RightSidebar extends Emitter {
     this.emit('kickMember', this.channel.id, userId)
   }
 
-  showFileBrowser() {
+  showSharedFiles() {
     this.setProps({
       show: true,
       onLoadMore: ::this.onLoadMoreFiles

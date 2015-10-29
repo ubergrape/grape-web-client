@@ -4,7 +4,7 @@ import fonts from 'grape-theme/dist/fonts'
 const height = 100
 
 export default {
-  file: {
+  sharedFile: {
     display: 'flex',
     flexDirection: 'row',
     height: height

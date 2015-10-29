@@ -1,7 +1,7 @@
 import button from '../button/style'
 
 export default {
-  fileBrowser: {
+  sharedFiles: {
   },
   loadMoreContainer: {
     textAlign: 'center'

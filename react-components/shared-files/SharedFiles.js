@@ -4,10 +4,10 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
 import style from './style'
-import File from '../file-browser-file/File'
+import SharedFile from '../shared-files-file/SharedFile'
 
 @useSheet(style)
-export default class FileBrowser extends Component {
+export default class SharedFiles extends Component {
   static defaultProps = {
     show: false,
     hasMore: false,
@@ -21,8 +21,8 @@ export default class FileBrowser extends Component {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
     return (
-      <div className={classes.fileBrowser}>
-        {this.props.items.map((item, i) => <File {...item} key={i} />)}
+      <div className={classes.sharedFiles}>
+        {this.props.items.map((item, i) => <SharedFile {...item} key={i} />)}
         {this.renderLoadMore()}
       </div>
     )
