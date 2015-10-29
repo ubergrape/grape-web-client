@@ -93,7 +93,7 @@ export default class RightSidebar extends Emitter {
           show: true,
           items: this.searchResults,
           itemsTotal: this.searchResultsTotal,
-          showMoreMessages: ::this.showMoreMessages
+          loadMoreMessages: ::this.loadMoreMessages
         })
         break
       default:
@@ -154,13 +154,14 @@ export default class RightSidebar extends Emitter {
     }
     else {
       this.searchResults = data.results
+      // save the total of items for the new query
       this.searchResultsTotal = data.total
     }
     this.lastQuery = data.q
     this.update()
   }
 
-  showMoreMessages(limit, offset) {
+  loadMoreMessages(limit, offset) {
     this.emit('search', {
       text: this.lastQuery,
       limit: limit,

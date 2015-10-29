@@ -24,30 +24,32 @@ export default class RoomInfo extends Component {
 
   render() {
     if (!this.props.show) return null
+      
     let {classes} = this.props.sheet
     let {channel} = this.props
+    let users = channel.users.toArray()
+    let plural = users.length > 1 ? 's' : ''
     let creatorText
     if (channel.creator) {
       creatorText = ` and has been created by ${channel.creator.displayName}`
     }
-    let users = channel.users.toArray()
-    let plural = users.length > 1 ? 's' : ''
+
     return (
       <div className='room-info'>
-          <div>
-            The room {channel.name} has {users.length} member{plural}{creatorText}.
-          </div>
-          <div onClick={::this.onInvite}>
-            <a>Invite more people to this room</a>
-          </div>
-          <div onClick={::this.onLeave}>
-            <a>Leave {channel.name}</a>
-          </div>
-          <List
-            items={users}
-            className='user-list'
-            renderItem={::this.renderItem}
-            ref='list' />
+        <div>
+          The room {channel.name} has {users.length} member{plural}{creatorText}.
+        </div>
+        <div onClick={::this.onInvite}>
+          <a>Invite more people to this room</a>
+        </div>
+        <div onClick={::this.onLeave}>
+          <a>Leave {channel.name}</a>
+        </div>
+        <List
+          items={users}
+          className='user-list'
+          renderItem={::this.renderItem}
+          ref='list' />
       </div>
     )
   }
@@ -56,7 +58,7 @@ export default class RoomInfo extends Component {
     let {channel} = this.props
     let href = `/chat/${item.slug}`
     let deleteButton
-    let user = this.props.user
+    let {user} = this.props
     let canUserKick = user === channel.creator || user.role >= constants.roles.ROLE_ADMIN
     // user has be have the rights to kick
     // user should not be able to kick itself

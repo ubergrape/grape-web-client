@@ -20,7 +20,7 @@ export default class MessageSearch extends Component {
   onShowMore() {
     // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
-    this.props.showMoreMessages(this.limit, this.offset)
+    this.props.loadMoreMessages(this.limit, this.offset)
   }
 
   render() {
