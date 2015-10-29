@@ -29,7 +29,7 @@ export default class SharedFiles extends Component {
   }
 
   renderLoadMore() {
-    if (!this.props.hasMore) return
+    if (!this.props.hasMore) return null
     const {classes} = this.props.sheet
     return (
       <div className={classes.loadMoreContainer}>
@@ -42,7 +42,7 @@ export default class SharedFiles extends Component {
     )
   }
 
-  onLoadMore() {
+  onLoadMore() {
     this.props.onLoadMore()
   }
 }

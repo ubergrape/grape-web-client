@@ -33,20 +33,20 @@ export default class SharedFile extends Component {
     const {classes} = this.props.sheet
     const {thumbnailUrl} = this.props
     let className
-    let style
+    let iconStyle
 
     if (thumbnailUrl) {
       className = classes.thumbnail
-      style = {
+      iconStyle = {
         backgroundImage: `url(${thumbnailUrl})`
       }
     }
     else {
       className = classes.icon
-      style = {
+      iconStyle = {
       }
     }
 
-    return <div className={className} style={style}></div>
+    return <div className={className} style={iconStyle}></div>
   }
 }
