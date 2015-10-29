@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import List from 'react-finite-list'
 import {useSheet} from '../jss'
 import style from './style'
+import tz from 'moment-timezone'
+
+const dateFormat = 'MMM Do YYYY, h:mm a'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -61,11 +64,25 @@ export default class MessageSearch extends Component {
   }
 
   renderItem({item}) {
-    let channel = item.channel
+    let {channel, author} = item
+    console.log(item.time)
     let slug = channel.slug ? channel.slug : channel.users[0].slug
     return (
       <a href={`/chat/${slug}/${item.id}`}>
+        <div>
+          <span>{author.displayName} </span>
+          <span>{tz(item.time).format(dateFormat)}</span>
+        </div>
+        <div>
+        <aside className='avatar-wrap'>
+          <img
+            className='image'
+            width='20'
+            height='20'
+            src={author.avatar} />
+        </aside>
         <div>{item.highlighted}</div>
+        </div>
       </a>
     )
   }
