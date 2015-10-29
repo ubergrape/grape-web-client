@@ -7,7 +7,11 @@ export default {
   sharedFile: {
     display: 'flex',
     flexDirection: 'row',
-    height: height
+    height,
+    cursor: 'pointer',
+    '&:hover': {
+      background: 'blue'
+    }
   },
   leftColumn: {
     flex: 1,
@@ -18,7 +22,7 @@ export default {
   },
   thumbnail: {
     width: '100%',
-    height: height,
+    height,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover'
   },

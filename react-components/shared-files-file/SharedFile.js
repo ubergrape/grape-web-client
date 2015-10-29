@@ -14,7 +14,9 @@ export default class SharedFile extends Component {
   render() {
     const {classes} = this.props.sheet
     return (
-      <section className={classes.sharedFile}>
+      <section
+        className={classes.sharedFile}
+        onClick={::this.onOpen}>
         <div className={classes.leftColumn}>
           {this.renderPreview()}
         </div>
@@ -48,5 +50,9 @@ export default class SharedFile extends Component {
     }
 
     return <div className={className} style={iconStyle}></div>
+  }
+
+  onOpen() {
+    window.open(this.props.url)
   }
 }
