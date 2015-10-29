@@ -112,19 +112,23 @@ export default class RightSidebar extends Emitter {
   showSharedFiles() {
     this.setProps({
       show: true,
-      onLoadMore: ::this.onLoadMoreFiles
+      onLoadMore: ::this.onLoadMoreFiles,
+      items: []
     })
-    this.loadFiles()
+    this.loadFiles(0)
   }
 
-  loadFiles() {
-    const el = this.getCurrElement()
-    const offset = el.props.items ? el.props.items.length : 0
-    this.emit('searchFiles', {
+  loadFiles(offset) {
+    let params = {
       channel: this.channel.id,
       offset,
       limit: 30
-    })
+    }
+    if (offset == null) {
+      const el = this.getCurrElement()
+      if (el.props.items) params.offset = el.props.items.length
+    }
+    this.emit('searchFiles', params)
   }
 
   leaveRoom() {
@@ -175,14 +179,14 @@ export default class RightSidebar extends Emitter {
       return {
         ...item,
         author,
-        channelName: this.channel.name,
+        channelName: this.channel.name
       }
     })
     const prevItems = this.getCurrElement().props.items || []
     const items = [...prevItems, ...nextItems]
     this.setProps({
       items,
-      hasMore: items.length !== data.total
+      hasMore: items.length < data.total
     })
   }
 
