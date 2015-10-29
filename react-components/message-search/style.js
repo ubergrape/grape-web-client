@@ -9,6 +9,9 @@ export default {
   item: {
     position: 'relative'
   },
+  itemFocused: {
+    color: 'red'
+  },
   itemLink: {
     position: 'absolute',
     top: 0,
