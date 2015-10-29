@@ -32,7 +32,13 @@ export default {
 
   },
   avatar: {
-
+    display: 'inline-block',
+    flexShrink: 0,
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+    background: 'no-repeat center',
+    backgroundSize: '100%'
   },
   message: {
 

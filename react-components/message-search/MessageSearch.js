@@ -71,9 +71,11 @@ export default class MessageSearch extends Component {
   renderItem({item, focused}) {
     let {channel, author} = item
     let {classes} = this.props.sheet
+    let itemClasses = [classes.item]
+    if (focused) itemClasses.push(classes.itemFocused)
     let slug = channel.slug ? channel.slug : channel.users[0].slug
     return (
-      <div className={classes.item}>
+      <div className={itemClasses.join(' ')}>
         <a
           className={classes.itemLink}
           href={`/chat/${slug}/${item.id}`} />
@@ -83,11 +85,9 @@ export default class MessageSearch extends Component {
         </div>
         <div>
           <span className={classes.avatarWrap}>
-            <img
-              className={classes.avatar}
-              width='20'
-              height='20'
-              src={author.avatar} />
+          <span
+            style={{backgroundImage: `url(${author.avatar})`}}
+            className={classes.avatar} />
           </span>
           <span className={classes.message}>{item.highlighted}</span>
         </div>

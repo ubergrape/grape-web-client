@@ -1,5 +1,3 @@
-import button from '../button/style'
-
 export default {
   roomInfo: {
 
@@ -14,6 +12,6 @@ export default {
 
   },
   avatar: {
-    
+
   }
 }

@@ -16,11 +16,11 @@ export default class UserProfile extends Component {
       <div className={classes.profile}>
         <div className={classes.avatarWrap}>
           <img
-          className={classes.avatar}
-          src={user.avatar}
-          alt={user.username}
-          width="80"
-          height="80" />
+            className={classes.avatar}
+            src={user.avatar}
+            alt={user.username}
+            width="80"
+            height="80" />
         </div>
         <div className={classes.fullName}>
           {user.displayName}
