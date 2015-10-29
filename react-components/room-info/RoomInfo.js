@@ -27,7 +27,6 @@ export default class RoomInfo extends Component {
 
   render() {
     if (!this.props.show) return null
-
     let {classes} = this.props.sheet
     let {channel} = this.props
     let users = channel.users.toArray()
@@ -38,7 +37,7 @@ export default class RoomInfo extends Component {
     }
 
     return (
-      <div className='room-info'>
+      <div className={classes.roomInfo}>
         <div>
           The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
         </div>
@@ -50,14 +49,14 @@ export default class RoomInfo extends Component {
         </div>
         <List
           items={users}
-          className='user-list'
-          renderItem={::this.renderItem}
-          ref='list' />
+          className={classes.userList}
+          renderItem={::this.renderItem} />
       </div>
     )
   }
 
   renderItem({item}) {
+    let {classes} = this.props.sheet
     let {channel} = this.props
     let href = `/chat/${item.slug}`
     let deleteButton
@@ -69,7 +68,7 @@ export default class RoomInfo extends Component {
     if (canUserKick && user !== item && item !== channel.creator) {
       deleteButton = (
         <span
-          className="kick-member"
+          className={classes.deleteButton}
           data-id={item.id}
           onClick={::this.onDelete}>
           X
@@ -80,9 +79,9 @@ export default class RoomInfo extends Component {
     return (
       <div>
         <a href={href}>
-          <aside className='avatar-wrap'>
+          <aside className={classes.avatarWrap}>
             <img
-              className='image'
+              className={classes.avatar}
               width='20'
               height='20'
               src={item.avatar} />
