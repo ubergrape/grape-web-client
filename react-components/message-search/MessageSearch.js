@@ -26,6 +26,10 @@ export default class MessageSearch extends Component {
     this.props.loadMoreMessages(this.limit, this.offset)
   }
 
+  onSelect(item) {
+    console.log(item)
+  }
+
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
@@ -35,7 +39,8 @@ export default class MessageSearch extends Component {
       messageList = (
         <List
           items={items}
-          renderItem={this.renderItem}
+          renderItem={::this.renderItem}
+          onSelect={::this.onSelect}
           ref="list" />
       )
     }
@@ -53,7 +58,7 @@ export default class MessageSearch extends Component {
       itemsCount = <div>{items.length} Message{plural}</div>
     }
     return (
-      <div className='search'>
+      <div className={classes.search}>
         {itemsCount}
         <div className={classes.scrollContent}>
           {messageList}
@@ -63,27 +68,30 @@ export default class MessageSearch extends Component {
     )
   }
 
-  renderItem({item}) {
+  renderItem({item, focused}) {
     let {channel, author} = item
-    console.log(item.time)
+    let {classes} = this.props.sheet
     let slug = channel.slug ? channel.slug : channel.users[0].slug
     return (
-      <a href={`/chat/${slug}/${item.id}`}>
-        <div>
-          <span>{author.displayName} </span>
-          <span>{tz(item.time).format(dateFormat)}</span>
+      <div className={classes.item}>
+        <a
+          className={classes.itemLink}
+          href={`/chat/${slug}/${item.id}`} />
+        <div className={classes.itemHeader}>
+          <span className={classes.authorName}>{author.displayName} </span>
+          <span className={classes.time}>{tz(item.time).format(dateFormat)}</span>
         </div>
         <div>
-        <aside className='avatar-wrap'>
-          <img
-            className='image'
-            width='20'
-            height='20'
-            src={author.avatar} />
-        </aside>
-        <div>{item.highlighted}</div>
+          <span className={classes.avatarWrap}>
+            <img
+              className={classes.avatar}
+              width='20'
+              height='20'
+              src={author.avatar} />
+          </span>
+          <span className={classes.message}>{item.highlighted}</span>
         </div>
-      </a>
+      </div>
     )
   }
 }
