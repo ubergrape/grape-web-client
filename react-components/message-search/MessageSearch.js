@@ -87,7 +87,7 @@ export default class MessageSearch extends Component {
           <span className={classes.avatarWrap}>
           <span
             style={{backgroundImage: `url(${author.avatar})`}}
-            className={classes.avatar} />
+            className={classes.avatar}>
           </span>
           <span className={classes.message}>{item.highlighted}</span>
         </div>
