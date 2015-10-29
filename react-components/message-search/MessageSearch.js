@@ -71,8 +71,7 @@ export default class MessageSearch extends Component {
   renderItem({item, focused}) {
     let {channel, author} = item
     let {classes} = this.props.sheet
-    let itemClasses = [classes.item]
-    if (focused) itemClasses.push(classes.itemFocused)
+    let itemClasses = [classes.item, focused ? classes.itemFocused : null]
     let slug = channel.slug ? channel.slug : channel.users[0].slug
     return (
       <div className={itemClasses.join(' ')}>

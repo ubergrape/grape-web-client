@@ -90,8 +90,7 @@ export default class ChannelSearch extends Component {
 
   renderItem({item, focused}) {
     let {classes} = this.props.sheet
-    let itemClasses = [classes.item]
-    if (focused) itemClasses.push(classes.itemFocused)
+    let itemClasses = [classes.item, focused ? classes.itemFocused : null]
 
     let icon
     if (item.type === 'room') {
