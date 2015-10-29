@@ -174,7 +174,11 @@ export default class RightSidebar extends Emitter {
       }
     })
     const prevItems = this.getCurrElement().props.items || []
-    this.setProps({items: [...prevItems, ...nextItems]})
+    const items = [...prevItems, ...nextItems]
+    this.setProps({
+      items,
+      hasMore: items.length !== data.total
+    })
   }
 
   onLoadMoreFiles() {
