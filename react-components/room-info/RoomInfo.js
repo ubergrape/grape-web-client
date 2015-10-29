@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import List from 'react-finite-list'
+import noop from 'lodash/utility/noop'
 import {constants} from 'conf'
 import {useSheet} from '../jss'
 import style from './style'
@@ -10,19 +11,22 @@ const dateFormat = 'MMMM Do, YYYY'
 @useSheet(style)
 export default class RoomInfo extends Component {
   static defaultProps = {
-    show: false
+    show: false,
+    onKickMember: noop,
+    onInvite: noop,
+    onLeave: noop
   }
 
   onInvite() {
-    this.props.toggleRoomInvite()
+    this.props.onInvite()
   }
 
-  onDelete(e) {
-    this.props.kickMember(e)
+  onKickMember({id}) {
+    this.props.onKickMember({id})
   }
 
   onLeave() {
-    this.props.leaveRoom()
+    this.props.onLeave()
   }
 
   render() {
@@ -69,8 +73,7 @@ export default class RoomInfo extends Component {
       deleteButton = (
         <span
           className={classes.deleteButton}
-          data-id={item.id}
-          onClick={::this.onDelete}>
+          onClick={this.onKickMember.bind(this, item)}>
           X
         </span>
       )

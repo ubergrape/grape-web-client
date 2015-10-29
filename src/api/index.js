@@ -874,8 +874,8 @@ API.prototype.updateMsg = function API_updateMessage(msg, text) {
   })
 }
 
-API.prototype.onKickMember = function API_onKickMember (roomID, memberID) {
-  this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID))
+API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
+  this.wamp.call(PREFIX + 'channels/kick', channelId, userId)
 }
 
 API.prototype.onSearchFiles = function (params) {

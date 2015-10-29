@@ -83,9 +83,9 @@ export default class RightSidebar extends Emitter {
           show: true,
           channel: this.channel,
           user: this.user,
-          toggleRoomInvite: ::this.toggleRoomInvite,
-          kickMember: ::this.kickMember,
-          leaveRoom: ::this.leaveRoom
+          onInvite: ::this.onInviteMember,
+          onKickMember: ::this.onKickMember,
+          onLeave: ::this.onLeaveRoom
         })
         break
       case 'search':
@@ -98,15 +98,6 @@ export default class RightSidebar extends Emitter {
         break
       default:
     }
-  }
-
-  toggleRoomInvite() {
-    this.emit('toggleRoomInvite', this.channel)
-  }
-
-  kickMember(e) {
-    let userId = e.target.dataset.id
-    this.emit('kickMember', this.channel.id, userId)
   }
 
   showSharedFiles() {
@@ -131,8 +122,12 @@ export default class RightSidebar extends Emitter {
     this.emit('searchFiles', params)
   }
 
-  leaveRoom() {
+  onLeaveRoom() {
     this.emit('leaveRoom', this.channel.id)
+  }
+
+  onInviteMember() {
+    this.emit('toggleRoomInvite', this.channel)
   }
 
   onToggle(mode) {
@@ -170,6 +165,13 @@ export default class RightSidebar extends Emitter {
       text: this.lastQuery,
       limit: limit,
       offset: offset
+    })
+  }
+
+  onKickMember({id}) {
+    this.emit('kickMember', {
+      channelId: this.channel.id,
+      userId: id
     })
   }
 
