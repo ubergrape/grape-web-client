@@ -81,9 +81,8 @@ export default class RightSidebar extends Emitter {
       case 'members':
         this.setProps({
           show: true,
-          users: this.channel.users.toArray(),
+          channel: this.channel,
           user: this.user,
-          roomCreator: this.channel.creator,
           toggleRoomInvite: ::this.toggleRoomInvite,
           kickMember: ::this.kickMember
         })

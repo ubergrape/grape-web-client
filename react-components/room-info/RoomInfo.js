@@ -21,16 +21,18 @@ export default class RoomInfo extends Component {
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
-    let plural = this.props.users.length > 1 ? 's' : ''
+    let {channel} = this.props
+    let users = channel.users.toArray()
+    let plural = users.length > 1 ? 's' : ''
     return (
       <div className='members'>
           <div className='header'>
             <span className='title'>
-              {`${this.props.users.length} Member${plural}`}
+              {`${users.length} Member${plural}`}
             </span>
           </div>
           <List
-            items={this.props.users}
+            items={users}
             className='user-list'
             renderItem={::this.renderItem}
             ref='list' />
@@ -44,11 +46,15 @@ export default class RoomInfo extends Component {
   }
 
   renderItem({item}) {
+    let {channel} = this.props
     let href = `/chat/${item.slug}`
     let deleteButton
     let user = this.props.user
-    let canUserKick = user === this.props.roomCreator || user.role >= constants.roles.ROLE_ADMIN
-    if (canUserKick && user !== item && item !== this.props.roomCreator) {
+    let canUserKick = user === channel.creator || user.role >= constants.roles.ROLE_ADMIN
+    // user has be have the rights to kick
+    // user should not be able to kick itself
+    // user should not be able to kick the creator of the room
+    if (canUserKick && user !== item && item !== channel.creator) {
       deleteButton = (
         <span
           className="kick-member"
