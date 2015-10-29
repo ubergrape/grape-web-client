@@ -18,6 +18,10 @@ export default class RoomInfo extends Component {
     this.props.kickMember(e)
   }
 
+  onLeave() {
+
+  }
+
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
@@ -25,22 +29,22 @@ export default class RoomInfo extends Component {
     let users = channel.users.toArray()
     let plural = users.length > 1 ? 's' : ''
     return (
-      <div className='members'>
-          <div className='header'>
-            <span className='title'>
-              {`${users.length} Member${plural}`}
-            </span>
+      <div className='room-info'>
+          <div>
+            {`The room ${channel.name} has ${users.length} member${plural}
+            and has been created by ${channel.creator.displayName}.`}
+          </div>
+          <div onClick={::this.onInvite}>
+            <a>Invite more people to this room</a>
+          </div>
+          <div onClick={::this.onLeave}>
+            <a>Leave {channel.name}</a>
           </div>
           <List
             items={users}
             className='user-list'
             renderItem={::this.renderItem}
             ref='list' />
-          <button
-            className={classes.button}
-            onClick={::this.onInvite}>
-              Invite
-          </button>
       </div>
     )
   }
