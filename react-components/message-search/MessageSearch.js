@@ -24,36 +24,34 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    let {classes} = this.props.sheet
     if (!this.props.show) return null
+    let {classes} = this.props.sheet
+    let {items} = this.props
     let messageList
     if (this.props.items.length) {
       messageList = (
         <List
-          items={this.props.items}
+          items={items}
           renderItem={this.renderItem}
           ref="list" />
       )
     }
     let showMoreLink
-    if (this.props.items.length < this.props.itemsTotal) {
+    if (items.length < this.props.itemsTotal) {
       showMoreLink = (
         <a onClick={::this.onShowMore}>
           Show more
         </a>
       )
     }
+    let itemsCount
+    if (items.length) {
+      let plural = items.length > 1 ? 's' : ''
+      itemsCount = <div>{items.length} Message{plural}</div>
+    }
     return (
       <div className='search'>
-        <div className='header'>
-          <span className='title'>
-            Search your conversations
-          </span>
-          <span
-            className='hide-sidebar'
-            onClick={this.props.hide}>X
-          </span>
-        </div>
+        {itemsCount}
         <div className={classes.scrollContent}>
           {messageList}
           {showMoreLink}
