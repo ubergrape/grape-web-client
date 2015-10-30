@@ -15,7 +15,7 @@ export default class MessageSearch extends Component {
     total: '',
     show: false,
     onRequestMessages: noop,
-    limit: 2,
+    limit: 20,
     query: '',
     minQueryLength: 2
   }
@@ -25,7 +25,6 @@ export default class MessageSearch extends Component {
     // offsetDate is always the timestamp of the last loaded message.
     this.offsetDate = ''
   }
-
 
   requestMessages(props = this.props) {
     const {query} = props
@@ -82,22 +81,22 @@ export default class MessageSearch extends Component {
     const grouped = utils.group(this.props.items)
     let elements = []
     each(grouped, (day, date) => {
-      elements.push(<div className={classes.date}>{date}</div>)
+      elements.push(<div className={classes.date} key={date + elements.length}>{date}</div>)
       each(day, (messages, channel) => {
-        elements.push(<div className={classes.channel}>{channel}</div>)
+        elements.push(<div className={classes.channel} key={channel + elements.length}>{channel}</div>)
         elements = elements.concat(messages.map(::this.renderMessage))
       })
     })
     return elements
   }
 
-  renderMessage(item, index) {
+  renderMessage(item) {
     const {classes} = this.props.sheet
     return (
       <div
         className={classes.message}
         onClick={this.onSelect.bind(this, item)}
-        key={index}>
+        key={item.id}>
         <Message {...item} />
       </div>
     )
