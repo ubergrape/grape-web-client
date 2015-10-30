@@ -50,15 +50,15 @@ export default function pipeEvents(ui) {
     broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')*/
     broker(ui, 'searchPayload', ui.rightSidebar, 'onSearchPayload')
     broker(ui, 'searchFilesPayload', ui.rightSidebar, 'onSearchFilesPayload')
-    broker(ui, 'searchFilesError', ui.rightSidebar, 'searchFilesError')
+    broker(ui, 'searchFilesError', ui.rightSidebar, 'onSearchFilesError')
 
     // chat header
-    broker.pass(ui.chatHeader, 'search', ui, 'search')
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
     broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription')
     broker(ui.chatHeader, 'toggleRightSidebar', ui.rightSidebar, 'onToggle')
     broker(ui.chatHeader, 'showSidebar', ui.rightSidebar, 'onShow')
     broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
+    broker(ui.chatHeader, 'search', ui.rightSidebar, 'onSearch')
 
     // grape input
     broker.pass(ui.grapeInput, 'update', ui, 'update')

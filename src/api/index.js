@@ -714,30 +714,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   })
 }
 
-API.prototype.search = function API_search(params) {
-  // search(query, organization_id, only='messages', limit=20, offset=None, callback)
-  this.wamp.call(
-    PREFIX + 'search/search',
-    params.text,
-    this.organization.id,
-    'messages',
-    params.limit,
-    params.offset,
-    (err, results) => {
-      let r = []
-      let lines = results.results.map(function (l) {
-        l = new models.Line(l)
-        r.push(l)
-      })
-      this.emit('searchPayload', {
-        'results': r,
-        'total': results.total,
-        'q': results.q
-      })
-    }
-  )
-}
-
 API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
   let orgID = this.organization.id
   let options = {
@@ -889,6 +865,27 @@ API.prototype.onSearchFiles = function (params) {
     (err, data) => {
       if (err) return this.emit('searchFilesError', err)
       this.emit('searchFilesPayload', convertCase.toCamel(data))
+    }
+  )
+}
+
+API.prototype.onSearch = function (params) {
+  // search(query, organization_id, only='messages', limit=20, offset=None, callback)
+  this.wamp.call(
+    PREFIX + 'search/search',
+    params.query,
+    this.organization.id,
+    'messages',
+    params.limit,
+    params.offsetDate,
+    (err, res) => {
+      if (err) return this.emit('searchError', err)
+      this.emit('searchPayload', {
+        results: res.results.map(line => new models.Line(line)),
+        offsetTotal: res.total,
+        offsetDate: params.offsetDate,
+        query: res.q,
+      })
     }
   )
 }

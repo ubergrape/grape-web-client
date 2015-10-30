@@ -1,10 +1,8 @@
 export default {
-  search: {
-
+  messageSearch: {
   },
-  scrollContent: {
-    maxHeight: '700px',
-    overflowY: 'auto'
+  loadMoreContainer: {
+    textAlign: 'center'
   },
   item: {
     position: 'relative'

@@ -3,7 +3,7 @@ let template = require('template')
 let qs = require('query')
 let events = require('events')
 let render = require('../rendervdom')
-let debounce = require('debounce')
+let debounce = require('lodash/function/debounce')
 let classes = require('classes')
 let constants = require('conf').constants
 let keyname = require('keyname')
@@ -13,6 +13,7 @@ module.exports = ChatHeader
 
 function ChatHeader() {
   Emitter.call(this)
+  this.onSearchDebounced = debounce(::this.onSearch, 200)
   this.room = {}
   this.editOptions = {
     canManageRoom: false,
@@ -42,8 +43,6 @@ function ChatHeader() {
   this.selected = null
   this.cUser = null
   this.redraw = this.redraw.bind(this)
-  this.searchLimit = 20
-  this.offset = ''
   this.redraw()
   this.init()
   this.bind()
@@ -55,7 +54,7 @@ ChatHeader.prototype.init = function () {
   this.classes = classes(this.el)
   this.searchForm = qs('.search-form', this.el)
   this.searchInput = qs('.search', this.el)
-  this.q = null
+  this.lastQuery = null
   this.isRoomManager = false
   this.editState = {
     renaming: false,
@@ -68,50 +67,25 @@ ChatHeader.prototype.init = function () {
   }
   else if (Intercom) {
     intercomButton.href = `mailto:${window.intercomSettings.app_id}@incoming.intercom.io`
-    window.Intercom('reattach_activator');  
+    window.Intercom('reattach_activator');
   }
 }
 
 ChatHeader.prototype.bind = function () {
   let self = this
   this.events = events(this.el, this)
-
   this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog')
-  this.events.bind('click div.room-name.editable', 'triggerRoomRename')
+  this.events.bind('click .room-name.editable', 'triggerRoomRename')
   this.events.bind('click .option-rename-cancel', 'stopRoomRename')
   this.events.bind('click .option-rename-ok', 'confirmRoomRename')
   this.events.bind('click .user-view-toggler', 'toggleUserView')
-  this.events.bind('keyup input.room-name', 'roomRenameShortcuts')
-  this.events.bind('keyup input.description', 'setDescription')
+  this.events.bind('keyup .room-name', 'onRoomRenameShortcuts')
+  this.events.bind('keyup .description', 'setDescription')
   this.events.bind('submit form', 'preventFormSubmission')
   this.events.bind('click .file-browser-toggler', 'toggleFileBrowser')
   this.events.bind('click .description-edit', 'triggerDescriptionEdit')
-
-  document.addEventListener('keyup', function (e) {
-    if (keyname(e.which) === 'esc') this.stopRoomRename()
-  }.bind(this))
-
-  this.searchInput.addEventListener('focus', function () {
-    this.showSearch()
-  }.bind(this))
-
-  let search = debounce(function () {
-    this.emit('search', {
-      text: this.q,
-      limit: this.searchLimit,
-      offset: this.searchOffset
-    })
-  }.bind(this), 200, false)
-
-  this.searchInput.addEventListener('keyup', function () {
-    let q = qs('input.search', this.el).value
-    if (!q || q.length < 2) return
-    q = q.replace(/^\s+|\s+$/g, '')
-    if (q.length !== 0 && this.q !== q) {
-      this.q = q
-      search()
-    }
-  }.bind(this))
+  this.events.bind('keypress .search', 'onSearchDebounced')
+  this.searchInput.addEventListener('focus', ::this.onFocusSearch)
 }
 
 ChatHeader.prototype.redraw = function () {
@@ -175,10 +149,12 @@ ChatHeader.prototype.roomRenameError = function (err) {
   qs('input.submit-rename', this.el).click()
 }
 
-ChatHeader.prototype.roomRenameShortcuts = function (e) {
+ChatHeader.prototype.onRoomRenameShortcuts = function (e) {
   switch(keyname(e.keyCode)) {
     case 'enter':
       this.confirmRoomRename()
+    case 'esc':
+      this.stopRoomRename()
     default:
       e.target.setCustomValidity('')
   }
@@ -199,7 +175,7 @@ ChatHeader.prototype.toggleUserView = function () {
 ChatHeader.prototype.toggleFileBrowser = function () {
   this.selected = this.fileBrowserToggler === this.selected ? null : this.fileBrowserToggler
   this.emit('toggleRightSidebar', 'file')
-  this.redraw();  
+  this.redraw();
 }
 
 ChatHeader.prototype.showSearch = function () {
@@ -245,4 +221,16 @@ ChatHeader.prototype.onSwitchToChatMode = function () {
 ChatHeader.prototype.onSwitchToSearchMode = function () {
   this.mode = 'search'
   this.redraw()
+}
+
+ChatHeader.prototype.onFocusSearch = function () {
+  this.showSearch()
+}
+
+ChatHeader.prototype.onSearch = function (e) {
+    const query = this.searchInput.value.trim()
+    if (query.length && query !== this.lastQuery) {
+      this.lastQuery = query
+      this.emit('search', {query})
+    }
 }

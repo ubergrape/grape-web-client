@@ -12,65 +12,95 @@ const dateFormat = 'MMM Do YYYY, h:mm a'
 export default class MessageSearch extends Component {
   static defaultProps = {
     items: [],
-    itemsTotal: 0,
+    total: '',
     show: false,
     onRequestMessages: noop,
-    limit: 20
+    limit: 2,
+    query: '',
+    minQueryLength: 2
   }
 
   constructor(props) {
     super(props)
-    this.offset = ''
+    // offsetDate is always the timestamp of the last loaded message.
+    this.offsetDate = ''
   }
 
-  onShowMore() {
-    // offset is always the timestamp of the last loaded message
-    this.offset = this.props.items[this.props.items.length-1].time
-    this.props.onRequestMessages({
-      limit: this.props.limit,
-      offset: this.offset
+
+  requestMessages(props = this.props) {
+    const {query} = props
+    if (query.length < props.minQueryLength) return
+    props.onRequestMessages({
+      offsetDate: this.offsetDate,
+      limit: props.limit,
+      query
     })
+  }
+
+  onLoadMore() {
+    this.requestMessages()
   }
 
   onSelect(item) {
     console.log(item)
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    const {items} = nextProps
+    let requestMessages = false
+
+    if (items.length) {
+      this.offsetDate = items[items.length - 1].time
+    }
+    // It was hidden, we show it now.
+    if (nextProps.show && !this.props.show) {
+      requestMessages = true
+    }
+
+    // Query has changed.
+    if (nextProps.query !== this.props.query) {
+      this.offsetDate = ''
+      requestMessages = true
+    }
+
+    if (requestMessages) this.requestMessages(nextProps)
+  }
+
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
-    let {items} = this.props
-    let messageList
-    if (this.props.items.length) {
-      messageList = (
-        <List
-          items={items}
-          renderItem={::this.renderItem}
-          onSelect={::this.onSelect}
-          ref="list" />
-      )
-    }
-    let showMoreLink
-    if (items.length < this.props.itemsTotal) {
-      showMoreLink = (
-        <a onClick={::this.onShowMore}>
-          Show more
-        </a>
-      )
-    }
-    let itemsCount
-    if (items.length) {
-      let plural = items.length > 1 ? 's' : ''
-      itemsCount = <div>{items.length} Message{plural}</div>
-    }
     return (
-      <div className={classes.search}>
-        {itemsCount}
-        <div className={classes.scrollContent}>
-          {messageList}
-          {showMoreLink}
-        </div>
+      <div className={classes.messageSearch}>
+        {this.renderMessages()}
+        {this.renderLoadMore()}
       </div>
+    )
+  }
+
+  renderLoadMore() {
+    if (!this.props.total || this.props.items.length >= this.props.total) return null
+    const {classes} = this.props.sheet
+    return (
+      <div className={classes.loadMoreContainer}>
+        <button
+          onClick={::this.onLoadMore}
+          className={classes.button}>
+          Show more
+        </button>
+      </div>
+    )
+  }
+
+  renderMessages() {
+    let {items} = this.props
+    if (!items.length) return null
+    return (
+      <List
+        items={items}
+        renderItem={::this.renderItem}
+        onSelect={::this.onSelect}
+        ref="list" />
     )
   }
 

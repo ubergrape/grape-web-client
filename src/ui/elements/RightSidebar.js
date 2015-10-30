@@ -58,13 +58,14 @@ export default class RightSidebar extends Emitter {
   }
 
   show(mode) {
+    if (this.mode === mode) return
     if (this.mode) this.setProps({show: false})
     this.mode = mode
-    this.update()
+    this.setupMode()
     this.emit('show')
   }
 
-  update() {
+  setupMode() {
     if (!this.mode) return
     switch (this.mode) {
       case 'profile':
@@ -127,25 +128,29 @@ export default class RightSidebar extends Emitter {
     else if (this.mode === 'profile' && channel.type === 'room') {
       this.mode = 'members'
     }
-    this.update()
+    this.setupMode()
   }
 
   onSearchPayload(data) {
     let {results} = data
+
+    if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
+
     // Its a "load more", add previous results before.
-    if (this.lastMessagesQuery === data.q) {
+    if (this.lastMessagesQuery === data.query) {
       const prevItems = this.getCurrElement().props.items || []
       results = [...prevItems, ...results]
     }
-    this.lastMessagesQuery = data.q
+
+    this.lastMessagesQuery = data.query
     this.setProps({
       items: results,
-      itemsTotal: data.total
+      total: this.lastMessagesTotal
     })
   }
 
   onRequestMessages(params) {
-    this.emit('search', {...params, text: this.lastMessagesQuery})
+    this.emit('search', params)
   }
 
   onKickMember({id}) {
@@ -179,10 +184,14 @@ export default class RightSidebar extends Emitter {
 
   onSetUser(user) {
     this.user = user
-    this.update()
+    this.setupMode()
   }
 
   onShow(mode) {
     this.show(mode)
+  }
+
+  onSearch({query}) {
+    this.setProps({query})
   }
 }
