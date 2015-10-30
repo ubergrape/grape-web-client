@@ -137,7 +137,7 @@ export default class RightSidebar extends Emitter {
     let results = data.results.map(result => {
       return {
         id: result.id,
-        channelName: result.channel.name,
+        channel: result.channel.name ? result.channel.name : result.channel.users[0].displayName,
         author: result.author.displayName,
         avatar: result.author.avatar,
         time: result.time,

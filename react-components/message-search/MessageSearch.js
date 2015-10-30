@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
+import each from 'lodash/collection/each'
 
 import {useSheet} from '../jss'
 import style from './style'
+import * as utils from './utils'
 import Message from '../message/Message'
-
 const dateFormat = 'MMM Do YYYY, h:mm a'
 
 @useSheet(style)
@@ -70,14 +71,28 @@ export default class MessageSearch extends Component {
     let {classes} = this.props.sheet
     return (
       <div className={classes.messageSearch}>
-        {this.props.items.map(::this.renderMessage)}
+        {this.renderMessages()}
         {this.renderLoadMore()}
       </div>
     )
   }
 
+  renderMessages() {
+    const {classes} = this.props.sheet
+    const grouped = utils.group(this.props.items)
+    let elements = []
+    each(grouped, (day, date) => {
+      elements.push(<div className={classes.date}>{date}</div>)
+      each(day, (messages, channel) => {
+        elements.push(<div className={classes.channel}>{channel}</div>)
+        elements = elements.concat(messages.map(::this.renderMessage))
+      })
+    })
+    return elements
+  }
+
   renderMessage(item, index) {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
     return (
       <div
         className={classes.message}

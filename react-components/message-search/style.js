@@ -4,6 +4,12 @@ export default {
   loadMoreContainer: {
     textAlign: 'center'
   },
+  date: {
+
+  },
+  channel: {
+
+  },
   message: {
     cursor: 'pointer',
     '&:hover': {
