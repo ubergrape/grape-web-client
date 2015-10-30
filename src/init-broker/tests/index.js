@@ -6,7 +6,7 @@ import {room, user, org, chatLine} from '../../../tests/fixtures/'
 describe('Events Router', () => {
     it('should route user change events', () => {
         let ui = new Emitter({
-            setUser: function(_user) {
+            setUser: function (_user) {
                 expect(_user).to.eql(user)
             }
         })
@@ -16,10 +16,10 @@ describe('Events Router', () => {
     })
     it('should route organisation/s change events', () => {
         let ui = new Emitter({
-            setOrganizations: function(_orgs) {
+            setOrganizations: function (_orgs) {
                 expect(_orgs).to.be.eql(org)
             },
-            setOrganization: function(_org) {
+            setOrganization: function (_org) {
                 expect(_org).to.be.eql(org)
             }
         })
@@ -30,7 +30,7 @@ describe('Events Router', () => {
     })
     it('should route room join events', () => {
         let app = new Emitter({
-            joinRoom: function(_room) {
+            joinRoom: function (_room) {
                 expect(_room).to.eql(room)
             }
         })
@@ -40,13 +40,13 @@ describe('Events Router', () => {
     })
     it('should route history requests', () => {
         let ui = new Emitter({
-            gotHistory: function(_room, lines) {
+            gotHistory: function (_room, lines) {
                 expect(_room).to.eql(room)
                 expect(lines[0]).to.eql(chatLine)
             }
         })
         let app = new Emitter({
-            getHistory: function(_room) {
+            getHistory: function (_room) {
                 expect(_room).to.eql(room)
                 this.emit('gotHistory', room, [chatLine])
             }
