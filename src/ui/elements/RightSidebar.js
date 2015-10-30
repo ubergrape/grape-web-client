@@ -94,7 +94,6 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
-          items: [],
           onRequestMessages: ::this.onRequestMessages
         })
         break
@@ -103,8 +102,7 @@ export default class RightSidebar extends Emitter {
   }
 
   loadFiles(params) {
-    params.channel = this.channel.id
-    this.emit('searchFiles', params)
+    this.emit('searchFiles', {...params, channel: this.channel.id})
   }
 
   onLeaveRoom() {
@@ -147,8 +145,7 @@ export default class RightSidebar extends Emitter {
   }
 
   onRequestMessages(params) {
-    params.text = this.lastMessagesQuery
-    this.emit('search', params)
+    this.emit('search', {...params, text: this.lastMessagesQuery})
   }
 
   onKickMember({id}) {
