@@ -23,7 +23,7 @@ export default class SharedFiles extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.offset = nextProps.items.length
     // It was hidden, we show it now.
     if (nextProps.show && !this.props.show) {
@@ -67,7 +67,7 @@ export default class SharedFiles extends Component {
     )
   }
 
-  requestFiles(props = this.props) {
+  requestFiles(props = this.props) {
     props.onRequestFiles({
       offset: this.offset,
       limit: props.limit

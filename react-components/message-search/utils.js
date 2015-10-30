@@ -5,15 +5,15 @@ import moment from 'moment'
 /**
  * Group messages by day and channel.
  */
-export function group(messages) {
+export function group(messages) {
   // Group by day.
   const grouped = groupBy(messages, message => {
     return moment(message.time).startOf('day')
   })
 
   // Gropuby channel.
-  each(grouped, (messages, time) => {
-    grouped[time] = groupBy(messages, 'channel')
+  each(grouped, (_messages, time) => {
+    grouped[time] = groupBy(_messages, 'channel')
   })
 
   return grouped

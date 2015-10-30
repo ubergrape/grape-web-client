@@ -6,7 +6,6 @@ import {useSheet} from '../jss'
 import style from './style'
 import * as utils from './utils'
 import Message from '../message/Message'
-const dateFormat = 'MMM Do YYYY, h:mm a'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -26,7 +25,7 @@ export default class MessageSearch extends Component {
     this.offsetDate = ''
   }
 
-  requestMessages(props = this.props) {
+  requestMessages(props = this.props) {
     const {query} = props
     if (query.length < props.minQueryLength) return
     props.onRequestMessages({
@@ -44,7 +43,7 @@ export default class MessageSearch extends Component {
     this.props.onSelect(item)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const {items} = nextProps
     let requestMessages = false
 
@@ -102,7 +101,7 @@ export default class MessageSearch extends Component {
     )
   }
 
-  renderLoadMore() {
+  renderLoadMore() {
     if (!this.props.total || this.props.items.length >= this.props.total) return null
     const {classes} = this.props.sheet
     return (
