@@ -10,12 +10,26 @@ import SharedFile from '../shared-files-file/SharedFile'
 export default class SharedFiles extends Component {
   static defaultProps = {
     show: false,
-    hasMore: false,
-    onLoadMore: noop,
-    items: []
+    total: 0,
+    onRequestFiles: noop,
+    items: [],
+    limit: 3
+  }
+
+  constructor(props) {
+    super(props)
+    this.offset = props.items.length
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
+
+  componentWillReceiveProps(nextProps) {
+    this.offset = nextProps.items.length
+    // It was hidden, we show it now.
+    if (nextProps.show && !this.props.show) {
+      if (!this.offset) this.requestFiles(nextProps)
+    }
+  }
 
   render() {
     if (!this.props.show) return null
@@ -30,7 +44,7 @@ export default class SharedFiles extends Component {
   }
 
   renderLoadMore() {
-    if (!this.props.hasMore) return null
+    if (!this.props.total || this.props.items.length >= this.props.total) return null
     const {classes} = this.props.sheet
     return (
       <div className={classes.loadMoreContainer}>
@@ -53,7 +67,14 @@ export default class SharedFiles extends Component {
     )
   }
 
+  requestFiles(props = this.props) {
+    props.onRequestFiles({
+      offset: this.offset,
+      limit: props.limit
+    })
+  }
+
   onLoadMore() {
-    this.props.onLoadMore()
+    this.requestFiles()
   }
 }

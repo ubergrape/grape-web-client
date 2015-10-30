@@ -76,7 +76,12 @@ export default class RightSidebar extends Emitter {
         })
         break
       case 'file':
-        this.showSharedFiles()
+        this.setProps({
+          show: true,
+          onRequestFiles: ::this.onRequestFiles,
+          // Reset items when switching rooms.
+          items: []
+        })
         break
       case 'members':
         this.setProps({
@@ -100,25 +105,8 @@ export default class RightSidebar extends Emitter {
     }
   }
 
-  showSharedFiles() {
-    this.setProps({
-      show: true,
-      onLoadMore: ::this.onLoadMoreFiles,
-      items: []
-    })
-    this.loadFiles(0)
-  }
-
-  loadFiles(offset) {
-    let params = {
-      channel: this.channel.id,
-      offset,
-      limit: 30
-    }
-    if (offset == null) {
-      const el = this.getCurrElement()
-      if (el.props.items) params.offset = el.props.items.length
-    }
+  loadFiles(params) {
+    params.channel = this.channel.id
     this.emit('searchFiles', params)
   }
 
@@ -186,14 +174,11 @@ export default class RightSidebar extends Emitter {
     })
     const prevItems = this.getCurrElement().props.items || []
     const items = [...prevItems, ...nextItems]
-    this.setProps({
-      items,
-      hasMore: items.length < data.total
-    })
+    this.setProps({items, total: data.total})
   }
 
-  onLoadMoreFiles() {
-    this.loadFiles()
+  onRequestFiles(params) {
+    this.loadFiles(params)
   }
 
   onSearchFilesError(err) {
