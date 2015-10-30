@@ -21,9 +21,7 @@ export default class RightSidebar extends Emitter {
     this.mode = null
     this.channel = null
     this.user = null
-    this.searchResults = []
-    this.searchResultsTotal = 0
-    this.lastQuery = null
+    this.lastMessagesQuery = null
   }
 
   createElements() {
@@ -96,8 +94,7 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
-          items: this.searchResults,
-          itemsTotal: this.searchResultsTotal,
+          items: [],
           onRequestMessages: ::this.onRequestMessages
         })
         break
@@ -136,20 +133,21 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchPayload(data) {
-    if (this.lastQuery === data.q) {
-      this.searchResults = this.searchResults.concat(data.results)
+    let {results} = data
+    // Its a "load more", add previous results before.
+    if (this.lastMessagesQuery === data.q) {
+      const prevItems = this.getCurrElement().props.items || []
+      results = [...prevItems, ...results]
     }
-    else {
-      this.searchResults = data.results
-      // save the total of items for the new query
-      this.searchResultsTotal = data.total
-    }
-    this.lastQuery = data.q
-    this.update()
+    this.lastMessagesQuery = data.q
+    this.setProps({
+      items: results,
+      itemsTotal: data.total
+    })
   }
 
   onRequestMessages(params) {
-    params.text = this.lastQuery
+    params.text = this.lastMessagesQuery
     this.emit('search', params)
   }
 
