@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import List from 'react-finite-list'
 import noop from 'lodash/utility/noop'
-import tz from 'moment-timezone'
 
 import {useSheet} from '../jss'
 import style from './style'
+import Message from '../message/Message'
 
 const dateFormat = 'MMM Do YYYY, h:mm a'
 
@@ -42,11 +41,10 @@ export default class MessageSearch extends Component {
   }
 
   onSelect(item) {
-    console.log(item)
+    this.props.onSelect(item)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     const {items} = nextProps
     let requestMessages = false
 
@@ -72,8 +70,20 @@ export default class MessageSearch extends Component {
     let {classes} = this.props.sheet
     return (
       <div className={classes.messageSearch}>
-        {this.renderMessages()}
+        {this.props.items.map(::this.renderMessage)}
         {this.renderLoadMore()}
+      </div>
+    )
+  }
+
+  renderMessage(item, index) {
+    let {classes} = this.props.sheet
+    return (
+      <div
+        className={classes.message}
+        onClick={this.onSelect.bind(this, item)}
+        key={index}>
+        <Message {...item} />
       </div>
     )
   }
@@ -88,44 +98,6 @@ export default class MessageSearch extends Component {
           className={classes.button}>
           Show more
         </button>
-      </div>
-    )
-  }
-
-  renderMessages() {
-    let {items} = this.props
-    if (!items.length) return null
-    return (
-      <List
-        items={items}
-        renderItem={::this.renderItem}
-        onSelect={::this.onSelect}
-        ref="list" />
-    )
-  }
-
-  renderItem({item, focused}) {
-    let {channel, author} = item
-    let {classes} = this.props.sheet
-    let itemClasses = [classes.item, focused ? classes.itemFocused : null]
-    let slug = channel.slug ? channel.slug : channel.users[0].slug
-    return (
-      <div className={itemClasses.join(' ')}>
-        <a
-          className={classes.itemLink}
-          href={`/chat/${slug}/${item.id}`} />
-        <div className={classes.itemHeader}>
-          <span className={classes.authorName}>{author.displayName} </span>
-          <span className={classes.time}>{tz(item.time).format(dateFormat)}</span>
-        </div>
-        <div>
-          <span className={classes.avatarWrap}>
-            <span
-              style={{backgroundImage: `url(${author.avatar})`}}
-              className={classes.avatar}></span>
-          </span>
-          <span className={classes.message}>{item.highlighted}</span>
-        </div>
       </div>
     )
   }

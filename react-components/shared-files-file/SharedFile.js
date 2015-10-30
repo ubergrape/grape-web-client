@@ -9,6 +9,13 @@ const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
 export default class SharedFile extends Component {
+  static defaultProps = {
+    time: undefined,
+    channelName: undefined,
+    name: undefined,
+    thumbnailUrl: undefined
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {

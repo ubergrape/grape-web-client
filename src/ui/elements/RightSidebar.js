@@ -1,5 +1,6 @@
 import Emitter from 'emitter'
 import find from 'lodash/collection/find'
+import page from 'page'
 
 import '../../../react-components/shared-files'
 import '../../../react-components/message-search'
@@ -95,7 +96,8 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
-          onRequestMessages: ::this.onRequestMessages
+          onRequestMessages: ::this.onRequestMessages,
+          onSelect: ::this.onSelectMessage
         })
         break
       default:
@@ -132,7 +134,17 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchPayload(data) {
-    let {results} = data
+    let results = data.results.map(result => {
+      return {
+        id: result.id,
+        channelName: result.channel.name,
+        author: result.author.displayName,
+        avatar: result.author.avatar,
+        time: result.time,
+        body: result.text,
+        slug: result.channel.slug ? result.channel.slug : result.channel.users[0].slug
+      }
+    })
 
     if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
 
@@ -193,5 +205,9 @@ export default class RightSidebar extends Emitter {
 
   onSearch({query}) {
     this.setProps({query})
+  }
+
+  onSelectMessage(message) {
+    page(`/chat/${message.slug}/${message.id}`)
   }
 }
