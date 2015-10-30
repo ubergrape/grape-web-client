@@ -7,7 +7,6 @@ import {useSheet} from '../jss'
 import style from './style'
 
 const dateFormat = 'MMM Do YYYY, h:mm a'
-const limit = 20
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -15,7 +14,8 @@ export default class MessageSearch extends Component {
     items: [],
     itemsTotal: 0,
     show: false,
-    onLoadMore: noop
+    onRequestMessages: noop,
+    limit: 20
   }
 
   constructor(props) {
@@ -26,7 +26,10 @@ export default class MessageSearch extends Component {
   onShowMore() {
     // offset is always the timestamp of the last loaded message
     this.offset = this.props.items[this.props.items.length-1].time
-    this.props.onLoadMore(limit, this.offset)
+    this.props.onRequestMessages({
+      limit: this.props.limit,
+      offset: this.offset
+    })
   }
 
   onSelect(item) {

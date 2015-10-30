@@ -98,7 +98,7 @@ export default class RightSidebar extends Emitter {
           show: true,
           items: this.searchResults,
           itemsTotal: this.searchResultsTotal,
-          onLoadMore: ::this.onLoadMoreMessages
+          onRequestMessages: ::this.onRequestMessages
         })
         break
       default:
@@ -148,12 +148,9 @@ export default class RightSidebar extends Emitter {
     this.update()
   }
 
-  onLoadMoreMessages(limit, offset) {
-    this.emit('search', {
-      text: this.lastQuery,
-      limit: limit,
-      offset: offset
-    })
+  onRequestMessages(params) {
+    params.text = this.lastQuery
+    this.emit('search', params)
   }
 
   onKickMember({id}) {
