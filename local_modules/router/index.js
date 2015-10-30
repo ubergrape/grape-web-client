@@ -23,13 +23,20 @@ function Router(ui) {
 		var redirectRoom = false;
 		navRoomList.every(function(room) {
 			if (room.joined) {
-				redirectRoom = room;
-				return false;
+				redirectRoom = room
+				return false
 			}
-			return true;
-		});
-		var redirectSlug = redirectRoom ? redirectRoom.slug : '@' + navPMList[0].username.toLowerCase();		
-		page.replace(baseURL + '/' + redirectSlug);
+			return true
+		})
+		var redirectSlug = false
+		if (redirectRoom) {
+			redirectSlug = redirectRoom.slug
+		}
+		else {
+			if (!navPMList.length) return ui.emit('emptyOrg')
+			redirectSlug = navPMList[0].slug
+		}
+		page.replace(baseURL + '/' + redirectSlug)
 	}
 
 	function goToPM (cxt) {

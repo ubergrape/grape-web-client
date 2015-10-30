@@ -23,6 +23,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened')
   broker(ui, 'newRoom', ui.historyView, 'onNewRoom')
   broker(ui, 'changeUser', ui.historyView, 'onChangeUser')
+  broker(ui, 'emptyOrg', ui.historyView, 'onEmptyOrg')
   broker(ui, 'selectchannel', ui.title, 'setRoom')
   broker(ui, 'selectorganization', ui.title, 'setOrganization')
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
@@ -84,6 +85,8 @@ export default function pipeEvents(ui) {
   broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
   broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode')
   broker(ui.historyView, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
+  broker(ui.historyView, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
+  broker(ui.historyView, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // notifications
   broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked')

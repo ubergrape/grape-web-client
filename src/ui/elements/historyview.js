@@ -34,11 +34,12 @@ function HistoryView() {
     this.requestedMsgID = null
     this.isFirstMsgLoaded = false
     this.isLastMsgLoaded = false
+    this.isOrgEmpty = false
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype)
 
-HistoryView.prototype.init = function HistoryView_init() {
+HistoryView.prototype.init = function() {
     let el = this.scrollWindow = document.createElement('div')
     el.className = 'chat'
     this.history = {}
@@ -53,7 +54,7 @@ HistoryView.prototype.init = function HistoryView_init() {
     this.el = scr.wrapper
 }
 
-HistoryView.prototype.bind = function HistoryView_bind() {
+HistoryView.prototype.bind = function() {
     this.events = events(this.el, this)
     this.events.bind('click .show-invite', 'toggleRoomInvite')
     this.events.bind('click i.btn-delete', 'deleteMessage')
@@ -65,13 +66,15 @@ HistoryView.prototype.bind = function HistoryView_bind() {
     this.events.bind('click div.load-newer-history', 'loadNewHistory')
     this.events.bind('click div.load-older-history', 'loadOldHistory')
     this.events.bind('click div.load-newest-history', 'loadNewestHistory')
+    this.events.bind('click .org-invite', 'onOrgInvite')
+    this.events.bind('click .manage-rooms', 'onManageRooms')
     focus.on('focus', this.updateReadDebounced)
     this.scrollWindow.addEventListener('scroll', function () {
         this.scrollMode = 'manual'
     }.bind(this))
 }
 
-HistoryView.prototype.onOrgReady = function HistoryView_onOrgReady (org) {
+HistoryView.prototype.onOrgReady = function(org) {
     if (Object.keys(this.unsentBuffer) != 0) return
     org.rooms.forEach( function (room) {
         this.unsentBuffer[room.id] = []
@@ -85,7 +88,7 @@ HistoryView.prototype.toggleRoomInvite = function () {
     this.emit('toggleRoomInvite', this.room)
 }
 
-HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
+HistoryView.prototype.deleteMessage = function(ev) {
     let el = closest(ev.target, '.message', true)
     classes(el).add('removing')
     if (confirm("Delete the selected Message?")) {
@@ -95,7 +98,7 @@ HistoryView.prototype.deleteMessage = function HistoryView_deleteMessage(ev) {
     classes(el).remove('removing')
 }
 
-HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (ev) {
+HistoryView.prototype.removeFromBuffer = function(ev) {
     let msgClientSideID = closest(ev.target, '.message', true).getAttribute('data-id')
     let bufferedMsg = this.findBufferedMsg(msgClientSideID)
     if (!bufferedMsg) return
@@ -104,7 +107,7 @@ HistoryView.prototype.removeFromBuffer = function HistoryView_removeFromBuffer (
     this.queueDraw()
 }
 
-HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
+HistoryView.prototype.loadNewHistory = function() {
     let options = {
         time_from   : this.room.searchHistory[this.room.searchHistory.length - 1].time,
         sort        : 'time:asc',
@@ -113,11 +116,11 @@ HistoryView.prototype.loadNewHistory = function HistoryView_loadNewHistory () {
     this.emit('loadHistoryForSearch', 'new', this.room, options)
 }
 
-HistoryView.prototype.loadNewestHistory = function HistoryView_loadNewestHistory () {
+HistoryView.prototype.loadNewestHistory = function() {
     this.emit('switchToChatMode', this.room)
 }
 
-HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
+HistoryView.prototype.loadOldHistory = function() {
     let options = {
         time_to : this.room.searchHistory[0].time,
         limit   : 5
@@ -125,7 +128,7 @@ HistoryView.prototype.loadOldHistory = function HistoryView_loadOldHistory () {
     this.emit('loadHistoryForSearch', 'old', this.room, options)
 }
 
-HistoryView.prototype.selectForEditing = function HistoryView_selectForEditing(ev) {
+HistoryView.prototype.selectForEditing = function(ev) {
     let el = closest(ev.target, '.message', true)
     classes(el).add('editing')
 
@@ -189,7 +192,7 @@ function groupHistory(history) {
     return groups
 }
 
-HistoryView.prototype.redraw = function HistoryView_redraw() {
+HistoryView.prototype.redraw = function() {
     let history
     let requestedMsg
     let prevMsgID
@@ -226,7 +229,8 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
         mode: this.mode,
         requestedMsgID: this.requestedMsgID,
         isFirstMsgLoaded: this.isFirstMsgLoaded,
-        isLastMsgLoaded: this.isLastMsgLoaded
+        isLastMsgLoaded: this.isLastMsgLoaded,
+        isOrgEmpty: this.isOrgEmpty
     }))
 
     if (this.lastwindow.lastmsg !== this.room.history[0])
@@ -243,11 +247,11 @@ HistoryView.prototype.redraw = function HistoryView_redraw() {
     }
 }
 
-HistoryView.prototype.scrollToBottom = function () {
+HistoryView.prototype.scrollToBottom = function() {
     this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight
 }
 
-HistoryView.prototype.updateRead = function HistoryView_updateRead () {
+HistoryView.prototype.updateRead = function() {
     // we get scroll events even when the window is not focused
     if (focus.state !== 'focus') return
     let bottomElem = this._findBottomVisible()
@@ -257,13 +261,13 @@ HistoryView.prototype.updateRead = function HistoryView_updateRead () {
     this.queueDraw()
 }
 
-HistoryView.prototype.queueDraw = function HistoryView_queueDraw() {
+HistoryView.prototype.queueDraw = function() {
     if (this.queued) return
     this.queued = true
     raf(this.redraw)
 }
 
-HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done) {
+HistoryView.prototype._scrolled = function(direction, done) {
     if (this.mode === 'search') return
     if (direction === 'bottom') {
         this.scrollMode = 'automatic'
@@ -277,21 +281,21 @@ HistoryView.prototype._scrolled = function HistoryView__scrolled(direction, done
     this.emit('needhistory', this.room, options)
 }
 
-HistoryView.prototype.firstMsgLoaded = function HistoryView_firstMsgLoaded (history) {
+HistoryView.prototype.firstMsgLoaded = function(history) {
     let firstLoadedMsg = history[0]
     if (firstLoadedMsg && new Date(firstLoadedMsg.time).getTime() === this.room.first_message_time)
         return true
     return false
 }
 
-HistoryView.prototype.lastMsgLoaded = function HistoryView_lastMsgLoaded (history) {
+HistoryView.prototype.lastMsgLoaded = function(history) {
     let lastLoadedMsg = history[history.length - 1]
     if (lastLoadedMsg && new Date(lastLoadedMsg.time).getTime() === this.room.latest_message_time)
         return true
     return false
 }
 
-HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (direction) {
+HistoryView.prototype.onGotHistory = function(direction) {
     this.room.loading = false
     this.room.empty = false
     let displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory
@@ -300,7 +304,7 @@ HistoryView.prototype.onGotHistory = function HistoryView_onGotHistory (directio
     this.queueDraw()
 }
 
-HistoryView.prototype.noHistory = function HistoryView_noHistory() {
+HistoryView.prototype.noHistory = function() {
     this.room.empty = true
     this.room.loading = false
     this.isFirstMsgLoaded = false
@@ -308,7 +312,7 @@ HistoryView.prototype.noHistory = function HistoryView_noHistory() {
     this.queueDraw()
 }
 
-HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisible() {
+HistoryView.prototype._findBottomVisible = function() {
     let history = this.history.el
     let scrollWindow = this.scrollWindow
     let scrollBottom = scrollWindow.offsetTop + scrollWindow.scrollTop + scrollWindow.clientHeight
@@ -319,9 +323,10 @@ HistoryView.prototype._findBottomVisible = function HistoryView__findBottomVisib
     }
 }
 
-HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
+HistoryView.prototype.setRoom = function(room, msgID) {
     let self = this
     this.requestedMsgID = null
+    this.isOrgEmpty = false
     if (this.room) this.room.history.off('remove')
     this.room = room
     // reset, otherwise we won't get future events
@@ -362,24 +367,24 @@ HistoryView.prototype.setRoom = function HistoryView_setRoom(room, msgID) {
     })
 }
 
-HistoryView.prototype.redrawTyping = function HistoryView_redrawTyping() {
+HistoryView.prototype.redrawTyping = function() {
     render(this.typing, template('typingnotifications.jade', {
         room: this.room,
         mode: this.mode
     }))
 }
 
-HistoryView.prototype.expandActivityList = function HistoryView_expandActivityList (ev) {
+HistoryView.prototype.expandActivityList = function(ev) {
     let el = closest(ev.target, 'ul', true)
     classes(el).remove('list-previewed')
 }
 
-HistoryView.prototype.collapseActivityList = function HistoryView_collapseActivityList (ev) {
+HistoryView.prototype.collapseActivityList = function(ev) {
     let el = closest(ev.target, 'ul', true)
     classes(el).add('list-previewed')
 }
 
-HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options) {
+HistoryView.prototype.onInput = function(room, msg, options) {
     if (this.mode === 'search') this.emit('switchToChatMode', room)
     let attachments = options && options.attachments ? options.attachments : []
     let newMessage = {
@@ -399,7 +404,7 @@ HistoryView.prototype.onInput = function HistoryView_onInput (room, msg, options
     this.handlePendingMsg(newMessage)
 }
 
-HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (clientSideID) {
+HistoryView.prototype.findBufferedMsg = function(clientSideID) {
     let bufferedMsg = null
     this.unsentBuffer[this.room.id].every(function (message) {
         if (clientSideID === message.clientSideID) {
@@ -411,7 +416,7 @@ HistoryView.prototype.findBufferedMsg = function HistoryView_findBufferedMsg (cl
     return bufferedMsg
 }
 
-HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
+HistoryView.prototype.onNewMessage = function(line) {
     if (line.channel != this.room || this.mode === 'search') return
     if (line.author === window.ui.user) {
         let bufferedMsg = this.findBufferedMsg(line.clientside_id)
@@ -421,26 +426,26 @@ HistoryView.prototype.onNewMessage = function HistoryView_onNewMessage (line) {
     this.queueDraw()
 }
 
-HistoryView.prototype.onNewPMOpened = function HistoryView_onNewPMOpened (pm) {
+HistoryView.prototype.onNewPMOpened = function(pm) {
     // on new pms opened by the visitor
     this.unsentBuffer[pm.id] = []
 }
 
-HistoryView.prototype.onNewRoom = function HistoryView_onNewRoon (channel) {
+HistoryView.prototype.onNewRoom = function(channel) {
     // on new public rooms
     // new private rooms the visitor get invited to
     // new pms opened by the pm partner
     this.unsentBuffer[channel.id] = []
 }
 
-HistoryView.prototype.onChangeUser = function HistoryView_onChangeUser (channel, changed) {
+HistoryView.prototype.onChangeUser = function(channel, changed) {
     if (changed && changed.indexOf('title') != -1) {
         this.queueDraw()
     }
     // TODO: also handle first_name, last_name changes
 }
 
-HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgID) {
+HistoryView.prototype.onFocusMessage = function(msgID) {
     this.mode = 'search'
     this.emit('switchToSearchMode')
     // reset, otherwise we won't get future events
@@ -453,7 +458,7 @@ HistoryView.prototype.onFocusMessage = function HistoryView_onFocusMessage (msgI
     this.queueDraw()
 }
 
-HistoryView.prototype.resend = function HistoryView_resend (e) {
+HistoryView.prototype.resend = function(e) {
     let clientSideID = e.target.getAttribute('data-id')
     let bufferedMsg = this.findBufferedMsg(clientSideID)
     if (!bufferedMsg) return
@@ -462,7 +467,7 @@ HistoryView.prototype.resend = function HistoryView_resend (e) {
     this.handlePendingMsg(bufferedMsg)
 }
 
-HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (msg) {
+HistoryView.prototype.handlePendingMsg = function(msg) {
     let options = {
         clientside_id: msg.clientSideID,
         attachments: msg.attachments
@@ -477,11 +482,24 @@ HistoryView.prototype.handlePendingMsg = function HistoryView_handlePendingMsg (
     }.bind(this), 5000)
 }
 
-HistoryView.prototype.onUploading = function HistoryView_onUploading () {
+HistoryView.prototype.onOrgInvite = function() {
+    this.emit('toggleOrgInvite')
+}
+
+HistoryView.prototype.onManageRooms = function() {
+    this.emit('triggerRoomManager')
+}
+
+HistoryView.prototype.onEmptyOrg = function() {
+    this.isOrgEmpty = true
+    this.redraw()
+}
+
+HistoryView.prototype.onUploading = function() {
     if (this.mode === 'chat') return
     this.emit('switchToChatMode', this.room)
 }
 
-HistoryView.prototype.onInputResize = function HistoryView_onInputResize () {
+HistoryView.prototype.onInputResize = function() {
     if (this.scrollMode === 'automatic') this.scrollToBottom()
 }
