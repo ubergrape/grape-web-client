@@ -83,7 +83,7 @@ ChatHeader.prototype.bind = function () {
   this.events.bind('keyup .description', 'setDescription')
   this.events.bind('submit form', 'preventFormSubmission')
   this.events.bind('click .description-edit', 'triggerDescriptionEdit')
-  this.events.bind('keypress .search', 'onSearchDebounced')
+  this.events.bind('keyup .search', 'onSearchDebounced')
   this.searchInput.addEventListener('focus', ::this.onFocusSearch)
   this.events.bind('click .mentions-toggler', 'toggleMentions')
   this.events.bind('click .file-browser-toggler', 'toggleSharedFiles')
