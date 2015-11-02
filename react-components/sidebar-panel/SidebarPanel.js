@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './style'
 import {useSheet} from '../jss'
@@ -17,6 +18,8 @@ export default class SidebarPanel extends Component {
     isLoading: false,
     onClose: noop
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     let {classes} = this.props.sheet

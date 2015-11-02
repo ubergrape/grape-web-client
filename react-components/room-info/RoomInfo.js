@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
-import {constants} from 'conf'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
+import {constants} from 'conf'
 import {useSheet} from '../jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -36,6 +37,8 @@ export default class RoomInfo extends Component {
   onClose() {
     this.props.onClose()
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     if (!this.props.show) return null

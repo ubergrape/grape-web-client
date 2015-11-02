@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from '../jss'
 import style from './style'
@@ -24,6 +25,8 @@ export default class UserProfile extends Component {
   onClose() {
     this.props.onClose()
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     if (!this.props.show) return null
