@@ -6,6 +6,7 @@ import {useSheet} from '../jss'
 import style from './style'
 import * as utils from './utils'
 import Message from '../message/Message'
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -13,10 +14,12 @@ export default class MessageSearch extends Component {
     items: [],
     total: '',
     show: false,
-    onRequest: noop,
     limit: 20,
     query: undefined,
-    minQueryLength: 2
+    minQueryLength: 2,
+    onSelect: noop,
+    onRequest: noop,
+    onClose: noop
   }
 
   constructor(props) {
@@ -41,6 +44,10 @@ export default class MessageSearch extends Component {
 
   onSelect(item) {
     this.props.onSelect(item)
+  }
+
+  onClose() {
+    this.props.onClose()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,10 +75,14 @@ export default class MessageSearch extends Component {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
     return (
-      <div className={classes.messageSearch}>
-        {this.renderMessages()}
-        {this.renderLoadMore()}
-      </div>
+      <SidebarPanel
+        title="Search Results"
+        onClose={::this.onClose}>
+        <div className={classes.messageSearch}>
+          {this.renderMessages()}
+          {this.renderLoadMore()}
+        </div>
+      </SidebarPanel>
     )
   }
 

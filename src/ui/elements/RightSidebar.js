@@ -2,6 +2,7 @@ import Emitter from 'emitter'
 import find from 'lodash/collection/find'
 import page from 'page'
 
+import * as convertCase from '../../api/convertCase'
 import '../../../react-components/shared-files'
 import '../../../react-components/message-search'
 import '../../../react-components/room-info'
@@ -75,13 +76,15 @@ export default class RightSidebar extends Emitter {
         this.setProps({
           show: true,
           onRequest: ::this.onRequestMentions,
-          onSelect: ::this.onSelectMessage
+          onSelect: ::this.onSelectMessage,
+          onClose: ::this.onClose
         })
         break
       case 'profile':
         this.setProps({
+          ...convertCase.toCamel(this.channel.users[0].toJSON()),
           show: true,
-          user: this.channel.users[0]
+          onClose: ::this.onClose
         })
         break
       case 'file':
@@ -89,24 +92,30 @@ export default class RightSidebar extends Emitter {
           show: true,
           onRequestFiles: ::this.onRequestFiles,
           // Reset items when switching rooms.
-          items: []
+          items: [],
+          onClose: ::this.onClose
         })
         break
       case 'members':
+        const channel = convertCase.toCamel(this.channel.toJSON())
+        channel.creator = convertCase.toCamel(channel.creator.toJSON())
+        channel.users = channel.users.toArray().map(user => convertCase.toCamel(user.toJSON()))
         this.setProps({
           show: true,
-          channel: this.channel,
-          user: this.user,
+          channel,
+          user: convertCase.toCamel(this.user.toJSON()),
           onInvite: ::this.onInviteMember,
           onKickMember: ::this.onKickMember,
-          onLeave: ::this.onLeaveRoom
+          onLeave: ::this.onLeaveRoom,
+          onClose: ::this.onClose
         })
         break
       case 'search':
         this.setProps({
           show: true,
           onRequest: ::this.onRequestMessages,
-          onSelect: ::this.onSelectMessage
+          onSelect: ::this.onSelectMessage,
+          onClose: ::this.onClose
         })
         break
       default:
@@ -224,6 +233,10 @@ export default class RightSidebar extends Emitter {
 
   onShow(mode) {
     this.show(mode)
+  }
+
+  onClose() {
+    this.hide()
   }
 
   onSearch({query}) {

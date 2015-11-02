@@ -5,15 +5,17 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from '../jss'
 import style from './style'
 import SharedFile from '../shared-files-file/SharedFile'
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class SharedFiles extends Component {
   static defaultProps = {
     show: false,
     total: 0,
-    onRequestFiles: noop,
     items: [],
-    limit: 3
+    limit: 3,
+    onRequestFiles: noop,
+    onClose: noop
   }
 
   constructor(props) {
@@ -35,11 +37,15 @@ export default class SharedFiles extends Component {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
     return (
-      <div className={classes.sharedFiles}>
-        {this.props.items.map((item, i) => <SharedFile {...item} key={i} />)}
-        {this.renderEmpty()}
-        {this.renderLoadMore()}
-      </div>
+      <SidebarPanel
+        title="Shared Files"
+        onClose={::this.onClose}>
+        <div className={classes.sharedFiles}>
+          {this.props.items.map((item, i) => <SharedFile {...item} key={i} />)}
+          {this.renderEmpty()}
+          {this.renderLoadMore()}
+        </div>
+      </SidebarPanel>
     )
   }
 
@@ -76,5 +82,9 @@ export default class SharedFiles extends Component {
 
   onLoadMore() {
     this.requestFiles()
+  }
+
+  onClose() {
+    this.props.onClose()
   }
 }

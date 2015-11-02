@@ -1,52 +1,73 @@
 import React, {Component} from 'react'
+import noop from 'lodash/utility/noop'
+
 import {useSheet} from '../jss'
 import style from './style'
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class UserProfile extends Component {
   static defaultProps = {
-    show: false
+    show: false,
+    avatar: undefined,
+    username: undefined,
+    fullName: undefined,
+    displayName: undefined,
+    slug: undefined,
+    whatIDo: undefined,
+    email: undefined,
+    skypeUsername: undefined,
+    phoneNumber: undefined,
+    onClose: noop
+  }
+
+  onClose() {
+    this.props.onClose()
   }
 
   render() {
     if (!this.props.show) return null
-    const {user} = this.props
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
+  console.log(this.props)
     return (
-      <div className={classes.profile}>
-        <div className={classes.avatarWrap}>
-          <img
-            className={classes.avatar}
-            src={user.avatar}
-            alt={user.username}
-            width="80"
-            height="80" />
+      <SidebarPanel
+        title="User Profile"
+        onClose={::this.onClose}>
+        <div className={classes.profile}>
+          <div className={classes.avatarWrap}>
+            <img
+              className={classes.avatar}
+              src={this.props.avatar}
+              alt={this.props.username}
+              width="80"
+              height="80" />
+          </div>
+          <div className={classes.fullName}>
+            {this.props.displayName}
+          </div>
+          <div className={classes.username}>
+            {this.props.slug}
+          </div>
+          <div className={classes.item}>
+            {this.props.whatIDo}
+          </div>
+          <div className={classes.item}>
+            <a href={`mailto:${this.props.email}`}>
+              {this.props.email}
+            </a>
+          </div>
+          <div className={classes.item}>
+            <a href={`skype:${this.props.skypeUsername}`}>
+              {this.props.skypeUsername}
+            </a>
+          </div>
+          <div className={classes.item}>
+            <a href={`tel:${this.props.phoneNumber}`}>
+              {this.props.phoneNumber}
+            </a>
+          </div>
         </div>
-        <div className={classes.fullName}>
-          {user.displayName}
-        </div>
-        <div className={classes.username}>
-          {user.slug}
-        </div>
-        <div className={classes.item}>
-          {user.what_i_do}
-        </div>
-        <div className={classes.item}>
-          <a href={`mailto:${user.email}`}>
-            {user.email}
-          </a>
-        </div>
-        <div className={classes.item}>
-          <a href={`skype:${user.skype_username}`}>
-            {user.skype_username}
-          </a>
-        </div>
-        <div className={classes.item}>
-          <a href={`tel:${user.phone_number}`}>
-            {user.phone_number}
-          </a>
-        </div>
-      </div>
+      </SidebarPanel>
     )
   }
 }

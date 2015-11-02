@@ -6,7 +6,13 @@ export default {
 
   },
   deleteButton: {
-
+    border: 'none',
+    '&:before': {
+      content: '"×"'
+    },
+    '&:hover': {
+      color: 'red'
+    }
   },
   avatarWrap: {
 

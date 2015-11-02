@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import List from 'react-finite-list'
 import noop from 'lodash/utility/noop'
 import {constants} from 'conf'
+import tz from 'moment-timezone'
+
 import {useSheet} from '../jss'
 import style from './style'
-import tz from 'moment-timezone'
+import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 const dateFormat = 'MMMM Do, YYYY'
 
@@ -12,9 +13,12 @@ const dateFormat = 'MMMM Do, YYYY'
 export default class RoomInfo extends Component {
   static defaultProps = {
     show: false,
+    channel: undefined,
+    user: undefined,
     onKickMember: noop,
     onInvite: noop,
-    onLeave: noop
+    onLeave: noop,
+    onClose: noop
   }
 
   onInvite() {
@@ -29,72 +33,77 @@ export default class RoomInfo extends Component {
     this.props.onLeave()
   }
 
+  onClose() {
+    this.props.onClose()
+  }
+
   render() {
     if (!this.props.show) return null
     let {classes} = this.props.sheet
     let {channel} = this.props
-    let users = channel.users.toArray()
+    let {users} = channel
     let plural = users.length > 1 ? 's' : ''
     let creatorText
     if (channel.creator) {
       creatorText = ` and has been created by ${channel.creator.displayName}`
     }
-
     return (
-      <div className={classes.roomInfo}>
-        <div>
-          The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
+      <SidebarPanel
+        title="Room Info"
+        onClose={::this.onClose}>
+        <div className={classes.roomInfo}>
+          <div>
+            The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
+          </div>
+          <div onClick={::this.onInvite}>
+            <button>Invite more people to this room</button>
+          </div>
+          <div onClick={::this.onLeave}>
+            <button>Leave {channel.name}</button>
+          </div>
+          <div className={classes.userList}>
+            {users.map(::this.renderUser)}
+          </div>
         </div>
-        <div onClick={::this.onInvite}>
-          <a>Invite more people to this room</a>
-        </div>
-        <div onClick={::this.onLeave}>
-          <a>Leave {channel.name}</a>
-        </div>
-        <List
-          items={users}
-          className={classes.userList}
-          renderItem={::this.renderItem} />
-      </div>
+      </SidebarPanel>
     )
   }
 
-  renderItem({item}) {
-    let {classes} = this.props.sheet
-    let {channel} = this.props
-    let href = `/chat/${item.slug}`
-    let deleteButton
-    let {user} = this.props
-    let canUserKick = user === channel.creator || user.role >= constants.roles.ROLE_ADMIN
-    // user has be have the rights to kick
-    // user should not be able to kick itself
-    // user should not be able to kick the creator of the room
-    if (canUserKick && user !== item && item !== channel.creator) {
-      deleteButton = (
-        <span
-          className={classes.deleteButton}
-          onClick={this.onKickMember.bind(this, item)}>
-          X
-        </span>
-      )
-    }
-
+  renderUser(user, index) {
+    const {classes} = this.props.sheet
+    const href = `/chat/${user.slug}`
     return (
-      <div>
+      <div key={user.id}>
         <a href={href}>
           <aside className={classes.avatarWrap}>
             <img
               className={classes.avatar}
               width="20"
               height="20"
-              src={item.avatar} />
+              src={user.avatar} />
           </aside>
           <span>
-            {item.displayName}
+            {user.displayName}
           </span>
         </a>
-        {deleteButton}
       </div>
+    )
+  }
+
+  renderDeleteButton(user) {
+    const {classes} = this.props.sheet
+    const {channel} = this.props
+    const currUser = this.props.user
+    const canUserKick = currUser.id === channel.creator.id || currUser.role >= constants.roles.ROLE_ADMIN
+    // User has be have the rights to kick.
+    // User should not be able to kick itself.
+    // User should not be able to kick the creator of the room.
+    if (!canUserKick || currUser.id === user.id && user.id === channel.creator.id) return null
+    return (
+      <button
+        className={classes.deleteButton}
+        onClick={this.onKickMember.bind(this, user)}>
+      </button>
     )
   }
 }

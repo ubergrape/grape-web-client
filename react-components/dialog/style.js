@@ -2,6 +2,7 @@ import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
+import utils from 'grape-jss-utils'
 
 const overlay = {
   position: 'fixed',
@@ -54,7 +55,7 @@ export default {
   },
   title: {
     ...fonts.big,
-    display: 'flex',
+    ...utils.ellipsis,
     flex: 2,
     alignSelf: 'center',
     color: webColors.sidebarGroupTitle,
