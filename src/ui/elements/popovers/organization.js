@@ -1,73 +1,76 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+let Emitter = require('emitter')
+let template = require('template')
+let render = require('../../rendervdom')
+let Popover = require('./popover')
+let classes = require('classes')
+let qs = require('query')
+let roles = require('conf').constants.roles
 
-var Emitter = require('emitter');
-var template = require('template');
-var render = require('../../rendervdom');
-var Popover = require('./popover');
-var classes = require('classes');
-var qs = require('query');
-
-module.exports = OrganizationPopover;
+module.exports = OrganizationPopover
 
 function OrganizationPopover() {
-	Popover.call(this);
+    Popover.call(this)
 }
 
-OrganizationPopover.prototype = Object.create(Popover.prototype);
+OrganizationPopover.prototype = Object.create(Popover.prototype)
 
-OrganizationPopover.prototype.init = function OrganizationPopover_init() {
-	Popover.prototype.init.call(this);
-	this.content = {};
-	this.redraw();
-	this.content.classes = classes(this.content.el);
-	this.el.appendChild(this.content.el);
-};
-
-OrganizationPopover.prototype.bind = function OrganizationPopover_bind() {
-	Popover.prototype.bind.call(this);
-	this.events.obj.editView = function (e) {
-		e.preventDefault();
-		var newMode = ui.settings.compact_mode ? false : true;
-		this.emit('editView', newMode);
-	}.bind(this);
-	this.events.bind('click a.edit-view', 'editView');
-};
-
-OrganizationPopover.prototype.redraw = function OrganizationPopover_redraw() {
-	this.classes.add('orga-po');
-	this.classes.add('top');
-
-	var userRole = 0;
-
-	if (typeof ui != 'undefined') {
-		userRole = ui.user.role;
-	}
-
-	var vdom = template('popovers/organization.jade', {
-		role: userRole
-	});
-
-	render(this.content, vdom);
-};
-
-OrganizationPopover.prototype.onOrgReady = function OrganizationPopover_onOrgReady(org) {
-	this.redraw();
+OrganizationPopover.prototype.init = function () {
+    Popover.prototype.init.call(this)
+    this.content = {}
 }
 
-OrganizationPopover.prototype.onSettingsReady = function OrganizationPopover_onSettingsReady() {
-	this.redraw();
+OrganizationPopover.prototype.bind = function () {
+    Popover.prototype.bind.call(this)
+    this.events.obj.editView = function (e) {
+        e.preventDefault()
+        let newMode = !window.ui.settings.compact_mode
+        this.emit('editView', newMode)
+    }.bind(this)
+    this.events.obj.toggleOrgInvite = function () {
+        this.emit('toggleOrgInvite')
+    }.bind(this)
+    this.events.bind('click a.edit-view', 'editView')
+    this.events.bind('click .invite-new-members', 'toggleOrgInvite')
 }
 
-OrganizationPopover.prototype.onViewChanged = function OrganizationPopover_onViewChanged(compactMode) {
-	if (compactMode) {
-		classes(document.body).add('client-style-compact');
-		classes(document.body).remove('normal-style');
-		classes(document.body).remove('client-style-normal');
-	} else {
-		classes(document.body).add('normal-style');
-		classes(document.body).remove('client-style-compact');
-		classes(document.body).add('client-style-normal');
-	}
- 	this.redraw();
+OrganizationPopover.prototype.redraw = function () {
+    if (!this.org || !this.user) return
+    this.classes.add('orga-po')
+    this.classes.add('top')
+
+    let vdom = template('popovers/organization.jade', {
+        isInviter: this.user.role >= this.org.inviter_role,
+        isOrgManager: this.user.role >= roles.ROLE_ADMIN
+    })
+
+    render(this.content, vdom)
+    this.content.classes = classes(this.content.el)
+    this.el.appendChild(this.content.el)
+}
+
+OrganizationPopover.prototype.onOrgReady = function (org) {
+    this.org = org
+    this.redraw()
+}
+
+OrganizationPopover.prototype.onSetUser = function (user) {
+    this.user = user
+    this.redraw()
+}
+
+OrganizationPopover.prototype.onSettingsReady = function () {
+    this.redraw()
+}
+
+OrganizationPopover.prototype.onViewChanged = function (compactMode) {
+    if (compactMode) {
+        classes(document.body).add('client-style-compact')
+        classes(document.body).remove('normal-style')
+        classes(document.body).remove('client-style-normal')
+    } else {
+        classes(document.body).add('normal-style')
+        classes(document.body).remove('client-style-compact')
+        classes(document.body).add('client-style-normal')
+    }
+    this.redraw()
 }

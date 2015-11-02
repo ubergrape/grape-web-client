@@ -1,47 +1,52 @@
 .organizationpopover
-	ul.popover-list
-		li.hide
-			a(href='#')
-				i.fa.fa-eye
-				=_('Compact View')
-		if (role != "0")
-			li
-				a(href='/accounts/organization/settings/', target='_self')
-					i.fa.fa-cog
-					=_('Organization Settings')
-			li
-				a(href='/accounts/organization/settings/members/', target='_self')
-					i.fa.fa-user
-					=_('Manage Members')
-			li
-				a(href='/services/list/', target='_self')
-					i.fa.fa-link
-					=_('Service Integrations')
-		li.break-line
-			a(href='/accounts/settings/', target='_self')
-				i.fa.fa-cog
-				=_('Account Settings')
-		li
-			a.edit-view(href='#')
-				if (user.settings && user.settings.compact_mode)
-						i.fa.fa-th-list
-						=_('Normal View')
-				else
-						i.fa.fa-list
-						=_('Compact View')
-		li
-			a(href='/accounts/settings/notifications/', target='_self')
-				i.fa.fa-bell
-				=_('Notification Settings')
-		li
-			a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
-				i.fa.fa-life-saver
-				=_('Tutorial')
-		li
-			a(href='/accounts/organization/dashboard/', target='_self')
-				i.fa.fa-random
-				=_('Switch Organizations')
-		li
-			a(href='/accounts/logout/', target='_self')
-				i.fa.fa-sign-out
-				=_('Sign Out')
+    ul.popover-list
+        li.hide
+            a(href='#')
+                i.fa.fa-eye
+                =_('Compact View')
+        if (isOrgManager)
+            li
+                a(href='/accounts/organization/settings/', target='_self')
+                    i.fa.fa-cog
+                    =_('Organization Settings')
+            li
+                a(href='/accounts/organization/settings/members/', target='_self')
+                    i.fa.fa-user
+                    =_('Manage Members')
+            li
+                a(href='/integrations/', target='_self')
+                    i.fa.fa-link
+                    =_('Service Integrations')
+        li.break-line
+            a(href='/accounts/settings/', target='_self')
+                i.fa.fa-cog
+                =_('Account Settings')
+        li
+            a.edit-view(href='#')
+                if (user.settings && user.settings.compact_mode)
+                        i.fa.fa-th-list
+                        =_('Normal View')
+                else
+                        i.fa.fa-list
+                        =_('Compact View')
+        li
+            a(href='/accounts/settings/notifications/', target='_self')
+                i.fa.fa-bell
+                =_('Notification Settings')
+        li
+            a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
+                i.fa.fa-life-saver
+                =_('Tutorial')
+        if (isInviter)
+            li
+                a.invite-new-members
+                    i.fa.fa-user-plus
+                    =_('Invite new members')
+        li
+            a(href='/accounts/organization/dashboard/', target='_self')
+                i.fa.fa-random
+                =_('Switch Organizations')
+        li
+            a(href='/accounts/logout/', target='_self')
+                i.fa.fa-sign-out
+                =_('Sign Out')

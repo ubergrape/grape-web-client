@@ -1,56 +1,64 @@
-/* vim: set shiftwidth=2 tabstop=2 noexpandtab textwidth=80 wrap : */
-"use strict";
+let Emitter = require('emitter')
+let template = require('template')
+let events = require('events')
+let render = require('../rendervdom')
+let defaults = require('lodash/object/defaults')
 
-var Emitter = require('emitter');
-var template = require('template');
-var events = require('events');
-var render = require('../rendervdom');
-
-module.exports = ItemList;
+module.exports = ItemList
 
 function ItemList(options) {
-	Emitter.call(this);
-	this.template = options.template;
-	this.templateOptions = options.templateOptions ? options.templateOptions : null;
-	this.items = [];
-	this.selected = null;
-	this.redraw = this.redraw.bind(this);
-	this.redraw();
+    Emitter.call(this)
+    this.template = options.template
+    this.templateOptions = options.templateOptions ? options.templateOptions : null
+    this.items = []
+    this.highlighted = []
+    this.selected = null
+    this.redraw = this.redraw.bind(this)
+    this.redraw()
 }
 
-ItemList.prototype = Object.create(Emitter.prototype);
+ItemList.prototype = Object.create(Emitter.prototype)
 
 ItemList.prototype.redraw = function () {
-	var vdom = template(this.template, this.extendTemplateOptions());
-	render(this, vdom);
-};
+    let vdom = template(this.template, this.getTemplateOptions())
+    render(this, vdom)
+}
 
-ItemList.prototype.extendTemplateOptions = function () {
-	var options = {
-		items: this.items,
-		selected: this.selected	
-	};
-	for (var item in this.templateOptions) {
-		options[item] = this.templateOptions[item];
-	}
-	return options;
+ItemList.prototype.getTemplateOptions = function () {
+    let options = {
+        items: this.items,
+        selected: this.selected,
+        highlighted: this.highlighted
+    }
+    defaults(options, this.templateOptions)
+    return options
 }
 
 ItemList.prototype.setItems = function (items) {
-	var self = this;
-	this.selected = null;
-	this.items = items;
-	this.redraw();
-};
+    let self = this
+    this.selected = null
+    this.items = items
+    this.redraw()
+}
 
 ItemList.prototype.selectItem = function (item) {
-	this.selected = item;
-	this.redraw();
-};
+    this.selected = item
+    this.redraw()
+}
+
+ItemList.prototype.toggleItem = function (item) {
+    let itemIndex = this.highlighted.indexOf(item)
+    if (itemIndex === -1) {
+        this.highlighted.push(item)
+    } else {
+        this.highlighted.splice(itemIndex, 1)
+    }
+    this.redraw()
+}
 
 ItemList.prototype.order = function (whatBy) {
-	this.items.sort(function(a, b) {
-		return a[whatBy].localeCompare(b[whatBy]);
-	});
-	this.redraw();
+    this.items.sort(function (a, b) {
+        return a[whatBy].localeCompare(b[whatBy])
+    })
+    this.redraw()
 }

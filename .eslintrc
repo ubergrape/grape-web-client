@@ -1,0 +1,6 @@
+{
+  "extends": "eslint-config-ubergrape",
+  "rules": {
+    "camelcase": 1
+  }
+}

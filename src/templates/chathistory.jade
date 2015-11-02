@@ -38,7 +38,7 @@
 								i.fa.fa-user-plus
 								=_('Add members to this room')
 						li.option
-							a.button.btn-gainsboro(href='/services/', target='_self')
+							a.button.btn-gainsboro(href='/integrations/', target='_self')
 								i.fa.fa-link
 								=_('Integrate external services')
 		else
@@ -146,15 +146,19 @@
 							if  status === 'sent'
 								a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
 									.time
-										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
 											first.user_time
-										if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+										//- now we need to find out if the user timezone in the message is the same as our current timezone
+										//- if it is not, we display a little icon and hovering it reveils the timezone from the message
+										//- (new Date()).getTimezoneOffset() will be -120 for "GMT+0200 (CEST)" BUT
+										//- tz(line.user_time)._tzm will be 120
+										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
 											i.fa.fa-globe
 											.different-timezone
 												span.dif-tz
 													=_(' Local time: ')
 												//- the substr part is a hack to remove the tz information
-												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												- var user_time = line.user_time.substr(0, line.user_time.length - 6)
 												time.user-tz= tz(user_time).format('hh:mm A')
 							if i === 0
 								.messageinfo
@@ -228,7 +232,7 @@
 							if line.attachments
 								//- process attachments/uploads
 								each attachment in line.attachments
-									if attachment.type !== undefined
+									if attachment.type
 										if attachment.type.indexOf("image") == 0
 											//- attachment is an image
 											div.image-wrap
