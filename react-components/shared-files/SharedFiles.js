@@ -13,7 +13,7 @@ export default class SharedFiles extends Component {
     show: false,
     total: undefined,
     items: [],
-    limit: 3,
+    limit: 20,
     onRequestFiles: noop,
     onClose: noop
   }
