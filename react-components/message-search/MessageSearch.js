@@ -12,7 +12,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 export default class MessageSearch extends Component {
   static defaultProps = {
     items: [],
-    total: '',
+    total: undefined,
     show: false,
     limit: 20,
     query: undefined,
@@ -81,6 +81,7 @@ export default class MessageSearch extends Component {
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}
+          {this.renderEmpty()}
         </div>
       </SidebarPanel>
     )
@@ -122,6 +123,16 @@ export default class MessageSearch extends Component {
           className={classes.button}>
           Show more
         </button>
+      </div>
+    )
+  }
+
+  renderEmpty() {
+    const {classes} = this.props.sheet
+    if (this.props.total !== 0) return null
+    return (
+      <div className={classes.empty}>
+        No messages found.
       </div>
     )
   }

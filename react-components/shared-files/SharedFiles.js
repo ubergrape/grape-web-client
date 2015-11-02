@@ -11,7 +11,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 export default class SharedFiles extends Component {
   static defaultProps = {
     show: false,
-    total: 0,
+    total: undefined,
     items: [],
     limit: 3,
     onRequestFiles: noop,
@@ -65,7 +65,7 @@ export default class SharedFiles extends Component {
 
   renderEmpty() {
     const {classes} = this.props.sheet
-    if (this.props.items.length) return null
+    if (this.props.total !== 0) return null
     return (
       <div className={classes.empty}>
         No shared files.

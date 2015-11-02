@@ -15,5 +15,8 @@ export default {
     '&:hover': {
       background: 'blue'
     }
+  },
+  empty: {
+    textAlign: 'center'
   }
 }
