@@ -84,7 +84,7 @@ export default class SharedFiles extends Component {
     this.requestFiles()
   }
 
-  onClose() {
+  onClose() {
     this.props.onClose()
   }
 }

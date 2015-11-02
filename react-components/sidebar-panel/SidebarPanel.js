@@ -31,7 +31,7 @@ export default class SidebarPanel extends Component {
     )
   }
 
-  onClose() {
+  onClose() {
     this.props.onClose()
   }
 }

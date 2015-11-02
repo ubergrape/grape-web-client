@@ -21,14 +21,13 @@ export default class UserProfile extends Component {
     onClose: noop
   }
 
-  onClose() {
+  onClose() {
     this.props.onClose()
   }
 
   render() {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
-  console.log(this.props)
     return (
       <SidebarPanel
         title="User Profile"

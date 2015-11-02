@@ -33,7 +33,7 @@ export default class RoomInfo extends Component {
     this.props.onLeave()
   }
 
-  onClose() {
+  onClose() {
     this.props.onClose()
   }
 
@@ -69,7 +69,7 @@ export default class RoomInfo extends Component {
     )
   }
 
-  renderUser(user, index) {
+  renderUser(user) {
     const {classes} = this.props.sheet
     const href = `/chat/${user.slug}`
     return (
@@ -90,7 +90,7 @@ export default class RoomInfo extends Component {
     )
   }
 
-  renderDeleteButton(user) {
+  renderDeleteButton(user) {
     const {classes} = this.props.sheet
     const {channel} = this.props
     const currUser = this.props.user
