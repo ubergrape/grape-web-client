@@ -869,6 +869,20 @@ API.prototype.onSearchFiles = function (params) {
   )
 }
 
+API.prototype.onLoadMentions = function (params) {
+  this.wamp.call(
+    PREFIX + 'organizations/get_mentions',
+    this.organization.id,
+    params.only,
+    params.limit,
+    params.offset,
+    (err, data) => {
+      if (err) return this.emit('loadMentionsError', err)
+      this.emit('loadMentionsPayload', convertCase.toCamel(data))
+    }
+  )
+}
+
 API.prototype.onSearch = function (params) {
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
   this.wamp.call(

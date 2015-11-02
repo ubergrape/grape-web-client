@@ -11,35 +11,36 @@ let conf = require('conf')
 
 module.exports = ChatHeader
 
-function ChatHeader() {
-  Emitter.call(this)
-  this.onSearchDebounced = debounce(::this.onSearch, 200)
-  this.room = {}
-  this.editOptions = {
-    canManageRoom: false,
-    renamingRoom: false
-  }
-  this.intercom = {
+
+const menuItems = {
+  intercom: {
     className: 'intercom-trigger',
     icon: 'fa-question-circle',
     id: 'Intercom',
     visible: true
-  }
-  this.fileBrowserToggler = {
+  },
+  mentions: {
+    className: 'mentions-toggler',
+    type: 'mentions',
+    //icon: 'fa-files-o',
+    visible: true
+  },
+  sharedFiles: {
     className: 'file-browser-toggler',
     icon: 'fa-files-o',
     visible: true
-  }
-  this.userViewToggler = {
+  },
+  user: {
     className: 'user-view-toggler',
     icon: 'fa-user',
     visible: true
   }
-  this.menuItems =[
-    this.intercom,
-    this.fileBrowserToggler,
-    this.userViewToggler
-  ]
+}
+
+function ChatHeader() {
+  Emitter.call(this)
+  this.onSearchDebounced = debounce(::this.onSearch, 200)
+  this.room = {}
   this.selected = null
   this.cUser = null
   this.redraw = this.redraw.bind(this)
@@ -65,7 +66,7 @@ ChatHeader.prototype.init = function () {
   if (conf.customSupportEmailAddress) {
     intercomButton.href = `mailto:${conf.customSupportEmailAddress}`
   }
-  else if (Intercom) {
+  else if (window.Intercom) {
     intercomButton.href = `mailto:${window.intercomSettings.app_id}@incoming.intercom.io`
     window.Intercom('reattach_activator');
   }
@@ -78,14 +79,15 @@ ChatHeader.prototype.bind = function () {
   this.events.bind('click .room-name.editable', 'triggerRoomRename')
   this.events.bind('click .option-rename-cancel', 'stopRoomRename')
   this.events.bind('click .option-rename-ok', 'confirmRoomRename')
-  this.events.bind('click .user-view-toggler', 'toggleUserView')
   this.events.bind('keyup .room-name', 'onRoomRenameShortcuts')
   this.events.bind('keyup .description', 'setDescription')
   this.events.bind('submit form', 'preventFormSubmission')
-  this.events.bind('click .file-browser-toggler', 'toggleFileBrowser')
   this.events.bind('click .description-edit', 'triggerDescriptionEdit')
   this.events.bind('keypress .search', 'onSearchDebounced')
   this.searchInput.addEventListener('focus', ::this.onFocusSearch)
+  this.events.bind('click .mentions-toggler', 'toggleMentions')
+  this.events.bind('click .file-browser-toggler', 'toggleSharedFiles')
+  this.events.bind('click .user-view-toggler', 'toggleUserView')
 }
 
 ChatHeader.prototype.redraw = function () {
@@ -95,7 +97,7 @@ ChatHeader.prototype.redraw = function () {
     editState: this.editState,
     mode: this.mode,
     menu: {
-      items: this.menuItems,
+      items: menuItems,
       selected: this.selected
     }
   })
@@ -166,16 +168,22 @@ ChatHeader.prototype.confirmRoomRename = function () {
 }
 
 ChatHeader.prototype.toggleUserView = function () {
-  this.selected = this.userViewToggler === this.selected ? null : this.userViewToggler
+  this.selected = menuItems.user === this.selected ? null : menuItems.user
   let mode = this.room.type === 'room' ? 'members' : 'profile'
   this.emit('toggleRightSidebar', mode)
   this.redraw()
 }
 
-ChatHeader.prototype.toggleFileBrowser = function () {
-  this.selected = this.fileBrowserToggler === this.selected ? null : this.fileBrowserToggler
+ChatHeader.prototype.toggleSharedFiles = function () {
+  this.selected = menuItems.sharedFiles === this.selected ? null : menuItems.sharedFiles
   this.emit('toggleRightSidebar', 'file')
-  this.redraw();
+  this.redraw()
+}
+
+ChatHeader.prototype.toggleMentions = function () {
+  this.selected = menuItems.mentions === this.selected ? null : menuItems.mentions
+  this.emit('toggleRightSidebar', 'mentions')
+  this.redraw()
 }
 
 ChatHeader.prototype.showSearch = function () {
@@ -228,9 +236,9 @@ ChatHeader.prototype.onFocusSearch = function () {
 }
 
 ChatHeader.prototype.onSearch = function (e) {
-    const query = this.searchInput.value.trim()
-    if (query.length && query !== this.lastQuery) {
-      this.lastQuery = query
-      this.emit('search', {query})
-    }
+  const query = this.searchInput.value.trim()
+  if (query.length && query !== this.lastQuery) {
+    this.lastQuery = query
+    this.emit('search', {query})
+  }
 }

@@ -13,9 +13,9 @@ export default class MessageSearch extends Component {
     items: [],
     total: '',
     show: false,
-    onRequestMessages: noop,
+    onRequest: noop,
     limit: 20,
-    query: '',
+    query: undefined,
     minQueryLength: 2
   }
 
@@ -27,8 +27,8 @@ export default class MessageSearch extends Component {
 
   requestMessages(props = this.props) {
     const {query} = props
-    if (query.length < props.minQueryLength) return
-    props.onRequestMessages({
+    if (query && query.length < props.minQueryLength) return
+    props.onRequest({
       offsetDate: this.offsetDate,
       limit: props.limit,
       query

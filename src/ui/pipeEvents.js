@@ -51,6 +51,8 @@ export default function pipeEvents(ui) {
     broker(ui, 'searchPayload', ui.rightSidebar, 'onSearchPayload')
     broker(ui, 'searchFilesPayload', ui.rightSidebar, 'onSearchFilesPayload')
     broker(ui, 'searchFilesError', ui.rightSidebar, 'onSearchFilesError')
+    broker(ui, 'loadMentionsPayload', ui.rightSidebar, 'onLoadMentionsPayload')
+    broker(ui, 'loadMentionsError', ui.rightSidebar, 'onLoadMentionsError')
 
     // chat header
     broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
@@ -111,6 +113,7 @@ export default function pipeEvents(ui) {
     broker(ui.rightSidebar, 'hide', ui, 'onHideRightSidebar')
     broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
     broker.pass(ui.rightSidebar, 'searchFiles', ui, 'searchFiles')
+    broker.pass(ui.rightSidebar, 'loadMentions', ui, 'loadMentions')
     broker.pass(ui.rightSidebar, 'search', ui, 'search')
 
     // channel search

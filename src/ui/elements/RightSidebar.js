@@ -11,7 +11,8 @@ const modeElementMap = {
   profile: 'userProfile',
   file: 'sharedFiles',
   members: 'roomInfo',
-  search: 'messageSearch'
+  search: 'messageSearch',
+  mentions: 'messageSearch'
 }
 
 export default class RightSidebar extends Emitter {
@@ -23,6 +24,7 @@ export default class RightSidebar extends Emitter {
     this.channel = null
     this.user = null
     this.lastMessagesQuery = null
+    this.lastMessagesTotal = null
   }
 
   createElements() {
@@ -69,6 +71,13 @@ export default class RightSidebar extends Emitter {
   setupMode() {
     if (!this.mode) return
     switch (this.mode) {
+      case 'mentions':
+        this.setProps({
+          show: true,
+          onRequest: ::this.onRequestMentions,
+          onSelect: ::this.onSelectMessage
+        })
+        break
       case 'profile':
         this.setProps({
           show: true,
@@ -96,7 +105,7 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
-          onRequestMessages: ::this.onRequestMessages,
+          onRequest: ::this.onRequestMessages,
           onSelect: ::this.onSelectMessage
         })
         break
@@ -161,8 +170,16 @@ export default class RightSidebar extends Emitter {
     })
   }
 
+  onLoadMentionsPayload(data) {
+    console.log('mentions payload', data)
+  }
+
   onRequestMessages(params) {
     this.emit('search', params)
+  }
+
+  onRequestMentions(params) {
+    this.emit('loadMentions', params)
   }
 
   onKickMember({id}) {
@@ -192,6 +209,12 @@ export default class RightSidebar extends Emitter {
 
   onSearchFilesError(err) {
     // TODO render error
+    console.log(err)
+  }
+
+  onLoadMentionsError(err) {
+    // TODO render error
+    console.log(err)
   }
 
   onSetUser(user) {

@@ -38,6 +38,7 @@ export default function doBroker(ui, api) {
     broker(ui, 'inviteToOrg', api, 'onInviteToOrg')
     broker(ui, 'setDescription', api, 'onSetDescription')
     broker(ui, 'searchFiles', api, 'onSearchFiles')
+    broker(ui, 'loadMentions', api, 'onLoadMentions')
     broker(ui, 'search', api, 'onSearch')
 
     broker.pass(api, 'newMessage', ui, 'newMessage')
@@ -68,6 +69,8 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'searchPayload', ui, 'searchPayload')
     broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
     broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
+    broker.pass(api, 'loadMentionsError', ui, 'loadMentionsError')
+    broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
 
     ui.on('starttyping', function (room) {
         api.setTyping(room, true)
