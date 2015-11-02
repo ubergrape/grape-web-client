@@ -75,6 +75,9 @@ export default class RightSidebar extends Emitter {
       case 'mentions':
         this.setProps({
           show: true,
+          total: null,
+          items: [],
+          query: null,
           onRequest: ::this.onRequestMentions,
           onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
@@ -115,6 +118,9 @@ export default class RightSidebar extends Emitter {
       case 'search':
         this.setProps({
           show: true,
+          total: null,
+          items: [],
+          query: null,
           onRequest: ::this.onRequestMessages,
           onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
