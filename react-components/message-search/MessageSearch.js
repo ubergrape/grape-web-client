@@ -16,7 +16,6 @@ export default class MessageSearch extends Component {
     show: false,
     limit: 20,
     query: undefined,
-    minQueryLength: 2,
     onSelect: noop,
     onRequest: noop,
     onClose: noop
@@ -29,12 +28,10 @@ export default class MessageSearch extends Component {
   }
 
   requestMessages(props = this.props) {
-    const {query} = props
-    if (query && query.length < props.minQueryLength) return
     props.onRequest({
       offsetDate: this.offsetDate,
       limit: props.limit,
-      query
+      query: props.query
     })
   }
 
@@ -52,23 +49,23 @@ export default class MessageSearch extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {items} = nextProps
-    let requestMessages = false
+    let needsMessages = false
 
     if (items.length) {
       this.offsetDate = items[items.length - 1].time
     }
     // It was hidden, we show it now.
     if (nextProps.show && !this.props.show) {
-      requestMessages = true
+      needsMessages = true
     }
 
     // Query has changed.
     if (nextProps.query !== this.props.query) {
       this.offsetDate = ''
-      requestMessages = true
+      needsMessages = true
     }
 
-    if (requestMessages) this.requestMessages(nextProps)
+    if (needsMessages) this.requestMessages(nextProps)
   }
 
   render() {

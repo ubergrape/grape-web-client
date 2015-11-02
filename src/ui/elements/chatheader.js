@@ -237,7 +237,7 @@ ChatHeader.prototype.onFocusSearch = function () {
 
 ChatHeader.prototype.onSearch = function (e) {
   const query = this.searchInput.value.trim()
-  if (query.length && query !== this.lastQuery) {
+  if (query !== this.lastQuery) {
     this.lastQuery = query
     this.emit('search', {query})
   }

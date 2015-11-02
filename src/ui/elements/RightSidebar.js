@@ -242,6 +242,13 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearch({query}) {
+    if (!query || query.length < 2) {
+      this.setProps({
+        items: [],
+        total: null
+      })
+      return
+    }
     this.setProps({query})
   }
 
