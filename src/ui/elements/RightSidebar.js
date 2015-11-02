@@ -98,7 +98,9 @@ export default class RightSidebar extends Emitter {
         break
       case 'members':
         const channel = convertCase.toCamel(this.channel.toJSON())
-        channel.creator = convertCase.toCamel(channel.creator.toJSON())
+        if (channel.creator) {
+          channel.creator = convertCase.toCamel(channel.creator.toJSON())
+        }
         channel.users = channel.users.toArray().map(user => convertCase.toCamel(user.toJSON()))
         this.setProps({
           show: true,
