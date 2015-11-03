@@ -871,14 +871,21 @@ API.prototype.onSearchFiles = function (params) {
 
 API.prototype.onLoadMentions = function (params) {
   this.wamp.call(
-    PREFIX + 'organizations/get_mentions',
+    PREFIX + 'search/get_mentions',
     this.organization.id,
     params.only,
     params.limit,
-    params.offset,
-    (err, data) => {
+    params.offsetDate,
+    (err, res) => {
       if (err) return this.emit('loadMentionsError', err)
-      this.emit('loadMentionsPayload', convertCase.toCamel(data))
+      this.emit('loadMentionsPayload', {
+        offsetTotal: res.total,
+        offsetDate: params.offsetDate,
+        results: res.results.map(result => {
+          result.message.read = result.read
+          return convertCase.toCamel(result.message)
+        })
+      })
     }
   )
 }

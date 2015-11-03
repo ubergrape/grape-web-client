@@ -160,29 +160,29 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchPayload(data) {
-    let results = data.results.map(result => {
+    let messages = data.results.map(message => {
       return {
-        id: result.id,
-        channel: result.channel.name ? result.channel.name : result.channel.users[0].displayName,
-        author: result.author.displayName,
-        avatar: result.author.avatar,
-        time: result.time,
-        body: result.text,
-        slug: result.channel.slug ? result.channel.slug : result.channel.users[0].slug
+        id: message.id,
+        channel: message.channel.name ? message.channel.name : message.channel.users[0].displayName,
+        author: message.author.displayName,
+        avatar: message.author.avatar,
+        time: message.time,
+        body: message.text,
+        slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
       }
     })
 
     if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
 
-    // Its a "load more", add previous results before.
+    // Its a "load more", add previous messages before.
     if (this.lastMessagesQuery === data.query) {
-      const prevItems = this.getCurrElement().props.items || []
-      results = [...prevItems, ...results]
+      const prevMessages = this.getCurrElement().props.items || []
+      messages = [...prevMessages, ...messages]
     }
 
     this.lastMessagesQuery = data.query
     this.setProps({
-      items: results,
+      items: messages,
       total: this.lastMessagesTotal
     })
   }
