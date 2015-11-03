@@ -158,6 +158,7 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
   }
 
   let vdom = template('chatheader.jade', {
+    isOrgEmpty: this.isOrgEmpty,
     room: this.room,
     isRoomManager: this.isRoomManager,
     editState: this.editState,
@@ -177,6 +178,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 }
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
+  this.isOrgEmpty = false
   this.room = room
   this.isRoomManager = (this.room.creator && window.ui.user === this.room.creator) || window.ui.user.role >= constants.roles.ROLE_ADMIN
   this.editState.renaming = false
@@ -211,5 +213,10 @@ ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode
 
 ChatHeader.prototype.onSwitchToSearchMode = function ChatHeader_onSwitchToChatMode () {
   this.mode = 'search'
+  this.redraw()
+}
+
+ChatHeader.prototype.onEmptyOrg = function() {
+  this.isOrgEmpty = true
   this.redraw()
 }
