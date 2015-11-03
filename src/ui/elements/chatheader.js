@@ -55,7 +55,6 @@ ChatHeader.prototype.init = function () {
   this.classes = classes(this.el)
   this.searchForm = qs('.search-form', this.el)
   this.searchInput = qs('.search', this.el)
-  this.lastQuery = null
   this.isRoomManager = false
   this.editState = {
     renaming: false,
@@ -233,12 +232,10 @@ ChatHeader.prototype.onSwitchToSearchMode = function () {
 
 ChatHeader.prototype.onFocusSearch = function () {
   this.showSearch()
+  this.onSearch()
 }
 
-ChatHeader.prototype.onSearch = function (e) {
+ChatHeader.prototype.onSearch = function () {
   const query = this.searchInput.value.trim()
-  if (query !== this.lastQuery) {
-    this.lastQuery = query
-    this.emit('search', {query})
-  }
+  this.emit('search', {query})
 }

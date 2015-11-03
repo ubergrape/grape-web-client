@@ -73,12 +73,29 @@ export default class RightSidebar extends Emitter {
     if (!this.mode) return
     switch (this.mode) {
       case 'mentions':
+        this.lastMessagesQuery = null
+        this.lastMessagesTotal = null
+        this.setProps({
+          show: true,
+          total: null,
+          items: [],
+          query: this.user.slug,
+          title: 'Mentions',
+          onRequest: ::this.onRequestMentions,
+          onSelect: ::this.onSelectMessage,
+          onClose: ::this.onClose
+        })
+        break
+      case 'search':
+        this.lastMessagesQuery = null
+        this.lastMessagesTotal = null
         this.setProps({
           show: true,
           total: null,
           items: [],
           query: null,
-          onRequest: ::this.onRequestMentions,
+          title: 'Search Results',
+          onRequest: ::this.onRequestMessages,
           onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
         })
@@ -112,17 +129,6 @@ export default class RightSidebar extends Emitter {
           onInvite: ::this.onInviteMember,
           onKickMember: ::this.onKickMember,
           onLeave: ::this.onLeaveRoom,
-          onClose: ::this.onClose
-        })
-        break
-      case 'search':
-        this.setProps({
-          show: true,
-          total: null,
-          items: [],
-          query: null,
-          onRequest: ::this.onRequestMessages,
-          onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
         })
         break
@@ -188,7 +194,8 @@ export default class RightSidebar extends Emitter {
   }
 
   onLoadMentionsPayload(data) {
-    console.log('mentions payload', data)
+    data.query = this.user.slug
+    this.onSearchPayload(data)
   }
 
   onRequestMessages(params) {

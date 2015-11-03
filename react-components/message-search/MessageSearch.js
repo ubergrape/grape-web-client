@@ -12,6 +12,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 @useSheet(style)
 export default class MessageSearch extends Component {
   static defaultProps = {
+    title: undefined,
     items: [],
     total: undefined,
     show: false,
@@ -24,13 +25,13 @@ export default class MessageSearch extends Component {
 
   constructor(props) {
     super(props)
-    // offsetDate is always the timestamp of the last loaded message.
-    this.offsetDate = ''
   }
 
   requestMessages(props = this.props) {
+    const {items} = props
     props.onRequest({
-      offsetDate: this.offsetDate,
+      // Is always the timestamp of the last loaded message.
+      offsetDate: items.length ? items[items.length - 1].time : '',
       limit: props.limit,
       query: props.query
     })
@@ -51,20 +52,15 @@ export default class MessageSearch extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
-    const {items} = nextProps
     let needsMessages = false
 
-    if (items.length) {
-      this.offsetDate = items[items.length - 1].time
-    }
     // It was hidden, we show it now.
     if (nextProps.show && !this.props.show) {
       needsMessages = true
     }
 
     // Query has changed.
-    if (nextProps.query !== this.props.query) {
-      this.offsetDate = ''
+    if (nextProps.query && nextProps.query !== this.props.query) {
       needsMessages = true
     }
 
@@ -76,7 +72,7 @@ export default class MessageSearch extends Component {
     let {classes} = this.props.sheet
     return (
       <SidebarPanel
-        title="Search Results"
+        title={this.props.title}
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}

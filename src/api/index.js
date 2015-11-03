@@ -882,8 +882,9 @@ API.prototype.onLoadMentions = function (params) {
         offsetTotal: res.total,
         offsetDate: params.offsetDate,
         results: res.results.map(result => {
-          result.message.read = result.read
-          return convertCase.toCamel(result.message)
+          const message = convertCase.toCamel(result.message)
+          message.read = result.read
+          return new models.Line(message)
         })
       })
     }
