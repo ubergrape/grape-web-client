@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import isArray from 'lodash/lang/isArray'
 import isEmpty from 'lodash/lang/isEmpty'
 import filter from 'lodash/collection/filter'

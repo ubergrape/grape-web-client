@@ -4,7 +4,8 @@ import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../../jss'
+import {useSheet} from 'grape-web/lib/jss'
+import findMatches from 'grape-web/lib/search/findMatches'
 import * as style from './style'
 import * as utils from './utils'
 
@@ -81,7 +82,7 @@ export default class Item extends Component {
 
   renderName() {
     let {name} = this.props
-    let matches = utils.findMatches(name, this.props.search)
+    let matches = findMatches(name, this.props.search)
 
     if (matches.length) {
       name = matches.map((match, i) =>

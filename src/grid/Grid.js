@@ -5,7 +5,7 @@ import pick from 'lodash/object/pick'
 import debounce from 'lodash/function/debounce'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import Section from './Section'
 import style from './gridStyle'
 

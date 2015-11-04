@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import * as style from './style'
 
 /**

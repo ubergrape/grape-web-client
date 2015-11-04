@@ -1,6 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
-import {jss} from '../jss'
+import {jss} from 'grape-web/lib/jss'
 
 export const INSERT_ANIMATION_DURATION = 200
 

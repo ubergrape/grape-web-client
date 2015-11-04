@@ -3,7 +3,7 @@ import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import Preview from './Preview'
 import style from './style'
 import * as utils from './utils'

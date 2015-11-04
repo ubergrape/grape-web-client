@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../../../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from '../../../browser/style'
 import Info from './Info'
 import Grid from '../../../grid/Grid'

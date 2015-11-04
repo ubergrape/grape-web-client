@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
 import noop from 'lodash/utility/noop'

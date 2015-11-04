@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {jss} from '../jss'
+import {jss} from 'grape-web/lib/jss'
 import Icon from '../icon/Icon'
 import style from './style'
 

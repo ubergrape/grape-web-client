@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 
 /**

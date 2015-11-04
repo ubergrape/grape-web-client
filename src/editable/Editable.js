@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import Scribe from 'scribe-editor'
 import scribePluginFormatterPlainTextConvertNewLinesToHtml from 'scribe-plugin-formatter-plain-text-convert-new-lines-to-html'
 import debounce from 'lodash/function/debounce'

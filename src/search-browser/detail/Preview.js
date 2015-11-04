@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import ImagesLoader from 'images-loader'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../../jss'
-import Spinner from '../../spinner/Spinner'
+import {useSheet} from 'grape-web/lib/jss'
+import Spinner from 'grape-web/lib/spinner/Spinner'
 import style from './previewStyle'
 
 let loader = new ImagesLoader()

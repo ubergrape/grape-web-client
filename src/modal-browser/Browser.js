@@ -4,7 +4,7 @@ import noop from 'lodash/utility/noop'
 
 import Modal from 'react-overlays/lib/Modal'
 import style from './style'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 /**
  * This renders Browser inside of Modal and connects those show/hide handlers.

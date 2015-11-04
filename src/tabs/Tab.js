@@ -4,7 +4,7 @@ import VisibilitySensor from 'react-visibility-sensor'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import * as style from './tabStyle'
 
 /**
