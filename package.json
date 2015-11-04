@@ -1,0 +1,14 @@
+{
+  "name": "grape-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+  },
+  "peerDependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+    "lint": "eslint ./src"
+  }
+}
