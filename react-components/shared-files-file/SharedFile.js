@@ -4,7 +4,7 @@ import tz from 'moment-timezone'
 
 import {useSheet} from '../jss'
 import style from './style'
-
+import * as icons from './icons'
 const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
@@ -13,7 +13,8 @@ export default class SharedFile extends Component {
     time: undefined,
     channelName: undefined,
     name: undefined,
-    thumbnailUrl: undefined
+    thumbnailUrl: undefined,
+    iconType: undefined
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -52,7 +53,9 @@ export default class SharedFile extends Component {
     }
     else {
       className = classes.icon
+      const svg = icons[this.props.iconType] || icons.default
       iconStyle = {
+        backgroundImage: `url('data:image/svg+xml;utf8,${svg}')`
       }
     }
 

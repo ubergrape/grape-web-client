@@ -1,7 +1,15 @@
 import utils from 'grape-jss-utils'
 import fonts from 'grape-theme/dist/fonts'
+import sizes from 'grape-theme/dist/sizes'
 
 const height = 100
+
+const image = {
+  width: '100%',
+  height,
+  background: '#fff no-repeat center',
+  borderRadius: sizes.borderRadius.big
+}
 
 export default {
   sharedFile: {
@@ -21,13 +29,11 @@ export default {
     flex: 2
   },
   thumbnail: {
-    width: '100%',
-    height,
-    backgroundRepeat: 'no-repeat',
+    ...image,
     backgroundSize: 'cover'
   },
   icon: {
-
+    ...image
   },
   name: {
     ...utils.ellipsis,
