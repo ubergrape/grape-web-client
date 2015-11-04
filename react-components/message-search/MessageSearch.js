@@ -3,6 +3,7 @@ import noop from 'lodash/utility/noop'
 import each from 'lodash/collection/each'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
+import findMatches from 'grape-web/lib/search/findMatches'
 import {useSheet} from '../jss'
 import style from './style'
 import * as utils from './utils'
@@ -86,7 +87,7 @@ export default class MessageSearch extends Component {
   renderMessages() {
     const {classes} = this.props.sheet
     const items = this.props.items.map(item => {
-      const matches = utils.findMatches(item.body, this.props.query)
+      const matches = findMatches(item.body, this.props.query)
       let {body} = item
       if (matches.length) {
         body = matches.map((match, key) => {
