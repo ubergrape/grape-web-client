@@ -42,7 +42,7 @@ function ChatHeader() {
   this.onSearchDebounced = debounce(::this.onSearch, 200)
   this.room = {}
   this.selected = null
-  this.cUser = null
+  this.user = null
   this.redraw = this.redraw.bind(this)
   this.redraw()
   this.init()
@@ -128,7 +128,7 @@ ChatHeader.prototype.clearSearch = function () {
 
 ChatHeader.prototype.setRoom = function (room, msgID) {
   this.room = room
-  this.isRoomManager = this.cUser && ((this.room.creator && this.cUser === this.room.creator) || (this.cUser.role >= constants.roles.ROLE_ADMIN))
+  this.isRoomManager = this.user && ((this.room.creator && this.user === this.room.creator) || (this.user.role >= constants.roles.ROLE_ADMIN))
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()
@@ -216,7 +216,7 @@ ChatHeader.prototype.setDescription = function (e) {
 }
 
 ChatHeader.prototype.onSetUser = function(user) {
-  this.cUser = user
+  this.user = user
   this.redraw()
 }
 

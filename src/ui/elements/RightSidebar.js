@@ -2,6 +2,7 @@ import Emitter from 'emitter'
 import find from 'lodash/collection/find'
 import page from 'page'
 
+import staticUrl from 'staticurl'
 import * as convertCase from '../../api/convertCase'
 import '../../../react-components/shared-files'
 import '../../../react-components/message-search'
@@ -16,6 +17,10 @@ const modeElementMap = {
   mentions: 'messageSearch'
 }
 
+const images = {
+  spinner: staticUrl('/images/preloader-onwhite.gif')
+}
+
 export default class RightSidebar extends Emitter {
   constructor() {
     super()
@@ -24,6 +29,7 @@ export default class RightSidebar extends Emitter {
     this.mode = null
     this.channel = null
     this.user = null
+    this.org = null
     this.lastMessagesQuery = null
     this.lastMessagesTotal = null
   }
@@ -62,7 +68,7 @@ export default class RightSidebar extends Emitter {
   }
 
   show(mode) {
-    if (this.mode === mode) return
+    if (this.mode === mode || !this.org) return
     if (this.mode) this.setProps({show: false})
     this.mode = mode
     this.setupMode()
@@ -81,6 +87,7 @@ export default class RightSidebar extends Emitter {
           items: [],
           query: this.user.slug,
           title: 'Mentions',
+          images,
           onRequest: ::this.onRequestMentions,
           onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
@@ -95,15 +102,9 @@ export default class RightSidebar extends Emitter {
           items: [],
           query: null,
           title: 'Search Results',
+          images,
           onRequest: ::this.onRequestMessages,
           onSelect: ::this.onSelectMessage,
-          onClose: ::this.onClose
-        })
-        break
-      case 'profile':
-        this.setProps({
-          ...convertCase.toCamel(this.channel.users[0].toJSON()),
-          show: true,
           onClose: ::this.onClose
         })
         break
@@ -113,6 +114,14 @@ export default class RightSidebar extends Emitter {
           onRequestFiles: ::this.onRequestFiles,
           // Reset items when switching rooms.
           items: [],
+          images,
+          onClose: ::this.onClose
+        })
+        break
+      case 'profile':
+        this.setProps({
+          ...convertCase.toCamel(this.channel.users[0].toJSON()),
+          show: true,
           onClose: ::this.onClose
         })
         break
@@ -189,7 +198,8 @@ export default class RightSidebar extends Emitter {
     this.lastMessagesQuery = data.query
     this.setProps({
       items: messages,
-      total: this.lastMessagesTotal
+      total: this.lastMessagesTotal,
+      isLoading: false
     })
   }
 
@@ -199,10 +209,12 @@ export default class RightSidebar extends Emitter {
   }
 
   onRequestMessages(params) {
+    this.setProps({isLoading: true})
     this.emit('search', params)
   }
 
   onRequestMentions(params) {
+    this.setProps({isLoading: true})
     this.emit('loadMentions', params)
   }
 
@@ -224,10 +236,15 @@ export default class RightSidebar extends Emitter {
     })
     const prevItems = this.getCurrElement().props.items || []
     const items = [...prevItems, ...nextItems]
-    this.setProps({items, total: data.total})
+    this.setProps({
+      items,
+      total: data.total,
+      isLoading: false
+    })
   }
 
   onRequestFiles(params) {
+    this.setProps({isLoading: true})
     this.loadFiles(params)
   }
 
@@ -255,6 +272,7 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearch({query}) {
+    if (!this.mode) return
     if (!query || query.length < 2) {
       this.setProps({
         items: [],
@@ -267,5 +285,9 @@ export default class RightSidebar extends Emitter {
 
   onSelectMessage(message) {
     page(`/chat/${message.slug}/${message.id}`)
+  }
+
+  onOrgReady(org) {
+    this.org = org
   }
 }

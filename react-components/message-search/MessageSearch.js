@@ -4,6 +4,7 @@ import each from 'lodash/collection/each'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import findMatches from 'grape-web/lib/search/findMatches'
+import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import * as utils from './utils'
@@ -19,6 +20,8 @@ export default class MessageSearch extends Component {
     show: false,
     limit: 20,
     query: undefined,
+    isLoading: false,
+    images: {},
     onSelect: noop,
     onRequest: noop,
     onClose: noop
@@ -29,6 +32,7 @@ export default class MessageSearch extends Component {
   }
 
   requestMessages(props = this.props) {
+    if (!props.query) return
     const {items} = props
     props.onRequest({
       // Is always the timestamp of the last loaded message.
@@ -74,11 +78,13 @@ export default class MessageSearch extends Component {
     return (
       <SidebarPanel
         title={this.props.title}
+        images={this.props.images}
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}
           {this.renderEmpty()}
+          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
         </div>
       </SidebarPanel>
     )

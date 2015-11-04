@@ -42,11 +42,9 @@ export default function pipeEvents(ui) {
   broker(ui, 'channelRead', ui.navigation, 'onChannelRead')
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
+  broker(ui, 'orgReady', ui.rightSidebar, 'onOrgReady')
   broker(ui, 'selectchannel', ui.rightSidebar, 'onSelectChannel')
   broker(ui, 'setUser', ui.rightSidebar, 'onSetUser')
-  /*broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser')
-  broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
-  broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')*/
   broker(ui, 'searchPayload', ui.rightSidebar, 'onSearchPayload')
   broker(ui, 'searchFilesPayload', ui.rightSidebar, 'onSearchFilesPayload')
   broker(ui, 'searchFilesError', ui.rightSidebar, 'onSearchFilesError')

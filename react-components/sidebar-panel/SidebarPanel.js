@@ -15,7 +15,6 @@ import {useSheet} from 'grape-web/lib/jss'
 export default class SidebarPanel extends Component {
   static defaultProps = {
     title: undefined,
-    isLoading: false,
     onClose: noop
   }
 
