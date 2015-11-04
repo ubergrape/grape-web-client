@@ -7,8 +7,37 @@
   "peerDependencies": {
   },
   "devDependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.20",
+    "babel-eslint": "^3.1.23",
+    "babel-loader": "^5.3.1",
+    "es5-shim": "^4.1.10",
+    "es6-shim": "^0.32.2",
+    "eslint": "^0.24.1",
+    "eslint-config-airbnb": "^0.0.6",
+    "eslint-config-ubergrape": "^0.1.1",
+    "eslint-plugin-react": "^2.7.0",
+    "expect.js": "^0.3.1",
+    "karma": "^0.13.8",
+    "karma-chrome-launcher": "^0.1.10",
+    "karma-cli": "^0.0.4",
+    "karma-mocha": "^0.1.10",
+    "karma-sourcemap-loader": "^0.3.5",
+    "karma-webpack": "^1.5.1",
+    "mocha": "^2.2.5",
+    "node-libs-browser": "^0.5.2",
+    "react-addons-test-utils": "^0.14.0",
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
-    "lint": "eslint ./src"
+    "all": "npm run lint && npm run test && npm run build",
+    "clean": "rm -fr ./lib/*",
+    "build": "npm run clean && babel src --out-dir lib",
+    "start": "NODE_ENV=development webpack-dev-server --hot",
+    "lint": "eslint ./src",
+    "emoji": "bin/emoji",
+    "test-watch": "NODE_ENV=test karma start",
+    "test": "karma start"
   }
 }
