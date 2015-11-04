@@ -11,6 +11,7 @@ import events from 'events'
 import zoom from 'image-zoom'
 import focus from '../focus'
 import InfiniteScroll from '../infinite-scroll'
+import find from 'lodash/collection/find'
 
 template.locals.tz = require('moment-timezone')
 
@@ -411,15 +412,8 @@ HistoryView.prototype.onInput = function(room, msg, options) {
 }
 
 HistoryView.prototype.findBufferedMsg = function(clientSideID) {
-  let bufferedMsg = null
-  this.unsentBuffer[this.room.id].every((msg) => {
-    if (clientSideID === msg.clientSideID) {
-      bufferedMsg = msg
-      return false
-    }
-    return true
-  })
-  return bufferedMsg
+  let localUnsent = this.unsentBuffer[this.room.id]
+  return find(localUnsent, (msg) => msg.clientSideID === clientSideID)
 }
 
 HistoryView.prototype.onNewMessage = function(line) {
