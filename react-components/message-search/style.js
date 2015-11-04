@@ -18,5 +18,8 @@ export default {
   },
   empty: {
     textAlign: 'center'
+  },
+  highlighted: {
+    background: 'yellow'
   }
 }
