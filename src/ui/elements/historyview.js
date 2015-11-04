@@ -1,16 +1,16 @@
-const Emitter = require('emitter')
-const render = require('../rendervdom')
-const raf = require('raf')
-const template = require('template')
-const debounce = require('lodash/function/debounce')
-const Scrollbars = require('scrollbars')
-const qs = require('query')
-const classes = require('classes')
-const closest = require('closest')
-const events = require('events')
-const zoom = require('image-zoom')
-const focus = require('../focus')
-const InfiniteScroll = require('../infinite-scroll')
+import Emitter from 'emitter'
+import render from '../rendervdom'
+import raf from 'raf'
+import template from 'template'
+import debounce from 'lodash/function/debounce'
+import Scrollbars from 'scrollbars'
+import qs from 'query'
+import classes from 'classes'
+import closest from 'closest'
+import events from 'events'
+import zoom from 'image-zoom'
+import focus from '../focus'
+import InfiniteScroll from '../infinite-scroll'
 
 template.locals.tz = require('moment-timezone')
 
