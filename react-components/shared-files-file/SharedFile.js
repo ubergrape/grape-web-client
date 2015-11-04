@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import * as icons from './icons'
 const dateFormat = 'MMM Do, h:mm a'

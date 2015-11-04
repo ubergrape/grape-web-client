@@ -7,7 +7,7 @@ import keyname from 'keyname'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import * as utils from './utils'
 

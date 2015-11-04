@@ -4,7 +4,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
 import {constants} from 'conf'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 

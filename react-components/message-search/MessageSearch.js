@@ -4,7 +4,7 @@ import each from 'lodash/collection/each'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import findMatches from 'grape-web/lib/search/findMatches'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import * as utils from './utils'
 import Message from '../message/Message'
