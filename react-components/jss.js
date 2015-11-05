@@ -1,19 +1,19 @@
 // Setup jss plugins.
 import {create} from 'jss'
 import reactJss from 'react-jss'
-import jssNested from 'jss-nested'
-import jssCamelCase from 'jss-camel-case'
-import jssPx from 'jss-px'
-import jssVendorPrefixer from 'jss-vendor-prefixer'
+import nested from 'jss-nested'
+import camelCase from 'jss-camel-case'
+import px from 'jss-px'
+import vendorPrefixer from 'jss-vendor-prefixer'
 
 export let jss = create()
 export let useSheet = reactJss(jss)
 
-jss.use(jssNested)
-jss.use(jssCamelCase)
-jss.use(jssPx)
-jss.use(jssVendorPrefixer)
+jss.use(nested())
+jss.use(camelCase())
+jss.use(px())
+jss.use(vendorPrefixer())
 
 if (__DEV__ || __TEST__) {
-  jss.use(require('jss-debug'))
+  jss.use(require('jss-debug')())
 }
