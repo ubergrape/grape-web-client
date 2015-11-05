@@ -11,6 +11,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
+  broker(ui, 'emptyOrg', ui.grapeInput, 'onEmptyOrg')
   broker(ui, 'orgReady', ui.channelSearch, 'onOrgReady')
   broker(ui, 'setUser', ui.channelSearch, 'onSetUser')
   broker(ui, 'orgReady', ui.historyView, 'onOrgReady')

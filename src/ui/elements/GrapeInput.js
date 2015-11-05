@@ -43,6 +43,7 @@ export default class GrapeInput extends Emitter {
     this.typing = false
     // Key is room id, value is unsent text message.
     this.unsent = {}
+    this.isOrgEmpty = false
     this.images = clone(images)
     this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
     this.searchDebounced = debounce(::this.search, 200)
@@ -109,7 +110,9 @@ export default class GrapeInput extends Emitter {
   }
 
   redraw() {
-    render(this, template('grapeInput.jade', {}))
+    render(this, template('grapeInput.jade', {
+      isOrgEmpty: this.isOrgEmpty
+    }))
   }
 
   showSearchBrowser(key) {
@@ -350,6 +353,10 @@ export default class GrapeInput extends Emitter {
   }
 
   onSelectChannel(room) {
+    if (this.isOrgEmpty) {
+      this.isOrgEmpty = false
+      this.redraw()
+    }
     if (this.room) {
       this.unsent[this.room.id] = this.input.getTextContent()
     }
@@ -385,6 +392,11 @@ export default class GrapeInput extends Emitter {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
     if (inputNodes.indexOf(e.target.nodeName) >= 0 || e.target.isContentEditable) return
     this.setProps({focused: true})
+  }
+
+  onEmptyOrg() {
+    this.isOrgEmpty = true
+    this.redraw()
   }
 }
 
