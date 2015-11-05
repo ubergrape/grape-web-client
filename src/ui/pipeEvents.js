@@ -54,6 +54,8 @@ export default function pipeEvents(ui) {
   broker(ui, 'loadMentionsPayload', ui.rightSidebar, 'onLoadMentionsPayload')
   broker(ui, 'loadMentionsError', ui.rightSidebar, 'onLoadMentionsError')
   broker(ui, 'newMessage', ui.rightSidebar, 'onNewMessage')
+  broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
+  broker(ui, 'newRoomMember', ui.rightSidebar, 'onMemberJoinedChannel')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')

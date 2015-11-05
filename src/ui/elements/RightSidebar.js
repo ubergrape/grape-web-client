@@ -114,21 +114,16 @@ export default class RightSidebar extends Emitter {
         break
       case 'userProfile':
         this.setProps({
-          ...convertCase.toCamel(this.channel.users[0].toJSON()),
+          ...formatUser(this.channel.users[0]),
           show: true,
           onClose: ::this.onClose
         })
         break
       case 'roomInfo':
-        const channel = convertCase.toCamel(this.channel.toJSON())
-        if (channel.creator) {
-          channel.creator = convertCase.toCamel(channel.creator.toJSON())
-        }
-        channel.users = channel.users.toArray().map(user => convertCase.toCamel(user.toJSON()))
         this.setProps({
           show: true,
-          channel,
-          user: convertCase.toCamel(this.user.toJSON()),
+          channel: formatChannel(this.channel),
+          user: formatUser(this.user),
           onInvite: ::this.onInviteMember,
           onKickMember: ::this.onKickMember,
           onLeave: ::this.onLeaveRoom,
@@ -303,6 +298,16 @@ export default class RightSidebar extends Emitter {
       default:
     }
   }
+
+  onMemberJoinedChannel() {
+    if (this.mode !== 'roomInfo') return
+    this.setProps({channel: formatChannel(this.channel)})
+  }
+
+  onMemberLeftChannel() {
+    if (this.mode !== 'roomInfo') return
+    this.setProps({channel: formatChannel(this.channel)})
+  }
 }
 
 /**
@@ -341,4 +346,23 @@ function formatMessage(message) {
     body: message.text,
     slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
   }
+}
+
+/**
+ * Convert channel model to pure object and camelize.
+ */
+function formatChannel(channel) {
+  const fChannel = convertCase.toCamel(channel.toJSON())
+  if (fChannel.creator) {
+    fChannel.creator = convertCase.toCamel(channel.creator.toJSON())
+  }
+  fChannel.users = channel.users.toArray().map(user => convertCase.toCamel(user.toJSON()))
+  return fChannel
+}
+
+/**
+ * Convert user model to pure object and camelize.
+ */
+function formatUser(user) {
+  return convertCase.toCamel(user.toJSON())
 }
