@@ -52,6 +52,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'searchFilesError', ui.rightSidebar, 'onSearchFilesError')
   broker(ui, 'loadMentionsPayload', ui.rightSidebar, 'onLoadMentionsPayload')
   broker(ui, 'loadMentionsError', ui.rightSidebar, 'onLoadMentionsError')
+  broker(ui, 'newMessage', ui.rightSidebar, 'onNewMessage')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')

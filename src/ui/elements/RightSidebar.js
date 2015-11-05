@@ -1,5 +1,8 @@
 import Emitter from 'emitter'
 import find from 'lodash/collection/find'
+import isEmpty from 'lodash/lang/isEmpty'
+import intersection from 'lodash/array/intersection'
+import pluck from 'lodash/collection/pluck'
 import page from 'page'
 
 import staticUrl from 'staticurl'
@@ -88,6 +91,7 @@ export default class RightSidebar extends Emitter {
           query: this.user.slug,
           title: 'Mentions',
           images,
+          sort: -1,
           onRequest: ::this.onRequestMentions,
           onSelect: ::this.onSelectMessage,
           onClose: ::this.onClose
@@ -175,17 +179,7 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchPayload(data) {
-    let messages = data.results.map(message => {
-      return {
-        id: message.id,
-        channel: message.channel.name ? message.channel.name : message.channel.users[0].displayName,
-        author: message.author.displayName,
-        avatar: message.author.avatar,
-        time: message.time,
-        body: message.text,
-        slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
-      }
-    })
+    let messages = data.results.map(formatMessage)
 
     if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
 
@@ -206,6 +200,18 @@ export default class RightSidebar extends Emitter {
   onLoadMentionsPayload(data) {
     data.query = this.user.slug
     this.onSearchPayload(data)
+  }
+
+  onNewMention(message) {
+    const mentioned = isMentioned(message.mentions, this.user.id, this.org.rooms)
+    if (!mentioned) return
+    let messages = [formatMessage(message)]
+    const prevMessages = this.getCurrElement().props.items
+    if (prevMessages.length) messages = [...prevMessages, ...messages]
+    this.setProps({
+      items: messages,
+      total: this.lastMessagesTotal
+    })
   }
 
   onRequestMessages(params) {
@@ -289,5 +295,53 @@ export default class RightSidebar extends Emitter {
 
   onOrgReady(org) {
     this.org = org
+  }
+
+  onNewMessage(message) {
+    if (!this.mode) return
+    switch (this.mode) {
+      case 'mentions':
+        this.onNewMention(message)
+        break
+      default:
+    }
+  }
+}
+
+/**
+ * Find out if mentions match user id when user mention
+ * or when channel mention - matches one of the channel user has joined.
+ */
+function isMentioned(mentions, userId, channels) {
+  if (isEmpty(mentions)) return false
+
+  let mentioned = false
+
+  if (mentions.user) {
+    mentioned = mentions.user.some(_userId => userId === _userId)
+    if (mentioned) return true
+  }
+
+  if (mentions.room) {
+    const joinedChannels = channels.filter(channel => channel.joined)
+    const joinedChannelIds = pluck(joinedChannels, 'id')
+    mentioned = intersection(mentions.room, joinedChannelIds).length > 0
+  }
+
+  return mentioned
+}
+
+/**
+ * Format a message for rendering.
+ */
+function formatMessage(message) {
+  return {
+    id: message.id,
+    channel: message.channel.name ? message.channel.name : message.channel.users[0].displayName,
+    author: message.author.displayName,
+    avatar: message.author.avatar,
+    time: message.time,
+    body: message.text,
+    slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
   }
 }
