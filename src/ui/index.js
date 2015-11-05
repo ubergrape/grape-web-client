@@ -31,6 +31,7 @@ let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
+import channelSearchInit from '../../react-components/channel-search'
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
@@ -93,6 +94,7 @@ UI.prototype.init = function UI_init() {
 
     this.channelSearch = new ChannelSearch()
     document.body.appendChild(this.channelSearch.el)
+    channelSearchInit()
 
     // initialize dialogs
     this.markdownTips = new MarkdownTipsDialog().closable()

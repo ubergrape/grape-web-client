@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import {shouldPureComponentUpdate} from 'react-pure-render'
+import { connect } from 'react-redux'
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import noop from 'lodash/utility/noop'
@@ -12,11 +13,12 @@ import {useSheet} from '../jss'
 import style from './style'
 import * as utils from './utils'
 
+
 /**
  * This renders Browser inside of Modal and connects those show/hide handlers.
  */
 @useSheet(style)
-export default class ChannelSearch extends Component {
+class ChannelSearch extends Component {
   static defaultProps = {
     shortcuts: ['mod+k'],
     show: false,
@@ -29,17 +31,19 @@ export default class ChannelSearch extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.createState(props)
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this.createState(nextProps), ::this.focus)
+    //this.setState(this.createState(nextProps), ::this.focus)
   }
 
   render() {
+    return (
+      <div>{this.props.search}</div>
+    )
     let {classes} = this.props.sheet
     return (
       <Dialog
@@ -123,9 +127,9 @@ export default class ChannelSearch extends Component {
   createState(props) {
     let search = this.state ? this.state.search : ''
     return {
-      show: props.show,
-      search,
-      items: utils.find(props.items, search)
+      // show: props.show,
+      // search,
+      // items: utils.find(props.items, search)
     }
   }
 
@@ -184,3 +188,11 @@ export default class ChannelSearch extends Component {
     this.setState({search: ''}, callback)
   }
 }
+
+// TODO: possibly use 'reselect': https://github.com/faassen/reselect
+function select(state) {
+  // in future: use only needed fields from global app state
+  return {...state}
+}
+
+export default connect(select)(ChannelSearch)

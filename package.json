@@ -80,7 +80,9 @@
     "react-jss": "^2.0.1",
     "react-overlays": "^0.5.0",
     "react-pure-render": "^1.0.2",
+    "react-redux": "^4.0.0",
     "reactive-elements": "^0.6.3",
+    "redux": "^3.0.4",
     "resizable": "ubergrape/resizable",
     "router": "./local_modules/router",
     "scrollbars": "ubergrape/scrollbars",
@@ -90,9 +92,7 @@
     "strftime": "samsonjs/strftime#v0.8.2",
     "t": "ubergrape/t#master",
     "template": "./local_modules/template",
-    "virtualdom": "ubergrape/virtualdom",
-    "wamp1": "ubergrape/wamp1",
-    "websocket": "ubergrape/websocket"
+    "virtualdom": "ubergrape/virtualdom"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
