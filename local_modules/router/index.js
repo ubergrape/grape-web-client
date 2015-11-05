@@ -20,7 +20,7 @@ function Router(ui) {
 
   function pickChannel() {
     var redirectRoom
-    navRoomList.every((room) => {
+    navRoomList.every(function(room) {
       if (room.joined) {
         redirectRoom = room
         return false
@@ -55,7 +55,7 @@ function Router(ui) {
 
   function findPM(username) {
     var selectedUser
-    ui.org.users.every((user) => {
+    ui.org.users.every(function(user) {
       if (user.username.toLowerCase() === username
       && cUser.username !== username) {
         selectedUser = user
@@ -83,7 +83,7 @@ function Router(ui) {
 
   function findRoom(slug) {
     var selectedRoom = false
-    ui.org.rooms.every((room) => {
+    ui.org.rooms.every(function(room) {
       if (room.slug === slug) {
         selectedRoom = room
         return false
