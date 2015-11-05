@@ -70,7 +70,6 @@ export default class RightSidebar extends Emitter {
   }
 
   setupMode() {
-    if (!this.mode) return
     switch (this.mode) {
       case 'mentions':
         this.lastMessagesQuery = null
@@ -240,6 +239,11 @@ export default class RightSidebar extends Emitter {
     })
   }
 
+  onNewSharedFile(message) {
+    // TODO implement life shared files update
+    console.log(message)
+  }
+
   onRequestFiles(params) {
     this.setProps({isLoading: true})
     this.loadFiles(params)
@@ -289,10 +293,12 @@ export default class RightSidebar extends Emitter {
   }
 
   onNewMessage(message) {
-    if (!this.mode) return
     switch (this.mode) {
       case 'mentions':
         this.onNewMention(message)
+        break
+      case 'sharedFiles':
+        this.onNewSharedFile(message)
         break
       default:
     }
