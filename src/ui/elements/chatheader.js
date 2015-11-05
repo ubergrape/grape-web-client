@@ -91,6 +91,7 @@ ChatHeader.prototype.bind = function () {
 
 ChatHeader.prototype.redraw = function () {
   let vdom = template('chatheader.jade', {
+    isOrgEmpty: this.isOrgEmpty,
     room: this.room,
     isRoomManager: this.isRoomManager,
     editState: this.editState,
@@ -126,7 +127,8 @@ ChatHeader.prototype.clearSearch = function () {
   this.searchInput.value = ''
 }
 
-ChatHeader.prototype.setRoom = function (room, msgID) {
+ChatHeader.prototype.setRoom = function(room, msgID) {
+  this.isOrgEmpty = false
   this.room = room
   this.isRoomManager = this.user && ((this.room.creator && this.user === this.room.creator) || (this.user.role >= constants.roles.ROLE_ADMIN))
   this.editState.renaming = false
@@ -238,4 +240,9 @@ ChatHeader.prototype.onFocusSearch = function () {
 ChatHeader.prototype.onSearch = function () {
   const query = this.searchInput.value.trim()
   this.emit('search', {query})
+}
+
+ChatHeader.prototype.onEmptyOrg = function() {
+  this.isOrgEmpty = true
+  this.redraw()
 }

@@ -1,54 +1,56 @@
 .room-header-wrap
 	.room-info-wrap
-		if room.type === 'room'
-			if editState.renaming
-				form.room-rename
-					input.room-name.editable(value=room.name, type="text")
-					input.submit-rename(type="submit")
-				.rename-options-wrap
-					a.header-option.option-rename-cancel(title=_("Cancel"))
-						i.fa.fa-times
-					a.header-option.option-rename-ok(title=_("Save"))
-						i.fa.fa-check
-			else
-				.room-name(class=isRoomManager ? 'editable' : '')
-					if mode === 'search'
-						i.fa.fa-link
-						=_(" in ")
-					| #{room.name}
-					if isRoomManager
-						a.header-option.option-rename-room(title=_("Rename room"))
-							i.fa.fa-pencil
-				.options-wrap
-					if isRoomManager
-						a.header-option.option-delete-room(title=_("Delete room"))
-							i.fa.fa-trash
-			if editState.editingDescription
-				form.description-edit-form
-					input.description.editable(value=room.description ? room.description : '', maxlength=100)
-			else
-				if room.description
-					div.description(class=isRoomManager ? 'description-edit' : '')= room.description
+		if !isOrgEmpty
+			if room.type === 'room'
+				if editState.renaming
+					form.room-rename
+						input.room-name.editable(value=room.name, type="text")
+						input.submit-rename(type="submit")
+					.rename-options-wrap
+						a.header-option.option-rename-cancel(title=_("Cancel"))
+							i.fa.fa-times
+						a.header-option.option-rename-ok(title=_("Save"))
+							i.fa.fa-check
 				else
-					if isRoomManager 
-						div.description-edit= _('Add a room description')
-		else if room.type === 'pm'
-			h1.room-name
-				if room.users[0].is_only_invited
-					i.fa.fa-envelope
-					| <
-				| #{room.users[0].displayName}
+					.room-name(class=isRoomManager ? 'editable' : '')
+						if mode === 'search'
+							i.fa.fa-link
+							=_(" in ")
+						| #{room.name}
+						if isRoomManager
+							a.header-option.option-rename-room(title=_("Rename room"))
+								i.fa.fa-pencil
+					.options-wrap
+						if isRoomManager
+							a.header-option.option-delete-room(title=_("Delete room"))
+								i.fa.fa-trash
+				if editState.editingDescription
+					form.description-edit-form
+						input.description.editable(value=room.description ? room.description : '', maxlength=100)
+				else
+					if room.description
+						div.description(class=isRoomManager ? 'description-edit' : '')= room.description
+					else
+						if isRoomManager 
+							div.description-edit= _('Add a room description')
+			else if room.type === 'pm'
+				h1.room-name
+					if room.users[0].is_only_invited
+						i.fa.fa-envelope
+						| <
+					| #{room.users[0].displayName}
 		
 	form.search-form
 		input.search(type="search", name="search-input", placeholder=_("Search for messages"))
 		i.fa.fa-search.search-icon()
 		i.fa.fa-times.close()
 
-	each item in menu.items
-		if (item.visible)
-			div.room-header-button(class= item.className, class= item == menu.selected ? 'selected' : '', id= item.id ? item.id : '')
-				a
-					i.fa(class= item.icon)
+	if !isOrgEmpty
+		each item in menu.items
+			if (item.visible)
+				div.room-header-button(class= item.className, class= item == menu.selected ? 'selected' : '', id= item.id ? item.id : '')
+					a
+						i.fa(class= item.icon)
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap

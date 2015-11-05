@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
@@ -128,7 +129,7 @@ export default class ChannelSearch extends Component {
 
   focus() {
     let {input} = this.refs
-    if (input) React.findDOMNode(input).focus()
+    if (input) ReactDOM.findDOMNode(input).focus()
   }
 
   onInput(e) {
