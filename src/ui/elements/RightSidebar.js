@@ -12,14 +12,6 @@ import '../../../react-components/message-search'
 import '../../../react-components/room-info'
 import '../../../react-components/user-profile'
 
-const modeElementMap = {
-  profile: 'userProfile',
-  file: 'sharedFiles',
-  members: 'roomInfo',
-  search: 'messageSearch',
-  mentions: 'messageSearch'
-}
-
 const images = {
   spinner: staticUrl('/images/preloader-onwhite.gif')
 }
@@ -42,13 +34,13 @@ export default class RightSidebar extends Emitter {
     sidebar.className = 'right-sidebar'
     const sharedFiles = document.createElement('grape-shared-files')
     sidebar.appendChild(sharedFiles)
-    const messageSearch = document.createElement('grape-message-search')
-    sidebar.appendChild(messageSearch)
+    const search = document.createElement('grape-message-search')
+    sidebar.appendChild(search)
     const roomInfo = document.createElement('grape-room-info')
     sidebar.appendChild(roomInfo)
     const userProfile = document.createElement('grape-user-profile')
     sidebar.appendChild(userProfile)
-    return {sidebar, sharedFiles, messageSearch, roomInfo, userProfile}
+    return {sidebar, sharedFiles, search, mentions: search, roomInfo, userProfile}
   }
 
   setProps(props) {
@@ -60,8 +52,7 @@ export default class RightSidebar extends Emitter {
   }
 
   getCurrElement() {
-    const elName = modeElementMap[this.mode]
-    return this.elements[elName]
+    return this.elements[this.mode]
   }
 
   hide() {
@@ -112,7 +103,7 @@ export default class RightSidebar extends Emitter {
           onClose: ::this.onClose
         })
         break
-      case 'file':
+      case 'sharedFiles':
         this.setProps({
           show: true,
           onRequestFiles: ::this.onRequestFiles,
@@ -122,14 +113,14 @@ export default class RightSidebar extends Emitter {
           onClose: ::this.onClose
         })
         break
-      case 'profile':
+      case 'userProfile':
         this.setProps({
           ...convertCase.toCamel(this.channel.users[0].toJSON()),
           show: true,
           onClose: ::this.onClose
         })
         break
-      case 'members':
+      case 'roomInfo':
         const channel = convertCase.toCamel(this.channel.toJSON())
         if (channel.creator) {
           channel.creator = convertCase.toCamel(channel.creator.toJSON())
@@ -169,11 +160,11 @@ export default class RightSidebar extends Emitter {
   onSelectChannel(channel) {
     this.channel = channel
     if (this.mode) this.setProps({show: false})
-    if (this.mode === 'members' && channel.type === 'pm') {
-      this.mode = 'profile'
+    if (this.mode === 'roomInfo' && channel.type === 'pm') {
+      this.mode = 'userProfile'
     }
-    else if (this.mode === 'profile' && channel.type === 'room') {
-      this.mode = 'members'
+    else if (this.mode === 'userProfile' && channel.type === 'room') {
+      this.mode = 'roomInfo'
     }
     this.setupMode()
   }

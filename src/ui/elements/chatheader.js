@@ -170,14 +170,14 @@ ChatHeader.prototype.confirmRoomRename = function () {
 
 ChatHeader.prototype.toggleUserView = function () {
   this.selected = menuItems.user === this.selected ? null : menuItems.user
-  let mode = this.room.type === 'room' ? 'members' : 'profile'
+  let mode = this.room.type === 'room' ? 'roomInfo' : 'userProfile'
   this.emit('toggleRightSidebar', mode)
   this.redraw()
 }
 
 ChatHeader.prototype.toggleSharedFiles = function () {
   this.selected = menuItems.sharedFiles === this.selected ? null : menuItems.sharedFiles
-  this.emit('toggleRightSidebar', 'file')
+  this.emit('toggleRightSidebar', 'sharedFiles')
   this.redraw()
 }
 
