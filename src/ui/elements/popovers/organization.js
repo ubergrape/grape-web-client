@@ -40,7 +40,8 @@ OrganizationPopover.prototype.redraw = function () {
 
     let vdom = template('popovers/organization.jade', {
         isInviter: this.user.role >= this.org.inviter_role,
-        isOrgManager: this.user.role >= roles.ROLE_ADMIN
+        isOrgManager: this.user.role >= roles.ROLE_ADMIN,
+        isMacGap: typeof window.MacGap !== 'undefined'
     })
 
     render(this.content, vdom)
