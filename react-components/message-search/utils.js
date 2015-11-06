@@ -8,7 +8,7 @@ import moment from 'moment'
 export function group(messages) {
   // Group by day.
   const grouped = groupBy(messages, message => {
-    return moment(message.time).startOf('day')
+    return moment(message.time).startOf('day').toISOString()
   })
 
   // Gropuby channel.
