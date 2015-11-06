@@ -1,3 +1,4 @@
+import utils from 'grape-jss-utils'
 import colors from 'grape-theme/dist/base-colors'
 
 const avatarWidth = 43
@@ -27,16 +28,23 @@ export default {
     backgroundSize: '100%'
   },
   header: {
-    marginLeft: avatarWidth + leftColumnMarginRight + arrowWidth
+    display: 'flex',
+    flexDirection: 'row',
+    overflow: 'hidden',
+    width: '100%',
+    paddingLeft: avatarWidth + leftColumnMarginRight + arrowWidth
   },
   author: {
+    ...utils.ellipsis,
     // XXX
     color: '#666',
     marginRight: 5
   },
   date: {
     // XXX
-    color: '#AAA'
+    color: '#AAA',
+    width: 52,
+    flexShrink: 0,
   },
   content: {
     position: 'relative',
