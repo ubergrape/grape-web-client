@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
 import each from 'lodash/collection/each'
 import {shouldPureComponentUpdate} from 'react-pure-render'
+import tz from 'moment-timezone'
 
 import findMatches from 'grape-web/lib/search/findMatches'
 import Spinner from 'grape-web/lib/spinner/Spinner'
@@ -10,6 +11,8 @@ import style from './style'
 import * as utils from './utils'
 import Message from '../message/Message'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+
+const dateFormat = 'MMM Do, YYYY'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -112,7 +115,7 @@ export default class MessageSearch extends Component {
 
     let elements = []
     each(grouped, (day, date) => {
-      elements.push(<div className={classes.date} key={date + elements.length}>{date}</div>)
+      elements.push(<div className={classes.date} key={date + elements.length}>{tz(date).format(dateFormat)}</div>)
       each(day, (messages, channel) => {
         elements.push(<div className={classes.channel} key={channel + elements.length}>{channel}</div>)
         elements = elements.concat(messages.map(::this.renderMessage))

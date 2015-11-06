@@ -1,26 +1,36 @@
+import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
 
+const padding = 20
+
 export default {
   sidebarPanel: {
-    padding: 10
+    background: colors.grayBlueLight
   },
   header: {
     display: 'flex',
     flexDirection: 'row',
-    height: 50
+    background: colors.grayBlueDark
   },
   title: {
-    ...fonts.big,
+    ...fonts.bigger,
     ...utils.ellipsis,
     flex: 2,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    // XXX
+    color: '#666',
+    padding
+  },
+  body: {
+    padding
   },
   close: {
-    ...fonts.bigger,
-    fontWeight: 'bold',
+    ...fonts.biggest,
     padding: '0 20px',
     border: 'none',
+    // XXX
+    color: '#ABB0B9',
     '&:before': {
       content: '"×"'
     },

@@ -28,7 +28,9 @@ export default class SidebarPanel extends Component {
           <h2 className={classes.title}>{this.props.title}</h2>
           <button className={classes.close} onClick={::this.onClose}></button>
         </header>
-        {this.props.children}
+        <div className={classes.body}>
+          {this.props.children}
+        </div>
       </div>
     )
   }
