@@ -348,7 +348,7 @@ function formatMessage(message) {
     author: message.author.displayName,
     avatar: message.author.avatar,
     time: message.time,
-    body: message.text,
+    content: message.text,
     slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
   }
 }

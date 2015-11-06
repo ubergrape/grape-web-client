@@ -96,10 +96,10 @@ export default class MessageSearch extends Component {
   renderMessages() {
     const {classes} = this.props.sheet
     const items = this.props.items.map(item => {
-      const matches = findMatches(item.body, this.props.query)
-      let {body} = item
+      const matches = findMatches(item.content, this.props.query)
+      let {content} = item
       if (matches.length) {
-        body = matches.map((match, key) => {
+        content = matches.map((match, key) => {
           return (
             <span
               key={key}
@@ -109,7 +109,7 @@ export default class MessageSearch extends Component {
           )
         })
       }
-      return {...item, body}
+      return {...item, content}
     })
     const grouped = utils.group(items)
 

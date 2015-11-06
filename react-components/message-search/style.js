@@ -10,6 +10,7 @@ export default {
     textAlign: 'center'
   },
   dateSeparator: {
+    position: 'relative',
     textAlign: 'center'
   },
   dateHr: {
@@ -27,18 +28,19 @@ export default {
     padding: `${dateBubbleVPadding}px ${fonts.normal.fontSize}px`
   },
   channel: {
-
+    // XXX
+    color: '#ABB0B9',
+    textTransform: 'uppercase',
+    marginTop: 15
   },
   message: {
-    cursor: 'pointer',
-    '&:hover': {
-      background: 'blue'
-    }
+    cursor: 'pointer'
   },
   empty: {
     textAlign: 'center'
   },
   highlighted: {
-    background: 'yellow'
+    // XXX
+    background: '#FFF3B9'
   }
 }

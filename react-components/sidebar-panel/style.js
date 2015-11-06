@@ -6,7 +6,8 @@ const padding = 20
 
 export default {
   sidebarPanel: {
-    background: colors.grayBlueLight
+    background: colors.grayBlueLight,
+    height: '100%'
   },
   header: {
     display: 'flex',
@@ -33,9 +34,6 @@ export default {
     color: '#ABB0B9',
     '&:before': {
       content: '"×"'
-    },
-    '&:hover': {
-      color: 'red'
     }
   }
 }
