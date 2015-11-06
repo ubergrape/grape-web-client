@@ -41,32 +41,35 @@ export default class UserProfile extends Component {
               className={classes.avatar}
               src={this.props.avatar}
               alt={this.props.username}
-              width="80"
-              height="80" />
+              width="60"
+              height="60" />
           </div>
-          <div className={classes.fullName}>
-            {this.props.displayName}
-          </div>
-          <div className={classes.username}>
-            {this.props.slug}
-          </div>
-          <div className={classes.item}>
-            {this.props.whatIDo}
-          </div>
-          <div className={classes.item}>
-            <a href={`mailto:${this.props.email}`}>
-              {this.props.email}
-            </a>
-          </div>
-          <div className={classes.item}>
-            <a href={`skype:${this.props.skypeUsername}`}>
-              {this.props.skypeUsername}
-            </a>
-          </div>
-          <div className={classes.item}>
-            <a href={`tel:${this.props.phoneNumber}`}>
-              {this.props.phoneNumber}
-            </a>
+          <div className={classes.userInfo}>
+            <div className={classes.fullName}>
+              {this.props.displayName}
+            </div>
+            <div className={classes.username}>
+              {this.props.slug}
+            </div>
+            <div className={classes.item}>
+              <div className={classes.itemLabel}>What I do:</div>
+              {this.props.whatIDo}
+            </div>
+            <div className={classes.item}>
+              <a href={`mailto:${this.props.email}`}>
+                {this.props.email}
+              </a>
+            </div>
+            <div className={classes.item}>
+              <a href={`skype:${this.props.skypeUsername}`}>
+                {this.props.skypeUsername}
+              </a>
+            </div>
+            <div className={classes.item}>
+              <a href={`tel:${this.props.phoneNumber}`}>
+                {this.props.phoneNumber}
+              </a>
+            </div>
           </div>
         </div>
       </SidebarPanel>
