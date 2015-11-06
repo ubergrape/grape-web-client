@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
 import each from 'lodash/collection/each'
-import sortBy from 'lodash/collection/sortBy'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import findMatches from 'grape-web/lib/search/findMatches'
@@ -23,7 +22,6 @@ export default class MessageSearch extends Component {
     query: undefined,
     isLoading: false,
     images: {},
-    sort: 1,
     onSelect: noop,
     onRequest: noop,
     onClose: noop
@@ -94,7 +92,7 @@ export default class MessageSearch extends Component {
 
   renderMessages() {
     const {classes} = this.props.sheet
-    let items = this.props.items.map(item => {
+    const items = this.props.items.map(item => {
       const matches = findMatches(item.body, this.props.query)
       let {body} = item
       if (matches.length) {
@@ -110,7 +108,6 @@ export default class MessageSearch extends Component {
       }
       return {...item, body}
     })
-    items = sortBy(items, item => item.time * this.props.sort)
     const grouped = utils.group(items)
 
     let elements = []

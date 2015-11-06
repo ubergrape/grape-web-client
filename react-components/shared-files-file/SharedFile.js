@@ -10,11 +10,14 @@ const dateFormat = 'MMM Do, h:mm a'
 @useSheet(style)
 export default class SharedFile extends Component {
   static defaultProps = {
+    id: undefined,
+    author: undefined,
     time: undefined,
     channelName: undefined,
     name: undefined,
     thumbnailUrl: undefined,
-    iconType: undefined
+    iconType: undefined,
+    url: undefined
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -33,7 +36,11 @@ export default class SharedFile extends Component {
           <p className={classes.meta}>
             {this.props.author} &middot; {tz(this.props.time).format(dateFormat)}
           </p>
-          <p className={classes.channel}>Shared in <b>{this.props.channelName}</b></p>
+          {/*
+          <p className={classes.channel}>
+            Shared in <b>{this.props.channelName}</b>
+          </p>
+          */}
         </div>
       </section>
     )

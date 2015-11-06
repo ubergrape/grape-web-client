@@ -3,6 +3,7 @@ import find from 'lodash/collection/find'
 import isEmpty from 'lodash/lang/isEmpty'
 import intersection from 'lodash/array/intersection'
 import pluck from 'lodash/collection/pluck'
+import sortBy from 'lodash/collection/sortBy'
 import page from 'page'
 
 import staticUrl from 'staticurl'
@@ -138,6 +139,27 @@ export default class RightSidebar extends Emitter {
     this.emit('searchFiles', {...params, channel: this.channel.id})
   }
 
+  handleSearchPayload(data, sort = 1) {
+    let messages = data.results.map(formatMessage)
+
+    if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
+
+    // Its a "load more", add previous messages before.
+    if (this.lastMessagesQuery === data.query) {
+      const prevMessages = this.getCurrElement().props.items || []
+      messages = [...prevMessages, ...messages]
+    }
+
+    messages = sortBy(messages, message => message.time * sort)
+
+    this.lastMessagesQuery = data.query
+    this.setProps({
+      items: messages,
+      total: this.lastMessagesTotal,
+      isLoading: false
+    })
+  }
+
   onLeaveRoom() {
     this.emit('leaveRoom', this.channel.id)
   }
@@ -163,40 +185,23 @@ export default class RightSidebar extends Emitter {
     this.setupMode()
   }
 
+
   onSearchPayload(data) {
-    let messages = data.results.map(formatMessage)
-
-    if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
-
-    // Its a "load more", add previous messages before.
-    if (this.lastMessagesQuery === data.query) {
-      const prevMessages = this.getCurrElement().props.items || []
-      messages = [...prevMessages, ...messages]
-    }
-
-    this.lastMessagesQuery = data.query
-    this.setProps({
-      items: messages,
-      total: this.lastMessagesTotal,
-      isLoading: false
-    })
+    this.handleSearchPayload(data)
   }
 
   onLoadMentionsPayload(data) {
-    data.query = this.user.slug
-    this.onSearchPayload(data)
+    this.handleSearchPayload({...data, query: this.user.slug}, -1)
   }
 
   onNewMention(message) {
     const mentioned = isMentioned(message.mentions, this.user.id, this.org.rooms)
     if (!mentioned) return
-    let messages = [formatMessage(message)]
-    const prevMessages = this.getCurrElement().props.items
-    if (prevMessages.length) messages = [...prevMessages, ...messages]
-    this.setProps({
-      items: messages,
-      total: this.lastMessagesTotal
-    })
+    this.handleSearchPayload({
+      results: [message],
+      query: this.lastMessagesQuery,
+      offsetTotal: (this.lastMessagesTotal || 0) + 1
+    }, -1)
   }
 
   onRequestMessages(params) {
@@ -217,16 +222,11 @@ export default class RightSidebar extends Emitter {
   }
 
   onSearchFilesPayload(data) {
-    const nextItems = data.results.map(item => {
-      let author = find(this.channel.users, ({id}) => id === item.author.id).displayName
-      return {
-        ...item,
-        author,
-        channelName: this.channel.name
-      }
-    })
+    const nextItems = data.results.map(file => formatFile(this.channel, file))
     const prevItems = this.getCurrElement().props.items || []
-    const items = [...prevItems, ...nextItems]
+    let items = [...prevItems, ...nextItems]
+    items = sortBy(items, item => -item.time)
+
     this.setProps({
       items,
       total: data.total,
@@ -235,8 +235,13 @@ export default class RightSidebar extends Emitter {
   }
 
   onNewSharedFile(message) {
-    // TODO implement life shared files update
-    console.log(message)
+    const results = message.attachments.map(attachment => {
+      return {...attachment, author: message.author}
+    })
+    this.onSearchFilesPayload({
+      results,
+      total: (this.getCurrElement().props || 0) + 1
+    })
   }
 
   onRequestFiles(params) {
@@ -365,4 +370,18 @@ function formatChannel(channel) {
  */
 function formatUser(user) {
   return convertCase.toCamel(user.toJSON())
+}
+
+/**
+ * Format data for shared files.
+ */
+function formatFile(channel, file) {
+  let author = find(channel.users, ({id}) => id === file.author.id).displayName
+  return {
+    ...file,
+    author,
+    channelName: channel.name,
+    id: file.id || file.messageId,
+    time: new Date(file.time)
+  }
 }

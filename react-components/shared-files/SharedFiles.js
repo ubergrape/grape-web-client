@@ -23,16 +23,14 @@ export default class SharedFiles extends Component {
 
   constructor(props) {
     super(props)
-    this.offset = props.items.length
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
-    this.offset = nextProps.items.length
     // It was hidden, we show it now.
     if (nextProps.show && !this.props.show) {
-      if (!this.offset) this.requestFiles(nextProps)
+      if (!nextProps.items.length) this.requestFiles(nextProps)
     }
   }
 
@@ -45,13 +43,17 @@ export default class SharedFiles extends Component {
         images={this.props.images}
         onClose={::this.onClose}>
         <div className={classes.sharedFiles}>
-          {this.props.items.map((item, i) => <SharedFile {...item} key={i} />)}
+          {this.renderFiles()}
           {this.renderEmpty()}
           {this.renderLoadMore()}
           {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
         </div>
       </SidebarPanel>
     )
+  }
+
+  renderFiles() {
+    return this.props.items.map(item => <SharedFile {...item} key={item.id} />)
   }
 
   renderLoadMore() {
@@ -80,7 +82,7 @@ export default class SharedFiles extends Component {
 
   requestFiles(props = this.props) {
     props.onRequestFiles({
-      offset: this.offset,
+      offset: props.items.length,
       limit: props.limit
     })
   }
