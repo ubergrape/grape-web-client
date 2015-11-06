@@ -115,7 +115,12 @@ export default class MessageSearch extends Component {
 
     let elements = []
     each(grouped, (day, date) => {
-      elements.push(<div className={classes.date} key={date + elements.length}>{tz(date).format(dateFormat)}</div>)
+      elements.push(
+        <div className={classes.dateSeparator} key={date + elements.length}>
+          <hr className={classes.dateHr} />
+          <span className={classes.dateBubble} >{tz(date).format(dateFormat)}</span>
+        </div>
+      )
       each(day, (messages, channel) => {
         elements.push(<div className={classes.channel} key={channel + elements.length}>{channel}</div>)
         elements = elements.concat(messages.map(::this.renderMessage))
