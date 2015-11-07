@@ -8,7 +8,6 @@ import findMatches from 'grape-web/lib/search/findMatches'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
-import * as utils from './utils'
 import Message from '../message/Message'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
@@ -95,7 +94,7 @@ export default class MessageSearch extends Component {
 
   renderMessages() {
     const {classes} = this.props.sheet
-    const items = this.props.items.map(item => {
+    const messages = this.props.items.map(item => {
       const matches = findMatches(item.content, this.props.query)
       let {content} = item
       if (matches.length) {
@@ -111,32 +110,49 @@ export default class MessageSearch extends Component {
       }
       return {...item, content}
     })
-    const grouped = utils.group(items)
 
-    let elements = []
-    each(grouped, (day, date) => {
-      elements.push(
-        <div className={classes.dateSeparator} key={date + elements.length}>
-          <hr className={classes.dateHr} />
-          <span className={classes.dateBubble} >{tz(date).format(dateFormat)}</span>
-        </div>
-      )
-      each(day, (messages, channel) => {
-        elements.push(<div className={classes.channel} key={channel + elements.length}>{channel}</div>)
-        elements = elements.concat(messages.map(::this.renderMessage))
-      })
+    const elements = []
+
+    messages.forEach((message, index) => {
+      const prevMessage = messages[index - 1]
+      let sameDay = false
+
+      if (prevMessage) {
+        sameDay = tz(message.time).startOf('day').toISOString() ===
+          tz(prevMessage.time).startOf('day').toISOString()
+      }
+
+      if (!sameDay) {
+        elements.push(
+          <div className={classes.dateSeparator} key={message.time + elements.length}>
+            <hr className={classes.dateHr} />
+            <span className={classes.dateBubble} >{tz(message.time).format(dateFormat)}</span>
+          </div>
+        )
+      }
+
+      // Render channel name.
+      if (!prevMessage || prevMessage.channel !== message.channel) {
+        elements.push(
+          <div className={classes.channel} key={message.channel + elements.length}>
+            {message.channel}
+          </div>
+        )
+      }
+      elements.push(this.renderMessage(message))
     })
+
     return elements
   }
 
-  renderMessage(item) {
+  renderMessage(message) {
     const {classes} = this.props.sheet
     return (
       <div
         className={classes.message}
-        onClick={this.onSelect.bind(this, item)}
-        key={item.id}>
-        <Message {...item} />
+        onClick={this.onSelect.bind(this, message)}
+        key={message.id}>
+        <Message {...message} />
       </div>
     )
   }
