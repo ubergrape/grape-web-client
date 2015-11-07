@@ -115,14 +115,9 @@ export default class MessageSearch extends Component {
 
     messages.forEach((message, index) => {
       const prevMessage = messages[index - 1]
-      let sameDay = false
 
-      if (prevMessage) {
-        sameDay = tz(message.time).startOf('day').toISOString() ===
-          tz(prevMessage.time).startOf('day').toISOString()
-      }
-
-      if (!sameDay) {
+      // Render date separator.
+      if (!prevMessage || !tz(message.time).isSame(prevMessage.time, 'day')) {
         elements.push(
           <div className={classes.dateSeparator} key={message.time + elements.length}>
             <hr className={classes.dateHr} />
