@@ -428,9 +428,7 @@ API.prototype.bindEvents = function API_bindEvents() {
     line = new models.Line(data)
     room.unread++
     room.history.push(line)
-    let messageTime = new Date(line.time).getTime()
-    room.latest_message_time = messageTime
-    room.first_message_time = room.first_message_time ? room.first_message_time : messageTime
+    room.latest_message_time = new Date(line.time).getTime()
     // users message and everything before that is read
     if (line.author === self.user) self.setRead(room, line.id)
     self.emit('newMessage', line)
