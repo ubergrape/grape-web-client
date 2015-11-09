@@ -249,3 +249,8 @@ ChatHeader.prototype.onEmptyOrg = function() {
   this.isOrgEmpty = true
   this.redraw()
 }
+
+ChatHeader.prototype.onHideSidebar = function() {
+  this.selected = null
+  this.redraw()
+}
