@@ -1,30 +1,27 @@
 import fonts from 'grape-theme/dist/fonts'
-console.log(fonts)
 
 export default {
   profile: {
-
   },
   avatarWrap: {
     float: 'left'
   },
   userInfo: {
-    marginLeft: '80px'
+    marginLeft: 80
   },
   avatar: {
-    borderRadius: '60px',
-    marginRight: '20px'
+    borderRadius: '50%',
+    marginRight: 20
   },
   fullName: {
     ...fonts.big
   },
   username: {
-    marginBottom: '30px'
+    marginBottom: 30
   },
   item: {
 
   },
   itemLabel: {
-
   }
 }
