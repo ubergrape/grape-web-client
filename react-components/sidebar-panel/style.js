@@ -6,8 +6,8 @@ const padding = 20
 
 export default {
   sidebarPanel: {
-    background: colors.grayBlueLight,
-    height: '100%'
+    height: '100%',
+    background: colors.grayBlueLight
   },
   header: {
     display: 'flex',
@@ -24,7 +24,8 @@ export default {
     padding
   },
   body: {
-    padding
+    padding,
+    background: colors.grayBlueLight
   },
   close: {
     ...fonts.biggest,
