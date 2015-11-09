@@ -1,3 +1,4 @@
+import button from '../button/style'
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
@@ -42,5 +43,6 @@ export default {
   highlighted: {
     // XXX
     background: '#FFF3B9'
-  }
+  },
+  button
 }
