@@ -330,7 +330,7 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
   this.roomListCollapsed.redraw()
 }
 
-Navigation.prototype.onUserDeleted = function() {
+Navigation.prototype.onDeletedUser = function() {
   this.pmList.redraw()
   this.pmListCollapsed.redraw()
 }

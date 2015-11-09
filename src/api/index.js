@@ -409,7 +409,7 @@ API.prototype.bindEvents = function API_bindEvents() {
       if (inactivePm) {
         let inactivePmIndex = self.organization.pms.indexOf(inactivePm)
         self.organization.pms.splice(inactivePmIndex, 1)
-        self.emit('userDeleted', user)
+        self.emit('deletedUser', user)
       }
     }
   })
