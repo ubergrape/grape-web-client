@@ -1,7 +1,9 @@
 import Emitter from 'emitter'
 import sortBy from 'lodash/collection/sortBy'
+import find from 'lodash/collection/find'
 
 import {images} from '../constants'
+import * as convertCase from '../../api/convertCase'
 import '../../../react-components/shared-files'
 
 export default class SharedFiles extends Emitter {
@@ -36,7 +38,8 @@ export default class SharedFiles extends Emitter {
 
   onMessage(message) {
     const nextItems = message.attachments.map(attachment => {
-      return formatFile(this.channel, {...attachment, author: message.author})
+      const file = convertCase.toCamel({...attachment, author: message.author})
+      return formatFile(this.channel, file)
     })
     let items = [...this.el.props.items, ...nextItems]
     items = sortBy(items, item => -item.time)
