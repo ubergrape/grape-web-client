@@ -139,9 +139,8 @@ export default class RightSidebar extends Emitter {
     this.emit('searchFiles', {...params, channel: this.channel.id})
   }
 
-  handleSearchPayload(data, sort = 1) {
+  handleSearchPayload(data, sort) {
     let messages = data.results.map(formatMessage)
-
     if (!data.offsetDate) this.lastMessagesTotal = data.offsetTotal
 
     // Its a "load more", add previous messages before.
@@ -150,7 +149,9 @@ export default class RightSidebar extends Emitter {
       messages = [...prevMessages, ...messages]
     }
 
-    messages = sortBy(messages, message => message.time * sort)
+    // We sort here because messages can be received over pubsub and order is
+    // not guaranteed.
+    if (sort) messages = sortBy(messages, message => message.time * sort)
 
     this.lastMessagesQuery = data.query
     this.setProps({
