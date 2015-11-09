@@ -44,6 +44,8 @@ class ChannelSearch extends Component {
     return (
       <div>{this.props.search}</div>
     )
+
+
     let {classes} = this.props.sheet
     return (
       <Dialog
