@@ -13,8 +13,6 @@ template.locals.html = function (html) {
 
 template.templates = {
     'chatheader.jade': require('./chatheader.jade'),
-    'rightsidebar.jade': require('./rightsidebar.jade'),
-    'roommembers.jade': require('./roommembers.jade'),
     'chathistory.jade': require('./chathistory.jade'),
     'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
     'dialogs/room-invite.jade': require('./dialogs/room-invite.jade'),
@@ -35,12 +33,8 @@ template.templates = {
     'messages.jade': require('./messages.jade'),
     'navigation.jade': require('./navigation.jade'),
     'pmlist.jade': require('./pmlist.jade'),
-    'pmlist-collapsed.jade': require('./pmlist-collapsed.jade'),
     'popovers/organization.jade': require('./popovers/organization.jade'),
     'roomlist.jade': require('./roomlist.jade'),
-    'roomlist-collapsed.jade': require('./roomlist-collapsed.jade'),
-    'searchresults.jade': require('./searchresults.jade'),
-    'typingnotifications.jade': require('./typingnotifications.jade'),
-    'user-profile.jade': require('./user-profile.jade')
+    'typingnotifications.jade': require('./typingnotifications.jade')
 }
 

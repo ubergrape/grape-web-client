@@ -1,6 +1,5 @@
 let Emitter = require('emitter')
 let template = require('template')
-let events = require('events')
 let render = require('../rendervdom')
 let defaults = require('lodash/object/defaults')
 
@@ -48,11 +47,8 @@ ItemList.prototype.selectItem = function (item) {
 
 ItemList.prototype.toggleItem = function (item) {
     let itemIndex = this.highlighted.indexOf(item)
-    if (itemIndex === -1) {
-        this.highlighted.push(item)
-    } else {
-        this.highlighted.splice(itemIndex, 1)
-    }
+    if (itemIndex === -1) this.highlighted.push(item)
+    else this.highlighted.splice(itemIndex, 1)
     this.redraw()
 }
 

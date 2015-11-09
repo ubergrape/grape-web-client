@@ -1,6 +1,6 @@
 let Dialog = require('./dialog')
-let Menu = require('./menu')
-let ItemList = require('../itemlist')
+let Menu = require('../../utils/menu')
+let ItemList = require('../../utils/itemlist')
 let qs = require('query')
 let events = require('events')
 let closest = require('closest')
@@ -24,13 +24,13 @@ RoomManager.prototype.init = function () {
     tabs: {
       visible: true
     },
-    back: {
-      className: 'back-button',
-      visible: false
-    },
-    button: {
-      className: 'new-room',
-      text: 'Create new room',
+    back: {    
+      className: 'back-button',    
+      visible: false   
+    },   
+    button: {    
+      className: 'new-room',   
+      text: 'Create new room',   
       visible: true
     }
   })
@@ -81,7 +81,7 @@ RoomManager.prototype.bind = function () {
 RoomManager.prototype.setUnjoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'unjoined'
-  menuOptions.back.visible = false
+  menuOptions.back.visible = false   
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
@@ -91,7 +91,7 @@ RoomManager.prototype.setUnjoined = function () {
 RoomManager.prototype.setJoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'joined'
-  menuOptions.back.visible = false
+  menuOptions.back.visible = false   
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
@@ -101,7 +101,7 @@ RoomManager.prototype.setJoined = function () {
 RoomManager.prototype.setCreate = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'creation'
-  menuOptions.back.visible = true
+  menuOptions.back.visible = true    
   menuOptions.button.visible = false
   menuOptions.tabs.visible = false
   menuOptions.header = 'Create new room'
@@ -132,7 +132,6 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 
 RoomManager.prototype.redrawContent = function (selected) {
   let menu = this.menu
-  menu.selectTab(null)
   menu.selectTab(menu.options.tabs.items[selected])
   menu.redraw()
   this.roomList.order('name')
@@ -169,6 +168,5 @@ RoomManager.prototype.onRoomCreationError = function (err) {
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {
-  // yes, this is how we can close the dialog - HACK
-  qs('.close', this.el).click()
+  this.dialog.hide()
 }

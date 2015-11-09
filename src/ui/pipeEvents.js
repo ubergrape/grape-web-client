@@ -6,10 +6,8 @@ export default function pipeEvents(ui) {
   broker(ui, 'selectchannel', ui.chatHeader, 'setRoom')
   broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate')
   broker(ui, 'roomrenameerror', ui.chatHeader, 'roomRenameError')
-  broker(ui, 'newRoomMember', ui.chatHeader, 'onNewRoomMember')
+  broker(ui, 'setUser', ui.chatHeader, 'onSetUser')
   broker(ui, 'emptyOrg', ui.chatHeader, 'onEmptyOrg')
-  broker(ui, 'memberLeftChannel', ui.chatHeader, 'onMemberLeftChannel')
-  broker(ui, 'selectchannel', ui.rightSidebar, 'setRoom')
   broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
@@ -47,21 +45,39 @@ export default function pipeEvents(ui) {
   broker(ui, 'channelRead', ui.navigation, 'onChannelRead')
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
-  broker(ui, 'changeUser', ui.rightSidebar, 'onChangeUser')
-  broker(ui, 'memberLeftChannel', ui.rightSidebar, 'onMemberLeftChannel')
-  broker(ui, 'newRoomMember', ui.rightSidebar, 'onNewRoomMember')
+
+  broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
+  broker(ui, 'searchMessagesError', ui.messageSearch, 'onError')
+  broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
+  broker(ui, 'setUser', ui.mentions, 'onSetUser')
+  broker(ui, 'loadMentionsPayload', ui.mentions, 'onPayload')
+  broker(ui, 'loadMentionsError', ui.mentions, 'onError')
+  broker(ui, 'newMessage', ui.mentions, 'onMessage')
+  broker(ui, 'selectchannel', ui.userProfile, 'onSelectChannel')
+  broker(ui, 'memberLeftChannel', ui.roomInfo, 'onMemberLeftChannel')
+  broker(ui, 'newRoomMember', ui.roomInfo, 'onMemberJoinedChannel')
+  broker(ui, 'selectchannel', ui.roomInfo, 'onSelectChannel')
+  broker(ui, 'setUser', ui.roomInfo, 'onSetUser')
+  broker(ui, 'searchFilesPayload', ui.sharedFiles, 'onPayload')
+  broker(ui, 'searchFilesError', ui.sharedFiles, 'onError')
+  broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')
+  broker(ui, 'newMessage', ui.sharedFiles, 'onMessage')
 
   // chat header
-  broker.pass(ui.chatHeader, 'searching', ui, 'searching')
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
   broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription')
-  broker(ui.chatHeader, 'togglerightsidebar', ui.rightSidebar, 'toggle')
   broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
-  broker(ui.chatHeader, 'stopsearching', ui.searchView, 'hideResults')
-
-  // search
-  broker(ui.searchView, 'show', ui, 'showSearchResults')
-  broker(ui.searchView, 'hide', ui, 'hideSearchResults')
+  broker(ui.chatHeader, 'showSidebar', ui.messageSearch, 'onShow')
+  broker(ui.chatHeader, 'hideSidebar', ui.messageSearch, 'onHide')
+  broker(ui.chatHeader, 'search', ui.messageSearch, 'onSearch')
+  broker(ui.chatHeader, 'showSidebar', ui.mentions, 'onShow')
+  broker(ui.chatHeader, 'hideSidebar', ui.mentions, 'onHide')
+  broker(ui.chatHeader, 'showSidebar', ui.userProfile, 'onShow')
+  broker(ui.chatHeader, 'hideSidebar', ui.userProfile, 'onHide')
+  broker(ui.chatHeader, 'showSidebar', ui.roomInfo, 'onShow')
+  broker(ui.chatHeader, 'hideSidebar', ui.roomInfo, 'onHide')
+  broker(ui.chatHeader, 'showSidebar', ui.sharedFiles, 'onShow')
+  broker(ui.chatHeader, 'hideSidebar', ui.sharedFiles, 'onHide')
 
   // grape input
   broker.pass(ui.grapeInput, 'update', ui, 'update')
@@ -109,9 +125,32 @@ export default function pipeEvents(ui) {
   broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')
   broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
 
-  // right sidebar
-  broker.pass(ui.rightSidebar, 'kickMember', ui, 'kickMember')
-  broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
+  // message search
+  broker.pass(ui.messageSearch, 'search', ui, 'messageSearch')
+  broker(ui.messageSearch, 'show', ui, 'onShowSidebar')
+  broker(ui.messageSearch, 'hide', ui, 'onHideSidebar')
+
+  // mentions
+  broker.pass(ui.mentions, 'load', ui, 'loadMentions')
+  broker(ui.mentions, 'show', ui, 'onShowSidebar')
+  broker(ui.mentions, 'hide', ui, 'onHideSidebar')
+
+  // user profile
+  broker(ui.userProfile, 'show', ui, 'onShowSidebar')
+  broker(ui.userProfile, 'hide', ui, 'onHideSidebar')
+
+  // room info
+  broker(ui.roomInfo, 'show', ui, 'onShowSidebar')
+  broker(ui.roomInfo, 'hide', ui, 'onHideSidebar')
+  broker.pass(ui.roomInfo, 'kickMember', ui, 'kickMember')
+  broker.pass(ui.roomInfo, 'leaveRoom', ui, 'leaveRoom')
+  broker(ui.roomInfo, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
+
+  // shared files
+  broker(ui.sharedFiles, 'show', ui, 'onShowSidebar')
+  broker(ui.sharedFiles, 'hide', ui, 'onHideSidebar')
+  broker.pass(ui.sharedFiles, 'search', ui, 'searchFiles')
+
 
   // channel search
   broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')

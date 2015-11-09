@@ -8,19 +8,9 @@ import find from 'lodash/collection/find'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
-import staticurl from 'staticurl'
+import {images} from '../constants'
 import render from '../rendervdom'
 import 'grape-browser'
-
-const imagesBase = staticurl('app/cg/images')
-
-const images = {
-  emojiSheet: imagesBase + '/emoji_sheet_32_optimized.png',
-  traubyReading: imagesBase + '/trauby-reading.png',
-  traubyJuggling: imagesBase + '/trauby-juggling.png',
-  noDetail: imagesBase + '/no-detail.png',
-  spinner: staticurl('/images/preloader-onwhite.gif')
-}
 
 const defaultBrowserProps = {
   isLoading: false,

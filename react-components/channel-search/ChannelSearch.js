@@ -8,7 +8,7 @@ import keyname from 'keyname'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import * as utils from './utils'
 
@@ -43,7 +43,7 @@ export default class ChannelSearch extends Component {
     let {classes} = this.props.sheet
     return (
       <Dialog
-        show={this.state.show}
+        show={this.props.show}
         onHide={::this.onHide}
         title="Jump to a conversation">
         <div className={classes.content}>
@@ -91,8 +91,7 @@ export default class ChannelSearch extends Component {
 
   renderItem({item, focused}) {
     let {classes} = this.props.sheet
-    let itemClasses = [classes.item]
-    if (focused) itemClasses.push(classes.itemFocused)
+    let itemClasses = [classes.item, focused ? classes.itemFocused : null]
 
     let icon
     if (item.type === 'room') {
@@ -123,7 +122,6 @@ export default class ChannelSearch extends Component {
   createState(props) {
     let search = this.state ? this.state.search : ''
     return {
-      show: props.show,
       search,
       items: utils.find(props.items, search)
     }

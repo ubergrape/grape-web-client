@@ -1,51 +1,27 @@
 div.navigation.nav-outer
 	nav.navigation.nav-inner
-		.org-area-bg
-			.bg-overlay
 		.org-info
 			.org-topbar
 				i.mdi.mdi-settings.settings-icon
 				i.mdi.mdi-keyboard-caps.toggle-sidebar-icon.minimize-sidebar
 			.org-logo-name
-				img(src='#{org.logo}',height='42',width='42',alt='#{org.name}')
+				img(src='#{org.logo}',height='32',width='32',alt='#{org.name}')
 				span.org-name=org.name
-				if (org.tagline)
-					span.org-tagline=org.tagline
+				span.org-tagline=_('Valentin Scholz')
 		.preloader.hide
 			div
 				h3
 					=_('Loading')
 		.nav-wrap-out
 			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
-				a.manage-rooms-button
-					=_('Manage Rooms')
-				a.nav-title-wrap.manage-rooms
+				a.manage-rooms-button.nav-title-wrap.manage-rooms
 					h2.nav-title
 						=_('Rooms')
+					i.mdi.mdi-chevron-right
 				ul.nav-list.rooms
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
 				.nav-title-wrap.addpm
-					h2.nav-title=_('Private messages')
+					h2.nav-title
+						=_('Private messages')
 					i.mdi.mdi-chevron-right
 				ul.nav-list.pms
-	nav.navigation.nav-collapsed
-		.org-area-bg-collapsed
-			.bg-overlay
-		.org-info-collapsed
-			.org-topbar
-				i.mdi.mdi-settings.settings-icon-collapsed
-				i.mdi.mdi-keyboard-caps.toggle-sidebar-icon.expand-sidebar
-			.org-logo-name
-				img(src='#{org.logo}',height='28',width='28',alt='#{org.name}')
-		.nav-wrap-out-collapsed
-			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
-				a.manage-rooms-button-collapsed
-					=_('Manage')
-				a.nav-title-wrap-collapsed.manage-rooms
-					h2.nav-title
-						=_('Rooms')
-				ul.nav-list.rooms-collapsed
-			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
-				.nav-title-wrap-collapsed.addpm
-					h2.nav-title=_('Messages')
-				ul.nav-list.pms-collapsed

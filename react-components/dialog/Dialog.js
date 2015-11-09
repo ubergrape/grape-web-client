@@ -3,7 +3,7 @@ import Modal from 'react-overlays/lib/Modal'
 import noop from 'lodash/utility/noop'
 
 import style from './style'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 /**
  * Dialog has

@@ -23,7 +23,6 @@
 				div
 					h3
 						=_('Hi '+ globalDisplayName +'!')
-
 					img.image(src="#{preloader}",width="40",height="60",alt="Loading")
 					p
 						=_("Give us a second while we prepare everything for you!")
@@ -218,7 +217,7 @@
 											.time
 												time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
 													first.user_time
-												if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
+												if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
 													i.fa.fa-globe
 													.different-timezone
 														span.dif-tz

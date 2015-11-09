@@ -12,6 +12,7 @@ let models = exports.models = {
   Line: require('./models/chatline'),
   Organization: require('./models/organization'),
 }
+let convertCase = require('./convertCase')
 
 let PREFIX = 'http://domain/'
 
@@ -190,7 +191,7 @@ API.prototype.connect = function API_connect(ws) {
     lpUri: this.lpUri,
     wsUri: this.wsUri,
     connected: function (socket) {
-      // connection established bootstrap client state
+      // connection established; bootstrap client state
       this._socket = socket
       this.retries = 0
       this.wamp = new Wamp(socket, {omitSubscribe: true})
@@ -365,7 +366,7 @@ API.prototype.bindEvents = function API_bindEvents() {
       self.emit('joinedChannel', room)
     }
     room.users.push(user)
-    self.emit('newRoomMember', room)
+    self.emit('newRoomMember', room, user)
   })
   wamp.subscribe(PREFIX + 'channel#left', function wamp_channel_left(data) {
     let user = models.User.get(data.user)
@@ -380,7 +381,7 @@ API.prototype.bindEvents = function API_bindEvents() {
       self.emit('leftChannel', room)
     }
     room.users.splice(index, 1)
-    self.emit('memberLeftChannel', room)
+    self.emit('memberLeftChannel', room, user)
   })
 
   // organization events
@@ -713,29 +714,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   })
 }
 
-API.prototype.search = function API_search(text) {
-  let self = this
-  this.wamp.call(PREFIX + 'search/search', text, this.organization.id,
-      function (err, results) {
-      let r = []
-      let lines = results.results.map(function (l) {
-        if(l.index !== 'objects_alias') {
-          l = new models.Line(l)
-          r.unshift(l)
-        } else {
-          r.unshift(l)
-        }
-      })
-      let f = []
-      self.emit('gotsearchresults', {
-        'results': r,
-        'facets': f,
-        'total': results.total,
-        'q': results.q
-      })
-    })
-}
-
 API.prototype.onInviteToOrg = function API_onInviteToOrg(emails, callback) {
   let orgID = this.organization.id
   let options = {
@@ -872,6 +850,64 @@ API.prototype.updateMsg = function API_updateMessage(msg, text) {
   })
 }
 
-API.prototype.onKickMember = function API_onKickMember (roomID, memberID) {
-  this.wamp.call(PREFIX + 'channels/kick', roomID, parseInt(memberID))
+API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
+  this.wamp.call(PREFIX + 'channels/kick', channelId, userId)
+}
+
+API.prototype.onSearchFiles = function (params) {
+  this.wamp.call(
+    PREFIX + 'search/search_files',
+    this.organization.id,
+    params.channel,
+    params.own,
+    params.limit,
+    params.offset,
+    (err, data) => {
+      if (err) return this.emit('searchFilesError', err)
+      this.emit('searchFilesPayload', convertCase.toCamel(data))
+    }
+  )
+}
+
+API.prototype.onLoadMentions = function (params) {
+  this.wamp.call(
+    PREFIX + 'search/get_mentions',
+    this.organization.id,
+    params.only,
+    params.limit,
+    params.offsetDate,
+    (err, res) => {
+      if (err) return this.emit('loadMentionsError', err)
+      this.emit('loadMentionsPayload', {
+        offsetTotal: res.total,
+        offsetDate: params.offsetDate,
+        results: res.results.map(result => {
+          const message = convertCase.toCamel(result.message)
+          message.read = result.read
+          return new models.Line(message)
+        })
+      })
+    }
+  )
+}
+
+API.prototype.onMessageSearch = function (params) {
+  // search(query, organization_id, only='messages', limit=20, offset=None, callback)
+  this.wamp.call(
+    PREFIX + 'search/search',
+    params.query,
+    this.organization.id,
+    'messages',
+    params.limit,
+    params.offsetDate,
+    (err, res) => {
+      if (err) return this.emit('searchMessagesError', err)
+      this.emit('searchMessagesPayload', {
+        results: res.results.map(line => new models.Line(line)),
+        offsetTotal: res.total,
+        offsetDate: params.offsetDate,
+        query: res.q,
+      })
+    }
+  )
 }
