@@ -29,7 +29,11 @@ exports.ItemList = require('./utils/itemlist')
 let Navigation = exports.Navigation = require('./elements/navigation')
 let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
-let RightSidebar = exports.RightSidebar = require('./elements/RightSidebar')
+let MessageSearch = exports.MessageSearch = require('./elements/MessageSearch')
+let Mentions = exports.Mentions = require('./elements/Mentions')
+let UserProfile = exports.UserProfile = require('./elements/UserProfile')
+let RoomInfo = exports.RoomInfo = require('./elements/RoomInfo')
+let SharedFiles = exports.SharedFiles = require('./elements/SharedFiles')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
@@ -101,8 +105,20 @@ UI.prototype.init = function UI_init() {
   this.messages = new Messages()
   qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
-  this.rightSidebar = new RightSidebar()
-  this.clientBody.appendChild(this.rightSidebar.el)
+  // All right sidebar elements.
+  const rightSidebar = document.createElement('div')
+  rightSidebar.className = 'right-sidebar'
+  this.clientBody.appendChild(rightSidebar)
+  this.messageSearch = new MessageSearch()
+  rightSidebar.appendChild(this.messageSearch.el)
+  this.mentions = new Mentions()
+  rightSidebar.appendChild(this.mentions.el)
+  this.userProfile = new UserProfile()
+  rightSidebar.appendChild(this.userProfile.el)
+  this.roomInfo = new RoomInfo()
+  rightSidebar.appendChild(this.roomInfo.el)
+  this.sharedFiles = new SharedFiles()
+  rightSidebar.appendChild(this.sharedFiles.el)
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -429,10 +445,10 @@ UI.prototype.onTriggerPMManager = function () {
     broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
 }
 
-UI.prototype.onShowRightSidebar = function () {
+UI.prototype.onShowSidebar = function () {
     classes(this.clientBody).add('right-sidebar-show')
 }
 
-UI.prototype.onHideRightSidebar = function () {
+UI.prototype.onHideSidebar = function () {
   classes(this.clientBody).remove('right-sidebar-show')
 }

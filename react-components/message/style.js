@@ -44,7 +44,7 @@ export default {
     // XXX
     color: '#AAA',
     width: 52,
-    flexShrink: 0,
+    flexShrink: 0
   },
   content: {
     position: 'relative',

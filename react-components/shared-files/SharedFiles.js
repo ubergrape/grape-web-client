@@ -17,7 +17,7 @@ export default class SharedFiles extends Component {
     limit: 20,
     images: {},
     isLoading: false,
-    onRequestFiles: noop,
+    onRequest: noop,
     onClose: noop
   }
 
@@ -29,9 +29,10 @@ export default class SharedFiles extends Component {
 
   componentWillReceiveProps(nextProps) {
     // It was hidden, we show it now.
-    if (nextProps.show && !this.props.show) {
-      if (!nextProps.items.length) this.requestFiles(nextProps)
-    }
+    const show = nextProps.show && !this.props.show
+    const reset = nextProps.show && !nextProps.items.length && nextProps.total == null
+      && this.props.total != null
+    if (show || reset) this.request(nextProps)
   }
 
   render() {
@@ -80,15 +81,15 @@ export default class SharedFiles extends Component {
     )
   }
 
-  requestFiles(props = this.props) {
-    props.onRequestFiles({
+  request(props = this.props) {
+    props.onRequest({
       offset: props.items.length,
       limit: props.limit
     })
   }
 
   onLoadMore() {
-    this.requestFiles()
+    this.request()
   }
 
   onClose() {

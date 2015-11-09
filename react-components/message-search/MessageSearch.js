@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import noop from 'lodash/utility/noop'
-import each from 'lodash/collection/each'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 

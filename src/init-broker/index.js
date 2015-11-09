@@ -39,7 +39,7 @@ export default function doBroker(ui, api) {
     broker(ui, 'setDescription', api, 'onSetDescription')
     broker(ui, 'searchFiles', api, 'onSearchFiles')
     broker(ui, 'loadMentions', api, 'onLoadMentions')
-    broker(ui, 'search', api, 'onSearch')
+    broker(ui, 'messageSearch', api, 'onMessageSearch')
 
     broker.pass(api, 'newMessage', ui, 'newMessage')
     broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification')
@@ -66,11 +66,12 @@ export default function doBroker(ui, api) {
     broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
     broker.pass(api, 'inviteError', ui, 'inviteError')
     broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
-    broker.pass(api, 'searchPayload', ui, 'searchPayload')
-    broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
-    broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
+    broker.pass(api, 'searchMessagesPayload', ui, 'searchMessagesPayload')
+    broker.pass(api, 'searchMessagesError', ui, 'searchMessagesError')
     broker.pass(api, 'loadMentionsError', ui, 'loadMentionsError')
     broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
+    broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
+    broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
 
     ui.on('starttyping', function (room) {
         api.setTyping(room, true)

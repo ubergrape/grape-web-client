@@ -86,7 +86,7 @@ ChatHeader.prototype.bind = function () {
   this.searchInput.addEventListener('focus', ::this.onFocusSearch)
   this.events.bind('click .mentions-toggler', 'toggleMentions')
   this.events.bind('click .file-browser-toggler', 'toggleSharedFiles')
-  this.events.bind('click .user-view-toggler', 'toggleUserView')
+  this.events.bind('click .user-view-toggler', 'toggleUserProfileOrRoomInfo')
 }
 
 ChatHeader.prototype.redraw = function () {
@@ -168,28 +168,31 @@ ChatHeader.prototype.confirmRoomRename = function () {
   this.emit('confirmroomrename', this.room.id, newRoomName)
 }
 
-ChatHeader.prototype.toggleUserView = function () {
+ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
   this.selected = menuItems.user === this.selected ? null : menuItems.user
-  let mode = this.room.type === 'room' ? 'roomInfo' : 'userProfile'
-  this.emit('toggleRightSidebar', mode)
+  this.emit('hideSidebar')
+  if (this.selected) this.emit('showSidebar', {type: 'userProfileOrRoomInfo'})
   this.redraw()
 }
 
 ChatHeader.prototype.toggleSharedFiles = function () {
   this.selected = menuItems.sharedFiles === this.selected ? null : menuItems.sharedFiles
-  this.emit('toggleRightSidebar', 'sharedFiles')
+  this.emit('hideSidebar')
+  if (this.selected) this.emit('showSidebar', {type: 'sharedFiles'})
   this.redraw()
 }
 
 ChatHeader.prototype.toggleMentions = function () {
   this.selected = menuItems.mentions === this.selected ? null : menuItems.mentions
-  this.emit('toggleRightSidebar', 'mentions')
+  this.emit('hideSidebar')
+  if (this.selected) this.emit('showSidebar', {type: 'mentions'})
   this.redraw()
 }
 
 ChatHeader.prototype.showSearch = function () {
   this.selected = null
-  this.emit('showSidebar', 'search')
+  this.emit('hideSidebar')
+  this.emit('showSidebar', {type: 'messageSearch'})
   this.redraw()
 }
 

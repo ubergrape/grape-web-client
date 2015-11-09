@@ -891,7 +891,7 @@ API.prototype.onLoadMentions = function (params) {
   )
 }
 
-API.prototype.onSearch = function (params) {
+API.prototype.onMessageSearch = function (params) {
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
   this.wamp.call(
     PREFIX + 'search/search',
@@ -901,8 +901,8 @@ API.prototype.onSearch = function (params) {
     params.limit,
     params.offsetDate,
     (err, res) => {
-      if (err) return this.emit('searchError', err)
-      this.emit('searchPayload', {
+      if (err) return this.emit('searchMessagesError', err)
+      this.emit('searchMessagesPayload', {
         results: res.results.map(line => new models.Line(line)),
         offsetTotal: res.total,
         offsetDate: params.offsetDate,
