@@ -3,8 +3,8 @@ import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import style from './style'
 
 @useSheet(style)
 export default class UserProfile extends Component {
@@ -36,43 +36,36 @@ export default class UserProfile extends Component {
         title="User Profile"
         onClose={::this.onClose}>
         <div className={classes.profile}>
-          <div className={classes.avatarWrap}>
+          <div className={classes.leftColumn}>
             <img
               className={classes.avatar}
               src={this.props.avatar}
-              alt={this.props.username}
-              width="60"
-              height="60" />
+              alt={this.props.username} />
           </div>
-          <div className={classes.userInfo}>
+          <div className={classes.rightColumn}>
             <div className={classes.fullName}>
               {this.props.displayName}
             </div>
             <div className={classes.username}>
               {this.props.slug}
             </div>
-            <div className={classes.item}>
-              <div className={classes.itemLabel}>What I do:</div>
-              {this.props.whatIDo}
-            </div>
-            <div className={classes.item}>
-              <a href={`mailto:${this.props.email}`}>
-                {this.props.email}
-              </a>
-            </div>
-            <div className={classes.item}>
-              <a href={`skype:${this.props.skypeUsername}`}>
-                {this.props.skypeUsername}
-              </a>
-            </div>
-            <div className={classes.item}>
-              <a href={`tel:${this.props.phoneNumber}`}>
-                {this.props.phoneNumber}
-              </a>
-            </div>
+            {this.props.whatIDo && <div className={classes.about}>
+              <p>What I do:</p>
+              <p>{this.props.whatIDo}</p>
+            </div>}
+            <a href={`mailto:${this.props.email}`} className={classes.email}>
+              {this.props.email}
+            </a>
+            {this.props.skypeUsername && <a href={`skype:${this.props.skypeUsername}`} className={classes.skype}>
+              {this.props.skypeUsername}
+            </a>}
+            {this.props.phoneNumber && <a href={`tel:${this.props.phoneNumber}`} className={classes.phone}>
+              {this.props.phoneNumber}
+            </a>}
           </div>
         </div>
       </SidebarPanel>
     )
   }
 }
+
