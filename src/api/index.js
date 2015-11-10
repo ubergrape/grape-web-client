@@ -406,11 +406,7 @@ API.prototype.bindEvents = function API_bindEvents() {
     if (user && ~index && data.organization===self.organization.id) {
       user.active = false
       let inactivePm = find(self.organization.users, ({id}) => id === user.id)
-      if (inactivePm) {
-        let inactivePmIndex = self.organization.pms.indexOf(inactivePm)
-        self.organization.pms.splice(inactivePmIndex, 1)
-        self.emit('deletedUser', user)
-      }
+      if (inactivePm) self.emit('deletedUser', user)
     }
   })
 
