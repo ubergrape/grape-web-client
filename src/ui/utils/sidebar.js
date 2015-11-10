@@ -5,13 +5,15 @@ import * as convertCase from '../../api/convertCase'
  */
 export function formatMessage(message) {
   const {channel} = message
+  // Only required because it can come from pubsub.
+  const camMessage = convertCase.toCamel(message.toJSON())
   return {
-    id: message.id,
+    id: camMessage.id,
     channel: channel.name || channel.users[0].displayName,
-    author: message.author.displayName,
-    avatar: message.author.avatar,
-    time: message.time,
-    content: message.plainText,
+    author: camMessage.author.displayName,
+    avatar: camMessage.author.avatar,
+    time: camMessage.time,
+    content: camMessage.plainText,
     slug: channel.slug || channel.users[0].slug
   }
 }
