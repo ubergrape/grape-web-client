@@ -1,16 +1,15 @@
 {
   "name": "grape-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "dependencies": {
-  },
-  "peerDependencies": {
-  },
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
     "babel": "^5.6.14",
     "babel-core": "^5.6.20",
     "babel-eslint": "^3.1.23",
     "babel-loader": "^5.3.1",
+    "cpy": "^3.4.1",
     "es5-shim": "^4.1.10",
     "es6-shim": "^0.32.2",
     "eslint": "^0.24.1",
@@ -27,17 +26,20 @@
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
     "react-addons-test-utils": "^0.14.0",
+    "svgo": "^0.6.0",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
-    "build": "npm run clean && babel src --out-dir lib",
+    "build": "npm run clean && babel src --out-dir lib && npm run svg",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src",
-    "emoji": "bin/emoji",
-    "test-watch": "NODE_ENV=test karma start",
-    "test": "karma start"
+    "svg": "npm run svg:clean && npm run svg:copy",
+    "svg:clean": "svgo -f src/svg-icons -o src/svg-icons --enable removeTitle",
+    "svg:copy": "cpy src/svg-icons/*.svg lib/svg-icons",
+    "test": "karma start",
+    "test:watch": "NODE_ENV=test karma start"
   }
 }
