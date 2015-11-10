@@ -3,7 +3,6 @@ let WebSocket = require('websocket')
 let LPSocket = require('lpsocket')
 let array = require('array')
 let Emitter = require('emitter')
-let find = require('lodash/collection/find')
 
 let exports = module.exports = API
 
