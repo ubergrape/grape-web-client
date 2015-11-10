@@ -903,7 +903,7 @@ API.prototype.onMessageSearch = function (params) {
     (err, res) => {
       if (err) return this.emit('searchMessagesError', err)
       this.emit('searchMessagesPayload', {
-        results: res.results.map(line => new models.Line(line)),
+        results: res.results.map(line => new models.Line(convertCase.toCamel(line))),
         offsetTotal: res.total,
         offsetDate: params.offsetDate,
         query: res.q,

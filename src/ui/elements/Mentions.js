@@ -6,6 +6,7 @@ import pluck from 'lodash/collection/pluck'
 import intersection from 'lodash/array/intersection'
 
 import {images} from '../constants'
+import {formatMessage} from '../utils/sidebar'
 import '../../../react-components/mentions'
 
 export default class Mentions extends Emitter {
@@ -85,7 +86,7 @@ export default class Mentions extends Emitter {
    */
   onShow({type}) {
     if (type !== 'mentions') return
-    this.setProps({show: true, query: this.user.slug})
+    this.setProps({show: true, query: this.user.displayName})
     this.emit('show')
   }
 
@@ -96,21 +97,6 @@ export default class Mentions extends Emitter {
     if (!this.el.props.show) return
     this.setProps({show: false})
     this.emit('hide')
-  }
-}
-
-/**
- * Format a message for rendering.
- */
-function formatMessage(message) {
-  return {
-    id: message.id,
-    channel: message.channel.name ? message.channel.name : message.channel.users[0].displayName,
-    author: message.author.displayName,
-    avatar: message.author.avatar,
-    time: message.time,
-    content: message.text,
-    slug: message.channel.slug ? message.channel.slug : message.channel.users[0].slug
   }
 }
 

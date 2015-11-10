@@ -119,7 +119,6 @@ export default class MessageSearch extends Component {
       if (!prevMessage || !tz(message.time).isSame(prevMessage.time, 'day')) {
         elements.push(
           <div className={classes.dateSeparator} key={message.time + elements.length}>
-            <hr className={classes.dateHr} />
             <span className={classes.dateBubble} >{tz(message.time).format(dateFormat)}</span>
           </div>
         )
