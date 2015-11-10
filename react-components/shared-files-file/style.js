@@ -43,8 +43,5 @@ export default {
     ...utils.ellipsis,
     // XXX
     color: '#707782'
-  },
-  channel: {
-    ...utils.ellipsis
   }
 }

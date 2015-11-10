@@ -94,11 +94,13 @@ export default class SharedFiles extends Emitter {
  * Format data for shared files.
  */
 function formatFile(channel, file) {
-  let author = find(channel.users, ({id}) => id === file.author.id).displayName
+  const author = find(channel.users, ({id}) => id === file.author.id).displayName
+  const channelName = channel.type === 'room' ? channel.name : channel.users[0].displayName
   return {
     ...file,
     author,
-    channelName: channel.name,
+    channelName,
+    channelType: channel.type,
     id: file.id || file.messageId,
     time: new Date(file.time)
   }

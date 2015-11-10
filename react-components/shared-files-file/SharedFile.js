@@ -14,6 +14,7 @@ export default class SharedFile extends Component {
     author: undefined,
     time: undefined,
     channelName: undefined,
+    channelType: undefined,
     name: undefined,
     thumbnailUrl: undefined,
     iconType: undefined,
@@ -33,14 +34,11 @@ export default class SharedFile extends Component {
         </div>
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{this.props.name}</h2>
+          <p className={classes.meta}>{tz(this.props.time).format(dateFormat)}</p>
+          <p className={classes.meta}>{this.props.author}</p>
           <p className={classes.meta}>
-            {this.props.author} &middot; {tz(this.props.time).format(dateFormat)}
+            Shared {this.props.channelType === 'room' ? 'in' : 'with'} {this.props.channelName}
           </p>
-          {/*
-          <p className={classes.channel}>
-            Shared in <b>{this.props.channelName}</b>
-          </p>
-          */}
         </div>
       </section>
     )
