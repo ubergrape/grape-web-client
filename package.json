@@ -37,8 +37,8 @@
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src",
     "svg": "npm run svg:clean && npm run svg:copy",
-    "svg:clean": "svgo -f src/svg-icons -o src/svg-icons --enable removeTitle",
-    "svg:copy": "cpy src/svg-icons/*.svg lib/svg-icons",
+    "svg:clean": "svgo -f src/svg-icons/svg -o src/svg-icons/svg --enable removeTitle",
+    "svg:copy": "cpy src/svg-icons/svg/*.svg lib/svg-icons/svg",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start"
   }

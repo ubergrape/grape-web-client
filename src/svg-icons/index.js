@@ -1,6 +1,15 @@
-import document from './document.svg'
-export {document as document}
-export pdf from './pdf.svg'
-export html from './html.svg'
-export presentation from './presentation.svg'
-export default document
+import * as raw from './raw'
+
+/**
+ * Raw svg strings.
+ */
+export {raw as raw}
+
+/**
+ * Data image strings.
+ */
+export const data = {}
+for (const name in raw) {
+  data[name] = `data:image/svg+xml;utf8,${raw[name]}`
+}
+
