@@ -3,8 +3,8 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
 import {useSheet} from 'grape-web/lib/jss'
+import * as icons from 'grape-web/lib/svg-icons'
 import style from './style'
-import * as icons from './icons'
 const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
@@ -58,7 +58,7 @@ export default class SharedFile extends Component {
     }
     else {
       className = classes.icon
-      const svg = icons[this.props.iconType] || icons.default
+      const svg = icons[this.props.iconType] || icons.document
       iconStyle = {
         backgroundImage: `url('data:image/svg+xml;utf8,${svg}')`
       }
