@@ -1,55 +1,57 @@
 .room-header-wrap
 	.room-header-color-shade(style="background: rgba(#{color.r}, #{color.g}, #{color.b}, 0.05); border-bottom-color: rgba(#{color.r}, #{color.g}, #{color.b}, 0.1)")
 	.room-info-wrap
-		if room.type === 'room'
-			if editState.renaming
-				form.room-rename
-					input.room-name.editable(value=room.name, type="text")
-					input.submit-rename(type="submit")
-				.rename-options-wrap
-					a.header-option.option-rename-cancel(title=_("Cancel"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
-						i.fa.fa-times
-					a.header-option.option-rename-ok(title=_("Save"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
-						i.fa.fa-check
-			else
-				.room-name(class=isRoomManager ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
-					if mode === 'search'
-						i.fa.fa-link
-						=_(" in ")
-					| #{room.name}
-					if isRoomManager
-						a.header-option.option-rename-room(title=_("Rename room"))
-							i.fa.fa-pencil(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
-				.options-wrap
-					if isRoomManager
-						a.header-option.option-delete-room(title=_("Delete room"))
-							i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
-			if editState.editingDescription
-				form.description-edit-form
-					input.description.editable(value=room.description ? room.description : '', maxlength=100)
-			else
-				if room.description
-					div.description(class=isRoomManager ? 'description-edit' : '')= room.description
+		if !isOrgEmpty
+			if room.type === 'room'
+				if editState.renaming
+					form.room-rename
+						input.room-name.editable(value=room.name, type="text")
+						input.submit-rename(type="submit")
+					.rename-options-wrap
+						a.header-option.option-rename-cancel(title=_("Cancel"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+							i.fa.fa-times
+						a.header-option.option-rename-ok(title=_("Save"), style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+							i.fa.fa-check
 				else
-					if isRoomManager 
-						div.description-edit= _('Add a room description')
-		else if room.type === 'pm'
-			h1.room-name
-				if room.users[0].is_only_invited
-					i.fa.fa-envelope
-					| 
-				| #{room.users[0].displayName}
+					.room-name(class=isRoomManager ? 'editable' : '', style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1.0)")
+						if mode === 'search'
+							i.fa.fa-link
+							=_(" in ")
+						| #{room.name}
+						if isRoomManager
+							a.header-option.option-rename-room(title=_("Rename room"))
+								i.fa.fa-pencil(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+					.options-wrap
+						if isRoomManager
+							a.header-option.option-delete-room(title=_("Delete room"))
+								i.fa.fa-trash(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
+				if editState.editingDescription
+					form.description-edit-form
+						input.description.editable(value=room.description ? room.description : '', maxlength=100)
+				else
+					if room.description
+						div.description(class=isRoomManager ? 'description-edit' : '')= room.description
+					else
+						if isRoomManager 
+							div.description-edit= _('Add a room description')
+			else if room.type === 'pm'
+				h1.room-name
+					if room.users[0].is_only_invited
+						i.fa.fa-envelope
+						| 
+					| #{room.users[0].displayName}
 		
 	form.search-form
 		input.search(type="search", name="search-input", placeholder=_("Search for messages, files, etc."))
 		i.fa.fa-search.search-icon(style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 		i.fa.fa-times.close(onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.className='client';", style="color: rgba(#{color.r}, #{color.g}, #{color.b}, 1)")
 
-	#intercomTrigger.room-header-button
-		a#Intercom
-			i.fa.fa-question-circle
-	#menuToggle.room-header-button
-		i.fa.fa-user
+	if !isOrgEmpty
+		#intercomTrigger.room-header-button
+			a#Intercom
+				i.fa.fa-question-circle
+		#menuToggle.room-header-button
+			i.fa.fa-user
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap

@@ -34,12 +34,13 @@ ChatHeader.prototype.init = function ChatHeader_init() {
     editingDescription: false
   }
   this.mode = 'chat'
+  let intercomButton
   if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
     // we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
-    let intercomButton = qs('a#Intercom', this.el)
+    intercomButton = qs('a#Intercom', this.el)
     intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress']
   } else if (typeof Intercom !== 'undefined') {
-    let intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
+    intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
     intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io'
     window.Intercom('reattach_activator')
   }
@@ -158,6 +159,7 @@ ChatHeader.prototype.redraw = function ChatHeader_redraw() {
   }
 
   let vdom = template('chatheader.jade', {
+    isOrgEmpty: this.isOrgEmpty,
     room: this.room,
     isRoomManager: this.isRoomManager,
     editState: this.editState,
@@ -177,6 +179,7 @@ ChatHeader.prototype.clearSearch = function ChatHeader_clearSearch() {
 }
 
 ChatHeader.prototype.setRoom = function ChatHeader_setRoom(room, msgID) {
+  this.isOrgEmpty = false
   this.room = room
   this.isRoomManager = (this.room.creator && window.ui.user === this.room.creator) || window.ui.user.role >= constants.roles.ROLE_ADMIN
   this.editState.renaming = false
@@ -211,5 +214,10 @@ ChatHeader.prototype.onSwitchToChatMode = function ChatHeader_onSwitchToChatMode
 
 ChatHeader.prototype.onSwitchToSearchMode = function ChatHeader_onSwitchToChatMode () {
   this.mode = 'search'
+  this.redraw()
+}
+
+ChatHeader.prototype.onEmptyOrg = function() {
+  this.isOrgEmpty = true
   this.redraw()
 }
