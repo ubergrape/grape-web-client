@@ -7,16 +7,8 @@ const action = {
   ...fonts.big,
   position: 'relative',
   paddingLeft: 17,
-  marginBottom: 10
-}
-
-const icon = {
-  content: '""',
-  position: 'absolute',
-  left: 0,
-  width: 15,
-  height: '100%',
-  background: 'no-repeat center'
+  marginBottom: 10,
+  background: 'no-repeat left center'
 }
 
 export default {
@@ -50,23 +42,14 @@ export default {
   },
   email: {
     ...action,
-    '&:before': {
-      ...icon,
-      backgroundImage: `url('${icons.link}')`
-    }
+    backgroundImage: `url('${icons.link}')`
   },
   skype: {
     ...action,
-    '&:before': {
-      ...icon,
-      backgroundImage: `url('${icons.skype}')`
-    }
+    backgroundImage: `url('${icons.skype}')`
   },
   phone: {
     ...action,
-    '&:before': {
-      ...icon,
-      backgroundImage: `url('${icons.phone}')`
-    }
+    backgroundImage: `url('${icons.phone}')`
   }
 }
