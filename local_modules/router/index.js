@@ -1,4 +1,6 @@
 var page = require('page')
+var find = require('lodash/collection/find')
+
 module.exports = Router
 
 function Router(ui) {
@@ -43,7 +45,12 @@ function Router(ui) {
     var user = findPM(username)
     var message = cxt.params.message ? cxt.params.message : null
     if (user) {
-      if (user.pm) return ui.emit('selectchannel', user.pm, message)
+      if (user === cUser) {
+        return ui.getInvalidUrlFeedback('message to self')
+      }
+      else if (user.pm) {
+        return ui.emit('selectchannel', user.pm, message)
+      }
       ui.emit('openpm', user, function() {
         ui.emit('selectchannel', user.pm, message)
       })
@@ -54,14 +61,8 @@ function Router(ui) {
   }
 
   function findPM(username) {
-    var selectedUser
-    ui.org.users.every(function(user) {
-      if (user.username.toLowerCase() === username
-      && cUser.username !== username) {
-        selectedUser = user
-        return false
-      }
-      return true
+    var selectedUser = find(ui.org.users, function(user) {
+      return user.username === username
     })
     return selectedUser
   }
@@ -82,24 +83,13 @@ function Router(ui) {
   }
 
   function findRoom(slug) {
-    var selectedRoom = false
-    ui.org.rooms.every(function(room) {
-      if (room.slug === slug) {
-        selectedRoom = room
-        return false
-      }
-      return true
+    var selectedRoom = find(ui.org.rooms, function(room) {
+      return room.slug === slug
     })
     return selectedRoom
   }
 
   function notFound() {
-    page.replace(baseURL + '/')
-    setTimeout(function() {
-      var msg = ui.messages.warning('url not found')
-      setTimeout(function() {
-        msg.remove()
-      }, 6000)
-    }, 500)
+    ui.getInvalidUrlFeedback('url not found')
   }
 }

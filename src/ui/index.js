@@ -425,6 +425,16 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
     page('/chat/' + redirectSlug)
 }
 
+UI.prototype.getInvalidUrlFeedback = function(cause) {
+    setTimeout(() => {
+        const msg = this.messages.warning(cause)
+        page.replace('/chat/')
+        setTimeout(function() {
+            msg.remove()
+        }, 6000)
+    }, 500)
+}
+
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
     let roommanager = new RoomManager({
         rooms: this.org.rooms.slice()
