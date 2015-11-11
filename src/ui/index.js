@@ -429,7 +429,7 @@ UI.prototype.getInvalidUrlFeedback = function(cause) {
     setTimeout(() => {
         const msg = this.messages.warning(cause)
         page.replace('/chat/')
-        setTimeout(function() {
+        setTimeout(() => {
             msg.remove()
         }, 6000)
     }, 500)
