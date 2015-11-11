@@ -17,6 +17,7 @@ export default class RoomInfo extends Component {
     channel: undefined,
     user: undefined,
     onKickMember: noop,
+    onSelectMember: noop,
     onInvite: noop,
     onLeave: noop,
     onClose: noop
@@ -26,8 +27,12 @@ export default class RoomInfo extends Component {
     this.props.onInvite()
   }
 
-  onKickMember({id}) {
-    this.props.onKickMember({id})
+  onKickMember(user) {
+    this.props.onKickMember(user)
+  }
+
+  onSelect(user) {
+    this.props.onSelectMember(user)
   }
 
   onLeave() {
@@ -55,18 +60,20 @@ export default class RoomInfo extends Component {
         title="Room Info"
         onClose={::this.onClose}>
         <div className={classes.roomInfo}>
-          <div>
-            The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
-          </div>
-          <div onClick={::this.onInvite}>
-            <button>Invite more people to this room</button>
-          </div>
-          <div onClick={::this.onLeave}>
-            <button>Leave {channel.name}</button>
-          </div>
-          <div className={classes.userList}>
-            {users.map(::this.renderUser)}
-          </div>
+          <header className={classes.header}>
+            <div className={classes.stats}>
+              The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
+            </div>
+            {this.props.channel.description && <div className={classes.description}>
+              <h2>Purpose</h2>
+              <p className={classes.descriptionText}>{this.props.channel.description}</p>
+            </div>}
+            <div className={classes.actions}>
+              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this room</button>
+              <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
+            </div>
+          </header>
+          {users.map(::this.renderUser)}
         </div>
       </SidebarPanel>
     )
@@ -74,21 +81,18 @@ export default class RoomInfo extends Component {
 
   renderUser(user) {
     const {classes} = this.props.sheet
-    const href = `/chat/${user.slug}`
     return (
-      <div key={user.id}>
-        <a href={href}>
-          <aside className={classes.avatarWrap}>
-            <img
-              className={classes.avatar}
-              width="20"
-              height="20"
-              src={user.avatar} />
-          </aside>
-          <span>
+      <div key={user.id} className={classes.row}>
+          <img
+            className={classes.avatar}
+            src={user.avatar}
+            onClick={this.onSelect.bind(this, user)} />
+          <span
+            className={classes.name}
+            onClick={this.onSelect.bind(this, user)}>
             {user.displayName}
           </span>
-        </a>
+          {this.renderDeleteButton(user)}
       </div>
     )
   }
@@ -97,14 +101,17 @@ export default class RoomInfo extends Component {
     const {classes} = this.props.sheet
     const {channel} = this.props
     const currUser = this.props.user
-    const canUserKick = currUser.id === channel.creator.id || currUser.role >= constants.roles.ROLE_ADMIN
-    // User has be have the rights to kick.
-    // User should not be able to kick itself.
-    // User should not be able to kick the creator of the room.
-    if (!canUserKick || currUser.id === user.id && user.id === channel.creator.id) return null
+    const isSelf = currUser.id === user.id
+    const isAdmin = currUser.role >= constants.roles.ROLE_ADMIN
+    const isCreator = currUser.id === channel.creator.id
+    const hasCreated = user.id === channel.creator.id
+    const isKickMaster = isAdmin && !isSelf
+
+    if (!isKickMaster || isSelf || isCreator || hasCreated) return null
+
     return (
       <button
-        className={classes.deleteButton}
+        className={classes.buttonKick}
         onClick={this.onKickMember.bind(this, user)}>
       </button>
     )

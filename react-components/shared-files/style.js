@@ -1,4 +1,4 @@
-import button from '../button/style'
+import button from '../button/default'
 
 export default {
   sharedFiles: {

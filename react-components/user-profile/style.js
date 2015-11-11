@@ -1,14 +1,20 @@
-import {data as icons} from 'grape-web/lib/svg-icons'
+import colors from 'grape-theme/dist/base-colors'
+import * as icons from 'grape-web/lib/svg-icons/data'
+import * as rawIcons from 'grape-web/lib/svg-icons/raw'
+import svgDom from 'grape-web/lib/svg-icons/dom'
 import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
 
-const action = {
-  ...utils.ellipsis,
+import linkButton from '../button/link'
+import buttonIcon from '../button/icon'
+
+const marginBottom = 20
+
+const button = {
+  ...linkButton,
   ...fonts.big,
-  position: 'relative',
-  paddingLeft: 17,
-  marginBottom: 10,
-  background: 'no-repeat left center'
+  display: 'block',
+  marginBottom: marginBottom / 2
 }
 
 export default {
@@ -33,23 +39,26 @@ export default {
   },
   username: {
     ...utils.ellipsis,
-    marginBottom: 20
+    marginBottom
   },
   about: {
-    marginBottom: 20,
+    marginBottom,
     maxHeight: 200,
     overflowY: 'auto'
   },
   email: {
-    ...action,
-    backgroundImage: `url('${icons.link}')`
+    ...button,
+    // XXX
+    ...buttonIcon('link', {hoverColor: colors.aquaLight})
   },
   skype: {
-    ...action,
-    backgroundImage: `url('${icons.skype}')`
+    ...button,
+    // XXX
+    ...buttonIcon('link', {hoverColor: colors.aquaLight})
   },
   phone: {
-    ...action,
-    backgroundImage: `url('${icons.phone}')`
+    ...button,
+    // XXX
+    ...buttonIcon('link', {hoverColor: colors.aquaLight})
   }
 }

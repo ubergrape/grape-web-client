@@ -1,4 +1,4 @@
-import button from '../button/style'
+import button from '../button/default'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import colors from 'grape-theme/dist/base-colors'

@@ -59,6 +59,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'newRoomMember', ui.roomInfo, 'onMemberJoinedChannel')
   broker(ui, 'selectchannel', ui.roomInfo, 'onSelectChannel')
   broker(ui, 'setUser', ui.roomInfo, 'onSetUser')
+  broker(ui, 'orgReady', ui.roomInfo, 'onOrgReady')
   broker(ui, 'searchFilesPayload', ui.sharedFiles, 'onPayload')
   broker(ui, 'searchFilesError', ui.sharedFiles, 'onError')
   broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')

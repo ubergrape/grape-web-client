@@ -1,3 +1,4 @@
+import page from 'page'
 import Emitter from 'emitter'
 
 import '../../../react-components/room-info'
@@ -10,6 +11,7 @@ export default class RoomInfo extends Emitter {
     this.el.props = {
       onInvite: ::this.onInviteMember,
       onKickMember: ::this.onKickMember,
+      onSelectMember: ::this.onSelectMember,
       onLeave: ::this.onLeaveRoom,
       onClose: ::this.onHide
     }
@@ -41,6 +43,10 @@ export default class RoomInfo extends Emitter {
 
   onSetUser(user) {
     this.user = user
+  }
+
+  onOrgReady() {
+    // Role is defined on user model only after org is ready.
     this.setProps({user: convertCase.toCamel(this.user.toJSON())})
   }
 
@@ -85,6 +91,10 @@ export default class RoomInfo extends Emitter {
       channelId: this.channel.id,
       userId: id
     })
+  }
+
+  onSelectMember({slug}) {
+    page(`/chat/${slug}`)
   }
 }
 
