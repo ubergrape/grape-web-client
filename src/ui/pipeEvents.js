@@ -48,11 +48,9 @@ export default function pipeEvents(ui) {
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
 
   broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
-  broker(ui, 'searchMessagesError', ui.messageSearch, 'onError')
   broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
   broker(ui, 'setUser', ui.mentions, 'onSetUser')
   broker(ui, 'loadMentionsPayload', ui.mentions, 'onPayload')
-  broker(ui, 'loadMentionsError', ui.mentions, 'onError')
   broker(ui, 'newMessage', ui.mentions, 'onMessage')
   broker(ui, 'selectchannel', ui.userProfile, 'onSelectChannel')
   broker(ui, 'memberLeftChannel', ui.roomInfo, 'onMemberLeftChannel')
@@ -61,7 +59,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'setUser', ui.roomInfo, 'onSetUser')
   broker(ui, 'orgReady', ui.roomInfo, 'onOrgReady')
   broker(ui, 'searchFilesPayload', ui.sharedFiles, 'onPayload')
-  broker(ui, 'searchFilesError', ui.sharedFiles, 'onError')
   broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')
   broker(ui, 'newMessage', ui.sharedFiles, 'onMessage')
 

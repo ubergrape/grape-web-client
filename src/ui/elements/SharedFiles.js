@@ -59,11 +59,6 @@ export default class SharedFiles extends Emitter {
     }
   }
 
-  onError(err) {
-    // TODO
-    console.log(err)
-  }
-
   onRequest(params) {
     this.setProps({isLoading: true})
     this.emit('search', {...params, channel: this.channel.id})

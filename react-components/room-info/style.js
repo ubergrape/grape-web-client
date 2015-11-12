@@ -29,7 +29,7 @@ export default {
     marginBottom
   },
   descriptionText: {
-    ...fonts.big,
+    ...fonts.big
   },
   actions: {
     marginBottom,

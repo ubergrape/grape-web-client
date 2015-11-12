@@ -1,7 +1,4 @@
 import colors from 'grape-theme/dist/base-colors'
-import * as icons from 'grape-web/lib/svg-icons/data'
-import * as rawIcons from 'grape-web/lib/svg-icons/raw'
-import svgDom from 'grape-web/lib/svg-icons/dom'
 import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
 
@@ -24,7 +21,7 @@ export default {
   leftColumn: {
     flexShrink: 0,
     width: 60,
-    paddingRight: 20,
+    paddingRight: 20
   },
   rightColumn: {
     flex: 1

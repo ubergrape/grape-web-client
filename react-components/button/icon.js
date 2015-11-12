@@ -25,7 +25,7 @@ const getColoredIcon = (() => {
 /**
  * Creates a mixin which adds an icon to a button.
  */
-export default function create(name, options = {}) {
+export default function create(name, options = {}) {
   const style = {
     margin: 0,
     padding: 0,

@@ -863,7 +863,7 @@ API.prototype.onSearchFiles = function (params) {
     params.limit,
     params.offset,
     (err, data) => {
-      if (err) return this.emit('searchFilesError', err)
+      if (err) return this.emit('error', err)
       this.emit('searchFilesPayload', convertCase.toCamel(data))
     }
   )
@@ -877,7 +877,7 @@ API.prototype.onLoadMentions = function (params) {
     params.limit,
     params.offsetDate,
     (err, res) => {
-      if (err) return this.emit('loadMentionsError', err)
+      if (err) return this.emit('error', err)
       this.emit('loadMentionsPayload', {
         offsetTotal: res.total,
         offsetDate: params.offsetDate,
@@ -901,7 +901,7 @@ API.prototype.onMessageSearch = function (params) {
     params.limit,
     params.offsetDate,
     (err, res) => {
-      if (err) return this.emit('searchMessagesError', err)
+      if (err) return this.emit('error', err)
       this.emit('searchMessagesPayload', {
         results: res.results.map(line => new models.Line(convertCase.toCamel(line))),
         offsetTotal: res.total,

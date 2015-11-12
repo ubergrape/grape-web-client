@@ -67,11 +67,6 @@ export default class Mentions extends Emitter {
     this.org = org
   }
 
-  onError(err) {
-    // TODO
-    console.log(err)
-  }
-
   onRequest(params) {
     this.setProps({isLoading: true})
     this.emit('load', params)

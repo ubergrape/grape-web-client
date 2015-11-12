@@ -48,11 +48,6 @@ export default class MessageSearch extends Emitter {
     })
   }
 
-  onError(err) {
-    // TODO
-    console.log(err)
-  }
-
   onRequest(params) {
     this.setProps({isLoading: true})
     this.emit('search', params)
