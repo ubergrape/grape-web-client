@@ -204,8 +204,8 @@ API.prototype.subscribe = function API_subscribe() {
         let user = models.User.get(data.user)
         let index = self.organization.users.indexOf(user)
         if (user && ~index && data.organization===self.organization.id) {
-          self.emit('deletedUser', user)          
           user.active = false
+          self.emit('deletedUser', user)          
         }
     })
 
