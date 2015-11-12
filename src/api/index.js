@@ -204,19 +204,8 @@ API.prototype.subscribe = function API_subscribe() {
         let user = models.User.get(data.user)
         let index = self.organization.users.indexOf(user)
         if (user && ~index && data.organization===self.organization.id) {
-            let inactivePm = false
-            self.organization.users.forEach(function (user) {
-                if (user.id === data.user
-                && (!user.pm || user.pm && user.pm.history.length === 0)) {
-                    inactivePm = user
-                }
-            })
-            if (inactivePm) {
-                let inactivePmIndex = self.organization.pms.indexOf(inactivePm)
-                self.organization.pms.splice(inactivePmIndex, 1)
-                self.emit('userDeleted', user)
-            }
-            user.active = false
+          self.emit('deletedUser', user)          
+          user.active = false
         }
     })
 
