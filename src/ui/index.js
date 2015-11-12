@@ -234,6 +234,14 @@ UI.prototype.bind = function UI_bind() {
         self.emit('introend')
     })
 
+    // Open certain link in the external browser in the OS X app
+    if (window.MacGap) {
+        let as, i
+        as = qs.all('a', this.organizationMenu.el)
+        for (i = 0; i < as.length; ++i)
+            as[i].target = '_blank'
+    }
+
     if (window.Intercom) {
         window.Intercom('onShow', function () {
             classes(qs('.client-body', this.el)).add('intercom-show')

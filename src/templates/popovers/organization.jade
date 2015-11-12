@@ -1,5 +1,4 @@
 .organizationpopover
-    - var target = isMacGap ? '_blank' : '_self'
     ul.popover-list
         li.hide
             a(href='#')
@@ -7,19 +6,19 @@
                 =_('Compact View')
         if (isOrgManager)
             li
-                a(href='/accounts/organization/settings/', target=target)
+                a(href='/accounts/organization/settings/', target='_self')
                     i.fa.fa-cog
                     =_('Organization Settings')
             li
-                a(href='/accounts/organization/settings/members/', target=target)
+                a(href='/accounts/organization/settings/members/', target='_self')
                     i.fa.fa-user
                     =_('Manage Members')
             li
-                a(href='/integrations/', target=target)
+                a(href='/integrations/', target='_self')
                     i.fa.fa-link
                     =_('Service Integrations')
         li.break-line
-            a(href='/accounts/settings/', target=target)
+            a(href='/accounts/settings/', target='_self')
                 i.fa.fa-cog
                 =_('Account Settings')
         li
@@ -31,7 +30,7 @@
                         i.fa.fa-list
                         =_('Compact View')
         li
-            a(href='/accounts/settings/notifications/', target=target)
+            a(href='/accounts/settings/notifications/', target='_self')
                 i.fa.fa-bell
                 =_('Notification Settings')
         li

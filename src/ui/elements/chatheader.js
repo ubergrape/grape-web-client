@@ -34,13 +34,12 @@ ChatHeader.prototype.init = function ChatHeader_init() {
     editingDescription: false
   }
   this.mode = 'chat'
-  let intercomButton
   if (window.CHATGRAPE_CONFIG['customSupportEmailAddress'] !== '') {
     // we don't use window.intercomSettings.widget.activator here because intercom settings are not availble for organizations which have custom support address. --> "#Intercom" is hardcoded
-    intercomButton = qs('a#Intercom', this.el)
+    let intercomButton = qs('a#Intercom', this.el)
     intercomButton.href = 'mailto:' + window.CHATGRAPE_CONFIG['customSupportEmailAddress']
   } else if (typeof Intercom !== 'undefined') {
-    intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
+    let intercomButton = qs('a' + window.intercomSettings.widget.activator, this.el)
     intercomButton.href = 'mailto:' + window.intercomSettings.app_id + '@incoming.intercom.io'
     window.Intercom('reattach_activator')
   }

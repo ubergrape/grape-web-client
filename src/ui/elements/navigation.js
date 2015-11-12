@@ -330,11 +330,6 @@ Navigation.prototype.onUserMention = function Navigation_onUserMention () {
   this.roomListCollapsed.redraw()
 }
 
-Navigation.prototype.onDeletedUser = function() {
-  this.pmList.redraw()
-  this.pmListCollapsed.redraw()
-}
-
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
   let pms = org.users.filter(function (user) {
