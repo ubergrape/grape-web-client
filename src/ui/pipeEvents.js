@@ -46,7 +46,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'channelRead', ui.navigation, 'onChannelRead')
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
-
+  broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
   broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
   broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
   broker(ui, 'setUser', ui.mentions, 'onSetUser')
