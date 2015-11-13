@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+import React, {PropTypes, Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -18,7 +17,6 @@ import page from 'page'
 import style from './style'
 import {useSheet} from '../jss'
 
-import noop from 'lodash/utility/noop'
 import pick from 'lodash/object/pick'
 
 
@@ -30,6 +28,10 @@ class ChannelSearch extends Component {
 
   static defaultProps = {
     shortcuts: ['mod+k']
+  }
+
+  static propTypes = {
+    emitter: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -48,7 +50,6 @@ class ChannelSearch extends Component {
   }
 
   render() {
-
     let {classes} = this.props.sheet
     return (
       <Dialog
@@ -169,8 +170,6 @@ class ChannelSearch extends Component {
   }
 
   onCreate() {
-    let name = this.props.search
-
     this.onHide()
     this.props.emitter.emit('triggerRoomManager')
   }
@@ -215,11 +214,9 @@ class ChannelSearch extends Component {
     return [...users, ...rooms]
   }
 
-  filterItem(items, user) {
+  filterItem(items, user) {
     return items.filter(({id}) => id !== user.id)
   }
-
-
 }
 
 // TODO: possibly use 'reselect': https://github.com/faassen/reselect
