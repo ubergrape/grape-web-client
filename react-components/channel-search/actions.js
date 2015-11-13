@@ -10,7 +10,7 @@ export function show(items) {
   }
 }
 
-export function hide(items) {
+export function hide() {
   return {
     type: types.HIDE,
     payload: {

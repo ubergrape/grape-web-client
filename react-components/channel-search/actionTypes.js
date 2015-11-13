@@ -1,3 +1,3 @@
-export const SHOW = 'SHOW';
-export const HIDE = 'HIDE';
-export const INPUT = 'INPUT';
+export const SHOW = 'SHOW'
+export const HIDE = 'HIDE'
+export const INPUT = 'INPUT'

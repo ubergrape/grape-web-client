@@ -7,21 +7,17 @@ const initialState = {
 }
 
 export default function reducers(state = initialState, action) {
-
-  switch(action.type) {
+  switch (action.type) {
     case types.SHOW:
       return {...state, ...action.payload}
-      break;
 
     case types.HIDE:
       return {...state, ...action.payload}
-      break;
 
     case types.INPUT:
       return {...state, ...action.payload}
-      break;
 
     default:
-      return state;
+      return state
   }
 }
