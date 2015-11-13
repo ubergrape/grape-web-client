@@ -1,12 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
+import { createStore, bindActionCreators } from 'redux'
 import { Provider } from 'react-redux'
 
 import Emitter from 'emitter'
 
 import ChannelSearch from './ChannelSearch'
-import channelSearchReducers from './reducers'
+import reducers from './reducers'
 
 const el = 'grape-channel-search'
 
@@ -25,14 +25,15 @@ export class ChannelSearchEmitter extends Emitter {
   }
 }
 
-export function channelSearchInit() {
+export function channelSearchInit(emitter) {
 
-  let store = createStore(channelSearchReducers)
+  let store = createStore(reducers)
   let searchElement = document.querySelector(el)
 
   render(
     <Provider store={store}>
-      <ChannelSearch emitter={ChannelSearchEmitter} />
+      <ChannelSearch
+        emitter={emitter} />
     </Provider>,
     searchElement
   )

@@ -95,7 +95,7 @@ UI.prototype.init = function UI_init() {
 
     this.channelSearch = new ChannelSearchEmitter()
     document.body.appendChild(this.channelSearch.el)
-    channelSearchInit()
+    channelSearchInit(this.channelSearch)
 
     // initialize dialogs
     this.markdownTips = new MarkdownTipsDialog().closable()

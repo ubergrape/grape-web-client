@@ -2,16 +2,24 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import { connect } from 'react-redux'
-import mousetrap from 'mousetrap'
-import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
-import noop from 'lodash/utility/noop'
-import keyname from 'keyname'
+import { bindActionCreators } from 'redux'
+import * as actions from './actions'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
-import {useSheet} from '../jss'
-import style from './style'
+
 import * as utils from './utils'
+
+import mousetrap from 'mousetrap'
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
+import keyname from 'keyname'
+import page from 'page'
+
+import style from './style'
+import {useSheet} from '../jss'
+
+import noop from 'lodash/utility/noop'
+import pick from 'lodash/object/pick'
 
 
 /**
@@ -19,14 +27,9 @@ import * as utils from './utils'
  */
 @useSheet(style)
 class ChannelSearch extends Component {
+
   static defaultProps = {
-    shortcuts: ['mod+k'],
-    show: false,
-    items: [],
-    onSelect: noop,
-    onCreate: noop,
-    onShow: noop,
-    onHide: noop
+    shortcuts: ['mod+k']
   }
 
   constructor(props) {
@@ -36,20 +39,20 @@ class ChannelSearch extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillReceiveProps(nextProps) {
-    //this.setState(this.createState(nextProps), ::this.focus)
+  componentWillMount() {
+    this.actions = bindActionCreators(actions, this.props.dispatch)
+  }
+
+  componentDidUpdate() {
+    this.focus()
   }
 
   render() {
-    return (
-      <div>{this.props.search}</div>
-    )
-
 
     let {classes} = this.props.sheet
     return (
       <Dialog
-        show={this.state.show}
+        show={this.props.show}
         onHide={::this.onHide}
         title="Jump to a conversation">
         <div className={classes.content}>
@@ -59,7 +62,7 @@ class ChannelSearch extends Component {
             onKeyDown={::this.onKeyDown}
             type="text"
             ref="input" />
-          {this.state.items.length ? this.renderItems() : this.renderFallback()}
+          {this.props.items.length ? this.renderItems() : this.renderFallback()}
         </div>
       </Dialog>
     )
@@ -70,7 +73,7 @@ class ChannelSearch extends Component {
 
     return (
       <List
-        items={this.state.items}
+        items={this.props.items}
         className={classes.list}
         renderItem={::this.renderItem}
         onSelect={::this.onSelect}
@@ -84,7 +87,7 @@ class ChannelSearch extends Component {
     return (
       <div className={classes.fallback}>
         <h3 className={classes.fallbackHeadline}>
-          There&apos;s nothing that matches <b>{this.state.search}</b>.
+          There&apos;s nothing that matches <b>{this.props.search}</b>.
         </h3>
         <button
           onClick={::this.onCreate}
@@ -126,26 +129,18 @@ class ChannelSearch extends Component {
     )
   }
 
-  createState(props) {
-    let search = this.state ? this.state.search : ''
-    return {
-      // show: props.show,
-      // search,
-      // items: utils.find(props.items, search)
-    }
-  }
-
   focus() {
     let {input} = this.refs
-    if (input) ReactDOM.findDOMNode(input).focus()
+    if (input) input.focus()
   }
 
   onInput(e) {
     let {value} = e.target
-    this.setState({
-      search: value,
-      items: utils.find(this.props.items, value)
-    })
+
+    this.actions.input(
+      value,
+      utils.find(this.getFileteredItems(), value)
+    )
   }
 
   onKeyDown(e) {
@@ -169,26 +164,62 @@ class ChannelSearch extends Component {
   }
 
   onSelect(item) {
-    this.onBeforeHide(this.props.onSelect.bind(null, item))
+    page('/chat/' + item.slug)
+    this.onHide()
   }
 
   onCreate() {
-    let name = this.state.search
-    this.onBeforeHide(this.props.onCreate.bind(null, {name}))
+    let name = this.props.search
+
+    this.onHide()
+    this.props.emitter.emit('triggerRoomManager')
   }
 
   onShortcut(e) {
     e.preventDefault()
-    this.props.onShow()
+    this.onShow()
   }
 
   onHide() {
-    this.onBeforeHide(this.props.onHide)
+    this.actions.hide()
   }
 
-  onBeforeHide(callback) {
-    this.setState({search: ''}, callback)
+  onShow() {
+    this.actions.show(this.getFileteredItems())
   }
+
+  getFileteredItems() {
+    return this.filterItem(
+      this.getItems(this.props.emitter.org),
+      this.props.emitter.user
+    )
+  }
+
+  getItems(org) {
+    let users = org.users.filter(({active}) => active)
+    users = users.map(({id, slug, displayName, avatar}) => {
+      return {
+        id,
+        slug,
+        type: 'user',
+        name: displayName,
+        iconUrl: avatar
+      }
+    })
+    let rooms = org.rooms.filter(({joined}) => joined)
+    rooms = rooms.map(room => {
+      let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
+      item.type = 'room'
+      return item
+    })
+    return [...users, ...rooms]
+  }
+
+  filterItem(items, user) {
+    return items.filter(({id}) => id !== user.id)
+  }
+
+
 }
 
 // TODO: possibly use 'reselect': https://github.com/faassen/reselect
