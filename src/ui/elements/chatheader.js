@@ -1,52 +1,53 @@
-let Emitter = require('emitter')
-let template = require('template')
-let qs = require('query')
-let events = require('events')
-let render = require('../rendervdom')
-let debounce = require('lodash/function/debounce')
-let classes = require('classes')
-let constants = require('conf').constants
-let keyname = require('keyname')
-let conf = require('conf')
+import Emitter from 'emitter'
+import template from 'template'
+import qs from 'query'
+import events from 'events'
+import classes from 'classes'
+import keyname from 'keyname'
+import debounce from 'lodash/function/debounce'
+import each from 'lodash/collection/each'
+
+import conf from 'conf'
+import render from '../rendervdom'
 
 module.exports = ChatHeader
-
 
 const menuItems = {
   intercom: {
     className: 'intercom-trigger',
     icon: 'fa-question-circle',
-    id: 'Intercom',
-    visible: true
+    id: 'Intercom'
   },
   mentions: {
     className: 'mentions-toggler',
-    type: 'mentions',
+    feature: 'mentions_browser'
     //icon: 'fa-files-o',
-    visible: true
   },
   sharedFiles: {
     className: 'file-browser-toggler',
     icon: 'fa-files-o',
-    visible: true
+    feature: 'shared_files_browser'
   },
   user: {
     className: 'user-view-toggler',
-    icon: 'fa-user',
-    visible: true
+    icon: 'fa-user'
   }
 }
 
 function ChatHeader() {
   Emitter.call(this)
   this.onSearchDebounced = debounce(::this.onSearch, 200)
+  this.menuItems = null
   this.room = {}
   this.selected = null
   this.user = null
-  this.redraw = this.redraw.bind(this)
+  this.isRoomManager = false
+  this.editState = {
+    renaming: false,
+    editingDescription: false
+  }
+  this.mode = 'chat'
   this.redraw()
-  this.init()
-  this.bind()
 }
 
 ChatHeader.prototype = Object.create(Emitter.prototype)
@@ -55,24 +56,18 @@ ChatHeader.prototype.init = function () {
   this.classes = classes(this.el)
   this.searchForm = qs('.search-form', this.el)
   this.searchInput = qs('.search', this.el)
-  this.isRoomManager = false
-  this.editState = {
-    renaming: false,
-    editingDescription: false
-  }
-  this.mode = 'chat'
-  let intercomButton = qs('div' + window.intercomSettings.widget.activator + ' a', this.el)
+  let intercomButton = qs(window.intercomSettings.widget.activator + ' a', this.el)
   if (conf.customSupportEmailAddress) {
     intercomButton.href = `mailto:${conf.customSupportEmailAddress}`
   }
   else if (window.Intercom) {
     intercomButton.href = `mailto:${window.intercomSettings.app_id}@incoming.intercom.io`
-    window.Intercom('reattach_activator');
+    window.Intercom('reattach_activator')
   }
+  this.bindEvents()
 }
 
-ChatHeader.prototype.bind = function () {
-  let self = this
+ChatHeader.prototype.bindEvents = function () {
   this.events = events(this.el, this)
   this.events.bind('click .option-delete-room', 'toggleDeleteRoomDialog')
   this.events.bind('click .room-name.editable', 'triggerRoomRename')
@@ -97,7 +92,7 @@ ChatHeader.prototype.redraw = function () {
     editState: this.editState,
     mode: this.mode,
     menu: {
-      items: menuItems,
+      items: this.menuItems,
       selected: this.selected
     }
   })
@@ -130,7 +125,7 @@ ChatHeader.prototype.clearSearch = function () {
 ChatHeader.prototype.setRoom = function(room, msgID) {
   this.isOrgEmpty = false
   this.room = room
-  this.isRoomManager = this.user && ((this.room.creator && this.user === this.room.creator) || (this.user.role >= constants.roles.ROLE_ADMIN))
+  this.isRoomManager = this.user && ((this.room.creator && this.user === this.room.creator) || (this.user.role >= conf.constants.roles.ROLE_ADMIN))
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()
@@ -169,7 +164,7 @@ ChatHeader.prototype.confirmRoomRename = function () {
 }
 
 ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
-  const selected = menuItems.user === this.selected ? null : menuItems.user
+  const selected = this.menuItems.user === this.selected ? null : this.menuItems.user
   if (this.selected) this.emit('hideSidebar')
   if (selected) this.emit('showSidebar', {type: 'userProfileOrRoomInfo'})
   this.selected = selected
@@ -177,7 +172,7 @@ ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
 }
 
 ChatHeader.prototype.toggleSharedFiles = function () {
-  const selected = menuItems.sharedFiles === this.selected ? null : menuItems.sharedFiles
+  const selected = this.menuItems.sharedFiles === this.selected ? null : this.menuItems.sharedFiles
   if (this.selected) this.emit('hideSidebar')
   if (selected) this.emit('showSidebar', {type: 'sharedFiles'})
   this.selected = selected
@@ -185,7 +180,7 @@ ChatHeader.prototype.toggleSharedFiles = function () {
 }
 
 ChatHeader.prototype.toggleMentions = function () {
-  const selected = menuItems.mentions === this.selected ? null : menuItems.mentions
+  const selected = this.menuItems.mentions === this.selected ? null : this.menuItems.mentions
   if (this.selected) this.emit('hideSidebar')
   if (selected) this.emit('showSidebar', {type: 'mentions'})
   this.selected = selected
@@ -223,7 +218,7 @@ ChatHeader.prototype.setDescription = function (e) {
   this.emit('setDescription', this.room, e.target.value)
 }
 
-ChatHeader.prototype.onSetUser = function(user) {
+ChatHeader.prototype.onSetUser = function (user) {
   this.user = user
   this.redraw()
 }
@@ -248,9 +243,19 @@ ChatHeader.prototype.onSearch = function () {
   this.emit('search', {query})
 }
 
-ChatHeader.prototype.onEmptyOrg = function() {
+ChatHeader.prototype.onEmptyOrg = function () {
   this.isOrgEmpty = true
   this.redraw()
+}
+
+ChatHeader.prototype.onOrgReady = function (org) {
+  this.menuItems = {}
+  each(menuItems, (item, name) => {
+    const enabled = org.features[item.feature] == null || org.features[item.feature] === true
+    if (enabled) this.menuItems[name] = item
+  })
+  this.redraw()
+  this.init()
 }
 
 ChatHeader.prototype.onHideSidebar = function() {

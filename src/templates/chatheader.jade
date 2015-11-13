@@ -31,7 +31,7 @@
 					if room.description
 						div.description(class=isRoomManager ? 'description-edit' : '')= room.description
 					else
-						if isRoomManager 
+						if isRoomManager
 							div.description-edit= _('Add a room description')
 			else if room.type === 'pm'
 				h1.room-name
@@ -39,18 +39,6 @@
 						i.fa.fa-envelope
 						| <
 					| #{room.users[0].displayName}
-		
-	form.search-form
-		input.search(type="search", name="search-input", placeholder=_("Search for messages"))
-		i.fa.fa-search.search-icon()
-		i.fa.fa-times.close()
-
-	if !isOrgEmpty
-		each item in menu.items
-			if (item.visible)
-				div.room-header-button(class= item.className, class= item == menu.selected ? 'selected' : '', id= item.id ? item.id : '')
-					a
-						i.fa(class= item.icon)
 
 	.user-menu-wrap.hide(id='intro-step5', title="My Settings")
 		.avatar-wrap
@@ -58,3 +46,14 @@
 			img(src="#{user.avatar}",width="28",alt="Avatar of #{user.username}")
 				.avatar-status(class='online')
 		i.fa.fa-chevron-down
+
+	if !isOrgEmpty && menu.items
+		form.search-form
+			input.search(type="search", name="search-input", placeholder=_("Search for messages"))
+			i.fa.fa-search.search-icon()
+			i.fa.fa-times.close()
+
+		each item in menu.items
+			div.room-header-button(class= item.className, class= item == menu.selected ? 'selected' : '', id= item.id ? item.id : '')
+				a
+					i.fa(class= item.icon)

@@ -555,6 +555,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
 
   // first get the details
   self.wamp.call(PREFIX + 'organizations/get_organization', org.id, function (err, res) {
+    const org  = new models.Organization(res)
     if (err) return self.emit('error', err)
     org.users = res.users.map(function (u) {
       let user = models.User.get(u.id) || new models.User(u)

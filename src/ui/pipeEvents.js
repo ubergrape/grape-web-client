@@ -9,6 +9,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'setUser', ui.chatHeader, 'onSetUser')
   broker(ui, 'emptyOrg', ui.chatHeader, 'onEmptyOrg')
   broker(ui, 'hideSidebar', ui.chatHeader, 'onHideSidebar')
+  broker(ui, 'orgReady', ui.chatHeader, 'onOrgReady')
   broker(ui, 'orgReady', ui.grapeInput, 'onOrgReady')
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')

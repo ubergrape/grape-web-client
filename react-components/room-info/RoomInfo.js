@@ -103,8 +103,8 @@ export default class RoomInfo extends Component {
     const currUser = this.props.user
     const isSelf = currUser.id === user.id
     const isAdmin = currUser.role >= constants.roles.ROLE_ADMIN
-    const isCreator = currUser.id === channel.creator.id
-    const hasCreated = user.id === channel.creator.id
+    const isCreator = channel.creator && currUser.id === channel.creator.id
+    const hasCreated = channel.creator && user.id === channel.creator.id
     const isKickMaster = isAdmin && !isSelf
 
     if (!isKickMaster || isSelf || isCreator || hasCreated) return null
