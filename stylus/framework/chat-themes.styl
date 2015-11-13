@@ -124,7 +124,12 @@ body.client-style-compact.user-title-enabled
 			min-height: 63px
 	.messageinfo
 		.author-title
-			display: inline !important
+			display: inline-block !important
+			overflow: hidden
+			text-overflow: ellipsis
+			line-height: 1.2
+			white-space: nowrap
+			max-width: 125px
 body.client-style-compact
 	.right-sidebar
 		height: calc(100% - 43px)
