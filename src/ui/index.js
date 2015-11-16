@@ -14,7 +14,7 @@ let timezone = require('./jstz')
 let focus = require('./focus')
 let pipeEvents = require('./pipeEvents')
 let page = require('page')
-let Router = require('router')
+let setUpRouter = require('../router')
 let template = require('template')
 let _ = require('t')
 let v = require('virtualdom')
@@ -248,7 +248,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
     this.org = org
     template.locals.org = this.org
     this.emit('orgReady', this.org)
-    Router(this)
+    setUpRouter(this)
     this.setNotificationsSession()
     if (this.notificationSessionSet === true) return
     focus.on('focus', this.setNotificationsSession.bind(this))
@@ -425,14 +425,10 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
     page('/chat/' + redirectSlug)
 }
 
-UI.prototype.getInvalidUrlFeedback = function(cause) {
-    setTimeout(() => {
-        const msg = this.messages.warning(cause)
-        page.replace('/chat/')
-        setTimeout(() => {
-            msg.remove()
-        }, 6000)
-    }, 500)
+UI.prototype.invalidUrlFeedback = function(cause) {
+    const msg = this.messages.warning(cause)
+    page.replace('/chat/')
+    setTimeout(() => { msg.remove() }, 6000)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
