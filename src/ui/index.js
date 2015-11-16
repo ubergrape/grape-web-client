@@ -14,7 +14,7 @@ let timezone = require('./jstz')
 let focus = require('./focus')
 let pipeEvents = require('./pipeEvents')
 let page = require('page')
-let setUpRouter = require('../router')
+let setUpRouter = require('../init-router')
 let template = require('template')
 let _ = require('t')
 let v = require('virtualdom')
@@ -407,9 +407,9 @@ UI.prototype.onUploaded = function (attachment) {
     this.upload.hide()
 }
 
-UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
-    page.replace('/chat/' + redirectSlug)
+UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
+    let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+    page.redirect('/chat/' + redirectSlug)
     let msg = this.messages.warning('message not found')
     setTimeout(function () { msg.remove() }, 6000)
 }
@@ -427,7 +427,7 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 
 UI.prototype.invalidUrlFeedback = function(cause) {
     const msg = this.messages.warning(cause)
-    page.replace('/chat/')
+    page.redirect('/chat/')
     setTimeout(() => { msg.remove() }, 6000)
 }
 
