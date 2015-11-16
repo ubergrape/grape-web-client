@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import { connect } from 'react-redux'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
@@ -16,7 +15,7 @@ import {useSheet} from '../jss'
  * This renders Browser inside of Modal and connects those show/hide handlers.
  */
 @useSheet(style)
-class ChannelSearch extends Component {
+export default class ChannelSearch extends Component {
 
   static defaultProps = {
     shortcuts: ['mod+k']
@@ -27,11 +26,11 @@ class ChannelSearch extends Component {
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   componentWillMount() {
     this.actions = this.props.actions
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate() {
     this.focus()
@@ -174,10 +173,3 @@ class ChannelSearch extends Component {
     this.actions.channelSearchShow(this.props.org, this.props.user)
   }
 }
-
-// TODO: possibly use 'reselect': https://github.com/faassen/reselect
-function select(state) {
-  return {...state.channelSearch}
-}
-
-export default connect(select)(ChannelSearch)
