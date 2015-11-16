@@ -28,14 +28,12 @@ function mapStateToProps(state) {
 function mapActionsToProps(dispatch) {
   let bindedActions = bindActionCreators(actions, dispatch)
 
-  return {
-    actions: actionsList.reduce(
-      (selectedActions, actionName) => {
-        let action = bindedActions[actionName]
-        if (action) selectedActions[actionName] = action
-        return selectedActions
-      },
-      {}
-    )
-  }
+  return actionsList.reduce(
+    (selectedActions, actionName) => {
+      let action = bindedActions[actionName]
+      if (action) selectedActions[actionName] = action
+      return selectedActions
+    },
+    {}
+  )
 }

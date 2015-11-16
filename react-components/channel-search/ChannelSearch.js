@@ -28,10 +28,6 @@ export default class ChannelSearch extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillMount() {
-    this.actions = this.props.actions
-  }
-
   componentDidUpdate() {
     this.focus()
   }
@@ -125,7 +121,7 @@ export default class ChannelSearch extends Component {
   onInput(e) {
     let {value} = e.target
 
-    this.actions.channelSearchInput(
+    this.props.channelSearchInput(
       value,
       this.props.org,
       this.props.user
@@ -153,11 +149,11 @@ export default class ChannelSearch extends Component {
   }
 
   onSelect(channel) {
-    this.actions.channelSearchSelect(channel)
+    this.props.channelSearchSelect(channel)
   }
 
   onCreate() {
-    this.actions.showRoomManager()
+    this.props.showRoomManager()
   }
 
   onShortcut(e) {
@@ -166,10 +162,10 @@ export default class ChannelSearch extends Component {
   }
 
   onHide() {
-    this.actions.channelSearchHide()
+    this.props.channelSearchHide()
   }
 
   onShow() {
-    this.actions.channelSearchShow(this.props.org, this.props.user)
+    this.props.channelSearchShow(this.props.org, this.props.user)
   }
 }
