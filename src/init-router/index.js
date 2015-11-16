@@ -5,7 +5,7 @@ module.exports = setUpRouter
 
 function setUpRouter(ui) {
   var baseURL = '/chat'
-  var cUser = ui.user
+  var currUser = ui.user
   var navRoomList = ui.navigation.roomList.items
   var navPMList = ui.navigation.pmList.items
   page.stop()
@@ -45,7 +45,7 @@ function setUpRouter(ui) {
     var user = findPM(username)
     var message = cxt.params.message ? cxt.params.message : null
     if (user) {
-      if (user === cUser) {
+      if (user === currUser) {
         return ui.invalidUrlFeedback('message to self')
       }
       else if (user.pm) {
