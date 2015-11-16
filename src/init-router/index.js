@@ -46,7 +46,6 @@ function setUpRouter(ui) {
     var message = cxt.params.message ? cxt.params.message : null
     if (user) {
       if (user === cUser) {
-        console.log('bubi')
         return ui.invalidUrlFeedback('message to self')
       }
       else if (user.pm) {
