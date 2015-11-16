@@ -1,8 +1,6 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as actions from './actions'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
@@ -19,7 +17,6 @@ import {useSheet} from '../jss'
 
 import pick from 'lodash/object/pick'
 
-
 /**
  * This renders Browser inside of Modal and connects those show/hide handlers.
  */
@@ -30,20 +27,12 @@ class ChannelSearch extends Component {
     shortcuts: ['mod+k']
   }
 
-  static propTypes = {
-    emitter: PropTypes.object.isRequired
-  }
-
   constructor(props) {
     super(props)
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
-
-  componentWillMount() {
-    this.actions = bindActionCreators(actions, this.props.dispatch)
-  }
 
   componentDidUpdate() {
     this.focus()
@@ -138,7 +127,7 @@ class ChannelSearch extends Component {
   onInput(e) {
     let {value} = e.target
 
-    this.actions.input(
+    this.props.channelSearchInput(
       value,
       utils.find(this.getFileteredItems(), value)
     )
@@ -170,8 +159,7 @@ class ChannelSearch extends Component {
   }
 
   onCreate() {
-    this.onHide()
-    this.props.emitter.emit('triggerRoomManager')
+    this.props.callRoomManager()
   }
 
   onShortcut(e) {
@@ -180,17 +168,17 @@ class ChannelSearch extends Component {
   }
 
   onHide() {
-    this.actions.hide()
+    this.props.channelSearchHide()
   }
 
   onShow() {
-    this.actions.show(this.getFileteredItems())
+    this.props.channelSearchShow(this.getFileteredItems())
   }
 
   getFileteredItems() {
     return this.filterItem(
-      this.getItems(this.props.emitter.org),
-      this.props.emitter.user
+      this.getItems(this.props.org),
+      this.props.user
     )
   }
 
@@ -221,8 +209,7 @@ class ChannelSearch extends Component {
 
 // TODO: possibly use 'reselect': https://github.com/faassen/reselect
 function select(state) {
-  // in future: use only needed fields from global app state
-  return {...state}
+  return {...state.channelSearch}
 }
 
 export default connect(select)(ChannelSearch)

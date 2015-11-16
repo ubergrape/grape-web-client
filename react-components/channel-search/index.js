@@ -1,39 +1,32 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-
-import Emitter from 'emitter'
+import { bindActionCreators } from 'redux'
+import * as actions from '../actions'
 
 import ChannelSearch from './ChannelSearch'
-import reducers from './reducers'
 
-const el = 'grape-channel-search'
+export default function channelSearchInit(store, elem) {
+  function selectActions() {
+    let bindedActions = bindActionCreators(actions, store.dispatch)
 
-export class ChannelSearchEmitter extends Emitter {
-  constructor() {
-    super()
-    this.el = document.createElement(el)
+    return [
+        'channelSearchShow',
+        'channelSearchHide',
+        'channelSearchInput',
+        'callRoomManager'
+      ]
+      .reduce((selectedActions, actionName) => {
+        selectedActions[actionName] = bindedActions[actionName]
+        return selectedActions
+      }, {})
   }
 
-  onOrgReady(org) {
-    this.org = org
-  }
-
-  onSetUser(user) {
-    this.user = user
-  }
-}
-
-export function channelSearchInit(emitter) {
-  let store = createStore(reducers)
-  let searchElement = document.querySelector(el)
 
   render(
     <Provider store={store}>
-      <ChannelSearch
-        emitter={emitter} />
+      <ChannelSearch {...selectActions()}/>
     </Provider>,
-    searchElement
+    elem
   )
 }
