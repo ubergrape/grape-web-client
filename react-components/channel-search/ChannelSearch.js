@@ -5,17 +5,12 @@ import { connect } from 'react-redux'
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
 
-import * as utils from './utils'
-
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import keyname from 'keyname'
-import page from 'page'
 
 import style from './style'
 import {useSheet} from '../jss'
-
-import pick from 'lodash/object/pick'
 
 /**
  * This renders Browser inside of Modal and connects those show/hide handlers.
@@ -30,6 +25,10 @@ class ChannelSearch extends Component {
   constructor(props) {
     super(props)
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
+  }
+
+  componentWillMount() {
+    this.actions = this.props.actions
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -127,9 +126,10 @@ class ChannelSearch extends Component {
   onInput(e) {
     let {value} = e.target
 
-    this.props.channelSearchInput(
+    this.actions.channelSearchInput(
       value,
-      utils.find(this.getFileteredItems(), value)
+      this.props.org,
+      this.props.user
     )
   }
 
@@ -153,13 +153,12 @@ class ChannelSearch extends Component {
     }
   }
 
-  onSelect(item) {
-    page('/chat/' + item.slug)
-    this.onHide()
+  onSelect(channel) {
+    this.actions.channelSearchSelect(channel)
   }
 
   onCreate() {
-    this.props.callRoomManager()
+    this.actions.showRoomManager()
   }
 
   onShortcut(e) {
@@ -168,42 +167,11 @@ class ChannelSearch extends Component {
   }
 
   onHide() {
-    this.props.channelSearchHide()
+    this.actions.channelSearchHide()
   }
 
   onShow() {
-    this.props.channelSearchShow(this.getFileteredItems())
-  }
-
-  getFileteredItems() {
-    return this.filterItem(
-      this.getItems(this.props.org),
-      this.props.user
-    )
-  }
-
-  getItems(org) {
-    let users = org.users.filter(({active}) => active)
-    users = users.map(({id, slug, displayName, avatar}) => {
-      return {
-        id,
-        slug,
-        type: 'user',
-        name: displayName,
-        iconUrl: avatar
-      }
-    })
-    let rooms = org.rooms.filter(({joined}) => joined)
-    rooms = rooms.map(room => {
-      let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
-      item.type = 'room'
-      return item
-    })
-    return [...users, ...rooms]
-  }
-
-  filterItem(items, user) {
-    return items.filter(({id}) => id !== user.id)
+    this.actions.channelSearchShow(this.props.org, this.props.user)
   }
 }
 

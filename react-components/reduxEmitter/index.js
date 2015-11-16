@@ -3,26 +3,26 @@ import Emitter from 'emitter'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 
-import store from '../app'
+import store from '../app/store'
 
-class EmitterToRedux extends Emitter {
+class ReduxEmitter extends Emitter {
   constructor() {
     super()
     this.actions = bindActionCreators(actions, store.dispatch)
   }
 
   onOrgReady(org) {
-    this.actions.onOrgReady(org)
+    this.actions.setOrg(org)
   }
 
   onSetUser(user) {
-    this.actions.onUserSetted(user)
+    this.actions.setUser(user)
   }
 
-  onRoomManager() {
+  showRoomManager() {
     this.emit('triggerRoomManager')
   }
 }
 
-const emitterToRedux = new EmitterToRedux()
-export default emitterToRedux
+const reduxEmitter = new ReduxEmitter()
+export default reduxEmitter

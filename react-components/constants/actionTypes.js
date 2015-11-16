@@ -1,5 +1,5 @@
-export const ON_ORG_READY = 'ON_ORG_READY'
-export const ON_USER_SETTED = 'ON_USER_SETTED'
+export const SET_ORG = 'SET_ORG'
+export const SET_USER = 'SET_USER'
 
 export const CHANNEL_SEARCH_SHOW = 'CHANNEL_SEARCH_SHOW'
 export const CHANNEL_SEARCH_HIDE = 'CHANNEL_SEARCH_HIDE'

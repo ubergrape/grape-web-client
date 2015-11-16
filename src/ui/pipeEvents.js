@@ -14,8 +14,8 @@ export default function pipeEvents(ui) {
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
   broker(ui, 'emptyOrg', ui.grapeInput, 'onEmptyOrg')
-  broker(ui, 'orgReady', ui.emitterToRedux, 'onOrgReady')
-  broker(ui, 'setUser', ui.emitterToRedux, 'onSetUser')
+  broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
+  broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
   broker(ui, 'orgReady', ui.historyView, 'onOrgReady')
   broker(ui, 'selectchannel', ui.historyView, 'setRoom')
   broker(ui, 'gotHistory', ui.historyView, 'onGotHistory')
@@ -115,5 +115,5 @@ export default function pipeEvents(ui) {
   broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
 
   // channel search
-  broker(ui.emitterToRedux, 'triggerRoomManager', ui, 'onTriggerRoomManager')
+  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 }

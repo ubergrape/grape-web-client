@@ -1,30 +1,36 @@
 import * as types from '../constants/actionTypes'
-import emitterToRedux from '../emitter-to-redux'
+import reduxEmitter from '../reduxEmitter'
 
-export function onUserSetted(user) {
+import page from 'page'
+import {
+  find as findChannel,
+  getFileteredItems as getFileteredChannels
+} from '../channel-search/utils'
+
+export function setUser(user) {
   return {
-    type: types.ON_USER_SETTED,
+    type: types.SET_USER,
     payload: {
       user
     }
   }
 }
 
-export function onOrgReady(org) {
+export function setOrg(org) {
   return {
-    type: types.ON_ORG_READY,
+    type: types.SET_ORG,
     payload: {
       org
     }
   }
 }
 
-export function channelSearchShow(items) {
+export function channelSearchShow(org, user) {
   return {
     type: types.CHANNEL_SEARCH_SHOW,
     payload: {
       show: true,
-      items
+      items: getFileteredChannels(org, user)
     }
   }
 }
@@ -39,18 +45,23 @@ export function channelSearchHide() {
   }
 }
 
-export function channelSearchInput(search, items) {
+export function channelSearchInput(search, org, user) {
   return {
     type: types.CHANNEL_SEARCH_INPUT,
     payload: {
       search,
-      items
+      items: findChannel(getFileteredChannels(org, user), search)
     }
   }
 }
 
-export function callRoomManager() {
-  emitterToRedux.onRoomManager()
+export function channelSearchSelect(channel) {
+  page('/chat/' + channel.slug)
+  return dispatch => dispatch(channelSearchHide())
+}
+
+export function showRoomManager() {
+  reduxEmitter.showRoomManager()
   return dispatch => {
     dispatch(channelSearchHide())
   }

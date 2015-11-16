@@ -44,7 +44,7 @@ let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager'
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
-import emitterToRedux from '../../react-components/emitter-to-redux'
+import reduxEmitter from '../../react-components/reduxEmitter'
 import '../../react-components/app'
 
 function UI(options) {
@@ -93,7 +93,7 @@ UI.prototype.init = function UI_init() {
     this.grapeInput = new GrapeInput()
     qs('.footer', this.el).appendChild(this.grapeInput.el)
 
-    this.emitterToRedux = emitterToRedux
+    this.reduxEmitter = reduxEmitter
 
     // initialize dialogs
     this.markdownTips = new MarkdownTipsDialog().closable()

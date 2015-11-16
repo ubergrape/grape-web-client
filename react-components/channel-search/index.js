@@ -3,29 +3,27 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
+import actionsList from './actionsList'
 
 import ChannelSearch from './ChannelSearch'
 
-export default function channelSearchInit(store, elem) {
+export default function init(store, elem) {
   function selectActions() {
     let bindedActions = bindActionCreators(actions, store.dispatch)
 
-    return [
-        'channelSearchShow',
-        'channelSearchHide',
-        'channelSearchInput',
-        'callRoomManager'
-      ]
-      .reduce((selectedActions, actionName) => {
-        selectedActions[actionName] = bindedActions[actionName]
+    return actionsList.reduce(
+      (selectedActions, actionName) => {
+        let action = bindedActions[actionName]
+        if (action) selectedActions[actionName] = action
         return selectedActions
-      }, {})
+      },
+      {}
+    )
   }
-
 
   render(
     <Provider store={store}>
-      <ChannelSearch {...selectActions()}/>
+      <ChannelSearch actions={selectActions()}/>
     </Provider>,
     elem
   )
