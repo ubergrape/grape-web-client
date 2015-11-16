@@ -44,7 +44,7 @@ let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager'
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
-import reduxEmitter from '../../react-components/reduxEmitter'
+import reduxEmitter from '../../react-components/redux-emitter'
 import '../../react-components/app'
 
 function UI(options) {

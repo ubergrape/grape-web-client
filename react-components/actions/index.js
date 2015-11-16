@@ -1,5 +1,5 @@
 import * as types from '../constants/actionTypes'
-import reduxEmitter from '../reduxEmitter'
+import reduxEmitter from '../redux-emitter'
 
 import page from 'page'
 import {
