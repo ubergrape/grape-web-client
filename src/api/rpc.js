@@ -12,7 +12,8 @@ export default function rpc(data, callback = noop) {
     .end((err, res) => {
       if (err) {
         let userErr
-        if (res.body && res.body.message) {
+        // When disconnected, there is no res.
+        if (res && res.body && res.body.message) {
           userErr = new Error()
           assign(userErr, res.body)
         }
