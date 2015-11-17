@@ -1,7 +1,10 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  org: {},
+  org: {
+    users: [],
+    rooms: []
+  },
   user: {},
   show: false,
   search: '',

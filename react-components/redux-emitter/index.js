@@ -1,6 +1,8 @@
 import Emitter from 'emitter'
 
-import { bindActionCreators } from 'redux'
+import {toCamel} from '../../src/api/convertCase'
+
+import {bindActionCreators} from 'redux'
 import * as actions from '../actions'
 
 import store from '../app/store'
@@ -12,11 +14,11 @@ class ReduxEmitter extends Emitter {
   }
 
   onOrgReady(org) {
-    this.actions.setOrg(org)
+    this.actions.setOrg(toCamel(org.toJSON()))
   }
 
   onSetUser(user) {
-    this.actions.setUser(user)
+    this.actions.setUser(toCamel(user.toJSON()))
   }
 
   showRoomManager() {
