@@ -157,7 +157,7 @@ export default class ChannelSearch extends Component {
   }
 
   onShortcut(e) {
-    e.preventDefault()
+    if (e.preventDefault) e.preventDefault()
     this.onShow()
   }
 
