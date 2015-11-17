@@ -1,6 +1,10 @@
 {
   "link": "#4fc1e9",
   "button": "#4fc1e9",
+  "buttonBgDefault": "#503c50",
+  "buttonColorDefault": "#fff",
+  "buttonBgPrimary": "#9ccb77",
+  "buttonColorPrimary": "rgba(55, 71, 41, 1)",
   "alertInfo": "#3bafda",
   "alertSuccess": "#6d8f52",
   "alertWarning": "#e6c647",

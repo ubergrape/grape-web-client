@@ -7,7 +7,7 @@ var base = 13;
 
 function calc(fontSize, lineHeight) {
   return {
-    fontSize: base * fontSize + 'px',
+    fontSize: base * fontSize,
     lineHeight: base * lineHeight + 'px'
   };
 }

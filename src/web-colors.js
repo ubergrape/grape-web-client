@@ -1,8 +1,13 @@
+import color from 'color'
 import colors from './base-colors'
 
 export default {
   link: colors.aquaLight,
   button: colors.aquaLight,
+  buttonBgDefault: '#503c50',
+  buttonColorDefault: colors.white,
+  buttonBgPrimary: colors.grassLight,
+  buttonColorPrimary: color(colors.grassDark).darken(0.5).rgbaString(),
   alertInfo: colors.aquaDark,
   alertSuccess: colors.grassDark,
   alertWarning: colors.gold,
