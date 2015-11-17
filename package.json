@@ -93,7 +93,9 @@
     "strftime": "samsonjs/strftime#v0.8.2",
     "t": "ubergrape/t#master",
     "template": "./local_modules/template",
-    "virtualdom": "ubergrape/virtualdom"
+    "virtualdom": "ubergrape/virtualdom",
+    "wamp1": "ubergrape/wamp1",
+    "websocket": "ubergrape/websocket"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
