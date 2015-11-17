@@ -12,9 +12,9 @@ export default function reducers(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER:
     case types.SET_ORG:
-    case types.CHANNEL_SEARCH_SHOW:
-    case types.CHANNEL_SEARCH_HIDE:
-    case types.CHANNEL_SEARCH_INPUT:
+    case types.SHOW_CHANNEL_SEARCH:
+    case types.HIDE_CHANNEL_SEARCH:
+    case types.INPUT_CHANNEL_SEARCH:
       return {...state, ...action.payload}
 
     default:

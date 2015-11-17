@@ -25,9 +25,9 @@ export function setOrg(org) {
   }
 }
 
-export function channelSearchShow(org, user) {
+export function showChannelSearch(org, user) {
   return {
-    type: types.CHANNEL_SEARCH_SHOW,
+    type: types.SHOW_CHANNEL_SEARCH,
     payload: {
       show: true,
       items: getFileteredChannels(org, user)
@@ -35,9 +35,9 @@ export function channelSearchShow(org, user) {
   }
 }
 
-export function channelSearchHide() {
+export function hideChannelSearch() {
   return {
-    type: types.CHANNEL_SEARCH_HIDE,
+    type: types.HIDE_CHANNEL_SEARCH,
     payload: {
       show: false,
       search: ''
@@ -45,9 +45,9 @@ export function channelSearchHide() {
   }
 }
 
-export function channelSearchInput(search, org, user) {
+export function inputChannelSearch(search, org, user) {
   return {
-    type: types.CHANNEL_SEARCH_INPUT,
+    type: types.INPUT_CHANNEL_SEARCH,
     payload: {
       search,
       items: findChannel(getFileteredChannels(org, user), search)
@@ -55,14 +55,14 @@ export function channelSearchInput(search, org, user) {
   }
 }
 
-export function channelSearchSelect(channel) {
+export function selectChannelSearch(channel) {
   page('/chat/' + channel.slug)
-  return dispatch => dispatch(channelSearchHide())
+  return dispatch => dispatch(hideChannelSearch())
 }
 
 export function showRoomManager() {
   reduxEmitter.showRoomManager()
   return dispatch => {
-    dispatch(channelSearchHide())
+    dispatch(hideChannelSearch())
   }
 }

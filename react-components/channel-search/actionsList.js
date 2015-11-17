@@ -1,9 +1,7 @@
-const actionsList = [
-  'channelSearchShow',
-  'channelSearchHide',
-  'channelSearchInput',
-  'channelSearchSelect',
+export default [
+  'showChannelSearch',
+  'hideChannelSearch',
+  'inputChannelSearch',
+  'selectChannelSearch',
   'showRoomManager'
 ]
-
-export default actionsList

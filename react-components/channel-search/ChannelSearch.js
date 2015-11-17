@@ -121,7 +121,7 @@ export default class ChannelSearch extends Component {
   onInput(e) {
     let {value} = e.target
 
-    this.props.channelSearchInput(
+    this.props.inputChannelSearch(
       value,
       this.props.org,
       this.props.user
@@ -149,7 +149,7 @@ export default class ChannelSearch extends Component {
   }
 
   onSelect(channel) {
-    this.props.channelSearchSelect(channel)
+    this.props.selectChannelSearch(channel)
   }
 
   onCreate() {
@@ -162,10 +162,10 @@ export default class ChannelSearch extends Component {
   }
 
   onHide() {
-    this.props.channelSearchHide()
+    this.props.hideChannelSearch()
   }
 
   onShow() {
-    this.props.channelSearchShow(this.props.org, this.props.user)
+    this.props.showChannelSearch(this.props.org, this.props.user)
   }
 }
