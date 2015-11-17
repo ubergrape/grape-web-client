@@ -66,3 +66,19 @@ export function showRoomManager() {
     dispatch(hideChannelSearch())
   }
 }
+
+export function hideSubscriptionWarning() {
+  return {
+    type: types.HIDE_SUBSCRIPTION_WARNING,
+    payload: {
+      show: false
+    }
+  }
+}
+
+export function goToPayment() {
+  location.pathname = '/payment'
+  return {
+    type: types.GO_TO_PAYMENT
+  }
+}
