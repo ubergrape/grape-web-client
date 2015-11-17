@@ -425,10 +425,10 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
     page('/chat/' + redirectSlug)
 }
 
-UI.prototype.invalidUrlFeedback = function(cause) {
+UI.prototype.onInvalidUrl = function(cause) {
     const msg = this.messages.warning(cause)
     page.redirect('/chat/')
-    setTimeout(() => { msg.remove() }, 6000)
+    setTimeout(() => msg.remove(), 6000)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {

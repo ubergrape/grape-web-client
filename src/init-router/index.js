@@ -1,9 +1,7 @@
 import page from 'page'
 import find from 'lodash/collection/find'
 
-module.exports = setUpRouter
-
-function setUpRouter(ui) {
+export default function init(ui) {
   const baseURL = '/chat'
   const currUser = ui.user
   const navRoomList = ui.navigation.roomList.items
@@ -46,7 +44,7 @@ function setUpRouter(ui) {
     const message = cxt.params.message ? cxt.params.message : null
     if (user) {
       if (user === currUser) {
-        return ui.invalidUrlFeedback('message to self')
+        return ui.onInvalidUrl('message to self')
       }
       else if (user.pm) {
         return ui.emit('selectchannel', user.pm, message)
@@ -88,6 +86,6 @@ function setUpRouter(ui) {
   }
 
   function notFound() {
-    ui.invalidUrlFeedback('url not found')
+    ui.onInvalidUrl('url not found')
   }
 }
