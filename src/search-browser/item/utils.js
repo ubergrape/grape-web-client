@@ -6,7 +6,7 @@ import isEmpty from 'lodash/lang/isEmpty'
  */
 export function getLabel(detail) {
   if (!detail || isEmpty(detail.meta)) return ''
-  let label = find(detail.meta, meta => (meta.label === 'State' ||
+  const label = find(detail.meta, meta => (meta.label === 'State' ||
     meta.label === 'Kind'))
   if (label) return label.value
 }

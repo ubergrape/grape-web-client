@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -12,8 +12,13 @@ import Tabs from './Tabs'
  */
 @useSheet(style)
 export default class TabsWithControls extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    data: PropTypes.array,
+    onSelect: PropTypes.func
+  }
+
   static defaultProps = {
-    data: undefined,
     onSelect: noop
   }
 
@@ -31,9 +36,70 @@ export default class TabsWithControls extends Component {
     this.setEdgesState()
   }
 
+  onScrollNext() {
+    const viewportNode = this.getViewportNode()
+    viewportNode.scrollLeft += viewportNode.offsetWidth
+    this.setEdgesState()
+  }
+
+  onScrollPrev() {
+    const viewportNode = this.getViewportNode()
+    viewportNode.scrollLeft -= viewportNode.offsetWidth
+    this.setEdgesState()
+  }
+
+  onInvisible(item, visibilityRect) {
+    const viewportNode = this.getViewportNode()
+    const viewportWidth = viewportNode.offsetWidth
+    const itemNode = ReactDOM.findDOMNode(item)
+    let itemLeft = itemNode.offsetLeft
+    if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
+    viewportNode.scrollLeft = itemLeft
+    this.setEdgesState()
+  }
+
+  onTabsDidMount(tabs) {
+    this.tabs = tabs
+  }
+
+  setEdgesState() {
+    if (!this.props.data.length) return
+
+    let {leftEdge, rightEdge} = this.state
+    const innerWidth = this.getInnerWidth()
+    const outerWidth = this.getOuterWidth()
+
+    if (innerWidth < outerWidth) {
+      leftEdge = true
+      rightEdge = true
+    }
+    else {
+      const scrollLeft = this.getViewportNode().scrollLeft
+      leftEdge = scrollLeft === 0
+      rightEdge = scrollLeft + outerWidth === innerWidth
+    }
+
+    if (leftEdge !== this.state.leftEdge || rightEdge !== this.state.rightEdge) {
+      this.setState({leftEdge, rightEdge})
+    }
+  }
+
+  getInnerWidth() {
+    const inner = this.tabs.getInnerComponent()
+    return ReactDOM.findDOMNode(inner).offsetWidth
+  }
+
+  getOuterWidth() {
+    return ReactDOM.findDOMNode(this).offsetWidth
+  }
+
+  getViewportNode() {
+    return ReactDOM.findDOMNode(this.tabs)
+  }
+
   render() {
-    let {classes} = this.props.sheet
-    let {data} = this.props
+    const {classes} = this.props.sheet
+    const {data} = this.props
     if (!data.length) return null
 
     return (
@@ -59,66 +125,5 @@ export default class TabsWithControls extends Component {
         }
       </ul>
     )
-  }
-
-  setEdgesState() {
-    if (!this.props.data.length) return
-
-    let {leftEdge, rightEdge} = this.state
-    let innerWidth = this.getInnerWidth()
-    let outerWidth = this.getOuterWidth()
-
-    if (innerWidth < outerWidth) {
-      leftEdge = true
-      rightEdge = true
-    }
-    else {
-      let scrollLeft = this.getViewportNode().scrollLeft
-      leftEdge = scrollLeft === 0
-      rightEdge = scrollLeft + outerWidth === innerWidth
-    }
-
-    if (leftEdge !== this.state.leftEdge || rightEdge !== this.state.rightEdge) {
-      this.setState({leftEdge, rightEdge})
-    }
-  }
-
-  getInnerWidth() {
-    let inner = this.tabs.getInnerComponent()
-    return ReactDOM.findDOMNode(inner).offsetWidth
-  }
-
-  getOuterWidth() {
-    return ReactDOM.findDOMNode(this).offsetWidth
-  }
-
-  getViewportNode() {
-    return ReactDOM.findDOMNode(this.tabs)
-  }
-
-  onScrollNext() {
-    let viewportNode = this.getViewportNode()
-    viewportNode.scrollLeft += viewportNode.offsetWidth
-    this.setEdgesState()
-  }
-
-  onScrollPrev() {
-    let viewportNode = this.getViewportNode()
-    viewportNode.scrollLeft -= viewportNode.offsetWidth
-    this.setEdgesState()
-  }
-
-  onInvisible(item, visibilityRect) {
-    let viewportNode = this.getViewportNode()
-    let viewportWidth = viewportNode.offsetWidth
-    let itemNode = ReactDOM.findDOMNode(item)
-    let itemLeft = itemNode.offsetLeft
-    if (!visibilityRect.left) itemLeft -= viewportWidth - itemNode.offsetWidth
-    viewportNode.scrollLeft = itemLeft
-    this.setEdgesState()
-  }
-
-  onTabsDidMount(tabs) {
-    this.tabs = tabs
   }
 }

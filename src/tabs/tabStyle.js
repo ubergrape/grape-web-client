@@ -2,21 +2,21 @@ import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 
-export let text = {
+export const text = {
   ...fonts.small,
   fontWeight: 'bold',
   textTransform: 'uppercase',
   letterSpacing: '0.05em'
 }
 
-export let amount = {
+export const amount = {
   letterSpacing: 0,
   fontWeight: 'normal',
   marginLeft: 4,
   opacity: 0.75
 }
 
-export let container = {
+export const container = {
   position: 'relative',
   display: 'inline-flex',
   justifyContent: 'center',
@@ -29,7 +29,7 @@ export let container = {
   userSelect: 'none'
 }
 
-export let rules = {
+export const rules = {
   container: {
     ...container,
     '&:hover': {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 import noop from 'lodash/utility/noop'
@@ -12,22 +12,29 @@ import * as style from './tabStyle'
  */
 @useSheet(style.rules)
 export default class Tab extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    onSelect: PropTypes.func,
+    onInvisible: PropTypes.func,
+    selected: PropTypes.bool,
+    visibilityContainment: PropTypes.instanceOf(Component),
+    id: PropTypes.string,
+    icon: PropTypes.string,
+    amount: PropTypes.number,
+    label: PropTypes.string
+  }
+
   static defaultProps = {
     onSelect: noop,
     onInvisible: noop,
-    getContainmentNode: undefined,
-    selected: false,
-    icon: undefined,
-    label: undefined,
-    amount: undefined,
-    id: undefined
+    selected: false
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidMount() {
     this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps) {
     if (this.props.selected !== prevProps.selected) {
@@ -35,10 +42,27 @@ export default class Tab extends Component {
     }
   }
 
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
+    this.props.onSelect({id: this.props.id})
+  }
+
+  onVisibilityChange(isVisible, visibilityRect) {
+    if (!isVisible && this.props.selected) {
+      this.props.onInvisible(this, visibilityRect)
+    }
+  }
+
+  checkVisibility() {
+    this.refs.sensor.check()
+  }
+
   render() {
-    let {classes} = this.props.sheet
-    let {icon, amount, label, selected} = this.props
-    let className = selected ? classes.containerSelected : classes.container
+    const {classes} = this.props.sheet
+    const {icon, amount, label, selected} = this.props
+    const className = selected ? classes.containerSelected : classes.container
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -56,22 +80,5 @@ export default class Tab extends Component {
         </li>
       </VisibilitySensor>
     )
-  }
-
-  checkVisibility() {
-    this.refs.sensor.check()
-  }
-
-  onMouseDown(e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
-    this.props.onSelect({id: this.props.id})
-  }
-
-  onVisibilityChange(isVisible, visibilityRect) {
-    if (!isVisible && this.props.selected) {
-      this.props.onInvisible(this, visibilityRect)
-    }
   }
 }

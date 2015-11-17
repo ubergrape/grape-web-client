@@ -4,7 +4,7 @@ import sizes from 'grape-theme/dist/sizes'
 import utils from 'grape-jss-utils'
 import color from 'color'
 
-export let container = {
+export const container = {
   display: 'flex',
   height: 42,
   position: 'relative',
@@ -15,11 +15,11 @@ export let container = {
   borderBottom: '1px solid ' + colors.silverDark
 }
 
-let icon = {
+const icon = {
   marginBottom: 2
 }
 
-let metaItem = {
+const metaItem = {
   ...fonts.small,
   display: 'block',
   marginLeft: 4,
@@ -30,7 +30,7 @@ let metaItem = {
   color: colors.gainsboroDark
 }
 
-export let rules = {
+export const rules = {
   container: container,
   containerFocused: {
     ...container,

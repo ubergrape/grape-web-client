@@ -5,7 +5,7 @@ import color from 'color'
 
 import * as tabStyle from './tabStyle'
 
-let arrow = defaults({
+const arrow = defaults({
   position: 'absolute',
   top: 0,
   padding: '0 12px',

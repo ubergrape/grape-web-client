@@ -1,7 +1,7 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-let info = {
+const info = {
   overflow: 'auto',
   '& h2': {
     ...fonts.big,
@@ -13,7 +13,7 @@ let info = {
   }
 }
 
-let header = {
+const header = {
   background: 'center no-repeat',
   backgroundSize: 'auto 80%'
 }

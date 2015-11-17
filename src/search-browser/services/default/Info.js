@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './infoStyle'
@@ -11,6 +11,15 @@ import {useSheet} from 'grape-web/lib/jss'
  */
 @useSheet(style)
 export default class Info extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    onAddIntegration: PropTypes.func,
+    canAddIntegrations: PropTypes.bool,
+    hasIntegrations: PropTypes.bool,
+    images: PropTypes.object,
+    headerHeight: PropTypes.number
+  }
+
   static defaultProps = {
     canAddIntegrations: true,
     hasIntegrations: false,
@@ -23,19 +32,25 @@ export default class Info extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  onAddIntegration() {
+    this.props.onAddIntegration()
+  }
+
   render() {
-    let {classes} = this.props.sheet
-    let {images} = this.props
+    const {classes} = this.props.sheet
+    const {images} = this.props
 
     let addIntegration
     if (this.props.canAddIntegrations) {
-      addIntegration = <Button
-        onClick={::this.onAddIntegration}
-        text="Add a Service Integration"
-        className={classes.button} />
+      addIntegration = (
+        <Button
+          onClick={::this.onAddIntegration}
+          text="Add a Service Integration"
+          className={classes.button} />
+      )
     }
 
-    let headerStyle = {
+    const headerStyle = {
       height: this.props.headerHeight + 'px',
       backgroundImage: `url(${images.traubyReading})`
     }
@@ -45,8 +60,7 @@ export default class Info extends Component {
       selected = this.props.canAddIntegrations ? 'canAdd' : 'needsHelp'
       headerStyle.backgroundImage = `url(${images.traubyJuggling})`
     }
-    let content = contents[selected](this.props)
-
+    const content = contents[selected](this.props)
 
     return (
       <article className={content.ok ? classes.infoOk : classes.infoNok}>
@@ -58,9 +72,5 @@ export default class Info extends Component {
         </div>
       </article>
     )
-  }
-
-  onAddIntegration() {
-    this.props.onAddIntegration()
   }
 }

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -13,6 +13,13 @@ import * as utils from './utils'
  */
 @useSheet(style)
 export default class Detail extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    data: PropTypes.object,
+    images: PropTypes.object,
+    headerHeight: PropTypes.number
+  }
+
   static defaultProps = {
     data: {},
     headerHeight: undefined,
@@ -22,10 +29,10 @@ export default class Detail extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
-    let {classes} = this.props.sheet
-    let {data} = this.props
-    let previewUrl = get(data, 'preview.image.url')
-    let {iconUrl} = data
+    const {classes} = this.props.sheet
+    const {data} = this.props
+    const previewUrl = get(data, 'preview.image.url')
+    const {iconUrl} = data
 
     let header
     if (previewUrl || iconUrl) {

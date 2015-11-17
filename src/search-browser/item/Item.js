@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
@@ -14,6 +14,22 @@ import * as utils from './utils'
  */
 @useSheet(style.rules)
 export default class Item extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    focused: PropTypes.bool,
+    visibilityContainment: PropTypes.instanceOf(Component),
+    id: PropTypes.string,
+    name: PropTypes.string,
+    search: PropTypes.string,
+    icon: PropTypes.string,
+    info: PropTypes.string,
+    detail: PropTypes.object,
+    date: PropTypes.string,
+    onFocus: PropTypes.func,
+    onSelect: PropTypes.func,
+    onInvisible: PropTypes.func
+  }
+
   static defaultProps = {
     id: undefined,
     name: undefined,
@@ -26,6 +42,10 @@ export default class Item extends Component {
     focused: false
   }
 
+  componentDidMount() {
+    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps) {
@@ -35,18 +55,46 @@ export default class Item extends Component {
     }
   }
 
-  componentDidMount() {
-    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
+  onFocus() {
+    this.props.onFocus({id: this.props.id})
+  }
+
+  onClick() {
+    if (this.props.focused) this.props.onSelect({id: this.props.id})
+    else this.onFocus()
+  }
+
+  onVisibilityChange(isVisible, visibilityRect) {
+    if (!isVisible && this.props.focused) {
+      this.props.onInvisible(this, visibilityRect)
+    }
+  }
+
+  renderName() {
+    let {name} = this.props
+    const matches = findMatches(name, this.props.search)
+
+    if (matches.length) {
+      name = matches.map((match, i) =>
+        React.createElement(
+          match.found ? 'b' : 'span',
+          {key: i},
+          match.text
+        )
+      )
+    }
+
+    return name
   }
 
   render() {
-    let {classes} = this.props.sheet
-    let {focused, icon, info} = this.props
-    let iconClassName = focused ? classes.iconFocused : classes.icon
-    let metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
+    const {classes} = this.props.sheet
+    const {focused, icon, info} = this.props
+    const iconClassName = focused ? classes.iconFocused : classes.icon
+    const metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
-    let iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
-    let state = utils.getLabel(this.props.detail)
+    const iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
+    const state = utils.getLabel(this.props.detail)
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -78,37 +126,5 @@ export default class Item extends Component {
         </div>
       </VisibilitySensor>
     )
-  }
-
-  renderName() {
-    let {name} = this.props
-    let matches = findMatches(name, this.props.search)
-
-    if (matches.length) {
-      name = matches.map((match, i) =>
-        React.createElement(
-          match.found ? 'b' : 'span',
-          {key: i},
-          match.text
-        )
-      )
-    }
-
-    return name
-  }
-
-  onFocus() {
-    this.props.onFocus({id: this.props.id})
-  }
-
-  onClick() {
-    if (this.props.focused) this.props.onSelect({id: this.props.id})
-    else this.onFocus()
-  }
-
-  onVisibilityChange(isVisible, visibilityRect) {
-    if (!isVisible && this.props.focused) {
-      this.props.onInvisible(this, visibilityRect)
-    }
   }
 }
