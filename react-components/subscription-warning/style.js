@@ -1,3 +1,4 @@
+import fonts from 'grape-theme/dist/fonts'
 import defaultButton from '../button/style'
 import primaryButton from '../button/primary'
 
@@ -6,6 +7,7 @@ export default {
     padding: 15
   },
   text: {
+    ...fonts.big,
     textAlign: 'center',
     padding: '50px 0'
   },
