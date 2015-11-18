@@ -234,6 +234,14 @@ UI.prototype.bind = function UI_bind() {
         self.emit('introend')
     })
 
+    // Open certain link in the external browser in the OS X app
+    if (window.MacGap) {
+        let as, i
+        as = qs.all('a', this.organizationMenu.el)
+        for (i = 0; i < as.length; ++i)
+            as[i].target = '_blank'
+    }
+
     if (window.Intercom) {
         window.Intercom('onShow', function () {
             classes(qs('.client-body', this.el)).add('intercom-show')
@@ -329,20 +337,17 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-    notification.error(err.message, err.details)
+    notification.error(err.message)
 }
 
 UI.prototype.onDisconnected = function () {
-    this.disconnectedAlert = setTimeout(function () {
-        this.firstTimeConnect = false
-        if (this._connErrMsg) return
-        this._connErrMsg = this.messages.danger('connection lost')
-        classes(qs('body')).add('disconnected')
-    }.bind(this), 7000)
+    this.firstTimeConnect = false
+    if (this._connErrMsg) return
+    this._connErrMsg = this.messages.danger('connection lost')
+    classes(qs('body')).add('disconnected')
 }
 
 UI.prototype.onConnected = function () {
-    clearTimeout(this.disconnectedAlert)
     if (!this._connErrMsg || this.firstTimeConnect) return
     this._connErrMsg.remove()
     delete this._connErrMsg
