@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 
-export const channelSelector = createSelector(
+export const channelSearchSelector = createSelector(
   store => store.channelSearch, channelSearch => channelSearch
 )
 
