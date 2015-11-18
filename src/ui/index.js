@@ -341,16 +341,13 @@ UI.prototype.gotError = function UI_gotError(err) {
 }
 
 UI.prototype.onDisconnected = function () {
-    this.disconnectedAlert = setTimeout(function () {
-        this.firstTimeConnect = false
-        if (this._connErrMsg) return
-        this._connErrMsg = this.messages.danger('connection lost')
-        classes(qs('body')).add('disconnected')
-    }.bind(this), 7000)
+    this.firstTimeConnect = false
+    if (this._connErrMsg) return
+    this._connErrMsg = this.messages.danger('connection lost')
+    classes(qs('body')).add('disconnected')
 }
 
 UI.prototype.onConnected = function () {
-    clearTimeout(this.disconnectedAlert)
     if (!this._connErrMsg || this.firstTimeConnect) return
     this._connErrMsg.remove()
     delete this._connErrMsg
