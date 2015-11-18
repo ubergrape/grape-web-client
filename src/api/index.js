@@ -700,11 +700,11 @@ API.prototype.onRequestMessage = function API_onRequestMessage(room, msgId) {
   }.bind(this))
 }
 
-API.prototype.setTyping = function API_setTyping(room, typing) {
+API.prototype.onSetTyping = function({channel, typing}) {
   rpc({
     ns: 'channels',
     action: 'set_typing',
-    args: [room.id, typing]
+    args: [channel.id, typing]
   }, function (err) {
     if (err) return this.emit('error', err)
   }.bind(this))
