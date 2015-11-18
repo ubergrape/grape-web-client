@@ -21,7 +21,7 @@ export default class SubscriptionWarning extends Component {
   }
 
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
     return (
       <Dialog
         show={this.props.show}
