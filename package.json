@@ -81,7 +81,6 @@
     "react-pure-render": "^1.0.2",
     "reactive-elements": "^0.6.3",
     "resizable": "ubergrape/resizable",
-    "router": "./local_modules/router",
     "scrollbars": "ubergrape/scrollbars",
     "startswith": "sk7/startswith",
     "staticurl": "./local_modules/staticurl",

@@ -484,20 +484,23 @@ API.prototype.bindEvents = function API_bindEvents() {
 
   wamp.subscribe(PREFIX + 'notification#new', function (notification) {
     let dispatcher = notification.dispatcher
-    if (dispatcher === 'message' || dispatcher === 'pm') {
-      let notificationItem = models.Line.get(notification.message_id)
-      if (notificationItem) self.emit('newMsgNotification', notificationItem)
-    } else {
-      let inviter = models.User.get(notification.inviter_id)
-      let room = models.Room.get(notification.channel_id)
-      if (!(inviter && room)) return
-      let notificationItem = {
-        inviter: inviter,
-        room: room
-      }
-      self.emit('newInviteNotification', notificationItem)
+    switch (dispatcher) {
+      case 'message':
+      case 'pm':
+      case 'mention':
+      case 'group_mention':
+        notification.channel = models.Room.get(notification.channel_id)
+        self.emit('newMsgNotification', notification)
+        break
+      case 'room_invite':
+        let inviter = models.User.get(notification.inviter_id)
+        let room = models.Room.get(notification.channel_id)
+        if (inviter && room){
+          self.emit('newInviteNotification', {inviter: inviter, room: room})
+        }
+        break
     }
-  })
+  });
 }
 
 let unknownUser = {
