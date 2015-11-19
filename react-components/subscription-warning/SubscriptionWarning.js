@@ -26,7 +26,7 @@ export default class SubscriptionWarning extends Component {
       <Dialog
         show={this.props.show}
         onHide={::this.onHide}
-        title="Warning">
+        title="Grape Trial">
         <div className={classes.content}>
           <div className={classes.text}>{this.props.text}</div>
           <div className={classes.actions}>

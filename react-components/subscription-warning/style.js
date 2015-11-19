@@ -15,10 +15,10 @@ export default {
     textAlign: 'right'
   },
   continueTrial: {
-    ...defaultButton,
+    ...primaryButton,
     marginRight: 20
   },
   enterDetails: {
-    ...primaryButton
+    ...defaultButton,
   }
 }
