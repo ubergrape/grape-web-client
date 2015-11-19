@@ -192,6 +192,8 @@ export default class Editable extends Component {
     text = utils.htmlWhitespacesToText(text)
     let matches = text.split(QUERY_REGEX)
 
+    console.log('matches:', matches)
+
     if (matches.length < 3) return undefined
 
     let key = matches.pop()

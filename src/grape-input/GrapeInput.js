@@ -18,6 +18,7 @@ import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
 import Editable from '../editable/Editable'
+import Textarea from '../textarea/Textarea'
 import MaxSize from '../max-size/MaxSize'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
@@ -143,6 +144,13 @@ export default class Input extends Component {
               onResize={::this.onEditableResize}
               onDidMount={this.onDidMount.bind(this, 'editable')} />
         </MaxSize>
+
+        <Textarea
+          onChange={::this.onChangeTextarea}
+          placeholder={this.props.placeholder}
+          disabled={this.props.disabled}
+          focused={this.state.editableFocused}
+          onDidMount={this.onDidMount.bind(this, 'textarea')}/>
       </div>
     )
   }
@@ -320,6 +328,7 @@ export default class Input extends Component {
   }
 
   onChangeEditable({query} = {}) {
+
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.
@@ -337,6 +346,29 @@ export default class Input extends Component {
     }
 
     this.emit('change')
+  }
+
+  onChangeTextarea({query} = {}) {
+
+    console.log(query)
+
+    // if (query) {
+    //   // If it is a browser trigger, we don't reopen browser, but let user type
+    //   // whatever he wants.
+    //   // If its a mentioning, user types the search.
+    //   // TODO migrate mentioning to the browser.
+    //   if (!query.key || !utils.isBrowserType(query.trigger)) {
+    //     let changed = this.query.set(query, {silent: true})
+    //     if (changed) this.emit('complete', this.query.toJSON())
+    //   }
+    // }
+    // // Query has been removed or caret position changed, for datalist only.
+    // else if (!this.query.isEmpty()) {
+    //   this.query.reset()
+    //   this.onAbort({reason: 'deleteTrigger'})
+    // }
+
+    // this.emit('change')
   }
 
   onSelectSearchBrowserItem({item, query}) {
