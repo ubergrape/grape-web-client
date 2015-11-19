@@ -31,22 +31,22 @@ Navigation.prototype.init = function Navigation_init() {
   this.el = this.nav.el
 
   let roomList = this.roomList = new ItemList({
-    template: 'roomlist.jade'
+  template: 'roomlist.jade'
   })
   replace(qs('.rooms', this.el), roomList.el)
 
   let roomListCollapsed = this.roomListCollapsed = new ItemList({
-    template: 'roomlist-collapsed.jade'
+  template: 'roomlist-collapsed.jade'
   })
   replace(qs('.rooms-collapsed', this.el), roomListCollapsed.el)
 
   let pmList = this.pmList = new ItemList({
-    template: 'pmlist.jade'
+  template: 'pmlist.jade'
   })
   replace(qs('.pms', this.el), pmList.el)
 
   let pmListCollapsed = this.pmListCollapsed = new ItemList({
-    template: 'pmlist-collapsed.jade'
+  template: 'pmlist-collapsed.jade'
   })
   replace(qs('.pms-collapsed', this.el), pmListCollapsed.el)
 
@@ -55,53 +55,53 @@ Navigation.prototype.init = function Navigation_init() {
   let headerCollapsed = false
 
   document.addEventListener("DOMContentLoaded", function (event) {
-    qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function () { self.handleScrolling() }
+  qs('.nav-wrap-out.scrollbars-override', this.el).onscroll = function () { self.handleScrolling() }
 
-    self.collapsedMode = store.get('sidebarCollapsedMode')
+  self.collapsedMode = store.get('sidebarCollapsedMode')
 
-    let sidebarWidth = store.get('sidebarWidth')
-    if (sidebarWidth === null) sidebarWidth = "240"
+  let sidebarWidth = store.get('sidebarWidth')
+  if (sidebarWidth === null) sidebarWidth = "240"
 
-    qs('.client-body').style.marginLeft = sidebarWidth + 'px'
-    self.el.style.width = sidebarWidth + 'px'
+  qs('.client-body').style.marginLeft = sidebarWidth + 'px'
+  self.el.style.width = sidebarWidth + 'px'
 
-    if (self.collapsedMode && self.collapsedMode === true) {
-      classes(document.body).remove("nav-style-basic")
-      classes(document.body).add("nav-style-collapsed")
+  if (self.collapsedMode && self.collapsedMode === true) {
+    classes(document.body).remove("nav-style-basic")
+    classes(document.body).add("nav-style-collapsed")
 
-      classes(qs('.nav-collapsed')).add('auto-expand')
-    } else {
-      classes(document.body).add("nav-style-basic")
-      classes(document.body).remove("nav-style-collapsed")
-    }
+    classes(qs('.nav-collapsed')).add('auto-expand')
+  } else {
+    classes(document.body).add("nav-style-basic")
+    classes(document.body).remove("nav-style-collapsed")
+  }
 
-    let navResizable = new resizable(self.el, { directions: ['east'] })
+  let navResizable = new resizable(self.el, { directions: ['east'] })
 
-    let resizeClient = function resizeClient() {
-      qs('.client-body').style.marginLeft = self.el.clientWidth + 'px'
-      store.set('sidebarWidth', self.el.clientWidth)
-    }.bind(self)
+  let resizeClient = function resizeClient() {
+    qs('.client-body').style.marginLeft = self.el.clientWidth + 'px'
+    store.set('sidebarWidth', self.el.clientWidth)
+  }.bind(self)
 
-    // the `orgReady` event is fired on reconnection as well
-    // so we need to unbind the resizable and the window
-    navResizable.element.removeEventListener('resize', resizeClient)
-    window.removeEventListener('resize', resizeClient)
+  // the `orgReady` event is fired on reconnection as well
+  // so we need to unbind the resizable and the window
+  navResizable.element.removeEventListener('resize', resizeClient)
+  window.removeEventListener('resize', resizeClient)
 
-    // listening to the event fired by the resizable component
-    navResizable.element.addEventListener('resize', resizeClient)
-    window.addEventListener('resize', resizeClient)
+  // listening to the event fired by the resizable component
+  navResizable.element.addEventListener('resize', resizeClient)
+  window.addEventListener('resize', resizeClient)
 
-    // Initialize all the stuff that will be transitioned in handleScrolling
-    self.orgAreaBG = qs('.org-area-bg')
-    self.orgAreaBGOverlay = qs('.bg-overlay')
-    self.orgInfo = qs('.org-info')
-    self.orgLogoName = qs('.org-logo-name img')
-    self.orgName = qs('.org-name')
-    self.orgTagline = qs('.org-tagline')
+  // Initialize all the stuff that will be transitioned in handleScrolling
+  self.orgAreaBG = qs('.org-area-bg')
+  self.orgAreaBGOverlay = qs('.bg-overlay')
+  self.orgInfo = qs('.org-info')
+  self.orgLogoName = qs('.org-logo-name img')
+  self.orgName = qs('.org-name')
+  self.orgTagline = qs('.org-tagline')
 
-    window.$clamp(self.orgName, {clamp: 2})
-    self.clampedSingleLine = false
-    })
+  window.$clamp(self.orgName, {clamp: 2})
+  self.clampedSingleLine = false
+  })
 }
 
 function replace(from, to) {
@@ -109,55 +109,55 @@ function replace(from, to) {
 }
 
 function animate(element, style, unit, from, to, time) {
-    if (!element) return
+  if (!element) return
 
-    let start = new Date().getTime(),
-        timer = setInterval(function () {
-            let step = Math.min(1,(new Date().getTime() - start) / time)
-            element.style[style] = (from + step * (to - from)) + unit
-            if (step === 1) clearInterval(timer)
-        }, 25)
+  let start = new Date().getTime(),
+    timer = setInterval(function () {
+      let step = Math.min(1,(new Date().getTime() - start) / time)
+      element.style[style] = (from + step * (to - from)) + unit
+      if (step === 1) clearInterval(timer)
+    }, 25)
 
-    element.style[style] = from + unit
+  element.style[style] = from + unit
 }
 
 Navigation.prototype.bind = function Navigation_bind() {
   let self = this
   this.events = events(this.el, {
-    triggerRoomCreation: function (ev) {
-      self.emit('triggerRoomCreation', closest(ev.target, 'div', true))
-    },
-    triggerRoomManager: function (ev) {
-      if (self.ready) self.emit('triggerRoomManager')
-    },
-    triggerPMManager: function (ev) {
-      if (self.ready) self.emit('triggerPMManager')
-    },
-    minimizeSidebar: function (ev) {
-      store.set('sidebarWidth', self.el.clientWidth)
-      classes(document.body).remove("nav-style-basic")
-      classes(document.body).add("nav-style-collapsed")
+  triggerRoomCreation: function (ev) {
+    self.emit('triggerRoomCreation', closest(ev.target, 'div', true))
+  },
+  triggerRoomManager: function (ev) {
+    if (self.ready) self.emit('triggerRoomManager')
+  },
+  triggerPMManager: function (ev) {
+    if (self.ready) self.emit('triggerPMManager')
+  },
+  minimizeSidebar: function (ev) {
+    store.set('sidebarWidth', self.el.clientWidth)
+    classes(document.body).remove("nav-style-basic")
+    classes(document.body).add("nav-style-collapsed")
 
-      qs('.nav-collapsed').onmouseleave = function () {
-        classes(qs('.nav-collapsed')).add('auto-expand')
-        this.onmouseleave = null
-      }
-
-      self.collapsedMode = true
-      store.set('sidebarCollapsedMode', true)
-    },
-    expandSidebar: function (ev) {
-      let oldWidth = store.get('sidebarWidth') + 'px'
-
-      classes(document.body).add("nav-style-basic")
-      classes(document.body).remove("nav-style-collapsed")
-
-      classes(qs('.nav-collapsed')).remove('auto-expand')
-      qs('.nav-collapsed').onmouseleave = null
-
-      self.collapsedMode = false
-      store.set('sidebarCollapsedMode', false)
+    qs('.nav-collapsed').onmouseleave = function () {
+    classes(qs('.nav-collapsed')).add('auto-expand')
+    this.onmouseleave = null
     }
+
+    self.collapsedMode = true
+    store.set('sidebarCollapsedMode', true)
+  },
+  expandSidebar: function (ev) {
+    let oldWidth = store.get('sidebarWidth') + 'px'
+
+    classes(document.body).add("nav-style-basic")
+    classes(document.body).remove("nav-style-collapsed")
+
+    classes(qs('.nav-collapsed')).remove('auto-expand')
+    qs('.nav-collapsed').onmouseleave = null
+
+    self.collapsedMode = false
+    store.set('sidebarCollapsedMode', false)
+  }
   })
   this.events.bind('click .create-room', 'triggerRoomCreation')
   this.events.bind('click .manage-rooms-button', 'triggerRoomManager')
@@ -166,7 +166,7 @@ Navigation.prototype.bind = function Navigation_bind() {
   this.events.bind('click .minimize-sidebar', 'minimizeSidebar')
   this.events.bind('click .expand-sidebar', 'expandSidebar')
   let closeNavPopovers = debounce(function () {
-    this.emit('closeNavPopovers')
+  this.emit('closeNavPopovers')
   }.bind(this), 500)
   this.navScrollbar.elem.addEventListener('scroll', closeNavPopovers)
   this.navScrollbarCollapsed.elem.addEventListener('scroll', closeNavPopovers)
@@ -178,41 +178,41 @@ Navigation.prototype.handleScrolling = function Navigation_handleScrolling() {
   let scaleFactor = ((100 / 86) * (newHeight - 64)) / 100
 
   if (newHeight < 150 && !this.headerCollapsed) {
-    classes(this.orgAreaBG).add("collapse-header-height")
-    classes(this.orgAreaBGOverlay).add("collapse-header-height")
-    classes(this.orgInfo).add("collapse-header-height")
+  classes(this.orgAreaBG).add("collapse-header-height")
+  classes(this.orgAreaBGOverlay).add("collapse-header-height")
+  classes(this.orgInfo).add("collapse-header-height")
 
-    classes(this.orgLogoName).add("collapse-logo")
-    classes(this.orgName).add("collapse-name")
-    this.orgName.style.opacity = "0"
+  classes(this.orgLogoName).add("collapse-logo")
+  classes(this.orgName).add("collapse-name")
+  this.orgName.style.opacity = "0"
 
-    this.headerCollapsed = true
+  this.headerCollapsed = true
 
-    setTimeout(function () {
-      let orgName = qs('.org-name')
-      orgName.style.textAlign = "left"
-      window.$clamp(orgName, {clamp: 1})
-      orgName.style.opacity = "1"
-    }, 225)
+  setTimeout(function () {
+    let orgName = qs('.org-name')
+    orgName.style.textAlign = "left"
+    window.$clamp(orgName, {clamp: 1})
+    orgName.style.opacity = "1"
+  }, 225)
   } else if (newHeight === 150 && this.headerCollapsed) {
-    classes(this.orgAreaBG).remove("collapse-header-height")
-    classes(this.orgAreaBGOverlay).remove("collapse-header-height")
-    classes(this.orgInfo).remove("collapse-header-height")
+  classes(this.orgAreaBG).remove("collapse-header-height")
+  classes(this.orgAreaBGOverlay).remove("collapse-header-height")
+  classes(this.orgInfo).remove("collapse-header-height")
 
-    classes(this.orgLogoName).remove("collapse-logo")
-    classes(this.orgName).remove("collapse-name")
-    this.orgName.style.opacity = "0"
+  classes(this.orgLogoName).remove("collapse-logo")
+  classes(this.orgName).remove("collapse-name")
+  this.orgName.style.opacity = "0"
 
-    this.headerCollapsed = false
+  this.headerCollapsed = false
 
-    setTimeout(function () {
-      let orgName = qs('.org-name')
+  setTimeout(function () {
+    let orgName = qs('.org-name')
 
-      orgName.innerHTML = window.ui.org.name
-      orgName.style.textAlign = "center"
-      window.$clamp(orgName, {clamp: 2})
-      orgName.style.opacity = "1"
-    }, 150)
+    orgName.innerHTML = window.ui.org.name
+    orgName.style.textAlign = "center"
+    window.$clamp(orgName, {clamp: 2})
+    orgName.style.opacity = "1"
+  }, 150)
   }
 }
 
@@ -229,19 +229,19 @@ Navigation.prototype.setLists = function Navigation_setLists(lists) {
 Navigation.prototype.pmCompare = function Navigation_pmCompare(a, b) {
 
   function getStatusValue(user) {
-    if (!user.active) return 0
-    if (user.status === 16) return 3
-    if (user.is_only_invited) return 1
-    return 2
+  if (!user.active) return 0
+  if (user.status === 16) return 3
+  if (user.is_only_invited) return 1
+  return 2
   }
 
   let aLastMessage = a.pm && a.active ? a.pm.latest_message_time : 0
   let bLastMessage = b.pm && b.active ? b.pm.latest_message_time : 0
 
   if (bLastMessage - aLastMessage != 0)
-    return bLastMessage - aLastMessage
+  return bLastMessage - aLastMessage
   else
-    return getStatusValue(b) - getStatusValue(a)
+  return getStatusValue(b) - getStatusValue(a)
 }
 
 Navigation.prototype.roomCompare = function Navigation_roomCompare(a, b) {
@@ -255,9 +255,9 @@ Navigation.prototype.select = function Navigation_select(item) {
   this.pmList.selectItem(null)
   this.pmListCollapsed.selectItem(null)
   if (item.type === 'pm') {
-    let pm = item.users[0]
-    let isInList = this.pmList.items.indexOf(pm) > -1 ? true : false
-    if (!isInList) this.pmList.items.unshift(pm)
+  let pm = item.users[0]
+  let isInList = this.pmList.items.indexOf(pm) > -1 ? true : false
+  if (!isInList) this.pmList.items.unshift(pm)
   }
   this[item.type + 'List'].selectItem(item)
   this[item.type + 'ListCollapsed'].selectItem(item)
@@ -338,7 +338,7 @@ Navigation.prototype.onDeletedUser = function() {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
   let pms = org.users.filter(function (user) {
-    return user != window.ui.user && user.active && !user.is_only_invited
+  return user != window.ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })
 
