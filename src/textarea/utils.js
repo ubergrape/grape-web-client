@@ -1,30 +1,33 @@
-export function getWordUnderCaret(string, caretPostion) {
-  function getWordTail(isBackward) {
-    let tail = ''
-    let nextSymbolIndex = isBackward ? caretPostion - 1 : caretPostion
-
-    if (string[nextSymbolIndex] !== ' ') {
-      let tailFound = false
-
-      while (!tailFound) {
-        if (string[nextSymbolIndex] === ' ' ||
-            nextSymbolIndex < 0 ||
-            nextSymbolIndex === string.length) {
-          tailFound = true
-          break
-        }
-
-        tail = isBackward ?
-                string[nextSymbolIndex] + tail :
-                tail + string[nextSymbolIndex]
-
-        nextSymbolIndex = isBackward ? nextSymbolIndex - 1 : nextSymbolIndex + 1
-      }
-    }
-
-    return tail
+export function getTokenUnderCaret(string, caretPostion) {
+  const token = {
+    text: '',
+    position: []
   }
 
-  return getWordTail(true) + getWordTail()
-}
+  const {position} = token
 
+  while (position.length < 2) {
+    let nextSymbolIndex = position.length ? caretPostion : caretPostion - 1
+    let previousSymbolIndex = nextSymbolIndex
+    let tailFound = false
+
+    while (!tailFound) {
+      if (string[nextSymbolIndex] === ' ' ||
+          nextSymbolIndex < 0 ||
+          nextSymbolIndex === string.length) {
+        position.push(previousSymbolIndex)
+        tailFound = true
+        break
+      }
+
+      token.text = position.length ?
+              string[nextSymbolIndex] + token.text :
+              token.text + string[nextSymbolIndex]
+
+      previousSymbolIndex = nextSymbolIndex
+      nextSymbolIndex = position.length ? nextSymbolIndex + 1 : nextSymbolIndex - 1
+    }
+  }
+
+  return Boolean(token.text) && token
+}

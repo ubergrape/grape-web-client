@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 
 import parseQuery from '../query/parse'
-import {getWordUnderCaret} from './utils'
+import {getTokenUnderCaret} from './utils'
 
 // import {useSheet} from 'grape-web/lib/jss'
 
@@ -33,31 +33,16 @@ export default class Textarea extends Component {
 
   onChange(e) {
     let {value, selectionEnd} = e.target
-    let word = getWordUnderCaret(value, selectionEnd)
+    let token = getTokenUnderCaret(value, selectionEnd)
+
+    console.log(token)
 
 
-    console.log(word)
-
-
-  //     .split(' ')
-  //     .map(item => {
-  //       return {
-  //         item,
-  //         special: this.isItemSpestial(item)
-  //       }
-  //     })
-
-  //   this.setState({text})
-  //   this.props.onChange({query: this.getQuery(text.pop())})
+    // if (this.isQuery(word)) this.props.onChange({query: parseQuery(word)})
   }
 
-  getQuery(token) {
-    if (!token.special) return false
 
-    console.log(parseQuery(token.item))
-  }
-
-  isItemSpestial(item) {
+  isQuery(item) {
     return Boolean(item.match(/^(@|#|:.+:$)/))
   }
 
