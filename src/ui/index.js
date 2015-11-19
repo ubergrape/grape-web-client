@@ -14,7 +14,7 @@ let timezone = require('./jstz')
 let focus = require('./focus')
 let pipeEvents = require('./pipeEvents')
 let page = require('page')
-let Router = require('router')
+let setUpRouter = require('../init-router')
 let template = require('template')
 let _ = require('t')
 let v = require('virtualdom')
@@ -235,6 +235,14 @@ UI.prototype.bind = function UI_bind() {
     self.emit('introend')
   })
 
+  // Open certain link in the external browser in the OS X app
+  if (window.MacGap) {
+    let as, i
+    as = qs.all('a', this.organizationMenu.el)
+    for (i = 0; i < as.length; ++i)
+      as[i].target = '_blank'
+  }
+
   if (window.Intercom) {
     window.Intercom('onShow', function () {
       classes(qs('.client-body', this.el)).add('intercom-show')
@@ -249,7 +257,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
   this.org = org
   template.locals.org = this.org
   this.emit('orgReady', this.org)
-  Router(this)
+  setUpRouter(this)
   this.setNotificationsSession()
   if (this.notificationSessionSet === true) return
   focus.on('focus', this.setNotificationsSession.bind(this))
@@ -330,20 +338,17 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-  notification.error(err.message, err.details)
+  notification.error(err.message)
 }
 
 UI.prototype.onDisconnected = function () {
-  this.disconnectedAlert = setTimeout(function () {
-    this.firstTimeConnect = false
-    if (this._connErrMsg) return
-    this._connErrMsg = this.messages.danger('connection lost')
-    classes(qs('body')).add('disconnected')
-  }.bind(this), 7000)
+  this.firstTimeConnect = false
+  if (this._connErrMsg) return
+  this._connErrMsg = this.messages.danger('connection lost')
+  classes(qs('body')).add('disconnected')
 }
 
 UI.prototype.onConnected = function () {
-  clearTimeout(this.disconnectedAlert)
   if (!this._connErrMsg || this.firstTimeConnect) return
   this._connErrMsg.remove()
   delete this._connErrMsg
@@ -408,9 +413,9 @@ UI.prototype.onUploaded = function (attachment) {
   this.upload.hide()
 }
 
-UI.prototype.onMessageNotFound = function UI_onMessageNotFound (room) {
-  let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
-  page.replace('/chat/' + redirectSlug)
+UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
+  let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+  page.redirect('/chat/' + redirectSlug)
   let msg = this.messages.warning('message not found')
   setTimeout(function () { msg.remove() }, 6000)
 }
@@ -424,6 +429,12 @@ UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel)
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
   let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
   page('/chat/' + redirectSlug)
+}
+
+UI.prototype.onInvalidUrl = function(cause) {
+  const msg = this.messages.warning(cause)
+  page.redirect('/chat/')
+  setTimeout(() => msg.remove(), 6000)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {

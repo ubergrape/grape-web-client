@@ -35,8 +35,8 @@ DeleteRoomDialog.prototype.submit = function DeleteRoomDialog_submit(ev) {
   }
 
   self.emit('deleteroom', self.context.room, roomName, function DeleteRoomDialog_submit_callback(err, result){
-    if(err) {
-      self.roomNameInput.setCustomValidity(err.details)
+    if (err) {
+      self.roomNameInput.setCustomValidity(err.message)
       self.button.click()
     } else {
       self.dialog.hide()

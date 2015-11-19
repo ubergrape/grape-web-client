@@ -164,7 +164,7 @@ RoomManager.prototype.onRoomCreationError = function (err) {
   let form = this.creationForm.el
   let newRoomName = form['newroom-name']
   let createButton = qs('input.create-room-button', form)
-  newRoomName.setCustomValidity(err.msg)
+  newRoomName.setCustomValidity(err.message)
   createButton.click()
 }
 
