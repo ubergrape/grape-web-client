@@ -220,6 +220,7 @@ UI.prototype.bind = function UI_bind() {
       })
     }
   })
+  
   this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
   this.events.bind('click .settings-icon-collapsed', 'toggleOrganizationMenuCollapsed')
   this.events.bind('click .enable_notifications', 'requestPermission')
@@ -228,26 +229,18 @@ UI.prototype.bind = function UI_bind() {
 
   // intro
   this.intro.oncomplete(function () {
-    self.emit('introend')
+      self.emit('introend')
   })
   this.intro.onexit(function () {
-    self.emit('introend')
+      self.emit('introend')
   })
-
-  // Open certain link in the external browser in the OS X app
-  if (window.MacGap) {
-    let as, i
-    as = qs.all('a', this.organizationMenu.el)
-    for (i = 0; i < as.length; ++i)
-      as[i].target = '_blank'
-  }
 
   if (window.Intercom) {
     window.Intercom('onShow', function () {
-      classes(qs('.client-body', this.el)).add('intercom-show')
+        classes(qs('.client-body', this.el)).add('intercom-show')
     }.bind(this))
     window.Intercom('onHide', function () {
-      classes(qs('.client-body', this.el)).remove('intercom-show')
+        classes(qs('.client-body', this.el)).remove('intercom-show')
     }.bind(this))
   }
 }
