@@ -21,8 +21,8 @@ export function getTokenUnderCaret(string, caretPostion) {
       }
 
       token.text = position.length ?
-              string[nextSymbolIndex] + token.text :
-              token.text + string[nextSymbolIndex]
+              token.text + string[nextSymbolIndex] :
+              string[nextSymbolIndex] + token.text
 
       previousSymbolIndex = nextSymbolIndex
       nextSymbolIndex = position.length ? nextSymbolIndex + 1 : nextSymbolIndex - 1
