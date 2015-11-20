@@ -138,7 +138,7 @@ export default class Input extends Component {
               onAbort={::this.onAbort}
               onEditPrevious={::this.onEditPrevious}
               onSubmit={::this.onSubmit}
-              onChange={::this.onChangeEditable}
+              onChange={::this.onChangeInput}
               onFocus={::this.onFocusEditable}
               onBlur={::this.onBlurEditable}
               onResize={::this.onEditableResize}
@@ -146,7 +146,7 @@ export default class Input extends Component {
         </MaxSize>
 
         <Textarea
-          onChange={::this.onChangeTextarea}
+          onChange={::this.onChangeInput}
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}
           focused={this.state.editableFocused}
@@ -327,7 +327,7 @@ export default class Input extends Component {
     this.emit('submit', data)
   }
 
-  onChangeEditable({query} = {}) {
+  onChangeInput({query} = {}) {
 
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
@@ -346,29 +346,6 @@ export default class Input extends Component {
     }
 
     this.emit('change')
-  }
-
-  onChangeTextarea({query} = {}) {
-
-    console.log(query)
-
-    // if (query) {
-    //   // If it is a browser trigger, we don't reopen browser, but let user type
-    //   // whatever he wants.
-    //   // If its a mentioning, user types the search.
-    //   // TODO migrate mentioning to the browser.
-    //   if (!query.key || !utils.isBrowserType(query.trigger)) {
-    //     let changed = this.query.set(query, {silent: true})
-    //     if (changed) this.emit('complete', this.query.toJSON())
-    //   }
-    // }
-    // // Query has been removed or caret position changed, for datalist only.
-    // else if (!this.query.isEmpty()) {
-    //   this.query.reset()
-    //   this.onAbort({reason: 'deleteTrigger'})
-    // }
-
-    // this.emit('change')
   }
 
   onSelectSearchBrowserItem({item, query}) {

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 
+import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
 import {getTokenUnderCaret} from './utils'
 
@@ -35,15 +36,15 @@ export default class Textarea extends Component {
     let {value, selectionEnd} = e.target
     let token = getTokenUnderCaret(value, selectionEnd)
 
-    console.log(token)
-
-
-    // if (this.isQuery(word)) this.props.onChange({query: parseQuery(word)})
+    this.props.onChange(
+      Boolean(token.text && token.text.match(QUERY_REGEX)) &&
+      {query: parseQuery(token.text)}
+    )
   }
 
 
-  isQuery(item) {
-    return Boolean(item.match(/^(@|#|:.+:$)/))
+  isQuery(string) {
+    return Boolean(string && string.match(/^(@|#|:.+:$)/))
   }
 
   render() {
