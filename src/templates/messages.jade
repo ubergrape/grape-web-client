@@ -25,6 +25,9 @@ div
 					else if message.type == 'message not found'
 						p
 							=_("We could not find the message you were looking for.")
+					else if message.type == 'message to self'
+						p
+							=_("You cannot message yourself.")
 					else
 						p
 							message.type
