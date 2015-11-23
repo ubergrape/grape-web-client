@@ -45,7 +45,9 @@ export default class GrapeInput extends Emitter {
     this.unsent = {}
     this.isOrgEmpty = false
     this.images = clone(images)
-    this.startTypingThrottled = throttle(::this.startTyping, 5000)
+    this.startTypingThrottled = throttle(::this.startTyping, 5000, {
+      trailing: false
+    })
     this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
     this.searchDebounced = debounce(::this.search, 200)
     window.addEventListener('keydown', ::this.onKeyDown)
@@ -324,6 +326,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onBlur() {
+    this.stopTyping()
     this.setProps({focused: false})
   }
 
