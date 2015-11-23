@@ -224,10 +224,7 @@ export default class GrapeInput extends Emitter {
 
   stopTyping() {
     this.typing = false
-    this.emit('setTyping', {
-      channel: this.room,
-      typing: false
-    })
+    this.emit('stoptyping', this.room)
   }
 
   onMarkdownTipsShow() {
@@ -276,10 +273,7 @@ export default class GrapeInput extends Emitter {
   onChange() {
     if (!this.typing) {
       this.typing = true
-      this.emit('setTyping', {
-        channel: this.room,
-        typing: true
-      })
+      this.emit('starttyping', this.room)
     }
     this.stopTypingDebounced()
   }

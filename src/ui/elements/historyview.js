@@ -406,6 +406,7 @@ HistoryView.prototype.onInput = function(room, msg, options) {
   }
   this.unsentBuffer[room.id].push(newMessage)
   this.scrollMode = 'automatic'
+  this.emit('stoptyping', room)
   this.queueDraw()
   this.handlePendingMsg(newMessage)
 }

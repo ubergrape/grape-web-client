@@ -66,7 +66,8 @@ export default function pipeEvents(ui) {
 
   // grape input
   broker.pass(ui.grapeInput, 'update', ui, 'update')
-  broker.pass(ui.grapeInput, 'setTyping', ui, 'setTyping')
+  broker.pass(ui.grapeInput, 'starttyping', ui, 'starttyping')
+  broker.pass(ui.grapeInput, 'stoptyping', ui, 'stoptyping')
   broker.pass(ui.grapeInput, 'autocomplete', ui, 'autocomplete')
   broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate')
   broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing')
@@ -81,6 +82,7 @@ export default function pipeEvents(ui) {
   broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage')
   broker.pass(ui.historyView, 'send', ui, 'send')
   broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch')
+  broker.pass(ui.historyView, 'stoptyping', ui, 'stoptyping')
   broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
   broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
   broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
