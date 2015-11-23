@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect'
+import pick from 'lodash/object/pick'
 
 export const channelSearchSelector = createSelector(
   state => state.channelSearch, state => state
@@ -15,8 +16,6 @@ export const typingNotificationSelector = createSelector(
 )
 
 export const setTypingSelector = createSelector(
-  ({user, users, channel, typingNotification}) => {
-    return {user, users, channel, typingNotification}
-  },
+  state => pick(state, 'user', 'users', 'channel', 'typingNotification'),
   state => state
 )
