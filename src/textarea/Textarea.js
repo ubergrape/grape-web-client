@@ -9,6 +9,8 @@ import {getTokenUnderCaret} from './utils'
 
 // import * as emoji from '../emoji'
 // import style from './style'
+//
+
 
 // @useSheet(style)
 export default class Textarea extends Component {
@@ -19,7 +21,9 @@ export default class Textarea extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: []
+      text: '',
+      objects: {},
+      caretPos: 0
     }
   }
 
@@ -28,23 +32,48 @@ export default class Textarea extends Component {
     if (onDidMount) onDidMount(this)
   }
 
-  componentWillUnmount() {
-
+  componentDidUpdate() {
+    // console.log(this.state)
+    this.refs.textarea.selectionEnd = this.state.caretPos
   }
 
   onChange(e) {
     let {value, selectionEnd} = e.target
     let token = getTokenUnderCaret(value, selectionEnd)
+    let query = Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
 
-    this.props.onChange(
-      Boolean(token.text && token.text.match(QUERY_REGEX)) &&
-      {query: parseQuery(token.text)}
-    )
+    this.setState({text: value, caretPos: e.target.selectionEnd})
+    this.props.onChange(query)
   }
 
+  replaceQuery(replacement) {
+    let token = getTokenUnderCaret(
+      this.refs.textarea.value,
+      this.refs.textarea.selectionEnd
+    )
 
-  isQuery(string) {
-    return Boolean(string && string.match(/^(@|#|:.+:$)/))
+    console.log(replacement)
+
+    let text = this.state.text
+    let textBefore = text.slice(0, token.position[0])
+    let textAfter = text.slice(token.position[1], text.length)
+
+    text = textBefore + replacement.content + textAfter + ' '
+    let objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
+
+    this.setState({
+      text,
+      objects,
+      caretPos: this.refs.textarea.selectionEnd + replacement.content.length
+    })
+  }
+
+  getTextContent() {
+    return this.refs.textarea.value
+  }
+
+  onKeyDown() {
+
   }
 
   render() {
@@ -55,9 +84,10 @@ export default class Textarea extends Component {
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}
           focused={this.props.focused}
-          onChange={::this.onChange}>
-          {this.state.text.join(' ')}
-        </textarea>
+          onKeyDown={::this.onKeyDown}
+          onChange={::this.onChange}
+          value={this.state.text}
+          ></textarea>
       </div>
     )
   }

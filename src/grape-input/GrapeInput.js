@@ -40,6 +40,9 @@ export default class Input extends Component {
     browser: undefined,
     data: undefined,
     images: {},
+    content: '',
+    contentObjects: [],
+    specialObjectKey: '%%GRAPE_SPECIAL_OBJECT%%',
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
@@ -128,29 +131,15 @@ export default class Input extends Component {
           innerWidth={this.state.editableWidth}
           innerHeight={this.state.editableHeight}
           onResize={::this.onInputResize}>
-            <Editable
-              width={this.state.editableWidth}
-              height={this.state.editableHeight}
-              placeholder={this.props.placeholder}
-              disabled={this.props.disabled}
-              focused={this.state.editableFocused}
-              insertAnimationDuration={objectStyle.INSERT_ANIMATION_DURATION}
-              onAbort={::this.onAbort}
-              onEditPrevious={::this.onEditPrevious}
-              onSubmit={::this.onSubmit}
-              onChange={::this.onChangeInput}
-              onFocus={::this.onFocusEditable}
-              onBlur={::this.onBlurEditable}
-              onResize={::this.onEditableResize}
-              onDidMount={this.onDidMount.bind(this, 'editable')} />
+          <Textarea
+            onChange={::this.onChangeInput}
+            placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
+            focused={this.state.editableFocused}
+            onDidMount={this.onDidMount.bind(this, 'textarea')}
+            content={this.getTextContent()}/>
         </MaxSize>
 
-        <Textarea
-          onChange={::this.onChangeInput}
-          placeholder={this.props.placeholder}
-          disabled={this.props.disabled}
-          focused={this.state.editableFocused}
-          onDidMount={this.onDidMount.bind(this, 'textarea')}/>
       </div>
     )
   }
@@ -222,7 +211,9 @@ export default class Input extends Component {
   }
 
   getTextContent() {
-    return this.editable.getTextContent()
+    return ''
+    // return this.state.
+    //return this.textarea.getTextContent()
   }
 
   setTextContent(text) {
@@ -267,8 +258,8 @@ export default class Input extends Component {
       let results = get(this.state, 'data.results')
       let data = find(results, res => res.id === item.id) || item
       let object = objects.create(data.type, data)
-      // Add space to let user type next thing faster.
-      this.replaceQuery(object.toHTML() + '&nbsp;', {query})
+      this.setState({ contentObjects: [...this.state.contentObjects, object] })
+      this.replaceQuery(object)
     }
     this.onInsertItem(item, query)
     this.closeBrowser({editableFocused: true})
@@ -277,9 +268,10 @@ export default class Input extends Component {
 
   replaceQuery(replacement, options, callback = noop) {
     this.setState({editableFocused: true}, () => {
-      let replaced = this.editable.replaceQuery(replacement, options)
+      let replaced = this.textarea.replaceQuery(replacement)
       callback(replaced)
     })
+
   }
 
   insertQuery(queryStr, options, callback = noop) {
@@ -327,7 +319,7 @@ export default class Input extends Component {
     this.emit('submit', data)
   }
 
-  onChangeInput({query} = {}) {
+  onChangeInput(query = {}) {
 
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
@@ -344,7 +336,6 @@ export default class Input extends Component {
       this.query.reset()
       this.onAbort({reason: 'deleteTrigger'})
     }
-
     this.emit('change')
   }
 

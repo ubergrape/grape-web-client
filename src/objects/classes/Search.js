@@ -22,7 +22,7 @@ export default class Search {
     this.url = result.url
     this.type = result.type
     this.name = result.name
-    this.content = this.name
+    this.content = '#' + this.name
     this.str = this.toString()
   }
 
