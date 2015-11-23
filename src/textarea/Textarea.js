@@ -33,7 +33,6 @@ export default class Textarea extends Component {
   }
 
   componentDidUpdate() {
-    // console.log(this.state)
     this.refs.textarea.selectionEnd = this.state.caretPos
   }
 
@@ -51,8 +50,6 @@ export default class Textarea extends Component {
       this.refs.textarea.value,
       this.refs.textarea.selectionEnd
     )
-
-    console.log(replacement)
 
     let text = this.state.text
     let textBefore = text.slice(0, token.position[0])
@@ -76,6 +73,20 @@ export default class Textarea extends Component {
 
   }
 
+  _renderTokens() {
+
+    let str = this.state.text
+
+    Object.keys(this.state.objects).forEach(key => {
+
+      str = str.replace(key, '[[' + key + ']]')
+
+    })
+
+    return (<div>{str}</div>)
+
+  }
+
   render() {
     return (
       <div>
@@ -88,6 +99,8 @@ export default class Textarea extends Component {
           onChange={::this.onChange}
           value={this.state.text}
           ></textarea>
+
+          {this._renderTokens()}
       </div>
     )
   }
