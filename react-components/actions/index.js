@@ -1,11 +1,24 @@
+import page from 'page'
+import find from 'lodash/collection/find'
+import each from 'lodash/collection/each'
+
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../redux-emitter'
+import store from '../app/store'
 
-import page from 'page'
 import {
   find as findChannel,
   getFileteredItems as getFileteredChannels
 } from '../channel-search/utils'
+
+export function setUsers(users) {
+  return {
+    type: types.SET_USERS,
+    payload: {
+      users
+    }
+  }
+}
 
 export function setUser(user) {
   return {
@@ -21,6 +34,24 @@ export function setOrg(org) {
     type: types.SET_ORG,
     payload: {
       org
+    }
+  }
+}
+
+export function setChannels(channels) {
+  return {
+    type: types.SET_CHANNELS,
+    payload: {
+      channels
+    }
+  }
+}
+
+export function setChannel(channel) {
+  return {
+    type: types.SET_CHANNEL,
+    payload: {
+      channel
     }
   }
 }
@@ -67,6 +98,15 @@ export function showRoomManager() {
   }
 }
 
+export function showSubscriptionWarning() {
+  return {
+    type: types.SHOW_SUBSCRIPTION_WARNING,
+    payload: {
+      show: true
+    }
+  }
+}
+
 export function hideSubscriptionWarning() {
   return {
     type: types.HIDE_SUBSCRIPTION_WARNING,
@@ -80,5 +120,69 @@ export function goToPayment() {
   location.pathname = '/payment'
   return {
     type: types.GO_TO_PAYMENT
+  }
+}
+
+const typingLifetime = 5000
+
+export function setTyping(data) {
+  const {user, users, channel, typingNotification} = store.getState()
+
+  // Do nothing, its a notification from myself.
+  if (data.user === user.id) {
+    return {
+      type: types.SET_TYPING_USERS,
+      payload: typingNotification
+    }
+  }
+
+  const channels = {...typingNotification.channels}
+  if (!channels[data.channel]) channels[data.channel] = []
+
+  if (data.typing) {
+    let typingUser = find(channels[data.channel], user => user.id === data.user)
+    // Just bump exiration date.
+    if (typingUser) typingUser.expires = Date.now() + typingLifetime
+    else {
+      typingUser = find(users, user => user.id === data.user)
+      channels[data.channel].push({
+        id: typingUser.id,
+        name: typingUser.displayName,
+        expires: Date.now() + typingLifetime
+      })
+    }
+  }
+  else {
+    channels[data.channel] = channels[data.channel].filter(user => user.id !== data.user)
+  }
+
+  return {
+    type: types.SET_TYPING_USERS,
+    payload: {
+      channels,
+      channel
+    }
+  }
+}
+
+/**
+ * We don't rely on stop typing event.
+ * This cleanup function can be periodically called to remove expired
+ * typing users.
+ */
+export function cleanupTyping() {
+  const {typingNotification} = store.getState()
+  const channels = {...typingNotification.channels}
+  const now = Date.now()
+
+  each(channels, (users, channelId) => {
+    channels[channelId] = users.filter(user => user.expires > now)
+  })
+
+  return {
+    type: types.SET_TYPING_USERS,
+    payload: {
+      channels
+    }
   }
 }

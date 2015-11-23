@@ -12,6 +12,12 @@ import {useSheet} from '../jss'
 export default class SubscriptionWarning extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.text && this.props.text !== nextProps.text) {
+      this.props.showSubscriptionWarning()
+    }
+  }
+
   onHide() {
     this.props.hideSubscriptionWarning()
   }

@@ -1,10 +1,11 @@
-let Client = require('lpio-client')
-let rpc = require('./rpc')
 let array = require('array')
 let Emitter = require('emitter')
 let models = require('./models')
 let conf = require('conf')
 let noop = require('lodash/utility/noop')
+
+let rpc = require('../../react-components/backend/rpc')
+let client = require('../../react-components/backend/client')
 
 let exports = module.exports = API
 exports.models = models
@@ -19,8 +20,6 @@ function API() {
   this.organizations = undefined
   // the currently active organization
   this.organization = undefined
-  this._typingTimeouts = []
-  this.client = new Client({url: conf.pubsubUrl})
   // A channel for incomming events.
   this.in = new Emitter()
   this.subscribe()
@@ -29,7 +28,7 @@ function API() {
 API.prototype = Object.create(Emitter.prototype)
 
 API.prototype.connect = function API_connect() {
-  let channel = this.client.connect()
+  let channel = client.connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
   channel.on('connected', function () {
@@ -91,47 +90,6 @@ API.prototype.subscribe = function API_subscribe() {
     if (~index)
       self.organization.rooms.splice(index, 1)
     self.emit('roomdeleted', room)
-  })
-  this.in.on('channel.typing', function (data) {
-    let user = models.User.get(data.user)
-    if (user === self.user) {
-      return
-    }
-    let room = models.Room.get(data.channel)
-    let index = room.typing.indexOf(user)
-
-    // there might still be a timeout for this user if the user stops
-    // typing and starts typing within one second.
-    // there can also be a 10 second safety timeout.
-    // we can safely clear a timeout that doesn't exist, so no checks here
-    clearTimeout(self._typingTimeouts[room.id + '_' + user.id])
-
-    if (data.typing && !~index) {
-      room.typing.push(user)
-      trigger()
-      // the typing notification should be removed after 10 seconds
-      // automatically because the user might kill the connection and we
-      // would never receive a `typing: false` event
-      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function () {
-        room.typing.splice(index, 1)
-        trigger()
-      }, 10000)
-    } else if (!data.typing && ~index) {
-      // we want the typing notification to be displayed at least five
-      // seconds
-      self._typingTimeouts[room.id + '_' + user.id] = setTimeout(function () {
-        room.typing.splice(index, 1)
-        trigger()
-      }, 5000)
-    }
-    function trigger() {
-      // FIXME: model needs an api to do this:
-      let name = 'typing'
-      room._model.emit('change', room, name)
-      room._model.emit('change ' + name, room)
-      room.emit('change', name)
-      room.emit('change ' + name)
-    }
   })
   this.in.on('channel.read', function (data) {
     let user = models.User.get(data.user)
@@ -327,7 +285,6 @@ API.prototype._newRoom = function API__newRoom(room) {
   if (typeof room.unread === 'undefined') {
     room.unread = 0
   }
-  room.typing = []
 
   return room
 }
@@ -386,7 +343,7 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
     rpc({
       ns: 'organizations',
       action: 'join',
-      clientId: this.client.id,
+      clientId: client.id,
       args: [org.id]
     }, function (err) {
       if (err) return self.emit('error', err)
@@ -522,7 +479,7 @@ API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession
   rpc({
     ns: 'notifications',
     action: 'set_notification_session',
-    clientId: this.client.id,
+    clientId: client.id,
     args: [orgId]
   }, function (err) {
     if (err) return this.emit('error', err)

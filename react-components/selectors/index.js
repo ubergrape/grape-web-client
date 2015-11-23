@@ -8,3 +8,8 @@ export const subscriptionWarningSelector = createSelector(
   store => store.subscriptionWarning,
   subscriptionWarning => subscriptionWarning
 )
+
+export const typingNotificationSelector = createSelector(
+  store => store.typingNotification,
+  typingNotification => typingNotification
+)

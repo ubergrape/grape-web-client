@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
-import {subscriptionWarningSelector} from '../selectors'
+import {typingNotificationSelector} from '../selectors'
 import actionsList from './actionsList'
-import SubscriptionWarning from './SubscriptionWarning'
+import TypingNotification from './TypingNotification'
 
-const ConnectedSubscriptionWarning = connect(
-  subscriptionWarningSelector,
+const ConnectedTypingNotification = connect(
+  typingNotificationSelector,
   mapActionsToProps(actionsList)
-)(SubscriptionWarning)
+)(TypingNotification)
 
 export default function init(store) {
-  return class SubscriptionWarningProvider extends Component {
+  return class TypingNotificationProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedSubscriptionWarning />
+          <ConnectedTypingNotification />
         </Provider>
       )
     }

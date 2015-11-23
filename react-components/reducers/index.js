@@ -1,2 +1,7 @@
+export users from './users'
+export user from './user'
+export channels from './channels'
+export channel from './channel'
 export channelSearch from './channelSearch'
 export subscriptionWarning from './subscriptionWarning'
+export typingNotification from './typingNotification'
