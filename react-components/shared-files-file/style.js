@@ -5,7 +5,7 @@ import sizes from 'grape-theme/dist/sizes'
 const image = {
   width: '100%',
   height: '100%',
-  background: '#fff no-repeat center',
+  background: 'transparent no-repeat center',
   borderRadius: sizes.borderRadius.big
 }
 
@@ -14,12 +14,12 @@ export default {
     display: 'flex',
     flexDirection: 'row',
     cursor: 'pointer',
-    marginBottom: 20
+    marginBottom: 10
   },
   leftColumn: {
     flexShrink: 0,
-    width: 120,
-    height: 80,
+    width: 80,
+    height: 70,
     marginRight: 10
   },
   rightColumn: {
@@ -36,6 +36,7 @@ export default {
   name: {
     ...utils.ellipsis,
     ...fonts.big,
+    fontWeight: '500',
     // XXX
     color: '#666'
   },

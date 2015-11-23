@@ -34,8 +34,7 @@ export default class SharedFile extends Component {
         </div>
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{this.props.name}</h2>
-          <p className={classes.meta}>{tz(this.props.time).format(dateFormat)}</p>
-          <p className={classes.meta}>{this.props.author}</p>
+          <p className={classes.meta}>{tz(this.props.time).format(dateFormat)} - {this.props.author}</p>
           <p className={classes.meta}>
             Shared {this.props.channelType === 'room' ? 'in' : 'with'} {this.props.channelName}
           </p>
