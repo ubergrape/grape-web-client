@@ -8,13 +8,17 @@ import TypingUsers from './TypingUsers'
  */
 export default class TypingNotification extends Component {
   componentDidMount() {
-    this.intervalId = setInterval(this.props.cleanupTyping, 1000)
+    this.intervalId = setInterval(::this.cleanup, 1000)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillUnmount() {
     clearInterval(this.intervalId)
+  }
+
+  cleanup() {
+    this.props.cleanupTyping(this.props.channels)
   }
 
   render() {

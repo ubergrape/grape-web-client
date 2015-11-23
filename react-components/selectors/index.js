@@ -1,15 +1,22 @@
 import {createSelector} from 'reselect'
 
 export const channelSearchSelector = createSelector(
-  store => store.channelSearch, channelSearch => channelSearch
+  state => state.channelSearch, state => state
 )
 
 export const subscriptionWarningSelector = createSelector(
-  store => store.subscriptionWarning,
-  subscriptionWarning => subscriptionWarning
+  state => state.subscriptionWarning,
+  state => state
 )
 
 export const typingNotificationSelector = createSelector(
-  store => store.typingNotification,
-  typingNotification => typingNotification
+  state => state.typingNotification,
+  state => state
+)
+
+export const setTypingSelector = createSelector(
+  ({user, users, channel, typingNotification}) => {
+    return {user, users, channel, typingNotification}
+  },
+  state => state
 )

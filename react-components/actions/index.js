@@ -4,7 +4,6 @@ import each from 'lodash/collection/each'
 
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../redux-emitter'
-import store from '../app/store'
 
 import {
   find as findChannel,
@@ -125,9 +124,7 @@ export function goToPayment() {
 
 const typingLifetime = 5000
 
-export function setTyping(data) {
-  const {user, users, channel, typingNotification} = store.getState()
-
+export function setTyping({user, users, channel, typingNotification}, data) {
   // Do nothing, its a notification from myself.
   if (data.user === user.id) {
     return {
@@ -170,19 +167,20 @@ export function setTyping(data) {
  * This cleanup function can be periodically called to remove expired
  * typing users.
  */
-export function cleanupTyping() {
-  const {typingNotification} = store.getState()
-  const channels = {...typingNotification.channels}
+export function cleanupTyping(channels) {
   const now = Date.now()
+  let isModified = false
 
   each(channels, (users, channelId) => {
-    channels[channelId] = users.filter(user => user.expires > now)
+    const typingUsers = users.filter(user => user.expires > now)
+    if (channels[channelId].length !== typingUsers.length) isModified = true
+    channels[channelId] = typingUsers
   })
 
   return {
     type: types.SET_TYPING_USERS,
     payload: {
-      channels
+      channels: isModified ? {...channels} : channels
     }
   }
 }
