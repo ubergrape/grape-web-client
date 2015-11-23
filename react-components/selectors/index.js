@@ -6,13 +6,11 @@ export const channelSearchSelector = createSelector(
 )
 
 export const subscriptionWarningSelector = createSelector(
-  state => state.subscriptionWarning,
-  state => state
+  state => state.subscriptionWarning, state => state
 )
 
 export const typingNotificationSelector = createSelector(
-  state => state.typingNotification,
-  state => state
+  state => state.typingNotification, state => state
 )
 
 export const setTypingSelector = createSelector(
