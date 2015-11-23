@@ -217,9 +217,9 @@ export default class Input extends Component {
     return this.editable.getTextContent()
   }
 
-  setTextContent(text) {
+  setTextContent(text, options) {
     this.query.reset()
-    return this.editable.setTextContent(text)
+    return this.editable.setTextContent(text, options)
   }
 
   closeBrowser(state, callback) {

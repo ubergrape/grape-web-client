@@ -220,7 +220,7 @@ export default class Editable extends Component {
    *
    * @api public
    */
-  setTextContent(text) {
+  setTextContent(text, options = {}) {
     if (!this.props.focused) return false
 
     let html = ''
@@ -243,7 +243,7 @@ export default class Editable extends Component {
       this.node.innerHTML = html
       this.caret.move()
       this.onResize()
-      this.onChange()
+      if (!options.silent) this.onChange(options)
     })
     return true
   }
