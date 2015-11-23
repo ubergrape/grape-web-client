@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {toCamel} from '../backend/convertCase'
 import * as selectors from '../selectors'
 import store from '../app/store'
-import * as actions from './index'
+import * as actions from '../actions'
 
 const boundActions = bindActionCreators(actions, store.dispatch)
 
