@@ -375,7 +375,8 @@ export default class GrapeInput extends Emitter {
       this.enable()
       this.room = room
       this.setProps({focused: true}, () => {
-        this.input.setTextContent(this.unsent[room.id] || '')
+        this.input.setTextContent(this.unsent[room.id] || '', {silent: true})
+
       })
     }
   }
