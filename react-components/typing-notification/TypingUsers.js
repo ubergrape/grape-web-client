@@ -34,7 +34,9 @@ export default class TypingUsers extends Component {
       text = `${names.join(', ')} and ${last} are typing`
     }
     else {
-      text = `${names.slice(0, max).join(', ')} and ${names.length - max} others are typing`
+      const othersAmount = names.length - max
+      const others = othersAmount > 1 ? 'others' : 'other'
+      text = `${names.slice(0, max).join(', ')} and ${othersAmount} ${others} are typing`
     }
 
     return (
