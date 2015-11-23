@@ -7,13 +7,6 @@
 		display: inline-block
 	.message-content
 		position: relative
-	&.creator
-		a.timelink
-			@extend $subtle-link
-			color: #788796 !important
-			&:hover
-				color: link-color !important
-				text-decoration: none !important
 .attachments.message
 	@extend $clearfix
 	.message-inner-wrap
@@ -35,7 +28,6 @@
 			color: #7B477B
 	a.timelink
 		@extend $subtle-link
-		color: gainsboro-dark !important
 		position: relative
 		margin-right: 12px
 		font-size: 0.9em
@@ -52,8 +44,6 @@
 				.dif-tz
 					font-size: 1.05em
 		&:hover
-			color: #7B477B !important
-			text-decoration: none !important
 			.different-timezone
 				text-decoration: none !important
 				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s

@@ -155,41 +155,6 @@
 				&::after
 					border-right-color: rgb(207, 255, 203) !important
 
-.message-group.creator
-	.avatar
-		&::after
-			border-right-color: blue-lighter
-			border-top-color: blue-lighter
-		&::before // Hack for the arrow of the message box
-			border-right-color: blue-light
-			border-top-color: blue-light
-	.message
-		margin-right: 48px
-		&:after
-			border-color: #DBE7ED
-	.message-author
-		color: #788796
-		text-decoration: none
-		cursor: default
-	.author-link
-		cursor: default
-	a.timelink
-		@extend $subtle-link
-		color: #788796
-		&:hover
-			text-decoration: none !important
-	.avatar
-		&.requested
-			&::after
-				border-right-color: rgb(207, 255, 203) !important
-				border-top-color: rgb(207, 255, 203) !important
-		&.editing
-			&::after
-				border-right-color: lighten(gold, 80%) !important
-				border-top-color: lighten(gold, 80%) !important
-			&::before // Hack for the arrow of the message box
-				border-right-color: #DDDDDD !important
-				border-top-color: #DDDDDD !important
 /*
 .client-style-normal .message-group.creator.user
 	@media (max-width: 950px)
@@ -259,17 +224,18 @@
 	.author-title-mentor
 		background-color: #F0905C
 	.author-link
-		color: gainsboro-dark
+		color: #666
+		font-weight: 600
 	.author-link:hover
+		color: link-color-hover
 		text-decoration: none !important
-		color: #7B477B
 	span
 		font-size: 0.9em
 		margin-left: 4px
 		margin-right: 4px
 	a.timelink
 		@extend $subtle-link
-		color: gainsboro-dark
+		color: #aaaaaa
 		margin-right: 12px
 		font-size: 0.9em
 		.fa-globe
@@ -285,7 +251,7 @@
 				.dif-tz
 					font-size: 1.05em
 		&:hover
-			color: #7B477B
+			color: link-color-hover
 			text-decoration: none !important
 			.different-timezone
 				text-decoration: none !important

@@ -132,7 +132,7 @@
 						if i === 0
 							.messageinfo
 								if (first.author.type==='user')
-									- var author = user.id !== first.author.id ? first.author.displayName : 'You'
+									- var author = user.id !== first.author.id ? first.author.displayName : first.author.displayName
 									if (line.attachments && line.attachments.length != 0)
 										a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
 											author.message-author(class=user.id == first.author.id ? "creator" : "")= author
