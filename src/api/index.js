@@ -37,7 +37,6 @@ API.prototype.connect = function API_connect() {
     channel.on('set:id', function () {
       this.sync()
     }.bind(this))
-    this.sync()
   }.bind(this))
   channel.on('disconnected', function () {
     channel.off('set:id')
