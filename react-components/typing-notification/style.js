@@ -1,26 +1,22 @@
 import random from 'lodash/number/random'
 
-const dotAnimation = `dot-${random(100000)}`
+const dotAnimation = `dot`
 
 export default {
   notification: {
     '&:after': {
-      content: '""',
-      animation: `${dotAnimation} infinite 1s`
+      // ascii code for the ellipsis character
+      content: '"\\2026"',
+      overflow: 'hidden',
+      display: 'inline-block',
+      verticalAlign: 'bottom',
+      width: 0,
+      animation: `${dotAnimation} steps(4, end) 1s infinite`
     }
   },
   [`@keyframes ${dotAnimation}`]: {
-    '0%': {
-      content: '""'
-    },
-    '25%': {
-      content: '"."'
-    },
-    '50%': {
-      content: '".."'
-    },
-    '75%': {
-      content: '"..."'
+    to: {
+      width: '1em'
     }
   }
 }
