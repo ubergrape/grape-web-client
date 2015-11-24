@@ -192,28 +192,22 @@ a.nav-title-wrap
 	padding-bottom: 2px
 	text-decoration: none
 	.nav-title
-		color: #898E96
+		cursor: pointer
+		color: #ABB0B9
 		text-transform: uppercase
 		font-size: 0.925em;
+		font-weight: 600
 		padding-left: 20px
+		text-overflow: ellipsis
 		overflow: hidden
 		float: left
-		transition: color 1s
-	&:hover
-		color: sidebar-group-title
-		text-decoration: none
+		transition: color 0.3s
+		&:hover
+			color: link-color-hover
+			text-decoration: none
 	i
 		margin-left: 3px
 		margin-top: 3px
-	&.manage-rooms
-		cursor: default
-	&.addpm
-		cursor: pointer
-		transition: color 1s
-		&:hover
-			color: sidebar-group-title-highlight !important
-			.nav-title
-				color: sidebar-group-title-highlight !important
 
 a.nav-title-wrap
 	display: inline-block
