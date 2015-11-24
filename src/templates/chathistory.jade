@@ -53,11 +53,11 @@
 							li.option
 								a.show-invite.disable-document-click-handler.button.btn-gainsboro
 									i.fa.fa-user-plus
-									=_('Add members to this room')
+									=_('Add people to this room')
 							li.option
 								a.button.btn-gainsboro(href='/integrations/', target='_self')
 									i.fa.fa-link
-									=_('Integrate external services')
+									=_('Add service integration')
 			else
 				.welcome-message
 					- var head = staticurl("/images/head_lock.png")
@@ -89,9 +89,9 @@
 			- var first = lines[0]
 			if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
 				if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
-					.date-separator
+					.date-separator.today
 						span
-							| Today, #{strftime('%A, %d %b %Y', first.time)}
+							| Today
 				else
 					.date-separator
 						span= strftime('%A, %d %b %Y', first.time)
