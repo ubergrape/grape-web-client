@@ -5,8 +5,8 @@ export const channelSearchSelector = createSelector(
   state => state.channelSearch, state => state
 )
 
-export const subscriptionWarningSelector = createSelector(
-  state => state.subscriptionWarning, state => state
+export const billingWarningSelector = createSelector(
+  state => state.billingWarning, state => state
 )
 
 export const typingNotificationSelector = createSelector(

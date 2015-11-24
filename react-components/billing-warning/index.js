@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
-import {subscriptionWarningSelector} from '../selectors'
+import {billingWarningSelector} from '../selectors'
 import actionsList from './actionsList'
-import SubscriptionWarning from './SubscriptionWarning'
+import BillingWarning from './BillingWarning'
 
-const ConnectedSubscriptionWarning = connect(
-  subscriptionWarningSelector,
+const ConnectedBillingWarning = connect(
+  billingWarningSelector,
   mapActionsToProps(actionsList)
-)(SubscriptionWarning)
+)(BillingWarning)
 
 export default function init(store) {
-  return class SubscriptionWarningProvider extends Component {
+  return class BillingWarningProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedSubscriptionWarning />
+          <ConnectedBillingWarning />
         </Provider>
       )
     }

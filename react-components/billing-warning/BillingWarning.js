@@ -6,20 +6,20 @@ import style from './style'
 import {useSheet} from '../jss'
 
 /**
- * Subscription warning dialog.
+ * Billing warning dialog.
  */
 @useSheet(style)
-export default class SubscriptionWarning extends Component {
+export default class BillingWarning extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.enabled && nextProps.text && this.props.text !== nextProps.text) {
-      this.props.showSubscriptionWarning()
+      this.props.showBillingWarning()
     }
   }
 
   onHide() {
-    this.props.hideSubscriptionWarning()
+    this.props.hideBillingWarning()
   }
 
   onGoToPayment() {

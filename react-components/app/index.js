@@ -4,7 +4,7 @@ import store from './store'
 import subscribeActions from './subscribe'
 import client from '../backend/client'
 import channelSearch from '../channel-search'
-import subscriptionWarning from '../subscription-warning'
+import billingWarning from '../billing-warning'
 import typingNotification from '../typing-notification'
 
 render(
@@ -13,8 +13,8 @@ render(
 )
 
 render(
-  createElement(subscriptionWarning(store)),
-  document.body.appendChild(document.createElement('grape-subscription-warning'))
+  createElement(billingWarning(store)),
+  document.body.appendChild(document.createElement('grape-billing-warning'))
 )
 
 document.registerReact('grape-typing-notification', typingNotification(store))
