@@ -51,7 +51,7 @@
     "jss-debug": "^1.0.0",
     "jss-nested": "^1.0.1",
     "jss-px": "^1.0.0",
-    "jss-vendor-prefixer": "^1.0.0",
+    "jss-vendor-prefixer": "^1.0.1",
     "karma": "^0.13.8",
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",

@@ -1,6 +1,6 @@
 import random from 'lodash/number/random'
 
-const dotAnimation = `dot`
+const dotAnimation = `dot-${random(1000000)}`
 
 export default {
   notification: {
