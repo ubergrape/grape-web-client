@@ -2,11 +2,11 @@ import expect from 'expect.js'
 import mousetrap from 'mousetrap'
 
 import store from '../../app/store'
-import channelSearchInit from '../'
+import channelSearch from '../'
 import setup from '../../test'
 
 describe('ChannelSearch', () => {
-  setup(store, channelSearchInit)
+  setup(store, channelSearch)
 
   it('should be shown', () => {
     mousetrap.trigger('mod+k')
