@@ -8,6 +8,8 @@ const initialState = {
 
 export default function reducers(state = initialState, action) {
   switch (action.type) {
+    case types.SET_SETTINGS:
+      return {...state, enabled: !action.payload.settings.showIntro}
     case types.SET_ORG:
       return {...state, ...action.payload.org.billingWarning}
     case types.SHOW_SUBSCRIPTION_WARNING:

@@ -66,6 +66,7 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
   broker.pass(api, 'inviteError', ui, 'inviteError')
   broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
+  broker.pass(api, 'change settings', ui, 'setSettings')
 }
 
 

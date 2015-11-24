@@ -30,6 +30,10 @@ class ReduxEmitter extends Emitter {
     this.actions.setChannel(toCamel(channel.toJSON()))
   }
 
+  onSetSettings(settings) {
+    this.actions.setSettings(toCamel(settings))
+  }
+
   showRoomManager() {
     this.emit('triggerRoomManager')
   }

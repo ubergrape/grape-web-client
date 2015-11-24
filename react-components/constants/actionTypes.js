@@ -3,6 +3,7 @@ export const SET_USERS = 'SET_USERS'
 export const SET_USER = 'SET_USER'
 export const SET_CHANNELS = 'SET_CHANNELS'
 export const SET_CHANNEL = 'SET_CHANNEL'
+export const SET_SETTINGS = 'SET_SETTINGS'
 
 export const SHOW_CHANNEL_SEARCH = 'SHOW_CHANNEL_SEARCH'
 export const HIDE_CHANNEL_SEARCH = 'HIDE_CHANNEL_SEARCH'

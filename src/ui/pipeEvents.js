@@ -17,6 +17,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
   broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
   broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
+  broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'orgReady', ui.historyView, 'onOrgReady')
   broker(ui, 'selectchannel', ui.historyView, 'setRoom')
   broker(ui, 'gotHistory', ui.historyView, 'onGotHistory')

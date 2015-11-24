@@ -55,6 +55,15 @@ export function setChannel(channel) {
   }
 }
 
+export function setSettings(settings) {
+  return {
+    type: types.SET_SETTINGS,
+    payload: {
+      settings
+    }
+  }
+}
+
 export function showChannelSearch(org, user) {
   return {
     type: types.SHOW_CHANNEL_SEARCH,
