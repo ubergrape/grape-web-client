@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
-import {getTokenUnderCaret} from './utils'
+import {getTokenUnderCaret, indexesOf} from './utils'
+
+import keyname from 'keyname'
 
 // import {useSheet} from 'grape-web/lib/jss'
 
@@ -23,7 +25,8 @@ export default class Textarea extends Component {
     this.state = {
       text: '',
       objects: {},
-      caretPos: 0
+      caretPos: 0,
+      objectsPositions: {}
     }
   }
 
@@ -39,6 +42,7 @@ export default class Textarea extends Component {
   onChange(e) {
     let {value, selectionEnd} = e.target
     let token = getTokenUnderCaret(value, selectionEnd)
+
     let query = Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
 
     this.setState({text: value, caretPos: e.target.selectionEnd})
@@ -61,16 +65,64 @@ export default class Textarea extends Component {
     this.setState({
       text,
       objects,
-      caretPos: this.refs.textarea.selectionEnd + replacement.content.length
+      caretPos: this.refs.textarea.selectionEnd + replacement.content.length,
+      objectsPositions: this.getObjectsPositions(objects, text)
     })
+  }
+
+  getObjectsPositions(objects, text) {
+    let objectsPositions = {}
+
+    Object.keys(objects).forEach(key => {
+      objectsPositions[key] = indexesOf(key, text)
+    })
+
+    return objectsPositions
   }
 
   getTextContent() {
     return this.refs.textarea.value
   }
 
-  onKeyDown() {
+  onKeyDown(e) {
+    let key = keyname(e.keyCode)
 
+    switch (key) {
+      case 'backspace':
+        this.onDelete(true, e)
+        break
+      case 'del':
+        this.onDelete(false, e)
+        break
+      default:
+    }
+  }
+
+  onDelete(direction, e) {
+    let str = this.state.text
+    let {selectionStart, selectionEnd} = this.refs.textarea
+    let objectsPositions = this.state.objectsPositions
+    let positionsToDelete
+
+    Object.keys(objectsPositions).some(key => {
+      objectsPositions[key].some(positions => {
+        if (positions[0] <= selectionStart && positions[1] >= selectionEnd) {
+          positionsToDelete = positions
+          return true
+        }
+      })
+      if (positionsToDelete) return true
+    })
+
+    if (positionsToDelete) {
+      let text = str.slice(0, positionsToDelete[0]) + str.slice(positionsToDelete[1], str.length)
+
+      this.setState({
+        text,
+        objectsPositions: this.getObjectsPositions(this.state.objects, text),
+        caretPos: positionsToDelete[0]
+      })
+    }
   }
 
   _renderTokens() {
@@ -78,9 +130,7 @@ export default class Textarea extends Component {
     let str = this.state.text
 
     Object.keys(this.state.objects).forEach(key => {
-
       str = str.replace(key, '[[' + key + ']]')
-
     })
 
     return (<div>{str}</div>)

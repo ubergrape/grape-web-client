@@ -31,3 +31,20 @@ export function getTokenUnderCaret(string, caretPostion) {
 
   return Boolean(token.text) && token
 }
+
+export function indexesOf(sub, str) {
+
+    let startIndex = 0
+    let index
+
+    const subLen = sub.length
+
+    const indices = []
+
+    while ((index = str.indexOf(sub, startIndex)) > -1) {
+        startIndex = index + subLen
+        indices.push([index, startIndex])
+    }
+
+    return indices
+}
