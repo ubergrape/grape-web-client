@@ -16,12 +16,14 @@ div.navigation.nav-outer
 			div(id='intro-step2', class='room-list', data-step='2', data-topic='room list')
 				a.manage-rooms-button.nav-title-wrap.manage-rooms
 					h2.nav-title
+						span.nav-title-prefix=_('Manage ')
 						=_('Rooms')
 					i.mdi.mdi-chevron-right
 				ul.nav-list.rooms
 			div(id="intro-step3", class='pm-list', data-step='3', data-topic='private messages')
 				.nav-title-wrap.addpm
 					h2.nav-title
-						=_('Private messages')
+						span.nav-title-prefix=_('Manage ')
+						=_('People')
 					i.mdi.mdi-chevron-right
 				ul.nav-list.pms
