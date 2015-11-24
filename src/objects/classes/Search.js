@@ -14,6 +14,8 @@ let buildLink = template(
   '</a>'
 )
 
+const label = '#'
+
 export default class Search {
   constructor(result) {
     this.result = result
@@ -22,7 +24,7 @@ export default class Search {
     this.url = result.url
     this.type = result.type
     this.name = result.name
-    this.content = '#' + this.name
+    this.content = label + this.name
     this.str = this.toString()
   }
 

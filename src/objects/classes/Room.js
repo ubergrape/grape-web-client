@@ -12,13 +12,15 @@ let buildLink = template(
   '</a>'
 )
 
+const label = '@'
+
 export default class Room {
   constructor(options) {
     this.id = options.id
     this.name = options.name
     this.slug = options.slug
     this.url = '/chat/' + this.name
-    this.content = '@' + this.name
+    this.content = label + this.name
     this.service = 'chatgrape'
     this.type = 'chatgraperoom'
     this.str = this.toString()

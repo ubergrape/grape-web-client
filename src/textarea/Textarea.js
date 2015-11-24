@@ -45,7 +45,11 @@ export default class Textarea extends Component {
 
     let query = Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
 
-    this.setState({text: value, caretPos: e.target.selectionEnd})
+    this.setState({
+      text: value,
+      caretPos: e.target.selectionEnd,
+      objectsPositions: this.getObjectsPositions(this.state.objects, value)
+    })
     this.props.onChange(query)
   }
 
@@ -102,11 +106,22 @@ export default class Textarea extends Component {
     let str = this.state.text
     let {selectionStart, selectionEnd} = this.refs.textarea
     let objectsPositions = this.state.objectsPositions
+
     let positionsToDelete
 
     Object.keys(objectsPositions).some(key => {
       objectsPositions[key].some(positions => {
-        if (positions[0] <= selectionStart && positions[1] >= selectionEnd) {
+        if (
+          positions[0] <= selectionStart &&
+          positions[1] >= selectionEnd
+        ) {
+
+          if (
+            !direction && positions[1] === selectionEnd ||
+            direction && positions[0] === selectionStart
+          ) {
+            return false
+          }
           positionsToDelete = positions
           return true
         }
@@ -115,6 +130,8 @@ export default class Textarea extends Component {
     })
 
     if (positionsToDelete) {
+      e.preventDefault()
+
       let text = str.slice(0, positionsToDelete[0]) + str.slice(positionsToDelete[1], str.length)
 
       this.setState({
@@ -130,7 +147,7 @@ export default class Textarea extends Component {
     let str = this.state.text
 
     Object.keys(this.state.objects).forEach(key => {
-      str = str.replace(key, '[[' + key + ']]')
+      str = str.replace(new RegExp(key, 'g'), '[[' + key + ']]')
     })
 
     return (<div>{str}</div>)
@@ -141,6 +158,7 @@ export default class Textarea extends Component {
     return (
       <div>
         <textarea
+          style={{width: '350px', height: '200px'}}
           ref='textarea'
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}

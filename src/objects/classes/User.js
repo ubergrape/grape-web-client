@@ -12,13 +12,15 @@ let buildLink = template(
   '</a>'
 )
 
+const label = '@'
+
 export default class User {
   constructor(options) {
     this.id = options.id
     this.username = options.username
     this.name = options.name
     this.url = '/chat/@' + this.username
-    this.content = '@' + this.name
+    this.content = label + this.name
     this.service = 'chatgrape'
     this.type = 'chatgrapeuser'
     this.str = this.toString()
