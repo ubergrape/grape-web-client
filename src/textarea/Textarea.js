@@ -12,7 +12,7 @@ import {useSheet} from 'grape-web/lib/jss'
 // import * as emoji from '../emoji'
 import style from './style'
 
-
+console.log(useSheet)
 @useSheet(style)
 export default class Textarea extends Component {
   static defaultProps = {
@@ -155,7 +155,7 @@ export default class Textarea extends Component {
         .split(re)
         .forEach((substr, i, arr) => {
           newContent.push(substr)
-          if (i < arr.length - 1) newContent.push(<strong>{keysInText[i]}</strong>)
+          if (i < arr.length - 1) newContent.push(<span className={this.props.sheet.classes.token}>{keysInText[i]}</span>)
         })
       content = newContent
     }
@@ -175,10 +175,13 @@ export default class Textarea extends Component {
   }
 
   render() {
+    let {common, wrapper, textarea, highlighter} = this.props.sheet.classes
+
     return (
-      <div>
+      <div className={wrapper}>
         <textarea
           ref='textarea'
+          className={textarea + ' ' + common}
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}
           focused={this.props.focused}
@@ -187,7 +190,7 @@ export default class Textarea extends Component {
           value={this.state.text}
           ></textarea>
 
-          <div>{this.renderTokens()}</div>
+          <div className={highlighter + ' ' + common}>{this.renderTokens()}</div>
       </div>
     )
   }
