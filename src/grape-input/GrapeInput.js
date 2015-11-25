@@ -132,6 +132,9 @@ export default class Input extends Component {
           innerHeight={this.state.editableHeight}
           onResize={::this.onInputResize}>
           <Textarea
+            width={this.state.editableWidth}
+            height={this.state.editableHeight}
+            onResize={::this.onEditableResize}
             onChange={::this.onChangeInput}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
@@ -139,7 +142,6 @@ export default class Input extends Component {
             onDidMount={this.onDidMount.bind(this, 'textarea')}
             content={this.getTextContent()}/>
         </MaxSize>
-
       </div>
     )
   }

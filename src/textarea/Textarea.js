@@ -7,14 +7,13 @@ import {getTokenUnderCaret, indexesOf} from './utils'
 
 import keyname from 'keyname'
 
-// import {useSheet} from 'grape-web/lib/jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 // import * as emoji from '../emoji'
-// import style from './style'
-//
+import style from './style'
 
 
-// @useSheet(style)
+@useSheet(style)
 export default class Textarea extends Component {
   static defaultProps = {
 
@@ -142,23 +141,43 @@ export default class Textarea extends Component {
     }
   }
 
-  _renderTokens() {
+  renderTokens() {
 
-    let str = this.state.text
+    let content = this.state.text
+    let keys = Object.keys(this.state.objects)
 
-    Object.keys(this.state.objects).forEach(key => {
-      str = str.replace(new RegExp(key, 'g'), '[[' + key + ']]')
-    })
+    if (keys.length) {
+      const re = new RegExp(keys.join('|'), 'g')
+      const newContent = []
+      const keysInText = content.match(re)
 
-    return (<div>{str}</div>)
+      content
+        .split(re)
+        .forEach((substr, i, arr) => {
+          newContent.push(substr)
+          if (i < arr.length - 1) newContent.push(<strong>{keysInText[i]}</strong>)
+        })
+      content = newContent
+    }
 
+    return content
+
+  }
+
+  renderToken(match, pos, str) {
+    return (
+      <span>
+        {str.slice(0, pos)}
+        <span>{match}</span>
+        {str.slice(pos+match.length, str.length)}
+      </span>
+    )
   }
 
   render() {
     return (
       <div>
         <textarea
-          style={{width: '350px', height: '200px'}}
           ref='textarea'
           placeholder={this.props.placeholder}
           disabled={this.props.disabled}
@@ -168,7 +187,7 @@ export default class Textarea extends Component {
           value={this.state.text}
           ></textarea>
 
-          {this._renderTokens()}
+          <div>{this.renderTokens()}</div>
       </div>
     )
   }
