@@ -28,7 +28,7 @@ export default class WampClient {
     return this.out
   }
 
-  open() {
+  open() {
     this.socket = new WebSocket(uri)
     this.socket.on('error', ::this.onError)
     this.socket.on('close', ::this.onClose)
@@ -59,7 +59,7 @@ export default class WampClient {
     log('ping')
     this.call('ping', (err, res) => {
       if (err) return this.onError(err)
-      log('pong')
+      log(res)
     })
   }
 
@@ -69,7 +69,7 @@ export default class WampClient {
     this.wamp.call.apply(this.wamp, args)
   }
 
-  onConnected({sessionId}) {
+  onConnected({sessionId}) {
     this.id = sessionId
     this.connected = true
     this.backoff.reset()
@@ -92,7 +92,7 @@ export default class WampClient {
     this.out.emit('data', data)
   }
 
-  onError(err) {
+  onError(err) {
     log('error', err)
     this.out.emit('error', err)
     this.onClose()

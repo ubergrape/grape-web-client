@@ -9,7 +9,7 @@ import client from './client'
 let rpc
 
 if (conf.forceLongpolling) {
-  rpc = (data, callback = noop) => {
+  rpc = (data, callback = noop) => {
     request
       .post(conf.rpcUrl)
       .send(convertCase.toSnake(data))
@@ -28,7 +28,7 @@ if (conf.forceLongpolling) {
   }
 }
 else {
-  rpc = (data, callback = noop) => {
+  rpc = (data, callback = noop) => {
     client.call(`${data.ns}/${data.action}`, ...(data.args || []), callback)
   }
 }
