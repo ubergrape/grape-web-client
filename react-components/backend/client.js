@@ -1,4 +1,10 @@
 import conf from 'conf'
-import Client from 'lpio-client'
+import LpioClient from 'lpio-client'
+import WampClient from './WampClient'
 
-export default new Client({url: conf.pubsubUrl})
+let client
+
+if (conf.forceLongpolling) client = new Client({url: conf.pubsubUrl})
+else client = new WampClient()
+
+export default client

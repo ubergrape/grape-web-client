@@ -11,6 +11,7 @@
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
     "array": "ubergrape/array",
     "array.from": "^0.2.0",
+    "backo": "^1.1.0",
     "broker": "Swatinem/broker#0.0.2",
     "clamp": "./local_modules/clamp",
     "color": "^0.10.1",
@@ -28,6 +29,7 @@
     "conf": "./local_modules/conf",
     "custom-event-polyfill": "^0.2.1",
     "debounce": "component/debounce#1.0.0",
+    "debug": "^2.2.0",
     "dialog-component": "^0.4.4",
     "document-register-element": "^0.1.9",
     "domify": "component/domify#1.3.1",
@@ -95,14 +97,8 @@
     "t": "ubergrape/t#master",
     "template": "./local_modules/template",
     "virtualdom": "ubergrape/virtualdom",
-    "karma": "^0.13.8",
-    "karma-chrome-launcher": "^0.1.10",
-    "karma-cli": "^0.0.4",
-    "karma-mocha": "^0.1.10",
-    "karma-sourcemap-loader": "^0.3.5",
-    "karma-webpack": "^1.5.1",
-    "mocha": "^2.2.5",
-    "expect.js": "^0.3.1"
+    "wamp1": "ubergrape/wamp1#2.0.0",
+    "websocket": "ubergrape/websocket"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
