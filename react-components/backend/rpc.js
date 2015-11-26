@@ -29,7 +29,8 @@ if (conf.forceLongpolling) {
 }
 else {
   rpc = (data, callback = noop) => {
-    client.call(`${data.ns}/${data.action}`, ...(data.args || []), callback)
+    const cData = convertCase.toSnake(data)
+    client.call(`${cData.ns}/${cData.action}`, ...(cData.args || []), callback)
   }
 }
 
