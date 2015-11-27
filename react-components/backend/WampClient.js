@@ -54,6 +54,10 @@ export default class WampClient {
     }, backoff)
   }
 
+  /**
+   * Ping is needed for server. Otherwise it doesn't know when to cleanupn the
+   * session.
+   */
   ping() {
     if (!this.connected) return
     log('ping')
@@ -63,6 +67,11 @@ export default class WampClient {
     })
   }
 
+  /**
+   * Add domain prefix to the path.
+   *
+   * Why do we need this again?
+   */
   call(...args) {
     log('call', ...args.slice(0, args.length - 1))
     args[0] = prefix + args[0]
@@ -86,6 +95,10 @@ export default class WampClient {
     this.out.emit('disconnected')
   }
 
+  /**
+   * We get a url as even name. For compatibility with long polling clinet
+   * we convert it to event name.
+   */
   onEvent(url, data) {
     data.event = url.split('/').pop().replace('#', '.')
     log('received event "%s"', data.event, data)
