@@ -1,13 +1,13 @@
 import utils from 'grape-jss-utils'
 import colors from 'grape-theme/dist/base-colors'
 
-const avatarWidth = 43
+const avatarWidth = 32
 const leftColumnMarginRight = 5
 const arrowWidth = 7
 
 export default {
   message: {
-    margin: '10px 0'
+    margin: '5px 0 10px'
   },
   body: {
     display: 'flex',
@@ -49,16 +49,16 @@ export default {
   content: {
     position: 'relative',
     background: colors.white,
-    borderRadius: 10,
-    padding: '6px 8px',
+    borderRadius: 16,
+    padding: '5px 13px',
     marginLeft: arrowWidth,
     '&:after': {
       display: 'block',
       width: 0,
       content: '""',
       position: 'absolute',
-      top: 10,
-      left: -arrowWidth,
+      top: 7,
+      left: -5,
       bottom: 'auto',
       borderWidth: `${arrowWidth}px ${arrowWidth}px ${arrowWidth}px 0`,
       borderStyle: 'solid',

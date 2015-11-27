@@ -35,7 +35,8 @@ export default {
     // XXX
     color: '#ABB0B9',
     textTransform: 'uppercase',
-    marginTop: 15
+    marginTop: 20,
+    lineHeight: 1
   },
   message: {
     cursor: 'pointer'
