@@ -7,25 +7,28 @@ export default {
   wrapper: {
     position: 'relative',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    minHeight: 38
   },
 
   common: {
     font: fonts.normal.fontSize + '/' + fonts.normal.lineHeight +  ' Arial, Helvetica, sans-serif',
+    overflow: 'hidden',
+    minHeight: 38,
     width: '100%',
-    height: '100%',
-    padding: 20,
     'box-sizing': 'border-box'
   },
 
   textarea: {
-    display: 'block',
+    width: '100%',
+    height: '100%',
     outline: 'none',
-    minHeight: 38,
+    padding: 0,
     background: 'transparent',
     border: 'none',
     outline: 0,
-    color: colors.grapeDark
+    color: colors.grapeDark,
+    resize: 'none'
   },
 
   highlighter: {
@@ -33,7 +36,9 @@ export default {
     left: '0',
     top: '0',
     'z-index': '-1',
-    color: 'transparent'
+    'white-space': 'pre',
+    'word-wrap': 'break-word',
+    color: '#ccc'
   },
 
   token: {

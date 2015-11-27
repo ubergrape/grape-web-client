@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
 import {getTokenUnderCaret, indexesOf} from './utils'
+import {escapeRegExp} from 'lodash/string'
 
 import keyname from 'keyname'
 
@@ -12,7 +13,6 @@ import {useSheet} from 'grape-web/lib/jss'
 // import * as emoji from '../emoji'
 import style from './style'
 
-console.log(useSheet)
 @useSheet(style)
 export default class Textarea extends Component {
   static defaultProps = {
@@ -36,6 +36,7 @@ export default class Textarea extends Component {
 
   componentDidUpdate() {
     this.refs.textarea.selectionEnd = this.state.caretPos
+    this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
   }
 
   onChange(e) {
@@ -143,10 +144,12 @@ export default class Textarea extends Component {
 
   renderTokens() {
 
-    let content = this.state.text
+    let content = [this.state.text]
     let keys = Object.keys(this.state.objects)
 
     if (keys.length) {
+      content = content[0]
+
       const re = new RegExp(keys.join('|'), 'g')
       const newContent = []
       const keysInText = content.match(re)
@@ -160,25 +163,17 @@ export default class Textarea extends Component {
       content = newContent
     }
 
+    content.push(' ')
     return content
-
-  }
-
-  renderToken(match, pos, str) {
-    return (
-      <span>
-        {str.slice(0, pos)}
-        <span>{match}</span>
-        {str.slice(pos+match.length, str.length)}
-      </span>
-    )
   }
 
   render() {
     let {common, wrapper, textarea, highlighter} = this.props.sheet.classes
 
     return (
-      <div className={wrapper}>
+      <div
+        ref='wrapper'
+        className={wrapper}>
         <textarea
           ref='textarea'
           className={textarea + ' ' + common}
@@ -190,7 +185,7 @@ export default class Textarea extends Component {
           value={this.state.text}
           ></textarea>
 
-          <div className={highlighter + ' ' + common}>{this.renderTokens()}</div>
+          <div ref='highlighter' className={highlighter + ' ' + common}>{this.renderTokens()}</div>
       </div>
     )
   }

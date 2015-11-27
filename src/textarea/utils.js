@@ -12,7 +12,9 @@ export function getTokenUnderCaret(string, caretPostion) {
     let tailFound = false
 
     while (!tailFound) {
-      if (string[nextSymbolIndex] === ' ' ||
+      let nextSymbol = string[nextSymbolIndex]
+
+      if ((nextSymbol && nextSymbol.match(/\s/)) || // match whitespace and line break too
           nextSymbolIndex < 0 ||
           nextSymbolIndex === string.length) {
         position.push(previousSymbolIndex)
