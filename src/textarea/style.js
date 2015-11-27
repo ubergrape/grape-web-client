@@ -16,14 +16,13 @@ export default {
     overflow: 'hidden',
     minHeight: 38,
     width: '100%',
-    'box-sizing': 'border-box'
+    'box-sizing': 'border-box',
+    'padding': 15
   },
 
   textarea: {
-    width: '100%',
     height: '100%',
     outline: 'none',
-    padding: 0,
     background: 'transparent',
     border: 'none',
     outline: 0,
@@ -38,13 +37,14 @@ export default {
     'z-index': '-1',
     'white-space': 'pre',
     'word-wrap': 'break-word',
-    color: '#ccc'
+    color: 'transparent'
   },
 
   token: {
-    padding: '3px 0',
+    'box-sizing': 'border-box',
+    padding: '2px 0',
     background: colors.aquaLight,
-    border: '1px solid ' + colors.aquaDark,
+    'box-shadow': '0 0 0 1px ' + colors.aquaDark,
     'border-radius': 3
   }
 }

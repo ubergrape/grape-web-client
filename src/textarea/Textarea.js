@@ -66,6 +66,7 @@ export default class Textarea extends Component {
     text = textBefore + replacement.content + textAfter + ' '
     let objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
 
+
     this.setState({
       text,
       objects,
