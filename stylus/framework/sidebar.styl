@@ -201,10 +201,17 @@ a.nav-title-wrap
 		text-overflow: ellipsis
 		overflow: hidden
 		float: left
-		transition: color 0.3s
+		transition: color 0.3s, transform 0.3s ease-out
+		transform: translate(-55px)
+		.nav-title-prefix
+			transition: opacity 0.3s ease-out
+			opacity: 0
 		&:hover
 			color: link-color-hover
 			text-decoration: none
+			transform: translate(0)
+			.nav-title-prefix
+				opacity: 1
 	i
 		margin-left: 3px
 		margin-top: 3px
