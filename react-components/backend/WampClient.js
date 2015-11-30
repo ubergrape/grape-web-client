@@ -59,8 +59,7 @@ export default class WampClient {
    * session.
    */
   ping() {
-    if (!this.connected) return
-    log('ping')
+    if (!this.connected || this.reopening) return
     this.call('ping', (err, res) => {
       if (err) return this.onError(err)
       log(res)
