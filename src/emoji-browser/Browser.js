@@ -29,7 +29,8 @@ class Browser extends Component {
     customEmojis: undefined,
     images: {},
     height: 400,
-    maxWidth: 920,
+    maxWidth: 292,
+    right: 0,
     className: '',
     focused: undefined,
     onSelectItem: noop,
@@ -100,7 +101,7 @@ class Browser extends Component {
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}
+        style={pick(this.props, 'height', 'maxWidth', 'right')}
         onMouseDown={::this.onMouseDown}>
         <GlobalEvent
           event="resize"
