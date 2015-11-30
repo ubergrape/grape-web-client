@@ -1,4 +1,5 @@
 import sortBy from 'lodash/collection/sortBy'
+import pick from 'lodash/object/pick'
 
 export function find(data, search) {
   if (!search) {
@@ -17,6 +18,13 @@ export function find(data, search) {
   items = sortBy(items, 'index')
   items = items.map(({item}) => item)
   return items
+}
+
+export function getFileteredItems(org, user) {
+  return filterItem(
+    getItems(org),
+    user
+  )
 }
 
 /**
@@ -38,3 +46,28 @@ function fuzzySearch(searchStr) {
     return fuzzify(key).indexOf(fuzzySearchStr)
   }
 }
+
+function getItems(org) {
+  let users = org.users.filter(({active}) => active)
+  users = users.map(({id, slug, displayName, avatar}) => {
+    return {
+      id,
+      slug,
+      type: 'user',
+      name: displayName,
+      iconUrl: avatar
+    }
+  })
+  let rooms = org.rooms.filter(({joined}) => joined)
+  rooms = rooms.map(room => {
+    let item = pick(room, 'id', 'name', 'slug', 'color', 'abbr')
+    item.type = 'room'
+    return item
+  })
+  return [...users, ...rooms]
+}
+
+function filterItem(items, user) {
+  return items.filter(({id}) => id !== user.id)
+}
+

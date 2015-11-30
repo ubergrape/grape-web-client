@@ -11,44 +11,44 @@ template.locals.user = user
 
 let mdTip = new MDTip()
 let roomDelete = new RoomDelete({
-    room: room
+  room: room
 })
 let roomManager = new RoomManager({
-    rooms: [room]
+  rooms: [room]
 })
 
 describe('Dialog', () => {
-    describe('Markdown Dialog', () => {
-        it('should have a DOM element', () => {
-            expect(mdTip).to.have.property('el')
-            expect(mdTip.el).to.be.an(Element)
-        })
-        it('should open', () => {
-            mdTip.show()
-            let el = qs('.markdown-tips', mdTip.el)
-            expect(el).not.to.be(null)
-        })
+  describe('Markdown Dialog', () => {
+    it('should have a DOM element', () => {
+      expect(mdTip).to.have.property('el')
+      expect(mdTip.el).to.be.an(Element)
     })
-    describe('Room Delete Dialog', () => {
-        it('should have a DOM element', () => {
-            expect(roomDelete).to.have.property('el')
-            expect(roomDelete.el).to.be.an(Element)
-        })
-        it('should open', () => {
-            roomDelete.show()
-            let el = qs('.delete-room', roomDelete.el)
-            expect(el).not.to.be(null)
-        })
+    it('should open', () => {
+      mdTip.show()
+      let el = qs('.markdown-tips', mdTip.el)
+      expect(el).not.to.be(null)
     })
-    describe('Room Manager', () => {
-        it('should have a DOM element', () => {
-            expect(roomManager).to.have.property('el')
-            expect(roomManager.el).to.be.an(Element)
-        })
-        it('should open', () => {
-            roomManager.show()
-            let el = qs('.room-list-container', roomManager.el)
-            expect(el).not.to.be(null)
-        })
+  })
+  describe('Room Delete Dialog', () => {
+    it('should have a DOM element', () => {
+      expect(roomDelete).to.have.property('el')
+      expect(roomDelete.el).to.be.an(Element)
     })
+    it('should open', () => {
+      roomDelete.show()
+      let el = qs('.delete-room', roomDelete.el)
+      expect(el).not.to.be(null)
+    })
+  })
+  describe('Room Manager', () => {
+    it('should have a DOM element', () => {
+      expect(roomManager).to.have.property('el')
+      expect(roomManager.el).to.be.an(Element)
+    })
+    it('should open', () => {
+      roomManager.show()
+      let el = qs('.room-list-container', roomManager.el)
+      expect(el).not.to.be(null)
+    })
+  })
 })

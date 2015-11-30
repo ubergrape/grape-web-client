@@ -35,7 +35,6 @@ let UserProfile = exports.UserProfile = require('./elements/UserProfile')
 let RoomInfo = exports.RoomInfo = require('./elements/RoomInfo')
 let SharedFiles = exports.SharedFiles = require('./elements/SharedFiles')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
@@ -49,11 +48,14 @@ let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager'
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
+import reduxEmitter from '../../react-components/redux-emitter'
+import '../../react-components/app'
+
 function UI(options) {
-    Emitter.call(this)
-    this.options = options || {}
-    this.init()
-    this.bind()
+  Emitter.call(this)
+  this.options = options || {}
+  this.init()
+  this.bind()
 }
 
 UI.prototype = Object.create(Emitter.prototype)
@@ -75,6 +77,7 @@ UI.prototype.init = function UI_init() {
   }
 
   this.el = v.toDOM(template('index.jade'))
+
   this.clientBody = qs('.client-body', this.el)
 
   // add the navigation to the layout
@@ -93,6 +96,8 @@ UI.prototype.init = function UI_init() {
 
   this.channelSearch = new ChannelSearch()
   document.body.appendChild(this.channelSearch.el)
+
+  this.reduxEmitter = reduxEmitter
 
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
@@ -175,7 +180,7 @@ UI.prototype.init = function UI_init() {
     showBullets: false,
     steps: [
       {
-        intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_wave.png") +'"><div style="overflow: hidden"><h2>Hi '+ globalDisplayName +', welcome to ChatGrape!</h2><h3>My name is Trauby and I am here to give you a warm welcome at ChatGrape.</h3><p>The goal is to make your work life more <u>efficient</u>, <u>productive</u> and <u>enjoyable</u>. With the following 5 tips I will give you a quick overview of the chat and its nifty features.</p><p> If you want to talk to us, you can always reach out via <a target="_blank" href="mailto:support@chatgrape.com">support@chatgrape.com</a> or by tweeting at <a href="https://twitter.com/chatgrapecom" target="_blank">@chatgrapecom</a>.</p></div><div style="clear:both"></div>'),
+        intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_wave.png") +'"><div style="overflow: hidden"><h2>Hi '+ window.globalDisplayName +', welcome to ChatGrape!</h2><h3>My name is Trauby and I am here to give you a warm welcome at ChatGrape.</h3><p>The goal is to make your work life more <u>efficient</u>, <u>productive</u> and <u>enjoyable</u>. With the following 5 tips I will give you a quick overview of the chat and its nifty features.</p><p> If you want to talk to us, you can always reach out via <a target="_blank" href="mailto:support@chatgrape.com">support@chatgrape.com</a> or by tweeting at <a href="https://twitter.com/chatgrapecom" target="_blank">@chatgrapecom</a>.</p></div><div style="clear:both"></div>'),
         tooltipClass: "intro-welcome"
       },
       {
@@ -230,6 +235,7 @@ UI.prototype.bind = function UI_bind() {
       })
     }
   })
+
   this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
   this.events.bind('click .enable_notifications', 'requestPermission')
 
@@ -254,201 +260,198 @@ UI.prototype.bind = function UI_bind() {
 }
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {
-    this.org = org
-    template.locals.org = this.org
-    this.emit('orgReady', this.org)
-    setUpRouter(this)
-    this.setNotificationsSession()
-    if (this.notificationSessionSet === true) return
-    focus.on('focus', this.setNotificationsSession.bind(this))
-    this.notificationSessionSet = true
+  this.org = org
+  template.locals.org = this.org
+  this.emit('orgReady', this.org)
+  setUpRouter(this)
+  this.setNotificationsSession()
+  if (this.notificationSessionSet === true) return
+  focus.on('focus', this.setNotificationsSession.bind(this))
+  this.notificationSessionSet = true
 }
 
 UI.prototype.setUser = function UI_setUser(user) {
-    // the first time setUser will be called it hopefully contains the current
-    // user and not another one
-    if (this.user === undefined || user.id === this.user.id) {
-        this.user = user
-        template.locals.user = user
-        this.emit('setUser', user)
-    }
+  // the first time setUser will be called it hopefully contains the current
+  // user and not another one
+  if (this.user === undefined || user.id === this.user.id) {
+    this.user = user
+    template.locals.user = user
+    this.emit('setUser', user)
+  }
 }
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
-    this.settings = settings
-    if (this.settings.show_intro) {
-        window.analytics.track("Started Tutorial", {via: "onboarding"})
-        this.intro.start()
-    }
+  this.settings = settings
+  if (this.settings.show_intro) {
+    window.analytics.track("Started Tutorial", {via: "onboarding"})
+    this.intro.start()
+  }
 
-    if (this.settings.compact_mode) {
-        classes(document.body).add('client-style-compact')
-        classes(document.body).remove('normal-style')
-        classes(document.body).remove('client-style-normal')
-    } else {
-        classes(document.body).add('normal-style')
-        classes(document.body).remove('client-style-compact')
-        classes(document.body).add('client-style-normal')
-    }
+  if (this.settings.compact_mode) {
+    classes(document.body).add('client-style-compact')
+    classes(document.body).remove('normal-style')
+    classes(document.body).remove('client-style-normal')
+  } else {
+    classes(document.body).add('normal-style')
+    classes(document.body).remove('client-style-compact')
+    classes(document.body).add('client-style-normal')
+  }
 
-    if (this.settings.dark_mode) {
-        classes(document.body).add('dark')
-    }
+  if (this.settings.dark_mode) {
+    classes(document.body).add('dark')
+  }
 
-    this.emit('settingsReady')
+  this.emit('settingsReady')
 
-    // javscript timezone should always override server timezone setting?
-    if (!this.settings.timezone || this.settings.timezone != this.tz) {
-        this.emit('timezonechange', this.tz)
-    }
+  // javscript timezone should always override server timezone setting?
+  if (!this.settings.timezone || this.settings.timezone != this.tz) {
+    this.emit('timezonechange', this.tz)
+  }
 }
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
-    let self = this
-    let org = orgs.filter(function (o) {
-        if (o.id === self.options.organizationID) return o
-    })[0]
-    this.emit('selectorganization', org)
+  let self = this
+  let org = orgs.filter(function (o) {
+    if (o.id === self.options.organizationID) return o
+  })[0]
+  this.emit('selectorganization', org)
 }
 
 UI.prototype.setNotificationsSession = function UI_setNotificationsSession() {
-    if(notify.permissionLevel() === notify.PERMISSION_GRANTED) {
-        this.emit('setNotificationsSession', this.org.id)
-    }
+  if(notify.permissionLevel() === notify.PERMISSION_GRANTED) {
+    this.emit('setNotificationsSession', this.org.id)
+  }
 }
 
 UI.prototype.roomCreated = function UI_roomCreated(room) {
-    let self = this
-    self.emit('joinroom', room, function () {
-        page('/chat/' + room.slug)
-        self.emit('endRoomCreation')
-    })
+  let self = this
+  self.emit('joinroom', room, function () {
+    page('/chat/' + room.slug)
+    self.emit('endRoomCreation')
+  })
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-    notification.error(err.message, err.details)
+  notification.error(err.message)
 }
 
 UI.prototype.onDisconnected = function () {
-    this.disconnectedAlert = setTimeout(function () {
-        this.firstTimeConnect = false
-        if (this._connErrMsg) return
-        this._connErrMsg = this.messages.danger('connection lost')
-        classes(qs('body')).add('disconnected')
-    }.bind(this), 7000)
+  this.firstTimeConnect = false
+  if (this._connErrMsg) return
+  this._connErrMsg = this.messages.danger('connection lost')
+  classes(qs('body')).add('disconnected')
 }
 
 UI.prototype.onConnected = function () {
-    clearTimeout(this.disconnectedAlert)
-    if (!this._connErrMsg || this.firstTimeConnect) return
-    this._connErrMsg.remove()
-    delete this._connErrMsg
-    classes(qs('body')).remove('disconnected')
-    let msg = this.messages.success('reconnected')
-    setTimeout(function () { msg.remove() }, 2000)
+  if (!this._connErrMsg || this.firstTimeConnect) return
+  this._connErrMsg.remove()
+  delete this._connErrMsg
+  classes(qs('body')).remove('disconnected')
+  let msg = this.messages.success('reconnected')
+  setTimeout(function () { msg.remove() }, 2000)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
-    this.room = room
+  this.room = room
 }
 
 UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
-    let deleteRoomDialog = new DeleteRoomDialog({
-        room: room
-    }).closable().overlay().show()
-    broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
+  let deleteRoomDialog = new DeleteRoomDialog({
+    room: room
+  }).closable().overlay().show()
+  broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
 }
 
 UI.prototype.onToggleOrgInvite = function () {
-    let invite = new OrgInvite().closable().overlay().show()
-    broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
-    broker(this, 'inviteError', invite, 'onInviteError')
-    broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
+  let invite = new OrgInvite().closable().overlay().show()
+  broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
+  broker(this, 'inviteError', invite, 'onInviteError')
+  broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
 }
 
 UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
-    // org users who are not part of the room, sorted alphabetically
-    let users = this.org.users.filter(function (user) {
-        return user.active && room.users.indexOf(user) === -1
-    })
-    let invite = new RoomInvite({
-        org: this.org,
-        users: users,
-        room: room
-    }).closable().overlay().show()
+  // org users who are not part of the room, sorted alphabetically
+  let users = this.org.users.filter(function (user) {
+    return user.active && room.users.indexOf(user) === -1
+  })
+  let invite = new RoomInvite({
+    org: this.org,
+    users: users,
+    room: room
+  }).closable().overlay().show()
 
-    broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom')
-    broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess')
+  broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom')
+  broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess')
 }
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-    this.markdownTips.overlay().show()
+  this.markdownTips.overlay().show()
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {
-    if (this.room != room) return
-    page.replace('/chat/')
+  if (this.room != room) return
+  page.replace('/chat/')
 }
 
 UI.prototype.channelUpdate = function UI_channelUpdate(room) {
-    if(this.room != room) return
-    page.replace('/chat/' + room.slug)
+  if(this.room != room) return
+  page.replace('/chat/' + room.slug)
 }
 
 UI.prototype.onUploading = function () {
-    this.uploadRoom = this.room
+  this.uploadRoom = this.room
 }
 
 UI.prototype.onUploaded = function (attachment) {
-    this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
-    this.upload.hide()
+  this.emit('send', this.uploadRoom, '', {attachments: [attachment.id]})
+  this.upload.hide()
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
-    let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
-    page.redirect('/chat/' + redirectSlug)
-    let msg = this.messages.warning('message not found')
-    setTimeout(function () { msg.remove() }, 6000)
+  let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+  page.redirect('/chat/' + redirectSlug)
+  let msg = this.messages.warning('message not found')
+  setTimeout(function () { msg.remove() }, 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
-    if (this.room === channel) return
-    let slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
-    page('/chat/' + slug)
+  if (this.room === channel) return
+  let slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
+  page('/chat/' + slug)
 }
 
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
-    let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
-    page('/chat/' + redirectSlug)
+  let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
+  page('/chat/' + redirectSlug)
 }
 
 UI.prototype.onInvalidUrl = function(cause) {
-    const msg = this.messages.warning(cause)
-    page.redirect('/chat/')
-    setTimeout(() => msg.remove(), 6000)
+  const msg = this.messages.warning(cause)
+  page.redirect('/chat/')
+  setTimeout(() => msg.remove(), 6000)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
-    let roommanager = new RoomManager({
-        rooms: this.org.rooms.slice()
-    }).closable().overlay().show()
-    broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
-    broker.pass(roommanager, 'createRoom', this, 'createRoom')
-    broker(this, 'leftChannel', roommanager, 'onLeftChannel')
-    broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
-    broker(this, 'roomCreationError', roommanager, 'onRoomCreationError')
-    broker(this, 'newRoom', roommanager, 'onNewRoom')
-    broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
-    broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation')
+  let roommanager = new RoomManager({
+    rooms: this.org.rooms.slice()
+  }).closable().overlay().show()
+  broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
+  broker.pass(roommanager, 'createRoom', this, 'createRoom')
+  broker(this, 'leftChannel', roommanager, 'onLeftChannel')
+  broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
+  broker(this, 'roomCreationError', roommanager, 'onRoomCreationError')
+  broker(this, 'newRoom', roommanager, 'onNewRoom')
+  broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
+  broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation')
 }
 
 UI.prototype.onTriggerPMManager = function () {
-    let pmmanager = new PMManager({
-        users: this.org.users.slice()
-    }).closable().overlay().show()
-    broker(this, 'selectchannel', pmmanager, 'end')
-    broker(this, 'changeUser', pmmanager, 'onChangeUser')
-    broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
+  let pmmanager = new PMManager({
+    users: this.org.users.slice()
+  }).closable().overlay().show()
+  broker(this, 'selectchannel', pmmanager, 'end')
+  broker(this, 'changeUser', pmmanager, 'onChangeUser')
+  broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
 }
 
 UI.prototype.onShowSidebar = function () {

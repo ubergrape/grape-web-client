@@ -60,7 +60,7 @@ Navigation.prototype.bind = function () {
   this.events.bind('click .addpm', 'triggerPMManager')
 }
 
-Navigation.prototype.setLists = function (lists) {
+Navigation.prototype.setLists = function Navigation_setLists(lists) {
   lists.pms.sort(this.pmCompare)
   this.pmList.setItems(lists.pms)
   lists.rooms.sort(this.roomCompare)
@@ -97,7 +97,7 @@ Navigation.prototype.select = function (item) {
   }
   else {
     this.pmList.selectItem(null)
-    this.roomList.selectItem(item) 
+    this.roomList.selectItem(item)
   }
 }
 
@@ -174,7 +174,7 @@ Navigation.prototype.onDeletedUser = function() {
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   let rooms = org.rooms.slice()
   let pms = org.users.filter(function (user) {
-    return user != window.ui.user && user.active && !user.is_only_invited
+  return user != window.ui.user && user.active && !user.is_only_invited
   })
   this.setLists({ rooms: rooms, pms: pms })
 

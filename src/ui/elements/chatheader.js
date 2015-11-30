@@ -142,8 +142,8 @@ ChatHeader.prototype.channelUpdate = function (room) {
   this.redraw()
 }
 
-ChatHeader.prototype.roomRenameError = function (err) {
-  qs('input.room-name', this.el).setCustomValidity(err.details.msg)
+ChatHeader.prototype.roomRenameError = function ChatHeader_roomRenameError(err) {
+  qs('input.room-name', this.el).setCustomValidity(err.message)
   qs('input.submit-rename', this.el).click()
 }
 
