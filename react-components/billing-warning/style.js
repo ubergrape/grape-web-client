@@ -1,5 +1,5 @@
 import fonts from 'grape-theme/dist/fonts'
-import defaultButton from '../button/style'
+import defaultButton from '../button/default'
 import primaryButton from '../button/primary'
 
 export default {

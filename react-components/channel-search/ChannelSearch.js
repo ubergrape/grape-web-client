@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import List from 'react-finite-list'
-import Dialog from '../dialog/Dialog'
-
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import keyname from 'keyname'

@@ -3,7 +3,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import Dialog from '../dialog/Dialog'
 import style from './style'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 /**
  * Billing warning dialog.

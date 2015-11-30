@@ -1,11 +1,12 @@
-let array = require('array')
-let Emitter = require('emitter')
-let models = require('./models')
-let conf = require('conf')
-let noop = require('lodash/utility/noop')
+import array from 'array'
+import Emitter from 'emitter'
+import models from './models'
+import noop from 'lodash/utility/noop'
 
-let rpc = require('../../react-components/backend/rpc')
-let client = require('../../react-components/backend/client')
+import conf from 'conf'
+import rpc from '../../react-components/backend/rpc'
+import client from '../../react-components/backend/client'
+import * as convertCase from '../../react-components/backend/convertCase'
 
 let exports = module.exports = API
 exports.models = models

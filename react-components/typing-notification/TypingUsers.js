@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import style from './style'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 /**
  * Render users list.

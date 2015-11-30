@@ -94,9 +94,6 @@ UI.prototype.init = function UI_init() {
   this.grapeInput = new GrapeInput()
   qs('.footer', this.el).appendChild(this.grapeInput.el)
 
-  this.channelSearch = new ChannelSearch()
-  document.body.appendChild(this.channelSearch.el)
-
   this.reduxEmitter = reduxEmitter
 
   // initialize dialogs
