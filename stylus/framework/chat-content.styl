@@ -153,62 +153,7 @@
 			color: #E5E5E6
 	&:last-child
 		margin-bottom: 10px
-	&.requested
-		&.user
-			.avatar
-				&::after
-					border-right-color: rgb(207, 255, 203) !important
 
-/*
-.client-style-normal .message-group.creator.user
-	@media (max-width: 950px)
-		.avatar
-			float: right
-			padding-right: 5px;
-			.image
-				margin-left: (horizontal-space / 2)
-				margin-right: 0
-				display: none
-			&::after
-				left: 3px
-				right: auto
-				top: 1px
-				border-left: 9px solid blue-lighter
-				border-right: none
-				border-bottom: 13px solid transparent
-			&::before // Hack for the arrow of the message box
-				border-left: 10px solid blue-light
-				border-right: none
-				border-bottom: 14px solid transparent
-				left: 4px
-				right: auto
-				top: 0px
-			&.editing
-				&::after
-					border-left-color: lighten(gold, 80%) !important
-					border-top-color: lighten(gold, 80%) !important
-				&::before // Hack for the arrow of the message box
-					border-left-color: #DDDDDD !important
-					border-top-color: #DDDDDD !important
-		&.requested
-			.avatar
-				&::after
-					border-left-color: rgb(207, 255, 203) !important
-					border-top-color: rgb(207, 255, 203) !important
-		.message-content
-			text-align: right
-			padding-right: 0
-			padding-left: 68px
-		.message
-			text-align: left
-			&.first
-				border-radius: 6px 0px 6px 6px
-		.edit
-			left: auto
-			right: 100%
-			padding-right: 7px
-			padding-left: 0
-*/
 .messageinfo
 	color: #b3b3b3
 	text-align: left
@@ -247,7 +192,8 @@
 	a.timelink
 		@extend $subtle-link
 		color: #aaaaaa
-		margin-right: 12px
+		margin-right: 10px
+		margin-left: 10px
 		font-size: 0.9em
 		.fa-globe
 			margin-left: 4px
@@ -376,12 +322,9 @@
 			.message-author
 				color: #808080 !important
 		&.requested
-			background-color: rgba(201, 255, 174, 0.53) !important
-			color: grape-typo
+			background-color: #fff3b9 !important
 			&:after
 				top: 0
-			.message-author
-				color: gainsboro-dark
 		&.removing
 			background: lighten(gold, 60%)
 			color: grape-typo
