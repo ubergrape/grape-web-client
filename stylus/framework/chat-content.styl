@@ -12,6 +12,8 @@
 	overflow: hidden
 	margin-left: client-navigation-width
 	background: chat-background
+	@media (max-width: 1280px)
+		margin-left: client-navigation-width-small
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -49,6 +51,9 @@
 		z-index: 50
 		overflow: auto
 		display: none
+		@media (max-width: 1280px)
+			width: right-sidebar-width-small
+
 
 // ****
 //
@@ -273,6 +278,8 @@
 		&:hover
 			.edit
 				opacity: 1
+			.outertime
+				visibility: visible
 	.message
 		display: inline-block
 		clear: both
@@ -294,19 +301,21 @@
 			position: absolute
 			left: 100%
 			top: 0px
-			margin-left: 10px
-			padding: 5px 8px
+			margin: 3px auto auto 5px
+			padding: 3px 6px
 			white-space: nowrap
-			box-shadow: 0 1px 1px rgba(0,0,0,0.1)
-			border: 1px solid #C7C7C7
-			border-radius: 20px
+			border: 1px solid #E1E6ED
+			border-radius: 13px
 			opacity: 0
+			&:hover
+				box-shadow: 0 1px 1px rgba(0,0,0,0.1)
+				border: 1px solid #C7C7C7
 			i
 				margin: 0 5px
 				&:hover
-					color: aqua-darker
+					color: link-color-hover
 				&:active
-					color: aqua-light
+					color: link-color-hover
 			.btn-delete
 				&:hover
 					color: bittersweet-dark
@@ -327,9 +336,6 @@
 			padding-top: 16px
 			&.first
 				display: none
-		&:hover
-			.outertime
-				visibility: visible
 		.status-control
 			float: right
 			margin-left: 8px
@@ -362,7 +368,7 @@
 					.unsent
 						display: none
 		&.editing
-			background: lighten(gold, 80%) !important
+			background: #FFF3B9 !important
 			color: #666666 !important
 			border-color: #DDDDDD !important
 			.message-author
@@ -480,15 +486,17 @@ span.author-deleted
 //
 // ****
 
-.right-sidebar-show .right-sidebar {
+.right-sidebar-show .right-sidebar
 	display: block
-}
-.right-sidebar-show .main-window {
+.right-sidebar-show .main-window
 	margin-right: right-sidebar-width
-}
-.right-sidebar-show .bigarrow {
+	@media (max-width: 1280px)
+		margin-right: right-sidebar-width-small
+.right-sidebar-show .bigarrow
 	right: right-sidebar-width+20
-}
+	@media (max-width: 1280px)
+		right: right-sidebar-width-small+20
+
 
 .intercom-messenger-active .main-window {
 	margin-right: 368px;
