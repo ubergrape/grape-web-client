@@ -133,10 +133,9 @@
 	margin: 10px 20px 20px 20px
 	position: relative
 	.avatar
-		float: left
-		position: relative
-		font-weight: bold
-		margin-top: 21px
+		position: absolute
+		top: 21px
+		left: 0
 		.image
 			width: 32px
 			height: 32px
@@ -214,6 +213,7 @@
 	color: #b3b3b3
 	text-align: left
 	margin-bottom: 2px
+	padding-left: 42px
 	@extend $normal-font-size
 	span
 		color: #b3b3b3
@@ -273,8 +273,8 @@
 				opacity: 1
 
 .message-content
-	margin-left: 42px
 	.message-inner-wrap
+		padding-left: 42px
 		&:hover
 			.edit
 				opacity: 1
@@ -324,7 +324,7 @@
 		.outertime
 			position: absolute
 			right: 100%
-			color: gainsboro-light
+			color: #aaa
 			padding-right: 5px
 			@extend $small-font-size
 			@extend $subtle-link
@@ -334,6 +334,8 @@
 			top: 0
 			bottom: 0
 			padding-top: 16px
+			&:hover
+				text-decoration: none !important
 			&.first
 				display: none
 		.status-control
