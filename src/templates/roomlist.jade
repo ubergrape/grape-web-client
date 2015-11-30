@@ -10,13 +10,17 @@ ul.nav-list.rooms
 								i.room-icon.fa.fa-lock
 
 						if room.unread > 0
-							if (room.unread > 99 && room.unread <= 400)
-								span.fl-notification=_('99+')
-							else if (room.unread > 400)
-								span.fl-notification.infinity=_('∞')
+							if room.unread > 99
+								if room.mentioned > 0
+									span.fl-notification.is-mentioned=_('@ 99+')
+								else
+									span.fl-notification=_('99+')
 							else
-								span.fl-notification=room.unread.toString()
-						if room.mentioned > 0
-							span.fl-mention(title="mentioning you")=room.mentioned.toString()
-
+								if room.mentioned > 0
+									span.fl-notification.is-mentioned
+										=_('@ ')
+										=room.unread.toString()
+								else
+									span.fl-notification=room.unread.toString()
+			
 						span.channel-name=room.name
