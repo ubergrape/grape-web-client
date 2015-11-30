@@ -60,6 +60,7 @@ export default class WampClient {
    */
   ping() {
     if (!this.connected || this.reopening) return
+    log('ping')
     this.call('ping', (err, res) => {
       if (err) return this.onError(err)
       log(res)
@@ -72,7 +73,6 @@ export default class WampClient {
    * Why do we need this again?
    */
   call(...args) {
-    log('call', ...args.slice(0, args.length - 1))
     args[0] = prefix + args[0]
     this.wamp.call.apply(this.wamp, args)
   }
