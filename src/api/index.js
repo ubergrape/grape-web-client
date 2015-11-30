@@ -511,32 +511,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   }, callback)
 }
 
-API.prototype.search = function API_search(text) {
-  rpc({
-    ns: 'search',
-    action: 'search',
-    args: [text, this.organization.id]
-  }, function (err, results) {
-    if (err) return this.emit('error', err)
-    let r = []
-    let lines = results.results.map(function (l) {
-      if(l.index !== 'objects_alias') {
-        l = new models.Line(l)
-        r.unshift(l)
-      } else {
-        r.unshift(l)
-      }
-    })
-    let f = []
-    this.emit('gotsearchresults', {
-      'results': r,
-      'facets': f,
-      'total': results.total,
-      'q': results.q
-    })
-  }.bind(this))
-}
-
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
   rpc({
     ns: 'channels',
@@ -759,7 +733,7 @@ API.prototype.onMessageSearch = function (params) {
       this.organization.id,
       'messages',
       params.limit,
-      params.offsetDate
+      params.offsetDate ? params.offsetDate.toISOString() : undefined
     ]
   }, (err, res) => {
     if (err) return this.emit('error', err)

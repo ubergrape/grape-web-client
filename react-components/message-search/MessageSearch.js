@@ -37,7 +37,7 @@ export default class MessageSearch extends Component {
     const {items} = props
     props.onRequest({
       // Is always the timestamp of the last loaded message.
-      offsetDate: items.length ? items[items.length - 1].time : '',
+      offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit: props.limit,
       query: props.query
     })
