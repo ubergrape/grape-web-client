@@ -1,4 +1,5 @@
 import * as objects from '../objects'
+import {getLabel} from '../objects/utils'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -19,11 +20,41 @@ export function replace(content) {
 /**
  * Parse all md links and convert them to array of data.
  */
-export function parse(content) {
-  let data = []
-  content.replace(linkRegExp, (match, text, url) => {
-    data.push(toData(text, url))
+export function parseAndReplace(content) {
+  let configs = []
+  let text = content.replace(linkRegExp, (match, text, url) => {
+    let config = toData(text, url)
+    configs.push(config)
+    return getLabel(config.type) + text
   })
+
+  text = text.replace(/:\w+:/g, (match) => {
+    configs.push({
+      type: 'emoji',
+      shortname: match,
+      content: match
+    })
+    return match
+  })
+
+  return {configs, text}
+}
+
+/**
+ * Parse emoji smiles, like ':smile:'
+ */
+export function parseEmoji(content) {
+  let data = []
+  let emoji = content.match(/:\w+:/g)
+  if (emoji) {
+    data = emoji.map(token => {
+      return {
+        type: 'emoji',
+        shortname: token,
+        content: token
+      }
+    })
+  }
   return data
 }
 

@@ -1,5 +1,6 @@
 import encodeMDLink from '../encodeMDLink'
 import template from 'lodash/string/template'
+import {getLabel} from '../utils'
 
 // TODO Stop using global classes
 let buildLink = template(
@@ -14,7 +15,7 @@ let buildLink = template(
   '</a>'
 )
 
-const label = '#'
+const label = getLabel('search')
 
 export default class Search {
   constructor(result) {

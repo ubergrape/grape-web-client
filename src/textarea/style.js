@@ -35,7 +35,7 @@ export default {
     left: '0',
     top: '0',
     'z-index': '-1',
-    'white-space': 'pre',
+    'white-space': 'pre-wrap',
     'word-wrap': 'break-word',
     color: 'transparent'
   },

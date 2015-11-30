@@ -136,6 +136,7 @@ export default class Input extends Component {
             height={this.state.editableHeight}
             onResize={::this.onEditableResize}
             onChange={::this.onChangeInput}
+            onSubmit={::this.onSubmit}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.editableFocused}
@@ -213,14 +214,12 @@ export default class Input extends Component {
   }
 
   getTextContent() {
-    return ''
-    // return this.state.
     //return this.textarea.getTextContent()
   }
 
   setTextContent(text) {
     this.query.reset()
-    return this.editable.setTextContent(text)
+    return this.textarea.setTextContent(text)
   }
 
   closeBrowser(state, callback) {
