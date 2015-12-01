@@ -42,7 +42,6 @@ export default class Input extends Component {
     images: {},
     content: '',
     contentObjects: [],
-    specialObjectKey: '%%GRAPE_SPECIAL_OBJECT%%',
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
@@ -203,7 +202,6 @@ export default class Input extends Component {
     if (canShowBrowser && state.query.trigger) {
       state.browserOpened = true
     }
-
     return state
   }
 
@@ -324,10 +322,8 @@ export default class Input extends Component {
       // If its a mentioning, user types the search.
       // TODO migrate mentioning to the browser.
       if (!query.key || !utils.isBrowserType(query.trigger)) {
-        let changed = this.query.set(query, {silent: true})
-        console.log(this.query.toJSON())
+        this.query.set(query, {silent: true})
         this.emit('complete', this.query.toJSON())
-        this.emit('change')
       }
     }
     // Query has been removed or caret position changed, for datalist only.
