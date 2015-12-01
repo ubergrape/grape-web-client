@@ -21,6 +21,8 @@ export default {
   },
 
   textarea: {
+    position: 'relative',
+    'z-index': 1,
     height: '100%',
     outline: 'none',
     background: 'transparent',
@@ -34,7 +36,6 @@ export default {
     position: 'absolute',
     left: '0',
     top: '0',
-    'z-index': '-1',
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word',
     color: 'transparent'

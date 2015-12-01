@@ -267,25 +267,22 @@ export default class Input extends Component {
     this.query.reset()
   }
 
-  replaceQuery(replacement, options, callback = noop) {
-    this.setState({editableFocused: true}, () => {
-      let replaced = this.textarea.replaceQuery(replacement)
-      callback(replaced)
-    })
-
+  replaceQuery(replacement) {
+    this.setState({editableFocused: true})
+    this.textarea.replaceQuery(replacement)
   }
 
   insertQuery(queryStr, options, callback = noop) {
-    this.setState({editableFocused: true}, () => {
-      let inserted = this.editable.modifyAtCaret((left, right) => {
-        let newLeft = left
-        // Add space after text if there is no.
-        if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
-        newLeft += queryStr
-        return [newLeft, right]
-      }, {...options, query: this.query.toJSON()})
-      callback(inserted)
-    })
+    // this.setState({editableFocused: true}, () => {
+    //   let inserted = this.editable.modifyAtCaret((left, right) => {
+    //     let newLeft = left
+    //     // Add space after text if there is no.
+    //     if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
+    //     newLeft += queryStr
+    //     return [newLeft, right]
+    //   }, {...options, query: this.query.toJSON()})
+    //   callback(inserted)
+    // })
   }
 
   /**
@@ -321,7 +318,6 @@ export default class Input extends Component {
   }
 
   onChangeInput(query = {}) {
-
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.
@@ -329,7 +325,9 @@ export default class Input extends Component {
       // TODO migrate mentioning to the browser.
       if (!query.key || !utils.isBrowserType(query.trigger)) {
         let changed = this.query.set(query, {silent: true})
-        if (changed) this.emit('complete', this.query.toJSON())
+        console.log(this.query.toJSON())
+        this.emit('complete', this.query.toJSON())
+        this.emit('change')
       }
     }
     // Query has been removed or caret position changed, for datalist only.
@@ -416,17 +414,7 @@ export default class Input extends Component {
   }
 
   onChangeQuery(newQueryStr) {
-    let options = {
-      query: this.query.toJSON(),
-      keepMarkers: true
-    }
-
-    this.replaceQuery(newQueryStr, options, replaced => {
-      let open = inserted => {
-        if (inserted) this.setState({browserOpened: true})
-      }
-      return replaced ? open(replaced) : this.insertQuery(newQueryStr, options, open)
-    })
+    this.textarea.addContent(newQueryStr)
   }
 
   onInputSearchBrowser(data) {

@@ -39,8 +39,10 @@ export default class Textarea extends Component {
   }
 
   componentDidUpdate() {
-    this.refs.textarea.selectionEnd = this.state.caretPos
-    if (this.props.focused) this.refs.textarea.focus()
+    if (this.props.focused) {
+      this.refs.textarea.selectionEnd = this.state.caretPos
+      this.refs.textarea.focus()
+    }
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
   }
 
@@ -88,6 +90,11 @@ export default class Textarea extends Component {
     return true
   }
 
+  addContent(str) {
+    this.refs.textarea.value = this.refs.textarea.value + str
+    this.onChange({target: this.refs.textarea})
+  }
+
   replaceQuery(replacement) {
     let token = getTokenUnderCaret(
       this.refs.textarea.value,
@@ -100,7 +107,6 @@ export default class Textarea extends Component {
 
     text = textBefore + replacement.content + textAfter + ' '
     let objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
-
 
     this.setState({
       text,
@@ -249,19 +255,19 @@ export default class Textarea extends Component {
       <div
         ref='wrapper'
         className={wrapper}>
-        <textarea
-          ref='textarea'
-          className={textarea + ' ' + common}
-          placeholder={this.props.placeholder}
-          disabled={this.props.disabled}
-          onKeyDown={::this.onKeyDown}
-          onKeyPress={::this.onKeyPress}
-          onChange={::this.onChange}
-          value={this.state.text}
-          autoFocus={true}
-          ></textarea>
-
           <div ref='highlighter' className={highlighter + ' ' + common}>{this.renderTokens()}</div>
+          <textarea
+            ref='textarea'
+            className={textarea + ' ' + common}
+            placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
+            onKeyDown={::this.onKeyDown}
+            onKeyPress={::this.onKeyPress}
+            onChange={::this.onChange}
+            value={this.state.text}
+            autoFocus={true}
+            ></textarea>
+
       </div>
     )
   }
