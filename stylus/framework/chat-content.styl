@@ -62,11 +62,7 @@
 // ****
 
 .welcome-message
-	margin: 0
-	padding: 30px 40px 42px 20px
-	margin: 10px 25px 20px 52px
-	@media (max-width: 720px)
-		text-align: center
+	padding: 20px
 	body.notifications-disabled &
 		padding-top: 62px !important
 	@extend $big-font-size
@@ -82,20 +78,20 @@
 	h2, h3, p, ul
 		max-width: 720px
 		margin-bottom: 2px
+	p
+		font-size: 15px
 	h2
 		@extend $bigger-font-size
-		color: gainsboro-dark
 		margin-bottom: 4px
 	h3
-		@extend $bigger-font-size
-		font-weight: bold
-		color: darken(gainsboro-dark, 20%)
-		margin-bottom: 3px
+		@extend $biggest-font-size
+		font-weight: 300
+		margin: 10px 0 5px
 	.alert-inline.warning
 		&::after
 			content: ""
 	.welcome-tasks
-		margin-top: 20px
+		margin-top: 10px
 		@extend $clearfix
 		.task-description
 			font-weight: bold
@@ -538,18 +534,18 @@ span.author-deleted
 .date-separator,
 .newmessage-separator
 	text-align: center
-	color: gainsboro-dark
 	position: relative
 	height: 30px
 	padding: 5px 0 0 0
 	margin: 0 30px 20px 20px
 	span
-		color: grape-dark
+		color: #666
+		font-weight: 600
 		background-color: white
 		padding: 5px 16px 5px 16px
 		position: relative
 		z-index: 5
-		border: 1px solid #E1E6ED
+		border: 1px solid #E0E5EC
 		border-radius: 20px
 	&::before
 		content: ""
@@ -557,25 +553,13 @@ span.author-deleted
 		top: 50%
 		left: 0
 		right: 0
-		background-color: #E1E6ED
+		background-color: #E0E5EC
 		height: 1px
 		margin-top: 1px
-
-.date-separator
-	span
-		color: #666
-	.today
-		color: #333
-		font-weight: 600
-	&::before
-		content: ""
-		position: absolute
-		top: 50%
-		left: 0
-		right: 0
-		background-color: #E1E6ED
-		height: 1px
-		margin-top: 0px
+	&.today
+		span
+			color: #333
+			background: #E0E5EC
 
 .newmessage-separator
 	span
