@@ -17,7 +17,7 @@ export default {
     minHeight: 38,
     width: '100%',
     'box-sizing': 'border-box',
-    'padding': 15
+    'padding': 9
   },
 
   textarea: {
