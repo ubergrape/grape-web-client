@@ -9,7 +9,7 @@ const marginBottom = 20
 
 const button = {
   ...linkButton,
-  ...fonts.big,
+  ...fonts.normal,
   display: 'block',
   marginBottom: marginBottom / 2
 }

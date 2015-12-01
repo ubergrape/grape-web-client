@@ -9,6 +9,7 @@ export default {
     textAlign: 'center'
   },
   dateSeparator: {
+    marginTop: 25,
     position: 'relative',
     textAlign: 'center',
     '&:before': {
@@ -21,21 +22,23 @@ export default {
       // XXX
       background: '#DADCDE',
       margin: 0
+    },
+    '&:first-child': {
+      marginTop: 0
     }
   },
   dateBubble: {
     position: 'relative',
-    background: colors.white,
-    borderRadius: fonts.normal.fontSize,
+    fontWeight: 'bold',
+    background: colors.grayBlueLight,
     padding: `3px ${fonts.normal.fontSize}px`,
-    // XXX
-    border: '1px solid #DADCDE'
   },
   channel: {
     // XXX
     color: '#ABB0B9',
     textTransform: 'uppercase',
     marginTop: 20,
+    marginBottom: 5,
     lineHeight: 1
   },
   message: {

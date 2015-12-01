@@ -7,7 +7,7 @@ const arrowWidth = 7
 
 export default {
   message: {
-    margin: '5px 0 10px'
+    margin: '0 0 15px'
   },
   body: {
     display: 'flex',
@@ -18,7 +18,7 @@ export default {
     marginRight: leftColumnMarginRight
   },
   rightColumn: {
-    overflow: 'hidden'
+    // overflow: 'hidden'
   },
   avatar: {
     width: avatarWidth,
@@ -38,9 +38,10 @@ export default {
     ...utils.ellipsis,
     // XXX
     color: '#666',
-    marginRight: 5
+    marginRight: 10
   },
   date: {
+    whiteSpace: 'nowrap',
     // XXX
     color: '#AAA',
     width: 52,
@@ -52,13 +53,17 @@ export default {
     borderRadius: 16,
     padding: '5px 13px',
     marginLeft: arrowWidth,
+    transition: 'box-shadow 0.3s ease-out',
+    '&:hover': {
+      boxShadow: '0px 1px 8px rgba(0,0,0,0.3)',
+    },
     '&:after': {
       display: 'block',
       width: 0,
       content: '""',
       position: 'absolute',
-      top: 7,
-      left: -5,
+      top: 6,
+      left: -4,
       bottom: 'auto',
       borderWidth: `${arrowWidth}px ${arrowWidth}px ${arrowWidth}px 0`,
       borderStyle: 'solid',

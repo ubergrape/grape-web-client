@@ -9,7 +9,7 @@ const marginBottom = 20
 
 const button = {
   ...linkButton,
-  ...fonts.big,
+  ...fonts.normal,
   marginBottom: marginBottom / 2
 }
 
@@ -22,14 +22,14 @@ export default {
     borderBottom: '1px solid #D3D5DA'
   },
   stats: {
-    ...fonts.big,
+    ...fonts.normal,
     marginBottom
   },
   description: {
     marginBottom
   },
   descriptionText: {
-    ...fonts.big
+    ...fonts.normal
   },
   actions: {
     marginBottom,

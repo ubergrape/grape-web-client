@@ -231,11 +231,20 @@
 		position: relative
 		border-radius: 16px
 		background-color: #EDF0F5
-		margin: 2px auto auto 0;
+		margin: 2px auto auto 0
 		&.first
 			margin-top: 0
 			&:after
-				border: none
+				display: block
+				width: 0
+				content: ""
+				position: absolute
+				top: 6px
+				left: -4px
+				bottom: auto
+				border-width: 7px 7px 7px 0
+				border-style: solid
+				border-color: transparent #EDF0F5
 		.edit
 			@extend $hoverable
 			vertical-align: top
@@ -312,15 +321,11 @@
 					.unsent
 						display: none
 		&.editing
+		&.requested
 			background: #FFF3B9 !important
 			color: #666666 !important
-			border-color: #DDDDDD !important
-			.message-author
-				color: #808080 !important
-		&.requested
-			background-color: #fff3b9 !important
 			&:after
-				top: 0
+				border-color: transparent #FFF3B9 !important
 		&.removing
 			background: lighten(gold, 60%)
 			color: grape-typo
@@ -402,8 +407,6 @@
 			overflow: hidden
 			margin: -5px -11px -9px -11px
 			border-radius: 14px
-			&:first-of-type
-				margin-left: 0px
 			img
 				max-width: 100%
 
@@ -411,6 +414,8 @@
 	.message-content
 		.message
 			background-color: #D2E6FB
+			&:after
+				border-color: transparent #D2E6FB
 
 //When a user was removed from the organization, #867
 span.author-deleted
@@ -545,8 +550,6 @@ span.author-deleted
 		padding: 5px 16px 5px 16px
 		position: relative
 		z-index: 5
-		border: 1px solid #E0E5EC
-		border-radius: 20px
 	&::before
 		content: ""
 		position: absolute
@@ -559,7 +562,6 @@ span.author-deleted
 	&.today
 		span
 			color: #333
-			background: #E0E5EC
 
 .newmessage-separator
 	span
