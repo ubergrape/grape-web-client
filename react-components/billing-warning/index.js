@@ -1,22 +1,22 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
+
 import {mapActionsToProps} from '../app/utils'
-import {channelSearchSelector} from '../selectors'
+import {billingWarningSelector} from '../selectors'
 import actionsList from './actionsList'
+import BillingWarning from './BillingWarning'
 
-import ChannelSearch from './ChannelSearch'
-
-const ConnectedChannelSearch = connect(
-  channelSearchSelector,
+const ConnectedBillingWarning = connect(
+  billingWarningSelector,
   mapActionsToProps(actionsList)
-)(ChannelSearch)
+)(BillingWarning)
 
 export default function init(store) {
-  return class ChannelSearchProvider extends Component {
+  return class BillingWarningProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedChannelSearch />
+          <ConnectedBillingWarning />
         </Provider>
       )
     }

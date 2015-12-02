@@ -14,8 +14,10 @@ export default function pipeEvents(ui) {
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
   broker(ui, 'emptyOrg', ui.grapeInput, 'onEmptyOrg')
-  broker(ui, 'orgReady', ui.channelSearch, 'onOrgReady')
-  broker(ui, 'setUser', ui.channelSearch, 'onSetUser')
+  broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
+  broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
+  broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
+  broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'orgReady', ui.historyView, 'onOrgReady')
   broker(ui, 'selectchannel', ui.historyView, 'setRoom')
   broker(ui, 'gotHistory', ui.historyView, 'onGotHistory')
@@ -66,8 +68,7 @@ export default function pipeEvents(ui) {
 
   // grape input
   broker.pass(ui.grapeInput, 'update', ui, 'update')
-  broker.pass(ui.grapeInput, 'starttyping', ui, 'starttyping')
-  broker.pass(ui.grapeInput, 'stoptyping', ui, 'stoptyping')
+  broker.pass(ui.grapeInput, 'setTyping', ui, 'setTyping')
   broker.pass(ui.grapeInput, 'autocomplete', ui, 'autocomplete')
   broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate')
   broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing')
@@ -82,7 +83,6 @@ export default function pipeEvents(ui) {
   broker.pass(ui.historyView, 'requestMessage', ui, 'requestMessage')
   broker.pass(ui.historyView, 'send', ui, 'send')
   broker.pass(ui.historyView, 'loadHistoryForSearch', ui, 'loadHistoryForSearch')
-  broker.pass(ui.historyView, 'stoptyping', ui, 'stoptyping')
   broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
   broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
   broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
@@ -115,5 +115,5 @@ export default function pipeEvents(ui) {
   broker(ui.rightSidebar, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
 
   // channel search
-  broker(ui.channelSearch, 'triggerRoomManager', ui, 'onTriggerRoomManager')
+  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 }

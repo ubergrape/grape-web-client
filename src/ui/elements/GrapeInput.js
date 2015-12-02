@@ -4,6 +4,7 @@ import events from 'events'
 import qs from 'query'
 import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
+import throttle from 'lodash/function/throttle'
 import find from 'lodash/collection/find'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
@@ -40,11 +41,13 @@ export default class GrapeInput extends Emitter {
     this.org = null
     this.redraw()
     this.placeholder = 'Enter a message ...'
-    this.typing = false
     // Key is room id, value is unsent text message.
     this.unsent = {}
     this.isOrgEmpty = false
     this.images = clone(images)
+    this.startTypingThrottled = throttle(::this.startTyping, 5000, {
+      trailing: false
+    })
     this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
     this.searchDebounced = debounce(::this.search, 200)
     window.addEventListener('keydown', ::this.onKeyDown)
@@ -222,9 +225,18 @@ export default class GrapeInput extends Emitter {
     })
   }
 
+  startTyping() {
+    this.emit('setTyping', {
+      channel: this.room,
+      typing: true
+    })
+  }
+
   stopTyping() {
-    this.typing = false
-    this.emit('stoptyping', this.room)
+    this.emit('setTyping', {
+      channel: this.room,
+      typing: false
+    })
   }
 
   onMarkdownTipsShow() {
@@ -271,10 +283,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onChange() {
-    if (!this.typing) {
-      this.typing = true
-      this.emit('starttyping', this.room)
-    }
+    this.startTypingThrottled()
     this.stopTypingDebounced()
   }
 
@@ -317,6 +326,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onBlur() {
+    this.stopTyping()
     this.setProps({focused: false})
   }
 
@@ -368,7 +378,8 @@ export default class GrapeInput extends Emitter {
       this.enable()
       this.room = room
       this.setProps({focused: true}, () => {
-        this.input.setTextContent(this.unsent[room.id] || '')
+        this.input.setTextContent(this.unsent[room.id] || '', {silent: true})
+
       })
     }
   }

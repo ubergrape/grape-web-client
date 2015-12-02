@@ -30,7 +30,6 @@ let OrganizationPopover = exports.OrganizationPopover = require('./elements/popo
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let RightSidebar = exports.RightSidebar = require('./elements/rightsidebar')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let ChannelSearch = exports.ChannelSearch = require('./elements/ChannelSearch')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
@@ -44,6 +43,9 @@ let RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite')
 let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
+
+import reduxEmitter from '../../react-components/redux-emitter'
+import '../../react-components/app'
 
 function UI(options) {
   Emitter.call(this)
@@ -91,8 +93,7 @@ UI.prototype.init = function UI_init() {
   this.grapeInput = new GrapeInput()
   qs('.footer', this.el).appendChild(this.grapeInput.el)
 
-  this.channelSearch = new ChannelSearch()
-  document.body.appendChild(this.channelSearch.el)
+  this.reduxEmitter = reduxEmitter
 
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()

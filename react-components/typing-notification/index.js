@@ -1,22 +1,22 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
+
 import {mapActionsToProps} from '../app/utils'
-import {channelSearchSelector} from '../selectors'
+import {typingNotificationSelector} from '../selectors'
 import actionsList from './actionsList'
+import TypingNotification from './TypingNotification'
 
-import ChannelSearch from './ChannelSearch'
-
-const ConnectedChannelSearch = connect(
-  channelSearchSelector,
+const ConnectedTypingNotification = connect(
+  typingNotificationSelector,
   mapActionsToProps(actionsList)
-)(ChannelSearch)
+)(TypingNotification)
 
 export default function init(store) {
-  return class ChannelSearchProvider extends Component {
+  return class TypingNotificationProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedChannelSearch />
+          <ConnectedTypingNotification />
         </Provider>
       )
     }

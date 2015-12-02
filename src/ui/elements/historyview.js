@@ -44,11 +44,9 @@ HistoryView.prototype.init = function() {
   let el = this.scrollWindow = document.createElement('div')
   el.className = 'chat'
   this.history = {}
-  this.typing = {}
   this.redraw()
   el.appendChild(this.history.el)
-  this.redrawTyping()
-  el.appendChild(this.typing.el)
+  el.appendChild(document.createElement('grape-typing-notification'))
   // and make it work with custom scrollbars
   document.createElement('div').appendChild(el)
   let scr = new Scrollbars(el)
@@ -352,11 +350,10 @@ HistoryView.prototype.setRoom = function(room, msgID) {
     this.emit('requestMessage', room, msgID)
     this.room.loading = true
   }
-  this.redrawTyping()
   room.history.on('remove', (msg) => {
     // find removed element and highlight it....
     // then redraw after timeout
-    let el = qs("div.message[data-id='" + msg.id + "']", self.el)
+    const el = qs("div.message[data-id='" + msg.id + "']", self.el)
     // let avatar = qs(".avatar", el.parentNode.parentNode.parentNode)
     classes(el).add('removed')
     // classes(avatar).add('removed')
@@ -365,20 +362,9 @@ HistoryView.prototype.setRoom = function(room, msgID) {
       // otherwise queueDraw() should be enough
       classes(el).remove('removed')
       // classes(avatar).remove('removed')
-      self.queueDraw()
+      this.queueDraw()
     }, 1000)
   })
-  room.off('change typing')
-  room.on('change typing', () => {
-    self.redrawTyping()
-  })
-}
-
-HistoryView.prototype.redrawTyping = function() {
-  render(this.typing, template('typingnotifications.jade', {
-    room: this.room,
-    mode: this.mode
-  }))
 }
 
 HistoryView.prototype.expandActivityList = function(ev) {
@@ -406,7 +392,6 @@ HistoryView.prototype.onInput = function(room, msg, options) {
   }
   this.unsentBuffer[room.id].push(newMessage)
   this.scrollMode = 'automatic'
-  this.emit('stoptyping', room)
   this.queueDraw()
   this.handlePendingMsg(newMessage)
 }
@@ -454,7 +439,6 @@ HistoryView.prototype.onFocusMessage = function(msgID) {
   this.room.loading = false
   this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory)
   this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory)
-  this.redrawTyping()
   this.queueDraw()
 }
 

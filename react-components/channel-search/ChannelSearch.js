@@ -1,49 +1,42 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import mousetrap from 'mousetrap'
-import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
-import noop from 'lodash/utility/noop'
-import keyname from 'keyname'
 
 import List from 'react-finite-list'
 import Dialog from '../dialog/Dialog'
-import {useSheet} from '../jss'
+
+import mousetrap from 'mousetrap'
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
+import keyname from 'keyname'
+
 import style from './style'
-import * as utils from './utils'
+import {useSheet} from '../jss'
 
 /**
  * This renders Browser inside of Modal and connects those show/hide handlers.
  */
 @useSheet(style)
 export default class ChannelSearch extends Component {
+
   static defaultProps = {
-    shortcuts: ['mod+k'],
-    show: false,
-    items: [],
-    onSelect: noop,
-    onCreate: noop,
-    onShow: noop,
-    onHide: noop
+    shortcuts: ['mod+k']
   }
 
   constructor(props) {
     super(props)
-    this.state = this.createState(props)
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  componentWillReceiveProps(nextProps) {
-    this.setState(this.createState(nextProps), ::this.focus)
+  componentDidUpdate() {
+    this.focus()
   }
 
   render() {
     let {classes} = this.props.sheet
     return (
       <Dialog
-        show={this.state.show}
+        show={this.props.show}
         onHide={::this.onHide}
         title="Jump to a conversation">
         <div className={classes.content}>
@@ -53,7 +46,7 @@ export default class ChannelSearch extends Component {
             onKeyDown={::this.onKeyDown}
             type="text"
             ref="input" />
-          {this.state.items.length ? this.renderItems() : this.renderFallback()}
+          {this.props.items.length ? this.renderItems() : this.renderFallback()}
         </div>
       </Dialog>
     )
@@ -64,7 +57,7 @@ export default class ChannelSearch extends Component {
 
     return (
       <List
-        items={this.state.items}
+        items={this.props.items}
         className={classes.list}
         renderItem={::this.renderItem}
         onSelect={::this.onSelect}
@@ -78,7 +71,7 @@ export default class ChannelSearch extends Component {
     return (
       <div className={classes.fallback}>
         <h3 className={classes.fallbackHeadline}>
-          There&apos;s nothing that matches <b>{this.state.search}</b>.
+          There&apos;s nothing that matches <b>{this.props.search}</b>.
         </h3>
         <button
           onClick={::this.onCreate}
@@ -120,26 +113,19 @@ export default class ChannelSearch extends Component {
     )
   }
 
-  createState(props) {
-    let search = this.state ? this.state.search : ''
-    return {
-      show: props.show,
-      search,
-      items: utils.find(props.items, search)
-    }
-  }
-
   focus() {
     let {input} = this.refs
-    if (input) ReactDOM.findDOMNode(input).focus()
+    if (input) input.focus()
   }
 
   onInput(e) {
     let {value} = e.target
-    this.setState({
-      search: value,
-      items: utils.find(this.props.items, value)
-    })
+
+    this.props.inputChannelSearch(
+      value,
+      this.props.org,
+      this.props.user
+    )
   }
 
   onKeyDown(e) {
@@ -162,25 +148,24 @@ export default class ChannelSearch extends Component {
     }
   }
 
-  onSelect(item) {
-    this.onBeforeHide(this.props.onSelect.bind(null, item))
+  onSelect(channel) {
+    this.props.selectChannelSearch(channel)
   }
 
   onCreate() {
-    let name = this.state.search
-    this.onBeforeHide(this.props.onCreate.bind(null, {name}))
+    this.props.showRoomManager()
   }
 
   onShortcut(e) {
-    e.preventDefault()
-    this.props.onShow()
+    if (e.preventDefault) e.preventDefault()
+    this.onShow()
   }
 
   onHide() {
-    this.onBeforeHide(this.props.onHide)
+    this.props.hideChannelSearch()
   }
 
-  onBeforeHide(callback) {
-    this.setState({search: ''}, callback)
+  onShow() {
+    this.props.showChannelSearch(this.props.org, this.props.user)
   }
 }

@@ -130,7 +130,7 @@
 
 .message-group
 	@extend $clearfix
-	margin: 10px 24px 20px 4%
+	margin: 10px 24px 20px 20px
 	position: relative
 	.avatar
 		float: left
@@ -577,52 +577,6 @@ span.author-deleted
     margin-right: 250px !important
 }
 
-
-// ****
-//
-// Styling for Typing Notifications #1587
-//
-// ****
-
-.typing-notification
-	@extend $small-font-size
-	margin: 5px 30px 5px 66px
-	color: gainsboro-dark
-	min-height: 11px
-	text-align: center
-	i.fa
-		margin-left: 1px
-	.dotOne
-		opacity: 0
-		-webkit-animation: dot 1.3s infinite
-		-webkit-animation-delay: 0.0s
-		animation: dot 1.3s infinite
-		animation-delay: 0.0s
-	.dotTwo
-		opacity: 0
-		-webkit-animation: dot 1.3s infinite
-		-webkit-animation-delay: 0.2s
-		animation: dot 1.3s infinite
-		animation-delay: 0.2s
-	.dotThree
-		opacity: 0
-		-webkit-animation: dot 1.3s infinite
-		-webkit-animation-delay: 0.3s
-		animation: dot 1.3s infinite
-		animation-delay: 0.3s
-
-@-webkit-keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
 // ****
 //
 // Styling for markdown text within a message
@@ -800,3 +754,9 @@ span.author-deleted
 	border-top: 1px solid silver-grey-dark
 	box-shadow: 0 1px 2px gainsboro-light inset
 	color: gainsboro-dark
+
+grape-typing-notification
+	display: block
+	margin: 0 20px 10px 20px
+	min-height: 22px
+	color: #b3b3b3

@@ -39,6 +39,7 @@ export default function doBroker(ui, api) {
   broker(ui, 'inviteToRoom', api, 'onInviteToRoom')
   broker(ui, 'inviteToOrg', api, 'onInviteToOrg')
   broker(ui, 'setDescription', api, 'onSetDescription')
+  broker(ui, 'setTyping', api, 'onSetTyping')
 
   broker.pass(api, 'newMessage', ui, 'newMessage')
   broker.pass(api, 'newMsgNotification', ui, 'newMsgNotification')
@@ -65,13 +66,7 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
   broker.pass(api, 'inviteError', ui, 'inviteError')
   broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
-
-  ui.on('starttyping', function (room) {
-    api.setTyping(room, true)
-  })
-  ui.on('stoptyping', function (room) {
-    api.setTyping(room, false)
-  })
+  broker.pass(api, 'change settings', ui, 'setSettings')
 }
 
 
