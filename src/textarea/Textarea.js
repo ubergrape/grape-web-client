@@ -51,7 +51,6 @@ export default class Textarea extends Component {
     let token = getTokenUnderCaret(value, selectionEnd)
 
     let query = Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
-
     this.setState({
       text: value,
       textWithObjects: this.getTextAndObjectsRepresentation(this.state.objects, value),
@@ -96,6 +95,7 @@ export default class Textarea extends Component {
   }
 
   replaceQuery(replacement) {
+
     let token = getTokenUnderCaret(
       this.refs.textarea.value,
       this.refs.textarea.selectionEnd
@@ -128,14 +128,12 @@ export default class Textarea extends Component {
   }
 
   getTextAndObjectsRepresentation(objects, text) {
-
     let content
     let keys = Object.keys(objects)
 
     if (keys.length) {
-      const re = new RegExp(keys.join('|'), 'g')
+      const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
       const keysInText = text.match(re)
-
       content = []
       text
         .split(re)
@@ -230,7 +228,7 @@ export default class Textarea extends Component {
 
     let objects = textWithObjects.reduce((prev, item) => {
       if (typeof item === 'object') {
-        prev.push(item.result)
+        prev.push(item.result || item)
       }
       return prev
     }, [])
@@ -243,9 +241,8 @@ export default class Textarea extends Component {
   }
 
   renderTokens() {
-
     const content = this.state.textWithObjects.map(item => {
-      return typeof item !== 'string' ?
+      return typeof item === 'object' ?
         (<span className={this.props.sheet.classes.token}>{item.content}</span>) :
         item
     })

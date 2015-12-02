@@ -199,7 +199,7 @@ export default class Input extends Component {
     let canShowBrowser = utils.canShowBrowser(this.state, state)
     if (!canShowBrowser) state.browser = null
     state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser && state.query.trigger) {
+    if (canShowBrowser) {
       state.browserOpened = true
     }
     return state
@@ -212,7 +212,7 @@ export default class Input extends Component {
   }
 
   getTextContent() {
-    //return this.textarea.getTextContent()
+    return this.textarea ? this.textarea.getTextContent() : ''
   }
 
   setTextContent(text) {
@@ -271,16 +271,7 @@ export default class Input extends Component {
   }
 
   insertQuery(queryStr, options, callback = noop) {
-    // this.setState({editableFocused: true}, () => {
-    //   let inserted = this.editable.modifyAtCaret((left, right) => {
-    //     let newLeft = left
-    //     // Add space after text if there is no.
-    //     if (newLeft[newLeft.length - 1] !== ' ') newLeft += ' '
-    //     newLeft += queryStr
-    //     return [newLeft, right]
-    //   }, {...options, query: this.query.toJSON()})
-    //   callback(inserted)
-    // })
+    this.setState({editableFocused: true})
   }
 
   /**
