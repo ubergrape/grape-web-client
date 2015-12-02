@@ -4,196 +4,189 @@
 //
 // ****
 .footer
-	z-index: 30
-	padding: 0 horizontal-space 20px
-	background: url("../images/cgbg-new.png")
-	background-attachment: fixed
-	transform: translate3d(0,0,0)
-	will-change: transform
-	border-top: solid 1px #F3F3F3
+  z-index: 30
+  padding: 0 horizontal-space 20px
+  background: url("../images/cgbg-new.png")
+  background-attachment: fixed
+  transform: translate3d(0,0,0)
+  will-change: transform
+  border-top: solid 1px #F3F3F3
 
-	.grape-input-wrapper
-		&.hidden
-			display: none
-		display: flex
-		position: relative
-		&.disabled
-			.hint-box, .uploader
-				opacity: 0
-		.avatar
-			padding-left: (horizontal-space / 2)
-			position: relative
-			&::after,
-			&::before // Hack for the arrow of the message box
-				content: ""
-				position: absolute
-				z-index: 5
-			&::after
-				left: -2px;
-				right: auto;
-				top: 1px;
-				border-left: 9px solid white
-				border-right: none
-				border-bottom: 13px solid transparent
-			&::before // Hack for the arrow of the message box
-				border-left: 10px solid #E5E5E5
-				border-right: none
-				border-bottom: 14px solid transparent
-				left: -1px;
-				right: auto;
-				top: 0px;
-			.image
-				width: 42px
-				height: 42px
-				border-radius: 50%
-				position: relative
-				vertical-align: bottom
+  .grape-input-wrapper
+    &.hidden
+      display: none
+    display: flex
+    position: relative
+    &.disabled
+      .hint-box, .uploader
+        opacity: 0
+    .avatar
+      padding-left: (horizontal-space / 2)
+      position: relative
+      &::after,
+      &::before // Hack for the arrow of the message box
+        content: ""
+        position: absolute
+        z-index: 5
+      &::after
+        left: -2px;
+        right: auto;
+        top: 1px;
+        border-left: 9px solid white
+        border-right: none
+        border-bottom: 13px solid transparent
+      &::before // Hack for the arrow of the message box
+        border-left: 10px solid #E5E5E5
+        border-right: none
+        border-bottom: 14px solid transparent
+        left: -1px;
+        right: auto;
+        top: 0px;
+      .image
+        width: 42px
+        height: 42px
+        border-radius: 50%
+        position: relative
+        vertical-align: bottom
 
-	.controls-wrapper
-		flex: 1
-		position: relative
-		display: flex
-		border: 1px solid #E5E5E5
-		border-radius: 6px 0px 6px 6px
-		background-color: #fff
-		box-shadow: 0px 1px 1px 0px rgba(100, 100, 100, 0.05);
+  .controls-wrapper
+    flex: 1
+    position: relative
+    display: flex
+    border: 1px solid #E5E5E5
+    border-radius: 6px 0px 6px 6px
+    background-color: #fff
+    box-shadow: 0px 1px 1px 0px rgba(100, 100, 100, 0.05);
 
-	grape-input
-		flex: 1
-		[contenteditable="true"]
-			@extend $proximaNova
-			@extend $big-font-size
-			position: relative
-			padding: 9px 92px 7px 15px
-			&::before
-				position: absolute
-				pointer-events: none // prevent cursor change
+  grape-input
+    flex: 1
 
-	.search-browser-button,
-	.controls-group
-		padding: 9px
-		display: flex
-		justify-content: center
-		align-items: flex-end
+  .search-browser-button,
+  .controls-group
+    padding: 9px
+    display: flex
+    justify-content: center
+    align-items: flex-end
 
-	.search-browser-button
-		@extend $hoverable
-		border-right: 1px solid gainsboro-light
-		font-size: bigger-font-size
-		color: gainsboro-dark
-		width: 52px
-		cursor: pointer
-		opacity: .7
-		&:hover
-			opacity: 1
-			background-color: silver-light
+  .search-browser-button
+    @extend $hoverable
+    border-right: 1px solid gainsboro-light
+    font-size: bigger-font-size
+    color: gainsboro-dark
+    width: 52px
+    cursor: pointer
+    opacity: .7
+    &:hover
+      opacity: 1
+      background-color: silver-light
 
-	.controls-group
-		position: absolute
-		bottom: 0
-		right: 0
-		.emoji-browser-button,
-		.uploader
-			@extend $hoverable
-			padding: 0 6px
-			color: gainsboro-dark
-			font-size: 20px
-			opacity: .5
-			transition: transform .2s ease-in-out, opacity .1s ease-out
-			&:hover
-				opacity: .8
-				transition: none
+  .controls-group
+    position: absolute
+    z-index: 1
+    bottom: 0
+    right: 0
+    .emoji-browser-button,
+    .uploader
+      @extend $hoverable
+      padding: 0 6px
+      color: gainsboro-dark
+      font-size: 20px
+      opacity: .5
+      transition: transform .2s ease-in-out, opacity .1s ease-out
+      &:hover
+        opacity: .8
+        transition: none
 
-	.edit-message,
-	.js-markdown-tips
-		color: #666666
-		font-size: 0.8em
+  .edit-message,
+  .js-markdown-tips
+    color: #666666
+    font-size: 0.8em
 
 
-	// hints
-	.edit-message, .hint-box
-		position: absolute
-		top: 0px
-		left: 64px
-		background: linear-gradient(#FBFBFB, #F7F7F7);
-		border: solid 1px #E5E5E5
-		border-radius: 3px
-		padding: 2px 12px 1px 12px
-		-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
-		transition: opacity 0.2s, transform 0.2s
-		transition-timing-function: ease-out
-		transform: translateY(-20px)
-		opacity: 1
-		span
-			border-radius: 3px
-			border: 1px solid #CCCCCC
-			padding: 1px 3px
-			margin: 0 2px
-			color: #666666
-			background: #FBFBFB
+  // hints
+  .edit-message, .hint-box
+    position: absolute
+    top: 0px
+    left: 64px
+    background: linear-gradient(#FBFBFB, #F7F7F7);
+    border: solid 1px #E5E5E5
+    border-radius: 3px
+    padding: 2px 12px 1px 12px
+    -webkit-transition: opacity 0.2s, -webkit-transform 0.2s
+    transition: opacity 0.2s, transform 0.2s
+    transition-timing-function: ease-out
+    transform: translateY(-20px)
+    opacity: 1
+    span
+      border-radius: 3px
+      border: 1px solid #CCCCCC
+      padding: 1px 3px
+      margin: 0 2px
+      color: #666666
+      background: #FBFBFB
 
-	.js-markdown-tips
-		position: absolute
-		bottom: -22px
-		right: 52px
-		cursor: pointer
-		span
-			text-decoration: underline
+  .js-markdown-tips
+    position: absolute
+    bottom: -22px
+    right: 52px
+    cursor: pointer
+    span
+      text-decoration: underline
 
-	// uploader styling
-	.uploader
-		position: relative
-		input
-			display: none
+  // uploader styling
+  .uploader
+    position: relative
+    input
+      display: none
 
-	.upload-progress
-		display: none
-		position: absolute
-		text-align: center
-		top: 0
-		left: 0
-		bottom: 0
-		right: 0
-		background: white
-		border-radius: main-border-radius
-		overflow: hidden
-		img.preview
-			display: none // hide image for now
-			max-width: upload-size
-			max-height: upload-size
-			vertical-align: middle
-		.progress
-			position: absolute
-			top: 0
-			left: 0
-			bottom: 0
-			right: 0
-			background: rgba(255, 255, 255, 0.6)
-		.progress canvas
-			display: inline-block
-			vertical-align: bottom
+  .upload-progress
+    display: none
+    position: absolute
+    text-align: center
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    background: white
+    border-radius: main-border-radius
+    overflow: hidden
+    img.preview
+      display: none // hide image for now
+      max-width: upload-size
+      max-height: upload-size
+      vertical-align: middle
+    .progress
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+      background: rgba(255, 255, 255, 0.6)
+    .progress canvas
+      display: inline-block
+      vertical-align: bottom
 
-	.uploader.open .upload-progress
-		display: block
+  .uploader.open .upload-progress
+    display: block
 
-	.editing-previous
-		.controls-wrapper
-			background: lighten(gold, 80%)
-		.controls-group-item
-			cursor: default
-		.uploader
-			transform: scale(0)
-			opacity: 0
-		.hint-box
-			opacity: 0
-		.avatar
-			&::after
-				border-left-color: lighten(gold, 80%)
-	// Toggle for edit message input
-	.grape-input-wrapper .edit-message
-		opacity: 0
-		transform: translateY(-20px)
-	.grape-input-wrapper.editing-previous .edit-message
-		opacity: 1
-		transform: translateY(-35px)
+  .editing-previous
+    .controls-wrapper
+      background: lighten(gold, 80%)
+    .controls-group-item
+      cursor: default
+    .uploader
+      transform: scale(0)
+      opacity: 0
+    .hint-box
+      opacity: 0
+    .avatar
+      &::after
+        border-left-color: lighten(gold, 80%)
+  // Toggle for edit message input
+  .grape-input-wrapper .edit-message
+    opacity: 0
+    transform: translateY(-20px)
+  .grape-input-wrapper.editing-previous .edit-message
+    opacity: 1
+    transform: translateY(-35px)
 

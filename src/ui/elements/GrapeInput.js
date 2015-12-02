@@ -31,7 +31,7 @@ const defaultBrowserProps = {
   data: null
 }
 
-const inputNodes =  ['INPUT', 'TEXT', 'SELECT']
+const inputNodes =  ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 export default class GrapeInput extends Emitter {
   constructor() {
@@ -199,6 +199,7 @@ export default class GrapeInput extends Emitter {
   }
 
   completePreviousEdit() {
+    console.log(this.previous)
     if (!this.previous) return
     this.previous.el.classList.remove('editing')
     this.el.classList.remove('editing-previous')
@@ -245,7 +246,6 @@ export default class GrapeInput extends Emitter {
 
   onComplete(e) {
     let query = e.detail
-
     switch (query.trigger) {
       case '#':
         this.showSearchBrowser(query.key)
@@ -253,6 +253,9 @@ export default class GrapeInput extends Emitter {
       case '@':
         this.showUsersAndRooms(query.key)
         break
+      // case ':':
+      //   this.showEmojiBrowser()
+      //   break
       default:
     }
   }
@@ -299,7 +302,6 @@ export default class GrapeInput extends Emitter {
 
   onSubmit(e) {
     let data = e.detail
-
     if (this.previous) {
       this.emit('update', this.previous.msg, data.content)
       this.completePreviousEdit()
