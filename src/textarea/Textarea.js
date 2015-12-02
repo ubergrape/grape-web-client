@@ -222,13 +222,19 @@ export default class Textarea extends Component {
     if (keyname(e.keyCode) !== 'enter') return
 
     if (!this.state.text.trim().length) return
-    console.log('ENTER')
     e.preventDefault()
 
     let textWithObjects = this.state.textWithObjects
 
     let content = textWithObjects.map(item => item.str ? item.str : item).join('')
-    let objects = textWithObjects.filter(item => typeof item === 'object')
+
+    let objects = textWithObjects.reduce((prev, item) => {
+      if (typeof item === 'object') {
+        prev.push(item.result)
+      }
+      return prev
+    }, [])
+
     let objectsOnly = !textWithObjects
       .filter(item => typeof item === 'string' && item.trim().length)
       .length
