@@ -27,7 +27,6 @@ export default class Textarea extends Component {
 
   constructor(props) {
     super(props)
-    this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
     this.state = {
       text: '',
       caretPos: 0,
@@ -52,16 +51,13 @@ export default class Textarea extends Component {
 
   onChange(e) {
     let {value, selectionEnd} = e.target
-    let token = getTokenUnderCaret(value, selectionEnd)
-
-    let query = Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
     this.setState({
       text: value,
       textWithObjects: this.getTextAndObjectsRepresentation(this.state.objects, value),
       caretPos: e.target.selectionEnd,
       objectsPositions: this.getObjectsPositions(this.state.objects, value)
     })
-    this.props.onChange(query)
+    this.props.onChange(this.getQuery(value, selectionEnd))
   }
 
   /**
@@ -121,6 +117,12 @@ export default class Textarea extends Component {
     })
   }
 
+  onAbort(reason) {
+    let {value, selectionEnd} = this.refs.textarea
+    let query = this.getQuery(value, selectionEnd)
+    this.props.onAbort({reason, query})
+  }
+
   getObjectsPositions(objects, text) {
     let objectsPositions = {}
 
@@ -129,6 +131,11 @@ export default class Textarea extends Component {
     })
 
     return objectsPositions
+  }
+
+  getQuery(value, selectionEnd) {
+    let token = getTokenUnderCaret(value, selectionEnd)
+    return Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
   }
 
   getTextAndObjectsRepresentation(objects, text) {
@@ -157,29 +164,25 @@ export default class Textarea extends Component {
   }
 
   onKeyDown(e) {
-    this.onKeyDownDebounced(keyname(e.keyCode), e)
-  }
 
-  onKeyDownDebounced(key, e) {
-    // Only handle key down when editable is still focused.
-    // As this function is called with a  delay, focus might have changed
-    // already for a good reason.
-    if (isFocused(this.refs.textarea)) {
-      switch (key) {
-        case 'up':
-          if (!this.refs.textarea.value) {
-            this.props.onEditPrevious()
-            e.preventDefault()
-          }
-          break
-        case 'backspace':
-          this.onDelete(true, e)
-          break
-        case 'del':
-          this.onDelete(false, e)
-          break
-        default:
-      }
+    switch (keyname(e.keyCode)) {
+      case 'esc':
+        this.onAbort('esc')
+        e.preventDefault()
+        break
+      case 'up':
+        if (!this.refs.textarea.value) {
+          this.props.onEditPrevious()
+          e.preventDefault()
+        }
+        break
+      case 'backspace':
+        this.onDelete(true, e)
+        break
+      case 'del':
+        this.onDelete(false, e)
+        break
+      default:
     }
   }
 
@@ -202,7 +205,6 @@ export default class Textarea extends Component {
           positions[0] <= selectionStart &&
           positions[1] >= selectionEnd
         ) {
-
           if (
             !direction && positions[1] === selectionEnd ||
             direction && positions[0] === selectionStart

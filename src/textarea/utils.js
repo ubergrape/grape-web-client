@@ -35,7 +35,6 @@ export function getTokenUnderCaret(string, caretPostion) {
 }
 
 export function indexesOf(sub, str) {
-
     let startIndex = 0
     let index
 
@@ -47,6 +46,5 @@ export function indexesOf(sub, str) {
         startIndex = index + subLen
         indices.push([index, startIndex])
     }
-
     return indices
 }

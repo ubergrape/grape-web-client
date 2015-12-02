@@ -137,6 +137,7 @@ export default class Input extends Component {
             onChange={::this.onChangeInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
+            onAbort={::this.onAbort}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.editableFocused}
@@ -293,8 +294,9 @@ export default class Input extends Component {
   }
 
   onAbort(data = {}) {
+    let currentBrowser = this.state.browser
     this.closeBrowser({editableFocused: true}, () => {
-      this.emit('abort', {...data, browser: this.state.browser})
+      this.emit('abort', {...data, browser: currentBrowser})
     })
   }
 
@@ -321,7 +323,7 @@ export default class Input extends Component {
     // Query has been removed or caret position changed, for datalist only.
     else if (!this.query.isEmpty()) {
       this.query.reset()
-      this.onAbort({reason: 'deleteTrigger'})
+      if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
     this.emit('change')
   }
