@@ -17,7 +17,6 @@ import SearchBrowser from '../search-browser/Browser'
 import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
-import Editable from '../editable/Editable'
 import Textarea from '../textarea/Textarea'
 import MaxSize from '../max-size/MaxSize'
 import Datalist from '../datalist/Datalist'
@@ -376,21 +375,6 @@ export default class Input extends Component {
         break
       default:
     }
-  }
-
-  onFocusEditable() {
-    this.setState({editableFocused: true}, () => {
-      if (!this.props.focused) this.emit('focus')
-    })
-  }
-
-  onBlurEditable() {
-    this.setState({editableFocused: false}, () => {
-      if (!utils.isBrowserType(this.state.browser)) {
-        this.onBlurBrowser()
-      }
-      if (this.props.focused) this.emit('blur')
-    })
   }
 
   onBlurBrowser() {
