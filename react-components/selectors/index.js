@@ -17,3 +17,11 @@ export const setTypingSelector = createSelector(
   state => pick(state, 'user', 'users', 'channel', 'typingNotification'),
   state => state
 )
+
+export const userProfileSelector = createSelector(
+  state => state.userProfile, state => state
+)
+
+export const channelInfoSelector = createSelector(
+  state => state.channelInfo, state => state
+)

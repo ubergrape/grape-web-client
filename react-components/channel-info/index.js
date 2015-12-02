@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
-import {userProfileSelector} from '../selectors'
+import {channelInfoSelector} from '../selectors'
 import actions from './actions'
-import UserProfile from './UserProfile'
+import ChannelInfo from './ChannelInfo'
 
-const ConnectedUserProfile = connect(
-  userProfileSelector,
+const ConnectedChannelInfo = connect(
+  channelInfoSelector,
   mapActionsToProps(actions)
-)(UserProfile)
+)(ChannelInfo)
 
 export default function init(store) {
-  return class UserProfileProvider extends Component {
+  return class ChannelInfoProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedUserProfile />
+          <ConnectedChannelInfo />
         </Provider>
       )
     }

@@ -193,3 +193,80 @@ export function cleanupTyping(channels) {
     }
   }
 }
+
+export function showUserProfile() {
+  reduxEmitter.showSidebar()
+  return {
+    type: types.SHOW_USER_PROFILE,
+    payload: {
+      show: true
+    }
+  }
+}
+
+export function hideUserProfile() {
+  reduxEmitter.hideSidebar()
+  return {
+    type: types.HIDE_USER_PROFILE,
+    payload: {
+      show: false
+    }
+  }
+}
+
+export function showChannelInfo() {
+  reduxEmitter.showSidebar()
+  return {
+    type: types.SHOW_CHANNEL_INFO,
+    payload: {
+      show: true
+    }
+  }
+}
+
+export function hideChannelInfo() {
+  reduxEmitter.hideSidebar()
+  return {
+    type: types.HIDE_CHANNEL_INFO,
+    payload: {
+      show: false
+    }
+  }
+}
+
+export function leaveChannel(channelId) {
+  reduxEmitter.leaveChannel(channelId)
+  return {
+    type: types.LEAVE_CHANNEL
+  }
+}
+
+export function goToChannel(slug) {
+  page(`/chat/${slug}`)
+  return {
+    type: types.GO_TO_CHANNEL
+  }
+}
+
+export function kickMemberFromChannel(params) {
+  reduxEmitter.kickMemberFromChannel(params)
+  return {
+    type: types.KICK_MEMBER_FROM_CHANNEL
+  }
+}
+
+export function memberLeftChannel(channel) {
+  return {
+    type: types.MEMBER_LEFT_CHANNEL,
+    payload: {
+      channel
+    }
+  }
+}
+
+export function inviteChannelMember(channel) {
+  reduxEmitter.inviteChannelMember(channel)
+  return {
+    type: types.INVITE_CHANNEL_MEMBER
+  }
+}

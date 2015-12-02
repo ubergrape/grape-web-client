@@ -166,7 +166,11 @@ ChatHeader.prototype.confirmRoomRename = function () {
 ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
   const selected = this.menuItems.user === this.selected ? null : this.menuItems.user
   if (this.selected) this.emit('hideSidebar')
-  if (selected) this.emit('showSidebar', {type: 'userProfileOrRoomInfo'})
+  //if (selected) this.emit('showSidebar', {type: 'userProfileOrRoomInfo'})
+  if (selected) {
+    if (this.room.type === 'pm') this.emit('showUserProfile')
+    else this.emit('showChannelInfo')
+  }
   this.selected = selected
   this.redraw()
 }

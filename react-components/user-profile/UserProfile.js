@@ -8,25 +8,11 @@ import style from './style'
 
 @useSheet(style)
 export default class UserProfile extends Component {
-  static defaultProps = {
-    show: false,
-    avatar: undefined,
-    username: undefined,
-    fullName: undefined,
-    displayName: undefined,
-    slug: undefined,
-    whatIDo: undefined,
-    email: undefined,
-    skypeUsername: undefined,
-    phoneNumber: undefined,
-    onClose: noop
-  }
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   onClose() {
-    this.props.onClose()
+    this.props.hideUserProfile()
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     if (!this.props.show) return null

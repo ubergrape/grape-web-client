@@ -27,7 +27,7 @@ class ReduxEmitter extends Emitter {
   }
 
   onSelectChannel(channel) {
-    this.actions.setChannel(toCamel(channel.toJSON()))
+    this.actions.setChannel(formatChannel(channel))
   }
 
   onSetSettings(settings) {
@@ -37,6 +37,47 @@ class ReduxEmitter extends Emitter {
   showRoomManager() {
     this.emit('triggerRoomManager')
   }
+
+  onShowUserProfile() {
+    this.actions.showUserProfile()
+  }
+
+  onShowChannelInfo() {
+    this.actions.showChannelInfo()
+  }
+
+  leaveChannel(channelId) {
+    this.emit('leaveRoom', channelId)
+  }
+
+  kickMemberFromChannel(params) {
+    this.emit('kickMember', params)
+  }
+
+  onMemberLeftChannel(channel, user) {
+    this.actions.memberLeftChannel(formatChannel(channel))
+  }
+
+  inviteChannelMember(channel) {
+    this.emit('toggleRoomInvite', channel)
+  }
+
+  showSidebar() {
+    this.emit('showSidebar')
+  }
+
+  hideSidebar() {
+    this.emit('hideSidebar')
+  }
+}
+
+function formatChannel(channel) {
+  const jsonChannel = channel.toJSON()
+  jsonChannel.users = jsonChannel.users.toArray().map(user => toCamel(user.toJSON()))
+  if (channel.creator) {
+    jsonChannel.creator = toCamel(channel.creator.toJSON())
+  }
+  return toCamel(jsonChannel)
 }
 
 const reduxEmitter = new ReduxEmitter()

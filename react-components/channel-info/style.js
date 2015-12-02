@@ -14,7 +14,7 @@ const button = {
 }
 
 export default {
-  roomInfo: {
+  channelInfo: {
     color: '#707782'
   },
   header: {

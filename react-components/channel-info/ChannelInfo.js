@@ -11,36 +11,28 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 const dateFormat = 'MMMM Do, YYYY'
 
 @useSheet(style)
-export default class RoomInfo extends Component {
-  static defaultProps = {
-    show: false,
-    channel: undefined,
-    user: undefined,
-    onKickMember: noop,
-    onSelectMember: noop,
-    onInvite: noop,
-    onLeave: noop,
-    onClose: noop
-  }
-
+export default class ChannelInfo extends Component {
   onInvite() {
-    this.props.onInvite()
+    this.props.inviteChannelMember(this.props.channel)
   }
 
   onKickMember(user) {
-    this.props.onKickMember(user)
+    this.props.kickMemberFromChannel({
+      channelId: this.props.channel.id,
+      userId: user.id
+    })
   }
 
-  onSelect(user) {
-    this.props.onSelectMember(user)
+  onSelectMember(user) {
+    this.props.goToChannel(user.slug)
   }
 
   onLeave() {
-    this.props.onLeave()
+    this.props.leaveChannel(this.props.channel.id)
   }
 
   onClose() {
-    this.props.onClose()
+    this.props.hideChannelInfo()
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -59,7 +51,7 @@ export default class RoomInfo extends Component {
       <SidebarPanel
         title="Room Info"
         onClose={::this.onClose}>
-        <div className={classes.roomInfo}>
+        <div className={classes.channelInfo}>
           <header className={classes.header}>
             <div className={classes.stats}>
               The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
@@ -83,16 +75,16 @@ export default class RoomInfo extends Component {
     const {classes} = this.props.sheet
     return (
       <div key={user.id} className={classes.row}>
-          <img
-            className={classes.avatar}
-            src={user.avatar}
-            onClick={this.onSelect.bind(this, user)} />
-          <span
-            className={classes.name}
-            onClick={this.onSelect.bind(this, user)}>
-            {user.displayName}
-          </span>
-          {this.renderDeleteButton(user)}
+        <img
+          className={classes.avatar}
+          src={user.avatar}
+          onClick={this.onSelectMember.bind(this, user)} />
+        <span
+          className={classes.name}
+          onClick={this.onSelectMember.bind(this, user)}>
+          {user.displayName}
+        </span>
+        {this.renderDeleteButton(user)}
       </div>
     )
   }

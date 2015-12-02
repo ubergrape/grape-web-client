@@ -6,6 +6,8 @@ import client from '../backend/client'
 import channelSearch from '../channel-search'
 import billingWarning from '../billing-warning'
 import typingNotification from '../typing-notification'
+import userProfile from '../user-profile'
+import channelInfo from '../channel-info'
 
 render(
   createElement(channelSearch(store)),
@@ -18,5 +20,8 @@ render(
 )
 
 document.registerReact('grape-typing-notification', typingNotification(store))
+
+document.registerReact('grape-user-profile', userProfile(store))
+document.registerReact('grape-channel-info', channelInfo(store))
 
 subscribeActions(client.connect())

@@ -309,19 +309,19 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
  */
-API.prototype.setOrganization = function API_setOrganization(org, callback) {
+API.prototype.setOrganization = function API_setOrganization(_org, callback) {
   callback || (callback = noop)
   let self = this
   // TODO: this should also leave any old organization
-
   // first get the details
   rpc({
     ns: 'organizations',
     action: 'get_organization',
-    args: [org.id]
+    args: [_org.id]
   }, function (err, res) {
     if (err) return self.emit('error', err)
     const org  = new models.Organization(res)
+    if (org.role == null) org.role = _org.role
     org.users = res.users.map(function (u) {
       let user = models.User.get(u.id) || new models.User(u)
       user.status = u.status
@@ -349,9 +349,10 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
       if (err) return self.emit('error', err)
       self.organization = org
       // put role and title in user object for consistency with other user objects
-      self.user.role = self.organization.role
-      self.user.title = self.organization.title
+      self.user.role = org.role
+      self.user.title = org.title
       self.emit('change organization', org)
+      this.emit('changeUser', this.user)
       callback()
     }.bind(this))
   }.bind(this))
