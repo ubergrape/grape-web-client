@@ -50,19 +50,18 @@ export default function pipeEvents(ui) {
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
   broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
-  broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
-  broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
-  broker(ui, 'setUser', ui.mentions, 'onSetUser')
-  broker(ui, 'loadMentionsPayload', ui.mentions, 'onPayload')
-  broker(ui, 'newMessage', ui.mentions, 'onMessage')
+  //broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
+  //broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
+  //broker(ui, 'setUser', ui.mentions, 'onSetUser')
+  //broker(ui, 'loadMentionsPayload', ui.mentions, 'onPayload')
+  //broker(ui, 'newMessage', ui.mentions, 'onMessage')
   broker(ui, 'memberLeftChannel', ui.reduxEmitter, 'onMemberLeftChannel')
   //broker(ui, 'newRoomMember', ui.roomInfo, 'onMemberJoinedChannel')
   //broker(ui, 'selectchannel', ui.roomInfo, 'onSelectChannel')
   //broker(ui, 'setUser', ui.roomInfo, 'onSetUser')
   //broker(ui, 'orgReady', ui.roomInfo, 'onOrgReady')
-  broker(ui, 'searchFilesPayload', ui.sharedFiles, 'onPayload')
-  broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')
-  broker(ui, 'newMessage', ui.sharedFiles, 'onMessage')
+  //broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')
+  //broker(ui, 'newMessage', ui.sharedFiles, 'onMessage')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
@@ -72,11 +71,12 @@ export default function pipeEvents(ui) {
   broker(ui.chatHeader, 'hideSidebar', ui, 'onHideSidebar')
   //broker(ui.chatHeader, 'showSidebar', ui.messageSearch, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.messageSearch, 'onHide')
-  broker(ui.chatHeader, 'search', ui.messageSearch, 'onSearch')
+  //broker(ui.chatHeader, 'search', ui.messageSearch, 'onSearch')
   //broker(ui.chatHeader, 'showSidebar', ui.mentions, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.mentions, 'onHide')
   broker(ui.chatHeader, 'showUserProfile', ui.reduxEmitter, 'onShowUserProfile')
   broker(ui.chatHeader, 'showChannelInfo', ui.reduxEmitter, 'onShowChannelInfo')
+  broker(ui.chatHeader, 'showSharedFiles', ui.reduxEmitter, 'onShowSharedFiles')
   //broker(ui.chatHeader, 'showSidebar', ui.roomInfo, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.roomInfo, 'onHide')
   //broker(ui.chatHeader, 'showSidebar', ui.sharedFiles, 'onShow')
@@ -128,13 +128,13 @@ export default function pipeEvents(ui) {
   broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
 
   // message search
-  broker.pass(ui.messageSearch, 'search', ui, 'messageSearch')
+  //broker.pass(ui.messageSearch, 'search', ui, 'messageSearch')
   //broker(ui.messageSearch, 'show', ui, 'onShowSidebar')
   //broker(ui.messageSearch, 'hide', ui, 'onHideSidebar')
   //broker.pass(ui.messageSearch, 'hide', ui, 'hideSidebar')
 
   // mentions
-  broker.pass(ui.mentions, 'load', ui, 'loadMentions')
+  //broker.pass(ui.mentions, 'load', ui, 'loadMentions')
   //broker(ui.mentions, 'show', ui, 'onShowSidebar')
   //broker(ui.mentions, 'hide', ui, 'onHideSidebar')
   //broker.pass(ui.mentions, 'hide', ui, 'hideSidebar')
@@ -162,5 +162,6 @@ export default function pipeEvents(ui) {
   // sidebar
   broker(ui.reduxEmitter, 'hideSidebar', ui, 'onHideSidebar')
   broker(ui.reduxEmitter, 'showSidebar', ui, 'onShowSidebar')
+  broker(ui.reduxEmitter, 'error', ui, 'gotError')
   broker.pass(ui.reduxEmitter, 'hideSidebar', ui, 'hideSidebar')
 }

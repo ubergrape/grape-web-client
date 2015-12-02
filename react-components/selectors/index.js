@@ -25,3 +25,7 @@ export const userProfileSelector = createSelector(
 export const channelInfoSelector = createSelector(
   state => state.channelInfo, state => state
 )
+
+export const sharedFilesSelector = createSelector(
+  state => state.sharedFiles, state => state
+)

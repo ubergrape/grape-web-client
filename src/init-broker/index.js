@@ -37,7 +37,6 @@ export default function doBroker(ui, api) {
   broker(ui, 'inviteToRoom', api, 'onInviteToRoom')
   broker(ui, 'inviteToOrg', api, 'onInviteToOrg')
   broker(ui, 'setDescription', api, 'onSetDescription')
-  broker(ui, 'searchFiles', api, 'onSearchFiles')
   broker(ui, 'loadMentions', api, 'onLoadMentions')
   broker(ui, 'messageSearch', api, 'onMessageSearch')
   broker(ui, 'setTyping', api, 'onSetTyping')
@@ -71,8 +70,6 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'searchMessagesError', ui, 'searchMessagesError')
   broker.pass(api, 'loadMentionsError', ui, 'loadMentionsError')
   broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
-  broker.pass(api, 'searchFilesError', ui, 'searchFilesError')
-  broker.pass(api, 'searchFilesPayload', ui, 'searchFilesPayload')
   broker.pass(api, 'change settings', ui, 'setSettings')
 }
 

@@ -10,17 +10,6 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class SharedFiles extends Component {
-  static defaultProps = {
-    show: false,
-    total: undefined,
-    items: [],
-    limit: 20,
-    images: {},
-    isLoading: false,
-    onRequest: noop,
-    onClose: noop
-  }
-
   constructor(props) {
     super(props)
   }
@@ -32,7 +21,7 @@ export default class SharedFiles extends Component {
     const show = nextProps.show && !this.props.show
     const reset = nextProps.show && !nextProps.items.length && nextProps.total == null
       && this.props.total != null
-    if (show || reset) this.request(nextProps)
+    if (show || reset) this.load(nextProps)
   }
 
   render() {
@@ -81,15 +70,17 @@ export default class SharedFiles extends Component {
     )
   }
 
-  request(props = this.props) {
-    props.onRequest({
+  load(props = this.props) {
+    props.loadSharedFiles({
       offset: props.items.length,
-      limit: props.limit
+      limit: props.limit,
+      channelId: props.channel.id,
+      orgId: props.org.id
     })
   }
 
   onLoadMore() {
-    this.request()
+    this.load()
   }
 
   onClose() {

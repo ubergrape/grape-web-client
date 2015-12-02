@@ -9,7 +9,7 @@ import find from 'lodash/collection/find'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
-import {images} from '../constants'
+import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
 import 'grape-browser'
 

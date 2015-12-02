@@ -62,12 +62,20 @@ class ReduxEmitter extends Emitter {
     this.emit('toggleRoomInvite', channel)
   }
 
+  onShowSharedFiles() {
+    this.actions.showSharedFiles()
+  }
+
   showSidebar() {
     this.emit('showSidebar')
   }
 
   hideSidebar() {
     this.emit('hideSidebar')
+  }
+
+  showError(err) {
+    this.emit('error', err)
   }
 }
 

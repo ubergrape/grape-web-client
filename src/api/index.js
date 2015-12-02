@@ -683,23 +683,6 @@ API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
   }.bind(this))
 }
 
-API.prototype.onSearchFiles = function (params) {
-  rpc({
-    ns: 'search',
-    action: 'search_files',
-    args: [
-      this.organization.id,
-      params.channel,
-      params.own,
-      params.limit,
-      params.offset
-    ]
-  }, (err, data) => {
-    if (err) return this.emit('error', err)
-    this.emit('searchFilesPayload', convertCase.toCamel(data))
-  })
-}
-
 API.prototype.onLoadMentions = function (params) {
   rpc({
     ns: 'search',

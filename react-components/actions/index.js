@@ -4,6 +4,8 @@ import each from 'lodash/collection/each'
 
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../redux-emitter'
+import rpc from '../backend/rpc'
+import {toCamel} from '../backend/convertCase'
 
 import {
   find as findChannel,
@@ -268,5 +270,60 @@ export function inviteChannelMember(channel) {
   reduxEmitter.inviteChannelMember(channel)
   return {
     type: types.INVITE_CHANNEL_MEMBER
+  }
+}
+
+export function showSharedFiles() {
+  reduxEmitter.showSidebar()
+  return {
+    type: types.SHOW_SHARED_FILES,
+    payload: {
+      show: true
+    }
+  }
+}
+
+export function hideSharedFiles() {
+  reduxEmitter.hideSidebar()
+  return {
+    type: types.HIDE_SHARED_FILES,
+    payload: {
+      show: true
+    }
+  }
+}
+
+export function setSidebarIsLoading(isLoading) {
+  return {
+    type: types.SET_SIDEBAR_IS_LOADING,
+    payload: {
+      isLoading
+    }
+  }
+}
+
+export function loadSharedFiles(params) {
+  return dispatch => {
+    dispatch(setSidebarIsLoading(true))
+    rpc({
+      ns: 'search',
+      action: 'search_files',
+      args: [
+        params.orgId,
+        params.channelId,
+        params.own,
+        params.limit,
+        params.offset
+      ]
+    }, (err, data) => {
+      if (err) reduxEmitter.showError(err)
+      dispatch(setSidebarIsLoading(false))
+      dispatch({
+        type: types.LOADED_SHARED_FILES,
+        payload: {
+          items: toCamel(data).results
+        }
+      })
+    })
   }
 }

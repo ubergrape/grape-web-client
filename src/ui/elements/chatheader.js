@@ -166,7 +166,6 @@ ChatHeader.prototype.confirmRoomRename = function () {
 ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
   const selected = this.menuItems.user === this.selected ? null : this.menuItems.user
   if (this.selected) this.emit('hideSidebar')
-  //if (selected) this.emit('showSidebar', {type: 'userProfileOrRoomInfo'})
   if (selected) {
     if (this.room.type === 'pm') this.emit('showUserProfile')
     else this.emit('showChannelInfo')
@@ -178,7 +177,7 @@ ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
 ChatHeader.prototype.toggleSharedFiles = function () {
   const selected = this.menuItems.sharedFiles === this.selected ? null : this.menuItems.sharedFiles
   if (this.selected) this.emit('hideSidebar')
-  if (selected) this.emit('showSidebar', {type: 'sharedFiles'})
+  if (selected) this.emit('showSharedFiles')
   this.selected = selected
   this.redraw()
 }
