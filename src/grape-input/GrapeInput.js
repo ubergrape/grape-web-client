@@ -136,6 +136,7 @@ export default class Input extends Component {
             onResize={::this.onEditableResize}
             onChange={::this.onChangeInput}
             onSubmit={::this.onSubmit}
+            onEditPrevious={::this.onEditPrevious}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.editableFocused}

@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom'
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
 import {getTokenUnderCaret, indexesOf} from './utils'
+
 import {escapeRegExp} from 'lodash/string'
+import debounce from 'lodash/function/debounce'
 
 import keyname from 'keyname'
 
 import {parseAndReplace, parseEmoji} from '../editable/markdown'
+import {isFocused} from '../editable/utils'
 import {create} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -24,6 +27,7 @@ export default class Textarea extends Component {
 
   constructor(props) {
     super(props)
+    this.onKeyDownDebounced = debounce(::this.onKeyDownDebounced, 20)
     this.state = {
       text: '',
       caretPos: 0,
@@ -153,16 +157,29 @@ export default class Textarea extends Component {
   }
 
   onKeyDown(e) {
-    let key = keyname(e.keyCode)
+    this.onKeyDownDebounced(keyname(e.keyCode), e)
+  }
 
-    switch (key) {
-      case 'backspace':
-        this.onDelete(true, e)
-        break
-      case 'del':
-        this.onDelete(false, e)
-        break
-      default:
+  onKeyDownDebounced(key, e) {
+    // Only handle key down when editable is still focused.
+    // As this function is called with a  delay, focus might have changed
+    // already for a good reason.
+    if (isFocused(this.refs.textarea)) {
+      switch (key) {
+        case 'up':
+          if (!this.refs.textarea.value) {
+            this.props.onEditPrevious()
+            e.preventDefault()
+          }
+          break
+        case 'backspace':
+          this.onDelete(true, e)
+          break
+        case 'del':
+          this.onDelete(false, e)
+          break
+        default:
+      }
     }
   }
 
@@ -170,6 +187,8 @@ export default class Textarea extends Component {
     this.submit(e.nativeEvent)
   }
 
+  // TODO: possibly improve speed with fake caret in highlighter
+  // so you can check if caret is inside/near the grape object
   onDelete(direction, e) {
     let str = this.state.text
     let {selectionStart, selectionEnd} = this.refs.textarea
