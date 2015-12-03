@@ -35,7 +35,7 @@ export default class WampClient {
     this.wamp = new Wamp(
       this.socket,
       {omitSubscribe: true},
-      ::this.onConnected
+      ::this.onOpen
     )
     this.wamp.on('error', ::this.onError)
     this.wamp.on('event', ::this.onEvent)
@@ -77,13 +77,21 @@ export default class WampClient {
     this.wamp.call.apply(this.wamp, args)
   }
 
-  onConnected({sessionId}) {
-    this.id = sessionId
-    this.connected = true
+  onOpen({sessionId}) {
     this.backoff.reset()
-    log('connected with session id %s', this.id)
+    this.onConnected()
+    if (sessionId !== this.id) {
+      this.id = sessionId
+      log('new session id %s', this.id)
+      this.out.emit('set:id', this.id)
+    }
+  }
+
+  onConnected() {
+    if (this.connected) return
+    this.connected = true
+    log('connected')
     this.out.emit('connected')
-    this.out.emit('set:id', this.id)
   }
 
   onDisconnected() {
