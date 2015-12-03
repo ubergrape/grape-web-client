@@ -1,8 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-console.log(fonts)
-
 export default {
   wrapper: {
     position: 'relative',
@@ -12,7 +10,7 @@ export default {
   },
 
   common: {
-    font: fonts.normal.fontSize + '/' + fonts.normal.lineHeight +  ' Arial, Helvetica, sans-serif',
+    font: fonts.normal.fontSize + '/' + fonts.normal.lineHeight + ' Arial, Helvetica, sans-serif',
     overflow: 'hidden',
     minHeight: 38,
     width: '100%',
@@ -27,7 +25,6 @@ export default {
     outline: 'none',
     background: 'transparent',
     border: 'none',
-    outline: 0,
     color: colors.grapeDark,
     resize: 'none'
   },

@@ -69,11 +69,16 @@ export default class Input extends Component {
     this.state = this.createState(this.props)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  componentDidMount() {
+    objectStyle.sheet.attach()
+    this.setTrigger(this.state.browser)
+    const {onDidMount} = this.props
+    if (onDidMount) onDidMount(this)
+  }
 
   componentWillReceiveProps(nextProps) {
-    let newEmojiSheet = get(nextProps, 'images.emojiSheet')
-    let currEmojiSheet = get(this.props, 'images.emojiSheet')
+    const newEmojiSheet = get(nextProps, 'images.emojiSheet')
+    const currEmojiSheet = get(this.props, 'images.emojiSheet')
     if (newEmojiSheet !== currEmojiSheet) {
       EmojiBrowser.init({
         emojiSheet: newEmojiSheet,
@@ -84,16 +89,7 @@ export default class Input extends Component {
     this.setState(this.createState(nextProps))
   }
 
-  componentDidMount() {
-    objectStyle.sheet.attach()
-    this.setTrigger(this.state.browser)
-    let {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
-  }
-
-  componentWillUnmount() {
-    objectStyle.sheet.detach()
-  }
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.browser !== this.state.browser) {
@@ -101,115 +97,20 @@ export default class Input extends Component {
     }
   }
 
+  componentWillUnmount() {
+    objectStyle.sheet.detach()
+  }
+
   setTrigger(browser) {
     if (!browser) return
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
-  render() {
-    let {classes} = this.props.sheet
-    let {data} = this.state
-    let isExternal = utils.isExternalSearch(data)
-    let browser = this.renderBrowser({
-      isExternal: isExternal,
-      className: classes.browser,
-      images: this.props.images
+  onAbort(data = {}) {
+    const currentBrowser = this.state.browser
+    this.closeBrowser({editableFocused: true}, () => {
+      this.emit('abort', {...data, browser: currentBrowser})
     })
-
-    return (
-      <div
-        onKeyDown={::this.onKeyDown}
-        className={classes.input}
-        data-test="grape-input">
-        <GlobalEvent event="blur" handler={::this.onBlurWindow} />
-        <div className={classes.completeWrapper} data-test="complete-wrapper">
-          {browser}
-        </div>
-        <MaxSize
-          innerWidth={this.state.editableWidth}
-          innerHeight={this.state.editableHeight}
-          onResize={::this.onInputResize}>
-          <Textarea
-            width={this.state.editableWidth}
-            height={this.state.editableHeight}
-            onResize={::this.onEditableResize}
-            onChange={::this.onChangeInput}
-            onSubmit={::this.onSubmit}
-            onEditPrevious={::this.onEditPrevious}
-            onAbort={::this.onAbort}
-            placeholder={this.props.placeholder}
-            disabled={this.props.disabled}
-            focused={this.state.editableFocused}
-            onDidMount={this.onDidMount.bind(this, 'textarea')}
-            content={this.getTextContent()}/>
-        </MaxSize>
-      </div>
-    )
-  }
-
-  renderBrowser(options) {
-    let {browser, browserOpened, data} = this.state
-
-    if (!browser || !browserOpened) return null
-
-    if (browser === 'search') {
-      return (
-        <SearchBrowser
-          {...options}
-          data={data}
-          isLoading={this.props.isLoading}
-          hasIntegrations={this.props.hasIntegrations}
-          canAddIntegrations={this.props.canAddIntegrations}
-          onSelectItem={::this.onSelectSearchBrowserItem}
-          onSelectFilter={::this.onSelectSearchBrowserFilter}
-          onAddIntegration={::this.onAddSearchBrowserIntegration}
-          onInput={::this.onInputSearchBrowser}
-          onAbort={::this.onAbort}
-          onBlur={::this.onBlurBrowser}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
-      )
-    }
-
-    if (browser === 'emoji') {
-      return (
-        <EmojiBrowser
-          {...options}
-          customEmojis={this.props.customEmojis}
-          onSelectItem={::this.onSelectEmojiBrowserItem}
-          onBlur={::this.onBlurBrowser}
-          onAbort={::this.onAbort}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
-      )
-    }
-
-    return (
-      <Datalist
-        {...options}
-        data={data}
-        onSelect={::this.onSelectDatalistItem}
-        onDidMount={this.onDidMount.bind(this, 'datalist')} />
-    )
-  }
-
-  createState(nextProps) {
-    let state = pick(nextProps, 'browser', 'data', 'isLoading')
-    state.editableFocused = nextProps.focused
-    if (state.browser === 'user') state.data = mentions.map(state.data)
-    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
-    state.query = this.query.toJSON()
-    let canShowBrowser = utils.canShowBrowser(this.state, state)
-    if (!canShowBrowser) state.browser = null
-    state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser) {
-      state.browserOpened = true
-    }
-    return state
-  }
-
-  exposePublicMethods() {
-    let {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   getTextContent() {
@@ -219,6 +120,27 @@ export default class Input extends Component {
   setTextContent(text) {
     this.query.reset()
     return this.textarea.setTextContent(text)
+  }
+
+  exposePublicMethods() {
+    const {container} = this.props
+    if (!container) return
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+  }
+
+  createState(nextProps) {
+    const state = pick(nextProps, 'browser', 'data', 'isLoading')
+    state.editableFocused = nextProps.focused
+    if (state.browser === 'user') state.data = mentions.map(state.data)
+    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
+    state.query = this.query.toJSON()
+    const canShowBrowser = utils.canShowBrowser(this.state, state)
+    if (!canShowBrowser) state.browser = null
+    state.browserOpened = this.state ? this.state.browserOpened : false
+    if (canShowBrowser) {
+      state.browserOpened = true
+    }
+    return state
   }
 
   closeBrowser(state, callback) {
@@ -233,8 +155,9 @@ export default class Input extends Component {
    * Keyboard navigation for the datalist (mention, emoji).
    */
   navigateDatalist(e) {
-    let {datalist} = this
+    const {datalist} = this
     if (!datalist) return
+
     switch (keyname(e.keyCode)) {
       case 'down':
       case 'tab':
@@ -255,9 +178,9 @@ export default class Input extends Component {
 
   insertItem(item, query) {
     if (item) {
-      let results = get(this.state, 'data.results')
-      let data = find(results, res => res.id === item.id) || item
-      let object = objects.create(data.type, data)
+      const results = get(this.state, 'data.results')
+      const data = find(results, res => res.id === item.id) || item
+      const object = objects.create(data.type, data)
       this.setState({ contentObjects: [...this.state.contentObjects, object] })
       this.replaceQuery(object)
     }
@@ -271,7 +194,7 @@ export default class Input extends Component {
     this.textarea.replaceQuery(replacement)
   }
 
-  insertQuery(queryStr, options, callback = noop) {
+  insertQuery() {
     this.setState({editableFocused: true})
   }
 
@@ -279,24 +202,17 @@ export default class Input extends Component {
    * Emit DOM event.
    */
   emit(type, data) {
-    let capType = capitalize(type)
+    const capType = capitalize(type)
     let name = `grape${capType}`
-    let event = new CustomEvent(name, {
+    const event = new CustomEvent(name, {
       bubbles: true,
       cancelable: true,
       detail: data
     })
     ReactDOM.findDOMNode(this).dispatchEvent(event)
     name = `on${capType}`
-    let callback = this.props[name]
+    const callback = this.props[name]
     if (callback) callback(data)
-  }
-
-  onAbort(data = {}) {
-    let currentBrowser = this.state.browser
-    this.closeBrowser({editableFocused: true}, () => {
-      this.emit('abort', {...data, browser: currentBrowser})
-    })
   }
 
   onEditPrevious() {
@@ -350,13 +266,14 @@ export default class Input extends Component {
   }
 
   onInsertItem(item, query) {
-    let {type, service} = item
+    const {type} = item
+    let {service} = item
     let rank = 0
 
-    let results = get(this.state, 'data.results')
+    const results = get(this.state, 'data.results')
     if (!isEmpty(results)) {
-      let resultsWithoutFilters = filter(results, res => res.type !== 'filters')
-      let index = findIndex(resultsWithoutFilters, res => res.id === item.id)
+      const resultsWithoutFilters = filter(results, res => res.type !== 'filters')
+      const index = findIndex(resultsWithoutFilters, res => res.id === item.id)
       rank = index + 1
       service = resultsWithoutFilters[index].service
     }
@@ -405,5 +322,90 @@ export default class Input extends Component {
 
   onInputResize() {
     this.emit('resize')
+  }
+
+  renderBrowser(options) {
+    const {browser, browserOpened, data} = this.state
+
+    if (!browser || !browserOpened) return null
+
+    if (browser === 'search') {
+      return (
+        <SearchBrowser
+          {...options}
+          data={data}
+          isLoading={this.props.isLoading}
+          hasIntegrations={this.props.hasIntegrations}
+          canAddIntegrations={this.props.canAddIntegrations}
+          onSelectItem={::this.onSelectSearchBrowserItem}
+          onSelectFilter={::this.onSelectSearchBrowserFilter}
+          onAddIntegration={::this.onAddSearchBrowserIntegration}
+          onInput={::this.onInputSearchBrowser}
+          onAbort={::this.onAbort}
+          onBlur={::this.onBlurBrowser}
+          onDidMount={this.onDidMount.bind(this, 'browser')} />
+      )
+    }
+
+    if (browser === 'emoji') {
+      return (
+        <EmojiBrowser
+          {...options}
+          customEmojis={this.props.customEmojis}
+          onSelectItem={::this.onSelectEmojiBrowserItem}
+          onBlur={::this.onBlurBrowser}
+          onAbort={::this.onAbort}
+          onDidMount={this.onDidMount.bind(this, 'browser')} />
+      )
+    }
+
+    return (
+      <Datalist
+        {...options}
+        data={data}
+        onSelect={::this.onSelectDatalistItem}
+        onDidMount={this.onDidMount.bind(this, 'datalist')} />
+    )
+  }
+
+  render() {
+    const {classes} = this.props.sheet
+    const {data} = this.state
+    const isExternal = utils.isExternalSearch(data)
+    const browser = this.renderBrowser({
+      isExternal: isExternal,
+      className: classes.browser,
+      images: this.props.images
+    })
+
+    return (
+      <div
+        onKeyDown={::this.onKeyDown}
+        className={classes.input}
+        data-test="grape-input">
+        <GlobalEvent event="blur" handler={::this.onBlurWindow} />
+        <div className={classes.completeWrapper} data-test="complete-wrapper">
+          {browser}
+        </div>
+        <MaxSize
+          innerWidth={this.state.editableWidth}
+          innerHeight={this.state.editableHeight}
+          onResize={::this.onInputResize}>
+          <Textarea
+            width={this.state.editableWidth}
+            height={this.state.editableHeight}
+            onResize={::this.onEditableResize}
+            onChange={::this.onChangeInput}
+            onSubmit={::this.onSubmit}
+            onEditPrevious={::this.onEditPrevious}
+            onAbort={::this.onAbort}
+            placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
+            focused={this.state.editableFocused}
+            onDidMount={this.onDidMount.bind(this, 'textarea')}
+            content={this.getTextContent()}/>
+        </MaxSize>
+      </div>
+    )
   }
 }

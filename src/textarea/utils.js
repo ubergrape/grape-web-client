@@ -1,4 +1,3 @@
-import * as objects from '../objects'
 import {getLabel} from '../objects/utils'
 
 // This regex is taken from "marked" module almost "as it is".
@@ -7,15 +6,39 @@ import {getLabel} from '../objects/utils'
 // everything except of links.
 const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
+function tagWithoutLabel(tag, type) {
+  return tag[0] === getLabel(type) ? tag.substr(1) : tag
+}
+
+function tagWithLabel(tag, type) {
+  const label = getLabel(type)
+  return tag[0] === label ? tag : label + tag
+}
+
+/**
+ * Get data map from md object.
+ */
+function toData(text, url) {
+  const parts = url.slice(5).split('|')
+
+  return {
+    name: tagWithoutLabel(text, parts[1]),
+    service: parts[0],
+    type: parts[1],
+    id: tagWithoutLabel(parts[2], parts[1]),
+    url: parts[3]
+  }
+}
+
 /**
  * Parse all md links and convert them to array of data.
  */
 export function parseAndReplace(content) {
-  let configs = []
-  let text = content.replace(linkRegExp, (match, text, url) => {
-    let config = toData(text, url)
+  const configs = []
+  let text = content.replace(linkRegExp, (match, tag, url) => {
+    const config = toData(tag, url)
     configs.push(config)
-    return tagWithLabel(text, config.type)
+    return tagWithLabel(tag, config.type)
   })
 
   text = text.replace(/:\w+:/g, (match) => {
@@ -35,7 +58,7 @@ export function parseAndReplace(content) {
  */
 export function parseEmoji(content) {
   let data = []
-  let emoji = content.match(/:\w+:/g)
+  const emoji = content.match(/:\w+:/g)
   if (emoji) {
     data = emoji.map(token => {
       return {
@@ -62,7 +85,7 @@ export function getTokenUnderCaret(string, caretPostion) {
     let tailFound = false
 
     while (!tailFound) {
-      let nextSymbol = string[nextSymbolIndex]
+      const nextSymbol = string[nextSymbolIndex]
 
       if ((nextSymbol && nextSymbol.match(/\s/)) || // match whitespace and line break too
           nextSymbolIndex < 0 ||
@@ -85,18 +108,17 @@ export function getTokenUnderCaret(string, caretPostion) {
 }
 
 export function indexesOf(sub, str) {
-    let startIndex = 0
-    let index
+  const subLen = sub.length
+  const indices = []
 
-    const subLen = sub.length
-
-    const indices = []
-
-    while ((index = str.indexOf(sub, startIndex)) > -1) {
-        startIndex = index + subLen
-        indices.push([index, startIndex])
-    }
-    return indices
+  let startIndex = 0
+  let index = str.indexOf(sub, startIndex)
+  while (index > -1) {
+    startIndex = index + subLen
+    indices.push([index, startIndex])
+    index = str.indexOf(sub, startIndex)
+  }
+  return indices
 }
 
 /**
@@ -104,29 +126,4 @@ export function indexesOf(sub, str) {
  */
 export function isFocused(node) {
   return node === document.activeElement
-}
-
-
-/**
- * Get data map from md object.
- */
-function toData(text, url) {
-  let parts = url.slice(5).split('|')
-
-  return {
-    name: tagWithoutLabel(text, parts[1]),
-    service: parts[0],
-    type: parts[1],
-    id: tagWithoutLabel(parts[2], parts[1]),
-    url: parts[3]
-  }
-}
-
-function tagWithoutLabel(tag, type) {
-  return tag[0] === getLabel(type) ? tag.substr(1) : tag
-}
-
-function tagWithLabel(tag, type) {
-  let label = getLabel(type)
-  return tag[0] === label ? tag : label + tag
 }

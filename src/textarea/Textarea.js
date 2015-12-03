@@ -1,32 +1,39 @@
-import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+import React, {PropTypes, Component} from 'react'
 
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
 import {
   getTokenUnderCaret,
   indexesOf,
-  parseAndReplace,
-  parseEmoji,
-  isFocused
+  parseAndReplace
 } from './utils'
 
 import {escapeRegExp} from 'lodash/string'
-import debounce from 'lodash/function/debounce'
-
 import keyname from 'keyname'
-
 import {create} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
-
-// import * as emoji from '../emoji'
 import style from './style'
 
 @useSheet(style)
 export default class Textarea extends Component {
-  static defaultProps = {
 
+  static propTypes = {
+    onDidMount: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onAbort: PropTypes.func.isRequired,
+    onEditPrevious: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    sheet: PropTypes.object.isRequired,
+    focused: PropTypes.bool,
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string
+  }
+
+  static defaultProps = {
+    placeholder: '',
+    focused: true,
+    disabled: false
   }
 
   constructor(props) {
@@ -41,7 +48,7 @@ export default class Textarea extends Component {
   }
 
   componentDidMount() {
-    let {onDidMount} = this.props
+    const {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
 
@@ -54,7 +61,7 @@ export default class Textarea extends Component {
   }
 
   onChange(e) {
-    let {value, selectionEnd} = e.target
+    const {value, selectionEnd} = e.target
     this.setState({
       text: value,
       textWithObjects: this.getTextAndObjectsRepresentation(this.state.objects, value),
@@ -64,111 +71,13 @@ export default class Textarea extends Component {
     this.props.onChange(this.getQuery(value, selectionEnd))
   }
 
-  /**
-   * Setter for text content.
-   *
-   * When content passed - set text content and put caret at the end, otherwise
-   * clean up the content.
-   *
-   * @api public
-   */
-  setTextContent(content) {
-
-    if (!this.props.focused) return false
-
-    const {configs, text} = parseAndReplace(content)
-
-    let objects = {}
-    configs.forEach(config => {
-      let object = create(config.type, config)
-      objects[object.content] = object
-    })
-
-    this.setState({
-      text,
-      objects,
-      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
-      caretPos: text.length,
-      objectsPositions: this.getObjectsPositions(objects, text)
-    })
-    return true
-  }
-
-  addContent(str) {
-    this.refs.textarea.value = this.refs.textarea.value + str
-    this.onChange({target: this.refs.textarea})
-  }
-
-  replaceQuery(replacement) {
-    let token = getTokenUnderCaret(
-      this.refs.textarea.value,
-      this.refs.textarea.selectionEnd
-    )
-
-    let text = this.state.text
-    let textBefore = text.slice(0, token.position[0])
-    let textAfter = text.slice(token.position[1], text.length)
-
-    text = textBefore + replacement.content + textAfter + ' '
-    let objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
-
-    this.setState({
-      text,
-      objects,
-      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
-      caretPos: this.refs.textarea.selectionEnd + replacement.content.length,
-      objectsPositions: this.getObjectsPositions(objects, text)
-    })
-  }
-
   onAbort(reason) {
-    let {value, selectionEnd} = this.refs.textarea
-    let query = this.getQuery(value, selectionEnd)
+    const {value, selectionEnd} = this.refs.textarea
+    const query = this.getQuery(value, selectionEnd)
     this.props.onAbort({reason, query})
   }
 
-  getObjectsPositions(objects, text) {
-    let objectsPositions = {}
-
-    Object.keys(objects).forEach(key => {
-      objectsPositions[key] = indexesOf(key, text)
-    })
-
-    return objectsPositions
-  }
-
-  getQuery(value, selectionEnd) {
-    let token = getTokenUnderCaret(value, selectionEnd)
-    return Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
-  }
-
-  getTextAndObjectsRepresentation(objects, text) {
-    let content
-    let keys = Object.keys(objects)
-
-    if (keys.length) {
-      const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
-      const keysInText = text.match(re)
-      content = []
-      text
-        .split(re)
-        .forEach((substr, i, arr) => {
-          content.push(substr)
-          if (i < arr.length - 1) content.push(objects[keysInText[i]])
-        })
-    } else {
-      content = [text]
-    }
-
-    return content
-  }
-
-  getTextContent() {
-    return this.state.text
-  }
-
   onKeyDown(e) {
-
     switch (keyname(e.keyCode)) {
       case 'esc':
         this.onAbort('esc')
@@ -197,9 +106,9 @@ export default class Textarea extends Component {
   // TODO: possibly improve speed with fake caret in highlighter
   // so you can check if caret is inside/near the grape object
   onDelete(direction, e) {
-    let str = this.state.text
-    let {selectionStart, selectionEnd} = this.refs.textarea
-    let objectsPositions = this.state.objectsPositions
+    const str = this.state.text
+    const {selectionStart, selectionEnd} = this.refs.textarea
+    const objectsPositions = this.state.objectsPositions
 
     let positionsToDelete
 
@@ -225,7 +134,7 @@ export default class Textarea extends Component {
     if (positionsToDelete) {
       e.preventDefault()
 
-      let text = str.slice(0, positionsToDelete[0]) + str.slice(positionsToDelete[1], str.length)
+      const text = str.slice(0, positionsToDelete[0]) + str.slice(positionsToDelete[1], str.length)
 
       this.setState({
         text,
@@ -234,6 +143,102 @@ export default class Textarea extends Component {
         caretPos: positionsToDelete[0]
       })
     }
+  }
+
+  /**
+   * Setter for text content.
+   *
+   * When content passed - set text content and put caret at the end, otherwise
+   * clean up the content.
+   *
+   * @api public
+   */
+  setTextContent(content) {
+    if (!this.props.focused) return false
+
+    const {configs, text} = parseAndReplace(content)
+
+    const objects = {}
+    configs.forEach(config => {
+      const object = create(config.type, config)
+      objects[object.content] = object
+    })
+
+    this.setState({
+      text,
+      objects,
+      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
+      caretPos: text.length,
+      objectsPositions: this.getObjectsPositions(objects, text)
+    })
+    return true
+  }
+
+  getQuery(value, selectionEnd) {
+    const token = getTokenUnderCaret(value, selectionEnd)
+    return Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
+  }
+
+  getTextAndObjectsRepresentation(objects, text) {
+    let content
+    const keys = Object.keys(objects)
+
+    if (keys.length) {
+      const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
+      const keysInText = text.match(re)
+      content = []
+      text
+        .split(re)
+        .forEach((substr, i, arr) => {
+          content.push(substr)
+          if (i < arr.length - 1) content.push(objects[keysInText[i]])
+        })
+    } else {
+      content = [text]
+    }
+
+    return content
+  }
+
+  getTextContent() {
+    return this.state.text
+  }
+
+  getObjectsPositions(objects, text) {
+    const objectsPositions = {}
+
+    Object.keys(objects).forEach(key => {
+      objectsPositions[key] = indexesOf(key, text)
+    })
+
+    return objectsPositions
+  }
+
+  addContent(str) {
+    this.refs.textarea.value = this.refs.textarea.value + str
+    this.onChange({target: this.refs.textarea})
+  }
+
+  replaceQuery(replacement) {
+    const token = getTokenUnderCaret(
+      this.refs.textarea.value,
+      this.refs.textarea.selectionEnd
+    )
+
+    let text = this.state.text
+    const textBefore = text.slice(0, token.position[0])
+    const textAfter = text.slice(token.position[1], text.length)
+
+    text = textBefore + replacement.content + textAfter + ' '
+    const objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
+
+    this.setState({
+      text,
+      objects,
+      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
+      caretPos: this.refs.textarea.selectionEnd + replacement.content.length,
+      objectsPositions: this.getObjectsPositions(objects, text)
+    })
   }
 
   /**
@@ -247,18 +252,16 @@ export default class Textarea extends Component {
     if (!this.state.text.trim().length) return
     e.preventDefault()
 
-    let textWithObjects = this.state.textWithObjects
-
-    let content = textWithObjects.map(item => item.str ? item.str : item).join('')
-
-    let objects = textWithObjects.reduce((prev, item) => {
+    const textWithObjects = this.state.textWithObjects
+    const content = textWithObjects.map(item => item.str ? item.str : item).join('')
+    const objects = textWithObjects.reduce((prev, item) => {
       if (typeof item === 'object') {
         prev.push(item.result || item)
       }
       return prev
     }, [])
 
-    let objectsOnly = !textWithObjects
+    const objectsOnly = !textWithObjects
       .filter(item => typeof item === 'string' && item.trim().length)
       .length
     this.props.onSubmit({content, objects, objectsOnly})
@@ -276,15 +279,15 @@ export default class Textarea extends Component {
   }
 
   render() {
-    let {common, wrapper, textarea, highlighter} = this.props.sheet.classes
+    const {common, wrapper, textarea, highlighter} = this.props.sheet.classes
 
     return (
       <div
-        ref='wrapper'
+        ref="wrapper"
         className={wrapper}>
-          <div ref='highlighter' className={highlighter + ' ' + common}>{this.renderTokens()}</div>
+          <div ref="highlighter" className={highlighter + ' ' + common}>{this.renderTokens()}</div>
           <textarea
-            ref='textarea'
+            ref="textarea"
             className={textarea + ' ' + common}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
@@ -292,7 +295,7 @@ export default class Textarea extends Component {
             onKeyPress={::this.onKeyPress}
             onChange={::this.onChange}
             value={this.state.text}
-            autoFocus={true}
+            autoFocus
             ></textarea>
 
       </div>
