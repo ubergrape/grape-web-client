@@ -24,8 +24,8 @@ export default class Search {
     this.service = result.service
     this.url = result.url
     this.type = result.type
-    this.name = result.name
-    this.content = label + this.name
+    this.name = label + result.name
+    this.content = this.name
     this.str = this.toString()
   }
 
@@ -38,7 +38,7 @@ export default class Search {
   }
 
   toString() {
-    let url = `cg://${this.service}|${this.type}|${this.id}|${this.url}||`
+    let url = `cg://${this.service}|${this.type}|${this.name}|${this.url}||`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }

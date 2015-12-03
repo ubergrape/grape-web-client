@@ -12,6 +12,7 @@ const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?
  */
 export function replace(content) {
   return content.replace(linkRegExp, (match, text, url) => {
+    console.log(url)
     if (url.indexOf('cg://') === 0) return toHTML(text, url)
     return match
   })

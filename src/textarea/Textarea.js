@@ -3,15 +3,22 @@ import ReactDOM from 'react-dom'
 
 import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
-import {getTokenUnderCaret, indexesOf} from './utils'
+import {
+  getTokenUnderCaret,
+  indexesOf,
+  parseAndReplace,
+  parseEmoji,
+  isFocused
+} from './utils'
 
 import {escapeRegExp} from 'lodash/string'
 import debounce from 'lodash/function/debounce'
 
 import keyname from 'keyname'
 
-import {parseAndReplace, parseEmoji} from '../editable/markdown'
-import {isFocused} from '../editable/utils'
+// import {parseAndReplace, parseEmoji} from '../editable/markdown'
+// import {isFocused} from '../editable/utils'
+
 import {create} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -73,6 +80,7 @@ export default class Textarea extends Component {
     if (!this.props.focused) return false
 
     const {configs, text} = parseAndReplace(content)
+
     let objects = {}
     configs.forEach(config => {
       let object = create(config.type, config)
@@ -95,7 +103,6 @@ export default class Textarea extends Component {
   }
 
   replaceQuery(replacement) {
-
     let token = getTokenUnderCaret(
       this.refs.textarea.value,
       this.refs.textarea.selectionEnd
@@ -257,7 +264,6 @@ export default class Textarea extends Component {
     let objectsOnly = !textWithObjects
       .filter(item => typeof item === 'string' && item.trim().length)
       .length
-
     this.props.onSubmit({content, objects, objectsOnly})
   }
 
