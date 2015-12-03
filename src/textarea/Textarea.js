@@ -16,9 +16,6 @@ import debounce from 'lodash/function/debounce'
 
 import keyname from 'keyname'
 
-// import {parseAndReplace, parseEmoji} from '../editable/markdown'
-// import {isFocused} from '../editable/utils'
-
 import {create} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
