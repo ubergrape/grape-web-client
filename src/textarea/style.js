@@ -40,7 +40,7 @@ export default {
     right: ICONS_SPACE,
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word',
-    color: 'transparent',
+    color: 'transparent'
   },
 
   token: {

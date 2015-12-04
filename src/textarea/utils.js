@@ -31,6 +31,10 @@ function toData(text, url) {
   }
 }
 
+/**
+ * Get all indexes for substring:
+ * start and end index i.e. [[0, 5], [10, 15]]
+ */
 function indexesOf(sub, str) {
   const subLen = sub.length
   const indices = []
@@ -86,6 +90,10 @@ export function parseEmoji(content) {
   return data
 }
 
+/**
+ * Get associated object of tokens (grape objects)
+ * and theirs positions. i.e. {token: [[0, 5], [10, 15]]}
+ */
 export function getObjectsPositions(objects, text) {
   const objectsPositions = {}
 
@@ -96,16 +104,20 @@ export function getObjectsPositions(objects, text) {
   return objectsPositions
 }
 
+/**
+ * Get an array of substrings and tokens (grape objects) in
+ * order of appearance.
+ */
 export function getTextAndObjectsRepresentation(objects, text) {
   let content
-  const keys = Object.keys(objects)
+  const tokens = Object.keys(objects)
 
-  if (keys.length) {
-    const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
-    const keysInText = text.match(re)
+  if (tokens.length) {
+    const tokensRegExp = new RegExp(tokens.map(escapeRegExp).join('|'), 'g')
+    const keysInText = text.match(tokensRegExp)
     content = []
     text
-      .split(re)
+      .split(tokensRegExp)
       .forEach((substr, i, arr) => {
         content.push(substr)
         if (i < arr.length - 1) content.push(objects[keysInText[i]])
@@ -117,7 +129,12 @@ export function getTextAndObjectsRepresentation(objects, text) {
   return content
 }
 
-
+/**
+ * Traverse string and get token if
+ * caret is inside or right after/before, otherwise return false.
+ * Token here is 'grape object' or 'possible grape object'
+ * i.e. '@Developmend' or '@develo'
+ */
 export function getTokenUnderCaret(string, caretPostion) {
   const token = {
     text: '',
