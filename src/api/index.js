@@ -710,7 +710,7 @@ API.prototype.onKickMember = function API_onKickMember (roomId, memberId) {
 API.prototype.onSetDescription = function (room, description) {
   rpc({
     ns: 'rooms',
-    action: 'setDescription',
+    action: 'set_description',
     args: [room.id, description]
   }, function (err) {
     if (err) return this.emit('error', err)
