@@ -19,13 +19,13 @@ if (conf.forceLongpolling) {
       .send(cData)
       .end((err, res) => {
         if (err) {
-          log('err', err)
           let userErr
           // When disconnected, there is no res.
           if (res && res.body && res.body.message) {
             userErr = new Error()
             assign(userErr, res.body)
           }
+          log('err', userErr || err)
           return callback(userErr || err)
         }
         log('res', res.body ? res.body.response : res)
@@ -38,7 +38,7 @@ else {
     const cData = convertCase.toSnake(data)
     log('req', cData)
     client.call(`${cData.ns}/${cData.action}`, ...(cData.args || []), (err, res) => {
-      err ? log('err', err) : log('res', res)
+      err ? log('err', err, err.details) : log('res', res)
       callback(err, res)
     })
   }
