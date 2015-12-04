@@ -4,11 +4,11 @@ import {REGEX as QUERY_REGEX} from '../query/constants'
 import parseQuery from '../query/parse'
 import {
   getTokenUnderCaret,
-  indexesOf,
+  getTextAndObjectsRepresentation,
+  getObjectsPositions,
   parseAndReplace
 } from './utils'
 
-import {escapeRegExp} from 'lodash/string'
 import keyname from 'keyname'
 import {create} from '../objects'
 
@@ -17,7 +17,6 @@ import style from './style'
 
 @useSheet(style)
 export default class Textarea extends Component {
-
   static propTypes = {
     onDidMount: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -64,9 +63,9 @@ export default class Textarea extends Component {
     const {value, selectionEnd} = e.target
     this.setState({
       text: value,
-      textWithObjects: this.getTextAndObjectsRepresentation(this.state.objects, value),
+      textWithObjects: getTextAndObjectsRepresentation(this.state.objects, value),
       caretPos: e.target.selectionEnd,
-      objectsPositions: this.getObjectsPositions(this.state.objects, value)
+      objectsPositions: getObjectsPositions(this.state.objects, value)
     })
     this.props.onChange(this.getQuery(value, selectionEnd))
   }
@@ -90,10 +89,10 @@ export default class Textarea extends Component {
         }
         break
       case 'backspace':
-        this.onDelete(true, e)
+        this.onDelete(e, true)
         break
       case 'del':
-        this.onDelete(false, e)
+        this.onDelete(e, false)
         break
       default:
     }
@@ -105,7 +104,7 @@ export default class Textarea extends Component {
 
   // TODO: possibly improve speed with fake caret in highlighter
   // so you can check if caret is inside/near the grape object
-  onDelete(direction, e) {
+  onDelete(e, direction) {
     const str = this.state.text
     const {selectionStart, selectionEnd} = this.refs.textarea
     const objectsPositions = this.state.objectsPositions
@@ -114,10 +113,13 @@ export default class Textarea extends Component {
 
     Object.keys(objectsPositions).some(key => {
       objectsPositions[key].some(positions => {
+        // Check if carret inside object
         if (
           positions[0] <= selectionStart &&
           positions[1] >= selectionEnd
         ) {
+          // If selectionStart or selectionEnd
+          // not inside object —> do nothing
           if (
             !direction && positions[1] === selectionEnd ||
             direction && positions[0] === selectionStart
@@ -131,15 +133,17 @@ export default class Textarea extends Component {
       if (positionsToDelete) return true
     })
 
+    // Now we know that caret is inside object
     if (positionsToDelete) {
       e.preventDefault()
 
-      const text = str.slice(0, positionsToDelete[0]) + str.slice(positionsToDelete[1], str.length)
+      const [start, end] = positionsToDelete
+      const text = str.slice(0, start) + str.slice(end, str.length)
 
       this.setState({
         text,
-        textWithObjects: this.getTextAndObjectsRepresentation(this.state.objects, text),
-        objectsPositions: this.getObjectsPositions(this.state.objects, text),
+        textWithObjects: getTextAndObjectsRepresentation(this.state.objects, text),
+        objectsPositions: getObjectsPositions(this.state.objects, text),
         caretPos: positionsToDelete[0]
       })
     }
@@ -167,77 +171,54 @@ export default class Textarea extends Component {
     this.setState({
       text,
       objects,
-      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
+      textWithObjects: getTextAndObjectsRepresentation(objects, text),
       caretPos: text.length,
-      objectsPositions: this.getObjectsPositions(objects, text)
+      objectsPositions: getObjectsPositions(objects, text)
     })
     return true
   }
 
   getQuery(value, selectionEnd) {
     const token = getTokenUnderCaret(value, selectionEnd)
-    return Boolean(token.text && token.text.match(QUERY_REGEX)) && parseQuery(token.text)
-  }
+    const isQuery = Boolean(token.text && token.text.match(QUERY_REGEX))
 
-  getTextAndObjectsRepresentation(objects, text) {
-    let content
-    const keys = Object.keys(objects)
-
-    if (keys.length) {
-      const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
-      const keysInText = text.match(re)
-      content = []
-      text
-        .split(re)
-        .forEach((substr, i, arr) => {
-          content.push(substr)
-          if (i < arr.length - 1) content.push(objects[keysInText[i]])
-        })
-    } else {
-      content = [text]
-    }
-
-    return content
+    return isQuery ? parseQuery(token.text) : false
   }
 
   getTextContent() {
     return this.state.text
   }
 
-  getObjectsPositions(objects, text) {
-    const objectsPositions = {}
-
-    Object.keys(objects).forEach(key => {
-      objectsPositions[key] = indexesOf(key, text)
-    })
-
-    return objectsPositions
-  }
-
   addContent(str) {
-    this.refs.textarea.value = this.refs.textarea.value + str
+    this.refs.textarea.value += str
     this.onChange({target: this.refs.textarea})
   }
 
+  /**
+    Replace text string to token in state
+   */
   replaceQuery(replacement) {
-    const token = getTokenUnderCaret(
-      this.refs.textarea.value,
-      this.refs.textarea.selectionEnd
-    )
+    const textarea = this.refs.textarea
+    const selectionEnd = textarea.selectionEnd
 
     let text = this.state.text
+    const token = getTokenUnderCaret(textarea.value, selectionEnd)
     const textBefore = text.slice(0, token.position[0])
     const textAfter = text.slice(token.position[1], text.length)
 
     text = textBefore + replacement.content + textAfter + ' '
-    const objects = {...this.state.objects, ...{ [replacement.content]: replacement }}
+    const objects = {
+      ...this.state.objects,
+      ...{[replacement.content]: replacement}
+    }
+    const caretPos = selectionEnd + replacement.content.length
 
     this.setState({
       text,
       objects,
-      textWithObjects: this.getTextAndObjectsRepresentation(objects, text),
-      caretPos: this.refs.textarea.selectionEnd + replacement.content.length,
-      objectsPositions: this.getObjectsPositions(objects, text)
+      caretPos,
+      textWithObjects: getTextAndObjectsRepresentation(objects, text),
+      objectsPositions: getObjectsPositions(objects, text)
     })
   }
 
@@ -254,38 +235,55 @@ export default class Textarea extends Component {
 
     const textWithObjects = this.state.textWithObjects
     const content = textWithObjects.map(item => item.str ? item.str : item).join('')
-    const objects = textWithObjects.reduce((prev, item) => {
+    const objects = textWithObjects.reduce((onlyObjects, item) => {
       if (typeof item === 'object') {
-        prev.push(item.result || item)
+        onlyObjects.push(item.result || item)
       }
-      return prev
+      return onlyObjects
     }, [])
 
     const objectsOnly = !textWithObjects
       .filter(item => typeof item === 'string' && item.trim().length)
       .length
+
     this.props.onSubmit({content, objects, objectsOnly})
   }
 
   renderTokens() {
     const content = this.state.textWithObjects.map(item => {
-      return typeof item === 'object' ?
-        (<span className={this.props.sheet.classes.token}>{item.content}</span>) :
-        item
+      return typeof item === 'object' ? this.renderToken(item.content) : item
     })
 
+    // The last item is space,
+    // to make highlight height equal
+    // to content in textarea
     content.push(' ')
     return content
   }
 
+  renderToken(text) {
+    return <span className={this.props.sheet.classes.token}>{text}</span>
+  }
+
+  renderHighlighter() {
+    const {common, highlighter} = this.props.sheet.classes
+    return (
+      <div
+        ref="highlighter"
+        className={highlighter + ' ' + common}>
+          {this.renderTokens()}
+      </div>
+    )
+  }
+
   render() {
-    const {common, wrapper, textarea, highlighter} = this.props.sheet.classes
+    const {common, wrapper, textarea} = this.props.sheet.classes
 
     return (
       <div
         ref="wrapper"
         className={wrapper}>
-          <div ref="highlighter" className={highlighter + ' ' + common}>{this.renderTokens()}</div>
+          {this.renderHighlighter()}
           <textarea
             ref="textarea"
             className={textarea + ' ' + common}
@@ -297,7 +295,6 @@ export default class Textarea extends Component {
             value={this.state.text}
             autoFocus
             ></textarea>
-
       </div>
     )
   }

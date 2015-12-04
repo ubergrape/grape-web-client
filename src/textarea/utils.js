@@ -1,4 +1,5 @@
 import {getLabel} from '../objects/utils'
+import {escapeRegExp} from 'lodash/string'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -28,6 +29,20 @@ function toData(text, url) {
     id: tagWithoutLabel(parts[2], parts[1]),
     url: parts[3]
   }
+}
+
+function indexesOf(sub, str) {
+  const subLen = sub.length
+  const indices = []
+
+  let startIndex = 0
+  let index = str.indexOf(sub, startIndex)
+  while (index > -1) {
+    startIndex = index + subLen
+    indices.push([index, startIndex])
+    index = str.indexOf(sub, startIndex)
+  }
+  return indices
 }
 
 /**
@@ -71,6 +86,38 @@ export function parseEmoji(content) {
   return data
 }
 
+export function getObjectsPositions(objects, text) {
+  const objectsPositions = {}
+
+  Object.keys(objects).forEach(key => {
+    objectsPositions[key] = indexesOf(key, text)
+  })
+
+  return objectsPositions
+}
+
+export function getTextAndObjectsRepresentation(objects, text) {
+  let content
+  const keys = Object.keys(objects)
+
+  if (keys.length) {
+    const re = new RegExp(keys.map(escapeRegExp).join('|'), 'g')
+    const keysInText = text.match(re)
+    content = []
+    text
+      .split(re)
+      .forEach((substr, i, arr) => {
+        content.push(substr)
+        if (i < arr.length - 1) content.push(objects[keysInText[i]])
+      })
+  } else {
+    content = [text]
+  }
+
+  return content
+}
+
+
 export function getTokenUnderCaret(string, caretPostion) {
   const token = {
     text: '',
@@ -105,20 +152,6 @@ export function getTokenUnderCaret(string, caretPostion) {
   }
 
   return Boolean(token.text) && token
-}
-
-export function indexesOf(sub, str) {
-  const subLen = sub.length
-  const indices = []
-
-  let startIndex = 0
-  let index = str.indexOf(sub, startIndex)
-  while (index > -1) {
-    startIndex = index + subLen
-    indices.push([index, startIndex])
-    index = str.indexOf(sub, startIndex)
-  }
-  return indices
 }
 
 /**

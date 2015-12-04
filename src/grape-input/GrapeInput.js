@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
 import isArray from 'lodash/lang/isArray'
@@ -34,6 +34,19 @@ const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
  */
 @useSheet(style)
 export default class Input extends Component {
+  static propTypes = {
+    onDidMount: PropTypes.func.isRequired,
+    container: PropTypes.object,
+    isLoading: PropTypes.bool,
+    hasIntegrations: PropTypes.bool,
+    canAddIntegrations: PropTypes.bool,
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    sheet: PropTypes.object.isRequired,
+    customEmojis: PropTypes.object,
+    images: PropTypes.object
+  }
+
   static defaultProps = {
     maxCompleteItems: 12,
     browser: undefined,
@@ -101,120 +114,6 @@ export default class Input extends Component {
     objectStyle.sheet.detach()
   }
 
-  setTrigger(browser) {
-    if (!browser) return
-    this.query.set('trigger', QUERY_TYPES[browser])
-  }
-
-  onAbort(data = {}) {
-    const currentBrowser = this.state.browser
-    this.closeBrowser({editableFocused: true}, () => {
-      this.emit('abort', {...data, browser: currentBrowser})
-    })
-  }
-
-  getTextContent() {
-    return this.textarea ? this.textarea.getTextContent() : ''
-  }
-
-  setTextContent(text) {
-    this.query.reset()
-    return this.textarea.setTextContent(text)
-  }
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
-  }
-
-  createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading')
-    state.editableFocused = nextProps.focused
-    if (state.browser === 'user') state.data = mentions.map(state.data)
-    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
-    state.query = this.query.toJSON()
-    const canShowBrowser = utils.canShowBrowser(this.state, state)
-    if (!canShowBrowser) state.browser = null
-    state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser) {
-      state.browserOpened = true
-    }
-    return state
-  }
-
-  closeBrowser(state, callback) {
-    this.setState({
-      browser: null,
-      browserOpened: false,
-      ...state
-    }, callback)
-  }
-
-  /**
-   * Keyboard navigation for the datalist (mention, emoji).
-   */
-  navigateDatalist(e) {
-    const {datalist} = this
-    if (!datalist) return
-
-    switch (keyname(e.keyCode)) {
-      case 'down':
-      case 'tab':
-        datalist.focus('next')
-        e.preventDefault()
-        break
-      case 'up':
-        datalist.focus('prev')
-        e.preventDefault()
-        break
-      case 'enter':
-        this.insertItem(datalist.state.focused)
-        e.preventDefault()
-        break
-      default:
-    }
-  }
-
-  insertItem(item, query) {
-    if (item) {
-      const results = get(this.state, 'data.results')
-      const data = find(results, res => res.id === item.id) || item
-      const object = objects.create(data.type, data)
-      this.setState({ contentObjects: [...this.state.contentObjects, object] })
-      this.replaceQuery(object)
-    }
-    this.onInsertItem(item, query)
-    this.closeBrowser({editableFocused: true})
-    this.query.reset()
-  }
-
-  replaceQuery(replacement) {
-    this.setState({editableFocused: true})
-    this.textarea.replaceQuery(replacement)
-  }
-
-  insertQuery() {
-    this.setState({editableFocused: true})
-  }
-
-  /**
-   * Emit DOM event.
-   */
-  emit(type, data) {
-    const capType = capitalize(type)
-    let name = `grape${capType}`
-    const event = new CustomEvent(name, {
-      bubbles: true,
-      cancelable: true,
-      detail: data
-    })
-    ReactDOM.findDOMNode(this).dispatchEvent(event)
-    name = `on${capType}`
-    const callback = this.props[name]
-    if (callback) callback(data)
-  }
-
   onEditPrevious() {
     this.emit('editPrevious')
   }
@@ -224,23 +123,11 @@ export default class Input extends Component {
     this.emit('submit', data)
   }
 
-  onChangeInput(query = {}) {
-    if (query) {
-      // If it is a browser trigger, we don't reopen browser, but let user type
-      // whatever he wants.
-      // If its a mentioning, user types the search.
-      // TODO migrate mentioning to the browser.
-      if (!query.key || !utils.isBrowserType(query.trigger)) {
-        this.query.set(query, {silent: true})
-        this.emit('complete', this.query.toJSON())
-      }
-    }
-    // Query has been removed or caret position changed, for datalist only.
-    else if (!this.query.isEmpty()) {
-      this.query.reset()
-      if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
-    }
-    this.emit('change')
+  onAbort(data = {}) {
+    const currentBrowser = this.state.browser
+    this.closeBrowser({editableFocused: true}, () => {
+      this.emit('abort', {...data, browser: currentBrowser})
+    })
   }
 
   onSelectSearchBrowserItem({item, query}) {
@@ -324,6 +211,128 @@ export default class Input extends Component {
     this.emit('resize')
   }
 
+  onChangeInput(query = {}) {
+    if (query) {
+      // If it is a browser trigger, we don't reopen browser, but let user type
+      // whatever he wants.
+      // If its a mentioning, user types the search.
+      // TODO migrate mentioning to the browser.
+      if (!query.key || !utils.isBrowserType(query.trigger)) {
+        this.query.set(query, {silent: true})
+        this.emit('complete', this.query.toJSON())
+      }
+    } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
+      this.query.reset()
+      if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
+    }
+    this.emit('change')
+  }
+
+  setTrigger(browser) {
+    if (!browser) return
+    this.query.set('trigger', QUERY_TYPES[browser])
+  }
+
+  getTextContent() {
+    return this.textarea ? this.textarea.getTextContent() : ''
+  }
+
+  setTextContent(text) {
+    this.query.reset()
+    return this.textarea.setTextContent(text)
+  }
+
+  exposePublicMethods() {
+    const {container} = this.props
+    if (!container) return
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+  }
+
+  createState(nextProps) {
+    const state = pick(nextProps, 'browser', 'data', 'isLoading')
+    state.editableFocused = nextProps.focused
+    if (state.browser === 'user') state.data = mentions.map(state.data)
+    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
+    state.query = this.query.toJSON()
+    const canShowBrowser = utils.canShowBrowser(this.state, state)
+    if (!canShowBrowser) state.browser = null
+    state.browserOpened = this.state ? this.state.browserOpened : false
+    if (canShowBrowser) state.browserOpened = true
+    return state
+  }
+
+  closeBrowser(state, callback) {
+    this.setState({
+      browser: null,
+      browserOpened: false,
+      ...state
+    }, callback)
+  }
+
+  /**
+   * Keyboard navigation for the datalist (mention, emoji).
+   */
+  navigateDatalist(e) {
+    const {datalist} = this
+    if (!datalist) return
+
+    switch (keyname(e.keyCode)) {
+      case 'down':
+      case 'tab':
+        datalist.focus('next')
+        e.preventDefault()
+        break
+      case 'up':
+        datalist.focus('prev')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.insertItem(datalist.state.focused)
+        e.preventDefault()
+        break
+      default:
+    }
+  }
+
+  insertItem(item, query) {
+    if (item) {
+      const results = get(this.state, 'data.results')
+      const data = find(results, res => res.id === item.id) || item
+      const object = objects.create(data.type, data)
+      this.setState({ contentObjects: [...this.state.contentObjects, object] })
+      this.replaceQuery(object)
+    }
+    this.onInsertItem(item, query)
+    this.closeBrowser({editableFocused: true})
+    this.query.reset()
+  }
+
+  replaceQuery(replacement) {
+    this.setState({editableFocused: true})
+    this.textarea.replaceQuery(replacement)
+  }
+
+  insertQuery() {
+    this.setState({editableFocused: true})
+  }
+
+  /**
+   * Emit DOM event.
+   */
+  emit(type, data) {
+    const capType = capitalize(type)
+    let name = `grape${capType}`
+    const event = new CustomEvent(name, {
+      bubbles: true,
+      cancelable: true,
+      detail: data
+    })
+    ReactDOM.findDOMNode(this).dispatchEvent(event)
+    name = `on${capType}`
+    const callback = this.props[name]
+    if (callback) callback(data)
+  }
+
   renderBrowser(options) {
     const {browser, browserOpened, data} = this.state
 
@@ -337,11 +346,11 @@ export default class Input extends Component {
           isLoading={this.props.isLoading}
           hasIntegrations={this.props.hasIntegrations}
           canAddIntegrations={this.props.canAddIntegrations}
+          onAbort={::this.onAbort}
           onSelectItem={::this.onSelectSearchBrowserItem}
           onSelectFilter={::this.onSelectSearchBrowserFilter}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onInput={::this.onInputSearchBrowser}
-          onAbort={::this.onAbort}
           onBlur={::this.onBlurBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
@@ -352,9 +361,9 @@ export default class Input extends Component {
         <EmojiBrowser
           {...options}
           customEmojis={this.props.customEmojis}
+          onAbort={::this.onAbort}
           onSelectItem={::this.onSelectEmojiBrowserItem}
           onBlur={::this.onBlurBrowser}
-          onAbort={::this.onAbort}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -394,15 +403,15 @@ export default class Input extends Component {
           <Textarea
             width={this.state.editableWidth}
             height={this.state.editableHeight}
+            onAbort={::this.onAbort}
             onResize={::this.onEditableResize}
             onChange={::this.onChangeInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
-            onAbort={::this.onAbort}
+            onDidMount={this.onDidMount.bind(this, 'textarea')}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.editableFocused}
-            onDidMount={this.onDidMount.bind(this, 'textarea')}
             content={this.getTextContent()}/>
         </MaxSize>
       </div>
