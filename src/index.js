@@ -1,38 +1,42 @@
-require('array.from')
-require('custom-event-polyfill')
-require('document-register-element')
-require('reactive-elements')
+import 'array.from'
+import 'custom-event-polyfill'
+import 'document-register-element'
+import 'reactive-elements'
+import './templates'
+import '../stylus/app.styl'
+import 'meyer-reset/index.css'
+import 'normalize.css/normalize.css'
+import 'notification/notification.css'
+import 'scrollbars/scrollbars.css'
+import 'dialog-component/dialog.css'
+import 'dialog-component/node_modules/overlay-component/overlay.css'
+import 'image-zoom/dist/imagezoom.css'
+import 'image-zoom/node_modules/overlay/dist/overlay.css'
+import 'intro.js/introjs.css'
+import 'drop-anywhere/drop-anywhere.css'
+import 'jh3y-resizable/resizable.css'
+import 'js-emoji/emoji.css'
 
-require('./templates')
-
-require('../stylus/app.styl')
-require('meyer-reset/index.css')
-require('normalize.css/normalize.css')
-require('notification/notification.css')
-require('scrollbars/scrollbars.css')
-require('dialog-component/dialog.css')
-require('dialog-component/node_modules/overlay-component/overlay.css')
-require('image-zoom/dist/imagezoom.css')
-require('image-zoom/node_modules/overlay/dist/overlay.css')
-require('intro.js/introjs.css')
-require('drop-anywhere/drop-anywhere.css')
-require('jh3y-resizable/resizable.css')
-require('js-emoji/emoji.css')
-
-let API = require('./api')
-let UI = require('./ui')
-let initBroker = require('./init-broker')
-let conf = require('conf')
+import Api from './api'
+import Ui from './ui'
+import initBroker from './init-broker'
+import conf from 'conf'
+import rpc from '../react-components/backend/rpc'
 
 // TODO maybe use pick
 // initialize the UI and add it to the DOM
-window.ui = new UI(conf)
+window.ui = new Ui(conf)
 document.body.appendChild(window.ui.el)
 
 // initialize the App
-window.api = new API()
+window.api = new Api()
 
 // hook up UI to App
 initBroker(window.ui, window.api)
 
 window.api.connect()
+
+/**
+ * This is an official debugging tool for our backend devs.
+ */
+window.rpc = rpc
