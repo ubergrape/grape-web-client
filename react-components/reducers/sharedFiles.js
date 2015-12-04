@@ -18,8 +18,8 @@ export default function reducers(state = initialState, action) {
     case types.SET_SIDEBAR_IS_LOADING:
     case types.LOAD_SHARED_FILES:
     case types.LOADED_SHARED_FILES:
+    case types.ADD_ATTACHMENTS:
       return {...state, ...action.payload}
-    case types.HANDLE_NEW_MESSAGE:
     default:
       return state
   }

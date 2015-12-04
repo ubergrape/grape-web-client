@@ -1,9 +1,11 @@
 import find from 'lodash/collection/find'
 
+import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
 import {toCamel} from '../backend/convertCase'
+import {sharedFilesSelector} from '../selectors'
 import {setSidebarIsLoading} from './common'
 
 export function showSharedFiles() {
@@ -56,13 +58,15 @@ export function loadSharedFiles(params) {
 }
 
 export function addAttachments(message) {
+  const state = sharedFilesSelector(store.getState())
+  const items = message.attachments.map(attachment => {
+    const file = {...attachment, author: message.author}
+    return formatFile(state.channel, file)
+  })
   return {
     type: types.ADD_ATTACHMENTS,
     payload: {
-      attachments: message.attachments.map(attachment => {
-        const file = {...attachment, author: message.author}
-        return formatFile(channel, file)
-      })
+      items: [...items, ...state.items]
     }
   }
 }
@@ -81,17 +85,3 @@ function formatFile(channel, file) {
     time: new Date(file.time)
   }
 }
-/*
-
-
-    const nextItems = message.attachments.map(attachment => {
-      const file = convertCase.toCamel({...attachment, author: message.author})
-      return formatFile(this.channel, file)
-    })
-    let items = [...this.el.props.items, ...nextItems]
-    items = sortBy(items, item => -item.time)
-    this.setProps({
-      items,
-      total: this.el.props.total + 1
-    })
-*/
