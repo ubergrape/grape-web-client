@@ -9,9 +9,13 @@ const boundActions = bindActionCreators(actions, store.dispatch)
 
 export default function subscribe(channel) {
   channel.on('data', data => {
-    switch (data.event) {
+    const cData = toCamel(data)
+    switch (cData.event) {
       case 'channel.typing':
-        boundActions.setTyping(selectors.setTypingSelector(store.getState()), data)
+        boundActions.setTyping(selectors.setTypingSelector(store.getState()), cData)
+        break
+      case 'message.new':
+        boundActions.handleNewMessage(cData)
         break
       default:
     }

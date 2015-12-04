@@ -74,7 +74,7 @@ export default class SharedFiles extends Component {
     props.loadSharedFiles({
       offset: props.items.length,
       limit: props.limit,
-      channelId: props.channel.id,
+      channel: props.channel,
       orgId: props.org.id
     })
   }
@@ -84,6 +84,6 @@ export default class SharedFiles extends Component {
   }
 
   onClose() {
-    this.props.onClose()
+    this.props.hideSharedFiles()
   }
 }

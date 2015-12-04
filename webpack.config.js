@@ -46,7 +46,8 @@ module.exports = {
           'svgo-loader?' + JSON.stringify({
             plugins: [{removeTitle: true}]
           })
-        ]
+        ],
+        include: /node_modules/
       },
       {
         test: /\.(png|jpg|gif)$/,

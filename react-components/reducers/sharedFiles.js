@@ -19,6 +19,7 @@ export default function reducers(state = initialState, action) {
     case types.LOAD_SHARED_FILES:
     case types.LOADED_SHARED_FILES:
       return {...state, ...action.payload}
+    case types.HANDLE_NEW_MESSAGE:
     default:
       return state
   }
