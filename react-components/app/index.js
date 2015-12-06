@@ -10,6 +10,7 @@ import userProfile from '../user-profile'
 import channelInfo from '../channel-info'
 import sharedFiles from '../shared-files'
 import mentions from '../mentions'
+import messageSearch from '../message-search'
 
 render(
   createElement(channelSearch(store)),
@@ -25,5 +26,6 @@ document.registerReact('grape-user-profile', userProfile(store))
 document.registerReact('grape-channel-info', channelInfo(store))
 document.registerReact('grape-shared-files', sharedFiles(store))
 document.registerReact('grape-mentions', mentions(store))
+document.registerReact('grape-message-search', messageSearch(store))
 
 subscribeActions(client.connect())

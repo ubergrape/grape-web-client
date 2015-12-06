@@ -110,6 +110,7 @@ UI.prototype.init = function UI_init() {
   rightSidebar.appendChild(document.createElement('grape-channel-info'))
   rightSidebar.appendChild(document.createElement('grape-shared-files'))
   rightSidebar.appendChild(document.createElement('grape-mentions'))
+  rightSidebar.appendChild(document.createElement('grape-message-search'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)

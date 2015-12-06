@@ -61,6 +61,14 @@ class ReduxEmitter extends Emitter {
     boundActions.showMentions()
   }
 
+  onShowMessageSearch() {
+    boundActions.showMessageSearch()
+  }
+
+  onSearchMessages({query}) {
+    boundActions.updateMessageSearchQuery(query)
+  }
+
   showSidebar() {
     this.emit('showSidebar')
   }

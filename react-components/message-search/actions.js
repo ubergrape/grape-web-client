@@ -1,3 +1,6 @@
 export default [
-  'showMessageSearch'
+  'showMessageSearch',
+  'hideMessageSearch',
+  'searchMessages',
+  'goToMessage'
 ]

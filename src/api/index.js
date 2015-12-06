@@ -683,29 +683,6 @@ API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
   }.bind(this))
 }
 
-API.prototype.onMessageSearch = function (params) {
-  // search(query, organization_id, only='messages', limit=20, offset=None, callback)
-  rpc({
-    ns: 'search',
-    action: 'search',
-    args: [
-      params.query,
-      this.organization.id,
-      'messages',
-      params.limit,
-      params.offsetDate ? params.offsetDate.toISOString() : undefined
-    ]
-  }, (err, res) => {
-    if (err) return this.emit('error', err)
-    this.emit('searchMessagesPayload', {
-      results: res.results.map(line => new models.Line(convertCase.toCamel(line))),
-      offsetTotal: res.total,
-      offsetDate: params.offsetDate,
-      query: res.q,
-    })
-  })
-}
-
 API.prototype.onSetDescription = function (room, description) {
   rpc({
     ns: 'rooms',

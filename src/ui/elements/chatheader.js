@@ -192,7 +192,7 @@ ChatHeader.prototype.toggleMentions = function () {
 
 ChatHeader.prototype.showSearch = function () {
   this.emit('hideSidebar')
-  this.emit('showSidebar', {type: 'messageSearch'})
+  this.emit('showMessageSearch')
   this.selected = 'search'
   this.redraw()
 }
