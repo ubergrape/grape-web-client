@@ -185,7 +185,7 @@ ChatHeader.prototype.toggleSharedFiles = function () {
 ChatHeader.prototype.toggleMentions = function () {
   const selected = this.menuItems.mentions === this.selected ? null : this.menuItems.mentions
   if (this.selected) this.emit('hideSidebar')
-  if (selected) this.emit('showSidebar', {type: 'mentions'})
+  if (selected) this.emit('showMentions')
   this.selected = selected
   this.redraw()
 }

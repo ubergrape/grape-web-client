@@ -1,6 +1,22 @@
 import {createSelector} from 'reselect'
 import pick from 'lodash/object/pick'
 
+export const userSelector = createSelector(
+  state => state.user, state => state
+)
+
+export const usersSelector = createSelector(
+  state => state.users, state => state
+)
+
+export const channelsSelector = createSelector(
+  state => state.channels, state => state
+)
+
+export const orgSelector = createSelector(
+  state => state.org, state => state
+)
+
 export const channelSearchSelector = createSelector(
   state => state.channelSearch, state => state
 )
@@ -28,4 +44,12 @@ export const channelInfoSelector = createSelector(
 
 export const sharedFilesSelector = createSelector(
   state => state.sharedFiles, state => state
+)
+
+export const mentionsSelector = createSelector(
+  state => state.mentions , state => state
+)
+
+export const messageSearchSelector = createSelector(
+  state => state.messageSearch, state => state
 )

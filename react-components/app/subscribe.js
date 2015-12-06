@@ -1,11 +1,7 @@
-import {bindActionCreators} from 'redux'
-
 import {toCamel} from '../backend/convertCase'
 import * as selectors from '../selectors'
 import store from '../app/store'
-import * as actions from '../actions'
-
-const boundActions = bindActionCreators(actions, store.dispatch)
+import boundActions from './boundActions'
 
 export default function subscribe(channel) {
   channel.on('data', data => {

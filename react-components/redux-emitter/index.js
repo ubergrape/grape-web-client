@@ -1,37 +1,28 @@
 import Emitter from 'emitter'
 
 import {toCamel} from '../backend/convertCase'
-
-import {bindActionCreators} from 'redux'
-import * as actions from '../actions'
-
-import store from '../app/store'
+import boundActions from '../app/boundActions'
 
 class ReduxEmitter extends Emitter {
-  constructor() {
-    super()
-    this.actions = bindActionCreators(actions, store.dispatch)
-  }
-
   onOrgReady(org) {
     let jsonOrg = org.toJSON()
     jsonOrg.users = jsonOrg.users.map(user => toCamel(user.toJSON()))
     jsonOrg = toCamel(jsonOrg)
-    this.actions.setOrg(jsonOrg)
-    this.actions.setUsers(jsonOrg.users)
-    this.actions.setChannels(jsonOrg.channels)
+    boundActions.setOrg(jsonOrg)
+    boundActions.setUsers(jsonOrg.users)
+    boundActions.setChannels(jsonOrg.channels)
   }
 
   onSetUser(user) {
-    this.actions.setUser(toCamel(user.toJSON()))
+    boundActions.setUser(toCamel(user.toJSON()))
   }
 
   onSelectChannel(channel) {
-    this.actions.setChannel(formatChannel(channel))
+    boundActions.setChannel(formatChannel(channel))
   }
 
   onSetSettings(settings) {
-    this.actions.setSettings(toCamel(settings))
+    boundActions.setSettings(toCamel(settings))
   }
 
   showRoomManager() {
@@ -39,11 +30,11 @@ class ReduxEmitter extends Emitter {
   }
 
   onShowUserProfile() {
-    this.actions.showUserProfile()
+    boundActions.showUserProfile()
   }
 
   onShowChannelInfo() {
-    this.actions.showChannelInfo()
+    boundActions.showChannelInfo()
   }
 
   leaveChannel(channelId) {
@@ -55,7 +46,7 @@ class ReduxEmitter extends Emitter {
   }
 
   onMemberLeftChannel(channel, user) {
-    this.actions.memberLeftChannel(formatChannel(channel))
+    boundActions.memberLeftChannel(formatChannel(channel))
   }
 
   inviteChannelMember(channel) {
@@ -63,7 +54,11 @@ class ReduxEmitter extends Emitter {
   }
 
   onShowSharedFiles() {
-    this.actions.showSharedFiles()
+    boundActions.showSharedFiles()
+  }
+
+  onShowMentions() {
+    boundActions.showMentions()
   }
 
   showSidebar() {

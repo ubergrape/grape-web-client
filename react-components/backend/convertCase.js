@@ -16,13 +16,19 @@ export function toCamel(obj) {
   return convert(obj, camelCase)
 }
 
-function convert(obj, converter) {
-  if (typeof obj !== 'object') return obj
-  if (Array.isArray(obj)) return obj.map(item => convert(item, converter))
+const maxLevel = 5
+
+function convert(obj, converter, level = -1) {
+  if (!obj || typeof obj !== 'object') return obj
+  level++
+  if (Array.isArray(obj)) return obj.map(item => convert(item, converter, level))
+  const json = obj.toJSON ? obj.toJSON() : obj
   let newObj = {}
-  each(obj, (val, key) => {
+  each(json, (val, key) => {
     let newVal = val
-    if (Array.isArray(val)) newVal = convert(val, converter)
+    if (typeof val === 'object' && level < maxLevel) {
+      newVal = convert(val, converter, level)
+    }
     newObj[converter(key)] = newVal
   })
   return newObj

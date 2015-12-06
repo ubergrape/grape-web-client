@@ -77,6 +77,7 @@ export default function pipeEvents(ui) {
   broker(ui.chatHeader, 'showUserProfile', ui.reduxEmitter, 'onShowUserProfile')
   broker(ui.chatHeader, 'showChannelInfo', ui.reduxEmitter, 'onShowChannelInfo')
   broker(ui.chatHeader, 'showSharedFiles', ui.reduxEmitter, 'onShowSharedFiles')
+  broker(ui.chatHeader, 'showMentions', ui.reduxEmitter, 'onShowMentions')
   //broker(ui.chatHeader, 'showSidebar', ui.roomInfo, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.roomInfo, 'onHide')
   //broker(ui.chatHeader, 'showSidebar', ui.sharedFiles, 'onShow')

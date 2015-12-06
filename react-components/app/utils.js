@@ -1,13 +1,10 @@
-import { bindActionCreators } from 'redux'
-import * as actions from '../actions'
+import boundActions from './boundActions'
 
-export function mapActionsToProps(actionsList) {
+export function mapActionsToProps(actionsNames) {
   return dispatch => {
-    let bindedActions = bindActionCreators(actions, dispatch)
-
-    return actionsList.reduce(
+    return actionsNames.reduce(
       (selectedActions, actionName) => {
-        let action = bindedActions[actionName]
+        let action = boundActions[actionName]
         if (action) selectedActions[actionName] = action
         return selectedActions
       },

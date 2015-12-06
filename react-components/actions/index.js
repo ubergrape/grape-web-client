@@ -275,3 +275,4 @@ export function inviteChannelMember(channel) {
 
 export * from './common'
 export * from './sharedFiles'
+export * from './mentions'

@@ -14,28 +14,10 @@ const dateFormat = 'MMM Do, YYYY'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
-  static defaultProps = {
-    title: undefined,
-    items: [],
-    total: undefined,
-    show: false,
-    limit: 20,
-    query: undefined,
-    isLoading: false,
-    images: {},
-    onSelect: noop,
-    onRequest: noop,
-    onClose: noop
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  requestMessages(props = this.props) {
+  load(props = this.props) {
     if (!props.query) return
     const {items} = props
-    props.onRequest({
+    props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit: props.limit,
@@ -44,7 +26,7 @@ export default class MessageSearch extends Component {
   }
 
   onLoadMore() {
-    this.requestMessages()
+    this.load()
   }
 
   onSelect(item) {
@@ -52,7 +34,7 @@ export default class MessageSearch extends Component {
   }
 
   onClose() {
-    this.props.onClose()
+    this.props.hide()
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -70,7 +52,7 @@ export default class MessageSearch extends Component {
       needsMessages = true
     }
 
-    if (needsMessages) this.requestMessages(nextProps)
+    if (needsMessages) this.load(nextProps)
   }
 
   render() {

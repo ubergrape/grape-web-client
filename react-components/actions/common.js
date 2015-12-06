@@ -1,5 +1,7 @@
 import * as types from '../constants/actionTypes'
 import {addAttachments} from './sharedFiles'
+import {addMention} from './mentions'
+import {isMentioned, formatMessage} from './utils'
 
 export function setSidebarIsLoading(isLoading) {
   return {
@@ -12,13 +14,17 @@ export function setSidebarIsLoading(isLoading) {
 
 export function handleNewMessage(message) {
   return dispatch => {
+    const fMessage = formatMessage(message)
     if (message.attachments.length) {
-      dispatch(addAttachments(message))
+      dispatch(addAttachments(fMessage))
+    }
+    if (isMentioned(fMessage)) {
+      dispatch(addMention(fMessage))
     }
     dispatch({
       type: types.HANDLE_NEW_MESSAGE,
       payload: {
-        message
+        message: fMessage
       }
     })
   }

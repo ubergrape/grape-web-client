@@ -4,7 +4,6 @@ import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
-import {toCamel} from '../backend/convertCase'
 import {sharedFilesSelector} from '../selectors'
 import {setSidebarIsLoading} from './common'
 
@@ -31,6 +30,7 @@ export function hideSharedFiles() {
 
 export function loadSharedFiles(params) {
   return dispatch => {
+    dispatch({type: types.LOAD_SHARED_FILES})
     dispatch(setSidebarIsLoading(true))
     rpc({
       ns: 'search',
@@ -42,13 +42,13 @@ export function loadSharedFiles(params) {
         params.limit,
         params.offset
       ]
-    }, (err, data) => {
+    }, {camelize: true}, (err, data) => {
       if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
       dispatch({
         type: types.LOADED_SHARED_FILES,
         payload: {
-          items: toCamel(data.results).map(file => {
+          items: data.results.map(file => {
             return formatFile(params.channel, file)
           })
         }
@@ -64,7 +64,7 @@ export function addAttachments(message) {
     return formatFile(state.channel, file)
   })
   return {
-    type: types.ADD_ATTACHMENTS,
+    type: types.ADDED_SHARED_FILE,
     payload: {
       items: [...items, ...state.items]
     }

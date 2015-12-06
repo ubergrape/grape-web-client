@@ -683,30 +683,6 @@ API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
   }.bind(this))
 }
 
-API.prototype.onLoadMentions = function (params) {
-  rpc({
-    ns: 'search',
-    action: 'get_mentions',
-    args: [
-      this.organization.id,
-      params.only,
-      params.limit,
-      params.offsetDate
-    ]
-  }, (err, res) => {
-    if (err) return this.emit('error', err)
-    this.emit('loadMentionsPayload', {
-      offsetTotal: res.total,
-      offsetDate: params.offsetDate,
-      results: res.results.map(result => {
-        const message = convertCase.toCamel(result.message)
-        message.read = result.read
-        return new models.Line(message)
-      })
-    })
-  })
-}
-
 API.prototype.onMessageSearch = function (params) {
   // search(query, organization_id, only='messages', limit=20, offset=None, callback)
   rpc({

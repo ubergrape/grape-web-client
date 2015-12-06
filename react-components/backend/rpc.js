@@ -4,19 +4,17 @@ import noop from 'lodash/utility/noop'
 import assign from 'lodash/object/assign'
 
 import conf from 'conf'
-import * as convertCase from './convertCase'
+import {toSnake, toCamel} from './convertCase'
 import client from './client'
 
 const log = debug('rpc')
 let rpc
 
 if (conf.forceLongpolling) {
-  rpc = (data, callback = noop) => {
-    const cData = convertCase.toSnake(data)
-    log('req', cData)
+  rpc = (data, callback) => {
     request
       .post(conf.rpcUrl)
-      .send(cData)
+      .send(data)
       .end((err, res) => {
         if (err) {
           let userErr
@@ -34,14 +32,23 @@ if (conf.forceLongpolling) {
   }
 }
 else {
-  rpc = (data, callback = noop) => {
-    const cData = convertCase.toSnake(data)
-    log('req', cData)
-    client.call(`${cData.ns}/${cData.action}`, ...(cData.args || []), (err, res) => {
+  rpc = (data, callback) => {
+    client.call(`${data.ns}/${data.action}`, ...(data.args || []), (err, res) => {
       err ? log('err', err, err.details) : log('res', res)
       callback(err, res)
     })
   }
 }
 
-export default rpc
+export default function(data, options, callback) {
+  if (typeof options === 'function') {
+    callback = options
+    options = {}
+  }
+  const cData = toSnake(data)
+  log('req', cData)
+  rpc(data, (err, res) => {
+    if (!callback) return
+    callback(err, options.camelize && res ? toCamel(res) : res)
+  })
+}
