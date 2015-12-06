@@ -1,7 +1,54 @@
+import reduxEmitter from '../redux-emitter'
+import page from 'page'
+import * as types from '../constants/actionTypes'
+
 import sortBy from 'lodash/collection/sortBy'
 import pick from 'lodash/object/pick'
 
-export function find(data, search) {
+export function showChannelSearch(org, user) {
+  return {
+    type: types.SHOW_CHANNEL_SEARCH,
+    payload: {
+      show: true,
+      items: getFilteredItems(org, user)
+    }
+  }
+}
+
+export function hideChannelSearch() {
+  return {
+    type: types.HIDE_CHANNEL_SEARCH,
+    payload: {
+      show: false,
+      search: ''
+    }
+  }
+}
+
+export function inputChannelSearch(search, org, user) {
+  return {
+    type: types.INPUT_CHANNEL_SEARCH,
+    payload: {
+      search,
+      items: find(getFilteredItems(org, user), search)
+    }
+  }
+}
+
+export function selectChannelSearch(channel) {
+  page('/chat/' + channel.slug)
+  return dispatch => dispatch(hideChannelSearch())
+}
+
+export function showRoomManager() {
+  reduxEmitter.showRoomManager()
+  return dispatch => {
+    dispatch(hideChannelSearch())
+  }
+}
+
+
+function find(data, search) {
   if (!search) {
     return sortBy(data, item => {
       return item.name.toLowerCase()
@@ -20,7 +67,7 @@ export function find(data, search) {
   return items
 }
 
-export function getFileteredItems(org, user) {
+function getFilteredItems(org, user) {
   return filterItem(
     getItems(org),
     user
@@ -70,4 +117,3 @@ function getItems(org) {
 function filterItem(items, user) {
   return items.filter(({id}) => id !== user.id)
 }
-

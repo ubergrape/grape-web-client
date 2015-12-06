@@ -6,7 +6,8 @@ import boundActions from '../app/boundActions'
 class ReduxEmitter extends Emitter {
   onOrgReady(org) {
     let jsonOrg = org.toJSON()
-    jsonOrg.users = jsonOrg.users.map(user => toCamel(user.toJSON()))
+    jsonOrg.users = org.users.toArray().map(user => toCamel(user.toJSON()))
+    jsonOrg.rooms = org.rooms.toArray().map(room => toCamel(room.toJSON()))
     jsonOrg = toCamel(jsonOrg)
     boundActions.setOrg(jsonOrg)
     boundActions.setUsers(jsonOrg.users)
