@@ -246,7 +246,10 @@ export function leaveChannel(channelId) {
 export function goToChannel(slug) {
   page(`/chat/${slug}`)
   return {
-    type: types.GO_TO_CHANNEL
+    type: types.GO_TO_CHANNEL,
+    payload: {
+      slug
+    }
   }
 }
 

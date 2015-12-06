@@ -1,5 +1,6 @@
 export default [
   'showMentions',
   'hideMentions',
-  'loadMentions'
+  'loadMentions',
+  'goToMessage'
 ]

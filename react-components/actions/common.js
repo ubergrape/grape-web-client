@@ -1,3 +1,5 @@
+import page from 'page'
+
 import * as types from '../constants/actionTypes'
 import {addAttachments} from './sharedFiles'
 import {addMention} from './mentions'
@@ -27,5 +29,15 @@ export function handleNewMessage(message) {
         message: fMessage
       }
     })
+  }
+}
+
+export function goToMessage(message) {
+  page(`/chat/${message.slug}/${message.id}`)
+  return {
+    type: types.GO_TO_MESSAGE,
+    payload: {
+      message
+    }
   }
 }

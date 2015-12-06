@@ -30,7 +30,7 @@ export default class MessageSearch extends Component {
   }
 
   onSelect(item) {
-    this.props.onSelect(item)
+    this.props.select(item)
   }
 
   onClose() {
