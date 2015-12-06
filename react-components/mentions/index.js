@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
 import {mentionsSelector} from '../selectors'
-import actions from './actions'
+import actionNames from './actionNames'
 import Mentions from '../message-search/MessageSearch'
 
 const actionsPropsMap = {
@@ -14,7 +14,7 @@ const actionsPropsMap = {
 
 const ConnectedMentions = connect(
   mentionsSelector,
-  mapActionsToProps(actions, actionsPropsMap)
+  mapActionsToProps(actionNames, actionsPropsMap)
 )(Mentions)
 
 export default function init(store) {

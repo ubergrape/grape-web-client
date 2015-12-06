@@ -3,12 +3,12 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
 import {sharedFilesSelector} from '../selectors'
-import actions from './actions'
+import actionNames from './actionNames'
 import SharedFiles from './SharedFiles'
 
 const ConnectedSharedFiles = connect(
   sharedFilesSelector,
-  mapActionsToProps(actions)
+  mapActionsToProps(actionNames)
 )(SharedFiles)
 
 export default function init(store) {

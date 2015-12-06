@@ -3,12 +3,12 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
 import {userProfileSelector} from '../selectors'
-import actions from './actions'
+import actionNames from './actionNames'
 import UserProfile from './UserProfile'
 
 const ConnectedUserProfile = connect(
   userProfileSelector,
-  mapActionsToProps(actions)
+  mapActionsToProps(actionNames)
 )(UserProfile)
 
 export default function init(store) {

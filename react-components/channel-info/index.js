@@ -3,12 +3,12 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
 import {channelInfoSelector} from '../selectors'
-import actions from './actions'
+import actionNames from './actionNames'
 import ChannelInfo from './ChannelInfo'
 
 const ConnectedChannelInfo = connect(
   channelInfoSelector,
-  mapActionsToProps(actions)
+  mapActionsToProps(actionNames)
 )(ChannelInfo)
 
 export default function init(store) {

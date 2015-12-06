@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
 import {messageSearchSelector} from '../selectors'
-import actions from './actions'
+import actionNames from './actionNames'
 import MessageSearch from './MessageSearch'
 
 const actionsPropsMap = {
@@ -14,7 +14,7 @@ const actionsPropsMap = {
 
 const ConnectedMessageSearch = connect(
   messageSearchSelector,
-  mapActionsToProps(actions, actionsPropsMap)
+  mapActionsToProps(actionNames, actionsPropsMap)
 )(MessageSearch)
 
 export default function init(store) {
