@@ -23,7 +23,7 @@ export function hideMessageSearch() {
   return {
     type: types.HIDE_MESSAGE_SEARCH,
     payload: {
-      show: true,
+      show: false,
       items: []
     }
   }

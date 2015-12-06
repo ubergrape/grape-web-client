@@ -13,6 +13,7 @@ const initialState = {
 export default function reducers(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_MESSAGE_SEARCH:
+    case types.HIDE_MESSAGE_SEARCH:
     case types.FOUND_MESSAGES:
     case types.UPDATE_MESSAGE_SEARCH_QUERY:
       return {...state, ...action.payload}

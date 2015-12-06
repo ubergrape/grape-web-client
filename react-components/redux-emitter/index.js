@@ -70,6 +70,14 @@ class ReduxEmitter extends Emitter {
     boundActions.updateMessageSearchQuery(query)
   }
 
+  onHideSidebar() {
+    boundActions.hideSharedFiles()
+    boundActions.hideUserProfile()
+    boundActions.hideChannelInfo()
+    boundActions.hideMessageSearch()
+    boundActions.hideMentions()
+  }
+
   showSidebar() {
     this.emit('showSidebar')
   }

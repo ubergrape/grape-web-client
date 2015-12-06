@@ -80,6 +80,7 @@ export default function pipeEvents(ui) {
   broker(ui.chatHeader, 'showMentions', ui.reduxEmitter, 'onShowMentions')
   broker(ui.chatHeader, 'showMessageSearch', ui.reduxEmitter, 'onShowMessageSearch')
   broker(ui.chatHeader, 'search', ui.reduxEmitter, 'onSearchMessages')
+  broker(ui.chatHeader, 'hideSidebar', ui.reduxEmitter, 'onHideSidebar')
   //broker(ui.chatHeader, 'showSidebar', ui.roomInfo, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.roomInfo, 'onHide')
   //broker(ui.chatHeader, 'showSidebar', ui.sharedFiles, 'onShow')

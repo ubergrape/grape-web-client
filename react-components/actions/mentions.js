@@ -25,7 +25,7 @@ export function hideMentions() {
   return {
     type: types.HIDE_MENTIONS,
     payload: {
-      show: true,
+      show: false,
       items: []
     }
   }
