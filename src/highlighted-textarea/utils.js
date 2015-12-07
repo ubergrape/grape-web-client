@@ -37,18 +37,18 @@ function toData(text, url) {
  * Get all indexes for substring:
  * start and end index i.e. [[0, 5], [10, 15]]
  */
-function indexesOf(sub, str) {
+function getPositions(sub, str) {
   const subLen = sub.length
-  const indices = []
+  const positions = []
 
   let startIndex = 0
   let index = str.indexOf(sub, startIndex)
   while (index > -1) {
     startIndex = index + subLen
-    indices.push([index, startIndex])
+    positions.push([index, startIndex])
     index = str.indexOf(sub, startIndex)
   }
-  return indices
+  return positions
 }
 
 /**
@@ -100,7 +100,7 @@ export function getObjectsPositions(objects, text) {
   const objectsPositions = {}
 
   Object.keys(objects).forEach(key => {
-    objectsPositions[key] = indexesOf(key, text)
+    objectsPositions[key] = getPositions(key, text)
   })
 
   return objectsPositions
@@ -110,7 +110,7 @@ export function getObjectsPositions(objects, text) {
  * Get an array of substrings and tokens (grape objects) in
  * order of appearance.
  */
-export function getTextAndObjectsRepresentation(objects, text) {
+export function getTextAndObjects(objects, text) {
   let content
   const tokens = Object.keys(objects)
 
@@ -161,9 +161,11 @@ export function getTokenUnderCaret(string, caretPostion) {
         break
       }
 
-      token.text = position.length ?
-              token.text + string[nextSymbolIndex] :
-              string[nextSymbolIndex] + token.text
+      if (position.length) {
+        token.text = token.text + string[nextSymbolIndex]
+      } else {
+        token.text = string[nextSymbolIndex] + token.text
+      }
 
       previousSymbolIndex = nextSymbolIndex
       nextSymbolIndex = position.length ? nextSymbolIndex + 1 : nextSymbolIndex - 1

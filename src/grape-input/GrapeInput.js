@@ -17,7 +17,7 @@ import SearchBrowser from '../search-browser/Browser'
 import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
-import Textarea from '../textarea/Textarea'
+import HighlightedTextarea from '../highlighted-textarea/HighlightedTextarea'
 import MaxSize from '../max-size/MaxSize'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
@@ -400,7 +400,7 @@ export default class Input extends Component {
           innerWidth={this.state.editableWidth}
           innerHeight={this.state.editableHeight}
           onResize={::this.onInputResize}>
-          <Textarea
+          <HighlightedTextarea
             width={this.state.editableWidth}
             height={this.state.editableHeight}
             onAbort={::this.onAbort}

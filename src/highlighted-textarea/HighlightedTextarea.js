@@ -3,7 +3,7 @@ import React, {PropTypes, Component} from 'react'
 import {
   getTokenUnderCaret,
   getQuery,
-  getTextAndObjectsRepresentation,
+  getTextAndObjects,
   getObjectsPositions,
   parseAndReplace
 } from './utils'
@@ -52,8 +52,8 @@ export default class Textarea extends Component {
 
   componentDidUpdate() {
     if (this.props.focused) {
-      this.refs.textarea.selectionEnd = this.state.caretPos
       this.refs.textarea.focus()
+      this.refs.textarea.selectionEnd = this.state.caretPos
     }
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
   }
@@ -62,8 +62,8 @@ export default class Textarea extends Component {
     const {value, selectionEnd} = e.target
     this.setState({
       text: value,
-      textWithObjects: getTextAndObjectsRepresentation(this.state.objects, value),
-      caretPos: e.target.selectionEnd,
+      textWithObjects: getTextAndObjects(this.state.objects, value),
+      caretPos: selectionEnd,
       objectsPositions: getObjectsPositions(this.state.objects, value)
     })
     this.props.onChange(getQuery(value, selectionEnd))
@@ -88,10 +88,10 @@ export default class Textarea extends Component {
         }
         break
       case 'backspace':
-        this.onDelete(e, true)
+        this.onDelete(e, 'backspace')
         break
       case 'del':
-        this.onDelete(e, false)
+        this.onDelete(e, 'del')
         break
       default:
     }
@@ -104,7 +104,7 @@ export default class Textarea extends Component {
   // TODO: possibly improve speed with fake caret in highlighter
   // so you can check if caret is inside/near the grape object
   onDelete(e, direction) {
-    const str = this.state.text
+    const {text} = this.state
     const {selectionStart, selectionEnd} = this.refs.textarea
     const objectsPositions = this.state.objectsPositions
 
@@ -120,8 +120,8 @@ export default class Textarea extends Component {
           // If selectionStart or selectionEnd
           // not inside object —> do nothing
           if (
-            !direction && positions[1] === selectionEnd ||
-            direction && positions[0] === selectionStart
+            direction === 'del' && positions[1] === selectionEnd ||
+            direction === 'backspace' && positions[0] === selectionStart
           ) {
             return false
           }
@@ -137,13 +137,13 @@ export default class Textarea extends Component {
       e.preventDefault()
 
       const [start, end] = positionsToDelete
-      const text = str.slice(0, start) + str.slice(end, str.length)
+      const newText = `${text.slice(0, start)}${text.slice(end, text.length)}`
 
       this.setState({
-        text,
-        textWithObjects: getTextAndObjectsRepresentation(this.state.objects, text),
-        objectsPositions: getObjectsPositions(this.state.objects, text),
-        caretPos: positionsToDelete[0]
+        text: newText,
+        textWithObjects: getTextAndObjects(this.state.objects, newText),
+        objectsPositions: getObjectsPositions(this.state.objects, newText),
+        caretPos: start
       })
     }
   }
@@ -170,7 +170,7 @@ export default class Textarea extends Component {
     this.setState({
       text,
       objects,
-      textWithObjects: getTextAndObjectsRepresentation(objects, text),
+      textWithObjects: getTextAndObjects(objects, text),
       caretPos: text.length,
       objectsPositions: getObjectsPositions(objects, text)
     })
@@ -190,18 +190,18 @@ export default class Textarea extends Component {
     Replace text string to token in state
    */
   replaceQuery(replacement) {
-    const textarea = this.refs.textarea
-    const selectionEnd = textarea.selectionEnd
+    const {textarea} = this.refs
+    const {selectionEnd} = textarea
 
-    let text = this.state.text
+    let {text} = this.state
     const token = getTokenUnderCaret(textarea.value, selectionEnd)
     const textBefore = text.slice(0, token.position[0])
     const textAfter = text.slice(token.position[1], text.length)
 
-    text = textBefore + replacement.content + textAfter + ' '
+    text = `${textBefore}${replacement.content}${textAfter} `
     const objects = {
       ...this.state.objects,
-      ...{[replacement.content]: replacement}
+      [replacement.content]: replacement
     }
     const caretPos = selectionEnd + replacement.content.length
 
@@ -209,7 +209,7 @@ export default class Textarea extends Component {
       text,
       objects,
       caretPos,
-      textWithObjects: getTextAndObjectsRepresentation(objects, text),
+      textWithObjects: getTextAndObjects(objects, text),
       objectsPositions: getObjectsPositions(objects, text)
     })
   }
@@ -225,7 +225,7 @@ export default class Textarea extends Component {
     if (!this.state.text.trim().length) return
     e.preventDefault()
 
-    const textWithObjects = this.state.textWithObjects
+    const {textWithObjects} = this.state
     const content = textWithObjects.map(item => item.str ? item.str : item).join('')
     const objects = textWithObjects.reduce((onlyObjects, item) => {
       if (typeof item === 'object') {
@@ -289,7 +289,7 @@ export default class Textarea extends Component {
     return (
       <div
         ref="highlighter"
-        className={highlighter + ' ' + common}>
+        className={`${highlighter} ${common}`}>
           {this.renderTokens()}
       </div>
     )
@@ -305,15 +305,14 @@ export default class Textarea extends Component {
           {this.renderHighlighter()}
           <textarea
             ref="textarea"
-            className={textarea + ' ' + common}
+            className={`${textarea} ${common}`}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
             onKeyPress={::this.onKeyPress}
             onChange={::this.onChange}
             value={this.state.text}
-            autoFocus
-            ></textarea>
+            autoFocus></textarea>
       </div>
     )
   }
