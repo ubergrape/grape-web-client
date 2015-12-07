@@ -23,7 +23,8 @@ export function hideSharedFiles() {
     type: types.HIDE_SHARED_FILES,
     payload: {
       show: false,
-      items: []
+      items: [],
+      total: null
     }
   }
 }
@@ -42,15 +43,18 @@ export function loadSharedFiles(params) {
         params.limit,
         params.offset
       ]
-    }, {camelize: true}, (err, data) => {
+    }, {camelize: true}, (err, res) => {
       if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
+      const prevItems = sharedFilesSelector(store.getState()).items
+      const nextItems = res.results.map(file => {
+        return formatFile(params.channel, file)
+      })
       dispatch({
         type: types.LOADED_SHARED_FILES,
         payload: {
-          items: data.results.map(file => {
-            return formatFile(params.channel, file)
-          })
+          items: [...prevItems, ...nextItems],
+          total: res.total
         }
       })
     })
