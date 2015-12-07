@@ -14,16 +14,25 @@ describe('highlighted', () => {
 
   describe('HighlightedTextarea#setTextContent', () => {
     it('should parse markdown', done => {
+      let resizeFlag = false
+
       function onDidMount(component) {
         component.setTextContent('[name](cg://chatgrape|room|1|/chat/slug)')
         setTimeout(() => {
           expect(component.state.objects['@name']).to.be.a(Room)
+          expect(resizeFlag).to.be(true)
           done()
         }, 0)
       }
+
+      function onResize() {
+        resizeFlag = true
+      }
+
       const textarea = (
         <HighlightedTextarea
           onDidMount={onDidMount}
+          onResize={onResize}
           focused />
       )
       render(textarea)
