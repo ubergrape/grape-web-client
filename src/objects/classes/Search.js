@@ -3,7 +3,7 @@ import template from 'lodash/string/template'
 import {getLabel} from '../utils'
 
 // TODO Stop using global classes
-let buildLink = template(
+const buildLink = template(
   '<a ' +
     'tabindex="-1" ' +
     'target="_blank" ' +
@@ -15,10 +15,12 @@ let buildLink = template(
   '</a>'
 )
 
-const label = getLabel('search')
+const tokenType = 'search'
+const label = getLabel(tokenType)
 
 export default class Search {
   constructor(result) {
+    this.tokenType = tokenType
     this.result = result
     this.id = result.id
     this.service = result.service

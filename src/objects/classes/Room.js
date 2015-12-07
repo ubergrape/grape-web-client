@@ -13,10 +13,13 @@ let buildLink = template(
   '</a>'
 )
 
-const label = getLabel('room')
+const tokenType = 'room'
+const label = getLabel(tokenType)
 
 export default class Room {
   constructor(options) {
+    this.tokenType = tokenType
+    this.className = 'room'
     this.id = options.id
     this.name = options.name
     this.slug = options.slug

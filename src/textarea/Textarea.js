@@ -250,8 +250,9 @@ export default class Textarea extends Component {
   }
 
   renderTokens() {
-    const content = this.state.textWithObjects.map(item => {
-      return typeof item === 'object' ? this.renderToken(item.content) : item
+    const content = this.state.textWithObjects.map((item, index) => {
+      if (item.content) return this.renderToken(item, index)
+      return <span key={index}>{item}</span>
     })
 
     // The last item is space,
@@ -261,8 +262,34 @@ export default class Textarea extends Component {
     return content
   }
 
-  renderToken(text) {
-    return <span className={this.props.sheet.classes.token}>{text}</span>
+  renderToken(object, index) {
+    const {token, user, room, search, emoji} = this.props.sheet.classes
+
+    let tokenType
+    switch (object.tokenType) {
+      case 'user':
+        tokenType = user
+        break
+      case 'room':
+        tokenType = room
+        break
+      case 'search':
+        tokenType = search
+        break
+      case 'emoji':
+        tokenType = emoji
+        break
+      default:
+        tokenType = ''
+    }
+
+    return (
+      <span
+        key={index}
+        className={`${token} ${tokenType}`}>
+          {object.content}
+      </span>
+    )
   }
 
   renderHighlighter() {
