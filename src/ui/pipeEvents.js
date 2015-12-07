@@ -50,18 +50,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
   broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
-  //broker(ui, 'searchMessagesPayload', ui.messageSearch, 'onPayload')
-  //broker(ui, 'orgReady', ui.mentions, 'onOrgReady')
-  //broker(ui, 'setUser', ui.mentions, 'onSetUser')
-  //broker(ui, 'loadMentionsPayload', ui.mentions, 'onPayload')
-  //broker(ui, 'newMessage', ui.mentions, 'onMessage')
   broker(ui, 'memberLeftChannel', ui.reduxEmitter, 'onMemberLeftChannel')
-  //broker(ui, 'newRoomMember', ui.roomInfo, 'onMemberJoinedChannel')
-  //broker(ui, 'selectchannel', ui.roomInfo, 'onSelectChannel')
-  //broker(ui, 'setUser', ui.roomInfo, 'onSetUser')
-  //broker(ui, 'orgReady', ui.roomInfo, 'onOrgReady')
-  //broker(ui, 'selectchannel', ui.sharedFiles, 'onSelectChannel')
-  //broker(ui, 'newMessage', ui.sharedFiles, 'onMessage')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
@@ -69,22 +58,12 @@ export default function pipeEvents(ui) {
   broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
   broker(ui.chatHeader, 'showSidebar', ui, 'onShowSidebar')
   broker(ui.chatHeader, 'hideSidebar', ui, 'onHideSidebar')
-  //broker(ui.chatHeader, 'showSidebar', ui.messageSearch, 'onShow')
-  //broker(ui.chatHeader, 'hideSidebar', ui.messageSearch, 'onHide')
-  //broker(ui.chatHeader, 'search', ui.messageSearch, 'onSearch')
-  //broker(ui.chatHeader, 'showSidebar', ui.mentions, 'onShow')
-  //broker(ui.chatHeader, 'hideSidebar', ui.mentions, 'onHide')
   broker(ui.chatHeader, 'showChannelInfo', ui.reduxEmitter, 'onShowChannelInfo')
   broker(ui.chatHeader, 'showSharedFiles', ui.reduxEmitter, 'onShowSharedFiles')
   broker(ui.chatHeader, 'showMentions', ui.reduxEmitter, 'onShowMentions')
   broker(ui.chatHeader, 'showMessageSearch', ui.reduxEmitter, 'onShowMessageSearch')
   broker(ui.chatHeader, 'search', ui.reduxEmitter, 'onSearchMessages')
   broker(ui.chatHeader, 'hideSidebar', ui.reduxEmitter, 'onHideSidebar')
-  //broker(ui.chatHeader, 'showSidebar', ui.roomInfo, 'onShow')
-  //broker(ui.chatHeader, 'hideSidebar', ui.roomInfo, 'onHide')
-  //broker(ui.chatHeader, 'showSidebar', ui.sharedFiles, 'onShow')
-  //broker(ui.chatHeader, 'hideSidebar', ui.sharedFiles, 'onHide')
-
 
   // grape input
   broker.pass(ui.grapeInput, 'update', ui, 'update')
@@ -130,34 +109,10 @@ export default function pipeEvents(ui) {
   broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')
   broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
 
-  // message search
-  //broker.pass(ui.messageSearch, 'search', ui, 'messageSearch')
-  //broker(ui.messageSearch, 'show', ui, 'onShowSidebar')
-  //broker(ui.messageSearch, 'hide', ui, 'onHideSidebar')
-  //broker.pass(ui.messageSearch, 'hide', ui, 'hideSidebar')
-
-  // mentions
-  //broker.pass(ui.mentions, 'load', ui, 'loadMentions')
-  //broker(ui.mentions, 'show', ui, 'onShowSidebar')
-  //broker(ui.mentions, 'hide', ui, 'onHideSidebar')
-  //broker.pass(ui.mentions, 'hide', ui, 'hideSidebar')
-
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
   broker(ui.reduxEmitter, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
-  //broker(ui.roomInfo, 'show', ui, 'onShowSidebar')
-  //broker(ui.roomInfo, 'hide', ui, 'onHideSidebar')
-  //broker.pass(ui.roomInfo, 'kickMember', ui, 'kickMember')
-  //broker.pass(ui.roomInfo, 'leaveRoom', ui, 'leaveRoom')
-  //broker.pass(ui.roomInfo, 'hide', ui, 'hideSidebar')
-  //broker(ui.roomInfo, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
-
-  // shared files
-  //broker(ui.sharedFiles, 'show', ui, 'onShowSidebar')
-  //broker(ui.sharedFiles, 'hide', ui, 'onHideSidebar')
-  //broker.pass(ui.sharedFiles, 'hide', ui, 'hideSidebar')
-  //broker.pass(ui.sharedFiles, 'search', ui, 'searchFiles')
 
   // channel search
   broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
