@@ -72,5 +72,3 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
   broker.pass(api, 'change settings', ui, 'setSettings')
 }
-
-

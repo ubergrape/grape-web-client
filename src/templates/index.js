@@ -1,13 +1,13 @@
-let template = require('template')
-let v = require('virtualdom')
-let domify = require('domify')
+import template from 'template'
+import v from 'virtualdom'
+import domify from 'domify'
 
 template.locals.strftime = require('strftime')
 template.locals._ = require('t')
 template.locals.escape_html = require('escape-html')
 template.locals.markdown = require('../ui/markdown')
 template.locals.constants = require('conf').constants
-template.locals.html = function (html) {
+template.locals.html = (html) => {
   return v.fromDOM(domify(html))
 }
 
@@ -34,5 +34,5 @@ template.templates = {
   'navigation.jade': require('./navigation.jade'),
   'pmlist.jade': require('./pmlist.jade'),
   'popovers/organization.jade': require('./popovers/organization.jade'),
-  'roomlist.jade': require('./roomlist.jade'),
+  'roomlist.jade': require('./roomlist.jade')
 }
