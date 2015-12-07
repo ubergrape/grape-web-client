@@ -4,8 +4,8 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import style from './style'
-import SharedFile from '../shared-files-file/SharedFile'
+import style from './sharedFilesStyle'
+import SharedFile from './SharedFile'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)

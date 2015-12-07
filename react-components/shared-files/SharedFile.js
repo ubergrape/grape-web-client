@@ -4,7 +4,7 @@ import tz from 'moment-timezone'
 
 import {useSheet} from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
-import style from './style'
+import style from './sharedFileStyle'
 const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
