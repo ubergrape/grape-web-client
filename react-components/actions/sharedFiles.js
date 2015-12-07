@@ -4,7 +4,7 @@ import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
-import {sharedFilesSelector} from '../selectors'
+import {sharedFilesSelector, orgSelector, channelSelector} from '../selectors'
 import {setSidebarIsLoading} from './common'
 
 export function showSharedFiles() {
@@ -33,12 +33,15 @@ export function loadSharedFiles(params) {
   return dispatch => {
     dispatch({type: types.LOAD_SHARED_FILES})
     dispatch(setSidebarIsLoading(true))
+    const state = store.getState()
+    const org = orgSelector(state)
+    const channel = channelSelector(state)
     rpc({
       ns: 'search',
       action: 'search_files',
       args: [
-        params.orgId,
-        params.channel.id,
+        org.id,
+        channel.id,
         params.own,
         params.limit,
         params.offset
@@ -48,7 +51,7 @@ export function loadSharedFiles(params) {
       dispatch(setSidebarIsLoading(false))
       const prevItems = sharedFilesSelector(store.getState()).items
       const nextItems = res.results.map(file => {
-        return formatFile(params.channel, file)
+        return formatFile(channel, file)
       })
       dispatch({
         type: types.LOADED_SHARED_FILES,

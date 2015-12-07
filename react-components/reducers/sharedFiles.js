@@ -11,8 +11,6 @@ const initialState = {
 
 export default function reducers(state = initialState, action) {
   switch (action.type) {
-    case types.SET_ORG:
-    case types.SET_CHANNEL:
     case types.SHOW_SHARED_FILES:
     case types.HIDE_SHARED_FILES:
     case types.SET_SIDEBAR_IS_LOADING:
@@ -20,6 +18,8 @@ export default function reducers(state = initialState, action) {
     case types.LOADED_SHARED_FILES:
     case types.ADDED_SHARED_FILE:
       return {...state, ...action.payload}
+    case types.SET_CHANNEL:
+      return {...initialState, show: state.show}
     default:
       return state
   }

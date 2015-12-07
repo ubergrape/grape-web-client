@@ -10,10 +10,6 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class SharedFiles extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
@@ -73,9 +69,7 @@ export default class SharedFiles extends Component {
   load(props = this.props) {
     props.loadSharedFiles({
       offset: props.items.length,
-      limit: props.limit,
-      channel: props.channel,
-      orgId: props.org.id
+      limit: props.limit
     })
   }
 

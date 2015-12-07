@@ -9,6 +9,10 @@ export const usersSelector = createSelector(
   state => state.users, state => state
 )
 
+export const channelSelector = createSelector(
+  state => state.channel, state => state
+)
+
 export const channelsSelector = createSelector(
   state => state.channels, state => state
 )
