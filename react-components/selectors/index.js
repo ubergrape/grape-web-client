@@ -51,7 +51,7 @@ export const sharedFilesSelector = createSelector(
 )
 
 export const mentionsSelector = createSelector(
-  state => state.mentions , state => state
+  state => state.mentions, state => state
 )
 
 export const messageSearchSelector = createSelector(

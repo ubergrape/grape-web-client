@@ -7,6 +7,21 @@ import rpc from '../backend/rpc'
 import {sharedFilesSelector, orgSelector, channelSelector} from '../selectors'
 import {setSidebarIsLoading} from './common'
 
+/**
+ * Format data for shared files.
+ */
+function formatFile(channel, file) {
+  const author = find(channel.users, ({id}) => id === file.author.id).displayName
+  return {
+    ...file,
+    author,
+    channelName: channel.name || channel.users[0].displayName,
+    channelType: channel.type,
+    id: file.id || file.messageId,
+    time: new Date(file.time)
+  }
+}
+
 export function showSharedFiles() {
   reduxEmitter.showSidebar()
   return {
@@ -64,7 +79,7 @@ export function loadSharedFiles(params) {
   }
 }
 
-export function addAttachments(message) {
+export function addAttachments(message) {
   const state = sharedFilesSelector(store.getState())
   const items = message.attachments.map(attachment => {
     const file = {...attachment, author: message.author}
@@ -75,20 +90,5 @@ export function addAttachments(message) {
     payload: {
       items: [...items, ...state.items]
     }
-  }
-}
-
-/**
- * Format data for shared files.
- */
-function formatFile(channel, file) {
-  const author = find(channel.users, ({id}) => id === file.author.id).displayName
-  return {
-    ...file,
-    author,
-    channelName: channel.name || channel.users[0].displayName,
-    channelType: channel.type,
-    id: file.id || file.messageId,
-    time: new Date(file.time)
   }
 }

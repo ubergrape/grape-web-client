@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import noop from 'lodash/utility/noop'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
@@ -12,6 +11,20 @@ const dateFormat = 'MMMM Do, YYYY'
 
 @useSheet(style)
 export default class ChannelInfo extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    inviteChannelMember: PropTypes.func,
+    channel: PropTypes.object,
+    user: PropTypes.object,
+    kickMemberFromChannel: PropTypes.func,
+    goToChannel: PropTypes.func,
+    leaveChannel: PropTypes.func,
+    hideChannelInfo: PropTypes.func,
+    show: PropTypes.bool
+  }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   onInvite() {
     this.props.inviteChannelMember(this.props.channel)
   }
@@ -33,42 +46,6 @@ export default class ChannelInfo extends Component {
 
   onClose() {
     this.props.hideChannelInfo()
-  }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  render() {
-    if (!this.props.show) return null
-    let {classes} = this.props.sheet
-    let {channel} = this.props
-    let {users} = channel
-    let plural = users.length > 1 ? 's' : ''
-    let creatorText
-    if (channel.creator) {
-      creatorText = ` and has been created by ${channel.creator.displayName}`
-    }
-    return (
-      <SidebarPanel
-        title="Room Info"
-        onClose={::this.onClose}>
-        <div className={classes.channelInfo}>
-          <header className={classes.header}>
-            <div className={classes.stats}>
-              The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
-            </div>
-            {this.props.channel.description && <div className={classes.description}>
-              <h2>Purpose</h2>
-              <p className={classes.descriptionText}>{this.props.channel.description}</p>
-            </div>}
-            <div className={classes.actions}>
-              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this room</button>
-              <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
-            </div>
-          </header>
-          {users.map(::this.renderUser)}
-        </div>
-      </SidebarPanel>
-    )
   }
 
   renderUser(user) {
@@ -106,6 +83,40 @@ export default class ChannelInfo extends Component {
         className={classes.buttonKick}
         onClick={this.onKickMember.bind(this, user)}>
       </button>
+    )
+  }
+
+  render() {
+    if (!this.props.show) return null
+    const {classes} = this.props.sheet
+    const {channel} = this.props
+    const {users} = channel
+    const plural = users.length > 1 ? 's' : ''
+    let creatorText
+    if (channel.creator) {
+      creatorText = ` and has been created by ${channel.creator.displayName}`
+    }
+    return (
+      <SidebarPanel
+        title="Room Info"
+        onClose={::this.onClose}>
+        <div className={classes.channelInfo}>
+          <header className={classes.header}>
+            <div className={classes.stats}>
+              The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
+            </div>
+            {this.props.channel.description && <div className={classes.description}>
+              <h2>Purpose</h2>
+              <p className={classes.descriptionText}>{this.props.channel.description}</p>
+            </div>}
+            <div className={classes.actions}>
+              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this room</button>
+              <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
+            </div>
+          </header>
+          {users.map(::this.renderUser)}
+        </div>
+      </SidebarPanel>
     )
   }
 }

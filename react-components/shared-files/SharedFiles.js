@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import noop from 'lodash/utility/noop'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -10,7 +9,15 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 @useSheet(style)
 export default class SharedFiles extends Component {
-  shouldComponentUpdate = shouldPureComponentUpdate
+  static propTypes = {
+    show: PropTypes.bool,
+    total: PropTypes.number,
+    sheet: PropTypes.object,
+    images: PropTypes.object,
+    items: PropTypes.array,
+    hideSharedFiles: PropTypes.func,
+    isLoading: PropTypes.bool
+  }
 
   componentWillReceiveProps(nextProps) {
     // It was hidden, we show it now.
@@ -20,22 +27,21 @@ export default class SharedFiles extends Component {
     if (show || reset) this.load(nextProps)
   }
 
-  render() {
-    if (!this.props.show) return null
-    const {classes} = this.props.sheet
-    return (
-      <SidebarPanel
-        title="Shared Files"
-        images={this.props.images}
-        onClose={::this.onClose}>
-        <div className={classes.sharedFiles}>
-          {this.renderFiles()}
-          {this.renderEmpty()}
-          {this.renderLoadMore()}
-          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
-        </div>
-      </SidebarPanel>
-    )
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  onLoadMore() {
+    this.load()
+  }
+
+  onClose() {
+    this.props.hideSharedFiles()
+  }
+
+  load(props = this.props) {
+    props.loadSharedFiles({
+      offset: props.items.length,
+      limit: props.limit
+    })
   }
 
   renderFiles() {
@@ -66,18 +72,21 @@ export default class SharedFiles extends Component {
     )
   }
 
-  load(props = this.props) {
-    props.loadSharedFiles({
-      offset: props.items.length,
-      limit: props.limit
-    })
-  }
-
-  onLoadMore() {
-    this.load()
-  }
-
-  onClose() {
-    this.props.hideSharedFiles()
+  render() {
+    if (!this.props.show) return null
+    const {classes} = this.props.sheet
+    return (
+      <SidebarPanel
+        title="Shared Files"
+        images={this.props.images}
+        onClose={::this.onClose}>
+        <div className={classes.sharedFiles}>
+          {this.renderFiles()}
+          {this.renderEmpty()}
+          {this.renderLoadMore()}
+          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+        </div>
+      </SidebarPanel>
+    )
   }
 }

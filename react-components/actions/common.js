@@ -70,7 +70,7 @@ export function setSidebarIsLoading(isLoading) {
 }
 
 export function handleNewMessage(message) {
-  return dispatch => {
+  return dispatch => {
     const fMessage = formatMessage(message)
     if (message.attachments.length) {
       dispatch(addAttachments(fMessage))
@@ -111,7 +111,7 @@ export function leaveChannel(channelId) {
   }
 }
 
-export function goToChannel(slug) {
+export function goToChannel(slug) {
   page(`/chat/${slug}`)
   return {
     type: types.GO_TO_CHANNEL,
@@ -121,14 +121,14 @@ export function goToChannel(slug) {
   }
 }
 
-export function kickMemberFromChannel(params) {
+export function kickMemberFromChannel(params) {
   reduxEmitter.kickMemberFromChannel(params)
   return {
     type: types.KICK_MEMBER_FROM_CHANNEL
   }
 }
 
-export function memberLeftChannel(channel) {
+export function memberLeftChannel(channel) {
   return {
     type: types.MEMBER_LEFT_CHANNEL,
     payload: {
@@ -137,7 +137,7 @@ export function memberLeftChannel(channel) {
   }
 }
 
-export function inviteChannelMember(channel) {
+export function inviteChannelMember(channel) {
   reduxEmitter.inviteChannelMember(channel)
   return {
     type: types.INVITE_CHANNEL_MEMBER

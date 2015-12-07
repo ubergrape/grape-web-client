@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import noop from 'lodash/utility/noop'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -8,6 +7,20 @@ import style from './style'
 
 @useSheet(style)
 export default class UserProfile extends Component {
+  static propTypes = {
+    avatar: PropTypes.string,
+    hideUserProfile: PropTypes.func,
+    show: PropTypes.bool,
+    sheet: PropTypes.object,
+    username: PropTypes.string,
+    displayName: PropTypes.string,
+    slug: PropTypes.string,
+    whatIDo: PropTypes.string,
+    email: PropTypes.string,
+    skypeUsername: PropTypes.string,
+    phoneNumber: PropTypes.string
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onClose() {
@@ -54,4 +67,3 @@ export default class UserProfile extends Component {
     )
   }
 }
-

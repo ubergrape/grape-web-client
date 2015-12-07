@@ -1,6 +1,5 @@
 import debug from 'debug'
 import request from 'superagent'
-import noop from 'lodash/utility/noop'
 import assign from 'lodash/object/assign'
 
 import conf from 'conf'
@@ -30,17 +29,19 @@ if (conf.forceLongpolling) {
         callback(null, res.body && res.body.response)
       })
   }
-}
-else {
+} else {
   rpc = (data, callback) => {
     client.call(`${data.ns}/${data.action}`, ...(data.args || []), (err, res) => {
-      err ? log('err', err, err.details) : log('res', res)
+      if (err) log('err', err, err.details)
+      else log('res', res)
       callback(err, res)
     })
   }
 }
 
-export default function(data, options, callback) {
+export default function(data, ...args) {
+  let options = args[0]
+  let callback = args[1]
   if (typeof options === 'function') {
     callback = options
     options = {}

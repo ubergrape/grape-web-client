@@ -19,7 +19,7 @@ const ConnectedMessageSearch = connect(
 
 export default function init(store) {
   return class MessageSearchProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedMessageSearch />

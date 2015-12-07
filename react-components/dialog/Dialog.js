@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import Modal from 'react-overlays/lib/Modal'
-import noop from 'lodash/utility/noop'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -13,13 +12,16 @@ import {useSheet} from 'grape-web/lib/jss'
  */
 @useSheet(style)
 export default class Dialog extends Component {
-  static defaultProps = {
-    onHide: noop,
-    title: undefined,
-    show: undefined
+  static propTypes = {
+    onHide: PropTypes.func,
+    title: PropTypes.string,
+    show: PropTypes.bool,
+    children: PropTypes.object,
+    sheet: PropTypes.object
   }
+
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
     return (
       <Modal
         show={this.props.show}

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import Dialog from '../dialog/Dialog'
@@ -10,13 +10,22 @@ import {useSheet} from 'grape-web/lib/jss'
  */
 @useSheet(style)
 export default class BillingWarning extends Component {
-  shouldComponentUpdate = shouldPureComponentUpdate
+  static propTypes = {
+    sheet: PropTypes.object,
+    text: PropTypes.string,
+    showBillingWarning: PropTypes.func,
+    hideBillingWarning: PropTypes.func,
+    goToPayment: PropTypes.func,
+    show: PropTypes.bool
+  }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.enabled && nextProps.text && this.props.text !== nextProps.text) {
       this.props.showBillingWarning()
     }
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   onHide() {
     this.props.hideBillingWarning()

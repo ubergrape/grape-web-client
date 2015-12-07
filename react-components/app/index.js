@@ -1,4 +1,4 @@
-import React, {createElement} from 'react'
+import {createElement} from 'react'
 import {render} from 'react-dom'
 import store from './store'
 import subscribeActions from './subscribe'

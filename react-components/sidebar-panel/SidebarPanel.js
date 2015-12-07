@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import noop from 'lodash/utility/noop'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './style'
@@ -13,15 +12,21 @@ import {useSheet} from 'grape-web/lib/jss'
  */
 @useSheet(style)
 export default class SidebarPanel extends Component {
-  static defaultProps = {
-    title: undefined,
-    onClose: noop
+  static propTypes = {
+    sheet: PropTypes.object,
+    title: PropTypes.string,
+    children: PropTypes.object,
+    onClose: PropTypes.func
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  onClose() {
+    this.props.onClose()
+  }
+
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
     return (
       <div className={classes.sidebarPanel}>
         <header className={classes.header}>
@@ -33,9 +38,5 @@ export default class SidebarPanel extends Component {
         </div>
       </div>
     )
-  }
-
-  onClose() {
-    this.props.onClose()
   }
 }

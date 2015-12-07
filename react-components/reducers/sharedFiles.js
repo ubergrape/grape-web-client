@@ -20,6 +20,7 @@ export default function reducers(state = initialState, action) {
       return {...state, ...action.payload}
     case types.SET_CHANNEL:
       if (state.show) return {...initialState, show: true}
+      return state
     default:
       return state
   }

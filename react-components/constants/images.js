@@ -7,4 +7,3 @@ export const traubyReading = imagesBase + '/trauby-reading.png'
 export const traubyJuggling = imagesBase + '/trauby-juggling.png'
 export const noDetail = imagesBase + '/no-detail.png'
 export const spinner = staticUrl('/images/preloader-onwhite.gif')
-

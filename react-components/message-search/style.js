@@ -31,7 +31,7 @@ export default {
     position: 'relative',
     fontWeight: 'bold',
     background: colors.grayBlueLight,
-    padding: `3px ${fonts.normal.fontSize}px`,
+    padding: `3px ${fonts.normal.fontSize}px`
   },
   channel: {
     // XXX

@@ -64,7 +64,7 @@ export function loadMentions(params) {
   }
 }
 
-export function addMention(message) {
+export function addMention(message) {
   const state = mentionsSelector(store.getState())
   let items = [...state.items, formatSidebarMessage(message)]
 

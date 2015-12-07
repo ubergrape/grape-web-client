@@ -4,12 +4,12 @@ import sizes from 'grape-theme/dist/sizes'
 import colors from 'grape-theme/dist/base-colors'
 import utils from 'grape-jss-utils'
 
-const ICON_HEIGHT = 30
+const iconHeight = 30
 
-let icon = {
+const icon = {
   flexShrink: 0,
-  width: ICON_HEIGHT,
-  height: ICON_HEIGHT
+  width: iconHeight,
+  height: iconHeight
 }
 
 export default {
@@ -39,7 +39,7 @@ export default {
     ...icon,
     borderRadius: sizes.borderRadius.small,
     color: colors.white,
-    lineHeight: `${ICON_HEIGHT}px`,
+    lineHeight: `${iconHeight}px`,
     textAlign: 'center'
   },
   itemUserIcon: {

@@ -3,6 +3,15 @@ import Emitter from 'emitter'
 import {toCamel} from '../backend/convertCase'
 import boundActions from '../app/boundActions'
 
+function formatChannel(channel) {
+  const jsonChannel = channel.toJSON()
+  jsonChannel.users = jsonChannel.users.toArray().map(user => toCamel(user.toJSON()))
+  if (channel.creator) {
+    jsonChannel.creator = toCamel(channel.creator.toJSON())
+  }
+  return toCamel(jsonChannel)
+}
+
 class ReduxEmitter extends Emitter {
   onOrgReady(org) {
     let jsonOrg = org.toJSON()
@@ -18,11 +27,11 @@ class ReduxEmitter extends Emitter {
     boundActions.setUser(toCamel(user.toJSON()))
   }
 
-  onSelectChannel(channel) {
+  onSelectChannel(channel) {
     boundActions.setChannel(formatChannel(channel))
   }
 
-  onSetSettings(settings) {
+  onSetSettings(settings) {
     boundActions.setSettings(toCamel(settings))
   }
 
@@ -30,23 +39,23 @@ class ReduxEmitter extends Emitter {
     this.emit('triggerRoomManager')
   }
 
-  onShowChannelInfo() {
+  onShowChannelInfo() {
     boundActions.showChannelInfoOrUserProfile()
   }
 
-  leaveChannel(channelId) {
+  leaveChannel(channelId) {
     this.emit('leaveRoom', channelId)
   }
 
-  kickMemberFromChannel(params) {
+  kickMemberFromChannel(params) {
     this.emit('kickMember', params)
   }
 
-  onMemberLeftChannel(channel, user) {
+  onMemberLeftChannel(channel) {
     boundActions.memberLeftChannel(formatChannel(channel))
   }
 
-  inviteChannelMember(channel) {
+  inviteChannelMember(channel) {
     this.emit('toggleRoomInvite', channel)
   }
 
@@ -85,15 +94,6 @@ class ReduxEmitter extends Emitter {
   showError(err) {
     this.emit('error', err)
   }
-}
-
-function formatChannel(channel) {
-  const jsonChannel = channel.toJSON()
-  jsonChannel.users = jsonChannel.users.toArray().map(user => toCamel(user.toJSON()))
-  if (channel.creator) {
-    jsonChannel.creator = toCamel(channel.creator.toJSON())
-  }
-  return toCamel(jsonChannel)
 }
 
 const reduxEmitter = new ReduxEmitter()

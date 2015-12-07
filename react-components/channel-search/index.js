@@ -13,7 +13,7 @@ const ConnectedChannelSearch = connect(
 
 export default function init(store) {
   return class ChannelSearchProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedChannelSearch />

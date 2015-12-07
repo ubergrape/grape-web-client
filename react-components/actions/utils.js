@@ -4,9 +4,9 @@ import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 
 import store from '../app/store'
-import {orgSelector, usersSelector, userSelector} from '../selectors'
+import {orgSelector, usersSelector, userSelector, channelsSelector} from '../selectors'
 
-export function formatMessage(message) {
+export function formatMessage(message) {
   const fMessage = {...message}
   fMessage.time = new Date(message.time)
   return fMessage

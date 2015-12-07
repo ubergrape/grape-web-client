@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import noop from 'lodash/utility/noop'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
@@ -14,30 +13,18 @@ const dateFormat = 'MMM Do, YYYY'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
-  load(props = this.props) {
-    if (!props.query) return
-    const {items} = props
-    props.load({
-      // Is always the timestamp of the last loaded message.
-      offsetDate: items.length ? items[items.length - 1].time : undefined,
-      limit: props.limit,
-      query: props.query
-    })
+  static propTypes = {
+    sheet: PropTypes.object,
+    select: PropTypes.func,
+    hide: PropTypes.func,
+    show: PropTypes.bool,
+    title: PropTypes.string,
+    images: PropTypes.object,
+    items: PropTypes.array,
+    total: PropTypes.number,
+    query: PropTypes.string,
+    isLoading: PropTypes.bool
   }
-
-  onLoadMore() {
-    this.load()
-  }
-
-  onSelect(item) {
-    this.props.select(item)
-  }
-
-  onClose() {
-    this.props.hide()
-  }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillReceiveProps(nextProps) {
     let needsMessages = false
@@ -55,22 +42,29 @@ export default class MessageSearch extends Component {
     if (needsMessages) this.load(nextProps)
   }
 
-  render() {
-    if (!this.props.show) return null
-    let {classes} = this.props.sheet
-    return (
-      <SidebarPanel
-        title={this.props.title}
-        images={this.props.images}
-        onClose={::this.onClose}>
-        <div className={classes.messageSearch}>
-          {this.renderMessages()}
-          {this.renderLoadMore()}
-          {this.renderEmpty()}
-          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
-        </div>
-      </SidebarPanel>
-    )
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  onLoadMore() {
+    this.load()
+  }
+
+  onSelect(item) {
+    this.props.select(item)
+  }
+
+  onClose() {
+    this.props.hide()
+  }
+
+  load(props = this.props) {
+    if (!props.query) return
+    const {items} = props
+    props.load({
+      // Is always the timestamp of the last loaded message.
+      offsetDate: items.length ? items[items.length - 1].time : undefined,
+      limit: props.limit,
+      query: props.query
+    })
   }
 
   renderMessages() {
@@ -153,6 +147,24 @@ export default class MessageSearch extends Component {
       <div className={classes.empty}>
         No messages found.
       </div>
+    )
+  }
+
+  render() {
+    if (!this.props.show) return null
+    const {classes} = this.props.sheet
+    return (
+      <SidebarPanel
+        title={this.props.title}
+        images={this.props.images}
+        onClose={::this.onClose}>
+        <div className={classes.messageSearch}>
+          {this.renderMessages()}
+          {this.renderLoadMore()}
+          {this.renderEmpty()}
+          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+        </div>
+      </SidebarPanel>
     )
   }
 }

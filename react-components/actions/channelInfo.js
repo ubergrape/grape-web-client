@@ -24,7 +24,7 @@ export function hideChannelInfo() {
   }
 }
 
-export function showChannelInfoOrUserProfile() {
+export function showChannelInfoOrUserProfile() {
   const channel = channelSelector(store.getState())
   if (channel.type === 'pm') return showUserProfile()
   return showChannelInfo()

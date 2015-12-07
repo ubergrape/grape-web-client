@@ -17,20 +17,19 @@ export function setTyping({user, users, channel, typingNotification}, data) {
   if (!channels[data.channel]) channels[data.channel] = []
 
   if (data.typing) {
-    let typingUser = find(channels[data.channel], user => user.id === data.user)
+    let typingUser = find(channels[data.channel], _user => _user.id === data.user)
     // Just bump exiration date.
     if (typingUser) typingUser.expires = Date.now() + typingLifetime
     else {
-      typingUser = find(users, user => user.id === data.user)
+      typingUser = find(users, _user => _user.id === data.user)
       channels[data.channel].push({
         id: typingUser.id,
         name: typingUser.displayName,
         expires: Date.now() + typingLifetime
       })
     }
-  }
-  else {
-    channels[data.channel] = channels[data.channel].filter(user => user.id !== data.user)
+  } else {
+    channels[data.channel] = channels[data.channel].filter(_user => _user.id !== data.user)
   }
 
   return {
@@ -47,7 +46,7 @@ export function setTyping({user, users, channel, typingNotification}, data) {
  * This cleanup function can be periodically called to remove expired
  * typing users.
  */
-export function cleanupTyping(channels) {
+export function cleanupTyping(channels) {
   const now = Date.now()
   let isModified = false
 

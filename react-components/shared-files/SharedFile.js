@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
@@ -9,19 +9,45 @@ const dateFormat = 'MMM Do, h:mm a'
 
 @useSheet(style)
 export default class SharedFile extends Component {
-  static defaultProps = {
-    id: undefined,
-    author: undefined,
-    time: undefined,
-    channelName: undefined,
-    channelType: undefined,
-    name: undefined,
-    thumbnailUrl: undefined,
-    category: undefined,
-    url: undefined
+  static propTypes = {
+    sheet: PropTypes.object,
+    author: PropTypes.string,
+    time: PropTypes.instanceOf(Date),
+    channelName: PropTypes.string,
+    channelType: PropTypes.string,
+    name: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    category: PropTypes.string,
+    url: PropTypes.string
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
+
+  onOpen() {
+    window.open(this.props.url)
+  }
+
+  renderPreview() {
+    const {classes} = this.props.sheet
+    const {thumbnailUrl} = this.props
+    let className
+    let iconStyle
+
+    if (thumbnailUrl) {
+      className = classes.thumbnail
+      iconStyle = {
+        backgroundImage: `url(${thumbnailUrl})`
+      }
+    } else {
+      className = classes.icon
+      const svg = icons[this.props.category] || icons.file
+      iconStyle = {
+        backgroundImage: `url('${svg}')`
+      }
+    }
+
+    return <div className={className} style={iconStyle}></div>
+  }
 
   render() {
     const {classes} = this.props.sheet
@@ -41,32 +67,5 @@ export default class SharedFile extends Component {
         </div>
       </section>
     )
-  }
-
-  renderPreview() {
-    const {classes} = this.props.sheet
-    const {thumbnailUrl} = this.props
-    let className
-    let iconStyle
-
-    if (thumbnailUrl) {
-      className = classes.thumbnail
-      iconStyle = {
-        backgroundImage: `url(${thumbnailUrl})`
-      }
-    }
-    else {
-      className = classes.icon
-      const svg = icons[this.props.category] || icons.file
-      iconStyle = {
-        backgroundImage: `url('${svg}')`
-      }
-    }
-
-    return <div className={className} style={iconStyle}></div>
-  }
-
-  onOpen() {
-    window.open(this.props.url)
   }
 }

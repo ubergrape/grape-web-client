@@ -13,7 +13,7 @@ const ConnectedUserProfile = connect(
 
 export default function init(store) {
   return class UserProfileProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedUserProfile />

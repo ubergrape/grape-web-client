@@ -13,7 +13,7 @@ const ConnectedTypingNotification = connect(
 
 export default function init(store) {
   return class TypingNotificationProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedTypingNotification />

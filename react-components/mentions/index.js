@@ -19,7 +19,7 @@ const ConnectedMentions = connect(
 
 export default function init(store) {
   return class MentionsProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedMentions />

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
@@ -9,11 +9,12 @@ const dateFormat = 'h:mm a'
 
 @useSheet(style)
 export default class Message extends Component {
-  static defaultProps = {
-    author: undefined,
-    time: undefined,
-    content: undefined,
-    avatar: undefined
+  static propTypes = {
+    sheet: PropTypes.object,
+    author: PropTypes.string,
+    time: PropTypes.instanceOf(Date),
+    content: PropTypes.array,
+    avatar: PropTypes.string
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

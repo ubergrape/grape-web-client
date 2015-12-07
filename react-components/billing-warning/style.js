@@ -19,6 +19,6 @@ export default {
     marginRight: 20
   },
   enterDetails: {
-    ...defaultButton,
+    ...defaultButton
   }
 }

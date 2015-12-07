@@ -13,7 +13,7 @@ const ConnectedBillingWarning = connect(
 
 export default function init(store) {
   return class BillingWarningProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedBillingWarning />

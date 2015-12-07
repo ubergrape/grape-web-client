@@ -13,7 +13,7 @@ const ConnectedSharedFiles = connect(
 
 export default function init(store) {
   return class SharedFilesProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedSharedFiles />

@@ -3,7 +3,7 @@ import * as selectors from '../selectors'
 import store from '../app/store'
 import boundActions from './boundActions'
 
-export default function subscribe(channel) {
+export default function subscribe(channel) {
   channel.on('data', data => {
     const cData = toCamel(data)
     switch (cData.event) {

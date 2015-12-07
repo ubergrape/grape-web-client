@@ -13,7 +13,7 @@ const ConnectedChannelInfo = connect(
 
 export default function init(store) {
   return class ChannelInfoProvider extends Component {
-    render() {
+    render() {
       return (
         <Provider store={store}>
           <ConnectedChannelInfo />

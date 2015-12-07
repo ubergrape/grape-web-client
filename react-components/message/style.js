@@ -55,7 +55,7 @@ export default {
     marginLeft: arrowWidth,
     transition: 'box-shadow 0.3s ease-out',
     '&:hover': {
-      boxShadow: '0px 1px 8px rgba(0,0,0,0.3)',
+      boxShadow: '0px 1px 8px rgba(0,0,0,0.3)'
     },
     '&:after': {
       display: 'block',
