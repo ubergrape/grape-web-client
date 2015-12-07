@@ -22,6 +22,7 @@ export default class HighlightedTextarea extends Component {
     onAbort: PropTypes.func.isRequired,
     onEditPrevious: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -56,6 +57,7 @@ export default class HighlightedTextarea extends Component {
       this.refs.textarea.selectionEnd = this.state.caretPos
     }
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
+    this.onResize()
   }
 
   onChange(e) {
@@ -148,6 +150,10 @@ export default class HighlightedTextarea extends Component {
     }
   }
 
+  onResize() {
+    this.props.onResize()
+  }
+
   /**
    * Setter for text content.
    *
@@ -174,6 +180,7 @@ export default class HighlightedTextarea extends Component {
       caretPos: text.length,
       objectsPositions: getObjectsPositions(objects, text)
     })
+
     return true
   }
 

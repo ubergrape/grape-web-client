@@ -200,13 +200,6 @@ export default class Input extends Component {
     this.emit('change')
   }
 
-  onEditableResize({width, height}) {
-    this.setState({
-      editableWidth: width,
-      editableHeight: height
-    })
-  }
-
   onInputResize() {
     this.emit('resize')
   }
@@ -397,14 +390,10 @@ export default class Input extends Component {
           {browser}
         </div>
         <MaxSize
-          innerWidth={this.state.editableWidth}
-          innerHeight={this.state.editableHeight}
           onResize={::this.onInputResize}>
           <HighlightedTextarea
-            width={this.state.editableWidth}
-            height={this.state.editableHeight}
             onAbort={::this.onAbort}
-            onResize={::this.onEditableResize}
+            onResize={::this.onInputResize}
             onChange={::this.onChangeInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
