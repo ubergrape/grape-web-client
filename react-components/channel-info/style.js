@@ -9,7 +9,7 @@ const marginBottom = 20
 
 const button = {
   ...linkButton,
-  ...fonts.normal,
+  ...fonts.big,
   marginBottom: marginBottom / 2
 }
 
@@ -22,14 +22,14 @@ export default {
     borderBottom: '1px solid #D3D5DA'
   },
   stats: {
-    ...fonts.normal,
+    ...fonts.big,
     marginBottom
   },
   description: {
     marginBottom
   },
   descriptionText: {
-    ...fonts.normal
+    ...fonts.big
   },
   actions: {
     marginBottom,
@@ -40,19 +40,17 @@ export default {
   buttonInvite: {
     ...button,
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight})
+    ...buttonIcon('invite', {color: '#aaa', hoverColor: '#318FEF'})
   },
   buttonLeave: {
     ...button,
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight})
+    ...buttonIcon('exit', {color: '#aaa', hoverColor: '#318FEF'})
   },
   buttonKick: {
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight, iconOnly: true}),
+    ...buttonIcon('close', {color: '#707782', hoverColor: '#318FEF', iconOnly: true}),
     flexShrink: 0,
-    height: '100%',
-    width: 20,
     display: 'none'
   },
   row: {
@@ -72,7 +70,9 @@ export default {
   },
   name: {
     ...utils.ellipsis,
+    ...fonts.big,
     flex: 1,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    color: '#707782'
   }
 }

@@ -46,16 +46,16 @@ export default {
   email: {
     ...button,
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight})
+    ...buttonIcon('envelope', {color: '#707782', hoverColor: '#318FEF'})
   },
   skype: {
     ...button,
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight})
+    ...buttonIcon('skype', {color: '#707782', hoverColor: '#318FEF'})
   },
   phone: {
     ...button,
     // XXX
-    ...buttonIcon('link', {hoverColor: colors.aquaLight})
+    ...buttonIcon('phone', {color: '#707782', hoverColor: '#318FEF'})
   }
 }

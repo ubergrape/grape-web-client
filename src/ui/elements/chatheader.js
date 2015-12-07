@@ -13,24 +13,24 @@ import render from '../rendervdom'
 module.exports = ChatHeader
 
 const menuItems = {
-  user: {
-    className: 'user-view-toggler',
-    icon: 'fa-user'
+  intercom: {
+    className: 'intercom-trigger',
+    icon: 'fa-question-circle',
+    id: 'Intercom'
   },
   mentions: {
     className: 'mentions-toggler',
-    feature: 'mentions_browser'
-    //icon: 'fa-files-o',
+    feature: 'mentions_browser',
+    icon: 'fa-bell-o'
+  },
+  user: {
+    className: 'user-view-toggler',
+    icon: 'fa-user'
   },
   sharedFiles: {
     className: 'file-browser-toggler',
     icon: 'fa-files-o',
     feature: 'shared_files_browser'
-  },
-  intercom: {
-    className: 'intercom-trigger',
-    icon: 'fa-question-circle',
-    id: 'Intercom'
   }
 }
 

@@ -15,6 +15,7 @@ const getColoredIcon = (() => {
       cache[key] = svgDom(rawIcons[name])
         .find('path')
         .attr('fill', color)
+        .attr('stroke', color)
         .data()
     }
 
@@ -26,20 +27,27 @@ const getColoredIcon = (() => {
  * Creates a mixin which adds an icon to a button.
  */
 export default function create(name, options = {}) {
+  const icon = options.color ? getColoredIcon(name, options.color) : icons[name]
   const style = {
     margin: 0,
     padding: 0,
     border: 'none',
     '&:before': {
+      content: '""',
+      width: '1em',
+      height: '1em',
+      display: 'inline-block',
       verticalAlign: 'middle',
       marginRight: options.iconOnly ? 0 : 5,
-      content: `url('${icons[name]}')`
+      backgroundImage: `url('${icon}')`,
+      backgroundSize: 'contain'
     }
   }
 
   if (options.hoverColor) {
+    const hoverIcon = getColoredIcon(name, options.hoverColor)
     style['&:hover:before'] = {
-      content: `url('${getColoredIcon(name, options.hoverColor)}')`
+      backgroundImage: `url('${hoverIcon}')`
     }
   }
 
