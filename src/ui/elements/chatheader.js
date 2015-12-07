@@ -129,6 +129,7 @@ ChatHeader.prototype.setRoom = function(room, msgID) {
   this.editState.renaming = false
   this.mode = msgID ? 'search' : 'chat'
   this.redraw()
+  this.updateUserProfileOrRoomInfo()
 }
 
 ChatHeader.prototype.preventFormSubmission = function (e) {
@@ -166,11 +167,17 @@ ChatHeader.prototype.confirmRoomRename = function () {
 ChatHeader.prototype.toggleUserProfileOrRoomInfo = function () {
   const selected = this.menuItems.user === this.selected ? null : this.menuItems.user
   if (this.selected) this.emit('hideSidebar')
-  if (selected) {
-    if (this.room.type === 'pm') this.emit('showUserProfile')
-    else this.emit('showChannelInfo')
-  }
+  if (selected) this.emit('showChannelInfo')
   this.selected = selected
+  this.redraw()
+}
+
+ChatHeader.prototype.updateUserProfileOrRoomInfo = function () {
+  const selected = this.menuItems.user === this.selected
+  if (!selected) return
+  this.emit('hideSidebar')
+  this.emit('showChannelInfo')
+  this.selected = this.menuItems.user
   this.redraw()
 }
 

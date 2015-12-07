@@ -1,5 +1,8 @@
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../redux-emitter'
+import store from '../app/store'
+import {channelSelector} from '../selectors'
+import {showUserProfile} from './userProfile'
 
 export function showChannelInfo() {
   reduxEmitter.showSidebar()
@@ -19,4 +22,10 @@ export function hideChannelInfo() {
       show: false
     }
   }
+}
+
+export function showChannelInfoOrUserProfile() {
+  const channel = channelSelector(store.getState())
+  if (channel.type === 'pm') return showUserProfile()
+  return showChannelInfo()
 }

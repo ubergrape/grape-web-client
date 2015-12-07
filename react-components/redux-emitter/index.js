@@ -30,12 +30,8 @@ class ReduxEmitter extends Emitter {
     this.emit('triggerRoomManager')
   }
 
-  onShowUserProfile() {
-    boundActions.showUserProfile()
-  }
-
   onShowChannelInfo() {
-    boundActions.showChannelInfo()
+    boundActions.showChannelInfoOrUserProfile()
   }
 
   leaveChannel(channelId) {

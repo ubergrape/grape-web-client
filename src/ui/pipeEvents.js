@@ -2,6 +2,10 @@ import broker from 'broker'
 
 export default function pipeEvents(ui) {
   // ui
+  broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
+  broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
+  broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
+  broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'selectchannel', ui, 'setRoomContext')
   broker(ui, 'selectchannel', ui.chatHeader, 'setRoom')
   broker(ui, 'channelupdate', ui.chatHeader, 'channelUpdate')
@@ -14,10 +18,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'setUser', ui.grapeInput, 'onSetUser')
   broker(ui, 'selectchannel', ui.grapeInput, 'onSelectChannel')
   broker(ui, 'emptyOrg', ui.grapeInput, 'onEmptyOrg')
-  broker(ui, 'orgReady', ui.reduxEmitter, 'onOrgReady')
-  broker(ui, 'setUser', ui.reduxEmitter, 'onSetUser')
-  broker(ui, 'selectchannel', ui.reduxEmitter, 'onSelectChannel')
-  broker(ui, 'setSettings', ui.reduxEmitter, 'onSetSettings')
   broker(ui, 'orgReady', ui.historyView, 'onOrgReady')
   broker(ui, 'selectchannel', ui.historyView, 'setRoom')
   broker(ui, 'gotHistory', ui.historyView, 'onGotHistory')
@@ -74,7 +74,6 @@ export default function pipeEvents(ui) {
   //broker(ui.chatHeader, 'search', ui.messageSearch, 'onSearch')
   //broker(ui.chatHeader, 'showSidebar', ui.mentions, 'onShow')
   //broker(ui.chatHeader, 'hideSidebar', ui.mentions, 'onHide')
-  broker(ui.chatHeader, 'showUserProfile', ui.reduxEmitter, 'onShowUserProfile')
   broker(ui.chatHeader, 'showChannelInfo', ui.reduxEmitter, 'onShowChannelInfo')
   broker(ui.chatHeader, 'showSharedFiles', ui.reduxEmitter, 'onShowSharedFiles')
   broker(ui.chatHeader, 'showMentions', ui.reduxEmitter, 'onShowMentions')

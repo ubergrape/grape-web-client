@@ -19,7 +19,6 @@ export default function reducers(state = initialState, action) {
     case types.HIDE_CHANNEL_SEARCH:
     case types.INPUT_CHANNEL_SEARCH:
       return {...state, ...action.payload}
-
     default:
       return state
   }

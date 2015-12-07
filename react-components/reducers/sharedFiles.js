@@ -19,7 +19,7 @@ export default function reducers(state = initialState, action) {
     case types.ADDED_SHARED_FILE:
       return {...state, ...action.payload}
     case types.SET_CHANNEL:
-      return {...initialState, show: state.show}
+      if (state.show) return {...initialState, show: true}
     default:
       return state
   }
