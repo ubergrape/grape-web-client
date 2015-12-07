@@ -2,9 +2,11 @@ import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 const ICONS_SPACE = 65
+const fontFamily = 'Arial, Helvetica, sans-serif'
 
 export default {
   wrapper: {
+    font: fonts.normal.fontSize + '/' + fonts.normal.lineHeight + ' ' + fontFamily,
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -14,7 +16,6 @@ export default {
   },
 
   common: {
-    font: fonts.normal.fontSize + '/' + fonts.normal.lineHeight + ' Arial, Helvetica, sans-serif',
     overflow: 'hidden',
     minHeight: 38,
     'box-sizing': 'border-box',
@@ -40,14 +41,14 @@ export default {
     right: ICONS_SPACE,
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word',
-    color: 'transparent'
+    color: 'red'
   },
 
   token: {
     'box-sizing': 'border-box',
     padding: '2px 0',
-    background: colors.aquaLight,
-    'box-shadow': '0 0 0 1px ' + colors.aquaDark,
+    background: 'linear-gradient(0deg, ' + colors.aquaDark + ',' + colors.aquaLight + ')',
+    // 'box-shadow': '0 0 0 1px ' + colors.grassDark,
     'border-radius': 3
   }
 }

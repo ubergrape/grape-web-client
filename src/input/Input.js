@@ -81,8 +81,6 @@ export default class Input extends Component {
   }
 
   focus() {
-    console.log('input focus')
-    // setTimeout(() => ReactDOM.findDOMNode(this.refs.input).focus(), 0)
     return ReactDOM.findDOMNode(this.refs.input).focus()
   }
 
