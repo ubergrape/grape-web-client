@@ -2,7 +2,7 @@ import {$, render} from '../../test'
 import expect from 'expect.js'
 import React from 'react'
 import HighlightedTextarea from '../HighlightedTextarea'
-import Room from '../../objects/Room'
+import Room from '../../objects/classes/Room'
 
 describe('highlighted', () => {
   describe('HighlightedTextarea()', () => {
@@ -17,7 +17,7 @@ describe('highlighted', () => {
       function onDidMount(component) {
         component.setTextContent('[name](cg://chatgrape|room|1|/chat/slug)')
         setTimeout(() => {
-          expect(component.state.objects.name).to.be.a(Room)
+          expect(component.state.objects['@name']).to.be.a(Room)
           done()
         }, 0)
       }
