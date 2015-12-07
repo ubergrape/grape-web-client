@@ -14,6 +14,7 @@ export default function reducers(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_MENTIONS:
     case types.HIDE_MENTIONS:
+    case types.SET_SIDEBAR_IS_LOADING:
     case types.LOADED_MENTIONS:
     case types.ADDED_MENTION:
       return {...state, ...action.payload}
