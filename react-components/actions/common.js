@@ -4,6 +4,7 @@ import * as types from '../constants/actionTypes'
 import {addAttachments} from './sharedFiles'
 import {addMention} from './mentions'
 import {isMentioned, formatMessage} from './utils'
+import reduxEmitter from '../redux-emitter'
 
 export function setUsers(users) {
   return {
