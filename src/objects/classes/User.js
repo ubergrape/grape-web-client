@@ -1,6 +1,5 @@
-import encodeMDLink from '../encodeMDLink'
 import template from 'lodash/string/template'
-import {getLabel} from '../utils'
+import {getTrigger, encodeMDLink} from '../utils'
 
 // TODO Stop using global classes
 const buildLink = template(
@@ -14,7 +13,7 @@ const buildLink = template(
 )
 
 const tokenType = 'user'
-const label = getLabel(tokenType)
+const trigger = getTrigger(tokenType)
 
 export default class User {
   constructor(options) {
@@ -23,7 +22,7 @@ export default class User {
     this.username = options.username
     this.name = options.name
     this.url = '/chat/@' + this.username
-    this.content = label + this.name
+    this.content = trigger + this.name
     this.service = 'chatgrape'
     this.type = 'chatgrapeuser'
     this.str = this.toString()
@@ -34,7 +33,7 @@ export default class User {
   }
 
   toString() {
-    let url = `cg://chatgrape|user|${this.id}|/chat/@${this.username}`
+    const url = `cg://chatgrape|user|${this.id}|/chat/@${this.username}`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }

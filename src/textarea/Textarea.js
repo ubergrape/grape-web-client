@@ -1,9 +1,8 @@
 import React, {PropTypes, Component} from 'react'
 
-import {REGEX as QUERY_REGEX} from '../query/constants'
-import parseQuery from '../query/parse'
 import {
   getTokenUnderCaret,
+  getQuery,
   getTextAndObjectsRepresentation,
   getObjectsPositions,
   parseAndReplace
@@ -67,12 +66,12 @@ export default class Textarea extends Component {
       caretPos: e.target.selectionEnd,
       objectsPositions: getObjectsPositions(this.state.objects, value)
     })
-    this.props.onChange(this.getQuery(value, selectionEnd))
+    this.props.onChange(getQuery(value, selectionEnd))
   }
 
   onAbort(reason) {
     const {value, selectionEnd} = this.refs.textarea
-    const query = this.getQuery(value, selectionEnd)
+    const query = getQuery(value, selectionEnd)
     this.props.onAbort({reason, query})
   }
 
@@ -176,13 +175,6 @@ export default class Textarea extends Component {
       objectsPositions: getObjectsPositions(objects, text)
     })
     return true
-  }
-
-  getQuery(value, selectionEnd) {
-    const token = getTokenUnderCaret(value, selectionEnd)
-    const isQuery = Boolean(token.text && token.text.match(QUERY_REGEX))
-
-    return isQuery ? parseQuery(token.text) : false
   }
 
   getTextContent() {

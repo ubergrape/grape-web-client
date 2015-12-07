@@ -1,5 +1,7 @@
-import {getLabel} from '../objects/utils'
+import {getTrigger} from '../objects/utils'
+import parseQuery from '../query/parse'
 import {escapeRegExp} from 'lodash/string'
+import {REGEX as QUERY_REGEX} from '../query/constants'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -8,11 +10,11 @@ import {escapeRegExp} from 'lodash/string'
 const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
 function tagWithoutLabel(tag, type) {
-  return tag[0] === getLabel(type) ? tag.substr(1) : tag
+  return tag[0] === getTrigger(type) ? tag.substr(1) : tag
 }
 
 function tagWithLabel(tag, type) {
-  const label = getLabel(type)
+  const label = getTrigger(type)
   return tag[0] === label ? tag : label + tag
 }
 
@@ -172,8 +174,11 @@ export function getTokenUnderCaret(string, caretPostion) {
 }
 
 /**
- * Check if an element is focused.
+ * Return query if value is query or false
  */
-export function isFocused(node) {
-  return node === document.activeElement
+export function getQuery(value, selectionEnd) {
+  const token = getTokenUnderCaret(value, selectionEnd)
+  const isQuery = Boolean(token.text && token.text.match(QUERY_REGEX))
+
+  return isQuery ? parseQuery(token.text) : false
 }

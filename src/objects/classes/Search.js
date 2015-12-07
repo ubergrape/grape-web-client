@@ -1,6 +1,5 @@
-import encodeMDLink from '../encodeMDLink'
 import template from 'lodash/string/template'
-import {getLabel} from '../utils'
+import {getTrigger, encodeMDLink} from '../utils'
 
 // TODO Stop using global classes
 const buildLink = template(
@@ -16,7 +15,7 @@ const buildLink = template(
 )
 
 const tokenType = 'search'
-const label = getLabel(tokenType)
+const trigger = getTrigger(tokenType)
 
 export default class Search {
   constructor(result) {
@@ -26,7 +25,7 @@ export default class Search {
     this.service = result.service
     this.url = result.url
     this.type = result.type
-    this.name = label + result.name
+    this.name = trigger + result.name
     this.content = this.name
     this.str = this.toString()
   }
@@ -40,7 +39,7 @@ export default class Search {
   }
 
   toString() {
-    let url = `cg://${this.service}|${this.type}|${this.name}|${this.url}||`
+    const url = `cg://${this.service}|${this.type}|${this.name}|${this.url}||`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }
