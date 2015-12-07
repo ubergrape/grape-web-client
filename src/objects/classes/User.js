@@ -1,16 +1,4 @@
-import template from 'lodash/string/template'
 import {getTrigger, encodeMDLink} from '../utils'
-
-// TODO Stop using global classes
-const buildLink = template(
-  '<a ' +
-    'tabindex="-1" ' +
-    'href="<%- url %>" ' +
-    'data-object="<%- str %>" ' +
-    'class="ac animate service-<%- service %> type-<%- type %>">' +
-    '<%- content %>' +
-  '</a>'
-)
 
 const tokenType = 'user'
 const trigger = getTrigger(tokenType)
@@ -26,10 +14,6 @@ export default class User {
     this.service = 'chatgrape'
     this.type = 'chatgrapeuser'
     this.str = this.toString()
-  }
-
-  toHTML() {
-    return buildLink(this)
   }
 
   toString() {

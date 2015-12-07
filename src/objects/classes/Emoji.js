@@ -1,5 +1,3 @@
-import {replace} from '../../emoji'
-
 const tokenType = 'emoji'
 
 export default class Emoji {
@@ -8,10 +6,6 @@ export default class Emoji {
     this.shortname = options.shortname
     this.content = options.shortname
     this.str = this.toString()
-  }
-
-  toHTML() {
-    return replace(this.shortname)
   }
 
   toString() {

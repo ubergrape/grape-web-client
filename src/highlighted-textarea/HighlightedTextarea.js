@@ -15,7 +15,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 
 @useSheet(style)
-export default class Textarea extends Component {
+export default class HighlightedTextarea extends Component {
   static propTypes = {
     onDidMount: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -301,7 +301,8 @@ export default class Textarea extends Component {
     return (
       <div
         ref="wrapper"
-        className={wrapper}>
+        className={wrapper}
+        data-test="highlighted-textarea">
           {this.renderHighlighter()}
           <textarea
             ref="textarea"

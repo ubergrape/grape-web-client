@@ -110,7 +110,7 @@ describe('grape-input:', () => {
       insert(null, input => {
         input.replaceQuery = replacement => {
           // Verify there are no missing params in objects.
-          expect(replacement.indexOf('undefined')).to.be(-1)
+          expect(replacement.name).to.be('#"Plans/Discussions"')
           done()
         }
       })
