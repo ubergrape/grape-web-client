@@ -35,10 +35,11 @@
     "drop-anywhere": "ubergrape/drop-anywhere",
     "endswith": "sk7/endswith",
     "escape-html": "component/escape-html#v1.0.1",
-    "eslint": "^0.24.1",
-    "eslint-config-airbnb": "0.0.6",
-    "eslint-config-ubergrape": "^0.1.3",
-    "eslint-plugin-react": "^2.7.0",
+    "eslint": "^1.9.0",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-config-ubergrape": "^2.0.0",
+    "eslint-plugin-react": "^3.9.0",
+    "eslint-plugin-babel": "^2.1.1",
     "expect.js": "^0.3.1",
     "grape-browser": "git+ssh://git@github.com/ubergrape/grape-browser.git#0.5.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
@@ -102,6 +103,7 @@
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
     "babel-core": "^5.5.8",
+    "babel-eslint": "^4.1.5",
     "babel-loader": "^5.1.4",
     "css-loader": "^0.15.6",
     "extract-text-webpack-plugin": "^0.8.2",
@@ -124,14 +126,14 @@
     "webpack": "^1.10.1"
   },
   "scripts": {
-    "build-dev": "NODE_ENV=development webpack --bail",
-    "build-watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
-    "build-watch-local": "NODE_ENV=development webpack --progress --colors --watch",
-    "test-watch": "NODE_ENV=test karma start",
+    "build:dev": "NODE_ENV=development webpack --bail",
+    "build:watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
+    "build:watch:local": "NODE_ENV=development webpack --progress --colors --watch",
+    "test:watch": "NODE_ENV=test karma start",
     "test": "karma start",
-    "lint-src": "eslint ./src",
-    "lint-react": "eslint ./react-components",
-    "lint": "npm run lint-react && npm run lint-src"
+    "lint": "npm run lint:react && npm run lint:src",
+    "lint:src": "eslint ./src",
+    "lint:react": "eslint ./react-components"
   },
   "repository": "ubergrape/chatgrape.git"
 }
