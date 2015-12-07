@@ -25,10 +25,11 @@ function toData(text, url) {
   const parts = url.slice(5).split('|')
 
   return {
+    id: tagWithoutLabel(parts[2], parts[1]),
     name: tagWithoutLabel(text, parts[1]),
+    slug: parts[3].replace('/chat/', ''),
     service: parts[0],
     type: parts[1],
-    id: tagWithoutLabel(parts[2], parts[1]),
     url: parts[3]
   }
 }
