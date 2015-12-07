@@ -26,7 +26,8 @@ export function hideMentions() {
     type: types.HIDE_MENTIONS,
     payload: {
       show: false,
-      items: []
+      items: [],
+      total: null
     }
   }
 }
@@ -48,14 +49,15 @@ export function loadMentions(params) {
     }, {camelize: true}, (err, res) => {
       if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
+      const prevItems = mentionsSelector(store.getState()).items
+      const nextItems = res.results.map(data => {
+        return formatSidebarMessage(data.message)
+      })
       dispatch({
         type: types.LOADED_MENTIONS,
         payload: {
-          offsetTotal: res.total,
-          offsetDate: params.offsetDate,
-          items: res.results.map(data => {
-            return formatSidebarMessage(data.message)
-          })
+          total: res.total,
+          items: [...prevItems, ...nextItems]
         }
       })
     })
