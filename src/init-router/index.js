@@ -60,8 +60,8 @@ export default function init(ui) {
       if (user === currUser) {
         return ui.onInvalidUrl('message to self')
       }
-      else if (user.mate) {
-        return ui.emit('selectchannel', user.mate, message)
+      else if (user.pm) {
+        return ui.emit('selectchannel', user.pm, message)
       }
       ui.emit('openpm', user, () => {
         ui.emit('selectchannel', user.pm, message)
