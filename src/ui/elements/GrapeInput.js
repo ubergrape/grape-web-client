@@ -31,7 +31,7 @@ const defaultBrowserProps = {
   data: null
 }
 
-const inputNodes =  ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
+const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 export default class GrapeInput extends Emitter {
   constructor() {
@@ -199,7 +199,6 @@ export default class GrapeInput extends Emitter {
   }
 
   completePreviousEdit() {
-    console.log(this.previous)
     if (!this.previous) return
     this.previous.el.classList.remove('editing')
     this.el.classList.remove('editing-previous')
@@ -226,7 +225,7 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  startTyping() {
+  startTyping() {
     this.emit('setTyping', {
       channel: this.room,
       typing: true
@@ -253,9 +252,6 @@ export default class GrapeInput extends Emitter {
       case '@':
         this.showUsersAndRooms(query.key)
         break
-      // case ':':
-      //   this.showEmojiBrowser()
-      //   break
       default:
     }
   }
@@ -351,7 +347,7 @@ export default class GrapeInput extends Emitter {
     this.init()
   }
 
-  onSetUser(user) {
+  onSetUser(user) {
     this.user = user
     this.redraw()
   }
@@ -381,7 +377,6 @@ export default class GrapeInput extends Emitter {
       this.room = room
       this.setProps({focused: true}, () => {
         this.input.setTextContent(this.unsent[room.id] || '', {silent: true})
-
       })
     }
   }
@@ -415,11 +410,11 @@ export default class GrapeInput extends Emitter {
 
 function getImageAttachments(objects) {
   // Find embeddable images.
-  let images = objects.filter(obj => {
+  let embeddableImages = objects.filter(obj => {
     return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
   })
 
-  let attachments = images.map(obj => {
+  let attachments = embeddableImages.map(obj => {
     let image = obj.detail.preview.image
     return {
       name: obj.name,
