@@ -46,16 +46,17 @@ export default function init(ui) {
    */
   function redirectWithCreator(ctx) {
     const {mate, message} = ctx.params
-    const user = findPM(ctx.params.mate)
+    const user = findPM(mate)
     page.redirect(
       `/${user.pm.creator.slug}${user.slug}${message ? '/' + message : ''}`
     )
   }
 
   function goToPM(ctx) {
-    const username = ctx.params.mate
-    const user = findPM(username)
-    const message = ctx.params.message ? ctx.params.message : null
+    const {mate} = ctx.params
+    const message = ctx.params.message || null
+    const user = findPM(mate)
+
     if (user) {
       if (user === currUser) {
         return ui.onInvalidUrl('message to self')
