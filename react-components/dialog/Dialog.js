@@ -16,7 +16,7 @@ export default class Dialog extends Component {
     onHide: PropTypes.func,
     title: PropTypes.string,
     show: PropTypes.bool,
-    children: PropTypes.object,
+    children: PropTypes.node,
     sheet: PropTypes.object
   }
 

@@ -15,7 +15,7 @@ export default class SidebarPanel extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     title: PropTypes.string,
-    children: PropTypes.object,
+    children: PropTypes.node,
     onClose: PropTypes.func
   }
 
