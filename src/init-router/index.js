@@ -41,7 +41,7 @@ export default function init(ui) {
   }
 
   /**
-   * Add `@currUser.slug` to url
+   * Add channel creator slug to url
    * @param  {Object} ctx page context
    */
   function redirectWithCreator(ctx) {
