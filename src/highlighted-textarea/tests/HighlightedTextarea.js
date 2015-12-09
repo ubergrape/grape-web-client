@@ -1,4 +1,5 @@
 import {$, render} from '../../test'
+import noop from 'lodash/utility/noop'
 import expect from 'expect.js'
 import React from 'react'
 import HighlightedTextarea from '../HighlightedTextarea'
@@ -32,6 +33,7 @@ describe('highlighted', () => {
       const textarea = (
         <HighlightedTextarea
           onDidMount={onDidMount}
+          onChange={noop}
           onResize={onResize}
           focused />
       )
