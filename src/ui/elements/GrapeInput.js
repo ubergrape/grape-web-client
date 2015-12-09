@@ -202,7 +202,7 @@ export default class GrapeInput extends Emitter {
     if (!this.previous) return
     this.previous.el.classList.remove('editing')
     this.el.classList.remove('editing-previous')
-    this.input.setTextContent('')
+    this.setProps({content: ''})
     this.previous = null
   }
 
@@ -211,7 +211,7 @@ export default class GrapeInput extends Emitter {
     let el = qs('.message[data-id="' + msg.id + '"]')
     el.classList.add('editing')
     this.el.classList.add('editing-previous')
-    this.input.setTextContent(msg.text)
+    this.setProps({content: msg.text})
     this.previous = {
       msg: msg,
       el: el
@@ -315,7 +315,7 @@ export default class GrapeInput extends Emitter {
       if (attachments.length) {
         this.emit('input', this.room, '', {attachments: attachments})
       }
-      this.input.setTextContent('')
+      this.setProps({content: ''})
     }
   }
 
@@ -366,7 +366,7 @@ export default class GrapeInput extends Emitter {
       this.redraw()
     }
     if (this.room) {
-      this.unsent[this.room.id] = this.input.getTextContent()
+      this.unsent[this.room.id] = this.input.textarea.state.text
     }
     this.completePreviousEdit()
     if (!room || (room.type === 'pm' && !room.users[0].active)) {
@@ -375,9 +375,7 @@ export default class GrapeInput extends Emitter {
     else {
       this.enable()
       this.room = room
-      this.setProps({focused: true}, () => {
-        this.input.setTextContent(this.unsent[room.id] || '', {silent: true})
-      })
+      this.setProps({focused: true, content: this.unsent[room.id] || ''})
     }
   }
 
