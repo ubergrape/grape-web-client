@@ -25,6 +25,8 @@ export function setTyping({user, users, channel, typingNotification}, data) {
         expires
       })
     }
+  // We received an explicite "stop typing".
+  // Remove this user from typing list.
   } else {
     channels[data.channel] = channels[data.channel].filter(_user => _user.id !== data.user)
   }
