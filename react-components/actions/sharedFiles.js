@@ -80,7 +80,6 @@ export function loadSharedFiles(params) {
         })
         return
       }
-      const state = store.getState()
       const prevItems = sharedFilesSelector(state).items
       const users = usersSelector(state)
       const nextItems = res.results.map(file => {

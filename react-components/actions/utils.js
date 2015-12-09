@@ -37,8 +37,6 @@ export function formatSidebarMessage(message) {
   }
 }
 
-
-
 /**
  * Find out if mentions match user id when user mention
  * or when channel mention - matches one of the channel user has joined.
