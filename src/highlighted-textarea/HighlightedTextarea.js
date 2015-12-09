@@ -39,13 +39,15 @@ export default class HighlightedTextarea extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
+
+    this.initialState = {
       text: '',
       caretPos: 0,
       objects: {},
       textWithObjects: [],
       objectsPositions: {}
     }
+    this.state = {...this.initialState}
   }
 
   componentDidMount() {
@@ -258,6 +260,7 @@ export default class HighlightedTextarea extends Component {
       .length
 
     this.props.onSubmit({content, objects, objectsOnly})
+    this.setState({...this.initialState})
   }
 
   renderTokens() {
