@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
+import {defaultAvatar} from '../constants/images'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 
@@ -15,6 +16,11 @@ export default class Message extends Component {
     time: PropTypes.instanceOf(Date),
     content: PropTypes.node,
     avatar: PropTypes.string
+  }
+
+  static defaultProps = {
+    author: 'Deleted User',
+    avatar: defaultAvatar
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -31,7 +37,8 @@ export default class Message extends Component {
           <div className={classes.leftColumn}>
             <div
               style={{backgroundImage: `url(${this.props.avatar})`}}
-              className={classes.avatar}></div>
+              className={classes.avatar}>
+            </div>
           </div>
           <div className={classes.rightColumn}>
             <div className={classes.content}>{this.props.content}</div>

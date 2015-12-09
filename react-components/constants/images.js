@@ -6,4 +6,5 @@ export const emojiSheet = imagesBase + '/emoji_sheet_32_optimized.png'
 export const traubyReading = imagesBase + '/trauby-reading.png'
 export const traubyJuggling = imagesBase + '/trauby-juggling.png'
 export const noDetail = imagesBase + '/no-detail.png'
+export const defaultAvatar = staticUrl('/images/avatar.gif')
 export const spinner = staticUrl('/images/preloader-onwhite.gif')
