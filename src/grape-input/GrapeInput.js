@@ -223,9 +223,9 @@ export default class Input extends Component {
     return this.textarea ? this.textarea.getTextWithMarkdown() : ''
   }
 
-  setTextContent(text) {
+  setTextContent(text, options) {
     this.query.reset()
-    this.textarea.setTextContent(text)
+    this.textarea.setTextContent(text, options)
   }
 
   exposePublicMethods() {

@@ -51,6 +51,8 @@ export default class HighlightedTextarea extends Component {
   componentDidMount() {
     const {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
+    this.bindedOnWindowResize = ::this.onWindowResize
+    window.addEventListener('resize', this.bindedOnWindowResize)
   }
 
   componentDidUpdate() {
@@ -60,6 +62,14 @@ export default class HighlightedTextarea extends Component {
 
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
     this.onResize()
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.bindedOnWindowResize)
+  }
+
+  onWindowResize() {
+    if (this.state.text.trim()) this.forceUpdate()
   }
 
   onChange(e) {
@@ -159,10 +169,8 @@ export default class HighlightedTextarea extends Component {
    *
    * When content passed - set text content and put caret at the end, otherwise
    * clean up the content.
-   *
-   * @api public
    */
-  setTextContent(content) {
+  setTextContent(content, options = {}) {
     if (!this.props.focused) return false
 
     const {configs, text} = parseAndReplace(content)
@@ -180,6 +188,8 @@ export default class HighlightedTextarea extends Component {
       caretPos: text.length,
       objectsPositions: getObjectsPositions(objects, text)
     })
+
+    if (!options.silent) this.props.onChange(getQuery(text, text.length))
 
     return true
   }
@@ -231,7 +241,7 @@ export default class HighlightedTextarea extends Component {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
     if (keyname(e.keyCode) !== 'enter') return
 
-    if (!this.state.text.trim().length) return
+    if (!this.state.text.trim()) return
     e.preventDefault()
 
     const content = this.getTextWithMarkdown()
