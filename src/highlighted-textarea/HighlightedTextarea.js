@@ -5,7 +5,8 @@ import {
   getQuery,
   getTextAndObjects,
   getObjectsPositions,
-  parseAndReplace
+  parseAndReplace,
+  isFocused
 } from './utils'
 
 import keyname from 'keyname'
@@ -26,8 +27,7 @@ export default class HighlightedTextarea extends Component {
     sheet: PropTypes.object.isRequired,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string,
-    content: PropTypes.string
+    placeholder: PropTypes.string
   }
 
   static defaultProps = {
@@ -48,24 +48,16 @@ export default class HighlightedTextarea extends Component {
     }
   }
 
-  componentWillMount() {
-    this.setStateFromContent(this.props.content)
-  }
-
   componentDidMount() {
     const {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setStateFromContent(nextProps.content)
-  }
-
   componentDidUpdate() {
-    if (this.props.focused) {
-      this.refs.textarea.focus()
-      this.refs.textarea.selectionEnd = this.state.caretPos
-    }
+    const {textarea} = this.refs
+    if (this.props.focused) textarea.focus()
+    if (isFocused(textarea)) textarea.selectionEnd = this.state.caretPos
+
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
     this.onResize()
   }
@@ -162,10 +154,19 @@ export default class HighlightedTextarea extends Component {
     this.props.onResize()
   }
 
-  setStateFromContent(content) {
-    if (content === undefined) return
+  /**
+   * Setter for text content.
+   *
+   * When content passed - set text content and put caret at the end, otherwise
+   * clean up the content.
+   *
+   * @api public
+   */
+  setTextContent(content) {
+    if (!this.props.focused) return false
 
     const {configs, text} = parseAndReplace(content)
+
     const objects = {}
     configs.forEach(config => {
       const object = create(config.type, config)
@@ -179,10 +180,14 @@ export default class HighlightedTextarea extends Component {
       caretPos: text.length,
       objectsPositions: getObjectsPositions(objects, text)
     })
+
+    return true
   }
 
-  getTextContent() {
-    return this.state.text
+  getTextWithMarkdown() {
+    return this.state.textWithObjects
+      .map(item => item.str ? item.str : item)
+      .join('')
   }
 
   addContent(str) {
@@ -229,8 +234,8 @@ export default class HighlightedTextarea extends Component {
     if (!this.state.text.trim().length) return
     e.preventDefault()
 
+    const content = this.getTextWithMarkdown()
     const {textWithObjects} = this.state
-    const content = textWithObjects.map(item => item.str ? item.str : item).join('')
     const objects = textWithObjects.reduce((onlyObjects, item) => {
       if (typeof item === 'object') {
         onlyObjects.push(item.result || item)

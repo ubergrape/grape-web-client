@@ -181,3 +181,10 @@ export function getQuery(value, selectionEnd) {
 
   return isQuery ? parseQuery(token.text) : false
 }
+
+/**
+ * Check if an element is focused.
+ */
+export function isFocused(node) {
+  return node === document.activeElement
+}

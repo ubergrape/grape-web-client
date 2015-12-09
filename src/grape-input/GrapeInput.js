@@ -27,6 +27,8 @@ import GlobalEvent from '../global-event/GlobalEvent'
 import style from './style'
 import * as utils from './utils'
 
+const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
+
 /**
  * Uses all types of auto completes to provide end component.
  */
@@ -42,8 +44,7 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
-    images: PropTypes.object,
-    content: PropTypes.string
+    images: PropTypes.object
   }
 
   static defaultProps = {
@@ -51,7 +52,6 @@ export default class Input extends Component {
     browser: undefined,
     data: undefined,
     images: {},
-    content: '',
     contentObjects: [],
     customEmojis: undefined,
     placeholder: undefined,
@@ -71,6 +71,7 @@ export default class Input extends Component {
   constructor(props) {
     super(props)
     this.query = new QueryModel({onChange: ::this.onChangeQuery})
+    this.exposePublicMethods()
     this.state = this.createState(this.props)
   }
 
@@ -90,8 +91,6 @@ export default class Input extends Component {
         customEmojis: nextProps.customEmojis
       })
     }
-
-    if (nextProps.content !== undefined) this.query.reset()
 
     this.setState(this.createState(nextProps))
   }
@@ -220,8 +219,23 @@ export default class Input extends Component {
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
+  getTextContent() {
+    return this.textarea ? this.textarea.getTextWithMarkdown() : ''
+  }
+
+  setTextContent(text) {
+    this.query.reset()
+    this.textarea.setTextContent(text)
+  }
+
+  exposePublicMethods() {
+    const {container} = this.props
+    if (!container) return
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+  }
+
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'content')
+    const state = pick(nextProps, 'browser', 'data', 'isLoading')
     state.textareaFocused = nextProps.focused
     if (state.browser === 'user') state.data = mentions.map(state.data)
     if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
@@ -380,7 +394,7 @@ export default class Input extends Component {
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
-            content={this.state.content}/>
+            content={this.getTextContent()}/>
         </MaxSize>
       </div>
     )
