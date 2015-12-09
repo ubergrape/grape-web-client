@@ -1,7 +1,7 @@
 import {getTrigger} from '../objects/utils'
 import parseQuery from '../query/parse'
 import {escapeRegExp} from 'lodash/string'
-import {REGEX as QUERY_REGEX} from '../query/constants'
+import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -9,13 +9,13 @@ import {REGEX as QUERY_REGEX} from '../query/constants'
 // everything except of links.
 const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
-function tagWithoutLabel(tag, type) {
-  return tag[0] === getTrigger(type) ? tag.substr(1) : tag
+function tokenWithoutTrigger(token, type) {
+  return token[0] === getTrigger(type) ? token.substr(1) : token
 }
 
-function tagWithLabel(tag, type) {
+function tokenWithTrigger(token, type) {
   const label = getTrigger(type)
-  return tag[0] === label ? tag : label + tag
+  return token[0] === label ? token : label + token
 }
 
 /**
@@ -25,8 +25,8 @@ function toData(text, url) {
   const parts = url.slice(5).split('|')
 
   return {
-    id: tagWithoutLabel(parts[2], parts[1]),
-    name: tagWithoutLabel(text, parts[1]),
+    id: tokenWithoutTrigger(parts[2], parts[1]),
+    name: tokenWithoutTrigger(text, parts[1]),
     slug: parts[3].replace('/chat/', ''),
     service: parts[0],
     type: parts[1],
@@ -52,23 +52,27 @@ function getPositions(sub, str) {
   return positions
 }
 
+function getEmojiConfig(token) {
+  return {
+    type: 'emoji',
+    shortname: token,
+    content: token
+  }
+}
+
 /**
  * Parse all md links and convert them to array of data.
  */
 export function parseAndReplace(content) {
   const configs = []
-  let text = content.replace(linkRegExp, (match, tag, url) => {
-    const config = toData(tag, url)
+  let text = content.replace(linkRegExp, (match, token, url) => {
+    const config = toData(token, url)
     configs.push(config)
-    return tagWithLabel(tag, config.type)
+    return tokenWithTrigger(token, config.type)
   })
 
-  text = text.replace(/:\w+:/g, (match) => {
-    configs.push({
-      type: 'emoji',
-      shortname: match,
-      content: match
-    })
+  text = text.replace(EMOJI_REGEX, (match) => {
+    configs.push(getEmojiConfig(match))
     return match
   })
 
@@ -80,16 +84,8 @@ export function parseAndReplace(content) {
  */
 export function parseEmoji(content) {
   let data = []
-  const emoji = content.match(/:\w+:/g)
-  if (emoji) {
-    data = emoji.map(token => {
-      return {
-        type: 'emoji',
-        shortname: token,
-        content: token
-      }
-    })
-  }
+  const emoji = content.match(EMOJI_REGEX)
+  if (emoji) data = emoji.map(getEmojiConfig)
   return data
 }
 

@@ -26,10 +26,12 @@ export default class HighlightedTextarea extends Component {
     sheet: PropTypes.object.isRequired,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    content: PropTypes.string
   }
 
   static defaultProps = {
+    content: '',
     placeholder: '',
     focused: true,
     disabled: false
@@ -46,9 +48,17 @@ export default class HighlightedTextarea extends Component {
     }
   }
 
+  componentWillMount() {
+    this.setStateFromContent(this.props.content)
+  }
+
   componentDidMount() {
     const {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setStateFromContent(nextProps.content)
   }
 
   componentDidUpdate() {
@@ -78,9 +88,10 @@ export default class HighlightedTextarea extends Component {
   }
 
   onKeyDown(e) {
-    switch (keyname(e.keyCode)) {
+    const key = keyname(e.keyCode)
+    switch (key) {
       case 'esc':
-        this.onAbort('esc')
+        this.onAbort(key)
         e.preventDefault()
         break
       case 'up':
@@ -90,10 +101,8 @@ export default class HighlightedTextarea extends Component {
         }
         break
       case 'backspace':
-        this.onDelete(e, 'backspace')
-        break
       case 'del':
-        this.onDelete(e, 'del')
+        this.onDelete(e, key)
         break
       default:
     }
@@ -105,15 +114,14 @@ export default class HighlightedTextarea extends Component {
 
   // TODO: possibly improve speed with fake caret in highlighter
   // so you can check if caret is inside/near the grape object
-  onDelete(e, direction) {
-    const {text} = this.state
+  onDelete(e, key) {
+    const {text, objectsPositions} = this.state
     const {selectionStart, selectionEnd} = this.refs.textarea
-    const objectsPositions = this.state.objectsPositions
 
     let positionsToDelete
 
-    Object.keys(objectsPositions).some(key => {
-      objectsPositions[key].some(positions => {
+    Object.keys(objectsPositions).some(object => {
+      objectsPositions[object].some(positions => {
         // Check if carret inside object
         if (
           positions[0] <= selectionStart &&
@@ -122,8 +130,8 @@ export default class HighlightedTextarea extends Component {
           // If selectionStart or selectionEnd
           // not inside object —> do nothing
           if (
-            direction === 'del' && positions[1] === selectionEnd ||
-            direction === 'backspace' && positions[0] === selectionStart
+            key === 'del' && positions[1] === selectionEnd ||
+            key === 'backspace' && positions[0] === selectionStart
           ) {
             return false
           }
@@ -154,19 +162,10 @@ export default class HighlightedTextarea extends Component {
     this.props.onResize()
   }
 
-  /**
-   * Setter for text content.
-   *
-   * When content passed - set text content and put caret at the end, otherwise
-   * clean up the content.
-   *
-   * @api public
-   */
-  setTextContent(content) {
-    if (!this.props.focused) return false
+  setStateFromContent(content) {
+    if (content === undefined) return
 
     const {configs, text} = parseAndReplace(content)
-
     const objects = {}
     configs.forEach(config => {
       const object = create(config.type, config)
@@ -180,8 +179,6 @@ export default class HighlightedTextarea extends Component {
       caretPos: text.length,
       objectsPositions: getObjectsPositions(objects, text)
     })
-
-    return true
   }
 
   getTextContent() {
@@ -194,7 +191,7 @@ export default class HighlightedTextarea extends Component {
   }
 
   /**
-    Replace text string to token in state
+   * Replace text string to token in state
    */
   replaceQuery(replacement) {
     const {textarea} = this.refs

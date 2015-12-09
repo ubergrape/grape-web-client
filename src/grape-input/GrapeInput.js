@@ -27,10 +27,8 @@ import GlobalEvent from '../global-event/GlobalEvent'
 import style from './style'
 import * as utils from './utils'
 
-const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
-
 /**
- * Uses all types of auto completes and content editable to provide end component.
+ * Uses all types of auto completes to provide end component.
  */
 @useSheet(style)
 export default class Input extends Component {
@@ -44,7 +42,8 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
-    images: PropTypes.object
+    images: PropTypes.object,
+    content: PropTypes.string
   }
 
   static defaultProps = {
@@ -64,21 +63,14 @@ export default class Input extends Component {
     onAbort: undefined,
     onEditPrevious: undefined,
     onSubmit: undefined,
-    onComplete: undefined,
-    onChange: undefined,
     onAddSearchBrowserIntegration: noop,
-    onFilterSelect: noop,
     onInsertItem: noop,
-    onFocus: noop,
-    onBlur: noop,
-    onResize: noop,
     onDidMount: noop
   }
 
   constructor(props) {
     super(props)
     this.query = new QueryModel({onChange: ::this.onChangeQuery})
-    this.exposePublicMethods()
     this.state = this.createState(this.props)
   }
 
@@ -98,6 +90,8 @@ export default class Input extends Component {
         customEmojis: nextProps.customEmojis
       })
     }
+
+    if (nextProps.content !== undefined) this.query.reset()
 
     this.setState(this.createState(nextProps))
   }
@@ -125,7 +119,7 @@ export default class Input extends Component {
 
   onAbort(data = {}) {
     const currentBrowser = this.state.browser
-    this.closeBrowser({editableFocused: true}, () => {
+    this.closeBrowser({textareaFocused: true}, () => {
       this.emit('abort', {...data, browser: currentBrowser})
     })
   }
@@ -226,24 +220,9 @@ export default class Input extends Component {
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
-  getTextContent() {
-    return this.textarea ? this.textarea.getTextContent() : ''
-  }
-
-  setTextContent(text) {
-    this.query.reset()
-    return this.textarea.setTextContent(text)
-  }
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
-  }
-
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading')
-    state.editableFocused = nextProps.focused
+    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'content')
+    state.textareaFocused = nextProps.focused
     if (state.browser === 'user') state.data = mentions.map(state.data)
     if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
     state.query = this.query.toJSON()
@@ -296,17 +275,17 @@ export default class Input extends Component {
       this.replaceQuery(object)
     }
     this.onInsertItem(item, query)
-    this.closeBrowser({editableFocused: true})
+    this.closeBrowser({textareaFocused: true})
     this.query.reset()
   }
 
   replaceQuery(replacement) {
-    this.setState({editableFocused: true})
+    this.setState({textareaFocused: true})
     this.textarea.replaceQuery(replacement)
   }
 
   insertQuery() {
-    this.setState({editableFocused: true})
+    this.setState({textareaFocused: true})
   }
 
   /**
@@ -400,8 +379,8 @@ export default class Input extends Component {
             onDidMount={this.onDidMount.bind(this, 'textarea')}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
-            focused={this.state.editableFocused}
-            content={this.getTextContent()}/>
+            focused={this.state.textareaFocused}
+            content={this.state.content}/>
         </MaxSize>
       </div>
     )

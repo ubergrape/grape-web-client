@@ -11,11 +11,10 @@ const tokenPostion = {
   bottom: tokenVerticalIndent
 }
 
-const fontFamily = 'Arial, Helvetica, sans-serif'
-
 export default {
   wrapper: {
-    font: fonts.normal.fontSize + '/' + '22px' + ' ' + fontFamily,
+    ...fonts.normal,
+    fontFamily: 'Arial, Helvetica, sans-serif',
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -23,7 +22,6 @@ export default {
     boxSizing: 'border-box',
     paddingRight: iconsWidth
   },
-
   common: {
     overflow: 'hidden',
     minHeight: 38,
@@ -31,7 +29,6 @@ export default {
     padding: 9,
     textRendering: 'auto'
   },
-
   textarea: {
     position: 'relative',
     zIndex: 1,
@@ -43,7 +40,6 @@ export default {
     color: colors.grapeDark,
     resize: 'none'
   },
-
   highlighter: {
     position: 'absolute',
     left: '0',
@@ -53,42 +49,37 @@ export default {
     wordWrap: 'break-word',
     color: 'transparent'
   },
-
   token: {
     position: 'relative',
     boxSizing: 'border-box',
     padding: '2px 0',
     '&:before': {
-      position: 'absolute',
       ...tokenPostion,
+      position: 'absolute',
       content: '""',
       borderRadius: 3
     }
   },
-
   // TODO: this copy/paste to be refactored after token design will be ready
-  'room': {
+  room: {
     '&:before': {
       border: '1px solid #e2c8f0',
       background: 'linear-gradient(0deg, #e2c8f0, #e6d0f2)'
     }
   },
-
-  'user': {
+  user: {
     '&:before': {
       border: '1px solid #75c7e5',
       background: 'linear-gradient(0deg, #75c7e5, #83d3f0)'
     }
   },
-
-  'search': {
+  search: {
     '&:before': {
       border: '1px solid #b8e7aa',
       background: 'linear-gradient(0deg, #b8e7aa, #c3ebb7)'
     }
   },
-
-  'emoji': {
+  emoji: {
     '&:before': {
       border: '1px solid #fbd6d6',
       background: 'linear-gradient(0deg, #fbd6d6, #fbdddd)'

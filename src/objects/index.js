@@ -12,6 +12,6 @@ const types = {
 }
 
 export function create(type, options) {
-  let Obj = types[type] || Search
+  const Obj = types[type] || Search
   return new Obj(options)
 }
