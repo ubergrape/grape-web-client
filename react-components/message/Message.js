@@ -13,7 +13,7 @@ export default class Message extends Component {
     sheet: PropTypes.object,
     author: PropTypes.string,
     time: PropTypes.instanceOf(Date),
-    content: PropTypes.array,
+    content: PropTypes.node,
     avatar: PropTypes.string
   }
 
