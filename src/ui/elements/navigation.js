@@ -135,10 +135,10 @@ Navigation.prototype.onChannelUpdate = function () {
 }
 
 Navigation.prototype.onChangeUser = function (user) {
-  if (user === ui.user) return
-  let pmList = this.pmList
-  if (pmList.items.indexOf(user) === -1) pmList.items.push(user)
-  pmList.redraw()
+  if (user === window.ui.user) return
+  if (this.pmList.items.indexOf(user) === -1) this.pmList.items.push(user)
+  this.nav.user = user
+  this.redraw()
 }
 
 Navigation.prototype.onJoinedChannel = function (room) {
@@ -172,11 +172,12 @@ Navigation.prototype.onDeletedUser = function() {
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-  let rooms = org.rooms.slice()
-  let pms = org.users.filter(function (user) {
-  return user != window.ui.user && user.active && !user.is_only_invited
+  const rooms = org.rooms.slice()
+  const pms = org.users.filter(user => {
+    return user != window.ui.user && user.active && !user.is_only_invited
   })
-  this.setLists({ rooms: rooms, pms: pms })
+  this.setLists({rooms: rooms, pms: pms})
+  this.nav.user = window.ui.user
 
   // we need this redraw for the organization logo
   // cause that is part of the navigation too
