@@ -18,7 +18,8 @@ export default {
     marginRight: leftColumnMarginRight
   },
   rightColumn: {
-    // overflow: 'hidden'
+    flex: 1,
+    marginLeft: arrowWidth
   },
   avatar: {
     width: avatarWidth,
@@ -52,7 +53,7 @@ export default {
     background: colors.white,
     borderRadius: 16,
     padding: '5px 13px',
-    marginLeft: arrowWidth,
+    overflow: 'hidden',
     transition: 'box-shadow 0.3s ease-out',
     '&:hover': {
       boxShadow: '0px 1px 8px rgba(0,0,0,0.3)'
