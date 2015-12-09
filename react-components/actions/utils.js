@@ -11,23 +11,29 @@ export function formatMessage(message) {
 }
 
 export function formatSidebarMessage(message) {
-  const fMessage = formatMessage(message)
+  const {
+    id,
+    author,
+    time,
+    plainText: content,
+    channel: channelId
+  } = formatMessage(message)
   const state = store.getState()
   const {channels} = orgSelector(state)
-  const channel = find(channels, ({id}) => id === fMessage.channel)
+  const currentChannel = find(channels, channel => channel.id === channelId)
   const users = usersSelector(state)
-  const author = find(users, ({id}) => id === fMessage.author.id)
+  const {displayName, avatar} = find(users, (user) => user.id === author.id)
 
   return {
-    id: fMessage.id,
+    id,
+    avatar,
+    time,
+    content,
     // There is no channel name in pm, use the other user name.
-    channel: channel.name || channel.users[0].displayName,
-    author: author.displayName,
-    avatar: author.avatar,
-    time: fMessage.time,
-    content: fMessage.plainText,
+    channel: currentChannel.name || currentChannel.users[0].displayName,
+    author: displayName,
     // There is no slug in pm, user the other user slug.
-    slug: channel.slug || channel.users[0].slug
+    slug: currentChannel.slug || currentChannel.users[0].slug
   }
 }
 
