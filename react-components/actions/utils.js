@@ -22,7 +22,7 @@ export function formatSidebarMessage(message) {
   const {channels} = orgSelector(state)
   const currentChannel = find(channels, channel => channel.id === channelId)
   const users = usersSelector(state)
-  const {displayName, avatar} = find(users, (user) => user.id === author.id)
+  const {displayName, avatar} = find(users, user => user.id === author.id)
 
   return {
     id,
