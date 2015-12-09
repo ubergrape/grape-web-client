@@ -77,7 +77,8 @@ export function addMention(message) {
   const state = mentionsSelector(store.getState())
   let items = [...state.items, formatSidebarMessage(message)]
 
-  // Ensure the right order because we pushed a message from pubsub.
+  // Sort all items descenting because we loose the right order when a message
+  // comes from pubsub.
   items = sortBy(items, item => item.time * -1)
 
   return {
