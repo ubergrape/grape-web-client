@@ -4,17 +4,24 @@ import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
-import {sharedFilesSelector, orgSelector, channelSelector} from '../selectors'
 import {setSidebarIsLoading} from './common'
+import {
+  sharedFilesSelector,
+  orgSelector,
+  channelSelector,
+  usersSelector
+} from '../selectors'
 
 /**
  * Format data for shared files.
  */
-function formatFile(channel, file) {
-  const author = find(channel.users, ({id}) => id === file.author.id).displayName
+function formatFile(file, channel, users) {
+  const author = find(users, ({id}) => id === file.author.id)
   return {
     ...file,
-    author,
+    author: author ? author.displayName : undefined,
+    // If we are in pm channel, there is no channel name, we use the other user
+    // name as a channel name.
     channelName: channel.name || channel.users[0].displayName,
     channelType: channel.type,
     id: file.id || file.messageId,
@@ -73,9 +80,11 @@ export function loadSharedFiles(params) {
         })
         return
       }
-      const prevItems = sharedFilesSelector(store.getState()).items
+      const state = store.getState()
+      const prevItems = sharedFilesSelector(state).items
+      const users = usersSelector(state)
       const nextItems = res.results.map(file => {
-        return formatFile(channel, file)
+        return formatFile(file, channel, users)
       })
       dispatch({
         type: types.LOADED_SHARED_FILES,
@@ -89,15 +98,18 @@ export function loadSharedFiles(params) {
 }
 
 export function addAttachments(message) {
-  const state = sharedFilesSelector(store.getState())
-  const items = message.attachments.map(attachment => {
+  const state = store.getState()
+  const channel = channelSelector(state)
+  const users = usersSelector(state)
+  const prevItems = sharedFilesSelector(state).items
+  const nextItems = message.attachments.map(attachment => {
     const file = {...attachment, author: message.author}
-    return formatFile(state.channel, file)
+    return formatFile(file, channel, users)
   })
   return {
     type: types.ADDED_SHARED_FILE,
     payload: {
-      items: [...items, ...state.items]
+      items: [...nextItems, ...prevItems]
     }
   }
 }
