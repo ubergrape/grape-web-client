@@ -7,9 +7,7 @@ import store from '../app/store'
 import {orgSelector, usersSelector, userSelector, channelsSelector} from '../selectors'
 
 export function formatMessage(message) {
-  const fMessage = {...message}
-  fMessage.time = new Date(message.time)
-  return fMessage
+  return {...message, time: new Date(message.time)}
 }
 
 export function formatSidebarMessage(message) {
@@ -22,14 +20,17 @@ export function formatSidebarMessage(message) {
 
   return {
     id: fMessage.id,
+    // There is no channel name in pm, use the other user name.
     channel: channel.name || channel.users[0].displayName,
     author: author.displayName,
     avatar: author.avatar,
     time: fMessage.time,
     content: fMessage.plainText,
+    // There is no slug in pm, user the other user slug.
     slug: channel.slug || channel.users[0].slug
   }
 }
+
 
 
 /**
