@@ -5,27 +5,24 @@ import * as types from '../constants/actionTypes'
 const typingLifetime = 5000
 
 export function setTyping({user, users, channel, typingNotification}, data) {
-  // Do nothing, its a notification from myself.
-  if (data.user === user.id) {
-    return {
-      type: types.SET_TYPING_USERS,
-      payload: typingNotification
-    }
-  }
+  // Its a notification from myself.
+  // We call that action directly from subscription sometimes.
+  if (data.user === user.id) return {type: types.NOOP}
 
   const channels = {...typingNotification.channels}
   if (!channels[data.channel]) channels[data.channel] = []
 
   if (data.typing) {
+    const expires = Date.now() + typingLifetime
     let typingUser = find(channels[data.channel], _user => _user.id === data.user)
     // Just bump exiration date.
-    if (typingUser) typingUser.expires = Date.now() + typingLifetime
+    if (typingUser) typingUser.expires = expires
     else {
       typingUser = find(users, _user => _user.id === data.user)
       channels[data.channel].push({
         id: typingUser.id,
         name: typingUser.displayName,
-        expires: Date.now() + typingLifetime
+        expires
       })
     }
   } else {
