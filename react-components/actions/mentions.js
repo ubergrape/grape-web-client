@@ -47,8 +47,17 @@ export function loadMentions(params) {
         params.offsetDate
       ]
     }, {camelize: true}, (err, res) => {
-      if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
+      if (err) {
+        reduxEmitter.showError(err)
+        dispatch({
+          type: types.ERROR,
+          payload: {
+            err
+          }
+        })
+        return
+      }
       const prevItems = mentionsSelector(store.getState()).items
       const nextItems = res.results.map(data => {
         return formatSidebarMessage(data.message)

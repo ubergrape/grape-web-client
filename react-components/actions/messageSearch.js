@@ -64,8 +64,17 @@ export function searchMessages(params) {
         params.offsetDate ? params.offsetDate.toISOString() : undefined
       ]
     }, {camelize: true}, (err, res) => {
-      if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
+      if (err) {
+        reduxEmitter.showError(err)
+        dispatch({
+          type: types.ERROR,
+          payload: {
+            err
+          }
+        })
+        return
+      }
       const messageSearch = messageSearchSelector(state)
       const prevItems = messageSearch.items
       const nextItems = res.results.map(formatSidebarMessage)

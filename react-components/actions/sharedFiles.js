@@ -62,8 +62,17 @@ export function loadSharedFiles(params) {
         params.offset
       ]
     }, {camelize: true}, (err, res) => {
-      if (err) reduxEmitter.showError(err)
       dispatch(setSidebarIsLoading(false))
+      if (err) {
+        reduxEmitter.showError(err)
+        dispatch({
+          type: types.ERROR,
+          payload: {
+            err
+          }
+        })
+        return
+      }
       const prevItems = sharedFilesSelector(store.getState()).items
       const nextItems = res.results.map(file => {
         return formatFile(channel, file)
