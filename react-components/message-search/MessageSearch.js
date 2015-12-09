@@ -22,7 +22,7 @@ export default class MessageSearch extends Component {
     images: PropTypes.object,
     items: PropTypes.array,
     total: PropTypes.number,
-    query: PropTypes.string,
+    query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     isLoading: PropTypes.bool
   }
 
@@ -69,8 +69,17 @@ export default class MessageSearch extends Component {
 
   renderMessages() {
     const {classes} = this.props.sheet
+    const {query} = this.props
     const messages = this.props.items.map(item => {
-      const matches = findMatches(item.content, this.props.query)
+      let matches = []
+      if (Array.isArray(query)) {
+        query.forEach(_query => {
+          matches = matches.concat(findMatches(item.content, _query))
+        })
+      } else {
+        matches = findMatches(item.content, query)
+      }
+
       let {content} = item
       if (matches.length) {
         content = matches.map((match, key) => {
@@ -83,6 +92,7 @@ export default class MessageSearch extends Component {
           )
         })
       }
+
       return {...item, content}
     })
 
