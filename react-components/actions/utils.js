@@ -50,10 +50,8 @@ export function isMentioned(message) {
   const state = store.getState()
   const user = userSelector(state)
 
-  let mentioned = false
-
   if (mentions.user) {
-    mentioned = mentions.user.some(userId => userId === user.id)
+    const mentioned = mentions.user.some(userId => userId === user.id)
     if (mentioned) return true
   }
 
@@ -61,8 +59,9 @@ export function isMentioned(message) {
     const channels = channelsSelector(state)
     const joinedChannels = channels.filter(channel => channel.joined)
     const joinedChannelIds = pluck(joinedChannels, 'id')
-    mentioned = intersection(mentions.room, joinedChannelIds).length > 0
+    const mentioned = intersection(mentions.room, joinedChannelIds).length > 0
+    if (mentioned) return true
   }
 
-  return mentioned
+  return false
 }
