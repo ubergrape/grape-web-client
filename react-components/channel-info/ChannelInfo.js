@@ -9,6 +9,17 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 const dateFormat = 'MMMM Do, YYYY'
 
+function getStats(channel) {
+  const amount = channel.users.length
+  const plural = amount > 1 ? 's' : ''
+  const date = tz(channel.created).format(dateFormat)
+  let text = `The room ${channel.name} has ${amount} member${plural} and has`
+  text += ' been created'
+  if (channel.creator) text += ` by ${channel.creator.displayName}`
+  text += ` on ${date}.`
+  return text
+}
+
 @useSheet(style)
 export default class ChannelInfo extends Component {
   static propTypes = {
@@ -90,12 +101,6 @@ export default class ChannelInfo extends Component {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
     const {channel} = this.props
-    const {users} = channel
-    const plural = users.length > 1 ? 's' : ''
-    let creatorText
-    if (channel.creator) {
-      creatorText = ` and has been created by ${channel.creator.displayName}`
-    }
     return (
       <SidebarPanel
         title="Room Info"
@@ -103,7 +108,7 @@ export default class ChannelInfo extends Component {
         <div className={classes.channelInfo}>
           <header className={classes.header}>
             <div className={classes.stats}>
-              The room {channel.name} has {users.length} member{plural}{creatorText} on {tz(channel.created).format(dateFormat)}.
+              {getStats(channel)}
             </div>
             {this.props.channel.description && <div className={classes.description}>
               <h2>Purpose</h2>
@@ -114,7 +119,7 @@ export default class ChannelInfo extends Component {
               <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
             </div>
           </header>
-          {users.map(::this.renderUser)}
+          {channel.users.map(::this.renderUser)}
         </div>
       </SidebarPanel>
     )
