@@ -13,11 +13,11 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class Dialog extends Component {
   static propTypes = {
-    onHide: PropTypes.func,
-    title: PropTypes.string,
-    show: PropTypes.bool,
-    children: PropTypes.node,
-    sheet: PropTypes.object
+    onHide: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    show: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    sheet: PropTypes.object.isRequired
   }
 
   render() {

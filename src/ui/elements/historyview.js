@@ -46,7 +46,6 @@ HistoryView.prototype.init = function() {
   this.history = {}
   this.redraw()
   el.appendChild(this.history.el)
-  el.appendChild(document.createElement('grape-typing-notification'))
   // and make it work with custom scrollbars
   document.createElement('div').appendChild(el)
   let scr = new Scrollbars(el)
@@ -81,6 +80,12 @@ HistoryView.prototype.onOrgReady = function(org) {
   org.pms.forEach((pm) => {
     this.unsentBuffer[pm.id] = []
   }.bind(this))
+}
+
+HistoryView.prototype.renderTypingNotification = function() {
+  if (this.typingNotification) return
+  this.typingNotification = document.createElement('grape-typing-notification')
+  this.scrollWindow.appendChild(this.typingNotification)
 }
 
 HistoryView.prototype.toggleRoomInvite = function() {
@@ -365,6 +370,8 @@ HistoryView.prototype.setRoom = function(room, msgID) {
       this.queueDraw()
     }, 1000)
   })
+
+  this.renderTypingNotification()
 }
 
 HistoryView.prototype.expandActivityList = function(ev) {

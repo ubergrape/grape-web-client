@@ -102,16 +102,6 @@ UI.prototype.init = function UI_init() {
   this.messages = new Messages()
   qs('.chat-wrapper', this.el).appendChild(this.messages.el)
 
-  // All right sidebar elements.
-  const rightSidebar = document.createElement('div')
-  rightSidebar.className = 'right-sidebar'
-  this.clientBody.appendChild(rightSidebar)
-  rightSidebar.appendChild(document.createElement('grape-user-profile'))
-  rightSidebar.appendChild(document.createElement('grape-channel-info'))
-  rightSidebar.appendChild(document.createElement('grape-shared-files'))
-  rightSidebar.appendChild(document.createElement('grape-mentions'))
-  rightSidebar.appendChild(document.createElement('grape-message-search'))
-
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
   uploadContainer.parentNode.replaceChild(this.upload.el, uploadContainer)
@@ -246,6 +236,21 @@ UI.prototype.bind = function UI_bind() {
   }
 }
 
+/**
+ * Render all right sidebar components.
+ */
+UI.prototype.renderSidebar = function() {
+  if (this.rightSidebar) return
+  this.rightSidebar = document.createElement('div')
+  this.rightSidebar.className = 'right-sidebar'
+  this.rightSidebar.appendChild(document.createElement('grape-user-profile'))
+  this.rightSidebar.appendChild(document.createElement('grape-channel-info'))
+  this.rightSidebar.appendChild(document.createElement('grape-shared-files'))
+  this.rightSidebar.appendChild(document.createElement('grape-mentions'))
+  this.rightSidebar.appendChild(document.createElement('grape-message-search'))
+  this.clientBody.appendChild(this.rightSidebar)
+}
+
 UI.prototype.setOrganization = function UI_setOrganization(org) {
   this.org = org
   template.locals.org = this.org
@@ -255,6 +260,7 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
   if (this.notificationSessionSet === true) return
   focus.on('focus', this.setNotificationsSession.bind(this))
   this.notificationSessionSet = true
+  this.renderSidebar()
 }
 
 UI.prototype.setUser = function UI_setUser(user) {

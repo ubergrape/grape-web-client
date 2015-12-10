@@ -11,10 +11,10 @@ const dateFormat = 'h:mm a'
 @useSheet(style)
 export default class Message extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
+    time: PropTypes.instanceOf(Date).isRequired,
+    content: PropTypes.node.isRequired,
     author: PropTypes.string,
-    time: PropTypes.instanceOf(Date),
-    content: PropTypes.node,
     avatar: PropTypes.string
   }
 

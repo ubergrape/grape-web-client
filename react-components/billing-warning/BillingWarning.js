@@ -11,12 +11,12 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class BillingWarning extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    text: PropTypes.string,
-    showBillingWarning: PropTypes.func,
-    hideBillingWarning: PropTypes.func,
-    goToPayment: PropTypes.func,
-    show: PropTypes.bool
+    sheet: PropTypes.object.isRequired,
+    text: PropTypes.string.isRequired,
+    showBillingWarning: PropTypes.func.isRequired,
+    hideBillingWarning: PropTypes.func.isRequired,
+    goToPayment: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired
   }
 
   componentWillReceiveProps(nextProps) {

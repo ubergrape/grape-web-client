@@ -14,16 +14,16 @@ const dateFormat = 'MMM Do, YYYY'
 @useSheet(style)
 export default class MessageSearch extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    select: PropTypes.func,
-    hide: PropTypes.func,
-    show: PropTypes.bool,
-    title: PropTypes.string,
-    images: PropTypes.object,
-    items: PropTypes.array,
+    sheet: PropTypes.object.isRequired,
+    select: PropTypes.func.isRequired,
+    hide: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    images: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
     total: PropTypes.number,
     query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool.isRequired
   }
 
   componentWillReceiveProps(nextProps) {

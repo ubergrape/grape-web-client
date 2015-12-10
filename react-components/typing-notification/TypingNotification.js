@@ -8,9 +8,9 @@ import TypingUsers from './TypingUsers'
  */
 export default class TypingNotification extends Component {
   static propTypes = {
-    cleanupTyping: PropTypes.func,
-    channels: PropTypes.object,
-    channel: PropTypes.object
+    cleanupTyping: PropTypes.func.isRequired,
+    channels: PropTypes.object.isRequired,
+    channel: PropTypes.object.isRequired
   }
 
   componentDidMount() {

@@ -13,10 +13,10 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class SidebarPanel extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    title: PropTypes.string,
-    children: PropTypes.node,
-    onClose: PropTypes.func
+    sheet: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

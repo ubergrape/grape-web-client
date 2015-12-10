@@ -10,15 +10,15 @@ const dateFormat = 'MMM Do, h:mm a'
 @useSheet(style)
 export default class SharedFile extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    author: PropTypes.string,
-    time: PropTypes.instanceOf(Date),
-    channelName: PropTypes.string,
-    channelType: PropTypes.string,
-    name: PropTypes.string,
-    thumbnailUrl: PropTypes.string,
-    category: PropTypes.string,
-    url: PropTypes.string
+    sheet: PropTypes.object.isRequired,
+    author: PropTypes.string.isRequired,
+    time: PropTypes.instanceOf(Date).isRequired,
+    channelName: PropTypes.string.isRequired,
+    channelType: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    thumbnailUrl: PropTypes.string
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

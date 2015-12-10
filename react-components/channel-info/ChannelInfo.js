@@ -23,15 +23,15 @@ function getStats(channel) {
 @useSheet(style)
 export default class ChannelInfo extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    inviteChannelMember: PropTypes.func,
-    channel: PropTypes.object,
-    user: PropTypes.object,
-    kickMemberFromChannel: PropTypes.func,
-    goToChannel: PropTypes.func,
-    leaveChannel: PropTypes.func,
-    hideChannelInfo: PropTypes.func,
-    show: PropTypes.bool
+    sheet: PropTypes.object.isRequired,
+    channel: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    inviteChannelMember: PropTypes.func.isRequired,
+    kickMemberFromChannel: PropTypes.func.isRequired,
+    goToChannel: PropTypes.func.isRequired,
+    leaveChannel: PropTypes.func.isRequired,
+    hideChannelInfo: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

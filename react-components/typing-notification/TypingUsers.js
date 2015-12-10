@@ -14,9 +14,9 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class TypingUsers extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    max: PropTypes.number,
-    users: PropTypes.array
+    sheet: PropTypes.object.isRequired,
+    users: PropTypes.array.isRequired,
+    max: PropTypes.number
   }
 
   static defaultProps = {

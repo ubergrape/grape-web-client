@@ -18,17 +18,17 @@ import style from './style'
 export default class ChannelSearch extends Component {
   static propTypes = {
     shortcuts: PropTypes.array,
-    sheet: PropTypes.object,
-    show: PropTypes.bool,
-    items: PropTypes.array,
-    search: PropTypes.string,
-    inputChannelSearch: PropTypes.func,
-    showRoomManager: PropTypes.func,
-    hideChannelSearch: PropTypes.func,
-    showChannelSearch: PropTypes.func,
-    selectChannelSearch: PropTypes.func,
-    org: PropTypes.object,
-    user: PropTypes.object
+    sheet: PropTypes.object.isRequired,
+    show: PropTypes.bool.isRequired,
+    items: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
+    inputChannelSearch: PropTypes.func.isRequired,
+    showRoomManager: PropTypes.func.isRequired,
+    hideChannelSearch: PropTypes.func.isRequired,
+    showChannelSearch: PropTypes.func.isRequired,
+    selectChannelSearch: PropTypes.func.isRequired,
+    org: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
   }
 
   static defaultProps = {

@@ -10,13 +10,13 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 @useSheet(style)
 export default class SharedFiles extends Component {
   static propTypes = {
-    show: PropTypes.bool,
-    total: PropTypes.number,
-    sheet: PropTypes.object,
-    images: PropTypes.object,
-    items: PropTypes.array,
-    hideSharedFiles: PropTypes.func,
-    isLoading: PropTypes.bool
+    show: PropTypes.bool.isRequired,
+    sheet: PropTypes.object.isRequired,
+    images: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
+    hideSharedFiles: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    total: PropTypes.number
   }
 
   componentWillReceiveProps(nextProps) {
