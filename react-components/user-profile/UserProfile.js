@@ -8,14 +8,14 @@ import style from './style'
 @useSheet(style)
 export default class UserProfile extends Component {
   static propTypes = {
-    avatar: PropTypes.string.isRequired,
     hideUserProfile: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
+    show: PropTypes.bool.isRequired,
+    avatar: PropTypes.string,
+    username: PropTypes.string,
+    displayName: PropTypes.string,
+    slug: PropTypes.string,
+    email: PropTypes.string,
     whatIDo: PropTypes.string,
     skypeUsername: PropTypes.string,
     phoneNumber: PropTypes.string
