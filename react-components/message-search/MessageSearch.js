@@ -96,9 +96,7 @@ export default class MessageSearch extends Component {
       return {...item, content}
     })
 
-    const elements = []
-
-    messages.forEach((message, index) => {
+    return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
 
       // Render date separator.
@@ -119,9 +117,9 @@ export default class MessageSearch extends Component {
         )
       }
       elements.push(this.renderMessage(message))
-    })
 
-    return elements
+      return elements
+    }, [])
   }
 
   renderMessage(message) {
