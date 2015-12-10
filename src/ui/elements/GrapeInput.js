@@ -21,7 +21,7 @@ const defaultBrowserProps = {
   data: null
 }
 
-const inputNodes = ['INPUT', 'TEXT', 'SELECT']
+const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 function isImage(mime) {
   return String(mime).substr(0, 5) === 'image'
@@ -202,7 +202,8 @@ export default class GrapeInput extends Emitter {
         id: room.id,
         type: 'room',
         name: room.name,
-        slug: room.slug
+        slug: room.slug,
+        isPrivate: !room.is_public
       }
     })
 
