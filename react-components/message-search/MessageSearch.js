@@ -71,16 +71,16 @@ export default class MessageSearch extends Component {
     const {classes} = this.props.sheet
     const {query} = this.props
     const messages = this.props.items.map(item => {
+      let {content} = item
       let matches
       if (Array.isArray(query)) {
         matches = query.reduce((_matches, _query) => {
-          return _matches.concat(findMatches(item.content, _query))
+          return _matches.concat(findMatches(content, _query))
         }, [])
       } else {
-        matches = findMatches(item.content, query)
+        matches = findMatches(content, query)
       }
 
-      let {content} = item
       if (matches.length) {
         content = matches.map((match, key) => {
           return (
