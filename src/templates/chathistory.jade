@@ -15,7 +15,7 @@
 						li.option
 							a.button.btn-gainsboro.manage-rooms
 								i.fa.fa-link
-								=_('Create or join rooms')	
+								=_('Create or join rooms')
 	else
 		- var preloader = staticurl("/images/preloader-ongray.gif")
 		if room.id == undefined
@@ -37,16 +37,16 @@
 						=_('Everything will be there in a second, '+ globalDisplayName +'.')
 		else if history.length === 0
 			if room.type !== 'pm'
-				- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.' 
-				- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")	
+				- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.'
+				- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")
 				.welcome-message
 					img.image(src="#{welcomepic}",width="100",alt="Hi!")
 					div
 						h3
-							| Welcome to 
+							| Welcome to
 							if !room.is_public
 								i.fa.fa-lock
-								|  
+								|=" "
 							span #{room.name}
 						p
 							=_(welcomemsg)
@@ -139,17 +139,17 @@
 										if line.branch
 											span.branch
 												i(class="fa fa-code-fork")
-												| 
-												| #{line.branch} 
+												|=" "
+												| #{line.branch}
 										if line.tag
 											span.tag
 												i(class="fa fa-tag")
-												| 
+												|=" "
 												| #{line.tag}
 										if line.container
 											span.container
 												i(class="mdi mdi-link-variant")
-												| 
+												|=" "
 												a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 								//- show the edit stuff only if current user is the author
 								if user.id == line.author.id && mode === 'chat' && status != 'pending'
@@ -265,14 +265,14 @@
 												li(class=obj.type)
 													if obj.author && obj.author.username
 														strong
-															| #{obj.author.username} 
+															| #{obj.author.username}
 													if obj.name
 														a(href=obj.url)
 															strong
-																| #{obj.name} 
+																| #{obj.name}
 													if obj.sha
 														a(href=obj.url, target="_blank").sha
-															| #{obj.sha.substr(0, 6)} 
+															| #{obj.sha.substr(0, 6)}
 													if obj.content
 														if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 															.text= html(markdown(obj.content))
