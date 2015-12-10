@@ -110,9 +110,9 @@ export default class ChannelInfo extends Component {
             <div className={classes.stats}>
               {getStats(channel)}
             </div>
-            {this.props.channel.description && <div className={classes.description}>
+            {channel.description && <div className={classes.description}>
               <h2>Purpose</h2>
-              <p className={classes.descriptionText}>{this.props.channel.description}</p>
+              <p className={classes.descriptionText}>{channel.description}</p>
             </div>}
             <div className={classes.actions}>
               <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this room</button>
