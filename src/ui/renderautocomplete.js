@@ -21,10 +21,14 @@ function renderAutocompleteItem(obj, asButton) {
       }
     }
   } else {
-    let target = ' target="_blank"'
-    if (obj.service==="chatgrape") {
-      target = ''
+    let target = obj.service !== "chatgrape" ? 'target="_blank"' : ''
+
+    let type
+    if (obj.roomId) {
+      const room = window.ui.org.rooms.filter(room => room.id == obj.roomId)[0]
+      type = room.is_public ? obj.type : 'privateroom'
     }
-    return '<a class="ac service-' + obj.service + ' type-' + obj.service + obj.type +'" tabindex="-1" data-object="' + name + '" href="' + obj.url+ '"' + target + '>' + obj.insert + '</a>'
+
+    return `<a class="ac service-${obj.service} type-${obj.service}${type}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${target}>${obj.insert}</a>`
   }
 }
