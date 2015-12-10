@@ -10,8 +10,7 @@ export default {
     margin: '0 0 15px'
   },
   body: {
-    display: 'flex',
-    flexDirection: 'row'
+    display: 'flex'
   },
   leftColumn: {
     flexShrink: 0,
@@ -30,7 +29,6 @@ export default {
   },
   header: {
     display: 'flex',
-    flexDirection: 'row',
     overflow: 'hidden',
     width: '100%',
     paddingLeft: avatarWidth + leftColumnMarginRight + arrowWidth

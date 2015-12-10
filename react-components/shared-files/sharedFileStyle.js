@@ -12,7 +12,6 @@ const image = {
 export default {
   sharedFile: {
     display: 'flex',
-    flexDirection: 'row',
     cursor: 'pointer',
     marginBottom: 10
   },

@@ -28,7 +28,6 @@ export default {
   item: {
     cursor: 'pointer',
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
     padding: 5
   },

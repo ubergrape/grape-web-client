@@ -35,7 +35,6 @@ export default {
   },
   header: {
     display: 'flex',
-    flexDirection: 'row',
     background: webColors.sidebarBackground,
     height: 50
   },
