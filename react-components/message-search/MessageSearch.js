@@ -135,7 +135,8 @@ export default class MessageSearch extends Component {
   }
 
   renderLoadMore() {
-    if (!this.props.total || this.props.items.length >= this.props.total) return null
+    const {total, items} = this.props
+    if (!total || items.length >= total) return null
     const {classes} = this.props.sheet
     return (
       <div className={classes.loadMoreContainer}>
@@ -161,16 +162,17 @@ export default class MessageSearch extends Component {
   render() {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
+    const {images, title, isLoading} = this.props
     return (
       <SidebarPanel
-        title={this.props.title}
-        images={this.props.images}
+        title={title}
+        images={images}
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}
           {this.renderEmpty()}
-          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+          {isLoading && <Spinner image={images.spinner} />}
         </div>
       </SidebarPanel>
     )
