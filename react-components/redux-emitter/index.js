@@ -51,8 +51,8 @@ class ReduxEmitter extends Emitter {
     this.emit('kickMember', params)
   }
 
-  onMemberLeftChannel(channel) {
-    boundActions.memberLeftChannel(formatChannel(channel))
+  onUserLeftChannel(channel) {
+    boundActions.userLeftChannel(formatChannel(channel))
   }
 
   inviteChannelMember(channel) {

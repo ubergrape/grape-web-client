@@ -1,8 +1,11 @@
 import page from 'page'
 
+import store from '../app/store'
+import {channelSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
 import {addAttachments, removeAttachments} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
+import {addUserToChannel} from './channelInfo'
 import {isMentioned, formatMessage} from './utils'
 import reduxEmitter from '../redux-emitter'
 
@@ -141,12 +144,25 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function memberLeftChannel(channel) {
-  return {
-    type: types.MEMBER_LEFT_CHANNEL,
-    payload: {
-      channel
+export function userLeftChannel(channel) {
+  return dispatch => {
+    const currentChannel = channelSelector(store.getState())
+
+    if (currentChannel && currentChannel.id === channel.id) {
+      dispatch({
+        type: types.USER_LEFT_CURRENT_CHANNEL,
+        payload: {
+          channel
+        }
+      })
     }
+
+    dispatch({
+      type: types.USER_LEFT_CHANNEL,
+      payload: {
+        channel
+      }
+    })
   }
 }
 
@@ -154,5 +170,18 @@ export function inviteChannelMember(channel) {
   reduxEmitter.inviteChannelMember(channel)
   return {
     type: types.INVITE_CHANNEL_MEMBER
+  }
+}
+
+export function handleJoinedChannel({user, channel}) {
+  return dispatch => {
+    dispatch(addUserToChannel(user, channel))
+    dispatch({
+      type: types.HANDLE_JOINED_CHANNEL,
+      payload: {
+        channelId: channel,
+        userId: user
+      }
+    })
   }
 }

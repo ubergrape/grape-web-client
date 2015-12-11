@@ -16,6 +16,9 @@ export default function subscribe(channel) {
       case 'message.removed':
         boundActions.handleRemovedMessage(cData)
         break
+      case 'channel.joined':
+        boundActions.handleJoinedChannel(cData)
+        break
       default:
     }
   })
