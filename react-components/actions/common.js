@@ -1,8 +1,8 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
-import {addAttachments} from './sharedFiles'
-import {addMention} from './mentions'
+import {addAttachments, removeAttachments} from './sharedFiles'
+import {addMention, removeMention} from './mentions'
 import {isMentioned, formatMessage} from './utils'
 import reduxEmitter from '../redux-emitter'
 
@@ -82,6 +82,19 @@ export function handleNewMessage(message) {
       type: types.HANDLE_NEW_MESSAGE,
       payload: {
         message: fMessage
+      }
+    })
+  }
+}
+
+export function handleRemovedMessage({id}) {
+  return dispatch => {
+    dispatch(removeAttachments(id))
+    dispatch(removeMention(id))
+    dispatch({
+      type: types.HANDLE_REMOVED_MESSAGE,
+      payload: {
+        messageId: id
       }
     })
   }

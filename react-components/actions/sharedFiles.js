@@ -100,7 +100,8 @@ export function addAttachments(message) {
   const state = store.getState()
   const channel = channelSelector(state)
   const users = usersSelector(state)
-  const prevItems = sharedFilesSelector(state).items
+  const sharedFiles = sharedFilesSelector(state)
+  const prevItems = sharedFiles.items
   const nextItems = message.attachments.map(attachment => {
     const file = {...attachment, author: message.author}
     return formatFile(file, channel, users)
@@ -108,7 +109,27 @@ export function addAttachments(message) {
   return {
     type: types.ADDED_SHARED_FILE,
     payload: {
-      items: [...nextItems, ...prevItems]
+      items: [...nextItems, ...prevItems],
+      total: sharedFiles.total - 1
+    }
+  }
+}
+
+export function removeAttachments(messageId) {
+  const sharedFiles = sharedFilesSelector(store.getState())
+  const {items} = sharedFiles
+  const cleanedItems = items.filter(item => item.messageId !== messageId)
+
+  // Nothing to remove.
+  if (cleanedItems.length === items.length) {
+    return {type: types.NOOP}
+  }
+
+  return {
+    type: types.REMOVED_SHARED_FILE,
+    payload: {
+      items: cleanedItems,
+      total: sharedFiles.total - 1
     }
   }
 }

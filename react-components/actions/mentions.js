@@ -84,8 +84,8 @@ export function loadMentions(params) {
 }
 
 export function addMention(message) {
-  const state = mentionsSelector(store.getState())
-  let items = [...state.items, formatSidebarMessage(message)]
+  const mentions = mentionsSelector(store.getState())
+  let items = [...mentions.items, formatSidebarMessage(message)]
 
   // Sort all items descenting because we loose the right order when a message
   // comes from pubsub.
@@ -94,7 +94,27 @@ export function addMention(message) {
   return {
     type: types.ADDED_MENTION,
     payload: {
-      items
+      items,
+      total: mentions.total + 1
+    }
+  }
+}
+
+export function removeMention(messageId) {
+  const mentions = mentionsSelector(store.getState())
+  const {items} = mentions
+  const cleanedItems = items.filter(({id}) => id !== messageId)
+
+  // Nothing to remove.
+  if (cleanedItems.length === items.length) {
+    return {type: types.NOOP}
+  }
+
+  return {
+    type: types.REMOVED_MENTION,
+    payload: {
+      items: cleanedItems,
+      total: mentions.total - 1
     }
   }
 }
