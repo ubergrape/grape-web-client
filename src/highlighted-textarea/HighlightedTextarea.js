@@ -60,7 +60,12 @@ export default class HighlightedTextarea extends Component {
   componentDidUpdate() {
     const {textarea} = this.refs
     if (this.props.focused) textarea.focus()
-    if (isFocused(textarea)) textarea.selectionEnd = this.state.caretPos
+
+    if (isFocused(textarea)) {
+      const {caretPos} = this.state
+      textarea.selectionStart = caretPos
+      textarea.selectionEnd = caretPos
+    }
 
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
     this.onResize()
