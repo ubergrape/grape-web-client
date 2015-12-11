@@ -60,6 +60,33 @@ function getEmojiConfig(token) {
   }
 }
 
+/*
+ * Check if symbol is space or new line
+ */
+function isEmptySpace(symbol) {
+  return Boolean(symbol.match(/^\s$/))
+}
+
+/*
+ * Add space before or after string,
+ * if there is no space or new line.
+ */
+export function ensureSpace(where, str = ' ') {
+  let result = str
+
+  switch (where) {
+    case 'before':
+      if (!isEmptySpace(str[0])) result = ` ${str}`
+      break
+    case 'after':
+      if (!isEmptySpace(str.slice(-1))) result = `${str} `
+      break
+    default:
+  }
+
+  return result
+}
+
 /**
  * Parse all md links and convert them to array of data.
  */
@@ -150,7 +177,7 @@ export function getTokenUnderCaret(string, caretPostion) {
     while (!tailFound) {
       const nextSymbol = string[nextSymbolIndex]
 
-      if ((nextSymbol && nextSymbol.match(/\s/)) || // match whitespace and line break too
+      if ((nextSymbol && isEmptySpace(nextSymbol)) ||
           nextSymbolIndex < 0 ||
           nextSymbolIndex === string.length) {
         position.push(previousSymbolIndex)

@@ -6,6 +6,7 @@ import {
   getTextAndObjects,
   getObjectsPositions,
   parseAndReplace,
+  ensureSpace,
   isFocused
 } from './utils'
 
@@ -25,6 +26,7 @@ export default class HighlightedTextarea extends Component {
     onSubmit: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
+    browser: PropTypes.string,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string
@@ -113,12 +115,11 @@ export default class HighlightedTextarea extends Component {
       case 'del':
         this.onDelete(e, key)
         break
+      case 'enter':
+        this.submit(e)
+        break
       default:
     }
-  }
-
-  onKeyPress(e) {
-    this.submit(e.nativeEvent)
   }
 
   // TODO: possibly improve speed with fake caret in highlighter
@@ -207,9 +208,21 @@ export default class HighlightedTextarea extends Component {
       .join('')
   }
 
-  addContent(str) {
-    this.refs.textarea.value += str
-    this.onChange({target: this.refs.textarea})
+  addQueryString(str) {
+    const {textarea} = this.refs
+    const {value, selectionEnd} = textarea
+
+    let textBefore = value.substring(0, selectionEnd)
+    let textAfter = value.substring(selectionEnd)
+
+    if (textBefore) textBefore = ensureSpace('after', textBefore) + str
+    if (textAfter) textAfter = ensureSpace('before', textAfter)
+
+    textarea.value = textBefore + textAfter
+    textarea.selectionStart = textBefore.length
+    textarea.selectionEnd = textBefore.length
+
+    this.onChange({target: textarea})
   }
 
   /**
@@ -222,9 +235,10 @@ export default class HighlightedTextarea extends Component {
     let {text} = this.state
     const token = getTokenUnderCaret(textarea.value, selectionEnd)
     const textBefore = text.slice(0, token.position[0])
-    const textAfter = text.slice(token.position[1], text.length)
+    let textAfter = text.slice(token.position[1], text.length)
+    textAfter = ensureSpace('before', textAfter)
 
-    text = `${textBefore}${replacement.content}${textAfter} `
+    text = textBefore + replacement.content + textAfter
     const objects = {
       ...this.state.objects,
       [replacement.content]: replacement
@@ -240,15 +254,35 @@ export default class HighlightedTextarea extends Component {
     })
   }
 
+  insertLineBreak() {
+    const {textarea} = this.refs
+    const {selectionStart} = textarea
+    textarea.value =
+      textarea.value.substring(0, selectionStart) + '\n' +
+      textarea.value.substring(selectionStart)
+
+    textarea.selectionEnd = selectionStart + 1
+
+    this.onChange({target: textarea})
+  }
+
   /**
    * Trigger submit event when user hits enter.
    * Do nothing when alt, ctrl, shift or cmd used.
    */
   submit(e) {
-    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
-    if (keyname(e.keyCode) !== 'enter') return
+    if (e.altKey || e.ctrlKey) {
+      e.preventDefault()
+      return this.insertLineBreak()
+    }
 
-    if (!this.state.text.trim()) return
+    if (
+      e.metaKey ||
+      e.shiftKey ||
+      !this.state.text.trim() ||
+      this.props.browser
+    ) return false
+
     e.preventDefault()
 
     const content = this.getTextWithMarkdown()
@@ -337,7 +371,6 @@ export default class HighlightedTextarea extends Component {
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
-            onKeyPress={::this.onKeyPress}
             onChange={::this.onChange}
             value={this.state.text}
             autoFocus></textarea>
