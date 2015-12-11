@@ -15,9 +15,9 @@ describe('grape-input:', () => {
 
   describe('GrapeInput() with search', () => {
     it('should open search browser', () => {
-      let input = <GrapeInput browser="search" data={data0} focused={true} />
+      const input = <GrapeInput browser="search" data={data0} focused={true} />
       render(input)
-      let completeWrapper = $('grape-input complete-wrapper')
+      const completeWrapper = $('grape-input complete-wrapper')
       expect(completeWrapper).to.be.an(Element)
       expect(completeWrapper.children.length).to.be(1)
     })

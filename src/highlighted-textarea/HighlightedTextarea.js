@@ -215,8 +215,9 @@ export default class HighlightedTextarea extends Component {
     let textBefore = value.substring(0, selectionEnd)
     let textAfter = value.substring(selectionEnd)
 
-    if (textBefore) textBefore = ensureSpace('after', textBefore) + str
+    if (textBefore) textBefore = ensureSpace('after', textBefore)
     if (textAfter) textAfter = ensureSpace('before', textAfter)
+    textBefore += str
 
     textarea.value = textBefore + textAfter
     textarea.selectionStart = textBefore.length

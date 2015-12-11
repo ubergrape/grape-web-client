@@ -71,15 +71,15 @@ function isEmptySpace(symbol) {
  * Add space before or after string,
  * if there is no space or new line.
  */
-export function ensureSpace(where, str = ' ') {
-  let result = str
+export function ensureSpace(where, str) {
+  let result = str || ' '
 
   switch (where) {
     case 'before':
-      if (!isEmptySpace(str[0])) result = ` ${str}`
+      if (!isEmptySpace(result[0])) result = ` ${result}`
       break
     case 'after':
-      if (!isEmptySpace(str.slice(-1))) result = `${str} `
+      if (!isEmptySpace(result.slice(-1))) result = `${result} `
       break
     default:
   }
