@@ -15,7 +15,7 @@ describe('grape-input:', () => {
 
   describe('GrapeInput() with search', () => {
     it('should open search browser', () => {
-      const input = <GrapeInput browser="search" data={data0} focused={true} />
+      const input = <GrapeInput browser="search" data={data0} focused />
       render(input)
       const completeWrapper = $('grape-input complete-wrapper')
       expect(completeWrapper).to.be.an(Element)
@@ -26,13 +26,13 @@ describe('grape-input:', () => {
   describe('GrapeInput() auto close', () => {
     function create(onDidMount, onRender) {
         // Results removed.
-      let data = {...data0, results: []}
-      let input = (
+      const data = {...data0, results: []}
+      const input = (
         <GrapeInput
           browser="search"
           data={data}
-          focused={true}
-          onDidMount={onDidMount} />
+          onDidMount={onDidMount}
+          focused/>
       )
       render(input, onRender)
     }
@@ -48,7 +48,7 @@ describe('grape-input:', () => {
       create(component => {
         component.query.set('search', 'something ', {silent: true})
         create(null, () => {
-          let completeWrapper = $('grape-input complete-wrapper')
+          const completeWrapper = $('grape-input complete-wrapper')
           expect(completeWrapper.children.length).to.be(0)
           done()
         })
@@ -59,7 +59,7 @@ describe('grape-input:', () => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
         create(null, () => {
-          let completeWrapper = $('grape-input complete-wrapper')
+          const completeWrapper = $('grape-input complete-wrapper')
           expect(completeWrapper.children.length).to.be(1)
           done()
         })
@@ -68,7 +68,7 @@ describe('grape-input:', () => {
 
     it('should stay closed when user continued typing after space', (done) => {
       create(component => {
-        let completeWrapper = $('grape-input complete-wrapper')
+        const completeWrapper = $('grape-input complete-wrapper')
         component.query.set('search', 'something else', {silent: true})
         create(null, () => {
           component.query.set('search', 'something else ', {silent: true})
@@ -83,15 +83,15 @@ describe('grape-input:', () => {
 
   describe('GrapeInput() insert object', () => {
     function insert(onInsertItem, onDidMount) {
-      let data = {...data0}
+      const data = {...data0}
       data.search.queries = []
-      let input = (
+      const input = (
         <GrapeInput
           browser="search"
           data={data}
-          focused={true}
           onInsertItem={onInsertItem}
-          onDidMount={onDidMount} />
+          onDidMount={onDidMount}
+          focused/>
       )
       render(input)
       Simulate.keyDown($('grape-input browser input'), {keyCode: 13})
