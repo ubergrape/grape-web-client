@@ -103,7 +103,11 @@ export function addAttachments(message) {
   const sharedFiles = sharedFilesSelector(state)
   const prevItems = sharedFiles.items
   const nextItems = message.attachments.map(attachment => {
-    const file = {...attachment, author: message.author}
+    const file = {
+      ...attachment,
+      author: message.author,
+      messageId: message.id
+    }
     return formatFile(file, channel, users)
   })
   return {
