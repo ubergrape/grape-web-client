@@ -30,6 +30,16 @@ export default class UserProfile extends Component {
   render() {
     if (!this.props.show) return null
     const {classes} = this.props.sheet
+    const {
+      avatar,
+      username,
+      displayName,
+      slug,
+      whatIDo,
+      email,
+      skypeUsername,
+      phoneNumber
+    } = this.props
     return (
       <SidebarPanel
         title="User Profile"
@@ -38,28 +48,28 @@ export default class UserProfile extends Component {
           <div className={classes.leftColumn}>
             <img
               className={classes.avatar}
-              src={this.props.avatar}
-              alt={this.props.username} />
+              src={avatar}
+              alt={username} />
           </div>
           <div className={classes.rightColumn}>
             <div className={classes.fullName}>
-              {this.props.displayName}
+              {displayName}
             </div>
             <div className={classes.username}>
-              {this.props.slug}
+              {slug}
             </div>
-            {this.props.whatIDo && <div className={classes.about}>
+            {whatIDo && <div className={classes.about}>
               <p>What I do:</p>
-              <p>{this.props.whatIDo}</p>
+              <p>{whatIDo}</p>
             </div>}
-            <a href={`mailto:${this.props.email}`} className={classes.email}>
-              {this.props.email}
+            <a href={`mailto:${email}`} className={classes.email}>
+              {email}
             </a>
-            {this.props.skypeUsername && <a href={`skype:${this.props.skypeUsername}`} className={classes.skype}>
-              {this.props.skypeUsername}
+            {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
+              {skypeUsername}
             </a>}
-            {this.props.phoneNumber && <a href={`tel:${this.props.phoneNumber}`} className={classes.phone}>
-              {this.props.phoneNumber}
+            {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
+              {phoneNumber}
             </a>}
           </div>
         </div>

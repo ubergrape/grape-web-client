@@ -236,19 +236,26 @@ UI.prototype.bind = function UI_bind() {
   }
 }
 
+const rightSidebarComponents = [
+  'user-profile',
+  'channel-info',
+  'shared-files',
+  'mentions',
+  'message-search'
+]
+
 /**
  * Render all right sidebar components.
  */
 UI.prototype.renderSidebar = function() {
   if (this.rightSidebar) return
-  this.rightSidebar = document.createElement('div')
-  this.rightSidebar.className = 'right-sidebar'
-  this.rightSidebar.appendChild(document.createElement('grape-user-profile'))
-  this.rightSidebar.appendChild(document.createElement('grape-channel-info'))
-  this.rightSidebar.appendChild(document.createElement('grape-shared-files'))
-  this.rightSidebar.appendChild(document.createElement('grape-mentions'))
-  this.rightSidebar.appendChild(document.createElement('grape-message-search'))
-  this.clientBody.appendChild(this.rightSidebar)
+  const el = document.createElement('div')
+  el.className = 'right-sidebar'
+  this.clientBody.appendChild(el)
+  rightSidebarComponents.forEach(name => {
+    el.appendChild(document.createElement(`grape-${name}`))
+  })
+  this.rightSidebar = el
 }
 
 UI.prototype.setOrganization = function UI_setOrganization(org) {

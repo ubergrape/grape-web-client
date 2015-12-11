@@ -22,8 +22,8 @@ export default class SharedFiles extends Component {
   componentWillReceiveProps(nextProps) {
     // It was hidden, we show it now.
     const show = nextProps.show && !this.props.show
-    const reset = nextProps.show && !nextProps.items.length && nextProps.total == null
-      && this.props.total != null
+    const reset = nextProps.show && !nextProps.items.length &&
+      nextProps.total == null && this.props.total != null
     if (show || reset) this.load(nextProps)
   }
 
