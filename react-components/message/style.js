@@ -4,6 +4,8 @@ import colors from 'grape-theme/dist/base-colors'
 const avatarWidth = 32
 const leftColumnMarginRight = 5
 const arrowWidth = 7
+const shadowTransition = 'box-shadow 0.3s ease-out'
+const shadowColor = 'rgba(0,0,0,0.3)'
 
 export default {
   message: {
@@ -18,7 +20,24 @@ export default {
   },
   rightColumn: {
     flex: 1,
-    marginLeft: arrowWidth
+    position: 'relative',
+    marginLeft: arrowWidth,
+    '&:before': {
+      display: 'block',
+      width: arrowWidth,
+      height: arrowWidth,
+      content: '""',
+      position: 'absolute',
+      top: 14,
+      left: 0,
+      transform: 'rotate(45deg) translateX(-50%)',
+      transition: shadowTransition,
+      background: colors.white,
+      zIndex: 1
+    },
+    '&:hover:before': {
+      boxShadow: `-3px 4px 8px ${shadowColor}`
+    }
   },
   avatar: {
     width: avatarWidth,
@@ -52,21 +71,9 @@ export default {
     borderRadius: 16,
     padding: '5px 13px',
     overflow: 'hidden',
-    transition: 'box-shadow 0.3s ease-out',
+    transition: shadowTransition,
     '&:hover': {
-      boxShadow: '0px 1px 8px rgba(0,0,0,0.3)'
-    },
-    '&:after': {
-      display: 'block',
-      width: 0,
-      content: '""',
-      position: 'absolute',
-      top: 6,
-      left: -4,
-      bottom: 'auto',
-      borderWidth: `${arrowWidth}px ${arrowWidth}px ${arrowWidth}px 0`,
-      borderStyle: 'solid',
-      borderColor: 'transparent white'
+      boxShadow: `0px 1px 8px ${shadowColor}`
     }
   }
 }
