@@ -26,7 +26,7 @@ export default class HighlightedTextarea extends Component {
     onSubmit: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
-    browser: PropTypes.string,
+    preventSubmit: PropTypes.boolean,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string
@@ -208,7 +208,7 @@ export default class HighlightedTextarea extends Component {
       .join('')
   }
 
-  addQueryString(str) {
+  insertQueryString(str) {
     const {textarea} = this.refs
     const {value, selectionEnd} = textarea
 
@@ -281,7 +281,7 @@ export default class HighlightedTextarea extends Component {
       e.metaKey ||
       e.shiftKey ||
       !this.state.text.trim() ||
-      this.props.browser
+      this.props.preventSubmit
     ) return false
 
     e.preventDefault()

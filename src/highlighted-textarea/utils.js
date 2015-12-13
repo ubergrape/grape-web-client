@@ -9,6 +9,9 @@ import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
 // everything except of links.
 const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
+// white space or new line
+const emptySpaceReEexp = /^\s$/
+
 function tokenWithoutTrigger(token, type) {
   return token[0] === getTrigger(type) ? token.substr(1) : token
 }
@@ -61,13 +64,6 @@ function getEmojiConfig(token) {
 }
 
 /*
- * Check if symbol is space or new line
- */
-function isEmptySpace(symbol) {
-  return Boolean(symbol.match(/^\s$/))
-}
-
-/*
  * Add space before or after string,
  * if there is no space or new line.
  */
@@ -76,10 +72,10 @@ export function ensureSpace(where, str) {
 
   switch (where) {
     case 'before':
-      if (!isEmptySpace(result[0])) result = ` ${result}`
+      if (!emptySpaceReEexp.test(result[0])) result = ` ${result}`
       break
     case 'after':
-      if (!isEmptySpace(result.slice(-1))) result = `${result} `
+      if (!emptySpaceReEexp.test(result.slice(-1))) result = `${result} `
       break
     default:
   }
@@ -177,7 +173,7 @@ export function getTokenUnderCaret(string, caretPostion) {
     while (!tailFound) {
       const nextSymbol = string[nextSymbolIndex]
 
-      if ((nextSymbol && isEmptySpace(nextSymbol)) ||
+      if ((nextSymbol && emptySpaceReEexp.test(nextSymbol)) ||
           nextSymbolIndex < 0 ||
           nextSymbolIndex === string.length) {
         position.push(previousSymbolIndex)

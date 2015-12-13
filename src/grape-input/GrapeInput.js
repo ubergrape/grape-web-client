@@ -185,7 +185,7 @@ export default class Input extends Component {
   }
 
   onChangeQuery(newQueryStr) {
-    this.textarea.addQueryString(newQueryStr)
+    this.textarea.insertQueryString(newQueryStr)
   }
 
   onInputSearchBrowser(data) {
@@ -391,7 +391,7 @@ export default class Input extends Component {
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
             onDidMount={this.onDidMount.bind(this, 'textarea')}
-            browser={this.state.browser}
+            preventSubmit={Boolean(this.state.browser)}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
