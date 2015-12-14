@@ -1,12 +1,12 @@
 import React, {PropTypes, Component} from 'react'
-import * as emoji from '../emoji'
 import {
   getTokenUnderCaret,
   getQuery,
   getTextAndObjects,
   getObjectsPositions,
+  clearIfLarge,
+  updateIfNewEmoji,
   parseAndReplace,
-  parseEmoji,
   ensureSpace,
   isFocused
 } from './utils'
@@ -84,19 +84,7 @@ export default class HighlightedTextarea extends Component {
 
   onChange(e) {
     const {value, selectionEnd} = e.target
-    let {objects} = this.state
-    let newEmoji = parseEmoji(value).filter(emojiConfig => {
-      const {shortname} = emojiConfig
-      return emoji.get(shortname) && !objects[shortname]
-    })
-
-    if (newEmoji.length) {
-      newEmoji = newEmoji.reduce((prev, emojiConfig) => {
-        prev[emojiConfig.shortname] = create('emoji', emojiConfig)
-        return prev
-      }, {})
-      objects = {...objects, ...newEmoji}
-    }
+    const objects = updateIfNewEmoji(this.state.objects, value)
 
     this.setState({
       objects,
@@ -199,10 +187,8 @@ export default class HighlightedTextarea extends Component {
     if (!this.props.focused) return false
 
     const {configs, text} = parseAndReplace(content)
+    const objects = clearIfLarge(this.state.objects)
 
-    const currentObjects = this.state.objects
-    const needToClearObjects = Object.keys(currentObjects).length > 1000
-    const objects = needToClearObjects ? {} : {...currentObjects}
     configs.forEach(config => {
       const object = create(config.type, config)
       objects[object.content] = object

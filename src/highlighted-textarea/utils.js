@@ -2,6 +2,8 @@ import {getTrigger} from '../objects/utils'
 import parseQuery from '../query/parse'
 import {escapeRegExp} from 'lodash/string'
 import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
+import {get as getEmoji} from '../emoji'
+import {create} from '../objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -12,13 +14,15 @@ const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?
 // white space or new line
 const emptySpaceRegExp = /^\s$/
 
+const maxObjectsAmount = 1000
+
 function tokenWithoutTrigger(token, type) {
   return token[0] === getTrigger(type) ? token.substr(1) : token
 }
 
 function tokenWithTrigger(token, type) {
-  const label = getTrigger(type)
-  return token[0] === label ? token : label + token
+  const trigger = getTrigger(type)
+  return token[0] === trigger ? token : trigger + token
 }
 
 /**
@@ -61,6 +65,15 @@ function getEmojiConfig(token) {
     shortname: token,
     content: token
   }
+}
+
+/*
+ * Returns empty object
+ * if `objects` keys amount is very large
+ */
+export function clearIfLarge(objects) {
+  const needToClear = Object.keys(objects).length > maxObjectsAmount
+  return needToClear ? {} : {...objects}
 }
 
 /*
@@ -110,6 +123,27 @@ export function parseEmoji(content) {
   const emoji = content.match(EMOJI_REGEX)
   if (emoji) data = emoji.map(getEmojiConfig)
   return data
+}
+
+/**
+ * Returns new `objects` if there is new emoji in value
+ */
+export function updateIfNewEmoji(objects, value) {
+  let emoji = parseEmoji(value).filter(config => {
+    const {shortname} = config
+    return getEmoji(shortname) && !objects[shortname]
+  })
+
+  if (emoji.length) {
+    emoji = emoji.reduce((prev, config) => {
+      prev[config.shortname] = create('emoji', config)
+      return prev
+    }, {})
+
+    return {...objects, ...emoji}
+  }
+
+  return objects
 }
 
 /**
