@@ -10,7 +10,7 @@ import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
 const linkRegExp = /\[((?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]\(\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*\)/g
 
 // white space or new line
-const emptySpaceReEexp = /^\s$/
+const emptySpaceRegExp = /^\s$/
 
 function tokenWithoutTrigger(token, type) {
   return token[0] === getTrigger(type) ? token.substr(1) : token
@@ -72,10 +72,10 @@ export function ensureSpace(where, str) {
 
   switch (where) {
     case 'before':
-      if (!emptySpaceReEexp.test(result[0])) result = ` ${result}`
+      if (!emptySpaceRegExp.test(result[0])) result = ` ${result}`
       break
     case 'after':
-      if (!emptySpaceReEexp.test(result.slice(-1))) result = `${result} `
+      if (!emptySpaceRegExp.test(result.slice(-1))) result = `${result} `
       break
     default:
   }
@@ -173,7 +173,7 @@ export function getTokenUnderCaret(string, caretPostion) {
     while (!tailFound) {
       const nextSymbol = string[nextSymbolIndex]
 
-      if ((nextSymbol && emptySpaceReEexp.test(nextSymbol)) ||
+      if ((nextSymbol && emptySpaceRegExp.test(nextSymbol)) ||
           nextSymbolIndex < 0 ||
           nextSymbolIndex === string.length) {
         position.push(previousSymbolIndex)
