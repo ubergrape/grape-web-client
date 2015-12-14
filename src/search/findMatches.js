@@ -4,9 +4,8 @@
  * https://github.com/ubergrape/chatgrape/issues/2412
  */
 export default function findMatches(text, search) {
-  const lowerText = text.toLowerCase()
-  const lowerSearch = search.toLowerCase()
-  const parts = lowerText.split(lowerSearch)
+  const searchRegExp = new RegExp('\\b' + search + '\\b')
+  const parts = text.split(searchRegExp)
   const matches = []
   if (parts.length === 1) return matches
 
