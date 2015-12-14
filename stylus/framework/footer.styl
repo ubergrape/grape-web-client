@@ -18,7 +18,7 @@
     display: flex
     position: relative
     &.disabled
-      .hint-box, .uploader
+      .uploader
         opacity: 0
     .avatar
       padding-left: (horizontal-space / 2)
@@ -104,19 +104,17 @@
 
 
   // hints
-  .edit-message, .hint-box
+  .edit-message
     position: absolute
-    top: 0px
+    top: -20px
     left: 64px
     background: linear-gradient(#FBFBFB, #F7F7F7);
     border: solid 1px #E5E5E5
     border-radius: 3px
     padding: 2px 12px 1px 12px
-    -webkit-transition: opacity 0.2s, -webkit-transform 0.2s
-    transition: opacity 0.2s, transform 0.2s
-    transition-timing-function: ease-out
-    transform: translateY(-20px)
+    transition: opacity 0.2s ease-out, top 0.2s ease-out
     opacity: 1
+    will-change: opacity, top
     span
       border-radius: 3px
       border: 1px solid #CCCCCC
@@ -177,16 +175,14 @@
     .uploader
       transform: scale(0)
       opacity: 0
-    .hint-box
-      opacity: 0
     .avatar
       &::after
         border-left-color: lighten(gold, 80%)
   // Toggle for edit message input
   .grape-input-wrapper .edit-message
     opacity: 0
-    transform: translateY(-20px)
+    top: -20px
   .grape-input-wrapper.editing-previous .edit-message
     opacity: 1
-    transform: translateY(-35px)
+    top: -35px
 
