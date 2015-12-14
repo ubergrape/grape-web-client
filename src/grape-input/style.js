@@ -5,6 +5,10 @@ export default {
     height: '100%',
     lineHeight: 0
   },
+  scroll: {
+    overflow: 'auto',
+    maxHeight: 160
+  },
   browser: {
     position: 'absolute',
     width: '100%',

@@ -18,7 +18,6 @@ import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
 import HighlightedTextarea from '../highlighted-textarea/HighlightedTextarea'
-import MaxSize from '../max-size/MaxSize'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
@@ -382,7 +381,7 @@ export default class Input extends Component {
         <div className={classes.completeWrapper} data-test="complete-wrapper">
           {browser}
         </div>
-        <MaxSize>
+        <div className={classes.scroll}>
           <HighlightedTextarea
             onAbort={::this.onAbort}
             onResize={::this.onInputResize}
@@ -395,7 +394,7 @@ export default class Input extends Component {
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
             content={this.getTextContent()}/>
-        </MaxSize>
+        </div>
       </div>
     )
   }
