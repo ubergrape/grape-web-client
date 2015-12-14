@@ -1,11 +1,12 @@
 import React, {PropTypes, Component} from 'react'
-
+import * as emoji from '../emoji'
 import {
   getTokenUnderCaret,
   getQuery,
   getTextAndObjects,
   getObjectsPositions,
   parseAndReplace,
+  parseEmoji,
   ensureSpace,
   isFocused
 } from './utils'
@@ -83,12 +84,28 @@ export default class HighlightedTextarea extends Component {
 
   onChange(e) {
     const {value, selectionEnd} = e.target
-    this.setState({
-      text: value,
-      textWithObjects: getTextAndObjects(this.state.objects, value),
-      caretPos: selectionEnd,
-      objectsPositions: getObjectsPositions(this.state.objects, value)
+    let {objects} = this.state
+    let newEmoji = parseEmoji(value).filter(emojiConfig => {
+      const {shortname} = emojiConfig
+      return emoji.get(shortname) && !objects[shortname]
     })
+
+    if (newEmoji.length) {
+      newEmoji = newEmoji.reduce((prev, emojiConfig) => {
+        prev[emojiConfig.shortname] = create('emoji', emojiConfig)
+        return prev
+      }, {})
+      objects = {...objects, ...newEmoji}
+    }
+
+    this.setState({
+      objects,
+      text: value,
+      textWithObjects: getTextAndObjects(objects, value),
+      caretPos: selectionEnd,
+      objectsPositions: getObjectsPositions(objects, value)
+    })
+
     this.props.onChange(getQuery(value, selectionEnd))
   }
 
