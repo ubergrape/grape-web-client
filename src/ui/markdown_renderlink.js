@@ -6,6 +6,7 @@ let renderautocomplete = require('./renderautocomplete')
 module.exports = function markdown_renderLink(href, title, text, asButton) {
     asButton = asButton || false
   let data = href.slice(5).split('|')
+
   let object = {
     id: "[" + text + '](' + href + ')',
     insert: text,
@@ -13,5 +14,7 @@ module.exports = function markdown_renderLink(href, title, text, asButton) {
     type: data[1],
     url: data[3]
   }
+  if (object.type === 'room') object.roomId = data[2]
+
   return renderautocomplete(object, asButton)
 }
