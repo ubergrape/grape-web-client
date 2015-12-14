@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -11,6 +11,18 @@ import parseQuery from '../query/parse'
 
 @useSheet(style)
 export default class Input extends Component {
+  static propTypes = {
+    onInput: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onChangeFilters: PropTypes.func,
+    onBlur: PropTypes.func,
+    sheet: PropTypes.object.isRequired,
+    type: PropTypes.string,
+    focused: PropTypes.bool,
+    filters: PropTypes.array,
+    search: PropTypes.string
+  }
+
   static defaultProps = {
     onInput: noop,
     onKeyDown: noop,
@@ -33,8 +45,6 @@ export default class Input extends Component {
     this.state = this.createState(props)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
   componentDidMount() {
     if (this.state.focused) this.focus()
   }
@@ -47,9 +57,11 @@ export default class Input extends Component {
     if (nextProps.search !== undefined && nextProps.search !== this.query.get('search')) {
       this.query.set('search', nextProps.search, {silent: true})
     }
-    let nextState = this.createState(nextProps)
+    const nextState = this.createState(nextProps)
     this.setState(nextState)
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.focused && !prevState.focused) {
@@ -57,20 +69,31 @@ export default class Input extends Component {
     }
   }
 
-  render() {
-    let {classes} = this.props.sheet
+  onInput(e) {
+    const queryStr = QUERY_TYPES[this.props.type] + e.target.value
+    const query = parseQuery(queryStr)
+    this.query.set(query)
+  }
 
-    return (
-      <input
-        value={this.state.value}
-        type="text"
-        className={classes.input}
-        ref="input"
-        data-test="input"
-        onChange={::this.onInput}
-        onKeyDown={::this.onKeyDown}
-        onBlur={::this.onBlur} />
-    )
+  onBlur() {
+    this.setState({focused: false})
+    this.props.onBlur()
+  }
+
+  onChangeQuery() {
+    const query = this.query.toJSON()
+    this.setState({value: query.key})
+    this.props.onInput(query)
+  }
+
+  onKeyDown(e) {
+    e.detail = {query: this.query.toJSON()}
+    this.props.onKeyDown(e)
+  }
+
+  onChangeFilters({filters}) {
+    this.query.set('filters', filters, {silent: true})
+    this.props.onChangeFilters(this.state.value)
   }
 
   createState({focused}) {
@@ -84,30 +107,19 @@ export default class Input extends Component {
     return ReactDOM.findDOMNode(this.refs.input).focus()
   }
 
-  onInput(e) {
-    let queryStr = QUERY_TYPES[this.props.type] + e.target.value
-    let query = parseQuery(queryStr)
-    this.query.set(query)
-  }
+  render() {
+    const {classes} = this.props.sheet
 
-  onBlur() {
-    this.setState({focused: false})
-    this.props.onBlur()
-  }
-
-  onChangeQuery() {
-    let query = this.query.toJSON()
-    this.setState({value: query.key})
-    this.props.onInput(query)
-  }
-
-  onKeyDown(e) {
-    e.detail = {query: this.query.toJSON()}
-    this.props.onKeyDown(e)
-  }
-
-  onChangeFilters({filters}) {
-    this.query.set('filters', filters, {silent: true})
-    this.props.onChangeFilters(this.state.value)
+    return (
+      <input
+        value={this.state.value}
+        type="text"
+        className={classes.input}
+        ref="input"
+        data-test="input"
+        onChange={::this.onInput}
+        onKeyDown={::this.onKeyDown}
+        onBlur={::this.onBlur} />
+    )
   }
 }

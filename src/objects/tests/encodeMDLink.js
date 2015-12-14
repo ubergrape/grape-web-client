@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import encodeMDLink from '../encodeMDLink'
+import {encodeMDLink} from '../utils'
 
 describe('objects:', () => {
   describe('encodeMDLink', () => {

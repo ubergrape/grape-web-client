@@ -11,10 +11,4 @@ describe('objects: Emoji', () => {
       expect(object.toString()).to.be('shortname')
     })
   })
-
-  describe('Emoji#toHTML', () => {
-    it('should return shortname', () => {
-      expect(object.toHTML()).to.be('shortname')
-    })
-  })
 })

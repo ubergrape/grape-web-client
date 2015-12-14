@@ -1,12 +1,11 @@
-import {replace} from '../../emoji'
+const tokenType = 'emoji'
 
 export default class Emoji {
   constructor(options) {
+    this.tokenType = tokenType
     this.shortname = options.shortname
-  }
-
-  toHTML() {
-    return replace(this.shortname)
+    this.content = options.shortname
+    this.str = this.toString()
   }
 
   toString() {
