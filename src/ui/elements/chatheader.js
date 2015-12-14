@@ -14,9 +14,8 @@ module.exports = ChatHeader
 
 const menuItems = {
   intercom: {
-    className: 'intercom-trigger',
-    icon: 'fa-question-circle',
-    id: 'Intercom'
+    className: 'intercom-toggler',
+    icon: 'fa-question-circle'
   },
   mentions: {
     className: 'mentions-toggler',
@@ -56,13 +55,16 @@ ChatHeader.prototype.init = function () {
   this.classes = classes(this.el)
   this.searchForm = qs('.search-form', this.el)
   this.searchInput = qs('.search', this.el)
-  let intercomButton = qs(window.intercomSettings.widget.activator + ' a', this.el)
+  let intercomButton = qs(`.${this.menuItems.intercom.className} a`, this.el)
   if (conf.customSupportEmailAddress) {
     intercomButton.href = `mailto:${conf.customSupportEmailAddress}`
-  }
-  else if (window.Intercom) {
+  } else if (window.Intercom) {
     intercomButton.href = `mailto:${window.intercomSettings.app_id}@incoming.intercom.io`
-    window.Intercom('reattach_activator')
+    window.Intercom('hide')
+    window.Intercom('onHide', () => {
+      if (this.menuItems.intercom === this.selected) this.toggleIntercom()
+    })
+    this.on('hideSidebar', () => window.Intercom('hide'))
   }
   this.bindEvents()
 }
@@ -82,6 +84,7 @@ ChatHeader.prototype.bindEvents = function () {
   this.events.bind('click .mentions-toggler', 'toggleMentions')
   this.events.bind('click .file-browser-toggler', 'toggleSharedFiles')
   this.events.bind('click .user-view-toggler', 'toggleUserProfileOrRoomInfo')
+  this.events.bind('click .intercom-toggler', 'toggleIntercom')
 }
 
 ChatHeader.prototype.redraw = function () {
@@ -193,6 +196,16 @@ ChatHeader.prototype.toggleMentions = function () {
   const selected = this.menuItems.mentions === this.selected ? null : this.menuItems.mentions
   if (this.selected) this.emit('hideSidebar')
   if (selected) this.emit('showMentions')
+  this.selected = selected
+  this.redraw()
+}
+
+ChatHeader.prototype.toggleIntercom = function (e) {
+  if (!window.Intercom) return
+  if (e) e.preventDefault()
+  const selected = this.menuItems.intercom === this.selected ? null : this.menuItems.intercom
+  if (this.selected) this.emit('hideSidebar')
+  if (selected) window.Intercom('show')
   this.selected = selected
   this.redraw()
 }

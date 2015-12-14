@@ -225,15 +225,6 @@ UI.prototype.bind = function UI_bind() {
   this.intro.onexit(function () {
     self.emit('introend')
   })
-
-  if (window.Intercom) {
-    window.Intercom('onShow', function () {
-      classes(qs('.client-body', this.el)).add('intercom-show')
-    }.bind(this))
-    window.Intercom('onHide', function () {
-      classes(qs('.client-body', this.el)).remove('intercom-show')
-    }.bind(this))
-  }
 }
 
 const rightSidebarComponents = [
