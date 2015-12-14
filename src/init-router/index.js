@@ -9,8 +9,8 @@ export default function init(ui) {
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)
-  page('/@:creator@:mate', goToPM)
-  page('/@:creator@:mate/:message', goToPM)
+  page('/@:creator/@:mate', goToPM)
+  page('/@:creator/@:mate/:message', goToPM)
   page('/@:mate', redirectWithCreator)
   page('/@:mate/:message', redirectWithCreator)
   page('/:room', goToRoom)
@@ -59,7 +59,7 @@ export default function init(ui) {
     }
 
     page.redirect(
-      `/${firstSlug}${secondSlug}${message ? '/' + message : ''}`
+      `/${firstSlug}/${secondSlug}${message ? '/' + message : ''}`
     )
   }
 
