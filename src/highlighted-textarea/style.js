@@ -25,6 +25,7 @@ export default {
   textarea: {
     position: 'relative',
     zIndex: 1,
+    display: 'block',
     width: '100%',
     height: '100%',
     outline: 'none',

@@ -382,8 +382,7 @@ export default class Input extends Component {
         <div className={classes.completeWrapper} data-test="complete-wrapper">
           {browser}
         </div>
-        <MaxSize
-          onResize={::this.onInputResize}>
+        <MaxSize>
           <HighlightedTextarea
             onAbort={::this.onAbort}
             onResize={::this.onInputResize}

@@ -26,7 +26,7 @@ export default class HighlightedTextarea extends Component {
     onSubmit: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
-    preventSubmit: PropTypes.boolean,
+    preventSubmit: PropTypes.bool,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string
