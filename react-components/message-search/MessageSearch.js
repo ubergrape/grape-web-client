@@ -102,7 +102,7 @@ export default class MessageSearch extends Component {
       // Render date separator.
       if (!prevMessage || !tz(message.time).isSame(prevMessage.time, 'day')) {
         elements.push(
-          <div className={classes.dateSeparator} key={message.time + elements.length}>
+          <div className={classes.dateSeparator} key={message.time + index}>
             <span className={classes.dateBubble} >{tz(message.time).format(dateFormat)}</span>
           </div>
         )
@@ -111,7 +111,7 @@ export default class MessageSearch extends Component {
       // Render channel name.
       if (!prevMessage || prevMessage.channel !== message.channel) {
         elements.push(
-          <div className={classes.channel} key={message.channel + elements.length}>
+          <div className={classes.channel} key={message.channel + index}>
             {message.channel}
           </div>
         )

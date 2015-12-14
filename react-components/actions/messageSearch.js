@@ -22,16 +22,23 @@ export function hideMessageSearch() {
     type: types.HIDE_MESSAGE_SEARCH,
     payload: {
       show: false,
-      items: []
+      items: [],
+      total: null
     }
   }
 }
 
-export function updateMessageSearchQuery(query) {
+export function updateMessageSearchQuery(nextQuery) {
+  const prevQuery = messageSearchSelector(store.getState()).query
+
+  if (nextQuery === prevQuery) return {type: types.NOOP}
+
   return {
     type: types.UPDATE_MESSAGE_SEARCH_QUERY,
     payload: {
-      query
+      query: nextQuery,
+      items: [],
+      total: null
     }
   }
 }
@@ -44,8 +51,8 @@ export function searchMessages(params) {
       return dispatch({
         type: types.FOUND_MESSAGES,
         payload: {
-          total: null,
-          items: []
+          items: [],
+          total: null
         }
       })
     }
@@ -81,9 +88,9 @@ export function searchMessages(params) {
       dispatch({
         type: types.FOUND_MESSAGES,
         payload: {
+          items: [...prevItems, ...nextItems],
           // Only a query without offset delivers overall total amount.
-          total: params.offsetDate ? messageSearch.total : res.total,
-          items: [...prevItems, ...nextItems]
+          total: params.offsetDate ? messageSearch.total : res.total
         }
       })
     })

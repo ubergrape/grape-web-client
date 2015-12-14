@@ -15,6 +15,7 @@ export default function reducers(state = initialState, action) {
     case types.SHOW_MESSAGE_SEARCH:
     case types.HIDE_MESSAGE_SEARCH:
     case types.SET_SIDEBAR_IS_LOADING:
+    case types.SEARCH_MESSAGES:
     case types.FOUND_MESSAGES:
     case types.UPDATE_MESSAGE_SEARCH_QUERY:
       return {...state, ...action.payload}
