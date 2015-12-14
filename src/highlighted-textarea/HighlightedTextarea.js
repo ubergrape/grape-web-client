@@ -183,7 +183,9 @@ export default class HighlightedTextarea extends Component {
 
     const {configs, text} = parseAndReplace(content)
 
-    const objects = {}
+    const currentObjects = this.state.objects
+    const needToClearObjects = Object.keys(currentObjects).length > 1000
+    const objects = needToClearObjects ? {} : {...currentObjects}
     configs.forEach(config => {
       const object = create(config.type, config)
       objects[object.content] = object
