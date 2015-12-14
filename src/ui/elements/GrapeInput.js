@@ -225,7 +225,7 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  startTyping() {
+  startTyping() {
     this.emit('setTyping', {
       channel: this.room,
       typing: true
