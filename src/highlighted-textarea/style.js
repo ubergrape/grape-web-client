@@ -1,5 +1,4 @@
 import colors from 'grape-theme/dist/base-colors'
-import fonts from 'grape-theme/dist/fonts'
 
 const iconsWidth = 65
 
