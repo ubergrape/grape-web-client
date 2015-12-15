@@ -6,8 +6,7 @@ const iconsWidth = 65
 export default {
   wrapper: {
     ...fonts.normal,
-    fontFamily: 'Arial, Helvetica, sans-serif',
-    lineHeight: '22px',
+    lineHeight: '24px',
     position: 'relative',
     width: '100%',
     height: '100%',

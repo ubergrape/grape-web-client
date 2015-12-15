@@ -1,6 +1,6 @@
 export default {
   input: {
-    display: 'inline-block',
+    display: 'block',
     width: '100%',
     height: '100%',
     lineHeight: 0

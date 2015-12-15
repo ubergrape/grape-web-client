@@ -1,17 +1,18 @@
 import React, {PropTypes, Component} from 'react'
-
 import {
   getTokenUnderCaret,
   getQuery,
   getTextAndObjects,
   getObjectsPositions,
+  clearIfLarge,
+  updateIfNewEmoji,
   parseAndReplace,
   ensureSpace,
   isFocused
 } from './utils'
 
 import keyname from 'keyname'
-import {create} from '../objects'
+import {create as createObject} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
@@ -83,12 +84,16 @@ export default class HighlightedTextarea extends Component {
 
   onChange(e) {
     const {value, selectionEnd} = e.target
+    const objects = updateIfNewEmoji(this.state.objects, value)
+
     this.setState({
+      objects,
       text: value,
-      textWithObjects: getTextAndObjects(this.state.objects, value),
+      textWithObjects: getTextAndObjects(objects, value),
       caretPos: selectionEnd,
-      objectsPositions: getObjectsPositions(this.state.objects, value)
+      objectsPositions: getObjectsPositions(objects, value)
     })
+
     this.props.onChange(getQuery(value, selectionEnd))
   }
 
@@ -182,10 +187,10 @@ export default class HighlightedTextarea extends Component {
     if (!this.props.focused) return false
 
     const {configs, text} = parseAndReplace(content)
+    const objects = clearIfLarge(this.state.objects)
 
-    const objects = {}
     configs.forEach(config => {
-      const object = create(config.type, config)
+      const object = createObject(config.type, config)
       objects[object.content] = object
     })
 
