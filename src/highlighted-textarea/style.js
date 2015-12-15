@@ -1,10 +1,11 @@
 import colors from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
 const iconsWidth = 65
 
 export default {
   wrapper: {
-    fontSize: '14.3px',
+    ...fonts.normal,
     lineHeight: '24px',
     position: 'relative',
     width: '100%',
