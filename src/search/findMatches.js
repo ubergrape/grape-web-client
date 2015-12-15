@@ -4,7 +4,7 @@
  * https://github.com/ubergrape/chatgrape/issues/2412
  */
 export default function findMatches(text, search) {
-  const searchRegExp = new RegExp('\\b' + search + '\\b')
+  const searchRegExp = new RegExp('\\b' + search + '\\b', 'gi')
   const parts = text.split(searchRegExp)
   const matches = []
   if (parts.length === 1) return matches
