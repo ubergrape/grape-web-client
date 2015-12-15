@@ -9,8 +9,8 @@ export default function init(ui) {
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)
-  page('/@:creator@:mate', goToPM)
-  page('/@:creator@:mate/:message', goToPM)
+  page('/@:creator/@:mate', goToPM)
+  page('/@:creator/@:mate/:message', goToPM)
   page('/@:mate', redirectWithCreator)
   page('/@:mate/:message', redirectWithCreator)
   page('/:room', goToRoom)
@@ -46,17 +46,35 @@ export default function init(ui) {
    */
   function redirectWithCreator(ctx) {
     const {mate, message} = ctx.params
-    const user = findPM(mate)
+    const mateUser = findPM(mate)
+    let firstSlug
+    let secondSlug
+
+    if (mateUser.pm) {
+      firstSlug = mateUser.pm.creator.slug
+      secondSlug = currUser.slug === firstSlug ? mateUser.slug : currUser.slug
+    } else {
+      firstSlug = mateUser.slug
+      secondSlug = currUser.slug
+    }
+
     page.redirect(
-      `/${user.pm.creator.slug}${user.slug}${message ? '/' + message : ''}`
+      `/${firstSlug}/${secondSlug}${message ? '/' + message : ''}`
     )
   }
 
   function goToPM(ctx) {
-    const {mate} = ctx.params
-    const message = ctx.params.message || null
-    const user = findPM(mate)
+    const {creator, mate} = ctx.params
+    const creatorSlug = `@${creator}`
+    const mateSlug = `@${mate}`
 
+    // Not allowed discussion for currUser
+    if (creatorSlug !== currUser.slug && mateSlug !== currUser.slug) {
+      return notFound()
+    }
+
+    const message = ctx.params.message || null
+    let user = findPM(creatorSlug === currUser.slug ? mate : creator)
     if (user) {
       if (user === currUser) {
         return ui.onInvalidUrl('message to self')
@@ -67,8 +85,7 @@ export default function init(ui) {
       ui.emit('openpm', user, () => {
         ui.emit('selectchannel', user.pm, message)
       })
-    }
-    else {
+    } else {
       notFound()
     }
   }
