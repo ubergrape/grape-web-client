@@ -1,16 +1,16 @@
 var base = 13
 
-function calc(fontSize, lineHeight) {
+function get(fontSize, lineHeight) {
   return {
-    fontSize: base * fontSize,
-    lineHeight: base * lineHeight + 'px'
+    fontSize: fontSize,
+    lineHeight: lineHeight + 'px'
   }
 }
 
 export default {
-  small: calc(.75, .875),
-  big: calc(1.25, 1.5),
-  bigger: calc(1.6, 1.8),
-  biggest: calc(2, 2.2),
-  normal: calc(1, 1.5)
+  small: get(10, 11.5),
+  normal: get(14, 20),
+  big: get(16, 20),
+  bigger: get(21, 23),
+  biggest: get(26, 29)
 }
