@@ -211,6 +211,7 @@ ChatHeader.prototype.toggleIntercom = function (e) {
 }
 
 ChatHeader.prototype.showSearch = function () {
+  if (this.selected === 'search') return
   this.emit('hideSidebar')
   this.emit('showMessageSearch')
   this.selected = 'search'
