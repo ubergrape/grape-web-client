@@ -1,22 +1,22 @@
 {
   "small": {
-    "fontSize": 10,
-    "lineHeight": "11.5px"
+    "fontSize": 13,
+    "lineHeight": 1.5
   },
   "normal": {
-    "fontSize": 14,
-    "lineHeight": "20px"
+    "fontSize": 15,
+    "lineHeight": 1.5
   },
   "big": {
-    "fontSize": 16,
-    "lineHeight": "20px"
+    "fontSize": 17,
+    "lineHeight": 1.5
   },
   "bigger": {
-    "fontSize": 21,
-    "lineHeight": "23px"
+    "fontSize": 19,
+    "lineHeight": 1.5
   },
   "biggest": {
-    "fontSize": 26,
-    "lineHeight": "29px"
+    "fontSize": 21,
+    "lineHeight": 1.5
   }
 }
