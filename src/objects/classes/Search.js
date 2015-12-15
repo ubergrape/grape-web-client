@@ -11,8 +11,11 @@ export default class Search {
     this.service = result.service
     this.url = result.url
     this.type = result.type
-    this.name = trigger + result.name
-    this.content = this.name
+    this.name = result.name
+
+    const {name} = this
+    this.content = name[0] === '#' ? name : trigger + name
+
     this.str = this.toString()
   }
 
