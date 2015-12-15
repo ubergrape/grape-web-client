@@ -48,7 +48,7 @@ export default function(data, ...args) {
   }
   const cData = toSnake(data)
   log('req', cData)
-  rpc(data, (err, res) => {
+  rpc(cData, (err, res) => {
     if (!callback) return
     callback(err, options.camelize && res ? toCamel(res) : res)
   })
