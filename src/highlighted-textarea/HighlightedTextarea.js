@@ -12,7 +12,7 @@ import {
 } from './utils'
 
 import keyname from 'keyname'
-import {create} from '../objects'
+import {create as createObject} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
@@ -190,7 +190,7 @@ export default class HighlightedTextarea extends Component {
     const objects = clearIfLarge(this.state.objects)
 
     configs.forEach(config => {
-      const object = create(config.type, config)
+      const object = createObject(config.type, config)
       objects[object.content] = object
     })
 

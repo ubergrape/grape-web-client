@@ -3,7 +3,7 @@ import parseQuery from '../query/parse'
 import {escapeRegExp} from 'lodash/string'
 import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
 import {get as getEmoji} from '../emoji'
-import {create} from '../objects'
+import {create as createObject} from '../objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -72,6 +72,7 @@ function getEmojiConfig(token) {
  * if `objects` keys amount is very large
  */
 export function clearIfLarge(objects) {
+  // TODO: move to lru like https://github.com/avoidwork/tiny-lru
   const needToClear = Object.keys(objects).length > maxObjectsAmount
   return needToClear ? {} : {...objects}
 }
@@ -129,14 +130,13 @@ export function parseEmoji(content) {
  * Returns new `objects` if there is new emoji in value
  */
 export function updateIfNewEmoji(objects, value) {
-  let emoji = parseEmoji(value).filter(config => {
-    const {shortname} = config
+  let emoji = parseEmoji(value).filter(({shortname}) => {
     return getEmoji(shortname) && !objects[shortname]
   })
 
   if (emoji.length) {
     emoji = emoji.reduce((prev, config) => {
-      prev[config.shortname] = create('emoji', config)
+      prev[config.shortname] = createObject('emoji', config)
       return prev
     }, {})
 
