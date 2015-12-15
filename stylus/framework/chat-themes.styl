@@ -16,6 +16,7 @@ body.client-style-compact
 	.right-sidebar
 		height: calc(100% - 43px)
 
+
 	.message-group
 		margin: 0 !important
 		padding: 5px 0 5px 160px !important
@@ -46,6 +47,9 @@ body.client-style-compact
 			position: inherit !important
 			display: block
 			@extend $clearfix
+			&.first:after
+			&.activity:after
+				display: none
 			&.requested
 				background-color: rgba(201, 255, 174, 0.53) !important
 		.outertime
