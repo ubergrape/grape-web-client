@@ -11,6 +11,7 @@ const button = {
   ...fonts.normal,
   display: 'block',
   marginBottom: marginBottom / 2,
+  // XXX
   '&:hover': {
     color: '#4098f2 !important',
     textDecoration: 'underline !important'
@@ -19,10 +20,12 @@ const button = {
 
 export default {
   channelInfo: {
+    // XXX
     color: '#707782'
   },
   header: {
     marginBottom,
+    // XXX
     borderBottom: '1px solid #D3D5DA'
   },
   stats: {
@@ -48,8 +51,8 @@ export default {
   },
   buttonLeave: {
     ...button,
-    color: '#707782',
     // XXX
+    color: '#707782',
     ...buttonIcon('exit', {color: '#707782', hoverColor: '#4098f2'})
   },
   buttonKick: {
@@ -78,9 +81,10 @@ export default {
     ...fonts.normal,
     flex: 1,
     alignSelf: 'center',
+    // XXX
     color: '#707782',
     '&:hover': {
-      color: '#4098f2 !important',
+      color: '#4098f2 !important'
     }
   }
 }

@@ -1,6 +1,4 @@
 import sortBy from 'lodash/collection/sortBy'
-import pluck from 'lodash/collection/pluck'
-import compact from 'lodash/array/compact'
 
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
@@ -9,8 +7,7 @@ import rpc from '../backend/rpc'
 import {
   userSelector,
   orgSelector,
-  mentionsSelector,
-  channelsSelector
+  mentionsSelector
 } from '../selectors'
 import {setSidebarIsLoading} from './common'
 import {formatSidebarMessage} from './utils'
@@ -18,14 +15,12 @@ import {formatSidebarMessage} from './utils'
 export function showMentions() {
   const state = store.getState()
   const user = userSelector(state)
-  const channels = channelsSelector(state)
-  const channelsNames = compact(pluck(channels, 'name'))
   reduxEmitter.showSidebar()
   return {
     type: types.SHOW_MENTIONS,
     payload: {
       show: true,
-      query: [user.displayName, ...channelsNames]
+      query: user.displayName
     }
   }
 }
