@@ -73,14 +73,8 @@ export default class MessageSearch extends Component {
 
     const messages = items.map(item => {
       let {content} = item
-      let matches
-      if (Array.isArray(query)) {
-        matches = query.reduce((_matches, _query) => {
-          return _matches.concat(findMatches(content, _query))
-        }, [])
-      } else {
-        matches = findMatches(content, query)
-      }
+      let matches = findMatches(content, query)
+
 
       if (matches.length) {
         content = matches.map((match, key) => {

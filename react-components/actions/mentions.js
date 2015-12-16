@@ -52,7 +52,7 @@ export function loadMentions(params) {
       action: 'get_mentions',
       args: [
         org.id,
-        params.only,
+        'user',
         params.limit,
         params.offsetDate
       ]

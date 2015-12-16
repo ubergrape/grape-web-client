@@ -7,6 +7,7 @@ const initialState = {
   show: false,
   isLoading: false,
   items: [],
+  query: [],
   images
 }
 

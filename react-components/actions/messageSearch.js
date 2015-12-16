@@ -29,14 +29,14 @@ export function hideMessageSearch() {
 }
 
 export function updateMessageSearchQuery(nextQuery) {
-  const prevQuery = messageSearchSelector(store.getState()).query
+  const prevQuery = messageSearchSelector(store.getState()).query.join(' ')
 
   if (nextQuery === prevQuery) return {type: types.NOOP}
 
   return {
     type: types.UPDATE_MESSAGE_SEARCH_QUERY,
     payload: {
-      query: nextQuery,
+      query: nextQuery.split(' '),
       items: [],
       total: null
     }
@@ -47,7 +47,9 @@ const minQueryLength = 2
 
 export function searchMessages(params) {
   return dispatch => {
-    if (params.query.length < minQueryLength) {
+    const query = params.query.join(' ')
+
+    if (query.length < minQueryLength) {
       return dispatch({
         type: types.FOUND_MESSAGES,
         payload: {
@@ -56,15 +58,18 @@ export function searchMessages(params) {
         }
       })
     }
+
     dispatch({type: types.SEARCH_MESSAGES})
     dispatch(setSidebarIsLoading(true))
+
     const state = store.getState()
     const org = orgSelector(state)
+
     rpc({
       ns: 'search',
       action: 'search',
       args: [
-        params.query,
+        query,
         org.id,
         'messages',
         params.limit,
