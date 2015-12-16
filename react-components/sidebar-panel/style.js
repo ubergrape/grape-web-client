@@ -25,7 +25,7 @@ export default {
     alignSelf: 'center',
     // XXX
     color: '#666',
-    padding
+    padding: '14px 20px'
   },
   body: {
     padding,

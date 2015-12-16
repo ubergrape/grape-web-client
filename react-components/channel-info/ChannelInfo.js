@@ -111,7 +111,7 @@ export default class ChannelInfo extends Component {
               {getStats(channel)}
             </div>
             {channel.description && <div className={classes.description}>
-              <h2>Purpose</h2>
+              <h2>Room topic</h2>
               <p className={classes.descriptionText}>{channel.description}</p>
             </div>}
             <div className={classes.actions}>

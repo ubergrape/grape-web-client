@@ -8,9 +8,13 @@ const marginBottom = 20
 
 const button = {
   ...linkButton,
-  ...fonts.big,
+  ...fonts.normal,
   display: 'block',
-  marginBottom: marginBottom / 2
+  marginBottom: marginBottom / 2,
+  '&:hover': {
+    color: '#4098f2 !important',
+    textDecoration: 'underline !important'
+  }
 }
 
 export default {
@@ -22,14 +26,14 @@ export default {
     borderBottom: '1px solid #D3D5DA'
   },
   stats: {
-    ...fonts.big,
+    ...fonts.normal,
     marginBottom
   },
   description: {
     marginBottom
   },
   descriptionText: {
-    ...fonts.big
+    ...fonts.normal
   },
   actions: {
     marginBottom,
@@ -40,16 +44,17 @@ export default {
   buttonInvite: {
     ...button,
     // XXX
-    ...buttonIcon('invite', {color: '#aaa', hoverColor: '#318FEF'})
+    ...buttonIcon('invite', {color: '#1e86f0', hoverColor: '#4098f2'})
   },
   buttonLeave: {
     ...button,
+    color: '#707782',
     // XXX
-    ...buttonIcon('exit', {color: '#aaa', hoverColor: '#318FEF'})
+    ...buttonIcon('exit', {color: '#707782', hoverColor: '#4098f2'})
   },
   buttonKick: {
     // XXX
-    ...buttonIcon('close', {color: '#707782', hoverColor: '#318FEF', iconOnly: true}),
+    ...buttonIcon('close', {color: '#707782', hoverColor: '#4098f2', iconOnly: true}),
     flexShrink: 0,
     display: 'none'
   },
@@ -64,15 +69,18 @@ export default {
   avatar: {
     borderRadius: '50%',
     flexShrink: 0,
-    width: 35,
-    height: 35,
+    width: 32,
+    height: 32,
     marginRight: 10
   },
   name: {
     ...utils.ellipsis,
-    ...fonts.big,
+    ...fonts.normal,
     flex: 1,
     alignSelf: 'center',
-    color: '#707782'
+    color: '#707782',
+    '&:hover': {
+      color: '#4098f2 !important',
+    }
   }
 }

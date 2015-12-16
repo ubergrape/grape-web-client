@@ -13,13 +13,15 @@ export default {
   sharedFile: {
     display: 'flex',
     cursor: 'pointer',
+    marginTop: 10,
     marginBottom: 10
   },
   leftColumn: {
     flexShrink: 0,
-    width: 80,
-    height: 70,
-    marginRight: 10
+    width: 50,
+    height: 50,
+    marginRight: 15,
+    marginTop: 5
   },
   rightColumn: {
     flex: 1,
@@ -27,20 +29,22 @@ export default {
   },
   thumbnail: {
     ...image,
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
+    boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.15)'
   },
   icon: {
     ...image
   },
   name: {
     ...utils.ellipsis,
-    ...fonts.big,
+    ...fonts.normal,
     fontWeight: '500',
     // XXX
-    color: '#666'
+    color: '#333'
   },
   meta: {
     ...utils.ellipsis,
+    ...fonts.small,
     // XXX
     color: '#707782'
   }
