@@ -6,6 +6,16 @@ import style from './style'
 
 const sheet = jss.createStyleSheet(style).attach()
 
+function getIcon(item) {
+  if (item.currentRoom) return 'bell'
+  return item.isPrivate ? 'lock' : 'comments'
+}
+
+function getRoomNote(item) {
+  if (item.currentRoom) return 'notify everyone in this room'
+  return '(only a link, no notifications)'
+}
+
 /**
  * Change data for representation.
  */
@@ -20,19 +30,22 @@ export function map(data) {
       if (!item.inRoom) item.note = '(not in room)'
       return
     }
-
-    if (item.currentRoom) console.log(item)
-
-    item.note = '(only a link, no notifications)'
-    const icon = item.isPrivate ? 'lock' : 'comments'
-    item.icon = <Icon name={item.name} className={`fa fa-${icon} ${sheet.classes.icon}`}/>
+    item.note = getRoomNote(item)
+    item.icon = <Icon name={item.name} className={`fa fa-${getIcon(item)} ${sheet.classes.icon}`}/>
   })
 
   data.sort((a, b) => {
+    // current room (mention all) always on top
+    if (a.currentRoom) return -1
+    if (b.currentRoom) return 1
+
+    // not users (rooms) are always last
     if (a.type !== 'user') return 1
     if (b.type !== 'user') return -1
+
     if (a.inRoom === b.inRoom) return 0
 
+    // move on top users that are in this room
     return a.inRoom ? -1 : 1
   })
 
