@@ -6,8 +6,8 @@ import camelCase from 'jss-camel-case'
 import px from 'jss-px'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
-export let jss = create()
-export let useSheet = reactJss(jss)
+export const jss = create()
+export const useSheet = reactJss(jss)
 
 jss.use(nested())
 jss.use(camelCase())

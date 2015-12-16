@@ -1,10 +1,18 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 
 import {useSheet} from '../jss'
 import style from './style'
 
 @useSheet(style)
 export default class Spinner extends Component {
+  static propTypes = {
+    sheet: PropTypes.object,
+    active: PropTypes.bool,
+    delay: PropTypes.number,
+    image: PropTypes.string,
+    overlay: PropTypes.bool
+  }
+
   static defaultProps = {
     active: false,
     delay: 1000,
@@ -17,15 +25,15 @@ export default class Spinner extends Component {
     this.state = this.createState(this.props)
   }
 
-  componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
-  }
-
   componentDidMount() {
     if (this.state.active) return
     this.timeoutId = setTimeout(() => {
       this.setState({active: true})
     }, this.props.delay)
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState(this.createState(props))
   }
 
   componentWillUnmount() {
@@ -38,8 +46,8 @@ export default class Spinner extends Component {
 
   render() {
     if (!this.state.active) return null
-    let {classes} = this.props.sheet
-    let backgroundImage = `url(${this.props.image})`
+    const {classes} = this.props.sheet
+    const backgroundImage = `url(${this.props.image})`
     let className = classes.spinner
     if (this.props.overlay) className += ' ' + classes.overlay
     // TODO use svg.

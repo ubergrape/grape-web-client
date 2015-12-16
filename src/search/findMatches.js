@@ -7,10 +7,10 @@ export default function findMatches(text, search) {
   const words = text.toLowerCase().split(/\b/)
   const searchArr = typeof search == 'string' ? [search] : search
   const lowerSearchArr = searchArr.map(str => str.toLowerCase())
-  return words.map(text => {
+  return words.map(word => {
     return {
-      text,
-      found: lowerSearchArr.indexOf(text) !== -1
+      text: word,
+      found: lowerSearchArr.indexOf(word) !== -1
     }
   })
 }
