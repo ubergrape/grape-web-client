@@ -42,7 +42,7 @@
 					img.image(src="#{welcomepic}",width="100",alt="Hi!")
 					div
 						h3
-							| Welcome to
+							=_('Welcome to ')
 							if !room.is_public
 								i.fa.fa-lock
 								|=" "
