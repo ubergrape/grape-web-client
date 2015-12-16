@@ -6,6 +6,7 @@ import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
 import find from 'lodash/collection/find'
+import includes from 'lodash/collection/includes'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
@@ -165,7 +166,7 @@ export default class GrapeInput extends Emitter {
         name: name,
         username: user.username,
         iconURL: user.avatar,
-        inRoom: roomUsers.includes(user),
+        inRoom: includes(roomUsers, user),
         type: 'user'
       }
     })
