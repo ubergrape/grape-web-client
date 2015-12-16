@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
+import noop from 'lodash/utility/noop'
+
+import ImageZoom from '../image-zoom/ImageZoom'
 
 import {useSheet} from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
@@ -27,6 +30,14 @@ export default class SharedFile extends Component {
     window.open(this.props.url)
   }
 
+  setPreviewRef(ref) {
+    this.preview = ref
+  }
+
+  getPreviewRef() {
+    return this.preview
+  }
+
   renderPreview() {
     const {classes} = this.props.sheet
     const {thumbnailUrl} = this.props
@@ -42,26 +53,51 @@ export default class SharedFile extends Component {
       backgroundImage = `url('${svg}')`
     }
 
-    return <div className={className} style={{backgroundImage}}></div>
+    return (
+      <div
+        ref={::this.setPreviewRef}
+        className={className}
+        style={{backgroundImage}}>
+      </div>
+    )
   }
 
-  render() {
+  renderSection(handleClick) {
     const {classes} = this.props.sheet
+    const {channelType, channelName, time, author, name} = this.props
+    const where = `Shared ${channelType === 'room' ? 'in' : 'with'} ${channelName}`
+    const when = `${tz(time).format(dateFormat)} - ${author}`
+
     return (
       <section
         className={classes.sharedFile}
-        onClick={::this.onOpen}>
+        onClick={handleClick ? ::this.onOpen : noop}>
         <div className={classes.leftColumn}>
           {this.renderPreview()}
         </div>
         <div className={classes.rightColumn}>
-          <h2 className={classes.name}>{this.props.name}</h2>
-          <p className={classes.meta}>{tz(this.props.time).format(dateFormat)} - {this.props.author}</p>
-          <p className={classes.meta}>
-            Shared {this.props.channelType === 'room' ? 'in' : 'with'} {this.props.channelName}
-          </p>
+          <h2 className={classes.name}>{name}</h2>
+          <p className={classes.meta}>{when}</p>
+          <p className={classes.meta}>{where}</p>
         </div>
       </section>
     )
+  }
+
+  render() {
+    const {thumbnailUrl, url} = this.props
+    const section = this.renderSection(!Boolean(thumbnailUrl))
+
+    if (thumbnailUrl) {
+      return (
+        <ImageZoom
+          getPreviewRef={::this.getPreviewRef}
+          url={url}>
+          {section}
+        </ImageZoom>
+      )
+    }
+
+    return section
   }
 }

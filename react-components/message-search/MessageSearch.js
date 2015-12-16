@@ -73,8 +73,7 @@ export default class MessageSearch extends Component {
 
     const messages = items.map(item => {
       let {content} = item
-      let matches = findMatches(content, query)
-
+      const matches = findMatches(content, query)
 
       if (matches.length) {
         content = matches.map((match, key) => {
