@@ -158,11 +158,14 @@ export default class GrapeInput extends Emitter {
         if (user.lastName) name += ' ' + user.lastName
       }
 
+      const roomUsers = this.room.users.toArray()
+
       return {
         id: user.id,
         name: name,
         username: user.username,
         iconURL: user.avatar,
+        inRoom: roomUsers.includes(user),
         type: 'user'
       }
     })
@@ -182,15 +185,17 @@ export default class GrapeInput extends Emitter {
     let rooms = this.org.rooms.toArray()
 
     rooms = rooms.map(room => {
+      const currentRoom = room === this.room
       return {
         id: room.id,
         type: 'room',
-        name: room.name,
-        slug: room.slug
+        name: currentRoom ? 'all' : room.name,
+        slug: room.slug,
+        currentRoom
       }
     })
 
-    // Do the search.
+    // Do the search and filter out current.
     rooms = rooms.filter(room => {
       return room.name.toLowerCase().indexOf(key) >= 0
     })
