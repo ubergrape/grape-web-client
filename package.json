@@ -2,7 +2,9 @@
   "name": "grape-web",
   "version": "0.3.1",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^3.10.0"
+  },
   "peerDependencies": {},
   "devDependencies": {
     "babel": "^5.6.14",
