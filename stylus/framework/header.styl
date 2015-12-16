@@ -7,11 +7,11 @@
 	display: flex
 	align-items: center
 	height: header-height
-	z-index: 30
-	background: #3C2745
+	z-index: 60
 	-webkit-font-smoothing: antialiased // fixes font bug in os x app and firefox on windows, see #1612
 	-moz-osx-font-smoothing: grayscale // fixes font bug in os x app and firefox on windows, see #1612
 	position: relative
+	box-shadow: 0 0 1px 0 rgba(0,0,0,0.4)
 	.room-header-color-shade
 		display: none
 	.room-header-wrap
@@ -44,7 +44,7 @@
 				display: none;
 			.room-name
 				margin: 0
-				color: white !important
+				color: #333 !important
 				font-weight: bold
 				font-size: 1.6em
 				padding-top: 2px
@@ -68,14 +68,18 @@
 				border: 1px solid transparent
 				overflow: hidden
 				white-space: nowrap
+				line-height: 1.2
 				text-overflow: ellipsis
-				color: rgba(255, 255, 255, 0.7)
+				color: rgba(0, 0, 0, 0.5)
+				&:hover
+					border-color: #ebeef3;
+					border-radius: 4px;
 				&:focus
 					outline: 0
 				&.editable
 					color: #333
 					border-radius: 4px;
-					border-color: #DFE0DE;
+					background: #ebeef3;
 					width: 100%;
 			.options-wrap
 			.rename-options-wrap
@@ -88,9 +92,9 @@
 					display: none
 			.header-option
 				display: inline-block
-				color: white
+				color: black
 				font-size: 14px
-				opacity: 0.5
+				opacity: 0.4
 				&:hover
 					opacity: 1
 			.room-users-wrap
@@ -150,11 +154,11 @@
 		overflow: hidden
 		background-color: transparent
 		a
-			color: white
+			color: #642081
 		&.selected
-			background-color: white
+			background-color: #642081
 			a
-				color: #3C2745
+				color: white
 
 
 /* Intercom Widget */
