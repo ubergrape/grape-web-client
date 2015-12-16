@@ -15,7 +15,7 @@ module.exports = ChatHeader
 const menuItems = {
   intercom: {
     className: 'intercom-toggler',
-    icon: 'fa-question-circle'
+    icon: 'fa-info'
   },
   mentions: {
     className: 'mentions-toggler',
@@ -24,7 +24,7 @@ const menuItems = {
   },
   user: {
     className: 'user-view-toggler',
-    icon: 'fa-user'
+    icon: 'fa-tag'
   },
   sharedFiles: {
     className: 'file-browser-toggler',
