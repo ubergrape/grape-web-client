@@ -3,10 +3,17 @@ import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
 import color from 'color'
 
-let item = {
+const item = {
   padding: '5px 7px',
   color: colors.grapeTypo,
   cursor: 'pointer'
+}
+
+const note = {
+  ...fonts.small,
+  color: colors.gainsboroDark,
+
+  marginLeft: 6
 }
 
 export default {
@@ -37,5 +44,12 @@ export default {
   name: {
     lineHeight: 1,
     marginLeft: 5
+  },
+  note: {
+    ...note
+  },
+  noteFocused: {
+    ...note,
+    color: colors.white
   }
 }

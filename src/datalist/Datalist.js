@@ -38,16 +38,25 @@ export default class Datalist extends Component {
 
     return (
       <div className={`${classes.container} ${this.props.className}`}>
-        {data.map((item, i) => (
-          <div
-            onMouseDown={::this.onMouseDown}
-            onMouseOver={this.onMouseOver.bind(this, item)}
-            className={classes[item === this.state.focused ? 'itemFocused' : 'item']}
-            key={i}>
-            <span className={classes.icon}>{item.icon}</span>
-            <span className={classes.name}>{item.name}</span>
-          </div>
-        ))}
+        {
+          data.map((item, i) => {
+            const focused = item === this.state.focused
+            return (
+              <div
+                onMouseDown={::this.onMouseDown}
+                onMouseOver={this.onMouseOver.bind(this, item)}
+                className={classes[focused ? 'itemFocused' : 'item']}
+                key={i}>
+                <span className={classes.icon}>{item.icon}</span>
+                <span className={classes.name}>{item.name}</span>
+                <span
+                  className={classes[focused ? 'noteFocused' : 'note']}>
+                    {item.note}
+                </span>
+              </div>
+            )
+          })
+        }
       </div>
     )
   }
