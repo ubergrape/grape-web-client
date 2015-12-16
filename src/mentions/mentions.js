@@ -13,7 +13,7 @@ function getIcon(item) {
 
 function getRoomNote(item) {
   if (item.currentRoom) return 'notify everyone in this room'
-  return '(only a link, no notifications)'
+  return 'only a link, no notifications'
 }
 
 /**
@@ -27,7 +27,7 @@ export function map(data) {
         borderRadius: '100%'
       }
       item.icon = <Icon name={item.name} style={iconStyle} />
-      if (!item.inRoom) item.note = '(not in room)'
+      if (!item.inRoom) item.note = 'not in room'
       return
     }
     item.note = getRoomNote(item)
