@@ -102,9 +102,10 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
-    "babel-core": "^5.5.8",
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.20",
     "babel-eslint": "^4.1.5",
-    "babel-loader": "^5.1.4",
+    "babel-loader": "^5.3.1",
     "css-loader": "^0.15.6",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
