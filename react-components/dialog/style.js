@@ -39,11 +39,11 @@ export default {
     height: 50
   },
   close: {
-    ...fonts.bigger,
+    fontSize: '2em',
     fontWeight: 'bold',
     color: colors.white,
     padding: '0 20px',
-    opacity: 0.8,
+    opacity: 0.5,
     border: 'none',
     '&:before': {
       content: '"×"'
@@ -57,7 +57,7 @@ export default {
     ...utils.ellipsis,
     flex: 2,
     alignSelf: 'center',
-    color: webColors.sidebarGroupTitle,
+    color: 'white',
     paddingLeft: 20
   },
   body: {
