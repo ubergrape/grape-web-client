@@ -45,12 +45,12 @@ export default class Datalist extends Component {
               <div
                 onMouseDown={::this.onMouseDown}
                 onMouseOver={this.onMouseOver.bind(this, item)}
-                className={classes[focused ? 'itemFocused' : 'item']}
+                className={`${classes.item} ${focused ? classes.itemFocused : ''}`}
                 key={i}>
                 <span className={classes.icon}>{item.icon}</span>
                 <span className={classes.name}>{item.name}</span>
                 <span
-                  className={classes[focused ? 'noteFocused' : 'note']}>
+                  className={`${classes.note} ${focused ? classes.noteFocused : ''}`}>
                     {item.note}
                 </span>
               </div>
