@@ -197,7 +197,7 @@ export default class GrapeInput extends Emitter {
       }
     })
 
-    // Do the search and filter out current.
+    // Do the search.
     rooms = rooms.filter(room => {
       return room.name.toLowerCase().indexOf(key) >= 0
     })
