@@ -160,15 +160,15 @@
 								a(href=msgLink, class="timelink")
 									.time
 										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-											first.userTime
-										if ( typeof line.userTime !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.userTime)._tzm)
+											first.user_time
+										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
 											i.fa.fa-globe
 											.different-timezone
 												span.dif-tz
 													=_(' Local time: ')
 												//- the substr part is a hack to remove the tz information
-												- var userTime = first.userTime.substr(0, first.userTime.length - 6)
-												time.user-tz= tz(userTime).format('hh:mm A')
+												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												time.user-tz= tz(user_time).format('hh:mm A')
 						.message-inner-wrap
 							div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=attachments, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 								if (line.container || line.branch || line.tag)
@@ -202,19 +202,19 @@
 									a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
 										.time
 											time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
-												first.userTime
+												first.user_time
 											//- now we need to find out if the user timezone in the message is the same as our current timezone
 											//- if it is not, we display a little icon and hovering it reveils the timezone from the message
 											//- (new Date()).getTimezoneOffset() will be -120 for "GMT+0200 (CEST)" BUT
-											//- tz(line.userTime)._tzm will be 120
-											if ( typeof line.userTime !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.userTime)._tzm)
+											//- tz(line.user_time)._tzm will be 120
+											if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
 												i.fa.fa-globe
 												.different-timezone
 													span.dif-tz
 														=_(' Local time: ')
 													//- the substr part is a hack to remove the tz information
-													- var userTime = line.userTime.substr(0, line.userTime.length - 6)
-													time.user-tz= tz(userTime).format('hh:mm A')
+													- var user_time = line.user_time.substr(0, line.user_time.length - 6)
+													time.user-tz= tz(user_time).format('hh:mm A')
 								if status === 'unsent'
 									div.status-control
 										if status == 'unsent'
