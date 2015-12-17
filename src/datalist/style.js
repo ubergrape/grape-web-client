@@ -3,12 +3,6 @@ import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
 import color from 'color'
 
-let item = {
-  padding: '5px 7px',
-  color: colors.grapeTypo,
-  cursor: 'pointer'
-}
-
 export default {
   container: {
     background: colors.white,
@@ -17,14 +11,13 @@ export default {
     overflow: 'auto'
   },
   item: {
-    ...item,
+    ...fonts.normal,
     ...utils.ellipsis,
-    ...fonts.normal
+    padding: '5px 7px',
+    color: colors.grapeTypo,
+    cursor: 'pointer'
   },
   itemFocused: {
-    ...item,
-    ...utils.ellipsis,
-    ...fonts.normal,
     color: colors.white,
     background: colors.grapeLight
   },
@@ -37,5 +30,13 @@ export default {
   name: {
     lineHeight: 1,
     marginLeft: 5
+  },
+  note: {
+    ...fonts.small,
+    color: colors.gainsboroDark,
+    marginLeft: 6
+  },
+  noteFocused: {
+    color: colors.white
   }
 }

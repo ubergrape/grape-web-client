@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PropTypes, Component} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
@@ -8,6 +8,14 @@ import style from './style'
 
 @useSheet(style)
 export default class Datalist extends Component {
+  static propTypes = {
+    data: PropTypes.array,
+    className: PropTypes.string,
+    onDidMount: PropTypes.func,
+    onSelect: PropTypes.func,
+    sheet: PropTypes.object.isRequired
+  }
+
   static defaultProps = {
     data: [],
     className: '',
@@ -20,8 +28,6 @@ export default class Datalist extends Component {
     this.state = this.createState(this.props)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
   componentDidMount() {
     this.props.onDidMount(this)
   }
@@ -30,36 +36,27 @@ export default class Datalist extends Component {
     this.setState(this.createState(nextProps))
   }
 
-  render() {
-    let {classes} = this.props.sheet
-    let {data} = this.state
+  shouldComponentUpdate = shouldPureComponentUpdate
 
-    if (!data.length) return null
+  onMouseOver(item) {
+    this.focus(item)
+  }
 
-    return (
-      <div className={`${classes.container} ${this.props.className}`}>
-        {data.map((item, i) => (
-          <div
-            onMouseDown={::this.onMouseDown}
-            onMouseOver={this.onMouseOver.bind(this, item)}
-            className={classes[item === this.state.focused ? 'itemFocused' : 'item']}
-            key={i}>
-            <span className={classes.icon}>{item.icon}</span>
-            <span className={classes.name}>{item.name}</span>
-          </div>
-        ))}
-      </div>
-    )
+  onMouseDown(e) {
+    // Important!!!
+    // Avoids loosing focus and though caret position in editable.
+    e.preventDefault()
+    this.props.onSelect(this.state.focused)
   }
 
   createState(props) {
-    let {data} = props
-    let focused = data[0]
+    const {data} = props
+    const focused = data[0]
     return {data, focused}
   }
 
   focus(id) {
-    let {data} = this.state
+    const {data} = this.state
     let index = findIndex(data, item => item === this.state.focused)
     let item
 
@@ -75,14 +72,34 @@ export default class Datalist extends Component {
     this.setState({focused: item})
   }
 
-  onMouseOver(item) {
-    this.focus(item)
+  renderItems(listItem, i) {
+    const focused = listItem === this.state.focused
+    const {item, itemFocused, icon, name, note, noteFocused} = this.props.sheet.classes
+    return (
+      <div
+        onMouseDown={::this.onMouseDown}
+        onMouseOver={this.onMouseOver.bind(this, listItem)}
+        className={`${item} ${focused ? itemFocused : ''}`}
+        key={i}>
+        <span className={icon}>{listItem.icon}</span>
+        <span className={name}>{listItem.name}</span>
+        <span className={`${note} ${focused ? noteFocused : ''}`}>
+          {listItem.note}
+        </span>
+      </div>
+    )
   }
 
-  onMouseDown(e) {
-    // Important!!!
-    // Avoids loosing focus and though caret position in editable.
-    e.preventDefault()
-    this.props.onSelect(this.state.focused)
+  render() {
+    const {data} = this.state
+
+    if (!data.length) return null
+
+    const {classes} = this.props.sheet
+    return (
+      <div className={`${classes.container} ${this.props.className}`}>
+        {data.map(::this.renderItems)}
+      </div>
+    )
   }
 }
