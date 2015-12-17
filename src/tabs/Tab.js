@@ -19,7 +19,7 @@ export default class Tab extends Component {
     selected: PropTypes.bool,
     visibilityContainment: PropTypes.instanceOf(Component),
     id: PropTypes.string,
-    icon: PropTypes.string,
+    icon: PropTypes.element,
     amount: PropTypes.number,
     label: PropTypes.string
   }
