@@ -13,7 +13,7 @@ function getIcon(item) {
 
 function getRoomNote(item) {
   if (item.currentRoom) return '— notify everyone in this room'
-  return '— only a link, no notifications'
+  return '— does not notify room members'
 }
 
 /**
@@ -35,17 +35,17 @@ export function map(data) {
   })
 
   data.sort((a, b) => {
-    // current room (mention all) always on top
+    // Current room should be always on top (mention all).
     if (a.currentRoom) return -1
     if (b.currentRoom) return 1
 
-    // not users (rooms) are always last
+    // Channel names should be always after users.
     if (a.type !== 'user') return 1
     if (b.type !== 'user') return -1
 
     if (a.inRoom === b.inRoom) return 0
 
-    // move on top users that are in this room
+    // Users who has joined this room should be on top.
     return a.inRoom ? -1 : 1
   })
 
