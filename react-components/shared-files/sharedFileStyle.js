@@ -14,8 +14,7 @@ export default {
   sharedFile: {
     display: 'flex',
     cursor: 'pointer',
-    marginTop: 10,
-    marginBottom: 10
+    marginBottom: 20
   },
   leftColumn: {
     flexShrink: 0,
