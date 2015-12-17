@@ -14,13 +14,13 @@ const dateFormat = 'MMM Do, h:mm a'
 export default class SharedFile extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    author: PropTypes.string.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     channelName: PropTypes.string.isRequired,
     channelType: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    author: PropTypes.string,
     thumbnailUrl: PropTypes.string
   }
 
@@ -66,7 +66,8 @@ export default class SharedFile extends Component {
     const {classes} = this.props.sheet
     const {channelType, channelName, time, author, name} = this.props
     const where = `Shared ${channelType === 'room' ? 'in' : 'with'} ${channelName}`
-    const when = `${tz(time).format(dateFormat)} - ${author}`
+    let when = tz(time).format(dateFormat)
+    if (author) when += ` - ${author}`
 
     return (
       <section
