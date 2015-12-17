@@ -190,7 +190,7 @@ export default class GrapeInput extends Emitter {
       return {
         id: room.id,
         type: 'room',
-        name: currentRoom ? 'all' : room.name,
+        name: currentRoom ? 'room' : room.name,
         slug: room.slug,
         isPrivate: !room.is_public,
         currentRoom
