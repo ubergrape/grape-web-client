@@ -4,13 +4,18 @@
  * https://github.com/ubergrape/chatgrape/issues/2412
  */
 export default function findMatches(text, search) {
-  const words = text.toLowerCase().split(/\b/)
   const searchArr = typeof search == 'string' ? [search] : search
-  const lowerSearchArr = searchArr.map(str => str.toLowerCase())
-  return words.map(word => {
-    return {
-      text: word,
-      found: lowerSearchArr.indexOf(word) !== -1
-    }
-  })
+  const lowerSearchArr = searchArr.map(value => value.toLowerCase())
+  const searchRegExpStr = searchArr.map(searchStr => `(${searchStr})`).join('|')
+  const regExp = new RegExp('\\b' + searchRegExpStr + '\\b', 'gi')
+
+  return text.split(regExp).reduce((matches, value) => {
+    if (!value) return matches
+    const found = lowerSearchArr.indexOf(value.toLowerCase()) !== -1
+    matches.push({
+      text: value,
+      found
+    })
+    return matches
+  }, [])
 }

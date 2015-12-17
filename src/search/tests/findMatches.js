@@ -70,4 +70,28 @@ describe('findMatches()', () => {
     expect(matches[2].text).to.be('b')
     expect(matches[2].found).to.be.ok()
   })
+
+  it('shoud match word combination', () => {
+    const matches = findMatches('a b c d', 'b c')
+    expect(matches.length).to.be(3)
+    expect(matches[0].text).to.be('a ')
+    expect(matches[0].found).to.not.be.ok()
+    expect(matches[1].text).to.be('b c')
+    expect(matches[1].found).to.be.ok()
+    expect(matches[2].text).to.be(' d')
+    expect(matches[2].found).to.not.be.ok()
+  })
+
+  it('shoud match multiple word combinations', () => {
+    const matches = findMatches('a b c d e', ['b c', 'd e'])
+    expect(matches.length).to.be(4)
+    expect(matches[0].text).to.be('a ')
+    expect(matches[0].found).to.not.be.ok()
+    expect(matches[1].text).to.be('b c')
+    expect(matches[1].found).to.be.ok()
+    expect(matches[2].text).to.be(' ')
+    expect(matches[2].found).to.not.be.ok()
+    expect(matches[3].text).to.be('d e')
+    expect(matches[3].found).to.be.ok()
+  })
 })
