@@ -6,6 +6,7 @@ import once from 'lodash/function/once'
 import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
 import find from 'lodash/collection/find'
+import includes from 'lodash/collection/includes'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
@@ -174,11 +175,14 @@ export default class GrapeInput extends Emitter {
         if (user.lastName) name += ' ' + user.lastName
       }
 
+      const roomUsers = this.room.users.toArray()
+
       return {
         id: user.id,
         name: name,
         username: user.username,
         iconURL: user.avatar,
+        inRoom: includes(roomUsers, user),
         type: 'user'
       }
     })
@@ -198,12 +202,14 @@ export default class GrapeInput extends Emitter {
     let rooms = this.org.rooms.toArray()
 
     rooms = rooms.map(room => {
+      const currentRoom = room === this.room
       return {
         id: room.id,
         type: 'room',
-        name: room.name,
+        name: currentRoom ? 'room' : room.name,
         slug: room.slug,
-        isPrivate: !room.is_public
+        isPrivate: !room.is_public,
+        currentRoom
       }
     })
 

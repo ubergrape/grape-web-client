@@ -4,185 +4,181 @@
 //
 // ****
 .footer
-	z-index: 30
-	padding: 0px horizontal-space 20px
-	background: white
-	background-attachment: fixed
-	transform: translate3d(0,0,0)
-	will-change: transform
+  z-index: 30
+  padding: 0px horizontal-space 20px
+  background: white
+  background-attachment: fixed
+  transform: translate3d(0,0,0)
+  will-change: transform
 
-	.grape-input-wrapper
-		&.hidden
-			display: none
-		display: flex
-		position: relative
-		&.disabled
-			.hint-box, .uploader
-				opacity: 0
-		.avatar
-			display: none;
-			padding-left: (horizontal-space / 2)
-			position: relative
-			&::after,
-			&::before // Hack for the arrow of the message box
-				content: ""
-				position: absolute
-				z-index: 5
-			&::after
-				left: -2px;
-				right: auto;
-				top: 1px;
-				border-left: 9px solid white
-				border-right: none
-				border-bottom: 13px solid transparent
-			&::before // Hack for the arrow of the message box
-				border-left: 10px solid #E5E5E5
-				border-right: none
-				border-bottom: 14px solid transparent
-				left: -1px;
-				right: auto;
-				top: 0px;
-			.image
-				width: 42px
-				height: 42px
-				border-radius: 50%
-				position: relative
-				vertical-align: bottom
+  .grape-input-wrapper
+    &.hidden
+      display: none
+    display: flex
+    position: relative
+    &.disabled
+      .uploader
+        opacity: 0
+    .avatar
+      display: none;
+      padding-left: (horizontal-space / 2)
+      position: relative
+      &::after,
+      &::before // Hack for the arrow of the message box
+        content: ""
+        position: absolute
+        z-index: 5
+      &::after
+        left: -2px;
+        right: auto;
+        top: 1px;
+        border-left: 9px solid white
+        border-right: none
+        border-bottom: 13px solid transparent
+      &::before // Hack for the arrow of the message box
+        border-left: 10px solid #E5E5E5
+        border-right: none
+        border-bottom: 14px solid transparent
+        left: -1px;
+        right: auto;
+        top: 0px;
+      .image
+        width: 42px
+        height: 42px
+        border-radius: 50%
+        position: relative
+        vertical-align: bottom
 
-	.controls-wrapper
-		flex: 1
-		position: relative
-		display: flex
-		border-top: 1px solid #d3d3d3
-		background-color: #fff
-		line-height: 1
+  .controls-wrapper
+    flex: 1
+    position: relative
+    display: flex
+    border-top: 1px solid #d3d3d3
+    background-color: #fff
+    line-height: 1
 
-	grape-input
-		flex: 1
-		[contenteditable="true"]
-			@extend $proximaNova
-			@extend $big-font-size
-			position: relative
-			padding: 12px 120px 5px 0px
-			&::before
-				position: absolute
-				pointer-events: none // prevent cursor change
+  grape-input
+    flex: 1
+    [contenteditable="true"]
+      @extend $proximaNova
+      @extend $big-font-size
+      position: relative
+      padding: 12px 120px 5px 0px
+      &::before
+        position: absolute
+        pointer-events: none // prevent cursor change
 
-	.controls-group
-		display: flex
-		justify-content: center
-		align-items: flex-end
+  .controls-group
+    display: flex
+    justify-content: center
+    align-items: flex-end
 
-	.controls-group
-		position: absolute
-		bottom: 0
-		right: 0
-		top: 0
-		>div
-			position: relative
-			font-size: 18px
-			cursor: pointer
-			width: 32px;
-			height: 32px;
-			border-radius: 16px
-			background: transparent;
-			color: #642081
-			margin-left: 5px;
-			&:hover
-				color: white
-				background: #642081
-			.fa
-				position: absolute
-				top: 50%
-				left: 50%
-				transform: translate(-50%,-50%)
+  .controls-group
+    position: absolute
+    bottom: 0
+    right: 0
+    top: 0
+    >div
+      position: relative
+      font-size: 18px
+      cursor: pointer
+      width: 32px;
+      height: 32px;
+      border-radius: 16px
+      background: transparent;
+      color: #642081
+      margin-left: 5px;
+      &:hover
+        color: white
+        background: #642081
+      .fa
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
 
-	.edit-message,
-	.js-markdown-tips
-		color: #666666
-		font-size: 0.8em
+  .edit-message,
+  .js-markdown-tips
+    color: #666666
+    font-size: 0.8em
 
-	// hints
-	.edit-message, .hint-box
-		position: absolute
-		top: 0px
-		left: 64px
-		background: linear-gradient(#FBFBFB, #F7F7F7);
-		border: solid 1px #E5E5E5
-		border-radius: 3px
-		padding: 2px 12px 1px 12px
-		-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
-		transition: opacity 0.2s, transform 0.2s
-		transition-timing-function: ease-out
-		transform: translateY(-20px)
-		opacity: 1
-		span
-			border-radius: 3px
-			border: 1px solid #CCCCCC
-			padding: 1px 3px
-			margin: 0 2px
-			color: #666666
-			background: #FBFBFB
+  // hints
+  .edit-message
+    position: absolute
+    top: -20px
+    left: 64px
+    background: linear-gradient(#FBFBFB, #F7F7F7);
+    border: solid 1px #E5E5E5
+    border-radius: 3px
+    padding: 2px 12px 1px 12px
+    transition: opacity 0.2s ease-out, top 0.2s ease-out
+    opacity: 1
+    will-change: opacity, top
+    span
+      border-radius: 3px
+      border: 1px solid #CCCCCC
+      padding: 1px 3px
+      margin: 0 2px
+      color: #666666
+      background: #FBFBFB
 
-	.js-markdown-tips
-		position: absolute
-		bottom: -20px
-		left: 0px
-		cursor: pointer
-		span
-			text-decoration: underline
+  .js-markdown-tips
+    position: absolute
+    bottom: -20px
+    left: 0px
+    cursor: pointer
+    span
+      text-decoration: underline
 
-	// uploader styling
-	.uploader
-		position: relative
-		input
-			display: none
+  // uploader styling
+  .uploader
+    position: relative
+    input
+      display: none
 
-	.upload-progress
-		display: none
-		position: absolute
-		text-align: center
-		top: 0
-		left: 0
-		bottom: 0
-		right: 0
-		background: white
-		border-radius: main-border-radius
-		overflow: hidden
-		img.preview
-			display: none // hide image for now
-			max-width: upload-size
-			max-height: upload-size
-			vertical-align: middle
-		.progress
-			position: absolute
-			top: 0
-			left: 0
-			bottom: 0
-			right: 0
-			background: rgba(255, 255, 255, 0.6)
-		.progress canvas
-			display: inline-block
-			vertical-align: bottom
+  .upload-progress
+    display: none
+    position: absolute
+    text-align: center
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    background: white
+    border-radius: main-border-radius
+    overflow: hidden
+    img.preview
+      display: none // hide image for now
+      max-width: upload-size
+      max-height: upload-size
+      vertical-align: middle
+    .progress
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+      background: rgba(255, 255, 255, 0.6)
+    .progress canvas
+      display: inline-block
+      vertical-align: bottom
 
-	.uploader.open .upload-progress
-		display: block
+  .uploader.open .upload-progress
+    display: block
 
-	.editing-previous
-		.controls-wrapper
-			background: #FFF3B9
-		.controls-group-item
-			cursor: default
-		.uploader
-			transform: scale(0)
-			opacity: 0
-			display: none
-		.hint-box
-			opacity: 0
-	// Toggle for edit message input
-	.grape-input-wrapper .edit-message
-		opacity: 0
-		transform: translateY(-20px)
-	.grape-input-wrapper.editing-previous .edit-message
-		opacity: 1
-		transform: translateY(-35px)
+  .editing-previous
+    .controls-wrapper
+      background: #FFF3B9
+    .controls-group-item
+      cursor: default
+    .uploader
+      transform: scale(0)
+      opacity: 0
+      display: none
+  // Toggle for edit message input
+  .grape-input-wrapper .edit-message
+    opacity: 0
+    top: -20px
+  .grape-input-wrapper.editing-previous .edit-message
+    opacity: 1
+    top: -35px

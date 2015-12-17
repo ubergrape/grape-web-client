@@ -2,6 +2,16 @@ let isWebkit = require('./iswebkit')
 
 module.exports = renderAutocompleteItem
 
+function getType(obj) {
+  if (obj.roomId) {
+    const room = window.ui.org.rooms.filter(room => room.id == obj.roomId)[0]
+    if (room === window.ui.room) return 'notifyall'
+    if (!room.is_public) return 'privateroom'
+  }
+
+  return obj.type
+}
+
 function renderAutocompleteItem(obj, asButton) {
   asButton = asButton || false
   let name = obj.id.replace(/"/g, '&quot;')
@@ -22,13 +32,6 @@ function renderAutocompleteItem(obj, asButton) {
     }
   } else {
     let target = obj.service !== "chatgrape" ? 'target="_blank"' : ''
-
-    let type
-    if (obj.roomId) {
-      const room = window.ui.org.rooms.filter(room => room.id == obj.roomId)[0]
-      type = room.is_public ? obj.type : 'privateroom'
-    }
-
-    return `<a class="ac service-${obj.service} type-${obj.service}${type}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${target}>${obj.insert}</a>`
+    return `<a class="ac service-${obj.service} type-${obj.service}${getType(obj)}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${target}>${obj.insert}</a>`
   }
 }
