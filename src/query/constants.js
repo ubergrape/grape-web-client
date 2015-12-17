@@ -10,7 +10,8 @@ export const TYPES = {
   search: SEARCH_TRIGGER,
   user: MENTION_TRIGGER,
   room: MENTION_TRIGGER,
-  emoji: EMOJI_TRIGGER
+  emoji: EMOJI_TRIGGER,
+  emojiSuggest: EMOJI_TRIGGER
 }
 
 // Match everything after a whitespace followed by any trigger until you match

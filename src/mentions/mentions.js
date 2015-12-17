@@ -39,6 +39,10 @@ export function map(data) {
     if (a.currentRoom) return -1
     if (b.currentRoom) return 1
 
+    // Items with highest rank goes first
+    if (a.rank > b.rank) return -1
+    if (b.rank > a.rank) return 1
+
     // Channel names should be always after users.
     if (a.type !== 'user') return 1
     if (b.type !== 'user') return -1
