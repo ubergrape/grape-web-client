@@ -24,13 +24,13 @@ RoomManager.prototype.init = function () {
     tabs: {
       visible: true
     },
-    back: {    
-      className: 'back-button',    
-      visible: false   
-    },   
-    button: {    
-      className: 'new-room',   
-      text: 'Create new room',   
+    back: {
+      className: 'back-button',
+      visible: false
+    },
+    button: {
+      className: 'new-room',
+      text: 'Create new room',
       visible: true
     }
   })
@@ -38,11 +38,11 @@ RoomManager.prototype.init = function () {
   menu.setTabs([
     {
       className: 'rooms-to-join',
-      title: 'Join rooms'
+      title: 'Rooms you can join'
     },
     {
       className: 'joined-rooms',
-      title: 'Manage your rooms'
+      title: 'Rooms you belong to'
     }
   ])
 
@@ -81,7 +81,7 @@ RoomManager.prototype.bind = function () {
 RoomManager.prototype.setUnjoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'unjoined'
-  menuOptions.back.visible = false   
+  menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
@@ -91,7 +91,7 @@ RoomManager.prototype.setUnjoined = function () {
 RoomManager.prototype.setJoined = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'joined'
-  menuOptions.back.visible = false   
+  menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
   menuOptions.header = 'Manage Rooms'
@@ -101,7 +101,7 @@ RoomManager.prototype.setJoined = function () {
 RoomManager.prototype.setCreate = function () {
   let menuOptions = this.menu.options
   this.mode = this.roomList.templateOptions.mode = 'creation'
-  menuOptions.back.visible = true    
+  menuOptions.back.visible = true
   menuOptions.button.visible = false
   menuOptions.tabs.visible = false
   menuOptions.header = 'Create new room'
