@@ -22,8 +22,10 @@ export default {
     background: colors.grapeLight
   },
   icon: {
+    minWidth: 22,
     display: 'inline-block',
     lineHeight: 0,
+    textAlign: 'center',
     verticalAlign: 'middle',
     marginTop: -3
   },
