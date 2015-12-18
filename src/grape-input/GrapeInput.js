@@ -22,6 +22,7 @@ import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
 import GlobalEvent from '../global-event/GlobalEvent'
+import {sortByRankAndLength as sortEmoji} from '../emoji'
 import style from './style'
 import * as utils from './utils'
 
@@ -249,8 +250,7 @@ export default class Input extends Component {
         .slice(0, nextProps.maxCompleteItems)
     }
     if (state.browser === 'emojiSuggest') {
-      state.data = utils
-        .sortEmojiSuggest(state.data)
+      state.data = sortEmoji(state.data)
         .slice(0, nextProps.maxCompleteEmoji)
     }
     state.query = this.query.toJSON()

@@ -39,22 +39,3 @@ export function isBrowserType(typeOrTrigger) {
   return typeOrTrigger === SEARCH_TRIGGER ||
     typeOrTrigger === 'search'
 }
-
-/**
- * Sort emoji list by rank and length
- */
-export function sortEmojiSuggest(data) {
-  return data.sort((a, b) => {
-    const aRank = a.rank
-    const bRank = b.rank
-    if (aRank > bRank) return -1
-    if (bRank > aRank) return 1
-    if (aRank === bRank) {
-      const aLength = a.length
-      const bLength = b.length
-      if (aLength < bLength) return -1
-      if (bLength < aLength) return 1
-      return 0
-    }
-  })
-}
