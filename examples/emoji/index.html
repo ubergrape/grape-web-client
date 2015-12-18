@@ -22,7 +22,7 @@
     <script src="../../node_modules/document-register-element/build/document-register-element.max.js"></script>
     <script src="../../node_modules/react/dist/react.js"></script>
     <script src="../../node_modules/reactive-elements/dist/reactive-elements.js"></script>
-    <script src="/build/grape-browser.js"></script>
+    <script src="/build/browser.js"></script>
 
     <button onclick="setProps({focused: true})">Focus</button>
     <grape-emoji-browser></grape-emoji-browser>
@@ -36,9 +36,6 @@
 
       function getDefaultProps() {
         return {
-          onSelectTab: function(data) {
-            console.log('onSelectTab', data)
-          },
           onSelectItem: function(data) {
             console.log('onSelectItem', data)
           },
