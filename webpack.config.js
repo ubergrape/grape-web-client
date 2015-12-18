@@ -2,16 +2,13 @@ var webpack = require('webpack')
 
 module.exports = exports = {
   entry: {
-    browser: ['webpack/hot/dev-server', './src/index.js'],
-    emoji: ['./src/emoji/index.js']
+    browser: ['webpack/hot/dev-server', './src/index.js']
   },
 
   output: {
     path: './examples/build',
     publicPath: '/build/',
-    libraryTarget: 'var',
-    library: '[name]',
-    filename: '[name].js'
+    filename: 'grape-browser.js'
   },
 
   plugins: [
@@ -41,8 +38,7 @@ module.exports = exports = {
 
 if (process.env.NODE_ENV === 'development') {
   exports.externals = {
-    'emoji': './src/emoji',
-    'React': 'react',
-    'ReactDOM': 'react-dom'
+    react: 'React',
+    'react-dom': 'ReactDOM'
   }
 }
