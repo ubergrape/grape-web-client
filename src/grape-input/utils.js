@@ -13,17 +13,20 @@ export function isExternalSearch(data) {
  * Returns true if browser can be shown.
  */
 export function canShowBrowser(prevState = {}, nextState) {
-  const {query, data} = nextState
+  const {query, data, browser} = nextState
 
   if (!nextState.browser) return false
 
   if (nextState.isLoading) return true
 
   const isClosed = !prevState.browser
-  const isSearch = nextState.browser === 'search'
+  const isSearch = browser === 'search'
   const noResults = !data || isEmpty(data.results)
   const hasSearch = query && query.search.length > 0
   const closedBySpace = hasSearch && query.search[query.search.length - 1] === ' '
+
+  const isDataList = browser === 'emojiSuggest' || browser === 'user'
+  if (isDataList && isEmpty(data)) return false
 
   if (isClosed && noResults && hasSearch) return false
 
