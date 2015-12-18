@@ -9,12 +9,12 @@ import find from 'lodash/collection/find'
 import includes from 'lodash/collection/includes'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
-import startsWith from 'lodash/string/startsWith'
 
 import staticurl from 'staticurl'
 import render from '../rendervdom'
 import 'grape-browser'
 import * as emoji from 'grape-browser/lib/emoji'
+import {getRank} from '../getRank'
 
 const imagesBase = staticurl('app/cg/images')
 
@@ -122,50 +122,6 @@ export default class GrapeInput extends Emitter {
     }))
   }
 
-  getDefaultEmojiRank(value) {
-    switch (value) {
-      case 'thumbsup':
-        return 6
-      case 'smile':
-        return 5
-      case 'wink':
-        return 4
-      case 'disappointed':
-        return 3
-      case 'cry':
-        return 2
-      case 'point_up':
-        return 1
-      default:
-        return 0
-    }
-  }
-
-  getRank(type, key, ...values) {
-    let rank = 0
-
-    if (!key) {
-      if (type === 'emoji') rank = this.getDefaultEmojiRank(values[0])
-
-      return rank
-    }
-
-    const lKey = key.toLowerCase()
-    values.some(value => {
-      const lValue = value.toLowerCase()
-      if (lValue === lKey) {
-        rank = 2
-        return true
-      }
-      if (startsWith(lValue, lKey)) {
-        rank = 1
-        return true
-      }
-    })
-
-    return rank
-  }
-
   showSearchBrowser(key) {
     let props = this.input.props
     // Show browser immediately with empty state.
@@ -196,7 +152,7 @@ export default class GrapeInput extends Emitter {
     const data = emoji.filter(key).map(smile => {
       return {
         ...smile,
-        rank: this.getRank('emoji', key, smile.name)
+        rank: getRank('emoji', key, smile.name)
       }
     })
 
@@ -204,6 +160,18 @@ export default class GrapeInput extends Emitter {
       browser: 'emojiSuggest',
       data
     })
+  }
+
+  getRoomObject(key, room = this.room) {
+    const fallback = !arguments[1]
+    return {
+      id: room.id,
+      type: 'room',
+      name: fallback ? 'room' : room.name,
+      slug: room.slug,
+      isPrivate: !room.is_public,
+      rank: fallback ? 3 : getRank('room', key, room.name)
+    }
   }
 
   findUsers(key) {
@@ -228,7 +196,7 @@ export default class GrapeInput extends Emitter {
         username: user.username,
         iconURL: user.avatar,
         inRoom: includes(roomUsers, user),
-        rank: this.getRank('user', key, name, user.username),
+        rank: getRank('user', key, name, user.username),
         type: 'user'
       }
     })
@@ -247,18 +215,10 @@ export default class GrapeInput extends Emitter {
   findRooms(key) {
     let rooms = this.org.rooms.toArray()
 
-    rooms = rooms.map(room => {
-      const currentRoom = room === this.room
-      return {
-        id: room.id,
-        type: 'room',
-        name: currentRoom ? 'room' : room.name,
-        slug: room.slug,
-        isPrivate: !room.is_public,
-        rank: this.getRank('room', key, room.name),
-        currentRoom
-      }
-    })
+    rooms = rooms.map(this.getRoomObject.bind(this, key))
+
+    // Add current room as `@room`.
+    rooms.push(this.getRoomObject(key))
 
     // Do the search.
     rooms = rooms.filter(room => {
