@@ -170,7 +170,8 @@ export default class GrapeInput extends Emitter {
       name: fallback ? 'room' : room.name,
       slug: room.slug,
       isPrivate: !room.is_public,
-      rank: fallback ? 3 : getRank('room', key, room.name)
+      rank: fallback ? 3 : getRank('room', key, room.name),
+      currentRoom: room === this.room
     }
   }
 
