@@ -92,11 +92,12 @@
 					display: none
 			.header-option
 				display: inline-block
-				color: black
+				color: #aaa
 				font-size: 14px
-				opacity: 0.4
 				&:hover
-					opacity: 1
+					opacity: 0.8
+				&:active
+					opacity: 0.2
 			.room-users-wrap
 				@extend $hoverable
 				margin-left: 20px
@@ -155,12 +156,20 @@
 		background-color: transparent
 		user-select: none
 		a
-			color: #642081
+			color: #0080FF
+			&:hover
+				opacity: 0.8
+			&:active
+				opacity: 0.2
 		&.selected
-		&:hover
-			background-color: #642081
+			background-color: #0080FF
 			a
 				color: white
+				&:hover
+				&:active
+					opacity: 1
+			&:active
+				opacity 0.2
 
 
 /* Intercom Widget */

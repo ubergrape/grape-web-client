@@ -151,11 +151,11 @@
 		z-index: 20
 		border-radius: 4px
 		opacity: 0.8
-		background: sidebar-button-background
+		background: rgba(0,0,0,0.3)
 		&:hover
 			opacity: 1.0
 			color: white
-			background: lighten(sidebar-button-background, 10%)
+			background: rgba(0,0,0,0.15)
 	.close
 		cursor: pointer
 		position: absolute
@@ -249,17 +249,17 @@
 					pointer-events: none
 	.dialog-button
 		position: relative
-		color: #EDEDED
+		color: white
 		font-size: 1em
 		padding: 4px 16px 4px 14px
-		background: sidebar-button-background
+		background: rgba(0,0,0,0.3)
 		border-radius: 4px
 		border: none
 		cursor: pointer
 		pointer-events: auto
 		transition: background 0.3s, color 0.3s, font-size 0.3s
 		&:hover
-			background: lighten(sidebar-button-background, 5%)
+			background: rgba(0,0,0,0.15)
 			color: white
 	.manager-menu
 		width: 100%
@@ -568,6 +568,9 @@
 			font-size: 1.1em
 			border: none
 			margin-top: 12px
+			background: grass-light
+			&:hover
+				background: lighten(grass-light,10%)
 			&.hidden
 				pointer-events: none
 		.delete-room-button

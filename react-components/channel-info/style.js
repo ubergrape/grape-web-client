@@ -47,7 +47,7 @@ export default {
   buttonInvite: {
     ...button,
     // XXX
-    ...buttonIcon('invite', {color: '#1e86f0', hoverColor: '#4098f2'})
+    ...buttonIcon('invite', {color: '#0080ff', hoverColor: '#4098f2'})
   },
   buttonLeave: {
     ...button,

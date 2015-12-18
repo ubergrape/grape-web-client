@@ -48,7 +48,7 @@
 		i.fa.fa-chevron-down
 
 	if !isOrgEmpty && menu.items
-		form.search-form
+		form.search-form(id="intro-step4")
 			input.search(type="search", name="search-input", placeholder=_("Search for messages"), autocomplete="off")
 			i.fa.fa-search.search-icon()
 			i.fa.fa-times.close()

@@ -4,13 +4,13 @@
 		span=_('ESC')
 		=_(' to cancel editing.')
 	.controls-wrapper
-		grape-input(id='intro-step1').grape-input
+		grape-input.grape-input
 		.controls-group
-			.search-browser-button.js-search-browser-button
-				i.fa.fa-hashtag
 			.uploader
 			.emoji-browser-button.js-emoji-browser-button
 				i.fa.fa-smile-o
+			#intro-step1.search-browser-button.js-search-browser-button
+				i.fa.fa-hashtag
 	.avatar
 		img.image(src="#{user.avatar}",width="42",height="42",alt="#{user.username}")
 	.js-markdown-tips

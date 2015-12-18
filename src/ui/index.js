@@ -149,40 +149,45 @@ UI.prototype.init = function UI_init() {
     }
   })
   this.intro.setOptions({
-    nextLabel: '<strong>' + _('Next') + '</strong>',
-    skipLabel: _('Skip'),
-    overlayOpacity: 0.7,
+    nextLabel: '<strong class="btn-nextStep">' + _('Continue') + '</strong>',
+    skipLabel: _('Already done? <u>Skip tutorial</u>'),
+    overlayOpacity: 0.005,
     showStepNumbers: false,
     showProgress: true,
     showBullets: false,
     steps: [
       {
-        intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_wave.png") +'"><div style="overflow: hidden"><h2>Hi '+ window.globalDisplayName +', welcome to ChatGrape!</h2><h3>My name is Trauby and I am here to give you a warm welcome at ChatGrape.</h3><p>The goal is to make your work life more <u>efficient</u>, <u>productive</u> and <u>enjoyable</u>. With the following 5 tips I will give you a quick overview of the chat and its nifty features.</p><p> If you want to talk to us, you can always reach out via <a target="_blank" href="mailto:support@chatgrape.com">support@chatgrape.com</a> or by tweeting at <a href="https://twitter.com/chatgrapecom" target="_blank">@chatgrapecom</a>.</p></div><div style="clear:both"></div>'),
+        intro: _('<img style="float: right; margin-left: 10px" width="135" height="160" src="'+ staticurl("images/mascot/mascot.png") +'"><div style="overflow: hidden"><h2>Welcome '+ window.globalDisplayName +'</h2><p>Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.</p><p>If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.</p></div><div style="clear:both"></div>'),
         tooltipClass: "intro-welcome"
       },
       {
-        element: '#intro-stepOne',
-        intro: _('<img style="float: left;margin-left: -10px" width="110" height="130" src="'+ staticurl("images/mascot/mascot_playing.png") +'"><div style="overflow: hidden"><h2>Juggle your company from <u>one place</u></h2><h3>Access all your company data right from the chat.</h3><p>Add <u>Service Integrations</u> inside of your <u>Organization Settings</u> to make them available inside of ChatGrape. You can search some external websites right away:</p><p><ul class="ver-list"><li>Type <span class="example-text">#youtube: chatgrape</span> to search youtube,</li><li>or <span class="example-text">#gif: explosion</span> to search the internet for gifs.</li></ul></p><p><strong>But most importantly</strong>: Add your own company data in your <u>Organization Settings</u> to browse your files, tasks and appointments within ChatGrape.</p> </div><div style="clear:both;height:1px;width:720px"></div>'),
+        element: '#intro-step1',
+        intro: _('<img style="float: right; margin-top: 10px" width="110" height="130" src="'+ staticurl("images/mascot/mascot_reading.png") +'"><div style="overflow: hidden"><h2>Find your team data</h2><p>Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs).</p><p>To open <strong>Grape Search</strong> click the button or press <strong>#</strong></p> </div><div style="clear:both;"></div>'),
+        tooltipClass: "intro-step-1",
+        tooltipPosition: 'right',
         position: 'top'
       },
       {
         element: '#intro-step2',
-        intro: _('<img style="float: right;margin-right: -10px" width="110" height="130" src="'+ staticurl("images/mascot/mascot_reading.png") +'"><div style="overflow: hidden"><h2>Rooms are a <u>virtual profile of your company</u></h2><h3>Join and create rooms for projects and departments within your organization.</h3><p>You can create and join public and private rooms by clicking the <u>Manage Rooms</u> button in the corner.</p> </div><div style="clear:both;height:1px;width:550px"></div>'),
+        intro: _('<img style="float: right;margin-right: 10px" width="110" height="110" src="'+ staticurl("images/mascot/mascot_lock_closed.png") +'"><div style="overflow: hidden"><h2>Manage chat rooms</h2><p>Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).</p> </div><div style="clear:both;"></div>'),
+        tooltipClass: "intro-step-2",
         position: 'right'
       },
       {
         element: '#intro-step3',
-        intro: _('<h2>Communicate 1-on-1</h2><h3>Click on your team members to start private conversations</h3><p>The color dot indicates each user\'s current state:<ul class="ver-list"><li><strong>Green</strong>: The user is online</li><li><strong>Red</strong>: The user is currently not reachable</li><li><strong>Grey</strong>: The user has been removed from the organization</li></ul></p><p>Your private messages are sorted by latest interactions, pushing unread messages to the top.</p><div style="clear:both;height:1px;width:550px"></div>'),
+        intro: _('<img style="float: right; margin-left: 10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_message.png") +'"><div style="overflow: hidden"><h2>Communicate 1-to-1</h2><p>Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.</p></div><div style="clear:both;"></div>'),
         position: 'right',
-        tooltipClass: 'introjs-push-arrow-bottom'
+        tooltipClass: "intro-step-3"
       },
       {
         element: '#intro-step4',
-        intro: _('<h2>The Room header</h2><h3>At ChatGrape everything is just one click away.</h3><p>As an admin or room owner, you can modify a <u>Room Name</u> just by clicking the <i class="fa fa-pencil"></i> button.</p><p>You can <u>Delete Rooms</u> by clicking the <i class="fa fa-trash"></i> icon.</p><p>The little round images show the <u>users inside a room</u>. Click the <i class="fa fa-user-plus"></i> button to see all and to invite new users.</p>'),
+        intro: _('<img style="float: right; margin-left: 10px" width="102" height="120" src="'+ staticurl("images/mascot/mascot_playing.png") +'"><div style="overflow: hidden"><h2>Stay productive</h2><p>Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.</p></div><div style="clear:both;"></div>'),
+        tooltipClass: "intro-step-4",
         position: 'bottom'
       },
       {
-        intro: _('<img style="float: left;margin-left: -10px" width="120" height="120" src="'+ staticurl("images/mascot/gifs/trauby_space_sml.gif") +'"><div style="overflow: hidden"><h2>ChatGrape - We Have Lift-off!</h2><h3>With the tutorial out of the way, it\'s now time to set up your organization.</h3><p><u>Manage your rooms</u>, invite your <u>team members</u> and <u>add service integrations</u> in your organization settings.</p><p>If you need help with the setup, don\'t hesitate and contact us right away!</p><p>Cheerio, <br>-Trauby</p></div><div style="clear:both;height:1px;width:720px"></div>'),
+        intro: _('<img style="float: right; margin-left: 10px; border-radius: 50%; -moz-border-radius: 50%; margin-top: 33px;" width="120" height="120" src="'+ staticurl("images/mascot/gifs/trauby_space_sml.gif") +'"><div style="overflow: hidden"><h2>Well done!</h2><p>Don\'t forget to <a href="/accounts/organization/settings/members/" target="_blank">add your team members</a> and to <a href="/integrations/" target="_blank">connect your services</a>.</p><p>If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.</p></div><div style="clear:both;height:1px;width:720px"></div>'),
+        tooltipClass: "intro-step-5"
       }
     ]
   })

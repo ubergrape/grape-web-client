@@ -6,7 +6,7 @@ export default {
   margin: 0,
   padding: 0,
   // XXX
-  color: '#1e86f0 !important',
+  color: '#0080ff !important',
   '&:hover': {
     color: '#4098f2 !important',
     // !important can be removed when this is done:

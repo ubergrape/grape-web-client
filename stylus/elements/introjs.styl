@@ -4,15 +4,81 @@
 	border: 1px solid rgba(255,255,255,.7)
 .introjs-tooltip
 	min-width: 280px
-	max-width: 450px
+	width: 500px
+	max-width: 500px
+	padding: 30px 30px 20px !important
+	background: #0080ff
+	border-radius: 15px
+	color: white
 	h2
-		@extend $bigger-font-size
-		margin-bottom: 6px
-	.introjs-tooltiptext
-		padding: 10px
+		font-size: 24px
+		font-weight: bold
+		margin-bottom: 10px
+	p
+		font-size: 15px
+		line-height: 1.5 !important
+	a
+		color: white
+		&:hover
+			opacity: 0.7
+.introjs-arrow.bottom
+	bottom: -30px
+.introjs-arrow.left
+	left: -30px
+.introjs-arrow.top
+	top: -30px
+.introjs-arrow
+	border: 15px solid white
+.intro-step-1
+	left: -450px !important
+	top: -250px !important
+	background: #6cb500 !important
+	.introjs-arrow.bottom
+		right: 15px
+		border-top-color: #6cb500 !important
+.intro-step-2
+	background: #ed8928
+	.introjs-arrow.left
+		border-right-color: #ed8928 !important
+		top: 20px
+.intro-step-3
+	background: #642081
+	.introjs-arrow.left
+		border-right-color: #642081 !important
+		top: 25px
+.intro-step-4
+	background: #0080ff
+	.introjs-arrow.top
+		border-bottom-color: #0080ff !important
+		right: 50px !important
+.intro-step-5
+	background: #6cb500 !important
+.introjs-progress
+	display: none
 .intro-welcome
 	width: 550px
 	max-width: 550px
+.introjs-skipbutton
+	float: right
+	font-weight: 400
+	color: white !important
+	margin-top: 15px
+.introjs-nextbutton,
+.intro-step-5 .introjs-skipbutton
+	float: none
+	color: white !important
+	border-radius: 4px !important
+	padding: 8px 15px !important
+	font-size: 17px !important
+	background: rgba(0,0,0,0.5) !important
+	&:hover
+		background: rgba(0,0,0,0.3) !important
+.introjs-tooltipbuttons
+	text-align: left !important
+.introjs-helperLayer
+	border: 0 !important
+	box-shadow: none !important
+	background: transparent !important
 .introjs-helperNumberLayer
 	width: 18px
 	height: 22px
@@ -25,8 +91,8 @@
 	left: 0
 	text-shadow: none
 	padding: 0
-+	font-family: "proxima-nova", Arial, Helvetica, Geneva, sans-serif!important
-.introjs-bullets 
+	font-family: "proxima-nova", Arial, Helvetica, Geneva, sans-serif!important
+.introjs-bullets
 	ul
 		li
 			a
