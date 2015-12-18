@@ -5,8 +5,10 @@
 // ****
 .footer
   z-index: 30
-  padding: 0px horizontal-space 20px
+  margin: 0 horizontal-space
+  padding: 0
   background: white
+  border-top: 1px solid #d3d3d3
   background-attachment: fixed
   transform: translate3d(0,0,0)
   will-change: transform
@@ -53,7 +55,6 @@
     flex: 1
     position: relative
     display: flex
-    border-top: 1px solid #d3d3d3
     background-color: #fff
     line-height: 1
 
@@ -75,7 +76,7 @@
 
   .controls-group
     position: absolute
-    bottom: 0
+    bottom: 8px
     right: 0
     top: 0
     >div
@@ -109,7 +110,7 @@
   .edit-message
     position: absolute
     top: -20px
-    left: 64px
+    left: 0px
     background: linear-gradient(#FBFBFB, #F7F7F7);
     border: solid 1px #E5E5E5
     border-radius: 3px
@@ -127,9 +128,13 @@
 
   .js-markdown-tips
     position: absolute
-    bottom: -20px
-    left: 0px
+    top: -20px
+    right: -10px
     cursor: pointer
+    background: white
+    padding: 3px 10px
+    line-height: 1
+    border-radius: 4px
     span
       text-decoration: underline
 
@@ -172,16 +177,30 @@
   .editing-previous
     .controls-wrapper
       background: #FFF3B9
+      padding: 0 10px
     .controls-group-item
       cursor: default
     .uploader
       transform: scale(0)
       opacity: 0
       display: none
+
   // Toggle for edit message input
   .grape-input-wrapper .edit-message
     opacity: 0
-    top: -20px
+    top: 0px
   .grape-input-wrapper.editing-previous .edit-message
     opacity: 1
     top: -35px
+
+body.client-style-compact
+  .footer
+    margin: 0 !important
+  .edit-message
+    left: 20px !important
+  .js-markdown-tips
+    right: 10px !important
+  .controls-wrapper
+    padding: 0 20px !important
+  .controls-group
+    right: 10px !important
