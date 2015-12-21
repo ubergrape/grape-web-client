@@ -13,7 +13,7 @@ import get from 'lodash/object/get'
 import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
 import 'grape-browser'
-import {getRank} from '../getRank'
+import getRank from '../utils/getRank'
 
 const defaultBrowserProps = {
   isLoading: false,
