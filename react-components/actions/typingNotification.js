@@ -1,4 +1,5 @@
 import each from 'lodash/collection/each'
+import find from 'lodash/collection/find'
 
 import * as types from '../constants/actionTypes'
 
