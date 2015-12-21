@@ -158,6 +158,7 @@ export default class GrapeInput extends Emitter {
 
     this.setProps({
       browser: 'emojiSuggest',
+      maxCompleteItems: 6,
       data
     })
   }
