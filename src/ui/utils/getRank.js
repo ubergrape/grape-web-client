@@ -1,13 +1,12 @@
 import startsWith from 'lodash/string/startsWith'
-import {defaultRank as emojiDefaultRank} from 'grape-browser/lib/emoji'
 
 /**
  * Returns rank based on match `key sub-string` and each `value string`.
  */
 export default function getRank(type, key, ...values) {
   let rank = 0
-  // TODO: move defaultRanks emoji assignment into `grape-browser`
-  if (!key) return type === 'emoji' ? emojiDefaultRank(values[0]) : rank
+
+  if (!key) return rank
 
   const lKey = key.toLowerCase()
   values.some(value => {
