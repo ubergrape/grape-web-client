@@ -45,7 +45,7 @@
 							=_('Welcome to ')
 							if !room.is_public
 								i.fa.fa-lock
-								|=" "
+								=" "
 							span #{room.name}
 						p
 							=_(welcomemsg)
@@ -176,17 +176,17 @@
 										if line.branch
 											span.branch
 												i(class="fa fa-code-fork")
-												|=" "
+												=" "
 												| #{line.branch}
 										if line.tag
 											span.tag
 												i(class="fa fa-tag")
-												|=" "
+												=" "
 												| #{line.tag}
 										if line.container
 											span.container
 												i(class="mdi mdi-link-variant")
-												|=" "
+												=" "
 												a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
 								//- show the edit stuff only if current user is the author
 								if user.id == line.author.id && mode === 'chat' && status != 'pending'
