@@ -261,7 +261,9 @@
 																| #{obj.name}
 													if obj.sha
 														a(href=obj.url, target="_blank").sha
+															=" "
 															| #{obj.sha.substr(0, 6)}
+															=" "
 													if obj.content
 														if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
 															.text= html(markdown(obj.content))
