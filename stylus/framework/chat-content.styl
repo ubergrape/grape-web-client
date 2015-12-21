@@ -20,7 +20,6 @@
 		position: relative
 		overflow: auto
 		padding: 0
-		z-index: 10
 		background: white
 		background-attachment: scroll
 		min-width: 200px
@@ -41,11 +40,10 @@
 		position: relative
 	.right-sidebar
 		position: fixed
-		top: header-height
+		top: header-height + 1
 		right: 0
 		bottom: 0
 		width: right-sidebar-width
-		height: calc(100%-64px)
 		z-index: 50
 		display: none
 		@media (max-width: 1280px)
