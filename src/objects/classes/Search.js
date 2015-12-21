@@ -1,4 +1,5 @@
 import {getTrigger, encodeMDLink} from '../utils'
+import {grapeProtocol} from '../constants'
 
 const tokenType = 'search'
 const trigger = getTrigger(tokenType)
@@ -20,7 +21,7 @@ export default class Search {
   }
 
   toString() {
-    const url = `cg://${this.service}|${this.type}|${this.name}|${this.url}||`
+    const url = `${grapeProtocol}${this.service}|${this.type}|${this.name}|${this.url}||`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }
