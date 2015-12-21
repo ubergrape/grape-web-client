@@ -1,7 +1,7 @@
 import webColors from 'grape-theme/dist/web-colors'
 import color from 'color'
 
-import button from './style'
+import button from './default'
 
 export default {
   ...button,

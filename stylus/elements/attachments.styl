@@ -2,45 +2,11 @@
 	@extend $clearfix
 	margin-top: 20px !important
 	margin-bottom: 24px !important
-	.avatar
-		margin-left: 14px
-		margin-top: 3px
-		.image
-			width: 28px
-			height: 28px
 	.message-inner-wrap
 		width: 100%
 		display: inline-block
-	.message-content
-		position: relative
-	.vertical-line
-		display: block
-		position: absolute;
-		width: 5px
-		top: 0
-		bottom: 0
-		left: 52px
-		background: #C3C3C3
-		border-radius: 4px 0px 0px 4px
-		z-index: 50
-	&.creator
-		a.timelink
-			@extend $subtle-link
-			color: #788796 !important
-			&:hover
-				color: link-color !important
-				text-decoration: none !important
-		.message-content
-			.message
-				background-color: blue-lighter !important
-				border-color: blue-light !important
-		.vertical-line
-			background: #7396AF !important
-
 .attachments.message
 	@extend $clearfix
-	border-radius: 0px 6px 6px 0px
-	margin-top: 3px
 	.message-inner-wrap
 		padding: 0 16px 0 5px
 		display: inline-block
@@ -57,10 +23,9 @@
 				color: #788796
 		&:hover
 			cursor: pointer
-			color: #7B477B
+			color: #642081
 	a.timelink
 		@extend $subtle-link
-		color: gainsboro-dark !important
 		position: relative
 		margin-right: 12px
 		font-size: 0.9em
@@ -77,8 +42,6 @@
 				.dif-tz
 					font-size: 1.05em
 		&:hover
-			color: #7B477B !important
-			text-decoration: none !important
 			.different-timezone
 				text-decoration: none !important
 				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
@@ -91,6 +54,3 @@
 		max-width: 740px
 		&.add-margin
 			margin-top: 12px
-	.image-wrap
-		border: solid 1px #F2F2F2
-		border-radius: 4px

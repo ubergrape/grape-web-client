@@ -6,7 +6,6 @@ export default function doBroker(ui, api) {
   broker(api, 'changeUser', ui, 'setUser')
   broker(api, 'change settings', ui, 'setSettings')
   broker(api, 'leftChannel', ui, 'leftChannel')
-  broker(api, 'gotsearchresults', ui, 'displaySearchResults')
   broker(api, 'roomCreated', ui, 'roomCreated')
   broker(api, 'error', ui, 'gotError')
   broker(api, 'messageNotFound', ui, 'onMessageNotFound')
@@ -33,12 +32,13 @@ export default function doBroker(ui, api) {
   broker(ui, 'loadHistoryForSearch', api, 'onLoadHistoryForSearch')
   broker(ui, 'autocomplete', api, 'autocomplete')
   broker(ui, 'autocompletedate', api, 'autocompleteDate')
-  broker(ui, 'searching', api, 'search')
   broker(ui, 'confirmroomrename', api, 'renameRoom')
   broker(ui, 'deleteMessage', api, 'onDeleteMessage')
   broker(ui, 'inviteToRoom', api, 'onInviteToRoom')
   broker(ui, 'inviteToOrg', api, 'onInviteToOrg')
   broker(ui, 'setDescription', api, 'onSetDescription')
+  broker(ui, 'loadMentions', api, 'onLoadMentions')
+  broker(ui, 'messageSearch', api, 'onMessageSearch')
   broker(ui, 'setTyping', api, 'onSetTyping')
 
   broker.pass(api, 'newMessage', ui, 'newMessage')
@@ -66,7 +66,9 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'inviteSuccess', ui, 'inviteSuccess')
   broker.pass(api, 'inviteError', ui, 'inviteError')
   broker.pass(api, 'roomInviteSuccess', ui, 'roomInviteSuccess')
+  broker.pass(api, 'searchMessagesPayload', ui, 'searchMessagesPayload')
+  broker.pass(api, 'searchMessagesError', ui, 'searchMessagesError')
+  broker.pass(api, 'loadMentionsError', ui, 'loadMentionsError')
+  broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
   broker.pass(api, 'change settings', ui, 'setSettings')
 }
-
-

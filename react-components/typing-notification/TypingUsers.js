@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 
 import style from './style'
-import {useSheet} from '../jss'
+import {useSheet} from 'grape-web/lib/jss'
 
 /**
  * Render users list.
@@ -13,6 +13,12 @@ import {useSheet} from '../jss'
  */
 @useSheet(style)
 export default class TypingUsers extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    users: PropTypes.array.isRequired,
+    max: PropTypes.number
+  }
+
   static defaultProps = {
     max: 3
   }
@@ -28,12 +34,10 @@ export default class TypingUsers extends Component {
 
     if (names.length === 1) {
       text = `${names[0]} is typing`
-    }
-    else if (names.length <= max) {
+    } else if (names.length <= max) {
       const last = names.pop()
       text = `${names.join(', ')} and ${last} are typing`
-    }
-    else {
+    } else {
       const othersAmount = names.length - max
       const others = othersAmount > 1 ? 'others' : 'other'
       text = `${names.slice(0, max).join(', ')} and ${othersAmount} ${others} are typing`

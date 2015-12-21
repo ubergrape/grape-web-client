@@ -23,7 +23,6 @@
 				div
 					h3
 						=_('Hi '+ globalDisplayName +'!')
-
 					img.image(src="#{preloader}",width="40",height="60",alt="Loading")
 					p
 						=_("Give us a second while we prepare everything for you!")
@@ -43,7 +42,7 @@
 					img.image(src="#{welcomepic}",width="100",alt="Hi!")
 					div
 						h3
-							| Welcome to
+							=_('Welcome to ')
 							if !room.is_public
 								i.fa.fa-lock
 								|=" "
@@ -52,13 +51,13 @@
 							=_(welcomemsg)
 						ul.welcome-tasks
 							li.option
-								a.show-invite.disable-document-click-handler.button.btn-gainsboro
+								a.show-invite.disable-document-click-handler
 									i.fa.fa-user-plus
-									=_('Add members to this room')
+									=_('Invite people to this room')
 							li.option
-								a.button.btn-gainsboro(href='/integrations/', target='_self')
+								a(href='/integrations/', target='_self')
 									i.fa.fa-link
-									=_('Integrate external services')
+									=_('Add service integration')
 			else
 				.welcome-message
 					- var head = staticurl("/images/head_lock.png")
@@ -90,9 +89,9 @@
 			- var first = lines[0]
 			if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
 				if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
-					.date-separator
+					.date-separator.today
 						span
-							| Today, #{strftime('%A, %d %b %Y', first.time)}
+							| Today
 				else
 					.date-separator
 						span= strftime('%A, %d %b %Y', first.time)
@@ -106,20 +105,18 @@
 				if hasAttachments
 					div.avatar
 						- var alttext = first.author.id
-						img.image(src="#{first.author.avatar}",width="28",height="28",alt="#{alttext}")
-					.vertical-line
+						img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{alttext}")
 				else if first.author.type === 'user' && first.author.id !== user.id && first.author.active
 					a(href="/chat/@" + first.author.username.toLowerCase()).avatar
 						img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
 				else if first.author.type==='user' && (first.author.id === user.id || !first.author.active)
 					div.avatar
-						img.image(src="#{first.author.avatar}",width="28",height="28",alt="#{first.author.username}")
+						img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{first.author.username}")
 				else if first.author.type==='service'
 					div.avatar
 						- var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
 						- var alttext = first.author.id
 						img.image(src="#{icon}",width="42",height="42",alt="#{alttext}")
-					.vertical-line(class=first.author.id)
 
 				.message-content
 					each line, i in lines
@@ -132,6 +129,46 @@
 						- var attachments = line.attachments && line.attachments.length != 0 ? 'attachments' : ''
 						- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
 						- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
+						if i === 0
+							.messageinfo
+								if (first.author.type==='user')
+									- var author = user.id !== first.author.id ? first.author.displayName : first.author.displayName
+									if (line.attachments && line.attachments.length != 0)
+										a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+											author.message-author(class=user.id == first.author.id ? "creator" : "")= author
+									else
+										if (first.author.active)
+											//- Only create link when it's a user who is not deleted
+											a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+												author.message-author= first.author.displayName
+										else if (!first.author.active)
+											author.message-author= author
+											if (first.author.id !== user.id)
+												span.author-deleted
+													=_('Deleted user')
+								else
+									author.message-author= first.author.username
+								if first.author.title
+									if first.author.title.indexOf("Mentor") === 0
+										span.author-title.author-title-mentor
+											span.author-title-icon
+												i.fa.fa-graduation-cap
+											=first.author.title
+									else
+										span.author-title=first.author.title
+								//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+								a(href=msgLink, class="timelink")
+									.time
+										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+											first.user_time
+										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
+											i.fa.fa-globe
+											.different-timezone
+												span.dif-tz
+													=_(' Local time: ')
+												//- the substr part is a hack to remove the tz information
+												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
+												time.user-tz= tz(user_time).format('hh:mm A')
 						.message-inner-wrap
 							div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=attachments, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
 								if (line.container || line.branch || line.tag)
@@ -178,54 +215,6 @@
 													//- the substr part is a hack to remove the tz information
 													- var user_time = line.user_time.substr(0, line.user_time.length - 6)
 													time.user-tz= tz(user_time).format('hh:mm A')
-								if i === 0
-									.messageinfo
-										if (first.author.type==='user')
-											- var author = user.id !== first.author.id ? first.author.displayName : 'You'
-											if (line.attachments && line.attachments.length != 0)
-												a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-													author.message-author(class=user.id == first.author.id ? "creator" : "")= author
-											else
-												if (first.author.active)
-													//- Only create link when it's a user who is not deleted
-													a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-														author.message-author= first.author.displayName
-												else if (!first.author.active)
-													author.message-author= author
-													if (first.author.id !== user.id)
-														span.author-deleted
-															=_('Deleted user')
-										else
-											author.message-author= first.author.username
-										if first.author.title
-											if first.author.title.indexOf("Mentor") === 0
-												span.author-title.author-title-mentor
-													span.author-title-icon
-														i.fa.fa-graduation-cap
-													=first.author.title
-											else
-												span.author-title=first.author.title
-										if (!line.attachments || line.attachments.length == 0)
-											span=_('at')
-										else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") == 0)
-											- var amount = line.attachments.length == 1 ? 'an image' : line.attachments.length + ' images'
-											span=_('added ' + amount + ' to the conversation at')
-										else if (line.attachments[0].type && line.attachments[0].type.indexOf("image") != 0)
-											- var amount = line.attachments.length == 1 ? 'a file' : line.attachments.length + ' files'
-											span=_('added ' + amount + ' to the conversation at')
-										//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-										a(href=msgLink, class="timelink")
-											.time
-												time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-													first.user_time
-												if ( typeof first.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== tz(first.user_time)._tzm)
-													i.fa.fa-globe
-													.different-timezone
-														span.dif-tz
-															=_(' Local time: ')
-														//- the substr part is a hack to remove the tz information
-														- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-														time.user-tz= tz(user_time).format('hh:mm A')
 								if status === 'unsent'
 									div.status-control
 										if status == 'unsent'

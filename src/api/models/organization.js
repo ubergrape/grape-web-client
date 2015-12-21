@@ -8,7 +8,8 @@ export default new Model([
     'role',
     'custom_emojis',
     'has_integrations',
-    'inviter_role'
+    'inviter_role',
+    'features'
   ])
   .use(cache('id'))
   .use(array)

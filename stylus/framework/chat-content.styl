@@ -11,8 +11,8 @@
 	position: relative
 	overflow: hidden
 	margin-left: client-navigation-width
-	//transition: width 400ms ease
-	background: chat-background
+	@media (max-width: 1280px)
+		margin-left: client-navigation-width-small
 	.chat-wrapper // The scrollable history area
 		flex: 1
 		display: flex
@@ -21,8 +21,9 @@
 		overflow: auto
 		padding: 0
 		z-index: 10
-		background: url("../images/cgbg-new.png")
+		background: white
 		background-attachment: scroll
+		min-width: 200px
 	.chat
 		flex: 1
 		position: relative
@@ -36,24 +37,20 @@
 		display: flex
 		flex-direction: column
 		flex: 1
-		transition: margin-right 0.2s, transform 0.2s
-		transition-timing-function: grape-bezier
 		margin-right: 0px;
 		position: relative
 	.right-sidebar
 		position: fixed
-		top: 0
+		top: header-height
 		right: 0
 		bottom: 0
-		width: 250px
+		width: right-sidebar-width
 		height: calc(100%-64px)
-		margin-top: 63px
-		background: #F2F2F2
-		border-left: solid 1px #E5E5E5
-		transition: transform 0.2s
-		transition-timing-function: grape-bezier
-		transform: translateX(250px)
 		z-index: 50
+		display: none
+		@media (max-width: 1280px)
+			width: right-sidebar-width-small
+
 
 // ****
 //
@@ -62,11 +59,7 @@
 // ****
 
 .welcome-message
-	margin: 0
-	padding: 30px 40px 42px 20px
-	margin: 10px 25px 20px 52px
-	@media (max-width: 720px)
-		text-align: center
+	padding: 20px
 	body.notifications-disabled &
 		padding-top: 62px !important
 	@extend $big-font-size
@@ -82,20 +75,20 @@
 	h2, h3, p, ul
 		max-width: 720px
 		margin-bottom: 2px
+	p
+		font-size: 15px
 	h2
 		@extend $bigger-font-size
-		color: gainsboro-dark
 		margin-bottom: 4px
 	h3
-		@extend $bigger-font-size
-		font-weight: bold
-		color: darken(gainsboro-dark, 20%)
-		margin-bottom: 3px
+		@extend $biggest-font-size
+		font-weight: 300
+		margin: 10px 0 5px
 	.alert-inline.warning
 		&::after
 			content: ""
 	.welcome-tasks
-		margin-top: 20px
+		margin-top: 10px
 		@extend $clearfix
 		.task-description
 			font-weight: bold
@@ -130,36 +123,18 @@
 
 .message-group
 	@extend $clearfix
-	margin: 10px 24px 20px 20px
+	margin: 10px 20px 20px 20px
 	position: relative
 	.avatar
-		float: left
-		position: relative
-		font-weight: bold
+		position: absolute
+		top: 21px
+		left: 0
 		.image
-			width: 42px
-			height: 42px
+			width: 32px
+			height: 32px
 			float: left
-			margin-right: 12px
 			border-radius: 50%
 	&.user
-		.avatar
-			&::after,
-			&::before // Hack for the arrow of the message box
-				content: ""
-				position: absolute
-				border-left: 3px solid transparent
-			&::after
-				z-index: 9
-				right: -2px
-				top: 1px
-				border-right: 9px solid white
-				border-bottom: 13px solid transparent
-			&::before // Hack for the arrow of the message box
-				border-right: 10px solid #E5E5E5
-				border-bottom: 14px solid transparent
-				right: -1px;
-				top: 0px;
 		.text.main
 			max-width: 740px
 
@@ -171,101 +146,12 @@
 			color: #E5E5E6
 	&:last-child
 		margin-bottom: 10px
-	&.requested
-		&.user
-			.avatar
-				&::after
-					border-right-color: rgb(207, 255, 203) !important
 
-.message-group.creator
-	.avatar
-		&::after
-			border-right-color: blue-lighter
-			border-top-color: blue-lighter
-		&::before // Hack for the arrow of the message box
-			border-right-color: blue-light
-			border-top-color: blue-light
-	.message
-		margin-right: 48px
-		&:after
-			border-color: #DBE7ED
-	.message-author
-		color: #788796
-		text-decoration: none
-		cursor: default
-	.author-link
-		cursor: default
-	a.timelink
-		@extend $subtle-link
-		color: #788796
-		&:hover
-			text-decoration: none !important
-	.avatar
-		&.requested
-			&::after
-				border-right-color: rgb(207, 255, 203) !important
-				border-top-color: rgb(207, 255, 203) !important
-		&.editing
-			&::after
-				border-right-color: lighten(gold, 80%) !important
-				border-top-color: lighten(gold, 80%) !important
-			&::before // Hack for the arrow of the message box
-				border-right-color: #DDDDDD !important
-				border-top-color: #DDDDDD !important
-/*
-.client-style-normal .message-group.creator.user
-	@media (max-width: 950px)
-		.avatar
-			float: right
-			padding-right: 5px;
-			.image
-				margin-left: (horizontal-space / 2)
-				margin-right: 0
-				display: none
-			&::after
-				left: 3px
-				right: auto
-				top: 1px
-				border-left: 9px solid blue-lighter
-				border-right: none
-				border-bottom: 13px solid transparent
-			&::before // Hack for the arrow of the message box
-				border-left: 10px solid blue-light
-				border-right: none
-				border-bottom: 14px solid transparent
-				left: 4px
-				right: auto
-				top: 0px
-			&.editing
-				&::after
-					border-left-color: lighten(gold, 80%) !important
-					border-top-color: lighten(gold, 80%) !important
-				&::before // Hack for the arrow of the message box
-					border-left-color: #DDDDDD !important
-					border-top-color: #DDDDDD !important
-		&.requested
-			.avatar
-				&::after
-					border-left-color: rgb(207, 255, 203) !important
-					border-top-color: rgb(207, 255, 203) !important
-		.message-content
-			text-align: right
-			padding-right: 0
-			padding-left: 68px
-		.message
-			text-align: left
-			&.first
-				border-radius: 6px 0px 6px 6px
-		.edit
-			left: auto
-			right: 100%
-			padding-right: 7px
-			padding-left: 0
-*/
 .messageinfo
 	color: #b3b3b3
 	text-align: left
-	margin-bottom: 8px
+	margin-bottom: 2px
+	padding-left: 42px
 	@extend $normal-font-size
 	span
 		color: #b3b3b3
@@ -274,12 +160,12 @@
 	.author-title
 		background-color: #B3AEBA
 		padding: 2px 4px
+		margin-right: 0
 		border-radius: 3px
 		color: white
 		.author-title-icon
 			color: white
 	.author-title-mentor
-		display: inline-block !important
 		overflow: hidden
 		text-overflow: ellipsis
 		line-height: 1.2
@@ -287,18 +173,20 @@
 		max-width: 125px
 		background-color: #F0905C
 	.author-link
-		color: gainsboro-dark
+		color: #666
+		font-weight: 600
 	.author-link:hover
+		color: link-color-hover
 		text-decoration: none !important
-		color: #7B477B
 	span
 		font-size: 0.9em
 		margin-left: 4px
 		margin-right: 4px
 	a.timelink
 		@extend $subtle-link
-		color: gainsboro-dark
-		margin-right: 12px
+		color: #aaaaaa
+		margin-right: 10px
+		margin-left: 10px
 		font-size: 0.9em
 		.fa-globe
 			margin-left: 4px
@@ -313,7 +201,7 @@
 				.dif-tz
 					font-size: 1.05em
 		&:hover
-			color: #7B477B
+			color: link-color-hover
 			text-decoration: none !important
 			.different-timezone
 				text-decoration: none !important
@@ -322,48 +210,62 @@
 				transition-timing-function: grape-bezier
 				transform: translateX(6px)
 				opacity: 1
+
 .message-content
-	margin-left: 54px
+	.message-inner-wrap
+		padding-left: 42px
+		&:hover
+			.edit
+				opacity: 1
+			.outertime
+				visibility: visible
 	.message
 		display: inline-block
 		clear: both
 		font-size: 1.1em
-		padding: 10px 16px 9px 14px
+		padding: 7px 13px 6px 13px
+		line-height: 1.4
 		position: relative
-		border: solid 1px #E5E5E5
-		border-radius: 6px 6px 6px 6px
-		background-color: #FFFFFF
-		margin-top: 3px
-		margin-left: 0px
-		margin-right: auto
-		box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05)
-		&.freshmessage
-			animation: hifromtheleftNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		border-radius: 16px
+		background-color: #EDF0F5
+		margin: 2px auto auto 0
 		&.first
+		&.activity
 			margin-top: 0
-			border-radius: 0px 6px 6px 6px;
-			min-width: 280px
 			&:after
-				border: none
-		&:hover
-			> .edit
-				opacity: 1
+				display: block
+				width: 0
+				content: ""
+				position: absolute
+				top: 6px
+				left: -4px
+				bottom: auto
+				border-width: 7px 7px 7px 0
+				border-style: solid
+				border-color: transparent #EDF0F5
+				z-index: -1
 		.edit
 			@extend $hoverable
 			vertical-align: top
-			color: blue-light
+			color: #666
 			position: absolute
 			left: 100%
-			top: 9px
-			width: 54px
-			padding-left: 7px
+			top: 0px
+			margin: 3px auto auto 5px
+			padding: 3px 6px
+			white-space: nowrap
+			border: 1px solid #E1E6ED
+			border-radius: 13px
 			opacity: 0
+			&:hover
+				box-shadow: 0 1px 1px rgba(0,0,0,0.1)
+				border: 1px solid #C7C7C7
 			i
 				margin: 0 5px
 				&:hover
-					color: aqua-darker
+					color: link-color-hover
 				&:active
-					color: aqua-light
+					color: link-color-hover
 			.btn-delete
 				&:hover
 					color: bittersweet-dark
@@ -372,7 +274,7 @@
 		.outertime
 			position: absolute
 			right: 100%
-			color: gainsboro-light
+			color: #aaa
 			padding-right: 5px
 			@extend $small-font-size
 			@extend $subtle-link
@@ -381,12 +283,11 @@
 			width: 60px
 			top: 0
 			bottom: 0
-			padding-top: 16px
+			padding-top: 12px
+			&:hover
+				text-decoration: none !important
 			&.first
 				display: none
-		&:hover
-			.outertime
-				visibility: visible
 		.status-control
 			float: right
 			margin-left: 8px
@@ -419,18 +320,11 @@
 					.unsent
 						display: none
 		&.editing
-			background: lighten(gold, 80%) !important
-			color: #666666 !important
-			border-color: #DDDDDD !important
-			.message-author
-				color: #808080 !important
 		&.requested
-			background-color: rgba(201, 255, 174, 0.53) !important
-			color: grape-typo
+			background: #FFF3B9 !important
+			color: #666666 !important
 			&:after
-				top: 0
-			.message-author
-				color: gainsboro-dark
+				border-color: transparent #FFF3B9 !important
 		&.removing
 			background: lighten(gold, 60%)
 			color: grape-typo
@@ -510,25 +404,19 @@
 			line-height: 1px
 			max-height: 480px
 			overflow: hidden
-			margin-left: 6px
-			&:first-of-type
-				margin-left: 0px
+			margin: -5px -11px -9px -11px
+			border-radius: 14px
 			img
 				max-width: 100%
 
-.message-group.creator.user
+.message-group.creator
 	.message-content
 		.message
-			background-color: blue-lighter
-			border-color: blue-light
-	.avatar
-		&.editing
-			&::after
-				border-right-color: lighten(gold, 80%) !important
-				border-top-color: lighten(gold, 80%) !important
-			&::before // Hack for the arrow of the message box
-				border-right-color: #DDDDDD !important
-				border-top-color: #DDDDDD !important
+			margin: 2px 45px auto 0 !important
+			background-color: #D2E6FB
+			&:after
+				border-color: transparent #D2E6FB
+
 
 //When a user was removed from the organization, #867
 span.author-deleted
@@ -536,14 +424,6 @@ span.author-deleted
 	font-weight: bold
 	text-transform: uppercase
 	margin-left: 4px
-
-.avatar.removed
-	&::after
-		border-right-color: lighten(bittersweet-light, 80%) !important
-		border-top-color: lighten(bittersweet-light, 80%) !important
-	&::before // Hack for the arrow of the message box
-		border-top-color: #DDDDDD !important
-		border-right-color: #DDDDDD !important
 
 
 
@@ -553,28 +433,23 @@ span.author-deleted
 //
 // ****
 
-.right-sidebar-show .right-sidebar {
-  transform: translateX(0px) !important
-}
-.right-sidebar-show .main-window {
-	margin-right: 250px
-}
-.right-sidebar-show .bigarrow {
-	right: 270px
-}
+.right-sidebar-show .right-sidebar
+	display: block
+.right-sidebar-show .main-window
+	margin-right: right-sidebar-width
+	@media (max-width: 1280px)
+		margin-right: right-sidebar-width-small
+.right-sidebar-show .bigarrow
+	right: right-sidebar-width+20
+	@media (max-width: 1280px)
+		right: right-sidebar-width-small+20
+
 
 .intercom-messenger-active .main-window {
 	margin-right: 368px;
 }
 .intercom-messenger-active .bigarrow {
 	margin-right: 388px;
-}
-
-.main-window-minimize {
-    -webkit-transition: margin-right 0.5s, -webkit-transform 0.5s
-    transition: margin-right 0.5s, transform 0.5s
-    transition-timing-function: ease-out
-    margin-right: 250px !important
 }
 
 // ****
@@ -584,8 +459,7 @@ span.author-deleted
 // ****
 
 .text
-	padding: 0
-	margin-bottom: 1px
+	color: #333
 	max-width: 85%
 	word-wrap: break-word
 	transition: opacity .2s linear
@@ -666,41 +540,29 @@ span.author-deleted
 .date-separator,
 .newmessage-separator
 	text-align: center
-	color: gainsboro-dark
 	position: relative
 	height: 30px
 	padding: 5px 0 0 0
-	margin: 0 30px 20px 20px
+	margin: 0 20px 20px
 	span
-		color: grape-dark
-		background-color: chat-background
-		padding: 7px 16px 6px 16px
+		color: #666
+		font-weight: 600
+		background-color: white
+		padding: 5px 16px 5px 16px
 		position: relative
 		z-index: 5
-		border: 1px solid slate
-		border-radius: 3px
 	&::before
 		content: ""
 		position: absolute
 		top: 50%
 		left: 0
 		right: 0
-		background-color: #d9d9d9
+		background-color: #E0E5EC
 		height: 1px
 		margin-top: 1px
-
-.date-separator
-	span
-		color: slate
-	&::before
-		content: ""
-		position: absolute
-		top: 50%
-		left: 0
-		right: 0
-		background-color: #d9d9d9
-		height: 1px
-		margin-top: 0px
+	&.today
+		span
+			color: #333
 
 .newmessage-separator
 	span

@@ -1,20 +1,18 @@
-let template = require('template')
-let v = require('virtualdom')
-let domify = require('domify')
+import template from 'template'
+import v from 'virtualdom'
+import domify from 'domify'
 
 template.locals.strftime = require('strftime')
 template.locals._ = require('t')
 template.locals.escape_html = require('escape-html')
 template.locals.markdown = require('../ui/markdown')
 template.locals.constants = require('conf').constants
-template.locals.html = function (html) {
+template.locals.html = (html) => {
   return v.fromDOM(domify(html))
 }
 
 template.templates = {
   'chatheader.jade': require('./chatheader.jade'),
-  'rightsidebar.jade': require('./rightsidebar.jade'),
-  'roommembers.jade': require('./roommembers.jade'),
   'chathistory.jade': require('./chathistory.jade'),
   'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
   'dialogs/room-invite.jade': require('./dialogs/room-invite.jade'),
@@ -35,11 +33,6 @@ template.templates = {
   'messages.jade': require('./messages.jade'),
   'navigation.jade': require('./navigation.jade'),
   'pmlist.jade': require('./pmlist.jade'),
-  'pmlist-collapsed.jade': require('./pmlist-collapsed.jade'),
   'popovers/organization.jade': require('./popovers/organization.jade'),
-  'roomlist.jade': require('./roomlist.jade'),
-  'roomlist-collapsed.jade': require('./roomlist-collapsed.jade'),
-  'searchresults.jade': require('./searchresults.jade'),
-  'user-profile.jade': require('./user-profile.jade')
+  'roomlist.jade': require('./roomlist.jade')
 }
-

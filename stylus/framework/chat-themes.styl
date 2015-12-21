@@ -1,125 +1,5 @@
 //SIDEBAR
 
-body.client-style-compact
-	.chat
-		padding: 0
-
-	&.nav-style-basic .client
-		.org-area-bg,
-		.bg-overlay,
-		.org-info
-			height: 43px !important
-			display: block !important
-		.org-logo-name
-			display: block !important
-		.org-area-bg
-			overflow: hidden
-		.org-logo-name img
-			left: -30% !important
-			top: -5px !important
-			width: 20px !important
-			height: 20px !important
-		.org-name
-			overflow: hidden !important
-			-webkit-box-orient: vertical !important
-			display: -webkit-box !important
-			-webkit-line-clamp: 1 !important
-			top: -28px !important
-			margin-left: 32% !important
-			margin-right: 2% !important
-			font-size: 1.1em !important
-			text-align: left !important
-			margin-top: 5px !important
-		.pm-list
-			padding: 0
-		.manage-rooms-button
-			padding: 4px 5px
-			font-size: 1em
-		.channel-item
-			.room-face,
-			.avatar-wrap
-				height: 22px
-				width: 22px
-				margin-top: -2px
-				line-height: 22px
-				img
-					width: 22px !important
-					height: 22px
-			.item-inner-wrp
-				padding: 7px 0 6px 0 !important
-			.room-face
-				font-size: 0.9em
-		.channel-name
-			padding-left: 9px
-			font-size: 1em
-		.navigation .mdi
-			font-size: 13px
-		.settings-icon
-			position: absolute
-			top: 9px
-		.toggle-sidebar-icon
-			top: 25px
-		.fl-notification,
-		.fl-mention
-			margin-right: 3px;
-			margin-top: -1px;
-			padding: 2px 5px 1px 4px;
-			line-height: 17px;
-			height: 20px;
-			min-width: 18px;
-
-	&.nav-style-collapsed .client
-		.org-area-bg-collapsed,
-		.bg-overlay,
-		.org-info-collapsed
-			height: 43px !important
-			display: block !important
-		.org-topbar
-			top: -3px
-		.org-logo-name
-			display: block !important
-		.org-area-bg
-			overflow: hidden
-		.org-logo-name img
-			left: -32% !important
-			top: 12px !important
-			width: 20px !important
-			height: 20px !important
-		.navigation .mdi
-			font-size: 13px
-		.settings-icon
-			position: absolute
-		.toggle-sidebar-icon
-			top: 28px
-			left: 10px
-		.manage-rooms-button-collapsed
-			padding: 4px 5px
-			font-size: 0.9em
-		.channel-item
-			height: 32px !important
-			.room-face,
-			.avatar-wrap
-				height: 22px
-				width: 22px
-				margin-top: -2px
-				margin-left: 18px
-				line-height: 22px
-				img
-					width: 22px !important
-					height: 22px
-			.item-inner-wrp
-				padding: 7px 0 6px 0 !important
-			.room-face
-				font-size: 0.9em
-			.fl-notification,
-			.fl-mention
-				margin-right: 7px;
-				margin-top: 2px;
-				padding: 0px 3px 0px 3px;
-				line-height: 17px;
-				height: 17px;
-				min-width: 16px;
-
 body.client-style-compact.user-title-enabled
 	.message-group
 		.message-content
@@ -133,24 +13,11 @@ body.client-style-compact.user-title-enabled
 			white-space: nowrap
 			max-width: 125px
 body.client-style-compact
-	.search-results
-		margin-top: 44px
-	.room-header
-		height: 43px
-	.right-sidebar
-		margin-top: 43px
-		height: calc(100% - 43px)
-
-	.pm-list
-		padding: 0px 0px 22px 0px
 
 	.message-group
 		margin: 0 !important
-		padding: 0px 0 0px 160px !important
-		border-bottom: 1px solid silver-dark
-		border-top: 1px solid white
-		&.service
-			max-width: 100%
+		padding: 5px 0 5px 130px !important
+		border-bottom: 1px solid #f0f0f0
 		&::after
 			content: ""
 			position: absolute
@@ -166,24 +33,22 @@ body.client-style-compact
 		.message-content
 			margin-left: 0
 			min-height: 28px
-			background: #fff
 			display: block
 		.message
 			border: none
 			box-shadow: none
 			background: none
 			margin: 0 0 0 0 !important
-			padding: 9px 10px 9px 14px !important
+			padding: 5px 20px 5px 15px !important
 			border-radius: 0
 			position: inherit !important
 			display: block
 			@extend $clearfix
+			&.first:after
+			&.activity:after
+				display: none
 			&.requested
 				background-color: rgba(201, 255, 174, 0.53) !important
-			&.activity
-				top: 0 !important
-				.text
-					margin-top: 0
 		.outertime
 			position: relative
 			right: inherit
@@ -195,30 +60,30 @@ body.client-style-compact
 			padding: 0
 			line-height: inherit
 			@extend $normal-font-size
-			color: gainsboro-light !important
+			color: #aaa !important
 			&:hover
 				.different-timezone
 					opacity: 1
 		.edit
 			left: inherit
-			right: 107px
-			padding: 0 3px
-			top: 9px
+			right: 90px
+			padding: 1px 3px
 			background: #fff
-			border-radius: 4px
-			width: auto
 		&.creator
-			background-color: rgba(204, 236, 251, 0.3)
+			background-color: #EEF6FF
+			border-bottom-color: #DCE5F0
 			.message
 				background: none
-			.message-content
-				background-color: lighten(blue-lighter, 1)
+				margin: 5px 0 5px 0 !important
 		.messageinfo
-			width: 124px
+			width: 170px
 			position: absolute
-			left: -136px
+			left: 0
 			line-height: inherit
 			text-align: right
+			font-size: 1.1em
+			padding-top: 4px
+			padding-left: 20px
 			span,
 			.timelink
 				margin-left: 0
@@ -252,10 +117,6 @@ body.client-style-compact
 			bottom: 0
 			border-radius: 0
 
-		&.service
-			.message-content
-				display: block
-				top: inherit
 		&.attachments,
 		&.service
 			.message
@@ -271,21 +132,12 @@ body.client-style-compact
 			display: block
 			border-radius: 0
 			border: none
-			background: silver-dark
-			color: gainsboro-dark
+			background: #CFD8E3
 			padding: 2px 5px
-			border-top: 1px solid white
 	.newmessage-separator
 		span
 			background: lighten(grass-light, 15)
 			color: grass-dark
-
-	.search-form
-		.search
-			min-height: 28px
-		.search-icon,
-		.close
-			line-height: 28px
 
 	.nav-style-basic
 		.client-body

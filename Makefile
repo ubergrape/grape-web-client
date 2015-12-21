@@ -10,7 +10,7 @@ IMAGES_PATH := images
 JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
-	npm run build-dev
+	npm run build:dev
 	mkdir -p $(OUTPUT)/cg
 	cp -r $(IMAGES_PATH) $(OUTPUT)/cg/$(IMAGES_PATH)
 

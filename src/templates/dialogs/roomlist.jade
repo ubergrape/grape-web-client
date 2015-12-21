@@ -1,10 +1,4 @@
 ul.room-list(class=mode == 'creation' ? 'hidden' : '')
-	if mode == 'unjoined'
-		li.item.header
-			=_('Rooms you can join')
-	else if mode == 'joined'
-		li.item.header
-			=_('Rooms you have joined')
 	each room in items
 		if mode == 'unjoined' && !room.joined
 			li.item.room(data-id=room.id, key=room.id)

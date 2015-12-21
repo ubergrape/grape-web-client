@@ -16,12 +16,10 @@ ul.nav-list.pms
 							img(src="#{user.avatar}", alt="#{user.username}")
 							.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 						if unread > 0
-							if (unread > 99 && unread <= 400)
-								span.fl-notification=_('99+')
-							else if (unread > 400)
-								span.fl-notification=_('∞')
+							if unread > 99
+								span.fl-notification.is-mentioned=_('99+')
 							else
-								span.fl-notification=unread.toString()
+								span.fl-notification.is-mentioned=unread.toString()
 						span.channel-name
 							| #{user.displayName}
 							if !user.active

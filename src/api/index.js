@@ -1,11 +1,12 @@
-let array = require('array')
-let Emitter = require('emitter')
-let models = require('./models')
-let conf = require('conf')
-let noop = require('lodash/utility/noop')
+import array from 'array'
+import Emitter from 'emitter'
+import models from './models'
+import noop from 'lodash/utility/noop'
 
-let rpc = require('../../react-components/backend/rpc')
-let client = require('../../react-components/backend/client')
+import conf from 'conf'
+import rpc from '../../react-components/backend/rpc'
+import client from '../../react-components/backend/client'
+import * as convertCase from '../../react-components/backend/convertCase'
 
 let exports = module.exports = API
 exports.models = models
@@ -123,7 +124,7 @@ API.prototype.subscribe = function API_subscribe() {
       self.emit('joinedChannel', room)
     }
     room.users.push(user)
-    self.emit('newRoomMember', room)
+    self.emit('newRoomMember', room, user)
   })
   this.in.on('channel.left', function (data) {
     let user = models.User.get(data.user)
@@ -138,7 +139,7 @@ API.prototype.subscribe = function API_subscribe() {
       self.emit('leftChannel', room)
     }
     room.users.splice(index, 1)
-    self.emit('memberLeftChannel', room)
+    self.emit('memberLeftChannel', room, user)
   })
 
   // organization events
@@ -308,19 +309,19 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
  * This sets the current active organization. It also joins it and loads the
  * organization details such as the users and rooms.
  */
-API.prototype.setOrganization = function API_setOrganization(org, callback) {
+API.prototype.setOrganization = function API_setOrganization(_org, callback) {
   callback || (callback = noop)
   let self = this
   // TODO: this should also leave any old organization
-
   // first get the details
   rpc({
     ns: 'organizations',
     action: 'get_organization',
-    args: [org.id]
+    args: [_org.id]
   }, function (err, res) {
     if (err) return self.emit('error', err)
     const org  = new models.Organization(res)
+    if (org.role == null) org.role = _org.role
     org.users = res.users.map(function (u) {
       let user = models.User.get(u.id) || new models.User(u)
       user.status = u.status
@@ -348,9 +349,10 @@ API.prototype.setOrganization = function API_setOrganization(org, callback) {
       if (err) return self.emit('error', err)
       self.organization = org
       // put role and title in user object for consistency with other user objects
-      self.user.role = self.organization.role
-      self.user.title = self.organization.title
+      self.user.role = org.role
+      self.user.title = org.title
       self.emit('change organization', org)
+      this.emit('changeUser', this.user)
       callback()
     }.bind(this))
   }.bind(this))
@@ -510,32 +512,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   }, callback)
 }
 
-API.prototype.search = function API_search(text) {
-  rpc({
-    ns: 'search',
-    action: 'search',
-    args: [text, this.organization.id]
-  }, function (err, results) {
-    if (err) return this.emit('error', err)
-    let r = []
-    let lines = results.results.map(function (l) {
-      if(l.index !== 'objects_alias') {
-        l = new models.Line(l)
-        r.unshift(l)
-      } else {
-        r.unshift(l)
-      }
-    })
-    let f = []
-    this.emit('gotsearchresults', {
-      'results': r,
-      'facets': f,
-      'total': results.total,
-      'q': results.q
-    })
-  }.bind(this))
-}
-
 API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
   rpc({
     ns: 'channels',
@@ -627,7 +603,7 @@ API.prototype.setRead = function API_setRead(room, lineId) {
     ns: 'channels',
     action: 'read',
     args: [room.id, lineId]
-  }, function (err) {
+  }, (err) => {
     if (err) return this.emit('error', err)
   })
 }
@@ -697,11 +673,11 @@ API.prototype.updateMsg = function API_updateMessage(msg, text) {
   }.bind(this))
 }
 
-API.prototype.onKickMember = function API_onKickMember (roomId, memberId) {
+API.prototype.onKickMember = function API_onKickMember ({channelId, userId}) {
   rpc({
     ns: 'channels',
     action: 'kick',
-    args: [roomId, Number(memberId)]
+    args: [channelId, Number(userId)]
   }, function (err) {
     if (err) return this.emit('error', err)
   }.bind(this))

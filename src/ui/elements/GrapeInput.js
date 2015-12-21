@@ -10,20 +10,10 @@ import includes from 'lodash/collection/includes'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
-import staticurl from 'staticurl'
+import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
 import 'grape-browser'
 import {getRank} from '../getRank'
-
-const imagesBase = staticurl('app/cg/images')
-
-const images = {
-  emojiSheet: imagesBase + '/emoji_sheet_32_optimized.png',
-  traubyReading: imagesBase + '/trauby-reading.png',
-  traubyJuggling: imagesBase + '/trauby-juggling.png',
-  noDetail: imagesBase + '/no-detail.png',
-  spinner: staticurl('/images/preloader-onwhite.gif')
-}
 
 const defaultBrowserProps = {
   isLoading: false,
@@ -34,6 +24,32 @@ const defaultBrowserProps = {
 }
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
+
+function isImage(mime) {
+  return String(mime).substr(0, 5) === 'image'
+}
+
+function getImageAttachments(objects) {
+  // Find embeddable images.
+  const imageObjects = objects.filter(obj => {
+    return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
+  })
+
+  const attachments = imageObjects.map(obj => {
+    const {image} = obj.detail.preview
+    return {
+      name: obj.name,
+      url: obj.url,
+      source: obj.service,
+      mime_type: obj.mime_type,
+      thumbnail_url: image.url,
+      thumbnail_width: image.width,
+      thumbnail_height: image.height
+    }
+  })
+
+  return attachments
+}
 
 export default class GrapeInput extends Emitter {
   constructor() {
@@ -121,7 +137,7 @@ export default class GrapeInput extends Emitter {
   }
 
   showSearchBrowser(key) {
-    let props = this.input.props
+    const {props} = this.input
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
@@ -132,10 +148,10 @@ export default class GrapeInput extends Emitter {
   }
 
   showUsersAndRooms(key) {
-    let lowerKey = key.toLowerCase()
-    let users = this.findUsers(lowerKey)
-    let rooms = this.findRooms(lowerKey)
-    let data = users.concat(rooms)
+    const lowerKey = key.toLowerCase()
+    const users = this.findUsers(lowerKey)
+    const rooms = this.findRooms(lowerKey)
+    const data = users.concat(rooms)
     this.setProps({
       browser: 'user',
       data: data
@@ -238,7 +254,7 @@ export default class GrapeInput extends Emitter {
 
   editMessage(msg) {
     this.completePreviousEdit()
-    let el = qs('.message[data-id="' + msg.id + '"]')
+    const el = qs('.message[data-id="' + msg.id + '"]')
     el.classList.add('editing')
     this.el.classList.add('editing-previous')
     this.input.setTextContent(msg.text)
@@ -249,7 +265,7 @@ export default class GrapeInput extends Emitter {
   }
 
   findPreviousMessage() {
-    let history = this.room.history.slice().reverse()
+    const history = this.room.history.slice().reverse()
     return find(history, msg => {
       return msg.author === this.user && !msg.attachments.length
     })
@@ -274,7 +290,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onComplete(e) {
-    let {detail} = e
+    const {detail} = e
     switch (detail.trigger) {
       case '#':
         this.showSearchBrowser(detail.key)
@@ -300,12 +316,12 @@ export default class GrapeInput extends Emitter {
   }
 
   onEditPrevious() {
-    let msg = this.findPreviousMessage()
+    const msg = this.findPreviousMessage()
     if (msg) this.editMessage(msg)
   }
 
   onAbort(e) {
-    let data = e.detail
+    const data = e.detail
 
     // Don't abort editing if browser has been open.
     if (!data.browser) this.completePreviousEdit()
@@ -330,14 +346,14 @@ export default class GrapeInput extends Emitter {
   }
 
   onSubmit(e) {
-    let data = e.detail
+    const data = e.detail
+
     if (this.previous) {
       this.emit('update', this.previous.msg, data.content)
       this.completePreviousEdit()
-    }
-    else {
+    } else {
       let sendText = true
-      let attachments = getImageAttachments(data.objects)
+      const attachments = getImageAttachments(data.objects)
       // If a message text contains only media objects we will render a preview
       // in the history for, there is no need to send this objects as text.
       if (data.objectsOnly && attachments.length === data.objects.length) {
@@ -404,8 +420,7 @@ export default class GrapeInput extends Emitter {
     this.completePreviousEdit()
     if (!room || (room.type === 'pm' && !room.users[0].active)) {
       this.disable()
-    }
-    else {
+    } else {
       this.enable()
       this.room = room
       this.setProps({focused: true}, () => {
@@ -439,30 +454,4 @@ export default class GrapeInput extends Emitter {
     this.isOrgEmpty = true
     this.redraw()
   }
-}
-
-function getImageAttachments(objects) {
-  // Find embeddable images.
-  let embeddableImages = objects.filter(obj => {
-    return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
-  })
-
-  let attachments = embeddableImages.map(obj => {
-    let image = obj.detail.preview.image
-    return {
-      name: obj.name,
-      url: obj.url,
-      source: obj.service,
-      mime_type: obj.mime_type,
-      thumbnail_url: image.url,
-      thumbnail_width: image.width,
-      thumbnail_height: image.height
-    }
-  })
-
-  return attachments
-}
-
-function isImage(mime) {
-  return String(mime).substr(0, 5) === 'image'
 }

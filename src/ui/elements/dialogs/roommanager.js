@@ -1,6 +1,6 @@
 let Dialog = require('./dialog')
-let Menu = require('./menu')
-let ItemList = require('../itemlist')
+let Menu = require('../../utils/menu')
+let ItemList = require('../../utils/itemlist')
 let qs = require('query')
 let events = require('events')
 let closest = require('closest')
@@ -38,11 +38,11 @@ RoomManager.prototype.init = function () {
   menu.setTabs([
     {
       className: 'rooms-to-join',
-      title: 'Join rooms'
+      title: 'Rooms you can join'
     },
     {
       className: 'joined-rooms',
-      title: 'Manage your rooms'
+      title: 'Rooms you belong to'
     }
   ])
 
@@ -132,7 +132,6 @@ RoomManager.prototype.redrawCreationForm = function (ev) {
 
 RoomManager.prototype.redrawContent = function (selected) {
   let menu = this.menu
-  menu.selectTab(null)
   menu.selectTab(menu.options.tabs.items[selected])
   menu.redraw()
   this.roomList.order('name')
@@ -169,6 +168,5 @@ RoomManager.prototype.onRoomCreationError = function (err) {
 }
 
 RoomManager.prototype.onEndRoomCreation = function () {
-  // yes, this is how we can close the dialog - HACK
-  qs('.close', this.el).click()
+  this.dialog.hide()
 }

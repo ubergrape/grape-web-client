@@ -33,7 +33,7 @@
 	padding: 15px
 	border-bottom-left-radius: 4px
 	border-bottom-right-radius: 4px
-	background: #FBFBFB
+	background: white
 	position: relative
 	z-index: 3
 	&.room-list-container
@@ -118,21 +118,23 @@
 						margin-left: 5px;
 .dialog .title
 	display: flex
-	padding-bottom: 16px
-	font-size: 1.2em
-	color: sidebar-group-title
+	padding-bottom: 20px
+	font-size: 21px
+	color: #333
 	cursor: default
-	background: sidebar-background
+	background: white
 	border-top-left-radius: 4px
 	border-top-right-radius: 4px
+	border-bottom: 3px solid #ebeef3
 	z-index: 4
 	position: relative
+	line-height: 1
 	span
 		padding-left: 20px
-		padding-top: 16px
+		padding-top: 20px
 		text-align: left
 		flex: 2
-		font-size: 1em
+		font-size: 21px
 		transition: opacity 0.2s
 		&.hidden
 			opacity: 0
@@ -141,7 +143,7 @@
 	.back-button
 		cursor: pointer
 		position: relative
-		top: 12px
+		top: 15px
 		margin-left: 12px
 		margin-bottom: 8px
 		padding: 5px 10px 4px 9px
@@ -151,26 +153,26 @@
 		z-index: 20
 		border-radius: 4px
 		opacity: 0.8
-		background: sidebar-button-background
+		background: rgba(0,0,0,0.3)
+		line-height: 1.4
 		&:hover
 			opacity: 1.0
 			color: white
-			background: lighten(sidebar-button-background, 10%)
+			background: rgba(0,0,0,0.15)
 	.close
 		cursor: pointer
 		position: absolute
-		top: 12px
-		right: 12px
+		top: 17px
+		right: 10px
 		padding: 4px 10px 4px 9px
-		color: white
-		font-size: 1.5em
+		color: #aaa
+		font-size: 2em
 		z-index: 20
-		border-radius: 4px
-		opacity: 0.8
 		background: none
 		&:hover
-			opacity: 1.0
-			color: white
+			opacity: 0.8
+		&:active
+			opacity: 0.2
 	h2
 		@extend $bigger-font-size
 		margin-bottom: 6px
@@ -227,11 +229,11 @@
 	.new-room
 		flex: 1
 		right: 52px
-		top: 12px
+		top: 16px
 		text-align: center
 		position: absolute
 		pointer-events: none
-		font-size: 0.9em
+		font-size: 13px
 		transition: right 0.3s, top 0.3s
 		transition-timing-function: grape-bezier
 		z-index: 1
@@ -249,46 +251,45 @@
 					pointer-events: none
 	.dialog-button
 		position: relative
-		color: #EDEDED
+		color: white
 		font-size: 1em
 		padding: 4px 16px 4px 14px
-		background: sidebar-button-background
+		background: #6cb500
 		border-radius: 4px
 		border: none
 		cursor: pointer
 		pointer-events: auto
 		transition: background 0.3s, color 0.3s, font-size 0.3s
+		line-height: 1.7
 		&:hover
-			background: lighten(sidebar-button-background, 5%)
+			background: lighten(#6cb500,10%)
 			color: white
 	.manager-menu
 		width: 100%
-		background: #EEEEEE
 		display: flex
-		transition: height 0.2s
-		position: relative
 		z-index: 2
-		transition: margin-top 0.25s
+		position: relative
+		transition: height 0.2s, margin-top 0.25s
+		background: #ebeef3
+		padding: 0 10px
 		&.hidden
 			margin-top: -47px
 		a
 			display: inline-block
 			text-decoration: none !important
-			padding: 12px 0 12px 0px
+			padding: 8px 0 10px 0px
+			margin: 0 10px
 			text-align: center
 			color: #999999
-			font-size: 1.1em
-			border-left: solid 1px #E5E5E5
-			border-bottom: solid 1px #E5E5E5
-			flex: 1
+			font-size: 15px
+			border-bottom: solid 2px transparent
 			&:first-of-type
 				border-left: none
 			&.selected
-				color: sidebar-button-background
-				background: #F9F9F9
-				border-bottom: solid 1px #EBEBEB
+				color: #0080ff
+				border-bottom-color: #0080ff
 				&:hover
-					color: sidebar-button-background
+					color: #0080ff
 			&:hover
 				color: #999999
 	.dialog-list
@@ -386,7 +387,7 @@
 			padding-top: 9px
 			padding-bottom: 9px
 			&:hover
-				background: rgba(sidebar-button-background, 0.1)
+				background: rgba(0,0,0,0.05)
 				.room-name
 					color: #404040 !important
 				.room-info
@@ -458,21 +459,20 @@
 			margin-right: 12px
 			border-radius: 4px
 			padding: 4px 12px 4px 11px
-			color: rgba(white, 0.9)
+			color: white
+			border: 0
 			&.join
-				border: solid 1px grass-light
 				padding: 4px 12px 4px 12px
-				background: grass-light
+				background: #6CB500
 				&:hover
 					color: white
-					background: lighten(grass-light, 10%)
+					background: lighten(#6CB500, 10%)
 			&.leave
-				border: solid 1px geraldine
-				color: rgba(white, 0.9)
-				background: geraldine
+				color: white
+				background: #D53A37
 				&:hover
 					color: white
-					background: lighten(geraldine, 10%)
+					background: lighten(#D53A37, 10%)
 		.pm.deleted
 			color: gainsboro-dark
 			.avatar-status
@@ -512,8 +512,8 @@
 			padding-left: 2px
 			padding-top: 12px
 			padding-bottom: 4px
-			font-size: 0.9em
-			color: sidebar-button-background
+			font-size: 13px
+			color: #666
 			cursor: default
 			&:first-of-type
 				padding-top: 14px
@@ -533,9 +533,9 @@
 				border: solid 1px rgba(sidebar-background, 0.5) !important
 				background: #FDFDFD
 				i
-					color: sidebar-button-background !important
+					color: #0080ff
 				span
-					color: sidebar-button-background !important
+					color: #0080ff
 		label
 			&:before
 				display: none
@@ -560,7 +560,7 @@
 			span.radio-label-subline
 				color: #A5A5A5
 				display: block
-				font-size: 0.8em
+				font-size: 13px
 				line-height: 1.5em
 		.create-room-button
 			float: right
@@ -568,6 +568,9 @@
 			font-size: 1.1em
 			border: none
 			margin-top: 12px
+			background: grass-light
+			&:hover
+				background: lighten(grass-light,10%)
 			&.hidden
 				pointer-events: none
 		.delete-room-button
@@ -583,7 +586,7 @@
 				color: white
 
 #IModalOverlay, .overlay
-	background: rgba(0, 0, 0, 0.3)
+	background: rgba(0, 0, 0, 0.4)
 	opacity: 1
 
 @keyframes show-dialog {
