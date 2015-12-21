@@ -49,7 +49,6 @@ export default class Input extends Component {
 
   static defaultProps = {
     maxCompleteItems: 12,
-    maxCompleteEmoji: 6,
     browser: undefined,
     data: undefined,
     images: {},
@@ -251,7 +250,7 @@ export default class Input extends Component {
     }
     if (state.browser === 'emojiSuggest') {
       state.data = sortEmoji(state.data)
-        .slice(0, nextProps.maxCompleteEmoji)
+        .slice(0, nextProps.maxCompleteItems)
     }
     state.query = this.query.toJSON()
     const canShowBrowser = utils.canShowBrowser(this.state, state)
