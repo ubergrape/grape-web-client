@@ -2,8 +2,6 @@ var searchResults = window.searchData.results
 
 var input = document.querySelectorAll('grape-input')[0]
 
-emoji.setSheet('../../node_modules/js-emoji/images/sheet_32.png')
-
 function getRank() {
   return Math.floor(Math.random() * 6) + 1
 }
@@ -52,12 +50,15 @@ function init() {
       })
     }
     else if (e.detail.trigger == ':') {
-      var data = emoji.filter(e.detail.key).map(function(emoji) {
+      var emoji = e.detail.emoji
+      var key = e.detail.key
+      var data = emoji.filter(key).map(function(emoji) {
         return Object.assign(emoji, { rank: getRank() })
       })
 
       setProps({
         browser: 'emojiSuggest',
+        maxCompleteItems: 6,
         data: data
       })
     }

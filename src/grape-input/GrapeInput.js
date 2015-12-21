@@ -22,7 +22,7 @@ import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
 import GlobalEvent from '../global-event/GlobalEvent'
-import {sortByRankAndLength as sortEmoji} from '../emoji'
+import * as emoji from '../emoji'
 import style from './style'
 import * as utils from './utils'
 
@@ -211,7 +211,7 @@ export default class Input extends Component {
       // TODO migrate mentioning to the browser.
       if (!query.key || !utils.isBrowserType(query.trigger)) {
         this.query.set(query, {silent: true})
-        this.emit('complete', this.query.toJSON())
+        this.emit('complete', {...this.query.toJSON(), emoji})
       }
     } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
       this.query.reset()
@@ -249,7 +249,7 @@ export default class Input extends Component {
         .slice(0, nextProps.maxCompleteItems)
     }
     if (state.browser === 'emojiSuggest') {
-      state.data = sortEmoji(state.data)
+      state.data = emoji.sortByRankAndLength(state.data)
         .slice(0, nextProps.maxCompleteItems)
     }
     state.query = this.query.toJSON()
