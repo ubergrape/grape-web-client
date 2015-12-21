@@ -2,6 +2,10 @@ var searchResults = window.searchData.results
 
 var input = document.querySelectorAll('grape-input')[0]
 
+function getRank() {
+  return Math.floor(Math.random() * 6) + 1
+}
+
 function setProps(newProps) {
   var props = getDefaultProps()
   for (var key in newProps) props[key] = newProps[key]
@@ -46,7 +50,17 @@ function init() {
       })
     }
     else if (e.detail.trigger == ':') {
-      setProps({browser: 'emoji'})
+      var emoji = e.detail.emoji
+      var key = e.detail.key
+      var data = emoji.filter(key).map(function(emoji) {
+        return Object.assign(emoji, { rank: getRank() })
+      })
+
+      setProps({
+        browser: 'emojiSuggest',
+        maxCompleteItems: 6,
+        data: data
+      })
     }
 
     function match(result) {

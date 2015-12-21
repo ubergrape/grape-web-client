@@ -68,10 +68,10 @@
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && babel src --out-dir lib",
     "build:watch": "npm run clean && babel --watch src --out-dir lib",
-    "start": "NODE_ENV=development webpack-dev-server --hot",
+    "start": "NODE_ENV=development webpack-dev-server --hot --config webpack.config.development.js",
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
     "test:watch": "NODE_ENV=test karma start",
-    "test": "karma start"
+    "test": "SINGLE_RUN=true NODE_ENV=testing karma start"
   }
 }

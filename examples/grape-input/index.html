@@ -6,22 +6,18 @@
     <title>Content editable example</title>
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css"/>
     <style>
-      * {
-        font-family: Roboto, sans-serif;
+      *,
+      div,
+      textarea {
+        font: 14px/1.5 Roboto, sans-serif;
       }
       grape-input {
         position: relative;
         display: block;
-        margin-top: 400px;
+        margin-top: 350px;
         border: 1px solid #666;
         min-height: 35px;
         font-size: 13px;
-      }
-      .pure {
-        margin-top: 50px;
-        width: 300px;
-        height: 300px;
-        border: 1px solid red;
       }
     </style>
   </head>
@@ -30,8 +26,8 @@
     <script src="../../node_modules/es6-shim/es6-shim.js"></script>
     <script src="../../node_modules/document-register-element/build/document-register-element.max.js"></script>
     <script src="../../node_modules/react/dist/react.js"></script>
-    <script src="../../node_modules/react-dom/dist/react-dom.js"></script>
-    <script src="/build/grape-browser.js"></script>
+    <script src="/build/browser.js"></script>
+    <script src="/build/emoji.js"></script>
     <script src="./data.js"></script>
     <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('new text content')">Set text content</button>
@@ -43,16 +39,12 @@
     <button onclick="setProps({focused: true})">Set focus</button>
     <button onclick="setProps({disabled: true})">Disable</button>
     <button onclick="setProps({disabled: false})">Enable</button>
-    <button onmousedown="setProps({browser: 'emoji'}); return false;">Show emoji browser</button>
+    <button onmousedown="setProps({browser: 'emoji', ignoreSuggest: true}); return false;">Show emoji browser</button>
     <button onmousedown="showSearchDelayed(); return false;">Show search browser</button>
     <button onmousedown="showSearchDelayed(500); return false;">Show search browser delayed 500ms</button>
     <button onmousedown="showSearchDelayed(2000); return false;">Show search browser delayed 2s</button>
 
     <grape-input></grape-input>
-
-    <div class="pure" contenteditable=true>
-      Pure contenteditable.
-    </div>
 
     <script src="./example.js"></script>
     <script src="http://localhost:8080/webpack-dev-server.js"></script>
