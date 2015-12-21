@@ -1,5 +1,5 @@
 var webpack = require('webpack')
-var webpackConfig = require('./webpack.config.tests')
+var webpackConfig = require('./webpack.config.testing')
 var assign = require('lodash/object/assign')
 
 
