@@ -13,6 +13,7 @@ import get from 'lodash/object/get'
 import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
 import 'grape-browser'
+import getRank from '../utils/getRank'
 
 const defaultBrowserProps = {
   isLoading: false,
@@ -157,8 +158,36 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  showEmojiBrowser() {
-    this.setProps({browser: 'emoji'})
+  showEmojiBrowser(ignoreSuggest) {
+    this.setProps({browser: 'emoji', ignoreSuggest})
+  }
+
+  showEmojiSuggest({key, emoji}) {
+    const data = emoji.filter(key).map(smile => {
+      return {
+        ...smile,
+        rank: getRank('emoji', key, smile.name)
+      }
+    })
+
+    this.setProps({
+      browser: 'emojiSuggest',
+      maxCompleteItems: 6,
+      data
+    })
+  }
+
+  getRoomObject(key, room = this.room) {
+    const fallback = !arguments[1]
+    return {
+      id: room.id,
+      type: 'room',
+      name: fallback ? 'room' : room.name,
+      slug: room.slug,
+      isPrivate: !room.is_public,
+      rank: fallback ? 3 : getRank('room', key, room.name),
+      currentRoom: room === this.room
+    }
   }
 
   findUsers(key) {
@@ -183,6 +212,7 @@ export default class GrapeInput extends Emitter {
         username: user.username,
         iconURL: user.avatar,
         inRoom: includes(roomUsers, user),
+        rank: getRank('user', key, name, user.username),
         type: 'user'
       }
     })
@@ -201,17 +231,10 @@ export default class GrapeInput extends Emitter {
   findRooms(key) {
     let rooms = this.org.rooms.toArray()
 
-    rooms = rooms.map(room => {
-      const currentRoom = room === this.room
-      return {
-        id: room.id,
-        type: 'room',
-        name: currentRoom ? 'room' : room.name,
-        slug: room.slug,
-        isPrivate: !room.is_public,
-        currentRoom
-      }
-    })
+    rooms = rooms.map(this.getRoomObject.bind(this, key))
+
+    // Add current room as `@room`.
+    rooms.push(this.getRoomObject(key))
 
     // Do the search.
     rooms = rooms.filter(room => {
@@ -267,14 +290,16 @@ export default class GrapeInput extends Emitter {
   }
 
   onComplete(e) {
-    const query = e.detail
-
-    switch (query.trigger) {
+    const {detail} = e
+    switch (detail.trigger) {
       case '#':
-        this.showSearchBrowser(query.key)
+        this.showSearchBrowser(detail.key)
         break
       case '@':
-        this.showUsersAndRooms(query.key)
+        this.showUsersAndRooms(detail.key)
+        break
+      case ':':
+        this.showEmojiSuggest(detail)
         break
       default:
     }
@@ -358,7 +383,7 @@ export default class GrapeInput extends Emitter {
 
   onOpenEmojiBrowser(e) {
     e.preventDefault()
-    this.showEmojiBrowser()
+    this.showEmojiBrowser(true)
   }
 
   onOpenSearchBrowser(e) {
