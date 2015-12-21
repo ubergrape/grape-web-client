@@ -4,6 +4,7 @@ import {escapeRegExp} from 'lodash/string'
 import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
 import {get as getEmoji} from '../emoji'
 import {create as createObject} from '../objects'
+import {grapeProtocolRegExp} from '../objects/constants'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -29,8 +30,8 @@ function tokenWithTrigger(token, type) {
  * Get data map from md object.
  */
 function toData(text, url) {
+  if (!grapeProtocolRegExp.test(url)) return false
   const parts = url.slice(5).split('|')
-  if (parts.length < 4) return false
   return {
     id: tokenWithoutTrigger(parts[2], parts[1]),
     name: tokenWithoutTrigger(text, parts[1]),
@@ -104,12 +105,10 @@ export function parseAndReplace(content) {
   const configs = []
   let text = content.replace(linkRegExp, (match, token, url) => {
     const config = toData(token, url)
-    if (config) {
-      configs.push(config)
-      return tokenWithTrigger(token, config.type)
-    } else {
-      return match
-    }
+    if (!config) return match
+
+    configs.push(config)
+    return tokenWithTrigger(token, config.type)
   })
 
   text = text.replace(EMOJI_REGEX, (match) => {
