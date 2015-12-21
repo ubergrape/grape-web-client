@@ -36,6 +36,8 @@ function HistoryView() {
   this.isFirstMsgLoaded = false
   this.isLastMsgLoaded = false
   this.isOrgEmpty = false
+  // Used to distinguish between user triggered scroll events and programmatic once.
+  this.ignoreScroll = false
 }
 
 HistoryView.prototype = Object.create(Emitter.prototype)
@@ -67,7 +69,10 @@ HistoryView.prototype.bind = function() {
   this.events.bind('click .org-invite', 'onOrgInvite')
   this.events.bind('click .manage-rooms', 'onManageRooms')
   focus.on('focus', this.updateReadDebounced)
-  this.scrollWindow.addEventListener('scroll', () => {
+  this.scrollWindow.addEventListener('scroll', (e) => {
+    // Scroll mode should be manual only if scroll event has been triggered by
+    // the user.
+    if (this.ignoreScroll) return
     this.scrollMode = 'manual'
   }.bind(this))
 }
@@ -249,13 +254,20 @@ HistoryView.prototype.redraw = function() {
     if (this.mode === 'chat') return this.scrollToBottom()
     let prevMsgEl = qs("div.message[data-id='" + prevMsgID + "']", this.el)
     let requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el)
-    let scrollTarget = prevMsgEl ? prevMsgEl : requestedMsgEl
-    scrollTarget.scrollIntoView()
+    this.scrollIntoView(prevMsgEl ? prevMsgEl : requestedMsgEl)
   }
 }
 
+HistoryView.prototype.scrollIntoView = function(target) {
+  this.ignoreScroll = true
+  target.scrollIntoView()
+  setTimeout(() => this.ignoreScroll = false, 300)
+}
+
 HistoryView.prototype.scrollToBottom = function() {
+  this.ignoreScroll = true
   this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight
+  setTimeout(() => this.ignoreScroll = false, 300)
 }
 
 HistoryView.prototype.updateRead = function() {
