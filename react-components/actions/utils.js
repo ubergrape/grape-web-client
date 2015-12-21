@@ -7,7 +7,11 @@ import store from '../app/store'
 import {orgSelector, usersSelector, userSelector, channelsSelector} from '../selectors'
 
 export function formatMessage(message) {
-  return {...message, time: new Date(message.time)}
+  return {
+    ...message,
+    time: new Date(message.time),
+    attachments: message.attachments || []
+  }
 }
 
 export function formatSidebarMessage(message) {

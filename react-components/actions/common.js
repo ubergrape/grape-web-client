@@ -75,7 +75,7 @@ export function setSidebarIsLoading(isLoading) {
 export function handleNewMessage(message) {
   return dispatch => {
     const fMessage = formatMessage(message)
-    if (message.attachments.length) {
+    if (fMessage.attachments.length) {
       dispatch(addAttachments(fMessage))
     }
     if (isMentioned(fMessage)) {
