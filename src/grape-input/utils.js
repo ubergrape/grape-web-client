@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/lang/isEmpty'
 import get from 'lodash/object/get'
-import {EMOJI_TRIGGER, SEARCH_TRIGGER} from '../query/constants'
+import {SEARCH_TRIGGER} from '../query/constants'
 
 /**
  * Returns true if search is external.
@@ -13,17 +13,20 @@ export function isExternalSearch(data) {
  * Returns true if browser can be shown.
  */
 export function canShowBrowser(prevState = {}, nextState) {
-  let {query, data} = nextState
+  const {query, data, browser} = nextState
 
   if (!nextState.browser) return false
 
   if (nextState.isLoading) return true
 
-  let isClosed = !prevState.browser
-  let isSearch = nextState.browser === 'search'
-  let noResults = !data || isEmpty(data.results)
-  let hasSearch = query && query.search.length > 0
-  let closedBySpace = hasSearch && query.search[query.search.length - 1] === ' '
+  const isClosed = !prevState.browser
+  const isSearch = browser === 'search'
+  const noResults = !data || isEmpty(data.results)
+  const hasSearch = query && query.search.length > 0
+  const closedBySpace = hasSearch && query.search[query.search.length - 1] === ' '
+
+  const isDataList = browser === 'emojiSuggest' || browser === 'user'
+  if (isDataList && isEmpty(data)) return false
 
   if (isClosed && noResults && hasSearch) return false
 
@@ -36,8 +39,6 @@ export function canShowBrowser(prevState = {}, nextState) {
  * Returns true if type will be rendered using grape-browser.
  */
 export function isBrowserType(typeOrTrigger) {
-  return typeOrTrigger === EMOJI_TRIGGER ||
-    typeOrTrigger === SEARCH_TRIGGER ||
-    typeOrTrigger === 'search' ||
-    typeOrTrigger === 'emoji'
+  return typeOrTrigger === SEARCH_TRIGGER ||
+    typeOrTrigger === 'search'
 }

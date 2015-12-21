@@ -15,7 +15,7 @@ module.exports = exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__: process.env.NODE_ENV === 'development',
-      __TEST__: process.env.NODE_ENV === 'test'
+      __TEST__: process.env.NODE_ENV === 'testing'
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
@@ -33,12 +33,5 @@ module.exports = exports = {
         test: /\.json$/
       }
     ]
-  }
-}
-
-if (process.env.NODE_ENV === 'development') {
-  exports.externals = {
-    react: 'React',
-    'react-dom': 'ReactDOM'
   }
 }

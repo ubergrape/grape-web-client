@@ -35,9 +35,9 @@ export function map(data) {
   })
 
   data.sort((a, b) => {
-    // Current room should be always on top (mention all).
-    if (a.currentRoom) return -1
-    if (b.currentRoom) return 1
+    // Items with highest rank goes first
+    if (a.rank > b.rank) return -1
+    if (b.rank > a.rank) return 1
 
     // Channel names should be always after users.
     if (a.type !== 'user') return 1

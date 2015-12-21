@@ -1,7 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
-import isArray from 'lodash/lang/isArray'
 import isEmpty from 'lodash/lang/isEmpty'
 import filter from 'lodash/collection/filter'
 import find from 'lodash/collection/find'
@@ -23,6 +22,7 @@ import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
 import GlobalEvent from '../global-event/GlobalEvent'
+import * as emoji from '../emoji'
 import style from './style'
 import * as utils from './utils'
 
@@ -40,6 +40,7 @@ export default class Input extends Component {
     hasIntegrations: PropTypes.bool,
     canAddIntegrations: PropTypes.bool,
     placeholder: PropTypes.string,
+    ignoreSuggest: PropTypes.bool,
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
@@ -56,6 +57,7 @@ export default class Input extends Component {
     placeholder: undefined,
     focused: false,
     disabled: false,
+    ignoreSuggest: false,
     hasIntegrations: false,
     canAddIntegrations: true,
     isLoading: false,
@@ -82,6 +84,10 @@ export default class Input extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {ignoreSuggest} = this.state
+    const isEmojiSuggest = nextProps.browser === 'emojiSuggest'
+    if (ignoreSuggest && isEmojiSuggest) return this.setState({ignoreSuggest: false})
+
     const newEmojiSheet = get(nextProps, 'images.emojiSheet')
     const currEmojiSheet = get(this.props, 'images.emojiSheet')
     if (newEmojiSheet !== currEmojiSheet) {
@@ -167,6 +173,7 @@ export default class Input extends Component {
   onKeyDown(e) {
     switch (this.state.browser) {
       case 'user':
+      case 'emojiSuggest':
         this.navigateDatalist(e)
         break
       default:
@@ -204,7 +211,7 @@ export default class Input extends Component {
       // TODO migrate mentioning to the browser.
       if (!query.key || !utils.isBrowserType(query.trigger)) {
         this.query.set(query, {silent: true})
-        this.emit('complete', this.query.toJSON())
+        this.emit('complete', {...this.query.toJSON(), emoji})
       }
     } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
       this.query.reset()
@@ -234,10 +241,17 @@ export default class Input extends Component {
   }
 
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading')
+    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
     state.textareaFocused = nextProps.focused
-    if (state.browser === 'user') state.data = mentions.map(state.data)
-    if (isArray(state.data)) state.data = state.data.slice(0, nextProps.maxCompleteItems)
+    if (state.browser === 'user') {
+      state.data = mentions
+        .map(state.data)
+        .slice(0, nextProps.maxCompleteItems)
+    }
+    if (state.browser === 'emojiSuggest') {
+      state.data = emoji.sortByRankAndLength(state.data)
+        .slice(0, nextProps.maxCompleteItems)
+    }
     state.query = this.query.toJSON()
     const canShowBrowser = utils.canShowBrowser(this.state, state)
     if (!canShowBrowser) state.browser = null
