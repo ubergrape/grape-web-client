@@ -13,7 +13,6 @@ import get from 'lodash/object/get'
 import staticurl from 'staticurl'
 import render from '../rendervdom'
 import 'grape-browser'
-import * as emoji from 'grape-browser/lib/emoji'
 import {getRank} from '../getRank'
 
 const imagesBase = staticurl('app/cg/images')
@@ -48,7 +47,6 @@ export default class GrapeInput extends Emitter {
     this.unsent = {}
     this.isOrgEmpty = false
     this.images = clone(images)
-    emoji.setSheet(images.emojiSheet)
     this.startTypingThrottled = throttle(::this.startTyping, 5000, {
       trailing: false
     })
@@ -148,7 +146,7 @@ export default class GrapeInput extends Emitter {
     this.setProps({browser: 'emoji', ignoreSuggest})
   }
 
-  showEmojiSuggest(key) {
+  showEmojiSuggest({key, emoji}) {
     const data = emoji.filter(key).map(smile => {
       return {
         ...smile,
@@ -276,16 +274,16 @@ export default class GrapeInput extends Emitter {
   }
 
   onComplete(e) {
-    let query = e.detail
-    switch (query.trigger) {
+    let {detail} = e
+    switch (detail.trigger) {
       case '#':
-        this.showSearchBrowser(query.key)
+        this.showSearchBrowser(detail.key)
         break
       case '@':
-        this.showUsersAndRooms(query.key)
+        this.showUsersAndRooms(detail.key)
         break
       case ':':
-        this.showEmojiSuggest(query.key)
+        this.showEmojiSuggest(detail)
         break
       default:
     }
