@@ -1,12 +1,12 @@
 var webpack = require('webpack')
-var webpackConfig = require('./webpack.config')
+var webpackConfig = require('./webpack.config.tests')
 var assign = require('lodash/object/assign')
 
 
 module.exports = function (config) {
   config.set({
     browsers: ['Chrome'],
-    singleRun: process.env.NODE_ENV !== 'test',
+    singleRun: process.env.SINGLE_RUN,
     files: [
       'tests.webpack.js'
     ],
@@ -15,7 +15,7 @@ module.exports = function (config) {
       'karma-chrome-launcher',
       'karma-mocha',
       'karma-sourcemap-loader',
-      'karma-webpack',
+      'karma-webpack'
     ],
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap']

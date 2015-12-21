@@ -1,4 +1,4 @@
-var webpackConfig = require('./webpack.config')
+var webpackConfig = require('./webpack.base.config')
 
 webpackConfig.entry.emoji = ['./src/emoji/index.js']
 webpackConfig.output.filename = '[name].js'
