@@ -15,6 +15,7 @@ export default {
   },
   header: {
     display: 'flex',
+    flexShrink: 0,
     background: colors.grayBlueDark,
     // Used to overlap absolutely positioned content e.g. loading indicator.
     position: 'relative',
