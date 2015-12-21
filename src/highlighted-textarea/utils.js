@@ -30,7 +30,7 @@ function tokenWithTrigger(token, type) {
  */
 function toData(text, url) {
   const parts = url.slice(5).split('|')
-
+  if (parts.length < 4) return false
   return {
     id: tokenWithoutTrigger(parts[2], parts[1]),
     name: tokenWithoutTrigger(text, parts[1]),
@@ -104,8 +104,12 @@ export function parseAndReplace(content) {
   const configs = []
   let text = content.replace(linkRegExp, (match, token, url) => {
     const config = toData(token, url)
-    configs.push(config)
-    return tokenWithTrigger(token, config.type)
+    if (config) {
+      configs.push(config)
+      return tokenWithTrigger(token, config.type)
+    } else {
+      return match
+    }
   })
 
   text = text.replace(EMOJI_REGEX, (match) => {
