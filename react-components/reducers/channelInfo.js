@@ -10,7 +10,7 @@ export default function reducers(state = initialState, action) {
     case types.SET_CHANNEL:
     case types.HIDE_CHANNEL_INFO:
     case types.SHOW_CHANNEL_INFO:
-    case types.ADDED_USER_TO_CURRENT_CHANNEL:
+    case types.ADD_USER_TO_CURRENT_CHANNEL:
     case types.USER_LEFT_CURRENT_CHANNEL:
       return {...state, ...action.payload}
     default:

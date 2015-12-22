@@ -43,7 +43,7 @@ export function addUserToChannel(userId, channelId) {
   currentChannel.users.push(user)
 
   return {
-    type: types.ADDED_USER_TO_CURRENT_CHANNEL,
+    type: types.ADD_USER_TO_CURRENT_CHANNEL,
     payload: {
       channel: {...currentChannel}
     }

@@ -16,8 +16,8 @@ export default function reducers(state = initialState, action) {
     case types.SET_SIDEBAR_IS_LOADING:
     case types.LOAD_SHARED_FILES:
     case types.LOADED_SHARED_FILES:
-    case types.ADDED_SHARED_FILE:
-    case types.REMOVED_SHARED_FILE:
+    case types.ADD_SHARED_FILE:
+    case types.REMOVE_SHARED_FILE:
       return {...state, ...action.payload}
     case types.SET_CHANNEL:
       if (state.show) return {...initialState, show: true}

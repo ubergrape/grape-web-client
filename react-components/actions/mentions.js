@@ -87,7 +87,7 @@ export function addMention(message) {
   items = sortBy(items, item => item.time * -1)
 
   return {
-    type: types.ADDED_MENTION,
+    type: types.ADD_MENTION,
     payload: {
       items,
       total: mentions.total + 1
@@ -106,7 +106,7 @@ export function removeMention(messageId) {
   }
 
   return {
-    type: types.REMOVED_MENTION,
+    type: types.REMOVE_MENTION,
     payload: {
       items: cleanedItems,
       total: mentions.total - 1

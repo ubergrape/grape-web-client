@@ -3,7 +3,7 @@ import page from 'page'
 import store from '../app/store'
 import {channelSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
-import {addAttachments, removeAttachments} from './sharedFiles'
+import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
 import {isMentioned, formatMessage} from './utils'
@@ -76,7 +76,7 @@ export function handleNewMessage(message) {
   return dispatch => {
     const fMessage = formatMessage(message)
     if (fMessage.attachments.length) {
-      dispatch(addAttachments(fMessage))
+      dispatch(addSharedFiles(fMessage))
     }
     if (isMentioned(fMessage)) {
       dispatch(addMention(fMessage))
@@ -92,7 +92,7 @@ export function handleNewMessage(message) {
 
 export function handleRemovedMessage({id}) {
   return dispatch => {
-    dispatch(removeAttachments(id))
+    dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
       type: types.HANDLE_REMOVED_MESSAGE,

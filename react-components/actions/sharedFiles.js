@@ -96,7 +96,7 @@ export function loadSharedFiles(params) {
   }
 }
 
-export function addAttachments(message) {
+export function addSharedFiles(message) {
   const state = store.getState()
   const channel = channelSelector(state)
   const users = usersSelector(state)
@@ -111,7 +111,7 @@ export function addAttachments(message) {
     return formatFile(file, channel, users)
   })
   return {
-    type: types.ADDED_SHARED_FILE,
+    type: types.ADD_SHARED_FILE,
     payload: {
       items: [...nextItems, ...prevItems],
       total: sharedFiles.total - 1
@@ -119,7 +119,7 @@ export function addAttachments(message) {
   }
 }
 
-export function removeAttachments(messageId) {
+export function removeSharedFiles(messageId) {
   const sharedFiles = sharedFilesSelector(store.getState())
   const {items} = sharedFiles
   const cleanedItems = items.filter(item => item.messageId !== messageId)
@@ -130,7 +130,7 @@ export function removeAttachments(messageId) {
   }
 
   return {
-    type: types.REMOVED_SHARED_FILE,
+    type: types.REMOVE_SHARED_FILE,
     payload: {
       items: cleanedItems,
       total: sharedFiles.total - 1
