@@ -17,4 +17,4 @@ export const TYPES = {
 // Match everything after a whitespace followed by any trigger until you match
 // another whitespace followed by any trigger or end of text.
 export const QUERY_REGEX = /(?:^|\s)([#:@])/
-export const EMOJI_REGEX = /:\w+:/g
+export const EMOJI_REGEX = /(^|\s):\w+:($|\s)/g

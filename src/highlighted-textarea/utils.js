@@ -112,7 +112,7 @@ export function parseAndReplace(content) {
   })
 
   text = text.replace(EMOJI_REGEX, (match) => {
-    configs.push(getEmojiConfig(match))
+    configs.push(getEmojiConfig(match.trim()))
     return match
   })
 
@@ -125,7 +125,7 @@ export function parseAndReplace(content) {
 export function parseEmoji(content) {
   let data = []
   const emoji = content.match(EMOJI_REGEX)
-  if (emoji) data = emoji.map(getEmojiConfig)
+  if (emoji) data = emoji.map(item => getEmojiConfig(item.trim()))
   return data
 }
 
