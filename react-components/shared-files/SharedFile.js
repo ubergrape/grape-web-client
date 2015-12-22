@@ -3,6 +3,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 import noop from 'lodash/utility/noop'
 
+import {openUrl} from '../app/utils'
 import ImageZoom from '../image-zoom/ImageZoom'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -27,7 +28,7 @@ export default class SharedFile extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onOpen() {
-    window.open(this.props.url)
+    openUrl(this.props.url)
   }
 
   setPreviewRef(ref) {
