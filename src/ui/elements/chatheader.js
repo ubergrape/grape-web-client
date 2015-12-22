@@ -45,6 +45,7 @@ function ChatHeader() {
     renaming: false,
     editingDescription: false
   }
+  this.initialized = false
   this.mode = 'chat'
   this.redraw()
 }
@@ -52,6 +53,8 @@ function ChatHeader() {
 ChatHeader.prototype = Object.create(Emitter.prototype)
 
 ChatHeader.prototype.init = function () {
+  if (this.initialized) return
+  this.initialized = true
   this.classes = classes(this.el)
   this.searchForm = qs('.search-form', this.el)
   this.searchInput = qs('.search', this.el)
