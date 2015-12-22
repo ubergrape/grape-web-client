@@ -6,7 +6,7 @@ function getType(obj) {
   if (obj.roomId) {
     const room = window.ui.org.rooms.filter(room => room.id == obj.roomId)[0]
     if (room === window.ui.room) return 'notifyall'
-    if (!room.is_public) return 'privateroom'
+    if (room && !room.is_public) return 'privateroom'
   }
 
   return obj.type
