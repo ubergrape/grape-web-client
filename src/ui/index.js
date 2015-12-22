@@ -215,11 +215,15 @@ UI.prototype.bind = function UI_bind() {
           classes(qs('body')).remove('notifications-disabled')
         }
       })
+    },
+    'closeNotificationsMessage': function() {
+      self.enableNotificationMessage.remove()
     }
   })
 
   this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
   this.events.bind('click .enable_notifications', 'requestPermission')
+  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
 
   this.room = null
 

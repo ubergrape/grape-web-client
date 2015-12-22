@@ -1,110 +1,121 @@
 // Wrap any text within the chat content and an optional dismiss button in .alert-inline and one of the four contextual classes (e.g., .alert-success) for basic alert messages.
 .alert-inline
-	padding: 8px 10px 10px
-	border: 1px solid transparent
-	border-radius: main-border-radius
+  padding: 8px 10px 10px
+  border: 1px solid transparent
+  border-radius: main-border-radius
 
 // Used as container for header alert messages.
 ul.alerts
-	position: absolute
-	left: 0
-	right: 0
-	top: 0
-	z-index: 100
-	//animation: slideinout 4s ease-in-out
-	li
-		@extend $clearfix
-		@extend $normal-font-size
-		position: relative
-		overflow: auto
-		text-align: left
-		background-color: lighten(alert-info-color, 90%)
-		padding: 1px 56px 1px 20px
-		border-bottom: 1px solid lighten(alert-info-color, 60%)
-		opacity: 0.98
-		font-weight: bold
-		transform: scaleX(1) translate3d(0, 0, 0)
-		animation: hifromthetopNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-		.button
-			@extend $normal-font-size
-			// margin-right: 22px
-			font-weight: normal
-			float: right
-			padding: 0
-			padding: 5px 15px
-			background: rgba(white, .2)
-			margin-top: 6px
-			&:hover
-				background: rgba(white, .5)
-		p
-			overflow: hidden
-			padding: 10px 10px 10px 0
-		&::after
-			font-size: 20px
-			position: absolute
-			right: 30px
-			top: 12px
-			font-family: FontAwesome
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  z-index: 100
+  //animation: slideinout 4s ease-in-out
+  li
+    @extend $clearfix
+    @extend $normal-font-size
+    position: relative
+    overflow: auto
+    text-align: left
+    background-color: lighten(alert-info-color, 90%)
+    padding: 1px 56px 1px 20px
+    border-bottom: 1px solid lighten(alert-info-color, 60%)
+    opacity: 0.98
+    font-weight: bold
+    transform: scaleX(1) translate3d(0, 0, 0)
+    animation: hifromthetopNoShadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    .button
+      @extend $normal-font-size
+      // margin-right: 22px
+      font-weight: normal
+      float: right
+      padding: 0
+      padding: 5px 15px
+      background: rgba(white, .2)
+      margin-top: 6px
+      &:hover
+        background: rgba(white, .5)
+
+    .close
+      position absolute
+      right 6px
+      top 14px
+      cursor pointer
+      opacity 0.5
+      transition opacity 0.2s ease-in-out
+      &:hover
+        opacity 1
+
+    p
+      overflow: hidden
+      padding: 10px 10px 10px 0
+    &::after
+      font-size: 20px
+      position: absolute
+      right: 30px
+      top: 12px
+      font-family: FontAwesome
 
 
 .alerts i
 .alert-inline i
-	margin-right: 4px
+  margin-right: 4px
 
 // Alert classes: Alerts don't have default classes, only base and modifier classes. A default gray alert doesn't make too much sense, so you're required to specify a type via contextual class. Choose from success, info, warning, or danger.
 // Use the .alert-link utility class to quickly provide matching colored links within any alert.
 .alerts li a
 .alert-inline a
-	color: inherit
-	opacity: 0.8
-	&:hover
-		opacity: 1
+  color: inherit
+  opacity: 0.8
+  &:hover
+    opacity: 1
 
 .alerts li.info
 .alert-inline.info
-	background-color: lighten(alert-info-color, 70%)
-	border-color: lighten(alert-info-color, 60%)
-	color: darken(alert-info-color, 30%)
-	a:hover
-		color: lighten(alert-info-color, 20%)
-	.button
-		color: darken(alert-info-color, 30%)
-	&::after
-		content: "\f05a"
+  background-color: lighten(alert-info-color, 70%)
+  border-color: lighten(alert-info-color, 60%)
+  color: darken(alert-info-color, 30%)
+  a:hover
+    color: lighten(alert-info-color, 20%)
+  .button
+    color: darken(alert-info-color, 30%)
+  &::after
+    content: "\f05a"
 
 .alerts li.success
 .alert-inline.success
-	background-color: lighten(alert-success-color, 90%)
-	border-color: lighten(alert-success-color, 80%)
-	color: alert-success-color
-	a:hover
-		color: lighten(alert-success-color, 20%)
-	.button
-		color: alert-success-color
-	&::after
-		content: "\f058"
+  background-color: lighten(alert-success-color, 90%)
+  border-color: lighten(alert-success-color, 80%)
+  color: alert-success-color
+  a:hover
+    color: lighten(alert-success-color, 20%)
+  .button
+    color: alert-success-color
+  &::after
+    content: "\f058"
 
 .alerts li.warning
 .alert-inline.warning
-	background-color: lighten(alert-warning-color, 90%)
-	border-color: lighten(alert-warning-color, 80%)
-	color: alert-warning-color
-	a:hover
-		color: lighten(alert-warning-color, 20%)
-	.button
-		color: alert-warning-color
-	&::after
-		content: "\f06a"
+  background-color: lighten(alert-warning-color, 90%)
+  border-color: lighten(alert-warning-color, 80%)
+  color: alert-warning-color
+  a:hover
+    color: lighten(alert-warning-color, 20%)
+  .button
+    color: alert-warning-color
+  &::after
+    content: "\f06a"
 
 
 .alerts li.danger
 .alert-inline.danger
-	background-color: lighten(alert-danger-color, 90%)
-	border-color: lighten(alert-danger-color, 80%)
-	color: #DF715E
-	a:hover
-		color: lighten(alert-danger-color, 20%)
-	.button
-		color: darken(alert-danger-color, 30%)
-	&::after
-		content: "\f057"
+  background-color: lighten(alert-danger-color, 90%)
+  border-color: lighten(alert-danger-color, 80%)
+  color: #DF715E
+  a:hover
+    color: lighten(alert-danger-color, 20%)
+  .button
+    color: darken(alert-danger-color, 30%)
+  &::after
+    content: "\f057"

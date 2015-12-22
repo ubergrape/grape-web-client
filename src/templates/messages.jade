@@ -9,6 +9,7 @@ div
 							=_('Hey there! Please ')
 							a.enable_notifications #{_('enable desktop notifications')}
 							=_(', so your team members can reach you on ChatGrape.')
+						i.close.close_notifications_message.fa.fa-times
 					else if message.type == 'connection lost'
 						p
 							=_('Lost connection to the server - trying to reconnect. You can also try to ')
