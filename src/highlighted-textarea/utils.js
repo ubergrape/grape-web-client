@@ -195,11 +195,12 @@ export function getTextAndObjects(objects, text) {
  * i.e. '@Developmend' or '@develo'
  */
 export function getTokenUnderCaret(string, caretPostion) {
+  if (!string) return false
+
   const token = {
     text: '',
     position: []
   }
-
   const {position} = token
 
   while (position.length < 2) {
