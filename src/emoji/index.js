@@ -165,7 +165,12 @@ export function defaultRank(value) {
  * Sort emoji list by rank and length
  */
 export function sortByRankAndLength(data) {
-  return data.sort((a, b) => {
+  const ranked = data.map(item => {
+    item.rank = defaultRank(item.name)
+    return item
+  })
+
+  return ranked.sort((a, b) => {
     const aRank = a.rank
     const bRank = b.rank
     if (aRank > bRank) return -1
