@@ -73,6 +73,34 @@ export default class Alert extends Component {
     return <span key={this.props.key}>Reconnected successfully</span>
   }
 
+  renderUrlNotFound() {
+    return (
+      <span
+        key={this.props.key}>
+        We could not find what you were looking for&nbsp;-
+        the room might have been deleted, renamed or moved.
+      </span>
+    )
+  }
+
+  renderMessageNotFound() {
+    return (
+      <span
+        key={this.props.key}>
+        We could not find the message you were looking for.
+      </span>
+    )
+  }
+
+  renderMessageToSelf() {
+    return (
+      <span
+        key={this.props.key}>
+        You cannot message yourself.
+      </span>
+    )
+  }
+
   render() {
     switch (this.props.alert.type) {
       case 'notifications reminder':
@@ -81,6 +109,12 @@ export default class Alert extends Component {
         return this.renderConnetionLost()
       case 'reconnected':
         return this.renderReconnected()
+      case 'url not found':
+        return this.renderUrlNotFound()
+      case 'message not found':
+        return this.renderMessageNotFound()
+      case 'message to self':
+        return this.renderMessageToSelf()
       default:
         return <span key={this.props.key}></span>
     }

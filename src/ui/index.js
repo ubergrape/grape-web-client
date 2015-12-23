@@ -414,10 +414,13 @@ UI.prototype.onUploaded = function (attachment) {
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
+  // TODO: need to be fixed before PR accepted!
   let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+
   page.redirect('/chat/' + redirectSlug)
   let msg = this.messages.warning('message not found')
   setTimeout(function () { msg.remove() }, 6000)
+  this.reduxEmitter.showAlert('warning', 'message not found', 6000)
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
@@ -434,6 +437,7 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 UI.prototype.onInvalidUrl = function(cause) {
   const msg = this.messages.warning(cause)
   page.redirect('/chat/')
+  this.reduxEmitter.showAlert('warning', cause, 6000)
   setTimeout(() => msg.remove(), 6000)
 }
 
