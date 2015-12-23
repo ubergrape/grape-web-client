@@ -101,6 +101,7 @@ UI.prototype.init = function UI_init() {
   this.title = new Title()
   this.messages = new Messages()
   qs('.chat-wrapper', this.el).appendChild(this.messages.el)
+  qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -134,6 +135,7 @@ UI.prototype.init = function UI_init() {
   if (notify.isSupported
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
     && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
+      this.reduxEmitter.alert('info', 'notifications reminder')
       this.enableNotificationMessage = this.messages.info('notifications reminder')
       classes(qs('body')).add('notifications-disabled')
   }
@@ -208,21 +210,12 @@ UI.prototype.bind = function UI_bind() {
     'toggleOrganizationMenu': function () {
       self.organizationMenu.toggle(qs('.settings-icon'))
     },
-    'requestPermission': function () {
-      notify.requestPermission(function (permission) {
-        if (permission !== "default") {
-          self.enableNotificationMessage.remove()
-          classes(qs('body')).remove('notifications-disabled')
-        }
-      })
-    },
     'closeNotificationsMessage': function() {
       self.enableNotificationMessage.remove()
     }
   })
 
   this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
-  this.events.bind('click .enable_notifications', 'requestPermission')
   this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
 
   this.room = null
@@ -233,6 +226,15 @@ UI.prototype.bind = function UI_bind() {
   })
   this.intro.onexit(function () {
     self.emit('introend')
+  })
+}
+
+UI.prototype.requestPermission = function () {
+  notify.requestPermission(permission => {
+    if (permission !== 'default') {
+      this.enableNotificationMessage.remove()
+      classes(qs('body')).remove('notifications-disabled')
+    }
   })
 }
 

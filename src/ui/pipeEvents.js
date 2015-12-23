@@ -92,6 +92,7 @@ export default function pipeEvents(ui) {
 
   // notifications
   broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked')
+  broker(ui.reduxEmitter, 'enableNotifications', ui, 'requestPermission')
 
   // file upload
   broker(ui.upload, 'uploading', ui.historyView, 'onUploading')

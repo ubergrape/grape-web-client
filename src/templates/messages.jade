@@ -1,34 +1,34 @@
 div
-	if messages.length
-		ul.alerts
-			each message in messages
-				li(class=message.level)
-					if message.type == 'notifications reminder'
-						button.button.enable_notifications #{_('Enable notifications')}
-						p
-							=_('Hey there! Please ')
-							a.enable_notifications #{_('enable desktop notifications')}
-							=_(', so your team members can reach you on ChatGrape.')
-						i.close.close_notifications_message.fa.fa-times
-					else if message.type == 'connection lost'
-						p
-							=_('Lost connection to the server - trying to reconnect. You can also try to ')
-							a(href="#", onClick="window.location.reload()") #{_('reload.')}
-					else if message.type == 'reconnected'
-						p
-							=_('Reconnected successfully')
-					else if message.type == 'room deleted'
-						p
-							=_('Room ') + message.options.room + _(' was successfully deleted.')
-					else if message.type == 'url not found'
-						p
-							=_("We could not find what you were looking for - the room might have been deleted, renamed or moved.")
-					else if message.type == 'message not found'
-						p
-							=_("We could not find the message you were looking for.")
-					else if message.type == 'message to self'
-						p
-							=_("You cannot message yourself.")
-					else
-						p
-							message.type
+  if messages.length
+    ul.alerts
+      each message in messages
+        li(class=message.level)
+          if message.type == 'notifications reminder'
+            button.button.enable_notifications #{_('Enable notifications')}
+            p
+              =_('Hey there! Please ')
+              a.enable_notifications #{_('enable desktop notifications')}
+              =_(', so your team members can reach you on ChatGrape.')
+            i.close.close_notifications_message.fa.fa-times
+          else if message.type == 'connection lost'
+            p
+              =_('Lost connection to the server - trying to reconnect. You can also try to ')
+              a(href="#", onClick="window.location.reload()") #{_('reload.')}
+          else if message.type == 'reconnected'
+            p
+              =_('Reconnected successfully')
+          else if message.type == 'room deleted'
+            p
+              =_('Room ') + message.options.room + _(' was successfully deleted.')
+          else if message.type == 'url not found'
+            p
+              =_("We could not find what you were looking for - the room might have been deleted, renamed or moved.")
+          else if message.type == 'message not found'
+            p
+              =_("We could not find the message you were looking for.")
+          else if message.type == 'message to self'
+            p
+              =_("You cannot message yourself.")
+          else
+            p
+              message.type

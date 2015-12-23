@@ -57,3 +57,7 @@ export const mentionsSelector = createSelector(
 export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
 )
+
+export const alertsSelector = createSelector(
+  state => state.alerts, state => state
+)
