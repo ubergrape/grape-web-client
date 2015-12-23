@@ -1,5 +1,10 @@
 import * as types from '../constants/actionTypes'
 
+import find from 'lodash/collection/find'
+
+import store from '../app/store'
+import {alertsSelector} from '../selectors'
+
 export function showAlert(level, type, closeAfter) {
   return {
     type: types.SHOW_ALERT,
@@ -17,6 +22,15 @@ export function hideAlert(alert) {
     payload: {
       alert
     }
+  }
+}
+
+export function hideAlertByType(type) {
+  const {alerts} = alertsSelector(store.getState())
+  const alert = find(alerts, alert => alert.type === type)
+
+  return dispatch => {
+    dispatch(hideAlert(alert))
   }
 }
 

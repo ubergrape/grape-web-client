@@ -95,8 +95,12 @@ class ReduxEmitter extends Emitter {
     this.emit('error', err)
   }
 
-  alert(level, type, closeAfter) {
+  showAlert(level, type, closeAfter) {
     boundActions.showAlert(...arguments)
+  }
+
+  hideAlert(type) {
+    boundActions.hideAlertByType(type)
   }
 
   enableNotifications() {

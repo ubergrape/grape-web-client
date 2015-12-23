@@ -135,7 +135,7 @@ UI.prototype.init = function UI_init() {
   if (notify.isSupported
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
     && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-      this.reduxEmitter.alert('info', 'notifications reminder')
+      this.reduxEmitter.showAlert('info', 'notifications reminder')
       this.enableNotificationMessage = this.messages.info('notifications reminder')
       classes(qs('body')).add('notifications-disabled')
   }
@@ -340,6 +340,7 @@ UI.prototype.gotError = function UI_gotError(err) {
 UI.prototype.onDisconnected = function () {
   this.firstTimeConnect = false
   if (this._connErrMsg) return
+  this.reduxEmitter.showAlert('danger', 'connection lost')
   this._connErrMsg = this.messages.danger('connection lost')
   classes(qs('body')).add('disconnected')
 }
@@ -351,6 +352,9 @@ UI.prototype.onConnected = function () {
   classes(qs('body')).remove('disconnected')
   let msg = this.messages.success('reconnected')
   setTimeout(function () { msg.remove() }, 2000)
+
+  this.reduxEmitter.hideAlert('connection lost')
+  this.reduxEmitter.showAlert('success', 'reconnected', 2000)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
