@@ -33,7 +33,6 @@ let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
-let Messages = exports.Messages = require('./utils/messages')
 let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
 let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
@@ -99,8 +98,6 @@ UI.prototype.init = function UI_init() {
   chat.parentNode.replaceChild(this.historyView.el, chat)
 
   this.title = new Title()
-  this.messages = new Messages()
-  qs('.chat-wrapper', this.el).appendChild(this.messages.el)
   qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
@@ -136,7 +133,6 @@ UI.prototype.init = function UI_init() {
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
     && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
       this.reduxEmitter.showAlert('info', 'notifications reminder')
-      this.enableNotificationMessage = this.messages.info('notifications reminder')
       classes(qs('body')).add('notifications-disabled')
   }
 
@@ -339,21 +335,17 @@ UI.prototype.gotError = function UI_gotError(err) {
 
 UI.prototype.onDisconnected = function () {
   this.firstTimeConnect = false
-  if (this._connErrMsg) return
+  if (this._connErrAlert) return
   this.reduxEmitter.showAlert('danger', 'connection lost')
-  this._connErrMsg = this.messages.danger('connection lost')
+  this._connErrAlert = true
   classes(qs('body')).add('disconnected')
 }
 
 UI.prototype.onConnected = function () {
-  if (!this._connErrMsg || this.firstTimeConnect) return
-  this._connErrMsg.remove()
-  delete this._connErrMsg
+  if (!this._connErrAlert || this.firstTimeConnect) return
+  delete this._connErrAlert
   classes(qs('body')).remove('disconnected')
-  let msg = this.messages.success('reconnected')
-  setTimeout(function () { msg.remove() }, 2000)
-
-  this.reduxEmitter.hideAlert('connection lost')
+  this.reduxEmitter.hideAlerts('connection lost')
   this.reduxEmitter.showAlert('success', 'reconnected', 2000)
 }
 
@@ -415,11 +407,9 @@ UI.prototype.onUploaded = function (attachment) {
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
   // TODO: need to be fixed before PR accepted!
-  let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+  let redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
 
   page.redirect('/chat/' + redirectSlug)
-  let msg = this.messages.warning('message not found')
-  setTimeout(function () { msg.remove() }, 6000)
   this.reduxEmitter.showAlert('warning', 'message not found', 6000)
 }
 
@@ -435,10 +425,8 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 }
 
 UI.prototype.onInvalidUrl = function(cause) {
-  const msg = this.messages.warning(cause)
   page.redirect('/chat/')
   this.reduxEmitter.showAlert('warning', cause, 6000)
-  setTimeout(() => msg.remove(), 6000)
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {

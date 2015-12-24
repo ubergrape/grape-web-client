@@ -95,12 +95,12 @@ class ReduxEmitter extends Emitter {
     this.emit('error', err)
   }
 
-  showAlert(level, type, closeAfter) {
-    boundActions.showAlert(level, type, closeAfter)
+  showAlert(level, type, closeAfter, minLifeTime) {
+    boundActions.showAlert(level, type, closeAfter, minLifeTime)
   }
 
-  hideAlert(type) {
-    boundActions.hideAlertByType(type)
+  hideAlerts(type) {
+    boundActions.hideAlertsByType(type)
   }
 
   enableNotifications() {
@@ -115,7 +115,7 @@ class ReduxEmitter extends Emitter {
       boundActions.showAlert('info', 'loading history')
       return
     }
-    boundActions.hideAlertByType('loading history')
+    boundActions.hideAlertsByType('loading history')
   }
 }
 

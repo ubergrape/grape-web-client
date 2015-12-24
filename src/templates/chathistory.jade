@@ -1,286 +1,280 @@
 .history
-	if isOrgEmpty
-		.empty-org
-			.welcome-message
-				- var welcomepic = staticurl("/images/head.png")
-				img.image(src="#{welcomepic}",width="100",alt="Hi!")
-				div
-					h3= _('Welcome ' + globalDisplayName + '!')
-					p= _("it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!")
-					ul.welcome-tasks
-						li.option
-							a.button.btn-gainsboro.org-invite
-								i.fa.fa-user-plus
-								=_('Add members to this organization')
-						li.option
-							a.button.btn-gainsboro.manage-rooms
-								i.fa.fa-link
-								=_('Create or join rooms')
-	else
-		- var preloader = staticurl("/images/preloader-ongray.gif")
-		if room.id == undefined
-			.preloader
-				div
-					h3
-						=_('Hi '+ globalDisplayName +'!')
-					img.image(src="#{preloader}",width="40",height="60",alt="Loading")
-					p
-						=_("Give us a second while we prepare everything for you!")
-		else if room.loading
-			.preloader
-				div
-					h3
-						=_('Loading your chat history')
-					img.image(src="#{preloader}",width="40",height="60",alt="Loading")
-					p
-						=_('Everything will be there in a second, '+ globalDisplayName +'.')
-		else if history.length === 0
-			if room.type !== 'pm'
-				- var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.'
-				- var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")
-				.welcome-message
-					img.image(src="#{welcomepic}",width="100",alt="Hi!")
-					div
-						h3
-							=_('Welcome to ')
-							if !room.is_public
-								i.fa.fa-lock
-								=" "
-							span #{room.name}
-						p
-							=_(welcomemsg)
-						ul.welcome-tasks
-							li.option
-								a.show-invite.disable-document-click-handler
-									i.fa.fa-user-plus
-									=_('Invite people to this room')
-							li.option
-								a(href='/integrations/', target='_self')
-									i.fa.fa-link
-									=_('Add service integration')
-			else
-				.welcome-message
-					- var head = staticurl("/images/head_lock.png")
-					img.image(src="#{head}",width="100",alt="Hi!")
-					div
-						h3
-							| Private messages with #{room.users[0].displayName}
-						p
-							| This is a private conversation between you and #{room.users[0].displayName}.
-							br
-							| Private conversations are only accessible to the two of you.
+  if isOrgEmpty
+    .empty-org
+      .welcome-message
+        - var welcomepic = staticurl("/images/head.png")
+        img.image(src="#{welcomepic}",width="100",alt="Hi!")
+        div
+          h3= _('Welcome ' + globalDisplayName + '!')
+          p= _("it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!")
+          ul.welcome-tasks
+            li.option
+              a.button.btn-gainsboro.org-invite
+                i.fa.fa-user-plus
+                =_('Add members to this organization')
+            li.option
+              a.button.btn-gainsboro.manage-rooms
+                i.fa.fa-link
+                =_('Create or join rooms')
+  else
+    - var preloader = staticurl("/images/preloader-ongray.gif")
+    if room.id == undefined
+      .preloader
+        div
+          h3
+            =_('Hi '+ globalDisplayName +'!')
+          img.image(src="#{preloader}",width="40",height="60",alt="Loading")
+          p
+            =_("Give us a second while we prepare everything for you!")
+    else if history.length === 0
+      if room.type !== 'pm'
+        - var welcomemsg = room.is_public ? 'This room is public. Every member can join and read the history.' : 'This room is private. Only invited members can see and join this room.'
+        - var welcomepic = room.is_public ? staticurl("/images/head.png") : staticurl("/images/mascot_lock_closed.png")
+        .welcome-message
+          img.image(src="#{welcomepic}",width="100",alt="Hi!")
+          div
+            h3
+              =_('Welcome to ')
+              if !room.is_public
+                i.fa.fa-lock
+                =" "
+              span #{room.name}
+            p
+              =_(welcomemsg)
+            ul.welcome-tasks
+              li.option
+                a.show-invite.disable-document-click-handler
+                  i.fa.fa-user-plus
+                  =_('Invite people to this room')
+              li.option
+                a(href='/integrations/', target='_self')
+                  i.fa.fa-link
+                  =_('Add service integration')
+      else
+        .welcome-message
+          - var head = staticurl("/images/head_lock.png")
+          img.image(src="#{head}",width="100",alt="Hi!")
+          div
+            h3
+              | Private messages with #{room.users[0].displayName}
+            p
+              | This is a private conversation between you and #{room.users[0].displayName}.
+              br
+              | Private conversations are only accessible to the two of you.
 
-						if room.users[0].is_only_invited
-							p.alert-inline.warning.mar-t10
-								i.fa.fa-envelope
-								strong This user was invited to ChatGrape but hasn't joined yet.
-								br
-								| You can send messages now and as soon as the user joins ChatGrape, he will receive them.
-		- var lastDate
-		- var lastRead = true
-		if mode === 'search' && !isFirstMsgLoaded
-			div.load-older-history.load-button
-				a
-					i.fa.fa-arrow-up
-					br
-					=_('load older messages')
-			.content-break
-		each lines in history
-			- var first = lines[0]
-			if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
-				if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
-					.date-separator.today
-						span
-							| Today
-				else
-					.date-separator
-						span= strftime('%A, %d %b %Y', first.time)
-			if (lastRead && !first.read)
-				.newmessage-separator: span= _('new messages')
-			- var lastDate = first.time
-			- var lastRead = first.read
-			- var requestedFirst = first.id && first.id === requestedMsgID ? 'requested' : ''
-			- var hasAttachments = lines[0].attachments && lines[0].attachments.length != 0
-			.message-group(key=first.id, data-id=lines[lines.length - 1].id, class=requestedFirst, class=first.author.id !== user.id ? "" : "creator", class=!hasAttachments ? first.author.type : "", class=first.author.active == false ? "deleted" : "", class=hasAttachments ? "attachments" : "")
-				if hasAttachments
-					div.avatar
-						- var alttext = first.author.id
-						img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{alttext}")
-				else if first.author.type === 'user' && first.author.id !== user.id && first.author.active
-					a(href="/chat/@" + first.author.username.toLowerCase()).avatar
-						img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
-				else if first.author.type==='user' && (first.author.id === user.id || !first.author.active)
-					div.avatar
-						img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{first.author.username}")
-				else if first.author.type==='service'
-					div.avatar
-						- var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
-						- var alttext = first.author.id
-						img.image(src="#{icon}",width="42",height="42",alt="#{alttext}")
+            if room.users[0].is_only_invited
+              p.warning.mar-t10
+                i.fa.fa-envelope
+                strong
+                  = " "
+                  | This user was invited to ChatGrape but hasn't joined yet.
+                br
+                | You can send messages now and as soon as the user joins ChatGrape, he will receive them.
+    - var lastDate
+    - var lastRead = true
+    if mode === 'search' && !isFirstMsgLoaded
+      div.load-older-history.load-button
+        a
+          i.fa.fa-arrow-up
+          br
+          =_('load older messages')
+      .content-break
+    each lines in history
+      - var first = lines[0]
+      if (!lastDate || lastDate.getDate() !== first.time.getDate() || lastDate.getTime() <= first.time.getTime() - 24 * 3600 * 1000)
+        if (strftime('%A, %d %b %Y', first.time) == strftime('%A, %d %b %Y'))
+          .date-separator.today
+            span
+              | Today
+        else
+          .date-separator
+            span= strftime('%A, %d %b %Y', first.time)
+      if (lastRead && !first.read)
+        .newmessage-separator: span= _('new messages')
+      - var lastDate = first.time
+      - var lastRead = first.read
+      - var requestedFirst = first.id && first.id === requestedMsgID ? 'requested' : ''
+      - var hasAttachments = lines[0].attachments && lines[0].attachments.length != 0
+      .message-group(key=first.id, data-id=lines[lines.length - 1].id, class=requestedFirst, class=first.author.id !== user.id ? "" : "creator", class=!hasAttachments ? first.author.type : "", class=first.author.active == false ? "deleted" : "", class=hasAttachments ? "attachments" : "")
+        if hasAttachments
+          div.avatar
+            - var alttext = first.author.id
+            img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{alttext}")
+        else if first.author.type === 'user' && first.author.id !== user.id && first.author.active
+          a(href="/chat/@" + first.author.username.toLowerCase()).avatar
+            img.image(src="#{first.author.avatar}",width="42",height="42",alt="#{first.author.username}")
+        else if first.author.type==='user' && (first.author.id === user.id || !first.author.active)
+          div.avatar
+            img.image(src="#{first.author.avatar}",width="32",height="32",alt="#{first.author.username}")
+        else if first.author.type==='service'
+          div.avatar
+            - var icon = staticurl("images/service-icons/" + first.author.id + "-64.png")
+            - var alttext = first.author.id
+            img.image(src="#{icon}",width="42",height="42",alt="#{alttext}")
 
-				.message-content
-					each line, i in lines
-						- var lineID = line.id ? line.id : line.clientSideID
-						- var status = line.status ? line.status : 'sent'
-						- var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
-						- var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
-						- var msgTypeII = line.author.type==='service' ? line.type : ''
-						- var msgTypeIII = line.author.type==='service' ? line.author.id : ''
-						- var attachments = line.attachments && line.attachments.length != 0 ? 'attachments' : ''
-						- var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
-						- var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
-						if i === 0
-							.messageinfo
-								if (first.author.type==='user')
-									- var author = user.id !== first.author.id ? first.author.displayName : first.author.displayName
-									if (line.attachments && line.attachments.length != 0)
-										a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-											author.message-author(class=user.id == first.author.id ? "creator" : "")= author
-									else
-										if (first.author.active)
-											//- Only create link when it's a user who is not deleted
-											a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
-												author.message-author= first.author.displayName
-										else if (!first.author.active)
-											author.message-author= author
-											if (first.author.id !== user.id)
-												span.author-deleted
-													=_('Deleted user')
-								else
-									author.message-author= first.author.username
-								if first.author.title
-									if first.author.title.indexOf("Mentor") === 0
-										span.author-title.author-title-mentor
-											span.author-title-icon
-												i.fa.fa-graduation-cap
-											=first.author.title
-									else
-										span.author-title=first.author.title
-								//- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
-								a(href=msgLink, class="timelink")
-									.time
-										time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
-											first.user_time
-										if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
-											i.fa.fa-globe
-											.different-timezone
-												span.dif-tz
-													=_(' Local time: ')
-												//- the substr part is a hack to remove the tz information
-												- var user_time = first.user_time.substr(0, first.user_time.length - 6)
-												time.user-tz= tz(user_time).format('hh:mm A')
-						.message-inner-wrap
-							div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=attachments, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
-								if (line.container || line.branch || line.tag)
-									.source-wrap
-										if line.branch
-											span.branch
-												i(class="fa fa-code-fork")
-												=" "
-												| #{line.branch}
-										if line.tag
-											span.tag
-												i(class="fa fa-tag")
-												=" "
-												| #{line.tag}
-										if line.container
-											span.container
-												i(class="mdi mdi-link-variant")
-												=" "
-												a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
-								//- show the edit stuff only if current user is the author
-								if user.id == line.author.id && mode === 'chat' && status != 'pending'
-									div.edit
-										//- only show the edit button when there is no image attached
-										if status === 'sent'
-											if line.attachments && line.attachments.length == 0
-												i.fa.fa-pencil.btn-edit
-											i.fa.fa-times.btn-delete
-										else
-											i.fa.fa-times.btn-delete-from-buffer
-								if  status === 'sent'
-									a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
-										.time
-											time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
-												first.user_time
-											//- now we need to find out if the user timezone in the message is the same as our current timezone
-											//- if it is not, we display a little icon and hovering it reveils the timezone from the message
-											//- (new Date()).getTimezoneOffset() will be -120 for "GMT+0200 (CEST)" BUT
-											//- tz(line.user_time)._tzm will be 120
-											if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
-												i.fa.fa-globe
-												.different-timezone
-													span.dif-tz
-														=_(' Local time: ')
-													//- the substr part is a hack to remove the tz information
-													- var user_time = line.user_time.substr(0, line.user_time.length - 6)
-													time.user-tz= tz(user_time).format('hh:mm A')
-								if status === 'unsent'
-									div.status-control
-										if status == 'unsent'
-											div.resend(data-id=lineID)
-												span.status-label= _('Retry')
-												i.fa.fa-repeat.fa-lg
-											div.unsent
-												span.status-label= _('Not sent')
-												i.fa.fa-exclamation-circle.fa-lg
-								if line.title
-									if line.times
-										span.times= 'x' + line.times
-									.text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
-										= html(markdown(line.title))
-								if line.text
-									if line.times
-										span.times= 'x' + line.times
-									.text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
-										= html(markdown(line.text))
-								if line.content
-									.message-content= line.content
-								if line.attachments
-									//- process attachments/uploads
-									each attachment in line.attachments
-										if attachment.type
-											if attachment.type.indexOf("image") == 0
-												//- attachment is an image
-												div.image-wrap
-													img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
-											else
-												//- any other file
-												a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
-								if line.objects
-									ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
-										each obj in line.objects
-											if obj.visible != false
-												li(class=obj.type)
-													if obj.author && obj.author.username
-														strong
-															| #{obj.author.username}
-													if obj.name
-														a(href=obj.url)
-															strong
-																| #{obj.name}
-													if obj.sha
-														a(href=obj.url, target="_blank").sha
-															=" "
-															| #{obj.sha.substr(0, 6)}
-															=" "
-													if obj.content
-														if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
-															.text= html(markdown(obj.content))
-														else
-															.text= html(escape_html(obj.content).replace(/\n/g, '<br>'))
-													if obj.summary
-														span.summary= obj.summary
-										if line.objects.length > 3 && line.author.id != 'jira'
-											a.show-more= _('Show More')
-											a.show-less= _('Show Less')
-		if mode === 'search'
-			.content-break
-			if !isLastMsgLoaded
-				.load-button.load-newer-history
-					a
-						=_('load newer messages')
-						br
-						i.fa.fa-arrow-down
-			.load-button.load-newest-history.bigarrow
-				i.fa.fa-arrow-down
+        .message-content
+          each line, i in lines
+            - var lineID = line.id ? line.id : line.clientSideID
+            - var status = line.status ? line.status : 'sent'
+            - var requested = line.id && line.id === requestedMsgID ? 'requested' : ''
+            - var msgType = line.author.type==='service' ? 'activity' : 'simpletext'
+            - var msgTypeII = line.author.type==='service' ? line.type : ''
+            - var msgTypeIII = line.author.type==='service' ? line.author.id : ''
+            - var attachments = line.attachments && line.attachments.length != 0 ? 'attachments' : ''
+            - var payload = line.channel.type === 'pm' ? '@' + line.channel.users[0].username.toLowerCase() : line.channel.slug
+            - var msgLink = status !== 'sent' ? 'javascript:void(0)' : '/chat/' + payload + '/' + line.id
+            if i === 0
+              .messageinfo
+                if (first.author.type==='user')
+                  - var author = user.id !== first.author.id ? first.author.displayName : first.author.displayName
+                  if (line.attachments && line.attachments.length != 0)
+                    a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+                      author.message-author(class=user.id == first.author.id ? "creator" : "")= author
+                  else
+                    if (first.author.active)
+                      //- Only create link when it's a user who is not deleted
+                      a(href=(user.id !== first.author.id && first.author.active && first.author.type !== 'service' ? "/chat/@" + first.author.username.toLowerCase() : '#'), class="author-link")
+                        author.message-author= first.author.displayName
+                    else if (!first.author.active)
+                      author.message-author= author
+                      if (first.author.id !== user.id)
+                        span.author-deleted
+                          =_('Deleted user')
+                else
+                  author.message-author= first.author.username
+                if first.author.title
+                  if first.author.title.indexOf("Mentor") === 0
+                    span.author-title.author-title-mentor
+                      span.author-title-icon
+                        i.fa.fa-graduation-cap
+                      =first.author.title
+                  else
+                    span.author-title=first.author.title
+                //- German time: time.time(datetime=first.time.toISOString())= strftime('%H:%M Uhr', first.time)
+                a(href=msgLink, class="timelink")
+                  .time
+                    time(datetime=first.time.toISOString())= strftime('%I:%M %p', first.time)
+                      first.user_time
+                    if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
+                      i.fa.fa-globe
+                      .different-timezone
+                        span.dif-tz
+                          =_(' Local time: ')
+                        //- the substr part is a hack to remove the tz information
+                        - var user_time = first.user_time.substr(0, first.user_time.length - 6)
+                        time.user-tz= tz(user_time).format('hh:mm A')
+            .message-inner-wrap
+              div.message(data-id=lineID, class=msgType, class=msgTypeII, class=msgTypeIII, class=attachments, class=requested, class=status, class=(i === 0 && line.author.type !== 'service') ? "first" : "", class=parseInt(strftime('%s')) - parseInt(strftime('%s', first.time)) <= 10 && (status === 'pending' || line.author != user) ? "freshmessage" : "")
+                if (line.container || line.branch || line.tag)
+                  .source-wrap
+                    if line.branch
+                      span.branch
+                        i(class="fa fa-code-fork")
+                        =" "
+                        | #{line.branch}
+                    if line.tag
+                      span.tag
+                        i(class="fa fa-tag")
+                        =" "
+                        | #{line.tag}
+                    if line.container
+                      span.container
+                        i(class="mdi mdi-link-variant")
+                        =" "
+                        a.container(href=line.container.url target="_blank", class=line.container.type)= "in " + line.container.name
+                //- show the edit stuff only if current user is the author
+                if user.id == line.author.id && mode === 'chat' && status != 'pending'
+                  div.edit
+                    //- only show the edit button when there is no image attached
+                    if status === 'sent'
+                      if line.attachments && line.attachments.length == 0
+                        i.fa.fa-pencil.btn-edit
+                      i.fa.fa-times.btn-delete
+                    else
+                      i.fa.fa-times.btn-delete-from-buffer
+                if  status === 'sent'
+                  a(href=msgLink, class='outertime', class=i === 0 ? "first" : "")
+                    .time
+                      time(datetime=first.time.toISOString())= strftime('%I:%M %p', line.time)
+                        first.user_time
+                      //- now we need to find out if the user timezone in the message is the same as our current timezone
+                      //- if it is not, we display a little icon and hovering it reveils the timezone from the message
+                      //- (new Date()).getTimezoneOffset() will be -120 for "GMT+0200 (CEST)" BUT
+                      //- tz(line.user_time)._tzm will be 120
+                      if ( typeof line.user_time !== "undefined" && (new Date()).getTimezoneOffset() !== -tz(line.user_time)._tzm)
+                        i.fa.fa-globe
+                        .different-timezone
+                          span.dif-tz
+                            =_(' Local time: ')
+                          //- the substr part is a hack to remove the tz information
+                          - var user_time = line.user_time.substr(0, line.user_time.length - 6)
+                          time.user-tz= tz(user_time).format('hh:mm A')
+                if status === 'unsent'
+                  div.status-control
+                    if status == 'unsent'
+                      div.resend(data-id=lineID)
+                        span.status-label= _('Retry')
+                        i.fa.fa-repeat.fa-lg
+                      div.unsent
+                        span.status-label= _('Not sent')
+                        i.fa.fa-exclamation-circle.fa-lg
+                if line.title
+                  if line.times
+                    span.times= 'x' + line.times
+                  .text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
+                    = html(markdown(line.title))
+                if line.text
+                  if line.times
+                    span.times= 'x' + line.times
+                  .text.main(class=line.times ? "collapsed" :"", class= (line.container || line.branch || line.tag) ? "add-margin" : "")
+                    = html(markdown(line.text))
+                if line.content
+                  .message-content= line.content
+                if line.attachments
+                  //- process attachments/uploads
+                  each attachment in line.attachments
+                    if attachment.type
+                      if attachment.type.indexOf("image") == 0
+                        //- attachment is an image
+                        div.image-wrap
+                          img.image.zoom-image(src=attachment.thumbnail_url, data-zoom-url=attachment.url, data-zoom-overlay="true",data-zoom-padding='20', width=attachment.thumbnail_width, height=attachment.thumbnail_height, alt=attachment.name)
+                      else
+                        //- any other file
+                        a.attachment(href=attachment.url, download=attachment.name, target="_blank", class=("ft-" + attachment.type.replace(/[\.\/]/g, "-")))= attachment.name
+                if line.objects
+                  ul(class=(line.objects.length > 3 ? "list-previewed" : "short-list"))
+                    each obj in line.objects
+                      if obj.visible != false
+                        li(class=obj.type)
+                          if obj.author && obj.author.username
+                            strong
+                              | #{obj.author.username}
+                          if obj.name
+                            a(href=obj.url)
+                              strong
+                                | #{obj.name}
+                          if obj.sha
+                            a(href=obj.url, target="_blank").sha
+                              =" "
+                              | #{obj.sha.substr(0, 6)}
+                              =" "
+                          if obj.content
+                            if line.author.id == 'github' || line.author.id == 'trello' || line.author.id == 'bitbucket'
+                              .text= html(markdown(obj.content))
+                            else
+                              .text= html(escape_html(obj.content).replace(/\n/g, '<br>'))
+                          if obj.summary
+                            span.summary= obj.summary
+                    if line.objects.length > 3 && line.author.id != 'jira'
+                      a.show-more= _('Show More')
+                      a.show-less= _('Show Less')
+    if mode === 'search'
+      .content-break
+      if !isLastMsgLoaded
+        .load-button.load-newer-history
+          a
+            =_('load newer messages')
+            br
+            i.fa.fa-arrow-down
+      .load-button.load-newest-history.bigarrow
+        i.fa.fa-arrow-down

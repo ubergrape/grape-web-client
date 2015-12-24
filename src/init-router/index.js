@@ -32,8 +32,7 @@ export default function init(ui) {
     let redirectSlug
     if (redirectRoom) {
       redirectSlug = redirectRoom.slug
-    }
-    else {
+    } else {
       if (!navPMList.length) return ui.emit('emptyOrg')
       redirectSlug = navPMList[0].slug
     }

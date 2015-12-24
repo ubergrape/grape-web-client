@@ -6,8 +6,6 @@ import actionNames from './actionNames'
 
 import Alerts from './Alerts'
 
-console.log(alertsAndChannelSelector)
-
 const ConnectedAlerts = connect(
   alertsAndChannelSelector,
   mapActionsToProps(actionNames)

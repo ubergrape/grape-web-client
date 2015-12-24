@@ -7,8 +7,11 @@ const initialState = {
 export default function reducers(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_ALERT:
+      const {payload} = action
+      const alerts = state.alerts.filter(alert => alert.type !== payload.type)
+      alerts.push(payload)
       return {
-        alerts: [...state.alerts, action.payload]
+        alerts
       }
     case types.HIDE_ALERT:
       return {

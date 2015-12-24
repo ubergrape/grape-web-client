@@ -6,24 +6,19 @@ import style from './style'
 @useSheet(style)
 export default class Alert extends Component {
   static propTypes = {
-
+    sheet: PropTypes.object.isRequired,
+    alert: PropTypes.object.isRequired,
+    hideAlert: PropTypes.func.isRequired,
+    enableNotifications: PropTypes.func.isRequired,
+    timer: PropTypes.number
   }
 
   static defaultProps = {
 
   }
 
-  componentDidMount() {
-    const {alert} = this.props
-    if (alert.closeAfter) {
-      this.closeAfter = setTimeout(() => {
-        this.props.hideAlert(alert)
-      }, alert.closeAfter)
-    }
-  }
-
   componentWillUnmount() {
-    if (this.closeAfter) clearTimeout(this.closeAfter)
+    if (this.timer) clearTimeout(this.timer)
   }
 
   onReload() {
@@ -36,30 +31,47 @@ export default class Alert extends Component {
   }
 
   renderNotificationsReminder() {
-    const {alert, key, hideAlert} = this.props
+    const {alert, hideAlert} = this.props
+    const {classes} = this.props.sheet
     const onEnableNotifications = this.onEnableNotifications.bind(this, alert)
     return (
-      <span key={key}>
-        Hey there!
-        <button
-          onClick={onEnableNotifications}>
-          Please enable desktop notifications
-        </button>
-        , so your team members can reach you on ChatGrape.
-        <button
-          onClick={onEnableNotifications}>
-          Enable notifications
-        </button>
-        <button onClick={hideAlert.bind(this, alert)}>x</button>
+      <span
+        className={classes.layout}>
+        <span
+          className={classes.main}>
+          Hey there!
+          {' '}
+          <button
+            className={classes.buttonLink}
+            onClick={onEnableNotifications}>
+            Please enable desktop notifications
+          </button>
+          {' '}
+          so your team members can reach you on ChatGrape.
+        </span>
+        <span
+          className={classes.secondary}>
+          <button
+            className={`${classes.actionButton} ${classes[alert.level]}`}
+            onClick={onEnableNotifications}>
+            Enable notifications
+          </button>
+        </span>
+        <span
+          className={classes.secondary}>
+          <button
+            className={classes.buttonLink}
+            onClick={hideAlert.bind(this, alert)}>
+            close
+          </button>
+        </span>
       </span>
     )
-
   }
 
   renderConnetionLost() {
-    const {alert, key} = this.props
     return (
-      <span key={key}>
+      <span>
         Lost connection to the server - trying to reconnect. You can also try to
         <button
           onClick={::this.onReload}>
@@ -70,13 +82,12 @@ export default class Alert extends Component {
   }
 
   renderReconnected() {
-    return <span key={this.props.key}>Reconnected successfully</span>
+    return <span>Reconnected successfully</span>
   }
 
   renderUrlNotFound() {
     return (
-      <span
-        key={this.props.key}>
+      <span>
         We could not find what you were looking for&nbsp;-
         the room might have been deleted, renamed or moved.
       </span>
@@ -85,8 +96,7 @@ export default class Alert extends Component {
 
   renderMessageNotFound() {
     return (
-      <span
-        key={this.props.key}>
+      <span>
         We could not find the message you were looking for.
       </span>
     )
@@ -94,24 +104,26 @@ export default class Alert extends Component {
 
   renderMessageToSelf() {
     return (
-      <span
-        key={this.props.key}>
-        You cannot message yourself.
-      </span>
+      <span>You cannot message yourself.</span>
     )
   }
 
   renderLoadingHistory() {
     return (
-      <span
-        key={this.props.key}>
-        Loading your chat history&middot;
-      </span>
+      <span>Loading your chat history&middot;</span>
     )
   }
 
   render() {
-    switch (this.props.alert.type) {
+
+    const {alert} = this.props
+    if (alert.closeAfter) {
+      this.timer = setTimeout(() => {
+        this.props.hideAlert(alert)
+      }, alert.closeAfter)
+    }
+
+    switch (alert.type) {
       case 'notifications reminder':
         return this.renderNotificationsReminder()
       case 'connection lost':
@@ -127,7 +139,7 @@ export default class Alert extends Component {
       case 'loading history':
         return this.renderLoadingHistory()
       default:
-        return <span key={this.props.key}></span>
+        return <span></span>
     }
   }
 }

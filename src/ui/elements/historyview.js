@@ -31,10 +31,7 @@ function HistoryView() {
   this.bind()
   this.scroll = new InfiniteScroll(this.scrollWindow, this._scrolled.bind(this), 0)
   this.scrollMode = 'automatic'
-  this.on('needhistory', () => {
-    this.room.loading = true
-    reduxEmitter.setLoadingHistory(true)
-  })
+  this.on('needhistory', () => reduxEmitter.setLoadingHistory(true))
   this.unsentBuffer = {}
   this.requestedMsgID = null
   this.isFirstMsgLoaded = false
@@ -320,9 +317,7 @@ HistoryView.prototype.lastMsgLoaded = function(history) {
 }
 
 HistoryView.prototype.onGotHistory = function() {
-  this.room.loading = false
   reduxEmitter.setLoadingHistory(false)
-
   this.room.empty = false
   let displayedHistory = this.mode === 'chat' ? this.room.history : this.room.searchHistory
   this.isFirstMsgLoaded = this.firstMsgLoaded(displayedHistory)
@@ -332,10 +327,7 @@ HistoryView.prototype.onGotHistory = function() {
 
 HistoryView.prototype.noHistory = function() {
   this.room.empty = true
-
-  this.room.loading = false
   reduxEmitter.setLoadingHistory(false)
-
   this.isFirstMsgLoaded = false
   this.isLastMsgLoaded = false
   this.queueDraw()
@@ -374,7 +366,6 @@ HistoryView.prototype.setRoom = function(room, msgID) {
   }
   else {
     this.emit('requestMessage', room, msgID)
-    this.room.loading = true
     reduxEmitter.setLoadingHistory(true)
   }
   room.history.on('remove', (msg) => {
@@ -465,10 +456,7 @@ HistoryView.prototype.onFocusMessage = function(msgID) {
   // reset, otherwise we won't get future events
   this.scroll.reset()
   this.requestedMsgID = msgID
-
-  this.room.loading = false
   reduxEmitter.setLoadingHistory(false)
-
   this.isFirstMsgLoaded = this.firstMsgLoaded(this.room.searchHistory)
   this.isLastMsgLoaded = this.lastMsgLoaded(this.room.searchHistory)
   this.queueDraw()

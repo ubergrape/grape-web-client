@@ -8,16 +8,16 @@ import style from './style'
 @useSheet(style)
 export default class Alerts extends Component {
   static propTypes = {
-
-  }
-
-  static defaultProps = {
-
+    sheet: PropTypes.object.isRequired,
+    alerts: PropTypes.array
   }
 
   renderAlert(alert, i) {
+    const {classes} = this.props.sheet
     return (
-      <li key={i}>
+      <li
+        className={`${classes.alert} ${classes[alert.level]}`}
+        key={i}>
         <Alert
           alert={alert}
           key={i}
@@ -28,17 +28,22 @@ export default class Alerts extends Component {
 
   renderAlerts() {
     const {alerts} = this.props
-    if (!alerts.length) return
+    if (!alerts.length) return false
 
     return (
-      <ul>{alerts.map((alert, i) => this.renderAlert(alert,i))}</ul>
+      <ul
+        className={this.props.sheet.classes.list}>
+        {alerts.map((alert, i) => this.renderAlert(alert, i))}
+      </ul>
     )
   }
 
   render() {
-    console.log(this.props)
     return (
-      <div>{this.renderAlerts()}</div>
+      <div
+        className={this.props.sheet.classes.alerts}>
+        {this.renderAlerts()}
+      </div>
     )
   }
 }
