@@ -96,7 +96,7 @@ class ReduxEmitter extends Emitter {
   }
 
   showAlert(level, type, closeAfter) {
-    boundActions.showAlert(...arguments)
+    boundActions.showAlert(level, type, closeAfter)
   }
 
   hideAlert(type) {
@@ -105,6 +105,17 @@ class ReduxEmitter extends Emitter {
 
   enableNotifications() {
     this.emit('enableNotifications')
+  }
+
+  setLoadingHistory(value) {
+    boundActions.channelLoadingHistory(value)
+    // TODO: this actions should be triggered by
+    // 'channel' component, when we move it to redux
+    if (value) {
+      boundActions.showAlert('info', 'loading history')
+      return
+    }
+    boundActions.hideAlertByType('loading history')
   }
 }
 

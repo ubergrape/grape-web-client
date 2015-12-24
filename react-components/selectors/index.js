@@ -61,3 +61,10 @@ export const messageSearchSelector = createSelector(
 export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
+
+export const alertsAndChannelSelector = createSelector(
+  [alertsSelector, channelSelector],
+  ({alerts}, channel) => {
+    return {alerts, channel}
+  }
+)

@@ -36,6 +36,7 @@ export default class Alerts extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>{this.renderAlerts()}</div>
     )

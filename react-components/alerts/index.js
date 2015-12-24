@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 import {mapActionsToProps} from '../app/utils'
-import {alertsSelector} from '../selectors'
+import {alertsAndChannelSelector} from '../selectors'
 import actionNames from './actionNames'
 
 import Alerts from './Alerts'
 
+console.log(alertsAndChannelSelector)
+
 const ConnectedAlerts = connect(
-  alertsSelector,
+  alertsAndChannelSelector,
   mapActionsToProps(actionNames)
 )(Alerts)
 

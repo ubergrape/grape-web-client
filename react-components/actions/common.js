@@ -54,6 +54,13 @@ export function setChannel(channel) {
   }
 }
 
+export function channelLoadingHistory(value) {
+  return {
+    type: types.CHANNEL_LOADING_HISTORY,
+    payload: value
+  }
+}
+
 export function setSettings(settings) {
   return {
     type: types.SET_SETTINGS,

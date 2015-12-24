@@ -101,6 +101,15 @@ export default class Alert extends Component {
     )
   }
 
+  renderLoadingHistory() {
+    return (
+      <span
+        key={this.props.key}>
+        Loading your chat history&middot;
+      </span>
+    )
+  }
+
   render() {
     switch (this.props.alert.type) {
       case 'notifications reminder':
@@ -115,6 +124,8 @@ export default class Alert extends Component {
         return this.renderMessageNotFound()
       case 'message to self':
         return this.renderMessageToSelf()
+      case 'loading history':
+        return this.renderLoadingHistory()
       default:
         return <span key={this.props.key}></span>
     }
