@@ -53,7 +53,7 @@ Navigation.prototype.bind = function () {
     },
     triggerPMManager: function (ev) {
       if (self.ready) self.emit('triggerPMManager')
-    },
+    }
   })
   this.events.bind('click .create-room', 'triggerRoomCreation')
   this.events.bind('click .manage-rooms-button', 'triggerRoomManager')
@@ -85,6 +85,27 @@ Navigation.prototype.pmCompare = function (a, b) {
     return getStatusValue(b) - getStatusValue(a)
 }
 
+
+Navigation.prototype.getWeekAgo = function() {
+  const weekAgo = new Date()
+  weekAgo.setDate(weekAgo.getDate() - 7)
+
+  return weekAgo
+}
+
+Navigation.prototype.setProactiveItem = function (weekAgo = this.getWeekAgo(), item) {
+  const prop = 'latest_message_time'
+  const last = item.type === 'room' ? item[prop] : item.pm[prop]
+  item.proactive = weekAgo - last < 0
+  return item
+}
+
+Navigation.prototype.setProactiveList = function (list) {
+  const weekAgo = this.getWeekAgo()
+  list.forEach(this.setProactiveItem.bind(this, weekAgo))
+  return list
+}
+
 Navigation.prototype.roomCompare = function (a, b) {
   return b.latest_message_time - a.latest_message_time
 }
@@ -103,8 +124,19 @@ Navigation.prototype.select = function (item) {
 
 Navigation.prototype.redraw = function () {
   render(this.nav, template('navigation.jade'))
-  if (this.pmList) this.pmList.redraw()
-  if (this.roomList) this.roomList.redraw()
+
+  const {roomList, pmList} = this
+  if (roomList) {
+    let {items} = roomList
+    if (items) items = this.setProactiveList(items)
+    roomList.redraw()
+  }
+
+  if (pmList) {
+    let {items} = pmList
+    if (items) items = this.setProactiveList(items)
+    pmList.redraw()
+  }
 }
 
 Navigation.prototype.onNewMessage = function (line) {
@@ -172,11 +204,15 @@ Navigation.prototype.onDeletedUser = function() {
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-  const rooms = org.rooms.slice()
+  const rooms = org.rooms.slice().filter(room => room.joined)
   const pms = org.users.filter(user => {
     return user != window.ui.user && user.active && !user.is_only_invited
   })
-  this.setLists({rooms: rooms, pms: pms})
+
+  this.setLists({
+    rooms: this.setProactiveList(rooms),
+    pms: this.setProactiveList(pms)
+  })
   this.nav.user = window.ui.user
 
   // we need this redraw for the organization logo

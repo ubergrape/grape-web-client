@@ -1,26 +1,11 @@
-ul.nav-list.rooms
-	each room in items
-		if room.joined
-			li.channel-item(style=(room == selected ? 'background: #{room.color}' : ''), class=(room == selected ? 'selected' : ''), data-id=room.id, key=room.id)
-				a(href="/chat/" + room.slug)
-					.item-inner-wrp
-						.room-face(style="background: #{room.color}")
-							=room.abbr
-							if !room.is_public
-								i.room-icon.fa.fa-lock
+div
+	if items.length
+		ul.nav-list.rooms
+			each room in items
+				include channel-item
 
-						if room.unread > 0
-							if room.unread > 99
-								if room.mentioned > 0
-									span.fl-notification.is-mentioned=_('@ 99+')
-								else
-									span.fl-notification=_('99+')
-							else
-								if room.mentioned > 0
-									span.fl-notification.is-mentioned
-										=_('@ ')
-										=room.unread.toString()
-								else
-									span.fl-notification=room.unread.toString()
-			
-						span.channel-name=room.name
+	if inactive.length
+		button show inactive
+		ul.nav-list.rooms.inactive
+			each room in inactive
+					include channel-item
