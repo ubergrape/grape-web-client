@@ -1,12 +1,20 @@
 div
-	if items.length
+	- var users = items.filter(function(item) { return item.proactive })
+
+	- var inactive = items.filter(function(item) { return !item.proactive })
+
+	if users.length
 		ul.nav-list.pms
-			each user in items
+			each user in users
 				include pm-item
 
 	if inactive.length
 		div.inactive
-			input.inactive-toggler(id="inactive-pm" type="checkbox")
+			if (inactive.some(function(user) { return user.pm === selected }) || !users.length)
+				input.inactive-toggler(id="inactive-pm" type="checkbox" checked)
+			else
+				input.inactive-toggler(id="inactive-pm" type="checkbox")
+
 			label.inactive-toggle(for="inactive-pm")
 				| #{inactive.length} more
 				i.mdi.mdi-chevron-down

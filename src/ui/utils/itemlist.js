@@ -10,7 +10,6 @@ function ItemList(options) {
   this.template = options.template
   this.templateOptions = options.templateOptions ? options.templateOptions : null
   this.items = []
-  this.inactive = []
   this.highlighted = []
   this.selected = null
   this.redraw = this.redraw.bind(this)
@@ -26,8 +25,7 @@ ItemList.prototype.redraw = function () {
 
 ItemList.prototype.getTemplateOptions = function () {
   let options = {
-    items: this.items.filter(item => item.proactive),
-    inactive: this.items.filter(item => !item.proactive),
+    items: this.items,
     selected: this.selected,
     highlighted: this.highlighted
   }

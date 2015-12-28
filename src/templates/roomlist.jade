@@ -1,15 +1,22 @@
 div
+	- var rooms = items.filter(function(item) { return item.joined && item.proactive })
+	- var inactive = items.filter(function(item) { return item.joined && !item.proactive })
+
 	if items.length
 		ul.nav-list.rooms
-			each room in items
+			each room in rooms
 				include channel-item
 
 	if inactive.length
 		div.inactive
-			input.inactive-toggler(id="inactive-rooms" type="checkbox")
+			if (inactive.indexOf(selected) >= 0 || !rooms.length)
+				input.inactive-toggler(id="inactive-rooms" type="checkbox" checked)
+			else
+				input.inactive-toggler(id="inactive-rooms" type="checkbox")
+
 			label.inactive-toggle(for="inactive-rooms")
 				| #{inactive.length} more
 				i.mdi.mdi-chevron-down
 			ul.nav-list.rooms.inactive-list
 				each room in inactive
-						include channel-item
+					include channel-item

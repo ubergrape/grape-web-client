@@ -95,8 +95,16 @@ Navigation.prototype.getWeekAgo = function() {
 
 Navigation.prototype.setProactiveItem = function (weekAgo = this.getWeekAgo(), item) {
   const prop = 'latest_message_time'
-  const last = item.type === 'room' ? item[prop] : item.pm[prop]
+
+  let last
+  if (item.type === 'room') {
+    last = item[prop] || 0
+  } else {
+    last = item.pm ? item.pm[prop] : 0
+  }
+
   item.proactive = weekAgo - last < 0
+
   return item
 }
 
@@ -112,6 +120,7 @@ Navigation.prototype.roomCompare = function (a, b) {
 
 Navigation.prototype.select = function (item) {
   this.room = item
+
   if (item.type == 'pm') {
     this.roomList.selectItem(null)
     this.pmList.selectItem(item)
@@ -147,6 +156,7 @@ Navigation.prototype.onNewMessage = function (line) {
 
   list.items.splice(itemIndex, 1)
   list.items.unshift(item)
+  list.items = this.setProactiveList(list.items)
   list.redraw()
 }
 
@@ -154,6 +164,7 @@ Navigation.prototype.deleteRoom = function (room) {
   let newRoomIndex = this.roomList.items.indexOf(room)
   if (newRoomIndex === -1) return
   this.roomList.items.splice(newRoomIndex, 1)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
   if (this.room === room) page.replace('/chat/')
 }
@@ -163,6 +174,7 @@ Navigation.prototype.onChannelRead = function () {
 }
 
 Navigation.prototype.onChannelUpdate = function () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
@@ -177,16 +189,19 @@ Navigation.prototype.onJoinedChannel = function (room) {
   let joinedRoomIndex = this.roomList.items.indexOf(room)
   if (joinedRoomIndex > -1) return
   this.roomList.items.push(room)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onLeftChannel = function (room) {
   let newRoomIndex = this.roomList.items.indexOf(room)
   this.roomList.items.splice(newRoomIndex, 1)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onUserMention = function () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
@@ -195,16 +210,18 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
 }
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onDeletedUser = function() {
+  this.pmList.items = this.setProactiveList(this.pmList.items)
   this.pmList.redraw()
   this.pmListCollapsed.redraw()
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
-  const rooms = org.rooms.slice().filter(room => room.joined)
+  const rooms = org.rooms.slice()
   const pms = org.users.filter(user => {
     return user != window.ui.user && user.active && !user.is_only_invited
   })
