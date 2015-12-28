@@ -332,16 +332,20 @@ export default class Input extends Component {
     if (callback) callback(data)
   }
 
-  renderBrowser(options) {
+  renderBrowser() {
     const {browser, browserOpened, data} = this.state
 
     if (!browser || !browserOpened) return null
 
+    const {classes} = this.props.sheet
+    const {images} = this.props
+
     if (browser === 'search') {
       return (
         <SearchBrowser
-          {...options}
           data={data}
+          images={images}
+          isExternal={utils.isExternalSearch(data)}
           isLoading={this.props.isLoading}
           hasIntegrations={this.props.hasIntegrations}
           canAddIntegrations={this.props.canAddIntegrations}
@@ -358,7 +362,8 @@ export default class Input extends Component {
     if (browser === 'emoji') {
       return (
         <EmojiBrowser
-          {...options}
+          images={images}
+          className={classes.browser}
           customEmojis={this.props.customEmojis}
           onAbort={::this.onAbort}
           onSelectItem={::this.onSelectEmojiBrowserItem}
@@ -369,7 +374,8 @@ export default class Input extends Component {
 
     return (
       <Datalist
-        {...options}
+        className={classes.browser}
+        images={images}
         data={data}
         onSelect={::this.onSelectDatalistItem}
         onDidMount={this.onDidMount.bind(this, 'datalist')} />
@@ -378,23 +384,13 @@ export default class Input extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {data} = this.state
-    const isExternal = utils.isExternalSearch(data)
-    const browser = this.renderBrowser({
-      isExternal: isExternal,
-      className: classes.browser,
-      images: this.props.images
-    })
-
     return (
       <div
         onKeyDown={::this.onKeyDown}
         className={classes.input}
         data-test="grape-input">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
-        <div className={classes.completeWrapper} data-test="complete-wrapper">
-          {browser}
-        </div>
+        {this.renderBrowser()}
         <div className={classes.scroll}>
           <HighlightedTextarea
             onAbort={::this.onAbort}
@@ -407,7 +403,7 @@ export default class Input extends Component {
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
-            content={this.getTextContent()}/>
+            content={this.getTextContent()} />
         </div>
       </div>
     )

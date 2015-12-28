@@ -25,11 +25,11 @@ export function render(element, callback) {
  *
  * E.g. $('input wrapper something')
  */
-export function $(names) {
+export function $(names, parent = container) {
   let selector = ''
   names.split(' ').forEach(name => {
     selector += `[data-test="${name}"] `
   })
-  return container.querySelector(selector)
+  return parent.querySelector(selector)
 }
 

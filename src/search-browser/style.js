@@ -1,11 +1,12 @@
-'use strict';
+import style from '../browser/style'
 
-exports.__esModule = true;
-exports['default'] = {
+export default {
+  ...style,
   modal: {
     position: 'absolute',
     height: '100%',
     width: '100%',
+    top: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -21,8 +22,8 @@ exports['default'] = {
     opacity: 0.5
   },
   browser: {
+    ...style.browser,
     position: 'relative',
     margin: '0 10%'
   }
-};
-module.exports = exports['default'];
+}

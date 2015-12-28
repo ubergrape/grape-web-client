@@ -17,9 +17,7 @@ describe('grape-input:', () => {
     it('should open search browser', () => {
       const input = <GrapeInput browser="search" data={data0} focused />
       render(input)
-      const completeWrapper = $('grape-input complete-wrapper')
-      expect(completeWrapper).to.be.an(Element)
-      expect(completeWrapper.children.length).to.be(1)
+      expect($('search-browser', document.body)).to.be.an(Element)
     })
   })
 
@@ -39,7 +37,7 @@ describe('grape-input:', () => {
 
     it('shound render "nothing found"', done => {
       create(null, () => {
-        expect($('grape-input empty')).to.be.an(Element)
+        expect($('search-browser empty', document.body)).to.be.an(Element)
         done()
       })
     })
@@ -48,8 +46,8 @@ describe('grape-input:', () => {
       create(component => {
         component.query.set('search', 'something ', {silent: true})
         create(null, () => {
-          const completeWrapper = $('grape-input complete-wrapper')
-          expect(completeWrapper.children.length).to.be(0)
+          const browser = $('search-browser', document.body)
+          expect(browser).to.be(null)
           done()
         })
       })
@@ -59,23 +57,9 @@ describe('grape-input:', () => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
         create(null, () => {
-          const completeWrapper = $('grape-input complete-wrapper')
-          expect(completeWrapper.children.length).to.be(1)
+          const browser = $('search-browser', document.body)
+          expect(browser).to.be.an(Element)
           done()
-        })
-      })
-    })
-
-    it('should stay closed when user continued typing after space', (done) => {
-      create(component => {
-        const completeWrapper = $('grape-input complete-wrapper')
-        component.query.set('search', 'something else', {silent: true})
-        create(null, () => {
-          component.query.set('search', 'something else ', {silent: true})
-          create(null, () => {
-            expect(completeWrapper.children.length).to.be(0)
-            done()
-          })
         })
       })
     })
@@ -94,7 +78,7 @@ describe('grape-input:', () => {
           focused/>
       )
       render(input)
-      Simulate.keyDown($('grape-input browser input'), {keyCode: 13})
+      Simulate.keyDown($('search-browser input', document.body), {keyCode: 13})
     }
 
     it('should call onInsertItem with correct argument', (done) => {

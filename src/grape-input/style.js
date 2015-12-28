@@ -11,10 +11,7 @@ export default {
   },
   browser: {
     position: 'absolute',
-    width: '100%',
-    bottom: 0
-  },
-  completeWrapper: {
-    position: 'relative'
+    bottom: '100%',
+    width: '100%'
   }
 }

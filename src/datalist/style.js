@@ -4,7 +4,7 @@ import utils from 'grape-jss-utils'
 import color from 'color'
 
 export default {
-  container: {
+  datalist: {
     background: colors.white,
     border: '1px solid ' + colors.gainsboroLight,
     boxShadow: '0px 3px 4px 0 ' + color(colors.grapeTypo).alpha(0.5).rgbaString(),
