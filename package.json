@@ -60,8 +60,8 @@
     "node-libs-browser": "^0.5.2",
     "react-addons-test-utils": "^0.14.0",
     "reactive-elements": "^0.6.3",
-    "webpack": "^1.10.1",
-    "webpack-dev-server": "^1.10.1"
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",

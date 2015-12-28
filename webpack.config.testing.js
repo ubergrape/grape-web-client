@@ -1,3 +1,1 @@
-var webpackConfig = require('./webpack.base.config')
-
-module.exports = exports = webpackConfig
+module.exports = require('./webpack.config.base')

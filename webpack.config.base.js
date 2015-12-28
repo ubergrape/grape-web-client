@@ -1,16 +1,14 @@
 var webpack = require('webpack')
 
-module.exports = exports = {
+module.exports = {
   entry: {
     browser: ['webpack/hot/dev-server', './src/index.js']
   },
-
   output: {
     path: './examples/build',
     publicPath: '/build/',
     filename: 'grape-browser.js'
   },
-
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -20,7 +18,6 @@ module.exports = exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
-
   module: {
     loaders: [
       {
