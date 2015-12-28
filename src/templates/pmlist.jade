@@ -5,8 +5,12 @@ div
 				include pm-item
 
 	if inactive.length
-		button show inactive
-		ul.nav-list.pms.inactive
-			each user in inactive
-					include pm-item
+		div.inactive
+			input.inactive-toggler(id="inactive-pm" type="checkbox")
+			label.inactive-toggle(for="inactive-pm")
+				| #{inactive.length} more
+				i.mdi.mdi-chevron-down
+			ul.nav-list.pms.inactive-list
+				each user in inactive
+						include pm-item
 

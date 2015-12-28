@@ -5,7 +5,11 @@ div
 				include channel-item
 
 	if inactive.length
-		button show inactive
-		ul.nav-list.rooms.inactive
-			each room in inactive
-					include channel-item
+		div.inactive
+			input.inactive-toggler(id="inactive-rooms" type="checkbox")
+			label.inactive-toggle(for="inactive-rooms")
+				| #{inactive.length} more
+				i.mdi.mdi-chevron-down
+			ul.nav-list.rooms.inactive-list
+				each room in inactive
+						include channel-item
