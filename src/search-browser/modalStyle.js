@@ -3,10 +3,8 @@ export default {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    top: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    top: '20%',
+    zIndex: 1000
   },
   backdrop: {
     position: 'fixed',

@@ -164,11 +164,16 @@ export default class Browser extends Component {
   }
 
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
+    const content = this.renderContent()
+    const inlineStyle = {
+      maxWidth: this.props.maxWidth,
+      height: content ? this.props.height : 'auto'
+    }
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth')}
+        style={inlineStyle}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser">
         <Input
@@ -183,7 +188,7 @@ export default class Browser extends Component {
         {this.state.tabs &&
           <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         }
-        {this.renderContent()}
+        {content}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
     )
