@@ -1,5 +1,6 @@
 import page from 'page'
 import find from 'lodash/collection/find'
+import * as alerts from '../../react-components/constants/alerts'
 
 export default function init(ui) {
   const baseURL = '/chat'
@@ -76,7 +77,7 @@ export default function init(ui) {
     let user = findPM(creatorSlug === currUser.slug ? mate : creator)
     if (user) {
       if (user === currUser) {
-        return ui.onInvalidUrl('message to self')
+        return ui.onInvalidUrl(alerts.MESSAGE_TO_SELF)
       }
       else if (user.pm) {
         return ui.emit('selectchannel', user.pm, message)
@@ -117,6 +118,6 @@ export default function init(ui) {
   }
 
   function notFound() {
-    ui.onInvalidUrl('url not found')
+    ui.onInvalidUrl(alerts.URL_NOT_FOUND)
   }
 }

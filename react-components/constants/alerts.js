@@ -1,0 +1,7 @@
+export const NOTIFICATIONS_REMINDER = 'notifications reminder'
+export const CONNECTION_LOST = 'connection lost'
+export const RECONNECTED = 'reconnected'
+export const URL_NOT_FOUND = 'url not found'
+export const MESSAGE_NOT_FOUND = 'message not found'
+export const MESSAGE_TO_SELF = 'message to self'
+export const LOADING_HISTORY = 'loading history'

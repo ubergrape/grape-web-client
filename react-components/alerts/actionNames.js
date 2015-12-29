@@ -1,4 +1,5 @@
 export default [
   'enableNotifications',
-  'hideAlert'
+  'hideAlert',
+  'clearAlertDelay'
 ]

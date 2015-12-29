@@ -43,6 +43,7 @@ let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 import reduxEmitter from '../../react-components/redux-emitter'
+import * as alerts from '../../react-components/constants/alerts'
 import '../../react-components/app'
 
 function UI(options) {
@@ -132,7 +133,10 @@ UI.prototype.init = function UI_init() {
   if (notify.isSupported
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
     && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-      this.reduxEmitter.showAlert('info', 'notifications reminder')
+      this.reduxEmitter.showAlert({
+        level: 'info',
+        type: alerts.NOTIFICATIONS_REMINDER
+      })
       classes(qs('body')).add('notifications-disabled')
   }
 
@@ -336,7 +340,11 @@ UI.prototype.gotError = function UI_gotError(err) {
 UI.prototype.onDisconnected = function () {
   this.firstTimeConnect = false
   if (this._connErrAlert) return
-  this.reduxEmitter.showAlert('danger', 'connection lost')
+  this.reduxEmitter.showAlert({
+    level: 'danger',
+    type: alerts.CONNECTION_LOST
+  })
+
   this._connErrAlert = true
   classes(qs('body')).add('disconnected')
 }
@@ -345,8 +353,12 @@ UI.prototype.onConnected = function () {
   if (!this._connErrAlert || this.firstTimeConnect) return
   delete this._connErrAlert
   classes(qs('body')).remove('disconnected')
-  this.reduxEmitter.hideAlerts('connection lost')
-  this.reduxEmitter.showAlert('success', 'reconnected', 2000)
+  this.reduxEmitter.hideAlert(alerts.CONNECTION_LOST)
+  this.reduxEmitter.showAlert({
+    level: 'success',
+    type: alerts.RECONNECTED,
+    closeAfter: 2000
+  })
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
@@ -410,7 +422,11 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
   let redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
 
   page.redirect('/chat/' + redirectSlug)
-  this.reduxEmitter.showAlert('warning', 'message not found', 6000)
+  this.reduxEmitter.showAlert({
+    level: 'warning',
+    type: alerts.MESSAGE_NOT_FOUND,
+    closeAfter: 6000
+  })
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
@@ -426,7 +442,11 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 
 UI.prototype.onInvalidUrl = function(cause) {
   page.redirect('/chat/')
-  this.reduxEmitter.showAlert('warning', cause, 6000)
+  this.reduxEmitter.showAlert({
+    level: 'warning',
+    type: cause,
+    closeAfter: 6000
+  })
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {

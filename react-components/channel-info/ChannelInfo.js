@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 import tz from 'moment-timezone'
 
 import {constants} from 'conf'
@@ -24,7 +23,7 @@ function getStats(channel) {
 export default class ChannelInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    channel: PropTypes.object.isRequired,
+    channel: PropTypes.object,
     user: PropTypes.object.isRequired,
     inviteChannelMember: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
@@ -33,8 +32,6 @@ export default class ChannelInfo extends Component {
     hideChannelInfo: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onInvite() {
     this.props.inviteChannelMember(this.props.channel)

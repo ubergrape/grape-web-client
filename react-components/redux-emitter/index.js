@@ -2,6 +2,7 @@ import Emitter from 'emitter'
 
 import {toCamel} from '../backend/convertCase'
 import boundActions from '../app/boundActions'
+import * as alerts from '../constants/alerts'
 
 function formatChannel(channel) {
   const jsonChannel = channel.toJSON()
@@ -95,12 +96,12 @@ class ReduxEmitter extends Emitter {
     this.emit('error', err)
   }
 
-  showAlert(level, type, closeAfter, minLifeTime) {
-    boundActions.showAlert(level, type, closeAfter, minLifeTime)
+  showAlert(settings) {
+    boundActions.showAlert(settings)
   }
 
-  hideAlerts(type) {
-    boundActions.hideAlertsByType(type)
+  hideAlert(type) {
+    boundActions.hideAlertByType(type)
   }
 
   enableNotifications() {
@@ -109,13 +110,15 @@ class ReduxEmitter extends Emitter {
 
   setLoadingHistory(value) {
     boundActions.channelLoadingHistory(value)
-    // TODO: this actions should be triggered by
-    // 'channel' component, when we move it to redux
     if (value) {
-      boundActions.showAlert('info', 'loading history')
+      boundActions.showAlert({
+        level: 'info',
+        type: alerts.LOADING_HISTORY,
+        delay: 1000
+      })
       return
     }
-    boundActions.hideAlertsByType('loading history')
+    boundActions.hideAlertByType(alerts.LOADING_HISTORY)
   }
 }
 

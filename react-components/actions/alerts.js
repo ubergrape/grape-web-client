@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 import store from '../app/store'
 import {alertsSelector} from '../selectors'
 
-export function showAlert(level, type, closeAfter, minLifeTime = 400) {
+export function showAlert({level, type, closeAfter, minLifeTime = 400, delay}) {
   return {
     type: types.SHOW_ALERT,
     payload: {
@@ -11,12 +11,13 @@ export function showAlert(level, type, closeAfter, minLifeTime = 400) {
       type,
       date: Date.now(),
       closeAfter,
-      minLifeTime
+      minLifeTime,
+      delay
     }
   }
 }
 
-export function hideAlert(alert) {
+export function hideAlert(alert = {}) {
   const action = {
     type: types.HIDE_ALERT,
     payload: {
@@ -36,13 +37,20 @@ export function hideAlert(alert) {
   return action
 }
 
-export function hideAlertsByType(type) {
+export function clearAlertDelay(alert) {
+  return {
+    type: types.CLEAR_ALERT_DELAY,
+    payload: {
+      alert
+    }
+  }
+}
+
+export function hideAlertByType(type) {
   const {alerts} = alertsSelector(store.getState())
-  const alertsByType = alerts.filter(alertItem => type === alertItem.type)
+  const alertByType = alerts.filter(alertItem => type === alertItem.type)
 
   return dispatch => {
-    alertsByType.forEach(alertByType => {
-      dispatch(hideAlert(alertByType))
-    })
+    dispatch(hideAlert(alertByType[0]))
   }
 }
