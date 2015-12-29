@@ -109,7 +109,6 @@ class ReduxEmitter extends Emitter {
   }
 
   setLoadingHistory(value) {
-    boundActions.channelLoadingHistory(value)
     if (value) {
       boundActions.showAlert({
         level: 'info',
