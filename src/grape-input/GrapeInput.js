@@ -12,7 +12,7 @@ import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import SearchBrowser from '../search-browser/Browser'
+import SearchBrowser from '../search-browser/ModalBrowser'
 import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
@@ -183,7 +183,7 @@ export default class Input extends Component {
   onBlurBrowser() {
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser()
-    }, 50)
+    }, 100)
   }
 
   onBlurWindow() {

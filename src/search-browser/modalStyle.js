@@ -1,7 +1,4 @@
-import style from '../browser/style'
-
 export default {
-  ...style,
   modal: {
     position: 'absolute',
     height: '100%',
@@ -22,7 +19,6 @@ export default {
     opacity: 0.5
   },
   browser: {
-    ...style.browser,
     position: 'relative',
     margin: '0 10%'
   }

@@ -5,10 +5,9 @@ import get from 'lodash/object/get'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
-import Modal from 'react-overlays/lib/Modal'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
+import style from '../browser/style'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../empty/Empty'
@@ -166,34 +165,27 @@ export default class Browser extends Component {
 
   render() {
     let {classes} = this.props.sheet
-
     return (
-      <Modal
-        show={true}
-        className={classes.modal}
-        backdropClassName={classes.backdrop}
-        onHide={::this.onModalHide}>
-        <div
-          className={`${classes.browser} ${this.props.className}`}
-          style={pick(this.props, 'height', 'maxWidth')}
-          onMouseDown={::this.onMouseDown}
-          data-test="search-browser">
-          <Input
-            onInput={::this.onInput}
-            onChangeFilters={this.props.onSelectFilter}
-            onBlur={this.props.onBlur}
-            onKeyDown={::this.onKeyDown}
-            focused={this.props.focused}
-            filters={this.state.filters}
-            search={this.state.search}
-            type="search" />
-          {this.state.tabs &&
-            <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-          }
-          {this.renderContent()}
-          {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
-        </div>
-      </Modal>
+      <div
+        className={`${classes.browser} ${this.props.className}`}
+        style={pick(this.props, 'height', 'maxWidth')}
+        onMouseDown={::this.onMouseDown}
+        data-test="search-browser">
+        <Input
+          onInput={::this.onInput}
+          onChangeFilters={this.props.onSelectFilter}
+          onBlur={this.props.onBlur}
+          onKeyDown={::this.onKeyDown}
+          focused={this.props.focused}
+          filters={this.state.filters}
+          search={this.state.search}
+          type="search" />
+        {this.state.tabs &&
+          <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        }
+        {this.renderContent()}
+        {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+      </div>
     )
   }
 
@@ -343,9 +335,5 @@ export default class Browser extends Component {
     // After abortion we don't care about scheduled inputs.
     clearTimeout(this.onInputTimeoutId)
     this.props.onAbort(data)
-  }
-
-  onModalHide() {
-    this.onAbort({reason: 'esc'})
   }
 }
