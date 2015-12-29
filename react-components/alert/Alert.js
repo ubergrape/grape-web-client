@@ -7,18 +7,29 @@ export default class Alert extends Component {
     children: PropTypes.node
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      timer: undefined
+    }
+  }
+
+  componentWillMount() {
+    const {closeAfter} = this.props
+    if (closeAfter) {
+      this.setState({
+        timer: setTimeout(() => {
+          this.props.onCloseAfter()
+        }, closeAfter)
+      })
+    }
+  }
+
   componentWillUnmount() {
-    if (this.timer) clearTimeout(this.timer)
+    if (this.state.timer) clearTimeout(this.state.timer)
   }
 
   render() {
-    const {closeAfter} = this.props
-    if (closeAfter) {
-      this.timer = setTimeout(() => {
-        this.props.onCloseAfter()
-      }, closeAfter)
-    }
-
     return <span>{this.props.children}</span>
   }
 }
