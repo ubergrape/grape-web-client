@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
+  channel: {},
   show: false
 }
 

@@ -23,7 +23,7 @@ function getStats(channel) {
 export default class ChannelInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    channel: PropTypes.object,
+    channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     inviteChannelMember: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
