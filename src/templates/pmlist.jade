@@ -1,7 +1,8 @@
 div
 	- var users = items.filter(function(item) { return item.proactive })
 	- var inactive = items.filter(function(item) { return !item.proactive })
-	- var isSmallList = inactive.some(function(user) { return user.pm === selected }) || !users.length || items.length < 5
+	- var isSmallList = inactive.some(function(user) { console.log(user, selected); return user.pm === selected }) || !users.length || items.length < 5
+	- console.log(isSmallList, !users.length, items.length < 5)
 
 	if users.length
 		ul.nav-list.pms
