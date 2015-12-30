@@ -1,6 +1,7 @@
 div
 	- var users = items.filter(function(item) { return item.proactive })
 	- var inactive = items.filter(function(item) { return !item.proactive })
+	- var isSmallList = inactive.some(function(user) { return user.pm === selected }) || !users.length || items.length < 5
 
 	if users.length
 		ul.nav-list.pms
@@ -9,15 +10,17 @@ div
 
 	if inactive.length
 		div.inactive
-			if (inactive.some(function(user) { return user.pm === selected }) || !users.length)
-				input.inactive-toggler(id="inactive-pm" type="checkbox" checked)
-			else
+			if (!isSmallList)
 				input.inactive-toggler(id="inactive-pm" type="checkbox")
+				label.inactive-show(for="inactive-pm")
+					| #{inactive.length} more
+					i.mdi.mdi-chevron-down
 
-			label.inactive-toggle(for="inactive-pm")
-				| #{inactive.length} more
-				i.mdi.mdi-chevron-down
 			ul.nav-list.pms.inactive-list
 				each user in inactive
 						include pm-item
 
+			if (!isSmallList)
+				label.inactive-hide(for="inactive-pm")
+					| Hide #{inactive.length} inactive chats
+					i.mdi.mdi-chevron-up

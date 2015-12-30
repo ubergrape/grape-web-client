@@ -349,16 +349,13 @@ a.nav-title-wrap
 	position relative
 	clear both
 
-.inactive-list
-	display none
-
-.inactive-toggle
+.inactive-show,
+.inactive-hide
 	display inline-block
 	cursor: pointer
 	color: #ABB0B9
 	text-transform: uppercase
 	font-size: 0.925em;
-	font-weight: 600
 	padding-left: 20px
 	margin-top 10px
 	transition: color 0.3s
@@ -375,19 +372,29 @@ a.nav-title-wrap
 		& .mdi
 			opacity 1
 
+.inactive-hide
+	display none
+
 .inactive-toggler
 	position absolute
 	visibility hidden
+
+	& ~ .inactive-list
+		display none
 
 	&:checked
 		& ~ .inactive-list
 			display block
 
-		& ~ .inactive-toggle
+		& ~ .inactive-hide
+			display inline-block
+
+		& ~ .inactive-show
 			display none
 
 .invite-list
 	margin-bottom: 8px
+
 	.channel-item
 		border-radius: 4px
 		margin-bottom: 3px
