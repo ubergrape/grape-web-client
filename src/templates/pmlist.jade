@@ -1,17 +1,18 @@
 div
-	- var users = items.filter(function(item) { return item.proactive })
+	- var proactive = items.filter(function(item) { return item.proactive })
 	- var inactive = items.filter(function(item) { return !item.proactive })
-	- var isSmallList = inactive.some(function(user) { return user.pm && user.pm === selected }) || !users.length || items.length < 5
+	- var isInsideInactive = inactive.some(function(user) { return user.pm && user.pm === selected })
+	- var isSmallList = !proactive.length || items.length < 5
 
-	if users.length
+	if proactive.length
 		ul.nav-list.pms
-			each user in users
+			each user in proactive
 				include pm-item
 
 	if inactive.length
 		div.inactive
-			if (!isSmallList)
-				input.inactive-toggler(id="inactive-pm" type="checkbox")
+			if (!isSmallList || isInsideInactive)
+				input.inactive-toggler(id="inactive-pm" type="checkbox" checked=(isInsideInactive ? 'checked' : undefined))
 				label.inactive-show(for="inactive-pm")
 					| #{inactive.length} more
 					i.mdi.mdi-chevron-down

@@ -1,18 +1,19 @@
 div
 	- var joined = items.filter(function(item) { return item.joined })
-	- var rooms = joined.filter(function(item) { return item.proactive })
+	- var proactive = joined.filter(function(item) { return item.proactive })
 	- var inactive = joined.filter(function(item) { return !item.proactive })
-	- var isSmallList = inactive.indexOf(selected) >= 0 || !rooms.length || joined.length < 5
+	- var isInsideInactive = inactive.indexOf(selected) >= 0
+	- var isSmallList = !proactive.length || joined.length < 5
 
-	if items.length
+	if proactive.length
 		ul.nav-list.rooms
-			each room in rooms
+			each room in proactive
 				include channel-item
 
 	if inactive.length
 		div.inactive
-			if (!isSmallList)
-				input.inactive-toggler(id="inactive-rooms" type="checkbox")
+			if (!isSmallList || isInsideInactive)
+				input.inactive-toggler(id="inactive-rooms" type="checkbox" checked=(isInsideInactive ? 'checked' : undefined))
 				label.inactive-show(for="inactive-rooms")
 					| #{inactive.length} more
 					i.mdi.mdi-chevron-down
@@ -21,7 +22,7 @@ div
 				each room in inactive
 					include channel-item
 
-			if (!isSmallList)
+			if (!isSmallList || isInsideInactive)
 				label.inactive-hide(for="inactive-rooms")
 					| Hide #{inactive.length} inactive rooms
 					i.mdi.mdi-chevron-up
