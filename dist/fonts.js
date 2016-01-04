@@ -11,6 +11,7 @@ function get(fontSize, lineHeight) {
 }
 
 exports["default"] = {
+  smaller: get(11),
   small: get(13),
   normal: get(15),
   big: get(17),

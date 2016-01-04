@@ -1,4 +1,8 @@
 {
+  "smaller": {
+    "fontSize": 11,
+    "lineHeight": 1.5
+  },
   "small": {
     "fontSize": 13,
     "lineHeight": 1.5

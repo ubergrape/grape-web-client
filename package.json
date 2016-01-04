@@ -2,7 +2,7 @@
   "name": "grape-theme",
   "private": true,
   "description": "Theme related files sharable between all ubergrape projects.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "node": ">=0.8.0"
   },
