@@ -5,49 +5,49 @@
 // ****
 
 .client-body
-  display: flex
-  flex-direction: column
-  height: 100vh
-  position: relative
-  overflow: hidden
-  margin-left: client-navigation-width
-  @media (max-width: 1280px)
-    margin-left: client-navigation-width-small
-  .chat-wrapper // The scrollable history area
-    flex: 1
-    display: flex
-    flex-direction: column
-    position: relative
-    overflow: auto
-    padding: 0
-    background: white
-    background-attachment: scroll
-    min-width: 200px
-  .chat
-    flex: 1
-    position: relative
-    padding: 20px 0 0 0
-  a // Different styling for links within history
-    color: link-color
-    @extend $subtle-link
-    &:hover
-      color: lighten(link-color, 15%)
-  .main-window
-    display: flex
-    flex-direction: column
-    flex: 1
-    margin-right: 0px;
-    position: relative
-  .right-sidebar
-    position: fixed
-    top: header-height + 1
-    right: 0
-    bottom: 0
-    width: right-sidebar-width
-    z-index: 50
-    display: none
-    @media (max-width: 1280px)
-      width: right-sidebar-width-small
+	display: flex
+	flex-direction: column
+	height: 100vh
+	position: relative
+	overflow: hidden
+	margin-left: client-navigation-width
+	@media (max-width: 1280px)
+		margin-left: client-navigation-width-small
+	.chat-wrapper // The scrollable history area
+		flex: 1
+		display: flex
+		flex-direction: column
+		position: relative
+		overflow: auto
+		padding: 0
+		background: white
+		background-attachment: scroll
+		min-width: 200px
+	.chat
+		flex: 1
+		position: relative
+		padding: 20px 0 0 0
+	a // Different styling for links within history
+		color: link-color
+		@extend $subtle-link
+		&:hover
+			color: lighten(link-color, 15%)
+	.main-window
+		display: flex
+		flex-direction: column
+		flex: 1
+		margin-right: 0px;
+		position: relative
+	.right-sidebar
+		position: fixed
+		top: header-height + 1
+		right: 0
+		bottom: 0
+		width: right-sidebar-width
+		z-index: 50
+		display: none
+		@media (max-width: 1280px)
+			width: right-sidebar-width-small
 
 
 // ****
@@ -57,66 +57,61 @@
 // ****
 
 .welcome-message
-  padding: 20px
-  body.notifications-disabled &
-    padding-top: 62px !important
-  @extend $big-font-size
-  .image
-    float: left
-    @media (max-width: 720px)
-      float: none
-  > div
-    overflow: hidden
-    padding-left: 20px
-    @media (max-width: 720px)
-      padding-left: 0
-  h2, h3, p, ul
-    max-width: 720px
-    margin-bottom: 2px
-  p
-    font-size: 15px
-  h2
-    @extend $bigger-font-size
-    margin-bottom: 4px
-  h3
-    @extend $biggest-font-size
-    font-weight: 300
-    margin: 10px 0 5px
-  .warning
-    padding: 8px 10px 10px
-    color: alert-warning-color
-    background-color: lighten(alert-warning-color, 90%)
-    border: 1px solid lighten(alert-warning-color, 80%)
-    border-radius: main-border-radius
-    &::after
-      content: ""
-  .welcome-tasks
-    margin-top: 10px
-    @extend $clearfix
-    .task-description
-      font-weight: bold
-      color: gainsboro-dark
-      margin-bottom: 2px
-    li
-      i
-        margin-right: 4px
-    .option
-      padding-top: 5px
-      @media (min-width: 721px)
-        float: left
-        margin: 0 22px 10px 0
-    .autocomplete-wrapper
-      margin: 0
-      top: 4px
-      width: 70%
-      .autocomplete
-        @extend $clearfix
-        top: 0px
+	padding: 20px
+	body.notifications-disabled &
+		padding-top: 62px !important
+	@extend $big-font-size
+	.image
+		float: left
+		@media (max-width: 720px)
+			float: none
+	> div
+		overflow: hidden
+		padding-left: 20px
+		@media (max-width: 720px)
+			padding-left: 0
+	h2, h3, p, ul
+		max-width: 720px
+		margin-bottom: 2px
+	p
+		font-size: 15px
+	h2
+		@extend $bigger-font-size
+		margin-bottom: 4px
+	h3
+		@extend $biggest-font-size
+		font-weight: 300
+		margin: 10px 0 5px
+	.alert-inline.warning
+		&::after
+			content: ""
+	.welcome-tasks
+		margin-top: 10px
+		@extend $clearfix
+		.task-description
+			font-weight: bold
+			color: gainsboro-dark
+			margin-bottom: 2px
+		li
+			i
+				margin-right: 4px
+		.option
+			padding-top: 5px
+			@media (min-width: 721px)
+				float: left
+				margin: 0 22px 10px 0
+		.autocomplete-wrapper
+			margin: 0
+			top: 4px
+			width: 70%
+			.autocomplete
+				@extend $clearfix
+				top: 0px
 .btn-invite
-  max-width: 200px
-  text-overflow: ellipsis
-  height: 34px
-  float: right
+	max-width: 200px
+	text-overflow: ellipsis
+	height: 34px
+	float: right
 
 // ****
 //
@@ -125,310 +120,311 @@
 // ****
 
 .message-group
-  @extend $clearfix
-  margin: 10px 20px 20px 20px
-  position: relative
-  .avatar
-    position: absolute
-    top: 21px
-    left: 0
-    .image
-      width: 32px
-      height: 32px
-      float: left
-      border-radius: 50%
-  &.user
-    .text.main
-      max-width: 740px
+	@extend $clearfix
+	margin: 10px 20px 20px 20px
+	position: relative
+	.avatar
+		position: absolute
+		top: 21px
+		left: 0
+		.image
+			width: 32px
+			height: 32px
+			float: left
+			border-radius: 50%
+	&.user
+		.text.main
+			max-width: 740px
 
-  &.deleted //When a user was removed from the organization, #867
-    color: gainsboro-dark
-    .message-author
-      color: gainsboro-light !important
-    .time
-      color: #E5E5E6
-  &:last-child
-    margin-bottom: 10px
+	&.deleted //When a user was removed from the organization, #867
+		color: gainsboro-dark
+		.message-author
+			color: gainsboro-light !important
+		.time
+			color: #E5E5E6
+	&:last-child
+		margin-bottom: 10px
 
 .messageinfo
-  color: #b3b3b3
-  text-align: left
-  margin-bottom: 2px
-  padding-left: 42px
-  @extend $normal-font-size
-  span
-    color: #b3b3b3
-  .message-author
-    display: inline
-  .author-title
-    background-color: #B3AEBA
-    padding: 2px 4px
-    margin-right: 0
-    border-radius: 3px
-    color: white
-    .author-title-icon
-      color: white
-  .author-title-mentor
-    overflow: hidden
-    text-overflow: ellipsis
-    line-height: 1.2
-    white-space: nowrap
-    max-width: 125px
-    background-color: #F0905C
-  .author-link
-    color: #666
-    font-weight: 600
-  .author-link:hover
-    color: link-color-hover
-    text-decoration: none !important
-  span
-    font-size: 0.9em
-    margin-left: 4px
-    margin-right: 4px
-  a.timelink
-    @extend $subtle-link
-    color: #aaaaaa
-    margin-right: 10px
-    margin-left: 10px
-    font-size: 0.9em
-    .fa-globe
-      margin-left: 4px
-    .time
-      display: inline-block
-      .different-timezone
-        display: inline-block
-        opacity: 0
-        top: 0px
-        left: 0px
-        color: #666666
-        .dif-tz
-          font-size: 1.05em
-    &:hover
-      color: link-color-hover
-      text-decoration: none !important
-      .different-timezone
-        text-decoration: none !important
-        -webkit-transition: opacity 0.2s, -webkit-transform 0.2s
-        transition: opacity 0.2s, transform 0.2s
-        transition-timing-function: grape-bezier
-        transform: translateX(6px)
-        opacity: 1
+	color: #b3b3b3
+	text-align: left
+	margin-bottom: 2px
+	padding-left: 42px
+	@extend $normal-font-size
+	span
+		color: #b3b3b3
+	.message-author
+		display: inline
+	.author-title
+		background-color: #B3AEBA
+		padding: 2px 4px
+		margin-right: 0
+		border-radius: 3px
+		color: white
+		.author-title-icon
+			color: white
+	.author-title-mentor
+		overflow: hidden
+		text-overflow: ellipsis
+		line-height: 1.2
+		white-space: nowrap
+		max-width: 125px
+		background-color: #F0905C
+	.author-link
+		color: #666
+		font-weight: 600
+	.author-link:hover
+		color: link-color-hover
+		text-decoration: none !important
+	span
+		font-size: 0.9em
+		margin-left: 4px
+		margin-right: 4px
+	a.timelink
+		@extend $subtle-link
+		color: #aaaaaa
+		margin-right: 10px
+		margin-left: 10px
+		font-size: 0.9em
+		.fa-globe
+			margin-left: 4px
+		.time
+			display: inline-block
+			.different-timezone
+				display: inline-block
+				opacity: 0
+				top: 0px
+				left: 0px
+				color: #666666
+				.dif-tz
+					font-size: 1.05em
+		&:hover
+			color: link-color-hover
+			text-decoration: none !important
+			.different-timezone
+				text-decoration: none !important
+				-webkit-transition: opacity 0.2s, -webkit-transform 0.2s
+				transition: opacity 0.2s, transform 0.2s
+				transition-timing-function: grape-bezier
+				transform: translateX(6px)
+				opacity: 1
 
 .message-content
-  .message-inner-wrap
-    padding-left: 42px
-    &:hover
-      .edit
-        opacity: 1
-      .outertime
-        visibility: visible
-  .message
-    display: inline-block
-    clear: both
-    font-size: 1.1em
-    padding: 7px 13px 6px 13px
-    line-height: 1.4
-    position: relative
-    border-radius: 16px
-    background-color: #EDF0F5
-    margin: 2px auto auto 0
-    &.first
-    &.activity
-      margin-top: 0
-      &:after
-        display: block
-        width: 0
-        content: ""
-        position: absolute
-        top: 6px
-        left: -4px
-        bottom: auto
-        border-width: 7px 7px 7px 0
-        border-style: solid
-        border-color: transparent #EDF0F5
-    .edit
-      @extend $hoverable
-      vertical-align: top
-      color: #666
-      position: absolute
-      left: 100%
-      top: 0px
-      margin: 3px auto auto 5px
-      padding: 3px 6px
-      white-space: nowrap
-      border: 1px solid #E1E6ED
-      border-radius: 13px
-      opacity: 0
-      &:hover
-        box-shadow: 0 1px 1px rgba(0,0,0,0.1)
-        border: 1px solid #C7C7C7
-      i
-        margin: 0 5px
-        &:hover
-          color: link-color-hover
-        &:active
-          color: link-color-hover
-      .btn-delete
-        &:hover
-          color: bittersweet-dark
-        &:active
-          color: darken(bittersweet-dark, 25%)
-    .outertime
-      position: absolute
-      right: 100%
-      color: #aaa
-      padding-right: 5px
-      @extend $small-font-size
-      @extend $subtle-link
-      visibility: hidden
-      text-align: right
-      width: 60px
-      top: 0
-      bottom: 0
-      padding-top: 12px
-      &:hover
-        text-decoration: none !important
-      &.first
-        display: none
-    .status-control
-      float: right
-      margin-left: 8px
-      min-width: 80px
-      text-align: right
-      .unsent
-        color: bittersweet-dark
-        .status-label
-          color: bittersweet-light
-      .resend
-        display: none
-        color: aqua-dark
-        cursor: pointer
-      i
-        margin-left: 6px
-        pointer-events: none
-      .status-label
-        font-weight: bold
-        pointer-events: none
-    &.pending
-    &.unsent
-      .text
-        color: #b7bcbf
-        overflow: hidden
-    &.unsent
-      .status-control
-        &:hover
-          .resend
-            display: block
-          .unsent
-            display: none
-    &.editing
-    &.requested
-      background: #FFF3B9 !important
-      color: #666666 !important
-      &:after
-        border-color: transparent #FFF3B9 !important
-    &.removing
-      background: lighten(gold, 60%)
-      color: grape-typo
-      z-index: 10
-      position: relative
-      ~ .avatar
-        &::after
-          border-color: lighten(gold, 80%)
-    &.removed
-      background: lighten(bittersweet-light, 80%) !important
-      color: grape-typo !important
-      z-index: 10
-      position: relative
-    a.attachment
-      display: inline
-      border-bottom: 1px solid link-color
-      margin: 1px
-      padding: 1px 0
-      vertical-align: baseline
-      &:hover
-        color: lighten(link-color, 25%)
-        text-decoration: none
-        border-color: aqua-dark !important
-      &:before
-        font-weight: normal
-        content: "\f016"
-        font-family: FontAwesome
-        margin-right: 6px
-      &[href$=".pdf"]
-        &:before
-          content: "\f1c1"
-      &[href$=".zip"],
-      &[href$=".rar"],
-      &[href$=".7z"],
-      &[href$=".gzip"]
-        &:before
-          content: "\f1c6"
-      &[href$=".mp3"],
-      &[href$=".wav"],
-      &[href$=".wma"]
-        &:before
-          content: "\f1c7"
-      &[href$=".xls"],
-      &[href$=".xlsx"],
-      &[href$=".csv"]
-        &:before
-          content: "\f1c3"
-      &[href$=".doc"],
-      &[href$=".docx"],
-      &[href$=".rtf"]
-        &:before
-          content: "\f1c2"
-      &[href$=".ppt"],
-      &[href$=".pptx"]
-        &:before
-          content: "\f1c4"
-      &[href$=".png"],
-      &[href$=".jpg"],
-      &[href$=".jpeg"],
-      &[href$=".bmp"],
-      &[href$=".tif"],
-      &[href$=".tiff"]
-        &:before
-          content: "\f1c5"
-      &[href$=".wmv"],
-      &[href$=".avi"],
-      &[href$=".mpg"],
-      &[href$=".mpeg"],
-      &[href$=".mov"],
-      &[href$=".mp4"]
-        &:before
-          content: "\f1c8"
-    .img-atm
-      display: inline-block
-    .image-wrap
-      display: inline-block
-      line-height: 1px
-      max-height: 480px
-      overflow: hidden
-      margin: -5px -11px -9px -11px
-      border-radius: 14px
-      img
-        max-width: 100%
-        border-radius: 14px
-        position: relative
-        z-index: 3
+	.message-inner-wrap
+		padding-left: 42px
+		&:hover
+			.edit
+				opacity: 1
+			.outertime
+				visibility: visible
+	.message
+		display: inline-block
+		clear: both
+		font-size: 1.1em
+		padding: 7px 13px 6px 13px
+		max-width: calc(100% - 50px)
+		line-height: 1.4
+		position: relative
+		border-radius: 16px
+		background-color: #EDF0F5
+		margin: 2px auto auto 0
+		&.first
+		&.activity
+			margin-top: 0
+			&:after
+				display: block
+				width: 0
+				content: ""
+				position: absolute
+				top: 6px
+				left: -4px
+				bottom: auto
+				border-width: 7px 7px 7px 0
+				border-style: solid
+				border-color: transparent #EDF0F5
+		.edit
+			@extend $hoverable
+			vertical-align: top
+			color: #666
+			position: absolute
+			left: 100%
+			top: 0px
+			margin: 3px auto auto 5px
+			padding: 3px 6px
+			white-space: nowrap
+			border: 1px solid #E1E6ED
+			border-radius: 13px
+			opacity: 0
+			&:hover
+				box-shadow: 0 1px 1px rgba(0,0,0,0.1)
+				border: 1px solid #C7C7C7
+			i
+				margin: 0 5px
+				&:hover
+					color: link-color-hover
+				&:active
+					color: link-color-hover
+			.btn-delete
+				&:hover
+					color: bittersweet-dark
+				&:active
+					color: darken(bittersweet-dark, 25%)
+		.outertime
+			position: absolute
+			right: 100%
+			color: #aaa
+			padding-right: 5px
+			@extend $small-font-size
+			@extend $subtle-link
+			visibility: hidden
+			text-align: right
+			width: 60px
+			top: 0
+			bottom: 0
+			padding-top: 12px
+			&:hover
+				text-decoration: none !important
+			&.first
+				display: none
+		.status-control
+			float: right
+			margin-left: 8px
+			min-width: 80px
+			text-align: right
+			.unsent
+				color: bittersweet-dark
+				.status-label
+					color: bittersweet-light
+			.resend
+				display: none
+				color: aqua-dark
+				cursor: pointer
+			i
+				margin-left: 6px
+				pointer-events: none
+			.status-label
+				font-weight: bold
+				pointer-events: none
+		&.pending
+		&.unsent
+			.text
+				color: #b7bcbf
+				overflow: hidden
+		&.unsent
+			.status-control
+				&:hover
+					.resend
+						display: block
+					.unsent
+						display: none
+		&.editing
+		&.requested
+			background: #FFF3B9 !important
+			color: #666666 !important
+			&:after
+				border-color: transparent #FFF3B9 !important
+		&.removing
+			background: lighten(gold, 60%)
+			color: grape-typo
+			z-index: 10
+			position: relative
+			~ .avatar
+				&::after
+					border-color: lighten(gold, 80%)
+		&.removed
+			background: lighten(bittersweet-light, 80%) !important
+			color: grape-typo !important
+			z-index: 10
+			position: relative
+		a.attachment
+			display: inline
+			border-bottom: 1px solid link-color
+			margin: 1px
+			padding: 1px 0
+			vertical-align: baseline
+			&:hover
+				color: lighten(link-color, 25%)
+				text-decoration: none
+				border-color: aqua-dark !important
+			&:before
+				font-weight: normal
+				content: "\f016"
+				font-family: FontAwesome
+				margin-right: 6px
+			&[href$=".pdf"]
+				&:before
+					content: "\f1c1"
+			&[href$=".zip"],
+			&[href$=".rar"],
+			&[href$=".7z"],
+			&[href$=".gzip"]
+				&:before
+					content: "\f1c6"
+			&[href$=".mp3"],
+			&[href$=".wav"],
+			&[href$=".wma"]
+				&:before
+					content: "\f1c7"
+			&[href$=".xls"],
+			&[href$=".xlsx"],
+			&[href$=".csv"]
+				&:before
+					content: "\f1c3"
+			&[href$=".doc"],
+			&[href$=".docx"],
+			&[href$=".rtf"]
+				&:before
+					content: "\f1c2"
+			&[href$=".ppt"],
+			&[href$=".pptx"]
+				&:before
+					content: "\f1c4"
+			&[href$=".png"],
+			&[href$=".jpg"],
+			&[href$=".jpeg"],
+			&[href$=".bmp"],
+			&[href$=".tif"],
+			&[href$=".tiff"]
+				&:before
+					content: "\f1c5"
+			&[href$=".wmv"],
+			&[href$=".avi"],
+			&[href$=".mpg"],
+			&[href$=".mpeg"],
+			&[href$=".mov"],
+			&[href$=".mp4"]
+				&:before
+					content: "\f1c8"
+		.img-atm
+			display: inline-block
+		.image-wrap
+			display: inline-block
+			line-height: 1px
+			max-height: 480px
+			overflow: hidden
+			margin: -5px -11px -9px -11px
+			border-radius: 14px
+			img
+				max-width: 100%
+				border-radius: 14px
+				position: relative
+				z-index: 3
 
 .message-group.creator
-  .message-content
-    .message
-      margin: 2px 45px auto 0 !important
-      background-color: #D2E6FB
-      &:after
-        border-color: transparent #D2E6FB
+	.message-content
+		.message
+			margin: 2px 45px auto 0 !important
+			background-color: #D2E6FB
+			&:after
+				border-color: transparent #D2E6FB
 
 
 //When a user was removed from the organization, #867
 span.author-deleted
-  @extend $small-font-size
-  font-weight: bold
-  text-transform: uppercase
-  margin-left: 4px
+	@extend $small-font-size
+	font-weight: bold
+	text-transform: uppercase
+	margin-left: 4px
 
 
 
@@ -439,22 +435,22 @@ span.author-deleted
 // ****
 
 .right-sidebar-show .right-sidebar
-  display: block
+	display: block
 .right-sidebar-show .main-window
-  margin-right: right-sidebar-width
-  @media (max-width: 1280px)
-    margin-right: right-sidebar-width-small
+	margin-right: right-sidebar-width
+	@media (max-width: 1280px)
+		margin-right: right-sidebar-width-small
 .right-sidebar-show .bigarrow
-  right: right-sidebar-width+20
-  @media (max-width: 1280px)
-    right: right-sidebar-width-small+20
+	right: right-sidebar-width+20
+	@media (max-width: 1280px)
+		right: right-sidebar-width-small+20
 
 
 .intercom-messenger-active .main-window {
-  margin-right: 368px;
+	margin-right: 368px;
 }
 .intercom-messenger-active .bigarrow {
-  margin-right: 388px;
+	margin-right: 388px;
 }
 
 // ****
@@ -464,78 +460,77 @@ span.author-deleted
 // ****
 
 .text
-  color: #333
-  max-width: 85%
-  word-wrap: break-word
-  transition: opacity .2s linear
-  em
-    font-style: italic
-  ul,
-  ol
-    padding-left: 18px
-  ul
-    list-style: disc outside none
-  ol
-    list-style: decimal outside none
-  blockquote
-    border-left: 3px solid gainsboro-light
-    margin: 4px 0
-    padding: 0.5em 10px
-    font-style: italic
-    color: gainsboro-dark
-  pre
-    overflow: hidden
-    color: grape-typo
-  code
-    border: 1px solid gainsboro-light
-    border-radius: main-border-radius
-    background: white
-    padding: 0 4px
-    display: inline-block
-    margin-bottom: -1px
-    white-space: pre-wrap; /* CSS3 */
-    white-space: -moz-pre-wrap; /* Mozilla, post millennium */
-    white-space: -pre-wrap; /* Opera 4-6 */
-    white-space: -o-pre-wrap; /* Opera 7 */
-    word-wrap: break-word; /* Internet Explorer 5.5+ */
-    color: grape-typo
-  .warning-unsent
-    color: gainsboro-light
-    &:before
-      content: "\f071"
-      font-family: FontAwesome
-      color: gold
-      margin-right: 6px
-  p
-    margin-bottom: 8px
-    &:last-of-type
-      margin-bottom: 0
-    .markdown-img-wrapper
-      text-align: center
-      vertical-align: middle
-      display: table-cell
-      height: 250px
-      width: 400px
-      border: 1px solid #eeecef
-      border-radius: main-border-radius
-      img
-        max-width: 350px
-        max-height: 200px
+	color: #333
+	max-width: 85%
+	word-wrap: break-word
+	transition: opacity .2s linear
+	em
+		font-style: italic
+	ul,
+	ol
+		padding-left: 18px
+	ul
+		list-style: disc outside none
+	ol
+		list-style: decimal outside none
+	blockquote
+		border-left: 3px solid gainsboro-light
+		margin: 4px 0
+		padding: 0.5em 10px
+		font-style: italic
+		color: gainsboro-dark
+	pre
+		color: grape-typo
+
+	code
+		display: inline-block
+		overflow: auto
+		max-width: 100%
+		padding: 0 4px
+		word-wrap: normal
+		color: grape-typo
+		border: 1px solid gainsboro-light
+		border-radius: main-border-radius
+		background: white
+		// Fix hidden scroll bar when overflow
+		transform: translateZ(0)
+	.warning-unsent
+		color: gainsboro-light
+		&:before
+			content: "\f071"
+			font-family: FontAwesome
+			color: gold
+			margin-right: 6px
+	p
+		margin-bottom: 8px
+		&:last-of-type
+			margin-bottom: 0
+		.markdown-img-wrapper
+			text-align: center
+			vertical-align: middle
+			display: table-cell
+			height: 250px
+			width: 400px
+			border: 1px solid #eeecef
+			border-radius: main-border-radius
+			img
+				max-width: 350px
+				max-height: 200px
 
 .googledrive
-  .text
-    p
-      .markdown-img-wrapper
-        text-align: inherit
-        vertical-align: inherit
-        display: inherit
-        height: inherit
-        width: inherit
-        border: inherit
-        border-radius: inherit
-        img
-          max-width: inherit
-          max-height: inherit
+	.text
+		p
+			.markdown-img-wrapper
+				text-align: inherit
+				vertical-align: inherit
+				display: inherit
+				height: inherit
+				width: inherit
+				border: inherit
+				border-radius: inherit
+				img
+					max-width: inherit
+					max-height: inherit
 
 // ****
 //
@@ -544,86 +539,86 @@ span.author-deleted
 // ****
 .date-separator,
 .newmessage-separator
-  text-align: center
-  position: relative
-  height: 30px
-  padding: 5px 0 0 0
-  margin: 0 20px 20px
-  span
-    color: #666
-    font-weight: 600
-    background-color: white
-    padding: 5px 16px 5px 16px
-    position: relative
-    z-index: 5
-  &::before
-    content: ""
-    position: absolute
-    top: 50%
-    left: 0
-    right: 0
-    background-color: #E0E5EC
-    height: 1px
-    margin-top: 1px
-  &.today
-    span
-      color: #333
+	text-align: center
+	position: relative
+	height: 30px
+	padding: 5px 0 0 0
+	margin: 0 20px 20px
+	span
+		color: #666
+		font-weight: 600
+		background-color: white
+		padding: 5px 16px 5px 16px
+		position: relative
+		z-index: 5
+	&::before
+		content: ""
+		position: absolute
+		top: 50%
+		left: 0
+		right: 0
+		background-color: #E0E5EC
+		height: 1px
+		margin-top: 1px
+	&.today
+		span
+			color: #333
 
 .newmessage-separator
-  span
-    border-color: grass-light
-    color: grass-light
+	span
+		border-color: grass-light
+		color: grass-light
 
 .content-break
-  height: 1px
-  margin: 5px 0
+	height: 1px
+	margin: 5px 0
 
 .load-button
-  text-align: center
-  a
-    padding: 12px 20px
-    display: block
-    text-transform: uppercase
-    font-weight: bold
-    i
-      transition: all 0.2s cg-animation-speed
-    &:hover
-      i
-        transform: scale(1.3,1.3)
+	text-align: center
+	a
+		padding: 12px 20px
+		display: block
+		text-transform: uppercase
+		font-weight: bold
+		i
+			transition: all 0.2s cg-animation-speed
+		&:hover
+			i
+				transform: scale(1.3,1.3)
 
 .bigarrow
-  transition: right 0.2s
-  transition-timing-function: grape-bezier
-  @extend $bigger-font-size
-  border: 2px solid gainsboro-dark
-  background: lighten(gainsboro-light, 20)
-  border-radius: 50%
-  position: fixed
-  bottom: 88px
-  right: 20px
-  color: gainsboro-dark
-  width: 50px
-  height: 50px
-  text-align: center
-  line-height: 50px
-  @extend $hoverable
-  @extend $subtle-link
-  overflow: hidden
-  z-index: 99
-  i
-    transition: all 0.2s cg-animation-speed
-  &:hover
-    border-color: aqua-dark
-    i
-      transform: scale(1.3,1.3)
+	transition: right 0.2s
+	transition-timing-function: grape-bezier
+	@extend $bigger-font-size
+	border: 2px solid gainsboro-dark
+	background: lighten(gainsboro-light, 20)
+	border-radius: 50%
+	position: fixed
+	bottom: 88px
+	right: 20px
+	color: gainsboro-dark
+	width: 50px
+	height: 50px
+	text-align: center
+	line-height: 50px
+	@extend $hoverable
+	@extend $subtle-link
+	overflow: hidden
+	z-index: 99
+	i
+		transition: all 0.2s cg-animation-speed
+	&:hover
+		border-color: aqua-dark
+		i
+			transform: scale(1.3,1.3)
 
 .breakpointmessage
-  border-top: 1px solid silver-grey-dark
-  box-shadow: 0 1px 2px gainsboro-light inset
-  color: gainsboro-dark
+	border-top: 1px solid silver-grey-dark
+	box-shadow: 0 1px 2px gainsboro-light inset
+	color: gainsboro-dark
 
 grape-typing-notification
-  display: block
-  margin: 0 20px 10px 20px
-  min-height: 22px
-  color: #b3b3b3
+	display: block
+	margin: 0 20px 10px 20px
+	min-height: 22px
+	color: #b3b3b3
