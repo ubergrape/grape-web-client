@@ -40,29 +40,6 @@ export default {
     background: color(webColors.alertDanger).lighten(0.65).hexString(),
     borderColor: color(webColors.alertDanger).lighten(0.55).hexString()
   },
-  layout: {
-    display: 'flex',
-    alignItems: 'baseline'
-  },
-  mainCol: {
-    flexGrow: 1,
-    fontWeight: 'bold'
-  },
-  secondaryCol: {
-    margin: '0 10px'
-  },
-  buttonLink: {
-    display: 'inline',
-    padding: 0,
-    border: 'none',
-    outline: 'none',
-    color: 'inherit',
-    opacity: 0.8,
-    textAlign: 'left',
-    '&:hover': {
-      textDecoration: 'underline'
-    }
-  },
   actionButton: {
     ...defaultButton,
     ...fonts.small,
@@ -78,5 +55,17 @@ export default {
   dangerButton: {
     color: color(webColors.alertDanger).darken(0.3).hexString(),
     background: color(webColors.alertDanger).lighten(0.7).hexString()
+  },
+  buttonLink: {
+    display: 'inline',
+    padding: 0,
+    border: 'none',
+    outline: 'none',
+    color: 'inherit',
+    opacity: 0.8,
+    textAlign: 'left',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   }
 }

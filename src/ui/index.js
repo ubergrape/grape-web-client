@@ -337,30 +337,6 @@ UI.prototype.gotError = function UI_gotError(err) {
   notification.error(err.message)
 }
 
-UI.prototype.onDisconnected = function () {
-  this.firstTimeConnect = false
-  if (this._connErrAlert) return
-  this.reduxEmitter.showAlert({
-    level: 'danger',
-    type: alerts.CONNECTION_LOST
-  })
-
-  this._connErrAlert = true
-  classes(qs('body')).add('disconnected')
-}
-
-UI.prototype.onConnected = function () {
-  if (!this._connErrAlert || this.firstTimeConnect) return
-  delete this._connErrAlert
-  classes(qs('body')).remove('disconnected')
-  this.reduxEmitter.hideAlert(alerts.CONNECTION_LOST)
-  this.reduxEmitter.showAlert({
-    level: 'success',
-    type: alerts.RECONNECTED,
-    closeAfter: 2000
-  })
-}
-
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
   this.room = room
 }

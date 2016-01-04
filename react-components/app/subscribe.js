@@ -1,9 +1,31 @@
 import {toCamel} from '../backend/convertCase'
 import * as selectors from '../selectors'
+import * as alerts from '../constants/alerts'
 import store from '../app/store'
 import boundActions from './boundActions'
 
 export default function subscribe(channel) {
+  let showReconnectedAlert = false
+
+  channel.on('connected', () => {
+    if (showReconnectedAlert) {
+      boundActions.hideAlertByType(alerts.CONNECTION_LOST)
+      boundActions.showAlert({
+        level: 'success',
+        type: alerts.RECONNECTED,
+        closeAfter: 2000
+      })
+    }
+    showReconnectedAlert = true
+  })
+
+  channel.on('disconnected', () => {
+    boundActions.showAlert({
+      level: 'danger',
+      type: alerts.CONNECTION_LOST
+    })
+  })
+
   channel.on('data', data => {
     const cData = toCamel(data)
     switch (cData.event) {

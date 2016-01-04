@@ -10,7 +10,7 @@ export default class Alert extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      timer: undefined
+      timeoutId: undefined
     }
   }
 
@@ -18,7 +18,7 @@ export default class Alert extends Component {
     const {closeAfter} = this.props
     if (closeAfter) {
       this.setState({
-        timer: setTimeout(() => {
+        timeoutId: setTimeout(() => {
           this.props.onCloseAfter()
         }, closeAfter)
       })
@@ -26,10 +26,10 @@ export default class Alert extends Component {
   }
 
   componentWillUnmount() {
-    if (this.state.timer) clearTimeout(this.state.timer)
+    if (this.state.timeoutId) clearTimeout(this.state.timeoutId)
   }
 
   render() {
-    return <span>{this.props.children}</span>
+    return <div>{this.props.children}</div>
   }
 }
