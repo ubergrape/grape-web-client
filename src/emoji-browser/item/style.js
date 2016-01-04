@@ -6,7 +6,7 @@ export const TAB_ICON = {
   marginRight: 5
 }
 
-let item = {
+const item = {
   display: 'inline-block',
   position: 'relative',
   padding: '6px 7px',
@@ -14,7 +14,7 @@ let item = {
 }
 
 export const rules = {
-  item: item,
+  item,
   itemFocused: {
     ...item,
     background: colors.gainsboroLight,

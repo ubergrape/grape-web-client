@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -10,6 +10,13 @@ import style from './style'
  */
 @useSheet(style)
 export default class Button extends Component {
+  static propTypes = {
+    text: PropTypes.string,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+    sheet: PropTypes.object.isRequired
+  }
+
   static defaultProps = {
     text: 'My Button',
     className: '',
@@ -19,7 +26,7 @@ export default class Button extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
     return (
       <button
         onClick={this.props.onClick}

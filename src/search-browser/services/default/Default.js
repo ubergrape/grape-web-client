@@ -30,8 +30,7 @@ export default class Default extends Component {
 
     if (this.props.focusedItem.type === 'filters') {
       sidebarContent = <Info {...this.props} />
-    }
-    else {
+    } else {
       sidebarContent = <Detail {...this.props} data={this.props.focusedItem.detail} />
     }
 

@@ -72,8 +72,7 @@ export default class TabsWithControls extends Component {
     if (innerWidth < outerWidth) {
       leftEdge = true
       rightEdge = true
-    }
-    else {
+    } else {
       const scrollLeft = this.getViewportNode().scrollLeft
       leftEdge = scrollLeft === 0
       rightEdge = scrollLeft + outerWidth === innerWidth

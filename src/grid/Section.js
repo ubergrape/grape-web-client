@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
@@ -10,6 +10,16 @@ import style from './sectionStyle'
  */
 @useSheet(style)
 export default class Section extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    onDidMount: PropTypes.func,
+    onItemDidMount: PropTypes.func,
+    Item: PropTypes.func,
+    items: PropTypes.array,
+    label: PropTypes.string,
+    contentClassName: PropTypes.string
+  }
+
   static defaultProps = {
     contentClassName: '',
     onDidMount: undefined
@@ -20,22 +30,34 @@ export default class Section extends Component {
     this.items = {}
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
-
   componentDidMount() {
     this.props.onDidMount(this)
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  onItemDidMount(item) {
+    this.items[item.props.id] = item
+  }
+
+  onItemWillUnmount(item) {
+    delete this.items[item.props.id]
+  }
+
+  getContentComponent() {
+    return this.refs.content
+  }
+
   render() {
-    let {classes} = this.props.sheet
-    let {Item} = this.props
+    const {classes} = this.props.sheet
+    const {Item} = this.props
 
     return (
       <section>
         <header className={classes.header}>{this.props.label}</header>
         <div className={this.props.contentClassName} ref="content">
           {this.props.items.map((data, i) => {
-            let props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
+            const props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',
               'visibilityContainment')
             return (
               <Item
@@ -49,17 +71,4 @@ export default class Section extends Component {
         </div>
       </section>
     )
-  }
-
-  getContentComponent() {
-    return this.refs.content
-  }
-
-  onItemDidMount(item) {
-    this.items[item.props.id] = item
-  }
-
-  onItemWillUnmount(item) {
-    delete this.items[item.props.id]
-  }
-}
+  }}

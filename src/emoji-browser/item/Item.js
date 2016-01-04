@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
@@ -11,6 +11,16 @@ import * as style from './style'
  */
 @useSheet(style.rules)
 export default class Item extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    onFocus: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDidMount: PropTypes.func,
+    onWillUnmount: PropTypes.func,
+    onInvisible: PropTypes.func,
+    visibilityContainment: PropTypes.element
+  }
+
   static defaultProps = {
     id: undefined,
     icon: undefined,
@@ -28,11 +38,16 @@ export default class Item extends Component {
     this.state = {...props}
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  componentDidMount() {
+    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
+    this.props.onDidMount(this)
+  }
 
   componentWillReceiveProps(newProps) {
     this.setState({...newProps})
   }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.focused !== prevState.focused) {
@@ -41,33 +56,8 @@ export default class Item extends Component {
     }
   }
 
-  componentDidMount() {
-    this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
-    this.props.onDidMount(this)
-  }
-
   componentWillUnmount() {
     this.props.onWillUnmount(this)
-  }
-
-  render() {
-    let {classes} = this.props.sheet
-    let {id, icon, focused} = this.state
-    return (
-      <VisibilitySensor
-        onChange={::this.onVisibilityChange}
-        containment={this.visibilityContainmentNode}
-        active={false}
-        ref="sensor">
-        <div
-          className={focused ? classes.itemFocused : classes.item}
-          onClick={::this.onClick}
-          onMouseOver={::this.onMouseOver}
-          key={id}>
-          {icon}
-        </div>
-      </VisibilitySensor>
-    )
   }
 
   onVisibilityChange(isVisible, visibilityRect) {
@@ -86,5 +76,26 @@ export default class Item extends Component {
 
   onMouseOver() {
     this.onFocus()
+  }
+
+  render() {
+    const {classes} = this.props.sheet
+    const {id, icon, focused} = this.state
+
+    return (
+      <VisibilitySensor
+        onChange={::this.onVisibilityChange}
+        containment={this.visibilityContainmentNode}
+        active={false}
+        ref="sensor">
+        <div
+          className={focused ? classes.itemFocused : classes.item}
+          onClick={::this.onClick}
+          onMouseOver={::this.onMouseOver}
+          key={id}>
+          {icon}
+        </div>
+      </VisibilitySensor>
+    )
   }
 }

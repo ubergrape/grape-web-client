@@ -4,7 +4,7 @@ import expect from 'expect.js'
 describe('query', () => {
   describe('.parse()', () => {
     it('should parse empty query string', () => {
-      let query = parse('')
+      const query = parse('')
       expect(query).to.eql({
         query: '',
         key: '',
@@ -15,7 +15,7 @@ describe('query', () => {
     })
 
     it('should parse query with trigger only', () => {
-      let query = parse('#')
+      const query = parse('#')
       expect(query).to.eql({
         query: '#',
         key: '',
@@ -26,7 +26,7 @@ describe('query', () => {
     })
 
     it('should parse query with search', () => {
-      let query = parse('#something')
+      const query = parse('#something')
       expect(query).to.eql({
         query: '#something',
         key: 'something',
@@ -37,7 +37,7 @@ describe('query', () => {
     })
 
     it('should parse query with a filter', () => {
-      let query = parse('#filter0:')
+      const query = parse('#filter0:')
       expect(query).to.eql({
         query: '#filter0:',
         key: 'filter0:',
@@ -48,7 +48,7 @@ describe('query', () => {
     })
 
     it('should parse query with filters', () => {
-      let query = parse('#filter0:filter1:')
+      const query = parse('#filter0:filter1:')
       expect(query).to.eql({
         query: '#filter0:filter1:',
         key: 'filter0:filter1:',
@@ -59,7 +59,7 @@ describe('query', () => {
     })
 
     it('should parse query with filter and search', () => {
-      let query = parse('#filter0:something')
+      const query = parse('#filter0:something')
       expect(query).to.eql({
         query: '#filter0:something',
         key: 'filter0:something',

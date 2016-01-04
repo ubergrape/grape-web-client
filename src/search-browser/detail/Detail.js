@@ -40,8 +40,7 @@ export default class Detail extends Component {
 
       if (previewUrl) {
         image = <Preview image={previewUrl} spinner={this.props.images.spinner} />
-      }
-      else {
+      } else {
         image = <img src={iconUrl} className={classes.icon}/>
       }
 

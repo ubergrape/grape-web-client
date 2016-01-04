@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
@@ -21,18 +21,35 @@ import GlobalEvent from '../global-event/GlobalEvent'
 
 const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
 
+function init(options) {
+  const {emojiSheet, customEmojis} = options
+  if (emojiSheet) emoji.setSheet(emojiSheet)
+  if (customEmojis) emoji.defineCustom(customEmojis)
+  dataUtils.init()
+}
+
 /**
  * Main emoji browser component.
  */
 class Browser extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    onDidMount: PropTypes.func,
+    onAbort: PropTypes.func,
+    onSelectItem: PropTypes.func,
+    onBlur: PropTypes.func,
+    container: PropTypes.element,
+    className: PropTypes.string,
+    focused: PropTypes.bool,
+    images: PropTypes.object
+  }
+
   static defaultProps = {
-    customEmojis: undefined,
     images: {},
     height: 400,
     maxWidth: 292,
     right: 0,
     className: '',
-    focused: undefined,
     onSelectItem: noop,
     onBlur: noop,
     onDidMount: noop,
@@ -43,6 +60,11 @@ class Browser extends Component {
     super(props)
     this.exposePublicMethods()
     this.state = this.createState(this.props, {})
+  }
+
+  componentDidMount() {
+    this.props.onDidMount(this)
+    this.cacheItemsPerRow()
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -59,33 +81,63 @@ class Browser extends Component {
     this.grid = null
   }
 
-  componentDidMount() {
-    this.props.onDidMount(this)
+  onFocusItem({id}) {
+    this.focusItem(id)
+  }
+
+  onSelectItem({id}) {
+    this.selectItem(id)
+  }
+
+  onSelectTab({id}) {
+    this.selectTab(id)
+  }
+
+  onGridDidMount(grid) {
+    this.grid = grid
+  }
+
+  onInput({search}) {
+    this.setState({
+      search: search,
+      facet: search ? 'search' : undefined
+    })
+  }
+
+  onKeyDown(e) {
+    this.navigate(e)
+  }
+
+  onMouseDown(e) {
+    // Avoids loosing focus and though caret position in input.
+    e.preventDefault()
+  }
+
+  onResize() {
     this.cacheItemsPerRow()
   }
 
-  exposePublicMethods() {
-    let {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+  getFocusedItem() {
+    return dataUtils.getFocusedItem(this.state.sections)
   }
 
   createState(nextProps, nextState) {
-    let currEmojiSheet = get(this.props, 'images.emojiSheet')
-    let newEmojiSheet = get(nextProps, 'images.emojiSheet')
+    const currEmojiSheet = get(this.props, 'images.emojiSheet')
+    const newEmojiSheet = get(nextProps, 'images.emojiSheet')
     if (newEmojiSheet && (newEmojiSheet !== currEmojiSheet || !emoji.get())) {
-      PublicBrowser.init({
+      init({
         emojiSheet: newEmojiSheet,
         customEmojis: nextProps.customEmojis
       })
     }
 
-    let {facet, search} = nextState
+    const {facet} = nextState
+    let {search} = nextState
 
     if (facet !== 'search') search = null
-    let sections = dataUtils.getSections(search, facet)
+    const sections = dataUtils.getSections(search, facet)
 
-    let tabs = dataUtils.getTabs({
+    const tabs = dataUtils.getTabs({
       orgLogo: nextProps.images.orgLogo,
       selected: facet,
       hasSearch: Boolean(nextState.search)
@@ -94,70 +146,30 @@ class Browser extends Component {
     return {tabs, facet, sections}
   }
 
-  render() {
-    let {classes} = this.props.sheet
-    let {sections} = this.state
-
-    return (
-      <div
-        className={`${classes.browser} ${this.props.className}`}
-        style={pick(this.props, 'height', 'maxWidth', 'right')}
-        onMouseDown={::this.onMouseDown}>
-        <GlobalEvent
-          event="resize"
-          handler={::this.onResize}
-          debounce={500} />
-        <Input
-          onInput={::this.onInput}
-          onBlur={this.props.onBlur}
-          onKeyDown={::this.onKeyDown}
-          focused={this.props.focused}
-          className={classes.input}
-          type="emoji" />
-        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        {!sections.length && <Empty text="No emoji found." />}
-        {sections.length > 0 &&
-          <div className={classes.column}>
-            <div className={classes.row}>
-              <Grid
-                data={sections}
-                images={this.props.images}
-                Item={Item}
-                focusedItem={dataUtils.getFocusedItem(sections)}
-                className={classes.leftColumn}
-                section={{contentClassName: classes.sectionContent}}
-                onFocus={::this.onFocusItem}
-                onSelect={::this.onSelectItem}
-                onDidMount={::this.onGridDidMount} />
-            </div>
-          </div>
-        }
-      </div>
-    )
-  }
-
-  getFocusedItem() {
-    return dataUtils.getFocusedItem(this.state.sections)
+  exposePublicMethods() {
+    const {container} = this.props
+    if (!container) return
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   cacheItemsPerRow() {
-    let {sections} = this.state
+    const {sections} = this.state
 
     if (!sections.length) return
 
-    let sectionComponent = this.grid.getSectionComponent(sections[0].id)
-    let contentComponent = sectionComponent.getContentComponent()
-    let {width: gridWidth} = ReactDOM.findDOMNode(contentComponent).getBoundingClientRect()
+    const sectionComponent = this.grid.getSectionComponent(sections[0].id)
+    const contentComponent = sectionComponent.getContentComponent()
+    const {width: gridWidth} = ReactDOM.findDOMNode(contentComponent).getBoundingClientRect()
 
     // Speed up if grid width didn't change.
     if (this.itemsPerRow && gridWidth === this.gridWidth) return
     this.gridWidth = gridWidth
 
-    let id = get(this.state, 'sections[0].items[0].id')
+    const id = get(this.state, 'sections[0].items[0].id')
     if (!id) return
 
-    let component = this.grid.getItemComponent(id)
-    let itemWidth = ReactDOM.findDOMNode(component).offsetWidth
+    const component = this.grid.getItemComponent(id)
+    const itemWidth = ReactDOM.findDOMNode(component).offsetWidth
     this.itemsPerRow = Math.floor(gridWidth / itemWidth)
   }
 
@@ -167,14 +179,13 @@ class Browser extends Component {
    * @param {String} selector can be facet, "prev" or "next"
    */
   selectTab(selector) {
-    let {tabs} = this.state
+    const {tabs} = this.state
     let facet = selector
-    let currIndex = findIndex(tabs, tab => tab.selected)
+    const currIndex = findIndex(tabs, tab => tab.selected)
     if (selector === 'next') {
       if (tabs[currIndex + 1]) facet = tabs[currIndex + 1].id
       else facet = tabs[0].id
-    }
-    else if (selector === 'prev') {
+    } else if (selector === 'prev') {
       if (tabs[currIndex - 1]) facet = tabs[currIndex - 1].id
       else facet = tabs[tabs.length - 1].id
     }
@@ -182,18 +193,18 @@ class Browser extends Component {
   }
 
   focusItem(id) {
-    let {sections} = this.state
+    const {sections} = this.state
     if (!sections.length) return
     let nextItemId = id
-    let nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
+    const nextItem = dataUtils.getItem(sections, nextItemId, this.itemsPerRow)
     if (nextItem) nextItemId = nextItem.id
 
-    let prevItem = dataUtils.getFocusedItem(sections)
+    const prevItem = dataUtils.getFocusedItem(sections)
 
-    let prevComponent = this.grid.getItemComponent(prevItem.id)
+    const prevComponent = this.grid.getItemComponent(prevItem.id)
     if (prevComponent) prevComponent.setState({focused: false})
 
-    let nextComponent = this.grid.getItemComponent(nextItemId)
+    const nextComponent = this.grid.getItemComponent(nextItemId)
     if (nextComponent) nextComponent.setState({focused: true})
 
     dataUtils.setFocusedItem(sections, nextItemId)
@@ -208,7 +219,7 @@ class Browser extends Component {
    * Keyboard navigation.
    */
   navigate(e) {
-    let {query} = e.detail
+    const {query} = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
         this.focusItem('nextRow')
@@ -255,49 +266,50 @@ class Browser extends Component {
     }
   }
 
-  onFocusItem({id}) {
-    this.focusItem(id)
-  }
+  render() {
+    const {classes} = this.props.sheet
+    const {sections} = this.state
 
-  onSelectItem({id}) {
-    this.selectItem(id)
-  }
-
-  onSelectTab({id}) {
-    this.selectTab(id)
-  }
-
-  onGridDidMount(grid) {
-    this.grid = grid
-  }
-
-  onInput({search}) {
-    this.setState({
-      search: search,
-      facet: search ? 'search' : undefined
-    })
-  }
-
-  onKeyDown(e) {
-    this.navigate(e)
-  }
-
-  onMouseDown(e) {
-    // Avoids loosing focus and though caret position in input.
-    e.preventDefault()
-  }
-
-  onResize() {
-    this.cacheItemsPerRow()
+    return (
+      <div
+        className={`${classes.browser} ${this.props.className}`}
+        style={pick(this.props, 'height', 'maxWidth', 'right')}
+        onMouseDown={::this.onMouseDown}>
+        <GlobalEvent
+          event="resize"
+          handler={::this.onResize}
+          debounce={500} />
+        <Input
+          onInput={::this.onInput}
+          onBlur={this.props.onBlur}
+          onKeyDown={::this.onKeyDown}
+          focused={this.props.focused}
+          className={classes.input}
+          type="emoji" />
+        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        {!sections.length && <Empty text="No emoji found." />}
+        {sections.length > 0 &&
+          <div className={classes.column}>
+            <div className={classes.row}>
+              <Grid
+                data={sections}
+                images={this.props.images}
+                Item={Item}
+                focusedItem={dataUtils.getFocusedItem(sections)}
+                className={classes.leftColumn}
+                section={{contentClassName: classes.sectionContent}}
+                onFocus={::this.onFocusItem}
+                onSelect={::this.onSelectItem}
+                onDidMount={::this.onGridDidMount} />
+            </div>
+          </div>
+        }
+      </div>
+    )
   }
 }
 
-let PublicBrowser = useSheet(Browser, style)
-PublicBrowser.init = (options) => {
-  let {emojiSheet, customEmojis} = options
-  if (emojiSheet) emoji.setSheet(emojiSheet)
-  if (customEmojis) emoji.defineCustom(customEmojis)
-  dataUtils.init()
-}
+const PublicBrowser = useSheet(Browser, style)
+PublicBrowser.init = init
 
 export default PublicBrowser

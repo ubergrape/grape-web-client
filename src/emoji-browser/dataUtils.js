@@ -34,10 +34,10 @@ const EMOJI_META_MAP = indexBy(EMOJI_META, 'name')
 
 let allSections = []
 
-export let {getFocusedItem} = dataUtils
-export let {setFocusedItem} = dataUtils
-export let {setSelectedTab} = dataUtils
-export let {getItem} = grid
+export const {getFocusedItem} = dataUtils
+export const {setFocusedItem} = dataUtils
+export const {setSelectedTab} = dataUtils
+export const {getItem} = grid
 
 export function init() {
   if (!emoji.get()) return
@@ -67,7 +67,7 @@ export function init() {
   allSections.forEach(section => {
     section.items = []
     section.itemNames.forEach(name => {
-      let item = emoji.get(name)
+      const item = emoji.get(name)
       if (item) section.items.push(item)
     })
   })
@@ -85,9 +85,9 @@ export function getSections(search, facet = 'emoticons') {
 
   if (search && facet === 'search') {
     ret = ret.map(section => {
-      let items = section.items.filter(item => {
+      const items = section.items.filter(item => {
         if (item.name.indexOf(search) >= 0) return true
-        let metaItem = EMOJI_META_MAP[item.name]
+        const metaItem = EMOJI_META_MAP[item.name]
         if (!metaItem) return false
         return metaItem.aliases.some(alias => alias.indexOf(search) >= 0)
       })
@@ -98,7 +98,7 @@ export function getSections(search, facet = 'emoticons') {
 
   if (ret.length) {
     if (facet) {
-      let section = find(ret, ({id}) => id === facet)
+      const section = find(ret, ({id}) => id === facet)
       if (section) ret = [section]
     }
     setFocusedItem(ret, ret[0].items[0].id)
@@ -108,7 +108,7 @@ export function getSections(search, facet = 'emoticons') {
 }
 
 export function getSection(sections, facet) {
-  let section = find(sections, ({id}) => id === facet)
+  const section = find(sections, ({id}) => id === facet)
   if (section) setFocusedItem([section], section.items[0].id)
   return section
 }
@@ -116,12 +116,12 @@ export function getSection(sections, facet) {
 export function getTabs({hasSearch, selected, orgLogo}) {
   if (!allSections.length) return []
 
-  let sections = clone(allSections)
+  const sections = clone(allSections)
 
   if (hasSearch) sections.unshift({id: 'search'})
 
-  let tabs = sections.map(({id}) => {
-    let iconId = EMOJI_CATEGORY_ICON[id]
+  const tabs = sections.map(({id}) => {
+    const iconId = EMOJI_CATEGORY_ICON[id]
     let style
 
     if (iconId === 'grapemoji') {
@@ -129,13 +129,12 @@ export function getTabs({hasSearch, selected, orgLogo}) {
         backgroundImage: `url(${orgLogo})`,
         ...itemStyle.TAB_ICON
       }
-    }
-    else {
-      let smiley = emoji.get(iconId)
+    } else {
+      const smiley = emoji.get(iconId)
       style = {...emoji.getSliceStyle(smiley.id), ...itemStyle.TAB_ICON}
     }
 
-    let icon = <Icon style={style} />
+    const icon = <Icon style={style} />
     return {id, selected: false, icon}
   })
 

@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import {Component, PropTypes} from 'react'
 
 // TODO
 // - rename to react-event
@@ -6,6 +6,14 @@ import {Component} from 'react'
 // - enable debounce, throttle
 // - use onClick etc instead of events
 export default class GlobalEvent extends Component {
+  static propTypes = {
+    emitter: PropTypes.object,
+    event: PropTypes.string.isRequired,
+    debounce: PropTypes.number,
+    handler: PropTypes.func,
+    children: PropTypes.element
+  }
+
   static defaultProps = {
     emitter: window,
     event: undefined,

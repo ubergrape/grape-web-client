@@ -1,24 +1,28 @@
 import find from 'lodash/collection/find'
 import * as dataUtils from '../browser/dataUtils'
 
-export let {getFocusedItem} = dataUtils
-export let {setFocusedItem} = dataUtils
-export let {unsetFocusedItem} = dataUtils
-export let {extractItems} = dataUtils
-export let {setSelectedTab} = dataUtils
+export const {getFocusedItem} = dataUtils
+export const {setFocusedItem} = dataUtils
+export const {unsetFocusedItem} = dataUtils
+export const {extractItems} = dataUtils
+export const {setSelectedTab} = dataUtils
 
 let {warn} = console
 warn = warn.bind(console)
 
 // Service/icon map.
 // TODO it should be a service implementation detail.
-let serviceIconMap = {
+const serviceIconMap = {
   github: 'github',
   googledrive: 'file',
   gcal: 'calendar',
   trello: 'trello',
   dropbox: 'dropbox',
   filters: 'search'
+}
+
+export function findById(collection, id) {
+  return find(collection, item => item.id === id)
 }
 
 /**
@@ -39,17 +43,50 @@ let serviceIconMap = {
  *   ]
  * }
  */
-export let getSections = (() => {
-  function get(data, serviceId, limitPerSection = Infinity) {
-    let sections = []
-    let newData = addFilterObjects({...data})
+export const getSections = (() => {
+  /**
+   * Generate data for queries section.
+   */
+  function addFilterObjects(data) {
+    const {queries} = data.search
+
+    if (!queries.length) return data
+
+    // Add fake service.
+    const service = {
+      hidden: true,
+      count: queries.length,
+      id: 'filters',
+      key: 'filters',
+      label: 'Queries'
+    }
+
+    const results = queries.map(query => {
+      return {
+        id: query.id,
+        name: `Search ${query.name}`,
+        type: service.id,
+        container: `#${query.query}`,
+        service: service.id
+      }
+    })
+
+    data.services = [service, ...data.services]
+    data.results = [...results, ...data.results]
+
+    return data
+  }
+
+  return function get(data, serviceId, limitPerSection = Infinity) {
+    const sections = []
+    const newData = addFilterObjects({...data})
 
     // Group by sections.
     newData.results.forEach(result => {
       if (serviceId && result.service !== serviceId) return
 
       let section = findById(sections, result.service)
-      let service = findById(newData.services, result.service)
+      const service = findById(newData.services, result.service)
 
       if (!service) {
         warn('No service corresponding the item.', result)
@@ -91,41 +128,6 @@ export let getSections = (() => {
 
     return sections
   }
-
-  /**
-   * Generate data for queries section.
-   */
-  function addFilterObjects(data) {
-    let queries = data.search.queries
-
-    if (!queries.length) return data
-
-    // Add fake service.
-    let service = {
-      hidden: true,
-      count: queries.length,
-      id: 'filters',
-      key: 'filters',
-      label: 'Queries'
-    }
-
-    let results = queries.map(query => {
-      return {
-        id: query.id,
-        name: `Search ${query.name}`,
-        type: service.id,
-        container: `#${query.query}`,
-        service: service.id
-      }
-    })
-
-    data.services = [service, ...data.services]
-    data.results = [...results, ...data.results]
-
-    return data
-  }
-
-  return get
 }())
 
 /**
@@ -139,10 +141,10 @@ export function getSelectedSection(sections) {
  * Mark section as selected. Unmark previously selected one.
  */
 export function setSelectedSection(sections, id) {
-  let curr = getSelectedSection(sections)
+  const curr = getSelectedSection(sections)
   if (curr) curr.selected = false
   if (id) {
-    let next = findById(sections, id)
+    const next = findById(sections, id)
     if (next) next.selected = true
   }
 }
@@ -154,7 +156,7 @@ export function setFocusedItemAt(sections, id, index) {
   if (!sections.length) return
   unsetFocusedItem(sections)
   // Take first id when nothing passed.
-  let section = findById(sections, id || sections[0].id)
+  const section = findById(sections, id || sections[0].id)
   if (section) section.items[index].focused = true
 }
 
@@ -164,9 +166,9 @@ export function setFocusedItemAt(sections, id, index) {
 export function getTabs(items = [], serviceId) {
   if (!items.length) return items
 
-  let visibleItems = items.filter(item => !item.hidden && item.count !== undefined)
+  const visibleItems = items.filter(item => !item.hidden && item.count !== undefined)
 
-  let tabs = visibleItems.map(item => {
+  const tabs = visibleItems.map(item => {
     return {
       label: item.label,
       amount: item.count,
@@ -190,14 +192,10 @@ export function getTabs(items = [], serviceId) {
 /**
  * Get service id from the data using filters array.
  */
-export function filtersToServiceId({services=[]}, filters=[]) {
+export function filtersToServiceId({services = []}, filters = []) {
   if (filters[0]) {
-    let service = find(services, ({key}) => key === filters[0])
+    const service = find(services, ({key}) => key === filters[0])
     if (service) return service.id
   }
   return ''
-}
-
-export function findById(collection, id) {
-  return find(collection, item => item.id === id)
 }

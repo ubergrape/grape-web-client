@@ -4,12 +4,12 @@ import expect from 'expect.js'
 describe('query', () => {
   describe('.stringify()', () => {
     it('should stringify with trigger only', () => {
-      let str = stringify({trigger: '#'})
+      const str = stringify({trigger: '#'})
       expect(str).to.be('#')
     })
 
     it('should stringify with a search', () => {
-      let str = stringify({
+      const str = stringify({
         trigger: '#',
         search: 'something'
       })
@@ -17,7 +17,7 @@ describe('query', () => {
     })
 
     it('should stringify with a filter', () => {
-      let str = stringify({
+      const str = stringify({
         trigger: '#',
         filters: ['filter0']
       })
@@ -25,7 +25,7 @@ describe('query', () => {
     })
 
     it('should stringify with filters', () => {
-      let str = stringify({
+      const str = stringify({
         trigger: '#',
         filters: ['filter0', 'filter1']
       })
@@ -33,7 +33,7 @@ describe('query', () => {
     })
 
     it('should stringify with filter and search', () => {
-      let str = stringify({
+      const str = stringify({
         trigger: '#',
         filters: ['filter0'],
         search: 'something'

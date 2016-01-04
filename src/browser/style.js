@@ -1,5 +1,4 @@
 import colors from 'grape-theme/dist/base-colors'
-import sizes from 'grape-theme/dist/sizes'
 
 export default {
   browser: {

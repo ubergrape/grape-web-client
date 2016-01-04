@@ -32,11 +32,12 @@ import {TRIGGERS, SEPARATOR} from './constants'
  * ```
  */
 export default function parse(query) {
-  let triggerIndex = TRIGGERS.indexOf(query[0])
-  let trigger = TRIGGERS[triggerIndex]
-  let key = query.substr(1)
+  const triggerIndex = TRIGGERS.indexOf(query[0])
+  const trigger = TRIGGERS[triggerIndex]
+  const key = query.substr(1)
   let filters = key.split(SEPARATOR)
   let search = filters.pop()
+
   // We can trim filters, right?
   filters = filters.map(filter => filter.trim())
   search = trimLeft(search)

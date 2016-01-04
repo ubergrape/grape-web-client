@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
@@ -25,20 +25,34 @@ const PUBLIC_METHODS = ['selectTab', 'focusItem', 'getFocusedItem']
  */
 @useSheet(style)
 export default class Browser extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    onDidMount: PropTypes.func,
+    onSelectFilter: PropTypes.func,
+    onSelectItem: PropTypes.func,
+    onInput: PropTypes.func,
+    onAbort: PropTypes.func,
+    onBlur: PropTypes.func,
+    data: PropTypes.object,
+    maxItemsPerSectionInAll: PropTypes.number,
+    container: PropTypes.element,
+    inputDelay: PropTypes.number,
+    focused: PropTypes.bool,
+    isExternal: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    images: PropTypes.object,
+    height: PropTypes.number,
+    className: PropTypes.string
+  }
+
   static defaultProps = {
-    data: undefined,
     height: 400,
     className: '',
     maxItemsPerSectionInAll: 5,
     isExternal: false,
     isLoading: false,
-    hasIntegrations: undefined,
     canAddIntegrations: false,
-    orgName: undefined,
-    orgOwner: undefined,
-    images: undefined,
     inputDelay: 500,
-    focused: undefined,
     onAddIntegration: noop,
     onSelectItem: noop,
     onSelectFilter: noop,
@@ -54,24 +68,113 @@ export default class Browser extends Component {
     this.exposePublicMethods()
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  componentDidMount() {
+    this.props.onDidMount(this)
+  }
 
   componentWillReceiveProps(props) {
     this.setState(this.createState(props))
   }
 
-  componentDidMount() {
-    this.props.onDidMount(this)
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  onFocusItem({id}) {
+    this.focusItem(id)
   }
 
-  exposePublicMethods() {
-    let {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+  onSelectItem({id} = {}) {
+    if (id) this.focusItem(id)
+    const item = this.getFocusedItem()
+    const trigger = QUERY_TYPES.search
+
+    if (item.type === 'filters') {
+      const service = dataUtils.findById(this.props.data.services, item.id)
+      const filters = service ? [service.key] : []
+      this.setState({
+        search: '',
+        filters
+      })
+      const query = buildQuery({trigger, filters})
+      this.props.onSelectFilter(query)
+      return
+    }
+
+    const query = buildQuery({
+      trigger,
+      filters: this.state.filters,
+      search: this.state.search
+    })
+
+    // After selection we don't care about scheduled inputs.
+    clearTimeout(this.onInputTimeoutId)
+
+    this.props.onSelectItem({item, query})
+  }
+
+  onSelectTab({id}) {
+    this.selectTab(id)
+  }
+
+  onKeyDown(e) {
+    this.navigate(e)
+  }
+
+  onInput(query) {
+    this.setState({
+      search: query.search,
+      filters: query.filters
+    }, () => {
+      const {inputDelay, onInput} = this.props
+      if (!inputDelay) return onInput(query)
+      clearTimeout(this.onInputTimeoutId)
+      this.onInputTimeoutId = setTimeout(onInput.bind(null, query), inputDelay)
+    })
+  }
+
+  onMouseDown(e) {
+    // Avoids loosing focus and though caret position in input.
+    e.preventDefault()
+  }
+
+  onAbort(data) {
+    // After abortion we don't care about scheduled inputs.
+    clearTimeout(this.onInputTimeoutId)
+    this.props.onAbort(data)
+  }
+
+  getFocusedItem() {
+    return dataUtils.getFocusedItem(this.state.sections)
+  }
+
+  focusItem(selector) {
+    const {sections} = this.state
+    let id
+
+    if (selector === 'next' || selector === 'prev') {
+      const selectedSection = dataUtils.getSelectedSection(sections)
+      const items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
+      const focusedIndex = findIndex(items, item => item.focused)
+      let newItem
+
+      if (selector === 'next') {
+        newItem = items[focusedIndex + 1]
+        if (!newItem) newItem = items[0]
+      } else if (selector === 'prev') {
+        newItem = items[focusedIndex - 1]
+        if (!newItem) newItem = items[items.length - 1]
+      }
+
+      id = newItem.id
+    } else id = selector
+
+    if (id) {
+      dataUtils.setFocusedItem(sections, id)
+      this.setState({sections: [...sections]})
+    }
   }
 
   createState(props) {
-    let {data} = props
+    const {data} = props
 
     if (!data) return {}
 
@@ -80,15 +183,15 @@ export default class Browser extends Component {
       serviceId = dataUtils.filtersToServiceId(data, this.state.filters)
     }
 
-    let sections = dataUtils.getSections(
+    const sections = dataUtils.getSections(
       data,
       serviceId,
       props.maxItemsPerSectionInAll
     )
 
-    let tabs = dataUtils.getTabs(data.services, serviceId)
+    const tabs = dataUtils.getTabs(data.services, serviceId)
 
-    let inputDelay = props.isExternal ? props.inputDelay : undefined
+    const inputDelay = props.isExternal ? props.inputDelay : undefined
 
     return {sections, tabs, inputDelay}
   }
@@ -99,151 +202,45 @@ export default class Browser extends Component {
    * @param {String} id can be item id or "prev" or "next"
    */
   selectTab(selector) {
-    let {tabs} = this.state
-    let currIndex = findIndex(tabs, tab => tab.selected)
+    const {tabs} = this.state
+    const currIndex = findIndex(tabs, tab => tab.selected)
     let newIndex
 
     if (selector === 'next') {
       newIndex = currIndex + 1
       if (!tabs[newIndex]) newIndex = 0
-    }
-    else if (selector === 'prev') {
+    } else if (selector === 'prev') {
       newIndex = currIndex - 1
       if (newIndex < 0) newIndex = tabs.length - 1
-    }
-    else {
+    } else {
       newIndex = findIndex(tabs, tab => tab.id === selector)
     }
 
-    let {id} = tabs[newIndex]
+    const {id} = tabs[newIndex]
     dataUtils.setSelectedTab(tabs, newIndex)
-    let sections = dataUtils.getSections(
+    const sections = dataUtils.getSections(
       this.props.data,
       id,
       this.props.maxItemsPerSectionInAll
     )
     dataUtils.setSelectedSection(sections, id)
     dataUtils.setFocusedItemAt(sections, id, 0)
-    let service = dataUtils.findById(this.props.data.services, id)
-    let filters = service ? [service.key] : []
+    const service = dataUtils.findById(this.props.data.services, id)
+    const filters = service ? [service.key] : []
     this.setState({tabs, sections, filters})
   }
 
-  focusItem(selector) {
-    let {sections} = this.state
-    let id
-
-    if (selector === 'next' || selector === 'prev') {
-      let selectedSection = dataUtils.getSelectedSection(sections)
-      let items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
-      let focusedIndex = findIndex(items, item => item.focused)
-      let newItem
-
-      if (selector === 'next') {
-        newItem = items[focusedIndex + 1]
-        if (!newItem) newItem = items[0]
-      }
-      else if (selector === 'prev') {
-        newItem = items[focusedIndex - 1]
-        if (!newItem) newItem = items[items.length - 1]
-      }
-
-      id = newItem.id
-    }
-    else id = selector
-
-    if (id) {
-      dataUtils.setFocusedItem(sections, id)
-      this.setState({sections: [...sections]})
-    }
-  }
-
-  getFocusedItem() {
-    return dataUtils.getFocusedItem(this.state.sections)
-  }
-
-  render() {
-    const {classes} = this.props.sheet
-    const content = this.renderContent()
-    const inlineStyle = {
-      height: content ? this.props.height : 'auto'
-    }
-    return (
-      <div
-        className={`${classes.browser} ${this.props.className}`}
-        style={inlineStyle}
-        onMouseDown={::this.onMouseDown}
-        data-test="search-browser">
-        <div className={classes.inputContainer}>
-          <span className={classes.searchIcon} />
-          <Input
-            onInput={::this.onInput}
-            onChangeFilters={this.props.onSelectFilter}
-            onBlur={this.props.onBlur}
-            onKeyDown={::this.onKeyDown}
-            focused={this.props.focused}
-            filters={this.state.filters}
-            search={this.state.search}
-            className={classes.input}
-            type="search"
-            placeholder="Grape Search" />
-        </div>
-        {this.state.tabs &&
-          <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        }
-        {content}
-        {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
-      </div>
-    )
-  }
-
-  renderContent() {
-    let {sections} = this.state
-    let {data} = this.props
-
-    if (!data) return null
-
-    let selectedSection = dataUtils.getSelectedSection(sections)
-    if (selectedSection) sections = [selectedSection]
-
-    if (data.results.length && sections.length) return this.renderService(sections)
-
-    let hasSearch = Boolean(get(data, 'search.text'))
-    let hasService = Boolean(get(data, 'search.container'))
-
-    if (hasSearch || hasService) return <Empty text="Nothing found" />
-
-    if (this.props.isExternal) {
-      let text = `Write the search term to search ${data.search.service}.`
-      return <Empty text={text} />
-    }
-
-    // We have no search, no results and its not an external search.
-    // Yet we can always render queries suggestions.
-    return this.renderService(sections)
-  }
-
-  renderService(data) {
-    let Service = services.Default
-    let props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
-      'images', 'onAddIntegration', 'orgName', 'orgOwner')
-
-    return (
-      <Service
-        {...props}
-        Item={Item}
-        data={data}
-        focusedItem={this.getFocusedItem()}
-        onFocus={::this.onFocusItem}
-        onSelect={::this.onSelectItem} />
-    )
+  exposePublicMethods() {
+    const {container} = this.props
+    if (!container) return
+    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   /**
    * Keyboard navigation.
    */
   navigate(e) {
-    let {query} = e.detail
+    const {query} = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
         this.focusItem('next')
@@ -281,67 +278,80 @@ export default class Browser extends Component {
     }
   }
 
-  onFocusItem({id}) {
-    this.focusItem(id)
-  }
+  renderContent() {
+    let {sections} = this.state
+    const {data} = this.props
 
-  onSelectItem({id} = {}) {
-    if (id) this.focusItem(id)
-    let item = this.getFocusedItem()
-    let trigger = QUERY_TYPES.search
+    if (!data) return null
 
-    if (item.type === 'filters') {
-      let service = dataUtils.findById(this.props.data.services, item.id)
-      let filters = service ? [service.key] : []
-      this.setState({
-        search: '',
-        filters
-      })
-      let query = buildQuery({trigger, filters})
-      this.props.onSelectFilter(query)
-      return
+    const selectedSection = dataUtils.getSelectedSection(sections)
+    if (selectedSection) sections = [selectedSection]
+
+    if (data.results.length && sections.length) return this.renderService(sections)
+
+    const hasSearch = Boolean(get(data, 'search.text'))
+    const hasService = Boolean(get(data, 'search.container'))
+
+    if (hasSearch || hasService) return <Empty text="Nothing found" />
+
+    if (this.props.isExternal) {
+      const text = `Write the search term to search ${data.search.service}.`
+      return <Empty text={text} />
     }
 
-    let query = buildQuery({
-      trigger,
-      filters: this.state.filters,
-      search: this.state.search
-    })
-
-    // After selection we don't care about scheduled inputs.
-    clearTimeout(this.onInputTimeoutId)
-
-    this.props.onSelectItem({item, query})
+    // We have no search, no results and its not an external search.
+    // Yet we can always render queries suggestions.
+    return this.renderService(sections)
   }
 
-  onSelectTab({id}) {
-    this.selectTab(id)
+  renderService(data) {
+    const Service = services.Default
+    const props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
+      'images', 'onAddIntegration', 'orgName', 'orgOwner')
+
+    return (
+      <Service
+        {...props}
+        Item={Item}
+        data={data}
+        focusedItem={this.getFocusedItem()}
+        onFocus={::this.onFocusItem}
+        onSelect={::this.onSelectItem} />
+    )
   }
 
-  onKeyDown(e) {
-    this.navigate(e)
-  }
-
-  onInput(query) {
-    this.setState({
-      search: query.search,
-      filters: query.filters
-    }, () => {
-      let {inputDelay, onInput} = this.props
-      if (!inputDelay) return onInput(query)
-      clearTimeout(this.onInputTimeoutId)
-      this.onInputTimeoutId = setTimeout(onInput.bind(null, query), inputDelay)
-    })
-  }
-
-  onMouseDown(e) {
-    // Avoids loosing focus and though caret position in input.
-    e.preventDefault()
-  }
-
-  onAbort(data) {
-    // After abortion we don't care about scheduled inputs.
-    clearTimeout(this.onInputTimeoutId)
-    this.props.onAbort(data)
+  render() {
+    const {classes} = this.props.sheet
+    const content = this.renderContent()
+    const inlineStyle = {
+      height: content ? this.props.height : 'auto'
+    }
+    return (
+      <div
+        className={`${classes.browser} ${this.props.className}`}
+        style={inlineStyle}
+        onMouseDown={::this.onMouseDown}
+        data-test="search-browser">
+        <div className={classes.inputContainer}>
+          <span className={classes.searchIcon} />
+          <Input
+            onInput={::this.onInput}
+            onChangeFilters={this.props.onSelectFilter}
+            onBlur={this.props.onBlur}
+            onKeyDown={::this.onKeyDown}
+            focused={this.props.focused}
+            filters={this.state.filters}
+            search={this.state.search}
+            className={classes.input}
+            type="search"
+            placeholder="Grape Search" />
+        </div>
+        {this.state.tabs &&
+          <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        }
+        {content}
+        {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
+      </div>
+    )
   }
 }

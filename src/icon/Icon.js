@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -9,10 +9,11 @@ import style from './style'
  */
 @useSheet(style)
 export default class Icon extends Component {
-  static defaultProps = {
-    name: undefined,
-    style: undefined,
-    className: undefined
+  static propTypes = {
+    className: PropTypes.string,
+    sheet: PropTypes.object.isRequired,
+    style: PropTypes.object,
+    name: PropTypes.string
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate

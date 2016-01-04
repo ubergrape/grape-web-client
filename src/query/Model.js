@@ -19,13 +19,12 @@ export default class Model {
     if (typeof key == 'string') {
       this.attrs[key] = value
       attrs = this.attrs
-    }
-    else {
+    } else {
       attrs = key
       if (value) options = value
     }
 
-    let hash = stringify(attrs)
+    const hash = stringify(attrs)
     if (hash === this.hash) return false
 
     // Because parse will setup the object correctly.

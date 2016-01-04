@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import find from 'lodash/collection/find'
 import pick from 'lodash/object/pick'
@@ -14,14 +14,21 @@ import style from './gridStyle'
  */
 @useSheet(style)
 export default class Grid extends Component {
+  static propTypes = {
+    sheet: PropTypes.object.isRequired,
+    onDidMount: PropTypes.func,
+    onFocus: PropTypes.func,
+    onSelect: PropTypes.func,
+    Item: PropTypes.func,
+    focusedItem: PropTypes.object,
+    className: PropTypes.string,
+    data: PropTypes.array,
+    section: PropTypes.object
+  }
+
   static defaultProps = {
-    Item: undefined,
     className: '',
-    data: undefined,
-    section: {},
-    onFocus: undefined,
-    onSelect: undefined,
-    onDidMount: undefined
+    section: {}
   }
 
   constructor(props) {
@@ -31,28 +38,82 @@ export default class Grid extends Component {
     this.onScrollStop = debounce(this.onScrollStop, 30)
   }
 
+  componentDidMount() {
+    const {onDidMount} = this.props
+    if (onDidMount) onDidMount(this)
+  }
+
   shouldComponentUpdate = shouldPureComponentUpdate
+
+  componentDidUpdate(prevProps) {
+    const currFocused = this.props.focusedItem
+    const prevFocused = prevProps.focusedItem
+    if (currFocused && prevFocused && prevFocused.id !== currFocused.id) {
+      this.onFocus({id: currFocused.id})
+    }
+  }
 
   componentWillUnmount() {
     this.sections = {}
     this.items = {}
   }
 
-  componentDidMount() {
-    let {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+  onFocus(data) {
+    this.props.onFocus(data)
   }
 
-  componentDidUpdate(prevProps) {
-    let currFocused = this.props.focusedItem
-    let prevFocused = prevProps.focusedItem
-    if (currFocused && prevFocused && prevFocused.id !== currFocused.id) {
-      this.onFocus({id: currFocused.id})
+  onInvisible(item, visibilityRect) {
+    if (this.scrolling) return
+
+    const viewPortNode = ReactDOM.findDOMNode(this)
+    const itemNode = ReactDOM.findDOMNode(item)
+    const itemTop = itemNode.offsetTop
+
+    // Scrolling up.
+    let scrollTop = itemTop
+
+    // Scrolling down.
+    if (visibilityRect.top) {
+      const viewPortHeight = viewPortNode.offsetHeight
+      let {itemHeight} = this
+      if (!itemHeight) itemHeight = itemNode.offsetHeight
+      scrollTop = itemTop - viewPortHeight + itemHeight
     }
+
+    viewPortNode.scrollTop = scrollTop
+  }
+
+  onScroll() {
+    this.scrolling = true
+    this.onScrollStop()
+  }
+
+  onScrollStop() {
+    this.scrolling = false
+  }
+
+  onSectionDidMount(component) {
+    this.sections[component.props.id] = component
+  }
+
+  getSectionComponent(id) {
+    return this.sections[id]
+  }
+
+  getItemComponent(id) {
+    let component
+    if (!id) return component
+
+    find(this.sections, section => {
+      component = find(section.items, item => item.props.id === id)
+      return Boolean(component)
+    })
+
+    return component
   }
 
   render() {
-    let {classes} = this.props.sheet
+    const {classes} = this.props.sheet
 
     return (
       <div
@@ -74,59 +135,5 @@ export default class Grid extends Component {
         })}
       </div>
     )
-  }
-
-  getSectionComponent(id) {
-    return this.sections[id]
-  }
-
-  getItemComponent(id) {
-    let component
-    if (!id) return component
-
-    find(this.sections, section => {
-      component = find(section.items, item => item.props.id === id)
-      return Boolean(component)
-    })
-
-    return component
-  }
-
-  onFocus(data) {
-    this.props.onFocus(data)
-  }
-
-  onInvisible(item, visibilityRect) {
-    if (this.scrolling) return
-
-    let viewPortNode = ReactDOM.findDOMNode(this)
-    let itemNode = ReactDOM.findDOMNode(item)
-    let itemTop = itemNode.offsetTop
-
-    // Scrolling up.
-    let scrollTop = itemTop
-
-    // Scrolling down.
-    if (visibilityRect.top) {
-      let viewPortHeight = viewPortNode.offsetHeight
-      let itemHeight = this.itemHeight
-      if (!itemHeight) itemHeight = itemNode.offsetHeight
-      scrollTop = itemTop - viewPortHeight + itemHeight
-    }
-
-    viewPortNode.scrollTop = scrollTop
-  }
-
-  onScroll() {
-    this.scrolling = true
-    this.onScrollStop()
-  }
-
-  onScrollStop() {
-    this.scrolling = false
-  }
-
-  onSectionDidMount(component) {
-    this.sections[component.props.id] = component
   }
 }

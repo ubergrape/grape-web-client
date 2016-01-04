@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {create} from '../'
 
 describe('objects: Emoji', () => {
-  let object = create('emoji', {
+  const object = create('emoji', {
     shortname: 'shortname'
   })
 
