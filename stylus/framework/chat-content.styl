@@ -481,10 +481,14 @@ span.author-deleted
 		color: gainsboro-dark
 	pre
 		color: grape-typo
+		& code
+			overflow: auto
+			word-break: initial
+			// Fix hidden scroll bar when overflow
+			transform: translateZ(0)
 
 	code
 		display: inline-block
-		overflow: auto
 		max-width: 100%
 		padding: 0 4px
 		word-wrap: normal
@@ -492,8 +496,8 @@ span.author-deleted
 		border: 1px solid gainsboro-light
 		border-radius: main-border-radius
 		background: white
-		// Fix hidden scroll bar when overflow
-		transform: translateZ(0)
+		word-break: break-all
+
 	.warning-unsent
 		color: gainsboro-light
 		&:before
