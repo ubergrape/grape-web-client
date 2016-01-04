@@ -9,6 +9,7 @@ let debounce = require('debounce')
 let resizable = require('resizable')
 let store = require('../store').prefix('navigation')
 let page = require('page')
+let moment = require('moment')
 
 module.exports = Navigation
 
@@ -17,6 +18,10 @@ function Navigation() {
   this.init()
   this.bind()
   this.ready = false
+}
+
+function getWeekAgo() {
+  return moment().subtract(1, 'w')
 }
 
 Navigation.prototype = Object.create(Emitter.prototype)
@@ -85,15 +90,7 @@ Navigation.prototype.pmCompare = function (a, b) {
     return getStatusValue(b) - getStatusValue(a)
 }
 
-
-Navigation.prototype.getWeekAgo = function() {
-  const weekAgo = new Date()
-  weekAgo.setDate(weekAgo.getDate() - 7)
-
-  return weekAgo
-}
-
-Navigation.prototype.setProactiveItem = function (weekAgo = this.getWeekAgo(), item) {
+Navigation.prototype.setProactiveItem = function (age = getWeekAgo(), item) {
   const prop = 'latest_message_time'
 
   let last
@@ -102,15 +99,13 @@ Navigation.prototype.setProactiveItem = function (weekAgo = this.getWeekAgo(), i
   } else {
     last = item.pm ? item.pm[prop] : 0
   }
-
-  item.proactive = weekAgo - last < 0
+  item.proactive = age - last < 0
 
   return item
 }
 
 Navigation.prototype.setProactiveList = function (list) {
-  const weekAgo = this.getWeekAgo()
-  list.forEach(this.setProactiveItem.bind(this, weekAgo))
+  list.forEach(this.setProactiveItem.bind(this, getWeekAgo()))
   return list
 }
 
