@@ -3,13 +3,13 @@ import * as types from '../constants/actionTypes'
 import store from '../app/store'
 import {alertsSelector} from '../selectors'
 
-export function showAlert({level, type, closeAfter, minLifeTime = 400, delay}) {
+export function showAlert({level, type, closeAfter, minLifeTime = 1000, delay}) {
   return {
     type: types.SHOW_ALERT,
     payload: {
       level,
       type,
-      date: Date.now(),
+      timeStamp: Date.now(),
       closeAfter,
       minLifeTime,
       delay
@@ -20,13 +20,13 @@ export function showAlert({level, type, closeAfter, minLifeTime = 400, delay}) {
 export function hideAlert(alert = {}) {
   const action = {
     type: types.HIDE_ALERT,
-    payload: {
-      alert
-    }
+    payload: alert
   }
 
-  const dateDiff = Date.now() - (alert.minLifeTime + alert.date)
-  if (dateDiff < 0) {
+  const delay = Date.now() - (alert.minLifeTime + alert.timeStamp)
+  const isInThePast = delay < 0
+
+  if (isInThePast) {
     return dispatch => {
       setTimeout(() => {
         dispatch(action)
