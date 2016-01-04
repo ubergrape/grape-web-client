@@ -7,7 +7,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from '../browser/style'
+import style from './browserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../empty/Empty'
@@ -28,7 +28,6 @@ export default class Browser extends Component {
   static defaultProps = {
     data: undefined,
     height: 400,
-    maxWidth: 920,
     className: '',
     maxItemsPerSectionInAll: 5,
     isExternal: false,
@@ -167,7 +166,6 @@ export default class Browser extends Component {
     const {classes} = this.props.sheet
     const content = this.renderContent()
     const inlineStyle = {
-      maxWidth: this.props.maxWidth,
       height: content ? this.props.height : 'auto'
     }
     return (
@@ -176,15 +174,20 @@ export default class Browser extends Component {
         style={inlineStyle}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser">
-        <Input
-          onInput={::this.onInput}
-          onChangeFilters={this.props.onSelectFilter}
-          onBlur={this.props.onBlur}
-          onKeyDown={::this.onKeyDown}
-          focused={this.props.focused}
-          filters={this.state.filters}
-          search={this.state.search}
-          type="search" />
+        <div className={classes.inputContainer}>
+          <span className={classes.searchIcon} />
+          <Input
+            onInput={::this.onInput}
+            onChangeFilters={this.props.onSelectFilter}
+            onBlur={this.props.onBlur}
+            onKeyDown={::this.onKeyDown}
+            focused={this.props.focused}
+            filters={this.state.filters}
+            search={this.state.search}
+            className={classes.input}
+            type="search"
+            placeholder="Grape Search" />
+        </div>
         {this.state.tabs &&
           <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         }

@@ -3,24 +3,22 @@ import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
 import parseQuery from '../query/parse'
 
-@useSheet(style)
 export default class Input extends Component {
   static propTypes = {
     onInput: PropTypes.func,
     onKeyDown: PropTypes.func,
     onChangeFilters: PropTypes.func,
     onBlur: PropTypes.func,
-    sheet: PropTypes.object.isRequired,
     type: PropTypes.string,
     focused: PropTypes.bool,
     filters: PropTypes.array,
-    search: PropTypes.string
+    search: PropTypes.string,
+    placeholder: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -31,7 +29,9 @@ export default class Input extends Component {
     type: undefined,
     focused: true,
     filters: undefined,
-    search: undefined
+    search: undefined,
+    placeholder: '',
+    className: ''
   }
 
   constructor(props) {
@@ -108,13 +108,12 @@ export default class Input extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-
     return (
       <input
         value={this.state.value}
         type="text"
-        className={classes.input}
+        className={this.props.className}
+        placeholder={this.props.placeholder}
         ref="input"
         data-test="input"
         onChange={::this.onInput}

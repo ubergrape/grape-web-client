@@ -32,4 +32,3 @@ export function $(names, parent = container) {
   })
   return parent.querySelector(selector)
 }
-

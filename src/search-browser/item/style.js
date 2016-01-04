@@ -6,7 +6,6 @@ import color from 'color'
 
 export const container = {
   display: 'flex',
-  height: 42,
   position: 'relative',
   background: colors.white,
   color: colors.grapeTypo,
@@ -63,7 +62,7 @@ export const rules = {
     lineHeight: 1.2
   },
   info: {
-    ...fonts.small,
+    ...fonts.smaller,
     ...utils.ellipsis,
     marginTop: 4,
     opacity: 0.5

@@ -112,6 +112,7 @@ class Browser extends Component {
           onBlur={this.props.onBlur}
           onKeyDown={::this.onKeyDown}
           focused={this.props.focused}
+          className={classes.input}
           type="emoji" />
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
         {!sections.length && <Empty text="No emoji found." />}
