@@ -10,9 +10,9 @@ export default {
   ...style,
   input: {
     ...fonts.biggest,
-    border: 'none',
     color: colors.grapeTypo,
     padding: 15,
+    border: 'none !important',
     outline: 'none',
     flex: 1
   },
