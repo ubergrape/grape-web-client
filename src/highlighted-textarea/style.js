@@ -21,6 +21,7 @@ export default {
     textRendering: 'auto'
   },
   textarea: {
+    ...fonts.normal,
     position: 'relative',
     zIndex: 1,
     display: 'block',
