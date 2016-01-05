@@ -2,8 +2,10 @@
 
 body.client-style-compact.user-title-enabled
 	.message-group
-		.message-content
-			min-height: 63px
+		&:not(.service)
+			.message-content
+				min-height: 63px
+
 	.messageinfo
 		.author-title
 			display: inline-block !important
@@ -51,6 +53,7 @@ body.client-style-compact
 			border-radius: 0
 			position: inherit !important
 			display: block
+			max-width: 100%
 			@extend $clearfix
 			&.first:after
 			&.activity:after
@@ -99,7 +102,7 @@ body.client-style-compact
 				margin-left: 0
 				display: none
 		.text
-			margin-right: 85px
+			margin-right: 155px
 		.message-author
 			@extend $ellipsis;
 			font-weight: bold
