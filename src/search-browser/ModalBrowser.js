@@ -34,7 +34,7 @@ export default class ModalBrowser extends Component {
     this.setState({show: false})
   }
 
-  proxyCallback(method, ...args) {
+  proxyCallback(method, ...args) {
     this.setState({show: false}, () => {
       this.props[method](...args)
     })
