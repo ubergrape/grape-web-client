@@ -18,7 +18,7 @@ export default {
   },
   browser: {
     position: 'relative',
-    margin: '20%',
+    margin: '10%',
     marginBottom: 0
   }
 }
