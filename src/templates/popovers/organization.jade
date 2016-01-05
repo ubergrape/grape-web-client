@@ -5,8 +5,13 @@
             a(href='#')
                 i.fa.fa-eye
                 =_('Compact View')
-        if (isOrgManager)
+        if (isInviter)
             li
+                a.invite-new-members
+                    i.fa.fa-user-plus
+                    =_('Invite new members')
+        if (isOrgManager)
+            li.break-line
                 a(href='/accounts/organization/settings/', target=target)
                     i.fa.fa-cog
                     =_('Organization Settings')
@@ -17,7 +22,7 @@
             li
                 a(href='/integrations/', target=target)
                     i.fa.fa-link
-                    =_('Service Integrations')
+                    =_('Add Service Integrations')
         li.break-line
             a(href='/accounts/settings/', target=target)
                 i.fa.fa-cog
@@ -38,16 +43,11 @@
             a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
                 i.fa.fa-life-saver
                 =_('Tutorial')
-        if (isInviter)
-            li
-                a.invite-new-members
-                    i.fa.fa-user-plus
-                    =_('Invite new members')
         li
             a(href='/accounts/organization/dashboard/', target='_self')
                 i.fa.fa-random
                 =_('Switch Organizations')
-        li
+        li.break-line
             a(href='/accounts/logout/', target='_self')
                 i.fa.fa-sign-out
                 =_('Sign Out')
