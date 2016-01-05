@@ -1,4 +1,4 @@
-import alertsStyles from '../alert-picker/style'
+import alertStyles from '../alert/style'
 export default {
-  ...alertsStyles
+  ...alertStyles
 }

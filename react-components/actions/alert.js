@@ -3,6 +3,8 @@ import * as types from '../constants/actionTypes'
 import store from '../app/store'
 import {alertsSelector} from '../selectors'
 
+import find from 'lodash/collection/find'
+
 const delayedTimeoutIds = {}
 
 export function showAlert({level, type, closeAfter, minLifeTime = 1000, delay}) {
@@ -52,7 +54,7 @@ export function hideAlert(alert) {
 
 export function hideAlertByType(type) {
   const {alerts} = alertsSelector(store.getState())
-  const alertByType = alerts.filter(alertItem => type === alertItem.type)[0]
+  const alertByType = find(alerts, alertItem => type === alertItem.type)
   if (alertByType) return hideAlert(alertByType)
 
   clearTimeout(delayedTimeoutIds[type])

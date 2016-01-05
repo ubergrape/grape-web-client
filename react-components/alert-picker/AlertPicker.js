@@ -32,10 +32,12 @@ export default class AlertPicker extends Component {
   renderAlertContent(alert) {
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:
-        return (<NotificationsAlert
-                  alert={alert}
-                  enableNotifications={this.props.enableNotifications}
-                  hideAlert={this.props.hideAlert} />)
+        return (
+          <NotificationsAlert
+            alert={alert}
+            enableNotifications={this.props.enableNotifications}
+            hideAlert={this.props.hideAlert} />
+        )
       case types.CONNECTION_LOST:
         return <ConnectionLostAlert />
       case types.LOADING_HISTORY:
@@ -45,18 +47,17 @@ export default class AlertPicker extends Component {
       case types.MESSAGE_TO_SELF:
       default:
         return <TextAlert type={alert.type} />
-
     }
   }
 
-  renderAlerts() {
+  render() {
     const {alerts, hideAlert} = this.props
     if (!alerts.length) return false
 
     const {classes} = this.props.sheet
     return (
       <ul
-        className={classes.list}>
+        className={classes.alerts}>
         {alerts.map((alert, i) => {
           return (
             <li
@@ -72,15 +73,6 @@ export default class AlertPicker extends Component {
           )
         })}
       </ul>
-    )
-  }
-
-  render() {
-    return (
-      <div
-        className={this.props.sheet.classes.alerts}>
-        {this.renderAlerts()}
-      </div>
     )
   }
 }
