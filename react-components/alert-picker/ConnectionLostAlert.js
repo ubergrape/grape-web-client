@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
+import style from './alertStyle'
 
 @useSheet(style)
 export default class ConnectionLostAlert extends Component {

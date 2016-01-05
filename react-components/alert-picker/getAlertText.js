@@ -1,6 +1,6 @@
 import * as types from '../constants/alerts'
 
-export default function getText(type) {
+export default function getAlertText(type) {
   switch (type) {
     case types.RECONNECTED:
       return 'Reconnected successfully.'

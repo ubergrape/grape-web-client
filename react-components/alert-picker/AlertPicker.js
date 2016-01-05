@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 
-import Alert from '../alert/Alert'
-import TextAlert from '../text-alert/TextAlert'
-import NotificationsAlert from '../notifications-alert/NotificationsAlert'
-import ConnectionLostAlert from '../connection-lost-alert/ConnectionLostAlert'
+import Alert from './Alert'
+import TextAlert from './TextAlert'
+import NotificationsAlert from './NotificationsAlert'
+import ConnectionLostAlert from './ConnectionLostAlert'
 
 import * as types from '../constants/alerts'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
+import style from './alertPickerStyle'
 
 @useSheet(style)
 export default class AlertPicker extends Component {

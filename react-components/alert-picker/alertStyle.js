@@ -32,5 +32,16 @@ export default {
     '&:hover': {
       textDecoration: 'underline'
     }
+  },
+  layout: {
+    display: 'flex',
+    alignItems: 'baseline'
+  },
+  mainCol: {
+    flexGrow: 1,
+    fontWeight: 'bold'
+  },
+  secondaryCol: {
+    margin: '0 10px'
   }
 }

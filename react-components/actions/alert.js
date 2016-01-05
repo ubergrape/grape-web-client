@@ -13,7 +13,7 @@ export function showAlert({level, type, closeAfter, minLifeTime = 1000, delay}) 
     payload: {
       level,
       type,
-      timeStamp: Date.now(),
+      timestamp: Date.now(),
       closeAfter,
       minLifeTime
     }
@@ -37,7 +37,7 @@ export function hideAlert(alert) {
     payload: alert
   }
 
-  const delay = Date.now() - (alert.minLifeTime + alert.timeStamp)
+  const delay = Date.now() - (alert.minLifeTime + alert.timestamp)
   const isInThePast = delay < 0
 
   if (isInThePast) {
