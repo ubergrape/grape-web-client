@@ -4,19 +4,19 @@ import {mapActionsToProps} from '../app/utils'
 import {alertsAndChannelSelector} from '../selectors'
 import actionNames from './actionNames'
 
-import AlertPicker from './AlertPicker'
+import Alerts from './Alerts'
 
-const ConnectedAlertPicker = connect(
+const ConnectedAlerts = connect(
   alertsAndChannelSelector,
   mapActionsToProps(actionNames)
-)(AlertPicker)
+)(Alerts)
 
 export default function init(store) {
-  return class AlertPickerProvider extends Component {
+  return class AlertsProvider extends Component {
     render() {
       return (
         <Provider store={store}>
-          <ConnectedAlertPicker />
+          <ConnectedAlerts />
         </Provider>
       )
     }

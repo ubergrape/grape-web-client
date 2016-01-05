@@ -8,10 +8,10 @@ import ConnectionLostAlert from './ConnectionLostAlert'
 import * as types from '../constants/alerts'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './alertPickerStyle'
+import style from './alertsStyle'
 
 @useSheet(style)
-export default class AlertPicker extends Component {
+export default class Alerts extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     alerts: PropTypes.array,
