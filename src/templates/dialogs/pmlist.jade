@@ -10,21 +10,21 @@ ul.dialog-list.pm-list
 			=_('Archived messages with deleted users')
 	each user in items
 		if mode === 'active' && user.active && !user.is_only_invited
-			li.item.pm
+			li.item
 				a(href="/chat/@" + user.username.toLowerCase())
 					aside.avatar-wrap
 						img(src="#{user.avatar}",width="28",alt="#{user.username}")
 						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 					span.user-name=user.displayName
 		if mode === 'invited' && user.is_only_invited && user.active
-			li.item.pm
+			li.item
 				a(href="/chat/@" + user.username.toLowerCase())
 					aside.avatar-wrap
 						img(src="#{user.avatar}",width="28",alt="#{user.username}")
 						.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
 					span.user-name=user.displayName
 		if mode === 'deleted' && !user.active && user.pm && user.pm.latest_message_time
-			li.item.pm.deleted
+			li.item.deleted
 				a(href="/chat/@" + user.username.toLowerCase())
 					aside.avatar-wrap
 						img(src="#{user.avatar}",width="28",alt="#{user.username}")
