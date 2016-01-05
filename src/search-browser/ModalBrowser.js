@@ -5,6 +5,15 @@ import {useSheet} from 'grape-web/lib/jss'
 import Browser from './Browser'
 import style from './modalStyle'
 
+// Those methods will lead to ModalBrowser being removed from tree,
+// however the Modal component needs to get show: false
+const proxiMethodsToHideModal = [
+  'onHide',
+  'onAbort',
+  'onSelectItem',
+  'onAddIntegration'
+]
+
 @useSheet(style)
 export default class ModalBrowser extends Component {
   static propTypes = {
@@ -15,15 +24,20 @@ export default class ModalBrowser extends Component {
   constructor(props) {
     super(props)
     this.state = {show: true}
+    this.proxyCallbacksMap = proxiMethodsToHideModal.reduce((map, method) => {
+      map[method] = this.proxyCallback.bind(this, method)
+      return map
+    }, {})
   }
 
   onHideModal() {
     this.setState({show: false})
   }
 
-  onAbortBrowser(...args) {
-    this.setState({show: false})
-    this.props.onAbort(args)
+  proxyCallback(method, ...args) {
+    this.setState({show: false}, () => {
+      this.props[method](...args)
+    })
   }
 
   render() {
@@ -37,7 +51,7 @@ export default class ModalBrowser extends Component {
         <Browser
           {...this.props}
           className={classes.browser}
-          onAbort={::this.onAbortBrowser} />
+          {...this.proxyCallbacksMap} />
       </Modal>
     )
   }

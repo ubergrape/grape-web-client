@@ -240,6 +240,7 @@ export default class Browser extends Component {
    * Keyboard navigation.
    */
   navigate(e) {
+    if (!this.props.data) return
     const {query} = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
