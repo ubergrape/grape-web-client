@@ -1,0 +1,27 @@
+- var userID = user.id
+- var unread = user.pm != undefined ? user.pm.unread : 0
+- var selectedClass = user.pm != undefined && user.pm == selected ? 'selected' : ""
+- var deletedClass = user.active ? "active" : 'deleted'
+li.channel-item(class=selectedClass, class=deletedClass, data-id=userID, key=userID)
+	a(href="/chat/@" + user.username.toLowerCase())
+		.item-inner-wrp
+			.avatar-wrap
+				if user.status === 16
+					span.online
+				else
+					span.offline
+				img(src="#{user.avatar}", alt="#{user.username}")
+				.avatar-status(class=(user.status === 16 ? 'online' : 'offline'))
+			if unread > 0
+				if unread > 99
+					span.fl-notification.is-mentioned=_('99+')
+				else
+					span.fl-notification.is-mentioned=unread.toString()
+			span.channel-name
+				| #{user.displayName}
+				if !user.active
+					span.user-deleted
+						=_('Deleted user')
+				if user.title && user.title.indexOf("Mentor") === 0
+					span.author-title-icon
+						i.fa.fa-graduation-cap

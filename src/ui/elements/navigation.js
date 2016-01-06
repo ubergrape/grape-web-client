@@ -9,6 +9,7 @@ let debounce = require('debounce')
 let resizable = require('resizable')
 let store = require('../store').prefix('navigation')
 let page = require('page')
+let moment = require('moment')
 
 module.exports = Navigation
 
@@ -17,6 +18,10 @@ function Navigation() {
   this.init()
   this.bind()
   this.ready = false
+}
+
+function getWeekAgo() {
+  return moment().subtract(1, 'w')
 }
 
 Navigation.prototype = Object.create(Emitter.prototype)
@@ -53,7 +58,7 @@ Navigation.prototype.bind = function () {
     },
     triggerPMManager: function (ev) {
       if (self.ready) self.emit('triggerPMManager')
-    },
+    }
   })
   this.events.bind('click .create-room', 'triggerRoomCreation')
   this.events.bind('click .manage-rooms-button', 'triggerRoomManager')
@@ -85,12 +90,32 @@ Navigation.prototype.pmCompare = function (a, b) {
     return getStatusValue(b) - getStatusValue(a)
 }
 
+Navigation.prototype.setProactiveItem = function (age = getWeekAgo(), item) {
+  const prop = 'latest_message_time'
+
+  let last
+  if (item.type === 'room') {
+    last = item[prop] || 0
+  } else {
+    last = item.pm ? item.pm[prop] : 0
+  }
+  item.proactive = age - last < 0
+
+  return item
+}
+
+Navigation.prototype.setProactiveList = function (list) {
+  list.forEach(this.setProactiveItem.bind(this, getWeekAgo()))
+  return list
+}
+
 Navigation.prototype.roomCompare = function (a, b) {
   return b.latest_message_time - a.latest_message_time
 }
 
 Navigation.prototype.select = function (item) {
   this.room = item
+
   if (item.type == 'pm') {
     this.roomList.selectItem(null)
     this.pmList.selectItem(item)
@@ -103,8 +128,19 @@ Navigation.prototype.select = function (item) {
 
 Navigation.prototype.redraw = function () {
   render(this.nav, template('navigation.jade'))
-  if (this.pmList) this.pmList.redraw()
-  if (this.roomList) this.roomList.redraw()
+
+  const {roomList, pmList} = this
+  if (roomList) {
+    let {items} = roomList
+    if (items) items = this.setProactiveList(items)
+    roomList.redraw()
+  }
+
+  if (pmList) {
+    let {items} = pmList
+    if (items) items = this.setProactiveList(items)
+    pmList.redraw()
+  }
 }
 
 Navigation.prototype.onNewMessage = function (line) {
@@ -115,6 +151,7 @@ Navigation.prototype.onNewMessage = function (line) {
 
   list.items.splice(itemIndex, 1)
   list.items.unshift(item)
+  list.items = this.setProactiveList(list.items)
   list.redraw()
 }
 
@@ -122,6 +159,7 @@ Navigation.prototype.deleteRoom = function (room) {
   let newRoomIndex = this.roomList.items.indexOf(room)
   if (newRoomIndex === -1) return
   this.roomList.items.splice(newRoomIndex, 1)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
   if (this.room === room) page.replace('/chat/')
 }
@@ -131,6 +169,7 @@ Navigation.prototype.onChannelRead = function () {
 }
 
 Navigation.prototype.onChannelUpdate = function () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
@@ -145,16 +184,19 @@ Navigation.prototype.onJoinedChannel = function (room) {
   let joinedRoomIndex = this.roomList.items.indexOf(room)
   if (joinedRoomIndex > -1) return
   this.roomList.items.push(room)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onLeftChannel = function (room) {
   let newRoomIndex = this.roomList.items.indexOf(room)
   this.roomList.items.splice(newRoomIndex, 1)
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onUserMention = function () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
@@ -163,10 +205,12 @@ Navigation.prototype.onChannelRead = function Navigation_onChannelRead () {
 }
 
 Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
+  this.roomList.items = this.setProactiveList(this.roomList.items)
   this.roomList.redraw()
 }
 
 Navigation.prototype.onDeletedUser = function() {
+  this.pmList.items = this.setProactiveList(this.pmList.items)
   this.pmList.redraw()
   this.pmListCollapsed.redraw()
 }
@@ -176,7 +220,11 @@ Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
   const pms = org.users.filter(user => {
     return user != window.ui.user && user.active && !user.is_only_invited
   })
-  this.setLists({rooms: rooms, pms: pms})
+
+  this.setLists({
+    rooms: this.setProactiveList(rooms),
+    pms: this.setProactiveList(pms)
+  })
   this.nav.user = window.ui.user
 
   // we need this redraw for the organization logo

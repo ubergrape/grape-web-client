@@ -6,6 +6,7 @@ import staticurl from 'staticurl'
 export default new Model([
     'logo',
     'role',
+    'title', // custom title for the current user in this org
     'custom_emojis',
     'has_integrations',
     'inviter_role',

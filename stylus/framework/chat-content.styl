@@ -155,6 +155,9 @@
 		color: #b3b3b3
 	.message-author
 		display: inline
+		text-transform: capitalize
+		color: #666
+		font-weight: 600
 	.author-title
 		background-color: #B3AEBA
 		padding: 2px 4px
@@ -481,10 +484,14 @@ span.author-deleted
 		color: gainsboro-dark
 	pre
 		color: grape-typo
+		& code
+			overflow: auto
+			word-break: initial
+			// Fix hidden scroll bar when overflow
+			transform: translateZ(0)
 
 	code
 		display: inline-block
-		overflow: auto
 		max-width: 100%
 		padding: 0 4px
 		word-wrap: normal
@@ -492,8 +499,8 @@ span.author-deleted
 		border: 1px solid gainsboro-light
 		border-radius: main-border-radius
 		background: white
-		// Fix hidden scroll bar when overflow
-		transform: translateZ(0)
+		word-break: break-all
+
 	.warning-unsent
 		color: gainsboro-light
 		&:before

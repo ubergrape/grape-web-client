@@ -22,9 +22,12 @@
 		padding: 0px
 		background: #EBEEF3
 	.nav-wrap-out
-		margin-top: 56px
-		height: 100vh
-		overflow-y: auto
+		position absolute
+		left 0
+		top 56px
+		right 0
+		bottom 0
+		overflow-y auto
 .nav-outer
 	min-width: 200px
 	width: client-navigation-width
@@ -342,8 +345,56 @@ a.nav-title-wrap
 .nav-list.pms
 	padding: 0 10px 0 0
 
+.inactive
+	position relative
+	clear both
+
+.inactive-show,
+.inactive-hide
+	display inline-block
+	cursor pointer
+	color #ABB0B9
+	text-transform uppercase
+	font-size 0.925em;
+	padding-left 20px
+	margin-top 10px
+	transition color 0.3s
+
+	.mdi
+		margin-left 3px
+		margin-top 3px
+		opacity 0
+		transition opacity 0.3s
+
+	&:hover
+		color link-color-hover
+
+		& .mdi
+			opacity 1
+
+.inactive-hide
+	display none
+
+.inactive-toggler
+	position absolute
+	visibility hidden
+
+	& ~ .inactive-list
+		display none
+
+	&:checked
+		& ~ .inactive-list
+			display block
+
+		& ~ .inactive-hide
+			display inline-block
+
+		& ~ .inactive-show
+			display none
+
 .invite-list
 	margin-bottom: 8px
+
 	.channel-item
 		border-radius: 4px
 		margin-bottom: 3px
