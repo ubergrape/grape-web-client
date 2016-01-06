@@ -26,7 +26,6 @@ export default {
   },
   rightColumn: {
     flex: 4,
-    display: 'flex',
     minWidth: 256,
     maxWidth: 384,
     overflowX: 'hidden',
