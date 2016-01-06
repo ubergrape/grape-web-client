@@ -5,6 +5,7 @@ export default {
   border: 'none',
   margin: 0,
   padding: 0,
+  outline: 'none',
   // XXX
   color: '#0080ff !important',
   '&:hover': {

@@ -3,7 +3,7 @@ import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
 import defaultButton from '../button/default'
-import link from '../button/link'
+import inlineLink from '../button/inlineLink'
 
 export default {
   actionButton: {
@@ -23,12 +23,8 @@ export default {
     background: color(webColors.alertDanger).lighten(0.7).hexString()
   },
   buttonLink: {
-    ...link,
-    fontSize: 'inherit',
-    outline: 'none',
-    color: 'inherit',
+    ...inlineLink,
     opacity: 0.8,
-    textAlign: 'left',
     '&:hover': {
       textDecoration: 'underline !important'
     }
