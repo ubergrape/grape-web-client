@@ -50,12 +50,13 @@ export default {
   },
   metaRow: {
     display: 'flex',
-    padding: '4px 0',
-    borderBottom: '1px solid ' + colors.silverDark
+    padding: '4px 0'
   },
   metaLabel: {
     flex: '1 0 0%',
-    color: colors.gainsboroDark
+    color: colors.gainsboroDark,
+    textAlign: 'right',
+    marginRight: 10
   },
   metaValue: {
     flex: '2 0 0%'
