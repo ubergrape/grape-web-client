@@ -249,7 +249,6 @@ export default class Browser extends Component {
    */
   navigate(e) {
     if (!this.props.data) return
-    const {query} = e.detail
     switch (keyname(e.keyCode)) {
       case 'down':
         this.focusItem('next')
@@ -265,13 +264,6 @@ export default class Browser extends Component {
         break
       case 'enter':
         this.onSelectItem()
-        e.preventDefault()
-        break
-      case 'esc':
-        this.onAbort({
-          reason: 'esc',
-          query
-        })
         e.preventDefault()
         break
       default:

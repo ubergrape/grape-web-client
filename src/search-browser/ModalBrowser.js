@@ -24,17 +24,17 @@ export default class ModalBrowser extends Component {
   constructor(props) {
     super(props)
     this.state = {show: true}
-    this.proxyCallbacksMap = proxiMethodsToHideModal.reduce((map, method) => {
-      map[method] = this.proxyCallback.bind(this, method)
+    this.callbacks = proxiMethodsToHideModal.reduce((map, method) => {
+      map[method] = this.hideAndCallMethod.bind(this, method)
       return map
     }, {})
   }
 
   onHideModal() {
-    this.setState({show: false})
+    this.hideAndCallMethod('onAbort', {reason: 'escOrOverlayClick'})
   }
 
-  proxyCallback(method, ...args) {
+  hideAndCallMethod(method, ...args) {
     this.setState({show: false}, () => {
       this.props[method](...args)
     })
@@ -50,8 +50,8 @@ export default class ModalBrowser extends Component {
         onHide={::this.onHideModal}>
         <Browser
           {...this.props}
-          className={classes.browser}
-          {...this.proxyCallbacksMap} />
+          {...this.callbacks}
+          className={classes.browser} />
       </Modal>
     )
   }
