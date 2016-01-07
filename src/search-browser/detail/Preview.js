@@ -1,22 +1,35 @@
 import React, {Component, PropTypes} from 'react'
 import ImagesLoader from 'images-loader'
 import {shouldPureComponentUpdate} from 'react-pure-render'
+import pick from 'lodash/object/pick'
 
-import {useSheet} from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import style from './previewStyle'
 
 const loader = new ImagesLoader()
+
+const stringOrNumber = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number
+])
 
 /**
  * Preview image with loading indication.
  */
-@useSheet(style)
 export default class Preview extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
     spinner: PropTypes.string,
-    image: PropTypes.string
+    image: PropTypes.string,
+    maxWidth: stringOrNumber,
+    maxHeight: stringOrNumber,
+    height: stringOrNumber,
+    width: stringOrNumber
+  }
+
+  static defaultProps = {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    height: 'auto',
+    width: 'auto'
   }
 
   constructor(props) {
@@ -51,7 +64,6 @@ export default class Preview extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
     const {error} = this.state
 
     if (this.state.loading && !error) {
@@ -60,6 +72,7 @@ export default class Preview extends Component {
 
     // TODO maybe show an error image.
     const image = error ? ImagesLoader.emptyGif : this.props.image
-    return <img src={image} className={classes.preview} />
+    const style = pick(this.props, 'width', 'height', 'maxWidth', 'maxHeight')
+    return <img src={image} style={style} />
   }
 }

@@ -17,8 +17,7 @@ export default class Detail extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     data: PropTypes.object,
-    images: PropTypes.object,
-    headerHeight: PropTypes.number
+    images: PropTypes.object
   }
 
   static defaultProps = {
@@ -80,7 +79,13 @@ export default class Detail extends Component {
 
     return (
       <div className={classes.detail}>
-        {previewUrl && <Preview image={previewUrl} spinner={images.spinner} />}
+        {previewUrl && (
+          <div className={classes.previewContainer}>
+            <Preview
+              image={previewUrl}
+              spinner={images.spinner} />
+          </div>
+        )}
         {this.renderMain()}
         {this.renderMeta()}
       </div>

@@ -8,6 +8,13 @@ export default {
   detail: {
     flex: 1
   },
+  previewContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: colors.silverLight,
+    height: 128
+  },
   article: {
     position: 'relative',
     display: 'flex',
