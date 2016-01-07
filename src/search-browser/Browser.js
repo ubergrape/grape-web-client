@@ -36,9 +36,9 @@ export default class Browser extends Component {
     data: PropTypes.object,
     maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
-    inputDelay: PropTypes.number,
     focused: PropTypes.bool,
     isExternal: PropTypes.bool,
+    externalServicesInputDelay: PropTypes.number,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
@@ -52,7 +52,7 @@ export default class Browser extends Component {
     isExternal: false,
     isLoading: false,
     canAddIntegrations: false,
-    inputDelay: 500,
+    externalServicesInputDelay: 500,
     onAddIntegration: noop,
     onSelectItem: noop,
     onSelectFilter: noop,
@@ -124,7 +124,9 @@ export default class Browser extends Component {
       search: query.search,
       filters: query.filters
     }, () => {
-      const {inputDelay, onInput} = this.props
+      const {onInput} = this.props
+      const {inputDelay} = this.state
+
       if (!inputDelay) return onInput(query)
       clearTimeout(this.onInputTimeoutId)
       this.onInputTimeoutId = setTimeout(onInput.bind(null, query), inputDelay)
@@ -176,10 +178,13 @@ export default class Browser extends Component {
   createState(props) {
     const {data} = props
 
+    const inputDelay = props.isExternal ? props.externalServicesInputDelay : undefined
+
     if (!data) {
       return {
         sections: [],
-        tabs: []
+        tabs: [],
+        inputDelay
       }
     }
 
@@ -195,8 +200,6 @@ export default class Browser extends Component {
     )
 
     const tabs = dataUtils.getTabs(data.services, serviceId)
-
-    const inputDelay = props.isExternal ? props.inputDelay : undefined
 
     return {sections, tabs, inputDelay}
   }
