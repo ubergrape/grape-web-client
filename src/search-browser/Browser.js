@@ -274,15 +274,6 @@ export default class Browser extends Component {
         })
         e.preventDefault()
         break
-      case 'backspace':
-        if (!query.key) {
-          this.onAbort({
-            reason: 'backspace',
-            query
-          })
-          e.preventDefault()
-        }
-        break
       default:
     }
   }
