@@ -139,16 +139,18 @@ export default class GrapeInput extends Emitter {
   showSearchBrowser(key) {
     const {props} = this.input
     let isLoading = false
+    let data
 
     if (key) {
       this.searchDebounced(key)
       isLoading = true
+      data = props.data
     }
 
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
-      data: props.browser === 'search' ? props.data : null,
+      data,
       isLoading
     })
   }
