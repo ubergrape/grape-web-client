@@ -176,7 +176,12 @@ export default class Browser extends Component {
   createState(props) {
     const {data} = props
 
-    if (!data) return {}
+    if (!data) {
+      return {
+        sections: [],
+        tabs: []
+      }
+    }
 
     let serviceId
     if (this.state && this.state.filters) {
@@ -327,6 +332,7 @@ export default class Browser extends Component {
     const inlineStyle = {
       height: content ? this.props.height : 'auto'
     }
+
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
