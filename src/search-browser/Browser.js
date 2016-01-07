@@ -32,7 +32,6 @@ export default class Browser extends Component {
     onSelectItem: PropTypes.func,
     onInput: PropTypes.func,
     onAbort: PropTypes.func,
-    onBlur: PropTypes.func,
     data: PropTypes.object,
     maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
@@ -330,7 +329,6 @@ export default class Browser extends Component {
           <Input
             onInput={::this.onInput}
             onChangeFilters={this.props.onSelectFilter}
-            onBlur={this.props.onBlur}
             onKeyDown={::this.onKeyDown}
             focused={this.props.focused}
             filters={this.state.filters}

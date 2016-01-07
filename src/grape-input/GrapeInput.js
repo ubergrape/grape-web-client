@@ -354,7 +354,6 @@ export default class Input extends Component {
           onSelectFilter={::this.onSelectSearchBrowserFilter}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onInput={::this.onInputSearchBrowser}
-          onBlur={::this.onBlurBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
