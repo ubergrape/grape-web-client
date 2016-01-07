@@ -35,8 +35,8 @@ export default class Detail extends Component {
 
     return (
       <div className={classes.article}>
-        {iconUrl && <img src={iconUrl} className={classes.icon} />}
-        <div>
+        {iconUrl && <img src={iconUrl} className={classes.articleIcon} />}
+        <div className={classes.articleBody}>
           {title && <h2 className={classes.title}>{title}</h2>}
           {subtitle && <h3 className={classes.subtitle}>{subtitle}</h3>}
           {description && <p className={classes.description}>{description}</p>}

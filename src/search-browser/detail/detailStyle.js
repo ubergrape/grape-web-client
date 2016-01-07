@@ -18,16 +18,18 @@ export default {
   article: {
     position: 'relative',
     display: 'flex',
-    justifyContent: 'center',
     borderBottom: '1px solid ' + colors.silverDark,
     padding: 20,
     paddingBottom: 10
   },
-  icon: {
+  articleIcon: {
     height: leftColumnWidth,
     width: leftColumnWidth,
     flexShrink: 0,
     marginRight: columnMarginRight
+  },
+  articleBody: {
+    flex: 1
   },
   title: {
     ...fonts.big,
