@@ -15,7 +15,8 @@ const info = {
 
 const header = {
   background: 'center no-repeat',
-  backgroundSize: 'auto 80%'
+  backgroundSize: 'auto 80%',
+  height: 128
 }
 
 export default {

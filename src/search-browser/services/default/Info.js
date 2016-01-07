@@ -25,7 +25,7 @@ export default class Info extends Component {
     hasIntegrations: false,
     orgName: 'Organisation',
     orgOwner: 'org owner',
-    headerHeight: undefined,
+    headerHeight: 128,
     images: undefined,
     onAddIntegration: undefined
   }
@@ -51,7 +51,6 @@ export default class Info extends Component {
     }
 
     const headerStyle = {
-      height: this.props.headerHeight + 'px',
       backgroundImage: `url(${images.traubyReading})`
     }
 
