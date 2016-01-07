@@ -5,6 +5,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
 import Preview from './Preview'
+import Empty from './DetailEmpty'
 import style from './detailStyle'
 import * as utils from './utils'
 
@@ -22,44 +23,25 @@ export default class Detail extends Component {
 
   static defaultProps = {
     data: {},
-    headerHeight: undefined,
-    images: undefined
+    images: {}
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  renderHeader() {
+  renderMain() {
     const {classes} = this.props.sheet
-    const {data} = this.props
-    const previewUrl = get(data, 'preview.image.url')
-    const {iconUrl} = data
+    const {iconUrl, title, subtitle, description} = this.props.data
 
-    if (!previewUrl && !iconUrl) return null
-
-    let image
-
-    if (previewUrl) {
-      image = <Preview image={previewUrl} spinner={this.props.images.spinner} />
-    } else {
-      image = <img src={iconUrl} className={classes.icon}/>
-    }
+    if (!title && !subtitle && !description) return null
 
     return (
-      <header
-        className={classes.header}
-        style={{height: this.props.headerHeight}}>
-        {image}
-      </header>
-    )
-  }
-
-  renderEmpty() {
-    const {classes} = this.props.sheet
-
-    return (
-      <div className={`${classes.detail} ${classes.empty}`}>
-        <img src={this.props.images.noDetail} />
-        <span className={classes.emptyNote}>No Detail Infos for this Item</span>
+      <div className={classes.article}>
+        {iconUrl && <img src={iconUrl} className={classes.icon} />}
+        <div>
+          {title && <h2 className={classes.title}>{title}</h2>}
+          {subtitle && <h3 className={classes.subtitle}>{subtitle}</h3>}
+          {description && <p className={classes.description}>{description}</p>}
+        </div>
       </div>
     )
   }
@@ -90,19 +72,17 @@ export default class Detail extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {data} = this.props
+    const {data, images} = this.props
 
-    if (isEmpty(data)) return this.renderEmpty()
+    if (isEmpty(data)) return <Empty images={images} />
+
+    const previewUrl = get(data, 'preview.image.url')
 
     return (
       <div className={classes.detail}>
-        {this.renderHeader()}
-        <div className={classes.body}>
-          <h2 className={classes.title}>{data.title}</h2>
-          <h3 className={classes.subtitle}>{data.subtitle}</h3>
-          <p className={classes.description}>{data.description}</p>
-          {this.renderMeta()}
-        </div>
+        {previewUrl && <Preview image={previewUrl} spinner={images.spinner} />}
+        {this.renderMain()}
+        {this.renderMeta()}
       </div>
     )
   }

@@ -18,10 +18,6 @@ export default class Default extends Component {
     focusedItem: PropTypes.object
   }
 
-  static defaultProps = {
-    headerHeight: 128
-  }
-
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {

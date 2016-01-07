@@ -24,6 +24,14 @@ window.searchData = {
       'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
     },
     {
+      'count': 1,
+      'search': 'gif:plan',
+      'id': 'giphy',
+      'key': 'gif',
+      'label': 'Giphy'
+    },
+
+    {
       'hidden': true,
       'count': 1,
       'id': 'filters',
@@ -58,18 +66,9 @@ window.searchData = {
       'type': 'file',
       'id': '8b37ec07b198be90e8086e1065821492',
       'detail': {
-        // 'title' can be the same as 'name' but can be longer maybe?
         'title': '#450 Disconnecting from GitHub gives blank page',
         'subtitle': 'Stefan created this issue on 4. Jan',
-        'description': 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.',
-        'preview': {
-          'image': {
-            'url': '../images/1.jpg',
-            'width': 1024,
-            'height': 768
-          }
-        },
-
+        'description': 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         // service specific stuff:
         'meta': [
           {
@@ -120,6 +119,80 @@ window.searchData = {
             'value': '2014-11-18T11:03:48.320477+00:00'
           }
         ]
+      }
+    },
+    {
+      'container': 'Giphy',
+      'name': 'Giphy image',
+      'service': 'giphy',
+      'highlighted': 'My funny <b>pic</b> a',
+      'connection': 80,
+      'eid': '0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZjd',
+      'indexed': '2014-12-02T09:42:27.947930',
+      'organization': 1,
+      'type': 'image',
+      'id': '8b37ec07b198be90e8086e10658214923',
+      'detail': {
+        'title': '#450 Disconnecting from GitHub gives blank page',
+        'subtitle': 'Stefan created this issue on 4. Jan',
+        'description': 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
+        // service specific stuff:
+        'meta': [
+          {
+            'label': 'Rating',
+            'value': 4,
+            'unit': 5,
+            'format': 'stars',
+          },
+          {
+            'label': 'State',
+            'value': 'open',
+            'format': 'string',
+          },
+          {
+            'label': 'Length',
+            'value': 12.40,
+            'unit': 'meters',
+            'format': 'number'
+          },
+          {
+            'label': 'Blah',
+            'value': 'blah blah blah',
+            'format': 'string'
+          },
+          {
+            'label': 'Views',
+            'value': 123123,
+            'format': 'number'
+          },
+          {
+            'label': 'Modified',
+            'value': '2014-11-18T11:03:48.320477+00:00'
+          },
+          {
+            'label': 'Start',
+            'value': '2014-11-18T11:03:48.320477+00:00'
+          },
+          {
+            'label': 'End',
+            'value': '2014-11-18T11:03:48.320477+00:00'
+          },
+          {
+            'label': 'Due',
+            'value': '2014-11-18T11:03:48.320477+00:00'
+          },
+          {
+            'label': 'Time taken',
+            'value': '2014-11-18T11:03:48.320477+00:00'
+          }
+        ],
+        'preview': {
+          'image': {
+            'url': '../images/1.jpg',
+            'width': 1024,
+            'height': 768
+          }
+        }
       }
     },
     {

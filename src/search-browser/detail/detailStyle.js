@@ -1,24 +1,26 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
+const columnMarginRight = 10
+const leftColumnWidth = 60
+
 export default {
   detail: {
     flex: 1
   },
-  header: {
+  article: {
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    background: colors.silverLight,
-    borderBottom: '1px solid ' + colors.silverDark
+    borderBottom: '1px solid ' + colors.silverDark,
+    padding: 20,
+    paddingBottom: 10
   },
   icon: {
-    height: 64,
-    width: 64
-  },
-  body: {
-    padding: 15
+    height: leftColumnWidth,
+    width: leftColumnWidth,
+    flexShrink: 0,
+    marginRight: columnMarginRight
   },
   title: {
     ...fonts.big,
@@ -30,35 +32,26 @@ export default {
     color: colors.gainsboroDark
   },
   description: {
+    ...fonts.small,
     margin: '0 0 10px 0'
   },
-  empty: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.silverLight
-  },
-  emptyNote: {
-    marginTop: 16,
-    width: '50%',
-    color: colors.gainsboroDark,
-    textAlign: 'center'
-  },
   metaContainer: {
-    borderTop: '1px solid ' + colors.silverDark
+    padding: 20,
+    paddingTop: 10
   },
   metaRow: {
     display: 'flex',
-    padding: '4px 0'
+    padding: '2px 0'
   },
   metaLabel: {
-    flex: '1 0 0%',
+    ...fonts.small,
     color: colors.gainsboroDark,
     textAlign: 'right',
-    marginRight: 10
+    marginRight: columnMarginRight,
+    width: leftColumnWidth
   },
   metaValue: {
+    ...fonts.small,
     flex: '2 0 0%'
   }
 }

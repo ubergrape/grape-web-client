@@ -9,7 +9,7 @@ import style from './previewStyle'
 const loader = new ImagesLoader()
 
 /**
- * Detail view for objects.
+ * Preview image with loading indication.
  */
 @useSheet(style)
 export default class Preview extends Component {

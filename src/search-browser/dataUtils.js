@@ -108,7 +108,7 @@ export const getSections = (() => {
         section.items.length < limitPerSection ||
         result.service === 'filters') {
         if (!result.detail) result.detail = {}
-        result.detail.iconUrl = service.icon_url
+        if (service.icon_url) result.detail.iconUrl = service.icon_url
         section.items.push({
           id: result.id,
           type: result.type,
