@@ -27,6 +27,22 @@ export default class Detail extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  renderPreview() {
+    const {classes} = this.props.sheet
+    const {data, images} = this.props
+    const previewUrl = get(data, 'preview.image.url')
+
+    if (!previewUrl) return null
+
+    return (
+      <div className={classes.previewContainer}>
+        <Preview
+          image={previewUrl}
+          spinner={images.spinner} />
+      </div>
+    )
+  }
+
   renderMain() {
     const {classes} = this.props.sheet
     const {iconUrl, title, subtitle, description} = this.props.data
@@ -75,17 +91,9 @@ export default class Detail extends Component {
 
     if (isEmpty(data)) return <Empty images={images} />
 
-    const previewUrl = get(data, 'preview.image.url')
-
     return (
       <div className={classes.detail}>
-        {previewUrl && (
-          <div className={classes.previewContainer}>
-            <Preview
-              image={previewUrl}
-              spinner={images.spinner} />
-          </div>
-        )}
+        {this.renderPreview()}
         {this.renderMain()}
         {this.renderMeta()}
       </div>
