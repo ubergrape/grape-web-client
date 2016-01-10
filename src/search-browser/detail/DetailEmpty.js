@@ -9,7 +9,7 @@ import style from './detailEmptyStyle'
 @useSheet(style)
 export default class DetailEmpty extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
     images: PropTypes.object
   }
 

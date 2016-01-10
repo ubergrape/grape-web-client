@@ -6,6 +6,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 import Preview from './Preview'
 import Empty from './DetailEmpty'
+import Actions from './Actions'
 import style from './detailStyle'
 import * as utils from './utils'
 
@@ -15,7 +16,7 @@ import * as utils from './utils'
 @useSheet(style)
 export default class Detail extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
     data: PropTypes.object,
     images: PropTypes.object
   }
@@ -96,6 +97,7 @@ export default class Detail extends Component {
         {this.renderPreview()}
         {this.renderMain()}
         {this.renderMeta()}
+        <Actions />
       </div>
     )
   }
