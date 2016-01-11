@@ -72,10 +72,9 @@
 	color: #666
 	width: 100%
 	height: header-height
-	display: table
-	position: absolute
-	top: 0px
-	left: 0px
+	display: flex
+	align-items: center
+	position: relative
 	.org-topbar
 		width: 100%
 		position: absolute
@@ -111,7 +110,6 @@
 				opacity: 0.2
 
 		.toggle-sidebar-icon
-			display: none
 			position: absolute
 			left: 9px
 			top: 33px
@@ -126,11 +124,10 @@
 			&:hover
 				color: rgba(255, 255, 255, 1)
 	.org-logo-name
-		display: table-cell
 		position: relative
-		vertical-align: middle
-		padding: 2px 50px 0 60px
+		padding: 0 50px 0 60px
 		overflow: hidden
+
 		line-height: 1.2
 		color: #333
 		img
@@ -139,7 +136,7 @@
 			top: 50%
 			height: 32px
 			width: 32px
-			transform: translateY(-50%)
+			margin-top -16px
 			border-radius: 50%
 		.org-name
 			display: block
