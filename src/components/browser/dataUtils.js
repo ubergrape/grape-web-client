@@ -23,7 +23,7 @@ function getItem(sections, fn) {
 /**
  * Get item by id.
  */
-function getItemById(sections, id) {
+export function getItemById(sections, id) {
   return getItem(sections, item => item.id === id)
 }
 

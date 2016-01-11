@@ -1,1 +1,1 @@
-export searchInput from './searchInput'
+export searchBrowser from './searchBrowser'

@@ -1,11 +1,13 @@
 import find from 'lodash/collection/find'
-import * as dataUtils from '../browser/dataUtils'
+import findIndex from 'lodash/array/findIndex'
 
-export const {getFocusedItem} = dataUtils
-export const {setFocusedItem} = dataUtils
-export const {unsetFocusedItem} = dataUtils
-export const {extractItems} = dataUtils
-export const {setSelectedTab} = dataUtils
+import * as types from '../constants/actionTypes'
+import {
+  getFocusedItem,
+  setFocusedItem,
+  unsetFocusedItem,
+  extractItems
+} from '../components/browser/dataUtils'
 
 let {warn} = console
 warn = warn.bind(console)
@@ -21,7 +23,7 @@ const serviceIconMap = {
   filters: 'search'
 }
 
-export function findById(collection, id) {
+function findById(collection, id) {
   return find(collection, item => item.id === id)
 }
 
@@ -43,7 +45,7 @@ export function findById(collection, id) {
  *   ]
  * }
  */
-export const getSections = (() => {
+const getSections = (() => {
   /**
    * Generate data for queries section.
    */
@@ -133,14 +135,14 @@ export const getSections = (() => {
 /**
  * Get a section which is currently selected.
  */
-export function getSelectedSection(sections) {
+function getSelectedSection(sections) {
   return find(sections, section => section.selected)
 }
 
 /**
  * Mark section as selected. Unmark previously selected one.
  */
-export function setSelectedSection(sections, id) {
+function setSelectedSection(sections, id) {
   const curr = getSelectedSection(sections)
   if (curr) curr.selected = false
   if (id) {
@@ -152,7 +154,7 @@ export function setSelectedSection(sections, id) {
 /**
  * Mark an item as focused. Unmark previously focused one.
  */
-export function setFocusedItemAt(sections, id, index) {
+function setFocusedItemAt(sections, id, index) {
   if (!sections.length) return
   unsetFocusedItem(sections)
   // Take first id when nothing passed.
@@ -163,7 +165,7 @@ export function setFocusedItemAt(sections, id, index) {
 /**
  * Get data for tabs representation.
  */
-export function getTabs(items = [], serviceId) {
+function getTabs(items = [], serviceId) {
   if (!items.length) return items
 
   const visibleItems = items.filter(item => !item.hidden && item.count !== undefined)
@@ -192,10 +194,91 @@ export function getTabs(items = [], serviceId) {
 /**
  * Get service id from the data using filters array.
  */
-export function filtersToServiceId({services = []}, filters = []) {
+function filtersToServiceId({services = []}, filters = []) {
   if (filters[0]) {
     const service = find(services, ({key}) => key === filters[0])
     if (service) return service.id
   }
   return ''
+}
+
+/**
+ * Returns a new state with focused item according selector.
+ */
+function focusItem(state, selector) {
+  let id
+  const newState = {...state}
+  const {sections} = state
+
+  if (selector === 'next' || selector === 'prev') {
+    const selectedSection = getSelectedSection(sections)
+    const items = selectedSection ? selectedSection.items : extractItems(sections)
+    const focusedIndex = findIndex(items, item => item.focused)
+    let newItem
+
+    if (selector === 'next') {
+      newItem = items[focusedIndex + 1]
+      if (!newItem) newItem = items[0]
+    } else if (selector === 'prev') {
+      newItem = items[focusedIndex - 1]
+      if (!newItem) newItem = items[items.length - 1]
+    }
+
+    id = newItem.id
+  } else id = selector
+
+  if (id) {
+    setFocusedItem(sections, id)
+    newState.sections = [...sections]
+  }
+
+  return newState
+}
+
+function createState(props, state) {
+  const {data} = props
+
+  const inputDelay = props.isExternal ? props.externalServicesInputDelay : undefined
+
+  if (!data) {
+    return {
+      ...props,
+      sections: [],
+      tabs: [],
+      inputDelay
+    }
+  }
+
+  let serviceId
+  if (state && state.filters) {
+    serviceId = filtersToServiceId(data, state.filters)
+  }
+
+  let sections = getSections(
+    data,
+    serviceId,
+    props.maxItemsPerSectionInAll
+  )
+
+  const selectedSection = getSelectedSection(sections)
+  if (selectedSection) sections = [selectedSection]
+
+  const tabs = getTabs(data.services, serviceId)
+
+  const focusedItem = getFocusedItem(sections)
+
+  return {...props, sections, tabs, inputDelay, focusedItem}
+}
+
+const initialState = {}
+
+export default function reduce(state = initialState, action) {
+  switch (action.type) {
+    case types.CREATE_SEARCH_BROWSER_STATE:
+      return createState(action.payload.props, state)
+    case types.FOCUS_SEARCH_BROWSER_ITEM:
+      return focusItem(state, action.payload.selector)
+    default:
+      return state
+  }
 }

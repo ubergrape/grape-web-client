@@ -1,4 +1,4 @@
-import SearchBrowser from './components/search-browser/Browser'
+import SearchBrowser from './components/search-browser/SearchBrowser'
 export {SearchBrowser as SearchBrowser}
 
 import EmojiBrowser from './components/emoji-browser/Browser'

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 
 import {useSheet} from 'grape-web/lib/jss'
-import Browser from './Browser'
+import SearchBrowser from './SearchBrowser'
 import style from './modalStyle'
 
 // Those methods will lead to ModalBrowser being removed from tree,
@@ -15,7 +15,7 @@ const proxiMethodsToHideModal = [
 ]
 
 @useSheet(style)
-export default class ModalBrowser extends Component {
+export default class SearchBrowserModal extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onAbort: PropTypes.func
@@ -48,7 +48,7 @@ export default class ModalBrowser extends Component {
         className={classes.modal}
         backdropClassName={classes.backdrop}
         onHide={::this.onHideModal}>
-        <Browser
+        <SearchBrowser
           {...this.props}
           {...this.callbacks}
           className={classes.browser} />

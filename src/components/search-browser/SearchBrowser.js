@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import findIndex from 'lodash/array/findIndex'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
@@ -12,12 +11,8 @@ import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../empty/Empty'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-// import Input from '../search-input/SearchInputProvider'
 import Input from '../input/Input'
 import * as services from './services'
-import * as dataUtils from './dataUtils'
-import buildQuery from '../query/build'
-import {TYPES as QUERY_TYPES} from '../query/constants'
 
 const PUBLIC_METHODS = ['selectTab', 'focusItem', 'getFocusedItem']
 
@@ -33,7 +28,11 @@ export default class Browser extends Component {
     onSelectItem: PropTypes.func,
     onInput: PropTypes.func,
     onAbort: PropTypes.func,
+    focusSearchBrowserItem: PropTypes.func,
+    selectSearchBrowserItem: PropTypes.func,
+    focusedItem: PropTypes.func,
     data: PropTypes.object,
+    sections: PropTypes.array,
     maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
     focused: PropTypes.bool,
@@ -42,7 +41,10 @@ export default class Browser extends Component {
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    tabs: PropTypes.array,
+    search: PropTypes.string,
+    filters: PropTypes.array
   }
 
   static defaultProps = {
@@ -64,7 +66,6 @@ export default class Browser extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.createState(this.props)
     this.exposePublicMethods()
   }
 
@@ -72,43 +73,16 @@ export default class Browser extends Component {
     this.props.onDidMount(this)
   }
 
-  componentWillReceiveProps(props) {
-    this.setState(this.createState(props))
-  }
-
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onFocusItem({id}) {
-    this.focusItem(id)
+    this.props.focusSearchBrowserItem(id)
   }
 
   onSelectItem({id} = {}) {
-    if (id) this.focusItem(id)
-    const item = this.getFocusedItem()
-    const trigger = QUERY_TYPES.search
-
-    if (item.type === 'filters') {
-      const service = dataUtils.findById(this.props.data.services, item.id)
-      const filters = service ? [service.key] : []
-      this.setState({
-        search: '',
-        filters
-      })
-      const query = buildQuery({trigger, filters})
-      this.props.onSelectFilter(query)
-      return
-    }
-
-    const query = buildQuery({
-      trigger,
-      filters: this.state.filters,
-      search: this.state.search
-    })
-
     // After selection we don't care about scheduled inputs.
     clearTimeout(this.onInputTimeoutId)
-
-    this.props.onSelectItem({item, query})
+    this.props.selectSearchBrowserItem(id)
   }
 
   onSelectTab({id}) {
@@ -116,7 +90,26 @@ export default class Browser extends Component {
   }
 
   onKeyDown(e) {
-    this.navigate(e)
+    if (!this.props.data) return
+    switch (keyname(e.keyCode)) {
+      case 'down':
+        this.props.focusSearchBrowserItem('next')
+        e.preventDefault()
+        break
+      case 'up':
+        this.props.focusSearchBrowserItem('prev')
+        e.preventDefault()
+        break
+      case 'tab':
+        this.selectTab(e.shiftKey ? 'prev' : 'next')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.onSelectItem()
+        e.preventDefault()
+        break
+      default:
+    }
   }
 
   onInput(query) {
@@ -145,63 +138,7 @@ export default class Browser extends Component {
   }
 
   getFocusedItem() {
-    return dataUtils.getFocusedItem(this.state.sections)
-  }
-
-  focusItem(selector) {
-    const {sections} = this.state
-    let id
-
-    if (selector === 'next' || selector === 'prev') {
-      const selectedSection = dataUtils.getSelectedSection(sections)
-      const items = selectedSection ? selectedSection.items : dataUtils.extractItems(sections)
-      const focusedIndex = findIndex(items, item => item.focused)
-      let newItem
-
-      if (selector === 'next') {
-        newItem = items[focusedIndex + 1]
-        if (!newItem) newItem = items[0]
-      } else if (selector === 'prev') {
-        newItem = items[focusedIndex - 1]
-        if (!newItem) newItem = items[items.length - 1]
-      }
-
-      id = newItem.id
-    } else id = selector
-
-    if (id) {
-      dataUtils.setFocusedItem(sections, id)
-      this.setState({sections: [...sections]})
-    }
-  }
-
-  createState(props) {
-    const {data} = props
-
-    const inputDelay = props.isExternal ? props.externalServicesInputDelay : undefined
-
-    if (!data) {
-      return {
-        sections: [],
-        tabs: [],
-        inputDelay
-      }
-    }
-
-    let serviceId
-    if (this.state && this.state.filters) {
-      serviceId = dataUtils.filtersToServiceId(data, this.state.filters)
-    }
-
-    const sections = dataUtils.getSections(
-      data,
-      serviceId,
-      props.maxItemsPerSectionInAll
-    )
-
-    const tabs = dataUtils.getTabs(data.services, serviceId)
-
-    return {sections, tabs, inputDelay}
+    // return dataUtils.getFocusedItem(this.props.sections)
   }
 
   /**
@@ -209,6 +146,7 @@ export default class Browser extends Component {
    *
    * @param {String} id can be item id or "prev" or "next"
    */
+  /*
   selectTab(selector) {
     const {tabs} = this.state
     const currIndex = findIndex(tabs, tab => tab.selected)
@@ -237,6 +175,7 @@ export default class Browser extends Component {
     const filters = service ? [service.key] : []
     this.setState({tabs, sections, filters})
   }
+    */
 
   exposePublicMethods() {
     const {container} = this.props
@@ -244,40 +183,10 @@ export default class Browser extends Component {
     PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
-  /**
-   * Keyboard navigation.
-   */
-  navigate(e) {
-    if (!this.props.data) return
-    switch (keyname(e.keyCode)) {
-      case 'down':
-        this.focusItem('next')
-        e.preventDefault()
-        break
-      case 'up':
-        this.focusItem('prev')
-        e.preventDefault()
-        break
-      case 'tab':
-        this.selectTab(e.shiftKey ? 'prev' : 'next')
-        e.preventDefault()
-        break
-      case 'enter':
-        this.onSelectItem()
-        e.preventDefault()
-        break
-      default:
-    }
-  }
-
   renderContent() {
-    let {sections} = this.state
-    const {data} = this.props
+    const {sections, data} = this.props
 
     if (!data) return null
-
-    const selectedSection = dataUtils.getSelectedSection(sections)
-    if (selectedSection) sections = [selectedSection]
 
     if (data.results.length && sections.length) return this.renderService(sections)
 
@@ -306,7 +215,7 @@ export default class Browser extends Component {
         {...props}
         Item={Item}
         data={data}
-        focusedItem={this.getFocusedItem()}
+        focusedItem={this.props.focusedItem}
         onFocus={::this.onFocusItem}
         onSelect={::this.onSelectItem} />
     )
@@ -328,18 +237,18 @@ export default class Browser extends Component {
         <div className={classes.inputContainer}>
           <span className={classes.searchIcon} />
           <Input
+            onKeyDown={::this.onKeyDown}
             onInput={::this.onInput}
             onChangeFilters={this.props.onSelectFilter}
-            onKeyDown={::this.onKeyDown}
             focused={this.props.focused}
-            filters={this.state.filters}
-            search={this.state.search}
+            filters={this.props.filters}
+            search={this.props.search}
             className={classes.input}
             type="search"
             placeholder="Grape Search" />
         </div>
-        {this.state.tabs &&
-          <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        {this.props.tabs &&
+          <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />
         }
         {content}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}

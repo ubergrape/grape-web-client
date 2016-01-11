@@ -12,7 +12,7 @@ import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import SearchBrowser from '../search-browser/ModalBrowser'
+import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
 import * as objectStyle from '../objects/style'
 import * as objects from '../objects'
