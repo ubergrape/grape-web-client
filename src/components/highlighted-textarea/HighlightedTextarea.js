@@ -26,6 +26,7 @@ export default class HighlightedTextarea extends Component {
     onEditPrevious: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
     preventSubmit: PropTypes.bool,
     focused: PropTypes.bool,
@@ -175,6 +176,10 @@ export default class HighlightedTextarea extends Component {
 
   onResize() {
     this.props.onResize()
+  }
+
+  onBlur() {
+    this.props.onBlur()
   }
 
   /**
@@ -378,6 +383,7 @@ export default class HighlightedTextarea extends Component {
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
             onChange={::this.onChange}
+            onBlur={::this.onBlur}
             value={this.state.text}
             autoFocus></textarea>
       </div>
