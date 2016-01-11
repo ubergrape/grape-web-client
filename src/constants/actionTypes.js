@@ -1,0 +1,2 @@
+export const NOOP = 'NOOP'
+export const SEARCH_INPUT_KEY_PRESS = 'SEARCH_INPUT_KEY_PRESS'

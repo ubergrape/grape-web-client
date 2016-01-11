@@ -1,0 +1,1 @@
+export searchInput from './searchInput'
