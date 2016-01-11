@@ -34,6 +34,7 @@ describe('highlighted', () => {
         <HighlightedTextarea
           onDidMount={onDidMount}
           onChange={noop}
+          onBlur={noop}
           onResize={onResize}
           focused />
       )
