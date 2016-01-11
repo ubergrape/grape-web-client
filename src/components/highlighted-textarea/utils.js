@@ -213,7 +213,7 @@ export function getTokenUnderCaret(string, caretPostion) {
 
       if ((nextSymbol && emptySpaceRegExp.test(nextSymbol)) ||
           nextSymbolIndex < 0 ||
-          nextSymbolIndex === string.length) {
+          nextSymbolIndex >= string.length) {
         position.push(previousSymbolIndex)
         tailFound = true
         break
