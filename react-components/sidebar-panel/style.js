@@ -26,8 +26,7 @@ export default {
     ...utils.ellipsis,
     flex: 2,
     alignSelf: 'center',
-    // XXX
-    color: '#666',
+    color: colors.gray,
     padding: `14px ${padding}px`
   },
   body: {
@@ -36,8 +35,7 @@ export default {
     overflow: 'auto'
   },
   close: {
-    // XXX
-    ...buttonIcon('close', {color: '#ABB0B9', hoverColor: '#4098f2', iconOnly: true}),
+    ...buttonIcon('close', {color: colors.grayBlue, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true}),
     padding: `0 ${padding}px`
   }
 }

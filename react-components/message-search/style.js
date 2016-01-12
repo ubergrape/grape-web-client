@@ -19,8 +19,7 @@ export default {
       left: 0,
       height: 1,
       width: '100%',
-      // XXX
-      background: '#DADCDE',
+      background: webColors.borderDefault,
       margin: 0
     },
     '&:first-child': {
@@ -34,8 +33,7 @@ export default {
     padding: `3px ${fonts.normal.fontSize}px`
   },
   channel: {
-    // XXX
-    color: '#ABB0B9',
+    color: colors.grayBlue,
     textTransform: 'uppercase',
     marginTop: 20,
     marginBottom: 5,
@@ -48,8 +46,7 @@ export default {
     textAlign: 'center'
   },
   highlighted: {
-    // XXX
-    background: '#FFF3B9'
+    background: colors.yelllow
   },
   button
 }

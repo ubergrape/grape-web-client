@@ -5,10 +5,10 @@ export default {
   border: 'none',
   margin: 0,
   padding: 0,
-  // XXX
-  color: '#0080ff !important',
+  outline: 'none',
+  color: colors.blue,
   '&:hover': {
-    color: '#4098f2 !important',
+    color: color(colors.blue).lighten(0.05).rgbaString(),
     // !important can be removed when this is done:
     // https://github.com/jsstyles/jss/issues/119
     textDecoration: 'none !important'

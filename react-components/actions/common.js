@@ -185,3 +185,11 @@ export function handleJoinedChannel({user, channel}) {
     })
   }
 }
+
+export function enableNotifications() {
+  reduxEmitter.enableNotifications()
+  // This action don't have reducer yet
+  return {
+    type: types.ENABLE_NOTIFICATIONS
+  }
+}

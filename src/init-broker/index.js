@@ -10,8 +10,6 @@ export default function doBroker(ui, api) {
   broker(api, 'error', ui, 'gotError')
   broker(api, 'messageNotFound', ui, 'onMessageNotFound')
   broker(api, 'channelupdate', ui, 'channelUpdate')
-  broker(api, 'disconnected', ui, 'onDisconnected')
-  broker(api, 'connected', ui, 'onConnected')
 
   broker(ui, 'selectorganization', api, 'setOrganization')
   broker(ui, 'setNotificationsSession', api, 'onSetNotificationsSession')

@@ -1,23 +1,24 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Language: \n"
+"POT-Creation-Date: 2015-07-31 09:16+0000\n"
+"PO-Revision-Date: 2015-12-17 09:44+0000\n"
+"Last-Translator: Felix Hausler <fh@ubergrape.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2015-07-31 09:16+0000\n"
+"Language: \n"
+"X-Translated-Using: django-rosetta 0.7.8\n"
 
-#: client/templates/chathistory.jade:25
-#: client/templates/chathistory.jade:31
+#: client/templates/chathistory.jade:25 client/templates/chathistory.jade:31
 #: templates/chathistory.jade:31
 msgid "1"
 msgstr ""
 
-#: client/templates/chathistory.jade:32
-#: client/templates/chathistory.jade:38
+#: client/templates/chathistory.jade:32 client/templates/chathistory.jade:38
 #: templates/chathistory.jade:38
 msgid "2"
 msgstr ""
@@ -27,34 +28,27 @@ msgstr ""
 #: browser/elements/dialogs/deleteroom.js:38
 #: browser/elements/dialogs/deleteroom.js:36
 msgid "Please enter your password"
-msgstr ""
+msgstr "Bitte geben Sie Ihr Passwort ein"
 
-#: client/browser/elements/invite.js:83
-#: browser/elements/invite.js:83
-#: browser/elements/invite.js:76
-#: browser/elements/invite.js:79
+#: client/browser/elements/invite.js:83 browser/elements/invite.js:83
+#: browser/elements/invite.js:76 browser/elements/invite.js:79
 msgid "Please enter at least one user to invite"
-msgstr ""
+msgstr "Bitte laden Sie mindestens einen Benutzer ein"
 
 #: client/browser/elements/notifications.js:67
 #: client/browser/elements/notifications.js:77
-#: browser/elements/notifications.js:77
-#: browser/elements/notifications.js:83
+#: browser/elements/notifications.js:77 browser/elements/notifications.js:83
 msgid "Private Message"
-msgstr ""
+msgstr "Private Nachricht"
 
 #: client/browser/elements/notifications.js:85
 #: client/browser/elements/notifications.js:100
-#: browser/elements/notifications.js:100
-#: browser/elements/notifications.js:106
-#: browser/elements/notifications.js:63
-#: browser/elements/notifications.js:75
+#: browser/elements/notifications.js:100 browser/elements/notifications.js:106
+#: browser/elements/notifications.js:63 browser/elements/notifications.js:75
 msgid "[Image]"
-msgstr ""
+msgstr "[Image]"
 
-#: client/browser/index.js:165
-#: browser/index.js:165
-#: browser/index.js:164
+#: client/browser/index.js:165 browser/index.js:165 browser/index.js:164
 #: browser/index.js:166
 msgid ""
 "Hey there! Please <a class=' enable_notifications'>enable desktop "
@@ -62,30 +56,22 @@ msgid ""
 "<button class='button enable_notifications'>Enable desktop "
 "notifications</button>"
 msgstr ""
+"Willkommen! Schalten Sie bitte <a class=' enable_notifications'>Desktop-"
+"Benachrichtigungen</a> an, so dass Ihre Teammitglieder Sie besser erreichen "
+"können. <button class = 'button enable_notifications \"> Aktivieren von "
+"Desktop-Benachrichtigungen </ button>"
 
-#: client/browser/index.js:172
-#: browser/index.js:172
-#: browser/index.js:171
-#: browser/index.js:173
-#: browser/index.js:174
-#: browser/index.js:175
-#: browser/index.js:176
-#: browser/index.js:184
-#: browser/index.js:188
+#: client/browser/index.js:172 browser/index.js:172 browser/index.js:171
+#: browser/index.js:173 browser/index.js:174 browser/index.js:175
+#: browser/index.js:176 browser/index.js:184 browser/index.js:188
 msgid "Next"
-msgstr ""
+msgstr "Weiter"
 
-#: client/browser/index.js:173
-#: browser/index.js:173
-#: browser/index.js:172
-#: browser/index.js:174
-#: browser/index.js:175
-#: browser/index.js:176
-#: browser/index.js:177
-#: browser/index.js:185
-#: browser/index.js:189
+#: client/browser/index.js:173 browser/index.js:173 browser/index.js:172
+#: browser/index.js:174 browser/index.js:175 browser/index.js:176
+#: browser/index.js:177 browser/index.js:185 browser/index.js:189
 msgid "Skip"
-msgstr ""
+msgstr "Überspringen"
 
 #: client/browser/index.js:178
 msgid ""
@@ -103,9 +89,9 @@ msgstr ""
 
 #: client/browser/index.js:188
 msgid ""
-"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've "
-"auto-joined you to General and Off-Topic.</p><p>You can see all availible "
-"rooms in your organization and create a new one by clicking on &quot;All "
+"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-"
+"joined you to General and Off-Topic.</p><p>You can see all availible rooms "
+"in your organization and create a new one by clicking on &quot;All "
 "rooms&quot;.</p>"
 msgstr ""
 
@@ -116,11 +102,8 @@ msgid ""
 "clicking on &quot;All members&quot;.</p>"
 msgstr ""
 
-#: client/browser/index.js:198
-#: browser/index.js:198
-#: browser/index.js:197
-#: browser/index.js:199
-#: browser/index.js:200
+#: client/browser/index.js:198 browser/index.js:198 browser/index.js:197
+#: browser/index.js:199 browser/index.js:200
 msgid ""
 "<h2>Room Members Info</h2><p>This number shows you how many users have "
 "joined this room.</p><p>Click it to see all of them or to invite more users "
@@ -129,170 +112,125 @@ msgstr ""
 
 #: client/browser/index.js:203
 msgid ""
-"<h2>User Profile</h2><p>You can find all profile-related settings (and "
-"re-start this awesome tutorial at any time) here.</p>"
+"<h2>User Profile</h2><p>You can find all profile-related settings (and re-"
+"start this awesome tutorial at any time) here.</p>"
 msgstr ""
 
-#: client/browser/index.js:207
-#: browser/index.js:202
+#: client/browser/index.js:207 browser/index.js:202
 msgid ""
 "<h2>All done! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun using "
 "ChatGrape.</p>"
 msgstr ""
 
-#: client/browser/index.js:583
-#: client/browser/index.js:588
-#: browser/index.js:587
-#: browser/index.js:556
+#: client/browser/index.js:583 client/browser/index.js:588
+#: browser/index.js:587 browser/index.js:556
 msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
 msgstr ""
 
-#: client/browser/index.js:594
-#: client/browser/index.js:599
-#: browser/index.js:598
-#: browser/index.js:567
-#: browser/index.js:577
-#: templates/messages.jade:15
-#: templates/messages.jade:18
+#: client/browser/index.js:594 client/browser/index.js:599
+#: browser/index.js:598 browser/index.js:567 browser/index.js:577
+#: templates/messages.jade:15 templates/messages.jade:18
 msgid "Reconnected successfully"
 msgstr ""
 
-#: client/templates/chatheader.jade:13
-#: templates/chatheader.jade:13
+#: client/templates/chatheader.jade:13 templates/chatheader.jade:13
 msgid "Search for content, documents, appointments, ..."
 msgstr ""
 
-#: client/templates/chathistory.jade:6
-#: client/templates/chathistory.jade:7
+#: client/templates/chathistory.jade:6 client/templates/chathistory.jade:7
 #: templates/chathistory.jade:7
 msgid "Welcome to ChatGrape!"
 msgstr ""
 
-#: client/templates/chathistory.jade:10
-#: templates/chathistory.jade:10
+#: client/templates/chathistory.jade:10 templates/chathistory.jade:10
 msgid "Give us a second while we're preparing everything for you!"
 msgstr ""
 
-#: client/templates/chathistory.jade:21
-#: client/templates/chathistory.jade:27
+#: client/templates/chathistory.jade:21 client/templates/chathistory.jade:27
 #: templates/chathistory.jade:27
 msgid "This room is public. Every member can join and read the history."
 msgstr ""
 
-#: client/templates/chathistory.jade:28
-#: client/templates/chathistory.jade:34
-#: templates/chathistory.jade:34
-#: templates/chathistory.jade:32
+#: client/templates/chathistory.jade:28 client/templates/chathistory.jade:34
+#: templates/chathistory.jade:34 templates/chathistory.jade:32
 msgid "Invite members"
 msgstr ""
 
-#: client/templates/chathistory.jade:35
-#: client/templates/chathistory.jade:41
-#: templates/chathistory.jade:41
-#: templates/chathistory.jade:36
-#: templates/chathistory.jade:40
-#: templates/chathistory.jade:43
+#: client/templates/chathistory.jade:35 client/templates/chathistory.jade:41
+#: templates/chathistory.jade:41 templates/chathistory.jade:36
+#: templates/chathistory.jade:40 templates/chathistory.jade:43
 msgid "Integrate external services"
 msgstr ""
 
-#: client/templates/chathistory.jade:50
-#: client/templates/chathistory.jade:56
-#: templates/chathistory.jade:56
-#: templates/chathistory.jade:62
+#: client/templates/chathistory.jade:50 client/templates/chathistory.jade:56
+#: templates/chathistory.jade:56 templates/chathistory.jade:62
 msgid ""
-" This user was only invited and didn't join ChatGrape yet. You can send "
-"chat messages and as soon as the user joins ChatGrape, he will reiceive "
-"your messages."
+" This user was only invited and didn't join ChatGrape yet. You can send chat"
+" messages and as soon as the user joins ChatGrape, he will reiceive your "
+"messages."
 msgstr ""
 
-#: client/templates/chathistory.jade:63
-#: client/templates/chathistory.jade:69
-#: templates/chathistory.jade:69
-#: templates/chathistory.jade:75
-#: templates/chathistory.jade:77
-#: templates/chathistory.jade:76
-#: templates/chathistory.jade:70
-#: templates/chathistory.jade:71
+#: client/templates/chathistory.jade:63 client/templates/chathistory.jade:69
+#: templates/chathistory.jade:69 templates/chathistory.jade:75
+#: templates/chathistory.jade:77 templates/chathistory.jade:76
+#: templates/chathistory.jade:70 templates/chathistory.jade:71
 #: templates/chathistory.jade:82
 msgid "new messages"
 msgstr ""
 
-#: client/templates/chathistory.jade:87
-#: client/templates/chathistory.jade:93
-#: templates/chathistory.jade:93
-#: templates/chathistory.jade:99
-#: templates/chathistory.jade:101
-#: templates/chathistory.jade:100
-#: templates/chathistory.jade:94
-#: templates/chathistory.jade:203
-#: templates/chathistory.jade:146
-#: templates/chathistory.jade:179
-#: templates/chathistory.jade:180
-#: templates/chathistory.jade:147
-#: templates/chathistory.jade:182
-#: templates/chathistory.jade:153
+#: client/templates/chathistory.jade:87 client/templates/chathistory.jade:93
+#: templates/chathistory.jade:93 templates/chathistory.jade:99
+#: templates/chathistory.jade:101 templates/chathistory.jade:100
+#: templates/chathistory.jade:94 templates/chathistory.jade:203
+#: templates/chathistory.jade:146 templates/chathistory.jade:179
+#: templates/chathistory.jade:180 templates/chathistory.jade:147
+#: templates/chathistory.jade:182 templates/chathistory.jade:153
 #: templates/chathistory.jade:187
 msgid " Local time: "
 msgstr ""
 
-#: client/templates/chathistory.jade:102
-#: client/templates/chathistory.jade:108
-#: templates/chathistory.jade:108
-#: templates/chathistory.jade:113
-#: templates/chathistory.jade:115
-#: templates/chathistory.jade:114
-#: templates/chathistory.jade:127
-#: templates/chathistory.jade:95
+#: client/templates/chathistory.jade:102 client/templates/chathistory.jade:108
+#: templates/chathistory.jade:108 templates/chathistory.jade:113
+#: templates/chathistory.jade:115 templates/chathistory.jade:114
+#: templates/chathistory.jade:127 templates/chathistory.jade:95
 msgid "#Label"
 msgstr ""
 
-#: client/templates/chathistory.jade:160
-#: client/templates/chathistory.jade:166
-#: templates/chathistory.jade:166
-#: templates/chathistory.jade:171
-#: templates/chathistory.jade:173
-#: templates/chathistory.jade:172
-#: templates/chathistory.jade:185
-#: templates/chathistory.jade:179
-#: templates/chathistory.jade:240
-#: templates/chathistory.jade:241
-#: templates/chathistory.jade:243
-#: templates/chathistory.jade:251
+#: client/templates/chathistory.jade:160 client/templates/chathistory.jade:166
+#: templates/chathistory.jade:166 templates/chathistory.jade:171
+#: templates/chathistory.jade:173 templates/chathistory.jade:172
+#: templates/chathistory.jade:185 templates/chathistory.jade:179
+#: templates/chathistory.jade:240 templates/chathistory.jade:241
+#: templates/chathistory.jade:243 templates/chathistory.jade:251
 msgid "Show More"
 msgstr ""
 
-#: client/templates/chatinput.jade:3
-#: templates/chatinput.jade:3
+#: client/templates/chatinput.jade:3 templates/chatinput.jade:3
 #: templates/grapeinputintegration.jade:3
 msgid "Hit "
 msgstr ""
 
-#: client/templates/chatinput.jade:4
-#: templates/chatinput.jade:4
+#: client/templates/chatinput.jade:4 templates/chatinput.jade:4
 #: templates/grapeinputintegration.jade:4
 msgid "ESC"
 msgstr ""
 
-#: client/templates/chatinput.jade:5
-#: templates/chatinput.jade:5
+#: client/templates/chatinput.jade:5 templates/chatinput.jade:5
 #: templates/grapeinputintegration.jade:5
 msgid " to cancel editing."
 msgstr ""
 
-#: client/templates/chatinput.jade:19
-#: templates/chatinput.jade:19
+#: client/templates/chatinput.jade:19 templates/chatinput.jade:19
 msgid "You can use ChatGrape "
 msgstr ""
 
-#: client/templates/chatinput.jade:20
-#: templates/chatinput.jade:20
+#: client/templates/chatinput.jade:20 templates/chatinput.jade:20
 msgid "Markdown"
 msgstr ""
 
-#: client/templates/chatinput.jade:21
-#: templates/chatinput.jade:21
+#: client/templates/chatinput.jade:21 templates/chatinput.jade:21
 msgid " to format your text"
 msgstr ""
 
@@ -312,14 +250,12 @@ msgid "Password"
 msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:11
-#: templates/dialogs/deleteroom.jade:11
-#: templates/dialogs/deleteroom.jade:10
+#: templates/dialogs/deleteroom.jade:11 templates/dialogs/deleteroom.jade:10
 msgid "Delete"
 msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:13
-#: templates/dialogs/deleteroom.jade:13
-#: templates/dialogs/deleteroom.jade:14
+#: templates/dialogs/deleteroom.jade:13 templates/dialogs/deleteroom.jade:14
 msgid "Sorry, you can't delete "
 msgstr ""
 
@@ -537,68 +473,54 @@ msgstr ""
 msgid "> One of the cooles products I've used in a while"
 msgstr ""
 
-#: client/templates/draganddrop.jade:7
-#: templates/draganddrop.jade:7
+#: client/templates/draganddrop.jade:7 templates/draganddrop.jade:7
 msgid "Drop your file to upload it!"
 msgstr ""
 
-#: client/templates/draganddrop.jade:9
-#: templates/draganddrop.jade:9
+#: client/templates/draganddrop.jade:9 templates/draganddrop.jade:9
 msgid "We support almost every file type up to a size of 50mb"
 msgstr ""
 
-#: client/templates/navigation.jade:5
-#: templates/navigation.jade:5
-#: templates/navigation.jade:11
-#: templates/navigation.jade:14
+#: client/templates/navigation.jade:5 templates/navigation.jade:5
+#: templates/navigation.jade:11 templates/navigation.jade:14
 msgid "Loading"
 msgstr ""
 
-#: client/templates/navigation.jade:8
-#: templates/navigation.jade:8
+#: client/templates/navigation.jade:8 templates/navigation.jade:8
 msgid "All rooms"
 msgstr ""
 
-#: client/templates/navigation.jade:9
-#: templates/navigation.jade:9
+#: client/templates/navigation.jade:9 templates/navigation.jade:9
 #: templates/navigation.jade:15
 msgid "Rooms"
 msgstr ""
 
-#: client/templates/navigation.jade:13
-#: templates/navigation.jade:13
+#: client/templates/navigation.jade:13 templates/navigation.jade:13
 msgid "All members"
 msgstr ""
 
-#: client/templates/navigation.jade:14
-#: templates/navigation.jade:14
+#: client/templates/navigation.jade:14 templates/navigation.jade:14
 #: templates/navigation.jade:24
 msgid "Private Messages"
 msgstr ""
 
-#: client/templates/navigation.jade:17
-#: templates/navigation.jade:17
-#: templates/navigation.jade:19
-#: templates/navigation.jade:18
+#: client/templates/navigation.jade:17 templates/navigation.jade:17
+#: templates/navigation.jade:19 templates/navigation.jade:18
 #: templates/navigation.jade:24
 msgid "All labels"
 msgstr ""
 
-#: client/templates/navigation.jade:18
-#: templates/navigation.jade:18
-#: templates/navigation.jade:20
-#: templates/navigation.jade:19
+#: client/templates/navigation.jade:18 templates/navigation.jade:18
+#: templates/navigation.jade:20 templates/navigation.jade:19
 #: templates/navigation.jade:25
 msgid "Labels"
 msgstr ""
 
-#: client/templates/navigation.jade:22
-#: templates/navigation.jade:22
+#: client/templates/navigation.jade:22 templates/navigation.jade:22
 msgid " Give us Feedback!"
 msgstr ""
 
-#: client/templates/pmlist.jade:19
-#: templates/pmlist.jade:19
+#: client/templates/pmlist.jade:19 templates/pmlist.jade:19
 msgid "No private messages yet."
 msgstr ""
 
@@ -615,10 +537,8 @@ msgstr ""
 
 #: client/templates/popovers/organization.jade:12
 #: client/templates/popovers/pm.jade:30
-#: templates/popovers/organization.jade:12
-#: templates/popovers/pm.jade:30
-#: templates/popovers/organization.jade:14
-#: templates/popovers/pm.jade:29
+#: templates/popovers/organization.jade:12 templates/popovers/pm.jade:30
+#: templates/popovers/organization.jade:14 templates/popovers/pm.jade:29
 msgid "Manage Members"
 msgstr ""
 
@@ -628,77 +548,62 @@ msgstr ""
 msgid "Service Integrations"
 msgstr ""
 
-#: client/templates/popovers/pm.jade:3
-#: templates/popovers/pm.jade:3
+#: client/templates/popovers/pm.jade:3 templates/popovers/pm.jade:3
 msgid "New message"
 msgstr ""
 
-#: client/templates/popovers/pm.jade:10
-#: templates/popovers/pm.jade:10
+#: client/templates/popovers/pm.jade:10 templates/popovers/pm.jade:10
 #: templates/popovers/pm.jade:9
 msgid "x"
 msgstr ""
 
-#: client/templates/popovers/pm.jade:28
-#: templates/popovers/pm.jade:28
+#: client/templates/popovers/pm.jade:28 templates/popovers/pm.jade:28
 #: templates/popovers/pm.jade:27
 msgid "There are no members in your organization yet."
 msgstr ""
 
-#: client/templates/popovers/room.jade:3
-#: templates/popovers/room.jade:3
+#: client/templates/popovers/room.jade:3 templates/popovers/room.jade:3
 msgid "All chatrooms"
 msgstr ""
 
-#: client/templates/popovers/room.jade:8
-#: templates/popovers/room.jade:8
-#: templates/popovers/room.jade:7
-#: templates/popovers/room.jade:9
+#: client/templates/popovers/room.jade:8 templates/popovers/room.jade:8
+#: templates/popovers/room.jade:7 templates/popovers/room.jade:9
 #: templates/popovers/roomcreation.jade:3
 #: templates/popovers/roomcreation.jade:4
 msgid "Create new chatroom"
 msgstr ""
 
-#: client/templates/popovers/room.jade:12
-#: templates/popovers/room.jade:12
+#: client/templates/popovers/room.jade:12 templates/popovers/room.jade:12
 #: templates/popovers/room.jade:10
 msgid "Name"
 msgstr ""
 
-#: client/templates/popovers/room.jade:25
-#: templates/popovers/room.jade:25
-#: templates/popovers/room.jade:23
-#: templates/popovers/roomcreation.jade:24
+#: client/templates/popovers/room.jade:25 templates/popovers/room.jade:25
+#: templates/popovers/room.jade:23 templates/popovers/roomcreation.jade:24
 #: templates/popovers/roomcreation.jade:25
 msgid "Cancel"
 msgstr ""
 
-#: client/templates/popovers/room.jade:26
-#: templates/popovers/room.jade:26
-#: templates/popovers/room.jade:24
-#: templates/popovers/roomcreation.jade:25
+#: client/templates/popovers/room.jade:26 templates/popovers/room.jade:26
+#: templates/popovers/room.jade:24 templates/popovers/roomcreation.jade:25
 #: templates/popovers/roomcreation.jade:26
 msgid "Create"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:3
-#: templates/popovers/roomlist.jade:3
-#: templates/popovers/roomlist.jade:4
+#: templates/popovers/roomlist.jade:3 templates/popovers/roomlist.jade:4
 msgid "Rooms you haven't joined"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:9
-#: templates/popovers/roomlist.jade:9
-#: templates/popovers/roomlist.jade:10
+#: templates/popovers/roomlist.jade:9 templates/popovers/roomlist.jade:10
 msgid "join"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:22
 #: client/templates/popovers/roomlist.jade:52
-#: templates/popovers/roomlist.jade:22
-#: templates/popovers/roomlist.jade:52
-#: templates/popovers/roomlist.jade:21
-#: templates/popovers/roomlist.jade:47
+#: templates/popovers/roomlist.jade:22 templates/popovers/roomlist.jade:52
+#: templates/popovers/roomlist.jade:21 templates/popovers/roomlist.jade:47
 #: templates/popovers/roomlist.jade:23
 msgid "by "
 msgstr ""
@@ -709,23 +614,19 @@ msgid "Your rooms"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:36
-#: templates/popovers/roomlist.jade:36
-#: templates/popovers/roomlist.jade:34
+#: templates/popovers/roomlist.jade:36 templates/popovers/roomlist.jade:34
 #: templates/popovers/roomlist.jade:39
 msgid "joined"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:38
-#: templates/popovers/roomlist.jade:38
-#: templates/popovers/roomlist.jade:36
-#: templates/popovers/roomlist.jade:41
-#: templates/popovers/roomlist.jade:34
+#: templates/popovers/roomlist.jade:38 templates/popovers/roomlist.jade:36
+#: templates/popovers/roomlist.jade:41 templates/popovers/roomlist.jade:34
 msgid "leave"
 msgstr ""
 
 #: client/templates/popovers/roommembers.jade:2
-#: templates/popovers/roommembers.jade:2
-#: templates/popovers/roommembers.jade:3
+#: templates/popovers/roommembers.jade:2 templates/popovers/roommembers.jade:3
 msgid "Members in "
 msgstr ""
 
@@ -736,8 +637,7 @@ msgstr ""
 #: templates/popovers/roommembers.jade:18
 #: templates/popovers/roommembers.jade:23
 #: templates/popovers/roommembers.jade:25
-#: templates/popovers/roommembers.jade:26
-#: templates/rightsidebar.jade:25
+#: templates/popovers/roommembers.jade:26 templates/rightsidebar.jade:25
 msgid "Invite more members"
 msgstr ""
 
@@ -748,69 +648,53 @@ msgstr ""
 msgid "delete room"
 msgstr ""
 
-#: client/templates/popovers/user.jade:2
-#: templates/popovers/user.jade:2
+#: client/templates/popovers/user.jade:2 templates/popovers/user.jade:2
 msgid "My settings"
 msgstr ""
 
-#: client/templates/popovers/user.jade:6
-#: templates/popovers/user.jade:6
+#: client/templates/popovers/user.jade:6 templates/popovers/user.jade:6
 #: templates/popovers/user.jade:5
 msgid "Working on designs"
 msgstr ""
 
-#: client/templates/popovers/user.jade:13
-#: templates/popovers/user.jade:13
-#: templates/popovers/user.jade:12
-#: templates/popovers/organization.jade:6
+#: client/templates/popovers/user.jade:13 templates/popovers/user.jade:13
+#: templates/popovers/user.jade:12 templates/popovers/organization.jade:6
 msgid "Compact View"
 msgstr ""
 
-#: client/templates/popovers/user.jade:17
-#: templates/popovers/user.jade:17
-#: templates/popovers/user.jade:20
-#: templates/popovers/organization.jade:34
+#: client/templates/popovers/user.jade:17 templates/popovers/user.jade:17
+#: templates/popovers/user.jade:20 templates/popovers/organization.jade:34
 msgid "Tutorial"
 msgstr ""
 
-#: client/templates/popovers/user.jade:21
-#: templates/popovers/user.jade:21
-#: templates/popovers/user.jade:24
-#: templates/popovers/organization.jade:22
+#: client/templates/popovers/user.jade:21 templates/popovers/user.jade:21
+#: templates/popovers/user.jade:24 templates/popovers/organization.jade:22
 msgid "User Settings"
 msgstr ""
 
-#: client/templates/popovers/user.jade:25
-#: templates/popovers/user.jade:25
-#: templates/popovers/user.jade:28
-#: templates/popovers/user.jade:32
+#: client/templates/popovers/user.jade:25 templates/popovers/user.jade:25
+#: templates/popovers/user.jade:28 templates/popovers/user.jade:32
 #: templates/popovers/organization.jade:42
 msgid "Sign Out"
 msgstr ""
 
-#: client/templates/searchresults.jade:4
-#: templates/searchresults.jade:4
+#: client/templates/searchresults.jade:4 templates/searchresults.jade:4
 msgid " results for "
 msgstr ""
 
-#: client/templates/chathistory.jade:16
-#: templates/chathistory.jade:16
+#: client/templates/chathistory.jade:16 templates/chathistory.jade:16
 #: templates/chathistory.jade:17
 msgid "Looking for history..."
 msgstr ""
 
-#: browser/index.js:178
-#: browser/index.js:177
-#: browser/index.js:179
+#: browser/index.js:178 browser/index.js:177 browser/index.js:179
 #: browser/index.js:180
 msgid ""
 "<h2>Welcome to ChatGrape - Good to see you.</h2><p>We'll give you a quick "
 "overview in 5 simple steps.</p>"
 msgstr ""
 
-#: browser/index.js:183
-#: browser/index.js:182
-#: browser/index.js:184
+#: browser/index.js:183 browser/index.js:182 browser/index.js:184
 #: browser/index.js:185
 msgid ""
 "<h2>Writing Smart Messages</h2><p>You can use @ (e.g. @Tobi) to mention "
@@ -819,39 +703,31 @@ msgid ""
 "tasks, appointments and much more!</p>"
 msgstr ""
 
-#: browser/index.js:188
-#: browser/index.js:187
-#: browser/index.js:189
+#: browser/index.js:188 browser/index.js:187 browser/index.js:189
 #: browser/index.js:190
 msgid ""
-"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've "
-"auto-joined you to General, Development and Off-Topic.</p><p>You can see "
-"all available rooms in your organization and create a new one by clicking "
-"on &quot;All rooms&quot;.</p>"
+"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-"
+"joined you to General, Development and Off-Topic.</p><p>You can see all "
+"available rooms in your organization and create a new one by clicking on "
+"&quot;All rooms&quot;.</p>"
 msgstr ""
 
-#: browser/index.js:193
-#: browser/index.js:192
-#: browser/index.js:194
+#: browser/index.js:193 browser/index.js:192 browser/index.js:194
 #: browser/index.js:195
 msgid ""
-"<h2>Private Messages</h2><p>This list contains the contacts you already "
-"have a private conversation with.</p><p>You can start more conversations by "
+"<h2>Private Messages</h2><p>This list contains the contacts you already have"
+" a private conversation with.</p><p>You can start more conversations by "
 "clicking on &quot;All members&quot;.</p>"
 msgstr ""
 
-#: browser/index.js:201
-#: browser/index.js:203
-#: browser/index.js:204
+#: browser/index.js:201 browser/index.js:203 browser/index.js:204
 msgid ""
 "<h2>That&apos;s it! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun "
 "using ChatGrape.</p>"
 msgstr ""
 
-#: templates/chatheader.jade:17
-#: templates/chatheader.jade:14
-#: templates/chatheader.jade:11
-#: templates/chatheader.jade:38
+#: templates/chatheader.jade:17 templates/chatheader.jade:14
+#: templates/chatheader.jade:11 templates/chatheader.jade:38
 #: templates/chatheader.jade:41
 msgid "Search"
 msgstr ""
@@ -868,8 +744,7 @@ msgstr ""
 msgid "Rooms you have currently joined"
 msgstr ""
 
-#: templates/popovers/user.jade:16
-#: templates/popovers/organization.jade:30
+#: templates/popovers/user.jade:16 templates/popovers/organization.jade:30
 msgid "Give Feedback"
 msgstr ""
 
@@ -879,48 +754,36 @@ msgid ""
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
 msgstr ""
 
-#: templates/chathistory.jade:32
-#: templates/chathistory.jade:36
-#: templates/chathistory.jade:37
-#: templates/chathistory.jade:39
+#: templates/chathistory.jade:32 templates/chathistory.jade:36
+#: templates/chathistory.jade:37 templates/chathistory.jade:39
 msgid "Add members to this room"
 msgstr ""
 
-#: templates/chathistory.jade:119
-#: templates/pmlist.jade:26
-#: templates/chathistory.jade:107
-#: templates/pmlist.jade:23
-#: templates/chathistory.jade:124
-#: templates/pmlist.jade:24
-#: templates/chathistory.jade:165
-#: templates/chathistory.jade:166
-#: templates/chathistory.jade:167
-#: templates/chathistory.jade:172
+#: templates/chathistory.jade:119 templates/pmlist.jade:26
+#: templates/chathistory.jade:107 templates/pmlist.jade:23
+#: templates/chathistory.jade:124 templates/pmlist.jade:24
+#: templates/chathistory.jade:165 templates/chathistory.jade:166
+#: templates/chathistory.jade:167 templates/chathistory.jade:172
 msgid "Deleted user"
 msgstr ""
 
-#: templates/chatinput.jade:7
-#: templates/grapeinputintegration.jade:7
+#: templates/chatinput.jade:7 templates/grapeinputintegration.jade:7
 msgid "Mention your team with "
 msgstr ""
 
-#: templates/chatinput.jade:8
-#: templates/grapeinputintegration.jade:8
+#: templates/chatinput.jade:8 templates/grapeinputintegration.jade:8
 msgid "@"
 msgstr ""
 
-#: templates/chatinput.jade:9
-#: templates/grapeinputintegration.jade:9
+#: templates/chatinput.jade:9 templates/grapeinputintegration.jade:9
 msgid " and autocomplete services with "
 msgstr ""
 
-#: templates/chatinput.jade:10
-#: templates/grapeinputintegration.jade:10
+#: templates/chatinput.jade:10 templates/grapeinputintegration.jade:10
 msgid "#"
 msgstr ""
 
-#: templates/dialogs/deleteroom.jade:2
-#: templates/dialogs/deleteroom.jade:12
+#: templates/dialogs/deleteroom.jade:2 templates/dialogs/deleteroom.jade:12
 msgid "Delete "
 msgstr ""
 
@@ -948,66 +811,53 @@ msgstr ""
 msgid "This room was created by "
 msgstr ""
 
-#: templates/dialogs/deleteroom.jade:21
-#: templates/dialogs/deleteroom.jade:18
+#: templates/dialogs/deleteroom.jade:21 templates/dialogs/deleteroom.jade:18
 msgid ". You can kindly ask him to delete it for you."
 msgstr ""
 
-#: templates/dialogs/deleteroom.jade:23
-#: templates/dialogs/deleteroom.jade:20
+#: templates/dialogs/deleteroom.jade:23 templates/dialogs/deleteroom.jade:20
 msgid "Sorry, this room can't be deleted."
 msgstr ""
 
-#: templates/navigation.jade:14
-#: templates/popovers/room.jade:3
+#: templates/navigation.jade:14 templates/popovers/room.jade:3
 #: templates/popovers/room.jade:4
 msgid "Manage rooms"
 msgstr ""
 
-#: templates/navigation.jade:23
-#: templates/navigation.jade:29
+#: templates/navigation.jade:23 templates/navigation.jade:29
 msgid "Private messages"
 msgstr ""
 
-#: templates/navigation.jade:25
-#: templates/navigation.jade:31
+#: templates/navigation.jade:25 templates/navigation.jade:31
 msgid "Search users"
 msgstr ""
 
-#: templates/popovers/roomlist.jade:24
-#: templates/popovers/roomlist.jade:55
-#: templates/popovers/roomlist.jade:50
-#: templates/popovers/roomlist.jade:47
+#: templates/popovers/roomlist.jade:24 templates/popovers/roomlist.jade:55
+#: templates/popovers/roomlist.jade:50 templates/popovers/roomlist.jade:47
 msgid "created by "
 msgstr ""
 
-#: templates/popovers/roomlist.jade:33
-#: templates/popovers/roomlist.jade:28
+#: templates/popovers/roomlist.jade:33 templates/popovers/roomlist.jade:28
 msgid "Rooms you have already joined"
 msgstr ""
 
-#: templates/chathistory.jade:200
-#: templates/typingnotifications.jade:13
+#: templates/chathistory.jade:200 templates/typingnotifications.jade:13
 msgid " is typing"
 msgstr ""
 
-#: templates/chathistory.jade:202
-#: templates/typingnotifications.jade:15
+#: templates/chathistory.jade:202 templates/typingnotifications.jade:15
 msgid " are typing"
 msgstr ""
 
-#: templates/messages.jade:7
-#: templates/messages.jade:9
+#: templates/messages.jade:7 templates/messages.jade:9
 msgid "Hey there! Please "
 msgstr ""
 
-#: templates/messages.jade:8
-#: templates/messages.jade:10
+#: templates/messages.jade:8 templates/messages.jade:10
 msgid "enable desktop notifications"
 msgstr ""
 
-#: templates/messages.jade:9
-#: templates/messages.jade:11
+#: templates/messages.jade:9 templates/messages.jade:11
 msgid ", so your team members can reach you on ChatGrape."
 msgstr ""
 
@@ -1015,23 +865,20 @@ msgstr ""
 msgid "Enable desktop notifications"
 msgstr ""
 
-#: templates/messages.jade:12
-#: templates/messages.jade:14
-msgid "Lost connection to the server - trying to reconnect. You can also try to "
+#: templates/messages.jade:12 templates/messages.jade:14
+msgid ""
+"Lost connection to the server - trying to reconnect. You can also try to "
 msgstr ""
 
-#: templates/messages.jade:13
-#: templates/messages.jade:15
+#: templates/messages.jade:13 templates/messages.jade:15
 msgid "reload."
 msgstr ""
 
-#: templates/messages.jade:17
-#: templates/messages.jade:21
+#: templates/messages.jade:17 templates/messages.jade:21
 msgid "Room "
 msgstr ""
 
-#: templates/messages.jade:17
-#: templates/messages.jade:21
+#: templates/messages.jade:17 templates/messages.jade:21
 msgid " was successfully deleted."
 msgstr ""
 
@@ -1069,14 +916,11 @@ msgstr ""
 msgid "Please enter the name of the room you want to delete"
 msgstr ""
 
-#: browser/elements/notifications.js:41
-#: browser/elements/notifications.js:51
+#: browser/elements/notifications.js:41 browser/elements/notifications.js:51
 msgid "Private message"
 msgstr ""
 
-#: browser/index.js:198
-#: browser/index.js:199
-#: browser/index.js:207
+#: browser/index.js:198 browser/index.js:199 browser/index.js:207
 #: browser/index.js:211
 msgid ""
 "<h2>Communicate 1-on-1</h2><h3>Click on your team members to start private "
@@ -1089,9 +933,7 @@ msgid ""
 "style=\"clear:both;height:1px;width:550px\"></div>"
 msgstr ""
 
-#: browser/index.js:204
-#: browser/index.js:205
-#: browser/index.js:213
+#: browser/index.js:204 browser/index.js:205 browser/index.js:213
 #: browser/index.js:217
 msgid ""
 "<h2>The Room header</h2><h3>At ChatGrape everything is just one click "
@@ -1129,8 +971,7 @@ msgstr ""
 msgid "Switch Organizations"
 msgstr ""
 
-#: templates/popovers/user.jade:28
-#: templates/popovers/organization.jade:26
+#: templates/popovers/user.jade:28 templates/popovers/organization.jade:26
 msgid "Notification Settings"
 msgstr ""
 
@@ -1146,8 +987,7 @@ msgstr ""
 msgid " (Room Invite)"
 msgstr ""
 
-#: templates/chatheader.jade:17
-#: templates/chatheader.jade:18
+#: templates/chatheader.jade:17 templates/chatheader.jade:18
 msgid " in "
 msgstr ""
 
@@ -1163,49 +1003,37 @@ msgstr ""
 msgid "load older messages"
 msgstr ""
 
-#: templates/chathistory.jade:162
-#: templates/chathistory.jade:169
+#: templates/chathistory.jade:162 templates/chathistory.jade:169
 msgid "You"
 msgstr ""
 
-#: templates/chathistory.jade:169
-#: templates/chathistory.jade:170
+#: templates/chathistory.jade:169 templates/chathistory.jade:170
 #: templates/chathistory.jade:171
 msgid " at "
 msgstr ""
 
-#: templates/chathistory.jade:187
-#: templates/chathistory.jade:188
-#: templates/chathistory.jade:190
-#: templates/chathistory.jade:195
+#: templates/chathistory.jade:187 templates/chathistory.jade:188
+#: templates/chathistory.jade:190 templates/chathistory.jade:195
 msgid "Retry"
 msgstr ""
 
-#: templates/chathistory.jade:190
-#: templates/chathistory.jade:191
-#: templates/chathistory.jade:193
-#: templates/chathistory.jade:198
+#: templates/chathistory.jade:190 templates/chathistory.jade:191
+#: templates/chathistory.jade:193 templates/chathistory.jade:198
 msgid "Not sent"
 msgstr ""
 
-#: templates/chathistory.jade:241
-#: templates/chathistory.jade:242
-#: templates/chathistory.jade:244
-#: templates/chathistory.jade:252
+#: templates/chathistory.jade:241 templates/chathistory.jade:242
+#: templates/chathistory.jade:244 templates/chathistory.jade:252
 msgid "Show Less"
 msgstr ""
 
-#: templates/chathistory.jade:247
-#: templates/chathistory.jade:248
-#: templates/chathistory.jade:250
-#: templates/chathistory.jade:258
+#: templates/chathistory.jade:247 templates/chathistory.jade:248
+#: templates/chathistory.jade:250 templates/chathistory.jade:258
 msgid "load newer messages"
 msgstr ""
 
-#: templates/chathistory.jade:252
-#: templates/chathistory.jade:253
-#: templates/chathistory.jade:255
-#: templates/chathistory.jade:263
+#: templates/chathistory.jade:252 templates/chathistory.jade:253
+#: templates/chathistory.jade:255 templates/chathistory.jade:263
 msgid "newest messages"
 msgstr ""
 
@@ -1219,8 +1047,7 @@ msgstr ""
 msgid "We could not find the message you were looking for."
 msgstr ""
 
-#: templates/chathistory.jade:163
-#: templates/chathistory.jade:164
+#: templates/chathistory.jade:163 templates/chathistory.jade:164
 msgid " (You)"
 msgstr ""
 
