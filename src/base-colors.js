@@ -20,7 +20,7 @@ export default {
   black: '#000000',
   white: '#ffffff',
 
-  // Old Colors - Needs clean up
+  // XXX Old Colors - Needs clean up
   grapeDark: '#542f59',
   grapeLight: '#7b477b',
   grapeTypo: '#2b2231',
