@@ -30,7 +30,7 @@ export default {
   dateBubble: {
     position: 'relative',
     fontWeight: 'bold',
-    background: colors.grayBlueLight,
+    background: colors.grayBlueLighter,
     padding: `3px ${fonts.normal.fontSize}px`
   },
   channel: {
@@ -47,7 +47,7 @@ export default {
     textAlign: 'center'
   },
   highlighted: {
-    background: colors.yelllow
+    background: colors.yellow
   },
   button
 }

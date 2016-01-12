@@ -12,12 +12,12 @@ export default {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    background: colors.grayBlueLight
+    background: colors.grayBlueLighter
   },
   header: {
     display: 'flex',
     flexShrink: 0,
-    background: colors.grayBlueDark,
+    background: colors.grayBlueLight,
     // Used to overlap absolutely positioned content e.g. loading indicator.
     position: 'relative',
     zIndex: 1
@@ -32,7 +32,7 @@ export default {
   },
   body: {
     padding: 20,
-    background: colors.grayBlueLight,
+    background: colors.grayBlueLighter,
     overflow: 'auto'
   },
   close: {
