@@ -18,4 +18,7 @@ export default {
   navigationBackground: colors.silverLight,
   organisationBackground: colors.grapeDark,
   searchHighlightColor: colors.yellow,
+  borderLight: 'rgba(0,0,0,0.05)',
+  borderDefault: 'rgba(0,0,0,0.10)',
+  borderDark: 'rgba(0,0,0,0.15)'
 }
