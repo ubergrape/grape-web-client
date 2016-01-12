@@ -1,5 +1,8 @@
+import color from 'color'
 import utils from 'grape-jss-utils'
 import fonts from 'grape-theme/dist/fonts'
+import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
@@ -77,7 +80,7 @@ export default {
     alignSelf: 'center',
     color: colors.grayBlueDark,
     '&:hover': {
-      color: colors(colors.blue).lighten(0.05).rgbaString()
+      color: color(colors.blue).lighten(0.05).rgbaString()
     }
   }
 }

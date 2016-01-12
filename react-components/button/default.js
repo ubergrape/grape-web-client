@@ -1,7 +1,5 @@
 import color from 'color'
-
 import colors from 'grape-theme/dist/base-colors'
-import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 

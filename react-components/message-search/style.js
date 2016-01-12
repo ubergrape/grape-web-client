@@ -1,5 +1,6 @@
 import button from '../button/default'
 import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 export default {
