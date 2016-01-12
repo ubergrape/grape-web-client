@@ -77,7 +77,7 @@ export default {
     alignSelf: 'center',
     color: colors.grayBlueDark,
     '&:hover': {
-      color: color(colors.blue).lighten(0.05).rgbaString()
+      color: colors(colors.blue).lighten(0.05).rgbaString()
     }
   }
 }
