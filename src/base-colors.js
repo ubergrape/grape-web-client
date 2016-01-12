@@ -12,8 +12,8 @@ export default {
   gray: '#666666',
   grayDark: '#333333',
 
-  grayBlueLighter: '#ebeef3', // Refactor to grayBlueLight
-  grayBlueLight: '#e0e5ec', // Refactored from grayBlueDark
+  grayBlueLighter: '#ebeef3',
+  grayBlueLight: '#e0e5ec', 
   grayBlue: '#ABB0B9',
   grayBlueDark: '#707782',
 
