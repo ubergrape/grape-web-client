@@ -15,24 +15,24 @@ var _baseColors = require('./base-colors');
 var _baseColors2 = _interopRequireDefault(_baseColors);
 
 exports['default'] = {
-  link: _baseColors2['default'].aquaLight,
-  button: _baseColors2['default'].aquaLight,
-  buttonBgDefault: '#503c50',
+  link: _baseColors2['default'].blue,
+  button: _baseColors2['default'].grayBlue,
+  buttonBgDefault: _baseColors2['default'].blue,
   buttonColorDefault: _baseColors2['default'].white,
-  buttonBgPrimary: _baseColors2['default'].grassLight,
-  buttonColorPrimary: (0, _color2['default'])(_baseColors2['default'].grassDark).darken(0.5).rgbaString(),
+  buttonBgPrimary: _baseColors2['default'].green,
+  buttonColorPrimary: _baseColors2['default'].white,
   alertInfo: _baseColors2['default'].aquaDark,
   alertSuccess: _baseColors2['default'].grassDark,
   alertWarning: _baseColors2['default'].gold,
   alertDanger: _baseColors2['default'].bittersweetDark,
-  roomHeaderBackground: _baseColors2['default'].grapeDark,
+  roomHeaderBackground: _baseColors2['default'].blue,
   chatBackground: _baseColors2['default'].white,
   chatContent: _baseColors2['default'].silverLight,
   navigationBackground: _baseColors2['default'].silverLight,
   organisationBackground: _baseColors2['default'].grapeDark,
-  searchHighlightColor: '#ffeead',
-  sidebarBackground: '#503c50',
-  sidebarButtonBackground: '#6e4b6e',
-  sidebarGroupTitle: '#aa96aa'
+  searchHighlightColor: _baseColors2['default'].yellow,
+  borderLight: 'rgba(0,0,0,0.05)',
+  borderDefault: 'rgba(0,0,0,0.10)',
+  borderDark: 'rgba(0,0,0,0.15)'
 };
 module.exports = exports['default'];
