@@ -3,7 +3,7 @@ export default {
   blue: '#0080ff',
   green: '#6fc936',
   purple: '#642081',
-  red: '#D64232',
+  red: '#d64232',
   yellow: '#fff3b9',
   orange: '#f5a623',
   orangeLight: '#fff3b9',
@@ -13,8 +13,8 @@ export default {
   grayDark: '#333333',
 
   grayBlueLighter: '#ebeef3',
-  grayBlueLight: '#e0e5ec', 
-  grayBlue: '#ABB0B9',
+  grayBlueLight: '#e0e5ec',
+  grayBlue: '#abb0b9',
   grayBlueDark: '#707782',
 
   black: '#000000',
