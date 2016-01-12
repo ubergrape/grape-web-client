@@ -44,17 +44,14 @@ export default {
   },
   email: {
     ...button,
-    // XXX
-    ...buttonIcon('envelope', {color: '#707782', hoverColor: '#318FEF'})
+    ...buttonIcon('envelope', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
   },
   skype: {
     ...button,
-    // XXX
-    ...buttonIcon('skype', {color: '#707782', hoverColor: '#318FEF'})
+    ...buttonIcon('skype', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
   },
   phone: {
     ...button,
-    // XXX
-    ...buttonIcon('phone', {color: '#707782', hoverColor: '#318FEF'})
+    ...buttonIcon('phone', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
   }
 }
