@@ -4,6 +4,28 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports['default'] = {
+  blueLight: '#d2e6fb',
+  blue: '#0080ff',
+  green: '#6fc936',
+  purple: '#642081',
+  red: '#d64232',
+  yellow: '#fff3b9',
+  orange: '#f5a623',
+  orangeLight: '#fff3b9',
+
+  grayLight: '#aaaaaa',
+  gray: '#666666',
+  grayDark: '#333333',
+
+  grayBlueLighter: '#ebeef3',
+  grayBlueLight: '#e0e5ec',
+  grayBlue: '#abb0b9',
+  grayBlueDark: '#707782',
+
+  black: '#000000',
+  white: '#ffffff',
+
+  // XXX Old Colors - Needs clean up
   grapeDark: '#542f59',
   grapeLight: '#7b477b',
   grapeTypo: '#2b2231',
@@ -24,10 +46,6 @@ exports['default'] = {
   silverDark: '#eeecef',
   silverLight: '#f8f8f8',
   sandLight: '#e8dfbf',
-  sandLighter: '#f9f6e8',
-  grayBlueDark: '#e0e5ec',
-  grayBlueLight: '#ebeef3',
-  black: '#000',
-  white: '#fff'
+  sandLighter: '#f9f6e8'
 };
 module.exports = exports['default'];
