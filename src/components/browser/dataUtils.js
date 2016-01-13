@@ -20,6 +20,10 @@ function getItem(sections, fn) {
   return item
 }
 
+export function findById(collection, id) {
+  return find(collection, item => item.id === id)
+}
+
 /**
  * Get item by id.
  */

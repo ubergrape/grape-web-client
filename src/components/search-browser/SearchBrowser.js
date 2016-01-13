@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
 
 import {useSheet} from 'grape-web/lib/jss'
@@ -30,7 +29,7 @@ export default class Browser extends Component {
     onAbort: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
-    focusedItem: PropTypes.func,
+    focusedItem: PropTypes.object,
     data: PropTypes.object,
     sections: PropTypes.array,
     maxItemsPerSectionInAll: PropTypes.number,
@@ -72,8 +71,6 @@ export default class Browser extends Component {
   componentDidMount() {
     this.props.onDidMount(this)
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onFocusItem({id}) {
     this.props.focusSearchBrowserItem(id)
@@ -138,7 +135,7 @@ export default class Browser extends Component {
   }
 
   getFocusedItem() {
-    // return dataUtils.getFocusedItem(this.props.sections)
+    return this.props.focusedItem
   }
 
   /**

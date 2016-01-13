@@ -6,7 +6,8 @@ import {
   getFocusedItem,
   setFocusedItem,
   unsetFocusedItem,
-  extractItems
+  extractItems,
+  findById
 } from '../components/browser/dataUtils'
 
 let {warn} = console
@@ -21,10 +22,6 @@ const serviceIconMap = {
   trello: 'trello',
   dropbox: 'dropbox',
   filters: 'search'
-}
-
-function findById(collection, id) {
-  return find(collection, item => item.id === id)
 }
 
 /**
@@ -205,10 +202,9 @@ function filtersToServiceId({services = []}, filters = []) {
 /**
  * Returns a new state with focused item according selector.
  */
-function focusItem(state, selector) {
-  let id
-  const newState = {...state}
+function focusItem(selector, state) {
   const {sections} = state
+  let id = selector
 
   if (selector === 'next' || selector === 'prev') {
     const selectedSection = getSelectedSection(sections)
@@ -225,14 +221,15 @@ function focusItem(state, selector) {
     }
 
     id = newItem.id
-  } else id = selector
-
-  if (id) {
-    setFocusedItem(sections, id)
-    newState.sections = [...sections]
   }
 
-  return newState
+  setFocusedItem(sections, id)
+
+  return {
+    ...state,
+    sections,
+    focusedItem: getFocusedItem(sections)
+  }
 }
 
 function createState(props, state) {
@@ -245,7 +242,8 @@ function createState(props, state) {
       ...props,
       sections: [],
       tabs: [],
-      inputDelay
+      inputDelay,
+      focusedItem: undefined
     }
   }
 
@@ -277,7 +275,10 @@ export default function reduce(state = initialState, action) {
     case types.CREATE_SEARCH_BROWSER_STATE:
       return createState(action.payload.props, state)
     case types.FOCUS_SEARCH_BROWSER_ITEM:
-      return focusItem(state, action.payload.selector)
+      return focusItem(action.payload.selector, state)
+    case types.SET_SEARCH_BROWSER_FILTERS:
+    case types.SELECT_SEARCH_BROWSER_ITEM:
+      return {...state, ...action.payload}
     default:
       return state
   }

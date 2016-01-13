@@ -1,3 +1,12 @@
-export const NOOP = 'NOOP'
-export const FOCUS_SEARCH_BROWSER_ITEM = 'FOCUS_SEARCH_BROWSER_ITEM'
-export const CREATE_SEARCH_BROWSER_STATE = 'CREATE_SEARCH_BROWSER_STATE'
+const types = [
+  'NOOP',
+  'FOCUS_SEARCH_BROWSER_ITEM',
+  'CREATE_SEARCH_BROWSER_STATE',
+  'SELECT_SEARCH_BROWSER_ITEM',
+  'SET_SEARCH_BROWSER_FILTERS'
+]
+
+export default types.reduce((map, type) => {
+  map[type] = type
+  return map
+}, {})

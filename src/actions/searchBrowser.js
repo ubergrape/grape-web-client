@@ -22,8 +22,10 @@ export function focusSearchBrowserItem(selector) {
 export function setSearchBrowserFilters(filters) {
   return {
     type: types.SET_SEARCH_BROWSER_FILTERS,
-    filters,
-    search: ''
+    payload: {
+      filters,
+      search: ''
+    }
   }
 }
 
@@ -37,8 +39,8 @@ export function selectSearchBrowserItem(id) {
       const service = findById(state.data.services, item.id)
       const filters = service ? [service.key] : []
       dispatch(setSearchBrowserFilters(filters))
-      const query = buildQuery({trigger, filters})
-      state.onSelectFilter(query)
+      //const query = buildQuery({trigger, filters})
+      //state.onSelectFilter(query)
       return
     }
 
@@ -46,6 +48,13 @@ export function selectSearchBrowserItem(id) {
       trigger,
       filters: state.filters,
       search: state.search
+    })
+
+    dispatch({
+      type: types.SELECT_SEARCH_BROWSER_ITEM,
+      payload: {
+        focusedItem: item
+      }
     })
 
     state.onSelectItem({item, query})

@@ -10,7 +10,7 @@ import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import {shouldPureComponentUpdate, shallowEqual} from 'react-pure-render'
 
 import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
@@ -48,6 +48,10 @@ export default class Input extends Component {
   }
 
   static defaultProps = {
+    // This attribute has been set by Modal component.
+    // We need to set it to null to enable shallowEqual comparance in
+    // componentWillReceiveProps, because this is the only new prop.
+    ariaHidden: null,
     maxCompleteItems: 12,
     browser: undefined,
     data: undefined,
@@ -84,6 +88,14 @@ export default class Input extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // We need to do early return here because for "some reason?" this method
+    // is called when inserting items from the search-browser. While
+    // search-browser is closed, props still define it as open, which leads to
+    // reopening of the search-browser by setState call below.
+    // To avoid this we introduced temporarily shallowEqual, hopefully it can
+    // go away after full migration to redux.
+    if (shallowEqual(nextProps, this.props)) return
+
     const {ignoreSuggest} = this.state
     const isEmojiSuggest = nextProps.browser === 'emojiSuggest'
     if (ignoreSuggest && isEmojiSuggest) return this.setState({ignoreSuggest: false})
@@ -96,11 +108,8 @@ export default class Input extends Component {
         customEmojis: nextProps.customEmojis
       })
     }
-
     this.setState(this.createState(nextProps))
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.browser !== this.state.browser) {
@@ -302,7 +311,7 @@ export default class Input extends Component {
       const results = get(this.state, 'data.results')
       const data = find(results, res => res.id === item.id) || item
       const object = objects.create(data.type, data)
-      this.setState({ contentObjects: [...this.state.contentObjects, object] })
+      this.setState({contentObjects: [...this.state.contentObjects, object]})
       this.replaceQuery(object)
     }
     this.onInsertItem(item, query)
@@ -338,7 +347,6 @@ export default class Input extends Component {
 
   renderBrowser() {
     const {browser, browserOpened, data} = this.state
-
     if (!browser || !browserOpened) return null
 
     const {classes} = this.props.sheet
