@@ -14,14 +14,13 @@ export default class Actions extends Component {
     sheet: PropTypes.object.isRequired,
     items: PropTypes.array,
     focused: PropTypes.bool,
-    focusedAction: PropTypes.object
+    focusedAction: PropTypes.object,
+    onFocus: PropTypes.func,
+    onSelect: PropTypes.func
   }
 
   static defaultProps = {
     focused: false
-  }
-
-  onSelect(/* action */) {
   }
 
   renderItem({item, focused}) {
@@ -45,9 +44,10 @@ export default class Actions extends Component {
     return (
       <List
         className={classes.actions}
-        items={this.props.items}
         renderItem={::this.renderItem}
-        onSelect={::this.onSelect}
+        items={this.props.items}
+        onSelect={this.props.onSelect}
+        onMouseOver={this.props.onFocus}
         focused={this.props.focusedAction}
         ref="list" />
     )

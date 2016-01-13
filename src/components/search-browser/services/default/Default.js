@@ -22,12 +22,13 @@ export default class Default extends Component {
 
   render() {
     const {classes} = this.props.sheet
+    const {focusedItem} = this.props
     let sidebarContent
 
-    if (this.props.focusedItem.type === 'filters') {
+    if (focusedItem.type === 'filters') {
       sidebarContent = <Info {...this.props} />
     } else {
-      sidebarContent = <Detail {...this.props} data={this.props.focusedItem.detail} />
+      sidebarContent = <Detail {...this.props} data={focusedItem.detail} />
     }
 
     return (

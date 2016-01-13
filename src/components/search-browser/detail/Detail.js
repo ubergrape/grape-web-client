@@ -21,7 +21,9 @@ export default class Detail extends Component {
     images: PropTypes.object,
     focusedList: PropTypes.oneOf(['objects', 'actions']),
     actions: PropTypes.array,
-    focusedAction: PropTypes.object
+    focusedAction: PropTypes.object,
+    onSelectAction: PropTypes.func,
+    onFocusAction: PropTypes.func
   }
 
   static defaultProps = {
@@ -103,7 +105,9 @@ export default class Detail extends Component {
         <Actions
           focused={this.props.focusedList === 'actions'}
           items={this.props.actions}
-          focusedAction={this.props.focusedAction} />
+          focusedAction={this.props.focusedAction}
+          onSelect={this.props.onSelectAction}
+          onFocus={this.props.onFocusAction} />
       </div>
     )
   }

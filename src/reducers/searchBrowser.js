@@ -422,6 +422,10 @@ export default function reduce(state = initialState, action) {
       return createState(action.payload.props, state)
     case types.FOCUS_SEARCH_BROWSER_ITEM:
       return focusItem(action.payload.selector, state)
+    case types.FOCUS_SEARCH_BROWSER_ACTION:
+      return {...state, focusedAction: action.payload.action}
+    case types.EXEC_SEARCH_BROWSER_ACTION:
+      return execAction(state)
     case types.SELECT_SEARCH_BROWSER_TAB:
       return selectTab(action.payload.selector, state)
     case types.NAVIGATE_SEARCH_BROWSER:

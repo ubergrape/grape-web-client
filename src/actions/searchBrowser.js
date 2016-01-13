@@ -17,6 +17,24 @@ export function focusSearchBrowserItem(selector) {
   }
 }
 
+export function focusSearchBrowserAction(action) {
+  return {
+    type: types.FOCUS_SEARCH_BROWSER_ACTION,
+    payload: {
+      action
+    }
+  }
+}
+
+export function execSearchBrowserAction(action) {
+  return {
+    type: types.EXEC_SEARCH_BROWSER_ACTION,
+    payload: {
+      action
+    }
+  }
+}
+
 export function setSearchBrowserFilters(filters) {
   return {
     type: types.SET_SEARCH_BROWSER_FILTERS,

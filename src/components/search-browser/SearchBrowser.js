@@ -27,6 +27,8 @@ export default class Browser extends Component {
     selectSearchBrowserItem: PropTypes.func,
     selectSearchBrowserTab: PropTypes.func,
     navigateSearchBrowser: PropTypes.func,
+    focusSearchBrowserAction: PropTypes.func,
+    execSearchBrowserAction: PropTypes.func,
     focusedItem: PropTypes.object,
     focused: PropTypes.bool,
     data: PropTypes.object,
@@ -60,6 +62,10 @@ export default class Browser extends Component {
 
   onSelectTab({id}) {
     this.props.selectSearchBrowserTab(id)
+  }
+
+  onSelectAction(action) {
+    this.props.execSearchBrowserAction(action)
   }
 
   onKeyDown(e) {
@@ -152,7 +158,9 @@ export default class Browser extends Component {
         Item={Item}
         data={data}
         onFocus={::this.onFocusItem}
-        onSelect={::this.onSelectItem} />
+        onSelect={::this.onSelectItem}
+        onFocusAction={this.props.focusSearchBrowserAction}
+        onSelectAction={::this.onSelectAction} />
     )
   }
 
