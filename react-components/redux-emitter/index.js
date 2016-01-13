@@ -56,7 +56,7 @@ class ReduxEmitter extends Emitter {
     boundActions.userLeftChannel(formatChannel(channel))
   }
 
-  inviteChannelMember(channel) {
+  showInviteChannelMemberList(channel) {
     this.emit('toggleRoomInvite', channel)
   }
 

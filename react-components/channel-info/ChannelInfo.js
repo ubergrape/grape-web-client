@@ -25,7 +25,7 @@ export default class ChannelInfo extends Component {
     sheet: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    inviteChannelMember: PropTypes.func.isRequired,
+    showInviteChannelMemberList: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
@@ -34,7 +34,7 @@ export default class ChannelInfo extends Component {
   }
 
   onInvite() {
-    this.props.inviteChannelMember(this.props.channel)
+    this.props.showInviteChannelMemberList(this.props.channel)
   }
 
   onKickMember(user) {

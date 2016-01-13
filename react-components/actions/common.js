@@ -166,10 +166,10 @@ export function userLeftChannel(channel) {
   }
 }
 
-export function inviteChannelMember(channel) {
-  reduxEmitter.inviteChannelMember(channel)
+export function showInviteChannelMemberList(channel) {
+  reduxEmitter.showInviteChannelMemberList(channel)
   return {
-    type: types.INVITE_CHANNEL_MEMBER
+    type: types.SHOW_INVITE_CHANNEL_MEMBER_LIST
   }
 }
 

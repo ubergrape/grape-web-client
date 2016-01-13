@@ -12,6 +12,7 @@ import sharedFiles from '../shared-files'
 import mentions from '../mentions'
 import messageSearch from '../message-search'
 import alerts from '../alerts'
+import inviteChannelMembers from '../invite-channel-members/'
 
 render(
   createElement(channelSearch(store)),
@@ -20,6 +21,10 @@ render(
 render(
   createElement(billingWarning(store)),
   document.body.appendChild(document.createElement('grape-billing-warning'))
+)
+render(
+  createElement(inviteChannelMembers(store)),
+  document.body.appendChild(document.createElement('grape-invite-channel-members'))
 )
 
 document.registerReact('grape-typing-notification', typingNotification(store))

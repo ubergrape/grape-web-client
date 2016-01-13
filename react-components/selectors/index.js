@@ -68,3 +68,13 @@ export const alertsAndChannelSelector = createSelector(
     return {alerts, channel}
   }
 )
+
+export const channelMembers = createSelector(
+  [channelSelector, usersSelector],
+  ({users}, allUsers) => {
+    return {
+      invited: users,
+      users: allUsers
+    }
+  }
+)
