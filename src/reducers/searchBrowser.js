@@ -362,18 +362,24 @@ function execAction(state) {
 }
 
 function navigate(action, state) {
-  if (action === 'select') {
-    if (state.focusedItem.type === 'filters') return state
-    if (state.focusedList === 'actions') return execAction(state)
-    return {...state, focusedList: 'actions'}
-  }
-
-  if (state.focusedList === 'objects') {
-    return focusItem(action, state)
-  }
-
-  if (state.focusedList === 'actions') {
-    return focusAction(action, state)
+  switch (action) {
+    case 'select':
+      if (state.focusedItem.type === 'filters') return state
+      if (state.focusedList === 'actions') return execAction(state)
+      return {...state, focusedList: 'actions'}
+    case 'back':
+      if (state.focusedList === 'objects') return state
+      return {...state, focusedList: 'objects'}
+    case 'prev':
+    case 'next':
+      if (state.focusedList === 'objects') {
+        return focusItem(action, state)
+      }
+      if (state.focusedList === 'actions') {
+        return focusAction(action, state)
+      }
+      break
+    default:
   }
 }
 

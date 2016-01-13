@@ -80,6 +80,10 @@ export default class Browser extends Component {
         this.props.navigateSearchBrowser('select')
         e.preventDefault()
         break
+      case 'backspace':
+        this.props.navigateSearchBrowser('back')
+        e.preventDefault()
+        break
       case 'tab':
         this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
         e.preventDefault()
