@@ -7,7 +7,8 @@ import {
   setFocusedItem,
   unsetFocusedItem,
   extractItems,
-  findById
+  findById,
+  setSelectedTab
 } from '../components/browser/dataUtils'
 
 let {warn} = console
@@ -268,6 +269,50 @@ function createState(props, state) {
   return {...props, sections, tabs, inputDelay, focusedItem}
 }
 
+/**
+ * Select tab.
+ *
+ * @param {String} selector can be tab id or "prev" or "next"
+ */
+function selectTab(selector, state) {
+  const {tabs} = state
+  const currIndex = findIndex(tabs, tab => tab.selected)
+  let newIndex
+
+  if (selector === 'next') {
+    newIndex = currIndex + 1
+    if (!tabs[newIndex]) newIndex = 0
+  } else if (selector === 'prev') {
+    newIndex = currIndex - 1
+    if (newIndex < 0) newIndex = tabs.length - 1
+  } else {
+    newIndex = findIndex(tabs, tab => tab.id === selector)
+  }
+
+  const {id} = tabs[newIndex]
+  setSelectedTab(tabs, newIndex)
+  const sections = getSections(
+    state.data,
+    id,
+    state.maxItemsPerSectionInAll
+  )
+  setSelectedSection(sections, id)
+  setFocusedItemAt(sections, id, 0)
+
+  const service = findById(state.data.services, id)
+  const filters = service ? [service.key] : []
+  const focusedItem = getFocusedItem(sections)
+
+  return {
+    ...state,
+    tabs,
+    sections,
+    filters,
+    focusedItem
+  }
+}
+
+
 const initialState = {}
 
 export default function reduce(state = initialState, action) {
@@ -276,6 +321,8 @@ export default function reduce(state = initialState, action) {
       return createState(action.payload.props, state)
     case types.FOCUS_SEARCH_BROWSER_ITEM:
       return focusItem(action.payload.selector, state)
+    case types.SELECT_SEARCH_BROWSER_TAB:
+      return selectTab(action.payload.selector, state)
     case types.SET_SEARCH_BROWSER_FILTERS:
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, ...action.payload}

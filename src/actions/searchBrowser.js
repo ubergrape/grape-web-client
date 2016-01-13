@@ -61,6 +61,15 @@ export function selectSearchBrowserItem(id) {
   }
 }
 
+export function selectSearchBrowserTab(selector) {
+  return {
+    type: types.SELECT_SEARCH_BROWSER_TAB,
+    payload: {
+      selector
+    }
+  }
+}
+
 export function createSearchBrowserState(props) {
   return {
     type: types.CREATE_SEARCH_BROWSER_STATE,

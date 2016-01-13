@@ -13,8 +13,6 @@ import Spinner from 'grape-web/lib/spinner/Spinner'
 import Input from '../input/Input'
 import * as services from './services'
 
-const PUBLIC_METHODS = ['selectTab', 'focusItem', 'getFocusedItem']
-
 /**
  * Main search browser component.
  */
@@ -63,11 +61,6 @@ export default class Browser extends Component {
     onBlur: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.exposePublicMethods()
-  }
-
   componentDidMount() {
     this.props.onDidMount(this)
   }
@@ -83,7 +76,7 @@ export default class Browser extends Component {
   }
 
   onSelectTab({id}) {
-    this.selectTab(id)
+    this.props.selectSearchBrowserTab(id)
   }
 
   onKeyDown(e) {
@@ -98,7 +91,7 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'tab':
-        this.selectTab(e.shiftKey ? 'prev' : 'next')
+        this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
         e.preventDefault()
         break
       case 'enter':
@@ -132,52 +125,6 @@ export default class Browser extends Component {
     // After abortion we don't care about scheduled inputs.
     clearTimeout(this.onInputTimeoutId)
     this.props.onAbort(data)
-  }
-
-  getFocusedItem() {
-    return this.props.focusedItem
-  }
-
-  /**
-   * Select tab.
-   *
-   * @param {String} id can be item id or "prev" or "next"
-   */
-  /*
-  selectTab(selector) {
-    const {tabs} = this.state
-    const currIndex = findIndex(tabs, tab => tab.selected)
-    let newIndex
-
-    if (selector === 'next') {
-      newIndex = currIndex + 1
-      if (!tabs[newIndex]) newIndex = 0
-    } else if (selector === 'prev') {
-      newIndex = currIndex - 1
-      if (newIndex < 0) newIndex = tabs.length - 1
-    } else {
-      newIndex = findIndex(tabs, tab => tab.id === selector)
-    }
-
-    const {id} = tabs[newIndex]
-    dataUtils.setSelectedTab(tabs, newIndex)
-    const sections = dataUtils.getSections(
-      this.props.data,
-      id,
-      this.props.maxItemsPerSectionInAll
-    )
-    dataUtils.setSelectedSection(sections, id)
-    dataUtils.setFocusedItemAt(sections, id, 0)
-    const service = dataUtils.findById(this.props.data.services, id)
-    const filters = service ? [service.key] : []
-    this.setState({tabs, sections, filters})
-  }
-    */
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
   }
 
   renderContent() {
@@ -219,6 +166,7 @@ export default class Browser extends Component {
   }
 
   render() {
+    console.log('render', this.props.focusedItem)
     const {classes} = this.props.sheet
     const content = this.renderContent()
     const inlineStyle = {
