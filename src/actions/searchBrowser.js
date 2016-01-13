@@ -1,8 +1,6 @@
 import * as types from '../constants/actionTypes'
 import {searchBrowserSelector} from '../selectors'
 import store from '../store'
-import buildQuery from '../components/query/build'
-import {TYPES as QUERY_TYPES} from '../components/query/constants'
 
 import {
   getFocusedItem,
@@ -33,22 +31,13 @@ export function selectSearchBrowserItem(id) {
   return dispatch => {
     const state = searchBrowserSelector(store.getState())
     const item = id ? getItemById(state.sections, id) : getFocusedItem(state.sections)
-    const trigger = QUERY_TYPES.search
 
     if (item.type === 'filters') {
       const service = findById(state.data.services, item.id)
       const filters = service ? [service.key] : []
       dispatch(setSearchBrowserFilters(filters))
-      //const query = buildQuery({trigger, filters})
-      //state.onSelectFilter(query)
       return
     }
-
-    const query = buildQuery({
-      trigger,
-      filters: state.filters,
-      search: state.search
-    })
 
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_ITEM,
@@ -56,8 +45,6 @@ export function selectSearchBrowserItem(id) {
         focusedItem: item
       }
     })
-
-    state.onSelectItem({item, query})
   }
 }
 
@@ -75,6 +62,15 @@ export function createSearchBrowserState(props) {
     type: types.CREATE_SEARCH_BROWSER_STATE,
     payload: {
       props
+    }
+  }
+}
+
+export function navigateSearchBrowser(action) {
+  return {
+    type: types.NAVIGATE_SEARCH_BROWSER,
+    payload: {
+      action
     }
   }
 }

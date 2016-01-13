@@ -10,7 +10,7 @@ import get from 'lodash/object/get'
 import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
-import {shouldPureComponentUpdate, shallowEqual} from 'react-pure-render'
+import {shallowEqual} from 'react-pure-render'
 
 import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
@@ -98,7 +98,10 @@ export default class Input extends Component {
 
     const {ignoreSuggest} = this.state
     const isEmojiSuggest = nextProps.browser === 'emojiSuggest'
-    if (ignoreSuggest && isEmojiSuggest) return this.setState({ignoreSuggest: false})
+    if (ignoreSuggest && isEmojiSuggest) {
+      this.setState({ignoreSuggest: false})
+      return
+    }
 
     const newEmojiSheet = get(nextProps, 'images.emojiSheet')
     const currEmojiSheet = get(this.props, 'images.emojiSheet')

@@ -6,7 +6,17 @@ const leftColumnWidth = 60
 
 export default {
   detail: {
-    flex: 1
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    // Workaround, can't get height to fill the sidebar.
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  },
+  content: {
+    flex: 1,
+    overflow: 'auto'
   },
   previewContainer: {
     display: 'flex',

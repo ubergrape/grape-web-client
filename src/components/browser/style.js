@@ -7,7 +7,10 @@ export default {
     background: colors.white,
     borderRadius: 8,
     overflow: 'hidden',
-    boxShadow: '0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)'
+    boxShadow: [
+      '0 5px 11px 0 rgba(0, 0, 0, 0.18)',
+      '0 4px 15px 0 rgba(0, 0, 0, 0.15)'
+    ].join(',')
   },
   column: {
     flex: 1,

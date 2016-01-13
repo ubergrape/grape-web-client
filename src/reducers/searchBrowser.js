@@ -1,5 +1,6 @@
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
+import noop from 'lodash/utility/noop'
 
 import * as types from '../constants/actionTypes'
 import {
@@ -233,14 +234,15 @@ function focusItem(selector, state) {
   }
 }
 
-function createState(props, state) {
-  const {data} = props
+function createState(nextProps, prevState) {
+  const {data} = nextProps
 
-  const inputDelay = props.isExternal ? props.externalServicesInputDelay : undefined
+  const inputDelay = nextProps.isExternal ? nextProps.externalServicesInputDelay : undefined
 
   if (!data) {
     return {
-      ...props,
+      ...prevState,
+      ...nextProps,
       sections: [],
       tabs: [],
       inputDelay,
@@ -249,14 +251,14 @@ function createState(props, state) {
   }
 
   let serviceId
-  if (state && state.filters) {
-    serviceId = filtersToServiceId(data, state.filters)
+  if (prevState.filters) {
+    serviceId = filtersToServiceId(data, prevState.filters)
   }
 
   let sections = getSections(
     data,
     serviceId,
-    props.maxItemsPerSectionInAll
+    nextProps.maxItemsPerSectionInAll
   )
 
   const selectedSection = getSelectedSection(sections)
@@ -266,7 +268,7 @@ function createState(props, state) {
 
   const focusedItem = getFocusedItem(sections)
 
-  return {...props, sections, tabs, inputDelay, focusedItem}
+  return {...prevState, ...nextProps, sections, tabs, inputDelay, focusedItem}
 }
 
 /**
@@ -312,8 +314,101 @@ function selectTab(selector, state) {
   }
 }
 
+/**
+ * Finds an element index in a list by selector "prev" or "next".
+ * If selector goes to the undefined position, first or last element will be selected.
+ */
+function findIndexBySelector(selector, list, validation) {
+  const currIndex = findIndex(list, validation)
+  let index
 
-const initialState = {}
+  if (selector === 'next') {
+    index = list[currIndex + 1] ? currIndex + 1 : 0
+  }
+
+  if (selector === 'prev') {
+    index = list[currIndex - 1] ? currIndex - 1 : list.length - 1
+  }
+
+  return index
+}
+
+function focusAction(selector, state) {
+  const {actions} = state
+  const newIndex = findIndexBySelector(selector, actions, action => action === state.focusedAction)
+  return {...state, focusedAction: state.actions[newIndex]}
+}
+
+function execAction(state) {
+  const action = state.focusedAction
+  const item = state.focusedItem
+
+  if (action.type === 'insert') {
+    state.onSelectItem({item})
+    return {
+      ...state,
+      filters: [],
+      search: ''
+    }
+  }
+
+  if (action.type === 'open') {
+    const res = find(state.data.results, ({id}) => id === item.id)
+    // TODO make it MacGap compatible.
+    window.open(res.url)
+  }
+
+  return state
+}
+
+function navigate(action, state) {
+  if (action === 'select') {
+    if (state.focusedItem.type === 'filters') return state
+    if (state.focusedList === 'actions') return execAction(state)
+    return {...state, focusedList: 'actions'}
+  }
+
+  if (state.focusedList === 'objects') {
+    return focusItem(action, state)
+  }
+
+  if (state.focusedList === 'actions') {
+    return focusAction(action, state)
+  }
+}
+
+const actions = [
+  {
+    type: 'insert',
+    text: 'Insert into message',
+    icon: 'comment'
+  },
+  {
+    type: 'open',
+    text: 'Open',
+    icon: 'iconLink'
+  }
+]
+
+const initialState = {
+  height: 400,
+  className: '',
+  maxItemsPerSectionInAll: 5,
+  isExternal: false,
+  isLoading: false,
+  canAddIntegrations: false,
+  externalServicesInputDelay: 500,
+  focusedList: 'objects',
+  actions,
+  focusedAction: actions[0],
+  onAddIntegration: noop,
+  onSelectItem: noop,
+  onSelectFilter: noop,
+  onDidMount: noop,
+  onChange: noop,
+  onAbort: noop,
+  onBlur: noop
+}
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
@@ -323,6 +418,8 @@ export default function reduce(state = initialState, action) {
       return focusItem(action.payload.selector, state)
     case types.SELECT_SEARCH_BROWSER_TAB:
       return selectTab(action.payload.selector, state)
+    case types.NAVIGATE_SEARCH_BROWSER:
+      return navigate(action.payload.action, state)
     case types.SET_SEARCH_BROWSER_FILTERS:
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, ...action.payload}

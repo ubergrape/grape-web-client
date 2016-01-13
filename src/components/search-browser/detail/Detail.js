@@ -18,7 +18,10 @@ export default class Detail extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     data: PropTypes.object,
-    images: PropTypes.object
+    images: PropTypes.object,
+    focusedList: PropTypes.oneOf(['objects', 'actions']),
+    actions: PropTypes.array,
+    focusedAction: PropTypes.object
   }
 
   static defaultProps = {
@@ -44,7 +47,7 @@ export default class Detail extends Component {
     )
   }
 
-  renderMain() {
+  renderInfo() {
     const {classes} = this.props.sheet
     const {iconUrl, title, subtitle, description} = this.props.data
 
@@ -88,16 +91,19 @@ export default class Detail extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {data, images} = this.props
-
-    if (isEmpty(data)) return <Empty images={images} />
+    if (isEmpty(this.props.data)) return <Empty images={this.props.images} />
 
     return (
       <div className={classes.detail}>
-        {this.renderPreview()}
-        {this.renderMain()}
-        {this.renderMeta()}
-        <Actions />
+        <div className={classes.content}>
+          {this.renderPreview()}
+          {this.renderInfo()}
+          {this.renderMeta()}
+        </div>
+        <Actions
+          focused={this.props.focusedList === 'actions'}
+          items={this.props.actions}
+          focusedAction={this.props.focusedAction} />
       </div>
     )
   }

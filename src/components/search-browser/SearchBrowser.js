@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
-import noop from 'lodash/utility/noop'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from './browserStyle'
@@ -27,12 +25,14 @@ export default class Browser extends Component {
     onAbort: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
+    selectSearchBrowserTab: PropTypes.func,
+    navigateSearchBrowser: PropTypes.func,
     focusedItem: PropTypes.object,
+    focused: PropTypes.bool,
     data: PropTypes.object,
     sections: PropTypes.array,
     maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
-    focused: PropTypes.bool,
     isExternal: PropTypes.bool,
     externalServicesInputDelay: PropTypes.number,
     isLoading: PropTypes.bool,
@@ -44,34 +44,17 @@ export default class Browser extends Component {
     filters: PropTypes.array
   }
 
-  static defaultProps = {
-    height: 400,
-    className: '',
-    maxItemsPerSectionInAll: 5,
-    isExternal: false,
-    isLoading: false,
-    canAddIntegrations: false,
-    externalServicesInputDelay: 500,
-    onAddIntegration: noop,
-    onSelectItem: noop,
-    onSelectFilter: noop,
-    onDidMount: noop,
-    onChange: noop,
-    onAbort: noop,
-    onBlur: noop
-  }
-
   componentDidMount() {
     this.props.onDidMount(this)
   }
 
   onFocusItem({id}) {
+    if (this.props.focusedItem.id === id) return
     this.props.focusSearchBrowserItem(id)
   }
 
   onSelectItem({id} = {}) {
-    // After selection we don't care about scheduled inputs.
-    clearTimeout(this.onInputTimeoutId)
+    this.ignoreScheduledInput()
     this.props.selectSearchBrowserItem(id)
   }
 
@@ -81,21 +64,24 @@ export default class Browser extends Component {
 
   onKeyDown(e) {
     if (!this.props.data) return
+
+    this.ignoreScheduledInput()
+
     switch (keyname(e.keyCode)) {
       case 'down':
-        this.props.focusSearchBrowserItem('next')
+        this.props.navigateSearchBrowser('next')
         e.preventDefault()
         break
       case 'up':
-        this.props.focusSearchBrowserItem('prev')
+        this.props.navigateSearchBrowser('prev')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.props.navigateSearchBrowser('select')
         e.preventDefault()
         break
       case 'tab':
         this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
-        e.preventDefault()
-        break
-      case 'enter':
-        this.onSelectItem()
         e.preventDefault()
         break
       default:
@@ -127,6 +113,11 @@ export default class Browser extends Component {
     this.props.onAbort(data)
   }
 
+  // After selection we don't care about scheduled inputs.
+  ignoreScheduledInput() {
+    clearTimeout(this.onInputTimeoutId)
+  }
+
   renderContent() {
     const {sections, data} = this.props
 
@@ -151,22 +142,17 @@ export default class Browser extends Component {
 
   renderService(data) {
     const Service = services.Default
-    const props = pick(this.props, 'hasIntegrations', 'canAddIntegrations',
-      'images', 'onAddIntegration', 'orgName', 'orgOwner')
-
     return (
       <Service
-        {...props}
+        {...this.props}
         Item={Item}
         data={data}
-        focusedItem={this.props.focusedItem}
         onFocus={::this.onFocusItem}
         onSelect={::this.onSelectItem} />
     )
   }
 
   render() {
-    console.log('render', this.props.focusedItem)
     const {classes} = this.props.sheet
     const content = this.renderContent()
     const inlineStyle = {

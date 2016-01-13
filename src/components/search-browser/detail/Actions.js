@@ -12,23 +12,12 @@ import style from './actionsStyle'
 export default class Actions extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    actions: PropTypes.array,
-    focused: PropTypes.bool
+    items: PropTypes.array,
+    focused: PropTypes.bool,
+    focusedAction: PropTypes.object
   }
 
   static defaultProps = {
-    actions: [
-      {
-        type: 'attach',
-        text: 'Attach to message',
-        icon: 'comment'
-      },
-      {
-        type: 'open',
-        text: 'Open',
-        icon: 'iconLink'
-      }
-    ],
     focused: false
   }
 
@@ -53,13 +42,13 @@ export default class Actions extends Component {
 
   render() {
     const {classes} = this.props.sheet
-
     return (
       <List
         className={classes.actions}
-        items={this.props.actions}
+        items={this.props.items}
         renderItem={::this.renderItem}
         onSelect={::this.onSelect}
+        focused={this.props.focusedAction}
         ref="list" />
     )
   }

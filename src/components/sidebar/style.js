@@ -6,6 +6,7 @@ export default {
     ...fonts.normal,
     color: colors.grapeTypo,
     borderLeft: '1px solid ' + colors.silverDark,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
+    position: 'relative'
   }
 }
