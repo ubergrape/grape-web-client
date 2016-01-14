@@ -1,3 +1,4 @@
+import colors from 'grape-theme/dist/base-colors'
 import utils from 'grape-jss-utils'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'

@@ -1,3 +1,5 @@
+import color from 'color'
+import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 export default {

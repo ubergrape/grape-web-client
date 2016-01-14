@@ -35,13 +35,12 @@ export default {
   },
   header: {
     display: 'flex',
-    background: webColors.sidebarBackground,
+    background: colors.white,
     height: 50
   },
   close: {
     fontSize: '2em',
     fontWeight: 'bold',
-    color: colors.white,
     padding: '0 20px',
     opacity: 0.5,
     border: 'none',
@@ -53,11 +52,10 @@ export default {
     }
   },
   title: {
-    ...fonts.big,
+    ...fonts.biggest,
     ...utils.ellipsis,
     flex: 2,
     alignSelf: 'center',
-    color: 'white',
     paddingLeft: 20
   },
   body: {
