@@ -20,7 +20,6 @@ export default {
     display: 'flex'
   },
   searchIcon: {
-    display: 'inline-block',
     height: iconSize,
     width: iconSize,
     background: `no-repeat url('${icons.magnifier}')`,

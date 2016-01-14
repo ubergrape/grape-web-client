@@ -12,6 +12,7 @@ import {
   setSelectedTab
 } from '../components/browser/dataUtils'
 
+// Trick the linter to not to warn about console usage.
 let {warn} = console
 warn = warn.bind(console)
 
@@ -178,8 +179,7 @@ function getTabs(items = [], serviceId) {
     }
   })
 
-  let total = 0
-  tabs.forEach(tab => total += (tab.amount || 0))
+  const total = tabs.reduce((counter, tab) => counter + (tab.amount || 0), 0)
 
   tabs.unshift({
     label: 'All',

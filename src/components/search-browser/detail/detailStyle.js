@@ -28,7 +28,7 @@ export default {
   article: {
     position: 'relative',
     display: 'flex',
-    borderBottom: '1px solid ' + colors.silverDark,
+    borderBottom: `1px solid ${colors.silverDark}`,
     padding: 20,
     paddingBottom: 10
   },
