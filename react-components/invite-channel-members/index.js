@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/utils'
-import {channelMembers} from '../selectors'
+import {freeForInvite} from '../selectors'
 import actionNames from './actionNames'
 import InviteChannelMembers from './InviteChannelMembers'
 
 const ConnectedInviteChannelMembers = connect(
-  channelMembers,
+  freeForInvite,
   mapActionsToProps(actionNames)
 )(InviteChannelMembers)
 

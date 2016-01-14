@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import pick from 'lodash/object/pick'
+import differenceBy from 'lodash.differenceby'
 
 export const userSelector = createSelector(
   state => state.user, state => state
@@ -69,12 +70,11 @@ export const alertsAndChannelSelector = createSelector(
   }
 )
 
-export const channelMembers = createSelector(
+export const freeForInvite = createSelector(
   [channelSelector, usersSelector],
   ({users}, allUsers) => {
     return {
-      invited: users,
-      users: allUsers
+      users: differenceBy(allUsers, users, 'id')
     }
   }
 )
