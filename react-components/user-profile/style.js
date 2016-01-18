@@ -35,10 +35,6 @@ export default {
     ...fonts.big,
     ...utils.ellipsis
   },
-  username: {
-    ...utils.ellipsis,
-    marginBottom
-  },
   about: {
     marginBottom,
     maxHeight: 200,
