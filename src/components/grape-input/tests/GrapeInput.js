@@ -15,7 +15,7 @@ describe('grape-input:', () => {
 
   describe('GrapeInput() with search', () => {
     it('should open search browser', () => {
-      const input = <GrapeInput browser="search" data={data0} focused />
+      const input = <GrapeInput browser="search" data={data0} focused setTrigger />
       render(input)
       expect($('search-browser', document.body)).to.be.an(Element)
     })

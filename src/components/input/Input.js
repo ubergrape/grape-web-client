@@ -75,9 +75,9 @@ export default class Input extends Component {
     this.query.set(query)
   }
 
-  onBlur() {
+  onBlur(e) {
     this.setState({focused: false})
-    this.props.onBlur()
+    this.props.onBlur(e)
   }
 
   onChangeQuery() {

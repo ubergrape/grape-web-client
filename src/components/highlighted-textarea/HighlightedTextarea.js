@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react'
+import noop from 'lodash/utility/noop'
 import {
   getTokenUnderCaret,
   getQuery,
@@ -8,7 +9,8 @@ import {
   updateIfNewEmoji,
   parseAndReplace,
   ensureSpace,
-  isFocused
+  isFocused,
+  focus
 } from './utils'
 
 import keyname from 'keyname'
@@ -38,7 +40,9 @@ export default class HighlightedTextarea extends Component {
     content: '',
     placeholder: '',
     focused: true,
-    disabled: false
+    disabled: false,
+    onBlur: noop,
+    onChange: noop
   }
 
   constructor(props) {
@@ -63,7 +67,7 @@ export default class HighlightedTextarea extends Component {
 
   componentDidUpdate() {
     const {textarea} = this.refs
-    if (this.props.focused) textarea.focus()
+    if (this.props.focused) focus(textarea)
 
     if (isFocused(textarea)) {
       const {caretPos} = this.state

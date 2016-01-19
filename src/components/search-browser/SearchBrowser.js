@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
 
@@ -23,6 +24,7 @@ export default class Browser extends Component {
     onSelectItem: PropTypes.func,
     onInput: PropTypes.func,
     onAbort: PropTypes.func,
+    onBlur: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
     selectSearchBrowserTab: PropTypes.func,
@@ -113,8 +115,23 @@ export default class Browser extends Component {
   }
 
   onMouseDown(e) {
+    // This flag is to fix IE11 issue
+    // http://stackoverflow.com/questions/2023779/clicking-on-a-divs-scroll-bar-fires-the-blur-event-in-i-e
+    this.blurPrevented = true
+
     // Avoids loosing focus and though caret position in input.
-    e.preventDefault()
+    const input = ReactDOM.findDOMNode(this.refs.input)
+    if (e.target !== input) e.preventDefault()
+  }
+
+  onBlur(e) {
+    if (!this.blurPrevented) {
+      this.props.onBlur(e)
+      return
+    }
+
+    this.blurPrevented = false
+    e.target.focus()
   }
 
   onAbort(data) {
@@ -183,12 +200,14 @@ export default class Browser extends Component {
             onKeyDown={::this.onKeyDown}
             onInput={::this.onInput}
             onChangeFilters={this.props.onSelectFilter}
+            onBlur={::this.onBlur}
             focused={this.props.focused}
             filters={this.props.filters}
             search={this.props.search}
             className={classes.input}
             type="search"
-            placeholder="Grape Search" />
+            placeholder="Grape Search"
+            ref="input" />
         </div>
         {this.props.tabs &&
           <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />

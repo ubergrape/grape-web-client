@@ -115,7 +115,7 @@ export default class Input extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.browser !== this.state.browser) {
+    if (nextState.browser !== this.state.browser && nextProps.setTrigger) {
       this.setTrigger(nextState.browser)
     }
   }
@@ -192,6 +192,10 @@ export default class Input extends Component {
     }
   }
 
+  onBlurInput() {
+    if (!this.state.browser) this.emit('blur')
+  }
+
   onBlurBrowser() {
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser()
@@ -230,10 +234,6 @@ export default class Input extends Component {
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
     this.emit('change')
-  }
-
-  onBlurInput() {
-    this.emit('blur')
   }
 
   setTrigger(browser) {
