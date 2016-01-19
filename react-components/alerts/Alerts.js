@@ -20,15 +20,6 @@ export default class Alerts extends Component {
     clearAlertDelay: PropTypes.func
   }
 
-  constructor(props) {
-    super(props)
-    this.timeoutIds = []
-  }
-
-  componentWillUnmount() {
-    this.timeoutIds.forEach(clearTimeout)
-  }
-
   renderAlertContent(alert) {
     switch (alert.type) {
       case types.NOTIFICATIONS_REMINDER:

@@ -14,8 +14,8 @@ export default class Alert extends Component {
     }
   }
 
-  componentWillMount() {
-    const {closeAfter} = this.props
+  componentWillReceiveProps(nextProps) {
+    const {closeAfter} = nextProps
     if (closeAfter) {
       this.setState({
         timeoutId: setTimeout(() => {
