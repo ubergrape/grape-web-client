@@ -1,3 +1,4 @@
 export default [
-
+  'addToInviteList',
+  'removeFromInviteList'
 ]
