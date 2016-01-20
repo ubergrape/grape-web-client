@@ -159,7 +159,7 @@ UI.prototype.init = function UI_init() {
     showBullets: false,
     steps: [
       {
-        intro: _('<img style="float: right; margin-left: 10px" width="135" height="160" src="'+ staticurl("images/mascot/mascot.png") +'"><div style="overflow: hidden"><h2>Welcome '+ window.globalDisplayName +'</h2><p>Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.</p><p>If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.</p></div><div style="clear:both"></div>'),
+        intro: _('<img style="float: right; margin-left: 10px" width="135" height="160" src="'+ staticurl("images/mascot/mascot.png") +'"><div style="overflow: hidden"><h2>Welcome</h2><p>Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.</p><p>If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.</p></div><div style="clear:both"></div>'),
         tooltipClass: "intro-welcome"
       },
       {
