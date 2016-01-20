@@ -1,5 +1,8 @@
+import color from 'color'
 import utils from 'grape-jss-utils'
 import fonts from 'grape-theme/dist/fonts'
+import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
@@ -11,22 +14,19 @@ const button = {
   ...fonts.normal,
   display: 'block',
   marginBottom: marginBottom / 2,
-  // XXX
   '&:hover': {
-    color: '#4098f2 !important',
+    color: color(colors.blue).lighten(0.05).rgbaString(),
     textDecoration: 'underline !important'
   }
 }
 
 export default {
   channelInfo: {
-    // XXX
-    color: '#707782'
+    color: colors.grayBlueDark
   },
   header: {
     marginBottom,
-    // XXX
-    borderBottom: '1px solid #D3D5DA'
+    borderBottom: webColors.borderDefault
   },
   stats: {
     ...fonts.normal,
@@ -46,18 +46,15 @@ export default {
   },
   buttonInvite: {
     ...button,
-    // XXX
-    ...buttonIcon('invite', {color: '#0080ff', hoverColor: '#4098f2'})
+    ...buttonIcon('invite', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
   },
   buttonLeave: {
     ...button,
-    // XXX
     color: '#707782',
-    ...buttonIcon('exit', {color: '#707782', hoverColor: '#4098f2'})
+    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
   },
   buttonKick: {
-    // XXX
-    ...buttonIcon('close', {color: '#707782', hoverColor: '#4098f2', iconOnly: true}),
+    ...buttonIcon('close', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true}),
     flexShrink: 0,
     display: 'none'
   },
@@ -81,10 +78,9 @@ export default {
     ...fonts.normal,
     flex: 1,
     alignSelf: 'center',
-    // XXX
-    color: '#707782',
+    color: colors.grayBlueDark,
     '&:hover': {
-      color: '#4098f2 !important'
+      color: color(colors.blue).lighten(0.05).rgbaString()
     }
   }
 }

@@ -33,7 +33,6 @@ let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
-let Messages = exports.Messages = require('./utils/messages')
 let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
 let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
@@ -44,6 +43,7 @@ let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 import reduxEmitter from '../../react-components/redux-emitter'
+import * as alerts from '../../react-components/constants/alerts'
 import '../../react-components/app'
 
 function UI(options) {
@@ -99,8 +99,7 @@ UI.prototype.init = function UI_init() {
   chat.parentNode.replaceChild(this.historyView.el, chat)
 
   this.title = new Title()
-  this.messages = new Messages()
-  qs('.chat-wrapper', this.el).appendChild(this.messages.el)
+  qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -134,7 +133,10 @@ UI.prototype.init = function UI_init() {
   if (notify.isSupported
     && notify.permissionLevel() === notify.PERMISSION_DEFAULT
     && (typeof window.external === "undefined" || typeof window.external.msIsSiteMode === "undefined")) {
-      this.enableNotificationMessage = this.messages.info('notifications reminder')
+      this.reduxEmitter.showAlert({
+        level: 'info',
+        type: alerts.NOTIFICATIONS_REMINDER
+      })
       classes(qs('body')).add('notifications-disabled')
   }
 
@@ -208,18 +210,13 @@ UI.prototype.bind = function UI_bind() {
     'toggleOrganizationMenu': function () {
       self.organizationMenu.toggle(qs('.settings-icon'))
     },
-    'requestPermission': function () {
-      notify.requestPermission(function (permission) {
-        if (permission !== "default") {
-          self.enableNotificationMessage.remove()
-          classes(qs('body')).remove('notifications-disabled')
-        }
-      })
+    'closeNotificationsMessage': function() {
+      self.enableNotificationMessage.remove()
     }
   })
 
   this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
-  this.events.bind('click .enable_notifications', 'requestPermission')
+  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
 
   this.room = null
 
@@ -229,6 +226,15 @@ UI.prototype.bind = function UI_bind() {
   })
   this.intro.onexit(function () {
     self.emit('introend')
+  })
+}
+
+UI.prototype.requestPermission = function () {
+  notify.requestPermission(permission => {
+    if (permission !== 'default') {
+      this.enableNotificationMessage.remove()
+      classes(qs('body')).remove('notifications-disabled')
+    }
   })
 }
 
@@ -331,22 +337,6 @@ UI.prototype.gotError = function UI_gotError(err) {
   notification.error(err.message)
 }
 
-UI.prototype.onDisconnected = function () {
-  this.firstTimeConnect = false
-  if (this._connErrMsg) return
-  this._connErrMsg = this.messages.danger('connection lost')
-  classes(qs('body')).add('disconnected')
-}
-
-UI.prototype.onConnected = function () {
-  if (!this._connErrMsg || this.firstTimeConnect) return
-  this._connErrMsg.remove()
-  delete this._connErrMsg
-  classes(qs('body')).remove('disconnected')
-  let msg = this.messages.success('reconnected')
-  setTimeout(function () { msg.remove() }, 2000)
-}
-
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
   this.room = room
 }
@@ -404,10 +394,15 @@ UI.prototype.onUploaded = function (attachment) {
 }
 
 UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
-  let redirectSlug = channel.type === 'pm' ? '@' + channel.users[0].slug : channel.slug
+  // TODO: need to be fixed before PR accepted!
+  let redirectSlug = channel.type === 'pm' ? channel.users[0].slug : channel.slug
+
   page.redirect('/chat/' + redirectSlug)
-  let msg = this.messages.warning('message not found')
-  setTimeout(function () { msg.remove() }, 6000)
+  this.reduxEmitter.showAlert({
+    level: 'warning',
+    type: alerts.MESSAGE_NOT_FOUND,
+    closeAfter: 6000
+  })
 }
 
 UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
@@ -422,9 +417,12 @@ UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
 }
 
 UI.prototype.onInvalidUrl = function(cause) {
-  const msg = this.messages.warning(cause)
   page.redirect('/chat/')
-  setTimeout(() => msg.remove(), 6000)
+  this.reduxEmitter.showAlert({
+    level: 'warning',
+    type: cause,
+    closeAfter: 6000
+  })
 }
 
 UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {

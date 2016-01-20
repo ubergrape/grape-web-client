@@ -1,5 +1,6 @@
 import button from '../button/default'
 import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 export default {
@@ -19,8 +20,7 @@ export default {
       left: 0,
       height: 1,
       width: '100%',
-      // XXX
-      background: '#DADCDE',
+      background: webColors.borderDefault,
       margin: 0
     },
     '&:first-child': {
@@ -30,12 +30,11 @@ export default {
   dateBubble: {
     position: 'relative',
     fontWeight: 'bold',
-    background: colors.grayBlueLight,
+    background: colors.grayBlueLighter,
     padding: `3px ${fonts.normal.fontSize}px`
   },
   channel: {
-    // XXX
-    color: '#ABB0B9',
+    color: colors.grayBlue,
     textTransform: 'uppercase',
     marginTop: 20,
     marginBottom: 5,
@@ -48,8 +47,7 @@ export default {
     textAlign: 'center'
   },
   highlighted: {
-    // XXX
-    background: '#FFF3B9'
+    background: colors.yellow
   },
   button
 }

@@ -1,3 +1,4 @@
+import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
@@ -11,12 +12,12 @@ export default {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    background: colors.grayBlueLight
+    background: colors.grayBlueLighter
   },
   header: {
     display: 'flex',
     flexShrink: 0,
-    background: colors.grayBlueDark,
+    background: colors.grayBlueLight,
     // Used to overlap absolutely positioned content e.g. loading indicator.
     position: 'relative',
     zIndex: 1
@@ -26,18 +27,16 @@ export default {
     ...utils.ellipsis,
     flex: 2,
     alignSelf: 'center',
-    // XXX
-    color: '#666',
+    color: colors.gray,
     padding: `14px ${padding}px`
   },
   body: {
     padding: 20,
-    background: colors.grayBlueLight,
+    background: colors.grayBlueLighter,
     overflow: 'auto'
   },
   close: {
-    // XXX
-    ...buttonIcon('close', {color: '#ABB0B9', hoverColor: '#4098f2', iconOnly: true}),
+    ...buttonIcon('close', {color: colors.grayBlue, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true}),
     padding: `0 ${padding}px`
   }
 }

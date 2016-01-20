@@ -23,21 +23,16 @@
 	.text.main
 		margin-left: 2px
 		max-width: 740px
-		&.add-margin
-			margin-top: 12px
 	.source-wrap // Used to display info on the right side of the message
 		@extend $ellipsis
-		float: right
 		background-color: #FBFBFB
 		border: solid 1px #E5E5E5
 		border-radius: 3px
-		font-size: 0.9em
+		font-size: 13px
 		padding: 0px 8px 0px 8px
 		color: #666666 !important
-		margin-top: -3px
-		margin-left: 6px
-		max-width: 190px
-		display: block
+		max-width: 350px
+		display: inline-block
 		a
 			color: #666666 !important
 		@media (max-width: 800px)
@@ -146,12 +141,15 @@
 		.short-list
 			display: none
 	.times
-		margin-left: 5px
-		padding: 0 5px
-		border-radius: 4px
-		color: gold
-		float: right
-		border: 2px solid gold
+		position: absolute
+		top: 0
+		right: -35px
+		padding: 2px 8px
+		background: gold
+		color: white
+		border-radius: 16px
+		font-size: 13px
+		text-align: center
 /*
 
 	&.github

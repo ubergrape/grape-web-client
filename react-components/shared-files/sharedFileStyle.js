@@ -1,3 +1,4 @@
+import colors from 'grape-theme/dist/base-colors'
 import utils from 'grape-jss-utils'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
@@ -39,13 +40,11 @@ export default {
     ...utils.ellipsis,
     ...fonts.normal,
     fontWeight: '500',
-    // XXX
-    color: '#333'
+    color: colors.grayDark
   },
   meta: {
     ...utils.ellipsis,
     ...fonts.small,
-    // XXX
-    color: '#707782'
+    color: colors.grayBlueDark
   }
 }

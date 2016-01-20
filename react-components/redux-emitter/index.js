@@ -2,6 +2,7 @@ import Emitter from 'emitter'
 
 import {toCamel} from '../backend/convertCase'
 import boundActions from '../app/boundActions'
+import * as alerts from '../constants/alerts'
 
 function formatChannel(channel) {
   const jsonChannel = channel.toJSON()
@@ -93,6 +94,30 @@ class ReduxEmitter extends Emitter {
 
   showError(err) {
     this.emit('error', err)
+  }
+
+  showAlert(settings) {
+    boundActions.showAlert(settings)
+  }
+
+  hideAlert(type) {
+    boundActions.hideAlertByType(type)
+  }
+
+  enableNotifications() {
+    this.emit('enableNotifications')
+  }
+
+  setLoadingHistory(value) {
+    if (value) {
+      boundActions.showAlert({
+        level: 'info',
+        type: alerts.LOADING_HISTORY,
+        delay: 1000
+      })
+      return
+    }
+    boundActions.hideAlertByType(alerts.LOADING_HISTORY)
   }
 }
 

@@ -54,14 +54,12 @@ export default {
   },
   author: {
     ...utils.ellipsis,
-    // XXX
-    color: '#666',
+    color: colors.gray,
     marginRight: 10
   },
   date: {
     whiteSpace: 'nowrap',
-    // XXX
-    color: '#AAA',
+    color: colors.grayLight,
     width: 52,
     flexShrink: 0
   },
