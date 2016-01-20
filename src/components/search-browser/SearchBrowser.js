@@ -11,6 +11,7 @@ import Empty from '../empty/Empty'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import Input from '../input/Input'
 import * as services from './services'
+import {listTypes} from '../../constants/searchBrowser'
 
 /**
  * Main search browser component.
@@ -30,6 +31,7 @@ export default class Browser extends Component {
     selectSearchBrowserTab: PropTypes.func,
     navigateSearchBrowser: PropTypes.func,
     focusSearchBrowserAction: PropTypes.func,
+    hoverSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
     inputSearchBrowserSearch: PropTypes.func,
     focusedItem: PropTypes.object,
@@ -47,7 +49,7 @@ export default class Browser extends Component {
     tabs: PropTypes.array,
     search: PropTypes.string,
     filters: PropTypes.array,
-    focusedList: PropTypes.oneOf(['objects', 'actions'])
+    focusedList: PropTypes.oneOf(listTypes)
   }
 
   componentDidMount() {
@@ -178,6 +180,7 @@ export default class Browser extends Component {
         onFocus={::this.onFocusItem}
         onSelect={::this.onSelectItem}
         onFocusAction={this.props.focusSearchBrowserAction}
+        onHoverAction={this.props.hoverSearchBrowserAction}
         onSelectAction={::this.onSelectAction} />
     )
   }

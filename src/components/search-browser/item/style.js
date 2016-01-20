@@ -1,8 +1,8 @@
 import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import utils from 'grape-jss-utils'
-import color from 'color'
 
 export const container = {
   display: 'flex',
@@ -24,7 +24,7 @@ const metaItem = {
   marginLeft: 4,
   padding: '2px 6px',
   borderRadius: sizes.borderRadius.small,
-  border: '1px solid ' + colors.silverDark,
+  border: `1px solid ${colors.silverDark}`,
   backgroundColor: colors.silverLight,
   color: colors.gainsboroDark
 }
@@ -33,8 +33,8 @@ export const rules = {
   container: container,
   containerFocused: {
     ...container,
-    color: colors.white,
-    background: colors.grapeLight
+    color: colors.grayDark,
+    background: colors.grayBlueLight
   },
   iconContainer: {
     display: 'flex',
@@ -44,11 +44,11 @@ export const rules = {
   },
   icon: {
     ...icon,
-    color: color(colors.gainsboroDark).lighten(0.5).rgbaString()
+    color: colors.grayDark
   },
   iconFocused: {
     ...icon,
-    color: colors.white
+    color: colors.grayDark
   },
   nameContainer: {
     flex: 1,
@@ -64,6 +64,7 @@ export const rules = {
   info: {
     ...fonts.smaller,
     ...utils.ellipsis,
+    color: colors.grayLight,
     marginTop: 4,
     opacity: 0.5
   },
@@ -76,7 +77,6 @@ export const rules = {
   metaItemFocused: {
     ...metaItem,
     color: colors.white,
-    backgroundColor: color(colors.grapeLight).lighten(0.2).rgbaString(),
-    borderColor: color(colors.grapeLight).lighten(0.4).rgbaString()
+    backgroundColor: webColors.buttonBgDefault
   }
 }

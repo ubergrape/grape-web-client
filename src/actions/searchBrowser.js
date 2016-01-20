@@ -394,6 +394,15 @@ export function focusSearchBrowserAction(focusedAction) {
   }
 }
 
+export function hoverSearchBrowserAction(hoveredAction) {
+  return {
+    type: types.HOVER_SEARCH_BROWSER_ACTION,
+    payload: {
+      hoveredAction
+    }
+  }
+}
+
 export function execSearchBrowserAction() {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())

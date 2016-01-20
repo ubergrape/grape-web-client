@@ -1,10 +1,11 @@
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
-import * as icons from 'grape-web/lib/svg-icons/data'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import style from '../browser/style'
 
 const iconSize = 22
+const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.blue})
 
 export default {
   ...style,
@@ -22,7 +23,7 @@ export default {
   searchIcon: {
     height: iconSize,
     width: iconSize,
-    background: `no-repeat url('${icons.magnifier}')`,
+    background: `no-repeat url('${magnifierIcon}')`,
     backgroundSize: 'contain',
     alignSelf: 'center',
     marginLeft: 20

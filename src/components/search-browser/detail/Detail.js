@@ -9,6 +9,7 @@ import Empty from './DetailEmpty'
 import Actions from './Actions'
 import style from './detailStyle'
 import * as utils from './utils'
+import {listTypes} from '../../../constants/searchBrowser'
 
 /**
  * Detail view for objects.
@@ -19,11 +20,13 @@ export default class Detail extends Component {
     sheet: PropTypes.object.isRequired,
     data: PropTypes.object,
     images: PropTypes.object,
-    focusedList: PropTypes.oneOf(['objects', 'actions']),
+    focusedList: PropTypes.oneOf(listTypes),
     actions: PropTypes.array,
     focusedAction: PropTypes.object,
+    hoveredAction: PropTypes.object,
     onSelectAction: PropTypes.func,
-    onFocusAction: PropTypes.func
+    onFocusAction: PropTypes.func,
+    onHoverAction: PropTypes.func
   }
 
   static defaultProps = {
@@ -106,8 +109,10 @@ export default class Detail extends Component {
           focused={this.props.focusedList === 'actions'}
           items={this.props.actions}
           focusedAction={this.props.focusedAction}
+          hoveredAction={this.props.hoveredAction}
           onSelect={this.props.onSelectAction}
-          onFocus={this.props.onFocusAction} />
+          onFocus={this.props.onFocusAction}
+          onHover={this.props.onHoverAction} />
       </div>
     )
   }

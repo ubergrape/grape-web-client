@@ -1,21 +1,20 @@
+import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
+
 export default {
   action: {
     display: 'flex',
     padding: '5px 15px',
     cursor: 'pointer',
-    '&:hover': {
-      // XXX
-      background: 'red'
-    }
+    color: colors.grayBlueDark
   },
   actionFocused: {
-    // XXX
-    background: 'red'
+    background: webColors.buttonBgDefault,
+    color: colors.white
   },
   // When parent component is not focused, but action is.
   actionFocusedBg: {
-    // XXX
-    background: 'rgba(218, 156, 156, 1)'
+    background: colors.grayBlueLighter
   },
   icon: {
     flexShrink: 0,
