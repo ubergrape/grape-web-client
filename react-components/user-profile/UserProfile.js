@@ -55,9 +55,6 @@ export default class UserProfile extends Component {
             <div className={classes.fullName}>
               {displayName}
             </div>
-            <div className={classes.username}>
-              {slug}
-            </div>
             {whatIDo && <div className={classes.about}>
               <p>What I do:</p>
               <p>{whatIDo}</p>
