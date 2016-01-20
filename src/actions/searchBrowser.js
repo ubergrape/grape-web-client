@@ -326,14 +326,11 @@ function navigate(action, state) {
 function createState(nextProps, prevState) {
   const {data} = nextProps
 
-  const inputDelay = nextProps.isExternal ? nextProps.externalServicesInputDelay : undefined
-
   if (!data) {
     return {
       ...nextProps,
       sections: [],
       tabs: [],
-      inputDelay,
       focusedItem: undefined
     }
   }
@@ -356,7 +353,7 @@ function createState(nextProps, prevState) {
 
   const focusedItem = getFocusedItem(sections)
 
-  return {...nextProps, sections, tabs, inputDelay, focusedItem}
+  return {...nextProps, sections, tabs, focusedItem}
 }
 
 export function createSearchBrowserState(props) {
@@ -367,6 +364,12 @@ export function createSearchBrowserState(props) {
       type: types.CREATE_SEARCH_BROWSER_STATE,
       payload: createState(props, state)
     })
+  }
+}
+
+export function resetSearchBrowserState() {
+  return {
+    type: types.RESET_SEARCH_BROWSER_STATE
   }
 }
 
@@ -455,7 +458,7 @@ export function inputSearchBrowserSearch(query) {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
     dispatch({
-      type: 'INPUT_SEARCH_BROWSER_SEARCH',
+      type: types.INPUT_SEARCH_BROWSER_SEARCH,
       payload: {
         search: query.search,
         filters: query.filters

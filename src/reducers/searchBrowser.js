@@ -24,6 +24,8 @@ const initialState = {
   canAddIntegrations: false,
   externalServicesInputDelay: 500,
   focusedList: 'objects',
+  search: '',
+  filters: [],
   actions,
   focusedAction: actions[0],
   onAddIntegration: noop,
@@ -47,6 +49,8 @@ export default function reduce(state = initialState, action) {
     case types.SELECT_SEARCH_BROWSER_ITEM:
     case types.INPUT_SEARCH_BROWSER_SEARCH:
       return {...state, ...action.payload}
+    case types.RESET_SEARCH_BROWSER_STATE:
+      return initialState
     default:
       return state
   }

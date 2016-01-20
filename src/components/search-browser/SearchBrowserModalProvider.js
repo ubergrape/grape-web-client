@@ -6,7 +6,7 @@ import {searchBrowserSelector} from '../../selectors'
 import store from '../../store'
 import actionNames from './actionNames'
 import SearchBrowserModal from './SearchBrowserModal'
-import {createSearchBrowserState} from '../../boundActions'
+import {createSearchBrowserState, resetSearchBrowserState} from '../../boundActions'
 
 const ConnectedSearchBrowserModal = connect(
   searchBrowserSelector,
@@ -16,6 +16,10 @@ const ConnectedSearchBrowserModal = connect(
 export default class SearchBrowserModalProvider extends Component {
   componentWillReceiveProps(nextProps) {
     createSearchBrowserState(nextProps)
+  }
+
+  componentWillUnmount() {
+    resetSearchBrowserState()
   }
 
   render() {
