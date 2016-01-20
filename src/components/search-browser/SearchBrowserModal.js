@@ -31,7 +31,7 @@ export default class SearchBrowserModal extends Component {
   }
 
   onHideModal() {
-    this.hideAndCallMethod('onAbort', {reason: 'escOrOverlayClick'})
+    this.hideAndCallMethod('onAbort', {reason: 'esc'})
   }
 
   hideAndCallMethod(method, ...args) {

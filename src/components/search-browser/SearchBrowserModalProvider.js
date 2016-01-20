@@ -14,6 +14,11 @@ const ConnectedSearchBrowserModal = connect(
 )(SearchBrowserModal)
 
 export default class SearchBrowserModalProvider extends Component {
+  constructor(props) {
+    super(props)
+    createSearchBrowserState(props)
+  }
+
   componentWillReceiveProps(nextProps) {
     createSearchBrowserState(nextProps)
   }

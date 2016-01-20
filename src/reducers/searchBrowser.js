@@ -34,7 +34,8 @@ const initialState = {
   onDidMount: noop,
   onChange: noop,
   onAbort: noop,
-  onBlur: noop
+  onBlur: noop,
+  onInput: noop
 }
 
 export default function reduce(state = initialState, action) {

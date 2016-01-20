@@ -31,6 +31,7 @@ export default class Browser extends Component {
     navigateSearchBrowser: PropTypes.func,
     focusSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
+    inputSearchBrowserSearch: PropTypes.func,
     focusedItem: PropTypes.object,
     focused: PropTypes.bool,
     data: PropTypes.object,
@@ -45,7 +46,8 @@ export default class Browser extends Component {
     className: PropTypes.string,
     tabs: PropTypes.array,
     search: PropTypes.string,
-    filters: PropTypes.array
+    filters: PropTypes.array,
+    focusedList: PropTypes.oneOf(['objects', 'actions'])
   }
 
   componentDidMount() {

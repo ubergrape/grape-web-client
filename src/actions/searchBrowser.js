@@ -204,6 +204,25 @@ function filtersToServiceId({services = []}, filters = []) {
 }
 
 /**
+ * Finds an element index in a list by selector "prev" or "next".
+ * If selector goes to the undefined position, first or last element will be selected.
+ */
+function findIndexBySelector(selector, list, validation) {
+  const currIndex = findIndex(list, validation)
+  let index
+
+  if (selector === 'next') {
+    index = list[currIndex + 1] ? currIndex + 1 : 0
+  }
+
+  if (selector === 'prev') {
+    index = list[currIndex - 1] ? currIndex - 1 : list.length - 1
+  }
+
+  return index
+}
+
+/**
  * Returns a new state with focused item according selector.
  */
 function focusItem(selector, state) {
@@ -254,25 +273,6 @@ function selectTab(selector, state) {
     filters,
     focusedItem
   }
-}
-
-/**
- * Finds an element index in a list by selector "prev" or "next".
- * If selector goes to the undefined position, first or last element will be selected.
- */
-function findIndexBySelector(selector, list, validation) {
-  const currIndex = findIndex(list, validation)
-  let index
-
-  if (selector === 'next') {
-    index = list[currIndex + 1] ? currIndex + 1 : 0
-  }
-
-  if (selector === 'prev') {
-    index = list[currIndex - 1] ? currIndex - 1 : list.length - 1
-  }
-
-  return index
 }
 
 function focusAction(selector, state) {
@@ -455,7 +455,7 @@ export function navigateSearchBrowser(action) {
   }
 }
 
-export function inputSearchBrowserSearch(query) {
+export function inputSearchBrowserSearch(query) {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
     dispatch({
