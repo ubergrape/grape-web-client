@@ -212,18 +212,8 @@ function focusItem(selector, state) {
   if (selector === 'next' || selector === 'prev') {
     const selectedSection = getSelectedSection(sections)
     const items = selectedSection ? selectedSection.items : extractItems(sections)
-    const focusedIndex = findIndex(items, item => item.focused)
-    let newItem
-
-    if (selector === 'next') {
-      newItem = items[focusedIndex + 1]
-      if (!newItem) newItem = items[0]
-    } else if (selector === 'prev') {
-      newItem = items[focusedIndex - 1]
-      if (!newItem) newItem = items[items.length - 1]
-    }
-
-    id = newItem.id
+    const itemIndex = findIndexBySelector(selector, items, item => item.focused)
+    id = items[itemIndex].id
   }
 
   setFocusedItem(sections, id)
@@ -241,21 +231,10 @@ function focusItem(selector, state) {
  */
 function selectTab(selector, state) {
   const {tabs} = state
-  const currIndex = findIndex(tabs, tab => tab.selected)
-  let newIndex
+  const tabIndex = findIndexBySelector(selector, tabs, tab => tab.selected)
+  const {id} = tabs[tabIndex]
 
-  if (selector === 'next') {
-    newIndex = currIndex + 1
-    if (!tabs[newIndex]) newIndex = 0
-  } else if (selector === 'prev') {
-    newIndex = currIndex - 1
-    if (newIndex < 0) newIndex = tabs.length - 1
-  } else {
-    newIndex = findIndex(tabs, tab => tab.id === selector)
-  }
-
-  const {id} = tabs[newIndex]
-  setSelectedTab(tabs, newIndex)
+  setSelectedTab(tabs, tabIndex)
   const sections = getSections(
     state.data,
     id,
