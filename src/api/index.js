@@ -512,17 +512,6 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
   }, callback)
 }
 
-API.prototype.onInviteToRoom = function API_onInviteToRoom(room, users) {
-  rpc({
-    ns: 'channels',
-    action: 'invite',
-    args: [room.id, users]
-  }, function (err, res) {
-    if (err) return this.emit('error', err)
-    this.emit('roomInviteSuccess')
-  }.bind(this))
-}
-
 /**
  * Loads history for `room`
  */

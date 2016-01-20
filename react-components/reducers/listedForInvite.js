@@ -18,6 +18,7 @@ export default function reducers(state = initialState, action) {
         listedForInvite
       }
     case types.SET_CHANNEL:
+    case types.HIDE_INVITE_CHANNEL_MEMBER_LIST:
       return initialState
     default:
       return state

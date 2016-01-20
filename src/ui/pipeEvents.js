@@ -86,7 +86,7 @@ export default function pipeEvents(ui) {
   broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
   broker(ui.historyView, 'switchToChatMode', ui.chatHeader, 'onSwitchToChatMode')
   broker(ui.historyView, 'switchToSearchMode', ui.chatHeader, 'onSwitchToSearchMode')
-  broker(ui.historyView, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
+  broker(ui.historyView, 'showRoomInvite', ui.reduxEmitter, 'showRoomInvite')
   broker(ui.historyView, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
   broker(ui.historyView, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
@@ -113,7 +113,6 @@ export default function pipeEvents(ui) {
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
-  broker(ui.reduxEmitter, 'toggleRoomInvite', ui, 'onToggleRoomInvite')
 
   // channel search
   broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')

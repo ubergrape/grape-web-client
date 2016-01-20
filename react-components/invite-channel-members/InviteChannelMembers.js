@@ -13,6 +13,10 @@ export default class InviteChannelMembers extends Component {
     sheet: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    users: []
+  }
+
   onSelect(user) {
     console.log('onClick', user)
     this.props.addToInviteChannelMemberList(user)
@@ -23,8 +27,15 @@ export default class InviteChannelMembers extends Component {
     this.props.removeFromInviteChannelMemberList(user)
   }
 
-  onInviteClick() {
+  onInviteToOrgClick() {
     console.log('INVITE')
+  }
+
+  onInviteUsersClick() {
+    const {listedForInvite} = this.props
+    if (!listedForInvite.length) return
+    this.props.inviteToCurrentChannel(listedForInvite)
+    this.onHide()
   }
 
   onHide() {
@@ -89,9 +100,23 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
-  renderFilterable() {
-    if (!this.props.users) return null
+  renderButton() {
+    if (!this.props.users.length) return null
 
+    const {listedForInvite} = this.props
+    return (
+      <div>
+        <button
+          onClick={::this.onInviteUsersClick}
+          disabled={!(listedForInvite && listedForInvite.length)}>
+          <i className="fa fa-user-plus"></i>
+          Invite members
+        </button>
+      </div>
+    )
+  }
+
+  renderFilterable() {
     return (
       <Dialog
         show={this.props.show}
@@ -106,8 +131,9 @@ export default class InviteChannelMembers extends Component {
           sort={this.sort}
           renderNotFound={this.renderNotFound}
           renderEmptyItems={this.renderEmptyItems}>
-          <button onClick={::this.onInviteClick}>Invite a new person to your team</button>
+          <button onClick={::this.onInviteToOrgClick}>Invite a new person to your team</button>
         </FilterableList>
+        {this.renderButton()}
       </Dialog>
     )
   }

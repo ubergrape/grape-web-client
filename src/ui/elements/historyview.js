@@ -57,7 +57,7 @@ HistoryView.prototype.init = function() {
 
 HistoryView.prototype.bind = function() {
   this.events = events(this.el, this)
-  this.events.bind('click .show-invite', 'toggleRoomInvite')
+  this.events.bind('click .show-invite', 'showRoomInvite')
   this.events.bind('click i.btn-delete', 'deleteMessage')
   this.events.bind('click i.btn-edit', 'selectForEditing')
   this.events.bind('click i.btn-delete-from-buffer', 'removeFromBuffer')
@@ -94,8 +94,8 @@ HistoryView.prototype.renderTypingNotification = function() {
   this.scrollWindow.appendChild(this.typingNotification)
 }
 
-HistoryView.prototype.toggleRoomInvite = function() {
-  this.emit('toggleRoomInvite', this.room)
+HistoryView.prototype.showRoomInvite = function() {
+  this.emit('showRoomInvite')
 }
 
 HistoryView.prototype.deleteMessage = function(ev) {

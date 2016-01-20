@@ -56,10 +56,6 @@ class ReduxEmitter extends Emitter {
     boundActions.userLeftChannel(formatChannel(channel))
   }
 
-  showInviteChannelMemberList(channel) {
-    this.emit('toggleRoomInvite', channel)
-  }
-
   onShowSharedFiles() {
     boundActions.showSharedFiles()
   }
@@ -82,6 +78,10 @@ class ReduxEmitter extends Emitter {
     boundActions.hideChannelInfo()
     boundActions.hideMessageSearch()
     boundActions.hideMentions()
+  }
+
+  showRoomInvite() {
+    boundActions.showInviteChannelMemberList()
   }
 
   showSidebar() {
