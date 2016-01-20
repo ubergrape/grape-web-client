@@ -24,6 +24,7 @@ export default class InviteChannelMembers extends Component {
     if (this.state.focused) this.refs.filter.focus()
   }
 
+
   componentWillReceiveProps(nexProps) {
     this.setState({
       focused: this.shouldInputFocus(nexProps)

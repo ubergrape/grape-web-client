@@ -67,6 +67,10 @@ export const listedForInvite = createSelector(
   state => state.listedForInvite, state => state
 )
 
+export const inviteDialogStatus = createSelector(
+  state => state.inviteDialogStatus, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {
@@ -74,14 +78,14 @@ export const alertsAndChannelSelector = createSelector(
   }
 )
 
-export const freeForInvite = createSelector(
-  [channelSelector, listedForInvite, usersSelector],
-  (channel, {listedForInvite}, allUsers) => {
+export const inviteDialog = createSelector(
+  [channelSelector, listedForInvite, usersSelector, inviteDialogStatus],
+  (channel, {listedForInvite}, allUsers, {show}) => {
     if (!channel.users) return {}
-    console.log(channel.users, listedForInvite)
     return {
       users: differenceBy(allUsers, channel.users, listedForInvite, 'id'),
-      listedForInvite: listedForInvite
+      listedForInvite: listedForInvite,
+      show
     }
   }
 )

@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from 'react'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
+import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 
 
@@ -12,26 +13,25 @@ export default class InviteChannelMembers extends Component {
     sheet: PropTypes.object.isRequired
   }
 
-  componentWillReceiveProps(nexProps) {
-    console.log(nexProps)
-  }
-
   onSelect(user) {
     console.log('onClick', user)
-    this.props.addToInviteList(user)
+    this.props.addToInviteChannelMemberList(user)
   }
 
   onSelectedClick(user) {
     console.log('onSelectedClick', user)
-    this.props.removeFromInviteList(user)
+    this.props.removeFromInviteChannelMemberList(user)
   }
 
   onInviteClick() {
     console.log('INVITE')
   }
 
+  onHide() {
+    this.props.hideInviteChannelMemberList()
+  }
+
   filter(value, user) {
-    console.log(value, user)
     return user.username.toLowerCase().indexOf(value) >= 0 ||
       user.displayName.toLowerCase().indexOf(value) >= 0
   }
@@ -90,26 +90,29 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderFilterable() {
+    if (!this.props.users) return null
+
     return (
-      <FilterableList
-        onSelect={::this.onSelect}
-        onSelectedClick={::this.onSelectedClick}
-        items={this.getItems()}
-        selected={this.getSelectedItems()}
-        filter={this.filter}
-        sort={this.sort}
-        renderNotFound={this.renderNotFound}
-        renderEmptyItems={this.renderEmptyItems}>
-        <button onClick={::this.onInviteClick}>Invite a new person to your team</button>
-      </FilterableList>
+      <Dialog
+        show={this.props.show}
+        onHide={::this.onHide}
+        title="Invite to room">
+        <FilterableList
+          onSelect={::this.onSelect}
+          onSelectedClick={::this.onSelectedClick}
+          items={this.getItems()}
+          selected={this.getSelectedItems()}
+          filter={this.filter}
+          sort={this.sort}
+          renderNotFound={this.renderNotFound}
+          renderEmptyItems={this.renderEmptyItems}>
+          <button onClick={::this.onInviteClick}>Invite a new person to your team</button>
+        </FilterableList>
+      </Dialog>
     )
   }
 
   render() {
-    return (
-      <div>
-        {this.props.users ? this.renderFilterable() : null}
-      </div>
-    )
+    return this.renderFilterable()
   }
 }

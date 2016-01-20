@@ -1,4 +1,5 @@
 export default [
-  'addToInviteList',
-  'removeFromInviteList'
+  'hideInviteChannelMemberList',
+  'addToInviteChannelMemberList',
+  'removeFromInviteChannelMemberList'
 ]
