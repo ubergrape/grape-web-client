@@ -5,13 +5,18 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import FilterableList from '../filterable-list/FilterableList'
 
+
 @useSheet(style)
 export default class InviteChannelMembers extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired
   }
 
-  onClick(user) {
+  componentWillReceiveProps(nexProps) {
+    console.log(nexProps)
+  }
+
+  onSelect(user) {
     console.log('onClick', user)
     this.props.addToInviteList(user)
   }
@@ -19,6 +24,10 @@ export default class InviteChannelMembers extends Component {
   onSelectedClick(user) {
     console.log('onSelectedClick', user)
     this.props.removeFromInviteList(user)
+  }
+
+  onInviteClick() {
+    console.log('INVITE')
   }
 
   filter(value, user) {
@@ -37,17 +46,69 @@ export default class InviteChannelMembers extends Component {
     return 1
   }
 
-  render() {
-    console.log(this.props)
+  getItems() {
+    return this.props.users.map(user => {
+      user.render = this.renderUser(user)
+      return user
+    })
+  }
+
+  getSelectedItems() {
+    return this.props.listedForInvite.map(user => {
+      user.render = this.renderSelectedUser(user)
+      return user
+    })
+  }
+
+  renderUser(user) {
+    return (
+      <button>{user.displayName}</button>
+    )
+  }
+
+  renderSelectedUser(user) {
+    return (
+      `> ${user.displayName}`
+    )
+  }
+
+  renderNotFound(value) {
     return (
       <div>
-        <FilterableList
-          onClick={::this.onClick}
-          onSelectedClick={::this.onSelectedClick}
-          items={this.props.users}
-          selected={this.props.invited}
-          filter={this.filter}
-          sort={this.sort} />
+        {'No one found for '}
+        <strong>{value}</strong>
+      </div>
+    )
+  }
+
+  renderEmptyItems(value) {
+    return (
+      <div>
+        Everyone has been invited to this room
+      </div>
+    )
+  }
+
+  renderFilterable() {
+    return (
+      <FilterableList
+        onSelect={::this.onSelect}
+        onSelectedClick={::this.onSelectedClick}
+        items={this.getItems()}
+        selected={this.getSelectedItems()}
+        filter={this.filter}
+        sort={this.sort}
+        renderNotFound={this.renderNotFound}
+        renderEmptyItems={this.renderEmptyItems}>
+        <button onClick={::this.onInviteClick}>Invite a new person to your team</button>
+      </FilterableList>
+    )
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.users ? this.renderFilterable() : null}
       </div>
     )
   }

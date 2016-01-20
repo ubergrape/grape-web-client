@@ -3,6 +3,8 @@ import React, {Component, PropTypes} from 'react'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
+import List from 'react-finite-list'
+import keyname from 'keyname'
 
 @useSheet(style)
 export default class InviteChannelMembers extends Component {
@@ -32,8 +34,9 @@ export default class InviteChannelMembers extends Component {
     if (this.state.focused) this.refs.filter.focus()
   }
 
-  onClick(item) {
-    this.props.onClick(item)
+  onSelectItem(item) {
+    this.clearFilter()
+    this.props.onSelect(item)
   }
 
   onSelectedClick(item) {
@@ -44,6 +47,26 @@ export default class InviteChannelMembers extends Component {
     this.setState({
       focused: this.shouldInputFocus(this.props)
     })
+  }
+
+  onKeyDown(e) {
+    const {list} = this.refs
+    if (!list) return
+    switch (keyname(e.keyCode)) {
+      case 'up':
+        list.focus('prev')
+        e.preventDefault()
+        break
+      case 'down':
+        list.focus('next')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.onSelectItem(list.state.focused)
+        e.preventDefault()
+        break
+      default:
+    }
   }
 
   onFilterChange() {
@@ -71,19 +94,50 @@ export default class InviteChannelMembers extends Component {
     return itemsLength && itemsLength > filteredLength
   }
 
+  clearFilter() {
+    this.refs.filter.value = ''
+    this.onFilterChange()
+  }
+
   renderInput() {
     if (!this.state.focused) return null
 
     return (
       <input
         ref="filter"
+        onKeyDown={::this.onKeyDown}
         onChange={::this.onFilterChange} />
     )
   }
 
-  render() {
+  renderItem({item, focused}) {
+    return (
+      <div style={focused ? {border: '1px solid red'} : null}>{item.render}</div>
+    )
+  }
+
+  renderList() {
     const {filtered} = this.state
-    const items = filtered || this.props.items
+    const {items} = this.props
+
+    if (filtered && !filtered.length) {
+      return this.props.renderNotFound(this.refs.filter.value)
+    }
+
+    if (!items.length) {
+      return this.props.renderEmptyItems()
+    }
+
+    return (
+      <List
+        items={filtered || items}
+        renderItem={::this.renderItem}
+        onSelect={::this.onSelectItem}
+        ref="list"/>
+    )
+  }
+
+  render() {
     return (
       <div>
         <div onClick={::this.onFilterClick}>
@@ -94,7 +148,7 @@ export default class InviteChannelMembers extends Component {
                   <li
                     key={i}
                     onClick={this.onSelectedClick.bind(this, item)}>
-                    {item.displayName}
+                    {item.render}
                     <i className="mdi mdi-close-circle-outline"></i>
                   </li>
                 )
@@ -103,19 +157,8 @@ export default class InviteChannelMembers extends Component {
           </ul>
           {this.renderInput()}
         </div>
-        <ul>
-          {
-            items.map((item, i) => {
-              return (
-                <li
-                  key={i}
-                  onClick={this.onClick.bind(this, item)}>
-                  {item.displayName}
-                </li>
-              )
-            }, this)
-          }
-        </ul>
+        {this.props.children}
+        {this.renderList()}
       </div>
     )
   }

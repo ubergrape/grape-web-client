@@ -1,21 +1,21 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  invitedChannelMembers: []
+  listedForInvite: []
 }
 
 export default function reducers(state = initialState, action) {
-  let invitedChannelMembers
+  let listedForInvite
   switch (action.type) {
     case types.ADD_TO_INVITE_LIST:
-      invitedChannelMembers = [...state.invitedChannelMembers, action.payload]
+      listedForInvite = [...state.listedForInvite, action.payload]
       return {
-        invitedChannelMembers
+        listedForInvite
       }
     case types.REMOVE_FROM_INVITE_LIST:
-      invitedChannelMembers = state.invitedChannelMembers.filter(member => member.id != action.payload.id)
+      listedForInvite = state.listedForInvite.filter(member => member.id != action.payload.id)
       return {
-        invitedChannelMembers
+        listedForInvite
       }
     default:
       return state

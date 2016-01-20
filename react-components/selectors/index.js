@@ -63,8 +63,8 @@ export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
 
-export const invitedChannelMembers = createSelector(
-  state => state.invitedChannelMembers, state => state
+export const listedForInvite = createSelector(
+  state => state.listedForInvite, state => state
 )
 
 export const alertsAndChannelSelector = createSelector(
@@ -75,11 +75,13 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const freeForInvite = createSelector(
-  [channelSelector, invitedChannelMembers, usersSelector],
-  ({users}, {invitedChannelMembers}, allUsers) => {
+  [channelSelector, listedForInvite, usersSelector],
+  (channel, {listedForInvite}, allUsers) => {
+    if (!channel.users) return {}
+    console.log(channel.users, listedForInvite)
     return {
-      users: differenceBy(allUsers, users, invitedChannelMembers, 'id'),
-      invited: invitedChannelMembers
+      users: differenceBy(allUsers, channel.users, listedForInvite, 'id'),
+      listedForInvite: listedForInvite
     }
   }
 )
