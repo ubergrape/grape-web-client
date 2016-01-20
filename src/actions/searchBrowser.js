@@ -1,5 +1,6 @@
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
+import {openUrl} from 'grape-web/lib/x-platform'
 
 import * as types from '../constants/actionTypes'
 import {searchBrowserSelector} from '../selectors'
@@ -295,7 +296,7 @@ function execAction(state) {
   if (action.type === 'open') {
     const res = find(state.data.results, ({id}) => id === item.id)
     // TODO make it MacGap compatible.
-    window.open(res.url)
+    openUrl(res.url)
   }
 
   return state
