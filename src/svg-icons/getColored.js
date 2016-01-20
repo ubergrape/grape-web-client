@@ -4,7 +4,7 @@ import dom from './dom'
 const cache = {}
 
 /**
- * Modifies `fill` and `stroke` attribute of `path`, caches resulting svg string.
+ * Modifies `fill` and `stroke` attribute of `path`, caches the resulting string.
  */
 export default function getColored({name, color}) {
   const key = name + color

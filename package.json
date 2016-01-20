@@ -36,8 +36,8 @@
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
-    "build": "npm run build:lib && npm run svg",
-    "build:lib": "npm run clean && babel src --out-dir lib",
+    "build": "npm run clean && npm run build:lib && npm run svg",
+    "build:lib": "babel src --out-dir lib",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src",
     "svg": "npm run svg:clean && npm run svg:copy",
