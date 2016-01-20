@@ -89,8 +89,10 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'backspace':
-        this.props.navigateSearchBrowser('back')
-        e.preventDefault()
+        if (this.props.focusedList === 'actions') {
+          this.props.navigateSearchBrowser('back')
+          e.preventDefault()
+        }
         break
       case 'tab':
         this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
@@ -102,13 +104,13 @@ export default class Browser extends Component {
 
   onInput(query) {
     const {
-      inputSearchBrowserSearch,
+      inputSearchBrowserSearch: callback,
       externalServicesInputDelay: delay,
       isExternal
     } = this.props
-    if (!isExternal) return inputSearchBrowserSearch(query)
+    if (!isExternal) return callback(query)
     clearTimeout(this.inputTimeoutId)
-    this.inputTimeoutId = setTimeout(inputSearchBrowserSearch.bind(null, query), delay)
+    this.inputTimeoutId = setTimeout(callback.bind(null, query), delay)
   }
 
   onMouseDown(e) {
