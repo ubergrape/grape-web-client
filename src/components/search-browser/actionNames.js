@@ -5,5 +5,6 @@ export default [
   'navigateSearchBrowser',
   'selectSearchBrowserItem',
   'selectSearchBrowserTab',
-  'createSearchBrowserState'
+  'createSearchBrowserState',
+  'inputSearchBrowserSearch'
 ]

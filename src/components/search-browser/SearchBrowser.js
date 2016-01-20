@@ -101,17 +101,14 @@ export default class Browser extends Component {
   }
 
   onInput(query) {
-    this.setState({
-      search: query.search,
-      filters: query.filters
-    }, () => {
-      const {onInput} = this.props
-      const {inputDelay} = this.state
-
-      if (!inputDelay) return onInput(query)
-      clearTimeout(this.onInputTimeoutId)
-      this.onInputTimeoutId = setTimeout(onInput.bind(null, query), inputDelay)
-    })
+    const {
+      inputSearchBrowserSearch,
+      externalServicesInputDelay: delay,
+      isExternal
+    } = this.props
+    if (!isExternal) return inputSearchBrowserSearch(query)
+    clearTimeout(this.inputTimeoutId)
+    this.inputTimeoutId = setTimeout(inputSearchBrowserSearch.bind(null, query), delay)
   }
 
   onMouseDown(e) {
@@ -136,13 +133,13 @@ export default class Browser extends Component {
 
   onAbort(data) {
     // After abortion we don't care about scheduled inputs.
-    clearTimeout(this.onInputTimeoutId)
+    clearTimeout(this.inputTimeoutId)
     this.props.onAbort(data)
   }
 
   // After selection we don't care about scheduled inputs.
   ignoreScheduledInput() {
-    clearTimeout(this.onInputTimeoutId)
+    clearTimeout(this.inputTimeoutId)
   }
 
   renderContent() {

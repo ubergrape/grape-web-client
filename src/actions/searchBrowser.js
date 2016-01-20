@@ -471,3 +471,17 @@ export function navigateSearchBrowser(action) {
     })
   }
 }
+
+export function inputSearchBrowserSearch(query) {
+  return (dispatch, getState) => {
+    const state = searchBrowserSelector(getState())
+    dispatch({
+      type: 'INPUT_SEARCH_BROWSER_SEARCH',
+      payload: {
+        search: query.search,
+        filters: query.filters
+      }
+    })
+    state.onInput(query)
+  }
+}
