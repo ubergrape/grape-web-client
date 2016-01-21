@@ -385,20 +385,21 @@ export function focusSearchBrowserItem(selector) {
   }
 }
 
-export function focusSearchBrowserAction(focusedAction) {
+export function focusSearchBrowserAction(action) {
   return {
     type: types.FOCUS_SEARCH_BROWSER_ACTION,
     payload: {
-      focusedAction
+      focusedAction: action,
+      hoveredAction: action
     }
   }
 }
 
-export function hoverSearchBrowserAction(hoveredAction) {
+export function blurSearchBrowserAction() {
   return {
-    type: types.HOVER_SEARCH_BROWSER_ACTION,
+    type: types.BLUR_SEARCH_BROWSER_ACTION,
     payload: {
-      hoveredAction
+      hoveredAction: null
     }
   }
 }

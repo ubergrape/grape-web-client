@@ -1,7 +1,7 @@
 export default [
   'focusSearchBrowserItem',
   'focusSearchBrowserAction',
-  'hoverSearchBrowserAction',
+  'blurSearchBrowserAction',
   'execSearchBrowserAction',
   'navigateSearchBrowser',
   'selectSearchBrowserItem',

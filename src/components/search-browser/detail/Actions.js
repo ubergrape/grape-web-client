@@ -18,8 +18,8 @@ export default class Actions extends Component {
     focusedAction: PropTypes.object,
     hoveredAction: PropTypes.object,
     onFocus: PropTypes.func,
-    onSelect: PropTypes.func,
-    onHover: PropTypes.func
+    onBlur: PropTypes.func,
+    onSelect: PropTypes.func
   }
 
   static defaultProps = {
@@ -45,7 +45,10 @@ export default class Actions extends Component {
     const backgroundImage = `url('${icon}')`
 
     return (
-      <div className={`${classes.action} ${focusedClass}`}>
+      <div
+        className={`${classes.action} ${focusedClass}`}
+        onMouseEnter={this.props.onFocus.bind(null, item)}
+        onMouseLeave={this.props.onBlur.bind(null, item)}>
         <span style={{backgroundImage}} className={classes.icon} />
         <span className={classes.text}>{item.text}</span>
       </div>
@@ -60,7 +63,6 @@ export default class Actions extends Component {
         renderItem={::this.renderItem}
         items={this.props.items}
         onSelect={this.props.onSelect}
-        onMouseOver={this.props.onHover}
         focused={this.props.focusedAction}
         ref="list" />
     )

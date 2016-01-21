@@ -24,9 +24,10 @@ export default class Detail extends Component {
     actions: PropTypes.array,
     focusedAction: PropTypes.object,
     hoveredAction: PropTypes.object,
-    onSelectAction: PropTypes.func,
     onFocusAction: PropTypes.func,
-    onHoverAction: PropTypes.func
+    execSearchBrowserAction: PropTypes.func,
+    focusSearchBrowserAction: PropTypes.func,
+    blurSearchBrowserAction: PropTypes.func
   }
 
   static defaultProps = {
@@ -110,9 +111,9 @@ export default class Detail extends Component {
           items={this.props.actions}
           focusedAction={this.props.focusedAction}
           hoveredAction={this.props.hoveredAction}
-          onSelect={this.props.onSelectAction}
-          onFocus={this.props.onFocusAction}
-          onHover={this.props.onHoverAction} />
+          onSelect={this.props.execSearchBrowserAction}
+          onFocus={this.props.focusSearchBrowserAction}
+          onBlur={this.props.blurSearchBrowserAction} />
       </div>
     )
   }
