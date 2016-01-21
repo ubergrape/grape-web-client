@@ -479,7 +479,8 @@ export function inputSearchBrowserSearch(query) {
       type: types.INPUT_SEARCH_BROWSER_SEARCH,
       payload: {
         search: query.search,
-        filters: query.filters
+        filters: query.filters,
+        focusedList: 'objects'
       }
     })
     state.onInput(query)
