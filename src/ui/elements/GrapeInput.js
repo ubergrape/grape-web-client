@@ -67,7 +67,6 @@ export default class GrapeInput extends Emitter {
       trailing: false
     })
     this.stopTypingDebounced = debounce(::this.stopTyping, 5000)
-    this.searchDebounced = debounce(::this.search, 200)
     window.addEventListener('keydown', ::this.onKeyDown)
   }
 
@@ -136,15 +135,17 @@ export default class GrapeInput extends Emitter {
     }))
   }
 
-  showSearchBrowser(key) {
+  showSearchBrowser({key, setTrigger}) {
     const {props} = this.input
+    this.abortedSearch = false
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
       data: props.browser === 'search' ? props.data : null,
-      isLoading: true
+      isLoading: true,
+      setTrigger
     })
-    this.searchDebounced(key)
+    this.search(key)
   }
 
   showUsersAndRooms(key) {
@@ -158,8 +159,12 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  showEmojiBrowser(ignoreSuggest) {
-    this.setProps({browser: 'emoji', ignoreSuggest})
+  showEmojiBrowser({ignoreSuggest, setTrigger}) {
+    this.setProps({
+      browser: 'emoji',
+      ignoreSuggest,
+      setTrigger
+    })
   }
 
   showEmojiSuggest({key, emoji}) {
@@ -297,7 +302,7 @@ export default class GrapeInput extends Emitter {
     const {detail} = e
     switch (detail.trigger) {
       case '#':
-        this.showSearchBrowser(detail.key)
+        this.showSearchBrowser({key: detail.key})
         break
       case '@':
         this.showUsersAndRooms(detail.key)
@@ -310,12 +315,15 @@ export default class GrapeInput extends Emitter {
   }
 
   onSelectFilter(e) {
+    this.abortedSearch = false
     this.emit('autocomplete', e.detail.key, (err, data) => {
       if (err) return this.emit('error', err)
-      this.setProps({
-        browser: 'search',
-        data: data
-      })
+      if (!this.abortedSearch) {
+        this.setProps({
+          browser: 'search',
+          data: data
+        })
+      }
     })
   }
 
@@ -326,7 +334,7 @@ export default class GrapeInput extends Emitter {
 
   onAbort(e) {
     const data = e.detail
-
+    this.abortedSearch = true
     // Don't abort editing if browser has been open.
     if (!data.browser) this.completePreviousEdit()
     if (data.browser === 'search' && data.reason === 'esc') {
@@ -340,12 +348,15 @@ export default class GrapeInput extends Emitter {
   }
 
   search(key) {
+    this.abortedSearch = false
     this.emit('autocomplete', key, (err, data) => {
       if (err) return this.emit('error', err)
-      this.setProps({
-        browser: 'search',
-        data: data
-      })
+      if (!this.abortedSearch) {
+        this.setProps({
+          browser: 'search',
+          data: data
+        })
+      }
     })
   }
 
@@ -387,12 +398,12 @@ export default class GrapeInput extends Emitter {
 
   onOpenEmojiBrowser(e) {
     e.preventDefault()
-    this.showEmojiBrowser(true)
+    this.showEmojiBrowser({ignoreSuggest: true, setTrigger: true})
   }
 
   onOpenSearchBrowser(e) {
     e.preventDefault()
-    this.showSearchBrowser('')
+    this.showSearchBrowser({value: '', setTrigger: true})
   }
 
   onOrgReady(org) {
