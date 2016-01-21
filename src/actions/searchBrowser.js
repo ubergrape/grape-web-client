@@ -251,7 +251,14 @@ function focusItem(selector, state) {
  */
 function selectTab(selector, state) {
   const {tabs} = state
-  const tabIndex = findIndexBySelector(selector, tabs, tab => tab.selected)
+  let tabIndex
+
+  if (selector === 'prev' || selector === 'next') {
+    tabIndex = findIndexBySelector(selector, tabs, tab => tab.selected)
+  } else {
+    tabIndex = findIndex(tabs, tab => tab.id === selector)
+  }
+
   const {id} = tabs[tabIndex]
 
   setSelectedTab(tabs, tabIndex)
