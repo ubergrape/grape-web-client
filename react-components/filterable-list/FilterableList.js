@@ -16,7 +16,8 @@ export default class InviteChannelMembers extends Component {
     super(props)
     this.state = {
       focused: Boolean(this.props.items.length),
-      filtered: null
+      filtered: null,
+      value: ''
     }
   }
 
@@ -33,6 +34,11 @@ export default class InviteChannelMembers extends Component {
 
   componentDidUpdate() {
     if (this.state.focused) this.refs.filter.focus()
+    const {filter, ruler} = this.refs
+    if (!this.refs.filter) return
+
+    filter.style.width = `${ruler.offsetWidth + 5}px`
+    filter.scrollIntoView()
   }
 
   onSelectItem(item) {
@@ -66,8 +72,20 @@ export default class InviteChannelMembers extends Component {
         this.onSelectItem(list.state.focused)
         e.preventDefault()
         break
+      case 'backspace':
+        this.deleteLastItem(e.target)
+        break
       default:
     }
+  }
+
+  deleteLastItem(input) {
+    const {selectionStart, selectionEnd} = input
+    const {selected} = this.props
+    const isStartPos = selectionStart === selectionEnd && selectionStart === 0
+    if (!isStartPos || !selected.length) return
+
+    this.props.onSelectedClick(selected[selected.length - 1])
   }
 
   onFilterChange() {
@@ -75,7 +93,8 @@ export default class InviteChannelMembers extends Component {
 
     if (!value) {
       this.setState({
-        filtered: null
+        filtered: null,
+        value: ''
       })
       return
     }
@@ -84,7 +103,7 @@ export default class InviteChannelMembers extends Component {
       .filter(this.props.filter.bind(null, value))
       .sort(this.props.sort.bind(null, value))
 
-    this.setState({filtered})
+    this.setState({filtered, value})
   }
 
   shouldInputFocus({items}) {
@@ -100,20 +119,18 @@ export default class InviteChannelMembers extends Component {
     this.onFilterChange()
   }
 
-  renderInput() {
-    if (!this.state.focused) return null
-
-    return (
-      <input
-        ref="filter"
-        onKeyDown={::this.onKeyDown}
-        onChange={::this.onFilterChange} />
-    )
-  }
-
   renderItem({item, focused}) {
+    const {
+      itemClassName,
+      itemFocusedClassName,
+      renderItem
+    } = this.props
+
     return (
-      <div style={focused ? {border: '1px solid red'} : null}>{item.render}</div>
+      <div
+        className={itemClassName + (focused ? ` ${itemFocusedClassName}` : '')}>
+        {renderItem(item, focused)}
+      </div>
     )
   }
 
@@ -138,11 +155,33 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
-  renderFilter() {
-    const {token, remove} = this.props.sheet.classes
+  renderInput() {
+    if (!this.state.focused) return null
+
     return (
-      <div onClick={::this.onFilterClick}>
-        <ul>
+      <input
+        ref="filter"
+        className={this.props.sheet.classes.filter}
+        onKeyDown={::this.onKeyDown}
+        onChange={::this.onFilterChange} />
+    )
+  }
+
+  renderFilter() {
+    const {
+      token,
+      remove,
+      selected,
+      ruler,
+      filterArea
+    } = this.props.sheet.classes
+
+    return (
+      <div
+        ref="filterArea"
+        onClick={::this.onFilterClick}
+        className={filterArea}>
+        <ul className={selected}>
           {
             this.props.selected.map((item, i) => {
               return (
@@ -150,7 +189,7 @@ export default class InviteChannelMembers extends Component {
                   key={i}
                   className={token}
                   onClick={this.onSelectedClick.bind(this, item)}>
-                  {item.render}
+                  {this.props.renderSelected(item)}
                   <i
                     className={`${remove} mdi mdi-close-circle-outline`}></i>
                 </li>
@@ -159,16 +198,27 @@ export default class InviteChannelMembers extends Component {
           }
         </ul>
         {this.renderInput()}
+        <span
+          ref='ruler'
+          className={ruler}
+          ariaHidden>
+          {this.state.value}
+        </span>
       </div>
     )
   }
 
   render() {
+    const {height} = this.props
     return (
       <div>
         {this.renderFilter()}
         {this.props.children}
-        {this.renderList()}
+        <div
+          className={this.props.sheet.classes.list}
+          style={{height}}>
+          {this.renderList()}
+        </div>
       </div>
     )
   }

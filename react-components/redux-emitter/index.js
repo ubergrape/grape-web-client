@@ -80,6 +80,10 @@ class ReduxEmitter extends Emitter {
     boundActions.hideMentions()
   }
 
+  showOrgInvite() {
+    this.emit('toggleOrgInvite')
+  }
+
   showRoomInvite() {
     boundActions.showInviteChannelMemberList()
   }

@@ -79,13 +79,28 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const inviteDialog = createSelector(
-  [channelSelector, listedForInvite, usersSelector, inviteDialogStatus],
-  (channel, {listedForInvite}, allUsers, {show}) => {
+  [
+    channelSelector,
+    listedForInvite,
+    usersSelector,
+    inviteDialogStatus,
+    orgSelector,
+    userSelector
+  ],
+  (
+    channel,
+    {listedForInvite},
+    allUsers,
+    {show},
+    {inviterRole},
+    {role}
+  ) => {
     return {
       users: differenceBy(allUsers, channel.users, listedForInvite, 'id'),
       listedForInvite: listedForInvite,
       channel,
-      show
+      show,
+      isInviter: role >= inviterRole
     }
   }
 )

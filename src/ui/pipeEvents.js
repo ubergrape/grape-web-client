@@ -105,6 +105,7 @@ export default function pipeEvents(ui) {
   // organization popover
   broker.pass(ui.organizationMenu, 'editView', ui, 'editView')
   broker(ui.organizationMenu, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
+  broker(ui.reduxEmitter, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
 
   // navigation
   broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')

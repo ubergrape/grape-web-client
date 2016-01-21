@@ -220,6 +220,13 @@ export function removeFromInviteChannelMemberList(user) {
   }
 }
 
+export function showOrgInvite() {
+  reduxEmitter.showOrgInvite()
+  return {
+    type: types.SHOW_ORG_INVITE
+  }
+}
+
 export function handleJoinedChannel({user, channel}) {
   return dispatch => {
     dispatch(addUserToChannel(user, channel))

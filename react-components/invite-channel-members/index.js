@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
-import {mapActionsToProps} from '../app/utils'
+import {mapActionsToProps} from '../app/redux'
 import {inviteDialog} from '../selectors'
 import actionNames from './actionNames'
 import InviteChannelMembers from './InviteChannelMembers'

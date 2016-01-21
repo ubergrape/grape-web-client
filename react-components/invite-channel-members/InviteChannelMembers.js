@@ -5,7 +5,9 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
+import AvatarUsername from '../avatar-username/AvatarUsername'
 
+import colors from 'grape-theme/dist/base-colors'
 
 @useSheet(style)
 export default class InviteChannelMembers extends Component {
@@ -28,7 +30,8 @@ export default class InviteChannelMembers extends Component {
   }
 
   onInviteToOrgClick() {
-    console.log('INVITE')
+    this.onHide()
+    this.props.showOrgInvite()
   }
 
   onInviteUsersClick() {
@@ -57,23 +60,15 @@ export default class InviteChannelMembers extends Component {
     return 1
   }
 
-  getItems() {
-    return this.props.users.map(user => {
-      user.render = this.renderUser(user)
-      return user
-    })
-  }
-
-  getSelectedItems() {
-    return this.props.listedForInvite.map(user => {
-      user.render = this.renderSelectedUser(user)
-      return user
-    })
-  }
-
-  renderUser(user) {
+  renderUser(user, focused) {
+    const {displayName, avatar, status} = user
     return (
-      <button>{user.displayName}</button>
+      <AvatarUsername
+        username={displayName}
+        avatar={avatar}
+        statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
+        status={status == 16 ? 'online' : 'offline'}
+      />
     )
   }
 
@@ -83,7 +78,8 @@ export default class InviteChannelMembers extends Component {
 
   renderNotFound(value) {
     return (
-      <div>
+      <div
+        className={this.props.sheet.classes.note}>
         {'No one found for '}
         <strong>{value}</strong>
       </div>
@@ -92,46 +88,82 @@ export default class InviteChannelMembers extends Component {
 
   renderEmptyItems(value) {
     return (
-      <div>
+      <div
+        className={this.props.sheet.classes.note}>
         Everyone has been invited to this room
       </div>
     )
   }
 
-  renderButton() {
-    if (!this.props.users.length) return null
-
+  renderInviteButton() {
     const {listedForInvite} = this.props
+    const {buttonInvite, submit} = this.props.sheet.classes
+
     return (
-      <div>
+      <div className={submit}>
         <button
+          className={buttonInvite}
           onClick={::this.onInviteUsersClick}
           disabled={!(listedForInvite && listedForInvite.length)}>
-          <i className="fa fa-user-plus"></i>
           Invite members
         </button>
       </div>
     )
   }
 
+  renderOrgInviteButton() {
+    if (!this.props.isInviter) return null
+    const {
+      orgInvite,
+      orgInviteButton
+    } = this.props.sheet.classes
+
+    return (
+      <div className={orgInvite}>
+        <button
+          className={orgInviteButton}
+          onClick={::this.onInviteToOrgClick}>
+          Invite a new person to your team…
+        </button>
+      </div>
+    )
+  }
+
   renderFilterable() {
+    const {
+      wrapper,
+      list,
+      item,
+      focusedItem
+    } = this.props.sheet.classes
+
     return (
       <Dialog
         show={this.props.show}
         onHide={::this.onHide}
         title="Invite to room">
-        <FilterableList
-          onSelect={::this.onSelect}
-          onSelectedClick={::this.onSelectedClick}
-          items={this.getItems()}
-          selected={this.getSelectedItems()}
-          filter={this.filter}
-          sort={this.sort}
-          renderNotFound={this.renderNotFound}
-          renderEmptyItems={this.renderEmptyItems}>
-          <button onClick={::this.onInviteToOrgClick}>Invite a new person to your team</button>
-        </FilterableList>
-        {this.renderButton()}
+        <div
+          className={wrapper}>
+          <div className={list}>
+            <FilterableList
+              height="180"
+              onSelect={::this.onSelect}
+              onSelectedClick={::this.onSelectedClick}
+              items={this.props.users}
+              selected={this.props.listedForInvite}
+              filter={this.filter}
+              sort={this.sort}
+              itemClassName={item}
+              itemFocusedClassName={focusedItem}
+              renderItem={this.renderUser}
+              renderSelected={this.renderSelectedUser}
+              renderNotFound={::this.renderNotFound}
+              renderEmptyItems={::this.renderEmptyItems}>
+              {this.renderOrgInviteButton()}
+            </FilterableList>
+          </div>
+          {this.renderInviteButton()}
+        </div>
       </Dialog>
     )
   }
