@@ -17,12 +17,12 @@ export default class Section extends Component {
     Item: PropTypes.func,
     items: PropTypes.array,
     label: PropTypes.string,
-    contentClassName: PropTypes.string
+    contentClassName: PropTypes.string,
+    focused: PropTypes.bool
   }
 
   static defaultProps = {
-    contentClassName: '',
-    onDidMount: undefined
+    contentClassName: ''
   }
 
   constructor(props) {
@@ -63,6 +63,7 @@ export default class Section extends Component {
               <Item
                 {...data}
                 {...props}
+                sectionFocused={this.props.focused}
                 key={'item' + i}
                 onDidMount={::this.onItemDidMount}
                 onWillUnmount={::this.onItemWillUnmount} />

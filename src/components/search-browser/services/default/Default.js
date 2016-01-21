@@ -6,6 +6,7 @@ import Info from './Info'
 import Grid from '../../../grid/Grid'
 import Sidebar from '../../../sidebar/Sidebar'
 import Detail from '../../detail/Detail'
+import {listTypes} from '../../../../constants/searchBrowser'
 
 /**
  * Default search rendering.
@@ -14,7 +15,8 @@ import Detail from '../../detail/Detail'
 export default class Default extends Component {
   static propTypes = {
     sheet: PropTypes.object,
-    focusedItem: PropTypes.object
+    focusedItem: PropTypes.object,
+    focusedList: PropTypes.oneOf(listTypes)
   }
 
   render() {
@@ -31,7 +33,10 @@ export default class Default extends Component {
     return (
       <div className={classes.column}>
         <div className={classes.row}>
-          <Grid {...this.props} className={classes.leftColumn} />
+          <Grid
+            {...this.props}
+            className={classes.leftColumn}
+            focused={this.props.focusedList === 'objects'} />
           <Sidebar className={classes.rightColumn}>
             {sidebarContent}
           </Sidebar>

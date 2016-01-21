@@ -16,6 +16,7 @@ export default class Item extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     focused: PropTypes.bool,
+    sectionFocused: PropTypes.bool,
     visibilityContainment: PropTypes.instanceOf(Component),
     id: PropTypes.string,
     name: PropTypes.string,
@@ -79,6 +80,10 @@ export default class Item extends Component {
   render() {
     const {classes} = this.props.sheet
     const {focused, icon, info} = this.props
+    let containerClassName = focused ? classes.containerFocused : classes.container
+    if (!this.props.sectionFocused && focused) {
+      containerClassName = classes.containerFocusedInactive
+    }
     const iconClassName = focused ? classes.iconFocused : classes.icon
     const metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     // TODO: use svg icons, don't use global selectors.
@@ -92,7 +97,7 @@ export default class Item extends Component {
         ref="sensor">
         <div
           onClick={::this.onClick}
-          className={focused ? classes.containerFocused : classes.container}>
+          className={containerClassName}>
           <div className={classes.iconContainer}>
             <span className={iconClassNames}></span>
           </div>

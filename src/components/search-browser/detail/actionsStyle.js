@@ -13,7 +13,7 @@ export default {
     color: colors.white
   },
   // When parent component is not focused, but action is.
-  actionFocusedBg: {
+  actionFocusedInactive: {
     background: colors.grayBlueLighter
   },
   icon: {

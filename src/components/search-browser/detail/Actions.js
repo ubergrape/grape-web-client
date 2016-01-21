@@ -31,7 +31,7 @@ export default class Actions extends Component {
     let focusedClass = ''
     let iconColor = colors.grayBlueDark
     if (focused) {
-      focusedClass = this.props.focused ? classes.actionFocused : classes.actionFocusedBg
+      focusedClass = this.props.focused ? classes.actionFocused : classes.actionFocusedInactive
       if (this.props.focused) iconColor = colors.white
     }
 

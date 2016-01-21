@@ -33,6 +33,11 @@ export const rules = {
   container: container,
   containerFocused: {
     ...container,
+    color: colors.white,
+    background: webColors.buttonBgDefault
+  },
+  containerFocusedInactive: {
+    ...container,
     color: colors.grayDark,
     background: colors.grayBlueLight
   },

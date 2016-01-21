@@ -23,7 +23,8 @@ export default class Grid extends Component {
     focusedItem: PropTypes.object,
     className: PropTypes.string,
     data: PropTypes.array,
-    section: PropTypes.object
+    section: PropTypes.object,
+    focused: PropTypes.bool
   }
 
   static defaultProps = {
@@ -124,7 +125,7 @@ export default class Grid extends Component {
           return (
             <Section
               {...data}
-              {...pick(this.props, 'onSelect', 'Item')}
+              {...pick(this.props, 'onSelect', 'Item', 'focused')}
               {...this.props.section}
               onFocus={::this.onFocus}
               onInvisible={::this.onInvisible}
