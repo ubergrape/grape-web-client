@@ -1,6 +1,7 @@
 import {$, render} from '../../test'
 import expect from 'expect.js'
 import React from 'react'
+import times from 'lodash/utility/times'
 import {Simulate} from 'react-addons-test-utils'
 import GrapeInput from '../GrapeInput'
 import data0 from './mocks/data0.json'
@@ -78,7 +79,10 @@ describe('grape-input:', () => {
           focused/>
       )
       render(input)
-      Simulate.keyDown($('search-browser input', document.body), {keyCode: 13})
+
+      times(2, () => {
+        Simulate.keyDown($('search-browser input', document.body), {keyCode: 13})
+      })
     }
 
     it('should call onInsertItem with correct argument', (done) => {
