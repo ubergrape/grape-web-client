@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "dependencies": {
     "lodash": "^3.10.0"
@@ -36,7 +36,8 @@
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
-    "build": "npm run clean && babel src --out-dir lib && npm run svg",
+    "build": "npm run clean && npm run build:lib && npm run svg",
+    "build:lib": "babel src --out-dir lib",
     "start": "NODE_ENV=development webpack-dev-server --hot",
     "lint": "eslint ./src",
     "svg": "npm run svg:clean && npm run svg:copy",
