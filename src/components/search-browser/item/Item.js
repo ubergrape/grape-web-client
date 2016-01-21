@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
 import findMatches from 'grape-web/lib/search/findMatches'
@@ -31,22 +30,12 @@ export default class Item extends Component {
   }
 
   static defaultProps = {
-    id: undefined,
-    name: undefined,
-    date: undefined,
-    detail: undefined,
-    onFocus: undefined,
-    onSelect: undefined,
-    onInvisible: undefined,
-    visibilityContainment: undefined,
     focused: false
   }
 
   componentDidMount() {
     this.visibilityContainmentNode = ReactDOM.findDOMNode(this.props.visibilityContainment)
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentDidUpdate(prevProps) {
     if (this.props.focused !== prevProps.focused) {

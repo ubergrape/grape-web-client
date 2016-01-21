@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from '../../../browser/style'
@@ -17,8 +16,6 @@ export default class Default extends Component {
     sheet: PropTypes.object,
     focusedItem: PropTypes.object
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     const {classes} = this.props.sheet

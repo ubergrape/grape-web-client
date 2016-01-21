@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import ImagesLoader from 'images-loader'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 import pick from 'lodash/object/pick'
 
 import Spinner from 'grape-web/lib/spinner/Spinner'
@@ -51,8 +50,6 @@ export default class Preview extends Component {
     })
     this.load(nextProps.image)
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   load(image) {
     loader.load(image, err => {

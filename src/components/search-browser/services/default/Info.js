@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './infoStyle'
 import * as contents from './infoContents'
@@ -25,12 +24,8 @@ export default class Info extends Component {
     hasIntegrations: false,
     orgName: 'Organisation',
     orgOwner: 'org owner',
-    headerHeight: 128,
-    images: undefined,
-    onAddIntegration: undefined
+    headerHeight: 128
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   onAddIntegration() {
     this.props.onAddIntegration()

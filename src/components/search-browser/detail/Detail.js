@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
-import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import {useSheet} from 'grape-web/lib/jss'
 import Preview from './Preview'
@@ -34,8 +33,6 @@ export default class Detail extends Component {
     data: {},
     images: {}
   }
-
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   renderPreview() {
     const {classes} = this.props.sheet
