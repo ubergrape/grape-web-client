@@ -78,9 +78,7 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderSelectedUser(user) {
-    return (
-      `> ${user.displayName}`
-    )
+    return user.displayName
   }
 
   renderNotFound(value) {

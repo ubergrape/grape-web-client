@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false
+  show: true
 }
 
 export default function reducers(state = initialState, action) {

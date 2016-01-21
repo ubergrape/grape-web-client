@@ -138,26 +138,35 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
+  renderFilter() {
+    const {token, remove} = this.props.sheet.classes
+    return (
+      <div onClick={::this.onFilterClick}>
+        <ul>
+          {
+            this.props.selected.map((item, i) => {
+              return (
+                <li
+                  key={i}
+                  className={token}
+                  onClick={this.onSelectedClick.bind(this, item)}>
+                  {item.render}
+                  <i
+                    className={`${remove} mdi mdi-close-circle-outline`}></i>
+                </li>
+              )
+            }, this)
+          }
+        </ul>
+        {this.renderInput()}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
-        <div onClick={::this.onFilterClick}>
-          <ul>
-            {
-              this.props.selected.map((item, i) => {
-                return (
-                  <li
-                    key={i}
-                    onClick={this.onSelectedClick.bind(this, item)}>
-                    {item.render}
-                    <i className="mdi mdi-close-circle-outline"></i>
-                  </li>
-                )
-              }, this)
-            }
-          </ul>
-          {this.renderInput()}
-        </div>
+        {this.renderFilter()}
         {this.props.children}
         {this.renderList()}
       </div>
