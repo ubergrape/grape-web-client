@@ -44,7 +44,8 @@ export default class Input extends Component {
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
-    images: PropTypes.object
+    images: PropTypes.object,
+    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji'])
   }
 
   static defaultProps = {
@@ -94,7 +95,9 @@ export default class Input extends Component {
     // reopening of the search-browser by setState call below.
     // To avoid this we introduced temporarily shallowEqual, hopefully it can
     // go away after full migration to redux.
-    if (shallowEqual(nextProps, this.props)) return
+    // We need to merge `browser` prop because it might be modified on state object
+    // and though setting it from the outside will have no effect.
+    if (shallowEqual(nextProps, {...this.props, browser: this.state.browser})) return
 
     const {ignoreSuggest} = this.state
     const isEmojiSuggest = nextProps.browser === 'emojiSuggest'
