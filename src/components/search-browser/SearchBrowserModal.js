@@ -52,7 +52,7 @@ export default class SearchBrowserModal extends Component {
           {...this.props}
           {...this.callbacks}
           className={classes.browser}
-          onHide={::this.onHideModal} />
+          onAbort={::this.onHideModal} />
       </Modal>
     )
   }

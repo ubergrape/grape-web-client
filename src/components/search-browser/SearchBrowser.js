@@ -34,7 +34,6 @@ export default class Browser extends Component {
     blurSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
     inputSearchBrowserSearch: PropTypes.func,
-    onHide: PropTypes.func,
     focusedItem: PropTypes.object,
     focused: PropTypes.bool,
     data: PropTypes.object,
@@ -82,7 +81,7 @@ export default class Browser extends Component {
           filters: []
         })
       } else {
-        this.props.onHide()
+        this.props.onAbort()
       }
       e.preventDefault()
     }
@@ -149,10 +148,10 @@ export default class Browser extends Component {
     e.target.focus()
   }
 
-  onAbort(data) {
+  onAbort() {
     // After abortion we don't care about scheduled inputs.
     clearTimeout(this.inputTimeoutId)
-    this.props.onAbort(data)
+    this.props.onAbort()
   }
 
   // After selection we don't care about scheduled inputs.
