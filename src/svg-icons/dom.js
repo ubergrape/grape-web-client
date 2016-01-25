@@ -11,13 +11,18 @@ class List {
     this.list = toArray(list)
   }
 
-  attr(name, value) {
-    this.list.forEach(node => node.setAttribute(name, value))
+  each(fn) {
+    this.list.forEach(fn)
     return this
   }
 
-  data() {
-    return toData(this.svg())
+  attr(name, value) {
+    this.each(node => node.setAttribute(name, value))
+    return this
+  }
+
+  data(encoding) {
+    return toData(this.svg(), encoding)
   }
 
   svg() {
