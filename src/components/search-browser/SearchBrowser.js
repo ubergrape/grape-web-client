@@ -150,7 +150,7 @@ export default class Browser extends Component {
 
   onAbort() {
     // After abortion we don't care about scheduled inputs.
-    clearTimeout(this.inputTimeoutId)
+    this.ignoreScheduledInput()
     this.props.onAbort()
   }
 

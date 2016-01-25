@@ -10,7 +10,6 @@ import {
   unsetFocusedItem,
   extractItems,
   findById,
-  getItemById,
   setSelectedTab
 } from '../components/browser/dataUtils'
 
@@ -301,7 +300,6 @@ function execAction(state) {
 function navigate(action, state) {
   switch (action) {
     case 'select':
-      if (state.focusedItem.type === 'filters') return state
       if (state.focusedList === 'actions') return execAction(state)
       return {focusedList: 'actions'}
     case 'back':
@@ -410,32 +408,27 @@ export function execSearchBrowserAction() {
   }
 }
 
-export function setSearchBrowserFilters(filters) {
-  return {
-    type: types.SET_SEARCH_BROWSER_FILTERS,
-    payload: {
-      filters,
-      search: ''
-    }
-  }
-}
-
-export function selectSearchBrowserItem(id) {
+export function selectSearchBrowserItem() {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    const item = id ? getItemById(state.sections, id) : getFocusedItem(state.sections)
+    const {data, focusedItem} = searchBrowserSelector(getState())
 
-    if (item.type === 'filters') {
-      const service = findById(state.data.services, item.id)
+    if (focusedItem.type === 'filters') {
+      const service = findById(data.services, focusedItem.id)
       const filters = service ? [service.key] : []
-      dispatch(setSearchBrowserFilters(filters))
+      dispatch({
+        type: types.SET_SEARCH_BROWSER_FILTERS,
+        payload: {
+          filters,
+          search: ''
+        }
+      })
       return
     }
 
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_ITEM,
       payload: {
-        focusedItem: item
+        focusedItem
       }
     })
   }
@@ -454,6 +447,11 @@ export function selectSearchBrowserTab(selector) {
 export function navigateSearchBrowser(action) {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
+
+    if (action === 'select' && state.focusedItem.type === 'filters') {
+      return dispatch(selectSearchBrowserItem())
+    }
+
     dispatch({
       type: types.NAVIGATE_SEARCH_BROWSER,
       payload: navigate(action, state)
