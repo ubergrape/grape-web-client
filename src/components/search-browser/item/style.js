@@ -14,10 +14,6 @@ export const container = {
   borderBottom: '1px solid ' + colors.silverDark
 }
 
-const icon = {
-  marginBottom: 2
-}
-
 const metaItem = {
   ...fonts.small,
   display: 'block',
@@ -28,6 +24,8 @@ const metaItem = {
   backgroundColor: colors.silverLight,
   color: colors.gainsboroDark
 }
+
+const iconSize = 30
 
 export const rules = {
   container: container,
@@ -48,12 +46,11 @@ export const rules = {
     padding: '6px 16px'
   },
   icon: {
-    ...icon,
-    color: colors.grayDark
-  },
-  iconFocused: {
-    ...icon,
-    color: colors.grayDark
+    height: iconSize,
+    width: iconSize,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    alignSelf: 'center'
   },
   nameContainer: {
     flex: 1,

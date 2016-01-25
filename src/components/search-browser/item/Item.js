@@ -5,8 +5,17 @@ import VisibilitySensor from 'react-visibility-sensor'
 
 import {useSheet} from 'grape-web/lib/jss'
 import findMatches from 'grape-web/lib/search/findMatches'
+import * as icons from 'grape-web/lib/svg-icons/data'
 import * as style from './style'
 import * as utils from './utils'
+
+// Service/icon map for exceptions where service name doesn't match icon name.
+// TODO it should be a service implementation detail.
+const serviceIconMap = {
+  googledrive: icons.googleDrive,
+  gcal: icons.googleCalendar,
+  filters: icons.magnifier
+}
 
 /**
  * One grid item.
@@ -79,16 +88,15 @@ export default class Item extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {focused, icon, info} = this.props
+    const {focused, service, info} = this.props
     let containerClassName = focused ? classes.containerFocused : classes.container
     if (!this.props.sectionFocused && focused) {
       containerClassName = classes.containerFocusedInactive
     }
-    const iconClassName = focused ? classes.iconFocused : classes.icon
     const metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
-    // TODO: use svg icons, don't use global selectors.
-    const iconClassNames = `fa fa-lg fa-${icon} ` + iconClassName
     const state = utils.getLabel(this.props.detail)
+    const iconUrl = icons[service] || serviceIconMap[service] || icons.file
+    const iconStyle = {backgroundImage: `url(${iconUrl})`}
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -99,7 +107,7 @@ export default class Item extends Component {
           onClick={::this.onClick}
           className={containerClassName}>
           <div className={classes.iconContainer}>
-            <span className={iconClassNames}></span>
+            <span className={classes.icon} style={iconStyle} />
           </div>
           <div className={classes.nameContainer}>
             <div className={classes.name}>

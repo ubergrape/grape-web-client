@@ -18,17 +18,6 @@ import {
 let {warn} = console
 warn = warn.bind(console)
 
-// Service/icon map.
-// TODO it should be a service implementation detail.
-const serviceIconMap = {
-  github: 'github',
-  googledrive: 'file',
-  gcal: 'calendar',
-  trello: 'trello',
-  dropbox: 'dropbox',
-  filters: 'search'
-}
-
 /**
  * Get sections based data structure.
  *
@@ -120,7 +109,7 @@ const getSections = (() => {
           info: result.container,
           date: result.start,
           focused: false,
-          icon: serviceIconMap[result.service],
+          service: result.service,
           detail: result.detail,
           search: newData.search.text
         })
