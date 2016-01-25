@@ -34,6 +34,7 @@ export default class Browser extends Component {
     blurSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
     inputSearchBrowserSearch: PropTypes.func,
+    onHide: PropTypes.func,
     focusedItem: PropTypes.object,
     focused: PropTypes.bool,
     data: PropTypes.object,

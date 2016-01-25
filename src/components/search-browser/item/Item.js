@@ -34,6 +34,7 @@ export default class Item extends Component {
     info: PropTypes.string,
     detail: PropTypes.object,
     date: PropTypes.string,
+    service: PropTypes.string,
     onFocus: PropTypes.func,
     onSelect: PropTypes.func,
     onInvisible: PropTypes.func
