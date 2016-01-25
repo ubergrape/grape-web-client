@@ -39,7 +39,7 @@ export const rules = {
   containerSelected: {
     ...container,
     color: colors.grapeTypo,
-    boxShadow: '0 2px 0 ' + colors.grapeLight
+    boxShadow: '0 2px 0 ' + colors.blue
   },
   text: text,
   amount: amount
