@@ -76,11 +76,13 @@ function getFilteredItems(org, user) {
 }
 
 export function showChannelSearch(org, user) {
+  const items = getFilteredItems(org, user)
   return {
     type: types.SHOW_CHANNEL_SEARCH,
     payload: {
       show: true,
-      items: getFilteredItems(org, user)
+      items,
+      focusedItem: items[0]
     }
   }
 }
@@ -96,23 +98,42 @@ export function hideChannelSearch() {
 }
 
 export function inputChannelSearch(search, org, user) {
+  const items = find(getFilteredItems(org, user), search)
   return {
     type: types.INPUT_CHANNEL_SEARCH,
     payload: {
       search,
-      items: find(getFilteredItems(org, user), search)
+      items,
+      focusedItem: items[0]
     }
   }
 }
 
-export function selectChannelSearch(channel) {
-  page('/chat/' + channel.slug)
-  return dispatch => dispatch(hideChannelSearch())
+export function selectChannelSearchItem(channel) {
+  return dispatch => {
+    dispatch(hideChannelSearch())
+    dispatch({
+      type: types.SELECT_CHANNEL_SEARCH_ITEM,
+      payload: {
+        channel
+      }
+    })
+    page('/chat/' + channel.slug)
+  }
+}
+
+export function focusChannelSearchItem(focusedItem) {
+  return {
+    type: types.FOCUS_CHANNEL_SEARCH_ITEM,
+    payload: {
+      focusedItem
+    }
+  }
 }
 
 export function showRoomManager() {
-  reduxEmitter.showRoomManager()
   return dispatch => {
     dispatch(hideChannelSearch())
+    reduxEmitter.showRoomManager()
   }
 }
