@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import noop from 'lodash/utility/noop'
+import escape from 'lodash/string/escape'
 import {
   getTokenUnderCaret,
   getQuery,
@@ -320,13 +321,21 @@ export default class HighlightedTextarea extends Component {
   renderTokens() {
     const content = this.state.textWithObjects.map((item, index) => {
       if (item.content) return this.renderToken(item, index)
-      return <span key={index}>{item}</span>
+
+      // Used dangerouslySetInnerHTML to workaround a bug in IE11:
+      // https://github.com/ubergrape/chatgrape/issues/3279
+      return (
+        <span
+          key={index}
+          dangerouslySetInnerHTML={{__html: escape(item)}}>
+        </span>
+      )
     })
 
-    // The last item is space,
-    // to make highlight height equal
-    // to content in textarea
+    // Make highlighted height equal content height in textarea,
+    // because the last item is a space.
     content.push(' ')
+
     return content
   }
 
