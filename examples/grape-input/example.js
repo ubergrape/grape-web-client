@@ -34,16 +34,16 @@ function init() {
     console.log('complete', e.detail)
 
     if (e.detail.trigger == '#') {
-        if (e.detail.search) {
-          var data = window.searchData
-          data.results = searchResults.filter(match)
-          setProps({
-            browser: 'search',
-            data: data
-          })
-        } else {
-          setProps({browser: 'search'})
-        }
+      if (e.detail.search) {
+        var data = window.searchData
+        data.results = searchResults.filter(match)
+        setProps({
+          browser: 'search',
+          data: data
+        })
+      } else {
+        setProps({browser: 'search'})
+      }
     }
     else if (e.detail.trigger == '@') {
       var data = window.userData

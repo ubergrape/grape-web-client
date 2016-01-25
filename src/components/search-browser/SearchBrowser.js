@@ -75,8 +75,9 @@ export default class Browser extends Component {
 
     if (key === 'esc') {
       // If there is something in the input, we clean it on first esc.
-      if (this.props.search || this.props.filters.lenth) {
+      if (this.props.search || this.props.filters.length) {
         this.props.inputSearchBrowserSearch({
+          trigger: this.refs.input.query.get('trigger'),
           search: '',
           filters: []
         })
