@@ -47,11 +47,12 @@ export default class SearchBrowserModal extends Component {
         show={this.state.show}
         className={classes.modal}
         backdropClassName={classes.backdrop}
-        onHide={::this.onHideModal}>
+        onBackdropClick={::this.onHideModal}>
         <SearchBrowser
           {...this.props}
           {...this.callbacks}
-          className={classes.browser} />
+          className={classes.browser}
+          onHide={::this.onHideModal} />
       </Modal>
     )
   }

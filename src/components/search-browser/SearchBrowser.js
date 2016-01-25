@@ -71,11 +71,26 @@ export default class Browser extends Component {
   }
 
   onKeyDown(e) {
+    const key = keyname(e.keyCode)
+
+    if (key === 'esc') {
+      // If there is something in the input, we clean it on first esc.
+      if (this.props.search || this.props.filters.lenth) {
+        this.props.inputSearchBrowserSearch({
+          search: '',
+          filters: []
+        })
+      } else {
+        this.props.onHide()
+      }
+      e.preventDefault()
+    }
+
     if (!this.props.data) return
 
     this.ignoreScheduledInput()
 
-    switch (keyname(e.keyCode)) {
+    switch (key) {
       case 'down':
         this.props.navigateSearchBrowser('next')
         e.preventDefault()
