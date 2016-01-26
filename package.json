@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "lib/index.js",
   "engines": {
     "node": "2.4.0"
@@ -79,6 +79,7 @@
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
     "test:watch": "NODE_ENV=test karma start",
-    "test": "SINGLE_RUN=true NODE_ENV=testing karma start"
+    "test": "SINGLE_RUN=true NODE_ENV=testing karma start",
+    "prepublish": "npm run all"
   }
 }
