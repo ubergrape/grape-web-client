@@ -131,13 +131,11 @@ export default class InviteChannelMembers extends Component {
 
     if (!items.length) {
       if (filter) {
-        renderNotFound(filter)
-        return
+        return renderNotFound(filter)
       }
       if (selected.length) return null
 
-      renderEmptyItems()
-      return
+      return renderEmptyItems()
     }
 
     return (
