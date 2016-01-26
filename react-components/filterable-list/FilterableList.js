@@ -20,19 +20,17 @@ export default class InviteChannelMembers extends Component {
   }
 
   componentDidMount() {
-    if (this.props.focused) this.refs.filter.focus()
+    if (this.shouldFocusInput()) this.refs.filter.focus()
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.filter) {
-      this.setState({
-        focusedItem: nextProps.items[0]
-      })
-    }
+    this.setState({
+      focusedItem: nextProps.items[0]
+    })
   }
 
   componentDidUpdate() {
-    if (this.props.focused) this.refs.filter.focus()
+    if (this.shouldFocusInput()) this.refs.filter.focus()
     const {filter, ruler} = this.refs
     if (!this.refs.filter) return
 
@@ -49,13 +47,12 @@ export default class InviteChannelMembers extends Component {
     this.props.onSelectedClick(item)
   }
 
-  onFilterClick(e) {
-    if (this.props.focused) this.refs.filter.focus()
+  onClick(e) {
+    if (this.shouldFocusInput()) this.refs.filter.focus()
   }
 
   onKeyDown(e) {
     const {list} = this.refs
-    if (!list) return
     switch (keyname(e.keyCode)) {
       case 'up':
         list.focus('prev')
@@ -82,8 +79,8 @@ export default class InviteChannelMembers extends Component {
     })
   }
 
-  deleteLastItem(input) {
-    const {selectionStart, selectionEnd} = input
+  deleteLastItem(filter) {
+    const {selectionStart, selectionEnd} = filter
     const {selected} = this.props
     const isStartPos = selectionStart === selectionEnd && selectionStart === 0
     if (!isStartPos || !selected.length) return
@@ -98,6 +95,13 @@ export default class InviteChannelMembers extends Component {
   clearFilter() {
     this.refs.filter.value = ''
     this.onChange()
+  }
+
+  shouldFocusInput() {
+    const {items, selected, filter} = this.props
+    if (filter) return true
+
+    return items.length + selected.length > 0
   }
 
   renderItem({item, focused}) {
@@ -120,12 +124,20 @@ export default class InviteChannelMembers extends Component {
     const {
       items,
       filter,
+      selected,
       renderNotFound,
       renderEmptyItems
     } = this.props
 
     if (!items.length) {
-      return filter ? renderNotFound(filter) : renderEmptyItems()
+      if (filter) {
+        renderNotFound(filter)
+        return
+      }
+      if (selected.length) return null
+
+      renderEmptyItems()
+      return
     }
 
     return (
@@ -141,8 +153,8 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderInput() {
-    const {sheet, focused, filter} = this.props
-    if (!focused) return null
+    const {sheet, filter} = this.props
+    if (!this.shouldFocusInput()) return null
 
     return (
       <input
@@ -166,7 +178,6 @@ export default class InviteChannelMembers extends Component {
     return (
       <div
         ref="filterArea"
-        onClick={::this.onFilterClick}
         className={filterArea}>
         <ul className={selected}>
           {
@@ -198,7 +209,8 @@ export default class InviteChannelMembers extends Component {
   render() {
     const {height} = this.props
     return (
-      <div>
+      <div
+        onClick={::this.onClick}>
         {this.renderFilter()}
         {this.props.children}
         <div

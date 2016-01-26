@@ -26,7 +26,7 @@ export default function reducers(state = initialState, action) {
     case types.REMOVE_FROM_INVITE_CHANNEL_MEMBER_LIST:
       return {
         ...state,
-        listed: state.listed.filter(member => member.id != action.payload.id)
+        listed: state.listed.filter(member => member.id !== action.payload.id)
       }
     case types.FILTER_INVITE_CHANNEL_MEMBER_LIST:
       return {

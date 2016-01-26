@@ -12,4 +12,3 @@ export function sortUserByValue(value, {username, displayName}) {
   }
   return 1
 }
-

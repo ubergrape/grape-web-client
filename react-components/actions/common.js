@@ -8,7 +8,6 @@ import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
 import {isMentioned, formatMessage} from './utils'
 import reduxEmitter from '../redux-emitter'
-import rpc from '../backend/rpc'
 
 export function setUsers(users) {
   return {
@@ -164,33 +163,6 @@ export function userLeftChannel(channel) {
         channel
       }
     })
-  }
-}
-
-export function onInviteToCurrentChannelSuccess(users) {
-  return {
-    type: types.INVITE_TO_CURRENT_CHANNEL_SUCCESS,
-    payload: users
-  }
-}
-
-export function inviteToCurrentChannel(users) {
-  return dispatch => {
-    const channel = channelSelector(store.getState())
-    rpc(
-      {
-        ns: 'channels',
-        action: 'invite',
-        args: [channel.id, users.map(user => user.username)]
-      },
-      {camelize: true},
-      (err, res) => {
-        if (err) reduxEmitter.showError(err)
-        // the responce is being listned at `app/subscribe`
-        // this dispatched action is probably don't have a reducer
-        dispatch(onInviteToCurrentChannelSuccess(users))
-      }
-    )
   }
 }
 

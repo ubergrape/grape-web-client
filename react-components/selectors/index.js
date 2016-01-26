@@ -63,8 +63,8 @@ export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
 
-export const inviteToRoom = createSelector(
-  state => state.inviteToRoom, state => state
+export const inviteChannelMemebersSelector = createSelector(
+  state => state.inviteChannelMemebers, state => state
 )
 
 export const alertsAndChannelSelector = createSelector(
@@ -77,21 +77,21 @@ export const alertsAndChannelSelector = createSelector(
 export const inviteDialog = createSelector(
   [
     channelSelector,
-    inviteToRoom,
+    inviteChannelMemebersSelector,
     usersSelector,
     orgSelector,
     userSelector
   ],
   (
     channel,
-    inviteToRoom,
+    inviteChannelMemebers,
     allUsers,
     {inviterRole},
     {role}
   ) => {
     return {
-      ...inviteToRoom,
-      users: differenceBy(allUsers, channel.users, inviteToRoom.listed, 'id'),
+      ...inviteChannelMemebers,
+      users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
       isInviter: role >= inviterRole
     }
   }

@@ -16,16 +16,25 @@ import colors from 'grape-theme/dist/base-colors'
 @useSheet(style)
 export default class InviteChannelMembers extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    addToInviteChannelMemberList: PropTypes.func.isRequired,
+    removeFromInviteChannelMemberList: PropTypes.func.isRequired,
+    showOrgInvite: PropTypes.func.isRequired,
+    inviteToCurrentChannel: PropTypes.func.isRequired,
+    hideInviteChannelMemberList: PropTypes.func.isRequired,
+    setInviteFilterValue: PropTypes.func.isRequired,
+    listed: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
+    filter: PropTypes.string.isRequired,
+    isInviter: PropTypes.bool.isRequired,
+    show: PropTypes.bool.isRequired
   }
 
   onSelect(user) {
-    console.log('onClick', user)
     this.props.addToInviteChannelMemberList(user)
   }
 
   onSelectedClick(user) {
-    console.log('onSelectedClick', user)
     this.props.removeFromInviteChannelMemberList(user)
   }
 
@@ -35,9 +44,9 @@ export default class InviteChannelMembers extends Component {
   }
 
   onInviteUsersClick() {
-    const {listedForInvite} = this.props
-    if (!listedForInvite.length) return
-    this.props.inviteToCurrentChannel(listedForInvite)
+    const {listed, inviteToCurrentChannel} = this.props
+    if (!listed.length) return
+    inviteToCurrentChannel(listed.map(user => user.username))
     this.onHide()
   }
 
@@ -50,11 +59,11 @@ export default class InviteChannelMembers extends Component {
   }
 
   getUsers() {
-    const {users, value} = this.props
-    if (!value) return users
+    const {users, filter} = this.props
+    if (!filter) return users
     return users
-      .filter(filterUserByValue.bind(null, value))
-      .sort(sortUserByValue.bind(null, value))
+      .filter(filterUserByValue.bind(null, filter))
+      .sort(sortUserByValue.bind(null, filter))
   }
 
   renderUser(user, focused) {
@@ -64,7 +73,7 @@ export default class InviteChannelMembers extends Component {
         username={displayName}
         avatar={avatar}
         statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
-        status={status == 16 ? 'online' : 'offline'}
+        status={status === 16 ? 'online' : 'offline'}
       />
     )
   }
@@ -83,7 +92,7 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
-  renderEmptyItems(value) {
+  renderEmptyItems() {
     return (
       <div
         className={this.props.sheet.classes.note}>
@@ -93,7 +102,7 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderInviteButton() {
-    const {listedForInvite} = this.props
+    const {listed} = this.props
     const {buttonInvite, submit} = this.props.sheet.classes
 
     return (
@@ -101,7 +110,7 @@ export default class InviteChannelMembers extends Component {
         <button
           className={buttonInvite}
           onClick={::this.onInviteUsersClick}
-          disabled={!(listedForInvite && listedForInvite.length)}>
+          disabled={!listed.length}>
           Invite members
         </button>
       </div>
@@ -153,7 +162,6 @@ export default class InviteChannelMembers extends Component {
               onSelectedClick={::this.onSelectedClick}
               itemClassName={item}
               itemFocusedClassName={focusedItem}
-              focused={users.length > 0}
               renderItem={this.renderUser}
               renderSelected={this.renderSelectedUser}
               renderNotFound={::this.renderNotFound}

@@ -3,19 +3,21 @@ import buttonPrimary from '../button/primary'
 import link from '../button/link'
 import buttonIcon from '../button/icon'
 import colors from 'grape-theme/dist/base-colors'
-import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 
 const {padding} = button
 const marginTop = {
   marginTop: 20
 }
+
 export default {
   wrapper: {
     padding: 15,
     borderTop: `3px solid ${colors.grayBlueLighter}`
   },
-  list: {...marginTop},
+  list: {
+    ...marginTop
+  },
   submit: {
     ...marginTop,
     textAlign: 'right'
