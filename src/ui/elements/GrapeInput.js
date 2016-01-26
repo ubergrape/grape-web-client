@@ -344,6 +344,8 @@ export default class GrapeInput extends Emitter {
     if (data.browser === 'search' && data.reason === 'esc') {
       window.analytics.track('abort autocomplete', data)
     }
+
+    this.setProps({browser: null})
   }
 
   onChange() {
