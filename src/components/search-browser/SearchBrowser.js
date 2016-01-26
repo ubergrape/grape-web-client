@@ -71,27 +71,23 @@ export default class Browser extends Component {
   }
 
   onKeyDown(e) {
-    const key = keyname(e.keyCode)
-
-    if (key === 'esc') {
-      // If there is something in the input, we clean it on first esc.
-      if (this.props.search || this.props.filters.length) {
-        this.props.inputSearchBrowserSearch({
-          trigger: this.refs.input.query.get('trigger'),
-          search: '',
-          filters: []
-        })
-      } else {
-        this.props.onAbort()
-      }
-      e.preventDefault()
-    }
-
-    if (!this.props.data) return
+    const {focusedList} = this.props
 
     this.ignoreScheduledInput()
 
-    switch (key) {
+    switch (keyname(e.keyCode)) {
+      case 'esc':
+        // Actions are focused - focus objects.
+        if (focusedList === 'actions') {
+          this.props.navigateSearchBrowser('back')
+        // Reset the search if there is one.
+        } else if (this.props.search || this.props.filters.length) {
+          this.resetSearch()
+        } else {
+          this.props.onAbort()
+        }
+        e.preventDefault()
+        break
       case 'down':
         this.props.navigateSearchBrowser('next')
         e.preventDefault()
@@ -105,7 +101,7 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'backspace':
-        if (this.props.focusedList === 'actions') {
+        if (focusedList === 'actions') {
           this.props.navigateSearchBrowser('back')
           e.preventDefault()
         }
@@ -149,15 +145,17 @@ export default class Browser extends Component {
     e.target.focus()
   }
 
-  onAbort() {
-    // After abortion we don't care about scheduled inputs.
-    this.ignoreScheduledInput()
-    this.props.onAbort()
-  }
-
   // After selection we don't care about scheduled inputs.
   ignoreScheduledInput() {
     clearTimeout(this.inputTimeoutId)
+  }
+
+  resetSearch() {
+    this.props.inputSearchBrowserSearch({
+      trigger: this.refs.input.query.get('trigger'),
+      search: '',
+      filters: []
+    })
   }
 
   renderContent() {

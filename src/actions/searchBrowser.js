@@ -238,6 +238,8 @@ function focusItem(selector, state) {
  * @param {String} selector can be tab id or "prev" or "next"
  */
 function selectTab(selector, state) {
+  if (!state.data) return state
+
   const {tabs} = state
   let tabIndex
 
@@ -298,6 +300,8 @@ function execAction(state) {
 }
 
 function navigate(action, state) {
+  if (!state.data) return state
+
   switch (action) {
     case 'select':
       if (state.focusedList === 'actions') return execAction(state)
