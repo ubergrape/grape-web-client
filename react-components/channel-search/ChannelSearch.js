@@ -26,9 +26,11 @@ export default class ChannelSearch extends Component {
     showRoomManager: PropTypes.func.isRequired,
     hideChannelSearch: PropTypes.func.isRequired,
     showChannelSearch: PropTypes.func.isRequired,
-    selectChannelSearch: PropTypes.func.isRequired,
+    selectChannelSearchItem: PropTypes.func.isRequired,
+    focusChannelSearchItem: PropTypes.func.isRequired,
     org: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    focusedItem: PropTypes.object
   }
 
   static defaultProps = {
@@ -69,15 +71,19 @@ export default class ChannelSearch extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.onSelect(list.state.focused)
+        this.onSelectItem()
         e.preventDefault()
         break
       default:
     }
   }
 
-  onSelect(channel) {
-    this.props.selectChannelSearch(channel)
+  onSelectItem(channel = this.props.focusedItem) {
+    this.props.selectChannelSearchItem(channel)
+  }
+
+  onFocusItem(channel) {
+    this.props.focusChannelSearchItem(channel)
   }
 
   onCreate() {
@@ -110,8 +116,11 @@ export default class ChannelSearch extends Component {
         items={this.props.items}
         className={classes.list}
         renderItem={::this.renderItem}
-        onSelect={::this.onSelect}
-        ref="list"/>
+        onSelect={::this.onSelectItem}
+        onFocus={::this.onFocusItem}
+        onMouseOver={::this.onFocusItem}
+        focused={this.props.focusedItem}
+        ref="list" />
     )
   }
 
