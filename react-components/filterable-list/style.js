@@ -6,7 +6,8 @@ const {grayBlueLighter} = colors
 export default {
   token: {
     display: 'inline-block',
-    padding: '2px 5px',
+    lineHeight: 1,
+    padding: '3px 5px',
     cursor: 'pointer',
     color: '#666',
     backgroundColor: grayBlueLighter,

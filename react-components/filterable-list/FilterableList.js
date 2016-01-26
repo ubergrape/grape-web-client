@@ -15,25 +15,24 @@ export default class InviteChannelMembers extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      focused: Boolean(this.props.items.length),
-      filtered: null,
-      value: ''
+      focusedItem: this.props.items[0]
     }
   }
 
   componentDidMount() {
-    if (this.state.focused) this.refs.filter.focus()
+    if (this.props.focused) this.refs.filter.focus()
   }
 
-
-  componentWillReceiveProps(nexProps) {
-    this.setState({
-      focused: this.shouldInputFocus(nexProps)
-    })
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.filter) {
+      this.setState({
+        focusedItem: nextProps.items[0]
+      })
+    }
   }
 
   componentDidUpdate() {
-    if (this.state.focused) this.refs.filter.focus()
+    if (this.props.focused) this.refs.filter.focus()
     const {filter, ruler} = this.refs
     if (!this.refs.filter) return
 
@@ -50,10 +49,8 @@ export default class InviteChannelMembers extends Component {
     this.props.onSelectedClick(item)
   }
 
-  onFilterClick() {
-    this.setState({
-      focused: this.shouldInputFocus(this.props)
-    })
+  onFilterClick(e) {
+    if (this.props.focused) this.refs.filter.focus()
   }
 
   onKeyDown(e) {
@@ -69,7 +66,7 @@ export default class InviteChannelMembers extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.onSelectItem(list.state.focused)
+        this.onSelectItem(this.state.focusedItem)
         e.preventDefault()
         break
       case 'backspace':
@@ -77,6 +74,12 @@ export default class InviteChannelMembers extends Component {
         break
       default:
     }
+  }
+
+  onFocusItem(item) {
+    this.setState({
+      focusedItem: item
+    })
   }
 
   deleteLastItem(input) {
@@ -88,35 +91,13 @@ export default class InviteChannelMembers extends Component {
     this.props.onSelectedClick(selected[selected.length - 1])
   }
 
-  onFilterChange() {
-    const value = this.refs.filter.value.toLowerCase()
-
-    if (!value) {
-      this.setState({
-        filtered: null,
-        value: ''
-      })
-      return
-    }
-
-    const filtered = this.props.items
-      .filter(this.props.filter.bind(null, value))
-      .sort(this.props.sort.bind(null, value))
-
-    this.setState({filtered, value})
-  }
-
-  shouldInputFocus({items}) {
-    const itemsLength = items.length
-    const {filtered} = this.state
-    const filteredLength = filtered && filtered.length || 0
-
-    return itemsLength && itemsLength > filteredLength
+  onChange() {
+    this.props.onChange(this.refs.filter.value)
   }
 
   clearFilter() {
     this.refs.filter.value = ''
-    this.onFilterChange()
+    this.onChange()
   }
 
   renderItem({item, focused}) {
@@ -135,35 +116,41 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderList() {
-    const {filtered} = this.state
-    const {items} = this.props
-
-    if (filtered && !filtered.length) {
-      return this.props.renderNotFound(this.refs.filter.value)
-    }
+    const {focusedItem} = this.state
+    const {
+      items,
+      filter,
+      renderNotFound,
+      renderEmptyItems
+    } = this.props
 
     if (!items.length) {
-      return this.props.renderEmptyItems()
+      return filter ? renderNotFound(filter) : renderEmptyItems()
     }
 
     return (
       <List
-        items={filtered || items}
+        items={items}
         renderItem={::this.renderItem}
+        onFocus={::this.onFocusItem}
+        onMouseOver={::this.onFocusItem}
         onSelect={::this.onSelectItem}
+        focused={focusedItem}
         ref="list"/>
     )
   }
 
   renderInput() {
-    if (!this.state.focused) return null
+    const {sheet, focused, filter} = this.props
+    if (!focused) return null
 
     return (
       <input
         ref="filter"
-        className={this.props.sheet.classes.filter}
+        className={sheet.classes.filter}
         onKeyDown={::this.onKeyDown}
-        onChange={::this.onFilterChange} />
+        onChange={::this.onChange}
+        value={filter} />
     )
   }
 
@@ -202,7 +189,7 @@ export default class InviteChannelMembers extends Component {
           ref='ruler'
           className={ruler}
           ariaHidden>
-          {this.state.value}
+          {this.props.filter}
         </span>
       </div>
     )

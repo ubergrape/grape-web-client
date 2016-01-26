@@ -2,6 +2,10 @@ import React, {Component, PropTypes} from 'react'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
+import {
+  filterUserByValue,
+  sortUserByValue
+} from './utils'
 
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
@@ -13,10 +17,6 @@ import colors from 'grape-theme/dist/base-colors'
 export default class InviteChannelMembers extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired
-  }
-
-  static defaultProps = {
-    users: []
   }
 
   onSelect(user) {
@@ -45,19 +45,16 @@ export default class InviteChannelMembers extends Component {
     this.props.hideInviteChannelMemberList()
   }
 
-  filter(value, user) {
-    return user.username.toLowerCase().indexOf(value) >= 0 ||
-      user.displayName.toLowerCase().indexOf(value) >= 0
+  onChangeFilter(value) {
+    this.props.setInviteFilterValue(value)
   }
 
-  sort(value, a) {
-    if (
-      a.username.toLowerCase().startsWith(value) ||
-      a.displayName.toLowerCase().startsWith(value)
-    ) {
-      return -1
-    }
-    return 1
+  getUsers() {
+    const {users, value} = this.props
+    if (!value) return users
+    return users
+      .filter(filterUserByValue.bind(null, value))
+      .sort(sortUserByValue.bind(null, value))
   }
 
   renderUser(user, focused) {
@@ -137,6 +134,7 @@ export default class InviteChannelMembers extends Component {
       focusedItem
     } = this.props.sheet.classes
 
+    const users = this.getUsers()
     return (
       <Dialog
         show={this.props.show}
@@ -147,14 +145,15 @@ export default class InviteChannelMembers extends Component {
           <div className={list}>
             <FilterableList
               height="180"
+              filter={this.props.filter}
+              items={users}
+              selected={this.props.listed}
+              onChange={::this.onChangeFilter}
               onSelect={::this.onSelect}
               onSelectedClick={::this.onSelectedClick}
-              items={this.props.users}
-              selected={this.props.listedForInvite}
-              filter={this.filter}
-              sort={this.sort}
               itemClassName={item}
               itemFocusedClassName={focusedItem}
+              focused={users.length > 0}
               renderItem={this.renderUser}
               renderSelected={this.renderSelectedUser}
               renderNotFound={::this.renderNotFound}
