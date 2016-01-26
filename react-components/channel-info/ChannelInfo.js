@@ -11,7 +11,7 @@ const dateFormat = 'MMMM Do, YYYY'
 function getStats(channel) {
   const amount = channel.users.length
   const plural = amount > 1 ? 's' : ''
-  const date = tz(channel.created*1000).format(dateFormat)
+  const date = tz(channel.created * 1000).format(dateFormat)
   let text = `The room ${channel.name} has ${amount} member${plural} and has been created`
   if (channel.creator) text += ` by ${channel.creator.displayName}`
   text += ` on ${date}.`
