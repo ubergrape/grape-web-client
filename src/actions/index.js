@@ -1,1 +1,1 @@
-export * from './searchBrowser'
+export * from './search-browser'
