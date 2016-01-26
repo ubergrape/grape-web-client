@@ -137,15 +137,24 @@ export default class GrapeInput extends Emitter {
 
   showSearchBrowser({key, setTrigger}) {
     const {props} = this.input
-    this.abortedSearch = false
+    let isLoading = false
+    let data
+
+    if (key) {
+      this.search(key)
+      isLoading = true
+      data = props.data
+    }
+
+    this.browserAborted = false
+
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
-      data: props.browser === 'search' ? props.data : null,
-      isLoading: true,
+      data,
+      isLoading,
       setTrigger
     })
-    this.search(key)
   }
 
   showUsersAndRooms(key) {
@@ -311,15 +320,14 @@ export default class GrapeInput extends Emitter {
   }
 
   onSelectFilter(e) {
-    this.abortedSearch = false
+    this.browserAborted = false
     this.emit('autocomplete', e.detail.key, (err, data) => {
       if (err) return this.emit('error', err)
-      if (!this.abortedSearch) {
-        this.setProps({
-          browser: 'search',
-          data: data
-        })
-      }
+      if (this.browserAborted) return
+      this.setProps({
+        browser: 'search',
+        data: data
+      })
     })
   }
 
@@ -330,12 +338,14 @@ export default class GrapeInput extends Emitter {
 
   onAbort(e) {
     const data = e.detail
-    this.abortedSearch = true
+    this.browserAborted = true
     // Don't abort editing if browser has been open.
     if (!data.browser) this.completePreviousEdit()
     if (data.browser === 'search' && data.reason === 'esc') {
       window.analytics.track('abort autocomplete', data)
     }
+
+    this.setProps({browser: null})
   }
 
   onChange() {
@@ -344,15 +354,14 @@ export default class GrapeInput extends Emitter {
   }
 
   search(key) {
-    this.abortedSearch = false
+    this.browserAborted = false
     this.emit('autocomplete', key, (err, data) => {
       if (err) return this.emit('error', err)
-      if (!this.abortedSearch) {
-        this.setProps({
-          browser: 'search',
-          data: data
-        })
-      }
+      if (this.browserAborted) return
+      this.setProps({
+        browser: 'search',
+        data: data
+      })
     })
   }
 
