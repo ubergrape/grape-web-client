@@ -20,3 +20,5 @@ npm run build
 - filter objects - quick filter selection objects displayed in the "queries" section
 - sidebar can contain info or detail view
 
+
+(c) UberGrape GmbH
