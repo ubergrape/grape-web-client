@@ -197,19 +197,13 @@ export function focusSearchBrowserItem(selector) {
 export function focusSearchBrowserAction(action) {
   return {
     type: types.FOCUS_SEARCH_BROWSER_ACTION,
-    payload: {
-      focusedAction: action,
-      hoveredAction: action
-    }
+    payload: action
   }
 }
 
 export function blurSearchBrowserAction() {
   return {
-    type: types.BLUR_SEARCH_BROWSER_ACTION,
-    payload: {
-      hoveredAction: null
-    }
+    type: types.BLUR_SEARCH_BROWSER_ACTION
   }
 }
 
@@ -242,9 +236,7 @@ export function selectSearchBrowserItem() {
 
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_ITEM,
-      payload: {
-        focusedItem
-      }
+      payload: focusedItem
     })
   }
 }
