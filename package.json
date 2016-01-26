@@ -1,7 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "1.1.1",
-  "private": true,
+  "version": "2.0.2",
   "main": "lib/index.js",
   "engines": {
     "node": "2.4.0"
@@ -11,8 +10,8 @@
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
-    "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#1.0.0",
-    "grape-web": "git+ssh://git@github.com/ubergrape/grape-web.git#0.1.0",
+    "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#1.2.0",
+    "grape-web": "git+ssh://git@github.com/ubergrape/grape-web.git#0.9.0",
     "images-loader": "^0.1.2",
     "js-emoji": "ubergrape/js-emoji",
     "jss": "^3.0.0",
@@ -24,10 +23,15 @@
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
+    "react-finite-list": "^1.0.0",
     "react-jss": "^2.0.1",
     "react-overlays": "^0.5.0",
     "react-pure-render": "^1.0.2",
-    "react-visibility-sensor": "git+ssh://git@github.com/ubergrape/react-visibility-sensor.git"
+    "react-redux": "^4.0.0",
+    "react-visibility-sensor": "git+ssh://git@github.com/ubergrape/react-visibility-sensor.git",
+    "redux": "^3.0.4",
+    "redux-thunk": "^1.0.0",
+    "reselect": "^2.0.1"
   },
   "peerDependencies": {
     "react": "^0.14.0",
@@ -58,8 +62,11 @@
     "karma-webpack": "^1.5.1",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "raw-loader": "^0.5.1",
     "react-addons-test-utils": "^0.14.0",
     "reactive-elements": "^0.6.3",
+    "svgo": "^0.6.1",
+    "svgo-loader": "^1.1.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },
@@ -68,10 +75,11 @@
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && babel src --out-dir lib",
     "build:watch": "npm run clean && babel --watch src --out-dir lib",
-    "start": "NODE_ENV=development webpack-dev-server --hot --config webpack.config.development.js",
+    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.development.js",
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
     "test:watch": "NODE_ENV=test karma start",
-    "test": "SINGLE_RUN=true NODE_ENV=testing karma start"
+    "test": "SINGLE_RUN=true NODE_ENV=testing karma start",
+    "prepublish": "npm run all"
   }
 }

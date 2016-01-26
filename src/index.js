@@ -1,18 +1,14 @@
-import SearchBrowser from './search-browser/Browser'
+import SearchBrowser from './components/search-browser/SearchBrowser'
 export {SearchBrowser as SearchBrowser}
 
-import SearchModalBrowser from './search-modal-browser/SearchModalBrowser'
-export {SearchModalBrowser as SearchModalBrowser}
-
-import EmojiBrowser from './emoji-browser/Browser'
+import EmojiBrowser from './components/emoji-browser/Browser'
 export {EmojiBrowser as EmojiBrowser}
 
-import GrapeInput from './grape-input/GrapeInput'
+import GrapeInput from './components/grape-input/GrapeInput'
 export {GrapeInput as GrapeInput}
 
-// Register reactive element.
+// Register reactive elements.
 import 'reactive-elements'
 document.registerReact('grape-search-browser', SearchBrowser)
-document.registerReact('grape-search-modal-browser', SearchModalBrowser)
 document.registerReact('grape-emoji-browser', EmojiBrowser)
 document.registerReact('grape-input', GrapeInput)
