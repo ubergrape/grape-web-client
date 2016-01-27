@@ -55,7 +55,7 @@ export default class Input extends Component {
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
     maxCompleteItems: 12,
-    externalServicesInputDelay: 500,
+    externalServicesInputDelay: 300,
     browser: undefined,
     data: undefined,
     images: {},
@@ -222,7 +222,7 @@ export default class Input extends Component {
       this.emit('change')
     }
 
-    if (utils.isExternalSearch(this.state.data)) return complete()
+    if (!utils.isExternalSearch(this.state.data)) return complete()
 
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.searchBrowserInputTimeoutId = setTimeout(
