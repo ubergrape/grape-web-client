@@ -321,7 +321,7 @@ export default class GrapeInput extends Emitter {
 
   onSelectFilter(e) {
     this.browserAborted = false
-    this.emit('autocomplete', e.detail.key, (err, data) => {
+    this.emit('autocomplete', e.detail, (err, data) => {
       if (err) return this.emit('error', err)
       if (this.browserAborted) return
       this.setProps({
