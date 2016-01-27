@@ -9,7 +9,7 @@ import {
   orgSelector,
   mentionsSelector
 } from '../selectors'
-import {setSidebarIsLoading} from './common'
+import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
 
 export function showMentions() {
@@ -53,16 +53,7 @@ export function loadMentions(params) {
       ]
     }, {camelize: true}, (err, res) => {
       dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
-        dispatch({
-          type: types.ERROR,
-          payload: {
-            err
-          }
-        })
-        return
-      }
+      if (err) return dispatch(error(err))
       const prevItems = mentionsSelector(store.getState()).items
       const nextItems = res.results.map(data => {
         return formatSidebarMessage(data.message)

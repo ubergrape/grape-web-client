@@ -4,7 +4,7 @@ import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
-import {setSidebarIsLoading} from './common'
+import {setSidebarIsLoading, error} from './common'
 import {
   sharedFilesSelector,
   orgSelector,
@@ -70,16 +70,7 @@ export function loadSharedFiles(params) {
       ]
     }, {camelize: true}, (err, res) => {
       dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
-        dispatch({
-          type: types.ERROR,
-          payload: {
-            err
-          }
-        })
-        return
-      }
+      if (err) return dispatch(error(err))
       const prevItems = sharedFilesSelector(state).items
       const users = usersSelector(state)
       const nextItems = res.results.map(file => {

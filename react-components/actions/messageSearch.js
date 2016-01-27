@@ -3,7 +3,7 @@ import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
 import rpc from '../backend/rpc'
 import {messageSearchSelector, orgSelector} from '../selectors'
-import {setSidebarIsLoading} from './common'
+import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
 
 export function showMessageSearch() {
@@ -77,16 +77,7 @@ export function searchMessages(params) {
       ]
     }, {camelize: true}, (err, res) => {
       dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
-        dispatch({
-          type: types.ERROR,
-          payload: {
-            err
-          }
-        })
-        return
-      }
+      if (err) return dispatch(error(err))
       const messageSearch = messageSearchSelector(state)
       const prevItems = messageSearch.items
       const nextItems = res.results.map(formatSidebarMessage)

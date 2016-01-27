@@ -20,15 +20,21 @@ export default class InviteChannelMembers extends Component {
     addToInviteChannelMemberList: PropTypes.func.isRequired,
     removeFromInviteChannelMemberList: PropTypes.func.isRequired,
     showOrgInvite: PropTypes.func.isRequired,
-    inviteToCurrentChannel: PropTypes.func.isRequired,
+    inviteToChannel: PropTypes.func.isRequired,
+    createRoomAndInvite: PropTypes.func.isRequired,
     hideInviteChannelMemberList: PropTypes.func.isRequired,
     setInviteFilterValue: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
     filter: PropTypes.string.isRequired,
     isInviter: PropTypes.bool.isRequired,
+    channelType: PropTypes.string,
     show: PropTypes.bool.isRequired
   }
+
+  // componentWillReceiveProps(next) {
+  //   console.log(next)
+  // }
 
   onSelectUser(user) {
     this.props.addToInviteChannelMemberList(user)
@@ -44,9 +50,17 @@ export default class InviteChannelMembers extends Component {
   }
 
   onInviteUsersClick() {
-    const {listed, inviteToCurrentChannel} = this.props
+    const {
+      listed,
+      inviteToChannel,
+      createRoomAndInvite,
+      channelType
+    } = this.props
+
     if (!listed.length) return
-    inviteToCurrentChannel(listed.map(user => user.username))
+    if (channelType === 'room') inviteToChannel(listed.map(user => user.username))
+    if (channelType === 'pm') createRoomAndInvite(listed)
+
     this.onHide()
   }
 

@@ -193,3 +193,12 @@ export function enableNotifications() {
     type: types.ENABLE_NOTIFICATIONS
   }
 }
+
+export function error(err) {
+  reduxEmitter.showError(err)
+  // This action don't have reducer yet
+  return {
+    type: types.ERROR,
+    payload: error
+  }
+}
