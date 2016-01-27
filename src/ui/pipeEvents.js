@@ -28,8 +28,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'newRoom', ui.historyView, 'onNewRoom')
   broker(ui, 'changeUser', ui.historyView, 'onChangeUser')
   broker(ui, 'emptyOrg', ui.historyView, 'onEmptyOrg')
-  broker(ui, 'selectchannel', ui.title, 'setRoom')
-  broker(ui, 'selectorganization', ui.title, 'setOrganization')
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')

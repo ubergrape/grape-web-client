@@ -41,6 +41,9 @@ export default function subscribe(channel) {
       case 'channel.joined':
         boundActions.handleJoinedChannel(cData)
         break
+      case 'channel.read':
+        boundActions.handleReadMessage(cData)
+        break
       default:
     }
   })

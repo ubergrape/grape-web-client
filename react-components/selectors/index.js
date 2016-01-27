@@ -68,3 +68,7 @@ export const alertsAndChannelSelector = createSelector(
     return {alerts, channel}
   }
 )
+
+export const unreadChannelsSelector = createSelector(
+  state => state.unreadChannels, state => state
+)

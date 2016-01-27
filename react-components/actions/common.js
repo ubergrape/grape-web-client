@@ -3,11 +3,11 @@ import page from 'page'
 import store from '../app/store'
 import {channelSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
+import {isMentioned, formatMessage} from './utils'
+import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
-import {isMentioned, formatMessage} from './utils'
-import reduxEmitter from '../redux-emitter'
 
 export function setUsers(users) {
   return {
@@ -81,6 +81,7 @@ export function handleNewMessage(message) {
     if (isMentioned(fMessage)) {
       dispatch(addMention(fMessage))
     }
+
     dispatch({
       type: types.HANDLE_NEW_MESSAGE,
       payload: {
@@ -100,6 +101,13 @@ export function handleRemovedMessage({id}) {
         messageId: id
       }
     })
+  }
+}
+
+export function handleReadMessage(payload) {
+  return {
+    type: types.READ_MESSAGE,
+    payload
   }
 }
 
