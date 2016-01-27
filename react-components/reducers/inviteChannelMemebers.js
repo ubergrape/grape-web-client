@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: true,
+  show: false,
   filter: '',
   listed: []
 }
