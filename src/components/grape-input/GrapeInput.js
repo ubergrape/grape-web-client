@@ -55,7 +55,7 @@ export default class Input extends Component {
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
     maxCompleteItems: 12,
-    externalServicesInputDelay: 300,
+    externalServicesInputDelay: 150,
     browser: undefined,
     data: undefined,
     images: {},
