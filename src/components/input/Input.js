@@ -53,7 +53,6 @@ export default class Input extends Component {
     if (nextProps.filters && String(nextProps.filters) !== String(this.query.get('filters'))) {
       this.onChangeFilters(nextProps)
     }
-
     if (nextProps.search !== undefined && nextProps.search !== this.query.get('search')) {
       this.query.set('search', nextProps.search, {silent: true})
     }

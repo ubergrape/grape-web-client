@@ -21,7 +21,6 @@ import {
   findIndexBySelector
 } from './data'
 
-
 function createState(nextProps, prevState) {
   const {data} = nextProps
 

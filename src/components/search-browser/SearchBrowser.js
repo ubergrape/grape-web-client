@@ -41,7 +41,6 @@ export default class Browser extends Component {
     maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
     isExternal: PropTypes.bool,
-    externalServicesInputDelay: PropTypes.number,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
@@ -62,7 +61,6 @@ export default class Browser extends Component {
   }
 
   onSelectItem({id} = {}) {
-    this.ignoreScheduledInput()
     this.props.selectSearchBrowserItem(id)
   }
 
@@ -72,8 +70,6 @@ export default class Browser extends Component {
 
   onKeyDown(e) {
     const {focusedList} = this.props
-
-    this.ignoreScheduledInput()
 
     switch (keyname(e.keyCode)) {
       case 'esc':
@@ -115,14 +111,7 @@ export default class Browser extends Component {
   }
 
   onInput(query) {
-    const {
-      inputSearchBrowserSearch: callback,
-      externalServicesInputDelay: delay,
-      isExternal
-    } = this.props
-    if (!isExternal) return callback(query)
-    clearTimeout(this.inputTimeoutId)
-    this.inputTimeoutId = setTimeout(callback.bind(null, query), delay)
+    this.props.inputSearchBrowserSearch(query)
   }
 
   onMouseDown(e) {
@@ -143,11 +132,6 @@ export default class Browser extends Component {
 
     this.blurPrevented = false
     e.target.focus()
-  }
-
-  // After selection we don't care about scheduled inputs.
-  ignoreScheduledInput() {
-    clearTimeout(this.inputTimeoutId)
   }
 
   resetSearch() {

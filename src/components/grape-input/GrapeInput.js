@@ -45,7 +45,8 @@ export default class Input extends Component {
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji'])
+    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
+    externalServicesInputDelay: PropTypes.number
   }
 
   static defaultProps = {
@@ -54,6 +55,7 @@ export default class Input extends Component {
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
     maxCompleteItems: 12,
+    externalServicesInputDelay: 500,
     browser: undefined,
     data: undefined,
     images: {},
@@ -135,17 +137,19 @@ export default class Input extends Component {
   }
 
   onAbort(data = {}) {
-    const currentBrowser = this.state.browser
+    const {browser} = this.state
     this.closeBrowser({textareaFocused: true}, () => {
-      this.emit('abort', {...data, browser: currentBrowser})
+      this.emit('abort', {...data, browser})
     })
   }
 
   onSelectSearchBrowserItem({item, query}) {
+    clearTimeout(this.searchBrowserInputTimeoutId)
     this.insertItem(item, query)
   }
 
   onSelectSearchBrowserFilter(query) {
+    clearTimeout(this.searchBrowserInputTimeoutId)
     this.emit('selectFilter', query)
   }
 
@@ -176,6 +180,7 @@ export default class Input extends Component {
       service = resultsWithoutFilters[index].service
     }
 
+    clearTimeout(this.searchBrowserInputTimeoutId)
     this.emit('insertItem', {query, type, service, rank})
   }
 
@@ -211,9 +216,19 @@ export default class Input extends Component {
     this.textarea.insertQueryString(newQueryStr)
   }
 
-  onInputSearchBrowser(data) {
-    this.emit('complete', data)
-    this.emit('change')
+  onInputSearchBrowser(query) {
+    const complete = () => {
+      this.emit('complete', query)
+      this.emit('change')
+    }
+
+    if (utils.isExternalSearch(this.state.data)) return complete()
+
+    clearTimeout(this.searchBrowserInputTimeoutId)
+    this.searchBrowserInputTimeoutId = setTimeout(
+      complete,
+      this.props.externalServicesInputDelay
+    )
   }
 
   onInputResize() {
@@ -221,6 +236,7 @@ export default class Input extends Component {
   }
 
   onChangeInput(query = {}) {
+    clearTimeout(this.searchBrowserInputTimeoutId)
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.

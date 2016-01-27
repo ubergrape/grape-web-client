@@ -22,7 +22,6 @@ const initialState = {
   isExternal: false,
   isLoading: false,
   canAddIntegrations: false,
-  externalServicesInputDelay: 500,
   focusedList: 'objects',
   search: '',
   filters: [],
