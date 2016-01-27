@@ -19,7 +19,7 @@ export default {
       backgroundColor: color(grayBlueLighter).darken(0.05).hexString()
     }
   },
-  selected: {
+  selectedList: {
     display: 'inline'
   },
   remove: {
@@ -48,7 +48,6 @@ export default {
     visibility: 'hidden'
   },
   list: {
-    marginTop: 20,
-    overflow: 'auto'
+    marginTop: 20
   }
 }

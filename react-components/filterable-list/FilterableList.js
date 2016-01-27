@@ -7,9 +7,25 @@ import List from 'react-finite-list'
 import keyname from 'keyname'
 
 @useSheet(style)
-export default class InviteChannelMembers extends Component {
+export default class FilterableList extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    height: PropTypes.number,
+    items: PropTypes.array.isRequired,
+    selected: PropTypes.array.isRequired,
+    filter: PropTypes.string.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onRemoveSelected: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    renderItem: PropTypes.func.isRequired,
+    renderSelected: PropTypes.func.isRequired,
+    renderNotFound: PropTypes.func.isRequired,
+    renderEmptyItems: PropTypes.func.isRequired,
+    children: PropTypes.element
+  }
+
+  static defaultProps = {
+    height: 100
   }
 
   constructor(props) {
@@ -20,7 +36,7 @@ export default class InviteChannelMembers extends Component {
   }
 
   componentDidMount() {
-    if (this.shouldFocusInput()) this.refs.filter.focus()
+    if (this.shouldFocusFilter()) this.refs.filter.focus()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,9 +46,9 @@ export default class InviteChannelMembers extends Component {
   }
 
   componentDidUpdate() {
-    if (this.shouldFocusInput()) this.refs.filter.focus()
     const {filter, ruler} = this.refs
-    if (!this.refs.filter) return
+    if (!filter) return
+    if (this.shouldFocusFilter()) filter.focus()
 
     filter.style.width = `${ruler.offsetWidth + 5}px`
     filter.scrollIntoView()
@@ -44,11 +60,11 @@ export default class InviteChannelMembers extends Component {
   }
 
   onSelectedClick(item) {
-    this.props.onSelectedClick(item)
+    this.props.onRemoveSelected(item)
   }
 
-  onClick(e) {
-    if (this.shouldFocusInput()) this.refs.filter.focus()
+  onClick() {
+    if (this.shouldFocusFilter()) this.refs.filter.focus()
   }
 
   onKeyDown(e) {
@@ -67,7 +83,7 @@ export default class InviteChannelMembers extends Component {
         e.preventDefault()
         break
       case 'backspace':
-        this.deleteLastItem(e.target)
+        this.deleteLastItem()
         break
       default:
     }
@@ -79,81 +95,72 @@ export default class InviteChannelMembers extends Component {
     })
   }
 
-  deleteLastItem(filter) {
-    const {selectionStart, selectionEnd} = filter
-    const {selected} = this.props
-    const isStartPos = selectionStart === selectionEnd && selectionStart === 0
-    if (!isStartPos || !selected.length) return
-
-    this.props.onSelectedClick(selected[selected.length - 1])
-  }
-
   onChange() {
     this.props.onChange(this.refs.filter.value)
   }
 
-  clearFilter() {
-    this.refs.filter.value = ''
-    this.onChange()
+  deleteLastItem() {
+    const {selected} = this.props
+    if (!selected.length) return
+
+    const {selectionStart, selectionEnd} = this.refs.filter
+    const isStartPos = selectionStart + selectionEnd === 0
+    if (!isStartPos) return
+
+    this.props.onRemoveSelected(selected[selected.length - 1])
   }
 
-  shouldFocusInput() {
+  clearFilter() {
+    this.props.onChange('')
+  }
+
+  shouldFocusFilter() {
     const {items, selected, filter} = this.props
     if (filter) return true
 
     return items.length + selected.length > 0
   }
 
-  renderItem({item, focused}) {
-    const {
-      itemClassName,
-      itemFocusedClassName,
-      renderItem
-    } = this.props
-
-    return (
-      <div
-        className={itemClassName + (focused ? ` ${itemFocusedClassName}` : '')}>
-        {renderItem(item, focused)}
-      </div>
-    )
-  }
-
   renderList() {
-    const {focusedItem} = this.state
     const {
       items,
+      height,
       filter,
       selected,
+      renderItem,
       renderNotFound,
       renderEmptyItems
     } = this.props
 
     if (!items.length) {
-      if (filter) {
-        return renderNotFound(filter)
-      }
+      if (filter) return renderNotFound(filter)
       if (selected.length) return null
 
       return renderEmptyItems()
     }
 
+    const {focusedItem} = this.state
     return (
       <List
+        ref="list"
+        style={{
+          maxHeight: height,
+          position: 'relative',
+          overflow: 'auto'
+        }}
         items={items}
-        renderItem={::this.renderItem}
+        renderItem={renderItem}
         onFocus={::this.onFocusItem}
         onMouseOver={::this.onFocusItem}
         onSelect={::this.onSelectItem}
-        focused={focusedItem}
-        ref="list"/>
+        focused={focusedItem} />
     )
   }
 
   renderInput() {
-    const {sheet, filter} = this.props
-    if (!this.shouldFocusInput()) return null
+    if (!this.shouldFocusFilter()) return null
 
+    const {sheet, filter} = this.props
     return (
       <input
         ref="filter"
@@ -164,38 +171,45 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
+  renderSelected(item, i) {
+    const {token, remove} = this.props.sheet.classes
+
+    return (
+      <li
+        key={i}
+        className={token}
+        onClick={this.onSelectedClick.bind(this, item)}>
+        {this.props.renderSelected(item)}
+        <i className={`${remove} mdi mdi-close-circle-outline`}></i>
+      </li>
+    )
+  }
+
+  renderSelectedList() {
+    const {selected, sheet} = this.props
+    if (!selected.length) return null
+
+    return (
+      <ul
+        className={sheet.classes.selectedList}>
+        {selected.map(this.renderSelected, this)}
+      </ul>
+    )
+  }
+
   renderFilter() {
     const {
-      token,
-      remove,
-      selected,
       ruler,
       filterArea
     } = this.props.sheet.classes
 
     return (
       <div
-        ref="filterArea"
         className={filterArea}>
-        <ul className={selected}>
-          {
-            this.props.selected.map((item, i) => {
-              return (
-                <li
-                  key={i}
-                  className={token}
-                  onClick={this.onSelectedClick.bind(this, item)}>
-                  {this.props.renderSelected(item)}
-                  <i
-                    className={`${remove} mdi mdi-close-circle-outline`}></i>
-                </li>
-              )
-            }, this)
-          }
-        </ul>
+        {this.renderSelectedList()}
         {this.renderInput()}
         <span
-          ref='ruler'
+          ref="ruler"
           className={ruler}
           ariaHidden>
           {this.props.filter}
@@ -205,15 +219,14 @@ export default class InviteChannelMembers extends Component {
   }
 
   render() {
-    const {height} = this.props
+    const {children, sheet} = this.props
     return (
       <div
         onClick={::this.onClick}>
         {this.renderFilter()}
-        {this.props.children}
+        {children}
         <div
-          className={this.props.sheet.classes.list}
-          style={{height}}>
+          className={sheet.classes.list}>
           {this.renderList()}
         </div>
       </div>

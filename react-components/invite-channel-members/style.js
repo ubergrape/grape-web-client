@@ -39,12 +39,12 @@ export default {
     ...link,
     ...fonts.small
   },
-  item: {
+  user: {
     padding: '4px 8px',
     borderRadius: 3,
     cursor: 'pointer'
   },
-  focusedItem: {
+  focusedUser: {
     backgroundColor: colors.grayBlueLighter
   },
   note: {

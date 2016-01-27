@@ -6,7 +6,13 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class AvatarUsername extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    size: PropTypes.number,
+    showStatus: PropTypes.bool,
+    status: PropTypes.string,
+    statusBorderColor: PropTypes.string
   }
 
   static defaultProps = {
@@ -15,54 +21,54 @@ export default class AvatarUsername extends Component {
     statusBorderColor: '#FFFFFF'
   }
 
-  renderStatus() {
-    if (!this.props.showStatus) return null
+  getAltText() {
+    const {showStatus, status} = this.props
+    return showStatus ? status : ''
+  }
 
+  renderStatus() {
     const {
       sheet,
+      showStatus,
       status,
       statusBorderColor
     } = this.props
-    const {classes} = sheet
 
+    if (!showStatus) return null
+
+    const {classes} = sheet
     return (
       <i
-        className={
-          `${classes.status} ${classes[this.props.status]}`
-        }
-        style={{borderColor: statusBorderColor}}
-        ></i>
+        className={`${classes.status} ${classes[status]}`}
+        style={{borderColor: statusBorderColor}}>
+      </i>
     )
   }
 
   render() {
     const size = `${this.props.size}px`
-    const wh = {width: size, height: size}
-    const {
-      avatarUsername,
-      avatar,
-      username,
-      image
-    } = this.props.sheet.classes
+    const sizes = {width: size, height: size}
+    const {classes} = this.props.sheet
+    const {username, avatar} = this.props
 
     return (
       <span
-        className={avatarUsername}>
+        className={classes.avatarUsername}>
         <span
-          className={avatar}>
+          className={classes.avatar}>
           <span
-            className={image}
-            style={wh}>
+            className={classes.image}
+            style={sizes}>
             <img
-              style={wh}
-              src={this.props.avatar}
-              alt="" />
+              style={sizes}
+              src={avatar}
+              alt={this.getAltText()} />
           </span>
           {this.renderStatus()}
         </span>
         <span
-          className={username}>
-          {this.props.username}
+          className={classes.username}>
+          {username}
         </span>
       </span>
     )

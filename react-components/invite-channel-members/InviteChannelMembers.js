@@ -30,11 +30,11 @@ export default class InviteChannelMembers extends Component {
     show: PropTypes.bool.isRequired
   }
 
-  onSelect(user) {
+  onSelectUser(user) {
     this.props.addToInviteChannelMemberList(user)
   }
 
-  onSelectedClick(user) {
+  onRemoveSelectedUser(user) {
     this.props.removeFromInviteChannelMemberList(user)
   }
 
@@ -66,15 +66,21 @@ export default class InviteChannelMembers extends Component {
       .sort(sortUserByValue.bind(null, filter))
   }
 
-  renderUser(user, focused) {
-    const {displayName, avatar, status} = user
+  renderUser({item, focused}) {
+    const {displayName, avatar, status} = item
+    const {user, focusedUser} = this.props.sheet.classes
+    let className = user
+    if (focused) className += ` ${focusedUser}`
     return (
-      <AvatarUsername
-        username={displayName}
-        avatar={avatar}
-        statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
-        status={status === 16 ? 'online' : 'offline'}
-      />
+      <div
+        className={className}>
+        <AvatarUsername
+          username={displayName}
+          avatar={avatar}
+          statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
+          status={status === 16 ? 'online' : 'offline'}
+        />
+      </div>
     )
   }
 
@@ -92,7 +98,7 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
-  renderEmptyItems() {
+  renderNoUsers() {
     return (
       <div
         className={this.props.sheet.classes.note}>
@@ -102,7 +108,6 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderInviteButton() {
-    const {listed} = this.props
     const {buttonInvite, submit} = this.props.sheet.classes
 
     return (
@@ -110,7 +115,7 @@ export default class InviteChannelMembers extends Component {
         <button
           className={buttonInvite}
           onClick={::this.onInviteUsersClick}
-          disabled={!listed.length}>
+          disabled={!this.props.listed.length}>
           Invite members
         </button>
       </div>
@@ -135,37 +140,39 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
-  renderFilterable() {
+  render() {
+    const {
+      sheet,
+      show,
+      filter,
+      listed
+    } = this.props
+
     const {
       wrapper,
-      list,
-      item,
-      focusedItem
-    } = this.props.sheet.classes
+      list
+    } = sheet.classes
 
-    const users = this.getUsers()
     return (
       <Dialog
-        show={this.props.show}
+        show={show}
         onHide={::this.onHide}
         title="Invite to room">
         <div
           className={wrapper}>
           <div className={list}>
             <FilterableList
-              height="180"
-              filter={this.props.filter}
-              items={users}
-              selected={this.props.listed}
+              height={180}
+              filter={filter}
+              items={this.getUsers()}
+              selected={listed}
               onChange={::this.onChangeFilter}
-              onSelect={::this.onSelect}
-              onSelectedClick={::this.onSelectedClick}
-              itemClassName={item}
-              itemFocusedClassName={focusedItem}
-              renderItem={this.renderUser}
+              onSelect={::this.onSelectUser}
+              onRemoveSelected={::this.onRemoveSelectedUser}
+              renderItem={::this.renderUser}
               renderSelected={this.renderSelectedUser}
               renderNotFound={::this.renderNotFound}
-              renderEmptyItems={::this.renderEmptyItems}>
+              renderEmptyItems={::this.renderNoUsers}>
               {this.renderOrgInviteButton()}
             </FilterableList>
           </div>
@@ -173,9 +180,5 @@ export default class InviteChannelMembers extends Component {
         </div>
       </Dialog>
     )
-  }
-
-  render() {
-    return this.renderFilterable()
   }
 }
