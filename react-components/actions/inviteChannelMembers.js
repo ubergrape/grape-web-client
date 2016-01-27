@@ -1,11 +1,12 @@
 import * as types from '../constants/actionTypes'
+import {maxChannelNameLength} from '../constants/app'
 
 import store from '../app/store'
 import {goToChannel, error} from './common'
 import rpc from '../backend/rpc'
-import reduxEmitter from '../redux-emitter'
 import page from 'page'
 import {channelSelector, orgSelector} from '../selectors'
+import * as api from '../app/api'
 
 
 export function showInviteChannelMemberList() {
@@ -42,7 +43,6 @@ export function setInviteFilterValue(value) {
 }
 
 export function invitedToChannel(usernames, channelId) {
-  console.log('invitedToChannel', usernames, channelId)
   return {
     type: types.INVITED_TO_CHANNEL,
     payload: {
@@ -57,16 +57,14 @@ export function joinToChannel(
   callback
 ) {
   return dispatch => {
-    rpc({
-      ns: 'channels',
-      action: 'join',
-      args: [id]
-    }, err => {
-      if (err) return dispatch(error(err))
-      // room.joined = true
-      if (callback) return dispatch(callback())
-      return {type: types.NOOP}
-    })
+    return api.joinToChannel(
+      id,
+      () => {
+        if (callback) return dispatch(callback())
+        return {type: types.NOOP}
+      },
+      err => dispatch(error(err))
+    )
   }
 }
 
@@ -76,61 +74,62 @@ export function inviteToChannel(
   callback
 ) {
   return dispatch => {
-    rpc(
-      {
-        ns: 'channels',
-        action: 'invite',
-        args: [id, usernames]
-      },
-      {camelize: true},
-      (err) => {
-        if (err) return dispatch(error(err))
-        // the responce is being listned at `app/subscribe`
-        // this dispatched action is probably don't have a reducer
+    return api.inviteToChannel(
+      usernames,
+      id,
+      () => {
         if (callback) callback()
         return dispatch(invitedToChannel(usernames, id))
-      }
+      },
+      err => dispatch(error(err))
     )
   }
 }
 
 export function createRoomAndInvite(users) {
-  return (dispatch, getState) => {
-    const currentOrg = orgSelector(getState())
-    const currentChannel = channelSelector(getState())
+  const currentOrg = orgSelector(store.getState())
+  const currentChannel = channelSelector(store.getState())
+  const newChannelUsers = [...currentChannel.users, ...users]
 
-    const newChannelUsers = [...currentChannel.users, ...users]
-    const name = newChannelUsers.map(user => user.displayName).join(', ').slice(0, 49)
-    const channel = {
+  function onChannelJoined(newRoom) {
+    return inviteToChannel(
+      newChannelUsers.map(user => user.username),
+      newRoom,
+      () => { page(`/chat/${newRoom.slug}`)}
+    )
+  }
+
+  function onRoomCreated(newRoom) {
+    return joinToChannel(
+      newRoom,
+      onChannelJoined.bind(null, newRoom)
+    )
+  }
+
+  return dispatch => {
+    const name = newChannelUsers
+      .map(user => user.displayName)
+      .join(', ')
+      .slice(0, maxChannelNameLength - 1)
+
+    const room = {
       name,
       is_public: false,
       organization: currentOrg.id
     }
 
-    rpc({
-      ns: 'rooms',
-      action: 'create',
-      args: [channel]
-    }, (err, newChannel) => {
-      if (err) {
+    return api.createRoom(
+      room,
+      newRoom => {
+        return dispatch(onRoomCreated(newRoom))
+      },
+      err => {
         const {details} = err
         if (details && details.error === 'SlugAlreadyExist') {
           return dispatch(goToChannel(details.slug))
         }
         return dispatch(error(err))
       }
-      return dispatch(
-        joinToChannel(
-          newChannel,
-          () => {
-            return inviteToChannel(
-              newChannelUsers.map(user => user.username),
-              newChannel,
-              () => { page(`/chat/${newChannel.slug}`)}
-            )
-          }
-        )
-      )
-    })
+    )
   }
 }
