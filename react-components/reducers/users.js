@@ -4,7 +4,7 @@ const initialState = {
   users: []
 }
 
-export default function reducers(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_USERS:
       return action.payload.users
