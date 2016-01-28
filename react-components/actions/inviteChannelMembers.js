@@ -3,10 +3,9 @@ import {maxChannelNameLength} from '../constants/app'
 
 import store from '../app/store'
 import {goToChannel, error} from './common'
-import rpc from '../backend/rpc'
 import page from 'page'
 import {channelSelector, orgSelector} from '../selectors'
-import * as api from '../app/api'
+import * as api from '../backend/api'
 
 
 export function showInviteChannelMemberList() {
@@ -57,14 +56,15 @@ export function joinToChannel(
   callback
 ) {
   return dispatch => {
-    return api.joinToChannel(
-      id,
-      () => {
-        if (callback) return dispatch(callback())
-        return {type: types.NOOP}
-      },
-      err => dispatch(error(err))
-    )
+    return api
+      .joinToChannel(id)
+      .then(
+        () => {
+          if (callback) return dispatch(callback())
+          return {type: types.NOOP}
+        },
+        err => dispatch(error(err))
+      )
   }
 }
 
@@ -74,15 +74,15 @@ export function inviteToChannel(
   callback
 ) {
   return dispatch => {
-    return api.inviteToChannel(
-      usernames,
-      id,
-      () => {
-        if (callback) callback()
-        return dispatch(invitedToChannel(usernames, id))
-      },
-      err => dispatch(error(err))
-    )
+    return api
+      .inviteToChannel(usernames, id)
+      .then(
+        () => {
+          if (callback) callback()
+          return dispatch(invitedToChannel(usernames, id))
+        },
+        err => dispatch(error(err))
+      )
   }
 }
 
@@ -100,10 +100,7 @@ export function createRoomAndInvite(users) {
   }
 
   function onRoomCreated(newRoom) {
-    return joinToChannel(
-      newRoom,
-      onChannelJoined.bind(null, newRoom)
-    )
+    return joinToChannel(newRoom, onChannelJoined.bind(null, newRoom))
   }
 
   return dispatch => {
@@ -118,18 +115,19 @@ export function createRoomAndInvite(users) {
       organization: currentOrg.id
     }
 
-    return api.createRoom(
-      room,
-      newRoom => {
-        return dispatch(onRoomCreated(newRoom))
-      },
-      err => {
-        const {details} = err
-        if (details && details.error === 'SlugAlreadyExist') {
-          return dispatch(goToChannel(details.slug))
+    return api
+      .createRoom(room)
+      .then(
+        newRoom => {
+          return dispatch(onRoomCreated(newRoom))
+        },
+        err => {
+          const {details} = err
+          if (details && details.error === 'SlugAlreadyExist') {
+            return dispatch(goToChannel(details.slug))
+          }
+          return dispatch(error(err))
         }
-        return dispatch(error(err))
-      }
-    )
+      )
   }
 }
