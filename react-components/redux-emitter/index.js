@@ -52,10 +52,6 @@ class ReduxEmitter extends Emitter {
     this.emit('kickMember', params)
   }
 
-  onUserLeftChannel(channel) {
-    boundActions.userLeftChannel(formatChannel(channel))
-  }
-
   onShowSharedFiles() {
     boundActions.showSharedFiles()
   }

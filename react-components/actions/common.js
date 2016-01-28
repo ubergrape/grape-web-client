@@ -1,13 +1,11 @@
 import page from 'page'
 
-import store from '../app/store'
-import {channelSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
+import {isMentioned, formatMessage} from './utils'
+import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
-import {isMentioned, formatMessage} from './utils'
-import reduxEmitter from '../redux-emitter'
 
 export function setUsers(users) {
   return {
@@ -81,6 +79,7 @@ export function handleNewMessage(message) {
     if (isMentioned(fMessage)) {
       dispatch(addMention(fMessage))
     }
+
     dispatch({
       type: types.HANDLE_NEW_MESSAGE,
       payload: {
@@ -100,6 +99,16 @@ export function handleRemovedMessage({id}) {
         messageId: id
       }
     })
+  }
+}
+
+export function handleReadChannel(data) {
+  return {
+    type: types.READ_CHANNEL,
+    payload: {
+      userId: data.user,
+      channelId: data.channel
+    }
   }
 }
 
@@ -144,28 +153,6 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function userLeftChannel(channel) {
-  return dispatch => {
-    const currentChannel = channelSelector(store.getState())
-
-    if (currentChannel && currentChannel.id === channel.id) {
-      dispatch({
-        type: types.USER_LEFT_CURRENT_CHANNEL,
-        payload: {
-          channel
-        }
-      })
-    }
-
-    dispatch({
-      type: types.USER_LEFT_CHANNEL,
-      payload: {
-        channel
-      }
-    })
-  }
-}
-
 export function showOrgInvite() {
   reduxEmitter.showOrgInvite()
   return {
@@ -173,16 +160,26 @@ export function showOrgInvite() {
   }
 }
 
-export function handleJoinedChannel({user, channel}) {
+export function handleJoinedChannel({user: userId, channel: channelId}) {
   return dispatch => {
-    dispatch(addUserToChannel(user, channel))
+    dispatch(addUserToChannel(userId, channelId))
     dispatch({
-      type: types.HANDLE_JOINED_CHANNEL,
+      type: types.USER_JOINED_CHANNEL,
       payload: {
-        channelId: channel,
-        userId: user
+        channelId,
+        userId
       }
     })
+  }
+}
+
+export function handleLeftChannel({user: userId, channel: channelId}) {
+  return {
+    type: types.USER_LEFT_CHANNEL,
+    payload: {
+      channelId,
+      userId
+    }
   }
 }
 

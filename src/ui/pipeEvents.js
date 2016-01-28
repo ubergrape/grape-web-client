@@ -28,8 +28,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'newRoom', ui.historyView, 'onNewRoom')
   broker(ui, 'changeUser', ui.historyView, 'onChangeUser')
   broker(ui, 'emptyOrg', ui.historyView, 'onEmptyOrg')
-  broker(ui, 'selectchannel', ui.title, 'setRoom')
-  broker(ui, 'selectorganization', ui.title, 'setOrganization')
   broker(ui, 'selectchannel', ui.notifications, 'setRoom')
   broker(ui, 'newMsgNotification', ui.notifications, 'onNewMsgNotification')
   broker(ui, 'newInviteNotification', ui.notifications, 'onNewInviteNotification')
@@ -50,7 +48,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
   broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
-  broker(ui, 'memberLeftChannel', ui.reduxEmitter, 'onUserLeftChannel')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')

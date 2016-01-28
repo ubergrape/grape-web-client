@@ -74,6 +74,10 @@ export const alertsAndChannelSelector = createSelector(
   }
 )
 
+export const unreadChannelsSelector = createSelector(
+  state => state.unreadChannels, state => state
+)
+
 export const inviteDialog = createSelector(
   [
     channelSelector,

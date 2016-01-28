@@ -13,6 +13,7 @@ import mentions from '../mentions'
 import messageSearch from '../message-search'
 import alerts from '../alerts'
 import inviteChannelMembers from '../invite-channel-members/'
+import unreadChannels from '../unread-channels'
 
 render(
   createElement(channelSearch(store)),
@@ -25,6 +26,10 @@ render(
 render(
   createElement(inviteChannelMembers(store)),
   document.body.appendChild(document.createElement('grape-invite-channel-members'))
+)
+render(
+  createElement(unreadChannels(store)),
+  document.createElement('grape-unread-channels')
 )
 
 document.registerReact('grape-typing-notification', typingNotification(store))

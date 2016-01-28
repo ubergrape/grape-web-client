@@ -31,7 +31,6 @@ let OrganizationPopover = exports.OrganizationPopover = require('./elements/popo
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
-let Title = exports.Title = require('./titleupdater')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
 let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
@@ -97,7 +96,6 @@ UI.prototype.init = function UI_init() {
   let chat = qs('.chat-wrapper .chat', this.el)
   chat.parentNode.replaceChild(this.historyView.el, chat)
 
-  this.title = new Title()
   qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)

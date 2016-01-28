@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-31 09:16+0000\n"
-"PO-Revision-Date: 2015-12-17 09:44+0000\n"
-"Last-Translator: Felix Hausler <fh@ubergrape.com>\n"
+"PO-Revision-Date: 2016-01-23 22:57+0000\n"
+"Last-Translator: Felix Hausler <admin@chatgrape.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,12 +16,12 @@ msgstr ""
 #: client/templates/chathistory.jade:25 client/templates/chathistory.jade:31
 #: templates/chathistory.jade:31
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: client/templates/chathistory.jade:32 client/templates/chathistory.jade:38
 #: templates/chathistory.jade:38
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: client/browser/elements/dialogs/deleteroom.js:64
 #: browser/elements/dialogs/deleteroom.js:64
@@ -46,7 +46,7 @@ msgstr "Private Nachricht"
 #: browser/elements/notifications.js:100 browser/elements/notifications.js:106
 #: browser/elements/notifications.js:63 browser/elements/notifications.js:75
 msgid "[Image]"
-msgstr "[Image]"
+msgstr "[Bild]"
 
 #: client/browser/index.js:165 browser/index.js:165 browser/index.js:164
 #: browser/index.js:166
@@ -57,9 +57,9 @@ msgid ""
 "notifications</button>"
 msgstr ""
 "Willkommen! Schalten Sie bitte <a class=' enable_notifications'>Desktop-"
-"Benachrichtigungen</a> an, so dass Ihre Teammitglieder Sie besser erreichen "
-"können. <button class = 'button enable_notifications \"> Aktivieren von "
-"Desktop-Benachrichtigungen </ button>"
+"Benachrichtigungen</a> an, damit Ihre Teammitglieder Sie besser erreichen "
+"können. <button class = 'button enable_notifications \"> Desktop-"
+"Benachrichtigungen aktivieren</ button>"
 
 #: client/browser/index.js:172 browser/index.js:172 browser/index.js:171
 #: browser/index.js:173 browser/index.js:174 browser/index.js:175
@@ -79,6 +79,9 @@ msgid ""
 "in 5 simple steps.</p><p>You can skip this at any time by clicking "
 "anywhere.</p>"
 msgstr ""
+"<h2>Hallo und willkommen zu Grape!</h2><p>Verschaffen Sie sich einen "
+"schnellen Überblick in 5 Schritten.</p><p>Sie können die Einführung "
+"jederzeit abbrechen.</p>"
 
 #: client/browser/index.js:183
 msgid ""
@@ -86,6 +89,9 @@ msgid ""
 "in.</p><p>You can add and manage members and external services by clicking "
 "on the menu button.</p>"
 msgstr ""
+"<h2>Organisation-Einstellungen</h2><p>Dies ist die Organisation, in der Sie "
+"gerade sind.</p><p>Sie können Mitglieder und Service-Integrationen "
+"verwalten, indem Sie auf den Menü-Knopf klicken.</p>"
 
 #: client/browser/index.js:188
 msgid ""
@@ -94,6 +100,10 @@ msgid ""
 "in your organization and create a new one by clicking on &quot;All "
 "rooms&quot;.</p>"
 msgstr ""
+"<h2>Räume</h2><p>Diese Liste zeigt Ihnen die Räume, die Sie betreten haben. "
+"Sie wurden für den Anfang zu &quot;General&quot; und &quot;Off-Topic&quot; "
+"eingeladen.</p><p>Sie können alle verfügbaren Räume durch das Klicken auf "
+"&quot;Alle Räume&quot; anzeigen.</p>"
 
 #: client/browser/index.js:193
 msgid ""
@@ -101,6 +111,10 @@ msgid ""
 "have a private conversation with.</p><p>You can start more conversations by "
 "clicking on &quot;All members&quot;.</p>"
 msgstr ""
+"<h2>Private Nachrichten</h2><p>Diese Liste enthält alle Kontakte, mit denen "
+"Sie bereits private Konversationen hatten.</p><p>Sie können mehr "
+"Konversationen starten, indem Sie auf  &quot;Alle Mitglieder&quot; "
+"klicken.</p>"
 
 #: client/browser/index.js:198 browser/index.js:198 browser/index.js:197
 #: browser/index.js:199 browser/index.js:200
@@ -109,18 +123,25 @@ msgid ""
 "joined this room.</p><p>Click it to see all of them or to invite more users "
 "to this room.</p>"
 msgstr ""
+"<h2>Raum-Mitglieder Info</h2><p>Diese Nummer zeigt Ihnen, wieviele "
+"Mitglieder in einem Raum sind.</p><p>Klicken Sie die Nummer, um alle "
+"anzuzeigen, bzw. mehr in den Raum einzuladen.</p>"
 
 #: client/browser/index.js:203
 msgid ""
 "<h2>User Profile</h2><p>You can find all profile-related settings (and re-"
 "start this awesome tutorial at any time) here.</p>"
 msgstr ""
+"<h2>Nutzer-Profil</h2><p>Sie finden alle Profil-bezogenen Einstellungen  "
+"hier (dort können Sie auch dieses Tutorial jederzeit neustarten).</p>"
 
 #: client/browser/index.js:207 browser/index.js:202
 msgid ""
 "<h2>All done! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Have fun using "
 "ChatGrape.</p>"
 msgstr ""
+"<h2>Fertig! <i class=\"fa fa-2x fa-smile\"></i></h2><p>Viel Spaß mit "
+"Grape.</p>"
 
 #: client/browser/index.js:583 client/browser/index.js:588
 #: browser/index.js:587 browser/index.js:556
@@ -128,41 +149,46 @@ msgid ""
 "Lost Connection to the server - trying to reconnect. You can also try to <a "
 "href=\"#\" onClick=\"window.location.reload()\" >reload</a>. "
 msgstr ""
+"Verbindung zum Server verloren - wir versuchen, Sie neu zu verbinden. Sie "
+"können auch <a href=\"#\" onClick=\"window.location.reload()\" >neu "
+"laden</a>."
 
 #: client/browser/index.js:594 client/browser/index.js:599
 #: browser/index.js:598 browser/index.js:567 browser/index.js:577
 #: templates/messages.jade:15 templates/messages.jade:18
 msgid "Reconnected successfully"
-msgstr ""
+msgstr "Erfolgreich neu verbunden"
 
 #: client/templates/chatheader.jade:13 templates/chatheader.jade:13
 msgid "Search for content, documents, appointments, ..."
-msgstr ""
+msgstr "Suche nach Inhalten, Dokumenten, Terminen, ..."
 
 #: client/templates/chathistory.jade:6 client/templates/chathistory.jade:7
 #: templates/chathistory.jade:7
 msgid "Welcome to ChatGrape!"
-msgstr ""
+msgstr "Willkommen bei Grape!"
 
 #: client/templates/chathistory.jade:10 templates/chathistory.jade:10
 msgid "Give us a second while we're preparing everything for you!"
-msgstr ""
+msgstr "Geben Sie uns eine Sekunde, in der wir alles für Sie vorbereiten!"
 
 #: client/templates/chathistory.jade:21 client/templates/chathistory.jade:27
 #: templates/chathistory.jade:27
 msgid "This room is public. Every member can join and read the history."
 msgstr ""
+"Dieser Raum ist öffentlich. Jedes Mitglied kann beitreten und den Verlauf "
+"lesen."
 
 #: client/templates/chathistory.jade:28 client/templates/chathistory.jade:34
 #: templates/chathistory.jade:34 templates/chathistory.jade:32
 msgid "Invite members"
-msgstr ""
+msgstr "Mitglieder einladen"
 
 #: client/templates/chathistory.jade:35 client/templates/chathistory.jade:41
 #: templates/chathistory.jade:41 templates/chathistory.jade:36
 #: templates/chathistory.jade:40 templates/chathistory.jade:43
 msgid "Integrate external services"
-msgstr ""
+msgstr "Service-Integrationen verbinden"
 
 #: client/templates/chathistory.jade:50 client/templates/chathistory.jade:56
 #: templates/chathistory.jade:56 templates/chathistory.jade:62
@@ -171,6 +197,9 @@ msgid ""
 " messages and as soon as the user joins ChatGrape, he will reiceive your "
 "messages."
 msgstr ""
+"Dieser Nutzer ist seiner Einladung noch nicht gefolgt. Sie können an die "
+"Person Chat-Nachrichten versenden, die diese dann beim ersten Anmelden "
+"empfangen wird."
 
 #: client/templates/chathistory.jade:63 client/templates/chathistory.jade:69
 #: templates/chathistory.jade:69 templates/chathistory.jade:75
@@ -178,7 +207,7 @@ msgstr ""
 #: templates/chathistory.jade:70 templates/chathistory.jade:71
 #: templates/chathistory.jade:82
 msgid "new messages"
-msgstr ""
+msgstr "neue Nachrichten"
 
 #: client/templates/chathistory.jade:87 client/templates/chathistory.jade:93
 #: templates/chathistory.jade:93 templates/chathistory.jade:99
@@ -189,14 +218,14 @@ msgstr ""
 #: templates/chathistory.jade:182 templates/chathistory.jade:153
 #: templates/chathistory.jade:187
 msgid " Local time: "
-msgstr ""
+msgstr "Zeit vor Ort:"
 
 #: client/templates/chathistory.jade:102 client/templates/chathistory.jade:108
 #: templates/chathistory.jade:108 templates/chathistory.jade:113
 #: templates/chathistory.jade:115 templates/chathistory.jade:114
 #: templates/chathistory.jade:127 templates/chathistory.jade:95
 msgid "#Label"
-msgstr ""
+msgstr "#Label"
 
 #: client/templates/chathistory.jade:160 client/templates/chathistory.jade:166
 #: templates/chathistory.jade:166 templates/chathistory.jade:171
@@ -205,7 +234,7 @@ msgstr ""
 #: templates/chathistory.jade:240 templates/chathistory.jade:241
 #: templates/chathistory.jade:243 templates/chathistory.jade:251
 msgid "Show More"
-msgstr ""
+msgstr "Mehr anzeigen"
 
 #: client/templates/chatinput.jade:3 templates/chatinput.jade:3
 #: templates/grapeinputintegration.jade:3
@@ -215,49 +244,49 @@ msgstr ""
 #: client/templates/chatinput.jade:4 templates/chatinput.jade:4
 #: templates/grapeinputintegration.jade:4
 msgid "ESC"
-msgstr ""
+msgstr "ESC"
 
 #: client/templates/chatinput.jade:5 templates/chatinput.jade:5
 #: templates/grapeinputintegration.jade:5
 msgid " to cancel editing."
-msgstr ""
+msgstr "um Editieren abzubrechen."
 
 #: client/templates/chatinput.jade:19 templates/chatinput.jade:19
 msgid "You can use ChatGrape "
-msgstr ""
+msgstr "Sie können Grape "
 
 #: client/templates/chatinput.jade:20 templates/chatinput.jade:20
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: client/templates/chatinput.jade:21 templates/chatinput.jade:21
 msgid " to format your text"
-msgstr ""
+msgstr "verwenden, um Ihren Text zu formatieren"
 
 #: client/templates/dialogs/deleteroom.jade:2
 #: templates/dialogs/deleteroom.jade:2
 msgid "you are about to delete "
-msgstr ""
+msgstr "Sie sind im Begriff, Ihren Raum zu löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:4
 #: templates/dialogs/deleteroom.jade:4
 msgid "Please enter your password to continue!"
-msgstr ""
+msgstr "Bitte Passwort eingeben, um fortzufahren!"
 
 #: client/templates/dialogs/deleteroom.jade:8
 #: templates/dialogs/deleteroom.jade:8
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: client/templates/dialogs/deleteroom.jade:11
 #: templates/dialogs/deleteroom.jade:11 templates/dialogs/deleteroom.jade:10
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: client/templates/dialogs/deleteroom.jade:13
 #: templates/dialogs/deleteroom.jade:13 templates/dialogs/deleteroom.jade:14
 msgid "Sorry, you can't delete "
-msgstr ""
+msgstr "Leider, können Sie den Raum nicht löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:14
 #: templates/dialogs/deleteroom.jade:14
@@ -1025,44 +1054,46 @@ msgstr ""
 #: templates/chathistory.jade:241 templates/chathistory.jade:242
 #: templates/chathistory.jade:244 templates/chathistory.jade:252
 msgid "Show Less"
-msgstr ""
+msgstr "weniger anzeigen"
 
 #: templates/chathistory.jade:247 templates/chathistory.jade:248
 #: templates/chathistory.jade:250 templates/chathistory.jade:258
 msgid "load newer messages"
-msgstr ""
+msgstr "neuere Nachrichten laden"
 
 #: templates/chathistory.jade:252 templates/chathistory.jade:253
 #: templates/chathistory.jade:255 templates/chathistory.jade:263
 msgid "newest messages"
-msgstr ""
+msgstr "neueste Nachrichten"
 
 #: templates/messages.jade:24
 msgid ""
 "We could not find what you were looking for - the room might have been "
 "deleted, renamed or moved."
 msgstr ""
+"Wir konnten leider keine Ergebnisse zu Ihrer Suche finden - Vielleicht wurde"
+" der Raum entfernt, umbenannt oder gelöscht."
 
 #: templates/messages.jade:27
 msgid "We could not find the message you were looking for."
-msgstr ""
+msgstr "Wir konnten die gesuchte Nachricht leider nicht finden."
 
 #: templates/chathistory.jade:163 templates/chathistory.jade:164
 msgid " (You)"
-msgstr ""
+msgstr "(Ich)"
 
 #: templates/navigation.jade:18
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: templates/navigation.jade:20
 msgid "Rooms "
-msgstr ""
+msgstr "Räume"
 
 #: templates/chatheader.jade:30
 msgid "Search for messages, files, etc."
-msgstr ""
+msgstr "Suche Dateien, Nachrichten, etc."
 
 #: templates/chathistory.jade:176
 msgid "at"
-msgstr ""
+msgstr "um"
