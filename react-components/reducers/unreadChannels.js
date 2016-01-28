@@ -14,7 +14,7 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   let {channels} = state
   switch (action.type) {
-    case types.READ_MESSAGE:
+    case types.READ_CHANNEL:
       // Only delete channel from unread if reader is the own user.
       if (state.userId === action.payload.userId) {
         delete channels[action.payload.channelId]

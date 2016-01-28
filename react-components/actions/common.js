@@ -104,12 +104,10 @@ export function handleRemovedMessage({id}) {
   }
 }
 
-export function handleReadMessage(data) {
+export function handleReadChannel(data) {
   return {
-    type: types.READ_MESSAGE,
+    type: types.READ_CHANNEL,
     payload: {
-      time: data.time,
-      messageId: data.message,
       userId: data.user,
       channelId: data.channel
     }
