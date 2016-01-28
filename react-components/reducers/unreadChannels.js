@@ -32,20 +32,24 @@ export default function reduce(state = initialState, action) {
       }
       return state
     case types.HANDLE_NEW_MESSAGE:
-      const channelId = action.payload.message.channel
-      channelsMap[channelId].hasUnread = true
-      if (channelsMap[channelId].joined) {
-        return {...state, amount: calc(channelsMap), channelsMap}
-      }
-      return state
+      return (() => {
+        const channelId = action.payload.message.channel
+        channelsMap[channelId].hasUnread = true
+        if (channelsMap[channelId].joined) {
+          return {...state, amount: calc(channelsMap), channelsMap}
+        }
+        return state
+      }())
     case types.SET_USER:
       return {...state, userId: action.payload.user.id}
     case types.SET_CHANNEL:
-      const {channel} = action.payload
-      return {
-        ...state,
-        channelName: channel.name || channel.users[0].displayName
-      }
+      return (() => {
+        const {channel} = action.payload
+        return {
+          ...state,
+          channelName: channel.name || channel.users[0].displayName
+        }
+      }())
     case types.SET_CHANNELS:
       channelsMap = action.payload.channels.reduce((map, _channel) => {
         map[_channel.id] = {
