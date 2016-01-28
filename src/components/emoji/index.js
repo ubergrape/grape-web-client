@@ -117,7 +117,7 @@ export function getIndex() {
  * Filter emojis by key.
  */
 export function filter(key) {
-  return index.filter(item => item.name.indexOf(key.toLowerCase()) >= 0)
+  return index.filter(item => item.name.indexOf(key) >= 0)
 }
 
 /**
