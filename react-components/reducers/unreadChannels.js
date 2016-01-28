@@ -12,9 +12,9 @@ let userId
 /**
  * Calculate amount of hasUnread channels.
  */
-function calc(channelsMap) {
-  return Object.keys(channelsMap).reduce((amount, channelId) => {
-    const channel = channelsMap[channelId]
+function calc(map) {
+  return Object.keys(map).reduce((amount, channelId) => {
+    const channel = map[channelId]
     return channel.joined && channel.hasUnread ? amount + 1 : amount
   }, 0)
 }

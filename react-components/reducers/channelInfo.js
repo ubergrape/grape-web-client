@@ -16,7 +16,7 @@ export default function reduce(state = initialState, action) {
     case types.USER_LEFT_CHANNEL:
       let {channel} = state
       if (channel && channel.id === action.payload.channelId) {
-        const users = channel.users.filter(user => user.id != action.payload.userId)
+        const users = channel.users.filter(user => user.id !== action.payload.userId)
         channel = {...channel, users}
         return {...state, channel}
       }

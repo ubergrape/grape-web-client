@@ -1,7 +1,5 @@
 import page from 'page'
 
-import store from '../app/store'
-import {channelSelector} from '../selectors'
 import * as types from '../constants/actionTypes'
 import {isMentioned, formatMessage} from './utils'
 import reduxEmitter from '../redux-emitter'
