@@ -20,13 +20,13 @@ export function createRoom(room) {
   })
 }
 
-export function joinToChannel(id) {
+export function joinToChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
         ns: 'channels',
         action: 'join',
-        args: [id]
+        args: [channelId]
       },
       err => {
         if (err) {
@@ -39,13 +39,13 @@ export function joinToChannel(id) {
   })
 }
 
-export function inviteToChannel(usernames, id) {
+export function inviteToChannel(usernames, channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
         ns: 'channels',
         action: 'invite',
-        args: [id, usernames]
+        args: [channelId, usernames]
       },
       err => {
         if (err) {
@@ -77,6 +77,58 @@ export function getMentions({id, limit, offsetDate}) {
           reject(err)
         } else {
           resolve(mentions)
+        }
+      }
+    )
+  })
+}
+
+export function searchMessages({query, id, limit, offsetDate}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'search',
+        action: 'search',
+        args: [
+          query,
+          id,
+          'messages',
+          limit,
+          offsetDate
+        ]
+      },
+      {camelize: true},
+      (err, messages) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(messages)
+        }
+      }
+    )
+  })
+}
+
+export function searchFiles({orgId, channelId, own, limit, offset}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'search',
+        action: 'search_files',
+        args: [
+          orgId,
+          channelId,
+          own,
+          limit,
+          offset
+        ]
+      },
+      {camelize: true},
+      (err, files) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(files)
         }
       }
     )

@@ -1,7 +1,7 @@
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
-import rpc from '../backend/rpc'
+import * as api from '../backend/api'
 import {messageSearchSelector, orgSelector} from '../selectors'
 import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
@@ -63,32 +63,34 @@ export function searchMessages(params) {
     dispatch(setSidebarIsLoading(true))
 
     const state = store.getState()
-    const org = orgSelector(state)
+    const {id} = orgSelector(state)
 
-    rpc({
-      ns: 'search',
-      action: 'search',
-      args: [
+    api
+      .searchMessages({
         query,
-        org.id,
-        'messages',
-        params.limit,
-        params.offsetDate ? params.offsetDate.toISOString() : undefined
-      ]
-    }, {camelize: true}, (err, res) => {
-      dispatch(setSidebarIsLoading(false))
-      if (err) return dispatch(error(err))
-      const messageSearch = messageSearchSelector(state)
-      const prevItems = messageSearch.items
-      const nextItems = res.results.map(formatSidebarMessage)
-      dispatch({
-        type: types.FOUND_MESSAGES,
-        payload: {
-          items: [...prevItems, ...nextItems],
-          // Only a query without offset delivers overall total amount.
-          total: params.offsetDate ? messageSearch.total : res.total
-        }
+        id,
+        limit: params.limit,
+        offsetDate: params.offsetDate ? params.offsetDate.toISOString() : undefined
       })
-    })
+      .then(
+        messages => {
+          dispatch(setSidebarIsLoading(false))
+          const messageSearch = messageSearchSelector(state)
+          const prevItems = messageSearch.items
+          const nextItems = messages.results.map(formatSidebarMessage)
+          dispatch({
+            type: types.FOUND_MESSAGES,
+            payload: {
+              items: [...prevItems, ...nextItems],
+              // Only a query without offset delivers overall total amount.
+              total: params.offsetDate ? messageSearch.total : messages.total
+            }
+          })
+        },
+        err => {
+          dispatch(setSidebarIsLoading(false))
+          return dispatch(error(err))
+        }
+      )
   }
 }

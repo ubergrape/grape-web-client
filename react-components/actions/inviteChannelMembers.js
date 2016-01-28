@@ -51,36 +51,35 @@ export function invitedToChannel(usernames, channelId) {
   }
 }
 
-export function joinToChannel(
-  {id} = channelSelector(store.getState()),
-  callback
-) {
+export function joinedToChannel(channelId) {
+  return {
+    type: types.JOINED_TO_CHANNEL,
+    payload: channelId
+  }
+}
+
+// This action isn't used yet, remove this comment after first use
+export function joinToChannel({id} = channelSelector(store.getState())) {
   return dispatch => {
     return api
       .joinToChannel(id)
       .then(
-        () => {
-          if (callback) return dispatch(callback())
-          return {type: types.NOOP}
-        },
+        () => dispatch(joinedToChannel(id)),
         err => dispatch(error(err))
       )
   }
 }
 
+// This action isn't used yet, remove this comment after first use
 export function inviteToChannel(
   usernames,
-  {id} = channelSelector(store.getState()),
-  callback
+  {id} = channelSelector(store.getState())
 ) {
   return dispatch => {
     return api
       .inviteToChannel(usernames, id)
       .then(
-        () => {
-          if (callback) callback()
-          return dispatch(invitedToChannel(usernames, id))
-        },
+        () => dispatch(invitedToChannel(usernames, id)),
         err => dispatch(error(err))
       )
   }
@@ -90,18 +89,7 @@ export function createRoomAndInvite(users) {
   const currentOrg = orgSelector(store.getState())
   const currentChannel = channelSelector(store.getState())
   const newChannelUsers = [...currentChannel.users, ...users]
-
-  function onChannelJoined(newRoom) {
-    return inviteToChannel(
-      newChannelUsers.map(user => user.username),
-      newRoom,
-      () => { page(`/chat/${newRoom.slug}`)}
-    )
-  }
-
-  function onRoomCreated(newRoom) {
-    return joinToChannel(newRoom, onChannelJoined.bind(null, newRoom))
-  }
+  const usernames = newChannelUsers.map(user => user.username)
 
   return dispatch => {
     const name = newChannelUsers
@@ -115,19 +103,30 @@ export function createRoomAndInvite(users) {
       organization: currentOrg.id
     }
 
+    let newRoom
     return api
       .createRoom(room)
       .then(
-        newRoom => {
-          return dispatch(onRoomCreated(newRoom))
+        (_newRoom) => {
+          newRoom = _newRoom
+          return api.joinToChannel(newRoom.id)
         },
         err => {
           const {details} = err
           if (details && details.error === 'SlugAlreadyExist') {
             return dispatch(goToChannel(details.slug))
           }
-          return dispatch(error(err))
         }
       )
+      .then(() => {
+        if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
+      })
+      .then(() => {
+        if (newRoom) {
+          page(`/chat/${newRoom.slug}`)
+          return dispatch(invitedToChannel(usernames, newRoom.id))
+        }
+      })
+      .then(undefined, err => dispatch(error(err)))
   }
 }

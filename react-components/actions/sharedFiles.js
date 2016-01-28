@@ -3,7 +3,7 @@ import find from 'lodash/collection/find'
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
-import rpc from '../backend/rpc'
+import * as api from '../backend/api'
 import {setSidebarIsLoading, error} from './common'
 import {
   sharedFilesSelector,
@@ -58,32 +58,34 @@ export function loadSharedFiles(params) {
     const state = store.getState()
     const org = orgSelector(state)
     const channel = channelSelector(state)
-    rpc({
-      ns: 'search',
-      action: 'search_files',
-      args: [
-        org.id,
-        channel.id,
-        params.own,
-        params.limit,
-        params.offset
-      ]
-    }, {camelize: true}, (err, res) => {
-      dispatch(setSidebarIsLoading(false))
-      if (err) return dispatch(error(err))
-      const prevItems = sharedFilesSelector(state).items
-      const users = usersSelector(state)
-      const nextItems = res.results.map(file => {
-        return formatFile(file, channel, users)
+
+    api
+      .searchFiles({
+        orgId: org.id,
+        channelId: channel.id,
+        ...params
       })
-      dispatch({
-        type: types.LOADED_SHARED_FILES,
-        payload: {
-          items: [...prevItems, ...nextItems],
-          total: res.total
+      .then(
+        files => {
+          dispatch(setSidebarIsLoading(false))
+          const prevItems = sharedFilesSelector(state).items
+          const users = usersSelector(state)
+          const nextItems = files.results.map(file => {
+            return formatFile(file, channel, users)
+          })
+          dispatch({
+            type: types.LOADED_SHARED_FILES,
+            payload: {
+              items: [...prevItems, ...nextItems],
+              total: files.total
+            }
+          })
+        },
+        err => {
+          dispatch(setSidebarIsLoading(false))
+          return dispatch(error(err))
         }
-      })
-    })
+      )
   }
 }
 
