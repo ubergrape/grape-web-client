@@ -48,7 +48,6 @@ export default function pipeEvents(ui) {
   broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
   broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
   broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
-  broker(ui, 'memberLeftChannel', ui.reduxEmitter, 'onUserLeftChannel')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')

@@ -155,28 +155,6 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function userLeftChannel(channel) {
-  return dispatch => {
-    const currentChannel = channelSelector(store.getState())
-
-    if (currentChannel && currentChannel.id === channel.id) {
-      dispatch({
-        type: types.USER_LEFT_CURRENT_CHANNEL,
-        payload: {
-          channel
-        }
-      })
-    }
-
-    dispatch({
-      type: types.USER_LEFT_CHANNEL,
-      payload: {
-        channel
-      }
-    })
-  }
-}
-
 export function inviteChannelMember(channel) {
   reduxEmitter.inviteChannelMember(channel)
   return {
@@ -184,16 +162,26 @@ export function inviteChannelMember(channel) {
   }
 }
 
-export function handleJoinedChannel({user, channel}) {
+export function handleJoinedChannel({user: userId, channel: channelId}) {
   return dispatch => {
-    dispatch(addUserToChannel(user, channel))
+    dispatch(addUserToChannel(userId, channelId))
     dispatch({
-      type: types.HANDLE_JOINED_CHANNEL,
+      type: types.USER_JOINED_CHANNEL,
       payload: {
-        channelId: channel,
-        userId: user
+        channelId,
+        userId
       }
     })
+  }
+}
+
+export function handleLeftChannel({user: userId, channel: channelId}) {
+  return {
+    type: types.USER_LEFT_CHANNEL,
+    payload: {
+      channelId,
+      userId
+    }
   }
 }
 

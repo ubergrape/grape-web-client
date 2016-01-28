@@ -1,29 +1,43 @@
-import size from 'lodash/collection/size'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  channels: {},
+  channelsMap: {},
   amount: 0,
   userId: null,
   channelName: null
 }
 
 /**
- * Maintains counter of channels which has at least 1 unread message.
+ * Calculate amount of hasUnread channels.
+ */
+function calc(channelsMap) {
+  return Object.keys(channelsMap).reduce((amount, channelId) => {
+    const channel = channelsMap[channelId]
+    return channel.joined && channel.hasUnread ? amount + 1 : amount
+  }, 0)
+}
+
+/**
+ * Maintains counter of channels which has at least 1 hasUnread message.
  */
 export default function reduce(state = initialState, action) {
-  let {channels} = state
+  let {channelsMap} = state
+
   switch (action.type) {
     case types.READ_CHANNEL:
-      // Only delete channel from unread if reader is the own user.
+      // Only mark as read channel from hasUnread if reader is the logged in user.
       if (state.userId === action.payload.userId) {
-        delete channels[action.payload.channelId]
-        return {...state, amount: size(channels), channels}
+        channelsMap[action.payload.channelId].hasUnread = false
+        return {...state, amount: calc(channelsMap), channelsMap}
       }
       return state
     case types.HANDLE_NEW_MESSAGE:
-      channels[action.payload.message.channel] = true
-      return {...state, amount: size(state.channels), channels}
+      const channelId = action.payload.message.channel
+      channelsMap[channelId].hasUnread = true
+      if (channelsMap[channelId].joined) {
+        return {...state, amount: calc(channelsMap), channelsMap}
+      }
+      return state
     case types.SET_USER:
       return {...state, userId: action.payload.user.id}
     case types.SET_CHANNEL:
@@ -33,11 +47,29 @@ export default function reduce(state = initialState, action) {
         channelName: channel.name || channel.users[0].displayName
       }
     case types.SET_CHANNELS:
-      channels = action.payload.channels.reduce((map, _channel) => {
-        if (_channel.unread) map[_channel.id] = true
+      channelsMap = action.payload.channels.reduce((map, _channel) => {
+        map[_channel.id] = {
+          joined: _channel.joined,
+          hasUnread: _channel.unread > 0
+        }
         return map
       }, {})
-      return {...state, channels, amount: size(channels)}
+
+      return {
+        ...state,
+        channelsMap,
+        amount: calc(channelsMap)
+      }
+    case types.USER_JOINED_CHANNEL:
+      channelsMap[action.payload.channelId].joined = true
+      return {...state, channelsMap, amount: calc(channelsMap)}
+    case types.USER_LEFT_CHANNEL:
+      // Only if logged in user has left the channel.
+      if (state.userId === action.payload.userId) {
+        channelsMap[action.payload.channelId].joined = false
+        return {...state, channelsMap, amount: calc(channelsMap)}
+      }
+      return state
     default:
       return state
   }
