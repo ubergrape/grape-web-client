@@ -122,15 +122,15 @@ export default class InviteChannelMembers extends Component {
   }
 
   renderInviteButton() {
-    const {buttonInvite, submit} = this.props.sheet.classes
+    const {listed, channelType, sheet} = this.props
 
     return (
-      <div className={submit}>
+      <div className={sheet.classes.submit}>
         <button
-          className={buttonInvite}
+          className={sheet.classes.buttonInvite}
           onClick={::this.onInviteUsersClick}
-          disabled={!this.props.listed.length}>
-          Invite members
+          disabled={!listed.length}>
+          {channelType === 'pm' ? 'Create room' : 'Invite members'}
         </button>
       </div>
     )
@@ -154,6 +154,17 @@ export default class InviteChannelMembers extends Component {
     )
   }
 
+  renderTitle() {
+    switch (this.props.channelType) {
+      case 'room':
+        return 'Invite to room'
+      case 'pm':
+        return 'Create new private room'
+      default:
+        return ''
+    }
+  }
+
   render() {
     const {
       sheet,
@@ -171,7 +182,7 @@ export default class InviteChannelMembers extends Component {
       <Dialog
         show={show}
         onHide={::this.onHide}
-        title="Invite to room">
+        title={this.renderTitle()}>
         <div
           className={wrapper}>
           <div className={list}>
