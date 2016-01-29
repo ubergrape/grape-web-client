@@ -72,25 +72,23 @@ export function searchMessages(params) {
         limit: params.limit,
         offsetDate: params.offsetDate ? params.offsetDate.toISOString() : undefined
       })
-      .then(
-        messages => {
-          dispatch(setSidebarIsLoading(false))
-          const messageSearch = messageSearchSelector(state)
-          const prevItems = messageSearch.items
-          const nextItems = messages.results.map(formatSidebarMessage)
-          dispatch({
-            type: types.FOUND_MESSAGES,
-            payload: {
-              items: [...prevItems, ...nextItems],
-              // Only a query without offset delivers overall total amount.
-              total: params.offsetDate ? messageSearch.total : messages.total
-            }
-          })
-        },
-        err => {
-          dispatch(setSidebarIsLoading(false))
-          return dispatch(error(err))
-        }
-      )
+      .then(messages => {
+        dispatch(setSidebarIsLoading(false))
+        const messageSearch = messageSearchSelector(state)
+        const prevItems = messageSearch.items
+        const nextItems = messages.results.map(formatSidebarMessage)
+        dispatch({
+          type: types.FOUND_MESSAGES,
+          payload: {
+            items: [...prevItems, ...nextItems],
+            // Only a query without offset delivers overall total amount.
+            total: params.offsetDate ? messageSearch.total : messages.total
+          }
+        })
+      })
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        return dispatch(error(err))
+      })
   }
 }

@@ -65,27 +65,25 @@ export function loadSharedFiles(params) {
         channelId: channel.id,
         ...params
       })
-      .then(
-        files => {
-          dispatch(setSidebarIsLoading(false))
-          const prevItems = sharedFilesSelector(state).items
-          const users = usersSelector(state)
-          const nextItems = files.results.map(file => {
-            return formatFile(file, channel, users)
-          })
-          dispatch({
-            type: types.LOADED_SHARED_FILES,
-            payload: {
-              items: [...prevItems, ...nextItems],
-              total: files.total
-            }
-          })
-        },
-        err => {
-          dispatch(setSidebarIsLoading(false))
-          return dispatch(error(err))
-        }
-      )
+      .then(files => {
+        dispatch(setSidebarIsLoading(false))
+        const prevItems = sharedFilesSelector(state).items
+        const users = usersSelector(state)
+        const nextItems = files.results.map(file => {
+          return formatFile(file, channel, users)
+        })
+        dispatch({
+          type: types.LOADED_SHARED_FILES,
+          payload: {
+            items: [...prevItems, ...nextItems],
+            total: files.total
+          }
+        })
+      })
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        return dispatch(error(err))
+      })
   }
 }
 

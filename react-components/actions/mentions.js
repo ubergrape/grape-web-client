@@ -45,26 +45,24 @@ export function loadMentions(params) {
 
     return api
       .getMentions({...params, id})
-      .then(
-        mentions => {
-          dispatch(setSidebarIsLoading(false))
-          const prevItems = mentionsSelector(store.getState()).items
-          const nextItems = mentions.results.map(data => {
-            return formatSidebarMessage(data.message)
-          })
-          return dispatch({
-            type: types.LOADED_MENTIONS,
-            payload: {
-              total: mentions.total,
-              items: [...prevItems, ...nextItems]
-            }
-          })
-        },
-        err => {
-          dispatch(setSidebarIsLoading(false))
-          return dispatch(error(err))
-        }
-      )
+      .then(mentions => {
+        dispatch(setSidebarIsLoading(false))
+        const prevItems = mentionsSelector(store.getState()).items
+        const nextItems = mentions.results.map(data => {
+          return formatSidebarMessage(data.message)
+        })
+        return dispatch({
+          type: types.LOADED_MENTIONS,
+          payload: {
+            total: mentions.total,
+            items: [...prevItems, ...nextItems]
+          }
+        })
+      })
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        return dispatch(error(err))
+      })
   }
 }
 
