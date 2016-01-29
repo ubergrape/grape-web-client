@@ -63,10 +63,8 @@ export function joinToChannel({id} = channelSelector(store.getState())) {
   return dispatch => {
     return api
       .joinToChannel(id)
-      .then(
-        () => dispatch(joinedToChannel(id)),
-        err => dispatch(error(err))
-      )
+      .then(() => dispatch(joinedToChannel(id)))
+      .catch(err => dispatch(error(err)))
   }
 }
 
@@ -78,10 +76,8 @@ export function inviteToChannel(
   return dispatch => {
     return api
       .inviteToChannel(usernames, id)
-      .then(
-        () => dispatch(invitedToChannel(usernames, id)),
-        err => dispatch(error(err))
-      )
+      .then(() => dispatch(invitedToChannel(usernames, id)))
+      .catch(err => dispatch(error(err)))
   }
 }
 
@@ -106,18 +102,16 @@ export function createRoomAndInvite(users) {
     let newRoom
     return api
       .createRoom(room)
-      .then(
-        (_newRoom) => {
-          newRoom = _newRoom
-          return api.joinToChannel(newRoom.id)
-        },
-        err => {
-          const {details} = err
-          if (details && details.error === 'SlugAlreadyExist') {
-            return dispatch(goToChannel(details.slug))
-          }
+      .then((_newRoom) => {
+        newRoom = _newRoom
+        return api.joinToChannel(newRoom.id)
+      })
+      .catch(err => {
+        const {details} = err
+        if (details && details.error === 'SlugAlreadyExist') {
+          return dispatch(goToChannel(details.slug))
         }
-      )
+      })
       .then(() => {
         if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
       })
@@ -127,6 +121,6 @@ export function createRoomAndInvite(users) {
           return dispatch(invitedToChannel(usernames, newRoom.id))
         }
       })
-      .then(undefined, err => dispatch(error(err)))
+      .catch(err => dispatch(error(err)))
   }
 }
