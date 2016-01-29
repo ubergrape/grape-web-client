@@ -21,11 +21,6 @@ export default class AvatarUsername extends Component {
     statusBorderColor: '#FFFFFF'
   }
 
-  getAltText() {
-    const {showStatus, status} = this.props
-    return showStatus ? status : ''
-  }
-
   renderStatus() {
     const {
       sheet,
@@ -49,7 +44,12 @@ export default class AvatarUsername extends Component {
     const size = `${this.props.size}`
     const sizes = {width: size, height: size}
     const {classes} = this.props.sheet
-    const {username, avatar} = this.props
+    const {
+      username,
+      avatar,
+      showStatus,
+      status
+    } = this.props
 
     return (
       <span className={classes.avatarUsername}>
@@ -60,7 +60,7 @@ export default class AvatarUsername extends Component {
             <img
               style={sizes}
               src={avatar}
-              alt={this.getAltText()} />
+              alt={showStatus ? status : ''} />
           </span>
           {this.renderStatus()}
         </span>
