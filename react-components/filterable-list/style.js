@@ -31,7 +31,7 @@ export default {
     height: 85,
     padding: '10px 10px 0 10px',
     borderRadius: 5,
-    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`,
+    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`
   },
   filter: {
     display: 'inline-block',

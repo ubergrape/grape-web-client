@@ -5,7 +5,7 @@ export default {
   },
   avatar: {
     display: 'block',
-    position: 'relative',
+    position: 'relative'
   },
   status: {
     position: 'absolute',
