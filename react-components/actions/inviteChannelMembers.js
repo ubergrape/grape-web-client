@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 import {maxChannelNameLength} from '../constants/app'
 
 import store from '../app/store'
-import {goToChannel, error} from './common'
+import {goToChannel, error, invitedToChannel} from './common'
 import page from 'page'
 import {channelSelector, orgSelector} from '../selectors'
 import * as api from '../backend/api'
@@ -38,46 +38,6 @@ export function setInviteFilterValue(value) {
   return {
     type: types.FILTER_INVITE_CHANNEL_MEMBER_LIST,
     payload: value
-  }
-}
-
-export function invitedToChannel(usernames, channelId) {
-  return {
-    type: types.INVITED_TO_CHANNEL,
-    payload: {
-      usernames,
-      channelId
-    }
-  }
-}
-
-export function joinedToChannel(channelId) {
-  return {
-    type: types.JOINED_TO_CHANNEL,
-    payload: channelId
-  }
-}
-
-// This action isn't used yet, remove this comment after first use
-export function joinToChannel({id} = channelSelector(store.getState())) {
-  return dispatch => {
-    return api
-      .joinToChannel(id)
-      .then(() => dispatch(joinedToChannel(id)))
-      .catch(err => dispatch(error(err)))
-  }
-}
-
-// This action isn't used yet, remove this comment after first use
-export function inviteToChannel(
-  usernames,
-  {id} = channelSelector(store.getState())
-) {
-  return dispatch => {
-    return api
-      .inviteToChannel(usernames, id)
-      .then(() => dispatch(invitedToChannel(usernames, id)))
-      .catch(err => dispatch(error(err)))
   }
 }
 

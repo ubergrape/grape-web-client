@@ -6,6 +6,9 @@ import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
+import * as api from '../backend/api'
+import {channelSelector} from '../selectors'
+import store from '../app/store'
 
 export function setUsers(users) {
   return {
@@ -197,5 +200,45 @@ export function error(err) {
   return {
     type: types.ERROR,
     payload: error
+  }
+}
+
+export function invitedToChannel(usernames, channelId) {
+  return {
+    type: types.INVITED_TO_CHANNEL,
+    payload: {
+      usernames,
+      channelId
+    }
+  }
+}
+
+export function joinedToChannel(channelId) {
+  return {
+    type: types.JOINED_TO_CHANNEL,
+    payload: channelId
+  }
+}
+
+// This action isn't used yet, remove this comment after first use
+export function joinToChannel({id} = channelSelector(store.getState())) {
+  return dispatch => {
+    return api
+      .joinToChannel(id)
+      .then(() => dispatch(joinedToChannel(id)))
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+// This action isn't used yet, remove this comment after first use
+export function inviteToChannel(
+  usernames,
+  {id} = channelSelector(store.getState())
+) {
+  return dispatch => {
+    return api
+      .inviteToChannel(usernames, id)
+      .then(() => dispatch(invitedToChannel(usernames, id)))
+      .catch(err => dispatch(error(err)))
   }
 }
