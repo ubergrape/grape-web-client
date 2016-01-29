@@ -1,30 +1,27 @@
 import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
+import buttonReset from '../button/reset'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 const {grayBlueLighter} = colors
+const tokenColor = '#666666'
 
 export default {
   token: {
-    display: 'inline-block',
+    ...buttonReset,
     lineHeight: 1,
-    padding: '3px 5px',
-    cursor: 'pointer',
-    color: '#666',
-    backgroundColor: grayBlueLighter,
-    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`,
-    borderRadius: 4,
+    padding: '3px 17px 3px 5px',
     marginRight: 5,
     marginBottom: 2,
+    background: `${grayBlueLighter} url(${getColoredIcon({name: 'close', color: tokenColor})}) calc(100% - 5px) 50% no-repeat`,
+    backgroundSize: '7px',
+    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`,
+    color: tokenColor,
+    cursor: 'pointer',
+    borderRadius: 4,
     '&:hover': {
       backgroundColor: color(grayBlueLighter).darken(0.05).hexString()
     }
-  },
-  selectedList: {
-    display: 'inline'
-  },
-  remove: {
-    marginLeft: 3,
-    verticalAlign: 'middle'
   },
   filterArea: {
     overflow: 'auto',

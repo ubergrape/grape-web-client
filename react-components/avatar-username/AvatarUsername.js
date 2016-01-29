@@ -46,16 +46,14 @@ export default class AvatarUsername extends Component {
   }
 
   render() {
-    const size = `${this.props.size}px`
+    const size = `${this.props.size}`
     const sizes = {width: size, height: size}
     const {classes} = this.props.sheet
     const {username, avatar} = this.props
 
     return (
-      <span
-        className={classes.avatarUsername}>
-        <span
-          className={classes.avatar}>
+      <span className={classes.avatarUsername}>
+        <span className={classes.avatar}>
           <span
             className={classes.image}
             style={sizes}>
@@ -66,8 +64,7 @@ export default class AvatarUsername extends Component {
           </span>
           {this.renderStatus()}
         </span>
-        <span
-          className={classes.username}>
+        <span className={classes.username}>
           {username}
         </span>
       </span>

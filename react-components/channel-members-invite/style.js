@@ -6,9 +6,6 @@ import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 const {padding} = button
-const marginTop = {
-  marginTop: 20
-}
 
 export default {
   wrapper: {
@@ -16,10 +13,11 @@ export default {
     borderTop: `3px solid ${colors.grayBlueLighter}`
   },
   list: {
-    ...marginTop
+    minHeight: 80,
+    maxHeight: '25vh'
   },
   submit: {
-    ...marginTop,
+    marginTop: 20,
     textAlign: 'right'
   },
   buttonInvite: {

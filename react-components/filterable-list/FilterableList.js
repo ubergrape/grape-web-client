@@ -10,7 +10,7 @@ import keyname from 'keyname'
 export default class FilterableList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    height: PropTypes.number,
+    listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
     filter: PropTypes.string.isRequired,
@@ -22,10 +22,6 @@ export default class FilterableList extends Component {
     renderNotFound: PropTypes.func.isRequired,
     renderEmptyItems: PropTypes.func.isRequired,
     children: PropTypes.element
-  }
-
-  static defaultProps = {
-    height: 100
   }
 
   constructor(props) {
@@ -50,6 +46,10 @@ export default class FilterableList extends Component {
     if (!filter) return
     if (this.shouldFocusFilter()) filter.focus()
 
+    // Input can hide last/first few pixels of font
+    // that will don't be hidden in regular span (which is `ruler`)
+    // http://s.codepen.io/tyv/debug/pgKJLK
+    // http://codepen.io/tyv/pen/pgKJLK
     filter.style.width = `${ruler.offsetWidth + 5}px`
     filter.scrollIntoView()
   }
@@ -124,7 +124,6 @@ export default class FilterableList extends Component {
   renderList() {
     const {
       items,
-      height,
       filter,
       selected,
       renderItem,
@@ -143,11 +142,7 @@ export default class FilterableList extends Component {
     return (
       <List
         ref="list"
-        style={{
-          maxHeight: height,
-          position: 'relative',
-          overflow: 'auto'
-        }}
+        className={this.props.listClassName}
         items={items}
         renderItem={renderItem}
         onFocus={::this.onFocusItem}
@@ -171,30 +166,19 @@ export default class FilterableList extends Component {
     )
   }
 
-  renderSelected(item, i) {
-    const {token, remove} = this.props.sheet.classes
-
-    return (
-      <li
-        key={i}
-        className={token}
-        onClick={this.onSelectedClick.bind(this, item)}>
-        {this.props.renderSelected(item)}
-        <i className={`${remove} mdi mdi-close-circle-outline`}></i>
-      </li>
-    )
-  }
-
-  renderSelectedList() {
+  renderSelected() {
     const {selected, sheet} = this.props
     if (!selected.length) return null
-
-    return (
-      <ul
-        className={sheet.classes.selectedList}>
-        {selected.map(this.renderSelected, this)}
-      </ul>
-    )
+    return selected.map((item, i) => {
+      return (
+        <button
+          key={i}
+          className={sheet.classes.token}
+          onClick={this.onSelectedClick.bind(this, item)}>
+          {this.props.renderSelected(item)}
+        </button>
+      )
+    })
   }
 
   renderFilter() {
@@ -206,7 +190,7 @@ export default class FilterableList extends Component {
     return (
       <div
         className={filterArea}>
-        {this.renderSelectedList()}
+        {this.renderSelected()}
         {this.renderInput()}
         <span
           ref="ruler"

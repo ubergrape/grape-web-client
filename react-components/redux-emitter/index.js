@@ -81,7 +81,7 @@ class ReduxEmitter extends Emitter {
   }
 
   showRoomInvite() {
-    boundActions.showInviteChannelMemberList()
+    boundActions.showChannelMembersInvite()
   }
 
   showSidebar() {

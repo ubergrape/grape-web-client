@@ -12,7 +12,7 @@ import sharedFiles from '../shared-files'
 import mentions from '../mentions'
 import messageSearch from '../message-search'
 import alerts from '../alerts'
-import inviteChannelMembers from '../invite-channel-members/'
+import inviteChannelMembers from '../channel-members-invite'
 import unreadChannels from '../unread-channels'
 
 render(

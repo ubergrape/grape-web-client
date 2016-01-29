@@ -8,43 +8,43 @@ import {channelSelector, orgSelector} from '../selectors'
 import * as api from '../backend/api'
 
 
-export function showInviteChannelMemberList() {
+export function showChannelMembersInvite() {
   return {
-    type: types.SHOW_INVITE_CHANNEL_MEMBER_LIST
+    type: types.SHOW_CHANNEL_MEMBERS_INVITE
   }
 }
 
-export function hideInviteChannelMemberList() {
+export function hideChannelMembersInvite() {
   return {
-    type: types.HIDE_INVITE_CHANNEL_MEMBER_LIST
+    type: types.HIDE_CHANNEL_MEMBERS_INVITE
   }
 }
 
-export function addToInviteChannelMemberList(user) {
+export function addToChannelMembersInvite(user) {
   return {
-    type: types.ADD_TO_INVITE_CHANNEL_MEMBER_LIST,
+    type: types.ADD_TO_CHANNEL_MEMBERS_INVITE,
     payload: user
   }
 }
 
-export function removeFromInviteChannelMemberList(user) {
+export function removeFromChannelMembersInvite(user) {
   return {
-    type: types.REMOVE_FROM_INVITE_CHANNEL_MEMBER_LIST,
+    type: types.REMOVE_FROM_CHANNEL_MEMBERS_INVITE,
     payload: user
   }
 }
 
 export function setInviteFilterValue(value) {
   return {
-    type: types.FILTER_INVITE_CHANNEL_MEMBER_LIST,
+    type: types.FILTER_CHANNEL_MEMBERS_INVITE,
     payload: value
   }
 }
 
 export function createRoomAndInvite(users) {
-  const currentOrg = orgSelector(store.getState())
-  const currentChannel = channelSelector(store.getState())
-  const newChannelUsers = [...currentChannel.users, ...users]
+  const org = orgSelector(store.getState())
+  const channel = channelSelector(store.getState())
+  const newChannelUsers = [...channel.users, ...users]
   const usernames = newChannelUsers.map(user => user.username)
 
   return dispatch => {
@@ -55,8 +55,8 @@ export function createRoomAndInvite(users) {
 
     const room = {
       name,
-      is_public: false,
-      organization: currentOrg.id
+      isPublic: false,
+      organization: org.id
     }
 
     let newRoom
@@ -64,7 +64,7 @@ export function createRoomAndInvite(users) {
       .createRoom(room)
       .then((_newRoom) => {
         newRoom = _newRoom
-        return api.joinToChannel(newRoom.id)
+        return api.joinChannel(newRoom.id)
       })
       .catch(err => {
         const {details} = err

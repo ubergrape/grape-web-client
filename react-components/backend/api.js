@@ -10,17 +10,14 @@ export function createRoom(room) {
       },
       {camelize: true},
       (err, newRoom) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(newRoom)
-        }
+        if (err) return reject(err)
+        resolve(newRoom)
       }
     )
   })
 }
 
-export function joinToChannel(channelId) {
+export function joinChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -29,11 +26,8 @@ export function joinToChannel(channelId) {
         args: [channelId]
       },
       err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
+        if (err) return reject(err)
+        resolve()
       }
     )
   })
@@ -48,11 +42,8 @@ export function inviteToChannel(usernames, channelId) {
         args: [channelId, usernames]
       },
       err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
+        if (err) return reject(err)
+        resolve()
       }
     )
   })
@@ -73,11 +64,8 @@ export function getMentions({id, limit, offsetDate}) {
       },
       {camelize: true},
       (err, mentions) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(mentions)
-        }
+        if (err) return reject(err)
+        resolve(mentions)
       }
     )
   })
@@ -99,11 +87,8 @@ export function searchMessages({query, id, limit, offsetDate}) {
       },
       {camelize: true},
       (err, messages) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(messages)
-        }
+        if (err) return reject(err)
+        resolve(messages)
       }
     )
   })
@@ -125,11 +110,8 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
       },
       {camelize: true},
       (err, files) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(files)
-        }
+        if (err) return reject(err)
+        resolve(files)
       }
     )
   })

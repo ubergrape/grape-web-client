@@ -2,8 +2,8 @@ export default [
   'showOrgInvite',
   'inviteToChannel',
   'createRoomAndInvite',
-  'hideInviteChannelMemberList',
-  'addToInviteChannelMemberList',
-  'removeFromInviteChannelMemberList',
+  'hideChannelMembersInvite',
+  'addToChannelMembersInvite',
+  'removeFromChannelMembersInvite',
   'setInviteFilterValue'
 ]

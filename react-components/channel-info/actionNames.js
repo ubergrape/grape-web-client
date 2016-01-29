@@ -4,5 +4,5 @@ export default [
   'leaveChannel',
   'goToChannel',
   'kickMemberFromChannel',
-  'showInviteChannelMemberList'
+  'showChannelMembersInvite'
 ]

@@ -213,19 +213,19 @@ export function invitedToChannel(usernames, channelId) {
   }
 }
 
-export function joinedToChannel(channelId) {
+export function joinedChannel(channelId) {
   return {
-    type: types.JOINED_TO_CHANNEL,
+    type: types.JOINED_CHANNEL,
     payload: channelId
   }
 }
 
 // This action isn't used yet, remove this comment after first use
-export function joinToChannel({id} = channelSelector(store.getState())) {
+export function joinChannel({id} = channelSelector(store.getState())) {
   return dispatch => {
     return api
-      .joinToChannel(id)
-      .then(() => dispatch(joinedToChannel(id)))
+      .joinChannel(id)
+      .then(() => dispatch(joinedChannel(id)))
       .catch(err => dispatch(error(err)))
   }
 }

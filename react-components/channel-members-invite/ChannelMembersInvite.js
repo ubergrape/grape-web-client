@@ -14,15 +14,15 @@ import AvatarUsername from '../avatar-username/AvatarUsername'
 import colors from 'grape-theme/dist/base-colors'
 
 @useSheet(style)
-export default class InviteChannelMembers extends Component {
+export default class ChannelMembersInvite extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    addToInviteChannelMemberList: PropTypes.func.isRequired,
-    removeFromInviteChannelMemberList: PropTypes.func.isRequired,
+    addToChannelMembersInvite: PropTypes.func.isRequired,
+    removeFromChannelMembersInvite: PropTypes.func.isRequired,
     showOrgInvite: PropTypes.func.isRequired,
     inviteToChannel: PropTypes.func.isRequired,
     createRoomAndInvite: PropTypes.func.isRequired,
-    hideInviteChannelMemberList: PropTypes.func.isRequired,
+    hideChannelMembersInvite: PropTypes.func.isRequired,
     setInviteFilterValue: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
@@ -32,16 +32,12 @@ export default class InviteChannelMembers extends Component {
     show: PropTypes.bool.isRequired
   }
 
-  // componentWillReceiveProps(next) {
-  //   console.log(next)
-  // }
-
   onSelectUser(user) {
-    this.props.addToInviteChannelMemberList(user)
+    this.props.addToChannelMembersInvite(user)
   }
 
   onRemoveSelectedUser(user) {
-    this.props.removeFromInviteChannelMemberList(user)
+    this.props.removeFromChannelMembersInvite(user)
   }
 
   onInviteToOrgClick() {
@@ -65,7 +61,7 @@ export default class InviteChannelMembers extends Component {
   }
 
   onHide() {
-    this.props.hideInviteChannelMemberList()
+    this.props.hideChannelMembersInvite()
   }
 
   onChangeFilter(value) {
@@ -92,6 +88,9 @@ export default class InviteChannelMembers extends Component {
           username={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
+          // https://staging.chatgrape.com/doc/rpc.html
+          // status (int) - presence status within the organization:
+          // 0 Offline, 16 Online
           status={status === 16 ? 'online' : 'offline'}
         />
       </div>
@@ -173,34 +172,27 @@ export default class InviteChannelMembers extends Component {
       listed
     } = this.props
 
-    const {
-      wrapper,
-      list
-    } = sheet.classes
-
     return (
       <Dialog
         show={show}
         onHide={::this.onHide}
         title={this.renderTitle()}>
         <div
-          className={wrapper}>
-          <div className={list}>
-            <FilterableList
-              height={180}
-              filter={filter}
-              items={this.getUsers()}
-              selected={listed}
-              onChange={::this.onChangeFilter}
-              onSelect={::this.onSelectUser}
-              onRemoveSelected={::this.onRemoveSelectedUser}
-              renderItem={::this.renderUser}
-              renderSelected={this.renderSelectedUser}
-              renderNotFound={::this.renderNotFound}
-              renderEmptyItems={::this.renderNoUsers}>
-              {this.renderOrgInviteButton()}
-            </FilterableList>
-          </div>
+          className={sheet.classes.wrapper}>
+          <FilterableList
+            listClassName={sheet.classes.list}
+            filter={filter}
+            items={this.getUsers()}
+            selected={listed}
+            onChange={::this.onChangeFilter}
+            onSelect={::this.onSelectUser}
+            onRemoveSelected={::this.onRemoveSelectedUser}
+            renderItem={::this.renderUser}
+            renderSelected={this.renderSelectedUser}
+            renderNotFound={::this.renderNotFound}
+            renderEmptyItems={::this.renderNoUsers}>
+            {this.renderOrgInviteButton()}
+          </FilterableList>
           {this.renderInviteButton()}
         </div>
       </Dialog>
