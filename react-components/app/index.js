@@ -25,7 +25,7 @@ render(
 )
 render(
   createElement(inviteChannelMembers(store)),
-  document.body.appendChild(document.createElement('grape-invite-channel-members'))
+  document.body.appendChild(document.createElement('grape-channel-members-invite'))
 )
 render(
   createElement(unreadChannels(store)),
