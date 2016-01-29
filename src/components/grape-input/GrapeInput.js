@@ -1,442 +1,404 @@
 import React, {PropTypes, Component} from 'react'
-import ReactDOM from 'react-dom'
-import {useSheet} from 'grape-web/lib/jss'
-import isEmpty from 'lodash/lang/isEmpty'
-import filter from 'lodash/collection/filter'
-import find from 'lodash/collection/find'
-import findIndex from 'lodash/array/findIndex'
-import capitalize from 'lodash/string/capitalize'
-import get from 'lodash/object/get'
-import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
+import escape from 'lodash/string/escape'
+import {
+  getTokenUnderCaret,
+  getQuery,
+  getTextAndObjects,
+  getObjectsPositions,
+  clearIfLarge,
+  updateIfNewEmoji,
+  parseAndReplace,
+  ensureSpace,
+  isFocused,
+  focus
+} from './utils'
+
 import keyname from 'keyname'
-import {shallowEqual} from 'react-pure-render'
+import {create as createObject} from '../objects'
 
-import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
-import EmojiBrowser from '../emoji-browser/Browser'
-import * as objectStyle from '../objects/style'
-import * as objects from '../objects'
-import HighlightedTextarea from '../highlighted-textarea/HighlightedTextarea'
-import Datalist from '../datalist/Datalist'
-import * as mentions from '../mentions/mentions'
-import {TYPES as QUERY_TYPES} from '../query/constants'
-import QueryModel from '../query/Model'
-import GlobalEvent from '../global-event/GlobalEvent'
-import * as emoji from '../emoji'
+import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
-import * as utils from './utils'
 
-const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
-
-/**
- * Uses all types of auto completes to provide end component.
- */
 @useSheet(style)
-export default class Input extends Component {
+export default class GrapeInput extends Component {
   static propTypes = {
     onDidMount: PropTypes.func.isRequired,
-    container: PropTypes.object,
-    isLoading: PropTypes.bool,
-    hasIntegrations: PropTypes.bool,
-    canAddIntegrations: PropTypes.bool,
-    placeholder: PropTypes.string,
-    ignoreSuggest: PropTypes.bool,
-    disabled: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    onAbort: PropTypes.func.isRequired,
+    onEditPrevious: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onResize: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
-    customEmojis: PropTypes.object,
-    images: PropTypes.object,
-    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
-    externalServicesInputDelay: PropTypes.number
+    preventSubmit: PropTypes.bool,
+    focused: PropTypes.bool,
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string
   }
 
   static defaultProps = {
-    // This attribute has been set by Modal component.
-    // We need to set it to null to enable shallowEqual comparance in
-    // componentWillReceiveProps, because this is the only new prop.
-    ariaHidden: null,
-    maxCompleteItems: 12,
-    externalServicesInputDelay: 150,
-    browser: undefined,
-    data: undefined,
-    images: {},
-    contentObjects: [],
-    customEmojis: undefined,
-    placeholder: undefined,
-    focused: false,
+    content: '',
+    placeholder: '',
+    focused: true,
     disabled: false,
-    ignoreSuggest: false,
-    hasIntegrations: false,
-    canAddIntegrations: true,
-    isLoading: false,
-    onAbort: undefined,
-    onEditPrevious: undefined,
-    onSubmit: undefined,
-    onAddSearchBrowserIntegration: noop,
-    onInsertItem: noop,
-    onDidMount: noop
+    onBlur: noop,
+    onChange: noop
   }
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQuery})
-    this.exposePublicMethods()
-    this.state = this.createState(this.props)
+
+    this.initialState = {
+      text: '',
+      caretPos: 0,
+      objects: {},
+      textWithObjects: [],
+      objectsPositions: {}
+    }
+    this.state = {...this.initialState}
   }
 
   componentDidMount() {
-    objectStyle.sheet.attach()
-    this.setTrigger(this.state.browser)
     const {onDidMount} = this.props
     if (onDidMount) onDidMount(this)
+    this.bindedOnWindowResize = ::this.onWindowResize
+    window.addEventListener('resize', this.bindedOnWindowResize)
   }
 
-  componentWillReceiveProps(nextProps) {
-    // We need to do early return here because for "some reason?" this method
-    // is called when inserting items from the search-browser. While
-    // search-browser is closed, props still define it as open, which leads to
-    // reopening of the search-browser by setState call below.
-    // To avoid this we introduced temporarily shallowEqual, hopefully it can
-    // go away after full migration to redux.
-    if (shallowEqual(nextProps, this.props)) return
+  componentDidUpdate() {
+    const {textarea} = this.refs
+    if (this.props.focused) focus(textarea)
 
-    const {ignoreSuggest} = this.state
-    const isEmojiSuggest = nextProps.browser === 'emojiSuggest'
-    if (ignoreSuggest && isEmojiSuggest) {
-      this.setState({ignoreSuggest: false})
-      return
+    if (isFocused(textarea)) {
+      const {caretPos} = this.state
+      textarea.selectionStart = caretPos
+      textarea.selectionEnd = caretPos
     }
 
-    const newEmojiSheet = get(nextProps, 'images.emojiSheet')
-    const currEmojiSheet = get(this.props, 'images.emojiSheet')
-    if (newEmojiSheet !== currEmojiSheet) {
-      EmojiBrowser.init({
-        emojiSheet: newEmojiSheet,
-        customEmojis: nextProps.customEmojis
-      })
-    }
-    this.setState(this.createState(nextProps))
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.browser !== this.state.browser && nextProps.setTrigger) {
-      this.setTrigger(nextState.browser)
-    }
+    this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
+    this.onResize()
   }
 
   componentWillUnmount() {
-    objectStyle.sheet.detach()
+    window.removeEventListener('resize', this.bindedOnWindowResize)
   }
 
-  onEditPrevious() {
-    this.emit('editPrevious')
+  onWindowResize() {
+    if (this.state.text.trim()) this.forceUpdate()
   }
 
-  onSubmit(data) {
-    this.query.reset()
-    this.emit('submit', data)
-  }
+  onChange(e) {
+    const {value, selectionEnd} = e.target
+    const objects = updateIfNewEmoji(this.state.objects, value)
 
-  onAbort(data = {}) {
-    const {browser} = this.state
-    this.closeBrowser({textareaFocused: true}, () => {
-      this.emit('abort', {...data, browser})
+    this.setState({
+      objects,
+      text: value,
+      textWithObjects: getTextAndObjects(objects, value),
+      caretPos: selectionEnd,
+      objectsPositions: getObjectsPositions(objects, value)
     })
+
+    this.props.onChange(getQuery(value, selectionEnd))
   }
 
-  onSelectSearchBrowserItem({item, query}) {
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.insertItem(item, query)
-  }
-
-  onSelectSearchBrowserFilter(query) {
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.emit('selectFilter', query)
-  }
-
-  onSelectEmojiBrowserItem({item, query}) {
-    this.insertItem(item, query)
-  }
-
-  onSelectDatalistItem(item) {
-    this.insertItem(item, this.query.toJSON())
-  }
-
-  onAddSearchBrowserIntegration() {
-    this.closeBrowser(null, () => {
-      this.emit('addIntegration')
-    })
-  }
-
-  onInsertItem(item, query) {
-    const {type} = item
-    let {service} = item
-    let rank = 0
-
-    const results = get(this.state, 'data.results')
-    if (!isEmpty(results)) {
-      const resultsWithoutFilters = filter(results, res => res.type !== 'filters')
-      const index = findIndex(resultsWithoutFilters, res => res.id === item.id)
-      rank = index + 1
-      service = resultsWithoutFilters[index].service
-    }
-
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.emit('insertItem', {query, type, service, rank})
-  }
-
-  onDidMount(name, ref) {
-    this[name] = ref
+  onAbort(reason) {
+    const {value, selectionEnd} = this.refs.textarea
+    const query = getQuery(value, selectionEnd)
+    this.props.onAbort({reason, query})
   }
 
   onKeyDown(e) {
-    switch (this.state.browser) {
-      case 'user':
-      case 'emojiSuggest':
-        this.navigateDatalist(e)
-        break
-      default:
-    }
-  }
-
-  onBlurInput() {
-    if (!this.state.browser) this.emit('blur')
-  }
-
-  onBlurBrowser() {
-    this.blurTimeoutId = setTimeout(() => {
-      this.closeBrowser()
-    }, 100)
-  }
-
-  onBlurWindow() {
-    clearTimeout(this.blurTimeoutId)
-  }
-
-  onChangeQuery(newQueryStr) {
-    this.textarea.insertQueryString(newQueryStr)
-  }
-
-  onInputSearchBrowser(query) {
-    const complete = () => {
-      this.emit('complete', query)
-      this.emit('change')
-    }
-
-    if (!utils.isExternalSearch(this.state.data)) return complete()
-
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.searchBrowserInputTimeoutId = setTimeout(
-      complete,
-      this.props.externalServicesInputDelay
-    )
-  }
-
-  onInputResize() {
-    this.emit('resize')
-  }
-
-  onChangeInput(query = {}) {
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    if (query) {
-      // If it is a browser trigger, we don't reopen browser, but let user type
-      // whatever he wants.
-      // If its a mentioning, user types the search.
-      // TODO migrate mentioning to the browser.
-      if (!query.key || !utils.isBrowserType(query.trigger)) {
-        this.query.set(query, {silent: true})
-        this.emit('complete', {...this.query.toJSON(), emoji})
-      }
-    } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
-      this.query.reset()
-      if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
-    }
-    this.emit('change')
-  }
-
-  setTrigger(browser) {
-    if (!browser) return
-    this.query.set('trigger', QUERY_TYPES[browser])
-  }
-
-  getTextContent() {
-    return this.textarea ? this.textarea.getTextWithMarkdown() : ''
-  }
-
-  setTextContent(text, options) {
-    this.query.reset()
-    this.textarea.setTextContent(text, options)
-  }
-
-  exposePublicMethods() {
-    const {container} = this.props
-    if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
-  }
-
-  createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
-    state.textareaFocused = nextProps.focused
-    if (state.browser === 'user') {
-      state.data = mentions
-        .map(state.data)
-        .slice(0, nextProps.maxCompleteItems)
-    }
-    if (state.browser === 'emojiSuggest') {
-      state.data = emoji.sortByRankAndLength(state.data)
-        .slice(0, nextProps.maxCompleteItems)
-    }
-    state.query = this.query.toJSON()
-    const canShowBrowser = utils.canShowBrowser(this.state, state)
-    if (!canShowBrowser) state.browser = null
-    state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser) state.browserOpened = true
-    return state
-  }
-
-  closeBrowser(state, callback) {
-    this.setState({
-      browser: null,
-      browserOpened: false,
-      ...state
-    }, callback)
-  }
-
-  /**
-   * Keyboard navigation for the datalist (mention, emoji).
-   */
-  navigateDatalist(e) {
-    const {datalist} = this
-    if (!datalist) return
-
-    switch (keyname(e.keyCode)) {
-      case 'down':
-      case 'tab':
-        datalist.focus('next')
+    const key = keyname(e.keyCode)
+    switch (key) {
+      case 'esc':
+        this.onAbort(key)
         e.preventDefault()
         break
       case 'up':
-        datalist.focus('prev')
-        e.preventDefault()
+        if (!this.refs.textarea.value) {
+          this.props.onEditPrevious()
+          e.preventDefault()
+        }
+        break
+      case 'backspace':
+      case 'del':
+        this.onDelete(e, key)
         break
       case 'enter':
-        this.insertItem(datalist.state.focused)
-        e.preventDefault()
+        this.submit(e)
         break
       default:
     }
   }
 
-  insertItem(item, query) {
-    if (item) {
-      const results = get(this.state, 'data.results')
-      const data = find(results, res => res.id === item.id) || item
-      const object = objects.create(data.type, data)
-      this.setState({contentObjects: [...this.state.contentObjects, object]})
-      this.replaceQuery(object)
+  // TODO: possibly improve speed with fake caret in highlighter
+  // so you can check if caret is inside/near the grape object
+  onDelete(e, key) {
+    const {text, objectsPositions} = this.state
+    const {selectionStart, selectionEnd} = this.refs.textarea
+
+    let positionsToDelete
+
+    Object.keys(objectsPositions).some(object => {
+      objectsPositions[object].some(positions => {
+        // Check if carret inside object
+        if (
+          positions[0] <= selectionStart &&
+          positions[1] >= selectionEnd
+        ) {
+          // If selectionStart or selectionEnd
+          // not inside object —> do nothing
+          if (
+            key === 'del' && positions[1] === selectionEnd ||
+            key === 'backspace' && positions[0] === selectionStart
+          ) {
+            return false
+          }
+          positionsToDelete = positions
+          return true
+        }
+      })
+      if (positionsToDelete) return true
+    })
+
+    // Now we know that caret is inside object
+    if (positionsToDelete) {
+      e.preventDefault()
+
+      const [start, end] = positionsToDelete
+      const newText = `${text.slice(0, start)}${text.slice(end, text.length)}`
+
+      this.setState({
+        text: newText,
+        textWithObjects: getTextAndObjects(this.state.objects, newText),
+        objectsPositions: getObjectsPositions(this.state.objects, newText),
+        caretPos: start
+      })
     }
-    this.onInsertItem(item, query)
-    this.closeBrowser({textareaFocused: true})
-    this.query.reset()
   }
 
-  replaceQuery(replacement) {
-    this.setState({textareaFocused: true})
-    this.textarea.replaceQuery(replacement)
+  onResize() {
+    this.props.onResize()
   }
 
-  insertQuery() {
-    this.setState({textareaFocused: true})
+  onBlur() {
+    this.props.onBlur()
   }
 
   /**
-   * Emit DOM event.
+   * Setter for text content.
+   *
+   * When content passed - set text content and put caret at the end, otherwise
+   * clean up the content.
    */
-  emit(type, data) {
-    const capType = capitalize(type)
-    let name = `grape${capType}`
-    const event = new CustomEvent(name, {
-      bubbles: true,
-      cancelable: true,
-      detail: data
+  setTextContent(content, options = {}) {
+    if (!this.props.focused) return false
+
+    const {configs, text} = parseAndReplace(content)
+    const objects = clearIfLarge(this.state.objects)
+
+    configs.forEach(config => {
+      const object = createObject(config.type, config)
+      objects[object.content] = object
     })
-    ReactDOM.findDOMNode(this).dispatchEvent(event)
-    name = `on${capType}`
-    const callback = this.props[name]
-    if (callback) callback(data)
+
+    this.setState({
+      text,
+      objects,
+      textWithObjects: getTextAndObjects(objects, text),
+      caretPos: text.length,
+      objectsPositions: getObjectsPositions(objects, text)
+    })
+
+    if (!options.silent) this.props.onChange(getQuery(text, text.length))
+
+    return true
   }
 
-  renderBrowser() {
-    const {browser, browserOpened, data} = this.state
-    if (!browser || !browserOpened) return null
+  getTextWithMarkdown() {
+    return this.state.textWithObjects
+      .map(item => item.str ? item.str : item)
+      .join('')
+  }
 
-    const {classes} = this.props.sheet
-    const {images} = this.props
+  insertQueryString(str) {
+    const {textarea} = this.refs
+    const {value, selectionEnd} = textarea
 
-    if (browser === 'search') {
-      return (
-        <SearchBrowser
-          data={data}
-          images={images}
-          isExternal={utils.isExternalSearch(data)}
-          isLoading={this.props.isLoading}
-          hasIntegrations={this.props.hasIntegrations}
-          canAddIntegrations={this.props.canAddIntegrations}
-          onAbort={::this.onAbort}
-          onSelectItem={::this.onSelectSearchBrowserItem}
-          onSelectFilter={::this.onSelectSearchBrowserFilter}
-          onAddIntegration={::this.onAddSearchBrowserIntegration}
-          onInput={::this.onInputSearchBrowser}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
-      )
+    let textBefore = value.substring(0, selectionEnd)
+    let textAfter = value.substring(selectionEnd)
+
+    if (textBefore) textBefore = ensureSpace('after', textBefore)
+    if (textAfter) textAfter = ensureSpace('before', textAfter)
+    textBefore += str
+
+    textarea.value = textBefore + textAfter
+    textarea.selectionStart = textBefore.length
+    textarea.selectionEnd = textBefore.length
+
+    this.onChange({target: textarea})
+  }
+
+  /**
+   * Replace text string to token in state
+   */
+  replaceQuery(replacement) {
+    const {textarea} = this.refs
+    const {selectionEnd} = textarea
+
+    let {text} = this.state
+    const token = getTokenUnderCaret(textarea.value, selectionEnd)
+    const textBefore = text.slice(0, token.position[0])
+    let textAfter = text.slice(token.position[1], text.length)
+    textAfter = ensureSpace('before', textAfter)
+
+    text = textBefore + replacement.content + textAfter
+    const objects = {
+      ...this.state.objects,
+      [replacement.content]: replacement
+    }
+    const caretPos = selectionEnd + replacement.content.length
+
+    this.setState({
+      text,
+      objects,
+      caretPos,
+      textWithObjects: getTextAndObjects(objects, text),
+      objectsPositions: getObjectsPositions(objects, text)
+    })
+  }
+
+  insertLineBreak() {
+    const {textarea} = this.refs
+    const {selectionStart} = textarea
+    textarea.value =
+      textarea.value.substring(0, selectionStart) + '\n' +
+      textarea.value.substring(selectionStart)
+
+    textarea.selectionEnd = selectionStart + 1
+
+    this.onChange({target: textarea})
+  }
+
+  /**
+   * Trigger submit event when user hits enter.
+   * Do nothing when alt, ctrl, shift or cmd used.
+   */
+  submit(e) {
+    if (e.altKey || e.ctrlKey) {
+      e.preventDefault()
+      return this.insertLineBreak()
     }
 
-    if (browser === 'emoji') {
+    if (
+      e.metaKey ||
+      e.shiftKey ||
+      !this.state.text.trim() ||
+      this.props.preventSubmit
+    ) return false
+
+    e.preventDefault()
+
+    const content = this.getTextWithMarkdown()
+    const {textWithObjects} = this.state
+    const objects = textWithObjects.reduce((onlyObjects, item) => {
+      if (typeof item === 'object') {
+        onlyObjects.push(item.result || item)
+      }
+      return onlyObjects
+    }, [])
+
+    const objectsOnly = !textWithObjects
+      .filter(item => typeof item === 'string' && item.trim().length)
+      .length
+
+    this.props.onSubmit({content, objects, objectsOnly})
+    this.setState({...this.initialState})
+  }
+
+  renderTokens() {
+    const content = this.state.textWithObjects.map((item, index) => {
+      if (item.content) return this.renderToken(item, index)
+
+      // Used dangerouslySetInnerHTML to workaround a bug in IE11:
+      // https://github.com/ubergrape/chatgrape/issues/3279
       return (
-        <EmojiBrowser
-          images={images}
-          className={classes.browser}
-          customEmojis={this.props.customEmojis}
-          onAbort={::this.onAbort}
-          onSelectItem={::this.onSelectEmojiBrowserItem}
-          onBlur={::this.onBlurBrowser}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
+        <span
+          key={index}
+          dangerouslySetInnerHTML={{__html: escape(item)}}>
+        </span>
       )
+    })
+
+    // Make highlighted height equal content height in textarea,
+    // because the last item is a space.
+    content.push(' ')
+
+    return content
+  }
+
+  renderToken(object, index) {
+    const {token, user, room, search, emoji} = this.props.sheet.classes
+
+    let tokenType
+    switch (object.tokenType) {
+      case 'user':
+        tokenType = user
+        break
+      case 'room':
+        tokenType = room
+        break
+      case 'search':
+        tokenType = search
+        break
+      case 'emoji':
+        tokenType = emoji
+        break
+      default:
+        tokenType = ''
     }
 
     return (
-      <Datalist
-        className={classes.browser}
-        images={images}
-        data={data}
-        onSelect={::this.onSelectDatalistItem}
-        onDidMount={this.onDidMount.bind(this, 'datalist')} />
+      <span
+        key={index}
+        className={`${token} ${tokenType}`}>
+          {object.content}
+      </span>
+    )
+  }
+
+  renderHighlighter() {
+    const {common, highlighter} = this.props.sheet.classes
+    return (
+      <div
+        ref="highlighter"
+        className={`${highlighter} ${common}`}>
+          {this.renderTokens()}
+      </div>
     )
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {common, wrapper, textarea} = this.props.sheet.classes
+
     return (
       <div
-        onKeyDown={::this.onKeyDown}
-        className={classes.input}
-        data-test="grape-input">
-        <GlobalEvent event="blur" handler={::this.onBlurWindow} />
-        {this.renderBrowser()}
-        <div className={classes.scroll}>
-          <HighlightedTextarea
-            onAbort={::this.onAbort}
-            onResize={::this.onInputResize}
-            onChange={::this.onChangeInput}
-            onBlur={::this.onBlurInput}
-            onSubmit={::this.onSubmit}
-            onEditPrevious={::this.onEditPrevious}
-            onDidMount={this.onDidMount.bind(this, 'textarea')}
-            preventSubmit={Boolean(this.state.browser)}
+        ref="wrapper"
+        className={wrapper}
+        data-test="highlighted-textarea">
+          {this.renderHighlighter()}
+          <textarea
+            ref="textarea"
+            className={`${textarea} ${common}`}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
-            focused={this.state.textareaFocused}
-            content={this.getTextContent()} />
-        </div>
+            onKeyDown={::this.onKeyDown}
+            onChange={::this.onChange}
+            onBlur={::this.onBlur}
+            value={this.state.text}
+            autoFocus></textarea>
       </div>
     )
   }
