@@ -4,6 +4,7 @@ import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
 import List from 'react-finite-list'
+import TagsInput from '../tags-input/TagsInput'
 import keyname from 'keyname'
 
 @useSheet(style)
@@ -30,41 +31,15 @@ export default class FilterableList extends Component {
       focusedItem: this.props.items[0]
     }
   }
-
-  componentDidMount() {
-    if (this.shouldFocusFilter()) this.refs.filter.focus()
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       focusedItem: nextProps.items[0]
     })
   }
 
-  componentDidUpdate() {
-    const {filter, ruler} = this.refs
-    if (!filter) return
-    if (this.shouldFocusFilter()) filter.focus()
-
-    // Input can hide last/first few pixels of font
-    // that will don't be hidden in regular span (which is `ruler`)
-    // http://s.codepen.io/tyv/debug/pgKJLK
-    // http://codepen.io/tyv/pen/pgKJLK
-    filter.style.width = `${ruler.offsetWidth + 5}px`
-    filter.scrollIntoView()
-  }
-
   onSelectItem(item) {
     this.clearFilter()
     this.props.onSelect(item)
-  }
-
-  onSelectedClick(item) {
-    this.props.onRemoveSelected(item)
-  }
-
-  onClick() {
-    if (this.shouldFocusFilter()) this.refs.filter.focus()
   }
 
   onKeyDown(e) {
@@ -82,9 +57,6 @@ export default class FilterableList extends Component {
         this.onSelectItem(this.state.focusedItem)
         e.preventDefault()
         break
-      case 'backspace':
-        this.deleteLastItem()
-        break
       default:
     }
   }
@@ -93,21 +65,6 @@ export default class FilterableList extends Component {
     this.setState({
       focusedItem: item
     })
-  }
-
-  onChange() {
-    this.props.onChange(this.refs.filter.value)
-  }
-
-  deleteLastItem() {
-    const {selected} = this.props
-    if (!selected.length) return
-
-    const {selectionStart, selectionEnd} = this.refs.filter
-    const isStartPos = selectionStart + selectionEnd === 0
-    if (!isStartPos) return
-
-    this.props.onRemoveSelected(selected[selected.length - 1])
   }
 
   clearFilter() {
@@ -152,62 +109,28 @@ export default class FilterableList extends Component {
     )
   }
 
-  renderInput() {
-    if (!this.shouldFocusFilter()) return null
-
-    const {sheet, filter} = this.props
-    return (
-      <input
-        ref="filter"
-        className={sheet.classes.filter}
-        onKeyDown={::this.onKeyDown}
-        onChange={::this.onChange}
-        value={filter} />
-    )
-  }
-
-  renderSelected() {
-    const {selected, sheet} = this.props
-    if (!selected.length) return null
-    return selected.map((item, i) => {
-      return (
-        <button
-          key={i}
-          className={sheet.classes.token}
-          onClick={this.onSelectedClick.bind(this, item)}>
-          {this.props.renderSelected(item)}
-        </button>
-      )
-    })
-  }
-
-  renderFilter() {
-    const {
-      ruler,
-      filterArea
-    } = this.props.sheet.classes
-
-    return (
-      <div
-        className={filterArea}>
-        {this.renderSelected()}
-        {this.renderInput()}
-        <span
-          ref="ruler"
-          className={ruler}
-          ariaHidden>
-          {this.props.filter}
-        </span>
-      </div>
-    )
-  }
-
   render() {
-    const {children, sheet} = this.props
+    const {
+      sheet,
+      children,
+      selected,
+      filter,
+      onChange,
+      renderSelected,
+      onRemoveSelected
+    } = this.props
+
     return (
-      <div
-        onClick={::this.onClick}>
-        {this.renderFilter()}
+      <div>
+        <TagsInput
+          onKeyDown={::this.onKeyDown}
+          onChange={onChange}
+          deleteTag={onRemoveSelected}
+          list={selected}
+          value={filter}
+          focused={this.shouldFocusFilter()}
+          renderTag={renderSelected}
+          className={sheet.classes.filterArea} />
         {children}
         <div
           className={sheet.classes.list}>
