@@ -15,14 +15,6 @@ import render from '../rendervdom'
 import 'grape-browser'
 import getRank from '../utils/getRank'
 
-const defaultBrowserProps = {
-  isLoading: false,
-  browser: null,
-  focused: false,
-  disabled: false,
-  data: null
-}
-
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
 function isImage(mime) {
@@ -81,7 +73,6 @@ export default class GrapeInput extends Emitter {
 
   setProps(newProps, callback) {
     this.input.props = {
-      defaultBrowserProps,
       images: this.images,
       customEmojis: this.org.custom_emojis,
       placeholder: this.placeholder,
@@ -151,6 +142,7 @@ export default class GrapeInput extends Emitter {
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
+      focused: false,
       data,
       isLoading,
       setTrigger
@@ -164,6 +156,7 @@ export default class GrapeInput extends Emitter {
     const data = users.concat(rooms)
     this.setProps({
       browser: 'user',
+      focused: true,
       data: data
     })
   }
@@ -171,6 +164,7 @@ export default class GrapeInput extends Emitter {
   showEmojiBrowser({ignoreSuggest, setTrigger}) {
     this.setProps({
       browser: 'emoji',
+      focused: false,
       ignoreSuggest,
       setTrigger
     })
@@ -186,6 +180,7 @@ export default class GrapeInput extends Emitter {
 
     this.setProps({
       browser: 'emojiSuggest',
+      focused: true,
       maxCompleteItems: 6,
       data
     })
@@ -323,9 +318,10 @@ export default class GrapeInput extends Emitter {
     this.browserAborted = false
     this.emit('autocomplete', e.detail, (err, data) => {
       if (err) return this.emit('error', err)
-      if (this.browserAborted) return
+      if (this.browserAborted) return false
       this.setProps({
         browser: 'search',
+        focused: false,
         data: data
       })
     })
@@ -345,7 +341,10 @@ export default class GrapeInput extends Emitter {
       window.analytics.track('abort autocomplete', data)
     }
 
-    this.setProps({browser: null})
+    this.setProps({
+      browser: null,
+      focused: true
+    })
   }
 
   onChange() {
@@ -357,9 +356,10 @@ export default class GrapeInput extends Emitter {
     this.browserAborted = false
     this.emit('autocomplete', key, (err, data) => {
       if (err) return this.emit('error', err)
-      if (this.browserAborted) return
+      if (this.browserAborted) return false
       this.setProps({
         browser: 'search',
+        focused: false,
         data: data
       })
     })
