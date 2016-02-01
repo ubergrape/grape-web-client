@@ -1,5 +1,7 @@
 import {createSelector} from 'reselect'
 import pick from 'lodash/object/pick'
+// TODO: use this from lodash 4 after
+// https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 
 export const userSelector = createSelector(
