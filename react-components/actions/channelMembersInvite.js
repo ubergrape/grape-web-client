@@ -69,7 +69,7 @@ export function createRoomAndInvite(users) {
       .catch(err => {
         const {details} = err
         if (details && details.error === 'SlugAlreadyExist') {
-          return dispatch(goToChannel(details.slug))
+          dispatch(goToChannel(details.slug))
         }
       })
       .then(() => {
@@ -78,7 +78,7 @@ export function createRoomAndInvite(users) {
       .then(() => {
         if (newRoom) {
           page(`/chat/${newRoom.slug}`)
-          return dispatch(invitedToChannel(usernames, newRoom.id))
+          dispatch(invitedToChannel(usernames, newRoom.id))
         }
       })
       .catch(err => dispatch(error(err)))

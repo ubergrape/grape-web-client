@@ -41,7 +41,7 @@ export default class AvatarUsername extends Component {
   }
 
   render() {
-    const size = `${this.props.size}`
+    const size = this.props.size
     const sizes = {width: size, height: size}
     const {classes} = this.props.sheet
     const {

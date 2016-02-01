@@ -61,7 +61,7 @@ export function loadMentions(params) {
       })
       .catch(err => {
         dispatch(setSidebarIsLoading(false))
-        return dispatch(error(err))
+        dispatch(error(err))
       })
   }
 }
