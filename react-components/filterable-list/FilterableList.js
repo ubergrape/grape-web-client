@@ -38,6 +38,7 @@ export default class FilterableList extends Component {
   }
 
   onSelectItem(item) {
+    if (!item) return
     this.clearFilter()
     this.props.onSelect(item)
   }
