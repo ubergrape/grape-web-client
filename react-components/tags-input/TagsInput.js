@@ -30,7 +30,7 @@ export default class TagsInput extends Component {
 
     // Input can hide first/last few pixels of the text
     // which would not be hidden when rendered in a span.
-    // We use span for as a ruler.
+    // We use span as a ruler.
     // http://s.codepen.io/tyv/debug/pgKJLK
     // http://codepen.io/tyv/pen/pgKJLK
     input.style.width = `${ruler.offsetWidth + 2}px`
