@@ -167,25 +167,25 @@ export function getObjectsPositions(objects, text) {
  * Get an array of substrings and tokens (grape objects) in
  * order of appearance.
  */
-export function getTextAndObjects(objects, text) {
-  let content
-  const tokens = Object.keys(objects)
+export function getObjects(objectsMap, text) {
+  let objects
+  const tokens = Object.keys(objectsMap)
 
   if (tokens.length) {
     const tokensRegExp = new RegExp(tokens.map(escapeRegExp).join('|'), 'g')
     const keysInText = text.match(tokensRegExp)
-    content = []
+    objects = []
     text
       .split(tokensRegExp)
       .forEach((substr, i, arr) => {
-        content.push(substr)
-        if (i < arr.length - 1) content.push(objects[keysInText[i]])
+        objects.push(substr)
+        if (i < arr.length - 1) objects.push(objectsMap[keysInText[i]])
       })
   } else {
-    content = [text]
+    objects = [text]
   }
 
-  return content
+  return objects
 }
 
 /**

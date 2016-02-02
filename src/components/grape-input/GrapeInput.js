@@ -23,21 +23,48 @@ export default class GrapeInput extends Component {
     window.removeEventListener('resize', this.onWindowResizeBound)
   }
 
-  onWindowResize() {
-    if (this.input.state.value.trim()) this.forceUpdate()
+  /**
+   * Trigger submit event when user hits enter.
+   * Do nothing when alt, ctrl, shift or cmd used.
+   */
+  onEnter(e) {
+    // We relay on default browser behaviour here, which normally means:
+    // insert a new line.
+    if (e.metaKey || e.shiftKey) return
+
+    const {value} = this.input.state
+
+    // Do nothing if user tries to submit an empty text.
+    if (!value.trim()) {
+      e.preventDefault()
+      return
+    }
+
+    e.preventDefault()
+
+    const {objects} = this.input.state
+
+    const hasText = objects.some(object => {
+      return typeof object === 'string' && object.trim().length > 0
+    })
+
+    this.props.onSubmit({
+      content: value,
+      objects,
+      objectsOnly: !hasText
+    })
+    this.setState({...this.initialState})
   }
 
-  onAbort(reason) {
-    //const {value, selectionEnd} = this.refs.textarea
-    //const query = getQuery(value, selectionEnd)
-    this.props.onAbort({reason})
+  onWindowResize() {
+    if (this.input.state.value.trim()) this.forceUpdate()
   }
 
   onKeyDown(e) {
     const key = keyname(e.keyCode)
     switch (key) {
       case 'esc':
-        this.onAbort(key)
+        this.props.onAbort({reason: key})
         e.preventDefault()
         break
       case 'up':
@@ -47,7 +74,7 @@ export default class GrapeInput extends Component {
         }
         break
       case 'enter':
-        this.submit(e)
+        this.onEnter(e)
         break
       default:
     }

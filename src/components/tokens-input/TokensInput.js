@@ -4,7 +4,7 @@ import escape from 'lodash/string/escape'
 import {
   getTokenUnderCaret,
   getQuery,
-  getTextAndObjects,
+  getObjects,
   getObjectsPositions,
   clearIfLarge,
   updateIfNewEmoji,
@@ -49,8 +49,8 @@ export default class GrapeInput extends Component {
     this.initialState = {
       value: '',
       caretAt: 0,
-      objects: {},
-      textWithObjects: [],
+      objectsMap: {},
+      objects: [],
       objectsPositions: {}
     }
     this.state = {...this.initialState}
@@ -72,28 +72,46 @@ export default class GrapeInput extends Component {
     }
 
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
-    this.onResize()
+    this.props.onResize()
   }
 
-  onChange(e) {
-    const {value, selectionEnd} = e.target
-    const {objects} = this.state
+
+  insertLineBreak() {
+    const {textarea} = this.refs
+    const {selectionStart} = textarea
+    textarea.value =
+      textarea.value.substring(0, selectionStart) + '\n' +
+      textarea.value.substring(selectionStart)
+
+    textarea.selectionEnd = selectionStart + 1
+
+    this.onChange({target: textarea})
+  }
+
+  onChange({target}) {
+    const {value, selectionEnd} = target
+    const {objectsMap} = this.state
 
     this.setState({
-      objects,
+      objectsMap,
       value,
-      textWithObjects: getTextAndObjects(objects, value),
+      objects: getObjects(objectsMap, value),
       caretAt: selectionEnd,
-      objectsPositions: getObjectsPositions(objects, value)
+      objectsPositions: getObjectsPositions(objectsMap, value)
     })
 
     this.props.onChange(getQuery(value, selectionEnd))
   }
 
+  onEnter(e) {
+    // Always insert a new line to be consistent across browsers.
+    if (e.altKey || e.ctrlKey) {
+      e.preventDefault()
+      this.insertLineBreak()
+    }
+  }
+
   onKeyDown(e) {
-    this.props.onKeyDown(e)
-    // Do nothing if parent component handled this key.
-    if (e.defaultPrevented) return
     const key = keyname(e.keyCode)
     switch (key) {
       case 'backspace':
@@ -101,10 +119,12 @@ export default class GrapeInput extends Component {
         this.onDelete(e, key)
         break
       case 'enter':
-        this.submit(e)
+        this.onEnter(e)
         break
       default:
     }
+
+    if (!e.defaultPrevented) this.props.onKeyDown(e)
   }
 
   // TODO: possibly improve speed with fake caret in highlighter
@@ -146,19 +166,11 @@ export default class GrapeInput extends Component {
 
       this.setState({
         value: newValue,
-        textWithObjects: getTextAndObjects(this.state.objects, newValue),
-        objectsPositions: getObjectsPositions(this.state.objects, newValue),
-        caretAt: start
+        caretAt: start,
+        objects: getObjects(this.state.objectsMap, newValue),
+        objectsPositions: getObjectsPositions(this.state.objectsMap, newValue)
       })
     }
-  }
-
-  onResize() {
-    this.props.onResize()
-  }
-
-  onBlur() {
-    this.props.onBlur()
   }
 
   /**
@@ -171,19 +183,19 @@ export default class GrapeInput extends Component {
     if (!this.props.focused) return false
 
     const {configs, value} = parseAndReplace(content)
-    const objects = clearIfLarge(this.state.objects)
+    const objectsMap = clearIfLarge(this.state.objectsMap)
 
     configs.forEach(config => {
       const object = createObject(config.type, config)
-      objects[object.content] = object
+      objectsMap[object.content] = object
     })
 
     this.setState({
       value,
-      objects,
-      textWithObjects: getTextAndObjects(objects, value),
       caretAt: value.length,
-      objectsPositions: getObjectsPositions(objects, value)
+      objectsMap,
+      objects: getObjects(objectsMap, value),
+      objectsPositions: getObjectsPositions(objectsMap, value)
     })
 
     if (!options.silent) this.props.onChange(getQuery(value, value.length))
@@ -192,7 +204,7 @@ export default class GrapeInput extends Component {
   }
 
   getTextWithMarkdown() {
-    return this.state.textWithObjects
+    return this.state.objects
       .map(item => item.str ? item.str : item)
       .join('')
   }
@@ -229,71 +241,23 @@ export default class GrapeInput extends Component {
     valueAfter = ensureSpace('before', valueAfter)
 
     value = valueBefore + replacement.content + valueAfter
-    const objects = {
-      ...this.state.objects,
+    const objectsMap = {
+      ...this.state.objectsMap,
       [replacement.content]: replacement
     }
     const caretAt = selectionEnd + replacement.content.length
 
     this.setState({
       value,
-      objects,
       caretAt,
-      textWithObjects: getTextAndObjects(objects, value),
-      objectsPositions: getObjectsPositions(objects, value)
+      objectsMap,
+      objects: getObjects(objectsMap, value),
+      objectsPositions: getObjectsPositions(objectsMap, value)
     })
   }
 
-  insertLineBreak() {
-    const {textarea} = this.refs
-    const {selectionStart} = textarea
-    textarea.value =
-      textarea.value.substring(0, selectionStart) + '\n' +
-      textarea.value.substring(selectionStart)
-
-    textarea.selectionEnd = selectionStart + 1
-
-    this.onChange({target: textarea})
-  }
-
-  /**
-   * Trigger submit event when user hits enter.
-   * Do nothing when alt, ctrl, shift or cmd used.
-   */
-  submit(e) {
-    if (e.altKey || e.ctrlKey) {
-      e.preventDefault()
-      return this.insertLineBreak()
-    }
-
-    if (
-      e.metaKey ||
-      e.shiftKey ||
-      !this.state.value.trim() ||
-      this.props.preventSubmit
-    ) return false
-
-    e.preventDefault()
-
-    const content = this.getTextWithMarkdown()
-    const {textWithObjects} = this.state
-    const objects = textWithObjects.reduce((onlyObjects, item) => {
-      if (typeof item === 'object') {
-        onlyObjects.push(item.result || item)
-      }
-      return onlyObjects
-    }, [])
-
-    const objectsOnly = !textWithObjects
-      .filter(item => typeof item === 'string' && item.trim().length)
-      .length
-
-    this.props.onSubmit({content, objects, objectsOnly})
-    this.setState({...this.initialState})
-  }
-
   renderTokens() {
-    const content = this.state.textWithObjects.map((item, index) => {
+    const content = this.state.objects.map((item, index) => {
       if (item.content) return this.renderToken(item, index)
 
       // Used dangerouslySetInnerHTML to workaround a bug in IE11:
@@ -370,7 +334,7 @@ export default class GrapeInput extends Component {
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
             onChange={::this.onChange}
-            onBlur={::this.onBlur}
+            onBlur={this.props.onBlur}
             value={this.state.value}
             autoFocus></textarea>
       </div>
