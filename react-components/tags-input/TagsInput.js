@@ -28,8 +28,9 @@ export default class TagsInput extends Component {
     if (!input) return
     if (this.props.focused) input.focus()
 
-    // Input can hide last/first few pixels of font
-    // that will don't be hidden in regular span (which is `ruler`)
+    // Input can hide first/last few pixels of the text
+    // which would not be hidden when rendered in a span.
+    // We use span for as a ruler.
     // http://s.codepen.io/tyv/debug/pgKJLK
     // http://codepen.io/tyv/pen/pgKJLK
     input.style.width = `${ruler.offsetWidth + 2}px`
