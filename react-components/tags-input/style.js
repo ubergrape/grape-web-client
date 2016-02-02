@@ -17,7 +17,7 @@ export default {
     marginBottom: 2,
     background: `${grayBlueLighter} calc(100% - 5px) 50% no-repeat`,
     backgroundImage: `url(${getColoredIcon({name: 'close', color: gray})})`,
-    backgroundSize: '7px',
+    backgroundSize: 7,
     border: `1px solid ${grayBlueLight}`,
     color: gray,
     cursor: 'pointer',
