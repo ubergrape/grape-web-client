@@ -103,7 +103,7 @@ export function ensureSpace(where, str) {
  */
 export function parseAndReplace(content) {
   const configs = []
-  let text = content.replace(linkRegExp, (match, token, url) => {
+  let value = content.replace(linkRegExp, (match, token, url) => {
     const config = toData(token, url)
     if (!config) return match
 
@@ -111,12 +111,12 @@ export function parseAndReplace(content) {
     return tokenWithTrigger(token, config.type)
   })
 
-  text = text.replace(EMOJI_REGEX, (match) => {
+  value = value.replace(EMOJI_REGEX, (match) => {
     configs.push(getEmojiConfig(match.trim()))
     return match
   })
 
-  return {configs, text}
+  return {configs, value}
 }
 
 /**

@@ -35,8 +35,8 @@ export default {
   },
   highlighter: {
     position: 'absolute',
-    left: '0',
-    top: '0',
+    left: 0,
+    top: 0,
     right: iconsWidth,
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
