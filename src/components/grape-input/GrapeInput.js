@@ -1,15 +1,24 @@
 import React, {PropTypes, Component} from 'react'
 import noop from 'lodash/utility/noop'
-import escape from 'lodash/string/escape'
-import {useSheet} from 'grape-web/lib/jss'
 
 import keyname from 'keyname'
 import TokensInput from '../tokens-input/TokensInput'
 
-//import style from './style'
-
-//@useSheet(style)
 export default class GrapeInput extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func,
+    onAbort: PropTypes.func,
+    onEditPrevious: PropTypes.func,
+    onDidMount: PropTypes.func
+  }
+
+  static defaultProps = {
+    onSubmit: noop,
+    onAbort: noop,
+    onEditPrevious: noop,
+    onDidMount: noop
+  }
+
   constructor(props) {
     super(props)
     this.onWindowResizeBound = ::this.onWindowResize
@@ -23,26 +32,10 @@ export default class GrapeInput extends Component {
     window.removeEventListener('resize', this.onWindowResizeBound)
   }
 
-  /**
-   * Trigger submit event when user hits enter.
-   * Do nothing when alt, ctrl, shift or cmd used.
-   */
   onEnter(e) {
-    // We relay on default browser behaviour here, which normally means:
-    // insert a new line.
-    if (e.metaKey || e.shiftKey) return
-
-    const {value} = this.input.state
-
-    // Do nothing if user tries to submit an empty text.
-    if (!value.trim()) {
-      e.preventDefault()
-      return
-    }
-
     e.preventDefault()
 
-    const {objects} = this.input.state
+    const {objects, value} = this.input.state
 
     const hasText = objects.some(object => {
       return typeof object === 'string' && object.trim().length > 0
@@ -53,7 +46,6 @@ export default class GrapeInput extends Component {
       objects,
       objectsOnly: !hasText
     })
-    this.setState({...this.initialState})
   }
 
   onWindowResize() {
@@ -80,7 +72,7 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onDidMount(ref) {
+  onDidMount(ref) {
     this.input = ref
     this.props.onDidMount(ref)
   }

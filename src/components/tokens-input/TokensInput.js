@@ -28,6 +28,7 @@ export default class GrapeInput extends Component {
     onSubmit: PropTypes.func.isRequired,
     onResize: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func,
     sheet: PropTypes.object.isRequired,
     preventSubmit: PropTypes.bool,
     focused: PropTypes.bool,
@@ -40,7 +41,8 @@ export default class GrapeInput extends Component {
     focused: true,
     disabled: false,
     onBlur: noop,
-    onChange: noop
+    onChange: noop,
+    onKeyDown: noop
   }
 
   constructor(props) {
@@ -75,22 +77,9 @@ export default class GrapeInput extends Component {
     this.props.onResize()
   }
 
-
-  insertLineBreak() {
-    const {textarea} = this.refs
-    const {selectionStart} = textarea
-    textarea.value =
-      textarea.value.substring(0, selectionStart) + '\n' +
-      textarea.value.substring(selectionStart)
-
-    textarea.selectionEnd = selectionStart + 1
-
-    this.onChange({target: textarea})
-  }
-
   onChange({target}) {
     const {value, selectionEnd} = target
-    const {objectsMap} = this.state
+    const objectsMap = updateIfNewEmoji(this.state.objectsMap, value)
 
     this.setState({
       objectsMap,
@@ -103,12 +92,24 @@ export default class GrapeInput extends Component {
     this.props.onChange(getQuery(value, selectionEnd))
   }
 
-  onEnter(e) {
+  onEnter(e) {
     // Always insert a new line to be consistent across browsers.
     if (e.altKey || e.ctrlKey) {
       e.preventDefault()
       this.insertLineBreak()
     }
+
+    // We relay on default browser behaviour here, which normally means:
+    // insert a new line.
+    if (e.metaKey || e.shiftKey) return
+
+    // Do nothing if user tries to submit an empty text.
+    if (!this.state.value.trim()) {
+      e.preventDefault()
+      return
+    }
+
+    this.setState({...this.initialState})
   }
 
   onKeyDown(e) {
@@ -207,6 +208,18 @@ export default class GrapeInput extends Component {
     return this.state.objects
       .map(item => item.str ? item.str : item)
       .join('')
+  }
+
+  insertLineBreak() {
+    const {textarea} = this.refs
+    const {selectionStart} = textarea
+    textarea.value =
+      textarea.value.substring(0, selectionStart) + '\n' +
+      textarea.value.substring(selectionStart)
+
+    textarea.selectionEnd = selectionStart + 1
+
+    this.onChange({target: textarea})
   }
 
   insertQueryString(str) {
