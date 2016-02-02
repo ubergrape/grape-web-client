@@ -38,7 +38,6 @@ export default class FilterableList extends Component {
   }
 
   onSelectItem(item) {
-    if (!item) return
     this.clearFilter()
     this.props.onSelect(item)
   }
@@ -55,7 +54,9 @@ export default class FilterableList extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.onSelectItem(this.state.focusedItem)
+        const {focusedItem} = this.state
+        if (!focusedItem) return
+        this.onSelectItem(focusedItem)
         e.preventDefault()
         break
       default:
