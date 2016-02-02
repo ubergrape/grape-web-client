@@ -6,6 +6,9 @@ import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
+import * as api from '../backend/api'
+import {channelSelector} from '../selectors'
+import store from '../app/store'
 
 export function setUsers(users) {
   return {
@@ -153,10 +156,10 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function inviteChannelMember(channel) {
-  reduxEmitter.inviteChannelMember(channel)
+export function showOrgInvite() {
+  reduxEmitter.showOrgInvite()
   return {
-    type: types.INVITE_CHANNEL_MEMBER
+    type: types.SHOW_ORG_INVITE
   }
 }
 
@@ -188,5 +191,54 @@ export function enableNotifications() {
   // This action don't have reducer yet
   return {
     type: types.ENABLE_NOTIFICATIONS
+  }
+}
+
+export function error(err) {
+  reduxEmitter.showError(err)
+  // This action don't have reducer yet
+  return {
+    type: types.ERROR,
+    payload: error
+  }
+}
+
+export function invitedToChannel(usernames, channelId) {
+  return {
+    type: types.INVITED_TO_CHANNEL,
+    payload: {
+      usernames,
+      channelId
+    }
+  }
+}
+
+export function joinedChannel(channelId) {
+  return {
+    type: types.JOINED_CHANNEL,
+    payload: channelId
+  }
+}
+
+// This action isn't used yet, remove this comment after first use
+export function joinChannel({id} = channelSelector(store.getState())) {
+  return dispatch => {
+    return api
+      .joinChannel(id)
+      .then(() => dispatch(joinedChannel(id)))
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+// This action isn't used yet, remove this comment after first use
+export function inviteToChannel(
+  usernames,
+  {id} = channelSelector(store.getState())
+) {
+  return dispatch => {
+    return api
+      .inviteToChannel(usernames, id)
+      .then(() => dispatch(invitedToChannel(usernames, id)))
+      .catch(err => dispatch(error(err)))
   }
 }

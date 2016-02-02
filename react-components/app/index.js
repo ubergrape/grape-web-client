@@ -12,6 +12,7 @@ import sharedFiles from '../shared-files'
 import mentions from '../mentions'
 import messageSearch from '../message-search'
 import alerts from '../alerts'
+import inviteChannelMembers from '../channel-members-invite'
 import unreadChannels from '../unread-channels'
 
 render(
@@ -21,6 +22,10 @@ render(
 render(
   createElement(billingWarning(store)),
   document.body.appendChild(document.createElement('grape-billing-warning'))
+)
+render(
+  createElement(inviteChannelMembers(store)),
+  document.body.appendChild(document.createElement('grape-channel-members-invite'))
 )
 render(
   createElement(unreadChannels(store)),

@@ -1,9 +1,9 @@
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
-import rpc from '../backend/rpc'
+import * as api from '../backend/api'
 import {messageSearchSelector, orgSelector} from '../selectors'
-import {setSidebarIsLoading} from './common'
+import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
 
 export function showMessageSearch() {
@@ -63,41 +63,32 @@ export function searchMessages(params) {
     dispatch(setSidebarIsLoading(true))
 
     const state = store.getState()
-    const org = orgSelector(state)
+    const {id} = orgSelector(state)
 
-    rpc({
-      ns: 'search',
-      action: 'search',
-      args: [
+    api
+      .searchMessages({
         query,
-        org.id,
-        'messages',
-        params.limit,
-        params.offsetDate ? params.offsetDate.toISOString() : undefined
-      ]
-    }, {camelize: true}, (err, res) => {
-      dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
+        id,
+        limit: params.limit,
+        offsetDate: params.offsetDate ? params.offsetDate.toISOString() : undefined
+      })
+      .then(messages => {
+        dispatch(setSidebarIsLoading(false))
+        const messageSearch = messageSearchSelector(state)
+        const prevItems = messageSearch.items
+        const nextItems = messages.results.map(formatSidebarMessage)
         dispatch({
-          type: types.ERROR,
+          type: types.FOUND_MESSAGES,
           payload: {
-            err
+            items: [...prevItems, ...nextItems],
+            // Only a query without offset delivers overall total amount.
+            total: params.offsetDate ? messageSearch.total : messages.total
           }
         })
-        return
-      }
-      const messageSearch = messageSearchSelector(state)
-      const prevItems = messageSearch.items
-      const nextItems = res.results.map(formatSidebarMessage)
-      dispatch({
-        type: types.FOUND_MESSAGES,
-        payload: {
-          items: [...prevItems, ...nextItems],
-          // Only a query without offset delivers overall total amount.
-          total: params.offsetDate ? messageSearch.total : res.total
-        }
       })
-    })
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        dispatch(error(err))
+      })
   }
 }

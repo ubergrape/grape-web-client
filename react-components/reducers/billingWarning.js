@@ -6,7 +6,7 @@ const initialState = {
   level: 'info'
 }
 
-export default function reducers(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_SETTINGS:
       return {...state, enabled: !action.payload.settings.showIntro}

@@ -1,3 +1,4 @@
+import 'es6-promise'
 import 'array.from'
 import 'custom-event-polyfill'
 import 'document-register-element'

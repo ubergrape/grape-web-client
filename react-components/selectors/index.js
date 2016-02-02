@@ -1,5 +1,8 @@
 import {createSelector} from 'reselect'
 import pick from 'lodash/object/pick'
+// TODO: use this from lodash 4 after
+// https://github.com/ubergrape/chatgrape/issues/3326
+import differenceBy from 'lodash.differenceby'
 
 export const userSelector = createSelector(
   state => state.user, state => state
@@ -62,6 +65,10 @@ export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
 
+export const inviteChannelMemebersSelector = createSelector(
+  state => state.inviteChannelMemebers, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {
@@ -71,4 +78,30 @@ export const alertsAndChannelSelector = createSelector(
 
 export const unreadChannelsSelector = createSelector(
   state => state.unreadChannels, state => state
+)
+
+export const inviteDialog = createSelector(
+  [
+    channelSelector,
+    orgSelector,
+    inviteChannelMemebersSelector,
+    usersSelector,
+    orgSelector,
+    userSelector
+  ],
+  (
+    channel,
+    org,
+    inviteChannelMemebers,
+    allUsers,
+    {inviterRole},
+    {role}
+  ) => {
+    return {
+      ...inviteChannelMemebers,
+      users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
+      isInviter: role >= inviterRole,
+      channelType: channel.type
+    }
+  }
 )

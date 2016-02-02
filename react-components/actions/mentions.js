@@ -3,13 +3,13 @@ import sortBy from 'lodash/collection/sortBy'
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
-import rpc from '../backend/rpc'
+import * as api from '../backend/api'
 import {
   userSelector,
   orgSelector,
   mentionsSelector
 } from '../selectors'
-import {setSidebarIsLoading} from './common'
+import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
 
 export function showMentions() {
@@ -41,40 +41,28 @@ export function loadMentions(params) {
   return dispatch => {
     dispatch({type: types.LOAD_MENTIONS})
     dispatch(setSidebarIsLoading(true))
-    const org = orgSelector(store.getState())
-    rpc({
-      ns: 'search',
-      action: 'get_mentions',
-      args: [
-        org.id,
-        'user',
-        params.limit,
-        params.offsetDate
-      ]
-    }, {camelize: true}, (err, res) => {
-      dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
-        dispatch({
-          type: types.ERROR,
+    const {id} = orgSelector(store.getState())
+
+    return api
+      .getMentions({...params, id})
+      .then(mentions => {
+        dispatch(setSidebarIsLoading(false))
+        const prevItems = mentionsSelector(store.getState()).items
+        const nextItems = mentions.results.map(data => {
+          return formatSidebarMessage(data.message)
+        })
+        return dispatch({
+          type: types.LOADED_MENTIONS,
           payload: {
-            err
+            total: mentions.total,
+            items: [...prevItems, ...nextItems]
           }
         })
-        return
-      }
-      const prevItems = mentionsSelector(store.getState()).items
-      const nextItems = res.results.map(data => {
-        return formatSidebarMessage(data.message)
       })
-      dispatch({
-        type: types.LOADED_MENTIONS,
-        payload: {
-          total: res.total,
-          items: [...prevItems, ...nextItems]
-        }
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        dispatch(error(err))
       })
-    })
   }
 }
 

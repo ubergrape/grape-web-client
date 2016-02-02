@@ -36,7 +36,6 @@ let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
 let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
 let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
-let RoomInvite = exports.RoomInvite = require('./elements/dialogs/RoomInvite')
 let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
@@ -351,21 +350,6 @@ UI.prototype.onToggleOrgInvite = function () {
   broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
   broker(this, 'inviteError', invite, 'onInviteError')
   broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
-}
-
-UI.prototype.onToggleRoomInvite = function UI_onToggleRoomInvite (room) {
-  // org users who are not part of the room, sorted alphabetically
-  let users = this.org.users.filter(function (user) {
-    return user.active && room.users.indexOf(user) === -1
-  })
-  let invite = new RoomInvite({
-    org: this.org,
-    users: users,
-    room: room
-  }).closable().overlay().show()
-
-  broker.pass(invite, 'inviteToRoom', this, 'inviteToRoom')
-  broker(this, 'roomInviteSuccess', invite, 'onRoomInviteSuccess')
 }
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {

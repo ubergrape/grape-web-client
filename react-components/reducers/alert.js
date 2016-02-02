@@ -4,7 +4,7 @@ const initialState = {
   alerts: []
 }
 
-export default function reducers(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   let alerts
   const {payload} = action
 

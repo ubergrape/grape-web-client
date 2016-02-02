@@ -9,7 +9,7 @@ const initialState = {
   limit: 20
 }
 
-export default function reducers(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_SHARED_FILES:
     case types.HIDE_SHARED_FILES:

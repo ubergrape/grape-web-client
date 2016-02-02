@@ -3,8 +3,8 @@ import find from 'lodash/collection/find'
 import store from '../app/store'
 import reduxEmitter from '../redux-emitter'
 import * as types from '../constants/actionTypes'
-import rpc from '../backend/rpc'
-import {setSidebarIsLoading} from './common'
+import * as api from '../backend/api'
+import {setSidebarIsLoading, error} from './common'
 import {
   sharedFilesSelector,
   orgSelector,
@@ -58,41 +58,32 @@ export function loadSharedFiles(params) {
     const state = store.getState()
     const org = orgSelector(state)
     const channel = channelSelector(state)
-    rpc({
-      ns: 'search',
-      action: 'search_files',
-      args: [
-        org.id,
-        channel.id,
-        params.own,
-        params.limit,
-        params.offset
-      ]
-    }, {camelize: true}, (err, res) => {
-      dispatch(setSidebarIsLoading(false))
-      if (err) {
-        reduxEmitter.showError(err)
+
+    api
+      .searchFiles({
+        orgId: org.id,
+        channelId: channel.id,
+        ...params
+      })
+      .then(files => {
+        dispatch(setSidebarIsLoading(false))
+        const prevItems = sharedFilesSelector(state).items
+        const users = usersSelector(state)
+        const nextItems = files.results.map(file => {
+          return formatFile(file, channel, users)
+        })
         dispatch({
-          type: types.ERROR,
+          type: types.LOADED_SHARED_FILES,
           payload: {
-            err
+            items: [...prevItems, ...nextItems],
+            total: files.total
           }
         })
-        return
-      }
-      const prevItems = sharedFilesSelector(state).items
-      const users = usersSelector(state)
-      const nextItems = res.results.map(file => {
-        return formatFile(file, channel, users)
       })
-      dispatch({
-        type: types.LOADED_SHARED_FILES,
-        payload: {
-          items: [...prevItems, ...nextItems],
-          total: res.total
-        }
+      .catch(err => {
+        dispatch(setSidebarIsLoading(false))
+        dispatch(error(err))
       })
-    })
   }
 }
 

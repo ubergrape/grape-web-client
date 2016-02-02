@@ -11,7 +11,7 @@ const initialState = {
   images
 }
 
-export default function reducers(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_MESSAGE_SEARCH:
     case types.HIDE_MESSAGE_SEARCH:
