@@ -23,11 +23,11 @@ import style from './style'
 @useSheet(style)
 export default class GrapeInput extends Component {
   static propTypes = {
-    onDidMount: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onResize: PropTypes.func.isRequired,
-    onBlur: PropTypes.func.isRequired,
+    onDidMount: PropTypes.func,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onResize: PropTypes.func,
+    onBlur: PropTypes.func,
     onKeyDown: PropTypes.func,
     sheet: PropTypes.object.isRequired,
     preventSubmit: PropTypes.bool,
@@ -42,7 +42,10 @@ export default class GrapeInput extends Component {
     disabled: false,
     onBlur: noop,
     onChange: noop,
-    onKeyDown: noop
+    onKeyDown: noop,
+    onDidMount: noop,
+    onSubmit: noop,
+    onResize: noop
   }
 
   constructor(props) {

@@ -34,7 +34,7 @@ const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
 @useSheet(style)
 export default class App extends Component {
   static propTypes = {
-    onDidMount: PropTypes.func.isRequired,
+    onDidMount: PropTypes.func,
     container: PropTypes.object,
     isLoading: PropTypes.bool,
     hasIntegrations: PropTypes.bool,

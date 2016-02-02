@@ -19,7 +19,7 @@ describe('grape-input:', () => {
       function onDidMount(component) {
         component.setTextContent('[name](cg://chatgrape|room|1|/chat/slug)')
         setTimeout(() => {
-          expect(component.state.objects['@name']).to.be.a(Room)
+          expect(component.state.objectsMap['@name']).to.be.a(Room)
           expect(resizeFlag).to.be(true)
           done()
         }, 0)
