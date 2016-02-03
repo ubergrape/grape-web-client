@@ -22,7 +22,7 @@ export default class GrapeInput extends Component {
     onAbort: noop,
     onEditPrevious: noop,
     onDidMount: noop,
-    Input: Textarea
+    Editable: Textarea
   }
 
   constructor(props) {
@@ -91,7 +91,7 @@ export default class GrapeInput extends Component {
     return (
       <TokensInput
         {...this.props}
-        theme={{input: classes.textarea}}
+        theme={{editable: classes.textarea}}
         onKeyDown={::this.onKeyDown}
         onDidMount={::this.onDidMount} />
     )

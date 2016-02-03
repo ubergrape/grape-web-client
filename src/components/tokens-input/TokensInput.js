@@ -35,7 +35,7 @@ export default class TokensInput extends Component {
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
-    Input: PropTypes.func.isRequired,
+    Editable: PropTypes.func.isRequired,
     theme: PropTypes.object
   }
 
@@ -112,7 +112,7 @@ export default class TokensInput extends Component {
   // so you can check if caret is inside/near the grape object
   onDelete(e, key) {
     const {value, objectsPositions} = this.state
-    const {selectionStart, selectionEnd} = ReactDOM.findDOMNode(this.refs.textarea)
+    const {selectionStart, selectionEnd} = ReactDOM.findDOMNode(this.refs.editable)
 
     let positionsToDelete
 
@@ -191,20 +191,20 @@ export default class TokensInput extends Component {
   }
 
   ensureCaretPosition() {
-    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
+    const editable = ReactDOM.findDOMNode(this.refs.editable)
 
-    if (!this.props.focused || isFocused(textarea)) return
+    if (!this.props.focused || isFocused(editable)) return
 
-    focus(textarea, () => {
+    focus(editable, () => {
       const {caretAt} = this.state
-      textarea.selectionStart = caretAt
-      textarea.selectionEnd = caretAt
+      editable.selectionStart = caretAt
+      editable.selectionEnd = caretAt
     })
   }
 
   insertQueryString(str) {
-    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
-    const {value, selectionEnd} = textarea
+    const editable = ReactDOM.findDOMNode(this.refs.editable)
+    const {value, selectionEnd} = editable
 
     let textBefore = value.substring(0, selectionEnd)
     let textAfter = value.substring(selectionEnd)
@@ -213,22 +213,22 @@ export default class TokensInput extends Component {
     if (textAfter) textAfter = ensureSpace('before', textAfter)
     textBefore += str
 
-    textarea.value = textBefore + textAfter
-    textarea.selectionStart = textBefore.length
-    textarea.selectionEnd = textBefore.length
+    editable.value = textBefore + textAfter
+    editable.selectionStart = textBefore.length
+    editable.selectionEnd = textBefore.length
 
-    this.onChange({target: textarea})
+    this.onChange({target: editable})
   }
 
   /**
    * Replace text string to token in state
    */
   replaceQuery(replacement) {
-    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
-    const {selectionEnd} = textarea
+    const editable = ReactDOM.findDOMNode(this.refs.editable)
+    const {selectionEnd} = editable
 
     let {value} = this.state
-    const token = getTokenUnderCaret(textarea.value, selectionEnd)
+    const token = getTokenUnderCaret(editable.value, selectionEnd)
     const valueBefore = value.slice(0, token.position[0])
     let valueAfter = value.slice(token.position[1], value.length)
     valueAfter = ensureSpace('before', valueAfter)
@@ -263,7 +263,7 @@ export default class TokensInput extends Component {
       )
     })
 
-    // Make highlighted height equal content height in textarea,
+    // Make highlighted height equal content height in editable,
     // because the last item is a space.
     content.push(' ')
 
@@ -302,27 +302,27 @@ export default class TokensInput extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {Input, theme} = this.props
+    const {Editable, theme} = this.props
 
     return (
       <div
         ref="wrapper"
         className={classes.wrapper}
-        data-test="highlighted-textarea">
-          <div
-            ref="highlighter"
-            className={`${classes.highlighter} ${theme.input}`}>
-            {this.renderTokens()}
-          </div>
-          <Input
-            ref="textarea"
-            placeholder={this.props.placeholder}
-            disabled={this.props.disabled}
-            onKeyDown={::this.onKeyDown}
-            onChange={::this.onChange}
-            onBlur={this.props.onBlur}
-            value={this.state.value}
-            className={theme.input} />
+        data-test="highlighted-editable">
+        <div
+          ref="highlighter"
+          className={`${classes.highlighter} ${theme.editable}`}>
+          {this.renderTokens()}
+        </div>
+        <Editable
+          ref="editable"
+          placeholder={this.props.placeholder}
+          disabled={this.props.disabled}
+          onKeyDown={::this.onKeyDown}
+          onChange={::this.onChange}
+          onBlur={this.props.onBlur}
+          value={this.state.value}
+          className={theme.editable} />
       </div>
     )
   }
