@@ -36,7 +36,8 @@ export default class TokensInput extends Component {
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     Editable: PropTypes.func.isRequired,
-    theme: PropTypes.object
+    theme: PropTypes.object,
+    children: PropTypes.element
   }
 
   static defaultProps = {
