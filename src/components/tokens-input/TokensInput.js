@@ -271,30 +271,12 @@ export default class TokensInput extends Component {
   }
 
   renderToken(object, index) {
-    const {token, user, room, search, emoji} = this.props.sheet.classes
-
-    let tokenType
-    switch (object.tokenType) {
-      case 'user':
-        tokenType = user
-        break
-      case 'room':
-        tokenType = room
-        break
-      case 'search':
-        tokenType = search
-        break
-      case 'emoji':
-        tokenType = emoji
-        break
-      default:
-        tokenType = ''
-    }
+    const {classes} = this.props.sheet
 
     return (
       <span
         key={index}
-        className={`${token} ${tokenType}`}>
+        className={`${classes.token} ${classes[object.tokenType] || ''}`}>
           {object.content}
       </span>
     )
