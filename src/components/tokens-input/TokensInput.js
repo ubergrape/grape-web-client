@@ -54,6 +54,7 @@ export default class GrapeInput extends Component {
     this.initialState = {
       value: '',
       caretAt: 0,
+      // TODO We need better names for objectsMap and objects.
       objectsMap: {},
       objects: [],
       objectsPositions: {}
