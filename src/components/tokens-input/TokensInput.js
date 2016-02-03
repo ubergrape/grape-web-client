@@ -77,6 +77,7 @@ export default class GrapeInput extends Component {
     }
 
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
+    // TODO Only call back if really resized.
     this.props.onResize()
   }
 
@@ -97,14 +98,11 @@ export default class GrapeInput extends Component {
 
   onEnter(e) {
     // Always insert a new line to be consistent across browsers.
-    if (e.altKey || e.ctrlKey) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
       e.preventDefault()
       this.insertLineBreak()
+      return
     }
-
-    // We relay on default browser behaviour here, which normally means:
-    // insert a new line.
-    if (e.metaKey || e.shiftKey) return
 
     // Do nothing if user tries to submit an empty text.
     if (!this.state.value.trim()) {
