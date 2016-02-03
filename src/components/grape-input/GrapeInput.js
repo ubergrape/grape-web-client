@@ -3,6 +3,7 @@ import noop from 'lodash/utility/noop'
 
 import keyname from 'keyname'
 import TokensInput from '../tokens-input/TokensInput'
+import Textarea from './Textarea'
 
 export default class GrapeInput extends Component {
   static propTypes = {
@@ -16,7 +17,8 @@ export default class GrapeInput extends Component {
     onSubmit: noop,
     onAbort: noop,
     onEditPrevious: noop,
-    onDidMount: noop
+    onDidMount: noop,
+    Input: Textarea
   }
 
   constructor(props) {

@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
+import ReactDOM from 'react-dom'
 import {
   getTokenUnderCaret,
   getQuery,
@@ -10,8 +11,8 @@ import {
   updateIfNewEmoji,
   parseAndReplace,
   ensureSpace,
-  isFocused,
-  focus
+  focus,
+  isFocused
 } from './utils'
 
 import keyname from 'keyname'
@@ -21,7 +22,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 
 @useSheet(style)
-export default class GrapeInput extends Component {
+export default class TokensInput extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,
     onChange: PropTypes.func,
@@ -33,7 +34,8 @@ export default class GrapeInput extends Component {
     preventSubmit: PropTypes.bool,
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    Input: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -63,20 +65,11 @@ export default class GrapeInput extends Component {
   }
 
   componentDidMount() {
-    const {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+    this.props.onDidMount(this)
   }
 
   componentDidUpdate() {
-    const {textarea} = this.refs
-    if (this.props.focused) focus(textarea)
-
-    if (isFocused(textarea)) {
-      const {caretAt} = this.state
-      textarea.selectionStart = caretAt
-      textarea.selectionEnd = caretAt
-    }
-
+    this.ensureCaretPosition()
     this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
     // TODO Only call back if really resized.
     this.props.onResize()
@@ -97,23 +90,6 @@ export default class GrapeInput extends Component {
     this.props.onChange(getQuery(value, selectionEnd))
   }
 
-  onEnter(e) {
-    // Always insert a new line to be consistent across browsers.
-    if (e.altKey || e.ctrlKey || e.shiftKey) {
-      e.preventDefault()
-      this.insertLineBreak()
-      return
-    }
-
-    // Do nothing if user tries to submit an empty text.
-    if (!this.state.value.trim()) {
-      e.preventDefault()
-      return
-    }
-
-    this.setState({...this.initialState})
-  }
-
   onKeyDown(e) {
     const key = keyname(e.keyCode)
     switch (key) {
@@ -122,7 +98,7 @@ export default class GrapeInput extends Component {
         this.onDelete(e, key)
         break
       case 'enter':
-        this.onEnter(e)
+        this.setState({...this.initialState})
         break
       default:
     }
@@ -134,7 +110,7 @@ export default class GrapeInput extends Component {
   // so you can check if caret is inside/near the grape object
   onDelete(e, key) {
     const {value, objectsPositions} = this.state
-    const {selectionStart, selectionEnd} = this.refs.textarea
+    const {selectionStart, selectionEnd} = ReactDOM.findDOMNode(this.refs.textarea)
 
     let positionsToDelete
 
@@ -212,20 +188,20 @@ export default class GrapeInput extends Component {
       .join('')
   }
 
-  insertLineBreak() {
-    const {textarea} = this.refs
-    const {selectionStart} = textarea
-    textarea.value =
-      textarea.value.substring(0, selectionStart) + '\n' +
-      textarea.value.substring(selectionStart)
+  ensureCaretPosition() {
+    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
 
-    textarea.selectionEnd = selectionStart + 1
+    if (!this.props.focused || isFocused(textarea)) return
 
-    this.onChange({target: textarea})
+    focus(textarea, () => {
+      const {caretAt} = this.state
+      textarea.selectionStart = caretAt
+      textarea.selectionEnd = caretAt
+    })
   }
 
   insertQueryString(str) {
-    const {textarea} = this.refs
+    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
     const {value, selectionEnd} = textarea
 
     let textBefore = value.substring(0, selectionEnd)
@@ -246,7 +222,7 @@ export default class GrapeInput extends Component {
    * Replace text string to token in state
    */
   replaceQuery(replacement) {
-    const {textarea} = this.refs
+    const textarea = ReactDOM.findDOMNode(this.refs.textarea)
     const {selectionEnd} = textarea
 
     let {value} = this.state
@@ -334,24 +310,27 @@ export default class GrapeInput extends Component {
   }
 
   render() {
-    const {common, wrapper, textarea} = this.props.sheet.classes
+    const {classes} = this.props.sheet
+    const {Input} = this.props
 
     return (
       <div
         ref="wrapper"
-        className={wrapper}
+        className={classes.wrapper}
         data-test="highlighted-textarea">
           {this.renderHighlighter()}
-          <textarea
+          <Input
             ref="textarea"
-            className={`${textarea} ${common}`}
+            className={`${classes.textarea} ${classes.common}`}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
             onChange={::this.onChange}
             onBlur={this.props.onBlur}
             value={this.state.value}
-            autoFocus></textarea>
+            focused={this.props.focused}
+            selectionStart={this.state.caretAt}
+            selectionEnd={this.state.caretAt}/>
       </div>
     )
   }
