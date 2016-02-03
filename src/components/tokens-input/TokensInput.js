@@ -98,7 +98,7 @@ export default class GrapeInput extends Component {
 
   onEnter(e) {
     // Always insert a new line to be consistent across browsers.
-    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+    if (e.altKey || e.ctrlKey || e.shiftKey) {
       e.preventDefault()
       this.insertLineBreak()
       return
