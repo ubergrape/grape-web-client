@@ -8,7 +8,7 @@ describe('grape-input:', () => {
   describe('GrapeInput()', () => {
     it('should render without props', () => {
       render(<GrapeInput />)
-      expect($('highlighted-textarea')).to.be.an(Element)
+      expect($('highlighted-editable')).to.be.an(Element)
     })
   })
 
