@@ -3,6 +3,7 @@ import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
 import store from '../app/store'
 import boundActions from './boundActions'
+import {connectionType} from '../backend/client'
 
 export default function subscribe(channel) {
   let showReconnectedAlert = false
@@ -48,6 +49,14 @@ export default function subscribe(channel) {
         boundActions.handleLeftChannel(cData)
         break
       default:
+    }
+  })
+  channel.on('error', (err = {}) => {
+    if (
+      connectionType === 'ws' ||
+      connectionType === 'lp' && err.status === 401
+    ) {
+      window.location.reload()
     }
   })
 }

@@ -2,9 +2,10 @@ import conf from 'conf'
 import LpioClient from 'lpio-client'
 import WampClient from './WampClient'
 
-let client
+export const connectionType = conf.forceLongpolling ? 'lp' : 'ws'
 
-if (conf.forceLongpolling) client = new LpioClient({url: conf.pubsubUrl})
-else client = new WampClient()
+let client
+if (connectionType === 'lp') client = new LpioClient({url: conf.pubsubUrl})
+if (connectionType === 'ws') client = new WampClient()
 
 export default client
