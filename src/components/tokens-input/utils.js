@@ -60,7 +60,7 @@ function getPositions(sub, str) {
   return positions
 }
 
-function getEmojiConfig(token) {
+function getEmojiData(token) {
   return {
     type: 'emoji',
     shortname: token,
@@ -101,22 +101,25 @@ export function ensureSpace(where, str) {
 /**
  * Parse all md links and convert them to array of data.
  */
-export function parseAndReplace(content) {
-  const configs = []
-  let value = content.replace(linkRegExp, (match, token, url) => {
-    const config = toData(token, url)
-    if (!config) return match
+export function parseAndReplace(str) {
+  const objects = []
+  let value = str.replace(linkRegExp, (match, token, url) => {
+    const data = toData(token, url)
+    if (!data) return match
 
-    configs.push(config)
-    return tokenWithTrigger(token, config.type)
+    const object = createObject(data.type, data)
+    objects.push(object)
+    return tokenWithTrigger(token, object.type)
   })
 
-  value = value.replace(EMOJI_REGEX, (match) => {
-    configs.push(getEmojiConfig(match.trim()))
+  value = value.replace(EMOJI_REGEX, match => {
+    const data = getEmojiData(match.trim())
+    const object = createObject(data.type, data)
+    objects.push(object)
     return match
   })
 
-  return {configs, value}
+  return {objects, value}
 }
 
 /**
@@ -125,7 +128,7 @@ export function parseAndReplace(content) {
 export function parseEmoji(content) {
   let data = []
   const emoji = content.match(EMOJI_REGEX)
-  if (emoji) data = emoji.map(item => getEmojiConfig(item.trim()))
+  if (emoji) data = emoji.map(item => getEmojiData(item.trim()))
   return data
 }
 

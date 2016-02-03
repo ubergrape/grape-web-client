@@ -59,6 +59,7 @@ export default class App extends Component {
     browser: undefined,
     data: undefined,
     images: {},
+    content: '',
     contentObjects: [],
     customEmojis: undefined,
     placeholder: undefined,
@@ -213,7 +214,7 @@ export default class App extends Component {
   }
 
   onChangeQuery(newQueryStr) {
-    this.textarea.insertQueryString(newQueryStr)
+    this.editable.insertQueryString(newQueryStr)
   }
 
   onInputSearchBrowser(query) {
@@ -259,12 +260,16 @@ export default class App extends Component {
   }
 
   getTextContent() {
-    return this.textarea ? this.textarea.getTextWithMarkdown() : ''
+    return this.textarea ? this.editable.getTextWithMarkdown() : ''
   }
 
-  setTextContent(text, options) {
+  setTextContent(content, options = {}) {
     this.query.reset()
-    this.textarea.setTextContent(text, options)
+    this.setState({
+      content
+    }, () => {
+      if (!options.silent) this.onChangeInput()
+    })
   }
 
   exposePublicMethods() {
@@ -274,7 +279,7 @@ export default class App extends Component {
   }
 
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
+    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest', 'content')
     state.textareaFocused = nextProps.focused
     if (state.browser === 'user') {
       state.data = mentions
@@ -341,7 +346,7 @@ export default class App extends Component {
 
   replaceQuery(replacement) {
     this.setState({textareaFocused: true})
-    this.textarea.replaceQuery(replacement)
+    this.editable.replaceQuery(replacement)
   }
 
   insertQuery() {
@@ -430,11 +435,11 @@ export default class App extends Component {
             onBlur={::this.onBlurInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
-            onDidMount={this.onDidMount.bind(this, 'textarea')}
+            onDidMount={this.onDidMount.bind(this, 'editable')}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
-            content={this.getTextContent()} />
+            content={this.state.content} />
         </div>
       </div>
     )

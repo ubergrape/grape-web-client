@@ -29,15 +29,15 @@ export default class GrapeInput extends Component {
   onEnter(e) {
     e.preventDefault()
 
-    // TODO Don'T access state directly.
-    const {objects, value} = this.input.state
+    // TODO Don't access state directly.
+    const {objects, content} = this.input.state
 
     const hasText = objects.some(object => {
       return typeof object === 'string' && object.trim().length > 0
     })
 
     this.props.onSubmit({
-      content: value,
+      content,
       objects,
       objectsOnly: !hasText
     })
@@ -58,7 +58,7 @@ export default class GrapeInput extends Component {
         e.preventDefault()
         break
       case 'up':
-        // TODO Don'T access state directly.
+        // TODO Don't access state directly.
         if (!this.input.state.value) {
           this.props.onEditPrevious()
           e.preventDefault()

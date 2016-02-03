@@ -16,7 +16,6 @@ import {
 } from './utils'
 
 import keyname from 'keyname'
-import {create as createObject} from '../objects'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
@@ -57,7 +56,11 @@ export default class TokensInput extends Component {
     super(props)
 
     this.initialState = {
+      // `value` is the visible string.
       value: '',
+      // TODO move content from here as TokensInput shouln't know markdown.
+      // `content` is a markdown string.
+      content: '',
       caretAt: 0,
       // TODO We need better names for objectsMap and objects.
       objectsMap: {},
@@ -69,6 +72,12 @@ export default class TokensInput extends Component {
 
   componentDidMount() {
     this.props.onDidMount(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.content !== this.state.content) {
+      this.update(nextProps.content)
+    }
   }
 
   componentDidUpdate() {
@@ -155,24 +164,28 @@ export default class TokensInput extends Component {
     }
   }
 
+  getTextWithMarkdown() {
+    return this.state.objects
+      .map(item => item.str ? item.str : item)
+      .join('')
+  }
+
   /**
    * Setter for text content.
    *
    * When content passed - set text content and put caret at the end, otherwise
    * clean up the content.
    */
-  setTextContent(content, options = {}) {
-    if (!this.props.focused) return false
+  update(content) {
+    if (this.props.disabled) return false
 
-    const {configs, value} = parseAndReplace(content)
     const objectsMap = clearIfLarge(this.state.objectsMap)
+    const {objects, value} = parseAndReplace(content)
 
-    configs.forEach(config => {
-      const object = createObject(config.type, config)
-      objectsMap[object.content] = object
-    })
+    objects.forEach(object => objectsMap[object.content] = object)
 
     this.setState({
+      content,
       value,
       caretAt: value.length,
       objectsMap,
@@ -180,15 +193,7 @@ export default class TokensInput extends Component {
       objectsPositions: getObjectsPositions(objectsMap, value)
     })
 
-    if (!options.silent) this.props.onChange(getQuery(value, value.length))
-
     return true
-  }
-
-  getTextWithMarkdown() {
-    return this.state.objects
-      .map(item => item.str ? item.str : item)
-      .join('')
   }
 
   ensureCaretPosition() {
