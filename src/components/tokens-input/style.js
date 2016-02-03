@@ -1,4 +1,3 @@
-import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 
 const iconsWidth = 110
@@ -12,26 +11,6 @@ export default {
     minHeight: 38,
     boxSizing: 'border-box',
     paddingRight: iconsWidth
-  },
-  common: {
-    overflow: 'hidden',
-    minHeight: 38,
-    boxSizing: 'border-box',
-    padding: '14px 1px',
-    textRendering: 'auto'
-  },
-  textarea: {
-    ...fonts.normal,
-    position: 'relative',
-    zIndex: 1,
-    display: 'block',
-    width: '100%',
-    height: '100%',
-    outline: 'none',
-    background: 'transparent',
-    border: 'none',
-    color: colors.black,
-    resize: 'none'
   },
   highlighter: {
     position: 'absolute',

@@ -35,13 +35,15 @@ export default class TokensInput extends Component {
     focused: PropTypes.bool,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
-    Input: PropTypes.func.isRequired
+    Input: PropTypes.func.isRequired,
+    theme: PropTypes.object
   }
 
   static defaultProps = {
     placeholder: '',
     focused: true,
     disabled: false,
+    theme: {},
     onBlur: noop,
     onChange: noop,
     onKeyDown: noop,
@@ -298,39 +300,29 @@ export default class TokensInput extends Component {
     )
   }
 
-  renderHighlighter() {
-    const {common, highlighter} = this.props.sheet.classes
-    return (
-      <div
-        ref="highlighter"
-        className={`${highlighter} ${common}`}>
-          {this.renderTokens()}
-      </div>
-    )
-  }
-
   render() {
     const {classes} = this.props.sheet
-    const {Input} = this.props
+    const {Input, theme} = this.props
 
     return (
       <div
         ref="wrapper"
         className={classes.wrapper}
         data-test="highlighted-textarea">
-          {this.renderHighlighter()}
+          <div
+            ref="highlighter"
+            className={`${classes.highlighter} ${theme.input}`}>
+            {this.renderTokens()}
+          </div>
           <Input
             ref="textarea"
-            className={`${classes.textarea} ${classes.common}`}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             onKeyDown={::this.onKeyDown}
             onChange={::this.onChange}
             onBlur={this.props.onBlur}
             value={this.state.value}
-            focused={this.props.focused}
-            selectionStart={this.state.caretAt}
-            selectionEnd={this.state.caretAt}/>
+            className={theme.input} />
       </div>
     )
   }

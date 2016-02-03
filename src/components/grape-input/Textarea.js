@@ -1,16 +1,23 @@
 import React, {PropTypes, Component} from 'react'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
+import {useSheet} from 'grape-web/lib/jss'
 
+import style from './textareaStyle'
+
+@useSheet(style)
 export default class Textarea extends Component {
   static propTypes = {
     onKeyDown: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    className: PropTypes.string,
+    sheet: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     onKeyDown: noop,
-    onChange: noop
+    onChange: noop,
+    className: ''
   }
 
   onEnter(e) {
@@ -52,9 +59,13 @@ export default class Textarea extends Component {
   }
 
   render() {
+    const {classes} = this.props.sheet
+    const {className} = this.props
+
     return (
       <textarea
         {...this.props}
+        className={`${classes.textarea} ${className}`}
         ref="textarea"
         autoFocus
         onKeyDown={::this.onKeyDown}></textarea>

@@ -1,16 +1,20 @@
 import React, {PropTypes, Component} from 'react'
 import noop from 'lodash/utility/noop'
-
+import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
+
 import TokensInput from '../tokens-input/TokensInput'
 import Textarea from './Textarea'
+import style from './grapeInputStyle'
 
+@useSheet(style)
 export default class GrapeInput extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     onAbort: PropTypes.func,
     onEditPrevious: PropTypes.func,
-    onDidMount: PropTypes.func
+    onDidMount: PropTypes.func,
+    sheet: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -83,9 +87,11 @@ export default class GrapeInput extends Component {
   }
 
   render() {
+    const {classes} = this.props.sheet
     return (
       <TokensInput
         {...this.props}
+        theme={{input: classes.textarea}}
         onKeyDown={::this.onKeyDown}
         onDidMount={::this.onDidMount} />
     )
