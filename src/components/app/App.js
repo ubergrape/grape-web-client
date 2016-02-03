@@ -34,7 +34,7 @@ const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
 @useSheet(style)
 export default class App extends Component {
   static propTypes = {
-    onDidMount: PropTypes.func.isRequired,
+    onDidMount: PropTypes.func,
     container: PropTypes.object,
     isLoading: PropTypes.bool,
     hasIntegrations: PropTypes.bool,
@@ -431,7 +431,6 @@ export default class App extends Component {
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
             onDidMount={this.onDidMount.bind(this, 'textarea')}
-            preventSubmit={Boolean(this.state.browser)}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.textareaFocused}
