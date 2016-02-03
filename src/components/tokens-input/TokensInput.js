@@ -272,11 +272,12 @@ export default class TokensInput extends Component {
 
   renderToken(object, index) {
     const {classes} = this.props.sheet
+    const {theme} = this.props
 
     return (
       <span
         key={index}
-        className={`${classes.token} ${classes[object.tokenType] || ''}`}>
+        className={`${classes.token} ${theme[object.tokenType]}`}>
           {object.content}
       </span>
     )
@@ -305,6 +306,7 @@ export default class TokensInput extends Component {
           onBlur={this.props.onBlur}
           value={this.state.value}
           className={theme.editable} />
+        {this.props.children}
       </div>
     )
   }

@@ -3,6 +3,7 @@ import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
+import GlobalEvent from '../global-event/GlobalEvent'
 import TokensInput from '../tokens-input/TokensInput'
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
@@ -25,19 +26,6 @@ export default class GrapeInput extends Component {
     Editable: Textarea
   }
 
-  constructor(props) {
-    super(props)
-    this.onWindowResizeBound = ::this.onWindowResize
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onWindowResizeBound)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onWindowResizeBound)
-  }
-
   onEnter(e) {
     e.preventDefault()
 
@@ -55,9 +43,11 @@ export default class GrapeInput extends Component {
     })
   }
 
-  onWindowResize() {
-    // TODO Don'T access state directly.
-    if (this.input.state.value.trim()) this.forceUpdate()
+  onResizeWindow() {
+    // TODO Don't access state directly.
+    if (this.input.state.value.trim()) {
+      this.forceUpdate()
+    }
   }
 
   onKeyDown(e) {
@@ -91,9 +81,11 @@ export default class GrapeInput extends Component {
     return (
       <TokensInput
         {...this.props}
-        theme={{editable: classes.textarea}}
+        theme={classes}
         onKeyDown={::this.onKeyDown}
-        onDidMount={::this.onDidMount} />
+        onDidMount={::this.onDidMount}>
+          <GlobalEvent event="resize" handler={::this.onResizeWindow} />
+      </TokensInput>
     )
   }
 }
