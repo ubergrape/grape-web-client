@@ -298,8 +298,12 @@ export default class GrapeInput extends Emitter {
     }
   }
 
-  updateUnsent(value = this.input.getTextContent()) {
-    this.unsent[this.room.id] = value
+  updateUnsent() {
+    this.unsent[this.room.id] = this.input.getTextContent()
+  }
+
+  clearUnsent() {
+    this.unsent[this.room.id] = ''
   }
 
   getUnsent(room) {
@@ -397,7 +401,7 @@ export default class GrapeInput extends Emitter {
         this.emit('input', this.room, '', {attachments: attachments})
       }
       this.input.setTextContent('')
-      this.updateUnsent('')
+      this.clearUnsent()
     }
   }
 
