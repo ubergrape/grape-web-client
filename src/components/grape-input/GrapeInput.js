@@ -26,6 +26,10 @@ export default class GrapeInput extends Component {
     Editable: Textarea
   }
 
+  componentDidMount() {
+    this.props.onDidMount(this)
+  }
+
   onEnter(e) {
     e.preventDefault()
 
@@ -71,9 +75,16 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onDidMount(ref) {
+  onInputDidMount(ref) {
     this.input = ref
-    this.props.onDidMount(ref)
+  }
+
+  replaceToken(object) {
+    return this.input.replaceToken(object)
+  }
+
+  getTextWithMarkdown() {
+    return this.input.getTextWithMarkdown()
   }
 
   render() {
@@ -83,7 +94,7 @@ export default class GrapeInput extends Component {
         {...this.props}
         theme={classes}
         onKeyDown={::this.onKeyDown}
-        onDidMount={::this.onDidMount}>
+        onDidMount={::this.onInputDidMount}>
           <GlobalEvent event="resize" handler={::this.onResizeWindow} />
       </TokensInput>
     )
