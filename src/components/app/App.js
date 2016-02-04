@@ -87,8 +87,7 @@ export default class App extends Component {
   componentDidMount() {
     objectStyle.sheet.attach()
     this.setTrigger(this.state.browser)
-    const {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+    this.props.onDidMount(this)
   }
 
   componentWillReceiveProps(nextProps) {

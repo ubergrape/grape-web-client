@@ -1,3 +1,5 @@
+import noop from 'lodash/utility/noop'
+
 import stringify from './stringify'
 import parse from './parse'
 
@@ -6,7 +8,7 @@ import parse from './parse'
  * Its designed to get notified if query has changed.
  */
 export default class Model {
-  constructor(options) {
+  constructor(options = {onChange: noop}) {
     this.options = options
     this.reset()
   }

@@ -71,6 +71,7 @@ export default class TokensInput extends Component {
   }
 
   componentDidMount() {
+    if (this.props.content) this.update(this.props.content)
     this.props.onDidMount(this)
   }
 
@@ -216,10 +217,14 @@ export default class TokensInput extends Component {
     const {selectionEnd} = editable
 
     let {value} = this.state
+    let valueBefore = ''
+    let valueAfter = ''
     const token = getTokenUnderCaret(editable.value, selectionEnd)
-    const valueBefore = value.slice(0, token.position[0])
-    let valueAfter = value.slice(token.position[1], value.length)
-    valueAfter = ensureSpace('before', valueAfter)
+    if (token) {
+      valueBefore = value.slice(0, token.position[0])
+      valueAfter = value.slice(token.position[1], value.length)
+      valueAfter = ensureSpace('before', valueAfter)
+    }
 
     value = valueBefore + object.content + valueAfter
     const objectsMap = {

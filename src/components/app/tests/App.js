@@ -31,13 +31,13 @@ describe('app:', () => {
           browser="search"
           data={data}
           onDidMount={onDidMount}
-          focused/>
+          focused />
       )
       render(input, onRender)
     }
 
     it('shound render "nothing found"', done => {
-      create(null, () => {
+      create(undefined, () => {
         expect($('search-browser empty', document.body)).to.be.an(Element)
         done()
       })
@@ -46,7 +46,7 @@ describe('app:', () => {
     it('should close browser if there is space at the end and no results', (done) => {
       create(component => {
         component.query.set('search', 'something ', {silent: true})
-        create(null, () => {
+        create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be(null)
           done()
@@ -57,7 +57,7 @@ describe('app:', () => {
     it('should stay opened when space is not at the end', (done) => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
-        create(null, () => {
+        create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be.an(Element)
           done()
@@ -95,11 +95,11 @@ describe('app:', () => {
     })
 
     it('should call replaceQuery with correct replacement', (done) => {
-      insert(null, input => {
-        input.replaceQuery = replacement => {
+      insert(undefined, input => {
+        input.replaceToken = object => {
           // Verify there are no missing params in objects.
-          expect(replacement.name).to.be('"Plans/Discussions"')
-          expect(replacement.content).to.be('#"Plans/Discussions"')
+          expect(object.name).to.be('"Plans/Discussions"')
+          expect(object.content).to.be('#"Plans/Discussions"')
           done()
         }
       })
