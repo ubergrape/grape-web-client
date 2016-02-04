@@ -2,7 +2,6 @@ import {$, render} from '../../test'
 import expect from 'expect.js'
 import React from 'react'
 import GrapeInput from '../GrapeInput'
-import Room from '../../objects/classes/Room'
 
 describe('grape-input:', () => {
   describe('GrapeInput()', () => {

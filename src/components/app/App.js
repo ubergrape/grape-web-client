@@ -45,6 +45,7 @@ export default class App extends Component {
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
+    content: PropTypes.string,
     browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
     externalServicesInputDelay: PropTypes.number
   }
