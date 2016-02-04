@@ -26,7 +26,7 @@ export default class GrapeInput extends Component {
     Editable: Textarea
   }
 
-  componentDidMount() {
+  componentDidMount() {
     this.props.onDidMount(this)
   }
 
@@ -79,12 +79,12 @@ export default class GrapeInput extends Component {
     this.input = ref
   }
 
-  replaceToken(object) {
-    return this.input.replaceToken(object)
-  }
-
   getTextWithMarkdown() {
     return this.input.getTextWithMarkdown()
+  }
+
+  replaceToken(object) {
+    return this.input.replaceToken(object)
   }
 
   render() {
