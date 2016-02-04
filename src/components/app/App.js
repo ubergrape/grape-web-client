@@ -79,7 +79,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQuery})
+    this.query = new QueryModel()
     this.exposePublicMethods()
     this.state = this.createState(this.props)
   }
@@ -213,10 +213,6 @@ export default class App extends Component {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onChangeQuery(newQueryStr) {
-    this.editable.insertQueryString(newQueryStr)
-  }
-
   onInputSearchBrowser(query) {
     const complete = () => {
       this.emit('complete', query)
@@ -260,14 +256,12 @@ export default class App extends Component {
   }
 
   getTextContent() {
-    return this.textarea ? this.editable.getTextWithMarkdown() : ''
+    return this.editable ? this.editable.getTextWithMarkdown() : this.props.content
   }
 
   setTextContent(content, options = {}) {
     this.query.reset()
-    this.setState({
-      content
-    }, () => {
+    this.setState({content}, () => {
       if (!options.silent) this.onChangeInput()
     })
   }
@@ -337,16 +331,16 @@ export default class App extends Component {
       const data = find(results, res => res.id === item.id) || item
       const object = objects.create(data.type, data)
       this.setState({contentObjects: [...this.state.contentObjects, object]})
-      this.replaceQuery(object)
+      this.replaceToken(object)
     }
     this.onInsertItem(item, query)
     this.closeBrowser({textareaFocused: true})
     this.query.reset()
   }
 
-  replaceQuery(replacement) {
+  replaceToken(object) {
     this.setState({textareaFocused: true})
-    this.editable.replaceQuery(replacement)
+    this.editable.replaceToken(object)
   }
 
   insertQuery() {

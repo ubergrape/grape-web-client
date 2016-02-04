@@ -208,28 +208,10 @@ export default class TokensInput extends Component {
     })
   }
 
-  insertQueryString(str) {
-    const editable = ReactDOM.findDOMNode(this.refs.editable)
-    const {value, selectionEnd} = editable
-
-    let textBefore = value.substring(0, selectionEnd)
-    let textAfter = value.substring(selectionEnd)
-
-    if (textBefore) textBefore = ensureSpace('after', textBefore)
-    if (textAfter) textAfter = ensureSpace('before', textAfter)
-    textBefore += str
-
-    editable.value = textBefore + textAfter
-    editable.selectionStart = textBefore.length
-    editable.selectionEnd = textBefore.length
-
-    this.onChange({target: editable})
-  }
-
   /**
    * Replace text string to token in state
    */
-  replaceQuery(replacement) {
+  replaceToken(object) {
     const editable = ReactDOM.findDOMNode(this.refs.editable)
     const {selectionEnd} = editable
 
@@ -239,12 +221,12 @@ export default class TokensInput extends Component {
     let valueAfter = value.slice(token.position[1], value.length)
     valueAfter = ensureSpace('before', valueAfter)
 
-    value = valueBefore + replacement.content + valueAfter
+    value = valueBefore + object.content + valueAfter
     const objectsMap = {
       ...this.state.objectsMap,
-      [replacement.content]: replacement
+      [object.content]: object
     }
-    const caretAt = selectionEnd + replacement.content.length
+    const caretAt = selectionEnd + object.content.length
 
     this.setState({
       value,
