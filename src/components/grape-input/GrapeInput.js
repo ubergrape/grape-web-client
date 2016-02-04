@@ -8,6 +8,7 @@ import TokensInput from '../tokens-input/TokensInput'
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 
+
 @useSheet(style)
 export default class GrapeInput extends Component {
   static propTypes = {
@@ -79,6 +80,7 @@ export default class GrapeInput extends Component {
     this.input = ref
   }
 
+  // TODO remove it, use callbacks.
   getTextWithMarkdown() {
     return this.input.getTextWithMarkdown()
   }
@@ -90,13 +92,15 @@ export default class GrapeInput extends Component {
   render() {
     const {classes} = this.props.sheet
     return (
-      <TokensInput
-        {...this.props}
-        theme={classes}
-        onKeyDown={::this.onKeyDown}
-        onDidMount={::this.onInputDidMount}>
-          <GlobalEvent event="resize" handler={::this.onResizeWindow} />
-      </TokensInput>
+      <div>
+        <TokensInput
+          {...this.props}
+          theme={classes}
+          onKeyDown={::this.onKeyDown}
+          onDidMount={::this.onInputDidMount}>
+        </TokensInput>
+        <GlobalEvent event="resize" handler={::this.onResizeWindow} />
+      </div>
     )
   }
 }

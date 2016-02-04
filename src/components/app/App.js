@@ -256,6 +256,7 @@ export default class App extends Component {
   }
 
   getTextContent() {
+  // TODO remove it, use callbacks and state.
     return this.editable ? this.editable.getTextWithMarkdown() : this.props.content
   }
 

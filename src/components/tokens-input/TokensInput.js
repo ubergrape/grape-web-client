@@ -36,7 +36,6 @@ export default class TokensInput extends Component {
     placeholder: PropTypes.string,
     Editable: PropTypes.func.isRequired,
     theme: PropTypes.object,
-    children: PropTypes.element,
     content: PropTypes.string
   }
 
@@ -293,15 +292,12 @@ export default class TokensInput extends Component {
           {this.renderTokens()}
         </div>
         <Editable
+          {...this.props}
           ref="editable"
-          placeholder={this.props.placeholder}
-          disabled={this.props.disabled}
           onKeyDown={::this.onKeyDown}
           onChange={::this.onChange}
-          onBlur={this.props.onBlur}
           value={this.state.value}
           className={theme.editable} />
-        {this.props.children}
       </div>
     )
   }

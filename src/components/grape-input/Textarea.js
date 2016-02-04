@@ -66,9 +66,9 @@ export default class Textarea extends Component {
       <textarea
         {...this.props}
         className={`${classes.textarea} ${className}`}
+        onKeyDown={::this.onKeyDown}
         ref="textarea"
-        autoFocus
-        onKeyDown={::this.onKeyDown}></textarea>
+        autoFocus></textarea>
     )
   }
 }
