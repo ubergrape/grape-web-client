@@ -1,6 +1,7 @@
 import {toCamel} from '../backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
+import {checkSessionURL} from '../constants/app'
 import store from '../app/store'
 import boundActions from './boundActions'
 import {connectionType} from '../backend/client'
@@ -62,7 +63,7 @@ export default function subscribe(channel) {
     if (connectionType === 'lp') reloadOnAuthError(err)
     if (connectionType === 'ws') {
       request
-        .get('/accounts/session_state')
+        .get(checkSessionURL)
         .end(reloadOnAuthError)
     }
   })
