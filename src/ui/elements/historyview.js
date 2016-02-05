@@ -350,6 +350,10 @@ HistoryView.prototype.setRoom = function(room, msgID) {
   this.isOrgEmpty = false
   if (this.room) this.room.history.off('remove')
   this.room = room
+  // render with all loaded before history is too slow
+  // https://github.com/ubergrape/chatgrape/issues/3160
+  room.history = room.history.slice(-50)
+
   // reset, otherwise we won't get future events
   this.scroll.reset()
   this.scrollMode = 'automatic'
@@ -358,6 +362,7 @@ HistoryView.prototype.setRoom = function(room, msgID) {
       this.emit('needhistory', room)
     }
     else {
+      if (room.empty) room.empty = false
       this.isFirstMsgLoaded = this.firstMsgLoaded(room.history)
       this.isLastMsgLoaded = this.lastMsgLoaded(room.history)
     }
