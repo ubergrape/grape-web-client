@@ -82,6 +82,9 @@ export default class HighlightedInput extends Component {
   }
 
   onKeyDown(e) {
+    this.props.onKeyDown(e)
+    if (e.defaultPrevented) return
+
     const key = keyname(e.keyCode)
 
     switch (key) {
@@ -93,8 +96,6 @@ export default class HighlightedInput extends Component {
         break
       default:
     }
-
-    if (!e.defaultPrevented) this.props.onKeyDown(e)
   }
 
   // We can improve speed by using a fake caret in highlighter.

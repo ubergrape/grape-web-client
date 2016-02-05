@@ -430,13 +430,13 @@ export default class App extends Component {
 
     return (
       <div
-        onKeyDown={::this.onKeyDown}
         className={classes.input}
         data-test="grape-browser">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         {this.renderBrowser()}
         <div className={classes.scroll}>
           <GrapeInput
+            onKeyDown={::this.onKeyDown}
             onAbort={::this.onAbort}
             onResize={::this.onInputResize}
             onChange={::this.onChangeInput}

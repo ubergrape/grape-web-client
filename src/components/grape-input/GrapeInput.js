@@ -92,6 +92,9 @@ export default class GrapeInput extends Component {
   }
 
   onKeyDown(e) {
+    this.props.onKeyDown(e)
+    if (e.defaultPrevented) return
+
     const key = keyname(e.keyCode)
     switch (key) {
       case 'esc':
