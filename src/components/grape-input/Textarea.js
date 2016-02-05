@@ -17,7 +17,8 @@ export default class Textarea extends Component {
   static defaultProps = {
     onKeyDown: noop,
     onChange: noop,
-    className: ''
+    className: '',
+    placeholder: ''
   }
 
   onEnter(e) {

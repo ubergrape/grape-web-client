@@ -25,9 +25,9 @@
     <script src="../../node_modules/document-register-element/build/document-register-element.max.js"></script>
     <script src="/build/grape-browser.js"></script>
     <script src="./data.js"></script>
-    <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('new text content')">Set text content</button>
     <button onclick="console.log(input.getTextContent())">Get text content</button>
+    <button onclick="setProps({focused: true}); input.setTextContent('')">Empty content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('new multiline \n text content')">Set multiline text content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('[Marketing Plan](cg://googledrive|file|e1331cc1513186b0e0a2d622e0111231|https://docs.google.com/a/ubergrape.com/spreadsheets/d/1ubtQiQUa798C0wj8ocipkYfW6EjTsdRD0w164Yu1R9c/edit?usp=drivesdk||)')">Set markdown content</button>
     <button onclick="setProps({focused: true}); input.setTextContent('hello :smile:')">Set emoji content</button>
@@ -36,7 +36,7 @@
     <button onclick="setProps({focused: true})">Set focus</button>
     <button onclick="setProps({disabled: true})">Disable</button>
     <button onclick="setProps({disabled: false})">Enable</button>
-    <button onmousedown="setProps({browser: 'emoji', ignoreSuggest: true}); return false;">Show emoji browser</button>
+    <button onmousedown="setProps({browser: 'emoji', ignoreSuggest: true, setTrigger: true}); return false;">Show emoji browser</button>
     <button onmousedown="showSearchDelayed(); return false;">Show search browser</button>
     <button onmousedown="showSearchDelayed(500); return false;">Show search browser delayed 500ms</button>
     <button onmousedown="showSearchDelayed(2000); return false;">Show search browser delayed 2s</button>

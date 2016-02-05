@@ -1,0 +1,236 @@
+import React, {PropTypes, Component} from 'react'
+import ReactDOM from 'react-dom'
+import noop from 'lodash/utility/noop'
+import escape from 'lodash/string/escape'
+import keyname from 'keyname'
+import {useSheet} from 'grape-web/lib/jss'
+
+import {
+  getTokenUnderCaret,
+  getTokenPositionNearCaret,
+  tokenize,
+  ensureSpace,
+  focus,
+  isFocused
+} from './utils'
+import style from './style'
+
+@useSheet(style)
+export default class HighlightedInput extends Component {
+  static propTypes = {
+    onDidMount: PropTypes.func,
+    onChange: PropTypes.func,
+    onResize: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    getTokenClass: PropTypes.func,
+    sheet: PropTypes.object.isRequired,
+    Editable: PropTypes.func.isRequired,
+    focused: PropTypes.bool,
+    disabled: PropTypes.bool,
+    theme: PropTypes.object,
+    value: PropTypes.string,
+    tokens: PropTypes.arrayOf(PropTypes.string)
+  }
+
+  static defaultProps = {
+    value: '',
+    tokens: [],
+    focused: true,
+    disabled: false,
+    theme: {},
+    onChange: noop,
+    onKeyDown: noop,
+    onDidMount: noop,
+    onResize: noop,
+    getTokenClass: noop
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: props.value,
+      caretAt: 0
+    }
+  }
+
+  componentDidMount() {
+    this.props.onDidMount(this)
+  }
+
+  componentWillReceiveProps({value}) {
+    if (value !== this.state.value) {
+      this.setState({value})
+    }
+  }
+
+  componentDidUpdate() {
+    this.ensureCaretPosition()
+    this.ensureContainerSize()
+  }
+
+  onChange(e) {
+    let change = e
+    if (e.target) {
+      change = {
+        value: e.target.value,
+        caretAt: e.target.selectionEnd
+      }
+    }
+
+    this.setState(change, () => {
+      this.props.onChange(change)
+    })
+  }
+
+  onKeyDown(e) {
+    const key = keyname(e.keyCode)
+
+    switch (key) {
+      case 'del':
+      case 'backspace':
+        if (this.removeToken(key === 'del' ? 'next' : 'prev')) {
+          e.preventDefault()
+        }
+        break
+      default:
+    }
+
+    if (!e.defaultPrevented) this.props.onKeyDown(e)
+  }
+
+  // We can improve speed by using a fake caret in highlighter.
+  // We can check if caret is inside/near the token.
+  removeToken(direction) {
+    const editable = ReactDOM.findDOMNode(this.refs.editable)
+
+    const positionToDelete = getTokenPositionNearCaret(editable, direction, this.props.tokens)
+
+    if (!positionToDelete) return false
+
+    // Now we know that caret is inside of a token.
+    const [start, end] = positionToDelete
+    let {value} = editable
+    value = `${value.slice(0, start)}${value.slice(end, value.length)}`
+    const caretAt = end + newValue.length
+    this.onChange({value, caretAt})
+
+    return true
+  }
+
+  /**
+   * Replace a token near the caret by a string.
+   * Ensure space after the string.
+   */
+  replaceToken(str) {
+    let {value, caretAt} = this.state
+
+    let valueBefore = ''
+    let valueAfter = ''
+    const token = getTokenUnderCaret(value, caretAt)
+
+    if (token) {
+      valueBefore = value.slice(0, token.position[0])
+      valueAfter = value.slice(token.position[1], value.length)
+      if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
+    }
+
+    value = valueBefore + str + valueAfter
+    caretAt += str.length
+
+    this.onChange({value, caretAt})
+  }
+
+  /**
+   * Insert a string at the caret position.
+   * Ensure space before the string.
+   */
+  insert(str) {
+    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    let valueBefore = value.slice(0, caretAt)
+    valueBefore = ensureSpace('after', valueBefore)
+    const valueAfter = value.slice(caretAt, value.length)
+    value = valueBefore + str + valueAfter
+    caretAt = valueBefore.length + str.length
+
+    this.onChange({value, caretAt})
+  }
+
+  ensureCaretPosition() {
+    const editable = ReactDOM.findDOMNode(this.refs.editable)
+
+    if (!this.props.focused || isFocused(editable)) return
+    focus(editable, () => {
+      const {caretAt} = this.state
+      editable.selectionStart = caretAt
+      editable.selectionEnd = caretAt
+    })
+  }
+
+  ensureContainerSize() {
+    this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
+
+    // TODO Only call back if really resized.
+    this.props.onResize()
+  }
+
+  renderTokens() {
+    const {classes} = this.props.sheet
+    const {tokens, getTokenClass} = this.props
+    const {value} = this.state
+
+    const content = tokenize(value, tokens).map((token, index) => {
+      const needsHighlighting = tokens.indexOf(token) >= 0
+      if (needsHighlighting) {
+        // Render the highlighted token.
+        return (
+          <span
+            key={index}
+            className={`${classes.token} ${getTokenClass(token) || ''}`}>
+            {token}
+          </span>
+        )
+      }
+
+      // Render pure text without highlighing
+      // Used dangerouslySetInnerHTML to workaround a bug in IE11:
+      // https://github.com/ubergrape/chatgrape/issues/3279
+      return (
+        <span
+          key={index}
+          dangerouslySetInnerHTML={{__html: escape(token)}}>
+        </span>
+      )
+    })
+
+    // Make highlighted height equal content height in editable,
+    // because the last item is a space.
+    content.push(' ')
+
+    return content
+  }
+
+  render() {
+    const {classes} = this.props.sheet
+    const {Editable, theme} = this.props
+
+    return (
+      <div
+        ref="wrapper"
+        className={classes.wrapper}
+        data-test="highlighted-editable">
+        <div
+          ref="highlighter"
+          className={`${classes.highlighter} ${theme.editable}`}>
+          {this.renderTokens()}
+        </div>
+        <Editable
+          {...this.props}
+          ref="editable"
+          onKeyDown={::this.onKeyDown}
+          onChange={::this.onChange}
+          value={this.state.value}
+          className={theme.editable} />
+      </div>
+    )
+  }
+}

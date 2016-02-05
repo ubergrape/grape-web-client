@@ -41,11 +41,11 @@ export default class App extends Component {
     canAddIntegrations: PropTypes.bool,
     placeholder: PropTypes.string,
     ignoreSuggest: PropTypes.bool,
+    setTrigger: PropTypes.bool,
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    content: PropTypes.string,
     browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
     externalServicesInputDelay: PropTypes.number
   }
@@ -60,7 +60,6 @@ export default class App extends Component {
     browser: undefined,
     data: undefined,
     images: {},
-    content: '',
     contentObjects: [],
     customEmojis: undefined,
     placeholder: undefined,
@@ -69,6 +68,7 @@ export default class App extends Component {
     ignoreSuggest: false,
     hasIntegrations: false,
     canAddIntegrations: true,
+    setTrigger: false,
     isLoading: false,
     onAbort: undefined,
     onEditPrevious: undefined,
@@ -80,9 +80,9 @@ export default class App extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel()
+    this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.exposePublicMethods()
-    this.state = this.createState(this.props)
+    this.state = this.createState(props)
   }
 
   componentDidMount() {
@@ -232,7 +232,7 @@ export default class App extends Component {
     this.emit('resize')
   }
 
-  onChangeInput(query = {}) {
+  onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
@@ -247,7 +247,13 @@ export default class App extends Component {
       this.query.reset()
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
+
+    if (content !== undefined) this.setState({content})
     this.emit('change')
+  }
+
+  onChangeQuery(str) {
+    this.editable.insert(str)
   }
 
   setTrigger(browser) {
@@ -256,8 +262,7 @@ export default class App extends Component {
   }
 
   getTextContent() {
-  // TODO remove it, use callbacks and state.
-    return this.editable ? this.editable.getTextWithMarkdown() : this.props.content
+    return this.state.content
   }
 
   setTextContent(content, options = {}) {
@@ -274,7 +279,7 @@ export default class App extends Component {
   }
 
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest', 'content')
+    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
     state.textareaFocused = nextProps.focused
     if (state.browser === 'user') {
       state.data = mentions
@@ -286,10 +291,20 @@ export default class App extends Component {
         .slice(0, nextProps.maxCompleteItems)
     }
     state.query = this.query.toJSON()
+
     const canShowBrowser = utils.canShowBrowser(this.state, state)
-    if (!canShowBrowser) state.browser = null
-    state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser) state.browserOpened = true
+
+    if (canShowBrowser) {
+      state.browserOpened = true
+    } else {
+      state.browser = null
+      state.browserOpened = false
+    }
+
+    if (!this.state) {
+      state.content = ''
+    }
+
     return state
   }
 
@@ -340,12 +355,9 @@ export default class App extends Component {
   }
 
   replaceToken(object) {
-    this.setState({textareaFocused: true})
-    this.editable.replaceToken(object)
-  }
-
-  insertQuery() {
-    this.setState({textareaFocused: true})
+    this.setState({textareaFocused: true}, () => {
+      this.editable.replaceToken(object)
+    })
   }
 
   /**
@@ -415,6 +427,7 @@ export default class App extends Component {
 
   render() {
     const {classes} = this.props.sheet
+
     return (
       <div
         onKeyDown={::this.onKeyDown}

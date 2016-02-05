@@ -21,11 +21,6 @@ function tokenWithoutTrigger(token, type) {
   return token[0] === getTrigger(type) ? token.substr(1) : token
 }
 
-function tokenWithTrigger(token, type) {
-  const trigger = getTrigger(type)
-  return token[0] === trigger ? token : trigger + token
-}
-
 /**
  * Get data map from md object.
  */
@@ -57,6 +52,7 @@ function getPositions(sub, str) {
     positions.push([index, startIndex])
     index = str.indexOf(sub, startIndex)
   }
+
   return positions
 }
 
@@ -79,15 +75,14 @@ export function clearIfLarge(objects) {
 }
 
 /*
- * Add space before or after string,
- * if there is no space or new line.
+ * Add space before or after string if there is no space or new line.
  */
 export function ensureSpace(where, str) {
   let result = str || ' '
 
   switch (where) {
     case 'before':
-      if (!emptySpaceRegExp.test(result[0])) result = ` ${result}`
+      if (result[0] && !emptySpaceRegExp.test(result[0])) result = ` ${result}`
       break
     case 'after':
       if (!emptySpaceRegExp.test(result.slice(-1))) result = `${result} `
@@ -96,30 +91,6 @@ export function ensureSpace(where, str) {
   }
 
   return result
-}
-
-/**
- * Parse all md links and convert them to array of data.
- */
-export function parseAndReplace(str) {
-  const objects = []
-  let value = str.replace(linkRegExp, (match, token, url) => {
-    const data = toData(token, url)
-    if (!data) return match
-
-    const object = createObject(data.type, data)
-    objects.push(object)
-    return tokenWithTrigger(token, object.type)
-  })
-
-  value = value.replace(EMOJI_REGEX, match => {
-    const data = getEmojiData(match.trim())
-    const object = createObject(data.type, data)
-    objects.push(object)
-    return match
-  })
-
-  return {objects, value}
 }
 
 /**
@@ -135,19 +106,17 @@ export function parseEmoji(content) {
 /**
  * Returns new `objects` if there is new emoji in value
  */
-export function updateIfNewEmoji(objects, value) {
-  let emoji = parseEmoji(value).filter(({shortname}) => {
-    return getEmoji(shortname) && !objects[shortname]
+export function getEmojiObjects(value) {
+  const emojis = parseEmoji(value).filter(({shortname}) => {
+    return getEmoji(shortname)
   })
 
-  if (emoji.length) {
-    emoji = emoji.reduce((prev, config) => {
-      prev[config.shortname] = createObject('emoji', config)
-      return prev
-    }, {})
+  if (!emojis.length) return {}
 
-    return {...objects, ...emoji}
-  }
+  const objects = emojis.reduce((_objects, emoji) => {
+    _objects[emoji.shortname] = createObject('emoji', emoji)
+    return _objects
+  }, {})
 
   return objects
 }
@@ -156,39 +125,39 @@ export function updateIfNewEmoji(objects, value) {
  * Get associated object of tokens (grape objects)
  * and theirs positions. i.e. {token: [[0, 5], [10, 15]]}
  */
-export function getObjectsPositions(objects, text) {
-  const objectsPositions = {}
+export function getTokensPositions(objects, text) {
+  const positions = {}
 
   Object.keys(objects).forEach(key => {
-    objectsPositions[key] = getPositions(key, text)
+    positions[key] = getPositions(key, text)
   })
 
-  return objectsPositions
+  return positions
 }
 
 /**
  * Get an array of substrings and tokens (grape objects) in
  * order of appearance.
  */
-export function getObjects(objectsMap, text) {
-  let objects
-  const tokens = Object.keys(objectsMap)
-
+export function tokenize(text, tokens) {
+  let allTokens
   if (tokens.length) {
     const tokensRegExp = new RegExp(tokens.map(escapeRegExp).join('|'), 'g')
     const keysInText = text.match(tokensRegExp)
-    objects = []
+    allTokens = []
     text
       .split(tokensRegExp)
       .forEach((substr, i, arr) => {
-        objects.push(substr)
-        if (i < arr.length - 1) objects.push(objectsMap[keysInText[i]])
+        if (substr) allTokens.push(substr)
+
+        // TODO ??
+        if (i < arr.length - 1) allTokens.push(keysInText[i])
       })
   } else {
-    objects = [text]
+    allTokens = [text]
   }
 
-  return objects
+  return allTokens
 }
 
 /**
@@ -236,14 +205,44 @@ export function getTokenUnderCaret(string, caretPostion) {
   return Boolean(token.text) && token
 }
 
+export function getTokenPositionNearCaret(node, direction, tokens) {
+  const {selectionStart, selectionEnd, value} = node
+  const positions = getTokensPositions(tokens, value)
+
+  let nearPosition
+
+  Object.keys(positions).some(object => {
+    positions[object].some(position => {
+      // Check if carret inside object
+      if (
+        position[0] <= selectionStart &&
+        position[1] >= selectionEnd
+      ) {
+        // If selectionStart or selectionEnd
+        // not inside object —> do nothing
+        if (
+          direction === 'next' && position[1] === selectionEnd ||
+          direction === 'prev' && position[0] === selectionStart
+        ) {
+          return false
+        }
+        nearPosition = position
+        return true
+      }
+    })
+    if (nearPosition) return true
+  })
+
+  return nearPosition
+}
+
 /**
  * Return query if value is query or false
  */
-export function getQuery(value, selectionEnd) {
-  const token = getTokenUnderCaret(value, selectionEnd)
+export function getQuery(value, caretAt) {
+  const token = getTokenUnderCaret(value, caretAt)
   const isQuery = Boolean(token.text && token.text.match(QUERY_REGEX))
-
-  return isQuery ? parseQuery(token.text) : false
+  if (isQuery) return parseQuery(token.text)
 }
 
 /**
@@ -272,4 +271,36 @@ export function focus(node, callback) {
 
   node.focus()
   callback()
+}
+
+export function toMarkdown(text, objects) {
+  const tokens = tokenize(text, Object.keys(objects))
+  return tokens.map(token => {
+    return objects[token] ? objects[token].str : token
+  }).join('')
+}
+
+/**
+ * Parse all md links and convert them to array of data.
+ */
+ // TODO
+export function fromMarkdown(md) {
+  const objects = {}
+
+  let value = md.replace(linkRegExp, (match, token, url) => {
+    const data = toData(token, url)
+    if (!data) return match
+    const object = createObject(data.type, data)
+    objects[object.content] = object
+
+    return object.content
+  })
+
+  value = value.replace(EMOJI_REGEX, match => {
+    const data = getEmojiData(match.trim())
+    objects[data.content] = createObject(data.type, data)
+    return match
+  })
+
+  return {objects, value}
 }

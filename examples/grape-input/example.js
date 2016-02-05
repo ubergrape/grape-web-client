@@ -119,7 +119,7 @@ function init() {
 }
 
 function showSearchDelayed(delay) {
-  setProps({browser: 'search', isLoading: true})
+  setProps({browser: 'search', isLoading: true, setTrigger: true})
   setTimeout(function() {
     setProps({
       browser: 'search',
