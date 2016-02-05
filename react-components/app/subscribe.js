@@ -4,6 +4,11 @@ import * as alerts from '../constants/alerts'
 import store from '../app/store'
 import boundActions from './boundActions'
 import {connectionType} from '../backend/client'
+import request from 'superagent'
+
+function reloadOnAuthError(error = {}) {
+  if (error.status === 401) window.location.reload()
+}
 
 export default function subscribe(channel) {
   let showReconnectedAlert = false
@@ -51,12 +56,14 @@ export default function subscribe(channel) {
       default:
     }
   })
-  channel.on('error', (err = {}) => {
-    if (
-      connectionType === 'ws' ||
-      connectionType === 'lp' && err.status === 401
-    ) {
-      window.location.reload()
+
+  // https://github.com/ubergrape/chatgrape/issues/3291
+  channel.on('error', err => {
+    if (connectionType === 'lp') reloadOnAuthError(err)
+    if (connectionType === 'ws') {
+      request
+        .get('/accounts/session_state')
+        .end(reloadOnAuthError)
     }
   })
 }
