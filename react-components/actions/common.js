@@ -9,6 +9,7 @@ import {addUserToChannel} from './channelInfo'
 import * as api from '../backend/api'
 import {channelSelector} from '../selectors'
 import store from '../app/store'
+import {type as connection} from '../backend/client'
 
 export function setUsers(users) {
   return {
@@ -240,5 +241,34 @@ export function inviteToChannel(
       .inviteToChannel(usernames, id)
       .then(() => dispatch(invitedToChannel(usernames, id)))
       .catch(err => dispatch(error(err)))
+  }
+}
+
+export function reloadOnAuthError() {
+  window.location.reload()
+  return {
+    type: types.AUTH_ERROR
+  }
+}
+
+export function handleConnectionError(err) {
+  return dispatch => {
+    dispatch({
+      type: types.CONNECTION_ERROR,
+      payload: err
+    })
+
+    if (connection === 'ws') {
+      api
+        .checkAuth()
+        .catch(_err => {
+          if (_err.status === 401) dispatch(reloadOnAuthError())
+        })
+      return
+    }
+
+    if (connection === 'lp' && err.status === 401) {
+      dispatch(reloadOnAuthError())
+    }
   }
 }

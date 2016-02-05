@@ -1,15 +1,8 @@
 import {toCamel} from '../backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
-import {checkSessionURL} from '../constants/app'
 import store from '../app/store'
 import boundActions from './boundActions'
-import {connectionType} from '../backend/client'
-import request from 'superagent'
-
-function reloadOnAuthError(error = {}) {
-  if (error.status === 401) window.location.reload()
-}
 
 export default function subscribe(channel) {
   let showReconnectedAlert = false
@@ -58,13 +51,5 @@ export default function subscribe(channel) {
     }
   })
 
-  // https://github.com/ubergrape/chatgrape/issues/3291
-  channel.on('error', err => {
-    if (connectionType === 'lp') reloadOnAuthError(err)
-    if (connectionType === 'ws') {
-      request
-        .get(checkSessionURL)
-        .end(reloadOnAuthError)
-    }
-  })
+  channel.on('error', boundActions.handleConnectionError)
 }
