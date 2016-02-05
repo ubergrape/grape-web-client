@@ -10,8 +10,7 @@ import {
   getTokenPositionNearCaret,
   tokenize,
   ensureSpace,
-  focus,
-  isFocused
+  setCaretPosition
 } from './utils'
 import style from './style'
 
@@ -122,7 +121,7 @@ export default class HighlightedInput extends Component {
    * Ensure space after the string.
    */
   replaceToken(str) {
-    let {value, caretAt} = this.state
+    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
 
     let valueBefore = ''
     let valueAfter = ''
@@ -135,7 +134,8 @@ export default class HighlightedInput extends Component {
     }
 
     value = valueBefore + str + valueAfter
-    caretAt += str.length
+    caretAt = (valueBefore + str).length
+    console.log('replace', caretAt)
 
     this.onChange({value, caretAt})
   }
@@ -150,20 +150,14 @@ export default class HighlightedInput extends Component {
     valueBefore = ensureSpace('after', valueBefore)
     const valueAfter = value.slice(caretAt, value.length)
     value = valueBefore + str + valueAfter
-    caretAt = valueBefore.length + str.length
-
+    caretAt = (valueBefore + str).length
+    console.log('insert', caretAt)
     this.onChange({value, caretAt})
   }
 
   ensureCaretPosition() {
-    const editable = ReactDOM.findDOMNode(this.refs.editable)
-
-    if (!this.props.focused || isFocused(editable)) return
-    focus(editable, () => {
-      const {caretAt} = this.state
-      editable.selectionStart = caretAt
-      editable.selectionEnd = caretAt
-    })
+    if (!this.props.focused) return
+    setCaretPosition(this.state.caretAt, ReactDOM.findDOMNode(this.refs.editable))
   }
 
   ensureContainerSize() {

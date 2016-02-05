@@ -248,7 +248,7 @@ export function getQuery(value, caretAt) {
 /**
  * Check if an element is focused.
  */
-export function isFocused(node) {
+function isFocused(node) {
   return node === document.activeElement
 }
 
@@ -257,7 +257,7 @@ const isTrident = /Trident/.test(window.navigator.userAgent)
 /**
  * Focus element with IE hack.
  */
-export function focus(node, callback) {
+function focus(node, callback) {
   // Fix for:
   // https://connect.microsoft.com/IE/feedback/details/808820/ie11-input-element-gets-focus-but-caret-not-showing-when-pinch-zooming
   // https://support.microsoft.com/en-us/kb/2927972
@@ -271,6 +271,15 @@ export function focus(node, callback) {
 
   node.focus()
   callback()
+}
+
+export function setCaretPosition(at, node) {
+  function set() {
+    node.selectionStart = at
+    node.selectionEnd = at
+  }
+  if (isFocused(node)) set()
+  else focus(node, set)
 }
 
 export function toMarkdown(text, objects) {
