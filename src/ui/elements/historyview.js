@@ -204,7 +204,6 @@ function groupHistory(history) {
 }
 
 HistoryView.prototype.redraw = function() {
-  console.time('redraw')
   let history
   let requestedMsg
   let prevMsgID
@@ -236,7 +235,8 @@ HistoryView.prototype.redraw = function() {
   // eventually group history
   let groupedHistory = groupHistory(history)
 
-  render(this.history, template('chathistory.jade', {
+  console.time('template')
+  var ddd = template('chathistory.jade', {
     room: this.room,
     history: groupedHistory,
     mode: this.mode,
@@ -244,7 +244,12 @@ HistoryView.prototype.redraw = function() {
     isFirstMsgLoaded: this.isFirstMsgLoaded,
     isLastMsgLoaded: this.isLastMsgLoaded,
     isOrgEmpty: this.isOrgEmpty
-  }))
+  })
+  console.timeEnd('template')
+
+  console.time('redraw')
+  render(this.history, ddd)
+  console.timeEnd('redraw')
 
   if (this.lastwindow.lastmsg !== this.room.history[0]) {
     this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH
@@ -258,8 +263,6 @@ HistoryView.prototype.redraw = function() {
     let requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el)
     this.scrollIntoView(prevMsgEl ? prevMsgEl : requestedMsgEl)
   }
-
-  console.timeEnd('redraw')
 }
 
 HistoryView.prototype.scrollIntoView = function(target) {
