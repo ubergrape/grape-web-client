@@ -117,19 +117,23 @@ export function handleReadChannel(data) {
 }
 
 export function goToMessage(message) {
-  page(`/chat/${message.slug}/${message.id}`)
-  return {
-    type: types.GO_TO_MESSAGE,
-    payload: {
-      message
-    }
+  return dispatch => {
+    dispatch({
+      type: types.GO_TO_MESSAGE,
+      payload: {
+        message
+      }
+    })
+    page(`/chat/${message.slug}/${message.id}`)
   }
 }
 
 export function goToPayment() {
-  location.pathname = '/payment'
-  return {
-    type: types.GO_TO_PAYMENT
+  return dispatch => {
+    dispatch({
+      type: types.GO_TO_PAYMENT
+    })
+    location.pathname = '/payment'
   }
 }
 
@@ -141,12 +145,14 @@ export function leaveChannel(channelId) {
 }
 
 export function goToChannel(slug) {
-  page(`/chat/${slug}`)
-  return {
-    type: types.GO_TO_CHANNEL,
-    payload: {
-      slug
-    }
+  return dispatch => {
+    dispatch({
+      type: types.GO_TO_CHANNEL,
+      payload: {
+        slug
+      }
+    })
+    page(`/chat/${slug}`)
   }
 }
 
@@ -245,9 +251,11 @@ export function inviteToChannel(
 }
 
 export function reloadOnAuthError() {
-  window.location.reload()
-  return {
-    type: types.AUTH_ERROR
+  return dispatch => {
+    dispatch({
+      type: types.AUTH_ERROR
+    })
+    location.reload()
   }
 }
 
