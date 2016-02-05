@@ -204,6 +204,7 @@ function groupHistory(history) {
 }
 
 HistoryView.prototype.redraw = function() {
+  console.time('redraw')
   let history
   let requestedMsg
   let prevMsgID
@@ -257,6 +258,8 @@ HistoryView.prototype.redraw = function() {
     let requestedMsgEl = qs("div.message[data-id='" + requestedMsg.id + "']", this.el)
     this.scrollIntoView(prevMsgEl ? prevMsgEl : requestedMsgEl)
   }
+
+  console.timeEnd('redraw')
 }
 
 HistoryView.prototype.scrollIntoView = function(target) {
@@ -345,6 +348,7 @@ HistoryView.prototype._findBottomVisible = function() {
 }
 
 HistoryView.prototype.setRoom = function(room, msgID) {
+  console.time('setRoom')
   let self = this
   this.requestedMsgID = null
   this.isOrgEmpty = false
@@ -390,6 +394,7 @@ HistoryView.prototype.setRoom = function(room, msgID) {
   })
 
   this.renderTypingNotification()
+  console.timeEnd('setRoom')
 }
 
 HistoryView.prototype.expandActivityList = function(ev) {
