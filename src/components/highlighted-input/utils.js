@@ -3,8 +3,6 @@ import escapeRegExp from 'lodash/string/escapeRegExp'
 // white space or new line
 const emptySpaceRegExp = /^\s$/
 
-const maxObjectsAmount = 1000
-
 /**
  * Get all indexes for substring:
  * start and end index i.e. [[0, 5], [10, 15]]
@@ -22,16 +20,6 @@ function getPositions(sub, str) {
   }
 
   return positions
-}
-
-/*
- * Returns empty object
- * if `objects` keys amount is very large
- */
-export function clearIfLarge(objects) {
-  // TODO: move to lru like https://github.com/avoidwork/tiny-lru
-  const needToClear = Object.keys(objects).length > maxObjectsAmount
-  return needToClear ? {} : {...objects}
 }
 
 /*

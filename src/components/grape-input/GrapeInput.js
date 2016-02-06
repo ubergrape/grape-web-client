@@ -72,11 +72,17 @@ export default class GrapeInput extends Component {
     const parts = this.input.splitByTokens().filter(part => part.trim())
     const tokens = parts.filter(token => objects[token])
 
-    this.props.onSubmit({
-      content,
-      // TODO We need to pass over api objects, maybe in the parent component.
-      objects,
-      objectsOnly: size(parts) === size(tokens)
+    this.setState({
+      content: '',
+      value: '',
+      objects: {}
+    }, () => {
+      this.props.onSubmit({
+        content,
+        // TODO We need to pass over api objects, maybe in the parent component.
+        objects,
+        objectsOnly: size(parts) === size(tokens)
+      })
     })
   }
 
