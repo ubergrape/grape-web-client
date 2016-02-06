@@ -28,6 +28,15 @@ import * as utils from './utils'
 
 const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
 
+// Map indicates whether browser has its own input field or
+// its using the main one.
+const browserHasInput = {
+  search: true,
+  emoji: true,
+  emojiSuggest: false,
+  user: false
+}
+
 /**
  * Uses all types of auto completes to provide end component.
  */
@@ -46,7 +55,7 @@ export default class App extends Component {
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
+    browser: PropTypes.oneOf(Object.keys(browserHasInput)),
     externalServicesInputDelay: PropTypes.number
   }
 
@@ -139,7 +148,7 @@ export default class App extends Component {
 
   onAbort(data = {}) {
     const {browser} = this.state
-    this.closeBrowser({textareaFocused: true}, () => {
+    this.closeBrowser({inputFocused: true}, () => {
       this.emit('abort', {...data, browser})
     })
   }
@@ -190,17 +199,21 @@ export default class App extends Component {
   }
 
   onKeyDown(e) {
-    switch (this.state.browser) {
-      case 'user':
-      case 'emojiSuggest':
-        this.navigateDatalist(e)
-        break
-      default:
+    if (!browserHasInput[this.state.browser]) {
+      this.navigateDatalist(e)
     }
   }
 
   onBlurInput() {
-    if (!this.state.browser) this.emit('blur')
+    setTimeout(() => {
+      if (!browserHasInput[this.state.browser]) {
+        this.emit('blur')
+      }
+    }, 100)
+  }
+
+  onFocusInput() {
+    this.emit('focus')
   }
 
   onBlurBrowser() {
@@ -280,7 +293,7 @@ export default class App extends Component {
 
   createState(nextProps) {
     const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
-    state.textareaFocused = nextProps.focused
+
     if (state.browser === 'user') {
       state.data = mentions
         .map(state.data)
@@ -303,6 +316,15 @@ export default class App extends Component {
 
     if (!this.state) {
       state.content = ''
+    }
+
+    state.inputFocused = false
+    if (nextProps.focused) {
+      state.inputFocused = true
+
+      if (state.browserOpened) {
+        state.inputFocused = !browserHasInput[state.browser]
+      }
     }
 
     return state
@@ -350,12 +372,12 @@ export default class App extends Component {
       this.replaceToken(object)
     }
     this.onInsertItem(item, query)
-    this.closeBrowser({textareaFocused: true})
+    this.closeBrowser({inputFocused: true})
     this.query.reset()
   }
 
   replaceToken(object) {
-    this.setState({textareaFocused: true}, () => {
+    this.setState({inputFocused: true}, () => {
       this.editable.replaceToken(object)
     })
   }
@@ -441,12 +463,13 @@ export default class App extends Component {
             onResize={::this.onInputResize}
             onChange={::this.onChangeInput}
             onBlur={::this.onBlurInput}
+            onFocus={::this.onFocusInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
             onDidMount={this.onDidMount.bind(this, 'editable')}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
-            focused={this.state.textareaFocused}
+            focused={this.state.inputFocused}
             content={this.state.content} />
         </div>
       </div>

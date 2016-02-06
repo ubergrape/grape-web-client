@@ -111,8 +111,7 @@ export default class HighlightedInput extends Component {
     const [start, end] = positionToDelete
     let {value} = editable
     value = `${value.slice(0, start)}${value.slice(end, value.length)}`
-    const caretAt = end + newValue.length
-    this.onChange({value, caretAt})
+    this.onChange({value, caretAt: start})
 
     return true
   }

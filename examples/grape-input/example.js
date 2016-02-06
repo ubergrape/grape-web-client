@@ -14,6 +14,7 @@ function setProps(newProps) {
 
 function getDefaultProps() {
   return {
+    focused: true,
     customEmojis: {test: '../images/avatar.gif'},
     placeholder: 'Some placeholder',
     images: {
@@ -28,7 +29,7 @@ function getDefaultProps() {
 }
 
 function init() {
-  setProps({focused: true})
+  setProps()
 
   input.addEventListener('grapeComplete', function (e) {
     console.log('complete', e.detail)
@@ -85,10 +86,12 @@ function init() {
   })
 
   input.addEventListener('grapeFocus', function (e) {
+    setProps({focused: true})
     console.log('focus')
   })
 
   input.addEventListener('grapeBlur', function (e) {
+    setProps({focused: false})
     console.log('blur')
   })
 

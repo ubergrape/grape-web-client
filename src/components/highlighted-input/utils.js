@@ -125,11 +125,11 @@ export function getEmojiObjects(value) {
  * Get associated object of tokens (grape objects)
  * and theirs positions. i.e. {token: [[0, 5], [10, 15]]}
  */
-export function getTokensPositions(objects, text) {
+export function getTokensPositions(tokens, text) {
   const positions = {}
 
-  Object.keys(objects).forEach(key => {
-    positions[key] = getPositions(key, text)
+  tokens.forEach(token => {
+    positions[token] = getPositions(token, text)
   })
 
   return positions
