@@ -30,7 +30,7 @@ const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
 
 // Map indicates whether browser has its own input field or
 // its using the main one.
-const browserHasInput = {
+const browserWithInput = {
   search: true,
   emoji: true,
   emojiSuggest: false,
@@ -55,7 +55,7 @@ export default class App extends Component {
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    browser: PropTypes.oneOf(Object.keys(browserHasInput)),
+    browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     externalServicesInputDelay: PropTypes.number
   }
 
@@ -199,14 +199,14 @@ export default class App extends Component {
   }
 
   onKeyDown(e) {
-    if (!browserHasInput[this.state.browser]) {
+    if (!browserWithInput[this.state.browser]) {
       this.navigateDatalist(e)
     }
   }
 
   onBlurInput() {
     setTimeout(() => {
-      if (!browserHasInput[this.state.browser]) {
+      if (!browserWithInput[this.state.browser]) {
         this.emit('blur')
       }
     }, 100)
@@ -323,7 +323,7 @@ export default class App extends Component {
       state.inputFocused = true
 
       if (state.browserOpened) {
-        state.inputFocused = !browserHasInput[state.browser]
+        state.inputFocused = !browserWithInput[state.browser]
       }
     }
 

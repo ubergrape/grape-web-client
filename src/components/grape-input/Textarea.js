@@ -23,31 +23,30 @@ export default class Textarea extends Component {
     placeholder: ''
   }
 
-  onEnter(e) {
-    // Always insert a new line to be consistent across browsers.
-    if (e.altKey || e.ctrlKey || e.shiftKey) {
-      e.preventDefault()
-      this.insertLineBreak()
-      this.props.onChange(e)
-    }
-
-    // Do nothing if user tries to submit an empty text.
-    if (!this.refs.textarea.value.trim()) {
-      e.preventDefault()
-      return
-    }
-
-    this.props.onSubmit(e)
-  }
-
   onKeyDown(e) {
-    if (keyname(e.keyCode) === 'enter') {
-      this.onEnter(e)
-    }
+    const isEnter = keyname(e.keyCode) === 'enter'
 
-    if (e.defaultPrevented) return
+    if (isEnter) {
+      // Always insert a new line to be consistent across browsers.
+      if (e.altKey || e.ctrlKey || e.shiftKey) {
+        e.preventDefault()
+        this.insertLineBreak()
+        this.props.onChange(e)
+        return
+      }
+
+      // Do nothing if user tries to submit an empty text.
+      if (!this.refs.textarea.value.trim()) {
+        e.preventDefault()
+        return
+      }
+    }
 
     this.props.onKeyDown(e)
+
+    if (isEnter && !e.defaultPrevented) {
+      this.props.onSubmit(e)
+    }
   }
 
   insertLineBreak() {
