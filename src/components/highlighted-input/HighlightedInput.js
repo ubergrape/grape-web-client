@@ -58,7 +58,7 @@ export default class HighlightedInput extends Component {
 
   componentWillReceiveProps({value}) {
     if (value !== this.state.value) {
-      this.setState({value})
+      this.setState({value, caretAt: value.length})
     }
   }
 
