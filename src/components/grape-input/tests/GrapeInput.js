@@ -16,12 +16,9 @@ describe('grape-input:', () => {
       let resized = false
 
       function onDidMount(component) {
-        setTimeout(() => {
-          expect(resized).to.be(true)
-          // TODO Don't use internals.
-          expect(component.input.state.value).to.be('#room')
-          done()
-        })
+        expect(resized).to.be(true)
+        expect(component.state.value).to.be('@room')
+        done()
       }
 
       function onResize() {

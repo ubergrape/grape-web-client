@@ -54,9 +54,10 @@ export default class HighlightedInput extends Component {
 
   componentDidMount() {
     this.props.onDidMount(this)
+    this.ensureContainerSize()
   }
 
-  componentWillReceiveProps({value}) {
+  componentWillReceiveProps({value}) {
     if (value !== this.state.value) {
       this.setState({value, caretAt: value.length})
     }
@@ -135,7 +136,6 @@ export default class HighlightedInput extends Component {
 
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
-    console.log('replace', caretAt)
 
     this.onChange({value, caretAt})
   }
@@ -151,7 +151,7 @@ export default class HighlightedInput extends Component {
     const valueAfter = value.slice(caretAt, value.length)
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
-    console.log('insert', caretAt)
+
     this.onChange({value, caretAt})
   }
 

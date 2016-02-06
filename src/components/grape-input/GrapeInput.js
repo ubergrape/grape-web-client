@@ -25,6 +25,7 @@ export default class GrapeInput extends Component {
     onEditPrevious: PropTypes.func,
     onDidMount: PropTypes.func,
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
     sheet: PropTypes.object.isRequired,
     content: PropTypes.string
   }
@@ -35,6 +36,7 @@ export default class GrapeInput extends Component {
     onEditPrevious: noop,
     onDidMount: noop,
     onChange: noop,
+    onKeyDown: noop,
     Editable: Textarea,
     content: ''
   }
