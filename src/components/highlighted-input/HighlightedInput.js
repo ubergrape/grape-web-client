@@ -46,9 +46,10 @@ export default class HighlightedInput extends Component {
 
   constructor(props) {
     super(props)
+    const {value} = props
     this.state = {
-      value: props.value,
-      caretAt: 0
+      value,
+      caretAt: value.length
     }
   }
 
@@ -68,17 +69,10 @@ export default class HighlightedInput extends Component {
     this.ensureContainerSize()
   }
 
-  onChange(e) {
-    let change = e
-    if (e.target) {
-      change = {
-        value: e.target.value,
-        caretAt: e.target.selectionEnd
-      }
-    }
-
-    this.setState(change, () => {
-      this.props.onChange(change)
+  onChange({target}) {
+    this.applyChange({
+      value: target.value,
+      caretAt: target.selectionEnd
     })
   }
 
@@ -87,18 +81,15 @@ export default class HighlightedInput extends Component {
     if (e.defaultPrevented) return
 
     const key = keyname(e.keyCode)
-
-    switch (key) {
-      case 'del':
-      case 'backspace':
-        if (this.removeToken(key === 'del' ? 'next' : 'prev')) {
-          e.preventDefault()
-        }
-        break
-      default:
-    }
+    let removed = false
+    if (key === 'del') removed = this.removeToken('next')
+    if (key === 'backspace') removed = this.removeToken('prev')
+    if (removed) e.preventDefault()
   }
 
+  /**
+   * Get the word caret is close by.
+   */
   getTouchedWord() {
     const {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
     const word = getTouchedWord(value, caretAt)
@@ -113,38 +104,43 @@ export default class HighlightedInput extends Component {
     let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
     let valueBefore = value.slice(0, caretAt)
     valueBefore = ensureSpace('after', valueBefore)
+
     const valueAfter = value.slice(caretAt, value.length)
     value = valueBefore + str + valueAfter
+
     caretAt = (valueBefore + str).length
 
-    this.onChange({value, caretAt})
+    this.applyChange({value, caretAt})
   }
 
   /**
-   * Replace a token near the caret by a string.
+   * Replace a word near the caret by a string.
    * Ensure space after the string.
    */
   replace(str) {
     let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
 
-    let valueBefore = ''
-    let valueAfter = ''
-    const token = getTouchedWord(value, caretAt)
+    const word = getTouchedWord(value, caretAt)
 
-    if (token) {
-      valueBefore = value.slice(0, token.position[0])
-      valueAfter = value.slice(token.position[1], value.length)
-      if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
-    }
+    if (!word) return
+
+    const valueBefore = value.slice(0, word.position[0])
+    let valueAfter = value.slice(word.position[1], value.length)
+    if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
 
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
 
-    this.onChange({value, caretAt})
+    this.applyChange({value, caretAt})
   }
 
-  // We can improve speed by using a fake caret in highlighter.
-  // We can check if caret is inside/near the token.
+  /**
+   * Remove a token completely by one key press.
+   * Direction indicates where the word is positioned relatively to the caret.
+   *
+   * We can improve the speed by using a fake caret in highlighter.
+   * We can check if caret is inside/near the token.
+   */
   removeToken(direction) {
     const editable = ReactDOM.findDOMNode(this.refs.editable)
 
@@ -156,11 +152,14 @@ export default class HighlightedInput extends Component {
     const [start, end] = positionToDelete
     let {value} = editable
     value = `${value.slice(0, start)}${value.slice(end, value.length)}`
-    this.onChange({value, caretAt: start})
+    this.applyChange({value, caretAt: start})
 
     return true
   }
 
+  /**
+   * Split the value into an array of words and tokens as they appear in text.
+   */
   splitByTokens() {
     return splitByTokens(this.state.value, this.props.tokens)
   }
@@ -171,10 +170,16 @@ export default class HighlightedInput extends Component {
   }
 
   ensureContainerSize() {
-    this.refs.wrapper.style.height = this.refs.highlighter.offsetHeight + 'px'
+    this.refs.container.style.height = this.refs.highlighter.offsetHeight + 'px'
 
     // TODO Only call back if really resized.
     this.props.onResize()
+  }
+
+  applyChange(change) {
+    this.setState(change, () => {
+      this.props.onChange(change)
+    })
   }
 
   renderHighlighterContent() {
@@ -219,8 +224,8 @@ export default class HighlightedInput extends Component {
 
     return (
       <div
-        ref="wrapper"
-        className={classes.wrapper}
+        ref="container"
+        className={classes.container}
         data-test="highlighted-editable">
         <div
           ref="highlighter"

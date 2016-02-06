@@ -9,7 +9,6 @@ import HighlightedInput from '../highlighted-input/HighlightedInput'
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 
-// TODO move utils
 import {
   toMarkdown,
   fromMarkdown,
@@ -128,6 +127,10 @@ export default class GrapeInput extends Component {
     })
   }
 
+  /**
+   * Returns a class that will be applied to the token element for custom
+   * styling.
+   */
   getTokenClass(token) {
     const {tokenType} = this.state.objects[token]
     return this.props.sheet.classes[tokenType]

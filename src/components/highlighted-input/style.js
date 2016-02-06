@@ -3,7 +3,7 @@ import fonts from 'grape-theme/dist/fonts'
 const iconsWidth = 110
 
 export default {
-  wrapper: {
+  container: {
     ...fonts.normal,
     position: 'relative',
     width: '100%',
