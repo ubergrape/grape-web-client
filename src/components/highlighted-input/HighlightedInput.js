@@ -177,20 +177,20 @@ export default class HighlightedInput extends Component {
     this.props.onResize()
   }
 
-  renderTokens() {
+  renderHighlighterContent() {
     const {classes} = this.props.sheet
     const {tokens, getTokenClass} = this.props
     const {value} = this.state
 
-    const content = splitByTokens(value, tokens).map((token, index) => {
-      const needsHighlighting = tokens.indexOf(token) >= 0
-      if (needsHighlighting) {
+    const content = splitByTokens(value, tokens).map((part, index) => {
+      const isToken = tokens.indexOf(part) >= 0
+      if (isToken) {
         // Render the highlighted token.
         return (
           <span
             key={index}
-            className={`${classes.token} ${getTokenClass(token) || ''}`}>
-            {token}
+            className={`${classes.token} ${getTokenClass(part) || ''}`}>
+            {part}
           </span>
         )
       }
@@ -201,7 +201,7 @@ export default class HighlightedInput extends Component {
       return (
         <span
           key={index}
-          dangerouslySetInnerHTML={{__html: escape(token)}}>
+          dangerouslySetInnerHTML={{__html: escape(part)}}>
         </span>
       )
     })
@@ -225,7 +225,7 @@ export default class HighlightedInput extends Component {
         <div
           ref="highlighter"
           className={`${classes.highlighter} ${theme.editable}`}>
-          {this.renderTokens()}
+          {this.renderHighlighterContent()}
         </div>
         <Editable
           {...this.props}
