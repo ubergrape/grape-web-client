@@ -6,9 +6,9 @@ import keyname from 'keyname'
 import {useSheet} from 'grape-web/lib/jss'
 
 import {
-  getTokenUnderCaret,
+  getTouchedWord,
   getTokenPositionNearCaret,
-  tokenize,
+  splitByTokens,
   ensureSpace,
   setCaretPosition
 } from './utils'
@@ -53,8 +53,8 @@ export default class HighlightedInput extends Component {
   }
 
   componentDidMount() {
-    this.props.onDidMount(this)
     this.ensureContainerSize()
+    this.props.onDidMount(this)
   }
 
   componentWillReceiveProps({value}) {
@@ -99,6 +99,50 @@ export default class HighlightedInput extends Component {
     }
   }
 
+  getTouchedWord() {
+    const {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    const word = getTouchedWord(value, caretAt)
+    if (word) return word.value
+  }
+
+  /**
+   * Insert a string at the caret position.
+   * Ensure space before the string.
+   */
+  insert(str) {
+    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    let valueBefore = value.slice(0, caretAt)
+    valueBefore = ensureSpace('after', valueBefore)
+    const valueAfter = value.slice(caretAt, value.length)
+    value = valueBefore + str + valueAfter
+    caretAt = (valueBefore + str).length
+
+    this.onChange({value, caretAt})
+  }
+
+  /**
+   * Replace a token near the caret by a string.
+   * Ensure space after the string.
+   */
+  replace(str) {
+    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+
+    let valueBefore = ''
+    let valueAfter = ''
+    const token = getTouchedWord(value, caretAt)
+
+    if (token) {
+      valueBefore = value.slice(0, token.position[0])
+      valueAfter = value.slice(token.position[1], value.length)
+      if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
+    }
+
+    value = valueBefore + str + valueAfter
+    caretAt = (valueBefore + str).length
+
+    this.onChange({value, caretAt})
+  }
+
   // We can improve speed by using a fake caret in highlighter.
   // We can check if caret is inside/near the token.
   removeToken(direction) {
@@ -117,42 +161,8 @@ export default class HighlightedInput extends Component {
     return true
   }
 
-  /**
-   * Replace a token near the caret by a string.
-   * Ensure space after the string.
-   */
-  replaceToken(str) {
-    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
-
-    let valueBefore = ''
-    let valueAfter = ''
-    const token = getTokenUnderCaret(value, caretAt)
-
-    if (token) {
-      valueBefore = value.slice(0, token.position[0])
-      valueAfter = value.slice(token.position[1], value.length)
-      if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
-    }
-
-    value = valueBefore + str + valueAfter
-    caretAt = (valueBefore + str).length
-
-    this.onChange({value, caretAt})
-  }
-
-  /**
-   * Insert a string at the caret position.
-   * Ensure space before the string.
-   */
-  insert(str) {
-    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
-    let valueBefore = value.slice(0, caretAt)
-    valueBefore = ensureSpace('after', valueBefore)
-    const valueAfter = value.slice(caretAt, value.length)
-    value = valueBefore + str + valueAfter
-    caretAt = (valueBefore + str).length
-
-    this.onChange({value, caretAt})
+  splitByTokens() {
+    return splitByTokens(this.state.value, this.props.tokens)
   }
 
   ensureCaretPosition() {
@@ -172,7 +182,7 @@ export default class HighlightedInput extends Component {
     const {tokens, getTokenClass} = this.props
     const {value} = this.state
 
-    const content = tokenize(value, tokens).map((token, index) => {
+    const content = splitByTokens(value, tokens).map((token, index) => {
       const needsHighlighting = tokens.indexOf(token) >= 0
       if (needsHighlighting) {
         // Render the highlighted token.

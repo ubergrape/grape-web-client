@@ -369,16 +369,16 @@ export default class App extends Component {
       const data = find(results, res => res.id === item.id) || item
       const object = objects.create(data.type, data)
       this.setState({contentObjects: [...this.state.contentObjects, object]})
-      this.replaceToken(object)
+      this.replace(object)
     }
     this.onInsertItem(item, query)
     this.closeBrowser({inputFocused: true})
     this.query.reset()
   }
 
-  replaceToken(object) {
+  replace(object) {
     this.setState({inputFocused: true}, () => {
-      this.editable.replaceToken(object)
+      this.editable.replace(object)
     })
   }
 

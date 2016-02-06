@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import noop from 'lodash/utility/noop'
+import size from 'lodash/collection/size'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
@@ -13,9 +14,8 @@ import {
   toMarkdown,
   fromMarkdown,
   getEmojiObjects,
-  getQuery,
-  tokenize
-} from '../highlighted-input/utils'
+  getQuery
+} from './utils'
 
 @useSheet(style)
 export default class GrapeInput extends Component {
@@ -27,6 +27,7 @@ export default class GrapeInput extends Component {
     onChange: PropTypes.func,
     onKeyDown: PropTypes.func,
     sheet: PropTypes.object.isRequired,
+    // Prop `content` is a makrdown string.
     content: PropTypes.string
   }
 
@@ -64,22 +65,18 @@ export default class GrapeInput extends Component {
     }
   }
 
-  onEnter(e) {
+  onSubmit(e) {
     e.preventDefault()
 
-    // TODO Don't access state directly.
-    const {value, objects, content} = this.state
-    const tokens = Object.keys(objects)
-    const hasText = tokenize(value, tokens).some(token => {
-      if (!token.trim()) return false
-      return tokens.indexOf(token) === -1
-    })
+    const {objects, content} = this.state
+    const parts = this.input.splitByTokens().filter(part => part.trim())
+    const tokens = parts.filter(token => objects[token])
 
     this.props.onSubmit({
       content,
       // TODO We need to pass over api objects, maybe in the parent component.
       objects,
-      objectsOnly: !hasText
+      objectsOnly: size(parts) === size(tokens)
     })
   }
 
@@ -109,23 +106,19 @@ export default class GrapeInput extends Component {
           e.preventDefault()
         }
         break
-      case 'enter':
-        this.onEnter(e)
-        break
       default:
     }
   }
 
-  onChange({value, caretAt}) {
+  onChange({value}) {
     const emojiObjects = getEmojiObjects(value)
     const objects = {...this.state.objects, ...emojiObjects}
-    const content = toMarkdown(value, objects)
+    const content = toMarkdown(this.input.splitByTokens(), objects)
 
     this.setState({value, objects, content}, () => {
-      this.props.onChange({
-        query: getQuery(value, caretAt),
-        content
-      })
+      const token = this.input.getTouchedWord()
+      const query = getQuery(token)
+      this.props.onChange({query, content})
     })
   }
 
@@ -134,7 +127,7 @@ export default class GrapeInput extends Component {
     return this.props.sheet.classes[tokenType]
   }
 
-  replaceToken(object) {
+  replace(object) {
     const {objects} = this.state
     const token = object.content
     const state = {
@@ -145,7 +138,7 @@ export default class GrapeInput extends Component {
     }
     this.setState(state, () => {
       // For the convenience, we insert always a space after insertion.
-      this.input.replaceToken(token + ' ')
+      this.input.replace(token + ' ')
     })
   }
 
@@ -165,7 +158,8 @@ export default class GrapeInput extends Component {
           theme={classes}
           onDidMount={::this.onInputDidMount}
           onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange} />
+          onChange={::this.onChange}
+          onSubmit={::this.onSubmit} />
         <GlobalEvent event="resize" handler={::this.onResizeWindow} />
       </div>
     )

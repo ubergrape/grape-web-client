@@ -96,7 +96,7 @@ describe('app:', () => {
 
     it('should call replaceQuery with correct replacement', (done) => {
       insert(undefined, input => {
-        input.replaceToken = object => {
+        input.replace = object => {
           // Verify there are no missing params in objects.
           expect(object.name).to.be('"Plans/Discussions"')
           expect(object.content).to.be('#"Plans/Discussions"')

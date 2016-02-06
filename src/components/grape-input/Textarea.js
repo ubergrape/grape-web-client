@@ -10,6 +10,7 @@ export default class Textarea extends Component {
   static propTypes = {
     onKeyDown: PropTypes.func,
     onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
     className: PropTypes.string,
     sheet: PropTypes.object.isRequired
   }
@@ -17,6 +18,7 @@ export default class Textarea extends Component {
   static defaultProps = {
     onKeyDown: noop,
     onChange: noop,
+    onSubmit: noop,
     className: '',
     placeholder: ''
   }
@@ -34,18 +36,18 @@ export default class Textarea extends Component {
       e.preventDefault()
       return
     }
+
+    this.props.onSubmit(e)
   }
 
   onKeyDown(e) {
-    const key = keyname(e.keyCode)
-    switch (key) {
-      case 'enter':
-        this.onEnter(e)
-        break
-      default:
+    if (keyname(e.keyCode) === 'enter') {
+      this.onEnter(e)
     }
 
-    if (!e.defaultPrevented) this.props.onKeyDown(e)
+    if (e.defaultPrevented) return
+
+    this.props.onKeyDown(e)
   }
 
   insertLineBreak() {
