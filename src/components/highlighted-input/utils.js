@@ -22,8 +22,8 @@ function getPositions(sub, str) {
   return positions
 }
 
-/*
- * Add space before or after string if there is no space or new line.
+/**
+ * Add space before or after a string if there is no space or new line.
  */
 export function ensureSpace(where, str) {
   let result = str || ' '
@@ -42,8 +42,8 @@ export function ensureSpace(where, str) {
 }
 
 /**
- * Get associated object of tokens (grape objects)
- * and theirs positions. i.e. {token: [[0, 5], [10, 15]]}
+ * Returns a map with token as a key and array of positions
+ * i.e. {token: [[0, 5], [10, 15]]}.
  */
 function getTokensPositions(tokens, text) {
   const positions = {}
@@ -56,11 +56,12 @@ function getTokensPositions(tokens, text) {
 }
 
 /**
- * Get an array of substrings and tokens (grape objects) in
- * order of appearance.
+ * Get an array of strings separated using known tokens.
+ * Joining the result of this array should result in the original text.
  */
 export function splitByTokens(text, tokens) {
   let parts
+
   if (tokens.length) {
     const tokensRegExp = new RegExp(tokens.map(escapeRegExp).join('|'), 'g')
     const keysInText = text.match(tokensRegExp)
@@ -79,10 +80,8 @@ export function splitByTokens(text, tokens) {
 }
 
 /**
- * Traverse string and get token if
- * caret is inside or right after/before, otherwise return undefined.
- * Token here is 'grape object' or 'possible grape object'
- * i.e. '@Developmend' or '@develo'
+ * Get a word caret is positioned next to or inside of
+ * i.e. '|@test' or '@test|' or '@te|st'.
  */
 export function getTouchedWord(text, caretPostion) {
   if (!text) return null
@@ -120,6 +119,10 @@ export function getTouchedWord(text, caretPostion) {
   return value ? {value, position} : null
 }
 
+/**
+ * Get position of a token near the caret position by considering the direction
+ * to look to and known tokens list.
+ */
 export function getTokenPositionNearCaret(node, direction, tokens) {
   const {selectionStart, selectionEnd, value} = node
   const positions = getTokensPositions(tokens, value)
@@ -180,6 +183,9 @@ function focus(node, callback) {
   callback()
 }
 
+/**
+ * Set the caret position, ensures focus before.
+ */
 export function setCaretPosition(at, node) {
   function set() {
     node.selectionStart = at
