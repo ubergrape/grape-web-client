@@ -4,6 +4,7 @@ import fonts from 'grape-theme/dist/fonts'
 export default {
   textarea: {
     ...fonts.normal,
+    fontFamily: 'inherit',
     position: 'relative',
     zIndex: 1,
     display: 'block',
