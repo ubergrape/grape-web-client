@@ -63,7 +63,7 @@ function init() {
 
       setProps({
         browser: 'emojiSuggest',
-        maxCompleteItems: 6,
+        maxSuggestions: 6,
         data: data
       })
     }

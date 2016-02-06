@@ -64,7 +64,7 @@ export default class App extends Component {
     // We need to set it to null to enable shallowEqual comparance in
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
-    maxCompleteItems: 12,
+    maxSuggestions: 12,
     externalServicesInputDelay: 150,
     browser: undefined,
     data: undefined,
@@ -205,6 +205,8 @@ export default class App extends Component {
   }
 
   onBlurInput() {
+    // Delay blur event for the case when an external button was clicked,
+    // because we are going to regain focus in a bit.
     setTimeout(() => {
       if (!browserWithInput[this.state.browser]) {
         this.emit('blur')
@@ -217,6 +219,7 @@ export default class App extends Component {
   }
 
   onBlurBrowser() {
+    // We don't want to close browser when entire window looses the focus.
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser()
     }, 100)
@@ -297,11 +300,11 @@ export default class App extends Component {
     if (state.browser === 'user') {
       state.data = mentions
         .map(state.data)
-        .slice(0, nextProps.maxCompleteItems)
+        .slice(0, nextProps.maxSuggestions)
     }
     if (state.browser === 'emojiSuggest') {
       state.data = emoji.sortByRankAndLength(state.data)
-        .slice(0, nextProps.maxCompleteItems)
+        .slice(0, nextProps.maxSuggestions)
     }
     state.query = this.query.toJSON()
 
@@ -339,7 +342,7 @@ export default class App extends Component {
   }
 
   /**
-   * Keyboard navigation for the datalist (mention, emoji).
+   * Keyboard navigation for the datalist (mention, emojiSuggest).
    */
   navigateDatalist(e) {
     const {datalist} = this
