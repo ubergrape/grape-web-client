@@ -14,8 +14,6 @@ import {shallowEqual} from 'react-pure-render'
 
 import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
-import * as objectStyle from '../objects/style'
-import * as objects from '../objects'
 import GrapeInput from '../grape-input/GrapeInput'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
@@ -95,7 +93,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    objectStyle.sheet.attach()
     this.setTrigger(this.state.browser)
     this.props.onDidMount(this)
   }
@@ -131,10 +128,6 @@ export default class App extends Component {
     if (nextState.browser !== this.state.browser && nextProps.setTrigger) {
       this.setTrigger(nextState.browser)
     }
-  }
-
-  componentWillUnmount() {
-    objectStyle.sheet.detach()
   }
 
   onEditPrevious() {
@@ -264,8 +257,8 @@ export default class App extends Component {
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
 
-    if (content !== undefined) this.setState({content})
-    this.emit('change')
+    if (content === undefined) this.emit('change')
+    else this.setState({content}, () => this.emit('change'))
   }
 
   onChangeQuery(str) {
@@ -369,20 +362,12 @@ export default class App extends Component {
   insertItem(item, query) {
     if (item) {
       const results = get(this.state, 'data.results')
-      const data = find(results, res => res.id === item.id) || item
-      const object = objects.create(data.type, data)
-      this.setState({contentObjects: [...this.state.contentObjects, object]})
-      this.replace(object)
+      const result = find(results, res => res.id === item.id) || item
+      this.editable.replace(result)
     }
     this.onInsertItem(item, query)
     this.closeBrowser({inputFocused: true})
     this.query.reset()
-  }
-
-  replace(object) {
-    this.setState({inputFocused: true}, () => {
-      this.editable.replace(object)
-    })
   }
 
   /**

@@ -1,11 +1,12 @@
 import React, {PropTypes, Component} from 'react'
+import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
-import size from 'lodash/collection/size'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
 import GlobalEvent from '../global-event/GlobalEvent'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
+import {create as createObject} from '../objects'
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 
@@ -44,6 +45,7 @@ export default class GrapeInput extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      apiObjects: [],
       content: props.content,
       ...fromMarkdown(props.content)
     }
@@ -64,23 +66,25 @@ export default class GrapeInput extends Component {
     }
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   onSubmit(e) {
     e.preventDefault()
 
-    const {objects, content} = this.state
+    const {objects, content, apiObjects} = this.state
     const parts = this.input.splitByTokens().filter(part => part.trim())
     const tokens = parts.filter(token => objects[token])
 
     this.setState({
       content: '',
       value: '',
-      objects: {}
+      objects: {},
+      apiObjects: []
     }, () => {
       this.props.onSubmit({
         content,
-        // TODO We need to pass over api objects, maybe in the parent component.
-        objects,
-        objectsOnly: size(parts) === size(tokens)
+        objects: apiObjects,
+        objectsOnly: parts.length === tokens.length
       })
     })
   }
@@ -136,14 +140,19 @@ export default class GrapeInput extends Component {
     return this.props.sheet.classes[tokenType]
   }
 
-  replace(object) {
-    const {objects} = this.state
+  /**
+   * Replace the query by a grape object.
+   * Passed result is the original object from the api.
+   */
+  replace(result) {
+    const object = createObject(result.type, result)
     const token = object.content
     const state = {
       objects: {
-        ...objects,
+        ...this.state.objects,
         [token]: object
-      }
+      },
+      apiObjects: [...this.state.apiObjects, result]
     }
     this.setState(state, () => {
       // For the convenience, we insert always a space after insertion.

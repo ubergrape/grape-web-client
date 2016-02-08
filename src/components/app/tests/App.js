@@ -67,16 +67,15 @@ describe('app:', () => {
   })
 
   describe('App() insert object', () => {
-    function insert(onInsertItem, onDidMount) {
+    function insert(props) {
       const data = {...data0}
       data.search.queries = []
       const input = (
         <App
           browser="search"
           data={data}
-          onInsertItem={onInsertItem}
-          onDidMount={onDidMount}
-          focused/>
+          focused
+          {...props} />
       )
       render(input)
 
@@ -86,21 +85,38 @@ describe('app:', () => {
     }
 
     it('should call onInsertItem with correct argument', (done) => {
-      insert(param => {
-        expect(param.type).to.be('file')
-        expect(param.service).to.be('googledrive')
-        expect(param.rank).to.be(1)
-        done()
+      insert({
+        onInsertItem: param => {
+          expect(param.type).to.be('file')
+          expect(param.service).to.be('googledrive')
+          expect(param.rank).to.be(1)
+          done()
+        }
       })
     })
 
-    it('should call replaceQuery with correct replacement', (done) => {
-      insert(undefined, input => {
-        input.replace = object => {
-          // Verify there are no missing params in objects.
-          expect(object.name).to.be('"Plans/Discussions"')
-          expect(object.content).to.be('#"Plans/Discussions"')
-          done()
+    it('should insert search object into editable', (done) => {
+      let input
+      let changeCounter = 0
+
+      insert({
+        onDidMount: _input => {
+          input = _input
+        },
+        onChange: () => {
+          const content = input.getTextContent()
+
+          if (changeCounter === 0) {
+            expect(content).to.be(' #')
+          }
+
+          if (changeCounter === 1) {
+            const expectedContent = ' ["Plans/Discussions"](cg://googledrive|file|"Plans/Discussions"|https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk||) '
+            expect(content).to.be(expectedContent)
+            done()
+          }
+
+          changeCounter++
         }
       })
     })
