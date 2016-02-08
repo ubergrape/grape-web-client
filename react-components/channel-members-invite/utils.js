@@ -1,12 +1,14 @@
 export function filterUserByValue(value, {username, displayName}) {
-  return username.toLowerCase().includes(value) ||
-    displayName.toLowerCase().includes(value)
+  const lowerCaseValue = value.toLowerCase()
+  return username.toLowerCase().indexOf(lowerCaseValue) >= 0 ||
+    displayName.toLowerCase().indexOf(lowerCaseValue) >= 0
 }
 
 export function sortUserByValue(value, {username, displayName}) {
+  const lowerCaseValue = value.toLowerCase()
   if (
-    username.toLowerCase().startsWith(value) ||
-    displayName.toLowerCase().startsWith(value)
+    username.toLowerCase().startsWith(lowerCaseValue) ||
+    displayName.toLowerCase().startsWith(lowerCaseValue)
   ) {
     return -1
   }
