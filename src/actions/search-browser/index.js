@@ -253,8 +253,9 @@ export function selectSearchBrowserTab(selector) {
 export function navigateSearchBrowser(action) {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
+    const {focusedItem} = state
 
-    if (action === 'select' && state.focusedItem && state.focusedItem.type === 'filters') {
+    if (action === 'select' && focusedItem && focusedItem.type === 'filters') {
       return dispatch(selectSearchBrowserItem())
     }
 
