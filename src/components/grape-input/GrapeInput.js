@@ -44,10 +44,13 @@ export default class GrapeInput extends Component {
 
   constructor(props) {
     super(props)
+    const {content} = props
+    const {objects, value} = fromMarkdown(content)
     this.state = {
       apiObjects: [],
-      content: props.content,
-      ...fromMarkdown(props.content)
+      content,
+      objects,
+      value
     }
   }
 
@@ -125,14 +128,14 @@ export default class GrapeInput extends Component {
     const content = toMarkdown(this.input.splitByTokens(), objects)
 
     this.setState({value, objects, content}, () => {
-      const token = this.input.getTouchedWord()
-      const query = getQuery(token)
+      const word = this.input.getTouchedWord()
+      const query = getQuery(word)
       this.props.onChange({query, content})
     })
   }
 
   /**
-   * Returns a class that will be applied to the token element for custom
+   * Returns a class name that will be applied to the token element for custom
    * styling.
    */
   getTokenClass(token) {

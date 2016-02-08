@@ -82,8 +82,8 @@ export default class HighlightedInput extends Component {
 
     const key = keyname(e.keyCode)
     let removed = false
-    if (key === 'del') removed = this.removeToken('next')
-    if (key === 'backspace') removed = this.removeToken('prev')
+    if (key === 'del') removed = this.removeTokenIfTouched('next')
+    if (key === 'backspace') removed = this.removeTokenIfTouched('prev')
     if (removed) e.preventDefault()
   }
 
@@ -141,7 +141,7 @@ export default class HighlightedInput extends Component {
    * We can improve the speed by using a fake caret in highlighter.
    * We can check if caret is inside/near the token.
    */
-  removeToken(direction) {
+  removeTokenIfTouched(direction) {
     const editable = ReactDOM.findDOMNode(this.refs.editable)
 
     const positionToDelete = getTokenPositionNearCaret(editable, direction, this.props.tokens)
