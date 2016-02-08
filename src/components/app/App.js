@@ -192,7 +192,7 @@ export default class App extends Component {
   }
 
   onKeyDown(e) {
-    if (!browserWithInput[this.state.browser]) {
+    if (browserWithInput[this.state.browser] === false) {
       this.navigateDatalist(e)
     }
   }
@@ -201,7 +201,7 @@ export default class App extends Component {
     // Delay blur event for the case when an external button was clicked,
     // because we are going to regain focus in a bit.
     setTimeout(() => {
-      if (!browserWithInput[this.state.browser]) {
+      if (browserWithInput[this.state.browser] === false) {
         this.emit('blur')
       }
     }, 100)
