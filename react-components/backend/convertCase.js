@@ -1,19 +1,46 @@
 import each from 'lodash/collection/each'
+import set from 'lodash/object/set'
 import snakeCase from 'lodash/string/snakeCase'
 import camelCase from 'lodash/string/camelCase'
+import RecursiveIterator from 'recursive-iterator'
 
-const maxLevel = 5
+function convert2(obj, converter) {
+  if (!obj) return obj
+  const newObj = {}
+  const iterable = new RecursiveIterator(obj, undefined, true)
 
-function convert(obj, converter, level = -1) {
+  for (const {node, path, deep} of iterable) {
+    const newPath = [
+      ...path.slice(0, deep - 1),
+      converter(path.pop())
+    ]
+
+    if (node && node.toJSON) {
+      set(newObj, newPath, convert2(node.toJSON(), converter))
+      continue
+    }
+    set(newObj, newPath, node)
+  }
+
+  return newObj
+}
+
+export const cache = []
+
+function convert(obj, converter) {
   if (!obj || typeof obj !== 'object') return obj
-  const nextLevel = level + 1
-  if (Array.isArray(obj)) return obj.map(item => convert(item, converter, nextLevel))
-  if (obj.toJSON) return convert(obj.toJSON(), converter, level)
+  if (cache.indexOf(obj) >= 0) return obj
+
+  cache.push(obj)
+  if (Array.isArray(obj)) return obj.map(item => convert(item, converter))
+  if (obj.toJSON) return convert(obj.toJSON(), converter)
+
+
   const newObj = {}
   each(obj, (val, key) => {
     let newVal = val
-    if (typeof val === 'object' && nextLevel < maxLevel) {
-      newVal = convert(val, converter, nextLevel)
+    if (typeof val === 'object') {
+      newVal = convert(val, converter)
     }
     newObj[converter(key)] = newVal
   })

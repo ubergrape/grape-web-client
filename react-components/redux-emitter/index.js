@@ -1,10 +1,11 @@
 import Emitter from 'emitter'
 
-import {toCamel} from '../backend/convertCase'
+import {toCamel, cache} from '../backend/convertCase'
 import boundActions from '../app/boundActions'
 import * as alerts from '../constants/alerts'
 
 function formatChannel(channel) {
+  console.log(cache.length)
   const jsonChannel = channel.toJSON()
   jsonChannel.users = jsonChannel.users.toArray().map(user => toCamel(user.toJSON()))
   if (channel.creator) {
