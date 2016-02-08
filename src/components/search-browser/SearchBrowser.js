@@ -117,8 +117,8 @@ export default class Browser extends Component {
     }
   }
 
-  onChange(query) {
-    this.props.inputSearchBrowserSearch(query)
+  onChange({value}) {
+    this.props.inputSearchBrowserSearch(value)
   }
 
   onMouseDown(e) {
@@ -194,7 +194,6 @@ export default class Browser extends Component {
     const inlineStyle = {
       height: content ? this.props.height : 'auto'
     }
-    console.log(inlineStyle)
 
     return (
       <div
@@ -205,9 +204,10 @@ export default class Browser extends Component {
         <div className={classes.editableContainer}>
           <span className={classes.searchIcon} />
           <HighilghtedInput
-            onKeyDown={::this.onKeyDown}
-            onBlur={::this.onBlur}
             onDidMount={::this.onMountInput}
+            onKeyDown={::this.onKeyDown}
+            onChange={::this.onChange}
+            onBlur={::this.onBlur}
             Editable={Input}
             focused={this.props.focused}
             value={this.props.search}
