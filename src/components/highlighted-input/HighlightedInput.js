@@ -170,10 +170,14 @@ export default class HighlightedInput extends Component {
   }
 
   ensureContainerSize() {
-    this.refs.container.style.height = this.refs.highlighter.offsetHeight + 'px'
+    const highlighterHeight = this.refs.highlighter.offsetHeight
+    const {container} = this.refs
+    const containerHeight = container.offsetHeight
 
-    // TODO Only call back if really resized.
-    this.props.onResize()
+    if (containerHeight !== highlighterHeight) {
+      container.style.height = `${highlighterHeight}px`
+      this.props.onResize()
+    }
   }
 
   applyChange(change) {
