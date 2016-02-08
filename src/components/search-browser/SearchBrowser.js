@@ -4,14 +4,21 @@ import get from 'lodash/object/get'
 import keyname from 'keyname'
 
 import {useSheet} from 'grape-web/lib/jss'
-import style from './browserStyle'
+import style from './searchBrowserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import Empty from '../empty/Empty'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import Input from '../input/Input'
+import HighilghtedInput from '../highlighted-input/HighlightedInput'
 import * as services from './services'
 import {listTypes} from '../../constants/searchBrowser'
+
+
+class Input extends Component {
+  render() {
+    return <input {...this.props} />
+  }
+}
 
 /**
  * Main search browser component.
@@ -110,7 +117,7 @@ export default class Browser extends Component {
     }
   }
 
-  onInput(query) {
+  onChange(query) {
     this.props.inputSearchBrowserSearch(query)
   }
 
@@ -120,7 +127,7 @@ export default class Browser extends Component {
     this.blurPrevented = true
 
     // Avoids loosing focus and though caret position in input.
-    const input = ReactDOM.findDOMNode(this.refs.input)
+    const input = ReactDOM.findDOMNode(this.input)
     if (e.target !== input) e.preventDefault()
   }
 
@@ -132,6 +139,10 @@ export default class Browser extends Component {
 
     this.blurPrevented = false
     e.target.focus()
+  }
+
+  onMountInput(ref) {
+    this.input = ref
   }
 
   resetSearch() {
@@ -179,9 +190,11 @@ export default class Browser extends Component {
   render() {
     const {classes} = this.props.sheet
     const content = this.renderContent()
+
     const inlineStyle = {
       height: content ? this.props.height : 'auto'
     }
+    console.log(inlineStyle)
 
     return (
       <div
@@ -189,8 +202,18 @@ export default class Browser extends Component {
         style={inlineStyle}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser">
-        <div className={classes.inputContainer}>
+        <div className={classes.editableContainer}>
           <span className={classes.searchIcon} />
+          <HighilghtedInput
+            onKeyDown={::this.onKeyDown}
+            onBlur={::this.onBlur}
+            onDidMount={::this.onMountInput}
+            Editable={Input}
+            focused={this.props.focused}
+            value={this.props.search}
+            placeholder="Grape Search"
+            theme={classes} />
+          {/*
           <Input
             onKeyDown={::this.onKeyDown}
             onInput={::this.onInput}
@@ -203,6 +226,7 @@ export default class Browser extends Component {
             type="search"
             placeholder="Grape Search"
             ref="input" />
+          */}
         </div>
         {this.props.tabs &&
           <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />

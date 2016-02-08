@@ -1,24 +1,18 @@
 import fonts from 'grape-theme/dist/fonts'
 
-const iconsWidth = 110
 
 export default {
   container: {
     ...fonts.normal,
     position: 'relative',
-    width: '100%',
-    height: '100%',
-    minHeight: 38,
-    boxSizing: 'border-box',
-    paddingRight: iconsWidth
+    boxSizing: 'border-box'
   },
   highlighter: {
     position: 'absolute',
+    overflow: 'hidden',
     left: 0,
     top: 0,
-    right: iconsWidth,
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
+    right: 0,
     color: 'transparent'
   },
   token: {

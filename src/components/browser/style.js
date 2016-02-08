@@ -5,12 +5,13 @@ export default {
     display: 'flex',
     flexDirection: 'column',
     background: colors.white,
-    borderRadius: 8,
+    borderRadius: 6,
     overflow: 'hidden',
     boxShadow: [
       '0 5px 11px 0 rgba(0, 0, 0, 0.18)',
       '0 4px 15px 0 rgba(0, 0, 0, 0.15)'
-    ].join(',')
+    ].join(','),
+    maxWidth: 680
   },
   column: {
     flex: 1,

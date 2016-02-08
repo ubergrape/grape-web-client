@@ -11,7 +11,7 @@
     "emojione": "^1.4.0",
     "grape-jss-utils": "git+ssh://git@github.com/ubergrape/grape-jss-utils.git#0.1.0",
     "grape-theme": "git+ssh://git@github.com/ubergrape/grape-theme.git#1.2.0",
-    "grape-web": "git+ssh://git@github.com/ubergrape/grape-web.git#0.11.0",
+    "grape-web": "git+ssh://git@github.com/ubergrape/grape-web.git#0.12.0",
     "images-loader": "^0.1.2",
     "js-emoji": "ubergrape/js-emoji",
     "keyname": "^0.1.0",

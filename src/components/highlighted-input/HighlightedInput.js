@@ -229,11 +229,11 @@ export default class HighlightedInput extends Component {
     return (
       <div
         ref="container"
-        className={classes.container}
+        className={`${classes.container} ${theme.container}`}
         data-test="highlighted-editable">
         <div
           ref="highlighter"
-          className={`${classes.highlighter} ${theme.editable}`}>
+          className={`${classes.highlighter} ${theme.highlighter}`}>
           {this.renderHighlighterContent()}
         </div>
         <Editable
