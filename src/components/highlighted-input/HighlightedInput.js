@@ -54,6 +54,7 @@ export default class HighlightedInput extends Component {
   }
 
   componentDidMount() {
+    this.editable = ReactDOM.findDOMNode(this.refs.editable)
     this.ensureContainerSize()
     this.props.onDidMount(this)
   }
@@ -64,9 +65,12 @@ export default class HighlightedInput extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.ensureCaretPosition()
     this.ensureContainerSize()
+    if (prevState.value !== this.state.value) {
+      this.props.onChange(this.state)
+    }
   }
 
   onChange({target}) {
@@ -91,7 +95,7 @@ export default class HighlightedInput extends Component {
    * Get the word caret is close by.
    */
   getTouchedWord() {
-    const {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    const {value, caretAt} = this.state
     const word = getTouchedWord(value, caretAt)
     if (word) return word.value
   }
@@ -101,13 +105,13 @@ export default class HighlightedInput extends Component {
    * Ensure space before the string.
    */
   insert(str) {
-    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    let {value, selectionEnd: caretAt} = this.editable
     let valueBefore = value.slice(0, caretAt)
     valueBefore = ensureSpace('after', valueBefore)
 
-    const valueAfter = value.slice(caretAt, value.length)
+    let valueAfter = value.slice(caretAt, value.length)
+    if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
     value = valueBefore + str + valueAfter
-
     caretAt = (valueBefore + str).length
 
     this.applyChange({value, caretAt})
@@ -118,7 +122,7 @@ export default class HighlightedInput extends Component {
    * Ensure space after the string.
    */
   replace(str) {
-    let {value, selectionEnd: caretAt} = ReactDOM.findDOMNode(this.refs.editable)
+    let {value, selectionEnd: caretAt} = this.editable
 
     const word = getTouchedWord(value, caretAt)
 
@@ -126,10 +130,10 @@ export default class HighlightedInput extends Component {
 
     const valueBefore = value.slice(0, word.position[0])
     let valueAfter = value.slice(word.position[1], value.length)
-    if (valueAfter) valueAfter = ensureSpace('before', valueAfter)
+    valueAfter = ensureSpace('before', valueAfter)
 
     value = valueBefore + str + valueAfter
-    caretAt = (valueBefore + str).length
+    caretAt = (valueBefore + str).length + 1
 
     this.applyChange({value, caretAt})
   }
@@ -142,7 +146,7 @@ export default class HighlightedInput extends Component {
    * We can check if caret is inside/near the token.
    */
   removeTokenIfTouched(direction) {
-    const editable = ReactDOM.findDOMNode(this.refs.editable)
+    const {editable} = this
 
     const positionToDelete = getTokenPositionNearCaret(editable, direction, this.props.tokens)
 
@@ -166,7 +170,7 @@ export default class HighlightedInput extends Component {
 
   ensureCaretPosition() {
     if (!this.props.focused) return
-    setCaretPosition(this.state.caretAt, ReactDOM.findDOMNode(this.refs.editable))
+    setCaretPosition(this.state.caretAt, this.editable)
   }
 
   ensureContainerSize() {
@@ -181,9 +185,7 @@ export default class HighlightedInput extends Component {
   }
 
   applyChange(change) {
-    this.setState(change, () => {
-      this.props.onChange(change)
-    })
+    this.setState(change)
   }
 
   renderHighlighterContent() {

@@ -158,8 +158,7 @@ export default class GrapeInput extends Component {
       apiObjects: [...this.state.apiObjects, result]
     }
     this.setState(state, () => {
-      // For the convenience, we insert always a space after insertion.
-      this.input.replace(token + ' ')
+      this.input.replace(token)
     })
   }
 
