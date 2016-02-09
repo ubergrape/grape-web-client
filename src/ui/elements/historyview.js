@@ -8,7 +8,6 @@ import qs from 'query'
 import classes from 'classes'
 import closest from 'closest'
 import events from 'events'
-import zoom from 'image-zoom'
 import focus from '../focus'
 import InfiniteScroll from '../infinite-scroll'
 import find from 'lodash/collection/find'
@@ -235,8 +234,7 @@ HistoryView.prototype.redraw = function() {
   // eventually group history
   let groupedHistory = groupHistory(history)
 
-  console.time('template')
-  var ddd = template('chathistory.jade', {
+  render(this.history, template('chathistory.jade', {
     room: this.room,
     history: groupedHistory,
     mode: this.mode,
@@ -244,12 +242,7 @@ HistoryView.prototype.redraw = function() {
     isFirstMsgLoaded: this.isFirstMsgLoaded,
     isLastMsgLoaded: this.isLastMsgLoaded,
     isOrgEmpty: this.isOrgEmpty
-  })
-  console.timeEnd('template')
-
-  console.time('redraw')
-  render(this.history, ddd)
-  console.timeEnd('redraw')
+  }))
 
   if (this.lastwindow.lastmsg !== this.room.history[0]) {
     this.scrollWindow.scrollTop += this.scrollWindow.scrollHeight - this.lastwindow.sH
@@ -351,7 +344,6 @@ HistoryView.prototype._findBottomVisible = function() {
 }
 
 HistoryView.prototype.setRoom = function(room, msgID) {
-  console.time('setRoom')
   let self = this
   this.requestedMsgID = null
   this.isOrgEmpty = false
@@ -397,7 +389,6 @@ HistoryView.prototype.setRoom = function(room, msgID) {
   })
 
   this.renderTypingNotification()
-  console.timeEnd('setRoom')
 }
 
 HistoryView.prototype.expandActivityList = function(ev) {
