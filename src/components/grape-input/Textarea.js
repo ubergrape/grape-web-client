@@ -51,11 +51,12 @@ export default class Textarea extends Component {
 
   insertLineBreak() {
     const {textarea} = this.refs
-    const {selectionStart} = textarea
+    const {selectionStart, selectionEnd, value} = textarea
 
     textarea.value =
-      textarea.value.substr(0, selectionStart) + '\n' +
-      textarea.value.substr(selectionStart)
+      value.substr(0, selectionStart) +
+      '\n' +
+      value.substr(selectionEnd)
 
     textarea.selectionEnd = selectionStart + 1
   }

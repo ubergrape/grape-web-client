@@ -154,7 +154,6 @@ export function getTokenPositionNearCaret(node, direction, tokens) {
   return nearPosition
 }
 
-
 /**
  * Check if an element is focused.
  */
