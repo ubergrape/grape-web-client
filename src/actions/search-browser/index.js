@@ -10,11 +10,10 @@ import {
 } from '../../components/browser/dataUtils'
 import {
   getSections,
-  filtersToServiceId,
   findIndexBySelector
 } from './data'
 
-function createState(nextProps, prevState) {
+function createState(nextProps) {
   const {data} = nextProps
 
   if (!data) {
@@ -25,13 +24,7 @@ function createState(nextProps, prevState) {
     }
   }
 
-  let serviceId
-  if (prevState.filters) {
-    serviceId = filtersToServiceId(data, prevState.filters)
-  }
-
-  const sections = getSections(data, serviceId)
-
+  const sections = getSections(data)
   const focusedItem = getFocusedItem(sections)
 
   return {...nextProps, sections, focusedItem}
@@ -108,13 +101,9 @@ function navigate(action, state) {
 }
 
 export function createSearchBrowserState(props) {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-
-    dispatch({
-      type: types.CREATE_SEARCH_BROWSER_STATE,
-      payload: createState(props, state)
-    })
+  return {
+    type: types.CREATE_SEARCH_BROWSER_STATE,
+    payload: createState(props)
   }
 }
 

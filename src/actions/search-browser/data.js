@@ -1,11 +1,8 @@
-import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
 
 import {findById} from '../../components/browser/dataUtils'
 
-// Trick the linter to not to warn about console usage.
-let {warn} = console
-warn = warn.bind(console)
+const warn = console.warn.bind(console) // eslint-disable-line no-console
 
 /**
  * Get sections based data structure.
@@ -25,14 +22,11 @@ warn = warn.bind(console)
  *   ]
  * }
  */
- // FIXME remove serviceId
-export function getSections(data, serviceId) {
+export function getSections(data) {
   const sections = []
 
   // Group by sections.
   data.results.forEach(result => {
-    if (serviceId && result.service !== serviceId) return
-
     let section = findById(sections, result.service)
     const service = findById(data.services, result.service)
 
@@ -72,17 +66,6 @@ export function getSections(data, serviceId) {
   if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
 
   return sections
-}
-
-/**
- * Get service id from the data using filters array.
- */
-export function filtersToServiceId({services = []}, filters = []) {
-  if (filters[0]) {
-    const service = find(services, ({key}) => key === filters[0])
-    if (service) return service.id
-  }
-  return ''
 }
 
 /**
