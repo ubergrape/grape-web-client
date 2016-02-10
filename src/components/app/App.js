@@ -2,7 +2,6 @@ import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
 import isEmpty from 'lodash/lang/isEmpty'
-import filter from 'lodash/collection/filter'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
 import capitalize from 'lodash/string/capitalize'
@@ -177,10 +176,9 @@ export default class App extends Component {
 
     const results = get(this.state, 'data.results')
     if (!isEmpty(results)) {
-      const resultsWithoutFilters = filter(results, res => res.type !== 'filters')
-      const index = findIndex(resultsWithoutFilters, res => res.id === item.id)
+      const index = findIndex(results, res => res.id === item.id)
       rank = index + 1
-      service = resultsWithoutFilters[index].service
+      service = results[index].service
     }
 
     clearTimeout(this.searchBrowserInputTimeoutId)

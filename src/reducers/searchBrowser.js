@@ -18,7 +18,6 @@ const actions = [
 const initialState = {
   height: 400,
   className: '',
-  maxItemsPerSectionInAll: 5,
   isExternal: false,
   isLoading: false,
   canAddIntegrations: false,
@@ -43,7 +42,6 @@ export default function reduce(state = initialState, action) {
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
     case types.EXEC_SEARCH_BROWSER_ACTION:
-    case types.SET_SEARCH_BROWSER_FILTERS:
     case types.INPUT_SEARCH_BROWSER_SEARCH:
       return {...state, ...action.payload}
     case types.FOCUS_SEARCH_BROWSER_ACTION:

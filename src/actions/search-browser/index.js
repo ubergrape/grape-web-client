@@ -6,8 +6,7 @@ import {searchBrowserSelector} from '../../selectors'
 import {
   getFocusedItem,
   setFocusedItem,
-  extractItems,
-  findById
+  extractItems
 } from '../../components/browser/dataUtils'
 import {
   getSections,
@@ -31,11 +30,7 @@ function createState(nextProps, prevState) {
     serviceId = filtersToServiceId(data, prevState.filters)
   }
 
-  const sections = getSections(
-    data,
-    serviceId,
-    nextProps.maxItemsPerSectionInAll
-  )
+  const sections = getSections(data, serviceId)
 
   const focusedItem = getFocusedItem(sections)
 
@@ -165,20 +160,7 @@ export function execSearchBrowserAction() {
 
 export function selectSearchBrowserItem() {
   return (dispatch, getState) => {
-    const {data, focusedItem} = searchBrowserSelector(getState())
-
-    if (focusedItem.type === 'filters') {
-      const service = findById(data.services, focusedItem.id)
-      const filters = service ? [service.key] : []
-      dispatch({
-        type: types.SET_SEARCH_BROWSER_FILTERS,
-        payload: {
-          filters,
-          search: ''
-        }
-      })
-      return
-    }
+    const {focusedItem} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_ITEM,
@@ -190,11 +172,6 @@ export function selectSearchBrowserItem() {
 export function navigateSearchBrowser(action) {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
-    const {focusedItem} = state
-
-    if (action === 'select' && focusedItem && focusedItem.type === 'filters') {
-      return dispatch(selectSearchBrowserItem())
-    }
 
     dispatch({
       type: types.NAVIGATE_SEARCH_BROWSER,

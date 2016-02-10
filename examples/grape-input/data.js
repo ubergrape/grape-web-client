@@ -46,14 +46,6 @@ window.searchData = {
   },
   'results': [
     {
-      'container': '#github',
-      'name': 'Search Github',
-      'highlighted': 'Search Github',
-      'id': 'github',
-      'service': 'filters',
-      'type': 'filters'
-    },
-    {
       'container': '/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/Tech',
       'name': 'Plans/Discussions',
       'service': 'googledrive',

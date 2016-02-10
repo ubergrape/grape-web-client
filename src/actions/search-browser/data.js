@@ -25,92 +25,54 @@ warn = warn.bind(console)
  *   ]
  * }
  */
-export const getSections = (() => {
-  /**
-   * Generate data for queries section.
-   */
-  function addFilterObjects(data) {
-    const {queries} = data.search
+ // FIXME remove serviceId
+export function getSections(data, serviceId) {
+  const sections = []
 
-    if (!queries.length) return data
+  // Group by sections.
+  data.results.forEach(result => {
+    if (serviceId && result.service !== serviceId) return
 
-    // Add fake service.
-    const service = {
-      hidden: true,
-      count: queries.length,
-      id: 'filters',
-      key: 'filters',
-      label: 'Queries'
+    let section = findById(sections, result.service)
+    const service = findById(data.services, result.service)
+
+    if (!service) {
+      warn('No service corresponding the item.', result)
+      return
     }
 
-    const results = queries.map(query => {
-      return {
-        id: query.id,
-        name: `Search ${query.name}`,
-        type: service.id,
-        container: `#${query.query}`,
-        service: service.id
+    // We have no section for this service yet.
+    if (!section) {
+      section = {
+        id: result.service,
+        label: service.label,
+        items: [],
+        selected: false
       }
+      sections.push(section)
+    }
+
+    if (!result.detail) result.detail = {}
+    // FIXME should be iconUrl
+    if (service.icon_url) result.detail.iconUrl = service.icon_url
+    section.items.push({
+      id: result.id,
+      type: result.type,
+      name: result.name,
+      info: result.container,
+      date: result.start,
+      focused: false,
+      service: result.service,
+      detail: result.detail,
+      search: data.search.text
     })
+  })
 
-    data.services = [service, ...data.services]
-    data.results = [...results, ...data.results]
+  // Select first result of the first section.
+  if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
 
-    return data
-  }
-
-  return function get(data, serviceId, limitPerSection = Infinity) {
-    const sections = []
-    const newData = addFilterObjects({...data})
-
-    // Group by sections.
-    newData.results.forEach(result => {
-      if (serviceId && result.service !== serviceId) return
-
-      let section = findById(sections, result.service)
-      const service = findById(newData.services, result.service)
-
-      if (!service) {
-        warn('No service corresponding the item.', result)
-        return
-      }
-
-      // We have no section for this service yet.
-      if (!section) {
-        section = {
-          id: result.service,
-          label: service.label,
-          items: [],
-          selected: false
-        }
-        sections.push(section)
-      }
-
-      if (serviceId ||
-        section.items.length < limitPerSection ||
-        result.service === 'filters') {
-        if (!result.detail) result.detail = {}
-        if (service.icon_url) result.detail.iconUrl = service.icon_url
-        section.items.push({
-          id: result.id,
-          type: result.type,
-          name: result.name,
-          info: result.container,
-          date: result.start,
-          focused: false,
-          service: result.service,
-          detail: result.detail,
-          search: newData.search.text
-        })
-      }
-    })
-
-    // Select first result of the first section.
-    if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
-
-    return sections
-  }
-}())
+  return sections
+}
 
 /**
  * Get service id from the data using filters array.

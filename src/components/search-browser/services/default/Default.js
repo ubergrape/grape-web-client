@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from '../../../browser/style'
-import Info from './Info'
 import Grid from '../../../grid/Grid'
 import Sidebar from '../../../sidebar/Sidebar'
 import Detail from '../../detail/Detail'
@@ -22,13 +21,6 @@ export default class Default extends Component {
   render() {
     const {classes} = this.props.sheet
     const {focusedItem} = this.props
-    let sidebarContent
-
-    if (focusedItem.type === 'filters') {
-      sidebarContent = <Info {...this.props} />
-    } else {
-      sidebarContent = <Detail {...this.props} data={focusedItem.detail} />
-    }
 
     return (
       <div className={classes.column}>
@@ -38,7 +30,7 @@ export default class Default extends Component {
             className={classes.leftColumn}
             focused={this.props.focusedList === 'objects'} />
           <Sidebar className={classes.rightColumn}>
-            {sidebarContent}
+            <Detail {...this.props} data={focusedItem && focusedItem.detail} />
           </Sidebar>
         </div>
       </div>

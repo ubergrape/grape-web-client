@@ -37,7 +37,6 @@ export default class Browser extends Component {
     focused: PropTypes.bool,
     data: PropTypes.object,
     sections: PropTypes.array,
-    maxItemsPerSectionInAll: PropTypes.number,
     container: PropTypes.element,
     isExternal: PropTypes.bool,
     isLoading: PropTypes.bool,

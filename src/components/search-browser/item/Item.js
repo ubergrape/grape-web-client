@@ -13,8 +13,7 @@ import * as utils from './utils'
 // TODO it should be a service implementation detail.
 const serviceIconMap = {
   googledrive: icons.googleDrive,
-  gcal: icons.googleCalendar,
-  filters: icons.magnifier
+  gcal: icons.googleCalendar
 }
 
 /**
