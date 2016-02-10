@@ -14,6 +14,7 @@ function setProps(newProps) {
 
 function getDefaultProps() {
   return {
+    focused: true,
     customEmojis: {test: '../images/avatar.gif'},
     placeholder: 'Some placeholder',
     images: {
@@ -28,7 +29,7 @@ function getDefaultProps() {
 }
 
 function init() {
-  setProps({focused: true})
+  setProps()
 
   input.addEventListener('grapeComplete', function (e) {
     console.log('complete', e.detail)
@@ -62,7 +63,7 @@ function init() {
 
       setProps({
         browser: 'emojiSuggest',
-        maxCompleteItems: 6,
+        maxSuggestions: 6,
         data: data
       })
     }
@@ -85,10 +86,12 @@ function init() {
   })
 
   input.addEventListener('grapeFocus', function (e) {
+    setProps({focused: true})
     console.log('focus')
   })
 
   input.addEventListener('grapeBlur', function (e) {
+    setProps({focused: false})
     console.log('blur')
   })
 
@@ -119,7 +122,7 @@ function init() {
 }
 
 function showSearchDelayed(delay) {
-  setProps({browser: 'search', isLoading: true})
+  setProps({browser: 'search', isLoading: true, setTrigger: true})
   setTimeout(function() {
     setProps({
       browser: 'search',

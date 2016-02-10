@@ -14,8 +14,6 @@ import {shallowEqual} from 'react-pure-render'
 
 import SearchBrowser from '../search-browser/SearchBrowserModalProvider'
 import EmojiBrowser from '../emoji-browser/Browser'
-import * as objectStyle from '../objects/style'
-import * as objects from '../objects'
 import GrapeInput from '../grape-input/GrapeInput'
 import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
@@ -27,6 +25,15 @@ import style from './style'
 import * as utils from './utils'
 
 const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
+
+// Map indicates whether browser has its own input field or
+// its using the main one.
+const browserWithInput = {
+  search: true,
+  emoji: true,
+  emojiSuggest: false,
+  user: false
+}
 
 /**
  * Uses all types of auto completes to provide end component.
@@ -41,11 +48,12 @@ export default class App extends Component {
     canAddIntegrations: PropTypes.bool,
     placeholder: PropTypes.string,
     ignoreSuggest: PropTypes.bool,
+    setTrigger: PropTypes.bool,
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
-    browser: PropTypes.oneOf(['emojiSuggest', 'user', 'search', 'emoji']),
+    browser: PropTypes.oneOf(Object.keys(browserWithInput)),
     externalServicesInputDelay: PropTypes.number
   }
 
@@ -54,7 +62,7 @@ export default class App extends Component {
     // We need to set it to null to enable shallowEqual comparance in
     // componentWillReceiveProps, because this is the only new prop.
     ariaHidden: null,
-    maxCompleteItems: 12,
+    maxSuggestions: 12,
     externalServicesInputDelay: 150,
     browser: undefined,
     data: undefined,
@@ -67,6 +75,7 @@ export default class App extends Component {
     ignoreSuggest: false,
     hasIntegrations: false,
     canAddIntegrations: true,
+    setTrigger: false,
     isLoading: false,
     onAbort: undefined,
     onEditPrevious: undefined,
@@ -80,14 +89,12 @@ export default class App extends Component {
     super(props)
     this.query = new QueryModel({onChange: ::this.onChangeQuery})
     this.exposePublicMethods()
-    this.state = this.createState(this.props)
+    this.state = this.createState(props)
   }
 
   componentDidMount() {
-    objectStyle.sheet.attach()
     this.setTrigger(this.state.browser)
-    const {onDidMount} = this.props
-    if (onDidMount) onDidMount(this)
+    this.props.onDidMount(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,10 +130,6 @@ export default class App extends Component {
     }
   }
 
-  componentWillUnmount() {
-    objectStyle.sheet.detach()
-  }
-
   onEditPrevious() {
     this.emit('editPrevious')
   }
@@ -138,7 +141,7 @@ export default class App extends Component {
 
   onAbort(data = {}) {
     const {browser} = this.state
-    this.closeBrowser({textareaFocused: true}, () => {
+    this.closeBrowser({inputFocused: true}, () => {
       this.emit('abort', {...data, browser})
     })
   }
@@ -189,20 +192,27 @@ export default class App extends Component {
   }
 
   onKeyDown(e) {
-    switch (this.state.browser) {
-      case 'user':
-      case 'emojiSuggest':
-        this.navigateDatalist(e)
-        break
-      default:
+    if (browserWithInput[this.state.browser] === false) {
+      this.navigateDatalist(e)
     }
   }
 
   onBlurInput() {
-    if (!this.state.browser) this.emit('blur')
+    // Delay blur event for the case when an external button was clicked,
+    // because we are going to regain focus in a bit.
+    setTimeout(() => {
+      if (browserWithInput[this.state.browser] === false) {
+        this.emit('blur')
+      }
+    }, 100)
+  }
+
+  onFocusInput() {
+    this.emit('focus')
   }
 
   onBlurBrowser() {
+    // We don't want to close browser when entire window looses the focus.
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser()
     }, 100)
@@ -210,10 +220,6 @@ export default class App extends Component {
 
   onBlurWindow() {
     clearTimeout(this.blurTimeoutId)
-  }
-
-  onChangeQuery(newQueryStr) {
-    this.textarea.insertQueryString(newQueryStr)
   }
 
   onInputSearchBrowser(query) {
@@ -235,7 +241,7 @@ export default class App extends Component {
     this.emit('resize')
   }
 
-  onChangeInput(query = {}) {
+  onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     if (query) {
       // If it is a browser trigger, we don't reopen browser, but let user type
@@ -250,7 +256,13 @@ export default class App extends Component {
       this.query.reset()
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
-    this.emit('change')
+
+    if (content === undefined) this.emit('change')
+    else this.setState({content}, () => this.emit('change'))
+  }
+
+  onChangeQuery(str) {
+    this.editable.insert(str)
   }
 
   setTrigger(browser) {
@@ -259,12 +271,14 @@ export default class App extends Component {
   }
 
   getTextContent() {
-    return this.textarea ? this.textarea.getTextWithMarkdown() : ''
+    return this.state.content
   }
 
-  setTextContent(text, options) {
+  setTextContent(content, options = {}) {
     this.query.reset()
-    this.textarea.setTextContent(text, options)
+    this.setState({content}, () => {
+      if (!options.silent) this.onChangeInput()
+    })
   }
 
   exposePublicMethods() {
@@ -275,21 +289,40 @@ export default class App extends Component {
 
   createState(nextProps) {
     const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreSuggest')
-    state.textareaFocused = nextProps.focused
+
     if (state.browser === 'user') {
       state.data = mentions
         .map(state.data)
-        .slice(0, nextProps.maxCompleteItems)
+        .slice(0, nextProps.maxSuggestions)
     }
     if (state.browser === 'emojiSuggest') {
       state.data = emoji.sortByRankAndLength(state.data)
-        .slice(0, nextProps.maxCompleteItems)
+        .slice(0, nextProps.maxSuggestions)
     }
     state.query = this.query.toJSON()
+
     const canShowBrowser = utils.canShowBrowser(this.state, state)
-    if (!canShowBrowser) state.browser = null
-    state.browserOpened = this.state ? this.state.browserOpened : false
-    if (canShowBrowser) state.browserOpened = true
+
+    if (canShowBrowser) {
+      state.browserOpened = true
+    } else {
+      state.browser = null
+      state.browserOpened = false
+    }
+
+    if (!this.state) {
+      state.content = ''
+    }
+
+    state.inputFocused = false
+    if (nextProps.focused) {
+      state.inputFocused = true
+
+      if (state.browserOpened) {
+        state.inputFocused = !browserWithInput[state.browser]
+      }
+    }
+
     return state
   }
 
@@ -302,7 +335,7 @@ export default class App extends Component {
   }
 
   /**
-   * Keyboard navigation for the datalist (mention, emoji).
+   * Keyboard navigation for the datalist (mention, emojiSuggest).
    */
   navigateDatalist(e) {
     const {datalist} = this
@@ -329,23 +362,12 @@ export default class App extends Component {
   insertItem(item, query) {
     if (item) {
       const results = get(this.state, 'data.results')
-      const data = find(results, res => res.id === item.id) || item
-      const object = objects.create(data.type, data)
-      this.setState({contentObjects: [...this.state.contentObjects, object]})
-      this.replaceQuery(object)
+      const result = find(results, res => res.id === item.id) || item
+      this.editable.replace(result)
     }
     this.onInsertItem(item, query)
-    this.closeBrowser({textareaFocused: true})
+    this.closeBrowser({inputFocused: true})
     this.query.reset()
-  }
-
-  replaceQuery(replacement) {
-    this.setState({textareaFocused: true})
-    this.textarea.replaceQuery(replacement)
-  }
-
-  insertQuery() {
-    this.setState({textareaFocused: true})
   }
 
   /**
@@ -415,26 +437,28 @@ export default class App extends Component {
 
   render() {
     const {classes} = this.props.sheet
+
     return (
       <div
-        onKeyDown={::this.onKeyDown}
         className={classes.input}
         data-test="grape-browser">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         {this.renderBrowser()}
         <div className={classes.scroll}>
           <GrapeInput
+            onKeyDown={::this.onKeyDown}
             onAbort={::this.onAbort}
             onResize={::this.onInputResize}
             onChange={::this.onChangeInput}
             onBlur={::this.onBlurInput}
+            onFocus={::this.onFocusInput}
             onSubmit={::this.onSubmit}
             onEditPrevious={::this.onEditPrevious}
-            onDidMount={this.onDidMount.bind(this, 'textarea')}
+            onDidMount={this.onDidMount.bind(this, 'editable')}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
-            focused={this.state.textareaFocused}
-            content={this.getTextContent()} />
+            focused={this.state.inputFocused}
+            content={this.state.content} />
         </div>
       </div>
     )

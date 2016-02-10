@@ -2,40 +2,37 @@ import {$, render} from '../../test'
 import expect from 'expect.js'
 import React from 'react'
 import GrapeInput from '../GrapeInput'
-import Room from '../../objects/classes/Room'
 
 describe('grape-input:', () => {
   describe('GrapeInput()', () => {
     it('should render without props', () => {
       render(<GrapeInput />)
-      expect($('highlighted-textarea')).to.be.an(Element)
+      expect($('highlighted-editable')).to.be.an(Element)
     })
   })
 
-  describe('GrapeInput#setTextContent', () => {
-    it('should parse markdown', done => {
-      let resizeFlag = false
+  describe('GrapeInput set content', () => {
+    it('should parse markdown content', done => {
+      let resized = false
 
       function onDidMount(component) {
-        component.setTextContent('[name](cg://chatgrape|room|1|/chat/slug)')
-        setTimeout(() => {
-          expect(component.state.objectsMap['@name']).to.be.a(Room)
-          expect(resizeFlag).to.be(true)
-          done()
-        }, 0)
+        expect(resized).to.be(true)
+        expect(component.state.value).to.be('@room')
+        done()
       }
 
       function onResize() {
-        resizeFlag = true
+        resized = true
       }
 
-      const textarea = (
+      const grapeInput = (
         <GrapeInput
-          onDidMount={onDidMount}
           onResize={onResize}
+          onDidMount={onDidMount}
+          content={'[room](cg://chatgrape|room|1|/chat/slug)'}
           focused />
       )
-      render(textarea)
+      render(grapeInput)
     })
   })
 })

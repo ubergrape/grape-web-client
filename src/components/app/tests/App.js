@@ -31,13 +31,13 @@ describe('app:', () => {
           browser="search"
           data={data}
           onDidMount={onDidMount}
-          focused/>
+          focused />
       )
       render(input, onRender)
     }
 
     it('shound render "nothing found"', done => {
-      create(null, () => {
+      create(undefined, () => {
         expect($('search-browser empty', document.body)).to.be.an(Element)
         done()
       })
@@ -46,7 +46,7 @@ describe('app:', () => {
     it('should close browser if there is space at the end and no results', (done) => {
       create(component => {
         component.query.set('search', 'something ', {silent: true})
-        create(null, () => {
+        create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be(null)
           done()
@@ -57,7 +57,7 @@ describe('app:', () => {
     it('should stay opened when space is not at the end', (done) => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
-        create(null, () => {
+        create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be.an(Element)
           done()
@@ -67,16 +67,15 @@ describe('app:', () => {
   })
 
   describe('App() insert object', () => {
-    function insert(onInsertItem, onDidMount) {
+    function insert(props) {
       const data = {...data0}
       data.search.queries = []
       const input = (
         <App
           browser="search"
           data={data}
-          onInsertItem={onInsertItem}
-          onDidMount={onDidMount}
-          focused/>
+          focused
+          {...props} />
       )
       render(input)
 
@@ -86,21 +85,38 @@ describe('app:', () => {
     }
 
     it('should call onInsertItem with correct argument', (done) => {
-      insert(param => {
-        expect(param.type).to.be('file')
-        expect(param.service).to.be('googledrive')
-        expect(param.rank).to.be(1)
-        done()
+      insert({
+        onInsertItem: param => {
+          expect(param.type).to.be('file')
+          expect(param.service).to.be('googledrive')
+          expect(param.rank).to.be(1)
+          done()
+        }
       })
     })
 
-    it('should call replaceQuery with correct replacement', (done) => {
-      insert(null, input => {
-        input.replaceQuery = replacement => {
-          // Verify there are no missing params in objects.
-          expect(replacement.name).to.be('"Plans/Discussions"')
-          expect(replacement.content).to.be('#"Plans/Discussions"')
-          done()
+    it('should insert search object into editable', (done) => {
+      let input
+      let changeCounter = 0
+
+      insert({
+        onDidMount: _input => {
+          input = _input
+        },
+        onChange: () => {
+          const content = input.getTextContent()
+
+          if (changeCounter === 0) {
+            expect(content).to.be(' #')
+          }
+
+          if (changeCounter === 1) {
+            const expectedContent = ' ["Plans/Discussions"](cg://googledrive|file|"Plans/Discussions"|https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk||) '
+            expect(content).to.be(expectedContent)
+            done()
+          }
+
+          changeCounter++
         }
       })
     })

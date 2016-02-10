@@ -460,3 +460,80 @@ window.searchData = {
 
   ]
 }
+
+window.userData = [
+  {
+    "id": 2,
+    "name": 'X"><img src="http://kroener.io/temp/s2.png">',
+    "username": "user-2",
+    "iconURL": "../images/avatar.gif",
+    "type": "user"
+  },
+  {
+    "id": 3,
+    "name": "eslrxhi9xf@example.com",
+    "username": "eslrxhi9xf@example.com",
+    "iconURL": "../images/avatar.gif",
+    "type": "user"
+  },
+  {
+    "id": 9,
+    "type": "room",
+    "name": "Development",
+    "slug": "development"
+  },
+  {
+    "id": 3,
+    "type": "room",
+    "name": "Room #3",
+    "slug": "room-3"
+  },
+  {
+    "id": 5,
+    "type": "room",
+    "name": "Room #5",
+    "slug": "room-5"
+  },
+  {
+    "id": 6,
+    "type": "room",
+    "name": "Room #6",
+    "slug": "room-6"
+  },
+  {
+    "id": 10,
+    "type": "room",
+    "name": "Activities",
+    "slug": "activities"
+  },
+  {
+    "id": 8,
+    "type": "room",
+    "name": "Off-Topic",
+    "slug": "off-topic"
+  },
+  {
+    "id": 2,
+    "type": "room",
+    "name": "Room #2",
+    "slug": "room-2"
+  },
+  {
+    "id": 7,
+    "type": "room",
+    "name": "General",
+    "slug": "general"
+  },
+  {
+    "id": 4,
+    "type": "room",
+    "name": "Room #4",
+    "slug": "room-4"
+  },
+  {
+    "id": 1,
+    "type": "room",
+    "name": "Room #1",
+    "slug": "room-1"
+  }
+]
