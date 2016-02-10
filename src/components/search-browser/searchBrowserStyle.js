@@ -22,20 +22,18 @@ export default {
     alignSelf: 'center',
     marginLeft: iconSize
   },
-  container: { 
+  container: {
     flex: 1,
     marginLeft: editablePadding,
     marginRight: iconSize * 2 + editablePadding
   },
   editable: {
     ...fonts.biggest,
-    display: 'block',
     paddingTop: editablePadding,
     paddingBottom: editablePadding,
-    minHeight: 31,
+    height: 31,
     border: 'none !important',
-    outline: 'none',
-    width: '100%'
+    outline: 'none'
   },
   highlighter: {
     extend: 'editable'

@@ -2,23 +2,17 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import get from 'lodash/object/get'
 import keyname from 'keyname'
-
+import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
+
 import style from './searchBrowserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
-import Empty from '../empty/Empty'
-import Spinner from 'grape-web/lib/spinner/Spinner'
-import HighilghtedInput from '../highlighted-input/HighlightedInput'
 import * as services from './services'
+import Input from './Input'
+import HighilghtedInput from '../highlighted-input/HighlightedInput'
+import Empty from '../empty/Empty'
 import {listTypes} from '../../constants/searchBrowser'
-
-
-class Input extends Component {
-  render() {
-    return <input {...this.props} />
-  }
-}
 
 /**
  * Main search browser component.
@@ -117,8 +111,12 @@ export default class Browser extends Component {
     }
   }
 
-  onChange({value}) {
-    this.props.inputSearchBrowserSearch(value)
+  onChangeSearch({value}) {
+    this.props.inputSearchBrowserSearch({
+      search: value,
+      filters: [],
+      trigger: '#'
+    })
   }
 
   onMouseDown(e) {
@@ -141,7 +139,7 @@ export default class Browser extends Component {
     e.target.focus()
   }
 
-  onMountInput(ref) {
+  onMountInput(ref) {
     this.input = ref
   }
 
@@ -206,7 +204,7 @@ export default class Browser extends Component {
           <HighilghtedInput
             onDidMount={::this.onMountInput}
             onKeyDown={::this.onKeyDown}
-            onChange={::this.onChange}
+            onChange={::this.onChangeSearch}
             onBlur={::this.onBlur}
             Editable={Input}
             focused={this.props.focused}

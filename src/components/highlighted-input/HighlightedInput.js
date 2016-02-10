@@ -244,7 +244,7 @@ export default class HighlightedInput extends Component {
           onKeyDown={::this.onKeyDown}
           onChange={::this.onChange}
           value={this.state.value}
-          className={theme.editable} />
+          className={`${classes.editable} ${theme.editable}`} />
       </div>
     )
   }
