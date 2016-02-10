@@ -146,34 +146,6 @@ export function setFocusedItemAt(sections, id, index) {
 }
 
 /**
- * Get data for tabs representation.
- */
-export function getTabs(items = [], serviceId) {
-  if (!items.length) return items
-
-  const visibleItems = items.filter(item => !item.hidden && item.count !== undefined)
-
-  const tabs = visibleItems.map(item => {
-    return {
-      label: item.label,
-      amount: item.count,
-      id: item.id,
-      selected: serviceId === item.id
-    }
-  })
-
-  const total = tabs.reduce((counter, tab) => counter + (tab.amount || 0), 0)
-
-  tabs.unshift({
-    label: 'All',
-    amount: total,
-    selected: !serviceId
-  })
-
-  return tabs
-}
-
-/**
  * Get service id from the data using filters array.
  */
 export function filtersToServiceId({services = []}, filters = []) {

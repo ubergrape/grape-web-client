@@ -55,11 +55,3 @@ export function setFocusedItem(sections, id) {
   const item = getItemById(sections, id)
   item.focused = true
 }
-
-/**
- * Mark a tab at specified index as selected, unmark previously selected one.
- */
-export function setSelectedTab(tabs, index) {
-  tabs.forEach(tab => tab.selected = false)
-  tabs[index].selected = true
-}

@@ -43,7 +43,6 @@ export default function reduce(state = initialState, action) {
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
     case types.EXEC_SEARCH_BROWSER_ACTION:
-    case types.SELECT_SEARCH_BROWSER_TAB:
     case types.SET_SEARCH_BROWSER_FILTERS:
     case types.INPUT_SEARCH_BROWSER_SEARCH:
       return {...state, ...action.payload}

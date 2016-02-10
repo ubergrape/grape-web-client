@@ -6,7 +6,6 @@ import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './searchBrowserStyle'
-import TabsWithControls from '../tabs/TabsWithControls'
 import Item from './item/Item'
 import * as services from './services'
 import Input from './Input'
@@ -29,7 +28,6 @@ export default class Browser extends Component {
     onBlur: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
-    selectSearchBrowserTab: PropTypes.func,
     navigateSearchBrowser: PropTypes.func,
     focusSearchBrowserAction: PropTypes.func,
     blurSearchBrowserAction: PropTypes.func,
@@ -46,7 +44,6 @@ export default class Browser extends Component {
     images: PropTypes.object,
     height: PropTypes.number,
     className: PropTypes.string,
-    tabs: PropTypes.array,
     search: PropTypes.string,
     filters: PropTypes.array,
     focusedList: PropTypes.oneOf(listTypes)
@@ -63,10 +60,6 @@ export default class Browser extends Component {
 
   onSelectItem({id} = {}) {
     this.props.selectSearchBrowserItem(id)
-  }
-
-  onSelectTab({id}) {
-    this.props.selectSearchBrowserTab(id)
   }
 
   onKeyDown(e) {
@@ -102,10 +95,6 @@ export default class Browser extends Component {
           this.props.navigateSearchBrowser('back')
           e.preventDefault()
         }
-        break
-      case 'tab':
-        this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
-        e.preventDefault()
         break
       default:
     }
@@ -213,9 +202,6 @@ export default class Browser extends Component {
             placeholder="Grape Search"
             theme={classes} />
         </div>
-        {this.props.tabs &&
-          <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />
-        }
         {content}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>

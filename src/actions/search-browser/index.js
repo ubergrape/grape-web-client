@@ -8,15 +8,13 @@ import {
   getFocusedItem,
   setFocusedItem,
   extractItems,
-  findById,
-  setSelectedTab
+  findById
 } from '../../components/browser/dataUtils'
 import {
   getSections,
   getSelectedSection,
   setSelectedSection,
   setFocusedItemAt,
-  getTabs,
   filtersToServiceId,
   findIndexBySelector
 } from './data'
@@ -28,7 +26,6 @@ function createState(nextProps, prevState) {
     return {
       ...nextProps,
       sections: [],
-      tabs: [],
       focusedItem: undefined
     }
   }
@@ -47,51 +44,9 @@ function createState(nextProps, prevState) {
   const selectedSection = getSelectedSection(sections)
   if (selectedSection) sections = [selectedSection]
 
-  const tabs = getTabs(data.services, serviceId)
-
   const focusedItem = getFocusedItem(sections)
 
-  return {...nextProps, sections, tabs, focusedItem}
-}
-
-/**
- * Select tab.
- *
- * @param {String} selector can be tab id or "prev" or "next"
- */
-function selectTab(selector, state) {
-  if (!state.data) return state
-
-  const {tabs} = state
-  let tabIndex
-
-  if (selector === 'prev' || selector === 'next') {
-    tabIndex = findIndexBySelector(selector, tabs, tab => tab.selected)
-  } else {
-    tabIndex = findIndex(tabs, tab => tab.id === selector)
-  }
-
-  const {id} = tabs[tabIndex]
-
-  setSelectedTab(tabs, tabIndex)
-  const sections = getSections(
-    state.data,
-    id,
-    state.maxItemsPerSectionInAll
-  )
-  setSelectedSection(sections, id)
-  setFocusedItemAt(sections, id, 0)
-
-  const service = findById(state.data.services, id)
-  const filters = service ? [service.key] : []
-  const focusedItem = getFocusedItem(sections)
-
-  return {
-    tabs,
-    sections,
-    filters,
-    focusedItem
-  }
+  return {...nextProps, sections, focusedItem}
 }
 
 /**
@@ -236,16 +191,6 @@ export function selectSearchBrowserItem() {
     dispatch({
       type: types.SELECT_SEARCH_BROWSER_ITEM,
       payload: focusedItem
-    })
-  }
-}
-
-export function selectSearchBrowserTab(selector) {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    dispatch({
-      type: types.SELECT_SEARCH_BROWSER_TAB,
-      payload: selectTab(selector, state)
     })
   }
 }
