@@ -1,5 +1,4 @@
 import find from 'lodash/collection/find'
-import findIndex from 'lodash/array/findIndex'
 import {openUrl} from 'grape-web/lib/x-platform'
 
 import * as types from '../../constants/actionTypes'
@@ -12,9 +11,6 @@ import {
 } from '../../components/browser/dataUtils'
 import {
   getSections,
-  getSelectedSection,
-  setSelectedSection,
-  setFocusedItemAt,
   filtersToServiceId,
   findIndexBySelector
 } from './data'
@@ -35,14 +31,11 @@ function createState(nextProps, prevState) {
     serviceId = filtersToServiceId(data, prevState.filters)
   }
 
-  let sections = getSections(
+  const sections = getSections(
     data,
     serviceId,
     nextProps.maxItemsPerSectionInAll
   )
-
-  const selectedSection = getSelectedSection(sections)
-  if (selectedSection) sections = [selectedSection]
 
   const focusedItem = getFocusedItem(sections)
 
@@ -57,8 +50,7 @@ function focusItem(selector, state) {
   let id = selector
 
   if (selector === 'next' || selector === 'prev') {
-    const selectedSection = getSelectedSection(sections)
-    const items = selectedSection ? selectedSection.items : extractItems(sections)
+    const items = extractItems(sections)
     const itemIndex = findIndexBySelector(selector, items, item => item.focused)
     id = items[itemIndex].id
   }

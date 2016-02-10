@@ -1,10 +1,7 @@
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
 
-import {
-  findById,
-  unsetFocusedItem
-} from '../../components/browser/dataUtils'
+import {findById} from '../../components/browser/dataUtils'
 
 // Trick the linter to not to warn about console usage.
 let {warn} = console
@@ -114,36 +111,6 @@ export const getSections = (() => {
     return sections
   }
 }())
-
-/**
- * Get a section which is currently selected.
- */
-export function getSelectedSection(sections) {
-  return find(sections, section => section.selected)
-}
-
-/**
- * Mark section as selected. Unmark previously selected one.
- */
-export function setSelectedSection(sections, id) {
-  const curr = getSelectedSection(sections)
-  if (curr) curr.selected = false
-  if (id) {
-    const next = findById(sections, id)
-    if (next) next.selected = true
-  }
-}
-
-/**
- * Mark an item as focused. Unmark previously focused one.
- */
-export function setFocusedItemAt(sections, id, index) {
-  if (!sections.length) return
-  unsetFocusedItem(sections)
-  // Take first id when nothing passed.
-  const section = findById(sections, id || sections[0].id)
-  if (section) section.items[index].focused = true
-}
 
 /**
  * Get service id from the data using filters array.
