@@ -14,6 +14,7 @@ import messageSearch from '../message-search'
 import alerts from '../alerts'
 import inviteChannelMembers from '../channel-members-invite'
 import unreadChannels from '../unread-channels'
+import NavigationProvider from '../navigation/NavigationProvider'
 
 render(
   createElement(channelSearch(store)),
@@ -39,5 +40,6 @@ document.registerReact('grape-shared-files', sharedFiles(store))
 document.registerReact('grape-mentions', mentions(store))
 document.registerReact('grape-message-search', messageSearch(store))
 document.registerReact('grape-alerts', alerts(store))
+document.registerReact('grape-navigation', NavigationProvider)
 
 subscribeActions(client.connect())

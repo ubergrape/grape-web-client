@@ -105,3 +105,25 @@ export const inviteDialog = createSelector(
     }
   }
 )
+
+export const navigation = createSelector(
+  [
+    channelsSelector,
+    channelSelector,
+    usersSelector,
+    userSelector
+  ],
+  (
+    channels,
+    channel,
+    users,
+    user
+  ) => {
+    return {
+      channels,
+      channel,
+      users,
+      user
+    }
+  }
+)
