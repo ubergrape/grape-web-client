@@ -198,7 +198,8 @@ export default class Browser extends Component {
         className={`${classes.browser} ${this.props.className}`}
         style={inlineStyle}
         onMouseDown={::this.onMouseDown}
-        data-test="search-browser">
+        data-test="search-browser"
+        tabIndex="-1">
         <div className={classes.editableContainer}>
           <span className={classes.searchIcon} />
           <HighilghtedInput
@@ -211,20 +212,6 @@ export default class Browser extends Component {
             value={this.props.search}
             placeholder="Grape Search"
             theme={classes} />
-          {/*
-          <Input
-            onKeyDown={::this.onKeyDown}
-            onInput={::this.onInput}
-            onChangeFilters={this.props.onSelectFilter}
-            onBlur={::this.onBlur}
-            focused={this.props.focused}
-            filters={this.props.filters}
-            search={this.props.search}
-            className={classes.input}
-            type="search"
-            placeholder="Grape Search"
-            ref="input" />
-          */}
         </div>
         {this.props.tabs &&
           <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />

@@ -66,7 +66,7 @@ describe('app:', () => {
     })
   })
 
-  describe('App() insert object', () => {
+  describe('App() insert object:', () => {
     function insert(props) {
       const data = {...data0}
       data.search.queries = []
@@ -79,8 +79,11 @@ describe('app:', () => {
       )
       render(input)
 
+      const node = $('search-browser input', document.body)
+      node.value = 'a'
+      Simulate.change(node)
       times(2, () => {
-        Simulate.keyDown($('search-browser input', document.body), {keyCode: 13})
+        Simulate.keyDown(node, {keyCode: 13})
       })
     }
 
@@ -106,11 +109,11 @@ describe('app:', () => {
         onChange: () => {
           const content = input.getTextContent()
 
-          if (changeCounter === 0) {
+          if (changeCounter === 1) {
             expect(content).to.be(' #')
           }
 
-          if (changeCounter === 1) {
+          if (changeCounter === 2) {
             const expectedContent = ' ["Plans/Discussions"](cg://googledrive|file|"Plans/Discussions"|https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk||) '
             expect(content).to.be(expectedContent)
             done()
