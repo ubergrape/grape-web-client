@@ -17,6 +17,7 @@ export default function create(name, options = {}) {
       display: 'inline-block',
       verticalAlign: 'middle',
       marginRight: options.iconOnly ? 0 : 5,
+      background: 'no-repeat, 50% 50%',
       backgroundImage: `url('${icon}')`,
       backgroundSize: 'contain'
     }
