@@ -1,1 +1,1 @@
-export const listTypes = ['objects', 'actions']
+export const listTypes = ['objects', 'actions', 'services']

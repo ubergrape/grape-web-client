@@ -26,9 +26,9 @@ const initialState = {
   filters: [],
   actions,
   focusedAction: actions[0],
+  tokens: {},
   onAddIntegration: noop,
   onSelectItem: noop,
-  onSelectFilter: noop,
   onDidMount: noop,
   onChange: noop,
   onAbort: noop,
@@ -54,6 +54,12 @@ export default function reduce(state = initialState, action) {
       return {...state, hoveredAction: null}
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, focusedItem: action.payload}
+    case types.SHOW_SEARCH_BROWSER_SERVICES:
+      return {...state, focusedList: 'services'}
+    case types.SHOW_SEARCH_BROWSER_OBJECTS:
+      return {...state, focusedList: 'objects'}
+    case types.ADD_SEARCH_BROWSER_FILTER:
+      return {...state, tokens: {...state.tokens, ...action.payload}}
     case types.RESET_SEARCH_BROWSER_STATE:
       return initialState
     default:

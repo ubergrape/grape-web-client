@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
-import get from 'lodash/object/get'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
@@ -8,8 +7,8 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './searchBrowserStyle'
 import Item from './item/Item'
 import * as services from './services'
-import Input from './Input'
-import HighilghtedInput from '../highlighted-input/HighlightedInput'
+import SearchInput from './search-input/SearchInput'
+import ServiceList from './service-list/ServiceList'
 import Empty from '../empty/Empty'
 import {listTypes} from '../../constants/searchBrowser'
 
@@ -21,31 +20,26 @@ export default class Browser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onDidMount: PropTypes.func,
-    onSelectFilter: PropTypes.func,
-    onSelectItem: PropTypes.func,
-    onInput: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
     navigateSearchBrowser: PropTypes.func,
-    focusSearchBrowserAction: PropTypes.func,
-    blurSearchBrowserAction: PropTypes.func,
-    execSearchBrowserAction: PropTypes.func,
     inputSearchBrowserSearch: PropTypes.func,
-    focusedItem: PropTypes.object,
-    focused: PropTypes.bool,
+    showSearchBrowserServices: PropTypes.func,
+    addSearchBrowserFilter: PropTypes.func,
     data: PropTypes.object,
     sections: PropTypes.array,
-    container: PropTypes.element,
-    isExternal: PropTypes.bool,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
     className: PropTypes.string,
     search: PropTypes.string,
     filters: PropTypes.array,
-    focusedList: PropTypes.oneOf(listTypes)
+    focused: PropTypes.bool,
+    focusedList: PropTypes.oneOf(listTypes),
+    focusedItem: PropTypes.object,
+    tokens: PropTypes.object
   }
 
   componentDidMount() {
@@ -59,6 +53,12 @@ export default class Browser extends Component {
 
   onSelectItem({id} = {}) {
     this.props.selectSearchBrowserItem(id)
+  }
+
+  onKeyPress(e) {
+    if (String.fromCharCode(e.charCode) === '+') {
+      this.props.showSearchBrowserServices()
+    }
   }
 
   onKeyDown(e) {
@@ -99,14 +99,6 @@ export default class Browser extends Component {
     }
   }
 
-  onChangeSearch({value}) {
-    this.props.inputSearchBrowserSearch({
-      search: value,
-      filters: [],
-      trigger: '#'
-    })
-  }
-
   onMouseDown(e) {
     // This flag is to fix IE11 issue
     // http://stackoverflow.com/questions/2023779/clicking-on-a-divs-scroll-bar-fires-the-blur-event-in-i-e
@@ -131,6 +123,23 @@ export default class Browser extends Component {
     this.input = ref
   }
 
+  onChangeSearch({value}) {
+    this.props.inputSearchBrowserSearch({
+      // FIXME
+      search: value,
+      filters: [],
+      trigger: '#'
+    })
+  }
+
+  onAddService(service) {
+    this.input.replace(service.label)
+    // FIXME
+    setTimeout(() => {
+      this.props.addSearchBrowserFilter(service)
+    })
+  }
+
   resetSearch() {
     this.props.inputSearchBrowserSearch({
       trigger: this.refs.input.query.get('trigger'),
@@ -139,46 +148,41 @@ export default class Browser extends Component {
     })
   }
 
-  renderContent() {
-    const {sections, data} = this.props
+  renderBody() {
+    const {sections, search, filters, focusedList, data} = this.props
 
-    if (!data) return null
-
-    if (data.results.length && sections.length) return this.renderService(sections)
-
-    const hasSearch = Boolean(get(data, 'search.text'))
-    const hasService = Boolean(get(data, 'search.container'))
-
-    if (hasSearch || hasService) return <Empty text="Nothing found" />
-
-    if (this.props.isExternal) {
-      const text = `Write the search term to search ${data.search.service}.`
-      return <Empty text={text} />
+    if (focusedList === 'services') {
+      return (
+        <ServiceList
+          services={data.services}
+          onSelect={::this.onAddService} />
+      )
     }
 
-    // We have no search, no results and its not an external search.
-    // Yet we can always render queries suggestions.
-    return this.renderService(sections)
-  }
+    if (sections.length) {
+      const Service = services.Default
+      return (
+        <Service
+          {...this.props}
+          Item={Item}
+          data={sections}
+          onFocus={::this.onFocusItem}
+          onSelect={::this.onSelectItem} />
+      )
+    }
 
-  renderService(data) {
-    const Service = services.Default
-    return (
-      <Service
-        {...this.props}
-        Item={Item}
-        data={data}
-        onFocus={::this.onFocusItem}
-        onSelect={::this.onSelectItem} />
-    )
+    if (search || filters.length) {
+      return <Empty text="Nothing found" />
+    }
   }
 
   render() {
     const {classes} = this.props.sheet
-    const content = this.renderContent()
+    const body = this.renderBody()
 
     const inlineStyle = {
-      height: content ? this.props.height : 'auto'
+      // Set a fixed height when we have content, otherwise just input field.
+      height: body ? this.props.height : 'auto'
     }
 
     return (
@@ -188,20 +192,16 @@ export default class Browser extends Component {
         onMouseDown={::this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">
-        <div className={classes.editableContainer}>
-          <span className={classes.searchIcon} />
-          <HighilghtedInput
-            onDidMount={::this.onMountInput}
-            onKeyDown={::this.onKeyDown}
-            onChange={::this.onChangeSearch}
-            onBlur={::this.onBlur}
-            Editable={Input}
-            focused={this.props.focused}
-            value={this.props.search}
-            placeholder="Grape Search"
-            theme={classes} />
-        </div>
-        {content}
+        <SearchInput
+          onDidMount={::this.onMountInput}
+          onKeyDown={::this.onKeyDown}
+          onKeyPress={::this.onKeyPress}
+          onChange={::this.onChangeSearch}
+          onBlur={::this.onBlur}
+          focused={this.props.focused}
+          value={this.props.search}
+          tokens={this.props.tokens} />
+        {body}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
     )

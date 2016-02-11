@@ -74,7 +74,7 @@ export default class HighlightedInput extends Component {
   }
 
   onChange({target}) {
-    this.applyChange({
+    this.setState({
       value: target.value,
       caretAt: target.selectionEnd
     })
@@ -114,7 +114,7 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
 
-    this.applyChange({value, caretAt})
+    this.setState({value, caretAt})
   }
 
   /**
@@ -135,7 +135,7 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length + 1
 
-    this.applyChange({value, caretAt})
+    this.setState({value, caretAt})
   }
 
   /**
@@ -156,7 +156,7 @@ export default class HighlightedInput extends Component {
     const [start, end] = positionToDelete
     let {value} = editable
     value = `${value.slice(0, start)}${value.slice(end, value.length)}`
-    this.applyChange({value, caretAt: start})
+    this.setState({value, caretAt: start})
 
     return true
   }
@@ -182,10 +182,6 @@ export default class HighlightedInput extends Component {
       container.style.height = `${highlighterHeight}px`
       this.props.onResize()
     }
-  }
-
-  applyChange(change) {
-    this.setState(change)
   }
 
   renderHighlighterContent() {

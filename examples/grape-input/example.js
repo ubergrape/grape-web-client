@@ -34,7 +34,13 @@ function init() {
   input.addEventListener('grapeComplete', function (e) {
     console.log('complete', e.detail)
 
-    if (e.detail.trigger == '#') {
+    if (e.detail.trigger == '+') {
+      setProps({
+        browser: 'search',
+        data: window.searchData
+      })
+    }
+    else if (e.detail.trigger == '#') {
       if (e.detail.search) {
         var data = window.searchData
         data.results = searchResults.filter(match)

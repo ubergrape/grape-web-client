@@ -1,6 +1,12 @@
 import find from 'lodash/collection/find'
+import get from 'lodash/object/get'
+import isEmpty from 'lodash/lang/isEmpty'
 import {openUrl} from 'grape-web/lib/x-platform'
 
+import {
+  getSections,
+  findIndexBySelector
+} from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
 import {
@@ -8,10 +14,6 @@ import {
   setFocusedItem,
   extractItems
 } from '../../components/browser/dataUtils'
-import {
-  getSections,
-  findIndexBySelector
-} from './data'
 
 function createState(nextProps) {
   const {data} = nextProps
@@ -169,17 +171,55 @@ export function navigateSearchBrowser(action) {
   }
 }
 
+export function showSearchBrowserObjects() {
+  return {
+    type: types.SHOW_SEARCH_BROWSER_OBJECTS
+  }
+}
+
 export function inputSearchBrowserSearch(query) {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+    const {onInput, focusedList} = searchBrowserSelector(getState())
+
     dispatch({
       type: types.INPUT_SEARCH_BROWSER_SEARCH,
       payload: {
         search: query.search,
-        filters: query.filters,
-        focusedList: 'objects'
+        filters: query.filters
       }
     })
-    state.onInput(query)
+    if (focusedList !== 'services') {
+      dispatch(showSearchBrowserObjects())
+      onInput(query)
+    }
+  }
+}
+
+export function showSearchBrowserServices() {
+  return (dispatch, getState) => {
+    const state = searchBrowserSelector(getState())
+    const services = get(state, 'data.services')
+
+    // TODO Should be a separate action for loading services.
+    if (isEmpty(services)) {
+      dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
+      // FIXME
+      state.onInput({
+        trigger: '+'
+      })
+    }
+    dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
+  }
+}
+
+export function addSearchBrowserFilter(service) {
+  return dispatch => {
+    dispatch(showSearchBrowserObjects())
+    dispatch({
+      type: types.ADD_SEARCH_BROWSER_FILTER,
+      payload: {
+        [service.label]: service
+      }
+    })
   }
 }

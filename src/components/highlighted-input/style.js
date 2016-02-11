@@ -19,9 +19,10 @@ export default {
   token: {
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 -1px',
-    padding: '2px 0',
-    borderRadius: 3
+    borderRadius: 3,
+    padding: 1,
+    marginLeft: -1,
+    marginRight: -1
   },
   editable: {
     position: 'relative',
