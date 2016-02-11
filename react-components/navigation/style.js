@@ -1,3 +1,5 @@
+import buttonIcon from '../button/icon'
+
 export default {
   navigation: {
     position: 'absolute',
@@ -7,7 +9,12 @@ export default {
     bottom: 0,
     overflowY: 'auto',
     zIndex: 1,
-    opacity: '0.5',
     background: '#ebeef3'
+  },
+  contacts: {
+    ...buttonIcon('user', {color: '#000', hoverColor: '#f00'})
+  },
+  groups: {
+    ...buttonIcon('users', {color: '#000', hoverColor: '#f00'})
   }
 }

@@ -36,10 +36,6 @@ class ReduxEmitter extends Emitter {
     boundActions.setSettings(toCamel(settings))
   }
 
-  showRoomManager() {
-    this.emit('triggerRoomManager')
-  }
-
   onShowChannelInfo() {
     boundActions.showChannelInfoOrUserProfile()
   }
@@ -119,6 +115,15 @@ class ReduxEmitter extends Emitter {
     }
     boundActions.hideAlertByType(alerts.LOADING_HISTORY)
   }
+
+  showChannelsManager() {
+    this.emit('triggerRoomManager')
+  }
+
+  showPMsManager() {
+    this.emit('triggerPMManager')
+  }
+
 }
 
 const reduxEmitter = new ReduxEmitter()

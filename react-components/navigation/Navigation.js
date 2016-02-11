@@ -5,15 +5,45 @@ import style from './style'
 
 @useSheet(style)
 export default class Navigation extends Component {
+
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    showChannelsManager: PropTypes.func.isRequired,
+    showPMsManager: PropTypes.func.isRequired
   }
-  render() {
-    const {classes} = this.props.sheet
+
+  renderManageButtons() {
+    const {
+      sheet,
+      showChannelsManager,
+      showPMsManager
+    } = this.props
 
     return (
+      <ul>
+        <li>
+          <button
+            className={sheet.classes.contacts}
+            onClick={showPMsManager}>
+            Contacts
+          </button>
+        </li>
+        <li>
+          <button
+            className={sheet.classes.groups}
+            onClick={showChannelsManager}>
+            Groups
+          </button>
+        </li>
+      </ul>
+    )
+  }
+
+  render() {
+    const {classes} = this.props.sheet
+    return (
       <div className={classes.navigation}>
-        Fuck yeah
+        {this.renderManageButtons()}
       </div>
     )
   }

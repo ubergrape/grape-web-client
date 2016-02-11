@@ -1,8 +1,8 @@
 export default [
   'showChannelSearch',
   'hideChannelSearch',
+  'showChannelsManager',
   'inputChannelSearch',
-  'showRoomManager',
   'selectChannelSearchItem',
   'focusChannelSearchItem'
 ]

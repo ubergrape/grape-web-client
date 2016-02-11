@@ -23,7 +23,7 @@ export default class ChannelSearch extends Component {
     items: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
     inputChannelSearch: PropTypes.func.isRequired,
-    showRoomManager: PropTypes.func.isRequired,
+    showChannelsManager: PropTypes.func.isRequired,
     hideChannelSearch: PropTypes.func.isRequired,
     showChannelSearch: PropTypes.func.isRequired,
     selectChannelSearchItem: PropTypes.func.isRequired,
@@ -87,7 +87,8 @@ export default class ChannelSearch extends Component {
   }
 
   onCreate() {
-    this.props.showRoomManager()
+    this.props.hideChannelSearch()
+    this.props.showChannelsManager()
   }
 
   onShortcut(e) {

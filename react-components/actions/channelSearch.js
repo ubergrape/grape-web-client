@@ -130,10 +130,3 @@ export function focusChannelSearchItem(focusedItem) {
     }
   }
 }
-
-export function showRoomManager() {
-  return dispatch => {
-    dispatch(hideChannelSearch())
-    reduxEmitter.showRoomManager()
-  }
-}
