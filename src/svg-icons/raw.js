@@ -24,6 +24,8 @@ export sheet from './svg/sheet.svg'
 export magnifier from './svg/magnifier.svg'
 export comment from './svg/comment.svg'
 export iconLink from './svg/icon-link.svg'
+export user from './svg/user.svg'
+export users from './svg/users.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
