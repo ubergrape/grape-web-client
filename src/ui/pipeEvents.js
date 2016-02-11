@@ -105,15 +105,14 @@ export default function pipeEvents(ui) {
   broker(ui.reduxEmitter, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
 
   // navigation
-  broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')
-  broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
+  broker(ui.reduxEmitter, 'triggerPMManager', ui, 'onTriggerPMManager')
+
+  // channel search, naviation
+  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
-
-  // channel search
-  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // sidebar
   broker(ui.reduxEmitter, 'hideSidebar', ui, 'onHideSidebar')
