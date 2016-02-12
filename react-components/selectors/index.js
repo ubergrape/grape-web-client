@@ -119,10 +119,20 @@ export const navigation = createSelector(
     users,
     user
   ) => {
+    const recent = channels
+      .filter(_channel => _channel.joined)
+      .concat(
+        users
+          .filter(_user => _user.pm)
+          .map(_user => {
+            return {..._user, latestMessageTime: _user.pm.latestMessageTime}
+          })
+      )
+      .sort((a, b) => a.latestMessageTime - b.latestMessageTime)
+
     return {
-      channels,
+      recent,
       channel,
-      users,
       user
     }
   }

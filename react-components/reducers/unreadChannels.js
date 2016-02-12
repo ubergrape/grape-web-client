@@ -100,14 +100,14 @@ export default function reduce(state = initialState, action) {
         amount: channels.calcUnread()
       }
     case types.USER_JOINED_CHANNEL:
-      // Only if logged in user has left the channel.
+      // Only if current user has joined the channel.
       if (userId === action.payload.userId) {
         channels.join(action.payload.channelId)
         return {...state, amount: channels.calcUnread()}
       }
       return state
     case types.USER_LEFT_CHANNEL:
-      // Only if logged in user has left the channel.
+      // Only if current user has left the channel.
       if (userId === action.payload.userId) {
         channels.leave(action.payload.channelId)
         return {...state, amount: channels.calcUnread()}

@@ -1,13 +1,11 @@
 import * as types from '../constants/actionTypes'
 
-const initialState = {
-  users: []
-}
+const initialState = []
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_USERS:
-      return action.payload.users
+      return [...action.payload.users]
     default:
       return state
   }

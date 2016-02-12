@@ -256,4 +256,3 @@ export function showPMsManager() {
     type: types.SHOW_PMS_MANAGER
   }
 }
-

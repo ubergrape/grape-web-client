@@ -9,7 +9,8 @@ export default class Navigation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     showChannelsManager: PropTypes.func.isRequired,
-    showPMsManager: PropTypes.func.isRequired
+    showPMsManager: PropTypes.func.isRequired,
+    recent: PropTypes.array.isRequired
   }
 
   renderManageButtons() {
@@ -39,11 +40,28 @@ export default class Navigation extends Component {
     )
   }
 
+  renderRecentList() {
+    return (
+      <ol>
+        {
+          this.props.recent.map(channel => {
+            return (
+              <li>
+                {channel.name || channel.displayName || ''}
+              </li>
+            )
+          })
+        }
+      </ol>
+    )
+  }
+
   render() {
     const {classes} = this.props.sheet
     return (
       <div className={classes.navigation}>
         {this.renderManageButtons()}
+        {this.renderRecentList()}
       </div>
     )
   }
