@@ -6,7 +6,6 @@ const trigger = getTrigger(tokenType)
 
 export default class Search {
   constructor(result) {
-    console.log(result)
     this.tokenType = tokenType
     this.result = result
     this.id = result.id
