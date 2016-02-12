@@ -42,6 +42,7 @@ function toData(text, url) {
   return {
     id: tokenWithoutTrigger(parts[2], parts[1]),
     name: tokenWithoutTrigger(text, parts[1]),
+    originalName: text,
     slug: parts[3].replace('/chat/', ''),
     service: parts[0],
     type: parts[1],

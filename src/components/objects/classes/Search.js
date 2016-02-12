@@ -13,6 +13,7 @@ export default class Search {
     this.url = result.url
     this.type = result.type
     this.name = result.name
+    this.originalName = result.originalName || this.name
 
     const {name} = this
     this.content = name[0] === '#' ? name : trigger + name
@@ -22,6 +23,6 @@ export default class Search {
 
   toString() {
     const url = `${grapeProtocol}${this.service}|${this.type}|${this.id}|${this.url}||`
-    return `[${this.name}](${encodeMDLink(url)})`
+    return `[${this.originalName}](${encodeMDLink(url)})`
   }
 }
