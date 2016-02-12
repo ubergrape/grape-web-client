@@ -29,8 +29,8 @@ function parseEmoji(content) {
   return data
 }
 
-function tokenWithoutTrigger(token, type) {
-  return token[0] === getTrigger(type) ? token.substr(1) : token
+function nameWithoutTrigger(name, type) {
+  return name[0] === getTrigger(type) ? name.substr(1) : name
 }
 
 /**
@@ -40,9 +40,9 @@ function toData(text, url) {
   if (!grapeProtocolRegExp.test(url)) return false
   const parts = url.slice(5).split('|')
   return {
-    id: tokenWithoutTrigger(parts[2], parts[1]),
-    name: tokenWithoutTrigger(text, parts[1]),
-    originalName: text,
+    id: parts[2],
+    name: text,
+    nameWithoutTrigger: nameWithoutTrigger(text, parts[1]),
     slug: parts[3].replace('/chat/', ''),
     service: parts[0],
     type: parts[1],

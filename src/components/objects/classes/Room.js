@@ -8,13 +8,17 @@ export default class Room {
   constructor(options) {
     this.tokenType = tokenType
     this.id = options.id
-    this.name = options.name
     this.slug = options.slug
     this.url = `/chat/${this.slug}`
-    this.content = trigger + this.name
     this.service = 'chatgrape'
     this.type = 'chatgraperoom'
+    this.name = options.name
+    this.nameWithoutTrigger = options.nameWithoutTrigger || this.name
     this.str = this.toString()
+
+    // prevent double `@@` in case when room name is `@room`
+    const {nameWithoutTrigger} = this
+    this.content = nameWithoutTrigger[0] === trigger ? nameWithoutTrigger : trigger + nameWithoutTrigger
   }
 
   toString() {

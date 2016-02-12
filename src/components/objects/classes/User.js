@@ -1,8 +1,7 @@
-import {getTrigger, encodeMDLink} from '../utils'
+import {encodeMDLink} from '../utils'
 import {grapeProtocol} from '../constants'
 
 const tokenType = 'user'
-const trigger = getTrigger(tokenType)
 
 export default class User {
   constructor(options) {
@@ -11,7 +10,7 @@ export default class User {
     this.username = options.username
     this.name = options.name
     this.url = options.url || `/chat/@${this.username}`
-    this.content = trigger + this.name
+    this.content = this.name
     this.service = 'chatgrape'
     this.type = 'chatgrapeuser'
     this.str = this.toString()
