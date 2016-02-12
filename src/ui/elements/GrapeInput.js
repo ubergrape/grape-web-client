@@ -298,6 +298,18 @@ export default class GrapeInput extends Emitter {
     }
   }
 
+  updateUnsent() {
+    this.unsent[this.room.id] = this.input.getTextContent()
+  }
+
+  clearUnsent() {
+    this.unsent[this.room.id] = ''
+  }
+
+  getUnsent(room) {
+    return this.unsent[room.id] || ''
+  }
+
   onMarkdownTipsShow() {
     this.emit('showmarkdowntips')
   }
@@ -389,6 +401,7 @@ export default class GrapeInput extends Emitter {
         this.emit('input', this.room, '', {attachments: attachments})
       }
       this.input.setTextContent('')
+      this.clearUnsent()
     }
   }
 
@@ -438,9 +451,7 @@ export default class GrapeInput extends Emitter {
       this.isOrgEmpty = false
       this.redraw()
     }
-    if (this.room) {
-      this.unsent[this.room.id] = this.input.getTextContent()
-    }
+    if (this.room) this.updateUnsent()
     this.completePreviousEdit()
     if (!room || (room.type === 'pm' && !room.users[0].active)) {
       this.disable()
@@ -448,7 +459,7 @@ export default class GrapeInput extends Emitter {
       this.enable()
       this.room = room
       this.setProps({focused: true}, () => {
-        this.input.setTextContent(this.unsent[room.id] || '', {silent: true})
+        this.input.setTextContent(this.getUnsent(room), {silent: true})
       })
     }
   }
