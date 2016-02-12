@@ -72,8 +72,7 @@ export function createRoomAndInvite(users) {
           dispatch(goToChannel(details.slug))
         }
       })
-      .then(data => {
-        console.log('new room', data)
+      .then(() => {
         if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
       })
       .then(() => {

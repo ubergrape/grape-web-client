@@ -7,7 +7,7 @@ import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import {addUserToChannel} from './channelInfo'
 import * as api from '../backend/api'
-import {channelSelector} from '../selectors'
+import {channelSelector, userSelector} from '../selectors'
 import store from '../app/store'
 
 export function setUsers(users) {
@@ -106,10 +106,11 @@ export function handleRemovedMessage({id}) {
 }
 
 export function handleReadChannel(data) {
+  const user = userSelector(store.getState())
   return {
     type: types.READ_CHANNEL,
     payload: {
-      userId: data.user,
+      isCurrentUser: user.id === data.user,
       channelId: data.channel
     }
   }
@@ -164,24 +165,27 @@ export function showOrgInvite() {
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
+  const user = userSelector(store.getState())
   return dispatch => {
     dispatch(addUserToChannel(userId, channelId))
     dispatch({
       type: types.USER_JOINED_CHANNEL,
       payload: {
         channelId,
-        userId
+        isCurrentUser: userId === user.id
       }
     })
   }
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
+  const user = userSelector(store.getState())
   return {
     type: types.USER_LEFT_CHANNEL,
     payload: {
       channelId,
-      userId
+      userId,
+      isCurrentUser: user.id === userId
     }
   }
 }
@@ -213,19 +217,15 @@ export function invitedToChannel(usernames, channelId) {
   }
 }
 
-export function joinedChannel(channelId) {
-  return {
-    type: types.JOINED_CHANNEL,
-    payload: channelId
-  }
-}
-
 // This action isn't used yet, remove this comment after first use
+/**
+ * Run api request to join channel
+ * response is handled at app/subscribe.js with action handleJoinedChannel
+ */
 export function joinChannel({id} = channelSelector(store.getState())) {
   return dispatch => {
     return api
       .joinChannel(id)
-      .then(() => dispatch(joinedChannel(id)))
       .catch(err => dispatch(error(err)))
   }
 }

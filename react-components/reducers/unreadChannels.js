@@ -5,8 +5,6 @@ const initialState = {
   channelName: null
 }
 
-let userId
-
 const channels = new class Channels {
   static defaultChannel = {
     hasUnread: false,
@@ -71,45 +69,40 @@ const channels = new class Channels {
  * Maintains counter of channels which has at least 1 hasUnread message.
  */
 export default function reduce(state = initialState, action) {
+  const {payload} = action
   switch (action.type) {
     case types.READ_CHANNEL:
-      // Only mark as read channel from hasUnread if reader is the logged in user.
-      if (userId === action.payload.userId) {
-        channels.setRead(action.payload.channelId)
+      if (payload.isCurrentUser) {
+        channels.setRead(payload.channelId)
         return {...state, amount: channels.calcUnread()}
       }
       return state
     case types.HANDLE_NEW_MESSAGE:
-      channels.setUnread(action.payload.message.channel)
+      channels.setUnread(payload.message.channel)
       return {...state, amount: channels.calcUnread()}
-    case types.SET_USER:
-      userId = action.payload.user.id
-      return state
     case types.SET_CHANNEL:
       return (() => {
-        const {channel} = action.payload
+        const {channel} = payload
         return {
           ...state,
           channelName: channel.name || channel.users[0].displayName
         }
       }())
     case types.SET_CHANNELS:
-      channels.create(action.payload.channels)
+      channels.create(payload.channels)
       return {
         ...state,
         amount: channels.calcUnread()
       }
     case types.USER_JOINED_CHANNEL:
-      // Only if current user has joined the channel.
-      if (userId === action.payload.userId) {
-        channels.join(action.payload.channelId)
+      if (payload.isCurrentUser) {
+        channels.join(payload.channelId)
         return {...state, amount: channels.calcUnread()}
       }
       return state
     case types.USER_LEFT_CHANNEL:
-      // Only if current user has left the channel.
-      if (userId === action.payload.userId) {
-        channels.leave(action.payload.channelId)
+      if (payload.isCurrentUser) {
+        channels.leave(payload.channelId)
         return {...state, amount: channels.calcUnread()}
       }
       return state
