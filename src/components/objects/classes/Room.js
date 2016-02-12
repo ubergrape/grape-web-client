@@ -14,11 +14,12 @@ export default class Room {
     this.type = 'chatgraperoom'
     this.name = options.name
     this.nameWithoutTrigger = options.nameWithoutTrigger || this.name
-    this.str = this.toString()
 
     // prevent double `@@` in case when room name is `@room`
     const {nameWithoutTrigger} = this
     this.content = nameWithoutTrigger[0] === trigger ? nameWithoutTrigger : trigger + nameWithoutTrigger
+
+    this.str = this.toString()
   }
 
   toString() {
