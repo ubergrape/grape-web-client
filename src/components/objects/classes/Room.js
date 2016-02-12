@@ -10,7 +10,7 @@ export default class Room {
     this.id = options.id
     this.name = options.name
     this.slug = options.slug
-    this.url = '/chat/' + this.name
+    this.url = `/chat/${this.slug}`
     this.content = trigger + this.name
     this.service = 'chatgrape'
     this.type = 'chatgraperoom'
@@ -18,7 +18,7 @@ export default class Room {
   }
 
   toString() {
-    const url = `${grapeProtocol}chatgrape|room|${this.id}|/chat/${this.slug}`
+    const url = `${grapeProtocol}chatgrape|room|${this.id}|${this.url}`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }

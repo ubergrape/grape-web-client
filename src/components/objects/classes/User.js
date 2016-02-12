@@ -10,7 +10,7 @@ export default class User {
     this.id = options.id
     this.username = options.username
     this.name = options.name
-    this.url = '/chat/@' + this.username
+    this.url = options.url || `/chat/@${this.username}`
     this.content = trigger + this.name
     this.service = 'chatgrape'
     this.type = 'chatgrapeuser'
@@ -18,7 +18,7 @@ export default class User {
   }
 
   toString() {
-    const url = `${grapeProtocol}chatgrape|user|${this.id}|/chat/@${this.username}`
+    const url = `${grapeProtocol}chatgrape|user|${this.id}|${this.url}`
     return `[${this.name}](${encodeMDLink(url)})`
   }
 }
