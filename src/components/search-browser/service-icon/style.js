@@ -1,11 +1,10 @@
-const size = 30
-
 export default {
   icon: {
-    height: size,
-    width: size,
+    display: 'inline-block',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    height: '1em',
+    width: '1em'
   }
 }

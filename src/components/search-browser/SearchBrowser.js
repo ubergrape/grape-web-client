@@ -27,8 +27,8 @@ export default class Browser extends Component {
     navigateSearchBrowser: PropTypes.func,
     inputSearchBrowserSearch: PropTypes.func,
     showSearchBrowserServices: PropTypes.func,
+    focusSearchBrowserService: PropTypes.func,
     addSearchBrowserFilter: PropTypes.func,
-    data: PropTypes.object,
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
@@ -36,10 +36,9 @@ export default class Browser extends Component {
     className: PropTypes.string,
     search: PropTypes.string,
     filters: PropTypes.array,
-    focused: PropTypes.bool,
     focusedList: PropTypes.oneOf(listTypes),
     focusedItem: PropTypes.object,
-    tokens: PropTypes.object
+    focusedService: PropTypes.object
   }
 
   componentDidMount() {
@@ -86,7 +85,8 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'enter':
-        this.props.navigateSearchBrowser('select')
+        if (focusedList === 'services') this.onAddService(this.props.focusedService)
+        else this.props.navigateSearchBrowser('select')
         e.preventDefault()
         break
       case 'backspace':
@@ -149,13 +149,15 @@ export default class Browser extends Component {
   }
 
   renderBody() {
-    const {sections, search, filters, focusedList, data} = this.props
+    const {sections, search, filters, focusedList} = this.props
 
     if (focusedList === 'services') {
       return (
         <ServiceList
-          services={data.services}
-          onSelect={::this.onAddService} />
+          {...this.props}
+          focused={this.props.focusedService}
+          onSelect={::this.onAddService}
+          onFocus={this.props.focusSearchBrowserService} />
       )
     }
 
@@ -193,14 +195,13 @@ export default class Browser extends Component {
         data-test="search-browser"
         tabIndex="-1">
         <SearchInput
+          {...this.props}
+          value={this.props.search}
           onDidMount={::this.onMountInput}
           onKeyDown={::this.onKeyDown}
           onKeyPress={::this.onKeyPress}
           onChange={::this.onChangeSearch}
-          onBlur={::this.onBlur}
-          focused={this.props.focused}
-          value={this.props.search}
-          tokens={this.props.tokens} />
+          onBlur={::this.onBlur} />
         {body}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>

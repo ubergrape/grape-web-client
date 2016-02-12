@@ -5,6 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import style from './serviceListStyle'
 import Service from './Service'
+import SectionHeader from '../../section-header/SectionHeader'
 
 @useSheet(style)
 export default class ServiceList extends Component {
@@ -12,30 +13,38 @@ export default class ServiceList extends Component {
     sheet: PropTypes.object.isRequired,
     services: PropTypes.array,
     onSelect: PropTypes.func,
-    focusedAction: PropTypes.object
+    onFocus: PropTypes.func,
+    focused: PropTypes.object
   }
 
   static defaultProps = {
-    onSelect: noop
+    services: [],
+    onSelect: noop,
+    onFocus: noop
   }
 
   renderService(props) {
     return (
       <Service
         {...props}
-        onSelect={this.props.onSelect} />
+        onSelect={this.props.onSelect}
+        onFocus={this.props.onFocus} />
     )
   }
 
   render() {
     const {classes} = this.props.sheet
+    const {services, focused} = this.props
 
     return (
-      <List
-        className={classes.serviceList}
-        renderItem={::this.renderService}
-        items={this.props.services}
-        focused={this.props.focusedAction} />
+      <div>
+        <SectionHeader text="services" />
+        <List
+          className={classes.serviceList}
+          renderItem={::this.renderService}
+          items={services}
+          focused={focused} />
+      </div>
     )
   }
 }

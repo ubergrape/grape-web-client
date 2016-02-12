@@ -28,8 +28,15 @@ function createState(nextProps) {
 
   const sections = getSections(data)
   const focusedItem = getFocusedItem(sections)
+  const {services} = data
 
-  return {...nextProps, sections, focusedItem}
+  return {
+    ...nextProps,
+    sections,
+    focusedItem,
+    services,
+    focusedService: services[0]
+  }
 }
 
 /**
@@ -76,7 +83,13 @@ function execAction(state) {
 function focusAction(selector, state) {
   const {actions} = state
   const newIndex = findIndexBySelector(selector, actions, action => action === state.focusedAction)
-  return {focusedAction: state.actions[newIndex]}
+  return {focusedAction: actions[newIndex]}
+}
+
+function focusService(selector, state) {
+  const {services} = state
+  const newIndex = findIndexBySelector(selector, services, service => service === state.focusedService)
+  return {focusedService: services[newIndex]}
 }
 
 function navigate(action, state) {
@@ -91,12 +104,9 @@ function navigate(action, state) {
       return {focusedList: 'objects'}
     case 'prev':
     case 'next':
-      if (state.focusedList === 'objects') {
-        return focusItem(action, state)
-      }
-      if (state.focusedList === 'actions') {
-        return focusAction(action, state)
-      }
+      if (state.focusedList === 'objects') return focusItem(action, state)
+      if (state.focusedList === 'actions') return focusAction(action, state)
+      if (state.focusedList === 'services') return focusService(action, state)
       break
     default:
   }
@@ -209,6 +219,13 @@ export function showSearchBrowserServices() {
       })
     }
     dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
+  }
+}
+
+export function focusSearchBrowserService(item) {
+  return {
+    type: types.FOCUS_SEARCH_BROWSER_SERVICE,
+    payload: item
   }
 }
 

@@ -41,7 +41,8 @@ export const rules = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '6px 16px'
+    padding: '6px 16px',
+    fontSize: '1.9em'
   },
   nameContainer: {
     flex: 1,

@@ -8,7 +8,8 @@ const icon = getColoredIcon({name: 'magnifier', color: colors.blue})
 
 export default {
   searchInput: {
-    display: 'flex'
+    display: 'flex',
+    borderBottom: `1px solid ${colors.silverDark}`
   },
   icon: {
     flexShrink: 0,

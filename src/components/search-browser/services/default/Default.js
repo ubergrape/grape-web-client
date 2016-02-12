@@ -23,7 +23,7 @@ export default class Default extends Component {
     const {focusedItem} = this.props
 
     return (
-      <div className={`${classes.content} ${classes.column}`}>
+      <div className={classes.column}>
         <div className={classes.row}>
           <Grid
             {...this.props}

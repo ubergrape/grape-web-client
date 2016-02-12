@@ -27,6 +27,7 @@ const initialState = {
   actions,
   focusedAction: actions[0],
   tokens: {},
+  services: [],
   onAddIntegration: noop,
   onSelectItem: noop,
   onDidMount: noop,
@@ -56,6 +57,8 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedItem: action.payload}
     case types.SHOW_SEARCH_BROWSER_SERVICES:
       return {...state, focusedList: 'services'}
+    case types.FOCUS_SEARCH_BROWSER_SERVICE:
+      return {...state, focusedService: action.payload}
     case types.SHOW_SEARCH_BROWSER_OBJECTS:
       return {...state, focusedList: 'objects'}
     case types.ADD_SEARCH_BROWSER_FILTER:

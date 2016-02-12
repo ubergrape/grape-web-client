@@ -13,9 +13,6 @@ export default {
     ].join(','),
     maxWidth: 680
   },
-  content: {
-    borderTop: `1px solid ${colors.silverDark}`
-  },
   column: {
     flex: 1,
     display: 'flex',

@@ -8,6 +8,7 @@ export default [
   'createSearchBrowserState',
   'inputSearchBrowserSearch',
   'showSearchBrowserServices',
+  'focusSearchBrowserService',
   'showSearchBrowserObjects',
   'addSearchBrowserFilter'
 ]
