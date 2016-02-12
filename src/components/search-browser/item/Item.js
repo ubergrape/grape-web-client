@@ -1,20 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
+import noop from 'lodash/utility/noop'
 import moment from 'moment'
 import VisibilitySensor from 'react-visibility-sensor'
 
 import {useSheet} from 'grape-web/lib/jss'
 import findMatches from 'grape-web/lib/search/findMatches'
-import * as icons from 'grape-web/lib/svg-icons/data'
 import * as style from './style'
 import * as utils from './utils'
-
-// Service/icon map for exceptions where service name doesn't match icon name.
-// TODO it should be a service implementation detail.
-const serviceIconMap = {
-  googledrive: icons.googleDrive,
-  gcal: icons.googleCalendar
-}
+import ServiceIcon from '../service-icon/ServiceIcon'
 
 /**
  * One grid item.
@@ -29,7 +23,6 @@ export default class Item extends Component {
     id: PropTypes.string,
     name: PropTypes.string,
     search: PropTypes.string,
-    icon: PropTypes.string,
     info: PropTypes.string,
     detail: PropTypes.object,
     date: PropTypes.string,
@@ -40,7 +33,10 @@ export default class Item extends Component {
   }
 
   static defaultProps = {
-    focused: false
+    focused: false,
+    onFocus: noop,
+    onSelect: noop,
+    onInvisible: noop
   }
 
   componentDidMount() {
@@ -95,8 +91,6 @@ export default class Item extends Component {
     }
     const metaItemClassName = focused ? classes.metaItemFocused : classes.metaItem
     const state = utils.getLabel(this.props.detail)
-    const iconUrl = icons[service] || serviceIconMap[service] || icons.file
-    const iconStyle = {backgroundImage: `url(${iconUrl})`}
     return (
       <VisibilitySensor
         onChange={::this.onVisibilityChange}
@@ -107,7 +101,7 @@ export default class Item extends Component {
           onClick={::this.onClick}
           className={containerClassName}>
           <div className={classes.iconContainer}>
-            <span className={classes.icon} style={iconStyle} />
+            <ServiceIcon service={service} />
           </div>
           <div className={classes.nameContainer}>
             <div className={classes.name}>

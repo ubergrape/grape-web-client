@@ -25,8 +25,6 @@ const metaItem = {
   color: colors.gainsboroDark
 }
 
-const iconSize = 30
-
 export const rules = {
   container: container,
   containerFocused: {
@@ -44,13 +42,6 @@ export const rules = {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '6px 16px'
-  },
-  icon: {
-    height: iconSize,
-    width: iconSize,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-    alignSelf: 'center'
   },
   nameContainer: {
     flex: 1,
