@@ -89,7 +89,7 @@ export default function reduce(state = initialState, action) {
         }
       }())
     case types.SET_CHANNELS:
-      channels.create(payload.channels)
+      channels.create(payload)
       return {
         ...state,
         amount: channels.calcUnread()

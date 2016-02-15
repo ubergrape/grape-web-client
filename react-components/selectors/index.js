@@ -20,12 +20,64 @@ export const channelsSelector = createSelector(
   state => state.channels, state => state
 )
 
+export const roomsSelector = createSelector(
+  state => state.rooms, state => state
+)
+
+export const pmsSelector = createSelector(
+  state => state.pms, state => state
+)
+
 export const orgSelector = createSelector(
   state => state.org, state => state
 )
 
+export const fullOrgSelector = createSelector(
+  [
+    orgSelector,
+    channelsSelector,
+    usersSelector,
+    roomsSelector,
+    pmsSelector
+  ],
+  (
+    org,
+    channels,
+    users,
+    rooms,
+    pms
+  ) => {
+    return {
+      ...orgSelector,
+      channels,
+      users,
+      rooms,
+      pms
+    }
+  }
+)
+
 export const channelSearchSelector = createSelector(
   state => state.channelSearch, state => state
+)
+
+export const channelSearchComponentSelector = createSelector(
+  [
+    channelSearchSelector,
+    fullOrgSelector,
+    userSelector
+  ],
+  (
+    channelSearch,
+    org,
+    user
+  ) => {
+    return {
+      ...channelSearch,
+      org,
+      user
+    }
+  }
 )
 
 export const billingWarningSelector = createSelector(
@@ -83,7 +135,6 @@ export const unreadChannelsSelector = createSelector(
 export const inviteDialog = createSelector(
   [
     channelSelector,
-    orgSelector,
     inviteChannelMemebersSelector,
     usersSelector,
     orgSelector,
@@ -91,7 +142,6 @@ export const inviteDialog = createSelector(
   ],
   (
     channel,
-    org,
     inviteChannelMemebers,
     allUsers,
     {inviterRole},

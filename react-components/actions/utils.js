@@ -4,7 +4,11 @@ import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 
 import store from '../app/store'
-import {orgSelector, usersSelector, userSelector, channelsSelector} from '../selectors'
+import {
+  usersSelector,
+  userSelector,
+  channelsSelector
+} from '../selectors'
 
 export function formatMessage(message) {
   return {
@@ -23,7 +27,7 @@ export function formatSidebarMessage(message) {
     channel: channelId
   } = formatMessage(message)
   const state = store.getState()
-  const {channels} = orgSelector(state)
+  const channels = channelsSelector(state)
   const currentChannel = find(channels, channel => channel.id === channelId)
   const users = usersSelector(state)
   const {displayName, avatar} = find(users, user => user.id === author.id) || {}

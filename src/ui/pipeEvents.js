@@ -107,6 +107,10 @@ export default function pipeEvents(ui) {
   // navigation
   broker(ui.reduxEmitter, 'triggerPMManager', ui, 'onTriggerPMManager')
 
+  // TODO: delete at Navigation2 PR
+  broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')
+  broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
+
   // channel search, naviation
   broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 

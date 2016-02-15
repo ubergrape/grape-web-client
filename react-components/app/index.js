@@ -40,6 +40,6 @@ document.registerReact('grape-shared-files', sharedFiles(store))
 document.registerReact('grape-mentions', mentions(store))
 document.registerReact('grape-message-search', messageSearch(store))
 document.registerReact('grape-alerts', alerts(store))
-document.registerReact('grape-navigation', NavigationProvider)
+// document.registerReact('grape-navigation', NavigationProvider)
 
 subscribeActions(client.connect())

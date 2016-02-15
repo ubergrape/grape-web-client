@@ -2,6 +2,7 @@ import page from 'page'
 
 import * as types from '../constants/actionTypes'
 import {isMentioned, formatMessage} from './utils'
+import omit from 'lodash/object/omit'
 import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
@@ -10,21 +11,31 @@ import * as api from '../backend/api'
 import {channelSelector, userSelector} from '../selectors'
 import store from '../app/store'
 
-export function setUsers(users) {
+export function setChannels(channels) {
   return {
-    type: types.SET_USERS,
-    payload: {
-      users
-    }
+    type: types.SET_CHANNELS,
+    payload: channels
   }
 }
 
-export function setUser(user) {
+export function setUsers(users) {
   return {
-    type: types.SET_USER,
-    payload: {
-      user
-    }
+    type: types.SET_USERS,
+    payload: users
+  }
+}
+
+export function setRooms(rooms) {
+  return {
+    type: types.SET_ROOMS,
+    payload: rooms
+  }
+}
+
+export function setPMs(pms) {
+  return {
+    type: types.SET_PMS,
+    payload: pms
   }
 }
 
@@ -37,11 +48,27 @@ export function setOrg(org) {
   }
 }
 
-export function setChannels(channels) {
+export function setInitialData(org) {
+  return dispatch => {
+    dispatch(setUsers([...org.users]))
+    dispatch(setChannels([...org.channels]))
+    dispatch(setRooms([...org.rooms]))
+    dispatch(setPMs([...org.pms]))
+
+    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
+    dispatch(setOrg(cleanOrg))
+
+    return dispatch({
+      type: types.INITIAL_DATA_WAS_SET
+    })
+  }
+}
+
+export function setUser(user) {
   return {
-    type: types.SET_CHANNELS,
+    type: types.SET_USER,
     payload: {
-      channels
+      user
     }
   }
 }

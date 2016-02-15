@@ -4,24 +4,11 @@ import {toCamel} from '../backend/convertCase'
 import boundActions from '../app/boundActions'
 import * as alerts from '../constants/alerts'
 
-function formatChannel(channel) {
-  const jsonChannel = channel.toJSON()
-  jsonChannel.users = jsonChannel.users.toArray().map(user => toCamel(user.toJSON()))
-  if (channel.creator) {
-    jsonChannel.creator = toCamel(channel.creator.toJSON())
-  }
-  return toCamel(jsonChannel)
-}
-
 class ReduxEmitter extends Emitter {
   onOrgReady(org) {
-    let jsonOrg = org.toJSON()
-    jsonOrg.users = org.users.toArray().map(user => toCamel(user.toJSON()))
-    jsonOrg.rooms = org.rooms.toArray().map(room => toCamel(room.toJSON()))
-    jsonOrg = toCamel(jsonOrg)
-    boundActions.setOrg(jsonOrg)
-    boundActions.setUsers(jsonOrg.users)
-    boundActions.setChannels(jsonOrg.channels)
+    // TODO: use raw data from api
+    // instead of mutated by old code at src/api
+    boundActions.setInitialData(toCamel(org.toJSON()))
   }
 
   onSetUser(user) {
@@ -29,7 +16,7 @@ class ReduxEmitter extends Emitter {
   }
 
   onSelectChannel(channel) {
-    boundActions.setChannel(formatChannel(channel))
+    boundActions.setChannel(toCamel(channel.toJSON()))
   }
 
   onSetSettings(settings) {

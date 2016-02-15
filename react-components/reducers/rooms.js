@@ -4,7 +4,7 @@ const initialState = []
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.SET_CHANNELS:
+    case types.SET_ROOMS:
       return [...action.payload]
     default:
       return state

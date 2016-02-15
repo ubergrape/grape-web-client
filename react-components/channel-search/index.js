@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 import {mapActionsToProps} from '../app/redux'
-import {channelSearchSelector} from '../selectors'
+import {channelSearchComponentSelector} from '../selectors'
 import actionNames from './actionNames'
 
 import ChannelSearch from './ChannelSearch'
 
 const ConnectedChannelSearch = connect(
-  channelSearchSelector,
+  channelSearchComponentSelector,
   mapActionsToProps(actionNames)
 )(ChannelSearch)
 

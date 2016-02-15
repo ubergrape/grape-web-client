@@ -1,10 +1,11 @@
-import reduxEmitter from '../redux-emitter'
 import page from 'page'
 import * as types from '../constants/actionTypes'
 
 import sortBy from 'lodash/collection/sortBy'
 import pick from 'lodash/object/pick'
 
+
+// TODO: move not related to actions functions to the selector
 /**
  * Simple version of fuzzy search.
  * When searching it ignores:
@@ -26,11 +27,7 @@ function fuzzySearch(searchStr) {
 }
 
 function find(data, search) {
-  if (!search) {
-    return sortBy(data, item => {
-      return item.name.toLowerCase()
-    })
-  }
+  if (!search) return data
   const fuzzyIndexOf = fuzzySearch(search)
   let items = data.map(item => {
     return {
@@ -45,7 +42,10 @@ function find(data, search) {
 }
 
 function filterItem(items, user) {
-  return items.filter(({id}) => id !== user.id)
+  return items.filter(({id, type}) => {
+    if (type === 'user' && id === user.id) return false
+    return true
+  })
 }
 
 function getItems(org) {
