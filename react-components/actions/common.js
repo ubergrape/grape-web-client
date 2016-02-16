@@ -3,12 +3,12 @@ import page from 'page'
 import * as types from '../constants/actionTypes'
 import {isMentioned, formatMessage} from './utils'
 import omit from 'lodash/object/omit'
+import find from 'lodash/collection/find'
 import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
-import {addUserToChannel} from './channelInfo'
 import * as api from '../backend/api'
-import {channelSelector, userSelector} from '../selectors'
+import {channelSelector, userSelector, usersSelector} from '../selectors'
 import store from '../app/store'
 
 export function setChannels(channels) {
@@ -195,6 +195,18 @@ export function handleNewChannel({channel}) {
   return {
     type: types.NEW_CHANNEL,
     payload: channel
+  }
+}
+
+export function addUserToChannel(userId, channelId) {
+  const users = usersSelector(store.getState())
+  const user = find(users, ({id}) => id === userId)
+  return {
+    type: types.ADD_USER_TO_CHANNEL,
+    payload: {
+      channelId,
+      user
+    }
   }
 }
 

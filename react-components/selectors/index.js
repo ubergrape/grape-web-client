@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect'
-import pick from 'lodash/object/pick'
 import find from 'lodash/collection/find'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
@@ -92,8 +91,25 @@ export const typingNotificationSelector = createSelector(
 )
 
 export const setTypingSelector = createSelector(
-  state => pick(state, 'user', 'users', 'channel', 'typingNotification'),
-  state => state
+  [
+    userSelector,
+    usersSelector,
+    channelSelector,
+    typingNotificationSelector
+  ],
+  (
+    user,
+    users,
+    channel,
+    typingNotification
+  ) => {
+    return {
+      user,
+      users,
+      channel,
+      typingNotification
+    }
+  }
 )
 
 export const userProfileSelector = createSelector(
@@ -102,6 +118,25 @@ export const userProfileSelector = createSelector(
 
 export const channelInfoSelector = createSelector(
   state => state.channelInfo, state => state
+)
+
+export const channelInfoComponentSelector = createSelector(
+  [
+    channelInfoSelector,
+    channelSelector,
+    userSelector
+  ],
+  (
+    channelInfo,
+    channel,
+    user
+  ) => {
+    return {
+      ...channelInfo,
+      channel,
+      user
+    }
+  }
 )
 
 export const sharedFilesSelector = createSelector(

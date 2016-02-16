@@ -7,7 +7,7 @@ export default function reduce(state = initialState, action) {
     case types.SET_CHANNELS:
       return [...action.payload]
 
-    case types.SET_CHANNEL:
+    case types.SET_CHANNEL: {
       const {id, type} = action.payload.channel
       return state.reduce((newState, channel) => {
         if (channel.current) {
@@ -21,9 +21,23 @@ export default function reduce(state = initialState, action) {
         newState.push(channel)
         return newState
       }, [])
+    }
 
     case types.NEW_CHANNEL:
       return [...state, action.payload]
+
+    case types.ADD_USER_TO_CHANNEL: {
+      const {user, channelId: id} = action.payload
+      return state.reduce((newState, channel) => {
+        if (channel.id === id) {
+          newState.push({...channel, users: [...channel.users, user]})
+          return newState
+        }
+        newState.push(channel)
+        return newState
+      }, [])
+    }
+
     default:
       return state
   }
