@@ -227,7 +227,7 @@ export function handleJoinedChannel({user: userId, channel: channelId}) {
 export function handleLeftChannel({user: userId, channel: channelId}) {
   const user = userSelector(store.getState())
   return {
-    type: types.USER_LEFT_CHANNEL,
+    type: types.REMOVE_USER_FROM_CHANNEL,
     payload: {
       channelId,
       userId,

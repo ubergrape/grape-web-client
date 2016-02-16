@@ -100,7 +100,7 @@ export default function reduce(state = initialState, action) {
         return {...state, amount: channels.calcUnread()}
       }
       return state
-    case types.USER_LEFT_CHANNEL:
+    case types.REMOVE_USER_FROM_CHANNEL:
       if (payload.isCurrentUser) {
         channels.leave(payload.channelId)
         return {...state, amount: channels.calcUnread()}
