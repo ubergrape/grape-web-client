@@ -198,7 +198,7 @@ export function handleNewChannel({channel}) {
   }
 }
 
-export function addUserToChannel(userId, channelId) {
+export function handleJoinedChannel({user: userId, channel: channelId}) {
   const users = usersSelector(store.getState())
   const user = find(users, ({id}) => id === userId)
   return {
@@ -210,28 +210,14 @@ export function addUserToChannel(userId, channelId) {
   }
 }
 
-export function handleJoinedChannel({user: userId, channel: channelId}) {
-  const user = userSelector(store.getState())
-  return dispatch => {
-    dispatch(addUserToChannel(userId, channelId))
-    dispatch({
-      type: types.USER_JOINED_CHANNEL,
-      payload: {
-        channelId,
-        isCurrentUser: userId === user.id
-      }
-    })
-  }
-}
-
 export function handleLeftChannel({user: userId, channel: channelId}) {
-  const user = userSelector(store.getState())
+  const users = usersSelector(store.getState())
+  const user = find(users, ({id}) => id === userId)
   return {
     type: types.REMOVE_USER_FROM_CHANNEL,
     payload: {
       channelId,
-      userId,
-      isCurrentUser: user.id === userId
+      user
     }
   }
 }

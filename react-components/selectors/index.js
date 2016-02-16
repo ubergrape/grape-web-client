@@ -4,12 +4,14 @@ import find from 'lodash/collection/find'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 
-export const userSelector = createSelector(
-  state => state.user, state => state
-)
-
 export const usersSelector = createSelector(
   state => state.users, state => state
+)
+
+export const userSelector = createSelector(
+  usersSelector, (users) => {
+    return find(users, 'current') || {}
+  }
 )
 
 export const channelsSelector = createSelector(
