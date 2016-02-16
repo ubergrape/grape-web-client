@@ -25,20 +25,6 @@ export function setUsers(users) {
   }
 }
 
-export function setRooms(rooms) {
-  return {
-    type: types.SET_ROOMS,
-    payload: rooms
-  }
-}
-
-export function setPMs(pms) {
-  return {
-    type: types.SET_PMS,
-    payload: pms
-  }
-}
-
 export function setOrg(org) {
   return {
     type: types.SET_ORG,
@@ -52,8 +38,6 @@ export function setInitialData(org) {
   return dispatch => {
     dispatch(setUsers([...org.users]))
     dispatch(setChannels([...org.channels]))
-    dispatch(setRooms([...org.rooms]))
-    dispatch(setPMs([...org.pms]))
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
@@ -218,6 +202,19 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
     payload: {
       channelId,
       user
+    }
+  }
+}
+
+export function handleChannelUpate({channel}) {
+  const {id, name, slug, description} = channel
+  return {
+    type: types.UPDATE_CHANNEL,
+    payload: {
+      id,
+      name,
+      slug,
+      description
     }
   }
 }

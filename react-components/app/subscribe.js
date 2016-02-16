@@ -50,6 +50,9 @@ export default function subscribe(channel) {
       case 'channel.left':
         boundActions.handleLeftChannel(cData)
         break
+      case 'channel.updated':
+        boundActions.handleChannelUpate(cData)
+        break
       default:
     }
   })

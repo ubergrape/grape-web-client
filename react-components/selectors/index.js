@@ -25,11 +25,15 @@ export const channelSelector = createSelector(
 )
 
 export const roomsSelector = createSelector(
-  state => state.rooms, state => state
+  channelsSelector, (channels) => {
+    return channels.filter(channel => channel.type === 'room')
+  }
 )
 
 export const pmsSelector = createSelector(
-  state => state.pms, state => state
+  channelsSelector, (channels) => {
+    return channels.filter(channel => channel.type === 'pm')
+  }
 )
 
 export const orgSelector = createSelector(
