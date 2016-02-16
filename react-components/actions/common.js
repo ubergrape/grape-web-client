@@ -207,11 +207,12 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
 }
 
 export function handleChannelUpate({channel}) {
-  const {id, name, slug, description} = channel
+  const {id, type, name, slug, description} = channel
   return {
     type: types.UPDATE_CHANNEL,
     payload: {
       id,
+      type,
       name,
       slug,
       description

@@ -57,6 +57,19 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.UPDATE_CHANNEL: {
+      const {id, type} = action.payload
+
+      return state.reduce((newState, channel) => {
+        if (channel.id === id && channel.type === type) {
+          newState.push({...channel, ...action.payload})
+          return newState
+        }
+        newState.push(channel)
+        return newState
+      }, [])
+    }
+
     default:
       return state
   }
