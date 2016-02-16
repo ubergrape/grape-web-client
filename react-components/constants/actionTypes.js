@@ -20,6 +20,7 @@ export const READ_CHANNEL = 'READ_CHANNEL'
 export const GO_TO_MESSAGE = 'GO_TO_MESSAGE'
 export const REMOVE_USER_FROM_CHANNEL = 'REMOVE_USER_FROM_CHANNEL'
 export const UPDATE_CHANNEL = 'UPDATE_CHANNEL'
+export const REMOVE_ROOM = 'REMOVE_ROOM'
 
 export const ERROR = 'ERROR'
 

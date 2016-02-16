@@ -206,7 +206,7 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
   }
 }
 
-export function handleChannelUpate({channel}) {
+export function handleUpateChannel({channel}) {
   const {id, type, name, slug, description} = channel
   return {
     type: types.UPDATE_CHANNEL,
@@ -217,6 +217,13 @@ export function handleChannelUpate({channel}) {
       slug,
       description
     }
+  }
+}
+
+export function handleRemoveRoom({channel: id}) {
+  return {
+    type: types.REMOVE_ROOM,
+    payload: id
   }
 }
 

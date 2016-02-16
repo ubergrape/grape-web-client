@@ -70,6 +70,16 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.REMOVE_ROOM: {
+      return state.reduce((newState, channel) => {
+        if (channel.id === action.payload && channel.type === 'room') {
+          return newState
+        }
+        newState.push(channel)
+        return newState
+      }, [])
+    }
+
     default:
       return state
   }
