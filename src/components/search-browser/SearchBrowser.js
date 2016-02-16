@@ -66,7 +66,7 @@ export default class Browser extends Component {
     switch (keyname(e.keyCode)) {
       case 'esc':
         // Actions are focused - focus objects.
-        if (focusedList === 'actions') {
+        if (focusedList === 'actions' || focusedList === 'services') {
           this.props.navigateSearchBrowser('back')
         // Reset the search if there is one.
         } else if (this.props.search || this.props.filters.length) {
@@ -91,7 +91,7 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'backspace':
-        if (focusedList === 'actions') {
+        if (focusedList === 'actions' || focusedList === 'services') {
           this.props.navigateSearchBrowser('back')
           e.preventDefault()
         }
