@@ -8,8 +8,13 @@ function getRank() {
 
 function setProps(newProps) {
   var props = getDefaultProps()
-  for (var key in newProps) props[key] = newProps[key]
+  assign(props, newProps)
   input.props = props
+}
+
+function assign(a, b) {
+  for (var key in b) a[key] = b[key]
+  return a
 }
 
 function getDefaultProps() {
@@ -41,16 +46,23 @@ function init() {
       })
     }
     else if (e.detail.trigger == '#') {
-      if (e.detail.search) {
-        var data = window.searchData
-        data.results = searchResults.filter(match)
-        setProps({
-          browser: 'search',
-          data: data
+      var data = assign({}, window.searchData)
+      var filters = e.detail.filters
+      var search = e.detail.search
+
+      if (filters.length) {
+        data.results = data.results.filter(function(result) {
+          return e.detail.filters.indexOf(result.service) >= 0
         })
-      } else {
-        setProps({browser: 'search'})
       }
+
+      if (search) {
+        data.results = data.results.filter(match)
+      }
+
+      if (!filters.length && !search) data = undefined
+
+      setProps({browser: 'search', data: data})
     }
     else if (e.detail.trigger == '@') {
       var data = window.userData

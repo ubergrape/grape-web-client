@@ -6,7 +6,8 @@ import {openUrl} from 'grape-web/lib/x-platform'
 import {
   getSections,
   findIndexBySelector,
-  getTextWithoutFilters
+  getTextWithoutFilters,
+  getFilterIds
 } from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
@@ -192,11 +193,18 @@ export function showSearchBrowserObjects() {
 
 export function inputSearchBrowserSearch({search, split}) {
   return (dispatch, getState) => {
-    const {onChange, focusedList, filters, tokens} = searchBrowserSelector(getState())
+    const {onChange, focusedList, tokens} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.INPUT_SEARCH_BROWSER_SEARCH,
       payload: search
+    })
+
+    const filters = getFilterIds(split, tokens)
+
+    dispatch({
+      type: types.UPDATE_SEARCH_BROWSER_FILTERS,
+      payload: filters
     })
 
     if (focusedList !== 'services') {

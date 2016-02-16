@@ -68,6 +68,8 @@ export default function reduce(state = initialState, action) {
         tokens: {...state.tokens, [action.payload.label]: action.payload},
         filters: [...state.filters, action.payload.id]
       }
+    case types.UPDATE_SEARCH_BROWSER_FILTERS:
+      return {...state, filters: action.payload}
     case types.RESET_SEARCH_BROWSER_STATE:
       return initialState
     default:
