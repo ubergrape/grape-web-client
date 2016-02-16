@@ -5,7 +5,8 @@ import {openUrl} from 'grape-web/lib/x-platform'
 
 import {
   getSections,
-  findIndexBySelector
+  findIndexBySelector,
+  getTextWithoutFilters
 } from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
@@ -14,6 +15,7 @@ import {
   setFocusedItem,
   extractItems
 } from '../../components/browser/dataUtils'
+import {filtersTrigger} from '../../constants/searchBrowser'
 
 function createState(nextProps) {
   const {data} = nextProps
@@ -66,6 +68,7 @@ function execAction(state) {
 
   if (action.type === 'insert') {
     state.onSelectItem({item})
+    // FIXME create reset action
     return {
       filters: [],
       search: ''
@@ -187,20 +190,21 @@ export function showSearchBrowserObjects() {
   }
 }
 
-export function inputSearchBrowserSearch(query) {
+export function inputSearchBrowserSearch({search, split}) {
   return (dispatch, getState) => {
-    const {onInput, focusedList} = searchBrowserSelector(getState())
+    const {onChange, focusedList, filters, tokens} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.INPUT_SEARCH_BROWSER_SEARCH,
-      payload: {
-        search: query.search,
-        filters: query.filters
-      }
+      payload: search
     })
+
     if (focusedList !== 'services') {
       dispatch(showSearchBrowserObjects())
-      onInput(query)
+      onChange({
+        search: getTextWithoutFilters(split, tokens),
+        filters
+      })
     }
   }
 }
@@ -213,10 +217,8 @@ export function showSearchBrowserServices() {
     // TODO Should be a separate action for loading services.
     if (isEmpty(services)) {
       dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
-      // FIXME
-      state.onInput({
-        trigger: '+'
-      })
+      // FIXME?
+      state.onChange({trigger: filtersTrigger})
     }
     dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
   }
@@ -234,9 +236,7 @@ export function addSearchBrowserFilter(service) {
     dispatch(showSearchBrowserObjects())
     dispatch({
       type: types.ADD_SEARCH_BROWSER_FILTER,
-      payload: {
-        [service.label]: service
-      }
+      payload: service
     })
   }
 }

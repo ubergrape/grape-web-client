@@ -43,7 +43,6 @@ export default function reduce(state = initialState, action) {
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
     case types.EXEC_SEARCH_BROWSER_ACTION:
-    case types.INPUT_SEARCH_BROWSER_SEARCH:
       return {...state, ...action.payload}
     case types.FOCUS_SEARCH_BROWSER_ACTION:
       return {
@@ -61,8 +60,14 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedService: action.payload}
     case types.SHOW_SEARCH_BROWSER_OBJECTS:
       return {...state, focusedList: 'objects'}
+    case types.INPUT_SEARCH_BROWSER_SEARCH:
+      return {...state, search: action.payload}
     case types.ADD_SEARCH_BROWSER_FILTER:
-      return {...state, tokens: {...state.tokens, ...action.payload}}
+      return {
+        ...state,
+        tokens: {...state.tokens, [action.payload.label]: action.payload},
+        filters: [...state.filters, action.payload.id]
+      }
     case types.RESET_SEARCH_BROWSER_STATE:
       return initialState
     default:

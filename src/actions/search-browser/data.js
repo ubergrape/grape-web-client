@@ -86,3 +86,11 @@ export function findIndexBySelector(selector, list, validation) {
 
   return index
 }
+
+export function getTextWithoutFilters(split, tokens) {
+  // Remove filters
+  let textArr = split.filter(str => tokens[str] === undefined)
+  // Remove unneeded spaces.
+  textArr = textArr.map(word => word.trim())
+  return textArr.join(' ').trim()
+}

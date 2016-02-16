@@ -70,6 +70,7 @@ export default class Browser extends Component {
           this.props.navigateSearchBrowser('back')
         // Reset the search if there is one.
         } else if (this.props.search || this.props.filters.length) {
+          // FIXME
           this.resetSearch()
         } else {
           this.props.onAbort()
@@ -125,26 +126,16 @@ export default class Browser extends Component {
 
   onChangeSearch({value}) {
     this.props.inputSearchBrowserSearch({
-      // FIXME
       search: value,
-      filters: [],
-      trigger: '#'
+      split: this.input.splitByTokens()
     })
   }
 
   onAddService(service) {
-    this.input.replace(service.label)
+    this.props.addSearchBrowserFilter(service)
     // FIXME
     setTimeout(() => {
-      this.props.addSearchBrowserFilter(service)
-    })
-  }
-
-  resetSearch() {
-    this.props.inputSearchBrowserSearch({
-      trigger: this.refs.input.query.get('trigger'),
-      search: '',
-      filters: []
+      this.input.replace(service.label)
     })
   }
 

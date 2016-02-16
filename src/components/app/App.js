@@ -220,9 +220,11 @@ export default class App extends Component {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onInputSearchBrowser(query) {
+  onChangeSearchBrowser(query) {
     const complete = () => {
-      this.emit('complete', query)
+      let data = query
+      if (!data.trigger) data = {...query, trigger: this.query.get('trigger')}
+      this.emit('complete', data)
       this.emit('change')
     }
 
@@ -405,7 +407,7 @@ export default class App extends Component {
           onSelectItem={::this.onSelectSearchBrowserItem}
           onSelectFilter={::this.onSelectSearchBrowserFilter}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
-          onInput={::this.onInputSearchBrowser}
+          onChange={::this.onChangeSearchBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
