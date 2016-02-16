@@ -77,7 +77,7 @@ export default function reduce(state = initialState, action) {
         return {...state, amount: channels.calcUnread()}
       }
       return state
-    case types.HANDLE_NEW_MESSAGE:
+    case types.NEW_MESSAGE:
       channels.setUnread(payload.message.channel)
       return {...state, amount: channels.calcUnread()}
     case types.SET_CHANNEL:

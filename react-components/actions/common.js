@@ -111,7 +111,7 @@ export function handleNewMessage(message) {
     }
 
     dispatch({
-      type: types.HANDLE_NEW_MESSAGE,
+      type: types.NEW_MESSAGE,
       payload: {
         message: fMessage
       }
@@ -124,7 +124,7 @@ export function handleRemovedMessage({id}) {
     dispatch(removeSharedFiles(id))
     dispatch(removeMention(id))
     dispatch({
-      type: types.HANDLE_REMOVED_MESSAGE,
+      type: types.REMOVE_MESSAGE,
       payload: {
         messageId: id
       }
@@ -188,6 +188,13 @@ export function showOrgInvite() {
   reduxEmitter.showOrgInvite()
   return {
     type: types.SHOW_ORG_INVITE
+  }
+}
+
+export function handleNewChannel({channel}) {
+  return {
+    type: types.NEW_CHANNEL,
+    payload: channel
   }
 }
 
