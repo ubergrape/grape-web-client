@@ -9,10 +9,12 @@ export const usersSelector = createSelector(
   state => state.users, state => state
 )
 
+export const activeUsersSelector = createSelector(
+  usersSelector, users => users.filter(user => user.active)
+)
+
 export const userSelector = createSelector(
-  usersSelector, (users) => {
-    return find(users, 'current') || {}
-  }
+  usersSelector, users => find(users, 'current') || {}
 )
 
 export const channelsSelector = createSelector(
@@ -20,21 +22,15 @@ export const channelsSelector = createSelector(
 )
 
 export const channelSelector = createSelector(
-  channelsSelector, (channels) => {
-    return find(channels, 'current') || {}
-  }
+  channelsSelector, channels => find(channels, 'current') || {}
 )
 
 export const roomsSelector = createSelector(
-  channelsSelector, (channels) => {
-    return channels.filter(channel => channel.type === 'room')
-  }
+  channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
 
 export const pmsSelector = createSelector(
-  channelsSelector, (channels) => {
-    return channels.filter(channel => channel.type === 'pm')
-  }
+  channelsSelector, channels => channels.filter(channel => channel.type === 'pm')
 )
 
 export const orgSelector = createSelector(
@@ -200,7 +196,7 @@ export const inviteDialog = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
-    usersSelector,
+    activeUsersSelector,
     orgSelector,
     userSelector
   ],
