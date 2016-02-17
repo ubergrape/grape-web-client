@@ -62,6 +62,18 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.UPDATE_MEMBERSHIP: {
+      const {userId, update} = action.payload
+      return state.reduce((newState, user) => {
+        if (user.id === userId) {
+          newState.push({...user, ...update})
+          return newState
+        }
+        newState.push(user)
+        return newState
+      }, [])
+    }
+
     default:
       return state
   }

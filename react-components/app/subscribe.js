@@ -69,9 +69,12 @@ export default function subscribe(channel) {
       case 'user.status':
         boundActions.handleUserStatusChange(cData)
         break
-
       case 'user.updated':
         boundActions.handleUserUpdated(cData)
+        break
+
+      case 'membership.updated':
+        boundActions.handleMembershipUpdate(cData)
         break
 
       default:

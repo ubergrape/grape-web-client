@@ -23,6 +23,8 @@ import {
 
 import store from '../app/store'
 
+const noopAction = {type: types.NOOP}
+
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
@@ -146,9 +148,7 @@ export function handleJoinOrg({user, organization: orgId}) {
 
   const _user = find(users, ({id}) => id === user.id)
   if (_user || org.id !== orgId) {
-    return {
-      type: types.NOOP
-    }
+    return noopAction
   }
 
   const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
@@ -170,15 +170,34 @@ export function handleLeftOrg({user: userId, organization: orgId}) {
   const state = store.getState()
   const org = orgSelector(state)
 
-  if (org.id !== orgId) {
-    return {
-      type: types.NOOP
-    }
-  }
+  if (org.id !== orgId) return noopAction
 
   return {
     type: types.USER_LEFT_ORG,
     payload: userId
+  }
+}
+
+export function handleMembershipUpdate({membership}) {
+  const {
+    organization,
+    user: userId,
+    role,
+    title
+  } = membership
+
+  const {id} = orgSelector(store.getState())
+  if (id !== organization) return noopAction
+
+  return {
+    type: types.UPDATE_MEMBERSHIP,
+    payload: {
+      userId,
+      update: {
+        role,
+        title
+      }
+    }
   }
 }
 
