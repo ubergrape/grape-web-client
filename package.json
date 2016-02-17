@@ -59,7 +59,7 @@
     "lodash": "^3.10.0",
     "lodash.differenceby": "^4.0.1",
     "lpio-client": "^0.2.8",
-    "marked": "ubergrape/marked#grape-v1.0.0",
+    "marked": "ubergrape/marked#grape-v1.1.0",
     "meyer-reset": "ubergrape/meyer-reset",
     "mocha": "^2.2.5",
     "model": "ubergrape/model#1.0.0",
