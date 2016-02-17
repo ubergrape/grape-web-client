@@ -10,6 +10,10 @@ import {
   channelsSelector
 } from '../selectors'
 
+export function reduceChannelUsersToId(channel) {
+  return {...channel, users: channel.users.map(user => user.id)}
+}
+
 export function formatMessage(message) {
   return {
     ...message,

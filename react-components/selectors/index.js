@@ -17,8 +17,30 @@ export const userSelector = createSelector(
   usersSelector, users => find(users, 'current') || {}
 )
 
-export const channelsSelector = createSelector(
+export const initialChannelsSelector = createSelector(
   state => state.channels, state => state
+)
+
+/**
+ * fill `initialChannelsSelector` with user objects
+ * instead of ID's
+ */
+export const channelsSelector = createSelector(
+  [
+    initialChannelsSelector,
+    usersSelector
+  ],
+  (
+    channels,
+    users
+  ) => {
+    return channels.map(channel => {
+      return {
+        ...channel,
+        users: channel.users.map(id => find(users, {id}))
+      }
+    })
+  }
 )
 
 export const channelSelector = createSelector(

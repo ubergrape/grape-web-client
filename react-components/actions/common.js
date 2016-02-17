@@ -2,7 +2,11 @@ import page from 'page'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/app'
-import {isMentioned, formatMessage} from './utils'
+import {
+  isMentioned,
+  formatMessage,
+  reduceChannelUsersToId
+} from './utils'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
 import reduxEmitter from '../redux-emitter'
@@ -22,7 +26,7 @@ import store from '../app/store'
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
-    payload: channels
+    payload: channels.map(reduceChannelUsersToId)
   }
 }
 
@@ -289,6 +293,9 @@ export function handleUserStatusChange({status, user: userId}) {
 }
 
 export function handleUserUpdated({user}) {
+  // TODO: handle if user change username and
+  // he is current mate in active PM and
+  // redirect at the new PM URL in this case
   return {
     type: types.UPDATE_USER,
     payload: user
