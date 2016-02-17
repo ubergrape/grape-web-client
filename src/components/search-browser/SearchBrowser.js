@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
@@ -106,8 +105,7 @@ export default class Browser extends Component {
     this.blurPrevented = true
 
     // Avoids loosing focus and though caret position in input.
-    const input = ReactDOM.findDOMNode(this.input)
-    if (e.target !== input) e.preventDefault()
+    if (e.target.nodeName !== 'INPUT') e.preventDefault()
   }
 
   onBlur(e) {

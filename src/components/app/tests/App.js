@@ -38,6 +38,9 @@ describe('app:', () => {
 
     it('shound render "nothing found"', done => {
       create(undefined, () => {
+        const node = $('search-browser input', document.body)
+        node.value = 'asdef'
+        Simulate.change(node)
         expect($('search-browser empty', document.body)).to.be.an(Element)
         done()
       })

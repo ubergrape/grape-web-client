@@ -29,7 +29,7 @@ export default {
     ...fonts.biggest,
     paddingTop: editablePadding,
     paddingBottom: editablePadding,
-    height: 31,
+    height: 31 + editablePadding * 2,
     border: 'none !important',
     outline: 'none'
   },

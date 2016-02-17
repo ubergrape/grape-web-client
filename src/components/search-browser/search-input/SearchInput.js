@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import pick from 'lodash/object/pick'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './style'
@@ -18,11 +19,15 @@ export default class Browser extends Component {
 
   render() {
     const {classes} = this.props.sheet
+    const inputProps = pick(this.props, 'onBlur', 'onChange', 'onDidMount',
+      'onKeyDown', 'onKeyPress', 'value')
+
     return (
         <div className={classes.searchInput}>
           <span className={classes.icon} />
           <HighlightedInput
-            {...this.props}
+            {...inputProps}
+            autoFocus
             Editable={Input}
             theme={classes}
             getTokenClass={::this.getTokenClass}

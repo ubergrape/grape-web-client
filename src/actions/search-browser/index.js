@@ -31,14 +31,11 @@ function createState(nextProps) {
 
   const sections = getSections(data)
   const focusedItem = getFocusedItem(sections)
-  const {services} = data
 
   return {
     ...nextProps,
     sections,
-    focusedItem,
-    services,
-    focusedService: services[0]
+    focusedItem
   }
 }
 
