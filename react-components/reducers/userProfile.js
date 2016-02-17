@@ -6,14 +6,10 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.SET_CHANNEL:
-      if (action.payload.channel.type === 'pm') {
-        return {...state, ...action.payload.channel.users[0]}
-      }
-      return state
     case types.HIDE_USER_PROFILE:
+      return {show: false}
     case types.SHOW_USER_PROFILE:
-      return {...state, ...action.payload}
+      return {show: true}
     default:
       return state
   }

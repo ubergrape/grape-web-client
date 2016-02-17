@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
+
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
@@ -122,6 +123,25 @@ export const userProfileSelector = createSelector(
   state => state.userProfile, state => state
 )
 
+export const userProfileComponentSelector = createSelector(
+  [
+    userProfileSelector,
+    channelSelector,
+    userSelector
+  ],
+  (
+    userProfile,
+    channel,
+    currentUser
+  ) => {
+    const user = find(channel.users, _user => _user.id !== currentUser.id) || {}
+    return {
+      ...userProfile,
+      user
+    }
+  }
+)
+
 export const channelInfoSelector = createSelector(
   state => state.channelInfo, state => state
 )
@@ -139,7 +159,7 @@ export const channelInfoComponentSelector = createSelector(
   ) => {
     return {
       ...channelInfo,
-      channel,
+      channel: channel.type === 'room' ? channel : {},
       user
     }
   }

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import tz from 'moment-timezone'
+import isEmpty from 'lodash/lang/isEmpty'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
@@ -94,9 +95,10 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
+    const {channel, show} = this.props
+    if (!show || isEmpty(channel)) return null
+
     const {classes} = this.props.sheet
-    const {channel} = this.props
     return (
       <SidebarPanel
         title="Room Info"

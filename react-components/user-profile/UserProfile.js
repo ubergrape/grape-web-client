@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-
+import isEmpty from 'lodash/lang/isEmpty'
 import {useSheet} from 'grape-web/lib/jss'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import style from './style'
@@ -11,13 +11,7 @@ export default class UserProfile extends Component {
     hideUserProfile: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    avatar: PropTypes.string,
-    username: PropTypes.string,
-    displayName: PropTypes.string,
-    email: PropTypes.string,
-    whatIDo: PropTypes.string,
-    skypeUsername: PropTypes.string,
-    phoneNumber: PropTypes.string
+    user: PropTypes.object.isRequired
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -27,17 +21,10 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
+    const {show, user} = this.props
+    if (!show || isEmpty(user)) return null
+
     const {classes} = this.props.sheet
-    const {
-      avatar,
-      username,
-      displayName,
-      whatIDo,
-      email,
-      skypeUsername,
-      phoneNumber
-    } = this.props
     return (
       <SidebarPanel
         title="User Profile"
@@ -46,25 +33,25 @@ export default class UserProfile extends Component {
           <div className={classes.leftColumn}>
             <img
               className={classes.avatar}
-              src={avatar}
-              alt={username} />
+              src={user.avatar}
+              alt={user.username} />
           </div>
           <div className={classes.rightColumn}>
             <div className={classes.fullName}>
-              {displayName}
+              {user.displayName}
             </div>
-            {whatIDo && <div className={classes.about}>
+            {user.whatIDo && <div className={classes.about}>
               <p>What I do:</p>
-              <p>{whatIDo}</p>
+              <p>{user.whatIDo}</p>
             </div>}
-            <a href={`mailto:${email}`} className={classes.email}>
-              {email}
+            <a href={`mailto:${user.email}`} className={classes.email}>
+              {user.email}
             </a>
-            {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
-              {skypeUsername}
+            {user.skypeUsername && <a href={`skype:${user.skypeUsername}`} className={classes.skype}>
+              {user.skypeUsername}
             </a>}
-            {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
-              {phoneNumber}
+            {user.phoneNumber && <a href={`tel:${user.phoneNumber}`} className={classes.phone}>
+              {user.phoneNumber}
             </a>}
           </div>
         </div>

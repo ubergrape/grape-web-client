@@ -4,19 +4,13 @@ import reduxEmitter from '../redux-emitter'
 export function showUserProfile() {
   reduxEmitter.showSidebar()
   return {
-    type: types.SHOW_USER_PROFILE,
-    payload: {
-      show: true
-    }
+    type: types.SHOW_USER_PROFILE
   }
 }
 
 export function hideUserProfile() {
   reduxEmitter.hideSidebar()
   return {
-    type: types.HIDE_USER_PROFILE,
-    payload: {
-      show: false
-    }
+    type: types.HIDE_USER_PROFILE
   }
 }

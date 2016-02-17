@@ -21,5 +21,8 @@ export function hideChannelInfo() {
 export function showChannelInfoOrUserProfile() {
   const channel = channelSelector(store.getState())
   if (channel.type === 'pm') return showUserProfile()
-  return showChannelInfo()
+  if (channel.type === 'room') return showChannelInfo()
+  return {
+    type: types.NOOP
+  }
 }
