@@ -62,9 +62,16 @@ export default function subscribe(channel) {
       case 'organization.joined':
         boundActions.handleJoinOrg(cData)
         break
-
       case 'organization.left':
         boundActions.handleLeftOrg(cData)
+        break
+
+      case 'user.status':
+        boundActions.handleUserStatusChange(cData)
+        break
+
+      case 'user.updated':
+        boundActions.handleUserUpdated(cData)
         break
 
       default:

@@ -37,6 +37,30 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.CHANGE_USER_STATUS: {
+      const {userId, status} = action.payload
+      return state.reduce((newState, user) => {
+        if (user.id === userId) {
+          newState.push({...user, status})
+          return newState
+        }
+        newState.push(user)
+        return newState
+      }, [])
+    }
+
+    case types.UPDATE_USER: {
+      const {payload} = action
+      return state.reduce((newState, user) => {
+        if (user.id === payload.id) {
+          const avatar = payload.avatar || user.avatar
+          newState.push({...user, ...payload, avatar})
+          return newState
+        }
+        newState.push(user)
+        return newState
+      }, [])
+    }
 
     default:
       return state

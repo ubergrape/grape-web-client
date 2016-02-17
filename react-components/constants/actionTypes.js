@@ -7,11 +7,15 @@ export const SET_ROOMS = 'SET_ROOMS'
 export const SET_PMS = 'SET_PMS'
 export const INITIAL_DATA_WAS_SET = 'INITIAL_DATA_WAS_SET'
 
+
 export const SET_USER = 'SET_USER'
 export const SET_CHANNEL = 'SET_CHANNEL'
 
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const SET_SIDEBAR_IS_LOADING = 'SET_SIDEBAR_IS_LOADING'
+
+export const UPDATE_USER = 'UPDATE_USER'
+export const CHANGE_USER_STATUS = 'CHANGE_USER_STATUS'
 
 export const NEW_USER_IN_ORG = 'NEW_USER_IN_ORG'
 export const USER_LEFT_ORG = 'USER_LEFT_ORG'

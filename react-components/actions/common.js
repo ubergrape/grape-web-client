@@ -278,6 +278,23 @@ export function handleRemoveRoom({channel: id}) {
   }
 }
 
+export function handleUserStatusChange({status, user: userId}) {
+  return {
+    type: types.CHANGE_USER_STATUS,
+    payload: {
+      status,
+      userId
+    }
+  }
+}
+
+export function handleUserUpdated({user}) {
+  return {
+    type: types.UPDATE_USER,
+    payload: user
+  }
+}
+
 export function enableNotifications() {
   reduxEmitter.enableNotifications()
   // This action don't have reducer yet
