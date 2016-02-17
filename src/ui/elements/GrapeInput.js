@@ -7,6 +7,7 @@ import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
 import find from 'lodash/collection/find'
 import includes from 'lodash/collection/includes'
+import uniq from 'lodash/array/uniq'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 
@@ -41,6 +42,33 @@ function getImageAttachments(objects) {
   })
 
   return attachments
+}
+
+/**
+ * Merge results of multiple autocomplete searches.
+ */
+function mergeSearchResults(values) {
+  const defaultData = {
+    results: [],
+    services: [],
+    search: {
+      queries: [],
+      text: '',
+      type: 'plain'
+    }
+  }
+
+  return values.reduce((data, {results, services, search}) => {
+    data.results = [...data.results, ...results]
+    data.services = uniq([...data.services, ...services], 'id')
+    data.search.queries = uniq([...data.search.queries, ...search.queries], 'id')
+    // Always remove filter from the search string.
+    // Waiting for the new api to remove it
+    // TODO https://github.com/ubergrape/chatgrape/issues/3394
+    data.search.text = search.text.substr(search.text.indexOf(':') + 1)
+    data.search.type = search.type === 'external' ? 'external' : 'plain'
+    return data
+  }, defaultData)
 }
 
 export default class GrapeInput extends Emitter {
@@ -126,13 +154,13 @@ export default class GrapeInput extends Emitter {
     }))
   }
 
-  showSearchBrowser({key, setTrigger}) {
+  showSearchBrowser({search, setTrigger, filters}) {
     const {props} = this.input
     let isLoading = false
     let data
 
-    if (key) {
-      this.search(key)
+    if (search) {
+      this.search(search, filters)
       isLoading = true
       data = props.data
     }
@@ -147,6 +175,10 @@ export default class GrapeInput extends Emitter {
       isLoading,
       setTrigger
     })
+  }
+
+  showSearchBrowserFilters() {
+    this.search('')
   }
 
   showUsersAndRooms(key) {
@@ -317,8 +349,11 @@ export default class GrapeInput extends Emitter {
   onComplete(e) {
     const {detail} = e
     switch (detail.trigger) {
+      case '+':
+        this.showSearchBrowserFilters()
+        break
       case '#':
-        this.showSearchBrowser({key: detail.key})
+        this.showSearchBrowser(detail)
         break
       case '@':
         this.showUsersAndRooms(detail.key)
@@ -368,15 +403,37 @@ export default class GrapeInput extends Emitter {
     this.stopTypingDebounced()
   }
 
-  search(key) {
+  search(search, filters = []) {
     this.browserAborted = false
-    this.emit('autocomplete', key, (err, data) => {
-      if (err) return this.emit('error', err)
-      if (this.browserAborted) return false
-      this.setProps({
-        browser: 'search',
-        focused: false,
-        data: data
+    let searches
+
+    if (filters.length) {
+      searches = filters.map(filter => this.searchPromise(`${filter}:${search}`))
+    } else {
+      searches = [this.searchPromise(search)]
+    }
+
+    Promise
+      .all(searches)
+      .then(results => {
+        console.log('merged results', mergeSearchResults(results))
+        if (this.browserAborted) return
+        this.setProps({
+          browser: 'search',
+          focused: false,
+          data: mergeSearchResults(results)
+        })
+      })
+      .catch(err => {
+        this.emit('error', err)
+      })
+  }
+
+  searchPromise(search) {
+    return new Promise((resolve, reject) => {
+      this.emit('autocomplete', search, (err, data) => {
+        if (err) reject(err)
+        else resolve(data)
       })
     })
   }
@@ -481,7 +538,7 @@ export default class GrapeInput extends Emitter {
   onKeyDown(e) {
     // For e.g. when trying to copy text from history.
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
-    if (inputNodes.indexOf(e.target.nodeName) >= 0 || e.target.isContentEditable) return
+    if (inputNodes.indexOf(e.target.nodeName) >= 0) return
     this.setProps({focused: true})
   }
 
