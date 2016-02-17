@@ -212,7 +212,6 @@ Navigation.prototype.onChannelUpdate = function Navigation_onChannelUpdate () {
 Navigation.prototype.onDeletedUser = function() {
   this.pmList.items = this.setProactiveList(this.pmList.items)
   this.pmList.redraw()
-  this.pmListCollapsed.redraw()
 }
 
 Navigation.prototype.onOrgReady = function Navigation_onOrgReady(org) {
