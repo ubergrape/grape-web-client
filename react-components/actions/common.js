@@ -1,6 +1,7 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
+import {defaultAvatar, invitedAvatar} from '../constants/app'
 import {isMentioned, formatMessage} from './utils'
 import omit from 'lodash/object/omit'
 import find from 'lodash/collection/find'
@@ -8,7 +9,14 @@ import reduxEmitter from '../redux-emitter'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
 import * as api from '../backend/api'
-import {channelSelector, userSelector, usersSelector} from '../selectors'
+
+import {
+  orgSelector,
+  channelSelector,
+  usersSelector,
+  userSelector
+} from '../selectors'
+
 import store from '../app/store'
 
 export function setChannels(channels) {
@@ -124,6 +132,49 @@ export function handleReadChannel(data) {
       isCurrentUser: user.id === data.user,
       channelId: data.channel
     }
+  }
+}
+
+export function handleJoinOrg({user, organization: orgId}) {
+  const state = store.getState()
+  const users = usersSelector(state)
+  const org = orgSelector(state)
+
+  const _user = find(users, ({id}) => id === user.id)
+  if (_user || org.id !== orgId) {
+    return {
+      type: types.NOOP
+    }
+  }
+
+  const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
+
+  return {
+    type: types.NEW_USER_IN_ORG,
+    payload: {
+      ...user,
+      avatar,
+      slug: `@${user.username}`,
+      pm: null,
+      active: true,
+      status: 0
+    }
+  }
+}
+
+export function handleLeftOrg({user: userId, organization: orgId}) {
+  const state = store.getState()
+  const org = orgSelector(state)
+
+  if (org.id !== orgId) {
+    return {
+      type: types.NOOP
+    }
+  }
+
+  return {
+    type: types.USER_LEFT_ORG,
+    payload: userId
   }
 }
 

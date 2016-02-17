@@ -29,14 +29,16 @@ export default function subscribe(channel) {
   channel.on('data', data => {
     const cData = toCamel(data)
     switch (cData.event) {
-      case 'channel.typing':
-        boundActions.setTyping(selectors.setTypingSelector(store.getState()), cData)
-        break
+
       case 'message.new':
         boundActions.handleNewMessage(cData)
         break
       case 'message.removed':
         boundActions.handleRemovedMessage(cData)
+        break
+
+      case 'channel.typing':
+        boundActions.setTyping(selectors.setTypingSelector(store.getState()), cData)
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)
@@ -56,6 +58,15 @@ export default function subscribe(channel) {
       case 'channel.removed':
         boundActions.handleRemoveRoom(cData)
         break
+
+      case 'organization.joined':
+        boundActions.handleJoinOrg(cData)
+        break
+
+      case 'organization.left':
+        boundActions.handleLeftOrg(cData)
+        break
+
       default:
     }
   })

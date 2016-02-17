@@ -28,7 +28,7 @@ export default function reduce(state = initialState, action) {
 
     case types.ADD_USER_TO_CHANNEL: {
       const {user, channelId: id} = action.payload
-
+      if (!user) return state
       return state.reduce((newState, channel) => {
         if (channel.id === id) {
           newState.push({...channel, users: [...channel.users, user]})

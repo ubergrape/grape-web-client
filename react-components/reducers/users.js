@@ -22,6 +22,22 @@ export default function reduce(state = initialState, action) {
         return newState
       }, [])
     }
+
+    case types.NEW_USER_IN_ORG:
+      return [...state, action.payload]
+
+    case types.USER_LEFT_ORG: {
+      return state.reduce((newState, user) => {
+        if (user.id === action.payload) {
+          newState.push({...user, active: false})
+          return newState
+        }
+        newState.push(user)
+        return newState
+      }, [])
+    }
+
+
     default:
       return state
   }

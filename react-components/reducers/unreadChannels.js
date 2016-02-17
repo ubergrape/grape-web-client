@@ -95,7 +95,8 @@ export default function reduce(state = initialState, action) {
         amount: channels.calcUnread()
       }
     case types.ADD_USER_TO_CHANNEL:
-      if (payload.user.current) {
+      const {user} = payload
+      if (user && user.current) {
         channels.join(payload.channelId)
         return {...state, amount: channels.calcUnread()}
       }
