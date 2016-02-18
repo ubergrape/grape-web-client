@@ -2,6 +2,7 @@ import buttonIcon from '../button/icon'
 
 export default {
   navigation: {
+    display: 'none',
     position: 'absolute',
     left: 0,
     top: 56,

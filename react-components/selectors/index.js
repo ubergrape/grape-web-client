@@ -52,7 +52,16 @@ export const roomsSelector = createSelector(
 )
 
 export const pmsSelector = createSelector(
-  channelsSelector, channels => channels.filter(channel => channel.type === 'pm')
+  [channelsSelector, userSelector], (channels, user) => {
+    return channels
+      .filter(channel => channel.type === 'pm')
+      .map(channel => {
+        return {
+          ...channel,
+          mate: find(channel.users, _user => _user.id !== user.id)
+        }
+      })
+  }
 )
 
 export const orgSelector = createSelector(
@@ -240,28 +249,25 @@ export const inviteDialog = createSelector(
 
 export const navigation = createSelector(
   [
-    channelsSelector,
+    roomsSelector,
     channelSelector,
+    pmsSelector,
     usersSelector,
     userSelector
   ],
   (
-    channels,
+    rooms,
     channel,
+    pms,
     users,
     user
   ) => {
-    const recent = channels
+    const recent = rooms
       .filter(_channel => _channel.joined)
-      .concat(
-        users
-          .filter(_user => _user.pm)
-          .map(_user => {
-            return {..._user, latestMessageTime: _user.pm.latestMessageTime}
-          })
-      )
-      .sort((a, b) => a.latestMessageTime - b.latestMessageTime)
+      .concat(pms)
+      .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
 
+    console.log(recent)
     return {
       recent,
       channel,
