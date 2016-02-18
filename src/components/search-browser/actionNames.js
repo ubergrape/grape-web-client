@@ -10,5 +10,6 @@ export default [
   'showSearchBrowserServices',
   'focusSearchBrowserService',
   'showSearchBrowserObjects',
-  'addSearchBrowserFilter'
+  'addSearchBrowserFilter',
+  'resetSearchBrowser'
 ]

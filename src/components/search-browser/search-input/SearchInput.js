@@ -3,7 +3,7 @@ import pick from 'lodash/object/pick'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './style'
-import Input from './Input'
+import Input from './InputWithScrollEvent'
 import HighlightedInput from '../../highlighted-input/HighlightedInput'
 
 @useSheet(style)
@@ -27,7 +27,6 @@ export default class Browser extends Component {
           <span className={classes.icon} />
           <HighlightedInput
             {...inputProps}
-            autoFocus
             Editable={Input}
             theme={classes}
             getTokenClass={::this.getTokenClass}

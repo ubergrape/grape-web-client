@@ -245,3 +245,8 @@ export function addSearchBrowserFilter(service) {
     })
   }
 }
+
+// FIXME
+export function resetSearchBrowser() {
+
+}

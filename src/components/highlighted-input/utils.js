@@ -193,3 +193,14 @@ export function setCaretPosition(at, node) {
   if (isFocused(node)) set()
   else focus(node, set)
 }
+
+/**
+ * Scroll editable to the caret position.
+ * Scrolling will only happen if caret position is outside of view port.
+ */
+export function scrollLeftToCaret(node) {
+  const {scrollWidth, scrollLeft, offsetWidth, selectionEnd, value} = node
+  const left = scrollWidth * selectionEnd / value.length
+  const isVisible = left > scrollLeft && left < (scrollLeft + offsetWidth)
+  if (!isVisible) node.scrollLeft = left
+}

@@ -2,6 +2,7 @@ import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
+import pick from 'lodash/object/pick'
 import keyname from 'keyname'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -10,7 +11,8 @@ import {
   getTokenPositionNearCaret,
   splitByTokens,
   ensureSpace,
-  setCaretPosition
+  setCaretPosition,
+  scrollLeftToCaret
 } from './utils'
 import style from './style'
 
@@ -92,6 +94,15 @@ export default class HighlightedInput extends Component {
   }
 
   /**
+   * Scroll highlighter in parallel with editable.
+   */
+  onScroll({target}) {
+    const {highlighter} = this.refs
+    highlighter.scrollTop = target.scrollTop
+    highlighter.scrollLeft = target.scrollLeft
+  }
+
+  /**
    * Get the word caret is close by.
    */
   getTouchedWord() {
@@ -114,7 +125,9 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
 
-    this.setState({value, caretAt})
+    this.setState({value, caretAt}, () => {
+      scrollLeftToCaret(this.editable)
+    })
   }
 
   /**
@@ -135,7 +148,9 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length + 1
 
-    this.setState({value, caretAt})
+    this.setState({value, caretAt}, () => {
+      scrollLeftToCaret(this.editable)
+    })
   }
 
   /**
@@ -224,6 +239,9 @@ export default class HighlightedInput extends Component {
     const {classes} = this.props.sheet
     const {Editable, theme} = this.props
 
+    const editableProps = pick(this.props, 'onSubmit', 'onChange', 'onFocus',
+      'onBlur', 'onKeyPress', 'placeholder', 'disabled')
+
     return (
       <div
         ref="container"
@@ -235,10 +253,12 @@ export default class HighlightedInput extends Component {
           {this.renderHighlighterContent()}
         </div>
         <Editable
-          {...this.props}
+          {...editableProps}
           ref="editable"
+          data-test="editable"
           onKeyDown={::this.onKeyDown}
           onChange={::this.onChange}
+          onScroll={::this.onScroll}
           value={this.state.value}
           className={`${classes.editable} ${theme.editable}`} />
       </div>

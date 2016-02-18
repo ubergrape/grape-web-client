@@ -1,15 +1,13 @@
 import React, {PropTypes, Component} from 'react'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
-import pick from 'lodash/object/pick'
 
 export default class Textarea extends Component {
   static propTypes = {
     onKeyDown: PropTypes.func,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
-    className: PropTypes.string,
-    sheet: PropTypes.object.isRequired
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -59,13 +57,10 @@ export default class Textarea extends Component {
   }
 
   render() {
-    const props = pick(this.props, 'onSubmit', 'onChange', 'onFocus', 'onBlur',
-      'placeholder', 'value', 'className', 'disabled')
     return (
       <textarea
-        {...props}
+        {...this.props}
         ref="textarea"
-        autoFocus
         onKeyDown={::this.onKeyDown}></textarea>
     )
   }

@@ -38,7 +38,7 @@ describe('app:', () => {
 
     it('shound render "nothing found"', done => {
       create(undefined, () => {
-        const node = $('search-browser input', document.body)
+        const node = $('search-browser editable', document.body)
         node.value = 'asdef'
         Simulate.change(node)
         expect($('search-browser empty', document.body)).to.be.an(Element)
@@ -82,7 +82,7 @@ describe('app:', () => {
       )
       render(input)
 
-      const node = $('search-browser input', document.body)
+      const node = $('search-browser editable', document.body)
       node.value = 'a'
       Simulate.change(node)
       times(2, () => {

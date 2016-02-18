@@ -23,19 +23,20 @@ export default {
   container: {
     flex: 1,
     marginLeft: editablePadding,
-    marginRight: iconSize * 2 + editablePadding
+    marginRight: iconSize * 2 + editablePadding,
+    border: '1px solid transparent'
   },
   editable: {
     ...fonts.biggest,
     paddingTop: editablePadding,
     paddingBottom: editablePadding,
     height: 31 + editablePadding * 2,
-    border: 'none !important',
+    border: '1px solid transparent',
     outline: 'none'
   },
   highlighter: {
     extend: 'editable',
-    marginLeft: 1
+    whiteSpace: 'pre'
   },
   token: {
     background: 'linear-gradient(0deg, #b8e7aa, #c3ebb7)'
