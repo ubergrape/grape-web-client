@@ -24,7 +24,6 @@ export function handleNewMessage(message) {
     if (isMentioned(fMessage)) {
       dispatch(addMention(fMessage))
     }
-
     dispatch({
       type: types.NEW_MESSAGE,
       payload: {

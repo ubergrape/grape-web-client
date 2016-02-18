@@ -81,6 +81,24 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.NEW_MESSAGE: {
+      const {channel: channelId, time} = action.payload.message
+
+      return state.reduce((newState, channel) => {
+        if (channel.id === channelId) {
+          const timestamp = time.getTime()
+          newState.push({
+            ...channel,
+            latestMessageTime: timestamp,
+            firstMessageTime: channel.firstMessageTime || timestamp
+          })
+          return newState
+        }
+        newState.push(channel)
+        return newState
+      }, [])
+    }
+
     default:
       return state
   }
