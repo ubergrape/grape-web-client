@@ -7,7 +7,7 @@ import {useSheet} from 'grape-web/lib/jss'
 export default class AvatarUsername extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     size: PropTypes.number,
     showStatus: PropTypes.bool,
@@ -41,11 +41,11 @@ export default class AvatarUsername extends Component {
   }
 
   render() {
-    const size = this.props.size
+    const {size} = this.props
     const sizes = {width: size, height: size}
     const {classes} = this.props.sheet
     const {
-      username,
+      name,
       avatar,
       showStatus,
       status
@@ -64,8 +64,8 @@ export default class AvatarUsername extends Component {
           </span>
           {this.renderStatus()}
         </span>
-        <span className={classes.username}>
-          {username}
+        <span className={classes.name}>
+          {name}
         </span>
       </span>
     )

@@ -27,7 +27,7 @@ export default {
     overflow: 'hidden',
     borderRadius: '50%'
   },
-  username: {
+  name: {
     paddingLeft: 10
   }
 }

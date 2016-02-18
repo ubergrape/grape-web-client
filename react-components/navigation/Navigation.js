@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import AvatarUsername from '../avatar-username/AvatarUsername'
+import AvatarRoomname from '../avatar-roomname/AvatarRoomname'
 import {userStatus} from '../constants/app'
 import style from './style'
 
@@ -45,12 +46,12 @@ export default class Navigation extends Component {
     )
   }
 
-  renderRoom(channel) {
+  renderRoom(room) {
     return (
       <li
-        key={channel.id}
-        onClick={this.goToChannel.bind(this, channel)}>
-        {`${channel.abbr} ${channel.name}`}
+        key={room.id}
+        onClick={this.goToChannel.bind(this, room)}>
+        <AvatarRoomname {...room} />
       </li>
     )
   }
@@ -64,7 +65,7 @@ export default class Navigation extends Component {
         <AvatarUsername
           avatar={mate.avatar}
           status={userStatus[mate.status]}
-          username={mate.displayName} />
+          name={mate.displayName} />
       </li>
     )
   }

@@ -86,7 +86,7 @@ export default class ChannelMembersInvite extends Component {
       <div
         className={className}>
         <AvatarUsername
-          username={displayName}
+          name={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
           status={userStatus[status]}
