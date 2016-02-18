@@ -36,25 +36,24 @@ const initialState = {
   onChange: noop,
   onAbort: noop,
   onBlur: noop,
-  resetSearchBrowser: noop
+  clearSearchBrowserSearch: noop
 }
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.CREATE_SEARCH_BROWSER_STATE:
-      return (() => {
-        let services = get(action, 'payload.data.services')
-        // We aggregate services across multiple requests, because we don't have
-        // a separate api for services.
-        // TODO https://github.com/ubergrape/chatgrape/issues/3394
-        services = services ? uniq([...state.services, ...services], 'id') : state.services
-        return {
-          ...state,
-          ...action.payload,
-          services,
-          focusedService: services[0]
-        }
-      }())
+    case types.CREATE_SEARCH_BROWSER_STATE: {
+      let services = get(action, 'payload.data.services')
+      // We aggregate services across multiple requests, because we don't have
+      // a separate api for services.
+      // TODO https://github.com/ubergrape/chatgrape/issues/3394
+      services = services ? uniq([...state.services, ...services], 'id') : state.services
+      return {
+        ...state,
+        ...action.payload,
+        services,
+        focusedService: services[0]
+      }
+    }
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
     case types.EXEC_SEARCH_BROWSER_ACTION:
@@ -77,6 +76,8 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedList: 'objects'}
     case types.INPUT_SEARCH_BROWSER_SEARCH:
       return {...state, search: action.payload}
+    case types.CLEAR_SEARCH_BROWSER_SEARCH:
+      return {...state, search: '', filters: []}
     case types.ADD_SEARCH_BROWSER_FILTER:
       return {
         ...state,

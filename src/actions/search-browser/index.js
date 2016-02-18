@@ -214,6 +214,12 @@ export function inputSearchBrowserSearch({search, split}) {
   }
 }
 
+export function clearSearchBrowserSearch() {
+  return {
+    type: types.CLEAR_SEARCH_BROWSER_SEARCH
+  }
+}
+
 export function showSearchBrowserServices() {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
@@ -244,9 +250,4 @@ export function addSearchBrowserFilter(service) {
       payload: service
     })
   }
-}
-
-// FIXME
-export function resetSearchBrowser() {
-
 }

@@ -28,7 +28,7 @@ export default class Browser extends Component {
     showSearchBrowserServices: PropTypes.func,
     focusSearchBrowserService: PropTypes.func,
     addSearchBrowserFilter: PropTypes.func,
-    resetSearchBrowser: PropTypes.func,
+    clearSearchBrowserSearch: PropTypes.func,
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
@@ -70,7 +70,7 @@ export default class Browser extends Component {
           this.props.navigateSearchBrowser('back')
         // Reset the search if there is one.
         } else if (this.props.search || this.props.filters.length) {
-          this.props.resetSearchBrowser()
+          this.props.clearSearchBrowserSearch()
         } else {
           this.props.onAbort()
         }
