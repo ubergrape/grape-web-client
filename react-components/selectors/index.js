@@ -267,7 +267,6 @@ export const navigation = createSelector(
       .concat(pms)
       .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
 
-    console.log(recent)
     return {
       recent,
       channel,

@@ -10,6 +10,7 @@ import {
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 import AvatarUsername from '../avatar-username/AvatarUsername'
+import {userStatus} from '../constants/app'
 
 import colors from 'grape-theme/dist/base-colors'
 
@@ -88,10 +89,7 @@ export default class ChannelMembersInvite extends Component {
           username={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
-          // https://staging.chatgrape.com/doc/rpc.html
-          // status (int) - presence status within the organization:
-          // 0 Offline, 16 Online
-          status={status === 16 ? 'online' : 'offline'}
+          status={userStatus[status]}
         />
       </div>
     )
