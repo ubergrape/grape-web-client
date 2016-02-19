@@ -28,8 +28,7 @@ export user from './svg/user.svg'
 export users from './svg/users.svg'
 export cog from './svg/cog.svg'
 export star from './svg/star.svg'
-export star from './svg/star.svg'
-export timeback from './svg/timeback.svg'
+export timeMachine from './svg/time-machine.svg'
 export plus from './svg/plus.svg'
 
 // Products.
