@@ -26,6 +26,11 @@ export comment from './svg/comment.svg'
 export iconLink from './svg/icon-link.svg'
 export user from './svg/user.svg'
 export users from './svg/users.svg'
+export cog from './svg/cog.svg'
+export cog from './svg/cog.svg'
+export star from './svg/star.svg'
+export star from './svg/star.svg'
+export timeback from './svg/timeback.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
