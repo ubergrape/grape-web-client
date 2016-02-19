@@ -1,9 +1,7 @@
-import {QUERY_REGEX, EMOJI_REGEX} from '../query/constants'
-import {get as getEmoji} from '../emoji'
+import {get as getEmoji, REGEX as EMOJI_REGEX} from '../emoji'
 import {create as createObject} from '../objects'
 import {grapeProtocolRegExp} from '../objects/constants'
 import {getTrigger} from '../objects/utils'
-import parseQuery from '../query/parse'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -95,12 +93,4 @@ export function fromMarkdown(md) {
   })
 
   return {objects, value}
-}
-
-/**
- * Return query if value is query or false
- */
-export function getQuery(token) {
-  const isQuery = Boolean(token && token.match(QUERY_REGEX))
-  if (isQuery) return parseQuery(token)
 }

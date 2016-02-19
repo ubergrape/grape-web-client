@@ -47,8 +47,10 @@ describe('app:', () => {
     })
 
     it('should close browser if there is space at the end and no results', (done) => {
-      create(component => {
-        component.query.set('search', 'something ', {silent: true})
+      create(() => {
+        const node = $('grape-browser editable', document.body)
+        node.value = '@ '
+        Simulate.change(node)
         create(undefined, () => {
           const browser = $('search-browser', document.body)
           expect(browser).to.be(null)

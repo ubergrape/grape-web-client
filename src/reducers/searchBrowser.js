@@ -36,7 +36,7 @@ const initialState = {
   onChange: noop,
   onAbort: noop,
   onBlur: noop,
-  clearSearchBrowserSearch: noop
+  clearSearchBrowserInput: noop
 }
 
 export default function reduce(state = initialState, action) {
@@ -74,9 +74,9 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedService: action.payload}
     case types.SHOW_SEARCH_BROWSER_OBJECTS:
       return {...state, focusedList: 'objects'}
-    case types.INPUT_SEARCH_BROWSER_SEARCH:
+    case types.UPDATE_SEARCH_BROWSER_INPUT:
       return {...state, search: action.payload}
-    case types.CLEAR_SEARCH_BROWSER_SEARCH:
+    case types.CLEAR_SEARCH_BROWSER_INPUT:
       return {...state, search: '', filters: []}
     case types.ADD_SEARCH_BROWSER_FILTER:
       return {

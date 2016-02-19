@@ -6,10 +6,9 @@ export default [
   'navigateSearchBrowser',
   'selectSearchBrowserItem',
   'createSearchBrowserState',
-  'inputSearchBrowserSearch',
-  'showSearchBrowserServices',
+  'changeSearchBrowserInput',
   'focusSearchBrowserService',
   'showSearchBrowserObjects',
   'addSearchBrowserFilter',
-  'clearSearchBrowserSearch'
+  'clearSearchBrowserInput'
 ]

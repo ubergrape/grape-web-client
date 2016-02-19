@@ -243,7 +243,7 @@ export default class App extends Component {
 
   onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
-    if (query) {
+    if (query.trigger) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.
       // If its a mentioning, user types the search.
@@ -252,7 +252,8 @@ export default class App extends Component {
         this.query.set(query, {silent: true})
         this.emit('complete', {...this.query.toJSON(), emoji})
       }
-    } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
+    // Query has been removed or caret position changed, for datalist only.
+    } else if (!this.query.isEmpty()) {
       this.query.reset()
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }

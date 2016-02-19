@@ -24,11 +24,10 @@ export default class Browser extends Component {
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
     navigateSearchBrowser: PropTypes.func,
-    inputSearchBrowserSearch: PropTypes.func,
-    showSearchBrowserServices: PropTypes.func,
+    changeSearchBrowserInput: PropTypes.func,
     focusSearchBrowserService: PropTypes.func,
     addSearchBrowserFilter: PropTypes.func,
-    clearSearchBrowserSearch: PropTypes.func,
+    clearSearchBrowserInput: PropTypes.func,
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
@@ -54,12 +53,6 @@ export default class Browser extends Component {
     this.props.selectSearchBrowserItem(id)
   }
 
-  onKeyPress(e) {
-    if (String.fromCharCode(e.charCode) === '+') {
-      this.props.showSearchBrowserServices()
-    }
-  }
-
   onKeyDown(e) {
     const {focusedList} = this.props
 
@@ -70,7 +63,7 @@ export default class Browser extends Component {
           this.props.navigateSearchBrowser('back')
         // Reset the search if there is one.
         } else if (this.props.search || this.props.filters.length) {
-          this.props.clearSearchBrowserSearch()
+          this.props.clearSearchBrowserInput()
         } else {
           this.props.onAbort()
         }
@@ -90,7 +83,7 @@ export default class Browser extends Component {
         e.preventDefault()
         break
       case 'backspace':
-        if (focusedList === 'actions' || focusedList === 'services') {
+        if (focusedList === 'actions') {
           this.props.navigateSearchBrowser('back')
           e.preventDefault()
         }
@@ -120,13 +113,6 @@ export default class Browser extends Component {
 
   onMountInput(ref) {
     this.input = ref
-  }
-
-  onChangeSearch({value}) {
-    this.props.inputSearchBrowserSearch({
-      search: value,
-      split: this.input.splitByTokens()
-    })
   }
 
   onAddService(service) {
@@ -188,8 +174,7 @@ export default class Browser extends Component {
           value={this.props.search}
           onDidMount={::this.onMountInput}
           onKeyDown={::this.onKeyDown}
-          onKeyPress={::this.onKeyPress}
-          onChange={::this.onChangeSearch}
+          onChange={this.props.changeSearchBrowserInput}
           onBlur={::this.onBlur} />
         {body}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}

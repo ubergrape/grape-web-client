@@ -1,5 +1,5 @@
 import trimLeft from 'lodash/string/trimLeft'
-import {TRIGGERS, SEPARATOR} from './constants'
+import {TRIGGERS, SEPARATOR, QUERY_REGEX} from './constants'
 
 /**
  * Get search object from a query string.
@@ -31,7 +31,11 @@ import {TRIGGERS, SEPARATOR} from './constants'
  * }
  * ```
  */
-export default function parse(query) {
+export default function parse(queryStr) {
+  let query
+  if (!queryStr || !queryStr.match(QUERY_REGEX)) query = ''
+  else query = queryStr.trim()
+
   const triggerIndex = TRIGGERS.indexOf(query[0])
   const trigger = TRIGGERS[triggerIndex]
   const key = query.substr(1)

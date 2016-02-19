@@ -1,13 +1,10 @@
 import find from 'lodash/collection/find'
-import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
 import {openUrl} from 'grape-web/lib/x-platform'
 
 import {
   getSections,
-  findIndexBySelector,
-  getTextWithoutFilters,
-  getFilterIds
+  findIndexBySelector
 } from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
@@ -16,7 +13,7 @@ import {
   setFocusedItem,
   extractItems
 } from '../../components/browser/dataUtils'
-import {filtersTrigger} from '../../constants/searchBrowser'
+import {SERVICES_TRIGGER} from '../../components/query/constants'
 
 function createState(nextProps) {
   const {data} = nextProps
@@ -66,7 +63,7 @@ function execAction(state) {
 
   if (action.type === 'insert') {
     state.onSelectItem({item})
-    // FIXME create reset action
+    // FIXME use clearSearchBrowserInput
     return {
       filters: [],
       search: ''
@@ -188,50 +185,39 @@ export function showSearchBrowserObjects() {
   }
 }
 
-export function inputSearchBrowserSearch({search, split}) {
+export function changeSearchBrowserInput({value, search, filters, query}) {
   return (dispatch, getState) => {
-    const {onChange, focusedList, tokens} = searchBrowserSelector(getState())
+    const {data, onChange} = searchBrowserSelector(getState())
 
     dispatch({
-      type: types.INPUT_SEARCH_BROWSER_SEARCH,
-      payload: search
+      type: types.UPDATE_SEARCH_BROWSER_INPUT,
+      payload: value
     })
-
-    const filters = getFilterIds(split, tokens)
 
     dispatch({
       type: types.UPDATE_SEARCH_BROWSER_FILTERS,
       payload: filters
     })
 
-    if (focusedList !== 'services') {
+    if (query.trigger === SERVICES_TRIGGER) {
+      const services = data && data.services
+
+      // TODO Should be a separate action for loading services.
+      if (isEmpty(services)) {
+        dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
+        onChange({trigger: query.trigger})
+      }
+      dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
+    } else {
       dispatch(showSearchBrowserObjects())
-      onChange({
-        search: getTextWithoutFilters(split, tokens),
-        filters
-      })
+      onChange({search, filters})
     }
   }
 }
 
-export function clearSearchBrowserSearch() {
+export function clearSearchBrowserInput() {
   return {
-    type: types.CLEAR_SEARCH_BROWSER_SEARCH
-  }
-}
-
-export function showSearchBrowserServices() {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    const services = get(state, 'data.services')
-
-    // TODO Should be a separate action for loading services.
-    if (isEmpty(services)) {
-      dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
-      // FIXME?
-      state.onChange({trigger: filtersTrigger})
-    }
-    dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
+    type: types.CLEAR_SEARCH_BROWSER_INPUT
   }
 }
 
