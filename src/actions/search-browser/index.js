@@ -66,7 +66,7 @@ function execAction(state) {
     // FIXME use clearSearchBrowserInput
     return {
       filters: [],
-      search: ''
+      value: ''
     }
   }
 
@@ -191,12 +191,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
 
     dispatch({
       type: types.UPDATE_SEARCH_BROWSER_INPUT,
-      payload: value
-    })
-
-    dispatch({
-      type: types.UPDATE_SEARCH_BROWSER_FILTERS,
-      payload: filters
+      payload: {value, search, filters}
     })
 
     if (query.trigger === SERVICES_TRIGGER) {

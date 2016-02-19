@@ -3,31 +3,31 @@ import expect from 'expect.js'
 import React from 'react'
 import times from 'lodash/utility/times'
 import {Simulate} from 'react-addons-test-utils'
-import App from '../App'
+import GrapeBrowser from '../GrapeBrowser'
 import data0 from './mocks/data0.json'
 
 describe('app:', () => {
-  describe('App()', () => {
+  describe('GrapeBrowser()', () => {
     it('should render without props', () => {
-      render(<App />)
+      render(<GrapeBrowser />)
       expect($('grape-browser')).to.be.an(Element)
     })
   })
 
-  describe('App() with search', () => {
+  describe('GrapeBrowser() with search', () => {
     it('should open search browser', () => {
-      const input = <App browser="search" data={data0} focused setTrigger />
+      const input = <GrapeBrowser browser="search" data={data0} focused setTrigger />
       render(input)
       expect($('search-browser', document.body)).to.be.an(Element)
     })
   })
 
-  describe('App() auto close', () => {
+  describe('GrapeBrowser() auto close', () => {
     function create(onDidMount, onRender) {
         // Results removed.
       const data = {...data0, results: []}
       const input = (
-        <App
+        <GrapeBrowser
           browser="search"
           data={data}
           onDidMount={onDidMount}
@@ -71,12 +71,12 @@ describe('app:', () => {
     })
   })
 
-  describe('App() insert object:', () => {
+  describe('GrapeBrowser() insert object:', () => {
     function insert(props) {
       const data = {...data0}
       data.search.queries = []
       const input = (
-        <App
+        <GrapeBrowser
           browser="search"
           data={data}
           focused

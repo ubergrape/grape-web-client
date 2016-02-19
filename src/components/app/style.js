@@ -1,5 +1,5 @@
 export default {
-  app: {
+  grapeBrowser: {
     display: 'block',
     width: '100%',
     height: '100%',

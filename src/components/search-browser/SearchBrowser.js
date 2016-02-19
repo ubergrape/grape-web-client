@@ -16,7 +16,7 @@ import {listTypes} from './constants'
  * Main search browser component.
  */
 @useSheet(style)
-export default class Browser extends Component {
+export default class SearchBrowser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onDidMount: PropTypes.func,
@@ -32,9 +32,9 @@ export default class Browser extends Component {
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
-    data: PropTypes.object,
-    height: PropTypes.number,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     className: PropTypes.string,
+    value: PropTypes.string,
     search: PropTypes.string,
     filters: PropTypes.array,
     focusedList: PropTypes.oneOf(listTypes),
@@ -64,7 +64,7 @@ export default class Browser extends Component {
         if (focusedList === 'actions' || focusedList === 'services') {
           this.props.navigateSearchBrowser('back')
         // Reset the search if there is one.
-        } else if (this.props.search || this.props.filters.length) {
+        } else if (this.props.value.trim()) {
           this.props.clearSearchBrowserInput()
         } else {
           this.props.onAbort()
@@ -126,7 +126,7 @@ export default class Browser extends Component {
   }
 
   renderBody() {
-    const {sections, search, filters, focusedList} = this.props
+    const {sections, search, focusedList} = this.props
 
     if (focusedList === 'services') {
       return (
@@ -150,9 +150,7 @@ export default class Browser extends Component {
       )
     }
 
-    if (search || filters.length) {
-      return <Empty text="Nothing found." />
-    }
+    if (search.trim()) return <Empty text="No Results." />
 
     return <Info {...this.props} />
   }
@@ -161,21 +159,15 @@ export default class Browser extends Component {
     const {classes} = this.props.sheet
     const body = this.renderBody()
 
-    const inlineStyle = {
-      // Set a fixed height when we have content, otherwise just input field.
-      height: this.props.data ? this.props.height : 'auto'
-    }
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={inlineStyle}
+        style={{height: this.props.height}}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">
         <SearchInput
           {...this.props}
-          value={this.props.search}
           onDidMount={::this.onMountInput}
           onKeyDown={::this.onKeyDown}
           onChange={this.props.changeSearchBrowserInput}

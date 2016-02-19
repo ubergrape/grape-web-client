@@ -254,6 +254,7 @@ export default class HighlightedInput extends Component {
         </div>
         <Editable
           {...editableProps}
+          autoFocus
           ref="editable"
           data-test="editable"
           onKeyDown={::this.onKeyDown}

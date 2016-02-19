@@ -38,7 +38,7 @@ const browserWithInput = {
  * Uses all types of auto completes to provide end component.
  */
 @useSheet(style)
-export default class App extends Component {
+export default class GrapeBrowser extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,
     container: PropTypes.object,
@@ -435,7 +435,7 @@ export default class App extends Component {
 
     return (
       <div
-        className={classes.app}
+        className={classes.grapeBrowser}
         data-test="grape-browser">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         {this.renderBrowser()}

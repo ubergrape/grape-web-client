@@ -23,6 +23,9 @@ const initialState = {
   isExternal: false,
   isLoading: false,
   focusedList: 'objects',
+  // Entire input value including filters.
+  value: '',
+  // Only user input without filters.
   search: '',
   filters: [],
   actions,
@@ -50,12 +53,15 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...action.payload,
         services,
-        focusedService: services[0]
+        focusedService: services[0],
+        // Set a fixed height when we have content, otherwise just input field.
+        height: action.payload.data ? initialState.height : 'auto'
       }
     }
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
     case types.EXEC_SEARCH_BROWSER_ACTION:
+    case types.UPDATE_SEARCH_BROWSER_INPUT:
       return {...state, ...action.payload}
     case types.FOCUS_SEARCH_BROWSER_ACTION:
       return {
@@ -73,18 +79,14 @@ export default function reduce(state = initialState, action) {
       return {...state, focusedService: action.payload}
     case types.SHOW_SEARCH_BROWSER_OBJECTS:
       return {...state, focusedList: 'objects'}
-    case types.UPDATE_SEARCH_BROWSER_INPUT:
-      return {...state, search: action.payload}
     case types.CLEAR_SEARCH_BROWSER_INPUT:
-      return {...state, search: '', filters: []}
+      return {...state, value: '', search: '', filters: []}
     case types.ADD_SEARCH_BROWSER_FILTER:
       return {
         ...state,
         tokens: {...state.tokens, [action.payload.label]: action.payload},
         filters: [...state.filters, action.payload.id]
       }
-    case types.UPDATE_SEARCH_BROWSER_FILTERS:
-      return {...state, filters: action.payload}
     case types.RESET_SEARCH_BROWSER_STATE:
       return initialState
     default:
