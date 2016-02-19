@@ -130,6 +130,7 @@ export default class GrapeBrowser extends Component {
   }
 
   onSubmit(data) {
+    clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
     this.emit('submit', data)
   }
@@ -144,11 +145,6 @@ export default class GrapeBrowser extends Component {
   onSelectSearchBrowserItem({item, query}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.insertItem(item, query)
-  }
-
-  onSelectSearchBrowserFilter(query) {
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.emit('selectFilter', query)
   }
 
   onSelectEmojiBrowserItem({item, query}) {
@@ -239,7 +235,7 @@ export default class GrapeBrowser extends Component {
 
   onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
-    if (query.trigger) {
+    if (query && query.trigger) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.
       // If its a mentioning, user types the search.
@@ -293,7 +289,8 @@ export default class GrapeBrowser extends Component {
         .slice(0, nextProps.maxSuggestions)
     }
     if (state.browser === 'emojiSuggest') {
-      state.data = emoji.sortByRankAndLength(state.data)
+      state.data = emoji
+        .sortByRankAndLength(state.data)
         .slice(0, nextProps.maxSuggestions)
     }
     state.query = this.query.toJSON()
@@ -400,7 +397,6 @@ export default class GrapeBrowser extends Component {
           isLoading={this.props.isLoading}
           onAbort={::this.onAbort}
           onSelectItem={::this.onSelectSearchBrowserItem}
-          onSelectFilter={::this.onSelectSearchBrowserFilter}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onChange={::this.onChangeSearchBrowser}
           onDidMount={this.onDidMount.bind(this, 'browser')} />

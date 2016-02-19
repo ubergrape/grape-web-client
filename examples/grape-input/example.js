@@ -128,15 +128,6 @@ function init() {
   input.addEventListener('grapeAddIntegration', function (e) {
     console.log('add integration')
   })
-
-  input.addEventListener('grapeSelectFilter', function (e) {
-    console.log('select filter', e.detail)
-    setProps({
-      browser: 'search',
-      data: window.searchData
-    })
-  })
-
 }
 
 function showSearchDelayed(delay) {

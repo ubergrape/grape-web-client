@@ -72,11 +72,13 @@ export default class SearchBrowser extends Component {
         e.preventDefault()
         break
       case 'down':
-        this.props.navigateSearchBrowser('next')
+        if (focusedList === 'services') this.props.focusSearchBrowserService('next')
+        else this.props.navigateSearchBrowser('next')
         e.preventDefault()
         break
       case 'up':
-        this.props.navigateSearchBrowser('prev')
+        if (focusedList === 'services') this.props.focusSearchBrowserService('prev')
+        else this.props.navigateSearchBrowser('prev')
         e.preventDefault()
         break
       case 'enter':

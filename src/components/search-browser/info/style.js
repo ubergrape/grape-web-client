@@ -12,7 +12,7 @@ export default {
   },
   plusIcon: {
     extend: plusIconStyle,
-    width: '1.2em',
-    height: '1.2em'
+    width: '1.1em',
+    height: '1.1em'
   }
 }

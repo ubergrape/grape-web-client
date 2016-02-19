@@ -3,9 +3,9 @@ export default {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
+    minHeight: 50
   },
-
   info: {
   }
 }

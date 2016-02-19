@@ -84,14 +84,8 @@ function focusAction(selector, state) {
   return {focusedAction: actions[newIndex]}
 }
 
-function focusService(selector, state) {
-  const {services} = state
-  const newIndex = findIndexBySelector(selector, services, service => service === state.focusedService)
-  return {focusedService: services[newIndex]}
-}
-
 function navigate(action, state) {
-  if (!state.data.results.length) return state
+  if (!state.data || !state.data.results.length) return state
 
   switch (action) {
     case 'select':
@@ -104,7 +98,6 @@ function navigate(action, state) {
     case 'next':
       if (state.focusedList === 'objects') return focusItem(action, state)
       if (state.focusedList === 'actions') return focusAction(action, state)
-      if (state.focusedList === 'services') return focusService(action, state)
       break
     default:
   }
@@ -217,9 +210,20 @@ export function clearSearchBrowserInput() {
 }
 
 export function focusSearchBrowserService(item) {
-  return {
-    type: types.FOCUS_SEARCH_BROWSER_SERVICE,
-    payload: item
+  return (dispatch, getState) => {
+    let payload = item
+
+    // It's a selector.
+    if (typeof item === 'string') {
+      const {services, focusedService} = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(item, services, service => service === focusedService)
+      payload = services[newIndex]
+    }
+
+    dispatch({
+      type: types.FOCUS_SEARCH_BROWSER_SERVICE,
+      payload
+    })
   }
 }
 
