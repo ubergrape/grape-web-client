@@ -18,7 +18,7 @@ export default class Info extends Component {
     onAddIntegration: noop
   }
 
-  onAddIntegration(e) {
+  onAddIntegration(e) {
     e.preventDefault()
     this.props.onAddIntegration()
   }

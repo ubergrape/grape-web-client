@@ -10,7 +10,7 @@ export default {
     color: colors.gray,
     background: colors.grayBlueLighter
   },
-  plusIcon: {
+  plusIcon: {
     extend: plusIconStyle,
     width: '1.2em',
     height: '1.2em'

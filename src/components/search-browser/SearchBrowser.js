@@ -32,6 +32,7 @@ export default class Browser extends Component {
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
+    data: PropTypes.object,
     height: PropTypes.number,
     className: PropTypes.string,
     search: PropTypes.string,
