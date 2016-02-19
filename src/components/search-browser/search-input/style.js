@@ -2,35 +2,46 @@ import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
-const iconSize = 22
-const editablePadding = 15
-const icon = getColoredIcon({name: 'magnifier', color: colors.blue})
+const iconSize = 32
+const margin = 15
+
+const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.blue})
+const plusIcon = getColoredIcon({name: 'plus', color: colors.blue})
 
 export default {
   searchInput: {
     display: 'flex',
     borderBottom: `1px solid ${colors.silverDark}`
   },
-  icon: {
+  magnifierIcon: {
+    flexShrink: 0,
+    height: iconSize - 10,
+    width: iconSize - 10,
+    background: `no-repeat url('${magnifierIcon}')`,
+    backgroundSize: 'contain',
+    alignSelf: 'center',
+    margin
+  },
+  plusButton: {
     flexShrink: 0,
     height: iconSize,
     width: iconSize,
-    background: `no-repeat url('${icon}')`,
-    backgroundSize: 'contain',
+    background: `no-repeat center url('${plusIcon}')`,
+    border: `1px solid ${colors.grayLight}`,
+    borderRadius: 5,
     alignSelf: 'center',
-    marginLeft: iconSize
+    margin,
+    cursor: 'pointer'
   },
   container: {
     flex: 1,
-    marginLeft: editablePadding,
-    marginRight: iconSize * 2 + editablePadding,
     border: '1px solid transparent'
   },
   editable: {
     ...fonts.biggest,
-    paddingTop: editablePadding,
-    paddingBottom: editablePadding,
-    height: 31 + editablePadding * 2,
+    paddingTop: margin,
+    paddingBottom: margin,
+    height: 31 + margin * 2,
     border: '1px solid transparent',
     outline: 'none'
   },

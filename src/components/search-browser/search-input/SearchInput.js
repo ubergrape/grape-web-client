@@ -10,6 +10,7 @@ import {
 } from './utils'
 import HighlightedInput from '../../highlighted-input/HighlightedInput'
 import parseQuery from '../../query/parse'
+import {SERVICES_TRIGGER} from '../../query/constants'
 
 @useSheet(style)
 export default class Browser extends Component {
@@ -34,6 +35,10 @@ export default class Browser extends Component {
     this.props.onDidMount(ref)
   }
 
+  onShowServices() {
+    this.input.insert(SERVICES_TRIGGER)
+  }
+
   getTokenClass() {
     return this.props.sheet.classes.token
   }
@@ -45,7 +50,7 @@ export default class Browser extends Component {
 
     return (
         <div className={classes.searchInput}>
-          <span className={classes.icon} />
+          <span className={classes.magnifierIcon} />
           <HighlightedInput
             {...inputProps}
             Editable={Input}
@@ -55,6 +60,10 @@ export default class Browser extends Component {
             tokens={Object.keys(this.props.tokens)}
             onChange={::this.onChange}
             onDidMount={::this.onMountInput} />
+          <button
+            onClick={::this.onShowServices}
+            className={classes.plusButton}
+            ></button>
         </div>
     )
   }

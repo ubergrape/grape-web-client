@@ -4,7 +4,7 @@ export default {
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     alignSelf: 'center',
-    height: '1em',
-    width: '1em'
+    height: '0.8em',
+    width: '0.8em'
   }
 }
