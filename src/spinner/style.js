@@ -8,7 +8,8 @@ export default {
     left: 0,
     height: '100%',
     width: '100%',
-    background: 'no-repeat center'
+    background: 'no-repeat center',
+    backgroundSize: 'contain'
   },
   overlay: {
     backgroundColor: color(colors.white).alpha(0.7).rgbaString()
