@@ -51,6 +51,6 @@ export default class Spinner extends Component {
     let className = classes.spinner
     if (this.props.overlay) className += ' ' + classes.overlay
     // TODO use svg.
-    return <div className={className} style={{backgroundImage}}></div>
+    return <span className={className} style={{backgroundImage}}></span>
   }
 }
