@@ -91,7 +91,7 @@ function focusService(selector, state) {
 }
 
 function navigate(action, state) {
-  if (!state.data) return state
+  if (!state.data.results.length) return state
 
   switch (action) {
     case 'select':
