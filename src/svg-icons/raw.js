@@ -26,6 +26,7 @@ export comment from './svg/comment.svg'
 export iconLink from './svg/icon-link.svg'
 export user from './svg/user.svg'
 export users from './svg/users.svg'
+export plus from './svg/plus.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
