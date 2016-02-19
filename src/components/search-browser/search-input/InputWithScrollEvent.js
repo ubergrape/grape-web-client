@@ -33,7 +33,12 @@ export default class InputWithScrollEvent extends Component {
   }
 
   onEventProxy(name, e) {
-    setTimeout(this.onScroll.bind(this, e.nativeEvent))
+    // Use delay because native scroll happens after some of the events.
+    setTimeout(() => {
+      const target = this.refs.input
+      // Don't trigger onScroll if the element has been detached.
+      if (target) this.onScroll({target})
+    })
     // Call original callback if it exists.
     if (this.props[name]) this.props[name](e)
   }
