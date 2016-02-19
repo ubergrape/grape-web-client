@@ -15,30 +15,5 @@ describe('query', () => {
       })
       expect(str).to.be('#something')
     })
-
-    it('should stringify with a filter', () => {
-      const str = stringify({
-        trigger: '#',
-        filters: ['filter0']
-      })
-      expect(str).to.be('#filter0:')
-    })
-
-    it('should stringify with filters', () => {
-      const str = stringify({
-        trigger: '#',
-        filters: ['filter0', 'filter1']
-      })
-      expect(str).to.be('#filter0:filter1:')
-    })
-
-    it('should stringify with filter and search', () => {
-      const str = stringify({
-        trigger: '#',
-        filters: ['filter0'],
-        search: 'something'
-      })
-      expect(str).to.be('#filter0:something')
-    })
   })
 })

@@ -47,7 +47,7 @@ function init() {
     }
     else if (e.detail.trigger == '#') {
       var data = assign({}, window.searchData)
-      var filters = e.detail.filters
+      var filters = e.detail.filters || []
       var search = e.detail.search
 
       if (filters.length) {
@@ -74,8 +74,8 @@ function init() {
     }
     else if (e.detail.trigger == ':') {
       var emoji = e.detail.emoji
-      var key = e.detail.key
-      var data = emoji.filter(key).map(function(emoji) {
+      var search = e.detail.search
+      var data = emoji.filter(search).map(function(emoji) {
         return Object.assign(emoji, { rank: getRank() })
       })
 

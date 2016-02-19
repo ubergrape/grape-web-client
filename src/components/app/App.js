@@ -248,7 +248,7 @@ export default class App extends Component {
       // whatever he wants.
       // If its a mentioning, user types the search.
       // TODO migrate mentioning to the browser.
-      if (!query.key || !utils.isBrowserType(query.trigger)) {
+      if (!query.search || !utils.isBrowserType(query.trigger)) {
         this.query.set(query, {silent: true})
         this.emit('complete', {...this.query.toJSON(), emoji})
       }

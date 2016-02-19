@@ -10,8 +10,6 @@ export const TRIGGERS = [
   SERVICES_TRIGGER
 ]
 
-export const SEPARATOR = ':'
-
 export const TYPES = {
   search: SEARCH_TRIGGER,
   user: MENTION_TRIGGER,
