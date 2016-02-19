@@ -11,6 +11,7 @@ export default {
     padding: '5px 12px',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
-    color: colors.gainsboroDark
+    color: colors.gainsboroDark,
+    flexShrink: 0
   }
 }

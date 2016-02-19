@@ -37,10 +37,10 @@ export default class ServiceList extends Component {
     const {services, focused} = this.props
 
     return (
-      <div>
+      <div className={classes.serviceList}>
         <SectionHeader text="services" />
         <List
-          className={classes.serviceList}
+          className={classes.services}
           renderItem={::this.renderService}
           items={services}
           focused={focused} />

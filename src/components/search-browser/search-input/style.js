@@ -12,7 +12,8 @@ const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.grayBlueD
 export default {
   searchInput: {
     display: 'flex',
-    borderBottom: `1px solid ${colors.silverDark}`
+    borderBottom: `1px solid ${colors.silverDark}`,
+    flexShrink: 0
   },
   magnifierIcon: {
     flexShrink: 0,
