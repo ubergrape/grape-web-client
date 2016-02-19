@@ -22,7 +22,6 @@ const initialState = {
   className: '',
   isExternal: false,
   isLoading: false,
-  canAddIntegrations: false,
   focusedList: 'objects',
   search: '',
   filters: [],

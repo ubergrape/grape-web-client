@@ -1,4 +1,5 @@
 import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 
 export default {
   browser: {
@@ -11,7 +12,10 @@ export default {
       '0 5px 11px 0 rgba(0, 0, 0, 0.18)',
       '0 4px 15px 0 rgba(0, 0, 0, 0.15)'
     ].join(','),
-    maxWidth: 680
+    maxWidth: 680,
+    '& a': {
+      color: webColors.link
+    }
   },
   column: {
     flex: 1,

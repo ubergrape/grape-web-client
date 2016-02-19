@@ -43,8 +43,6 @@ export default class App extends Component {
     onDidMount: PropTypes.func,
     container: PropTypes.object,
     isLoading: PropTypes.bool,
-    hasIntegrations: PropTypes.bool,
-    canAddIntegrations: PropTypes.bool,
     placeholder: PropTypes.string,
     ignoreSuggest: PropTypes.bool,
     setTrigger: PropTypes.bool,
@@ -72,8 +70,6 @@ export default class App extends Component {
     focused: false,
     disabled: false,
     ignoreSuggest: false,
-    hasIntegrations: false,
-    canAddIntegrations: true,
     setTrigger: false,
     isLoading: false,
     onAbort: undefined,
@@ -402,8 +398,6 @@ export default class App extends Component {
           images={images}
           isExternal={utils.isExternalSearch(data)}
           isLoading={this.props.isLoading}
-          hasIntegrations={this.props.hasIntegrations}
-          canAddIntegrations={this.props.canAddIntegrations}
           onAbort={::this.onAbort}
           onSelectItem={::this.onSelectSearchBrowserItem}
           onSelectFilter={::this.onSelectSearchBrowserFilter}
@@ -441,7 +435,7 @@ export default class App extends Component {
 
     return (
       <div
-        className={classes.input}
+        className={classes.app}
         data-test="grape-browser">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         {this.renderBrowser()}

@@ -5,7 +5,7 @@ import style from '../../../browser/style'
 import Grid from '../../../grid/Grid'
 import Sidebar from '../../../sidebar/Sidebar'
 import Detail from '../../detail/Detail'
-import {listTypes} from '../../../../constants/searchBrowser'
+import {listTypes} from '../../constants'
 
 /**
  * Default search rendering.

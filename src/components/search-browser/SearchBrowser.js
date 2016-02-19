@@ -8,8 +8,9 @@ import Item from './item/Item'
 import * as services from './services'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
+import Info from './info/Info'
 import Empty from '../empty/Empty'
-import {listTypes} from '../../constants/searchBrowser'
+import {listTypes} from './constants'
 
 /**
  * Main search browser component.
@@ -149,8 +150,10 @@ export default class Browser extends Component {
     }
 
     if (search || filters.length) {
-      return <Empty text="Nothing found" />
+      return <Empty text="Nothing found." />
     }
+
+    return <Info {...this.props} />
   }
 
   render() {
@@ -159,7 +162,7 @@ export default class Browser extends Component {
 
     const inlineStyle = {
       // Set a fixed height when we have content, otherwise just input field.
-      height: body ? this.props.height : 'auto'
+      height: this.props.data ? this.props.height : 'auto'
     }
 
     return (

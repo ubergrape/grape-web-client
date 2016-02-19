@@ -8,7 +8,7 @@ import Empty from './DetailEmpty'
 import Actions from './Actions'
 import style from './detailStyle'
 import * as utils from './utils'
-import {listTypes} from '../../../constants/searchBrowser'
+import {listTypes} from '../constants'
 
 /**
  * Detail view for objects.

@@ -2,11 +2,12 @@ import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
+import {plusIconStyle} from '../constants'
+
 const iconSize = 32
 const margin = 15
 
-const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.blue})
-const plusIcon = getColoredIcon({name: 'plus', color: colors.blue})
+const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.grayBlueDark})
 
 export default {
   searchInput: {
@@ -23,12 +24,10 @@ export default {
     margin
   },
   plusButton: {
+    extend: plusIconStyle,
     flexShrink: 0,
     height: iconSize,
     width: iconSize,
-    background: `no-repeat center url('${plusIcon}')`,
-    border: `1px solid ${colors.grayLight}`,
-    borderRadius: 5,
     alignSelf: 'center',
     margin,
     cursor: 'pointer'

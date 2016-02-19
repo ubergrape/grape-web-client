@@ -62,8 +62,7 @@ export default class Browser extends Component {
             onDidMount={::this.onMountInput} />
           <button
             onClick={::this.onShowServices}
-            className={classes.plusButton}
-            ></button>
+            className={classes.plusButton}></button>
         </div>
     )
   }
