@@ -2,11 +2,15 @@ import page from 'page'
 import find from 'lodash/collection/find'
 import * as alerts from '../../react-components/constants/alerts'
 
+import store from '../../react-components/app/store'
+import {roomsSelector, pmsSelector} from '../../react-components/selectors'
+
 export default function init(ui) {
   const baseURL = '/chat'
   const currUser = ui.user
-  const navRoomList = ui.navigation.roomList.items
-  const navPMList = ui.navigation.pmList.items
+  const state = store.getState()
+  const navRoomList = roomsSelector(state)
+  const navPMList = pmsSelector(state)
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)

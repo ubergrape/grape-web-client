@@ -26,7 +26,6 @@ require("startswith")
 require("endswith")
 
 exports.ItemList = require('./utils/itemlist')
-let Navigation = exports.Navigation = require('./elements/navigation')
 let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
 let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
@@ -72,11 +71,6 @@ UI.prototype.init = function UI_init() {
   this.el = v.toDOM(template('index.jade'))
 
   this.clientBody = qs('.client-body', this.el)
-
-  // add the navigation to the layout
-  let sidebar = qs('.navigation', this.el)
-  let navigation = this.navigation = new Navigation()
-  sidebar.parentNode.replaceChild(navigation.el, sidebar)
 
   this.organizationMenu = new OrganizationPopover()
 
@@ -201,18 +195,13 @@ UI.prototype.init = function UI_init() {
 UI.prototype.bind = function UI_bind() {
   pipeEvents(this)
   let self = this
-  let navigation = this.navigation
 
   this.events = events(this.el, {
-    'toggleOrganizationMenu': function () {
-      self.organizationMenu.toggle(qs('.settings-icon'))
-    },
     'closeNotificationsMessage': function() {
       self.enableNotificationMessage.remove()
     }
   })
 
-  this.events.bind('click .settings-icon', 'toggleOrganizationMenu')
   this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
 
   this.room = null

@@ -111,6 +111,10 @@ class ReduxEmitter extends Emitter {
     this.emit('triggerPMManager')
   }
 
+  toggleOrgSettings(elem) {
+    this.emit('toggleOrgSettings', elem)
+  }
+
 }
 
 const reduxEmitter = new ReduxEmitter()

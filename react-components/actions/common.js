@@ -42,7 +42,7 @@ export function setInitialData(org) {
     dispatch(setOrg(cleanOrg))
 
     return dispatch({
-      type: types.INITIAL_DATA_WAS_SET
+      type: types.INITIAL_DATA_LOADED
     })
   }
 }
@@ -195,5 +195,12 @@ export function showPMsManager() {
   reduxEmitter.showPMsManager()
   return {
     type: types.SHOW_PMS_MANAGER
+  }
+}
+
+export function toggleOrgSettings(elem) {
+  reduxEmitter.toggleOrgSettings(elem)
+  return {
+    type: types.TOGGLE_ORG_SETTINGS
   }
 }

@@ -30,8 +30,5 @@ template.templates = {
   'fileuploader.jade': require('./fileuploader.jade'),
   'grapeInput.jade': require('./grapeInput.jade'),
   'index.jade': require('./index.jade'),
-  'navigation.jade': require('./navigation.jade'),
-  'pmlist.jade': require('./pmlist.jade'),
-  'popovers/organization.jade': require('./popovers/organization.jade'),
-  'roomlist.jade': require('./roomlist.jade')
+  'popovers/organization.jade': require('./popovers/organization.jade')
 }

@@ -5,6 +5,10 @@ import find from 'lodash/collection/find'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 
+export const initialDataLoadingSelector = createSelector(
+  state => state.initialDataLoading.loading, state => state
+)
+
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -247,24 +251,40 @@ export const inviteDialog = createSelector(
   }
 )
 
+export const orgInfoSelector = createSelector(
+  [
+    orgSelector,
+    initialDataLoadingSelector,
+    userSelector
+  ],
+  (
+    org,
+    isLoading,
+    {displayName: username}
+  ) => {
+    return {
+      ...org,
+      isLoading,
+      username
+    }
+  }
+)
 export const navigation = createSelector(
   [
     roomsSelector,
     channelSelector,
     pmsSelector,
-    usersSelector,
     userSelector
   ],
   (
     rooms,
     channel,
     pms,
-    users,
     user
   ) => {
     const recent = rooms
       .filter(_channel => _channel.joined)
-      .concat(pms)
+      .concat(pms.filter(pm => pm.firstMessageTime))
       .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
 
     return {
