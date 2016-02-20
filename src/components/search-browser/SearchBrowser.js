@@ -162,17 +162,15 @@ export default class SearchBrowser extends Component {
     const {sections, height} = this.props
     const body = this.renderBody()
 
-    // Set a fixed height when we have search results, otherwise height should
-    // be auto detected.
-    const style = {
-      height: sections.length ? height : 'auto',
-      maxHeight: height
-    }
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={style}
+        // Set a fixed height when we have search results, otherwise height should
+        // be auto detected.
+        style={{
+          height: sections.length ? height : 'auto',
+          maxHeight: height
+        }}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">
