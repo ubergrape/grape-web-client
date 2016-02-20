@@ -32,7 +32,7 @@ export default class SearchBrowser extends Component {
     sections: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.number,
     className: PropTypes.string,
     value: PropTypes.string,
     search: PropTypes.string,
@@ -159,12 +159,20 @@ export default class SearchBrowser extends Component {
 
   render() {
     const {classes} = this.props.sheet
+    const {sections, height} = this.props
     const body = this.renderBody()
+
+    // Set a fixed height when we have search results, otherwise height should
+    // be auto detected.
+    const style = {
+      height: sections.length ? height : 'auto',
+      maxHeight: height
+    }
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={{height: this.props.height}}
+        style={style}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">

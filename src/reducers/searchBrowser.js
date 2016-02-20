@@ -28,6 +28,7 @@ const initialState = {
   // Only user input without filters.
   search: '',
   filters: [],
+  sections: [],
   actions,
   focusedAction: actions[0],
   tokens: {},
@@ -44,7 +45,6 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.CREATE_SEARCH_BROWSER_STATE: {
-      const results = get(action, 'payload.data.results.length')
       let services = get(action, 'payload.data.services')
       // We aggregate services across multiple requests, because we don't have
       // a separate api for services.
@@ -54,9 +54,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...action.payload,
         services,
-        focusedService: services[0],
-        // Set a fixed height when we have content, otherwise just input field.
-        height: results ? initialState.height : 'auto'
+        focusedService: services[0]
       }
     }
     case types.FOCUS_SEARCH_BROWSER_ITEM:
