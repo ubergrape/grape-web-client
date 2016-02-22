@@ -487,15 +487,14 @@ API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession
   }.bind(this))
 }
 
-API.prototype.autocomplete = function API_autocomplete(text, callback) {
+API.prototype.autocomplete = function API_autocomplete(text, options = {}, callback) {
   rpc({
     ns: 'search',
     action: 'autocomplete',
     args: [
       text,
       this.organization.id,
-      // Show all.
-      true,
+      options.showAll || false,
       // Amount of results per section.
       15,
       // Return external services too.

@@ -394,7 +394,9 @@ export default class GrapeInput extends Emitter {
     let searches
 
     if (filters.length) {
-      searches = filters.map(filter => this.searchPromise(`${filter}:${search}`))
+      searches = filters.map(filter => {
+        return this.searchPromise(`${filter}:${search}`, {showAll: false})
+      })
     } else {
       searches = [this.searchPromise(search)]
     }
@@ -414,9 +416,9 @@ export default class GrapeInput extends Emitter {
       })
   }
 
-  searchPromise(search) {
+  searchPromise(search, options) {
     return new Promise((resolve, reject) => {
-      this.emit('autocomplete', search, (err, data) => {
+      this.emit('autocomplete', search,  options, (err, data) => {
         if (err) reject(err)
         else resolve(data)
       })
