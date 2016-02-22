@@ -21,12 +21,12 @@ export default class Converter {
   }
 
   convert() {
-    const converted = this.circularConvert()
+    const converted = this.circularConvert(this.obj)
     this.cache = []
     return converted
   }
 
-  circularConvert(obj = this.obj) {
+  circularConvert(obj) {
     if (!obj || typeof obj !== 'object' || this.isCircular(obj)) return obj
 
     this.cache.push(obj)

@@ -1,4 +1,5 @@
 import rpc from './rpc'
+import request from 'superagent'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -114,5 +115,14 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
         resolve(files)
       }
     )
+  })
+}
+
+// https://github.com/ubergrape/chatgrape/issues/3291
+export function checkAuth() {
+  return new Promise((resolve, reject) => {
+    request
+      .get('/accounts/session_state')
+      .end(err => reject(err))
   })
 }
