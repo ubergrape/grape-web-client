@@ -12,9 +12,7 @@ export default class AvatarRoomname extends Component {
     icon: PropTypes.string,
     size: PropTypes.number,
     color: PropTypes.string,
-    abbr: PropTypes.string,
-    mentions: PropTypes.bool,
-    unread: PropTypes.number
+    abbr: PropTypes.string
   }
 
   static defaultProps = {
@@ -23,19 +21,6 @@ export default class AvatarRoomname extends Component {
     mentions: false,
     unread: 0
   }
-
-  renderUnread() {
-    const {unread, mentions, sheet} = this.props
-    if (!unread) return null
-
-    const className = sheet.unread + mentions ? ` ${sheet.mentions}` : ''
-    return (
-      <span className={className}>
-        {unread}
-      </span>
-    )
-  }
-
 
   renderAbbr() {
     const {color, abbr, size, sheet} = this.props
@@ -84,7 +69,6 @@ export default class AvatarRoomname extends Component {
         <span className={sheet.classes.name}>
           {name}
         </span>
-        {this.renderUnread()}
       </span>
     )
   }

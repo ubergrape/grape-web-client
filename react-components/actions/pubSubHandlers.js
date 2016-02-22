@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/app'
-import {isMentioned, formatMessage} from './utils'
+import {formatMessage, countMentions} from './utils'
 import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
@@ -16,18 +16,20 @@ import store from '../app/store'
 const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
-  return dispatch => {
+  return (dispatch, getState) => {
     const fMessage = formatMessage(message)
-    if (fMessage.attachments.length) {
-      dispatch(addSharedFiles(fMessage))
-    }
-    if (isMentioned(fMessage)) {
-      dispatch(addMention(fMessage))
-    }
+    const mentionsCount = countMentions(fMessage)
+
+    if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
+    if (mentionsCount) dispatch(addMention(fMessage))
+
+    const user = userSelector(getState())
     dispatch({
       type: types.NEW_MESSAGE,
       payload: {
-        message: fMessage
+        message: fMessage,
+        mentionsCount,
+        isCurrentUser: user.id === fMessage.author.id
       }
     })
   }
@@ -126,24 +128,30 @@ export function handleNewChannel({channel}) {
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   const users = usersSelector(store.getState())
-  const user = find(users, ({id}) => id === userId)
+  const currentUser = userSelector(store.getState())
+  const isCurrentUser = currentUser.id === userId
+  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
   return {
     type: types.ADD_USER_TO_CHANNEL,
     payload: {
       channelId,
-      user
+      user,
+      isCurrentUser
     }
   }
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
   const users = usersSelector(store.getState())
-  const user = find(users, ({id}) => id === userId)
+  const currentUser = userSelector(store.getState())
+  const isCurrentUser = currentUser.id === userId
+  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
   return {
     type: types.REMOVE_USER_FROM_CHANNEL,
     payload: {
       channelId,
-      user
+      user,
+      isCurrentUser
     }
   }
 }

@@ -55,6 +55,10 @@ export const roomsSelector = createSelector(
   channelsSelector, channels => channels.filter(channel => channel.type === 'room')
 )
 
+export const joinedRoomsSelector = createSelector(
+  roomsSelector, rooms => rooms.filter(room => room.joined)
+)
+
 export const pmsSelector = createSelector(
   [channelsSelector, userSelector], (channels, user) => {
     return channels
@@ -66,6 +70,10 @@ export const pmsSelector = createSelector(
         }
       })
   }
+)
+
+export const activePmsSelector = createSelector(
+  pmsSelector, pms => pms.filter(pm => pm.firstMessageTime)
 )
 
 export const orgSelector = createSelector(
@@ -224,7 +232,14 @@ export const alertsAndChannelSelector = createSelector(
 )
 
 export const unreadChannelsSelector = createSelector(
-  state => state.unreadChannels, state => state
+  [joinedRoomsSelector, activePmsSelector, channelSelector],
+  (rooms, pms, channel) => {
+    const channelName = channel.name || channel.users && channel.users[0].displayName
+    return {
+      amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
+      channelName
+    }
+  }
 )
 
 export const inviteDialog = createSelector(
@@ -269,28 +284,24 @@ export const orgInfoSelector = createSelector(
     }
   }
 )
+
 export const navigation = createSelector(
   [
-    roomsSelector,
+    joinedRoomsSelector,
     channelSelector,
-    pmsSelector,
-    userSelector
+    activePmsSelector
   ],
   (
     rooms,
     channel,
-    pms,
-    user
+    pms
   ) => {
-    const recent = rooms
-      .filter(_channel => _channel.joined)
-      .concat(pms.filter(pm => pm.firstMessageTime))
+    const recent = rooms.concat(pms)
       .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
 
     return {
       recent,
-      channel,
-      user
+      channel
     }
   }
 )

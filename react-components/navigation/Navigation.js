@@ -6,6 +6,8 @@ import {userStatus} from '../constants/app'
 import style from './style'
 import colors from 'grape-theme/dist/base-colors'
 
+const maxUnread = 99
+
 @useSheet(style)
 export default class Navigation extends Component {
 
@@ -49,17 +51,34 @@ export default class Navigation extends Component {
     )
   }
 
+  renderUnread({type, unread, mentioned}) {
+    if (!unread) return null
+
+    const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
+    const mention = type === 'room' && mentioned ? '@' : ''
+
+    const {classes} = this.props.sheet
+    let className = `${classes.sign} `
+    className += mention || type === 'pm' ? classes.importantSign : classes.defaultSign
+    return (
+      <span className={className}>
+        {mention + unreadCount}
+      </span>
+    )
+  }
+
   renderRoom(room) {
     const {sheet, channel} = this.props
     const isCurrent = channel.type === 'room' && channel.id === room.id
-    const className = sheet.classes.channel + (isCurrent ? ` ${sheet.classes.currentRoom}` : '')
+    let className = sheet.classes.channel
+    if (isCurrent) className += ` ${sheet.classes.currentChannel}`
     return (
       <li
         key={room.id}
-        style={isCurrent ? {background: room.color} : null }
         className={className}
         onClick={this.goToChannel.bind(this, room)}>
         <AvatarRoomname {...room} />
+        {this.renderUnread(room)}
       </li>
     )
   }
@@ -68,17 +87,19 @@ export default class Navigation extends Component {
     const {sheet, channel} = this.props
     const {mate} = pm
     const isCurrent = channel.type === 'pm' && channel.id === pm.id
-    const className = sheet.classes.channel + (isCurrent ? ` ${sheet.classes.currentPM}` : '')
+    let className = sheet.classes.channel
+    if (isCurrent) className += ` ${sheet.classes.currentChannel}`
     return (
       <li
         key={pm.id}
         className={className}
         onClick={this.goToChannel.bind(this, pm)}>
         <AvatarUsername
-          statusBorderColor={isCurrent ? colors.blue : colors.grayBlueLighter}
+          statusBorderColor={isCurrent ? colors.white : colors.grayBlueLighter}
           avatar={mate.avatar}
           status={userStatus[mate.status]}
           name={mate.displayName} />
+        {this.renderUnread(pm)}
       </li>
     )
   }
@@ -105,8 +126,10 @@ export default class Navigation extends Component {
     const {classes} = this.props.sheet
     return (
       <div className={classes.navigation}>
-        {this.renderManageButtons()}
-        {this.renderRecentList()}
+        <div className={classes.wrapper}>
+          {this.renderManageButtons()}
+          {this.renderRecentList()}
+        </div>
       </div>
     )
   }

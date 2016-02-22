@@ -27,12 +27,16 @@ export default function reduce(state = initialState, action) {
       return [...state, action.payload]
 
     case types.ADD_USER_TO_CHANNEL: {
-      const {user, channelId: id} = action.payload
+      const {user, channelId: id, isCurrentUser} = action.payload
       if (!user) return state
 
       return state.reduce((newState, channel) => {
         if (channel.id === id) {
-          newState.push({...channel, users: [...channel.users, user.id]})
+          newState.push({
+            ...channel,
+            users: [...channel.users, user.id],
+            joined: isCurrentUser ? true : channel.joined
+          })
           return newState
         }
 
@@ -42,15 +46,15 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
-      const {user, channelId} = action.payload
+      const {user, channelId, isCurrentUser} = action.payload
 
       return state.reduce((newState, channel) => {
         if (channel.id === channelId) {
-          const users = channel.users.reduce((newUsers, id) => {
-            if (id !== user.id) newUsers.push(id)
-            return newUsers
-          }, [])
-          newState.push({...channel, users})
+          newState.push({
+            ...channel,
+            users: channel.users.filter(id => id !== user.id),
+            joined: isCurrentUser ? false : channel.joined
+          })
           return newState
         }
         newState.push(channel)
@@ -83,6 +87,7 @@ export default function reduce(state = initialState, action) {
 
     case types.NEW_MESSAGE: {
       const {channel: channelId, time} = action.payload.message
+      const {isCurrentUser, mentionsCount} = action.payload
 
       return state.reduce((newState, channel) => {
         if (channel.id === channelId) {
@@ -90,7 +95,27 @@ export default function reduce(state = initialState, action) {
           newState.push({
             ...channel,
             latestMessageTime: timestamp,
-            firstMessageTime: channel.firstMessageTime || timestamp
+            firstMessageTime: channel.firstMessageTime || timestamp,
+            mentioned: mentionsCount || channel.mentioned,
+            unread: isCurrentUser ? 0 : channel.unread + 1
+          })
+          return newState
+        }
+        newState.push(channel)
+        return newState
+      }, [])
+    }
+
+    case types.READ_CHANNEL: {
+      const {channelId, isCurrentUser} = action.payload
+      if (!isCurrentUser) return state
+
+      return state.reduce((newState, channel) => {
+        if (channel.id === channelId) {
+          newState.push({
+            ...channel,
+            mentioned: 0,
+            unread: 0
           })
           return newState
         }

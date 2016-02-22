@@ -7,7 +7,8 @@ import store from '../app/store'
 import {
   usersSelector,
   userSelector,
-  channelsSelector
+  channelsSelector,
+  joinedRoomsSelector
 } from '../selectors'
 
 export function reduceChannelUsersToId(channel) {
@@ -20,6 +21,34 @@ export function formatMessage(message) {
     time: new Date(message.time),
     attachments: message.attachments || []
   }
+}
+
+/**
+ * Count number of mentions that
+ * match user id or joined room id when
+ * some user or room is mentioned.
+ */
+export function countMentions(message) {
+  const {mentions} = message
+  let count = 0
+  if (isEmpty(mentions)) return count
+
+  const state = store.getState()
+
+  if (mentions.user) {
+    const user = userSelector(state)
+    const userMentions = mentions.user.filter(userId => userId === user.id)
+    count += userMentions.length
+  }
+
+  if (mentions.room) {
+    const joinedRooms = joinedRoomsSelector(state)
+    const joinedRoomsIds = pluck(joinedRooms, 'id')
+    const roomMentions = intersection(mentions.room, joinedRoomsIds)
+    count += roomMentions.length
+  }
+
+  return count
 }
 
 export function formatSidebarMessage(message) {
@@ -47,31 +76,4 @@ export function formatSidebarMessage(message) {
     // There is no slug in pm, user the other user slug.
     slug: currentChannel.slug || currentChannel.users[0].slug
   }
-}
-
-/**
- * Find out if mentions match user id when user mention
- * or when channel mention - matches one of the channel user has joined.
- */
-export function isMentioned(message) {
-  const {mentions} = message
-  if (isEmpty(mentions)) return false
-
-  const state = store.getState()
-  const user = userSelector(state)
-
-  if (mentions.user) {
-    const mentioned = mentions.user.some(userId => userId === user.id)
-    if (mentioned) return true
-  }
-
-  if (mentions.room) {
-    const channels = channelsSelector(state)
-    const joinedChannels = channels.filter(channel => channel.joined)
-    const joinedChannelIds = pluck(joinedChannels, 'id')
-    const mentioned = intersection(mentions.room, joinedChannelIds).length > 0
-    if (mentioned) return true
-  }
-
-  return false
 }

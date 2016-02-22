@@ -5,7 +5,10 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 const commonButton = {
   position: 'relative',
-  paddingLeft: 35
+  display: 'block',
+  width: '100%',
+  paddingLeft: 35,
+  textAlign: 'left'
 }
 const contacts = {
   ...buttonIcon('user', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
@@ -38,9 +41,14 @@ export default {
     right: 0,
     bottom: 0,
     overflowY: 'auto',
-    padding: '15px 15px 15px 0',
+    userSelect: 'none',
     color: colors.grayBlueDark,
     background: colors.grayBlueLighter
+  },
+  wrapper: {
+    padding: '15px 0',
+    marginTop: 1,
+    borderRight: '1px solid rgba(0,0,0,0.1)'
   },
   manage: {
     paddingLeft: 15
@@ -69,22 +77,40 @@ export default {
     backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`
   },
   channel: {
-    padding: '3px 42px 3px 15px',
+    ...fonts.small,
+    position: 'relative',
+    padding: '3px 42px 3px 3px',
+    margin: '0 -1px 0 12px',
     cursor: 'pointer',
-    borderRadius: '0 100px 100px 0',
+    borderRadius: '100px 0 0 100px',
     // XXX
     '&:hover': {
       background: '#d9dee5'
     }
   },
-  currentRoom: {
-    color: colors.white
-  },
-  currentPM: {
-    background: colors.blue,
-    color: colors.white,
+  currentChannel: {
+    background: colors.white,
+    boxShadow: '0 0 3px rgba(0,0,0,0.14)',
     '&:hover': {
-      background: colors.blue
+      background: colors.white
     }
+  },
+  sign: {
+    fontWeight: 'normal',
+    position: 'absolute',
+    right: 15,
+    top: 9,
+    minWidth: 24,
+    padding: '1px 5px 0',
+    textAlign: 'center',
+    borderRadius: 50,
+    color: colors.white,
+    background: 'red'
+  },
+  importantSign: {
+    background: colors.green
+  },
+  defaultSign: {
+    background: colors.grayBlue
   }
 }
