@@ -47,8 +47,7 @@ export function getSections(data) {
     }
 
     if (!result.detail) result.detail = {}
-    // FIXME should be iconUrl
-    if (service.icon_url) result.detail.iconUrl = service.icon_url
+    if (service.iconUrl) result.detail.iconUrl = service.iconUrl
     section.items.push({
       id: result.id,
       type: result.type,

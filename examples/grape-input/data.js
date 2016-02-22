@@ -6,7 +6,7 @@ window.searchData = {
       'id': 'googledrive',
       'key': 'drive',
       'label': 'Google Drive',
-      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/googledrive-128.png'
+      'iconUrl': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/googledrive-128.png'
     },
     {
       'count': 5,
@@ -21,7 +21,7 @@ window.searchData = {
       'id': 'github',
       'key': 'github',
       'label': 'GitHub',
-      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
+      'iconUrl': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
     },
     {
       'count': 1,
