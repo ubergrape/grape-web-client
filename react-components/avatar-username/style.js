@@ -5,6 +5,7 @@ export default {
   },
   avatar: {
     display: 'block',
+    flexShrink: 0,
     position: 'relative'
   },
   status: {
@@ -28,6 +29,9 @@ export default {
     borderRadius: '50%'
   },
   name: {
-    paddingLeft: 10
+    paddingLeft: 10,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   }
 }

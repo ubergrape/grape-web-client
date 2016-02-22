@@ -11,6 +11,7 @@ export default {
   },
   avatar: {
     display: 'block',
+    flexShrink: 0,
     overflow: 'hidden',
     borderRadius: '50%'
   },
@@ -21,6 +22,9 @@ export default {
   },
   icon: {...insideAvatar},
   name: {
-    paddingLeft: 10
+    paddingLeft: 10,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   }
 }

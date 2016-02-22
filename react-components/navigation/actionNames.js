@@ -1,4 +1,5 @@
 export default [
   'showChannelsManager',
-  'showPMsManager'
+  'showPMsManager',
+  'goToChannel'
 ]
