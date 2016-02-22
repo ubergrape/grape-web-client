@@ -52,7 +52,7 @@ export default class SearchBrowser extends Component {
 
   componentWillReceiveProps(nextProps) {
     const service = this.state.lastAddedService
-    if (service && nextProps.filters.indexOf(service.id) >= 0) {
+    if (service && nextProps.filters.indexOf(service.id) >= 0) {
       this.setState({lastAddedService: null})
       this.input.replace(service.label)
     }
