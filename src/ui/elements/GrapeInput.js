@@ -10,10 +10,11 @@ import includes from 'lodash/collection/includes'
 import uniq from 'lodash/array/uniq'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
+import 'grape-browser'
+import {openUrl} from 'grape-web/lib/x-platform'
 
 import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
-import 'grape-browser'
 import getRank from '../utils/getRank'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
@@ -483,7 +484,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onAddIntegration() {
-    location.href = '/integrations/'
+    openUrl(location.origin + '/integrations')
   }
 
   onInsertItem(e) {
