@@ -36,14 +36,26 @@ export default class SearchBrowser extends Component {
     className: PropTypes.string,
     value: PropTypes.string,
     search: PropTypes.string,
-    filters: PropTypes.array,
     focusedList: PropTypes.oneOf(listTypes),
     focusedItem: PropTypes.object,
     focusedService: PropTypes.object
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   componentDidMount() {
     this.props.onDidMount(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const service = this.state.lastAddedService
+    if (service && nextProps.filters.indexOf(service.id) >= 0) {
+      this.setState({lastAddedService: null})
+      this.input.replace(service.label)
+    }
   }
 
   onFocusItem({id}) {
@@ -120,10 +132,12 @@ export default class SearchBrowser extends Component {
   }
 
   onAddService(service) {
-    this.props.addSearchBrowserFilter(service)
-    // FIXME
-    setTimeout(() => {
-      this.input.replace(service.label)
+    // We need to schedule the filter insertion into input until the action is
+    // created and applied to the state, because as soon as we insert the filter
+    // into the input, change event will trigger the search and before this,
+    // state needs to have all the data in place.
+    this.setState({lastAddedService: service}, () => {
+      this.props.addSearchBrowserFilter(service)
     })
   }
 

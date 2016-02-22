@@ -229,10 +229,10 @@ export function focusSearchBrowserService(item) {
 
 export function addSearchBrowserFilter(service) {
   return dispatch => {
-    dispatch(showSearchBrowserObjects())
     dispatch({
       type: types.ADD_SEARCH_BROWSER_FILTER,
       payload: service
     })
+    dispatch(showSearchBrowserObjects())
   }
 }
