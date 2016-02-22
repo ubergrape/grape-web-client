@@ -127,22 +127,22 @@ export default class SearchBrowser extends Component {
     })
   }
 
-  renderBody() {
+  getBody() {
     const {sections, search, focusedList} = this.props
+    let element
+    let {height} = this.props
 
     if (focusedList === 'services') {
-      return (
+      element = (
         <ServiceList
           {...this.props}
           focused={this.props.focusedService}
           onSelect={::this.onAddService}
           onFocus={this.props.focusSearchBrowserService} />
       )
-    }
-
-    if (sections.length) {
+    } else if (sections.length) {
       const Service = services.Default
-      return (
+      element = (
         <Service
           {...this.props}
           Item={Item}
@@ -150,17 +150,20 @@ export default class SearchBrowser extends Component {
           onFocus={::this.onFocusItem}
           onSelect={::this.onSelectItem} />
       )
+    } else if (search.trim()) {
+      element = <Empty text="No Results." />
+      height = 'auto'
+    } else {
+      element = <Info {...this.props} />
+      height = 'auto'
     }
 
-    if (search.trim()) return <Empty text="No Results." />
-
-    return <Info {...this.props} />
+    return {element, height}
   }
 
   render() {
     const {classes} = this.props.sheet
-    const {sections, height} = this.props
-    const body = this.renderBody()
+    const body = this.getBody()
 
     return (
       <div
@@ -168,8 +171,8 @@ export default class SearchBrowser extends Component {
         // Set a fixed height when we have search results, otherwise height should
         // be auto detected.
         style={{
-          height: sections.length ? height : 'auto',
-          maxHeight: height
+          height: body.height,
+          maxHeight: this.props.height
         }}
         onMouseDown={::this.onMouseDown}
         data-test="search-browser"
@@ -180,7 +183,7 @@ export default class SearchBrowser extends Component {
           onKeyDown={::this.onKeyDown}
           onChange={this.props.changeSearchBrowserInput}
           onBlur={::this.onBlur} />
-        {body}
+        {body.element}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
     )
