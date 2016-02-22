@@ -35,10 +35,10 @@ function getImageAttachments(objects) {
       name: obj.name,
       url: obj.url,
       source: obj.service,
-      mime_type: obj.mimeType,
-      thumbnail_url: image.url,
-      thumbnail_width: image.width,
-      thumbnail_height: image.height
+      mimeType: obj.mimeType,
+      thumbnailUrl: image.url,
+      thumbnailWidth: image.width,
+      thumbnailHeight: image.height
     }
   })
 
