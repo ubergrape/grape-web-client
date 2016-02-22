@@ -500,7 +500,7 @@ API.prototype.autocomplete = function API_autocomplete(text, options = {}, callb
       // Return external services too.
       true
     ]
-  }, callback)
+  }, {camelize: true}, callback)
 }
 
 API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {

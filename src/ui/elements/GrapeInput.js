@@ -25,7 +25,7 @@ function isImage(mime) {
 function getImageAttachments(objects) {
   // Find embeddable images.
   const imageObjects = objects.filter(obj => {
-    return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
+    return isImage(obj.mimeType) && get(obj, 'detail.preview.embeddable')
   })
 
   const attachments = imageObjects.map(obj => {
@@ -34,7 +34,7 @@ function getImageAttachments(objects) {
       name: obj.name,
       url: obj.url,
       source: obj.service,
-      mime_type: obj.mime_type,
+      mime_type: obj.mimeType,
       thumbnail_url: image.url,
       thumbnail_width: image.width,
       thumbnail_height: image.height
