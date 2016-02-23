@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import style from './searchBrowserStyle'
 import Item from './item/Item'
-import * as services from './services'
+import {Default as Service} from './services'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
@@ -132,6 +132,7 @@ export default class SearchBrowser extends Component {
   }
 
   onAddService(service) {
+    if (!service) return
     // We need to schedule the filter insertion into input until the action is
     // created and applied to the state, because as soon as we insert the filter
     // into the input, change event will trigger the search and before this,
@@ -155,7 +156,6 @@ export default class SearchBrowser extends Component {
           onFocus={this.props.focusSearchBrowserService} />
       )
     } else if (sections.length) {
-      const Service = services.Default
       element = (
         <Service
           {...this.props}

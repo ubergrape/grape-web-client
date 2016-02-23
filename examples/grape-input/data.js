@@ -29,14 +29,6 @@ window.searchData = {
       'id': 'giphy',
       'key': 'gif',
       'label': 'Giphy'
-    },
-
-    {
-      'hidden': true,
-      'count': 1,
-      'id': 'filters',
-      'key': 'filters',
-      'label': 'Queries'
     }
   ],
   'search': {

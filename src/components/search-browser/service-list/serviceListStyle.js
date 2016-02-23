@@ -6,5 +6,9 @@ export default {
   },
   services: {
     flex: 1
+  },
+  empty: {
+    textAlign: 'center',
+    marginTop: '20%'
   }
 }

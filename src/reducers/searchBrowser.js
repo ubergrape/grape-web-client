@@ -32,6 +32,7 @@ const initialState = {
   actions,
   focusedAction: actions[0],
   tokens: {},
+  allServices: [],
   services: [],
   onAddIntegration: noop,
   onSelectItem: noop,
@@ -42,20 +43,29 @@ const initialState = {
   clearSearchBrowserInput: noop
 }
 
+function getServices({allServices, filters}) {
+  return allServices.filter(({id}) => filters.indexOf(id) === -1)
+}
+
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.CREATE_SEARCH_BROWSER_STATE: {
-      let services = get(action, 'payload.data.services')
+      let {allServices} = state
+      const services = get(action, 'payload.data.services')
       // We aggregate services across multiple requests, because we don't have
       // a separate api for services.
       // TODO https://github.com/ubergrape/chatgrape/issues/3394
-      services = services ? uniq([...state.services, ...services], 'id') : state.services
-      return {
+      if (services) allServices = uniq([...allServices, ...services], 'id')
+
+      const newState = {
         ...state,
         ...action.payload,
-        services,
-        focusedService: services[0]
+        allServices
       }
+      newState.services = getServices(newState)
+      newState.focusedService = newState.services[0]
+
+      return newState
     }
     case types.FOCUS_SEARCH_BROWSER_ITEM:
     case types.NAVIGATE_SEARCH_BROWSER:
@@ -72,8 +82,15 @@ export default function reduce(state = initialState, action) {
       return {...state, hoveredAction: null}
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, focusedItem: action.payload}
-    case types.SHOW_SEARCH_BROWSER_SERVICES:
-      return {...state, focusedList: 'services'}
+    case types.SHOW_SEARCH_BROWSER_SERVICES: {
+      const services = getServices(state)
+      return {
+        ...state,
+        focusedList: 'services',
+        services,
+        focusedServices: services[0]
+      }
+    }
     case types.FOCUS_SEARCH_BROWSER_SERVICE:
       return {...state, focusedService: action.payload}
     case types.SHOW_SEARCH_BROWSER_OBJECTS:

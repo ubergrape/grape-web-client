@@ -32,18 +32,31 @@ export default class ServiceList extends Component {
     )
   }
 
-  render() {
+  renderBody() {
     const {classes} = this.props.sheet
     const {services, focused} = this.props
 
+    if (!services.length) {
+      return <p className={classes.empty}>No services found.</p>
+    }
+
+    return [
+      <SectionHeader text="services" key="header" />,
+      <List
+        className={classes.services}
+        renderItem={::this.renderService}
+        items={services}
+        focused={focused}
+        key="list" />
+    ]
+  }
+
+  render() {
+    const {classes} = this.props.sheet
+
     return (
       <div className={classes.serviceList}>
-        <SectionHeader text="services" />
-        <List
-          className={classes.services}
-          renderItem={::this.renderService}
-          items={services}
-          focused={focused} />
+        {this.renderBody()}
       </div>
     )
   }
