@@ -43,7 +43,7 @@ const initialState = {
   clearSearchBrowserInput: noop
 }
 
-function getServices({allServices, filters}) {
+function getServices({allServices, filters}) {
   return allServices.filter(({id}) => filters.indexOf(id) === -1)
 }
 
