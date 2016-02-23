@@ -195,7 +195,10 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
         dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
         onChange({trigger: query.trigger})
       }
-      dispatch({type: types.SHOW_SEARCH_BROWSER_SERVICES})
+      dispatch({
+        type: types.SHOW_SEARCH_BROWSER_SERVICES,
+        payload: query.search
+      })
     } else {
       dispatch(showSearchBrowserObjects())
       onChange({search, filters})

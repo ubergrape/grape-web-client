@@ -43,8 +43,15 @@ const initialState = {
   clearSearchBrowserInput: noop
 }
 
-function getServices({allServices, filters}) {
-  return allServices.filter(({id}) => filters.indexOf(id) === -1)
+function getServices({allServices, filters}, search) {
+  let services = allServices.filter(({id}) => filters.indexOf(id) === -1)
+
+  if (search) {
+    const lowerSearch = search.toLowerCase().trim()
+    services = services.filter(({label}) => label.toLowerCase().indexOf(lowerSearch) >= 0)
+  }
+
+  return services
 }
 
 export default function reduce(state = initialState, action) {
@@ -83,12 +90,12 @@ export default function reduce(state = initialState, action) {
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, focusedItem: action.payload}
     case types.SHOW_SEARCH_BROWSER_SERVICES: {
-      const services = getServices(state)
+      const services = getServices(state, action.payload)
       return {
         ...state,
         focusedList: 'services',
         services,
-        focusedServices: services[0]
+        focusedService: services[0]
       }
     }
     case types.FOCUS_SEARCH_BROWSER_SERVICE:
