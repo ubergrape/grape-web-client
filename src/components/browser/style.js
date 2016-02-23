@@ -12,7 +12,8 @@ export default {
       '0 5px 11px 0 rgba(0, 0, 0, 0.18)',
       '0 4px 15px 0 rgba(0, 0, 0, 0.15)'
     ].join(','),
-    maxWidth: 680,
+    maxWidth: 800,
+    minWidth: 200,
     '& a': {
       color: webColors.link
     }
