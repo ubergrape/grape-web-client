@@ -124,6 +124,16 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
+    case types.ADD_TO_FAVORITES: {
+      console.log(action.payload)
+      return state
+    }
+
+    case types.REMOVE_FROM_FAVORITES: {
+      console.log(action.payload)
+      return state
+    }
+
     default:
       return state
   }

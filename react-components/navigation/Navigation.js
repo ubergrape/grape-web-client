@@ -17,7 +17,30 @@ export default class Navigation extends Component {
     showPMsManager: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
-    recent: PropTypes.array.isRequired
+    recent: PropTypes.array.isRequired,
+    step: PropTypes.number
+  }
+
+  static defaultProps = {
+    step: 3
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      shift: this.props.step
+    }
+  }
+
+  onScroll(e) {
+    if (this.state.shift >= this.props.recent.length) return
+
+    const {offsetHeight, scrollTop, scrollHeight} = e.target
+    if (offsetHeight + scrollTop >= scrollHeight) {
+      this.setState({
+        shift: this.state.shift + this.props.step
+      })
+    }
   }
 
   goToChannel(channel) {
@@ -111,7 +134,25 @@ export default class Navigation extends Component {
         <h2 className={`${classes.title} ${classes.recent}`}>Recent</h2>
         <ol className={classes.list}>
           {
-            this.props.recent.map(channel => {
+            this.props.recent.slice(0, this.state.shift).map(channel => {
+              if (channel.type === 'room') return this.renderRoom(channel)
+              if (channel.type === 'pm') return this.renderPM(channel)
+              return null
+            })
+          }
+        </ol>
+      </div>
+    )
+  }
+
+  renderPinnedList() {
+    const {classes} = this.props.sheet
+    return (
+      <div className={classes.section}>
+        <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
+        <ol className={classes.list}>
+          {
+            this.props.recent.slice(0, 4).map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
               if (channel.type === 'pm') return this.renderPM(channel)
               return null
@@ -125,10 +166,16 @@ export default class Navigation extends Component {
   render() {
     const {classes} = this.props.sheet
     return (
-      <div className={classes.navigation}>
-        <div className={classes.wrapper}>
-          {this.renderManageButtons()}
-          {this.renderRecentList()}
+      <div>
+        <div
+          ref="navigation"
+          onScroll={::this.onScroll}
+          className={classes.navigation}>
+          <div className={classes.wrapper}>
+            {this.renderManageButtons()}
+            {this.renderPinnedList()}
+            {this.renderRecentList()}
+          </div>
         </div>
       </div>
     )

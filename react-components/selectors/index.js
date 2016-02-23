@@ -285,7 +285,7 @@ export const orgInfoSelector = createSelector(
   }
 )
 
-export const navigation = createSelector(
+export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     channelSelector,
@@ -302,6 +302,15 @@ export const navigation = createSelector(
     return {
       recent,
       channel
+    }
+  }
+)
+
+export const favoriteSelector = createSelector(
+  channelSelector, ({pinned, id}) => {
+    return {
+      favorited: Boolean(pinned),
+      id
     }
   }
 )

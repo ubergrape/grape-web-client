@@ -66,15 +66,19 @@ export default {
   },
   title: {
     ...fonts.small,
-    lineHeight: '14px', // equal to icon height
     paddingLeft: 18,
     marginLeft: 15,
     textTransform: 'uppercase',
-    background: '0 50% no-repeat',
+    background: '0 0 no-repeat',
     color: colors.grayBlue
   },
   recent: {
-    backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`
+    backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,
+    backgroundSize: 'auto 12px'
+  },
+  favorites: {
+    backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
+    backgroundSize: 'auto 13px'
   },
   channel: {
     ...fonts.small,
