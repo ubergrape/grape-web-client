@@ -9,24 +9,24 @@ export default class Favorite extends Component {
     sheet: PropTypes.object.isRequired,
     id: PropTypes.number,
     favorited: PropTypes.bool,
-    addToFavorites: PropTypes.func.isRequired,
-    removeFromFavorites: PropTypes.func.isRequired
+    requestAddToFavorites: PropTypes.func.isRequired,
+    requestRemoveFromFavorites: PropTypes.func.isRequired
   }
 
   toggleFavorited() {
     const {
       id,
       favorited,
-      addToFavorites,
-      removeFromFavorites
+      requestAddToFavorites,
+      requestRemoveFromFavorites
     } = this.props
 
     if (favorited) {
-      removeFromFavorites(id)
+      requestRemoveFromFavorites(id)
       return
     }
 
-    addToFavorites(id)
+    requestAddToFavorites(id)
   }
 
   render() {

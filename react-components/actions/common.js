@@ -9,6 +9,15 @@ import {channelSelector} from '../selectors'
 import store from '../app/store'
 import {type as connection} from '../backend/client'
 
+export function error(err) {
+  reduxEmitter.showError(err)
+  // This action don't have reducer yet
+  return {
+    type: types.HANDLE_ERROR,
+    payload: error
+  }
+}
+
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
@@ -32,8 +41,18 @@ export function setOrg(org) {
   }
 }
 
+export function markFavoites(favorites) {
+  console.log(favorites)
+  return {type: types.NOOP}
+}
+
 export function setInitialData(org) {
   return dispatch => {
+    api
+      .getFavorites(org.id)
+      .then(favorites => dispatch(markFavoites(favorites)))
+      .catch(err => dispatch(error(err)))
+
     dispatch(setUsers([...org.users]))
     dispatch(setChannels([...org.channels]))
 
@@ -133,15 +152,6 @@ export function enableNotifications() {
   // This action don't have reducer yet
   return {
     type: types.ENABLE_NOTIFICATIONS
-  }
-}
-
-export function error(err) {
-  reduxEmitter.showError(err)
-  // This action don't have reducer yet
-  return {
-    type: types.HANDLE_ERROR,
-    payload: error
   }
 }
 

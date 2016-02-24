@@ -35,6 +35,7 @@ export default function reduce(state = initialState, action) {
       const newState = [...state]
       const index = findIndex(newState, {id})
       const channel = newState[index]
+      console.log('ADD_USER_TO_CHANNEL', channel, isCurrentUser)
       newState.splice(index, 1, {
         ...channel,
         users: [...channel.users, user.id],

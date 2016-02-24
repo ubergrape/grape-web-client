@@ -38,7 +38,7 @@ export const channelsSelector = createSelector(
     channels,
     users
   ) => {
-    console.log(users.length)
+    //console.log(users.length)
     // console.log(channels, channels.filter(channel => channel.isOnlyInvited))
     return channels.map(channel => {
       return {

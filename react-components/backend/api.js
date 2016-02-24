@@ -118,6 +118,55 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
   })
 }
 
+export function getFavorites(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'channels',
+        action: 'get_pins',
+        args: [orgId]
+      },
+      {camelize: true},
+      (err, favorites) => {
+        if (err) return reject(err)
+        resolve(favorites)
+      }
+    )
+  })
+}
+
+export function addToFavorite(channelId) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'channels',
+        action: 'set_pin',
+        args: [channelId]
+      },
+      {camelize: true},
+      (err) => {
+        if (err) return reject(err)
+      }
+    )
+  })
+}
+
+export function removeFromFavorite(channelId) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'channels',
+        action: 'remove_pin',
+        args: [channelId]
+      },
+      {camelize: true},
+      (err) => {
+        if (err) return reject(err)
+      }
+    )
+  })
+}
+
 // https://github.com/ubergrape/chatgrape/issues/3291
 export function checkAuth() {
   return new Promise((resolve, reject) => {

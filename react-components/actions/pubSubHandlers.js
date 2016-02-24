@@ -132,6 +132,7 @@ export function handleNewChannel({channel}) {
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   const users = usersSelector(store.getState())
   const currentUser = userSelector(store.getState())
+  console.log(userId, currentUser)
   const isCurrentUser = currentUser.id === userId
   const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
   return {
@@ -199,5 +200,12 @@ export function handleUserUpdate({user}) {
   return {
     type: types.UPDATE_USER,
     payload: user
+  }
+}
+
+export function handleFavoriteChange(data) {
+  console.log(data)
+  return {
+    type: types.NOOP
   }
 }
