@@ -50,9 +50,7 @@ export function setInitialData(org) {
 export function setUser(user) {
   return {
     type: types.SET_USER,
-    payload: {
-      user
-    }
+    payload: user
   }
 }
 
@@ -143,7 +141,7 @@ export function error(err) {
   reduxEmitter.showError(err)
   // This action don't have reducer yet
   return {
-    type: types.ERROR,
+    type: types.HANDLE_ERROR,
     payload: error
   }
 }

@@ -1,5 +1,7 @@
+import page from 'page'
+
 import * as types from '../constants/actionTypes'
-import {defaultAvatar, invitedAvatar} from '../constants/app'
+import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {formatMessage, countMentions} from './utils'
 import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
@@ -8,7 +10,8 @@ import {addMention, removeMention} from './mentions'
 import {
   orgSelector,
   usersSelector,
-  userSelector
+  userSelector,
+  channelSelector
 } from '../selectors'
 
 import store from '../app/store'
@@ -25,7 +28,7 @@ export function handleNewMessage(message) {
 
     const user = userSelector(getState())
     dispatch({
-      type: types.NEW_MESSAGE,
+      type: types.ADD_NEW_MESSAGE,
       payload: {
         message: fMessage,
         mentionsCount,
@@ -51,7 +54,7 @@ export function handleRemovedMessage({id}) {
 export function handleReadChannel(data) {
   const user = userSelector(store.getState())
   return {
-    type: types.READ_CHANNEL,
+    type: types.MARK_CHANNEL_AS_READ,
     payload: {
       isCurrentUser: user.id === data.user,
       channelId: data.channel
@@ -72,7 +75,7 @@ export function handleJoinOrg({user, organization: orgId}) {
   const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
 
   return {
-    type: types.NEW_USER_IN_ORG,
+    type: types.ADD_USER_TO_ORG,
     payload: {
       ...user,
       avatar,
@@ -91,7 +94,7 @@ export function handleLeftOrg({user: userId, organization: orgId}) {
   if (org.id !== orgId) return noopAction
 
   return {
-    type: types.USER_LEFT_ORG,
+    type: types.REMOVE_USER_FROM_ORG,
     payload: userId
   }
 }
@@ -121,7 +124,7 @@ export function handleMembershipUpdate({membership}) {
 
 export function handleNewChannel({channel}) {
   return {
-    type: types.NEW_CHANNEL,
+    type: types.CREATE_NEW_CHANNEL,
     payload: channel
   }
 }
@@ -171,6 +174,8 @@ export function handleUpateChannel({channel}) {
 }
 
 export function handleRemoveRoom({channel: id}) {
+  const channel = channelSelector(store.getState())
+  if (id === channel.id) page('/chat/')
   return {
     type: types.REMOVE_ROOM,
     payload: id
@@ -187,7 +192,7 @@ export function handleUserStatusChange({status, user: userId}) {
   }
 }
 
-export function handleUserUpdated({user}) {
+export function handleUserUpdate({user}) {
   // TODO: handle if user change username and
   // he is current mate in active PM and
   // redirect at the new PM URL in this case

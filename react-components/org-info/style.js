@@ -5,6 +5,7 @@ import colors from 'grape-theme/dist/base-colors'
 import buttonIcon from '../button/icon'
 
 const headers = {
+  whiteSpace: 'nowrap',
   lineHeight: 'initial',
   overflow: 'hidden',
   textOverflow: 'ellipsis'

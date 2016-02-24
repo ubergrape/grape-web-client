@@ -105,7 +105,7 @@ export default {
     right: 15,
     top: 9,
     minWidth: 24,
-    padding: '1px 5px 0',
+    padding: '1px 7px 0',
     textAlign: 'center',
     borderRadius: 50,
     color: colors.white,

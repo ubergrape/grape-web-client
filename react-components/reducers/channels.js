@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes'
+import findIndex from 'lodash/array/findIndex'
 
 const initialState = []
 
@@ -9,6 +10,7 @@ export default function reduce(state = initialState, action) {
 
     case types.SET_CHANNEL: {
       const {id, type} = action.payload.channel
+
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
           newState.push({...channel, current: true})
@@ -23,105 +25,87 @@ export default function reduce(state = initialState, action) {
       }, [])
     }
 
-    case types.NEW_CHANNEL:
+    case types.CREATE_NEW_CHANNEL:
       return [...state, action.payload]
 
     case types.ADD_USER_TO_CHANNEL: {
       const {user, channelId: id, isCurrentUser} = action.payload
       if (!user) return state
 
-      return state.reduce((newState, channel) => {
-        if (channel.id === id) {
-          newState.push({
-            ...channel,
-            users: [...channel.users, user.id],
-            joined: isCurrentUser ? true : channel.joined
-          })
-          return newState
-        }
-
-        newState.push(channel)
-        return newState
-      }, [])
+      const newState = [...state]
+      const index = findIndex(newState, {id})
+      const channel = newState[index]
+      newState.splice(index, 1, {
+        ...channel,
+        users: [...channel.users, user.id],
+        joined: isCurrentUser ? true : channel.joined
+      })
+      return newState
     }
 
     case types.REMOVE_USER_FROM_CHANNEL: {
-      const {user, channelId, isCurrentUser} = action.payload
+      const {user, channelId: id, isCurrentUser} = action.payload
 
-      return state.reduce((newState, channel) => {
-        if (channel.id === channelId) {
-          newState.push({
-            ...channel,
-            users: channel.users.filter(id => id !== user.id),
-            joined: isCurrentUser ? false : channel.joined
-          })
-          return newState
-        }
-        newState.push(channel)
-        return newState
-      }, [])
+      const newState = [...state]
+      const index = findIndex(newState, {id})
+      const channel = newState[index]
+      newState.splice(index, 1, {
+        ...channel,
+        users: channel.users.filter(_id => _id !== user.id),
+        joined: isCurrentUser ? false : channel.joined
+      })
+      return newState
     }
 
     case types.UPDATE_CHANNEL: {
       const {id, type} = action.payload
 
-      return state.reduce((newState, channel) => {
-        if (channel.id === id && channel.type === type) {
-          newState.push({...channel, ...action.payload})
-          return newState
-        }
-        newState.push(channel)
-        return newState
-      }, [])
+      const newState = [...state]
+      const index = findIndex(newState, {id, type})
+      const channel = newState[index]
+      newState.splice(index, 1, {
+        ...channel,
+        ...action.payload
+      })
+      return newState
     }
 
     case types.REMOVE_ROOM: {
-      return state.reduce((newState, channel) => {
-        if (channel.id === action.payload && channel.type === 'room') {
-          return newState
-        }
-        newState.push(channel)
-        return newState
-      }, [])
+      return state.filter(({type, id}) => !(type === 'room' && id === action.payload))
     }
 
-    case types.NEW_MESSAGE: {
-      const {channel: channelId, time} = action.payload.message
+    case types.ADD_NEW_MESSAGE: {
+      const {channel: id, time} = action.payload.message
       const {isCurrentUser, mentionsCount} = action.payload
 
-      return state.reduce((newState, channel) => {
-        if (channel.id === channelId) {
-          const timestamp = time.getTime()
-          newState.push({
-            ...channel,
-            latestMessageTime: timestamp,
-            firstMessageTime: channel.firstMessageTime || timestamp,
-            mentioned: mentionsCount || channel.mentioned,
-            unread: isCurrentUser ? 0 : channel.unread + 1
-          })
-          return newState
-        }
-        newState.push(channel)
-        return newState
-      }, [])
+      // TODO: handle create new PM with onlyInvited
+      const newState = [...state]
+      const index = findIndex(newState, {id})
+      const channel = newState[index]
+      const timestamp = time.getTime()
+      newState.splice(index, 1, {
+        ...channel,
+        latestMessageTime: timestamp,
+        firstMessageTime: channel.firstMessageTime || timestamp,
+        mentioned: mentionsCount || channel.mentioned,
+        unread: isCurrentUser ? 0 : channel.unread + 1
+      })
+      return newState
     }
 
-    case types.READ_CHANNEL: {
-      const {channelId, isCurrentUser} = action.payload
+    case types.MARK_CHANNEL_AS_READ: {
+      const {channelId: id, isCurrentUser} = action.payload
       if (!isCurrentUser) return state
 
-      return state.reduce((newState, channel) => {
-        if (channel.id === channelId) {
-          newState.push({
-            ...channel,
-            mentioned: 0,
-            unread: 0
-          })
-          return newState
-        }
-        newState.push(channel)
-        return newState
-      }, [])
+      const newState = [...state]
+      const index = findIndex(newState, {id})
+      const channel = newState[index]
+      newState.splice(index, 1, {
+        ...channel,
+        mentioned: 0,
+        unread: 0
+      })
+      return newState
     }
 
     case types.ADD_TO_FAVORITES: {

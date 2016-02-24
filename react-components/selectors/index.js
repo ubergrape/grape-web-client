@@ -38,6 +38,8 @@ export const channelsSelector = createSelector(
     channels,
     users
   ) => {
+    console.log(users.length)
+    // console.log(channels, channels.filter(channel => channel.isOnlyInvited))
     return channels.map(channel => {
       return {
         ...channel,
@@ -105,23 +107,23 @@ export const fullOrgSelector = createSelector(
   }
 )
 
-export const channelSearchSelector = createSelector(
+export const channelSearch = createSelector(
   state => state.channelSearch, state => state
 )
 
-export const channelSearchComponentSelector = createSelector(
+export const channelSearchSelector = createSelector(
   [
-    channelSearchSelector,
+    channelSearch,
     fullOrgSelector,
     userSelector
   ],
   (
-    channelSearch,
+    search,
     org,
     user
   ) => {
     return {
-      ...channelSearch,
+      ...search,
       org,
       user
     }
@@ -158,46 +160,46 @@ export const setTypingSelector = createSelector(
   }
 )
 
-export const userProfileSelector = createSelector(
+export const userProfile = createSelector(
   state => state.userProfile, state => state
 )
 
-export const userProfileComponentSelector = createSelector(
+export const userProfileSelector = createSelector(
   [
-    userProfileSelector,
+    userProfile,
     channelSelector,
     userSelector
   ],
   (
-    userProfile,
+    profile,
     channel,
     currentUser
   ) => {
     const user = find(channel.users, _user => _user.id !== currentUser.id) || {}
     return {
-      ...userProfile,
+      ...profile,
       user
     }
   }
 )
 
-export const channelInfoSelector = createSelector(
+export const channelInfo = createSelector(
   state => state.channelInfo, state => state
 )
 
-export const channelInfoComponentSelector = createSelector(
+export const channelInfoSelector = createSelector(
   [
-    channelInfoSelector,
+    channelInfo,
     channelSelector,
     userSelector
   ],
   (
-    channelInfo,
+    info,
     channel,
     user
   ) => {
     return {
-      ...channelInfo,
+      ...info,
       channel: channel.type === 'room' ? channel : {},
       user
     }
