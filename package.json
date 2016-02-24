@@ -42,7 +42,7 @@
     "eslint-plugin-babel": "^2.1.1",
     "eslint-plugin-react": "^3.9.0",
     "expect.js": "^0.3.1",
-    "grape-browser": "^2.3.5",
+    "grape-browser": "^2.3.6",
     "grape-jss-utils": "ubergrape/grape-jss-utils#0.1.0",
     "grape-theme": "ubergrape/grape-theme#1.2.0",
     "grape-web": "ubergrape/grape-web#0.15.0",
