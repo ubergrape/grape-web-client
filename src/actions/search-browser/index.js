@@ -1,5 +1,4 @@
 import find from 'lodash/collection/find'
-import isEmpty from 'lodash/lang/isEmpty'
 import {openUrl} from 'grape-web/lib/x-platform'
 
 import {

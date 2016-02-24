@@ -30,6 +30,7 @@ export default class SearchBrowser extends Component {
     addSearchBrowserFilter: PropTypes.func,
     clearSearchBrowserInput: PropTypes.func,
     sections: PropTypes.array,
+    currServices: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,

@@ -1,6 +1,4 @@
 import noop from 'lodash/utility/noop'
-import uniq from 'lodash/array/uniq'
-import get from 'lodash/object/get'
 
 import * as types from '../constants/actionTypes'
 

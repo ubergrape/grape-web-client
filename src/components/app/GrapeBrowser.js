@@ -51,7 +51,8 @@ export default class GrapeBrowser extends Component {
     customEmojis: PropTypes.object,
     images: PropTypes.object,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
-    externalServicesInputDelay: PropTypes.number
+    externalServicesInputDelay: PropTypes.number,
+    services: PropTypes.array
   }
 
   static defaultProps = {
@@ -234,7 +235,7 @@ export default class GrapeBrowser extends Component {
     this.emit('resize')
   }
 
-  onLoadServices() {
+  onLoadServices() {
     this.emit('loadServices')
   }
 
