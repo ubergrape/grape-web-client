@@ -180,7 +180,7 @@ export function showSearchBrowserObjects() {
 
 export function changeSearchBrowserInput({value, search, filters, query}) {
   return (dispatch, getState) => {
-    const {data, onChange} = searchBrowserSelector(getState())
+    const {services, onChange, onLoadServices} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.UPDATE_SEARCH_BROWSER_INPUT,
@@ -188,12 +188,10 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
     })
 
     if (query.trigger === SERVICES_TRIGGER) {
-      const services = data && data.services
-
       // TODO Should be a separate action for loading services.
-      if (isEmpty(services)) {
+      if (!services.length) {
         dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
-        onChange({trigger: query.trigger})
+        onLoadServices()
       }
       dispatch({
         type: types.SHOW_SEARCH_BROWSER_SERVICES,
@@ -218,9 +216,9 @@ export function focusSearchBrowserService(item) {
 
     // It's a selector.
     if (typeof item === 'string') {
-      const {services, focusedService} = searchBrowserSelector(getState())
-      const newIndex = findIndexBySelector(item, services, service => service === focusedService)
-      payload = services[newIndex]
+      const {currServices, focusedService} = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(item, currServices, service => service === focusedService)
+      payload = currServices[newIndex]
     }
 
     dispatch({

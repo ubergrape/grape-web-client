@@ -151,6 +151,7 @@ export default class SearchBrowser extends Component {
       element = (
         <ServiceList
           {...this.props}
+          services={this.props.currServices}
           focused={this.props.focusedService}
           onSelect={::this.onAddService}
           onFocus={this.props.focusSearchBrowserService} />

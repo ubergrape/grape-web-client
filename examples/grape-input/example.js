@@ -39,13 +39,7 @@ function init() {
   input.addEventListener('grapeComplete', function (e) {
     console.log('complete', e.detail)
 
-    if (e.detail.trigger == '+') {
-      setProps({
-        browser: 'search',
-        data: window.searchData
-      })
-    }
-    else if (e.detail.trigger == '#') {
+    if (e.detail.trigger == '#') {
       var data = assign({}, window.searchData)
       var filters = e.detail.filters || []
       var search = e.detail.search
@@ -90,6 +84,14 @@ function init() {
       return result.name.toLowerCase().indexOf(e.detail.search) >= 0
     }
   })
+
+  input.addEventListener('grapeLoadServices', function() {
+    setProps({
+      browser: 'search',
+      services: window.searchData.services
+    })
+  })
+
   input.addEventListener('grapeSubmit', function (e) {
     console.log('submit', e.detail)
     input.setTextContent('')

@@ -65,6 +65,7 @@ export default class GrapeBrowser extends Component {
     data: undefined,
     images: {},
     contentObjects: [],
+    services: [],
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
@@ -233,6 +234,10 @@ export default class GrapeBrowser extends Component {
     this.emit('resize')
   }
 
+  onLoadServices() {
+    this.emit('loadServices')
+  }
+
   onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     if (query && query.trigger) {
@@ -392,6 +397,7 @@ export default class GrapeBrowser extends Component {
       return (
         <SearchBrowser
           data={data}
+          services={this.props.services}
           images={images}
           isExternal={utils.isExternalSearch(data)}
           isLoading={this.props.isLoading}
@@ -399,6 +405,7 @@ export default class GrapeBrowser extends Component {
           onSelectItem={::this.onSelectSearchBrowserItem}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onChange={::this.onChangeSearchBrowser}
+          onLoadServices={::this.onLoadServices}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }

@@ -32,45 +32,37 @@ const initialState = {
   actions,
   focusedAction: actions[0],
   tokens: {},
-  allServices: [],
   services: [],
+  currServices: [],
   onAddIntegration: noop,
   onSelectItem: noop,
   onDidMount: noop,
   onChange: noop,
   onAbort: noop,
   onBlur: noop,
-  clearSearchBrowserInput: noop
+  onLoadServices: noop
 }
 
-function getServices({allServices, filters}, search) {
-  let services = allServices.filter(({id}) => filters.indexOf(id) === -1)
+function getCurrServices({services, filters}, search) {
+  let curr = services.filter(({id}) => filters.indexOf(id) === -1)
 
   if (search) {
     const lowerSearch = search.toLowerCase().trim()
-    services = services.filter(({label}) => label.toLowerCase().indexOf(lowerSearch) >= 0)
+    curr = curr.filter(({label}) => label.toLowerCase().indexOf(lowerSearch) >= 0)
   }
 
-  return services
+  return curr
 }
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.CREATE_SEARCH_BROWSER_STATE: {
-      let {allServices} = state
-      const services = get(action, 'payload.data.services')
-      // We aggregate services across multiple requests, because we don't have
-      // a separate api for services.
-      // TODO https://github.com/ubergrape/chatgrape/issues/3394
-      if (services) allServices = uniq([...allServices, ...services], 'id')
-
       const newState = {
         ...state,
-        ...action.payload,
-        allServices
+        ...action.payload
       }
-      newState.services = getServices(newState)
-      newState.focusedService = newState.services[0]
+      newState.currServices = getCurrServices(newState)
+      newState.focusedService = newState.currServices[0]
 
       return newState
     }
@@ -90,12 +82,12 @@ export default function reduce(state = initialState, action) {
     case types.SELECT_SEARCH_BROWSER_ITEM:
       return {...state, focusedItem: action.payload}
     case types.SHOW_SEARCH_BROWSER_SERVICES: {
-      const services = getServices(state, action.payload)
+      const currServices = getCurrServices(state, action.payload)
       return {
         ...state,
         focusedList: 'services',
-        services,
-        focusedService: services[0]
+        currServices,
+        focusedService: currServices[0]
       }
     }
     case types.FOCUS_SEARCH_BROWSER_SERVICE:
