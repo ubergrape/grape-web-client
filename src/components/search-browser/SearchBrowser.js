@@ -22,13 +22,16 @@ export default class SearchBrowser extends Component {
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
+    showSearchBrowserItems: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
-    navigateSearchBrowser: PropTypes.func,
     changeSearchBrowserInput: PropTypes.func,
     focusSearchBrowserService: PropTypes.func,
-    addSearchBrowserFilter: PropTypes.func,
+    addSearchBrowserService: PropTypes.func,
     clearSearchBrowserInput: PropTypes.func,
+    focusSearchBrowserActions: PropTypes.func,
+    focusSearchBrowserAction: PropTypes.func,
+    execSearchBrowserAction: PropTypes.func,
     sections: PropTypes.array,
     currServices: PropTypes.array,
     isLoading: PropTypes.bool,
@@ -37,7 +40,7 @@ export default class SearchBrowser extends Component {
     className: PropTypes.string,
     value: PropTypes.string,
     search: PropTypes.string,
-    focusedList: PropTypes.oneOf(listTypes),
+    focusedView: PropTypes.oneOf(listTypes),
     focusedItem: PropTypes.object,
     focusedService: PropTypes.object
   }
@@ -69,13 +72,13 @@ export default class SearchBrowser extends Component {
   }
 
   onKeyDown(e) {
-    const {focusedList} = this.props
+    const {focusedView} = this.props
 
     switch (keyname(e.keyCode)) {
       case 'esc':
         // Actions are focused - focus objects.
-        if (focusedList === 'actions' || focusedList === 'services') {
-          this.props.navigateSearchBrowser('back')
+        if (focusedView !== 'objects') {
+          this.props.showSearchBrowserItems()
         // Reset the search if there is one.
         } else if (this.props.value.trim()) {
           this.props.clearSearchBrowserInput()
@@ -85,23 +88,26 @@ export default class SearchBrowser extends Component {
         e.preventDefault()
         break
       case 'down':
-        if (focusedList === 'services') this.props.focusSearchBrowserService('next')
-        else this.props.navigateSearchBrowser('next')
+        if (focusedView === 'services') this.props.focusSearchBrowserService('next')
+        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('next')
+        else this.props.focusSearchBrowserItem('next')
         e.preventDefault()
         break
       case 'up':
-        if (focusedList === 'services') this.props.focusSearchBrowserService('prev')
-        else this.props.navigateSearchBrowser('prev')
+        if (focusedView === 'services') this.props.focusSearchBrowserService('prev')
+        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('prev')
+        else this.props.focusSearchBrowserItem('prev')
         e.preventDefault()
         break
       case 'enter':
-        if (focusedList === 'services') this.onAddService(this.props.focusedService)
-        else this.props.navigateSearchBrowser('select')
+        if (focusedView === 'services') this.onAddService(this.props.focusedService)
+        else if (focusedView === 'actions') this.props.execSearchBrowserAction()
+        else this.props.focusSearchBrowserActions()
         e.preventDefault()
         break
       case 'backspace':
-        if (focusedList === 'actions') {
-          this.props.navigateSearchBrowser('back')
+        if (focusedView === 'actions') {
+          this.props.showSearchBrowserItems()
           e.preventDefault()
         }
         break
@@ -139,16 +145,16 @@ export default class SearchBrowser extends Component {
     // into the input, change event will trigger the search and before this,
     // state needs to have all the data in place.
     this.setState({lastAddedService: service}, () => {
-      this.props.addSearchBrowserFilter(service)
+      this.props.addSearchBrowserService(service)
     })
   }
 
   getBody() {
-    const {sections, search, focusedList} = this.props
+    const {sections, search, focusedView} = this.props
     let element
     let {height} = this.props
 
-    if (focusedList === 'services') {
+    if (focusedView === 'services') {
       element = (
         <ServiceList
           {...this.props}

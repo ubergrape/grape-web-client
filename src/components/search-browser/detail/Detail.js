@@ -19,7 +19,7 @@ export default class Detail extends Component {
     sheet: PropTypes.object.isRequired,
     data: PropTypes.object,
     images: PropTypes.object,
-    focusedList: PropTypes.oneOf(listTypes),
+    focusedView: PropTypes.oneOf(listTypes),
     actions: PropTypes.array,
     focusedAction: PropTypes.object,
     hoveredAction: PropTypes.object,
@@ -104,7 +104,7 @@ export default class Detail extends Component {
           {this.renderMeta()}
         </div>
         <Actions
-          focused={this.props.focusedList === 'actions'}
+          focused={this.props.focusedView === 'actions'}
           items={this.props.actions}
           focusedAction={this.props.focusedAction}
           hoveredAction={this.props.hoveredAction}

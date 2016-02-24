@@ -26,7 +26,7 @@ export default {
   },
   highlighter: {
     extend: editableAndHighliter,
-    // FIXME
+    // TODO
     // Think of a better approach.
     // Problem here is order of classes has less value than order of styles
     // Which means that we either need to produce ready style sheets or add

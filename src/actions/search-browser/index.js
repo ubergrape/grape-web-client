@@ -14,137 +14,55 @@ import {
 } from '../../components/browser/dataUtils'
 import {SERVICES_TRIGGER} from '../../components/query/constants'
 
-function createState(nextProps) {
-  const {data} = nextProps
-
-  if (!data) {
-    return {
-      ...nextProps,
-      sections: [],
-      focusedItem: undefined
-    }
-  }
-
-  const sections = getSections(data)
-  const focusedItem = getFocusedItem(sections)
-
-  return {
-    ...nextProps,
-    sections,
-    focusedItem
-  }
-}
-
-/**
- * Returns a new state with focused item according selector.
- */
-function focusItem(selector, state) {
-  const {sections} = state
-  let id = selector
-
-  if (selector === 'next' || selector === 'prev') {
-    const items = extractItems(sections)
-    const itemIndex = findIndexBySelector(selector, items, item => item.focused)
-    id = items[itemIndex].id
-  }
-
-  setFocusedItem(sections, id)
-
-  return {
-    sections,
-    focusedItem: getFocusedItem(sections)
-  }
-}
-
-function execAction(state) {
-  const action = state.focusedAction
-  const item = state.focusedItem
-
-  if (action.type === 'insert') {
-    state.onSelectItem({item})
-    // FIXME use clearSearchBrowserInput
-    return {
-      filters: [],
-      value: ''
-    }
-  }
-
-  if (action.type === 'open') {
-    const res = find(state.data.results, ({id}) => id === item.id)
-    openUrl(res.url)
-  }
-
-  return state
-}
-
-function focusAction(selector, state) {
-  const {actions} = state
-  const newIndex = findIndexBySelector(selector, actions, action => action === state.focusedAction)
-  return {focusedAction: actions[newIndex]}
-}
-
-function navigate(action, state) {
-  if (!state.data || !state.data.results.length) return state
-
-  switch (action) {
-    case 'select':
-      if (state.focusedList === 'actions') return execAction(state)
-      return {focusedList: 'actions'}
-    case 'back':
-      if (state.focusedList === 'objects') return state
-      return {focusedList: 'objects'}
-    case 'prev':
-    case 'next':
-      if (state.focusedList === 'objects') return focusItem(action, state)
-      if (state.focusedList === 'actions') return focusAction(action, state)
-      break
-    default:
-  }
-}
-
 export function createSearchBrowserState(props) {
+  const {data} = props
+  let sections
+  let focusedItem
+
+  if (data) {
+    sections = getSections(data)
+    focusedItem = getFocusedItem(sections)
+  } else {
+    sections = []
+  }
+
   return {
     type: types.CREATE_SEARCH_BROWSER_STATE,
-    payload: createState(props)
+    payload: {
+      ...props,
+      sections,
+      focusedItem
+    }
   }
 }
 
 export function resetSearchBrowserState() {
-  return {
-    type: types.RESET_SEARCH_BROWSER_STATE
-  }
+  return {type: types.RESET_SEARCH_BROWSER_STATE}
+}
+
+export function showSearchBrowserItems() {
+  return {type: types.SHOW_SEARCH_BROWSER_ITEMS}
 }
 
 export function focusSearchBrowserItem(selector) {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+    const {sections} = searchBrowserSelector(getState())
+    let id = selector
+
+    if (selector === 'next' || selector === 'prev') {
+      const items = extractItems(sections)
+      const itemIndex = findIndexBySelector(selector, items, item => item.focused)
+      id = items[itemIndex].id
+    }
+
+    setFocusedItem(sections, id)
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_ITEM,
-      payload: focusItem(selector, state)
-    })
-  }
-}
-
-export function focusSearchBrowserAction(action) {
-  return {
-    type: types.FOCUS_SEARCH_BROWSER_ACTION,
-    payload: action
-  }
-}
-
-export function blurSearchBrowserAction() {
-  return {
-    type: types.BLUR_SEARCH_BROWSER_ACTION
-  }
-}
-
-export function execSearchBrowserAction() {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    dispatch({
-      type: types.EXEC_SEARCH_BROWSER_ACTION,
-      payload: execAction(state)
+      payload: {
+        sections,
+        focusedItem: getFocusedItem(sections)
+      }
     })
   }
 }
@@ -160,20 +78,59 @@ export function selectSearchBrowserItem() {
   }
 }
 
-export function navigateSearchBrowser(action) {
+export function clearSearchBrowserInput() {
+  return {
+    type: types.CLEAR_SEARCH_BROWSER_INPUT
+  }
+}
+
+export function focusSearchBrowserActions() {
+  return {type: types.FOCUS_SEARCH_BROWSER_ACTIONS}
+}
+
+export function focusSearchBrowserAction(selector) {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+    let payload = selector
+
+    if (typeof selector === 'string') {
+      const {actions, focusedAction} = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(selector, actions, action => action === focusedAction)
+      payload = actions[newIndex]
+    }
 
     dispatch({
-      type: types.NAVIGATE_SEARCH_BROWSER,
-      payload: navigate(action, state)
+      type: types.FOCUS_SEARCH_BROWSER_ACTION,
+      payload
     })
   }
 }
 
-export function showSearchBrowserObjects() {
+export function blurSearchBrowserAction() {
   return {
-    type: types.SHOW_SEARCH_BROWSER_OBJECTS
+    type: types.BLUR_SEARCH_BROWSER_ACTION
+  }
+}
+
+export function execSearchBrowserAction() {
+  return (dispatch, getState) => {
+    const state = searchBrowserSelector(getState())
+    const action = state.focusedAction
+    const item = state.focusedItem
+
+    dispatch({
+      type: types.EXEC_SEARCH_BROWSER_ACTION,
+      payload: action
+    })
+
+    if (action.type === 'insert') {
+      dispatch(clearSearchBrowserInput())
+      state.onSelectItem({item})
+    }
+
+    if (action.type === 'open') {
+      const res = find(state.data.results, ({id}) => id === item.id)
+      openUrl(res.url)
+    }
   }
 }
 
@@ -189,30 +146,6 @@ export function showSearchBrowserServices(query) {
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
     })
-  }
-}
-
-export function changeSearchBrowserInput({value, search, filters, query}) {
-  return (dispatch, getState) => {
-    const {onChange} = searchBrowserSelector(getState())
-
-    dispatch({
-      type: types.UPDATE_SEARCH_BROWSER_INPUT,
-      payload: {value, search, filters}
-    })
-
-    if (query.trigger === SERVICES_TRIGGER) {
-      dispatch(showSearchBrowserServices(query))
-    } else {
-      dispatch(showSearchBrowserObjects())
-      onChange({search, filters})
-    }
-  }
-}
-
-export function clearSearchBrowserInput() {
-  return {
-    type: types.CLEAR_SEARCH_BROWSER_INPUT
   }
 }
 
@@ -234,12 +167,30 @@ export function focusSearchBrowserService(item) {
   }
 }
 
-export function addSearchBrowserFilter(service) {
+export function addSearchBrowserService(service) {
   return dispatch => {
     dispatch({
-      type: types.ADD_SEARCH_BROWSER_FILTER,
+      type: types.ADD_SEARCH_BROWSER_SERVICE,
       payload: service
     })
-    dispatch(showSearchBrowserObjects())
+    dispatch(showSearchBrowserItems())
+  }
+}
+
+export function changeSearchBrowserInput({value, search, filters, query}) {
+  return (dispatch, getState) => {
+    const {onChange} = searchBrowserSelector(getState())
+
+    dispatch({
+      type: types.UPDATE_SEARCH_BROWSER_INPUT,
+      payload: {value, search, filters}
+    })
+
+    if (query.trigger === SERVICES_TRIGGER) {
+      dispatch(showSearchBrowserServices(query))
+    } else {
+      dispatch(showSearchBrowserItems())
+      onChange({search, filters})
+    }
   }
 }

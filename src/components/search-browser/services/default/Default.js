@@ -15,7 +15,7 @@ export default class Default extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     focusedItem: PropTypes.object,
-    focusedList: PropTypes.oneOf(listTypes)
+    focusedView: PropTypes.oneOf(listTypes)
   }
 
   render() {
@@ -28,7 +28,7 @@ export default class Default extends Component {
           <Grid
             {...this.props}
             className={classes.leftColumn}
-            focused={this.props.focusedList === 'objects'} />
+            focused={this.props.focusedView === 'objects'} />
           <Sidebar className={classes.rightColumn}>
             <Detail {...this.props} data={focusedItem && focusedItem.detail} />
           </Sidebar>
