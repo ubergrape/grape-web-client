@@ -203,9 +203,9 @@ export function handleUserUpdate({user}) {
   }
 }
 
-export function handleFavoriteChange(data) {
-  console.log(data)
+export function handleFavoriteChange({changed}) {
   return {
-    type: types.NOOP
+    type: types.CHANGE_FAVORITED,
+    payload: changed
   }
 }

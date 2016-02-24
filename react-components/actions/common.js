@@ -41,16 +41,24 @@ export function setOrg(org) {
   }
 }
 
-export function markFavoites(favorites) {
-  console.log(favorites)
-  return {type: types.NOOP}
+export function markFavoited(favorited) {
+  return {
+    type: types.MARK_FAVORITED,
+    payload: favorited
+  }
 }
 
 export function setInitialData(org) {
   return dispatch => {
     api
       .getFavorites(org.id)
-      .then(favorites => dispatch(markFavoites(favorites)))
+      .then(favorited => {
+        dispatch(markFavoited(favorited))
+
+        return dispatch({
+          type: types.INITIAL_DATA_LOADED
+        })
+      })
       .catch(err => dispatch(error(err)))
 
     dispatch(setUsers([...org.users]))
@@ -58,10 +66,6 @@ export function setInitialData(org) {
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
-
-    return dispatch({
-      type: types.INITIAL_DATA_LOADED
-    })
   }
 }
 

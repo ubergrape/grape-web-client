@@ -17,18 +17,20 @@ export default class Navigation extends Component {
     showPMsManager: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number
   }
 
   static defaultProps = {
-    step: 3
+    step: 10
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      shift: this.props.step
+      shift: 20
     }
   }
 
@@ -145,20 +147,33 @@ export default class Navigation extends Component {
     )
   }
 
-  renderPinnedList() {
+  renderFavoritedList() {
+    if (!this.props.favorited.length) return null
+
     const {classes} = this.props.sheet
     return (
       <div className={classes.section}>
         <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
         <ol className={classes.list}>
           {
-            this.props.recent.slice(0, 4).map(channel => {
+            this.props.favorited.map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
               if (channel.type === 'pm') return this.renderPM(channel)
               return null
             })
           }
         </ol>
+      </div>
+    )
+  }
+
+  renderNavigation() {
+    if (this.props.isLoading) return null
+    return (
+      <div className={this.props.sheet.classes.wrapper}>
+        {this.renderManageButtons()}
+        {this.renderFavoritedList()}
+        {this.renderRecentList()}
       </div>
     )
   }
@@ -171,11 +186,7 @@ export default class Navigation extends Component {
           ref="navigation"
           onScroll={::this.onScroll}
           className={classes.navigation}>
-          <div className={classes.wrapper}>
-            {this.renderManageButtons()}
-            {this.renderPinnedList()}
-            {this.renderRecentList()}
-          </div>
+          {this.renderNavigation()}
         </div>
       </div>
     )

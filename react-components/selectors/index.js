@@ -38,8 +38,6 @@ export const channelsSelector = createSelector(
     channels,
     users
   ) => {
-    //console.log(users.length)
-    // console.log(channels, channels.filter(channel => channel.isOnlyInvited))
     return channels.map(channel => {
       return {
         ...channel,
@@ -291,27 +289,36 @@ export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     channelSelector,
-    activePmsSelector
+    activePmsSelector,
+    initialDataLoadingSelector
   ],
   (
     rooms,
     channel,
-    pms
+    pms,
+    isLoading
   ) => {
-    const recent = rooms.concat(pms)
+    const all = rooms.concat(pms)
+    const recent = all
+      .filter(_channel => !_channel.favorited)
       .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
+    const favorited = all
+      .filter(_channel => _channel.favorited)
+      .sort((a, b) => b.favorited.order - a.favorited.order)
 
     return {
       recent,
+      favorited,
+      isLoading,
       channel
     }
   }
 )
 
 export const favoriteSelector = createSelector(
-  channelSelector, ({pinned, id}) => {
+  channelSelector, ({favorited, id}) => {
     return {
-      favorited: Boolean(pinned),
+      favorited: Boolean(favorited),
       id
     }
   }

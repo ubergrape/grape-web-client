@@ -35,7 +35,6 @@ export default function reduce(state = initialState, action) {
       const newState = [...state]
       const index = findIndex(newState, {id})
       const channel = newState[index]
-      console.log('ADD_USER_TO_CHANNEL', channel, isCurrentUser)
       newState.splice(index, 1, {
         ...channel,
         users: [...channel.users, user.id],
@@ -109,14 +108,33 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.ADD_TO_FAVORITES: {
-      console.log(action.payload)
-      return state
+    case types.MARK_FAVORITED: {
+      const newState = [...state]
+      action.payload.forEach(({channelId: id, pin}) => {
+        const index = findIndex(newState, {id})
+        const channel = newState[index]
+        newState.splice(index, 1, {
+          ...channel,
+          favorited: {
+            order: pin
+          }
+        })
+      })
+      return newState
     }
 
-    case types.REMOVE_FROM_FAVORITES: {
-      console.log(action.payload)
-      return state
+    case types.CHANGE_FAVORITED: {
+      const newState = [...state]
+      action.payload.forEach(([id, order]) => {
+        const index = findIndex(newState, {id})
+        const channel = newState[index]
+        console.log(channel, index)
+        newState.splice(index, 1, {
+          ...channel,
+          favorited: order ? { order } : null
+        })
+      })
+      return newState
     }
 
     default:

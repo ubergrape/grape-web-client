@@ -59,10 +59,6 @@ export default function subscribe(channel) {
         boundActions.handleRemoveRoom(cData)
         break
 
-      case 'pins.changed':
-        boundActions.handleFavoriteChange(cData)
-        break
-
       case 'organization.joined':
         boundActions.handleJoinOrg(cData)
         break
@@ -79,6 +75,10 @@ export default function subscribe(channel) {
 
       case 'membership.updated':
         boundActions.handleMembershipUpdate(cData)
+        break
+
+      case 'pins.changed':
+        boundActions.handleFavoriteChange(cData)
         break
 
       default:
