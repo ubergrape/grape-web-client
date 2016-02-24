@@ -11,7 +11,7 @@
     "emojione": "^1.4.0",
     "grape-jss-utils": "ubergrape/grape-jss-utils#0.1.0",
     "grape-theme": "ubergrape/grape-theme#1.2.0",
-    "grape-web": "ubergrape/grape-web#0.13.0",
+    "grape-web": "ubergrape/grape-web#0.15.0",
     "images-loader": "^0.1.2",
     "js-emoji": "ubergrape/js-emoji",
     "keyname": "^0.1.0",
