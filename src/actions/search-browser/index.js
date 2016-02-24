@@ -177,9 +177,24 @@ export function showSearchBrowserObjects() {
   }
 }
 
+export function showSearchBrowserServices(query) {
+  return (dispatch, getState) => {
+    const {services, onLoadServices} = searchBrowserSelector(getState())
+    if (!services.length) {
+      dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
+      onLoadServices()
+    }
+
+    dispatch({
+      type: types.SHOW_SEARCH_BROWSER_SERVICES,
+      payload: query.search
+    })
+  }
+}
+
 export function changeSearchBrowserInput({value, search, filters, query}) {
   return (dispatch, getState) => {
-    const {services, onChange, onLoadServices} = searchBrowserSelector(getState())
+    const {onChange} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.UPDATE_SEARCH_BROWSER_INPUT,
@@ -187,15 +202,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
     })
 
     if (query.trigger === SERVICES_TRIGGER) {
-      // TODO Should be a separate action for loading services.
-      if (!services.length) {
-        dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
-        onLoadServices()
-      }
-      dispatch({
-        type: types.SHOW_SEARCH_BROWSER_SERVICES,
-        payload: query.search
-      })
+      dispatch(showSearchBrowserServices(query))
     } else {
       dispatch(showSearchBrowserObjects())
       onChange({search, filters})

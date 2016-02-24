@@ -86,6 +86,7 @@ function init() {
   })
 
   input.addEventListener('grapeLoadServices', function() {
+    console.log('loadServices')
     setProps({
       browser: 'search',
       services: window.searchData.services

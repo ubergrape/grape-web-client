@@ -59,9 +59,9 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...action.payload
       }
+      if (!newState.services.length) newState.services = state.services
       newState.currServices = getCurrServices(newState)
       newState.focusedService = newState.currServices[0]
-
       return newState
     }
     case types.FOCUS_SEARCH_BROWSER_ITEM:
