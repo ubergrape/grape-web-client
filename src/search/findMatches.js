@@ -1,3 +1,5 @@
+import escapeRegExp from 'lodash/string/escapeRegExp'
+
 /**
  * Find matches of search in text.
  * TODO once this logic moved to the server, we can remove this code
@@ -6,7 +8,7 @@
 export default function findMatches(text, search) {
   const searchArr = typeof search == 'string' ? [search] : search
   const lowerSearchArr = searchArr.map(value => value.toLowerCase())
-  const searchRegExpStr = searchArr.map(searchStr => `(${searchStr})`).join('|')
+  const searchRegExpStr = searchArr.map(searchStr => `(${escapeRegExp(searchStr)})`).join('|')
   const regExp = new RegExp('\\b' + searchRegExpStr + '\\b', 'gi')
 
   return text.split(regExp).reduce((matches, value) => {

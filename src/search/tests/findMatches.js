@@ -10,6 +10,13 @@ describe('findMatches()', () => {
     expect(matches[0].found).to.be.ok()
   })
 
+  it('should return match with special chars', () => {
+    const matches = findMatches('+', '+')
+    expect(matches.length).to.be(1)
+    expect(matches[0].text).to.be('+')
+    expect(matches[0].found).to.be.ok()
+  })
+
   it('should return case insensitive match', () => {
     const matches = findMatches('a', 'A')
     expect(matches.length).to.be(1)
