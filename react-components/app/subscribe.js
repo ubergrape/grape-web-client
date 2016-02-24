@@ -80,4 +80,6 @@ export default function subscribe(channel) {
       default:
     }
   })
+
+  channel.on('error', boundActions.handleConnectionError)
 }

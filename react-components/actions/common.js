@@ -5,10 +5,9 @@ import {reduceChannelUsersToId} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../redux-emitter'
 import * as api from '../backend/api'
-
 import {channelSelector} from '../selectors'
-
 import store from '../app/store'
+import {type as connection} from '../backend/client'
 
 export function setChannels(channels) {
   return {
@@ -200,5 +199,36 @@ export function toggleOrgSettings(elem) {
   reduxEmitter.toggleOrgSettings(elem)
   return {
     type: types.TOGGLE_ORG_SETTINGS
+  }
+}
+
+export function reloadOnAuthError() {
+  return dispatch => {
+    dispatch({
+      type: types.AUTH_ERROR
+    })
+    location.reload()
+  }
+}
+
+export function handleConnectionError(err) {
+  return dispatch => {
+    dispatch({
+      type: types.CONNECTION_ERROR,
+      payload: err
+    })
+
+    if (connection === 'ws') {
+      api
+        .checkAuth()
+        .catch(_err => {
+          if (_err.status === 401) dispatch(reloadOnAuthError())
+        })
+      return
+    }
+
+    if (connection === 'lp' && err.status === 401) {
+      dispatch(reloadOnAuthError())
+    }
   }
 }
