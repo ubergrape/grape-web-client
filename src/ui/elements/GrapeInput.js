@@ -116,6 +116,7 @@ export default class GrapeInput extends Emitter {
     this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
     this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
+    this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
     this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious')
     this.events.bind('grapeAbort grape-input', 'onAbort')
     this.events.bind('grapeChange grape-input', 'onChange')
@@ -174,11 +175,6 @@ export default class GrapeInput extends Emitter {
       isLoading,
       setTrigger
     })
-  }
-
-  showSearchBrowserFilters() {
-    if (this.input.props.browser !== 'search') return
-    this.search('')
   }
 
   showUsersAndRooms(search) {
@@ -349,9 +345,6 @@ export default class GrapeInput extends Emitter {
   onComplete(e) {
     const {detail} = e
     switch (detail.trigger) {
-      case '+':
-        this.showSearchBrowserFilters()
-        break
       case '#':
         this.showSearchBrowser(detail)
         break
@@ -363,6 +356,17 @@ export default class GrapeInput extends Emitter {
         break
       default:
     }
+  }
+
+  onLoadServices() {
+    this.emit('autocomplete', '', {show: 'all'}, (err, data) => {
+      if (err) return this.emit('error', err)
+      this.setProps({
+        browser: 'search',
+        focused: true,
+        services: data.services
+      })
+    })
   }
 
   onEditPrevious() {
@@ -420,8 +424,8 @@ export default class GrapeInput extends Emitter {
   searchPromise(search, options) {
     return new Promise((resolve, reject) => {
       this.emit('autocomplete', search,  options, (err, data) => {
-        if (err) reject(err)
-        else resolve(data)
+        if (err) return reject(err)
+        resolve(data)
       })
     })
   }
