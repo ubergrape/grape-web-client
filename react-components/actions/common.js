@@ -69,6 +69,13 @@ export function setInitialData(org) {
   }
 }
 
+export function createChannel(channel) {
+  return {
+    type: types.CREATE_NEW_CHANNEL,
+    payload: reduceChannelUsersToId(channel)
+  }
+}
+
 export function setUser(user) {
   return {
     type: types.SET_USER,

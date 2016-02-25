@@ -27,6 +27,10 @@ class ReduxEmitter extends Emitter {
     boundActions.showChannelInfoOrUserProfile()
   }
 
+  onNewPMOpened(pm) {
+    boundActions.createChannel(toCamel(pm))
+  }
+
   leaveChannel(channelId) {
     this.emit('leaveRoom', channelId)
   }

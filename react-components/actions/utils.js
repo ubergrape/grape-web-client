@@ -12,7 +12,13 @@ import {
 } from '../selectors'
 
 export function reduceChannelUsersToId(channel) {
-  return {...channel, users: channel.users.map(user => user.id)}
+  return {
+    ...channel,
+    users: channel.users.map(user => {
+      if (user.id) return user.id
+      return user
+    })
+  }
 }
 
 export function formatMessage(message) {

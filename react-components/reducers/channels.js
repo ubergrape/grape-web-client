@@ -77,7 +77,6 @@ export default function reduce(state = initialState, action) {
     case types.ADD_NEW_MESSAGE: {
       const {channel: id, time} = action.payload.message
       const {isCurrentUser, mentionsCount} = action.payload
-
       // TODO: handle create new PM with onlyInvited
       const newState = [...state]
       const index = findIndex(newState, {id})
@@ -125,13 +124,12 @@ export default function reduce(state = initialState, action) {
 
     case types.CHANGE_FAVORITED: {
       const newState = [...state]
-      action.payload.forEach(([id, order]) => {
+      action.payload.forEach(({channelId: id, pin}) => {
         const index = findIndex(newState, {id})
         const channel = newState[index]
-        console.log(channel, index)
         newState.splice(index, 1, {
           ...channel,
-          favorited: order ? { order } : null
+          favorited: pin ? { order: pin } : null
         })
       })
       return newState

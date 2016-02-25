@@ -25,6 +25,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'newMessage', ui.historyView, 'onNewMessage')
   broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage')
   broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened')
+  broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
   broker(ui, 'newRoom', ui.historyView, 'onNewRoom')
   broker(ui, 'changeUser', ui.historyView, 'onChangeUser')
   broker(ui, 'emptyOrg', ui.historyView, 'onEmptyOrg')

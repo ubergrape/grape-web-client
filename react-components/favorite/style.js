@@ -1,4 +1,5 @@
 import buttonIcon from '../button/icon'
+import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 
 const icon = {
@@ -14,7 +15,7 @@ export default {
     ...icon
   },
   favorited: {
-    ...buttonIcon('star', {color: colors.orange, hoverColor: colors.grayBlueDark, iconOnly: true}),
+    ...buttonIcon('star', {color: colors.orange, hoverColor: color(colors.orange).lighten(0.2).hexString(), iconOnly: true}),
     ...icon
   }
 }

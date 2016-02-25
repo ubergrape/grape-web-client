@@ -6,6 +6,7 @@ import {formatMessage, countMentions} from './utils'
 import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
+import {createChannel} from './common'
 
 import {
   orgSelector,
@@ -123,16 +124,12 @@ export function handleMembershipUpdate({membership}) {
 }
 
 export function handleNewChannel({channel}) {
-  return {
-    type: types.CREATE_NEW_CHANNEL,
-    payload: channel
-  }
+  return createChannel(channel)
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
   const users = usersSelector(store.getState())
   const currentUser = userSelector(store.getState())
-  console.log(userId, currentUser)
   const isCurrentUser = currentUser.id === userId
   const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
   return {
