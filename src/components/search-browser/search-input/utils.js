@@ -1,9 +1,12 @@
+/**
+ * Remove filters and trim words.
+ */
 export function getTextWithoutFilters(split, tokens) {
-  // Remove filters
-  let textArr = split.filter(str => tokens[str] === undefined)
-  // Remove unneeded spaces.
-  textArr = textArr.map(word => word.trim())
-  return textArr.join(' ').trim()
+  return split
+    .filter(str => tokens[str] === undefined)
+    .map(word => word.trim())
+    .join(' ')
+    .trim()
 }
 
 export function getFilterIds(split, tokens) {

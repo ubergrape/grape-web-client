@@ -150,12 +150,10 @@ export default class SearchBrowser extends Component {
   }
 
   getBody() {
-    const {sections, search, focusedView} = this.props
-    let element
-    let {height} = this.props
+    const {height, sections, search, focusedView} = this.props
 
     if (focusedView === 'services') {
-      element = (
+      const element = (
         <ServiceList
           {...this.props}
           services={this.props.currServices}
@@ -163,8 +161,11 @@ export default class SearchBrowser extends Component {
           onSelect={::this.onAddService}
           onFocus={this.props.focusSearchBrowserService} />
       )
-    } else if (sections.length) {
-      element = (
+      return {element, height}
+    }
+
+    if (sections.length) {
+      const element = (
         <Service
           {...this.props}
           Item={Item}
@@ -172,15 +173,20 @@ export default class SearchBrowser extends Component {
           onFocus={::this.onFocusItem}
           onSelect={::this.onSelectItem} />
       )
-    } else if (search.trim()) {
-      element = <Empty text="No Results." />
-      height = 'auto'
-    } else {
-      element = <Info {...this.props} />
-      height = 'auto'
+      return {element, height}
     }
 
-    return {element, height}
+    if (search.trim()) {
+      return {
+        element: <Empty text="No Results." />,
+        height: 'auto'
+      }
+    }
+
+    return {
+      element: <Info {...this.props} />,
+      height: 'auto'
+    }
   }
 
   render() {

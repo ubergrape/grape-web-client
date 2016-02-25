@@ -214,11 +214,9 @@ export default class GrapeBrowser extends Component {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onChangeSearchBrowser(query) {
+  onChangeSearchBrowser(data) {
     const complete = () => {
-      let data = query
-      if (!data.trigger) data = {...query, trigger: this.query.get('trigger')}
-      this.emit('complete', data)
+      this.emit('complete', {...data, trigger: this.query.get('trigger')})
       this.emit('change')
     }
 

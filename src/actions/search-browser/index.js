@@ -124,6 +124,7 @@ export function execSearchBrowserAction() {
 
     if (action.type === 'insert') {
       dispatch(clearSearchBrowserInput())
+      // TODO move this when we port the whole client to redux.
       state.onSelectItem({item})
     }
 
@@ -139,6 +140,7 @@ export function showSearchBrowserServices(query) {
     const {services, onLoadServices} = searchBrowserSelector(getState())
     if (!services.length) {
       dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
+      // TODO move this when we port the whole client to redux.
       onLoadServices()
     }
 
@@ -190,6 +192,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
       dispatch(showSearchBrowserServices(query))
     } else {
       dispatch(showSearchBrowserItems())
+      // TODO move this when we port the whole client to redux.
       onChange({search, filters})
     }
   }
