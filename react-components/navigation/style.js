@@ -46,8 +46,10 @@ export default {
     background: colors.grayBlueLighter
   },
   wrapper: {
+    boxSizing: 'border-box',
     padding: '15px 0',
     marginTop: 1,
+    height: 'calc(100% - 1px)',
     borderRight: '1px solid rgba(0,0,0,0.1)'
   },
   manage: {
