@@ -129,7 +129,7 @@ export default function reduce(state = initialState, action) {
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
-          favorited: pin ? { order: pin } : null
+          favorited: (pin || pin === 0) ? { order: pin } : null
         })
       })
       return newState
