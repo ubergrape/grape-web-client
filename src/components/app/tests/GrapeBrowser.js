@@ -119,7 +119,7 @@ describe('app:', () => {
           }
 
           if (changeCounter === 2) {
-            const expectedContent = ' ["Plans/Discussions"](cg://googledrive|file|"Plans/Discussions"|https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk||) '
+            const expectedContent = ' ["Plans/Discussions"](cg://googledrive|file|8b37ec07b198be90e8086e1065821492|https://docs.google.com/a/ubergrape.com/folderview?id=0B_TCKOxiyU4wNTBkNWZiNzAtZTVjZS00ZGUzLWI2ZjItZTNmMThmZjhjMDZj&usp=drivesdk||) '
             expect(content).to.be(expectedContent)
             done()
           }

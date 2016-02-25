@@ -27,23 +27,20 @@ function parseEmoji(content) {
   return data
 }
 
-function tokenWithoutTrigger(token, type) {
-  return token[0] === getTrigger(type) ? token.substr(1) : token
-}
-
 /**
  * Get data map from md object.
  */
-function toData(text, url) {
-  if (!grapeProtocolRegExp.test(url)) return false
-  const parts = url.slice(5).split('|')
+function toData(text, grapeUrl) {
+  if (!grapeProtocolRegExp.test(grapeUrl)) return false
+  const [service, type, id, url] = grapeUrl.slice(5).split('|')
   return {
-    id: tokenWithoutTrigger(parts[2], parts[1]),
-    name: tokenWithoutTrigger(text, parts[1]),
-    slug: parts[3].replace('/chat/', ''),
-    service: parts[0],
-    type: parts[1],
-    url: parts[3]
+    id,
+    service,
+    type,
+    url,
+    name: text,
+    slug: url.replace('/chat/', ''),
+    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text
   }
 }
 
@@ -72,7 +69,8 @@ export function toMarkdown(tokens, objects) {
 }
 
 /**
- * Parse all md links and convert them to array of data.
+ * Parse all grape-protocol markdown links, emoji and
+ * convert them to special data object.
  */
 export function fromMarkdown(md) {
   const objects = {}
