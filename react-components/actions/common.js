@@ -202,20 +202,6 @@ export function inviteToChannel(
   }
 }
 
-export function showChannelsManager() {
-  reduxEmitter.showChannelsManager()
-  return {
-    type: types.SHOW_CHANNELS_MANAGER
-  }
-}
-
-export function showPMsManager() {
-  reduxEmitter.showPMsManager()
-  return {
-    type: types.SHOW_PMS_MANAGER
-  }
-}
-
 export function toggleOrgSettings(elem) {
   reduxEmitter.toggleOrgSettings(elem)
   return {
