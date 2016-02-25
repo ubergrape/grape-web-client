@@ -200,9 +200,9 @@ export function handleUserUpdate({user}) {
   }
 }
 
-export function handleFavoriteChange({changed}) {
+export function handleFavouriteChange({changed}) {
   return {
-    type: types.CHANGE_FAVORITED,
+    type: types.CHANGE_FAVOURITED,
     payload: changed
   }
 }

@@ -9,7 +9,7 @@ export default function init(ui) {
   const baseURL = '/chat'
   const currUser = ui.user
   const state = store.getState()
-  const {recent, favorited} = navigationSelector(state)
+  const {recent, favourited} = navigationSelector(state)
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)
@@ -25,7 +25,7 @@ export default function init(ui) {
   })
 
   function pickChannel() {
-    const channels = favorited.concat(recent)
+    const channels = favourited.concat(recent)
     if (!navigationSelector.length) return ui.emit('emptyOrg')
     channels.sort((a, b) => b.latestMessageTime - a.latestMessageTime)
     page.replace(baseURL + '/' + channels[0].slug)

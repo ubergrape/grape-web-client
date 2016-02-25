@@ -10,11 +10,11 @@ const icon = {
 }
 
 export default {
-  favorite: {
+  favourite: {
     ...buttonIcon('star', {color: colors.grayBlue, hoverColor: colors.grayBlueDark, iconOnly: true}),
     ...icon
   },
-  favorited: {
+  favourited: {
     ...buttonIcon('star', {color: colors.orange, hoverColor: color(colors.orange).lighten(0.2).hexString(), iconOnly: true}),
     ...icon
   }

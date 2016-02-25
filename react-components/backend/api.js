@@ -118,7 +118,7 @@ export function searchFiles({orgId, channelId, own, limit, offset}) {
   })
 }
 
-export function getFavorites(orgId) {
+export function getFavourites(orgId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -127,15 +127,15 @@ export function getFavorites(orgId) {
         args: [orgId]
       },
       {camelize: true},
-      (err, favorites) => {
+      (err, favourites) => {
         if (err) return reject(err)
-        resolve(favorites)
+        resolve(favourites)
       }
     )
   })
 }
 
-export function addToFavorite(channelId) {
+export function addToFavourite(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -151,7 +151,7 @@ export function addToFavorite(channelId) {
   })
 }
 
-export function removeFromFavorite(channelId) {
+export function removeFromFavourite(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
       {

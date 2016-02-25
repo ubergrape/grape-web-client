@@ -302,25 +302,25 @@ export const navigationSelector = createSelector(
   ) => {
     const all = rooms.concat(pms)
     const recent = all
-      .filter(_channel => !_channel.favorited)
+      .filter(_channel => !_channel.favourited)
       .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
-    const favorited = all
-      .filter(_channel => _channel.favorited)
-      .sort((a, b) => b.favorited.order - a.favorited.order)
+    const favourited = all
+      .filter(_channel => _channel.favourited)
+      .sort((a, b) => b.favourited.order - a.favourited.order)
 
     return {
       recent,
-      favorited,
+      favourited,
       isLoading,
       channel
     }
   }
 )
 
-export const favoriteSelector = createSelector(
-  channelSelector, ({favorited, id}) => {
+export const favouriteSelector = createSelector(
+  channelSelector, ({favourited, id}) => {
     return {
-      favorited: Boolean(favorited),
+      favourited: Boolean(favourited),
       id
     }
   }

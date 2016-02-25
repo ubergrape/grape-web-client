@@ -107,14 +107,14 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.MARK_FAVORITED: {
+    case types.MARK_FAVOURITED: {
       const newState = [...state]
       action.payload.forEach(({channelId: id, pin}) => {
         const index = findIndex(newState, {id})
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
-          favorited: {
+          favourited: {
             order: pin
           }
         })
@@ -122,14 +122,14 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.CHANGE_FAVORITED: {
+    case types.CHANGE_FAVOURITED: {
       const newState = [...state]
       action.payload.forEach(({channelId: id, pin}) => {
         const index = findIndex(newState, {id})
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
-          favorited: (pin || pin === 0) ? { order: pin } : null
+          favourited: (pin || pin === 0) ? { order: pin } : null
         })
       })
       return newState

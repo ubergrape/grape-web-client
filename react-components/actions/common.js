@@ -41,19 +41,19 @@ export function setOrg(org) {
   }
 }
 
-export function markFavoited(favorited) {
+export function markFavoited(favourited) {
   return {
-    type: types.MARK_FAVORITED,
-    payload: favorited
+    type: types.MARK_FAVOURITED,
+    payload: favourited
   }
 }
 
 export function setInitialData(org) {
   return dispatch => {
     api
-      .getFavorites(org.id)
-      .then(favorited => {
-        dispatch(markFavoited(favorited))
+      .getFavourites(org.id)
+      .then(favourited => {
+        dispatch(markFavoited(favourited))
 
         return dispatch({
           type: types.INITIAL_DATA_LOADED
