@@ -11,6 +11,16 @@ import {
   joinedRoomsSelector
 } from '../selectors'
 
+export function pinToFavourite(channel) {
+  const {pin} = channel
+  const newChannel = {
+    ...channel,
+    favourited: (pin || pin === 0) ? { order: pin } : null
+  }
+  delete newChannel.pin
+  return newChannel
+}
+
 export function reduceChannelUsersToId(channel) {
   return {
     ...channel,

@@ -1,7 +1,7 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
-import {reduceChannelUsersToId} from './utils'
+import {reduceChannelUsersToId, pinToFavourite} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../redux-emitter'
 import * as api from '../backend/api'
@@ -21,7 +21,7 @@ export function error(err) {
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
-    payload: channels.map(reduceChannelUsersToId)
+    payload: channels.map(reduceChannelUsersToId).map(pinToFavourite)
   }
 }
 
@@ -41,31 +41,16 @@ export function setOrg(org) {
   }
 }
 
-export function markFavoited(favourited) {
-  return {
-    type: types.MARK_FAVOURITED,
-    payload: favourited
-  }
-}
-
 export function setInitialData(org) {
   return dispatch => {
-    api
-      .getFavourites(org.id)
-      .then(favourited => {
-        dispatch(markFavoited(favourited))
-
-        return dispatch({
-          type: types.INITIAL_DATA_LOADED
-        })
-      })
-      .catch(err => dispatch(error(err)))
-
     dispatch(setUsers([...org.users]))
     dispatch(setChannels([...org.channels]))
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
+    return dispatch({
+      type: types.INITIAL_DATA_LOADED
+    })
   }
 }
 
