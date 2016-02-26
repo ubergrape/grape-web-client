@@ -7,12 +7,14 @@ import debounce from 'lodash/function/debounce'
 import throttle from 'lodash/function/throttle'
 import find from 'lodash/collection/find'
 import includes from 'lodash/collection/includes'
+import uniq from 'lodash/array/uniq'
 import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
+import 'grape-browser'
+import {openUrl} from 'grape-web/lib/x-platform'
 
 import * as images from '../../../react-components/constants/images'
 import render from '../rendervdom'
-import 'grape-browser'
 import getRank from '../utils/getRank'
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
@@ -24,7 +26,7 @@ function isImage(mime) {
 function getImageAttachments(objects) {
   // Find embeddable images.
   const imageObjects = objects.filter(obj => {
-    return isImage(obj.mime_type) && get(obj, 'detail.preview.embeddable')
+    return isImage(obj.mimeType) && get(obj, 'detail.preview.embeddable')
   })
 
   const attachments = imageObjects.map(obj => {
@@ -33,14 +35,41 @@ function getImageAttachments(objects) {
       name: obj.name,
       url: obj.url,
       source: obj.service,
-      mime_type: obj.mime_type,
-      thumbnail_url: image.url,
-      thumbnail_width: image.width,
-      thumbnail_height: image.height
+      mimeType: obj.mimeType,
+      thumbnailUrl: image.url,
+      thumbnailWidth: image.width,
+      thumbnailHeight: image.height
     }
   })
 
   return attachments
+}
+
+/**
+ * Merge results of multiple autocomplete searches.
+ */
+function mergeSearchResults(values) {
+  const defaultData = {
+    results: [],
+    services: [],
+    search: {
+      queries: [],
+      text: '',
+      type: 'plain'
+    }
+  }
+
+  return values.reduce((data, {results, services, search}) => {
+    data.results = [...data.results, ...results]
+    data.services = uniq([...data.services, ...services], 'id')
+    data.search.queries = uniq([...data.search.queries, ...search.queries], 'id')
+    // Always remove filter from the search string.
+    // Waiting for the new api to remove it
+    // TODO https://github.com/ubergrape/chatgrape/issues/3394
+    data.search.text = search.text.substr(search.text.indexOf(':') + 1)
+    data.search.type = search.type === 'external' ? 'external' : 'plain'
+    return data
+  }, defaultData)
 }
 
 export default class GrapeInput extends Emitter {
@@ -76,7 +105,6 @@ export default class GrapeInput extends Emitter {
       images: this.images,
       customEmojis: this.org.custom_emojis,
       placeholder: this.placeholder,
-      hasIntegrations: this.org.has_integrations,
       onRender: callback ? once(callback) : undefined,
       ...newProps
     }
@@ -88,7 +116,7 @@ export default class GrapeInput extends Emitter {
     this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
     this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
-    this.events.bind('grapeSelectFilter grape-input', 'onSelectFilter')
+    this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
     this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious')
     this.events.bind('grapeAbort grape-input', 'onAbort')
     this.events.bind('grapeChange grape-input', 'onChange')
@@ -126,13 +154,13 @@ export default class GrapeInput extends Emitter {
     }))
   }
 
-  showSearchBrowser({key, setTrigger}) {
+  showSearchBrowser({search, setTrigger, filters = []}) {
     const {props} = this.input
     let isLoading = false
     let data
 
-    if (key) {
-      this.search(key)
+    if (search || filters.length) {
+      this.search(search, filters)
       isLoading = true
       data = props.data
     }
@@ -142,17 +170,17 @@ export default class GrapeInput extends Emitter {
     // Show browser immediately with empty state.
     this.setProps({
       browser: 'search',
-      focused: false,
+      focused: true,
       data,
       isLoading,
       setTrigger
     })
   }
 
-  showUsersAndRooms(key) {
-    const lowerKey = key.toLowerCase()
-    const users = this.findUsers(lowerKey)
-    const rooms = this.findRooms(lowerKey)
+  showUsersAndRooms(search) {
+    const lowerSearch = search.toLowerCase()
+    const users = this.findUsers(lowerSearch)
+    const rooms = this.findRooms(lowerSearch)
     const data = users.concat(rooms)
     this.setProps({
       browser: 'user',
@@ -170,23 +198,23 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  showEmojiSuggest({key, emoji}) {
-    const data = emoji.filter(key).map(smile => {
+  showEmojiSuggest({search, emoji}) {
+    const data = emoji.filter(search).map(smile => {
       return {
         ...smile,
-        rank: getRank('emoji', key, smile.name)
+        rank: getRank('emoji', search, smile.name)
       }
     })
 
     this.setProps({
       browser: 'emojiSuggest',
       focused: true,
-      maxCompleteItems: 6,
+      maxSuggestions: 6,
       data
     })
   }
 
-  getRoomObject(key, room = this.room) {
+  getRoomObject(search, room = this.room) {
     const fallback = !arguments[1]
     return {
       id: room.id,
@@ -194,12 +222,12 @@ export default class GrapeInput extends Emitter {
       name: fallback ? 'room' : room.name,
       slug: room.slug,
       isPrivate: !room.is_public,
-      rank: fallback ? 3 : getRank('room', key, room.name),
+      rank: fallback ? 3 : getRank('room', search, room.name),
       currentRoom: room === this.room
     }
   }
 
-  findUsers(key) {
+  findUsers(search) {
     let users = this.org.users.toArray()
 
     // Remove unactive users.
@@ -221,15 +249,15 @@ export default class GrapeInput extends Emitter {
         username: user.username,
         iconURL: user.avatar,
         inRoom: includes(roomUsers, user),
-        rank: getRank('user', key, name, user.username),
+        rank: getRank('user', search, name, user.username),
         type: 'user'
       }
     })
 
     // Do the search.
     users = users.filter(user => {
-      if (user.name.toLowerCase().indexOf(key) >= 0 ||
-        user.username.toLowerCase().indexOf(key) >= 0) {
+      if (user.name.toLowerCase().indexOf(search) >= 0 ||
+        user.username.toLowerCase().indexOf(search) >= 0) {
         return true
       }
     })
@@ -237,17 +265,17 @@ export default class GrapeInput extends Emitter {
     return users
   }
 
-  findRooms(key) {
+  findRooms(search) {
     let rooms = this.org.rooms.toArray()
 
-    rooms = rooms.map(this.getRoomObject.bind(this, key))
+    rooms = rooms.map(this.getRoomObject.bind(this, search))
 
     // Add current room as `@room`.
-    rooms.push(this.getRoomObject(key))
+    rooms.push(this.getRoomObject(search))
 
     // Do the search.
     rooms = rooms.filter(room => {
-      return room.name.toLowerCase().indexOf(key) >= 0
+      return room.name.toLowerCase().indexOf(search) >= 0
     })
 
     return rooms
@@ -318,10 +346,10 @@ export default class GrapeInput extends Emitter {
     const {detail} = e
     switch (detail.trigger) {
       case '#':
-        this.showSearchBrowser({key: detail.key})
+        this.showSearchBrowser(detail)
         break
       case '@':
-        this.showUsersAndRooms(detail.key)
+        this.showUsersAndRooms(detail.search)
         break
       case ':':
         this.showEmojiSuggest(detail)
@@ -330,15 +358,13 @@ export default class GrapeInput extends Emitter {
     }
   }
 
-  onSelectFilter(e) {
-    this.browserAborted = false
-    this.emit('autocomplete', e.detail, (err, data) => {
+  onLoadServices() {
+    this.emit('autocomplete', '', {show: 'all'}, (err, data) => {
       if (err) return this.emit('error', err)
-      if (this.browserAborted) return false
       this.setProps({
         browser: 'search',
-        focused: false,
-        data: data
+        focused: true,
+        services: data.services
       })
     })
   }
@@ -368,15 +394,38 @@ export default class GrapeInput extends Emitter {
     this.stopTypingDebounced()
   }
 
-  search(key) {
+  search(search, filters = []) {
     this.browserAborted = false
-    this.emit('autocomplete', key, (err, data) => {
-      if (err) return this.emit('error', err)
-      if (this.browserAborted) return false
-      this.setProps({
-        browser: 'search',
-        focused: false,
-        data: data
+    let searches
+
+    if (filters.length) {
+      searches = filters.map(filter => {
+        return this.searchPromise(`${filter}:${search}`, {showAll: false})
+      })
+    } else {
+      searches = [this.searchPromise(search)]
+    }
+
+    Promise
+      .all(searches)
+      .then(results => {
+        if (this.browserAborted) return
+        this.setProps({
+          browser: 'search',
+          focused: false,
+          data: mergeSearchResults(results)
+        })
+      })
+      .catch(err => {
+        this.emit('error', err)
+      })
+  }
+
+  searchPromise(search, options) {
+    return new Promise((resolve, reject) => {
+      this.emit('autocomplete', search,  options, (err, data) => {
+        if (err) return reject(err)
+        resolve(data)
       })
     })
   }
@@ -439,7 +488,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onAddIntegration() {
-    location.href = '/integrations/'
+    openUrl(location.origin + '/integrations')
   }
 
   onInsertItem(e) {
@@ -481,7 +530,7 @@ export default class GrapeInput extends Emitter {
   onKeyDown(e) {
     // For e.g. when trying to copy text from history.
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
-    if (inputNodes.indexOf(e.target.nodeName) >= 0 || e.target.isContentEditable) return
+    if (inputNodes.indexOf(e.target.nodeName) >= 0) return
     this.setProps({focused: true})
   }
 
