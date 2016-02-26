@@ -130,6 +130,7 @@ export default class Navigation extends Component {
   }
 
   renderRecentList() {
+    if (!this.props.recent.length) return null
     const {classes} = this.props.sheet
     return (
       <div className={classes.section}>
