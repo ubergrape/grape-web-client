@@ -123,7 +123,7 @@ msgid ""
 "joined this group.</p><p>Click it to see all of them or to invite more users "
 "to this group.</p>"
 msgstr ""
-"<h2>Mitglieder Der Gruppe Info</h2><p>Diese Nummer zeigt Ihnen, wieviele "
+"<h2>Gruppenmitglieder</h2><p>Diese Nummer zeigt Ihnen, wieviele "
 "Mitglieder in einem Gruppe sind.</p><p>Klicken Sie die Nummer, um alle "
 "anzuzeigen, bzw. mehr in den Gruppe einzuladen.</p>"
 
