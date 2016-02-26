@@ -18,7 +18,7 @@ export default class Username extends Component {
   static defaultProps = {
     size: 32,
     showStatus: true,
-    statusBorderColor: '#FFFFFF'
+    statusBorderColor: '#ffffff'
   }
 
   renderStatus() {

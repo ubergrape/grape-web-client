@@ -24,7 +24,7 @@ export default class Navigation extends Component {
   }
 
   renderLoading() {
-    return <Spinner image={spinner} delay={0} />
+    return <Spinner image={spinner} />
   }
 
   renderLogo() {

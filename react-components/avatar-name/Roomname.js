@@ -43,8 +43,9 @@ export default class Roomname extends Component {
       <span
         className={sheet.classes.icon}
         style={{
-          backgroundImage: icon,
-          backgroundColor: color
+          background: `url("${icon}") 50% 50% no-repeat`,
+          backgroundColor: color,
+          backgroundSize: '40% auto'
         }}></span>
     )
   }

@@ -77,7 +77,7 @@ export default function reduce(state = initialState, action) {
     case types.ADD_NEW_MESSAGE: {
       const {channel: id, time} = action.payload.message
       const {isCurrentUser, mentionsCount} = action.payload
-      // TODO: handle create new PM with onlyInvited
+
       const newState = [...state]
       const index = findIndex(newState, {id})
       const channel = newState[index]
