@@ -100,7 +100,7 @@ msgid ""
 "in your organization and create a new one by clicking on &quot;All "
 "groups&quot;.</p>"
 msgstr ""
-"<h2>Gruppe</h2><p>Diese Liste zeigt Ihnen die Gruppe, die Sie betreten haben. "
+"<h2>Gruppen</h2><p>Diese Liste zeigt Ihnen die Gruppen, die Sie betreten haben. "
 "Sie wurden für den Anfang zu &quot;General&quot; und &quot;Off-Topic&quot; "
 "eingeladen.</p><p>Sie können alle verfügbaren Gruppe durch das Klicken auf "
 "&quot;Alle Gruppe&quot; anzeigen.</p>"
@@ -1085,7 +1085,7 @@ msgstr "+"
 
 #: templates/navigation.jade:20
 msgid "Groups "
-msgstr "Gruppe "
+msgstr "Gruppen "
 
 #: templates/chatheader.jade:30
 msgid "Search for messages, files, etc."
