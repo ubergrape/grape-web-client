@@ -61,10 +61,14 @@ export const joinedRoomsSelector = createSelector(
 
 export const pmsSelector = createSelector(
   [channelsSelector, userSelector], (channels, user) => {
+    console.log('channelsSelector', channels)
+    console.log('userSelector', user)
     return channels
       .filter(channel => channel.type === 'pm')
       .map(channel => {
+        console.log('users', channel.users)
         const mate = find(channel.users, _user => _user.id !== user.id)
+        console.log('mate', mate)
         return {
           ...channel,
           slug: mate.slug,
