@@ -12,7 +12,8 @@ import {
   orgSelector,
   usersSelector,
   userSelector,
-  channelSelector
+  channelSelector,
+  joinedRoomsSelector
 } from '../selectors'
 
 import store from '../app/store'
@@ -147,13 +148,19 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
   const currentUser = userSelector(store.getState())
   const isCurrentUser = currentUser.id === userId
   const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-  return {
-    type: types.REMOVE_USER_FROM_CHANNEL,
-    payload: {
-      channelId,
-      user,
-      isCurrentUser
-    }
+
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.REMOVE_USER_FROM_CHANNEL,
+      payload: {
+        channelId,
+        user,
+        isCurrentUser
+      }
+    })
+
+    const rooms = joinedRoomsSelector(getState())
+    if (!rooms.length) page('/chat/')
   }
 }
 
