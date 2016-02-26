@@ -4,11 +4,11 @@ export {SearchBrowser as SearchBrowser}
 import EmojiBrowser from './components/emoji-browser/Browser'
 export {EmojiBrowser as EmojiBrowser}
 
-import App from './components/app/App'
-export {App as App}
+import GrapeBrowser from './components/app/GrapeBrowser'
+export {GrapeBrowser as GrapeBrowser}
 
 // Register reactive elements.
 import 'reactive-elements'
 document.registerReact('grape-search-browser', SearchBrowser)
 document.registerReact('grape-emoji-browser', EmojiBrowser)
-document.registerReact('grape-input', App)
+document.registerReact('grape-input', GrapeBrowser)

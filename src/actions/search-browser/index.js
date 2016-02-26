@@ -1,202 +1,107 @@
 import find from 'lodash/collection/find'
-import findIndex from 'lodash/array/findIndex'
 import {openUrl} from 'grape-web/lib/x-platform'
 
+import {
+  getSections,
+  findIndexBySelector
+} from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
 import {
   getFocusedItem,
   setFocusedItem,
-  extractItems,
-  findById,
-  setSelectedTab
+  extractItems
 } from '../../components/browser/dataUtils'
-import {
-  getSections,
-  getSelectedSection,
-  setSelectedSection,
-  setFocusedItemAt,
-  getTabs,
-  filtersToServiceId,
-  findIndexBySelector
-} from './data'
-
-function createState(nextProps, prevState) {
-  const {data} = nextProps
-
-  if (!data) {
-    return {
-      ...nextProps,
-      sections: [],
-      tabs: [],
-      focusedItem: undefined
-    }
-  }
-
-  let serviceId
-  if (prevState.filters) {
-    serviceId = filtersToServiceId(data, prevState.filters)
-  }
-
-  let sections = getSections(
-    data,
-    serviceId,
-    nextProps.maxItemsPerSectionInAll
-  )
-
-  const selectedSection = getSelectedSection(sections)
-  if (selectedSection) sections = [selectedSection]
-
-  const tabs = getTabs(data.services, serviceId)
-
-  const focusedItem = getFocusedItem(sections)
-
-  return {...nextProps, sections, tabs, focusedItem}
-}
-
-/**
- * Select tab.
- *
- * @param {String} selector can be tab id or "prev" or "next"
- */
-function selectTab(selector, state) {
-  if (!state.data) return state
-
-  const {tabs} = state
-  let tabIndex
-
-  if (selector === 'prev' || selector === 'next') {
-    tabIndex = findIndexBySelector(selector, tabs, tab => tab.selected)
-  } else {
-    tabIndex = findIndex(tabs, tab => tab.id === selector)
-  }
-
-  const {id} = tabs[tabIndex]
-
-  setSelectedTab(tabs, tabIndex)
-  const sections = getSections(
-    state.data,
-    id,
-    state.maxItemsPerSectionInAll
-  )
-  setSelectedSection(sections, id)
-  setFocusedItemAt(sections, id, 0)
-
-  const service = findById(state.data.services, id)
-  const filters = service ? [service.key] : []
-  const focusedItem = getFocusedItem(sections)
-
-  return {
-    tabs,
-    sections,
-    filters,
-    focusedItem
-  }
-}
-
-/**
- * Returns a new state with focused item according selector.
- */
-function focusItem(selector, state) {
-  const {sections} = state
-  let id = selector
-
-  if (selector === 'next' || selector === 'prev') {
-    const selectedSection = getSelectedSection(sections)
-    const items = selectedSection ? selectedSection.items : extractItems(sections)
-    const itemIndex = findIndexBySelector(selector, items, item => item.focused)
-    id = items[itemIndex].id
-  }
-
-  setFocusedItem(sections, id)
-
-  return {
-    sections,
-    focusedItem: getFocusedItem(sections)
-  }
-}
-
-function execAction(state) {
-  const action = state.focusedAction
-  const item = state.focusedItem
-
-  if (action.type === 'insert') {
-    state.onSelectItem({item})
-    return {
-      filters: [],
-      search: ''
-    }
-  }
-
-  if (action.type === 'open') {
-    const res = find(state.data.results, ({id}) => id === item.id)
-    openUrl(res.url)
-  }
-
-  return state
-}
-
-function focusAction(selector, state) {
-  const {actions} = state
-  const newIndex = findIndexBySelector(selector, actions, action => action === state.focusedAction)
-  return {focusedAction: state.actions[newIndex]}
-}
-
-function navigate(action, state) {
-  if (!state.data) return state
-
-  switch (action) {
-    case 'select':
-      if (state.focusedList === 'actions') return execAction(state)
-      return {focusedList: 'actions'}
-    case 'back':
-      if (state.focusedList === 'objects') return state
-      return {focusedList: 'objects'}
-    case 'prev':
-    case 'next':
-      if (state.focusedList === 'objects') {
-        return focusItem(action, state)
-      }
-      if (state.focusedList === 'actions') {
-        return focusAction(action, state)
-      }
-      break
-    default:
-  }
-}
+import {SERVICES_TRIGGER} from '../../components/query/constants'
 
 export function createSearchBrowserState(props) {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+  const {data} = props
+  let sections
+  let focusedItem
 
-    dispatch({
-      type: types.CREATE_SEARCH_BROWSER_STATE,
-      payload: createState(props, state)
-    })
+  if (data) {
+    sections = getSections(data)
+    focusedItem = getFocusedItem(sections)
+  } else {
+    sections = []
+  }
+
+  return {
+    type: types.CREATE_SEARCH_BROWSER_STATE,
+    payload: {
+      ...props,
+      sections,
+      focusedItem
+    }
   }
 }
 
 export function resetSearchBrowserState() {
-  return {
-    type: types.RESET_SEARCH_BROWSER_STATE
-  }
+  return {type: types.RESET_SEARCH_BROWSER_STATE}
+}
+
+export function showSearchBrowserItems() {
+  return {type: types.SHOW_SEARCH_BROWSER_ITEMS}
 }
 
 export function focusSearchBrowserItem(selector) {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+    const {sections} = searchBrowserSelector(getState())
+    let id = selector
+
+    if (selector === 'next' || selector === 'prev') {
+      const items = extractItems(sections)
+      const itemIndex = findIndexBySelector(selector, items, item => item.focused)
+      id = items[itemIndex].id
+    }
+
+    setFocusedItem(sections, id)
 
     dispatch({
       type: types.FOCUS_SEARCH_BROWSER_ITEM,
-      payload: focusItem(selector, state)
+      payload: {
+        sections,
+        focusedItem: getFocusedItem(sections)
+      }
     })
   }
 }
 
-export function focusSearchBrowserAction(action) {
+export function selectSearchBrowserItem() {
+  return (dispatch, getState) => {
+    const {focusedItem} = searchBrowserSelector(getState())
+
+    dispatch({
+      type: types.SELECT_SEARCH_BROWSER_ITEM,
+      payload: focusedItem
+    })
+  }
+}
+
+export function clearSearchBrowserInput() {
   return {
-    type: types.FOCUS_SEARCH_BROWSER_ACTION,
-    payload: action
+    type: types.CLEAR_SEARCH_BROWSER_INPUT
+  }
+}
+
+export function focusSearchBrowserActions() {
+  return {type: types.FOCUS_SEARCH_BROWSER_ACTIONS}
+}
+
+export function focusSearchBrowserAction(selector) {
+  return (dispatch, getState) => {
+    let payload = selector
+
+    if (typeof selector === 'string') {
+      const {actions, focusedAction} = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(selector, actions, action => action === focusedAction)
+      payload = actions[newIndex]
+    }
+
+    dispatch({
+      type: types.FOCUS_SEARCH_BROWSER_ACTION,
+      payload
+    })
   }
 }
 
@@ -209,74 +114,86 @@ export function blurSearchBrowserAction() {
 export function execSearchBrowserAction() {
   return (dispatch, getState) => {
     const state = searchBrowserSelector(getState())
+    const action = state.focusedAction
+    const item = state.focusedItem
+
     dispatch({
       type: types.EXEC_SEARCH_BROWSER_ACTION,
-      payload: execAction(state)
+      payload: action
     })
+
+    if (action.type === 'insert') {
+      dispatch(clearSearchBrowserInput())
+      // TODO move this when we port the whole client to redux.
+      state.onSelectItem({item})
+    }
+
+    if (action.type === 'open') {
+      const res = find(state.data.results, ({id}) => id === item.id)
+      openUrl(res.url)
+    }
   }
 }
 
-export function selectSearchBrowserItem() {
+export function showSearchBrowserServices(query) {
   return (dispatch, getState) => {
-    const {data, focusedItem} = searchBrowserSelector(getState())
-
-    if (focusedItem.type === 'filters') {
-      const service = findById(data.services, focusedItem.id)
-      const filters = service ? [service.key] : []
-      dispatch({
-        type: types.SET_SEARCH_BROWSER_FILTERS,
-        payload: {
-          filters,
-          search: ''
-        }
-      })
-      return
+    const {services, onLoadServices} = searchBrowserSelector(getState())
+    if (!services.length) {
+      dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
+      // TODO move this when we port the whole client to redux.
+      onLoadServices()
     }
 
     dispatch({
-      type: types.SELECT_SEARCH_BROWSER_ITEM,
-      payload: focusedItem
+      type: types.SHOW_SEARCH_BROWSER_SERVICES,
+      payload: query.search
     })
   }
 }
 
-export function selectSearchBrowserTab(selector) {
+export function focusSearchBrowserService(item) {
   return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    dispatch({
-      type: types.SELECT_SEARCH_BROWSER_TAB,
-      payload: selectTab(selector, state)
-    })
-  }
-}
+    let payload = item
 
-export function navigateSearchBrowser(action) {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
-    const {focusedItem} = state
-
-    if (action === 'select' && focusedItem && focusedItem.type === 'filters') {
-      return dispatch(selectSearchBrowserItem())
+    // It's a selector.
+    if (typeof item === 'string') {
+      const {currServices, focusedService} = searchBrowserSelector(getState())
+      const newIndex = findIndexBySelector(item, currServices, service => service === focusedService)
+      payload = currServices[newIndex]
     }
 
     dispatch({
-      type: types.NAVIGATE_SEARCH_BROWSER,
-      payload: navigate(action, state)
+      type: types.FOCUS_SEARCH_BROWSER_SERVICE,
+      payload
     })
   }
 }
 
-export function inputSearchBrowserSearch(query) {
-  return (dispatch, getState) => {
-    const state = searchBrowserSelector(getState())
+export function addSearchBrowserService(service) {
+  return dispatch => {
     dispatch({
-      type: types.INPUT_SEARCH_BROWSER_SEARCH,
-      payload: {
-        search: query.search,
-        filters: query.filters,
-        focusedList: 'objects'
-      }
+      type: types.ADD_SEARCH_BROWSER_SERVICE,
+      payload: service
     })
-    state.onInput(query)
+    dispatch(showSearchBrowserItems())
+  }
+}
+
+export function changeSearchBrowserInput({value, search, filters, query}) {
+  return (dispatch, getState) => {
+    const {onChange} = searchBrowserSelector(getState())
+
+    dispatch({
+      type: types.UPDATE_SEARCH_BROWSER_INPUT,
+      payload: {value, search, filters}
+    })
+
+    if (query.trigger === SERVICES_TRIGGER) {
+      dispatch(showSearchBrowserServices(query))
+    } else {
+      dispatch(showSearchBrowserItems())
+      // TODO move this when we port the whole client to redux.
+      onChange({search, filters})
+    }
   }
 }

@@ -36,7 +36,6 @@ let allSections = []
 
 export const {getFocusedItem} = dataUtils
 export const {setFocusedItem} = dataUtils
-export const {setSelectedTab} = dataUtils
 export const {getItem} = grid
 
 export function init() {
@@ -144,4 +143,12 @@ export function getTabs({hasSearch, selected, orgLogo}) {
   tab.selected = true
 
   return tabs
+}
+
+/**
+ * Mark a tab at specified index as selected, unmark previously selected one.
+ */
+export function setSelectedTab(tabs, index) {
+  tabs.forEach(tab => tab.selected = false)
+  tabs[index].selected = true
 }

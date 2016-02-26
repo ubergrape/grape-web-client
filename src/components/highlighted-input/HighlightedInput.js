@@ -2,6 +2,7 @@ import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
+import pick from 'lodash/object/pick'
 import keyname from 'keyname'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -10,7 +11,8 @@ import {
   getTokenPositionNearCaret,
   splitByTokens,
   ensureSpace,
-  setCaretPosition
+  setCaretPosition,
+  scrollLeftToCaret
 } from './utils'
 import style from './style'
 
@@ -74,7 +76,7 @@ export default class HighlightedInput extends Component {
   }
 
   onChange({target}) {
-    this.applyChange({
+    this.setState({
       value: target.value,
       caretAt: target.selectionEnd
     })
@@ -89,6 +91,15 @@ export default class HighlightedInput extends Component {
     if (key === 'del') removed = this.removeTokenIfTouched('next')
     if (key === 'backspace') removed = this.removeTokenIfTouched('prev')
     if (removed) e.preventDefault()
+  }
+
+  /**
+   * Scroll highlighter in parallel with editable.
+   */
+  onScroll({target}) {
+    const {highlighter} = this.refs
+    highlighter.scrollTop = target.scrollTop
+    highlighter.scrollLeft = target.scrollLeft
   }
 
   /**
@@ -114,7 +125,9 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length
 
-    this.applyChange({value, caretAt})
+    this.setState({value, caretAt}, () => {
+      scrollLeftToCaret(this.editable)
+    })
   }
 
   /**
@@ -135,7 +148,9 @@ export default class HighlightedInput extends Component {
     value = valueBefore + str + valueAfter
     caretAt = (valueBefore + str).length + 1
 
-    this.applyChange({value, caretAt})
+    this.setState({value, caretAt}, () => {
+      scrollLeftToCaret(this.editable)
+    })
   }
 
   /**
@@ -156,7 +171,7 @@ export default class HighlightedInput extends Component {
     const [start, end] = positionToDelete
     let {value} = editable
     value = `${value.slice(0, start)}${value.slice(end, value.length)}`
-    this.applyChange({value, caretAt: start})
+    this.setState({value, caretAt: start})
 
     return true
   }
@@ -182,10 +197,6 @@ export default class HighlightedInput extends Component {
       container.style.height = `${highlighterHeight}px`
       this.props.onResize()
     }
-  }
-
-  applyChange(change) {
-    this.setState(change)
   }
 
   renderHighlighterContent() {
@@ -228,23 +239,29 @@ export default class HighlightedInput extends Component {
     const {classes} = this.props.sheet
     const {Editable, theme} = this.props
 
+    const editableProps = pick(this.props, 'onSubmit', 'onChange', 'onFocus',
+      'onBlur', 'onKeyPress', 'placeholder', 'disabled')
+
     return (
       <div
         ref="container"
-        className={classes.container}
+        className={`${classes.container} ${theme.container}`}
         data-test="highlighted-editable">
         <div
           ref="highlighter"
-          className={`${classes.highlighter} ${theme.editable}`}>
+          className={`${classes.highlighter} ${theme.highlighter}`}>
           {this.renderHighlighterContent()}
         </div>
         <Editable
-          {...this.props}
+          {...editableProps}
+          autoFocus
           ref="editable"
+          data-test="editable"
           onKeyDown={::this.onKeyDown}
           onChange={::this.onChange}
+          onScroll={::this.onScroll}
           value={this.state.value}
-          className={theme.editable} />
+          className={`${classes.editable} ${theme.editable}`} />
       </div>
     )
   }

@@ -1,58 +1,65 @@
 import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
-import get from 'lodash/object/get'
 import keyname from 'keyname'
-
-import {useSheet} from 'grape-web/lib/jss'
-import style from './browserStyle'
-import TabsWithControls from '../tabs/TabsWithControls'
-import Item from './item/Item'
-import Empty from '../empty/Empty'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import Input from '../input/Input'
-import * as services from './services'
-import {listTypes} from '../../constants/searchBrowser'
+import {useSheet} from 'grape-web/lib/jss'
+
+import style from './searchBrowserStyle'
+import Item from './item/Item'
+import {Default as Service} from './services'
+import SearchInput from './search-input/SearchInput'
+import ServiceList from './service-list/ServiceList'
+import Info from './info/Info'
+import Empty from '../empty/Empty'
+import {listTypes} from './constants'
 
 /**
  * Main search browser component.
  */
 @useSheet(style)
-export default class Browser extends Component {
+export default class SearchBrowser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onDidMount: PropTypes.func,
-    onSelectFilter: PropTypes.func,
-    onSelectItem: PropTypes.func,
-    onInput: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
+    showSearchBrowserItems: PropTypes.func,
     focusSearchBrowserItem: PropTypes.func,
     selectSearchBrowserItem: PropTypes.func,
-    selectSearchBrowserTab: PropTypes.func,
-    navigateSearchBrowser: PropTypes.func,
+    changeSearchBrowserInput: PropTypes.func,
+    focusSearchBrowserService: PropTypes.func,
+    addSearchBrowserService: PropTypes.func,
+    clearSearchBrowserInput: PropTypes.func,
+    focusSearchBrowserActions: PropTypes.func,
     focusSearchBrowserAction: PropTypes.func,
-    blurSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
-    inputSearchBrowserSearch: PropTypes.func,
-    focusedItem: PropTypes.object,
-    focused: PropTypes.bool,
-    data: PropTypes.object,
     sections: PropTypes.array,
-    maxItemsPerSectionInAll: PropTypes.number,
-    container: PropTypes.element,
-    isExternal: PropTypes.bool,
+    currServices: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
     height: PropTypes.number,
     className: PropTypes.string,
-    tabs: PropTypes.array,
+    value: PropTypes.string,
     search: PropTypes.string,
-    filters: PropTypes.array,
-    focusedList: PropTypes.oneOf(listTypes)
+    focusedView: PropTypes.oneOf(listTypes),
+    focusedItem: PropTypes.object,
+    focusedService: PropTypes.object
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {}
   }
 
   componentDidMount() {
     this.props.onDidMount(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const service = this.state.lastAddedService
+    if (service && nextProps.filters.indexOf(service.id) >= 0) {
+      this.setState({lastAddedService: null})
+      this.input.replace(service.label)
+    }
   }
 
   onFocusItem({id}) {
@@ -64,54 +71,48 @@ export default class Browser extends Component {
     this.props.selectSearchBrowserItem(id)
   }
 
-  onSelectTab({id}) {
-    this.props.selectSearchBrowserTab(id)
-  }
-
   onKeyDown(e) {
-    const {focusedList} = this.props
+    const {focusedView} = this.props
 
     switch (keyname(e.keyCode)) {
       case 'esc':
         // Actions are focused - focus objects.
-        if (focusedList === 'actions') {
-          this.props.navigateSearchBrowser('back')
+        if (focusedView !== 'objects') {
+          this.props.showSearchBrowserItems()
         // Reset the search if there is one.
-        } else if (this.props.search || this.props.filters.length) {
-          this.resetSearch()
+        } else if (this.props.value.trim()) {
+          this.props.clearSearchBrowserInput()
         } else {
           this.props.onAbort()
         }
         e.preventDefault()
         break
       case 'down':
-        this.props.navigateSearchBrowser('next')
+        if (focusedView === 'services') this.props.focusSearchBrowserService('next')
+        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('next')
+        else this.props.focusSearchBrowserItem('next')
         e.preventDefault()
         break
       case 'up':
-        this.props.navigateSearchBrowser('prev')
+        if (focusedView === 'services') this.props.focusSearchBrowserService('prev')
+        else if (focusedView === 'actions') this.props.focusSearchBrowserAction('prev')
+        else this.props.focusSearchBrowserItem('prev')
         e.preventDefault()
         break
       case 'enter':
-        this.props.navigateSearchBrowser('select')
+        if (focusedView === 'services') this.onAddService(this.props.focusedService)
+        else if (focusedView === 'actions') this.props.execSearchBrowserAction()
+        else this.props.focusSearchBrowserActions()
         e.preventDefault()
         break
       case 'backspace':
-        if (focusedList === 'actions') {
-          this.props.navigateSearchBrowser('back')
+        if (focusedView === 'actions') {
+          this.props.showSearchBrowserItems()
           e.preventDefault()
         }
         break
-      case 'tab':
-        this.props.selectSearchBrowserTab(e.shiftKey ? 'prev' : 'next')
-        e.preventDefault()
-        break
       default:
     }
-  }
-
-  onInput(query) {
-    this.props.inputSearchBrowserSearch(query)
   }
 
   onMouseDown(e) {
@@ -120,8 +121,7 @@ export default class Browser extends Component {
     this.blurPrevented = true
 
     // Avoids loosing focus and though caret position in input.
-    const input = ReactDOM.findDOMNode(this.refs.input)
-    if (e.target !== input) e.preventDefault()
+    if (e.target.nodeName !== 'INPUT') e.preventDefault()
   }
 
   onBlur(e) {
@@ -134,80 +134,84 @@ export default class Browser extends Component {
     e.target.focus()
   }
 
-  resetSearch() {
-    this.props.inputSearchBrowserSearch({
-      trigger: this.refs.input.query.get('trigger'),
-      search: '',
-      filters: []
+  onMountInput(ref) {
+    this.input = ref
+  }
+
+  onAddService(service) {
+    if (!service) return
+    // We need to schedule the filter insertion into input until the action is
+    // created and applied to the state, because as soon as we insert the filter
+    // into the input, change event will trigger the search and before this,
+    // state needs to have all the data in place.
+    this.setState({lastAddedService: service}, () => {
+      this.props.addSearchBrowserService(service)
     })
   }
 
-  renderContent() {
-    const {sections, data} = this.props
+  getBody() {
+    const {height, sections, search, focusedView} = this.props
 
-    if (!data) return null
-
-    if (data.results.length && sections.length) return this.renderService(sections)
-
-    const hasSearch = Boolean(get(data, 'search.text'))
-    const hasService = Boolean(get(data, 'search.container'))
-
-    if (hasSearch || hasService) return <Empty text="Nothing found" />
-
-    if (this.props.isExternal) {
-      const text = `Write the search term to search ${data.search.service}.`
-      return <Empty text={text} />
+    if (focusedView === 'services') {
+      const element = (
+        <ServiceList
+          {...this.props}
+          services={this.props.currServices}
+          focused={this.props.focusedService}
+          onSelect={::this.onAddService}
+          onFocus={this.props.focusSearchBrowserService} />
+      )
+      return {element, height}
     }
 
-    // We have no search, no results and its not an external search.
-    // Yet we can always render queries suggestions.
-    return this.renderService(sections)
-  }
+    if (sections.length) {
+      const element = (
+        <Service
+          {...this.props}
+          Item={Item}
+          data={sections}
+          onFocus={::this.onFocusItem}
+          onSelect={::this.onSelectItem} />
+      )
+      return {element, height}
+    }
 
-  renderService(data) {
-    const Service = services.Default
-    return (
-      <Service
-        {...this.props}
-        Item={Item}
-        data={data}
-        onFocus={::this.onFocusItem}
-        onSelect={::this.onSelectItem} />
-    )
+    if (search.trim()) {
+      return {
+        element: <Empty text="No Results." />,
+        height: 'auto'
+      }
+    }
+
+    return {
+      element: <Info {...this.props} />,
+      height: 'auto'
+    }
   }
 
   render() {
     const {classes} = this.props.sheet
-    const content = this.renderContent()
-    const inlineStyle = {
-      height: content ? this.props.height : 'auto'
-    }
+    const body = this.getBody()
 
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
-        style={inlineStyle}
+        // Set a fixed height when we have search results, otherwise height should
+        // be auto detected.
+        style={{
+          height: body.height,
+          maxHeight: this.props.height
+        }}
         onMouseDown={::this.onMouseDown}
-        data-test="search-browser">
-        <div className={classes.inputContainer}>
-          <span className={classes.searchIcon} />
-          <Input
-            onKeyDown={::this.onKeyDown}
-            onInput={::this.onInput}
-            onChangeFilters={this.props.onSelectFilter}
-            onBlur={::this.onBlur}
-            focused={this.props.focused}
-            filters={this.props.filters}
-            search={this.props.search}
-            className={classes.input}
-            type="search"
-            placeholder="Grape Search"
-            ref="input" />
-        </div>
-        {this.props.tabs &&
-          <TabsWithControls data={this.props.tabs} onSelect={::this.onSelectTab} />
-        }
-        {content}
+        data-test="search-browser"
+        tabIndex="-1">
+        <SearchInput
+          {...this.props}
+          onDidMount={::this.onMountInput}
+          onKeyDown={::this.onKeyDown}
+          onChange={this.props.changeSearchBrowserInput}
+          onBlur={::this.onBlur} />
+        {body.element}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
     )

@@ -4,17 +4,17 @@ import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
+import Textarea from './Textarea'
+import style from './grapeInputStyle'
+import parseQuery from '../query/parse'
 import GlobalEvent from '../global-event/GlobalEvent'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
 import {create as createObject} from '../objects'
-import Textarea from './Textarea'
-import style from './grapeInputStyle'
 
 import {
   toMarkdown,
   fromMarkdown,
-  getEmojiObjects,
-  getQuery
+  getEmojiObjects
 } from './utils'
 
 @useSheet(style)
@@ -129,7 +129,7 @@ export default class GrapeInput extends Component {
 
     this.setState({value, objects, content}, () => {
       const word = this.input.getTouchedWord()
-      const query = getQuery(word)
+      const query = parseQuery(word)
       this.props.onChange({query, content})
     })
   }

@@ -6,7 +6,7 @@ window.searchData = {
       'id': 'googledrive',
       'key': 'drive',
       'label': 'Google Drive',
-      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/googledrive-128.png'
+      'iconUrl': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/googledrive-128.png'
     },
     {
       'count': 5,
@@ -21,7 +21,7 @@ window.searchData = {
       'id': 'github',
       'key': 'github',
       'label': 'GitHub',
-      'icon_url': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
+      'iconUrl': 'https://ug-cdn.com/static/chatgrape/static/images/service-icons/github-128.png'
     },
     {
       'count': 1,
@@ -29,14 +29,6 @@ window.searchData = {
       'id': 'giphy',
       'key': 'gif',
       'label': 'Giphy'
-    },
-
-    {
-      'hidden': true,
-      'count': 1,
-      'id': 'filters',
-      'key': 'filters',
-      'label': 'Queries'
     }
   ],
   'search': {
@@ -45,14 +37,6 @@ window.searchData = {
     'queries': []
   },
   'results': [
-    {
-      'container': '#github',
-      'name': 'Search Github',
-      'highlighted': 'Search Github',
-      'id': 'github',
-      'service': 'filters',
-      'type': 'filters'
-    },
     {
       'container': '/UberGrape/Old Projects/Newsgrape/Newsgrape Old Stuff/Tech',
       'name': 'Plans/Discussions',

@@ -2,7 +2,6 @@ import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
 import isEmpty from 'lodash/lang/isEmpty'
-import filter from 'lodash/collection/filter'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
 import capitalize from 'lodash/string/capitalize'
@@ -39,13 +38,11 @@ const browserWithInput = {
  * Uses all types of auto completes to provide end component.
  */
 @useSheet(style)
-export default class App extends Component {
+export default class GrapeBrowser extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,
     container: PropTypes.object,
     isLoading: PropTypes.bool,
-    hasIntegrations: PropTypes.bool,
-    canAddIntegrations: PropTypes.bool,
     placeholder: PropTypes.string,
     ignoreSuggest: PropTypes.bool,
     setTrigger: PropTypes.bool,
@@ -54,7 +51,8 @@ export default class App extends Component {
     customEmojis: PropTypes.object,
     images: PropTypes.object,
     browser: PropTypes.oneOf(Object.keys(browserWithInput)),
-    externalServicesInputDelay: PropTypes.number
+    externalServicesInputDelay: PropTypes.number,
+    services: PropTypes.array
   }
 
   static defaultProps = {
@@ -68,13 +66,12 @@ export default class App extends Component {
     data: undefined,
     images: {},
     contentObjects: [],
+    services: [],
     customEmojis: undefined,
     placeholder: undefined,
     focused: false,
     disabled: false,
     ignoreSuggest: false,
-    hasIntegrations: false,
-    canAddIntegrations: true,
     setTrigger: false,
     isLoading: false,
     onAbort: undefined,
@@ -135,6 +132,7 @@ export default class App extends Component {
   }
 
   onSubmit(data) {
+    clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
     this.emit('submit', data)
   }
@@ -149,11 +147,6 @@ export default class App extends Component {
   onSelectSearchBrowserItem({item, query}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.insertItem(item, query)
-  }
-
-  onSelectSearchBrowserFilter(query) {
-    clearTimeout(this.searchBrowserInputTimeoutId)
-    this.emit('selectFilter', query)
   }
 
   onSelectEmojiBrowserItem({item, query}) {
@@ -177,10 +170,9 @@ export default class App extends Component {
 
     const results = get(this.state, 'data.results')
     if (!isEmpty(results)) {
-      const resultsWithoutFilters = filter(results, res => res.type !== 'filters')
-      const index = findIndex(resultsWithoutFilters, res => res.id === item.id)
+      const index = findIndex(results, res => res.id === item.id)
       rank = index + 1
-      service = resultsWithoutFilters[index].service
+      service = results[index].service
     }
 
     clearTimeout(this.searchBrowserInputTimeoutId)
@@ -222,9 +214,9 @@ export default class App extends Component {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onInputSearchBrowser(query) {
+  onChangeSearchBrowser(data) {
     const complete = () => {
-      this.emit('complete', query)
+      this.emit('complete', {...data, trigger: this.query.get('trigger')})
       this.emit('change')
     }
 
@@ -241,18 +233,23 @@ export default class App extends Component {
     this.emit('resize')
   }
 
+  onLoadServices() {
+    this.emit('loadServices')
+  }
+
   onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
-    if (query) {
+    if (query && query.trigger) {
       // If it is a browser trigger, we don't reopen browser, but let user type
       // whatever he wants.
       // If its a mentioning, user types the search.
       // TODO migrate mentioning to the browser.
-      if (!query.key || !utils.isBrowserType(query.trigger)) {
+      if (!query.search || !utils.isBrowserType(query.trigger)) {
         this.query.set(query, {silent: true})
         this.emit('complete', {...this.query.toJSON(), emoji})
       }
-    } else if (!this.query.isEmpty()) { // Query has been removed or caret position changed, for datalist only.
+    // Query has been removed or caret position changed, for datalist only.
+    } else if (!this.query.isEmpty()) {
       this.query.reset()
       if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
     }
@@ -296,7 +293,8 @@ export default class App extends Component {
         .slice(0, nextProps.maxSuggestions)
     }
     if (state.browser === 'emojiSuggest') {
-      state.data = emoji.sortByRankAndLength(state.data)
+      state.data = emoji
+        .sortByRankAndLength(state.data)
         .slice(0, nextProps.maxSuggestions)
     }
     state.query = this.query.toJSON()
@@ -398,16 +396,15 @@ export default class App extends Component {
       return (
         <SearchBrowser
           data={data}
+          services={this.props.services}
           images={images}
           isExternal={utils.isExternalSearch(data)}
           isLoading={this.props.isLoading}
-          hasIntegrations={this.props.hasIntegrations}
-          canAddIntegrations={this.props.canAddIntegrations}
           onAbort={::this.onAbort}
           onSelectItem={::this.onSelectSearchBrowserItem}
-          onSelectFilter={::this.onSelectSearchBrowserFilter}
           onAddIntegration={::this.onAddSearchBrowserIntegration}
-          onInput={::this.onInputSearchBrowser}
+          onChange={::this.onChangeSearchBrowser}
+          onLoadServices={::this.onLoadServices}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
@@ -440,7 +437,7 @@ export default class App extends Component {
 
     return (
       <div
-        className={classes.input}
+        className={classes.grapeBrowser}
         data-test="grape-browser">
         <GlobalEvent event="blur" handler={::this.onBlurWindow} />
         {this.renderBrowser()}

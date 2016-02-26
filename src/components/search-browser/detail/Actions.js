@@ -63,8 +63,7 @@ export default class Actions extends Component {
         renderItem={::this.renderItem}
         items={this.props.items}
         onSelect={this.props.onSelect}
-        focused={this.props.focusedAction}
-        ref="list" />
+        focused={this.props.focusedAction} />
     )
   }
 }

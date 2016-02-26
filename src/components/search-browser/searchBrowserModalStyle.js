@@ -4,7 +4,9 @@ export default {
     height: '100%',
     width: '100%',
     zIndex: 1000,
-    top: 0
+    top: 0,
+    display: 'flex',
+    flexDirection: 'column'
   },
   backdrop: {
     position: 'fixed',
@@ -18,6 +20,10 @@ export default {
   },
   browser: {
     position: 'relative',
-    margin: '10% 20% 0 20%'
+    width: '80%',
+    top: '10%',
+    alignSelf: 'center',
+    maxWidth: 800,
+    minWidth: 200
   }
 }

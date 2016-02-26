@@ -2,16 +2,13 @@ import React, {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
-import style from './sectionStyle'
+import SectionHeader from '../section-header/SectionHeader'
 
 /**
  * One grid section which has a title and items.
  */
-@useSheet(style)
 export default class Section extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
     onDidMount: PropTypes.func,
     onItemDidMount: PropTypes.func,
     Item: PropTypes.func,
@@ -49,12 +46,11 @@ export default class Section extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
     const {Item} = this.props
 
     return (
       <section>
-        <header className={classes.header}>{this.props.label}</header>
+        <SectionHeader text={this.props.label} />
         <div className={this.props.contentClassName} ref="content">
           {this.props.items.map((data, i) => {
             const props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',

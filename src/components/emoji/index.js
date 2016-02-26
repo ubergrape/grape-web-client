@@ -5,6 +5,8 @@ import ReactDOMServer from 'react-dom/server'
 
 import Icon from '../icon/Icon'
 
+export const REGEX = /(^|\s):\w+:(?=($|\s))/g
+
 let map
 const customMap = {}
 let index = []

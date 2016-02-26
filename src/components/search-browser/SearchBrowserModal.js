@@ -3,7 +3,7 @@ import Modal from 'react-overlays/lib/Modal'
 
 import {useSheet} from 'grape-web/lib/jss'
 import SearchBrowser from './SearchBrowser'
-import style from './modalStyle'
+import style from './searchBrowserModalStyle'
 
 // Those methods will lead to ModalBrowser being removed from tree,
 // however the Modal component needs to get show: false
