@@ -9,7 +9,7 @@ import {
 
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
-import AvatarUsername from '../avatar-username/AvatarUsername'
+import Username from '../avatar-name/Username'
 import {userStatus} from '../constants/app'
 
 import colors from 'grape-theme/dist/base-colors'
@@ -85,7 +85,7 @@ export default class ChannelMembersInvite extends Component {
     return (
       <div
         className={className}>
-        <AvatarUsername
+        <Username
           name={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
@@ -113,7 +113,7 @@ export default class ChannelMembersInvite extends Component {
     return (
       <div
         className={this.props.sheet.classes.note}>
-        Everyone has been invited to this room
+        Everyone has been invited to this group
       </div>
     )
   }
@@ -127,7 +127,7 @@ export default class ChannelMembersInvite extends Component {
           className={sheet.classes.buttonInvite}
           onClick={::this.onInviteUsersClick}
           disabled={!listed.length}>
-          {channelType === 'pm' ? 'Create room' : 'Invite members'}
+          {channelType === 'pm' ? 'Create group' : 'Invite members'}
         </button>
       </div>
     )
@@ -154,9 +154,9 @@ export default class ChannelMembersInvite extends Component {
   renderTitle() {
     switch (this.props.channelType) {
       case 'room':
-        return 'Invite to room'
+        return 'Invite to group'
       case 'pm':
-        return 'Create new private room'
+        return 'Create new private group'
       default:
         return ''
     }

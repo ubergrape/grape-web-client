@@ -20,7 +20,7 @@ let protoInit = RoomManager.prototype.init
 
 RoomManager.prototype.init = function () {
   let menu = this.menu = new Menu({
-    header: 'Manage Rooms',
+    header: 'Manage Groups',
     tabs: {
       visible: true
     },
@@ -30,7 +30,7 @@ RoomManager.prototype.init = function () {
     },
     button: {
       className: 'new-room',
-      text: 'Create new room',
+      text: 'Create new group',
       visible: true
     }
   })
@@ -38,11 +38,11 @@ RoomManager.prototype.init = function () {
   menu.setTabs([
     {
       className: 'rooms-to-join',
-      title: 'Rooms you can join'
+      title: 'Groups you can join'
     },
     {
       className: 'joined-rooms',
-      title: 'Rooms you belong to'
+      title: 'Groups you belong to'
     }
   ])
 
@@ -84,7 +84,7 @@ RoomManager.prototype.setUnjoined = function () {
   menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
-  menuOptions.header = 'Manage Rooms'
+  menuOptions.header = 'Manage Groups'
   this.redrawContent(0)
 }
 
@@ -94,7 +94,7 @@ RoomManager.prototype.setJoined = function () {
   menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
-  menuOptions.header = 'Manage Rooms'
+  menuOptions.header = 'Manage Groups'
   this.redrawContent(1)
 }
 
@@ -104,7 +104,7 @@ RoomManager.prototype.setCreate = function () {
   menuOptions.back.visible = true
   menuOptions.button.visible = false
   menuOptions.tabs.visible = false
-  menuOptions.header = 'Create new room'
+  menuOptions.header = 'Create new group'
   this.redrawContent(2)
 }
 

@@ -99,9 +99,7 @@ export function goToMessage(message) {
   page(`/chat/${message.slug}/${message.id}`)
   return {
     type: types.GO_TO_MESSAGE,
-    payload: {
-      message
-    }
+    payload: message
   }
 }
 
@@ -123,9 +121,7 @@ export function goToChannel(slug) {
   page(`/chat/${slug}`)
   return {
     type: types.GO_TO_CHANNEL,
-    payload: {
-      slug
-    }
+    payload: slug
   }
 }
 

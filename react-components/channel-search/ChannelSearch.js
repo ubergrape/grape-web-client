@@ -136,7 +136,7 @@ export default class ChannelSearch extends Component {
         <button
           onClick={::this.onCreate}
           className={classes.button}>
-          Manage rooms
+          Manage groups
         </button>
       </div>
     )

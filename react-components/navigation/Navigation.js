@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import AvatarUsername from '../avatar-username/AvatarUsername'
-import AvatarRoomname from '../avatar-roomname/AvatarRoomname'
+import Username from '../avatar-name/Username'
+import Roomname from '../avatar-name/Roomname'
 import {userStatus} from '../constants/app'
 import style from './style'
 import colors from 'grape-theme/dist/base-colors'
@@ -102,7 +102,7 @@ export default class Navigation extends Component {
         key={room.id}
         className={className}
         onClick={this.goToChannel.bind(this, room)}>
-        <AvatarRoomname {...room} />
+        <Roomname {...room} />
         {this.renderUnread(room)}
       </li>
     )
@@ -119,7 +119,7 @@ export default class Navigation extends Component {
         key={pm.id}
         className={className}
         onClick={this.goToChannel.bind(this, pm)}>
-        <AvatarUsername
+        <Username
           statusBorderColor={isCurrent ? colors.white : colors.grayBlueLighter}
           avatar={mate.avatar}
           status={userStatus[mate.status]}
