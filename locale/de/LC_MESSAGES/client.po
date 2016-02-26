@@ -516,6 +516,7 @@ msgid "Loading"
 msgstr ""
 
 #: client/templates/navigation.jade:8 templates/navigation.jade:8
+#: client/templates/popovers/room.jade:3 templates/popovers/room.jade:3
 msgid "All groups"
 msgstr ""
 
@@ -589,10 +590,6 @@ msgstr ""
 #: client/templates/popovers/pm.jade:28 templates/popovers/pm.jade:28
 #: templates/popovers/pm.jade:27
 msgid "There are no members in your organization yet."
-msgstr ""
-
-#: client/templates/popovers/room.jade:3 templates/popovers/room.jade:3
-msgid "All groups"
 msgstr ""
 
 #: client/templates/popovers/room.jade:8 templates/popovers/room.jade:8
