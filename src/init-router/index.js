@@ -8,8 +8,6 @@ import {navigationSelector} from '../../react-components/selectors'
 export default function init(ui) {
   const baseURL = '/chat'
   const currUser = ui.user
-  const state = store.getState()
-  const {recent, favourited} = navigationSelector(state)
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)
@@ -25,6 +23,8 @@ export default function init(ui) {
   })
 
   function pickChannel() {
+    const state = store.getState()
+    const {recent, favourited} = navigationSelector(state)
     const channels = favourited.concat(recent)
     if (!channels.length) return ui.emit('emptyOrg')
     channels.sort((a, b) => b.latestMessageTime - a.latestMessageTime)
@@ -88,6 +88,7 @@ export default function init(ui) {
   }
 
   function goToRoom(ctx) {
+    console.log('goToRoom')
     const slug = ctx.params.room
     const room = findRoom(slug)
     const message = ctx.params.message ? ctx.params.message : null
