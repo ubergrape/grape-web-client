@@ -1139,11 +1139,11 @@ msgid "Please enter the name of the room you want to delete."
 msgstr ""
 
 #: browser/elements/notifications.js:36
-msgid " invited you to the room "
+msgid " invited you to the group "
 msgstr ""
 
 #: browser/elements/notifications.js:37
-msgid " (Room Invite)"
+msgid " (Group Invite)"
 msgstr ""
 
 #: templates/chatheader.jade:17
