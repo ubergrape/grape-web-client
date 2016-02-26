@@ -233,6 +233,9 @@ export default class GrapeInput extends Emitter {
     // Remove unactive users.
     users = users.filter(user => user.active)
 
+    // Remove own user.
+    users = users.filter(user => user.id !== this.user.id)
+
     // Map to a unified data structure.
     users = users.map(user => {
       let name = user.username
@@ -270,8 +273,8 @@ export default class GrapeInput extends Emitter {
 
     rooms = rooms.map(this.getRoomObject.bind(this, search))
 
-    // Add current room as `@room`.
-    rooms.push(this.getRoomObject(search))
+    // Add current room as `@room` if its not a pm channel.
+    if (this.room.type === 'room') rooms.push(this.getRoomObject(search))
 
     // Do the search.
     rooms = rooms.filter(room => {
