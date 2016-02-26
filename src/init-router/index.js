@@ -88,7 +88,6 @@ export default function init(ui) {
   }
 
   function goToRoom(ctx) {
-    console.log('goToRoom')
     const slug = ctx.params.room
     const room = findRoom(slug)
     const message = ctx.params.message ? ctx.params.message : null
