@@ -11,7 +11,13 @@ export default class UserProfile extends Component {
     hideUserProfile: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
     show: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired
+    avatar: PropTypes.string,
+    username: PropTypes.string,
+    displayName: PropTypes.string,
+    email: PropTypes.string,
+    whatIDo: PropTypes.string,
+    skypeUsername: PropTypes.string,
+    phoneNumber: PropTypes.string
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -21,10 +27,18 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const {show, user} = this.props
-    if (!show || isEmpty(user)) return null
+    if (!this.props.show) return null
 
     const {classes} = this.props.sheet
+    const {
+      avatar,
+      username,
+      displayName,
+      whatIDo,
+      email,
+      skypeUsername,
+      phoneNumber
+    } = this.props
     return (
       <SidebarPanel
         title="User Profile"
@@ -33,25 +47,25 @@ export default class UserProfile extends Component {
           <div className={classes.leftColumn}>
             <img
               className={classes.avatar}
-              src={user.avatar}
-              alt={user.username} />
+              src={avatar}
+              alt={username} />
           </div>
           <div className={classes.rightColumn}>
             <div className={classes.fullName}>
-              {user.displayName}
+              {displayName}
             </div>
-            {user.whatIDo && <div className={classes.about}>
+            {whatIDo && <div className={classes.about}>
               <p>What I do:</p>
-              <p>{user.whatIDo}</p>
+              <p>{whatIDo}</p>
             </div>}
-            <a href={`mailto:${user.email}`} className={classes.email}>
-              {user.email}
+            <a href={`mailto:${email}`} className={classes.email}>
+              {email}
             </a>
-            {user.skypeUsername && <a href={`skype:${user.skypeUsername}`} className={classes.skype}>
-              {user.skypeUsername}
+            {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
+              {skypeUsername}
             </a>}
-            {user.phoneNumber && <a href={`tel:${user.phoneNumber}`} className={classes.phone}>
-              {user.phoneNumber}
+            {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
+              {phoneNumber}
             </a>}
           </div>
         </div>

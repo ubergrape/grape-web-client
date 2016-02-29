@@ -37,7 +37,7 @@ export default {
     cursor: 'default'
   },
   logo: {
-    flexShring: 0,
+    flexShrink: 0,
     position: 'relative',
     overflow: 'hidden',
     marginRight: 10,
@@ -46,12 +46,13 @@ export default {
   orgName: {
     ...fonts.normal,
     ...headers,
-    lineHeight: `${fonts.normal.fontSize}px`,
+    lineHeight: 1,
     color: colors.black
   },
   userName: {
     ...fonts.small,
     ...headers,
+    // TODO: add this color to the theme
     color: '#999999'
   },
   settings: {

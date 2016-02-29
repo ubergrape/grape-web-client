@@ -26,8 +26,8 @@ export const initialChannelsSelector = createSelector(
 )
 
 /**
- * fill `initialChannelsSelector` with user objects
- * instead of ID's
+ * Fill the `initialChannelsSelector` with user objects
+ * instead of user ID's.
  */
 export const channelsSelector = createSelector(
   [
@@ -77,6 +77,10 @@ export const pmsSelector = createSelector(
 
 export const activePmsSelector = createSelector(
   pmsSelector, pms => pms.filter(pm => pm.firstMessageTime)
+)
+
+export const currentPmsSelector = createSelector(
+  pmsSelector, pms => find(pms, 'current') || {}
 )
 
 export const orgSelector = createSelector(
@@ -168,18 +172,15 @@ export const userProfile = createSelector(
 export const userProfileSelector = createSelector(
   [
     userProfile,
-    channelSelector,
-    userSelector
+    currentPmsSelector
   ],
   (
     profile,
-    channel,
-    currentUser
+    pm
   ) => {
-    const user = find(channel.users, _user => _user.id !== currentUser.id) || {}
     return {
       ...profile,
-      user
+      ...pm.mate
     }
   }
 )

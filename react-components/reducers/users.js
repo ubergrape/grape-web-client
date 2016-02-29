@@ -16,7 +16,7 @@ export default function reduce(state = initialState, action) {
           return newState
         }
         if (user.current) {
-          newState.push({...user, current: true})
+          newState.push({...user, current: false})
           return newState
         }
         newState.push(user)
