@@ -146,6 +146,7 @@ export function addToFavorite(channelId) {
       {camelize: true},
       (err) => {
         if (err) return reject(err)
+        resolve()
       }
     )
   })
@@ -162,6 +163,7 @@ export function removeFromFavorite(channelId) {
       {camelize: true},
       (err) => {
         if (err) return reject(err)
+        resolve()
       }
     )
   })
@@ -172,6 +174,9 @@ export function checkAuth() {
   return new Promise((resolve, reject) => {
     request
       .get('/accounts/session_state')
-      .end(err => reject(err))
+      .end(err => {
+        if (err) reject(err)
+        resolve()
+      })
   })
 }

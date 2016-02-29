@@ -266,7 +266,7 @@ msgstr "verwenden, um Ihren Text zu formatieren"
 #: client/templates/dialogs/deleteroom.jade:2
 #: templates/dialogs/deleteroom.jade:2
 msgid "you are about to delete "
-msgstr "Sie sind im Begriff, Ihren Gruppe zu löschen:"
+msgstr "Sie sind im Begriff, Ihre Gruppe zu löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:4
 #: templates/dialogs/deleteroom.jade:4

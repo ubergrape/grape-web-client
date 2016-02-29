@@ -190,9 +190,11 @@ export function inviteToChannel(
 }
 
 export function toggleOrgSettings(elem) {
-  reduxEmitter.toggleOrgSettings(elem)
-  return {
-    type: types.TOGGLE_ORG_SETTINGS
+  return dispatch => {
+    dispatch({
+      type: types.TOGGLE_ORG_SETTINGS
+    })
+    reduxEmitter.toggleOrgSettings(elem)
   }
 }
 

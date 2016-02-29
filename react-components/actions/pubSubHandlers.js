@@ -180,11 +180,13 @@ export function handleUpateChannel({channel}) {
 }
 
 export function handleRemoveRoom({channel: id}) {
-  const channel = channelSelector(store.getState())
-  if (id === channel.id) page('/chat/')
-  return {
-    type: types.REMOVE_ROOM,
-    payload: id
+  return dispatch => {
+    const {id: currentId} = channelSelector(store.getState())
+    dispatch({
+      type: types.REMOVE_ROOM,
+      payload: id
+    })
+    if (id === currentId) page('/chat/')
   }
 }
 

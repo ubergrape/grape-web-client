@@ -8,10 +8,10 @@ export function requestAddChannelToFavorites(id) {
       .addToFavorite(id)
       .catch(err => dispatch(error(err)))
 
-    return {
+    dispatch({
       type: types.REQUEST_ADD_CHANNEL_TO_FAVORITES,
       payload: id
-    }
+    })
   }
 }
 
@@ -21,9 +21,9 @@ export function requestRemoveChannelFromFavorites(id) {
       .removeFromFavorite(id)
       .catch(err => dispatch(error(err)))
 
-    return {
+    dispatch({
       type: types.REQUEST_REMOVE_CHANNEL_FROM_FAVORITES,
       payload: id
-    }
+    })
   }
 }
