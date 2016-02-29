@@ -38,7 +38,6 @@ export const channelsSelector = createSelector(
     channels,
     users
   ) => {
-    console.log(channels)
     return channels.map(channel => {
       return {
         ...channel,

@@ -24,7 +24,7 @@ export function handleNewMessage(message) {
   return (dispatch, getState) => {
     const fMessage = formatMessage(message)
     const user = userSelector(getState())
-    const rooms = joinedRoomsSelector(getState)
+    const rooms = joinedRoomsSelector(getState())
     const mentionsCount = countMentions(fMessage, user, rooms)
 
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
