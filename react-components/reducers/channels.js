@@ -107,14 +107,14 @@ export default function reduce(state = initialState, action) {
       return newState
     }
 
-    case types.CHANGE_FAVOURITED: {
+    case types.CHANGE_FAVORITED: {
       const newState = [...state]
-      action.payload.forEach(({channelId: id, favourited}) => {
+      action.payload.forEach(({channelId: id, favorited}) => {
         const index = findIndex(newState, {id})
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
-          favourited
+          favorited
         })
       })
       return newState

@@ -1,7 +1,7 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
-import {reduceChannelUsersToId, pinToFavourite} from './utils'
+import {reduceChannelUsersToId, pinToFavorite} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../redux-emitter'
 import * as api from '../backend/api'
@@ -21,7 +21,7 @@ export function error(err) {
 export function setChannels(channels) {
   return {
     type: types.SET_CHANNELS,
-    payload: channels.map(reduceChannelUsersToId).map(pinToFavourite)
+    payload: channels.map(reduceChannelUsersToId).map(pinToFavorite)
   }
 }
 

@@ -2,7 +2,7 @@ import page from 'page'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
-import {formatMessage, countMentions, pinToFavourite} from './utils'
+import {formatMessage, countMentions, pinToFavorite} from './utils'
 import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
@@ -207,9 +207,9 @@ export function handleUserUpdate({user}) {
   }
 }
 
-export function handleFavouriteChange({changed}) {
+export function handleFavoriteChange({changed}) {
   return {
-    type: types.CHANGE_FAVOURITED,
-    payload: changed.map(pinToFavourite)
+    type: types.CHANGE_FAVORITED,
+    payload: changed.map(pinToFavorite)
   }
 }

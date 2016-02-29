@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/redux'
-import {favouriteSelector as selector} from '../selectors'
+import {favoriteSelector as selector} from '../selectors'
 import store from '../app/store'
 import actionNames from './actionNames'
-import Favourite from './Favourite'
+import Favorite from './Favorite'
 
-const ConnectedFavourite = connect(
+const ConnectedFavorite = connect(
   selector,
   mapActionsToProps(actionNames)
-)(Favourite)
+)(Favorite)
 
-export default class FavouriteProvider extends Component {
+export default class FavoriteProvider extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedFavourite />
+        <ConnectedFavorite />
       </Provider>
     )
   }

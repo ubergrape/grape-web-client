@@ -78,7 +78,7 @@ export default function subscribe(channel) {
         break
 
       case 'pins.changed':
-        boundActions.handleFavouriteChange(cData)
+        boundActions.handleFavoriteChange(cData)
         break
 
       default:

@@ -18,7 +18,7 @@ export default class Navigation extends Component {
     goToChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    favourited: PropTypes.array.isRequired,
+    favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number
   }
@@ -148,16 +148,16 @@ export default class Navigation extends Component {
     )
   }
 
-  renderFavouritedList() {
-    if (!this.props.favourited.length) return null
+  renderFavoritedList() {
+    if (!this.props.favorited.length) return null
 
     const {classes} = this.props.sheet
     return (
       <div className={classes.section}>
-        <h2 className={`${classes.title} ${classes.favourites}`}>Favourites</h2>
+        <h2 className={`${classes.title} ${classes.favorites}`}>Favourites</h2>
         <ol className={classes.list}>
           {
-            this.props.favourited.map(channel => {
+            this.props.favorited.map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
               if (channel.type === 'pm') return this.renderPM(channel)
               return null
@@ -173,7 +173,7 @@ export default class Navigation extends Component {
     return (
       <div className={this.props.sheet.classes.wrapper}>
         {this.renderManageButtons()}
-        {this.renderFavouritedList()}
+        {this.renderFavoritedList()}
         {this.renderRecentList()}
       </div>
     )

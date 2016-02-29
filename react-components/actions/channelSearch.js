@@ -5,7 +5,7 @@ import sortBy from 'lodash/collection/sortBy'
 import pick from 'lodash/object/pick'
 
 
-// TODO: move not related to actions functions to the selector
+// TODO: move not related to action creators functions to the selector
 /**
  * Simple version of fuzzy search.
  * When searching it ignores:

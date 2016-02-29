@@ -78,7 +78,7 @@ export default {
     backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,
     backgroundSize: 'auto 12px'
   },
-  favourites: {
+  favorites: {
     backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
     backgroundSize: 'auto 13px'
   },
