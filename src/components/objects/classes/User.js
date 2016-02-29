@@ -1,4 +1,4 @@
-import {getTrigger, encodeMDLink} from '../utils'
+import {getTrigger, encodeMdLink} from '../utils'
 import {grapeProtocol} from '../constants'
 
 const tokenType = 'user'
@@ -24,6 +24,6 @@ export default class User {
 
   toString() {
     const url = `${grapeProtocol}chatgrape|user|${this.id}|${this.url}`
-    return `[${this.name}](${encodeMDLink(url)})`
+    return `[${encodeMdLink(this.name)}](${encodeMdLink(url)})`
   }
 }

@@ -1,4 +1,4 @@
-import {getTrigger, encodeMDLink} from '../utils'
+import {getTrigger, encodeMdLink} from '../utils'
 import {grapeProtocol} from '../constants'
 
 const tokenType = 'search'
@@ -24,6 +24,6 @@ export default class Search {
 
   toString() {
     const url = `${grapeProtocol}${this.service}|${this.type}|${this.id}|${this.url}||`
-    return `[${this.name}](${encodeMDLink(url)})`
+    return `[${encodeMdLink(this.name)}](${encodeMdLink(url)})`
   }
 }

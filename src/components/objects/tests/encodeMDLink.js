@@ -1,11 +1,15 @@
 import expect from 'expect.js'
-import {encodeMDLink} from '../utils'
+import {encodeMdLink} from '../utils'
 
 describe('objects:', () => {
-  describe('encodeMDLink', () => {
-    it('encode paranthesis', () => {
-      const encoded = encodeMDLink('something (bad)')
+  describe('encodeMdLink', () => {
+    it('encode parentheses', () => {
+      const encoded = encodeMdLink('something (bad)')
       expect(encoded).to.be('something %28bad%29')
+    })
+    it('encode brackets', () => {
+      const encoded = encodeMdLink('something [bad]')
+      expect(encoded).to.be('something %5bbad%5d')
     })
   })
 })
