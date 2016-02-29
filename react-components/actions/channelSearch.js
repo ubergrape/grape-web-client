@@ -27,7 +27,7 @@ function fuzzySearch(searchStr) {
 }
 
 function find(data, search) {
-  if (!search) return data
+  if (!search) return sortBy(data, item => item.name.toLowerCase())
   const fuzzyIndexOf = fuzzySearch(search)
   let items = data.map(item => {
     return {
@@ -76,7 +76,7 @@ function getFilteredItems(org, user) {
 }
 
 export function showChannelSearch(org, user) {
-  const items = getFilteredItems(org, user)
+  const items = find(getFilteredItems(org, user))
   return {
     type: types.SHOW_CHANNEL_SEARCH,
     payload: {
