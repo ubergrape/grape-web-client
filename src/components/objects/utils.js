@@ -1,8 +1,8 @@
 /**
- * Escape markdown link target.
+ * Escape markdown link target or name.
  */
-export function encodeMDLink(link) {
-  const regExp = /[()]/g
+export function encodeMdLink(link) {
+  const regExp = /[\[\]()]/g
   return link.replace(regExp, c => '%' + c.charCodeAt(0).toString(16))
 }
 
