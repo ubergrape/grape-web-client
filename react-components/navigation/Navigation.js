@@ -154,7 +154,7 @@ export default class Navigation extends Component {
     const {classes} = this.props.sheet
     return (
       <div className={classes.section}>
-        <h2 className={`${classes.title} ${classes.favorites}`}>Favourites</h2>
+        <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
         <ol className={classes.list}>
           {
             this.props.favorited.map(channel => {
