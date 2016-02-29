@@ -14,7 +14,7 @@ const contacts = {
   ...buttonIcon('user', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
   ...commonButton
 }
-const groups = {
+const channels = {
   ...buttonIcon('users', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
   ...commonButton
 }
@@ -25,8 +25,8 @@ contacts['&:before'] = {
   width: 18,
   height: 21
 }
-groups['&:before'] = {
-  ...groups['&:before'],
+channels['&:before'] = {
+  ...channels['&:before'],
   position: 'absolute',
   left: 0,
   width: 24,
@@ -59,7 +59,7 @@ export default {
     marginTop: 10
   },
   contacts,
-  groups,
+  channels,
   section: {
     marginTop: 20
   },
@@ -89,7 +89,7 @@ export default {
     margin: '0 -1px 0 12px',
     cursor: 'pointer',
     borderRadius: '100px 0 0 100px',
-    // XXX
+    // TODO: this color should be presented at the grape-theme
     '&:hover': {
       background: '#d9dee5'
     }
@@ -110,8 +110,7 @@ export default {
     padding: '1px 7px 0',
     textAlign: 'center',
     borderRadius: 50,
-    color: colors.white,
-    background: 'red'
+    color: colors.white
   },
   importantSign: {
     background: colors.green

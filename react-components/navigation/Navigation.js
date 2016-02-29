@@ -67,7 +67,7 @@ export default class Navigation extends Component {
         </li>
         <li className={sheet.classes.manageItem}>
           <button
-            className={sheet.classes.groups}
+            className={sheet.classes.channels}
             onClick={showChannelsManager}>
             Groups
           </button>
@@ -108,7 +108,7 @@ export default class Navigation extends Component {
     )
   }
 
-  renderPM(pm) {
+  renderPm(pm) {
     const {sheet, channel} = this.props
     const {mate} = pm
     const isCurrent = channel.type === 'pm' && channel.id === pm.id
@@ -130,16 +130,17 @@ export default class Navigation extends Component {
   }
 
   renderRecentList() {
-    if (!this.props.recent.length) return null
+    const {recent} = this.props
+    if (!recent.length) return null
     const {classes} = this.props.sheet
     return (
       <div className={classes.section}>
         <h2 className={`${classes.title} ${classes.recent}`}>Recent</h2>
         <ol className={classes.list}>
           {
-            this.props.recent.slice(0, this.state.shift).map(channel => {
+            recent.slice(0, this.state.shift).map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
-              if (channel.type === 'pm') return this.renderPM(channel)
+              if (channel.type === 'pm') return this.renderPm(channel)
               return null
             })
           }
@@ -159,7 +160,7 @@ export default class Navigation extends Component {
           {
             this.props.favorited.map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
-              if (channel.type === 'pm') return this.renderPM(channel)
+              if (channel.type === 'pm') return this.renderPm(channel)
               return null
             })
           }

@@ -8,7 +8,7 @@ import {spinner} from '../constants/images'
 const sizes = {width: 32, height: 32}
 
 @useSheet(style)
-export default class Navigation extends Component {
+export default class OrgInfo extends Component {
 
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -21,10 +21,6 @@ export default class Navigation extends Component {
 
   toggleOrgSettings(e) {
     this.props.toggleOrgSettings(e.target)
-  }
-
-  renderLoading() {
-    return <Spinner image={spinner} />
   }
 
   renderLogo() {
@@ -75,7 +71,7 @@ export default class Navigation extends Component {
         <span
           style={sizes}
           className={sheet.classes.logo}>
-          {isLoading ? this.renderLoading() : this.renderLogo() }
+          {isLoading ? <Spinner image={spinner} /> : this.renderLogo() }
         </span>
         {this.renderHeaders()}
         {

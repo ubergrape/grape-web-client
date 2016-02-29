@@ -1,14 +1,13 @@
 import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
+import utils from 'grape-jss-utils'
 
 import buttonIcon from '../button/icon'
 
 const headers = {
-  whiteSpace: 'nowrap',
-  lineHeight: 'initial',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis'
+  ...utils.ellipsis,
+  lineHeight: 'initial'
 }
 
 export default {
@@ -33,9 +32,12 @@ export default {
   },
   headers: {
     flexGrow: 1,
+    overflow: 'hidden',
+    marginRight: 10,
     cursor: 'default'
   },
   logo: {
+    flexShring: 0,
     position: 'relative',
     overflow: 'hidden',
     marginRight: 10,
