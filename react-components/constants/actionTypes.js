@@ -5,7 +5,7 @@ export const SET_USERS = 'SET_USERS'
 export const SET_CHANNELS = 'SET_CHANNELS'
 export const SET_ROOMS = 'SET_ROOMS'
 export const SET_PMS = 'SET_PMS'
-export const INITIAL_DATA_LOADED = 'INITIAL_DATA_LOADED'
+export const HANDLE_INITIAL_DATA = 'HANDLE_INITIAL_DATA'
 
 export const SET_USER = 'SET_USER'
 export const SET_CHANNEL = 'SET_CHANNEL'

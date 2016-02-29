@@ -49,7 +49,7 @@ export function setInitialData(org) {
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
     return dispatch({
-      type: types.INITIAL_DATA_LOADED
+      type: types.HANDLE_INITIAL_DATA
     })
   }
 }
