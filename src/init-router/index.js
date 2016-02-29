@@ -24,8 +24,8 @@ export default function init(ui) {
 
   function pickChannel() {
     const state = store.getState()
-    const {recent, favourited} = navigationSelector(state)
-    const channels = favourited.concat(recent)
+    const {recent, favorited} = navigationSelector(state)
+    const channels = favorited.concat(recent)
     if (!channels.length) return ui.emit('emptyOrg')
     channels.sort((a, b) => b.latestMessageTime - a.latestMessageTime)
     page.replace(baseURL + '/' + channels[0].slug)

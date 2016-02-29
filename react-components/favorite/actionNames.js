@@ -1,4 +1,4 @@
 export default [
-  'requestAddToFavorites',
-  'requestRemoveFromFavorites'
+  'requestAddChannelToFavorites',
+  'requestRemoveChannelFromFavorites'
 ]
