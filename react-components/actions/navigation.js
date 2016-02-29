@@ -8,9 +8,9 @@ export function showChannelsManager() {
   }
 }
 
-export function showPMsManager() {
-  reduxEmitter.showPMsManager()
+export function showPmManager() {
+  reduxEmitter.showPmManager()
   return {
-    type: types.SHOW_PMS_MANAGER
+    type: types.SHOW_PM_MANAGER
   }
 }

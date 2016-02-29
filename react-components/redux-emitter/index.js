@@ -111,7 +111,7 @@ class ReduxEmitter extends Emitter {
     this.emit('triggerRoomManager')
   }
 
-  showPMsManager() {
+  showPmManager() {
     this.emit('triggerPMManager')
   }
 

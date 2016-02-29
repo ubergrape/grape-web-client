@@ -14,7 +14,7 @@ export default class Navigation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     showChannelsManager: PropTypes.func.isRequired,
-    showPMsManager: PropTypes.func.isRequired,
+    showPmManager: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
@@ -53,7 +53,7 @@ export default class Navigation extends Component {
     const {
       sheet,
       showChannelsManager,
-      showPMsManager
+      showPmManager
     } = this.props
 
     return (
@@ -61,7 +61,7 @@ export default class Navigation extends Component {
         <li className={sheet.classes.manageItem}>
           <button
             className={sheet.classes.contacts}
-            onClick={showPMsManager}>
+            onClick={showPmManager}>
             Contacts
           </button>
         </li>
