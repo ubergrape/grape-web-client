@@ -105,7 +105,7 @@ export default {
     background: colors.blue,
     color: colors.white,
     '&:hover': {
-      'background': colors.blue
+      background: colors.blue
     }
   },
   sign: {
