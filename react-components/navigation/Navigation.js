@@ -93,14 +93,12 @@ export default class Navigation extends Component {
   }
 
   renderRoom(room) {
-    const {sheet, channel} = this.props
-    const isCurrent = channel.type === 'room' && channel.id === room.id
-    let className = sheet.classes.channel
-    if (isCurrent) className += ` ${sheet.classes.currentChannel}`
+    const {classes} = this.props.sheet
     return (
       <li
         key={room.id}
-        className={className}
+        className={`${classes.room} ${room.current ? classes.roomCurrent : ''}`}
+        style={room.current ? {backgroundColor: `${room.color}`} : null}
         onClick={this.goToChannel.bind(this, room)}>
         <Roomname {...room} />
         {this.renderUnread(room)}
@@ -109,18 +107,15 @@ export default class Navigation extends Component {
   }
 
   renderPm(pm) {
-    const {sheet, channel} = this.props
+    const {classes} = this.props.sheet
     const {mate} = pm
-    const isCurrent = channel.type === 'pm' && channel.id === pm.id
-    let className = sheet.classes.channel
-    if (isCurrent) className += ` ${sheet.classes.currentChannel}`
     return (
       <li
         key={pm.id}
-        className={className}
+        className={`${classes.pm} ${pm.current ? classes.pmCurrent : ''}`}
         onClick={this.goToChannel.bind(this, pm)}>
         <Username
-          statusBorderColor={isCurrent ? colors.white : colors.grayBlueLighter}
+          statusBorderColor={pm.current ? colors.blue : colors.grayBlueLighter}
           avatar={mate.avatar}
           status={userStatusMap[mate.status]}
           name={mate.displayName} />

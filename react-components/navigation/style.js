@@ -1,5 +1,6 @@
 import buttonIcon from '../button/icon'
 import fonts from 'grape-theme/dist/fonts'
+import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
@@ -33,6 +34,17 @@ channels['&:before'] = {
   height: 21
 }
 
+const channel = {
+  ...fonts.small,
+  position: 'relative',
+  padding: '3px 42px 3px 15px',
+  cursor: 'pointer',
+  borderRadius: '0 100px 100px 0',
+  '&:hover': {
+    background: color(colors.grayBlueLighter).darken(0.05).hexString()
+  }
+}
+
 export default {
   navigation: {
     position: 'absolute',
@@ -47,10 +59,8 @@ export default {
   },
   wrapper: {
     boxSizing: 'border-box',
-    padding: '15px 0',
-    marginTop: 1,
-    height: 'calc(100% - 1px)',
-    borderRight: '1px solid rgba(0,0,0,0.1)'
+    padding: '15px 10px 15px 0',
+    height: '100%'
   },
   manage: {
     paddingLeft: 15
@@ -82,23 +92,20 @@ export default {
     backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
     backgroundSize: 'auto 13px'
   },
-  channel: {
-    ...fonts.small,
-    position: 'relative',
-    padding: '3px 42px 3px 3px',
-    margin: '0 -1px 0 12px',
-    cursor: 'pointer',
-    borderRadius: '100px 0 0 100px',
-    // TODO: this color should be presented at the grape-theme
-    '&:hover': {
-      background: '#d9dee5'
-    }
+  room: {
+    ...channel
   },
-  currentChannel: {
-    background: colors.white,
-    boxShadow: '0 0 3px rgba(0,0,0,0.14)',
+  roomCurrent: {
+    color: colors.white
+  },
+  pm: {
+    ...channel
+  },
+  pmCurrent: {
+    background: colors.blue,
+    color: colors.white,
     '&:hover': {
-      background: colors.white
+      'background': colors.blue
     }
   },
   sign: {
