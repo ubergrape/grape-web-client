@@ -102,8 +102,8 @@ msgid ""
 msgstr ""
 "<h2>Gruppen</h2><p>Diese Liste zeigt Ihnen die Gruppen, die Sie betreten haben. "
 "Sie wurden für den Anfang zu &quot;General&quot; und &quot;Off-Topic&quot; "
-"eingeladen.</p><p>Sie können alle verfügbaren Gruppe durch das Klicken auf "
-"&quot;Alle Gruppe&quot; anzeigen.</p>"
+"eingeladen.</p><p>Sie können alle verfügbaren Gruppen durch das Klicken auf "
+"&quot;Alle Gruppen&quot; anzeigen.</p>"
 
 #: client/browser/index.js:193
 msgid ""
@@ -124,8 +124,8 @@ msgid ""
 "to this group.</p>"
 msgstr ""
 "<h2>Gruppenmitglieder</h2><p>Diese Nummer zeigt Ihnen, wieviele "
-"Mitglieder in einem Gruppe sind.</p><p>Klicken Sie die Nummer, um alle "
-"anzuzeigen, bzw. mehr in den Gruppe einzuladen.</p>"
+"Mitglieder in einer Gruppe sind.</p><p>Klicken Sie die Nummer, um alle "
+"anzuzeigen, bzw. mehr in die Gruppe einzuladen.</p>"
 
 #: client/browser/index.js:203
 msgid ""
@@ -176,8 +176,8 @@ msgstr "Geben Sie uns eine Sekunde, in der wir alles für Sie vorbereiten!"
 #: templates/chathistory.jade:27
 msgid "This group is public. Every member can join and read the history."
 msgstr ""
-"Dieser Gruppe ist öffentlich. Jedes Mitglied kann beitreten und den Verlauf "
-"lesen."
+"Diese Gruppe ist öffentlich. Jedes Mitglied kann beitreten und den Verlauf "
+"zu lesen."
 
 #: client/templates/chathistory.jade:28 client/templates/chathistory.jade:34
 #: templates/chathistory.jade:34 templates/chathistory.jade:32
@@ -286,7 +286,7 @@ msgstr "Löschen"
 #: client/templates/dialogs/deleteroom.jade:13
 #: templates/dialogs/deleteroom.jade:13 templates/dialogs/deleteroom.jade:14
 msgid "Sorry, you can't delete "
-msgstr "Leider, können Sie den Gruppe nicht löschen:"
+msgstr "Leider, können Sie die Gruppe nicht löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:14
 #: templates/dialogs/deleteroom.jade:14
@@ -1069,7 +1069,7 @@ msgid ""
 "deleted, renamed or moved."
 msgstr ""
 "Wir konnten leider keine Ergebnisse zu Ihrer Suche finden - Vielleicht wurde"
-" der Gruppe entfernt, umbenannt oder gelöscht."
+" die Gruppe entfernt, umbenannt oder verschoben."
 
 #: templates/messages.jade:27
 msgid "We could not find the message you were looking for."
