@@ -2,6 +2,7 @@ import style from './style'
 
 const insideAvatar = {
   display: 'block',
+  borderRadius: '50%',
   width: '100%',
   height: '100%'
 }

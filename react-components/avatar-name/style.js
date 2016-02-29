@@ -7,8 +7,6 @@ export default {
     display: 'block',
     position: 'relative',
     flexShrink: 0,
-    overflow: 'hidden',
-    borderRadius: '50%',
     fontWeight: 'normal'
   },
   name: {
