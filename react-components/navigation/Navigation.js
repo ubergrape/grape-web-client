@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
-import {userStatus} from '../constants/app'
+import {userStatusMap} from '../constants/app'
 import style from './style'
 import colors from 'grape-theme/dist/base-colors'
 
@@ -122,7 +122,7 @@ export default class Navigation extends Component {
         <Username
           statusBorderColor={isCurrent ? colors.white : colors.grayBlueLighter}
           avatar={mate.avatar}
-          status={userStatus[mate.status]}
+          status={userStatusMap[mate.status]}
           name={mate.displayName} />
         {this.renderUnread(pm)}
       </li>

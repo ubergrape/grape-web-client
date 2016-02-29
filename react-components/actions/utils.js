@@ -6,9 +6,7 @@ import isEmpty from 'lodash/lang/isEmpty'
 import store from '../app/store'
 import {
   usersSelector,
-  userSelector,
-  channelsSelector,
-  joinedRoomsSelector
+  channelsSelector
 } from '../selectors'
 
 export function pinToFavorite(channel) {
@@ -21,6 +19,16 @@ export function pinToFavorite(channel) {
   return newChannel
 }
 
+/**
+ * Convert `users` objects array at the `channel` object
+ * to the array of users ids only.
+ * If array item hasn't the `id` property
+ * we're assuming it is id itself.
+ *
+ * TODO: remove this function when we
+ * will get data only from backend and
+ * not from old frontend architecture
+ */
 export function reduceChannelUsersToId(channel) {
   return {
     ...channel,
@@ -44,22 +52,18 @@ export function formatMessage(message) {
  * match user id or joined room id when
  * some user or room is mentioned.
  */
-export function countMentions(message) {
+export function countMentions(message, user, rooms) {
   const {mentions} = message
   let count = 0
   if (isEmpty(mentions)) return count
 
-  const state = store.getState()
-
   if (mentions.user) {
-    const user = userSelector(state)
     const userMentions = mentions.user.filter(userId => userId === user.id)
     count += userMentions.length
   }
 
   if (mentions.room) {
-    const joinedRooms = joinedRoomsSelector(state)
-    const joinedRoomsIds = pluck(joinedRooms, 'id')
+    const joinedRoomsIds = pluck(rooms, 'id')
     const roomMentions = intersection(mentions.room, joinedRoomsIds)
     count += roomMentions.length
   }
@@ -75,6 +79,8 @@ export function formatSidebarMessage(message) {
     plainText: content,
     channel: channelId
   } = formatMessage(message)
+  // TODO: move state dependendcies to the function arguments.
+  // So the action creators should pass them.
   const state = store.getState()
   const channels = channelsSelector(state)
   const currentChannel = find(channels, channel => channel.id === channelId)

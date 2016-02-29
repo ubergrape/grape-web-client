@@ -14,5 +14,9 @@ export default {
     textAlign: 'center',
     color: '#ffffff'
   },
-  icon: {...insideAvatar}
+  icon: {
+    ...insideAvatar,
+    background: '50% 50% no-repeat',
+    backgroundSize: '40% auto'
+  }
 }

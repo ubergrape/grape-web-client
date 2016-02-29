@@ -43,20 +43,19 @@ export default class Roomname extends Component {
       <span
         className={sheet.classes.icon}
         style={{
-          background: `url("${icon}") 50% 50% no-repeat`,
-          backgroundColor: color,
-          backgroundSize: '40% auto'
+          backgroundImage: `url("${icon}")`,
+          backgroundColor: color
         }}></span>
     )
   }
 
   renderAvatar() {
     const {size, icon, sheet} = this.props
-    const sizes = {width: size, height: size}
+    const dimension = {width: size, height: size}
     return (
       <span
         className={sheet.classes.avatar}
-        style={sizes}>
+        style={dimension}>
         {icon ? this.renderIcon() : this.renderAbbr()}
       </span>
     )

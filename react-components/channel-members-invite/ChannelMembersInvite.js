@@ -10,7 +10,7 @@ import {
 import Dialog from '../dialog/Dialog'
 import FilterableList from '../filterable-list/FilterableList'
 import Username from '../avatar-name/Username'
-import {userStatus} from '../constants/app'
+import {userStatusMap} from '../constants/app'
 
 import colors from 'grape-theme/dist/base-colors'
 
@@ -89,7 +89,7 @@ export default class ChannelMembersInvite extends Component {
           name={displayName}
           avatar={avatar}
           statusBorderColor={focused ? colors.grayBlueLighter : colors.white}
-          status={userStatus[status]}
+          status={userStatusMap[status]}
         />
       </div>
     )
