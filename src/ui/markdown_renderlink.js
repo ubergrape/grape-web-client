@@ -15,6 +15,7 @@ module.exports = function markdown_renderLink(href, title, text, asButton) {
     url: data[3]
   }
   if (object.type === 'room') object.roomId = data[2]
+  else object.userId = Number(data[2])
 
   return renderautocomplete(object, asButton)
 }

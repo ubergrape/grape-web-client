@@ -16,7 +16,11 @@ function renderAutocompleteItem(obj, asButton) {
   asButton = asButton || false
   let name = obj.id.replace(/"/g, '&quot;')
 
-  if (asButton===true) {
+  // Don't link to own user
+  if (obj.userId === window.ui.user.id) {
+    return `<span class="type-${obj.service}${getType(obj)}">${obj.insert}</span>`
+    //return `@${obj.insert}`
+  } else if (asButton===true) {
     if (isWebkit()) {
       // Google Chrome and other webkit browser
       // Can only draw an inline icon within the <button> element.
