@@ -56,18 +56,20 @@ export default class Navigation extends Component {
       showPmManager
     } = this.props
 
+    const {classes} = sheet
+
     return (
-      <ul className={sheet.classes.manage}>
-        <li className={sheet.classes.manageItem}>
+      <ul className={classes.manage}>
+        <li className={classes.manageItem}>
           <button
-            className={sheet.classes.contacts}
+            className={classes.contacts}
             onClick={showPmManager}>
             Contacts
           </button>
         </li>
-        <li className={sheet.classes.manageItem}>
+        <li className={classes.manageItem}>
           <button
-            className={sheet.classes.channels}
+            className={classes.channels}
             onClick={showChannelsManager}>
             Groups
           </button>
@@ -145,7 +147,8 @@ export default class Navigation extends Component {
   }
 
   renderFavoritedList() {
-    if (!this.props.favorited.length) return null
+    const {favorited} = this.props
+    if (!favorited.length) return null
 
     const {classes} = this.props.sheet
     return (
@@ -153,7 +156,7 @@ export default class Navigation extends Component {
         <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
         <ol className={classes.list}>
           {
-            this.props.favorited.map(channel => {
+            favorited.map(channel => {
               if (channel.type === 'room') return this.renderRoom(channel)
               if (channel.type === 'pm') return this.renderPm(channel)
               return null
@@ -178,13 +181,11 @@ export default class Navigation extends Component {
   render() {
     const {classes} = this.props.sheet
     return (
-      <div>
-        <div
-          ref="navigation"
-          onScroll={::this.onScroll}
-          className={classes.navigation}>
-          {this.renderNavigation()}
-        </div>
+      <div
+        ref="navigation"
+        onScroll={::this.onScroll}
+        className={classes.navigation}>
+        {this.renderNavigation()}
       </div>
     )
   }
