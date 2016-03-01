@@ -289,11 +289,20 @@ export const orgInfoSelector = createSelector(
   }
 )
 
+export const navigationPmsSelector = createSelector(
+  pmsSelector, pms => {
+    return pms.filter(pm => {
+      return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+    })
+  }
+)
+
+
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     channelSelector,
-    activePmsSelector,
+    navigationPmsSelector,
     initialDataLoadingSelector
   ],
   (

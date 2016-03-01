@@ -13,7 +13,12 @@ export default function reduce(state = initialState, action) {
 
       return state.reduce((newState, channel) => {
         if (channel.id === id && channel.type === type) {
-          newState.push({...channel, current: true})
+          const newChannel = {...channel, current: true}
+          // In case of empty PM we're adding it to the navigation.
+          // It is not saved at the backend and live only
+          // for the current session length.
+          if (type === 'pm' && !channel.firstMessageTime) newChannel.temporaryInNavigation = true
+          newState.push(newChannel)
           return newState
         }
         if (channel.current) {
