@@ -95,15 +95,15 @@ msgstr ""
 
 #: client/browser/index.js:188
 msgid ""
-"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-"
-"joined you to General and Off-Topic.</p><p>You can see all availible rooms "
+"<h2>Groups</h2><p>This list shows you the groups you have joined. We've auto-"
+"joined you to General and Off-Topic.</p><p>You can see all availible groups "
 "in your organization and create a new one by clicking on &quot;All "
-"rooms&quot;.</p>"
+"groups&quot;.</p>"
 msgstr ""
-"<h2>Räume</h2><p>Diese Liste zeigt Ihnen die Räume, die Sie betreten haben. "
+"<h2>Gruppen</h2><p>Diese Liste zeigt Ihnen die Gruppen, die Sie betreten haben. "
 "Sie wurden für den Anfang zu &quot;General&quot; und &quot;Off-Topic&quot; "
-"eingeladen.</p><p>Sie können alle verfügbaren Räume durch das Klicken auf "
-"&quot;Alle Räume&quot; anzeigen.</p>"
+"eingeladen.</p><p>Sie können alle verfügbaren Gruppen durch das Klicken auf "
+"&quot;Alle Gruppen&quot; anzeigen.</p>"
 
 #: client/browser/index.js:193
 msgid ""
@@ -119,13 +119,13 @@ msgstr ""
 #: client/browser/index.js:198 browser/index.js:198 browser/index.js:197
 #: browser/index.js:199 browser/index.js:200
 msgid ""
-"<h2>Room Members Info</h2><p>This number shows you how many users have "
-"joined this room.</p><p>Click it to see all of them or to invite more users "
-"to this room.</p>"
+"<h2>Group Members Info</h2><p>This number shows you how many users have "
+"joined this group.</p><p>Click it to see all of them or to invite more users "
+"to this group.</p>"
 msgstr ""
-"<h2>Raum-Mitglieder Info</h2><p>Diese Nummer zeigt Ihnen, wieviele "
-"Mitglieder in einem Raum sind.</p><p>Klicken Sie die Nummer, um alle "
-"anzuzeigen, bzw. mehr in den Raum einzuladen.</p>"
+"<h2>Gruppenmitglieder</h2><p>Diese Nummer zeigt Ihnen, wieviele "
+"Mitglieder in einer Gruppe sind.</p><p>Klicken Sie die Nummer, um alle "
+"anzuzeigen, bzw. mehr in die Gruppe einzuladen.</p>"
 
 #: client/browser/index.js:203
 msgid ""
@@ -174,10 +174,10 @@ msgstr "Geben Sie uns eine Sekunde, in der wir alles für Sie vorbereiten!"
 
 #: client/templates/chathistory.jade:21 client/templates/chathistory.jade:27
 #: templates/chathistory.jade:27
-msgid "This room is public. Every member can join and read the history."
+msgid "This group is public. Every member can join and read the history."
 msgstr ""
-"Dieser Raum ist öffentlich. Jedes Mitglied kann beitreten und den Verlauf "
-"lesen."
+"Diese Gruppe ist öffentlich. Jedes Mitglied kann beitreten und den Verlauf "
+"zu lesen."
 
 #: client/templates/chathistory.jade:28 client/templates/chathistory.jade:34
 #: templates/chathistory.jade:34 templates/chathistory.jade:32
@@ -266,7 +266,7 @@ msgstr "verwenden, um Ihren Text zu formatieren"
 #: client/templates/dialogs/deleteroom.jade:2
 #: templates/dialogs/deleteroom.jade:2
 msgid "you are about to delete "
-msgstr "Sie sind im Begriff, Ihren Raum zu löschen:"
+msgstr "Sie sind im Begriff, Ihre Gruppe zu löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:4
 #: templates/dialogs/deleteroom.jade:4
@@ -286,7 +286,7 @@ msgstr "Löschen"
 #: client/templates/dialogs/deleteroom.jade:13
 #: templates/dialogs/deleteroom.jade:13 templates/dialogs/deleteroom.jade:14
 msgid "Sorry, you can't delete "
-msgstr "Leider, können Sie den Raum nicht löschen:"
+msgstr "Leider, können Sie die Gruppe nicht löschen:"
 
 #: client/templates/dialogs/deleteroom.jade:14
 #: templates/dialogs/deleteroom.jade:14
@@ -295,12 +295,12 @@ msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:14
 #: templates/dialogs/deleteroom.jade:14
-msgid " or creater of the room "
+msgid " or creater of the group "
 msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:14
 #: templates/dialogs/deleteroom.jade:14
-msgid ". You can ask them if they can delete the room for you:"
+msgid ". You can ask them if they can delete the group for you:"
 msgstr ""
 
 #: client/templates/dialogs/deleteroom.jade:17
@@ -516,12 +516,13 @@ msgid "Loading"
 msgstr ""
 
 #: client/templates/navigation.jade:8 templates/navigation.jade:8
-msgid "All rooms"
+#: client/templates/popovers/room.jade:3 templates/popovers/room.jade:3
+msgid "All groups"
 msgstr ""
 
 #: client/templates/navigation.jade:9 templates/navigation.jade:9
 #: templates/navigation.jade:15
-msgid "Rooms"
+msgid "Groups"
 msgstr ""
 
 #: client/templates/navigation.jade:13 templates/navigation.jade:13
@@ -591,15 +592,11 @@ msgstr ""
 msgid "There are no members in your organization yet."
 msgstr ""
 
-#: client/templates/popovers/room.jade:3 templates/popovers/room.jade:3
-msgid "All chatrooms"
-msgstr ""
-
 #: client/templates/popovers/room.jade:8 templates/popovers/room.jade:8
 #: templates/popovers/room.jade:7 templates/popovers/room.jade:9
 #: templates/popovers/roomcreation.jade:3
 #: templates/popovers/roomcreation.jade:4
-msgid "Create new chatroom"
+msgid "Create new group"
 msgstr ""
 
 #: client/templates/popovers/room.jade:12 templates/popovers/room.jade:12
@@ -621,7 +618,7 @@ msgstr ""
 
 #: client/templates/popovers/roomlist.jade:3
 #: templates/popovers/roomlist.jade:3 templates/popovers/roomlist.jade:4
-msgid "Rooms you haven't joined"
+msgid "Groups you haven't joined"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:9
@@ -639,7 +636,7 @@ msgstr ""
 
 #: client/templates/popovers/roomlist.jade:29
 #: templates/popovers/roomlist.jade:29
-msgid "Your rooms"
+msgid "Your groups"
 msgstr ""
 
 #: client/templates/popovers/roomlist.jade:36
@@ -674,7 +671,7 @@ msgstr ""
 #: templates/popovers/roommembers.jade:20
 #: templates/popovers/roommembers.jade:17
 #: templates/popovers/roommembers.jade:18
-msgid "delete room"
+msgid "delete group"
 msgstr ""
 
 #: client/templates/popovers/user.jade:2 templates/popovers/user.jade:2
@@ -727,7 +724,7 @@ msgstr ""
 #: browser/index.js:185
 msgid ""
 "<h2>Writing Smart Messages</h2><p>You can use @ (e.g. @Tobi) to mention "
-"people or rooms to send them notifications.</p><p>After adding the first "
+"people or groups to send them notifications.</p><p>After adding the first "
 "service integration you can use # (e.g. #Pitch Deck) to reference files, "
 "tasks, appointments and much more!</p>"
 msgstr ""
@@ -735,10 +732,10 @@ msgstr ""
 #: browser/index.js:188 browser/index.js:187 browser/index.js:189
 #: browser/index.js:190
 msgid ""
-"<h2>Rooms</h2><p>This list shows you the rooms you have joined. We've auto-"
+"<h2>Groups</h2><p>This list shows you the groups you have joined. We've auto-"
 "joined you to General, Development and Off-Topic.</p><p>You can see all "
-"available rooms in your organization and create a new one by clicking on "
-"&quot;All rooms&quot;.</p>"
+"available groups in your organization and create a new one by clicking on "
+"&quot;All groups&quot;.</p>"
 msgstr ""
 
 #: browser/index.js:193 browser/index.js:192 browser/index.js:194
@@ -770,7 +767,7 @@ msgid "Search Users"
 msgstr ""
 
 #: templates/popovers/roomlist.jade:28
-msgid "Rooms you have currently joined"
+msgid "Groups you have currently joined"
 msgstr ""
 
 #: templates/popovers/user.jade:16 templates/popovers/organization.jade:30
@@ -785,7 +782,7 @@ msgstr ""
 
 #: templates/chathistory.jade:32 templates/chathistory.jade:36
 #: templates/chathistory.jade:37 templates/chathistory.jade:39
-msgid "Add members to this room"
+msgid "Add members to this group"
 msgstr ""
 
 #: templates/chathistory.jade:119 templates/pmlist.jade:26
@@ -817,7 +814,7 @@ msgid "Delete "
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:4
-msgid "Are you sure you want to delete room "
+msgid "Are you sure you want to delete group "
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:4
@@ -833,11 +830,11 @@ msgid ". You need to be either owner or admin of "
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:14
-msgid " or the creator of this room to delete it."
+msgid " or the creator of this group to delete it."
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:16
-msgid "This room was created by "
+msgid "This group was created by "
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:21 templates/dialogs/deleteroom.jade:18
@@ -845,12 +842,12 @@ msgid ". You can kindly ask him to delete it for you."
 msgstr ""
 
 #: templates/dialogs/deleteroom.jade:23 templates/dialogs/deleteroom.jade:20
-msgid "Sorry, this room can't be deleted."
+msgid "Sorry, this group can't be deleted."
 msgstr ""
 
 #: templates/navigation.jade:14 templates/popovers/room.jade:3
 #: templates/popovers/room.jade:4
-msgid "Manage rooms"
+msgid "Manage groups"
 msgstr ""
 
 #: templates/navigation.jade:23 templates/navigation.jade:29
@@ -867,7 +864,7 @@ msgid "created by "
 msgstr ""
 
 #: templates/popovers/roomlist.jade:33 templates/popovers/roomlist.jade:28
-msgid "Rooms you have already joined"
+msgid "Groups you have already joined"
 msgstr ""
 
 #: templates/chathistory.jade:200 templates/typingnotifications.jade:13
@@ -904,7 +901,7 @@ msgid "reload."
 msgstr ""
 
 #: templates/messages.jade:17 templates/messages.jade:21
-msgid "Room "
+msgid "Group "
 msgstr ""
 
 #: templates/messages.jade:17 templates/messages.jade:21
@@ -913,36 +910,36 @@ msgstr ""
 
 #: templates/popovers/roomcreation.jade:8
 #: templates/popovers/roomcreation.jade:9
-msgid "Room name"
+msgid "Group name"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:12
 #: templates/popovers/roomcreation.jade:13
-msgid "Room type"
+msgid "Group type"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:15
 #: templates/popovers/roomcreation.jade:16
-msgid "Public room"
+msgid "Public group"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:17
 #: templates/popovers/roomcreation.jade:18
-msgid "A public room that everybody can see and join."
+msgid "A public group that everybody can see and join."
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:20
 #: templates/popovers/roomcreation.jade:21
-msgid "Private room"
+msgid "Private group"
 msgstr ""
 
 #: templates/popovers/roomcreation.jade:22
 #: templates/popovers/roomcreation.jade:23
-msgid "A private room that only invited users can see and join."
+msgid "A private group that only invited users can see and join."
 msgstr ""
 
 #: browser/elements/dialogs/deleteroom.js:36
-msgid "Please enter the name of the room you want to delete"
+msgid "Please enter the name of the group you want to delete"
 msgstr ""
 
 #: browser/elements/notifications.js:41 browser/elements/notifications.js:51
@@ -965,11 +962,11 @@ msgstr ""
 #: browser/index.js:204 browser/index.js:205 browser/index.js:213
 #: browser/index.js:217
 msgid ""
-"<h2>The Room header</h2><h3>At ChatGrape everything is just one click "
-"away.</h3><p>As an admin or room owner, you can modify a <u>Room Name</u> "
+"<h2>The Group header</h2><h3>At ChatGrape everything is just one click "
+"away.</h3><p>As an admin or group owner, you can modify a <u>Group Name</u> "
 "just by clicking the <i class=\"fa fa-pencil\"></i> button.</p><p>You can "
-"<u>Delete Rooms</u> by clicking the <i class=\"fa fa-trash\"></i> "
-"icon.</p><p>The little round images show the <u>users inside a room</u>. "
+"<u>Delete Groups</u> by clicking the <i class=\"fa fa-trash\"></i> "
+"icon.</p><p>The little round images show the <u>users inside a group</u>. "
 "Click the <i class=\"fa fa-user-plus\"></i> button to see all and to invite "
 "new users.</p>"
 msgstr ""
@@ -1005,15 +1002,15 @@ msgid "Notification Settings"
 msgstr ""
 
 #: browser/elements/dialogs/deleteroom.js:36
-msgid "Please enter the name of the room you want to delete."
+msgid "Please enter the name of the group you want to delete."
 msgstr ""
 
 #: browser/elements/notifications.js:36
-msgid " invited you to the room "
+msgid " invited you to the group "
 msgstr ""
 
 #: browser/elements/notifications.js:37
-msgid " (Room Invite)"
+msgid " (Group Invite)"
 msgstr ""
 
 #: templates/chatheader.jade:17 templates/chatheader.jade:18
@@ -1068,11 +1065,11 @@ msgstr "neueste Nachrichten"
 
 #: templates/messages.jade:24
 msgid ""
-"We could not find what you were looking for - the room might have been "
+"We could not find what you were looking for - the group might have been "
 "deleted, renamed or moved."
 msgstr ""
 "Wir konnten leider keine Ergebnisse zu Ihrer Suche finden - Vielleicht wurde"
-" der Raum entfernt, umbenannt oder gelöscht."
+" die Gruppe entfernt, umbenannt oder verschoben."
 
 #: templates/messages.jade:27
 msgid "We could not find the message you were looking for."
@@ -1087,8 +1084,8 @@ msgid "+"
 msgstr "+"
 
 #: templates/navigation.jade:20
-msgid "Rooms "
-msgstr "Räume"
+msgid "Groups "
+msgstr "Gruppen "
 
 #: templates/chatheader.jade:30
 msgid "Search for messages, files, etc."

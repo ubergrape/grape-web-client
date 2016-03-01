@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import tz from 'moment-timezone'
+import isEmpty from 'lodash/lang/isEmpty'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
@@ -12,7 +13,7 @@ function getStats(channel) {
   const amount = channel.users.length
   const plural = amount > 1 ? 's' : ''
   const date = tz(channel.created * 1000).format(dateFormat)
-  let text = `The room ${channel.name} has ${amount} member${plural} and has been created`
+  let text = `The group ${channel.name} has ${amount} member${plural} and has been created`
   if (channel.creator) text += ` by ${channel.creator.displayName}`
   text += ` on ${date}.`
   return text
@@ -94,12 +95,13 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
+    const {channel, show} = this.props
+    if (!show || isEmpty(channel)) return null
+
     const {classes} = this.props.sheet
-    const {channel} = this.props
     return (
       <SidebarPanel
-        title="Room Info"
+        title="Group Info"
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <header className={classes.header}>
@@ -107,11 +109,11 @@ export default class ChannelInfo extends Component {
               {getStats(channel)}
             </div>
             {channel.description && <div className={classes.description}>
-              <h2>Room topic</h2>
+              <h2>Group topic</h2>
               <p className={classes.descriptionText}>{channel.description}</p>
             </div>}
             <div className={classes.actions}>
-              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this room</button>
+              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this group</button>
               <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
             </div>
           </header>

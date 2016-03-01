@@ -27,7 +27,8 @@ export default class Converter {
   }
 
   circularConvert(obj) {
-    if (!obj || typeof obj !== 'object' || this.isCircular(obj)) return obj
+    if (!obj || typeof obj !== 'object') return obj
+    if (this.isCircular(obj)) return obj.toJSON ? obj.toJSON() : obj
 
     this.cache.push(obj)
 

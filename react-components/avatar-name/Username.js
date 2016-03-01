@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 
-import style from './style'
+import style from './userStyle'
 import {useSheet} from 'grape-web/lib/jss'
 
 @useSheet(style)
-export default class AvatarUsername extends Component {
+export default class Username extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     size: PropTypes.number,
     showStatus: PropTypes.bool,
@@ -18,7 +18,7 @@ export default class AvatarUsername extends Component {
   static defaultProps = {
     size: 32,
     showStatus: true,
-    statusBorderColor: '#FFFFFF'
+    statusBorderColor: '#ffffff'
   }
 
   renderStatus() {
@@ -41,18 +41,18 @@ export default class AvatarUsername extends Component {
   }
 
   render() {
-    const size = this.props.size
+    const {size} = this.props
     const sizes = {width: size, height: size}
     const {classes} = this.props.sheet
     const {
-      username,
+      name,
       avatar,
       showStatus,
       status
     } = this.props
 
     return (
-      <span className={classes.avatarUsername}>
+      <span className={classes.avatarName}>
         <span className={classes.avatar}>
           <span
             className={classes.image}
@@ -64,8 +64,8 @@ export default class AvatarUsername extends Component {
           </span>
           {this.renderStatus()}
         </span>
-        <span className={classes.username}>
-          {username}
+        <span className={classes.name}>
+          {name}
         </span>
       </span>
     )

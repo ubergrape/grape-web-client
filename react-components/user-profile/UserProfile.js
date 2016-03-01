@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-
+import isEmpty from 'lodash/lang/isEmpty'
 import {useSheet} from 'grape-web/lib/jss'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import style from './style'
@@ -28,6 +28,7 @@ export default class UserProfile extends Component {
 
   render() {
     if (!this.props.show) return null
+
     const {classes} = this.props.sheet
     const {
       avatar,

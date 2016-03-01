@@ -1,12 +1,7 @@
+import style from './style'
+
 export default {
-  avatarUsername: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  avatar: {
-    display: 'block',
-    position: 'relative'
-  },
+  ...style,
   status: {
     position: 'absolute',
     right: 0,
@@ -26,8 +21,5 @@ export default {
     display: 'block',
     overflow: 'hidden',
     borderRadius: '50%'
-  },
-  username: {
-    paddingLeft: 10
   }
 }

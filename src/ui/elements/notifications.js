@@ -30,8 +30,8 @@ Notifications.prototype.setRoom = function Notifications_setRoom (room) {
 Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
   let inviter = item.inviter
   let room = item.room
-  let content = inviter.displayName + _(' invited you to the room ') + room.name
-  let title = inviter.displayName + _(' (Room Invite)')
+  let content = inviter.displayName + _(' invited you to the group ') + room.name
+  let title = inviter.displayName + _(' (Group Invite)')
   let icon = inviter.avatar
   this.dispatch(title, content, icon, room)
 }

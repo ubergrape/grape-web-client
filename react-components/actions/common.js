@@ -1,31 +1,34 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
-import {isMentioned, formatMessage} from './utils'
+import {reduceChannelUsersToId, pinToFavorite} from './utils'
+import omit from 'lodash/object/omit'
 import reduxEmitter from '../redux-emitter'
-import {addSharedFiles, removeSharedFiles} from './sharedFiles'
-import {addMention, removeMention} from './mentions'
-import {addUserToChannel} from './channelInfo'
 import * as api from '../backend/api'
 import {channelSelector} from '../selectors'
 import store from '../app/store'
 import {type as connection} from '../backend/client'
 
-export function setUsers(users) {
+export function error(err) {
+  reduxEmitter.showError(err)
+  // This action don't have reducer yet
   return {
-    type: types.SET_USERS,
-    payload: {
-      users
-    }
+    type: types.HANDLE_ERROR,
+    payload: error
   }
 }
 
-export function setUser(user) {
+export function setChannels(channels) {
   return {
-    type: types.SET_USER,
-    payload: {
-      user
-    }
+    type: types.SET_CHANNELS,
+    payload: channels.map(reduceChannelUsersToId).map(pinToFavorite)
+  }
+}
+
+export function setUsers(users) {
+  return {
+    type: types.SET_USERS,
+    payload: users
   }
 }
 
@@ -38,12 +41,30 @@ export function setOrg(org) {
   }
 }
 
-export function setChannels(channels) {
+export function setInitialData(org) {
+  return dispatch => {
+    dispatch(setUsers([...org.users]))
+    dispatch(setChannels([...org.channels]))
+
+    const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
+    dispatch(setOrg(cleanOrg))
+    return dispatch({
+      type: types.HANDLE_INITIAL_DATA
+    })
+  }
+}
+
+export function createChannel(channel) {
   return {
-    type: types.SET_CHANNELS,
-    payload: {
-      channels
-    }
+    type: types.CREATE_NEW_CHANNEL,
+    payload: reduceChannelUsersToId(channel)
+  }
+}
+
+export function setUser(user) {
+  return {
+    type: types.SET_USER,
+    payload: user
   }
 }
 
@@ -74,55 +95,11 @@ export function setSidebarIsLoading(isLoading) {
   }
 }
 
-export function handleNewMessage(message) {
-  return dispatch => {
-    const fMessage = formatMessage(message)
-    if (fMessage.attachments.length) {
-      dispatch(addSharedFiles(fMessage))
-    }
-    if (isMentioned(fMessage)) {
-      dispatch(addMention(fMessage))
-    }
-
-    dispatch({
-      type: types.HANDLE_NEW_MESSAGE,
-      payload: {
-        message: fMessage
-      }
-    })
-  }
-}
-
-export function handleRemovedMessage({id}) {
-  return dispatch => {
-    dispatch(removeSharedFiles(id))
-    dispatch(removeMention(id))
-    dispatch({
-      type: types.HANDLE_REMOVED_MESSAGE,
-      payload: {
-        messageId: id
-      }
-    })
-  }
-}
-
-export function handleReadChannel(data) {
-  return {
-    type: types.READ_CHANNEL,
-    payload: {
-      userId: data.user,
-      channelId: data.channel
-    }
-  }
-}
-
 export function goToMessage(message) {
   return dispatch => {
     dispatch({
       type: types.GO_TO_MESSAGE,
-      payload: {
-        message
-      }
+      payload: message
     })
     page(`/chat/${message.slug}/${message.id}`)
   }
@@ -148,9 +125,7 @@ export function goToChannel(slug) {
   return dispatch => {
     dispatch({
       type: types.GO_TO_CHANNEL,
-      payload: {
-        slug
-      }
+      payload: slug
     })
     page(`/chat/${slug}`)
   }
@@ -170,43 +145,11 @@ export function showOrgInvite() {
   }
 }
 
-export function handleJoinedChannel({user: userId, channel: channelId}) {
-  return dispatch => {
-    dispatch(addUserToChannel(userId, channelId))
-    dispatch({
-      type: types.USER_JOINED_CHANNEL,
-      payload: {
-        channelId,
-        userId
-      }
-    })
-  }
-}
-
-export function handleLeftChannel({user: userId, channel: channelId}) {
-  return {
-    type: types.USER_LEFT_CHANNEL,
-    payload: {
-      channelId,
-      userId
-    }
-  }
-}
-
 export function enableNotifications() {
   reduxEmitter.enableNotifications()
   // This action don't have reducer yet
   return {
     type: types.ENABLE_NOTIFICATIONS
-  }
-}
-
-export function error(err) {
-  reduxEmitter.showError(err)
-  // This action don't have reducer yet
-  return {
-    type: types.ERROR,
-    payload: error
   }
 }
 
@@ -220,19 +163,15 @@ export function invitedToChannel(usernames, channelId) {
   }
 }
 
-export function joinedChannel(channelId) {
-  return {
-    type: types.JOINED_CHANNEL,
-    payload: channelId
-  }
-}
-
 // This action isn't used yet, remove this comment after first use
+/**
+ * Run api request to join channel
+ * response is handled at app/subscribe.js with action handleJoinedChannel
+ */
 export function joinChannel({id} = channelSelector(store.getState())) {
   return dispatch => {
     return api
       .joinChannel(id)
-      .then(() => dispatch(joinedChannel(id)))
       .catch(err => dispatch(error(err)))
   }
 }
@@ -247,6 +186,15 @@ export function inviteToChannel(
       .inviteToChannel(usernames, id)
       .then(() => dispatch(invitedToChannel(usernames, id)))
       .catch(err => dispatch(error(err)))
+  }
+}
+
+export function toggleOrgSettings(elem) {
+  return dispatch => {
+    dispatch({
+      type: types.TOGGLE_ORG_SETTINGS
+    })
+    reduxEmitter.toggleOrgSettings(elem)
   }
 }
 

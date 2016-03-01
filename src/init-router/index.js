@@ -2,11 +2,12 @@ import page from 'page'
 import find from 'lodash/collection/find'
 import * as alerts from '../../react-components/constants/alerts'
 
+import store from '../../react-components/app/store'
+import {navigationSelector} from '../../react-components/selectors'
+
 export default function init(ui) {
   const baseURL = '/chat'
   const currUser = ui.user
-  const navRoomList = ui.navigation.roomList.items
-  const navPMList = ui.navigation.pmList.items
   page.stop()
   page.base(baseURL)
   page('/', pickChannel)
@@ -22,22 +23,12 @@ export default function init(ui) {
   })
 
   function pickChannel() {
-    let redirectRoom
-    navRoomList.every((room) => {
-      if (room.joined) {
-        redirectRoom = room
-        return false
-      }
-      return true
-    })
-    let redirectSlug
-    if (redirectRoom) {
-      redirectSlug = redirectRoom.slug
-    } else {
-      if (!navPMList.length) return ui.emit('emptyOrg')
-      redirectSlug = navPMList[0].slug
-    }
-    page.replace(baseURL + '/' + redirectSlug)
+    const state = store.getState()
+    const {recent, favorited} = navigationSelector(state)
+    const channels = favorited.concat(recent)
+    if (!channels.length) return ui.emit('emptyOrg')
+    channels.sort((a, b) => b.latestMessageTime - a.latestMessageTime)
+    page.replace(baseURL + '/' + channels[0].slug)
   }
 
   /**

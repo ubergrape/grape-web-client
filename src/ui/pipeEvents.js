@@ -25,6 +25,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'newMessage', ui.historyView, 'onNewMessage')
   broker(ui, 'focusMessage', ui.historyView, 'onFocusMessage')
   broker(ui, 'newPMOpened', ui.historyView, 'onNewPMOpened')
+  broker(ui, 'newPMOpened', ui.reduxEmitter, 'onNewPMOpened')
   broker(ui, 'newRoom', ui.historyView, 'onNewRoom')
   broker(ui, 'changeUser', ui.historyView, 'onChangeUser')
   broker(ui, 'emptyOrg', ui.historyView, 'onEmptyOrg')
@@ -37,17 +38,7 @@ export default function pipeEvents(ui) {
   broker(ui, 'settingsReady', ui.organizationMenu, 'onSettingsReady')
   broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
   broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
-  broker(ui, 'orgReady', ui.navigation, 'onOrgReady')
-  broker(ui, 'newMessage', ui.navigation, 'onNewMessage')
-  broker(ui, 'roomdeleted', ui.navigation, 'deleteRoom')
-  broker(ui, 'selectchannel', ui.navigation, 'select')
-  broker(ui, 'userMention', ui.navigation, 'onUserMention')
-  broker(ui, 'changeUser', ui.navigation, 'onChangeUser')
-  broker(ui, 'channelupdate', ui.navigation, 'onChannelUpdate')
-  broker(ui, 'channelRead', ui.navigation, 'onChannelRead')
-  broker(ui, 'joinedChannel', ui.navigation, 'onJoinedChannel')
-  broker(ui, 'leftChannel', ui.navigation, 'onLeftChannel')
-  broker(ui, 'deletedUser', ui.navigation, 'onDeletedUser')
+  broker(ui.reduxEmitter, 'toggleOrgSettings', ui.organizationMenu, 'toggle')
 
   // chat header
   broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
@@ -104,16 +95,13 @@ export default function pipeEvents(ui) {
   broker(ui.organizationMenu, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
   broker(ui.reduxEmitter, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
 
-  // navigation
-  broker(ui.navigation, 'triggerRoomManager', ui, 'onTriggerRoomManager')
-  broker(ui.navigation, 'triggerPMManager', ui, 'onTriggerPMManager')
+  // channel search, naviation
+  broker(ui.reduxEmitter, 'triggerPMManager', ui, 'onTriggerPMManager')
+  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // room info
   broker.pass(ui.reduxEmitter, 'kickMember', ui, 'kickMember')
   broker.pass(ui.reduxEmitter, 'leaveRoom', ui, 'leaveRoom')
-
-  // channel search
-  broker(ui.reduxEmitter, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // sidebar
   broker(ui.reduxEmitter, 'hideSidebar', ui, 'onHideSidebar')

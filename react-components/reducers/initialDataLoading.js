@@ -1,11 +1,13 @@
 import * as types from '../constants/actionTypes'
 
-const initialState = {}
+const initialState = {
+  loading: true
+}
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.SET_CHANNEL:
-      return action.payload.channel
+    case types.HANDLE_INITIAL_DATA:
+      return {loading: false}
     default:
       return state
   }

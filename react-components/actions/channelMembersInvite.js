@@ -42,7 +42,7 @@ export function setInviteFilterValue(value) {
 }
 
 export function createRoomAndInvite(users) {
-  const org = orgSelector(store.getState())
+  const {id} = orgSelector(store.getState())
   const channel = channelSelector(store.getState())
   const newChannelUsers = [...channel.users, ...users]
   const usernames = newChannelUsers.map(user => user.username)
@@ -56,7 +56,7 @@ export function createRoomAndInvite(users) {
     const room = {
       name,
       isPublic: false,
-      organization: org.id
+      organization: id
     }
 
     let newRoom

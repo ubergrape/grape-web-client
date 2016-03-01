@@ -5,7 +5,7 @@ import {room, anotherRoom} from '../../../../tests/fixtures/'
 import '../../../../src/templates'
 
 let roomList = new ItemList({
-  'template': 'roomlist.jade'
+  'template': 'dialogs/roomlist.jade'
 })
 
 describe('ItemList', () => {
