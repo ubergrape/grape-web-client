@@ -18,7 +18,7 @@ function renderAutocompleteItem(obj, asButton) {
 
   // Don't link to own user
   if (obj.userId === window.ui.user.id) {
-    return `<span class="type-${obj.service}${getType(obj)}">${obj.insert}</span>`
+    return `<span class="type-${obj.service}${getType(obj)} self-mention">${obj.insert}</span>`
     //return `@${obj.insert}`
   } else if (asButton===true) {
     if (isWebkit()) {
