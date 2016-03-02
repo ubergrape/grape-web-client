@@ -28,9 +28,9 @@ renderer.link = function (href, title, text) {
   else
     return this.link_simple(href, title, text)
 }
-renderer.heading = function (text, level) {
+renderer.heading = function (text, level, raw) {
   // this is a hack, we should replace the markdown parser
-  return (new Array(level+1)).join("#") + text
+  return (new Array(level+1)).join("#") + raw
 }
 renderer.hr = function () {
   return "--"
