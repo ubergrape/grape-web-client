@@ -310,6 +310,7 @@ API.prototype._tryAddRoom = function API__tryAddRoom(room) {
  * organization details such as the users and rooms.
  */
 API.prototype.setOrganization = function API_setOrganization(_org, callback) {
+  if (!_org) return
   callback || (callback = noop)
   let self = this
   // TODO: this should also leave any old organization
