@@ -64,7 +64,7 @@ export const pmsSelector = createSelector(
     return channels
       .filter(channel => channel.type === 'pm')
       .map(channel => {
-        const mate = find(channel.users, _user => _user.id !== user.id)
+        const mate = find(channel.users, _user => _user && _user.id !== user.id)
         if (!mate) return channel
         return {
           ...channel,
@@ -289,20 +289,11 @@ export const orgInfoSelector = createSelector(
   }
 )
 
-export const navigationPmsSelector = createSelector(
-  pmsSelector, pms => {
-    return pms.filter(pm => {
-      return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
-    })
-  }
-)
-
-
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     channelSelector,
-    navigationPmsSelector,
+    activePmsSelector,
     initialDataLoadingSelector
   ],
   (
