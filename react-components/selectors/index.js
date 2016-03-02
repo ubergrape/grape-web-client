@@ -77,8 +77,8 @@ export const pmsSelector = createSelector(
     return channels
       .filter(channel => channel.type === 'pm')
       .map(channel => {
-        const mate = find(channel.users, _user => _user && _user.id !== user.id)
-        if (!mate) return channel
+        let mate = find(channel.users, _user => _user && _user.id !== user.id)
+        if (!mate) mate = {...unknownUser}
         return {
           ...channel,
           slug: mate.slug,
