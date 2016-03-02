@@ -91,8 +91,7 @@ export function handleJoinOrg({user, organization: orgId}) {
 }
 
 export function handleLeftOrg({user: userId, organization: orgId}) {
-  const state = store.getState()
-  const org = orgSelector(state)
+  const org = orgSelector(store.getState())
 
   if (org.id !== orgId) return noopAction
 
@@ -103,25 +102,31 @@ export function handleLeftOrg({user: userId, organization: orgId}) {
 }
 
 export function handleMembershipUpdate({membership}) {
-  const {
-    organization,
-    user: userId,
-    role,
-    title
-  } = membership
+  return (dispatch, getState) => {
+    const {
+      organization,
+      user: userId,
+      role,
+      title
+    } = membership
 
-  const {id} = orgSelector(store.getState())
-  if (id !== organization) return noopAction
+    const {id} = orgSelector(getState())
+    if (id !== organization) return noopAction
 
-  return {
-    type: types.UPDATE_MEMBERSHIP,
-    payload: {
-      userId,
-      update: {
-        role,
-        title
+
+    dispatch({
+      type: types.UPDATE_MEMBERSHIP,
+      payload: {
+        userId,
+        update: {
+          role,
+          title
+        }
       }
-    }
+    })
+
+    const user = userSelector(getState())
+    if (userId === user.id) location.pathname = '/'
   }
 }
 
