@@ -1,9 +1,22 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
-
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
+
+import {defaultAvatar} from '../constants/images'
+
+const unknownUser = {
+  active: false,
+  username: 'unknown',
+  slug: '@unknown',
+  firstName: 'unknown',
+  lastName: 'User',
+  email: 'unknown@example.com',
+  displayName: 'Unknown User',
+  settings: {},
+  avatar: defaultAvatar
+}
 
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
@@ -41,7 +54,7 @@ export const channelsSelector = createSelector(
     return channels.map(channel => {
       return {
         ...channel,
-        users: channel.users.map(id => find(users, {id}))
+        users: channel.users.map(id => find(users, {id}) || {...unknownUser, id})
       }
     })
   }
@@ -289,11 +302,19 @@ export const orgInfoSelector = createSelector(
   }
 )
 
+export const navigationPmsSelector = createSelector(
+  pmsSelector, pms => {
+    return pms.filter(pm => {
+      return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+    })
+  }
+)
+
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     channelSelector,
-    activePmsSelector,
+    navigationPmsSelector,
     initialDataLoadingSelector
   ],
   (
