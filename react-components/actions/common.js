@@ -57,7 +57,10 @@ export function setInitialData(org) {
 export function createChannel(channel) {
   return {
     type: types.CREATE_NEW_CHANNEL,
-    payload: reduceChannelUsersToId(channel)
+    payload: {
+      ...reduceChannelUsersToId(channel),
+      unread: channel.unread || 0
+    }
   }
 }
 
