@@ -4,20 +4,6 @@ import find from 'lodash/collection/find'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 
-import {defaultAvatar} from '../constants/images'
-
-const unknownUser = {
-  active: false,
-  username: 'unknown',
-  slug: '@unknown',
-  firstName: 'unknown',
-  lastName: 'User',
-  email: 'unknown@example.com',
-  displayName: 'Unknown User',
-  settings: {},
-  avatar: defaultAvatar
-}
-
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
@@ -54,7 +40,7 @@ export const channelsSelector = createSelector(
     return channels.map(channel => {
       return {
         ...channel,
-        users: channel.users.map(id => find(users, {id}) || {...unknownUser, id})
+        users: channel.users.map(id => find(users, {id}))
       }
     })
   }
@@ -77,8 +63,7 @@ export const pmsSelector = createSelector(
     return channels
       .filter(channel => channel.type === 'pm')
       .map(channel => {
-        let mate = find(channel.users, _user => _user && _user.id !== user.id)
-        if (!mate) mate = {...unknownUser}
+        const mate = find(channel.users, _user => _user.id !== user.id)
         return {
           ...channel,
           slug: mate.slug,
