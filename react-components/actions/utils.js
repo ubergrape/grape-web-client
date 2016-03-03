@@ -9,6 +9,16 @@ import {
   channelsSelector
 } from '../selectors'
 
+/**
+ * Fix data inconsistencies at the backend.
+ * There are some PM's with only one participant.
+ */
+export function removeBrokenPms(channel) {
+  const {type, users} = channel
+  if (type === 'pm' && users.length !== 2) return false
+  return true
+}
+
 export function pinToFavorite(channel) {
   const {pin} = channel
   const newChannel = {
