@@ -86,11 +86,13 @@ export default {
   },
   recent: {
     backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,
-    backgroundSize: 'auto 12px'
+    backgroundSize: 'auto 12px',
+    backgroundPosition: '0 2px'
   },
   favorites: {
     backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
-    backgroundSize: 'auto 13px'
+    backgroundSize: 'auto 13px',
+    backgroundPosition: '0 2px'
   },
   room: {
     ...channel

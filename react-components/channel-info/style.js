@@ -7,7 +7,8 @@ import webColors from 'grape-theme/dist/web-colors'
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
-const marginBottom = 20
+const marginBottom = 15
+const paddingBottom = 15
 
 const button = {
   ...linkButton,
@@ -20,6 +21,12 @@ const button = {
   }
 }
 
+const divider = {
+  marginBottom,
+  paddingBottom,
+  borderBottom: `1px solid ${colors.grayBlueLight}`
+}
+
 export default {
   channelInfo: {
     color: colors.grayBlueDark
@@ -30,15 +37,17 @@ export default {
   },
   stats: {
     ...fonts.normal,
-    marginBottom
+    ...divider,
+    marginBottom,
   },
   description: {
-    marginBottom
+    ...divider
   },
   descriptionText: {
     ...fonts.normal
   },
   actions: {
+    ...divider,
     marginBottom,
     '& :last-child': {
       marginBottom: 0

@@ -54,20 +54,22 @@ export default class UserProfile extends Component {
             <div className={classes.fullName}>
               {displayName}
             </div>
-            {whatIDo && <div className={classes.about}>
-              <p>What I do:</p>
-              <p>{whatIDo}</p>
-            </div>}
-            <a href={`mailto:${email}`} className={classes.email}>
-              {email}
-            </a>
-            {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
-              {skypeUsername}
-            </a>}
-            {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
-              {phoneNumber}
-            </a>}
           </div>
+        </div>
+        <div>
+          {whatIDo && <div className={classes.about}>
+            <p>What I do:</p>
+            <p>{whatIDo}</p>
+          </div>}
+          <a href={`mailto:${email}`} className={classes.email}>
+            {email}
+          </a>
+          {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
+            {skypeUsername}
+          </a>}
+          {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
+            {phoneNumber}
+          </a>}
         </div>
       </SidebarPanel>
     )

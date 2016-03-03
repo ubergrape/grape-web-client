@@ -1,12 +1,14 @@
 import color from 'color'
-import colors from 'grape-theme/dist/base-colors'
-import fonts from 'grape-theme/dist/fonts'
 import utils from 'grape-jss-utils'
+import fonts from 'grape-theme/dist/fonts'
+import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
 
 const marginBottom = 20
+const paddingBottom = 20
 
 const button = {
   ...linkButton,
@@ -15,8 +17,15 @@ const button = {
   marginBottom: marginBottom / 2
 }
 
+const divider = {
+  marginBottom,
+  paddingBottom,
+  borderBottom: `1px solid ${colors.grayBlueLight}`
+}
+
 export default {
   profile: {
+    ...divider,
     display: 'flex'
   },
   leftColumn: {
@@ -36,9 +45,16 @@ export default {
     ...utils.ellipsis
   },
   about: {
+    ...divider,
     marginBottom,
     maxHeight: 200,
     overflowY: 'auto'
+  },
+  actions: {
+    ...divider,
+    '& :last-child': {
+      marginBottom: 0
+    }
   },
   email: {
     ...button,

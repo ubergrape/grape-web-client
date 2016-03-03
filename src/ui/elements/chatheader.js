@@ -22,15 +22,15 @@ const menuItems = {
     className: 'user-view-toggler',
     icon: 'fa-info-circle'
   },
-  mentions: {
-    className: 'mentions-toggler',
-    feature: 'mentions_browser',
-    icon: 'fa-at'
-  },
   sharedFiles: {
     className: 'file-browser-toggler',
     icon: 'fa-files-o',
     feature: 'shared_files_browser'
+  },
+  mentions: {
+    className: 'mentions-toggler',
+    feature: 'mentions_browser',
+    icon: 'fa-at'
   },
   intercom: {
     className: 'intercom-toggler',
