@@ -30,6 +30,7 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_USER_FROM_ORG: {
       const newState = [...state]
       const index = findIndex(newState, {id: action.payload})
+      if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
@@ -43,6 +44,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,
@@ -56,6 +58,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id: payload.id})
+      if (index === -1) return state
       const user = newState[index]
       const avatar = payload.avatar || user.avatar
       newState.splice(index, 1, {
@@ -71,6 +74,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const user = newState[index]
       newState.splice(index, 1, {
         ...user,

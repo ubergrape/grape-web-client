@@ -137,8 +137,18 @@ export const billingWarningSelector = createSelector(
   state => state.billingWarning, state => state
 )
 
+export const typingChannelsSelector = createSelector(
+  state => state.typingChannels, state => state
+)
+
 export const typingNotificationSelector = createSelector(
-  state => state.typingNotification, state => state
+  [typingChannelsSelector, channelSelector],
+  (typingNotification, channel) => {
+    return {
+      channel,
+      channels: typingNotification
+    }
+  }
 )
 
 export const setTypingSelector = createSelector(

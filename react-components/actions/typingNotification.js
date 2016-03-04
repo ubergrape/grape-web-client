@@ -12,7 +12,6 @@ export function setTyping({user, users, channel, typingNotification}, data) {
 
   const channels = {...typingNotification.channels}
   if (!channels[data.channel]) channels[data.channel] = []
-
   if (data.typing) {
     const expires = Date.now() + typingLifetime
     let typingUser = find(channels[data.channel], _user => _user.id === data.user)
@@ -34,10 +33,7 @@ export function setTyping({user, users, channel, typingNotification}, data) {
 
   return {
     type: types.SET_TYPING_USERS,
-    payload: {
-      channels,
-      channel
-    }
+    payload: channels
   }
 }
 
@@ -58,8 +54,6 @@ export function cleanupTyping(channels) {
 
   return {
     type: types.SET_TYPING_USERS,
-    payload: {
-      channels: isModified ? {...channels} : channels
-    }
+    payload: isModified ? {...channels} : channels
   }
 }
