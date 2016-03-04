@@ -39,6 +39,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
@@ -53,6 +54,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
@@ -67,6 +69,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id, type})
+      if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
@@ -85,6 +88,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const channel = newState[index]
       const timestamp = time.getTime()
       newState.splice(index, 1, {
@@ -103,6 +107,7 @@ export default function reduce(state = initialState, action) {
 
       const newState = [...state]
       const index = findIndex(newState, {id})
+      if (index === -1) return state
       const channel = newState[index]
       newState.splice(index, 1, {
         ...channel,
@@ -116,6 +121,7 @@ export default function reduce(state = initialState, action) {
       const newState = [...state]
       action.payload.forEach(({channelId: id, favorited}) => {
         const index = findIndex(newState, {id})
+        if (index === -1) return state
         const channel = newState[index]
         newState.splice(index, 1, {
           ...channel,
