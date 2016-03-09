@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var appETP = new ExtractTextPlugin('app.css');
 var componentETP = new ExtractTextPlugin('components.css');
+var IGNORES = ['electron']
 
 module.exports = {
   entry: './src/index.js',
@@ -10,6 +11,16 @@ module.exports = {
     path: '../chatgrape/static/app',
     filename: 'app.js'
   },
+  externals: [
+    (function () {
+      return function (context, request, callback) {
+        if (IGNORES.indexOf(request) >= 0) {
+          return callback(null, 'require(\'' + request + '\')')
+        }
+        return callback()
+      }
+    })()
+  ],
   module: {
     loaders: [
       {
