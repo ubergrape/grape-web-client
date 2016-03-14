@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var appETP = new ExtractTextPlugin('app.css');
 var componentETP = new ExtractTextPlugin('components.css');
-var IGNORES = ['electron']
+var IGNORES = ['electron', 'remote']
 
 module.exports = {
   entry: './src/index.js',

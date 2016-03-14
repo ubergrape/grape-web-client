@@ -1,30 +1,30 @@
 let Emitter = require('emitter')
-let notify = require('HTML5-Desktop-Notifications')
 let _ = require('t')
 let markdown = require('../markdown')
 let domify = require('domify')
 let staticurl = require('staticurl')
 let emoji = require('../emoji')
 
+import page from 'page'
+import {notificate, onElectron} from 'grape-web/lib/x-platform'
+
 module.exports = Notifications
 
 function Notifications() {
   this.show = false
   this.room = new Emitter({name: '', users: []})
-  this.init()
+  onElectron('notificationClicked', this.onNotificationClick.bind(this, this.room))
 }
 
 Notifications.prototype = Object.create(Emitter.prototype)
 
-Notifications.prototype.init = function Notifications_init() {
-  notify.config({
-    pageVisibility: true,
-    autoClose: 6000
-  })
-}
-
 Notifications.prototype.setRoom = function Notifications_setRoom (room) {
   this.room = room
+}
+
+Notifications.prototype.onNotificationClick = function Notifications_onNotificationClick (current, e, slug) {
+  if (current === this.room) return
+  page(`/chat/${slug}`)
 }
 
 Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
@@ -33,7 +33,16 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
   let content = inviter.displayName + _(' invited you to the group ') + room.name
   let title = inviter.displayName + _(' (Group Invite)')
   let icon = inviter.avatar
-  this.dispatch(title, content, icon, room)
+  const {slug} = room
+  notificate(
+    {
+      title,
+      content,
+      slug,
+      icon
+    },
+    () => this.emit('notificationClicked', room, null, slug)
+  )
 }
 Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (notif) {
   let i, opts, title, content_dom, imgs, img, replacement, filename
@@ -41,13 +50,15 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
   let attachments = notif.attachments
   let hasExpired  = (new Date() - notif.time)/1000 > 60
 
+  const {channel} = notif
+
   // don't notify if:
   // - message is too old - to prevent old msgs avalanche when server reloads or device resumes from standby
   // - chat is focused on the room the notification comes from
-  if ((notif.channel.id === this.room.id && document.hasFocus()) || hasExpired) return
+  if ((channel.id === this.room.id && document.hasFocus()) || hasExpired) return
 
-  if (notif.channel.type === 'room') {
-    title = notif.author.name + ' (' + notif.channel.name + ')'
+  if (channel.type === 'room') {
+    title = notif.author.name + ' (' + channel.name + ')'
   } else {
     title = notif.author.name + ' (' + _('Private message') + ')'
   }
@@ -100,27 +111,13 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
     }
   }
 
-  this.dispatch(title, content, notif.author.icon_url, notif.channel)
-}
-
-Notifications.prototype.dispatch = function Notifications_dispatch (title, content, icon, channel) {
-  let self = this
-  if (window.MacGap) {
-    window.MacGap.notify({
-      title: title,
-      content: content,
-      sound: false
-    })
-  } else {
-    let notification = notify.createNotification(title, {
-      body: content,
-      icon: icon,
-      timeout: 6000,
-      onclick: function (ev) {
-        self.emit('notificationClicked', channel)
-        window.focus()
-        notification.close()
-      }
-    })
-  }
+  const slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
+  notificate({
+      title,
+      content,
+      slug,
+      icon: notif.author.icon_url
+    },
+    () => this.emit('notificationClicked', channel, null, slug)
+  )
 }

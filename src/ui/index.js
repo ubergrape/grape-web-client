@@ -376,12 +376,6 @@ UI.prototype.onMessageNotFound = function UI_onMessageNotFound (channel) {
   })
 }
 
-UI.prototype.onNotificationClicked = function UI_onNotificationClicked (channel) {
-  if (this.room === channel) return
-  let slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
-  page('/chat/' + slug)
-}
-
 UI.prototype.onSwitchToChatMode = function UI_onSwitchToChatMode (room) {
   let redirectSlug = room.type === 'pm' ? '@' + room.users[0].username.toLowerCase() : room.slug
   page('/chat/' + redirectSlug)

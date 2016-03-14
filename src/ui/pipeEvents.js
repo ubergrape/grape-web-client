@@ -79,7 +79,7 @@ export default function pipeEvents(ui) {
   broker(ui.historyView, 'triggerRoomManager', ui, 'onTriggerRoomManager')
 
   // notifications
-  broker(ui.notifications, 'notificationClicked', ui, 'onNotificationClicked')
+  broker(ui.notifications, 'notificationClicked', ui.notifications, 'onNotificationClick')
   broker(ui.reduxEmitter, 'enableNotifications', ui, 'requestPermission')
 
   // file upload
