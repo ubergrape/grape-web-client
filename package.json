@@ -3,6 +3,7 @@
   "version": "0.15.0",
   "private": true,
   "dependencies": {
+    "html5-desktop-notifications": "^1.0.0",
     "jss": "^3.3.0",
     "jss-camel-case": "^1.0.1",
     "jss-default-unit": "^2.1.0",
