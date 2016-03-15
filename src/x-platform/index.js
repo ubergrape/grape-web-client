@@ -59,6 +59,7 @@ export function notificate({title, content, icon, slug}, callback = noop) {
  * Open a url in browser and MacGap.
  */
 export function openUrl(url) {
+  if (electron) return electron.shell.openExternal(url)
   if (macGap) return macGap.openURL(url)
   window.open(url)
 }
