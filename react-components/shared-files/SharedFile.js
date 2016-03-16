@@ -28,7 +28,7 @@ export default class SharedFile extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onOpen() {
-    openUrl(this.props.url)
+    openUrl(this.props.url, false)
   }
 
   setPreviewRef(ref) {
