@@ -426,7 +426,7 @@ export default class GrapeInput extends Emitter {
 
   searchPromise(search, options) {
     return new Promise((resolve, reject) => {
-      this.emit('autocomplete', search,  options, (err, data) => {
+      this.emit('autocomplete', search, options, (err, data) => {
         if (err) return reject(err)
         resolve(data)
       })
@@ -458,12 +458,16 @@ export default class GrapeInput extends Emitter {
   }
 
   onFocus() {
-    this.setProps({focused: true})
+    if (!this.preventExtraFocus) this.setProps({focused: true})
+    // `preventExtraFocus` fix bug when focus is set at the endless loop
+    // https://github.com/ubergrape/chatgrape/issues/3528
+    this.preventExtraFocus = true
   }
 
   onBlur() {
     this.stopTyping()
     this.setProps({focused: false})
+    this.preventExtraFocus = false
   }
 
   onResize() {
