@@ -12,6 +12,11 @@ module.exports = {
     filename: 'app.js'
   },
   externals: [
+    /**
+     * Ignores 'require' calls from `IGNORES` list.
+     * Electron wrapper adds own `require` and
+     * we need to do not handle them in webpack build.
+     */
     (function () {
       return function (context, request, callback) {
         if (IGNORES.indexOf(request) >= 0) {
