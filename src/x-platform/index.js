@@ -1,5 +1,5 @@
 import 'html5-desktop-notifications'
-import config from './constants'
+import {notificationsConfig} from './constants'
 import noop from 'lodash/utility/noop'
 
 
@@ -49,7 +49,7 @@ export function notificate({title, content, icon, slug}, callback = noop) {
 
   // This will show native HTML Notification.
   const {notify} = window
-  notify.config(config)
+  notify.config(notificationsConfig)
   const notification = notify.createNotification(title, {
     body: content,
     icon,

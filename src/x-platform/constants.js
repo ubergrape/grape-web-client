@@ -1,4 +1,4 @@
-export const config = {
+export const notificationsConfig = {
   pageVisibility: true,
   autoClose: 6000
 }
