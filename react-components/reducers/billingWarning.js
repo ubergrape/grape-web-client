@@ -13,8 +13,9 @@ export default function reduce(state = initialState, action) {
     case types.SET_ORG:
       return {...state, ...action.payload.org.billingWarning}
     case types.SHOW_BILLING_WARNING:
+      return {...state, show: true}
     case types.HIDE_BILLING_WARNING:
-      return {...state, ...action.payload}
+      return {...state, show: false}
     default:
       return state
   }
