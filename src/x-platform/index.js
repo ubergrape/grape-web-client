@@ -2,6 +2,8 @@ import 'html5-desktop-notifications'
 import config from './constants'
 import noop from 'lodash/utility/noop'
 
+
+// Electron brings own require to window
 let electron
 let remote
 if (window.require) {
@@ -11,6 +13,9 @@ if (window.require) {
 
 const macGap = window.MacGap
 
+/**
+ * Subscribe on Electron main process event.
+ */
 export function onElectron(event, callback) {
   if (electron) {
     electron.ipcRenderer.on(event, callback)
@@ -29,6 +34,7 @@ export function notificate({title, content, icon, slug}, callback = noop) {
     return
   }
 
+  // This will show Windows Tray Balllon in Windows < 10.
   if (electron && !remote.getGlobal('isNotificationSupported')) {
     electron.ipcRenderer.send(
       'showNotification',
@@ -41,6 +47,7 @@ export function notificate({title, content, icon, slug}, callback = noop) {
     return
   }
 
+  // This will show native HTML Notification.
   const {notify} = window
   notify.config(config)
   const notification = notify.createNotification(title, {
@@ -56,7 +63,8 @@ export function notificate({title, content, icon, slug}, callback = noop) {
 }
 
 /**
- * Open a url in browser and MacGap.
+ * Open a url in browser, MacGap or Electron.
+ * Electron handle url open on main process side.
  */
 export function openUrl(url, _blank = true) {
   if (macGap) return macGap.openURL(url)
@@ -65,7 +73,10 @@ export function openUrl(url, _blank = true) {
 }
 
 /**
- * Renders the doc icon badge.
+ * Renders
+ * - the doc icon badge (MacGap, Electron)
+ * - highlight OSX Tray (Electron)
+ * - highlight Windows Taskbar Icon (Electron)
  */
 export function addBadge(text) {
   if (macGap) {
@@ -79,7 +90,10 @@ export function addBadge(text) {
 }
 
 /**
- * Removes the doc icon badge.
+ * Removes
+ * - the doc icon badge (MacGap, Electron)
+ * - highlight OSX Tray (Electron)
+ * - highlight Windows Taskbar Icon (Electron)
  */
 export function removeBadge() {
   if (macGap) {
