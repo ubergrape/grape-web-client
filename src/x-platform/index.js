@@ -1,6 +1,7 @@
 import 'html5-desktop-notifications'
 import {notificationsConfig} from './constants'
 import noop from 'lodash/utility/noop'
+import random from 'lodash/number/random'
 
 
 // Electron brings own require to window
@@ -24,42 +25,57 @@ export function onElectron(event, callback) {
   return false
 }
 
-export function notificate({title, content, icon, slug}, callback = noop) {
-  if (macGap) {
-    macGap.notify({
-      title,
-      content,
-      sound: false
-    })
-    return
-  }
-
-  // This will show Windows Tray Balllon in Windows < 10.
-  if (electron && !remote.getGlobal('isNotificationSupported')) {
-    electron.ipcRenderer.send(
-      'showNotification',
-      {
-        title,
-        slug,
-        message: content
-      }
-    )
-    return
-  }
-
-  // This will show native HTML Notification.
-  const {notify} = window
-  notify.config(notificationsConfig)
-  const notification = notify.createNotification(title, {
-    body: content,
-    icon,
-    timeout: 6000,
-    onclick: () => {
-      callback()
-      window.focus()
-      notification.close()
+export class Notifier {
+  constructor() {
+    if (electron) {
+      this.callbacks = {}
+      onElectron('notificationClicked', (e, id) => {
+        if (this.callbacks[id]) this.callbacks[id]()
+      })
     }
-  })
+  }
+
+  createNotification({title, content, icon, slug}, callback = noop) {
+    if (macGap) {
+      macGap.notify({
+        title,
+        content,
+        sound: false
+      })
+      return
+    }
+
+    const id = random(10000)
+
+    // This will show Windows Tray Balllon in Windows < 10.
+    if (electron && !remote.getGlobal('isNotificationSupported')) {
+      this.callbacks[id] = callback
+      electron.ipcRenderer.send(
+        'showNotification',
+        {
+          id,
+          title,
+          slug,
+          message: content
+        }
+      )
+      return
+    }
+
+    // This will show native HTML Notification.
+    const {notify} = window
+    notify.config(notificationsConfig)
+    const notification = notify.createNotification(title, {
+      body: content,
+      icon,
+      tag: id,
+      onclick: () => {
+        callback()
+        window.focus()
+        notification.close()
+      }
+    })
+  }
 }
 
 /**
