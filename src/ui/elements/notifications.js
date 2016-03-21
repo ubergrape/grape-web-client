@@ -6,14 +6,14 @@ let staticurl = require('staticurl')
 let emoji = require('../emoji')
 
 import page from 'page'
-import {notificate, onElectron} from 'grape-web/lib/x-platform'
+import {Notifier} from 'grape-web/lib/x-platform'
 
 module.exports = Notifications
 
 function Notifications() {
   this.show = false
   this.room = new Emitter({name: '', users: []})
-  onElectron('notificationClicked', this.onNotificationClick.bind(this, this.room))
+  this.notifier = new Notifier()
 }
 
 Notifications.prototype = Object.create(Emitter.prototype)
@@ -22,7 +22,7 @@ Notifications.prototype.setRoom = function Notifications_setRoom (room) {
   this.room = room
 }
 
-Notifications.prototype.onNotificationClick = function Notifications_onNotificationClick (current, e, slug) {
+Notifications.prototype.onNotificationClick = function Notifications_onNotificationClick (current, slug) {
   if (current === this.room) return
   page(`/chat/${slug}`)
 }
@@ -34,14 +34,13 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
   let title = inviter.displayName + _(' (Group Invite)')
   let icon = inviter.avatar
   const {slug} = room
-  notificate(
+  this.notifier.createNotification(
     {
       title,
       content,
-      slug,
       icon
     },
-    () => this.emit('notificationClicked', room, null, slug)
+    () => this.emit('notificationClicked', room, slug)
   )
 }
 Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNotification (notif) {
@@ -112,12 +111,11 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
   }
 
   const slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
-  notificate({
+  this.notifier.createNotification({
       title,
       content,
-      slug,
       icon: notif.author.icon_url
     },
-    () => this.emit('notificationClicked', channel, null, slug)
+    () => this.emit('notificationClicked', channel, slug)
   )
 }
