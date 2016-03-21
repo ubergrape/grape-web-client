@@ -35,7 +35,7 @@ export class Notifier {
     }
   }
 
-  createNotification({title, content, icon, slug}, callback = noop) {
+  createNotification({title, content, icon}, callback = noop) {
     if (macGap) {
       macGap.notify({
         title,
@@ -55,7 +55,6 @@ export class Notifier {
         {
           id,
           title,
-          slug,
           message: content
         }
       )
@@ -66,8 +65,8 @@ export class Notifier {
     const {notify} = window
     notify.config(notificationsConfig)
     const notification = notify.createNotification(title, {
-      body: content,
       icon,
+      body: content,
       tag: id,
       onclick: () => {
         callback()
