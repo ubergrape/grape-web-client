@@ -537,9 +537,9 @@
       "resolved": "git://github.com/ubergrape/grape-theme.git#dcefeb95b996ddf752461c6ab5857d4d322dde2f"
     },
     "grape-web": {
-      "version": "0.16.0",
-      "from": "ubergrape/grape-web#0.16.0",
-      "resolved": "git://github.com/ubergrape/grape-web.git#96a5604b9a58fe6cb8cf795b3779b2b8b1589bd7",
+      "version": "0.17.0",
+      "from": "ubergrape/grape-web#0.17.0",
+      "resolved": "git://github.com/ubergrape/grape-web.git#950503eddcb78bd19ec440a747fedc9fa975795d",
       "dependencies": {
         "html5-desktop-notifications": {
           "version": "1.0.0",
@@ -1169,9 +1169,9 @@
       "resolved": "git://github.com/samsonjs/strftime.git#99232537902aebaefd592beb8470bc27e2eade9a"
     },
     "superagent": {
-      "version": "1.8.1",
+      "version": "1.8.2",
       "from": "superagent@>=1.3.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/superagent/-/superagent-1.8.1.tgz",
+      "resolved": "https://registry.npmjs.org/superagent/-/superagent-1.8.2.tgz",
       "dependencies": {
         "qs": {
           "version": "2.3.3",
