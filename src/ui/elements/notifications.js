@@ -6,14 +6,13 @@ let staticurl = require('staticurl')
 let emoji = require('../emoji')
 
 import page from 'page'
-import {Notifier} from 'grape-web/lib/x-platform'
+import {createNotification} from 'grape-web/lib/x-platform'
 
 module.exports = Notifications
 
 function Notifications() {
   this.show = false
   this.room = new Emitter({name: '', users: []})
-  this.notifier = new Notifier()
 }
 
 Notifications.prototype = Object.create(Emitter.prototype)
@@ -34,7 +33,7 @@ Notifications.prototype.onNewInviteNotification = function Notification_onNewInv
   let title = inviter.displayName + _(' (Group Invite)')
   let icon = inviter.avatar
   const {slug} = room
-  this.notifier.createNotification(
+  createNotification(
     {
       title,
       content,
@@ -111,7 +110,7 @@ Notifications.prototype.onNewMsgNotification = function Notifications_onNewMsgNo
   }
 
   const slug = channel.type === 'pm' ? '@' + channel.users[0].username.toLowerCase() : channel.slug
-  this.notifier.createNotification({
+  createNotification({
       title,
       content,
       icon: notif.author.icon_url
