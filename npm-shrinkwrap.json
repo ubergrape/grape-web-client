@@ -539,7 +539,7 @@
     "grape-web": {
       "version": "0.17.0",
       "from": "ubergrape/grape-web#0.18.0",
-      "resolved": "git://github.com/ubergrape/grape-web.git#059f3d21912e34ccf2653e6de02aa148248de21a",
+      "resolved": "git://github.com/ubergrape/grape-web.git#8f1e563d8f2fae2b233cbca7b0a200cfb9fc5c4e",
       "dependencies": {
         "html5-desktop-notifications": {
           "version": "1.0.0",
