@@ -42,7 +42,7 @@ export function getSections(data) {
         label: service.label,
         hint: `${service.count} results`,
         items: [],
-        selected: false,
+        selected: false
       }
       sections.push(section)
     }
