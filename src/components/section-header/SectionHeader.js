@@ -7,11 +7,18 @@ import style from './style'
 export default class Service extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    text: PropTypes.string
+    text: PropTypes.string,
+    hint: PropTypes.string
   }
 
   render() {
     const {classes} = this.props.sheet
-    return <header className={classes.header}>{this.props.text}</header>
+    const {text, hint} = this.props
+    return (
+      <header className={classes.header}>
+        <span className={classes.text}>{text}</span>
+        {hint && <span className={classes.hint}>{hint}</span>}
+      </header>
+    )
   }
 }

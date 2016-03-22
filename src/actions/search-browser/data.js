@@ -40,14 +40,16 @@ export function getSections(data) {
       section = {
         id: result.service,
         label: service.label,
+        hint: `${service.count} results`,
         items: [],
-        selected: false
+        selected: false,
       }
       sections.push(section)
     }
 
     if (!result.detail) result.detail = {}
     if (service.iconUrl) result.detail.iconUrl = service.iconUrl
+
     section.items.push({
       id: result.id,
       type: result.type,
