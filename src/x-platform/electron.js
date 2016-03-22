@@ -4,15 +4,18 @@ import random from 'lodash/number/random'
 import {openUrl, createNotification as createWebNotification} from './web'
 
 // Electron implements require on window.
-const electron = require('electron')
-const remote = require('remote')
+let electron
+let remote
+if (window.require) {
+  electron = require('electron')
+  remote = require('remote')
+}
 
-const isNotificationSupported = remote.getGlobal('isNotificationSupported')
 const notificationClickTimeout = 20000
 
 export function createNotification(options, callback = noop) {
   // This will show native HTML Notification.
-  if (isNotificationSupported) {
+  if (remote.getGlobal('isNotificationSupported')) {
     createWebNotification(options, callback)
     return
   }

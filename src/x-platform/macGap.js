@@ -18,9 +18,13 @@ export function openUrl(url) {
 /**
  * Renders the doc icon badge.
  */
-export const {addBadge} = macGap.Dock
+export function addBadge(text) {
+  macGap.Dock.addBadge(text)
+}
 
 /**
  * Removes the doc icon badge.
  */
-export const {removeBadge} = macGap.Dock
+export function removeBadge() {
+  macGap.Dock.removeBadge()
+}

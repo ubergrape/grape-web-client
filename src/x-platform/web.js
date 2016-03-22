@@ -1,6 +1,5 @@
 import noop from 'lodash/utility/noop'
 
-const {notify} = window
 const notificationsConfig = {
   pageVisibility: true,
   autoClose: 6000
@@ -10,6 +9,7 @@ const notificationsConfig = {
  * Create native html notification.
  */
 export function createNotification({title, content, icon}, callback = noop) {
+  const {notify} = window
   if (!notify) return
   notify.config(notificationsConfig)
   const notification = notify.createNotification(title, {
