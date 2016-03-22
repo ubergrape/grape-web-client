@@ -3,7 +3,20 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var appETP = new ExtractTextPlugin('app.css');
 var componentETP = new ExtractTextPlugin('components.css');
-var IGNORES = ['electron', 'remote']
+
+
+/**
+ * Ignores 'require' calls from `ignoredModules` list.
+ * Electron wrapper adds own `require` and
+ * we need to do not handle them in webpack build.
+ */
+var ignoredModules = ['electron', 'remote']
+function ignoreModules(context, request, callback) {
+  if (ignoredModules.indexOf(request) >= 0) {
+    return callback(null, 'require(\'' + request + '\')')
+  }
+  return callback()
+}
 
 module.exports = {
   entry: './src/index.js',
@@ -11,26 +24,12 @@ module.exports = {
     path: '../chatgrape/static/app',
     filename: 'app.js'
   },
-  externals: [
-    /**
-     * Ignores 'require' calls from `IGNORES` list.
-     * Electron wrapper adds own `require` and
-     * we need to do not handle them in webpack build.
-     */
-    (function () {
-      return function (context, request, callback) {
-        if (IGNORES.indexOf(request) >= 0) {
-          return callback(null, 'require(\'' + request + '\')')
-        }
-        return callback()
-      }
-    })()
-  ],
+  externals: [ignoreModules],
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: componentETP.extract('style-loader','css-loader')
+        loader: componentETP.extract('style-loader', 'css-loader')
       },
       {
         test: /\.styl$/,
