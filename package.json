@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "private": true,
   "dependencies": {
     "html5-desktop-notifications": "^1.0.0",
