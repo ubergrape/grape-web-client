@@ -31,13 +31,3 @@ export function openUrl(url, blank = true) {
   if (blank) return window.open(url)
   window.location.href = url
 }
-
-/**
- * We can't add badges on the web.
- */
-export const addBadge = noop
-
-/**
- * We can't remove badges on the web.
- */
-export const removeBadge = noop

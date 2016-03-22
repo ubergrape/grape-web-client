@@ -8,17 +8,19 @@ if (window.MacGap) implementation = macGap
 else if (window.require && window.process) implementation = electron
 
 export function createNotification(...args) {
-  return implementation.createNotification(...args)
+  if (implementation.createNotification) {
+    return implementation.createNotification(...args)
+  }
 }
 
 export function openUrl(...args) {
-  return implementation.openUrl(...args)
+  if (implementation.openUrl) return implementation.openUrl(...args)
 }
 
 export function addBadge(...args) {
-  return implementation.addBadge(...args)
+  if (implementation.addBadge) return implementation.addBadge(...args)
 }
 
 export function removeBadge(...args) {
-  return implementation.removeBadge(...args)
+  if (implementation.removeBadge) return implementation.removeBadge(...args)
 }
