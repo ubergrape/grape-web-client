@@ -1,5 +1,7 @@
-export function createNotification({title, content, icon}) {
-  MacGap.notify({
+const macGap = window.MacGap
+
+export function createNotification({title, content}) {
+  macGap.notify({
     title,
     content,
     sound: false
@@ -10,15 +12,15 @@ export function createNotification({title, content, icon}) {
  * Open an url.
  */
 export function openUrl(url) {
-  return MacGap.openURL(url)
+  return macGap.openURL(url)
 }
 
 /**
  * Renders the doc icon badge.
  */
-export const {addBadge} = MacGap.Dock
+export const {addBadge} = macGap.Dock
 
 /**
  * Removes the doc icon badge.
  */
-export const {removeBadge} = MacGap.Dock
+export const {removeBadge} = macGap.Dock

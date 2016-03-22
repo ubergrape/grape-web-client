@@ -18,7 +18,7 @@ export function createNotification(options, callback = noop) {
   }
 
   const event = random(10000)
-  const {title, content, icon} = options
+  const {title, content} = options
 
   electron.ipcRenderer.once(event, callback)
 
