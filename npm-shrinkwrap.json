@@ -537,9 +537,9 @@
       "resolved": "git://github.com/ubergrape/grape-theme.git#dcefeb95b996ddf752461c6ab5857d4d322dde2f"
     },
     "grape-web": {
-      "version": "0.17.0",
-      "from": "ubergrape/grape-web#0.18.0",
-      "resolved": "git://github.com/ubergrape/grape-web.git#8f1e563d8f2fae2b233cbca7b0a200cfb9fc5c4e",
+      "version": "0.18.1",
+      "from": "ubergrape/grape-web#0.18.1",
+      "resolved": "git://github.com/ubergrape/grape-web.git#51611f60b706e201bef2563fb7b25df24c943e90",
       "dependencies": {
         "html5-desktop-notifications": {
           "version": "1.0.0",
