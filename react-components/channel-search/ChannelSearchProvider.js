@@ -1,24 +1,23 @@
 import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
-import {mapActionsToProps} from '../app/redux'
-import {channelSearchSelector} from '../selectors'
-import actionNames from './actionNames'
 
+import {mapActionsToProps} from '../app/redux'
+import {channelSearchSelector as selector} from '../selectors'
+import store from '../app/store'
+import actionNames from './actionNames'
 import ChannelSearch from './ChannelSearch'
 
 const ConnectedChannelSearch = connect(
-  channelSearchSelector,
+  selector,
   mapActionsToProps(actionNames)
 )(ChannelSearch)
 
-export default function init(store) {
-  return class ChannelSearchProvider extends Component {
-    render() {
-      return (
-        <Provider store={store}>
-          <ConnectedChannelSearch />
-        </Provider>
-      )
-    }
+export default class ChannelSearchProvider extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <ConnectedChannelSearch />
+      </Provider>
+    )
   }
 }

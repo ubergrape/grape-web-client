@@ -1,47 +1,46 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
-import store from './store'
 import subscribeActions from './subscribe'
 import client from '../backend/client'
-import channelSearch from '../channel-search'
-import billingWarning from '../billing-warning'
-import typingNotification from '../typing-notification'
-import userProfile from '../user-profile'
-import channelInfo from '../channel-info'
-import sharedFiles from '../shared-files'
-import mentions from '../mentions'
-import messageSearch from '../message-search'
-import alerts from '../alerts'
-import inviteChannelMembers from '../channel-members-invite'
-import unreadChannels from '../unread-channels'
+import ChannelSearchProvider from '../channel-search/ChannelSearchProvider'
+import BillingWarningProvider from '../billing-warning/BillingWarningProvider'
+import TypingNotificationProvider from '../typing-notification/TypingNotificationProvider'
+import UserProfileProvider from '../user-profile/UserProfileProvider'
+import ChannelInfoProvider from '../channel-info/ChannelInfoProvider'
+import SharedFilesProvider from '../shared-files/SharedFilesProvider'
+import MentionsProvider from '../mentions/MentionsProvider'
+import MessageSearchProvider from '../message-search/MessageSearchProvider'
+import AlertsProvider from '../alerts/AlertsProvider'
+import ChannelMembersInviteProvider from '../channel-members-invite/ChannelMembersInviteProvider'
+import UnreadChannelsProvider from '../unread-channels/UnreadChannelsProvider'
 import OrgInfoProvider from '../org-info/OrgInfoProvider'
 import NavigationProvider from '../navigation/NavigationProvider'
 import FavoriteProvider from '../favorite/FavoriteProvider'
 
 render(
-  createElement(channelSearch(store)),
+  createElement(ChannelSearchProvider),
   document.body.appendChild(document.createElement('grape-channel-search'))
 )
 render(
-  createElement(billingWarning(store)),
+  createElement(BillingWarningProvider),
   document.body.appendChild(document.createElement('grape-billing-warning'))
 )
 render(
-  createElement(inviteChannelMembers(store)),
+  createElement(ChannelMembersInviteProvider),
   document.body.appendChild(document.createElement('grape-channel-members-invite'))
 )
 render(
-  createElement(unreadChannels(store)),
+  createElement(UnreadChannelsProvider),
   document.createElement('grape-unread-channels')
 )
 
-document.registerReact('grape-typing-notification', typingNotification(store))
-document.registerReact('grape-user-profile', userProfile(store))
-document.registerReact('grape-channel-info', channelInfo(store))
-document.registerReact('grape-shared-files', sharedFiles(store))
-document.registerReact('grape-mentions', mentions(store))
-document.registerReact('grape-message-search', messageSearch(store))
-document.registerReact('grape-alerts', alerts(store))
+document.registerReact('grape-typing-notification', TypingNotificationProvider)
+document.registerReact('grape-user-profile', UserProfileProvider)
+document.registerReact('grape-channel-info', ChannelInfoProvider)
+document.registerReact('grape-shared-files', SharedFilesProvider)
+document.registerReact('grape-mentions', MentionsProvider)
+document.registerReact('grape-message-search', MessageSearchProvider)
+document.registerReact('grape-alerts', AlertsProvider)
 document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-favorite', FavoriteProvider)

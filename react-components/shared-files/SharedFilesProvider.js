@@ -2,23 +2,22 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/redux'
-import {sharedFilesSelector} from '../selectors'
+import {sharedFilesSelector as selector} from '../selectors'
+import store from '../app/store'
 import actionNames from './actionNames'
 import SharedFiles from './SharedFiles'
 
 const ConnectedSharedFiles = connect(
-  sharedFilesSelector,
+  selector,
   mapActionsToProps(actionNames)
 )(SharedFiles)
 
-export default function init(store) {
-  return class SharedFilesProvider extends Component {
-    render() {
-      return (
-        <Provider store={store}>
-          <ConnectedSharedFiles />
-        </Provider>
-      )
-    }
+export default class SharedFilesProvider extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <ConnectedSharedFiles />
+      </Provider>
+    )
   }
 }

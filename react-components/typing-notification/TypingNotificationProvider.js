@@ -2,23 +2,22 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/redux'
-import {typingNotificationSelector} from '../selectors'
+import {typingNotificationSelector as selector} from '../selectors'
+import store from '../app/store'
 import actionNames from './actionNames'
 import TypingNotification from './TypingNotification'
 
 const ConnectedTypingNotification = connect(
-  typingNotificationSelector,
+  selector,
   mapActionsToProps(actionNames)
 )(TypingNotification)
 
-export default function init(store) {
-  return class TypingNotificationProvider extends Component {
-    render() {
-      return (
-        <Provider store={store}>
-          <ConnectedTypingNotification />
-        </Provider>
-      )
-    }
+export default class TypingNotificationProvider extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <ConnectedTypingNotification />
+      </Provider>
+    )
   }
 }

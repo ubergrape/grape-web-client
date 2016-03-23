@@ -2,23 +2,22 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/redux'
-import {userProfileSelector} from '../selectors'
+import {userProfileSelector as selector} from '../selectors'
+import store from '../app/store'
 import actionNames from './actionNames'
 import UserProfile from './UserProfile'
 
 const ConnectedUserProfile = connect(
-  userProfileSelector,
+  selector,
   mapActionsToProps(actionNames)
 )(UserProfile)
 
-export default function init(store) {
-  return class UserProfileProvider extends Component {
-    render() {
-      return (
-        <Provider store={store}>
-          <ConnectedUserProfile />
-        </Provider>
-      )
-    }
+export default class UserProfileProvider extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <ConnectedUserProfile />
+      </Provider>
+    )
   }
 }
