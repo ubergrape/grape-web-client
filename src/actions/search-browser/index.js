@@ -135,6 +135,24 @@ export function execSearchBrowserAction() {
   }
 }
 
+export function loadSearchBrowserServicesResultsAmounts() {
+  return (dispatch, getState) => {
+    const {onLoadResultsAmounts, search} = searchBrowserSelector(getState())
+
+    dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS})
+    onLoadResultsAmounts(search, services => {
+      const payload = services.reduce((data, service) => {
+        data[service.id] = service.count
+        return data
+      }, {})
+      dispatch({
+        type: types.UPDATE_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS,
+        payload
+      })
+    })
+  }
+}
+
 export function showSearchBrowserServices(query) {
   return (dispatch, getState) => {
     const {services, onLoadServices} = searchBrowserSelector(getState())
@@ -148,6 +166,8 @@ export function showSearchBrowserServices(query) {
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
     })
+
+    dispatch(loadSearchBrowserServicesResultsAmounts())
   }
 }
 

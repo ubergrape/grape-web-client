@@ -12,6 +12,7 @@ export default class ServiceList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     services: PropTypes.array,
+    servicesResultsAmounts: PropTypes.object,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
     focused: PropTypes.object
@@ -27,6 +28,7 @@ export default class ServiceList extends Component {
     return (
       <Service
         {...props}
+        resultsAmount={this.props.servicesResultsAmounts[props.item.id]}
         onSelect={this.props.onSelect}
         onFocus={this.props.onFocus} />
     )

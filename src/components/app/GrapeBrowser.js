@@ -237,6 +237,10 @@ export default class GrapeBrowser extends Component {
     this.emit('loadServices')
   }
 
+  onLoadServicesResultsAmounts(search, callback) {
+    this.emit('loadServicesResultsAmounts', {search, callback})
+  }
+
   onChangeInput({query, content} = {}) {
     clearTimeout(this.searchBrowserInputTimeoutId)
     if (query && query.trigger) {
@@ -405,6 +409,7 @@ export default class GrapeBrowser extends Component {
           onAddIntegration={::this.onAddSearchBrowserIntegration}
           onChange={::this.onChangeSearchBrowser}
           onLoadServices={::this.onLoadServices}
+          onLoadResultsAmounts={::this.onLoadServicesResultsAmounts}
           onDidMount={this.onDidMount.bind(this, 'browser')} />
       )
     }
