@@ -63,3 +63,44 @@ export function addBadge(text) {
 export function removeBadge() {
   electron.ipcRenderer.send('removeBadge')
 }
+
+/**
+ * Shows text input related context menu.
+ */
+function initContextMenu() {
+  const menu = remote.Menu.buildFromTemplate([
+    {
+      label: 'Cut',
+      click: () => {
+        document.execCommand('cut')
+      }
+    },
+    {
+      label: 'Copy',
+      click: () => {
+        document.execCommand('copy')
+      }
+    },
+    {
+      label: 'Paste',
+      click: () => {
+        document.execCommand('paste')
+      }
+    }
+  ])
+
+  document.addEventListener('contextmenu', e => {
+    switch (e.target.nodeName) {
+      case 'TEXTAREA':
+      case 'INPUT':
+        e.preventDefault()
+        menu.popup(remote.getCurrentWindow())
+        break
+      default:
+    }
+  })
+}
+
+export function init() {
+  initContextMenu()
+}
