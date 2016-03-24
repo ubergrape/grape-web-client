@@ -152,7 +152,7 @@ export function loadSearchBrowserServicesResultsAmounts() {
 }
 
 export function showSearchBrowserServices(query) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search
