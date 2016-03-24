@@ -64,6 +64,9 @@ export default function reduce(state = initialState, action) {
         ...state,
         ...action.payload
       }
+      // In case we receive update after input has been cleaned, ignore the new
+      // sections data.
+      if (!state.value) newState.sections = []
       if (!newState.services.length) newState.services = state.services
       newState.currServices = getCurrServices(newState)
       newState.focusedService = newState.currServices[0]
@@ -112,7 +115,7 @@ export default function reduce(state = initialState, action) {
     case types.UPDATE_SEARCH_BROWSER_INPUT:
       return {...state, ...action.payload}
     case types.CLEAR_SEARCH_BROWSER_INPUT:
-      return {...state, value: '', search: '', filters: []}
+      return {...state, value: '', search: '', filters: [], sections: []}
     default:
       return state
   }
