@@ -14,6 +14,7 @@ export default class Section extends Component {
     Item: PropTypes.func,
     items: PropTypes.array,
     label: PropTypes.string,
+    hint: PropTypes.string,
     contentClassName: PropTypes.string,
     focused: PropTypes.bool
   }
@@ -50,7 +51,7 @@ export default class Section extends Component {
 
     return (
       <section>
-        <SectionHeader text={this.props.label} />
+        <SectionHeader text={this.props.label} hint={this.props.hint} />
         <div className={this.props.contentClassName} ref="content">
           {this.props.items.map((data, i) => {
             const props = pick(this.props, 'onFocus', 'onSelect', 'onInvisible',

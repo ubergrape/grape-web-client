@@ -32,6 +32,11 @@ export default {
     padding: '7px 0',
     minWidth: 1 // firefox 34+ flexbox bug workaround
   },
+  hint: {
+    alignSelf: 'center',
+    padding: '0 5px',
+    color: colors.grayLight
+  },
   return: {
     alignSelf: 'center',
     padding: '0 5px'

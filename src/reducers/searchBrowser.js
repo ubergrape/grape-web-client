@@ -32,13 +32,15 @@ const initialState = {
   tokens: {},
   services: [],
   currServices: [],
+  servicesResultsAmounts: {},
   onAddIntegration: noop,
   onSelectItem: noop,
   onDidMount: noop,
   onChange: noop,
   onAbort: noop,
   onBlur: noop,
-  onLoadServices: noop
+  onLoadServices: noop,
+  onLoadResultsAmounts: noop
 }
 
 function getCurrServices({services, filters}, search) {
@@ -48,6 +50,9 @@ function getCurrServices({services, filters}, search) {
     const lowerSearch = search.toLowerCase().trim()
     curr = curr.filter(({label}) => label.toLowerCase().indexOf(lowerSearch) >= 0)
   }
+
+  // Pick properties we need only.
+  curr = curr.map(({id, label}) => ({id, label}))
 
   return curr
 }
@@ -91,6 +96,11 @@ export default function reduce(state = initialState, action) {
         focusedService: currServices[0]
       }
     }
+    case types.LOAD_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS:
+      // Reset current map.
+      return {...state, servicesResultsAmounts: {}}
+    case types.UPDATE_SEARCH_BROWSER_SERVICES_RESULTS_AMOUNTS:
+      return {...state, servicesResultsAmounts: action.payload}
     case types.FOCUS_SEARCH_BROWSER_SERVICE:
       return {...state, focusedService: action.payload}
     case types.ADD_SEARCH_BROWSER_SERVICE:
