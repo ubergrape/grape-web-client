@@ -16,14 +16,12 @@ import {SERVICES_TRIGGER} from '../../components/query/constants'
 
 export function createSearchBrowserState(props) {
   const {data} = props
-  let sections
+  let sections = []
   let focusedItem
 
   if (data) {
     sections = getSections(data)
     focusedItem = getFocusedItem(sections)
-  } else {
-    sections = []
   }
 
   return {
@@ -155,13 +153,6 @@ export function loadSearchBrowserServicesResultsAmounts() {
 
 export function showSearchBrowserServices(query) {
   return (dispatch, getState) => {
-    const {services, onLoadServices} = searchBrowserSelector(getState())
-    if (!services.length) {
-      dispatch({type: types.LOAD_SEARCH_BROWSER_SERVICES})
-      // TODO move this when we port the whole client to redux.
-      onLoadServices()
-    }
-
     dispatch({
       type: types.SHOW_SEARCH_BROWSER_SERVICES,
       payload: query.search

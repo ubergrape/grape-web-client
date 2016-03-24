@@ -19,6 +19,11 @@ export default class SearchBrowserModalProvider extends Component {
     createSearchBrowserState(props)
   }
 
+  componentDidMount() {
+    // TODO move this when we port the whole client to redux.
+    this.props.onLoadServices()
+  }
+
   componentWillReceiveProps(nextProps) {
     createSearchBrowserState(nextProps)
   }
