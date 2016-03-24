@@ -464,6 +464,7 @@ API.prototype.onLeaveRoom = function API_onLeaveRoom(roomId) {
   }, function (err) {
     if (err) return this.emit('error', err)
     room.joined = false
+    room.history = []
   }.bind(this))
 }
 
