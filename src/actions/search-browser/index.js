@@ -201,6 +201,11 @@ export function addSearchBrowserService(service) {
 
 export function changeSearchBrowserInput({value, search, filters, query}) {
   return (dispatch, getState) => {
+    if (!value) {
+      dispatch(clearSearchBrowserInput())
+      return
+    }
+
     const {onChange} = searchBrowserSelector(getState())
 
     dispatch({
