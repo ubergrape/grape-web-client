@@ -117,6 +117,7 @@ export default class GrapeInput extends Emitter {
     this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
+    this.events.bind('grapeLoadServicesResultsAmounts grape-input', 'onLoadServicesResultsAmounts')
     this.events.bind('grapeEditPrevious grape-input', 'onEditPrevious')
     this.events.bind('grapeAbort grape-input', 'onAbort')
     this.events.bind('grapeChange grape-input', 'onChange')
@@ -369,6 +370,13 @@ export default class GrapeInput extends Emitter {
         focused: true,
         services: data.services
       })
+    })
+  }
+
+  onLoadServicesResultsAmounts(e) {
+    this.emit('autocomplete', e.detail.search, {show: 'all'}, (err, data) => {
+      if (err) return this.emit('error', err)
+      e.detail.callback(data.services)
     })
   }
 
