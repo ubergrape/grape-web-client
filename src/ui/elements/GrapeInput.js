@@ -546,6 +546,9 @@ export default class GrapeInput extends Emitter {
     // For e.g. when trying to copy text from history.
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
     if (inputNodes.indexOf(e.target.nodeName) >= 0) return
+    // User is removed, input disabled.
+    if (!this.room) return
+
     this.setProps({focused: true})
   }
 
