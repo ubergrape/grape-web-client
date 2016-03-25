@@ -322,7 +322,7 @@ function sortRecentChannels(a, b) {
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue = b.latestMessageTime || unixToIso(b.created)
+    bCompareValue = b.latestMessageTime || unixToIsoTimestamp(b.created)
   }
 
   return bCompareValue - aCompareValue
