@@ -305,6 +305,25 @@ export const navigationPmsSelector = createSelector(
   }
 )
 
+function sortRecentChannels(a, b) {
+  let bCompareValue
+  let aCompareValue
+
+  if (a.temporaryInNavigation) {
+    aCompareValue = a.temporaryInNavigation
+  } else {
+    aCompareValue = a.latestMessageTime || new Date(a.created * 1000).getTime()
+  }
+
+  if (b.temporaryInNavigation) {
+    bCompareValue = b.temporaryInNavigation
+  } else {
+    bCompareValue = b.latestMessageTime || new Date(b.created * 1000).getTime()
+  }
+
+  return bCompareValue - aCompareValue
+}
+
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
@@ -321,7 +340,7 @@ export const navigationSelector = createSelector(
     const all = rooms.concat(pms)
     const recent = all
       .filter(_channel => !_channel.favorited)
-      .sort((a, b) => b.latestMessageTime - a.latestMessageTime)
+      .sort(sortRecentChannels)
     const favorited = all
       .filter(_channel => _channel.favorited)
       .sort((a, b) => b.favorited.order - a.favorited.order)
