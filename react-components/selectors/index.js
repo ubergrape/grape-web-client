@@ -305,6 +305,10 @@ export const navigationPmsSelector = createSelector(
   }
 )
 
+function unixToIso(timestamp) {
+  return new Date(timestamp * 1000).getTime()
+}
+
 function sortRecentChannels(a, b) {
   let bCompareValue
   let aCompareValue
@@ -312,13 +316,13 @@ function sortRecentChannels(a, b) {
   if (a.temporaryInNavigation) {
     aCompareValue = a.temporaryInNavigation
   } else {
-    aCompareValue = a.latestMessageTime || new Date(a.created * 1000).getTime()
+    aCompareValue = a.latestMessageTime || unixToIso(a.created)
   }
 
   if (b.temporaryInNavigation) {
     bCompareValue = b.temporaryInNavigation
   } else {
-    bCompareValue = b.latestMessageTime || new Date(b.created * 1000).getTime()
+    bCompareValue = b.latestMessageTime || unixToIso(b.created)
   }
 
   return bCompareValue - aCompareValue
