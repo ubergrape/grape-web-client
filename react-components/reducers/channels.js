@@ -15,7 +15,7 @@ export default function reduce(state = initialState, action) {
         if (channel.id === id && channel.type === type) {
           const newChannel = {...channel, current: true}
           // In case of empty PM we're adding it to the navigation
-          // with current timestamp to sort later.
+          // with the current timestamp to sort later by it's value.
           // It is not saved in the backend and lives only
           // for the current session lifetime.
           if (type === 'pm' && !channel.firstMessageTime) {
