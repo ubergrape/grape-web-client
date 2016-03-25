@@ -19,7 +19,7 @@ export default function reduce(state = initialState, action) {
           // It is not saved in the backend and lives only
           // for the current session lifetime.
           if (type === 'pm' && !channel.firstMessageTime) {
-            newChannel.temporaryInNavigation = new Date().getTime()
+            newChannel.temporaryInNavigation = Date().now()
           }
           newState.push(newChannel)
           return newState
