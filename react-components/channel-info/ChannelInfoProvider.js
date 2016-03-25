@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../app/redux'
-import {channelInfoSelector} from '../selectors'
+import {channelInfoSelector as selector} from '../selectors'
 import store from '../app/store'
 import actionNames from './actionNames'
 import ChannelInfo from './ChannelInfo'
 
 const ConnectedChannelInfo = connect(
-  channelInfoSelector,
+  selector,
   mapActionsToProps(actionNames)
 )(ChannelInfo)
 
