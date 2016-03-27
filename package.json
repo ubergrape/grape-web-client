@@ -61,7 +61,7 @@
     "progress-component": "component/progress#0.0.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "react-finite-list": "^1.0.1",
+    "react-finite-list": "^1.0.2",
     "react-overlays": "^0.5.0",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
