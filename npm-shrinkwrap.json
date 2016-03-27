@@ -471,24 +471,24 @@
               "resolved": "https://registry.npmjs.org/jss/-/jss-3.3.0.tgz"
             },
             "jss-camel-case": {
-              "version": "1.0.1",
+              "version": "1.0.2",
               "from": "jss-camel-case@>=1.0.1 <2.0.0",
-              "resolved": "https://registry.npmjs.org/jss-camel-case/-/jss-camel-case-1.0.1.tgz"
+              "resolved": "https://registry.npmjs.org/jss-camel-case/-/jss-camel-case-1.0.2.tgz"
             },
             "jss-default-unit": {
-              "version": "2.1.0",
+              "version": "2.1.1",
               "from": "jss-default-unit@>=2.1.0 <3.0.0",
-              "resolved": "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-2.1.0.tgz"
+              "resolved": "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-2.1.1.tgz"
             },
             "jss-extend": {
-              "version": "1.2.0",
+              "version": "1.2.1",
               "from": "jss-extend@>=1.2.0 <2.0.0",
-              "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-1.2.0.tgz"
+              "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-1.2.1.tgz"
             },
             "jss-nested": {
-              "version": "1.0.2",
+              "version": "1.0.3",
               "from": "jss-nested@>=1.0.2 <2.0.0",
-              "resolved": "https://registry.npmjs.org/jss-nested/-/jss-nested-1.0.2.tgz"
+              "resolved": "https://registry.npmjs.org/jss-nested/-/jss-nested-1.0.3.tgz"
             },
             "jss-vendor-prefixer": {
               "version": "1.0.1",
@@ -496,16 +496,16 @@
               "resolved": "https://registry.npmjs.org/jss-vendor-prefixer/-/jss-vendor-prefixer-1.0.1.tgz",
               "dependencies": {
                 "css-vendor": {
-                  "version": "0.3.1",
+                  "version": "0.3.2",
                   "from": "css-vendor@>=0.3.1 <0.4.0",
-                  "resolved": "https://registry.npmjs.org/css-vendor/-/css-vendor-0.3.1.tgz"
+                  "resolved": "https://registry.npmjs.org/css-vendor/-/css-vendor-0.3.2.tgz"
                 }
               }
             },
             "react-jss": {
-              "version": "2.0.1",
+              "version": "2.0.2",
               "from": "react-jss@>=2.0.1 <3.0.0",
-              "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-2.0.1.tgz"
+              "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-2.0.2.tgz"
             }
           }
         },
@@ -520,9 +520,9 @@
           "resolved": "git://github.com/ubergrape/js-emoji.git#2bbabf0f47e1ec665b1ceb76ff1b30e481c4fc60"
         },
         "react-visibility-sensor": {
-          "version": "2.1.0",
+          "version": "3.0.0",
           "from": "ubergrape/react-visibility-sensor",
-          "resolved": "git://github.com/ubergrape/react-visibility-sensor.git#2cb829a7001cfd415533463c4d8fc4c5fea67c56"
+          "resolved": "git://github.com/ubergrape/react-visibility-sensor.git#7ded1dbfa464e931ef811e320be7c7cebd8cc798"
         }
       }
     },
@@ -552,24 +552,24 @@
           "resolved": "https://registry.npmjs.org/jss/-/jss-3.3.0.tgz"
         },
         "jss-camel-case": {
-          "version": "1.0.1",
+          "version": "1.0.2",
           "from": "jss-camel-case@>=1.0.1 <2.0.0",
-          "resolved": "https://registry.npmjs.org/jss-camel-case/-/jss-camel-case-1.0.1.tgz"
+          "resolved": "https://registry.npmjs.org/jss-camel-case/-/jss-camel-case-1.0.2.tgz"
         },
         "jss-default-unit": {
-          "version": "2.1.0",
+          "version": "2.1.1",
           "from": "jss-default-unit@>=2.1.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-2.1.0.tgz"
+          "resolved": "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-2.1.1.tgz"
         },
         "jss-extend": {
-          "version": "1.2.0",
+          "version": "1.2.1",
           "from": "jss-extend@>=1.2.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-1.2.0.tgz"
+          "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-1.2.1.tgz"
         },
         "jss-nested": {
-          "version": "1.0.2",
+          "version": "1.0.3",
           "from": "jss-nested@>=1.0.2 <2.0.0",
-          "resolved": "https://registry.npmjs.org/jss-nested/-/jss-nested-1.0.2.tgz"
+          "resolved": "https://registry.npmjs.org/jss-nested/-/jss-nested-1.0.3.tgz"
         },
         "jss-vendor-prefixer": {
           "version": "1.0.1",
@@ -577,16 +577,16 @@
           "resolved": "https://registry.npmjs.org/jss-vendor-prefixer/-/jss-vendor-prefixer-1.0.1.tgz",
           "dependencies": {
             "css-vendor": {
-              "version": "0.3.1",
+              "version": "0.3.2",
               "from": "css-vendor@>=0.3.1 <0.4.0",
-              "resolved": "https://registry.npmjs.org/css-vendor/-/css-vendor-0.3.1.tgz"
+              "resolved": "https://registry.npmjs.org/css-vendor/-/css-vendor-0.3.2.tgz"
             }
           }
         },
         "react-jss": {
-          "version": "2.0.1",
+          "version": "2.0.2",
           "from": "react-jss@>=2.0.1 <3.0.0",
-          "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-2.0.1.tgz"
+          "resolved": "https://registry.npmjs.org/react-jss/-/react-jss-2.0.2.tgz"
         }
       }
     },
@@ -745,9 +745,9 @@
       "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.1.0.tgz",
       "dependencies": {
         "js-tokens": {
-          "version": "1.0.2",
+          "version": "1.0.3",
           "from": "js-tokens@>=1.0.1 <2.0.0",
-          "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.2.tgz"
+          "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
         }
       }
     },
@@ -908,15 +908,15 @@
           "from": "on-body@0.0.1",
           "resolved": "https://registry.npmjs.org/on-body/-/on-body-0.0.1.tgz"
         },
-        "component-each": {
-          "version": "0.2.6",
-          "from": "component-each@0.2.6",
-          "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz"
-        },
         "component-type": {
           "version": "1.0.0",
           "from": "component-type@1.0.0",
           "resolved": "https://registry.npmjs.org/component-type/-/component-type-1.0.0.tgz"
+        },
+        "component-each": {
+          "version": "0.2.6",
+          "from": "component-each@0.2.6",
+          "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz"
         }
       }
     },
@@ -1027,14 +1027,14 @@
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.7.tgz"
     },
     "react-finite-list": {
-      "version": "1.0.1",
-      "from": "react-finite-list@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.1.tgz",
+      "version": "1.0.2",
+      "from": "react-finite-list@>=1.0.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.2.tgz",
       "dependencies": {
         "react-visibility-sensor": {
-          "version": "2.1.0",
-          "from": "git+ssh://git@github.com/ubergrape/react-visibility-sensor.git",
-          "resolved": "git+ssh://git@github.com/ubergrape/react-visibility-sensor.git#2cb829a7001cfd415533463c4d8fc4c5fea67c56"
+          "version": "3.0.0",
+          "from": "ubergrape/react-visibility-sensor",
+          "resolved": "git://github.com/ubergrape/react-visibility-sensor.git#7ded1dbfa464e931ef811e320be7c7cebd8cc798"
         }
       }
     },
@@ -1169,9 +1169,9 @@
       "resolved": "git://github.com/samsonjs/strftime.git#99232537902aebaefd592beb8470bc27e2eade9a"
     },
     "superagent": {
-      "version": "1.8.2",
+      "version": "1.8.3",
       "from": "superagent@>=1.3.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/superagent/-/superagent-1.8.2.tgz",
+      "resolved": "https://registry.npmjs.org/superagent/-/superagent-1.8.3.tgz",
       "dependencies": {
         "qs": {
           "version": "2.3.3",
