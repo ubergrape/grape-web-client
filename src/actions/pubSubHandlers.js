@@ -16,7 +16,7 @@ import {
   joinedRoomsSelector
 } from '../selectors'
 
-import store from '../components/app/store'
+import store from '../app/store'
 
 const noopAction = {type: types.NOOP}
 

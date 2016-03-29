@@ -3,7 +3,7 @@ import pluck from 'lodash/collection/pluck'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 
-import store from '../components/app/store'
+import store from '../app/store'
 import {
   usersSelector,
   channelsSelector

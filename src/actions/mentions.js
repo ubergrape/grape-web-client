@@ -1,6 +1,6 @@
 import sortBy from 'lodash/collection/sortBy'
 
-import store from '../components/app/store'
+import store from '../app/store'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'

@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 
-import store from '../components/app/store'
+import store from '../app/store'
 import {alertsSelector} from '../selectors'
 
 import find from 'lodash/collection/find'

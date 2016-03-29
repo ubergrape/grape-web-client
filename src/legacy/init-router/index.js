@@ -2,7 +2,7 @@ import page from 'page'
 import find from 'lodash/collection/find'
 import * as alerts from '../../constants/alerts'
 
-import store from '../../components/app/store'
+import store from '../../app/store'
 import {navigationSelector} from '../../selectors'
 
 export default function init(ui) {

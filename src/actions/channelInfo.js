@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../legacy/redux-emitter'
-import store from '../components/app/store'
+import store from '../app/store'
 import {channelSelector} from '../selectors'
 import {showUserProfile} from './userProfile'
 

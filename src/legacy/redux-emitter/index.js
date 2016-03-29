@@ -1,7 +1,7 @@
 import Emitter from 'emitter'
 
 import {toCamel} from '../../utils/backend/convertCase'
-import boundActions from '../../components/app/boundActions'
+import boundActions from '../../app/boundActions'
 import * as alerts from '../../constants/alerts'
 
 class ReduxEmitter extends Emitter {

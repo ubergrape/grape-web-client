@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 import {maxChannelNameLength} from '../constants/app'
 
-import store from '../components/app/store'
+import store from '../app/store'
 import {goToChannel, error, invitedToChannel} from './common'
 import page from 'page'
 import {channelSelector, orgSelector} from '../selectors'

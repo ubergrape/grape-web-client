@@ -41,7 +41,7 @@ let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
-import '../../components/app'
+import '../../app'
 
 function UI(options) {
   Emitter.call(this)

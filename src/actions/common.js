@@ -7,7 +7,7 @@ import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
 import {channelSelector} from '../selectors'
-import store from '../components/app/store'
+import store from '../app/store'
 
 export function error(err) {
   reduxEmitter.showError(err)
