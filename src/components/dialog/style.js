@@ -1,0 +1,63 @@
+import colors from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
+import sizes from 'grape-theme/dist/sizes'
+import utils from 'grape-jss-utils'
+
+const overlay = {
+  position: 'fixed',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0
+}
+
+export default {
+  modal: {
+    ...overlay,
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  backdrop: {
+    ...overlay,
+    backgroundColor: colors.black,
+    opacity: 0.3,
+    zIndex: -1
+  },
+  content: {
+    width: 525,
+    borderRadius: sizes.borderRadius.big,
+    boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
+    overflow: 'hidden',
+    outline: 0
+  },
+  header: {
+    display: 'flex',
+    background: colors.white,
+    height: 50
+  },
+  close: {
+    fontSize: '2em',
+    fontWeight: 'bold',
+    padding: '0 20px',
+    opacity: 0.5,
+    border: 'none',
+    '&:before': {
+      content: '"×"'
+    },
+    '&:hover': {
+      opacity: 1
+    }
+  },
+  title: {
+    ...fonts.biggest,
+    ...utils.ellipsis,
+    flex: 2,
+    alignSelf: 'center',
+    paddingLeft: 20
+  },
+  body: {
+    background: colors.white
+  }
+}
