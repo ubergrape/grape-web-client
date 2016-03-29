@@ -2,6 +2,8 @@ import React, {PropTypes, Component} from 'react'
 import keyname from 'keyname'
 import noop from 'lodash/utility/noop'
 
+let isAccentMode = false
+
 export default class Textarea extends Component {
   static propTypes = {
     onKeyDown: PropTypes.func,
@@ -19,6 +21,7 @@ export default class Textarea extends Component {
   }
 
   onKeyDown(e) {
+    isAccentMode = e.keyCode === 229
     const isEnter = keyname(e.keyCode) === 'enter'
 
     if (isEnter) {
@@ -57,9 +60,15 @@ export default class Textarea extends Component {
   }
 
   render() {
+    let {props} = this
+    if (isAccentMode) {
+      props = {...props}
+      delete props.value
+    }
+    console.log(props)
     return (
       <textarea
-        {...this.props}
+        {...props}
         ref="textarea"
         onKeyDown={::this.onKeyDown}></textarea>
     )
