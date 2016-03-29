@@ -4,6 +4,7 @@ import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
+import AccentMode from '../accent-mode/AccentMode'
 import {useSheet} from 'grape-web/lib/jss'
 
 import {
@@ -78,8 +79,13 @@ export default class HighlightedInput extends Component {
   onChange({target}) {
     this.setState({
       value: target.value,
+      accentValue: null,
       caretAt: target.selectionEnd
     })
+  }
+
+  onAccent(accentValue) {
+    this.setState({accentValue})
   }
 
   onKeyDown(e) {
@@ -184,7 +190,7 @@ export default class HighlightedInput extends Component {
   }
 
   ensureCaretPosition() {
-    if (!this.props.focused) return
+    if (!this.props.focused || this.state.accentValue) return
     setCaretPosition(this.state.caretAt, this.editable)
   }
 
@@ -202,7 +208,7 @@ export default class HighlightedInput extends Component {
   renderHighlighterContent() {
     const {classes} = this.props.sheet
     const {tokens, getTokenClass} = this.props
-    const {value} = this.state
+    const value = this.state.accentValue || this.state.value
 
     const content = splitByTokens(value, tokens).map((part, index) => {
       const isToken = tokens.indexOf(part) >= 0
@@ -252,16 +258,18 @@ export default class HighlightedInput extends Component {
           className={`${classes.highlighter} ${theme.highlighter}`}>
           {this.renderHighlighterContent()}
         </div>
-        <Editable
-          {...editableProps}
-          autoFocus
+        <AccentMode
           ref="editable"
-          data-test="editable"
-          onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange}
-          onScroll={::this.onScroll}
-          value={this.state.value}
-          className={`${classes.editable} ${theme.editable}`} />
+          onAccent={::this.onAccent}>
+          <Editable
+            {...editableProps}
+            data-test="editable"
+            onKeyDown={::this.onKeyDown}
+            onChange={::this.onChange}
+            onScroll={::this.onScroll}
+            value={this.state.value}
+            className={`${classes.editable} ${theme.editable}`} />
+          </AccentMode>
       </div>
     )
   }
