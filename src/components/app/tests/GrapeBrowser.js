@@ -47,20 +47,6 @@ describe('app:', () => {
       })
     })
 
-    // it('should close browser if there is space at the end and no results', (done) => {
-    //   create(() => {
-    //     const node = $('grape-browser editable', document.body)
-    //     console.log('!!!!',node)
-    //     node.value = '@ '
-    //     Simulate.change(node)
-    //     create(undefined, () => {
-    //       const browser = $('search-browser', document.body)
-    //       expect(browser).to.be(null)
-    //       done()
-    //     })
-    //   })
-    // })
-
     it('should stay opened when space is not at the end', (done) => {
       create(component => {
         component.query.set('search', 'something else', {silent: true})
