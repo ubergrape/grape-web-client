@@ -76,14 +76,14 @@ export default class HighlightedInput extends Component {
     }
   }
 
-  onAccent(isAccentMode) {
+  onChangeAccentMode(isAccentMode) {
     this.isAccentMode = isAccentMode
   }
 
-  onChange(value) {
+  onChange({target}) {
     this.setState({
-      value,
-      caretAt: this.editable.selectionEnd
+      value: target.value,
+      caretAt: target.selectionEnd
     })
   }
 
@@ -258,7 +258,7 @@ export default class HighlightedInput extends Component {
           {this.renderHighlighterContent()}
         </div>
         <AccentMode
-          onChange={::this.onAccent}
+          onChange={::this.onChangeAccentMode}
           ref="editable">
           <Editable
             {...editableProps}

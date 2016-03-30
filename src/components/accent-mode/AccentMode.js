@@ -1,4 +1,5 @@
 import {PropTypes, Component, cloneElement} from 'react'
+import noop from 'lodash/utility/noop'
 
 /**
  * Accent mode detector which can be triggered by ~`´^ and maybe
@@ -8,8 +9,12 @@ import {PropTypes, Component, cloneElement} from 'react'
  */
 export default class AccentMode extends Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.element.isRequired,
     onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    onChange: noop
   }
 
   constructor() {
@@ -20,24 +25,25 @@ export default class AccentMode extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.childrenProps = nextProps.children.props
+    this.childProps = nextProps.children.props
     this.setState({
-      value: this.childrenProps.value
+      value: this.childProps.value
     })
   }
 
   onKeyDown(e) {
     this.props.onChange(e.keyCode === 229)
-    this.childrenProps.onKeyDown(e)
+    this.childProps.onKeyDown(e)
   }
 
-  onEditableChange({target}) {
-    const {value} = target
-    this.setState({value})
-    this.childrenProps.onChange(value)
+  onEditableChange(e) {
+    this.setState({
+      value: e.target.value
+    })
+    this.childProps.onChange(e)
   }
 
-  setInactive() {
+  onExit() {
     this.props.onChange(false)
   }
 
@@ -47,8 +53,8 @@ export default class AccentMode extends Component {
         value: this.state.value,
         onChange: ::this.onEditableChange,
         onKeyDown: ::this.onKeyDown,
-        onClick: ::this.setInactive,
-        onBlur: ::this.setInactive
+        onClick: ::this.onExit,
+        onBlur: ::this.onExit
       })
     )
   }
