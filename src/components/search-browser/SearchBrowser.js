@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import style from './searchBrowserStyle'
 import Item from './item/Item'
-import {Default as Service} from './services'
+import Results from './results/Results'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
@@ -166,7 +166,7 @@ export default class SearchBrowser extends Component {
 
     if (sections.length) {
       const element = (
-        <Service
+        <Results
           {...this.props}
           Item={Item}
           data={sections}
