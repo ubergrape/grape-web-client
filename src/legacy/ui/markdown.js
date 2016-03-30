@@ -9,8 +9,8 @@ const chatLinkRegExp = new RegExp(`^${protocol}//${host}/chat/`)
 renderer.link_simple = function (href, title, text) {
   // Renderer.prototype.link, but with target blank
   const target = chatLinkRegExp.test(href) ? '' : 'target="_blank"'
-  const title = title ? `title="${title}"` : ''
-  return `<a ${target} href="${href}" ${title}>${text}</a>`
+  const _title = title ? `title="${title}"` : ''
+  return `<a ${target} href="${href}" ${_title}>${text}</a>`
 }
 renderer.link = function (href, title, text) {
   if (this.options.sanitize) {
