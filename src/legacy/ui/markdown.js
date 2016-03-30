@@ -3,13 +3,16 @@ let markdown_renderlink = require('./markdown_renderlink')
 let emoji = require('./emoji')
 
 let renderer = new marked.Renderer()
+const {protocol, host} = window.location
+const chatLinkRegExp = new RegExp(`^${protocol}//${host}/chat/`)
 
 renderer.link_simple = function (href, title, text) {
+  // console.log(href, title, text)
   // Renderer.prototype.link, but with target blank
-  let out = '<a target="_blank" href="' + href + '"'
-  if (title)
-    out += ' title="' + title + '"'
-  out += '>' + text + '</a>'
+  const target = chatLinkRegExp.test(href) ? '' : 'target="_blank"'
+  let out = `<a ${target} href="${href}"`
+  if (title) out += ` title="${title}"`
+  out += `>${text}</a>`
   return out
 }
 renderer.link = function (href, title, text) {
