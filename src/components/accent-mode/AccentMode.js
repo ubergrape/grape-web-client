@@ -6,7 +6,6 @@ import {PropTypes, Component, cloneElement} from 'react'
  * If an Input Method Editor is processing key input and the event is keydown, return 229.
  * https://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
  */
-
 export default class AccentMode extends Component {
   static propTypes = {
     children: PropTypes.element,
