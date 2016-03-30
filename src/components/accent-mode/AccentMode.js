@@ -10,52 +10,43 @@ import {PropTypes, Component, cloneElement} from 'react'
 export default class AccentMode extends Component {
   static propTypes = {
     children: PropTypes.element,
-    onAccent: PropTypes.func
+    onChange: PropTypes.func
   }
 
   constructor() {
     super()
     this.state = {
-      value: '',
-      active: false
+      value: ''
     }
   }
 
-  componentWillReceiveProps() {
-    if (this.state.active) return
-    this.childrenProps = this.props.children.props
-    this.setState({value: this.childrenProps.value})
-  }
-
-  componentDidUpdate() {
-    if (this.state.active) return
+  componentWillReceiveProps(nextProps) {
+    this.childrenProps = nextProps.children.props
+    this.setState({
+      value: this.childrenProps.value
+    })
   }
 
   onKeyDown(e) {
-    this.setState({active: e.keyCode === 229})
+    this.props.onChange(e.keyCode === 229)
     this.childrenProps.onKeyDown(e)
   }
 
-  onChange(e) {
-    const {value} = e.target
+  onEditableChange({target}) {
+    const {value} = target
     this.setState({value})
-    if (this.state.active) {
-      this.props.onAccent(value)
-      return
-    }
-    this.childrenProps.onChange(e)
+    this.childrenProps.onChange(value)
   }
 
   setInactive() {
-    this.setState({active: false})
+    this.props.onChange(false)
   }
 
   render() {
     return (
       cloneElement(this.props.children, {
-        ref: 'editable',
         value: this.state.value,
-        onChange: ::this.onChange,
+        onChange: ::this.onEditableChange,
         onKeyDown: ::this.onKeyDown,
         onClick: ::this.setInactive,
         onBlur: ::this.setInactive

@@ -76,16 +76,15 @@ export default class HighlightedInput extends Component {
     }
   }
 
-  onChange({target}) {
-    this.setState({
-      value: target.value,
-      accentValue: null,
-      caretAt: target.selectionEnd
-    })
+  onAccent(isAccentMode) {
+    this.isAccentMode = isAccentMode
   }
 
-  onAccent(accentValue) {
-    this.setState({accentValue})
+  onChange(value) {
+    this.setState({
+      value,
+      caretAt: this.editable.selectionEnd
+    })
   }
 
   onKeyDown(e) {
@@ -190,7 +189,7 @@ export default class HighlightedInput extends Component {
   }
 
   ensureCaretPosition() {
-    if (!this.props.focused || this.state.accentValue) return
+    if (!this.props.focused || this.isAccentMode) return
     setCaretPosition(this.state.caretAt, this.editable)
   }
 
@@ -208,7 +207,7 @@ export default class HighlightedInput extends Component {
   renderHighlighterContent() {
     const {classes} = this.props.sheet
     const {tokens, getTokenClass} = this.props
-    const value = this.state.accentValue || this.state.value
+    const {value} = this.state
 
     const content = splitByTokens(value, tokens).map((part, index) => {
       const isToken = tokens.indexOf(part) >= 0
@@ -259,10 +258,11 @@ export default class HighlightedInput extends Component {
           {this.renderHighlighterContent()}
         </div>
         <AccentMode
-          ref="editable"
-          onAccent={::this.onAccent}>
+          onChange={::this.onAccent}
+          ref="editable">
           <Editable
             {...editableProps}
+            autoFocus
             data-test="editable"
             onKeyDown={::this.onKeyDown}
             onChange={::this.onChange}
