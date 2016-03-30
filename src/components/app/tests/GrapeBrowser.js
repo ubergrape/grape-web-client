@@ -5,6 +5,7 @@ import times from 'lodash/utility/times'
 import {Simulate} from 'react-addons-test-utils'
 import GrapeBrowser from '../GrapeBrowser'
 import data0 from './mocks/data0.json'
+import data1 from './mocks/data1.json'
 
 describe('app:', () => {
   describe('GrapeBrowser()', () => {
@@ -46,18 +47,19 @@ describe('app:', () => {
       })
     })
 
-    it('should close browser if there is space at the end and no results', (done) => {
-      create(() => {
-        const node = $('grape-browser editable', document.body)
-        node.value = '@ '
-        Simulate.change(node)
-        create(undefined, () => {
-          const browser = $('search-browser', document.body)
-          expect(browser).to.be(null)
-          done()
-        })
-      })
-    })
+    // it('should close browser if there is space at the end and no results', (done) => {
+    //   create(() => {
+    //     const node = $('grape-browser editable', document.body)
+    //     console.log('!!!!',node)
+    //     node.value = '@ '
+    //     Simulate.change(node)
+    //     create(undefined, () => {
+    //       const browser = $('search-browser', document.body)
+    //       expect(browser).to.be(null)
+    //       done()
+    //     })
+    //   })
+    // })
 
     it('should stay opened when space is not at the end', (done) => {
       create(component => {
@@ -70,6 +72,26 @@ describe('app:', () => {
       })
     })
   })
+
+  describe('GrapeBrowser() should open users autocomplete', () => {
+    it('should open users autocomplete', () => {
+      const input = <GrapeBrowser browser="user" data={data1} focused />
+      render(input)
+      expect($('grape-browser datalist', document.body)).to.be.an(Element)
+    })
+  })
+
+  describe('GrapeBrowser() should close users autocomplete if there is space at the end and no results', () => {
+    it('should open users autocomplete', () => {
+      const input = <GrapeBrowser browser="user" data={data1} focused />
+      render(input)
+      const node = $('grape-browser editable', document.body)
+      node.value = '@ '
+      Simulate.change(node)
+      expect($('grape-browser datalist', document.body)).to.be(null)
+    })
+  })
+
 
   describe('GrapeBrowser() insert object:', () => {
     function insert(props) {

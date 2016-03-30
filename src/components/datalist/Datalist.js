@@ -97,7 +97,9 @@ export default class Datalist extends Component {
 
     const {classes} = this.props.sheet
     return (
-      <div className={`${classes.datalist} ${this.props.className}`}>
+      <div
+        className={`${classes.datalist} ${this.props.className}`}
+        data-test="datalist">
         {data.map(::this.renderItems)}
       </div>
     )
