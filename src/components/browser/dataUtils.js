@@ -1,14 +1,5 @@
 import find from 'lodash/collection/find'
 
-/**
- * Get all items from all sections.
- */
-export function extractItems(sections) {
-  let items = []
-  sections.forEach(section => items = items.concat(section.items))
-  return items
-}
-
 function getItem(sections, fn) {
   let item
 

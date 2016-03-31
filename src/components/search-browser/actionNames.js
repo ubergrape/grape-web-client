@@ -1,13 +1,13 @@
 export default [
-  'focusSearchBrowserItem',
+  'focusSearchBrowserResult',
   'focusSearchBrowserAction',
   'blurSearchBrowserAction',
   'execSearchBrowserAction',
-  'selectSearchBrowserItem',
+  'selectSearchBrowserResult',
   'createSearchBrowserState',
   'changeSearchBrowserInput',
   'focusSearchBrowserService',
-  'showSearchBrowserItems',
+  'showSearchBrowserResults',
   'addSearchBrowserService',
   'clearSearchBrowserInput',
   'focusSearchBrowserActions'
