@@ -441,9 +441,9 @@
       "resolved": "https://registry.npmjs.org/formidable/-/formidable-1.0.14.tgz"
     },
     "grape-browser": {
-      "version": "2.3.7",
+      "version": "2.4.0",
       "from": "grape-browser@>=2.3.7 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.3.7.tgz",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.4.0.tgz",
       "dependencies": {
         "emojione": {
           "version": "1.5.2",
@@ -706,30 +706,30 @@
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
     },
     "lodash.differenceby": {
-      "version": "4.2.1",
+      "version": "4.2.2",
       "from": "lodash.differenceby@>=4.0.1 <5.0.0",
-      "resolved": "https://registry.npmjs.org/lodash.differenceby/-/lodash.differenceby-4.2.1.tgz",
+      "resolved": "https://registry.npmjs.org/lodash.differenceby/-/lodash.differenceby-4.2.2.tgz",
       "dependencies": {
         "lodash._basedifference": {
-          "version": "4.4.0",
-          "from": "lodash._basedifference@>=4.0.0 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash._basedifference/-/lodash._basedifference-4.4.0.tgz",
+          "version": "4.4.1",
+          "from": "lodash._basedifference@>=4.4.0 <4.5.0",
+          "resolved": "https://registry.npmjs.org/lodash._basedifference/-/lodash._basedifference-4.4.1.tgz",
           "dependencies": {
             "lodash._setcache": {
               "version": "4.1.1",
-              "from": "lodash._setcache@>=4.0.0 <5.0.0",
+              "from": "lodash._setcache@>=4.1.0 <4.2.0",
               "resolved": "https://registry.npmjs.org/lodash._setcache/-/lodash._setcache-4.1.1.tgz"
             }
           }
         },
         "lodash._baseflatten": {
           "version": "4.1.1",
-          "from": "lodash._baseflatten@>=4.0.0 <5.0.0",
+          "from": "lodash._baseflatten@>=4.1.0 <4.2.0",
           "resolved": "https://registry.npmjs.org/lodash._baseflatten/-/lodash._baseflatten-4.1.1.tgz"
         },
         "lodash._baseiteratee": {
           "version": "4.5.2",
-          "from": "lodash._baseiteratee@>=4.0.0 <5.0.0",
+          "from": "lodash._baseiteratee@>=4.5.0 <4.6.0",
           "resolved": "https://registry.npmjs.org/lodash._baseiteratee/-/lodash._baseiteratee-4.5.2.tgz"
         },
         "lodash.rest": {
@@ -908,15 +908,15 @@
           "from": "on-body@0.0.1",
           "resolved": "https://registry.npmjs.org/on-body/-/on-body-0.0.1.tgz"
         },
-        "component-type": {
-          "version": "1.0.0",
-          "from": "component-type@1.0.0",
-          "resolved": "https://registry.npmjs.org/component-type/-/component-type-1.0.0.tgz"
-        },
         "component-each": {
           "version": "0.2.6",
           "from": "component-each@0.2.6",
           "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz"
+        },
+        "component-type": {
+          "version": "1.0.0",
+          "from": "component-type@1.0.0",
+          "resolved": "https://registry.npmjs.org/component-type/-/component-type-1.0.0.tgz"
         }
       }
     },
@@ -945,9 +945,9 @@
       }
     },
     "react": {
-      "version": "0.14.7",
+      "version": "0.14.8",
       "from": "react@>=0.14.0 <0.15.0",
-      "resolved": "https://registry.npmjs.org/react/-/react-0.14.7.tgz",
+      "resolved": "https://registry.npmjs.org/react/-/react-0.14.8.tgz",
       "dependencies": {
         "envify": {
           "version": "3.4.0",
@@ -1022,9 +1022,9 @@
       }
     },
     "react-dom": {
-      "version": "0.14.7",
+      "version": "0.14.8",
       "from": "react-dom@>=0.14.0 <0.15.0",
-      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.7.tgz"
+      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.8.tgz"
     },
     "react-finite-list": {
       "version": "1.0.2",
@@ -1087,7 +1087,7 @@
         },
         "lodash": {
           "version": "4.6.1",
-          "from": "lodash@>=4.2.0 <5.0.0",
+          "from": "lodash@>=4.2.1 <5.0.0",
           "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.6.1.tgz"
         }
       }
