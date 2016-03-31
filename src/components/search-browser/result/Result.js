@@ -67,7 +67,7 @@ export default class Result extends Component {
     )
   }
 
-  renderState() {
+  renderState() {
     const state = utils.getLabel(this.props.detail)
     if (!state) return null
     const {classes} = this.props.sheet
