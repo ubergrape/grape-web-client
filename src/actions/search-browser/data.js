@@ -1,70 +1,56 @@
 import findIndex from 'lodash/array/findIndex'
-
-import {findById} from '../../components/browser/dataUtils'
+import find from 'lodash/collection/find'
+import groupBy from 'lodash/collection/groupBy'
+import reduce from 'lodash/collection/reduce'
 
 const warn = console.warn.bind(console) // eslint-disable-line no-console
 
 /**
- * Get sections based data structure.
- *
- * {
- *   label: 'Google drive',
- *   service: 'googledrive',
- *   icon: 'file',
- *   results: [
- *     {
- *       id: '10',
- *       type: 'file',
- *       name: '1. Tagging+GitHub.mp414',
- *       info: '/UberGrape/ChatGrape/...',
- *       date: ...
- *     }
- *   ]
- * }
+ * Format results for presentation.
+ * Group results by service.
+ * Insert group header items.
  */
-export function getSections(data) {
-  const sections = []
+export function formatGroupedResults({results, services, search}) {
+  // We need to display them grouped by service.
+  const groupedResults = groupBy(results, 'service')
 
-  // Group by sections.
-  data.results.forEach(result => {
-    let section = findById(sections, result.service)
-    const service = findById(data.services, result.service)
+  return reduce(groupedResults, (newResults, groupResults, serviceId) => {
+    const service = find(services, {id: serviceId})
 
+    // Soetimes we get results without a corresponding service,
+    // filter them and warn.
     if (!service) {
-      warn('No service corresponding the item.', result)
-      return
+      warn('No service for results', groupResults)
+      return newResults
     }
 
-    // We have no section for this service yet.
-    if (!section) {
-      section = {
-        id: result.service,
-        label: service.label,
-        items: [],
-        selected: false
-      }
-      sections.push(section)
-    }
-
-    if (!result.detail) result.detail = {}
-    if (service.iconUrl) result.detail.iconUrl = service.iconUrl
-    section.items.push({
-      id: result.id,
-      type: result.type,
-      name: result.name,
-      info: result.container,
-      date: result.start,
-      focused: false,
-      service: result.service,
-      detail: result.detail,
-      search: data.search.text
+    // Section header.
+    newResults.push({
+      id: `header-${serviceId}`,
+      type: 'header',
+      label: service.label,
+      hint: `${service.count} results`
     })
-  })
 
-  // Select first result of the first section.
-  if (sections[0] && sections[0].items[0]) sections[0].items[0].focused = true
+    // Build new result items.
+    const newGroupResults = groupResults.map(result => {
+      const newResult = {
+        id: result.id,
+        type: result.type,
+        name: result.name,
+        info: result.container,
+        date: result.start,
+        focused: false,
+        service: result.service,
+        detail: result.detail || {},
+        search: search.text
+      }
+      if (service.iconUrl) newResult.detail.iconUrl = service.iconUrl
+      return newResult
+    })
 
-  return sections
+    return newResults.concat(newGroupResults)
+  }, [])
 }
 
 /**

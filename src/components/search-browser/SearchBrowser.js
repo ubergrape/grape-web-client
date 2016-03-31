@@ -4,8 +4,7 @@ import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './searchBrowserStyle'
-import Item from './item/Item'
-import {Default as Service} from './services'
+import Results from './results/Results'
 import SearchInput from './search-input/SearchInput'
 import ServiceList from './service-list/ServiceList'
 import Info from './info/Info'
@@ -22,9 +21,9 @@ export default class SearchBrowser extends Component {
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
-    showSearchBrowserItems: PropTypes.func,
-    focusSearchBrowserItem: PropTypes.func,
-    selectSearchBrowserItem: PropTypes.func,
+    showSearchBrowserResults: PropTypes.func,
+    focusSearchBrowserResult: PropTypes.func,
+    selectSearchBrowserResult: PropTypes.func,
     changeSearchBrowserInput: PropTypes.func,
     focusSearchBrowserService: PropTypes.func,
     addSearchBrowserService: PropTypes.func,
@@ -32,7 +31,7 @@ export default class SearchBrowser extends Component {
     focusSearchBrowserActions: PropTypes.func,
     focusSearchBrowserAction: PropTypes.func,
     execSearchBrowserAction: PropTypes.func,
-    sections: PropTypes.array,
+    results: PropTypes.array,
     currServices: PropTypes.array,
     isLoading: PropTypes.bool,
     images: PropTypes.object,
@@ -41,7 +40,7 @@ export default class SearchBrowser extends Component {
     value: PropTypes.string,
     search: PropTypes.string,
     focusedView: PropTypes.oneOf(listTypes),
-    focusedItem: PropTypes.object,
+    focusedResult: PropTypes.object,
     focusedService: PropTypes.object
   }
 
@@ -62,13 +61,13 @@ export default class SearchBrowser extends Component {
     }
   }
 
-  onFocusItem({id}) {
-    if (this.props.focusedItem.id === id) return
-    this.props.focusSearchBrowserItem(id)
+  onFocusResult(result) {
+    if (this.props.focusedResult === result) return
+    this.props.focusSearchBrowserResult(result)
   }
 
-  onSelectItem({id} = {}) {
-    this.props.selectSearchBrowserItem(id)
+  onSelectResult(result) {
+    this.props.selectSearchBrowserResult(result)
   }
 
   onKeyDown(e) {
@@ -76,9 +75,9 @@ export default class SearchBrowser extends Component {
 
     switch (keyname(e.keyCode)) {
       case 'esc':
-        // Actions are focused - focus objects.
-        if (focusedView !== 'objects') {
-          this.props.showSearchBrowserItems()
+        // Actions are focused - focus results.
+        if (focusedView !== 'results') {
+          this.props.showSearchBrowserResults()
         // Reset the search if there is one.
         } else if (this.props.value.trim()) {
           this.props.clearSearchBrowserInput()
@@ -90,13 +89,13 @@ export default class SearchBrowser extends Component {
       case 'down':
         if (focusedView === 'services') this.props.focusSearchBrowserService('next')
         else if (focusedView === 'actions') this.props.focusSearchBrowserAction('next')
-        else this.props.focusSearchBrowserItem('next')
+        else this.props.focusSearchBrowserResult('next')
         e.preventDefault()
         break
       case 'up':
         if (focusedView === 'services') this.props.focusSearchBrowserService('prev')
         else if (focusedView === 'actions') this.props.focusSearchBrowserAction('prev')
-        else this.props.focusSearchBrowserItem('prev')
+        else this.props.focusSearchBrowserResult('prev')
         e.preventDefault()
         break
       case 'enter':
@@ -107,7 +106,7 @@ export default class SearchBrowser extends Component {
         break
       case 'backspace':
         if (focusedView === 'actions') {
-          this.props.showSearchBrowserItems()
+          this.props.showSearchBrowserResults()
           e.preventDefault()
         }
         break
@@ -150,7 +149,7 @@ export default class SearchBrowser extends Component {
   }
 
   getBody() {
-    const {height, sections, search, focusedView} = this.props
+    const {height, results, search, focusedView} = this.props
 
     if (focusedView === 'services') {
       const element = (
@@ -164,14 +163,13 @@ export default class SearchBrowser extends Component {
       return {element, height}
     }
 
-    if (sections.length) {
+    if (results.length) {
       const element = (
-        <Service
+        <Results
           {...this.props}
-          Item={Item}
-          data={sections}
-          onFocus={::this.onFocusItem}
-          onSelect={::this.onSelectItem} />
+          data={results}
+          onFocus={::this.onFocusResult}
+          onSelect={::this.onSelectResult} />
       )
       return {element, height}
     }

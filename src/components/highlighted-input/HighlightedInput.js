@@ -4,6 +4,7 @@ import noop from 'lodash/utility/noop'
 import escape from 'lodash/string/escape'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
+import AccentMode from '../accent-mode/AccentMode'
 import {useSheet} from 'grape-web/lib/jss'
 
 import {
@@ -73,6 +74,10 @@ export default class HighlightedInput extends Component {
     if (prevState.value !== this.state.value) {
       this.props.onChange(this.state)
     }
+  }
+
+  onChangeAccentMode(isAccentMode) {
+    this.isAccentMode = isAccentMode
   }
 
   onChange({target}) {
@@ -184,7 +189,7 @@ export default class HighlightedInput extends Component {
   }
 
   ensureCaretPosition() {
-    if (!this.props.focused) return
+    if (!this.props.focused || this.isAccentMode) return
     setCaretPosition(this.state.caretAt, this.editable)
   }
 
@@ -252,16 +257,19 @@ export default class HighlightedInput extends Component {
           className={`${classes.highlighter} ${theme.highlighter}`}>
           {this.renderHighlighterContent()}
         </div>
-        <Editable
-          {...editableProps}
-          autoFocus
-          ref="editable"
-          data-test="editable"
-          onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange}
-          onScroll={::this.onScroll}
-          value={this.state.value}
-          className={`${classes.editable} ${theme.editable}`} />
+        <AccentMode
+          onChange={::this.onChangeAccentMode}
+          ref="editable">
+          <Editable
+            {...editableProps}
+            autoFocus
+            data-test="editable"
+            onKeyDown={::this.onKeyDown}
+            onChange={::this.onChange}
+            onScroll={::this.onScroll}
+            value={this.state.value}
+            className={`${classes.editable} ${theme.editable}`} />
+          </AccentMode>
       </div>
     )
   }

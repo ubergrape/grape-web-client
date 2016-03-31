@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../redux'
@@ -14,9 +14,18 @@ const ConnectedSearchBrowserModal = connect(
 )(SearchBrowserModal)
 
 export default class SearchBrowserModalProvider extends Component {
+  static propTypes = {
+    onLoadServices: PropTypes.func
+  }
+
   constructor(props) {
     super(props)
     createSearchBrowserState(props)
+  }
+
+  componentDidMount() {
+    // TODO move this when we port the whole client to redux.
+    this.props.onLoadServices()
   }
 
   componentWillReceiveProps(nextProps) {

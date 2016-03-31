@@ -11,6 +11,7 @@ export default class Service extends Component {
     sheet: PropTypes.object.isRequired,
     focused: PropTypes.bool,
     item: PropTypes.object,
+    resultsAmount: PropTypes.number,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func
   }
@@ -22,7 +23,7 @@ export default class Service extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {item, focused} = this.props
+    const {item, focused, resultsAmount} = this.props
 
     return (
       <div
@@ -35,6 +36,7 @@ export default class Service extends Component {
         <div className={classes.name}>
           {item.label}
         </div>
+        {resultsAmount && <div className={classes.hint}>{resultsAmount} Results</div>}
         <div className={classes.return}>
           &crarr;
         </div>

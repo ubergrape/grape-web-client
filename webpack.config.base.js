@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+var path = require('path')
 
 module.exports = {
   entry: {
@@ -40,5 +41,8 @@ module.exports = {
         include: /node_modules/
       }
     ]
+  },
+  resolve: {
+    fallback: path.join(__dirname, 'node_modules')
   }
 }

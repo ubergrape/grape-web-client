@@ -1,0 +1,67 @@
+[
+  {
+    "id": 25,
+    "type": "room",
+    "name": "room",
+    "slug": "ccc",
+    "isPrivate": false,
+    "rank": 3,
+    "currentRoom": true,
+    "note": "— notify everyone in this room",
+    "icon": {
+        "key": null,
+        "ref": null,
+        "props": {
+            "name": "room",
+            "className": "fa fa-bell icon--jss-1-0"
+        },
+        "_owner": null,
+        "_store": {}
+    }
+  },
+  {
+    "id": 5,
+    "name": "John Merkel",
+    "username": "user-3",
+    "iconURL": "http://localhost:8000/static//images/avatar.png",
+    "inRoom": true,
+    "rank": 0,
+    "type": "user",
+    "icon": {
+      "key": null,
+      "ref": null,
+      "props": {
+        "name": "John Merkel",
+        "style": {
+          "backgroundImage": "url(http://localhost:8000/static//images/avatar.png)",
+          "borderRadius": "100%"
+        }
+      },
+      "_owner": null,
+      "_store": {}
+    }
+  },
+  {
+    "id": 6,
+    "name": "Zoran Liepiņš",
+    "username": "user-4",
+    "iconURL": "http://localhost:8000/static//images/avatar.png",
+    "inRoom": false,
+    "rank": 0,
+    "type": "user",
+    "icon": {
+      "key": null,
+      "ref": null,
+      "props": {
+        "name": "Zoran Liepiņš",
+        "style": {
+          "backgroundImage": "url(http://localhost:8000/static//images/avatar.png)",
+          "borderRadius": "100%"
+        }
+      },
+      "_owner": null,
+      "_store": {}
+    },
+    "note": "— not in room"
+  }
+]

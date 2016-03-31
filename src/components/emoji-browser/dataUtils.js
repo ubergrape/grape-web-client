@@ -5,7 +5,6 @@ import values from 'lodash/object/values'
 import compact from 'lodash/array/compact'
 import clone from 'lodash/lang/clone'
 
-import * as dataUtils from '../browser/dataUtils'
 import * as grid from './grid'
 import EMOJI_META from '../emoji/meta'
 import * as emoji from '../emoji'
@@ -34,9 +33,51 @@ const EMOJI_META_MAP = indexBy(EMOJI_META, 'name')
 
 let allSections = []
 
-export const {getFocusedItem} = dataUtils
-export const {setFocusedItem} = dataUtils
+function getItemFromSections(sections, fn) {
+  let item
+
+  sections.some(section => {
+    item = find(section.items, fn)
+    return Boolean(item)
+  })
+
+  return item
+}
+
+/**
+ * Get item by id.
+ */
+function getItemFromSectionsById(sections, id) {
+  return getItemFromSections(sections, item => item.id === id)
+}
+
+
+/**
+ * Mark currently focused item as not focused.
+ */
+function unsetFocusedItem(sections) {
+  sections.forEach(section => {
+    section.items.forEach(item => item.focused = false)
+  })
+}
+
 export const {getItem} = grid
+
+/**
+ * Get currently focused item.
+ */
+export function getFocusedItem(sections) {
+  return getItemFromSections(sections, item => item.focused)
+}
+
+/**
+ * Mark a item as focused. Unmark previously focused one.
+ */
+export function setFocusedItem(sections, id) {
+  unsetFocusedItem(sections)
+  const item = getItemFromSectionsById(sections, id)
+  item.focused = true
+}
 
 export function init() {
   if (!emoji.get()) return

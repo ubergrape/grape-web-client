@@ -1,7 +1,7 @@
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import colors from 'grape-theme/dist/base-colors'
 
-export const listTypes = ['objects', 'actions', 'services']
+export const listTypes = ['results', 'actions', 'services']
 
 const plusIcon = getColoredIcon({name: 'plus', color: colors.blue})
 export const plusIconStyle = {
