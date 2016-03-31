@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 
 /**
- * Display information when grid is empty
+ * Display information when missing results.
  */
 @useSheet(style)
 export default class Empty extends Component {
