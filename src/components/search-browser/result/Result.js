@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component, PropTypes, createElement} from 'react'
 import noop from 'lodash/utility/noop'
 import moment from 'moment'
 
@@ -45,7 +45,7 @@ export default class Result extends Component {
 
     if (matches.length) {
       name = matches.map((match, i) =>
-        React.createElement(
+        createElement(
           match.found ? 'b' : 'span',
           {key: i},
           match.text
@@ -56,6 +56,25 @@ export default class Result extends Component {
     return name
   }
 
+  renderDate() {
+    const {date, isFocused} = this.props
+    if (!date) return null
+    const {classes} = this.props.sheet
+    return (
+      <span className={isFocused ? classes.metaItemFocused : classes.metaItem}>
+        {moment(date).format('ddd, MMM D YYYY, h:mm a')}
+      </span>
+    )
+  }
+
+  renderState() {
+    const state = utils.getLabel(this.props.detail)
+    if (!state) return null
+    const {classes} = this.props.sheet
+    const className = this.props.isFocused ? classes.metaItemFocused : classes.metaItem
+    return <span className={className}>{state}</span>
+  }
+
   render() {
     const {classes} = this.props.sheet
     const {isFocused, service, info} = this.props
@@ -63,8 +82,6 @@ export default class Result extends Component {
     if (!this.props.isViewFocused && isFocused) {
       containerClassName = classes.containerFocusedInactive
     }
-    const metaItemClassName = isFocused ? classes.metaItemFocused : classes.metaItem
-    const state = utils.getLabel(this.props.detail)
 
     return (
       <div
@@ -80,14 +97,8 @@ export default class Result extends Component {
           <div className={classes.info}>{info}</div>
         </div>
         <div className={classes.metaContainer}>
-          {this.props.date &&
-            <span className={metaItemClassName}>
-              {moment(this.props.date).format('ddd, MMM D YYYY, h:mm a')}
-            </span>
-          }
-          {state &&
-            <span className={metaItemClassName}>{state}</span>
-          }
+          {this.renderDate()}
+          {this.renderState()}
         </div>
       </div>
     )
