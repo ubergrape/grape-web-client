@@ -1,9 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var appETP = new ExtractTextPlugin('app.css');
-var componentETP = new ExtractTextPlugin('components.css');
-
+var path = require('path')
+var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var appETP = new ExtractTextPlugin('app.css')
+var componentETP = new ExtractTextPlugin('components.css')
 
 /**
  * Ignores 'require' calls from `ignoredModules` list.
@@ -107,4 +106,4 @@ module.exports = {
     // http://webpack.github.io/docs/troubleshooting.html
     fallback: path.join(__dirname, 'node_modules')
   }
-};
+}

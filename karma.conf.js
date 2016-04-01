@@ -1,6 +1,6 @@
-var webpack = require('webpack');
-var webpackConfig = require('./webpack.config');
-var assign = require('lodash/object/assign');
+var webpack = require('webpack')
+var webpackConfig = require('./webpack.config')
+var assign = require('lodash/object/assign')
 
 module.exports = function (config) {
   config.set({
@@ -29,5 +29,5 @@ module.exports = function (config) {
     webpackMiddleware: {
       noInfo: true
     }
-  });
-};
+  })
+}
