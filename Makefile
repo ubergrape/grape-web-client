@@ -5,14 +5,13 @@ LANG_JSON := $(addprefix locale/, $(addsuffix .json,$(LANGUAGES)))
 OUTPUT := ../chatgrape/static/app
 JS_FILES := index.js $(shell find src/ui -name "*.js")
 TEMPLATE_FILES := $(shell find src/templates -name "*.jade")
-IMAGES_PATH := images
+DIST := ./dist/**
 
 JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
-	npm run build:dev
-	mkdir -p $(OUTPUT)/cg
-	cp -r $(IMAGES_PATH) $(OUTPUT)/cg/$(IMAGES_PATH)
+	npm run build
+	cp -r $(DIST) $(OUTPUT)
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
 	node ./po2json.js $< > $@

@@ -88,6 +88,7 @@
     "babel-core": "^5.6.20",
     "babel-eslint": "^4.1.5",
     "babel-loader": "^5.3.1",
+    "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.15.6",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
@@ -122,6 +123,7 @@
     "webpack": "^1.10.1"
   },
   "scripts": {
+    "build": "webpack --bail",
     "build:dev": "NODE_ENV=development webpack --bail",
     "build:watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
     "build:watch:local": "NODE_ENV=development webpack --progress --colors --watch",

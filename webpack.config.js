@@ -1,8 +1,14 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var appETP = new ExtractTextPlugin('app.css')
-var componentETP = new ExtractTextPlugin('components.css')
+var CopyFilesPlugin = require('copy-webpack-plugin')
+
+var appExtractText = new ExtractTextPlugin('app.css')
+var componentsExtractText = new ExtractTextPlugin('components.css')
+var copyImages = new CopyFilesPlugin([{
+  from: './src/images',
+  to: './images'
+}])
 
 /**
  * Ignores 'require' calls from `ignoredModules` list.
@@ -20,7 +26,7 @@ function ignoreModules(context, request, callback) {
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: '../chatgrape/static/app',
+    path: './dist',
     filename: 'app.js'
   },
   externals: [ignoreModules],
@@ -28,11 +34,11 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: componentETP.extract('style-loader', 'css-loader')
+        loader: componentsExtractText.extract('style-loader', 'css-loader')
       },
       {
         test: /\.styl$/,
-        loader: appETP.extract('css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/')
+        loader: appExtractText.extract('css-loader!autoprefixer-loader!stylus-loader?paths=node_modules/stylus/')
       },
       {
         test: /\.js$/,
@@ -78,12 +84,13 @@ module.exports = {
     ]
   },
   plugins: [
-    componentETP,
-    appETP,
+    componentsExtractText,
+    appExtractText,
+    copyImages,
     new webpack.DefinePlugin({
       __DEV__: process.env.NODE_ENV === 'development',
       __TEST__: process.env.NODE_ENV === 'test'
-    })
+    }),
   ],
   resolve: {
     alias: {
@@ -101,9 +108,11 @@ module.exports = {
       'events': 'component-events'
     },
     subDirectories: true,
-    // Workaround for webpack bug https://github.com/webpack/webpack/issues/784
-    // This will help to find dependency missing in a linked package.
+    // Workaround for simlinked dependencies.
+    // This will help to find dependency in the parent package if missing in a
+    // symlinked one.
     // http://webpack.github.io/docs/troubleshooting.html
+    // https://github.com/webpack/webpack/issues/784
     fallback: path.join(__dirname, 'node_modules')
   }
 }
