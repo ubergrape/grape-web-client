@@ -11,6 +11,7 @@ JSXGETTEXT := ./node_modules/.bin/jsxgettext
 
 all: node_modules/.bin
 	npm run build
+	mkdir -p $(OUTPUT)
 	cp -r $(DIST) $(OUTPUT)
 
 locale/%.json: locale/%/LC_MESSAGES/client.po
