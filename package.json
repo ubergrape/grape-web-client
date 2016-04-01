@@ -122,8 +122,8 @@
   },
   "scripts": {
     "build": "webpack --bail",
-    "build:watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
-    "build:watch:local": "NODE_ENV=development webpack --progress --colors --watch",
+    "build:watch": "webpack --progress --colors --watch --watch-poll",
+    "build:watch:local": "webpack --progress --colors --watch",
     "test:watch": "NODE_ENV=test karma start",
     "test": "karma start",
     "lint": "eslint ./src"
