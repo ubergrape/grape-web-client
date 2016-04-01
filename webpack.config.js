@@ -5,10 +5,32 @@ var CopyFilesPlugin = require('copy-webpack-plugin')
 
 var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
-var copyImages = new CopyFilesPlugin([{
-  from: './src/images',
-  to: './images'
-}])
+
+var plugins = [
+  appExtractText,
+  componentsExtractText,
+  new CopyFilesPlugin([{
+    from: './src/images',
+    to: './images'
+  }]),
+  new webpack.DefinePlugin({
+    __DEV__: process.env.NODE_ENV === 'development',
+    __TEST__: process.env.NODE_ENV === 'test',
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  })
+]
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(
+    // This plugin turns all loader into minimize mode!!!
+    // https://github.com/webpack/webpack/issues/283
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  )
+}
 
 /**
  * Ignores 'require' calls from `ignoredModules` list.
@@ -83,15 +105,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    componentsExtractText,
-    appExtractText,
-    copyImages,
-    new webpack.DefinePlugin({
-      __DEV__: process.env.NODE_ENV === 'development',
-      __TEST__: process.env.NODE_ENV === 'test'
-    }),
-  ],
+  plugins: plugins,
   resolve: {
     alias: {
       'classes': 'component-classes',
