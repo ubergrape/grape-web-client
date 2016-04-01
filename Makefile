@@ -2,7 +2,7 @@ OUTPUT := ../chatgrape/static/app
 DIST := ./dist/**
 
 all:
-	NODE_ENV=production npm install
+	npm install
 	NODE_ENV=production npm run build
 	mkdir -p $(OUTPUT)
 	cp -r $(DIST) $(OUTPUT)
