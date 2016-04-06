@@ -128,5 +128,6 @@ module.exports = {
     // http://webpack.github.io/docs/troubleshooting.html
     // https://github.com/webpack/webpack/issues/784
     fallback: path.join(__dirname, 'node_modules')
-  }
+  },
+  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
