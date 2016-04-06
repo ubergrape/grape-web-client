@@ -88,6 +88,7 @@
     "babel-core": "^5.6.20",
     "babel-eslint": "^4.1.5",
     "babel-loader": "^5.3.1",
+    "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.15.6",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
@@ -101,7 +102,6 @@
     "jade-VDOM-loader": "./local_modules/jade-VDOM-loader",
     "jade-virtualdom": "0.0.5",
     "json-loader": "^0.5.2",
-    "jsxgettext": "^0.4.10",
     "karma": "^0.13.8",
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
@@ -110,7 +110,6 @@
     "karma-webpack": "^1.5.1",
     "loader-utils": "^0.2.10",
     "mocha": "^2.2.5",
-    "po2json": "^0.4.1",
     "raw-loader": "^0.5.1",
     "require-cwd": "0.0.2",
     "style-loader": "^0.12.3",
@@ -122,9 +121,9 @@
     "webpack": "^1.10.1"
   },
   "scripts": {
-    "build:dev": "NODE_ENV=development webpack --bail",
-    "build:watch": "NODE_ENV=development webpack --progress --colors --watch --watch-poll",
-    "build:watch:local": "NODE_ENV=development webpack --progress --colors --watch",
+    "build": "webpack --bail",
+    "build:watch": "webpack --progress --colors --watch --watch-poll",
+    "build:watch:local": "webpack --progress --colors --watch",
     "test:watch": "NODE_ENV=test karma start",
     "test": "karma start",
     "lint": "eslint ./src"

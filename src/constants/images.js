@@ -1,11 +1,11 @@
 import staticUrl from 'staticurl'
 
-const imagesBase = staticUrl('app/cg/images')
+const baseUrl = staticUrl('app/images')
 
-export const emojiSheet = imagesBase + '/emoji_sheet_32_optimized.png'
-export const traubyReading = imagesBase + '/trauby-reading.png'
-export const traubyJuggling = imagesBase + '/trauby-juggling.png'
-export const noDetail = imagesBase + '/no-detail.png'
-export const defaultAvatar = staticUrl('/images/avatar.gif')
-export const invitedAvatar = staticUrl('images/avatar_invited.gif')
-export const spinner = staticUrl('/images/preloader-onwhite.gif')
+export const emojiSheet = baseUrl + '/emoji_sheet_32_optimized.png'
+export const traubyReading = baseUrl + '/trauby-reading.png'
+export const traubyJuggling = baseUrl + '/trauby-juggling.png'
+export const noDetail = baseUrl + '/no-detail.png'
+export const defaultAvatar = baseUrl + '/avatar.gif'
+export const invitedAvatar = baseUrl + '/avatar_invited.gif'
+export const spinner = baseUrl +'/preloader-onwhite.gif'
