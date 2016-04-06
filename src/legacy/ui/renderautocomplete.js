@@ -12,6 +12,16 @@ function getType(obj) {
   return obj.type
 }
 
+function getTarget(service) {
+  switch (service) {
+    case 'chatgrape':
+    case 'indexapi:16':
+      return ''
+    default:
+      return 'target="_blank"'
+  }
+}
+
 function renderAutocompleteItem(obj, asButton) {
   asButton = asButton || false
   let name = obj.id.replace(/"/g, '&quot;')
@@ -35,7 +45,6 @@ function renderAutocompleteItem(obj, asButton) {
       }
     }
   } else {
-    let target = obj.service !== "chatgrape" ? 'target="_blank"' : ''
-    return `<a class="ac service-${obj.service} type-${obj.service}${getType(obj)}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${target}>${obj.insert}</a>`
+    return `<a class="ac service-${obj.service} type-${obj.service}${getType(obj)}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${getTarget(obj.service)}>${obj.insert}</a>`
   }
 }
