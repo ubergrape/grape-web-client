@@ -12,11 +12,12 @@ function getType(obj) {
   return obj.type
 }
 
-function getTarget(service) {
+function getTarget({service, url}) {
   switch (service) {
     case 'chatgrape':
-    case 'indexapi:16':
       return ''
+    case 'indexapi:16':
+      if (/^grapefile:\/\//.test(url)) return ''
     default:
       return 'target="_blank"'
   }
@@ -45,6 +46,6 @@ function renderAutocompleteItem(obj, asButton) {
       }
     }
   } else {
-    return `<a class="ac service-${obj.service} type-${obj.service}${getType(obj)}" tabindex="-1" data-object="${name}" href="${ obj.url}" ${getTarget(obj.service)}>${obj.insert}</a>`
+    return `<a class="ac service-${obj.service} type-${obj.service}${getType(obj)}" tabindex="-1" data-object="${name}" href="${obj.url}" ${getTarget(obj)}>${obj.insert}</a>`
   }
 }
