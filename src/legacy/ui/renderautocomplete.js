@@ -13,7 +13,7 @@ function getType(obj) {
 }
 
 function getTarget({service, url}) {
-  if (/^grapefile:\/\//.test(url) || service === 'chatgrape') return ''
+  if (service === 'chatgrape' || /^grapefile:\/\//.test(url)) return ''
   return 'target="_blank"'
 }
 
