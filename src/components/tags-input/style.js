@@ -39,5 +39,9 @@ export default {
     top: -100,
     left: -1000,
     visibility: 'hidden'
+  },
+  placeholder: {
+    position: 'absolute',
+    opacity: 0.5
   }
 }

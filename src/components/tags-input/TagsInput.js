@@ -16,7 +16,8 @@ export default class TagsInput extends Component {
     focused: PropTypes.bool,
     list: PropTypes.array,
     value: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    placeholder: PropTypes.string
   }
 
   componentDidMount() {
@@ -66,22 +67,33 @@ export default class TagsInput extends Component {
     deleteTag(list[list.length - 1])
   }
 
+  renderPlaceholder() {
+    const {classes} = this.props.sheet
+    const {placeholder, value, list} = this.props
+    if (!placeholder || value || list.length) return null
+    return (
+      <span className={classes.placeholder}>{placeholder}</span>
+    )
+  }
+
   renderInput() {
-    const {sheet, focused, value} = this.props
+    const {classes} = this.props.sheet
+    const {focused, value} = this.props
     if (!focused) return null
 
     return (
       <span>
+        {this.renderPlaceholder()}
         <input
           ref="input"
-          className={sheet.classes.input}
+          className={classes.input}
           onBlur={::this.onBlur}
           onKeyDown={::this.onKeyDown}
           onChange={::this.onChange}
           value={value} />
         <span
           ref="ruler"
-          className={sheet.classes.ruler}
+          className={classes.ruler}
           ariaHidden>
           {value}
         </span>

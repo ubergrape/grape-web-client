@@ -182,6 +182,7 @@ export default class ChannelMembersInvite extends Component {
             filter={filter}
             items={this.getUsers()}
             selected={listed}
+            placeholder={'Type name...'}
             onChange={::this.onChangeFilter}
             onSelect={::this.onSelectUser}
             onRemoveSelected={::this.onRemoveSelectedUser}

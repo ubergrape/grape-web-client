@@ -15,6 +15,7 @@ export default class FilterableList extends Component {
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
     filter: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
     onRemoveSelected: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -117,6 +118,7 @@ export default class FilterableList extends Component {
       children,
       selected,
       filter,
+      placeholder,
       onChange,
       renderSelected,
       onRemoveSelected
@@ -130,6 +132,7 @@ export default class FilterableList extends Component {
           deleteTag={onRemoveSelected}
           list={selected}
           value={filter}
+          placeholder={placeholder}
           focused={this.shouldFocusFilter()}
           renderTag={renderSelected}
           className={sheet.classes.filterArea} />
