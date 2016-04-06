@@ -17,30 +17,25 @@ export default class AccentMode extends Component {
     onChange: noop
   }
 
-  constructor() {
-    super()
-    this.state = {
-      value: ''
-    }
+  constructor(props) {
+    super(props)
+    this.state = {value: props.children.props.value}
   }
 
   componentWillReceiveProps(nextProps) {
-    this.childProps = nextProps.children.props
-    this.setState({
-      value: this.childProps.value
-    })
+    this.setState({value: nextProps.children.props.value})
   }
 
   onKeyDown(e) {
     this.props.onChange(e.keyCode === 229)
-    this.childProps.onKeyDown(e)
+    this.props.children.props.onKeyDown(e)
   }
 
   onEditableChange(e) {
     this.setState({
       value: e.target.value
     })
-    this.childProps.onChange(e)
+    this.props.children.props.onChange(e)
   }
 
   onExit() {
