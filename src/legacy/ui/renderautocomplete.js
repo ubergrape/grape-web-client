@@ -13,14 +13,8 @@ function getType(obj) {
 }
 
 function getTarget({service, url}) {
-  switch (service) {
-    case 'chatgrape':
-      return ''
-    case 'indexapi:16':
-      if (/^grapefile:\/\//.test(url)) return ''
-    default:
-      return 'target="_blank"'
-  }
+  if (/^grapefile:\/\//.test(url) || service === 'chatgrape') return ''
+  return 'target="_blank"'
 }
 
 function renderAutocompleteItem(obj, asButton) {
