@@ -1,6 +1,11 @@
 import ReactDOM from 'react-dom'
 
 /**
+ * Sometimes default value of 10 is just not enough.
+ /*
+Error.stackTraceLimit = 200
+
+/**
  * Mount container for all components.
  */
 let container
