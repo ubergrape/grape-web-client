@@ -5,7 +5,7 @@
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": ">=4.0.0 < 6.0.0"
+    "node": ">=4.0.0 < 5.0.0"
   },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
@@ -130,6 +130,7 @@
     "test": "karma start",
     "lint": "eslint ./src",
     "static": "static ./dist --port 9000",
-    "prepublish": "NODE_ENV=production npm run all"
+    "prepublish": "NODE_ENV=production npm run all",
+    "shrinkwrap": "npm cache clear && rm -fr node_modules && rm npm-shrinkwrap.json && npm i && npm dedupe && npm shrinkwrap"
   }
 }
