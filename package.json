@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -130,6 +130,6 @@
     "test": "karma start",
     "lint": "eslint ./src",
     "static": "static ./dist --port 9000",
-    "prepublish": "npm run all"
+    "prepublish": "NODE_ENV=production npm run all"
   }
 }
