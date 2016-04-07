@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
+import pick from 'lodash/object/pick'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
@@ -363,6 +364,25 @@ export const favoriteSelector = createSelector(
     return {
       favorited: Boolean(favorited),
       id
+    }
+  }
+)
+
+export const headerSelector = createSelector(
+  [
+    favoriteSelector,
+    channelSelector
+  ],
+  (
+    favorite,
+    channel
+  ) => {
+    return {
+      ...pick(channel, [
+        'name',
+        'description'
+      ]),
+      ...favorite
     }
   }
 )
