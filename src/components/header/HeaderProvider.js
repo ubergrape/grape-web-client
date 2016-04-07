@@ -5,18 +5,18 @@ import {mapActionsToProps} from '../../app/redux'
 import {favoriteSelector as selector} from '../../selectors'
 import store from '../../app/store'
 import actionNames from './actionNames'
-import Favorite from './Favorite'
+import Header from './Header'
 
-const ConnectedFavorite = connect(
+const ConnectedHeader = connect(
   selector,
   mapActionsToProps(actionNames)
-)(Favorite)
+)(Header)
 
-export default class FavoriteProvider extends Component {
+export default class HeaderProvider extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedFavorite />
+        <ConnectedHeader />
       </Provider>
     )
   }

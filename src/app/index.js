@@ -15,7 +15,7 @@ import ChannelMembersInviteProvider from '../components/channel-members-invite/C
 import UnreadChannelsProvider from '../components/unread-channels/UnreadChannelsProvider'
 import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
-import FavoriteProvider from '../components/favorite/FavoriteProvider'
+import HeaderProvider from '../components/header/HeaderProvider'
 
 render(
   createElement(ChannelSearchProvider),
@@ -34,6 +34,7 @@ render(
   document.createElement('grape-unread-channels')
 )
 
+document.registerReact('grape-header', HeaderProvider)
 document.registerReact('grape-typing-notification', TypingNotificationProvider)
 document.registerReact('grape-user-profile', UserProfileProvider)
 document.registerReact('grape-channel-info', ChannelInfoProvider)
@@ -43,6 +44,5 @@ document.registerReact('grape-message-search', MessageSearchProvider)
 document.registerReact('grape-alerts', AlertsProvider)
 document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
-document.registerReact('grape-favorite', FavoriteProvider)
 
 subscribeActions(client.connect())
