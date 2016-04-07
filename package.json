@@ -5,7 +5,7 @@
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": ">=4.0.0 < 5.0.0"
+    "node": "4.4.2"
   },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
