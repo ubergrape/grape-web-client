@@ -129,7 +129,7 @@
     "test:watch": "NODE_ENV=test karma start",
     "test": "karma start",
     "lint": "eslint ./src",
-    "static": "static ./server --port 9000",
+    "static": "static ./dist --port 9000",
     "prepublish": "npm run all"
   }
 }
