@@ -371,18 +371,24 @@ export const favoriteSelector = createSelector(
 export const headerSelector = createSelector(
   [
     favoriteSelector,
-    channelSelector
+    channelSelector,
+    channelInfo,
+    sharedFilesSelector
   ],
   (
     favorite,
-    channel
+    channel,
+    {show: isChannelInfoOpened},
+    {show: isSharedFilesOpened}
   ) => {
     return {
       ...pick(channel, [
         'name',
         'description'
       ]),
-      ...favorite
+      ...favorite,
+      isChannelInfoOpened,
+      isSharedFilesOpened
     }
   }
 )
