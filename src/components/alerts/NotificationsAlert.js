@@ -32,7 +32,7 @@ export default class NotificationsAlert extends Component {
             onClick={onEnableNotifications}>
             Please enable desktop notifications
           </button>
-          {' so your team members can reach you on ChatGrape.'}
+          {' so your team members can reach you on Grape.'}
         </span>
         <span
           className={classes.secondaryCol}>
