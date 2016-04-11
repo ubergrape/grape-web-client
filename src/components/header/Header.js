@@ -10,9 +10,15 @@ export default class Header extends Component {
     sheet: PropTypes.object,
     name: PropTypes.string,
     description: PropTypes.string,
+    type: PropTypes.string,
     showChannelMembersInvite: PropTypes.func,
     showInSidebar: PropTypes.func,
     hideSidebar: PropTypes.func
+  }
+
+  getHandler(panel) {
+    if (this.props.sidebar === panel) return this.props.hideSidebar
+    return this.props.showInSidebar.bind(null, panel)
   }
 
   renderTile() {
@@ -41,16 +47,19 @@ export default class Header extends Component {
   renderFilesButton() {
     return (
       <button
-        onClick={this.props.showInSidebar.bind(null, 'files')}>
+        onClick={this.getHandler('files')}>
         f
       </button>
     )
   }
 
   renderInfoButton() {
+    let info
+    if (this.props.type === 'room') info = 'info'
+    if (this.props.type === 'pm') info = 'profile'
     return (
       <button
-        onClick={this.props.showInSidebar.bind(null, 'info')}>
+        onClick={this.getHandler(info)}>
         i
       </button>
     )
@@ -59,7 +68,7 @@ export default class Header extends Component {
   renderMentionsButton() {
     return (
       <button
-        onClick={this.props.showInSidebar.bind(null, 'mentions')}>
+        onClick={this.getHandler('mentions')}>
         @
       </button>
     )

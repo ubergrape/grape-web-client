@@ -7,9 +7,8 @@ import style from './style'
 @useSheet(style)
 export default class UserProfile extends Component {
   static propTypes = {
-    hideUserProfile: PropTypes.func.isRequired,
+    hideSidebar: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
-    show: PropTypes.bool.isRequired,
     avatar: PropTypes.string,
     username: PropTypes.string,
     displayName: PropTypes.string,
@@ -22,12 +21,10 @@ export default class UserProfile extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onClose() {
-    this.props.hideUserProfile()
+    this.props.hideSidebar()
   }
 
   render() {
-    if (!this.props.show) return null
-
     const {classes} = this.props.sheet
     const {
       avatar,

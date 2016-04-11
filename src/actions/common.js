@@ -235,7 +235,7 @@ export function handleConnectionError(err) {
   }
 }
 
-export function hideSideBar() {
+export function hideSidebar() {
   reduxEmitter.hideSidebar()
   return {
     type: types.HIDE_SIDEBAR

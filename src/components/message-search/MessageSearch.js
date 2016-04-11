@@ -17,7 +17,6 @@ export default class MessageSearch extends Component {
     sheet: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -26,20 +25,14 @@ export default class MessageSearch extends Component {
     isLoading: PropTypes.bool.isRequired
   }
 
+  componentDidMount() {
+    this.load(this.props)
+  }
+
   componentWillReceiveProps(nextProps) {
-    let needsMessages = false
-
-    // It was hidden, we show it now.
-    if (nextProps.show && !this.props.show) {
-      needsMessages = true
-    }
-
-    // Query has changed.
     if (nextProps.query && nextProps.query !== this.props.query) {
-      needsMessages = true
+      this.load(nextProps)
     }
-
-    if (needsMessages) this.load(nextProps)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -154,7 +147,6 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
     const {classes} = this.props.sheet
     const {images, title, isLoading} = this.props
     return (

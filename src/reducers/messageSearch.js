@@ -4,7 +4,6 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   title: 'Search Results',
   limit: 20,
-  show: false,
   isLoading: false,
   items: [],
   query: [],

@@ -29,8 +29,7 @@ export default class ChannelInfo extends Component {
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
-    hideChannelInfo: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
+    hideSidebar: PropTypes.func.isRequired
   }
 
   onInvite() {
@@ -53,7 +52,7 @@ export default class ChannelInfo extends Component {
   }
 
   onClose() {
-    this.props.hideChannelInfo()
+    this.props.hideSidebar()
   }
 
   renderUser(user) {
@@ -95,8 +94,8 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    const {channel, show} = this.props
-    if (!show || isEmpty(channel)) return null
+    const {channel} = this.props
+    if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
     return (

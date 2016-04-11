@@ -44,7 +44,6 @@ export function hideSharedFiles() {
   return {
     type: types.HIDE_SHARED_FILES,
     payload: {
-      show: false,
       items: [],
       total: null
     }

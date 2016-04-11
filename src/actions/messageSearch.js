@@ -21,7 +21,6 @@ export function hideMessageSearch() {
   return {
     type: types.HIDE_MESSAGE_SEARCH,
     payload: {
-      show: false,
       items: [],
       total: null
     }

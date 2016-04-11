@@ -4,7 +4,6 @@ import * as types from '../constants/actionTypes'
 const initialState = {
   title: 'Mentions',
   limit: 20,
-  show: false,
   isLoading: false,
   items: [],
   images
@@ -12,8 +11,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.HIDE_SIDEBAR:
-      return {...state, show: false}
     case types.SHOW_MENTIONS:
     case types.HIDE_MENTIONS:
     case types.SET_SIDEBAR_IS_LOADING:

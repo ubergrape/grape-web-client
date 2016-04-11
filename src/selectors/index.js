@@ -174,43 +174,29 @@ export const setTypingSelector = createSelector(
   }
 )
 
-export const userProfile = createSelector(
-  state => state.userProfile, state => state
-)
-
 export const userProfileSelector = createSelector(
   [
-    userProfile,
     currentPmsSelector
   ],
   (
-    profile,
     pm
   ) => {
     return {
-      ...profile,
       ...pm.mate
     }
   }
 )
 
-export const channelInfo = createSelector(
-  state => state.channelInfo, state => state
-)
-
 export const channelInfoSelector = createSelector(
   [
-    channelInfo,
     channelSelector,
     userSelector
   ],
   (
-    info,
     channel,
     user
   ) => {
     return {
-      ...info,
       channel: channel.type === 'room' ? channel : {},
       user
     }
@@ -383,7 +369,8 @@ export const sidebarComponentSelector = createSelector(
     userProfileSelector,
     sharedFilesSelector,
     messageSearchSelector,
-    mentionsSelector
+    mentionsSelector,
+    userSelector
   ],
   (
     {show},
@@ -391,7 +378,8 @@ export const sidebarComponentSelector = createSelector(
     profile,
     files,
     search,
-    mentions
+    mentions,
+    {displayName: query}
   ) => {
     const select = {
       show
@@ -403,7 +391,7 @@ export const sidebarComponentSelector = createSelector(
       profile,
       files,
       search,
-      mentions
+      mentions: {...mentions, query}
     }
     return {...select, ...panels[show]}
   }
@@ -423,7 +411,8 @@ export const headerSelector = createSelector(
     return {
       ...pick(channel, [
         'name',
-        'description'
+        'description',
+        'type'
       ]),
       ...favorite,
       sidebar

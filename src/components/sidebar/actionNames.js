@@ -1,4 +1,10 @@
 export default [
-  'hideSideBar',
-  'loadSharedFiles'
+  'hideSidebar',
+  'leaveChannel',
+  'goToChannel',
+  'kickMemberFromChannel',
+  'showChannelMembersInvite',
+  'loadSharedFiles',
+  'loadMentions',
+  'goToMessage'
 ]

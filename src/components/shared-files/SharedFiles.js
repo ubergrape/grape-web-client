@@ -13,9 +13,13 @@ export default class SharedFiles extends Component {
     sheet: PropTypes.object.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
-    hideSideBar: PropTypes.func,
+    hideSidebar: PropTypes.func,
     isLoading: PropTypes.bool.isRequired,
     total: PropTypes.number
+  }
+
+  componentDidMount() {
+    this.load(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,7 +36,7 @@ export default class SharedFiles extends Component {
   }
 
   onClose() {
-    this.props.hideSideBar()
+    this.props.hideSidebar()
   }
 
   load(props = this.props) {

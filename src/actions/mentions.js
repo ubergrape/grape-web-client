@@ -19,7 +19,6 @@ export function showMentions() {
   return {
     type: types.SHOW_MENTIONS,
     payload: {
-      show: true,
       query: user.displayName
     }
   }
@@ -30,7 +29,6 @@ export function hideMentions() {
   return {
     type: types.HIDE_MENTIONS,
     payload: {
-      show: false,
       items: [],
       total: null
     }
