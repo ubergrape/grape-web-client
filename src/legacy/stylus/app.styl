@@ -63,17 +63,6 @@ a
 	overflow: hidden
 	margin: 0
 	padding: 0
-	&::before
-		content: ""
-		position: absolute
-		left: 0
-		top: 0
-		right: 0
-		bottom: 0
-		opacity: 0
-		z-index: 99999
-		background: lighten(silver-light, 30%) url("../../../../chatgrape/static/images/mascot_loader.gif") 50% 50% no-repeat
-		display: none
 
 /*______ LOADING ______*/
 
@@ -166,7 +155,7 @@ hr
 }
 
 body.macgap
-	background: white url("../../../../chatgrape/static/images/preloader-onwhite.gif") 50% 50% no-repeat
+	background: white url("../../images/preloader-onwhite.gif") 50% 50% no-repeat
 	.client
 		animation: slidein 2.5s ease
 
