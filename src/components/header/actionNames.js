@@ -3,5 +3,6 @@ export default [
   'showInSidebar',
   'hideSidebar',
   'requestAddChannelToFavorites',
-  'requestRemoveChannelFromFavorites'
+  'requestRemoveChannelFromFavorites',
+  'updateMessageSearchQuery'
 ]

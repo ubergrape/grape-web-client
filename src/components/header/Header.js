@@ -16,6 +16,15 @@ export default class Header extends Component {
     hideSidebar: PropTypes.func
   }
 
+  onMessageSearchFocus() {
+    this.props.showInSidebar('search')
+    this.props.updateMessageSearchQuery('')
+  }
+
+  onMessageSearchChange({target}) {
+    this.props.updateMessageSearchQuery(target.value)
+  }
+
   getHandler(panel) {
     if (this.props.sidebar === panel) return this.props.hideSidebar
     return this.props.showInSidebar.bind(null, panel)
@@ -32,7 +41,12 @@ export default class Header extends Component {
   }
 
   renderSearch() {
-    return <input type="search" />
+    return (
+      <input
+        onFocus={::this.onMessageSearchFocus}
+        onChange={::this.onMessageSearchChange}
+        type="search" />
+    )
   }
 
   renderInviteButton() {

@@ -3,6 +3,7 @@ import SharedFiles from '../shared-files/SharedFiles'
 import ChannelInfo from '../channel-info/ChannelInfo'
 import UserProfile from '../user-profile/UserProfile'
 import Mentions from '../message-search/MessageSearch'
+import Search from '../message-search/MessageSearch'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -36,6 +37,17 @@ export default class Sidebar extends Component {
           select: nextProps.goToMessage
         }
         this.el = <Mentions {...props} />
+        break
+      }
+      case 'search': {
+
+        const props = {
+          ...nextProps,
+          load: nextProps.searchMessages,
+          hide: this.props.hideSidebar,
+          select: nextProps.goToMessage
+        }
+        this.el = <Search {...props} />
         break
       }
       default:

@@ -6,5 +6,6 @@ export default [
   'showChannelMembersInvite',
   'loadSharedFiles',
   'loadMentions',
-  'goToMessage'
+  'goToMessage',
+  'searchMessages'
 ]
