@@ -10,13 +10,9 @@ export default class Header extends Component {
     sheet: PropTypes.object,
     name: PropTypes.string,
     description: PropTypes.string,
-    isChannelInfoOpened: PropTypes.bool,
-    isSharedFilesOpened: PropTypes.bool,
-    showSharedFiles: PropTypes.func,
-    hideSharedFiles: PropTypes.func,
     showChannelMembersInvite: PropTypes.func,
-    hideChannelInfo: PropTypes.func,
-    showChannelInfoOrUserProfile: PropTypes.func
+    showInSidebar: PropTypes.func,
+    hideSidebar: PropTypes.func
   }
 
   renderTile() {
@@ -43,33 +39,28 @@ export default class Header extends Component {
   }
 
   renderFilesButton() {
-    const {
-      isSharedFilesOpened,
-      showSharedFiles,
-      hideSharedFiles
-    } = this.props
-    const handler = !isSharedFilesOpened ? showSharedFiles : hideSharedFiles
-
     return (
       <button
-        onClick={handler}>
+        onClick={this.props.showInSidebar.bind(null, 'files')}>
         f
       </button>
     )
   }
 
   renderInfoButton() {
-    const {
-      isChannelInfoOpened,
-      showChannelInfoOrUserProfile,
-      hideChannelInfo
-    } = this.props
-    const handler = !isChannelInfoOpened ? showChannelInfoOrUserProfile : hideChannelInfo
-
     return (
       <button
-        onClick={handler}>
+        onClick={this.props.showInSidebar.bind(null, 'info')}>
         i
+      </button>
+    )
+  }
+
+  renderMentionsButton() {
+    return (
+      <button
+        onClick={this.props.showInSidebar.bind(null, 'mentions')}>
+        @
       </button>
     )
   }
@@ -88,7 +79,7 @@ export default class Header extends Component {
           {this.renderInfoButton()}
           {this.renderFilesButton()}
           {this.renderSearch()}
-          <button>@</button>
+          {this.renderMentionsButton()}
           <button>?</button>
         </div>
       </header>

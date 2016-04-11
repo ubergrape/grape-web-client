@@ -27,7 +27,6 @@ require("endswith")
 
 exports.ItemList = require('./utils/itemlist')
 let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
-let ChatHeader = exports.ChatHeader = require('./elements/chatheader')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
 let HistoryView = exports.HistoryView = require('./elements/historyview')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
@@ -73,9 +72,6 @@ UI.prototype.init = function UI_init() {
   this.clientBody = qs('.client-body', this.el)
 
   this.organizationMenu = new OrganizationPopover()
-
-  this.chatHeader = new ChatHeader()
-  qs('.room-header', this.el).appendChild(this.chatHeader.el)
 
   // initialize the input field
   this.grapeInput = new GrapeInput()
@@ -224,28 +220,6 @@ UI.prototype.requestPermission = function () {
   })
 }
 
-const rightSidebarComponents = [
-  'user-profile',
-  'channel-info',
-  'shared-files',
-  'mentions',
-  'message-search'
-]
-
-/**
- * Render all right sidebar components.
- */
-UI.prototype.renderSidebar = function() {
-  if (this.rightSidebar) return
-  const el = document.createElement('div')
-  el.className = 'right-sidebar'
-  this.clientBody.appendChild(el)
-  rightSidebarComponents.forEach(name => {
-    el.appendChild(document.createElement(`grape-${name}`))
-  })
-  this.rightSidebar = el
-}
-
 UI.prototype.setOrganization = function UI_setOrganization(org) {
   this.org = org
   template.locals.org = this.org
@@ -255,7 +229,6 @@ UI.prototype.setOrganization = function UI_setOrganization(org) {
   if (this.notificationSessionSet === true) return
   focus.on('focus', this.setNotificationsSession.bind(this))
   this.notificationSessionSet = true
-  this.renderSidebar()
 }
 
 UI.prototype.setUser = function UI_setUser(user) {

@@ -234,3 +234,18 @@ export function handleConnectionError(err) {
     }
   }
 }
+
+export function hideSideBar() {
+  reduxEmitter.hideSidebar()
+  return {
+    type: types.HIDE_SIDEBAR
+  }
+}
+
+export function showInSidebar(panel) {
+  reduxEmitter.showSidebar()
+  return {
+    type: types.SHOW_IN_SIDEBAR,
+    payload: panel
+  }
+}

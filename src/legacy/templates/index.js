@@ -12,7 +12,6 @@ template.locals.html = (html) => {
 }
 
 template.templates = {
-  'chatheader.jade': require('./chatheader.jade'),
   'chathistory.jade': require('./chathistory.jade'),
   'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
   'dialogs/room-invite.jade': require('./dialogs/room-invite.jade'),

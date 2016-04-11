@@ -4,10 +4,10 @@ import store from '../app/store'
 import {channelSelector} from '../selectors'
 import {showUserProfile} from './userProfile'
 
-export function showChannelInfo() {
+export function showRoomInfo() {
   reduxEmitter.showSidebar()
   return {
-    type: types.SHOW_CHANNEL_INFO
+    type: types.SHOW_ROOM_INFO
   }
 }
 
@@ -18,11 +18,14 @@ export function hideChannelInfo() {
   }
 }
 
-export function showChannelInfoOrUserProfile() {
+export function showChannelInfo() {
   const channel = channelSelector(store.getState())
-  if (channel.type === 'pm') return showUserProfile()
-  if (channel.type === 'room') return showChannelInfo()
-  return {
-    type: types.NOOP
+  switch (channel.type) {
+    case 'pm':
+      return showUserProfile()
+    case 'room':
+      return showRoomInfo()
+    default:
+      return { type: types.NOOP }
   }
 }

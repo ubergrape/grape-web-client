@@ -229,6 +229,10 @@ export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
 )
 
+export const intercomSelector = createSelector(
+  state => state.intercom, state => state
+)
+
 export const alertsSelector = createSelector(
   state => state.alerts, state => state
 )
@@ -368,18 +372,53 @@ export const favoriteSelector = createSelector(
   }
 )
 
+export const sidebarSelector = createSelector(
+  state => state.sidebar, state => state
+)
+
+export const sidebarComponentSelector = createSelector(
+  [
+    sidebarSelector,
+    channelInfoSelector,
+    userProfileSelector,
+    sharedFilesSelector,
+    messageSearchSelector,
+    mentionsSelector
+  ],
+  (
+    {show},
+    info,
+    profile,
+    files,
+    search,
+    mentions
+  ) => {
+    const select = {
+      show
+    }
+    if (!show) return select
+
+    const panels = {
+      info,
+      profile,
+      files,
+      search,
+      mentions
+    }
+    return {...select, ...panels[show]}
+  }
+)
+
 export const headerSelector = createSelector(
   [
     favoriteSelector,
     channelSelector,
-    channelInfo,
-    sharedFilesSelector
+    sidebarSelector
   ],
   (
     favorite,
     channel,
-    {show: isChannelInfoOpened},
-    {show: isSharedFilesOpened}
+    {show: sidebar}
   ) => {
     return {
       ...pick(channel, [
@@ -387,8 +426,7 @@ export const headerSelector = createSelector(
         'description'
       ]),
       ...favorite,
-      isChannelInfoOpened,
-      isSharedFilesOpened
+      sidebar
     }
   }
 )

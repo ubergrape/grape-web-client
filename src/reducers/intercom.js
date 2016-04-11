@@ -7,9 +7,9 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.HIDE_SIDEBAR:
-    case types.HIDE_USER_PROFILE:
+    case types.HIDE_INTERCOM:
       return {show: false}
-    case types.SHOW_USER_PROFILE:
+    case types.SHOW_INTERCOM:
       return {show: true}
     default:
       return state

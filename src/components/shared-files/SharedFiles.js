@@ -10,21 +10,19 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 @useSheet(style)
 export default class SharedFiles extends Component {
   static propTypes = {
-    show: PropTypes.bool.isRequired,
     sheet: PropTypes.object.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
-    hideSharedFiles: PropTypes.func.isRequired,
+    hideSideBar: PropTypes.func,
     isLoading: PropTypes.bool.isRequired,
     total: PropTypes.number
   }
 
   componentWillReceiveProps(nextProps) {
-    // It was hidden, we show it now.
-    const show = nextProps.show && !this.props.show
-    const reset = nextProps.show && !nextProps.items.length &&
-      nextProps.total == null && this.props.total != null
-    if (show || reset) this.load(nextProps)
+    const reset = !nextProps.items.length &&
+      nextProps.total == null &&
+      this.props.total != null
+    if (reset) this.load(nextProps)
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -34,7 +32,7 @@ export default class SharedFiles extends Component {
   }
 
   onClose() {
-    this.props.hideSharedFiles()
+    this.props.hideSideBar()
   }
 
   load(props = this.props) {
@@ -73,7 +71,6 @@ export default class SharedFiles extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
     const {classes} = this.props.sheet
     return (
       <SidebarPanel

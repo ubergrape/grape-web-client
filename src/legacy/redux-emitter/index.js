@@ -23,9 +23,9 @@ class ReduxEmitter extends Emitter {
     boundActions.setSettings(toCamel(settings))
   }
 
-  onShowChannelInfo() {
-    boundActions.showChannelInfoOrUserProfile()
-  }
+  // onShowChannelInfo() {
+  //   boundActions.showChannelInfoOrUserProfile()
+  // }
 
   onNewPMOpened(pm) {
     boundActions.createChannel(toCamel(pm))

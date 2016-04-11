@@ -1,4 +1,4 @@
 export default [
-  'showSharedFiles',
+  'hideSideBar',
   'loadSharedFiles'
 ]

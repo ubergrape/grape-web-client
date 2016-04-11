@@ -2,7 +2,6 @@ import * as types from '../constants/actionTypes'
 import * as images from '../constants/images'
 
 const initialState = {
-  show: false,
   images,
   items: [],
   isLoading: false,

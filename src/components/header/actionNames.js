@@ -1,9 +1,7 @@
 export default [
   'showChannelMembersInvite',
-  'showChannelInfoOrUserProfile',
-  'hideChannelInfo',
-  'showSharedFiles',
-  'hideSharedFiles',
+  'showInSidebar',
+  'hideSidebar',
   'requestAddChannelToFavorites',
   'requestRemoveChannelFromFavorites'
 ]
