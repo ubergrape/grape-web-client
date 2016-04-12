@@ -24,6 +24,6 @@ export default class Room {
 
   toString() {
     const url = `${grapeProtocol}chatgrape|room|${this.id}|${this.url}`
-    return `[${encodeMdLink(this.name)}](${encodeMdLink(url)})`
+    return `[${this.name}](${encodeMdLink(url)})`
   }
 }
