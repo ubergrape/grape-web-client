@@ -24,6 +24,6 @@ export default class Search {
 
   toString() {
     const url = `${grapeProtocol}${this.service}|${this.type}|${this.id}|${this.url}||`
-    return `[${encodeMdLink(this.name)}](${encodeMdLink(url)})`
+    return `[${this.name}](${encodeMdLink(url)})`
   }
 }
