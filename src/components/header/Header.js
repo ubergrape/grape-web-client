@@ -16,9 +16,9 @@ export default class Header extends Component {
     hideSidebar: PropTypes.func
   }
 
-  onMessageSearchFocus() {
+  onMessageSearchFocus({target}) {
     this.props.showInSidebar('search')
-    this.props.updateMessageSearchQuery('')
+    this.props.updateMessageSearchQuery(target.value)
   }
 
   onMessageSearchChange({target}) {

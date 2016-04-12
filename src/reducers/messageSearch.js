@@ -12,8 +12,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.HIDE_SIDEBAR:
-      return {...state, show: false}
     case types.SHOW_MESSAGE_SEARCH:
     case types.HIDE_MESSAGE_SEARCH:
     case types.SET_SIDEBAR_IS_LOADING:
