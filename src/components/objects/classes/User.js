@@ -24,6 +24,6 @@ export default class User {
 
   toString() {
     const url = `${grapeProtocol}chatgrape|user|${this.id}|${this.url}`
-    return `[${encodeMdLink(this.name)}](${encodeMdLink(url)})`
+    return `[${this.name}](${encodeMdLink(url)})`
   }
 }
