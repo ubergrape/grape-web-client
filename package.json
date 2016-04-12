@@ -1,11 +1,11 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
-    "node": ">=4.0.0 < 5.0.0"
+    "node": "4.4.2"
   },
   "dependencies": {
     "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
@@ -131,6 +131,6 @@
     "lint": "eslint ./src",
     "static": "static ./dist --port 9000",
     "prepublish": "NODE_ENV=production npm run all",
-    "shrinkwrap": "npm cache clear && rm -fr node_modules && rm npm-shrinkwrap.json && npm i && npm dedupe && npm shrinkwrap"
+    "shrinkwrap": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json && npm i && npm dedupe && npm shrinkwrap"
   }
 }
