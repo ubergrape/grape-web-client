@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "dependencies": {
     "HTML5-Desktop-Notifications": {
       "version": "0.0.1",
@@ -443,9 +443,9 @@
       "resolved": "https://registry.npmjs.org/formidable/-/formidable-1.0.14.tgz"
     },
     "grape-browser": {
-      "version": "2.5.0",
-      "from": "grape-browser@>=2.4.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.5.0.tgz",
+      "version": "2.5.1",
+      "from": "grape-browser@>=2.5.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.5.1.tgz",
       "dependencies": {
         "emojione": {
           "version": "1.5.2",
@@ -468,9 +468,9 @@
           "resolved": "git://github.com/ubergrape/grape-web.git#fae2d94473b1d521b63b5c9a395a775ab2865bc7",
           "dependencies": {
             "jss": {
-              "version": "3.6.0",
+              "version": "3.6.3",
               "from": "jss@>=3.3.0 <4.0.0",
-              "resolved": "https://registry.npmjs.org/jss/-/jss-3.6.0.tgz"
+              "resolved": "https://registry.npmjs.org/jss/-/jss-3.6.3.tgz"
             },
             "jss-camel-case": {
               "version": "1.0.2",
@@ -549,9 +549,9 @@
           "resolved": "https://registry.npmjs.org/html5-desktop-notifications/-/html5-desktop-notifications-1.0.0.tgz"
         },
         "jss": {
-          "version": "3.6.0",
+          "version": "3.6.3",
           "from": "jss@>=3.3.0 <4.0.0",
-          "resolved": "https://registry.npmjs.org/jss/-/jss-3.6.0.tgz"
+          "resolved": "https://registry.npmjs.org/jss/-/jss-3.6.3.tgz"
         },
         "jss-camel-case": {
           "version": "1.0.2",
@@ -1112,9 +1112,9 @@
           "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.1.tgz"
         },
         "lodash": {
-          "version": "4.9.0",
-          "from": "lodash@>=4.2.0 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.9.0.tgz"
+          "version": "4.10.0",
+          "from": "lodash@>=4.2.1 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
         }
       }
     },
@@ -1129,14 +1129,14 @@
       "resolved": "https://registry.npmjs.org/redux/-/redux-3.4.0.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.9.0",
+          "version": "4.10.0",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.9.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
         },
         "lodash-es": {
-          "version": "4.9.0",
+          "version": "4.10.0",
           "from": "lodash-es@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.9.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.10.0.tgz"
         }
       }
     },
