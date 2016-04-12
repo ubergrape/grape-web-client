@@ -1,39 +1,15 @@
 import sortBy from 'lodash/collection/sortBy'
 
 import store from '../app/store'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
-  userSelector,
   orgSelector,
   mentionsSelector
 } from '../selectors'
+
 import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
-
-export function showMentions() {
-  const state = store.getState()
-  const user = userSelector(state)
-  reduxEmitter.showSidebar()
-  return {
-    type: types.SHOW_MENTIONS,
-    payload: {
-      query: user.displayName
-    }
-  }
-}
-
-export function hideMentions() {
-  reduxEmitter.hideSidebar()
-  return {
-    type: types.HIDE_MENTIONS,
-    payload: {
-      items: [],
-      total: null
-    }
-  }
-}
 
 export function loadMentions(params) {
   return dispatch => {

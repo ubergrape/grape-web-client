@@ -1,31 +1,9 @@
 import store from '../app/store'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {messageSearchSelector, orgSelector} from '../selectors'
 import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
-
-export function showMessageSearch() {
-  reduxEmitter.showSidebar()
-  return {
-    type: types.SHOW_MESSAGE_SEARCH,
-    payload: {
-      show: true
-    }
-  }
-}
-
-export function hideMessageSearch() {
-  reduxEmitter.hideSidebar()
-  return {
-    type: types.HIDE_MESSAGE_SEARCH,
-    payload: {
-      items: [],
-      total: null
-    }
-  }
-}
 
 export function updateMessageSearchQuery(nextQuery) {
   const prevQuery = messageSearchSelector(store.getState()).query.join(' ')

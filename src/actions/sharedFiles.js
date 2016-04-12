@@ -29,27 +29,6 @@ function formatFile(file, channel, users) {
   }
 }
 
-export function showSharedFiles() {
-  reduxEmitter.showSidebar()
-  return {
-    type: types.SHOW_SHARED_FILES,
-    payload: {
-      show: true
-    }
-  }
-}
-
-export function hideSharedFiles() {
-  reduxEmitter.hideSidebar()
-  return {
-    type: types.HIDE_SHARED_FILES,
-    payload: {
-      items: [],
-      total: null
-    }
-  }
-}
-
 export function loadSharedFiles(params) {
   return dispatch => {
     dispatch({type: types.LOAD_SHARED_FILES})

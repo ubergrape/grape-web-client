@@ -10,8 +10,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.SHOW_SHARED_FILES:
-    case types.HIDE_SHARED_FILES:
     case types.SET_SIDEBAR_IS_LOADING:
     case types.LOAD_SHARED_FILES:
     case types.LOADED_SHARED_FILES:
