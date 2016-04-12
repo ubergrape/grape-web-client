@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -36,7 +36,7 @@
     "endswith": "sk7/endswith",
     "es6-promise": "^3.0.2",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-browser": "^2.4.0",
+    "grape-browser": "^2.5.1",
     "grape-jss-utils": "ubergrape/grape-jss-utils#0.1.0",
     "grape-theme": "ubergrape/grape-theme#1.2.0",
     "grape-web": "ubergrape/grape-web#0.18.1",
