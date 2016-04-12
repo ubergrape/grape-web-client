@@ -10,6 +10,11 @@ export default function reduce(state = initialState, action) {
       return {show: undefined}
     case types.SHOW_IN_SIDEBAR:
       return {show: action.payload}
+    case types.SET_CHANNEL: {
+      const {type} = action.payload.channel
+      const {show} = state
+      if (show && type !== show) return {show: type}
+    }
     default:
       return state
   }

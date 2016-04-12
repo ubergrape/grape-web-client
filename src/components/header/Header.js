@@ -68,12 +68,9 @@ export default class Header extends Component {
   }
 
   renderInfoButton() {
-    let info
-    if (this.props.type === 'room') info = 'info'
-    if (this.props.type === 'pm') info = 'profile'
     return (
       <button
-        onClick={this.getHandler(info)}>
+        onClick={this.getHandler(this.props.type)}>
         i
       </button>
     )

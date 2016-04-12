@@ -23,10 +23,10 @@ export default class Sidebar extends Component {
       case 'files':
         this.el = <SharedFiles {...nextProps} />
         break
-      case 'info':
+      case 'room':
         this.el = <ChannelInfo {...nextProps} />
         break
-      case 'profile':
+      case 'pm':
         this.el = <UserProfile {...nextProps} />
         break
       case 'mentions': {
@@ -40,7 +40,6 @@ export default class Sidebar extends Component {
         break
       }
       case 'search': {
-
         const props = {
           ...nextProps,
           load: nextProps.searchMessages,

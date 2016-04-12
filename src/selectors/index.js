@@ -374,8 +374,8 @@ export const sidebarComponentSelector = createSelector(
   ],
   (
     {show},
-    info,
-    profile,
+    room,
+    pm,
     files,
     search,
     mentions,
@@ -387,8 +387,8 @@ export const sidebarComponentSelector = createSelector(
     if (!show) return select
 
     const panels = {
-      info,
-      profile,
+      room,
+      pm,
       files,
       search,
       mentions: {...mentions, query}
