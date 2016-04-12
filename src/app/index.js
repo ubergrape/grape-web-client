@@ -5,11 +5,6 @@ import client from '../utils/backend/client'
 import ChannelSearchProvider from '../components/channel-search/ChannelSearchProvider'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
-// import UserProfileProvider from '../components/user-profile/UserProfileProvider'
-// import ChannelInfoProvider from '../components/channel-info/ChannelInfoProvider'
-// import SharedFilesProvider from '../components/shared-files/SharedFilesProvider'
-// import MentionsProvider from '../components/mentions/MentionsProvider'
-// import MessageSearchProvider from '../components/message-search/MessageSearchProvider'
 import AlertsProvider from '../components/alerts/AlertsProvider'
 import ChannelMembersInviteProvider from '../components/channel-members-invite/ChannelMembersInviteProvider'
 import UnreadChannelsProvider from '../components/unread-channels/UnreadChannelsProvider'
@@ -38,11 +33,6 @@ render(
 document.registerReact('grape-header', HeaderProvider)
 document.registerReact('grape-sidebar', SidebarProvider)
 document.registerReact('grape-typing-notification', TypingNotificationProvider)
-// document.registerReact('grape-user-profile', UserProfileProvider)
-// document.registerReact('grape-channel-info', ChannelInfoProvider)
-// document.registerReact('grape-shared-files', SharedFilesProvider)
-// document.registerReact('grape-mentions', MentionsProvider)
-// document.registerReact('grape-message-search', MessageSearchProvider)
 document.registerReact('grape-alerts', AlertsProvider)
 document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
