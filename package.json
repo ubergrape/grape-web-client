@@ -1,7 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.18.1",
-  "private": true,
+  "version": "0.19.0",
   "dependencies": {
     "html5-desktop-notifications": "^1.0.0",
     "jss": "^3.3.0",
@@ -13,7 +12,6 @@
     "lodash": "^3.10.0",
     "react-jss": "^2.0.1"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "babel": "^5.6.14",
     "babel-core": "^5.5.8",
@@ -52,6 +50,7 @@
     "svg:clean": "svgo -f src/svg-icons/svg -o src/svg-icons/svg --enable removeTitle",
     "svg:copy": "cpy src/svg-icons/svg/*.svg lib/svg-icons/svg",
     "test": "karma start",
-    "test:watch": "NODE_ENV=test karma start"
+    "test:watch": "NODE_ENV=test karma start",
+    "prepublish": "npm run all"
   }
 }
