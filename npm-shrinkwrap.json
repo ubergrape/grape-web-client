@@ -427,8 +427,8 @@
     },
     "grape-browser": {
       "version": "2.6.0",
-      "from": "../grape-browser",
-      "resolved": "file:../grape-browser",
+      "from": "grape-browser@>=2.4.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.6.0.tgz",
       "dependencies": {
         "emojione": {
           "version": "1.5.2",
