@@ -1,6 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 export default {
   header: {
@@ -11,7 +11,7 @@ export default {
   },
   text: {
     ...fonts.smaller,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     flex: 3,
     lineHeight: '1em',
     textTransform: 'uppercase',

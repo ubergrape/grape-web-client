@@ -1,6 +1,6 @@
 import React from 'react'
 import each from 'lodash/collection/each'
-import emoji from 'js-emoji'
+import emoji from 'grape-js-emoji'
 import ReactDOMServer from 'react-dom/server'
 
 import Icon from '../icon/Icon'
