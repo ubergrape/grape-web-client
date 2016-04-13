@@ -32,26 +32,12 @@ if (process.env.NODE_ENV === 'production') {
   )
 }
 
-/**
- * Ignores 'require' calls from `ignoredModules` list.
- * Electron wrapper adds own `require` and
- * we need to do not handle them in webpack build.
- */
-var ignoredModules = ['electron', 'remote']
-function ignoreModules(context, request, callback) {
-  if (ignoredModules.indexOf(request) >= 0) {
-    return callback(null, 'require(\'' + request + '\')')
-  }
-  return callback()
-}
-
 module.exports = {
   entry: './src/index.js',
   output: {
     path: './dist',
     filename: 'app.js'
   },
-  externals: [ignoreModules],
   module: {
     loaders: [
       {

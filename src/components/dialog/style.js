@@ -1,7 +1,7 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 const overlay = {
   position: 'fixed',
@@ -52,7 +52,7 @@ export default {
   },
   title: {
     ...fonts.biggest,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     flex: 2,
     alignSelf: 'center',
     paddingLeft: 20
