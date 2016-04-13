@@ -2,7 +2,7 @@ import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 export const container = {
   display: 'flex',
@@ -52,12 +52,12 @@ export const rules = {
   },
   name: {
     ...fonts.normal,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     lineHeight: 1.2
   },
   info: {
     ...fonts.smaller,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     color: colors.grayLight,
     marginTop: 4,
     opacity: 0.5
