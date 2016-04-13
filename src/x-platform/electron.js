@@ -6,9 +6,13 @@ import {openUrl, createNotification as createWebNotification} from './web'
 // Electron implements require on window.
 let electron
 let remote
+
+// This is a hack to avoid webpack trying to find this dependency.
+// We could add `externals` to webpack config, but this will be needed to be done
+// in every package that uses this one.
 if (window.require) {
-  electron = require('electron')
-  remote = require('remote')
+  electron = window.require('electron')
+  remote = window.require('remote')
 }
 
 const notificationClickTimeout = 20000
