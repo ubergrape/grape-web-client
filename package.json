@@ -12,7 +12,7 @@
     "grape-theme": "ubergrape/grape-theme#1.2.0",
     "grape-web": "0.19.1",
     "images-loader": "^0.1.2",
-    "js-emoji": "ubergrape/js-emoji",
+    "grape-js-emoji": "^0.0.1",
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
