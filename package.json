@@ -1,6 +1,5 @@
 {
   "name": "grape-theme",
-  "private": true,
   "description": "Theme related files sharable between all ubergrape projects.",
   "version": "1.2.0",
   "engines": {
@@ -11,7 +10,9 @@
     "color": "^0.10.1"
   },
   "scripts": {
-    "build": "npm run clean && ./bin/build",
-    "clean": "rm -fr ./dist/*"
+    "all": "npm run clean && npm run build",
+    "build": "./bin/build",
+    "clean": "rm -fr ./dist/*",
+    "prepublish": "npm run all"
   }
 }
