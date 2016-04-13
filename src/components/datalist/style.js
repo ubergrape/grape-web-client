@@ -1,6 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 import color from 'color'
 
 export default {
@@ -12,7 +12,7 @@ export default {
   },
   item: {
     ...fonts.normal,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     padding: '5px 7px',
     color: colors.grapeTypo,
     cursor: 'pointer'

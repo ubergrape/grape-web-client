@@ -1,6 +1,6 @@
 import colors from 'grape-theme/dist/base-colors'
 import fonts from 'grape-theme/dist/fonts'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 const columnMarginRight = 10
 const leftColumnWidth = 60
@@ -72,7 +72,7 @@ export default {
   },
   metaValue: {
     ...fonts.small,
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     flex: '2 0 0%'
   }
 }
