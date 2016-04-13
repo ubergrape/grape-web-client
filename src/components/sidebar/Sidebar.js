@@ -4,6 +4,7 @@ import ChannelInfo from '../channel-info/ChannelInfo'
 import UserProfile from '../user-profile/UserProfile'
 import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
+import Intercom from '../intercom/Intercom'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -49,6 +50,9 @@ export default class Sidebar extends Component {
         this.el = <Search {...props} />
         break
       }
+      case 'intercom':
+        this.el = <Intercom {...nextProps} />
+        break
       default:
         this.el = null
     }

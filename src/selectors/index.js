@@ -358,6 +358,10 @@ export const favoriteSelector = createSelector(
   }
 )
 
+export const supportSelector = createSelector(
+  state => state.support, state => state
+)
+
 export const sidebarSelector = createSelector(
   state => state.sidebar, state => state
 )
@@ -370,6 +374,7 @@ export const sidebarComponentSelector = createSelector(
     sharedFilesSelector,
     messageSearchSelector,
     mentionsSelector,
+    supportSelector,
     userSelector
   ],
   (
@@ -379,6 +384,7 @@ export const sidebarComponentSelector = createSelector(
     files,
     search,
     mentions,
+    support,
     {displayName: query}
   ) => {
     const select = {
@@ -391,6 +397,7 @@ export const sidebarComponentSelector = createSelector(
       pm,
       files,
       search,
+      support,
       mentions: {...mentions, query}
     }
     return {...select, ...panels[show]}
@@ -401,11 +408,13 @@ export const headerSelector = createSelector(
   [
     favoriteSelector,
     channelSelector,
+    supportSelector,
     sidebarSelector
   ],
   (
     favorite,
     channel,
+    support,
     {show: sidebar}
   ) => {
     return {
@@ -415,6 +424,7 @@ export const headerSelector = createSelector(
         'type'
       ]),
       ...favorite,
+      support,
       sidebar
     }
   }

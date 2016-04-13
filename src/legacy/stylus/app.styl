@@ -124,16 +124,53 @@ hr
    SECTION:  INTERCOM
 -----------------------------------------*/
 #intercom-container .intercom-sheet
+	top: 110px !important
 	height: auto !important
 
+#intercom-container .intercom-sheet-content
+	top 0 !important
+
 #intercom-container .intercom-sheet-header
-	height: 60px !important
-	background-color: rgba(255,255,255,0.95) !important
-	border-bottom: 1px solid #dad6e0 !important
+	display none
 
 #intercom-container .intercom-sheet-content
-	top: 60px !important
-	background: #fff !important
+	background: transparent !important
+
+#intercom-container .intercom-sheet-body
+	box-shadow none !important
+	border-left: 0 !important
+	background: transparent !important
+
+#intercom-container .intercom-sheet
+	width 340px !important
+
+#intercom-container .intercom-sheet-footer
+	background: transparent !important
+
+#intercom-container .intercom-conversations-item:hover
+	background: #dce1ea !important
+
+#intercom-container .intercom-conversations-item-body-container
+	border: none !important
+
+#intercom-container .intercom-announcement-body-container a.intercom-h2b-button,
+#intercom-container .intercom-browser-notification-button,
+#intercom-container .intercom-composer-send-button,
+#intercom-container .intercom-conversations-new-conversation-button,
+#intercom-container .intercom-new-anonymous-user input[type=submit],
+#intercom-container .intercom-small-announcement-body-container a.intercom-h2b-button
+	background #198cff !important
+	border-color #198cff !important
+
+#intercom-container .intercom-announcement-body-container a.intercom-h2b-button:hover,
+#intercom-container .intercom-browser-notification-button:hover,
+#intercom-container .intercom-composer-send-button:hover,
+#intercom-container .intercom-conversations-new-conversation-button:hover,
+#intercom-container .intercom-new-anonymous-user input[type=submit]:hover,
+#intercom-container .intercom-small-announcement-body-container a.intercom-h2b-button:hover
+	background lighten(#198cff, 10) !important
+	border-color lighten(#198cff, 10) !important
+
 
 /* _____ HIDE INTERCOM BUTTON ________ */
 

@@ -16,6 +16,11 @@ export default class Header extends Component {
     hideSidebar: PropTypes.func
   }
 
+  componentWillMount() {
+    const {support, hideIntercom} = this.props
+    if (support.type === 'intercom') hideIntercom()
+  }
+
   onMessageSearchFocus({target}) {
     this.props.showInSidebar('search')
     this.props.updateMessageSearchQuery(target.value)
@@ -28,6 +33,13 @@ export default class Header extends Component {
   getHandler(panel) {
     if (this.props.sidebar === panel) return this.props.hideSidebar
     return this.props.showInSidebar.bind(null, panel)
+  }
+
+  onSupportClick(e) {
+    if (this.props.support.type === 'intercom') {
+      e.preventDefault()
+      this.getHandler('intercom')()
+    }
   }
 
   renderTile() {
@@ -85,6 +97,16 @@ export default class Header extends Component {
     )
   }
 
+  renderSupportButton() {
+    return (
+      <a
+        href={this.props.support.href}
+        onClick={::this.onSupportClick}>
+        ?
+      </a>
+    )
+  }
+
   render() {
     return (
       <header>
@@ -100,7 +122,7 @@ export default class Header extends Component {
           {this.renderFilesButton()}
           {this.renderSearch()}
           {this.renderMentionsButton()}
-          <button>?</button>
+          {this.renderSupportButton()}
         </div>
       </header>
     )

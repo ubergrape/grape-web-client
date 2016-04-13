@@ -15,7 +15,7 @@ export default class SidebarPanel extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     onClose: PropTypes.func.isRequired
   }
 

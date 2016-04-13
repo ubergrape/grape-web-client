@@ -6,7 +6,7 @@ import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
-import {channelSelector} from '../selectors'
+import {channelSelector, supportSelector, sidebarSelector} from '../selectors'
 import store from '../app/store'
 
 export function error(err) {
@@ -235,17 +235,53 @@ export function handleConnectionError(err) {
   }
 }
 
+export function hideIntercom() {
+  const intercom = window.Intercom
+  intercom('hide')
+  return dispatch => {
+    dispatch({
+      type: types.HIDE_INTERCOM
+    })
+  }
+}
+
+
+export function showIntercom() {
+  const intercom = window.Intercom
+  const {show} = sidebarSelector(store.getState())
+  intercom('onShow', () => {
+    if (show !== 'intercom') intercom('hide')
+  })
+  intercom('show')
+  return dispatch => {
+    dispatch({
+      type: types.SHOW_INTERCOM
+    })
+  }
+}
+
 export function hideSidebar() {
   reduxEmitter.hideSidebar()
-  return {
-    type: types.HIDE_SIDEBAR
+  return (dispatch, getState) => {
+    const {type} = supportSelector(getState())
+    dispatch({
+      type: types.HIDE_SIDEBAR
+    })
+    if (type === 'intercom') dispatch(hideIntercom())
   }
 }
 
 export function showInSidebar(panel) {
   reduxEmitter.showSidebar()
-  return {
-    type: types.SHOW_IN_SIDEBAR,
-    payload: panel
+  return dispatch => {
+    dispatch({
+      type: types.SHOW_IN_SIDEBAR,
+      payload: panel
+    })
+    if (panel === 'intercom') {
+      dispatch(showIntercom())
+      return
+    }
+    dispatch(hideIntercom())
   }
 }
