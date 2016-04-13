@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -41,7 +41,6 @@
     "grape-js-emoji": "^0.0.1",
     "image-zoom": "ubergrape/image-zoom",
     "intro.js": "ubergrape/intro.js",
-    "js-emoji": "ubergrape/js-emoji",
     "keyname": "0.1.0",
     "lodash": "^3.10.0",
     "lodash.differenceby": "^4.0.1",

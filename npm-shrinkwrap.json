@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "dependencies": {
     "HTML5-Desktop-Notifications": {
       "version": "0.0.1",
@@ -427,7 +427,7 @@
     },
     "grape-browser": {
       "version": "2.6.0",
-      "from": "grape-browser@>=2.4.0 <3.0.0",
+      "from": "grape-browser@>=2.6.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.6.0.tgz",
       "dependencies": {
         "emojione": {
@@ -610,11 +610,6 @@
       "version": "0.0.1",
       "from": "ubergrape/resizable",
       "resolved": "git://github.com/ubergrape/resizable.git#03d47894f31ef56f94710d0903c83db0af73bfbb"
-    },
-    "js-emoji": {
-      "version": "0.0.1",
-      "from": "ubergrape/js-emoji",
-      "resolved": "git://github.com/ubergrape/js-emoji.git#2bbabf0f47e1ec665b1ceb76ff1b30e481c4fc60"
     },
     "keyname": {
       "version": "0.1.0",
@@ -1035,9 +1030,9 @@
           "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.1.tgz"
         },
         "lodash": {
-          "version": "4.10.0",
-          "from": "lodash@>=4.2.0 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
+          "version": "4.11.0",
+          "from": "lodash@>=4.2.1 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.0.tgz"
         }
       }
     },
@@ -1057,14 +1052,14 @@
       "resolved": "https://registry.npmjs.org/redux/-/redux-3.4.0.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.10.0",
+          "version": "4.11.0",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.10.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.0.tgz"
         },
         "lodash-es": {
-          "version": "4.10.0",
+          "version": "4.11.0",
           "from": "lodash-es@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.10.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.11.0.tgz"
         }
       }
     },
