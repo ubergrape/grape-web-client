@@ -1,5 +1,5 @@
 import color from 'color'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 
@@ -41,7 +41,7 @@ export default {
   },
   fullName: {
     ...fonts.big,
-    ...utils.ellipsis
+    ...mixins.ellipsis
   },
   about: {
     ...divider,

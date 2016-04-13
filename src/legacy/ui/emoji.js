@@ -1,5 +1,5 @@
 let staticurl = require('staticurl')
-let jsemoji = require('js-emoji')
+let jsemoji = require('grape-js-emoji')
 jsemoji.img_path = staticurl('emoji/')
 jsemoji.sheet_path = staticurl('app/cg/images/emoji_sheet_32_optimized.png')
 jsemoji.use_sheet = true

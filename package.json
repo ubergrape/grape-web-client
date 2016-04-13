@@ -27,7 +27,6 @@
     "computed-style": "jkroso/computed-style#0.1.0",
     "conf": "./local_modules/conf",
     "custom-event-polyfill": "^0.2.1",
-    "debounce": "component/debounce#1.0.0",
     "debug": "^2.2.0",
     "dialog-component": "^0.4.4",
     "document-register-element": "^0.5.4",
@@ -36,10 +35,10 @@
     "endswith": "sk7/endswith",
     "es6-promise": "^3.0.2",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-browser": "^2.4.0",
-    "grape-jss-utils": "ubergrape/grape-jss-utils#0.1.0",
-    "grape-theme": "ubergrape/grape-theme#1.2.0",
-    "grape-web": "ubergrape/grape-web#0.18.1",
+    "grape-browser": "^2.6.0",
+    "grape-theme": "^1.2.0",
+    "grape-web": "^0.19.1",
+    "grape-js-emoji": "^0.0.1",
     "image-zoom": "ubergrape/image-zoom",
     "intro.js": "ubergrape/intro.js",
     "js-emoji": "ubergrape/js-emoji",
@@ -61,7 +60,7 @@
     "progress-component": "component/progress#0.0.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "react-finite-list": "^1.0.2",
+    "react-finite-list": "^1.0.3",
     "react-overlays": "^0.5.0",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
@@ -80,7 +79,7 @@
     "template": "./local_modules/template",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1#2.0.0",
-    "websocket": "ubergrape/websocket"
+    "websocket-wrapper": "^0.1.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -131,6 +130,8 @@
     "lint": "eslint ./src",
     "static": "static ./dist --port 9000",
     "prepublish": "NODE_ENV=production npm run all",
-    "shrinkwrap": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json && npm i && npm dedupe && npm shrinkwrap"
+    "dedupe": "npm dedupe 2> ./dedupe-whitelist.txt ",
+    "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
+    "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap"
   }
 }

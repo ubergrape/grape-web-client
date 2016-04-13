@@ -1,4 +1,4 @@
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 import colors from 'grape-theme/dist/base-colors'
 
 const avatarWidth = 32
@@ -53,7 +53,7 @@ export default {
     paddingLeft: avatarWidth + leftColumnMarginRight + arrowWidth
   },
   author: {
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     color: colors.gray,
     marginRight: 10
   },

@@ -9,7 +9,6 @@ let notify = require('HTML5-Desktop-Notifications')
 let Introjs = require("intro.js").introJs
 let Clipboard = require('clipboard')
 let dropAnywhere = require('drop-anywhere')
-let debounce = require('debounce')
 let timezone = require('./jstz')
 let focus = require('./focus')
 let pipeEvents = require('./pipeEvents')

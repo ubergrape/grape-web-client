@@ -11,7 +11,7 @@ import 'image-zoom/node_modules/overlay/dist/overlay.css'
 import 'intro.js/introjs.css'
 import 'drop-anywhere/drop-anywhere.css'
 import 'jh3y-resizable/resizable.css'
-import 'js-emoji/emoji.css'
+import 'grape-js-emoji/emoji.css'
 
 import Api from './api'
 import Ui from './ui'

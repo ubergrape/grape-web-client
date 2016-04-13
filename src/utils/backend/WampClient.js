@@ -2,7 +2,7 @@ import Emitter from 'emitter'
 import Wamp from 'wamp1'
 import Backoff from 'backo'
 import debug from 'debug'
-import WebSocket from 'websocket'
+import WebSocket from 'websocket-wrapper'
 
 const log = debug('ws')
 const path = '/ws'

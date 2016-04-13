@@ -2,7 +2,7 @@ import button from '../button/default'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 import colors from 'grape-theme/dist/base-colors'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 const iconHeight = 30
 
@@ -48,7 +48,7 @@ export default {
     backgroundSize: '100%'
   },
   itemText: {
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     paddingLeft: 10
   },
   fallback: {
