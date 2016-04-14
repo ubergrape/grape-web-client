@@ -11,58 +11,64 @@ import {useSheet} from 'grape-web/lib/jss'
 @useSheet(style)
 export default class Sidebar extends Component {
   static propTypes = {
-
+    sheet: PropTypes.object,
+    show: PropTypes.oneOfType([
+      PropTypes.string,
+      React.PropTypes.bool
+    ]),
+    loadMentions: PropTypes.func,
+    searchMessages: PropTypes.func,
+    hideSidebar: PropTypes.func,
+    goToMessage: PropTypes.func
   }
 
-  constructor() {
-    super()
-    this.el = null
-  }
+  getSidebar() {
+    const {
+      show,
+      loadMentions,
+      searchMessages,
+      hideSidebar: hide,
+      goToMessage: select
+    } = this.props
 
-  componentWillReceiveProps(nextProps) {
-    switch (nextProps.show) {
+    switch (show) {
       case 'files':
-        this.el = <SharedFiles {...nextProps} />
-        break
+        return <SharedFiles {...this.props} />
       case 'room':
-        this.el = <ChannelInfo {...nextProps} />
-        break
+        return <ChannelInfo {...this.props} />
       case 'pm':
-        this.el = <UserProfile {...nextProps} />
-        break
+        return <UserProfile {...this.props} />
       case 'mentions': {
         const props = {
-          ...nextProps,
-          load: nextProps.loadMentions,
-          hide: this.props.hideSidebar,
-          select: nextProps.goToMessage
+          ...this.props,
+          load: loadMentions,
+          hide,
+          select
         }
-        this.el = <Mentions {...props} />
-        break
+        return <Mentions {...props} />
       }
       case 'search': {
         const props = {
-          ...nextProps,
-          load: nextProps.searchMessages,
-          hide: this.props.hideSidebar,
-          select: nextProps.goToMessage
+          ...this.props,
+          load: searchMessages,
+          hide,
+          select
         }
-        this.el = <Search {...props} />
-        break
+        return <Search {...props} />
       }
       case 'intercom':
-        this.el = <Intercom {...nextProps} />
-        break
+        return <Intercom {...this.props} />
       default:
-        this.el = null
+        return null
     }
   }
 
   render() {
-    if (!this.el) return null
+    const sidebar = this.getSidebar()
+    if (!sidebar) return null
     return (
       <div className={this.props.sheet.classes.sidebar}>
-        {this.el}
+        {sidebar}
       </div>
     )
   }

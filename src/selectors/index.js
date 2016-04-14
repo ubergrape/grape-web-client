@@ -1,6 +1,5 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
-import pick from 'lodash/object/pick'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
@@ -418,12 +417,8 @@ export const headerSelector = createSelector(
     {show: sidebar}
   ) => {
     return {
-      ...pick(channel, [
-        'name',
-        'description',
-        'type'
-      ]),
-      ...favorite,
+      favorite,
+      channel,
       support,
       sidebar
     }
