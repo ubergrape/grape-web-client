@@ -23,7 +23,7 @@ function getDefaultProps() {
     customEmojis: {test: '../images/avatar.gif'},
     placeholder: 'Some placeholder',
     images: {
-      emojiSheet: '../../node_modules/js-emoji/images/sheet_32.png',
+      emojiSheet: '../../node_modules/grape-js-emoji/images/sheet_32.png',
       traubyReading: '../images/trauby-reading.png',
       traubyJuggling: '../images/trauby-juggling.png',
       noDetail: '../images/no-detail.png',
