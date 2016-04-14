@@ -1,5 +1,5 @@
 import color from 'color'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
@@ -83,7 +83,7 @@ export default {
     marginRight: 10
   },
   name: {
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     ...fonts.normal,
     flex: 1,
     alignSelf: 'center',

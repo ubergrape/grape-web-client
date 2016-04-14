@@ -1,5 +1,5 @@
 import colors from 'grape-theme/dist/base-colors'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import sizes from 'grape-theme/dist/sizes'
 
@@ -37,13 +37,13 @@ export default {
     ...image
   },
   name: {
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     ...fonts.normal,
     fontWeight: '500',
     color: colors.grayDark
   },
   meta: {
-    ...utils.ellipsis,
+    ...mixins.ellipsis,
     ...fonts.small,
     color: colors.grayBlueDark
   }

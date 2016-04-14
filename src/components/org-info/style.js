@@ -1,12 +1,12 @@
 import color from 'color'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
-import utils from 'grape-jss-utils'
+import mixins from 'grape-web/lib/jss-utils/mixins'
 
 import buttonIcon from '../button/icon'
 
 const headers = {
-  ...utils.ellipsis,
+  ...mixins.ellipsis,
   lineHeight: 'initial'
 }
 
