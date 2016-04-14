@@ -1,7 +1,6 @@
 import find from 'lodash/collection/find'
 
 import store from '../app/store'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {setSidebarIsLoading, error} from './common'

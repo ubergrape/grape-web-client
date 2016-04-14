@@ -7,7 +7,8 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 @useSheet(style)
 export default class Intercom extends Component {
   static propTypes = {
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    hideSidebar: PropTypes.func.isRequired
   }
 
   onClose() {
@@ -18,8 +19,7 @@ export default class Intercom extends Component {
     return (
       <SidebarPanel
         title={"Grape Team"}
-        onClose={::this.onClose}>
-      </SidebarPanel>
+        onClose={::this.onClose}/>
     )
   }
 }
