@@ -51,11 +51,23 @@ export default class Header extends Component {
   }
 
   renderTile() {
-    const {name, description} = this.props.channel
+    const {channel, sheet} = this.props
     const title = [
-      <h1 key="t">{name}</h1>
+      (<h1
+        className={sheet.classes.name}
+        key="t">
+        {channel.name}
+      </h1>)
     ]
-    if (description) title.push(<h2 key="d">{description}</h2>)
+    if (channel.description) {
+      title.push((
+        <h2
+          className={sheet.classes.description}
+          key="d">
+          {channel.description}
+        </h2>
+      ))
+    }
 
     return title
   }
@@ -94,10 +106,12 @@ export default class Header extends Component {
               className={`${sheet.classes.files}`}
               onClick={this.getHandler('files')} />
           </li>
-          <li className={sheet.classes.action}>
+          <li className={sheet.classes.searchAction}>
             <input
+              className={sheet.classes.search}
               onFocus={::this.onMessageSearchFocus}
               onChange={::this.onMessageSearchChange}
+              placeholder="Search messages"
               type="search" />
           </li>
           <li className={sheet.classes.action}>

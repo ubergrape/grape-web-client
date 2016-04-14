@@ -2,6 +2,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import reset from '../button/reset'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
+import fonts from 'grape-theme/dist/fonts'
 
 const button = {
   ...reset,
@@ -40,7 +41,21 @@ export default {
     }
   },
   title: {
-    width: '100%'
+    width: '100%',
+    flexShrink: 0,
+    paddingLeft: 10,
+    boxSizing: 'border-box'
+  },
+  name: {
+    ...fonts.big,
+    fontWeight: 'bold',
+    lineHeight: 1.2,
+    color: colors.grayDark
+  },
+  description: {
+    ...fonts.small,
+    lineHeight: 1.2,
+    color: colors.gray
   },
   actions: {
     display: 'flex',
@@ -48,6 +63,22 @@ export default {
   },
   action: {
     lineHeight: 0
+  },
+  searchAction: {
+    flexShrink: 1,
+    lineHeight: 0,
+    width: 300
+  },
+  search: {
+    boxSizing: 'border-box !important',
+    '-webkit-appearance': 'searchfield !important',
+    background: colors.white,
+    border: '1px solid #d3d3d3',
+    padding: '7px 10px 7px 40px',
+    color: colors.grayDark,
+    borderRadius: 100,
+    outline: 'none',
+    width: '100%'
   },
   invite: {
     ...button,
