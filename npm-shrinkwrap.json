@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "dependencies": {
     "HTML5-Desktop-Notifications": {
       "version": "0.0.1",
@@ -426,9 +426,9 @@
       "resolved": "git://github.com/component/escape-html.git#d51fd386855557e3e604d3f97fe476e6920df5e8"
     },
     "grape-browser": {
-      "version": "2.6.0",
-      "from": "grape-browser@>=2.6.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.6.0.tgz",
+      "version": "2.6.2",
+      "from": "grape-browser@>=2.6.2 <3.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.6.2.tgz",
       "dependencies": {
         "emojione": {
           "version": "1.5.2",
@@ -453,9 +453,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-1.2.0.tgz"
     },
     "grape-web": {
-      "version": "0.19.1",
-      "from": "grape-web@>=0.19.1 <0.20.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.19.1.tgz",
+      "version": "0.19.2",
+      "from": "grape-web@>=0.19.2 <0.20.0",
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.19.2.tgz",
       "dependencies": {
         "html5-desktop-notifications": {
           "version": "1.0.0",
@@ -801,7 +801,7 @@
             },
             "component-each": {
               "version": "0.2.6",
-              "from": "component-each@0.2.6",
+              "from": "component-each@*",
               "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz",
               "dependencies": {
                 "component-type": {
@@ -857,7 +857,7 @@
           "dependencies": {
             "component-each": {
               "version": "0.2.6",
-              "from": "component-each@0.2.6",
+              "from": "component-each@*",
               "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz",
               "dependencies": {
                 "component-type": {
@@ -1030,9 +1030,9 @@
           "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.1.tgz"
         },
         "lodash": {
-          "version": "4.11.0",
+          "version": "4.11.1",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
         }
       }
     },
@@ -1052,14 +1052,14 @@
       "resolved": "https://registry.npmjs.org/redux/-/redux-3.4.0.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.11.0",
+          "version": "4.11.1",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
         },
         "lodash-es": {
-          "version": "4.11.0",
+          "version": "4.11.1",
           "from": "lodash-es@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.11.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.11.1.tgz"
         }
       }
     },
