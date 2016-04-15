@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 import Favorite from '../favorite/Favorite'
 import Button from './Button'
 
@@ -50,6 +51,11 @@ export default class Header extends Component {
     return this.props.showInSidebar.bind(null, panel)
   }
 
+  getClassName(panel) {
+    const {sidebar, sheet} = this.props
+    return sheet.classes[sidebar === panel ? `${panel}Active` : panel]
+  }
+
   renderTile() {
     const {channel, sheet} = this.props
     const title = [
@@ -72,62 +78,67 @@ export default class Header extends Component {
     return title
   }
 
+  renderInfoButton() {
+    const {type} = this.props.channel
+    const {classes} = this.props.sheet
+    return (
+      <Button
+        className={type ? this.getClassName(type) : classes.infoDisabled}
+        onClick={type ? this.getHandler(type) : noop} />
+    )
+  }
+
   render() {
     const {
       showChannelMembersInvite,
       support,
-      channel,
       favorite,
       sheet
     } = this.props
 
     const favoriteProps = {...favorite, ...this.props}
     return (
-      <div className={sheet.classes.header}>
-        <div>
+      <ul className={sheet.classes.header}>
+        <li>
           <Favorite {...favoriteProps}/>
-        </div>
-        <div className={sheet.classes.title}>
+        </li>
+        <li className={sheet.classes.title}>
           {this.renderTile()}
-        </div>
-        <ul className={sheet.classes.actions}>
-          <li className={sheet.classes.action}>
-            <Button
-              className={`${sheet.classes.invite}`}
-              onClick={showChannelMembersInvite} />
-          </li>
-          <li className={sheet.classes.action}>
-            <Button
-              className={`${sheet.classes.info}`}
-              onClick={this.getHandler(channel.type)} />
-          </li>
-          <li className={sheet.classes.action}>
-            <Button
-              className={`${sheet.classes.files}`}
-              onClick={this.getHandler('files')} />
-          </li>
-          <li className={sheet.classes.searchAction}>
-            <input
-              className={sheet.classes.search}
-              onFocus={::this.onMessageSearchFocus}
-              onChange={::this.onMessageSearchChange}
-              placeholder="Search messages"
-              type="search" />
-          </li>
-          <li className={sheet.classes.action}>
-            <Button
-              className={`${sheet.classes.mentions}`}
-              onClick={this.getHandler('mentions')} />
-          </li>
-          <li className={sheet.classes.action}>
-            <a
-              href={support.href}
-              className={`${sheet.classes.support}`}
-              onClick={::this.onSupportClick}>
-            </a>
-          </li>
-        </ul>
-      </div>
+        </li>
+        <li className={sheet.classes.action}>
+          <Button
+            className={sheet.classes.invite}
+            onClick={showChannelMembersInvite} />
+        </li>
+        <li className={sheet.classes.action}>
+          {this.renderInfoButton()}
+        </li>
+        <li className={sheet.classes.action}>
+          <Button
+            className={this.getClassName('files')}
+            onClick={this.getHandler('files')} />
+        </li>
+        <li className={sheet.classes.searchAction}>
+          <input
+            className={sheet.classes.search}
+            onFocus={::this.onMessageSearchFocus}
+            onChange={::this.onMessageSearchChange}
+            placeholder="Search messages"
+            type="search" />
+        </li>
+        <li className={sheet.classes.action}>
+          <Button
+            className={this.getClassName('mentions')}
+            onClick={this.getHandler('mentions')} />
+        </li>
+        <li className={sheet.classes.action}>
+          <a
+            href={support.href}
+            className={this.getClassName('intercom')}
+            onClick={::this.onSupportClick}>
+          </a>
+        </li>
+      </ul>
     )
   }
 }
