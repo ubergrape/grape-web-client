@@ -6,6 +6,7 @@ import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import EditableString from '../editable-string/EditableString'
 
 const dateFormat = 'MMMM Do, YYYY'
 
@@ -20,14 +21,16 @@ function getStats(channel) {
 }
 
 @useSheet(style)
-export default class ChannelInfo extends Component {
+export default class RoomInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    roomSettings: PropTypes.object.isRequired,
     showChannelMembersInvite: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
+    renameRoom: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
   }
@@ -53,6 +56,11 @@ export default class ChannelInfo extends Component {
 
   onClose() {
     this.props.hideSidebar()
+  }
+
+  renameRoom(name) {
+    const {renameRoom, channel} = this.props
+    renameRoom(channel.id, name)
   }
 
   renderUser(user) {
@@ -94,15 +102,22 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    const {channel} = this.props
+    const {channel, roomSettings} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
     return (
       <SidebarPanel
-        title="Group Info"
+        title="Room Info"
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
+
+          <EditableString
+            onSave={::this.renameRoom}
+            value={channel.name}
+            {...roomSettings}
+            />
+
           <header className={classes.header}>
             <div className={classes.stats}>
               {getStats(channel)}

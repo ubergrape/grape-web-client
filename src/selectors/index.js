@@ -186,18 +186,25 @@ export const userProfileSelector = createSelector(
   }
 )
 
-export const channelInfoSelector = createSelector(
+export const roomSettingsSelector = createSelector(
+  state => state.roomSettings, state => state
+)
+
+export const roomInfoSelector = createSelector(
   [
+    roomSettingsSelector,
     channelSelector,
     userSelector
   ],
   (
+    roomSettings,
     channel,
     user
   ) => {
     return {
       channel: channel.type === 'room' ? channel : {},
-      user
+      user,
+      roomSettings
     }
   }
 )
@@ -368,7 +375,7 @@ export const sidebarSelector = createSelector(
 export const sidebarComponentSelector = createSelector(
   [
     sidebarSelector,
-    channelInfoSelector,
+    roomInfoSelector,
     userProfileSelector,
     sharedFilesSelector,
     messageSearchSelector,

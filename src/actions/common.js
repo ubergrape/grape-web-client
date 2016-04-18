@@ -234,3 +234,22 @@ export function handleConnectionError(err) {
     }
   }
 }
+
+
+export function renameRoom(id, name) {
+  return dispatch => {
+    return api
+      .renameRoom(id, name)
+      .then(() => {
+        dispatch({
+          type: types.RENAME_ROOM_REQUEST,
+          id,
+          name
+        })
+      })
+      .catch(({message}) => dispatch({
+        type: types.RENAME_ROOM_ERROR,
+        payload: message
+      }))
+  }
+}

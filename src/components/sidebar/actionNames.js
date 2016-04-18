@@ -7,5 +7,6 @@ export default [
   'loadSharedFiles',
   'loadMentions',
   'goToMessage',
-  'searchMessages'
+  'searchMessages',
+  'renameRoom'
 ]

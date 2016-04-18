@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import SharedFiles from '../shared-files/SharedFiles'
-import ChannelInfo from '../channel-info/ChannelInfo'
+import RoomInfo from '../room-info/RoomInfo'
 import UserProfile from '../user-profile/UserProfile'
 import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
@@ -35,7 +35,7 @@ export default class Sidebar extends Component {
       case 'files':
         return <SharedFiles {...this.props} />
       case 'room':
-        return <ChannelInfo {...this.props} />
+        return <RoomInfo {...this.props} />
       case 'pm':
         return <UserProfile {...this.props} />
       case 'mentions': {

@@ -18,6 +18,23 @@ export function createRoom(room) {
   })
 }
 
+export function renameRoom(id, name) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'rename',
+        args: [id, name]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
 export function joinChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
