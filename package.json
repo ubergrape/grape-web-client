@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "2.6.2",
+  "version": "2.7.9-pre.1",
   "main": "lib/index.js",
   "engines": {
     "node": "2.4.0"
