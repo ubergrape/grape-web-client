@@ -37,7 +37,7 @@ export default class EditableString extends Component {
     if (nextProps.error) {
       this.setState({
         error: true,
-        isInputMode: true,
+        inputMode: true,
         saving: false
       }, () => {
         const {input, submit} = this.refs
@@ -50,7 +50,7 @@ export default class EditableString extends Component {
     if (this.state.saving && nextProps.value === this.props.value) {
       this.setState({
         saving: false,
-        isInputMode: false
+        inputMode: false
       })
       return
     }
@@ -70,8 +70,8 @@ export default class EditableString extends Component {
   onClick(e) {
     e.stopPropagation()
 
-    if (!this.state.isInputMode) {
-      this.setState({isInputMode: true}, () => {
+    if (!this.state.inputMode) {
+      this.setState({inputMode: true}, () => {
         const {input} = this.refs
         input.focus()
         input.selectionStart = 0
@@ -103,10 +103,10 @@ export default class EditableString extends Component {
   }
 
   restoreState() {
-    if (this.state.isInputMode) {
+    if (this.state.inputMode) {
       this.setState({
         value: this.props.value,
-        isInputMode: false
+        inputMode: false
       })
     }
   }
@@ -118,31 +118,30 @@ export default class EditableString extends Component {
   }
 
   renderInput() {
-    const {placeholder} = this.props
-    const {value, saving} = this.state
+    const {placeholder, sheet} = this.props
+    const {value, saving, inputMode} = this.state
 
     return (
       <input
+        className={sheet.classes[inputMode ? 'input' : 'string']}
         ref="input"
         placeholder={placeholder}
         value={value}
+        readOnly={!inputMode}
         disabled={saving}
         onChange={::this.onChange}
         onKeyDown={::this.onKeyDown} />
     )
   }
 
-  renderValue() {
-    return <span>{this.state.value}</span>
-  }
-
   renderSubmitButton() {
-    if (!this.state.isInputMode) return null
+    const {saving, inputMode} = this.state
     return (
       <button
         ref="submit"
         type="submit"
-        disabled={this.state.saving}>
+        className={this.props.sheet.classes.submit}
+        disabled={saving || !inputMode}>
         Done
       </button>
     )
@@ -151,9 +150,10 @@ export default class EditableString extends Component {
   render() {
     return (
       <form
+        className={this.props.sheet.classes.form}
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
-        {this.state.isInputMode ? this.renderInput() : this.renderValue()}
+        {this.renderInput()}
         {this.renderSubmitButton()}
       </form>
     )

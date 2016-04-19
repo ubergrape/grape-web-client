@@ -91,5 +91,9 @@ export default {
     '&:hover': {
       color: color(colors.blue).lighten(0.05).rgbaString()
     }
+  },
+  roomName: {
+    ...fonts.bigger,
+    color: colors.grayBlueDark
   }
 }

@@ -64,7 +64,7 @@ export default class RoomInfo extends Component {
   }
 
   changeDescription(description) {
-    console.log(description)
+    // console.log(description)
   }
 
   renderUser(user) {
@@ -116,11 +116,13 @@ export default class RoomInfo extends Component {
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
 
-          <EditableString
-            onSave={::this.renameRoom}
-            value={channel.name}
-            error={roomSettings.nameError}
-            />
+          <div className={classes.roomName}>
+            <EditableString
+              onSave={::this.renameRoom}
+              value={channel.name}
+              error={roomSettings.nameError}
+              />
+          </div>
 
 
           <header className={classes.header}>
