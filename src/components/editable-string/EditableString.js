@@ -9,13 +9,15 @@ import {useSheet} from 'grape-web/lib/jss'
 export default class EditableString extends Component {
   static propTypes = {
     sheet: PropTypes.object,
-    onSave: PropTypes.func,
+    onSave: PropTypes.func.isRequired,
     value: PropTypes.string,
+    error: PropTypes.string,
     placeholder: PropTypes.string
   }
 
   static defaultProps = {
-    value: ''
+    value: '',
+    placeholder: ''
   }
 
   constructor(props) {
@@ -24,13 +26,12 @@ export default class EditableString extends Component {
       value: props.value
     }
 
-    this.onClickOutside = ::this.onClickOutside
+    this.onClickOutside = ::this.restoreState
   }
 
   componentDidMount() {
     window.addEventListener('click', this.onClickOutside)
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.error) {
@@ -39,19 +40,26 @@ export default class EditableString extends Component {
         isInputMode: true,
         saving: false
       }, () => {
-        this.refs.input.setCustomValidity(this.props.error)
-        this.refs.submit.click()
+        const {input, submit} = this.refs
+        input.setCustomValidity(this.props.error)
+        submit.click()
       })
       return
     }
 
-    if (nextProps.value === this.props.value && this.state.saving) {
-      this.setState({saving: false, isInputMode: false})
+    if (this.state.saving && nextProps.value === this.props.value) {
+      this.setState({
+        saving: false,
+        isInputMode: false
+      })
       return
     }
 
     if (nextProps.value !== this.props.value) {
-      this.setState({value: nextProps.value, saving: false})
+      this.setState({
+        value: nextProps.value,
+        saving: false
+      })
     }
   }
 
@@ -61,6 +69,7 @@ export default class EditableString extends Component {
 
   onClick(e) {
     e.stopPropagation()
+
     if (!this.state.isInputMode) {
       this.setState({isInputMode: true}, () => {
         const {input} = this.refs
@@ -71,28 +80,19 @@ export default class EditableString extends Component {
     }
   }
 
-  onClickOutside() {
-    if (this.state.isInputMode) {
-      this.setState({
-        value: this.props.value,
-        isInputMode: false
-      })
-    }
-  }
-
   onChange({target}) {
     this.refs.input.setCustomValidity('')
-    this.setState({value: target.value, error: false})
+    this.setState({
+      value: target.value,
+      error: false
+    })
   }
 
   onKeyDown({keyCode}) {
     switch (keyname(keyCode)) {
       case 'esc':
-        this.setState({isInputMode: false})
+        this.restoreState()
         break
-      // case 'enter':
-      //   this.save()
-      //   break
       default:
     }
   }
@@ -100,6 +100,15 @@ export default class EditableString extends Component {
   onSubmit(e) {
     e.preventDefault()
     if (!this.state.error) this.save()
+  }
+
+  restoreState() {
+    if (this.state.isInputMode) {
+      this.setState({
+        value: this.props.value,
+        isInputMode: false
+      })
+    }
   }
 
   save() {
@@ -133,17 +142,17 @@ export default class EditableString extends Component {
       <button
         ref="submit"
         type="submit"
-        disabled={this.state.saving}
-        >
+        disabled={this.state.saving}>
         Done
       </button>
     )
   }
 
-
   render() {
     return (
-      <form onClick={::this.onClick} onSubmit={::this.onSubmit}>
+      <form
+        onClick={::this.onClick}
+        onSubmit={::this.onSubmit}>
         {this.state.isInputMode ? this.renderInput() : this.renderValue()}
         {this.renderSubmitButton()}
       </form>
