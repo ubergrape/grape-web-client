@@ -1,22 +1,22 @@
-npm WARN unavoidable conflict component-delegate { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/component-delegate': '0.2.4',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/notification/node_modules/component-dom/node_modules/component-delegate': '0.2.3',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/component-events/node_modules/component-delegate': '0.2.4' }
-npm WARN unavoidable conflict Not de-duplicating
-npm WARN unavoidable conflict component-classes { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/notification/node_modules/component-dom/node_modules/component-classes': '1.2.3',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/component-classes': '1.2.6' }
-npm WARN unavoidable conflict Not de-duplicating
-npm WARN unavoidable conflict lodash { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/lodash': '3.10.1',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/react-redux/node_modules/lodash': '4.11.0',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/redux/node_modules/lodash': '4.11.0' }
+npm WARN unavoidable conflict source-map { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/dialog-component/node_modules/stringify/node_modules/html-minifier/node_modules/uglify-js/node_modules/source-map': '0.1.34',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/react/node_modules/envify/node_modules/jstransform/node_modules/source-map': '0.1.31' }
 npm WARN unavoidable conflict Not de-duplicating
 npm WARN unavoidable conflict async { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/dialog-component/node_modules/stringify/node_modules/html-minifier/node_modules/uglify-js/node_modules/async': '0.2.10',
 npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/superagent/node_modules/form-data/node_modules/async': '1.5.2' }
 npm WARN unavoidable conflict Not de-duplicating
-npm WARN unavoidable conflict source-map { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/dialog-component/node_modules/stringify/node_modules/html-minifier/node_modules/uglify-js/node_modules/source-map': '0.1.34',
-npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/react/node_modules/envify/node_modules/jstransform/node_modules/source-map': '0.1.31' }
+npm WARN unavoidable conflict lodash { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/lodash': '3.10.1',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/react-redux/node_modules/lodash': '4.11.1',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/redux/node_modules/lodash': '4.11.1' }
 npm WARN unavoidable conflict Not de-duplicating
 npm WARN unavoidable conflict transform-property { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/has-translate3d/node_modules/transform-property': '1.0.0',
 npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/transform-property': '1.0.0' }
+npm WARN unavoidable conflict Not de-duplicating
+npm WARN unavoidable conflict component-classes { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/notification/node_modules/component-dom/node_modules/component-classes': '1.2.3',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/component-classes': '1.2.6' }
+npm WARN unavoidable conflict Not de-duplicating
+npm WARN unavoidable conflict component-delegate { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/component-delegate': '0.2.4',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/notification/node_modules/component-dom/node_modules/component-delegate': '0.2.3',
+npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/component-events/node_modules/component-delegate': '0.2.4' }
 npm WARN unavoidable conflict Not de-duplicating
 npm WARN unavoidable conflict redraw { '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/overlay/node_modules/redraw': '1.0.0',
 npm WARN unavoidable conflict   '/Users/kof/work/projects/ubergrape/grape-web-client/node_modules/image-zoom/node_modules/redraw': '1.0.0' }

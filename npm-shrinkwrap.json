@@ -82,7 +82,7 @@
     },
     "component-emitter": {
       "version": "1.2.0",
-      "from": "component-emitter@>=1.1.3 <2.0.0",
+      "from": "component-emitter@1.2.0",
       "resolved": "https://registry.npmjs.org/component-emitter/-/component-emitter-1.2.0.tgz"
     },
     "component-event": {
@@ -426,9 +426,9 @@
       "resolved": "git://github.com/component/escape-html.git#d51fd386855557e3e604d3f97fe476e6920df5e8"
     },
     "grape-browser": {
-      "version": "2.6.2",
-      "from": "grape-browser@>=2.6.2 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.6.2.tgz",
+      "version": "2.7.9-pre.1",
+      "from": "grape-browser@>=2.7.9-pre.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.7.9-pre.1.tgz",
       "dependencies": {
         "emojione": {
           "version": "1.5.2",
@@ -776,9 +776,9 @@
       "resolved": "git://github.com/swatinem/model-cast.git#37c6e86bef76f2d1f9777952ed531426ddf7ce4e"
     },
     "moment": {
-      "version": "2.12.0",
+      "version": "2.13.0",
       "from": "moment@>=2.10.3 <3.0.0",
-      "resolved": "https://registry.npmjs.org/moment/-/moment-2.12.0.tgz"
+      "resolved": "https://registry.npmjs.org/moment/-/moment-2.13.0.tgz"
     },
     "moment-timezone": {
       "version": "0.2.0",
@@ -1085,7 +1085,7 @@
         },
         "lodash": {
           "version": "4.11.1",
-          "from": "lodash@>=4.2.1 <5.0.0",
+          "from": "lodash@>=4.2.0 <5.0.0",
           "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
         }
       }
@@ -1123,9 +1123,9 @@
       "resolved": "https://registry.npmjs.org/redux-thunk/-/redux-thunk-1.0.3.tgz"
     },
     "reselect": {
-      "version": "2.3.0",
+      "version": "2.4.0",
       "from": "reselect@>=2.0.1 <3.0.0",
-      "resolved": "https://registry.npmjs.org/reselect/-/reselect-2.3.0.tgz"
+      "resolved": "https://registry.npmjs.org/reselect/-/reselect-2.4.0.tgz"
     },
     "scrollbars": {
       "version": "0.0.1",
