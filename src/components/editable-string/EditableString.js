@@ -10,7 +10,6 @@ export default class EditableString extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     onSave: PropTypes.func,
-    multiline: PropTypes.bool,
     value: PropTypes.string,
     placeholder: PropTypes.string
   }
@@ -24,92 +23,130 @@ export default class EditableString extends Component {
     this.state = {
       value: props.value
     }
+
+    this.onClickOutside = ::this.onClickOutside
   }
 
+  componentDidMount() {
+    window.addEventListener('click', this.onClickOutside)
+  }
+
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
-      this.setState({value: nextProps.value}, () => {
-        this.refs.input.blur()
+    if (nextProps.error) {
+      this.setState({
+        error: true,
+        isInputMode: true,
+        saving: false
+      }, () => {
+        this.refs.input.setCustomValidity(this.props.error)
+        this.refs.submit.click()
+      })
+      return
+    }
+
+    if (nextProps.value === this.props.value && this.state.saving) {
+      this.setState({saving: false, isInputMode: false})
+      return
+    }
+
+    if (nextProps.value !== this.props.value) {
+      this.setState({value: nextProps.value, saving: false})
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onClickOutside)
+  }
+
+  onClick(e) {
+    e.stopPropagation()
+    if (!this.state.isInputMode) {
+      this.setState({isInputMode: true}, () => {
+        const {input} = this.refs
+        input.focus()
+        input.selectionStart = 0
+        input.selectionEnd = this.state.value.length
+      })
+    }
+  }
+
+  onClickOutside() {
+    if (this.state.isInputMode) {
+      this.setState({
+        value: this.props.value,
+        isInputMode: false
       })
     }
   }
 
   onChange({target}) {
-    this.setState({value: target.value})
-  }
-
-  onFocus() {
-    this.setState({focused: true})
-  }
-
-  onBlur() {
-    if (this.state.preventBlur) {
-      this.refs.input.focus()
-      return
-    }
-    this.setState({
-      focused: false,
-      value: this.props.value
-    })
+    this.refs.input.setCustomValidity('')
+    this.setState({value: target.value, error: false})
   }
 
   onKeyDown({keyCode}) {
     switch (keyname(keyCode)) {
       case 'esc':
-        this.refs.input.blur()
+        this.setState({isInputMode: false})
         break
-      case 'enter':
-        this.save()
-        break
+      // case 'enter':
+      //   this.save()
+      //   break
       default:
     }
   }
 
-  onSubmitMouseDown() {
-    this.setState({
-      preventBlur: true
-    })
-  }
-
-  onSubmit() {
-    this.setState({preventBlur: false}, () => {
-      this.save()
-      this.refs.input.blur()
-    })
+  onSubmit(e) {
+    e.preventDefault()
+    if (!this.state.error) this.save()
   }
 
   save() {
-    this.props.onSave(this.state.value)
+    this.setState({saving: true}, () => {
+      this.props.onSave(this.state.value)
+    })
+  }
+
+  renderInput() {
+    const {placeholder} = this.props
+    const {value, saving} = this.state
+
+    return (
+      <input
+        ref="input"
+        placeholder={placeholder}
+        value={value}
+        disabled={saving}
+        onChange={::this.onChange}
+        onKeyDown={::this.onKeyDown} />
+    )
+  }
+
+  renderValue() {
+    return <span>{this.state.value}</span>
   }
 
   renderSubmitButton() {
-    if (!this.state.focused) return null
+    if (!this.state.isInputMode) return null
     return (
       <button
-        onMouseDown={::this.onSubmitMouseDown}
-        onClick={::this.onSubmit}>
+        ref="submit"
+        type="submit"
+        disabled={this.state.saving}
+        >
         Done
       </button>
     )
   }
 
+
   render() {
-    const {multiline, placeholder} = this.props
-    const {value} = this.state
-    const attrs = {
-      placeholder,
-      value,
-      ref: 'input',
-      onChange: ::this.onChange,
-      onFocus: ::this.onFocus,
-      onBlur: ::this.onBlur,
-      onKeyDown: ::this.onKeyDown
-    }
     return (
-      <div>
-        {multiline ? <textarea {...attrs} /> : <input {...attrs} />}
+      <form onClick={::this.onClick} onSubmit={::this.onSubmit}>
+        {this.state.isInputMode ? this.renderInput() : this.renderValue()}
         {this.renderSubmitButton()}
-      </div>
+      </form>
     )
   }
 }

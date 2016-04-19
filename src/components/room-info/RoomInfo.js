@@ -63,6 +63,10 @@ export default class RoomInfo extends Component {
     renameRoom(channel.id, name)
   }
 
+  changeDescription(description) {
+    console.log(description)
+  }
+
   renderUser(user) {
     const {classes} = this.props.sheet
     return (
@@ -115,8 +119,9 @@ export default class RoomInfo extends Component {
           <EditableString
             onSave={::this.renameRoom}
             value={channel.name}
-            {...roomSettings}
+            error={roomSettings.nameError}
             />
+
 
           <header className={classes.header}>
             <div className={classes.stats}>
