@@ -39,13 +39,6 @@ export default {
       boxShadow: `-3px 4px 8px ${shadowColor}`
     }
   },
-  avatar: {
-    width: avatarWidth,
-    height: avatarWidth,
-    borderRadius: '50%',
-    background: 'no-repeat center',
-    backgroundSize: '100%'
-  },
   header: {
     display: 'flex',
     overflow: 'hidden',
