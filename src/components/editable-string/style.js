@@ -11,11 +11,12 @@ const common = {
   color: 'inherit',
   borderRadius: 4,
   outline: 'none',
-  border: 'none'
+  border: 'none',
+  resize: 'none'
 }
 
 export default {
-  form: {
+  formInput: {
     display: 'flex'
   },
   string: {
@@ -23,7 +24,7 @@ export default {
     background: 'transparent',
     cursor: 'text',
     '&:hover': {
-      background: colors.white
+      background: 'rgba(255,255,255,0.5)'
     }
   },
   input: {

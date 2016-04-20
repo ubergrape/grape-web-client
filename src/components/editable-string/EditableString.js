@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 
 import keyname from 'keyname'
+import Editable from './Editable'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -9,6 +11,7 @@ import {useSheet} from 'grape-web/lib/jss'
 export default class EditableString extends Component {
   static propTypes = {
     sheet: PropTypes.object,
+    type: PropTypes.string,
     onSave: PropTypes.func.isRequired,
     value: PropTypes.string,
     error: PropTypes.string,
@@ -17,6 +20,7 @@ export default class EditableString extends Component {
 
   static defaultProps = {
     value: '',
+    type: 'input',
     placeholder: ''
   }
 
@@ -30,6 +34,7 @@ export default class EditableString extends Component {
   }
 
   componentDidMount() {
+    this.editable = ReactDOM.findDOMNode(this.refs.editable)
     window.addEventListener('click', this.onClickOutside)
   }
 
@@ -40,9 +45,8 @@ export default class EditableString extends Component {
         inputMode: true,
         saving: false
       }, () => {
-        const {input, submit} = this.refs
-        input.setCustomValidity(this.props.error)
-        submit.click()
+        this.editable.setCustomValidity(this.props.error)
+        this.refs.submit.click()
       })
       return
     }
@@ -72,16 +76,16 @@ export default class EditableString extends Component {
 
     if (!this.state.inputMode) {
       this.setState({inputMode: true}, () => {
-        const {input} = this.refs
-        input.focus()
-        input.selectionStart = 0
-        input.selectionEnd = this.state.value.length
+        const {editable} = this
+        editable.focus()
+        editable.selectionStart = 0
+        editable.selectionEnd = this.state.value.length
       })
     }
   }
 
   onChange({target}) {
-    this.refs.input.setCustomValidity('')
+    this.editable.setCustomValidity('')
     this.setState({
       value: target.value,
       error: false
@@ -118,13 +122,14 @@ export default class EditableString extends Component {
   }
 
   renderInput() {
-    const {placeholder, sheet} = this.props
+    const {type, placeholder, sheet} = this.props
     const {value, saving, inputMode} = this.state
 
     return (
-      <input
+      <Editable
+        type={type}
         className={sheet.classes[inputMode ? 'input' : 'string']}
-        ref="input"
+        ref="editable"
         placeholder={placeholder}
         value={value}
         readOnly={!inputMode}
@@ -148,9 +153,11 @@ export default class EditableString extends Component {
   }
 
   render() {
+    const {sheet, type} = this.props
+    const className = `form${type[0].toUpperCase()}${type.slice(1)}`
     return (
       <form
-        className={this.props.sheet.classes.form}
+        className={sheet.classes[className]}
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
         {this.renderInput()}

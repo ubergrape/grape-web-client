@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import tz from 'moment-timezone'
 import isEmpty from 'lodash/lang/isEmpty'
 
 import {constants} from 'conf'
@@ -8,17 +7,6 @@ import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import EditableString from '../editable-string/EditableString'
 
-const dateFormat = 'MMMM Do, YYYY'
-
-function getStats(channel) {
-  const amount = channel.users.length
-  const plural = amount > 1 ? 's' : ''
-  const date = tz(channel.created * 1000).format(dateFormat)
-  let text = `The group ${channel.name} has ${amount} member${plural} and has been created`
-  if (channel.creator) text += ` by ${channel.creator.displayName}`
-  text += ` on ${date}.`
-  return text
-}
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -112,23 +100,31 @@ export default class RoomInfo extends Component {
     const {classes} = this.props.sheet
     return (
       <SidebarPanel
-        title="Room Info"
+        title="Group Info"
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
 
           <div className={classes.roomName}>
             <EditableString
+              placeholder="Enter group info"
               onSave={::this.renameRoom}
               value={channel.name}
               error={roomSettings.nameError}
               />
           </div>
 
+          <div className={classes.roomDescription}>
+            <EditableString
+              placeholder="Add a group description here…"
+              type={'textarea'}
+              onSave={::this.changeDescription}
+              value={channel.description}
+              error={roomSettings.descriptionError}
+              />
+          </div>
+
 
           <header className={classes.header}>
-            <div className={classes.stats}>
-              {getStats(channel)}
-            </div>
             {channel.description && <div className={classes.description}>
               <h2>Description</h2>
               <p className={classes.descriptionText}>{channel.description}</p>

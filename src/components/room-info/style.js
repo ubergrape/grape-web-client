@@ -35,11 +35,6 @@ export default {
     marginBottom,
     borderBottom: webColors.borderDefault
   },
-  stats: {
-    ...fonts.normal,
-    ...divider,
-    marginBottom
-  },
   description: {
     ...divider
   },
@@ -94,6 +89,11 @@ export default {
   },
   roomName: {
     ...fonts.bigger,
+    color: colors.grayBlueDark
+  },
+  roomDescription: {
+    ...fonts.normal,
+    ...divider,
     color: colors.grayBlueDark
   }
 }
