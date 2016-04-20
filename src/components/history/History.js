@@ -37,15 +37,17 @@ export default class History extends Component {
     const {classes} = this.props.sheet
     const message = messages[index]
     const prevMessage = messages[index - 1]
+    const row = []
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
-      return (
+      row.push(
         <DateSeparator
           theme={{date: classes.separatorDate}}
           date={message.time}
-          key={'row-' + index} />
+          key={'date-separator-' + index} />
       )
     }
-    return <Message {...message} key={'row-' + index} />
+    row.push(<Message {...message} key={'row-' + index} />)
+    return row
   }
 
   renderList({onRowsRendered, registerChild}) {
