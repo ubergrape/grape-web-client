@@ -13,12 +13,22 @@ export default class Editable extends Component {
     placeholder: PropTypes.string
   }
 
+  componentDidMount() {
+    const {textarea} = this.refs
+    if (textarea) textarea.style.height = `${textarea.scrollHeight}px`
+  }
+
+  componentDidUpdate() {
+    const {textarea} = this.refs
+    if (textarea) textarea.style.height = `${textarea.scrollHeight}px`
+  }
+
   render() {
     switch (this.props.type) {
       case 'input':
         return <input {...this.props} />
       case 'textarea':
-        return <textarea {...this.props} />
+        return <textarea {...this.props} ref="textarea" />
       default:
         return null
     }

@@ -106,7 +106,8 @@ export default class RoomInfo extends Component {
 
           <div className={classes.roomName}>
             <EditableString
-              placeholder="Enter group info"
+              placeholder="Enter group name here…"
+              maxLength="25"
               onSave={::this.renameRoom}
               value={channel.name}
               error={roomSettings.nameError}
@@ -116,13 +117,13 @@ export default class RoomInfo extends Component {
           <div className={classes.roomDescription}>
             <EditableString
               placeholder="Add a group description here…"
+              maxLength="100"
               type={'textarea'}
               onSave={::this.changeDescription}
-              value={channel.description}
+              value="asdasdas jasnd jasndj asndj najsnd jasndj ansdj"
               error={roomSettings.descriptionError}
               />
           </div>
-
 
           <header className={classes.header}>
             {channel.description && <div className={classes.description}>

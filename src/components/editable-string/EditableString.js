@@ -13,6 +13,7 @@ export default class EditableString extends Component {
     sheet: PropTypes.object,
     type: PropTypes.string,
     onSave: PropTypes.func.isRequired,
+    maxLength: PropTypes.string,
     value: PropTypes.string,
     error: PropTypes.string,
     placeholder: PropTypes.string
@@ -30,7 +31,8 @@ export default class EditableString extends Component {
       value: props.value
     }
 
-    this.onClickOutside = ::this.restoreState
+    this.onClickOutside = ::this.onClickOutside
+    this.preventClickOutside = false
   }
 
   componentDidMount() {
@@ -71,8 +73,8 @@ export default class EditableString extends Component {
     window.removeEventListener('click', this.onClickOutside)
   }
 
-  onClick(e) {
-    e.stopPropagation()
+  onClick() {
+    this.preventClickOutside = true
 
     if (!this.state.inputMode) {
       this.setState({inputMode: true}, () => {
@@ -82,6 +84,11 @@ export default class EditableString extends Component {
         editable.selectionEnd = this.state.value.length
       })
     }
+  }
+
+  onClickOutside() {
+    if (!this.preventClickOutside) this.restoreState()
+    this.preventClickOutside = false
   }
 
   onChange({target}) {
@@ -122,12 +129,13 @@ export default class EditableString extends Component {
   }
 
   renderInput() {
-    const {type, placeholder, sheet} = this.props
+    const {type, placeholder, maxLength, sheet} = this.props
     const {value, saving, inputMode} = this.state
 
     return (
       <Editable
         type={type}
+        maxLength={maxLength}
         className={sheet.classes[inputMode ? 'input' : 'string']}
         ref="editable"
         placeholder={placeholder}
