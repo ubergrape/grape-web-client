@@ -61,6 +61,7 @@
     "react-dom": "^0.14.0",
     "react-finite-list": "^1.0.3",
     "react-overlays": "^0.5.0",
+    "react-virtualized": "^6.2.0",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
     "reactive-elements": "^0.6.3",
@@ -121,7 +122,8 @@
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
-    "start": "npm run static & npm run build:watch",
+    "start:static": "npm run static & npm run build:watch",
+    "start:dev": "webpack-dev-server",
     "build": "webpack --bail",
     "build:watch": "webpack --progress --colors --watch",
     "test:watch": "NODE_ENV=test karma start",

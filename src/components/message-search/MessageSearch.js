@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import tz from 'moment-timezone'
+import moment from 'moment-timezone'
 
 import findMatches from 'grape-web/lib/search/findMatches'
 import Spinner from 'grape-web/lib/spinner/Spinner'
@@ -8,8 +8,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import Message from '../message/Message'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-
-const dateFormat = 'MMM Do, YYYY'
+import DateSeparator from '../date-separator/DateSeparator'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -94,11 +93,12 @@ export default class MessageSearch extends Component {
       const prevMessage = messages[index - 1]
 
       // Render date separator.
-      if (!prevMessage || !tz(message.time).isSame(prevMessage.time, 'day')) {
+      if (!prevMessage || !moment(message.time).isSame(prevMessage.time, 'day')) {
         elements.push(
-          <div className={classes.dateSeparator} key={message.time + index}>
-            <span className={classes.dateBubble} >{tz(message.time).format(dateFormat)}</span>
-          </div>
+          <DateSeparator
+            theme={{date: classes.separatorDate}}
+            date={message.time}
+            key={message.time + index} />
         )
       }
 
