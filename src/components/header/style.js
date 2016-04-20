@@ -66,6 +66,7 @@ export default {
   title: {
     overflow: 'hidden',
     flexGrow: 1,
+    minWidth: 50,
     paddingLeft: 10,
     boxSizing: 'border-box'
   },
