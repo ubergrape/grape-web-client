@@ -1,11 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
 
 export default class Editable extends Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    onKeyDown: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
     value: PropTypes.string.isRequired,
@@ -13,14 +11,21 @@ export default class Editable extends Component {
     placeholder: PropTypes.string
   }
 
+  componentDidMount() {
+    this.setTextareaSize()
+  }
+
+  componentDidUpdate() {
+    this.setTextareaSize()
+  }
+
+  setTextareaSize() {
+    const {textarea} = this.refs
+    textarea.style.height = 0
+    textarea.style.height = `${textarea.scrollHeight}px`
+  }
+
   render() {
-    switch (this.props.type) {
-      case 'input':
-        return <input {...this.props} />
-      case 'textarea':
-        return <ResizableTextarea {...this.props} />
-      default:
-        return null
-    }
+    return <textarea {...this.props} ref="textarea" />
   }
 }

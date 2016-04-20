@@ -4,10 +4,10 @@ import linkButton from '../button/link'
 
 const common = {
   font: 'inherit',
-  lineHeight: 1,
+  lineHeight: 1.1,
   width: '100%',
   padding: '5px 7px',
-  marginRight: 10,
+  marginLeft: -7,
   color: 'inherit',
   borderRadius: 4,
   outline: 'none',
@@ -17,7 +17,10 @@ const common = {
 
 export default {
   formInput: {
-    display: 'flex'
+    display: 'flex',
+    '& > button': {
+      marginLeft: 10
+    }
   },
   string: {
     ...common,
@@ -35,8 +38,8 @@ export default {
     }
   },
   submit: {
-    visibility: 'hidden',
     ...linkButton,
-    ...fonts.normal
+    ...fonts.normal,
+    visibility: 'hidden'
   }
 }

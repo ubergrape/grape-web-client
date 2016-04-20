@@ -1,6 +1,7 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
+import {maxChannelDescriptionLength} from '../constants/app'
 import {reduceChannelUsersToId, pinToFavorite, removeBrokenPms} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
@@ -235,7 +236,6 @@ export function handleConnectionError(err) {
   }
 }
 
-
 export function renameRoom(id, name) {
   return dispatch => {
     return api
@@ -251,5 +251,21 @@ export function renameRoom(id, name) {
         type: types.RENAME_ROOM_ERROR,
         payload: message
       }))
+  }
+}
+
+export function setRoomDescription(id, rawDescription) {
+  return dispatch => {
+    const description = rawDescription.slice(0, maxChannelDescriptionLength - 1)
+    return api
+      .setRoomDescription(id, description)
+      .then(() => {
+        dispatch({
+          type: types.SET_ROOM_DESCRIPTION,
+          id,
+          description
+        })
+      })
+      .catch(err => dispatch(error(err)))
   }
 }

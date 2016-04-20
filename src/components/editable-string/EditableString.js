@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
+import {findDOMNode} from 'react-dom'
 
 import keyname from 'keyname'
 import Editable from './Editable'
@@ -13,7 +13,10 @@ export default class EditableString extends Component {
     sheet: PropTypes.object,
     type: PropTypes.string,
     onSave: PropTypes.func.isRequired,
-    maxLength: PropTypes.string,
+    maxLength: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     value: PropTypes.string,
     error: PropTypes.string,
     placeholder: PropTypes.string
@@ -36,7 +39,7 @@ export default class EditableString extends Component {
   }
 
   componentDidMount() {
-    this.editable = ReactDOM.findDOMNode(this.refs.editable)
+    this.editable = findDOMNode(this.refs.editable)
     window.addEventListener('click', this.onClickOutside)
   }
 
@@ -66,7 +69,10 @@ export default class EditableString extends Component {
         value: nextProps.value,
         saving: false
       })
+      return
     }
+
+    this.setState({inputMode: false})
   }
 
   componentWillUnmount() {
@@ -99,10 +105,14 @@ export default class EditableString extends Component {
     })
   }
 
-  onKeyDown({keyCode}) {
-    switch (keyname(keyCode)) {
+  onKeyDown(e) {
+    switch (keyname(e.keyCode)) {
       case 'esc':
         this.restoreState()
+        break
+      case 'enter':
+        e.preventDefault()
+        this.refs.submit.click()
         break
       default:
     }
@@ -131,7 +141,6 @@ export default class EditableString extends Component {
   renderInput() {
     const {type, placeholder, maxLength, sheet} = this.props
     const {value, saving, inputMode} = this.state
-
     return (
       <Editable
         type={type}
@@ -165,6 +174,7 @@ export default class EditableString extends Component {
     const className = `form${type[0].toUpperCase()}${type.slice(1)}`
     return (
       <form
+        ref="form"
         className={sheet.classes[className]}
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>

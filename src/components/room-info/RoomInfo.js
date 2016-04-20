@@ -1,12 +1,17 @@
 import React, {Component, PropTypes} from 'react'
+import {findDOMNode} from 'react-dom'
 import isEmpty from 'lodash/lang/isEmpty'
+import {
+  maxChannelNameLength,
+  maxChannelDescriptionLength
+} from '../../constants/app'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import EditableString from '../editable-string/EditableString'
-
+import Dropdown from '../dropdown/Dropdown'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -19,6 +24,7 @@ export default class RoomInfo extends Component {
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
+    setRoomDescription: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
   }
@@ -46,13 +52,14 @@ export default class RoomInfo extends Component {
     this.props.hideSidebar()
   }
 
+  setRoomDescription(description) {
+    const {setRoomDescription, channel} = this.props
+    setRoomDescription(channel.id, description)
+  }
+
   renameRoom(name) {
     const {renameRoom, channel} = this.props
     renameRoom(channel.id, name)
-  }
-
-  changeDescription(description) {
-    // console.log(description)
   }
 
   renderUser(user) {
@@ -103,39 +110,57 @@ export default class RoomInfo extends Component {
         title="Group Info"
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
+          <article className={classes.mainSettings}>
+            <div className={classes.roomName}>
+              <EditableString
+                placeholder="Enter group name here…"
+                maxLength={maxChannelNameLength}
+                onSave={::this.renameRoom}
+                value={channel.name}
+                error={roomSettings.nameError}
+                />
+            </div>
+            <div className={classes.menu}>
+              <button ref="settings">(**)</button>
+              <Dropdown
+                container={this}
+                placement="bottom"
+                target={() => findDOMNode(this.refs.settings)}>
+                <div>
+                  I'm placed to the: <strong>asdasd</strong>
+                </div>
+              </Dropdown>
+            </div>
+          </article>
 
-          <div className={classes.roomName}>
-            <EditableString
-              placeholder="Enter group name here…"
-              maxLength="25"
-              onSave={::this.renameRoom}
-              value={channel.name}
-              error={roomSettings.nameError}
-              />
-          </div>
-
-          <div className={classes.roomDescription}>
+          <article className={classes.roomDescription}>
+            <h2 className={classes.title}>
+              Description
+            </h2>
             <EditableString
               placeholder="Add a group description here…"
-              maxLength="100"
+              maxLength={maxChannelDescriptionLength}
               type={'textarea'}
-              onSave={::this.changeDescription}
-              value="asdasdas jasnd jasndj asndj najsnd jasndj ansdj"
-              error={roomSettings.descriptionError}
+              onSave={::this.setRoomDescription}
+              value={channel.description}
               />
-          </div>
+          </article>
 
-          <header className={classes.header}>
-            {channel.description && <div className={classes.description}>
-              <h2>Description</h2>
-              <p className={classes.descriptionText}>{channel.description}</p>
-            </div>}
-            <div className={classes.actions}>
-              <button onClick={::this.onInvite} className={classes.buttonInvite}>Invite more people to this group</button>
-              <button onClick={::this.onLeave} className={classes.buttonLeave}>Leave {channel.name}</button>
-            </div>
-          </header>
+          <article className={classes.actions}>
+            <button
+              onClick={::this.onInvite}
+              className={classes.buttonInvite}>
+              Invite more people to this group
+            </button>
+            <button
+              onClick={::this.onLeave}
+              className={classes.buttonLeave}>
+              Leave {channel.name}
+            </button>
+          </article>
+
           {channel.users.map(::this.renderUser)}
+
         </div>
       </SidebarPanel>
     )

@@ -8,5 +8,6 @@ export default [
   'loadMentions',
   'goToMessage',
   'searchMessages',
-  'renameRoom'
+  'renameRoom',
+  'setRoomDescription'
 ]

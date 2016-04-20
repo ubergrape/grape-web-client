@@ -35,6 +35,23 @@ export function renameRoom(id, name) {
   })
 }
 
+export function setRoomDescription(id, description) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_description',
+        args: [id, description]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
 export function joinChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(

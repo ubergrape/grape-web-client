@@ -88,12 +88,19 @@ export default {
     }
   },
   roomName: {
-    ...fonts.bigger,
-    color: colors.grayBlueDark
+    ...fonts.bigger
   },
   roomDescription: {
     ...fonts.normal,
-    ...divider,
-    color: colors.grayBlueDark
+    ...divider
+  },
+  mainSettings: {
+    ...divider
+  },
+  title: {
+    ...fonts.small,
+    textTransform: 'uppercase',
+    background: '0 0 no-repeat',
+    color: colors.grayBlue
   }
 }
