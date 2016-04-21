@@ -12,6 +12,7 @@ import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import EditableString from '../editable-string/EditableString'
 import Dropdown from '../dropdown/Dropdown'
+import * as tooltipStyle from '../tooltip/themes/gray'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -124,11 +125,9 @@ export default class RoomInfo extends Component {
               <button ref="settings">(**)</button>
               <Dropdown
                 container={this}
-                placement="bottom"
+                theme={tooltipStyle}
                 target={() => findDOMNode(this.refs.settings)}>
-                <div>
                   I'm placed to the: <strong>asdasd</strong>
-                </div>
               </Dropdown>
             </div>
           </article>
