@@ -1,25 +1,35 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PropTypes} from 'react'
 
-import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
 import Position from 'react-overlays/lib/Position'
-import Tooltip from './Tooltip'
+import Tooltip from '../tooltip/Tooltip'
+import useTheme from '../theme/Theme'
 
-@useSheet(style)
-export default class Dropdown extends Component {
-  static propTypes = {
-    sheet: PropTypes.object,
-    target: PropTypes.func.isRequired
-  }
+function Dropdown({container, placement, target, children, theme}) {
+  const StyledTooltip = useTheme(Tooltip, theme.classes)
 
-  render() {
-    return (
-      <Position
-        container={this.props.container}
-        placement={this.props.placement}
-        target={this.props.target}>
-        <Tooltip>{this.props.children}</Tooltip>
-      </Position>
-    )
-  }
+  return (
+    <Position
+      container={container}
+      placement={placement}
+      target={target}>
+        <StyledTooltip
+          arrowSize={theme.arrowSize}
+          placement={placement}>
+            {children}
+        </StyledTooltip>
+    </Position>
+  )
 }
+
+Dropdown.propTypes = {
+  container: PropTypes.object.isRequired,
+  placement: PropTypes.string,
+  theme: PropTypes.object.isRequired,
+  target: PropTypes.func.isRequired
+}
+
+Dropdown.defaultProps = {
+  placement: 'bottom'
+}
+
+export default Dropdown
