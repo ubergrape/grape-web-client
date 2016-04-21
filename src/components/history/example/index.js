@@ -8,6 +8,7 @@ let messages = times(5).map((i) => {
   return {
     author: 'Author A',
     authorId: 'authora',
+    avatar: 'avatar.gif',
     content: 'within 5 min from the same user' + i,
     time: new Date(now + i * 1000 * 60)
   }
@@ -18,6 +19,7 @@ messages = messages.concat(times(1000).map((i) => {
     authorId: 'author' + i,
     author: 'Author' + i,
     content: 'test' + i,
+    avatar: 'avatar.gif',
     time: new Date(now + i * 1000 * 60 * 60)
   }
 }))
