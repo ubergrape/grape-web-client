@@ -7,21 +7,30 @@ import styles from './styles'
 @useSheet(styles)
 export default class Avatar extends Component {
   static propTypes = {
-    src: PropTypes.string
+    sheet: PropTypes.object.isRequired,
+    src: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    children: PropTypes.node
   }
 
   static defaultProps = {
-    src: defaultSrc
+    src: defaultSrc,
+    className: '',
+    style: {}
   }
 
   render() {
     const {classes} = this.props.sheet
+    const {className} = this.props
+    const style = {backgroundImage: `url(${this.props.src})`, ...this.props.style}
+
     return (
       <div
-        style={{backgroundImage: `url(${this.props.src})`}}
-        className={classes.avatar}>
+        className={`${classes.avatar} ${className}`}
+        style={style}>
+        {this.props.children}
       </div>
     )
   }
 }
-

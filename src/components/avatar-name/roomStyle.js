@@ -1,22 +1,11 @@
+import {white} from 'grape-theme/dist/base-colors'
 import style from './style'
-
-const insideAvatar = {
-  display: 'block',
-  borderRadius: '50%',
-  width: '100%',
-  height: '100%'
-}
 
 export default {
   ...style,
   abbr: {
-    ...insideAvatar,
     textAlign: 'center',
-    color: '#ffffff'
-  },
-  icon: {
-    ...insideAvatar,
-    background: '50% 50% no-repeat',
-    backgroundSize: '40% auto'
+    color: white,
+    lineHeight: '32px'
   }
 }

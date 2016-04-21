@@ -7,7 +7,8 @@ export default {
     display: 'block',
     position: 'relative',
     flexShrink: 0,
-    fontWeight: 'normal'
+    fontWeight: 'normal',
+    backgroundColor: '#fff'
   },
   name: {
     paddingLeft: 10,
