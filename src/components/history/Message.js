@@ -3,8 +3,8 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 
 import Avatar from '../avatar/Avatar'
-import Header from '../messages/Header'
-import Bubble from '../messages/Bubble'
+import Header from '../message-parts/Header'
+import Bubble from '../message-parts/Bubble'
 import styles from './messageStyles'
 
 @useSheet(styles)

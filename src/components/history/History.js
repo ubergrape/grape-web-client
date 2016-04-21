@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment-timezone'
 
 import Message from './Message'
-import DateSeparator from '../messages/DateSeparator'
+import DateSeparator from '../message-parts/DateSeparator'
 import styles from './styles'
 
 @useSheet(styles)

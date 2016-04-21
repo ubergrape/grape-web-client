@@ -2,7 +2,6 @@ import {white} from 'grape-theme/dist/base-colors'
 
 const arrowWidth = 7
 const transition = 'box-shadow 0.3s ease-out'
-const shadowColor = 'rgba(0,0,0,0.3)'
 
 export default {
   bubble: {
@@ -19,9 +18,6 @@ export default {
       transition,
       background: white,
       zIndex: 1
-    },
-    '&:hover:before': {
-      boxShadow: `-3px 4px 8px ${shadowColor}`
     }
   },
   content: {
@@ -31,9 +27,6 @@ export default {
     padding: '5px 13px',
     overflow: 'hidden',
     transition,
-    wordBreak: 'break-word',
-    '&:hover': {
-      boxShadow: `0px 1px 8px ${shadowColor}`
-    }
+    wordBreak: 'break-word'
   }
 }

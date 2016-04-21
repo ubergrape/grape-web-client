@@ -8,7 +8,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './messageSearchStyles'
 import Message from './Message'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import DateSeparator from '../messages/DateSeparator'
+import DateSeparator from '../message-parts/DateSeparator'
 
 @useSheet(style)
 export default class MessageSearch extends Component {

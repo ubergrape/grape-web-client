@@ -48,13 +48,21 @@ export default class Roomname extends Component {
     unread: 0
   }
 
+  renderIcon() {
+    const {icon, abbr, color, sheet} = this.props
+    const {classes} = sheet
+    if (icon) {
+      return <Icon name={icon} color={color} />
+    }
+    return <Abbr abbr={abbr} color={color} className={classes.abbr} />
+  }
+
   render() {
-    const {name, icon, abbr, color, sheet} = this.props
+    const {name, sheet} = this.props
     const {classes} = sheet
     return (
       <span className={classes.avatarName}>
-        {icon && <Icon name={icon} color={color} />}
-        {!icon && <Abbr abbr={abbr} color={color} className={classes.abbr} />}
+        {this.renderIcon()}
         <span className={classes.name}>
           {name}
         </span>

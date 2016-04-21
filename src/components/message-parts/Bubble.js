@@ -8,19 +8,24 @@ export default class Bubble extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    theme: PropTypes.object
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    theme: {
+      bubble: '',
+      content: ''
+    }
   }
 
   render() {
-    const {children, className, sheet} = this.props
+    const {children, className, theme, sheet} = this.props
     const {classes} = sheet
     return (
-      <div className={`${classes.bubble} ${className}`}>
-        <div className={classes.content}>{children}</div>
+      <div className={`${classes.bubble} ${theme.bubble} ${className}`}>
+        <div className={`${classes.content} ${theme.content}`}>{children}</div>
       </div>
     )
   }
