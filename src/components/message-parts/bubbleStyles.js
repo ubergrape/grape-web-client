@@ -1,7 +1,6 @@
 import {white} from 'grape-theme/dist/base-colors'
 
 const arrowWidth = 7
-const transition = 'box-shadow 0.3s ease-out'
 
 export default {
   bubble: {
@@ -15,7 +14,6 @@ export default {
       height: arrowWidth,
       content: '""',
       transform: 'rotate(45deg) translateX(-50%)',
-      transition,
       background: white,
       zIndex: 1
     }
@@ -26,7 +24,6 @@ export default {
     borderRadius: 16,
     padding: '5px 13px',
     overflow: 'hidden',
-    transition,
     wordBreak: 'break-word'
   }
 }
