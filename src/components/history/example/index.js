@@ -14,11 +14,13 @@ let messages = times(5).map((i) => {
   }
 })
 
+const text = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. '
+
 messages = messages.concat(times(1000).map((i) => {
   return {
     authorId: 'author' + i,
     author: 'Author' + i,
-    content: 'test' + i,
+    content: i + '  ' + text,
     avatar: 'avatar.gif',
     time: new Date(now + i * 1000 * 60 * 60)
   }

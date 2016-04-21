@@ -6,7 +6,7 @@ import moment from 'moment-timezone'
 
 import Message from './Message'
 import DateSeparator from '../message-parts/DateSeparator'
-import styles from './styles'
+import styles from './historyStyles'
 
 // Group messages under same avatar/name if they are send within this time distance.
 const timeThreshold = 5 * 60 * 1000
@@ -38,9 +38,12 @@ export default class History extends Component {
   }
 
   renderRow(index) {
-    const {messages, sheet} = this.props
+    const {messages, sheet, userId} = this.props
     const {classes} = sheet
-    const message = {...messages[index]}
+    const message = messages[index]
+    const props = {
+      key: `row-${index}`
+    }
     const prevMessage = messages[index - 1]
     const row = []
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
@@ -48,16 +51,22 @@ export default class History extends Component {
         <DateSeparator
           theme={{date: classes.separatorDate}}
           date={message.time}
-          key={'date-separator-' + index} />
+          key={`date-separator-${index}`} />
       )
     }
 
     if (prevMessage && prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
-      delete message.author
-      delete message.avatar
+      props.author = null
+      props.avatar = null
+      props.bubbleArrow = false
     }
 
-    row.push(<Message {...message} key={'row-' + index}>{message.content}</Message>)
+    if (message.authorId === userId) {
+      // FIXME use differently colored bubbles by using a themed bubble component
+    }
+
+    row.push(<Message {...message} {...props}>{message.content}</Message>)
+
     return row
   }
 

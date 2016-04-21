@@ -5,7 +5,10 @@ const arrowWidth = 7
 export default {
   bubble: {
     position: 'relative',
-    marginLeft: arrowWidth,
+    marginLeft: arrowWidth
+  },
+  bubbleWithArrow: {
+    extend: 'bubble',
     '&:before': {
       position: 'absolute',
       top: 14,
