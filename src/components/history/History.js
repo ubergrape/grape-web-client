@@ -8,12 +8,17 @@ import Message from './Message'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './styles'
 
+// Group messages under same avatar/name if they are send within this time distance.
+const timeThreshold = 5 * 60 * 1000
+
 @useSheet(styles)
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
-    messages: PropTypes.array
+    messages: PropTypes.arrayOf(PropTypes.shape({
+      authorId: PropTypes.string.isRequired
+    }))
   }
 
   static defaultProps = {
@@ -33,9 +38,9 @@ export default class History extends Component {
   }
 
   renderRow(index) {
-    const {messages} = this.props
-    const {classes} = this.props.sheet
-    const message = messages[index]
+    const {messages, sheet} = this.props
+    const {classes} = sheet
+    const message = {...messages[index]}
     const prevMessage = messages[index - 1]
     const row = []
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
@@ -46,6 +51,12 @@ export default class History extends Component {
           key={'date-separator-' + index} />
       )
     }
+
+    if (prevMessage && prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
+      delete message.author
+      delete message.avatar
+    }
+
     row.push(<Message {...message} key={'row-' + index}>{message.content}</Message>)
     return row
   }

@@ -24,9 +24,9 @@ export default class Message extends Component {
     const {classes} = sheet
     return (
       <section className={classes.message}>
-        <Header date={time} author={author} className={classes.header} />
+        {author && <Header date={time} author={author} className={classes.header} />}
         <div className={classes.body}>
-          <Avatar src={avatar} className={classes.leftColumn}/>
+          {avatar && <Avatar src={avatar} className={classes.leftColumn} />}
           <Bubble className={classes.rightColumn}>
             {children}
           </Bubble>
