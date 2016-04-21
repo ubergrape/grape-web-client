@@ -20,22 +20,11 @@ var plugins = [
   })
 ]
 
-if (process.env.NODE_ENV === 'production') {
-  plugins.push(
-    // This plugin turns all loader into minimize mode!!!
-    // https://github.com/webpack/webpack/issues/283
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  )
-}
-
-module.exports = {
+module.exports = exports = {
   entry: './src/index.js',
   output: {
     path: './dist',
+    publicPath: '/dist/',
     filename: 'app.js'
   },
   module: {
@@ -117,3 +106,28 @@ module.exports = {
   },
   devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
+
+if (process.env.COMPONENT) {
+  exports.plugins.push(new webpack.HotModuleReplacementPlugin())
+  var contentBase = './src/components/' + process.env.COMPONENT + '/example/'
+  exports.entry = {
+    browser: [
+      'webpack/hot/dev-server',
+      contentBase + '/index.js'
+    ]
+  }
+  exports.devServer = {contentBase: contentBase}
+}
+
+if (process.env.NODE_ENV === 'production') {
+  exports.plugins.push(
+    // This plugin turns all loader into minimize mode!!!
+    // https://github.com/webpack/webpack/issues/283
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  )
+}
+
