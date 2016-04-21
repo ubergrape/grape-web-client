@@ -4,8 +4,8 @@ import {InfiniteLoader, VirtualScroll, AutoSizer} from 'react-virtualized'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment-timezone'
 
-import Message from '../message/Message'
-import DateSeparator from '../date-separator/DateSeparator'
+import Message from './Message'
+import DateSeparator from '../messages/DateSeparator'
 import styles from './styles'
 
 @useSheet(styles)
@@ -46,7 +46,7 @@ export default class History extends Component {
           key={'date-separator-' + index} />
       )
     }
-    row.push(<Message {...message} key={'row-' + index} />)
+    row.push(<Message {...message} key={'row-' + index}>{message.content}</Message>)
     return row
   }
 

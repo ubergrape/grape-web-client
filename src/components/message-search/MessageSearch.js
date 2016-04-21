@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment-timezone'
-
 import findMatches from 'grape-web/lib/search/findMatches'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
-import Message from '../message/Message'
+
+import style from './messageSearchStyles'
+import Message from './Message'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import DateSeparator from '../date-separator/DateSeparator'
+import DateSeparator from '../messages/DateSeparator'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -123,7 +123,7 @@ export default class MessageSearch extends Component {
         className={classes.message}
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
-        <Message {...message} />
+        <Message {...message}>{message.content}</Message>
       </div>
     )
   }

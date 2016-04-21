@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import moment from 'moment-timezone'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './styles'
+import styles from './dateSeparatorStyles'
 
 @useSheet(styles)
 export default class DateSeparator extends Component {
