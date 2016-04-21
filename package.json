@@ -34,7 +34,7 @@
     "endswith": "sk7/endswith",
     "es6-promise": "^3.0.2",
     "escape-html": "component/escape-html#v1.0.1",
-    "grape-browser": "^2.6.2",
+    "grape-browser": "^2.7.9-pre.1",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^1.2.0",
     "grape-web": "^0.19.2",
@@ -119,7 +119,8 @@
     "svgo": "^0.5.6",
     "svgo-loader": "^1.1.0",
     "url-loader": "^0.5.6",
-    "webpack": "^1.10.1"
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
