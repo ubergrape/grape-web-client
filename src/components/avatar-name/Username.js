@@ -5,7 +5,6 @@ import {white} from 'grape-theme/dist/base-colors'
 import style from './userStyle'
 import Avatar from '../avatar/Avatar'
 
-
 function Status({theme, status, borderColor}) {
   return (
     <i
@@ -46,6 +45,7 @@ export default class Username extends Component {
       name,
       avatar,
       showStatus,
+      status,
       statusBorderColor
     } = this.props
 
