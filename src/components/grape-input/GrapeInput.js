@@ -7,7 +7,7 @@ import keyname from 'keyname'
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 import parseQuery from '../query/parse'
-import GlobalEvent from '../global-event/GlobalEvent'
+import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
 import {create as createObject} from '../objects'
 

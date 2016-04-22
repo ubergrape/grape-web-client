@@ -17,7 +17,7 @@ import * as dataUtils from './dataUtils'
 import * as emoji from '../emoji'
 import Input from '../input/Input'
 import Empty from '../empty/Empty'
-import GlobalEvent from '../global-event/GlobalEvent'
+import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 
 const PUBLIC_METHODS = ['focusItem', 'getFocusedItem']
 
