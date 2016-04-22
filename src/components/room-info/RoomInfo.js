@@ -48,6 +48,14 @@ export default class RoomInfo extends Component {
     this.props.hideSidebar()
   }
 
+  onPrivacyChange() {
+    console.log('change privacy')
+  }
+
+  onRoomDelete() {
+    console.log('room delete')
+  }
+
   setRoomDescription(description) {
     const {setRoomDescription, channel} = this.props
     setRoomDescription(channel.id, description)
@@ -108,6 +116,8 @@ export default class RoomInfo extends Component {
         <div className={classes.channelInfo}>
           <MainSettings
             channel={channel}
+            onPrivacyChange={::this.onPrivacyChange}
+            onRoomDelete={::this.onRoomDelete}
             renameRoom={::this.renameRoom}
             roomSettings={roomSettings}
             classes={classes} />

@@ -3,12 +3,15 @@ import React, {Component, PropTypes} from 'react'
 import {maxChannelNameLength} from '../../constants/app'
 import EditableString from '../editable-string/EditableString'
 import Dropdown from '../dropdown/Dropdown'
+import AdditionalActions from './AdditionalActions'
 import * as tooltipStyle from '../tooltip/themes/gray'
 
 export default class MainSettings extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     renameRoom: PropTypes.func.isRequired,
+    onPrivacyChange: PropTypes.func.isRequired,
+    onRoomDelete: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     roomSettings: PropTypes.object.isRequired
   }
@@ -34,13 +37,22 @@ export default class MainSettings extends Component {
 
   renderDropDown() {
     if (!this.state.dropdownOpened) return null
+    const {
+      channel,
+      onPrivacyChange,
+      onRoomDelete
+    } = this.props
     return (
       <Dropdown
         container={this}
         theme={tooltipStyle}
         target={this.refs.settings}
         onOutsideClick={::this.onClickOutsideDropdown}>
-          sddddddsddddddsddddddsdddddd
+          <AdditionalActions
+            {...this.props}
+            onDelete={onRoomDelete}
+            onPrivacyChange={onPrivacyChange}
+            privacy={channel.isPublic ? 'private' : 'public'} />
       </Dropdown>
     )
   }
@@ -58,9 +70,9 @@ export default class MainSettings extends Component {
             error={roomSettings.nameError}
             />
         </div>
-        <div className={classes.menu}>
+        <div className={classes.additionalActions}>
           <button
-            className={classes.additionalSettingsButton}
+            className={classes.additionalActionsButton}
             onClick={::this.onClick}
             ref="settings" />
           {this.renderDropDown()}

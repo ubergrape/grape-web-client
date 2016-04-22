@@ -107,14 +107,34 @@ export default {
     background: '0 0 no-repeat',
     color: colors.grayBlue
   },
-  menu: {
+  additionalActions: {
     marginLeft: 20
   },
-  additionalSettingsButton: {
+  additionalActionsButton: {
     ...fonts.normal,
     ...buttonIcon('cog', {color: webColors.button, hoverColor: colors.blue, iconOnly: true}),
     display: 'block',
     width: fonts.normal.fontSize,
     height: fonts.normal.fontSize
+  },
+  additionalActionsList: {
+  },
+  additionalActionButton: {
+    ...linkButton,
+    ...fonts.normal,
+    display: 'block',
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    width: '100%',
+    textAlign: 'left',
+    padding: '10px',
+    borderBottom: `1px solid ${webColors.borderLight}`,
+    '&:hover': {
+      color: colors.red,
+      textDecoration: 'underline'
+    }
+  },
+  deleteRoomButton: {
+    color: colors.red
   }
 }
