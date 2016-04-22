@@ -39,7 +39,7 @@ export default class MainSettings extends Component {
         container={this}
         theme={tooltipStyle}
         target={this.refs.settings}
-        onClickOutside={::this.onClickOutsideDropdown}>
+        onOutsideClick={::this.onClickOutsideDropdown}>
           sddddddsddddddsddddddsdddddd
       </Dropdown>
     )
