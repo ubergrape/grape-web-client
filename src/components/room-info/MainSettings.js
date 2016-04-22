@@ -11,7 +11,7 @@ export default class MainSettings extends Component {
     classes: PropTypes.object.isRequired,
     renameRoom: PropTypes.func.isRequired,
     onPrivacyChange: PropTypes.func.isRequired,
-    onRoomDelete: PropTypes.func.isRequired,
+    onShowRoomDeleteDialog: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     roomSettings: PropTypes.object.isRequired
   }
@@ -35,12 +35,15 @@ export default class MainSettings extends Component {
     this.setState({dropdownOpened: false})
   }
 
+  onDeleteClick(channel) {
+    this.props.onShowRoomDeleteDialog(channel.id)
+  }
+
   renderDropDown() {
     if (!this.state.dropdownOpened) return null
     const {
       channel,
-      onPrivacyChange,
-      onRoomDelete
+      onPrivacyChange
     } = this.props
     return (
       <Dropdown
@@ -50,7 +53,7 @@ export default class MainSettings extends Component {
         onOutsideClick={::this.onClickOutsideDropdown}>
           <AdditionalActions
             {...this.props}
-            onDelete={onRoomDelete}
+            onDeleteClick={this.onDeleteClick.bind(this, channel)}
             onPrivacyChange={onPrivacyChange}
             privacy={channel.isPublic ? 'private' : 'public'} />
       </Dropdown>

@@ -21,6 +21,7 @@ export default class RoomInfo extends Component {
     goToChannel: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
     setRoomDescription: PropTypes.func.isRequired,
+    showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
   }
@@ -52,8 +53,8 @@ export default class RoomInfo extends Component {
     console.log('change privacy')
   }
 
-  onRoomDelete() {
-    console.log('room delete')
+  onShowRoomDeleteDialog(room) {
+    this.props.showRoomDeteteDialog(room)
   }
 
   setRoomDescription(description) {
@@ -117,11 +118,10 @@ export default class RoomInfo extends Component {
           <MainSettings
             channel={channel}
             onPrivacyChange={::this.onPrivacyChange}
-            onRoomDelete={::this.onRoomDelete}
+            onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
             renameRoom={::this.renameRoom}
             roomSettings={roomSettings}
             classes={classes} />
-
           <article className={classes.roomDescription}>
             <h2 className={classes.title}>
               Description

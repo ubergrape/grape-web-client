@@ -4,7 +4,7 @@ export default function AdditionalAction(props) {
   const {
     onPrivacyChange,
     privacy,
-    onDelete,
+    onDeleteClick,
     classes
   } = props
 
@@ -20,7 +20,7 @@ export default function AdditionalAction(props) {
       <li>
         <button
           className={`${classes.additionalActionButton} ${classes.deleteRoomButton}`}
-          onClick={onDelete}>
+          onClick={onDeleteClick}>
           Delete room
         </button>
       </li>
@@ -30,7 +30,7 @@ export default function AdditionalAction(props) {
 
 AdditionalAction.propTypes = {
   onPrivacyChange: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   privacy: PropTypes.string.isRequired
 }

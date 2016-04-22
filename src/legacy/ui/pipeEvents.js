@@ -39,11 +39,11 @@ export default function pipeEvents(ui) {
   broker(ui, 'viewChanged', ui.organizationMenu, 'onViewChanged')
   broker(ui, 'setUser', ui.organizationMenu, 'onSetUser')
   broker(ui.reduxEmitter, 'toggleOrgSettings', ui.organizationMenu, 'toggle')
+  broker(ui.reduxEmitter, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
 
   // chat header
   // broker.pass(ui.chatHeader, 'confirmroomrename', ui, 'confirmroomrename')
   // broker.pass(ui.chatHeader, 'setDescription', ui, 'setDescription')
-  // broker(ui.chatHeader, 'toggledeleteroomdialog', ui, 'toggleDeleteRoomDialog')
   // broker(ui.chatHeader, 'showSidebar', ui, 'onShowSidebar')
   // broker(ui.chatHeader, 'hideSidebar', ui, 'onHideSidebar')
   // broker(ui.chatHeader, 'showChannelInfo', ui.reduxEmitter, 'onShowChannelInfo')

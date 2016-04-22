@@ -9,5 +9,6 @@ export default [
   'goToMessage',
   'searchMessages',
   'renameRoom',
-  'setRoomDescription'
+  'setRoomDescription',
+  'showRoomDeteteDialog'
 ]

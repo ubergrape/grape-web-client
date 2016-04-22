@@ -243,8 +243,10 @@ export function renameRoom(id, name) {
       .then(() => {
         dispatch({
           type: types.RENAME_ROOM_REQUEST,
-          id,
-          name
+          payload: {
+            id,
+            name
+          }
         })
       })
       .catch(({message}) => dispatch({
@@ -262,10 +264,22 @@ export function setRoomDescription(id, rawDescription) {
       .then(() => {
         dispatch({
           type: types.SET_ROOM_DESCRIPTION,
-          id,
-          description
+          payload: {
+            id,
+            description
+          }
         })
       })
       .catch(err => dispatch(error(err)))
+  }
+}
+
+export function showRoomDeteteDialog(id) {
+  reduxEmitter.showRoomDeteteDialog()
+  return dispatch => {
+    dispatch({
+      type: types.SHOW_ROOM_DELETE_DIALOG,
+      payload: id
+    })
   }
 }
