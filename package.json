@@ -37,7 +37,7 @@
     "grape-browser": "^2.7.9-pre.1",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^1.2.0",
-    "grape-web": "^0.19.2",
+    "grape-web": "^0.19.3",
     "image-zoom": "ubergrape/image-zoom",
     "intro.js": "ubergrape/intro.js",
     "jh3y-resizable": "ubergrape/resizable",
