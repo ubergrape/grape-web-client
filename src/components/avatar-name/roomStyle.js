@@ -5,6 +5,7 @@ export default {
   ...style,
   abbr: {
     textAlign: 'center',
+    flexShrink: 0,
     color: white,
     lineHeight: '32px'
   }
