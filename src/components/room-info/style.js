@@ -102,5 +102,8 @@ export default {
     textTransform: 'uppercase',
     background: '0 0 no-repeat',
     color: colors.grayBlue
+  },
+  menu: {
+    position: 'relative'
   }
 }

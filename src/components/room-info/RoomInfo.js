@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode} from 'react-dom'
 import isEmpty from 'lodash/lang/isEmpty'
 import {
   maxChannelNameLength,
@@ -11,8 +10,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import EditableString from '../editable-string/EditableString'
-import Dropdown from '../dropdown/Dropdown'
-import * as tooltipStyle from '../tooltip/themes/gray'
+import AdditionalSettings from './AdditionalSettings'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -121,15 +119,7 @@ export default class RoomInfo extends Component {
                 error={roomSettings.nameError}
                 />
             </div>
-            <div className={classes.menu}>
-              <button ref="settings">(**)</button>
-              <Dropdown
-                container={this}
-                theme={tooltipStyle}
-                target={() => findDOMNode(this.refs.settings)}>
-                  I'm placed to the: <strong>asdasd</strong>
-              </Dropdown>
-            </div>
+            <AdditionalSettings className={classes.menu}/>
           </article>
 
           <article className={classes.roomDescription}>
