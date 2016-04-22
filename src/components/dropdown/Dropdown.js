@@ -3,9 +3,11 @@ import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
 
-import Tooltip from '../tooltip/Tooltip'
-import listenOutsideClick from '../outside-click/OutsideClick'
-import useTheme from '../theme/Theme'
+import RawTooltip from '../tooltip/Tooltip'
+import listenOutsideClick from '../outside-click/listenOutsideClick'
+import useTheme from '../theme/useTheme'
+
+const Tooltip = listenOutsideClick(RawTooltip)
 
 export default function Dropdown(props) {
   const {
@@ -14,20 +16,19 @@ export default function Dropdown(props) {
     target,
     children,
     theme,
-    onClickOutside,
+    onOutsideClick,
     onClick
   } = props
 
-  const StyledTooltip = useTheme(
-    listenOutsideClick(Tooltip, onClickOutside, onClick),
-    theme.classes
-  )
+  const StyledTooltip = useTheme(Tooltip, theme.styles)
   return (
     <Position
       container={container}
       placement={placement}
       target={() => findDOMNode(target)}>
         <StyledTooltip
+          onOutsideClick={onOutsideClick}
+          onClick={onClick}
           arrowSize={theme.arrowSize}
           borderSize={theme.borderSize}
           placement={placement}>
@@ -43,12 +44,12 @@ Dropdown.propTypes = {
   placement: PropTypes.string,
   theme: PropTypes.object.isRequired,
   target: PropTypes.instanceOf(Element),
-  onClickOutside: PropTypes.func,
+  onOutsideClick: PropTypes.func,
   onClick: PropTypes.func
 }
 
 Dropdown.defaultProps = {
   placement: 'bottom',
-  onClickOutside: noop,
+  onOutsideClick: noop,
   onClick: noop
 }

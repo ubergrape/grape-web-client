@@ -7,7 +7,6 @@ import {
   getBodyMargin
 } from './utils'
 
-
 function Tooltip(props) {
   const {arrowSize, borderSize, placement} = props
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
