@@ -1,16 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import isEmpty from 'lodash/lang/isEmpty'
-import {
-  maxChannelNameLength,
-  maxChannelDescriptionLength
-} from '../../constants/app'
+import {maxChannelDescriptionLength} from '../../constants/app'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import EditableString from '../editable-string/EditableString'
-import AdditionalSettings from './AdditionalSettings'
+import MainSettings from './MainSettings'
 
 @useSheet(style)
 export default class RoomInfo extends Component {
@@ -109,18 +106,11 @@ export default class RoomInfo extends Component {
         title="Group Info"
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
-          <article className={classes.mainSettings}>
-            <div className={classes.roomName}>
-              <EditableString
-                placeholder="Enter group name here…"
-                maxLength={maxChannelNameLength}
-                onSave={::this.renameRoom}
-                value={channel.name}
-                error={roomSettings.nameError}
-                />
-            </div>
-            <AdditionalSettings className={classes.menu}/>
-          </article>
+          <MainSettings
+            channel={channel}
+            renameRoom={::this.renameRoom}
+            roomSettings={roomSettings}
+            classes={classes} />
 
           <article className={classes.roomDescription}>
             <h2 className={classes.title}>

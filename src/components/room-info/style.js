@@ -88,14 +88,18 @@ export default {
     }
   },
   roomName: {
-    ...fonts.bigger
+    ...fonts.bigger,
+    width: '100%'
   },
   roomDescription: {
     ...fonts.normal,
     ...divider
   },
   mainSettings: {
-    ...divider
+    ...divider,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center'
   },
   title: {
     ...fonts.small,
@@ -104,6 +108,13 @@ export default {
     color: colors.grayBlue
   },
   menu: {
-    position: 'relative'
+    marginLeft: 20
+  },
+  additionalSettingsButton: {
+    ...fonts.normal,
+    ...buttonIcon('cog', {color: webColors.button, hoverColor: colors.blue, iconOnly: true}),
+    display: 'block',
+    width: fonts.normal.fontSize,
+    height: fonts.normal.fontSize
   }
 }
