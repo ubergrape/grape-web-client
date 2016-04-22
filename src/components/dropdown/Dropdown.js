@@ -1,14 +1,13 @@
 import React, {PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
-
 import Position from 'react-overlays/lib/Position'
-import Tooltip from '../tooltip/Tooltip'
-import addClickOutside from '../click-outside/ClickOutside'
-import useTheme from '../theme/Theme'
-
 import noop from 'lodash/utility/noop'
 
-function Dropdown(props) {
+import Tooltip from '../tooltip/Tooltip'
+import listenOutsideClick from '../outside-click/OutsideClick'
+import useTheme from '../theme/Theme'
+
+export default function Dropdown(props) {
   const {
     container,
     placement,
@@ -20,7 +19,7 @@ function Dropdown(props) {
   } = props
 
   const StyledTooltip = useTheme(
-    addClickOutside(Tooltip, onClickOutside, onClick),
+    listenOutsideClick(Tooltip, onClickOutside, onClick),
     theme.classes
   )
   return (
@@ -53,5 +52,3 @@ Dropdown.defaultProps = {
   onClickOutside: noop,
   onClick: noop
 }
-
-export default Dropdown

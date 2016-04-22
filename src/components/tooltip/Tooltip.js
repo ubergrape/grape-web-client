@@ -8,10 +8,6 @@ import {
 } from './utils'
 
 
-function onClick(handler, e) {
-  if (handler) handler(e)
-}
-
 function Tooltip(props) {
   const {arrowSize, borderSize, placement} = props
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
@@ -19,15 +15,15 @@ function Tooltip(props) {
     sheet,
     theme,
     children,
+    onClick,
     style: position,
     arrowOffsetLeft: left = placementStyle.left,
-    arrowOffsetTop: top = placementStyle.top,
-    onClick: clickHandler
+    arrowOffsetTop: top = placementStyle.top
   } = props
 
   return (
     <div
-      onClick={onClick.bind(null, clickHandler)}
+      onClick={onClick}
       className={`${sheet.classes.tooltip} ${theme.tooltip}`}
       style={position}>
       <i
