@@ -105,9 +105,41 @@ export default class RoomInfo extends Component {
     )
   }
 
+  renderDescriptionEditable(allowEdit) {
+    const {channel} = this.props
+    if (!allowEdit) return <p>{channel.description}</p>
+    return (
+      <EditableString
+        placeholder="Add a group description here…"
+        maxLength={maxChannelDescriptionLength}
+        type={'textarea'}
+        onSave={::this.setRoomDescription}
+        value={channel.description}
+        />
+    )
+  }
+
+  renderDescription(allowEdit) {
+    const {channel, sheet} = this.props
+
+    if (!allowEdit && !channel.description) return null
+
+    const {classes} = sheet
+    return (
+      <article className={classes.roomDescription}>
+        <h2 className={classes.title}>Description</h2>
+        {this.renderDescriptionEditable(allowEdit)}
+      </article>
+    )
+  }
+
   render() {
-    const {channel, roomSettings} = this.props
+    const {channel, roomSettings, user} = this.props
     if (isEmpty(channel)) return null
+
+    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+    const isCreator = channel.creator && user.id === channel.creator
+    const allowEdit = isAdmin || isCreator
 
     const {classes} = this.props.sheet
     return (
@@ -116,24 +148,15 @@ export default class RoomInfo extends Component {
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
+            allowEdit={allowEdit}
             channel={channel}
             onPrivacyChange={::this.onPrivacyChange}
             onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
             renameRoom={::this.renameRoom}
             roomSettings={roomSettings}
             classes={classes} />
-          <article className={classes.roomDescription}>
-            <h2 className={classes.title}>
-              Description
-            </h2>
-            <EditableString
-              placeholder="Add a group description here…"
-              maxLength={maxChannelDescriptionLength}
-              type={'textarea'}
-              onSave={::this.setRoomDescription}
-              value={channel.description}
-              />
-          </article>
+
+          {this.renderDescription(allowEdit)}
 
           <article className={classes.actions}>
             <button

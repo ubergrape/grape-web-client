@@ -15,7 +15,12 @@ export default class MainSettings extends Component {
     onPrivacyChange: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
-    roomSettings: PropTypes.object.isRequired
+    roomSettings: PropTypes.object.isRequired,
+    allowEdit: PropTypes.bool
+  }
+
+  static defaultProps = {
+    allowEdit: false
   }
 
   constructor() {
@@ -43,6 +48,20 @@ export default class MainSettings extends Component {
   }
 
   renderAdditionalActions() {
+    if (!this.props.allowEdit) return null
+    const {classes} = this.props
+    return (
+      <div className={classes.additionalActions}>
+        <button
+          className={classes.additionalActionsButton}
+          onClick={this.onShowDropdownClick.bind(this, 'showAdditionalActions')}
+          ref="settings" />
+        {this.renderAdditionalActionsDropdown()}
+      </div>
+    )
+  }
+
+  renderAdditionalActionsDropdown() {
     if (!this.state.showAdditionalActions) return null
     const {
       channel,
@@ -71,7 +90,7 @@ export default class MainSettings extends Component {
         onClick={this.onShowDropdownClick.bind(this, 'showIconSettings')}
         className={classes[buttonClassName]}
         ref="icon">
-        <Icon name={channel.icon} color={channel.color} size="60" />
+        <Icon name={channel.icon} backgroundColor={channel.color} size="60" />
       </button>
     )
   }
@@ -89,30 +108,47 @@ export default class MainSettings extends Component {
     )
   }
 
+  renderRoomName() {
+    const {
+      classes,
+      renameRoom,
+      channel,
+      roomSettings,
+      allowEdit
+    } = this.props
+
+    if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
+
+    return (
+      <div className={classes.roomName}>
+        <EditableString
+          placeholder="Enter group name here…"
+          maxLength={maxChannelNameLength}
+          onSave={renameRoom}
+          value={channel.name}
+          error={roomSettings.nameError}
+          />
+      </div>
+    )
+  }
+
+  renderSettings() {
+    if (!this.props.allowEdit) return null
+    return (
+      <div>
+        {this.renderIcon()}
+        {this.renderIconSettings()}
+      </div>
+    )
+  }
+
   render() {
-    const {classes, renameRoom, channel, roomSettings} = this.props
+    const {classes} = this.props
     return (
       <div className={classes.mainSettings}>
-        <div>
-          {this.renderIcon()}
-          {this.renderIconSettings()}
-        </div>
-        <div className={classes.roomName}>
-          <EditableString
-            placeholder="Enter group name here…"
-            maxLength={maxChannelNameLength}
-            onSave={renameRoom}
-            value={channel.name}
-            error={roomSettings.nameError}
-            />
-        </div>
-        <div className={classes.additionalActions}>
-          <button
-            className={classes.additionalActionsButton}
-            onClick={this.onShowDropdownClick.bind(this, 'showAdditionalActions')}
-            ref="settings" />
-          {this.renderAdditionalActions()}
-        </div>
+        {this.renderSettings()}
+        {this.renderRoomName()}
+        {this.renderAdditionalActions()}
       </div>
     )
   }
