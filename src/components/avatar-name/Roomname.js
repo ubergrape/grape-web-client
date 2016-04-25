@@ -1,20 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import {white} from 'grape-theme/dist/base-colors'
 
 import style from './roomStyle'
 import Avatar from '../avatar/Avatar'
-
-function Icon({name, color: backgroundColor}) {
-  const src = getColoredIcon({name, color: white})
-  return <Avatar src={src} style={{backgroundColor}} />
-}
-
-Icon.propTypes = {
-  name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
-}
+import Icon from '../room-icon/RoomIcon'
 
 function Abbr({abbr, color: backgroundColor, className}) {
   return (

@@ -60,10 +60,18 @@ export default class MainSettings extends Component {
     )
   }
 
+  renderRoomAvatar() {
+    // const {classes, channel} = this.props
+
+  }
+
   render() {
     const {classes, renameRoom, channel, roomSettings} = this.props
     return (
-      <article className={classes.mainSettings}>
+      <div className={classes.mainSettings}>
+        <div>
+          {this.renderRoomAvatar()}
+        </div>
         <div className={classes.roomName}>
           <EditableString
             placeholder="Enter group name here…"
@@ -80,7 +88,7 @@ export default class MainSettings extends Component {
             ref="settings" />
           {this.renderDropDown()}
         </div>
-      </article>
+      </div>
     )
   }
 }
