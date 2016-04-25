@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 
-export default function AdditionalAction(props) {
+export default function AdditionalActions(props) {
   const {
     onPrivacyChange,
     privacy,
@@ -28,7 +28,7 @@ export default function AdditionalAction(props) {
   )
 }
 
-AdditionalAction.propTypes = {
+AdditionalActions.propTypes = {
   onPrivacyChange: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

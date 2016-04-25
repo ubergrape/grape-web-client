@@ -30,10 +30,21 @@ const divider = {
 
 const iconSettingsButton = {
   ...buttonReset,
+  display: 'block',
   marginRight: 10,
   padding: 4,
   borderRadius: '50%',
   border: '1px solid'
+}
+
+const roomColorButton = {
+  ...buttonReset,
+  width: 30,
+  height: 30,
+  padding: 2,
+  borderRadius: '50%',
+  border: '1px solid transparent',
+  backgroundClip: 'content-box'
 }
 
 
@@ -151,6 +162,28 @@ export default {
   },
   iconSettingsButtonActive: {
     ...iconSettingsButton,
+    borderColor: webColors.link
+  },
+  iconSettings: {
+    boxSizing: 'border-box',
+    width: 310,
+    padding: 15,
+    paddingRight: 10
+  },
+  roomColorItem: {
+    display: 'inline-block',
+    marginRight: 5,
+    '&::last-child': {
+      marginRight: 0
+    }
+  },
+  roomColorButton: {
+    ...roomColorButton,
+    borderColor: webColors.borderDefault,
+    boxShadow: `inset 0 0 0 2px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
+  },
+  roomColorButtonActive: {
+    ...roomColorButton,
     borderColor: webColors.link
   }
 }

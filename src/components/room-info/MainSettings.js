@@ -3,9 +3,10 @@ import React, {Component, PropTypes} from 'react'
 import {maxChannelNameLength} from '../../constants/app'
 import EditableString from '../editable-string/EditableString'
 import Dropdown from '../dropdown/Dropdown'
-import AdditionalActions from './AdditionalActions'
 import Icon from '../room-icon/RoomIcon'
+import AdditionalActions from './AdditionalActions'
 import * as tooltipStyle from '../tooltip/themes/gray'
+import IconSettings from './IconSettings'
 
 export default class MainSettings extends Component {
   static propTypes = {
@@ -83,7 +84,7 @@ export default class MainSettings extends Component {
         theme={tooltipStyle}
         target={this.refs.icon}
         onOutsideClick={this.onClickOutsideDropdown.bind(this, 'showIconSettings')}>
-        ололо
+        <IconSettings {...this.props} />
       </Dropdown>
     )
   }
