@@ -10,7 +10,7 @@ export default function RoomIcon({name, size, color: backgroundColor}) {
 }
 
 RoomIcon.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   color: PropTypes.string.isRequired,
   size: PropTypes.oneOfType([
     PropTypes.string,
@@ -19,5 +19,5 @@ RoomIcon.propTypes = {
 }
 
 RoomIcon.defaultProps = {
-  name: 'cog'
+  name: 'roomBulb'
 }

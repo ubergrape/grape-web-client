@@ -19,6 +19,11 @@ export function removeBrokenPms(channel) {
   return true
 }
 
+export function nullChannelIconToUndefined(channel) {
+  if (channel.icon === null) return {...channel, icon: undefined}
+  return channel
+}
+
 export function pinToFavorite(channel) {
   const {pin} = channel
   const newChannel = {
@@ -47,6 +52,10 @@ export function reduceChannelUsersToId(channel) {
       return user
     })
   }
+}
+
+export function normalizeChannelData(channel) {
+  return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
 }
 
 export function formatMessage(message) {

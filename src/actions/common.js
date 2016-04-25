@@ -2,7 +2,10 @@ import page from 'page'
 
 import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
-import {reduceChannelUsersToId, pinToFavorite, removeBrokenPms} from './utils'
+import {
+  normalizeChannelData,
+  removeBrokenPms
+} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
@@ -24,8 +27,7 @@ export function setChannels(channels) {
     type: types.SET_CHANNELS,
     payload: channels
       .filter(removeBrokenPms)
-      .map(reduceChannelUsersToId)
-      .map(pinToFavorite)
+      .map(normalizeChannelData)
   }
 }
 
@@ -62,7 +64,7 @@ export function createChannel(channel) {
   return {
     type: types.CREATE_NEW_CHANNEL,
     payload: {
-      ...reduceChannelUsersToId(channel),
+      ...normalizeChannelData(channel),
       unread: channel.unread || 0
     }
   }
