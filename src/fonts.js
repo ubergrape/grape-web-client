@@ -1,4 +1,4 @@
-function get(fontSize, lineHeight) {
+function get(fontSize) {
   return {
     fontSize: fontSize,
     lineHeight: 1.5
