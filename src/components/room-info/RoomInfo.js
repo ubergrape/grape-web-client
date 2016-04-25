@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {shallowEqual} from 'react-pure-render'
 import isEmpty from 'lodash/lang/isEmpty'
 import {maxChannelDescriptionLength} from '../../constants/app'
 
@@ -24,6 +25,21 @@ export default class RoomInfo extends Component {
     showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      ...this.getRoles(props)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const userSame = shallowEqual(this.props.user, nextProps.user)
+    const channelSame = shallowEqual(this.props.channel, nextProps.channel)
+    if (userSame && channelSame) return
+    this.setState({...this.state, ...this.getRoles(nextProps)})
   }
 
   onInvite() {
@@ -62,6 +78,16 @@ export default class RoomInfo extends Component {
     setRoomDescription(channel.id, description)
   }
 
+  getRoles({channel, user}) {
+    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
+    const isCreator = channel.creator && user.id === channel.creator
+    return {
+      isAdmin,
+      isCreator,
+      allowEdit: isAdmin || isCreator
+    }
+  }
+
   renameRoom(name) {
     const {renameRoom, channel} = this.props
     renameRoom(channel.id, name)
@@ -86,17 +112,15 @@ export default class RoomInfo extends Component {
   }
 
   renderDeleteButton(user) {
-    const {classes} = this.props.sheet
     const {channel} = this.props
+    const {classes} = this.props.sheet
+    const {isAdmin, isCreator} = this.state
     const currUser = this.props.user
     const isSelf = currUser.id === user.id
-    const isAdmin = currUser.role >= constants.roles.ROLE_ADMIN
-    const isCreator = channel.creator && currUser.id === channel.creator.id
-    const hasCreated = channel.creator && user.id === channel.creator.id
-    const isKickMaster = isAdmin && !isSelf
+    const hasCreated = channel.creator === user.id
+    const isKickMaster = (isAdmin || isCreator) && !isSelf
 
-    if (!isKickMaster || isSelf || isCreator || hasCreated) return null
-
+    if (!isKickMaster || isSelf || hasCreated) return null
     return (
       <button
         className={classes.buttonKick}
@@ -134,14 +158,12 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, roomSettings, user} = this.props
+    const {channel, roomSettings} = this.props
     if (isEmpty(channel)) return null
 
-    const isAdmin = user.role >= constants.roles.ROLE_ADMIN
-    const isCreator = channel.creator && user.id === channel.creator
-    const allowEdit = isAdmin || isCreator
-
     const {classes} = this.props.sheet
+    const {allowEdit} = this.state
+
     return (
       <SidebarPanel
         title="Group Info"
