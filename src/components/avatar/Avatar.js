@@ -22,8 +22,9 @@ export default class Avatar extends Component {
 
   render() {
     const {classes} = this.props.sheet
-    const {className} = this.props
-    const style = {backgroundImage: `url(${this.props.src})`, ...this.props.style}
+    const {className, src} = this.props
+    const style = {...this.props.style}
+    if (src) style.backgroundImage = `url(${src})`
 
     return (
       <div

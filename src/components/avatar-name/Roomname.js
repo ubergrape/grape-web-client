@@ -9,7 +9,8 @@ function Abbr({abbr, color: backgroundColor, className}) {
   return (
     <Avatar
       className={className}
-      style={{backgroundColor}}>
+      style={{backgroundColor}}
+      src="">
       {abbr}
     </Avatar>
   )
