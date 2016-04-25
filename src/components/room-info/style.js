@@ -6,6 +6,7 @@ import webColors from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
+import buttonReset from '../button/reset'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -26,6 +27,15 @@ const divider = {
   paddingBottom,
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
+
+const iconSettingsButton = {
+  ...buttonReset,
+  marginRight: 10,
+  padding: 4,
+  borderRadius: '50%',
+  border: '1px solid'
+}
+
 
 export default {
   channelInfo: {
@@ -117,8 +127,6 @@ export default {
     width: fonts.normal.fontSize,
     height: fonts.normal.fontSize
   },
-  additionalActionsList: {
-  },
   additionalActionButton: {
     ...linkButton,
     ...fonts.normal,
@@ -136,5 +144,13 @@ export default {
   },
   deleteRoomButton: {
     color: colors.red
+  },
+  iconSettingsButton: {
+    ...iconSettingsButton,
+    borderColor: 'transparent'
+  },
+  iconSettingsButtonActive: {
+    ...iconSettingsButton,
+    borderColor: webColors.link
   }
 }

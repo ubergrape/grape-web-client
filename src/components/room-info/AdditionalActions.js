@@ -9,7 +9,7 @@ export default function AdditionalAction(props) {
   } = props
 
   return (
-    <ul className={classes.additionalActionsList}>
+    <ul>
       <li>
         <button
           className={classes.additionalActionButton}

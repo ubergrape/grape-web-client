@@ -4,6 +4,7 @@ import {maxChannelNameLength} from '../../constants/app'
 import EditableString from '../editable-string/EditableString'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
+import Icon from '../room-icon/RoomIcon'
 import * as tooltipStyle from '../tooltip/themes/gray'
 
 export default class MainSettings extends Component {
@@ -19,28 +20,29 @@ export default class MainSettings extends Component {
   constructor() {
     super()
     this.state = {
-      dropdownOpened: false
+      showAdditionalActions: false,
+      showIconSettings: false
     }
   }
 
-  onClick() {
-    if (!this.state.dropdownOpened) {
+  onShowDropdownClick(field) {
+    if (!this.state[field]) {
       setTimeout(() => {
-        this.setState({dropdownOpened: true})
+        this.setState({[field]: true})
       })
     }
   }
 
-  onClickOutsideDropdown() {
-    this.setState({dropdownOpened: false})
+  onClickOutsideDropdown(field) {
+    this.setState({[field]: false})
   }
 
-  onDeleteClick(channel) {
-    this.props.onShowRoomDeleteDialog(channel.id)
+  onChannelDeleteClick() {
+    this.props.onShowRoomDeleteDialog(this.props.channel.id)
   }
 
-  renderDropDown() {
-    if (!this.state.dropdownOpened) return null
+  renderAdditionalActions() {
+    if (!this.state.showAdditionalActions) return null
     const {
       channel,
       onPrivacyChange
@@ -50,19 +52,40 @@ export default class MainSettings extends Component {
         container={this}
         theme={tooltipStyle}
         target={this.refs.settings}
-        onOutsideClick={::this.onClickOutsideDropdown}>
+        onOutsideClick={this.onClickOutsideDropdown.bind(this, 'showAdditionalActions')}>
           <AdditionalActions
             {...this.props}
-            onDeleteClick={this.onDeleteClick.bind(this, channel)}
+            onDeleteClick={::this.onChannelDeleteClick}
             onPrivacyChange={onPrivacyChange}
             privacy={channel.isPublic ? 'private' : 'public'} />
       </Dropdown>
     )
   }
 
-  renderRoomAvatar() {
-    // const {classes, channel} = this.props
+  renderIcon() {
+    const {channel, classes} = this.props
+    const buttonClassName = 'iconSettingsButton' + (this.state.showIconSettings ? 'Active' : '')
+    return (
+      <button
+        onClick={this.onShowDropdownClick.bind(this, 'showIconSettings')}
+        className={classes[buttonClassName]}
+        ref="icon">
+        <Icon name={channel.icon} color={channel.color} size="60" />
+      </button>
+    )
+  }
 
+  renderIconSettings() {
+    if (!this.state.showIconSettings) return null
+    return (
+      <Dropdown
+        container={this}
+        theme={tooltipStyle}
+        target={this.refs.icon}
+        onOutsideClick={this.onClickOutsideDropdown.bind(this, 'showIconSettings')}>
+        ололо
+      </Dropdown>
+    )
   }
 
   render() {
@@ -70,7 +93,8 @@ export default class MainSettings extends Component {
     return (
       <div className={classes.mainSettings}>
         <div>
-          {this.renderRoomAvatar()}
+          {this.renderIcon()}
+          {this.renderIconSettings()}
         </div>
         <div className={classes.roomName}>
           <EditableString
@@ -84,9 +108,9 @@ export default class MainSettings extends Component {
         <div className={classes.additionalActions}>
           <button
             className={classes.additionalActionsButton}
-            onClick={::this.onClick}
+            onClick={this.onShowDropdownClick.bind(this, 'showAdditionalActions')}
             ref="settings" />
-          {this.renderDropDown()}
+          {this.renderAdditionalActions()}
         </div>
       </div>
     )
