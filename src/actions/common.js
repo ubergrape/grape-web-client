@@ -285,3 +285,12 @@ export function showRoomDeteteDialog(id) {
     })
   }
 }
+
+export function goToAddIntegrations() {
+  return dispatch => {
+    dispatch({
+      type: types.GO_TO_ADD_INTEGRATIONS
+    })
+    location.pathname = '/integrations'
+  }
+}

@@ -71,14 +71,22 @@ export default {
       marginBottom: 0
     }
   },
+  actionItem: {
+    marginTop: 10
+  },
   buttonInvite: {
     ...button,
-    ...buttonIcon('invite', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
+    ...buttonIcon('invite', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
+  },
+  buttonIntegration: {
+    ...button,
+    color: colors.grayBlueDark,
+    ...buttonIcon('iconLink', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
   },
   buttonLeave: {
     ...button,
-    color: '#707782',
-    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString()})
+    color: colors.grayBlueDark,
+    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
   },
   buttonKick: {
     ...buttonIcon('close', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true}),

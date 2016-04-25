@@ -19,6 +19,7 @@ export default class RoomInfo extends Component {
     roomSettings: PropTypes.object.isRequired,
     showChannelMembersInvite: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
+    goToAddIntegrations: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
     setRoomDescription: PropTypes.func.isRequired,
@@ -44,6 +45,10 @@ export default class RoomInfo extends Component {
 
   onInvite() {
     this.props.showChannelMembersInvite(this.props.channel)
+  }
+
+  onAddIntegration() {
+    this.props.goToAddIntegrations()
   }
 
   onKickMember(user) {
@@ -181,16 +186,29 @@ export default class RoomInfo extends Component {
           {this.renderDescription(allowEdit)}
 
           <article className={classes.actions}>
-            <button
-              onClick={::this.onInvite}
-              className={classes.buttonInvite}>
-              Invite more people to this group
-            </button>
-            <button
-              onClick={::this.onLeave}
-              className={classes.buttonLeave}>
-              Leave {channel.name}
-            </button>
+            <ul>
+              <li className={classes.actionItem}>
+                <button
+                  onClick={::this.onInvite}
+                  className={classes.buttonInvite}>
+                  Invite more people to this group
+                </button>
+              </li>
+              <li className={classes.actionItem}>
+                <button
+                  onClick={::this.onAddIntegration}
+                  className={classes.buttonIntegration}>
+                  Add service integration
+                </button>
+              </li>
+              <li className={classes.actionItem}>
+                <button
+                  onClick={::this.onLeave}
+                  className={classes.buttonLeave}>
+                  Leave {channel.name}
+                </button>
+              </li>
+            </ul>
           </article>
 
           {channel.users.map(::this.renderUser)}

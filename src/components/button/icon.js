@@ -12,8 +12,8 @@ export default function create(name, options = {}) {
     border: 'none',
     '&:before': {
       content: '""',
-      width: '1em',
-      height: '1em',
+      width: options.size || '1em',
+      height: options.size || '1em',
       display: 'inline-block',
       verticalAlign: options.iconOnly ? 'baseline' : 'middle',
       marginRight: options.iconOnly ? 0 : 5,

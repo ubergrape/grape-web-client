@@ -10,5 +10,6 @@ export default [
   'searchMessages',
   'renameRoom',
   'setRoomDescription',
-  'showRoomDeteteDialog'
+  'showRoomDeteteDialog',
+  'goToAddIntegrations'
 ]
