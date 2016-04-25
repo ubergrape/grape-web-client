@@ -51,3 +51,6 @@ export trello from './svg/trello.svg'
 export wikipedia from './svg/wikipedia.svg'
 export wordpress from './svg/wordpress.svg'
 export youtube from './svg/youtube.svg'
+
+// Room Icons.
+export roomBulb from './svg/room-bulb.svg'
