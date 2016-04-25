@@ -37,8 +37,10 @@ const iconSettingsButton = {
   border: '1px solid'
 }
 
-const roomColorButton = {
+const iconChooserButton = {
   ...buttonReset,
+  display: 'block',
+  overflow: 'hidden',
   width: 30,
   height: 30,
   padding: 2,
@@ -170,20 +172,32 @@ export default {
     padding: 15,
     paddingRight: 10
   },
-  roomColorItem: {
+  iconSettingsTitle: {
+    ...fonts.small,
+    fontWeight: 'bold'
+  },
+  roomColors: {
+    marginTop: 20
+  },
+  iconSettingsItem: {
     display: 'inline-block',
-    marginRight: 5,
+    width: 30,
+    height: 30,
+    margin: '0 5px 5px 0',
     '&::last-child': {
       marginRight: 0
     }
   },
-  roomColorButton: {
-    ...roomColorButton,
+  iconChooserButton: {
+    ...iconChooserButton,
     borderColor: webColors.borderDefault,
     boxShadow: `inset 0 0 0 2px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
   },
-  roomColorButtonActive: {
-    ...roomColorButton,
+  iconChooserButtonActive: {
+    ...iconChooserButton,
     borderColor: webColors.link
+  },
+  iconSettingsList: {
+    marginTop: 10
   }
 }

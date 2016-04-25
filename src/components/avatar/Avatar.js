@@ -27,11 +27,11 @@ export default class Avatar extends Component {
     if (src) style.backgroundImage = `url(${src})`
 
     return (
-      <div
+      <span
         className={`${classes.avatar} ${className}`}
         style={style}>
         {this.props.children}
-      </div>
+      </span>
     )
   }
 }

@@ -21,7 +21,7 @@ export default class Roomname extends Component {
 
   renderIcon() {
     const {icon, color} = this.props
-    return <Icon name={icon} color={color} />
+    return <Icon name={icon} backgroundColor={color} />
   }
 
   render() {
