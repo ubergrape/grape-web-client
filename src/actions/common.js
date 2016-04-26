@@ -276,6 +276,23 @@ export function setRoomDescription(id, rawDescription) {
   }
 }
 
+export function setRoomPrivacy(id, isPublic) {
+  return dispatch => {
+    return api
+      .setRoomPrivacy(id, isPublic)
+      .then(() => {
+        dispatch({
+          type: types.SET_ROOM_PRIVACY,
+          payload: {
+            id,
+            isPublic
+          }
+        })
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
 export function showRoomDeteteDialog(id) {
   reduxEmitter.showRoomDeteteDialog()
   return dispatch => {

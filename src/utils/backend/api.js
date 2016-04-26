@@ -52,6 +52,23 @@ export function setRoomDescription(id, description) {
   })
 }
 
+export function setRoomPrivacy(id, isPublic) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_public',
+        args: [id, isPublic]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
 export function joinChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(

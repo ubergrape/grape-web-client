@@ -1,4 +1,5 @@
 import page from 'page'
+import pick from 'lodash/object/pick'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
@@ -171,16 +172,12 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
 }
 
 export function handleUpateChannel({channel}) {
-  const {id, type, name, slug, description} = channel
   return {
     type: types.UPDATE_CHANNEL,
-    payload: {
-      id,
-      type,
-      name,
-      slug,
-      description
-    }
+    payload: pick(
+      channel,
+      ['id', 'type', 'name', 'slug', 'description', 'isPublic']
+    )
   }
 }
 

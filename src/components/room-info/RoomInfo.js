@@ -23,6 +23,7 @@ export default class RoomInfo extends Component {
     goToChannel: PropTypes.func.isRequired,
     renameRoom: PropTypes.func.isRequired,
     setRoomDescription: PropTypes.func.isRequired,
+    setRoomPrivacy: PropTypes.func.isRequired,
     showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
@@ -71,7 +72,8 @@ export default class RoomInfo extends Component {
   }
 
   onPrivacyChange() {
-    console.log('change privacy')
+    const {setRoomPrivacy, channel} = this.props
+    setRoomPrivacy(channel.id, !channel.isPublic)
   }
 
   onShowRoomDeleteDialog(room) {
