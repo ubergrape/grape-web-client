@@ -172,12 +172,10 @@ export function handleLeftChannel({user: userId, channel: channelId}) {
 }
 
 export function handleUpateChannel({channel}) {
+  const updatable = ['id', 'type', 'name', 'slug', 'description', 'isPublic', 'color']
   return {
     type: types.UPDATE_CHANNEL,
-    payload: pick(
-      channel,
-      ['id', 'type', 'name', 'slug', 'description', 'isPublic']
-    )
+    payload: pick(channel, updatable)
   }
 }
 

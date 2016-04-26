@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import roomColors from 'grape-theme/dist/room-icon-color-palette'
+import icons from 'grape-theme/dist/room-icons'
 import Icon from '../room-icon/RoomIcon'
 
-const icons = ['bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb', 'bulb']
 
-function renderColors({classes, channel}) {
+function renderColors({classes, channel, onSetRoomColor}) {
   return (
     <div className={classes.roomColors}>
       <h1 className={classes.iconSettingsTitle}>Room Color</h1>
@@ -17,8 +17,8 @@ function renderColors({classes, channel}) {
               className={classes.iconSettingsItem}
               key={color}>
               <button
-                onClick={() => {console.log('xxx')}}
-                className={classes['iconChooserButton' + (isCurrent ? 'Active' : '')]}
+                onClick={() => { onSetRoomColor(color) }}
+                className={classes['colorChooserButton' + (isCurrent ? 'Active' : '')]}
                 style={{backgroundColor: color}} />
             </li>
           )
@@ -30,7 +30,8 @@ function renderColors({classes, channel}) {
 
 renderColors.propTypes = {
   channel: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onSetRoomColor: PropTypes.func.isRequired
 }
 
 function renderIcons({classes, channel}) {
@@ -49,9 +50,9 @@ function renderIcons({classes, channel}) {
                 className={classes['iconChooserButton' + (isCurrent ? 'Active' : '')]}>
                   <Icon
                     name={`room${icon[0].toUpperCase()}${icon.slice(1)}`}
-                    color={colors.gray}
+                    color={colors[isCurrent ? 'blue' : 'gray']}
                     backgroundColor={colors.white}
-                    size="24" />
+                    size="32" />
               </button>
             </li>
           )

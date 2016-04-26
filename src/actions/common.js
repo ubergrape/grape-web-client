@@ -293,6 +293,23 @@ export function setRoomPrivacy(id, isPublic) {
   }
 }
 
+export function setRoomColor(id, color) {
+  return dispatch => {
+    return api
+      .setRoomColor(id, color)
+      .then(() => {
+        dispatch({
+          type: types.SET_ROOM_COLOR,
+          payload: {
+            id,
+            color
+          }
+        })
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
 export function showRoomDeteteDialog(id) {
   reduxEmitter.showRoomDeteteDialog()
   return dispatch => {

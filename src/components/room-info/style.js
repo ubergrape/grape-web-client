@@ -37,16 +37,13 @@ const iconSettingsButton = {
   border: '1px solid'
 }
 
-const iconChooserButton = {
+const chooserButton = {
   ...buttonReset,
   display: 'block',
   overflow: 'hidden',
-  width: 30,
-  height: 30,
-  padding: 2,
-  borderRadius: '50%',
-  border: '1px solid transparent',
-  backgroundClip: 'content-box'
+  width: 32,
+  height: 32,
+  borderRadius: '50%'
 }
 
 
@@ -189,21 +186,32 @@ export default {
   },
   iconSettingsItem: {
     display: 'inline-block',
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
     margin: '0 5px 5px 0',
     '&::last-child': {
       marginRight: 0
     }
   },
   iconChooserButton: {
-    ...iconChooserButton,
-    borderColor: webColors.borderDefault,
-    boxShadow: `inset 0 0 0 2px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
+    ...chooserButton,
+    boxShadow: `inset 0 0 0 1px ${webColors.borderDefault}, inset 0 0 0 3px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
   },
   iconChooserButtonActive: {
-    ...iconChooserButton,
-    borderColor: webColors.link
+    ...chooserButton,
+    boxShadow: `inset 0 0 0 1px ${webColors.link}, inset 0 0 0 3px ${colors.white}`
+  },
+  colorChooserButton: {
+    ...chooserButton,
+    padding: 2,
+    backgroundClip: 'content-box',
+    boxShadow: `inset 0 0 0 1px ${webColors.borderDefault}, inset 0 0 0 3px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
+  },
+  colorChooserButtonActive: {
+    ...chooserButton,
+    padding: 2,
+    backgroundClip: 'content-box',
+    boxShadow: `inset 0 0 0 1px ${webColors.link}, inset 0 0 0 3px ${colors.white}`
   },
   iconSettingsList: {
     marginTop: 10
