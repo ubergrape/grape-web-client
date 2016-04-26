@@ -1,10 +1,34 @@
 import React, {Component, PropTypes} from 'react'
+import {findDOMNode} from 'react-dom'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import Favorite from '../favorite/Favorite'
+import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Button from './Button'
+
+function Input({sheet, onFocus, onChange, onClick, placeholder}) {
+  return (
+    <input
+      onClick={onClick}
+      className={sheet.classes.search}
+      onFocus={onFocus}
+      onChange={onChange}
+      placeholder={placeholder}
+      type="search" />
+  )
+}
+
+Input.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  onFocus: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  placeholder: PropTypes.string
+}
+
+const Search = listenOutsideClick(Input)
 
 @useSheet(style)
 export default class Header extends Component {
@@ -44,6 +68,13 @@ export default class Header extends Component {
       e.preventDefault()
       this.getHandler('intercom')()
     }
+  }
+
+  onSearchOutsideClick({target}) {
+    const {sidebar, hideSidebar} = this.props
+    if (sidebar !== 'search') return
+    const {value} = findDOMNode(target)
+    if (!value) hideSidebar()
   }
 
   getHandler(panel) {
@@ -119,12 +150,12 @@ export default class Header extends Component {
             onClick={this.getHandler('files')} />
         </li>
         <li className={sheet.classes.searchAction}>
-          <input
-            className={sheet.classes.search}
-            onFocus={::this.onMessageSearchFocus}
-            onChange={::this.onMessageSearchChange}
+          <Search
+            {...this.props}
+            onOutsideClick={::this.onSearchOutsideClick}
             placeholder="Search messages"
-            type="search" />
+            onFocus={::this.onMessageSearchFocus}
+            onChange={::this.onMessageSearchChange} />
         </li>
         <li className={sheet.classes.action}>
           <Button
