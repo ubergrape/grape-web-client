@@ -5,7 +5,16 @@ import capitalize from 'lodash/string/capitalize'
 import keyname from 'keyname'
 
 import Editable from './Editable'
+import listenOutsideClick from '../outside-click/listenOutsideClick'
 import style from './style'
+
+const Form = listenOutsideClick(props => {
+  return (
+    <form {...props}>
+      {props.children}
+    </form>
+  )
+})
 
 @useSheet(style)
 export default class EditableString extends Component {
@@ -33,14 +42,10 @@ export default class EditableString extends Component {
     this.state = {
       value: props.value
     }
-
-    this.onClickOutside = ::this.onClickOutside
-    this.preventClickOutside = false
   }
 
   componentDidMount() {
     this.editable = findDOMNode(this.refs.editable)
-    window.addEventListener('click', this.onClickOutside)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,13 +80,7 @@ export default class EditableString extends Component {
     this.setState({inputMode: false})
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('click', this.onClickOutside)
-  }
-
   onClick() {
-    this.preventClickOutside = true
-
     if (!this.state.inputMode) {
       this.setState({inputMode: true}, () => {
         const {editable} = this
@@ -90,11 +89,6 @@ export default class EditableString extends Component {
         editable.selectionEnd = this.state.value.length
       })
     }
-  }
-
-  onClickOutside() {
-    if (!this.preventClickOutside) this.restoreState()
-    this.preventClickOutside = false
   }
 
   onChange({target}) {
@@ -173,14 +167,14 @@ export default class EditableString extends Component {
     const {sheet, type} = this.props
     const className = `form${capitalize(type)}`
     return (
-      <form
-        ref="form"
+      <Form
         className={sheet.classes[className]}
+        onOutsideClick={::this.restoreState}
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
         {this.renderInput()}
         {this.renderSubmitButton()}
-      </form>
+      </Form>
     )
   }
 }
