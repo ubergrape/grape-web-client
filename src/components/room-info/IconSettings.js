@@ -42,7 +42,7 @@ function renderIcons({classes, channel, onSetRoomIcon}) {
     <div>
       <h1 className={classes.iconSettingsTitle}>Room Icon</h1>
       <ul className={classes.iconSettingsList}>
-        {icons.map(({slug}) => {
+        {icons.map(slug => {
           const {icon} = channel
           const isCurrent = icon ? icon === slug : slug === defaultRoomIconSlug
           return (
