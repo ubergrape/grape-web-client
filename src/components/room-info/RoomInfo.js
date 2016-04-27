@@ -16,7 +16,7 @@ export default class RoomInfo extends Component {
     sheet: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    roomSettings: PropTypes.object.isRequired,
+    renameError: PropTypes.string,
     showChannelMembersInvite: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
@@ -177,7 +177,7 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, roomSettings} = this.props
+    const {channel, renameError} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -189,14 +189,14 @@ export default class RoomInfo extends Component {
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
+            channel={channel}
+            renameError={renameError}
             allowEdit={allowEdit}
             onSetRoomColor={::this.onSetRoomColor}
             onSetRoomIcon={::this.onSetRoomIcon}
-            channel={channel}
             onPrivacyChange={::this.onPrivacyChange}
             onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
             renameRoom={::this.renameRoom}
-            roomSettings={roomSettings}
             classes={classes} />
 
           {this.renderDescription(allowEdit)}

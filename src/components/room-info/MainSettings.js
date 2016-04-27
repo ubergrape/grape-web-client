@@ -17,7 +17,7 @@ export default class MainSettings extends Component {
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
-    roomSettings: PropTypes.object.isRequired,
+    renameError: PropTypes.string,
     allowEdit: PropTypes.bool
   }
 
@@ -115,7 +115,7 @@ export default class MainSettings extends Component {
       classes,
       renameRoom,
       channel,
-      roomSettings,
+      renameError,
       allowEdit
     } = this.props
 
@@ -128,7 +128,7 @@ export default class MainSettings extends Component {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
-          error={roomSettings.nameError}
+          error={renameError}
           />
       </div>
     )

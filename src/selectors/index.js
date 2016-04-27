@@ -186,25 +186,25 @@ export const userProfileSelector = createSelector(
   }
 )
 
-export const roomSettingsSelector = createSelector(
-  state => state.roomSettings, state => state
+export const renameRoomErrorSelector = createSelector(
+  state => state.renameRoomError.error, state => state
 )
 
 export const roomInfoSelector = createSelector(
   [
-    roomSettingsSelector,
+    renameRoomErrorSelector,
     channelSelector,
     userSelector
   ],
   (
-    roomSettings,
+    renameError,
     channel,
     user
   ) => {
     return {
       channel: channel.type === 'room' ? channel : {},
       user,
-      roomSettings
+      renameError
     }
   }
 )
