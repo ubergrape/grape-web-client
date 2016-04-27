@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 import {maxChannelDescriptionLength} from '../constants/app'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
-import error from './common'
+import {error} from './common'
 
 export function renameRoom(id, name) {
   return dispatch => {
@@ -24,9 +24,14 @@ export function renameRoom(id, name) {
   }
 }
 
-export function setRoomDescription(id, rawDescription) {
+export function setRoomDescription(id, description) {
+  if (description.length > maxChannelDescriptionLength) {
+    return error({
+      message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
+    })
+  }
+
   return dispatch => {
-    const description = rawDescription.slice(0, maxChannelDescriptionLength - 1)
     return api
       .setRoomDescription(id, description)
       .then(() => {
