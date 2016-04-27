@@ -19,7 +19,7 @@ export default {
   rightColumn: {
     flex: 1
   },
-  avatarPlaceholder: {
+  avatarPlaceholder: {
     marginLeft: avatarWidth + arrowWidth
   }
 }

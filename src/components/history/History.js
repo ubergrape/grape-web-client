@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react'
+import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
 import noop from 'lodash/utility/noop'
-import {InfiniteLoader, VirtualScroll, AutoSizer} from 'react-virtualized'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment-timezone'
 
+import InfiniteList from './InfiniteList'
 import Message from './Message'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './historyStyles'
@@ -16,6 +17,7 @@ export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
+    userId: PropTypes.string,
     messages: PropTypes.arrayOf(PropTypes.shape({
       authorId: PropTypes.string.isRequired
     }))
@@ -28,26 +30,72 @@ export default class History extends Component {
 
   constructor(props) {
     super(props)
-    this.isRowLoaded = ::this.isRowLoaded
     this.renderRow = ::this.renderRow
-    this.renderList = ::this.renderList
+    this.state = {messages: {}, messagesCount: 0}
   }
 
-  isRowLoaded() {
-    return true
+  componentDidMount() {
+    this.prerender(this.props.messages)
   }
 
-  renderRow(index) {
-    const {messages, sheet, userId} = this.props
+  componentWillReceiveProps(nextProps) {
+    this.prerender(nextProps.messages)
+  }
+
+  prerender(messages) {
+    const container = this.probeContainer || (this.probeContainer = findDOMNode(this.refs.probe))
+    messages.forEach((message, index) => {
+      if (this.state.messages[index]) return
+      const element = this.renderRow(messages, index)
+      let syncUpdateCall
+      let node
+
+      const update = () => {
+        if (!node) {
+          syncUpdateCall = true
+          return
+        }
+        this.state.messages[index] = {
+          element,
+          height: node.clientHeight
+        }
+
+        this.state.messagesCount++
+        unmountComponentAtNode(container)
+        // It's the last one, update the state
+        if (index === messages.length - 1) {
+          this.setState(this.state)
+        }
+      }
+      node = render(element, container, update)
+      if (syncUpdateCall) {
+        update()
+      }
+    })
+  }
+
+  isGrouped(index) {
+    const prevMessage = this.props.messages[index - 1]
+    if (!prevMessage) return false
+    const message = this.props.messages[index]
+    if (prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
+      return true
+    }
+    return false
+  }
+
+  renderRow(messages, index) {
+    const {sheet, userId} = this.props
     const {classes} = sheet
     const message = messages[index]
     const props = {
       key: `row-${index}`
     }
+
     const prevMessage = messages[index - 1]
-    const row = []
+    let separator
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
-      row.push(
+      separator = (
         <DateSeparator
           theme={{date: classes.separatorDate}}
           date={message.time}
@@ -55,7 +103,7 @@ export default class History extends Component {
       )
     }
 
-    if (prevMessage && prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
+    if (this.isGrouped(index)) {
       props.author = null
       props.avatar = null
       props.bubbleArrow = false
@@ -65,40 +113,24 @@ export default class History extends Component {
       // FIXME use differently colored bubbles by using a themed bubble component
     }
 
-    row.push(<Message {...message} {...props}>{message.content}</Message>)
-
-    return row
-  }
-
-  renderList({onRowsRendered, registerChild}) {
-    const {messages} = this.props
-    const {classes} = this.props.sheet
-
     return (
-      <AutoSizer disableHeight>
-        {({width, height}) => (
-          <VirtualScroll
-            className={classes.grid}
-            ref={registerChild}
-            onRowsRendered={onRowsRendered}
-            width={width}
-            height={height}
-            rowsCount={messages.length}
-            rowHeight={60}
-            rowRenderer={this.renderRow} />
-        )}
-      </AutoSizer>
+      <div>
+        {separator}
+        <Message {...message} {...props}>{message.content}</Message>
+      </div>
     )
   }
 
   render() {
+    const {classes} = this.props.sheet
     return (
-      <InfiniteLoader
-        isRowLoaded={this.isRowLoaded}
-        loadMoreRows={this.props.onLoadMore}
-        rowsCount={Infinity}>
-        {this.renderList}
-      </InfiniteLoader>
+      <div className={classes.history}>
+        <div ref="probe" className={classes.probe}></div>
+        <InfiniteList
+          onLoadMore={this.props.onLoadMore}
+          messages={this.state.messages}
+          rowsCount={this.state.messagesCount} />
+      </div>
     )
   }
 }
