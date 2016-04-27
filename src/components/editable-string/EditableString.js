@@ -1,12 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
-import capitalize from 'lodash/string/capitalize'
-
-import keyname from 'keyname'
-import Editable from './Editable'
-
-import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
+import capitalize from 'lodash/string/capitalize'
+import keyname from 'keyname'
+
+import Editable from './Editable'
+import style from './style'
 
 @useSheet(style)
 export default class EditableString extends Component {
