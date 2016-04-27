@@ -7,6 +7,8 @@ if (conf.customSupportEmailAddress) {
   href += conf.customSupportEmailAddress
   type = 'email'
 } else if (window.Intercom) {
+  // TODO: move intercom settings to
+  // the `grape-web-client` repo from the `chatgrape`.
   href += `${window.intercomSettings.app_id}@incoming.intercom.io`
   type = 'intercom'
 }

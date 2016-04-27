@@ -97,6 +97,11 @@ export default class RoomInfo extends Component {
     setRoomDescription(channel.id, description)
   }
 
+  onRenameRoom(name) {
+    const {renameRoom, channel} = this.props
+    renameRoom(channel.id, name)
+  }
+
   getRoles({channel, user}) {
     const isAdmin = user.role >= constants.roles.ROLE_ADMIN
     const isCreator = channel.creator && user.id === channel.creator
@@ -105,11 +110,6 @@ export default class RoomInfo extends Component {
       isCreator,
       allowEdit: isAdmin || isCreator
     }
-  }
-
-  renameRoom(name) {
-    const {renameRoom, channel} = this.props
-    renameRoom(channel.id, name)
   }
 
   renderUser(user) {
@@ -148,9 +148,9 @@ export default class RoomInfo extends Component {
     )
   }
 
-  renderDescriptionEditable(allowEdit) {
+  renderDescriptionEditable() {
     const {channel} = this.props
-    if (!allowEdit) return <p>{channel.description}</p>
+    if (!this.state.allowEdit) return <p>{channel.description}</p>
     return (
       <EditableString
         placeholder="Add a group description here…"
@@ -162,16 +162,16 @@ export default class RoomInfo extends Component {
     )
   }
 
-  renderDescription(allowEdit) {
+  renderDescription() {
     const {channel, sheet} = this.props
 
-    if (!allowEdit && !channel.description) return null
+    if (!this.state.allowEdit && !channel.description) return null
 
     const {classes} = sheet
     return (
       <article className={classes.roomDescription}>
         <h2 className={classes.title}>Description</h2>
-        {this.renderDescriptionEditable(allowEdit)}
+        {this.renderDescriptionEditable()}
       </article>
     )
   }
@@ -196,10 +196,10 @@ export default class RoomInfo extends Component {
             onSetRoomIcon={::this.onSetRoomIcon}
             onPrivacyChange={::this.onPrivacyChange}
             onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
-            renameRoom={::this.renameRoom}
+            renameRoom={::this.onRenameRoom}
             classes={classes} />
 
-          {this.renderDescription(allowEdit)}
+          {this.renderDescription()}
 
           <article className={classes.actions}>
             <ul>
@@ -228,7 +228,6 @@ export default class RoomInfo extends Component {
           </article>
 
           {channel.users.map(::this.renderUser)}
-
         </div>
       </SidebarPanel>
     )
