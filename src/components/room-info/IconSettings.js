@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 
 import colors from 'grape-theme/dist/base-colors'
-import roomColors from 'grape-theme/dist/room-icon-color-palette'
+import roomColors from 'grape-theme/dist/room-colors'
 import icons from 'grape-theme/dist/room-icons'
 
 import Icon from '../room-icon/RoomIcon'
