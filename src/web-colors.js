@@ -1,4 +1,3 @@
-import color from 'color'
 import colors from './base-colors'
 
 export default {
