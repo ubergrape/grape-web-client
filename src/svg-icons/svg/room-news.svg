@@ -1,1 +1,21 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><path d="M21.02 22.5c0 1.013.775 1.85 1.75 1.85s1.75-.837 1.75-1.85h-1c0 .478-.345.85-.75.85s-.75-.372-.75-.85h-1zm3.48 0v-13h-1v13zm-2.5 0v-13h-1v13z"/><path d="M20.348 23.5h-8.665c-1.817 0-2.183-.302-2.183-1.776V8.698c0-.095.116-.198.284-.198h12.13v-1H9.784c-.697 0-1.285.523-1.285 1.198v13.026c0 2.074.85 2.776 3.18 2.776h8.665v-1z"/><path d="M11 15.5h3.5L14 15v6l.5-.5H11l.5.5v-6l-.5.5zm0-1h-.5v7H15v-7h-4zm5 1h4v-1h-4zM10.5 13H20v-2h-9.5zm5.5 4.5h4v-1h-4zm0 2h4v-1h-4zm0 2h4v-1h-4z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-1" fill="#000000">
+            <path d="M21.0200195,22.5 C21.0200195,23.5134975 21.7945589,24.35 22.7700195,24.35 C23.7454801,24.35 24.5200195,23.5134975 24.5200195,22.5 L23.5200195,22.5 C23.5200195,22.9776714 23.1752708,23.35 22.7700195,23.35 C22.3647683,23.35 22.0200195,22.9776714 22.0200195,22.5 L21.0200195,22.5 L21.0200195,22.5 Z" id="Oval-593"></path>
+            <polygon id="Line" points="24.5 22.5 24.5 9.5 23.5 9.5 23.5 22.5"></polygon>
+            <polygon id="Line" points="22 22.5 22 9.5 21 9.5 21 22.5"></polygon>
+            <path d="M20.3478261,23.5 L11.6830788,23.5 C9.86639482,23.5 9.5,23.1980612 9.5,21.723552 L9.5,8.69778821 C9.5,8.60283229 9.61559667,8.5 9.78350296,8.5 L21.9130435,8.5 L21.9130435,7.5 L9.78350296,7.5 C9.08768243,7.5 8.5,8.02278954 8.5,8.69778821 L8.5,21.723552 C8.5,23.7977063 9.35221499,24.5 11.6830788,24.5 L20.3478261,24.5 L20.3478261,23.5 L20.3478261,23.5 Z" id="Rectangle-636"></path>
+            <polygon id="Line" points="16 15.5 20 15.5 20 14.5 16 14.5"></polygon>
+            <polygon id="Line" points="10.5 13 20 13 20 11 10.5 11"></polygon>
+            <polygon id="Line" points="16 17.5 20 17.5 20 16.5 16 16.5"></polygon>
+            <polygon id="Line" points="16 19.5 20 19.5 20 18.5 16 18.5"></polygon>
+            <polygon id="Line" points="16 21.5 20 21.5 20 20.5 16 20.5"></polygon>
+            <path d="M11,14.5 L10.5,14.5 L10.5,15 L10.5,21 L10.5,21.5 L11,21.5 L14.5,21.5 L15,21.5 L15,21 L15,15 L15,14.5 L14.5,14.5 L11,14.5 Z M11.5,15.5 L14,15.5 L14,20.5 L11.5,20.5 L11.5,15.5 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>
