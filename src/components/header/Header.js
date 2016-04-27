@@ -6,7 +6,6 @@ import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import Favorite from '../favorite/Favorite'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
-import Button from './Button'
 
 function Input({sheet, onFocus, onChange, onClick, placeholder}) {
   return (
@@ -29,6 +28,19 @@ Input.propTypes = {
 }
 
 const Search = listenOutsideClick(Input)
+
+function Button({onClick, className}) {
+  return (
+    <button
+      className={className}
+      onClick={onClick} />
+  )
+}
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string
+}
 
 @useSheet(style)
 export default class Header extends Component {
