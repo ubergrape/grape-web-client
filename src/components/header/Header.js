@@ -41,6 +41,7 @@ export default class Header extends Component {
       PropTypes.string,
       React.PropTypes.bool
     ]),
+    mentions: PropTypes.number,
     showChannelMembersInvite: PropTypes.func,
     updateMessageSearchQuery: PropTypes.func,
     hideIntercom: PropTypes.func,
@@ -119,6 +120,12 @@ export default class Header extends Component {
     )
   }
 
+  renderMentionsBadge() {
+    const {mentions, sidebar, sheet} = this.props
+    if (!mentions || sidebar === 'mentions') return null
+    return <i className={sheet.classes.badge} />
+  }
+
   render() {
     const {
       showChannelMembersInvite,
@@ -161,6 +168,7 @@ export default class Header extends Component {
           <Button
             className={this.getClassName('mentions')}
             onClick={this.getHandler('mentions')} />
+          {this.renderMentionsBadge()}
         </li>
         <li className={sheet.classes.action}>
           <a

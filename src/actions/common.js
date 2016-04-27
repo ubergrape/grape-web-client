@@ -310,6 +310,23 @@ export function setRoomColor(id, color) {
   }
 }
 
+export function setRoomIcon(id, icon) {
+  return dispatch => {
+    return api
+      .setRoomIcon(id, icon)
+      .then(() => {
+        dispatch({
+          type: types.SET_ROOM_ICON,
+          payload: {
+            id,
+            icon
+          }
+        })
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
 export function showRoomDeteteDialog(id) {
   reduxEmitter.showRoomDeteteDialog()
   return dispatch => {

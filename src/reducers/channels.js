@@ -69,7 +69,6 @@ export default function reduce(state = initialState, action) {
 
     case types.UPDATE_CHANNEL: {
       const {id, type} = action.payload
-
       const newState = [...state]
       const index = findIndex(newState, {id, type})
       if (index === -1) return state
@@ -94,11 +93,12 @@ export default function reduce(state = initialState, action) {
       if (index === -1) return state
       const channel = newState[index]
       const timestamp = time.getTime()
+      const mentioned = channel.mentioned || 0
       newState.splice(index, 1, {
         ...channel,
         latestMessageTime: timestamp,
         firstMessageTime: channel.firstMessageTime || timestamp,
-        mentioned: mentionsCount || channel.mentioned,
+        mentioned: mentioned + mentionsCount || channel.mentioned,
         unread: isCurrentUser ? 0 : channel.unread + 1
       })
       return newState

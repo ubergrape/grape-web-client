@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
+import capitalize from 'lodash/string/capitalize'
 
 import keyname from 'keyname'
 import Editable from './Editable'
@@ -171,7 +172,7 @@ export default class EditableString extends Component {
 
   render() {
     const {sheet, type} = this.props
-    const className = `form${type[0].toUpperCase()}${type.slice(1)}`
+    const className = `form${capitalize(type)}`
     return (
       <form
         ref="form"

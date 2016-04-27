@@ -15,6 +15,7 @@ export default class MainSettings extends Component {
     onPrivacyChange: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
     onSetRoomColor: PropTypes.func.isRequired,
+    onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     roomSettings: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool

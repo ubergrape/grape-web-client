@@ -1,8 +1,11 @@
 import React, {PropTypes} from 'react'
+
 import colors from 'grape-theme/dist/base-colors'
 import roomColors from 'grape-theme/dist/room-icon-color-palette'
 import icons from 'grape-theme/dist/room-icons'
+
 import Icon from '../room-icon/RoomIcon'
+import {defaultRoomIconSlug} from '../../constants/images'
 
 
 function renderColors({classes, channel, onSetRoomColor}) {
@@ -18,7 +21,7 @@ function renderColors({classes, channel, onSetRoomColor}) {
               key={color}>
               <button
                 onClick={() => { onSetRoomColor(color) }}
-                className={classes['colorChooserButton' + (isCurrent ? 'Active' : '')]}
+                className={classes['chooserButton' + (isCurrent ? 'Active' : '')]}
                 style={{backgroundColor: color}} />
             </li>
           )
@@ -34,22 +37,24 @@ renderColors.propTypes = {
   onSetRoomColor: PropTypes.func.isRequired
 }
 
-function renderIcons({classes, channel}) {
+function renderIcons({classes, channel, onSetRoomIcon}) {
   return (
     <div>
       <h1 className={classes.iconSettingsTitle}>Room Icon</h1>
       <ul className={classes.iconSettingsList}>
-        {icons.map((icon, i) => {
-          const isCurrent = channel.icon === icon
+        {icons.map(({slug}) => {
+          const {icon} = channel
+          const isCurrent = icon ? icon === slug : slug === defaultRoomIconSlug
           return (
             <li
               className={classes.iconSettingsItem}
-              key={icon + i}>
+              key={slug}>
               <button
-                onClick={() => {console.log('yyy')}}
-                className={classes['iconChooserButton' + (isCurrent ? 'Active' : '')]}>
+                onClick={() => {onSetRoomIcon(slug)}}
+                className={classes['chooserButton' + (isCurrent ? 'Active' : '')]}>
                   <Icon
-                    name={`room${icon[0].toUpperCase()}${icon.slice(1)}`}
+                    className={classes.icon}
+                    name={slug}
                     color={colors[isCurrent ? 'blue' : 'gray']}
                     backgroundColor={colors.white}
                     size="32" />
@@ -64,7 +69,8 @@ function renderIcons({classes, channel}) {
 
 renderIcons.propTypes = {
   channel: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onSetRoomIcon: PropTypes.func.isRequired
 }
 
 

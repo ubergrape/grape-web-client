@@ -12,6 +12,7 @@ export default [
   'setRoomDescription',
   'setRoomPrivacy',
   'setRoomColor',
+  'setRoomIcon',
   'showRoomDeteteDialog',
   'goToAddIntegrations'
 ]

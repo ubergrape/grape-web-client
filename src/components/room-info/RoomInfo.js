@@ -25,6 +25,7 @@ export default class RoomInfo extends Component {
     setRoomDescription: PropTypes.func.isRequired,
     setRoomPrivacy: PropTypes.func.isRequired,
     setRoomColor: PropTypes.func.isRequired,
+    setRoomIcon: PropTypes.func.isRequired,
     showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
@@ -84,6 +85,11 @@ export default class RoomInfo extends Component {
   onSetRoomColor(color) {
     const {setRoomColor, channel} = this.props
     setRoomColor(channel.id, color)
+  }
+
+  onSetRoomIcon(icon) {
+    const {setRoomIcon, channel} = this.props
+    setRoomIcon(channel.id, icon)
   }
 
   setRoomDescription(description) {
@@ -185,6 +191,7 @@ export default class RoomInfo extends Component {
           <MainSettings
             allowEdit={allowEdit}
             onSetRoomColor={::this.onSetRoomColor}
+            onSetRoomIcon={::this.onSetRoomIcon}
             channel={channel}
             onPrivacyChange={::this.onPrivacyChange}
             onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}

@@ -74,8 +74,25 @@ export function setRoomColor(id, color) {
     rpc(
       {
         ns: 'rooms',
-        action: 'set_public',
+        action: 'set_color',
         args: [id, color]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
+export function setRoomIcon(id, icon) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_icon',
+        args: [id, icon]
       },
       {camelize: true},
       err => {

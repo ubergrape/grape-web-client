@@ -251,6 +251,17 @@ export const unreadChannelsSelector = createSelector(
   }
 )
 
+export const unreadMentionsAmountSelector = createSelector(
+  [joinedRoomsSelector, activePmsSelector],
+  (rooms, pms) => {
+    return rooms
+      .concat(pms)
+      .filter(channel => channel.mentioned)
+      .map(channel => channel.mentioned)
+      .reduce((amount, mentions) => amount + mentions, 0)
+  }
+)
+
 export const inviteDialog = createSelector(
   [
     channelSelector,
@@ -330,7 +341,7 @@ export const navigationSelector = createSelector(
     joinedRoomsSelector,
     channelSelector,
     navigationPmsSelector,
-    initialDataLoadingSelector
+    initialDataLoadingSelector,
   ],
   (
     rooms,
@@ -415,19 +426,22 @@ export const headerSelector = createSelector(
     favoriteSelector,
     channelSelector,
     supportSelector,
-    sidebarSelector
+    sidebarSelector,
+    unreadMentionsAmountSelector
   ],
   (
     favorite,
     channel,
     support,
-    {show: sidebar}
+    {show: sidebar},
+    mentions
   ) => {
     return {
       favorite,
       channel,
       support,
-      sidebar
+      sidebar,
+      mentions
     }
   }
 )

@@ -41,11 +41,14 @@ const chooserButton = {
   ...buttonReset,
   display: 'block',
   overflow: 'hidden',
+  boxSizing: 'border-box',
   width: 32,
   height: 32,
-  borderRadius: '50%'
+  borderRadius: '50%',
+  backgroundClip: 'content-box',
+  border: '1px solid transparent',
+  boxShadow: `inset 0 0 0 2px ${colors.white}`
 }
-
 
 export default {
   channelInfo: {
@@ -193,27 +196,18 @@ export default {
       marginRight: 0
     }
   },
-  iconChooserButton: {
+  chooserButton: {
     ...chooserButton,
-    boxShadow: `inset 0 0 0 1px ${webColors.borderDefault}, inset 0 0 0 3px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
+    borderColor: webColors.borderDefault
   },
-  iconChooserButtonActive: {
+  chooserButtonActive: {
     ...chooserButton,
-    boxShadow: `inset 0 0 0 1px ${webColors.link}, inset 0 0 0 3px ${colors.white}`
-  },
-  colorChooserButton: {
-    ...chooserButton,
-    padding: 2,
-    backgroundClip: 'content-box',
-    boxShadow: `inset 0 0 0 1px ${webColors.borderDefault}, inset 0 0 0 3px ${colors.white}, 0 1px 1px rgba(0,0,0,0.1)`
-  },
-  colorChooserButtonActive: {
-    ...chooserButton,
-    padding: 2,
-    backgroundClip: 'content-box',
-    boxShadow: `inset 0 0 0 1px ${webColors.link}, inset 0 0 0 3px ${colors.white}`
+    borderColor: webColors.link
   },
   iconSettingsList: {
     marginTop: 10
+  },
+  icon: {
+    transform: 'translate(-1px, -1px)'
   }
 }

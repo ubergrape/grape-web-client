@@ -2,6 +2,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import reset from '../button/reset'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
+import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 
@@ -84,6 +85,7 @@ export default {
     color: colors.gray
   },
   action: {
+    position: 'relative',
     marginLeft: 5,
     lineHeight: 0
   },
@@ -150,6 +152,17 @@ export default {
     ...button,
     backgroundColor: colors.blue,
     backgroundImage: getIcon('at', 'active')
+  },
+  badge: {
+    position: 'absolute',
+    boxSizing: 'content-box',
+    top: 2,
+    right: 2,
+    width: 7,
+    height: 7,
+    background: webColors.alertDanger,
+    borderRadius: '50%',
+    border: `2px solid ${colors.white}`
   },
   intercom: {
     ...button,
