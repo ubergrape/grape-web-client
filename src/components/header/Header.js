@@ -76,59 +76,46 @@ export default class Header extends Component {
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onSupportClick(e) {
-    if (this.props.support.type === 'intercom') {
-      e.preventDefault()
-      this.getHandler('intercom')()
-    }
-  }
-
-  onSearchOutsideClick({target}) {
+  onMessageSearchOutsideClick({target}) {
     const {sidebar, hideSidebar} = this.props
     if (sidebar !== 'search') return
     const {value} = findDOMNode(target)
     if (!value) hideSidebar()
   }
 
-  getHandler(panel) {
+  onSupportClick(e) {
+    if (this.props.support.type === 'intercom') {
+      e.preventDefault()
+      this.getOnClickHandler('intercom')()
+    }
+  }
+
+  getOnClickHandler(panel) {
     if (this.props.sidebar === panel) return this.props.hideSidebar
     return this.props.showInSidebar.bind(null, panel)
   }
 
-  getClassName(panel) {
+  getButtonClassName(panel) {
     const {sidebar, sheet} = this.props
     return sheet.classes[sidebar === panel ? `${panel}Active` : panel]
   }
 
-  renderTile() {
+  renderTitle() {
     const {channel, sheet} = this.props
-    const title = [
-      (<h1
-        className={sheet.classes.name}
-        key="t">
+    const title = (
+      <h1 className={sheet.classes.name}>
         {channel.name}
-      </h1>)
-    ]
-    if (channel.description) {
-      title.push((
-        <h2
-          className={sheet.classes.description}
-          key="d">
+      </h1>
+    )
+    if (!channel.description) return title
+
+    return (
+      <div>
+        {title}
+        <h2 className={sheet.classes.description}>
           {channel.description}
         </h2>
-      ))
-    }
-
-    return title
-  }
-
-  renderInfoButton() {
-    const {type} = this.props.channel
-    const {classes} = this.props.sheet
-    return (
-      <Button
-        className={type ? this.getClassName(type) : classes.infoDisabled}
-        onClick={type ? this.getHandler(type) : noop} />
+      </div>
     )
   }
 
@@ -142,50 +129,52 @@ export default class Header extends Component {
     const {
       showChannelMembersInvite,
       support,
-      favorite,
-      sheet
+      favorite
     } = this.props
-
+    const {type: channel} = this.props.channel
+    const {classes} = this.props.sheet
     const favoriteProps = {...favorite, ...this.props}
     return (
-      <ul className={sheet.classes.header}>
+      <ul className={classes.header}>
         <li>
           <Favorite {...favoriteProps}/>
         </li>
-        <li className={sheet.classes.title}>
-          {this.renderTile()}
+        <li className={classes.title}>
+          {this.renderTitle()}
         </li>
-        <li className={sheet.classes.action}>
+        <li className={classes.action}>
           <Button
-            className={sheet.classes.invite}
+            className={classes.invite}
             onClick={showChannelMembersInvite} />
         </li>
-        <li className={sheet.classes.action}>
-          {this.renderInfoButton()}
-        </li>
-        <li className={sheet.classes.action}>
+        <li className={classes.action}>
           <Button
-            className={this.getClassName('files')}
-            onClick={this.getHandler('files')} />
+            className={channel ? this.getButtonClassName(channel) : classes.infoDisabled}
+            onClick={channel ? this.getOnClickHandler(channel) : noop} />
         </li>
-        <li className={sheet.classes.searchAction}>
+        <li className={classes.action}>
+          <Button
+            className={this.getButtonClassName('files')}
+            onClick={this.getOnClickHandler('files')} />
+        </li>
+        <li className={classes.searchAction}>
           <Search
             {...this.props}
-            onOutsideClick={::this.onSearchOutsideClick}
+            onOutsideClick={::this.onMessageSearchOutsideClick}
             placeholder="Search messages"
             onFocus={::this.onMessageSearchFocus}
             onChange={::this.onMessageSearchChange} />
         </li>
-        <li className={sheet.classes.action}>
+        <li className={classes.action}>
           <Button
-            className={this.getClassName('mentions')}
-            onClick={this.getHandler('mentions')} />
+            className={this.getButtonClassName('mentions')}
+            onClick={this.getOnClickHandler('mentions')} />
           {this.renderMentionsBadge()}
         </li>
-        <li className={sheet.classes.action}>
+        <li className={classes.action}>
           <a
             href={support.href}
-            className={this.getClassName('intercom')}
+            className={this.getButtonClassName('intercom')}
             onClick={::this.onSupportClick}>
           </a>
         </li>
