@@ -3,7 +3,7 @@ import capitalize from 'lodash/string/capitalize'
 
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import {white} from 'grape-theme/dist/base-colors'
-import colors from 'grape-theme/dist/room-colors'
+import {colors} from 'grape-theme/dist/room-settings'
 
 import {defaultRoomIconSlug} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
