@@ -99,11 +99,11 @@ export function setRoomIcon(id, icon) {
 }
 
 export function showRoomDeteteDialog(id) {
-  reduxEmitter.showRoomDeteteDialog()
   return dispatch => {
     dispatch({
       type: types.SHOW_ROOM_DELETE_DIALOG,
       payload: id
     })
+    reduxEmitter.showRoomDeteteDialog()
   }
 }
