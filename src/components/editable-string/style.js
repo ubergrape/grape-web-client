@@ -12,7 +12,8 @@ const common = {
   borderRadius: 4,
   outline: 'none',
   border: 'none',
-  resize: 'none'
+  resize: 'none',
+  textOverflow: 'ellipsis'
 }
 
 export default {
