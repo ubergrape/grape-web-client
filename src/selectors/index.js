@@ -341,7 +341,7 @@ export const navigationSelector = createSelector(
     joinedRoomsSelector,
     channelSelector,
     navigationPmsSelector,
-    initialDataLoadingSelector,
+    initialDataLoadingSelector
   ],
   (
     rooms,
