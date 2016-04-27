@@ -118,12 +118,11 @@ export default class EditableString extends Component {
   }
 
   restoreState() {
-    if (this.state.inputMode) {
-      this.setState({
-        value: this.props.value,
-        inputMode: false
-      })
-    }
+    if (!this.state.inputMode) return
+    this.setState({
+      value: this.props.value,
+      inputMode: false
+    })
   }
 
   save() {
