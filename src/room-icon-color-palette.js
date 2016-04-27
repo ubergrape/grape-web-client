@@ -1,6 +1,6 @@
 export default [
   '#ED8928',
-  '#0080ff',
+  '#0080FF',
   '#97A6BD',
   '#6FC936',
   '#EA4C3A',
