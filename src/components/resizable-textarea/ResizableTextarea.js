@@ -7,8 +7,12 @@ export default class Editable extends Component {
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
     value: PropTypes.string.isRequired,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     placeholder: PropTypes.string
+  }
+
+  static defaultProps = {
+    placeholder: ''
   }
 
   componentDidMount() {

@@ -3,8 +3,8 @@ import React, {PropTypes} from 'react'
 export default function AdditionalActions(props) {
   const {
     onPrivacyChange,
-    privacy,
     onDeleteClick,
+    privacy,
     classes
   } = props
 

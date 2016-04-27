@@ -106,7 +106,9 @@ export default class EditableString extends Component {
         break
       case 'enter':
         e.preventDefault()
-        this.refs.submit.click()
+        this.setState({ inputMode: false }, () => {
+          this.refs.submit.click()
+        })
         break
       default:
     }
@@ -150,13 +152,12 @@ export default class EditableString extends Component {
   }
 
   renderSubmitButton() {
-    const {saving, inputMode} = this.state
     return (
       <button
         ref="submit"
         type="submit"
         className={this.props.sheet.classes.submit}
-        disabled={saving || !inputMode}>
+        disabled={this.state.saving}>
         Done
       </button>
     )

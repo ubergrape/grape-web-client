@@ -35,6 +35,9 @@ export default class MainSettings extends Component {
 
   onShowDropdownClick(field) {
     if (!this.state[field]) {
+      // Handling click on next tick because
+      // in same time it is outside click for dropdown
+      // we're going to show.
       setTimeout(() => {
         this.setState({[field]: true})
       })

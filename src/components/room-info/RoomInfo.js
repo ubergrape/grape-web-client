@@ -92,7 +92,7 @@ export default class RoomInfo extends Component {
     setRoomIcon(channel.id, icon)
   }
 
-  setRoomDescription(description) {
+  onSetRoomDescription(description) {
     const {setRoomDescription, channel} = this.props
     setRoomDescription(channel.id, description)
   }
@@ -156,7 +156,7 @@ export default class RoomInfo extends Component {
         placeholder="Add a group description here…"
         maxLength={maxChannelDescriptionLength}
         type={'textarea'}
-        onSave={::this.setRoomDescription}
+        onSave={::this.onSetRoomDescription}
         value={channel.description}
         />
     )
