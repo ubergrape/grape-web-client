@@ -1,3 +1,5 @@
+import {screenWidth} from 'grape-theme/dist/sizes'
+
 export default {
   sidebar: {
     position: 'fixed',
@@ -5,6 +7,11 @@ export default {
     right: 0,
     bottom: 0,
     zIndex: 50,
-    width: 340
+    width: 400
+  },
+  [`@media (max-width: ${screenWidth.xl}px)`]: {
+    sidebar: {
+      width: 340
+    }
   }
 }

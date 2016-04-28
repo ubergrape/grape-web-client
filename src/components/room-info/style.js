@@ -3,6 +3,7 @@ import mixins from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
+import {screenWidth} from 'grape-theme/dist/sizes'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
@@ -176,9 +177,14 @@ export default {
   },
   iconSettings: {
     boxSizing: 'border-box',
-    width: 310,
+    width: 335,
     padding: 15,
     paddingRight: 10
+  },
+  [`@media (max-width: ${screenWidth.xl}px)`]: {
+    iconSettings: {
+      width: 310
+    }
   },
   iconSettingsTitle: {
     ...fonts.small,
