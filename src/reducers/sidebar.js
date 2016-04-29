@@ -9,7 +9,7 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.HIDE_SIDEBAR:
       return {show: false}
-    case types.SHOW_IN_SIDEBAR:
+    case types.SHOW_SIDEBAR:
       return {show: action.payload}
     case types.SET_CHANNEL: {
       const {type} = action.payload.channel

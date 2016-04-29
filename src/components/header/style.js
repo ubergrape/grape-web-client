@@ -58,8 +58,8 @@ export default {
       zIndex: 1,
       left: 0,
       right: 0,
-      bottom: '-1px',
-      height: '1px',
+      bottom: -1,
+      height: 1,
       background: 'rgba(0,0,0,0.15)',
       content: '""'
     }

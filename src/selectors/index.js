@@ -187,7 +187,7 @@ export const userProfileSelector = createSelector(
 )
 
 export const renameRoomErrorSelector = createSelector(
-  state => state.renameRoomError.error, state => state
+  state => state.renameRoomError, state => state
 )
 
 export const roomInfoSelector = createSelector(
@@ -197,7 +197,7 @@ export const roomInfoSelector = createSelector(
     userSelector
   ],
   (
-    renameError,
+    {error: renameError},
     channel,
     user
   ) => {
@@ -408,7 +408,6 @@ export const sidebarComponentSelector = createSelector(
       show
     }
     if (!show) return select
-
     const panels = {
       room,
       pm,

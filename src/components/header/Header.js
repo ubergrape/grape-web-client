@@ -23,8 +23,12 @@ Input.propTypes = {
   sheet: PropTypes.object.isRequired,
   onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func,
-  placeholder: PropTypes.string
+  onClick: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired
+}
+
+Input.defaultProps = {
+  placeholder: ''
 }
 
 const Search = listenOutsideClick(Input)
@@ -39,7 +43,30 @@ function Button({onClick, className}) {
 
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string.isRequired
+}
+
+function Title({channel, sheet}) {
+  const title = (
+    <h1 className={sheet.classes.name}>
+      {channel.name}
+    </h1>
+  )
+  if (!channel.description) return title
+
+  return (
+    <div>
+      {title}
+      <h2 className={sheet.classes.description}>
+        {channel.description}
+      </h2>
+    </div>
+  )
+}
+
+Title.propTypes = {
+  channel: PropTypes.object.isRequired,
+  sheet: PropTypes.object.isRequired
 }
 
 @useSheet(style)
@@ -67,16 +94,16 @@ export default class Header extends Component {
     if (support.type === 'intercom') hideIntercom()
   }
 
-  onMessageSearchFocus({target}) {
+  onFocusMessageSearch({target}) {
     this.props.showInSidebar('search')
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onMessageSearchChange({target}) {
+  onChangeMessageSearch({target}) {
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onMessageSearchOutsideClick({target}) {
+  onClickOutsideMessageSearch({target}) {
     const {sidebar, hideSidebar} = this.props
     if (sidebar !== 'search') return
     const {value} = findDOMNode(target)
@@ -100,25 +127,6 @@ export default class Header extends Component {
     return sheet.classes[sidebar === panel ? `${panel}Active` : panel]
   }
 
-  renderTitle() {
-    const {channel, sheet} = this.props
-    const title = (
-      <h1 className={sheet.classes.name}>
-        {channel.name}
-      </h1>
-    )
-    if (!channel.description) return title
-
-    return (
-      <div>
-        {title}
-        <h2 className={sheet.classes.description}>
-          {channel.description}
-        </h2>
-      </div>
-    )
-  }
-
   renderMentionsBadge() {
     const {mentions, sidebar, sheet} = this.props
     if (!mentions || sidebar === 'mentions') return null
@@ -140,7 +148,7 @@ export default class Header extends Component {
           <Favorite {...favoriteProps}/>
         </li>
         <li className={classes.title}>
-          {this.renderTitle()}
+          <Title {...this.props} />
         </li>
         <li className={classes.action}>
           <Button
@@ -160,10 +168,10 @@ export default class Header extends Component {
         <li className={classes.searchAction}>
           <Search
             {...this.props}
-            onOutsideClick={::this.onMessageSearchOutsideClick}
+            onOutsideClick={::this.onClickOutsideMessageSearch}
             placeholder="Search messages"
-            onFocus={::this.onMessageSearchFocus}
-            onChange={::this.onMessageSearchChange} />
+            onFocus={::this.onFocusMessageSearch}
+            onChange={::this.onChangeMessageSearch} />
         </li>
         <li className={classes.action}>
           <Button

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import noop from 'lodash/utility/noop'
 
 import Editable from './Editable'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
@@ -27,6 +28,7 @@ export default class EditableText extends Component {
     sheet: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
     onSave: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     maxLength: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -40,22 +42,25 @@ export default class EditableText extends Component {
     value: '',
     multiline: false,
     placeholder: '',
-    error: ''
+    error: '',
+    onKeyDown: noop,
+    onChange: noop
   }
 
   constructor(props) {
     super(props)
     this.state = {
       value: props.value,
-      inputMode: false
+      isEditing: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     if (nextProps.error) {
       this.setState({
         error: true,
-        inputMode: true,
+        isEditing: true,
         saving: false
       })
       return
@@ -64,30 +69,36 @@ export default class EditableText extends Component {
     if (this.state.saving && nextProps.value === this.props.value) {
       this.setState({
         saving: false,
-        inputMode: false
+        isEditing: false
       })
       return
     }
 
-    if (nextProps.value !== this.props.value) {
+    if (nextProps.value !== this.state.value) {
       this.setState({
         value: nextProps.value,
         saving: false
       })
       return
     }
-
-    this.setState({inputMode: false})
-  }
-
-  onClick() {
-    if (!this.state.inputMode) this.setState({inputMode: true})
-  }
-
-  onChange({target}) {
+    console.log(nextProps, this.props, this.state)
     this.setState({
-      value: target.value,
+      isEditing: false,
+      saving: false
+    })
+  }
+
+  onEnableEditable() {
+    if (!this.state.isEditing) this.setState({isEditing: true, saving: false})
+  }
+
+  onChange(e) {
+    this.setState({
+      value: e.target.value,
+      saving: false,
       error: false
+    }, () => {
+      this.props.onChange(e)
     })
   }
 
@@ -98,7 +109,7 @@ export default class EditableText extends Component {
         break
       case 'enter':
         e.preventDefault()
-        this.setState({ inputMode: false }, () => {
+        this.setState({isEditing: false}, () => {
           this.submit()
         })
         break
@@ -108,14 +119,18 @@ export default class EditableText extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-    if (!this.state.error) this.save()
+    if (!this.state.error) {
+      this.save()
+    }
   }
 
   restoreState() {
-    if (!this.state.inputMode) return
+    if (!this.state.isEditing) return
     this.setState({
       value: this.props.value,
-      inputMode: false
+      error: false,
+      saving: false,
+      isEditing: false
     })
   }
 
@@ -133,50 +148,36 @@ export default class EditableText extends Component {
     })
   }
 
-  renderInput() {
-    const {multiline, placeholder, maxLength, sheet} = this.props
-    const {value, saving, inputMode} = this.state
-    return (
-      <Editable
-        error={this.state.error ? this.props.error : ''}
-        multiline={multiline}
-        maxLength={maxLength}
-        className={sheet.classes[inputMode ? 'input' : 'string']}
-        ref="editable"
-        placeholder={placeholder}
-        value={value}
-        readOnly={!inputMode}
-        focused={inputMode}
-        disabled={saving}
-        onError={::this.reportCustomValidity}
-        onChange={::this.onChange}
-        onKeyDown={::this.onKeyDown} />
-    )
-  }
-
-  renderSubmitButton() {
-    return (
-      <button
-        ref="submit"
-        type="submit"
-        className={this.props.sheet.classes.submit}
-        disabled={this.state.saving}>
-        Done
-      </button>
-    )
-  }
-
   render() {
-    const {sheet, multiline} = this.props
+    const {multiline, placeholder, maxLength, sheet} = this.props
+    const {value, saving, isEditing} = this.state
     const className = `form${multiline ? 'Textarea' : 'Input'}`
     return (
       <Form
         className={sheet.classes[className]}
         onOutsideClick={::this.restoreState}
-        onClick={::this.onClick}
+        onClick={::this.onEnableEditable}
         onSubmit={::this.onSubmit}>
-        {this.renderInput()}
-        {this.renderSubmitButton()}
+        <Editable
+          error={this.state.error ? this.props.error : ''}
+          multiline={multiline}
+          maxLength={maxLength}
+          className={sheet.classes[isEditing ? 'input' : 'string']}
+          placeholder={placeholder}
+          value={value}
+          readOnly={!isEditing}
+          focus={isEditing}
+          disabled={saving}
+          onError={::this.reportCustomValidity}
+          onChange={::this.onChange}
+          onKeyDown={::this.onKeyDown} />
+        <button
+          ref="submit"
+          type="submit"
+          className={sheet.classes.submit}
+          disabled={saving}>
+          Done
+        </button>
       </Form>
     )
   }

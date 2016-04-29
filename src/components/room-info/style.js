@@ -12,13 +12,15 @@ import buttonReset from '../button/reset'
 const marginBottom = 15
 const paddingBottom = 15
 
+const hoverColor = color(colors.blue).lighten(0.05).rgbaString()
+
 const button = {
   ...linkButton,
   ...fonts.normal,
   display: 'block',
   marginBottom: marginBottom / 2,
   '&:hover': {
-    color: color(colors.blue).lighten(0.05).rgbaString(),
+    color: hoverColor,
     textDecoration: 'underline !important'
   }
 }
@@ -77,20 +79,20 @@ export default {
   },
   buttonInvite: {
     ...button,
-    ...buttonIcon('invite', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
+    ...buttonIcon('invite', {color: colors.blue, hoverColor, size: 18})
   },
   buttonIntegration: {
     ...button,
     color: colors.grayBlueDark,
-    ...buttonIcon('iconLink', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
+    ...buttonIcon('iconLink', {color: colors.grayBlueDark, hoverColor, size: 18})
   },
   buttonLeave: {
     ...button,
     color: colors.grayBlueDark,
-    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), size: 18})
+    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor, size: 18})
   },
   buttonKick: {
-    ...buttonIcon('close', {color: colors.grayBlueDark, hoverColor: color(colors.blue).lighten(0.05).rgbaString(), iconOnly: true}),
+    ...buttonIcon('close', {color: colors.grayBlueDark, hoverColor, iconOnly: true}),
     flexShrink: 0,
     display: 'none'
   },
@@ -116,7 +118,7 @@ export default {
     alignSelf: 'center',
     color: colors.grayBlueDark,
     '&:hover': {
-      color: color(colors.blue).lighten(0.05).rgbaString()
+      color: hoverColor
     }
   },
   roomName: {

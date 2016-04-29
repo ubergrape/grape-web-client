@@ -10,7 +10,7 @@ export function renameRoom(id, name) {
       .renameRoom(id, name)
       .then(() => {
         dispatch({
-          type: types.RENAME_ROOM_REQUEST,
+          type: types.REQUEST_ROOM_RENAME,
           payload: {
             id,
             name
@@ -18,9 +18,15 @@ export function renameRoom(id, name) {
         })
       })
       .catch(({message}) => dispatch({
-        type: types.RENAME_ROOM_ERROR,
+        type: types.HANDLE_ROOM_RENAME_ERROR,
         payload: message
       }))
+  }
+}
+
+export function clearRenameRoomError() {
+  return {
+    type: types.CLEAR_HANDLE_ROOM_RENAME_ERROR
   }
 }
 

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 export default function AdditionalActions(props) {
   const {
-    onPrivacyChange,
+    onChangePrivacy,
     onDeleteClick,
     privacy,
     classes
@@ -13,7 +13,7 @@ export default function AdditionalActions(props) {
       <li>
         <button
           className={classes.additionalActionButton}
-          onClick={onPrivacyChange}>
+          onClick={onChangePrivacy}>
           Make room {privacy}
         </button>
       </li>
@@ -29,7 +29,7 @@ export default function AdditionalActions(props) {
 }
 
 AdditionalActions.propTypes = {
-  onPrivacyChange: PropTypes.func.isRequired,
+  onChangePrivacy: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   privacy: PropTypes.string.isRequired

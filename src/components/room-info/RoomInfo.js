@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {shallowEqual} from 'react-pure-render'
 import isEmpty from 'lodash/lang/isEmpty'
 import {maxChannelDescriptionLength} from '../../constants/app'
 
@@ -17,6 +16,7 @@ export default class RoomInfo extends Component {
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.string,
+    clearRenameRoomError: PropTypes.func.isRequired,
     showChannelMembersInvite: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
@@ -40,9 +40,9 @@ export default class RoomInfo extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const userSame = shallowEqual(this.props.user, nextProps.user)
-    const channelSame = shallowEqual(this.props.channel, nextProps.channel)
-    if (userSame && channelSame) return
+    const isSameUser = this.props.user === nextProps.user
+    const isSameChannel = this.props.channel === nextProps.channel
+    if (isSameUser && isSameChannel) return
     this.setState({...this.state, ...this.getRoles(nextProps)})
   }
 
@@ -73,7 +73,7 @@ export default class RoomInfo extends Component {
     this.props.hideSidebar()
   }
 
-  onPrivacyChange() {
+  onChangePrivacy() {
     const {setRoomPrivacy, channel} = this.props
     setRoomPrivacy(channel.id, !channel.isPublic)
   }
@@ -176,7 +176,7 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, renameError} = this.props
+    const {channel, renameError, clearRenameRoomError} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -188,12 +188,13 @@ export default class RoomInfo extends Component {
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
+            clearRenameRoomError={clearRenameRoomError}
             channel={channel}
             renameError={renameError}
             allowEdit={allowEdit}
             onSetRoomColor={::this.onSetRoomColor}
             onSetRoomIcon={::this.onSetRoomIcon}
-            onPrivacyChange={::this.onPrivacyChange}
+            onChangePrivacy={::this.onChangePrivacy}
             onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
             renameRoom={::this.onRenameRoom}
             classes={classes} />

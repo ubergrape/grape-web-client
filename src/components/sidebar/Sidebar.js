@@ -8,67 +8,75 @@ import Intercom from '../intercom/Intercom'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
+
+function SidebarContent(props) {
+  const {
+    show,
+    loadMentions,
+    searchMessages,
+    hideSidebar: hide,
+    goToMessage: select
+  } = props
+
+  switch (show) {
+    case 'files':
+      return <SharedFiles {...props} />
+    case 'room':
+      return <RoomInfo {...props} />
+    case 'pm':
+      return <UserProfile {...props} />
+    case 'mentions': {
+      const mentionProps = {
+        ...props,
+        load: loadMentions,
+        hide,
+        select
+      }
+      return <Mentions {...mentionProps} />
+    }
+    case 'search': {
+      const searchProps = {
+        ...props,
+        load: searchMessages,
+        hide,
+        select
+      }
+      return <Search {...searchProps} />
+    }
+    case 'intercom':
+      return <Intercom {...props} />
+    default:
+  }
+}
+
+SidebarContent.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  show: PropTypes.oneOfType([
+    PropTypes.string,
+    React.PropTypes.bool
+  ]).isRequired,
+  loadMentions: PropTypes.func.isRequired,
+  searchMessages: PropTypes.func.isRequired,
+  hideSidebar: PropTypes.func.isRequired,
+  goToMessage: PropTypes.func.isRequired
+}
+
+
 @useSheet(style)
 export default class Sidebar extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    sheet: PropTypes.object.isRequired,
     show: PropTypes.oneOfType([
       PropTypes.string,
       React.PropTypes.bool
-    ]),
-    loadMentions: PropTypes.func,
-    searchMessages: PropTypes.func,
-    hideSidebar: PropTypes.func,
-    goToMessage: PropTypes.func
-  }
-
-  getSidebar() {
-    const {
-      show,
-      loadMentions,
-      searchMessages,
-      hideSidebar: hide,
-      goToMessage: select
-    } = this.props
-
-    switch (show) {
-      case 'files':
-        return <SharedFiles {...this.props} />
-      case 'room':
-        return <RoomInfo {...this.props} />
-      case 'pm':
-        return <UserProfile {...this.props} />
-      case 'mentions': {
-        const props = {
-          ...this.props,
-          load: loadMentions,
-          hide,
-          select
-        }
-        return <Mentions {...props} />
-      }
-      case 'search': {
-        const props = {
-          ...this.props,
-          load: searchMessages,
-          hide,
-          select
-        }
-        return <Search {...props} />
-      }
-      case 'intercom':
-        return <Intercom {...this.props} />
-      default:
-        return null
-    }
+    ]).isRequired
   }
 
   render() {
-    const sidebar = this.getSidebar()
-    if (!sidebar) return null
+    if (!this.props.show) return null
     return (
       <div className={this.props.sheet.classes.sidebar}>
-        {sidebar}
+        <SidebarContent {...this.props} />
       </div>
     )
   }

@@ -6,7 +6,7 @@ export default class Editable extends Component {
   static propTypes = {
     multiline: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
-    focused: PropTypes.bool.isRequired,
+    focus: PropTypes.bool.isRequired,
     onError: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func.isRequired,
@@ -22,21 +22,23 @@ export default class Editable extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {focused, value, error, onError} = this.props
+    const {focus, value, error, onError} = this.props
     const {editable} = this
 
-    if (focused && !prevProps.focused) {
+    if (focus && !prevProps.focus) {
       editable.focus()
       editable.selectionStart = 0
       editable.selectionEnd = value.length
+      return
     }
 
     if (error) {
       editable.setCustomValidity(error)
       onError()
-    } else {
-      editable.setCustomValidity('')
+      return
     }
+
+    editable.setCustomValidity('')
   }
 
   render() {

@@ -3,7 +3,12 @@ import pick from 'lodash/object/pick'
 
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
-import {formatMessage, countMentions, pinToFavorite} from './utils'
+import {
+  formatMessage,
+  countMentions,
+  pinToFavorite,
+  nullChannelIconToUndefined
+} from './utils'
 import find from 'lodash/collection/find'
 import {addSharedFiles, removeSharedFiles} from './sharedFiles'
 import {addMention, removeMention} from './mentions'
@@ -175,7 +180,7 @@ export function handleUpateChannel({channel}) {
   const updatable = ['id', 'type', 'name', 'slug', 'description', 'isPublic', 'color', 'icon']
   return {
     type: types.UPDATE_CHANNEL,
-    payload: pick(channel, updatable)
+    payload: nullChannelIconToUndefined(pick(channel, updatable))
   }
 }
 

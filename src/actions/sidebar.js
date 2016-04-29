@@ -36,7 +36,7 @@ export function hideSidebar() {
 export function showInSidebar(panel) {
   return dispatch => {
     dispatch({
-      type: types.SHOW_IN_SIDEBAR,
+      type: types.SHOW_SIDEBAR,
       payload: panel
     })
     reduxEmitter.showSidebar()

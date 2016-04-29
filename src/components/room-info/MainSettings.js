@@ -12,12 +12,13 @@ export default class MainSettings extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     renameRoom: PropTypes.func.isRequired,
-    onPrivacyChange: PropTypes.func.isRequired,
+    onChangePrivacy: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.string,
+    clearRenameRoomError: PropTypes.func.isRequired,
     allowEdit: PropTypes.bool
   }
 
@@ -70,7 +71,7 @@ export default class MainSettings extends Component {
     if (!this.state.showAdditionalActions) return null
     const {
       channel,
-      onPrivacyChange
+      onChangePrivacy
     } = this.props
     return (
       <Dropdown
@@ -81,7 +82,7 @@ export default class MainSettings extends Component {
           <AdditionalActions
             {...this.props}
             onDeleteClick={::this.onChannelDeleteClick}
-            onPrivacyChange={onPrivacyChange}
+            onChangePrivacy={onChangePrivacy}
             privacy={channel.isPublic ? 'private' : 'public'} />
       </Dropdown>
     )
@@ -89,13 +90,13 @@ export default class MainSettings extends Component {
 
   renderIcon() {
     const {channel, classes} = this.props
-    const buttonClassName = 'iconSettingsButton' + (this.state.showIconSettings ? 'Active' : '')
+    const buttonName = 'iconSettingsButton' + (this.state.showIconSettings ? 'Active' : '')
     return (
       <button
         onClick={this.onShowDropdownClick.bind(this, 'showIconSettings')}
-        className={classes[buttonClassName]}
+        className={classes[buttonName]}
         ref="icon">
-        <Icon name={channel.icon} backgroundColor={channel.color} size="60" />
+        <Icon name={channel.icon} backgroundColor={channel.color} size={60} />
       </button>
     )
   }
@@ -119,16 +120,17 @@ export default class MainSettings extends Component {
       renameRoom,
       channel,
       renameError,
-      allowEdit
+      allowEdit,
+      clearRenameRoomError
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
-
     return (
       <div className={classes.roomName}>
         <EditableText
           placeholder="Enter group name here…"
           maxLength={maxChannelNameLength}
+          onChange={clearRenameRoomError}
           onSave={renameRoom}
           value={channel.name}
           error={renameError}
