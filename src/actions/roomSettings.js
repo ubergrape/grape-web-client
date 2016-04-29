@@ -25,13 +25,13 @@ export function renameRoom(id, name) {
 }
 
 export function setRoomDescription(id, description) {
-  if (description.length > maxChannelDescriptionLength) {
-    return error({
-      message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
-    })
-  }
-
   return dispatch => {
+    if (description.length > maxChannelDescriptionLength) {
+      return dispatch(error({
+        message: `Description should be shorter than ${maxChannelDescriptionLength} symbols.`
+      }))
+    }
+
     return api
       .setRoomDescription(id, description)
       .then(() => {

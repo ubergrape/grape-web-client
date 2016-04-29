@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes'
 import reduxEmitter from '../legacy/redux-emitter'
 import {supportSelector} from '../selectors'
+import * as intercom from '../utils/intercom'
 
 export function hideIntercom() {
   return dispatch => {
@@ -8,8 +9,7 @@ export function hideIntercom() {
       type: types.HIDE_INTERCOM
     })
     // Each time window.Intercom is the new object.
-    const intercom = window.Intercom
-    intercom('hide')
+    intercom.hide()
   }
 }
 
@@ -18,8 +18,7 @@ export function showIntercom() {
     dispatch({
       type: types.SHOW_INTERCOM
     })
-    const intercom = window.Intercom
-    intercom('show')
+    intercom.show()
   }
 }
 

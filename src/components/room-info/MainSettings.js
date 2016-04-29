@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 
 import {maxChannelNameLength} from '../../constants/app'
-import EditableString from '../editable-string/EditableString'
+import EditableText from '../editable-text/EditableText'
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
 import AdditionalActions from './AdditionalActions'
@@ -126,7 +126,7 @@ export default class MainSettings extends Component {
 
     return (
       <div className={classes.roomName}>
-        <EditableString
+        <EditableText
           placeholder="Enter group name here…"
           maxLength={maxChannelNameLength}
           onSave={renameRoom}

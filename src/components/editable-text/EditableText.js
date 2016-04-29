@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode} from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
-import capitalize from 'lodash/string/capitalize'
 import keyname from 'keyname'
 
 import Editable from './Editable'
@@ -17,35 +15,40 @@ const Form = listenOutsideClick(props => {
 })
 
 @useSheet(style)
-export default class EditableString extends Component {
+
+/**
+ * This component renders input or textarea
+ * styled as text (transparent background etc..),
+ * but once user clicks on it,
+ * it becomes styled as textarea or input field.
+ */
+export default class EditableText extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
-    type: PropTypes.string,
+    sheet: PropTypes.object.isRequired,
+    multiline: PropTypes.bool.isRequired,
     onSave: PropTypes.func.isRequired,
     maxLength: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ]),
-    value: PropTypes.string,
-    error: PropTypes.string,
-    placeholder: PropTypes.string
+    value: PropTypes.string.isRequired,
+    error: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     value: '',
-    type: 'input',
-    placeholder: ''
+    multiline: false,
+    placeholder: '',
+    error: ''
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      value: props.value
+      value: props.value,
+      inputMode: false
     }
-  }
-
-  componentDidMount() {
-    this.editable = findDOMNode(this.refs.editable)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,9 +57,6 @@ export default class EditableString extends Component {
         error: true,
         inputMode: true,
         saving: false
-      }, () => {
-        this.editable.setCustomValidity(this.props.error)
-        this.refs.submit.click()
       })
       return
     }
@@ -81,18 +81,10 @@ export default class EditableString extends Component {
   }
 
   onClick() {
-    if (!this.state.inputMode) {
-      this.setState({inputMode: true}, () => {
-        const {editable} = this
-        editable.focus()
-        editable.selectionStart = 0
-        editable.selectionEnd = this.state.value.length
-      })
-    }
+    if (!this.state.inputMode) this.setState({inputMode: true})
   }
 
   onChange({target}) {
-    this.editable.setCustomValidity('')
     this.setState({
       value: target.value,
       error: false
@@ -107,7 +99,7 @@ export default class EditableString extends Component {
       case 'enter':
         e.preventDefault()
         this.setState({ inputMode: false }, () => {
-          this.refs.submit.click()
+          this.submit()
         })
         break
       default:
@@ -127,6 +119,14 @@ export default class EditableString extends Component {
     })
   }
 
+  reportCustomValidity() {
+    this.submit()
+  }
+
+  submit() {
+    this.refs.submit.click()
+  }
+
   save() {
     this.setState({saving: true}, () => {
       this.props.onSave(this.state.value)
@@ -134,18 +134,21 @@ export default class EditableString extends Component {
   }
 
   renderInput() {
-    const {type, placeholder, maxLength, sheet} = this.props
+    const {multiline, placeholder, maxLength, sheet} = this.props
     const {value, saving, inputMode} = this.state
     return (
       <Editable
-        type={type}
+        error={this.state.error ? this.props.error : ''}
+        multiline={multiline}
         maxLength={maxLength}
         className={sheet.classes[inputMode ? 'input' : 'string']}
         ref="editable"
         placeholder={placeholder}
         value={value}
         readOnly={!inputMode}
+        focused={inputMode}
         disabled={saving}
+        onError={::this.reportCustomValidity}
         onChange={::this.onChange}
         onKeyDown={::this.onKeyDown} />
     )
@@ -164,8 +167,8 @@ export default class EditableString extends Component {
   }
 
   render() {
-    const {sheet, type} = this.props
-    const className = `form${capitalize(type)}`
+    const {sheet, multiline} = this.props
+    const className = `form${multiline ? 'Textarea' : 'Input'}`
     return (
       <Form
         className={sheet.classes[className]}

@@ -1,4 +1,5 @@
 import conf from 'conf'
+import {settings as intercom} from '../utils/intercom'
 
 let href = 'mailto:'
 let type
@@ -9,7 +10,7 @@ if (conf.customSupportEmailAddress) {
 } else if (window.Intercom) {
   // TODO: move intercom settings to
   // the `grape-web-client` repo from the `chatgrape`.
-  href += `${window.intercomSettings.app_id}@incoming.intercom.io`
+  href += `${intercom.app_id}@incoming.intercom.io`
   type = 'intercom'
 }
 

@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes'
 import findIndex from 'lodash/array/findIndex'
+import includes from 'lodash/collection/includes'
 
 const initialState = []
 
@@ -44,9 +45,13 @@ export default function reduce(state = initialState, action) {
       const index = findIndex(newState, {id})
       if (index === -1) return state
       const channel = newState[index]
+      const {users} = channel
       newState.splice(index, 1, {
         ...channel,
-        users: [...channel.users, user.id],
+        // As a workaround of API bug,
+        // we have to ensure that user isn't joined already.
+        // https://github.com/ubergrape/chatgrape/issues/3804
+        users: includes(users, user.id) ? users : [...users, user.id],
         joined: isCurrentUser ? true : channel.joined
       })
       return newState

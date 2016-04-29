@@ -19,17 +19,12 @@ export default class Roomname extends Component {
     unread: 0
   }
 
-  renderIcon() {
-    const {icon, color} = this.props
-    return <Icon name={icon} backgroundColor={color} />
-  }
-
   render() {
-    const {name, sheet} = this.props
+    const {name, sheet, icon, color} = this.props
     const {classes} = sheet
     return (
       <span className={classes.avatarName}>
-        {this.renderIcon()}
+        <Icon name={icon} backgroundColor={color} />
         <span className={classes.name}>
           {name}
         </span>

@@ -7,7 +7,7 @@ import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import EditableString from '../editable-string/EditableString'
+import EditableText from '../editable-text/EditableText'
 import MainSettings from './MainSettings'
 
 @useSheet(style)
@@ -152,13 +152,12 @@ export default class RoomInfo extends Component {
     const {channel} = this.props
     if (!this.state.allowEdit) return <p>{channel.description}</p>
     return (
-      <EditableString
+      <EditableText
         placeholder="Add a group description here…"
         maxLength={maxChannelDescriptionLength}
-        type={'textarea'}
         onSave={::this.onSetRoomDescription}
         value={channel.description}
-        />
+        multiline />
     )
   }
 
@@ -226,7 +225,6 @@ export default class RoomInfo extends Component {
               </li>
             </ul>
           </article>
-
           {channel.users.map(::this.renderUser)}
         </div>
       </SidebarPanel>
