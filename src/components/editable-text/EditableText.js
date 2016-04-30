@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
+import {findDOMNode} from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
-import noop from 'lodash/utility/noop'
 
-import Editable from './Editable'
+import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import style from './style'
 
@@ -15,20 +15,18 @@ const Form = listenOutsideClick(props => {
   )
 })
 
-@useSheet(style)
-
 /**
  * This component renders input or textarea
  * styled as text (transparent background etc..),
  * but once user clicks on it,
  * it becomes styled as textarea or input field.
  */
+@useSheet(style)
 export default class EditableText extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
     onSave: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
     maxLength: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -42,9 +40,7 @@ export default class EditableText extends Component {
     value: '',
     multiline: false,
     placeholder: '',
-    error: '',
-    onKeyDown: noop,
-    onChange: noop
+    error: ''
   }
 
   constructor(props) {
@@ -55,13 +51,19 @@ export default class EditableText extends Component {
     }
   }
 
+  componentDidMount() {
+    this.editable = findDOMNode(this.refs.editable)
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (nextProps.error) {
       this.setState({
         error: true,
         isEditing: true,
         saving: false
+      }, () => {
+        this.editable.setCustomValidity(this.props.error)
+        this.refs.submit.click()
       })
       return
     }
@@ -74,31 +76,33 @@ export default class EditableText extends Component {
       return
     }
 
-    if (nextProps.value !== this.state.value) {
+    if (nextProps.value !== this.props.value) {
       this.setState({
         value: nextProps.value,
         saving: false
       })
       return
     }
-    console.log(nextProps, this.props, this.state)
-    this.setState({
-      isEditing: false,
-      saving: false
-    })
+
+    this.setState({isEditing: false})
   }
 
-  onEnableEditable() {
-    if (!this.state.isEditing) this.setState({isEditing: true, saving: false})
+  onClick() {
+    if (!this.state.isEditing) {
+      this.setState({isEditing: true}, () => {
+        const {editable} = this
+        editable.focus()
+        editable.selectionStart = 0
+        editable.selectionEnd = this.state.value.length
+      })
+    }
   }
 
-  onChange(e) {
+  onChange({target}) {
+    this.editable.setCustomValidity('')
     this.setState({
-      value: e.target.value,
-      saving: false,
+      value: target.value,
       error: false
-    }, () => {
-      this.props.onChange(e)
     })
   }
 
@@ -109,8 +113,8 @@ export default class EditableText extends Component {
         break
       case 'enter':
         e.preventDefault()
-        this.setState({isEditing: false}, () => {
-          this.submit()
+        this.setState({ isEditing: false }, () => {
+          this.refs.submit.click()
         })
         break
       default:
@@ -119,27 +123,15 @@ export default class EditableText extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-    if (!this.state.error) {
-      this.save()
-    }
+    if (!this.state.error) this.save()
   }
 
   restoreState() {
     if (!this.state.isEditing) return
     this.setState({
       value: this.props.value,
-      error: false,
-      saving: false,
       isEditing: false
     })
-  }
-
-  reportCustomValidity() {
-    this.submit()
-  }
-
-  submit() {
-    this.refs.submit.click()
   }
 
   save() {
@@ -148,36 +140,49 @@ export default class EditableText extends Component {
     })
   }
 
-  render() {
+  renderInput() {
     const {multiline, placeholder, maxLength, sheet} = this.props
     const {value, saving, isEditing} = this.state
+    const editableProps = {
+      multiline,
+      maxLength,
+      placeholder,
+      value,
+      className: sheet.classes[isEditing ? 'input' : 'string'],
+      ref: 'editable',
+      readOnly: !isEditing,
+      disabled: saving,
+      onChange: ::this.onChange,
+      onKeyDown: ::this.onKeyDown
+    }
+
+    if (multiline) return <ResizableTextarea {...editableProps} />
+    return <input {...editableProps} />
+  }
+
+  renderSubmitButton() {
+    return (
+      <button
+        ref="submit"
+        type="submit"
+        className={this.props.sheet.classes.submit}
+        disabled={this.state.saving}>
+        Done
+      </button>
+    )
+  }
+
+  render() {
+    const {sheet, multiline} = this.props
     const className = `form${multiline ? 'Textarea' : 'Input'}`
     return (
       <Form
         className={sheet.classes[className]}
         onOutsideClick={::this.restoreState}
-        onClick={::this.onEnableEditable}
+        onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
-        <Editable
-          error={this.state.error ? this.props.error : ''}
-          multiline={multiline}
-          maxLength={maxLength}
-          className={sheet.classes[isEditing ? 'input' : 'string']}
-          placeholder={placeholder}
-          value={value}
-          readOnly={!isEditing}
-          focus={isEditing}
-          disabled={saving}
-          onError={::this.reportCustomValidity}
-          onChange={::this.onChange}
-          onKeyDown={::this.onKeyDown} />
-        <button
-          ref="submit"
-          type="submit"
-          className={sheet.classes.submit}
-          disabled={saving}>
-          Done
-        </button>
+        {this.renderInput()}
+        {this.renderSubmitButton()}
       </Form>
     )
   }
