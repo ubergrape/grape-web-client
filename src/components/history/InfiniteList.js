@@ -1,73 +1,58 @@
 import {InfiniteLoader, VirtualScroll, AutoSizer} from 'react-virtualized'
 import React, {Component, PropTypes} from 'react'
-import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
+import AutoRowHeight from './AutoRowHeight'
 import styles from './infiniteListStyles'
 
 @useSheet(styles)
 export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    onLoadMore: PropTypes.func,
-    messages: PropTypes.object,
-    rowsCount: PropTypes.number
-  }
-
-  static defaultProps = {
-    rowsCount: 0,
-    messages: {},
-    onLoadMore: noop
-  }
-
-  constructor(props) {
-    super(props)
-    this.isRowLoaded = ::this.isRowLoaded
-    this.renderRow = ::this.renderRow
-    this.calcRowHeight = ::this.calcRowHeight
-  }
-
-  isRowLoaded(index) {
-    return Boolean(this.props.messages[index])
-  }
-
-  calcRowHeight(index) {
-    const message = this.props.messages[index]
-    return message ? message.height : 50
-  }
-
-  renderRow(index) {
-    const message = this.props.messages[index]
-    return message ? message.element : null
+    onLoadMore: PropTypes.func.isRequired,
+    rows: PropTypes.arrayOf(PropTypes.node)
   }
 
   render() {
-    const {sheet, rowsCount} = this.props
+    const {sheet, rows} = this.props
     const {classes} = sheet
-
+    console.log('received rows', this.props.rows.length)
     return (
-      <InfiniteLoader
-        isRowLoaded={this.isRowLoaded}
-        loadMoreRows={this.props.onLoadMore}
-        rowsCount={Infinity}>
-        {({onRowsRendered, registerChild}) => {
-          return (
-            <AutoSizer disableHeight>
-              {({width, height}) => (
-                <VirtualScroll
-                  className={classes.grid}
-                  ref={registerChild}
-                  onRowsRendered={onRowsRendered}
-                  width={width}
-                  height={height}
-                  rowsCount={rowsCount}
-                  rowHeight={this.calcRowHeight}
-                  rowRenderer={this.renderRow} />
-              )}
-            </AutoSizer>
-          )
-        }}
-      </InfiniteLoader>
+      <AutoRowHeight rows={rows}>
+        {({
+          onResize,
+          rowHeight,
+          renderRow,
+          isRowLoaded,
+          registerChild: registerChildInAutoRowHeight
+        }) => (
+          <InfiniteLoader
+            isRowLoaded={isRowLoaded}
+            loadMoreRows={this.props.onLoadMore}
+            rowsCount={Infinity}
+            threshold={50}
+            minimumBatchSize={50}>
+            {({onRowsRendered, registerChild}) => (
+              <AutoSizer onResize={onResize}>
+                {({width, height}) => (
+                  <VirtualScroll
+                    className={classes.grid}
+                    ref={ref => {
+                      registerChild(ref)
+                      registerChildInAutoRowHeight(ref)
+                    }}
+                    onRowsRendered={onRowsRendered}
+                    width={width}
+                    height={height}
+                    rowsCount={rows.length}
+                    rowHeight={rowHeight}
+                    rowRenderer={renderRow} />
+                )}
+              </AutoSizer>
+            )}
+          </InfiniteLoader>
+        )}
+      </AutoRowHeight>
     )
   }
 }

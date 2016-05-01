@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment-timezone'
@@ -30,48 +29,6 @@ export default class History extends Component {
 
   constructor(props) {
     super(props)
-    this.renderRow = ::this.renderRow
-    this.state = {messages: {}, messagesCount: 0}
-  }
-
-  componentDidMount() {
-    this.prerender(this.props.messages)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.prerender(nextProps.messages)
-  }
-
-  prerender(messages) {
-    const container = this.probeContainer || (this.probeContainer = findDOMNode(this.refs.probe))
-    messages.forEach((message, index) => {
-      if (this.state.messages[index]) return
-      const element = this.renderRow(messages, index)
-      let syncUpdateCall
-      let node
-
-      const update = () => {
-        if (!node) {
-          syncUpdateCall = true
-          return
-        }
-        this.state.messages[index] = {
-          element,
-          height: node.clientHeight
-        }
-
-        this.state.messagesCount++
-        unmountComponentAtNode(container)
-        // It's the last one, update the state
-        if (index === messages.length - 1) {
-          this.setState(this.state)
-        }
-      }
-      node = render(element, container, update)
-      if (syncUpdateCall) {
-        update()
-      }
-    })
   }
 
   isGrouped(index) {
@@ -84,8 +41,8 @@ export default class History extends Component {
     return false
   }
 
-  renderRow(messages, index) {
-    const {sheet, userId} = this.props
+  renderRow(index) {
+    const {sheet, userId, messages} = this.props
     const {classes} = sheet
     const message = messages[index]
     const props = {
@@ -121,15 +78,18 @@ export default class History extends Component {
     )
   }
 
+  renderRows() {
+    return this.props.messages.map((message, index) => this.renderRow(index))
+  }
+
   render() {
     const {classes} = this.props.sheet
+    const rows = this.renderRows()
     return (
       <div className={classes.history}>
-        <div ref="probe" className={classes.probe}></div>
         <InfiniteList
           onLoadMore={this.props.onLoadMore}
-          messages={this.state.messages}
-          rowsCount={this.state.messagesCount} />
+          rows={rows} />
       </div>
     )
   }

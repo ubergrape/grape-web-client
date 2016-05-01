@@ -8,11 +8,6 @@ export default {
     right: 0,
     bottom: 0
   },
-  probe: {
-    extend: 'history',
-    visibility: 'hidden',
-    zIndex: -1
-  },
   separatorDate: {
     background: white
   }

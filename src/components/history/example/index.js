@@ -33,22 +33,30 @@ messages = [...messages, ...times(100).map(createMessage)]
 const container = document.createElement('div')
 container.className = 'container'
 
-function update(props) {
+function update(props, callback) {
   render(
     createElement(History, props),
-    document.body.appendChild(container)
+    document.body.appendChild(container),
+    callback
   )
 }
 
 update({
   messages: messages,
-  onLoadMore: (startIndex, stopIndex) => {
+  onLoadMore: ({startIndex, stopIndex}) => {
     console.log('loadMore', startIndex, stopIndex)
-    const newMessages = []
-    for (let i = startIndex; i <= stopIndex; i++) {
-      newMessages.push(createMessage(i))
-    }
-    messages = [...messages, ...newMessages]
-    update({messages})
+    let resolvePromise
+
+    setTimeout(() => {
+      for (let i = messages.length; i < stopIndex; i++) {
+        messages.push(createMessage(i))
+      }
+      console.log('before', messages.length)
+      messages.splice(0, 51)
+      console.log('after', messages.length)
+      update({messages}, resolvePromise)
+    }, 100)
+
+    return new Promise(resolve => resolvePromise = resolve)
   }
 })
