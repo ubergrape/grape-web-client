@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
-import each from 'lodash/collection/each'
 import bindAll from 'lodash/function/bindAll'
 import noop from 'lodash/utility/noop'
 
@@ -99,7 +98,7 @@ export default class AutoRowHeight extends Component {
     this.calcAndCacheHeights(this.props.rows, true, this.recomputeRowHeights)
   }
 
-  registerChild(ref) {
+  registerChild(ref) {
     this.scroller = ref
   }
 
