@@ -27,7 +27,7 @@ export default class History extends Component {
     onLoadMore: noop
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.renderRow = ::this.renderRow
   }

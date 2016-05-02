@@ -10,7 +10,8 @@ export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
-    rows: PropTypes.arrayOf(PropTypes.node)
+    renderRow: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired
   }
 
   constructor(props) {
@@ -21,7 +22,7 @@ export default class InfiniteList extends Component {
     this.state = {rows: this.renderAndCacheRows(props.messages)}
   }
 
-  onLoadMore(options) {
+  onLoadMore(options) {
     const promise = this.props.onLoadMore(options)
     promise.then((messages) => {
       this.setState({rows: this.renderAndCacheRows(messages)})
