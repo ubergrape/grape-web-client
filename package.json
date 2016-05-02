@@ -8,7 +8,7 @@
     "node": "4.4.2"
   },
   "dependencies": {
-    "HTML5-Desktop-Notifications": "ubergrape/HTML5-Desktop-Notifications",
+    "HTML5-Desktop-Notifications": "ubergrape/html5-desktop-notifications",
     "array": "ubergrape/array",
     "array.from": "^0.2.0",
     "backo": "^1.1.0",
@@ -37,7 +37,7 @@
     "grape-browser": "^2.7.0-pre.2",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "^1.2.0",
-    "grape-web": "^0.19.3",
+    "grape-web": "^0.20.2",
     "image-zoom": "ubergrape/image-zoom",
     "intro.js": "ubergrape/intro.js",
     "jh3y-resizable": "ubergrape/resizable",
