@@ -85,9 +85,6 @@ export default class AutoRowHeight extends Component {
     this.calcAndCacheHeights(rows)
   }
 
-  componentWillUnmount() {
-  }
-
   onResize({width}) {
     // Only recalc heights when width has changed.
     if (!this.width || this.width === width) {

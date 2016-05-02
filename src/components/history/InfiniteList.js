@@ -13,10 +13,38 @@ export default class InfiniteList extends Component {
     rows: PropTypes.arrayOf(PropTypes.node)
   }
 
+  constructor(props) {
+    super(props)
+    // FIXME clear cache
+    this.rowsCache = {}
+    this.onLoadMore = ::this.onLoadMore
+    this.state = {rows: this.renderAndCacheRows(props.messages)}
+  }
+
+  onLoadMore(options) {
+    const promise = this.props.onLoadMore(options)
+    promise.then((messages) => {
+      this.setState({rows: this.renderAndCacheRows(messages)})
+    })
+    return promise
+  }
+
+  renderAndCacheRows(messages) {
+    return messages.map((message, index) => {
+      let row = this.rowsCache[message.id]
+      if (!row) {
+        row = this.props.renderRow(messages, index)
+        this.rowsCache[message.id] = row
+      }
+      return row
+    })
+  }
+
   render() {
-    const {sheet, rows} = this.props
+    const {sheet} = this.props
+    const {rows} = this.state
     const {classes} = sheet
-    console.log('received rows', this.props.rows.length)
+
     return (
       <AutoRowHeight rows={rows}>
         {({
@@ -28,7 +56,7 @@ export default class InfiniteList extends Component {
         }) => (
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
-            loadMoreRows={this.props.onLoadMore}
+            loadMoreRows={this.onLoadMore}
             rowsCount={Infinity}
             threshold={50}
             minimumBatchSize={50}>

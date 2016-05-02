@@ -7,6 +7,7 @@ import random from 'lodash/number/random'
 const now = Date.now()
 let messages = times(10).map((i) => {
   return {
+    id: random(100000000),
     author: 'Author A',
     authorId: 'authora',
     avatar: 'avatar.gif',
@@ -20,6 +21,7 @@ const text = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean c
 const createMessage = (i) => {
   const length = random(5)
   return {
+    id: random(100000000),
     authorId: 'author' + i,
     author: 'Author' + i,
     content: i + '  ' + text.substr(0, text.length / length),
@@ -51,10 +53,7 @@ update({
       for (let i = messages.length; i < stopIndex; i++) {
         messages.push(createMessage(i))
       }
-      console.log('before', messages.length)
-      messages.splice(0, 51)
-      console.log('after', messages.length)
-      update({messages}, resolvePromise)
+      resolvePromise(messages)
     }, 100)
 
     return new Promise(resolve => resolvePromise = resolve)

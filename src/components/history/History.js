@@ -27,8 +27,9 @@ export default class History extends Component {
     onLoadMore: noop
   }
 
-  constructor(props) {
+  constructor(props) {
     super(props)
+    this.renderRow = ::this.renderRow
   }
 
   isGrouped(index) {
@@ -41,12 +42,13 @@ export default class History extends Component {
     return false
   }
 
-  renderRow(index) {
-    const {sheet, userId, messages} = this.props
+  renderRow(messages, index) {
+    const {sheet, userId} = this.props
     const {classes} = sheet
     const message = messages[index]
+
     const props = {
-      key: `row-${index}`
+      key: `row-${message.id}`
     }
 
     const prevMessage = messages[index - 1]
@@ -78,18 +80,15 @@ export default class History extends Component {
     )
   }
 
-  renderRows() {
-    return this.props.messages.map((message, index) => this.renderRow(index))
-  }
-
   render() {
     const {classes} = this.props.sheet
-    const rows = this.renderRows()
+
     return (
       <div className={classes.history}>
         <InfiniteList
+          messages={this.props.messages}
           onLoadMore={this.props.onLoadMore}
-          rows={rows} />
+          renderRow={this.renderRow} />
       </div>
     )
   }
