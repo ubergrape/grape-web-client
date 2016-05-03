@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
 import AutoRowHeight from './AutoRowHeight'
+import AutoScroll from './AutoScroll'
 import styles from './infiniteListStyles'
 
 @useSheet(styles)
@@ -24,6 +25,7 @@ export default class InfiniteList extends Component {
 
   onLoadMore(options) {
     const promise = this.props.onLoadMore(options)
+    if (!promise) return null
     promise.then((messages) => {
       this.setState({rows: this.renderAndCacheRows(messages)})
     })
@@ -59,23 +61,29 @@ export default class InfiniteList extends Component {
             isRowLoaded={isRowLoaded}
             loadMoreRows={this.onLoadMore}
             rowsCount={Infinity}
-            threshold={50}
-            minimumBatchSize={50}>
+            threshold={20}
+            minimumBatchSize={20}>
             {({onRowsRendered, registerChild}) => (
               <AutoSizer onResize={onResize}>
                 {({width, height}) => (
-                  <VirtualScroll
-                    className={classes.grid}
-                    ref={ref => {
-                      registerChild(ref)
-                      registerChildInAutoRowHeight(ref)
-                    }}
-                    onRowsRendered={onRowsRendered}
-                    width={width}
-                    height={height}
-                    rowsCount={rows.length}
-                    rowHeight={rowHeight}
-                    rowRenderer={renderRow} />
+                  <AutoScroll rows={rows}>
+                    {({onScroll, scrollToIndex}) => (
+                      <VirtualScroll
+                        className={classes.grid}
+                        scrollToIndex={scrollToIndex}
+                        ref={ref => {
+                          registerChild(ref)
+                          registerChildInAutoRowHeight(ref)
+                        }}
+                        onRowsRendered={onRowsRendered}
+                        onScroll={onScroll}
+                        width={width}
+                        height={height}
+                        rowsCount={rows.length}
+                        rowHeight={rowHeight}
+                        rowRenderer={renderRow} />
+                    )}
+                  </AutoScroll>
                 )}
               </AutoSizer>
             )}
