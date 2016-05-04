@@ -3,6 +3,9 @@ import isEmpty from 'lodash/lang/isEmpty'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
+
+import {maxChannelDescriptionLength} from '../../constants/app'
+import EditableText from '../editable-text/EditableText'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
@@ -148,14 +151,14 @@ export default class RoomInfo extends Component {
   renderDescriptionEditable() {
     const {channel} = this.props
     if (!this.state.allowEdit) return <p>{channel.description}</p>
-    // return (
-    //   <EditableText
-    //     placeholder="Add a group description here…"
-    //     maxLength={maxChannelDescriptionLength}
-    //     onSave={::this.onSetRoomDescription}
-    //     value={channel.description}
-    //     multiline />
-    // )
+    return (
+      <EditableText
+        placeholder="Add a group description here…"
+        maxLength={maxChannelDescriptionLength}
+        onSave={::this.onSetRoomDescription}
+        value={channel.description}
+        multiline />
+    )
   }
 
   renderDescription() {
