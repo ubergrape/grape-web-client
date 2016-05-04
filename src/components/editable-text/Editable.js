@@ -19,8 +19,8 @@ export default class EditableText extends Component {
     this.refs.editable.setCustomValidity(nextProps.error)
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isEditing && !prevProps.isEditing) {
+  componentDidUpdate({isEditing}) {
+    if (this.props.isEditing && !isEditing) {
       const {editable} = this.refs
       editable.focus()
       editable.selectionStart = 0
