@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode} from 'react-dom'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
-import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
+import Editable from './Editable'
 import style from './style'
 
 const Form = listenOutsideClick(props => {
@@ -51,10 +50,6 @@ export default class EditableText extends Component {
     }
   }
 
-  componentDidMount() {
-    this.editable = findDOMNode(this.refs.editable)
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.error) {
       this.setState({
@@ -62,7 +57,6 @@ export default class EditableText extends Component {
         isEditing: true,
         saving: false
       }, () => {
-        this.editable.setCustomValidity(this.props.error)
         this.refs.submit.click()
       })
       return
@@ -91,18 +85,10 @@ export default class EditableText extends Component {
   }
 
   onClick() {
-    if (!this.state.isEditing) {
-      this.setState({isEditing: true}, () => {
-        const {editable} = this
-        editable.focus()
-        editable.selectionStart = 0
-        editable.selectionEnd = this.state.value.length
-      })
-    }
+    this.setState({isEditing: true})
   }
 
   onChange({target}) {
-    this.editable.setCustomValidity('')
     this.setState({
       value: target.value,
       error: false
@@ -116,22 +102,28 @@ export default class EditableText extends Component {
         break
       case 'enter':
         e.preventDefault()
-        this.setState({isEditing: false}, () => {
-          this.refs.submit.click()
-        })
+        this.refs.submit.click()
         break
       default:
     }
   }
 
+  onSubmitClick(e) {
+    e.stopPropagation()
+  }
+
   onSubmit(e) {
     e.preventDefault()
-    if (!this.state.error) this.save()
+    if (!this.state.error) {
+      this.setState({isEditing: false}, () => {
+        this.save()
+      })
+    }
   }
 
   restoreState() {
     const {isEditing, error} = this.state
-    if (!isEditing || error) return
+    if (!isEditing) return
     if (error) {
       this.setState({error: false})
       return
@@ -149,14 +141,16 @@ export default class EditableText extends Component {
     })
   }
 
-  renderInput() {
+  render() {
     const {multiline, placeholder, maxLength, sheet} = this.props
-    const {value, saving, isEditing} = this.state
+    const {value, saving, isEditing, error} = this.state
     const editableProps = {
       multiline,
       maxLength,
       placeholder,
       value,
+      isEditing,
+      error: error ? this.props.error : '',
       className: sheet.classes[isEditing ? 'input' : 'string'],
       ref: 'editable',
       readOnly: !isEditing,
@@ -165,13 +159,6 @@ export default class EditableText extends Component {
       onKeyDown: ::this.onKeyDown
     }
 
-    if (multiline) return <ResizableTextarea {...editableProps} />
-    return <input {...editableProps} />
-  }
-
-
-  render() {
-    const {sheet, multiline} = this.props
     const className = `form${multiline ? 'Textarea' : 'Input'}`
     return (
       <Form
@@ -179,10 +166,11 @@ export default class EditableText extends Component {
         onOutsideClick={::this.restoreState}
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
-        {this.renderInput()}
+        <Editable {...editableProps} />
         <button
           ref="submit"
           type="submit"
+          onClick={::this.onSubmitClick}
           className={sheet.classes.submit}
           disabled={this.state.saving}>
           Done
