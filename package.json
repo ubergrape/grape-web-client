@@ -1,8 +1,7 @@
 {
   "name": "grape-web",
-  "version": "0.20.2",
+  "version": "0.20.3",
   "dependencies": {
-    "html5-desktop-notifications": "ubergrape/html5-desktop-notifications",
     "jss": "^3.3.0",
     "jss-camel-case": "^1.0.1",
     "jss-default-unit": "^2.1.0",
