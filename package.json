@@ -8,7 +8,7 @@
     "node": "5.11.0"
   },
   "dependencies": {
-    "HTML5-Desktop-Notifications": "ubergrape/html5-desktop-notifications",
+    "html5-desktop-notifications": "ubergrape/html5-desktop-notifications",
     "array": "ubergrape/array",
     "array.from": "^0.2.0",
     "backo": "^1.1.0",
