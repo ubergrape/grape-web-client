@@ -9,6 +9,8 @@ const notificationsConfig = {
  * Create native html notification.
  */
 export function createNotification({title, content, icon}, callback = noop) {
+  // Notify lands to `html5-desktop-notifications`
+  // used in `grape-web-client`.
   const {notify} = window
   if (!notify) return
   notify.config(notificationsConfig)
