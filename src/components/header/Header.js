@@ -11,7 +11,7 @@ function Input({sheet, onFocus, onChange, onClick, placeholder}) {
   return (
     <input
       onClick={onClick}
-      className={sheet.classes.search}
+      className={`${sheet.classes.search} search-form`}
       onFocus={onFocus}
       onChange={onChange}
       placeholder={placeholder}
