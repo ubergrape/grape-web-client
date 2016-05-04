@@ -28,9 +28,9 @@
       "resolved": "git://github.com/swatinem/broker.git#29d5208f7ee019bcaf9772be92f5e3bff4fe534d"
     },
     "classnames": {
-      "version": "2.2.4",
-      "from": "classnames@2.2.4",
-      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.2.4.tgz"
+      "version": "2.2.5",
+      "from": "classnames@2.2.5",
+      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.2.5.tgz"
     },
     "color": {
       "version": "0.10.1",
@@ -102,7 +102,7 @@
       "dependencies": {
         "component-delegate": {
           "version": "0.2.4",
-          "from": "component-delegate@0.2.4",
+          "from": "component-delegate@>=0.2.3 <0.3.0",
           "resolved": "https://registry.npmjs.org/component-delegate/-/component-delegate-0.2.4.tgz"
         }
       }
@@ -473,9 +473,9 @@
           "resolved": "https://registry.npmjs.org/html5-desktop-notifications/-/html5-desktop-notifications-1.0.0.tgz"
         },
         "jss": {
-          "version": "3.9.1",
+          "version": "3.10.0",
           "from": "jss@>=3.3.0 <4.0.0",
-          "resolved": "https://registry.npmjs.org/jss/-/jss-3.9.1.tgz"
+          "resolved": "https://registry.npmjs.org/jss/-/jss-3.10.0.tgz"
         },
         "jss-camel-case": {
           "version": "1.1.0",
@@ -811,7 +811,7 @@
             },
             "component-each": {
               "version": "0.2.6",
-              "from": "component-each@0.2.6",
+              "from": "component-each@*",
               "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz",
               "dependencies": {
                 "component-type": {
@@ -867,7 +867,7 @@
           "dependencies": {
             "component-each": {
               "version": "0.2.6",
-              "from": "component-each@0.2.6",
+              "from": "component-each@*",
               "resolved": "https://registry.npmjs.org/component-each/-/component-each-0.2.6.tgz",
               "dependencies": {
                 "component-type": {
@@ -1035,16 +1035,16 @@
           "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.1.tgz"
         },
         "lodash": {
-          "version": "4.11.1",
+          "version": "4.11.2",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.2.tgz"
         }
       }
     },
     "react-virtualized": {
-      "version": "6.3.0",
+      "version": "6.3.1",
       "from": "react-virtualized@>=6.2.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-6.3.0.tgz",
+      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-6.3.1.tgz",
       "dependencies": {
         "raf": {
           "version": "3.2.0",
@@ -1061,9 +1061,9 @@
       }
     },
     "react-visibility-sensor": {
-      "version": "3.1.1",
-      "from": "react-visibility-sensor@3.1.1",
-      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.1.1.tgz"
+      "version": "3.1.2",
+      "from": "react-visibility-sensor@3.1.2",
+      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.1.2.tgz"
     },
     "reactive-elements": {
       "version": "0.6.4",
@@ -1076,14 +1076,14 @@
       "resolved": "https://registry.npmjs.org/redux/-/redux-3.5.2.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.11.1",
+          "version": "4.11.2",
           "from": "lodash@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.2.tgz"
         },
         "lodash-es": {
-          "version": "4.11.1",
+          "version": "4.11.2",
           "from": "lodash-es@>=4.2.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.11.1.tgz"
+          "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.11.2.tgz"
         },
         "symbol-observable": {
           "version": "0.2.4",
@@ -1209,14 +1209,14 @@
               }
             },
             "mime-types": {
-              "version": "2.1.10",
+              "version": "2.1.11",
               "from": "mime-types@>=2.1.3 <3.0.0",
-              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.10.tgz",
+              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.11.tgz",
               "dependencies": {
                 "mime-db": {
-                  "version": "1.22.0",
-                  "from": "mime-db@>=1.22.0 <1.23.0",
-                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.22.0.tgz"
+                  "version": "1.23.0",
+                  "from": "mime-db@>=1.23.0 <1.24.0",
+                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.23.0.tgz"
                 }
               }
             }
