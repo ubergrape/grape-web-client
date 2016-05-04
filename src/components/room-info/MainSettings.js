@@ -17,8 +17,7 @@ export default class MainSettings extends Component {
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
-    renameError: PropTypes.string,
-    clearRenameRoomError: PropTypes.func.isRequired,
+    renameError: PropTypes.object,
     allowEdit: PropTypes.bool
   }
 
@@ -120,8 +119,7 @@ export default class MainSettings extends Component {
       renameRoom,
       channel,
       renameError,
-      allowEdit,
-      clearRenameRoomError
+      allowEdit
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
@@ -130,10 +128,9 @@ export default class MainSettings extends Component {
         <EditableText
           placeholder="Enter group name here…"
           maxLength={maxChannelNameLength}
-          onChange={clearRenameRoomError}
           onSave={renameRoom}
           value={channel.name}
-          error={renameError}
+          error={renameError.message}
           />
       </div>
     )

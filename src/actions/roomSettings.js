@@ -24,12 +24,6 @@ export function renameRoom(id, name) {
   }
 }
 
-export function clearRenameRoomError() {
-  return {
-    type: types.CLEAR_HANDLE_ROOM_RENAME_ERROR
-  }
-}
-
 export function setRoomDescription(id, description) {
   return dispatch => {
     if (description.length > maxChannelDescriptionLength) {

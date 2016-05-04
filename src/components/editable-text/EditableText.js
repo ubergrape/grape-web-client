@@ -84,7 +84,10 @@ export default class EditableText extends Component {
       return
     }
 
-    this.setState({isEditing: false})
+    this.setState({
+      isEditing: false,
+      saving: false
+    })
   }
 
   onClick() {
@@ -113,7 +116,7 @@ export default class EditableText extends Component {
         break
       case 'enter':
         e.preventDefault()
-        this.setState({ isEditing: false }, () => {
+        this.setState({isEditing: false}, () => {
           this.refs.submit.click()
         })
         break
@@ -127,7 +130,13 @@ export default class EditableText extends Component {
   }
 
   restoreState() {
-    if (!this.state.isEditing) return
+    const {isEditing, error} = this.state
+    if (!isEditing || error) return
+    if (error) {
+      this.setState({error: false})
+      return
+    }
+
     this.setState({
       value: this.props.value,
       isEditing: false
@@ -160,17 +169,6 @@ export default class EditableText extends Component {
     return <input {...editableProps} />
   }
 
-  renderSubmitButton() {
-    return (
-      <button
-        ref="submit"
-        type="submit"
-        className={this.props.sheet.classes.submit}
-        disabled={this.state.saving}>
-        Done
-      </button>
-    )
-  }
 
   render() {
     const {sheet, multiline} = this.props
@@ -182,7 +180,13 @@ export default class EditableText extends Component {
         onClick={::this.onClick}
         onSubmit={::this.onSubmit}>
         {this.renderInput()}
-        {this.renderSubmitButton()}
+        <button
+          ref="submit"
+          type="submit"
+          className={sheet.classes.submit}
+          disabled={this.state.saving}>
+          Done
+        </button>
       </Form>
     )
   }

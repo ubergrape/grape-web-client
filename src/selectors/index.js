@@ -197,7 +197,7 @@ export const roomInfoSelector = createSelector(
     userSelector
   ],
   (
-    {error: renameError},
+    renameError,
     channel,
     user
   ) => {

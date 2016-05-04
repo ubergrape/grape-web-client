@@ -1,12 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import isEmpty from 'lodash/lang/isEmpty'
-import {maxChannelDescriptionLength} from '../../constants/app'
 
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import EditableText from '../editable-text/EditableText'
 import MainSettings from './MainSettings'
 
 @useSheet(style)
@@ -15,8 +13,7 @@ export default class RoomInfo extends Component {
     sheet: PropTypes.object.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    renameError: PropTypes.string,
-    clearRenameRoomError: PropTypes.func.isRequired,
+    renameError: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
@@ -151,14 +148,14 @@ export default class RoomInfo extends Component {
   renderDescriptionEditable() {
     const {channel} = this.props
     if (!this.state.allowEdit) return <p>{channel.description}</p>
-    return (
-      <EditableText
-        placeholder="Add a group description here…"
-        maxLength={maxChannelDescriptionLength}
-        onSave={::this.onSetRoomDescription}
-        value={channel.description}
-        multiline />
-    )
+    // return (
+    //   <EditableText
+    //     placeholder="Add a group description here…"
+    //     maxLength={maxChannelDescriptionLength}
+    //     onSave={::this.onSetRoomDescription}
+    //     value={channel.description}
+    //     multiline />
+    // )
   }
 
   renderDescription() {
@@ -176,7 +173,7 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, renameError, clearRenameRoomError} = this.props
+    const {channel, renameError} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -188,7 +185,6 @@ export default class RoomInfo extends Component {
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
-            clearRenameRoomError={clearRenameRoomError}
             channel={channel}
             renameError={renameError}
             allowEdit={allowEdit}

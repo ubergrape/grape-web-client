@@ -9,7 +9,6 @@ export default [
   'goToMessage',
   'searchMessages',
   'renameRoom',
-  'clearRenameRoomError',
   'setRoomDescription',
   'setRoomPrivacy',
   'setRoomColor',
