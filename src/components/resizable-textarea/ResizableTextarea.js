@@ -16,14 +16,14 @@ export default class Editable extends Component {
   }
 
   componentDidMount() {
-    this.setTextareaSize()
+    this.setTextareaHeight()
   }
 
   componentDidUpdate() {
-    this.setTextareaSize()
+    this.setTextareaHeight()
   }
 
-  setTextareaSize() {
+  setTextareaHeight() {
     const {textarea} = this.refs
     textarea.style.height = 0
     textarea.style.height = `${textarea.scrollHeight}px`
