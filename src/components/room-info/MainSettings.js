@@ -33,14 +33,13 @@ export default class MainSettings extends Component {
     }
   }
 
-  onShowDropdownClick(field) {
+  onShowDropdownClick(field, e) {
     if (!this.state[field]) {
-      // Handling click on next tick because
+      // We need to stop further event propagation because
       // in same time it is outside click for dropdown
       // we're going to show.
-      setTimeout(() => {
-        this.setState({[field]: true})
-      })
+      e.stopPropagation()
+      this.setState({[field]: true})
     }
   }
 
