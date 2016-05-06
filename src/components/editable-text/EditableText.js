@@ -26,10 +26,7 @@ export default class EditableText extends Component {
     sheet: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
     onSave: PropTypes.func.isRequired,
-    maxLength: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
+    maxLength: PropTypes.number.isRequired,
     value: PropTypes.string.isRequired,
     error: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired
