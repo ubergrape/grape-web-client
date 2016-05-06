@@ -107,7 +107,7 @@ export default {
     outline: 'none',
     width: '100%',
     '&::-webkit-search-cancel-button': {
-      '-webkit-appearance': 'searchfield-cancel-button !important'
+      WebkitAppearance: 'searchfield-cancel-button !important'
     },
     '&:focus': {
       borderColor: colors.blue
