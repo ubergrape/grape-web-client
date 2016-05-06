@@ -19,6 +19,13 @@ export function removeBrokenPms(channel) {
   return true
 }
 
+/**
+ * Change `null` value in `icon` property to `undefined`.
+ *
+ * TODO: remove this function when we
+ * will get data only from backend and
+ * not from old frontend architecture
+ */
 export function nullChannelIconToUndefined(channel) {
   if (channel.icon === null) return {...channel, icon: undefined}
   return channel
