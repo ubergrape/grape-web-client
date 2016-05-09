@@ -27,7 +27,7 @@ function Tooltip(props) {
       style={position}>
       <i
         className={`${sheet.classes.arrow} ${theme.arrow}`}
-        style={{ ...placementStyle, left, top}}>
+        style={{...placementStyle, left, top}}>
         <i
           className={`${sheet.classes.pointer} ${theme.pointer}`}
           style={{width: arrowSize, height: arrowSize, ...getPointerPlacement(placement)}} />

@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {userProfileSelector as selector} from '../../selectors'
+import {headerSelector as selector} from '../../selectors'
 import store from '../../app/store'
 import actionNames from './actionNames'
-import UserProfile from './UserProfile'
+import Header from './Header'
 
-const ConnectedUserProfile = connect(
+const ConnectedHeader = connect(
   selector,
   mapActionsToProps(actionNames)
-)(UserProfile)
+)(Header)
 
-export default class UserProfileProvider extends Component {
+export default class HeaderProvider extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedUserProfile />
+        <ConnectedHeader />
       </Provider>
     )
   }

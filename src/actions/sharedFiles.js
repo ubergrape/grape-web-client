@@ -1,7 +1,6 @@
 import find from 'lodash/collection/find'
 
 import store from '../app/store'
-import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {setSidebarIsLoading, error} from './common'
@@ -26,28 +25,6 @@ function formatFile(file, channel, users) {
     channelType: channel.type,
     id: file.id || file.messageId,
     time: new Date(file.time)
-  }
-}
-
-export function showSharedFiles() {
-  reduxEmitter.showSidebar()
-  return {
-    type: types.SHOW_SHARED_FILES,
-    payload: {
-      show: true
-    }
-  }
-}
-
-export function hideSharedFiles() {
-  reduxEmitter.hideSidebar()
-  return {
-    type: types.HIDE_SHARED_FILES,
-    payload: {
-      show: false,
-      items: [],
-      total: null
-    }
   }
 }
 

@@ -19,11 +19,23 @@ export function removeBrokenPms(channel) {
   return true
 }
 
+/**
+ * Change `null` value in `icon` property to `undefined`.
+ *
+ * TODO: remove this function when we
+ * will get data only from backend and
+ * not from old frontend architecture
+ */
+export function nullChannelIconToUndefined(channel) {
+  if (channel.icon === null) return {...channel, icon: undefined}
+  return channel
+}
+
 export function pinToFavorite(channel) {
   const {pin} = channel
   const newChannel = {
     ...channel,
-    favorited: (pin || pin === 0) ? { order: pin } : null
+    favorited: (pin || pin === 0) ? {order: pin} : null
   }
   delete newChannel.pin
   return newChannel
@@ -47,6 +59,10 @@ export function reduceChannelUsersToId(channel) {
       return user
     })
   }
+}
+
+export function normalizeChannelData(channel) {
+  return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
 }
 
 export function formatMessage(message) {
