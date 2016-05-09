@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {channelInfoSelector as selector} from '../../selectors'
+import {sidebarComponentSelector as selector} from '../../selectors'
 import store from '../../app/store'
 import actionNames from './actionNames'
-import ChannelInfo from './ChannelInfo'
+import Sidebar from './Sidebar'
 
-const ConnectedChannelInfo = connect(
+const ConnectedSidebar = connect(
   selector,
   mapActionsToProps(actionNames)
-)(ChannelInfo)
+)(Sidebar)
 
-export default class ChannelInfoProvider extends Component {
+export default class SidebarProvider extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedChannelInfo />
+        <ConnectedSidebar />
       </Provider>
     )
   }

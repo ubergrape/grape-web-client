@@ -10,7 +10,6 @@ export const styles = {
     border: `${borderSize}px solid ${borderDark}`
   },
   body: {
-    padding: 15,
     borderRadius: 6,
     background: white,
     boxShadow: '0 3px 8px rgba(0,0,0,0.15)',
