@@ -358,6 +358,9 @@ export default class GrapeInput extends Emitter {
       case ':':
         this.showEmojiSuggest(detail)
         break
+      case '…':
+        this.showEmojiBrowser(detail)
+        break
       default:
     }
   }
