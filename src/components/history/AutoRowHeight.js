@@ -10,33 +10,19 @@ import noop from 'lodash/utility/noop'
  * If it is already rendered, detect the height in place.
  */
 function getHeight(element, container, callback) {
-  let node = element.render && findDOMNode(element)
-  let callbackCalledBeforeNodeIsReturned = false
+  const node = element.render && findDOMNode(element)
 
   if (node) {
     callback(node.clientHeight)
     return
   }
 
-  function calcHeight() {
-    // React seems to be broken here.
-    if (!node) {
-      callbackCalledBeforeNodeIsReturned = true
-      return
-    }
-
-    const height = node.clientHeight
-
+  // Callback's context is the node.
+  render(element, container, function() {
+    const {clientHeight} = this
     unmountComponentAtNode(container)
-
-    callback(height)
-  }
-
-  node = render(element, container, calcHeight)
-
-  // When render called first time, callback is invoked immediately,
-  // before we get the ref to the node.
-  if (callbackCalledBeforeNodeIsReturned) calcHeight()
+    callback(clientHeight)
+  })
 }
 
 const hiddenContainerStyle = {

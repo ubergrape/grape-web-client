@@ -1,61 +1,77 @@
 import {render} from 'react-dom'
 import {createElement} from 'react'
-import times from 'lodash/utility/times'
 import History from '../History'
 import random from 'lodash/number/random'
 
 const now = Date.now()
-let messages = times(10).map((i) => {
-  return {
+const messages = []
+
+for (let i = 0; i < 10; i++) {
+  messages.push({
     id: random(100000000),
     author: 'Author A',
     authorId: 'authora',
     avatar: 'avatar.gif',
-    content: 'within 5 min from the same user' + i,
+    content: 'within 5 min from the same user-' + i,
     time: new Date(now + i * 1000 * 60)
-  }
-})
+  })
+}
 
 const text = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. '
 
 const createMessage = (i) => {
-  const length = random(5)
   return {
     id: random(100000000),
     authorId: 'author' + i,
-    author: 'Author' + i,
-    content: i + '  ' + text.substr(0, text.length / length),
+    author: 'Author-' + i,
+    content: i + ' - ' + text.substr(0, text.length / random(5)),
     avatar: 'avatar.gif',
     time: new Date(now + i * 1000 * 60 * 60)
   }
 }
 
-messages = [...messages, ...times(100).map(createMessage)]
+for (let i = messages.length; i < 1000; i++) {
+  messages.push(createMessage(i))
+}
 
-const container = document.createElement('div')
-container.className = 'container'
+const container = document.querySelectorAll('.history')[0]
 
-function update(props, callback) {
+function create(props) {
   render(
     createElement(History, props),
-    document.body.appendChild(container),
-    callback
+    document.body.appendChild(container)
   )
 }
 
-update({
-  messages: messages,
-  onLoadMore: ({startIndex, stopIndex}) => {
+// const maxStartIndex = messages.length - 1
+// const minStartIndex = 0
+const range = [messages.length - 31, messages.length]
+let fragment = messages.slice.apply(messages, range)
+let isLoading = false
+
+function loadMore({startIndex, stopIndex}) {
+  if (isLoading) return null
+
+  let resolvePromise
+
+  isLoading = true
+  setTimeout(() => {
     console.log('loadMore', startIndex, stopIndex)
-    let resolvePromise
+    // Scrolling up.
+    if (startIndex < 0) {
+      range[0] = range[0] + startIndex
+    // Scrolling down.
+    }
 
-    setTimeout(() => {
-      for (let i = messages.length; i < stopIndex; i++) {
-        messages.push(createMessage(i))
-      }
-      resolvePromise(messages)
-    }, 100)
+    fragment = messages.slice.apply(messages, range)
+    resolvePromise(fragment)
+    isLoading = false
+  }, 100)
 
-    return new Promise(resolve => resolvePromise = resolve)
-  }
+  return new Promise(resolve => resolvePromise = resolve)
+}
+
+create({
+  messages: fragment,
+  onLoadMore: loadMore
 })

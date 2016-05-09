@@ -1,9 +1,11 @@
-import {InfiniteLoader, VirtualScroll, AutoSizer} from 'react-virtualized'
+import {VirtualScroll, AutoSizer} from 'react-virtualized'
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
 import AutoRowHeight from './AutoRowHeight'
 import AutoScroll from './AutoScroll'
+import InfiniteLoader from './InfiniteLoader'
+
 import styles from './infiniteListStyles'
 
 @useSheet(styles)
@@ -20,15 +22,14 @@ export default class InfiniteList extends Component {
     // FIXME clear cache
     this.rowsCache = {}
     this.onLoadMore = ::this.onLoadMore
-    this.state = {rows: this.renderAndCacheRows(props.messages)}
+    this.state = {messages: props.messages}
   }
 
   onLoadMore(options) {
     const promise = this.props.onLoadMore(options)
-    if (!promise) return null
-    promise.then((messages) => {
-      this.setState({rows: this.renderAndCacheRows(messages)})
-    })
+    if (promise) {
+      promise.then(messages => this.setState({messages}))
+    }
     return promise
   }
 
@@ -45,8 +46,9 @@ export default class InfiniteList extends Component {
 
   render() {
     const {sheet} = this.props
-    const {rows} = this.state
     const {classes} = sheet
+    const {messages} = this.state
+    const rows = this.renderAndCacheRows(messages)
 
     return (
       <AutoRowHeight rows={rows}>
@@ -55,28 +57,45 @@ export default class InfiniteList extends Component {
           rowHeight,
           renderRow,
           isRowLoaded,
-          registerChild: registerChildInAutoRowHeight
+          registerChild: registerChildAutoRowHeight
         }) => (
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
             loadMoreRows={this.onLoadMore}
-            rowsCount={Infinity}
-            threshold={20}
-            minimumBatchSize={20}>
-            {({onRowsRendered, registerChild}) => (
+            threshold={5}
+            minimumBatchSize={10}>
+            {({
+              onRowsRendered: onRowsRenderedInfiniteLoader,
+              registerChild: registerChildInfiniteLoader,
+              onScroll: onScrollInfiniteLoader
+            }) => (
               <AutoSizer onResize={onResize}>
                 {({width, height}) => (
-                  <AutoScroll rows={rows}>
-                    {({onScroll, scrollToIndex}) => (
+                  <AutoScroll
+                    rows={rows}
+                    rowHeight={rowHeight}
+                    // Some very high value to ensure initial scroll position at the bottom.
+                    scrollTop={1000000}>
+                    {({
+                      onScroll: onScrollAutoScroll,
+                      scrollTop,
+                      onRowsRendered: onRowsRenderedAutoScroll
+                    }) => (
                       <VirtualScroll
                         className={classes.grid}
-                        scrollToIndex={scrollToIndex}
+                        scrollTop={scrollTop}
                         ref={ref => {
-                          registerChild(ref)
-                          registerChildInAutoRowHeight(ref)
+                          registerChildInfiniteLoader(ref)
+                          registerChildAutoRowHeight(ref)
                         }}
-                        onRowsRendered={onRowsRendered}
-                        onScroll={onScroll}
+                        onRowsRendered={(params) => {
+                          onRowsRenderedAutoScroll(params)
+                          onRowsRenderedInfiniteLoader(params)
+                        }}
+                        onScroll={(params) => {
+                          onScrollAutoScroll(params)
+                          onScrollInfiniteLoader(params)
+                        }}
                         width={width}
                         height={height}
                         rowsCount={rows.length}

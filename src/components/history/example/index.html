@@ -12,16 +12,17 @@
       *, *:before, *:after {
         box-sizing: border-box;
       }
-      .container {
+      .history {
         position: absolute;
-        top: 0;
+        top: 100px;
         left: 0;
         right: 0;
-        bottom: 0;
-      }
+        bottom: 0;      }
     </style>
   </head>
   <body>
+    <button onclick="addMessage()">Add Message</button>
+    <div class="history"></div>
     <script src="/dist/app.js"></script>
     <script src="/webpack-dev-server.js"></script>
   </body>
