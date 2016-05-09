@@ -1,11 +1,13 @@
 export const SEARCH_TRIGGER = '#'
 export const MENTION_TRIGGER = '@'
-export const EMOJI_TRIGGER = ':'
+export const EMOJI_TRIGGER = '…'
+export const EMOJI_SUGGEST_TRIGGER = ':'
 export const SERVICES_TRIGGER = '+'
 
 export const TRIGGERS = [
   SEARCH_TRIGGER,
   EMOJI_TRIGGER,
+  EMOJI_SUGGEST_TRIGGER,
   MENTION_TRIGGER,
   SERVICES_TRIGGER
 ]
@@ -15,7 +17,7 @@ export const TYPES = {
   user: MENTION_TRIGGER,
   room: MENTION_TRIGGER,
   emoji: EMOJI_TRIGGER,
-  emojiSuggest: EMOJI_TRIGGER,
+  emojiSuggest: EMOJI_SUGGEST_TRIGGER,
   services: SERVICES_TRIGGER
 }
 

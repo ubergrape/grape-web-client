@@ -44,11 +44,6 @@ export default class GrapeBrowser extends Component {
     container: PropTypes.object,
     isLoading: PropTypes.bool,
     placeholder: PropTypes.string,
-    // Ignore trigger is used to avoid showing suggestions or search when trigger
-    // was inserted.
-    // 1. when showing emoji browser instead of emoji suggest
-    // 2. when switching betwen rooms and trigger is inside of text content
-    ignoreTrigger: PropTypes.bool,
     setTrigger: PropTypes.bool,
     disabled: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
@@ -75,7 +70,6 @@ export default class GrapeBrowser extends Component {
     placeholder: undefined,
     focused: false,
     disabled: false,
-    ignoreTrigger: false,
     setTrigger: false,
     isLoading: false,
     onAbort: undefined,
@@ -106,11 +100,6 @@ export default class GrapeBrowser extends Component {
     // To avoid this we introduced temporarily shallowEqual, hopefully it can
     // go away after full migration to redux.
     if (shallowEqual(nextProps, this.props)) return
-
-    if (this.state.ignoreTrigger) {
-      this.setState({ignoreTrigger: false})
-      return
-    }
 
     const newEmojiSheet = get(nextProps, 'images.emojiSheet')
     const currEmojiSheet = get(this.props, 'images.emojiSheet')
@@ -244,20 +233,23 @@ export default class GrapeBrowser extends Component {
   }
 
   onChangeInput({query, content} = {}) {
+    // Handler might be called when content has been just set, so it is changed
+    // for the underlying component but not here.
+    const contentHasChanged = content !== this.state.content
+    const isBrowserOpened = Boolean(this.state.browser)
+    const hasTrigger = Boolean(query && query.trigger)
+
     clearTimeout(this.searchBrowserInputTimeoutId)
-    if (query && query.trigger) {
-      // If it is a browser trigger, we don't reopen browser, but let user type
-      // whatever he wants.
-      // If its a mentioning, user types the search.
-      // TODO migrate mentioning to the browser.
-      if (!query.search || !utils.isBrowserType(query.trigger)) {
-        this.query.set(query, {silent: true})
-        this.emit('complete', {...this.query.toJSON(), emoji})
-      }
+
+    if (hasTrigger && contentHasChanged) {
+      this.query.set(query, {silent: true})
+      this.emit('complete', {...this.query.toJSON(), emoji})
+    }
+
     // Query has been removed or caret position changed, for datalist only.
-    } else if (!this.query.isEmpty()) {
+    if (!hasTrigger && !this.query.isEmpty()) {
       this.query.reset()
-      if (this.state.browser) this.onAbort({reason: 'deleteTrigger'})
+      if (isBrowserOpened) this.onAbort({reason: 'deleteTrigger'})
     }
 
     if (content === undefined) this.emit('change')
@@ -270,6 +262,7 @@ export default class GrapeBrowser extends Component {
 
   setTrigger(browser) {
     if (!browser) return
+
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
@@ -279,7 +272,7 @@ export default class GrapeBrowser extends Component {
 
   setTextContent(content, options = {}) {
     this.query.reset()
-    this.setState({content, ignoreTrigger: true}, () => {
+    this.setState({content}, () => {
       if (!options.silent) this.onChangeInput()
     })
   }
@@ -291,7 +284,7 @@ export default class GrapeBrowser extends Component {
   }
 
   createState(nextProps) {
-    const state = pick(nextProps, 'browser', 'data', 'isLoading', 'ignoreTrigger')
+    const state = pick(nextProps, 'browser', 'data', 'isLoading')
 
     if (state.browser === 'user') {
       state.data = mentions
