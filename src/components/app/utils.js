@@ -1,6 +1,5 @@
 import isEmpty from 'lodash/lang/isEmpty'
 import get from 'lodash/object/get'
-import {SEARCH_TRIGGER} from '../query/constants'
 
 /**
  * Returns true if search is external.
@@ -33,12 +32,4 @@ export function canShowBrowser(prevState = {}, nextState) {
   if (isSearch && noResults && closedBySpace) return false
 
   return true
-}
-
-/**
- * Returns true if type will be rendered using grape-browser.
- */
-export function isBrowserType(typeOrTrigger) {
-  return typeOrTrigger === SEARCH_TRIGGER ||
-    typeOrTrigger === 'search'
 }
