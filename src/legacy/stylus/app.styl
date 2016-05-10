@@ -140,7 +140,10 @@ hr
 	background: transparent !important
 
 #intercom-container .intercom-sheet
-	width 340px !important
+	width right-sidebar-width !important
+
+	@media (max-width: 1280px)
+		width right-sidebar-width-small
 
 #intercom-container .intercom-sheet-footer
 	background: transparent !important
