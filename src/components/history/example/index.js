@@ -34,15 +34,6 @@ for (let i = messages.length; i < 1000; i++) {
   messages.push(createMessage(i))
 }
 
-const container = document.querySelectorAll('.history')[0]
-
-function create(props) {
-  render(
-    createElement(History, props),
-    document.body.appendChild(container)
-  )
-}
-
 const minSize = 100
 const minRange = 0
 const maxRange = messages.length
@@ -71,6 +62,7 @@ function loadMore({startIndex, stopIndex}) {
     }
 
     const nextFragment = messages.slice.apply(messages, range)
+    // Don't update if the fragment hasn't changed.
     if (nextFragment[0] !== fragment[0] && nextFragment[1] !== fragment[1]) {
       fragment = nextFragment
       resolvePromise(fragment)
@@ -82,7 +74,40 @@ function loadMore({startIndex, stopIndex}) {
   return new Promise(resolve => resolvePromise = resolve)
 }
 
-create({
+
+const container = document.querySelectorAll('.history')[0]
+
+function create(props) {
+  render(
+    createElement(History, props),
+    container
+  )
+}
+
+const element = create({
   messages: fragment,
   onLoadMore: loadMore
 })
+
+window.addMessage = () => {
+  const message = createMessage(messages.length)
+  messages.push(message)
+  fragment.push(message)
+  create({
+    messages: fragment,
+    onLoadMore: loadMore
+  })
+}
+
+window.addManyMessages = () => {
+  for (let i = 0; i < 5; i++) {
+    const message = createMessage(messages.length)
+    messages.push(message)
+    fragment.push(message)
+  }
+
+  create({
+    messages: fragment,
+    onLoadMore: loadMore
+  })
+}

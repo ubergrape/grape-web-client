@@ -73,9 +73,7 @@ export default class InfiniteList extends Component {
                 {({width, height}) => (
                   <AutoScroll
                     rows={rows}
-                    rowHeight={rowHeight}
-                    // Some very high value to ensure initial scroll position at the bottom.
-                    scrollTop={10000000}>
+                    rowHeight={rowHeight}>
                     {({
                       onScroll: onScrollAutoScroll,
                       scrollTop,
