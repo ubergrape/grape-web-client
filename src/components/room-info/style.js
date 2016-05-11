@@ -50,7 +50,10 @@ const chooserButton = {
   borderRadius: '50%',
   backgroundClip: 'content-box',
   border: '1px solid transparent',
-  boxShadow: `inset 0 0 0 2px ${colors.white}`
+  boxShadow: `inset 0 0 0 2px ${colors.white}`,
+  '&:hover': {
+    borderColor: webColors.link
+  }
 }
 
 export default {
