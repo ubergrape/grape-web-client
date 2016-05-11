@@ -71,6 +71,10 @@ export default class AutoRowHeight extends Component {
     this.calcAndCacheHeights(rows)
   }
 
+  componentDidUpdate() {
+    this.recomputeRowHeights()
+  }
+
   onResize({width}) {
     // Only recalc heights when width has changed.
     if (!this.width || this.width === width) {
@@ -107,16 +111,20 @@ export default class AutoRowHeight extends Component {
 
   calcAndCacheHeights(rows, update, callback = noop) {
     rows.forEach((element, index) => {
+      const done = () => {
+        if (index === rows.length - 1) {
+          callback()
+        }
+      }
+
       if (this.heights.has(element) && !update) {
-        callback()
+        done()
         return
       }
 
       getHeight(element, this.hiddenContainer, height => {
         this.heights.set(element, height)
-        if (index === rows.length - 1) {
-          callback()
-        }
+        done()
       })
     })
   }
@@ -133,9 +141,6 @@ export default class AutoRowHeight extends Component {
       if (height) cache.set(element, height)
     })
     this.heights = cache
-    // Iterable elements cache which is in sync with heights.
-    // WeakMaps are not iterable.
-    this.elements = nextElements
   }
 
   /**

@@ -34,11 +34,14 @@ export default class History extends Component {
 
   isGrouped(index) {
     const prevMessage = this.props.messages[index - 1]
-    if (!prevMessage) return false
     const message = this.props.messages[index]
+
+    if (!prevMessage || !message) return false
+
     if (prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
       return true
     }
+
     return false
   }
 

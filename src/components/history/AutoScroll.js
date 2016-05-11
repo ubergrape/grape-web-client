@@ -1,4 +1,5 @@
 import {Component, PropTypes} from 'react'
+import ReactDom from 'react-dom'
 
 /**
  * Preserves the scroll position at the bottom when messages got added.
@@ -34,16 +35,17 @@ export default class AutoScroll extends Component {
       // position, so we need to calculate the height of those rows and scroll
       // to the old position.
       const prevRenderedRow = this.props.rows[this.renderedRows.startIndex]
-      console.log(prevRenderedRow)
       const prevStartIndex = nextProps.rows.indexOf(prevRenderedRow)
+
+      if (prevStartIndex === -1) return
 
       let addedHeight = 0
       for (let i = 0; i < prevStartIndex; i++) {
         const height = this.props.rowHeight(i)
         if (height) addedHeight += height
       }
-    console.log('addedHeight', addedHeight)
-      this.childrenParam.scrollTop += addedHeight
+
+      this.childrenParam.scrollTop = addedHeight
     }
   }
 
@@ -54,7 +56,7 @@ export default class AutoScroll extends Component {
 
     const bottomThreshold = scrollHeight - scrollTop - clientHeight
     if (bottomThreshold < this.props.bottomThreshold) {
-      //this.childrenParam.scrollTop = scrollTop + clientHeight
+      this.childrenParam.scrollTop = scrollTop + clientHeight
     }
   }
 

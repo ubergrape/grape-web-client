@@ -43,9 +43,11 @@ function create(props) {
   )
 }
 
-// const maxStartIndex = messages.length - 1
-// const minStartIndex = 0
-const range = [messages.length - 31, messages.length]
+const minSize = 100
+const minRange = 0
+const maxRange = messages.length
+
+const range = [messages.length - minSize, maxRange]
 let fragment = messages.slice.apply(messages, range)
 let isLoading = false
 
@@ -57,16 +59,25 @@ function loadMore({startIndex, stopIndex}) {
   isLoading = true
   setTimeout(() => {
     console.log('loadMore', startIndex, stopIndex)
+
     // Scrolling up.
     if (startIndex < 0) {
-      range[0] = range[0] + startIndex
+      range[0] = Math.max(range[0] + startIndex, minRange)
+      range[1] = Math.min(range[1], range[0] + minSize)
     // Scrolling down.
+    } else {
+      range[0] = range[1] - minSize
+      range[1] = Math.min(range[1] + stopIndex, maxRange)
     }
 
-    fragment = messages.slice.apply(messages, range)
-    resolvePromise(fragment)
+    const nextFragment = messages.slice.apply(messages, range)
+    if (nextFragment[0] !== fragment[0] && nextFragment[1] !== fragment[1]) {
+      fragment = nextFragment
+      resolvePromise(fragment)
+    }
+
     isLoading = false
-  }, 100)
+  })
 
   return new Promise(resolve => resolvePromise = resolve)
 }

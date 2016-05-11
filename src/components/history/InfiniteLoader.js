@@ -81,6 +81,10 @@ export default class InfiniteLoader extends Component {
       this.direction = scrollTop - this.scrollTop
     }
     this.scrollTop = scrollTop
+
+    if (scrollTop === 0 && this.range) {
+      this.props.loadMoreRows(this.range)
+    }
   }
 
   onRowsRendered({startIndex, stopIndex}) {
@@ -89,44 +93,27 @@ export default class InfiniteLoader extends Component {
     this.lastRenderedStartIndex = startIndex
     this.lastRenderedStopIndex = stopIndex
 
-    let range
+    this.range = null
 
     if (this.direction >= 0) {
       // We are not close enough.
       if (isRowLoaded(stopIndex + threshold)) return
-      range = {
-        startIndex: stopIndex + threshold,
-        stopIndex: stopIndex + threshold
+
+      this.range = {
+        startIndex: stopIndex,
+        stopIndex: stopIndex + minimumBatchSize
       }
+
+      loadMoreRows(this.range)
     } else {
       // We are not close enough.
       if (isRowLoaded(startIndex - threshold)) return
-      range = {
-        startIndex: startIndex - threshold - minimumBatchSize,
-        stopIndex: startIndex - threshold
+
+      const nextStopIndex = startIndex > 0 ? startIndex - threshold : 0
+      this.range = {
+        startIndex: nextStopIndex - minimumBatchSize,
+        stopIndex: nextStopIndex
       }
-    }
-
-    if (!range) return
-
-    const promise = loadMoreRows(range)
-    if (promise) {
-      promise.then(() => {
-        // Refresh the visible rows if any of them have just been loaded.
-        // Otherwise they will remain in their unloaded visual state.
-        if (
-          isRangeVisible({
-            lastRenderedStartIndex: this.lastRenderedStartIndex,
-            lastRenderedStopIndex: this.lastRenderedStopIndex,
-            startIndex: range.startIndex,
-            stopIndex: range.stopIndex
-          })
-        ) {
-          if (this.registeredChild) {
-            this.registeredChild.forceUpdate()
-          }
-        }
-      })
     }
   }
 

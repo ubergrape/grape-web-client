@@ -63,7 +63,7 @@ export default class InfiniteList extends Component {
             isRowLoaded={isRowLoaded}
             loadMoreRows={this.onLoadMore}
             threshold={5}
-            minimumBatchSize={10}>
+            minimumBatchSize={40}>
             {({
               onRowsRendered: onRowsRenderedInfiniteLoader,
               registerChild: registerChildInfiniteLoader,
@@ -75,7 +75,7 @@ export default class InfiniteList extends Component {
                     rows={rows}
                     rowHeight={rowHeight}
                     // Some very high value to ensure initial scroll position at the bottom.
-                    scrollTop={1000000}>
+                    scrollTop={10000000}>
                     {({
                       onScroll: onScrollAutoScroll,
                       scrollTop,
@@ -88,11 +88,11 @@ export default class InfiniteList extends Component {
                           registerChildInfiniteLoader(ref)
                           registerChildAutoRowHeight(ref)
                         }}
-                        onRowsRendered={(params) => {
+                        onRowsRendered={params => {
                           onRowsRenderedAutoScroll(params)
                           onRowsRenderedInfiniteLoader(params)
                         }}
-                        onScroll={(params) => {
+                        onScroll={params => {
                           onScrollAutoScroll(params)
                           onScrollInfiniteLoader(params)
                         }}
