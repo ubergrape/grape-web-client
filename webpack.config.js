@@ -32,7 +32,7 @@ module.exports = exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: componentsExtractText.extract('style-loader', 'css-loader?-url')
+        loader: componentsExtractText.extract('style-loader', 'css-loader')
       },
       {
         test: /\.styl$/,
