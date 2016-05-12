@@ -447,9 +447,9 @@
       "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-1.2.1.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000464",
+      "version": "1.0.30000465",
       "from": "caniuse-db@>=1.0.30000214 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000464.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000465.tgz"
     },
     "center-align": {
       "version": "0.1.3",
@@ -1198,9 +1198,9 @@
       "resolved": "https://registry.npmjs.org/es6-map/-/es6-map-0.1.3.tgz"
     },
     "es6-promise": {
-      "version": "3.1.2",
+      "version": "3.2.1",
       "from": "es6-promise@>=3.0.2 <4.0.0",
-      "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.1.2.tgz"
+      "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-3.2.1.tgz"
     },
     "es6-set": {
       "version": "0.1.4",
@@ -2196,9 +2196,9 @@
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
     },
     "grape-browser": {
-      "version": "2.7.1",
-      "from": "grape-browser@>=2.7.1 <3.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.7.1.tgz",
+      "version": "2.7.2",
+      "from": "grape-browser@>=2.7.2 <3.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-2.7.2.tgz",
       "dependencies": {
         "grape-web": {
           "version": "0.20.0",
@@ -2296,9 +2296,9 @@
       "resolved": "git://github.com/ubergrape/has-translate3d.git#fbffa5bfcc5dafcdecab012b27c0aadb8a545362"
     },
     "hoist-non-react-statics": {
-      "version": "1.0.5",
+      "version": "1.0.6",
       "from": "hoist-non-react-statics@>=1.0.3 <2.0.0",
-      "resolved": "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-1.0.5.tgz"
+      "resolved": "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-1.0.6.tgz"
     },
     "home-or-tmp": {
       "version": "1.0.0",
@@ -2652,9 +2652,9 @@
       "resolved": "https://registry.npmjs.org/jsonpointer/-/jsonpointer-2.0.0.tgz"
     },
     "jss": {
-      "version": "3.11.0",
+      "version": "3.11.1",
       "from": "jss@>=3.3.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/jss/-/jss-3.11.0.tgz"
+      "resolved": "https://registry.npmjs.org/jss/-/jss-3.11.1.tgz"
     },
     "jss-camel-case": {
       "version": "1.1.0",
