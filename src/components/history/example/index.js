@@ -84,7 +84,7 @@ function create(props) {
   )
 }
 
-const element = create({
+create({
   messages: fragment,
   onLoadMore: loadMore
 })

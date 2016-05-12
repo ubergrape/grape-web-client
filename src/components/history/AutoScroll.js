@@ -1,5 +1,4 @@
 import {Component, PropTypes} from 'react'
-import ReactDom from 'react-dom'
 
 // We use this number to ensure scroll position at the bottom without knowing
 // the actuall height of rows initially.
