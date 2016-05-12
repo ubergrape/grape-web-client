@@ -30,6 +30,7 @@ const initialState = {
   actions,
   focusedAction: actions[0],
   tokens: {},
+  // List of service id's.
   services: [],
   currServices: [],
   servicesResultsAmounts: {},

@@ -3,7 +3,8 @@ import {openUrl} from 'grape-web/lib/x-platform'
 
 import {
   formatGroupedResults,
-  findIndexBySelector
+  findIndexBySelector,
+  mapServiceIdsToKeys
 } from './data'
 import * as types from '../../constants/actionTypes'
 import {searchBrowserSelector} from '../../selectors'
@@ -196,7 +197,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
       return
     }
 
-    const {onChange} = searchBrowserSelector(getState())
+    const {onChange, services} = searchBrowserSelector(getState())
 
     dispatch({
       type: types.UPDATE_SEARCH_BROWSER_INPUT,
@@ -208,7 +209,7 @@ export function changeSearchBrowserInput({value, search, filters, query}) {
     } else {
       dispatch(showSearchBrowserResults())
       // TODO move this when we port the whole client to redux.
-      onChange({search, filters})
+      onChange({search, filters: mapServiceIdsToKeys(filters, services)})
     }
   }
 }

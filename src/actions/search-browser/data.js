@@ -71,3 +71,10 @@ export function findIndexBySelector(selector, list, validation) {
 
   return index
 }
+
+/**
+ * Finds service key corresponding each service id and returns array of keys.
+ */
+export function mapServiceIdsToKeys(ids, services) {
+  return ids.map(id => find(services, {id}).key)
+}
