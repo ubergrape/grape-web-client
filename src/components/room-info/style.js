@@ -145,6 +145,7 @@ export default {
     color: colors.grayBlue
   },
   additionalActions: {
+    flexShrink: 0,
     marginLeft: 20
   },
   additionalActionsButton: {
@@ -171,6 +172,9 @@ export default {
   },
   deleteRoomButton: {
     color: colors.red
+  },
+  settingsWrapper: {
+    flexShrink: 0
   },
   iconSettingsButton: {
     ...iconSettingsButton,

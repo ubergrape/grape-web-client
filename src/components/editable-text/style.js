@@ -41,6 +41,7 @@ export default {
   submit: {
     ...linkButton,
     ...fonts.normal,
+    flexShrink: 0,
     visibility: 'hidden'
   }
 }

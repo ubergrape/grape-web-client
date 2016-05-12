@@ -138,7 +138,7 @@ export default class MainSettings extends Component {
   renderSettings() {
     if (!this.props.allowEdit) return null
     return (
-      <div>
+      <div className={this.props.classes.settingsWrapper}>
         {this.renderIcon()}
         {this.renderIconSettings()}
       </div>

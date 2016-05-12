@@ -38,6 +38,7 @@ export default {
     fontWeight: 'bold'
   },
   secondaryCol: {
+    flexShrink: 0,
     margin: '0 10px'
   }
 }
