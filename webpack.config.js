@@ -26,14 +26,13 @@ module.exports = exports = {
   entry: './src/index.js',
   output: {
     path: './dist',
-    publicPath: NODE_ENV === 'production' ? '/static/chatgrape/static/app/' : '/dist/',
     filename: 'app.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: componentsExtractText.extract('style-loader', 'css-loader')
+        loader: componentsExtractText.extract('style-loader', 'css-loader?-url')
       },
       {
         test: /\.styl$/,
@@ -110,6 +109,7 @@ module.exports = exports = {
 }
 
 if (process.env.COMPONENT) {
+  exports.output.publicPath = '/dist/'
   exports.plugins.push(new webpack.HotModuleReplacementPlugin())
   var contentBase = './src/components/' + process.env.COMPONENT + '/example/'
   exports.entry = {
