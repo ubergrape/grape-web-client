@@ -18,7 +18,7 @@ function getHeight(element, container, callback) {
   }
 
   // Callback's context is the node.
-  render(element, container, () => {
+  render(element, container, function onRender() {
     const {clientHeight} = this
     unmountComponentAtNode(container)
     callback(clientHeight)

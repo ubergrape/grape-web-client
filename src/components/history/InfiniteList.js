@@ -1,5 +1,6 @@
-import {VirtualScroll, AutoSizer} from 'react-virtualized'
 import React, {Component, PropTypes} from 'react'
+import {VirtualScroll, AutoSizer} from 'react-virtualized'
+import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
 import AutoRowHeight from './AutoRowHeight'
@@ -15,7 +16,12 @@ export default class InfiniteList extends Component {
     onLoadMore: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    scrollTo: PropTypes.object
+    scrollTo: PropTypes.object,
+    onRowsRendered: PropTypes.func
+  }
+
+  static defaultProps = {
+    onRowsRendered: noop
   }
 
   constructor(props) {
@@ -46,7 +52,7 @@ export default class InfiniteList extends Component {
   }
 
   render() {
-    const {sheet, scrollTo} = this.props
+    const {sheet, scrollTo, onRowsRendered} = this.props
     const {classes} = sheet
     const {messages} = this.state
     const rows = this.renderAndCacheRows(messages)
@@ -59,7 +65,7 @@ export default class InfiniteList extends Component {
           rowHeight,
           renderRow,
           isRowLoaded,
-          registerChild: registerChildAutoRowHeight
+          registerChild: registerChildInAutoRowHeight
         }) => (
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
@@ -67,9 +73,9 @@ export default class InfiniteList extends Component {
             threshold={5}
             minimumBatchSize={40}>
             {({
-              onRowsRendered: onRowsRenderedInfiniteLoader,
-              registerChild: registerChildInfiniteLoader,
-              onScroll: onScrollInfiniteLoader
+              onRowsRendered: onRowsRenderedInInfiniteLoader,
+              registerChild: registerChildInInfiniteLoader,
+              onScroll: onScrollInInfiniteLoader
             }) => (
               <AutoSizer onResize={onResize}>
                 {({width, height}) => (
@@ -86,16 +92,17 @@ export default class InfiniteList extends Component {
                         scrollTop={scrollToIndex ? undefined : scrollTop}
                         scrollToIndex={scrollToIndex}
                         ref={ref => {
-                          registerChildInfiniteLoader(ref)
-                          registerChildAutoRowHeight(ref)
+                          registerChildInInfiniteLoader(ref)
+                          registerChildInAutoRowHeight(ref)
                         }}
                         onRowsRendered={params => {
                           onRowsRenderedAutoScroll(params)
-                          onRowsRenderedInfiniteLoader(params)
+                          onRowsRenderedInInfiniteLoader(params)
+                          onRowsRendered(params)
                         }}
                         onScroll={params => {
                           onScrollAutoScroll(params)
-                          onScrollInfiniteLoader(params)
+                          onScrollInInfiniteLoader(params)
                         }}
                         width={width}
                         height={height}

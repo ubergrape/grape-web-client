@@ -7,6 +7,9 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 export default function create(name, options = {}) {
   const icon = options.color ? getColoredIcon({name, color: options.color}) : icons[name]
   const style = {
+    background: 'none',
+    cursor: 'pointer',
+    outline: 'none',
     margin: 0,
     padding: 0,
     border: 'none',

@@ -5,6 +5,7 @@ import moment from 'moment-timezone'
 
 import InfiniteList from './InfiniteList'
 import Message from './Message'
+import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './historyStyles'
 
@@ -85,16 +86,22 @@ export default class History extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {sheet, messages} = this.props
+    const {classes} = sheet
 
     return (
-      <div className={classes.history}>
-        <InfiniteList
-          scrollTo={this.props.scrollTo}
-          messages={this.props.messages}
-          onLoadMore={this.props.onLoadMore}
-          renderRow={this.renderRow} />
-      </div>
+      <Jumper
+        className={classes.history}
+        target={messages[messages.length - 1]}>
+        {({onRowsRendered, scrollTo}) => (
+          <InfiniteList
+            onRowsRendered={onRowsRendered}
+            scrollTo={this.props.scrollTo || scrollTo}
+            messages={messages}
+            onLoadMore={this.props.onLoadMore}
+            renderRow={this.renderRow} />
+        )}
+      </Jumper>
     )
   }
 }
