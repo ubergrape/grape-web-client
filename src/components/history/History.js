@@ -19,7 +19,8 @@ export default class History extends Component {
     userId: PropTypes.string,
     messages: PropTypes.arrayOf(PropTypes.shape({
       authorId: PropTypes.string.isRequired
-    }))
+    })),
+    scrollTo: PropTypes.object
   }
 
   static defaultProps = {
@@ -89,6 +90,7 @@ export default class History extends Component {
     return (
       <div className={classes.history}>
         <InfiniteList
+          scrollTo={this.props.scrollTo}
           messages={this.props.messages}
           onLoadMore={this.props.onLoadMore}
           renderRow={this.renderRow} />

@@ -14,7 +14,8 @@ export default class InfiniteList extends Component {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.array.isRequired,
+    scrollTo: PropTypes.object
   }
 
   constructor(props) {
@@ -45,10 +46,11 @@ export default class InfiniteList extends Component {
   }
 
   render() {
-    const {sheet} = this.props
+    const {sheet, scrollTo} = this.props
     const {classes} = sheet
     const {messages} = this.state
     const rows = this.renderAndCacheRows(messages)
+    const scrollToIndex = scrollTo ? messages.indexOf(scrollTo) : undefined
 
     return (
       <AutoRowHeight rows={rows}>
@@ -81,7 +83,8 @@ export default class InfiniteList extends Component {
                     }) => (
                       <VirtualScroll
                         className={classes.grid}
-                        scrollTop={scrollTop}
+                        scrollTop={scrollToIndex ? undefined : scrollTop}
+                        scrollToIndex={scrollToIndex}
                         ref={ref => {
                           registerChildInfiniteLoader(ref)
                           registerChildAutoRowHeight(ref)

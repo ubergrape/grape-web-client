@@ -111,3 +111,11 @@ window.addManyMessages = () => {
     onLoadMore: loadMore
   })
 }
+
+window.scrollToMessage = () => {
+  create({
+    messages: fragment,
+    onLoadMore: loadMore,
+    scrollTo: fragment[fragment.length - 20]
+  })
+}
