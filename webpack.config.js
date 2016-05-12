@@ -6,6 +6,8 @@ var CopyFilesPlugin = require('copy-webpack-plugin')
 var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
 
+var NODE_ENV = process.env.NODE_ENV
+
 var plugins = [
   appExtractText,
   componentsExtractText,
@@ -14,9 +16,9 @@ var plugins = [
     to: './images'
   }]),
   new webpack.DefinePlugin({
-    __DEV__: process.env.NODE_ENV === 'development',
-    __TEST__: process.env.NODE_ENV === 'test',
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    __DEV__: NODE_ENV === 'development',
+    __TEST__: NODE_ENV === 'test',
+    'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   })
 ]
 
@@ -24,7 +26,7 @@ module.exports = exports = {
   entry: './src/index.js',
   output: {
     path: './dist',
-    publicPath: '/dist/',
+    publicPath: NODE_ENV === 'production' ? '/static/chatgrape/static/app/' : '/dist/',
     filename: 'app.js'
   },
   module: {
@@ -104,7 +106,7 @@ module.exports = exports = {
     // https://github.com/webpack/webpack/issues/784
     fallback: path.join(__dirname, 'node_modules')
   },
-  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
+  devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
 
 if (process.env.COMPONENT) {
@@ -119,7 +121,7 @@ if (process.env.COMPONENT) {
   exports.devServer = {contentBase: contentBase}
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (NODE_ENV === 'production') {
   exports.plugins.push(
     // This plugin turns all loader into minimize mode!!!
     // https://github.com/webpack/webpack/issues/283
