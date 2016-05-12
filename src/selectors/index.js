@@ -426,21 +426,24 @@ export const headerSelector = createSelector(
     channelSelector,
     supportSelector,
     sidebarSelector,
-    unreadMentionsAmountSelector
+    unreadMentionsAmountSelector,
+    userProfileSelector
   ],
   (
     favorite,
     channel,
     support,
     {show: sidebar},
-    mentions
+    mentions,
+    mate
   ) => {
     return {
       favorite,
       channel,
       support,
       sidebar,
-      mentions
+      mentions,
+      mate
     }
   }
 )

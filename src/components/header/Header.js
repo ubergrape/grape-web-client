@@ -46,10 +46,10 @@ Button.propTypes = {
   className: PropTypes.string.isRequired
 }
 
-function Title({channel, sheet}) {
+function Title({channel, mate, sheet}) {
   const title = (
     <h1 className={sheet.classes.name}>
-      {channel.name}
+      {channel.name || mate.displayName}
     </h1>
   )
   if (!channel.description) return title
@@ -66,6 +66,7 @@ function Title({channel, sheet}) {
 
 Title.propTypes = {
   channel: PropTypes.object.isRequired,
+  mate: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired
 }
 
@@ -74,6 +75,7 @@ export default class Header extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     channel: PropTypes.object.isRequired,
+    mate: PropTypes.object.isRequired,
     favorite: PropTypes.object.isRequired,
     support: PropTypes.object.isRequired,
     sidebar: PropTypes.oneOfType([
