@@ -190,11 +190,11 @@ export default class GrapeInput extends Emitter {
     })
   }
 
-  showEmojiBrowser({ignoreSuggest, setTrigger}) {
+  showEmojiBrowser({ignoreTrigger, setTrigger}) {
     this.setProps({
       browser: 'emoji',
       focused: false,
-      ignoreSuggest,
+      ignoreTrigger,
       setTrigger
     })
   }
@@ -358,6 +358,9 @@ export default class GrapeInput extends Emitter {
       case ':':
         this.showEmojiSuggest(detail)
         break
+      case '…':
+        this.showEmojiBrowser(detail)
+        break
       default:
     }
   }
@@ -484,7 +487,7 @@ export default class GrapeInput extends Emitter {
 
   onOpenEmojiBrowser(e) {
     e.preventDefault()
-    this.showEmojiBrowser({ignoreSuggest: true, setTrigger: true})
+    this.showEmojiBrowser({ignoreTrigger: true, setTrigger: true})
   }
 
   onOpenSearchBrowser(e) {
