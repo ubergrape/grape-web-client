@@ -146,7 +146,7 @@ export default class Header extends Component {
     const favoriteProps = {...favorite, ...this.props}
     return (
       <ul className={classes.header}>
-        <li>
+        <li className={classes.favorite}>
           <Favorite {...favoriteProps}/>
         </li>
         <li className={classes.title}>
