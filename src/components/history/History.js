@@ -7,6 +7,7 @@ import InfiniteList from './InfiniteList'
 import Message from './Message'
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
+import GrapeDown from '../grape-down/GrapeDown'
 import styles from './historyStyles'
 
 // Group messages under same avatar/name if they are send within this time distance.
@@ -80,7 +81,9 @@ export default class History extends Component {
     return (
       <div>
         {separator}
-        <Message {...message} {...props}>{message.content}</Message>
+        <Message {...message} {...props}>
+          <GrapeDown text={message.content} />
+        </Message>
       </div>
     )
   }

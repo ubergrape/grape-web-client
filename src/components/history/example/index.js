@@ -17,14 +17,27 @@ for (let i = 0; i < 10; i++) {
   })
 }
 
-const text = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. '
+const textParts = [
+  '__bold__',
+  '*italic*',
+  '~~strikethrough~~',
+  '`code`',
+  '```',
+  'multiline code',
+  '```',
+  '[link](http://google.com)',
+  '> quote',
+  '\ngoogle.com',
+  '1. test',
+  '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)'
+]
 
 const createMessage = (i) => {
   return {
     id: random(100000000),
     authorId: 'author' + i,
     author: 'Author-' + i,
-    content: i + ' - ' + text.substr(0, text.length / random(5)),
+    content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
     time: new Date(now + i * 1000 * 60 * 60)
   }
