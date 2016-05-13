@@ -18,6 +18,8 @@ for (let i = 0; i < 10; i++) {
 }
 
 const textParts = [
+  ':)',
+  ':thumbsup:',
   '__bold__',
   '*italic*',
   '~~strikethrough~~',
