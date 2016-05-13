@@ -34,14 +34,15 @@ const textParts = [
   '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)'
 ]
 
-const createMessage = (i) => {
+const createMessage = (i, options = {}) => {
   return {
     id: random(100000000),
     authorId: 'author' + i,
     author: 'Author-' + i,
     content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
-    time: new Date(now + i * 1000 * 60 * 60)
+    time: new Date(now + i * 1000 * 60 * 60),
+    ...options
   }
 }
 
@@ -104,8 +105,8 @@ create({
   onLoadMore: loadMore
 })
 
-window.addMessage = () => {
-  const message = createMessage(messages.length)
+window.addMessage = (options = {}) => {
+  const message = createMessage(messages.length, options)
   messages.push(message)
   fragment.push(message)
   create({

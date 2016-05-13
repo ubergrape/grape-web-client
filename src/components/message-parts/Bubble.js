@@ -7,10 +7,10 @@ import styles from './bubbleStyles'
 export default class Bubble extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    theme: PropTypes.object,
-    arrow: PropTypes.bool
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string.isRequired,
+    theme: PropTypes.object.isRequired,
+    arrow: PropTypes.bool.isRequired
   }
 
   static defaultProps = {

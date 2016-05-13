@@ -12,14 +12,17 @@ export default {
   header: {
     paddingLeft: avatarWidth + marginRight + arrowWidth
   },
-  leftColumn: {
+  avatar: {
     flexShrink: 0,
     marginRight
   },
-  rightColumn: {
+  bubble: {
     flex: 1
   },
   avatarPlaceholder: {
     marginLeft: avatarWidth + arrowWidth
+  },
+  pending: {
+    opacity: 0.5
   }
 }
