@@ -40,18 +40,18 @@ export default class Message extends Component {
       sheet, author, time, avatar, children, hasBubbleArrow, isPending, isOwn
     } = this.props
     const {classes} = sheet
-    const Bubble = isOwn ? OwnBubble : OthersBubble
+    const ThemedBubble = isOwn ? OwnBubble : OthersBubble
 
     return (
       <section className={classes.message}>
         {author && <Header date={time} author={author} className={classes.header} />}
         <div className={`${classes.body} ${!avatar && classes.avatarPlaceholder}`}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <Bubble className={classes.bubble} arrow={hasBubbleArrow}>
+          <ThemedBubble className={classes.bubble} arrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
               <GrapeDown text={children} />
             </div>
-          </Bubble>
+          </ThemedBubble>
         </div>
       </section>
     )
