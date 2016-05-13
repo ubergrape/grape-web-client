@@ -64,6 +64,9 @@ export default {
       content: '""'
     }
   },
+  favorite: {
+    flexShrink: 0
+  },
   title: {
     overflow: 'hidden',
     flexGrow: 1,
@@ -86,6 +89,7 @@ export default {
   },
   action: {
     position: 'relative',
+    flexShrink: 0,
     marginLeft: 5,
     lineHeight: 0
   },

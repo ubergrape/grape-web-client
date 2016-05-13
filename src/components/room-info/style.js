@@ -50,7 +50,10 @@ const chooserButton = {
   borderRadius: '50%',
   backgroundClip: 'content-box',
   border: '1px solid transparent',
-  boxShadow: `inset 0 0 0 2px ${colors.white}`
+  boxShadow: `inset 0 0 0 2px ${colors.white}`,
+  '&:hover': {
+    borderColor: webColors.link
+  }
 }
 
 export default {
@@ -142,6 +145,7 @@ export default {
     color: colors.grayBlue
   },
   additionalActions: {
+    flexShrink: 0,
     marginLeft: 20
   },
   additionalActionsButton: {
@@ -168,6 +172,9 @@ export default {
   },
   deleteRoomButton: {
     color: colors.red
+  },
+  settingsWrapper: {
+    flexShrink: 0
   },
   iconSettingsButton: {
     ...iconSettingsButton,
