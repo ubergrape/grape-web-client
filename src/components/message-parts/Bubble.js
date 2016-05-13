@@ -10,7 +10,7 @@ export default class Bubble extends Component {
     children: PropTypes.node.isRequired,
     className: PropTypes.string.isRequired,
     theme: PropTypes.object.isRequired,
-    arrow: PropTypes.bool.isRequired
+    hasArrow: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -21,13 +21,13 @@ export default class Bubble extends Component {
         content: ''
       }
     },
-    arrow: true
+    hasArrow: true
   }
 
   render() {
-    const {children, className, theme, arrow, sheet} = this.props
+    const {children, className, theme, hasArrow, sheet} = this.props
     const {classes} = sheet
-    const bubbleClass = classes[arrow ? 'bubbleWithArrow' : 'bubble']
+    const bubbleClass = classes[hasArrow ? 'bubbleWithArrow' : 'bubble']
     return (
       <div className={`${bubbleClass} ${theme.classes.bubble} ${className}`}>
         <div className={`${classes.content} ${theme.classes.content}`}>{children}</div>

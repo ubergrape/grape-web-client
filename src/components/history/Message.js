@@ -47,7 +47,7 @@ export default class Message extends Component {
         {author && <Header date={time} author={author} className={classes.header} />}
         <div className={`${classes.body} ${!avatar && classes.avatarPlaceholder}`}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <ThemedBubble className={classes.bubble} arrow={hasBubbleArrow}>
+          <ThemedBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
               <GrapeDown text={children} />
             </div>
