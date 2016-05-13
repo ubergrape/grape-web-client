@@ -37,7 +37,7 @@ const textParts = [
 const createMessage = (i, options = {}) => {
   return {
     id: random(100000000),
-    authorId: 'author' + i,
+    authorId: random(2) === 1 ? '123456' : 'author' + i,
     author: 'Author-' + i,
     content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
@@ -46,7 +46,7 @@ const createMessage = (i, options = {}) => {
   }
 }
 
-for (let i = messages.length; i < 1000; i++) {
+for (let i = messages.length; i < 100; i++) {
   messages.push(createMessage(i))
 }
 
@@ -93,26 +93,25 @@ function loadMore({startIndex, stopIndex}) {
 
 const container = document.querySelectorAll('.history')[0]
 
-function create(props) {
+function update(props) {
   render(
-    createElement(History, props),
+    createElement(History, {
+      userId: '123456',
+      messages: fragment,
+      onLoadMore: loadMore,
+      ...props
+    }),
     container
   )
 }
 
-create({
-  messages: fragment,
-  onLoadMore: loadMore
-})
+update()
 
 window.addMessage = (options = {}) => {
   const message = createMessage(messages.length, options)
   messages.push(message)
   fragment.push(message)
-  create({
-    messages: fragment,
-    onLoadMore: loadMore
-  })
+  update()
 }
 
 window.addManyMessages = () => {
@@ -122,16 +121,11 @@ window.addManyMessages = () => {
     fragment.push(message)
   }
 
-  create({
-    messages: fragment,
-    onLoadMore: loadMore
-  })
+  update()
 }
 
 window.scrollToMessage = () => {
-  create({
-    messages: fragment,
-    onLoadMore: loadMore,
+  update({
     scrollTo: fragment[fragment.length - 20]
   })
 }

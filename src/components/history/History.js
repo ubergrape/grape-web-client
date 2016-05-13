@@ -53,7 +53,8 @@ export default class History extends Component {
     const message = messages[index]
 
     const props = {
-      key: `row-${message.id}`
+      key: `row-${message.id}`,
+      isOwn: message.authorId === userId
     }
 
     const prevMessage = messages[index - 1]
@@ -70,11 +71,7 @@ export default class History extends Component {
     if (this.isGrouped(index)) {
       props.author = null
       props.avatar = null
-      props.bubbleArrow = false
-    }
-
-    if (message.authorId === userId) {
-      // FIXME use differently colored bubbles by using a themed bubble component
+      props.hasBubbleArrow = false
     }
 
     return (
