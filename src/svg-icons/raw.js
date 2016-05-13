@@ -31,6 +31,7 @@ export cog from './svg/cog.svg'
 export star from './svg/star.svg'
 export timeMachine from './svg/time-machine.svg'
 export plus from './svg/plus.svg'
+export arrowDown from './svg/arrow-down.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
