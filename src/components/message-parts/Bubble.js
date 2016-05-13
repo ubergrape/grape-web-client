@@ -16,8 +16,10 @@ export default class Bubble extends Component {
   static defaultProps = {
     className: '',
     theme: {
-      bubble: '',
-      content: ''
+      classes: {
+        bubble: '',
+        content: ''
+      }
     },
     arrow: true
   }
@@ -27,8 +29,8 @@ export default class Bubble extends Component {
     const {classes} = sheet
     const bubbleClass = classes[arrow ? 'bubbleWithArrow' : 'bubble']
     return (
-      <div className={`${bubbleClass} ${theme.bubble} ${className}`}>
-        <div className={`${classes.content} ${theme.content}`}>{children}</div>
+      <div className={`${bubbleClass} ${theme.classes.bubble} ${className}`}>
+        <div className={`${classes.content} ${theme.classes.content}`}>{children}</div>
       </div>
     )
   }

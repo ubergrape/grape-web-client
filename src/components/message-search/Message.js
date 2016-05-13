@@ -27,7 +27,7 @@ export default class Message extends Component {
         <Header date={time} author={author} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn}/>
-          <Bubble className={classes.rightColumn} theme={classes}>
+          <Bubble className={classes.rightColumn} theme={{classes}}>
             {children}
           </Bubble>
         </div>
