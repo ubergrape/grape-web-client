@@ -1,8 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
-import useTheme from '../theme/useTheme2'
+import noop from 'lodash/utility/noop'
+import bindAll from 'lodash/function/bindAll'
+import copy from 'copy-to-clipboard'
 
+import Menu from './Menu'
+import useTheme from '../theme/useTheme2'
 import Avatar from '../avatar/Avatar'
 import GrapeDown from '../grape-down/GrapeDown'
 import Header from '../message-parts/Header'
@@ -23,6 +27,9 @@ export default class Message extends Component {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
+    link: PropTypes.string.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
     author: PropTypes.string,
     avatar: PropTypes.string
   }
@@ -30,10 +37,40 @@ export default class Message extends Component {
   static defaultProps = {
     isPending: false,
     hasBubbleArrow: true,
-    isOwn: false
+    isOwn: false,
+    onEdit: noop
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {isMenuOpened: false}
+    bindAll(this, 'onMouseEnter', 'onMouseLeave', 'onCopyLink')
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
+
+  onMouseEnter() {
+    this.setState({isMenuOpened: true})
+  }
+
+  onMouseLeave() {
+    this.setState({isMenuOpened: false})
+  }
+
+  onCopyLink() {
+    copy(this.props.link)
+  }
+
+  renderMenu() {
+    if (!this.state.isMenuOpened) return null
+
+    return (
+      <Menu
+        onEdit={this.props.onEdit}
+        onCopyLink={this.onCopyLink}
+        onRemove={this.props.onRemove} />
+    )
+  }
 
   render() {
     const {
@@ -43,9 +80,12 @@ export default class Message extends Component {
     const ThemedBubble = isOwn ? OwnBubble : OthersBubble
 
     return (
-      <section className={classes.message}>
+      <div
+        className={classes.message}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}>
         {author && <Header date={time} author={author} className={classes.header} />}
-        <div className={`${classes.body} ${!avatar && classes.avatarPlaceholder}`}>
+        <div className={`${classes.body} ${avatar ? classes.avatarPlaceholder : ''}`}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <ThemedBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
@@ -53,7 +93,8 @@ export default class Message extends Component {
             </div>
           </ThemedBubble>
         </div>
-      </section>
+        {this.renderMenu()}
+      </div>
     )
   }
 }

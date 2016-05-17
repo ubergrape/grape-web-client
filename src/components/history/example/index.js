@@ -3,12 +3,15 @@ import {createElement} from 'react'
 import History from '../History'
 import random from 'lodash/number/random'
 
+const log = console.log.bind(console) // eslint-disable-line no-console
+
 const now = Date.now()
 const messages = []
 
 for (let i = 0; i < 10; i++) {
   messages.push({
     id: random(100000000),
+    link: 'link-to-message',
     author: 'Author A',
     authorId: 'authora',
     avatar: 'avatar.gif',
@@ -37,6 +40,7 @@ const textParts = [
 const createMessage = (i, options = {}) => {
   return {
     id: random(100000000),
+    link: 'link-to-message',
     authorId: random(2) === 1 ? '123456' : 'author' + i,
     author: 'Author-' + i,
     content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
@@ -58,14 +62,14 @@ const range = [messages.length - minSize, maxRange]
 let fragment = messages.slice.apply(messages, range)
 let isLoading = false
 
-function loadMore({startIndex, stopIndex}) {
+function onLoadMore({startIndex, stopIndex}) {
   if (isLoading) return null
 
   let resolvePromise
 
   isLoading = true
   setTimeout(() => {
-    console.log('loadMore', startIndex, stopIndex)
+    log('loadMore', startIndex, stopIndex)
 
     // Scrolling up.
     if (startIndex < 0) {
@@ -90,6 +94,13 @@ function loadMore({startIndex, stopIndex}) {
   return new Promise(resolve => resolvePromise = resolve)
 }
 
+function onEdit(message) {
+  log('edit', message)
+}
+
+function onRemove(message) {
+  log('remove', message)
+}
 
 const container = document.querySelectorAll('.history')[0]
 
@@ -98,7 +109,9 @@ function update(props) {
     createElement(History, {
       userId: '123456',
       messages: fragment,
-      onLoadMore: loadMore,
+      onLoadMore,
+      onEdit,
+      onRemove,
       ...props
     }),
     container

@@ -4,7 +4,9 @@ const avatarWidth = 32
 
 export default {
   message: {
-    margin: '0 0 15px'
+    display: 'inline-block',
+    margin: '0 0 15px',
+    position: 'relative'
   },
   body: {
     display: 'flex'
