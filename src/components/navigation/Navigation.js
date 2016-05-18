@@ -1,10 +1,15 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import List from 'react-finite-list'
+import colors from 'grape-theme/dist/base-colors'
+import find from 'lodash/collection/find'
+import keyname from 'keyname'
+
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
+import {find as filterChannels} from './utils'
 import {userStatusMap} from '../../constants/app'
 import style from './style'
-import colors from 'grape-theme/dist/base-colors'
+import {useSheet} from 'grape-web/lib/jss'
 
 const maxUnread = 99
 
@@ -30,7 +35,8 @@ export default class Navigation extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      shift: 20
+      shift: 20,
+      filter: ''
     }
   }
 
@@ -42,6 +48,39 @@ export default class Navigation extends Component {
       this.setState({
         shift: this.state.shift + this.props.step
       })
+    }
+  }
+
+  onSelectFiltered() {
+    this.goToChannel(this.state.focused)
+  }
+
+  onChangeFilter({target}) {
+    const {value} = target
+    this.setState({filter: value})
+  }
+
+  onFocusFiltered(channel) {
+    this.setState({focused: channel})
+  }
+
+  onKeyDownFilter(e) {
+    const {list} = this.refs
+    if (!list) return
+    switch (keyname(e.keyCode)) {
+      case 'up':
+        list.focus('prev')
+        e.preventDefault()
+        break
+      case 'down':
+        list.focus('next')
+        e.preventDefault()
+        break
+      case 'enter':
+        this.onSelectFiltered()
+        e.preventDefault()
+        break
+      default:
     }
   }
 
@@ -94,6 +133,16 @@ export default class Navigation extends Component {
     )
   }
 
+  renderFilteredChannel({item: channel, focused}) {
+    return this.renderChannel(channel)
+  }
+
+  renderChannel(channel) {
+    if (channel.type === 'room') return this.renderRoom(channel)
+    if (channel.type === 'pm') return this.renderPm(channel)
+    return null
+  }
+
   renderRoom(room) {
     const {classes} = this.props.sheet
     return (
@@ -134,13 +183,7 @@ export default class Navigation extends Component {
       <div className={classes.section}>
         <h2 className={`${classes.title} ${classes.recent}`}>Recent</h2>
         <ol className={classes.list}>
-          {
-            recent.slice(0, this.state.shift).map(channel => {
-              if (channel.type === 'room') return this.renderRoom(channel)
-              if (channel.type === 'pm') return this.renderPm(channel)
-              return null
-            })
-          }
+          {recent.slice(0, this.state.shift).map(::this.renderChannel)}
         </ol>
       </div>
     )
@@ -155,25 +198,45 @@ export default class Navigation extends Component {
       <div className={classes.section}>
         <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
         <ol className={classes.list}>
-          {
-            favorited.map(channel => {
-              if (channel.type === 'room') return this.renderRoom(channel)
-              if (channel.type === 'pm') return this.renderPm(channel)
-              return null
-            })
-          }
+          {favorited.map(::this.renderChannel)}
         </ol>
       </div>
     )
   }
 
+  renderFilteredList() {
+    const {favorited, recent} = this.props
+    const filtered = filterChannels(recent.concat(favorited), this.state.filter)
+    const focused = this.state.focused || filtered[0]
+    const {id, type} = focused
+    return (
+      <List
+        items={filtered}
+        className={'list'}
+        renderItem={::this.renderFilteredChannel}
+        onSelect={::this.onSelectFiltered}
+        onFocus={::this.onFocusFiltered}
+        onMouseOver={::this.onFocusFiltered}
+        focused={find(filtered, {id, type})}
+        ref="list" />
+    )
+  }
+
+  renderList() {
+    if (this.state.filter) return this.renderFilteredList()
+
+    return [
+      this.renderFavoritedList(),
+      this.renderRecentList()
+    ]
+  }
+
   renderNavigation() {
     if (this.props.isLoading) return null
     return (
-      <div className={this.props.sheet.classes.wrapper}>
+      <div className={this.props.sheet.classes.navigationWrapper}>
         {this.renderManageButtons()}
-        {this.renderFavoritedList()}
-        {this.renderRecentList()}
+        {this.renderList()}
       </div>
     )
   }
@@ -181,11 +244,19 @@ export default class Navigation extends Component {
   render() {
     const {classes} = this.props.sheet
     return (
-      <div
-        ref="navigation"
-        onScroll={::this.onScroll}
-        className={classes.navigation}>
-        {this.renderNavigation()}
+      <div className={classes.wrapper}>
+        <div
+          ref="navigation"
+          onScroll={::this.onScroll}
+          className={classes.navigation}>
+          {this.renderNavigation()}
+        </div>
+        <div className={classes.filter}>
+          <input
+            value={this.state.filter}
+            onKeyDown={::this.onKeyDownFilter}
+            onChange={::this.onChangeFilter} />
+        </div>
       </div>
     )
   }

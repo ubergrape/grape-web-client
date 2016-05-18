@@ -46,18 +46,23 @@ const channel = {
 }
 
 export default {
-  navigation: {
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
     position: 'absolute',
     left: 0,
     top: 56,
     right: 0,
     bottom: 0,
-    overflowY: 'auto',
     userSelect: 'none',
     color: colors.grayBlueDark,
     background: colors.grayBlueLighter
   },
-  wrapper: {
+  navigation: {
+    overflowY: 'auto',
+    flex: '1 0'
+  },
+  navigationWrapper: {
     boxSizing: 'border-box',
     padding: '15px 10px 15px 0',
     height: '100%'
@@ -126,5 +131,8 @@ export default {
   },
   defaultSign: {
     background: colors.grayBlue
+  },
+  filter: {
+    flex: '0 0'
   }
 }

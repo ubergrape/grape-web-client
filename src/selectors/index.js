@@ -307,9 +307,13 @@ export const orgInfoSelector = createSelector(
 
 export const navigationPmsSelector = createSelector(
   pmsSelector, pms => {
-    return pms.filter(pm => {
-      return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
-    })
+    return pms
+      .filter(pm => {
+        return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
+      })
+      .map(pm => {
+        return {...pm, name: pm.mate.displayName}
+      })
   }
 )
 
@@ -341,13 +345,19 @@ export const navigationSelector = createSelector(
     joinedRoomsSelector,
     channelSelector,
     navigationPmsSelector,
-    initialDataLoadingSelector
+    initialDataLoadingSelector,
+    channelSearch,
+    fullOrgSelector,
+    userSelector
   ],
   (
     rooms,
     channel,
     pms,
-    isLoading
+    isLoading,
+    search,
+    org,
+    user
   ) => {
     const all = rooms.concat(pms)
     const recent = all
@@ -361,7 +371,10 @@ export const navigationSelector = createSelector(
       recent,
       favorited,
       isLoading,
-      channel
+      channel,
+      search,
+      org,
+      user
     }
   }
 )
