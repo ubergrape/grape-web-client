@@ -60,7 +60,7 @@ export default class Message extends Component {
   }
 
   onSelect({name}) {
-    switch(name) {
+    switch (name) {
       case 'copyLink':
         copy(this.props.link)
         break
