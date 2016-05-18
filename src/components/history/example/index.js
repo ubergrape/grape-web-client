@@ -2,23 +2,12 @@ import {render} from 'react-dom'
 import {createElement} from 'react'
 import History from '../History'
 import random from 'lodash/number/random'
+import moment from 'moment-timezone'
 
 const log = console.log.bind(console) // eslint-disable-line no-console
 
 const now = Date.now()
 const messages = []
-
-for (let i = 0; i < 10; i++) {
-  messages.push({
-    id: random(100000000),
-    link: 'link-to-message',
-    author: 'Author A',
-    authorId: 'authora',
-    avatar: 'avatar.gif',
-    content: 'within 5 min from the same user-' + i,
-    time: new Date(now + i * 1000 * 60)
-  })
-}
 
 const textParts = [
   ':)',
@@ -36,8 +25,8 @@ const textParts = [
   '1. test',
   '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)'
 ]
-
 const createMessage = (i, options = {}) => {
+  const time = options.time || new Date(now + i * 1000 * 60 * 60)
   return {
     id: random(100000000),
     link: 'link-to-message',
@@ -45,9 +34,19 @@ const createMessage = (i, options = {}) => {
     author: 'Author-' + i,
     content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
-    time: new Date(now + i * 1000 * 60 * 60),
+    time,
+    userTime: random(2) === 1 ? moment(time).format() : moment(time).tz('America/Los_Angeles').format(),
     ...options
   }
+}
+
+for (let i = 0; i < 10; i++) {
+  messages.push(createMessage({
+    author: 'Author A',
+    authorId: 'authora',
+    content: 'within 5 min from the same user-' + i,
+    time: new Date(now + i * 1000 * 60)
+  }))
 }
 
 for (let i = messages.length; i < 100; i++) {

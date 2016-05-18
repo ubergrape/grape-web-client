@@ -1,5 +1,5 @@
 import {link, button} from 'grape-theme/dist/web-colors'
-import {gray, red} from 'grape-theme/dist/base-colors'
+import {gray, red, white} from 'grape-theme/dist/base-colors'
 import buttonIcon from '../button/icon'
 
 const item = {
@@ -8,7 +8,8 @@ const item = {
   border: `1px solid ${button}`,
   cursor: 'pointer',
   textAlign: 'center',
-  lineHeight: 1
+  lineHeight: 1,
+  background: white
 }
 
 const firstItem = {
@@ -36,7 +37,7 @@ export default {
     display: 'inline-block',
     position: 'absolute',
     top: 0,
-    right: 0
+    right: 15
   },
   itemEdit: {
     extend: [buttonIcon('pencil', iconOptions), firstItem]

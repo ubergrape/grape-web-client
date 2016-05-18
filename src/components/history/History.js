@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
-import moment from 'moment-timezone'
+import moment from 'moment'
 
 import InfiniteList from './InfiniteList'
 import Message from './Message'

@@ -20,7 +20,7 @@ export default function Dropdown(props) {
     onClick
   } = props
 
-  const StyledTooltip = useTheme(Tooltip, theme.styles)
+  const StyledTooltip = useTheme(Tooltip, theme)
   return (
     <Position
       container={container}
@@ -29,8 +29,6 @@ export default function Dropdown(props) {
         <StyledTooltip
           onOutsideClick={onOutsideClick}
           onClick={onClick}
-          arrowSize={theme.arrowSize}
-          borderSize={theme.borderSize}
           placement={placement}>
             {children}
         </StyledTooltip>
