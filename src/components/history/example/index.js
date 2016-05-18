@@ -40,8 +40,8 @@ const createMessage = (i, options = {}) => {
   }
 }
 
-for (let i = 0; i < 10; i++) {
-  messages.push(createMessage({
+for (let i = 0; i < 5; i++) {
+  messages.push(createMessage(i, {
     author: 'Author A',
     authorId: 'authora',
     content: 'within 5 min from the same user-' + i,
