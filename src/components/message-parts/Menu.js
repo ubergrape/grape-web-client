@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
+import capitalize from 'lodash/string/capitalize'
 import {useSheet} from 'grape-web/lib/jss'
 
 import styles from './MenuStyles'
@@ -8,26 +9,28 @@ import styles from './MenuStyles'
 export default class Menu extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onCopyLink: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
+    items: PropTypes.array.isRequired
   }
 
   static defaultProps = {
-    onEdit: noop,
-    onCopyLink: noop,
-    onRemove: noop
+    onSelect: noop,
+    items: ['edit', 'copyLink', 'remove']
   }
 
   render() {
-    const {sheet, onEdit, onCopyLink, onRemove} = this.props
+    const {sheet, onSelect, items} = this.props
     const {classes} = sheet
+    const singleClass = items.length === 1 ? classes.single : ''
 
     return (
       <div className={classes.menu}>
-        <span className={classes.itemEdit} onClick={onEdit}></span>
-        <span className={classes.itemCopyLink} onClick={onCopyLink}></span>
-        <span className={classes.itemRemove} onClick={onRemove}></span>
+        {items.map(name => (
+          <span
+            className={`${classes[`item${capitalize(name)}`]} ${singleClass}`}
+            onClick={onSelect.bind(null, {name})}
+            key={name}></span>
+        ))}
       </div>
     )
   }

@@ -47,5 +47,8 @@ export default {
   },
   itemRemove: {
     extend: [buttonIcon('remove', {...iconOptions, hoverColor: red}), lastItem]
+  },
+  single: {
+    borderRadius: '50%'
   }
 }

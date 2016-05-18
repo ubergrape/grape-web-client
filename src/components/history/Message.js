@@ -39,13 +39,14 @@ export default class Message extends Component {
     isPending: false,
     hasBubbleArrow: true,
     isOwn: false,
-    onEdit: noop
+    onEdit: noop,
+    onRemove: noop
   }
 
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
-    bindAll(this, 'onMouseEnter', 'onMouseLeave', 'onCopyLink')
+    bindAll(this, 'onMouseEnter', 'onMouseLeave', 'onSelect')
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -58,8 +59,19 @@ export default class Message extends Component {
     this.setState({isMenuOpened: false})
   }
 
-  onCopyLink() {
-    copy(this.props.link)
+  onSelect({name}) {
+    switch(name) {
+      case 'copyLink':
+        copy(this.props.link)
+        break
+      case 'remove':
+        this.props.onRemove()
+        break
+      case 'edit':
+        this.props.onEdit()
+        break
+      default:
+    }
   }
 
   renderMenu() {
@@ -67,9 +79,8 @@ export default class Message extends Component {
 
     return (
       <Menu
-        onEdit={this.props.onEdit}
-        onCopyLink={this.onCopyLink}
-        onRemove={this.props.onRemove} />
+        onSelect={this.onSelect}
+        items={this.props.isOwn ? undefined : ['copyLink']} />
     )
   }
 
