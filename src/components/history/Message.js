@@ -34,6 +34,11 @@ function Unsent(props) {
   )
 }
 
+Unsent.propTypes = {
+  onResend: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired
+}
+
 @useSheet(styles)
 export default class Message extends Component {
   static propTypes = {
