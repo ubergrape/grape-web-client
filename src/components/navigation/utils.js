@@ -1,32 +1,19 @@
 import sortBy from 'lodash/collection/sortBy'
+import fuzzySearch from 'fuzzysearch'
 
-/**
- * Simple version of fuzzy search.
- * When searching it ignores:
- *   - non alpha numeric characters
- *   - whitespaces
- */
-function fuzzySearch(searchStr) {
-  const alphaRegExp = /\W|\s/g
-
-  function fuzzify(str) {
-    return str.toLowerCase().replace(alphaRegExp, '')
-  }
-
-  const fuzzySearchStr = fuzzify(searchStr)
-
-  return function indexOf(key) {
-    return fuzzify(key).indexOf(fuzzySearchStr)
-  }
+function fuzzyIndexOf(rawSearch, rawString) {
+  const string = rawString.toLowerCase().replace(/\s/g, '')
+  const search = rawSearch.toLowerCase()
+  if (!fuzzySearch(search, string)) return -1
+  return string.indexOf(search)
 }
 
 export function find(data, search) {
-  if (!search) return sortBy(data, item => item.name.toLowerCase())
-  const fuzzyIndexOf = fuzzySearch(search)
   let items = data.map(item => {
+    const index = fuzzyIndexOf(search, item.name)
     return {
       item,
-      index: fuzzyIndexOf(item.name)
+      index
     }
   })
   items = items.filter(({index}) => index >= 0)
