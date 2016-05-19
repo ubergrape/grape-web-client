@@ -35,6 +35,7 @@ export arrowDown from './svg/arrow-down.svg'
 export pencil from './svg/pencil.svg'
 export remove from './svg/remove.svg'
 export globe from './svg/globe.svg'
+export warning from './svg/warning.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
