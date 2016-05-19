@@ -6,7 +6,7 @@ import keyname from 'keyname'
 
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
-import {find as filterChannels} from './utils'
+import fuzzyFilter from '../utils/fuzzy-filter'
 import {userStatusMap} from '../../constants/app'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -206,7 +206,13 @@ export default class Navigation extends Component {
 
   renderFilteredList() {
     const {favorited, recent} = this.props
-    const filtered = filterChannels(recent.concat(favorited), this.state.filter)
+    const filtered = fuzzyFilter(
+      this.state.filter,
+      recent.concat(favorited),
+      ['name', 'mate.displayName']
+    )
+    if (!filtered.length) return 'nothing'
+
     const focused = this.state.focused || filtered[0]
     const {id, type} = focused
     return (

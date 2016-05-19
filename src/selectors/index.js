@@ -311,9 +311,6 @@ export const navigationPmsSelector = createSelector(
       .filter(pm => {
         return pm.firstMessageTime || pm.temporaryInNavigation || pm.favorited
       })
-      .map(pm => {
-        return {...pm, name: pm.mate.displayName}
-      })
   }
 )
 
