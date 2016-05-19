@@ -18,6 +18,22 @@ import othersBubbleStyles from './othersBubbleStyles'
 const OwnBubble = useTheme(Bubble, {styles: ownBubbleStyles})
 const OthersBubble = useTheme(Bubble, {styles: othersBubbleStyles})
 
+function Unsent(props) {
+  const {classes} = props.theme
+
+  function onResend(e) {
+    e.preventDefault()
+    props.onResend()
+  }
+
+  return (
+    <div className={classes.unsent}>
+      {' This message didn\'t send. Check your internet connection and '}
+      <a href="" onClick={onResend}>click to try again</a>.
+    </div>
+  )
+}
+
 @useSheet(styles)
 export default class Message extends Component {
   static propTypes = {
@@ -27,20 +43,24 @@ export default class Message extends Component {
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
+    isUnsent: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     link: PropTypes.string.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onResend: PropTypes.func.isRequired,
     author: PropTypes.string,
     avatar: PropTypes.string
   }
 
   static defaultProps = {
     isPending: false,
+    isUnsent: false,
     hasBubbleArrow: true,
     isOwn: false,
     onEdit: noop,
-    onRemove: noop
+    onRemove: noop,
+    onResend: noop
   }
 
   constructor(props) {
@@ -87,7 +107,7 @@ export default class Message extends Component {
   render() {
     const {
       sheet, author, time, userTime, avatar, children, hasBubbleArrow,
-      isPending, isOwn
+      isPending, isOwn, isUnsent, onResend
     } = this.props
     const {classes} = sheet
     const ThemedBubble = isOwn ? OwnBubble : OthersBubble
@@ -112,6 +132,7 @@ export default class Message extends Component {
           </ThemedBubble>
           {this.renderMenu()}
         </div>
+        {isUnsent && <Unsent theme={{classes}} onResend={onResend} />}
       </div>
     )
   }

@@ -19,6 +19,7 @@ export default class History extends Component {
     onLoadMore: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onResend: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(PropTypes.shape({
       authorId: PropTypes.string.isRequired
@@ -30,7 +31,8 @@ export default class History extends Component {
     messages: [],
     onLoadMore: noop,
     onEdit: noop,
-    onRemove: noop
+    onRemove: noop,
+    onResend: noop
   }
 
   constructor(props) {
@@ -52,7 +54,7 @@ export default class History extends Component {
   }
 
   renderRow(messages, index) {
-    const {sheet, userId, onEdit, onRemove} = this.props
+    const {sheet, userId, onEdit, onRemove, onResend} = this.props
     const {classes} = sheet
     const message = messages[index]
 
@@ -85,7 +87,8 @@ export default class History extends Component {
           {...message}
           {...props}
           onEdit={onEdit.bind(null, message)}
-          onRemove={onRemove.bind(null, message)}>
+          onRemove={onRemove.bind(null, message)}
+          onResend={onResend.bind(null, message)}>
             {message.content}
         </Message>
       </div>

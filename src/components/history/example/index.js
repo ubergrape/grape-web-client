@@ -101,6 +101,10 @@ function onRemove(message) {
   log('remove', message)
 }
 
+function onResend(message) {
+  log('resend', message)
+}
+
 const container = document.querySelectorAll('.history')[0]
 
 function update(props) {
@@ -111,6 +115,7 @@ function update(props) {
       onLoadMore,
       onEdit,
       onRemove,
+      onResend,
       ...props
     }),
     container

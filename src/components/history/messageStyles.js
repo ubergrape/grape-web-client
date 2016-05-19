@@ -1,6 +1,10 @@
+import {red} from 'grape-theme/dist/base-colors'
+import createInlineIcon from '../inline-icon/create'
+
 const arrowWidth = 7
 const marginRight = 5
 const avatarWidth = 32
+const marginLeft = avatarWidth + marginRight + arrowWidth
 
 export default {
   message: {
@@ -12,7 +16,7 @@ export default {
     display: 'flex'
   },
   header: {
-    paddingLeft: avatarWidth + marginRight + arrowWidth
+    marginLeft
   },
   avatar: {
     flexShrink: 0,
@@ -22,9 +26,19 @@ export default {
     flex: 1
   },
   avatarPlaceholder: {
-    marginLeft: avatarWidth + arrowWidth
+    marginLeft: avatarWidth + marginRight
   },
   pending: {
     opacity: 0.5
+  },
+  unsent: {
+    extend: createInlineIcon('warning', {color: red}),
+    color: red,
+    fontSize: '0.8em',
+    marginTop: 10,
+    marginLeft,
+    '& a': {
+      color: red
+    }
   }
 }
