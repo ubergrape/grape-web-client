@@ -4,10 +4,13 @@ import History from '../History'
 import random from 'lodash/number/random'
 import moment from 'moment-timezone'
 
+import 'image-zoom/dist/imagezoom.css'
+
 const log = console.log.bind(console) // eslint-disable-line no-console
 
 const now = Date.now()
 const messages = []
+const userId = '123456'
 
 const textParts = [
   ':)',
@@ -30,9 +33,9 @@ const createMessage = (i, options = {}) => {
   return {
     id: random(100000000),
     link: 'link-to-message',
-    authorId: random(2) === 1 ? '123456' : 'author' + i,
+    authorId: random(2) === 1 ? userId : 'author' + i,
     author: 'Author-' + i,
-    content: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
+    text: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
     time,
     userTime: random(2) === 1 ? moment(time).format() : moment(time).tz('America/Los_Angeles').format(),
@@ -44,7 +47,7 @@ for (let i = 0; i < 5; i++) {
   messages.push(createMessage(i, {
     author: 'Author A',
     authorId: 'authora',
-    content: 'within 5 min from the same user-' + i,
+    text: 'within 5 min from the same user-' + i,
     time: new Date(now + i * 1000 * 60)
   }))
 }
@@ -110,7 +113,7 @@ const container = document.querySelectorAll('.history')[0]
 function update(props) {
   render(
     createElement(History, {
-      userId: '123456',
+      userId,
       messages: fragment,
       onLoadMore,
       onEdit,
@@ -125,7 +128,7 @@ function update(props) {
 update()
 
 window.addMessage = (options = {}) => {
-  const message = createMessage(messages.length, options)
+  const message = createMessage(messages.length, {authorId: userId, ...options})
   messages.push(message)
   fragment.push(message)
   update()
@@ -145,4 +148,41 @@ window.scrollToMessage = () => {
   update({
     scrollTo: fragment[fragment.length - 20]
   })
+}
+
+window.addMessageWithAttachment = (type) => {
+  switch (type) {
+    case 'pdf':
+      window.addMessage({
+        text: undefined,
+        attachments: [{
+          type: 'uploadedFile',
+          id: String(random(1000)),
+          name: 'some-file.pdf',
+          time: new Date(),
+          url: 'http://google.com',
+          mimeType: 'application/pdf',
+          category: 'pdf'
+        }]
+      })
+      break
+    case 'uploadedImage':
+      window.addMessage({
+        text: undefined,
+        attachments: [{
+          type: 'uploadedFile',
+          id: String(random(1000)),
+          time: new Date(),
+          name: 'breaking-bad-die-besten-72440_big.jpg',
+          thumbnailUrl: 'https://ug-cdn.com/media/chatgrape-staging/media/cache/57/26/57260f1e17ea4931421e37bfbb856f8f.png',
+          thumbnailHeight: 125,
+          thumbnailWidth: 295,
+          url: 'https://ug-cdn.com/media/chatgrape-staging/media/organizations/1/9e1562d21df511e6802b001e67a039c2/breaking-bad-die-besten-72440_big.jpg',
+          mimeType: 'image/jpeg',
+          category: 'image'
+        }]
+      })
+      break
+    default:
+  }
 }

@@ -2,35 +2,13 @@ import {link, button} from 'grape-theme/dist/web-colors'
 import {gray, red, white} from 'grape-theme/dist/base-colors'
 import buttonIcon from '../button/icon'
 
-const item = {
-  display: 'inline-block',
-  padding: '3px 5px',
-  border: `1px solid ${button}`,
-  cursor: 'pointer',
-  textAlign: 'center',
-  lineHeight: 1,
-  background: white
-}
-
-const firstItem = {
-  ...item,
-  borderRadius: '50% 0 0 50%',
-  borderRight: 0,
-  paddingLeft: 7
-}
-
-const lastItem = {
-  ...item,
-  borderRadius: '0 50% 50% 0',
-  borderLeft: 0,
-  paddingRight: 7
-}
-
 const iconOptions = {
   color: gray,
   hoverColor: link,
   iconOnly: true
 }
+
+const border = `1px solid ${button}`
 
 export default {
   menu: {
@@ -39,16 +17,35 @@ export default {
     top: 0,
     right: 15
   },
-  itemEdit: {
-    extend: [buttonIcon('pencil', iconOptions), firstItem]
+  editItem: buttonIcon('pencil', iconOptions),
+  copyLinkItem: buttonIcon('iconLink', iconOptions),
+  removeItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
+  item: {
+    display: 'inline-block',
+    padding: '3px 5px',
+    border,
+    cursor: 'pointer',
+    textAlign: 'center',
+    lineHeight: 1,
+    background: white
   },
-  itemCopyLink: {
-    extend: [buttonIcon('iconLink', iconOptions), item]
+  firstItem: {
+    borderTopLeftRadius: '50%',
+    borderBottomLeftRadius: '50%',
+    paddingLeft: 7,
+    borderRight: 0
   },
-  itemRemove: {
-    extend: [buttonIcon('remove', {...iconOptions, hoverColor: red}), lastItem]
+  lastItem: {
+    borderTopRightRadius: '50%',
+    borderBottomRightRadius: '50%',
+    borderLeft: 0,
+    paddingRight: 7
   },
-  single: {
-    borderRadius: '50%'
+  singleItem: {
+    borderRadius: '50%',
+    border
+  },
+  nextToLastItem: {
+    borderRight: border
   }
 }

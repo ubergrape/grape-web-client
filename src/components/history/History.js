@@ -4,10 +4,14 @@ import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import InfiniteList from './InfiniteList'
-import Message from './Message'
+import RegularMessage from './RegularMessage'
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './historyStyles'
+
+const messageTypes = {
+  regular: RegularMessage
+}
 
 // Group messages under same avatar/name if they are send within this time distance.
 const timeThreshold = 5 * 60 * 1000
@@ -57,6 +61,7 @@ export default class History extends Component {
     const {sheet, userId, onEdit, onRemove, onResend} = this.props
     const {classes} = sheet
     const message = messages[index]
+    const Message = messageTypes[message.type || 'regular']
 
     const props = {
       key: `row-${message.id}`,
@@ -89,7 +94,7 @@ export default class History extends Component {
           onEdit={onEdit.bind(null, message)}
           onRemove={onRemove.bind(null, message)}
           onResend={onResend.bind(null, message)}>
-            {message.content}
+            {message.text}
         </Message>
       </div>
     )

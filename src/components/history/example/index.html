@@ -17,8 +17,10 @@
         top: 100px;
         left: 0;
         right: 0;
-        bottom: 0;      }
+        bottom: 0;
+      }
     </style>
+    <link rel="stylesheet" href="/dist/components.css"></link>
   </head>
   <body>
     <button onclick="addMessage()">Add message</button>
@@ -26,6 +28,8 @@
     <button onclick="scrollToMessage()">Scroll to message</button>
     <button onclick="addMessage({isPending: true})">Add a pending message</button>
     <button onclick="addMessage({isUnsent: true})">Add unsent message</button>
+    <button onclick="addMessageWithAttachment('pdf')">Add message with pdf attachment</button>
+    <button onclick="addMessageWithAttachment('uploadedImage')">Add message with uploaded image attachment</button>
     <div class="history"></div>
     <script src="/dist/app.js"></script>
     <script src="/webpack-dev-server.js"></script>

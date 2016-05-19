@@ -1,9 +1,24 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import capitalize from 'lodash/string/capitalize'
 import {useSheet} from 'grape-web/lib/jss'
 
 import styles from './MenuStyles'
+
+function getClassName(classes, name, i, length) {
+  const classNames = [classes[`${name}Item`], classes.item]
+
+  if (length === 1) {
+    classNames.push(classes.singleItem)
+  } else {
+    if (i === 0) {
+      classNames.push(classes.firstItem)
+      if (length === 2) classNames.push(classes.nextToLastItem)
+    }
+    if (i === length - 1) classNames.push(classes.lastItem)
+  }
+
+  return classNames.join(' ')
+}
 
 @useSheet(styles)
 export default class Menu extends Component {
@@ -21,16 +36,19 @@ export default class Menu extends Component {
   render() {
     const {sheet, onSelect, items} = this.props
     const {classes} = sheet
-    const singleClass = items.length === 1 ? classes.single : ''
 
     return (
       <div className={classes.menu}>
-        {items.map(name => (
-          <span
-            className={`${classes[`item${capitalize(name)}`]} ${singleClass}`}
-            onClick={onSelect.bind(null, {name})}
-            key={name}></span>
-        ))}
+        {items.map((name, i) => {
+          const className = getClassName(classes, name, i, items.length)
+
+          return (
+            <span
+              className={className}
+              onClick={onSelect.bind(null, {name})}
+              key={name}></span>
+          )
+        })}
       </div>
     )
   }
