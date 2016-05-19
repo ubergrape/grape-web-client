@@ -11,6 +11,8 @@ const commonButton = {
   paddingLeft: 35,
   textAlign: 'left'
 }
+const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
+
 const contacts = {
   ...buttonIcon('user', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
   ...commonButton
@@ -34,17 +36,6 @@ channels['&:before'] = {
   height: 21
 }
 
-const channel = {
-  ...fonts.small,
-  position: 'relative',
-  padding: '3px 42px 3px 15px',
-  cursor: 'pointer',
-  borderRadius: '0 100px 100px 0',
-  '&:hover': {
-    background: color(colors.grayBlueLighter).darken(0.05).hexString()
-  }
-}
-
 export default {
   wrapper: {
     display: 'flex',
@@ -64,7 +55,7 @@ export default {
   },
   navigationWrapper: {
     boxSizing: 'border-box',
-    padding: '15px 10px 15px 0',
+    padding: '15px 0',
     height: '100%'
   },
   manage: {
@@ -80,6 +71,10 @@ export default {
   },
   list: {
     marginTop: 10
+  },
+  notFound: {
+    marginTop: 20,
+    textAlign: 'center'
   },
   title: {
     ...fonts.small,
@@ -99,21 +94,22 @@ export default {
     backgroundSize: 'auto 13px',
     backgroundPosition: '0 2px'
   },
-  room: {
-    ...channel
-  },
-  roomCurrent: {
-    color: colors.white
-  },
-  pm: {
-    ...channel
-  },
-  pmCurrent: {
-    background: colors.blue,
-    color: colors.white,
+  channel: {
+    ...fonts.small,
+    position: 'relative',
+    padding: '3px 42px 3px 15px',
+    cursor: 'pointer',
     '&:hover': {
-      background: colors.blue
+      background: darkenBackground
     }
+  },
+  channelCurrent: {
+    fontWeight: 'bold',
+    color: colors.grayDark,
+    background: darkenBackground
+  },
+  channelFocused: {
+    background: darkenBackground
   },
   sign: {
     fontWeight: 'normal',
@@ -133,6 +129,23 @@ export default {
     background: colors.grayBlue
   },
   filter: {
-    flex: '0 0'
+    flexShrink: 0,
+    padding: 8,
+    background: colors.grayBlueLighter
+  },
+  filterInput: {
+    boxSizing: 'border-box !important',
+    background: `${darkenBackground} no-repeat 10px 50%`,
+    backgroundImage: `url('${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})}')`,
+    backgroundSize: 19,
+    border: 'none',
+    padding: '7px 5px 6px 35px',
+    color: colors.grayDark,
+    borderRadius: 6,
+    outline: 'none',
+    width: '100%',
+    '&::-webkit-search-cancel-button': {
+      WebkitAppearance: 'searchfield-cancel-button !important'
+    }
   }
 }
