@@ -49,9 +49,7 @@ export default class Navigation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('props')
     if (nextProps.all !== this.props.all) {
-      console.log('set fuse')
       this.setState({
         fuse: new Fuse(
           nextProps.all,
