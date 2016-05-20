@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {findDOMNode} from 'react-dom'
 import Fuse from 'fuse.js'
 import List from 'react-finite-list'
 import colors from 'grape-theme/dist/base-colors'
@@ -9,6 +10,7 @@ import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
 import {userStatusMap} from '../../constants/app'
+import Filter from './Filter'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -48,6 +50,10 @@ export default class Navigation extends Component {
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
+  componentDidMount() {
+    this.filter = findDOMNode(this.refs.filter)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.all !== this.props.all) {
       this.setState({
@@ -60,7 +66,7 @@ export default class Navigation extends Component {
   }
 
   onShortcut() {
-    this.refs.filter.focus()
+    this.filter.focus()
   }
 
   onScroll(e) {
@@ -94,11 +100,11 @@ export default class Navigation extends Component {
   }
 
   onKeyDownFilter(e) {
-    const {list, filter} = this.refs
-
+    const {list} = this.refs
     const keyName = keyname(e.keyCode)
-    if (keyName === 'esc' && !filter.value) {
-      filter.blur()
+
+    if (keyName === 'esc' && !this.filter.value) {
+      this.filter.blur()
       this.props.focusGrapeInput()
     }
 
@@ -310,12 +316,11 @@ export default class Navigation extends Component {
           {this.renderNavigation()}
         </div>
         <div className={classes.filter}>
-          <input
-            type="search"
+          <Filter
             ref="filter"
-            placeholder="Search people and groups…"
-            className={classes.filterInput}
-            value={this.state.filter}
+            theme={{classes}}
+            {...this.props}
+            {...this.state}
             onKeyDown={::this.onKeyDownFilter}
             onChange={::this.onChangeFilter} />
         </div>
