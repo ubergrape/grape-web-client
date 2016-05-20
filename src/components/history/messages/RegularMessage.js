@@ -13,7 +13,7 @@ import OwnBubble from './OwnBubble'
 import Menu from '../../message-parts/Menu'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import styles from './regularMessageStyles'
+import {styles} from './regularMessageTheme'
 
 function Unsent(props) {
   const {classes} = props.theme

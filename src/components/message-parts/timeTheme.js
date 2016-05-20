@@ -22,7 +22,7 @@ function createGlobeIcon(options) {
 const globe = createGlobeIcon({color: grayLight, hoverColor: link})
 const globeActive = createGlobeIcon({color: link})
 
-export default {
+export const styles = {
   time: {
     display: 'inline-block',
     color: grayLight,

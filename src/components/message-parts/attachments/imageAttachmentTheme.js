@@ -1,6 +1,6 @@
 import {borderRadius} from 'grape-theme/dist/sizes'
 
-export default {
+export const styles = {
   thumbnail: {
     borderRadius: borderRadius.big,
     background: 'transparent no-repeat center',

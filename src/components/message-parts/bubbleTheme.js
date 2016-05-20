@@ -2,7 +2,7 @@ import {white} from 'grape-theme/dist/base-colors'
 
 const arrowWidth = 7
 
-export default {
+export const styles = {
   bubble: {
     position: 'relative',
     marginLeft: arrowWidth

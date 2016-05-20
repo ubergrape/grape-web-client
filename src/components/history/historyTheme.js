@@ -1,6 +1,6 @@
 import {white} from 'grape-theme/dist/base-colors'
 
-export default {
+export const styles = {
   history: {
     position: 'absolute',
     top: 0,

@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   grid: {
     position: 'relative',
     // Without this property, Chrome repaints the entire Grid any time a new row or column is added.

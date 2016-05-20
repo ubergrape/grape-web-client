@@ -1,10 +1,10 @@
 import {red} from 'grape-theme/dist/base-colors'
 
-import {styles, leftOffset} from './messageTheme'
+import {styles as baseStyles, leftOffset} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
 
-export default {
-  ...styles,
+export const styles = {
+  ...baseStyles,
   pending: {
     opacity: 0.5
   },

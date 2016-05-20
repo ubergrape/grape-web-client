@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './authorStyles'
+import {styles} from './authorTheme'
 
 @useSheet(styles)
 export default class Author extends Component {

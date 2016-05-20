@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   header: {
     display: 'flex',
     overflow: 'hidden',

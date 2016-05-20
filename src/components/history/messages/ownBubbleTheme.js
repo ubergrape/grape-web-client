@@ -1,7 +1,7 @@
 // FIXME use grape-theme
-const color = '#edf0f5'
+const color = '#d2e6fb'
 
-export default {
+export const styles = {
   bubble: {
     flex: 1,
     '&:before': {

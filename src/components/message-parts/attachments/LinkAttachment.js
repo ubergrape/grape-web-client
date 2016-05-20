@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
 
-import styles from './linkAttachmentStyles'
+import {styles} from './linkAttachmentTheme'
 
 function LinkAttachment(props) {
   const {url, name, sheet, category} = props

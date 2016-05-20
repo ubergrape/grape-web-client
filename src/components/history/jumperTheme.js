@@ -1,6 +1,6 @@
 import buttonIcon from '../button/icon'
 
-export default {
+export const styles = {
   jumper: {
     extend: buttonIcon('arrowDown'),
     position: 'absolute',

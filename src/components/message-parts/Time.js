@@ -8,7 +8,7 @@ import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
 import * as tooltipTheme from '../tooltip/themes/gray'
 
-import styles from './timeStyles'
+import {styles} from './timeTheme'
 
 const ThemedTooltip = useTheme(Tooltip, merge({}, tooltipTheme, {
   styles: {tooltip: styles.tooltip},

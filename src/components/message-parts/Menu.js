@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './MenuStyles'
+import {styles} from './MenuTheme'
 
 function getClassName(classes, name, i, length) {
   const classNames = [classes[`${name}Item`], classes.item]

@@ -1,10 +1,10 @@
 import createInlineIcon from '../../inline-icon/create'
 import {gray} from 'grape-theme/dist/base-colors'
 
-import {styles} from './messageTheme'
+import {styles as baseStyles} from './baseMessageTheme'
 
-export default {
-  ...styles,
+export const styles = {
+  ...baseStyles,
   container: {
     extend: createInlineIcon('iconLink', {
       color: gray,

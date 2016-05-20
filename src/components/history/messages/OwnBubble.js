@@ -1,5 +1,5 @@
 import useTheme from '../../theme/useTheme'
 import Bubble from '../../message-parts/Bubble'
-import styles from './ownBubbleStyles'
+import * as theme from './ownBubbleTheme'
 
-export default useTheme(Bubble, {styles})
+export default useTheme(Bubble, theme)

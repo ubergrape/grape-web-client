@@ -7,7 +7,7 @@ import AutoRowHeight from './AutoRowHeight'
 import AutoScroll from './AutoScroll'
 import InfiniteLoader from './InfiniteLoader'
 
-import styles from './infiniteListStyles'
+import {styles} from './infiniteListTheme'
 
 @useSheet(styles)
 export default class InfiniteList extends Component {

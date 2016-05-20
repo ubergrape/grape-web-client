@@ -4,7 +4,7 @@ import bindAll from 'lodash/function/bindAll'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
 
-import styles from './imageAttachmentStyles'
+import {styles} from './imageAttachmentTheme'
 
 @useSheet(styles)
 export default class ImageAttachment extends Component {

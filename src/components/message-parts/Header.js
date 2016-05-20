@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './headerStyles'
+import {styles} from './headerTheme'
 import Author from './Author'
 import Time from './Time'
 

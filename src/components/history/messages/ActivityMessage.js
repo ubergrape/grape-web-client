@@ -6,7 +6,7 @@ import Avatar from '../../avatar/Avatar'
 import GrapeDown from '../../grape-down/GrapeDown'
 import Header from '../../message-parts/Header'
 import OthersBubble from './OthersBubble'
-import styles from './activityMessageStyles'
+import {styles} from './activityMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 @useSheet(styles)

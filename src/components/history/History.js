@@ -9,7 +9,7 @@ import ActivityMessage from './messages/ActivityMessage'
 
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
-import styles from './historyStyles'
+import {styles} from './historyTheme'
 
 const messageTypes = {
   regular: RegularMessage,

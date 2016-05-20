@@ -1,7 +1,7 @@
 import {borderDefault} from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 
-export default {
+export const styles = {
   separator: {
     marginTop: 25,
     position: 'relative',

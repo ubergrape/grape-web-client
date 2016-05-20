@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   icon: {
     display: 'inline-block',
     background: 'no-repeat',

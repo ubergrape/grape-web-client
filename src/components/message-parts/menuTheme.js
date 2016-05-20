@@ -10,7 +10,7 @@ const iconOptions = {
 
 const border = `1px solid ${button}`
 
-export default {
+export const styles = {
   menu: {
     display: 'inline-block',
     position: 'absolute',

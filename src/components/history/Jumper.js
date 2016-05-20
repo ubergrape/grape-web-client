@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './jumperStyles'
+import {styles} from './jumperTheme'
 
 @useSheet(styles)
 export default class Jumper extends Component {

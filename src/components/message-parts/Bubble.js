@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './bubbleStyles'
+import {styles} from './bubbleTheme'
 
 @useSheet(styles)
 export default class Bubble extends Component {
