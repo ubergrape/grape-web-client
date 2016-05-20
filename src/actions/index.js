@@ -1,6 +1,5 @@
 export * from './common'
 export * from './pubSubHandlers'
-export * from './channelSearch'
 export * from './sharedFiles'
 export * from './mentions'
 export * from './messageSearch'

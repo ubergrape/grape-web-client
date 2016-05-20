@@ -2,7 +2,6 @@ import {createElement} from 'react'
 import {render} from 'react-dom'
 import subscribeActions from './subscribe'
 import client from '../utils/backend/client'
-import ChannelSearchProvider from '../components/channel-search/ChannelSearchProvider'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
 import AlertsProvider from '../components/alerts/AlertsProvider'
@@ -13,10 +12,6 @@ import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 
-render(
-  createElement(ChannelSearchProvider),
-  document.body.appendChild(document.createElement('grape-channel-search'))
-)
 render(
   createElement(BillingWarningProvider),
   document.body.appendChild(document.createElement('grape-billing-warning'))

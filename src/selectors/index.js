@@ -110,29 +110,6 @@ export const fullOrgSelector = createSelector(
   }
 )
 
-export const channelSearch = createSelector(
-  state => state.channelSearch, state => state
-)
-
-export const channelSearchSelector = createSelector(
-  [
-    channelSearch,
-    fullOrgSelector,
-    userSelector
-  ],
-  (
-    search,
-    org,
-    user
-  ) => {
-    return {
-      ...search,
-      org,
-      user
-    }
-  }
-)
-
 export const billingWarningSelector = createSelector(
   state => state.billingWarning, state => state
 )
@@ -342,19 +319,13 @@ export const navigationSelector = createSelector(
     joinedRoomsSelector,
     channelSelector,
     navigationPmsSelector,
-    initialDataLoadingSelector,
-    channelSearch,
-    fullOrgSelector,
-    userSelector
+    initialDataLoadingSelector
   ],
   (
     rooms,
     channel,
     pms,
-    isLoading,
-    search,
-    org,
-    user
+    isLoading
   ) => {
     const all = rooms.concat(pms)
     const recent = all
@@ -368,10 +339,7 @@ export const navigationSelector = createSelector(
       recent,
       favorited,
       isLoading,
-      channel,
-      search,
-      org,
-      user
+      channel
     }
   }
 )
