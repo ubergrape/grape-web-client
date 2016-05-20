@@ -5,20 +5,15 @@ import noop from 'lodash/utility/noop'
 import bindAll from 'lodash/function/bindAll'
 import copy from 'copy-to-clipboard'
 
-import useTheme from '../../theme/useTheme'
 import Avatar from '../../avatar/Avatar'
 import GrapeDown from '../../grape-down/GrapeDown'
 import Header from '../../message-parts/Header'
-import Bubble from '../../message-parts/Bubble'
+import OthersBubble from './OthersBubble'
+import OwnBubble from './OwnBubble'
 import Menu from '../../message-parts/Menu'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
 import styles from './regularMessageStyles'
-import ownBubbleStyles from './ownBubbleStyles'
-import othersBubbleStyles from './othersBubbleStyles'
-
-const OwnBubble = useTheme(Bubble, {styles: ownBubbleStyles})
-const OthersBubble = useTheme(Bubble, {styles: othersBubbleStyles})
 
 function Unsent(props) {
   const {classes} = props.theme
@@ -58,6 +53,8 @@ export default class RegularMessage extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
+    // Author and avatar are optional because we show them only for the first
+    // message in the row.
     author: PropTypes.string,
     avatar: PropTypes.string
   }

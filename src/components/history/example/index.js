@@ -26,7 +26,8 @@ const textParts = [
   '> quote',
   '\ngoogle.com',
   '1. test',
-  '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)'
+  '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)',
+  '<button>Button</button>'
 ]
 const createMessage = (i, options = {}) => {
   const time = options.time || new Date(now + i * 1000 * 60 * 60)
@@ -185,4 +186,17 @@ window.addMessageWithAttachment = (type) => {
       break
     default:
   }
+}
+
+window.addActivityMessage = () => {
+  window.addMessage({
+    type: 'activity',
+    container: {
+      url: 'https://github.com/ubergrape/chatgrape',
+      name: 'ubergrape/chatgrape'
+    },
+    title: '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
+    text: 'let\'s merge this into master on thursday, shall we?',
+    author: 'Github'
+  })
 }

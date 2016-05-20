@@ -5,12 +5,15 @@ import moment from 'moment'
 
 import InfiniteList from './InfiniteList'
 import RegularMessage from './messages/RegularMessage'
+import ActivityMessage from './messages/ActivityMessage'
+
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './historyStyles'
 
 const messageTypes = {
-  regular: RegularMessage
+  regular: RegularMessage,
+  activity: ActivityMessage
 }
 
 // Group messages under same avatar/name if they are send within this time distance.

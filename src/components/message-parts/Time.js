@@ -49,6 +49,7 @@ UserTime.propTypes = {
  * @return {Boolean}
  */
 function isReadersTimezone(time) {
+  if (!time) return true
   const readersOffset = Math.abs(new Date().getTimezoneOffset())
   const writersOffset = moment.parseZone(time).utcOffset()
   return readersOffset === writersOffset
@@ -59,8 +60,8 @@ export default class Time extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    userTime: PropTypes.string.isRequired,
-    format: PropTypes.string.isRequired
+    format: PropTypes.string.isRequired,
+    userTime: PropTypes.string
   }
 
   static defaultProps = {
@@ -99,7 +100,7 @@ export default class Time extends Component {
         <span className={isSameTimezone ? classes.timeContainer : classes.timeContainerHoverable}>
           {moment(time).format(format)}
         </span>
-        {!isSameTimezone &&
+        {!isSameTimezone && userTime &&
           <UserTime
             isOpened={isWritersTimeOpened}
             userTime={userTime}
