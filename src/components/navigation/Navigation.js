@@ -123,6 +123,8 @@ export default class Navigation extends Component {
   }
 
   renderManageButtons() {
+    if (this.state.filter) return null
+
     const {
       sheet,
       showChannelsManager,
@@ -262,7 +264,6 @@ export default class Navigation extends Component {
     return (
       <List
         items={filtered}
-        className={classes.section}
         renderItem={::this.renderFilteredChannel}
         onSelect={::this.onSelectFiltered}
         onFocus={::this.onFocusFiltered}
