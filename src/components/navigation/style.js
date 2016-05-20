@@ -73,7 +73,7 @@ export default {
     marginTop: 10
   },
   notFound: {
-    marginTop: 20,
+    padding: 10,
     textAlign: 'center'
   },
   title: {

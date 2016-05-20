@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import Fuse from 'fuse.js'
 import List from 'react-finite-list'
 import colors from 'grape-theme/dist/base-colors'
 import keyname from 'keyname'
@@ -7,7 +8,6 @@ import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
-import fuzzyFilter from '../../utils/fuzzy-filter'
 import {userStatusMap} from '../../constants/app'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -26,6 +26,7 @@ export default class Navigation extends Component {
     focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
+    all: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number
@@ -45,6 +46,19 @@ export default class Navigation extends Component {
     }
 
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('props')
+    if (nextProps.all !== this.props.all) {
+      console.log('set fuse')
+      this.setState({
+        fuse: new Fuse(
+          nextProps.all,
+          {keys: ['name', 'mate.displayName'], threshold: 0.3}
+        )
+      })
+    }
   }
 
   onShortcut() {
@@ -67,13 +81,8 @@ export default class Navigation extends Component {
   }
 
   onChangeFilter({target}) {
-    const {favorited, recent} = this.props
     const {value} = target
-    const filtered = fuzzyFilter(
-      value,
-      recent.concat(favorited),
-      ['name', 'mate.displayName']
-    )
+    const filtered = this.state.fuse.search(value)
 
     this.setState({
       filtered,
@@ -182,15 +191,14 @@ export default class Navigation extends Component {
   renderRoom(room, focused) {
     const {classes} = this.props.sheet
 
-    let className = classes.channel
-    if (!this.state.filter && room.current) className += ` ${classes.channelCurrent}`
-    if (focused) className += ` ${classes.channelFocused}`
+    let channelClass = classes.channel
+    if (!this.state.filter && room.current) channelClass += ` ${classes.channelCurrent}`
+    if (focused) channelClass += ` ${classes.channelFocused}`
     const key = `room${room.id}`
     return (
       <div
-        ref={key}
         key={key}
-        className={className}
+        className={channelClass}
         onClick={this.goToChannel.bind(this, room)}>
         <Roomname {...room} />
         {this.renderUnread(room)}
@@ -202,15 +210,14 @@ export default class Navigation extends Component {
     const {classes} = this.props.sheet
     const {mate} = pm
 
-    let className = classes.channel
-    if (!this.state.filter && pm.current) className += ` ${classes.channelCurrent}`
-    if (focused) className += ` ${classes.channelFocused}`
+    let channelClass = classes.channel
+    if (!this.state.filter && pm.current) channelClass += ` ${classes.channelCurrent}`
+    if (focused) channelClass += ` ${classes.channelFocused}`
     const key = `pm${pm.id}`
     return (
       <div
-        ref={key}
         key={key}
-        className={className}
+        className={channelClass}
         onClick={this.goToChannel.bind(this, pm)}>
         <Username
           statusBorderColor={colors.grayBlueLighter}
