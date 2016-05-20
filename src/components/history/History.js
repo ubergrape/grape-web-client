@@ -4,7 +4,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import InfiniteList from './InfiniteList'
-import RegularMessage from './RegularMessage'
+import RegularMessage from './messages/RegularMessage'
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import styles from './historyStyles'

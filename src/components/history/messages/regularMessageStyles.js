@@ -1,5 +1,5 @@
 import {red} from 'grape-theme/dist/base-colors'
-import createInlineIcon from '../inline-icon/create'
+import createInlineIcon from '../../inline-icon/create'
 
 const arrowWidth = 7
 const marginRight = 5
