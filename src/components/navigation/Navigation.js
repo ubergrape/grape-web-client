@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import List from 'react-finite-list'
 import colors from 'grape-theme/dist/base-colors'
 import keyname from 'keyname'
+import mousetrap from 'mousetrap'
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 
 import Username from '../avatar-name/Username'
 import Roomname from '../avatar-name/Roomname'
@@ -17,9 +19,11 @@ export default class Navigation extends Component {
 
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    shortcuts: PropTypes.array.isRequired,
     showChannelsManager: PropTypes.func.isRequired,
     showPmManager: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
+    focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     favorited: PropTypes.array.isRequired,
@@ -28,7 +32,8 @@ export default class Navigation extends Component {
   }
 
   static defaultProps = {
-    step: 10
+    step: 10,
+    shortcuts: ['mod+k']
   }
 
   constructor(props) {
@@ -38,16 +43,12 @@ export default class Navigation extends Component {
       filter: '',
       filtered: []
     }
+
+    mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // If we chose channel from the filter we need to scroll into it view.
-    if (prevState.filter && !this.state.filter) {
-      const {type, id} = this.props.channel
-      const element = this.refs[`${type}${id}`]
-      if (!element || document.elementFromPoint(element.offsetLeft, element.offsetTop)) return
-      element.scrollIntoView()
-    }
+  onShortcut() {
+    this.refs.filter.focus()
   }
 
   onScroll(e) {
@@ -86,9 +87,16 @@ export default class Navigation extends Component {
   }
 
   onKeyDownFilter(e) {
-    const {list} = this.refs
+    const {list, filter} = this.refs
+
+    const keyName = keyname(e.keyCode)
+    if (keyName === 'esc' && !filter.value) {
+      filter.blur()
+      this.props.focusGrapeInput()
+    }
+
     if (!list) return
-    switch (keyname(e.keyCode)) {
+    switch (keyName) {
       case 'up':
         list.focus('prev')
         e.preventDefault()
@@ -298,6 +306,7 @@ export default class Navigation extends Component {
         <div className={classes.filter}>
           <input
             type="search"
+            ref="filter"
             placeholder="Search people and groups…"
             className={classes.filterInput}
             value={this.state.filter}

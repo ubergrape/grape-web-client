@@ -43,6 +43,7 @@ export default function pipeEvents(ui) {
   broker(ui.grapeInput, 'input', ui.historyView, 'onInput')
   broker(ui.grapeInput, 'showmarkdowntips', ui, 'showMarkdownTips')
   broker(ui.grapeInput, 'resize', ui.historyView, 'onInputResize')
+  broker(ui.reduxEmitter, 'focusGrapeInput', ui.grapeInput, 'focusGrapeInput')
 
   // history view
   broker.pass(ui.historyView, 'hasread', ui, 'hasread')

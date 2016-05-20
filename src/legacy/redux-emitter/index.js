@@ -119,6 +119,9 @@ class ReduxEmitter extends Emitter {
     this.emit('toggleOrgSettings', elem)
   }
 
+  focusGrapeInput() {
+    this.emit('focusGrapeInput')
+  }
 }
 
 const reduxEmitter = new ReduxEmitter()
