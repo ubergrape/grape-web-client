@@ -1,20 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import Fuse from 'fuse.js'
-import List from 'react-finite-list'
-import colors from 'grape-theme/dist/base-colors'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 
-import Username from '../avatar-name/Username'
-import Roomname from '../avatar-name/Roomname'
-import {userStatusMap} from '../../constants/app'
 import Filter from './Filter'
+import List from './List'
+import FilteredList from './FilteredList'
+import Channel from './Channel'
+import ManageButtons from './ManageButtons'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
-
-const maxUnread = 99
 
 @useSheet(style)
 export default class Navigation extends Component {
@@ -91,35 +88,34 @@ export default class Navigation extends Component {
     this.setState({
       filtered,
       filter: value,
-      focused: filtered[0]
+      focusedChannel: filtered[0]
     })
   }
 
   onFocusFiltered(channel) {
-    this.setState({focused: channel})
+    this.setState({focusedChannel: channel})
   }
 
   onKeyDownFilter(e) {
-    const {list} = this.refs
     const keyName = keyname(e.keyCode)
 
     if (keyName === 'esc' && !this.filter.value) {
       this.filter.blur()
       this.props.focusGrapeInput()
     }
-
-    if (!list) return
+    const {filteredList} = this.refs
+    if (!filteredList) return
     switch (keyName) {
       case 'up':
-        list.focus('prev')
+        filteredList.focus('prev')
         e.preventDefault()
         break
       case 'down':
-        list.focus('next')
+        filteredList.focus('next')
         e.preventDefault()
         break
       case 'enter':
-        this.onSelectFiltered(this.state.focused)
+        this.onSelectFiltered(this.state.focusedChannel)
         e.preventDefault()
         break
       default:
@@ -131,175 +127,72 @@ export default class Navigation extends Component {
     this.setState({
       filter: '',
       filtered: [],
-      focused: null
+      focusedChannel: null
     })
   }
 
-  renderManageButtons() {
-    if (this.state.filter) return null
-
-    const {
-      sheet,
-      showChannelsManager,
-      showPmManager
-    } = this.props
-
-    const {classes} = sheet
-
-    return (
-      <ul className={classes.manage}>
-        <li className={classes.manageItem}>
-          <button
-            className={classes.contacts}
-            onClick={showPmManager}>
-            Contacts
-          </button>
-        </li>
-        <li className={classes.manageItem}>
-          <button
-            className={classes.channels}
-            onClick={showChannelsManager}>
-            Groups
-          </button>
-        </li>
-      </ul>
-    )
-  }
-
-  renderUnread({type, unread, mentioned}) {
-    if (!unread) return null
-
-    const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
-    const mention = type === 'room' && mentioned ? '@' : ''
-
-    const {classes} = this.props.sheet
-    let className = `${classes.sign} `
-    className += mention || type === 'pm' ? classes.importantSign : classes.defaultSign
-    return (
-      <span className={className}>
-        {mention + unreadCount}
-      </span>
-    )
-  }
-
   renderFilteredChannel({item: channel, focused}) {
-    return this.renderChannel(channel, focused)
-  }
-
-  renderChannel(channel, focused) {
-    if (channel.type === 'room') return this.renderRoom(channel, focused)
-    if (channel.type === 'pm') return this.renderPm(channel, focused)
-    return null
-  }
-
-  renderRoom(room, focused) {
-    const {classes} = this.props.sheet
-
-    let channelClass = classes.channel
-    if (!this.state.filter && room.current) channelClass += ` ${classes.channelCurrent}`
-    if (focused) channelClass += ` ${classes.channelFocused}`
-    const key = `room${room.id}`
-    return (
-      <div
-        key={key}
-        className={channelClass}
-        onClick={this.goToChannel.bind(this, room)}>
-        <Roomname {...room} />
-        {this.renderUnread(room)}
-      </div>
-    )
-  }
-
-  renderPm(pm, focused) {
-    const {classes} = this.props.sheet
-    const {mate} = pm
-
-    let channelClass = classes.channel
-    if (!this.state.filter && pm.current) channelClass += ` ${classes.channelCurrent}`
-    if (focused) channelClass += ` ${classes.channelFocused}`
-    const key = `pm${pm.id}`
-    return (
-      <div
-        key={key}
-        className={channelClass}
-        onClick={this.goToChannel.bind(this, pm)}>
-        <Username
-          statusBorderColor={colors.grayBlueLighter}
-          avatar={mate.avatar}
-          status={userStatusMap[mate.status]}
-          name={mate.displayName} />
-        {this.renderUnread(pm)}
-      </div>
-    )
-  }
-
-  renderRecentList() {
-    const {recent} = this.props
-    if (!recent.length) return null
     const {classes} = this.props.sheet
     return (
-      <div className={classes.section}>
-        <h2 className={`${classes.title} ${classes.recent}`}>Recent</h2>
-        <div className={classes.list}>
-          {recent.slice(0, this.state.shift).map(channel => this.renderChannel(channel))}
-        </div>
-      </div>
-    )
-  }
-
-  renderFavoritedList() {
-    const {favorited} = this.props
-    if (!favorited.length) return null
-    const {classes} = this.props.sheet
-    return (
-      <div className={classes.section}>
-        <h2 className={`${classes.title} ${classes.favorites}`}>Favorites</h2>
-        <div className={classes.list}>
-          {favorited.map(channel => this.renderChannel(channel))}
-        </div>
-      </div>
-    )
-  }
-
-  renderFilteredList() {
-    const {filter, filtered, focused} = this.state
-    const {classes} = this.props.sheet
-    if (!filtered.length) {
-      return (
-        <div className={classes.notFound}>
-          {'There\'s nothing that matches '}
-          <strong>{filter}</strong>
-        </div>
-      )
-    }
-    return (
-      <List
-        items={filtered}
-        renderItem={::this.renderFilteredChannel}
-        onSelect={::this.onSelectFiltered}
-        onFocus={::this.onFocusFiltered}
-        onMouseOver={::this.onFocusFiltered}
+      <Channel
+        {...this.props}
+        {...this.state}
+        channel={channel}
         focused={focused}
-        ref="list" />
+        theme={{classes}}
+        onClick={this.goToChannel.bind(this, channel)}/>
     )
   }
 
   renderList() {
-    if (this.state.filter) return this.renderFilteredList()
+    const {classes} = this.props.sheet
+
+    if (this.state.filter) {
+      return (
+        <FilteredList
+          {...this.props}
+          {...this.state}
+          theme={{classes}}
+          ref="filteredList"
+          renderItem={::this.renderFilteredChannel}
+          onSelect={::this.onSelectFiltered}
+          onFocus={::this.onFocusFiltered}
+          onMouseOver={::this.onFocusFiltered} />
+      )
+    }
 
     return (
       <div>
-        {this.renderFavoritedList()}
-        {this.renderRecentList()}
+        <List
+          {...this.props}
+          {...this.state}
+          title="Favorites"
+          type="favorites"
+          theme={{classes}}
+          list={this.props.favorited}
+          goToChannel={::this.goToChannel} />
+        <List
+          {...this.props}
+          {...this.state}
+          title="Recent"
+          type="recent"
+          theme={{classes}}
+          list={this.props.recent.slice(0, this.state.shift)}
+          goToChannel={::this.goToChannel} />
       </div>
     )
   }
 
   renderNavigation() {
     if (this.props.isLoading) return null
+    const {classes} = this.props.sheet
     return (
-      <div className={this.props.sheet.classes.navigationWrapper}>
-        {this.renderManageButtons()}
+      <div className={classes.navigationWrapper}>
+        <ManageButtons
+          {...this.props}
+          {...this.state}
+          theme={{classes}}
+          />
         {this.renderList()}
       </div>
     )
@@ -317,10 +210,11 @@ export default class Navigation extends Component {
         </div>
         <div className={classes.filter}>
           <Filter
-            ref="filter"
-            theme={{classes}}
             {...this.props}
             {...this.state}
+            ref="filter"
+            value={this.state.filter}
+            theme={{classes}}
             onKeyDown={::this.onKeyDownFilter}
             onChange={::this.onChangeFilter} />
         </div>
