@@ -9,6 +9,7 @@ export default function List(props) {
     list,
     goToChannel
   } = props
+  // TODO: return `null` once upgraded to React 0.15.
   if (!list.length) return <noscript />
   const {classes} = theme
 
@@ -17,11 +18,10 @@ export default function List(props) {
       <h2 className={`${classes.title} ${classes[type]}`}>{title}</h2>
       <div className={classes.list}>
         {list.map(channel => {
-          const key = `${channel.type}${channel.id}`
           return (
             <Channel
               {...props}
-              key={key}
+              key={channel.type + channel.id}
               onClick={() => goToChannel(channel)}
               channel={channel} />
           )

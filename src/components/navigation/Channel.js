@@ -44,7 +44,6 @@ Unread.propTypes = {
   channel: PropTypes.object.isRequired
 }
 
-
 function Room({channel}) {
   return (
     <div>
@@ -57,7 +56,6 @@ function Room({channel}) {
 Room.propTypes = {
   channel: PropTypes.object.isRequired
 }
-
 
 function Pm({channel}) {
   const {mate} = channel

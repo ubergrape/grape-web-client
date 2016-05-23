@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import List from 'react-finite-list'
 
 export default class FilteredList extends Component {
-
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
@@ -35,8 +34,7 @@ export default class FilteredList extends Component {
         {...this.props}
         items={filtered}
         focused={focusedChannel}
-        ref="list"
-        />
+        ref="list" />
     )
   }
 }
