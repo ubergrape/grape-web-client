@@ -104,6 +104,8 @@ export default class History extends Component {
     const {classes} = sheet
 
     return (
+      // TODO check if we should call over store/action, depending on how much
+      // overhead it is.
       <Jumper
         className={classes.history}
         target={messages[messages.length - 1]}>
