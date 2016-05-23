@@ -22,9 +22,9 @@ const textParts = [
   '```',
   'multiline code',
   '```',
-  '[link](http://google.com)',
+  '[link](http://markdownlink.com)',
   '> quote',
-  '\ngoogle.com',
+  '\nsimplelink.com',
   '1. test',
   '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)',
   '<button>Button</button>'
