@@ -18,6 +18,6 @@ const render = mdReact({
   }
 })
 
-export default function GrapeDown(props) {
+export default function Grapedown(props) {
   return render(props.text)
 }

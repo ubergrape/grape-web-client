@@ -3,7 +3,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 
 import Avatar from '../../avatar/Avatar'
-import GrapeDown from '../../grape-down/GrapeDown'
+import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import OthersBubble from './OthersBubble'
 import {styles} from './activityMessageTheme'
@@ -52,8 +52,8 @@ export default class ActivityMessage extends Component {
               className={classes.container}>
               {container.name}
             </a>
-            <GrapeDown text={title} />
-            <GrapeDown text={children} />
+            <Grapedown text={title} />
+            <Grapedown text={children} />
           </OthersBubble>
         </div>
       </div>

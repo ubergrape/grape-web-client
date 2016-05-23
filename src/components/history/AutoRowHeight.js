@@ -41,8 +41,8 @@ const containerStyle = {
 
 export default class AutoRowHeight extends Component {
   static propTypes = {
-    cacheSize: PropTypes.number,
-    rows: PropTypes.arrayOf(PropTypes.node),
+    cacheSize: PropTypes.number.isRequired,
+    rows: PropTypes.arrayOf(PropTypes.node).isRequired,
     children: PropTypes.func.isRequired
   }
 
@@ -54,7 +54,7 @@ export default class AutoRowHeight extends Component {
     super(props)
     this.updateCache([])
     this.childrenParam = bindAll(this, 'onResize', 'rowHeight', 'renderRow',
-      'isRowLoaded', 'registerChild', 'recomputeRowHeights')
+      'isRowLoaded', 'registerScroller', 'recomputeRowHeights')
     this.heightsInitialized = false
   }
 
@@ -85,7 +85,7 @@ export default class AutoRowHeight extends Component {
     this.calcAndCacheHeights(this.props.rows, true, this.recomputeRowHeights)
   }
 
-  registerChild(ref) {
+  registerScroller(ref) {
     this.scroller = ref
   }
 

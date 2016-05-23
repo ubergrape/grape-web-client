@@ -6,7 +6,7 @@ import bindAll from 'lodash/function/bindAll'
 import copy from 'copy-to-clipboard'
 
 import Avatar from '../../avatar/Avatar'
-import GrapeDown from '../../grape-down/GrapeDown'
+import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import OthersBubble from './OthersBubble'
 import OwnBubble from './OwnBubble'
@@ -153,7 +153,7 @@ export default class RegularMessage extends Component {
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <ThemedBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
-              <GrapeDown text={children} />
+              <Grapedown text={children} />
               {attachments.map(this.renderAttachment, this)}
             </div>
           </ThemedBubble>

@@ -53,11 +53,7 @@ export default class History extends Component {
 
     if (!prevMessage || !message) return false
 
-    if (prevMessage.time.getTime() + timeThreshold > message.time.getTime()) {
-      return true
-    }
-
-    return false
+    return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
   }
 
   renderRow(messages, index) {

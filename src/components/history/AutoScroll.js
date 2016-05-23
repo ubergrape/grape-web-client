@@ -52,10 +52,12 @@ export default class AutoScroll extends Component {
         }
 
         this.childrenParam.scrollTop = addedHeight
+        return
+      }
 
       // We are at the bottom within a threshold where we need to ensure last
       // message is always in view.
-      } else if (this.bottomThreshold < this.props.bottomThreshold) {
+      if (this.bottomThreshold < this.props.bottomThreshold) {
         const prevLastRenderedRow = this.props.rows[this.renderedRows.stopIndex]
         const prevLastRowIndex = nextProps.rows.indexOf(prevLastRenderedRow)
 
