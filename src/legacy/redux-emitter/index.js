@@ -23,16 +23,16 @@ class ReduxEmitter extends Emitter {
     boundActions.setSettings(toCamel(settings))
   }
 
-  onShowChannelInfo() {
-    boundActions.showChannelInfoOrUserProfile()
-  }
-
   onNewPMOpened(pm) {
     boundActions.createChannel(toCamel(pm))
   }
 
   leaveChannel(channelId) {
     this.emit('leaveRoom', channelId)
+  }
+
+  showRoomDeteteDialog() {
+    this.emit('toggledeleteroomdialog', window.ui.room)
   }
 
   kickMemberFromChannel(params) {
@@ -119,6 +119,9 @@ class ReduxEmitter extends Emitter {
     this.emit('toggleOrgSettings', elem)
   }
 
+  focusGrapeInput() {
+    this.emit('focusGrapeInput')
+  }
 }
 
 const reduxEmitter = new ReduxEmitter()

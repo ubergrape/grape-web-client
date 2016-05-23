@@ -43,7 +43,7 @@ export default class NotificationsAlert extends Component {
           </button>
         </span>
         <span
-          className={classes.secondary}>
+          className={classes.secondaryCol}>
           <button
             className={classes.buttonLink}
             onClick={this.props.hideAlert.bind(null, alert)}>

@@ -1,7 +1,10 @@
 import page from 'page'
 
 import * as types from '../constants/actionTypes'
-import {reduceChannelUsersToId, pinToFavorite, removeBrokenPms} from './utils'
+import {
+  normalizeChannelData,
+  removeBrokenPms
+} from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
@@ -23,8 +26,7 @@ export function setChannels(channels) {
     type: types.SET_CHANNELS,
     payload: channels
       .filter(removeBrokenPms)
-      .map(reduceChannelUsersToId)
-      .map(pinToFavorite)
+      .map(normalizeChannelData)
   }
 }
 
@@ -61,7 +63,7 @@ export function createChannel(channel) {
   return {
     type: types.CREATE_NEW_CHANNEL,
     payload: {
-      ...reduceChannelUsersToId(channel),
+      ...normalizeChannelData(channel),
       unread: channel.unread || 0
     }
   }
@@ -232,5 +234,23 @@ export function handleConnectionError(err) {
     if (connection === 'lp' && err.status === 401) {
       dispatch(reloadOnAuthError())
     }
+  }
+}
+
+export function goToAddIntegrations() {
+  return dispatch => {
+    dispatch({
+      type: types.GO_TO_ADD_INTEGRATIONS
+    })
+    location.pathname = '/integrations'
+  }
+}
+
+export function focusGrapeInput() {
+  return dispatch => {
+    dispatch({
+      type: types.FOCUS_GRAPE_INPUT
+    })
+    reduxEmitter.focusGrapeInput()
   }
 }

@@ -110,29 +110,6 @@ export const fullOrgSelector = createSelector(
   }
 )
 
-export const channelSearch = createSelector(
-  state => state.channelSearch, state => state
-)
-
-export const channelSearchSelector = createSelector(
-  [
-    channelSearch,
-    fullOrgSelector,
-    userSelector
-  ],
-  (
-    search,
-    org,
-    user
-  ) => {
-    return {
-      ...search,
-      org,
-      user
-    }
-  }
-)
-
 export const billingWarningSelector = createSelector(
   state => state.billingWarning, state => state
 )
@@ -173,45 +150,38 @@ export const setTypingSelector = createSelector(
   }
 )
 
-export const userProfile = createSelector(
-  state => state.userProfile, state => state
-)
-
 export const userProfileSelector = createSelector(
   [
-    userProfile,
     currentPmsSelector
   ],
   (
-    profile,
     pm
   ) => {
     return {
-      ...profile,
       ...pm.mate
     }
   }
 )
 
-export const channelInfo = createSelector(
-  state => state.channelInfo, state => state
+export const renameRoomErrorSelector = createSelector(
+  state => state.renameRoomError, state => state
 )
 
-export const channelInfoSelector = createSelector(
+export const roomInfoSelector = createSelector(
   [
-    channelInfo,
+    renameRoomErrorSelector,
     channelSelector,
     userSelector
   ],
   (
-    info,
+    renameError,
     channel,
     user
   ) => {
     return {
-      ...info,
       channel: channel.type === 'room' ? channel : {},
-      user
+      user,
+      renameError
     }
   }
 )
@@ -226,6 +196,10 @@ export const mentionsSelector = createSelector(
 
 export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
+)
+
+export const intercomSelector = createSelector(
+  state => state.intercom, state => state
 )
 
 export const alertsSelector = createSelector(
@@ -251,6 +225,17 @@ export const unreadChannelsSelector = createSelector(
       amount: rooms.concat(pms).filter(_channel => _channel.unread).length,
       channelName
     }
+  }
+)
+
+export const unreadMentionsAmountSelector = createSelector(
+  [joinedRoomsSelector, activePmsSelector],
+  (rooms, pms) => {
+    return rooms
+      .concat(pms)
+      .filter(channel => channel.mentioned)
+      .map(channel => channel.mentioned)
+      .reduce((amount, mentions) => amount + mentions, 0)
   }
 )
 
@@ -331,14 +316,14 @@ function sortRecentChannels(a, b) {
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
-    channelSelector,
     navigationPmsSelector,
+    channelSelector,
     initialDataLoadingSelector
   ],
   (
     rooms,
-    channel,
     pms,
+    channel,
     isLoading
   ) => {
     const all = rooms.concat(pms)
@@ -350,6 +335,7 @@ export const navigationSelector = createSelector(
       .sort((a, b) => b.favorited.order - a.favorited.order)
 
     return {
+      all,
       recent,
       favorited,
       isLoading,
@@ -363,6 +349,79 @@ export const favoriteSelector = createSelector(
     return {
       favorited: Boolean(favorited),
       id
+    }
+  }
+)
+
+export const supportSelector = createSelector(
+  state => state.support, state => state
+)
+
+export const sidebarSelector = createSelector(
+  state => state.sidebar, state => state
+)
+
+export const sidebarComponentSelector = createSelector(
+  [
+    sidebarSelector,
+    roomInfoSelector,
+    userProfileSelector,
+    sharedFilesSelector,
+    messageSearchSelector,
+    mentionsSelector,
+    supportSelector,
+    userSelector
+  ],
+  (
+    {show},
+    room,
+    pm,
+    files,
+    search,
+    mentions,
+    support,
+    {displayName: query}
+  ) => {
+    const select = {
+      show
+    }
+    if (!show) return select
+    const panels = {
+      room,
+      pm,
+      files,
+      search,
+      support,
+      mentions: {...mentions, query}
+    }
+    return {...select, ...panels[show]}
+  }
+)
+
+export const headerSelector = createSelector(
+  [
+    favoriteSelector,
+    channelSelector,
+    supportSelector,
+    sidebarSelector,
+    unreadMentionsAmountSelector,
+    userProfileSelector
+  ],
+  (
+    favorite,
+    channel,
+    support,
+    {show: sidebar},
+    mentions,
+    mate
+  ) => {
+    return {
+      favorite,
+      channel,
+      support,
+      sidebar,
+      mentions,
+      mate
     }
   }
 )

@@ -1,4 +1,5 @@
 export const maxChannelNameLength = 50
+export const maxChannelDescriptionLength = 100
 
 // https://staging.chatgrape.com/doc/rpc.html
 // status (int) - presence status within the organization:

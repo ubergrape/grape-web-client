@@ -18,6 +18,91 @@ export function createRoom(room) {
   })
 }
 
+export function renameRoom(id, name) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'rename',
+        args: [id, name]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
+export function setRoomDescription(id, description) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_description',
+        args: [id, description]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
+export function setRoomPrivacy(id, isPublic) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_public',
+        args: [id, isPublic]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
+export function setRoomColor(id, color) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_color',
+        args: [id, color]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
+export function setRoomIcon(id, icon) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'rooms',
+        action: 'set_icon',
+        args: [id, icon]
+      },
+      {camelize: true},
+      err => {
+        if (err) return reject(err)
+        resolve()
+      }
+    )
+  })
+}
+
 export function joinChannel(channelId) {
   return new Promise((resolve, reject) => {
     rpc(
