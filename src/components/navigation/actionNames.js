@@ -1,5 +1,6 @@
 export default [
   'showChannelsManager',
   'showPmManager',
-  'goToChannel'
+  'goToChannel',
+  'focusGrapeInput'
 ]

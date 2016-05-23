@@ -1,7 +1,6 @@
 export org from './org'
 export channels from './channels'
 export users from './users'
-export channelSearch from './channelSearch'
 export billingWarning from './billingWarning'
 export typingChannels from './typingChannels'
 export sidebar from './sidebar'

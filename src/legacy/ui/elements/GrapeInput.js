@@ -215,6 +215,10 @@ export default class GrapeInput extends Emitter {
     })
   }
 
+  focusGrapeInput() {
+    this.setProps({focused: true})
+  }
+
   getRoomObject(search, room = this.room) {
     const fallback = !arguments[1]
     return {
