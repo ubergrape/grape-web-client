@@ -23,13 +23,13 @@ ChannelPicker.propTypes = {
   channel: PropTypes.object.isRequired
 }
 
-function Unread({channel}) {
-  const {type, unread, mentioned, theme} = channel
+function Unread(props) {
+  const {type, unread, mentioned} = props.channel
   if (!unread) return <noscript />
 
   const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
   const mention = type === 'room' && mentioned ? '@' : ''
-  const {classes} = theme
+  const {classes} = props.theme
 
   let className = `${classes.sign} `
   className += mention || type === 'pm' ? classes.importantSign : classes.defaultSign
@@ -41,14 +41,15 @@ function Unread({channel}) {
 }
 
 Unread.propTypes = {
-  channel: PropTypes.object.isRequired
+  channel: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 }
 
-function Room({channel}) {
+function Room(props) {
   return (
     <div>
-      <Roomname {...channel} />
-      <Unread channel={channel} />
+      <Roomname {...props.channel} />
+      <Unread {...props} />
     </div>
   )
 }
@@ -57,8 +58,8 @@ Room.propTypes = {
   channel: PropTypes.object.isRequired
 }
 
-function Pm({channel}) {
-  const {mate} = channel
+function Pm(props) {
+  const {mate} = props.channel
   return (
     <div>
       <Username
@@ -66,7 +67,7 @@ function Pm({channel}) {
         avatar={mate.avatar}
         status={userStatusMap[mate.status]}
         name={mate.displayName} />
-      <Unread channel={channel} />
+      <Unread {...props} />
     </div>
   )
 }
