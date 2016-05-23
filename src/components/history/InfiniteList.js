@@ -32,6 +32,7 @@ export default class InfiniteList extends Component {
     this.state = {messages: props.messages}
   }
 
+  // FIXME use action and store instead
   onLoadMore(options) {
     const promise = this.props.onLoadMore(options)
     if (promise) {
