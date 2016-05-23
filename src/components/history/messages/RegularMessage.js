@@ -105,13 +105,16 @@ export default class RegularMessage extends Component {
   renderMenu() {
     if (!this.state.isMenuOpened) return null
 
+    const {isOwn, attachments} = this.props
     let items
 
-    if (this.props.isOwn) {
-      if (this.props.attachments.length) {
+    if (isOwn) {
+      // Attachments can't be edited.
+      if (attachments.length) {
         items = ['copyLink', 'remove']
       }
     } else {
+      // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
 
@@ -123,11 +126,11 @@ export default class RegularMessage extends Component {
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#attachments
-  renderAttachment(attachment, i) {
+  renderAttachment(attachment, key) {
     if (attachment.thumbnailUrl) {
-      return <ImageAttachment {...attachment} key={i} />
+      return <ImageAttachment {...attachment} key={key} />
     }
-    return <LinkAttachment {...attachment} key={i} />
+    return <LinkAttachment {...attachment} key={key} />
   }
 
   render() {

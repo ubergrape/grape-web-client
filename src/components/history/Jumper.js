@@ -27,13 +27,15 @@ export default class Jumper extends Component {
     const rowsPerPage = stopIndex - startIndex
     if (overscanStopIndex - stopIndex >= rowsPerPage) {
       if (!this.state.show) this.setState({show: true})
-    } else if (this.state.show) this.setState({show: false})
+      return
+    }
+    if (this.state.show) this.setState({show: false})
   }
 
   onJump() {
     this.setState({scrollTo: this.props.target})
     // Waiting until scrollTo is applied to remove it from the next loops.
-    // Can we do better?
+    // TODO Can we do better?
     setTimeout(() => {
       this.setState({scrollTo: undefined})
     })

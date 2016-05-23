@@ -1,3 +1,4 @@
+import {small} from 'grape-theme/dist/fonts'
 import {red} from 'grape-theme/dist/base-colors'
 
 import {styles as baseStyles, leftOffset} from './baseMessageTheme'
@@ -9,9 +10,8 @@ export const styles = {
     opacity: 0.5
   },
   unsent: {
-    extend: createInlineIcon('warning', {color: red}),
+    extend: [createInlineIcon('warning', {color: red}), small],
     color: red,
-    fontSize: '0.8em',
     marginTop: 10,
     marginLeft: leftOffset,
     '& a': {
