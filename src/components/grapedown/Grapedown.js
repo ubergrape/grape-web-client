@@ -17,7 +17,7 @@ const render = mdReact({
     if (tag === 'a') {
       if (isGrapeUrl(props.href)) {
         // FIXME render grape object.
-        return
+        return null
       }
       if (!isChatUrl(props.href)) {
         props.target = '_blank'

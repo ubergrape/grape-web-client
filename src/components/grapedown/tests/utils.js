@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {isGrapeUrl, isChatUrl} from '../utils'
 
-describe.only('Grapedown utils', () => {
+describe('Grapedown utils', () => {
   describe('isGrapeUrl', () => {
     it('should detect cg protocol', () => {
       expect(isGrapeUrl('cg://something')).to.be(true)
