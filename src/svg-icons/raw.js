@@ -34,9 +34,11 @@ export timeMachine from './svg/time-machine.svg'
 export plus from './svg/plus.svg'
 export arrowDown from './svg/arrow-down.svg'
 export pencil from './svg/pencil.svg'
+export pencilWindow from './svg/pencil-window.svg'
 export remove from './svg/remove.svg'
 export globe from './svg/globe.svg'
 export warning from './svg/warning.svg'
+export bell from './svg/bell.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
