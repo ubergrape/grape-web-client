@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "2.7.2",
+  "version": "2.8.0",
   "main": "lib/index.js",
   "engines": {
     "node": "2.4.0"
@@ -10,7 +10,7 @@
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-theme": "^1.2.0",
-    "grape-web": "0.20.0",
+    "grape-web": "0.26.0",
     "images-loader": "^0.1.2",
     "grape-js-emoji": "^0.0.1",
     "keyname": "^0.1.0",
@@ -48,6 +48,7 @@
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
     "karma-mocha": "^0.1.10",
+    "karma-mocha-reporter": "^2.0.3",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.5.1",
     "mocha": "^2.2.5",

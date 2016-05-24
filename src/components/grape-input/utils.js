@@ -1,7 +1,5 @@
 import {get as getEmoji, REGEX as EMOJI_REGEX} from '../emoji'
-import {create as createObject} from '../objects'
-import {grapeProtocolRegExp} from '../objects/constants'
-import {getTrigger} from '../objects/utils'
+import {create as createObject, getOptions as getObjectOptions} from 'grape-web/lib/grape-objects'
 
 // This regex is taken from "marked" module almost "as it is".
 // At the beginning "^!?" has been removed to match all objects.
@@ -25,23 +23,6 @@ function parseEmoji(content) {
   const emoji = content.match(EMOJI_REGEX)
   if (emoji) data = emoji.map(item => getEmojiData(item.trim()))
   return data
-}
-
-/**
- * Get data map from md object.
- */
-function toData(text, grapeUrl) {
-  if (!grapeProtocolRegExp.test(grapeUrl)) return false
-  const [service, type, id, url] = grapeUrl.slice(5).split('|')
-  return {
-    id,
-    service,
-    type,
-    url,
-    name: text,
-    slug: url.replace('/chat/', ''),
-    nameWithoutTrigger: text[0] === getTrigger(type) ? text.substr(1) : text
-  }
 }
 
 /**
@@ -76,17 +57,17 @@ export function fromMarkdown(md) {
   const objects = {}
 
   let value = md.replace(linkRegExp, (match, token, url) => {
-    const data = toData(token, url)
-    if (!data) return match
-    const object = createObject(data.type, data)
+    const options = getObjectOptions(token, url)
+    if (!options) return match
+    const object = createObject(options.type, options)
     objects[object.content] = object
 
     return object.content
   })
 
   value = value.replace(EMOJI_REGEX, match => {
-    const data = getEmojiData(match.trim())
-    objects[data.content] = createObject(data.type, data)
+    const options = getEmojiData(match.trim())
+    objects[options.content] = createObject(options.type, options)
     return match
   })
 

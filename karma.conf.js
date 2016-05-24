@@ -10,16 +10,10 @@ module.exports = function (config) {
       'tests.webpack.js'
     ],
     frameworks: ['mocha'],
-    plugins: [
-      'karma-chrome-launcher',
-      'karma-mocha',
-      'karma-sourcemap-loader',
-      'karma-webpack'
-    ],
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap']
     },
-    reporters: ['dots'],
+    reporters: ['mocha'],
     webpack: assign(webpackConfig, {
       devtool: 'inline-source-map'
     }),
