@@ -3,13 +3,13 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import {create as createObject} from 'grape-web/lib/grape-objects'
 
 import Textarea from './Textarea'
 import style from './grapeInputStyle'
 import parseQuery from '../query/parse'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import HighlightedInput from '../highlighted-input/HighlightedInput'
-import {create as createObject} from '../objects'
 
 import {
   toMarkdown,

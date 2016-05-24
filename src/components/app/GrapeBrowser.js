@@ -20,6 +20,7 @@ import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import * as emoji from '../emoji'
+import * as emojiSuggest from '../emoji-suggest'
 import style from './style'
 import * as utils from './utils'
 
@@ -292,7 +293,7 @@ export default class GrapeBrowser extends Component {
         .slice(0, nextProps.maxSuggestions)
     }
     if (state.browser === 'emojiSuggest') {
-      state.data = emoji
+      state.data = emojiSuggest
         .sortByRankAndLength(state.data)
         .slice(0, nextProps.maxSuggestions)
     }
