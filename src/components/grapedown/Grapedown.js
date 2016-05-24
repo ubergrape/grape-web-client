@@ -1,8 +1,11 @@
 import {createElement} from 'react'
 import {mdReact} from 'markdown-react-js'
 import emoji from 'markdown-it-emoji'
+import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 
-import {isGrapeUrl, isChatUrl} from './utils'
+import {isChatUrl} from './utils'
+import GrapeObject from './GrapeObject'
+
 
 const render = mdReact({
   presetName: 'commonmark',
@@ -16,8 +19,7 @@ const render = mdReact({
     // Open link in a new window if it is not a grape url.
     if (tag === 'a') {
       if (isGrapeUrl(props.href)) {
-        // FIXME render grape object.
-        return null
+        return createElement(GrapeObject, props, children)
       }
       if (!isChatUrl(props.href)) {
         props.target = '_blank'
