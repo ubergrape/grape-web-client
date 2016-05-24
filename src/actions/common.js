@@ -245,3 +245,12 @@ export function goToAddIntegrations() {
     location.pathname = '/integrations'
   }
 }
+
+export function focusGrapeInput() {
+  return dispatch => {
+    dispatch({
+      type: types.FOCUS_GRAPE_INPUT
+    })
+    reduxEmitter.focusGrapeInput()
+  }
+}
