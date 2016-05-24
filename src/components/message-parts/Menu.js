@@ -46,7 +46,7 @@ export default class Menu extends Component {
             <span
               className={className}
               onClick={onSelect.bind(null, {name})}
-              key={name}></span>
+              key={name} />
           )
         })}
       </div>

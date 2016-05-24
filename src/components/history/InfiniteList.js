@@ -75,7 +75,6 @@ export default class InfiniteList extends Component {
             minimumBatchSize={40}>
             {({
               onRowsRendered: onRowsRenderedInInfiniteLoader,
-              registerScroller: registerScrollerInInfiniteLoader,
               onScroll: onScrollInInfiniteLoader
             }) => (
               <AutoSizer onResize={onResize}>
@@ -92,10 +91,7 @@ export default class InfiniteList extends Component {
                         className={classes.grid}
                         scrollTop={scrollToIndex ? undefined : scrollTop}
                         scrollToIndex={scrollToIndex}
-                        ref={ref => {
-                          registerScrollerInInfiniteLoader(ref)
-                          registerScrollerInAutoRowHeight(ref)
-                        }}
+                        ref={registerScrollerInAutoRowHeight}
                         onRowsRendered={params => {
                           onRowsRenderedAutoScroll(params)
                           onRowsRenderedInInfiniteLoader(params)

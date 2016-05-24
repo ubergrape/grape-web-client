@@ -23,10 +23,7 @@ export default class InfiniteLoader extends Component {
     /**
      * Function respondible for rendering a virtualized component.
      * This function should implement the following signature:
-     * ({onRowsRendered, registerScroller}) => PropTypes.element
-     *
-     * The specified :onRowsRendered function should be passed through to the child's :onRowsRendered property.
-     * The :registerScroller callback should be set as the virtualized component's :ref.
+     * ({onRowsRendered, onScroll}) => PropTypes.element
      */
     children: PropTypes.func.isRequired,
 
@@ -68,7 +65,6 @@ export default class InfiniteLoader extends Component {
     super(props, context)
     this.onRowsRendered = ::this.onRowsRendered
     this.onScroll = ::this.onScroll
-    this.registerScroller = ::this.registerScroller
     this.direction = 0
   }
 
@@ -117,15 +113,10 @@ export default class InfiniteLoader extends Component {
     }
   }
 
-  registerScroller(scroller) {
-    this.scroller = scroller
-  }
-
   render() {
     return this.props.children({
       onRowsRendered: this.onRowsRendered,
-      onScroll: this.onScroll,
-      registerScroller: this.registerScroller
+      onScroll: this.onScroll
     })
   }
 }

@@ -68,7 +68,7 @@ export default class History extends Component {
     }
 
     const prevMessage = messages[index - 1]
-    let separator
+    let separator = null
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
       separator = (
         <DateSeparator
