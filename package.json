@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "dependencies": {
     "jss": "^3.3.0",
     "jss-camel-case": "^1.0.1",
@@ -29,6 +29,7 @@
     "karma-chrome-launcher": "^0.1.10",
     "karma-cli": "^0.0.4",
     "karma-mocha": "^0.1.10",
+    "karma-mocha-reporter": "^2.0.3",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.5.1",
     "mocha": "^2.2.5",
