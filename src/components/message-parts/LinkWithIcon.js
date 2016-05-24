@@ -29,5 +29,4 @@ LinkWithIcon.defaultProps = {
   target: '_blank'
 }
 
-
 export default useSheet(LinkWithIcon, styles)
