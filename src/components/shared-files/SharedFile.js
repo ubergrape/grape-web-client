@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import tz from 'moment-timezone'
+import moment from 'moment'
 import noop from 'lodash/utility/noop'
 
 import ImageZoom from '../image-zoom/ImageZoom'
@@ -67,7 +67,7 @@ export default class SharedFile extends Component {
     const {classes} = this.props.sheet
     const {channelType, channelName, time, author, name} = this.props
     const where = `Shared ${channelType === 'room' ? 'in' : 'with'} ${channelName}`
-    let when = tz(time).format(dateFormat)
+    let when = moment(time).format(dateFormat)
     if (author) when += ` - ${author}`
 
     return (

@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './headerStyles'
+import {styles} from './headerTheme'
 import Author from './Author'
-import LocalDate from './LocalDate'
+import Time from './Time'
 
 @useSheet(styles)
 export default class Header extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    date: PropTypes.instanceOf(Date),
+    time: PropTypes.instanceOf(Date),
+    userTime: PropTypes.string,
     author: PropTypes.string,
     className: PropTypes.string
   }
@@ -19,12 +20,12 @@ export default class Header extends Component {
   }
 
   render() {
-    const {date, author, className, sheet} = this.props
+    const {time, userTime, author, className, sheet} = this.props
     const {classes} = sheet
     return (
       <header className={`${classes.header} ${className}`}>
         <Author author={author} />
-        <LocalDate date={date} />
+        <Time time={time} userTime={userTime} />
       </header>
     )
   }

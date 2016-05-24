@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
+import {findDOMNode} from 'react-dom'
 import ImageZoom from 'image-zoom'
 
 /**
@@ -15,7 +15,7 @@ export default class ImageZoomComponent extends Component {
 
   onZoom() {
     const {getPreviewRef, url} = this.props
-    const previewNode = ReactDOM.findDOMNode(getPreviewRef())
+    const previewNode = findDOMNode(getPreviewRef())
     return new ImageZoom(previewNode, url).overlay().padding(20).show()
   }
 
