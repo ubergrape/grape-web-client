@@ -1,4 +1,5 @@
 import colors from 'grape-theme/dist/base-colors'
+import color from 'color'
 import buttonReset from '../button/reset'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
@@ -9,6 +10,17 @@ const {
 } = colors
 
 export default {
+  filterArea: {
+    overflow: 'auto',
+    boxSizin: 'content-box',
+    maxHeight: 85,
+    padding: '10px 10px 7px 10px',
+    borderRadius: 5,
+    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`
+  },
+  filterRuler: {
+    minHeight: 25
+  },
   token: {
     ...buttonReset,
     lineHeight: 1,
@@ -34,7 +46,7 @@ export default {
     outline: 'none',
     backgroundColor: 'transparent'
   },
-  ruler: {
+  inputRuler: {
     position: 'fixed',
     top: -100,
     left: -1000,

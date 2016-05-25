@@ -32,6 +32,7 @@ export default class FilterableList extends Component {
       focusedItem: this.props.items[0]
     }
   }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       focusedItem: nextProps.items[0]
