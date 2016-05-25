@@ -6,7 +6,7 @@ import BillingWarningProvider from '../components/billing-warning/BillingWarning
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
 import AlertsProvider from '../components/alerts/AlertsProvider'
 import ChannelMembersInviteProvider from '../components/channel-members-invite/ChannelMembersInviteProvider'
-// import NewConversationProvider from '../components/new-conversation/NewConversationProvider'
+import NewConversationProvider from '../components/new-conversation/NewConversationProvider'
 import UnreadChannelsProvider from '../components/unread-channels/UnreadChannelsProvider'
 import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
@@ -21,10 +21,10 @@ render(
   createElement(ChannelMembersInviteProvider),
   document.body.appendChild(document.createElement('grape-channel-members-invite'))
 )
-// render(
-//   createElement(NewConversationProvider),
-//   document.body.appendChild(document.createElement('grape-new-conversation'))
-// )
+render(
+  createElement(NewConversationProvider),
+  document.body.appendChild(document.createElement('grape-new-conversation'))
+)
 render(
   createElement(UnreadChannelsProvider),
   document.createElement('grape-unread-channels')

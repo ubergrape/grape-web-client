@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
+import {useSheet} from 'grape-web/lib/jss'
 
+import style from './style'
 import {getFilteredUsers} from './utils'
 
 import Dialog from '../dialog/Dialog'
@@ -11,7 +13,7 @@ import colors from 'grape-theme/dist/base-colors'
 
 function renderUser(props, {item, focused}) {
   const {displayName, avatar, status} = item
-  const {classes} = props.theme
+  const {classes} = props.sheet
   let className = classes.user
   if (focused) className += ` ${classes.focusedUser}`
   return (
@@ -28,17 +30,17 @@ function renderUser(props, {item, focused}) {
 }
 
 renderUser.propTypes = {
-  theme: PropTypes.object.isRequired
+  sheet: PropTypes.object.isRequired
 }
 
 function selectedUser({displayName}) {
   return displayName
 }
 
-function renderNotFound({theme, filter}) {
+function renderNotFound({sheet, filter}) {
   return (
     <div
-      className={theme.classes.note}>
+      slassName={sheet.classes.note}>
       {'No one found for '}
       <strong>{filter}</strong>
     </div>
@@ -46,22 +48,22 @@ function renderNotFound({theme, filter}) {
 }
 
 renderNotFound.propTypes = {
-  theme: PropTypes.object.isRequired,
+  sheet: PropTypes.object.isRequired,
   filter: PropTypes.string.isRequired
 }
 
 
-function renderNoUsers({theme}) {
+function renderNoUsers({sheet}) {
   return (
     <div
-      className={theme.classes.note}>
+      slassName={sheet.classes.note}>
       Everyone has been invited to this group
     </div>
   )
 }
 
 renderNoUsers.propTypes = {
-  theme: PropTypes.object.isRequired
+  sheet: PropTypes.object.isRequired
 }
 
 function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
@@ -88,13 +90,13 @@ OrgInviteButton.propTypes = {
   showOrgInvite: PropTypes.func.isRequired
 }
 
-export default function ChooseUsersDialog(props) {
+function ChooseUsersDialog(props) {
   const {
-    theme, show, filter, listed, title, children,
+    sheet, show, filter, listed, title, children,
     onHide, onChangeFilter, onSelectUser, onRemoveSelectedUser
   } = props
 
-  const {classes} = theme
+  const {classes} = sheet
 
   return (
     <Dialog
@@ -116,7 +118,7 @@ export default function ChooseUsersDialog(props) {
           renderSelected={selectedUser}
           renderNotFound={renderNotFound.bind(null, props)}
           renderEmptyItems={renderNoUsers.bind(null, props)}>
-          <OrgInviteButton {...props} />
+          <OrgInviteButton {...props} theme={{classes}} />
         </FilterableList>
         {children}
       </div>
@@ -125,7 +127,7 @@ export default function ChooseUsersDialog(props) {
 }
 
 ChooseUsersDialog.propTypes = {
-  theme: PropTypes.object.isRequired,
+  sheet: PropTypes.object.isRequired,
   children: PropTypes.node,
   onHide: PropTypes.func.isRequired,
   onChangeFilter: PropTypes.func.isRequired,
@@ -139,3 +141,5 @@ ChooseUsersDialog.propTypes = {
   isInviter: PropTypes.bool.isRequired,
   show: PropTypes.bool.isRequired
 }
+
+export default useSheet(ChooseUsersDialog, style)

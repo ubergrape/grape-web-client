@@ -243,25 +243,47 @@ export const unreadMentionsAmountSelector = createSelector(
   }
 )
 
+export const isInviterSelector = createSelector(
+  [orgSelector, userSelector],
+  ({inviterRole}, {role}) => role >= inviterRole
+)
+
+export const newConversationDialog = createSelector(
+  [
+    newConversationSelector,
+    activeUsersSelector,
+    isInviterSelector
+  ],
+  (
+    newConversation,
+    users,
+    isInviter
+  ) => {
+    return {
+      ...newConversation,
+      isInviter,
+      users: users.filter(user => !user.current)
+    }
+  }
+)
+
 export const inviteDialog = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
     activeUsersSelector,
-    orgSelector,
-    userSelector
+    isInviterSelector
   ],
   (
     channel,
     inviteChannelMemebers,
     allUsers,
-    {inviterRole},
-    {role}
+    isInviter
   ) => {
     return {
       ...inviteChannelMemebers,
+      isInviter,
       users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
-      isInviter: role >= inviterRole,
       channelType: channel.type
     }
   }

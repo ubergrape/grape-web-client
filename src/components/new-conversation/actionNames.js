@@ -1,4 +1,8 @@
 export default [
+  'showOrgInvite',
   'showNewConversation',
-  'hideNewConversation'
+  'hideNewConversation',
+  'addToNewConversation',
+  'removeFromNewConversation',
+  'filterNewConversation'
 ]

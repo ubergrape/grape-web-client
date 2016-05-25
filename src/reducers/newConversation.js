@@ -1,7 +1,9 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false
+  show: false,
+  filter: '',
+  listed: []
 }
 
 export default function reduce(state = initialState, action) {
@@ -15,6 +17,21 @@ export default function reduce(state = initialState, action) {
       return {
         ...initialState,
         show: false
+      }
+    case types.ADD_TO_NEW_CONVERSATION:
+      return {
+        ...state,
+        listed: [...state.listed, action.payload]
+      }
+    case types.REMOVE_FROM_NEW_CONVERSATION:
+      return {
+        ...state,
+        listed: state.listed.filter(member => member.id !== action.payload.id)
+      }
+    case types.FILTER_NEW_CONVERSATION:
+      return {
+        ...state,
+        filter: action.payload
       }
     case types.SET_CHANNEL:
       return initialState

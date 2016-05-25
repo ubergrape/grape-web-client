@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {newConversationSelector as selector} from '../../selectors'
+import {newConversationDialog as selector} from '../../selectors'
 import store from '../../app/store'
 import actionNames from './actionNames'
 import NewConversation from './NewConversation'
