@@ -4,6 +4,7 @@ const arrowWidth = 7
 
 export const styles = {
   bubble: {
+    display: 'inline-block',
     position: 'relative',
     marginLeft: arrowWidth
   },
