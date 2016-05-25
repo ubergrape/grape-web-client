@@ -178,7 +178,10 @@ export default {
   },
   iconSettingsButton: {
     ...iconSettingsButton,
-    borderColor: 'transparent'
+    borderColor: 'transparent',
+    '&:hover': {
+      borderColor: webColors.link
+    }
   },
   iconSettingsButtonActive: {
     ...iconSettingsButton,

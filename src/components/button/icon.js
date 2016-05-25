@@ -1,4 +1,5 @@
 import createInlineIcon from '../inline-icon/create'
+import reset from './reset'
 
 /**
  * Creates a mixin which adds an icon to a button.
@@ -12,12 +13,8 @@ export default function create(name, options = {}) {
   }
 
   return {
-    background: 'none',
+    ...reset,
     cursor: 'pointer',
-    outline: 'none',
-    margin: 0,
-    padding: 0,
-    border: 'none',
     ...icon
   }
 }

@@ -92,7 +92,7 @@ export default class FilterableList extends Component {
     } = this.props
 
     if (!items.length) {
-      if (filter) return renderNotFound(filter)
+      if (filter) return renderNotFound()
       if (selected.length) return null
 
       return renderEmptyItems()

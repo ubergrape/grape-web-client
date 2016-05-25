@@ -12,14 +12,25 @@ const commonButton = {
   textAlign: 'left'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-
+const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
+const newConversation = {
+  ...buttonIcon('pencilWindow', buttonSettings),
+  ...commonButton
+}
 const contacts = {
-  ...buttonIcon('user', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
+  ...buttonIcon('user', buttonSettings),
   ...commonButton
 }
 const channels = {
-  ...buttonIcon('users', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
+  ...buttonIcon('users', buttonSettings),
   ...commonButton
+}
+newConversation['&:before'] = {
+  ...newConversation['&:before'],
+  position: 'absolute',
+  left: 3,
+  width: 21,
+  height: 21
 }
 contacts['&:before'] = {
   ...contacts['&:before'],
@@ -64,6 +75,7 @@ export default {
   manageItem: {
     marginTop: 10
   },
+  newConversation,
   contacts,
   channels,
   section: {

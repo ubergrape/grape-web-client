@@ -210,6 +210,10 @@ export const inviteChannelMemebersSelector = createSelector(
   state => state.inviteChannelMemebers, state => state
 )
 
+export const newConversationSelector = createSelector(
+  state => state.newConversation, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {

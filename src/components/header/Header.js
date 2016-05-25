@@ -154,8 +154,8 @@ export default class Header extends Component {
         </li>
         <li className={classes.action}>
           <Button
-            className={classes.invite}
-            onClick={showChannelMembersInvite} />
+            className={channel ? classes.invite : classes.inviteDisabled }
+            onClick={channel ? showChannelMembersInvite : noop} />
         </li>
         <li className={classes.action}>
           <Button

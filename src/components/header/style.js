@@ -46,6 +46,14 @@ const infoActive = {
   backgroundImage: getIcon('info', 'active')
 }
 
+const invite = {
+  ...button,
+  backgroundImage: getIcon('invite'),
+  '&:hover': {
+    backgroundImage: getIcon('invite', 'hover')
+  }
+}
+
 export default {
   header: {
     position: 'relative',
@@ -117,12 +125,11 @@ export default {
       borderColor: colors.blue
     }
   },
-  invite: {
-    ...button,
-    backgroundImage: getIcon('invite'),
-    '&:hover': {
-      backgroundImage: getIcon('invite', 'hover')
-    }
+  invite,
+  inviteDisabled: {
+    ...invite,
+    cursor: 'default',
+    opacity: 0.5
   },
   infoDisabled: {
     ...info,
