@@ -12,7 +12,7 @@ function LinkWithIcon(props) {
   return (
     <a href={url} target={target}>
       <span className={sheet.classes.icon} style={style}></span>
-      {name}
+      {` ${name}`}
     </a>
   )
 }
@@ -22,7 +22,7 @@ LinkWithIcon.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  target: PropTypes.string.isRequired
+  target: PropTypes.string
 }
 
 LinkWithIcon.defaultProps = {

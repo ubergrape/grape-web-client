@@ -1,3 +1,4 @@
+import 'es6-promise'
 import {render} from 'react-dom'
 import {createElement} from 'react'
 import History from '../History'
