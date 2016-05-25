@@ -55,7 +55,9 @@ export default class RegularMessage extends Component {
     onResend: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
-    author: PropTypes.string,
+    author: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }),
     avatar: PropTypes.string
   }
 
@@ -146,7 +148,7 @@ export default class RegularMessage extends Component {
           <Header
             time={time}
             userTime={userTime}
-            author={author}
+            author={author.name}
             className={classes.header} />
         }
         <div

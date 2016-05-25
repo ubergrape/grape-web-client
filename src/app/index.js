@@ -11,6 +11,7 @@ import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
+import HistoryProvider from '../components/history/HistoryProvider'
 
 render(
   createElement(BillingWarningProvider),
@@ -31,5 +32,6 @@ document.registerReact('grape-typing-notification', TypingNotificationProvider)
 document.registerReact('grape-alerts', AlertsProvider)
 document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
+document.registerReact('grape-history', HistoryProvider)
 
 subscribeActions(client.connect())

@@ -27,9 +27,9 @@ export default class History extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number,
     messages: PropTypes.arrayOf(PropTypes.shape({
-      authorId: PropTypes.string.isRequired
+      author: PropTypes.object.isRequired
     })),
     scrollTo: PropTypes.object
   }
@@ -64,7 +64,7 @@ export default class History extends Component {
 
     const props = {
       key: `row-${message.id}`,
-      isOwn: message.authorId === userId
+      isOwn: message.author.id === userId
     }
 
     const prevMessage = messages[index - 1]
@@ -100,8 +100,10 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages} = this.props
+    const {sheet, messages, userId} = this.props
     const {classes} = sheet
+
+    if (!userId) return null
 
     return (
       // TODO check if we should call over store/action, depending on how much

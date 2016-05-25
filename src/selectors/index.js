@@ -425,3 +425,13 @@ export const headerSelector = createSelector(
     }
   }
 )
+
+export const historySelector = createSelector(
+  [userSelector],
+  (user) => {
+    if (!user) return null
+    return ({
+      userId: user.id
+    })
+  }
+)

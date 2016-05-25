@@ -16,7 +16,9 @@ export default class ActivityMessage extends Component {
     time: PropTypes.instanceOf(Date).isRequired,
     title: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
-    author: PropTypes.string.isRequired,
+    author: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }).isRequired,
     avatar: PropTypes.string.isRequired,
     container: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -40,7 +42,7 @@ export default class ActivityMessage extends Component {
       <div className={classes.message}>
         <Header
           time={time}
-          author={author}
+          author={author.name}
           className={classes.header} />
 
         <div className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}>

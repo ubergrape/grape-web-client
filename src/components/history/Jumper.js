@@ -7,9 +7,9 @@ import {styles} from './jumperTheme'
 @useSheet(styles)
 export default class Jumper extends Component {
   static propTypes = {
-    target: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
+    target: PropTypes.object,
     className: PropTypes.string
   }
 

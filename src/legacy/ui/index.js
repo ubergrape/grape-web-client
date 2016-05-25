@@ -82,8 +82,13 @@ UI.prototype.init = function UI_init() {
   this.markdownTips = new MarkdownTipsDialog().closable()
 
   this.historyView = new HistoryView()
-  let chat = qs('.chat-wrapper .chat', this.el)
-  chat.parentNode.replaceChild(this.historyView.el, chat)
+  const chat = qs('.chat-wrapper .chat', this.el)
+
+  if (conf.newHistory) {
+    chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
+  } else {
+    chat.parentNode.replaceChild(this.historyView.el, chat)
+  }
 
   qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
