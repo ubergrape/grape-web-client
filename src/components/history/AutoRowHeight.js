@@ -13,7 +13,7 @@ class Cache {
     this.values = []
   }
 
-  has(key) {
+  has(key) {
     return this.keys.indexOf(key) !== -1
   }
 
