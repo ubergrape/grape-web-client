@@ -28,6 +28,7 @@ export default class History extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     userId: PropTypes.number,
+    channelId: PropTypes.number,
     messages: PropTypes.arrayOf(PropTypes.shape({
       author: PropTypes.object.isRequired
     })),
@@ -39,12 +40,16 @@ export default class History extends Component {
     onLoadMore: noop,
     onEdit: noop,
     onRemove: noop,
-    onResend: noop
+    onResend: noop,
+    loadHistory: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.renderRow = ::this.renderRow
+  componentWillReceiveProps({channelId}) {
+    // 1. It is initial load, we had no channel id.
+    // 2. New channel has been selected.
+    if (channelId !== this.props.channelId) {
+      this.props.loadHistory(channelId)
+    }
   }
 
   isGrouped(index) {
@@ -56,7 +61,7 @@ export default class History extends Component {
     return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
   }
 
-  renderRow(messages, index) {
+  renderRow = (messages, index) => {
     const {sheet, userId, onEdit, onRemove, onResend} = this.props
     const {classes} = sheet
     const message = messages[index]
@@ -100,10 +105,11 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, userId} = this.props
+    const {sheet, messages} = this.props
     const {classes} = sheet
+    console.log('render', this.props)
 
-    if (!userId) return null
+    if (!messages.length) return null
 
     return (
       // TODO check if we should call over store/action, depending on how much

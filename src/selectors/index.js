@@ -8,6 +8,7 @@ export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
 
+
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -83,31 +84,6 @@ export const currentPmsSelector = createSelector(
 
 export const orgSelector = createSelector(
   state => state.org, state => state
-)
-
-export const fullOrgSelector = createSelector(
-  [
-    orgSelector,
-    channelsSelector,
-    usersSelector,
-    roomsSelector,
-    pmsSelector
-  ],
-  (
-    org,
-    channels,
-    users,
-    rooms,
-    pms
-  ) => {
-    return {
-      ...orgSelector,
-      channels,
-      users,
-      rooms,
-      pms
-    }
-  }
 )
 
 export const billingWarningSelector = createSelector(
@@ -239,7 +215,7 @@ export const unreadMentionsAmountSelector = createSelector(
   }
 )
 
-export const inviteDialog = createSelector(
+export const inviteDialogSelector = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
@@ -400,38 +376,26 @@ export const sidebarComponentSelector = createSelector(
 
 export const headerSelector = createSelector(
   [
-    favoriteSelector,
-    channelSelector,
-    supportSelector,
-    sidebarSelector,
-    unreadMentionsAmountSelector,
-    userProfileSelector
+    favoriteSelector, channelSelector, supportSelector, sidebarSelector,
+    unreadMentionsAmountSelector, userProfileSelector
   ],
-  (
-    favorite,
-    channel,
-    support,
-    {show: sidebar},
-    mentions,
-    mate
-  ) => {
-    return {
-      favorite,
-      channel,
-      support,
-      sidebar,
-      mentions,
-      mate
-    }
-  }
+  (favorite, channel, support, {show: sidebar}, mentions, mate) => ({
+    favorite, channel, support, sidebar, mentions, mate
+  })
+)
+
+export const messagesSelector = createSelector(
+  ({messages}) => messages, state => state
 )
 
 export const historySelector = createSelector(
-  [userSelector],
-  (user) => {
-    if (!user) return null
+  [userSelector, channelSelector, messagesSelector],
+  (user, channel, messages) => {
+    console.log(222, user, channel, messages)
     return ({
-      userId: user.id
+      userId: user.id,
+      channelId: channel.id,
+      messages
     })
   }
 )

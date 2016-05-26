@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
-import bindAll from 'lodash/function/bindAll'
 import copy from 'copy-to-clipboard'
 
 import Avatar from '../../avatar/Avatar'
@@ -76,20 +75,15 @@ export default class RegularMessage extends Component {
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
-    bindAll(this, 'onMouseEnter', 'onMouseLeave', 'onSelect')
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onMouseEnter() {
-    this.setState({isMenuOpened: true})
-  }
+  onMouseEnter = () => (this.setState({isMenuOpened: true}))
 
-  onMouseLeave() {
-    this.setState({isMenuOpened: false})
-  }
+  onMouseLeave = () => (this.setState({isMenuOpened: false}))
 
-  onSelect({name}) {
+  onSelect = ({name}) => {
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
@@ -104,7 +98,7 @@ export default class RegularMessage extends Component {
     }
   }
 
-  renderMenu() {
+  renderMenu = () => {
     if (!this.state.isMenuOpened) return null
 
     const {isOwn, attachments} = this.props
@@ -128,7 +122,7 @@ export default class RegularMessage extends Component {
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#attachments
-  renderAttachment(attachment, key) {
+  renderAttachment = (attachment, key) => {
     if (attachment.thumbnailUrl) {
       return <ImageAttachment {...attachment} key={key} />
     }
@@ -159,7 +153,7 @@ export default class RegularMessage extends Component {
           <ThemedBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
               <Grapedown text={children} />
-              {attachments.map(this.renderAttachment, this)}
+              {attachments.map(this.renderAttachment)}
             </div>
           </ThemedBubble>
           {this.renderMenu()}

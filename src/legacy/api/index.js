@@ -517,6 +517,7 @@ API.prototype.autocompleteDate = function API_autocompleteDate(text, callback) {
  * Loads history for `room`
  */
 API.prototype.getHistory = function API_getHistory(room, options) {
+  if (conf.newHistory) return
   options = options || {}
   rpc({
     ns: 'channels',

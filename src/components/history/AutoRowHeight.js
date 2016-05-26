@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
-import bindAll from 'lodash/function/bindAll'
+import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 
 /**
@@ -79,7 +79,7 @@ export default class AutoRowHeight extends Component {
   constructor(props) {
     super(props)
     this.updateCache([])
-    this.childrenParam = bindAll(this, 'onResize', 'rowHeight', 'renderRow',
+    this.childrenParam = pick(this, 'onResize', 'rowHeight', 'renderRow',
       'isRowLoaded', 'registerScroller', 'recomputeRowHeights')
     this.heightsInitialized = false
   }
@@ -101,7 +101,7 @@ export default class AutoRowHeight extends Component {
     this.recomputeRowHeights()
   }
 
-  onResize({width}) {
+  onResize = ({width}) => {
     // Only recalc heights when width has changed.
     if (!this.width || this.width === width) {
       this.width = width
@@ -111,18 +111,14 @@ export default class AutoRowHeight extends Component {
     this.calcAndCacheHeights(this.props.rows, true, this.recomputeRowHeights)
   }
 
-  registerScroller(ref) {
-    this.scroller = ref
-  }
+  registerScroller = (ref) => (this.scroller = ref)
 
-  recomputeRowHeights() {
-    this.scroller.recomputeRowHeights()
-  }
+  recomputeRowHeights = () => (this.scroller.recomputeRowHeights())
 
   /**
    * Get the cached height.
    */
-  rowHeight(index) {
+  rowHeight = (index) => {
     const element = this.renderRow(index)
     return this.heights.get(element)
   }
@@ -130,7 +126,7 @@ export default class AutoRowHeight extends Component {
   /**
    * A row is loaded when data is fetched and height is detected.
    */
-  isRowLoaded(index) {
+  isRowLoaded = (index) => {
     const element = this.renderRow(index)
     return this.heights.has(element)
   }
@@ -172,9 +168,7 @@ export default class AutoRowHeight extends Component {
   /**
    * Get the cached element.
    */
-  renderRow(index) {
-    return this.props.rows[index]
-  }
+  renderRow = (index) => (this.props.rows[index])
 
   render() {
     return (
