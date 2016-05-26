@@ -32,3 +32,9 @@ export function filterNewConversation(value) {
     payload: value
   }
 }
+
+export function showNewConversationRoomSettings() {
+  return {
+    type: types.SHOW_NEW_CONVERSATION_ROOM_SETTINGS
+  }
+}

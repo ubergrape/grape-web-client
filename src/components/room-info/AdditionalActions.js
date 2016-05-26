@@ -5,9 +5,10 @@ export default function AdditionalActions(props) {
     onChangePrivacy,
     onDeleteClick,
     privacy,
-    classes
+    theme
   } = props
 
+  const {classes} = theme
   return (
     <ul>
       <li>
@@ -31,6 +32,6 @@ export default function AdditionalActions(props) {
 AdditionalActions.propTypes = {
   onChangePrivacy: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   privacy: PropTypes.string.isRequired
 }

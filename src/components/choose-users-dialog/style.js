@@ -28,6 +28,6 @@ export default {
     backgroundColor: colors.grayBlueLighter
   },
   note: {
-    paddingLeft: 10
+    margin: 10
   }
 }

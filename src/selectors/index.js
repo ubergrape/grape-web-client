@@ -262,7 +262,7 @@ export const newConversationDialog = createSelector(
     return {
       ...newConversation,
       isInviter,
-      users: users.filter(user => !user.current)
+      users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
     }
   }
 )

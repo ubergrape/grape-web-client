@@ -40,7 +40,7 @@ function selectedUser({displayName}) {
 function renderNotFound({sheet, filter}) {
   return (
     <div
-      slassName={sheet.classes.note}>
+      className={sheet.classes.note}>
       {'No one found for '}
       <strong>{filter}</strong>
     </div>
@@ -56,7 +56,7 @@ renderNotFound.propTypes = {
 function renderNoUsers({sheet}) {
   return (
     <div
-      slassName={sheet.classes.note}>
+      className={sheet.classes.note}>
       Everyone has been invited to this group
     </div>
   )
@@ -92,7 +92,7 @@ OrgInviteButton.propTypes = {
 
 function ChooseUsersDialog(props) {
   const {
-    sheet, show, filter, listed, title, children,
+    sheet, show, filter, listed, title, children, beforeList,
     onHide, onChangeFilter, onSelectUser, onRemoveSelectedUser
   } = props
 
@@ -105,6 +105,7 @@ function ChooseUsersDialog(props) {
       title={title}>
       <div
         className={classes.wrapper}>
+        {beforeList}
         <FilterableList
           listClassName={classes.list}
           filter={filter}
@@ -128,6 +129,7 @@ function ChooseUsersDialog(props) {
 
 ChooseUsersDialog.propTypes = {
   sheet: PropTypes.object.isRequired,
+  beforeList: PropTypes.node,
   children: PropTypes.node,
   onHide: PropTypes.func.isRequired,
   onChangeFilter: PropTypes.func.isRequired,

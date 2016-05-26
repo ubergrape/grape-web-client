@@ -4,56 +4,40 @@ import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
-function onInviteUsersClick(props) {
+function FooterButtons(props) {
   const {
-    listed,
-    inviteToChannel,
-    createRoomAndInvite,
-    hideChannelMembersInvite,
-    channelType
+    listed, roomSettingsOn,
+    showNewConversationRoomSettings, theme
   } = props
-
-  if (!listed.length) return
-  if (channelType === 'room') inviteToChannel(listed.map(user => user.username))
-  if (channelType === 'pm') createRoomAndInvite(listed)
-
-  hideChannelMembersInvite()
-}
-
-function InviteButton(props) {
-  const {listed, channelType, theme} = props
   const {classes} = theme
   return (
-    <div className={classes.submit}>
+    <div className={classes.footer}>
+      <div>
+        {!roomSettingsOn &&
+          <button
+            className={classes.roomSettingsButton}
+            onClick={showNewConversationRoomSettings}>
+            Advanced Options
+          </button>
+        }
+      </div>
       <button
-        className={classes.buttonInvite}
-        onClick={() => onInviteUsersClick(props)}
+        className={classes.createButton}
         disabled={!listed.length}>
-        {channelType === 'pm' ? 'Create group' : 'Invite members'}
+        Create
       </button>
     </div>
   )
 }
 
-InviteButton.propTypes = {
+FooterButtons.propTypes = {
   listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string.isRequired,
+  roomSettingsOn: PropTypes.bool.isRequired,
+  showNewConversationRoomSettings: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
 }
 
-function getTitle(channelType) {
-  switch (channelType) {
-    case 'room':
-      return 'Invite to group'
-    case 'pm':
-      return 'Create new private group'
-    default:
-      return ''
-  }
-}
-
 function NewConversation(props) {
-  console.log(props)
   const {
     sheet,
     hideNewConversation,
@@ -68,11 +52,12 @@ function NewConversation(props) {
       {...props}
       title="New Conversation"
       theme={{classes}}
+      beforeList=<span>asd</span>
       onHide={() => hideNewConversation()}
       onChangeFilter={value => filterNewConversation(value)}
       onSelectUser={user => addToNewConversation(user)}
       onRemoveSelectedUser={user => removeFromNewConversation(user)}>
-      <button>hui</button>
+      <FooterButtons {...props} theme={{classes}} />
     </ChooseUsersDialog>
   )
 }

@@ -7,7 +7,8 @@ import Icon from '../room-icon/RoomIcon'
 import {defaultRoomIconSlug} from '../../constants/images'
 
 
-function RenderColors({classes, channel, onSetRoomColor}) {
+function RenderColors({theme, channel, onSetRoomColor}) {
+  const {classes} = theme
   return (
     <div className={classes.roomColors}>
       <h1 className={classes.iconSettingsTitle}>Room Color</h1>
@@ -32,11 +33,12 @@ function RenderColors({classes, channel, onSetRoomColor}) {
 
 RenderColors.propTypes = {
   channel: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   onSetRoomColor: PropTypes.func.isRequired
 }
 
-function RenderIcons({classes, channel, onSetRoomIcon}) {
+function RenderIcons({theme, channel, onSetRoomIcon}) {
+  const {classes} = theme
   return (
     <div>
       <h1 className={classes.iconSettingsTitle}>Room Icon</h1>
@@ -68,14 +70,15 @@ function RenderIcons({classes, channel, onSetRoomIcon}) {
 
 RenderIcons.propTypes = {
   channel: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   onSetRoomIcon: PropTypes.func.isRequired
 }
 
 
 export default function IconSettings(props) {
+  const {classes} = props.theme
   return (
-    <section className={props.classes.iconSettings}>
+    <section className={classes.iconSettings}>
       <RenderIcons {...props} />
       <RenderColors {...props} />
     </section>
@@ -83,5 +86,5 @@ export default function IconSettings(props) {
 }
 
 IconSettings.propTypes = {
-  classes: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired
 }

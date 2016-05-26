@@ -49,8 +49,9 @@ Tooltip.propTypes = {
   arrowSize: PropTypes.number,
   borderSize: PropTypes.number,
   placement: PropTypes.string,
-  arrowOffsetLeft: PropTypes.number,
-  arrowOffsetTop: PropTypes.number,
+  // Offset may be integer or `int%` string.
+  arrowOffsetLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  arrowOffsetTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired
 }
