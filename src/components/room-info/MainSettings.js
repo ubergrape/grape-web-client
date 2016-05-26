@@ -3,11 +3,7 @@ import React, {Component, PropTypes} from 'react'
 import {maxChannelNameLength} from '../../constants/app'
 import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
-import Dropdown from '../dropdown/Dropdown'
-import Icon from '../room-icon/RoomIcon'
-import AdditionalActions from './AdditionalActions'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
-import * as tooltipStyle from '../tooltip/themes/gray'
 
 export default class MainSettings extends Component {
   static propTypes = {
@@ -36,38 +32,6 @@ export default class MainSettings extends Component {
           container={this}
           theme={{classes}} />
       </div>
-    )
-  }
-
-  renderAdditionalActionsDropdown() {
-    if (!this.state.showAdditionalActions) return null
-    const {
-      channel
-    } = this.props
-    return (
-      <Dropdown
-        container={this}
-        theme={tooltipStyle}
-        target={this.refs.settings}
-        onOutsideClick={this.onClickOutsideDropdown.bind(this, 'showAdditionalActions')}>
-          <AdditionalActions
-            {...this.props}
-            onDeleteClick={::this.onChannelDeleteClick}
-            privacy={channel.isPublic ? 'private' : 'public'} />
-      </Dropdown>
-    )
-  }
-
-  renderIcon() {
-    const {channel, classes} = this.props
-    const buttonName = 'iconSettingsButton' + (this.state.showIconSettings ? 'Active' : '')
-    return (
-      <button
-        onClick={this.onShowDropdownClick.bind(this, 'showIconSettings')}
-        className={classes[buttonName]}
-        ref="icon">
-        <Icon name={channel.icon} backgroundColor={channel.color} size={60} />
-      </button>
     )
   }
 

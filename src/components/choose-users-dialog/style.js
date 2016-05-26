@@ -4,11 +4,12 @@ import fonts from 'grape-theme/dist/fonts'
 
 export default {
   wrapper: {
+    position: 'relative',
     padding: 15,
     borderTop: `3px solid ${colors.grayBlueLighter}`
   },
   list: {
-    minHeight: 80,
+    minHeight: 100,
     maxHeight: '25vh'
   },
   orgInvite: {

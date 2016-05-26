@@ -44,14 +44,8 @@ export default {
   },
   iconSettings: {
     boxSizing: 'border-box',
-    width: 335,
     padding: 15,
     paddingRight: 10
-  },
-  [`@media (max-width: ${screenWidth.xl}px)`]: {
-    iconSettings: {
-      width: 310
-    }
   },
   iconSettingsTitle: {
     ...fonts.small,

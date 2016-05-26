@@ -29,5 +29,8 @@ export default {
       opacity: 0.5,
       pointerEvents: 'none'
     }
+  },
+  settings: {
+    position: 'relative'
   }
 }

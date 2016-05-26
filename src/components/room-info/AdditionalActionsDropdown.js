@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
-import * as tooltipStyle from '../tooltip/themes/gray'
 
 export default class AdditionalActionsDropdown extends Component {
   static propTypes = {
@@ -51,7 +50,6 @@ export default class AdditionalActionsDropdown extends Component {
         {show && (
           <Dropdown
             {...this.props}
-            theme={tooltipStyle}
             target={this.refs.settings}
             onOutsideClick={this.onClickOutsideDropdown}>
               <AdditionalActions

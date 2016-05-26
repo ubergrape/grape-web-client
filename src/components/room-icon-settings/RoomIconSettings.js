@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import * as tooltipStyle from '../tooltip/themes/gray'
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
 import style from './style'
@@ -52,7 +51,6 @@ export default class RoomIconSetting extends Component {
           show && (
             <Dropdown
               {...this.props}
-              theme={tooltipStyle}
               onOutsideClick={this.onClickOutsideDropdown}
               target={this.refs.icon}>
               <IconSettings {...this.props} theme={{classes}} />
