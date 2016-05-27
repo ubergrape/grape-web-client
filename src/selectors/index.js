@@ -385,9 +385,10 @@ export const headerSelector = createSelector(
 
 export const historySelector = createSelector(
   [userSelector, channelSelector, ({history}) => history],
-  ({id: userId}, {id: channelId}, history) => ({
+  (user, channel, history) => ({
     ...history,
-    userId,
-    channelId
+    // TODO remove casting once we get strings from backend.
+    userId: String(user.id),
+    channelId: String(channel.id)
   })
 )

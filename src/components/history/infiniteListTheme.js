@@ -6,6 +6,7 @@ export const styles = {
     // Safari and IE don't support the property at all.
     willChange: 'transform',
     overflowY: 'auto',
+    outline: 'none',
     WebkitOverflowScrolling: 'touch',
     '& .Grid__innerScrollContainer': {
       boxSizing: 'border-box',

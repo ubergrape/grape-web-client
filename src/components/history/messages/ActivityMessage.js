@@ -45,19 +45,21 @@ export default class ActivityMessage extends Component {
           time={time}
           author={author.name}
           className={classes.header} />
-        {avatar && <Avatar src={avatar} className={classes.avatar} />}
-        <OthersBubble className={classes.bubble}>
-          {container &&
-            <a
-              href={container.url}
-              target="_blank"
-              className={classes.container}>
-              {container.name}
-            </a>
-          }
-          <Grapedown text={title} />
-          <Grapedown text={children} />
-        </OthersBubble>
+        <div className={classes.body}>
+          {avatar && <Avatar src={avatar} className={classes.avatar} />}
+          <OthersBubble className={classes.bubble}>
+            {container &&
+              <a
+                href={container.url}
+                target="_blank"
+                className={classes.container}>
+                {container.name}
+              </a>
+            }
+            <Grapedown text={title} />
+            <Grapedown text={children} />
+          </OthersBubble>
+        </div>
       </div>
     )
   }
