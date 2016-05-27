@@ -3,7 +3,6 @@ import mixins from 'grape-web/lib/jss-utils/mixins'
 import fonts from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
-import {screenWidth} from 'grape-theme/dist/sizes'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
