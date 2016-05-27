@@ -5,21 +5,21 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import style from './style'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
-import RoomSettings from './RoomSettings'
+import Settings from './Settings'
 
 function FooterButtons(props) {
   const {
-    listed, roomSettingsOn,
-    showNewConversationRoomSettings, theme
+    listed, showRoomSettings,
+    onClickSettings, theme
   } = props
   const {classes} = theme
   return (
     <div className={classes.footer}>
       <div>
-        {!roomSettingsOn &&
+        {!showRoomSettings &&
           <button
             className={classes.roomSettingsButton}
-            onClick={showNewConversationRoomSettings}>
+            onClick={onClickSettings}>
             Advanced Options
           </button>
         }
@@ -35,9 +35,18 @@ function FooterButtons(props) {
 
 FooterButtons.propTypes = {
   listed: PropTypes.array.isRequired,
-  roomSettingsOn: PropTypes.bool.isRequired,
-  showNewConversationRoomSettings: PropTypes.func.isRequired,
+  showRoomSettings: PropTypes.bool.isRequired,
+  onClickSettings: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
+}
+
+const initialState = {
+  name: '',
+  isPrivate: false,
+  color: sample(colors),
+  icon: sample(icons),
+  showRoomSettings: false,
+  roomNameFocused: false
 }
 
 @useSheet(style)
@@ -53,19 +62,39 @@ export default class NewConversation extends Component {
 
   constructor() {
     super()
-    this.state = {
-      name: '',
-      color: sample(colors),
-      icon: sample(icons)
-    }
+    this.state = initialState
   }
 
-  onSetRoomIcon = (icon) => {
+  componentWillReceiveProps({show}) {
+    if (!show) this.setState({...initialState})
+  }
+
+  onSetRoomIcon = icon => {
     this.setState({icon})
   }
 
-  onSetRoomColor = (color) => {
+  onSetRoomColor = color => {
     this.setState({color})
+  }
+
+  onClickRoomName = ({target}) => {
+    this.setState({roomNameFocused: true}, () => target.focus())
+  }
+
+  onBlurRoomName = () => {
+    this.setState({roomNameFocused: false})
+  }
+
+  onChangeRoomName = ({target}) => {
+    this.setState({name: target.value})
+  }
+
+  onPrivacyChange = () => {
+    this.setState({isPrivate: !this.state.isPrivate})
+  }
+
+  onClickSettings = () => {
+    this.setState({showRoomSettings: true})
   }
 
   render() {
@@ -77,27 +106,35 @@ export default class NewConversation extends Component {
       removeFromNewConversation
     } = this.props
 
-    const {color, icon} = this.state
-
     const {classes} = sheet
     return (
       <ChooseUsersDialog
         {...this.props}
         title="New Conversation"
+        onHide={this.onHide}
         theme={{classes}}
-        beforeList={
-          <RoomSettings
+        preventFilterFocus={this.state.roomNameFocused}
+        beforeList={(
+          <Settings
             {...this.props}
-            channel={{icon, color}}
-            onSetRoomIcon={this.onSetRoomIcon}
+            {...this.state}
+            onChangeRoomName={this.onChangeRoomName}
+            onPrivacyChange={this.onPrivacyChange}
+            onClickRoomName={this.onClickRoomName}
+            onBlurRoomName={this.onBlurRoomName}
             onSetRoomColor={this.onSetRoomColor}
+            onSetRoomIcon={this.onSetRoomIcon}
             theme={{classes}} />
-        }
-        onHide={() => hideNewConversation()}
+        )}
+        onHide={hideNewConversation}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}>
-        <FooterButtons {...this.props} theme={{classes}} />
+        <FooterButtons
+          {...this.props}
+          {...this.state}
+          onClickSettings={this.onClickSettings}
+          theme={{classes}} />
       </ChooseUsersDialog>
     )
   }

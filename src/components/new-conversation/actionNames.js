@@ -3,7 +3,6 @@ export default [
   'showNewConversation',
   'hideNewConversation',
   'addToNewConversation',
-  'showNewConversationRoomSettings',
   'removeFromNewConversation',
   'filterNewConversation'
 ]

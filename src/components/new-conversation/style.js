@@ -1,10 +1,12 @@
-import buton from '../button/default'
+import button from '../button/default'
 import buttonLink from '../button/link'
 import buttonPrimary from '../button/primary'
 import fonts from 'grape-theme/dist/fonts'
 import {borderDark, borderDefault} from 'grape-theme/dist/web-colors'
+import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+import color from 'color'
 
-const {padding} = buton
+const {padding} = button
 
 export default {
   footer: {
@@ -31,6 +33,26 @@ export default {
     }
   },
   settings: {
-    position: 'relative'
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center',
+    paddingBottom: 15,
+    marginBottom: 15,
+    borderBottom: `1px solid ${borderDefault}`
+  },
+  icon: {
+    flexShrink: 1
+  },
+  name: {
+    flexGrow: 1,
+    marginRight: 10
+  },
+  nameInput: {
+    ...fonts.bigger,
+    width: '100%',
+    outline: 'none',
+    padding: '1px 10px',
+    borderRadius: 5,
+    border: `1px solid ${color(grayBlueLighter).darken(0.05).hexString()}`
   }
 }

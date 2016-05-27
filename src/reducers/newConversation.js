@@ -2,7 +2,6 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
-  roomSettingsOn: false,
   filter: '',
   listed: []
 }
@@ -30,11 +29,6 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filter: action.payload
-      }
-    case types.SHOW_NEW_CONVERSATION_ROOM_SETTINGS:
-      return {
-        ...state,
-        roomSettingsOn: true
       }
     case types.SET_CHANNEL:
       return initialState

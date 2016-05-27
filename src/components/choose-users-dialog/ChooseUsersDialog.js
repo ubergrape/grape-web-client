@@ -92,8 +92,10 @@ OrgInviteButton.propTypes = {
 
 function ChooseUsersDialog(props) {
   const {
-    sheet, show, filter, listed, title, children, beforeList,
-    onHide, onChangeFilter, onSelectUser, onRemoveSelectedUser
+    sheet, show, filter, listed, title, children,
+    beforeList, preventFilterFocus, onHide,
+    onChangeFilter, onSelectUser,
+    onRemoveSelectedUser
   } = props
 
   const {classes} = sheet
@@ -108,6 +110,7 @@ function ChooseUsersDialog(props) {
         {beforeList}
         <FilterableList
           listClassName={classes.list}
+          preventFilterFocus={preventFilterFocus}
           filter={filter}
           items={getFilteredUsers(props)}
           selected={listed}
@@ -141,6 +144,7 @@ ChooseUsersDialog.propTypes = {
   title: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   isInviter: PropTypes.bool.isRequired,
+  preventFilterFocus: PropTypes.bool,
   show: PropTypes.bool.isRequired
 }
 
