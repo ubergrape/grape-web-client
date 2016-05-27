@@ -14,7 +14,6 @@ import {channelSelector} from '../selectors'
 import store from '../app/store'
 
 export function error(err) {
-  console.log(error)
   reduxEmitter.showError(err)
   // This action don't have reducer yet
   return {
