@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.4.0-pre",
+  "version": "0.4.1-pre",
   "dependencies": {
     "accepts": {
       "version": "1.1.4",
@@ -2270,9 +2270,9 @@
       "resolved": "https://registry.npmjs.org/grape-theme/-/grape-theme-1.3.1.tgz"
     },
     "grape-web": {
-      "version": "0.25.0",
-      "from": "grape-web@>=0.25.0 <0.26.0",
-      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.25.0.tgz"
+      "version": "0.27.0",
+      "from": "grape-web@>=0.27.0 <0.28.0",
+      "resolved": "https://registry.npmjs.org/grape-web/-/grape-web-0.27.0.tgz"
     },
     "growl": {
       "version": "1.9.2",
