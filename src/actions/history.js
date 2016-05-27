@@ -5,6 +5,9 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {usersSelector, channelsSelector} from '../selectors'
 import {error} from './common'
+import {showAlert, hideAlertByType} from './alert'
+import * as alerts from '../constants/alerts'
+
 import {getChannelSlug} from './utils'
 
 function formatRegularMessage(msg, state) {
@@ -53,7 +56,11 @@ function formatMessage(msg, state) {
 export function loadHistory(channelId, options) {
   return (dispatch, getState) => {
     dispatch({type: types.REQUEST_HISTORY})
-
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
     api
       .loadHistory(channelId, options)
       .then(messages => {
@@ -64,6 +71,7 @@ export function loadHistory(channelId, options) {
           type: types.HANDLE_LOADED_HISTORY,
           payload
         })
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
       })
       .catch(err => dispatch(error(err)))
   }

@@ -81,12 +81,12 @@ UI.prototype.init = function UI_init() {
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
 
-  this.historyView = new HistoryView()
   const chat = qs('.chat-wrapper .chat', this.el)
 
   if (conf.newHistory) {
     chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
   } else {
+    this.historyView = new HistoryView()
     chat.parentNode.replaceChild(this.historyView.el, chat)
   }
 
