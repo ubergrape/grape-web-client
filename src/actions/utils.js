@@ -9,6 +9,14 @@ import {
   channelsSelector
 } from '../selectors'
 
+export function getChannelSlug({slug, users}) {
+  return slug || users[0].slug
+}
+
+export function getChannelName({name, users}) {
+  return name || users[0].displayName
+}
+
 /**
  * Fix data inconsistencies at the backend.
  * There are some PM's with only one participant.
@@ -119,9 +127,9 @@ export function formatSidebarMessage(message) {
     time,
     content,
     // There is no channel name in pm, use the other user name.
-    channel: currentChannel.name || currentChannel.users[0].displayName,
+    channel: getChannelName(currentChannel),
     author: displayName,
     // There is no slug in pm, user the other user slug.
-    slug: currentChannel.slug || currentChannel.users[0].slug
+    slug: getChannelSlug(currentChannel)
   }
 }

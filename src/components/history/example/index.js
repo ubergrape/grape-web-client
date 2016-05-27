@@ -11,7 +11,7 @@ const log = console.log.bind(console) // eslint-disable-line no-console
 
 const now = Date.now()
 const messages = []
-const userId = 123456
+const userId = '123456'
 
 const textParts = [
   ':)',
@@ -32,10 +32,11 @@ const textParts = [
 const createMessage = (i, options = {}) => {
   const time = options.time || new Date(now + i * 1000 * 60 * 60)
   return {
-    id: random(100000000),
+    type: 'regular',
+    id: String(random(100000000)),
     link: 'link-to-message',
     author: {
-      id: random(2) === 1 ? userId : i,
+      id: random(2) === 1 ? userId : String(i),
       name: 'Author-' + i
     },
     text: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
@@ -202,7 +203,7 @@ window.addActivityMessage = () => {
     title: '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
     text: 'let\'s merge this into master on thursday, shall we?',
     author: {
-      id: 123,
+      id: '123',
       name: 'Github'
     }
   })

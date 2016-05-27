@@ -23,7 +23,7 @@ export default class ActivityMessage extends Component {
     container: PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired
-    }).isRequired
+    })
   }
 
   static defaultProps = {
@@ -38,26 +38,26 @@ export default class ActivityMessage extends Component {
       sheet, author, time, avatar, title, children, container
     } = this.props
     const {classes} = sheet
+
     return (
       <div className={classes.message}>
         <Header
           time={time}
           author={author.name}
           className={classes.header} />
-
-        <div className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}>
-          {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <OthersBubble className={classes.bubble}>
+        {avatar && <Avatar src={avatar} className={classes.avatar} />}
+        <OthersBubble className={classes.bubble}>
+          {container &&
             <a
               href={container.url}
               target="_blank"
               className={classes.container}>
               {container.name}
             </a>
-            <Grapedown text={title} />
-            <Grapedown text={children} />
-          </OthersBubble>
-        </div>
+          }
+          <Grapedown text={title} />
+          <Grapedown text={children} />
+        </OthersBubble>
       </div>
     )
   }

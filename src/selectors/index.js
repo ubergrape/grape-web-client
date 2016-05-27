@@ -8,7 +8,6 @@ export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
 )
 
-
 export const usersSelector = createSelector(
   state => state.users, state => state
 )
@@ -384,18 +383,11 @@ export const headerSelector = createSelector(
   })
 )
 
-export const messagesSelector = createSelector(
-  ({messages}) => messages, state => state
-)
-
 export const historySelector = createSelector(
-  [userSelector, channelSelector, messagesSelector],
-  (user, channel, messages) => {
-    console.log(222, user, channel, messages)
-    return ({
-      userId: user.id,
-      channelId: channel.id,
-      messages
-    })
-  }
+  [userSelector, channelSelector, ({history}) => history],
+  ({id: userId}, {id: channelId}, history) => ({
+    ...history,
+    userId,
+    channelId
+  })
 )

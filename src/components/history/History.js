@@ -19,18 +19,32 @@ const messageTypes = {
 // Group messages under same avatar/name if they are send within this time distance.
 const timeThreshold = 5 * 60 * 1000
 
+function canGroup(message, prevMessage) {
+  if (!prevMessage || !message || message.type === 'activity') return false
+  // Is same author.
+  if (prevMessage.author.id === message.author.id) return false
+
+  // Is within time threshold
+  return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
+}
+
 @useSheet(styles)
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    loadHistory: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
-    userId: PropTypes.number,
-    channelId: PropTypes.number,
+    userId: PropTypes.string,
+    channelId: PropTypes.string,
     messages: PropTypes.arrayOf(PropTypes.shape({
-      author: PropTypes.object.isRequired
+      type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
+      author: PropTypes.shape({
+        id: PropTypes.string.isRequired
+      }).isRequired,
+      time: PropTypes.instanceOf(Date).isRequired
     })),
     scrollTo: PropTypes.object
   }
@@ -52,27 +66,17 @@ export default class History extends Component {
     }
   }
 
-  isGrouped(index) {
-    const prevMessage = this.props.messages[index - 1]
-    const message = this.props.messages[index]
-
-    if (!prevMessage || !message) return false
-
-    return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
-  }
-
   renderRow = (messages, index) => {
     const {sheet, userId, onEdit, onRemove, onResend} = this.props
     const {classes} = sheet
     const message = messages[index]
-    const Message = messageTypes[message.type || 'regular']
-
+    const Message = messageTypes[message.type]
     const props = {
       key: `row-${message.id}`,
       isOwn: message.author.id === userId
     }
-
     const prevMessage = messages[index - 1]
+
     let separator = null
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
       separator = (
@@ -83,14 +87,16 @@ export default class History extends Component {
       )
     }
 
-    if (this.isGrouped(index)) {
+    const isGrouped = canGroup(message, prevMessage)
+
+    if (!separator && isGrouped) {
       props.author = null
       props.avatar = null
       props.hasBubbleArrow = false
     }
 
     return (
-      <div>
+      <div className={isGrouped ? classes.groupedMessage : classes.message}>
         {separator}
         <Message
           {...message}
@@ -107,7 +113,6 @@ export default class History extends Component {
   render() {
     const {sheet, messages} = this.props
     const {classes} = sheet
-    console.log('render', this.props)
 
     if (!messages.length) return null
 
