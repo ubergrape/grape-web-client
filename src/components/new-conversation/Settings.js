@@ -21,7 +21,7 @@ class IconSettings extends Component {
 export default function Settings(props) {
   const {
     icon, color, name, showRoomSettings, theme,
-    isPrivate, onChangeRoomName, onClickRoomName,
+    isPublic, onChangeRoomName, onClickRoomName,
     onBlurRoomName, onPrivacyChange
   } = props
 
@@ -49,7 +49,7 @@ export default function Settings(props) {
           off="Private"
           on="Public"
           onChange={onPrivacyChange}
-          status={!isPrivate} />
+          status={isPublic} />
       </div>
     </div>
   )
@@ -60,7 +60,7 @@ Settings.propTypes = {
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   showRoomSettings: PropTypes.bool.isRequired,
-  isPrivate: PropTypes.bool.isRequired,
+  isPublic: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
   onClickRoomName: PropTypes.func.isRequired,
   onBlurRoomName: PropTypes.func.isRequired,

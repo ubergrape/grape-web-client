@@ -1,7 +1,7 @@
 export default [
   'showOrgInvite',
   'inviteToChannel',
-  'createRoomAndInvite',
+  'createRoomFromPmAndInvite',
   'hideChannelMembersInvite',
   'addToChannelMembersInvite',
   'removeFromChannelMembersInvite',

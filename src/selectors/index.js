@@ -249,22 +249,14 @@ export const isInviterSelector = createSelector(
 )
 
 export const newConversationDialog = createSelector(
-  [
-    newConversationSelector,
-    activeUsersSelector,
-    isInviterSelector
-  ],
-  (
-    newConversation,
-    users,
-    isInviter
-  ) => {
-    return {
-      ...newConversation,
-      isInviter,
-      users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
-    }
-  }
+  [newConversationSelector, orgSelector, activeUsersSelector, userSelector, isInviterSelector],
+  (newConversation, {id: organization}, users, currentUser, isInviter) => ({
+    ...newConversation,
+    currentUser,
+    isInviter,
+    organization,
+    users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
+  })
 )
 
 export const inviteDialog = createSelector(

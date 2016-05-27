@@ -8,14 +8,14 @@ function onInviteUsersClick(props) {
   const {
     listed,
     inviteToChannel,
-    createRoomAndInvite,
+    createRoomFromPmAndInvite,
     hideChannelMembersInvite,
     channelType
   } = props
 
   if (!listed.length) return
   if (channelType === 'room') inviteToChannel(listed.map(user => user.username))
-  if (channelType === 'pm') createRoomAndInvite(listed)
+  if (channelType === 'pm') createRoomFromPmAndInvite(listed)
 
   hideChannelMembersInvite()
 }
@@ -85,7 +85,7 @@ ChannelMembersInvite.propTypes = {
   addToChannelMembersInvite: PropTypes.func.isRequired,
   removeFromChannelMembersInvite: PropTypes.func.isRequired,
   inviteToChannel: PropTypes.func.isRequired,
-  createRoomAndInvite: PropTypes.func.isRequired,
+  createRoomFromPmAndInvite: PropTypes.func.isRequired,
   hideChannelMembersInvite: PropTypes.func.isRequired,
   setInviteFilterValue: PropTypes.func.isRequired,
   listed: PropTypes.array.isRequired,

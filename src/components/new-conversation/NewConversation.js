@@ -9,8 +9,8 @@ import Settings from './Settings'
 
 function FooterButtons(props) {
   const {
-    listed, showRoomSettings,
-    onClickSettings, theme
+    listed, name, showRoomSettings,
+    onClickSettings, onClickCreate, theme
   } = props
   const {classes} = theme
   return (
@@ -25,8 +25,9 @@ function FooterButtons(props) {
         }
       </div>
       <button
+        onClick={onClickCreate}
         className={classes.createButton}
-        disabled={!listed.length}>
+        disabled={!listed.length && !name}>
         Create
       </button>
     </div>
@@ -35,14 +36,16 @@ function FooterButtons(props) {
 
 FooterButtons.propTypes = {
   listed: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
   showRoomSettings: PropTypes.bool.isRequired,
   onClickSettings: PropTypes.func.isRequired,
+  onClickCreate: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
 }
 
 const initialState = {
   name: '',
-  isPrivate: false,
+  isPublic: true,
   color: sample(colors),
   icon: sample(icons),
   showRoomSettings: false,
@@ -53,6 +56,10 @@ const initialState = {
 export default class NewConversation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    organization: PropTypes.number,
+    currentUser: PropTypes.object.isRequired,
+    createRoomWithUsers: PropTypes.func.isRequired,
+    goToChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
     hideNewConversation: PropTypes.func.isRequired,
@@ -90,11 +97,34 @@ export default class NewConversation extends Component {
   }
 
   onPrivacyChange = () => {
-    this.setState({isPrivate: !this.state.isPrivate})
+    this.setState({isPublic: !this.state.isPublic})
   }
 
   onClickSettings = () => {
     this.setState({showRoomSettings: true})
+  }
+
+  onCreate = () => {
+    const {
+      listed, goToChannel, createRoomWithUsers,
+      currentUser, organization
+    } = this.props
+    const {name, color, icon, isPublic} = this.state
+
+    if (listed.length === 1 && !name) {
+      goToChannel(listed[0].slug)
+      return
+    }
+
+    const room = {
+      name,
+      icon,
+      color,
+      organization,
+      isPublic
+    }
+
+    createRoomWithUsers(room, listed, currentUser)
   }
 
   render() {
@@ -103,8 +133,11 @@ export default class NewConversation extends Component {
       hideNewConversation,
       filterNewConversation,
       addToNewConversation,
-      removeFromNewConversation
+      removeFromNewConversation,
+      organization
     } = this.props
+
+    if (!organization) return null
 
     const {classes} = sheet
     return (
@@ -133,6 +166,7 @@ export default class NewConversation extends Component {
         <FooterButtons
           {...this.props}
           {...this.state}
+          onClickCreate={this.onCreate}
           onClickSettings={this.onClickSettings}
           theme={{classes}} />
       </ChooseUsersDialog>

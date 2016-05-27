@@ -3,7 +3,8 @@ import page from 'page'
 import * as types from '../constants/actionTypes'
 import {
   normalizeChannelData,
-  removeBrokenPms
+  removeBrokenPms,
+  roomNameFromUsers
 } from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
@@ -13,6 +14,7 @@ import {channelSelector} from '../selectors'
 import store from '../app/store'
 
 export function error(err) {
+  console.log(error)
   reduxEmitter.showError(err)
   // This action don't have reducer yet
   return {
@@ -252,5 +254,31 @@ export function focusGrapeInput() {
       type: types.FOCUS_GRAPE_INPUT
     })
     reduxEmitter.focusGrapeInput()
+  }
+}
+
+export function createRoomWithUsers(room, users, user) {
+  const usernames = users.map(({username}) => username)
+  return dispatch => {
+    let newRoom
+    return api
+      .createRoom({
+        ...room,
+        name: room.name || roomNameFromUsers([user, ...users])
+      })
+      .then((_newRoom) => {
+        newRoom = _newRoom
+        return api.joinChannel(newRoom.id)
+      })
+      .then(() => {
+        if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
+      })
+      .then(() => {
+        if (newRoom) {
+          page(`/chat/${newRoom.slug}`)
+          dispatch(invitedToChannel(usernames, newRoom.id))
+        }
+      })
+      .catch(err => dispatch(error(err)))
   }
 }
