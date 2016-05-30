@@ -11,7 +11,7 @@ import {userStatusMap} from '../../constants/app'
 
 import colors from 'grape-theme/dist/base-colors'
 
-function renderUser(props, {item, focused}) {
+function User(props, {item, focused}) {
   const {displayName, avatar, status} = item
   const {classes} = props.sheet
   let className = classes.user
@@ -29,15 +29,15 @@ function renderUser(props, {item, focused}) {
   )
 }
 
-renderUser.propTypes = {
+User.propTypes = {
   sheet: PropTypes.object.isRequired
 }
 
-function selectedUser({displayName}) {
+function SelectedUser({displayName}) {
   return displayName
 }
 
-function renderNotFound({sheet, filter}) {
+function NotFound({sheet, filter}) {
   return (
     <div
       className={sheet.classes.note}>
@@ -47,13 +47,13 @@ function renderNotFound({sheet, filter}) {
   )
 }
 
-renderNotFound.propTypes = {
+NotFound.propTypes = {
   sheet: PropTypes.object.isRequired,
   filter: PropTypes.string.isRequired
 }
 
 
-function renderNoUsers({sheet}) {
+function NoUsers({sheet}) {
   return (
     <div
       className={sheet.classes.note}>
@@ -62,7 +62,7 @@ function renderNoUsers({sheet}) {
   )
 }
 
-renderNoUsers.propTypes = {
+NoUsers.propTypes = {
   sheet: PropTypes.object.isRequired
 }
 
@@ -93,7 +93,7 @@ OrgInviteButton.propTypes = {
 function ChooseUsersDialog(props) {
   const {
     sheet, show, filter, listed, title, children,
-    beforeList, preventFilterFocus, onHide,
+    beforeList, filterFocus, onHide,
     onChangeFilter, onSelectUser,
     onRemoveSelectedUser
   } = props
@@ -110,7 +110,7 @@ function ChooseUsersDialog(props) {
         {beforeList}
         <FilterableList
           listClassName={classes.list}
-          preventFilterFocus={preventFilterFocus}
+          filterFocus={filterFocus}
           filter={filter}
           items={getFilteredUsers(props)}
           selected={listed}
@@ -118,10 +118,10 @@ function ChooseUsersDialog(props) {
           onChange={onChangeFilter}
           onSelect={onSelectUser}
           onRemoveSelected={onRemoveSelectedUser}
-          renderItem={renderUser.bind(null, props)}
-          renderSelected={selectedUser}
-          renderNotFound={renderNotFound.bind(null, props)}
-          renderEmptyItems={renderNoUsers.bind(null, props)}>
+          renderItem={User.bind(null, props)}
+          renderSelected={SelectedUser}
+          renderNotFound={NotFound.bind(null, props)}
+          renderEmptyItems={NoUsers.bind(null, props)}>
           <OrgInviteButton {...props} theme={{classes}} />
         </FilterableList>
         {children}
@@ -144,7 +144,7 @@ ChooseUsersDialog.propTypes = {
   title: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   isInviter: PropTypes.bool.isRequired,
-  preventFilterFocus: PropTypes.bool,
+  filterFocus: PropTypes.bool,
   show: PropTypes.bool.isRequired
 }
 

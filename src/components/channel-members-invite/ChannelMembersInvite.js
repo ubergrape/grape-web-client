@@ -6,11 +6,8 @@ import {useSheet} from 'grape-web/lib/jss'
 
 function onInviteUsersClick(props) {
   const {
-    listed,
-    inviteToChannel,
-    createRoomFromPmAndInvite,
-    hideChannelMembersInvite,
-    channelType
+    listed, inviteToChannel, createRoomFromPmAndInvite,
+    hideChannelMembersInvite, channelType
   } = props
 
   if (!listed.length) return
@@ -54,11 +51,8 @@ function getTitle(channelType) {
 
 function ChannelMembersInvite(props) {
   const {
-    sheet,
-    channelType,
-    hideChannelMembersInvite,
-    setInviteFilterValue,
-    addToChannelMembersInvite,
+    sheet, channelType, hideChannelMembersInvite,
+    setInviteFilterValue, addToChannelMembersInvite,
     removeFromChannelMembersInvite
   } = props
 

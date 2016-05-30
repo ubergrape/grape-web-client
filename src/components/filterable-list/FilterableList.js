@@ -11,7 +11,7 @@ import keyname from 'keyname'
 export default class FilterableList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    preventFilterFocus: PropTypes.bool.isRequired,
+    filterFocus: PropTypes.bool.isRequired,
     listClassName: PropTypes.string,
     items: PropTypes.array.isRequired,
     selected: PropTypes.array.isRequired,
@@ -28,7 +28,7 @@ export default class FilterableList extends Component {
   }
 
   static defaultProps = {
-    preventFilterFocus: false
+    filterFocus: true
   }
 
   constructor(props) {
@@ -81,8 +81,8 @@ export default class FilterableList extends Component {
   }
 
   shouldFocusFilter() {
-    const {items, selected, filter, preventFilterFocus} = this.props
-    if (preventFilterFocus) return false
+    const {items, selected, filter, filterFocus} = this.props
+    if (!filterFocus) return false
     if (filter) return true
 
     return items.length + selected.length > 0

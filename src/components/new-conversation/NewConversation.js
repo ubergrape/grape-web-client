@@ -57,7 +57,6 @@ export default class NewConversation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     organization: PropTypes.number,
-    currentUser: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
@@ -106,8 +105,8 @@ export default class NewConversation extends Component {
 
   onCreate = () => {
     const {
-      listed, goToChannel, createRoomWithUsers,
-      currentUser, organization
+      listed, goToChannel,
+      createRoomWithUsers, organization
     } = this.props
     const {name, color, icon, isPublic} = this.state
 
@@ -124,17 +123,13 @@ export default class NewConversation extends Component {
       isPublic
     }
 
-    createRoomWithUsers(room, listed, currentUser)
+    createRoomWithUsers(room, listed)
   }
 
   render() {
     const {
-      sheet,
-      hideNewConversation,
-      filterNewConversation,
-      addToNewConversation,
-      removeFromNewConversation,
-      organization
+      sheet, hideNewConversation, filterNewConversation,
+      addToNewConversation, removeFromNewConversation, organization
     } = this.props
 
     if (!organization) return null
@@ -146,7 +141,7 @@ export default class NewConversation extends Component {
         title="New Conversation"
         onHide={this.onHide}
         theme={{classes}}
-        preventFilterFocus={this.state.roomNameFocused}
+        filterFocus={!this.state.roomNameFocused}
         beforeList={(
           <Settings
             {...this.props}
