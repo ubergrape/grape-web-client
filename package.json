@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.5.1-pre",
+  "version": "0.5.2-pre",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -128,7 +128,9 @@
     "all": "npm run lint && npm run test && npm run build",
     "start:static": "npm run static & npm run build:watch",
     "start:dev": "webpack-dev-server",
-    "build": "webpack --bail",
+    "build": "npm run build:dist && npm run build:lib",
+    "build:dist": "webpack --bail",
+    "build:lib": "npm run clear:lib && babel src --out-dir lib",
     "build:watch": "webpack --progress --colors --watch",
     "test:watch": "NODE_ENV=test karma start",
     "test": "karma start",
@@ -137,6 +139,7 @@
     "prepublish": "NODE_ENV=production npm run all",
     "dedupe": "npm dedupe 2> ./dedupe-whitelist.txt ",
     "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
+    "clear:lib": "rm -fr ./lib/*",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap"
   }
 }
