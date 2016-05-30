@@ -3,7 +3,6 @@ import {findDOMNode} from 'react-dom'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
 import Favorite from '../favorite/Favorite'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 
@@ -142,53 +141,58 @@ export default class Header extends Component {
       favorite
     } = this.props
     const {type: channel} = this.props.channel
+
     const {classes} = this.props.sheet
     const favoriteProps = {...favorite, ...this.props}
     return (
-      <ul className={classes.header}>
-        <li className={classes.favorite}>
-          <Favorite {...favoriteProps}/>
-        </li>
-        <li className={classes.title}>
-          <Title {...this.props} />
-        </li>
-        <li className={classes.action}>
-          <Button
-            className={classes.invite}
-            onClick={showChannelMembersInvite} />
-        </li>
-        <li className={classes.action}>
-          <Button
-            className={channel ? this.getButtonClassName(channel) : classes.infoDisabled}
-            onClick={channel ? this.getOnClickHandler(channel) : noop} />
-        </li>
-        <li className={classes.action}>
-          <Button
-            className={this.getButtonClassName('files')}
-            onClick={this.getOnClickHandler('files')} />
-        </li>
-        <li className={classes.searchAction}>
-          <Search
-            {...this.props}
-            onOutsideClick={::this.onClickOutsideMessageSearch}
-            placeholder="Search messages"
-            onFocus={::this.onFocusMessageSearch}
-            onChange={::this.onChangeMessageSearch} />
-        </li>
-        <li className={classes.action}>
-          <Button
-            className={this.getButtonClassName('mentions')}
-            onClick={this.getOnClickHandler('mentions')} />
-          {this.renderMentionsBadge()}
-        </li>
-        <li className={classes.action}>
-          <a
-            href={support.href}
-            className={this.getButtonClassName('intercom')}
-            onClick={::this.onSupportClick}>
-          </a>
-        </li>
-      </ul>
+      <div className={classes.headerWrapper}>
+        {channel && (
+          <ul className={classes.header}>
+            <li className={classes.favorite}>
+              <Favorite {...favoriteProps}/>
+            </li>
+            <li className={classes.title}>
+              <Title {...this.props} />
+            </li>
+            <li className={classes.action}>
+              <Button
+                className={classes.invite}
+                onClick={showChannelMembersInvite} />
+            </li>
+            <li className={classes.action}>
+              <Button
+                className={this.getButtonClassName(channel)}
+                onClick={this.getOnClickHandler(channel)} />
+            </li>
+            <li className={classes.action}>
+              <Button
+                className={this.getButtonClassName('files')}
+                onClick={this.getOnClickHandler('files')} />
+            </li>
+            <li className={classes.searchAction}>
+              <Search
+                {...this.props}
+                onOutsideClick={::this.onClickOutsideMessageSearch}
+                placeholder="Search messages"
+                onFocus={::this.onFocusMessageSearch}
+                onChange={::this.onChangeMessageSearch} />
+            </li>
+            <li className={classes.action}>
+              <Button
+                className={this.getButtonClassName('mentions')}
+                onClick={this.getOnClickHandler('mentions')} />
+              {this.renderMentionsBadge()}
+            </li>
+            <li className={classes.action}>
+              <a
+                href={support.href}
+                className={this.getButtonClassName('intercom')}
+                onClick={::this.onSupportClick}>
+              </a>
+            </li>
+          </ul>
+        )}
+      </div>
     )
   }
 }
