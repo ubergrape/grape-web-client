@@ -1,3 +1,4 @@
+import 'es6-promise'
 import {render} from 'react-dom'
 import {createElement} from 'react'
 import History from '../History'
@@ -24,7 +25,6 @@ const textParts = [
   '```',
   '[link](http://markdownlink.com)',
   '> quote',
-  '\nsimplelink.com',
   '1. test',
   '![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)',
   '<button>Button</button>'
@@ -198,5 +198,20 @@ window.addActivityMessage = () => {
     title: '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
     text: 'let\'s merge this into master on thursday, shall we?',
     author: 'Github'
+  })
+}
+
+window.addMessageWithUserLink = () => {
+  window.addMessage({
+    text: 'simplelink.com'
+  })
+}
+
+window.addMessageWithGrapeObjects = () => {
+  window.addMessage({
+    text:
+      '[#68 Apple Test Account](cg://github|issue|92f69b7c6d181a6318e2935a3b7730ae|https://github.com/ubergrape/chatgrape_ios/issues/68||)\n\n' +
+      '[room](cg://chatgrape|room|2253|/chat/testroom)\n\n' +
+      '[SomeUser](cg://chatgrape|user|60|/chat/@someuser)'
   })
 }

@@ -3,6 +3,32 @@ import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
 import bindAll from 'lodash/function/bindAll'
 import noop from 'lodash/utility/noop'
 
+/**
+ * Replacement for WeakMaps, because IE as well as polyfils can't use frozen
+ * objects as a key.
+ */
+class Cache {
+  constructor() {
+    this.keys = []
+    this.values = []
+  }
+
+  has(key) {
+    return this.keys.indexOf(key) !== -1
+  }
+
+  get(key) {
+    const index = this.keys.indexOf(key)
+    return index === -1 ? undefined : this.values[index]
+  }
+
+  set(key, value) {
+    let index = this.keys.indexOf(key)
+    if (index === -1) index = this.keys.length
+    this.keys[index] = key
+    this.values[index] = value
+  }
+}
 
 /**
  * Get the height of an element.
@@ -135,7 +161,7 @@ export default class AutoRowHeight extends Component {
    */
   updateCache(nextElements) {
     // Key is element, value is height.
-    const cache = new WeakMap()
+    const cache = new Cache()
     nextElements.forEach(element => {
       const height = this.heights.get(element)
       if (height) cache.set(element, height)

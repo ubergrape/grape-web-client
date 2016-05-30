@@ -14,24 +14,32 @@
       }
       .history {
         position: absolute;
-        top: 100px;
+        top: 40px;
         left: 0;
         right: 0;
         bottom: 0;
+      }
+      .actions: {
+        white-space: nowrap;
       }
     </style>
     <link rel="stylesheet" href="/dist/components.css"></link>
   </head>
   <body>
-    <button onclick="addMessage()">Add message</button>
-    <button onclick="addManyMessages()">Add many messages</button>
-    <button onclick="scrollToMessage()">Scroll to message</button>
-    <button onclick="addMessage({isPending: true})">Add a pending message</button>
-    <button onclick="addMessage({isUnsent: true})">Add unsent message</button>
-    <button onclick="addMessageWithAttachment('pdf')">Add message with pdf attachment</button>
-    <button onclick="addMessageWithAttachment('uploadedImage')">Add message with uploaded image attachment</button>
-    <button onclick="addActivityMessage()">Add activity message</button>
-
+    <select onchange="eval(this.value)">
+      <option value="">Select action</option>
+      <option value="addMessage()">Add message</option>
+      <option value="addManyMessages()">Add many messages</option>
+      <option value="scrollToMessage()">Scroll to message</option>
+      <option value="addMessage({isPending: true})">Add a pending message</option>
+      <option value="addMessage({isUnsent: true})">Add unsent message</option>
+      <option value="addMessageWithAttachment('pdf')">Add message with pdf attachment</option>
+      <option value="addMessageWithUserLink()">Add message with user link</option>
+      <option value="addMessageWithGrapeObjects()">Add message with grape objects</option>
+      <option value="addMessageWithAttachment('uploadedImage')">Add message with uploaded image attachment</option>
+      <option onclick="addActivityMessage()">Add activity message</option>
+    </select>
+    </div>
     <div class="history"></div>
     <script src="/dist/app.js"></script>
     <script src="/webpack-dev-server.js"></script>
