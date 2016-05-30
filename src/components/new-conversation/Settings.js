@@ -20,13 +20,13 @@ class IconSettings extends Component {
 
 export default function Settings(props) {
   const {
-    icon, color, name, showRoomSettings, theme,
+    icon, color, name, advanced, theme,
     isPublic, onChangeRoomName, onClickRoomName,
     onBlurRoomName, onPrivacyChange
   } = props
 
   // TODO: return `null` once upgraded to React 0.15.
-  if (!showRoomSettings) return <noscript />
+  if (!advanced) return <noscript />
 
   const {classes} = theme
   return (
@@ -59,7 +59,7 @@ Settings.propTypes = {
   icon: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  showRoomSettings: PropTypes.bool.isRequired,
+  advanced: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
   onClickRoomName: PropTypes.func.isRequired,

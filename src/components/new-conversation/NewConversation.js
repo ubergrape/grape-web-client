@@ -9,14 +9,14 @@ import Settings from './Settings'
 
 function FooterButtons(props) {
   const {
-    listed, name, showRoomSettings,
+    listed, name, advanced,
     onClickSettings, onClickCreate, theme
   } = props
   const {classes} = theme
   return (
     <div className={classes.footer}>
       <div>
-        {!showRoomSettings &&
+        {!advanced &&
           <button
             className={classes.roomSettingsButton}
             onClick={onClickSettings}>
@@ -37,7 +37,7 @@ function FooterButtons(props) {
 FooterButtons.propTypes = {
   listed: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
-  showRoomSettings: PropTypes.bool.isRequired,
+  advanced: PropTypes.bool.isRequired,
   onClickSettings: PropTypes.func.isRequired,
   onClickCreate: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
@@ -48,7 +48,6 @@ const initialState = {
   isPublic: true,
   color: sample(colors),
   icon: sample(icons),
-  showRoomSettings: false,
   roomNameFocused: false
 }
 
@@ -58,6 +57,7 @@ export default class NewConversation extends Component {
     sheet: PropTypes.object.isRequired,
     organization: PropTypes.number,
     createRoomWithUsers: PropTypes.func.isRequired,
+    showNewConversationAdvanced: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     addToNewConversation: PropTypes.func.isRequired,
     removeFromNewConversation: PropTypes.func.isRequired,
@@ -99,10 +99,6 @@ export default class NewConversation extends Component {
     this.setState({isPublic: !this.state.isPublic})
   }
 
-  onClickSettings = () => {
-    this.setState({showRoomSettings: true})
-  }
-
   onCreate = () => {
     const {
       listed, goToChannel,
@@ -129,7 +125,8 @@ export default class NewConversation extends Component {
   render() {
     const {
       sheet, hideNewConversation, filterNewConversation,
-      addToNewConversation, removeFromNewConversation, organization
+      addToNewConversation, removeFromNewConversation,
+      showNewConversationAdvanced, organization
     } = this.props
 
     if (!organization) return null
@@ -162,7 +159,7 @@ export default class NewConversation extends Component {
           {...this.props}
           {...this.state}
           onClickCreate={this.onCreate}
-          onClickSettings={this.onClickSettings}
+          onClickSettings={showNewConversationAdvanced}
           theme={{classes}} />
       </ChooseUsersDialog>
     )

@@ -20,7 +20,6 @@ template.templates = {
   'dialogs/menu.jade': require('./dialogs/menu.jade'),
   'dialogs/pmlist.jade': require('./dialogs/pmlist.jade'),
   'dialogs/pmmanager.jade': require('./dialogs/pmmanager.jade'),
-  'dialogs/room-creation-form.jade': require('./dialogs/room-creation-form.jade'),
   'dialogs/roomlist.jade': require('./dialogs/roomlist.jade'),
   'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
   'dialogs/userlist.jade': require('./dialogs/userlist.jade'),
