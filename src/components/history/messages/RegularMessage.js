@@ -101,7 +101,7 @@ export default class RegularMessage extends Component {
   renderMenu = () => {
     if (!this.state.isMenuOpened) return null
 
-    const {isOwn, attachments} = this.props
+    const {isOwn, attachments, sheet} = this.props
     let items
 
     if (isOwn) {
@@ -117,6 +117,7 @@ export default class RegularMessage extends Component {
     return (
       <Menu
         onSelect={this.onSelect}
+        className={sheet.classes.menu}
         items={items} />
     )
   }
@@ -155,8 +156,8 @@ export default class RegularMessage extends Component {
               <Grapedown text={children} />
               {attachments.map(this.renderAttachment)}
             </div>
+            {this.renderMenu()}
           </ThemedBubble>
-          {this.renderMenu()}
         </div>
         {isUnsent && <Unsent theme={{classes}} onResend={onResend} />}
       </div>

@@ -17,5 +17,10 @@ export const styles = {
     '& a': {
       color: red
     }
+  },
+  menu: {
+    position: 'absolute',
+    top: -13,
+    right: 15
   }
 }
