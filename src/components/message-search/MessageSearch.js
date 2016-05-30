@@ -20,8 +20,12 @@ export default class MessageSearch extends Component {
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     total: PropTypes.number,
-    query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     isLoading: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    query: ''
   }
 
   componentDidMount() {
@@ -49,7 +53,7 @@ export default class MessageSearch extends Component {
   }
 
   load(props = this.props) {
-    if (!props.query) return
+    if (!props.query || !props.query.length) return
     const {items} = props
     props.load({
       // Is always the timestamp of the last loaded message.
