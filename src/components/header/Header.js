@@ -198,23 +198,23 @@ export default class Header extends Component {
     if (support.type === 'intercom') hideIntercom()
   }
 
-  onFocusMessageSearch({target}) {
+  onFocusMessageSearch = ({target}) => {
     this.props.showInSidebar('search')
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onChangeMessageSearch({target}) {
+  onChangeMessageSearch = ({target}) => {
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onClickOutsideMessageSearch({target}) {
+  onClickOutsideMessageSearch = ({target}) => {
     const {sidebar, hideSidebar} = this.props
     if (sidebar !== 'search') return
     const {value} = findDOMNode(target)
     if (!value) hideSidebar()
   }
 
-  onSupportClick(e) {
+  onSupportClick = (e) => {
     if (this.props.support.type === 'intercom') {
       e.preventDefault()
       itemClickHandler('intercom', this.props)()
@@ -227,10 +227,10 @@ export default class Header extends Component {
       <div className={classes.headerWrapper}>
         <Items
           {...this.props}
-          onClickOutsideMessageSearch={::this.onClickOutsideMessageSearch}
-          onChangeMessageSearch={::this.onChangeMessageSearch}
-          onFocusMessageSearch={::this.onFocusMessageSearch}
-          onSupportClick={::this.onSupportClick}
+          onClickOutsideMessageSearch={this.onClickOutsideMessageSearch}
+          onChangeMessageSearch={this.onChangeMessageSearch}
+          onFocusMessageSearch={this.onFocusMessageSearch}
+          onSupportClick={this.onSupportClick}
           theme={{classes}} />
       </div>
     )
