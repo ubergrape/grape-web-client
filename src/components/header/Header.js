@@ -69,14 +69,13 @@ Title.propTypes = {
   sheet: PropTypes.object.isRequired
 }
 
-function getButtonClassName(panel, props) {
-  const {sidebar, theme} = props
+function itemButtonClassName(panel, {sidebar, theme}) {
   return theme.classes[sidebar === panel ? `${panel}Active` : panel]
 }
 
-function getOnClickHandler(panel, props) {
-  if (props.sidebar === panel) return props.hideSidebar
-  return props.showInSidebar.bind(null, panel)
+function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
+  if (sidebar === panel) return hideSidebar
+  return showInSidebar.bind(null, panel)
 }
 
 function MentionsBadge({mentions, sidebar, theme}) {
@@ -128,13 +127,13 @@ function Items(props) {
       </li>
       <li className={classes.action}>
         <Button
-          className={getButtonClassName(channel, props)}
-          onClick={getOnClickHandler(channel, props)} />
+          className={itemButtonClassName(channel, props)}
+          onClick={itemClickHandler(channel, props)} />
       </li>
       <li className={classes.action}>
         <Button
-          className={getButtonClassName('files', props)}
-          onClick={getOnClickHandler('files', props)} />
+          className={itemButtonClassName('files', props)}
+          onClick={itemClickHandler('files', props)} />
       </li>
       <li className={classes.searchAction}>
         <Search
@@ -146,14 +145,14 @@ function Items(props) {
       </li>
       <li className={classes.action}>
         <Button
-          className={getButtonClassName('mentions', props)}
-          onClick={getOnClickHandler('mentions', props)} />
+          className={itemButtonClassName('mentions', props)}
+          onClick={itemClickHandler('mentions', props)} />
         <MentionsBadge {...props} />
       </li>
       <li className={classes.action}>
         <a
           href={support.href}
-          className={getButtonClassName('intercom', props)}
+          className={itemButtonClassName('intercom', props)}
           onClick={onSupportClick}>
         </a>
       </li>
@@ -218,7 +217,7 @@ export default class Header extends Component {
   onSupportClick(e) {
     if (this.props.support.type === 'intercom') {
       e.preventDefault()
-      getOnClickHandler('intercom', this.props)()
+      itemClickHandler('intercom', this.props)()
     }
   }
 
