@@ -6,8 +6,10 @@ import noop from 'lodash/utility/noop'
 import RawTooltip from '../tooltip/Tooltip'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import useTheme from '../theme/useTheme'
+import * as tooltipStyle from '../tooltip/themes/gray'
 
 const Tooltip = listenOutsideClick(RawTooltip)
+const StyledTooltip = useTheme(Tooltip, tooltipStyle)
 
 export default function Dropdown(props) {
   const {
@@ -15,12 +17,10 @@ export default function Dropdown(props) {
     placement,
     target,
     children,
-    theme,
     onOutsideClick,
     onClick
   } = props
 
-  const StyledTooltip = useTheme(Tooltip, theme)
   return (
     <Position
       container={container}
@@ -40,7 +40,6 @@ Dropdown.propTypes = {
   container: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   placement: PropTypes.string,
-  theme: PropTypes.object.isRequired,
   target: PropTypes.instanceOf(Element),
   onOutsideClick: PropTypes.func,
   onClick: PropTypes.func

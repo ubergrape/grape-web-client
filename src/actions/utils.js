@@ -3,6 +3,7 @@ import pluck from 'lodash/collection/pluck'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 
+import {maxChannelNameLength} from '../constants/app'
 import store from '../app/store'
 import {
   usersSelector,
@@ -124,4 +125,10 @@ export function formatSidebarMessage(message) {
     // There is no slug in pm, user the other user slug.
     slug: currentChannel.slug || currentChannel.users[0].slug
   }
+}
+
+export function roomNameFromUsers(users) {
+  return users.map(user => user.displayName)
+  .join(', ')
+  .slice(0, maxChannelNameLength - 1)
 }

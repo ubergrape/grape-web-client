@@ -1,11 +1,11 @@
 import * as types from '../constants/actionTypes'
-import {maxChannelNameLength} from '../constants/app'
+import page from 'page'
 
 import store from '../app/store'
-import {goToChannel, error, invitedToChannel} from './common'
-import page from 'page'
-import {channelSelector, orgSelector} from '../selectors'
 import * as api from '../utils/backend/api'
+import {roomNameFromUsers} from './utils'
+import {channelSelector, orgSelector} from '../selectors'
+import {goToChannel, error, invitedToChannel} from './common'
 
 
 export function showChannelMembersInvite() {
@@ -41,20 +41,15 @@ export function setInviteFilterValue(value) {
   }
 }
 
-export function createRoomAndInvite(users) {
+export function createRoomFromPmAndInvite(users) {
   const {id} = orgSelector(store.getState())
   const channel = channelSelector(store.getState())
   const newChannelUsers = [...channel.users, ...users]
-  const usernames = newChannelUsers.map(user => user.username)
+  const usernames = newChannelUsers.map(({username}) => username)
 
   return dispatch => {
-    const name = newChannelUsers
-      .map(user => user.displayName)
-      .join(', ')
-      .slice(0, maxChannelNameLength - 1)
-
     const room = {
-      name,
+      name: roomNameFromUsers(newChannelUsers),
       isPublic: false,
       organization: id
     }

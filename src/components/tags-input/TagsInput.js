@@ -25,7 +25,7 @@ export default class TagsInput extends Component {
   }
 
   componentDidUpdate() {
-    const {input, ruler} = this.refs
+    const {input, filterArea, inputRuler, filterRuler} = this.refs
     if (!input) return
     if (this.props.focused) input.focus()
 
@@ -34,8 +34,10 @@ export default class TagsInput extends Component {
     // We use span as a ruler.
     // http://s.codepen.io/tyv/debug/pgKJLK
     // http://codepen.io/tyv/pen/pgKJLK
-    input.style.width = `${ruler.offsetWidth + 2}px`
+    input.style.width = `${inputRuler.offsetWidth + 2}px`
     input.scrollIntoView()
+
+    filterArea.style.height = filterRuler.offsetHeight
   }
 
   onBlur() {
@@ -92,8 +94,8 @@ export default class TagsInput extends Component {
           onChange={::this.onChange}
           value={value} />
         <span
-          ref="ruler"
-          className={classes.ruler}
+          ref="inputRuler"
+          className={classes.inputRuler}
           ariaHidden>
           {value}
         </span>
@@ -117,10 +119,13 @@ export default class TagsInput extends Component {
   }
 
   render() {
+    const {classes} = this.props.sheet
     return (
-      <div className={this.props.className}>
-        {this.renderTags()}
-        {this.renderInput()}
+      <div ref="filterArea" className={classes.filterArea}>
+        <div ref="filterRuler" className={classes.filterRuler}>
+          {this.renderTags()}
+          {this.renderInput()}
+        </div>
       </div>
     )
   }

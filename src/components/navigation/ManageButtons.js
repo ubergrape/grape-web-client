@@ -5,6 +5,7 @@ export default function ManageButtons(props) {
     theme,
     filter,
     showChannelsManager,
+    showNewConversation,
     showPmManager
   } = props
 
@@ -14,6 +15,13 @@ export default function ManageButtons(props) {
   const {classes} = theme
   return (
     <ul className={classes.manage}>
+      <li className={classes.manageItem}>
+        <button
+          className={classes.newConversation}
+          onClick={showNewConversation}>
+          New Conversation
+        </button>
+      </li>
       <li className={classes.manageItem}>
         <button
           className={classes.contacts}
@@ -36,5 +44,6 @@ ManageButtons.propTypes = {
   theme: PropTypes.object.isRequired,
   filter: PropTypes.string.isRequired,
   showChannelsManager: PropTypes.func.isRequired,
-  showPmManager: PropTypes.func.isRequired
+  showPmManager: PropTypes.func.isRequired,
+  showNewConversation: PropTypes.func.isRequired
 }
