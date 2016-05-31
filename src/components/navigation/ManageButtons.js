@@ -9,6 +9,7 @@ export default function ManageButtons(props) {
     showPmManager
   } = props
 
+  // TODO: return `null` once upgraded to React 0.15.
   if (filter) return <noscript />
 
   const {classes} = theme

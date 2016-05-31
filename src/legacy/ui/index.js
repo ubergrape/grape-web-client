@@ -191,14 +191,6 @@ UI.prototype.bind = function UI_bind() {
   pipeEvents(this)
   let self = this
 
-  this.events = events(this.el, {
-    'closeNotificationsMessage': function() {
-      self.enableNotificationMessage.remove()
-    }
-  })
-
-  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
-
   this.room = null
 
   // intro
@@ -213,7 +205,6 @@ UI.prototype.bind = function UI_bind() {
 UI.prototype.requestPermission = function () {
   notify.requestPermission(permission => {
     if (permission !== 'default') {
-      this.enableNotificationMessage.remove()
       classes(qs('body')).remove('notifications-disabled')
     }
   })
