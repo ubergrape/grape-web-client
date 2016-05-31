@@ -4,13 +4,15 @@ import webColors from 'grape-theme/dist/web-colors'
 
 import buttonReset from '../button/reset'
 
+const buttonBorderWidth = 1
+
 const iconSettingsButton = {
   ...buttonReset,
   display: 'block',
   marginRight: 10,
   padding: 4,
   borderRadius: '50%',
-  border: '1px solid'
+  border: `${buttonBorderWidth}px solid`
 }
 
 const chooserButton = {
@@ -74,6 +76,6 @@ export default {
     marginTop: 10
   },
   icon: {
-    transform: 'translate(-1px, -1px)'
+    transform: `translate(-${buttonBorderWidth}px, -${buttonBorderWidth}px)`
   }
 }

@@ -47,15 +47,13 @@ export default class RoomIconSetting extends Component {
           ref="icon">
           <Icon name={channel.icon} backgroundColor={channel.color} size={60} />
         </button>
-        {
-          show && (
-            <Dropdown
-              {...this.props}
-              onOutsideClick={this.onClickOutsideDropdown}
-              target={this.refs.icon}>
-              <IconSettings {...this.props} theme={{classes}} />
-            </Dropdown>
-          )
+        {show &&
+          <Dropdown
+            {...this.props}
+            onOutsideClick={this.onClickOutsideDropdown}
+            target={this.refs.icon}>
+            <IconSettings {...this.props} theme={{classes}} />
+          </Dropdown>
         }
       </div>
     )

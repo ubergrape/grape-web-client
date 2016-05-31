@@ -47,17 +47,17 @@ export default class AdditionalActionsDropdown extends Component {
           className={classes.additionalActionsButton}
           onClick={this.onShowDropdown}
           ref="settings" />
-        {show && (
+        {show &&
           <Dropdown
             {...this.props}
             target={this.refs.settings}
             onOutsideClick={this.onClickOutsideDropdown}>
-              <AdditionalActions
-                {...this.props}
-                onDeleteClick={this.onChannelDeleteClick}
-                privacy={channel.isPublic ? 'private' : 'public'} />
+            <AdditionalActions
+              {...this.props}
+              onDeleteClick={this.onChannelDeleteClick}
+              privacy={channel.isPublic ? 'private' : 'public'} />
           </Dropdown>
-        )}
+        }
       </div>
     )
   }

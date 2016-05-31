@@ -1,9 +1,11 @@
 import {white, blue, grayBlueDark} from 'grape-theme/dist/base-colors'
 
+const togglerMargin = 2
+
 const toggler = {
   position: 'absolute',
-  top: 2,
-  bottom: 2,
+  top: togglerMargin,
+  bottom: togglerMargin,
   width: '50%',
   background: white,
   borderRadius: 4,
@@ -27,16 +29,16 @@ export const styles = {
     background: blue,
     '&:after': {
       ...toggler,
-      left: 'calc(50% - 2px)',
-      right: 2
+      left: `calc(50% - ${togglerMargin}px)`,
+      right: togglerMargin
     }
   },
   switchOff: {
     background: grayBlueDark,
     '&:after': {
       ...toggler,
-      left: 2,
-      right: 'calc(50% - 2px)'
+      left: togglerMargin,
+      right: `calc(50% - ${togglerMargin}px)`
     }
   },
   label: {
