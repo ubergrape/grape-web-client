@@ -69,6 +69,110 @@ Title.propTypes = {
   sheet: PropTypes.object.isRequired
 }
 
+function getButtonClassName(panel, props) {
+  const {sidebar, theme} = props
+  return theme.classes[sidebar === panel ? `${panel}Active` : panel]
+}
+
+function getOnClickHandler(panel, props) {
+  if (props.sidebar === panel) return props.hideSidebar
+  return props.showInSidebar.bind(null, panel)
+}
+
+function MentionsBadge({mentions, sidebar, theme}) {
+  // TODO: return `null` once upgraded to React 0.15.
+  if (!mentions || sidebar === 'mentions') return <noscript />
+  return <i className={theme.classes.badge} />
+}
+
+MentionsBadge.propTypes = {
+  mentions: PropTypes.number,
+  sidebar: PropTypes.oneOfType([
+    PropTypes.string,
+    React.PropTypes.bool
+  ]),
+  theme: PropTypes.object.isRequired
+}
+
+
+function Items(props) {
+  const {
+    showChannelMembersInvite,
+    onClickOutsideMessageSearch,
+    onFocusMessageSearch,
+    onChangeMessageSearch,
+    onSupportClick,
+    support,
+    favorite,
+    theme
+  } = props
+  const {type: channel} = props.channel
+
+  // TODO: return `null` once upgraded to React 0.15.
+  if (!channel) return <noscript />
+
+  const favoriteProps = {...favorite, ...props}
+  const {classes} = theme
+  return (
+    <ul className={classes.header}>
+      <li className={classes.favorite}>
+        <Favorite {...favoriteProps}/>
+      </li>
+      <li className={classes.title}>
+        <Title {...props} />
+      </li>
+      <li className={classes.action}>
+        <Button
+          className={classes.invite}
+          onClick={showChannelMembersInvite} />
+      </li>
+      <li className={classes.action}>
+        <Button
+          className={getButtonClassName(channel, props)}
+          onClick={getOnClickHandler(channel, props)} />
+      </li>
+      <li className={classes.action}>
+        <Button
+          className={getButtonClassName('files', props)}
+          onClick={getOnClickHandler('files', props)} />
+      </li>
+      <li className={classes.searchAction}>
+        <Search
+          {...props}
+          onOutsideClick={onClickOutsideMessageSearch}
+          placeholder="Search messages"
+          onFocus={onFocusMessageSearch}
+          onChange={onChangeMessageSearch} />
+      </li>
+      <li className={classes.action}>
+        <Button
+          className={getButtonClassName('mentions', props)}
+          onClick={getOnClickHandler('mentions', props)} />
+        <MentionsBadge {...props} />
+      </li>
+      <li className={classes.action}>
+        <a
+          href={support.href}
+          className={getButtonClassName('intercom', props)}
+          onClick={onSupportClick}>
+        </a>
+      </li>
+    </ul>
+  )
+}
+
+Items.propTypes = {
+  theme: PropTypes.object.isRequired,
+  channel: PropTypes.object.isRequired,
+  favorite: PropTypes.object.isRequired,
+  support: PropTypes.object.isRequired,
+  showChannelMembersInvite: PropTypes.func.isRequired,
+  onClickOutsideMessageSearch: PropTypes.func.isRequired,
+  onFocusMessageSearch: PropTypes.func.isRequired,
+  onChangeMessageSearch: PropTypes.func.isRequired,
+  onSupportClick: PropTypes.func.isRequired
+}
+
 @useSheet(style)
 export default class Header extends Component {
   static propTypes = {
@@ -114,84 +218,21 @@ export default class Header extends Component {
   onSupportClick(e) {
     if (this.props.support.type === 'intercom') {
       e.preventDefault()
-      this.getOnClickHandler('intercom')()
+      getOnClickHandler('intercom', this.props)()
     }
   }
 
-  getOnClickHandler(panel) {
-    if (this.props.sidebar === panel) return this.props.hideSidebar
-    return this.props.showInSidebar.bind(null, panel)
-  }
-
-  getButtonClassName(panel) {
-    const {sidebar, sheet} = this.props
-    return sheet.classes[sidebar === panel ? `${panel}Active` : panel]
-  }
-
-  renderMentionsBadge() {
-    const {mentions, sidebar, sheet} = this.props
-    if (!mentions || sidebar === 'mentions') return null
-    return <i className={sheet.classes.badge} />
-  }
-
   render() {
-    const {
-      showChannelMembersInvite,
-      support,
-      favorite
-    } = this.props
-    const {type: channel} = this.props.channel
-
     const {classes} = this.props.sheet
-    const favoriteProps = {...favorite, ...this.props}
     return (
       <div className={classes.headerWrapper}>
-        {channel && (
-          <ul className={classes.header}>
-            <li className={classes.favorite}>
-              <Favorite {...favoriteProps}/>
-            </li>
-            <li className={classes.title}>
-              <Title {...this.props} />
-            </li>
-            <li className={classes.action}>
-              <Button
-                className={classes.invite}
-                onClick={showChannelMembersInvite} />
-            </li>
-            <li className={classes.action}>
-              <Button
-                className={this.getButtonClassName(channel)}
-                onClick={this.getOnClickHandler(channel)} />
-            </li>
-            <li className={classes.action}>
-              <Button
-                className={this.getButtonClassName('files')}
-                onClick={this.getOnClickHandler('files')} />
-            </li>
-            <li className={classes.searchAction}>
-              <Search
-                {...this.props}
-                onOutsideClick={::this.onClickOutsideMessageSearch}
-                placeholder="Search messages"
-                onFocus={::this.onFocusMessageSearch}
-                onChange={::this.onChangeMessageSearch} />
-            </li>
-            <li className={classes.action}>
-              <Button
-                className={this.getButtonClassName('mentions')}
-                onClick={this.getOnClickHandler('mentions')} />
-              {this.renderMentionsBadge()}
-            </li>
-            <li className={classes.action}>
-              <a
-                href={support.href}
-                className={this.getButtonClassName('intercom')}
-                onClick={::this.onSupportClick}>
-              </a>
-            </li>
-          </ul>
-        )}
+        <Items
+          {...this.props}
+          onClickOutsideMessageSearch={::this.onClickOutsideMessageSearch}
+          onChangeMessageSearch={::this.onChangeMessageSearch}
+          onFocusMessageSearch={::this.onFocusMessageSearch}
+          onSupportClick={::this.onSupportClick}
+          theme={{classes}} />
       </div>
     )
   }
