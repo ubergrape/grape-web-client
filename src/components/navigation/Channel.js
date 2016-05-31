@@ -25,6 +25,7 @@ ChannelPicker.propTypes = {
 
 function Unread(props) {
   const {type, unread, mentioned} = props.channel
+  // TODO: return `null` once upgraded to React 0.15.
   if (!unread) return <noscript />
 
   const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
