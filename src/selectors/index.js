@@ -83,14 +83,10 @@ export const currentPmsSelector = createSelector(
 
 export const activeUsersWithActivePmsSelector = createSelector(
   [activeUsersSelector, activePmsSelector],
-  (users, pms) => {
-    return users.map(user => {
-      return {
-        ...user,
-        pm: find(pms, {slug: user.slug})
-      }
-    })
-  }
+  (users, pms) => users.map(user => ({
+    ...user,
+    pm: find(pms, {slug: user.slug})
+  }))
 )
 
 export const orgSelector = createSelector(
