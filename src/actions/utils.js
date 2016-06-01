@@ -4,19 +4,10 @@ import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 
 import {maxChannelNameLength} from '../constants/app'
-import store from '../app/store'
 import {
   usersSelector,
   channelsSelector
 } from '../selectors'
-
-export function getChannelSlug({slug, users}) {
-  return slug || users[0].slug
-}
-
-export function getChannelName({name, users}) {
-  return name || users[0].displayName
-}
 
 /**
  * Fix data inconsistencies at the backend.
@@ -106,7 +97,7 @@ export function countMentions(message, user, rooms) {
   return count
 }
 
-export function formatSidebarMessage(message) {
+export function formatSidebarMessage(message, state) {
   const {
     id,
     author,
@@ -114,11 +105,8 @@ export function formatSidebarMessage(message) {
     plainText: content,
     channel: channelId
   } = formatMessage(message)
-  // TODO: move state dependendcies to the function arguments.
-  // So the action creators should pass them.
-  const state = store.getState()
   const channels = channelsSelector(state)
-  const currentChannel = find(channels, channel => channel.id === channelId)
+  const channel = find(channels, _channel => _channel.id === channelId)
   const users = usersSelector(state)
   const {displayName, avatar} = find(users, user => user.id === author.id) || {}
 
@@ -128,10 +116,10 @@ export function formatSidebarMessage(message) {
     time,
     content,
     // There is no channel name in pm, use the other user name.
-    channel: getChannelName(currentChannel),
+    channel: channel.name,
     author: displayName,
     // There is no slug in pm, user the other user slug.
-    slug: getChannelSlug(currentChannel)
+    slug: channel.slug
   }
 }
 

@@ -8,8 +8,6 @@ import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 
-import {getChannelSlug} from './utils'
-
 function formatRegularMessage(msg, state) {
   const channels = channelsSelector(state)
   const users = usersSelector(state)
@@ -24,8 +22,7 @@ function formatRegularMessage(msg, state) {
   }
   const {avatar} = fullAuthor
   const channel = find(channels, {id: msg.channel})
-  const channelSlug = getChannelSlug(channel)
-  const link = `/chat/${channelSlug}/${id}`
+  const link = `/chat/${channel.slug}/${id}`
 
   return {type, id, text, time, userTime, author, link, avatar}
 }

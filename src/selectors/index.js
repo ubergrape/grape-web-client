@@ -29,21 +29,18 @@ export const initialChannelsSelector = createSelector(
  * instead of user ID's.
  */
 export const channelsSelector = createSelector(
-  [
-    initialChannelsSelector,
-    usersSelector
-  ],
-  (
-    channels,
-    users
-  ) => {
-    return channels.map(channel => {
+  [initialChannelsSelector, usersSelector],
+  (channels, users) => (
+    channels.map(channel => {
+      const channelUsers = channel.users.map(id => find(users, {id}))
       return {
         ...channel,
-        users: channel.users.map(id => find(users, {id}))
+        slug: channel.slug || channelUsers[0].slug,
+        name: channel.name || channelUsers[0].displayName,
+        users: channelUsers
       }
     })
-  }
+  )
 )
 
 export const channelSelector = createSelector(

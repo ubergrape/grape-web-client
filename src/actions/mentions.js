@@ -12,7 +12,7 @@ import {setSidebarIsLoading, error} from './common'
 import {formatSidebarMessage} from './utils'
 
 export function loadMentions(params) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({type: types.LOAD_MENTIONS})
     dispatch(setSidebarIsLoading(true))
     const {id} = orgSelector(store.getState())
@@ -21,10 +21,11 @@ export function loadMentions(params) {
       .getMentions({...params, id})
       .then(mentions => {
         dispatch(setSidebarIsLoading(false))
-        const prevItems = mentionsSelector(store.getState()).items
-        const nextItems = mentions.results.map(data => {
-          return formatSidebarMessage(data.message)
-        })
+        const state = getState()
+        const prevItems = mentionsSelector(state).items
+        const nextItems = mentions.results.map(data => (
+          formatSidebarMessage(data.message, state)
+        ))
         return dispatch({
           type: types.LOADED_MENTIONS,
           payload: {
@@ -41,19 +42,22 @@ export function loadMentions(params) {
 }
 
 export function addMention(message) {
-  const mentions = mentionsSelector(store.getState())
-  let items = [...mentions.items, formatSidebarMessage(message)]
+  return (dispatch, getState) => {
+    const state = getState()
+    const mentions = mentionsSelector(state)
+    let items = [...mentions.items, formatSidebarMessage(message, state)]
 
-  // Sort all items descenting because we loose the right order when a message
-  // comes from pubsub.
-  items = sortBy(items, item => item.time * -1)
+    // Sort all items descenting because we loose the right order when a message
+    // comes from pubsub.
+    items = sortBy(items, item => item.time * -1)
 
-  return {
-    type: types.ADD_MENTION,
-    payload: {
-      items,
-      total: mentions.total + 1
-    }
+    dispatch({
+      type: types.ADD_MENTION,
+      payload: {
+        items,
+        total: mentions.total + 1
+      }
+    })
   }
 }
 

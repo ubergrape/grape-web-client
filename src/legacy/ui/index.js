@@ -302,7 +302,6 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-  console.log(err.stack)
   notification.error(err.message)
 }
 
