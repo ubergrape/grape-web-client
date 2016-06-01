@@ -1,5 +1,7 @@
 import * as types from '../constants/actionTypes'
 import page from 'page'
+import {colors, icons} from 'grape-theme/dist/room-settings'
+import sample from 'lodash/collection/sample'
 
 import store from '../app/store'
 import * as api from '../utils/backend/api'
@@ -50,6 +52,8 @@ export function createRoomFromPmAndInvite(users) {
   return dispatch => {
     const room = {
       name: roomNameFromUsers(newChannelUsers),
+      color: sample(colors),
+      icon: sample(icons),
       isPublic: false,
       organization: id
     }
