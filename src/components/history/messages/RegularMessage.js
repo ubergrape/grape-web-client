@@ -7,8 +7,7 @@ import copy from 'copy-to-clipboard'
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import OthersBubble from './OthersBubble'
-import OwnBubble from './OwnBubble'
+import {OwnBubble, MateBubble} from './Bubble'
 import Menu from '../../message-parts/Menu'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
@@ -136,7 +135,7 @@ export default class RegularMessage extends Component {
       isPending, isOwn, isUnsent, onResend, attachments
     } = this.props
     const {classes} = sheet
-    const ThemedBubble = isOwn ? OwnBubble : OthersBubble
+    const ThemedBubble = isOwn ? OwnBubble : MateBubble
     return (
       <div className={classes.message}>
         {author &&

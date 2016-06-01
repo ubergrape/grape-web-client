@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import OthersBubble from './OthersBubble'
+import {MateBubble} from './Bubble'
 import {styles} from './activityMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
@@ -47,7 +47,7 @@ export default class ActivityMessage extends Component {
           className={classes.header} />
         <div className={classes.body}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <OthersBubble className={classes.bubble}>
+          <MateBubble className={classes.bubble}>
             {container &&
               <a
                 href={container.url}
@@ -58,7 +58,7 @@ export default class ActivityMessage extends Component {
             }
             <Grapedown text={title} />
             <Grapedown text={children} />
-          </OthersBubble>
+          </MateBubble>
         </div>
       </div>
     )
