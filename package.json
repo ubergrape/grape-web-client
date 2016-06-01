@@ -91,6 +91,7 @@
     "babel-eslint": "^4.1.5",
     "babel-loader": "^5.3.1",
     "copy-webpack-plugin": "^1.1.1",
+    "cpy-cli": "^1.0.1",
     "css-loader": "^0.15.6",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
@@ -129,17 +130,20 @@
     "start:static": "npm run static & npm run build:watch",
     "start:dev": "webpack-dev-server",
     "build": "npm run build:dist && npm run build:lib",
+    "build:watch": "npm run build:dist:watch && npm run build:lib:watch",
+    "build:lib": "npm run clear:lib && npm run build:lib:jade && babel src --out-dir lib",
+    "build:lib:jade": "cpy legacy/templates/**/*.jade ../lib --cwd=src --parents",
+    "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
-    "build:lib": "npm run clear:lib && babel src --out-dir lib",
-    "build:watch": "webpack --progress --colors --watch",
-    "test:watch": "NODE_ENV=test karma start",
+    "build:dist:watch": "webpack --progress --colors --watch",
     "test": "karma start",
+    "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
     "static": "static ./dist --port 8081",
-    "prepublish": "NODE_ENV=production npm run all",
     "dedupe": "npm dedupe 2> ./dedupe-whitelist.txt ",
     "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
     "clear:lib": "rm -fr ./lib/*",
-    "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap"
+    "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
+    "prepublish": "NODE_ENV=production npm run all"
   }
 }

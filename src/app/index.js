@@ -1,7 +1,7 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
 import subscribeActions from './subscribe'
-import client from '../utils/backend/client'
+import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
 import AlertsProvider from '../components/alerts/AlertsProvider'
@@ -34,4 +34,4 @@ document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-history', HistoryProvider)
 
-subscribeActions(client.connect())
+subscribeActions(createClient().connect())

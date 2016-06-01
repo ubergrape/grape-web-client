@@ -31,7 +31,7 @@ if (conf.forceLongpolling) {
   }
 } else {
   rpc = (data, callback) => {
-    client.call(`${data.ns}/${data.action}`, ...(data.args || []), (err, res) => {
+    client().call(`${data.ns}/${data.action}`, ...(data.args || []), (err, res) => {
       if (err) log('err', err, err.details)
       else log('res', res)
       callback(err, res)
