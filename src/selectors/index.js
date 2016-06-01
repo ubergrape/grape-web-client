@@ -81,6 +81,14 @@ export const currentPmsSelector = createSelector(
   pmsSelector, pms => find(pms, 'current') || {}
 )
 
+export const activeUsersWithActivePmsSelector = createSelector(
+  [activeUsersSelector, activePmsSelector],
+  (users, pms) => users.map(user => ({
+    ...user,
+    pm: find(pms, {slug: user.slug})
+  }))
+)
+
 export const orgSelector = createSelector(
   state => state.org, state => state
 )
@@ -249,7 +257,7 @@ export const isInviterSelector = createSelector(
 )
 
 export const newConversationDialog = createSelector(
-  [newConversationSelector, orgSelector, activeUsersSelector, isInviterSelector],
+  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector],
   (newConversation, {id: organization}, users, isInviter) => ({
     ...newConversation,
     isInviter,
@@ -262,7 +270,7 @@ export const inviteDialog = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
-    activeUsersSelector,
+    activeUsersWithActivePmsSelector,
     isInviterSelector
   ],
   (
