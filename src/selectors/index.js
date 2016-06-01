@@ -81,6 +81,14 @@ export const currentPmsSelector = createSelector(
   pmsSelector, pms => find(pms, 'current') || {}
 )
 
+export const activeUsersWithActivePmsSelector = createSelector(
+  [activeUsersSelector, activePmsSelector],
+  (users, pms) => users.map(user => ({
+    ...user,
+    pm: find(pms, {slug: user.slug})
+  }))
+)
+
 export const orgSelector = createSelector(
   state => state.org, state => state
 )
@@ -185,6 +193,10 @@ export const inviteChannelMemebersSelector = createSelector(
   state => state.inviteChannelMemebers, state => state
 )
 
+export const newConversationSelector = createSelector(
+  state => state.newConversation, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {
@@ -214,25 +226,38 @@ export const unreadMentionsAmountSelector = createSelector(
   }
 )
 
-export const inviteDialogSelector = createSelector(
+export const isInviterSelector = createSelector(
+  [orgSelector, userSelector],
+  ({inviterRole}, {role}) => role >= inviterRole
+)
+
+export const newConversationDialog = createSelector(
+  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector],
+  (newConversation, {id: organization}, users, isInviter) => ({
+    ...newConversation,
+    isInviter,
+    organization,
+    users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
+  })
+)
+
+export const inviteDialog = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
-    activeUsersSelector,
-    orgSelector,
-    userSelector
+    activeUsersWithActivePmsSelector,
+    isInviterSelector
   ],
   (
     channel,
     inviteChannelMemebers,
     allUsers,
-    {inviterRole},
-    {role}
+    isInviter
   ) => {
     return {
       ...inviteChannelMemebers,
+      isInviter,
       users: differenceBy(allUsers, channel.users, inviteChannelMemebers.listed, 'id'),
-      isInviter: role >= inviterRole,
       channelType: channel.type
     }
   }

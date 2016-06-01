@@ -122,6 +122,10 @@ class ReduxEmitter extends Emitter {
   focusGrapeInput() {
     this.emit('focusGrapeInput')
   }
+
+  showNewConversationAdvanced() {
+    boundActions.showNewConversationAdvanced()
+  }
 }
 
 const reduxEmitter = new ReduxEmitter()

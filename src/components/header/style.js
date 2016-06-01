@@ -6,6 +6,8 @@ import webColors from 'grape-theme/dist/web-colors'
 import fonts from 'grape-theme/dist/fonts'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 
+const headerHeight = 56
+
 const button = {
   ...reset,
   fontSize: 22,
@@ -47,11 +49,9 @@ const infoActive = {
 }
 
 export default {
-  header: {
+  headerWrapper: {
     position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    height: 56,
+    height: headerHeight,
     padding: '0 25px',
     '&:after': {
       position: 'absolute',
@@ -63,6 +63,11 @@ export default {
       background: 'rgba(0,0,0,0.15)',
       content: '""'
     }
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    height: headerHeight
   },
   favorite: {
     flexShrink: 0
@@ -123,11 +128,6 @@ export default {
     '&:hover': {
       backgroundImage: getIcon('invite', 'hover')
     }
-  },
-  infoDisabled: {
-    ...info,
-    cursor: 'default',
-    opacity: 0.5
   },
   room: info,
   pm: info,

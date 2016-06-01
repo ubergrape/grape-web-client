@@ -212,7 +212,6 @@ UI.prototype.renderIntro = function() {
       }
     ]
   })
-
   // intro
   this.intro.oncomplete(function () {
     self.emit('introend')
@@ -225,7 +224,6 @@ UI.prototype.renderIntro = function() {
 UI.prototype.requestPermission = function () {
   notify.requestPermission(permission => {
     if (permission !== 'default') {
-      this.enableNotificationMessage.remove()
       classes(qs('body')).remove('notifications-disabled')
     }
   })
@@ -380,13 +378,10 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
     rooms: this.org.rooms.slice()
   }).closable().overlay().show()
   broker.pass(roommanager, 'leaveRoom', this, 'leaveRoom')
-  broker.pass(roommanager, 'createRoom', this, 'createRoom')
   broker(this, 'leftChannel', roommanager, 'onLeftChannel')
   broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
-  broker(this, 'roomCreationError', roommanager, 'onRoomCreationError')
   broker(this, 'newRoom', roommanager, 'onNewRoom')
   broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
-  broker(this, 'endRoomCreation', roommanager, 'onEndRoomCreation')
 }
 
 UI.prototype.onTriggerPMManager = function () {

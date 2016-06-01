@@ -7,6 +7,8 @@ let closest = require('closest')
 let template = require('template')
 let render = require('../../rendervdom')
 
+import reduxEmitter from '../../../redux-emitter'
+
 module.exports = RoomManager
 
 function RoomManager (context) {
@@ -59,12 +61,9 @@ RoomManager.prototype.init = function () {
   function replace(from, to) {
     from.parentNode.replaceChild(to, from)
   }
-  this.creationForm = {}
-  this.redrawCreationForm()
   protoInit.call(this)
   replace(qs('.manager-menu', this.dialog.el), menu.el)
   replace(qs('ul', this.dialog.el), roomList.el)
-  replace(qs('form', this.dialog.el), this.creationForm.el)
 }
 
 RoomManager.prototype.bind = function () {
@@ -73,8 +72,6 @@ RoomManager.prototype.bind = function () {
   this.events.bind('click .joined-rooms', 'setJoined')
   this.events.bind('click .new-room', 'setCreate')
   this.events.bind('click li.leave', 'leaveRoom')
-  this.events.bind('submit form.create-room-form', 'createRoom')
-  this.events.bind('keydown input#newroom-name', 'resetValidity')
   this.events.bind('click .back-button', 'setUnjoined')
 }
 
@@ -99,13 +96,8 @@ RoomManager.prototype.setJoined = function () {
 }
 
 RoomManager.prototype.setCreate = function () {
-  let menuOptions = this.menu.options
-  this.mode = this.roomList.templateOptions.mode = 'creation'
-  menuOptions.back.visible = true
-  menuOptions.button.visible = false
-  menuOptions.tabs.visible = false
-  menuOptions.header = 'Create new group'
-  this.redrawContent(2)
+  this.dialog.hide()
+  reduxEmitter.showNewConversationAdvanced()
 }
 
 RoomManager.prototype.leaveRoom = function (ev) {
@@ -113,34 +105,11 @@ RoomManager.prototype.leaveRoom = function (ev) {
   this.emit('leaveRoom', roomID)
 }
 
-RoomManager.prototype.createRoom = function (ev) {
-  ev.preventDefault()
-  let form = this.creationForm.el
-  let newRoomName = form['newroom-name']
-  let room = {
-    'name': newRoomName.value.trim(),
-    'is_public': qs('input:checked', form).value
-  }
-  this.emit('createRoom', room)
-}
-
-RoomManager.prototype.redrawCreationForm = function (ev) {
-  render(this.creationForm, template('dialogs/room-creation-form.jade', {
-    mode: this.mode
-  }))
-}
-
 RoomManager.prototype.redrawContent = function (selected) {
   let menu = this.menu
   menu.selectTab(menu.options.tabs.items[selected])
   menu.redraw()
   this.roomList.order('name')
-  this.redrawCreationForm()
-}
-
-RoomManager.prototype.resetValidity = function () {
-  let newRoomName = this.creationForm.el['newroom-name']
-  newRoomName.setCustomValidity('')
 }
 
 RoomManager.prototype.onLeftChannel = function () {
@@ -157,16 +126,4 @@ RoomManager.prototype.onNewRoom = function () {
 
 RoomManager.prototype.onChannelUpdate = function () {
   this.roomList.redraw()
-}
-
-RoomManager.prototype.onRoomCreationError = function (err) {
-  let form = this.creationForm.el
-  let newRoomName = form['newroom-name']
-  let createButton = qs('input.create-room-button', form)
-  newRoomName.setCustomValidity(err.message)
-  createButton.click()
-}
-
-RoomManager.prototype.onEndRoomCreation = function () {
-  this.dialog.hide()
 }
