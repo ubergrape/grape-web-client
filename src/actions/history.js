@@ -22,7 +22,7 @@ function formatRegularMessage(msg, state) {
   }
   const {avatar} = fullAuthor
   const channel = find(channels, {id: msg.channel})
-  const link = `/chat/${channel.slug}/${id}`
+  const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
 
   return {type, id, text, time, userTime, author, link, avatar}
 }
