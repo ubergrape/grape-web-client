@@ -68,6 +68,7 @@ export function loadHistory(channelId, options) {
       .then(messages => {
         const state = getState()
         const payload = messages
+          .reverse()
           .map(message => formatMessage(message, state))
           .filter(filterEmptyMessage)
 
