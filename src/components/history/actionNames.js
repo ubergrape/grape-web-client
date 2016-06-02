@@ -1,3 +1,4 @@
-export default [
-  'loadHistory'
-]
+export default {
+  loadHistory: 'onLoad',
+  removeMessage: 'onRemove'
+}

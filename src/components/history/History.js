@@ -36,7 +36,7 @@ function canGroup(message, prevMessage) {
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    loadHistory: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -55,18 +55,18 @@ export default class History extends Component {
 
   static defaultProps = {
     messages: [],
+    onLoad: noop,
     onLoadMore: noop,
     onEdit: noop,
     onRemove: noop,
-    onResend: noop,
-    loadHistory: noop
+    onResend: noop
   }
 
   componentWillReceiveProps({channelId}) {
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     if (channelId !== this.props.channelId) {
-      this.props.loadHistory(channelId)
+      this.props.onLoad(channelId)
     }
   }
 

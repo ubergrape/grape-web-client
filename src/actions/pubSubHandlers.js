@@ -53,9 +53,7 @@ export function handleRemovedMessage({id}) {
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
-      payload: {
-        messageId: id
-      }
+      payload: id
     })
   }
 }

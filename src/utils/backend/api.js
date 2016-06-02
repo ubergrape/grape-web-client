@@ -280,3 +280,17 @@ export function loadHistory(channelId, options) {
     })
   })
 }
+
+export function removeMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'delete_message',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}

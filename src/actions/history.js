@@ -4,7 +4,7 @@ import staticUrl from 'staticurl'
 
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {usersSelector, channelsSelector} from '../selectors'
+import {usersSelector, channelsSelector, channelSelector} from '../selectors'
 import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
@@ -77,6 +77,16 @@ export function loadHistory(channelId, options) {
         })
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
       })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+export function removeMessage({id: messageId}) {
+  return (dispatch, getState) => {
+    dispatch({type: types.REQUEST_REMOVE_MESSAGE})
+    const {id: channelId} = channelSelector(getState())
+    api
+      .removeMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))
   }
 }

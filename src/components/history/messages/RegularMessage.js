@@ -88,7 +88,9 @@ export default class RegularMessage extends Component {
         copy(this.props.link)
         break
       case 'remove':
-        this.props.onRemove()
+        if (confirm('Delete the selected Message?')) {
+          this.props.onRemove()
+        }
         break
       case 'edit':
         this.props.onEdit()
