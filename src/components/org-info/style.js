@@ -57,7 +57,6 @@ export default {
   settings: {
     ...buttonIcon('cog', {color: colors.blue, hoverColor: color(colors.blue).lighten(0.2).rgbaString(), iconOnly: true}),
     fontSize: 18,
-    height: 18,
-    display: 'block'
+    lineHeight: 'inherit'
   }
 }

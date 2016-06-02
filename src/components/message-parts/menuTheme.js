@@ -18,8 +18,9 @@ export const styles = {
   copyLinkItem: buttonIcon('iconLink', iconOptions),
   removeItem: buttonIcon('remove', {...iconOptions, hoverColor: red}),
   item: {
-    display: 'inline-block',
-    padding: '3px 5px',
+    display: 'block',
+    float: 'left',
+    padding: 5,
     border,
     cursor: 'pointer',
     textAlign: 'center',

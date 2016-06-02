@@ -4,8 +4,6 @@ import colors from 'grape-theme/dist/base-colors'
 
 const icon = {
   fontSize: 18,
-  height: 18,
-  display: 'block',
   marginRight: 5
 }
 

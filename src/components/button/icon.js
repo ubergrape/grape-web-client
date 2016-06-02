@@ -8,13 +8,15 @@ export default function create(name, options = {}) {
   const icon = createInlineIcon(name, options)
   icon['&:before'] = {
     ...icon['&:before'],
-    verticalAlign: options.iconOnly ? 'baseline' : 'middle',
+    verticalAlign: 'top',
     marginRight: options.iconOnly ? 0 : 5
   }
 
   return {
     ...reset,
     cursor: 'pointer',
+    display: 'inline-block',
+    lineHeight: options.iconOnly ? 1 : 'inherit',
     ...icon
   }
 }
