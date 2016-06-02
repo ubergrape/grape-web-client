@@ -1,14 +1,18 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
+import {useSheet} from 'grape-web/lib/jss'
 
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import GrayTooltip from '../tooltip/GrayTooltip'
+import style from './style'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 
+@useSheet(style)
 export default class Input extends Component {
   static propTypes = {
+    sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     clearError: PropTypes.func.isRequired,
@@ -26,6 +30,10 @@ export default class Input extends Component {
     clearError: noop
   }
 
+  componentDidMount() {
+    if (this.props.focused) this.refs.input.focus()
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.focused && !prevProps.focused) this.refs.input.focus()
   }
@@ -40,10 +48,10 @@ export default class Input extends Component {
   }
 
   render() {
-    const {error, theme} = this.props
+    const {error, theme, sheet} = this.props
     const {classes, arrowOffset, tooltipOffset, placement} = theme
     return (
-      <span className={classes.wrapper}>
+      <span className={sheet.classes.wrapper}>
         <input
           {...this.props}
           onChange={this.onChange}

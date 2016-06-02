@@ -10,6 +10,7 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.REQUEST_ROOM_RENAME:
+    case types.CLEAR_ROOM_RENAME_ERROR:
       return {message: undefined, id: state.id++}
     case types.HANDLE_ROOM_RENAME_ERROR:
       return {message: action.payload, id: state.id++}

@@ -38,9 +38,6 @@ export const styles = {
     ...input,
     borderColor: orange
   },
-  wrapper: {
-    position: 'relative'
-  },
   content: {
     ...fonts.normal,
     padding: '7px 14px'

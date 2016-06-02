@@ -26,6 +26,7 @@ export default class RoomInfo extends Component {
     setRoomPrivacy: PropTypes.func.isRequired,
     setRoomColor: PropTypes.func.isRequired,
     setRoomIcon: PropTypes.func.isRequired,
+    clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
     hideSidebar: PropTypes.func.isRequired
@@ -176,7 +177,7 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, renameError} = this.props
+    const {channel, renameError, clearRoomRenameError} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -189,6 +190,7 @@ export default class RoomInfo extends Component {
         <div className={classes.channelInfo}>
           <MainSettings
             channel={channel}
+            clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={allowEdit}
             onSetRoomColor={::this.onSetRoomColor}

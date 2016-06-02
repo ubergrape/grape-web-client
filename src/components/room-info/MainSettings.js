@@ -11,15 +11,25 @@ export default class MainSettings extends Component {
     renameRoom: PropTypes.func.isRequired,
     onChangePrivacy: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
+    clearRoomRenameError: PropTypes.func.isRequired,
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
-    renameError: PropTypes.object,
+    renameError: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool
   }
 
   static defaultProps = {
     allowEdit: false
+  }
+
+  getError() {
+    const {message} = this.props.renameError
+    if (!message) return undefined
+    return {
+      level: 'error',
+      message
+    }
   }
 
   renderAdditionalActions() {
@@ -39,8 +49,8 @@ export default class MainSettings extends Component {
     const {
       classes,
       renameRoom,
+      clearRoomRenameError,
       channel,
-      renameError,
       allowEdit
     } = this.props
 
@@ -49,10 +59,11 @@ export default class MainSettings extends Component {
       <div className={classes.roomName}>
         <EditableText
           placeholder="Enter group name here…"
+          clearError={clearRoomRenameError}
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
-          error={renameError.message}
+          error={this.getError()}
           />
       </div>
     )
