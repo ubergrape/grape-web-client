@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {inviteDialogSelector as selector} from '../../selectors'
+import {historySelector as selector} from '../../selectors'
 import store from '../../app/store'
 import actionNames from './actionNames'
-import ChannelMembersInvite from './ChannelMembersInvite'
+import History from './History'
 
-const ConnectedChannelMembersInvite = connect(
+const ConnectedHistory = connect(
   selector,
   mapActionsToProps(actionNames)
-)(ChannelMembersInvite)
+)(History)
 
-export default class ChannelMembersInviteProvider extends Component {
+export default class HistoryProvider extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedChannelMembersInvite />
+        <ConnectedHistory />
       </Provider>
     )
   }

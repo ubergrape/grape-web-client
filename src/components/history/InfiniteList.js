@@ -28,12 +28,11 @@ export default class InfiniteList extends Component {
     super(props)
     // FIXME clear cache
     this.rowsCache = {}
-    this.onLoadMore = ::this.onLoadMore
     this.state = {messages: props.messages}
   }
 
   // FIXME use action and store instead
-  onLoadMore(options) {
+  onLoadMore = (options) => {
     const promise = this.props.onLoadMore(options)
     if (promise) {
       promise.then(messages => this.setState({messages}))
@@ -83,7 +82,7 @@ export default class InfiniteList extends Component {
                     rows={rows}
                     rowHeight={rowHeight}>
                     {({
-                      onScroll: onScrollAutoScroll,
+                      onScroll: onScrollInAutoScroll,
                       scrollTop,
                       onRowsRendered: onRowsRenderedAutoScroll
                     }) => (
@@ -98,7 +97,7 @@ export default class InfiniteList extends Component {
                           onRowsRendered(params)
                         }}
                         onScroll={params => {
-                          onScrollAutoScroll(params)
+                          onScrollInAutoScroll(params)
                           onScrollInInfiniteLoader(params)
                         }}
                         width={width}

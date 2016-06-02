@@ -63,8 +63,6 @@ export default class InfiniteLoader extends Component {
 
   constructor(props, context) {
     super(props, context)
-    this.onRowsRendered = ::this.onRowsRendered
-    this.onScroll = ::this.onScroll
     this.direction = 0
   }
 
@@ -72,7 +70,7 @@ export default class InfiniteLoader extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onScroll({scrollTop}) {
+  onScroll = ({scrollTop}) => {
     if (this.scrollTop !== undefined) {
       this.direction = scrollTop - this.scrollTop
     }
@@ -83,7 +81,7 @@ export default class InfiniteLoader extends Component {
     }
   }
 
-  onRowsRendered({startIndex, stopIndex}) {
+  onRowsRendered = ({startIndex, stopIndex}) => {
     const {isRowLoaded, loadMoreRows, minimumBatchSize, threshold} = this.props
 
     this.lastRenderedStartIndex = startIndex

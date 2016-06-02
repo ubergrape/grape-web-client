@@ -32,10 +32,13 @@ const textParts = [
 const createMessage = (i, options = {}) => {
   const time = options.time || new Date(now + i * 1000 * 60 * 60)
   return {
-    id: random(100000000),
+    type: 'regular',
+    id: String(random(100000000)),
     link: 'link-to-message',
-    authorId: random(2) === 1 ? userId : 'author' + i,
-    author: 'Author-' + i,
+    author: {
+      id: random(2) === 1 ? userId : String(i),
+      name: 'Author-' + i
+    },
     text: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
     avatar: 'avatar.gif',
     time,
@@ -46,8 +49,10 @@ const createMessage = (i, options = {}) => {
 
 for (let i = 0; i < 5; i++) {
   messages.push(createMessage(i, {
-    author: 'Author A',
-    authorId: 'authora',
+    author: {
+      id: 'authora',
+      name: 'Author A'
+    },
     text: 'within 5 min from the same user-' + i,
     time: new Date(now + i * 1000 * 60)
   }))
@@ -129,7 +134,7 @@ function update(props) {
 update()
 
 window.addMessage = (options = {}) => {
-  const message = createMessage(messages.length, {authorId: userId, ...options})
+  const message = createMessage(messages.length, {author: {id: userId, name: 'Author'}, ...options})
   messages.push(message)
   fragment.push(message)
   update()
@@ -197,7 +202,10 @@ window.addActivityMessage = () => {
     },
     title: '[sk7](https://github.com/sk7) closed pull request [#240 Services](https://github.com/ubergrape/chatgrape/pull/240)',
     text: 'let\'s merge this into master on thursday, shall we?',
-    author: 'Github'
+    author: {
+      id: '123',
+      name: 'Github'
+    }
   })
 }
 

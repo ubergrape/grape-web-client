@@ -29,21 +29,19 @@ export const initialChannelsSelector = createSelector(
  * instead of user ID's.
  */
 export const channelsSelector = createSelector(
-  [
-    initialChannelsSelector,
-    usersSelector
-  ],
-  (
-    channels,
-    users
-  ) => {
-    return channels.map(channel => {
+  [initialChannelsSelector, usersSelector, userSelector],
+  (channels, users, user) => (
+    channels.map(channel => {
+      const channelUsers = channel.users.map(id => find(users, {id}))
+      const mate = find(channelUsers, _user => _user.id !== user.id)
       return {
         ...channel,
-        users: channel.users.map(id => find(users, {id}))
+        slug: channel.slug || mate.slug,
+        name: channel.name || mate.displayName,
+        users: channelUsers
       }
     })
-  }
+  )
 )
 
 export const channelSelector = createSelector(
@@ -91,31 +89,6 @@ export const activeUsersWithActivePmsSelector = createSelector(
 
 export const orgSelector = createSelector(
   state => state.org, state => state
-)
-
-export const fullOrgSelector = createSelector(
-  [
-    orgSelector,
-    channelsSelector,
-    usersSelector,
-    roomsSelector,
-    pmsSelector
-  ],
-  (
-    org,
-    channels,
-    users,
-    rooms,
-    pms
-  ) => {
-    return {
-      ...orgSelector,
-      channels,
-      users,
-      rooms,
-      pms
-    }
-  }
 )
 
 export const billingWarningSelector = createSelector(
@@ -430,28 +403,20 @@ export const sidebarComponentSelector = createSelector(
 
 export const headerSelector = createSelector(
   [
-    favoriteSelector,
-    channelSelector,
-    supportSelector,
-    sidebarSelector,
-    unreadMentionsAmountSelector,
-    userProfileSelector
+    favoriteSelector, channelSelector, supportSelector, sidebarSelector,
+    unreadMentionsAmountSelector, userProfileSelector
   ],
-  (
-    favorite,
-    channel,
-    support,
-    {show: sidebar},
-    mentions,
-    mate
-  ) => {
-    return {
-      favorite,
-      channel,
-      support,
-      sidebar,
-      mentions,
-      mate
-    }
-  }
+  (favorite, channel, support, {show: sidebar}, mentions, mate) => ({
+    favorite, channel, support, sidebar, mentions, mate
+  })
+)
+
+export const historySelector = createSelector(
+  [userSelector, channelSelector, ({history}) => history],
+  (user, channel, history) => ({
+    ...history,
+    // TODO remove casting once we get strings from backend.
+    userId: user.id && String(user.id),
+    channelId: channel.id && String(channel.id)
+  })
 )

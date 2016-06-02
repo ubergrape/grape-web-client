@@ -27,7 +27,6 @@ export const styles = {
     background: white,
     borderRadius: 16,
     padding: '5px 13px',
-    overflow: 'hidden',
     wordBreak: 'break-word'
   }
 }

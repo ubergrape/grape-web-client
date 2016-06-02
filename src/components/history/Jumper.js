@@ -7,9 +7,9 @@ import {styles} from './jumperTheme'
 @useSheet(styles)
 export default class Jumper extends Component {
   static propTypes = {
-    target: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
+    target: PropTypes.object,
     className: PropTypes.string
   }
 
@@ -23,7 +23,7 @@ export default class Jumper extends Component {
     this.state = {show: false}
   }
 
-  onRowsRendered({startIndex, stopIndex, overscanStopIndex}) {
+  onRowsRendered = ({startIndex, stopIndex, overscanStopIndex}) => {
     const rowsPerPage = stopIndex - startIndex
     if (overscanStopIndex - stopIndex >= rowsPerPage) {
       if (!this.state.show) this.setState({show: true})
@@ -32,7 +32,7 @@ export default class Jumper extends Component {
     if (this.state.show) this.setState({show: false})
   }
 
-  onJump() {
+  onJump = () => {
     this.setState({scrollTo: this.props.target})
     // Waiting until scrollTo is applied to remove it from the next loops.
     // TODO Can we do better?
@@ -47,13 +47,13 @@ export default class Jumper extends Component {
     return (
       <div className={this.props.className}>
         {this.props.children({
-          onRowsRendered: ::this.onRowsRendered,
+          onRowsRendered: this.onRowsRendered,
           scrollTo: this.state.scrollTo
         })}
         {this.state.show &&
           <button
             className={classes.jumper}
-            onClick={::this.onJump}></button>}
+            onClick={this.onJump}></button>}
       </div>
     )
   }

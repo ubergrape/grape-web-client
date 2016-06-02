@@ -4,8 +4,16 @@ import WampClient from './WampClient'
 
 export const type = conf.forceLongpolling ? 'lp' : 'ws'
 
-let client
-if (type === 'lp') client = new LpioClient({url: conf.pubsubUrl})
-if (type === 'ws') client = new WampClient()
+let instance
 
-export default client
+export function create() {
+  if (!instance) {
+    if (type === 'lp') instance = new LpioClient({url: conf.pubsubUrl})
+    if (type === 'ws') instance = new WampClient({url: conf.wsUrl})
+  }
+  return instance
+}
+
+export default function client() {
+  return instance
+}
