@@ -9,6 +9,13 @@ import style from './style'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 
+/**
+ * This component renders input with error tooltip
+ * if `error` props passed.
+ * `error` is object with 2 properties:
+ * * `message` is `string` to disaplay in Tooltip
+ * * `level` is `string`: `error` or `warning`
+ */
 @useSheet(style)
 export default class Input extends Component {
   static propTypes = {
