@@ -52,6 +52,7 @@ export default class EditableText extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.error && !nextProps.error) return
     if (nextProps.error) {
       this.setState({
         saving: false,
@@ -75,8 +76,9 @@ export default class EditableText extends Component {
       })
       return
     }
+
     this.setState({
-      isEditing: Boolean(nextProps.error),
+      isEditing: false,
       saving: false
     })
   }
@@ -111,6 +113,7 @@ export default class EditableText extends Component {
 
   restoreState() {
     if (!this.state.isEditing) return
+    if (this.props.error) this.props.clearError()
     this.setState({
       value: this.props.value,
       isEditing: false
@@ -150,6 +153,7 @@ export default class EditableText extends Component {
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
+
     return (
       <Wrapper
         className={classes[className]}

@@ -39,8 +39,9 @@ export default class Input extends Component {
   }
 
   onChange = e => {
-    this.props.clearError()
-    this.props.onChange(e)
+    const {error, clearError, onChange} = this.props
+    if (error) clearError()
+    onChange(e)
   }
 
   onToolipOutsideClick = () => {
