@@ -164,6 +164,7 @@ export default class NewConversation extends Component {
           <Settings
             {...this.props}
             {...this.state}
+            onCreate={this.onCreate}
             onChangeRoomName={this.onChangeRoomName}
             onPrivacyChange={this.onPrivacyChange}
             onClickRoomName={this.onClickRoomName}

@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react'
+import keyname from 'keyname'
+
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInput'
@@ -27,10 +29,14 @@ function getError(message) {
   }
 }
 
+function onInputKeyDown(onCreate, {keyCode}) {
+  if (keyname(keyCode) === 'enter') onCreate()
+}
+
 export default function Settings(props) {
   const {
     icon, color, name, advanced, error, roomNameFocused, theme,
-    isPublic, onChangeRoomName, onClickRoomName,
+    isPublic, onChangeRoomName, onClickRoomName, onCreate,
     onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
 
@@ -51,6 +57,7 @@ export default function Settings(props) {
           focused={roomNameFocused}
           error={getError(error)}
           clearError={clearRoomCreateError}
+          onKeyDown={onInputKeyDown.bind(null, onCreate)}
           onChange={onChangeRoomName}
           onClick={onClickRoomName}
           onBlur={onBlurRoomName} />
@@ -75,6 +82,7 @@ Settings.propTypes = {
   roomNameFocused: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
   error: PropTypes.string,
+  onCreate: PropTypes.func.isRequired,
   clearRoomCreateError: PropTypes.func.isRequired,
   onClickRoomName: PropTypes.func.isRequired,
   onBlurRoomName: PropTypes.func.isRequired,
