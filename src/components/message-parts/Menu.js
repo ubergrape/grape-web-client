@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
-import {styles} from './MenuTheme'
+import {styles} from './menuTheme'
 
 function getClassName(classes, name, i, length) {
   const classNames = [classes[`${name}Item`], classes.item]
@@ -25,26 +25,26 @@ export default class Menu extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
+    className: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     onSelect: noop,
-    items: ['edit', 'copyLink', 'remove']
+    items: ['edit', 'copyLink', 'remove'],
+    className: ''
   }
 
   render() {
-    const {sheet, onSelect, items} = this.props
+    const {sheet, onSelect, items, className} = this.props
     const {classes} = sheet
 
     return (
-      <div className={classes.menu}>
+      <div className={`${classes.menu} ${className}`}>
         {items.map((name, i) => {
-          const className = getClassName(classes, name, i, items.length)
-
           return (
             <span
-              className={className}
+              className={getClassName(classes, name, i, items.length)}
               onClick={onSelect.bind(null, {name})}
               key={name} />
           )

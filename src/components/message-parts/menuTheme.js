@@ -12,10 +12,7 @@ const border = `1px solid ${button}`
 
 export const styles = {
   menu: {
-    display: 'inline-block',
-    position: 'absolute',
-    top: 0,
-    right: 15
+    display: 'inline-block'
   },
   editItem: buttonIcon('pencil', iconOptions),
   copyLinkItem: buttonIcon('iconLink', iconOptions),

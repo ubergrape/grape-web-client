@@ -17,7 +17,6 @@ let setUpRouter = require('../init-router')
 let template = require('template')
 let _ = require('t')
 let v = require('virtualdom')
-let conf = require('conf')
 
 let exports = module.exports = UI
 
@@ -39,7 +38,6 @@ let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
-import '../../app'
 
 function UI(options) {
   Emitter.call(this)
@@ -81,9 +79,16 @@ UI.prototype.init = function UI_init() {
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
 
-  this.historyView = new HistoryView()
-  let chat = qs('.chat-wrapper .chat', this.el)
-  chat.parentNode.replaceChild(this.historyView.el, chat)
+  const chat = qs('.chat-wrapper .chat', this.el)
+
+  if (!this.options.detached) {
+    if (this.options.newHistory) {
+      chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
+    } else {
+      this.historyView = new HistoryView()
+      chat.parentNode.replaceChild(this.historyView.el, chat)
+    }
+  }
 
   qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
 
@@ -103,13 +108,14 @@ UI.prototype.init = function UI_init() {
   // receive the dragged items and emit
   // an event to the uploader to upload them
   let self = this
-  this.dropzone = new Dropzone()
-  this.dragAndDrop = dropAnywhere(function (e) {
-    e.items.forEach(function (item) {
-      self.emit('uploadDragged', item)
-    })
-  }, this.dropzone.el)
-
+  if (!this.options.detached) {
+    this.dropzone = new Dropzone()
+    this.dragAndDrop = dropAnywhere(function (e) {
+      e.items.forEach(function (item) {
+        self.emit('uploadDragged', item)
+      })
+    }, this.dropzone.el)
+  }
   // initialize notifications
   this.notifications = new Notifications()
   // only show notification info bar in supported browsers and only if the
@@ -127,8 +133,35 @@ UI.prototype.init = function UI_init() {
   }
 
   // show user title if it is enabled
-  if (conf.userTitleEnabled) classes(qs('body')).add('user-title-enabled')
+  if (this.options.userTitleEnabled) classes(qs('body')).add('user-title-enabled')
+  if (!this.options.detached) {
+    this.renderIntro()
+  }
 
+  // check timezone
+  this.tz = timezone.determine().name()
+  this.notificationSessionSet = false
+  this.firstTimeConnect = true
+  this.uploadRoom = null
+}
+
+UI.prototype.bind = function UI_bind() {
+  pipeEvents(this)
+  let self = this
+
+  this.events = events(this.el, {
+    'closeNotificationsMessage': function() {
+      self.enableNotificationMessage.remove()
+    }
+  })
+
+  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
+
+  this.room = null
+}
+
+UI.prototype.renderIntro = function() {
+  const self = this
   // initialize user guide
   this.intro = new Introjs()
   this.intro.onchange(function (el) {
@@ -179,20 +212,6 @@ UI.prototype.init = function UI_init() {
       }
     ]
   })
-
-  // check timezone
-  this.tz = timezone.determine().name()
-  this.notificationSessionSet = false
-  this.firstTimeConnect = true
-  this.uploadRoom = null
-}
-
-UI.prototype.bind = function UI_bind() {
-  pipeEvents(this)
-  let self = this
-
-  this.room = null
-
   // intro
   this.intro.oncomplete(function () {
     self.emit('introend')
@@ -233,7 +252,7 @@ UI.prototype.setUser = function UI_setUser(user) {
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
   this.settings = settings
-  if (this.settings.show_intro) {
+  if (this.settings.show_intro && !this.options.detached) {
     window.analytics.track("Started Tutorial", {via: "onboarding"})
     this.intro.start()
   }

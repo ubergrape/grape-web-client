@@ -53,7 +53,7 @@ export function searchMessages(params) {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
         const prevItems = messageSearch.items
-        const nextItems = messages.results.map(formatSidebarMessage)
+        const nextItems = messages.results.map(msg =>formatSidebarMessage(msg, state))
         dispatch({
           type: types.FOUND_MESSAGES,
           payload: {

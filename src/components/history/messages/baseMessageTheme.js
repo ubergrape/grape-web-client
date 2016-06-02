@@ -6,9 +6,11 @@ export const leftOffset = avatarWidth + marginRight + arrowWidth
 
 export const styles = {
   message: {
-    display: 'inline-block',
-    margin: '0 0 15px',
+    margin: '0 20px',
     position: 'relative'
+  },
+  body: {
+    display: 'flex'
   },
   header: {
     marginLeft: leftOffset

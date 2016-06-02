@@ -226,8 +226,8 @@ export function handleConnectionError(err) {
     if (connection === 'ws') {
       api
         .checkAuth()
-        .catch(_err => {
-          if (_err.status === 401) dispatch(reloadOnAuthError())
+        .catch(({status}) => {
+          if (status === 401) dispatch(reloadOnAuthError())
         })
       return
     }

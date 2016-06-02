@@ -1,7 +1,7 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
 import subscribeActions from './subscribe'
-import client from '../utils/backend/client'
+import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
 import AlertsProvider from '../components/alerts/AlertsProvider'
@@ -12,6 +12,7 @@ import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
+import HistoryProvider from '../components/history/HistoryProvider'
 
 render(
   createElement(BillingWarningProvider),
@@ -36,5 +37,6 @@ document.registerReact('grape-typing-notification', TypingNotificationProvider)
 document.registerReact('grape-alerts', AlertsProvider)
 document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
+document.registerReact('grape-history', HistoryProvider)
 
-subscribeActions(client.connect())
+subscribeActions(createClient().connect())

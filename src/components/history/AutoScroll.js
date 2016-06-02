@@ -26,8 +26,8 @@ export default class AutoScroll extends Component {
     super(props)
     this.direction = 0
     this.childrenParam = {
-      onScroll: ::this.onScroll,
-      onRowsRendered: ::this.onRowsRendered,
+      onScroll: this.onScroll,
+      onRowsRendered: this.onRowsRendered,
       scrollTop: props.scrollTop
     }
   }
@@ -73,7 +73,7 @@ export default class AutoScroll extends Component {
     }
   }
 
-  onScroll({scrollHeight, clientHeight, scrollTop}) {
+  onScroll = ({scrollHeight, clientHeight, scrollTop}) => {
     if (this.scrollTop !== undefined && this.scrollTop !== veryHeighScrollTop) {
       this.direction = scrollTop - this.scrollTop
     }
@@ -82,7 +82,7 @@ export default class AutoScroll extends Component {
     this.bottomThreshold = scrollHeight - scrollTop - clientHeight
   }
 
-  onRowsRendered(params) {
+  onRowsRendered = (params) => {
     this.renderedRows = params
   }
 

@@ -2,14 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
-import bindAll from 'lodash/function/bindAll'
 import copy from 'copy-to-clipboard'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import OthersBubble from './OthersBubble'
-import OwnBubble from './OwnBubble'
+import {OwnBubble, MateBubble} from './Bubble'
 import Menu from '../../message-parts/Menu'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
@@ -55,7 +53,9 @@ export default class RegularMessage extends Component {
     onResend: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
-    author: PropTypes.string,
+    author: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }),
     avatar: PropTypes.string
   }
 
@@ -74,20 +74,15 @@ export default class RegularMessage extends Component {
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
-    bindAll(this, 'onMouseEnter', 'onMouseLeave', 'onSelect')
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onMouseEnter() {
-    this.setState({isMenuOpened: true})
-  }
+  onMouseEnter = () => (this.setState({isMenuOpened: true}))
 
-  onMouseLeave() {
-    this.setState({isMenuOpened: false})
-  }
+  onMouseLeave = () => (this.setState({isMenuOpened: false}))
 
-  onSelect({name}) {
+  onSelect = ({name}) => {
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
@@ -102,10 +97,10 @@ export default class RegularMessage extends Component {
     }
   }
 
-  renderMenu() {
+  renderMenu = () => {
     if (!this.state.isMenuOpened) return null
 
-    const {isOwn, attachments} = this.props
+    const {isOwn, attachments, sheet} = this.props
     let items
 
     if (isOwn) {
@@ -121,12 +116,13 @@ export default class RegularMessage extends Component {
     return (
       <Menu
         onSelect={this.onSelect}
+        className={sheet.classes.menu}
         items={items} />
     )
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#attachments
-  renderAttachment(attachment, key) {
+  renderAttachment = (attachment, key) => {
     if (attachment.thumbnailUrl) {
       return <ImageAttachment {...attachment} key={key} />
     }
@@ -139,14 +135,14 @@ export default class RegularMessage extends Component {
       isPending, isOwn, isUnsent, onResend, attachments
     } = this.props
     const {classes} = sheet
-    const ThemedBubble = isOwn ? OwnBubble : OthersBubble
+    const ThemedBubble = isOwn ? OwnBubble : MateBubble
     return (
       <div className={classes.message}>
         {author &&
           <Header
             time={time}
             userTime={userTime}
-            author={author}
+            author={author.name}
             className={classes.header} />
         }
         <div
@@ -157,10 +153,10 @@ export default class RegularMessage extends Component {
           <ThemedBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={isPending ? classes.pending : ''}>
               <Grapedown text={children} />
-              {attachments.map(this.renderAttachment, this)}
+              {attachments.map(this.renderAttachment)}
             </div>
+            {this.renderMenu()}
           </ThemedBubble>
-          {this.renderMenu()}
         </div>
         {isUnsent && <Unsent theme={{classes}} onResend={onResend} />}
       </div>

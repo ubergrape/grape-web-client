@@ -95,7 +95,8 @@ module.exports = exports = {
       'raf': 'component-raf',
       'resizable': 'jh3y-resizable',
       'upload': 'component-upload',
-      'events': 'component-events'
+      'events': 'component-events',
+
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
