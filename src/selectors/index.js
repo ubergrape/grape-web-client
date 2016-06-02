@@ -244,7 +244,7 @@ export const newConversationDialog = createSelector(
   })
 )
 
-export const inviteDialog = createSelector(
+export const inviteDialogSelector = createSelector(
   [
     channelSelector,
     inviteChannelMemebersSelector,
