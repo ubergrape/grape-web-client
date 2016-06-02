@@ -1,4 +1,5 @@
 import find from 'lodash/collection/find'
+import isEmpty from 'lodash/lang/isEmpty'
 import staticUrl from 'staticurl'
 
 import * as types from '../constants/actionTypes'
@@ -41,6 +42,10 @@ function formatActivityMessage(msg) {
   return {type, id, text, time, author, avatar}
 }
 
+function filterEmptyMessage(message) {
+  return message.text.trim().length !== 0 || !isEmpty(message.attachments)
+}
+
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
 function formatMessage(msg, state) {
   if (msg.author.type === 'service') {
@@ -62,7 +67,9 @@ export function loadHistory(channelId, options) {
       .loadHistory(channelId, options)
       .then(messages => {
         const state = getState()
-        const payload = messages.map(message => formatMessage(message, state))
+        const payload = messages
+          .map(message => formatMessage(message, state))
+          .filter(filterEmptyMessage)
 
         dispatch({
           type: types.HANDLE_LOADED_HISTORY,
