@@ -897,9 +897,9 @@
       "resolved": "https://registry.npmjs.org/cookiejar/-/cookiejar-2.0.6.tgz"
     },
     "copy-to-clipboard": {
-      "version": "3.0.1",
-      "from": "copy-to-clipboard@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/copy-to-clipboard/-/copy-to-clipboard-3.0.1.tgz"
+      "version": "3.0.2",
+      "from": "copy-to-clipboard@3.0.2",
+      "resolved": "https://registry.npmjs.org/copy-to-clipboard/-/copy-to-clipboard-3.0.2.tgz"
     },
     "core-js": {
       "version": "2.4.0",
