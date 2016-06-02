@@ -13,7 +13,11 @@ const input = {
   outline: 'none',
   padding: '1px 10px',
   borderRadius: 5,
-  border: '1px solid'
+  border: '1px solid',
+  '&:disabled': {
+    opacity: 0.6,
+    pointerEvents: 'none'
+  }
 }
 
 function message(iconColor) {

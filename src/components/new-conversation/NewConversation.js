@@ -47,6 +47,7 @@ const initialState = {
   name: '',
   error: '',
   isPublic: true,
+  saving: false,
   color: sample(colors),
   icon: sample(icons),
   roomNameFocused: false
@@ -87,9 +88,13 @@ export default class NewConversation extends Component {
     if (message !== this.state.error) {
       this.setState({
         error: message,
+        saving: false,
         roomNameFocused: message ? true : this.state.roomNameFocused
       })
+      return
     }
+
+    this.setState({saving: false})
   }
 
   onSetRoomIcon = icon => {
@@ -135,7 +140,9 @@ export default class NewConversation extends Component {
       isPublic
     }
 
-    createRoomWithUsers(room, listed)
+    this.setState({saving: true}, () => {
+      createRoomWithUsers(room, listed)
+    })
   }
 
   onHide = () => {

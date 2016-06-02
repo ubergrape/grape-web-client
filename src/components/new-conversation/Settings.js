@@ -35,7 +35,7 @@ function onInputKeyDown(onCreate, {keyCode}) {
 
 export default function Settings(props) {
   const {
-    icon, color, name, advanced, error, roomNameFocused, theme,
+    icon, color, name, advanced, saving, error, roomNameFocused, theme,
     isPublic, onChangeRoomName, onClickRoomName, onCreate,
     onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
@@ -56,6 +56,7 @@ export default function Settings(props) {
           value={name}
           focused={roomNameFocused}
           error={getError(error)}
+          disabled={saving}
           clearError={clearRoomCreateError}
           onKeyDown={onInputKeyDown.bind(null, onCreate)}
           onChange={onChangeRoomName}
@@ -66,6 +67,7 @@ export default function Settings(props) {
         <Switch
           off="Private"
           on="Public"
+          disabled={saving}
           onChange={onPrivacyChange}
           status={isPublic} />
       </div>
@@ -77,6 +79,7 @@ Settings.propTypes = {
   icon: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  saving: PropTypes.bool.isRequired,
   advanced: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
   roomNameFocused: PropTypes.bool.isRequired,

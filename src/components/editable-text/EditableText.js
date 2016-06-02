@@ -113,9 +113,10 @@ export default class EditableText extends Component {
 
   restoreState() {
     if (!this.state.isEditing) return
-    if (this.props.error) this.props.clearError()
+    const {error, clearError, value} = this.props
+    if (error) clearError()
     this.setState({
-      value: this.props.value,
+      value,
       isEditing: false
     })
   }

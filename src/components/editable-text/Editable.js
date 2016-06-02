@@ -15,19 +15,19 @@ export default class Editable extends Component {
     themes: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    error: PropTypes.object,
     value: PropTypes.string.isRequired
   }
 
   constructor(props) {
     super(props)
+    const {input, string} = props.themes
     this.input = {
-      Input: useTheme(RawInput, props.themes.input),
-      String: useTheme(RawInput, props.themes.string)
+      Input: useTheme(RawInput, input),
+      String: useTheme(RawInput, string)
     }
     this.textarea = {
-      Input: useTheme(ResizableTextarea, props.themes.input),
-      String: useTheme(ResizableTextarea, props.themes.string)
+      Input: useTheme(ResizableTextarea, input),
+      String: useTheme(ResizableTextarea, string)
     }
   }
 

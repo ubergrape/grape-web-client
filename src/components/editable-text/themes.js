@@ -32,7 +32,6 @@ const content = {
   whiteSpace: 'nowrap'
 }
 
-
 export const input = {
   ...theme,
   styles: {
