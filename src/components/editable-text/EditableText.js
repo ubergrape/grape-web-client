@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
@@ -33,14 +34,15 @@ export default class EditableText extends Component {
       message: React.PropTypes.string.isRequired,
       level: React.PropTypes.string.isRequired
     }),
-    clearError: PropTypes.func,
+    clearError: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     value: '',
     multiline: false,
-    placeholder: ''
+    placeholder: '',
+    clearError: noop
   }
 
   constructor(props) {
