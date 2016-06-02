@@ -88,7 +88,7 @@ export default class RegularMessage extends Component {
         copy(this.props.link)
         break
       case 'remove':
-        if (confirm('Delete the selected Message?')) {
+        if (confirm('Delete the selected Message?')) { // eslint-disable-line no-alert
           this.props.onRemove()
         }
         break

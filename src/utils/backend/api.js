@@ -281,7 +281,7 @@ export function loadHistory(channelId, options) {
   })
 }
 
-export function removeMessage(channelId, messageId) {
+export function removeMessage(channelId, messageId) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
