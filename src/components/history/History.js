@@ -20,12 +20,15 @@ const messageTypes = {
 const timeThreshold = 5 * 60 * 1000
 
 function canGroup(message, prevMessage) {
-  if (!prevMessage || !message || message.type === 'activity') return false
+  if (!prevMessage || !message) return false
 
-  // Is same author.
+  // We don't group activities?
+  if (message.type === 'activity') return false
+
+  // Is not the same author.
   if (prevMessage.author.id !== message.author.id) return false
 
-  // Is within time threshold
+  // Group if within defined time threshold.
   return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
 }
 
