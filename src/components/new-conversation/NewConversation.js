@@ -45,6 +45,7 @@ FooterButtons.propTypes = {
 
 const initialState = {
   name: '',
+  error: '',
   isPublic: true,
   color: sample(colors),
   icon: sample(icons),
@@ -56,6 +57,7 @@ export default class NewConversation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     organization: PropTypes.number,
+    error: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
     showNewConversationAdvanced: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -63,16 +65,31 @@ export default class NewConversation extends Component {
     removeFromNewConversation: PropTypes.func.isRequired,
     hideNewConversation: PropTypes.func.isRequired,
     filterNewConversation: PropTypes.func.isRequired,
+    clearRoomCreateError: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired
   }
 
-  constructor() {
-    super()
-    this.state = initialState
+  constructor(props) {
+    super(props)
+    this.state = {
+      ...initialState,
+      error: props.error.message
+    }
   }
 
-  componentWillReceiveProps({show}) {
-    if (!show) this.setState({...initialState})
+  componentWillReceiveProps({show, error}) {
+    if (!show) {
+      this.setState({...initialState})
+      return
+    }
+
+    const {message} = error
+    if (message !== this.state.error) {
+      this.setState({
+        error: message,
+        roomNameFocused: message ? true : this.state.roomNameFocused
+      })
+    }
   }
 
   onSetRoomIcon = icon => {
@@ -83,8 +100,8 @@ export default class NewConversation extends Component {
     this.setState({color})
   }
 
-  onClickRoomName = ({target}) => {
-    this.setState({roomNameFocused: true}, () => target.focus())
+  onClickRoomName = () => {
+    this.setState({roomNameFocused: true})
   }
 
   onBlurRoomName = () => {
@@ -101,8 +118,7 @@ export default class NewConversation extends Component {
 
   onCreate = () => {
     const {
-      listed, goToChannel,
-      createRoomWithUsers, organization
+      listed, goToChannel, createRoomWithUsers, organization
     } = this.props
     const {name, color, icon, isPublic} = this.state
 
@@ -122,9 +138,14 @@ export default class NewConversation extends Component {
     createRoomWithUsers(room, listed)
   }
 
+  onHide = () => {
+    this.props.clearRoomCreateError()
+    this.props.hideNewConversation()
+  }
+
   render() {
     const {
-      sheet, hideNewConversation, filterNewConversation,
+      sheet, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
       showNewConversationAdvanced, organization
     } = this.props
@@ -136,8 +157,8 @@ export default class NewConversation extends Component {
       <ChooseUsersDialog
         {...this.props}
         title="New Conversation"
-        onHide={this.onHide}
         theme={{classes}}
+        onHide={this.onHide}
         filterFocus={!this.state.roomNameFocused}
         beforeList={(
           <Settings
@@ -151,7 +172,6 @@ export default class NewConversation extends Component {
             onSetRoomIcon={this.onSetRoomIcon}
             theme={{classes}} />
         )}
-        onHide={hideNewConversation}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}>

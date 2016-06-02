@@ -222,6 +222,10 @@ export const newConversationSelector = createSelector(
   state => state.newConversation, state => state
 )
 
+export const createRoomErrorSelector = createSelector(
+  state => state.createRoomError, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {
@@ -257,11 +261,12 @@ export const isInviterSelector = createSelector(
 )
 
 export const newConversationDialog = createSelector(
-  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector],
-  (newConversation, {id: organization}, users, isInviter) => ({
+  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector, createRoomErrorSelector],
+  (newConversation, {id: organization}, users, isInviter, error) => ({
     ...newConversation,
     isInviter,
     organization,
+    error,
     users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
   })
 )

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
+import Input from '../input/GrayInput'
 
 class IconSettings extends Component {
   static propTypes = {
@@ -18,11 +19,19 @@ class IconSettings extends Component {
   }
 }
 
+function getError(message) {
+  if (!message) return undefined
+  return {
+    level: 'error',
+    message
+  }
+}
+
 export default function Settings(props) {
   const {
-    icon, color, name, advanced, theme,
+    icon, color, name, advanced, error, roomNameFocused, theme,
     isPublic, onChangeRoomName, onClickRoomName,
-    onBlurRoomName, onPrivacyChange
+    onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
 
   // TODO: return `null` once upgraded to React 0.15.
@@ -36,13 +45,15 @@ export default function Settings(props) {
         channel={{icon, color}} />
 
       <div className={classes.name}>
-        <input
+        <Input
           placeholder="Enter group name"
           value={name}
+          focused={roomNameFocused}
+          error={getError(error)}
+          clearError={clearRoomCreateError}
           onChange={onChangeRoomName}
           onClick={onClickRoomName}
-          onBlur={onBlurRoomName}
-          className={classes.nameInput}/>
+          onBlur={onBlurRoomName} />
       </div>
       <div className={classes.privacy}>
         <Switch
@@ -61,7 +72,10 @@ Settings.propTypes = {
   name: PropTypes.string.isRequired,
   advanced: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
+  roomNameFocused: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
+  error: PropTypes.string,
+  clearRoomCreateError: PropTypes.func.isRequired,
   onClickRoomName: PropTypes.func.isRequired,
   onBlurRoomName: PropTypes.func.isRequired,
   onChangeRoomName: PropTypes.func.isRequired,

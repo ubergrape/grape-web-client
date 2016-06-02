@@ -38,3 +38,10 @@ export function filterNewConversation(value) {
     payload: value
   }
 }
+
+export function newConversationCreateError(message) {
+  return {
+    type: types.SHOW_NEW_CONVERSATION_ERROR,
+    payload: message
+  }
+}
