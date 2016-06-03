@@ -96,7 +96,7 @@ export function removeMessage({id: messageId}) {
   }
 }
 
-export function editMessage(msg) {
+export function editMessage(msg) {
   return (dispatch) => {
     dispatch({
       type: types.EDIT_MESSAGE,
@@ -112,14 +112,14 @@ export function editPreviousMessage() {
     const state = getState()
     const {messages} = historySelector(state)
     const user = userSelector(state)
-    const msg = findLast(messages, msg => msg.author.id === String(user.id))
-    dispatch(editMessage(msg))
+    const message = findLast(messages, msg => msg.author.id === String(user.id))
+    dispatch(editMessage(message))
   }
 }
 
 
 export function handleUpdateMessage(msg) {
-  return (dispatch, getState) =>  {
+  return (dispatch, getState) => {
     const state = getState()
     dispatch({
       type: types.UPDATE_MESSAGE,
