@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer} from 'react-virtualized'
+import shallowEqual from 'react-pure-render/shallowEqual'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -48,12 +49,13 @@ export default class InfiniteList extends Component {
 
   renderAndCacheRows(messages) {
     return messages.map((message, index) => {
-      let row = this.rowsCache[message.id]
-      if (!row) {
-        row = this.props.renderRow(messages, index)
-        this.rowsCache[message.id] = row
+      let cache = this.rowsCache[message.id]
+      if (!cache || !shallowEqual(message, cache.message)) {
+        const row = this.props.renderRow(messages, index)
+        cache = {row, message}
+        this.rowsCache[message.id] = cache
       }
-      return row
+      return cache.row
     })
   }
 

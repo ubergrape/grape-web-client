@@ -1,10 +1,14 @@
 import find from 'lodash/collection/find'
+import findLast from 'lodash/collection/findLast'
 import isEmpty from 'lodash/lang/isEmpty'
 import staticUrl from 'staticurl'
 
+import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {usersSelector, channelsSelector, channelSelector} from '../selectors'
+import {
+  usersSelector, userSelector, channelsSelector, channelSelector, historySelector
+} from '../selectors'
 import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
@@ -25,7 +29,7 @@ function formatRegularMessage(msg, state) {
   const channel = find(channels, {id: msg.channel})
   const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
 
-  return {type, id, text, time, userTime, author, link, avatar}
+  return {type, id, text, time, userTime, author, link, avatar, channel}
 }
 
 function formatActivityMessage(msg) {
@@ -89,5 +93,37 @@ export function removeMessage({id: messageId}) {
     api
       .removeMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))
+  }
+}
+
+export function editMessage(msg) {
+  return (dispatch) => {
+    dispatch({
+      type: types.EDIT_MESSAGE,
+      payload: msg
+    })
+    reduxEmitter.editMessage(msg)
+  }
+}
+
+
+export function editPreviousMessage() {
+  return (dispatch, getState) => {
+    const state = getState()
+    const {messages} = historySelector(state)
+    const user = userSelector(state)
+    const msg = findLast(messages, msg => msg.author.id === String(user.id))
+    dispatch(editMessage(msg))
+  }
+}
+
+
+export function handleUpdateMessage(msg) {
+  return (dispatch, getState) =>  {
+    const state = getState()
+    dispatch({
+      type: types.UPDATE_MESSAGE,
+      payload: formatMessage(msg, state)
+    })
   }
 }
