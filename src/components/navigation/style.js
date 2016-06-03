@@ -47,6 +47,14 @@ channels['&:before'] = {
   height: 21
 }
 
+const title = {
+  ...fonts.small,
+  marginLeft: 15,
+  textTransform: 'uppercase',
+  background: '0 0 no-repeat',
+  color: colors.grayBlue
+}
+
 export default {
   wrapper: {
     display: 'flex',
@@ -89,12 +97,13 @@ export default {
     textAlign: 'center'
   },
   title: {
-    ...fonts.small,
-    paddingLeft: 18,
-    marginLeft: 15,
-    textTransform: 'uppercase',
-    background: '0 0 no-repeat',
-    color: colors.grayBlue
+    ...title,
+    paddingLeft: 18
+  },
+  unJoinedTitle: {
+    ...title,
+    marginTop: 20,
+    marginBottom: 10
   },
   recent: {
     backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,

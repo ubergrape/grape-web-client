@@ -41,7 +41,8 @@ export default class Navigation extends Component {
     this.state = {
       shift: 20,
       filter: '',
-      filtered: []
+      filtered: [],
+      filteredUnJoined: []
     }
 
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
@@ -54,9 +55,13 @@ export default class Navigation extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.all !== this.props.all) {
       this.setState({
-        fuse: new Fuse(
+        fuseJoined: new Fuse(
           nextProps.all,
-          {keys: ['name', 'mate.displayName'], threshold: 0.3}
+          {keys: ['name'], threshold: 0.3}
+        ),
+        fuseUnJoined: new Fuse(
+          nextProps.unJoined,
+          {keys: ['name'], threshold: 0.3}
         )
       })
     }
@@ -83,10 +88,12 @@ export default class Navigation extends Component {
 
   onChangeFilter({target}) {
     const {value} = target
-    const filtered = this.state.fuse.search(value)
+    const filtered = this.state.fuseJoined.search(value)
+    const filteredUnJoined = this.state.fuseUnJoined.search(value)
 
     this.setState({
       filtered,
+      filteredUnJoined,
       filter: value,
       focusedChannel: filtered[0]
     })
@@ -133,10 +140,13 @@ export default class Navigation extends Component {
 
   renderFilteredChannel({item: channel, focused}) {
     const {classes} = this.props.sheet
+    const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
+
     return (
       <Channel
         {...this.props}
         {...this.state}
+        header={isFirstInUnJoined ? 'No conversation yet' : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}
@@ -200,6 +210,7 @@ export default class Navigation extends Component {
 
   render() {
     const {classes} = this.props.sheet
+
     return (
       <div className={classes.wrapper}>
         <div
