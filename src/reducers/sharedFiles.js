@@ -16,6 +16,8 @@ export default function reduce(state = initialState, action) {
     case types.ADD_SHARED_FILE:
     case types.REMOVE_SHARED_FILE:
       return {...state, ...action.payload}
+    case types.SET_CHANNEL:
+      return {...initialState}
     default:
       return state
   }
