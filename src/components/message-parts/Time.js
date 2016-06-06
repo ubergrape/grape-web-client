@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {useSheet} from 'grape-web/lib/jss'
-import bindAll from 'lodash/function/bindAll'
 import merge from 'lodash/object/merge'
 
 import Tooltip from '../tooltip/Tooltip'
@@ -74,15 +73,14 @@ export default class Time extends Component {
       isWritersTimeOpened: false,
       isSameTimezone: isReadersTimezone(props.userTime)
     }
-    bindAll(this, 'onMouseOver', 'onMouseOut')
   }
 
-  onMouseOver() {
+  onMouseOver = () => {
     if (this.state.isWritersTimeOpened) return
     this.setState({isWritersTimeOpened: true})
   }
 
-  onMouseOut() {
+  onMouseOut = () => {
     if (!this.state.isWritersTimeOpened) return
     this.setState({isWritersTimeOpened: false})
   }

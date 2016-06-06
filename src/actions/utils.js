@@ -68,6 +68,20 @@ export function normalizeChannelData(channel) {
 }
 
 export const formatMessage = (() => {
+  function formatAttachment(attachment) {
+    const {id, mimeType, name, thumbnailUrl, url, category} = attachment
+    const thumbnailHeight = Number(attachment.thumbnailHeight)
+    const thumbnailWidth = Number(attachment.thumbnailWidth)
+    const time = new Date(attachment.time)
+    const sourceName = attachment.source
+    const type = sourceName ? 'remoteFile' : 'uploadedFile'
+
+    return {
+      id, mimeType, name, url, category, thumbnailUrl, thumbnailWidth,
+      thumbnailHeight, time, type
+    }
+  }
+
   function formatRegularMessage(msg, state) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
@@ -94,7 +108,7 @@ export const formatMessage = (() => {
     }
     const channel = find(channels, {id: msg.channel})
     const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
-    const attachments = []
+    const attachments = msg.attachments.map(formatAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, channel, attachments,
       mentions
