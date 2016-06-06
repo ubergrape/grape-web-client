@@ -9,13 +9,13 @@ import {
 } from '../selectors'
 
 import {setSidebarIsLoading, error} from './common'
-import {formatSidebarMessage} from './utils'
+import {formatMessage} from './utils'
 
 export function loadMentions(params) {
   return (dispatch, getState) => {
     dispatch({type: types.LOAD_MENTIONS})
     dispatch(setSidebarIsLoading(true))
-    const {id} = orgSelector(store.getState())
+    const {id} = orgSelector(getState())
 
     return api
       .getMentions({...params, id})
@@ -24,7 +24,7 @@ export function loadMentions(params) {
         const state = getState()
         const prevItems = mentionsSelector(state).items
         const nextItems = mentions.results.map(data => (
-          formatSidebarMessage(data.message, state)
+          formatMessage(data.message, state)
         ))
         return dispatch({
           type: types.LOADED_MENTIONS,
@@ -45,7 +45,7 @@ export function addMention(message) {
   return (dispatch, getState) => {
     const state = getState()
     const mentions = mentionsSelector(state)
-    let items = [...mentions.items, formatSidebarMessage(message, state)]
+    let items = [...mentions.items, formatMessage(message, state)]
 
     // Sort all items descenting because we loose the right order when a message
     // comes from pubsub.

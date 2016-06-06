@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
-import findMatches from 'grape-web/lib/search/findMatches'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './messageSearchStyles'
 import Message from './Message'
+import createGrapedownWithSearch from './createGrapedownWithSearch'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 
@@ -64,27 +64,8 @@ export default class MessageSearch extends Component {
   }
 
   renderMessages() {
-    const {classes} = this.props.sheet
-    const {query, items} = this.props
-
-    const messages = items.map(item => {
-      let {content} = item
-      const matches = findMatches(content, query)
-
-      if (matches.length) {
-        content = matches.map((match, key) => {
-          return (
-            <span
-              key={key}
-              className={match.found ? classes.highlighted : null}>
-              {match.text}
-            </span>
-          )
-        })
-      }
-
-      return {...item, content}
-    })
+    const {items: messages, sheet} = this.props
+    const {classes} = sheet
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
@@ -103,7 +84,7 @@ export default class MessageSearch extends Component {
       if (!prevMessage || prevMessage.channel !== message.channel) {
         elements.push(
           <div className={classes.channel} key={message.channel + index}>
-            {message.channel}
+            {message.channel.name}
           </div>
         )
       }
@@ -114,14 +95,33 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {classes} = this.props.sheet
+    const {query, sheet} = this.props
+    const {classes} = sheet
+    const GrapedownWithSearch = createGrapedownWithSearch({
+      query,
+      renderHighlight: this.renderHighlight
+    })
+
     return (
       <div
         className={classes.message}
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
-        <Message {...message}>{message.content}</Message>
+        <Message {...message}>
+          <GrapedownWithSearch text={message.text} />
+        </Message>
       </div>
+    )
+  }
+
+  renderHighlight = (match, key) => {
+    const {classes} = this.props.sheet
+    return (
+      <span
+        key={key}
+        className={match.found ? classes.highlighted : null}>
+        {match.text}
+      </span>
     )
   }
 

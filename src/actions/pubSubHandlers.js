@@ -28,14 +28,13 @@ const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
-    const fMessage = formatMessage(message)
-    const user = userSelector(getState())
-    const rooms = joinedRoomsSelector(getState())
+    const state = getState()
+    const fMessage = formatMessage(message, state)
+    const user = userSelector(state)
+    const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(fMessage, user, rooms)
-
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
     if (mentionsCount) dispatch(addMention(fMessage))
-
     dispatch({
       type: types.ADD_NEW_MESSAGE,
       payload: {

@@ -2,7 +2,9 @@ import find from 'lodash/collection/find'
 import pluck from 'lodash/collection/pluck'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
+import staticUrl from 'staticurl'
 
+import {defaultAvatar} from '../constants/images'
 import {maxChannelNameLength} from '../constants/app'
 import {
   usersSelector,
@@ -65,12 +67,63 @@ export function normalizeChannelData(channel) {
   return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
 }
 
-export function formatMessage(message) {
-  return {
-    ...message,
-    time: new Date(message.time),
-    attachments: message.attachments || []
+export const formatMessage = (() => {
+  function formatRegularMessage(msg, state) {
+    const channels = channelsSelector(state)
+    const users = usersSelector(state)
+
+    const {id, text, userTime, mentions} = msg
+    const time = new Date(msg.time)
+    const type = 'regular'
+    let author
+    let avatar
+
+    const fullAuthor = find(users, {id: msg.author.id})
+    if (fullAuthor) {
+      author = {
+        id: String(fullAuthor.id),
+        name: fullAuthor.displayName
+      }
+      avatar = fullAuthor.avatar
+    } else {
+      author = {
+        id: String(msg.author.id),
+        name: 'Deleted User'
+      }
+      avatar = defaultAvatar
+    }
+    const channel = find(channels, {id: msg.channel})
+    const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
+    const attachments = []
+    return {type, id, text, time, userTime, author, link, avatar, channel, attachments}
   }
+
+  function formatActivityMessage(msg) {
+    const {id} = msg
+    const type = 'activity'
+    const time = new Date(msg.time)
+    const author = {
+      id: String(msg.author.id),
+      name: msg.author.username
+    }
+    const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
+    const text = msg.title
+
+    return {type, id, text, time, author, avatar}
+  }
+
+  // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
+  return function formatMessage(msg, state) {
+    if (msg.author.type === 'service') {
+      return formatActivityMessage(msg)
+    }
+
+    return formatRegularMessage(msg, state)
+  }
+}())
+
+export function filterEmptyMessage(message) {
+  return message.text.trim().length !== 0 || !isEmpty(message.attachments)
 }
 
 /**
@@ -95,32 +148,6 @@ export function countMentions(message, user, rooms) {
   }
 
   return count
-}
-
-export function formatSidebarMessage(message, state) {
-  const {
-    id,
-    author,
-    time,
-    plainText: content,
-    channel: channelId
-  } = formatMessage(message)
-  const channels = channelsSelector(state)
-  const channel = find(channels, _channel => _channel.id === channelId)
-  const users = usersSelector(state)
-  const {displayName, avatar} = find(users, user => user.id === author.id) || {}
-
-  return {
-    id,
-    avatar,
-    time,
-    content,
-    // There is no channel name in pm, use the other user name.
-    channel: channel.name,
-    author: displayName,
-    // There is no slug in pm, user the other user slug.
-    slug: channel.slug
-  }
 }
 
 export function roomNameFromUsers(users) {

@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {messageSearchSelector, orgSelector} from '../selectors'
 import {setSidebarIsLoading, error} from './common'
-import {formatSidebarMessage} from './utils'
+import {formatMessage} from './utils'
 
 export function updateMessageSearchQuery(nextQuery) {
   const prevQuery = messageSearchSelector(store.getState()).query.join(' ')
@@ -53,7 +53,7 @@ export function searchMessages(params) {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
         const prevItems = messageSearch.items
-        const nextItems = messages.results.map(msg =>formatSidebarMessage(msg, state))
+        const nextItems = messages.results.map(msg =>formatMessage(msg, state))
         dispatch({
           type: types.FOUND_MESSAGES,
           payload: {
