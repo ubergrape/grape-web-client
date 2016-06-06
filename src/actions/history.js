@@ -1,13 +1,10 @@
-import find from 'lodash/collection/find'
 import findLast from 'lodash/collection/findLast'
-import isEmpty from 'lodash/lang/isEmpty'
-import staticUrl from 'staticurl'
 
 import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
-  usersSelector, userSelector, channelsSelector, channelSelector, historySelector
+  userSelector, channelSelector, historySelector
 } from '../selectors'
 import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'

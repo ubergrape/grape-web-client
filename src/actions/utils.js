@@ -85,7 +85,7 @@ export const formatMessage = (() => {
         name: fullAuthor.displayName
       }
       avatar = fullAuthor.avatar
-    } else {
+    } else {
       author = {
         id: String(msg.author.id),
         name: 'Deleted User'
@@ -95,7 +95,10 @@ export const formatMessage = (() => {
     const channel = find(channels, {id: msg.channel})
     const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
     const attachments = []
-    return {type, id, text, time, userTime, author, link, avatar, channel, attachments}
+    return {
+      type, id, text, time, userTime, author, link, avatar, channel, attachments,
+      mentions
+    }
   }
 
   function formatActivityMessage(msg) {
@@ -113,7 +116,7 @@ export const formatMessage = (() => {
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
-  return function formatMessage(msg, state) {
+  return (msg, state) => {
     if (msg.author.type === 'service') {
       return formatActivityMessage(msg)
     }
