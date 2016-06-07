@@ -162,7 +162,7 @@ export default class RegularMessage extends Component {
           onMouseLeave={this.onMouseLeave}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <div className={isPending ? classes.pending : ''}>
+            <div className={isPending || isUnsent ? classes.pending : ''}>
               <Grapedown text={children} />
               {attachments.map(this.renderAttachment)}
             </div>

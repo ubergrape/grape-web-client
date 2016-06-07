@@ -1,5 +1,6 @@
 export default {
   loadHistory: 'onLoad',
   removeMessage: 'onRemove',
-  editMessage: 'onEdit'
+  editMessage: 'onEdit',
+  resendMessage: 'onResend'
 }

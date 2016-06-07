@@ -12,7 +12,7 @@ export const styles = {
   unsent: {
     extend: [createInlineIcon('warning', {color: red}), small],
     color: red,
-    marginTop: 10,
+    marginTop: 5,
     marginLeft: leftOffset,
     '& a': {
       color: red

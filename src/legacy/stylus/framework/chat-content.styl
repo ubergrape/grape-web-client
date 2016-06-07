@@ -27,11 +27,12 @@
 		flex: 1
 		position: relative
 		padding: 20px 0 0 0
-	a // Different styling for links within history
-		color: link-color
-		@extend $subtle-link
-		&:hover
-			color: lighten(link-color, 15%)
+		a // Different styling for links within history
+			color: link-color
+			@extend $subtle-link
+			&:hover
+				color: lighten(link-color, 15%)
+				text-decoration: none
 	.main-window
 		display: flex
 		flex-direction: column

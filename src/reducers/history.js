@@ -23,6 +23,14 @@ export default function reduce(state = initialState, action) {
       return updateMessage(state, {...action.payload, editMode: true})
     case types.UPDATE_MESSAGE:
       return updateMessage(state, action.payload)
+    case types.MARK_MESSAGE_AS_UNSENT:
+      return updateMessage(state, {...action.payload, isUnsent: true})
+    case types.RESEND_MESSAGE:
+      return updateMessage(state, {
+        ...action.payload,
+        isPending: true,
+        isUnsent: false
+      })
     case types.ADD_PENDING_MESSAGE:
       return {...state, messages: [
         ...state.messages,

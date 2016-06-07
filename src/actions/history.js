@@ -48,13 +48,13 @@ export function removeMessage({id: messageId}) {
   }
 }
 
-export function editMessage(msg) {
+export function editMessage(message) {
   return (dispatch) => {
     dispatch({
       type: types.EDIT_MESSAGE,
-      payload: msg
+      payload: message
     })
-    reduxEmitter.editMessage(msg)
+    reduxEmitter.editMessage(message)
   }
 }
 
@@ -66,6 +66,17 @@ export function editPreviousMessage() {
     const user = userSelector(state)
     const message = findLast(messages, msg => msg.author.id === String(user.id))
     dispatch(editMessage(message))
+  }
+}
+
+export function markAsUnsent(message) {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch({
+        type: types.MARK_MESSAGE_AS_UNSENT,
+        payload: message
+      })
+    }, 5000)
   }
 }
 
@@ -92,15 +103,26 @@ export function createMessage({channelId, text, attachments = []}) {
     api
       .postMessage(channelId, text, {clientsideId: id, attachments})
       .catch(err => dispatch(error(err)))
+
+    dispatch(markAsUnsent(message))
   }
 }
 
-export function handleUpdateMessage(msg) {
+export function handleUpdateMessage(message) {
   return (dispatch, getState) => {
-    const state = getState()
     dispatch({
       type: types.UPDATE_MESSAGE,
-      payload: formatMessage(msg, state)
+      payload: formatMessage(message, getState())
     })
+  }
+}
+
+export function resendMessage(message) {
+  return (dispatch) => {
+    dispatch({
+      type: types.RESEND_MESSAGE,
+      payload: message
+    })
+    dispatch(markAsUnsent(message))
   }
 }
