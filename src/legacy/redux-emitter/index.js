@@ -47,8 +47,8 @@ class ReduxEmitter extends Emitter {
     this.emit('editMessage', msg)
   }
 
-  createMessage(channel, text) {
-    boundActions.createMessage({channelId: channel.id, text})
+  createMessage(channel, text, options) {
+    boundActions.createMessage({channelId: channel.id, text, ...options})
   }
 
   onShowSharedFiles() {

@@ -69,7 +69,7 @@ export function editPreviousMessage() {
   }
 }
 
-export function createMessage({channelId, text}) {
+export function createMessage({channelId, text, attachments = []}) {
   return (dispatch, getState) => {
     const state = getState()
     const id = Math.random().toString(36).substr(7)
@@ -80,7 +80,7 @@ export function createMessage({channelId, text}) {
       text,
       author,
       time: new Date(),
-      attachments: [],
+      attachments,
       channel: channelId
     }, state)
 
@@ -90,7 +90,7 @@ export function createMessage({channelId, text}) {
     })
 
     api
-      .postMessage(channelId, text, {clientsideId: id})
+      .postMessage(channelId, text, {clientsideId: id, attachments})
       .catch(err => dispatch(error(err)))
   }
 }
