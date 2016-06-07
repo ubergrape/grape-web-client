@@ -6,12 +6,13 @@ import {styles} from './linkWithIconTheme'
 
 function LinkWithIcon(props) {
   const {url, name, sheet, icon, target} = props
+  const {classes} = sheet
   const svg = icons[icon] || icons.file
   const style = {backgroundImage: `url(${svg})`}
 
   return (
-    <a href={url} target={target}>
-      <span className={sheet.classes.icon} style={style}></span>
+    <a href={url} target={target} className={classes.link}>
+      <span className={classes.icon} style={style}></span>
       {` ${name}`}
     </a>
   )

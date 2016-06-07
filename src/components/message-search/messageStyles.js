@@ -1,3 +1,5 @@
+import {styles as linkStyles} from '../message-parts/linkTheme'
+
 const arrowWidth = 7
 const marginRight = 5
 const avatarWidth = 32
@@ -31,6 +33,7 @@ export default {
     transition,
     '&:hover': {
       boxShadow: `0px 1px 8px ${shadowColor}`
-    }
+    },
+    '& a': linkStyles.link
   }
 }
