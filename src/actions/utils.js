@@ -86,8 +86,9 @@ export const formatMessage = (() => {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, userTime, mentions} = msg
-    const time = new Date(msg.time)
+    const {id, text, mentions} = msg
+    const time = msg.time ? new Date(msg.time) : new Date()
+    const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
     let author
     let avatar

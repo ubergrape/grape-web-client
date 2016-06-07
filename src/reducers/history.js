@@ -19,12 +19,17 @@ export default function reduce(state = initialState, action) {
       return {...state, messages: action.payload}
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: action.payload})}
-    case types.UPDATE_MESSAGE:
-      return updateMessage(state, action.payload)
     case types.EDIT_MESSAGE:
       return updateMessage(state, {...action.payload, editMode: true})
+    case types.UPDATE_MESSAGE:
+      return updateMessage(state, action.payload)
+    case types.ADD_PENDING_MESSAGE:
+      return {...state, messages: [
+        ...state.messages,
+        {...action.payload, isPending: true}
+      ]}
     case types.ADD_NEW_MESSAGE:
-      return {...state, messages: [...state.messages, action.payload.message]}
+      return {...state, messages: [...state.messages, action.payload]}
     default:
       return state
   }

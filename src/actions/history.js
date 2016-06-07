@@ -69,6 +69,31 @@ export function editPreviousMessage() {
   }
 }
 
+export function createMessage({channelId, text}) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const id = Math.random().toString(36).substr(7)
+    const author = userSelector(state)
+
+    const message = formatMessage({
+      id,
+      text,
+      author,
+      time: new Date(),
+      attachments: [],
+      channel: channelId
+    }, state)
+
+    dispatch({
+      type: types.ADD_PENDING_MESSAGE,
+      payload: message
+    })
+
+    api
+      .postMessage(channelId, text, {clientsideId: id})
+      .catch(err => dispatch(error(err)))
+  }
+}
 
 export function handleUpdateMessage(msg) {
   return (dispatch, getState) => {

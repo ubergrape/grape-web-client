@@ -294,3 +294,17 @@ export function removeMessage(channelId, messageId) {
     })
   })
 }
+
+export function postMessage(channelId, text, options) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'post',
+      args: [channelId, text, options]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}

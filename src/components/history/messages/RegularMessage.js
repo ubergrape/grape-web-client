@@ -102,9 +102,11 @@ export default class RegularMessage extends Component {
   }
 
   renderMenu = () => {
+    const {isOwn, attachments, sheet, isPending, isUnsent} = this.props
+
+    if (isPending || isUnsent) return null
     if (!this.state.isMenuOpened) return null
 
-    const {isOwn, attachments, sheet} = this.props
     let items
 
     if (isOwn) {

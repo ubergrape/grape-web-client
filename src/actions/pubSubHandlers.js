@@ -36,12 +36,20 @@ export function handleNewMessage(message) {
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
     if (mentionsCount) dispatch(addMention(fMessage))
     dispatch({
-      type: types.ADD_NEW_MESSAGE,
+      type: types.UPDATE_CHANNEL_STATS,
       payload: {
         message: fMessage,
         mentionsCount,
         isCurrentUser: user.id === fMessage.author.id
       }
+    })
+    dispatch({
+      type: types.REMOVE_MESSAGE,
+      payload: message.clientsideId
+    })
+    dispatch({
+      type: types.ADD_NEW_MESSAGE,
+      payload: fMessage
     })
   }
 }
