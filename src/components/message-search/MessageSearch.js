@@ -7,6 +7,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import style from './messageSearchStyles'
 import Message from './Message'
+import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 
@@ -20,7 +21,6 @@ export default class MessageSearch extends Component {
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
-    options: PropTypes.array.isRequired,
     total: PropTypes.number,
     query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     isLoading: PropTypes.bool.isRequired
@@ -166,43 +166,19 @@ export default class MessageSearch extends Component {
     )
   }
 
-  renderOptions() {
-    const {options, sheet, searchOnlyInChannel} = this.props
-    if (!options.length) return null
-
-    const {classes} = sheet
-    return (
-      <ul>
-      {
-        options.map((option, i) => {
-          return (
-            <li key={i}>
-              <label
-                className={classes.optionLabel}
-                onClick={this.onClickOption}>
-                <input
-                  className={classes.optionCheckbox}
-                  type="checkbox"
-                  checked={searchOnlyInChannel}
-                  onChange={option.handler} />
-                  {option.label}
-              </label>
-            </li>
-          )
-        })
-      }
-      </ul>
-    )
-  }
-
   render() {
-    const {classes} = this.props.sheet
-    const {images, title, isLoading} = this.props
+    const {images, title, isLoading, sheet} = this.props
+    const {classes} = sheet
     return (
       <SidebarPanel
         title={title}
         images={images}
-        options={this.renderOptions()}
+        options={
+          <Options
+            {...this.props}
+            onClickOption={this.onClickOption}
+            theme={{classes}} />
+        }
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}
