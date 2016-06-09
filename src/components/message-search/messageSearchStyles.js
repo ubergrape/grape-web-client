@@ -25,5 +25,17 @@ export default {
   highlighted: {
     background: colors.yellow
   },
-  button
+  button,
+  option: {
+    background: colors.grayBlueLight,
+    padding: '4px 10px 4px 20px'
+  },
+  optionLabel: {
+    display: 'block',
+    cursor: 'pointer'
+  },
+  optionCheckbox: {
+    marginRight: 5,
+    cursor: 'pointer'
+  }
 }

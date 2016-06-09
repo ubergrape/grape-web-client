@@ -15,8 +15,13 @@ export default class SidebarPanel extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    options: PropTypes.node,
     children: PropTypes.node,
     onClose: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    hasOptions: false
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -25,16 +30,28 @@ export default class SidebarPanel extends Component {
     this.props.onClose()
   }
 
+  getClassName(className) {
+    const {options, sheet} = this.props
+    const {classes} = sheet
+    return classes[`${className}${options ? 'Options' : ''}`]
+  }
+
   render() {
-    const {classes} = this.props.sheet
+    const {options, title, children, sheet} = this.props
+    const {classes} = sheet
     return (
       <div className={classes.sidebarPanel}>
-        <header className={classes.header}>
-          <h2 className={classes.title}>{this.props.title}</h2>
-          <button className={classes.close} onClick={::this.onClose}></button>
+        <header className={this.getClassName('header')}>
+          <h2 className={this.getClassName('title')}>
+            {title}
+          </h2>
+          <button
+            className={classes.close}
+            onClick={::this.onClose} />
         </header>
+        {options}
         <div className={classes.body}>
-          {this.props.children}
+          {children}
         </div>
       </div>
     )

@@ -16,16 +16,20 @@ export default class MessageSearch extends Component {
     sheet: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
+    toggleSearchOnlyInChannel: PropTypes.func.isRequired,
+    searchOnlyInChannel: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
+    options: PropTypes.array.isRequired,
     total: PropTypes.number,
     query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     isLoading: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
-    query: ''
+    query: '',
+    options: []
   }
 
   componentDidMount() {
@@ -33,7 +37,7 @@ export default class MessageSearch extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.query && nextProps.query !== this.props.query) {
+    if (this.shouldLoad(nextProps)) {
       this.load(nextProps)
     }
   }
@@ -52,14 +56,30 @@ export default class MessageSearch extends Component {
     this.props.hide()
   }
 
+  onOption = () => {
+    this.props.toggleSearchOnlyInChannel()
+  }
+
+  onClickOption = e => {
+    // Prevents search input click otside handler.
+    e.stopPropagation()
+  }
+
+  shouldLoad(props) {
+    if (!props.query) return false
+    if (props.query !== this.props.query) return true
+    if (props.searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+  }
+
   load(props = this.props) {
-    if (!props.query || !props.query.length) return
-    const {items} = props
+    const {items, limit, query, searchOnlyInChannel} = props
+    if (!query || !query.length) return
     props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
-      limit: props.limit,
-      query: props.query
+      limit,
+      query,
+      searchOnlyInChannel
     })
   }
 
@@ -150,6 +170,35 @@ export default class MessageSearch extends Component {
     )
   }
 
+  renderOptions() {
+    const {options, sheet, searchOnlyInChannel} = this.props
+    if (!options.length) return null
+
+    const {classes} = sheet
+    return (
+      <ul>
+      {
+        options.map((option, i) => {
+          return (
+            <li className={classes.option} key={i}>
+              <label
+                className={classes.optionLabel}
+                onClick={this.onClickOption}>
+                <input
+                  className={classes.optionCheckbox}
+                  type="checkbox"
+                  checked={searchOnlyInChannel}
+                  onChange={option.handler} />
+                  {option.label}
+              </label>
+            </li>
+          )
+        })
+      }
+      </ul>
+    )
+  }
+
   render() {
     const {classes} = this.props.sheet
     const {images, title, isLoading} = this.props
@@ -157,6 +206,7 @@ export default class MessageSearch extends Component {
       <SidebarPanel
         title={title}
         images={images}
+        options={this.renderOptions()}
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}

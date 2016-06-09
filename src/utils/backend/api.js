@@ -180,6 +180,30 @@ export function searchMessages({query, id, limit, offsetDate}) {
   })
 }
 
+export function searchMessagesInChannel({query, orgId, channelId, limit, offsetDate}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'search',
+        action: 'search_channel',
+        args: [
+          query,
+          orgId,
+          channelId,
+          'messages',
+          limit,
+          offsetDate
+        ]
+      },
+      {camelize: true},
+      (err, messages) => {
+        if (err) return reject(err)
+        resolve(messages)
+      }
+    )
+  })
+}
+
 export function searchFiles({orgId, channelId, own, limit, offset}) {
   return new Promise((resolve, reject) => {
     rpc(
