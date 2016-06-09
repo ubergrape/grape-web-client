@@ -16,7 +16,6 @@ export default class MessageSearch extends Component {
     sheet: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
-    toggleSearchOnlyInChannel: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
@@ -54,10 +53,6 @@ export default class MessageSearch extends Component {
 
   onClose() {
     this.props.hide()
-  }
-
-  onOption = () => {
-    this.props.toggleSearchOnlyInChannel()
   }
 
   onClickOption = e => {
