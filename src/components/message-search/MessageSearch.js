@@ -56,8 +56,9 @@ export default class MessageSearch extends Component {
   }
 
   onClickOption = e => {
-    // Prevents search input click otside handler.
-    e.stopPropagation()
+    const {query} = this.props
+    // Don't close sidebar if click outside is in the options.
+    if (!query || !query.length) e.stopPropagation()
   }
 
   shouldLoad(props) {
@@ -175,7 +176,7 @@ export default class MessageSearch extends Component {
       {
         options.map((option, i) => {
           return (
-            <li className={classes.option} key={i}>
+            <li key={i}>
               <label
                 className={classes.optionLabel}
                 onClick={this.onClickOption}>
