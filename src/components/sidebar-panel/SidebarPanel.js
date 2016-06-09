@@ -20,10 +20,6 @@ export default class SidebarPanel extends Component {
     onClose: PropTypes.func.isRequired
   }
 
-  static defaultProps = {
-    hasOptions: false
-  }
-
   shouldComponentUpdate = shouldPureComponentUpdate
 
   onClose() {
