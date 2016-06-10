@@ -4,12 +4,12 @@ import color from 'color'
 export default {
   spinner: {
     position: 'absolute',
+    zIndex: 1,
     top: 0,
     left: 0,
     height: '100%',
     width: '100%',
-    background: 'no-repeat center',
-    backgroundSize: 'contain'
+    background: 'no-repeat center'
   },
   overlay: {
     backgroundColor: color(colors.white).alpha(0.7).rgbaString()
