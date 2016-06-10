@@ -10,7 +10,7 @@
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-theme": "^1.2.0",
-    "grape-web": "0.26.0",
+    "grape-web": "0.28.0",
     "images-loader": "^0.1.2",
     "grape-js-emoji": "^0.0.1",
     "keyname": "^0.1.0",
