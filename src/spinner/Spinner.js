@@ -10,14 +10,16 @@ export default class Spinner extends Component {
     active: PropTypes.bool,
     delay: PropTypes.number,
     image: PropTypes.string,
-    overlay: PropTypes.bool
+    overlay: PropTypes.bool,
+    size: PropTypes.number
   }
 
   static defaultProps = {
     active: false,
     delay: 1000,
     image: undefined,
-    overlay: false
+    overlay: false,
+    size: 60
   }
 
   constructor(props) {
@@ -46,11 +48,24 @@ export default class Spinner extends Component {
 
   render() {
     if (!this.state.active) return null
-    const {classes} = this.props.sheet
-    const backgroundImage = `url(${this.props.image})`
+    const {
+      sheet,
+      size: width,
+      size: height,
+      image
+    } = this.props
+
+    const backgroundImage = `url(${image})`
+    const {classes} = sheet
     let className = classes.spinner
     if (this.props.overlay) className += ' ' + classes.overlay
     // TODO use svg.
-    return <span className={className} style={{backgroundImage}}></span>
+    return (
+      <span className={className}>
+        <i
+          className={classes.animation}
+          style={{backgroundImage, width, height}} />
+      </span>
+    )
   }
 }
