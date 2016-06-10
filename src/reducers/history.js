@@ -1,7 +1,6 @@
 import * as types from '../constants/actionTypes'
 import reject from 'lodash/collection/reject'
 import findIndex from 'lodash/array/findIndex'
-import drop from 'lodash/array/drop'
 
 const initialState = {
   messages: [],

@@ -68,14 +68,13 @@ const maxRange = messages.length
 
 const range = [messages.length - frameSize, maxRange]
 // To start from beginning.
-//const range = [0, frameSize]
+// const range = [0, frameSize]
 let fragment = messages.slice.apply(messages, range)
 let isLoading = false
+let update
 
 function onLoad({startIndex, stopIndex}) {
   if (isLoading) return null
-
-  let resolvePromise
 
   isLoading = true
   setTimeout(() => {
@@ -111,7 +110,7 @@ function onResend(message) {
 
 const container = document.querySelectorAll('.history')[0]
 
-function update(props) {
+update = (props) => {
   render(
     createElement(History, {
       userId,
