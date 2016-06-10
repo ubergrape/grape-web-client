@@ -1,4 +1,5 @@
 import findLast from 'lodash/collection/findLast'
+import last from 'lodash/array/last'
 
 import reduxEmitter from '../legacy/redux-emitter'
 import * as types from '../constants/actionTypes'
@@ -9,30 +10,63 @@ import {
 import {error} from './common'
 import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
-import {formatMessage, filterEmptyMessage} from './utils'
+import {normalizeMessage, filterEmptyMessage} from './utils'
 
-export function loadHistory(channelId, options) {
+export function loadHistory(params) {
+  const {channelId, startIndex, stopIndex} = params
+  const isInitial = startIndex === undefined
+  const isScrollBack = startIndex < 0
+
   return (dispatch, getState) => {
-    dispatch({type: types.REQUEST_HISTORY})
-    dispatch(showAlert({
-      level: 'info',
-      type: alerts.LOADING_HISTORY,
-      delay: 1000
-    }))
+    let options
+
+    if (isInitial) {
+      dispatch(showAlert({
+        level: 'info',
+        type: alerts.LOADING_HISTORY,
+        delay: 1000
+      }))
+    } else {
+      const {messages} = historySelector(getState())
+      if (isScrollBack) {
+        options = {timeTo: messages[0].time}
+      } else {
+        options = {timeFrom: last(messages).time}
+      }
+      options.limit = stopIndex - startIndex
+    }
+
+    dispatch({
+      type: types.REQUEST_HISTORY,
+      payload: {params, options}
+    })
+
     api
       .loadHistory(channelId, options)
-      .then(messages => {
+      .then(res => {
         const state = getState()
-        const payload = messages
+        const messages = res
           .reverse()
-          .map(message => formatMessage(message, state))
+          .map(message => normalizeMessage(message, state))
           .filter(filterEmptyMessage)
 
+        if (isInitial) {
+          dispatch({
+            type: types.HANDLE_INITIAL_HISTORY,
+            payload: messages
+          })
+          dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+          return
+        }
+
         dispatch({
-          type: types.HANDLE_LOADED_HISTORY,
-          payload
+          type: types.HANDLE_MORE_HISTORY,
+          payload: {
+            messages,
+            ...params,
+            isScrollBack
+          }
         })
-        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
       })
       .catch(err => dispatch(error(err)))
   }
@@ -86,7 +120,7 @@ export function createMessage({channelId, text, attachments = []}) {
     const id = Math.random().toString(36).substr(7)
     const author = userSelector(state)
 
-    const message = formatMessage({
+    const message = normalizeMessage({
       id,
       text,
       author,
@@ -108,11 +142,11 @@ export function createMessage({channelId, text, attachments = []}) {
   }
 }
 
-export function handleUpdateMessage(message) {
+export function handleMessageUpdate(message) {
   return (dispatch, getState) => {
     dispatch({
       type: types.UPDATE_MESSAGE,
-      payload: formatMessage(message, getState())
+      payload: normalizeMessage(message, getState())
     })
   }
 }

@@ -266,12 +266,12 @@ export function checkAuth() {
   })
 }
 
-export function loadHistory(channelId, options) {
+export function loadHistory(channelId, options = {}) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, options]
+      args: [channelId, {limit: 50, ...options}]
     },
     {camelize: true},
     (err, res) => {

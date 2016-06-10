@@ -67,8 +67,8 @@ export function normalizeChannelData(channel) {
   return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
 }
 
-export const formatMessage = (() => {
-  function formatAttachment(attachment) {
+export const normalizeMessage = (() => {
+  function normalizeAttachment(attachment) {
     const {id, mimeType, name, thumbnailUrl, url, category} = attachment
     const thumbnailHeight = Number(attachment.thumbnailHeight)
     const thumbnailWidth = Number(attachment.thumbnailWidth)
@@ -82,7 +82,7 @@ export const formatMessage = (() => {
     }
   }
 
-  function formatRegularMessage(msg, state) {
+  function normalizeRegularMessage(msg, state) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
@@ -109,14 +109,14 @@ export const formatMessage = (() => {
     }
     const channel = find(channels, {id: msg.channel})
     const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
-    const attachments = msg.attachments.map(formatAttachment)
+    const attachments = msg.attachments.map(normalizeAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, channel, attachments,
       mentions
     }
   }
 
-  function formatActivityMessage(msg) {
+  function normalizeActivityMessage(msg) {
     const {id} = msg
     const type = 'activity'
     const time = new Date(msg.time)
@@ -133,10 +133,10 @@ export const formatMessage = (() => {
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
   return (msg, state) => {
     if (msg.author.type === 'service') {
-      return formatActivityMessage(msg)
+      return normalizeActivityMessage(msg)
     }
 
-    return formatRegularMessage(msg, state)
+    return normalizeRegularMessage(msg, state)
   }
 }())
 
