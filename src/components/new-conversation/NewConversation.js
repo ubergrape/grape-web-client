@@ -136,7 +136,7 @@ export default class NewConversation extends Component {
       <ChooseUsersDialog
         {...this.props}
         title="New Conversation"
-        onHide={this.onHide}
+        onHide={hideNewConversation}
         theme={{classes}}
         filterFocus={!this.state.roomNameFocused}
         beforeList={(
@@ -151,7 +151,6 @@ export default class NewConversation extends Component {
             onSetRoomIcon={this.onSetRoomIcon}
             theme={{classes}} />
         )}
-        onHide={hideNewConversation}
         onChangeFilter={value => filterNewConversation(value)}
         onSelectUser={user => addToNewConversation(user)}
         onRemoveSelectedUser={user => removeFromNewConversation(user)}>
