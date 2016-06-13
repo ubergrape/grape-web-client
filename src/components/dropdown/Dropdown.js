@@ -3,14 +3,10 @@ import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
 
-import RawTooltip from '../tooltip/Tooltip'
+import GrayTooltip from '../tooltip/GrayTooltip'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
-import useTheme from '../theme/useTheme'
-import * as tooltipStyle from '../tooltip/themes/gray'
 
-const Tooltip = listenOutsideClick(RawTooltip)
-const StyledTooltip = useTheme(Tooltip, tooltipStyle)
-
+const Tooltip = listenOutsideClick(GrayTooltip)
 export default function Dropdown(props) {
   const {
     container,
@@ -26,12 +22,12 @@ export default function Dropdown(props) {
       container={container}
       placement={placement}
       target={() => findDOMNode(target)}>
-        <StyledTooltip
+        <Tooltip
           onOutsideClick={onOutsideClick}
           onClick={onClick}
           placement={placement}>
             {children}
-        </StyledTooltip>
+        </Tooltip>
     </Position>
   )
 }
