@@ -46,7 +46,6 @@ export function searchMessages(params) {
     dispatch(setSidebarIsLoading(true))
 
     const state = store.getState()
-    const {id} = orgSelector(state)
     const {limit, offsetDate, searchOnlyInChannel} = params
 
     const searchParams = {
@@ -55,14 +54,16 @@ export function searchMessages(params) {
       offsetDate: offsetDate ? offsetDate.toISOString() : undefined
     }
 
+    const {id: orgId} = orgSelector(state)
     if (searchOnlyInChannel) {
-      searchParams.orgId = id
+      searchParams.orgId = orgId
       searchParams.channelId = channelSelector(state).id
     } else {
-      searchParams.id = id
+      searchParams.id = orgId
     }
 
-    api[`searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`](searchParams)
+    const call = `searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`
+    api[call](searchParams)
       .then(messages => {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
