@@ -43,6 +43,10 @@ export function handleNewMessage(message) {
         isCurrentUser: user.id === fMessage.author.id
       }
     })
+    // We remove a message first, because if user sends a message, it is
+    // added immediately, with a generated clientsideId.
+    // Then we receive the same message from the server which might contain
+    // additional information and a server-side id.
     dispatch({
       type: types.REMOVE_MESSAGE,
       payload: message.clientsideId
