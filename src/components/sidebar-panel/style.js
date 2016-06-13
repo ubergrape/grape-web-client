@@ -17,7 +17,7 @@ const title = {
   padding: `14px ${gap}px 14px 0`
 }
 
-const commonHeaeder = {
+const commonHeader = {
   display: 'flex',
   flexShrink: 0,
   borderBottom: `1px solid ${webColors.borderDefault}`,
@@ -34,10 +34,10 @@ export default {
     background: colors.grayBlueLighter
   },
   header: {
-    ...commonHeaeder,
+    ...commonHeader,
     marginLeft: gap
   },
-  headerOptions: commonHeaeder,
+  headerOptions: commonHeader,
   title,
   titleOptions: {
     ...title,
