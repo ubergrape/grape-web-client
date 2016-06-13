@@ -85,15 +85,15 @@ export default class EditableText extends Component {
     })
   }
 
-  onClick() {
+  onClick = () => {
     this.setState({isEditing: true})
   }
 
-  onChange({target}) {
+  onChange = ({target}) => {
     this.setState({value: target.value})
   }
 
-  onKeyDown(e) {
+  onKeyDown = e => {
     switch (keyname(e.keyCode)) {
       case 'esc':
         this.restoreState()
@@ -105,7 +105,7 @@ export default class EditableText extends Component {
     }
   }
 
-  onClickSave() {
+  onClickSave = () => {
     if (!this.props.error) {
       this.setState({isEditing: false}, () => {
         this.save()
@@ -113,7 +113,7 @@ export default class EditableText extends Component {
     }
   }
 
-  restoreState() {
+  restoreState = () => {
     if (!this.state.isEditing) return
     const {error, clearError, value} = this.props
     if (error) clearError()
@@ -151,8 +151,8 @@ export default class EditableText extends Component {
       clearError,
       readOnly: !isEditing,
       disabled: saving,
-      onChange: ::this.onChange,
-      onKeyDown: ::this.onKeyDown
+      onChange: this.onChange,
+      onKeyDown: this.onKeyDown
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
@@ -160,11 +160,11 @@ export default class EditableText extends Component {
     return (
       <Wrapper
         className={classes[className]}
-        onOutsideClick={::this.restoreState}
-        onClick={::this.onClick}>
+        onOutsideClick={this.restoreState}
+        onClick={this.onClick}>
         <Editable {...editableProps} />
         <button
-          onClick={::this.onClickSave}
+          onClick={this.onClickSave}
           className={classes['submit' + (isEditing ? 'Visible' : '')]}
           disabled={this.state.saving}>
           Done
