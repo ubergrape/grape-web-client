@@ -4,6 +4,7 @@ const initialState = {
   show: false,
   filter: '',
   advanced: false,
+  creatingRoom: false,
   listed: []
 }
 
@@ -36,6 +37,11 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         filter: action.payload
+      }
+    case types.REQUEST_ROOM_CREATE:
+      return {
+        ...state,
+        creatingRoom: true
       }
     case types.SET_CHANNEL:
       return initialState

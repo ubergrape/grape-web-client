@@ -5,9 +5,10 @@ export default class Editable extends Component {
     onChange: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,
     disabled: PropTypes.bool,
+    focused: PropTypes.bool,
     readOnly: PropTypes.bool,
     value: PropTypes.string.isRequired,
-    className: PropTypes.string,
+    theme: PropTypes.object.isRequired,
     placeholder: PropTypes.string
   }
 
@@ -17,10 +18,12 @@ export default class Editable extends Component {
 
   componentDidMount() {
     this.setTextareaHeight()
+    if (this.props.focused) this.refs.textarea.focus()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.setTextareaHeight()
+    if (this.props.focused && !prevProps.focused) this.refs.textarea.focus()
   }
 
   setTextareaHeight() {
@@ -30,6 +33,12 @@ export default class Editable extends Component {
   }
 
   render() {
-    return <textarea {...this.props} ref="textarea" />
+    const {classes} = this.props.theme
+    return (
+      <textarea
+        {...this.props}
+        className={classes.input}
+        ref="textarea" />
+    )
   }
 }

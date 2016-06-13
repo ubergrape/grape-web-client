@@ -107,3 +107,9 @@ export function showRoomDeteteDialog(id) {
     reduxEmitter.showRoomDeteteDialog()
   }
 }
+
+export function clearRoomRenameError() {
+  return {
+    type: types.CLEAR_ROOM_RENAME_ERROR
+  }
+}

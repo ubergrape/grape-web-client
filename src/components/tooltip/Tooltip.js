@@ -20,7 +20,6 @@ function Tooltip(props) {
   const placementStyle = getPlacementStyles(arrowSize, borderSize)[placement]
   const left = props.arrowOffsetLeft || placementStyle.left || theme.arrowOffsetLeft
   const top = props.arrowOffsetTop || placementStyle.top || theme.arrowOffsetTop
-
   return (
     <div
       onClick={onClick}
