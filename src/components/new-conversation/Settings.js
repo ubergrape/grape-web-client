@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react'
+import keyname from 'keyname'
+
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
+import Input from '../input/GrayInput'
 
 class IconSettings extends Component {
   static propTypes = {
@@ -18,11 +21,23 @@ class IconSettings extends Component {
   }
 }
 
+function getError(message) {
+  if (!message) return undefined
+  return {
+    level: 'error',
+    message
+  }
+}
+
+function onInputKeyDown(onCreate, {keyCode}) {
+  if (keyname(keyCode) === 'enter') onCreate()
+}
+
 export default function Settings(props) {
   const {
-    icon, color, name, advanced, theme,
-    isPublic, onChangeRoomName, onClickRoomName,
-    onBlurRoomName, onPrivacyChange
+    icon, color, name, advanced, saving, error, roomNameFocused, theme,
+    isPublic, onChangeRoomName, onClickRoomName, onCreate,
+    onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
 
   // TODO: return `null` once upgraded to React 0.15.
@@ -36,18 +51,23 @@ export default function Settings(props) {
         channel={{icon, color}} />
 
       <div className={classes.name}>
-        <input
+        <Input
           placeholder="Enter group name"
           value={name}
+          focused={roomNameFocused}
+          error={getError(error)}
+          disabled={saving}
+          clearError={clearRoomCreateError}
+          onKeyDown={onInputKeyDown.bind(null, onCreate)}
           onChange={onChangeRoomName}
           onClick={onClickRoomName}
-          onBlur={onBlurRoomName}
-          className={classes.nameInput}/>
+          onBlur={onBlurRoomName} />
       </div>
       <div className={classes.privacy}>
         <Switch
           off="Private"
           on="Public"
+          disabled={saving}
           onChange={onPrivacyChange}
           status={isPublic} />
       </div>
@@ -59,9 +79,14 @@ Settings.propTypes = {
   icon: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  saving: PropTypes.bool.isRequired,
   advanced: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
+  roomNameFocused: PropTypes.bool.isRequired,
   theme: PropTypes.object.isRequired,
+  error: PropTypes.string,
+  onCreate: PropTypes.func.isRequired,
+  clearRoomCreateError: PropTypes.func.isRequired,
   onClickRoomName: PropTypes.func.isRequired,
   onBlurRoomName: PropTypes.func.isRequired,
   onChangeRoomName: PropTypes.func.isRequired,
