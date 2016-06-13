@@ -258,11 +258,31 @@ export function focusGrapeInput() {
   }
 }
 
+export function requestRoomCreate() {
+  return {
+    type: types.REQUEST_ROOM_CREATE
+  }
+}
+
+export function handleRoomCreateError(message) {
+  return {
+    type: types.HANDLE_ROOM_CREATE_ERROR,
+    payload: message
+  }
+}
+
+export function clearRoomCreateError() {
+  return {
+    type: types.CLEAR_ROOM_CREATE_ERROR
+  }
+}
+
 export function createRoomWithUsers(room, users) {
   return (dispatch, getState) => {
+    dispatch(requestRoomCreate())
+
     const user = userSelector(getState())
     const usernames = users.map(({username}) => username)
-
     let newRoom
     return api
       .createRoom({
@@ -282,6 +302,8 @@ export function createRoomWithUsers(room, users) {
           dispatch(invitedToChannel(usernames, newRoom.id))
         }
       })
-      .catch(err => dispatch(error(err)))
+      .catch(err => {
+        dispatch(handleRoomCreateError(err.message))
+      })
   }
 }

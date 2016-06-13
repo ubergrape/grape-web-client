@@ -8,12 +8,12 @@ import Intercom from '../intercom/Intercom'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
-
 function SidebarContent(props) {
   const {
     show,
     loadMentions,
     searchMessages,
+    toggleSearchOnlyInChannel,
     hideSidebar: hide,
     goToMessage: select
   } = props
@@ -38,6 +38,10 @@ function SidebarContent(props) {
       const searchProps = {
         ...props,
         load: searchMessages,
+        options: [{
+          label: 'Only in this conversation',
+          handler: toggleSearchOnlyInChannel
+        }],
         hide,
         select
       }
@@ -57,6 +61,7 @@ SidebarContent.propTypes = {
   ]).isRequired,
   loadMentions: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
+  toggleSearchOnlyInChannel: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired
 }

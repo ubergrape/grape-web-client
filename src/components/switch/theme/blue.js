@@ -41,6 +41,10 @@ export const styles = {
       right: `calc(50% - ${togglerMargin}px)`
     }
   },
+  switchDisabled: {
+    opacity: 0.2,
+    pointerEvents: 'none'
+  },
   label: {
     whiteSpace: 'nowrap',
     padding: '0 10px'

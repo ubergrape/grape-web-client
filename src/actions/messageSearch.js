@@ -1,7 +1,7 @@
 import store from '../app/store'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
-import {messageSearchSelector, orgSelector} from '../selectors'
+import {messageSearchSelector, orgSelector, channelSelector} from '../selectors'
 import {setSidebarIsLoading, error} from './common'
 import {formatMessage} from './utils'
 
@@ -17,6 +17,12 @@ export function updateMessageSearchQuery(nextQuery) {
       items: [],
       total: null
     }
+  }
+}
+
+export function toggleSearchOnlyInChannel() {
+  return {
+    type: types.TOGGLE_SEARCH_ONLY_IN_CHANNEL
   }
 }
 
@@ -40,15 +46,24 @@ export function searchMessages(params) {
     dispatch(setSidebarIsLoading(true))
 
     const state = store.getState()
-    const {id} = orgSelector(state)
+    const {limit, offsetDate, searchOnlyInChannel} = params
 
-    api
-      .searchMessages({
-        query,
-        id,
-        limit: params.limit,
-        offsetDate: params.offsetDate ? params.offsetDate.toISOString() : undefined
-      })
+    const searchParams = {
+      query,
+      limit,
+      offsetDate: offsetDate ? offsetDate.toISOString() : undefined
+    }
+
+    const {id: orgId} = orgSelector(state)
+    if (searchOnlyInChannel) {
+      searchParams.orgId = orgId
+      searchParams.channelId = channelSelector(state).id
+    } else {
+      searchParams.id = orgId
+    }
+
+    const call = `searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`
+    api[call](searchParams)
       .then(messages => {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)

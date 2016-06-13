@@ -33,13 +33,24 @@ export const channelsSelector = createSelector(
   (channels, users, user) => (
     channels.map(channel => {
       const channelUsers = channel.users.map(id => find(users, {id}))
-      const mate = find(channelUsers, _user => _user.id !== user.id)
-      return {
-        ...channel,
-        slug: channel.slug || mate.slug,
-        name: channel.name || mate.displayName,
-        users: channelUsers
+      if (channel.type === 'room') {
+        return {
+          ...channel,
+          users: channelUsers
+        }
       }
+      if (channel.type === 'pm') {
+        const mate = find(channelUsers, _user => _user.id !== user.id)
+        return {
+          ...channel,
+          mate,
+          slug: mate.slug,
+          name: mate.displayName,
+          users: channelUsers
+        }
+      }
+
+      return channel
     })
   )
 )
@@ -57,18 +68,7 @@ export const joinedRoomsSelector = createSelector(
 )
 
 export const pmsSelector = createSelector(
-  [channelsSelector, userSelector], (channels, user) => {
-    return channels
-      .filter(channel => channel.type === 'pm')
-      .map(channel => {
-        const mate = find(channel.users, _user => _user.id !== user.id)
-        return {
-          ...channel,
-          slug: mate.slug,
-          mate
-        }
-      })
-  }
+  channelsSelector, channels => channels.filter(channel => channel.type === 'pm')
 )
 
 export const activePmsSelector = createSelector(
@@ -195,6 +195,10 @@ export const newConversationSelector = createSelector(
   state => state.newConversation, state => state
 )
 
+export const createRoomErrorSelector = createSelector(
+  state => state.createRoomError, state => state
+)
+
 export const alertsAndChannelSelector = createSelector(
   [alertsSelector, channelSelector],
   ({alerts}, channel) => {
@@ -230,11 +234,12 @@ export const isInviterSelector = createSelector(
 )
 
 export const newConversationDialog = createSelector(
-  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector],
-  (newConversation, {id: organization}, users, isInviter) => ({
+  [newConversationSelector, orgSelector, activeUsersWithActivePmsSelector, isInviterSelector, createRoomErrorSelector],
+  (newConversation, {id: organization}, users, isInviter, error) => ({
     ...newConversation,
     isInviter,
     organization,
+    error,
     users: differenceBy(users.filter(user => !user.current), newConversation.listed, 'id')
   })
 )
@@ -316,13 +321,15 @@ export const navigationSelector = createSelector(
     joinedRoomsSelector,
     navigationPmsSelector,
     channelSelector,
-    initialDataLoadingSelector
+    initialDataLoadingSelector,
+    channelsSelector
   ],
   (
     rooms,
     pms,
     channel,
-    isLoading
+    isLoading,
+    allChannels
   ) => {
     const all = rooms.concat(pms)
     const recent = all
@@ -337,7 +344,8 @@ export const navigationSelector = createSelector(
       recent,
       favorited,
       isLoading,
-      channel
+      channel,
+      unJoined: differenceBy(allChannels, all, 'slug')
     }
   }
 )

@@ -71,7 +71,7 @@ export default class OrgInfo extends Component {
         <span
           style={sizes}
           className={sheet.classes.logo}>
-          {isLoading ? <Spinner image={spinner} /> : this.renderLogo() }
+          {isLoading ? <Spinner image={spinner} size={sizes.height} /> : this.renderLogo() }
         </span>
         {this.renderHeaders()}
         {

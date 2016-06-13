@@ -7,6 +7,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import style from './messageSearchStyles'
 import Message from './Message'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
+import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 
@@ -16,6 +17,7 @@ export default class MessageSearch extends Component {
     sheet: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
+    searchOnlyInChannel: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -25,7 +27,8 @@ export default class MessageSearch extends Component {
   }
 
   static defaultProps = {
-    query: ''
+    query: '',
+    options: []
   }
 
   componentDidMount() {
@@ -33,7 +36,7 @@ export default class MessageSearch extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.query && nextProps.query !== this.props.query) {
+    if (this.shouldLoad(nextProps)) {
       this.load(nextProps)
     }
   }
@@ -52,14 +55,27 @@ export default class MessageSearch extends Component {
     this.props.hide()
   }
 
+  onClickOption = e => {
+    const {query} = this.props
+    // Don't close sidebar if click outside is in the options.
+    if (!query || !query.length) e.stopPropagation()
+  }
+
+  shouldLoad(props) {
+    if (!props.query) return false
+    if (props.query !== this.props.query) return true
+    if (props.searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+  }
+
   load(props = this.props) {
-    if (!props.query || !props.query.length) return
-    const {items} = props
+    const {items, limit, query, searchOnlyInChannel} = props
+    if (!query || !query.length) return
     props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
-      limit: props.limit,
-      query: props.query
+      limit,
+      query,
+      searchOnlyInChannel
     })
   }
 
@@ -151,12 +167,18 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {images, title, isLoading} = this.props
+    const {images, title, isLoading, sheet} = this.props
+    const {classes} = sheet
     return (
       <SidebarPanel
         title={title}
         images={images}
+        options={
+          <Options
+            {...this.props}
+            onClickOption={this.onClickOption}
+            theme={{classes}} />
+        }
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}

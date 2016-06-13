@@ -6,6 +6,7 @@ export default class FilteredList extends Component {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
     filtered: PropTypes.array.isRequired,
+    filteredUnJoined: PropTypes.array.isRequired,
     focusedChannel: PropTypes.any
   }
 
@@ -17,11 +18,12 @@ export default class FilteredList extends Component {
     const {
       filter,
       filtered,
+      filteredUnJoined,
       focusedChannel,
       theme
     } = this.props
     const {classes} = theme
-    if (!filtered.length) {
+    if (!filtered.length && !filteredUnJoined.length) {
       return (
         <div className={classes.notFound}>
           {'There\'s nothing that matches '}
@@ -29,11 +31,13 @@ export default class FilteredList extends Component {
         </div>
       )
     }
+
+    const items = filtered.concat(filteredUnJoined)
     return (
       <List
         {...this.props}
-        items={filtered}
-        focused={focusedChannel}
+        items={items}
+        focused={focusedChannel || items[0]}
         ref="list" />
     )
   }

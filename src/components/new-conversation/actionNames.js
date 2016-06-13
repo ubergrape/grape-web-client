@@ -7,5 +7,6 @@ export default [
   'showNewConversationAdvanced',
   'addToNewConversation',
   'removeFromNewConversation',
-  'filterNewConversation'
+  'filterNewConversation',
+  'clearRoomCreateError'
 ]
