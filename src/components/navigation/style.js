@@ -47,6 +47,14 @@ channels['&:before'] = {
   height: 21
 }
 
+const title = {
+  ...fonts.small,
+  marginLeft: 15,
+  textTransform: 'uppercase',
+  background: '0 0 no-repeat',
+  color: colors.grayBlue
+}
+
 export default {
   wrapper: {
     display: 'flex',
@@ -89,20 +97,21 @@ export default {
     textAlign: 'center'
   },
   title: {
-    ...fonts.small,
-    paddingLeft: 18,
-    marginLeft: 15,
-    textTransform: 'uppercase',
-    background: '0 0 no-repeat',
-    color: colors.grayBlue
+    ...title,
+    paddingLeft: 18
+  },
+  unJoinedTitle: {
+    ...title,
+    marginTop: 20,
+    marginBottom: 10
   },
   recent: {
-    backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,
+    backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})})`,
     backgroundSize: 'auto 12px',
     backgroundPosition: '0 2px'
   },
   favorites: {
-    backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
+    backgroundImage: `url(${getColoredIcon({name: 'star', color: colors.grayBlue})})`,
     backgroundSize: 'auto 13px',
     backgroundPosition: '0 2px'
   },
@@ -148,7 +157,7 @@ export default {
   filterInput: {
     boxSizing: 'border-box !important',
     background: `${darkenBackground} no-repeat 10px 50%`,
-    backgroundImage: `url('${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})}')`,
+    backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
     backgroundSize: 19,
     border: 'none',
     padding: '7px 5px 6px 35px',
