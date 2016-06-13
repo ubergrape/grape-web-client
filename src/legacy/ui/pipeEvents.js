@@ -42,7 +42,11 @@ export default function pipeEvents(ui) {
   broker.pass(ui.grapeInput, 'setTyping', ui, 'setTyping')
   broker.pass(ui.grapeInput, 'autocomplete', ui, 'autocomplete')
   broker.pass(ui.grapeInput, 'autocompletedate', ui, 'autocompletedate')
-  if (!conf.newHistory) {
+  broker(ui.grapeInput, 'editPreviousMessage', ui.reduxEmitter, 'onEditPreviousMessage')
+  if (conf.newHistory) {
+    broker(ui.reduxEmitter, 'editMessage', ui.grapeInput, 'onEditMessage')
+    broker(ui.grapeInput, 'input', ui.reduxEmitter, 'createMessage')
+  } else {
     broker(ui.grapeInput, 'editingdone', ui.historyView, 'unselectForEditing')
     broker(ui.grapeInput, 'input', ui.historyView, 'onInput')
     broker(ui.grapeInput, 'showmarkdowntips', ui, 'showMarkdownTips')

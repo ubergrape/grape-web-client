@@ -1,3 +1,5 @@
+import {styles as linkStyles} from '../../message-parts/linkTheme'
+
 const arrowWidth = 7
 const marginRight = 5
 const avatarWidth = 32
@@ -21,5 +23,8 @@ export const styles = {
   },
   avatarPlaceholder: {
     marginLeft: avatarWidth + marginRight
+  },
+  content: {
+    '& a': linkStyles.link
   }
 }

@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import bindAll from 'lodash/function/bindAll'
 
 import ImageZoom from '../../image-zoom/ImageZoom'
 
@@ -16,16 +15,9 @@ export default class ImageAttachment extends Component {
     thumbnailHeight: PropTypes.number.isRequired
   }
 
-  constructor(props) {
-    super(props)
-    bindAll(this, 'getThumbnailRef', 'setThumbnailRef')
-  }
+  getThumbnailRef = () => (this.thumbnail)
 
-  getThumbnailRef() {
-    return this.thumbnail
-  }
-
-  setThumbnailRef(ref) {
+  setThumbnailRef = (ref) => {
     this.thumbnail = ref
   }
 

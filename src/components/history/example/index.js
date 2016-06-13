@@ -58,48 +58,42 @@ for (let i = 0; i < 5; i++) {
   }))
 }
 
-for (let i = messages.length; i < 100; i++) {
+for (let i = messages.length; i < 1000; i++) {
   messages.push(createMessage(i))
 }
 
-const minSize = 100
+const frameSize = 100
 const minRange = 0
 const maxRange = messages.length
 
-const range = [messages.length - minSize, maxRange]
+const range = [messages.length - frameSize, maxRange]
+// To start from beginning.
+// const range = [0, frameSize]
 let fragment = messages.slice.apply(messages, range)
 let isLoading = false
+let update
 
-function onLoadMore({startIndex, stopIndex}) {
+function onLoad({startIndex, stopIndex}) {
   if (isLoading) return null
-
-  let resolvePromise
 
   isLoading = true
   setTimeout(() => {
     log('loadMore', startIndex, stopIndex)
 
-    // Scrolling up.
+    // Scroll to older.
     if (startIndex < 0) {
       range[0] = Math.max(range[0] + startIndex, minRange)
-      range[1] = Math.min(range[1], range[0] + minSize)
-    // Scrolling down.
+      range[1] = Math.min(range[1], range[0] + frameSize)
+    // Scroll to newer.
     } else {
-      range[0] = range[1] - minSize
+      range[0] = range[1] - frameSize
       range[1] = Math.min(range[1] + stopIndex, maxRange)
     }
 
-    const nextFragment = messages.slice.apply(messages, range)
-    // Don't update if the fragment hasn't changed.
-    if (nextFragment[0] !== fragment[0] && nextFragment[1] !== fragment[1]) {
-      fragment = nextFragment
-      resolvePromise(fragment)
-    }
-
+    fragment = messages.slice.apply(messages, range)
+    update()
     isLoading = false
   })
-
-  return new Promise(resolve => resolvePromise = resolve)
 }
 
 function onEdit(message) {
@@ -116,12 +110,12 @@ function onResend(message) {
 
 const container = document.querySelectorAll('.history')[0]
 
-function update(props) {
+update = (props) => {
   render(
     createElement(History, {
       userId,
       messages: fragment,
-      onLoadMore,
+      onLoad,
       onEdit,
       onRemove,
       onResend,

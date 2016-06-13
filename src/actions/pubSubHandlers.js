@@ -28,21 +28,32 @@ const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
-    const fMessage = formatMessage(message)
-    const user = userSelector(getState())
-    const rooms = joinedRoomsSelector(getState())
+    const state = getState()
+    const fMessage = formatMessage(message, state)
+    const user = userSelector(state)
+    const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(fMessage, user, rooms)
-
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
     if (mentionsCount) dispatch(addMention(fMessage))
-
     dispatch({
-      type: types.ADD_NEW_MESSAGE,
+      type: types.UPDATE_CHANNEL_STATS,
       payload: {
         message: fMessage,
         mentionsCount,
         isCurrentUser: user.id === fMessage.author.id
       }
+    })
+    // We remove a message first, because if user sends a message, it is
+    // added immediately, with a generated clientsideId.
+    // Then we receive the same message from the server which might contain
+    // additional information and a server-side id.
+    dispatch({
+      type: types.REMOVE_MESSAGE,
+      payload: message.clientsideId
+    })
+    dispatch({
+      type: types.ADD_NEW_MESSAGE,
+      payload: fMessage
     })
   }
 }
@@ -53,9 +64,7 @@ export function handleRemovedMessage({id}) {
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
-      payload: {
-        messageId: id
-      }
+      payload: id
     })
   }
 }

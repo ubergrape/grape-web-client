@@ -36,8 +36,7 @@ function canGroup(message, prevMessage) {
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    loadHistory: PropTypes.func.isRequired,
-    onLoadMore: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
@@ -50,24 +49,31 @@ export default class History extends Component {
       }).isRequired,
       time: PropTypes.instanceOf(Date).isRequired
     })),
-    scrollTo: PropTypes.object
+    scrollTo: PropTypes.object,
+    cacheSize: PropTypes.number
   }
 
   static defaultProps = {
     messages: [],
-    onLoadMore: noop,
+    onLoad: noop,
     onEdit: noop,
     onRemove: noop,
-    onResend: noop,
-    loadHistory: noop
+    onResend: noop
   }
 
   componentWillReceiveProps({channelId}) {
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     if (channelId !== this.props.channelId) {
-      this.props.loadHistory(channelId)
+      this.props.onLoad({channelId})
     }
+  }
+
+  onLoadMore = (options) => {
+    this.props.onLoad({
+      ...options,
+      channelId: this.props.channelId
+    })
   }
 
   renderRow = (messages, index) => {
@@ -115,7 +121,7 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages} = this.props
+    const {sheet, messages, cacheSize} = this.props
     const {classes} = sheet
 
     if (!messages.length) return null
@@ -131,7 +137,8 @@ export default class History extends Component {
             onRowsRendered={onRowsRendered}
             scrollTo={this.props.scrollTo || scrollTo}
             messages={messages}
-            onLoadMore={this.props.onLoadMore}
+            cacheSize={cacheSize}
+            onLoadMore={this.onLoadMore}
             renderRow={this.renderRow} />
         )}
       </Jumper>

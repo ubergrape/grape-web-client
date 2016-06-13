@@ -12,7 +12,9 @@ export default class Message extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    author: PropTypes.string,
+    author: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }).isRequired,
     avatar: PropTypes.string,
     children: PropTypes.node.isRequired
   }
@@ -24,7 +26,7 @@ export default class Message extends Component {
     const {classes} = sheet
     return (
       <section className={classes.message}>
-        <Header time={time} author={author} className={classes.header} />
+        <Header time={time} author={author.name} className={classes.header} />
         <div className={classes.body}>
           <Avatar src={avatar} className={classes.leftColumn}/>
           <Bubble className={classes.rightColumn} theme={{classes}}>

@@ -27,6 +27,10 @@ class ReduxEmitter extends Emitter {
     boundActions.createChannel(toCamel(pm))
   }
 
+  onEditPreviousMessage() {
+    boundActions.editPreviousMessage()
+  }
+
   leaveChannel(channelId) {
     this.emit('leaveRoom', channelId)
   }
@@ -37,6 +41,14 @@ class ReduxEmitter extends Emitter {
 
   kickMemberFromChannel(params) {
     this.emit('kickMember', params)
+  }
+
+  editMessage(msg) {
+    this.emit('editMessage', msg)
+  }
+
+  createMessage(channel, text, options) {
+    boundActions.createMessage({channelId: channel.id, text, ...options})
   }
 
   onShowSharedFiles() {

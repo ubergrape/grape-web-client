@@ -290,17 +290,45 @@ export function checkAuth() {
   })
 }
 
-export function loadHistory(channelId, options) {
+export function loadHistory(channelId, options = {}) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, options]
+      args: [channelId, {limit: 50, ...options}]
     },
     {camelize: true},
     (err, res) => {
       if (err) return reject(err)
       resolve(res)
+    })
+  })
+}
+
+export function removeMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'delete_message',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function postMessage(channelId, text, options) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'post',
+      args: [channelId, text, options]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
     })
   })
 }

@@ -1,4 +1,7 @@
+import {styles as linkStyles} from './linkTheme'
+
 export const styles = {
+  ...linkStyles,
   icon: {
     display: 'inline-block',
     background: 'no-repeat',

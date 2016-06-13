@@ -36,7 +36,9 @@ export default function subscribe(channel) {
       case 'message.removed':
         boundActions.handleRemovedMessage(cData)
         break
-
+      case 'message.updated':
+        boundActions.handleMessageUpdate(cData)
+        break
       case 'channel.typing':
         boundActions.setTyping(selectors.setTypingSelector(store.getState()), cData)
         break

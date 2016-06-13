@@ -79,7 +79,9 @@ UI.prototype.init = function UI_init() {
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
 
-  const chat = qs('.chat-wrapper .chat', this.el)
+  const chatWrapper = qs('.chat-wrapper', this.el)
+
+  const chat = qs('.chat', chatWrapper)
 
   if (!this.options.detached) {
     if (this.options.newHistory) {
@@ -90,7 +92,9 @@ UI.prototype.init = function UI_init() {
     }
   }
 
-  qs('.chat-wrapper', this.el).appendChild(document.createElement('grape-alerts'))
+  chatWrapper.appendChild(document.createElement('grape-typing-notification'))
+
+  chatWrapper.appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)

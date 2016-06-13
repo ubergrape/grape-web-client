@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer} from 'react-virtualized'
+import shallowEqual from 'react-pure-render/shallowEqual'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -17,7 +18,8 @@ export default class InfiniteList extends Component {
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     scrollTo: PropTypes.object,
-    onRowsRendered: PropTypes.func
+    onRowsRendered: PropTypes.func,
+    cacheSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -28,44 +30,30 @@ export default class InfiniteList extends Component {
     super(props)
     // FIXME clear cache
     this.rowsCache = {}
-    this.state = {messages: props.messages}
-  }
-
-  componentWillReceiveProps({messages}) {
-    if (messages !== this.state.messages) {
-      this.setState({messages})
-    }
-  }
-
-  // FIXME use action and store instead
-  onLoadMore = (options) => {
-    const promise = this.props.onLoadMore(options)
-    if (promise) {
-      promise.then(messages => this.setState({messages}))
-    }
-    return promise
   }
 
   renderAndCacheRows(messages) {
     return messages.map((message, index) => {
-      let row = this.rowsCache[message.id]
-      if (!row) {
-        row = this.props.renderRow(messages, index)
-        this.rowsCache[message.id] = row
+      let cache = this.rowsCache[message.id]
+      if (!cache || !shallowEqual(message, cache.message)) {
+        const row = this.props.renderRow(messages, index)
+        cache = {row, message}
+        this.rowsCache[message.id] = cache
       }
-      return row
+      return cache.row
     })
   }
 
   render() {
-    const {sheet, scrollTo, onRowsRendered} = this.props
+    const {
+      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize
+    } = this.props
     const {classes} = sheet
-    const {messages} = this.state
     const rows = this.renderAndCacheRows(messages)
     const scrollToIndex = scrollTo ? messages.indexOf(scrollTo) : undefined
 
     return (
-      <AutoRowHeight rows={rows}>
+      <AutoRowHeight rows={rows} cacheSize={cacheSize}>
         {({
           onResize,
           rowHeight,
@@ -75,7 +63,7 @@ export default class InfiniteList extends Component {
         }) => (
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
-            loadMoreRows={this.onLoadMore}
+            loadMoreRows={onLoadMore}
             threshold={5}
             minimumBatchSize={40}>
             {({

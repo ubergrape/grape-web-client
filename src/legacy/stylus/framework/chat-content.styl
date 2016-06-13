@@ -26,12 +26,13 @@
 	.chat
 		flex: 1
 		position: relative
-		padding: 20px 0 0 0
-	a // Different styling for links within history
-		color: link-color
-		@extend $subtle-link
-		&:hover
-			color: lighten(link-color, 15%)
+		padding: 20px 0 30px 0
+		a // Different styling for links within history
+			color: link-color
+			@extend $subtle-link
+			&:hover
+				color: lighten(link-color, 15%)
+				text-decoration: none
 	.main-window
 		display: flex
 		flex-direction: column
@@ -619,7 +620,12 @@ span.author-deleted
 	color: gainsboro-dark
 
 grape-typing-notification
+	position: absolute
+	bottom: 0
 	display: block
-	margin: 0 20px 10px 20px
 	min-height: 22px
+	width: 100%
 	color: #b3b3b3
+	div
+		padding: 0 20px 10px 20px
+		background: #fff

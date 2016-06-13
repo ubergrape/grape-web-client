@@ -1,4 +1,5 @@
 import page from 'page'
+import parseUrl from 'grape-web/lib/parse-url'
 
 import * as types from '../constants/actionTypes'
 import {
@@ -14,6 +15,7 @@ import {channelSelector, userSelector} from '../selectors'
 import store from '../app/store'
 
 export function error(err) {
+  console.error(err.stack) // eslint-disable-line no-console
   reduxEmitter.showError(err)
   // This action don't have reducer yet
   return {
@@ -110,7 +112,7 @@ export function goToMessage(message) {
       type: types.GO_TO_MESSAGE,
       payload: message
     })
-    page(`/chat/${message.slug}/${message.id}`)
+    page(parseUrl(message.link).pathname)
   }
 }
 
