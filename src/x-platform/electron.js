@@ -18,6 +18,7 @@ if (window.require) {
 
 const notificationClickTimeout = 20000
 
+// http://crocodillon.com/blog/parsing-emoji-unicode-in-javascript
 const emojiRegExp = new RegExp([
   '\\ud83c[\\udf00-\\udfff]', // U+1F300 to U+1F3FF
   '\\ud83d[\\udc00-\\ude4f]', // U+1F400 to U+1F64F
