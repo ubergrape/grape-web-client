@@ -175,6 +175,21 @@ export const mentionsSelector = createSelector(
   state => state.mentions, state => state
 )
 
+export const mentionsWithChannels = createSelector(
+  [mentionsSelector, channelsSelector],
+  (search, channels) => {
+    return {
+      ...search,
+      items: search.items.map(message => {
+        return {
+          ...message,
+          channel: find(channels, {id: message.channel})
+        }
+      })
+    }
+  }
+)
+
 export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
 )
@@ -389,7 +404,7 @@ export const sidebarComponentSelector = createSelector(
     userProfileSelector,
     sharedFilesSelector,
     messageSearchWithChannels,
-    mentionsSelector,
+    mentionsWithChannels,
     supportSelector,
     userSelector
   ],
