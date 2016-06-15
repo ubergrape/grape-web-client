@@ -179,6 +179,21 @@ export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
 )
 
+export const messageSearchWithChannels = createSelector(
+  [messageSearchSelector, channelsSelector],
+  (search, channels) => {
+    return {
+      ...search,
+      items: search.items.map(message => {
+        return {
+          ...message,
+          channel: find(channels, {id: message.channel})
+        }
+      })
+    }
+  }
+)
+
 export const intercomSelector = createSelector(
   state => state.intercom, state => state
 )
@@ -373,7 +388,7 @@ export const sidebarComponentSelector = createSelector(
     roomInfoSelector,
     userProfileSelector,
     sharedFilesSelector,
-    messageSearchSelector,
+    messageSearchWithChannels,
     mentionsSelector,
     supportSelector,
     userSelector
