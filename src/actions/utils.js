@@ -127,7 +127,7 @@ export const normalizeMessage = (() => {
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
     const text = msg.title
 
-    return {type, id, text, time, author, avatar}
+    return {type, id, text, time, author, avatar, attachments: []}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
