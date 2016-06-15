@@ -93,7 +93,9 @@ export const normalizeMessage = (() => {
     let author
     let avatar
 
-    const fullAuthor = find(users, {id: msg.author.id})
+    // TODO: remove type casting
+    // https://github.com/ubergrape/chatgrape/issues/3930
+    const fullAuthor = find(users, {id: Number(msg.author.id)})
     if (fullAuthor) {
       author = {
         id: String(fullAuthor.id),
