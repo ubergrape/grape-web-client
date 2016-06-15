@@ -100,7 +100,7 @@ export default class MessageSearch extends Component {
       if (!prevMessage || prevMessage.channel !== message.channel) {
         elements.push(
           <div className={classes.channel} key={message.channel + index}>
-            {message.channel.name}
+            {message.channel}
           </div>
         )
       }
