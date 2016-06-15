@@ -107,8 +107,10 @@ export const normalizeMessage = (() => {
       }
       avatar = defaultAvatar
     }
-    const channel = find(channels, {id: msg.channel})
-    const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
+
+    const {channel} = msg
+    const {slug} = find(channels, {id: channel})
+    const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, channel, attachments,
