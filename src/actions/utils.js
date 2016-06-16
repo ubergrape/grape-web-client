@@ -93,18 +93,16 @@ export const normalizeMessage = (() => {
     let author
     let avatar
 
-    // TODO: remove type casting
-    // https://github.com/ubergrape/chatgrape/issues/3930
-    const fullAuthor = find(users, {id: Number(msg.author.id)})
+    const fullAuthor = find(users, {id: msg.author.id})
     if (fullAuthor) {
       author = {
-        id: String(fullAuthor.id),
+        id: fullAuthor.id,
         name: fullAuthor.displayName
       }
       avatar = fullAuthor.avatar
     } else {
       author = {
-        id: String(msg.author.id),
+        id: msg.author.id,
         name: 'Deleted User'
       }
       avatar = defaultAvatar
@@ -125,11 +123,11 @@ export const normalizeMessage = (() => {
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
-      id: String(msg.author.id),
+      id: msg.author.id,
       name: msg.author.username
     }
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
-    const text = msg.title
+    const text = msg.title || msg.text
 
     return {type, id, text, time, author, avatar, attachments: []}
   }

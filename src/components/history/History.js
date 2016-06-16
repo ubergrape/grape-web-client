@@ -40,12 +40,15 @@ export default class History extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
-    userId: PropTypes.string,
-    channelId: PropTypes.string,
+    userId: PropTypes.number,
+    channelId: PropTypes.number,
     messages: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
       author: PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string
+        ]).isRequired
       }).isRequired,
       time: PropTypes.instanceOf(Date).isRequired
     })),
@@ -114,7 +117,7 @@ export default class History extends Component {
           onEdit={onEdit.bind(null, message)}
           onRemove={onRemove.bind(null, message)}
           onResend={onResend.bind(null, message)}>
-            {message.text}
+          {message.text}
         </Message>
       </div>
     )
