@@ -445,10 +445,9 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  [userSelector, channelSelector, ({history}) => history],
-  (user, channel, history) => ({
+  [userSelector, ({history}) => history],
+  (user, history) => ({
     ...history,
-    userId: user.id,
-    channelId: channel.id
+    userId: user.id
   })
 )
