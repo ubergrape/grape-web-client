@@ -5,7 +5,7 @@ import findIndex from 'lodash/array/findIndex'
 const initialState = {
   messages: [],
   cacheSize: 500,
-  channelId: null
+  channelId: undefined
 }
 
 function updateMessage(state, message) {
