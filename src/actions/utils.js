@@ -119,7 +119,7 @@ export const normalizeMessage = (() => {
   }
 
   function normalizeActivityMessage(msg) {
-    const {id} = msg
+    const {id, channel} = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
@@ -129,7 +129,7 @@ export const normalizeMessage = (() => {
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
     const text = msg.title || msg.text
 
-    return {type, id, text, time, author, avatar, attachments: []}
+    return {type, id, channel, text, time, author, avatar, attachments: []}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
