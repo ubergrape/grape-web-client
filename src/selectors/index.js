@@ -448,8 +448,7 @@ export const historySelector = createSelector(
   [userSelector, channelSelector, ({history}) => history],
   (user, channel, history) => ({
     ...history,
-    // TODO remove casting once we get strings from backend.
-    userId: user.id && String(user.id),
-    channelId: channel.id && String(channel.id)
+    userId: user.id,
+    channelId: channel.id
   })
 )

@@ -15,4 +15,4 @@ export const MateBubble = useTheme(Bubble, {styles})
 // FIXME use grape-theme
 color = '#fff3b9'
 styles = baseStyles({color})
-export const EditModeBubble = useTheme(Bubble, {styles})
+export const SelectedBubble = useTheme(Bubble, {styles})

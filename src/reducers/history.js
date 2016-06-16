@@ -33,7 +33,7 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: action.payload})}
     case types.EDIT_MESSAGE:
-      return updateMessage(state, {...action.payload, editMode: true})
+      return updateMessage(state, {...action.payload, isSelected: true})
     case types.UPDATE_MESSAGE:
       return updateMessage(state, action.payload)
     case types.MARK_MESSAGE_AS_UNSENT:

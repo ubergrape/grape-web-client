@@ -11,7 +11,7 @@ const log = console.log.bind(console) // eslint-disable-line no-console
 
 const now = Date.now()
 const messages = []
-const userId = '123456'
+const userId = 123456
 
 const textParts = [
   ':)',
@@ -33,10 +33,10 @@ const createMessage = (i, options = {}) => {
   const time = options.time || new Date(now + i * 1000 * 60 * 60)
   return {
     type: 'regular',
-    id: String(random(100000000)),
+    id: random(100000000),
     link: 'link-to-message',
     author: {
-      id: random(2) === 1 ? userId : String(i),
+      id: random(2) === 1 ? userId : i,
       name: 'Author-' + i
     },
     text: i + ' - ' + textParts.slice(0, random(textParts.length)).join('\n'),
@@ -157,7 +157,7 @@ window.addMessageWithAttachment = (type) => {
         text: undefined,
         attachments: [{
           type: 'uploadedFile',
-          id: String(random(1000)),
+          id: random(1000),
           name: 'some-file.pdf',
           time: new Date(),
           url: 'http://google.com',
@@ -171,7 +171,7 @@ window.addMessageWithAttachment = (type) => {
         text: undefined,
         attachments: [{
           type: 'uploadedFile',
-          id: String(random(1000)),
+          id: random(1000),
           time: new Date(),
           name: 'breaking-bad-die-besten-72440_big.jpg',
           thumbnailUrl: 'https://ug-cdn.com/media/chatgrape-staging/media/cache/57/26/57260f1e17ea4931421e37bfbb856f8f.png',
