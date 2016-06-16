@@ -1,5 +1,6 @@
 import noop from 'lodash/utility/noop'
 import random from 'lodash/number/random'
+import emoji from 'grape-js-emoji'
 
 import {openUrl, createNotification as createWebNotification} from './web'
 
@@ -16,6 +17,24 @@ if (window.require) {
 }
 
 const notificationClickTimeout = 20000
+
+// http://crocodillon.com/blog/parsing-emoji-unicode-in-javascript
+const emojiRegExp = new RegExp([
+  '\\ud83c[\\udf00-\\udfff]', // U+1F300 to U+1F3FF
+  '\\ud83d[\\udc00-\\ude4f]', // U+1F400 to U+1F64F
+  '\\ud83d[\\ude80-\\udeff]'  // U+1F680 to U+1F6FF
+].join('|'), 'g')
+
+/**
+ * Replaces emoji symbol with it's text representation.
+ * '👍' => ':+1:'
+ */
+function replaceEmojisWithText(content) {
+  return content.replace(
+    emojiRegExp,
+    match => `:${emoji.data[match.codePointAt().toString(16)][3][0]}:`
+  )
+}
 
 export function createNotification(options, callback = noop) {
   // This will show native HTML Notification.
@@ -35,7 +54,7 @@ export function createNotification(options, callback = noop) {
     {
       event,
       title,
-      message: content
+      message: replaceEmojisWithText(content)
     }
   )
   setTimeout(() => {
