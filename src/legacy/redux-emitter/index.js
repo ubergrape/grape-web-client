@@ -1,34 +1,34 @@
 import Emitter from 'emitter'
 
 import {toCamel} from '../../utils/backend/convertCase'
-import boundActions from '../../app/boundActions'
+import getBoundActions from '../../app/boundActions'
 import * as alerts from '../../constants/alerts'
 
 class ReduxEmitter extends Emitter {
   onOrgReady(org) {
     // TODO: use raw data from api
     // instead of mutated by old code at src/api
-    boundActions.setInitialData(toCamel(org.toJSON()))
+    getBoundActions().setInitialData(toCamel(org.toJSON()))
   }
 
   onSetUser(user) {
-    boundActions.setUser(toCamel(user.toJSON()))
+    getBoundActions().setUser(toCamel(user.toJSON()))
   }
 
   onSelectChannel(channel) {
-    boundActions.setChannel(toCamel(channel.toJSON()))
+    getBoundActions().setChannel(toCamel(channel.toJSON()))
   }
 
   onSetSettings(settings) {
-    boundActions.setSettings(toCamel(settings))
+    getBoundActions().setSettings(toCamel(settings))
   }
 
   onNewPMOpened(pm) {
-    boundActions.createChannel(toCamel(pm))
+    getBoundActions().createChannel(toCamel(pm))
   }
 
   onEditPreviousMessage() {
-    boundActions.editPreviousMessage()
+    getBoundActions().editPreviousMessage()
   }
 
   leaveChannel(channelId) {
@@ -48,31 +48,31 @@ class ReduxEmitter extends Emitter {
   }
 
   createMessage(channel, text, options) {
-    boundActions.createMessage({channelId: channel.id, text, ...options})
+    getBoundActions().createMessage({channelId: channel.id, text, ...options})
   }
 
   onShowSharedFiles() {
-    boundActions.showSharedFiles()
+    getBoundActions().showSharedFiles()
   }
 
   onShowMentions() {
-    boundActions.showMentions()
+    getBoundActions().showMentions()
   }
 
   onShowMessageSearch() {
-    boundActions.showMessageSearch()
+    getBoundActions().showMessageSearch()
   }
 
   onSearchMessages({query}) {
-    boundActions.updateMessageSearchQuery(query)
+    getBoundActions().updateMessageSearchQuery(query)
   }
 
   onHideSidebar() {
-    boundActions.hideSharedFiles()
-    boundActions.hideUserProfile()
-    boundActions.hideChannelInfo()
-    boundActions.hideMessageSearch()
-    boundActions.hideMentions()
+    getBoundActions().hideSharedFiles()
+    getBoundActions().hideUserProfile()
+    getBoundActions().hideChannelInfo()
+    getBoundActions().hideMessageSearch()
+    getBoundActions().hideMentions()
   }
 
   showOrgInvite() {
@@ -80,7 +80,7 @@ class ReduxEmitter extends Emitter {
   }
 
   showRoomInvite() {
-    boundActions.showChannelMembersInvite()
+    getBoundActions().showChannelMembersInvite()
   }
 
   showSidebar() {
@@ -96,11 +96,11 @@ class ReduxEmitter extends Emitter {
   }
 
   showAlert(settings) {
-    boundActions.showAlert(settings)
+    getBoundActions().showAlert(settings)
   }
 
   hideAlert(type) {
-    boundActions.hideAlertByType(type)
+    getBoundActions().hideAlertByType(type)
   }
 
   enableNotifications() {
@@ -109,14 +109,14 @@ class ReduxEmitter extends Emitter {
 
   setLoadingHistory(value) {
     if (value) {
-      boundActions.showAlert({
+      getBoundActions().showAlert({
         level: 'info',
         type: alerts.LOADING_HISTORY,
         delay: 1000
       })
       return
     }
-    boundActions.hideAlertByType(alerts.LOADING_HISTORY)
+    getBoundActions().hideAlertByType(alerts.LOADING_HISTORY)
   }
 
   showChannelsManager() {
@@ -136,7 +136,7 @@ class ReduxEmitter extends Emitter {
   }
 
   showNewConversationAdvanced() {
-    boundActions.showNewConversationAdvanced()
+    getBoundActions().showNewConversationAdvanced()
   }
 }
 

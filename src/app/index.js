@@ -1,5 +1,6 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
+
 import subscribeActions from './subscribe'
 import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
@@ -39,4 +40,6 @@ document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-history', HistoryProvider)
 
-subscribeActions(createClient().connect())
+export default function init() {
+  subscribeActions(createClient().connect())
+}

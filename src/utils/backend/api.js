@@ -332,3 +332,17 @@ export function postMessage(channelId, text, options) {
     })
   })
 }
+
+export function loadConfig({host}) {
+  return new Promise((resolve, reject) => {
+    const orgSubdomain = host.split('.')[0]
+
+    request
+      .get(`//${host}/api/chat/config`)
+      .query({orgSubdomain})
+      .end((err, res) => {
+        if (err) reject(err)
+        resolve(res.body)
+      })
+  })
+}

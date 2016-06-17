@@ -5,9 +5,6 @@ import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 
 const log = debug('ws')
-const path = '/ws'
-const protocol = location.protocol === 'http:' ? 'ws://' : 'wss://'
-const url = protocol + location.host + path
 const prefix = 'http://domain/'
 const pingInterval = 10000
 
@@ -19,7 +16,7 @@ export default class WampClient {
     this.id = null
     this.reopening = false
     this.connected = false
-    this.url = options.url || url
+    this.url = options.url
   }
 
   connect() {

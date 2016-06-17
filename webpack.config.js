@@ -7,6 +7,7 @@ var appExtractText = new ExtractTextPlugin('app.css')
 var componentsExtractText = new ExtractTextPlugin('components.css')
 
 var NODE_ENV = process.env.NODE_ENV
+var isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1
 
 var plugins = [
   appExtractText,
@@ -109,10 +110,16 @@ module.exports = exports = {
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
 }
 
-if (process.env.COMPONENT) {
+
+if (isDevServer) {
+  var contentBase = './src'
+
+  if (process.env.COMPONENT) {
+    contentBase = './src/components/' + process.env.COMPONENT + '/example/'
+  }
+
   exports.output.publicPath = '/dist/'
   exports.plugins.push(new webpack.HotModuleReplacementPlugin())
-  var contentBase = './src/components/' + process.env.COMPONENT + '/example/'
   exports.entry = {
     browser: [
       'webpack/hot/dev-server',

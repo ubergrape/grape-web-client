@@ -1,6 +1,4 @@
 import * as types from '../constants/actionTypes'
-
-import store from '../app/store'
 import {alertsSelector} from '../selectors'
 
 import find from 'lodash/collection/find'
@@ -53,10 +51,12 @@ export function hideAlert(alert) {
 }
 
 export function hideAlertByType(type) {
-  const {alerts} = alertsSelector(store.getState())
-  const alertByType = find(alerts, alertItem => type === alertItem.type)
-  if (alertByType) return hideAlert(alertByType)
+  return (dispatch, getState) => {
+    const {alerts} = alertsSelector(getState())
+    const alertByType = find(alerts, alertItem => type === alertItem.type)
+    if (alertByType) return dispatch(hideAlert(alertByType))
 
-  clearTimeout(delayedTimeoutIds[type])
-  return {type: types.NOOP}
+    clearTimeout(delayedTimeoutIds[type])
+    dispatch({type: types.NOOP})
+  }
 }

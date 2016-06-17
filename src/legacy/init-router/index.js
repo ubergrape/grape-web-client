@@ -2,7 +2,7 @@ import page from 'page'
 import find from 'lodash/collection/find'
 import * as alerts from '../../constants/alerts'
 
-import store from '../../app/store'
+import getStore from '../../app/store'
 import {navigationSelector} from '../../selectors'
 
 export default function init(ui) {
@@ -23,7 +23,7 @@ export default function init(ui) {
   })
 
   function pickChannel() {
-    const state = store.getState()
+    const state = getStore().getState()
     const {recent, favorited} = navigationSelector(state)
     const channels = favorited.concat(recent)
     if (!channels.length) return ui.emit('emptyOrg')

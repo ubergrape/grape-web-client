@@ -1,4 +1,4 @@
-import boundActions from './boundActions'
+import getBoundActions from './boundActions'
 
 export function mapActionsToProps(actionsNamesOrNamesMap) {
   let actionsNames = actionsNamesOrNamesMap
@@ -12,7 +12,7 @@ export function mapActionsToProps(actionsNamesOrNamesMap) {
   return () => {
     return actionsNames.reduce(
       (selectedActions, actionName) => {
-        const action = boundActions[actionName]
+        const action = getBoundActions()[actionName]
         if (action) selectedActions[namesMap[actionName] || actionName] = action
         return selectedActions
       },

@@ -1,6 +1,5 @@
 import sortBy from 'lodash/collection/sortBy'
 
-import store from '../app/store'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {
@@ -62,20 +61,22 @@ export function addMention(message) {
 }
 
 export function removeMention(messageId) {
-  const mentions = mentionsSelector(store.getState())
-  const {items} = mentions
-  const cleanedItems = items.filter(({id}) => id !== messageId)
+  return (dispatch, getState) => {
+    const mentions = mentionsSelector(getState())
+    const {items} = mentions
+    const cleanedItems = items.filter(({id}) => id !== messageId)
 
-  // Nothing to remove.
-  if (cleanedItems.length === items.length) {
-    return {type: types.NOOP}
-  }
-
-  return {
-    type: types.REMOVE_MENTION,
-    payload: {
-      items: cleanedItems,
-      total: mentions.total - 1
+    // Nothing to remove.
+    if (cleanedItems.length === items.length) {
+      return dispatch({type: types.NOOP})
     }
+
+    dispatch({
+      type: types.REMOVE_MENTION,
+      payload: {
+        items: cleanedItems,
+        total: mentions.total - 1
+      }
+    })
   }
 }

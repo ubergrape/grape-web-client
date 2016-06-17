@@ -1,4 +1,3 @@
-import store from '../app/store'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {messageSearchSelector, orgSelector, channelSelector} from '../selectors'
@@ -6,17 +5,19 @@ import {setSidebarIsLoading, error} from './common'
 import {formatMessage} from './utils'
 
 export function updateMessageSearchQuery(nextQuery) {
-  const prevQuery = messageSearchSelector(store.getState()).query.join(' ')
+  return (dispatch, getState) => {
+    const prevQuery = messageSearchSelector(getState()).query.join(' ')
 
-  if (nextQuery === prevQuery) return {type: types.NOOP}
+    if (nextQuery === prevQuery) return dispatch({type: types.NOOP})
 
-  return {
-    type: types.UPDATE_MESSAGE_SEARCH_QUERY,
-    payload: {
-      query: nextQuery.split(' '),
-      items: [],
-      total: null
-    }
+    dispatch({
+      type: types.UPDATE_MESSAGE_SEARCH_QUERY,
+      payload: {
+        query: nextQuery.split(' '),
+        items: [],
+        total: null
+      }
+    })
   }
 }
 
@@ -29,7 +30,7 @@ export function toggleSearchOnlyInChannel() {
 const minQueryLength = 2
 
 export function searchMessages(params) {
-  return dispatch => {
+  return (dispatch, getState) => {
     const query = params.query.join(' ')
 
     if (query.length < minQueryLength) {
@@ -45,7 +46,7 @@ export function searchMessages(params) {
     dispatch({type: types.SEARCH_MESSAGES})
     dispatch(setSidebarIsLoading(true))
 
-    const state = store.getState()
+    const state = getState()
     const {limit, offsetDate, searchOnlyInChannel} = params
 
     const searchParams = {

@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import {navigationSelector as selector} from '../../selectors'
-import store from '../../app/store'
+import getStore from '../../app/store'
 import actionNames from './actionNames'
 import Navigation from './Navigation'
 
@@ -15,7 +15,7 @@ const ConnectedNavigation = connect(
 export default class NavigationProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <ConnectedNavigation />
       </Provider>
     )
