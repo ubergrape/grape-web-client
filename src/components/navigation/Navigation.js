@@ -28,11 +28,13 @@ export default class Navigation extends Component {
     all: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
-    step: PropTypes.number
+    step: PropTypes.number.isRequired,
+    bottomOffset: PropTypes.number.isRequired
   }
 
   static defaultProps = {
     step: 10,
+    bottomOffset: 5,
     shortcuts: ['mod+k']
   }
 
@@ -72,10 +74,11 @@ export default class Navigation extends Component {
   }
 
   onScroll(e) {
-    if (this.state.shift >= this.props.recent.length) return
+    const {recent, bottomOffset} = this.props
+    if (this.state.shift >= recent.length) return
 
     const {offsetHeight, scrollTop, scrollHeight} = e.target
-    if (offsetHeight + scrollTop >= scrollHeight) {
+    if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
       this.setState({
         shift: this.state.shift + this.props.step
       })
