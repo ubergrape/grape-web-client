@@ -67,6 +67,22 @@ export default class Navigation extends Component {
         )
       })
     }
+
+    const {shift, filter} = this.state
+    if (filter) return
+
+    const {listsContainer, navigation} = this.refs
+    const {recent, step} = nextProps
+    if (
+      listsContainer &&
+      listsContainer.offsetHeight &&
+      listsContainer.offsetHeight < navigation.offsetHeight &&
+      recent.length > shift
+    ) {
+      this.setState({
+        shift: shift + step
+      })
+    }
   }
 
   onShortcut() {
@@ -174,6 +190,10 @@ export default class Navigation extends Component {
       )
     }
 
+    const {recent} = this.props
+    const {shift} = this.state
+    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
+
     return (
       <div>
         <List
@@ -190,7 +210,7 @@ export default class Navigation extends Component {
           title="Recent"
           type="recent"
           theme={{classes}}
-          list={this.props.recent.slice(0, this.state.shift)}
+          list={recentList}
           goToChannel={::this.goToChannel} />
       </div>
     )
@@ -216,22 +236,24 @@ export default class Navigation extends Component {
 
     return (
       <div className={classes.wrapper}>
-        <div
-          ref="navigation"
-          onScroll={::this.onScroll}
-          className={classes.navigation}>
-          {this.renderNavigation()}
-        </div>
-        <div className={classes.filter}>
-          <Filter
-            {...this.props}
-            {...this.state}
-            ref="filter"
-            value={this.state.filter}
-            theme={{classes}}
-            onKeyDown={::this.onKeyDownFilter}
-            onChange={::this.onChangeFilter} />
-        </div>
+          <div
+            ref="navigation"
+            onScroll={::this.onScroll}
+            className={classes.navigation}>
+            <div ref="listsContainer">
+              {this.renderNavigation()}
+            </div>
+          </div>
+          <div className={classes.filter}>
+            <Filter
+              {...this.props}
+              {...this.state}
+              ref="filter"
+              value={this.state.filter}
+              theme={{classes}}
+              onKeyDown={::this.onKeyDownFilter}
+              onChange={::this.onChangeFilter} />
+          </div>
       </div>
     )
   }
