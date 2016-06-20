@@ -4,7 +4,8 @@ import findIndex from 'lodash/array/findIndex'
 
 const initialState = {
   messages: [],
-  cacheSize: 500
+  cacheSize: 500,
+  channelId: undefined
 }
 
 function updateMessage(state, message) {
@@ -16,6 +17,8 @@ function updateMessage(state, message) {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
+    case types.SET_CHANNEL:
+      return {...state, channelId: action.payload.channel.id}
     case types.HANDLE_INITIAL_HISTORY:
       if (!action.payload.length) return state
       return {...state, messages: action.payload}
@@ -33,7 +36,7 @@ export default function reduce(state = initialState, action) {
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: action.payload})}
     case types.EDIT_MESSAGE:
-      return updateMessage(state, {...action.payload, editMode: true})
+      return updateMessage(state, {...action.payload, isSelected: true})
     case types.UPDATE_MESSAGE:
       return updateMessage(state, action.payload)
     case types.MARK_MESSAGE_AS_UNSENT:
@@ -49,8 +52,11 @@ export default function reduce(state = initialState, action) {
         ...state.messages,
         {...action.payload, isPending: true}
       ]}
-    case types.ADD_NEW_MESSAGE:
-      return {...state, messages: [...state.messages, action.payload]}
+    case types.ADD_NEW_MESSAGE: {
+      const message = action.payload
+      if (message.channel !== state.channelId) return state
+      return {...state, messages: [...state.messages, message]}
+    }
     default:
       return state
   }

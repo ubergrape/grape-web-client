@@ -67,7 +67,9 @@ NoUsers.propTypes = {
 }
 
 function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
-  if (!isInviter) return null
+  // TODO: return `null` once upgraded to React 0.15.
+  if (!isInviter) return <noscript />
+
   const {classes} = theme
   return (
     <div className={classes.orgInvite}>

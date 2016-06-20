@@ -96,19 +96,21 @@ export const normalizeMessage = (() => {
     const fullAuthor = find(users, {id: msg.author.id})
     if (fullAuthor) {
       author = {
-        id: String(fullAuthor.id),
+        id: fullAuthor.id,
         name: fullAuthor.displayName
       }
       avatar = fullAuthor.avatar
     } else {
       author = {
-        id: String(msg.author.id),
+        id: msg.author.id,
         name: 'Deleted User'
       }
       avatar = defaultAvatar
     }
-    const channel = find(channels, {id: msg.channel})
-    const link = `${location.protocol}//${location.host}/chat/${channel.slug}/${id}`
+
+    const {channel} = msg
+    const {slug} = find(channels, {id: channel})
+    const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, channel, attachments,
@@ -117,17 +119,17 @@ export const normalizeMessage = (() => {
   }
 
   function normalizeActivityMessage(msg) {
-    const {id} = msg
+    const {id, channel} = msg
     const type = 'activity'
     const time = new Date(msg.time)
     const author = {
-      id: String(msg.author.id),
+      id: msg.author.id,
       name: msg.author.username
     }
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
-    const text = msg.title
+    const text = msg.title || msg.text
 
-    return {type, id, text, time, author, avatar}
+    return {type, id, channel, text, time, author, avatar, attachments: []}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2

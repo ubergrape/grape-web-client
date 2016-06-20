@@ -8,7 +8,7 @@ import {
 } from '../selectors'
 
 import {setSidebarIsLoading, error} from './common'
-import {formatMessage} from './utils'
+import {normalizeMessage} from './utils'
 
 export function loadMentions(params) {
   return (dispatch, getState) => {
@@ -23,7 +23,7 @@ export function loadMentions(params) {
         const state = getState()
         const prevItems = mentionsSelector(state).items
         const nextItems = mentions.results.map(data => (
-          formatMessage(data.message, state)
+          normalizeMessage(data.message, state)
         ))
         return dispatch({
           type: types.LOADED_MENTIONS,
@@ -44,7 +44,7 @@ export function addMention(message) {
   return (dispatch, getState) => {
     const state = getState()
     const mentions = mentionsSelector(state)
-    let items = [...mentions.items, formatMessage(message, state)]
+    let items = [...mentions.items, normalizeMessage(message, state)]
 
     // Sort all items descenting because we loose the right order when a message
     // comes from pubsub.

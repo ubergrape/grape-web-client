@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {messageSearchSelector, orgSelector, channelSelector} from '../selectors'
 import {setSidebarIsLoading, error} from './common'
-import {formatMessage} from './utils'
+import {normalizeMessage} from './utils'
 
 export function updateMessageSearchQuery(nextQuery) {
   return (dispatch, getState) => {
@@ -13,7 +13,7 @@ export function updateMessageSearchQuery(nextQuery) {
     dispatch({
       type: types.UPDATE_MESSAGE_SEARCH_QUERY,
       payload: {
-        query: nextQuery.split(' '),
+        query: nextQuery ? nextQuery.split(' ') : [],
         items: [],
         total: null
       }
@@ -69,7 +69,7 @@ export function searchMessages(params) {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)
         const prevItems = messageSearch.items
-        const nextItems = messages.results.map(msg =>formatMessage(msg, state))
+        const nextItems = messages.results.map(msg =>normalizeMessage(msg, state))
         dispatch({
           type: types.FOUND_MESSAGES,
           payload: {

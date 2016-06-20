@@ -4,7 +4,7 @@ import pick from 'lodash/object/pick'
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {
-  formatMessage,
+  normalizeMessage,
   countMentions,
   pinToFavorite,
   nullChannelIconToUndefined
@@ -27,7 +27,7 @@ const noopAction = {type: types.NOOP}
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
     const state = getState()
-    const fMessage = formatMessage(message, state)
+    const fMessage = normalizeMessage(message, state)
     const user = userSelector(state)
     const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(fMessage, user, rooms)
