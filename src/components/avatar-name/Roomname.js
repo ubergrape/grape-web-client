@@ -35,8 +35,8 @@ export default class Roomname extends Component {
         <Icon
           name={icon}
           backgroundColor={color}
-          statusBorderColor={statusBorderColor}
           showPrivateStatus={showPrivateStatus}
+          statusBorderColor={statusBorderColor}
           isPrivate={!isPublic} />
         <span className={classes.name}>
           {name}
