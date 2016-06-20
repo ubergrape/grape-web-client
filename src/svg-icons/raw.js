@@ -39,6 +39,7 @@ export remove from './svg/remove.svg'
 export globe from './svg/globe.svg'
 export warning from './svg/warning.svg'
 export bell from './svg/bell.svg'
+export lock from './svg/lock.svg'
 
 // Products.
 export bitbucket from './svg/bitbucket.svg'
