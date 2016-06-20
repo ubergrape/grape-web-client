@@ -69,15 +69,14 @@ export default class Navigation extends Component {
     }
 
     const {shift, filter} = this.state
-    if (filter) return
-
     const {listsContainer, navigation} = this.refs
     const {recent, step} = nextProps
+    if (filter || recent.length < shift) return
+
     if (
       listsContainer &&
       listsContainer.offsetHeight &&
-      listsContainer.offsetHeight < navigation.offsetHeight &&
-      recent.length > shift
+      listsContainer.offsetHeight < navigation.offsetHeight
     ) {
       this.setState({
         shift: shift + step
