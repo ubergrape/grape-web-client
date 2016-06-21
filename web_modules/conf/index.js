@@ -28,6 +28,10 @@ Config.prototype.init = function(conf) {
     }
   }
 
+  this.server = {}
+  this.user = {}
+  this.organization = {}
+
   this.isInitialized = true
 
   return this
