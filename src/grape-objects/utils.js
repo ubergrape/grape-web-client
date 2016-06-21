@@ -1,4 +1,4 @@
-import parseUrl from 'parse-url'
+import parseUrl from '../parse-url'
 import {grapeProtocol} from './constants'
 
 /**
@@ -26,7 +26,7 @@ export function getTrigger(type) {
  * Returns true if passed url uses grapes own protocol.
  */
 export function isGrapeUrl(url) {
-  return `${parseUrl(url).protocol}:` === grapeProtocol
+  return parseUrl(url).protocol === grapeProtocol
 }
 
 /**
