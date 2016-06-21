@@ -1,17 +1,19 @@
 import conf from 'conf'
+
+import * as types from '../constants/actionTypes'
 import {settings as intercom} from '../utils/intercom'
 
 const initialState = {}
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    default: {
+    case types.HANDLE_INITIAL_DATA: {
+      const {customSupportEmailAddress: email} = conf.organization
       let href = 'mailto:'
       let type
 
-      console.log(conf)
-      if (conf.organization.customSupportEmailAddress) {
-        href += conf.organization.customSupportEmailAddress
+      if (email) {
+        href += email
         type = 'email'
       } else if (window.Intercom) {
         // TODO: move intercom settings to
@@ -19,8 +21,9 @@ export default function reduce(state = initialState, action) {
         href += `${intercom.app_id}@incoming.intercom.io`
         type = 'intercom'
       }
-
       return {href, type}
     }
+    default:
+      return state
   }
 }

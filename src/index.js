@@ -6,25 +6,26 @@ import 'reactive-elements'
 
 import conf from 'conf'
 import initApp from './app'
-/*
 import initLegacy from './legacy'
 import {loadConfig} from './utils/backend/api'
 
-function init() {
-  initApp()
-  initLegacy()
-}
 
-if (conf.isLoaded) {
-  init()
-} else {
+
+function ensureConf() {
+  function init() {
+    initApp()
+    initLegacy()
+  }
+
+  if (conf.isLoaded) return init()
+
   loadConfig({host: conf.host})
     .then(res => {
-      console.log(res)
       conf.setup(res)
-      //init()
+      init()
     })
     .catch(err => console.log(err))
 }
 
-*/
+ensureConf()
+

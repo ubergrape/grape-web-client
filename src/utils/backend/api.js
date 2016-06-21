@@ -1,6 +1,8 @@
 import rpc from './rpc'
 import request from 'superagent'
 
+import {toSnake} from './convertCase'
+
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
     rpc(
@@ -339,7 +341,7 @@ export function loadConfig({host}) {
 
     request
       .get(`//${host}/api/chat/config`)
-      .query({orgSubdomain})
+      .query(toSnake({orgSubdomain}))
       .end((err, res) => {
         if (err) reject(err)
         resolve(res.body)
