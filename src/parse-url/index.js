@@ -1,4 +1,5 @@
 import pick from 'lodash/object/pick'
+import mapValues from 'lodash/object/mapValues'
 
 const parser = document.createElement('a')
 
@@ -7,6 +8,9 @@ const components = [
 ]
 
 export default function parse(url) {
-  parser.href = decodeURI(url)
-  return pick(parser, components)
+  parser.href = encodeURI(url)
+  return mapValues(
+    pick(parser, components),
+    component => decodeURIComponent(component)
+  )
 }
