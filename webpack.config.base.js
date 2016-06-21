@@ -25,7 +25,6 @@ var plugins = [
 module.exports = exports = {
   entry: './src/index.js',
   output: {
-    path: './dist',
     filename: 'app.js'
   },
   module: {
@@ -95,8 +94,7 @@ module.exports = exports = {
       'raf': 'component-raf',
       'resizable': 'jh3y-resizable',
       'upload': 'component-upload',
-      'events': 'component-events',
-
+      'events': 'component-events'
     },
     subDirectories: true,
     // Workaround for simlinked dependencies.
@@ -107,19 +105,6 @@ module.exports = exports = {
     fallback: path.join(__dirname, 'node_modules')
   },
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-source-map'
-}
-
-if (process.env.COMPONENT) {
-  exports.output.publicPath = '/dist/'
-  exports.plugins.push(new webpack.HotModuleReplacementPlugin())
-  var contentBase = './src/components/' + process.env.COMPONENT + '/example/'
-  exports.entry = {
-    browser: [
-      'webpack/hot/dev-server',
-      contentBase + '/index.js'
-    ]
-  }
-  exports.devServer = {contentBase: contentBase}
 }
 
 if (NODE_ENV === 'production') {
