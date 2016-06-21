@@ -7,6 +7,6 @@ const components = [
 ]
 
 export default function parse(url) {
-  parser.href = url
+  parser.href = decodeURI(url)
   return pick(parser, components)
 }
