@@ -19,7 +19,6 @@ import conf from 'conf'
 import rpc from '../utils/backend/rpc'
 
 export default function init() {
-  console.log(conf)
   // TODO maybe use pick
   // initialize the UI and add it to the DOM
   window.ui = new Ui({

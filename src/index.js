@@ -9,9 +9,9 @@ import initApp from './app'
 import initLegacy from './legacy'
 import {loadConfig} from './utils/backend/api'
 
+const log = console.log.bind(console) // eslint-disable-line no-console
 
-
-function ensureConf() {
+function ensureConf() {
   function init() {
     initApp()
     initLegacy()
@@ -24,8 +24,7 @@ function ensureConf() {
       conf.setup(res)
       init()
     })
-    .catch(err => console.log(err))
+    .catch(log)
 }
 
 ensureConf()
-

@@ -40,6 +40,6 @@ document.registerReact('grape-orginfo', OrgInfoProvider)
 document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-history', HistoryProvider)
 
-export default function init() {
+export default function init() {
   subscribeActions(createClient().connect())
 }
