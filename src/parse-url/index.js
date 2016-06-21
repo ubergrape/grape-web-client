@@ -9,8 +9,5 @@ const components = [
 
 export default function parse(url) {
   parser.href = encodeURI(url)
-  return mapValues(
-    pick(parser, components),
-    component => decodeURIComponent(component)
-  )
+  return mapValues(pick(parser, components), decodeURIComponent)
 }
