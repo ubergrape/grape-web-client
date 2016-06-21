@@ -175,8 +175,38 @@ export const mentionsSelector = createSelector(
   state => state.mentions, state => state
 )
 
+export const mentionsWithChannels = createSelector(
+  [mentionsSelector, channelsSelector],
+  (search, channels) => {
+    return {
+      ...search,
+      items: search.items.map(message => {
+        return {
+          ...message,
+          channel: find(channels, {id: message.channel})
+        }
+      })
+    }
+  }
+)
+
 export const messageSearchSelector = createSelector(
   state => state.messageSearch, state => state
+)
+
+export const messageSearchWithChannels = createSelector(
+  [messageSearchSelector, channelsSelector],
+  (search, channels) => {
+    return {
+      ...search,
+      items: search.items.map(message => {
+        return {
+          ...message,
+          channel: find(channels, {id: message.channel})
+        }
+      })
+    }
+  }
 )
 
 export const intercomSelector = createSelector(
@@ -373,8 +403,8 @@ export const sidebarComponentSelector = createSelector(
     roomInfoSelector,
     userProfileSelector,
     sharedFilesSelector,
-    messageSearchSelector,
-    mentionsSelector,
+    messageSearchWithChannels,
+    mentionsWithChannels,
     supportSelector,
     userSelector
   ],
@@ -415,11 +445,9 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  [userSelector, channelSelector, ({history}) => history],
-  (user, channel, history) => ({
+  [userSelector, ({history}) => history],
+  (user, history) => ({
     ...history,
-    // TODO remove casting once we get strings from backend.
-    userId: user.id && String(user.id),
-    channelId: channel.id && String(channel.id)
+    userId: user.id
   })
 )

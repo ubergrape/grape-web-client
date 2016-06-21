@@ -28,7 +28,8 @@ export default class MessageSearch extends Component {
 
   static defaultProps = {
     query: '',
-    options: []
+    options: [],
+    searchOnlyInChannel: false
   }
 
   componentDidMount() {

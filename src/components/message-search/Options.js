@@ -9,7 +9,8 @@ export default function Options(props) {
     isLoading
   } = props
 
-  if (!options.length) return null
+  // TODO: return `null` once upgraded to React 0.15.
+  if (!options.length) return <noscript />
 
   const {classes} = theme
   return (
