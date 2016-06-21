@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import colors from 'grape-theme/dist/base-colors'
 
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
@@ -38,14 +39,25 @@ export default class RoomIconSetting extends Component {
     const {channel, sheet} = this.props
     const {show} = this.state
 
+    const {icon, color, isPublic} = channel
     const {classes} = sheet
+
     return (
       <div>
         <button
           onClick={this.onShowDropdown}
           className={classes['iconSettingsButton' + (show ? 'Active' : '')]}
           ref="icon">
-          <Icon name={channel.icon} backgroundColor={channel.color} size={60} />
+          <Icon
+            name={icon}
+            backgroundColor={color}
+            size={60}
+            isPrivate={!isPublic}
+            // TODO: move statusSize, statusBorderWidth and statusBorderColor to the Sidebar theme
+            statusSize={23}
+            statusBorderWidth={2}
+            statusBorderColor={colors.grayBlueLighter}
+            showPrivateStatus />
         </button>
         {show &&
           <Dropdown

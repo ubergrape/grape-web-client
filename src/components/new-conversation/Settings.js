@@ -48,7 +48,7 @@ export default function Settings(props) {
     <div className={classes.settings}>
       <IconSettings
         {...props}
-        channel={{icon, color}} />
+        channel={{icon, color, isPublic}} />
 
       <div className={classes.name}>
         <Input
