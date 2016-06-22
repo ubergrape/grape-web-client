@@ -9,15 +9,16 @@ import {defaultRoomIconSlug} from '../../constants/images'
 import Avatar from '../avatar/Avatar'
 import style from './style'
 
-function Private(props) {
+function Private({theme}) {
   const {
-    theme, borderWidth,
+    classes,
+    borderWidth,
+    borderColor,
     borderWidth: right,
     borderWidth: bottom,
-    statusBorderColor: borderColor,
     size: width, size: height
-  } = props
-  const {classes} = theme
+  } = theme
+
   return (
     <i
       className={classes.lock}
@@ -33,35 +34,50 @@ function Private(props) {
 }
 
 Private.propTypes = {
-  theme: PropTypes.object.isRequired,
-  size: PropTypes.number.isRequired,
-  borderWidth: PropTypes.number.isRequired,
-  statusBorderColor: PropTypes.string.isRequired
+  theme: PropTypes.object.isRequired
 }
 
-Private.defaultProps = {
-  size: 14,
-  borderWidth: 1,
-  statusBorderColor: white
+const defaultRoomIconTheme = {
+  statusSize: 14,
+  statusBorderWidth: 1,
+  statusBorderColor: white,
+  size: 32,
+  color: white,
+  backgroundColor: colors[0]
 }
 
 function RoomIcon(props) {
   const {
-    name, size, color, backgroundColor, sheet,
-    className, isPrivate, showPrivateStatus
+    name, sheet, theme, className,
+    isPrivate, showPrivateStatus
   } = props
-  const src = getColoredIcon({name: `room${capitalize(name)}`, color: color})
-  const{classes} = sheet
+
+  const roomIconTheme = {...defaultRoomIconTheme, ...theme}
+  const {color, backgroundColor} = roomIconTheme
+
+  const src = getColoredIcon({name: `room${capitalize(name)}`, color})
+
+  const privateTheme = {
+    classes: sheet.classes,
+    size: roomIconTheme.statusSize,
+    borderWidth: roomIconTheme.statusBorderWidth,
+    borderColor: roomIconTheme.statusBorderColor
+  }
+
   return (
     <Avatar
       src={src}
       className={className}
       style={{
         backgroundColor,
-        width: size,
-        height: size
+        width: roomIconTheme.size,
+        height: roomIconTheme.size
       }}>
-      {isPrivate && showPrivateStatus && <Private {...props} theme={{classes}} />}
+      {isPrivate && showPrivateStatus &&
+        <Private
+          {...props}
+          theme={privateTheme} />
+      }
     </Avatar>
   )
 }
@@ -70,23 +86,23 @@ export default useSheet(RoomIcon, style)
 
 RoomIcon.propTypes = {
   sheet: PropTypes.object.isRequired,
+  theme: PropTypes.shape({
+    statusSize: PropTypes.number,
+    statusBorderWidth: PropTypes.number,
+    statusBorderColor: PropTypes.string,
+    size: PropTypes.number,
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string
+  }).isRequired,
   name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
-  showPrivateStatus: PropTypes.bool.isRequired,
-  size: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ])
+  showPrivateStatus: PropTypes.bool.isRequired
 }
 
 RoomIcon.defaultProps = {
   name: defaultRoomIconSlug,
-  color: white,
   className: '',
-  backgroundColor: colors[0],
   isPrivate: false,
   showPrivateStatus: false
 }

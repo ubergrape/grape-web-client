@@ -26,17 +26,19 @@ export default class Roomname extends Component {
 
   render() {
     const {
-      name, sheet, icon, color, statusBorderColor,
-      isPublic, showPrivateStatus
+      name, sheet, icon, color: backgroundColor,
+      statusBorderColor, isPublic, showPrivateStatus
     } = this.props
     const {classes} = sheet
     return (
       <span className={classes.avatarName}>
         <Icon
           name={icon}
-          backgroundColor={color}
+          theme={{
+            statusBorderColor,
+            backgroundColor
+          }}
           showPrivateStatus={showPrivateStatus}
-          statusBorderColor={statusBorderColor}
           isPrivate={!isPublic} />
         <span className={classes.name}>
           {name}
