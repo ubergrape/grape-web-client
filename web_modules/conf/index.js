@@ -1,13 +1,12 @@
 var assign = require('lodash/object/assign')
 
 function Config(conf) {
-  this.isInitialized = false
   this.isLoaded = false
-  if (conf) this.setup(conf)
   this.init()
+  if (conf) this.setup(conf)
 }
 
-Config.prototype.init = function(conf) {
+Config.prototype.init = function() {
   if (!this.forceLongpolling && localStorage.forceLongpolling) {
     this.forceLongpolling = true
   }
@@ -31,10 +30,6 @@ Config.prototype.init = function(conf) {
   this.server = {}
   this.user = {}
   this.organization = {}
-
-  this.isInitialized = true
-
-  return this
 }
 
 Config.prototype.setup = function(conf) {
