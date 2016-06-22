@@ -49,7 +49,10 @@ Unread.propTypes = {
 function Room(props) {
   return (
     <div>
-      <Roomname {...props.channel} />
+      <Roomname
+        {...props.channel}
+        statusBorderColor={colors.grayBlueLighter}
+        showPrivateStatus />
       <Unread {...props} />
     </div>
   )
