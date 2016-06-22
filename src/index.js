@@ -17,7 +17,11 @@ function ensureConf() {
     initLegacy()
   }
 
-  if (conf.isLoaded) return init()
+  // Remove second check when new config is merged to staging.
+  // It checks wether we have the old config.
+  // Temporarily if document contains the old config, we will load the config
+  // from the endpoint.
+  if (conf.isLoaded && !conf.organizationID) return init()
 
   loadConfig({host: conf.server.host})
     .then(res => {
