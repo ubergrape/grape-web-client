@@ -43,14 +43,16 @@ FooterButtons.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-const initialState = {
-  name: '',
-  error: '',
-  isPublic: true,
-  saving: false,
-  color: sample(colors),
-  icon: sample(icons),
-  roomNameFocused: false
+function getInitialState() {
+  return {
+    name: '',
+    error: '',
+    isPublic: true,
+    saving: false,
+    color: sample(colors),
+    icon: sample(icons),
+    roomNameFocused: false
+  }
 }
 
 @useSheet(style)
@@ -73,14 +75,14 @@ export default class NewConversation extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...initialState,
+      ...getInitialState(),
       error: props.error.message
     }
   }
 
   componentWillReceiveProps({show, error}) {
     if (!show) {
-      this.setState({...initialState})
+      this.setState(getInitialState())
       return
     }
 

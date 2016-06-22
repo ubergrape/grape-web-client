@@ -37,33 +37,46 @@ Private.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+const defaultRoomIconTheme = {
+  statusSize: 14,
+  statusBorderWidth: 1,
+  statusBorderColor: white,
+  size: 32,
+  color: white,
+  backgroundColor: colors[0]
+}
+
 function RoomIcon(props) {
   const {
-    name, size, color, backgroundColor, sheet,
-    statusSize, statusBorderWidth, statusBorderColor,
-    className, isPrivate, showPrivateStatus
+    name, sheet, theme, className,
+    isPrivate, showPrivateStatus
   } = props
-  const src = getColoredIcon({name: `room${capitalize(name)}`, color: color})
 
-  const theme = {
+  const roomIconTheme = {...defaultRoomIconTheme, ...theme}
+  const {color, backgroundColor} = roomIconTheme
+
+  const src = getColoredIcon({name: `room${capitalize(name)}`, color})
+
+  const privateTheme = {
     classes: sheet.classes,
-    size: statusSize,
-    borderWidth: statusBorderWidth,
-    borderColor: statusBorderColor
+    size: roomIconTheme.statusSize,
+    borderWidth: roomIconTheme.statusBorderWidth,
+    borderColor: roomIconTheme.statusBorderColor
   }
+
   return (
     <Avatar
       src={src}
       className={className}
       style={{
         backgroundColor,
-        width: size,
-        height: size
+        width: roomIconTheme.size,
+        height: roomIconTheme.size
       }}>
       {isPrivate && showPrivateStatus &&
         <Private
           {...props}
-          theme={theme} />
+          theme={privateTheme} />
       }
     </Avatar>
   )
@@ -73,29 +86,23 @@ export default useSheet(RoomIcon, style)
 
 RoomIcon.propTypes = {
   sheet: PropTypes.object.isRequired,
+  theme: PropTypes.shape({
+    statusSize: PropTypes.number,
+    statusBorderWidth: PropTypes.number,
+    statusBorderColor: PropTypes.string,
+    size: PropTypes.number,
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string
+  }).isRequired,
   name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool.isRequired,
-  showPrivateStatus: PropTypes.bool.isRequired,
-  statusSize: PropTypes.number.isRequired,
-  statusBorderWidth: PropTypes.number.isRequired,
-  statusBorderColor: PropTypes.string.isRequired,
-  size: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ])
+  showPrivateStatus: PropTypes.bool.isRequired
 }
 
 RoomIcon.defaultProps = {
   name: defaultRoomIconSlug,
-  color: white,
   className: '',
-  backgroundColor: colors[0],
   isPrivate: false,
-  showPrivateStatus: false,
-  statusSize: 14,
-  statusBorderWidth: 1,
-  statusBorderColor: white
+  showPrivateStatus: false
 }

@@ -46,6 +46,10 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
         {icons.map(slug => {
           const {icon} = channel
           const isCurrent = icon ? icon === slug : slug === defaultRoomIconSlug
+          const iconTheme = {
+            color: colors[isCurrent ? 'blue' : 'gray'],
+            backgroundColor: colors.white
+          }
           return (
             <li
               className={classes.iconSettingsItem}
@@ -56,9 +60,7 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
                   <Icon
                     className={classes.icon}
                     name={slug}
-                    color={colors[isCurrent ? 'blue' : 'gray']}
-                    backgroundColor={colors.white}
-                    size={32} />
+                    theme={iconTheme} />
               </button>
             </li>
           )

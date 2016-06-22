@@ -7,6 +7,13 @@ import Icon from '../room-icon/RoomIcon'
 import style from './style'
 import IconSettings from './IconSettings'
 
+const iconTheme = {
+  size: 60,
+  statusSize: 23,
+  statusBorderWidth: 2,
+  statusBorderColor: colors.grayBlueLighter
+}
+
 @useSheet(style)
 export default class RoomIconSetting extends Component {
   static propTypes = {
@@ -39,7 +46,7 @@ export default class RoomIconSetting extends Component {
     const {channel, sheet} = this.props
     const {show} = this.state
 
-    const {icon, color, isPublic} = channel
+    const {icon, color: backgroundColor, isPublic} = channel
     const {classes} = sheet
 
     return (
@@ -50,13 +57,8 @@ export default class RoomIconSetting extends Component {
           ref="icon">
           <Icon
             name={icon}
-            backgroundColor={color}
-            size={60}
             isPrivate={!isPublic}
-            // TODO: move statusSize, statusBorderWidth and statusBorderColor to the Sidebar theme
-            statusSize={23}
-            statusBorderWidth={2}
-            statusBorderColor={colors.grayBlueLighter}
+            theme={{...iconTheme, backgroundColor}}
             showPrivateStatus />
         </button>
         {show &&
