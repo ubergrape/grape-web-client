@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign')
+var merge = require('lodash/object/merge')
 
 function Config(conf) {
   this.isLoaded = false
@@ -15,10 +15,6 @@ Config.prototype.init = function() {
     this.newHistory = true
   }
 
-  this.host = localStorage.host || window.location.host
-  const wsProtocol = window.location.protocol === 'http:' ? 'ws' : 'wss'
-  this.wsUrl = `${wsProtocol}://${this.host}/ws`
-
   this.constants = {
     roles: {
       ROLE_USER: 0,
@@ -30,10 +26,14 @@ Config.prototype.init = function() {
   this.server = {}
   this.user = {}
   this.organization = {}
+
+  this.server.host = localStorage.host || window.location.host
+  const wsProtocol = window.location.protocol === 'http:' ? 'ws' : 'wss'
+  this.server.wsUrl = `${wsProtocol}://${this.server.host}/ws`
 }
 
 Config.prototype.setup = function(conf) {
-  assign(this, conf)
+  merge(this, conf)
   this.isLoaded = true
 }
 

@@ -19,7 +19,7 @@ function ensureConf() {
 
   if (conf.isLoaded) return init()
 
-  loadConfig({host: conf.host})
+  loadConfig({host: conf.server.host})
     .then(res => {
       conf.setup(res)
       init()
