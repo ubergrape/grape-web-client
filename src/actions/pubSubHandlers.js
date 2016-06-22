@@ -22,8 +22,6 @@ import {
   joinedRoomsSelector
 } from '../selectors'
 
-import store from '../app/store'
-
 const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
@@ -70,49 +68,55 @@ export function handleRemovedMessage({id}) {
 }
 
 export function handleReadChannel(data) {
-  const user = userSelector(store.getState())
-  return {
-    type: types.MARK_CHANNEL_AS_READ,
-    payload: {
-      isCurrentUser: user.id === data.user,
-      channelId: data.channel
-    }
+  return (dispatch, getState) => {
+    const user = userSelector(getState())
+    dispatch({
+      type: types.MARK_CHANNEL_AS_READ,
+      payload: {
+        isCurrentUser: user.id === data.user,
+        channelId: data.channel
+      }
+    })
   }
 }
 
 export function handleJoinOrg({user, organization: orgId}) {
-  const state = store.getState()
-  const users = usersSelector(state)
-  const org = orgSelector(state)
+  return (dispatch, getState) => {
+    const state = getState()
+    const users = usersSelector(state)
+    const org = orgSelector(state)
 
-  const _user = find(users, ({id}) => id === user.id)
-  if (_user || org.id !== orgId) {
-    return noopAction
-  }
-
-  const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
-
-  return {
-    type: types.ADD_USER_TO_ORG,
-    payload: {
-      ...user,
-      avatar,
-      slug: `@${user.username}`,
-      pm: null,
-      active: true,
-      status: 0
+    const _user = find(users, ({id}) => id === user.id)
+    if (_user || org.id !== orgId) {
+      return dispatch(noopAction)
     }
+
+    const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
+
+    dispatch({
+      type: types.ADD_USER_TO_ORG,
+      payload: {
+        ...user,
+        avatar,
+        slug: `@${user.username}`,
+        pm: null,
+        active: true,
+        status: 0
+      }
+    })
   }
 }
 
 export function handleLeftOrg({user: userId, organization: orgId}) {
-  const org = orgSelector(store.getState())
+  return (dispatch, getState) => {
+    const org = orgSelector(getState())
 
-  if (org.id !== orgId) return noopAction
+    if (org.id !== orgId) return dispatch(noopAction)
 
-  return {
-    type: types.REMOVE_USER_FROM_ORG,
-    payload: userId
+    dispatch({
+      type: types.REMOVE_USER_FROM_ORG,
+      payload: userId
+    })
   }
 }
 
@@ -150,27 +154,29 @@ export function handleNewChannel({channel}) {
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
-  const users = usersSelector(store.getState())
-  const currentUser = userSelector(store.getState())
-  const isCurrentUser = currentUser.id === userId
-  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-  return {
-    type: types.ADD_USER_TO_CHANNEL,
-    payload: {
-      channelId,
-      user,
-      isCurrentUser
-    }
+  return (dispatch, getState) => {
+    const users = usersSelector(getState())
+    const currentUser = userSelector(getState())
+    const isCurrentUser = currentUser.id === userId
+    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
+    dispatch({
+      type: types.ADD_USER_TO_CHANNEL,
+      payload: {
+        channelId,
+        user,
+        isCurrentUser
+      }
+    })
   }
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
-  const users = usersSelector(store.getState())
-  const currentUser = userSelector(store.getState())
-  const isCurrentUser = currentUser.id === userId
-  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-
   return (dispatch, getState) => {
+    const users = usersSelector(getState())
+    const currentUser = userSelector(getState())
+    const isCurrentUser = currentUser.id === userId
+    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: {
@@ -194,8 +200,8 @@ export function handleUpateChannel({channel}) {
 }
 
 export function handleRemoveRoom({channel: id}) {
-  return dispatch => {
-    const {id: currentId} = channelSelector(store.getState())
+  return (dispatch, getState) => {
+    const {id: currentId} = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
       payload: id

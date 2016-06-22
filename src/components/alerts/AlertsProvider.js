@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import {alertsAndChannelSelector as selector} from '../../selectors'
-import store from '../../app/store'
+import getStore from '../../app/store'
 import actionNames from './actionNames'
 import Alerts from './Alerts'
 
@@ -15,7 +15,7 @@ const ConnectedAlerts = connect(
 export default class AlertsProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <ConnectedAlerts />
       </Provider>
     )

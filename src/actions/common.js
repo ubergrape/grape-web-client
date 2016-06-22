@@ -12,7 +12,6 @@ import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
 import {channelSelector, userSelector} from '../selectors'
-import store from '../app/store'
 
 export function error(err) {
   console.error(err.stack) // eslint-disable-line no-console
@@ -179,8 +178,10 @@ export function invitedToChannel(usernames, channelId) {
  * Run api request to join channel
  * response is handled at app/subscribe.js with action handleJoinedChannel
  */
-export function joinChannel({id} = channelSelector(store.getState())) {
-  return dispatch => {
+export function joinChannel(options = {}) {
+  return (dispatch, getState) => {
+    const id = options.id || channelSelector(getState()).id
+
     return api
       .joinChannel(id)
       .catch(err => dispatch(error(err)))
@@ -188,11 +189,9 @@ export function joinChannel({id} = channelSelector(store.getState())) {
 }
 
 // This action isn't used yet, remove this comment after first use
-export function inviteToChannel(
-  usernames,
-  {id} = channelSelector(store.getState())
-) {
-  return dispatch => {
+export function inviteToChannel(usernames, options) {
+  return (dispatch, getState) => {
+    const id = options.id || channelSelector(getState()).id
     return api
       .inviteToChannel(usernames, id)
       .then(() => dispatch(invitedToChannel(usernames, id)))

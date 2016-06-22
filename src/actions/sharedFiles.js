@@ -1,6 +1,5 @@
 import find from 'lodash/collection/find'
 
-import store from '../app/store'
 import * as types from '../constants/actionTypes'
 import * as api from '../utils/backend/api'
 import {setSidebarIsLoading, error} from './common'
@@ -29,10 +28,10 @@ function formatFile(file, channel, users) {
 }
 
 export function loadSharedFiles(params) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({type: types.LOAD_SHARED_FILES})
     dispatch(setSidebarIsLoading(true))
-    const state = store.getState()
+    const state = getState()
     const org = orgSelector(state)
     const channel = channelSelector(state)
 
@@ -65,43 +64,47 @@ export function loadSharedFiles(params) {
 }
 
 export function addSharedFiles(message) {
-  const state = store.getState()
-  const channel = channelSelector(state)
-  const users = usersSelector(state)
-  const sharedFiles = sharedFilesSelector(state)
-  const prevItems = sharedFiles.items
-  const nextItems = message.attachments.map(attachment => {
-    const file = {
-      ...attachment,
-      author: message.author,
-      messageId: message.id
-    }
-    return formatFile(file, channel, users)
-  })
-  return {
-    type: types.ADD_SHARED_FILE,
-    payload: {
-      items: [...nextItems, ...prevItems],
-      total: sharedFiles.total - 1
-    }
+  return (dispatch, getState) => {
+    const state = getState()
+    const channel = channelSelector(state)
+    const users = usersSelector(state)
+    const sharedFiles = sharedFilesSelector(state)
+    const prevItems = sharedFiles.items
+    const nextItems = message.attachments.map(attachment => {
+      const file = {
+        ...attachment,
+        author: message.author,
+        messageId: message.id
+      }
+      return formatFile(file, channel, users)
+    })
+    dispatch({
+      type: types.ADD_SHARED_FILE,
+      payload: {
+        items: [...nextItems, ...prevItems],
+        total: sharedFiles.total - 1
+      }
+    })
   }
 }
 
 export function removeSharedFiles(messageId) {
-  const sharedFiles = sharedFilesSelector(store.getState())
-  const {items} = sharedFiles
-  const cleanedItems = items.filter(item => item.messageId !== messageId)
+  return (dispatch, getState) => {
+    const sharedFiles = sharedFilesSelector(getState())
+    const {items} = sharedFiles
+    const cleanedItems = items.filter(item => item.messageId !== messageId)
 
-  // Nothing to remove.
-  if (cleanedItems.length === items.length) {
-    return {type: types.NOOP}
-  }
-
-  return {
-    type: types.REMOVE_SHARED_FILE,
-    payload: {
-      items: cleanedItems,
-      total: sharedFiles.total - 1
+    // Nothing to remove.
+    if (cleanedItems.length === items.length) {
+      return dispatch({type: types.NOOP})
     }
+
+    dispatch({
+      type: types.REMOVE_SHARED_FILE,
+      payload: {
+        items: cleanedItems,
+        total: sharedFiles.total - 1
+      }
+    })
   }
 }

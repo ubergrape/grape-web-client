@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import {billingWarningSelector} from '../../selectors'
-import store from '../../app/store'
+import getStore from '../../app/store'
 import actionNames from './actionNames'
 import BillingWarning from './BillingWarning'
 
@@ -15,7 +15,7 @@ const ConnectedBillingWarning = connect(
 export default class BillingWarningProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <ConnectedBillingWarning />
       </Provider>
     )

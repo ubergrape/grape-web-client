@@ -136,8 +136,6 @@ UI.prototype.init = function UI_init() {
       classes(qs('body')).add('notifications-disabled')
   }
 
-  // show user title if it is enabled
-  if (this.options.userTitleEnabled) classes(qs('body')).add('user-title-enabled')
   if (!this.options.detached) {
     this.renderIntro()
   }
@@ -286,7 +284,7 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
   let self = this
   let org = orgs.filter(function (o) {
-    if (o.id === self.options.organizationID) return o
+    if (o.id === self.options.organizationId) return o
   })[0]
   this.emit('selectorganization', org)
 }

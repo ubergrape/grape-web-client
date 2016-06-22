@@ -1,10 +1,11 @@
 import {toCamel} from '../utils/backend/convertCase'
 import * as selectors from '../selectors'
 import * as alerts from '../constants/alerts'
-import store from './store'
-import boundActions from './boundActions'
+import getStore from './store'
+import getBoundActions from './boundActions'
 
 export default function subscribe(channel) {
+  const boundActions = getBoundActions()
   let showReconnectedAlert = false
 
   channel.on('connected', () => {
@@ -40,7 +41,7 @@ export default function subscribe(channel) {
         boundActions.handleMessageUpdate(cData)
         break
       case 'channel.typing':
-        boundActions.setTyping(selectors.setTypingSelector(store.getState()), cData)
+        boundActions.setTyping(selectors.setTypingSelector(getStore().getState()), cData)
         break
       case 'channel.new':
         boundActions.handleNewChannel(cData)

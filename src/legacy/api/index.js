@@ -3,7 +3,6 @@ import Emitter from 'emitter'
 import models from './models'
 import noop from 'lodash/utility/noop'
 
-import conf from 'conf'
 import rpc from '../../utils/backend/rpc'
 import client from '../../utils/backend/client'
 import * as convertCase from '../../utils/backend/convertCase'

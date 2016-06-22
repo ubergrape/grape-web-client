@@ -3,7 +3,6 @@ import page from 'page'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import sample from 'lodash/collection/sample'
 
-import store from '../app/store'
 import * as api from '../utils/backend/api'
 import {roomNameFromUsers} from './utils'
 import {channelSelector, orgSelector} from '../selectors'
@@ -44,12 +43,12 @@ export function setInviteFilterValue(value) {
 }
 
 export function createRoomFromPmAndInvite(users) {
-  const {id} = orgSelector(store.getState())
-  const channel = channelSelector(store.getState())
-  const newChannelUsers = [...channel.users, ...users]
-  const usernames = newChannelUsers.map(({username}) => username)
+  return (dispatch, getState) => {
+    const {id} = orgSelector(getState())
+    const channel = channelSelector(getState())
+    const newChannelUsers = [...channel.users, ...users]
+    const usernames = newChannelUsers.map(({username}) => username)
 
-  return dispatch => {
     const room = {
       name: roomNameFromUsers(newChannelUsers),
       color: sample(colors),

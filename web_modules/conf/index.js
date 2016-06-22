@@ -1,15 +1,40 @@
-var assign = require('lodash/object/assign')
+var merge = require('lodash/object/merge')
 
-var conf = module.exports = window.CHATGRAPE_CONFIG || {}
-
-if (!conf.forceLongpolling && localStorage.forceLongpolling) {
-  conf.forceLongpolling = true
+function Config(conf) {
+  this.isLoaded = false
+  this.init()
+  if (conf) this.setup(conf)
 }
 
-if (localStorage.newHistory) {
-  conf.newHistory = true
+Config.prototype.init = function() {
+  if (!this.forceLongpolling && localStorage.forceLongpolling) {
+    this.forceLongpolling = true
+  }
+
+  if (localStorage.newHistory) {
+    this.newHistory = true
+  }
+
+  this.constants = {
+    roles: {
+      ROLE_USER: 0,
+      ROLE_ADMIN: 1,
+      ROLE_OWNER: 2
+    }
+  }
+
+  this.server = {}
+  this.user = {}
+  this.organization = {}
+
+  this.server.host = localStorage.host || window.location.host
+  const wsProtocol = window.location.protocol === 'http:' ? 'ws' : 'wss'
+  this.server.wsUrl = `${wsProtocol}://${this.server.host}/ws`
 }
 
-conf.setup = function(obj) {
-  assign(conf, obj)
+Config.prototype.setup = function(conf) {
+  merge(this, conf)
+  this.isLoaded = true
 }
+
+module.exports = new Config(window.CHATGRAPE_CONFIG)

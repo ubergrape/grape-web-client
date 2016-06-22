@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import {newConversationDialog as selector} from '../../selectors'
-import store from '../../app/store'
+import getStore from '../../app/store'
 import actionNames from './actionNames'
 import NewConversation from './NewConversation'
 
@@ -15,7 +15,7 @@ const ConnectedNewConversation = connect(
 export default class NewConversationProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <ConnectedNewConversation />
       </Provider>
     )

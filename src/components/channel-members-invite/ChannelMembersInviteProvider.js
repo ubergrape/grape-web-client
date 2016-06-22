@@ -3,7 +3,7 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import {inviteDialogSelector as selector} from '../../selectors'
-import store from '../../app/store'
+import getStore from '../../app/store'
 import actionNames from './actionNames'
 import ChannelMembersInvite from './ChannelMembersInvite'
 
@@ -15,7 +15,7 @@ const ConnectedChannelMembersInvite = connect(
 export default class ChannelMembersInviteProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <ConnectedChannelMembersInvite />
       </Provider>
     )
