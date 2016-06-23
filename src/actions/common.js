@@ -188,8 +188,7 @@ export function joinChannel(options = {}) {
   }
 }
 
-// This action isn't used yet, remove this comment after first use
-export function inviteToChannel(usernames, options) {
+export function inviteToChannel(usernames, options = {}) {
   return (dispatch, getState) => {
     const id = options.id || channelSelector(getState()).id
     return api
