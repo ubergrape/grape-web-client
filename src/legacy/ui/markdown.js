@@ -30,7 +30,7 @@ renderer.link = function (href, title, text) {
 }
 renderer.heading = function (text, level, raw) {
   // this is a hack, we should replace the markdown parser
-  return (new Array(level+1)).join("#") + raw
+  return (new Array(level+1)).join("#") + text
 }
 renderer.hr = function () {
   return "--"
