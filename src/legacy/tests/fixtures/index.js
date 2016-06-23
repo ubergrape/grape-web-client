@@ -2,6 +2,13 @@ import Room from '../../api/models/room'
 import Org from '../../api/models/organization'
 import User from '../../api/models/user'
 import Chatline from '../../api/models/chatline'
+import conf from 'conf'
+
+conf.setup({
+  server: {
+    staticPath: 'http://example'
+  }
+})
 
 export default {
   org: new Org({

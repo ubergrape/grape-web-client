@@ -5,14 +5,6 @@ import User from '../user'
 import {room, user, onlyInvitedUser, chatLine, org} from '../../../tests/fixtures/'
 import conf from 'conf'
 
-beforeEach(() => {
-  conf.setup({
-    server: {
-      staticPath: 'http://example'
-    }
-  })
-})
-
 describe('Models', () => {
   describe('Room', () => {
     it('should be possible to initialise', () => {
