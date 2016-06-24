@@ -29,7 +29,7 @@ Config.prototype.init = function() {
 
   this.server.host = localStorage.host || window.location.host
   var wsProtocol = window.location.protocol === 'http:' ? 'ws' : 'wss'
-  this.server.wsUrl = `${wsProtocol}://${this.server.host}/ws`
+  this.server.wsUrl = wsProtocol + '://' + this.server.host + '/ws'
 }
 
 Config.prototype.setup = function(conf) {
