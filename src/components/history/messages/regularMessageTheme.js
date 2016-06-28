@@ -12,6 +12,9 @@ export const styles = {
     opacity: 0.5
   },
   unsent: {
+    opacity: 0.5
+  },
+  unsentWarning: {
     extend: [createInlineIcon('warning', {color: red}), small],
     color: red,
     marginTop: 5,

@@ -42,15 +42,14 @@ export default function reduce(state = initialState, action) {
     case types.UPDATE_MESSAGE:
       return updateMessage(state, action.payload)
     case types.MARK_MESSAGE_AS_UNSENT:
-      return updateMessage(state, {...action.payload, isUnsent: true})
+      return updateMessage(state, {...action.payload, state: 'unsent'})
     case types.RESEND_MESSAGE:
       return updateMessage(state, {
         ...action.payload,
-        isPending: true,
-        isUnsent: false
+        state: 'pending'
       })
     case types.MARK_MESSAGE_AS_SENT:
-      return updateMessage(state, {id: action.payload.messageId, isSent: true})
+      return updateMessage(state, {id: action.payload.messageId, state: 'sent'})
     case types.MARK_CHANNEL_AS_READ:
       if (action.payload.channelId !== state.channelId ||
         action.payload.isCurrentUser) {
@@ -59,17 +58,17 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         messages: state.messages.map(message => {
-          if (message.isRead) return message
+          if (message.state === 'read') return message
           return {
             ...message,
-            isRead: true
+            state: 'read'
           }
         })
       }
     case types.ADD_PENDING_MESSAGE:
       return {...state, messages: [
         ...state.messages,
-        {...action.payload, isPending: true}
+        {...action.payload, state: 'pending'}
       ]}
     case types.ADD_NEW_MESSAGE: {
       const message = action.payload
