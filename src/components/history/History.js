@@ -40,6 +40,7 @@ export default class History extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
+    onRead: PropTypes.func.isRequired,
     userId: PropTypes.number,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(PropTypes.shape({
@@ -61,7 +62,8 @@ export default class History extends Component {
     onLoad: noop,
     onEdit: noop,
     onRemove: noop,
-    onResend: noop
+    onResend: noop,
+    onRead: noop
   }
 
   componentWillReceiveProps({channelId}) {
@@ -77,6 +79,10 @@ export default class History extends Component {
       ...options,
       channelId: this.props.channelId
     })
+  }
+
+  onMessagesRead = ({stopIndex}) => {
+    this.props.onRead(this.props.messages[stopIndex])
   }
 
   renderRow = (messages, index) => {
@@ -137,7 +143,10 @@ export default class History extends Component {
         target={messages[messages.length - 1]}>
         {({onRowsRendered, scrollTo}) => (
           <InfiniteList
-            onRowsRendered={onRowsRendered}
+            onRowsRendered={(params) => {
+              onRowsRendered(params)
+              this.onMessagesRead(params)
+            }}
             scrollTo={this.props.scrollTo || scrollTo}
             messages={messages}
             cacheSize={cacheSize}

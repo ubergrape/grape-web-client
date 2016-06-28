@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
+import moment from 'moment'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
@@ -33,6 +35,49 @@ Unsent.propTypes = {
   onResend: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
 }
+
+function DeliveryState({time, isPending, isSent, isUnsent, isRead, theme}) {
+  const hasState = isPending || isSent || isUnsent || isRead
+
+  // Mark only today's messages.
+  const isFresh = moment(time).isSame(new Date(), 'day')
+
+  if (!hasState || !isFresh) return <noscript />
+
+  let state
+  if (isPending) state = 'pending'
+  if (isSent) state = 'sent'
+  if (isUnsent) state = 'unsent'
+  if (isRead) state = 'read'
+
+  const {classes} = theme
+
+  return (
+    <span
+      className={[
+        classes.stateIndicator,
+        classes[`stateIndicator${capitalize(state)}`]
+      ].join(' ')}>
+    </span>
+  )
+}
+
+DeliveryState.propTypes = {
+  isRead: PropTypes.bool.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  isSent: PropTypes.bool.isRequired,
+  isUnsent: PropTypes.bool.isRequired,
+  time: PropTypes.instanceOf(Date).isRequired,
+  theme: PropTypes.object.isRequired
+}
+
+DeliveryState.defaultProps = {
+  isRead: false,
+  isPending: false,
+  isSent: false,
+  isUnsent: false
+}
+
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @useSheet(styles)
@@ -138,7 +183,7 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, time, userTime, avatar, children, hasBubbleArrow,
-      isPending, isOwn, isUnsent, isSelected, onResend, attachments
+      isPending, isUnsent, isOwn, isSelected, onResend, attachments
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -169,6 +214,7 @@ export default class RegularMessage extends Component {
             {this.renderMenu()}
           </Bubble>
         </div>
+        <DeliveryState {...this.props} theme={{classes}} />
         {isUnsent && <Unsent theme={{classes}} onResend={onResend} />}
       </div>
     )

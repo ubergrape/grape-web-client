@@ -8,9 +8,11 @@ const initialState = {
   channelId: undefined
 }
 
-function updateMessage(state, message) {
-  const index = findIndex(state.messages, {id: message.id})
+function updateMessage(state, nextMessage) {
+  const index = findIndex(state.messages, {id: nextMessage.id})
+  const prevMessage = state.messages[index]
   if (index === -1) return state
+  const message = {...prevMessage, ...nextMessage}
   state.messages.splice(index, 1, message)
   return {...state, messages: [...state.messages]}
 }
@@ -47,6 +49,23 @@ export default function reduce(state = initialState, action) {
         isPending: true,
         isUnsent: false
       })
+    case types.MARK_MESSAGE_AS_SENT:
+      return updateMessage(state, {id: action.payload.messageId, isSent: true})
+    case types.MARK_CHANNEL_AS_READ:
+      if (action.payload.channelId !== state.channelId ||
+        action.payload.isCurrentUser) {
+        return state
+      }
+      return {
+        ...state,
+        messages: state.messages.map(message => {
+          if (message.isRead) return message
+          return {
+            ...message,
+            isRead: true
+          }
+        })
+      }
     case types.ADD_PENDING_MESSAGE:
       return {...state, messages: [
         ...state.messages,

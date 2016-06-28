@@ -335,6 +335,20 @@ export function postMessage(channelId, text, options) {
   })
 }
 
+export function readMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'read',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
 export function loadConfig({host}) {
   return new Promise((resolve, reject) => {
     const orgSubdomain = host.split('.')[0]

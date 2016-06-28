@@ -1,8 +1,10 @@
 import {small} from 'grape-theme/dist/fonts'
-import {red} from 'grape-theme/dist/base-colors'
+import {red, gray} from 'grape-theme/dist/base-colors'
 
-import {styles as baseStyles, leftOffset} from './baseMessageTheme'
+import {styles as baseStyles, leftOffset, horizontalMargin} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
+
+const stateIndicatorSize = 12
 
 export const styles = {
   ...baseStyles,
@@ -22,5 +24,26 @@ export const styles = {
     position: 'absolute',
     top: -13,
     right: 15
-  }
+  },
+  stateIndicator: {
+    position: 'absolute',
+    right: -(stateIndicatorSize + horizontalMargin) / 2,
+    bottom: 0
+  },
+  stateIndicatorPending: createInlineIcon('waiting', {
+    color: gray,
+    size: stateIndicatorSize
+  }),
+  stateIndicatorUnsent: createInlineIcon('waiting', {
+    color: gray,
+    size: stateIndicatorSize
+  }),
+  stateIndicatorSent: createInlineIcon('checkmark', {
+    color: gray,
+    size: stateIndicatorSize
+  }),
+  stateIndicatorRead: createInlineIcon('checkmarkFilled', {
+    color: gray,
+    size: stateIndicatorSize
+  })
 }

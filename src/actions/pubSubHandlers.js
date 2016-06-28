@@ -77,6 +77,15 @@ export function handleReadChannel(data) {
         channelId: data.channel
       }
     })
+    if (user.id === data.user) {
+      dispatch({
+        type: types.MARK_MESSAGE_AS_SENT,
+        payload: {
+          messageId: data.message,
+          channelId: data.channel
+        }
+      })
+    }
   }
 }
 
