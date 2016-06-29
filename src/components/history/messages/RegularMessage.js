@@ -55,7 +55,7 @@ function DeliveryState({time, state, theme}) {
 }
 
 DeliveryState.propTypes = {
-  state: PropTypes.string,
+  state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
   time: PropTypes.instanceOf(Date).isRequired,
   theme: PropTypes.object.isRequired
 }
@@ -82,7 +82,7 @@ export default class RegularMessage extends Component {
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
-    state: PropTypes.string
+    state: DeliveryState.propTypes.state
   }
 
   static defaultProps = {

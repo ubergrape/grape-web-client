@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes'
 import reject from 'lodash/collection/reject'
 import findIndex from 'lodash/array/findIndex'
+import uniq from 'lodash/array/uniq'
 
 const initialState = {
   messages: [],
@@ -32,6 +33,8 @@ export default function reduce(state = initialState, action) {
 
       if (isScrollBack) messages = [...newMessages, ...state.messages]
       else messages = [...state.messages, ...newMessages]
+
+      messages = uniq(messages, 'id')
 
       return {...state, messages}
     }
