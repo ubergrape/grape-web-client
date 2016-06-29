@@ -113,7 +113,7 @@ export default class Navigation extends Component {
       filtered,
       filteredUnJoined,
       filter: value,
-      focusedChannel: filtered[0]
+      focusedChannel: filtered.concat(filteredUnJoined)[0]
     })
   }
 
