@@ -77,6 +77,9 @@ export function handleReadChannel(data) {
         channelId: data.channel
       }
     })
+
+    // We use the channel read event triggered by the own user to
+    // mark a message as sent.
     if (user.id === data.user) {
       dispatch({
         type: types.MARK_MESSAGE_AS_SENT,
