@@ -6,7 +6,6 @@ let implementation = web
 const {process, MacGap} = window
 if (process && process.versions && process.versions.electron) {
   implementation = electron
-  implementation.init()
 } else if (MacGap) {
   implementation = macGap
 }
