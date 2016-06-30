@@ -1,6 +1,7 @@
-import rpc from './rpc'
 import request from 'superagent'
+import conf from 'conf'
 
+import rpc from './rpc'
 import {toSnake} from './convertCase'
 
 export function createRoom(room) {
@@ -280,13 +281,14 @@ export function removeFromFavorite(channelId) {
   })
 }
 
-// https://github.com/ubergrape/chatgrape/issues/3291
 export function checkAuth() {
   return new Promise((resolve, reject) => {
+    const {host, protocol} = conf.server
     request
-      .get('/accounts/session_state')
+      .get(`${protocol}//${host}/accounts/session_state/`)
+      .withCredentials()
       .end(err => {
-        if (err) reject(err)
+        if (err) return reject(err)
         resolve()
       })
   })
@@ -335,15 +337,31 @@ export function postMessage(channelId, text, options) {
   })
 }
 
-export function loadConfig({host}) {
+export function readMessage(channelId, messageId) {
   return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'read',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function loadConfig() {
+  return new Promise((resolve, reject) => {
+    const {host, protocol} = conf.server
     const orgSubdomain = host.split('.')[0]
 
     request
-      .get(`//${host}/api/chat/config`)
+      .get(`${protocol}//${host}/api/chat/config/`)
+      .withCredentials()
       .query(toSnake({orgSubdomain}))
       .end((err, res) => {
-        if (err) reject(err)
+        if (err) return reject(err)
         resolve(res.body)
       })
   })

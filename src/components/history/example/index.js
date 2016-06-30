@@ -108,6 +108,10 @@ function onResend(message) {
   log('resend', message)
 }
 
+function onRead(message) {
+  log('read', message)
+}
+
 const container = document.querySelectorAll('.history')[0]
 
 update = (props) => {
@@ -119,6 +123,7 @@ update = (props) => {
       onEdit,
       onRemove,
       onResend,
+      onRead,
       ...props
     }),
     container
@@ -128,7 +133,14 @@ update = (props) => {
 update()
 
 window.addMessage = (options = {}) => {
-  const message = createMessage(messages.length, {author: {id: userId, name: 'Author'}, ...options})
+  const message = createMessage(
+    messages.length,
+    {
+      time: new Date(),
+      author: {id: userId, name: 'Author'},
+      ...options
+    }
+  )
   messages.push(message)
   fragment.push(message)
   update()

@@ -28,8 +28,15 @@ Config.prototype.init = function() {
   this.organization = {}
 
   this.server.host = localStorage.host || window.location.host
-  var wsProtocol = window.location.protocol === 'http:' ? 'ws' : 'wss'
-  this.server.wsUrl = wsProtocol + '://' + this.server.host + '/ws'
+  var wsProtocol
+  if (window.location.protocol === 'http:') {
+    this.server.protocol = 'http:'
+    wsProtocol = 'ws:'
+  } else {
+    this.server.protocol = 'https:'
+    wsProtocol = 'wss:'
+  }
+  this.server.wsUrl = wsProtocol + '//' + this.server.host + '/ws'
 }
 
 Config.prototype.setup = function(conf) {

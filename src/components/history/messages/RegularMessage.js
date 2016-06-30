@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
+import moment from 'moment'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
@@ -13,7 +15,7 @@ import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
 import {styles} from './regularMessageTheme'
 
-function Unsent(props) {
+function UnsentWarning(props) {
   const {classes} = props.theme
 
   function onResend(e) {
@@ -22,15 +24,40 @@ function Unsent(props) {
   }
 
   return (
-    <div className={classes.unsent}>
+    <div className={classes.unsentWarning}>
       {' This message didn\'t send. Check your internet connection and '}
       <a href="" onClick={onResend}>click to try again</a>.
     </div>
   )
 }
 
-Unsent.propTypes = {
+UnsentWarning.propTypes = {
   onResend: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired
+}
+
+function DeliveryState({time, state, theme}) {
+  // Mark only today's messages.
+  const isFresh = moment(time).isSame(new Date(), 'day')
+
+  // Return null once we switch to react 15.
+  if (!state || !isFresh) return <noscript />
+
+  const {classes} = theme
+
+  return (
+    <span
+      className={[
+        classes.stateIndicator,
+        classes[`stateIndicator${capitalize(state)}`]
+      ].join(' ')}>
+    </span>
+  )
+}
+
+DeliveryState.propTypes = {
+  state: PropTypes.oneOf(['pending', 'sent', 'unsent', 'read']),
+  time: PropTypes.instanceOf(Date).isRequired,
   theme: PropTypes.object.isRequired
 }
 
@@ -44,8 +71,6 @@ export default class RegularMessage extends Component {
     attachments: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
-    isPending: PropTypes.bool.isRequired,
-    isUnsent: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
     link: PropTypes.string.isRequired,
@@ -57,12 +82,11 @@ export default class RegularMessage extends Component {
     author: PropTypes.shape({
       name: PropTypes.string.isRequired
     }),
-    avatar: PropTypes.string
+    avatar: PropTypes.string,
+    state: DeliveryState.propTypes.state
   }
 
   static defaultProps = {
-    isPending: false,
-    isUnsent: false,
     hasBubbleArrow: true,
     isOwn: false,
     isSelected: false,
@@ -102,9 +126,9 @@ export default class RegularMessage extends Component {
   }
 
   renderMenu = () => {
-    const {isOwn, attachments, sheet, isPending, isUnsent} = this.props
+    const {isOwn, attachments, sheet, state} = this.props
 
-    if (isPending || isUnsent) return null
+    if (state === 'pending' || state === 'unsent') return null
     if (!this.state.isMenuOpened) return null
 
     let items
@@ -137,8 +161,8 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, time, userTime, avatar, children, hasBubbleArrow,
-      isPending, isOwn, isUnsent, isSelected, onResend, attachments
+      sheet, author, time, userTime, avatar, children, hasBubbleArrow, state,
+      isOwn, isSelected, onResend, attachments
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -162,14 +186,15 @@ export default class RegularMessage extends Component {
           onMouseLeave={this.onMouseLeave}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <div className={`${classes.content} ${isPending || isUnsent ? classes.pending : ''}`}>
+            <div className={`${classes.content} ${classes[state]}`}>
               <Grapedown text={children} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}
           </Bubble>
         </div>
-        {isUnsent && <Unsent theme={{classes}} onResend={onResend} />}
+        <DeliveryState {...this.props} theme={{classes}} />
+        {state === 'unsent' && <UnsentWarning theme={{classes}} onResend={onResend} />}
       </div>
     )
   }

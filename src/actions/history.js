@@ -74,7 +74,10 @@ export function loadHistory(params) {
 
 export function removeMessage({id: messageId}) {
   return (dispatch, getState) => {
-    dispatch({type: types.REQUEST_REMOVE_MESSAGE})
+    dispatch({
+      type: types.REQUEST_REMOVE_MESSAGE,
+      payload: messageId
+    })
     const {id: channelId} = channelSelector(getState())
     api
       .removeMessage(channelId, messageId)
@@ -158,5 +161,18 @@ export function resendMessage(message) {
       payload: message
     })
     dispatch(markAsUnsent(message))
+  }
+}
+
+export function readMessage({id: messageId}) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.REQUEST_READ_MESSAGE,
+      payload: messageId
+    })
+    const {id: channelId} = channelSelector(getState())
+    api
+      .readMessage(channelId, messageId)
+      .catch(err => dispatch(error(err)))
   }
 }
