@@ -12,14 +12,25 @@ const commonButton = {
   textAlign: 'left'
 }
 const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
-
+const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
+const newConversation = {
+  ...buttonIcon('pencilWindow', buttonSettings),
+  ...commonButton
+}
 const contacts = {
-  ...buttonIcon('user', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
+  ...buttonIcon('user', buttonSettings),
   ...commonButton
 }
 const channels = {
-  ...buttonIcon('users', {color: colors.grayBlue, hoverColor: colors.grayBlueDark}),
+  ...buttonIcon('users', buttonSettings),
   ...commonButton
+}
+newConversation['&:before'] = {
+  ...newConversation['&:before'],
+  position: 'absolute',
+  left: 3,
+  width: 21,
+  height: 21
 }
 contacts['&:before'] = {
   ...contacts['&:before'],
@@ -34,6 +45,14 @@ channels['&:before'] = {
   left: 0,
   width: 24,
   height: 21
+}
+
+const title = {
+  ...fonts.small,
+  marginLeft: 15,
+  textTransform: 'uppercase',
+  background: '0 0 no-repeat',
+  color: colors.grayBlue
 }
 
 export default {
@@ -64,6 +83,7 @@ export default {
   manageItem: {
     marginTop: 10
   },
+  newConversation,
   contacts,
   channels,
   section: {
@@ -77,20 +97,21 @@ export default {
     textAlign: 'center'
   },
   title: {
-    ...fonts.small,
-    paddingLeft: 18,
-    marginLeft: 15,
-    textTransform: 'uppercase',
-    background: '0 0 no-repeat',
-    color: colors.grayBlue
+    ...title,
+    paddingLeft: 18
+  },
+  unJoinedTitle: {
+    ...title,
+    marginTop: 20,
+    marginBottom: 10
   },
   recent: {
-    backgroundImage: `url("${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})}")`,
+    backgroundImage: `url(${getColoredIcon({name: 'timeMachine', color: colors.grayBlue})})`,
     backgroundSize: 'auto 12px',
     backgroundPosition: '0 2px'
   },
   favorites: {
-    backgroundImage: `url("${getColoredIcon({name: 'star', color: colors.grayBlue})}")`,
+    backgroundImage: `url(${getColoredIcon({name: 'star', color: colors.grayBlue})})`,
     backgroundSize: 'auto 13px',
     backgroundPosition: '0 2px'
   },
@@ -136,7 +157,7 @@ export default {
   filterInput: {
     boxSizing: 'border-box !important',
     background: `${darkenBackground} no-repeat 10px 50%`,
-    backgroundImage: `url('${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})}')`,
+    backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
     backgroundSize: 19,
     border: 'none',
     padding: '7px 5px 6px 35px',

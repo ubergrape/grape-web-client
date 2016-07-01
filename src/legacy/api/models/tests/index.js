@@ -3,7 +3,7 @@ import Emitter from 'emitter'
 import Room from '../room'
 import User from '../user'
 import {room, user, onlyInvitedUser, chatLine, org} from '../../../tests/fixtures/'
-import {staticPath} from 'conf'
+import conf from 'conf'
 
 describe('Models', () => {
   describe('Room', () => {
@@ -37,7 +37,7 @@ describe('Models', () => {
       expect(user).to.be.a(User)
     })
     it('should be initialised with a default avatar', () => {
-      expect(user.avatar).to.contain(staticPath)
+      expect(user.avatar).to.contain(conf.server.staticPath)
     })
     it('should be possible to query by id', () => {
       expect(User.get(1)).to.eql(user)
@@ -45,7 +45,7 @@ describe('Models', () => {
   })
   describe('User who has not accepted invitation yet', () => {
     it('should be initiliased with a special default avatar', () => {
-      expect(onlyInvitedUser.avatar).to.contain(staticPath)
+      expect(onlyInvitedUser.avatar).to.contain(conf.server.staticPath)
     })
   })
   describe('Org', () => {
@@ -53,7 +53,7 @@ describe('Models', () => {
       expect(org).to.be.an(Emitter)
     })
     it('should be initialised with a default logo', () => {
-      expect(org.logo).to.contain(staticPath)
+      expect(org.logo).to.contain(conf.server.staticPath)
     })
     it('should have rooms', () => {
       expect(org.rooms).to.be.empty()

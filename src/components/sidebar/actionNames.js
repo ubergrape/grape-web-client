@@ -8,11 +8,13 @@ export default [
   'loadMentions',
   'goToMessage',
   'searchMessages',
+  'toggleSearchOnlyInChannel',
   'renameRoom',
   'setRoomDescription',
   'setRoomPrivacy',
   'setRoomColor',
   'setRoomIcon',
+  'clearRoomRenameError',
   'showRoomDeteteDialog',
   'goToAddIntegrations'
 ]

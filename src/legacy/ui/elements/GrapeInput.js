@@ -12,6 +12,7 @@ import clone from 'lodash/lang/clone'
 import get from 'lodash/object/get'
 import 'grape-browser'
 import {openUrl} from 'grape-web/lib/x-platform'
+import conf from 'conf'
 
 import * as images from '../../../constants/images'
 import render from '../rendervdom'
@@ -291,7 +292,9 @@ export default class GrapeInput extends Emitter {
 
   completePreviousEdit() {
     if (!this.previous) return
-    this.previous.el.classList.remove('editing')
+    if (!conf.newHistory) {
+      this.previous.el.classList.remove('editing')
+    }
     this.el.classList.remove('editing-previous')
     this.input.setTextContent('')
     this.previous = null
@@ -299,14 +302,14 @@ export default class GrapeInput extends Emitter {
 
   editMessage(msg) {
     this.completePreviousEdit()
-    const el = qs('.message[data-id="' + msg.id + '"]')
-    el.classList.add('editing')
+    let el
+    if (!conf.newHistory) {
+      el = qs('.message[data-id="' + msg.id + '"]')
+      el.classList.add('editing')
+    }
     this.el.classList.add('editing-previous')
     this.input.setTextContent(msg.text)
-    this.previous = {
-      msg: msg,
-      el: el
-    }
+    this.previous = {msg, el}
   }
 
   findPreviousMessage() {
@@ -388,6 +391,10 @@ export default class GrapeInput extends Emitter {
   }
 
   onEditPrevious() {
+    if (conf.newHistory) {
+      this.emit('editPreviousMessage')
+      return
+    }
     const msg = this.findPreviousMessage()
     if (msg) this.editMessage(msg)
   }

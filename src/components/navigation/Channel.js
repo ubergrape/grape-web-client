@@ -25,6 +25,7 @@ ChannelPicker.propTypes = {
 
 function Unread(props) {
   const {type, unread, mentioned} = props.channel
+  // TODO: return `null` once upgraded to React 0.15.
   if (!unread) return <noscript />
 
   const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
@@ -48,7 +49,10 @@ Unread.propTypes = {
 function Room(props) {
   return (
     <div>
-      <Roomname {...props.channel} />
+      <Roomname
+        {...props.channel}
+        statusBorderColor={colors.grayBlueLighter}
+        showPrivateStatus />
       <Unread {...props} />
     </div>
   )
@@ -80,6 +84,7 @@ export default class Channel extends Component {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
+    header: PropTypes.string.isRequired,
     channel: PropTypes.object.isRequired,
     focused: PropTypes.bool.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -89,7 +94,8 @@ export default class Channel extends Component {
   static defaultProps = {
     goToChannel: noop,
     onClick: noop,
-    focused: false
+    focused: false,
+    header: ''
   }
 
   render() {
@@ -98,7 +104,8 @@ export default class Channel extends Component {
       filter,
       channel,
       focused,
-      onClick
+      onClick,
+      header
     } = this.props
 
     const {classes} = theme
@@ -107,10 +114,13 @@ export default class Channel extends Component {
     if (!filter && channel.current) channelClass += ` ${classes.channelCurrent}`
     if (focused) channelClass += ` ${classes.channelFocused}`
     return (
-      <div
-        className={channelClass}
-        onClick={onClick}>
-        <ChannelPicker {...this.props} />
+      <div>
+        {header && <h2 className={classes.unJoinedTitle}>{header}</h2>}
+        <div
+          className={channelClass}
+          onClick={onClick}>
+          <ChannelPicker {...this.props} />
+        </div>
       </div>
     )
   }

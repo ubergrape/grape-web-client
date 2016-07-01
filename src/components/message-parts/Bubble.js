@@ -1,31 +1,36 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import styles from './bubbleStyles'
+import {styles} from './bubbleTheme'
 
 @useSheet(styles)
 export default class Bubble extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    theme: PropTypes.object
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string.isRequired,
+    theme: PropTypes.object.isRequired,
+    hasArrow: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     className: '',
     theme: {
-      bubble: '',
-      content: ''
-    }
+      classes: {
+        bubble: '',
+        content: ''
+      }
+    },
+    hasArrow: true
   }
 
   render() {
-    const {children, className, theme, sheet} = this.props
+    const {children, className, theme, hasArrow, sheet} = this.props
     const {classes} = sheet
+    const bubbleClass = classes[hasArrow ? 'bubbleWithArrow' : 'bubble']
     return (
-      <div className={`${classes.bubble} ${theme.bubble} ${className}`}>
-        <div className={`${classes.content} ${theme.content}`}>{children}</div>
+      <div className={`${bubbleClass} ${theme.classes.bubble} ${className}`}>
+        <div className={`${classes.content} ${theme.classes.content}`}>{children}</div>
       </div>
     )
   }

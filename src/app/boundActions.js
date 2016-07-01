@@ -1,4 +1,13 @@
 import {bindActionCreators} from 'redux'
-import store from './store'
+import getStore from './store'
 import * as actions from '../actions'
-export default bindActionCreators(actions, store.dispatch)
+
+let boundActions
+
+export default function getBoundActions() {
+  if (!boundActions) {
+    boundActions = bindActionCreators(actions, getStore().dispatch)
+  }
+
+  return boundActions
+}

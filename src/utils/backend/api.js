@@ -1,5 +1,8 @@
-import rpc from './rpc'
 import request from 'superagent'
+import conf from 'conf'
+
+import rpc from './rpc'
+import {toSnake} from './convertCase'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -180,6 +183,30 @@ export function searchMessages({query, id, limit, offsetDate}) {
   })
 }
 
+export function searchMessagesInChannel({query, orgId, channelId, limit, offsetDate}) {
+  return new Promise((resolve, reject) => {
+    rpc(
+      {
+        ns: 'search',
+        action: 'search_channel',
+        args: [
+          query,
+          orgId,
+          channelId,
+          'messages',
+          limit,
+          offsetDate
+        ]
+      },
+      {camelize: true},
+      (err, messages) => {
+        if (err) return reject(err)
+        resolve(messages)
+      }
+    )
+  })
+}
+
 export function searchFiles({orgId, channelId, own, limit, offset}) {
   return new Promise((resolve, reject) => {
     rpc(
@@ -254,14 +281,88 @@ export function removeFromFavorite(channelId) {
   })
 }
 
-// https://github.com/ubergrape/chatgrape/issues/3291
 export function checkAuth() {
   return new Promise((resolve, reject) => {
+    const {host, protocol} = conf.server
     request
-      .get('/accounts/session_state')
+      .get(`${protocol}//${host}/accounts/session_state/`)
+      .withCredentials()
       .end(err => {
-        if (err) reject(err)
+        if (err) return reject(err)
         resolve()
+      })
+  })
+}
+
+export function loadHistory(channelId, options = {}) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'get_history',
+      args: [channelId, {limit: 50, ...options}]
+    },
+    {camelize: true},
+    (err, res) => {
+      if (err) return reject(err)
+      resolve(res)
+    })
+  })
+}
+
+export function removeMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'delete_message',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function postMessage(channelId, text, options) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'post',
+      args: [channelId, text, options]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function readMessage(channelId, messageId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'channels',
+      action: 'read',
+      args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function loadConfig() {
+  return new Promise((resolve, reject) => {
+    const {host, protocol} = conf.server
+    const orgSubdomain = host.split('.')[0]
+
+    request
+      .get(`${protocol}//${host}/api/chat/config/`)
+      .withCredentials()
+      .query(toSnake({orgSubdomain}))
+      .end((err, res) => {
+        if (err) return reject(err)
+        resolve(res.body)
       })
   })
 }

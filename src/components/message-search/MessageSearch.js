@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import moment from 'moment-timezone'
-import findMatches from 'grape-web/lib/search/findMatches'
+import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './messageSearchStyles'
 import Message from './Message'
+import createGrapedownWithSearch from './createGrapedownWithSearch'
+import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 
@@ -16,12 +17,19 @@ export default class MessageSearch extends Component {
     sheet: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
+    searchOnlyInChannel: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     total: PropTypes.number,
-    query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     isLoading: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    query: '',
+    options: [],
+    searchOnlyInChannel: false
   }
 
   componentDidMount() {
@@ -29,7 +37,7 @@ export default class MessageSearch extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.query && nextProps.query !== this.props.query) {
+    if (this.shouldLoad(nextProps)) {
       this.load(nextProps)
     }
   }
@@ -48,39 +56,33 @@ export default class MessageSearch extends Component {
     this.props.hide()
   }
 
+  onClickOption = e => {
+    const {query} = this.props
+    // Don't close sidebar if click outside is in the options.
+    if (!query || !query.length) e.stopPropagation()
+  }
+
+  shouldLoad(props) {
+    if (!props.query) return false
+    if (props.query !== this.props.query) return true
+    if (props.searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+  }
+
   load(props = this.props) {
-    if (!props.query) return
-    const {items} = props
+    const {items, limit, query, searchOnlyInChannel} = props
+    if (!query || !query.length) return
     props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
-      limit: props.limit,
-      query: props.query
+      limit,
+      query,
+      searchOnlyInChannel
     })
   }
 
   renderMessages() {
-    const {classes} = this.props.sheet
-    const {query, items} = this.props
-
-    const messages = items.map(item => {
-      let {content} = item
-      const matches = findMatches(content, query)
-
-      if (matches.length) {
-        content = matches.map((match, key) => {
-          return (
-            <span
-              key={key}
-              className={match.found ? classes.highlighted : null}>
-              {match.text}
-            </span>
-          )
-        })
-      }
-
-      return {...item, content}
-    })
+    const {items: messages, sheet} = this.props
+    const {classes} = sheet
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
@@ -99,7 +101,7 @@ export default class MessageSearch extends Component {
       if (!prevMessage || prevMessage.channel !== message.channel) {
         elements.push(
           <div className={classes.channel} key={message.channel + index}>
-            {message.channel}
+            {message.channel.name}
           </div>
         )
       }
@@ -110,14 +112,33 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {classes} = this.props.sheet
+    const {query, sheet} = this.props
+    const {classes} = sheet
+    const GrapedownWithSearch = createGrapedownWithSearch({
+      query,
+      renderHighlight: this.renderHighlight
+    })
+
     return (
       <div
         className={classes.message}
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
-        <Message {...message}>{message.content}</Message>
+        <Message {...message}>
+          <GrapedownWithSearch text={message.text} />
+        </Message>
       </div>
+    )
+  }
+
+  renderHighlight = (match, key) => {
+    const {classes} = this.props.sheet
+    return (
+      <span
+        key={key}
+        className={match.found ? classes.highlighted : null}>
+        {match.text}
+      </span>
     )
   }
 
@@ -147,12 +168,18 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {images, title, isLoading} = this.props
+    const {images, title, isLoading, sheet} = this.props
+    const {classes} = sheet
     return (
       <SidebarPanel
         title={title}
         images={images}
+        options={
+          <Options
+            {...this.props}
+            onClickOption={this.onClickOption}
+            theme={{classes}} />
+        }
         onClose={::this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}

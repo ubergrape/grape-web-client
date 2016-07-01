@@ -8,7 +8,7 @@ export default {
   ...reset,
   color: colors.blue,
   '&:hover': {
-    color: color(colors.blue).lighten(0.05).rgbaString(),
+    color: color(colors.blue).lighten(0.2).rgbaString(),
     // !important can be removed when this is done:
     // https://github.com/jsstyles/jss/issues/119
     textDecoration: 'none !important'

@@ -28,11 +28,13 @@ export default class Navigation extends Component {
     all: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
-    step: PropTypes.number
+    step: PropTypes.number.isRequired,
+    bottomOffset: PropTypes.number.isRequired
   }
 
   static defaultProps = {
     step: 10,
+    bottomOffset: 5,
     shortcuts: ['mod+k']
   }
 
@@ -41,7 +43,8 @@ export default class Navigation extends Component {
     this.state = {
       shift: 20,
       filter: '',
-      filtered: []
+      filtered: [],
+      filteredUnJoined: []
     }
 
     mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
@@ -54,10 +57,29 @@ export default class Navigation extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.all !== this.props.all) {
       this.setState({
-        fuse: new Fuse(
+        fuseJoined: new Fuse(
           nextProps.all,
-          {keys: ['name', 'mate.displayName'], threshold: 0.3}
+          {keys: ['name'], threshold: 0.3}
+        ),
+        fuseUnJoined: new Fuse(
+          nextProps.unJoined,
+          {keys: ['name'], threshold: 0.3}
         )
+      })
+    }
+
+    const {shift, filter} = this.state
+    const {listsContainer, navigation} = this.refs
+    const {recent, step} = nextProps
+    if (filter || recent.length < shift) return
+
+    if (
+      listsContainer &&
+      listsContainer.offsetHeight &&
+      listsContainer.offsetHeight < navigation.offsetHeight
+    ) {
+      this.setState({
+        shift: shift + step
       })
     }
   }
@@ -67,10 +89,11 @@ export default class Navigation extends Component {
   }
 
   onScroll(e) {
-    if (this.state.shift >= this.props.recent.length) return
+    const {recent, bottomOffset} = this.props
+    if (this.state.shift >= recent.length) return
 
     const {offsetHeight, scrollTop, scrollHeight} = e.target
-    if (offsetHeight + scrollTop >= scrollHeight) {
+    if (offsetHeight + scrollTop + bottomOffset >= scrollHeight) {
       this.setState({
         shift: this.state.shift + this.props.step
       })
@@ -83,12 +106,14 @@ export default class Navigation extends Component {
 
   onChangeFilter({target}) {
     const {value} = target
-    const filtered = this.state.fuse.search(value)
+    const filtered = this.state.fuseJoined.search(value)
+    const filteredUnJoined = this.state.fuseUnJoined.search(value)
 
     this.setState({
       filtered,
+      filteredUnJoined,
       filter: value,
-      focusedChannel: filtered[0]
+      focusedChannel: filtered.concat(filteredUnJoined)[0]
     })
   }
 
@@ -133,10 +158,13 @@ export default class Navigation extends Component {
 
   renderFilteredChannel({item: channel, focused}) {
     const {classes} = this.props.sheet
+    const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
+
     return (
       <Channel
         {...this.props}
         {...this.state}
+        header={isFirstInUnJoined ? 'No conversation yet' : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}
@@ -161,6 +189,10 @@ export default class Navigation extends Component {
       )
     }
 
+    const {recent} = this.props
+    const {shift} = this.state
+    const recentList = recent.length > shift ? recent.slice(0, shift) : recent
+
     return (
       <div>
         <List
@@ -177,7 +209,7 @@ export default class Navigation extends Component {
           title="Recent"
           type="recent"
           theme={{classes}}
-          list={this.props.recent.slice(0, this.state.shift)}
+          list={recentList}
           goToChannel={::this.goToChannel} />
       </div>
     )
@@ -200,24 +232,27 @@ export default class Navigation extends Component {
 
   render() {
     const {classes} = this.props.sheet
+
     return (
       <div className={classes.wrapper}>
-        <div
-          ref="navigation"
-          onScroll={::this.onScroll}
-          className={classes.navigation}>
-          {this.renderNavigation()}
-        </div>
-        <div className={classes.filter}>
-          <Filter
-            {...this.props}
-            {...this.state}
-            ref="filter"
-            value={this.state.filter}
-            theme={{classes}}
-            onKeyDown={::this.onKeyDownFilter}
-            onChange={::this.onChangeFilter} />
-        </div>
+          <div
+            ref="navigation"
+            onScroll={::this.onScroll}
+            className={classes.navigation}>
+            <div ref="listsContainer">
+              {this.renderNavigation()}
+            </div>
+          </div>
+          <div className={classes.filter}>
+            <Filter
+              {...this.props}
+              {...this.state}
+              ref="filter"
+              value={this.state.filter}
+              theme={{classes}}
+              onKeyDown={::this.onKeyDownFilter}
+              onChange={::this.onChangeFilter} />
+          </div>
       </div>
     )
   }

@@ -5,9 +5,6 @@ import debug from 'debug'
 import WebSocket from 'websocket-wrapper'
 
 const log = debug('ws')
-const path = '/ws'
-const protocol = location.protocol === 'http:' ? 'ws://' : 'wss://'
-const uri = protocol + location.host + path
 const prefix = 'http://domain/'
 const pingInterval = 10000
 
@@ -19,6 +16,7 @@ export default class WampClient {
     this.id = null
     this.reopening = false
     this.connected = false
+    this.url = options.url
   }
 
   connect() {
@@ -29,7 +27,7 @@ export default class WampClient {
   }
 
   open() {
-    this.socket = new WebSocket(uri)
+    this.socket = new WebSocket(this.url)
     this.socket.on('error', ::this.onError)
     this.socket.on('close', ::this.onClose)
     this.wamp = new Wamp(
@@ -103,11 +101,11 @@ export default class WampClient {
   }
 
   /**
-   * We get a url as even name. For compatibility with long polling clinet
+   * We get a url as event name. For compatibility with long polling clinet
    * we convert it to event name.
    */
-  onEvent(url, data) {
-    data.event = url.split('/').pop().replace('#', '.')
+  onEvent(name, data) {
+    data.event = name.split('/').pop().replace('#', '.')
     log('received event "%s"', data.event, data)
     this.out.emit('data', data)
   }

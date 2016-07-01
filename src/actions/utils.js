@@ -2,8 +2,10 @@ import find from 'lodash/collection/find'
 import pluck from 'lodash/collection/pluck'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
+import staticUrl from 'staticurl'
 
-import store from '../app/store'
+import {defaultAvatar} from '../constants/images'
+import {maxChannelNameLength} from '../constants/app'
 import {
   usersSelector,
   channelsSelector
@@ -65,12 +67,83 @@ export function normalizeChannelData(channel) {
   return nullChannelIconToUndefined(pinToFavorite(reduceChannelUsersToId(channel)))
 }
 
-export function formatMessage(message) {
-  return {
-    ...message,
-    time: new Date(message.time),
-    attachments: message.attachments || []
+export const normalizeMessage = (() => {
+  function normalizeAttachment(attachment) {
+    const {id, mimeType, name, thumbnailUrl, url, category} = attachment
+    const thumbnailHeight = Number(attachment.thumbnailHeight)
+    const thumbnailWidth = Number(attachment.thumbnailWidth)
+    const time = new Date(attachment.time)
+    const sourceName = attachment.source
+    const type = sourceName ? 'remoteFile' : 'uploadedFile'
+
+    return {
+      id, mimeType, name, url, category, thumbnailUrl, thumbnailWidth,
+      thumbnailHeight, time, type
+    }
   }
+
+  function normalizeRegularMessage(msg, state) {
+    const channels = channelsSelector(state)
+    const users = usersSelector(state)
+
+    const {id, text, mentions} = msg
+    const time = msg.time ? new Date(msg.time) : new Date()
+    const userTime = msg.userTime || time.toISOString()
+    const type = 'regular'
+    let author
+    let avatar
+
+    const fullAuthor = find(users, {id: msg.author.id})
+    if (fullAuthor) {
+      author = {
+        id: fullAuthor.id,
+        name: fullAuthor.displayName
+      }
+      avatar = fullAuthor.avatar
+    } else {
+      author = {
+        id: msg.author.id,
+        name: 'Deleted User'
+      }
+      avatar = defaultAvatar
+    }
+
+    const {channel} = msg
+    const {slug} = find(channels, {id: channel})
+    const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
+    const attachments = msg.attachments.map(normalizeAttachment)
+    return {
+      type, id, text, time, userTime, author, link, avatar, channel, attachments,
+      mentions
+    }
+  }
+
+  function normalizeActivityMessage(msg) {
+    const {id, channel} = msg
+    const type = 'activity'
+    const time = new Date(msg.time)
+    const author = {
+      id: msg.author.id,
+      name: msg.author.username
+    }
+    const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
+    const text = msg.title || msg.text
+
+    return {type, id, channel, text, time, author, avatar, attachments: []}
+  }
+
+  // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
+  return (msg, state) => {
+    if (msg.author.type === 'service') {
+      return normalizeActivityMessage(msg)
+    }
+
+    return normalizeRegularMessage(msg, state)
+  }
+}())
+
+export function filterEmptyMessage(message) {
+  return message.text.trim().length !== 0 || !isEmpty(message.attachments)
 }
 
 /**
@@ -97,31 +170,8 @@ export function countMentions(message, user, rooms) {
   return count
 }
 
-export function formatSidebarMessage(message) {
-  const {
-    id,
-    author,
-    time,
-    plainText: content,
-    channel: channelId
-  } = formatMessage(message)
-  // TODO: move state dependendcies to the function arguments.
-  // So the action creators should pass them.
-  const state = store.getState()
-  const channels = channelsSelector(state)
-  const currentChannel = find(channels, channel => channel.id === channelId)
-  const users = usersSelector(state)
-  const {displayName, avatar} = find(users, user => user.id === author.id) || {}
-
-  return {
-    id,
-    avatar,
-    time,
-    content,
-    // There is no channel name in pm, use the other user name.
-    channel: currentChannel.name || currentChannel.users[0].displayName,
-    author: displayName,
-    // There is no slug in pm, user the other user slug.
-    slug: currentChannel.slug || currentChannel.users[0].slug
-  }
+export function roomNameFromUsers(users) {
+  return users.map(user => user.displayName)
+  .join(', ')
+  .slice(0, maxChannelNameLength - 1)
 }

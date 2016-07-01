@@ -1,11 +1,12 @@
 import * as types from '../constants/actionTypes'
-import {maxChannelNameLength} from '../constants/app'
-
-import store from '../app/store'
-import {goToChannel, error, invitedToChannel} from './common'
 import page from 'page'
-import {channelSelector, orgSelector} from '../selectors'
+import {colors, icons} from 'grape-theme/dist/room-settings'
+import sample from 'lodash/collection/sample'
+
 import * as api from '../utils/backend/api'
+import {roomNameFromUsers} from './utils'
+import {channelSelector, orgSelector} from '../selectors'
+import {goToChannel, error, invitedToChannel} from './common'
 
 
 export function showChannelMembersInvite() {
@@ -41,20 +42,17 @@ export function setInviteFilterValue(value) {
   }
 }
 
-export function createRoomAndInvite(users) {
-  const {id} = orgSelector(store.getState())
-  const channel = channelSelector(store.getState())
-  const newChannelUsers = [...channel.users, ...users]
-  const usernames = newChannelUsers.map(user => user.username)
-
-  return dispatch => {
-    const name = newChannelUsers
-      .map(user => user.displayName)
-      .join(', ')
-      .slice(0, maxChannelNameLength - 1)
+export function createRoomFromPmAndInvite(users) {
+  return (dispatch, getState) => {
+    const {id} = orgSelector(getState())
+    const channel = channelSelector(getState())
+    const newChannelUsers = [...channel.users, ...users]
+    const usernames = newChannelUsers.map(({username}) => username)
 
     const room = {
-      name,
+      name: roomNameFromUsers(newChannelUsers),
+      color: sample(colors),
+      icon: sample(icons),
       isPublic: false,
       organization: id
     }

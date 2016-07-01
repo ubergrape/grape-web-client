@@ -4,7 +4,7 @@ import pick from 'lodash/object/pick'
 import * as types from '../constants/actionTypes'
 import {defaultAvatar, invitedAvatar} from '../constants/images'
 import {
-  formatMessage,
+  normalizeMessage,
   countMentions,
   pinToFavorite,
   nullChannelIconToUndefined
@@ -22,27 +22,36 @@ import {
   joinedRoomsSelector
 } from '../selectors'
 
-import store from '../app/store'
-
 const noopAction = {type: types.NOOP}
 
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
-    const fMessage = formatMessage(message)
-    const user = userSelector(getState())
-    const rooms = joinedRoomsSelector(getState())
+    const state = getState()
+    const fMessage = normalizeMessage(message, state)
+    const user = userSelector(state)
+    const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(fMessage, user, rooms)
-
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
     if (mentionsCount) dispatch(addMention(fMessage))
-
     dispatch({
-      type: types.ADD_NEW_MESSAGE,
+      type: types.UPDATE_CHANNEL_STATS,
       payload: {
         message: fMessage,
         mentionsCount,
         isCurrentUser: user.id === fMessage.author.id
       }
+    })
+    // We remove a message first, because if user sends a message, it is
+    // added immediately, with a generated clientsideId.
+    // Then we receive the same message from the server which might contain
+    // additional information and a server-side id.
+    dispatch({
+      type: types.REMOVE_MESSAGE,
+      payload: message.clientsideId
+    })
+    dispatch({
+      type: types.ADD_NEW_MESSAGE,
+      payload: fMessage
     })
   }
 }
@@ -53,57 +62,73 @@ export function handleRemovedMessage({id}) {
     dispatch(removeMention(id))
     dispatch({
       type: types.REMOVE_MESSAGE,
-      payload: {
-        messageId: id
-      }
+      payload: id
     })
   }
 }
 
 export function handleReadChannel(data) {
-  const user = userSelector(store.getState())
-  return {
-    type: types.MARK_CHANNEL_AS_READ,
-    payload: {
-      isCurrentUser: user.id === data.user,
-      channelId: data.channel
+  return (dispatch, getState) => {
+    const user = userSelector(getState())
+    dispatch({
+      type: types.MARK_CHANNEL_AS_READ,
+      payload: {
+        isCurrentUser: user.id === data.user,
+        channelId: data.channel
+      }
+    })
+
+    // We use the channel read event triggered by the own user to
+    // mark a message as sent.
+    if (user.id === data.user) {
+      dispatch({
+        type: types.MARK_MESSAGE_AS_SENT,
+        payload: {
+          messageId: data.message,
+          channelId: data.channel
+        }
+      })
     }
   }
 }
 
 export function handleJoinOrg({user, organization: orgId}) {
-  const state = store.getState()
-  const users = usersSelector(state)
-  const org = orgSelector(state)
+  return (dispatch, getState) => {
+    const state = getState()
+    const users = usersSelector(state)
+    const org = orgSelector(state)
 
-  const _user = find(users, ({id}) => id === user.id)
-  if (_user || org.id !== orgId) {
-    return noopAction
-  }
-
-  const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
-
-  return {
-    type: types.ADD_USER_TO_ORG,
-    payload: {
-      ...user,
-      avatar,
-      slug: `@${user.username}`,
-      pm: null,
-      active: true,
-      status: 0
+    const _user = find(users, ({id}) => id === user.id)
+    if (_user || org.id !== orgId) {
+      return dispatch(noopAction)
     }
+
+    const avatar = user.isOnlyInvited ? invitedAvatar : (user.avatar || defaultAvatar)
+
+    dispatch({
+      type: types.ADD_USER_TO_ORG,
+      payload: {
+        ...user,
+        avatar,
+        slug: `@${user.username}`,
+        pm: null,
+        active: true,
+        status: 0
+      }
+    })
   }
 }
 
 export function handleLeftOrg({user: userId, organization: orgId}) {
-  const org = orgSelector(store.getState())
+  return (dispatch, getState) => {
+    const org = orgSelector(getState())
 
-  if (org.id !== orgId) return noopAction
+    if (org.id !== orgId) return dispatch(noopAction)
 
-  return {
-    type: types.REMOVE_USER_FROM_ORG,
-    payload: userId
+    dispatch({
+      type: types.REMOVE_USER_FROM_ORG,
+      payload: userId
+    })
   }
 }
 
@@ -141,27 +166,29 @@ export function handleNewChannel({channel}) {
 }
 
 export function handleJoinedChannel({user: userId, channel: channelId}) {
-  const users = usersSelector(store.getState())
-  const currentUser = userSelector(store.getState())
-  const isCurrentUser = currentUser.id === userId
-  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-  return {
-    type: types.ADD_USER_TO_CHANNEL,
-    payload: {
-      channelId,
-      user,
-      isCurrentUser
-    }
+  return (dispatch, getState) => {
+    const users = usersSelector(getState())
+    const currentUser = userSelector(getState())
+    const isCurrentUser = currentUser.id === userId
+    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
+    dispatch({
+      type: types.ADD_USER_TO_CHANNEL,
+      payload: {
+        channelId,
+        user,
+        isCurrentUser
+      }
+    })
   }
 }
 
 export function handleLeftChannel({user: userId, channel: channelId}) {
-  const users = usersSelector(store.getState())
-  const currentUser = userSelector(store.getState())
-  const isCurrentUser = currentUser.id === userId
-  const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
-
   return (dispatch, getState) => {
+    const users = usersSelector(getState())
+    const currentUser = userSelector(getState())
+    const isCurrentUser = currentUser.id === userId
+    const user = isCurrentUser ? currentUser : find(users, ({id}) => id === userId)
+
     dispatch({
       type: types.REMOVE_USER_FROM_CHANNEL,
       payload: {
@@ -185,8 +212,8 @@ export function handleUpateChannel({channel}) {
 }
 
 export function handleRemoveRoom({channel: id}) {
-  return dispatch => {
-    const {id: currentId} = channelSelector(store.getState())
+  return (dispatch, getState) => {
+    const {id: currentId} = channelSelector(getState())
     dispatch({
       type: types.REMOVE_ROOM,
       payload: id

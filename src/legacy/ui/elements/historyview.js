@@ -87,12 +87,6 @@ HistoryView.prototype.onOrgReady = function(org) {
   }.bind(this))
 }
 
-HistoryView.prototype.renderTypingNotification = function() {
-  if (this.typingNotification) return
-  this.typingNotification = document.createElement('grape-typing-notification')
-  this.scrollWindow.appendChild(this.typingNotification)
-}
-
 HistoryView.prototype.showRoomInvite = function() {
   this.emit('showRoomInvite')
 }
@@ -387,8 +381,6 @@ HistoryView.prototype.setRoom = function(room, msgID) {
       this.queueDraw()
     }, 1000)
   })
-
-  this.renderTypingNotification()
 }
 
 HistoryView.prototype.expandActivityList = function(ev) {

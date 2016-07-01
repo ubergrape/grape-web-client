@@ -2,7 +2,7 @@ let template = require('template')
 let render = require('../../rendervdom')
 let Popover = require('./popover')
 let classes = require('classes')
-let roles = require('conf').constants.roles
+let constants = require('conf').constants
 
 module.exports = OrganizationPopover
 
@@ -38,7 +38,7 @@ OrganizationPopover.prototype.redraw = function() {
 
   let vdom = template('popovers/organization.jade', {
     isInviter: this.user.role >= this.org.inviter_role,
-    isOrgManager: this.user.role >= roles.ROLE_ADMIN,
+    isOrgManager: this.user.role >= constants.roles.ROLE_ADMIN,
     isMacGap: typeof window.MacGap !== 'undefined'
   })
 

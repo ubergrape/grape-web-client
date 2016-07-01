@@ -1,18 +1,20 @@
 import page from 'page'
+import parseUrl from 'grape-web/lib/parse-url'
 
 import * as types from '../constants/actionTypes'
 import {
   normalizeChannelData,
-  removeBrokenPms
+  removeBrokenPms,
+  roomNameFromUsers
 } from './utils'
 import omit from 'lodash/object/omit'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {type as connection} from '../utils/backend/client'
-import {channelSelector} from '../selectors'
-import store from '../app/store'
+import {channelSelector, userSelector} from '../selectors'
 
 export function error(err) {
+  console.error(err.stack) // eslint-disable-line no-console
   reduxEmitter.showError(err)
   // This action don't have reducer yet
   return {
@@ -109,7 +111,7 @@ export function goToMessage(message) {
       type: types.GO_TO_MESSAGE,
       payload: message
     })
-    page(`/chat/${message.slug}/${message.id}`)
+    page(parseUrl(message.link).pathname)
   }
 }
 
@@ -176,20 +178,19 @@ export function invitedToChannel(usernames, channelId) {
  * Run api request to join channel
  * response is handled at app/subscribe.js with action handleJoinedChannel
  */
-export function joinChannel({id} = channelSelector(store.getState())) {
-  return dispatch => {
+export function joinChannel(options = {}) {
+  return (dispatch, getState) => {
+    const id = options.id || channelSelector(getState()).id
+
     return api
       .joinChannel(id)
       .catch(err => dispatch(error(err)))
   }
 }
 
-// This action isn't used yet, remove this comment after first use
-export function inviteToChannel(
-  usernames,
-  {id} = channelSelector(store.getState())
-) {
-  return dispatch => {
+export function inviteToChannel(usernames, options = {}) {
+  return (dispatch, getState) => {
+    const id = options.id || channelSelector(getState()).id
     return api
       .inviteToChannel(usernames, id)
       .then(() => dispatch(invitedToChannel(usernames, id)))
@@ -225,8 +226,8 @@ export function handleConnectionError(err) {
     if (connection === 'ws') {
       api
         .checkAuth()
-        .catch(_err => {
-          if (_err.status === 401) dispatch(reloadOnAuthError())
+        .catch(({status}) => {
+          if (status === 401) dispatch(reloadOnAuthError())
         })
       return
     }
@@ -252,5 +253,55 @@ export function focusGrapeInput() {
       type: types.FOCUS_GRAPE_INPUT
     })
     reduxEmitter.focusGrapeInput()
+  }
+}
+
+export function requestRoomCreate() {
+  return {
+    type: types.REQUEST_ROOM_CREATE
+  }
+}
+
+export function handleRoomCreateError(message) {
+  return {
+    type: types.HANDLE_ROOM_CREATE_ERROR,
+    payload: message
+  }
+}
+
+export function clearRoomCreateError() {
+  return {
+    type: types.CLEAR_ROOM_CREATE_ERROR
+  }
+}
+
+export function createRoomWithUsers(room, users) {
+  return (dispatch, getState) => {
+    dispatch(requestRoomCreate())
+
+    const user = userSelector(getState())
+    const usernames = users.map(({username}) => username)
+    let newRoom
+    return api
+      .createRoom({
+        ...room,
+        name: room.name || roomNameFromUsers([user, ...users])
+      })
+      .then((_newRoom) => {
+        newRoom = _newRoom
+        return api.joinChannel(newRoom.id)
+      })
+      .then(() => {
+        if (newRoom) return api.inviteToChannel(usernames, newRoom.id)
+      })
+      .then(() => {
+        if (newRoom) {
+          page(`/chat/${newRoom.slug}`)
+          dispatch(invitedToChannel(usernames, newRoom.id))
+        }
+      })
+      .catch(err => {
+        dispatch(handleRoomCreateError(err.message))
+      })
   }
 }

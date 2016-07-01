@@ -89,7 +89,7 @@ export default function reduce(state = initialState, action) {
       return state.filter(({type, id}) => !(type === 'room' && id === action.payload))
     }
 
-    case types.ADD_NEW_MESSAGE: {
+    case types.UPDATE_CHANNEL_STATS: {
       const {channel: id, time} = action.payload.message
       const {isCurrentUser, mentionsCount} = action.payload
 

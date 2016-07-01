@@ -3,7 +3,6 @@ import Emitter from 'emitter'
 import models from './models'
 import noop from 'lodash/utility/noop'
 
-import conf from 'conf'
 import rpc from '../../utils/backend/rpc'
 import client from '../../utils/backend/client'
 import * as convertCase from '../../utils/backend/convertCase'
@@ -29,7 +28,7 @@ function API() {
 API.prototype = Object.create(Emitter.prototype)
 
 API.prototype.connect = function API_connect() {
-  let channel = client.connect()
+  let channel = client().connect()
   // TODO We might want to differentiate here and log some errors to sentry.
   channel.on('error', console.error.bind(console))
   channel.on('connected', function () {
@@ -344,7 +343,7 @@ API.prototype.setOrganization = function API_setOrganization(_org, callback) {
     rpc({
       ns: 'organizations',
       action: 'join',
-      clientId: client.id,
+      clientId: client().id,
       args: [org.id]
     }, function (err) {
       if (err) return self.emit('error', err)
@@ -482,7 +481,7 @@ API.prototype.onSetNotificationsSession = function API_onSetNotificationsSession
   rpc({
     ns: 'notifications',
     action: 'set_notification_session',
-    clientId: client.id,
+    clientId: client().id,
     args: [orgId]
   }, function (err) {
     if (err) return this.emit('error', err)

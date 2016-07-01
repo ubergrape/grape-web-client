@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 
-import {defaultSrc} from '../../constants/images'
+import {defaultAvatar} from '../../constants/images'
 import styles from './styles'
 
 @useSheet(styles)
@@ -15,7 +15,7 @@ export default class Avatar extends Component {
   }
 
   static defaultProps = {
-    src: defaultSrc,
+    src: defaultAvatar,
     className: '',
     style: {}
   }

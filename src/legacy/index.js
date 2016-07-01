@@ -18,20 +18,24 @@ import initBroker from './init-broker'
 import conf from 'conf'
 import rpc from '../utils/backend/rpc'
 
-// TODO maybe use pick
-// initialize the UI and add it to the DOM
-window.ui = new Ui(conf)
-document.body.appendChild(window.ui.el)
+export default function init() {
+  // Initialize the legacy UI and add it to the DOM.
+  window.ui = new Ui({
+    languageCode: conf.user.languageCode,
+    newHistory: conf.newHistory,
+    uploadPath: conf.server.uploadPath,
+    organizationId: conf.organization.id
+  })
+  document.body.appendChild(window.ui.el)
 
-// initialize the App
-window.api = new Api()
+  // initialize the App
+  window.api = new Api()
 
-// hook up UI to App
-initBroker(window.ui, window.api)
+  // hook up UI to App
+  initBroker(window.ui, window.api)
 
-window.api.connect()
+  window.api.connect()
 
-/**
- * This is an official debugging tool for our backend devs.
- */
-window.rpc = rpc
+  // This is an official debugging tool for our backend devs.
+  window.rpc = rpc
+}

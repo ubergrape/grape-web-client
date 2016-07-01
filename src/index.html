@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>Content editable example</title>
+    <style>
+      body {
+        font-family: proxima-nova, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+      *, *:before, *:after {
+        box-sizing: border-box;
+      }
+      .history {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      .actions: {
+        white-space: nowrap;
+      }
+    </style>
+    <link rel="stylesheet" href="/dist/components.css"></link>
+    <link rel="stylesheet" href="/dist/app.css"></link>
+  </head>
+  <body>
+    <script src="/dist/app.js"></script>
+    <script src="/webpack-dev-server.js"></script>
+  </body>
+</html>

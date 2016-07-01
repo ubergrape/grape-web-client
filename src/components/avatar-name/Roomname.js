@@ -10,21 +10,36 @@ export default class Roomname extends Component {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     icon: PropTypes.string,
-    color: PropTypes.string
+    color: PropTypes.string.isRequired,
+    statusBorderColor: PropTypes.string.isRequired,
+    isPublic: PropTypes.bool.isRequired,
+    showPrivateStatus: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
-    color: '#ff0000',
+    color: '#f00',
+    statusBorderColor: '#fff',
     mentions: false,
-    unread: 0
+    unread: 0,
+    showPrivateStatus: false
   }
 
   render() {
-    const {name, sheet, icon, color} = this.props
+    const {
+      name, sheet, icon, color: backgroundColor,
+      statusBorderColor, isPublic, showPrivateStatus
+    } = this.props
     const {classes} = sheet
     return (
       <span className={classes.avatarName}>
-        <Icon name={icon} backgroundColor={color} />
+        <Icon
+          name={icon}
+          theme={{
+            statusBorderColor,
+            backgroundColor
+          }}
+          showPrivateStatus={showPrivateStatus}
+          isPrivate={!isPublic} />
         <span className={classes.name}>
           {name}
         </span>

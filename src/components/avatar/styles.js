@@ -3,6 +3,7 @@ const size = 32
 export default {
   avatar: {
     display: 'block',
+    position: 'relative',
     width: size,
     height: size,
     flexShrink: 0,
