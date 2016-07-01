@@ -283,14 +283,13 @@ export function removeFromFavorite(channelId) {
 
 export function checkAuth() {
   return new Promise((resolve, reject) => {
-    const {host, protocol} = conf.server
-    request
-      .get(`${protocol}//${host}/accounts/session_state/`)
-      .withCredentials()
-      .end(err => {
-        if (err) return reject(err)
-        resolve()
-      })
+    const {host, protocol, authToken} = conf.server
+    const req = request.get(`${protocol}//${host}/accounts/session_state/`)
+    if (authToken) req.set('Authorization', `Token ${authToken}`)
+    req.end(err => {
+      if (err) return reject(err)
+      resolve()
+    })
   })
 }
 
@@ -353,12 +352,11 @@ export function readMessage(channelId, messageId) {
 
 export function loadConfig() {
   return new Promise((resolve, reject) => {
-    const {host, protocol} = conf.server
+    const {host, protocol, authToken} = conf.server
     const orgSubdomain = host.split('.')[0]
-
-    request
-      .get(`${protocol}//${host}/api/chat/config/`)
-      .withCredentials()
+    const req = request.get(`${protocol}//${host}/api/chat/config/`)
+    if (authToken) req.set('Authorization', `Token ${authToken}`)
+    req
       .query(toSnake({orgSubdomain}))
       .end((err, res) => {
         if (err) return reject(err)
