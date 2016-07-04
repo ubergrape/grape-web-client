@@ -25,7 +25,7 @@ export default class Navigation extends Component {
     focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    all: PropTypes.array.isRequired,
+    joined: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number.isRequired,
@@ -55,10 +55,10 @@ export default class Navigation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.all !== this.props.all) {
+    if (nextProps.joined !== this.props.joined) {
       this.setState({
         fuseJoined: new Fuse(
-          nextProps.all,
+          nextProps.joined,
           {keys: ['name'], threshold: 0.3}
         ),
         fuseUnJoined: new Fuse(
