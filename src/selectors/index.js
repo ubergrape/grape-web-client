@@ -380,7 +380,7 @@ export const navigationSelector = createSelector(
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = all
+    const favorited = joined
       .filter(_channel => _channel.favorited)
       .sort((a, b) => b.favorited.order - a.favorited.order)
 
