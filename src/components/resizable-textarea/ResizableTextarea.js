@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {pickHTMLProps} from 'pick-react-known-prop'
 
 export default class Editable extends Component {
   static propTypes = {
@@ -36,7 +37,7 @@ export default class Editable extends Component {
     const {classes} = this.props.theme
     return (
       <textarea
-        {...this.props}
+        {...pickHTMLProps(this.props)}
         className={classes.input}
         ref="textarea" />
     )

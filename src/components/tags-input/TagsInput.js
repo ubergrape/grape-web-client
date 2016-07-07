@@ -96,7 +96,7 @@ export default class TagsInput extends Component {
         <span
           ref="inputRuler"
           className={classes.inputRuler}
-          ariaHidden>
+          aria-hidden>
           {value}
         </span>
       </span>
