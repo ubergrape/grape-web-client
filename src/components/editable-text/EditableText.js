@@ -8,10 +8,16 @@ import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
 
+
 const Wrapper = listenOutsideClick(props => {
   return (
-    <div {...props}>
-      {props.children}
+    <div className={props.className}>
+      {
+        React.Children.map(
+          props.children,
+          child => React.cloneElement(child, {...props, ...child.props})
+        )
+      }
     </div>
   )
 })
@@ -156,7 +162,6 @@ export default class EditableText extends Component {
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
-
     return (
       <Wrapper
         className={classes[className]}
