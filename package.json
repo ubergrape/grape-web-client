@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.0.0-pre",
+  "version": "3.0.1-pre",
   "main": "lib/index.js",
   "engines": {
     "node": "2.4.0"
@@ -9,17 +9,18 @@
     "color": "^0.10.1",
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
+    "grape-js-emoji": "^0.0.1",
     "grape-theme": "^1.2.0",
     "grape-web": "0.32.0",
     "images-loader": "^0.1.2",
-    "grape-js-emoji": "^0.0.1",
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
+    "pick-react-known-prop": "0.0.1",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "react-finite-list": "^1.0.3",
-    "react-overlays": "^0.5.0",
+    "react-overlays": "^0.6.3",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
     "react-visibility-sensor": "^3.1.1",
