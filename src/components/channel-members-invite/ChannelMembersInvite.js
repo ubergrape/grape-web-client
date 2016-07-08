@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import omit from 'lodash/object/omit'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
@@ -49,32 +50,7 @@ function getTitle(channelType) {
   }
 }
 
-function ChannelMembersInvite(props) {
-  const {
-    sheet, channelType, hideChannelMembersInvite,
-    setInviteFilterValue, addToChannelMembersInvite,
-    removeFromChannelMembersInvite
-  } = props
-
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!channelType) return <noscript />
-
-  const {classes} = sheet
-  return (
-    <ChooseUsersDialog
-      {...props}
-      title={getTitle(props.channelType)}
-      theme={{classes}}
-      onHide={() => hideChannelMembersInvite()}
-      onChangeFilter={value => setInviteFilterValue(value)}
-      onSelectUser={user => addToChannelMembersInvite(user)}
-      onRemoveSelectedUser={user => removeFromChannelMembersInvite(user)}>
-      <InviteButton {...props} theme={{classes}} />
-    </ChooseUsersDialog>
-  )
-}
-
-ChannelMembersInvite.propTypes = {
+const channelMembersInvitePropTypes = {
   sheet: PropTypes.object.isRequired,
   addToChannelMembersInvite: PropTypes.func.isRequired,
   removeFromChannelMembersInvite: PropTypes.func.isRequired,
@@ -85,5 +61,35 @@ ChannelMembersInvite.propTypes = {
   listed: PropTypes.array.isRequired,
   channelType: PropTypes.string
 }
+
+function ChannelMembersInvite(props) {
+  const {
+    sheet, channelType, hideChannelMembersInvite,
+    setInviteFilterValue, addToChannelMembersInvite,
+    removeFromChannelMembersInvite, listed, ...rest
+  } = props
+
+  if (!channelType) return null
+
+  const {classes} = sheet
+  return (
+    <ChooseUsersDialog
+      {...omit(rest, Object.keys(channelMembersInvitePropTypes))}
+      title={getTitle(props.channelType)}
+      theme={{classes}}
+      listed={listed}
+      onHide={() => hideChannelMembersInvite()}
+      onChangeFilter={value => setInviteFilterValue(value)}
+      onSelectUser={user => addToChannelMembersInvite(user)}
+      onRemoveSelectedUser={user => removeFromChannelMembersInvite(user)}>
+      <InviteButton
+        listed={listed}
+        channelType={channelType}
+        theme={{classes}} />
+    </ChooseUsersDialog>
+  )
+}
+
+ChannelMembersInvite.propTypes = channelMembersInvitePropTypes
 
 export default useSheet(ChannelMembersInvite, style)

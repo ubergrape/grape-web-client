@@ -40,8 +40,7 @@ export default function Settings(props) {
     onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
 
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!advanced) return <noscript />
+  if (!advanced) return null
 
   const {classes} = theme
   return (

@@ -25,8 +25,7 @@ ChannelPicker.propTypes = {
 
 function Unread(props) {
   const {type, unread, mentioned} = props.channel
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!unread) return <noscript />
+  if (!unread) return null
 
   const unreadCount = unread > maxUnread ? `${maxUnread}+` : unread
   const mention = type === 'room' && mentioned ? '@' : ''

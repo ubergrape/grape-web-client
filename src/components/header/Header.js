@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
+import pick from 'lodash/object/pick'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -79,8 +80,7 @@ function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
 }
 
 function MentionsBadge({mentions, sidebar, theme}) {
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!mentions || sidebar === 'mentions') return <noscript />
+  if (!mentions || sidebar === 'mentions') return null
   return <i className={theme.classes.badge} />
 }
 
@@ -107,8 +107,7 @@ function Items(props) {
   } = props
   const {type: channel} = props.channel
 
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!channel) return <noscript />
+  if (!channel) return null
 
   const favoriteProps = {...favorite, ...props}
   const {classes} = theme
@@ -118,7 +117,7 @@ function Items(props) {
         <Favorite {...favoriteProps}/>
       </li>
       <li className={classes.title}>
-        <Title {...props} />
+        <Title {...pick(props, Object.keys(Title.propTypes))} />
       </li>
       <li className={classes.action}>
         <Button
@@ -137,7 +136,7 @@ function Items(props) {
       </li>
       <li className={classes.searchAction}>
         <Search
-          {...props}
+          {...pick(props, Object.keys(Input.propTypes))}
           onOutsideClick={onClickOutsideMessageSearch}
           placeholder="Search messages"
           onFocus={onFocusMessageSearch}
@@ -147,7 +146,8 @@ function Items(props) {
         <Button
           className={itemButtonClassName('mentions', props)}
           onClick={itemClickHandler('mentions', props)} />
-        <MentionsBadge {...props} />
+        <MentionsBadge
+          {...pick(props, Object.keys(MentionsBadge.propTypes))} />
       </li>
       <li className={classes.action}>
         <a

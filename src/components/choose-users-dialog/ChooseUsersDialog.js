@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import pick from 'lodash/object/pick'
 
 import style from './style'
 import {getFilteredUsers} from './utils'
@@ -67,8 +68,7 @@ NoUsers.propTypes = {
 }
 
 function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!isInviter) return <noscript />
+  if (!isInviter) return null
 
   const {classes} = theme
   return (
@@ -124,7 +124,9 @@ function ChooseUsersDialog(props) {
           renderSelected={SelectedUser}
           renderNotFound={NotFound.bind(null, props)}
           renderEmptyItems={NoUsers.bind(null, props)}>
-          <OrgInviteButton {...props} theme={{classes}} />
+          <OrgInviteButton
+            {...pick(props, Object.keys(OrgInviteButton.propTypes))}
+            theme={{classes}} />
         </FilterableList>
         {children}
       </div>
