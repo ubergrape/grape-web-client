@@ -62,6 +62,7 @@
     "notification": "component/notification#0.0.7",
     "page": "^1.6.3",
     "progress-component": "component/progress#0.0.4",
+    "raven-js": "^1.1.22",
     "react": "^0.14.0",
     "react-addons-shallow-compare": "^0.14.8",
     "react-dom": "^0.14.0",
