@@ -19,7 +19,7 @@
     "pick-react-known-prop": "0.0.1",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
-    "react-finite-list": "^1.0.3",
+    "react-finite-list": "^1.0.4",
     "react-overlays": "^0.6.3",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
