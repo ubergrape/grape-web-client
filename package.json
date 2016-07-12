@@ -3,7 +3,7 @@
   "version": "3.0.1",
   "main": "lib/index.js",
   "engines": {
-    "node": "2.4.0"
+    "node": "5.11.0"
   },
   "dependencies": {
     "color": "^0.10.1",
