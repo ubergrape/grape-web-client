@@ -16,7 +16,6 @@
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
     "moment": "^2.10.3",
-    "pick-react-known-prop": "0.0.1",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "react-finite-list": "^1.0.4",

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {pickHTMLProps} from 'pick-react-known-prop'
+import omit from 'lodash/object/omit'
 
 export default class InputWithScrollEvent extends Component {
   static propTypes = {
@@ -57,9 +57,13 @@ export default class InputWithScrollEvent extends Component {
   }
 
   render() {
+    const props = omit(
+      {...this.props, ...this.handlers},
+      'scrollDetectionEvents'
+    )
     return (
       <input
-        {...pickHTMLProps({...this.props, ...this.handlers})}
+        {...props}
         onScroll={this.props.onScroll}
         ref="input" />
     )
