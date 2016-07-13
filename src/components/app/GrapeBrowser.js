@@ -198,7 +198,10 @@ export default class GrapeBrowser extends Component {
   onBlurBrowser() {
     // We don't want to close browser when entire window looses the focus.
     this.blurTimeoutId = setTimeout(() => {
-      this.closeBrowser()
+      this.closeBrowser(null, () => {
+        const {browser} = this.state
+        this.emit('abort', {reason: 'esc', browser})
+      })
     }, 100)
   }
 
