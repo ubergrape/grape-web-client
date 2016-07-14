@@ -1,7 +1,7 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
 import Raven from 'raven-js'
-import {organization, user, raven} from 'conf'
+import {organization, user, server} from 'conf'
 
 import subscribeActions from './subscribe'
 import {create as createClient} from '../utils/backend/client'
@@ -17,7 +17,7 @@ import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/history/HistoryProvider'
 
-Raven.config(raven).install()
+Raven.config(server.sentryJsDsn).install()
 Raven.setUser({
   email: user.email,
   id: user.id,
