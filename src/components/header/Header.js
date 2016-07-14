@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
-import pick from 'lodash/object/pick'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'

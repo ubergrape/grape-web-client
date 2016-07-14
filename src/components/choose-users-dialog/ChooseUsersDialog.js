@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import pick from 'lodash/object/pick'
 
 import style from './style'
 import {getFilteredUsers} from './utils'
