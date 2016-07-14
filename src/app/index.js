@@ -1,7 +1,9 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
+import i18next from 'i18next'
 
 import subscribeActions from './subscribe'
+import * as translations from '../i18n'
 import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
@@ -41,5 +43,16 @@ document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-history', HistoryProvider)
 
 export default function init() {
+  const lang = 'en' // this should be in 'conf'
+  const i18nSettings = {
+    lng: lang,
+    resources: {
+      [lang]: {
+        translation: translations[lang]
+      }
+    }
+  }
+  i18next.init(i18nSettings)
+  console.log(i18next.t('HELLO')) // usage
   subscribeActions(createClient().connect())
 }

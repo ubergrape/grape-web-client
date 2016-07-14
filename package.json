@@ -40,6 +40,7 @@
     "grape-theme": "1.x",
     "grape-web": "0.x",
     "html5-desktop-notifications": "ubergrape/html5-desktop-notifications#1.0.0",
+    "i18next": "^3.4.1",
     "image-zoom": "ubergrape/image-zoom",
     "intro.js": "ubergrape/intro.js",
     "jh3y-resizable": "ubergrape/resizable",
