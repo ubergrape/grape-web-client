@@ -62,6 +62,8 @@ const channelMembersInvitePropTypes = {
   channelType: PropTypes.string
 }
 
+const channelMembersInvitePropNames = Object.keys(channelMembersInvitePropTypes)
+
 function ChannelMembersInvite(props) {
   const {
     sheet, channelType, hideChannelMembersInvite,
@@ -74,7 +76,7 @@ function ChannelMembersInvite(props) {
   const {classes} = sheet
   return (
     <ChooseUsersDialog
-      {...omit(rest, Object.keys(channelMembersInvitePropTypes))}
+      {...omit(rest, channelMembersInvitePropNames)}
       title={getTitle(props.channelType)}
       theme={{classes}}
       listed={listed}

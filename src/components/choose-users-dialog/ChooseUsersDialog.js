@@ -94,7 +94,8 @@ OrgInviteButton.propTypes = {
 
 function ChooseUsersDialog(props) {
   const {
-    sheet, show, filter, listed, title, children,
+    sheet, show, filter, listed, title,
+    children, isInviter, showOrgInvite,
     beforeList, filterFocus, onHide,
     onChangeFilter, onSelectUser,
     onRemoveSelectedUser
@@ -125,7 +126,9 @@ function ChooseUsersDialog(props) {
           renderNotFound={NotFound.bind(null, props)}
           renderEmptyItems={NoUsers.bind(null, props)}>
           <OrgInviteButton
-            {...pick(props, Object.keys(OrgInviteButton.propTypes))}
+            isInviter={isInviter}
+            onHide={onHide}
+            showOrgInvite={showOrgInvite}
             theme={{classes}} />
         </FilterableList>
         {children}
