@@ -2296,9 +2296,9 @@
       }
     },
     "fuse.js": {
-      "version": "2.2.0",
+      "version": "2.3.0",
       "from": "fuse.js@>=2.2.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-2.2.0.tgz"
+      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-2.3.0.tgz"
     },
     "gather-stream": {
       "version": "1.0.0",
@@ -4411,9 +4411,9 @@
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.8.tgz"
     },
     "react-finite-list": {
-      "version": "1.0.3",
-      "from": "react-finite-list@1.0.3",
-      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.3.tgz"
+      "version": "1.0.5",
+      "from": "react-finite-list@>=1.0.5 <2.0.0",
+      "resolved": "https://registry.npmjs.org/react-finite-list/-/react-finite-list-1.0.5.tgz"
     },
     "react-jss": {
       "version": "2.1.1",
@@ -4780,9 +4780,9 @@
       "resolved": "git://github.com/ubergrape/scrollbars.git#bcff195a434168ab9e22036dc9f60f1084daca63"
     },
     "semver": {
-      "version": "5.2.0",
+      "version": "5.3.0",
       "from": "semver@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0||>=4.0.0 <5.0.0||>=5.0.0 <6.0.0",
-      "resolved": "https://registry.npmjs.org/semver/-/semver-5.2.0.tgz"
+      "resolved": "https://registry.npmjs.org/semver/-/semver-5.3.0.tgz"
     },
     "send": {
       "version": "0.14.1",
