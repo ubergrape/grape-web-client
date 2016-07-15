@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react'
-import omit from 'lodash/object/omit'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
@@ -50,20 +49,6 @@ function getTitle(channelType) {
   }
 }
 
-const channelMembersInvitePropTypes = {
-  sheet: PropTypes.object.isRequired,
-  addToChannelMembersInvite: PropTypes.func.isRequired,
-  removeFromChannelMembersInvite: PropTypes.func.isRequired,
-  inviteToChannel: PropTypes.func.isRequired,
-  createRoomFromPmAndInvite: PropTypes.func.isRequired,
-  hideChannelMembersInvite: PropTypes.func.isRequired,
-  setInviteFilterValue: PropTypes.func.isRequired,
-  listed: PropTypes.array.isRequired,
-  channelType: PropTypes.string
-}
-
-const channelMembersInvitePropNames = Object.keys(channelMembersInvitePropTypes)
-
 function ChannelMembersInvite(props) {
   const {
     sheet, channelType, hideChannelMembersInvite,
@@ -76,7 +61,7 @@ function ChannelMembersInvite(props) {
   const {classes} = sheet
   return (
     <ChooseUsersDialog
-      {...omit(rest, channelMembersInvitePropNames)}
+      {...rest}
       title={getTitle(props.channelType)}
       theme={{classes}}
       listed={listed}
@@ -92,6 +77,16 @@ function ChannelMembersInvite(props) {
   )
 }
 
-ChannelMembersInvite.propTypes = channelMembersInvitePropTypes
+ChannelMembersInvite.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  addToChannelMembersInvite: PropTypes.func.isRequired,
+  removeFromChannelMembersInvite: PropTypes.func.isRequired,
+  inviteToChannel: PropTypes.func.isRequired,
+  createRoomFromPmAndInvite: PropTypes.func.isRequired,
+  hideChannelMembersInvite: PropTypes.func.isRequired,
+  setInviteFilterValue: PropTypes.func.isRequired,
+  listed: PropTypes.array.isRequired,
+  channelType: PropTypes.string
+}
 
 export default useSheet(ChannelMembersInvite, style)
