@@ -80,10 +80,10 @@ function ChannelMembersInvite(props) {
       title={getTitle(props.channelType)}
       theme={{classes}}
       listed={listed}
-      onHide={() => hideChannelMembersInvite()}
-      onChangeFilter={value => setInviteFilterValue(value)}
-      onSelectUser={user => addToChannelMembersInvite(user)}
-      onRemoveSelectedUser={user => removeFromChannelMembersInvite(user)}>
+      onHide={hideChannelMembersInvite}
+      onChangeFilter={setInviteFilterValue}
+      onSelectUser={addToChannelMembersInvite}
+      onRemoveSelectedUser={removeFromChannelMembersInvite}>
       <InviteButton
         listed={listed}
         channelType={channelType}
