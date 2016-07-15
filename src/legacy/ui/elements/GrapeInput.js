@@ -355,12 +355,16 @@ export default class GrapeInput extends Emitter {
 
   onComplete(e) {
     const {detail} = e
-    switch (detail.trigger) {
+    const {search, query, trigger} = detail
+    const {browser} = this.input.props
+    switch (trigger) {
       case '#':
+        // Avoid browser opening in case of `#s` input.
+        if (!browser && query.length > 1) return
         this.showSearchBrowser(detail)
         break
       case '@':
-        this.showUsersAndRooms(detail.search)
+        this.showUsersAndRooms(search)
         break
       case ':':
         this.showEmojiSuggest(detail)
