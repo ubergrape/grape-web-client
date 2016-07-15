@@ -9,10 +9,10 @@ export default function List(props) {
     list,
     goToChannel
   } = props
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!list.length) return <noscript />
-  const {classes} = theme
 
+  if (!list.length) return null
+
+  const {classes} = theme
   return (
     <div className={classes.section}>
       <h2 className={`${classes.title} ${classes[type]}`}>{title}</h2>

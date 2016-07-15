@@ -114,7 +114,7 @@ export default class GrapeInput extends Emitter {
   bindEvents() {
     this.events = events(this.el, this)
     this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
-    this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
+    this.events.bind('mousedown .js-emoji-browser-button', 'onToggleEmojiBrowser')
     this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
@@ -455,6 +455,13 @@ export default class GrapeInput extends Emitter {
     })
   }
 
+  closeBrowser() {
+    this.setProps({
+      browser: null,
+      focused: true
+    })
+  }
+
   onSubmit(e) {
     const data = e.detail
 
@@ -496,8 +503,12 @@ export default class GrapeInput extends Emitter {
     this.emit('resize')
   }
 
-  onOpenEmojiBrowser(e) {
+  onToggleEmojiBrowser(e) {
     e.preventDefault()
+    if (this.input.props.browser === 'emoji') {
+      this.closeBrowser()
+      return
+    }
     this.showEmojiBrowser({ignoreTrigger: true, setTrigger: true})
   }
 
@@ -521,6 +532,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onInsertItem(e) {
+    this.closeBrowser()
     window.analytics.track('insert autocomplete object', e.detail)
   }
 

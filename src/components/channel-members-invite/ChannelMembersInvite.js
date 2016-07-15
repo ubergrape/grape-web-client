@@ -53,23 +53,26 @@ function ChannelMembersInvite(props) {
   const {
     sheet, channelType, hideChannelMembersInvite,
     setInviteFilterValue, addToChannelMembersInvite,
-    removeFromChannelMembersInvite
+    removeFromChannelMembersInvite, listed, ...rest
   } = props
 
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!channelType) return <noscript />
+  if (!channelType) return null
 
   const {classes} = sheet
   return (
     <ChooseUsersDialog
-      {...props}
+      {...rest}
       title={getTitle(props.channelType)}
       theme={{classes}}
-      onHide={() => hideChannelMembersInvite()}
-      onChangeFilter={value => setInviteFilterValue(value)}
-      onSelectUser={user => addToChannelMembersInvite(user)}
-      onRemoveSelectedUser={user => removeFromChannelMembersInvite(user)}>
-      <InviteButton {...props} theme={{classes}} />
+      listed={listed}
+      onHide={hideChannelMembersInvite}
+      onChangeFilter={setInviteFilterValue}
+      onSelectUser={addToChannelMembersInvite}
+      onRemoveSelectedUser={removeFromChannelMembersInvite}>
+      <InviteButton
+        listed={listed}
+        channelType={channelType}
+        theme={{classes}} />
     </ChooseUsersDialog>
   )
 }
