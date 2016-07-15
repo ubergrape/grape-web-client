@@ -11,13 +11,8 @@ import style from './style'
 
 const Wrapper = listenOutsideClick(props => {
   return (
-    <div className={props.className}>
-      {
-        React.Children.map(
-          props.children,
-          child => React.cloneElement(child, {...props, ...child.props})
-        )
-      }
+    <div className={props.className} onClick={props.onClick}>
+      {props.children}
     </div>
   )
 })
