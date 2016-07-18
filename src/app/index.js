@@ -1,6 +1,8 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
 import i18next from 'i18next'
+import Raven from 'raven-js'
+import {organization, user, server} from 'conf'
 
 import subscribeActions from './subscribe'
 import * as translations from '../i18n'
@@ -16,6 +18,15 @@ import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/history/HistoryProvider'
+
+Raven.config(server.sentryJsDsn).install()
+Raven.setUser({
+  email: user.email,
+  id: user.id,
+  username: user.username,
+  organization: organization.subdomain,
+  organizationID: organization.id
+})
 
 render(
   createElement(BillingWarningProvider),

@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.13.1",
+  "version": "0.14.1",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -67,8 +67,9 @@
     "react": "^15.2.0",
     "react-addons-shallow-compare": "^15.2.0",
     "react-dom": "15.2.0",
-    "react-finite-list": "^1.0.4",
+    "react-finite-list": "^1.0.5",
     "react-overlays": "^0.6.3",
+    "raven-js": "^1.1.22",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.0",
     "react-virtualized": "^6.2.0",
