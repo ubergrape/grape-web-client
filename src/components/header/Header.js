@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
+import {FormattedMessage} from 'react-intl'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -238,6 +239,7 @@ export default class Header extends Component {
     const {classes} = this.props.sheet
     return (
       <div className={classes.headerWrapper}>
+        <FormattedMessage id="HELLO" />
         <Items
           {...this.props}
           onClickOutsideMessageSearch={this.onClickOutsideMessageSearch}
