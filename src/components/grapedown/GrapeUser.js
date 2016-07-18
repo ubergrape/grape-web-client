@@ -1,14 +1,12 @@
-import React, {Component, PropTypes} from 'react'
-import {Provider, connect} from 'react-redux'
+import React, {PropTypes} from 'react'
 
 import {userSelector} from '../../selectors'
 import getStore from '../../app/store'
-import GrapeObject from './GrapeObject'
 
 /**
  * Returns true if passed path to a pm chat leads to logged in user.
  */
-function isSelf(path) {
+function isSelf(path) {
   const {slug} = userSelector(getStore().getState())
   return `/chat/${slug}` === path
 }
