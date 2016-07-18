@@ -1,11 +1,14 @@
 import {createElement} from 'react'
 import {render} from 'react-dom'
-import i18next from 'i18next'
 import Raven from 'raven-js'
 import {organization, user, server} from 'conf'
+import {addLocaleData} from 'react-intl'
+import en from 'react-intl/locale-data/en'
+import de from 'react-intl/locale-data/de'
 
-import subscribeActions from './subscribe'
+import wrapWithIntlProvider from './wrapWithIntlProvider'
 import * as translations from '../i18n'
+import subscribeActions from './subscribe'
 import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
@@ -19,11 +22,16 @@ import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/history/HistoryProvider'
 
+addLocaleData([...en, ...de])
+
+const {languageCode, email, username, id: userId} = user
+const messages = translations[languageCode]
+
 Raven.config(server.sentryJsDsn).install()
 Raven.setUser({
-  email: user.email,
-  id: user.id,
-  username: user.username,
+  email: email,
+  id: userId,
+  username: username,
   organization: organization.subdomain,
   organizationID: organization.id
 })
@@ -45,7 +53,10 @@ render(
   document.createElement('grape-unread-channels')
 )
 
-document.registerReact('grape-header', HeaderProvider)
+document.registerReact(
+  'grape-header',
+  wrapWithIntlProvider(HeaderProvider, languageCode, messages)
+)
 document.registerReact('grape-sidebar', SidebarProvider)
 document.registerReact('grape-typing-notification', TypingNotificationProvider)
 document.registerReact('grape-alerts', AlertsProvider)
@@ -54,16 +65,5 @@ document.registerReact('grape-navigation', NavigationProvider)
 document.registerReact('grape-history', HistoryProvider)
 
 export default function init() {
-  const lang = 'en' // this should be in 'conf'
-  const i18nSettings = {
-    lng: lang,
-    resources: {
-      [lang]: {
-        translation: translations[lang]
-      }
-    }
-  }
-  i18next.init(i18nSettings)
-  console.log(i18next.t('HELLO')) // usage
   subscribeActions(createClient().connect())
 }
