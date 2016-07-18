@@ -349,36 +349,48 @@ function sortRecentChannels(a, b) {
   return bCompareValue - aCompareValue
 }
 
+function usersAsPms(users) {
+  return users.map(user => ({
+    type: 'pm',
+    mate: user,
+    slug: user.slug,
+    name: user.displayName
+  }))
+}
+
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     navigationPmsSelector,
     channelSelector,
     initialDataLoadingSelector,
-    channelsSelector
+    roomsSelector,
+    activeUsersSelector
   ],
   (
-    rooms,
+    joinedRooms,
     pms,
     channel,
     isLoading,
-    allChannels
+    allRooms,
+    users
   ) => {
-    const all = rooms.concat(pms)
-    const recent = all
+    const all = allRooms.concat(usersAsPms(users))
+    const joined = joinedRooms.concat(pms)
+    const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = all
+    const favorited = joined
       .filter(_channel => _channel.favorited)
       .sort((a, b) => b.favorited.order - a.favorited.order)
 
     return {
-      all,
+      joined,
       recent,
       favorited,
       isLoading,
       channel,
-      unJoined: differenceBy(allChannels, all, 'slug')
+      unJoined: differenceBy(all, joined, 'slug')
     }
   }
 )
