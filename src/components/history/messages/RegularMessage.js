@@ -171,6 +171,7 @@ export default class RegularMessage extends Component {
     } else {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
+
     return (
       <div className={classes.message}>
         {author &&
