@@ -25,7 +25,8 @@ const defaultMessages = globSync(MESSAGES_PATTERN)
 
 const jsonOutput = JSON.stringify(defaultMessages, null, 2)
 const output =
-`/**
+`/* eslint-disable */
+/**
  * This is auto-generated file.
  * DON'T EDIT!
  */
