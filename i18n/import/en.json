@@ -1,0 +1,9 @@
+{
+  "title": {
+    "defaultMessage": "Hello in title",
+    "description": "this is used in title"
+  },
+  "header.test": {
+    "defaultMessage": "Hello in header"
+  }
+}

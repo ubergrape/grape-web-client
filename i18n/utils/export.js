@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import {sync as globSync} from 'glob'
 
 const MESSAGES_PATTERN = './i18n/src/**/*.json'
-const LANG_DIR = './i18n/'
+const LANG_DIR = './i18n/export/'
 
 // Aggregates the default messages that were extracted from the example app's
 // React components via the React Intl Babel plugin. An error will be thrown if
@@ -26,4 +26,4 @@ const defaultMessages = globSync(MESSAGES_PATTERN)
       return collection
     }, {})
 
-fs.writeFileSync(LANG_DIR + 'en-dev.json', JSON.stringify(defaultMessages, null, 2))
+fs.writeFileSync(LANG_DIR + 'en.json', JSON.stringify(defaultMessages, null, 2))

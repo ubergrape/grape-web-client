@@ -141,16 +141,18 @@
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",
-    "build:groupi18n": "npm run build && npm run groupi18n",
+    "build:i18n": "npm run build && npm run i18n-export",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
     "static": "static ./dist --port 8081",
     "dedupe": "npm dedupe 2> ./dedupe-whitelist.txt ",
     "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
-    "clear:lib": "rm -fr ./lib/*",
+    "clear:lib": "rm -fr ./lib/* && npm run clear:i18n",
+    "clear:i18n": "rm -rf ./i18n/{src, export}",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
-    "groupi18n": "./node_modules/.bin/babel-node i18n/group-messages.js",
+    "i18n-export": "./node_modules/.bin/babel-node i18n/utils/export.js",
+    "i18n-import": "./node_modules/.bin/babel-node i18n/utils/import.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
 }

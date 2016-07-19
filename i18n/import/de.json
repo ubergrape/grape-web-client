@@ -1,0 +1,9 @@
+{
+  "title": {
+    "defaultMessage": "Hallo im Titel",
+    "description": "this is used in title"
+  },
+  "header.test": {
+    "defaultMessage": "Hallo, in der Kopfzeile"
+  }
+}
