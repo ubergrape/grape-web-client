@@ -1,6 +1,7 @@
 node_modules
 coverage
 npm-debug.log
+i18n
 *.tgz
 *.patch
 *.diff

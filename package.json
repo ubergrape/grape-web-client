@@ -93,6 +93,7 @@
     "babel-core": "^5.6.20",
     "babel-eslint": "^4.1.5",
     "babel-loader": "^5.3.1",
+    "babel-plugin-react-intl": "1.x",
     "copy-webpack-plugin": "^1.1.1",
     "cpy-cli": "^1.0.1",
     "css-loader": "^0.15.6",
@@ -147,6 +148,7 @@
     "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
     "clear:lib": "rm -fr ./lib/*",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
+    "groupi18n": "./node_modules/.bin/babel-node src/utils/cli/group-messages.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
 }

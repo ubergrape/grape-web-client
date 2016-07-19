@@ -25,7 +25,7 @@ import HistoryProvider from '../components/history/HistoryProvider'
 addLocaleData([...en, ...de])
 
 const {languageCode, email, username, id: userId} = user
-const messages = translations[languageCode]
+const messages = translations.de
 
 Raven.config(server.sentryJsDsn).install()
 Raven.setUser({

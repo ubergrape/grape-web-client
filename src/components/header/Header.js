@@ -49,6 +49,9 @@ Button.propTypes = {
 function Title({channel, mate, theme}) {
   const title = (
     <h1 className={theme.classes.name}>
+      <FormattedMessage
+        id="title"
+        defaultMessage="Hello in title" />
       {channel.name || mate.displayName}
     </h1>
   )
@@ -239,7 +242,10 @@ export default class Header extends Component {
     const {classes} = this.props.sheet
     return (
       <div className={classes.headerWrapper}>
-        <FormattedMessage id="HELLO" />
+        <FormattedMessage
+          id="header.test"
+          defaultMessage="Hello in header" />
+
         <Items
           {...this.props}
           onClickOutsideMessageSearch={this.onClickOutsideMessageSearch}
