@@ -141,6 +141,7 @@
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",
+    "build:groupi18n": "npm run build && npm run groupi18n",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
@@ -149,7 +150,7 @@
     "clear": "npm cache clear && rm -fr node_modules && rm -f npm-shrinkwrap.json",
     "clear:lib": "rm -fr ./lib/*",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
-    "groupi18n": "./node_modules/.bin/babel-node src/utils/cli/group-messages.js",
+    "groupi18n": "./node_modules/.bin/babel-node i18n/group-messages.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
 }

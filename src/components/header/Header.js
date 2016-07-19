@@ -51,6 +51,7 @@ function Title({channel, mate, theme}) {
     <h1 className={theme.classes.name}>
       <FormattedMessage
         id="title"
+        description="this is used in title"
         defaultMessage="Hello in title" />
       {channel.name || mate.displayName}
     </h1>
