@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.14.1",
+  "version": "0.15.1-pre",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -41,6 +41,7 @@
     "grape-web": "0.x",
     "html5-desktop-notifications": "ubergrape/html5-desktop-notifications#1.0.0",
     "image-zoom": "ubergrape/image-zoom",
+    "intl": "^1.2.4",
     "intro.js": "ubergrape/intro.js",
     "jh3y-resizable": "ubergrape/resizable",
     "keyname": "0.1.0",
