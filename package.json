@@ -107,6 +107,7 @@
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
+    "i18n-extract": "^0.4.1",
     "jade-virtualdom": "0.0.5",
     "json-loader": "^0.5.2",
     "karma": "^0.13.8",
@@ -153,6 +154,7 @@
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
     "i18n-export": "./node_modules/.bin/babel-node i18n/utils/export.js",
     "i18n-import": "./node_modules/.bin/babel-node i18n/utils/import.js",
+    "i18n-legacy-export": "npm run build:dist && ./node_modules/.bin/babel-node i18n/utils/legacyExport.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
 }

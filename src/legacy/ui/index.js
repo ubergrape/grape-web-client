@@ -50,6 +50,7 @@ UI.prototype = Object.create(Emitter.prototype)
 
 UI.prototype.init = function UI_init() {
   // set the current language
+  _[this.options.languageCode] = this.options.messages
   _.lang(this.options.languageCode || 'en')
   template.locals._ = _
   template.locals.staticurl = staticurl
@@ -172,44 +173,44 @@ UI.prototype.renderIntro = function() {
     }
   })
   this.intro.setOptions({
-    nextLabel: '<strong class="btn-nextStep">' + _('Continue') + '</strong>',
-    skipLabel: _('Already done? <u>Skip tutorial</u>'),
+    nextLabel: `<strong class="btn-nextStep">${_('Continue')}</strong>`,
+    skipLabel: `${_('Already done?')} <u>Skip tutorial</u>`,
     overlayOpacity: 0.005,
     showStepNumbers: false,
     showProgress: true,
     showBullets: false,
     steps: [
       {
-        intro: _('<img style="float: right; margin-left: 10px" width="135" height="160" src="'+ staticurl("images/mascot/mascot.png") +'"><div style="overflow: hidden"><h2>Welcome</h2><p>Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.</p><p>If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.</p></div><div style="clear:both"></div>'),
+        intro: `<img style="float: right; margin-left: 10px" width="135" height="160" src="${staticurl('images/mascot/mascot.png')}"><div style="overflow: hidden"><h2>${_('Welcome')}</h2><p>${_('Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.')}</p><p>${_('If you haven\'t used Grape already, we recommend you to take our 90 seconds tutorial.')}</p></div><div style="clear:both"></div>`,
         tooltipClass: "intro-welcome"
       },
       {
         element: '#intro-step1',
-        intro: _('<img style="float: right; margin-top: 10px" width="110" height="130" src="'+ staticurl("images/mascot/mascot_reading.png") +'"><div style="overflow: hidden"><h2>Find your team data</h2><p>Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs).</p><p>To open <strong>Grape Search</strong> click the button or press <strong>#</strong></p> </div><div style="clear:both;"></div>'),
+        intro: `<img style="float: right; margin-top: 10px" width="110" height="130" src="${staticurl('images/mascot/mascot_reading.png')}"><div style="overflow: hidden"><h2>${_('Find your team data')}</h2><p>${_('Search appointments, files and more from service integrations (like Google Apps or Exchange) or browse the web (e.g. GIFs).')}</p><p>${_('To open')} <strong>${_('Grape Search')}</strong> ${_('click the button or press')} <strong>#</strong></p> </div><div style="clear:both;"></div>`,
         tooltipClass: "intro-step-1",
         tooltipPosition: 'right',
         position: 'top'
       },
       {
         element: '#intro-step2',
-        intro: _('<img style="float: right;margin-right: 10px" width="110" height="110" src="'+ staticurl("images/mascot/mascot_lock_closed.png") +'"><div style="overflow: hidden"><h2>Manage chat rooms</h2><p>Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).</p> </div><div style="clear:both;"></div>'),
+        intro: `<img style="float: right;margin-right: 10px" width="110" height="110" src="${staticurl('images/mascot/mascot_lock_closed.png')}"><div style="overflow: hidden"><h2>${_('Manage chat rooms')}</h2><p>${_('Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).')}</p> </div><div style="clear:both;"></div>`,
         tooltipClass: "intro-step-2",
         position: 'right'
       },
       {
         element: '#intro-step3',
-        intro: _('<img style="float: right; margin-left: 10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_message.png") +'"><div style="overflow: hidden"><h2>Communicate 1-to-1</h2><p>Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.</p></div><div style="clear:both;"></div>'),
+        intro: `<img style="float: right; margin-left: 10px" width="120" height="120" src="${staticurl('images/mascot/mascot_message.png')}"><div style="overflow: hidden"><h2>${_('Communicate 1-to-1')}</h2><p>${_('Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.')}</p></div><div style="clear:both;"></div>`,
         position: 'right',
         tooltipClass: "intro-step-3"
       },
       {
         element: '#intro-step4',
-        intro: _('<img style="float: right; margin-left: 10px" width="102" height="120" src="'+ staticurl("images/mascot/mascot_playing.png") +'"><div style="overflow: hidden"><h2>Stay productive</h2><p>Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.</p></div><div style="clear:both;"></div>'),
+        intro: `<img style="float: right; margin-left: 10px" width="102" height="120" src="${staticurl('images/mascot/mascot_playing.png')}"><div style="overflow: hidden"><h2>${_('Stay productive')}</h2><p>${_('Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.')}</p></div><div style="clear:both;"></div>`,
         tooltipClass: "intro-step-4",
         position: 'bottom'
       },
       {
-        intro: _('<img style="float: right; margin-left: 10px; border-radius: 50%; -moz-border-radius: 50%; margin-top: 33px;" width="120" height="120" src="'+ staticurl("images/mascot/gifs/trauby_space_sml.gif") +'"><div style="overflow: hidden"><h2>Well done!</h2><p>Don\'t forget to <a href="/accounts/organization/settings/members/" target="_blank">add your team members</a> and to <a href="/integrations/" target="_blank">connect your services</a>.</p><p>If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.</p></div><div style="clear:both;height:1px;width:720px"></div>'),
+        intro: `<img style="float: right; margin-left: 10px; border-radius: 50%; -moz-border-radius: 50%; margin-top: 33px;" width="120" height="120" src="${staticurl('images/mascot/gifs/trauby_space_sml.gif')}"><div style="overflow: hidden"><h2>${_('Well done!')}</h2><p>${_('Don\'t forget to')} <a href="/accounts/organization/settings/members/" target="_blank">${_('add your team members')}</a> ${_('and to')} <a href="/integrations/" target="_blank">${_('connect your services')}</a>.</p><p>${_('If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.')}</p></div><div style="clear:both;height:1px;width:720px"></div>`,
         tooltipClass: "intro-step-5"
       }
     ]

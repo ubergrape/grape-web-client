@@ -5,10 +5,11 @@ const MESSAGES_PATTERN = './i18n/import/*.json'
 const OUTPUT_DIR = './src/i18n/'
 
 sync(MESSAGES_PATTERN).map((file) => {
-  const filename = file.split('/').pop().split('.')[0]
+  const filename = file.split('/').pop().split('.').slice(0, -1).join('.')
   const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
   const messages = Object.keys(parsed).reduce((result, key) => {
-    result[key] = parsed[key].defaultMessage
+    const message = parsed[key].defaultMessage || parsed[key]
+    result[key] = message
     return result
   }, {})
 
