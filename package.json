@@ -142,7 +142,7 @@
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",
-    "build:i18n": "npm run build && npm run i18n-export",
+    "build:i18n": "npm run build && npm run i18n-export && npm run i18n-legacy-export",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
