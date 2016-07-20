@@ -79,7 +79,7 @@ export default {
   "Hit ": "Hit ",
   "ESC": "ESC",
   " to cancel editing.": " to cancel editing.",
-  "You can also use ": "You can also use ",
+  "LEGACY i18n: You can also use ": "LEGACY i18n (de): You can also use ",
   "markdown": "markdown",
   "Compact View": "Compact View",
   "Invite new members": "Invite new members",

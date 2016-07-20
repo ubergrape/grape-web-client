@@ -4,6 +4,5 @@
  * DON'T EDIT!
  */
 export default {
-  "title": "Hallo im Titel",
-  "header.test": "Hallo, in der Kopfzeile"
+  "title": "i18n in Titel:"
 }

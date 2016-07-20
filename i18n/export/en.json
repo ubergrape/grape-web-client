@@ -1,9 +1,6 @@
 {
   "title": {
-    "defaultMessage": "Hello in title",
+    "defaultMessage": "i18n in Title:",
     "description": "this is used in title"
-  },
-  "header.test": {
-    "defaultMessage": "Hello in header"
   }
 }

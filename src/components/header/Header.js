@@ -52,7 +52,7 @@ function Title({channel, mate, theme}) {
       <FormattedMessage
         id="title"
         description="this is used in title"
-        defaultMessage="Hello in title" />
+        defaultMessage="i18n in Title: " />
       {channel.name || mate.displayName}
     </h1>
   )
@@ -243,10 +243,6 @@ export default class Header extends Component {
     const {classes} = this.props.sheet
     return (
       <div className={classes.headerWrapper}>
-        <FormattedMessage
-          id="header.test"
-          defaultMessage="Hello in header" />
-
         <Items
           {...this.props}
           onClickOutsideMessageSearch={this.onClickOutsideMessageSearch}
