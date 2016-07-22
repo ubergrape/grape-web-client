@@ -16,6 +16,17 @@ const messageTypes = {
   activity: ActivityMessage
 }
 
+const propTypeMessage = PropTypes.shape({
+  type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired
+  }).isRequired,
+  time: PropTypes.instanceOf(Date).isRequired
+})
+
 // Group messages under same avatar/name if they are send within this time distance.
 const timeThreshold = 5 * 60 * 1000
 
@@ -32,6 +43,20 @@ function canGroup(message, prevMessage) {
   return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
 }
 
+/**
+ * Returns a passed value only if it doesn't equal the previous one.
+ */
+const getValueIfChanged = (() => {
+  let prevValue
+
+  return (nextValue) => {
+    if (!nextValue || prevValue === nextValue) return undefined
+    prevValue = nextValue
+    return nextValue
+  }
+})()
+
+
 @useSheet(styles)
 export default class History extends Component {
   static propTypes = {
@@ -43,17 +68,8 @@ export default class History extends Component {
     onRead: PropTypes.func.isRequired,
     userId: PropTypes.number,
     channelId: PropTypes.number,
-    messages: PropTypes.arrayOf(PropTypes.shape({
-      type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
-      author: PropTypes.shape({
-        id: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string
-        ]).isRequired
-      }).isRequired,
-      time: PropTypes.instanceOf(Date).isRequired
-    })),
-    scrollTo: PropTypes.object,
+    messages: PropTypes.arrayOf(propTypeMessage),
+    scrollTo: propTypeMessage,
     cacheSize: PropTypes.number
   }
 
@@ -78,6 +94,13 @@ export default class History extends Component {
     this.props.onLoad({
       ...options,
       channelId: this.props.channelId
+    })
+  }
+
+  onJumpToEnd = () => {
+    this.props.onLoad({
+      channelId: this.props.channelId,
+      jumpToEnd: true
     })
   }
 
@@ -130,24 +153,25 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, cacheSize} = this.props
+    const {sheet, messages, cacheSize, scrollTo} = this.props
     const {classes} = sheet
 
     if (!messages.length) return null
 
     return (
-      // TODO check if we should call over store/action, depending on how much
-      // overhead it is.
       <Jumper
-        className={classes.history}
-        target={messages[messages.length - 1]}>
-        {({onRowsRendered, scrollTo}) => (
+        onJump={this.onJumpToEnd}
+        className={classes.history}>
+        {({onRowsRendered}) => (
           <InfiniteList
             onRowsRendered={(params) => {
               onRowsRendered(params)
               this.onMessagesRead(params)
             }}
-            scrollTo={this.props.scrollTo || scrollTo}
+            // Ensure returning `scrollTo` only once.
+            // After the first time, user might have scrolled and don't want
+            // to be sent again to the last scrollTo position.
+            scrollTo={getValueIfChanged(scrollTo)}
             messages={messages}
             cacheSize={cacheSize}
             onLoadMore={this.onLoadMore}

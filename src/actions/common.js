@@ -78,11 +78,12 @@ export function setUser(user) {
   }
 }
 
-export function setChannel(channel) {
+export function setChannel(channel, messageId) {
   return {
     type: types.SET_CHANNEL,
     payload: {
-      channel
+      channel,
+      messageId
     }
   }
 }

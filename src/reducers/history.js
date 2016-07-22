@@ -6,7 +6,8 @@ import uniq from 'lodash/array/uniq'
 const initialState = {
   messages: [],
   cacheSize: 500,
-  channelId: undefined
+  channelId: undefined,
+  scrollTo: undefined
 }
 
 function updateMessage(state, newMessage) {
@@ -20,13 +21,17 @@ function updateMessage(state, newMessage) {
 
 export default function reduce(state = initialState, action) {
   const {payload} = action
-
   switch (action.type) {
     case types.SET_CHANNEL:
-      return {...state, channelId: payload.channel.id}
+      return {
+        ...state,
+        channelId: payload.channel.id,
+        messageId: payload.messageId
+      }
     case types.HANDLE_INITIAL_HISTORY:
-      if (!payload.length) return state
-      return {...state, messages: payload}
+      // No need to rerender if no messages been loaded.
+      if (!payload.messages.length) return state
+      return {...state, ...payload}
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
       if (!newMessages.length) return state
@@ -38,7 +43,7 @@ export default function reduce(state = initialState, action) {
 
       messages = uniq(messages, 'id')
 
-      return {...state, messages}
+      return {...state, messages, scrollTo: null}
     }
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: payload})}
@@ -77,9 +82,8 @@ export default function reduce(state = initialState, action) {
         {...payload, state: 'pending'}
       ]}
     case types.ADD_NEW_MESSAGE: {
-      const message = payload
-      if (message.channel !== state.channelId) return state
-      return {...state, messages: [...state.messages, message]}
+      if (payload.channel !== state.channelId) return state
+      return {...state, messages: [...state.messages, payload]}
     }
     default:
       return state

@@ -50,7 +50,6 @@ export default class InfiniteList extends Component {
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
-    const scrollToIndex = scrollTo ? messages.indexOf(scrollTo) : undefined
 
     return (
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
@@ -74,15 +73,17 @@ export default class InfiniteList extends Component {
                 {({width, height}) => (
                   <AutoScroll
                     rows={rows}
-                    rowHeight={rowHeight}>
+                    rowHeight={rowHeight}
+                    scrollToIndex={scrollTo ? messages.indexOf(scrollTo) : undefined}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,
+                      scrollToIndex,
                       onRowsRendered: onRowsRenderedAutoScroll
                     }) => (
                       <VirtualScroll
                         className={classes.grid}
-                        scrollTop={scrollToIndex ? undefined : scrollTop}
+                        scrollTop={scrollTop}
                         scrollToIndex={scrollToIndex}
                         ref={registerScrollerInAutoRowHeight}
                         onRowsRendered={params => {

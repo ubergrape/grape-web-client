@@ -1,3 +1,4 @@
+import find from 'lodash/collection/find'
 import findLast from 'lodash/collection/findLast'
 import last from 'lodash/array/last'
 
@@ -12,63 +13,104 @@ import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 import {normalizeMessage, filterEmptyMessage} from './utils'
 
-export function loadHistory(params) {
-  const {channelId, startIndex, stopIndex} = params
-  const isInitial = startIndex === undefined
-  const isScrollBack = startIndex < 0
+function normalizeMessages(messages, state) {
+  return messages
+    .reverse()
+    .map(message => normalizeMessage(message, state))
+    .filter(filterEmptyMessage)
+}
 
+function loadLatest({channelId}) {
   return (dispatch, getState) => {
-    let options
+    // It is initial loading, show loading indicator.
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
 
-    if (isInitial) {
-      dispatch(showAlert({
-        level: 'info',
-        type: alerts.LOADING_HISTORY,
-        delay: 1000
-      }))
-    } else {
-      const {messages} = historySelector(getState())
-      if (isScrollBack) {
-        options = {timeTo: messages[0].time}
-      } else {
-        options = {timeFrom: last(messages).time}
-      }
-      options.limit = stopIndex - startIndex
+    api
+      .loadHistory(channelId)
+      .then(res => {
+        const messages = normalizeMessages(res, getState())
+        dispatch({
+          type: types.HANDLE_INITIAL_HISTORY,
+          payload: {
+            messages,
+            scrollTo: last(messages)
+          }
+        })
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+function loadMore({startIndex, stopIndex, channelId}) {
+  return (dispatch, getState) => {
+    const isScrollBack = startIndex < 0
+    const options = {
+      limit: stopIndex - startIndex
     }
+    const {messages} = historySelector(getState())
 
-    dispatch({
-      type: types.REQUEST_HISTORY,
-      payload: {params, options}
-    })
+    if (isScrollBack) {
+      options.timeTo = messages[0].time
+    } else {
+      options.timeFrom = last(messages).time
+    }
 
     api
       .loadHistory(channelId, options)
       .then(res => {
-        const state = getState()
-        const messages = res
-          .reverse()
-          .map(message => normalizeMessage(message, state))
-          .filter(filterEmptyMessage)
-
-        if (isInitial) {
-          dispatch({
-            type: types.HANDLE_INITIAL_HISTORY,
-            payload: messages
-          })
-          dispatch(hideAlertByType(alerts.LOADING_HISTORY))
-          return
-        }
-
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages,
-            ...params,
+            messages: normalizeMessages(res, getState()),
             isScrollBack
           }
         })
       })
       .catch(err => dispatch(error(err)))
+  }
+}
+
+function loadFragment({channelId}, messageId) {
+  return (dispatch, getState) => {
+    api
+      .loadHistoryAt(channelId, messageId)
+      .then(res => {
+        const messages = normalizeMessages(res, getState())
+        const scrollTo = find(messages, {id: messageId})
+        scrollTo.isSelected = true
+
+        dispatch({
+          type: types.HANDLE_INITIAL_HISTORY,
+          payload: {
+            messages,
+            scrollTo
+          }
+        })
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+export function loadHistory(params) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.REQUEST_HISTORY,
+      payload: params
+    })
+
+    if (!params.jumpToEnd) {
+      if (params.startIndex !== undefined) return dispatch(loadMore(params))
+
+      const {messageId} = historySelector(getState())
+      if (messageId) return dispatch(loadFragment(params, messageId))
+    }
+
+    return dispatch(loadLatest(params))
   }
 }
 

@@ -13,7 +13,8 @@ export default class AutoScroll extends Component {
     bottomThreshold: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
     rowHeight: PropTypes.func.isRequired,
-    scrollTop: PropTypes.number
+    scrollTop: PropTypes.number.isRequired,
+    scrollToIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -28,11 +29,19 @@ export default class AutoScroll extends Component {
     this.childrenParam = {
       onScroll: this.onScroll,
       onRowsRendered: this.onRowsRendered,
-      scrollTop: props.scrollTop
+      scrollToIndex: props.scrollToIndex,
+      scrollTop: props.scrollToIndex === undefined ? props.scrollTop : undefined
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    // Once scrollToIndex is passed, we need to unset scrollTop.
+    if (nextProps.scrollToIndex !== undefined) {
+      this.childrenParam.scrollToIndex = nextProps.scrollToIndex
+      this.childrenParam.scrollTop = undefined
+      return
+    }
+
     if (nextProps.rows !== this.props.rows) {
       // We assume user scrolled up (reverse order) and we have loaded
       // previous rows.
@@ -79,6 +88,7 @@ export default class AutoScroll extends Component {
     }
     this.scrollTop = scrollTop
     this.childrenParam.scrollTop = scrollTop
+    this.childrenParam.scrollToIndex = undefined
     this.bottomThreshold = scrollHeight - scrollTop - clientHeight
   }
 
