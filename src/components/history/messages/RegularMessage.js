@@ -83,6 +83,7 @@ export default class RegularMessage extends Component {
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
+    user: PropTypes.object.isRequired,
     state: DeliveryState.propTypes.state
   }
 
@@ -161,8 +162,8 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, time, userTime, avatar, children, hasBubbleArrow, state,
-      isOwn, isSelected, onResend, attachments
+      sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
+      state, isOwn, isSelected, onResend, attachments
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -188,7 +189,7 @@ export default class RegularMessage extends Component {
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <div className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} />
+              <Grapedown text={children} user={user}/>
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}

@@ -23,7 +23,8 @@ export default class ActivityMessage extends Component {
     container: PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired
-    })
+    }),
+    user: PropTypes.object
   }
 
   static defaultProps = {
@@ -35,7 +36,7 @@ export default class ActivityMessage extends Component {
 
   render() {
     const {
-      sheet, author, time, avatar, title, children, container
+      sheet, user, author, time, avatar, title, children, container
     } = this.props
     const {classes} = sheet
 
@@ -56,8 +57,8 @@ export default class ActivityMessage extends Component {
                 {container.name}
               </a>
             }
-            <Grapedown text={title} />
-            <Grapedown text={children} />
+            <Grapedown text={title} user={user} />
+            <Grapedown text={children} user={user} />
           </MateBubble>
         </div>
       </div>

@@ -5,9 +5,7 @@ import uniq from 'lodash/array/uniq'
 
 const initialState = {
   messages: [],
-  cacheSize: 500,
-  channelId: undefined,
-  scrollTo: undefined
+  cacheSize: 500
 }
 
 function updateMessage(state, newMessage) {
@@ -22,6 +20,8 @@ function updateMessage(state, newMessage) {
 export default function reduce(state = initialState, action) {
   const {payload} = action
   switch (action.type) {
+    case types.SET_USER:
+      return {...state, user: payload}
     case types.SET_CHANNEL:
       return {
         ...state,

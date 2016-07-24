@@ -431,10 +431,11 @@ export const sidebarComponentSelector = createSelector(
     search,
     mentions,
     support,
-    {displayName: query}
+    user
   ) => {
     const select = {
-      show
+      show,
+      user
     }
     if (!show) return select
     const panels = {
@@ -443,7 +444,7 @@ export const sidebarComponentSelector = createSelector(
       files,
       search,
       support,
-      mentions: {...mentions, query}
+      mentions: {...mentions, query: user.displayName}
     }
     return {...select, ...panels[show]}
   }
@@ -460,9 +461,5 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  [userSelector, ({history}) => history],
-  (user, history) => ({
-    ...history,
-    userId: user.id
-  })
+  state => state.history, state => state
 )

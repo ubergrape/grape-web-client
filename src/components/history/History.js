@@ -66,9 +66,9 @@ export default class History extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
-    userId: PropTypes.number,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(propTypeMessage),
+    user: PropTypes.object,
     scrollTo: propTypeMessage,
     cacheSize: PropTypes.number
   }
@@ -109,13 +109,14 @@ export default class History extends Component {
   }
 
   renderRow = (messages, index) => {
-    const {sheet, userId, onEdit, onRemove, onResend} = this.props
+    const {sheet, user, onEdit, onRemove, onResend} = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
     const props = {
       key: `row-${message.id}`,
-      isOwn: message.author.id === userId
+      isOwn: message.author.id === user.id,
+      user
     }
     const prevMessage = messages[index - 1]
 
@@ -153,10 +154,10 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, cacheSize, scrollTo} = this.props
+    const {sheet, messages, user, cacheSize, scrollTo} = this.props
     const {classes} = sheet
 
-    if (!messages.length) return null
+    if (!user || !messages.length) return null
 
     return (
       <Jumper
