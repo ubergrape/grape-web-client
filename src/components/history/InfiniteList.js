@@ -4,9 +4,9 @@ import shallowEqual from 'react-pure-render/shallowEqual'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 
-import AutoRowHeight from './AutoRowHeight'
-import AutoScroll from './AutoScroll'
-import InfiniteLoader from './InfiniteLoader'
+import AutoRowHeight from '../react-virtualized/AutoRowHeight'
+import AutoScroll from '../react-virtualized/AutoScroll'
+import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 
 import {styles} from './infiniteListTheme'
 

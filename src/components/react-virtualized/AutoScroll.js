@@ -5,7 +5,7 @@ import {Component, PropTypes} from 'react'
 const veryHeighScrollTop = 1000000000
 
 /**
- * Preserves the scroll position at the bottom when messages got added.
+ * Preserves the scroll position at the bottom when rows got added.
  */
 export default class AutoScroll extends Component {
   static propTypes = {
