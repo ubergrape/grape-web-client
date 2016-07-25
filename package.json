@@ -142,7 +142,7 @@
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",
-    "build:i18n": "npm run build && npm run i18n-export && npm run i18n-legacy-export",
+    "build:i18n": "npm run i18n-export && npm run i18n-legacy-export",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
@@ -153,7 +153,7 @@
     "clear:i18n": "rm -rf ./i18n/{src, export}",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm run dedupe && npm i && npm shrinkwrap",
     "i18n-export": "./node_modules/.bin/babel-node i18n/utils/export.js",
-    "i18n-import": "./node_modules/.bin/babel-node i18n/utils/import.js",
+    "i18n-import": "npm run build && ./node_modules/.bin/babel-node i18n/utils/import.js",
     "i18n-legacy-export": "npm run build:dist && ./node_modules/.bin/babel-node i18n/utils/legacyExport.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
