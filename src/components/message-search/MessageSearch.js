@@ -21,9 +21,10 @@ export default class MessageSearch extends Component {
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
-    total: PropTypes.number,
     query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    total: PropTypes.number,
+    user: PropTypes.object
   }
 
   static defaultProps = {
@@ -112,11 +113,12 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {query, sheet} = this.props
+    const {query, sheet, user} = this.props
     const {classes} = sheet
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
-      renderHighlight: this.renderHighlight
+      renderHighlight: this.renderHighlight,
+      user
     })
 
     return (
@@ -168,8 +170,11 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    const {images, title, isLoading, sheet} = this.props
+    const {user, images, title, isLoading, sheet} = this.props
     const {classes} = sheet
+
+    if (!user) return null
+
     return (
       <SidebarPanel
         title={title}

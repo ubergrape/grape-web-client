@@ -283,23 +283,50 @@ export function removeFromFavorite(channelId) {
 
 export function checkAuth() {
   return new Promise((resolve, reject) => {
-    const {host, protocol} = conf.server
-    request
-      .get(`${protocol}//${host}/accounts/session_state/`)
-      .withCredentials()
-      .end(err => {
-        if (err) return reject(err)
-        resolve()
-      })
+    const {host, protocol, authToken} = conf.server
+    const req = request.get(`${protocol}//${host}/accounts/session_state/`)
+    if (authToken) req.set('Authorization', `Token ${authToken}`)
+    req.end(err => {
+      if (err) return reject(err)
+      resolve()
+    })
   })
 }
+
+const historyBatchSize = 50
 
 export function loadHistory(channelId, options = {}) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, {limit: 50, ...options}]
+      args: [channelId, {limit: historyBatchSize, ...options}]
+    },
+    {camelize: true},
+    (err, res) => {
+      if (err) return reject(err)
+      resolve(res)
+    })
+  })
+}
+
+/**
+ * Load history at a position of specified message id.
+ */
+export function loadHistoryAt(channelId, messageId, options = {}) {
+  return new Promise((resolve, reject) => {
+    const limit = options.limit || historyBatchSize
+    // Amount of messages before the passed message id.
+    const before = Math.round(limit / 2)
+    // Amount of messages after the passed message id.
+    const after = before
+    // Return an error when message id not found, otherwise return fallback results.
+    const strict = true
+
+    rpc({
+      ns: 'channels',
+      action: 'focus_message',
+      args: [channelId, messageId, before, after, strict]
     },
     {camelize: true},
     (err, res) => {
@@ -353,12 +380,11 @@ export function readMessage(channelId, messageId) {
 
 export function loadConfig() {
   return new Promise((resolve, reject) => {
-    const {host, protocol} = conf.server
+    const {host, protocol, authToken} = conf.server
     const orgSubdomain = host.split('.')[0]
-
-    request
-      .get(`${protocol}//${host}/api/chat/config/`)
-      .withCredentials()
+    const req = request.get(`${protocol}//${host}/api/chat/config/`)
+    if (authToken) req.set('Authorization', `Token ${authToken}`)
+    req
       .query(toSnake({orgSubdomain}))
       .end((err, res) => {
         if (err) return reject(err)
