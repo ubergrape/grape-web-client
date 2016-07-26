@@ -45,7 +45,6 @@ const getValueIfChanged = (() => {
   }
 })()
 
-
 @useSheet(styles)
 export default class History extends Component {
   static propTypes = {
@@ -109,15 +108,17 @@ export default class History extends Component {
   }
 
   renderRow = (messages, index) => {
-    const {sheet, user, onEdit, onRemove, onResend} = this.props
+    const {sheet, user, onEdit, onRemove, onResend, scrollTo} = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
     const props = {
       key: `row-${message.id}`,
       isOwn: message.author.id === user.id,
-      user
+      user,
+      isSelected: scrollTo === message.id
     }
+
     const prevMessage = messages[index - 1]
 
     let separator = null

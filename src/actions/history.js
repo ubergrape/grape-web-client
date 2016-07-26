@@ -80,15 +80,11 @@ function loadFragment({channelId}, messageId) {
     api
       .loadHistoryAt(channelId, messageId)
       .then(res => {
-        const messages = normalizeMessages(res, getState())
-        const selectedMessage = find(messages, {id: messageId})
-        selectedMessage.isSelected = true
-
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
-            messages,
-            scrollTo: selectedMessage.id
+            messages: normalizeMessages(res, getState()),
+            scrollTo: messageId
           }
         })
       })
