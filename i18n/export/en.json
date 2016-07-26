@@ -1,6 +1,72 @@
 {
-  "title": {
-    "defaultMessage": "i18n in Title:",
-    "description": "this is used in title"
+  "lostConnectionAlert": {
+    "defaultMessage": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
+    "description": "**Describe lostConnectionAlert**: it is alert asking for reload page."
+  },
+  "reload": {
+    "defaultMessage": "reload"
+  },
+  "heyThereAddressing": {
+    "defaultMessage": "Hey there!"
+  },
+  "enableNotificationsRequest": {
+    "defaultMessage": "Please enable desktop notifications"
+  },
+  "notificationsExplanation": {
+    "defaultMessage": "so your team members can reach you on Grape."
+  },
+  "EnableNotifications": {
+    "defaultMessage": "Enable notifications"
+  },
+  "reconnectAlert": {
+    "defaultMessage": "Reconnected successfully."
+  },
+  "noRoomFound": {
+    "defaultMessage": "We could not find what you were looking for - the room might have been deleted, renamed or moved."
+  },
+  "noMessageFound": {
+    "defaultMessage": "We could not find the message you were looking for."
+  },
+  "cantMessageYourself": {
+    "defaultMessage": "You cannot message yourself."
+  },
+  "loadingChatHistory": {
+    "defaultMessage": "Loading your chat history…"
+  },
+  "GrapeTrial": {
+    "defaultMessage": "Grape Trial"
+  },
+  "ContinueTrial": {
+    "defaultMessage": "Continue Trial"
+  },
+  "EnterDetails": {
+    "defaultMessage": "Enter Details"
+  },
+  "CreateNewPrivateGroup": {
+    "defaultMessage": "Create new private group"
+  },
+  "InviteToGroup": {
+    "defaultMessage": "Invite to group"
+  },
+  "CreateGroup": {
+    "defaultMessage": "Create group"
+  },
+  "InviteMembers": {
+    "defaultMessage": "Invite members"
+  },
+  "usersNotFoundFor": {
+    "defaultMessage": "No one found for"
+  },
+  "everyoneInvited": {
+    "defaultMessage": "Everyone has been invited to this group"
+  },
+  "InviteToTeam": {
+    "defaultMessage": "Invite a new person to your team…"
+  },
+  "TypeName": {
+    "defaultMessage": "Type name..."
+  },
+  "close": {
+    "defaultMessage": "close"
   }
 }
