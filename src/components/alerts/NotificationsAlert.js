@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-
+import {FormattedMessage} from 'react-intl'
 import {useSheet} from 'grape-web/lib/jss'
+
+import {CloseLower as Close} from '../i18n/i18n'
 import style from './alertStyle'
 
 @useSheet(style)
@@ -26,20 +28,30 @@ export default class NotificationsAlert extends Component {
         className={classes.layout}>
         <span
           className={classes.mainCol}>
-          {'Hey there! '}
+          <FormattedMessage
+            id="heyThereAddressing"
+            defaultMessage="Hey there!" />
+          {' '}
           <button
             className={classes.buttonLink}
             onClick={onEnableNotifications}>
-            Please enable desktop notifications
+            <FormattedMessage
+              id="enableNotificationsRequest"
+              defaultMessage="Please enable desktop notifications" />
           </button>
-          {' so your team members can reach you on Grape.'}
+          {' '}
+          <FormattedMessage
+            id="notificationsExplanation"
+            defaultMessage="so your team members can reach you on Grape." />
         </span>
         <span
           className={classes.secondaryCol}>
           <button
             className={`${classes.actionButton} ${classes[alert.level + 'Button']}`}
             onClick={onEnableNotifications}>
-            Enable notifications
+            <FormattedMessage
+              id="EnableNotifications"
+              defaultMessage="Enable notifications" />
           </button>
         </span>
         <span
@@ -47,7 +59,7 @@ export default class NotificationsAlert extends Component {
           <button
             className={classes.buttonLink}
             onClick={this.props.hideAlert.bind(null, alert)}>
-            close
+              <Close />
           </button>
         </span>
       </span>

@@ -49,10 +49,6 @@ Button.propTypes = {
 function Title({channel, mate, theme}) {
   const title = (
     <h1 className={theme.classes.name}>
-      <FormattedMessage
-        id="title"
-        description="this is used in title"
-        defaultMessage="i18n in Title: " />
       {channel.name || mate.displayName}
     </h1>
   )

@@ -1,4 +1,10 @@
 import React, {PropTypes} from 'react'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
@@ -17,6 +23,42 @@ function onInviteUsersClick(props) {
   hideChannelMembersInvite()
 }
 
+const messages = defineMessages({
+  pm: {
+    id: 'CreateNewPrivateGroup',
+    defaultMessage: 'Create new private group'
+  },
+  room: {
+    id: 'InviteToGroup',
+    defaultMessage: 'Invite to group'
+  }
+})
+
+function getFormattedMessage(channelType, mission) {
+  if (mission === 'title') return messages[channelType]
+
+  if (mission === 'button') {
+    switch (channelType) {
+      case 'pm':
+        return (
+          <FormattedMessage
+            id="CreateGroup"
+            defaultMessage="Create group" />
+        )
+      case 'room':
+        return (
+        <FormattedMessage
+          id="InviteMembers"
+          defaultMessage="Invite members" />
+        )
+      default:
+        return null
+    }
+  }
+
+  return null
+}
+
 function InviteButton(props) {
   const {listed, channelType, theme} = props
   const {classes} = theme
@@ -26,7 +68,7 @@ function InviteButton(props) {
         className={classes.buttonInvite}
         onClick={() => onInviteUsersClick(props)}
         disabled={!listed.length}>
-        {channelType === 'pm' ? 'Create group' : 'Invite members'}
+        {getFormattedMessage(channelType, 'button')}
       </button>
     </div>
   )
@@ -38,17 +80,6 @@ InviteButton.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-function getTitle(channelType) {
-  switch (channelType) {
-    case 'room':
-      return 'Invite to group'
-    case 'pm':
-      return 'Create new private group'
-    default:
-      return ''
-  }
-}
-
 function ChannelMembersInvite(props) {
   const {
     sheet, channelType, hideChannelMembersInvite,
@@ -58,11 +89,12 @@ function ChannelMembersInvite(props) {
 
   if (!channelType) return null
 
+  const {formatMessage} = props.intl
   const {classes} = sheet
   return (
     <ChooseUsersDialog
       {...rest}
-      title={getTitle(props.channelType)}
+      title={formatMessage(getFormattedMessage(channelType, 'title'))}
       theme={{classes}}
       listed={listed}
       onHide={hideChannelMembersInvite}
@@ -78,6 +110,7 @@ function ChannelMembersInvite(props) {
 }
 
 ChannelMembersInvite.propTypes = {
+  intl: intlShape.isRequired,
   sheet: PropTypes.object.isRequired,
   addToChannelMembersInvite: PropTypes.func.isRequired,
   removeFromChannelMembersInvite: PropTypes.func.isRequired,
@@ -89,4 +122,4 @@ ChannelMembersInvite.propTypes = {
   channelType: PropTypes.string
 }
 
-export default useSheet(ChannelMembersInvite, style)
+export default injectIntl(useSheet(ChannelMembersInvite, style))

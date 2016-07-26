@@ -37,19 +37,19 @@ Raven.setUser({
 })
 
 render(
-  createElement(BillingWarningProvider),
+  createElement(wrapWithIntlProvider(BillingWarningProvider, languageCode, messages)),
   document.body.appendChild(document.createElement('grape-billing-warning'))
 )
 render(
-  createElement(ChannelMembersInviteProvider),
+  createElement(wrapWithIntlProvider(ChannelMembersInviteProvider, languageCode, messages)),
   document.body.appendChild(document.createElement('grape-channel-members-invite'))
 )
 render(
-  createElement(NewConversationProvider),
+  createElement(wrapWithIntlProvider(NewConversationProvider, languageCode, messages)),
   document.body.appendChild(document.createElement('grape-new-conversation'))
 )
 render(
-  createElement(UnreadChannelsProvider),
+  createElement(wrapWithIntlProvider(UnreadChannelsProvider, languageCode, messages)),
   document.createElement('grape-unread-channels')
 )
 
@@ -57,12 +57,36 @@ document.registerReact(
   'grape-header',
   wrapWithIntlProvider(HeaderProvider, languageCode, messages)
 )
-document.registerReact('grape-sidebar', SidebarProvider)
-document.registerReact('grape-typing-notification', TypingNotificationProvider)
-document.registerReact('grape-alerts', AlertsProvider)
-document.registerReact('grape-orginfo', OrgInfoProvider)
-document.registerReact('grape-navigation', NavigationProvider)
-document.registerReact('grape-history', HistoryProvider)
+
+document.registerReact(
+  'grape-sidebar',
+  wrapWithIntlProvider(SidebarProvider, languageCode, messages)
+)
+
+document.registerReact(
+  'grape-typing-notification',
+  wrapWithIntlProvider(TypingNotificationProvider, languageCode, messages)
+)
+
+document.registerReact(
+  'grape-alerts',
+  wrapWithIntlProvider(AlertsProvider, languageCode, messages)
+)
+
+document.registerReact(
+  'grape-orginfo',
+  wrapWithIntlProvider(OrgInfoProvider, languageCode, messages)
+)
+
+document.registerReact(
+  'grape-navigation',
+  wrapWithIntlProvider(NavigationProvider, languageCode, messages)
+)
+
+document.registerReact(
+  'grape-history',
+  wrapWithIntlProvider(HistoryProvider, languageCode, messages)
+)
 
 export default function init() {
   subscribeActions(createClient().connect())

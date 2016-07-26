@@ -1,4 +1,10 @@
 import React, {PropTypes} from 'react'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 import {useSheet} from 'grape-web/lib/jss'
 
 import style from './style'
@@ -41,7 +47,10 @@ function NotFound({sheet, filter}) {
   return (
     <div
       className={sheet.classes.note}>
-      {'No one found for '}
+        <FormattedMessage
+          id="usersNotFoundFor"
+          defaultMessage="No one found for" />
+        {' '}
       <strong>{filter}</strong>
     </div>
   )
@@ -57,7 +66,9 @@ function NoUsers({sheet}) {
   return (
     <div
       className={sheet.classes.note}>
-      Everyone has been invited to this group
+      <FormattedMessage
+        id="everyoneInvited"
+        defaultMessage="Everyone has been invited to this group" />
     </div>
   )
 }
@@ -78,7 +89,9 @@ function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
           onHide()
           showOrgInvite()
         }}>
-        Invite a new person to your team…
+        <FormattedMessage
+          id="InviteToTeam"
+          defaultMessage="Invite a new person to your team…" />
       </button>
     </div>
   )
@@ -91,6 +104,13 @@ OrgInviteButton.propTypes = {
   showOrgInvite: PropTypes.func.isRequired
 }
 
+const messages = defineMessages({
+  placeholder: {
+    id: 'TypeName',
+    defaultMessage: 'Type name...'
+  }
+})
+
 function ChooseUsersDialog(props) {
   const {
     sheet, show, filter, listed, title,
@@ -99,6 +119,8 @@ function ChooseUsersDialog(props) {
     onChangeFilter, onSelectUser,
     onRemoveSelectedUser
   } = props
+
+  const {formatMessage} = props.intl
 
   const {classes} = sheet
 
@@ -116,7 +138,7 @@ function ChooseUsersDialog(props) {
           filter={filter}
           items={getFilteredUsers(props)}
           selected={listed}
-          placeholder={'Type name...'}
+          placeholder={formatMessage(messages.placeholder)}
           onChange={onChangeFilter}
           onSelect={onSelectUser}
           onRemoveSelected={onRemoveSelectedUser}
@@ -137,6 +159,7 @@ function ChooseUsersDialog(props) {
 }
 
 ChooseUsersDialog.propTypes = {
+  intl: intlShape.isRequired,
   sheet: PropTypes.object.isRequired,
   beforeList: PropTypes.node,
   children: PropTypes.node,
@@ -147,11 +170,14 @@ ChooseUsersDialog.propTypes = {
   showOrgInvite: PropTypes.func.isRequired,
   listed: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   filter: PropTypes.string.isRequired,
   isInviter: PropTypes.bool.isRequired,
   filterFocus: PropTypes.bool,
   show: PropTypes.bool.isRequired
 }
 
-export default useSheet(ChooseUsersDialog, style)
+export default injectIntl(useSheet(ChooseUsersDialog, style))
