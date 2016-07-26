@@ -26,7 +26,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         channelId: payload.channel.id,
-        messageId: payload.messageId
+        selectedMessageId: payload.messageId
       }
     case types.HANDLE_INITIAL_HISTORY:
       // No need to rerender if no messages been loaded.

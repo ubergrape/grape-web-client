@@ -106,7 +106,7 @@ export function loadHistory(params) {
     if (!params.jumpToEnd) {
       if (params.startIndex !== undefined) return dispatch(loadMore(params))
 
-      const {messageId} = historySelector(getState())
+      const {selectedMessageId: messageId} = historySelector(getState())
       if (messageId) return dispatch(loadFragment(params, messageId))
     }
 
