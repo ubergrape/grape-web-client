@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer} from 'react-virtualized'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import noop from 'lodash/utility/noop'
+import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
 
 import AutoRowHeight from '../react-virtualized/AutoRowHeight'
@@ -17,7 +18,7 @@ export default class InfiniteList extends Component {
     onLoadMore: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    scrollTo: PropTypes.object,
+    scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
     cacheSize: PropTypes.number
   }
@@ -50,6 +51,7 @@ export default class InfiniteList extends Component {
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
+    const focusedMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
 
     return (
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
@@ -74,7 +76,7 @@ export default class InfiniteList extends Component {
                   <AutoScroll
                     rows={rows}
                     rowHeight={rowHeight}
-                    scrollToIndex={scrollTo ? messages.indexOf(scrollTo) : undefined}>
+                    scrollToIndex={focusedMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,

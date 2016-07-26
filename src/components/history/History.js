@@ -16,17 +16,6 @@ const messageTypes = {
   activity: ActivityMessage
 }
 
-const propTypeMessage = PropTypes.shape({
-  type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
-  author: PropTypes.shape({
-    id: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]).isRequired
-  }).isRequired,
-  time: PropTypes.instanceOf(Date).isRequired
-})
-
 // Group messages under same avatar/name if they are send within this time distance.
 const timeThreshold = 5 * 60 * 1000
 
@@ -67,9 +56,20 @@ export default class History extends Component {
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
     channelId: PropTypes.number,
-    messages: PropTypes.arrayOf(propTypeMessage),
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
+        author: PropTypes.shape({
+          id: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+          ]).isRequired
+        }).isRequired,
+        time: PropTypes.instanceOf(Date).isRequired
+      })
+    ),
     user: PropTypes.object,
-    scrollTo: propTypeMessage,
+    scrollTo: PropTypes.string,
     cacheSize: PropTypes.number
   }
 

@@ -37,7 +37,7 @@ function loadLatest({channelId}) {
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages,
-            scrollTo: last(messages)
+            scrollTo: last(messages).id
           }
         })
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -81,14 +81,14 @@ function loadFragment({channelId}, messageId) {
       .loadHistoryAt(channelId, messageId)
       .then(res => {
         const messages = normalizeMessages(res, getState())
-        const scrollTo = find(messages, {id: messageId})
-        scrollTo.isSelected = true
+        const selectedMessage = find(messages, {id: messageId})
+        selectedMessage.isSelected = true
 
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages,
-            scrollTo
+            scrollTo: selectedMessage.id
           }
         })
       })
