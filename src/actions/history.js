@@ -1,4 +1,3 @@
-import find from 'lodash/collection/find'
 import findLast from 'lodash/collection/findLast'
 import last from 'lodash/array/last'
 
