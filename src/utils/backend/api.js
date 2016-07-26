@@ -317,7 +317,7 @@ export function loadHistoryAt(channelId, messageId, options = {}) {
   return new Promise((resolve, reject) => {
     const limit = options.limit || historyBatchSize
     // Amount of messages before the passed message id.
-    const before = limit / 2
+    const before = Math.round(limit / 2)
     // Amount of messages after the passed message id.
     const after = before
     // Return an error when message id not found, otherwise return fallback results.
