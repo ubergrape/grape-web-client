@@ -5,6 +5,11 @@ import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
 import moment from 'moment'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
@@ -60,11 +65,20 @@ DeliveryState.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+const messages = defineMessages({
+  confirm: {
+    id: 'deleteMessagesQuestion',
+    defaultMessage: 'Delete the selected Message?'
+  }
+})
+
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @useSheet(styles)
+@injectIntl
 export default class RegularMessage extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
@@ -112,11 +126,13 @@ export default class RegularMessage extends Component {
       case 'copyLink':
         copy(this.props.link)
         break
-      case 'remove':
-        if (confirm('Delete the selected Message?')) { // eslint-disable-line no-alert
+      case 'remove': {
+        const {formatMessage} = this.props.intl
+        if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
           this.props.onRemove()
         }
         break
+      }
       case 'edit':
         this.props.onEdit()
         break

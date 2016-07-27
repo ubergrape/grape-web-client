@@ -8,3 +8,11 @@ export function CloseLower() {
       defaultMessage="close" />
   )
 }
+
+export function Done() {
+  return (
+    <FormattedMessage
+      id="Done"
+      defaultMessage="Done" />
+  )
+}

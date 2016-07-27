@@ -23,7 +23,8 @@ const messages = defineMessages({
  * Billing warning dialog.
  */
 @useSheet(style)
-class BillingWarning extends Component {
+@injectIntl
+export default class BillingWarning extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -81,5 +82,3 @@ class BillingWarning extends Component {
     )
   }
 }
-
-export default injectIntl(BillingWarning)
