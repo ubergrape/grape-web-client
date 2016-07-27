@@ -69,7 +69,8 @@ export default class History extends Component {
     ),
     user: PropTypes.object,
     scrollTo: PropTypes.string,
-    cacheSize: PropTypes.number
+    cacheSize: PropTypes.number,
+    minimumBatchSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -155,7 +156,7 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, user, cacheSize, scrollTo} = this.props
+    const {sheet, messages, user, cacheSize, scrollTo, minimumBatchSize} = this.props
     const {classes} = sheet
 
     if (!user || !messages.length) return null
@@ -176,6 +177,7 @@ export default class History extends Component {
             scrollTo={getValueIfChanged(scrollTo)}
             messages={messages}
             cacheSize={cacheSize}
+            minimumBatchSize={minimumBatchSize}
             onLoadMore={this.onLoadMore}
             renderRow={this.renderRow} />
         )}

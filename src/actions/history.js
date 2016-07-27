@@ -76,13 +76,16 @@ function loadMore({startIndex, stopIndex, channelId}) {
 
 function loadFragment({channelId}, messageId) {
   return (dispatch, getState) => {
+    const state = getState()
+    const {minimumBatchSize: limit} = historySelector(state)
+
     api
-      .loadHistoryAt(channelId, messageId)
+      .loadHistoryAt(channelId, messageId, {limit})
       .then(res => {
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res, state),
             scrollTo: messageId
           }
         })

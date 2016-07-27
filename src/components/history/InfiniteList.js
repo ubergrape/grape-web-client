@@ -18,6 +18,7 @@ export default class InfiniteList extends Component {
     onLoadMore: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
+    minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
     cacheSize: PropTypes.number
@@ -47,12 +48,12 @@ export default class InfiniteList extends Component {
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize
+      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize,
+      minimumBatchSize
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
     const focusedMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
-
     return (
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
         {({
@@ -66,7 +67,7 @@ export default class InfiniteList extends Component {
             isRowLoaded={isRowLoaded}
             loadMoreRows={onLoadMore}
             threshold={5}
-            minimumBatchSize={40}>
+            minimumBatchSize={minimumBatchSize}>
             {({
               onRowsRendered: onRowsRenderedInInfiniteLoader,
               onScroll: onScrollInInfiniteLoader
