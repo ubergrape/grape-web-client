@@ -1,5 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
+import {
+  findDOMNode,
+  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
+  unmountComponentAtNode
+} from 'react-dom'
 import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 
@@ -35,7 +39,7 @@ class Cache {
  * If it is not rendered, use `container` to render it and detect the height.
  * If it is already rendered, detect the height in place.
  */
-function getHeight(element, container, callback) {
+function getHeight(component, element, container, callback) {
   const node = element.render && findDOMNode(element)
 
   if (node) {
@@ -43,8 +47,9 @@ function getHeight(element, container, callback) {
     return
   }
 
-  // Callback's context is the node.
-  render(element, container, function onRender() {
+  // Using unstable `react-dom` API to render with `context`
+  // https://github.com/facebook/react/issues/4706
+  renderSubtreeIntoContainer(component, element, container, function onRender() {
     const {clientHeight} = this
     unmountComponentAtNode(container)
     callback(clientHeight)
@@ -147,7 +152,7 @@ export default class AutoRowHeight extends Component {
         return
       }
 
-      getHeight(element, this.hiddenContainer, height => {
+      getHeight(this, element, this.hiddenContainer, height => {
         this.heights.set(element, height)
         done()
       })
