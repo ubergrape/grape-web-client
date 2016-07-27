@@ -16,6 +16,7 @@ export function renderTag(tag, props, children) {
       props.target = '_blank'
     }
   }
+
   return createElement(tag, props, children)
 }
 

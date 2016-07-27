@@ -85,7 +85,6 @@ export default class AutoRowHeight extends Component {
   }
 
   componentDidMount() {
-    this.hiddenContainer = findDOMNode(this.refs.hiddenContainer)
     this.calcAndCacheHeights(this.props.rows, false, () => {
       this.heightsInitialized = true
       this.forceUpdate()
@@ -109,6 +108,10 @@ export default class AutoRowHeight extends Component {
     }
 
     this.calcAndCacheHeights(this.props.rows, true, this.recomputeRowHeights)
+  }
+
+  onMountHiddenContainer = (container) => {
+    this.hiddenContainer = container
   }
 
   registerScroller = (ref) => (this.scroller = ref)
@@ -151,6 +154,7 @@ export default class AutoRowHeight extends Component {
     })
   }
 
+
   /**
    * Ensure only current elements heights are cached.
    * Otherwise we will leak refs to the old elements.
@@ -173,7 +177,7 @@ export default class AutoRowHeight extends Component {
   render() {
     return (
       <div style={containerStyle}>
-        <div style={hiddenContainerStyle} ref="hiddenContainer"></div>
+        <div style={hiddenContainerStyle} ref={this.onMountHiddenContainer}></div>
         {this.heightsInitialized && this.props.children(this.childrenParam)}
       </div>
     )

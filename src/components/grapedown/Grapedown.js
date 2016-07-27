@@ -1,7 +1,22 @@
-import createRender from './createRender'
+import {Component, PropTypes} from 'react'
+import createRender, {renderTag} from './createRender'
 
-const render = createRender()
+export default class Grapedown extends Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired
+  }
 
-export default function Grapedown(props) {
-  return render(props.text)
+  constructor(props) {
+    super(props)
+    this.mdRender = createRender({onIterate: this.renderTag})
+  }
+
+  renderTag = (tag, props, children) => {
+    return renderTag(tag, {...props, user: this.props.user}, children)
+  }
+
+  render() {
+    return this.mdRender(this.props.text)
+  }
 }
