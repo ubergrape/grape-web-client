@@ -1,13 +1,27 @@
 import React, {Component, PropTypes} from 'react'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import {maxChannelNameLength} from '../../constants/app'
 import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
 
+const messages = defineMessages({
+  placeholder: {
+    id: 'EnterGroupNameHere',
+    defaultMessage: 'Enter group name here…'
+  }
+})
+
+@injectIntl
 export default class MainSettings extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
     onChangePrivacy: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
@@ -51,14 +65,15 @@ export default class MainSettings extends Component {
       renameRoom,
       clearRoomRenameError,
       channel,
-      allowEdit
+      allowEdit,
+      intl
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
     return (
       <div className={classes.roomName}>
         <EditableText
-          placeholder="Enter group name here…"
+          placeholder={intl.formatMessage(messages.placeholder)}
           clearError={clearRoomRenameError}
           maxLength={maxChannelNameLength}
           onSave={renameRoom}

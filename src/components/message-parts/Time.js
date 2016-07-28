@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {useSheet} from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
+import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
@@ -24,7 +25,12 @@ function UserTime(props) {
       {isOpened &&
         <ThemedTooltip placement="bottom">
           <div className={classes.userTimeContainer}>
-            <span className={classes.userTimeText}>Local time: </span>
+            <span className={classes.userTimeText}>
+              <FormattedMessage
+                id="LocalTime"
+                defaultMessage="Local time" />
+              {': '}
+            </span>
             <span className={classes.userTimeTime}>{moment(userTime).format(format)}</span>
           </div>
         </ThemedTooltip>

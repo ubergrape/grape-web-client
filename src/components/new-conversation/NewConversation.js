@@ -2,6 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import {useSheet} from 'grape-web/lib/jss'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './style'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
@@ -20,7 +26,9 @@ function FooterButtons(props) {
           <button
             className={classes.roomSettingsButton}
             onClick={onClickSettings}>
-            Advanced Options
+            <FormattedMessage
+              id="AdvancedOptions"
+              defaultMessage="Advanced Options" />
           </button>
         }
       </div>
@@ -55,10 +63,19 @@ function getInitialState() {
   }
 }
 
+const messages = defineMessages({
+  title: {
+    id: 'NewConversation_',
+    defaultMessage: 'New Conversation'
+  }
+})
+
 @useSheet(style)
+@injectIntl
 export default class NewConversation extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     organization: PropTypes.number,
     error: PropTypes.object.isRequired,
     createRoomWithUsers: PropTypes.func.isRequired,
@@ -156,7 +173,7 @@ export default class NewConversation extends Component {
     const {
       sheet, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
-      showNewConversationAdvanced, organization
+      showNewConversationAdvanced, organization, intl
     } = this.props
 
     if (!organization) return null
@@ -165,7 +182,7 @@ export default class NewConversation extends Component {
     return (
       <ChooseUsersDialog
         {...this.props}
-        title="New Conversation"
+        title={intl.formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}
         filterFocus={!this.state.roomNameFocused}

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -33,14 +34,33 @@ export default class TypingUsers extends Component {
     let text
 
     if (names.length === 1) {
-      text = `${names[0]} is typing`
+      text = (
+        <FormattedMessage
+          id="userIsTyping"
+          values={{user: names[0]}}
+          defaultMessage="{user} is typing"/>
+      )
     } else if (names.length <= max) {
       const last = names.pop()
-      text = `${names.join(', ')} and ${last} are typing`
+      text = (
+        <FormattedMessage
+          id="userAndUsersAreTyping"
+          values={{
+            users: names.join(', '),
+            user: last
+          }}
+          defaultMessage="{users} and {user} are typing"/>
+      )
     } else {
-      const othersAmount = names.length - max
-      const others = othersAmount > 1 ? 'others' : 'other'
-      text = `${names.slice(0, max).join(', ')} and ${othersAmount} ${others} are typing`
+      text = (
+        <FormattedMessage
+          id="UsersAreTyping"
+          values={{
+            users: names.slice(0, max).join(', '),
+            othersAmount: names.length - max
+          }}
+          defaultMessage="{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"/>
+      )
     }
 
     return (

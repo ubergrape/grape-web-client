@@ -6,6 +6,7 @@ import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
 import moment from 'moment'
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -30,8 +31,16 @@ function UnsentWarning(props) {
 
   return (
     <div className={classes.unsentWarning}>
-      {' This message didn\'t send. Check your internet connection and '}
-      <a href="" onClick={onResend}>click to try again</a>.
+      {' '}
+      <FormattedMessage
+        id="messageNotSendCheckConnection"
+        defaultMessage="This message didn't send. Check your internet connection and" />
+      {' '}
+      <a href="" onClick={onResend}>
+        <FormattedMessage
+          id="clickToTryAgain"
+          defaultMessage="click to try again" />
+      </a>.
     </div>
   )
 }

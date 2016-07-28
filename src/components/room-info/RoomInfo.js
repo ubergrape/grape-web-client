@@ -1,6 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import isEmpty from 'lodash/lang/isEmpty'
-
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -10,10 +15,23 @@ import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import MainSettings from './MainSettings'
 
+const messages = defineMessages({
+  placeholder: {
+    id: 'addGroupDescription',
+    defaultMessage: 'Add a group description here…'
+  },
+  title: {
+    id: 'GroupInfo',
+    defaultMessage: 'Group Info'
+  }
+})
+
 @useSheet(style)
+@injectIntl
 export default class RoomInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     channel: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
@@ -150,11 +168,11 @@ export default class RoomInfo extends Component {
   }
 
   renderDescriptionEditable() {
-    const {channel} = this.props
+    const {channel, intl} = this.props
     if (!this.state.allowEdit) return <p>{channel.description}</p>
     return (
       <EditableText
-        placeholder="Add a group description here…"
+        placeholder={intl.formatMessage(messages.placeholder)}
         maxLength={maxChannelDescriptionLength}
         onSave={::this.onSetRoomDescription}
         value={channel.description}
@@ -170,14 +188,18 @@ export default class RoomInfo extends Component {
     const {classes} = sheet
     return (
       <article className={classes.roomDescription}>
-        <h2 className={classes.title}>Description</h2>
+        <h2 className={classes.title}>
+          <FormattedMessage
+            id="Description"
+            defaultMessage="Description" />
+        </h2>
         {this.renderDescriptionEditable()}
       </article>
     )
   }
 
   render() {
-    const {channel, renameError, clearRoomRenameError} = this.props
+    const {channel, renameError, clearRoomRenameError, intl} = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -185,7 +207,7 @@ export default class RoomInfo extends Component {
 
     return (
       <SidebarPanel
-        title="Group Info"
+        title={intl.formatMessage(messages.title)}
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
@@ -208,21 +230,28 @@ export default class RoomInfo extends Component {
                 <button
                   onClick={::this.onInvite}
                   className={classes.buttonInvite}>
-                  Invite more people to this group
+                    <FormattedMessage
+                      id="inviteMoreToGroup"
+                      defaultMessage="Invite more people to this group" />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={::this.onAddIntegration}
                   className={classes.buttonIntegration}>
-                  Add service integration
+                  <FormattedMessage
+                    id="AddServiceIntegration"
+                    defaultMessage="Add service integration" />
                 </button>
               </li>
               <li className={classes.actionItem}>
                 <button
                   onClick={::this.onLeave}
                   className={classes.buttonLeave}>
-                  Leave {channel.name}
+                  <FormattedMessage
+                    id="Leave"
+                    defaultMessage="Leave" />
+                  {` ${channel.name}`}
                 </button>
               </li>
             </ul>

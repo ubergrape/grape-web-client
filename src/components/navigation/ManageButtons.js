@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 
 export default function ManageButtons(props) {
   const {
@@ -18,21 +19,30 @@ export default function ManageButtons(props) {
         <button
           className={classes.newConversation}
           onClick={showNewConversation}>
-          New Conversation
+          <FormattedMessage
+            id="NewConversation"
+            description="*Describe NewConversation*: this is used in Navigation"
+            defaultMessage="New Conversation" />
         </button>
       </li>
       <li className={classes.manageItem}>
         <button
           className={classes.contacts}
           onClick={showPmManager}>
-          Contacts
+          <FormattedMessage
+            id="Contacts"
+            description="*Describe Contacts*: this is used in Navigation"
+            defaultMessage="Contacts" />
         </button>
       </li>
       <li className={classes.manageItem}>
         <button
           className={classes.channels}
           onClick={showChannelsManager}>
-          Groups
+          <FormattedMessage
+            id="Groups"
+            description="*Describe Groups*: this is used in Navigation"
+            defaultMessage="Groups" />
         </button>
       </li>
     </ul>

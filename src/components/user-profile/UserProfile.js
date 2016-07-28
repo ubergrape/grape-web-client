@@ -4,11 +4,27 @@ import {useSheet} from 'grape-web/lib/jss'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import style from './style'
 
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
+
+const messages = defineMessages({
+  title: {
+    id: 'UserProfile',
+    defaultMessage: 'User Profile'
+  }
+})
+
 @useSheet(style)
+@injectIntl
 export default class UserProfile extends Component {
   static propTypes = {
-    hideSidebar: PropTypes.func.isRequired,
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+    hideSidebar: PropTypes.func.isRequired,
     avatar: PropTypes.string,
     username: PropTypes.string,
     displayName: PropTypes.string,
@@ -33,11 +49,12 @@ export default class UserProfile extends Component {
       whatIDo,
       email,
       skypeUsername,
-      phoneNumber
+      phoneNumber,
+      intl
     } = this.props
     return (
       <SidebarPanel
-        title="User Profile"
+        title={intl.formatMessage(messages.title)}
         onClose={::this.onClose}>
         <div className={classes.profile}>
           <div className={classes.leftColumn}>
@@ -54,18 +71,27 @@ export default class UserProfile extends Component {
         </div>
         <div>
           {whatIDo && <div className={classes.about}>
-            <p>What I do:</p>
+            <p>
+              <FormattedMessage
+                id="WhatIDo"
+                defaultMessage="What I do" />
+              :
+            </p>
             <p>{whatIDo}</p>
           </div>}
-          <a href={`mailto:${email}`} className={classes.email}>
-            {email}
-          </a>
-          {skypeUsername && <a href={`skype:${skypeUsername}`} className={classes.skype}>
-            {skypeUsername}
-          </a>}
-          {phoneNumber && <a href={`tel:${phoneNumber}`} className={classes.phone}>
-            {phoneNumber}
-          </a>}
+          <ul>
+            <li>
+              <a href={`mailto:${email}`} className={classes.email}>
+                {email}
+              </a>
+            </li>
+            {skypeUsername && <li><a href={`skype:${skypeUsername}`} className={classes.skype}>
+              {skypeUsername}
+            </a></li>}
+            {phoneNumber && <li><a href={`tel:${phoneNumber}`} className={classes.phone}>
+              {phoneNumber}
+            </a></li>}
+          </ul>
         </div>
       </SidebarPanel>
     )

@@ -3,6 +3,7 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
+import {FormattedMessage} from 'react-intl'
 
 import style from './messageSearchStyles'
 import Message from './Message'
@@ -10,6 +11,7 @@ import createGrapedownWithSearch from './createGrapedownWithSearch'
 import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
+import {ShowMore} from '../i18n/i18n'
 
 @useSheet(style)
 export default class MessageSearch extends Component {
@@ -153,7 +155,7 @@ export default class MessageSearch extends Component {
         <button
           onClick={::this.onLoadMore}
           className={classes.button}>
-          Show more
+          <ShowMore />
         </button>
       </div>
     )
@@ -164,7 +166,10 @@ export default class MessageSearch extends Component {
     if (this.props.total !== 0) return null
     return (
       <div className={classes.empty}>
-        No messages found.
+        <FormattedMessage
+          id="NoMessageFound"
+          defaultMessage="No messages found" />
+        .
       </div>
     )
   }
