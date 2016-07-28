@@ -1,5 +1,8 @@
 import {Component, PropTypes} from 'react'
+import pick from 'lodash/object/pick'
+
 import createRender, {renderTag} from './createRender'
+import {nonStandardProps} from './utils'
 
 export default class Grapedown extends Component {
   static propTypes = {
@@ -13,7 +16,7 @@ export default class Grapedown extends Component {
   }
 
   renderTag = (tag, props, children) => {
-    return renderTag(tag, {...props, user: this.props.user}, children)
+    return renderTag(tag, {...props, ...pick(this.props, nonStandardProps)}, children)
   }
 
   render() {

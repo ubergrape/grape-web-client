@@ -12,3 +12,5 @@ export function isChatUrl(url) {
   parser.href = url
   return parser.host === host && pathname.indexOf(chatPath) === 0
 }
+
+export const nonStandardProps = ['user']
