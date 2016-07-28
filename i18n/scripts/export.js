@@ -3,6 +3,7 @@ import {sync as globSync} from 'glob'
 
 const messagesPattern = './i18n/src/**/*.json'
 const langDir = './i18n/export/'
+const lastImport = JSON.parse(fs.readFileSync('./i18n/import/en.json', 'utf8'))
 
 // Aggregates the default messages that were extracted from the example app's
 // React components via the React Intl Babel plugin. An error will be thrown if
@@ -17,13 +18,12 @@ const defaultMessages = globSync(messagesPattern)
           throw new Error(`Duplicate message id: ${id}`)
         }
 
-        collection[id] = {
-          defaultMessage,
-          description
-        }
+        // use edited value from last import or create new from source
+        collection[id] = lastImport[id] || {defaultMessage, description}
       })
 
       return collection
     }, {})
+
 
 fs.writeFileSync(langDir + 'en.json', JSON.stringify(defaultMessages, null, 2))
