@@ -1,6 +1,7 @@
 /* eslint-disable */
 /**
- * This is auto-generated file.
+ * This is auto-generated file by './i18n/utils/import.js'.
+ * Details at https://github.com/ubergrape/chatgrape/wiki/Web-client-i18n
  * DON'T EDIT!
  */
 export default {
@@ -79,7 +80,7 @@ export default {
   "Hit ": "Hit ",
   "ESC": "ESC",
   " to cancel editing.": " to cancel editing.",
-  "LEGACY i18n: You can also use ": "LEGACY i18n (en): You can also use ",
+  "LEGACY i18n: You can also use ": "LEGACY i18n: You can also use ",
   "markdown": "markdown",
   "Compact View": "Compact View",
   "Invite new members": "Invite new members",

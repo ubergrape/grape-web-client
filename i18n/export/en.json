@@ -66,7 +66,139 @@
   "TypeName": {
     "defaultMessage": "Type name..."
   },
+  "SearchMessages": {
+    "defaultMessage": "Search messages"
+  },
+  "messageNotSendCheckConnection": {
+    "defaultMessage": "This message didn't send. Check your internet connection and"
+  },
+  "clickToTryAgain": {
+    "defaultMessage": "click to try again"
+  },
+  "deleteMessagesQuestion": {
+    "defaultMessage": "Delete the selected Message?"
+  },
   "close": {
     "defaultMessage": "close"
+  },
+  "Done": {
+    "defaultMessage": "Done"
+  },
+  "in": {
+    "defaultMessage": "in"
+  },
+  "with": {
+    "defaultMessage": "with"
+  },
+  "ShowMore": {
+    "defaultMessage": "Show more"
+  },
+  "GrapeTeam": {
+    "defaultMessage": "Grape Team"
+  },
+  "DeletedUser": {
+    "defaultMessage": "Deleted user"
+  },
+  "LocalTime": {
+    "defaultMessage": "Local time"
+  },
+  "NoMessageFound": {
+    "defaultMessage": "No messages found"
+  },
+  "SearchPropleAndGroups": {
+    "defaultMessage": "Search people and groups…"
+  },
+  "nothingThatMatches": {
+    "defaultMessage": "There's nothing that matches"
+  },
+  "NewConversation": {
+    "defaultMessage": "New Conversation",
+    "description": "*Describe NewConversation*: this is used in Navigation"
+  },
+  "Contacts": {
+    "defaultMessage": "Contacts",
+    "description": "*Describe Contacts*: this is used in Navigation"
+  },
+  "Groups": {
+    "defaultMessage": "Groups",
+    "description": "*Describe Groups*: this is used in Navigation"
+  },
+  "NoConversationYet": {
+    "defaultMessage": "No conversation yet"
+  },
+  "Favorites": {
+    "defaultMessage": "Favorites"
+  },
+  "Recent": {
+    "defaultMessage": "Recent"
+  },
+  "AdvancedOptions": {
+    "defaultMessage": "Advanced Options"
+  },
+  "NewConversation_": {
+    "defaultMessage": "New Conversation"
+  },
+  "EnterGroupName": {
+    "defaultMessage": "Enter group name"
+  },
+  "Private": {
+    "defaultMessage": "Private"
+  },
+  "Public": {
+    "defaultMessage": "Public"
+  },
+  "RoomColor": {
+    "defaultMessage": "Room Color"
+  },
+  "RoomIcon": {
+    "defaultMessage": "Room Icon"
+  },
+  "EnterGroupNameHere": {
+    "defaultMessage": "Enter group name here…"
+  },
+  "addGroupDescription": {
+    "defaultMessage": "Add a group description here…"
+  },
+  "GroupInfo": {
+    "defaultMessage": "Group Info"
+  },
+  "Description": {
+    "defaultMessage": "Description"
+  },
+  "inviteMoreToGroup": {
+    "defaultMessage": "Invite more people to this group"
+  },
+  "AddServiceIntegration": {
+    "defaultMessage": "Add service integration"
+  },
+  "Leave": {
+    "defaultMessage": "Leave"
+  },
+  "sharedDescription": {
+    "defaultMessage": "Shared {preposition} {channelName}"
+  },
+  "SharedFiles": {
+    "defaultMessage": "Shared Files"
+  },
+  "NoSharedFiles": {
+    "defaultMessage": "No shared files"
+  },
+  "OnlyInThisConversation": {
+    "defaultMessage": "Only in this conversation"
+  },
+  "userIsTyping": {
+    "defaultMessage": "{user} is typing"
+  },
+  "userAndUsersAreTyping": {
+    "defaultMessage": "{users} and {user} are typing"
+  },
+  "UsersAreTyping": {
+    "defaultMessage": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
+  },
+  "UserProfile": {
+    "defaultMessage": "User Profile"
+  },
+  "WhatIDo": {
+    "defaultMessage": "What I do"
   }
 }
