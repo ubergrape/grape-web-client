@@ -30,7 +30,7 @@ const messages = defineMessages({
   recent: {
     id: 'Recent',
     defaultMessage: 'Recent'
-  },
+  }
 })
 
 @useSheet(style)
