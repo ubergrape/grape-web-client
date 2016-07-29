@@ -1,5 +1,38 @@
 {
+  "NoEmojiFound": {
+    "defaultMessage": "No emoji found."
+  },
+  "willNotifyRoom": {
+    "defaultMessage": "notify everyone in this room",
+    "description": "*Describe willNotifyRoom*: this string is decribing action"
+  },
+  "wountNotifyRoom": {
+    "defaultMessage": "does not notify room members",
+    "description": "*Describe wountNotifyRoom*: this string is decribing action"
+  },
+  "notInRoom": {
+    "defaultMessage": "not in room"
+  },
   "noDetailForItem": {
     "defaultMessage": "No Detail Infos for this Item"
+  },
+  "searchInfo": {
+    "defaultMessage": "Search Wikipedia, Youtube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key"
+  },
+  "yourBusinessTools": {
+    "defaultMessage": "your business tools",
+    "description": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+  },
+  "GrapeSearch": {
+    "defaultMessage": "Grape Search"
+  },
+  "NoResults": {
+    "defaultMessage": "No Results."
+  },
+  "amountResults": {
+    "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
+  },
+  "No services found": {
+    "defaultMessage": "No services found"
   }
 }
