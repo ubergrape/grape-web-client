@@ -14,7 +14,7 @@ export {GrapeBrowser as GrapeBrowser}
 // Register reactive elements.
 import 'reactive-elements'
 
-class Outer extends Component {
+class App extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired
   }
@@ -33,7 +33,4 @@ class Outer extends Component {
   }
 }
 
-document.registerReact(
-  'grape-input',
-  Outer
-)
+document.registerReact('grape-input', App)
