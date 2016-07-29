@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {IntlProvider} from 'react-intl'
 
 import * as translations from './i18n'
@@ -14,33 +14,26 @@ export {GrapeBrowser as GrapeBrowser}
 // Register reactive elements.
 import 'reactive-elements'
 
-function wrapWithIntlProvider(WrappedComponent, locale, messages) {
-  return class extends Component {
-    render() {
-      return (
-        <IntlProvider locale={locale} messages={messages}>
-          <WrappedComponent {...this.props} />
-        </IntlProvider>
-      )
-    }
+class Outer extends Component {
+  static propTypes = {
+    locale: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    locale: 'en'
+  }
+
+  render() {
+    const {locale} = this.props
+    return (
+      <IntlProvider locale={locale} messages={translations[locale]}>
+        <GrapeBrowser {...this.props} />
+      </IntlProvider>
+    )
   }
 }
 
-export default function init(lang) {
-  const messages = translations[lang]
-
-  document.registerReact(
-    'grape-search-browser',
-    wrapWithIntlProvider(SearchBrowser, lang, messages)
-  )
-  document.registerReact(
-    'grape-emoji-browser',
-    wrapWithIntlProvider(EmojiBrowser, lang, messages)
-  )
-  document.registerReact(
-    'grape-input',
-    wrapWithIntlProvider(GrapeBrowser, lang, messages)
-  )
-}
-
-if (__DEV__) init('en')
+document.registerReact(
+  'grape-input',
+  Outer
+)

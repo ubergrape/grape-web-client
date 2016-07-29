@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
+import {FormattedMessage} from 'react-intl'
 
 import style from './style'
 
@@ -28,11 +29,21 @@ export default class Info extends Component {
 
     return (
       <div className={classes.info}>
-        <span>Search Wikipedia, Youtube, Giphy and </span>
-        <a href="" onClick={::this.onAddIntegration}>your business tools</a>
-        <span> by clicking </span>
-        <i className={classes.plusIcon}></i>
-        <span> or pressing the plus key.</span>
+        <FormattedMessage
+          id="searchInfo"
+          defaultMessage="Search Wikipedia, Youtube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key"
+          values={{
+            tools: (
+              <a href="" onClick={::this.onAddIntegration}>
+                <FormattedMessage
+                  id="yourBusinessTools"
+                  description="*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+                  defaultMessage="your business tools"
+                />
+              </a>
+            ),
+            plusIcon: <i className={classes.plusIcon}></i>
+          }}/>.
       </div>
     )
   }
