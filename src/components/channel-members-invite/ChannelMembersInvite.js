@@ -35,7 +35,10 @@ function InviteButton(props) {
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
   channelType: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  inviteToChannel: PropTypes.func.isRequired,
+  createRoomFromPmAndInvite: PropTypes.func.isRequired,
+  hideChannelMembersInvite: PropTypes.func.isRequired
 }
 
 function getTitle(channelType) {
@@ -51,9 +54,10 @@ function getTitle(channelType) {
 
 function ChannelMembersInvite(props) {
   const {
-    sheet, channelType, hideChannelMembersInvite,
-    setInviteFilterValue, addToChannelMembersInvite,
-    removeFromChannelMembersInvite, listed, ...rest
+    sheet, channelType, setInviteFilterValue,
+    addToChannelMembersInvite, removeFromChannelMembersInvite,
+    listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
+    ...rest
   } = props
 
   if (!channelType) return null
@@ -70,9 +74,12 @@ function ChannelMembersInvite(props) {
       onSelectUser={addToChannelMembersInvite}
       onRemoveSelectedUser={removeFromChannelMembersInvite}>
       <InviteButton
+        theme={{classes}}
         listed={listed}
         channelType={channelType}
-        theme={{classes}} />
+        inviteToChannel={inviteToChannel}
+        createRoomFromPmAndInvite={createRoomFromPmAndInvite}
+        hideChannelMembersInvite={hideChannelMembersInvite} />
     </ChooseUsersDialog>
   )
 }
