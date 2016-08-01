@@ -8,9 +8,10 @@ import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
 
+
 const Wrapper = listenOutsideClick(props => {
   return (
-    <div {...props}>
+    <div className={props.className} onClick={props.onClick}>
       {props.children}
     </div>
   )
@@ -156,7 +157,6 @@ export default class EditableText extends Component {
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
-
     return (
       <Wrapper
         className={classes[className]}

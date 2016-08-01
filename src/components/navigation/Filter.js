@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {pickHTMLProps} from 'pick-react-known-prop'
 
 export default class Filter extends Component {
   static propTypes = {
@@ -10,10 +11,9 @@ export default class Filter extends Component {
 
   render() {
     const {classes} = this.props.theme
-
     return (
       <input
-        {...this.props}
+        {...pickHTMLProps(this.props)}
         type="search"
         placeholder="Search people and groups…"
         className={classes.filterInput} />

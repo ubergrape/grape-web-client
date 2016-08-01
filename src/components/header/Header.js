@@ -6,11 +6,11 @@ import {useSheet} from 'grape-web/lib/jss'
 import Favorite from '../favorite/Favorite'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 
-function Input({sheet, onFocus, onChange, onClick, placeholder}) {
+function Input({theme, onFocus, onChange, onClick, placeholder}) {
   return (
     <input
       onClick={onClick}
-      className={`${sheet.classes.search} search-form`}
+      className={`${theme.classes.search} search-form`}
       onFocus={onFocus}
       onChange={onChange}
       placeholder={placeholder}
@@ -19,7 +19,7 @@ function Input({sheet, onFocus, onChange, onClick, placeholder}) {
 }
 
 Input.propTypes = {
-  sheet: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
@@ -45,9 +45,9 @@ Button.propTypes = {
   className: PropTypes.string.isRequired
 }
 
-function Title({channel, mate, sheet}) {
+function Title({channel, mate, theme}) {
   const title = (
-    <h1 className={sheet.classes.name}>
+    <h1 className={theme.classes.name}>
       {channel.name || mate.displayName}
     </h1>
   )
@@ -56,7 +56,7 @@ function Title({channel, mate, sheet}) {
   return (
     <div>
       {title}
-      <h2 className={sheet.classes.description}>
+      <h2 className={theme.classes.description}>
         {channel.description}
       </h2>
     </div>
@@ -66,7 +66,7 @@ function Title({channel, mate, sheet}) {
 Title.propTypes = {
   channel: PropTypes.object.isRequired,
   mate: PropTypes.object.isRequired,
-  sheet: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired
 }
 
 function itemButtonClassName(panel, {sidebar, theme}) {
@@ -79,8 +79,7 @@ function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
 }
 
 function MentionsBadge({mentions, sidebar, theme}) {
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!mentions || sidebar === 'mentions') return <noscript />
+  if (!mentions || sidebar === 'mentions') return null
   return <i className={theme.classes.badge} />
 }
 
@@ -102,13 +101,15 @@ function Items(props) {
     onChangeMessageSearch,
     onSupportClick,
     support,
+    mate,
     favorite,
+    mentions,
+    sidebar,
     theme
   } = props
   const {type: channel} = props.channel
 
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!channel) return <noscript />
+  if (!channel) return null
 
   const favoriteProps = {...favorite, ...props}
   const {classes} = theme
@@ -118,7 +119,10 @@ function Items(props) {
         <Favorite {...favoriteProps}/>
       </li>
       <li className={classes.title}>
-        <Title {...props} />
+        <Title
+          channel={props.channel}
+          mate={mate}
+          theme={theme} />
       </li>
       <li className={classes.action}>
         <Button
@@ -137,7 +141,7 @@ function Items(props) {
       </li>
       <li className={classes.searchAction}>
         <Search
-          {...props}
+          theme={theme}
           onOutsideClick={onClickOutsideMessageSearch}
           placeholder="Search messages"
           onFocus={onFocusMessageSearch}
@@ -147,7 +151,10 @@ function Items(props) {
         <Button
           className={itemButtonClassName('mentions', props)}
           onClick={itemClickHandler('mentions', props)} />
-        <MentionsBadge {...props} />
+        <MentionsBadge
+          mentions={mentions}
+          sidebar={sidebar}
+          theme={theme} />
       </li>
       <li className={classes.action}>
         <a
@@ -163,6 +170,12 @@ function Items(props) {
 Items.propTypes = {
   theme: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
+  mate: PropTypes.object.isRequired,
+  mentions: PropTypes.number,
+  sidebar: PropTypes.oneOfType([
+    PropTypes.string,
+    React.PropTypes.bool
+  ]),
   favorite: PropTypes.object.isRequired,
   support: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,

@@ -3,6 +3,7 @@ import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import {useSheet} from 'grape-web/lib/jss'
 
+import {pickHTMLProps} from 'pick-react-known-prop'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import GrayTooltip from '../tooltip/GrayTooltip'
 import style from './style'
@@ -61,7 +62,7 @@ export default class Input extends Component {
     return (
       <span className={sheet.classes.wrapper}>
         <input
-          {...this.props}
+          {...pickHTMLProps(this.props)}
           onChange={this.onChange}
           ref="input"
           className={classes['input' + (error ? capitalize(error.level) : '')]}/>

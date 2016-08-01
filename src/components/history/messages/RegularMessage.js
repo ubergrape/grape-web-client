@@ -40,8 +40,7 @@ function DeliveryState({time, state, theme}) {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
 
-  // Return null once we switch to react 15.
-  if (!state || !isFresh) return <noscript />
+  if (!state || !isFresh) return null
 
   const {classes} = theme
 

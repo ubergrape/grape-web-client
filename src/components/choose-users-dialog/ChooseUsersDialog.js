@@ -67,8 +67,7 @@ NoUsers.propTypes = {
 }
 
 function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!isInviter) return <noscript />
+  if (!isInviter) return null
 
   const {classes} = theme
   return (
@@ -94,7 +93,8 @@ OrgInviteButton.propTypes = {
 
 function ChooseUsersDialog(props) {
   const {
-    sheet, show, filter, listed, title, children,
+    sheet, show, filter, listed, title,
+    children, isInviter, showOrgInvite,
     beforeList, filterFocus, onHide,
     onChangeFilter, onSelectUser,
     onRemoveSelectedUser
@@ -124,7 +124,11 @@ function ChooseUsersDialog(props) {
           renderSelected={SelectedUser}
           renderNotFound={NotFound.bind(null, props)}
           renderEmptyItems={NoUsers.bind(null, props)}>
-          <OrgInviteButton {...props} theme={{classes}} />
+          <OrgInviteButton
+            isInviter={isInviter}
+            onHide={onHide}
+            showOrgInvite={showOrgInvite}
+            theme={{classes}} />
         </FilterableList>
         {children}
       </div>
