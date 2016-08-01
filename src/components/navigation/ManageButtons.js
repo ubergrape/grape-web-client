@@ -25,7 +25,7 @@ export default function ManageButtons(props) {
             defaultMessage="New Conversation" />
         </button>
       </li>
-      <li className={classes.manageItem}>
+      <li className={classes.manageItem} id="intro-step3">
         <button
           className={classes.contacts}
           onClick={showPmManager}>
@@ -35,7 +35,7 @@ export default function ManageButtons(props) {
             defaultMessage="Contacts" />
         </button>
       </li>
-      <li className={classes.manageItem}>
+      <li className={classes.manageItem} id="intro-step2">
         <button
           className={classes.channels}
           onClick={showChannelsManager}>

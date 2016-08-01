@@ -98,7 +98,7 @@ export default class GrapeInput extends Emitter {
     this.bindEvents()
     this.input = qs('grape-input', this.el)
     this.images.orgLogo = this.org.logo
-    this.setProps({focused: true})
+    this.setProps({disabled: true, focused: true})
   }
 
   setProps(newProps, callback) {

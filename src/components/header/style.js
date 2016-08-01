@@ -69,6 +69,12 @@ export default {
     alignItems: 'center',
     height: headerHeight
   },
+  headerDisabled: {
+    opacity: 0.4,
+    WebkitFilter: 'grayscale(100%)',
+    filter: 'grayscale(100%)',
+    pointerEvents: 'none'
+  },
   favorite: {
     flexShrink: 0
   },
