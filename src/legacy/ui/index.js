@@ -224,6 +224,7 @@ UI.prototype.renderIntro = function() {
   })
   this.intro.onexit(function () {
     self.emit('introend')
+    reduxEmitter.showChannelsManager()
   })
 }
 
