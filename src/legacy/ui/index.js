@@ -220,6 +220,7 @@ UI.prototype.renderIntro = function() {
   // intro
   this.intro.oncomplete(function () {
     self.emit('introend')
+    reduxEmitter.showChannelsManager()
   })
   this.intro.onexit(function () {
     self.emit('introend')
