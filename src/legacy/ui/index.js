@@ -194,18 +194,21 @@ UI.prototype.renderIntro = function() {
         element: '#intro-step2',
         intro: _('<img style="float: right;margin-right: 10px" width="110" height="110" src="'+ staticurl("images/mascot/mascot_lock_closed.png") +'"><div style="overflow: hidden"><h2>Manage chat rooms</h2><p>Chat rooms can be public or private and can be based on projects, topics (e.g. daily lunch) or your departments (e.g. marketing).</p> </div><div style="clear:both;"></div>'),
         tooltipClass: "intro-step-2",
-        position: 'right'
+        tooltipPosition: 'top',
+        position: 'botom'
       },
       {
         element: '#intro-step3',
         intro: _('<img style="float: right; margin-left: 10px" width="120" height="120" src="'+ staticurl("images/mascot/mascot_message.png") +'"><div style="overflow: hidden"><h2>Communicate 1-to-1</h2><p>Start quickly private conversations with your colleagues - even if they haven’t joined Grape yet.</p></div><div style="clear:both;"></div>'),
-        position: 'right',
-        tooltipClass: "intro-step-3"
+        tooltipClass: "intro-step-3",
+        tooltipPosition: 'top',
+        position: 'bottom'
       },
       {
         element: '#intro-step4',
         intro: _('<img style="float: right; margin-left: 10px" width="102" height="120" src="'+ staticurl("images/mascot/mascot_playing.png") +'"><div style="overflow: hidden"><h2>Stay productive</h2><p>Search conversations, browse your mentions or view shared files - these handy helpers make your life a lot easier.</p></div><div style="clear:both;"></div>'),
         tooltipClass: "intro-step-4",
+        tooltipPosition: 'top',
         position: 'bottom'
       },
       {
@@ -254,10 +257,6 @@ UI.prototype.setUser = function UI_setUser(user) {
 
 UI.prototype.setSettings = function UI_setSettings(settings) {
   this.settings = settings
-  if (this.settings.show_intro && !this.options.detached) {
-    window.analytics.track("Started Tutorial", {via: "onboarding"})
-    this.intro.start()
-  }
 
   if (this.settings.compact_mode) {
     classes(document.body).add('client-style-compact')
@@ -280,6 +279,15 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
     this.emit('timezonechange', this.tz)
   }
 }
+
+UI.prototype.showIntro = function UI_showIntro(settings) {
+  if (!this.settings) return
+  if (this.settings.show_intro && !this.options.detached) {
+    window.analytics.track("Started Tutorial", {via: "onboarding"})
+    this.intro.start()
+  }
+}
+
 
 UI.prototype.setOrganizations = function UI_setOrganizations(orgs) {
   let self = this

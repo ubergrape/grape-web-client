@@ -14,8 +14,10 @@
   will-change: transform
 
   .grape-input-wrapper
-    &.hidden
-      display: none
+    &.disabled
+      pointer-events: none
+      filter: grayscale(100%)
+      opacity 0.4
     display: flex
     position: relative
     &.disabled
@@ -60,14 +62,6 @@
 
   grape-input
     flex: 1
-    [contenteditable="true"]
-      @extend $proximaNova
-      @extend $big-font-size
-      position: relative
-      padding: 12px 120px 5px 0px
-      &::before
-        position: absolute
-        pointer-events: none // prevent cursor change
 
   .controls-group
     display: flex

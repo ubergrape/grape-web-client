@@ -66,5 +66,4 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'searchMessagesError', ui, 'searchMessagesError')
   broker.pass(api, 'loadMentionsError', ui, 'loadMentionsError')
   broker.pass(api, 'loadMentionsPayload', ui, 'loadMentionsPayload')
-  broker.pass(api, 'change settings', ui, 'setSettings')
 }
