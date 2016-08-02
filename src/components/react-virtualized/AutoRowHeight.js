@@ -114,10 +114,6 @@ export default class AutoRowHeight extends Component {
     this.hiddenContainer = container
   }
 
-  registerScroller = (ref) => (this.scroller = ref)
-
-  recomputeRowHeights = () => (this.scroller.recomputeRowHeights())
-
   /**
    * Get the cached height.
    */
@@ -168,6 +164,10 @@ export default class AutoRowHeight extends Component {
     })
     this.heights = cache
   }
+
+  registerScroller = (ref) => (this.scroller = ref)
+
+  recomputeRowHeights = () => (this.scroller.recomputeRowHeights())
 
   /**
    * Get the cached element.

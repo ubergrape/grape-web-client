@@ -73,7 +73,7 @@ function loadOlder({startIndex, stopIndex, channelId}) {
  * This callback is called when scroller reaches the top position.
  * It renders the loaded messages when promise gets resolved.
  */
-export function renderOlderHistory() {
+export function renderOlderHistory() {
   return (dispatch, getState) => {
     olderMessagesPromise.then(res => {
       dispatch({
@@ -90,7 +90,7 @@ export function renderOlderHistory() {
   }
 }
 
-function loadNewer({startIndex, stopIndex, channelId}) {
+function loadNewer({startIndex, stopIndex, channelId}) {
   return (dispatch, getState) => {
     const {messages} = historySelector(getState())
 

@@ -1,7 +1,6 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
-import debounce from 'lodash/function/debounce'
 
 /**
  * Determines if the specified start/stop range is visible based on the most recently rendered range.
@@ -79,22 +78,6 @@ export default class InfiniteLoader extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  getRange() {
-    const {minimumBatchSize} = this.props
-
-    if (this.direction >= 0) {
-      return {
-        startIndex: this.stopIndex,
-        stopIndex: this.stopIndex + minimumBatchSize
-      }
-    }
-
-    return {
-      startIndex: this.startIndex - minimumBatchSize,
-      stopIndex: this.startIndex
-    }
-  }
-
   onScroll = ({scrollTop}) => {
     if (this.scrollTop !== undefined) {
       this.direction = scrollTop - this.scrollTop
@@ -125,6 +108,22 @@ export default class InfiniteLoader extends Component {
   onRowsRendered = ({startIndex, stopIndex}) => {
     this.startIndex = startIndex
     this.stopIndex = stopIndex
+  }
+
+  getRange() {
+    const {minimumBatchSize} = this.props
+
+    if (this.direction >= 0) {
+      return {
+        startIndex: this.stopIndex,
+        stopIndex: this.stopIndex + minimumBatchSize
+      }
+    }
+
+    return {
+      startIndex: this.startIndex - minimumBatchSize,
+      stopIndex: this.startIndex
+    }
   }
 
   render() {
