@@ -1,5 +1,7 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+import noop from 'lodash/utility/noop'
+import debounce from 'lodash/function/debounce'
 
 /**
  * Determines if the specified start/stop range is visible based on the most recently rendered range.
@@ -42,6 +44,11 @@ export default class InfiniteLoader extends Component {
     loadMoreRows: PropTypes.func.isRequired,
 
     /**
+     * Callback to be invoked when scroll position reaches the beginning.
+     */
+    onTouchTopEdge: PropTypes.func.isRequired,
+
+    /**
      * Minimum number of rows to be loaded at a time.
      * This property can be used to batch requests to reduce HTTP requests.
      */
@@ -57,7 +64,10 @@ export default class InfiniteLoader extends Component {
 
   static defaultProps = {
     minimumBatchSize: 10,
-    threshold: 15
+    threshold: 15,
+    onTouchTopEdge: noop,
+    loadMoreRows: noop,
+    isRowLoaded: noop
   }
 
   constructor(props, context) {
@@ -69,45 +79,52 @@ export default class InfiniteLoader extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
+  getRange() {
+    const {minimumBatchSize} = this.props
+
+    if (this.direction >= 0) {
+      return {
+        startIndex: this.stopIndex,
+        stopIndex: this.stopIndex + minimumBatchSize
+      }
+    }
+
+    return {
+      startIndex: this.startIndex - minimumBatchSize,
+      stopIndex: this.startIndex
+    }
+  }
+
   onScroll = ({scrollTop}) => {
     if (this.scrollTop !== undefined) {
       this.direction = scrollTop - this.scrollTop
     }
     this.scrollTop = scrollTop
 
-    if (scrollTop === 0 && this.range) {
-      this.props.loadMoreRows(this.range)
+    if (this.direction === 0) return
+
+    const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
+
+    if (this.direction > 0) {
+      // We are close enough.
+      if (!isRowLoaded(this.stopIndex + threshold)) {
+        loadMoreRows(this.getRange())
+      }
+    } else {
+      const range = this.getRange()
+      if (range.startIndex < 0) {
+        loadMoreRows(range)
+
+        if (this.scrollTop === 0) {
+          setTimeout(onTouchTopEdge)
+        }
+      }
     }
   }
 
   onRowsRendered = ({startIndex, stopIndex}) => {
-    const {isRowLoaded, loadMoreRows, minimumBatchSize, threshold} = this.props
-
-    this.lastRenderedStartIndex = startIndex
-    this.lastRenderedStopIndex = stopIndex
-
-    this.range = null
-
-    if (this.direction >= 0) {
-      // We are not close enough.
-      if (isRowLoaded(stopIndex + threshold)) return
-
-      this.range = {
-        startIndex: stopIndex,
-        stopIndex: stopIndex + minimumBatchSize
-      }
-
-      loadMoreRows(this.range)
-    } else {
-      // We are not close enough.
-      if (isRowLoaded(startIndex - threshold)) return
-
-      const nextStopIndex = startIndex > 0 ? startIndex - threshold : 0
-      this.range = {
-        startIndex: nextStopIndex - minimumBatchSize,
-        stopIndex: nextStopIndex
-      }
-    }
+    this.startIndex = startIndex
+    this.stopIndex = stopIndex
   }
 
   render() {

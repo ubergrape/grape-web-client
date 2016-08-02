@@ -16,6 +16,7 @@ export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
@@ -48,8 +49,8 @@ export default class InfiniteList extends Component {
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize,
-      minimumBatchSize
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
+      messages, cacheSize, minimumBatchSize
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
@@ -58,7 +59,7 @@ export default class InfiniteList extends Component {
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
         {({
           onResize,
-          rowHeight,
+          getRowHeight,
           renderRow,
           isRowLoaded,
           registerScroller: registerScrollerInAutoRowHeight
@@ -66,6 +67,7 @@ export default class InfiniteList extends Component {
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
             loadMoreRows={onLoadMore}
+            onTouchTopEdge={onTouchTopEdge}
             threshold={5}
             minimumBatchSize={minimumBatchSize}>
             {({
@@ -76,7 +78,7 @@ export default class InfiniteList extends Component {
                 {({width, height}) => (
                   <AutoScroll
                     rows={rows}
-                    rowHeight={rowHeight}
+                    rowHeight={getRowHeight}
                     scrollToIndex={focusedMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
@@ -101,7 +103,7 @@ export default class InfiniteList extends Component {
                         width={width}
                         height={height}
                         rowsCount={rows.length}
-                        rowHeight={rowHeight}
+                        rowHeight={getRowHeight}
                         rowRenderer={renderRow} />
                     )}
                   </AutoScroll>

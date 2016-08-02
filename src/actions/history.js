@@ -45,18 +45,58 @@ function loadLatest({channelId}) {
   }
 }
 
-function loadMore({startIndex, stopIndex, channelId}) {
+// This promise needs to be global, because loadOlder may be called multiple times.
+// It ensures multiple requests don't go out until already loaded messages are
+// not rendered.
+let olderMessagesPromise
+
+function loadOlder({startIndex, stopIndex, channelId}) {
   return (dispatch, getState) => {
-    const isScrollBack = startIndex < 0
-    const options = {
-      limit: stopIndex - startIndex
-    }
+    // Ensures we don't have useless requests to the backend.
+    if (olderMessagesPromise) return
+
     const {messages} = historySelector(getState())
 
-    if (isScrollBack) {
-      options.timeTo = messages[0].time
-    } else {
-      options.timeFrom = last(messages).time
+    const options = {
+      limit: stopIndex - startIndex,
+      timeTo: messages[0].time
+    }
+
+    olderMessagesPromise = api
+      .loadHistory(channelId, options)
+      .then(res => res)
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+/**
+ * This callback is called when scroller reaches the top position.
+ * It renders the loaded messages when promise gets resolved.
+ */
+export function renderOlderHistory() {
+  return (dispatch, getState) => {
+    olderMessagesPromise.then(res => {
+      dispatch({
+        type: types.HANDLE_MORE_HISTORY,
+        payload: {
+          messages: normalizeMessages(res, getState()),
+          isScrollBack: true
+        }
+      })
+    })
+    // Once promise is resolved, it's ref needs to be removed to allow
+    // referencing a new one.
+    olderMessagesPromise = null
+  }
+}
+
+function loadNewer({startIndex, stopIndex, channelId}) {
+  return (dispatch, getState) => {
+    const {messages} = historySelector(getState())
+
+    const options = {
+      limit: stopIndex - startIndex,
+      timeFrom: last(messages).time
     }
 
     api
@@ -66,7 +106,7 @@ function loadMore({startIndex, stopIndex, channelId}) {
           type: types.HANDLE_MORE_HISTORY,
           payload: {
             messages: normalizeMessages(res, getState()),
-            isScrollBack
+            isScrollBack: false
           }
         })
       })
@@ -102,7 +142,9 @@ export function loadHistory(params) {
     })
 
     if (!params.jumpToEnd) {
-      if (params.startIndex !== undefined) return dispatch(loadMore(params))
+      if (params.startIndex !== undefined) {
+        return dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+      }
 
       const {selectedMessageId: messageId} = historySelector(getState())
       if (messageId) return dispatch(loadFragment(params, messageId))

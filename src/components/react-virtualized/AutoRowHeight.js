@@ -79,7 +79,7 @@ export default class AutoRowHeight extends Component {
   constructor(props) {
     super(props)
     this.updateCache([])
-    this.childrenParam = pick(this, 'onResize', 'rowHeight', 'renderRow',
+    this.childrenParam = pick(this, 'onResize', 'getRowHeight', 'renderRow',
       'isRowLoaded', 'registerScroller', 'recomputeRowHeights')
     this.heightsInitialized = false
   }
@@ -121,7 +121,7 @@ export default class AutoRowHeight extends Component {
   /**
    * Get the cached height.
    */
-  rowHeight = (index) => {
+  getRowHeight = (index) => {
     const element = this.renderRow(index)
     return this.heights.get(element)
   }

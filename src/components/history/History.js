@@ -50,6 +50,7 @@ export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
@@ -79,7 +80,8 @@ export default class History extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onRead: noop
+    onRead: noop,
+    onTouchTopEdge: noop
   }
 
   componentWillReceiveProps({channelId}) {
@@ -156,7 +158,10 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, user, cacheSize, scrollTo, minimumBatchSize} = this.props
+    const {
+      sheet, messages, user, cacheSize, scrollTo, minimumBatchSize,
+      onTouchTopEdge
+    } = this.props
     const {classes} = sheet
 
     if (!user || !messages.length) return null
@@ -179,6 +184,7 @@ export default class History extends Component {
             cacheSize={cacheSize}
             minimumBatchSize={minimumBatchSize}
             onLoadMore={this.onLoadMore}
+            onTouchTopEdge={onTouchTopEdge}
             renderRow={this.renderRow} />
         )}
       </Jumper>
