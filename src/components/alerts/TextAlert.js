@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import {Component, PropTypes} from 'react'
 import getAlertText from './getAlertText'
 
 export default class TextAlert extends Component {
@@ -7,6 +7,6 @@ export default class TextAlert extends Component {
   }
 
   render() {
-    return <span>{getAlertText(this.props.type)}</span>
+    return getAlertText(this.props.type)
   }
 }

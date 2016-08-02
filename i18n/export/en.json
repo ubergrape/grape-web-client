@@ -1,0 +1,200 @@
+{
+  "lostConnectionAlert": {
+    "defaultMessage": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
+    "description": "**Describe lostConnectionAlert**: it is alert asking for page reload."
+  },
+  "reload": {
+    "defaultMessage": "reload"
+  },
+  "initialGreeting": {
+    "defaultMessage": "Hey there!"
+  },
+  "enableNotificationsRequest": {
+    "defaultMessage": "Please enable desktop notifications"
+  },
+  "notificationsExplanation": {
+    "defaultMessage": "so your team members can reach you on Grape."
+  },
+  "enableNotifications": {
+    "defaultMessage": "Enable notifications"
+  },
+  "reconnectAlert": {
+    "defaultMessage": "Reconnected successfully."
+  },
+  "noRoomFound": {
+    "defaultMessage": "We could not find what you were looking for - the room might have been deleted, renamed or moved."
+  },
+  "noMessageFound": {
+    "defaultMessage": "We could not find the message you were looking for."
+  },
+  "cannotMessageYourself": {
+    "defaultMessage": "You cannot message yourself."
+  },
+  "loadingChatHistory": {
+    "defaultMessage": "Loading your chat history…"
+  },
+  "grapeTrial": {
+    "defaultMessage": "Grape Trial"
+  },
+  "continueTrial": {
+    "defaultMessage": "Continue Trial"
+  },
+  "enterDetails": {
+    "defaultMessage": "Enter Details"
+  },
+  "createNewPrivateGroup": {
+    "defaultMessage": "Create new private group"
+  },
+  "inviteToGroup": {
+    "defaultMessage": "Invite to group"
+  },
+  "createGroup": {
+    "defaultMessage": "Create group"
+  },
+  "inviteMembers": {
+    "defaultMessage": "Invite members"
+  },
+  "usersNotFoundFor": {
+    "defaultMessage": "No one found for"
+  },
+  "everyoneInvited": {
+    "defaultMessage": "Everyone has been invited to this group"
+  },
+  "inviteToTeam": {
+    "defaultMessage": "Invite a new person to your team…"
+  },
+  "typeName": {
+    "defaultMessage": "Type name..."
+  },
+  "searchMessages": {
+    "defaultMessage": "Search messages"
+  },
+  "messageNotSendCheckConnection": {
+    "defaultMessage": "This message didn't send. Check your internet connection and"
+  },
+  "clickToTryAgain": {
+    "defaultMessage": "click to try again"
+  },
+  "deleteMessagesQuestion": {
+    "defaultMessage": "Delete the selected Message?"
+  },
+  "close": {
+    "defaultMessage": "Close"
+  },
+  "closeLower": {
+    "defaultMessage": "close"
+  },
+  "done": {
+    "defaultMessage": "Done"
+  },
+  "showMore": {
+    "defaultMessage": "Show more"
+  },
+  "contacts": {
+    "defaultMessage": "Contacts"
+  },
+  "groups": {
+    "defaultMessage": "Groups"
+  },
+  "description": {
+    "defaultMessage": "Description"
+  },
+  "grapeTeam": {
+    "defaultMessage": "Grape Team"
+  },
+  "deletedUser": {
+    "defaultMessage": "Deleted user"
+  },
+  "localTime": {
+    "defaultMessage": "Local time"
+  },
+  "noMessagesFound": {
+    "defaultMessage": "No messages found"
+  },
+  "searchPropleAndGroups": {
+    "defaultMessage": "Search people and groups…"
+  },
+  "nothingThatMatches": {
+    "defaultMessage": "There's nothing that matches"
+  },
+  "newConversation": {
+    "defaultMessage": "New Conversation"
+  },
+  "noConversationYet": {
+    "defaultMessage": "No conversation yet"
+  },
+  "favorites": {
+    "defaultMessage": "Favorites"
+  },
+  "recent": {
+    "defaultMessage": "Recent"
+  },
+  "advancedOptions": {
+    "defaultMessage": "Advanced Options"
+  },
+  "enterGroupName": {
+    "defaultMessage": "Enter group name"
+  },
+  "private": {
+    "defaultMessage": "Private"
+  },
+  "public": {
+    "defaultMessage": "Public"
+  },
+  "roomColor": {
+    "defaultMessage": "Room Color"
+  },
+  "roomIcon": {
+    "defaultMessage": "Room Icon"
+  },
+  "enterGroupNameHere": {
+    "defaultMessage": "Enter group name here…"
+  },
+  "addGroupDescription": {
+    "defaultMessage": "Add a group description here…"
+  },
+  "groupInfo": {
+    "defaultMessage": "Group Info"
+  },
+  "inviteMoreToGroup": {
+    "defaultMessage": "Invite more people to this group"
+  },
+  "addServiceIntegration": {
+    "defaultMessage": "Add service integration"
+  },
+  "leaveChannel": {
+    "defaultMessage": "Leave"
+  },
+  "sharedInRoom": {
+    "defaultMessage": "Shared in {channelName}",
+    "description": "*Describe sharedInRoom*, example: 'Shared in Office'"
+  },
+  "sharedInPm": {
+    "defaultMessage": "Shared with {channelName}",
+    "description": "*Describe sharedInPm*, example: Shared with Felix'"
+  },
+  "sharedFiles": {
+    "defaultMessage": "Shared Files"
+  },
+  "noSharedFiles": {
+    "defaultMessage": "No shared files"
+  },
+  "onlyInThisConversation": {
+    "defaultMessage": "Only in this conversation"
+  },
+  "userIsTyping": {
+    "defaultMessage": "{user} is typing"
+  },
+  "userAndUsersAreTyping": {
+    "defaultMessage": "{users} and {user} are typing"
+  },
+  "usersAreTyping": {
+    "defaultMessage": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
+  },
+  "userProfile": {
+    "defaultMessage": "User Profile"
+  },
+  "whatIDo": {
+    "defaultMessage": "What I do"
+  }
+}

@@ -5,7 +5,7 @@
 				- var welcomepic = staticurl("/images/head.png")
 				img.image(src="#{welcomepic}",width="100",alt="Hi!")
 				div
-					h3= _('Welcome ' + globalDisplayName + '!')
+					h3= _('Welcome {name}!', {name: globalDisplayName})
 					p= _("it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!")
 					ul.welcome-tasks
 						li.option
@@ -22,7 +22,7 @@
 			.preloader
 				div
 					h3
-						=_('Hi '+ globalDisplayName +'!')
+						=_('Hi {name}!', {name: globalDisplayName})
 					img.image(src="#{preloader}",width="40",height="60",alt="Loading")
 					p
 						=_("Give us a second while we prepare everything for you!")

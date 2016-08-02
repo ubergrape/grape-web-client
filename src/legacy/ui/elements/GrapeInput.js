@@ -104,6 +104,7 @@ export default class GrapeInput extends Emitter {
   setProps(newProps, callback) {
     this.input.props = {
       images: this.images,
+      locale: conf.user.languageCode,
       customEmojis: this.org.custom_emojis,
       placeholder: this.placeholder,
       onRender: callback ? once(callback) : undefined,

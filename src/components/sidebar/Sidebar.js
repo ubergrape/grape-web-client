@@ -1,4 +1,10 @@
 import React, {Component, PropTypes} from 'react'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
+
 import SharedFiles from '../shared-files/SharedFiles'
 import RoomInfo from '../room-info/RoomInfo'
 import UserProfile from '../user-profile/UserProfile'
@@ -8,9 +14,17 @@ import Intercom from '../intercom/Intercom'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
+const messages = defineMessages({
+  label: {
+    id: 'onlyInThisConversation',
+    defaultMessage: 'Only in this conversation'
+  }
+})
+
 function SidebarContent(props) {
   const {
     show,
+    intl,
     loadMentions,
     searchMessages,
     toggleSearchOnlyInChannel,
@@ -39,7 +53,7 @@ function SidebarContent(props) {
         ...props,
         load: searchMessages,
         options: [{
-          label: 'Only in this conversation',
+          label: intl.formatMessage(messages.label),
           handler: toggleSearchOnlyInChannel
         }],
         hide,
@@ -55,6 +69,7 @@ function SidebarContent(props) {
 
 SidebarContent.propTypes = {
   sheet: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   show: PropTypes.oneOfType([
     PropTypes.string,
     React.PropTypes.bool
@@ -66,6 +81,7 @@ SidebarContent.propTypes = {
   goToMessage: PropTypes.func.isRequired
 }
 
+const Content = injectIntl(SidebarContent)
 
 @useSheet(style)
 export default class Sidebar extends Component {
@@ -81,7 +97,7 @@ export default class Sidebar extends Component {
     if (!this.props.show) return null
     return (
       <div className={this.props.sheet.classes.sidebar}>
-        <SidebarContent {...this.props} />
+        <Content {...this.props} />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-
+import {FormattedMessage} from 'react-intl'
 import {useSheet} from 'grape-web/lib/jss'
+
 import style from './alertStyle'
 
 @useSheet(style)
@@ -17,13 +18,21 @@ export default class ConnectionLostAlert extends Component {
     const {classes} = this.props.sheet
     return (
       <span>
-        {'Lost connection to the server — trying to reconnect. You can also try to '}
-        <button
-          className={classes.buttonLink}
-          onClick={this.onReload}>
-          reload
-        </button>
-        .
+        <FormattedMessage
+          id="lostConnectionAlert"
+          description="**Describe lostConnectionAlert**: it is alert asking for page reload."
+          values={{
+            action: (
+              <button
+                className={classes.buttonLink}
+                onClick={this.onReload}>
+                <FormattedMessage
+                  id="reload"
+                  defaultMessage="reload" />
+              </button>
+            )
+          }}
+          defaultMessage="Lost connection to the server — trying to reconnect. You can also try to {action}." />
       </span>
     )
   }

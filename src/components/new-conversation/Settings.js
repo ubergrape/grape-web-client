@@ -1,5 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import keyname from 'keyname'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
@@ -33,15 +38,31 @@ function onInputKeyDown(onCreate, {keyCode}) {
   if (keyname(keyCode) === 'enter') onCreate()
 }
 
-export default function Settings(props) {
+const messages = defineMessages({
+  placeholder: {
+    id: 'enterGroupName',
+    defaultMessage: 'Enter group name'
+  },
+  off: {
+    id: 'private',
+    defaultMessage: 'Private'
+  },
+  on: {
+    id: 'public',
+    defaultMessage: 'Public'
+  }
+})
+
+function Settings(props) {
   const {
-    icon, color, name, advanced, saving, error, roomNameFocused, theme,
-    isPublic, onChangeRoomName, onClickRoomName, onCreate,
+    icon, color, name, advanced, saving, error, roomNameFocused,
+    intl, theme, isPublic, onChangeRoomName, onClickRoomName, onCreate,
     onBlurRoomName, onPrivacyChange, clearRoomCreateError
   } = props
 
   if (!advanced) return null
 
+  const {formatMessage} = intl
   const {classes} = theme
   return (
     <div className={classes.settings}>
@@ -51,7 +72,7 @@ export default function Settings(props) {
 
       <div className={classes.name}>
         <Input
-          placeholder="Enter group name"
+          placeholder={formatMessage(messages.placeholder)}
           value={name}
           focused={roomNameFocused}
           error={getError(error)}
@@ -64,8 +85,8 @@ export default function Settings(props) {
       </div>
       <div className={classes.privacy}>
         <Switch
-          off="Private"
-          on="Public"
+          off={formatMessage(messages.off)}
+          on={formatMessage(messages.on)}
           disabled={saving}
           onChange={onPrivacyChange}
           status={isPublic} />
@@ -75,6 +96,7 @@ export default function Settings(props) {
 }
 
 Settings.propTypes = {
+  intl: intlShape.isRequired,
   icon: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -91,3 +113,5 @@ Settings.propTypes = {
   onChangeRoomName: PropTypes.func.isRequired,
   onPrivacyChange: PropTypes.func.isRequired
 }
+
+export default injectIntl(Settings)

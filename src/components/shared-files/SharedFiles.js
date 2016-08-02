@@ -1,16 +1,32 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import {useSheet} from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import style from './sharedFilesStyle'
 import SharedFile from './SharedFile'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
+import {ShowMore} from '../i18n/i18n'
+
+const messages = defineMessages({
+  title: {
+    id: 'sharedFiles',
+    defaultMessage: 'Shared Files'
+  }
+})
 
 @useSheet(style)
+@injectIntl
 export default class SharedFiles extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     hideSidebar: PropTypes.func,
@@ -58,7 +74,7 @@ export default class SharedFiles extends Component {
         <button
           onClick={::this.onLoadMore}
           className={classes.button}>
-          Show more
+          <ShowMore />
         </button>
       </div>
     )
@@ -69,16 +85,19 @@ export default class SharedFiles extends Component {
     if (this.props.total !== 0) return null
     return (
       <div className={classes.empty}>
-        No shared files.
+        <FormattedMessage
+          id="noSharedFiles"
+          defaultMessage="No shared files" />.
       </div>
     )
   }
 
   render() {
+    const {formatMessage} = this.props.intl
     const {classes} = this.props.sheet
     return (
       <SidebarPanel
-        title="Shared Files"
+        title={formatMessage(messages.title)}
         images={this.props.images}
         onClose={::this.onClose}>
         <div className={classes.sharedFiles}>

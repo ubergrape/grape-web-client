@@ -3,6 +3,7 @@ import 'array.from'
 import 'custom-event-polyfill'
 import 'document-register-element'
 import 'reactive-elements'
+import 'intl'
 
 import conf from 'conf'
 import initApp from './app'

@@ -1,5 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
@@ -92,8 +97,14 @@ MentionsBadge.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+const messages = defineMessages({
+  placeholder: {
+    id: 'searchMessages',
+    defaultMessage: 'Search messages'
+  }
+})
 
-function Items(props) {
+function RawItems(props) {
   const {
     showChannelMembersInvite,
     onClickOutsideMessageSearch,
@@ -110,6 +121,7 @@ function Items(props) {
   const {type: channel} = props.channel
 
   const favoriteProps = {...favorite, ...props}
+  const {formatMessage} = props.intl
   const {classes} = theme
   return (
     <ul
@@ -143,7 +155,7 @@ function Items(props) {
         <Search
           theme={theme}
           onOutsideClick={onClickOutsideMessageSearch}
-          placeholder="Search messages"
+          placeholder={formatMessage(messages.placeholder)}
           onFocus={onFocusMessageSearch}
           onChange={onChangeMessageSearch} />
       </li>
@@ -167,7 +179,8 @@ function Items(props) {
   )
 }
 
-Items.propTypes = {
+RawItems.propTypes = {
+  intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   mate: PropTypes.object.isRequired,
@@ -184,6 +197,8 @@ Items.propTypes = {
   onChangeMessageSearch: PropTypes.func.isRequired,
   onSupportClick: PropTypes.func.isRequired
 }
+
+const Items = injectIntl(RawItems)
 
 @useSheet(style)
 export default class Header extends Component {
