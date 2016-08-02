@@ -79,6 +79,7 @@ export default class SharedFile extends Component {
             description="*Describe sharedInRoom*, example: 'Shared in Office'"
             values={{channelName}}/>
         )
+        break
       }
       case 'pm': {
         message = (
@@ -88,6 +89,7 @@ export default class SharedFile extends Component {
             description="*Describe sharedInPm*, example: Shared with Felix'"
             values={{channelName}}/>
         )
+        break
       }
       default:
     }
