@@ -7,7 +7,6 @@ import * as icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage} from 'react-intl'
 
-import {In, WithLower as With} from '../i18n/i18n'
 import ImageZoom from '../image-zoom/ImageZoom'
 import style from './sharedFileStyle'
 const dateFormat = 'MMM Do, h:mm a'
@@ -70,6 +69,29 @@ export default class SharedFile extends Component {
     let when = moment(time).format(dateFormat)
     if (author) when += ` - ${author}`
 
+    let message
+    switch (channelType) {
+      case 'room': {
+        message = (
+          <FormattedMessage
+            id="sharedInRoomDescription"
+            defaultMessage="Shared in {channelName}"
+            description="*Describe sharedInRoomDescription*, example: 'Shared in Office'"
+            values={{channelName}}/>
+        )
+      }
+      case 'pm': {
+        message = (
+          <FormattedMessage
+            id="sharedInPm"
+            defaultMessage="Shared with {channelName}"
+            description="*Describe sharedInPm*, example: Shared with Felix'"
+            values={{channelName}}/>
+        )
+      }
+      default:
+    }
+
     return (
       <section
         className={classes.sharedFile}
@@ -81,13 +103,7 @@ export default class SharedFile extends Component {
           <h2 className={classes.name}>{name}</h2>
           <p className={classes.meta}>{when}</p>
           <p className={classes.meta}>
-            <FormattedMessage
-              id="sharedDescription"
-              defaultMessage="Shared {preposition} {channelName}"
-              values={{
-                channelName,
-                preposition: channelType === 'room' ? <In /> : <With />
-              }}/>
+            {message}
           </p>
         </div>
       </section>
