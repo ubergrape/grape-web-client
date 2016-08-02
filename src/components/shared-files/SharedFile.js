@@ -74,9 +74,9 @@ export default class SharedFile extends Component {
       case 'room': {
         message = (
           <FormattedMessage
-            id="sharedInRoomDescription"
+            id="sharedInRoom"
             defaultMessage="Shared in {channelName}"
-            description="*Describe sharedInRoomDescription*, example: 'Shared in Office'"
+            description="*Describe sharedInRoom*, example: 'Shared in Office'"
             values={{channelName}}/>
         )
       }
