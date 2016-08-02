@@ -36,7 +36,7 @@ function loadLatest({channelId}) {
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages,
-            scrollTo: last(messages).id
+            scrollTo: null
           }
         })
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
