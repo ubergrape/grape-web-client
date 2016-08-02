@@ -109,12 +109,12 @@ function Items(props) {
   } = props
   const {type: channel} = props.channel
 
-  if (!channel) return null
-
   const favoriteProps = {...favorite, ...props}
   const {classes} = theme
   return (
-    <ul className={classes.header}>
+    <ul
+      className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
+      id="intro-step4">
       <li className={classes.favorite}>
         <Favorite {...favoriteProps}/>
       </li>
@@ -131,7 +131,7 @@ function Items(props) {
       </li>
       <li className={classes.action}>
         <Button
-          className={itemButtonClassName(channel, props)}
+          className={itemButtonClassName(channel || 'room', props)}
           onClick={itemClickHandler(channel, props)} />
       </li>
       <li className={classes.action}>

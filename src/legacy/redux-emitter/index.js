@@ -27,7 +27,7 @@ class ReduxEmitter extends Emitter {
     getBoundActions().createChannel(toCamel(pm))
   }
 
-  onEditPreviousMessage() {
+  onEditPreviousMessage() {
     getBoundActions().editPreviousMessage()
   }
 
@@ -137,6 +137,10 @@ class ReduxEmitter extends Emitter {
 
   showNewConversationAdvanced() {
     getBoundActions().showNewConversationAdvanced()
+  }
+
+  showIntro() {
+    this.emit('showIntro')
   }
 }
 
