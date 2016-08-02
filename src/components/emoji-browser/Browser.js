@@ -35,7 +35,7 @@ function init(options) {
 
 const messages = defineMessages({
   empty: {
-    id: 'NoEmojiFound',
+    id: 'noEmojiFound',
     defaultMessage: 'No emoji found.'
   }
 })

@@ -43,7 +43,7 @@ export default class ServiceList extends Component {
       return (
         <p className={classes.empty}>
           <FormattedMessage
-            id="No services found"
+            id="noServicesFound"
             defaultMessage="No services found" />
           .
         </p>

@@ -18,7 +18,7 @@ import {listTypes} from './constants'
 
 const messages = defineMessages({
   empty: {
-    id: 'NoResults',
+    id: 'noResults',
     defaultMessage: 'No Results.'
   }
 })
