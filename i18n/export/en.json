@@ -33,7 +33,7 @@
   "loadingChatHistory": {
     "defaultMessage": "Loading your chat history…"
   },
-  "GrapeTrial": {
+  "grapeTrial": {
     "defaultMessage": "Grape Trial"
   },
   "continueTrial": {
@@ -42,10 +42,10 @@
   "enterDetails": {
     "defaultMessage": "Enter Details"
   },
-  "CreateNewPrivateGroup": {
+  "createNewPrivateGroup": {
     "defaultMessage": "Create new private group"
   },
-  "InviteToGroup": {
+  "inviteToGroup": {
     "defaultMessage": "Invite to group"
   },
   "createGroup": {
@@ -63,10 +63,10 @@
   "inviteToTeam": {
     "defaultMessage": "Invite a new person to your team…"
   },
-  "TypeName": {
+  "typeName": {
     "defaultMessage": "Type name..."
   },
-  "SearchMessages": {
+  "searchMessages": {
     "defaultMessage": "Search messages"
   },
   "messageNotSendCheckConnection": {
@@ -78,19 +78,19 @@
   "deleteMessagesQuestion": {
     "defaultMessage": "Delete the selected Message?"
   },
-  "Close": {
+  "close": {
     "defaultMessage": "Close"
   },
   "closeLower": {
     "defaultMessage": "close"
   },
-  "Done": {
+  "done": {
     "defaultMessage": "Done"
   },
   "in": {
     "defaultMessage": "in"
   },
-  "With": {
+  "with": {
     "defaultMessage": "With"
   },
   "withLower": {
@@ -108,7 +108,7 @@
   "description": {
     "defaultMessage": "Description"
   },
-  "GrapeTeam": {
+  "grapeTeam": {
     "defaultMessage": "Grape Team"
   },
   "deletedUser": {
@@ -120,7 +120,7 @@
   "noMessagesFound": {
     "defaultMessage": "No messages found"
   },
-  "SearchPropleAndGroups": {
+  "searchPropleAndGroups": {
     "defaultMessage": "Search people and groups…"
   },
   "nothingThatMatches": {
@@ -129,25 +129,25 @@
   "newConversation": {
     "defaultMessage": "New Conversation"
   },
-  "NoConversationYet": {
+  "noConversationYet": {
     "defaultMessage": "No conversation yet"
   },
-  "Favorites": {
+  "favorites": {
     "defaultMessage": "Favorites"
   },
-  "Recent": {
+  "recent": {
     "defaultMessage": "Recent"
   },
   "advancedOptions": {
     "defaultMessage": "Advanced Options"
   },
-  "EnterGroupName": {
+  "enterGroupName": {
     "defaultMessage": "Enter group name"
   },
-  "Private": {
+  "private": {
     "defaultMessage": "Private"
   },
-  "Public": {
+  "public": {
     "defaultMessage": "Public"
   },
   "roomColor": {
@@ -156,13 +156,13 @@
   "roomIcon": {
     "defaultMessage": "Room Icon"
   },
-  "EnterGroupNameHere": {
+  "enterGroupNameHere": {
     "defaultMessage": "Enter group name here…"
   },
   "addGroupDescription": {
     "defaultMessage": "Add a group description here…"
   },
-  "GroupInfo": {
+  "groupInfo": {
     "defaultMessage": "Group Info"
   },
   "inviteMoreToGroup": {
@@ -177,13 +177,13 @@
   "sharedDescription": {
     "defaultMessage": "Shared {preposition} {channelName}"
   },
-  "SharedFiles": {
+  "sharedFiles": {
     "defaultMessage": "Shared Files"
   },
   "noSharedFiles": {
     "defaultMessage": "No shared files"
   },
-  "OnlyInThisConversation": {
+  "onlyInThisConversation": {
     "defaultMessage": "Only in this conversation"
   },
   "userIsTyping": {
@@ -195,7 +195,7 @@
   "usersAreTyping": {
     "defaultMessage": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
   },
-  "UserProfile": {
+  "userProfile": {
     "defaultMessage": "User Profile"
   },
   "whatIDo": {
