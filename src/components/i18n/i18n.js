@@ -25,30 +25,6 @@ export function Done() {
   )
 }
 
-export function In() {
-  return (
-    <FormattedMessage
-      id="in"
-      defaultMessage="in" />
-  )
-}
-
-export function With() {
-  return (
-    <FormattedMessage
-      id="with"
-      defaultMessage="With" />
-  )
-}
-
-export function WithLower() {
-  return (
-    <FormattedMessage
-      id="withLower"
-      defaultMessage="with" />
-  )
-}
-
 export function ShowMore() {
   return (
     <FormattedMessage

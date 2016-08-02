@@ -87,15 +87,6 @@
   "done": {
     "defaultMessage": "Done"
   },
-  "in": {
-    "defaultMessage": "in"
-  },
-  "with": {
-    "defaultMessage": "With"
-  },
-  "withLower": {
-    "defaultMessage": "with"
-  },
   "showMore": {
     "defaultMessage": "Show more"
   },
@@ -174,8 +165,13 @@
   "leaveChannel": {
     "defaultMessage": "Leave"
   },
-  "sharedDescription": {
-    "defaultMessage": "Shared {preposition} {channelName}"
+  "sharedInRoom": {
+    "defaultMessage": "Shared in {channelName}",
+    "description": "*Describe sharedInRoom*, example: 'Shared in Office'"
+  },
+  "sharedInPm": {
+    "defaultMessage": "Shared with {channelName}",
+    "description": "*Describe sharedInPm*, example: Shared with Felix'"
   },
   "sharedFiles": {
     "defaultMessage": "Shared Files"
