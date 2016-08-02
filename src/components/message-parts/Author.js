@@ -15,7 +15,7 @@ export default class Author extends Component {
     const {author, sheet} = this.props
     return (
       <span className={sheet.classes.author}>
-        {author || <FormattedMessage id="DeletedUser" defaultMessage="Deleted user" />}
+        {author || <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />}
       </span>
     )
   }

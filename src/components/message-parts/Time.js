@@ -27,11 +27,14 @@ function UserTime(props) {
           <div className={classes.userTimeContainer}>
             <span className={classes.userTimeText}>
               <FormattedMessage
-                id="LocalTime"
+                id="localTime"
                 defaultMessage="Local time" />
               {': '}
             </span>
-            <span className={classes.userTimeTime}>{moment(userTime).format(format)}</span>
+            <span className={classes.userTimeTime}>
+              /* FIXME: Use FormattedDate from react-intl. */
+              {moment(userTime).format(format)}
+            </span>
           </div>
         </ThemedTooltip>
       }

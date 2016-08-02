@@ -90,7 +90,7 @@ function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
           showOrgInvite()
         }}>
         <FormattedMessage
-          id="InviteToTeam"
+          id="inviteToTeam"
           defaultMessage="Invite a new person to your team…" />
       </button>
     </div>
@@ -106,7 +106,7 @@ OrgInviteButton.propTypes = {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'TypeName',
+    id: 'typeName',
     defaultMessage: 'Type name...'
   }
 })

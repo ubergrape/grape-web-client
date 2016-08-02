@@ -12,7 +12,7 @@ import AdditionalActionsDropdown from './AdditionalActionsDropdown'
 
 const messages = defineMessages({
   placeholder: {
-    id: 'EnterGroupNameHere',
+    id: 'enterGroupNameHere',
     defaultMessage: 'Enter group name here…'
   }
 })

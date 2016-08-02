@@ -20,15 +20,15 @@ import {useSheet} from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   channelHeader: {
-    id: 'NoConversationYet',
+    id: 'noConversationYet',
     defaultMessage: 'No conversation yet'
   },
   favorites: {
-    id: 'Favorites',
+    id: 'favorites',
     defaultMessage: 'Favorites'
   },
   recent: {
-    id: 'Recent',
+    id: 'recent',
     defaultMessage: 'Recent'
   }
 })

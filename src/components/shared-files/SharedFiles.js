@@ -16,7 +16,7 @@ import {ShowMore} from '../i18n/i18n'
 
 const messages = defineMessages({
   title: {
-    id: 'SharedFiles',
+    id: 'sharedFiles',
     defaultMessage: 'Shared Files'
   }
 })
@@ -86,7 +86,7 @@ export default class SharedFiles extends Component {
     return (
       <div className={classes.empty}>
         <FormattedMessage
-          id="NoSharedFiles"
+          id="noSharedFiles"
           defaultMessage="No shared files" />.
       </div>
     )

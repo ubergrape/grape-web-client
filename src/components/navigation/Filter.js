@@ -8,7 +8,7 @@ import {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'SearchPropleAndGroups',
+    id: 'searchPropleAndGroups',
     defaultMessage: 'Search people and groups…'
   }
 })

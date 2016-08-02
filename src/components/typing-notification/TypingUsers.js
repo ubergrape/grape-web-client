@@ -54,7 +54,7 @@ export default class TypingUsers extends Component {
     } else {
       text = (
         <FormattedMessage
-          id="UsersAreTyping"
+          id="usersAreTyping"
           values={{
             users: names.slice(0, max).join(', '),
             othersAmount: names.length - max

@@ -20,7 +20,7 @@ export default class ConnectionLostAlert extends Component {
       <span>
         <FormattedMessage
           id="lostConnectionAlert"
-          description="**Describe lostConnectionAlert**: it is alert asking for reload page."
+          description="**Describe lostConnectionAlert**: it is alert asking for page reload."
           values={{
             action: (
               <button

@@ -40,15 +40,15 @@ function onInputKeyDown(onCreate, {keyCode}) {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'EnterGroupName',
+    id: 'enterGroupName',
     defaultMessage: 'Enter group name'
   },
   off: {
-    id: 'Private',
+    id: 'private',
     defaultMessage: 'Private'
   },
   on: {
-    id: 'Public',
+    id: 'public',
     defaultMessage: 'Public'
   }
 })

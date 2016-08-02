@@ -167,7 +167,7 @@ export default class MessageSearch extends Component {
     return (
       <div className={classes.empty}>
         <FormattedMessage
-          id="NoMessageFound"
+          id="noMessagesFound"
           defaultMessage="No messages found" />
         .
       </div>

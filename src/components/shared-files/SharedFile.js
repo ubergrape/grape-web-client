@@ -7,7 +7,7 @@ import * as icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage} from 'react-intl'
 
-import {InLower as In, WithLower as With} from '../i18n/i18n'
+import {In, WithLower as With} from '../i18n/i18n'
 import ImageZoom from '../image-zoom/ImageZoom'
 import style from './sharedFileStyle'
 const dateFormat = 'MMM Do, h:mm a'

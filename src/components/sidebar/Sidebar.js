@@ -16,7 +16,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   label: {
-    id: 'OnlyInThisConversation',
+    id: 'onlyInThisConversation',
     defaultMessage: 'Only in this conversation'
   }
 })

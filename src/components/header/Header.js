@@ -99,7 +99,7 @@ MentionsBadge.propTypes = {
 
 const messages = defineMessages({
   placeholder: {
-    id: 'SearchMessages',
+    id: 'searchMessages',
     defaultMessage: 'Search messages'
   }
 })

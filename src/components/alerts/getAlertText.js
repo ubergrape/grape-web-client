@@ -26,7 +26,7 @@ export default function getAlertText(type) {
     case types.MESSAGE_TO_SELF:
       return (
         <FormattedMessage
-          id="cantMessageYourself"
+          id="cannotMessageYourself"
           defaultMessage="You cannot message yourself." />
       )
     case types.LOADING_HISTORY:

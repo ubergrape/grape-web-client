@@ -10,6 +10,7 @@ import {constants} from 'conf'
 import {useSheet} from 'grape-web/lib/jss'
 
 import {maxChannelDescriptionLength} from '../../constants/app'
+import {Description} from '../i18n/i18n'
 import EditableText from '../editable-text/EditableText'
 import style from './style'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -21,7 +22,7 @@ const messages = defineMessages({
     defaultMessage: 'Add a group description here…'
   },
   title: {
-    id: 'GroupInfo',
+    id: 'groupInfo',
     defaultMessage: 'Group Info'
   }
 })
@@ -189,9 +190,7 @@ export default class RoomInfo extends Component {
     return (
       <article className={classes.roomDescription}>
         <h2 className={classes.title}>
-          <FormattedMessage
-            id="Description"
-            defaultMessage="Description" />
+          <Description />
         </h2>
         {this.renderDescriptionEditable()}
       </article>
@@ -240,7 +239,7 @@ export default class RoomInfo extends Component {
                   onClick={::this.onAddIntegration}
                   className={classes.buttonIntegration}>
                   <FormattedMessage
-                    id="AddServiceIntegration"
+                    id="addServiceIntegration"
                     defaultMessage="Add service integration" />
                 </button>
               </li>
@@ -249,7 +248,7 @@ export default class RoomInfo extends Component {
                   onClick={::this.onLeave}
                   className={classes.buttonLeave}>
                   <FormattedMessage
-                    id="Leave"
+                    id="leaveChannel"
                     defaultMessage="Leave" />
                   {` ${channel.name}`}
                 </button>

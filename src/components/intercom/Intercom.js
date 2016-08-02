@@ -9,7 +9,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 
 const messages = defineMessages({
   title: {
-    id: 'GrapeTeam',
+    id: 'grapeTeam',
     defaultMessage: 'Grape Team'
   }
 })

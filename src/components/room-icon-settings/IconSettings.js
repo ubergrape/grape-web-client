@@ -13,7 +13,7 @@ function RenderColors({theme, channel, onSetRoomColor}) {
     <div className={classes.roomColors}>
       <h1 className={classes.iconSettingsTitle}>
         <FormattedMessage
-          id="RoomColor"
+          id="roomColor"
           defaultMessage="Room Color" />
       </h1>
       <ul className={classes.iconSettingsList}>
@@ -47,7 +47,7 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
     <div>
       <h1 className={classes.iconSettingsTitle}>
         <FormattedMessage
-          id="RoomIcon"
+          id="roomIcon"
           defaultMessage="Room Icon" />
       </h1>
       <ul className={classes.iconSettingsList}>

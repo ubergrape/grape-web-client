@@ -14,7 +14,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   title: {
-    id: 'GrapeTrial',
+    id: 'grapeTrial',
     defaultMessage: 'Grape Trial'
   }
 })
@@ -66,14 +66,14 @@ export default class BillingWarning extends Component {
               onClick={::this.onHide}
               className={classes.continueTrial}>
               <FormattedMessage
-                id="ContinueTrial"
+                id="continueTrial"
                 defaultMessage="Continue Trial" />
             </button>
             <button
               onClick={::this.onGoToPayment}
               className={classes.enterDetails}>
               <FormattedMessage
-                id="EnterDetails"
+                id="enterDetails"
                 defaultMessage="Enter Details" />
             </button>
           </div>

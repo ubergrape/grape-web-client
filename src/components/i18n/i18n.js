@@ -1,10 +1,18 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 
-export function CloseLower() {
+export function Close() {
   return (
     <FormattedMessage
       id="close"
+      defaultMessage="Close" />
+  )
+}
+
+export function CloseLower() {
+  return (
+    <FormattedMessage
+      id="closeLower"
       defaultMessage="close" />
   )
 }
@@ -12,12 +20,12 @@ export function CloseLower() {
 export function Done() {
   return (
     <FormattedMessage
-      id="Done"
+      id="done"
       defaultMessage="Done" />
   )
 }
 
-export function InLower() {
+export function In() {
   return (
     <FormattedMessage
       id="in"
@@ -25,10 +33,18 @@ export function InLower() {
   )
 }
 
-export function WithLower() {
+export function With() {
   return (
     <FormattedMessage
       id="with"
+      defaultMessage="With" />
+  )
+}
+
+export function WithLower() {
+  return (
+    <FormattedMessage
+      id="withLower"
       defaultMessage="with" />
   )
 }
@@ -36,7 +52,31 @@ export function WithLower() {
 export function ShowMore() {
   return (
     <FormattedMessage
-      id="ShowMore"
+      id="showMore"
       defaultMessage="Show more" />
+  )
+}
+
+export function Contacts() {
+  return (
+    <FormattedMessage
+      id="contacts"
+      defaultMessage="Contacts" />
+  )
+}
+
+export function Groups() {
+  return (
+    <FormattedMessage
+      id="groups"
+      defaultMessage="Groups" />
+  )
+}
+
+export function Description() {
+  return (
+    <FormattedMessage
+      id="description"
+      defaultMessage="Description" />
   )
 }

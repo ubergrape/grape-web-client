@@ -27,7 +27,7 @@ function FooterButtons(props) {
             className={classes.roomSettingsButton}
             onClick={onClickSettings}>
             <FormattedMessage
-              id="AdvancedOptions"
+              id="advancedOptions"
               defaultMessage="Advanced Options" />
           </button>
         }
@@ -65,7 +65,7 @@ function getInitialState() {
 
 const messages = defineMessages({
   title: {
-    id: 'NewConversation_',
+    id: 'newConversation',
     defaultMessage: 'New Conversation'
   }
 })

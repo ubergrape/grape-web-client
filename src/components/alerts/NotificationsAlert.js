@@ -29,7 +29,7 @@ export default class NotificationsAlert extends Component {
         <span
           className={classes.mainCol}>
           <FormattedMessage
-            id="heyThereAddressing"
+            id="initialGreeting"
             defaultMessage="Hey there!" />
           {' '}
           <button
@@ -50,7 +50,7 @@ export default class NotificationsAlert extends Component {
             className={`${classes.actionButton} ${classes[alert.level + 'Button']}`}
             onClick={onEnableNotifications}>
             <FormattedMessage
-              id="EnableNotifications"
+              id="enableNotifications"
               defaultMessage="Enable notifications" />
           </button>
         </span>

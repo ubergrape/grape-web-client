@@ -25,11 +25,11 @@ function onInviteUsersClick(props) {
 
 const messages = defineMessages({
   pm: {
-    id: 'CreateNewPrivateGroup',
+    id: 'createNewPrivateGroup',
     defaultMessage: 'Create new private group'
   },
   room: {
-    id: 'InviteToGroup',
+    id: 'inviteToGroup',
     defaultMessage: 'Invite to group'
   }
 })
@@ -42,14 +42,14 @@ function getFormattedMessage(channelType, mission) {
       case 'pm':
         return (
           <FormattedMessage
-            id="CreateGroup"
+            id="createGroup"
             defaultMessage="Create group" />
         )
       case 'room':
         return (
-        <FormattedMessage
-          id="InviteMembers"
-          defaultMessage="Invite members" />
+          <FormattedMessage
+            id="inviteMembers"
+            defaultMessage="Invite members" />
         )
       default:
         return null

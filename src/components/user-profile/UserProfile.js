@@ -13,7 +13,7 @@ import {
 
 const messages = defineMessages({
   title: {
-    id: 'UserProfile',
+    id: 'userProfile',
     defaultMessage: 'User Profile'
   }
 })
@@ -73,7 +73,7 @@ export default class UserProfile extends Component {
           {whatIDo && <div className={classes.about}>
             <p>
               <FormattedMessage
-                id="WhatIDo"
+                id="whatIDo"
                 defaultMessage="What I do" />
               :
             </p>

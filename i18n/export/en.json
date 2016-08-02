@@ -1,12 +1,12 @@
 {
   "lostConnectionAlert": {
     "defaultMessage": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
-    "description": "**Describe lostConnectionAlert**: it is alert asking for reload page."
+    "description": "**Describe lostConnectionAlert**: it is alert asking for page reload."
   },
   "reload": {
     "defaultMessage": "reload"
   },
-  "heyThereAddressing": {
+  "initialGreeting": {
     "defaultMessage": "Hey there!"
   },
   "enableNotificationsRequest": {
@@ -15,7 +15,7 @@
   "notificationsExplanation": {
     "defaultMessage": "so your team members can reach you on Grape."
   },
-  "EnableNotifications": {
+  "enableNotifications": {
     "defaultMessage": "Enable notifications"
   },
   "reconnectAlert": {
@@ -27,7 +27,7 @@
   "noMessageFound": {
     "defaultMessage": "We could not find the message you were looking for."
   },
-  "cantMessageYourself": {
+  "cannotMessageYourself": {
     "defaultMessage": "You cannot message yourself."
   },
   "loadingChatHistory": {
@@ -36,10 +36,10 @@
   "GrapeTrial": {
     "defaultMessage": "Grape Trial"
   },
-  "ContinueTrial": {
+  "continueTrial": {
     "defaultMessage": "Continue Trial"
   },
-  "EnterDetails": {
+  "enterDetails": {
     "defaultMessage": "Enter Details"
   },
   "CreateNewPrivateGroup": {
@@ -48,10 +48,10 @@
   "InviteToGroup": {
     "defaultMessage": "Invite to group"
   },
-  "CreateGroup": {
+  "createGroup": {
     "defaultMessage": "Create group"
   },
-  "InviteMembers": {
+  "inviteMembers": {
     "defaultMessage": "Invite members"
   },
   "usersNotFoundFor": {
@@ -60,7 +60,7 @@
   "everyoneInvited": {
     "defaultMessage": "Everyone has been invited to this group"
   },
-  "InviteToTeam": {
+  "inviteToTeam": {
     "defaultMessage": "Invite a new person to your team…"
   },
   "TypeName": {
@@ -78,7 +78,10 @@
   "deleteMessagesQuestion": {
     "defaultMessage": "Delete the selected Message?"
   },
-  "close": {
+  "Close": {
+    "defaultMessage": "Close"
+  },
+  "closeLower": {
     "defaultMessage": "close"
   },
   "Done": {
@@ -87,22 +90,34 @@
   "in": {
     "defaultMessage": "in"
   },
-  "with": {
+  "With": {
+    "defaultMessage": "With"
+  },
+  "withLower": {
     "defaultMessage": "with"
   },
-  "ShowMore": {
+  "showMore": {
     "defaultMessage": "Show more"
+  },
+  "contacts": {
+    "defaultMessage": "Contacts"
+  },
+  "groups": {
+    "defaultMessage": "Groups"
+  },
+  "description": {
+    "defaultMessage": "Description"
   },
   "GrapeTeam": {
     "defaultMessage": "Grape Team"
   },
-  "DeletedUser": {
+  "deletedUser": {
     "defaultMessage": "Deleted user"
   },
-  "LocalTime": {
+  "localTime": {
     "defaultMessage": "Local time"
   },
-  "NoMessageFound": {
+  "noMessagesFound": {
     "defaultMessage": "No messages found"
   },
   "SearchPropleAndGroups": {
@@ -111,17 +126,8 @@
   "nothingThatMatches": {
     "defaultMessage": "There's nothing that matches"
   },
-  "NewConversation": {
-    "defaultMessage": "New Conversation",
-    "description": "*Describe NewConversation*: this is used in Navigation"
-  },
-  "Contacts": {
-    "defaultMessage": "Contacts",
-    "description": "*Describe Contacts*: this is used in Navigation"
-  },
-  "Groups": {
-    "defaultMessage": "Groups",
-    "description": "*Describe Groups*: this is used in Navigation"
+  "newConversation": {
+    "defaultMessage": "New Conversation"
   },
   "NoConversationYet": {
     "defaultMessage": "No conversation yet"
@@ -132,11 +138,8 @@
   "Recent": {
     "defaultMessage": "Recent"
   },
-  "AdvancedOptions": {
+  "advancedOptions": {
     "defaultMessage": "Advanced Options"
-  },
-  "NewConversation_": {
-    "defaultMessage": "New Conversation"
   },
   "EnterGroupName": {
     "defaultMessage": "Enter group name"
@@ -147,10 +150,10 @@
   "Public": {
     "defaultMessage": "Public"
   },
-  "RoomColor": {
+  "roomColor": {
     "defaultMessage": "Room Color"
   },
-  "RoomIcon": {
+  "roomIcon": {
     "defaultMessage": "Room Icon"
   },
   "EnterGroupNameHere": {
@@ -162,16 +165,13 @@
   "GroupInfo": {
     "defaultMessage": "Group Info"
   },
-  "Description": {
-    "defaultMessage": "Description"
-  },
   "inviteMoreToGroup": {
     "defaultMessage": "Invite more people to this group"
   },
-  "AddServiceIntegration": {
+  "addServiceIntegration": {
     "defaultMessage": "Add service integration"
   },
-  "Leave": {
+  "leaveChannel": {
     "defaultMessage": "Leave"
   },
   "sharedDescription": {
@@ -180,7 +180,7 @@
   "SharedFiles": {
     "defaultMessage": "Shared Files"
   },
-  "NoSharedFiles": {
+  "noSharedFiles": {
     "defaultMessage": "No shared files"
   },
   "OnlyInThisConversation": {
@@ -192,13 +192,13 @@
   "userAndUsersAreTyping": {
     "defaultMessage": "{users} and {user} are typing"
   },
-  "UsersAreTyping": {
+  "usersAreTyping": {
     "defaultMessage": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
   },
   "UserProfile": {
     "defaultMessage": "User Profile"
   },
-  "WhatIDo": {
+  "whatIDo": {
     "defaultMessage": "What I do"
   }
 }
