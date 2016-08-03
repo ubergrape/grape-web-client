@@ -534,9 +534,9 @@
       }
     },
     "caniuse-db": {
-      "version": "1.0.30000513",
+      "version": "1.0.30000515",
       "from": "caniuse-db@>=1.0.30000214 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000513.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000515.tgz"
     },
     "center-align": {
       "version": "0.1.3",
@@ -2292,9 +2292,9 @@
       }
     },
     "fuse.js": {
-      "version": "2.3.0",
+      "version": "2.4.1",
       "from": "fuse.js@>=2.2.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-2.3.0.tgz"
+      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-2.4.1.tgz"
     },
     "gather-stream": {
       "version": "1.0.0",
@@ -3435,9 +3435,9 @@
       }
     },
     "node-fetch": {
-      "version": "1.5.3",
+      "version": "1.6.0",
       "from": "node-fetch@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz"
+      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.6.0.tgz"
     },
     "node-libs-browser": {
       "version": "0.5.3",
@@ -4408,9 +4408,9 @@
       "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-6.3.2.tgz"
     },
     "react-visibility-sensor": {
-      "version": "3.3.0",
+      "version": "3.4.0",
       "from": "react-visibility-sensor@>=3.1.1 <4.0.0",
-      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.3.0.tgz"
+      "resolved": "https://registry.npmjs.org/react-visibility-sensor/-/react-visibility-sensor-3.4.0.tgz"
     },
     "reactive-elements": {
       "version": "0.6.5",
