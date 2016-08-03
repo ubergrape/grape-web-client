@@ -16,23 +16,19 @@ function getRoomNote(item) {
   if (item.currentRoom) {
     return (
       <span>
-        —
-        {' '}
         <FormattedMessage
           id="willNotifyRoom"
           description="*Describe willNotifyRoom*: this string is decribing action"
-          defaultMessage="notify everyone in this room" />
+          defaultMessage="— notify everyone in this room" />
       </span>
     )
   }
   return (
     <span>
-      —
-      {' '}
       <FormattedMessage
-        id="wountNotifyRoom"
+        id="wontNotifyRoom"
         description="*Describe wountNotifyRoom*: this string is decribing action"
-        defaultMessage="does not notify room members" />
+        defaultMessage="— does not notify room members" />
     </span>
 
   )

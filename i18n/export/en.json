@@ -3,11 +3,11 @@
     "defaultMessage": "No emoji found."
   },
   "willNotifyRoom": {
-    "defaultMessage": "notify everyone in this room",
+    "defaultMessage": "— notify everyone in this room",
     "description": "*Describe willNotifyRoom*: this string is decribing action"
   },
-  "wountNotifyRoom": {
-    "defaultMessage": "does not notify room members",
+  "wontNotifyRoom": {
+    "defaultMessage": "— does not notify room members",
     "description": "*Describe wountNotifyRoom*: this string is decribing action"
   },
   "notInRoom": {
@@ -33,6 +33,6 @@
     "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
   },
   "noServicesFound": {
-    "defaultMessage": "No services found"
+    "defaultMessage": "No services found."
   }
 }
