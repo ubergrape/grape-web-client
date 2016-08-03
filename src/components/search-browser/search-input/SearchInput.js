@@ -1,6 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import {useSheet} from 'grape-web/lib/jss'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './style'
 import Input from './InputWithScrollEvent'
@@ -12,10 +17,19 @@ import HighlightedInput from '../../highlighted-input/HighlightedInput'
 import parseQuery from '../../query/parse'
 import {SERVICES_TRIGGER} from '../../query/constants'
 
+const messages = defineMessages({
+  placeholder: {
+    id: 'grapeSearch',
+    defaultMessage: 'Grape Search'
+  }
+})
+
 @useSheet(style)
+@injectIntl
 export default class Browser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     tokens: PropTypes.object,
     onChange: PropTypes.func,
     onDidMount: PropTypes.func
@@ -44,10 +58,11 @@ export default class Browser extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {formatMessage} = this.props.intl
     const inputProps = pick(this.props, 'onBlur', 'onChange', 'onDidMount',
       'onKeyDown', 'onKeyPress', 'value')
 
+    const {classes} = this.props.sheet
     return (
         <div className={classes.searchInput}>
           <span className={classes.magnifierIcon} />
@@ -56,7 +71,7 @@ export default class Browser extends Component {
             Editable={Input}
             theme={classes}
             getTokenClass={::this.getTokenClass}
-            placeholder="Grape Search"
+            placeholder={formatMessage(messages.placeholder)}
             tokens={Object.keys(this.props.tokens)}
             onChange={::this.onChange}
             onDidMount={::this.onMountInput} />

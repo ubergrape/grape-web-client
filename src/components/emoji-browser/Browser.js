@@ -7,8 +7,13 @@ import assign from 'lodash/object/assign'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-
 import {useSheet} from 'grape-web/lib/jss'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
+
 import style from './browserStyle'
 import TabsWithControls from '../tabs/TabsWithControls'
 import Grid from './grid/Grid'
@@ -28,12 +33,20 @@ function init(options) {
   dataUtils.init()
 }
 
+const messages = defineMessages({
+  empty: {
+    id: 'noEmojiFound',
+    defaultMessage: 'No emoji found.'
+  }
+})
+
 /**
  * Main emoji browser component.
  */
 class Browser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onSelectItem: PropTypes.func,
@@ -268,8 +281,8 @@ class Browser extends Component {
 
   render() {
     const {classes} = this.props.sheet
+    const {formatMessage} = this.props.intl
     const {sections} = this.state
-
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
@@ -287,7 +300,7 @@ class Browser extends Component {
           className={classes.input}
           type="emoji" />
         <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
-        {!sections.length && <Empty text="No emoji found." />}
+        {!sections.length && <Empty text={formatMessage(messages.empty)} />}
         {sections.length > 0 &&
           <div className={classes.column}>
             <div className={classes.row}>
@@ -309,7 +322,7 @@ class Browser extends Component {
   }
 }
 
-const PublicBrowser = useSheet(Browser, style)
+const PublicBrowser = injectIntl(useSheet(Browser, style))
 PublicBrowser.init = init
 
 export default PublicBrowser
