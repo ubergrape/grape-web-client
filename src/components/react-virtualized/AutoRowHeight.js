@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
+import shallowCompare from 'react-addons-shallow-compare'
 import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 
@@ -94,6 +95,10 @@ export default class AutoRowHeight extends Component {
   componentWillReceiveProps({rows}) {
     this.updateCache(rows)
     this.calcAndCacheHeights(rows)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate() {

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer} from 'react-virtualized'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
 import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
@@ -33,6 +34,10 @@ export default class InfiniteList extends Component {
     super(props)
     // FIXME clear cache
     this.rowsCache = {}
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   renderAndCacheRows(messages) {

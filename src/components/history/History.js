@@ -119,7 +119,7 @@ export default class History extends Component {
     const message = this.props.messages[stopIndex]
     // We are not sending a "read" event for every message, only for the latest one.
     // Backend assumes once user read the latest message, he read all older messages too.
-    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
+    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
       // We debounce it to reduce the amount of "read" events.
       this.onReadDebounced(message)
       this.lastReadMessage = message
