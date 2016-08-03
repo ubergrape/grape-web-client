@@ -38,14 +38,24 @@ export default function reduce(state = initialState, action) {
       if (!newMessages.length) return state
 
       let messages
+      let {olderMessages, newerMessages} = state
 
-      if (isScrollBack) messages = [...newMessages, ...state.messages]
-      else messages = [...state.messages, ...newMessages]
+      if (isScrollBack) {
+        messages = [...newMessages, ...state.messages]
+        olderMessages = undefined
+      } else {
+        messages = [...state.messages, ...newMessages]
+        newerMessages = undefined
+      }
 
       messages = uniq(messages, 'id')
 
-      return {...state, messages, scrollTo: null}
+      return {...state, messages, scrollTo: null, olderMessages, newerMessages}
     }
+    case types.REQUEST_OLDER_HISTORY:
+      return {...state, olderMessages: payload}
+    case types.REQUEST_NEWER_HISTORY:
+      return {...state, newerMessages: payload}
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: payload})}
     case types.EDIT_MESSAGE:

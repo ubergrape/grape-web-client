@@ -45,27 +45,27 @@ function loadLatest({channelId}) {
   }
 }
 
-// This promise needs to be global, because loadOlder may be called multiple times.
-// It ensures multiple requests don't go out until already loaded messages are
-// not rendered.
-let olderMessagesPromise
-
 function loadOlder({startIndex, stopIndex, channelId}) {
   return (dispatch, getState) => {
+    const {messages, olderMessages} = historySelector(getState())
     // Ensures we don't have useless requests to the backend.
-    if (olderMessagesPromise) return
+    if (olderMessages) return
 
-    const {messages} = historySelector(getState())
 
     const options = {
       limit: stopIndex - startIndex,
       timeTo: messages[0].time
     }
 
-    olderMessagesPromise = api
+    const promise = api
       .loadHistory(channelId, options)
       .then(res => res)
       .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_OLDER_HISTORY,
+      payload: promise
+    })
   }
 }
 
@@ -75,7 +75,8 @@ function loadOlder({startIndex, stopIndex, channelId}) {
  */
 export function renderOlderHistory() {
   return (dispatch, getState) => {
-    olderMessagesPromise.then(res => {
+    const {olderMessages} = historySelector(getState())
+    olderMessages.then(res => {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
@@ -84,22 +85,22 @@ export function renderOlderHistory() {
         }
       })
     })
-    // Once promise is resolved, it's ref needs to be removed to allow
-    // referencing a new one.
-    olderMessagesPromise = null
   }
 }
 
 function loadNewer({startIndex, stopIndex, channelId}) {
   return (dispatch, getState) => {
-    const {messages} = historySelector(getState())
+    const {messages, newerMessages} = historySelector(getState())
+
+    // Ensures we don't have useless requests to the backend.
+    if (newerMessages) return
 
     const options = {
       limit: stopIndex - startIndex,
       timeFrom: last(messages).time
     }
 
-    api
+    const promise = api
       .loadHistory(channelId, options)
       .then(res => {
         dispatch({
@@ -111,6 +112,11 @@ function loadNewer({startIndex, stopIndex, channelId}) {
         })
       })
       .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_NEWER_HISTORY,
+      payload: promise
+    })
   }
 }
 
