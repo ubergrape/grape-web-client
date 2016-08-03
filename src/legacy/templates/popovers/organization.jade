@@ -40,7 +40,7 @@
                 i.fa.fa-bell
                 =_('Notification Settings')
         li
-            a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
+            a(href='#',onclick='ui.intro.start();window.analytics && window.analytics.track("Started Tutorial", {via: "user menu"});')
                 i.fa.fa-life-saver
                 =_('Tutorial')
         li

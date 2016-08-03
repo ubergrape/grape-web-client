@@ -168,7 +168,7 @@ UI.prototype.renderIntro = function() {
   // initialize user guide
   this.intro = new Introjs()
   this.intro.onchange(function (el) {
-    if (el.dataset.step !== undefined) {
+    if (window.analytics && el.dataset.step !== undefined) {
       window.analytics.track("Viewed Tutorial Step", {step: el.dataset.step, topic: el.dataset.topic})
     }
   })
@@ -286,8 +286,8 @@ UI.prototype.setSettings = function UI_setSettings(settings) {
 UI.prototype.showIntro = function UI_showIntro(settings) {
   if (!this.settings) return
   if (this.settings.show_intro && !this.options.detached) {
-    window.analytics.track("Started Tutorial", {via: "onboarding"})
     this.intro.start()
+    if (window.analytics) window.analytics.track("Started Tutorial", {via: "onboarding"})
   }
 }
 
