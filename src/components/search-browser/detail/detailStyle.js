@@ -33,11 +33,12 @@ export default {
     padding: 20,
     paddingBottom: 10
   },
-  articleIcon: {
+  icon: {
     height: leftColumnWidth,
     width: leftColumnWidth,
     flexShrink: 0,
-    marginRight: columnMarginRight
+    marginRight: columnMarginRight,
+    backgroundSize: '100%'
   },
   articleBody: {
     flex: 1

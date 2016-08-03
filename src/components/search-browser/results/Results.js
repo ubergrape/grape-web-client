@@ -49,6 +49,12 @@ export default class Results extends Component {
     const {classes} = this.props.sheet
     const {focusedResult} = this.props
 
+    let details
+    if (focusedResult) {
+      const {detail, service} = focusedResult
+      details = {...detail, service}
+    }
+
     return (
       <div className={classes.column}>
         <div className={classes.row}>
@@ -58,7 +64,7 @@ export default class Results extends Component {
             items={this.props.data}
             focused={this.props.focusedResult} />
           <Sidebar className={classes.rightColumn}>
-            <Detail {...this.props} data={focusedResult && focusedResult.detail} />
+            <Detail {...this.props} data={details} />
           </Sidebar>
         </div>
       </div>
