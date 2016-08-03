@@ -34,7 +34,7 @@ export function formatGroupedResults({results, services, search}) {
 
     // Build new result items.
     const newGroupResults = groupResults.map(result => {
-      const newResult = {
+      return {
         id: result.id,
         type: result.type,
         name: result.name,
@@ -45,8 +45,6 @@ export function formatGroupedResults({results, services, search}) {
         detail: result.detail || {},
         search: search.text
       }
-      if (service.iconUrl) newResult.detail.iconUrl = service.iconUrl
-      return newResult
     })
 
     return newResults.concat(newGroupResults)

@@ -6,6 +6,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import Preview from './Preview'
 import Empty from './DetailEmpty'
 import Actions from './Actions'
+import ServiceIcon from '../service-icon/ServiceIcon'
 import style from './detailStyle'
 import * as utils from './utils'
 import {listTypes} from '../constants'
@@ -52,13 +53,13 @@ export default class Detail extends Component {
 
   renderInfo() {
     const {classes} = this.props.sheet
-    const {iconUrl, title, subtitle, description} = this.props.data
+    const {service, title, subtitle, description} = this.props.data
 
     if (!title && !subtitle && !description) return null
 
     return (
       <div className={classes.article}>
-        {iconUrl && <img src={iconUrl} className={classes.articleIcon} />}
+        <ServiceIcon service={service} theme={{classes}} />
         <div className={classes.articleBody}>
           {title && <h2 className={classes.title}>{title}</h2>}
           {subtitle && <h3 className={classes.subtitle}>{subtitle}</h3>}

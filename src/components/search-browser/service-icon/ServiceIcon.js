@@ -15,15 +15,17 @@ const serviceIconMap = {
 export default class ServiceIcon extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
     service: PropTypes.string
   }
 
   static defaultProps = {
-    service: 'file'
+    service: 'file',
+    theme: {}
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const classes = this.props.theme.classes || this.props.sheet.classes
     const {service} = this.props
     const iconUrl = icons[service] || serviceIconMap[service] || icons.file
     const backgroundImage = `url(${iconUrl})`
