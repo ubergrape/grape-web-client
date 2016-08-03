@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
+import debounce from 'lodash/function/debounce'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -84,12 +85,20 @@ export default class History extends Component {
     onTouchTopEdge: noop
   }
 
-  componentWillReceiveProps({channelId}) {
+  constructor(props) {
+    super(props)
+    this.createDebouncedCallbacks(props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {channelId} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     if (channelId !== this.props.channelId) {
       this.props.onLoad({channelId})
     }
+
+    this.createDebouncedCallbacks(nextProps)
   }
 
   onLoadMore = (options) => {
@@ -107,7 +116,18 @@ export default class History extends Component {
   }
 
   onMessagesRead = ({stopIndex}) => {
-    this.props.onRead(this.props.messages[stopIndex])
+    const message = this.props.messages[stopIndex]
+    // We are not sending a "read" event for every message, only for the latest one.
+    // Backend assumes once user read the latest message, he read all older messages too.
+    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
+      // We debounce it to reduce the amount of "read" events.
+      this.onReadDebounced(message)
+      this.lastReadMessage = message
+    }
+  }
+
+  createDebouncedCallbacks({onRead}) {
+    this.onReadDebounced = debounce(onRead, 1000)
   }
 
   renderRow = (messages, index) => {
