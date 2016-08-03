@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 
 import {useSheet} from 'grape-web/lib/jss'
 import style from './detailEmptyStyle'
@@ -23,7 +24,11 @@ export default class DetailEmpty extends Component {
     return (
       <div className={classes.empty}>
         <img src={this.props.images.noDetail} />
-        <span className={classes.note}>No Detail Infos for this Item</span>
+        <span className={classes.note}>
+          <FormattedMessage
+            id="noDetailForItem"
+            defaultMessage="No Detail Infos for this Item" />
+        </span>
       </div>
     )
   }

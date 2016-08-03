@@ -1,4 +1,5 @@
 import React from 'react'
+import {FormattedMessage} from 'react-intl'
 
 import {jss} from 'grape-web/lib/jss'
 import Icon from '../icon/Icon'
@@ -12,8 +13,25 @@ function getIcon(item) {
 }
 
 function getRoomNote(item) {
-  if (item.currentRoom) return '— notify everyone in this room'
-  return '— does not notify room members'
+  if (item.currentRoom) {
+    return (
+      <span>
+        <FormattedMessage
+          id="willNotifyRoom"
+          description="*Describe willNotifyRoom*: this string is decribing action"
+          defaultMessage="— notify everyone in this room" />
+      </span>
+    )
+  }
+  return (
+    <span>
+      <FormattedMessage
+        id="wontNotifyRoom"
+        description="*Describe wountNotifyRoom*: this string is decribing action"
+        defaultMessage="— does not notify room members" />
+    </span>
+
+  )
 }
 
 /**
@@ -27,7 +45,17 @@ export function map(data) {
         borderRadius: '100%'
       }
       item.icon = <Icon name={item.name} style={iconStyle} />
-      if (!item.inRoom) item.note = '— not in room'
+      if (!item.inRoom) {
+        item.note = (
+          <span>
+            —
+            {' '}
+            <FormattedMessage
+              id="notInRoom"
+              defaultMessage="not in room" />
+          </span>
+        )
+      }
       return
     }
     item.note = getRoomNote(item)

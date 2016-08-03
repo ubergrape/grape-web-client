@@ -2,6 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './searchBrowserStyle'
 import Results from './results/Results'
@@ -11,13 +16,23 @@ import Info from './info/Info'
 import Empty from '../empty/Empty'
 import {listTypes} from './constants'
 
+const messages = defineMessages({
+  empty: {
+    id: 'noResults',
+    defaultMessage: 'No Results.'
+  }
+})
+
+
 /**
  * Main search browser component.
  */
 @useSheet(style)
+@injectIntl
 export default class SearchBrowser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onBlur: PropTypes.func,
@@ -149,7 +164,7 @@ export default class SearchBrowser extends Component {
   }
 
   getBody() {
-    const {height, results, search, focusedView} = this.props
+    const {height, results, search, focusedView, intl} = this.props
 
     if (focusedView === 'services') {
       const element = (
@@ -176,7 +191,7 @@ export default class SearchBrowser extends Component {
 
     if (search.trim()) {
       return {
-        element: <Empty text="No Results." />,
+        element: <Empty text={intl.formatMessage(messages.empty)} />,
         height: 'auto'
       }
     }

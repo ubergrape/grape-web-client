@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-finite-list'
 import {useSheet} from 'grape-web/lib/jss'
@@ -39,7 +40,13 @@ export default class ServiceList extends Component {
     const {services, focused} = this.props
 
     if (!services.length) {
-      return <p className={classes.empty}>No services found.</p>
+      return (
+        <p className={classes.empty}>
+          <FormattedMessage
+            id="noServicesFound"
+            defaultMessage="No services found." />
+        </p>
+      )
     }
 
     return [

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
+import {FormattedMessage} from 'react-intl'
 
 import style from './serviceStyle'
 import ServiceIcon from '../service-icon/ServiceIcon'
@@ -36,7 +37,14 @@ export default class Service extends Component {
         <div className={classes.name}>
           {item.label}
         </div>
-        {resultsAmount && <div className={classes.hint}>{resultsAmount} Results</div>}
+        {resultsAmount &&
+          <div className={classes.hint}>
+            <FormattedMessage
+              id="amountResults"
+              defaultMessage="{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
+              values={{resultsAmount}} />
+          </div>
+        }
         <div className={classes.return}>
           &crarr;
         </div>

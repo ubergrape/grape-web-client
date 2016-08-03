@@ -3,6 +3,7 @@ import expect from 'expect.js'
 import React from 'react'
 import times from 'lodash/utility/times'
 import {Simulate} from 'react-addons-test-utils'
+import {IntlProvider} from 'react-intl'
 import GrapeBrowser from '../GrapeBrowser'
 import data0 from './mocks/data0.json'
 import data1 from './mocks/data1.json'
@@ -17,7 +18,11 @@ describe('app:', () => {
 
   describe('GrapeBrowser() with search', () => {
     it('should open search browser', () => {
-      const input = <GrapeBrowser browser="search" data={data0} focused setTrigger />
+      const input = (
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser browser="search" data={data0} focused setTrigger />
+        </IntlProvider>
+      )
       render(input)
       expect($('search-browser', document.body)).to.be.an(Element)
     })
@@ -28,11 +33,13 @@ describe('app:', () => {
         // Results removed.
       const data = {...data0, results: []}
       const input = (
-        <GrapeBrowser
-          browser="search"
-          data={data}
-          onDidMount={onDidMount}
-          focused />
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser
+            browser="search"
+            data={data}
+            onDidMount={onDidMount}
+            focused />
+        </IntlProvider>
       )
       render(input, onRender)
     }
@@ -61,7 +68,11 @@ describe('app:', () => {
 
   describe('GrapeBrowser() should open users autocomplete', () => {
     it('should open users autocomplete', () => {
-      const input = <GrapeBrowser browser="user" data={data1} focused />
+      const input = (
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser browser="user" data={data1} focused />
+        </IntlProvider>
+      )
       render(input)
       expect($('grape-browser datalist', document.body)).to.be.an(Element)
     })
@@ -69,7 +80,11 @@ describe('app:', () => {
 
   describe('GrapeBrowser() should close users autocomplete if there is space at the end and no results', () => {
     it('should open users autocomplete', () => {
-      const input = <GrapeBrowser browser="user" data={data1} focused />
+      const input = (
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser browser="user" data={data1} focused />
+        </IntlProvider>
+      )
       render(input)
       const node = $('grape-browser editable', document.body)
       node.value = '@ '
@@ -84,11 +99,13 @@ describe('app:', () => {
       const data = {...data0}
       data.search.queries = []
       const input = (
-        <GrapeBrowser
-          browser="search"
-          data={data}
-          focused
-          {...props} />
+        <IntlProvider locale="en" messages={{}}>
+          <GrapeBrowser
+            browser="search"
+            data={data}
+            focused
+            {...props} />
+        </IntlProvider>
       )
       render(input)
 
