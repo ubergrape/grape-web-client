@@ -45,45 +45,95 @@ function loadLatest({channelId}) {
   }
 }
 
-function loadMore({startIndex, stopIndex, channelId}) {
+function loadOlder({startIndex, stopIndex, channelId}) {
   return (dispatch, getState) => {
-    const isScrollBack = startIndex < 0
+    const {messages, olderMessages} = historySelector(getState())
+    // Ensures we don't have useless requests to the backend.
+    if (olderMessages) return
+
+
     const options = {
-      limit: stopIndex - startIndex
-    }
-    const {messages} = historySelector(getState())
-
-    if (isScrollBack) {
-      options.timeTo = messages[0].time
-    } else {
-      options.timeFrom = last(messages).time
+      limit: stopIndex - startIndex,
+      timeTo: messages[0].time
     }
 
-    api
+    const promise = api
+      .loadHistory(channelId, options)
+      .then(res => res)
+      .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_OLDER_HISTORY,
+      payload: promise
+    })
+  }
+}
+
+/**
+ * This callback is called when scroller reaches the top position.
+ * It renders the loaded messages when promise gets resolved.
+ */
+export function renderOlderHistory() {
+  return (dispatch, getState) => {
+    const {olderMessages} = historySelector(getState())
+    olderMessages.then(res => {
+      dispatch({
+        type: types.HANDLE_MORE_HISTORY,
+        payload: {
+          messages: normalizeMessages(res, getState()),
+          isScrollBack: true
+        }
+      })
+    })
+  }
+}
+
+function loadNewer({startIndex, stopIndex, channelId}) {
+  return (dispatch, getState) => {
+    const {messages, newerMessages} = historySelector(getState())
+
+    // Ensures we don't have useless requests to the backend.
+    if (newerMessages) return
+
+    const options = {
+      limit: stopIndex - startIndex,
+      timeFrom: last(messages).time
+    }
+
+    const promise = api
       .loadHistory(channelId, options)
       .then(res => {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
             messages: normalizeMessages(res, getState()),
-            isScrollBack
+            isScrollBack: false
           }
         })
       })
       .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_NEWER_HISTORY,
+      payload: promise
+    })
   }
 }
 
 function loadFragment({channelId}, messageId) {
   return (dispatch, getState) => {
+    const state = getState()
+    const {minimumBatchSize: limit} = historySelector(state)
+
     api
-      .loadHistoryAt(channelId, messageId)
+      .loadHistoryAt(channelId, messageId, {limit})
       .then(res => {
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
-            scrollTo: messageId
+            messages: normalizeMessages(res, state),
+            scrollTo: messageId,
+            selectedMessageId: messageId
           }
         })
       })
@@ -99,13 +149,21 @@ export function loadHistory(params) {
     })
 
     if (!params.jumpToEnd) {
-      if (params.startIndex !== undefined) return dispatch(loadMore(params))
+      if (params.startIndex !== undefined) {
+        return dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+      }
 
       const {selectedMessageId: messageId} = historySelector(getState())
       if (messageId) return dispatch(loadFragment(params, messageId))
     }
 
     return dispatch(loadLatest(params))
+  }
+}
+
+export function unsetHistoryScrollTo() {
+  return {
+    type: types.UNSET_HISTORY_SCROLL_TO
   }
 }
 

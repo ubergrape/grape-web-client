@@ -20,7 +20,7 @@ import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
-import HistoryProvider from '../components/history/HistoryProvider'
+import HistoryProvider from '../components/redux-history/HistoryProvider'
 
 addLocaleData([...en, ...de])
 

@@ -1,4 +1,5 @@
 import {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 
 // We use this number to ensure scroll position at the bottom without knowing
 // the actuall height of rows initially.
@@ -51,7 +52,6 @@ export default class AutoScroll extends Component {
       if (this.direction < 0 && this.scrollTop === 0) {
         const prevFirstRenderedRow = this.props.rows[this.renderedRows.startIndex]
         const prevFirstRowIndex = nextProps.rows.indexOf(prevFirstRenderedRow)
-
         if (prevFirstRowIndex === -1) return
 
         let addedHeight = 0
@@ -60,6 +60,7 @@ export default class AutoScroll extends Component {
           if (height) addedHeight += height
         }
 
+        this.childrenParam.scrollToIndex = undefined
         this.childrenParam.scrollTop = addedHeight
         return
       }
@@ -77,9 +78,14 @@ export default class AutoScroll extends Component {
           const height = this.props.rowHeight(i)
           if (height) addedHeight += height
         }
+        this.childrenParam.scrollToIndex = undefined
         this.childrenParam.scrollTop += addedHeight
       }
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onScroll = ({scrollHeight, clientHeight, scrollTop}) => {

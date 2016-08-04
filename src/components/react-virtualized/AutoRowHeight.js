@@ -4,6 +4,7 @@ import {
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
   unmountComponentAtNode
 } from 'react-dom'
+import shallowCompare from 'react-addons-shallow-compare'
 import pick from 'lodash/object/pick'
 import noop from 'lodash/utility/noop'
 
@@ -84,7 +85,7 @@ export default class AutoRowHeight extends Component {
   constructor(props) {
     super(props)
     this.updateCache([])
-    this.childrenParam = pick(this, 'onResize', 'rowHeight', 'renderRow',
+    this.childrenParam = pick(this, 'onResize', 'getRowHeight', 'renderRow',
       'isRowLoaded', 'registerScroller', 'recomputeRowHeights')
     this.heightsInitialized = false
   }
@@ -99,6 +100,10 @@ export default class AutoRowHeight extends Component {
   componentWillReceiveProps({rows}) {
     this.updateCache(rows)
     this.calcAndCacheHeights(rows)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate() {
@@ -119,14 +124,10 @@ export default class AutoRowHeight extends Component {
     this.hiddenContainer = container
   }
 
-  registerScroller = (ref) => (this.scroller = ref)
-
-  recomputeRowHeights = () => (this.scroller.recomputeRowHeights())
-
   /**
    * Get the cached height.
    */
-  rowHeight = (index) => {
+  getRowHeight = (index) => {
     const element = this.renderRow(index)
     return this.heights.get(element)
   }
@@ -173,6 +174,10 @@ export default class AutoRowHeight extends Component {
     })
     this.heights = cache
   }
+
+  registerScroller = (ref) => (this.scroller = ref)
+
+  recomputeRowHeights = () => (this.scroller.recomputeRowHeights())
 
   /**
    * Get the cached element.

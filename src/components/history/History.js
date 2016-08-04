@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
+import debounce from 'lodash/function/debounce'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -32,28 +33,17 @@ function canGroup(message, prevMessage) {
   return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
 }
 
-/**
- * Returns a passed value only if it doesn't equal the previous one.
- */
-const getValueIfChanged = (() => {
-  let prevValue
-
-  return (nextValue) => {
-    if (!nextValue || prevValue === nextValue) return undefined
-    prevValue = nextValue
-    return nextValue
-  }
-})()
-
 @useSheet(styles)
 export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
+    onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
@@ -68,8 +58,12 @@ export default class History extends Component {
       })
     ),
     user: PropTypes.object,
+    // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    cacheSize: PropTypes.number
+    // Will highlight a message by id.
+    selectedMessageId: PropTypes.string,
+    cacheSize: PropTypes.number,
+    minimumBatchSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -78,15 +72,24 @@ export default class History extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onRead: noop
+    onRead: noop,
+    onTouchTopEdge: noop,
+    onUserScrollAfterScrollTo: noop
   }
 
-  componentWillReceiveProps({channelId}) {
+  constructor(props) {
+    super(props)
+    this.createDebouncedCallbacks(props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {channelId} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     if (channelId !== this.props.channelId) {
       this.props.onLoad({channelId})
     }
+    this.createDebouncedCallbacks(nextProps)
   }
 
   onLoadMore = (options) => {
@@ -103,12 +106,29 @@ export default class History extends Component {
     })
   }
 
-  onMessagesRead = ({stopIndex}) => {
-    this.props.onRead(this.props.messages[stopIndex])
+  onRowsRendered = ({stopIndex}) => {
+    const message = this.props.messages[stopIndex]
+    // We are not sending a "read" event for every message, only for the latest one.
+    // Backend assumes once user read the latest message, he read all older messages too.
+    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
+      // We debounce it to reduce the amount of "read" events.
+      this.onReadDebounced(message)
+      this.lastReadMessage = message
+    }
+
+    // We need to unset the scrollTo once user has scrolled around, because he
+    // might want to use jumper to jump again to the same scrollTo value.
+    if (this.props.scrollTo) {
+      this.props.onUserScrollAfterScrollTo()
+    }
+  }
+
+  createDebouncedCallbacks({onRead}) {
+    this.onReadDebounced = debounce(onRead, 1000)
   }
 
   renderRow = (messages, index) => {
-    const {sheet, user, onEdit, onRemove, onResend, scrollTo} = this.props
+    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId} = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
@@ -116,7 +136,7 @@ export default class History extends Component {
       key: `row-${message.id}`,
       isOwn: message.author.id === user.id,
       user,
-      isSelected: scrollTo === message.id
+      isSelected: selectedMessageId === message.id
     }
 
     const prevMessage = messages[index - 1]
@@ -155,7 +175,10 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, user, cacheSize, scrollTo} = this.props
+    const {
+      sheet, messages, user, cacheSize, scrollTo, minimumBatchSize,
+      onTouchTopEdge
+    } = this.props
     const {classes} = sheet
 
     if (!user || !messages.length) return null
@@ -168,15 +191,17 @@ export default class History extends Component {
           <InfiniteList
             onRowsRendered={(params) => {
               onRowsRendered(params)
-              this.onMessagesRead(params)
+              this.onRowsRendered(params)
             }}
             // Ensure returning `scrollTo` only once.
             // After the first time, user might have scrolled and don't want
             // to be sent again to the last scrollTo position.
-            scrollTo={getValueIfChanged(scrollTo)}
+            scrollTo={scrollTo}
             messages={messages}
             cacheSize={cacheSize}
+            minimumBatchSize={minimumBatchSize}
             onLoadMore={this.onLoadMore}
+            onTouchTopEdge={onTouchTopEdge}
             renderRow={this.renderRow} />
         )}
       </Jumper>

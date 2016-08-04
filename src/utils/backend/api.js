@@ -293,14 +293,12 @@ export function checkAuth() {
   })
 }
 
-const historyBatchSize = 50
-
 export function loadHistory(channelId, options = {}) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'channels',
       action: 'get_history',
-      args: [channelId, {limit: historyBatchSize, ...options}]
+      args: [channelId, options]
     },
     {camelize: true},
     (err, res) => {
@@ -315,9 +313,8 @@ export function loadHistory(channelId, options = {}) {
  */
 export function loadHistoryAt(channelId, messageId, options = {}) {
   return new Promise((resolve, reject) => {
-    const limit = options.limit || historyBatchSize
     // Amount of messages before the passed message id.
-    const before = Math.round(limit / 2)
+    const before = Math.round(options.limit / 2)
     // Amount of messages after the passed message id.
     const after = before
     // Return an error when message id not found, otherwise return fallback results.

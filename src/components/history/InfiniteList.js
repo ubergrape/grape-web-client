@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer} from 'react-virtualized'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
 import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
@@ -16,8 +17,10 @@ export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
+    minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func,
     cacheSize: PropTypes.number
@@ -31,6 +34,10 @@ export default class InfiniteList extends Component {
     super(props)
     // FIXME clear cache
     this.rowsCache = {}
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   renderAndCacheRows(messages) {
@@ -47,17 +54,18 @@ export default class InfiniteList extends Component {
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
+      messages, cacheSize, minimumBatchSize
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
-    const focusedMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
+    const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
 
     return (
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
         {({
           onResize,
-          rowHeight,
+          getRowHeight,
           renderRow,
           isRowLoaded,
           registerScroller: registerScrollerInAutoRowHeight
@@ -65,8 +73,9 @@ export default class InfiniteList extends Component {
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
             loadMoreRows={onLoadMore}
+            onTouchTopEdge={onTouchTopEdge}
             threshold={5}
-            minimumBatchSize={40}>
+            minimumBatchSize={minimumBatchSize}>
             {({
               onRowsRendered: onRowsRenderedInInfiniteLoader,
               onScroll: onScrollInInfiniteLoader
@@ -75,8 +84,8 @@ export default class InfiniteList extends Component {
                 {({width, height}) => (
                   <AutoScroll
                     rows={rows}
-                    rowHeight={rowHeight}
-                    scrollToIndex={focusedMessageIndex}>
+                    rowHeight={getRowHeight}
+                    scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,
@@ -100,7 +109,7 @@ export default class InfiniteList extends Component {
                         width={width}
                         height={height}
                         rowsCount={rows.length}
-                        rowHeight={rowHeight}
+                        rowHeight={getRowHeight}
                         rowRenderer={renderRow} />
                     )}
                   </AutoScroll>
