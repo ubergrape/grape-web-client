@@ -30,8 +30,6 @@ export default function reduce(state = initialState, action) {
         selectedMessageId: payload.messageId
       }
     case types.HANDLE_INITIAL_HISTORY:
-      // No need to rerender if no messages been loaded.
-      if (!payload.messages.length) return state
       return {...state, ...payload}
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
