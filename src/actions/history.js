@@ -260,13 +260,12 @@ export function resendMessage(message) {
   }
 }
 
-export function readMessage({id: messageId}) {
-  return (dispatch, getState) => {
+export function readMessage({channelId, messageId}) {
+  return (dispatch) => {
     dispatch({
       type: types.REQUEST_READ_MESSAGE,
       payload: messageId
     })
-    const {id: channelId} = channelSelector(getState())
     api
       .readMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))
