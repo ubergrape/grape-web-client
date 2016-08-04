@@ -6,7 +6,7 @@ export const styles = {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 20
+    bottom: 35
   },
   separatorDate: {
     background: white
