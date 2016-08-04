@@ -59,7 +59,8 @@ export default class InfiniteList extends Component {
     } = this.props
     const {classes} = sheet
     const rows = this.renderAndCacheRows(messages)
-    const focusedMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
+    const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
+
     return (
       <AutoRowHeight rows={rows} cacheSize={cacheSize}>
         {({
@@ -84,7 +85,7 @@ export default class InfiniteList extends Component {
                   <AutoScroll
                     rows={rows}
                     rowHeight={getRowHeight}
-                    scrollToIndex={focusedMessageIndex}>
+                    scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,

@@ -36,7 +36,7 @@ function loadLatest({channelId}) {
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages,
-            scrollTo: null
+            scrollTo: last(messages).id
           }
         })
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -132,7 +132,8 @@ function loadFragment({channelId}, messageId) {
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages: normalizeMessages(res, state),
-            scrollTo: messageId
+            scrollTo: messageId,
+            selectedMessageId: messageId
           }
         })
       })
@@ -157,6 +158,12 @@ export function loadHistory(params) {
     }
 
     return dispatch(loadLatest(params))
+  }
+}
+
+export function unsetHistoryScrollTo() {
+  return {
+    type: types.UNSET_HISTORY_SCROLL_TO
   }
 }
 

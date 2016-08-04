@@ -56,6 +56,8 @@ export default function reduce(state = initialState, action) {
       return {...state, olderMessages: payload}
     case types.REQUEST_NEWER_HISTORY:
       return {...state, newerMessages: payload}
+    case types.UNSET_HISTORY_SCROLL_TO:
+      return {...state, scrollTo: null}
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: payload})}
     case types.EDIT_MESSAGE:
