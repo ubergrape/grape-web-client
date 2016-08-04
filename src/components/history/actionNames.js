@@ -1,7 +1,7 @@
 export default {
   loadHistory: 'onLoad',
   renderOlderHistory: 'onTouchTopEdge',
-  unsetHistoryScrollTo: 'unsetScrollTo',
+  unsetHistoryScrollTo: 'onUserScrollAfterScrollTo',
   removeMessage: 'onRemove',
   editMessage: 'onEdit',
   resendMessage: 'onResend',

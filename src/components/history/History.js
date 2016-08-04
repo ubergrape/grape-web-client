@@ -43,6 +43,7 @@ export default class History extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
+    onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
@@ -73,7 +74,7 @@ export default class History extends Component {
     onResend: noop,
     onRead: noop,
     onTouchTopEdge: noop,
-    onScrolledTo: noop
+    onUserScrollAfterScrollTo: noop
   }
 
   constructor(props) {
@@ -118,7 +119,7 @@ export default class History extends Component {
     // We need to unset the scrollTo once user has scrolled around, because he
     // might want to use jumper to jump again to the same scrollTo value.
     if (this.props.scrollTo) {
-      this.props.unsetScrollTo()
+      this.props.onUserScrollAfterScrollTo()
     }
   }
 
