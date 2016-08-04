@@ -104,6 +104,7 @@ export default class GrapeInput extends Emitter {
   setProps(newProps, callback) {
     this.input.props = {
       images: this.images,
+      locale: conf.user.languageCode,
       customEmojis: this.org.custom_emojis,
       placeholder: this.placeholder,
       onRender: callback ? once(callback) : undefined,
@@ -408,7 +409,7 @@ export default class GrapeInput extends Emitter {
     this.browserAborted = true
     // Don't abort editing if browser has been open.
     if (!data.browser) this.completePreviousEdit()
-    if (data.browser === 'search' && data.reason === 'esc') {
+    if (window.analytics && data.browser === 'search' && data.reason === 'esc') {
       window.analytics.track('abort autocomplete', data)
     }
 
@@ -537,7 +538,7 @@ export default class GrapeInput extends Emitter {
 
   onInsertItem(e) {
     this.closeBrowser()
-    window.analytics.track('insert autocomplete object', e.detail)
+    if (window.analytics) window.analytics.track('insert autocomplete object', e.detail)
   }
 
   onSelectChannel(room) {

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import List from 'react-finite-list'
+import {FormattedMessage} from 'react-intl'
 
 export default class FilteredList extends Component {
   static propTypes = {
@@ -26,7 +27,10 @@ export default class FilteredList extends Component {
     if (!filtered.length && !filteredUnJoined.length) {
       return (
         <div className={classes.notFound}>
-          {'There\'s nothing that matches '}
+          <FormattedMessage
+            id="nothingThatMatches"
+            defaultMessage="There's nothing that matches" />
+          {' '}
           <strong>{filter}</strong>
         </div>
       )

@@ -4,6 +4,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
 import * as themes from './themes'
+import {Done} from '../i18n/i18n'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
@@ -167,7 +168,7 @@ export default class EditableText extends Component {
           onClick={this.onClickSave}
           className={classes['submit' + (isEditing ? 'Visible' : '')]}
           disabled={this.state.saving}>
-          Done
+          <Done />
         </button>
       </Wrapper>
     )

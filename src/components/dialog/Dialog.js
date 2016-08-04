@@ -14,7 +14,7 @@ import {useSheet} from 'grape-web/lib/jss'
 export default class Dialog extends Component {
   static propTypes = {
     onHide: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired

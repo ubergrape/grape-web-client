@@ -29,8 +29,8 @@ Notifications.prototype.onNotificationClick = function Notifications_onNotificat
 Notifications.prototype.onNewInviteNotification = function Notification_onNewInviteNotification (item) {
   let inviter = item.inviter
   let room = item.room
-  let content = inviter.displayName + _(' invited you to the group ') + room.name
-  let title = inviter.displayName + _(' (Group Invite)')
+  let content = _('{name} invited you to the group {room}', {name: inviter.displayName, room: room.name})
+  let title = _('{name} (Group Invite)', {name: inviter.displayName})
   let icon = inviter.avatar
   const {slug} = room
   createNotification(

@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import noop from 'lodash/utility/noop'
-
-import ImageZoom from '../image-zoom/ImageZoom'
-
 import {useSheet} from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
+import {FormattedMessage} from 'react-intl'
+
+import ImageZoom from '../image-zoom/ImageZoom'
 import style from './sharedFileStyle'
 const dateFormat = 'MMM Do, h:mm a'
 
@@ -66,9 +66,33 @@ export default class SharedFile extends Component {
   renderSection(handleClick) {
     const {classes} = this.props.sheet
     const {channelType, channelName, time, author, name} = this.props
-    const where = `Shared ${channelType === 'room' ? 'in' : 'with'} ${channelName}`
     let when = moment(time).format(dateFormat)
     if (author) when += ` - ${author}`
+
+    let message
+    switch (channelType) {
+      case 'room': {
+        message = (
+          <FormattedMessage
+            id="sharedInRoom"
+            defaultMessage="Shared in {channelName}"
+            description="*Describe sharedInRoom*, example: 'Shared in Office'"
+            values={{channelName}}/>
+        )
+        break
+      }
+      case 'pm': {
+        message = (
+          <FormattedMessage
+            id="sharedInPm"
+            defaultMessage="Shared with {channelName}"
+            description="*Describe sharedInPm*, example: Shared with Felix'"
+            values={{channelName}}/>
+        )
+        break
+      }
+      default:
+    }
 
     return (
       <section
@@ -80,7 +104,9 @@ export default class SharedFile extends Component {
         <div className={classes.rightColumn}>
           <h2 className={classes.name}>{name}</h2>
           <p className={classes.meta}>{when}</p>
-          <p className={classes.meta}>{where}</p>
+          <p className={classes.meta}>
+            {message}
+          </p>
         </div>
       </section>
     )
