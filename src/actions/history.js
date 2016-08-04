@@ -32,11 +32,12 @@ function loadLatest({channelId}) {
       .loadHistory(channelId)
       .then(res => {
         const messages = normalizeMessages(res, getState())
+        const lastMessage = last(messages)
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
             messages,
-            scrollTo: last(messages).id
+            scrollTo: lastMessage ? lastMessage.id : null
           }
         })
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
@@ -196,7 +197,7 @@ export function editPreviousMessage() {
     const state = getState()
     const {messages} = historySelector(state)
     const user = userSelector(state)
-    const message = findLast(messages, msg => msg.author.id === String(user.id))
+    const message = findLast(messages, msg => msg.author.id === user.id)
     dispatch(editMessage(message))
   }
 }
