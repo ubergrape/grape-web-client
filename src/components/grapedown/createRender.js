@@ -19,7 +19,11 @@ export function renderTag(tag, props, children) {
     }
   }
 
-  return createElement(tag, omit(props, nonStandardProps), children)
+  return createElement(
+    tag,
+    omit(props, nonStandardProps),
+    children.length ? children : undefined
+  )
 }
 
 const defaults = {
