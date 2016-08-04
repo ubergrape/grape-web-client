@@ -99,6 +99,10 @@ export default class InfiniteLoader extends Component {
         loadMoreRows(range)
 
         if (this.scrollTop === 0) {
+          // This callback triggers an update with new rows, however we need to
+          // persist the current scroll position, to simulate normal scrolling.
+          // For some reason without setTimeout we can't stay at the same position,
+          // probably because new position is handled before new rows arrive.
           setTimeout(onTouchTopEdge)
         }
       }
