@@ -197,7 +197,7 @@ export function editPreviousMessage() {
     const state = getState()
     const {messages} = historySelector(state)
     const user = userSelector(state)
-    const message = findLast(messages, msg => msg.author.id === String(user.id))
+    const message = findLast(messages, msg => msg.author.id === user.id)
     dispatch(editMessage(message))
   }
 }
