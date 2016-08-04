@@ -19,6 +19,7 @@ function UserTime(props) {
   const {userTime, format, theme, isOpened} = props
   const {classes} = theme
 
+  const time = moment.utc(userTime).utcOffset(userTime).format(format)
   return (
     <div className={classes.userTime}>
       <span className={isOpened ? classes.globeActive : classes.globe}></span>
@@ -32,8 +33,7 @@ function UserTime(props) {
               {': '}
             </span>
             <span className={classes.userTimeTime}>
-              /* FIXME: Use FormattedDate from react-intl. */
-              {moment(userTime).format(format)}
+              {time}
             </span>
           </div>
         </ThemedTooltip>
