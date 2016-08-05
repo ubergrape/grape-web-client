@@ -143,7 +143,9 @@ export const normalizeMessage = (() => {
 }())
 
 export function filterEmptyMessage(message) {
-  return message.text.trim().length !== 0 || !isEmpty(message.attachments)
+  return message.text &&
+    message.text.trim().length !== 0 ||
+      !isEmpty(message.attachments)
 }
 
 /**
