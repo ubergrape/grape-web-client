@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import debounce from 'lodash/function/debounce'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -8,6 +7,7 @@ import InfiniteList from './InfiniteList'
 import RegularMessage from './messages/RegularMessage'
 import ActivityMessage from './messages/ActivityMessage'
 
+import ReadMessageDispatcher from './ReadMessageDispatcher'
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import {styles} from './historyTheme'
@@ -77,11 +77,6 @@ export default class History extends Component {
     onUserScrollAfterScrollTo: noop
   }
 
-  constructor(props) {
-    super(props)
-    this.createDebouncedCallbacks(props)
-  }
-
   componentWillReceiveProps(nextProps) {
     const {channelId} = nextProps
     // 1. It is initial load, we had no channel id.
@@ -89,7 +84,6 @@ export default class History extends Component {
     if (channelId !== this.props.channelId) {
       this.props.onLoad({channelId})
     }
-    this.createDebouncedCallbacks(nextProps)
   }
 
   onLoadMore = (options) => {
@@ -106,25 +100,12 @@ export default class History extends Component {
     })
   }
 
-  onRowsRendered = ({stopIndex}) => {
-    const message = this.props.messages[stopIndex]
-    // We are not sending a "read" event for every message, only for the latest one.
-    // Backend assumes once user read the latest message, he read all older messages too.
-    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
-      // We debounce it to reduce the amount of "read" events.
-      this.onReadDebounced(message)
-      this.lastReadMessage = message
-    }
-
+  onRowsRendered = () => {
     // We need to unset the scrollTo once user has scrolled around, because he
     // might want to use jumper to jump again to the same scrollTo value.
     if (this.props.scrollTo) {
       this.props.onUserScrollAfterScrollTo()
     }
-  }
-
-  createDebouncedCallbacks({onRead}) {
-    this.onReadDebounced = debounce(onRead, 1000)
   }
 
   renderRow = (messages, index) => {
@@ -177,34 +158,39 @@ export default class History extends Component {
   render() {
     const {
       sheet, messages, user, cacheSize, scrollTo, minimumBatchSize,
-      onTouchTopEdge
+      onTouchTopEdge, channelId, onRead
     } = this.props
     const {classes} = sheet
 
     if (!user || !messages.length) return null
 
     return (
-      <Jumper
-        onJump={this.onJumpToEnd}
-        className={classes.history}>
-        {({onRowsRendered}) => (
-          <InfiniteList
-            onRowsRendered={(params) => {
-              onRowsRendered(params)
-              this.onRowsRendered(params)
-            }}
-            // Ensure returning `scrollTo` only once.
-            // After the first time, user might have scrolled and don't want
-            // to be sent again to the last scrollTo position.
-            scrollTo={scrollTo}
-            messages={messages}
-            cacheSize={cacheSize}
-            minimumBatchSize={minimumBatchSize}
-            onLoadMore={this.onLoadMore}
-            onTouchTopEdge={onTouchTopEdge}
-            renderRow={this.renderRow} />
+      <ReadMessageDispatcher
+        messages={messages}
+        channelId={channelId}
+        onRead={onRead}>
+        {({onRowsRendered: onRowsRenderedReadMessageDispatcher}) => (
+          <Jumper
+            onJump={this.onJumpToEnd}
+            className={classes.history}>
+            {({onRowsRendered: onRowsRenderedInJumper}) => (
+              <InfiniteList
+                onRowsRendered={(params) => {
+                  onRowsRenderedInJumper(params)
+                  onRowsRenderedReadMessageDispatcher(params)
+                  this.onRowsRendered(params)
+                }}
+                scrollTo={scrollTo}
+                messages={messages}
+                cacheSize={cacheSize}
+                minimumBatchSize={minimumBatchSize}
+                onLoadMore={this.onLoadMore}
+                onTouchTopEdge={onTouchTopEdge}
+                renderRow={this.renderRow} />
+            )}
+          </Jumper>
         )}
-      </Jumper>
+      </ReadMessageDispatcher>
     )
   }
 }
