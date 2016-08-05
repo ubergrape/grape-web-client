@@ -14,6 +14,9 @@ export const styles = {
   unsent: {
     opacity: 0.5
   },
+  bubble: {
+    maxWidth: `calc(100% - ${leftOffset}px)`
+  },
   unsentWarning: {
     extend: [createInlineIcon('warning', {color: red}), small],
     color: red,
