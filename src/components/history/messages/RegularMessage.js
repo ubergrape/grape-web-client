@@ -4,6 +4,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
+import notification from 'notification'
 import moment from 'moment'
 import {
   FormattedMessage,
@@ -78,6 +79,10 @@ const messages = defineMessages({
   confirm: {
     id: 'deleteMessagesQuestion',
     defaultMessage: 'Delete the selected Message?'
+  },
+  copy: {
+    id: 'linkInClipboard',
+    defaultMessage: 'Message link added to clipboard'
   }
 })
 
@@ -132,12 +137,13 @@ export default class RegularMessage extends Component {
   onMouseLeave = () => (this.setState({isMenuOpened: false}))
 
   onSelect = ({name}) => {
+    const {formatMessage} = this.props.intl
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
+        notification.info(formatMessage(messages.copy))
         break
       case 'remove': {
-        const {formatMessage} = this.props.intl
         if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
           this.props.onRemove()
         }
