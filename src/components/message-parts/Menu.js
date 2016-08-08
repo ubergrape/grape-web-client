@@ -53,7 +53,6 @@ export default class Menu extends Component {
 
   static defaultProps = {
     onSelect: noop,
-    items: ['edit', 'copyLink', 'remove'],
     className: ''
   }
 

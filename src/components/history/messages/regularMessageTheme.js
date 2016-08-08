@@ -5,6 +5,7 @@ import {styles as baseStyles, leftOffset, horizontalMargin} from './baseMessageT
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
+export const menuLeftOffset = 7
 
 export const styles = {
   ...baseStyles,
@@ -14,8 +15,11 @@ export const styles = {
   unsent: {
     opacity: 0.5
   },
-  bubble: {
+  bubbleWithOffset: {
     maxWidth: `calc(100% - ${leftOffset}px)`
+  },
+  bubble: {
+    maxWidth: '100%'
   },
   unsentWarning: {
     extend: [createInlineIcon('warning', {color: red}), small],
@@ -26,10 +30,15 @@ export const styles = {
       color: red
     }
   },
-  menu: {
+  menuTop: {
     position: 'absolute',
     top: -13,
     right: 15
+  },
+  menuRight: {
+    position: 'absolute',
+    top: 1,
+    left: `calc(100% + ${menuLeftOffset}px)`
   },
   stateIndicator: {
     position: 'absolute',

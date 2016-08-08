@@ -18,9 +18,10 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import Menu from '../../message-parts/Menu'
+import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles} from './regularMessageTheme'
+import {styles, menuLeftOffset} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -128,6 +129,8 @@ export default class RegularMessage extends Component {
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
+    this.content = undefined
+    this.body = undefined
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
@@ -156,6 +159,9 @@ export default class RegularMessage extends Component {
     }
   }
 
+  addContentRef = (ref) => this.content = ref
+  addBodyRef = (ref) => this.body = ref
+
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
 
@@ -166,18 +172,21 @@ export default class RegularMessage extends Component {
 
     if (isOwn) {
       // Attachments can't be edited.
-      if (attachments.length) {
-        items = ['copyLink', 'remove']
-      }
+      items = `${attachments.length ? '' : 'edit,'}copyLink,remove`.split(',')
     } else {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
 
+    const {body, content} = this
+    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
+    const isMenuFits = rightSpace > content.offsetWidth
+    const className = sheet.classes[`menu${isMenuFits ? 'Right' : 'Top'}`]
+
     return (
       <Menu
         onSelect={this.onSelect}
-        className={sheet.classes.menu}
+        className={className}
         items={items} />
     )
   }
@@ -213,12 +222,17 @@ export default class RegularMessage extends Component {
             className={classes.header} />
         }
         <div
+          ref={this.addBodyRef}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <div className={`${classes.content} ${classes[state]}`}>
+          <Bubble
+            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
+            hasArrow={hasBubbleArrow}>
+            <div
+              ref={this.addContentRef}
+              className={`${classes.content} ${classes[state]}`}>
               <Grapedown text={children} user={user}/>
               {attachments.map(this.renderAttachment)}
             </div>
