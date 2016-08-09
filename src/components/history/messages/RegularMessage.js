@@ -129,8 +129,6 @@ export default class RegularMessage extends Component {
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
-    this.content = undefined
-    this.body = undefined
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate
