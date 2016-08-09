@@ -4,6 +4,7 @@ import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
+import notification from 'notification'
 import moment from 'moment'
 import {
   FormattedMessage,
@@ -17,9 +18,10 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import Menu from '../../message-parts/Menu'
+import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles} from './regularMessageTheme'
+import {styles, menuLeftOffset} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -78,6 +80,10 @@ const messages = defineMessages({
   confirm: {
     id: 'deleteMessagesQuestion',
     defaultMessage: 'Delete the selected Message?'
+  },
+  copy: {
+    id: 'linkInClipboard',
+    defaultMessage: 'Message link added to clipboard'
   }
 })
 
@@ -132,12 +138,13 @@ export default class RegularMessage extends Component {
   onMouseLeave = () => (this.setState({isMenuOpened: false}))
 
   onSelect = ({name}) => {
+    const {formatMessage} = this.props.intl
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
+        notification.info(formatMessage(messages.copy))
         break
       case 'remove': {
-        const {formatMessage} = this.props.intl
         if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
           this.props.onRemove()
         }
@@ -150,6 +157,9 @@ export default class RegularMessage extends Component {
     }
   }
 
+  onRefContent = (ref) => this.content = ref
+  onRefBody = (ref) => this.body = ref
+
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
 
@@ -160,18 +170,21 @@ export default class RegularMessage extends Component {
 
     if (isOwn) {
       // Attachments can't be edited.
-      if (attachments.length) {
-        items = ['copyLink', 'remove']
-      }
+      items = `${attachments.length ? '' : 'edit,'}copyLink,remove`.split(',')
     } else {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
 
+    const {body, content} = this
+    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
+    const canFit = rightSpace > content.offsetWidth
+    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
+
     return (
       <Menu
         onSelect={this.onSelect}
-        className={sheet.classes.menu}
+        className={className}
         items={items} />
     )
   }
@@ -207,12 +220,17 @@ export default class RegularMessage extends Component {
             className={classes.header} />
         }
         <div
+          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <div className={`${classes.content} ${classes[state]}`}>
+          <Bubble
+            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
+            hasArrow={hasBubbleArrow}>
+            <div
+              ref={this.onRefContent}
+              className={`${classes.content} ${classes[state]}`}>
               <Grapedown text={children} user={user}/>
               {attachments.map(this.renderAttachment)}
             </div>

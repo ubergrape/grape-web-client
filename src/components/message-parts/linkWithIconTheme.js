@@ -1,5 +1,6 @@
 import {styles as linkStyles} from './linkTheme'
 
+export const {color} = linkStyles.link
 export const styles = {
   ...linkStyles,
   icon: {
