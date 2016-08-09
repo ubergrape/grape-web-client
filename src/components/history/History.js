@@ -108,8 +108,8 @@ export default class History extends Component {
     }
   }
 
-  renderRow = (messages, index) => {
-    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId} = this.props
+  renderRow = (index) => {
+    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId, messages} = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]

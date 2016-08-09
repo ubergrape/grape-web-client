@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {useSheet} from 'grape-web/lib/jss'
 
 import Avatar from '../../avatar/Avatar'
@@ -32,11 +32,17 @@ export default class ActivityMessage extends Component {
     title: ''
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
+  getTitle = () => (this.props.title)
+
+  getText = () => (this.props.children)
 
   render() {
     const {
-      sheet, user, author, time, avatar, title, children, container
+      sheet, user, author, time, avatar, container
     } = this.props
     const {classes} = sheet
 
@@ -57,8 +63,8 @@ export default class ActivityMessage extends Component {
                 {container.name}
               </a>
             }
-            <Grapedown text={title} user={user} />
-            <Grapedown text={children} user={user} />
+            <Grapedown text={this.getTitle} user={user} />
+            <Grapedown text={this.getText} user={user} />
           </MateBubble>
         </div>
       </div>

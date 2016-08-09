@@ -6,7 +6,7 @@ import uniq from 'lodash/array/uniq'
 const initialState = {
   messages: [],
   cacheSize: 500,
-  minimumBatchSize: 50
+  minimumBatchSize: 30
 }
 
 function updateMessage(state, newMessage) {
