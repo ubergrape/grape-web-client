@@ -1,13 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
-import shallowEqual from 'react-pure-render/shallowEqual'
 import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
 import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
-
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
+import Cache from './Cache'
 
 import {styles} from './infiniteListTheme'
 
@@ -31,16 +30,11 @@ export default class InfiniteList extends Component {
 
   constructor(props) {
     super(props)
-    // FIXME move caching to a separate class and use some FIFO cache with limited
-    // size, use cacheSize prop.
-    this.cache = {}
+    this.cache = new Cache(props.messages)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.messages !== this.props.messages) {
-      this.cellMeasurer.resetMeasurements()
-      this.virtualScroll.recomputeRowHeights()
-    }
+    this.cache.setRows(nextProps.messages)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,40 +49,15 @@ export default class InfiniteList extends Component {
     this.virtualScroll = ref
   }
 
-  getRowHeight = (params) => {
-    const {index} = params
-    const {id} = this.props.messages[index]
-    let cache = this.cache[id]
-
-    if (cache && cache.height !== undefined) {
-      return cache.height
-    }
-
-    if (!cache) cache = this.cache[id] = {}
-
-    this.cellMeasurer.resetMeasurementForRow(index)
-    cache.height = this.cellMeasurer.getRowHeight(params)
-
-    return cache.height
-  }
-
   isRowLoaded = (index) => {
     return Boolean(this.props.messages[index])
   }
 
   renderRow = ({index}) => {
-    const {messages, renderRow} = this.props
-    const message = messages[index]
-    const cache = this.cache[message.id]
-
-    if (cache && shallowEqual(message, cache.message)) {
-      return cache.row
-    }
-
-    const row = renderRow(index)
-    this.cache[message.id] = {...cache, row, message}
-
-    return row
+    if (this.cache.hasElement(index)) return this.cache.getElement(index)
+    const element = this.props.renderRow(index)
+    this.cache.setElement(index, element)
+    return element
   }
 
   renderRowForCellMeasurer = ({rowIndex: index}) => {
@@ -100,9 +69,9 @@ export default class InfiniteList extends Component {
       sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
       messages, minimumBatchSize
     } = this.props
+
     const {classes} = sheet
     const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
-
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
@@ -117,29 +86,29 @@ export default class InfiniteList extends Component {
           <AutoSizer>
             {({width, height}) => (
               <CellMeasurer
+                cellSizeCache={this.cache}
                 cellRenderer={this.renderRowForCellMeasurer}
                 columnCount={1}
                 rowCount={messages.length}
                 width={width}
                 ref={this.onRefCellMeasurer}>
-                {() => (
-                  this.cellMeasurer ?
+                {({getRowHeight}) => (
                   <AutoScroll
                     rows={messages}
-                    rowHeight={this.getRowHeight}
+                    rowHeight={getRowHeight}
                     scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,
                       scrollToIndex,
-                      onRowsRendered: onRowsRenderedAutoScroll
+                      onRowsRendered: onRowsRenderedInAutoScroll
                     }) => (
                       <VirtualScroll
                         className={classes.grid}
                         scrollTop={scrollTop}
                         scrollToIndex={scrollToIndex}
                         onRowsRendered={params => {
-                          onRowsRenderedAutoScroll(params)
+                          onRowsRenderedInAutoScroll(params)
                           onRowsRenderedInInfiniteLoader(params)
                           onRowsRendered(params)
                         }}
@@ -150,14 +119,12 @@ export default class InfiniteList extends Component {
                         width={width}
                         height={height}
                         rowCount={messages.length}
-                        rowHeight={this.getRowHeight}
+                        rowHeight={getRowHeight}
                         rowRenderer={this.renderRow}
                         overscanRowCount={20}
                         ref={this.onRefVirtualScroll} />
                     )}
                   </AutoScroll>
-                  :
-                  null
                 )}
               </CellMeasurer>
             )}

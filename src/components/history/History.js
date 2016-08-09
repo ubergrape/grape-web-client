@@ -169,7 +169,7 @@ export default class History extends Component {
         messages={messages}
         channelId={channelId}
         onRead={onRead}>
-        {({onRowsRendered: onRowsRenderedReadMessageDispatcher}) => (
+        {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
           <Jumper
             onJump={this.onJumpToEnd}
             className={classes.history}>
@@ -177,7 +177,7 @@ export default class History extends Component {
               <InfiniteList
                 onRowsRendered={(params) => {
                   onRowsRenderedInJumper(params)
-                  onRowsRenderedReadMessageDispatcher(params)
+                  onRowsRenderedInReadMessageDispatcher(params)
                   this.onRowsRendered(params)
                 }}
                 scrollTo={scrollTo}
