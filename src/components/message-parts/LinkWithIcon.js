@@ -12,11 +12,10 @@ export default class LinkWithIcon extends Component {
     url: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
-    target: PropTypes.string.isRequired
+    target: PropTypes.string
   }
 
   static defaultProps = {
-    target: '_blank',
     icon: 'file'
   }
 
