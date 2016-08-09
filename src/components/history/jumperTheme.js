@@ -4,7 +4,7 @@ import {gainsboroDark} from 'grape-theme/dist/base-colors'
 export const size = 50
 
 // we need even size so arrow will be centered
-const dimension = size + 1
+const dimension = size % 2 ? size : size + 1
 const contrast = 'rgba(255,255,255,0.75)'
 export const styles = {
   jumper: {
