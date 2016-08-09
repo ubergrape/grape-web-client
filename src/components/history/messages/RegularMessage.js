@@ -162,10 +162,6 @@ export default class RegularMessage extends Component {
   onRefContent = (ref) => this.content = ref
   onRefBody = (ref) => this.body = ref
 
-  getText = () => {
-    return this.props.children
-  }
-
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
 
@@ -206,7 +202,7 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments
+      state, isOwn, isSelected, onResend, attachments, children
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -237,7 +233,7 @@ export default class RegularMessage extends Component {
             <div
               ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={this.getText} user={user} />
+              <Grapedown text={children} user={user} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}

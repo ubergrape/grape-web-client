@@ -7,7 +7,7 @@ import {nonStandardProps} from './utils'
 
 export default class Grapedown extends Component {
   static propTypes = {
-    text: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired
   }
 
@@ -25,7 +25,7 @@ export default class Grapedown extends Component {
   }
 
   render() {
-    const text = this.props.text()
+    const {text} = this.props
     if (!text) return null
     return this.mdRender(text)
   }

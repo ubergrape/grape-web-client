@@ -36,13 +36,9 @@ export default class ActivityMessage extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  getTitle = () => (this.props.title)
-
-  getText = () => (this.props.children)
-
   render() {
     const {
-      sheet, user, author, time, avatar, container
+      sheet, user, author, time, avatar, container, title, children
     } = this.props
     const {classes} = sheet
 
@@ -63,8 +59,8 @@ export default class ActivityMessage extends Component {
                 {container.name}
               </a>
             }
-            <Grapedown text={this.getTitle} user={user} />
-            <Grapedown text={this.getText} user={user} />
+            <Grapedown text={title} user={user} />
+            <Grapedown text={children} user={user} />
           </MateBubble>
         </div>
       </div>
