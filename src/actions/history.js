@@ -14,7 +14,6 @@ import {normalizeMessage, filterEmptyMessage} from './utils'
 
 function normalizeMessages(messages, state) {
   return messages
-    .reverse()
     .map(message => normalizeMessage(message, state))
     .filter(filterEmptyMessage)
 }
@@ -33,7 +32,7 @@ function loadLatest({channelId}) {
     api
       .loadHistory(channelId, {limit})
       .then(res => {
-        const messages = normalizeMessages(res, getState())
+        const messages = normalizeMessages(res.reverse(), getState())
         const lastMessage = last(messages)
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
@@ -83,7 +82,7 @@ export function renderOlderHistory() {
       dispatch({
         type: types.HANDLE_MORE_HISTORY,
         payload: {
-          messages: normalizeMessages(res, getState()),
+          messages: normalizeMessages(res.reverse(), getState()),
           isScrollBack: true
         }
       })
@@ -109,7 +108,7 @@ function loadNewer({startIndex, stopIndex, channelId}) {
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages: normalizeMessages(res, getState()),
+            messages: normalizeMessages(res.reverse(), getState()),
             isScrollBack: false
           }
         })
