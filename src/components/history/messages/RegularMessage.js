@@ -159,8 +159,8 @@ export default class RegularMessage extends Component {
     }
   }
 
-  addContentRef = (ref) => this.content = ref
-  addBodyRef = (ref) => this.body = ref
+  onRefContent = (ref) => this.content = ref
+  onRefBody = (ref) => this.body = ref
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -180,8 +180,8 @@ export default class RegularMessage extends Component {
 
     const {body, content} = this
     const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
-    const isMenuFits = rightSpace > content.offsetWidth
-    const className = sheet.classes[`menu${isMenuFits ? 'Right' : 'Top'}`]
+    const canFit = rightSpace > content.offsetWidth
+    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
 
     return (
       <Menu
@@ -222,7 +222,7 @@ export default class RegularMessage extends Component {
             className={classes.header} />
         }
         <div
-          ref={this.addBodyRef}
+          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
@@ -231,7 +231,7 @@ export default class RegularMessage extends Component {
             className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>
             <div
-              ref={this.addContentRef}
+              ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
               <Grapedown text={children} user={user}/>
               {attachments.map(this.renderAttachment)}

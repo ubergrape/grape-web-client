@@ -2,7 +2,6 @@ import buttonIcon from '../button/icon'
 import {gainsboroDark} from 'grape-theme/dist/base-colors'
 
 export const size = 50
-export const innerSpace = 5
 
 // we need even size so arrow will be centered
 const dimension = size + 1
@@ -16,7 +15,7 @@ export const styles = {
     left: '50%',
     width: dimension,
     height: dimension,
-    padding: innerSpace,
+    padding: 5,
     transform: 'translateY(-50%)',
     background: contrast,
     border: `2px solid ${gainsboroDark}`,
