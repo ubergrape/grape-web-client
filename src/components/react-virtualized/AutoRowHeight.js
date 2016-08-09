@@ -111,12 +111,10 @@ export default class AutoRowHeight extends Component {
   }
 
   onResize = ({width}) => {
+    const prevWidth = this.width
+    this.width = width
     // Only recalc heights when width has changed.
-    if (!this.width || this.width === width) {
-      this.width = width
-      return
-    }
-
+    if (prevWidth === undefined || prevWidth === width) return
     this.calcAndCacheHeights(this.props.rows, true, this.recomputeRowHeights)
   }
 

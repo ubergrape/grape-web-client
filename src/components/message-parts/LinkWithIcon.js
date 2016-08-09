@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import * as icons from 'grape-web/lib/svg-icons/data'
+import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
-import {styles} from './linkWithIconTheme'
+import {styles, color} from './linkWithIconTheme'
 
 function LinkWithIcon(props) {
   const {url, name, sheet, icon, target} = props
   const {classes} = sheet
-  const svg = icons[icon] || icons.file
+  const svg = getColoredIcon({name: icon, color})
   const style = {backgroundImage: `url(${svg})`}
 
   return (
@@ -27,7 +27,8 @@ LinkWithIcon.propTypes = {
 }
 
 LinkWithIcon.defaultProps = {
-  target: '_blank'
+  target: '_blank',
+  icon: 'file'
 }
 
 export default useSheet(LinkWithIcon, styles)

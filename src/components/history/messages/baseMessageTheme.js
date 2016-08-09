@@ -26,6 +26,23 @@ export const styles = {
     marginLeft: avatarWidth + avatarMarginRight
   },
   content: {
-    '& a': linkStyles.link
+    '& a': linkStyles.link,
+    '& code': {
+      display: 'inline-block',
+      maxWidth: '100%',
+      padding: '0 4px',
+      wordWrap: 'normal',
+      // FIXME: replace with theme colors.
+      color: '#4d4d4d',
+      border: '1px solid #dad6e0',
+      borderRadius: '4px',
+      background: '#fff',
+      wordBreak: 'break-all'
+    },
+    '& pre code': {
+      overflow: 'auto',
+      wordBreak: 'initial',
+      transform: 'translateZ(0)'
+    }
   }
 }

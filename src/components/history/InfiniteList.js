@@ -110,7 +110,8 @@ export default class InfiniteList extends Component {
                         height={height}
                         rowsCount={rows.length}
                         rowHeight={getRowHeight}
-                        rowRenderer={renderRow} />
+                        rowRenderer={renderRow}
+                        overscanRowsCount={20} />
                     )}
                   </AutoScroll>
                 )}

@@ -31,7 +31,8 @@ const defaults = {
   disableRules: ['list', 'image'],
   markdownOptions: {
     linkify: true,
-    html: false
+    html: false,
+    breaks: true
   },
   plugins: [emoji],
   onIterate: renderTag

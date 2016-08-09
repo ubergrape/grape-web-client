@@ -78,6 +78,9 @@
   "deleteMessagesQuestion": {
     "defaultMessage": "Delete the selected Message?"
   },
+  "linkInClipboard": {
+    "defaultMessage": "Message link added to clipboard"
+  },
   "close": {
     "defaultMessage": "Close"
   },
@@ -104,6 +107,15 @@
   },
   "deletedUser": {
     "defaultMessage": "Deleted user"
+  },
+  "editMessage": {
+    "defaultMessage": "Edit message"
+  },
+  "copyLink": {
+    "defaultMessage": "Copy link to message"
+  },
+  "deleteMessage": {
+    "defaultMessage": "Delete message"
   },
   "localTime": {
     "defaultMessage": "Local time"
