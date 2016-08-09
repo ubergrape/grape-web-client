@@ -25,6 +25,8 @@ export default class Grapedown extends Component {
   }
 
   render() {
-    return this.mdRender(this.props.text())
+    const text = this.props.text()
+    if (!text) return null
+    return this.mdRender(text)
   }
 }
