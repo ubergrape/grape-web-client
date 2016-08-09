@@ -6,7 +6,7 @@ import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
-import Cache from './Cache'
+import RowsCache from './RowsCache'
 
 import {styles} from './infiniteListTheme'
 
@@ -20,8 +20,7 @@ export default class InfiniteList extends Component {
     messages: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
-    onRowsRendered: PropTypes.func,
-    cacheSize: PropTypes.number
+    onRowsRendered: PropTypes.func
   }
 
   static defaultProps = {
@@ -30,19 +29,18 @@ export default class InfiniteList extends Component {
 
   constructor(props) {
     super(props)
-    this.cache = new Cache(props.messages)
+    this.cache = new RowsCache(props.messages)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.cache.setRows(nextProps.messages)
+    if (nextProps.messages !== this.props.messages) {
+      this.cache.setRows(nextProps.messages)
+      this.virtualScroll.recomputeRowHeights()
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState)
-  }
-
-  onRefCellMeasurer = (ref) => {
-    this.cellMeasurer = ref
   }
 
   onRefVirtualScroll = (ref) => {
@@ -90,8 +88,7 @@ export default class InfiniteList extends Component {
                 cellRenderer={this.renderRowForCellMeasurer}
                 columnCount={1}
                 rowCount={messages.length}
-                width={width}
-                ref={this.onRefCellMeasurer}>
+                width={width}>
                 {({getRowHeight}) => (
                   <AutoScroll
                     rows={messages}

@@ -62,7 +62,6 @@ export default class History extends Component {
     scrollTo: PropTypes.string,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
-    cacheSize: PropTypes.number,
     minimumBatchSize: PropTypes.number
   }
 
@@ -157,7 +156,7 @@ export default class History extends Component {
 
   render() {
     const {
-      sheet, messages, user, cacheSize, scrollTo, minimumBatchSize,
+      sheet, messages, user, scrollTo, minimumBatchSize,
       onTouchTopEdge, channelId, onRead
     } = this.props
     const {classes} = sheet
@@ -182,7 +181,6 @@ export default class History extends Component {
                 }}
                 scrollTo={scrollTo}
                 messages={messages}
-                cacheSize={cacheSize}
                 minimumBatchSize={minimumBatchSize}
                 onLoadMore={this.onLoadMore}
                 onTouchTopEdge={onTouchTopEdge}
