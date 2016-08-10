@@ -45,9 +45,6 @@ export default class AutoScroll extends Component {
     }
 
     const {rowHeight, rows, height, bottomThreshold} = this.props
-    // We are at the bottom within a threshold where we need to ensure last
-    // message is always in view.
-    const needsAutoScroll = this.bottomThreshold < bottomThreshold
 
     if (nextProps.rows !== rows) {
       // We assume user scrolled up (reverse order) and we have loaded
@@ -70,28 +67,17 @@ export default class AutoScroll extends Component {
         this.childrenParam.scrollTop = addedHeight
         return
       }
-
-      if (needsAutoScroll) {
-        const prevLastRenderedRow = rows[this.renderedRows.stopIndex]
-        const prevLastRowIndex = nextProps.rows.indexOf(prevLastRenderedRow)
-
-        if (prevLastRowIndex === -1) return
-
-        let addedHeight = 0
-        for (let index = prevLastRowIndex + 1; index < nextProps.rows.length; index++) {
-          const rHeight = rowHeight({index})
-          if (rHeight) addedHeight += rHeight
-        }
-        this.childrenParam.scrollToIndex = undefined
-        this.childrenParam.scrollTop += addedHeight
-      }
-
-      return
     }
 
-    // Parent size has changed, we way need to auto scroll.
-    if (needsAutoScroll && nextProps.height !== height) {
-      this.childrenParam.scrollTop = veryHeighScrollTop
+    // We way need to auto scroll when:
+    // - Rows has been changed.
+    // - Parent size has changed.
+    if (nextProps.rows !== rows || nextProps.height !== height) {
+      // We are at the bottom within a threshold where we need to ensure last
+      // message is always in view.
+      if (this.bottomThreshold < bottomThreshold) {
+        this.childrenParam.scrollToIndex = nextProps.rows.length - 1
+      }
     }
   }
 
