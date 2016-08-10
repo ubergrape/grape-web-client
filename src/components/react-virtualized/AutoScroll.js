@@ -62,8 +62,8 @@ export default class AutoScroll extends Component {
 
         let addedHeight = 0
         for (let index = 0; index < prevFirstRowIndex; index++) {
-          const height = rowHeight({index})
-          if (height) addedHeight += height
+          const rHeight = rowHeight({index})
+          if (rHeight) addedHeight += rHeight
         }
 
         this.childrenParam.scrollToIndex = undefined
@@ -79,8 +79,8 @@ export default class AutoScroll extends Component {
 
         let addedHeight = 0
         for (let index = prevLastRowIndex + 1; index < nextProps.rows.length; index++) {
-          const height = rowHeight({index})
-          if (height) addedHeight += height
+          const rHeight = rowHeight({index})
+          if (rHeight) addedHeight += rHeight
         }
         this.childrenParam.scrollToIndex = undefined
         this.childrenParam.scrollTop += addedHeight
