@@ -28,8 +28,8 @@ export default class FifoCache {
   }
 
   ensureSize() {
-    // Remove first item.
     if (this.size < this.maxSize) return
+    // Remove first item.
     // We rely on correct order of keys in JS objects.
     for (const key in this.cache) { // eslint-disable-line guard-for-in
       this.del(key)

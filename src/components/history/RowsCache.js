@@ -2,8 +2,9 @@ import shallowEqual from 'fbjs/lib/shallowEqual'
 import FifoCache from '../../utils/fifo-cache/FifoCache'
 
 /**
- * Cache heights and elements, which is aware of of user row id's.
- * Elements cache also does shallow equal of row data.
+ * Cache for heights and elements, which is aware of user data.
+ * It also does a shallowEqual check on each .setRows() call to ensure we
+ * don't cache elements and hights for modified data.
  */
 export default class RowsCache {
   constructor(rows = []) {
@@ -14,7 +15,7 @@ export default class RowsCache {
   setRows(rows) {
     this.rows = rows
     // Once rows change, we need to compare data with the cached one,
-    // because if data has changed, elements cache and height cache are invalid.
+    // because otheriwse, elements and heights are invalid.
     rows.forEach(this.update, this)
   }
 
