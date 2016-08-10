@@ -21,7 +21,7 @@ import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles, menuLeftOffset} from './regularMessageTheme'
+import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -160,7 +160,6 @@ export default class RegularMessage extends Component {
   }
 
   onRefContent = (ref) => this.content = ref
-  onRefBody = (ref) => this.body = ref
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -177,11 +176,8 @@ export default class RegularMessage extends Component {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
-
-    const {body, content} = this
-    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
-    const canFit = rightSpace > content.offsetWidth
-    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
+    const canFit = this.content.offsetWidth > getMenuWidth(items.length)
+    const className = sheet.classes[`menu${canFit ? 'Top' : 'Right'}`]
 
     return (
       <Menu
@@ -222,7 +218,6 @@ export default class RegularMessage extends Component {
             className={classes.header} />
         }
         <div
-          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
