@@ -96,7 +96,6 @@ export default function reduce(state = initialState, action) {
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channel !== state.channelId) return state
-      console.log('me', payload.author.id === state.user.id)
       const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {...state, scrollTo, messages: [...state.messages, payload]}
     }
