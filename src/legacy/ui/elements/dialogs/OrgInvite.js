@@ -5,6 +5,8 @@ import _ from 't'
 
 export default OrgInvite
 
+const isElectron = window.process && process.versions && process.versions.electron
+
 function OrgInvite(context) {
   this.template_path = 'dialogs/orginvite.jade'
   Dialog.call(this, context)
@@ -24,7 +26,9 @@ OrgInvite.prototype.inviteToOrg = function (e) {
   let inviteButton = qs('.btn-invite', this.el)
   this.resetValidity()
   if (inviteInput.value === '') {
-    inviteInput.setCustomValidity(_('Please enter at least one user to invite'))
+    const text = _('Please enter at least one user to invite')
+    if (isElectron) this.setElectronErrorText(text)
+    inviteInput.setCustomValidity(text)
     setTimeout(function () { inviteButton.click() })
     return
   }
@@ -35,7 +39,9 @@ OrgInvite.prototype.inviteToOrg = function (e) {
 OrgInvite.prototype.onInviteError = function () {
   let inviteInput = qs('.input-invite', this.el)
   let inviteButton = qs('.btn-invite', this.el)
-  inviteInput.setCustomValidity(_('Enter valid email addresses separated by a space.'))
+  const text = _('Enter valid email addresses separated by a space.')
+  if (isElectron) this.setElectronErrorText(text)
+  inviteInput.setCustomValidity(text)
   inviteButton.disabled = false
   setTimeout(function () { inviteButton.click() })
 }
@@ -46,5 +52,11 @@ OrgInvite.prototype.onInviteSuccess = function () {
 
 OrgInvite.prototype.resetValidity = function () {
   let inviteInput = qs('.input-invite', this.el)
+  if (isElectron) this.setElectronErrorText('')
   inviteInput.setCustomValidity('')
+}
+
+OrgInvite.prototype.setElectronErrorText = function (text) {
+  if (!this.electronErrEl) this.electronErrEl = qs('.electron-error', this.el)
+  this.electronErrEl.textContent = text
 }

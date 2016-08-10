@@ -56,7 +56,14 @@
 		.invite-to-org
 			textarea
 				margin-bottom: 10px
-	&.invite-to-room
+				transition: border-color 0.2s ease-out
+				& + .electron-error
+					font-size 11px
+					padding-left 10px
+					color: #e61212
+				&:invalid
+					border-color: #e61212
+		&.invite-to-room
 		max-height: 70%
 		.btn-invite
 			margin-bottom: 0
