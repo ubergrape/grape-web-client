@@ -87,13 +87,18 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.ADD_PENDING_MESSAGE:
-      return {...state, messages: [
-        ...state.messages,
-        {...payload, state: 'pending'}
-      ]}
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          {...payload, state: 'pending'}
+        ]
+      }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channel !== state.channelId) return state
-      return {...state, messages: [...state.messages, payload]}
+      console.log('me', payload.author.id === state.user.id)
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
+      return {...state, scrollTo, messages: [...state.messages, payload]}
     }
     default:
       return state

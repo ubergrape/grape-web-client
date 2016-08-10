@@ -52,7 +52,7 @@ export default class AutoScroll extends Component {
     // We way need to auto scroll when:
     // - Rows has been changed.
     // - Parent size has changed.
-    if (nextProps.rows !== rows || nextProps.height !== height) {
+    if (nextProps.height !== height) {
       const endThreshold = this.scrollHeight - this.scrollTop - this.clientHeight
 
       // We are at the end within a threshold where we need to ensure last
@@ -61,6 +61,7 @@ export default class AutoScroll extends Component {
         this.scrollToIndex = nextProps.rows.length - 1
         this.scrollToAlignment = 'end'
       }
+      return
     }
   }
 
@@ -75,6 +76,7 @@ export default class AutoScroll extends Component {
     this.scrollTop = scrollTop
     this.scrollHeight = scrollHeight
     this.clientHeight = clientHeight
+    this.scrollToIndex = undefined
   }
 
   onRowsRendered = ({startIndex}) => {
