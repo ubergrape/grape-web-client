@@ -16,10 +16,10 @@ export default function GrapeObject(props) {
   }
 
   let icon = service
-  let target
+  let target = '_blank'
 
   if (type === 'chatgraperoom') {
-    target = null
+    target = undefined
     icon = 'bell'
   }
 

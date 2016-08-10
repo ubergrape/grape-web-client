@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './headerTheme'
 import Author from './Author'
@@ -17,6 +18,10 @@ export default class Header extends Component {
 
   static defaultProps = {
     className: ''
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

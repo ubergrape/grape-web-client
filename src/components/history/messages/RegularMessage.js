@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
@@ -131,7 +131,9 @@ export default class RegularMessage extends Component {
     this.state = {isMenuOpened: false}
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onMouseEnter = () => (this.setState({isMenuOpened: true}))
 
@@ -199,8 +201,8 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments
+      sheet, author, user, time, userTime, avatar, hasBubbleArrow,
+      state, isOwn, isSelected, onResend, attachments, children
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -231,7 +233,7 @@ export default class RegularMessage extends Component {
             <div
               ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} user={user}/>
+              <Grapedown text={children} user={user} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}
