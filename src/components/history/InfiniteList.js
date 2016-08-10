@@ -93,6 +93,7 @@ export default class InfiniteList extends Component {
                   <AutoScroll
                     rows={messages}
                     rowHeight={getRowHeight}
+                    height={height}
                     scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
