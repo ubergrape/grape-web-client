@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import noop from 'lodash/utility/noop'
+import omit from 'lodash/object/omit'
 
 export default function listenOutsideClick(ChildComponent) {
   return class OutsideClick extends Component {
@@ -20,7 +21,7 @@ export default function listenOutsideClick(ChildComponent) {
       onClick: noop
     }
 
-    onClickWindow() {
+    onClickWindow = () => {
       if (!this.state.isInsideClick) {
         this.props.onOutsideClick({target: this})
         return
@@ -31,15 +32,17 @@ export default function listenOutsideClick(ChildComponent) {
       })
     }
 
-    onClick(e) {
+    onClick = e => {
       this.props.onClick(e)
       this.setState({isInsideClick: true})
     }
 
     render() {
       return (
-        <GlobalEvent event="click" handler={::this.onClickWindow}>
-          <ChildComponent {...this.props} onClick={::this.onClick} />
+        <GlobalEvent event="click" handler={this.onClickWindow}>
+          <ChildComponent
+            {...omit(this.props, 'onOutsideClick')}
+            onClick={this.onClick} />
         </GlobalEvent>
       )
     }

@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
-import {VirtualScroll, AutoSizer} from 'react-virtualized'
-import shallowEqual from 'react-pure-render/shallowEqual'
+import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
+import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
-
-import AutoRowHeight from './AutoRowHeight'
-import AutoScroll from './AutoScroll'
-import InfiniteLoader from './InfiniteLoader'
+import AutoScroll from '../react-virtualized/AutoScroll'
+import InfiniteLoader from '../react-virtualized/InfiniteLoader'
+import RowsCache from './RowsCache'
 
 import {styles} from './infiniteListTheme'
 
@@ -15,11 +15,12 @@ export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    scrollTo: PropTypes.object,
-    onRowsRendered: PropTypes.func,
-    cacheSize: PropTypes.number
+    minimumBatchSize: PropTypes.number.isRequired,
+    scrollTo: PropTypes.string,
+    onRowsRendered: PropTypes.func
   }
 
   static defaultProps = {
@@ -28,65 +29,83 @@ export default class InfiniteList extends Component {
 
   constructor(props) {
     super(props)
-    // FIXME clear cache
-    this.rowsCache = {}
+    this.cache = new RowsCache(props.messages)
   }
 
-  renderAndCacheRows(messages) {
-    return messages.map((message, index) => {
-      let cache = this.rowsCache[message.id]
-      if (!cache || !shallowEqual(message, cache.message)) {
-        const row = this.props.renderRow(messages, index)
-        cache = {row, message}
-        this.rowsCache[message.id] = cache
-      }
-      return cache.row
-    })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messages !== this.props.messages) {
+      this.cache.setRows(nextProps.messages)
+      this.virtualScroll.recomputeRowHeights()
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
+  onRefVirtualScroll = (ref) => {
+    this.virtualScroll = ref
+  }
+
+  isRowLoaded = (index) => {
+    return Boolean(this.props.messages[index])
+  }
+
+  renderRow = ({index}) => {
+    if (this.cache.hasElement(index)) return this.cache.getElement(index)
+    const element = this.props.renderRow(index)
+    this.cache.setElement(index, element)
+    return element
+  }
+
+  renderRowForCellMeasurer = ({rowIndex: index}) => {
+    return this.renderRow({index})
   }
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, messages, cacheSize
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
+      messages, minimumBatchSize
     } = this.props
-    const {classes} = sheet
-    const rows = this.renderAndCacheRows(messages)
-    const scrollToIndex = scrollTo ? messages.indexOf(scrollTo) : undefined
 
+    const {classes} = sheet
+    const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
     return (
-      <AutoRowHeight rows={rows} cacheSize={cacheSize}>
+      <InfiniteLoader
+        isRowLoaded={this.isRowLoaded}
+        loadMoreRows={onLoadMore}
+        onTouchTopEdge={onTouchTopEdge}
+        threshold={5}
+        minimumBatchSize={minimumBatchSize}>
         {({
-          onResize,
-          rowHeight,
-          renderRow,
-          isRowLoaded,
-          registerScroller: registerScrollerInAutoRowHeight
+          onRowsRendered: onRowsRenderedInInfiniteLoader,
+          onScroll: onScrollInInfiniteLoader
         }) => (
-          <InfiniteLoader
-            isRowLoaded={isRowLoaded}
-            loadMoreRows={onLoadMore}
-            threshold={5}
-            minimumBatchSize={40}>
-            {({
-              onRowsRendered: onRowsRenderedInInfiniteLoader,
-              onScroll: onScrollInInfiniteLoader
-            }) => (
-              <AutoSizer onResize={onResize}>
-                {({width, height}) => (
+          <AutoSizer>
+            {({width, height}) => (
+              <CellMeasurer
+                cellSizeCache={this.cache}
+                cellRenderer={this.renderRowForCellMeasurer}
+                columnCount={1}
+                rowCount={messages.length}
+                width={width}>
+                {({getRowHeight}) => (
                   <AutoScroll
-                    rows={rows}
-                    rowHeight={rowHeight}>
+                    rows={messages}
+                    rowHeight={getRowHeight}
+                    scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollTop,
-                      onRowsRendered: onRowsRenderedAutoScroll
+                      scrollToIndex,
+                      onRowsRendered: onRowsRenderedInAutoScroll
                     }) => (
                       <VirtualScroll
                         className={classes.grid}
-                        scrollTop={scrollToIndex ? undefined : scrollTop}
+                        scrollTop={scrollTop}
                         scrollToIndex={scrollToIndex}
-                        ref={registerScrollerInAutoRowHeight}
                         onRowsRendered={params => {
-                          onRowsRenderedAutoScroll(params)
+                          onRowsRenderedInAutoScroll(params)
                           onRowsRenderedInInfiniteLoader(params)
                           onRowsRendered(params)
                         }}
@@ -96,17 +115,19 @@ export default class InfiniteList extends Component {
                         }}
                         width={width}
                         height={height}
-                        rowsCount={rows.length}
-                        rowHeight={rowHeight}
-                        rowRenderer={renderRow} />
+                        rowCount={messages.length}
+                        rowHeight={getRowHeight}
+                        rowRenderer={this.renderRow}
+                        overscanRowCount={20}
+                        ref={this.onRefVirtualScroll} />
                     )}
                   </AutoScroll>
                 )}
-              </AutoSizer>
+              </CellMeasurer>
             )}
-          </InfiniteLoader>
+          </AutoSizer>
         )}
-      </AutoRowHeight>
+      </InfiniteLoader>
     )
   }
 }

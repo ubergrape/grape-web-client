@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {useSheet} from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
+import {FormattedMessage} from 'react-intl'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
@@ -18,14 +20,22 @@ function UserTime(props) {
   const {userTime, format, theme, isOpened} = props
   const {classes} = theme
 
+  const time = moment.utc(userTime).utcOffset(userTime).format(format)
   return (
     <div className={classes.userTime}>
       <span className={isOpened ? classes.globeActive : classes.globe}></span>
       {isOpened &&
         <ThemedTooltip placement="bottom">
           <div className={classes.userTimeContainer}>
-            <span className={classes.userTimeText}>Local time: </span>
-            <span className={classes.userTimeTime}>{moment(userTime).format(format)}</span>
+            <span className={classes.userTimeText}>
+              <FormattedMessage
+                id="localTime"
+                defaultMessage="Local time" />
+              {': '}
+            </span>
+            <span className={classes.userTimeTime}>
+              {time}
+            </span>
           </div>
         </ThemedTooltip>
       }
@@ -73,6 +83,10 @@ export default class Time extends Component {
       isWritersTimeOpened: false,
       isSameTimezone: isReadersTimezone(props.userTime)
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onMouseOver = () => {

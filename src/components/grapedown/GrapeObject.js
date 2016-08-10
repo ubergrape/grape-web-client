@@ -6,20 +6,20 @@ import LinkWithIcon from '../message-parts/LinkWithIcon'
 const {normalizeLinkText} = markdownIt()
 
 export default function GrapeObject(props) {
-  const {children, href} = props
+  const {children, href, user} = props
   const options = getOptions(children[0], normalizeLinkText(href))
   const {url, name, content, service, type} = createObject(options.type, options)
 
   if (type === 'chatgrapeuser') {
-    // No icon.
-    return <a href={url}>{content}</a>
+    const isSelf = `/chat/${user.slug}` === url
+    return isSelf ? <span>{content}</span> : <a href={url}>{content}</a>
   }
 
   let icon = service
-  let target
+  let target = '_blank'
 
   if (type === 'chatgraperoom') {
-    target = null
+    target = undefined
     icon = 'bell'
   }
 
@@ -28,5 +28,8 @@ export default function GrapeObject(props) {
 
 GrapeObject.propTypes = {
   href: PropTypes.string.isRequired,
-  children: PropTypes.array.isRequired
+  children: PropTypes.array.isRequired,
+  user: PropTypes.shape({
+    slug: PropTypes.string.isRequired
+  }).isRequired
 }

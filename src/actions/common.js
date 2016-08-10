@@ -55,6 +55,9 @@ export function setInitialData(org) {
 
     const cleanOrg = omit(org, 'users', 'channels', 'rooms', 'pms')
     dispatch(setOrg(cleanOrg))
+    // FIXME: this should be deleted when Intro.js would be refactored
+    // https://github.com/ubergrape/chatgrape/issues/4056
+    setTimeout(() => reduxEmitter.showIntro())
     return dispatch({
       type: types.HANDLE_INITIAL_DATA
     })
@@ -78,11 +81,12 @@ export function setUser(user) {
   }
 }
 
-export function setChannel(channel) {
+export function setChannel(channel, messageId) {
   return {
     type: types.SET_CHANNEL,
     payload: {
-      channel
+      channel,
+      messageId
     }
   }
 }

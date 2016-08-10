@@ -1,3 +1,9 @@
 {
-  "stage": 0
+  "stage": 0,
+  "plugins": ["react-intl"],
+  "extra": {
+    "react-intl": {
+        "messagesDir": "./i18n"
+    }
+  }
 }

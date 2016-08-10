@@ -98,12 +98,13 @@ export default class GrapeInput extends Emitter {
     this.bindEvents()
     this.input = qs('grape-input', this.el)
     this.images.orgLogo = this.org.logo
-    this.setProps({focused: true})
+    this.setProps({disabled: true, focused: true})
   }
 
   setProps(newProps, callback) {
     this.input.props = {
       images: this.images,
+      locale: conf.user.languageCode,
       customEmojis: this.org.custom_emojis,
       placeholder: this.placeholder,
       onRender: callback ? once(callback) : undefined,
@@ -114,7 +115,7 @@ export default class GrapeInput extends Emitter {
   bindEvents() {
     this.events = events(this.el, this)
     this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
-    this.events.bind('mousedown .js-emoji-browser-button', 'onOpenEmojiBrowser')
+    this.events.bind('mousedown .js-emoji-browser-button', 'onToggleEmojiBrowser')
     this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
@@ -355,12 +356,16 @@ export default class GrapeInput extends Emitter {
 
   onComplete(e) {
     const {detail} = e
-    switch (detail.trigger) {
+    const {search, query, trigger} = detail
+    const {browser} = this.input.props
+    switch (trigger) {
       case '#':
+        // Avoid browser opening in case of `#s` input.
+        if (!browser && query.length > 1) return
         this.showSearchBrowser(detail)
         break
       case '@':
-        this.showUsersAndRooms(detail.search)
+        this.showUsersAndRooms(search)
         break
       case ':':
         this.showEmojiSuggest(detail)
@@ -404,7 +409,7 @@ export default class GrapeInput extends Emitter {
     this.browserAborted = true
     // Don't abort editing if browser has been open.
     if (!data.browser) this.completePreviousEdit()
-    if (data.browser === 'search' && data.reason === 'esc') {
+    if (window.analytics && data.browser === 'search' && data.reason === 'esc') {
       window.analytics.track('abort autocomplete', data)
     }
 
@@ -455,11 +460,20 @@ export default class GrapeInput extends Emitter {
     })
   }
 
+  closeBrowser() {
+    this.setProps({
+      browser: null,
+      focused: true
+    })
+  }
+
   onSubmit(e) {
     const data = e.detail
 
     if (this.previous) {
-      this.emit('update', this.previous.msg, data.content)
+      let {msg} = this.previous
+      if (conf.newHistory) msg = {...msg, channel: {id: msg.channel}}
+      this.emit('update', msg, data.content)
       this.completePreviousEdit()
     } else {
       let sendText = true
@@ -496,8 +510,12 @@ export default class GrapeInput extends Emitter {
     this.emit('resize')
   }
 
-  onOpenEmojiBrowser(e) {
+  onToggleEmojiBrowser(e) {
     e.preventDefault()
+    if (this.input.props.browser === 'emoji') {
+      this.closeBrowser()
+      return
+    }
     this.showEmojiBrowser({ignoreTrigger: true, setTrigger: true})
   }
 
@@ -521,7 +539,8 @@ export default class GrapeInput extends Emitter {
   }
 
   onInsertItem(e) {
-    window.analytics.track('insert autocomplete object', e.detail)
+    this.closeBrowser()
+    if (window.analytics) window.analytics.track('insert autocomplete object', e.detail)
   }
 
   onSelectChannel(room) {

@@ -1,19 +1,27 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
+import notification from 'notification'
 import moment from 'moment'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import Menu from '../../message-parts/Menu'
+import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles} from './regularMessageTheme'
+import {styles, menuLeftOffset} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -25,8 +33,16 @@ function UnsentWarning(props) {
 
   return (
     <div className={classes.unsentWarning}>
-      {' This message didn\'t send. Check your internet connection and '}
-      <a href="" onClick={onResend}>click to try again</a>.
+      {' '}
+      <FormattedMessage
+        id="messageNotSendCheckConnection"
+        defaultMessage="This message didn't send. Check your internet connection and" />
+      {' '}
+      <a href="" onClick={onResend}>
+        <FormattedMessage
+          id="clickToTryAgain"
+          defaultMessage="click to try again" />
+      </a>.
     </div>
   )
 }
@@ -40,8 +56,7 @@ function DeliveryState({time, state, theme}) {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
 
-  // Return null once we switch to react 15.
-  if (!state || !isFresh) return <noscript />
+  if (!state || !isFresh) return null
 
   const {classes} = theme
 
@@ -61,11 +76,24 @@ DeliveryState.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+const messages = defineMessages({
+  confirm: {
+    id: 'deleteMessagesQuestion',
+    defaultMessage: 'Delete the selected Message?'
+  },
+  copy: {
+    id: 'linkInClipboard',
+    defaultMessage: 'Message link added to clipboard'
+  }
+})
+
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @useSheet(styles)
+@injectIntl
 export default class RegularMessage extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
@@ -83,6 +111,7 @@ export default class RegularMessage extends Component {
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
+    user: PropTypes.object.isRequired,
     state: DeliveryState.propTypes.state
   }
 
@@ -102,28 +131,36 @@ export default class RegularMessage extends Component {
     this.state = {isMenuOpened: false}
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onMouseEnter = () => (this.setState({isMenuOpened: true}))
 
   onMouseLeave = () => (this.setState({isMenuOpened: false}))
 
   onSelect = ({name}) => {
+    const {formatMessage} = this.props.intl
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
+        notification.info(formatMessage(messages.copy))
         break
-      case 'remove':
-        if (confirm('Delete the selected Message?')) { // eslint-disable-line no-alert
+      case 'remove': {
+        if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
           this.props.onRemove()
         }
         break
+      }
       case 'edit':
         this.props.onEdit()
         break
       default:
     }
   }
+
+  onRefContent = (ref) => this.content = ref
+  onRefBody = (ref) => this.body = ref
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -135,18 +172,21 @@ export default class RegularMessage extends Component {
 
     if (isOwn) {
       // Attachments can't be edited.
-      if (attachments.length) {
-        items = ['copyLink', 'remove']
-      }
+      items = `${attachments.length ? '' : 'edit,'}copyLink,remove`.split(',')
     } else {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
 
+    const {body, content} = this
+    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
+    const canFit = rightSpace > content.offsetWidth
+    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
+
     return (
       <Menu
         onSelect={this.onSelect}
-        className={sheet.classes.menu}
+        className={className}
         items={items} />
     )
   }
@@ -161,8 +201,8 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, time, userTime, avatar, children, hasBubbleArrow, state,
-      isOwn, isSelected, onResend, attachments
+      sheet, author, user, time, userTime, avatar, hasBubbleArrow,
+      state, isOwn, isSelected, onResend, attachments, children
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -171,6 +211,7 @@ export default class RegularMessage extends Component {
     } else {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
+
     return (
       <div className={classes.message}>
         {author &&
@@ -181,13 +222,18 @@ export default class RegularMessage extends Component {
             className={classes.header} />
         }
         <div
+          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
-            <div className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} />
+          <Bubble
+            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
+            hasArrow={hasBubbleArrow}>
+            <div
+              ref={this.onRefContent}
+              className={`${classes.content} ${classes[state]}`}>
+              <Grapedown text={children} user={user} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}

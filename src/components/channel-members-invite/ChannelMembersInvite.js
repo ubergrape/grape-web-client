@@ -1,4 +1,10 @@
 import React, {PropTypes} from 'react'
+import {
+  FormattedMessage,
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
@@ -17,6 +23,42 @@ function onInviteUsersClick(props) {
   hideChannelMembersInvite()
 }
 
+const messages = defineMessages({
+  pm: {
+    id: 'createNewPrivateGroup',
+    defaultMessage: 'Create new private group'
+  },
+  room: {
+    id: 'inviteToGroup',
+    defaultMessage: 'Invite to group'
+  }
+})
+
+function getFormattedMessage(channelType, mission) {
+  if (mission === 'title') return messages[channelType]
+
+  if (mission === 'button') {
+    switch (channelType) {
+      case 'pm':
+        return (
+          <FormattedMessage
+            id="createGroup"
+            defaultMessage="Create group" />
+        )
+      case 'room':
+        return (
+          <FormattedMessage
+            id="inviteMembers"
+            defaultMessage="Invite members" />
+        )
+      default:
+        return null
+    }
+  }
+
+  return null
+}
+
 function InviteButton(props) {
   const {listed, channelType, theme} = props
   const {classes} = theme
@@ -26,7 +68,7 @@ function InviteButton(props) {
         className={classes.buttonInvite}
         onClick={() => onInviteUsersClick(props)}
         disabled={!listed.length}>
-        {channelType === 'pm' ? 'Create group' : 'Invite members'}
+        {getFormattedMessage(channelType, 'button')}
       </button>
     </div>
   )
@@ -35,46 +77,47 @@ function InviteButton(props) {
 InviteButton.propTypes = {
   listed: PropTypes.array.isRequired,
   channelType: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired
-}
-
-function getTitle(channelType) {
-  switch (channelType) {
-    case 'room':
-      return 'Invite to group'
-    case 'pm':
-      return 'Create new private group'
-    default:
-      return ''
-  }
+  theme: PropTypes.object.isRequired,
+  inviteToChannel: PropTypes.func.isRequired,
+  createRoomFromPmAndInvite: PropTypes.func.isRequired,
+  hideChannelMembersInvite: PropTypes.func.isRequired
 }
 
 function ChannelMembersInvite(props) {
   const {
-    sheet, channelType, hideChannelMembersInvite,
-    setInviteFilterValue, addToChannelMembersInvite,
-    removeFromChannelMembersInvite
+    sheet, channelType, setInviteFilterValue,
+    addToChannelMembersInvite, removeFromChannelMembersInvite,
+    listed, inviteToChannel, createRoomFromPmAndInvite, hideChannelMembersInvite,
+    ...rest
   } = props
 
-  // TODO: return `null` once upgraded to React 0.15.
-  if (!channelType) return <noscript />
+  if (!channelType) return null
 
+  const {formatMessage} = props.intl
   const {classes} = sheet
   return (
     <ChooseUsersDialog
-      {...props}
-      title={getTitle(props.channelType)}
+      {...rest}
+      title={formatMessage(getFormattedMessage(channelType, 'title'))}
       theme={{classes}}
-      onHide={() => hideChannelMembersInvite()}
-      onChangeFilter={value => setInviteFilterValue(value)}
-      onSelectUser={user => addToChannelMembersInvite(user)}
-      onRemoveSelectedUser={user => removeFromChannelMembersInvite(user)}>
-      <InviteButton {...props} theme={{classes}} />
+      listed={listed}
+      onHide={hideChannelMembersInvite}
+      onChangeFilter={setInviteFilterValue}
+      onSelectUser={addToChannelMembersInvite}
+      onRemoveSelectedUser={removeFromChannelMembersInvite}>
+      <InviteButton
+        theme={{classes}}
+        listed={listed}
+        channelType={channelType}
+        inviteToChannel={inviteToChannel}
+        createRoomFromPmAndInvite={createRoomFromPmAndInvite}
+        hideChannelMembersInvite={hideChannelMembersInvite} />
     </ChooseUsersDialog>
   )
 }
 
 ChannelMembersInvite.propTypes = {
+  intl: intlShape.isRequired,
   sheet: PropTypes.object.isRequired,
   addToChannelMembersInvite: PropTypes.func.isRequired,
   removeFromChannelMembersInvite: PropTypes.func.isRequired,
@@ -86,4 +129,4 @@ ChannelMembersInvite.propTypes = {
   channelType: PropTypes.string
 }
 
-export default useSheet(ChannelMembersInvite, style)
+export default injectIntl(useSheet(ChannelMembersInvite, style))

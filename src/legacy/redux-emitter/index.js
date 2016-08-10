@@ -15,8 +15,8 @@ class ReduxEmitter extends Emitter {
     getBoundActions().setUser(toCamel(user.toJSON()))
   }
 
-  onSelectChannel(channel) {
-    getBoundActions().setChannel(toCamel(channel.toJSON()))
+  onSelectChannel(channel, messageId) {
+    getBoundActions().setChannel(toCamel(channel.toJSON()), messageId)
   }
 
   onSetSettings(settings) {
@@ -27,7 +27,7 @@ class ReduxEmitter extends Emitter {
     getBoundActions().createChannel(toCamel(pm))
   }
 
-  onEditPreviousMessage() {
+  onEditPreviousMessage() {
     getBoundActions().editPreviousMessage()
   }
 
@@ -137,6 +137,10 @@ class ReduxEmitter extends Emitter {
 
   showNewConversationAdvanced() {
     getBoundActions().showNewConversationAdvanced()
+  }
+
+  showIntro() {
+    this.emit('showIntro')
   }
 }
 

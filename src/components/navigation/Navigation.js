@@ -4,6 +4,11 @@ import Fuse from 'fuse.js'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
+import {
+  defineMessages,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import Filter from './Filter'
 import List from './List'
@@ -13,11 +18,28 @@ import ManageButtons from './ManageButtons'
 import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
+const messages = defineMessages({
+  channelHeader: {
+    id: 'noConversationYet',
+    defaultMessage: 'No conversation yet'
+  },
+  favorites: {
+    id: 'favorites',
+    defaultMessage: 'Favorites'
+  },
+  recent: {
+    id: 'recent',
+    defaultMessage: 'Recent'
+  }
+})
+
 @useSheet(style)
+@injectIntl
 export default class Navigation extends Component {
 
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
     showChannelsManager: PropTypes.func.isRequired,
     showPmManager: PropTypes.func.isRequired,
@@ -25,7 +47,7 @@ export default class Navigation extends Component {
     focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
-    all: PropTypes.array.isRequired,
+    joined: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired,
     recent: PropTypes.array.isRequired,
     step: PropTypes.number.isRequired,
@@ -55,10 +77,10 @@ export default class Navigation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.all !== this.props.all) {
+    if (nextProps.joined !== this.props.joined) {
       this.setState({
         fuseJoined: new Fuse(
-          nextProps.all,
+          nextProps.joined,
           {keys: ['name'], threshold: 0.3}
         ),
         fuseUnJoined: new Fuse(
@@ -158,13 +180,14 @@ export default class Navigation extends Component {
 
   renderFilteredChannel({item: channel, focused}) {
     const {classes} = this.props.sheet
+    const {formatMessage} = this.props.intl
     const isFirstInUnJoined = channel === this.state.filteredUnJoined[0]
 
     return (
       <Channel
         {...this.props}
         {...this.state}
-        header={isFirstInUnJoined ? 'No conversation yet' : ''}
+        header={isFirstInUnJoined ? formatMessage(messages.channelHeader) : ''}
         channel={channel}
         focused={focused}
         theme={{classes}}
@@ -189,7 +212,8 @@ export default class Navigation extends Component {
       )
     }
 
-    const {recent} = this.props
+    const {recent, intl} = this.props
+    const {formatMessage} = intl
     const {shift} = this.state
     const recentList = recent.length > shift ? recent.slice(0, shift) : recent
 
@@ -198,7 +222,7 @@ export default class Navigation extends Component {
         <List
           {...this.props}
           {...this.state}
-          title="Favorites"
+          title={formatMessage(messages.favorites)}
           type="favorites"
           theme={{classes}}
           list={this.props.favorited}
@@ -206,7 +230,7 @@ export default class Navigation extends Component {
         <List
           {...this.props}
           {...this.state}
-          title="Recent"
+          title={formatMessage(messages.recent)}
           type="recent"
           theme={{classes}}
           list={recentList}

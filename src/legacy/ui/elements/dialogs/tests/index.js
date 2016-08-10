@@ -1,5 +1,6 @@
 import expect from 'expect.js'
 import qs from 'query'
+import staticurl from 'staticurl'
 import MDTip from '../markdowntips'
 import RoomDelete from '../deleteroom'
 import RoomManager from '../roommanager'
@@ -8,6 +9,7 @@ import template from 'template'
 import '../../../../templates'
 
 template.locals.user = user
+template.locals.staticurl = staticurl
 
 let mdTip = new MDTip()
 let roomDelete = new RoomDelete({

@@ -12,63 +12,160 @@ import {showAlert, hideAlertByType} from './alert'
 import * as alerts from '../constants/alerts'
 import {normalizeMessage, filterEmptyMessage} from './utils'
 
-export function loadHistory(params) {
-  const {channelId, startIndex, stopIndex} = params
-  const isInitial = startIndex === undefined
-  const isScrollBack = startIndex < 0
+function normalizeMessages(messages, state) {
+  return messages
+    .map(message => normalizeMessage(message, state))
+    .filter(filterEmptyMessage)
+}
 
+function loadLatest({channelId}) {
   return (dispatch, getState) => {
-    let options
+    // It is initial loading, show loading indicator.
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
 
-    if (isInitial) {
-      dispatch(showAlert({
-        level: 'info',
-        type: alerts.LOADING_HISTORY,
-        delay: 1000
-      }))
-    } else {
-      const {messages} = historySelector(getState())
-      if (isScrollBack) {
-        options = {timeTo: messages[0].time}
-      } else {
-        options = {timeFrom: last(messages).time}
-      }
-      options.limit = stopIndex - startIndex
-    }
-
-    dispatch({
-      type: types.REQUEST_HISTORY,
-      payload: {params, options}
-    })
+    const {minimumBatchSize: limit} = historySelector(getState())
 
     api
+      .loadHistory(channelId, {limit})
+      .then(res => {
+        const messages = normalizeMessages(res.reverse(), getState())
+        const lastMessage = last(messages)
+        dispatch({
+          type: types.HANDLE_INITIAL_HISTORY,
+          payload: {
+            messages,
+            scrollTo: lastMessage ? lastMessage.id : null
+          }
+        })
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+function loadOlder({startIndex, stopIndex, channelId}) {
+  return (dispatch, getState) => {
+    const {messages, olderMessages} = historySelector(getState())
+    // Ensures we don't have useless requests to the backend.
+    if (olderMessages) return
+
+
+    const options = {
+      limit: stopIndex - startIndex,
+      timeTo: messages[0].time
+    }
+
+    const promise = api
+      .loadHistory(channelId, options)
+      .then(res => res)
+      .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_OLDER_HISTORY,
+      payload: promise
+    })
+  }
+}
+
+/**
+ * This callback is called when scroller reaches the top position.
+ * It renders the loaded messages when promise gets resolved.
+ */
+export function renderOlderHistory() {
+  return (dispatch, getState) => {
+    const {olderMessages} = historySelector(getState())
+    olderMessages.then(res => {
+      dispatch({
+        type: types.HANDLE_MORE_HISTORY,
+        payload: {
+          messages: normalizeMessages(res.reverse(), getState()),
+          isScrollBack: true
+        }
+      })
+    })
+  }
+}
+
+function loadNewer({startIndex, stopIndex, channelId}) {
+  return (dispatch, getState) => {
+    const {messages, newerMessages} = historySelector(getState())
+
+    // Ensures we don't have useless requests to the backend.
+    if (newerMessages) return
+
+    const options = {
+      limit: stopIndex - startIndex,
+      timeFrom: last(messages).time
+    }
+
+    const promise = api
       .loadHistory(channelId, options)
       .then(res => {
-        const state = getState()
-        const messages = res
-          .reverse()
-          .map(message => normalizeMessage(message, state))
-          .filter(filterEmptyMessage)
-
-        if (isInitial) {
-          dispatch({
-            type: types.HANDLE_INITIAL_HISTORY,
-            payload: messages
-          })
-          dispatch(hideAlertByType(alerts.LOADING_HISTORY))
-          return
-        }
-
         dispatch({
           type: types.HANDLE_MORE_HISTORY,
           payload: {
-            messages,
-            ...params,
-            isScrollBack
+            messages: normalizeMessages(res.reverse(), getState()),
+            isScrollBack: false
           }
         })
       })
       .catch(err => dispatch(error(err)))
+
+    dispatch({
+      type: types.REQUEST_NEWER_HISTORY,
+      payload: promise
+    })
+  }
+}
+
+function loadFragment({channelId}, messageId) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const {minimumBatchSize: limit} = historySelector(state)
+
+    api
+      .loadHistoryAt(channelId, messageId, {limit})
+      .then(res => {
+        dispatch({
+          type: types.HANDLE_INITIAL_HISTORY,
+          payload: {
+            messages: normalizeMessages(res, state),
+            scrollTo: messageId,
+            selectedMessageId: messageId
+          }
+        })
+      })
+      .catch(err => dispatch(error(err)))
+  }
+}
+
+export function loadHistory(params) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.REQUEST_HISTORY,
+      payload: params
+    })
+
+    if (!params.jumpToEnd) {
+      if (params.startIndex !== undefined) {
+        return dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+      }
+
+      const {selectedMessageId: messageId} = historySelector(getState())
+      if (messageId) return dispatch(loadFragment(params, messageId))
+    }
+
+    return dispatch(loadLatest(params))
+  }
+}
+
+export function unsetHistoryScrollTo() {
+  return {
+    type: types.UNSET_HISTORY_SCROLL_TO
   }
 }
 
@@ -101,7 +198,7 @@ export function editPreviousMessage() {
     const state = getState()
     const {messages} = historySelector(state)
     const user = userSelector(state)
-    const message = findLast(messages, msg => msg.author.id === String(user.id))
+    const message = findLast(messages, msg => msg.author.id === user.id)
     dispatch(editMessage(message))
   }
 }
@@ -164,13 +261,12 @@ export function resendMessage(message) {
   }
 }
 
-export function readMessage({id: messageId}) {
-  return (dispatch, getState) => {
+export function readMessage({channelId, messageId}) {
+  return (dispatch) => {
     dispatch({
       type: types.REQUEST_READ_MESSAGE,
       payload: messageId
     })
-    const {id: channelId} = channelSelector(getState())
     api
       .readMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))

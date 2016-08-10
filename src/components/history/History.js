@@ -7,6 +7,7 @@ import InfiniteList from './InfiniteList'
 import RegularMessage from './messages/RegularMessage'
 import ActivityMessage from './messages/ActivityMessage'
 
+import ReadMessageDispatcher from './ReadMessageDispatcher'
 import Jumper from './Jumper'
 import DateSeparator from '../message-parts/DateSeparator'
 import {styles} from './historyTheme'
@@ -37,24 +38,31 @@ export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
+    onTouchTopEdge: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
-    userId: PropTypes.number,
+    onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     channelId: PropTypes.number,
-    messages: PropTypes.arrayOf(PropTypes.shape({
-      type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
-      author: PropTypes.shape({
-        id: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string
-        ]).isRequired
-      }).isRequired,
-      time: PropTypes.instanceOf(Date).isRequired
-    })),
-    scrollTo: PropTypes.object,
-    cacheSize: PropTypes.number
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.oneOf(Object.keys(messageTypes)).isRequired,
+        author: PropTypes.shape({
+          id: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+          ]).isRequired
+        }).isRequired,
+        time: PropTypes.instanceOf(Date).isRequired
+      })
+    ),
+    user: PropTypes.object,
+    // Will scroll to a message by id.
+    scrollTo: PropTypes.string,
+    // Will highlight a message by id.
+    selectedMessageId: PropTypes.string,
+    minimumBatchSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -63,10 +71,13 @@ export default class History extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onRead: noop
+    onRead: noop,
+    onTouchTopEdge: noop,
+    onUserScrollAfterScrollTo: noop
   }
 
-  componentWillReceiveProps({channelId}) {
+  componentWillReceiveProps(nextProps) {
+    const {channelId} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
     if (channelId !== this.props.channelId) {
@@ -81,19 +92,33 @@ export default class History extends Component {
     })
   }
 
-  onMessagesRead = ({stopIndex}) => {
-    this.props.onRead(this.props.messages[stopIndex])
+  onJumpToEnd = () => {
+    this.props.onLoad({
+      channelId: this.props.channelId,
+      jumpToEnd: true
+    })
   }
 
-  renderRow = (messages, index) => {
-    const {sheet, userId, onEdit, onRemove, onResend} = this.props
+  onRowsRendered = () => {
+    // We need to unset the scrollTo once user has scrolled around, because he
+    // might want to use jumper to jump again to the same scrollTo value.
+    if (this.props.scrollTo) {
+      this.props.onUserScrollAfterScrollTo()
+    }
+  }
+
+  renderRow = (index) => {
+    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId, messages} = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
     const props = {
       key: `row-${message.id}`,
-      isOwn: message.author.id === userId
+      isOwn: message.author.id === user.id,
+      user,
+      isSelected: selectedMessageId === message.id
     }
+
     const prevMessage = messages[index - 1]
 
     let separator = null
@@ -130,30 +155,40 @@ export default class History extends Component {
   }
 
   render() {
-    const {sheet, messages, cacheSize} = this.props
+    const {
+      sheet, messages, user, scrollTo, minimumBatchSize,
+      onTouchTopEdge, channelId, onRead
+    } = this.props
     const {classes} = sheet
 
-    if (!messages.length) return null
+    if (!user || !messages.length) return null
 
     return (
-      // TODO check if we should call over store/action, depending on how much
-      // overhead it is.
-      <Jumper
-        className={classes.history}
-        target={messages[messages.length - 1]}>
-        {({onRowsRendered, scrollTo}) => (
-          <InfiniteList
-            onRowsRendered={(params) => {
-              onRowsRendered(params)
-              this.onMessagesRead(params)
-            }}
-            scrollTo={this.props.scrollTo || scrollTo}
-            messages={messages}
-            cacheSize={cacheSize}
-            onLoadMore={this.onLoadMore}
-            renderRow={this.renderRow} />
+      <ReadMessageDispatcher
+        messages={messages}
+        channelId={channelId}
+        onRead={onRead}>
+        {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
+          <Jumper
+            onJump={this.onJumpToEnd}
+            className={classes.history}>
+            {({onRowsRendered: onRowsRenderedInJumper}) => (
+              <InfiniteList
+                onRowsRendered={(params) => {
+                  onRowsRenderedInJumper(params)
+                  onRowsRenderedInReadMessageDispatcher(params)
+                  this.onRowsRendered(params)
+                }}
+                scrollTo={scrollTo}
+                messages={messages}
+                minimumBatchSize={minimumBatchSize}
+                onLoadMore={this.onLoadMore}
+                onTouchTopEdge={onTouchTopEdge}
+                renderRow={this.renderRow} />
+            )}
+          </Jumper>
         )}
-      </Jumper>
+      </ReadMessageDispatcher>
     )
   }
 }

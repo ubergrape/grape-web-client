@@ -1,10 +1,6 @@
 .organizationpopover
     - var target = isMacGap ? '_blank' : '_self'
     ul.popover-list
-        li.hide
-            a(href='#')
-                i.fa.fa-eye
-                =_('Compact View')
         if (isInviter)
             li
                 a.invite-new-members
@@ -28,19 +24,11 @@
                 i.fa.fa-cog
                 =_('Account Settings')
         li
-            a.edit-view(href='#')
-                if (user.settings && user.settings.compact_mode)
-                        i.fa.fa-th-list
-                        =_('Normal View')
-                else
-                        i.fa.fa-list
-                        =_('Compact View')
-        li
             a(href='/accounts/settings/notifications/', target=target)
                 i.fa.fa-bell
                 =_('Notification Settings')
         li
-            a(href='#',onclick='ui.intro.start();window.analytics.track("Started Tutorial", {via: "user menu"});')
+            a(href='#',onclick='ui.intro.start();window.analytics && window.analytics.track("Started Tutorial", {via: "user menu"});')
                 i.fa.fa-life-saver
                 =_('Tutorial')
         li

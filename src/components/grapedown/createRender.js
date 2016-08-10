@@ -2,6 +2,8 @@ import {createElement} from 'react'
 import {mdReact} from 'markdown-react-js'
 import emoji from 'markdown-it-emoji'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
+import omit from 'lodash/object/omit'
+import {nonStandardProps} from './utils'
 
 import {isChatUrl} from './utils'
 import GrapeObject from './GrapeObject'
@@ -16,7 +18,12 @@ export function renderTag(tag, props, children) {
       props.target = '_blank'
     }
   }
-  return createElement(tag, props, children)
+
+  return createElement(
+    tag,
+    omit(props, nonStandardProps),
+    children.length ? children : undefined
+  )
 }
 
 const defaults = {
@@ -24,7 +31,8 @@ const defaults = {
   disableRules: ['list', 'image'],
   markdownOptions: {
     linkify: true,
-    html: false
+    html: false,
+    breaks: true
   },
   plugins: [emoji],
   onIterate: renderTag

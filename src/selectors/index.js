@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
+import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
@@ -349,36 +350,48 @@ function sortRecentChannels(a, b) {
   return bCompareValue - aCompareValue
 }
 
+function usersAsPms(users) {
+  return users.map(user => ({
+    type: 'pm',
+    mate: user,
+    slug: user.slug,
+    name: user.displayName
+  }))
+}
+
 export const navigationSelector = createSelector(
   [
     joinedRoomsSelector,
     navigationPmsSelector,
     channelSelector,
     initialDataLoadingSelector,
-    channelsSelector
+    roomsSelector,
+    activeUsersSelector
   ],
   (
-    rooms,
+    joinedRooms,
     pms,
     channel,
     isLoading,
-    allChannels
+    allRooms,
+    users
   ) => {
-    const all = rooms.concat(pms)
-    const recent = all
+    const all = allRooms.concat(usersAsPms(users))
+    const joined = joinedRooms.concat(pms)
+    const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
-    const favorited = all
+    const favorited = joined
       .filter(_channel => _channel.favorited)
       .sort((a, b) => b.favorited.order - a.favorited.order)
 
     return {
-      all,
+      joined,
       recent,
       favorited,
       isLoading,
       channel,
-      unJoined: differenceBy(allChannels, all, 'slug')
+      unJoined: differenceBy(all, joined, 'slug')
     }
   }
 )
@@ -419,10 +432,11 @@ export const sidebarComponentSelector = createSelector(
     search,
     mentions,
     support,
-    {displayName: query}
+    user
   ) => {
     const select = {
-      show
+      show,
+      user
     }
     if (!show) return select
     const panels = {
@@ -431,7 +445,7 @@ export const sidebarComponentSelector = createSelector(
       files,
       search,
       support,
-      mentions: {...mentions, query}
+      mentions: {...mentions, query: user.displayName}
     }
     return {...select, ...panels[show]}
   }
@@ -448,9 +462,9 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  [userSelector, ({history}) => history],
-  (user, history) => ({
-    ...history,
-    userId: user.id
-  })
+  state => state.history, state => state
+)
+
+export const historyComponentSelector = createSelector(
+  state => state.history, state => omit(state, 'olderMessages', 'newerMessages')
 )

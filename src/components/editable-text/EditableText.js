@@ -4,13 +4,15 @@ import {useSheet} from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
 import * as themes from './themes'
+import {Done} from '../i18n/i18n'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
 
+
 const Wrapper = listenOutsideClick(props => {
   return (
-    <div {...props}>
+    <div className={props.className} onClick={props.onClick}>
       {props.children}
     </div>
   )
@@ -156,7 +158,6 @@ export default class EditableText extends Component {
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
-
     return (
       <Wrapper
         className={classes[className]}
@@ -167,7 +168,7 @@ export default class EditableText extends Component {
           onClick={this.onClickSave}
           className={classes['submit' + (isEditing ? 'Visible' : '')]}
           disabled={this.state.saving}>
-          Done
+          <Done />
         </button>
       </Wrapper>
     )

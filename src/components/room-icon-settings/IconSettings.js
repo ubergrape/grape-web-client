@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-
+import {FormattedMessage} from 'react-intl'
 import colors from 'grape-theme/dist/base-colors'
 import {icons, colors as roomColors} from 'grape-theme/dist/room-settings'
 
@@ -11,7 +11,11 @@ function RenderColors({theme, channel, onSetRoomColor}) {
   const {classes} = theme
   return (
     <div className={classes.roomColors}>
-      <h1 className={classes.iconSettingsTitle}>Room Color</h1>
+      <h1 className={classes.iconSettingsTitle}>
+        <FormattedMessage
+          id="roomColor"
+          defaultMessage="Room Color" />
+      </h1>
       <ul className={classes.iconSettingsList}>
         {roomColors.map(color => {
           const isCurrent = channel.color === color
@@ -41,7 +45,11 @@ function RenderIcons({theme, channel, onSetRoomIcon}) {
   const {classes} = theme
   return (
     <div>
-      <h1 className={classes.iconSettingsTitle}>Room Icon</h1>
+      <h1 className={classes.iconSettingsTitle}>
+        <FormattedMessage
+          id="roomIcon"
+          defaultMessage="Room Icon" />
+      </h1>
       <ul className={classes.iconSettingsList}>
         {icons.map(slug => {
           const {icon} = channel

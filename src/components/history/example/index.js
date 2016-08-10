@@ -158,7 +158,7 @@ window.addManyMessages = () => {
 
 window.scrollToMessage = () => {
   update({
-    scrollTo: fragment[fragment.length - 20]
+    scrollTo: fragment[fragment.length - 20].id
   })
 }
 

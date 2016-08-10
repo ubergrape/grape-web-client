@@ -5,8 +5,7 @@ import uniq from 'lodash/array/uniq'
 
 const initialState = {
   messages: [],
-  cacheSize: 500,
-  channelId: undefined
+  minimumBatchSize: 30
 }
 
 function updateMessage(state, newMessage) {
@@ -20,26 +19,42 @@ function updateMessage(state, newMessage) {
 
 export default function reduce(state = initialState, action) {
   const {payload} = action
-
   switch (action.type) {
+    case types.SET_USER:
+      return {...state, user: payload}
     case types.SET_CHANNEL:
-      return {...state, channelId: payload.channel.id}
+      return {
+        ...state,
+        channelId: payload.channel.id,
+        selectedMessageId: payload.messageId
+      }
     case types.HANDLE_INITIAL_HISTORY:
-      if (!payload.length) return state
-      return {...state, messages: payload}
+      return {...state, ...payload}
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
       if (!newMessages.length) return state
 
       let messages
+      let {olderMessages, newerMessages} = state
 
-      if (isScrollBack) messages = [...newMessages, ...state.messages]
-      else messages = [...state.messages, ...newMessages]
+      if (isScrollBack) {
+        messages = [...newMessages, ...state.messages]
+        olderMessages = undefined
+      } else {
+        messages = [...state.messages, ...newMessages]
+        newerMessages = undefined
+      }
 
       messages = uniq(messages, 'id')
 
-      return {...state, messages}
+      return {...state, messages, scrollTo: null, olderMessages, newerMessages}
     }
+    case types.REQUEST_OLDER_HISTORY:
+      return {...state, olderMessages: payload}
+    case types.REQUEST_NEWER_HISTORY:
+      return {...state, newerMessages: payload}
+    case types.UNSET_HISTORY_SCROLL_TO:
+      return {...state, scrollTo: null}
     case types.REMOVE_MESSAGE:
       return {...state, messages: reject(state.messages, {id: payload})}
     case types.EDIT_MESSAGE:
@@ -77,9 +92,8 @@ export default function reduce(state = initialState, action) {
         {...payload, state: 'pending'}
       ]}
     case types.ADD_NEW_MESSAGE: {
-      const message = payload
-      if (message.channel !== state.channelId) return state
-      return {...state, messages: [...state.messages, message]}
+      if (payload.channel !== state.channelId) return state
+      return {...state, messages: [...state.messages, payload]}
     }
     default:
       return state
