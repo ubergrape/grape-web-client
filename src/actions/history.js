@@ -142,31 +142,34 @@ function loadFragment({channelId}, messageId, callback) {
   }
 }
 
+/**
+ * This action may be called lots of times in the row.
+ */
 export function loadHistory(params) {
   return (dispatch, getState) => {
+    const {selectedMessageId: messageId, isLoading} = historySelector(getState())
+
+    if (isLoading) return dispatch({type: types.NOOP})
+
     dispatch({
       type: types.REQUEST_HISTORY,
       payload: params
     })
+
     dispatch(showAlert({
       level: 'info',
       type: alerts.LOADING_HISTORY,
       delay: 1000
     }))
-    const hideAlert = () => {
-      dispatch(hideAlertByType(alerts.LOADING_HISTORY))
-    }
 
-    const onLoad = (promise) => {
-      promise.then(hideAlert, hideAlert)
-    }
+    const hideAlert = () => dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+    const onLoad = (promise) => promise.then(hideAlert, hideAlert)
 
     if (!params.jumpToEnd) {
       if (params.startIndex !== undefined) {
         return dispatch(params.startIndex < 0 ? loadOlder(params, onLoad) : loadNewer(params, onLoad))
       }
 
-      const {selectedMessageId: messageId} = historySelector(getState())
       if (messageId) return dispatch(loadFragment(params, messageId, onLoad))
     }
 
