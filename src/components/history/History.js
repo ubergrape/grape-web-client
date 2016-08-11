@@ -43,6 +43,7 @@ export default class History extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
+    onClickUser: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(
@@ -73,6 +74,7 @@ export default class History extends Component {
     onRemove: noop,
     onResend: noop,
     onRead: noop,
+    onClickUser: noop,
     onTouchTopEdge: noop,
     onUserScrollAfterScrollTo: noop
   }
@@ -109,7 +111,12 @@ export default class History extends Component {
   }
 
   renderRow = (messages, index) => {
-    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId} = this.props
+    const {
+      sheet, user,
+      onEdit, onRemove, onResend,
+      onClickUser, selectedMessageId
+    } = this.props
+
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
@@ -117,6 +124,7 @@ export default class History extends Component {
       key: `row-${message.id}`,
       isOwn: message.author.id === user.id,
       user,
+      onClickUser,
       isSelected: selectedMessageId === message.id
     }
 

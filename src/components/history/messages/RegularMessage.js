@@ -105,6 +105,7 @@ export default class RegularMessage extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
+    onClickUser: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
@@ -123,7 +124,8 @@ export default class RegularMessage extends Component {
     children: '',
     onEdit: noop,
     onRemove: noop,
-    onResend: noop
+    onResend: noop,
+    onClickUser: noop
   }
 
   constructor(props) {
@@ -155,6 +157,11 @@ export default class RegularMessage extends Component {
         break
       default:
     }
+  }
+
+  onClickUser = () => {
+    const {onClickUser, author} = this.props
+    onClickUser(author.slug)
   }
 
   onRefContent = (ref) => this.content = ref
@@ -213,13 +220,14 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
+            onClickUserName={this.onClickUser}
             className={classes.header} />
         }
         <div
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar && <Avatar src={avatar} className={classes.avatar} />}
+          {avatar && <Avatar onClick={this.onClickUser} src={avatar} className={classes.avatar} />}
           <Bubble
             className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>
