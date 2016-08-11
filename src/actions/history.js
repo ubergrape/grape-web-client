@@ -18,18 +18,11 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
-function loadLatest({channelId}) {
+function loadLatest({channelId}, callback) {
   return (dispatch, getState) => {
-    // It is initial loading, show loading indicator.
-    dispatch(showAlert({
-      level: 'info',
-      type: alerts.LOADING_HISTORY,
-      delay: 1000
-    }))
-
     const {minimumBatchSize: limit} = historySelector(getState())
 
-    api
+    const promise = api
       .loadHistory(channelId, {limit})
       .then(res => {
         const messages = normalizeMessages(res.reverse(), getState())
@@ -41,13 +34,13 @@ function loadLatest({channelId}) {
             scrollTo: lastMessage ? lastMessage.id : null
           }
         })
-        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
       })
       .catch(err => dispatch(error(err)))
+    callback(promise)
   }
 }
 
-function loadOlder({startIndex, stopIndex, channelId}) {
+function loadOlder({startIndex, stopIndex, channelId}, callback) {
   return (dispatch, getState) => {
     const {messages, olderMessages} = historySelector(getState())
     // Ensures we don't have useless requests to the backend.
@@ -68,6 +61,8 @@ function loadOlder({startIndex, stopIndex, channelId}) {
       type: types.REQUEST_OLDER_HISTORY,
       payload: promise
     })
+
+    callback(promise)
   }
 }
 
@@ -90,7 +85,7 @@ export function renderOlderHistory() {
   }
 }
 
-function loadNewer({startIndex, stopIndex, channelId}) {
+function loadNewer({startIndex, stopIndex, channelId}, callback) {
   return (dispatch, getState) => {
     const {messages, newerMessages} = historySelector(getState())
 
@@ -119,15 +114,17 @@ function loadNewer({startIndex, stopIndex, channelId}) {
       type: types.REQUEST_NEWER_HISTORY,
       payload: promise
     })
+
+    callback(promise)
   }
 }
 
-function loadFragment({channelId}, messageId) {
+function loadFragment({channelId}, messageId, callback) {
   return (dispatch, getState) => {
     const state = getState()
     const {minimumBatchSize: limit} = historySelector(state)
 
-    api
+    const promise = api
       .loadHistoryAt(channelId, messageId, {limit})
       .then(res => {
         dispatch({
@@ -140,6 +137,8 @@ function loadFragment({channelId}, messageId) {
         })
       })
       .catch(err => dispatch(error(err)))
+
+    callback(promise)
   }
 }
 
@@ -149,17 +148,29 @@ export function loadHistory(params) {
       type: types.REQUEST_HISTORY,
       payload: params
     })
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
+    const hideAlert = () => {
+      dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+    }
+
+    const onLoad = (promise) => {
+      promise.then(hideAlert, hideAlert)
+    }
 
     if (!params.jumpToEnd) {
       if (params.startIndex !== undefined) {
-        return dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+        return dispatch(params.startIndex < 0 ? loadOlder(params, onLoad) : loadNewer(params, onLoad))
       }
 
       const {selectedMessageId: messageId} = historySelector(getState())
-      if (messageId) return dispatch(loadFragment(params, messageId))
+      if (messageId) return dispatch(loadFragment(params, messageId, onLoad))
     }
 
-    return dispatch(loadLatest(params))
+    return dispatch(loadLatest(params, onLoad))
   }
 }
 
