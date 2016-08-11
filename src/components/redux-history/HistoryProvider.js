@@ -13,7 +13,8 @@ const actionNames = {
   removeMessage: 'onRemove',
   editMessage: 'onEdit',
   resendMessage: 'onResend',
-  readMessage: 'onRead'
+  readMessage: 'onRead',
+  goToChannel: 'onGoToChannel'
 }
 
 const ConnectedHistory = connect(

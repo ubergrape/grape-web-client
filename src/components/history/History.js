@@ -44,6 +44,7 @@ export default class History extends Component {
     onResend: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
@@ -73,7 +74,8 @@ export default class History extends Component {
     onResend: noop,
     onRead: noop,
     onTouchTopEdge: noop,
-    onUserScrollAfterScrollTo: noop
+    onUserScrollAfterScrollTo: noop,
+    onGoToChannel: noop
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,7 +110,10 @@ export default class History extends Component {
   }
 
   renderRow = (index) => {
-    const {sheet, user, onEdit, onRemove, onResend, selectedMessageId, messages} = this.props
+    const {
+      sheet, user, onEdit, onRemove, onResend, onGoToChannel, selectedMessageId,
+      messages
+    } = this.props
     const {classes} = sheet
     const message = messages[index]
     const Message = messageTypes[message.type]
@@ -116,7 +121,8 @@ export default class History extends Component {
       key: `row-${message.id}`,
       isOwn: message.author.id === user.id,
       user,
-      isSelected: selectedMessageId === message.id
+      isSelected: selectedMessageId === message.id,
+      onGoToChannel
     }
 
     const prevMessage = messages[index - 1]

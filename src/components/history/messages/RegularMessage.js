@@ -105,10 +105,12 @@ export default class RegularMessage extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
@@ -123,7 +125,8 @@ export default class RegularMessage extends Component {
     children: '',
     onEdit: noop,
     onRemove: noop,
-    onResend: noop
+    onResend: noop,
+    onGoToChannel: noop
   }
 
   constructor(props) {
@@ -135,9 +138,13 @@ export default class RegularMessage extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onMouseEnter = () => (this.setState({isMenuOpened: true}))
+  onMouseEnter = () => {
+    this.setState({isMenuOpened: true})
+  }
 
-  onMouseLeave = () => (this.setState({isMenuOpened: false}))
+  onMouseLeave = () => {
+    this.setState({isMenuOpened: false})
+  }
 
   onSelect = ({name}) => {
     const {formatMessage} = this.props.intl
@@ -159,8 +166,18 @@ export default class RegularMessage extends Component {
     }
   }
 
-  onRefContent = (ref) => this.content = ref
-  onRefBody = (ref) => this.body = ref
+  onRefContent = (ref) => {
+    this.content = ref
+  }
+
+  onRefBody = (ref) => {
+    this.body = ref
+  }
+
+  onGoToChannel = () => {
+    const {isOwn, author, onGoToChannel} = this.props
+    if (!isOwn) onGoToChannel(author.slug)
+  }
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -205,6 +222,7 @@ export default class RegularMessage extends Component {
       state, isOwn, isSelected, onResend, attachments, children
     } = this.props
     const {classes} = sheet
+
     let Bubble
     if (isSelected) {
       Bubble = SelectedBubble
@@ -219,14 +237,20 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            className={classes.header} />
+            className={classes[isOwn ? 'header' : 'headerClickable']}
+            onAuthorClick={this.onGoToChannel} />
         }
         <div
           ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar && <Avatar src={avatar} className={classes.avatar} />}
+          {avatar &&
+            <Avatar
+              src={avatar}
+              className={classes[isOwn ? 'avatar' : 'avatarClickable']}
+              onClick={this.onGoToChannel} />
+          }
           <Bubble
             className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>

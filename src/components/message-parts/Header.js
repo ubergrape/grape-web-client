@@ -13,7 +13,8 @@ export default class Header extends Component {
     time: PropTypes.instanceOf(Date),
     userTime: PropTypes.string,
     author: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    onAuthorClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -25,11 +26,11 @@ export default class Header extends Component {
   }
 
   render() {
-    const {time, userTime, author, className, sheet} = this.props
+    const {time, userTime, author, className, sheet, onAuthorClick} = this.props
     const {classes} = sheet
     return (
       <header className={`${classes.header} ${className}`}>
-        <Author author={author} />
+        <Author author={author} onClick={onAuthorClick} />
         <Time time={time} userTime={userTime} />
       </header>
     )

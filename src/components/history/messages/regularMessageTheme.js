@@ -5,10 +5,24 @@ import {styles as baseStyles, leftOffset, horizontalMargin} from './baseMessageT
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
+
+const clickable = {
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 0.8
+  }
+}
+
 export const menuLeftOffset = 7
 
 export const styles = {
   ...baseStyles,
+  headerClickable: {
+    extend: [baseStyles.header, clickable]
+  },
+  avatarClickable: {
+    extend: [baseStyles.avatar, clickable]
+  },
   pending: {
     opacity: 0.5
   },

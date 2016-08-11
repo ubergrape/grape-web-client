@@ -9,7 +9,8 @@ import {styles} from './authorTheme'
 export default class Author extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    author: PropTypes.string
+    author: PropTypes.string,
+    onClick: PropTypes.func
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -17,9 +18,10 @@ export default class Author extends Component {
   }
 
   render() {
-    const {author, sheet} = this.props
+    const {author, sheet, onClick} = this.props
+    const {classes} = sheet
     return (
-      <span className={sheet.classes.author}>
+      <span className={classes.author} onClick={onClick}>
         {author || <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />}
       </span>
     )
