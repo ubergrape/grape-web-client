@@ -13,4 +13,4 @@ export function isChatUrl(url) {
   return parser.host === host && pathname.indexOf(chatPath) === 0
 }
 
-export const nonStandardProps = ['user']
+export const nonStandardProps = ['user', 'customEmoji']

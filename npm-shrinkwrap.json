@@ -522,14 +522,14 @@
       "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-1.2.1.tgz"
     },
     "camelcase-keys": {
-      "version": "2.1.0",
-      "from": "camelcase-keys@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz",
+      "version": "3.0.0",
+      "from": "camelcase-keys@latest",
+      "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-3.0.0.tgz",
       "dependencies": {
         "camelcase": {
-          "version": "2.1.1",
-          "from": "camelcase@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-2.1.1.tgz"
+          "version": "3.0.0",
+          "from": "camelcase@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-3.0.0.tgz"
         }
       }
     },
@@ -2387,8 +2387,8 @@
     },
     "grape-js-emoji": {
       "version": "0.0.1",
-      "from": "grape-js-emoji@>=0.0.1 <0.0.2",
-      "resolved": "https://registry.npmjs.org/grape-js-emoji/-/grape-js-emoji-0.0.1.tgz"
+      "from": "../js-emoji",
+      "resolved": "file:../js-emoji"
     },
     "grape-theme": {
       "version": "1.3.1",
@@ -3283,7 +3283,19 @@
     "meow": {
       "version": "3.7.0",
       "from": "meow@>=3.6.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/meow/-/meow-3.7.0.tgz"
+      "resolved": "https://registry.npmjs.org/meow/-/meow-3.7.0.tgz",
+      "dependencies": {
+        "camelcase": {
+          "version": "2.1.1",
+          "from": "camelcase@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-2.1.1.tgz"
+        },
+        "camelcase-keys": {
+          "version": "2.1.0",
+          "from": "camelcase-keys@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
+        }
+      }
     },
     "merge-descriptors": {
       "version": "1.0.1",

@@ -13,6 +13,7 @@
     "babel-runtime": "^6.6.1",
     "backo": "^1.1.0",
     "broker": "Swatinem/broker#0.0.2",
+    "camelcase-keys": "^3.0.0",
     "color": "^0.10.1",
     "component-classes": "^1.2.3",
     "component-clipboard": "^0.1.6",

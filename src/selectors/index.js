@@ -463,3 +463,13 @@ export const headerSelector = createSelector(
 export const historySelector = createSelector(
   state => state.history, state => state
 )
+
+export const historyComponentSelector = createSelector(
+  [historySelector, orgSelector],
+  (history, {customEmojis}) => {
+    return {
+      ...history,
+      customEmojis
+    }
+  }
+)

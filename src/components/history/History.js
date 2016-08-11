@@ -45,6 +45,7 @@ export default class History extends Component {
     onRead: PropTypes.func.isRequired,
     onClickUser: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
@@ -112,7 +113,7 @@ export default class History extends Component {
 
   renderRow = (messages, index) => {
     const {
-      sheet, user,
+      sheet, user, customEmojis,
       onEdit, onRemove, onResend,
       onClickUser, selectedMessageId
     } = this.props
@@ -125,6 +126,7 @@ export default class History extends Component {
       isOwn: message.author.id === user.id,
       user,
       onClickUser,
+      customEmojis,
       isSelected: selectedMessageId === message.id
     }
 

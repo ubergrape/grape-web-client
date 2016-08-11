@@ -1,9 +1,11 @@
 import {createElement} from 'react'
 import {mdReact} from 'markdown-react-js'
-import emoji from 'markdown-it-emoji'
+
+import jsEmoji from '../emoji/emoji'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
 import {nonStandardProps} from './utils'
+import camelCaseKeys from 'camelcase-keys';
 
 import {isChatUrl} from './utils'
 import GrapeObject from './GrapeObject'
@@ -22,8 +24,31 @@ export function renderTag(tag, props, children) {
   return createElement(
     tag,
     omit(props, nonStandardProps),
-    children.length ? children : undefined
+    children && children.length ? children : undefined
   )
+}
+
+const style = {
+  display: 'inline-block',
+  width: '16px',
+  height: '16px'
+}
+
+export function convertEmoji(markup) {
+  jsEmoji.init_colons()
+  const image = jsEmoji.map.colons[markup]
+  const styles = jsEmoji.get_use_sheet_style_data(image)
+  if (!image || !styles) return `:${markup}:`
+
+  return [[
+    'span',
+    {
+      style: {
+        ...camelCaseKeys(styles),
+        ...style
+      }
+    }
+  ]]
 }
 
 const defaults = {
@@ -34,7 +59,6 @@ const defaults = {
     html: false,
     breaks: true
   },
-  plugins: [emoji],
   onIterate: renderTag
 }
 

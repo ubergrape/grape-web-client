@@ -97,6 +97,7 @@ export default class RegularMessage extends Component {
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
@@ -121,6 +122,7 @@ export default class RegularMessage extends Component {
     isOwn: false,
     isSelected: false,
     attachments: [],
+    customEmoji: {},
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -203,7 +205,7 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments
+      state, isOwn, isSelected, onResend, attachments, customEmojis
     } = this.props
     const {classes} = sheet
     let Bubble
@@ -234,7 +236,10 @@ export default class RegularMessage extends Component {
             <div
               ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} user={user}/>
+              <Grapedown
+                text={children}
+                user={user}
+                customEmojis={customEmojis} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}
