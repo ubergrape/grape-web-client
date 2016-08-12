@@ -110,7 +110,7 @@ export default class RegularMessage extends Component {
     // message in the row.
     author: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
@@ -176,7 +176,7 @@ export default class RegularMessage extends Component {
 
   onGoToChannel = () => {
     const {isOwn, author, onGoToChannel} = this.props
-    if (!isOwn) onGoToChannel(author.slug)
+    if (!isOwn && author.slug) onGoToChannel(author.slug)
   }
 
   renderMenu = () => {
@@ -230,6 +230,8 @@ export default class RegularMessage extends Component {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
 
+    const canPm = !isOwn && author && author.slug
+
     return (
       <div className={classes.message}>
         {author &&
@@ -237,7 +239,7 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            className={classes[isOwn ? 'header' : 'headerClickable']}
+            className={classes[canPm ? 'header' : 'headerClickable']}
             onAuthorClick={this.onGoToChannel} />
         }
         <div
@@ -248,7 +250,7 @@ export default class RegularMessage extends Component {
           {avatar &&
             <Avatar
               src={avatar}
-              className={classes[isOwn ? 'avatar' : 'avatarClickable']}
+              className={classes[canPm ? 'avatar' : 'avatarClickable']}
               onClick={this.onGoToChannel} />
           }
           <Bubble
