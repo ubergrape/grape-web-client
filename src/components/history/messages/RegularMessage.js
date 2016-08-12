@@ -239,7 +239,7 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            className={classes[canPm ? 'header' : 'headerClickable']}
+            className={classes[canPm ? 'headerClickable' : 'header']}
             onAuthorClick={this.onGoToChannel} />
         }
         <div
@@ -250,7 +250,7 @@ export default class RegularMessage extends Component {
           {avatar &&
             <Avatar
               src={avatar}
-              className={classes[canPm ? 'avatar' : 'avatarClickable']}
+              className={classes[canPm ? 'avatarClickable' : 'avatar']}
               onClick={this.onGoToChannel} />
           }
           <Bubble
