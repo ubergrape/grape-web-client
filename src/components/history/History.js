@@ -158,31 +158,31 @@ export default class History extends Component {
     if (!user || !messages.length) return null
 
     return (
-      <ReadMessageDispatcher
-        messages={messages}
-        channelId={channelId}
-        onRead={onRead}>
-        {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
-          <Jumper
-            onJump={onJump}
-            className={classes.history}>
-            {({onRowsRendered: onRowsRenderedInJumper}) => (
-              <InfiniteList
-                onRowsRendered={(params) => {
-                  onRowsRenderedInJumper(params)
-                  onRowsRenderedInReadMessageDispatcher(params)
-                  this.onRowsRendered(params)
-                }}
-                scrollTo={scrollTo}
-                messages={messages}
-                minimumBatchSize={minimumBatchSize}
-                onLoadMore={onLoadMore}
-                onTouchTopEdge={onTouchTopEdge}
-                renderRow={this.renderRow} />
-            )}
-          </Jumper>
-        )}
-      </ReadMessageDispatcher>
+      <div className={classes.history}>
+        <ReadMessageDispatcher
+          messages={messages}
+          channelId={channelId}
+          onRead={onRead}>
+          {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
+            <Jumper onJump={onJump}>
+              {({onRowsRendered: onRowsRenderedInJumper}) => (
+                <InfiniteList
+                  onRowsRendered={(params) => {
+                    onRowsRenderedInJumper(params)
+                    onRowsRenderedInReadMessageDispatcher(params)
+                    this.onRowsRendered(params)
+                  }}
+                  scrollTo={scrollTo}
+                  messages={messages}
+                  minimumBatchSize={minimumBatchSize}
+                  onLoadMore={onLoadMore}
+                  onTouchTopEdge={onTouchTopEdge}
+                  renderRow={this.renderRow} />
+              )}
+            </Jumper>
+          )}
+        </ReadMessageDispatcher>
+      </div>
     )
   }
 }
