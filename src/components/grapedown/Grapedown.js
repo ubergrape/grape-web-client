@@ -1,7 +1,11 @@
 import {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import emoji from 'markdown-it-emoji'
-import createRender, {renderTag, convertEmoji} from './createRender'
+import createRender, {
+  renderTag,
+  convertEmoji,
+  convertCustomEmojis
+} from './createRender'
 import {nonStandardProps} from './utils'
 
 export default class Grapedown extends Component {
@@ -16,14 +20,10 @@ export default class Grapedown extends Component {
     this.mdRender = createRender({
       onIterate: this.renderTag,
       convertRules: {
-        emoji: this.renderEmoji
+        emoji: this.renderEmoji,
+        inline: this.renderInline
       },
-      plugins: [{
-        plugin: emoji,
-        args: [{
-          putin: ':putin:'
-        }]
-      }]
+      plugins: [emoji]
 
     })
   }
@@ -33,7 +33,11 @@ export default class Grapedown extends Component {
   }
 
   renderEmoji = ({markup}) => {
-    return convertEmoji(markup, this.props.customEmojis)
+    return convertEmoji(markup)
+  }
+
+  renderInline = (token, attrs, children) => {
+    return convertCustomEmojis(children, this.props.customEmojis)
   }
 
   render() {

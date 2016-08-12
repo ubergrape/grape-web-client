@@ -77,6 +77,7 @@ export default class History extends Component {
     onRead: noop,
     onClickUser: noop,
     onTouchTopEdge: noop,
+    customEmojis: {},
     onUserScrollAfterScrollTo: noop
   }
 
