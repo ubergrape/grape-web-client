@@ -8,6 +8,8 @@ import History from '../history/History'
 
 const actionNames = {
   loadHistory: 'onLoad',
+  loadMoreHistory: 'onLoadMore',
+  loadLatestHistory: 'onJump',
   renderOlderHistory: 'onTouchTopEdge',
   unsetHistoryScrollTo: 'onUserScrollAfterScrollTo',
   removeMessage: 'onRemove',

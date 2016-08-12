@@ -18,15 +18,27 @@ function normalizeMessages(messages, state) {
     .filter(filterEmptyMessage)
 }
 
-function loadLatest({channelId}, callback) {
+function loadLatest() {
   return (dispatch, getState) => {
-    const {minimumBatchSize: limit} = historySelector(getState())
+    const {minimumBatchSize: limit, channelId} = historySelector(getState())
 
-    const promise = api
-      .loadHistory(channelId, {limit})
+    dispatch({
+      type: types.REQUEST_LATEST_HISTORY,
+      payload: {channelId}
+    })
+
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
+
+    api.loadHistory(channelId, {limit})
       .then(res => {
         const messages = normalizeMessages(res.reverse(), getState())
         const lastMessage = last(messages)
+
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch({
           type: types.HANDLE_INITIAL_HISTORY,
           payload: {
@@ -35,34 +47,131 @@ function loadLatest({channelId}, callback) {
           }
         })
       })
-      .catch(err => dispatch(error(err)))
-    callback(promise)
+      .catch(err => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch(error(err))
+      })
   }
 }
 
-function loadOlder({startIndex, stopIndex, channelId}, callback) {
+/**
+ * Load older messages.
+ * May be called many of times in a row.
+ */
+function loadOlder(params) {
   return (dispatch, getState) => {
-    const {messages, olderMessages} = historySelector(getState())
+    const {startIndex, stopIndex} = params
+    const {messages, olderMessages, channelId} = historySelector(getState())
+
     // Ensures we don't have useless requests to the backend.
     if (olderMessages) return
 
-
-    const options = {
+    const promise = api.loadHistory(channelId, {
       limit: stopIndex - startIndex,
       timeTo: messages[0].time
-    }
-
-    const promise = api
-      .loadHistory(channelId, options)
-      .then(res => res)
-      .catch(err => dispatch(error(err)))
+    })
 
     dispatch({
       type: types.REQUEST_OLDER_HISTORY,
-      payload: promise
+      payload: {params, promise, channelId}
     })
 
-    callback(promise)
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
+
+    promise
+      .then(res => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        return res
+      })
+      .catch(err => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch(error(err))
+      })
+  }
+}
+
+/**
+ * Load newer messages.
+ * May be called many of times in a row.
+ */
+function loadNewer(params) {
+  return (dispatch, getState) => {
+    const {startIndex, stopIndex} = params
+    const {messages, newerMessages, channelId} = historySelector(getState())
+
+    // Ensures we don't have useless requests to the backend.
+    if (newerMessages) return
+
+    const promise = api.loadHistory(channelId, {
+      limit: stopIndex - startIndex,
+      timeFrom: last(messages).time
+    })
+
+    dispatch({
+      type: types.REQUEST_NEWER_HISTORY,
+      payload: {promise, params, channelId}
+    })
+
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
+
+    promise
+      .then(res => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch({
+          type: types.HANDLE_MORE_HISTORY,
+          payload: {
+            messages: normalizeMessages(res.reverse(), getState()),
+            isScrollBack: false
+          }
+        })
+      })
+      .catch(err => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch(error(err))
+      })
+  }
+}
+
+function loadFragment() {
+  return (dispatch, getState) => {
+    const {minimumBatchSize: limit, channelId, selectedMessageId} = historySelector(getState())
+
+    dispatch({
+      type: types.REQUEST_HISTORY_FRAGMENT,
+      payload: {selectedMessageId, channelId}
+    })
+
+    dispatch(showAlert({
+      level: 'info',
+      type: alerts.LOADING_HISTORY,
+      delay: 1000
+    }))
+
+    api
+      .loadHistoryAt(channelId, selectedMessageId, {limit})
+      .then(res => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch({
+          type: types.HANDLE_INITIAL_HISTORY,
+          payload: {
+            messages: normalizeMessages(res, getState()),
+            scrollTo: selectedMessageId,
+            selectedMessageId
+          }
+        })
+      })
+      .catch(err => {
+        dispatch(hideAlertByType(alerts.LOADING_HISTORY))
+        dispatch(error(err))
+      })
   }
 }
 
@@ -85,95 +194,22 @@ export function renderOlderHistory() {
   }
 }
 
-function loadNewer({startIndex, stopIndex, channelId}, callback) {
+export function loadHistory() {
   return (dispatch, getState) => {
-    const {messages, newerMessages} = historySelector(getState())
-
-    // Ensures we don't have useless requests to the backend.
-    if (newerMessages) return
-
-    const options = {
-      limit: stopIndex - startIndex,
-      timeFrom: last(messages).time
-    }
-
-    const promise = api
-      .loadHistory(channelId, options)
-      .then(res => {
-        dispatch({
-          type: types.HANDLE_MORE_HISTORY,
-          payload: {
-            messages: normalizeMessages(res.reverse(), getState()),
-            isScrollBack: false
-          }
-        })
-      })
-      .catch(err => dispatch(error(err)))
-
-    dispatch({
-      type: types.REQUEST_NEWER_HISTORY,
-      payload: promise
-    })
-
-    callback(promise)
+    const {selectedMessageId} = historySelector(getState())
+    dispatch(selectedMessageId ? loadFragment() : loadLatest())
   }
 }
 
-function loadFragment({channelId}, messageId, callback) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const {minimumBatchSize: limit} = historySelector(state)
-
-    const promise = api
-      .loadHistoryAt(channelId, messageId, {limit})
-      .then(res => {
-        dispatch({
-          type: types.HANDLE_INITIAL_HISTORY,
-          payload: {
-            messages: normalizeMessages(res, state),
-            scrollTo: messageId,
-            selectedMessageId: messageId
-          }
-        })
-      })
-      .catch(err => dispatch(error(err)))
-
-    callback(promise)
-  }
-}
+export {loadLatest as loadLatestHistory}
 
 /**
- * This action may be called lots of times in the row.
+ * Load older or newer messages.
+ * May be called many of times in a row.
  */
-export function loadHistory(params) {
-  return (dispatch, getState) => {
-    const {selectedMessageId: messageId, isLoading} = historySelector(getState())
-
-    if (isLoading) return dispatch({type: types.NOOP})
-
-    dispatch({
-      type: types.REQUEST_HISTORY,
-      payload: params
-    })
-
-    dispatch(showAlert({
-      level: 'info',
-      type: alerts.LOADING_HISTORY,
-      delay: 1000
-    }))
-
-    const hideAlert = () => dispatch(hideAlertByType(alerts.LOADING_HISTORY))
-    const onLoad = (promise) => promise.then(hideAlert, hideAlert)
-
-    if (!params.jumpToEnd) {
-      if (params.startIndex !== undefined) {
-        return dispatch(params.startIndex < 0 ? loadOlder(params, onLoad) : loadNewer(params, onLoad))
-      }
-
-      if (messageId) return dispatch(loadFragment(params, messageId, onLoad))
-    }
-
-    return dispatch(loadLatest(params, onLoad))
+export function loadMoreHistory(params) {
+  return (dispatch) => {
+    dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
   }
 }
 

@@ -28,16 +28,11 @@ export default function reduce(state = initialState, action) {
         channelId: payload.channel.id,
         selectedMessageId: payload.messageId
       }
-    case types.REQUEST_HISTORY:
-      return {
-        ...state,
-        isLoading: true
-      }
     case types.HANDLE_INITIAL_HISTORY:
-      return {...state, ...payload, isLoading: false}
+      return {...state, ...payload}
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
-      if (!newMessages.length) return {...state, isLoading: false}
+      if (!newMessages.length) return state
 
       let messages
       let {olderMessages, newerMessages} = state
@@ -56,15 +51,14 @@ export default function reduce(state = initialState, action) {
         ...state,
         messages,
         scrollTo: null,
-        isLoading: false,
         olderMessages,
         newerMessages
       }
     }
     case types.REQUEST_OLDER_HISTORY:
-      return {...state, olderMessages: payload}
+      return {...state, olderMessages: payload.promise}
     case types.REQUEST_NEWER_HISTORY:
-      return {...state, newerMessages: payload}
+      return {...state, newerMessages: payload.promise}
     case types.UNSET_HISTORY_SCROLL_TO:
       return {...state, scrollTo: null}
     case types.REMOVE_MESSAGE:

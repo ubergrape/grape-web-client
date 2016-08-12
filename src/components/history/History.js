@@ -38,6 +38,8 @@ export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
+    onLoadMore: PropTypes.func.isRequired,
+    onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -69,6 +71,8 @@ export default class History extends Component {
   static defaultProps = {
     messages: [],
     onLoad: noop,
+    onLoadMore: noop,
+    onJump: noop,
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
@@ -79,26 +83,10 @@ export default class History extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channelId} = nextProps
+    const {channelId, onLoad} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
-    if (channelId !== this.props.channelId) {
-      this.props.onLoad({channelId})
-    }
-  }
-
-  onLoadMore = (options) => {
-    this.props.onLoad({
-      ...options,
-      channelId: this.props.channelId
-    })
-  }
-
-  onJumpToEnd = () => {
-    this.props.onLoad({
-      channelId: this.props.channelId,
-      jumpToEnd: true
-    })
+    if (channelId !== this.props.channelId) onLoad()
   }
 
   onRowsRendered = () => {
@@ -163,7 +151,7 @@ export default class History extends Component {
   render() {
     const {
       sheet, messages, user, scrollTo, minimumBatchSize,
-      onTouchTopEdge, channelId, onRead
+      onTouchTopEdge, onLoadMore, onJump, channelId, onRead
     } = this.props
     const {classes} = sheet
 
@@ -176,7 +164,7 @@ export default class History extends Component {
         onRead={onRead}>
         {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
           <Jumper
-            onJump={this.onJumpToEnd}
+            onJump={onJump}
             className={classes.history}>
             {({onRowsRendered: onRowsRenderedInJumper}) => (
               <InfiniteList
@@ -188,7 +176,7 @@ export default class History extends Component {
                 scrollTo={scrollTo}
                 messages={messages}
                 minimumBatchSize={minimumBatchSize}
-                onLoadMore={this.onLoadMore}
+                onLoadMore={onLoadMore}
                 onTouchTopEdge={onTouchTopEdge}
                 renderRow={this.renderRow} />
             )}
