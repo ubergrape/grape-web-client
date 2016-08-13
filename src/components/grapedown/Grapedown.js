@@ -1,6 +1,7 @@
 import {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
 import emoji from 'markdown-it-emoji'
+
 import createRender, {
   renderTag,
   convertEmoji,
@@ -41,8 +42,6 @@ export default class Grapedown extends Component {
   }
 
   render() {
-    const r = this.mdRender(this.props.text)
-    // console.log(r)
-    return r
+    return this.mdRender(this.props.text)
   }
 }

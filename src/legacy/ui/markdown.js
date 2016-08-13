@@ -1,6 +1,6 @@
 let marked = require('marked')
 let markdown_renderlink = require('./markdown_renderlink')
-let emoji = require('../../components/emoji/emoji')
+import emoji from '../../components/emoji/emoji'
 
 let renderer = new marked.Renderer()
 const {protocol, host} = window.location
