@@ -26,7 +26,6 @@ export default class Grapedown extends Component {
         inline: this.renderInline
       },
       plugins: [emoji]
-
     })
   }
 
