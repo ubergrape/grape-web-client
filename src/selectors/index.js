@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import find from 'lodash/collection/find'
+import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
@@ -461,7 +462,7 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  state => state.history, state => state
+  state => state.history, state => omit(state, 'olderMessages', 'newerMessages')
 )
 
 export const historyComponentSelector = createSelector(

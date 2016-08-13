@@ -4,7 +4,7 @@ import LinkWithIcon from '../LinkWithIcon'
 
 export default function LinkAttachment(props) {
   return (
-    <LinkWithIcon {...props} icon={props.category} />
+    <LinkWithIcon {...props} icon={props.category} target="_blank" />
   )
 }
 

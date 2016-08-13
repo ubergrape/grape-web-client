@@ -27,8 +27,10 @@ function loadLatest({channelId}) {
       delay: 1000
     }))
 
+    const {minimumBatchSize: limit} = historySelector(getState())
+
     api
-      .loadHistory(channelId)
+      .loadHistory(channelId, {limit})
       .then(res => {
         const messages = normalizeMessages(res.reverse(), getState())
         const lastMessage = last(messages)

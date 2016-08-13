@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {useSheet} from 'grape-web/lib/jss'
 
 import Avatar from '../../avatar/Avatar'
@@ -32,11 +32,13 @@ export default class ActivityMessage extends Component {
     title: ''
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   render() {
     const {
-      sheet, user, author, time, avatar, title, children, container
+      sheet, user, author, time, avatar, container, title, children
     } = this.props
     const {classes} = sheet
 

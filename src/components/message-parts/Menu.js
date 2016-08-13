@@ -6,6 +6,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './menuTheme'
 
@@ -54,6 +55,10 @@ export default class Menu extends Component {
   static defaultProps = {
     onSelect: noop,
     className: ''
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

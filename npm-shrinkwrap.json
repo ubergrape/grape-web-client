@@ -1,6 +1,6 @@
 {
   "name": "grape-web-client",
-  "version": "0.15.4",
+  "version": "0.16.1",
   "dependencies": {
     "accepts": {
       "version": "1.1.4",
@@ -4415,9 +4415,9 @@
       }
     },
     "react-virtualized": {
-      "version": "6.3.2",
-      "from": "react-virtualized@>=6.2.0 <7.0.0",
-      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-6.3.2.tgz"
+      "version": "7.19.3",
+      "from": "react-virtualized@>=7.19.0 <8.0.0",
+      "resolved": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-7.19.3.tgz"
     },
     "react-visibility-sensor": {
       "version": "3.4.0",

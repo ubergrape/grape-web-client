@@ -64,7 +64,6 @@ export default class History extends Component {
     scrollTo: PropTypes.string,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string,
-    cacheSize: PropTypes.number,
     minimumBatchSize: PropTypes.number
   }
 
@@ -112,10 +111,10 @@ export default class History extends Component {
     }
   }
 
-  renderRow = (messages, index) => {
+  renderRow = (index) => {
     const {
-      sheet, user, customEmojis,
-      onEdit, onRemove, onResend,
+      sheet, user, messages,
+      customEmojis, onEdit, onRemove, onResend,
       onClickUser, selectedMessageId
     } = this.props
 
@@ -168,7 +167,7 @@ export default class History extends Component {
 
   render() {
     const {
-      sheet, messages, user, cacheSize, scrollTo, minimumBatchSize,
+      sheet, messages, user, scrollTo, minimumBatchSize,
       onTouchTopEdge, channelId, onRead
     } = this.props
     const {classes} = sheet
@@ -180,7 +179,7 @@ export default class History extends Component {
         messages={messages}
         channelId={channelId}
         onRead={onRead}>
-        {({onRowsRendered: onRowsRenderedReadMessageDispatcher}) => (
+        {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
           <Jumper
             onJump={this.onJumpToEnd}
             className={classes.history}>
@@ -188,12 +187,11 @@ export default class History extends Component {
               <InfiniteList
                 onRowsRendered={(params) => {
                   onRowsRenderedInJumper(params)
-                  onRowsRenderedReadMessageDispatcher(params)
+                  onRowsRenderedInReadMessageDispatcher(params)
                   this.onRowsRendered(params)
                 }}
                 scrollTo={scrollTo}
                 messages={messages}
-                cacheSize={cacheSize}
                 minimumBatchSize={minimumBatchSize}
                 onLoadMore={this.onLoadMore}
                 onTouchTopEdge={onTouchTopEdge}

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {useSheet} from 'grape-web/lib/jss'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './dateSeparatorTheme'
 
@@ -19,6 +20,10 @@ export default class DateSeparator extends Component {
     theme: {
       date: ''
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

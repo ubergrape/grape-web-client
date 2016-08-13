@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './headerTheme'
 import Author from './Author'
@@ -20,6 +21,10 @@ export default class Header extends Component {
   static defaultProps = {
     className: '',
     onClickUserName: noop
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {
