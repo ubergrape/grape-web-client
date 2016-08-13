@@ -12,7 +12,7 @@ export default class Header extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date),
-    onClickUserName: PropTypes.func.isRequired,
+    onClickAuthor: PropTypes.func.isRequired,
     userTime: PropTypes.string,
     author: PropTypes.string,
     className: PropTypes.string
@@ -20,7 +20,7 @@ export default class Header extends Component {
 
   static defaultProps = {
     className: '',
-    onClickUserName: noop
+    onClickAuthor: noop
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -29,13 +29,13 @@ export default class Header extends Component {
 
   render() {
     const {
-      time, userTime, author, onClickUserName,
+      time, userTime, author, onClickAuthor,
       className, sheet
     } = this.props
     const {classes} = sheet
     return (
       <header className={`${classes.header} ${className}`}>
-        <Author onClick={onClickUserName} author={author} />
+        <Author onClick={onClickAuthor} author={author} />
         <Time time={time} userTime={userTime} />
       </header>
     )

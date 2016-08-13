@@ -6,8 +6,21 @@ import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
 
+const clickable = {
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 0.8
+  }
+}
+
 export const styles = {
   ...baseStyles,
+  headerClickable: {
+    extend: [baseStyles.header, clickable]
+  },
+  avatarClickable: {
+    extend: [baseStyles.avatar, clickable]
+  },
   pending: {
     opacity: 0.5
   },

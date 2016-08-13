@@ -24,10 +24,11 @@ export default class Author extends Component {
 
   render() {
     const {author, onClick, sheet} = this.props
+    const {classes} = sheet
     return (
       <span
         onClick={onClick}
-        className={sheet.classes.author}>
+        className={classes.author}>
         {author || <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />}
       </span>
     )

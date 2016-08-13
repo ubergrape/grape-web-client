@@ -462,7 +462,8 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  state => state.history, state => omit(state, 'olderMessages', 'newerMessages')
+  state => state.history,
+  state => omit(state, 'olderMessages', 'newerMessages')
 )
 
 export const historyComponentSelector = createSelector(

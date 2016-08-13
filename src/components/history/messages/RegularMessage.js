@@ -106,11 +106,12 @@ export default class RegularMessage extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
-    onClickUser: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
@@ -127,7 +128,7 @@ export default class RegularMessage extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onClickUser: noop
+    onGoToChannel: noop
   }
 
   constructor(props) {
@@ -139,9 +140,13 @@ export default class RegularMessage extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onMouseEnter = () => (this.setState({isMenuOpened: true}))
+  onMouseEnter = () => {
+    this.setState({isMenuOpened: true})
+  }
 
-  onMouseLeave = () => (this.setState({isMenuOpened: false}))
+  onMouseLeave = () => {
+    this.setState({isMenuOpened: false})
+  }
 
   onSelect = ({name}) => {
     const {formatMessage} = this.props.intl
@@ -163,12 +168,18 @@ export default class RegularMessage extends Component {
     }
   }
 
-  onClickUser = () => {
-    const {onClickUser, author} = this.props
-    onClickUser(author.slug)
+  onRefContent = (ref) => {
+    this.content = ref
   }
 
-  onRefContent = (ref) => this.content = ref
+  onRefBody = (ref) => {
+    this.body = ref
+  }
+
+  onGoToChannel = () => {
+    const {isOwn, author, onGoToChannel} = this.props
+    if (!isOwn && author.slug) onGoToChannel(author.slug)
+  }
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -210,12 +221,15 @@ export default class RegularMessage extends Component {
       state, isOwn, isSelected, onResend, attachments, customEmojis
     } = this.props
     const {classes} = sheet
+
     let Bubble
     if (isSelected) {
       Bubble = SelectedBubble
     } else {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
+
+    const canPm = !isOwn && author && author.slug
 
     return (
       <div className={classes.message}>
@@ -224,14 +238,19 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            onClickUserName={this.onClickUser}
-            className={classes.header} />
+            className={classes[canPm ? 'headerClickable' : 'header']}
+            onClickAuthor={this.onGoToChannel} />
         }
         <div
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar && <Avatar onClick={this.onClickUser} src={avatar} className={classes.avatar} />}
+          {avatar &&
+            <Avatar
+              src={avatar}
+              className={classes[canPm ? 'avatarClickable' : 'avatar']}
+              onClick={this.onGoToChannel} />
+          }
           <Bubble
             className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>

@@ -24,8 +24,8 @@ export default class Avatar extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {className, src, onClick} = this.props
+    const {className, src, onClick, sheet, children} = this.props
+    const {classes} = sheet
     const style = {...this.props.style}
     if (src) style.backgroundImage = `url(${src})`
 
@@ -33,8 +33,9 @@ export default class Avatar extends Component {
       <span
         onClick={onClick}
         className={`${classes.avatar} ${className}`}
-        style={style}>
-        {this.props.children}
+        style={style}
+        onClick={onClick}>
+        {children}
       </span>
     )
   }

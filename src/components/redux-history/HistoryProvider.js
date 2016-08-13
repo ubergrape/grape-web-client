@@ -8,13 +8,15 @@ import History from '../history/History'
 
 const actionNames = {
   loadHistory: 'onLoad',
+  loadMoreHistory: 'onLoadMore',
+  loadLatestHistory: 'onJump',
   renderOlderHistory: 'onTouchTopEdge',
   unsetHistoryScrollTo: 'onUserScrollAfterScrollTo',
   removeMessage: 'onRemove',
   editMessage: 'onEdit',
   resendMessage: 'onResend',
   readMessage: 'onRead',
-  goToChannel: 'onClickUser'
+  goToChannel: 'onGoToChannel'
 }
 
 const ConnectedHistory = connect(
