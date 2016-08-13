@@ -31,7 +31,6 @@ export default class Avatar extends Component {
 
     return (
       <span
-        onClick={onClick}
         className={`${classes.avatar} ${className}`}
         style={style}
         onClick={onClick}>
