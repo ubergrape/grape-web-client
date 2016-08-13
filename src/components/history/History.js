@@ -19,7 +19,7 @@ export default class History extends Component {
     onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
-    onClickUser: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
     channelId: PropTypes.number,
