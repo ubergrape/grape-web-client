@@ -58,6 +58,7 @@ export default class Row extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
@@ -90,7 +91,8 @@ export default class Row extends Component {
 
   render() {
     const {
-      sheet, user, onGoToChannel, selectedMessageId, message, prevMessage
+      sheet, user, onGoToChannel, selectedMessageId,
+      message, prevMessage, customEmojis
     } = this.props
     const {classes} = sheet
 
@@ -108,10 +110,11 @@ export default class Row extends Component {
     const props = {
       ...message,
       key: `row-${message.id}`,
-      isOwn: message.author.id === user.id,
       user,
-      isSelected: selectedMessageId === message.id,
       onGoToChannel,
+      customEmojis,
+      isOwn: message.author.id === user.id,
+      isSelected: selectedMessageId === message.id,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
       onResend: this.onResend

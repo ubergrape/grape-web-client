@@ -62,7 +62,7 @@ export default class History extends Component {
 
     return (
       <Row
-        {...pick(this.props, 'user', 'onEdit', 'onRemove', 'onResend',
+        {...pick(this.props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
           'onGoToChannel', 'selectedMessageId')}
         message={messages[index]}
         prevMessage={messages[index - 1]} />
