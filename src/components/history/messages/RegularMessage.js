@@ -21,7 +21,7 @@ import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles, menuLeftOffset} from './regularMessageTheme'
+import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -97,6 +97,7 @@ export default class RegularMessage extends Component {
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
@@ -105,10 +106,12 @@ export default class RegularMessage extends Component {
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string
     }),
     avatar: PropTypes.string,
     user: PropTypes.object.isRequired,
@@ -120,10 +123,12 @@ export default class RegularMessage extends Component {
     isOwn: false,
     isSelected: false,
     attachments: [],
+    customEmojis: {},
     children: '',
     onEdit: noop,
     onRemove: noop,
-    onResend: noop
+    onResend: noop,
+    onGoToChannel: noop
   }
 
   constructor(props) {
@@ -135,9 +140,13 @@ export default class RegularMessage extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onMouseEnter = () => (this.setState({isMenuOpened: true}))
+  onMouseEnter = () => {
+    this.setState({isMenuOpened: true})
+  }
 
-  onMouseLeave = () => (this.setState({isMenuOpened: false}))
+  onMouseLeave = () => {
+    this.setState({isMenuOpened: false})
+  }
 
   onSelect = ({name}) => {
     const {formatMessage} = this.props.intl
@@ -159,8 +168,18 @@ export default class RegularMessage extends Component {
     }
   }
 
-  onRefContent = (ref) => this.content = ref
-  onRefBody = (ref) => this.body = ref
+  onRefContent = (ref) => {
+    this.content = ref
+  }
+
+  onRefBody = (ref) => {
+    this.body = ref
+  }
+
+  onGoToChannel = () => {
+    const {isOwn, author, onGoToChannel} = this.props
+    if (!isOwn && author.slug) onGoToChannel(author.slug)
+  }
 
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
@@ -177,11 +196,8 @@ export default class RegularMessage extends Component {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
-
-    const {body, content} = this
-    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
-    const canFit = rightSpace > content.offsetWidth
-    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
+    const canFit = this.content.offsetWidth > getMenuWidth(items.length)
+    const className = sheet.classes[`menu${canFit ? 'Top' : 'Right'}`]
 
     return (
       <Menu
@@ -201,16 +217,19 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, user, time, userTime, avatar, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, children
+      sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
+      state, isOwn, isSelected, onResend, attachments, customEmojis
     } = this.props
     const {classes} = sheet
+
     let Bubble
     if (isSelected) {
       Bubble = SelectedBubble
     } else {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
+
+    const canPm = !isOwn && author && author.slug
 
     return (
       <div className={classes.message}>
@@ -219,21 +238,29 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            className={classes.header} />
+            className={classes[canPm ? 'headerClickable' : 'header']}
+            onClickAuthor={this.onGoToChannel} />
         }
         <div
-          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar && <Avatar src={avatar} className={classes.avatar} />}
+          {avatar &&
+            <Avatar
+              src={avatar}
+              className={classes[canPm ? 'avatarClickable' : 'avatar']}
+              onClick={this.onGoToChannel} />
+          }
           <Bubble
             className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>
             <div
               ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} user={user} />
+              <Grapedown
+                text={children}
+                user={user}
+                customEmojis={customEmojis} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}

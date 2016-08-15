@@ -47,12 +47,18 @@ export default function reduce(state = initialState, action) {
 
       messages = uniq(messages, 'id')
 
-      return {...state, messages, scrollTo: null, olderMessages, newerMessages}
+      return {
+        ...state,
+        messages,
+        scrollTo: null,
+        olderMessages,
+        newerMessages
+      }
     }
     case types.REQUEST_OLDER_HISTORY:
-      return {...state, olderMessages: payload}
+      return {...state, olderMessages: payload.promise}
     case types.REQUEST_NEWER_HISTORY:
-      return {...state, newerMessages: payload}
+      return {...state, newerMessages: payload.promise}
     case types.UNSET_HISTORY_SCROLL_TO:
       return {...state, scrollTo: null}
     case types.REMOVE_MESSAGE:
@@ -87,13 +93,17 @@ export default function reduce(state = initialState, action) {
       }
     }
     case types.ADD_PENDING_MESSAGE:
-      return {...state, messages: [
-        ...state.messages,
-        {...payload, state: 'pending'}
-      ]}
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          {...payload, state: 'pending'}
+        ]
+      }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channel !== state.channelId) return state
-      return {...state, messages: [...state.messages, payload]}
+      const scrollTo = payload.author.id === state.user.id ? payload.id : null
+      return {...state, scrollTo, messages: [...state.messages, payload]}
     }
     default:
       return state

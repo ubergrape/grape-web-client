@@ -1,6 +1,7 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
+import debounce from 'lodash/function/debounce'
 
 /**
  * Determines if the specified start/stop range is visible based on the most recently rendered range.
@@ -78,35 +79,34 @@ export default class InfiniteLoader extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onScroll = ({scrollTop}) => {
-    if (this.scrollTop !== undefined) {
-      this.direction = scrollTop - this.scrollTop
-    }
-    this.scrollTop = scrollTop
+  onScrollStop = debounce(() => {
+    const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
 
     if (this.direction === 0) return
-
-    const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
 
     if (this.direction > 0) {
       // We are close enough.
       if (!isRowLoaded(this.stopIndex + threshold)) {
         loadMoreRows(this.getRange())
       }
-    } else {
-      const range = this.getRange()
-      if (range.startIndex < 0) {
-        loadMoreRows(range)
+      return
+    }
 
-        if (this.scrollTop === 0) {
-          // This callback triggers an update with new rows, however we need to
-          // persist the current scroll position, to simulate normal scrolling.
-          // For some reason without setTimeout we can't stay at the same position,
-          // probably because new position is handled before new rows arrive.
-          setTimeout(onTouchTopEdge)
-        }
+    const range = this.getRange()
+    if (range.startIndex < 0) {
+      loadMoreRows(range)
+      if (this.scrollTop === 0) {
+        onTouchTopEdge()
       }
     }
+  }, 20)
+
+  onScroll = ({scrollTop}) => {
+    if (this.scrollTop !== undefined) {
+      this.direction = scrollTop - this.scrollTop
+    }
+    this.scrollTop = scrollTop
+    this.onScrollStop()
   }
 
   onRowsRendered = ({startIndex, stopIndex}) => {

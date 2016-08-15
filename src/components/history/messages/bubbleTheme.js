@@ -5,7 +5,6 @@ export const styles = ({color}) => ({
     }
   },
   content: {
-    background: `${color} !important`,
-    minWidth: 120
+    background: `${color} !important`
   }
 })

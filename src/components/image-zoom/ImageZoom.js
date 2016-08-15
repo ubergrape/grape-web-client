@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import ImageZoom from 'image-zoom'
+import shallowCompare from 'react-addons-shallow-compare'
 
 /**
  * Wrapper around image-zoom lib.
@@ -8,12 +9,16 @@ import ImageZoom from 'image-zoom'
  */
 export default class ImageZoomComponent extends Component {
   static propTypes = {
-    children: PropTypes.node,
-    url: PropTypes.string,
-    getPreviewRef: PropTypes.func
+    children: PropTypes.node.isRequired,
+    url: PropTypes.string.isRequired,
+    getPreviewRef: PropTypes.func.isRequired
   }
 
-  onZoom() {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
+  onZoom = () => {
     const {getPreviewRef, url} = this.props
     const previewNode = findDOMNode(getPreviewRef())
     return new ImageZoom(previewNode, url).overlay().padding(20).show()
@@ -21,8 +26,7 @@ export default class ImageZoomComponent extends Component {
 
   render() {
     return (
-      <div
-        onClick={::this.onZoom}>
+      <div onClick={this.onZoom}>
         {this.props.children}
       </div>
     )

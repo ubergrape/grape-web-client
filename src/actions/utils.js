@@ -97,7 +97,8 @@ export const normalizeMessage = (() => {
     if (fullAuthor) {
       author = {
         id: fullAuthor.id,
-        name: fullAuthor.displayName
+        name: fullAuthor.displayName,
+        slug: fullAuthor.slug
       }
       avatar = fullAuthor.avatar
     } else {

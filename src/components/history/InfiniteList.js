@@ -92,18 +92,18 @@ export default class InfiniteList extends Component {
                 {({getRowHeight}) => (
                   <AutoScroll
                     rows={messages}
-                    rowHeight={getRowHeight}
+                    height={height}
                     scrollToIndex={scrollToMessageIndex}>
                     {({
                       onScroll: onScrollInAutoScroll,
-                      scrollTop,
+                      scrollToAlignment,
                       scrollToIndex,
                       onRowsRendered: onRowsRenderedInAutoScroll
                     }) => (
                       <VirtualScroll
                         className={classes.grid}
-                        scrollTop={scrollTop}
                         scrollToIndex={scrollToIndex}
+                        scrollToAlignment={scrollToAlignment}
                         onRowsRendered={params => {
                           onRowsRenderedInAutoScroll(params)
                           onRowsRenderedInInfiniteLoader(params)
