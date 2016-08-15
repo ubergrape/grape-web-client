@@ -29,7 +29,7 @@ export default class Jumper extends Component {
 
   onRowsRendered = ({startIndex, stopIndex, overscanStopIndex}) => {
     const rowsPerPage = stopIndex - startIndex
-    if (overscanStopIndex - stopIndex >= rowsPerPage) {
+    if (rowsPerPage > 0 && overscanStopIndex - stopIndex >= rowsPerPage) {
       if (!this.state.show) this.setState({show: true})
       return
     }
