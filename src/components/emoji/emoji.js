@@ -27,7 +27,7 @@ export function getEmojiSliceStyle(id) {
 export const emojiRegex = /(^|\s):[a-zA-Z0-9-_]+:(?=($|\s))/g
 
 export const theme = {
-  style: {
+  styles: {
     fontSize: 21,
     display: 'inline-block',
     width: '1em',

@@ -46,14 +46,14 @@ export function renderEmoji(markup) {
     {
       style: {
         ...styles,
-        ...emojiTheme.style
+        ...emojiTheme.styles
       }
     }
   ]]
 }
 
 /**
- * Coverts known customEmojis in to the images.
+ * Coverts known customEmojis in md to the images.
  */
 export function renderCustomEmojis(children, customEmojis) {
   return children.reduce((converted, child) => {

@@ -33,7 +33,7 @@ export function replaceCustomEmojis(node, customEmojis) {
       'img',
       {
         src: customEmojis[name],
-        style: emojiTheme.style,
+        style: emojiTheme.styles,
         alt: emoji
       }
     ]

@@ -51,4 +51,4 @@ class Renderer {
 }
 
 const renderer = new Renderer()
-export default renderer
+export default ::renderer.render

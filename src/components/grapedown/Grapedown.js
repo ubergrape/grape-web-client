@@ -1,7 +1,7 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 
-import Renderer from './Renderer'
+import render from './render'
 
 export default class Grapedown extends Component {
   static propTypes = {
@@ -22,6 +22,6 @@ export default class Grapedown extends Component {
   render() {
     const {text} = this.props
     if (!text) return null
-    return Renderer.render(this.props)
+    return render(this.props)
   }
 }
