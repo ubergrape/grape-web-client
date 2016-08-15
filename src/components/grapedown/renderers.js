@@ -4,7 +4,7 @@ import omit from 'lodash/object/omit'
 
 import jsEmoji, {
   getEmojiSliceStyle,
-  theme as emojiTheme
+  style
 } from '../emoji/emoji'
 
 import {
@@ -46,7 +46,7 @@ export function renderEmoji(markup) {
     {
       style: {
         ...styles,
-        ...emojiTheme.styles
+        ...style
       }
     }
   ]]

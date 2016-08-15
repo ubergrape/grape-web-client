@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/lang/isEmpty'
 import joinStrings from 'join-strings-in-array'
-import {emojiRegex, theme as emojiTheme} from '../emoji/emoji'
+import {emojiRegex, style} from '../emoji/emoji'
 
 const parser = document.createElement('a')
 const grapeProtocol = 'cg:'
@@ -33,8 +33,8 @@ export function replaceCustomEmojis(node, customEmojis) {
       'img',
       {
         src: customEmojis[name],
-        style: emojiTheme.styles,
-        alt: emoji
+        alt: emoji,
+        style
       }
     ]
     return map
