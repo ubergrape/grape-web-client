@@ -123,7 +123,7 @@ export default class RegularMessage extends Component {
     isOwn: false,
     isSelected: false,
     attachments: [],
-    customEmoji: {},
+    customEmojis: {},
     children: '',
     onEdit: noop,
     onRemove: noop,

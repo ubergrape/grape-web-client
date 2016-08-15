@@ -1,5 +1,4 @@
 import {createElement} from 'react'
-import {mdReact} from 'markdown-react-js'
 import {isGrapeUrl} from 'grape-web/lib/grape-objects'
 import omit from 'lodash/object/omit'
 
@@ -7,11 +6,13 @@ import jsEmoji, {
   getEmojiSliceStyle,
   theme as emojiTheme
 } from '../emoji/emoji'
+
 import {
   isChatUrl,
   nonStandardProps,
-  replaceCustomEmoji
+  replaceCustomEmojis
 } from './utils'
+
 import GrapeObject from './GrapeObject'
 
 export function renderTag(tag, props, children) {
@@ -35,7 +36,7 @@ export function renderTag(tag, props, children) {
 /**
  * Coverts known `:emoji:`-strings in to the image.
  */
-export function convertEmoji(markup) {
+export function renderEmoji(markup) {
   const image = jsEmoji.map.colons[markup]
   const styles = getEmojiSliceStyle(image)
   if (!image || !styles) return `:${markup}:`
@@ -52,37 +53,19 @@ export function convertEmoji(markup) {
 }
 
 /**
- * Coverts known customEmoji in to the image.
+ * Coverts known customEmojis in to the images.
  */
-export function convertCustomEmojis(children, customEmojis) {
+export function renderCustomEmojis(children, customEmojis) {
   return children.reduce((converted, child) => {
     if (typeof child !== 'string') {
       converted.push(child)
       return converted
     }
-    const replaced = replaceCustomEmoji(child, customEmojis)
+    const replaced = replaceCustomEmojis(child, customEmojis)
     if (typeof replaced === 'string') {
       converted.push(replaced)
       return converted
     }
     return converted.concat(replaced)
   }, [])
-}
-
-const defaults = {
-  presetName: 'commonmark',
-  disableRules: ['list', 'image'],
-  markdownOptions: {
-    linkify: true,
-    html: false,
-    breaks: true
-  },
-  onIterate: renderTag
-}
-
-/**
- * Returns a render function which accepts MD text.
- */
-export default function createRender(options = {}) {
-  return mdReact({...defaults, ...options})
 }

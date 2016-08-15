@@ -17,12 +17,12 @@ export function isChatUrl(url) {
   return parser.host === host && pathname.indexOf(chatPath) === 0
 }
 
-export const nonStandardProps = ['user', 'customEmoji']
+export const nonStandardProps = ['user', 'customEmojis']
 
 /**
  * Coverts `:emoji:`-strings that are in `customEmojis` map in to the images.
  */
-export function replaceCustomEmoji(node, customEmojis) {
+export function replaceCustomEmojis(node, customEmojis) {
   const emojis = node.match(emojiRegex)
   if (!emojis) return node
 
