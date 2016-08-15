@@ -5,6 +5,7 @@ export const styles = {
     borderRadius: borderRadius.big,
     background: 'transparent no-repeat center',
     backgroundSize: 'contain',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    maxWidth: '100%'
   }
 }

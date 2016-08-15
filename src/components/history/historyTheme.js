@@ -1,5 +1,3 @@
-import {white} from 'grape-theme/dist/base-colors'
-
 export const styles = {
   history: {
     position: 'absolute',
@@ -7,14 +5,5 @@ export const styles = {
     left: 0,
     right: 0,
     bottom: 35
-  },
-  separatorDate: {
-    background: white
-  },
-  message: {
-    paddingTop: 20
-  },
-  groupedMessage: {
-    paddingTop: 2
   }
 }

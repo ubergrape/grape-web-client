@@ -3,7 +3,7 @@ let _ = require('t')
 let markdown = require('../markdown')
 let domify = require('domify')
 let staticurl = require('staticurl')
-let emoji = require('../emoji')
+let emoji = require('../../../components/emoji/emoji')
 
 import page from 'page'
 import {createNotification} from 'grape-web/lib/x-platform'

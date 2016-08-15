@@ -7,7 +7,14 @@ const size = 50
 const dimension = size % 2 ? size : size + 1
 const contrast = 'rgba(255,255,255,0.75)'
 export const styles = {
-  jumper: {
+  jumperContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
+  jumperButton: {
     extend: buttonIcon('arrowDown', {color: gainsboroDark}),
     position: 'absolute',
     fontSize: size,

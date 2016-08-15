@@ -180,10 +180,11 @@ export const mentionsSelector = createSelector(
 )
 
 export const mentionsWithChannels = createSelector(
-  [mentionsSelector, channelsSelector],
-  (search, channels) => {
+  [mentionsSelector, channelsSelector, orgSelector],
+  (search, channels, {customEmojis}) => {
     return {
       ...search,
+      customEmojis,
       items: search.items.map(message => {
         return {
           ...message,
@@ -199,10 +200,11 @@ export const messageSearchSelector = createSelector(
 )
 
 export const messageSearchWithChannels = createSelector(
-  [messageSearchSelector, channelsSelector],
-  (search, channels) => {
+  [messageSearchSelector, channelsSelector, orgSelector],
+  (search, channels, {customEmojis}) => {
     return {
       ...search,
+      customEmojis,
       items: search.items.map(message => {
         return {
           ...message,
@@ -466,5 +468,11 @@ export const historySelector = createSelector(
 )
 
 export const historyComponentSelector = createSelector(
-  state => state.history, state => omit(state, 'olderMessages', 'newerMessages')
+  [historySelector, orgSelector],
+  (history, {customEmojis}) => {
+    return {
+      ...omit(history, 'olderMessages', 'newerMessages'),
+      customEmojis
+    }
+  }
 )

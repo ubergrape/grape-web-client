@@ -10,12 +10,10 @@ export default class Jumper extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
-    onJump: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired
+    onJump: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    className: '',
     children: noop,
     onJump: noop
   }
@@ -31,7 +29,7 @@ export default class Jumper extends Component {
 
   onRowsRendered = ({startIndex, stopIndex, overscanStopIndex}) => {
     const rowsPerPage = stopIndex - startIndex
-    if (overscanStopIndex - stopIndex >= rowsPerPage) {
+    if (rowsPerPage > 0 && overscanStopIndex - stopIndex >= rowsPerPage) {
       if (!this.state.show) this.setState({show: true})
       return
     }
@@ -46,11 +44,11 @@ export default class Jumper extends Component {
     const {classes} = this.props.sheet
 
     return (
-      <div className={this.props.className}>
+      <div className={classes.jumperContainer}>
         {this.props.children({onRowsRendered: this.onRowsRendered})}
         {this.state.show &&
           <button
-            className={classes.jumper}
+            className={classes.jumperButton}
             onClick={this.onJump}></button>}
       </div>
     )

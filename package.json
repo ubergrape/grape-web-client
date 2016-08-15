@@ -44,6 +44,7 @@
     "intl": "^1.2.4",
     "intro.js": "ubergrape/intro.js",
     "jh3y-resizable": "ubergrape/resizable",
+    "join-strings-in-array": "^0.0.4",
     "keyname": "0.1.0",
     "lodash": "^3.10.0",
     "lodash.differenceby": "^4.0.1",
