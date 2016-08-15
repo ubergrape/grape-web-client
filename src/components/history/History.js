@@ -19,7 +19,9 @@ export default class History extends Component {
     onJump: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onRead: PropTypes.func.isRequired,
+    onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     channelId: PropTypes.number,
     messages: PropTypes.array,
     user: PropTypes.object,
@@ -34,7 +36,9 @@ export default class History extends Component {
     onLoadMore: noop,
     onJump: noop,
     onRead: noop,
+    onClickUser: noop,
     onTouchTopEdge: noop,
+    customEmojis: {},
     onUserScrollAfterScrollTo: noop
   }
 
@@ -58,7 +62,7 @@ export default class History extends Component {
 
     return (
       <Row
-        {...pick(this.props, 'user', 'onEdit', 'onRemove', 'onResend',
+        {...pick(this.props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
           'onGoToChannel', 'selectedMessageId')}
         message={messages[index]}
         prevMessage={messages[index - 1]} />

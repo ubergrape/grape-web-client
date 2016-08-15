@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 
 import {defaultAvatar} from '../../constants/images'
 import styles from './styles'
@@ -8,16 +9,17 @@ import styles from './styles'
 export default class Avatar extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
     src: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
-    children: PropTypes.node,
-    onClick: PropTypes.func
+    children: PropTypes.node
   }
 
   static defaultProps = {
     src: defaultAvatar,
     className: '',
+    onClick: noop,
     style: {}
   }
 

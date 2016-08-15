@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import noop from 'lodash/utility/noop'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './headerTheme'
@@ -11,14 +12,15 @@ export default class Header extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date),
+    onClickAuthor: PropTypes.func.isRequired,
     userTime: PropTypes.string,
     author: PropTypes.string,
-    className: PropTypes.string,
-    onAuthorClick: PropTypes.func
+    className: PropTypes.string
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    onClickAuthor: noop
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -26,11 +28,14 @@ export default class Header extends Component {
   }
 
   render() {
-    const {time, userTime, author, className, sheet, onAuthorClick} = this.props
+    const {
+      time, userTime, author, onClickAuthor,
+      className, sheet
+    } = this.props
     const {classes} = sheet
     return (
       <header className={`${classes.header} ${className}`}>
-        <Author author={author} onClick={onAuthorClick} />
+        <Author onClick={onClickAuthor} author={author} />
         <Time time={time} userTime={userTime} />
       </header>
     )

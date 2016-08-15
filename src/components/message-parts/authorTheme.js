@@ -5,6 +5,7 @@ export const styles = {
   author: {
     ...ellipsis,
     color: gray,
-    marginRight: 10
+    marginRight: 10,
+    cursor: 'pointer'
   }
 }

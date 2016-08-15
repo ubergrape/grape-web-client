@@ -21,7 +21,7 @@ import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
-import {styles, menuLeftOffset} from './regularMessageTheme'
+import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
   const {classes} = props.theme
@@ -97,6 +97,7 @@ export default class RegularMessage extends Component {
     time: PropTypes.instanceOf(Date).isRequired,
     userTime: PropTypes.string.isRequired,
     attachments: PropTypes.array.isRequired,
+    customEmojis: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
@@ -122,6 +123,7 @@ export default class RegularMessage extends Component {
     isOwn: false,
     isSelected: false,
     attachments: [],
+    customEmojis: {},
     children: '',
     onEdit: noop,
     onRemove: noop,
@@ -194,11 +196,8 @@ export default class RegularMessage extends Component {
       // Foreign messages can't be editted or removed.
       items = ['copyLink']
     }
-
-    const {body, content} = this
-    const rightSpace = body.offsetWidth - getMenuWidth(items.length) - menuLeftOffset
-    const canFit = rightSpace > content.offsetWidth
-    const className = sheet.classes[`menu${canFit ? 'Right' : 'Top'}`]
+    const canFit = this.content.offsetWidth > getMenuWidth(items.length)
+    const className = sheet.classes[`menu${canFit ? 'Top' : 'Right'}`]
 
     return (
       <Menu
@@ -218,8 +217,8 @@ export default class RegularMessage extends Component {
 
   render() {
     const {
-      sheet, author, user, time, userTime, avatar, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, children
+      sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
+      state, isOwn, isSelected, onResend, attachments, customEmojis
     } = this.props
     const {classes} = sheet
 
@@ -240,10 +239,9 @@ export default class RegularMessage extends Component {
             userTime={userTime}
             author={author.name}
             className={classes[canPm ? 'headerClickable' : 'header']}
-            onAuthorClick={this.onGoToChannel} />
+            onClickAuthor={this.onGoToChannel} />
         }
         <div
-          ref={this.onRefBody}
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
@@ -259,7 +257,10 @@ export default class RegularMessage extends Component {
             <div
               ref={this.onRefContent}
               className={`${classes.content} ${classes[state]}`}>
-              <Grapedown text={children} user={user} />
+              <Grapedown
+                text={children}
+                user={user}
+                customEmojis={customEmojis} />
               {attachments.map(this.renderAttachment)}
             </div>
             {this.renderMenu()}

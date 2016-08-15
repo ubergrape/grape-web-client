@@ -1,7 +1,7 @@
 import each from 'lodash/collection/each'
 
 // TODO: remove caching and refactor class to simple function
-// after old code from `src` folder will be refactored.
+// after old code from `./legacy` folder will be refactored.
 // Why we need caching: https://github.com/ubergrape/chatgrape/issues/3160
 
 /**

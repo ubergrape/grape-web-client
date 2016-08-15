@@ -13,8 +13,6 @@ const clickable = {
   }
 }
 
-export const menuLeftOffset = 7
-
 export const styles = {
   ...baseStyles,
   headerClickable: {
@@ -52,7 +50,7 @@ export const styles = {
   menuRight: {
     position: 'absolute',
     top: 1,
-    left: `calc(100% + ${menuLeftOffset}px)`
+    left: 'calc(100% + 7px)'
   },
   stateIndicator: {
     position: 'absolute',

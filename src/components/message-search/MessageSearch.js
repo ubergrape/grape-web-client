@@ -26,13 +26,15 @@ export default class MessageSearch extends Component {
     query: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     isLoading: PropTypes.bool.isRequired,
     total: PropTypes.number,
-    user: PropTypes.object
+    user: PropTypes.object,
+    customEmojis: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     query: '',
     options: [],
-    searchOnlyInChannel: false
+    searchOnlyInChannel: false,
+    customEmojis: {}
   }
 
   componentDidMount() {
@@ -115,7 +117,7 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {query, sheet, user} = this.props
+    const {query, sheet, user, customEmojis} = this.props
     const {classes} = sheet
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
@@ -129,7 +131,10 @@ export default class MessageSearch extends Component {
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
         <Message {...message}>
-          <GrapedownWithSearch text={message.text} />
+          <GrapedownWithSearch
+            text={message.text}
+            user={user}
+            customEmojis={customEmojis} />
         </Message>
       </div>
     )
