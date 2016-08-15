@@ -464,15 +464,14 @@ export const headerSelector = createSelector(
 )
 
 export const historySelector = createSelector(
-  state => state.history,
-  state => omit(state, 'olderMessages', 'newerMessages')
+  state => state.history, state => state
 )
 
 export const historyComponentSelector = createSelector(
   [historySelector, orgSelector],
   (history, {customEmojis}) => {
     return {
-      ...history,
+      ...omit(history, 'olderMessages', 'newerMessages'),
       customEmojis
     }
   }
