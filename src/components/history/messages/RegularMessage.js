@@ -56,7 +56,7 @@ function DeliveryState({time, state, theme}) {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
 
-  if (!state || !isFresh) return null
+  if (!state || state === 'unsent' || !isFresh) return null
 
   const {classes} = theme
 
@@ -266,7 +266,7 @@ export default class RegularMessage extends Component {
             {this.renderMenu()}
           </Bubble>
         </div>
-        <DeliveryState {...this.props} theme={{classes}} />
+        <DeliveryState state={state} time={time} theme={{classes}} />
         {state === 'unsent' && <UnsentWarning theme={{classes}} onResend={onResend} />}
       </div>
     )
