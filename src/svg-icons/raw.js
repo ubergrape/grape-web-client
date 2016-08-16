@@ -60,6 +60,9 @@ export trello from './svg/trello.svg'
 export wikipedia from './svg/wikipedia.svg'
 export wordpress from './svg/wordpress.svg'
 export youtube from './svg/youtube.svg'
+export checkmark from './svg/checkmark.svg'
+export checkmarkFilled from './svg/checkmark-filled.svg'
+export waiting from './svg/waiting.svg'
 
 // Room Icons.
 export roomBasketball from './svg/room-basketball.svg'
