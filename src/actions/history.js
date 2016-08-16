@@ -20,11 +20,11 @@ function normalizeMessages(messages, state) {
 
 function loadLatest() {
   return (dispatch, getState) => {
-    const {minimumBatchSize: limit, channelId} = historySelector(getState())
+    const {minimumBatchSize: limit, channel} = historySelector(getState())
 
     dispatch({
       type: types.REQUEST_LATEST_HISTORY,
-      payload: {channelId}
+      payload: {channel}
     })
 
     dispatch(showAlert({
@@ -33,7 +33,7 @@ function loadLatest() {
       delay: 1000
     }))
 
-    api.loadHistory(channelId, {limit})
+    api.loadHistory(channel.id, {limit})
       .then(res => {
         const messages = normalizeMessages(res.reverse(), getState())
         const lastMessage = last(messages)
@@ -61,19 +61,19 @@ function loadLatest() {
 function loadOlder(params) {
   return (dispatch, getState) => {
     const {startIndex, stopIndex} = params
-    const {messages, olderMessages, channelId} = historySelector(getState())
+    const {messages, olderMessages, channel} = historySelector(getState())
 
     // Ensures we don't have useless requests to the backend.
     if (olderMessages) return
 
-    const promise = api.loadHistory(channelId, {
+    const promise = api.loadHistory(channel.id, {
       limit: stopIndex - startIndex,
       timeTo: messages[0].time
     })
 
     dispatch({
       type: types.REQUEST_OLDER_HISTORY,
-      payload: {params, promise, channelId}
+      payload: {params, promise, channel}
     })
 
     dispatch(showAlert({
@@ -101,19 +101,19 @@ function loadOlder(params) {
 function loadNewer(params) {
   return (dispatch, getState) => {
     const {startIndex, stopIndex} = params
-    const {messages, newerMessages, channelId} = historySelector(getState())
+    const {messages, newerMessages, channel} = historySelector(getState())
 
     // Ensures we don't have useless requests to the backend.
     if (newerMessages) return
 
-    const promise = api.loadHistory(channelId, {
+    const promise = api.loadHistory(channel.id, {
       limit: stopIndex - startIndex,
       timeFrom: last(messages).time
     })
 
     dispatch({
       type: types.REQUEST_NEWER_HISTORY,
-      payload: {promise, params, channelId}
+      payload: {promise, params, channel}
     })
 
     dispatch(showAlert({
@@ -142,11 +142,11 @@ function loadNewer(params) {
 
 function loadFragment() {
   return (dispatch, getState) => {
-    const {minimumBatchSize: limit, channelId, selectedMessageId} = historySelector(getState())
+    const {minimumBatchSize: limit, channel, selectedMessageId} = historySelector(getState())
 
     dispatch({
       type: types.REQUEST_HISTORY_FRAGMENT,
-      payload: {selectedMessageId, channelId}
+      payload: {selectedMessageId, channel}
     })
 
     dispatch(showAlert({
@@ -156,7 +156,7 @@ function loadFragment() {
     }))
 
     api
-      .loadHistoryAt(channelId, selectedMessageId, {limit})
+      .loadHistoryAt(channel.id, selectedMessageId, {limit})
       .then(res => {
         dispatch(hideAlertByType(alerts.LOADING_HISTORY))
         dispatch({
@@ -225,9 +225,9 @@ export function removeMessage({id: messageId}) {
       type: types.REQUEST_REMOVE_MESSAGE,
       payload: messageId
     })
-    const {id: channelId} = channelSelector(getState())
+    const {channel} = channelSelector(getState())
     api
-      .removeMessage(channelId, messageId)
+      .removeMessage(channel.id, messageId)
       .catch(err => dispatch(error(err)))
   }
 }

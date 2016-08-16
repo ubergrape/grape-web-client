@@ -1,11 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import pick from 'lodash/object/pick'
+import get from 'lodash/object/get'
+
 import {useSheet} from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 
 import Row from './Row'
+import NoContent from './NoContent'
 import ReadMessageDispatcher from './ReadMessageDispatcher'
 import Jumper from './Jumper'
 import {styles} from './historyTheme'
@@ -21,8 +24,12 @@ export default class History extends Component {
     onRead: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     onUserScrollAfterScrollTo: PropTypes.func.isRequired,
+    onInvite: PropTypes.func.isRequired,
+    onAddIntegration: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
-    channelId: PropTypes.number,
+    channel: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }),
     messages: PropTypes.array,
     user: PropTypes.object,
     // Will scroll to a message by id.
@@ -38,15 +45,20 @@ export default class History extends Component {
     onRead: noop,
     onClickUser: noop,
     onTouchTopEdge: noop,
-    customEmojis: {},
-    onUserScrollAfterScrollTo: noop
+    onUserScrollAfterScrollTo: noop,
+    onInvite: noop,
+    onAddIntegration: noop,
+    customEmojis: {}
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channelId, onLoad} = nextProps
+    const {channel, onLoad} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
-    if (channelId !== this.props.channelId) onLoad()
+
+    if (get(channel, 'id') !== get(this.props, 'channel.id')) {
+      onLoad()
+    }
   }
 
   onRowsRendered = () => {
@@ -71,18 +83,27 @@ export default class History extends Component {
 
   render() {
     const {
-      sheet, messages, user, scrollTo, minimumBatchSize,
-      onTouchTopEdge, onLoadMore, onJump, channelId, onRead
+      sheet, messages, user, scrollTo, minimumBatchSize, channel,
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
     } = this.props
     const {classes} = sheet
 
-    if (!user || !messages.length) return null
+    if (!user || !channel) return null
+
+    if (!messages.length) {
+      return (
+        <NoContent
+          channel={channel}
+          onInvite={onInvite}
+          onAddIntegration={onAddIntegration} />
+      )
+    }
 
     return (
       <div className={classes.history}>
         <ReadMessageDispatcher
           messages={messages}
-          channelId={channelId}
+          channelId={channel.id}
           onRead={onRead}>
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
             <Jumper onJump={onJump}>
@@ -98,7 +119,8 @@ export default class History extends Component {
                   minimumBatchSize={minimumBatchSize}
                   onLoadMore={onLoadMore}
                   onTouchTopEdge={onTouchTopEdge}
-                  renderRow={this.renderRow} />
+                  renderRow={this.renderRow}
+                  renderNoContent={this.renderNoContent} />
               )}
             </Jumper>
           )}
