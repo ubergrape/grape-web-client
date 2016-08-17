@@ -225,9 +225,9 @@ export function removeMessage({id: messageId}) {
       type: types.REQUEST_REMOVE_MESSAGE,
       payload: messageId
     })
-    const {channel} = channelSelector(getState())
+    const {id: channelId} = channelSelector(getState())
     api
-      .removeMessage(channel.id, messageId)
+      .removeMessage(channelId, messageId)
       .catch(err => dispatch(error(err)))
   }
 }
