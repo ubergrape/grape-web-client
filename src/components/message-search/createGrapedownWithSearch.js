@@ -18,9 +18,8 @@ export default function createGrapedownWithSearch({query, renderHighlight, user}
 
       const matches = findMatches(children[0], query).filter(({found}) => found)
       if (!matches.length) return renderTagWithUser(tag, props, children)
-      return <span {...omit(props, nonStandardProps)}>{matches.map(renderHighlight)}</span>
+      return <span {...omit(props, [...nonStandardProps, 'href'])}>{matches.map(renderHighlight)}</span>
     }
-
   }
 
   return props => render({...props, ...renderProps})

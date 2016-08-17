@@ -16,7 +16,7 @@ export const styles = {
     display: 'flex'
   },
   header: {
-    marginLeft: leftOffset
+    paddingLeft: leftOffset
   },
   avatar: {
     verticalAlign: 'top',

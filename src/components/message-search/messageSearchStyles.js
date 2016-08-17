@@ -23,9 +23,6 @@ export default {
   empty: {
     textAlign: 'center'
   },
-  highlighted: {
-    background: colors.yellow
-  },
   button,
   optionLabel: {
     display: 'block',
