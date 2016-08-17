@@ -59,6 +59,7 @@ export default class Row extends Component {
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
+    isLast: PropTypes.bool.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
@@ -67,7 +68,8 @@ export default class Row extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onGoToChannel: noop
+    onGoToChannel: noop,
+    isLast: false
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -91,10 +93,10 @@ export default class Row extends Component {
 
   render() {
     const {
-      sheet, user, onGoToChannel, selectedMessageId,
-      message, prevMessage, customEmojis
+      sheet: {classes},
+      user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
+      isLast
     } = this.props
-    const {classes} = sheet
 
     let separator = null
     if (prevMessage && !moment(message.time).isSame(prevMessage.time, 'day')) {
@@ -129,7 +131,7 @@ export default class Row extends Component {
     }
 
     return (
-      <div className={classes[group ? 'groupedRow' : 'row']}>
+      <div className={`${classes[group ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
         {separator}
         <Message {...props}>
           {message.text}

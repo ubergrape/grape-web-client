@@ -69,17 +69,20 @@ export default class History extends Component {
     }
   }
 
-  renderRow = (index) => {
+  getRowProps = (index) => {
     const {messages} = this.props
-
-    return (
-      <Row
-        {...pick(this.props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
-          'onGoToChannel', 'selectedMessageId')}
-        message={messages[index]}
-        prevMessage={messages[index - 1]} />
-    )
+    return {
+      message: messages[index],
+      prevMessage: messages[index - 1],
+      isLast: index === messages.length - 1,
+      ...pick(this.props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
+        'onGoToChannel', 'selectedMessageId')
+    }
   }
+
+  renderRow = (index) => (
+    <Row {...this.getRowProps(index)} />
+  )
 
   render() {
     const {
@@ -120,7 +123,8 @@ export default class History extends Component {
                   onLoadMore={onLoadMore}
                   onTouchTopEdge={onTouchTopEdge}
                   renderRow={this.renderRow}
-                  renderNoContent={this.renderNoContent} />
+                  renderNoContent={this.renderNoContent}
+                  getRowProps={this.getRowProps} />
               )}
             </Jumper>
           )}
