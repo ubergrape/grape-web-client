@@ -2,8 +2,8 @@ import * as fs from 'fs'
 import {sync as globSync} from 'glob'
 
 const messagesPattern = './i18n/src/**/*.json'
-const langDir = './i18n/export/'
-const lastImport = JSON.parse(fs.readFileSync('./i18n/import/en.json', 'utf8'))
+const filePath = './i18n/translations/en.json'
+const lastImport = JSON.parse(fs.readFileSync(filePath, 'utf8'))
 
 // Aggregates the default messages that were extracted from the example app's
 // React components via the React Intl Babel plugin. An error will be thrown if
@@ -27,4 +27,4 @@ const defaultMessages = globSync(messagesPattern)
     }, {})
 
 
-fs.writeFileSync(langDir + 'en.json', JSON.stringify(defaultMessages, null, 2))
+fs.writeFileSync(filePath, JSON.stringify(defaultMessages, null, 2))
