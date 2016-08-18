@@ -12,7 +12,7 @@ export default class Author extends Component {
     sheet: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     className: PropTypes.string.isRequired,
-    author: PropTypes.string,
+    author: PropTypes.string
   }
 
   static defaultProps = {

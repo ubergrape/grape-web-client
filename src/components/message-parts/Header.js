@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
-import noop from 'lodash/utility/noop'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './headerTheme'
