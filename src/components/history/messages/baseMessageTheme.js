@@ -16,12 +16,11 @@ export const styles = {
     display: 'flex'
   },
   header: {
-    marginLeft: leftOffset
+    paddingLeft: leftOffset
   },
   avatar: {
     verticalAlign: 'top',
-    marginRight: avatarMarginRight,
-    cursor: 'pointer'
+    marginRight: avatarMarginRight
   },
   avatarPlaceholder: {
     marginLeft: avatarWidth + avatarMarginRight

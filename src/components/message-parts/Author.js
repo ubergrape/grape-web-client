@@ -11,11 +11,13 @@ export default class Author extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
+    className: PropTypes.string.isRequired,
     author: PropTypes.string
   }
 
   static defaultProps = {
-    onClick: noop
+    onClick: noop,
+    className: ''
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -23,12 +25,12 @@ export default class Author extends Component {
   }
 
   render() {
-    const {author, onClick, sheet} = this.props
+    const {author, onClick, sheet, className} = this.props
     const {classes} = sheet
     return (
       <span
         onClick={onClick}
-        className={classes.author}>
+        className={`${classes.author} ${className}`}>
         {author || <FormattedMessage id="deletedUser" defaultMessage="Deleted user" />}
       </span>
     )

@@ -16,7 +16,9 @@ const actionNames = {
   editMessage: 'onEdit',
   resendMessage: 'onResend',
   readMessage: 'onRead',
-  goToChannel: 'onGoToChannel'
+  goToChannel: 'onGoToChannel',
+  showChannelMembersInvite: 'onInvite',
+  goToAddIntegrations: 'onAddIntegration'
 }
 
 const ConnectedHistory = connect(

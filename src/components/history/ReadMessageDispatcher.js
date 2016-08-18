@@ -30,6 +30,9 @@ export default class ReadMessageDispatcher extends Component {
 
   onRowsRendered = ({stopIndex}) => {
     const message = this.props.messages[stopIndex]
+
+    if (!message) return
+
     // We are not sending a "read" event for every message, only for the latest one.
     // Backend assumes once user read the latest message, he read all older messages too.
     if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {

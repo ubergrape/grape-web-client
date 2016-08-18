@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl'
 
 import style from './messageSearchStyles'
 import Message from './Message'
+import Highlight from '../highlight/YellowHighlight'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -141,14 +142,8 @@ export default class MessageSearch extends Component {
   }
 
   renderHighlight = (match, key) => {
-    const {classes} = this.props.sheet
-    return (
-      <span
-        key={key}
-        className={match.found ? classes.highlighted : null}>
-        {match.text}
-      </span>
-    )
+    if (match.found) return <Highlight key={key}>{match.text}</Highlight>
+    return <span key={key}>{match.text}</span>
   }
 
   renderLoadMore() {

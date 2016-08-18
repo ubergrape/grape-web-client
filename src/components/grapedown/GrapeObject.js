@@ -3,6 +3,7 @@ import markdownIt from 'markdown-it'
 import {create as createObject, getOptions} from 'grape-web/lib/grape-objects'
 
 import LinkWithIcon from '../message-parts/LinkWithIcon'
+import Highlight from '../highlight/YellowHighlight'
 const {normalizeLinkText} = markdownIt()
 
 export default function GrapeObject(props) {
@@ -12,7 +13,7 @@ export default function GrapeObject(props) {
 
   if (type === 'chatgrapeuser') {
     const isSelf = `/chat/${user.slug}` === url
-    return isSelf ? <span>{content}</span> : <a href={url}>{content}</a>
+    return isSelf ? <Highlight>{content}</Highlight> : <a href={url}>{content}</a>
   }
 
   let icon = service

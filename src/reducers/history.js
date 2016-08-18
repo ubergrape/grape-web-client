@@ -25,7 +25,7 @@ export default function reduce(state = initialState, action) {
     case types.SET_CHANNEL:
       return {
         ...state,
-        channelId: payload.channel.id,
+        channel: payload.channel,
         selectedMessageId: payload.messageId
       }
     case types.HANDLE_INITIAL_HISTORY:
@@ -77,7 +77,7 @@ export default function reduce(state = initialState, action) {
     case types.MARK_MESSAGE_AS_SENT:
       return updateMessage(state, {id: payload.messageId, state: 'sent'})
     case types.MARK_CHANNEL_AS_READ: {
-      if (payload.channelId !== state.channelId || payload.isCurrentUser) {
+      if (payload.channelId !== state.channel.id || payload.isCurrentUser) {
         return state
       }
 
@@ -101,7 +101,7 @@ export default function reduce(state = initialState, action) {
         ]
       }
     case types.ADD_NEW_MESSAGE: {
-      if (payload.channel !== state.channelId) return state
+      if (payload.channel !== state.channel.id) return state
       const scrollTo = payload.author.id === state.user.id ? payload.id : null
       return {...state, scrollTo, messages: [...state.messages, payload]}
     }

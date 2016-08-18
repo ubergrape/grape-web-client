@@ -4,6 +4,6 @@ export const styles = {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 35
+    bottom: 0
   }
 }
