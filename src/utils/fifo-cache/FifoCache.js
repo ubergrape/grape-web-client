@@ -1,8 +1,7 @@
 export default class FifoCache {
   constructor(maxSize) {
     this.maxSize = maxSize || 10000
-    this.cache = Object.create(null)
-    this.size = 0
+    this.clear()
   }
 
   put(key, value) {
@@ -35,5 +34,10 @@ export default class FifoCache {
       this.del(key)
       return
     }
+  }
+
+  clear() {
+    this.cache = Object.create(null)
+    this.size = 0
   }
 }

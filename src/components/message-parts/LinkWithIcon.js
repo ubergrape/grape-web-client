@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
+import * as icons from 'grape-web/lib/svg-icons/data'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles, color} from './linkWithIconTheme'
@@ -26,7 +27,10 @@ export default class LinkWithIcon extends Component {
   render() {
     const {url, name, sheet, icon, target} = this.props
     const {classes} = sheet
-    const svg = getColoredIcon({name: icon, color})
+    const svg = getColoredIcon({
+      name: icons[icon] ? icon : this.constructor.defaultProps.icon,
+      color
+    })
     const style = {backgroundImage: `url(${svg})`}
 
     return (
