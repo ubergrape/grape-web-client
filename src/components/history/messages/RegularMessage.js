@@ -238,8 +238,8 @@ export default class RegularMessage extends Component {
             time={time}
             userTime={userTime}
             author={author.name}
-            className={classes[canPm ? 'headerClickable' : 'header']}
-            onClickAuthor={this.onGoToChannel} />
+            theme={sheet}
+            onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
         }
         <div
           className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
