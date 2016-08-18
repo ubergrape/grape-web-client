@@ -27,6 +27,7 @@ export default class History extends Component {
     onInvite: PropTypes.func.isRequired,
     onAddIntegration: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
+    noContent: PropTypes.bool.isRequired,
     channel: PropTypes.shape({
       id: PropTypes.number.isRequired
     }),
@@ -48,7 +49,8 @@ export default class History extends Component {
     onUserScrollAfterScrollTo: noop,
     onInvite: noop,
     onAddIntegration: noop,
-    customEmojis: {}
+    customEmojis: {},
+    noContent: false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -87,19 +89,24 @@ export default class History extends Component {
   render() {
     const {
       sheet, messages, user, scrollTo, minimumBatchSize, channel,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
+      noContent
     } = this.props
     const {classes} = sheet
 
     if (!user || !channel) return null
 
     if (!messages.length) {
-      return (
-        <NoContent
-          channel={channel}
-          onInvite={onInvite}
-          onAddIntegration={onAddIntegration} />
-      )
+      if (noContent) {
+        return (
+          <NoContent
+            channel={channel}
+            onInvite={onInvite}
+            onAddIntegration={onAddIntegration} />
+        )
+      }
+
+      return null
     }
 
     return (
