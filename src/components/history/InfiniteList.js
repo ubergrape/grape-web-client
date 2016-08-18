@@ -17,6 +17,7 @@ export default class InfiniteList extends Component {
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
+    getRowProps: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
@@ -24,12 +25,13 @@ export default class InfiniteList extends Component {
   }
 
   static defaultProps = {
-    onRowsRendered: noop
+    onRowsRendered: noop,
+    getRowProps: noop
   }
 
   constructor(props) {
     super(props)
-    this.cache = new RowsCache(props.messages)
+    this.cache = new RowsCache(props.messages, props.getRowProps)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,14 +54,11 @@ export default class InfiniteList extends Component {
   }
 
   renderRow = ({index}) => {
-    if (this.cache.hasElement(index)) return this.cache.getElement(index)
-    const element = this.props.renderRow(index)
-    this.cache.setElement(index, element)
-    return element
+    return this.props.renderRow(index)
   }
 
-  renderRowForCellMeasurer = ({rowIndex: index}) => {
-    return this.renderRow({index})
+  renderRowForCellMeasurer = ({rowIndex}) => {
+    return this.props.renderRow(rowIndex)
   }
 
   render() {

@@ -15,9 +15,7 @@ const clickable = {
 
 export const styles = {
   ...baseStyles,
-  headerClickable: {
-    extend: [baseStyles.header, clickable]
-  },
+  authorClickable: clickable,
   avatarClickable: {
     extend: [baseStyles.avatar, clickable]
   },

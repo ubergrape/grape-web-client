@@ -5,9 +5,12 @@ export const styles = {
     background: white
   },
   row: {
-    paddingTop: 20
+    paddingTop: 10
   },
   groupedRow: {
     paddingTop: 2
+  },
+  lastRow: {
+    marginBottom: 35
   }
 }

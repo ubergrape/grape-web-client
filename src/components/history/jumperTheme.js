@@ -1,7 +1,7 @@
 import buttonIcon from '../button/icon'
 import {gainsboroDark} from 'grape-theme/dist/base-colors'
 
-const size = 50
+const size = 40
 
 // We need even size so arrow will be centered.
 const dimension = size % 2 ? size : size + 1
