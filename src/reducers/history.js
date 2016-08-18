@@ -26,7 +26,11 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         channel: payload.channel,
-        selectedMessageId: payload.messageId
+        selectedMessageId: payload.messageId,
+        messages: [],
+        olderMessages: undefined,
+        newerMessages: undefined,
+        noContent: false
       }
     case types.HANDLE_INITIAL_HISTORY:
       return {
@@ -56,7 +60,8 @@ export default function reduce(state = initialState, action) {
         messages,
         scrollTo: null,
         olderMessages,
-        newerMessages
+        newerMessages,
+        noContent: false
       }
     }
     case types.REQUEST_LATEST_HISTORY:
@@ -104,12 +109,18 @@ export default function reduce(state = initialState, action) {
         messages: [
           ...state.messages,
           {...payload, state: 'pending'}
-        ]
+        ],
+        noContent: false
       }
     case types.ADD_NEW_MESSAGE: {
       if (payload.channel !== state.channel.id) return state
       const scrollTo = payload.author.id === state.user.id ? payload.id : null
-      return {...state, scrollTo, messages: [...state.messages, payload]}
+      return {
+        ...state,
+        scrollTo,
+        messages: [...state.messages, payload],
+        noContent: false
+      }
     }
     default:
       return state
