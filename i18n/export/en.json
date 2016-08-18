@@ -69,14 +69,14 @@
   "searchMessages": {
     "defaultMessage": "Search messages"
   },
-  "welcomeToRoom": {
-    "defaultMessage": "Welcome to {channel}"
-  },
   "roomIsPublic": {
     "defaultMessage": "This group is public. Every member can join and read the history."
   },
   "roomIsPrivate": {
     "defaultMessage": "This group is private. Only invited members can see and join this group."
+  },
+  "welcomeToRoom": {
+    "defaultMessage": "Welcome to {channel}"
   },
   "inviteMoreToGroup": {
     "defaultMessage": "Invite more people to this group"
