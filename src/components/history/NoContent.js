@@ -28,6 +28,22 @@ function RoomContent(props) {
     onInvite
   } = props
 
+  let text
+
+  if (isPublic) {
+    text = (
+      <FormattedMessage
+        id="roomIsPublic"
+        defaultMessage="This group is public. Every member can join and read the history." />
+    )
+  } else {
+    text = (
+      <FormattedMessage
+        id="roomIsPrivate"
+        defaultMessage="This group is private. Only invited members can see and join this group." />
+    )
+  }
+
   return (
     <div className={classes.noContent}>
       <Illustration type={isPublic ? 'public' : 'private'} theme={{classes}} />
@@ -39,15 +55,7 @@ function RoomContent(props) {
             values={{channel: name}} />
         </h2>
         <p className={classes.text}>
-          {isPublic ?
-            <FormattedMessage
-              id="roomIsPublic"
-              defaultMessage="This group is public. Every member can join and read the history." />
-            :
-            <FormattedMessage
-              id="roomIsPrivate"
-              defaultMessage="This group is private. Only invited members can see and join this group." />
-          }
+          {text}
         </p>
         <button
           onClick={onInvite}
