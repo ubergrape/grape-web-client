@@ -8,8 +8,8 @@ const cache = new FifoCache(10000)
  */
 export default class RowsCache {
   constructor(rows, getRowProps) {
-    this.setRows(rows)
     this.getRowProps = getRowProps
+    this.setRows(rows)
   }
 
   setRows(rows) {
