@@ -32,49 +32,37 @@ function RoomContent(props) {
     <div className={classes.noContent}>
       <Illustration type={isPublic ? 'public' : 'private'} theme={{classes}} />
       <div className={classes.description}>
-        <FormattedMessage
-          id="welcomeToRoom"
-          defaultMessage="Welcome to {channel}"
-          values={{channel: name}}>
-          {message => <h2 className={classes.title}>{message}</h2>}
-        </FormattedMessage>
-        {isPublic ?
+        <h2 className={classes.title}>
           <FormattedMessage
-            id="roomIsPublic"
-            defaultMessage="This group is public. Every member can join and read the history.">
-            {nodes => <p className={classes.text}>{nodes}</p>}
-          </FormattedMessage>
-          :
+            id="welcomeToRoom"
+            defaultMessage="Welcome to {channel}"
+            values={{channel: name}} />
+        </h2>
+        <p className={classes.text}>
+          {isPublic ?
+            <FormattedMessage
+              id="roomIsPublic"
+              defaultMessage="This group is public. Every member can join and read the history." />
+            :
+            <FormattedMessage
+              id="roomIsPrivate"
+              defaultMessage="This group is private. Only invited members can see and join this group." />
+          }
+        </p>
+        <button
+          onClick={onInvite}
+          className={classes.buttonInvite}>
           <FormattedMessage
-            id="roomIsPrivate"
-            defaultMessage="This group is private. Only invited members can see and join this group.">
-            {nodes => <p className={classes.text}>{nodes}</p>}
-          </FormattedMessage>
-        }
-
-        <FormattedMessage
-          id="inviteMoreToGroup"
-          defaultMessage="Invite more people to this group">
-          {(...nodes) => (
-            <button
-              onClick={onInvite}
-              className={classes.buttonInvite}>
-              {nodes}
-            </button>
-          )}
-        </FormattedMessage>
-
-        <FormattedMessage
-          id="addServiceIntegration"
-          defaultMessage="Add service integration">
-          {(...nodes) => (
-            <button
-              onClick={onAddIntegration}
-              className={classes.buttonIntegration}>
-              {nodes}
-            </button>
-          )}
-        </FormattedMessage>
+            id="inviteMoreToGroup"
+            defaultMessage="Invite more people to this group" />
+        </button>
+        <button
+          onClick={onAddIntegration}
+          className={classes.buttonIntegration}>
+          <FormattedMessage
+            id="addServiceIntegration"
+            defaultMessage="Add service integration" />
+        </button>
       </div>
     </div>
   )
@@ -98,21 +86,21 @@ function PmContent(props) {
     <div className={classes.noContent}>
       <Illustration type="pm" theme={{classes}} />
       <div className={classes.description}>
-        <FormattedMessage
-          id="welcomeToPm"
-          defaultMessage="Private messages with {mate}"
-          values={{mate: users[0].displayName}}>
-          {message => <h2 className={classes.title}>{message}</h2>}
-        </FormattedMessage>
-        <FormattedMessage
-          id="pmIntro"
-          defaultMessage="This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
-          values={{
-            mate: users[0].displayName,
-            br: <br key="br-0"/>
-          }}>
-          {nodes => <p className={classes.text}>{nodes}</p>}
-        </FormattedMessage>
+        <h2 className={classes.title}>
+          <FormattedMessage
+            id="welcomeToPm"
+            defaultMessage="Private messages with {mate}"
+            values={{mate: users[0].displayName}} />
+        </h2>
+        <p className={classes.text}>
+          <FormattedMessage
+            id="pmIntro"
+            defaultMessage="This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
+            values={{
+              mate: users[0].displayName,
+              br: <br />
+            }} />
+        </p>
       </div>
     </div>
   )
