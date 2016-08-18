@@ -29,7 +29,11 @@ export default function reduce(state = initialState, action) {
         selectedMessageId: payload.messageId
       }
     case types.HANDLE_INITIAL_HISTORY:
-      return {...state, ...payload}
+      return {
+        ...state,
+        ...payload,
+        noContent: payload.messages.length === 0
+      }
     case types.HANDLE_MORE_HISTORY: {
       const {messages: newMessages, isScrollBack} = payload
       if (!newMessages.length) return state
@@ -55,6 +59,8 @@ export default function reduce(state = initialState, action) {
         newerMessages
       }
     }
+    case types.REQUEST_LATEST_HISTORY:
+      return {...state, messages: []}
     case types.REQUEST_OLDER_HISTORY:
       return {...state, olderMessages: payload.promise}
     case types.REQUEST_NEWER_HISTORY:
