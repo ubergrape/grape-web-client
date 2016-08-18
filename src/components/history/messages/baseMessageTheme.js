@@ -20,8 +20,7 @@ export const styles = {
   },
   avatar: {
     verticalAlign: 'top',
-    marginRight: avatarMarginRight,
-    cursor: 'pointer'
+    marginRight: avatarMarginRight
   },
   avatarPlaceholder: {
     marginLeft: avatarWidth + avatarMarginRight
