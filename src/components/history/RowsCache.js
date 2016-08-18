@@ -1,7 +1,7 @@
 import FifoCache from '../../utils/fifo-cache/FifoCache'
 import shallowEqual from 'fbjs/lib/shallowEqual'
 
-const cache = new FifoCache(10000)
+export const cache = new FifoCache(10000)
 
 /**
  * Cache for heights and elements, which is aware of user data.
