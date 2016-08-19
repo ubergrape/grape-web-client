@@ -6,7 +6,7 @@ import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
-import RowsCache from './RowsCache'
+import RowsCache, {cache} from './RowsCache'
 
 import {styles} from './infiniteListTheme'
 
@@ -49,6 +49,12 @@ export default class InfiniteList extends Component {
     this.virtualScroll = ref
   }
 
+  onResize = () => {
+    // When container gets resized, we can forget all cached heights.
+    cache.clear()
+    this.virtualScroll.recomputeRowHeights()
+  }
+
   isRowLoaded = (index) => {
     return Boolean(this.props.messages[index])
   }
@@ -69,6 +75,7 @@ export default class InfiniteList extends Component {
 
     const {classes} = sheet
     const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
+
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
@@ -80,7 +87,7 @@ export default class InfiniteList extends Component {
           onRowsRendered: onRowsRenderedInInfiniteLoader,
           onScroll: onScrollInInfiniteLoader
         }) => (
-          <AutoSizer>
+          <AutoSizer onResize={this.onResize}>
             {({width, height}) => (
               <CellMeasurer
                 cellSizeCache={this.cache}
