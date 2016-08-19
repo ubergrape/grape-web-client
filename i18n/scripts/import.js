@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import {sync} from 'glob'
 
-const messagesPattern = './i18n/import/*.json'
+const messagesPattern = './i18n/translations/*.json'
 const outputDir = './src/i18n/'
 
 sync(messagesPattern).map((file) => {
