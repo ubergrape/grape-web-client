@@ -5,7 +5,7 @@ import {grapeProtocol} from './constants'
  * Escape markdown link target or name.
  */
 export function encodeMdLink(link) {
-  const regExp = /[\[\]()]/g
+  const regExp = /[\[\]()\s]/g
   return link.replace(regExp, c => '%' + c.charCodeAt(0).toString(16))
 }
 
