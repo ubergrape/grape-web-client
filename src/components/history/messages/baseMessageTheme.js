@@ -6,6 +6,7 @@ const avatarWidth = 32
 
 export const leftOffset = avatarWidth + avatarMarginRight + arrowWidth
 export const horizontalMargin = 20
+export const lineHeight = '21px'
 
 export const styles = {
   message: {
@@ -26,6 +27,7 @@ export const styles = {
     marginLeft: avatarWidth + avatarMarginRight
   },
   content: {
+    lineHeight,
     '& a': linkStyles.link,
     '& code': {
       display: 'inline-block',
