@@ -29,6 +29,17 @@ export const styles = {
   content: {
     lineHeight,
     '& a': linkStyles.link,
+    '& em': {
+      fontStyle: 'italic'
+    },
+    '& blockquote': {
+      // FIXME: replace with theme colors.
+      borderLeft: '3px solid #dad6e0',
+      margin: '4px 0',
+      padding: '0.5em 10px',
+      fontStyle: 'italic',
+      color: '#888291'
+    },
     '& code': {
       display: 'inline-block',
       maxWidth: '100%',
