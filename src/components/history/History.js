@@ -54,11 +54,14 @@ export default class History extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {channel, onLoad} = nextProps
+    const {channel, onLoad, selectedMessageId} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
+    // 3. Selected message has changed.
+    const selectedMessageHasChanged = this.props.selectedMessageId !== selectedMessageId
+    const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
 
-    if (get(channel, 'id') !== get(this.props, 'channel.id')) {
+    if (selectedMessageHasChanged || channelHasChanged) {
       onLoad()
     }
   }
