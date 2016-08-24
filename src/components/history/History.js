@@ -33,6 +33,7 @@ export default class History extends Component {
     }),
     messages: PropTypes.array,
     user: PropTypes.object,
+    selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     minimumBatchSize: PropTypes.number
