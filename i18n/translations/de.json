@@ -1,1 +1,38 @@
-{}
+{
+  "noEmojiFound" : {
+    "defaultMessage" : "Kein Emoji gefunden."
+  },
+  "willNotifyRoom" : {
+    "defaultMessage" : "— jeden in dieser Gruppe benachrichtigen",
+    "description" : "*Describe willNotifyRoom*: this string is decribing action"
+  },
+  "wontNotifyRoom" : {
+    "defaultMessage" : "— Gruppenmitglieder werden nicht benachrichtigt",
+    "description" : "*Describe wountNotifyRoom*: this string is decribing action"
+  },
+  "notInRoom" : {
+    "defaultMessage" : "nicht in Gruppe"
+  },
+  "noDetailForItem" : {
+    "defaultMessage" : "Keine Detail-Infos"
+  },
+  "searchInfo" : {
+    "defaultMessage" : "Suchen Sie auf Wikipedia, YouTube, Giphy und {tools} indem Sie auf {plusIcon} klicken oder die Plus-Taste auf Ihrer Tastatur drücken."
+  },
+  "yourBusinessTools" : {
+    "defaultMessage" : "Ihre Datenbanken",
+    "description" : "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+  },
+  "grapeSearch" : {
+    "defaultMessage" : "Grape-Suche"
+  },
+  "noResults" : {
+    "defaultMessage" : "Keine Ergebnisse."
+  },
+  "amountResults" : {
+    "defaultMessage" : "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}"
+  },
+  "noServicesFound" : {
+    "defaultMessage" : "Keine Services gefunden."
+  }
+}
