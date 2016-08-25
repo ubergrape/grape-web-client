@@ -22,12 +22,13 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER:
       return {...state, user: payload}
+    case types.GO_TO_CHANNEL:
+      return {...state, messages: []}
     case types.SET_CHANNEL:
       return {
         ...state,
         channel: payload.channel,
         selectedMessageId: payload.messageId,
-        messages: [],
         olderMessages: undefined,
         newerMessages: undefined,
         noContent: false
