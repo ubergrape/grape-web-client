@@ -12,6 +12,7 @@ export default class WampClient {
   constructor(options = {}) {
     this.out = new Emitter()
     this.backoff = new Backoff(options.backoff)
+    this.pingInterval = options.pingInterval || pingInterval
     this.wamp = null
     this.id = null
     this.reopening = false
@@ -22,7 +23,7 @@ export default class WampClient {
   connect() {
     if (this.wamp) return this.out
     this.open()
-    setInterval(::this.ping, pingInterval)
+    setInterval(::this.ping, this.pingInterval)
     return this.out
   }
 
@@ -58,8 +59,15 @@ export default class WampClient {
    */
   ping() {
     if (!this.connected || this.reopening) return
+    if (this.waitingForPong) {
+      this.waitingForPong = false
+      this.onError(new Error('Didn\'t receive a pong.'))
+      return
+    }
     log('ping')
+    this.waitingForPong = true
     this.call('ping', (err, res) => {
+      this.waitingForPong = false
       if (err) return this.onError(err)
       log(res)
     })
