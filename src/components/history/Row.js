@@ -8,7 +8,6 @@ import RegularMessage from './messages/RegularMessage'
 import ActivityMessage from './messages/ActivityMessage'
 import DateSeparator from '../message-parts/DateSeparator'
 import {styles} from './rowTheme'
-import {canGroup} from './utils'
 
 const messageComponents = {
   regular: RegularMessage,
@@ -45,6 +44,8 @@ export default class Row extends Component {
     onGoToChannel: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
+    isGroupable: PropTypes.bool.isRequired,
+    duplicates: PropTypes.number.isRequired,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
@@ -54,7 +55,9 @@ export default class Row extends Component {
     onRemove: noop,
     onResend: noop,
     onGoToChannel: noop,
-    isLast: false
+    isLast: false,
+    isGroupable: false,
+    duplicates: 0
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -80,7 +83,7 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast
+      isLast, isGroupable, duplicates
     } = this.props
 
     let separator = null
@@ -100,6 +103,7 @@ export default class Row extends Component {
       user,
       onGoToChannel,
       customEmojis,
+      duplicates,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
       onEdit: this.onEdit,
@@ -107,16 +111,14 @@ export default class Row extends Component {
       onResend: this.onResend
     }
 
-    const group = canGroup(message, prevMessage)
-
-    if (!separator && group) {
+    if (!separator && isGroupable) {
       props.author = null
       props.avatar = null
       props.hasBubbleArrow = false
     }
 
     return (
-      <div className={`${classes[group ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
+      <div className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
         {separator}
         <Message {...props}>
           {message.text}

@@ -7,18 +7,17 @@ export const cache = new FifoCache(10000)
  * Cache for heights and elements, which is aware of user data.
  */
 export default class RowsCache {
-  constructor(rows, getRowProps) {
-    this.getRowProps = getRowProps
+  constructor(rows) {
     this.setRows(rows)
   }
 
   setRows(rows) {
     this.rows = rows
     // Clean up the cache if needed.
-    rows.forEach(({id}, index) => {
-      const item = cache.get(id)
-      if (item && !shallowEqual(item.props, this.getRowProps(index))) {
-        cache.del(id)
+    rows.forEach(props => {
+      const item = cache.get(props.id)
+      if (item && !shallowEqual(item.props, props)) {
+        cache.del(item.id)
       }
     })
   }
@@ -26,7 +25,7 @@ export default class RowsCache {
   hasRowHeight(index) {
     const {id} = this.rows[index]
     const item = cache.get(id)
-    return item && item.height !== undefined
+    return item !== undefined && item.height !== undefined
   }
 
   getRowHeight(index) {
@@ -36,10 +35,7 @@ export default class RowsCache {
   }
 
   setRowHeight(index, height) {
-    const {id} = this.rows[index]
-    cache.put(id, {
-      height,
-      props: this.getRowProps(index)
-    })
+    const props = this.rows[index]
+    cache.put(props.id, {height, props})
   }
 }

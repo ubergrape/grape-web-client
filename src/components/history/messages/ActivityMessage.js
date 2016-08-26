@@ -6,6 +6,7 @@ import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {MateBubble} from './Bubble'
+import DuplicatesBadge from './DuplicatesBadge'
 import {styles} from './activityMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
@@ -16,10 +17,11 @@ export default class ActivityMessage extends Component {
     time: PropTypes.instanceOf(Date).isRequired,
     title: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
+    duplicates: PropTypes.number.isRequired,
     author: PropTypes.shape({
       name: PropTypes.string.isRequired
-    }).isRequired,
-    avatar: PropTypes.string.isRequired,
+    }),
+    avatar: PropTypes.string,
     container: PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired
@@ -38,17 +40,19 @@ export default class ActivityMessage extends Component {
 
   render() {
     const {
-      sheet, user, author, time, avatar, container, title, children
+      sheet, user, author, time, avatar, container, title, children, duplicates
     } = this.props
     const {classes} = sheet
 
     return (
       <div className={classes.message}>
-        <Header
-          time={time}
-          author={author.name}
-          className={classes.header} />
-        <div className={classes.body}>
+        {author &&
+          <Header
+            time={time}
+            author={author.name}
+            className={classes.header} />
+          }
+        <div className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <div className={classes.content}>
             <MateBubble className={classes.bubble}>
@@ -64,6 +68,7 @@ export default class ActivityMessage extends Component {
               <Grapedown text={children} user={user} />
             </MateBubble>
           </div>
+          {duplicates > 1 && <DuplicatesBadge value={duplicates} />}
         </div>
       </div>
     )

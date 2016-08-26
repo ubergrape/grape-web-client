@@ -1,5 +1,6 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+import findIndex from 'lodash/array/findIndex'
 
 /**
  * Preserves the scroll position at the end when rows got added.
@@ -39,8 +40,8 @@ export default class AutoScroll extends Component {
       // position, so we need to calculate the height of those rows and scroll
       // to the old position.
       if (this.direction < 0 && this.scrollTop === 0) {
-        const prevFirstRenderedRow = rows[this.startIndex]
-        const prevFirstRowIndex = nextProps.rows.indexOf(prevFirstRenderedRow)
+        const prevFirstRenderedRowId = rows[this.startIndex].id
+        const prevFirstRowIndex = findIndex(nextProps.rows, {id: prevFirstRenderedRowId})
         if (prevFirstRowIndex !== -1) {
           this.scrollToIndex = prevFirstRowIndex
           this.scrollToAlignment = 'start'
