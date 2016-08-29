@@ -51,7 +51,7 @@ export default class ActivityMessage extends Component {
             time={time}
             author={author.name}
             className={classes.header} />
-          }
+        }
         <div className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}>
           {avatar && <Avatar src={avatar} className={classes.avatar} />}
           <div className={classes.content}>
@@ -68,7 +68,7 @@ export default class ActivityMessage extends Component {
               <Grapedown text={children} user={user} />
             </MateBubble>
           </div>
-          {duplicates > 1 && <DuplicatesBadge value={duplicates} />}
+          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
       </div>
     )

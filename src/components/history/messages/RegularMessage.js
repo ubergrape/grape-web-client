@@ -267,7 +267,7 @@ export default class RegularMessage extends Component {
             </div>
             {this.renderMenu()}
           </Bubble>
-          {duplicates > 1 && <DuplicatesBadge value={duplicates} />}
+          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
         {state === 'unsent' && <UnsentWarning theme={{classes}} onResend={onResend} />}

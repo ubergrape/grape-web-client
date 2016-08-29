@@ -51,7 +51,7 @@ export const mergeMessages = (() => {
         prevMessage,
         isGroupable,
         isLast: false,
-        duplicates: 1,
+        duplicates: 0,
         ...pick(props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
           'onGoToChannel', 'selectedMessageId')
       })

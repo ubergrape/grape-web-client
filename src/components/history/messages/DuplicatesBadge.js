@@ -19,7 +19,7 @@ export default class DuplicatesBadge extends Component {
     const {sheet: {classes}, value} = this.props
     return (
       <span className={classes.badge}>
-        {`x${value}`}
+        {`x${value + 1}`}
       </span>
     )
   }
