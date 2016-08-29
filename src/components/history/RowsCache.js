@@ -12,14 +12,15 @@ export default class RowsCache {
   }
 
   setRows(rows) {
-    this.rows = rows
     // Clean up the cache if needed.
     rows.forEach(props => {
       const item = cache.get(props.id)
       if (item && !shallowEqual(item.props, props)) {
-        cache.del(item.id)
+        cache.del(props.id)
       }
     })
+
+    this.rows = rows
   }
 
   hasRowHeight(index) {
