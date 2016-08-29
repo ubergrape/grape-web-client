@@ -25,15 +25,16 @@ export default class AutoScroll extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {rows, height, minEndThreshold} = this.props
+    const rowsHasChanged = nextProps.rows !== rows
+
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
       this.scrollToAlignment = 'center'
       return
     }
 
-    const {rows, height, minEndThreshold} = this.props
-
-    if (nextProps.rows !== rows) {
+    if (rowsHasChanged) {
       // We assume user scrolled up (reverse order) and we have loaded
       // previous rows.
       // When they are inserted at the beginning, they will change our scroll
@@ -53,7 +54,7 @@ export default class AutoScroll extends Component {
     // We way need to auto scroll when:
     // - Rows has been changed.
     // - Parent size has changed.
-    if (nextProps.height !== height) {
+    if (rowsHasChanged || nextProps.height !== height) {
       const endThreshold = this.scrollHeight - this.scrollTop - this.clientHeight
 
       // We are at the end within a threshold where we need to ensure last
