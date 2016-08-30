@@ -1,35 +1,29 @@
 import {small} from 'grape-theme/dist/fonts'
 import {red, gray} from 'grape-theme/dist/base-colors'
 
-import {styles as baseStyles, leftOffset, horizontalMargin} from './baseMessageTheme'
+import {styles as baseStyles, horizontalMargin} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
 
-const clickable = {
-  cursor: 'pointer',
-  '&:hover': {
-    opacity: 0.8
-  }
-}
-
 export const styles = {
   ...baseStyles,
-  authorClickable: clickable,
-  avatarClickable: {
-    extend: [baseStyles.avatar, clickable]
+  clickable: {
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: 0.8
+    }
   },
-  pending: {
-    opacity: 0.5
+  authorClickable: {
+    extend: 'clickable'
   },
-  unsent: {
+  disabled: {
     opacity: 0.5
   },
   unsentWarning: {
     extend: [createInlineIcon('warning', {color: red}), small],
     color: red,
     marginTop: 5,
-    marginLeft: leftOffset,
     '& a': {
       color: red
     }

@@ -236,29 +236,34 @@ export default class RegularMessage extends Component {
     return (
       <div className={classes.message}>
         {author &&
-          <Header
-            time={time}
-            userTime={userTime}
-            author={author.name}
-            theme={sheet}
-            onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <Header
+              time={time}
+              userTime={userTime}
+              author={author.name}
+              onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+          </div>
         }
         <div
-          className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
+          className={classes.row}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar &&
-            <Avatar
-              src={avatar}
-              className={classes[canPm ? 'avatarClickable' : 'avatar']}
-              onClick={this.onGoToChannel} />
-          }
-          <Bubble
-            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
-            hasArrow={hasBubbleArrow}>
+          <div className={classes.avatarColumn}>
+            {avatar &&
+              <Avatar
+                src={avatar}
+                className={classes[canPm ? 'clickable' : '']}
+                onClick={this.onGoToChannel} />
+            }
+          </div>
+          <Bubble hasArrow={hasBubbleArrow}>
             <div
               ref={this.onRefContent}
-              className={`${classes.content} ${classes[state]}`}>
+              className={[
+                classes.content,
+                state === 'pending' || state === 'unsent' ? classes.disabled : ''
+              ].join(' ')}>
               <Grapedown
                 text={children}
                 user={user}
@@ -270,7 +275,12 @@ export default class RegularMessage extends Component {
           {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
-        {state === 'unsent' && <UnsentWarning theme={{classes}} onResend={onResend} />}
+        {state === 'unsent' &&
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <UnsentWarning theme={{classes}} onResend={onResend} />
+          </div>
+        }
       </div>
     )
   }

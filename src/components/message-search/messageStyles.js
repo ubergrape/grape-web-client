@@ -1,7 +1,7 @@
 import {styles as linkStyles} from '../message-parts/linkTheme'
 
 const arrowWidth = 7
-const marginRight = 5
+const marginRight = 10
 const avatarWidth = 32
 const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
@@ -21,7 +21,8 @@ export default {
     marginRight
   },
   rightColumn: {
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   bubble: {
     '&:hover:before': {
@@ -31,9 +32,16 @@ export default {
   },
   content: {
     transition,
+    width: 'calc(100% - 40px)',
     '&:hover': {
       boxShadow: `0px 1px 8px ${shadowColor}`
     },
-    '& a': linkStyles.link
+    '& a': linkStyles.link,
+    '& pre': {
+      display: 'block',
+      // FIXME: replace with theme colors.
+      color: '#4d4d4d',
+      border: '1px solid #dad6e0'
+    }
   }
 }
