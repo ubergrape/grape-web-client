@@ -19,7 +19,10 @@ export const styles = {
   avatarClickable: {
     extend: [baseStyles.avatar, clickable]
   },
-  disabled: {
+  pending: {
+    opacity: 0.5
+  },
+  unsent: {
     opacity: 0.5
   },
   unsentWarning: {
