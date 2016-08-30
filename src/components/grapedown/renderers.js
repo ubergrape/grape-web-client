@@ -35,6 +35,17 @@ export function renderTag(tag, props, children) {
 }
 
 /**
+ * We render inline images as a link as we don't really support them.
+ */
+export function renderInlineImage(href, text) {
+  return [[
+    'a',
+    {href, alt: text, target: '_blank'},
+    ['text', text]
+  ]]
+}
+
+/**
  * Coverts known `:emoji:`-strings in to the image.
  */
 export function renderEmoji(markup) {
