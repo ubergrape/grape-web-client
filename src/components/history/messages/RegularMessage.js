@@ -254,11 +254,14 @@ export default class RegularMessage extends Component {
               onClick={this.onGoToChannel} />
           }
           <Bubble
-            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
+            className={classes[`bubble${avatar ? 'WithLeftOffset' : ''}`]}
             hasArrow={hasBubbleArrow}>
             <div
               ref={this.onRefContent}
-              className={`${classes.content} ${classes[state]}`}>
+              className={[
+                classes.content,
+                state === 'unsent' || state === 'pending' ? classes.disabled : ''
+              ].join(' ')}>
               <Grapedown
                 text={children}
                 user={user}

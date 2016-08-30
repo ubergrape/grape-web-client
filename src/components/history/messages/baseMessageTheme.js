@@ -19,9 +19,6 @@ export const styles = {
   header: {
     paddingLeft: leftOffset
   },
-  bubble: {
-    maxWidth: '100%'
-  },
   bubbleWithLeftOffset: {
     maxWidth: `calc(100% - ${leftOffset}px)`
   },

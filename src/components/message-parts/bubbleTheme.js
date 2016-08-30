@@ -1,11 +1,13 @@
 import {white} from 'grape-theme/dist/base-colors'
 
 const arrowWidth = 7
+const contentPaddingHor = 13
 
 export const styles = {
   bubble: {
     display: 'inline-block',
     position: 'relative',
+    maxWidth: `calc(100% - ${arrowWidth}px)`,
     marginLeft: arrowWidth
   },
   bubbleWithArrow: {
@@ -26,7 +28,8 @@ export const styles = {
     position: 'relative',
     background: white,
     borderRadius: 16,
-    padding: '5px 13px',
-    wordBreak: 'break-word'
+    padding: `5px ${contentPaddingHor}px`,
+    wordBreak: 'break-word',
+    maxWidth: `calc(100% - ${contentPaddingHor * 2}px)`
   }
 }
