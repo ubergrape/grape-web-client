@@ -104,6 +104,7 @@ export default class Row extends Component {
       duplicates,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
+      hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
       onResend: this.onResend

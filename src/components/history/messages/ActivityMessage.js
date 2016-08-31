@@ -22,6 +22,7 @@ export default class ActivityMessage extends Component {
     duplicates: PropTypes.number.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
+    hasBubbleArrow: PropTypes.bool.isRequired,
     author: PropTypes.shape({
       name: PropTypes.string.isRequired
     }),
@@ -37,6 +38,7 @@ export default class ActivityMessage extends Component {
   static defaultProps = {
     children: '',
     title: '',
+    hasBubbleArrow: true,
     onToggleExpander: noop
   }
 
@@ -51,7 +53,7 @@ export default class ActivityMessage extends Component {
   render() {
     const {
       sheet, user, author, time, avatar, container, title, children, duplicates,
-      isExpanded
+      isExpanded, hasBubbleArrow
     } = this.props
     const {classes} = sheet
 
@@ -63,26 +65,26 @@ export default class ActivityMessage extends Component {
             author={author.name}
             className={classes.header} />
         }
-        <div className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}>
-          {avatar && <Avatar src={avatar} className={classes.avatar} />}
-          <div className={classes.content}>
-            <MateBubble className={classes.bubble}>
-              <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
-                <div className={classes.bubbleContent}>
-                  {container &&
-                    <a
-                      href={container.url}
-                      target="_blank"
-                      className={classes.container}>
-                      {container.name}
-                    </a>
-                  }
-                  <Grapedown text={title} user={user} />
-                  <Grapedown text={children} user={user} />
-                </div>
-              </Expander>
-            </MateBubble>
+        <div className={classes.row}>
+          <div className={classes.avatarColumn}>
+            {avatar && <Avatar src={avatar} className={classes.avatar} />}
           </div>
+          <MateBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
+            <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
+              <div className={classes.content}>
+                {container &&
+                  <a
+                    href={container.url}
+                    target="_blank"
+                    className={classes.container}>
+                    {container.name}
+                  </a>
+                }
+                <Grapedown text={title} user={user} />
+                <Grapedown text={children} user={user} />
+              </div>
+            </Expander>
+          </MateBubble>
           {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
       </div>

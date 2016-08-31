@@ -20,7 +20,6 @@ export const styles = {
     maxWidth: '100%'
   },
   content: {
-    overflow: 'hidden',
     lineHeight,
     '& a': linkStyles.link,
     '& em': {
