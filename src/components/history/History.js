@@ -7,11 +7,11 @@ import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
 import ReadMessageDispatcher from './ReadMessageDispatcher'
 import Jumper from './Jumper'
-import {mergeMessages} from './utils'
+import {createRowsState} from './utils'
 import {styles} from './historyTheme'
 
-function createState(props) {
-  const {rows, map} = mergeMessages(props.messages, props)
+function createState(state, props) {
+  const {rows, map} = createRowsState(state.rows, props.messages, props)
   const scrollTo = map[props.scrollTo]
   return {rows, scrollTo}
 }
@@ -59,7 +59,7 @@ export default class History extends Component {
 
   constructor(props) {
     super(props)
-    this.state = createState(props)
+    this.state = createState({}, props)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,7 +75,7 @@ export default class History extends Component {
     }
 
     if (messages !== this.props.messages) {
-      this.setState(createState(nextProps))
+      this.setState(createState(this.state, nextProps))
     }
   }
 
@@ -85,6 +85,14 @@ export default class History extends Component {
     if (this.props.scrollTo) {
       this.props.onUserScrollAfterScrollTo()
     }
+  }
+
+  onToggleExpander = ({id, isExpanded}) => {
+    const rows = this.state.rows.map(row => {
+      if (row.id !== id) return row
+      return {...row, isExpanded}
+    })
+    this.setState({rows})
   }
 
   render() {
@@ -130,6 +138,7 @@ export default class History extends Component {
                   minimumBatchSize={minimumBatchSize}
                   onLoadMore={onLoadMore}
                   onTouchTopEdge={onTouchTopEdge}
+                  onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent} />
               )}
             </Jumper>

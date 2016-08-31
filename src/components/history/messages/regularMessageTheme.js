@@ -8,6 +8,10 @@ const stateIndicatorSize = 12
 
 export const styles = {
   ...baseStyles,
+  bubbleContainer: {
+    position: 'relative',
+    display: 'inline-block'
+  },
   clickable: {
     cursor: 'pointer',
     '&:hover': {

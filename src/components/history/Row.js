@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -42,19 +41,17 @@ export default class Row extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
     duplicates: PropTypes.number.isRequired,
+    isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
 
   static defaultProps = {
-    onEdit: noop,
-    onRemove: noop,
-    onResend: noop,
-    onGoToChannel: noop,
     isLast: false,
     isGroupable: false,
     duplicates: 0
@@ -83,7 +80,7 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates
+      isLast, isGroupable, duplicates, onToggleExpander, isExpanded
     } = this.props
 
     let separator = null
@@ -102,8 +99,10 @@ export default class Row extends Component {
       key: `row-${message.id}`,
       user,
       onGoToChannel,
+      onToggleExpander,
       customEmojis,
       duplicates,
+      isExpanded,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
       onEdit: this.onEdit,

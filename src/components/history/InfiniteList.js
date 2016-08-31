@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
 import shallowCompare from 'react-addons-shallow-compare'
-import noop from 'lodash/utility/noop'
 import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
 
@@ -17,14 +16,11 @@ export default class InfiniteList extends Component {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func.isRequired,
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func
-  }
-
-  static defaultProps = {
-    onRowsRendered: noop
   }
 
   constructor(props) {
@@ -47,7 +43,7 @@ export default class InfiniteList extends Component {
     this.virtualScroll = ref
   }
 
-  onResize = ({width}) => {
+  onResizeViewport = ({width}) => {
     // When container gets resized, we can forget all cached heights.
     // Compare additionally with a locally cached width, because
     // this function is called in some cases even when width has not changed.
@@ -58,9 +54,18 @@ export default class InfiniteList extends Component {
     this.prevWidth = width
   }
 
+  onToggleExpander = (options) => {
+    cache.del(options.id)
+    this.props.onToggleExpander(options)
+  }
+
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  renderRow = ({index}) => <Row {...this.props.rows[index]} />
+  renderRow = ({index}) => (
+    <Row
+      {...this.props.rows[index]}
+      onToggleExpander={this.onToggleExpander} />
+  )
 
   renderRowForCellMeasurer = ({rowIndex: index}) => this.renderRow({index})
 
@@ -84,7 +89,7 @@ export default class InfiniteList extends Component {
           onRowsRendered: onRowsRenderedInInfiniteLoader,
           onScroll: onScrollInInfiniteLoader
         }) => (
-          <AutoSizer onResize={this.onResize}>
+          <AutoSizer onResize={this.onResizeViewport}>
             {({width, height}) => (
               <CellMeasurer
                 cellSizeCache={this.cache}

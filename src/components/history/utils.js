@@ -1,10 +1,11 @@
 import pick from 'lodash/object/pick'
 import last from 'lodash/array/last'
+import indexBy from 'lodash/collection/indexBy'
 
 /**
  * Merge message data with props to cover all rows representation cases.
  */
-export const mergeMessages = (() => {
+export const createRowsState = (() => {
   // Group messages under same avatar/name if they are send within this time distance.
   const timeThreshold = 5 * 60 * 1000
 
@@ -27,7 +28,9 @@ export const mergeMessages = (() => {
     return message.text === prevMessage.text
   }
 
-  return (messages, props) => {
+  return (prevRows, messages, props) => {
+    const prevRowsMap = indexBy(prevRows, 'id')
+
     const ret = messages.reduce((result, message, index) => {
       const {rows, map} = result
       const prevMessage = messages[index - 1]
@@ -46,6 +49,7 @@ export const mergeMessages = (() => {
       }
 
       rows.push({
+        ...prevRowsMap[message.id],
         id: message.id,
         message,
         prevMessage,
