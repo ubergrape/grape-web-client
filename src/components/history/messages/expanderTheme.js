@@ -3,26 +3,24 @@ import linkButton from '../../button/link'
 export const maxHeight = 350
 
 const basePanel = {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
   textAlign: 'center'
 }
 
 export const styles = {
   expandedExpander: {
-    display: 'inline-block'
+    paddingBottom: 15
   },
   collapsedExpander: {
-    display: 'inline-block',
     overflow: 'hidden',
     maxHeight
   },
   collapsedPanel: {
     extend: basePanel,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
     paddingTop: 50,
-    textAlign: 'center',
     // FIXME use grape-theme
     background: [
       '#edf0f5',
