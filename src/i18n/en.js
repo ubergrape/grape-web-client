@@ -6,11 +6,11 @@
  */
 export default {
   "noEmojiFound": "No emoji found.",
-  "willNotifyRoom": "— notify everyone in this room",
+  "willNotifyRoom": "— notify everyone in this group",
   "wontNotifyRoom": "— does not notify room members",
   "notInRoom": "not in room",
-  "noDetailForItem": "No Detail Infos for this Item",
-  "searchInfo": "Search Wikipedia, Youtube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key",
+  "noDetailForItem": "No detail infos for this item",
+  "searchInfo": "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard",
   "yourBusinessTools": "your business tools",
   "grapeSearch": "Grape Search",
   "noResults": "No Results.",
