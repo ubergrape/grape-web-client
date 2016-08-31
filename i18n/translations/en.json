@@ -122,6 +122,9 @@
   "showMore": {
     "defaultMessage": "Show more"
   },
+  "showLess": {
+    "defaultMessage": "Show less"
+  },
   "contacts": {
     "defaultMessage": "Contacts"
   },
