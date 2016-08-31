@@ -21,5 +21,6 @@ export const styles = {
       textDecoration: 'underline'
     },
     fontSize: '0.8em'
-  }
+  },
+  bubbleContent: {}
 }

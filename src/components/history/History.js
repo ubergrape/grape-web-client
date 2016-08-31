@@ -7,6 +7,7 @@ import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
 import ReadMessageDispatcher from './ReadMessageDispatcher'
 import Jumper from './Jumper'
+import Row from './Row'
 import {createRowsState} from './utils'
 import {styles} from './historyTheme'
 
@@ -95,6 +96,12 @@ export default class History extends Component {
     this.setState({rows})
   }
 
+  renderRow = ({index}) => (
+    <Row
+      {...this.state.rows[index]}
+      onToggleExpander={this.onToggleExpander} />
+  )
+
   render() {
     const {
       sheet: {classes}, messages, user, minimumBatchSize, channel,
@@ -139,7 +146,8 @@ export default class History extends Component {
                   onLoadMore={onLoadMore}
                   onTouchTopEdge={onTouchTopEdge}
                   onToggleExpander={this.onToggleExpander}
-                  renderNoContent={this.renderNoContent} />
+                  renderNoContent={this.renderNoContent}
+                  renderRow={this.renderRow} />
               )}
             </Jumper>
           )}

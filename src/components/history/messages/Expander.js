@@ -10,7 +10,7 @@ import {ShowMore, ShowLess} from '../../i18n/i18n'
 export default class Expander extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.element.isRequired,
     onToggle: PropTypes.func.isRequired,
     isExpanded: PropTypes.bool.isRequired
   }
@@ -57,7 +57,9 @@ export default class Expander extends Component {
     const {isEnabled} = this.state
 
     return (
-      <div ref={this.onRef} className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}>
+      <div
+        ref={this.onRef}
+        className={classes[isExpanded ? 'expandedExpander' : 'collapsedExpander']}>
         {children}
         {isEnabled &&
           <div

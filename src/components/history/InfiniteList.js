@@ -7,7 +7,6 @@ import {useSheet} from 'grape-web/lib/jss'
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
-import Row from './Row'
 import {styles} from './infiniteListTheme'
 
 @useSheet(styles)
@@ -17,6 +16,7 @@ export default class InfiniteList extends Component {
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
     onToggleExpander: PropTypes.func.isRequired,
+    renderRow: PropTypes.func.isRequired,
     rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
@@ -54,24 +54,13 @@ export default class InfiniteList extends Component {
     this.prevWidth = width
   }
 
-  onToggleExpander = (options) => {
-    cache.del(options.id)
-    this.props.onToggleExpander(options)
-  }
-
   isRowLoaded = index => Boolean(this.props.rows[index])
 
-  renderRow = ({index}) => (
-    <Row
-      {...this.props.rows[index]}
-      onToggleExpander={this.onToggleExpander} />
-  )
-
-  renderRowForCellMeasurer = ({rowIndex: index}) => this.renderRow({index})
+  renderRowForCellMeasurer = ({rowIndex: index}) => this.props.renderRow({index})
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge, renderRow,
       rows, minimumBatchSize
     } = this.props
 
@@ -125,7 +114,7 @@ export default class InfiniteList extends Component {
                         height={height}
                         rowCount={rows.length}
                         rowHeight={getRowHeight}
-                        rowRenderer={this.renderRow}
+                        rowRenderer={renderRow}
                         overscanRowCount={20}
                         ref={this.onRefVirtualScroll} />
                     )}

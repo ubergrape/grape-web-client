@@ -18,7 +18,6 @@ import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
 import DuplicatesBadge from './DuplicatesBadge'
-import Expander from './Expander'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
@@ -109,10 +108,8 @@ export default class RegularMessage extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
-    onToggleExpander: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     duplicates: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
@@ -120,8 +117,7 @@ export default class RegularMessage extends Component {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    state: DeliveryState.propTypes.state,
-    isExpanded: PropTypes.bool
+    state: DeliveryState.propTypes.state
   }
 
   static defaultProps = {
@@ -134,8 +130,7 @@ export default class RegularMessage extends Component {
     onEdit: noop,
     onRemove: noop,
     onResend: noop,
-    onGoToChannel: noop,
-    onToggleExpander: noop
+    onGoToChannel: noop
   }
 
   constructor(props) {
@@ -188,10 +183,6 @@ export default class RegularMessage extends Component {
     if (!isOwn && author.slug) onGoToChannel(author.slug)
   }
 
-  onToggleExpander = ({isExpanded}) => {
-    this.props.onToggleExpander({id: this.props.id, isExpanded})
-  }
-
   renderMenu = () => {
     const {isOwn, attachments, sheet, state} = this.props
 
@@ -229,8 +220,7 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates,
-      isExpanded
+      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates
     } = this.props
     const {classes} = sheet
 
@@ -267,25 +257,21 @@ export default class RegularMessage extends Component {
                 onClick={this.onGoToChannel} />
             }
           </div>
-          <div className={classes.bubbleContainer}>
-            <Bubble hasArrow={hasBubbleArrow}>
-              <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
-                <div
-                  ref={this.onRefContent}
-                  className={[
-                    classes.content,
-                    state === 'pending' || state === 'unsent' ? classes.disabled : ''
-                  ].join(' ')}>
-                  <Grapedown
-                    text={children}
-                    user={user}
-                    customEmojis={customEmojis} />
-                  {attachments.map(this.renderAttachment)}
-                </div>
-              </Expander>
-            </Bubble>
-            {this.renderMenu()}
-          </div>
+          <Bubble hasArrow={hasBubbleArrow}>
+            <div
+              ref={this.onRefContent}
+              className={[
+                classes.content,
+                state === 'pending' || state === 'unsent' ? classes.disabled : ''
+              ].join(' ')}>
+              <Grapedown
+                text={children}
+                user={user}
+                customEmojis={customEmojis} />
+              {attachments.map(this.renderAttachment)}
+            </div>
+          </Bubble>
+          {this.renderMenu()}
           {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />

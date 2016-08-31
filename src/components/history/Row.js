@@ -102,12 +102,15 @@ export default class Row extends Component {
       onToggleExpander,
       customEmojis,
       duplicates,
-      isExpanded,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
       onResend: this.onResend
+    }
+
+    if (message.type === 'activity') {
+      props.isExpanded = isExpanded
     }
 
     if (!separator && isGroupable) {
