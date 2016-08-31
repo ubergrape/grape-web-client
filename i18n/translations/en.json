@@ -1,38 +1,38 @@
 {
-  "noEmojiFound" : {
-    "defaultMessage" : "No emoji found."
+  "noEmojiFound": {
+    "defaultMessage": "No emoji found."
   },
-  "willNotifyRoom" : {
-    "defaultMessage" : "— notify everyone in this group",
-    "description" : "*Describe willNotifyRoom*: this string is decribing action"
+  "willNotifyRoom": {
+    "defaultMessage": "— notify everyone in this group",
+    "description": "*Describe willNotifyRoom*: this string is decribing action"
   },
-  "wontNotifyRoom" : {
-    "defaultMessage" : "— does not notify room members",
-    "description" : "*Describe wountNotifyRoom*: this string is decribing action"
+  "wontNotifyRoom": {
+    "defaultMessage": "— does not notify room members",
+    "description": "*Describe wountNotifyRoom*: this string is decribing action"
   },
-  "notInRoom" : {
-    "defaultMessage" : "not in room"
+  "notInRoom": {
+    "defaultMessage": "not in room"
   },
-  "noDetailForItem" : {
-    "defaultMessage" : "No detail infos for this item"
+  "noDetailForItem": {
+    "defaultMessage": "No detail infos for this item"
   },
-  "searchInfo" : {
-    "defaultMessage" : "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard"
+  "searchInfo": {
+    "defaultMessage": "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard"
   },
-  "yourBusinessTools" : {
-    "defaultMessage" : "your business tools",
-    "description" : "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+  "yourBusinessTools": {
+    "defaultMessage": "your business tools",
+    "description": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
   },
-  "grapeSearch" : {
-    "defaultMessage" : "Grape Search"
+  "grapeSearch": {
+    "defaultMessage": "Grape Search"
   },
-  "noResults" : {
-    "defaultMessage" : "No Results."
+  "noResults": {
+    "defaultMessage": "No Results."
   },
-  "amountResults" : {
-    "defaultMessage" : "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
+  "amountResults": {
+    "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
   },
-  "noServicesFound" : {
-    "defaultMessage" : "No services found."
+  "noServicesFound": {
+    "defaultMessage": "No services found."
   }
 }
