@@ -153,8 +153,9 @@
     "clear:lib": "rm -fr ./lib/* && npm run clear:i18n",
     "clear:i18n": "rm -rf ./i18n/{src, export}",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm dedupe && npm i && npm shrinkwrap",
-    "i18n-export": "./node_modules/.bin/babel-node i18n/scripts/export.js",
-    "i18n-legacy-export": "./node_modules/.bin/babel-node i18n/scripts/legacyExport.js",
+    "i18n-export": "npm run i18n-export:new && npm run i18n-export:legacy",
+    "i18n-export:new": "./node_modules/.bin/babel-node i18n/scripts/export.js",
+    "i18n-export:legacy": "./node_modules/.bin/babel-node i18n/scripts/legacyExport.js",
     "i18n-import": "npm run build && ./node_modules/.bin/babel-node i18n/scripts/import.js",
     "prepublish": "NODE_ENV=production npm run all"
   }

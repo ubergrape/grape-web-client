@@ -191,6 +191,15 @@
   "roomIcon": {
     "defaultMessage": "Group Icon"
   },
+  "makeRoomPrivate": {
+    "defaultMessage": "Make room private"
+  },
+  "makeRoomPublic": {
+    "defaultMessage": "Make room public"
+  },
+  "deleteRoom": {
+    "defaultMessage": "Delete room"
+  },
   "enterGroupNameHere": {
     "defaultMessage": "Enter group name here…"
   },
@@ -219,6 +228,12 @@
   },
   "onlyInThisConversation": {
     "defaultMessage": "Only in this conversation"
+  },
+  "mentionsSidebarTitle": {
+    "defaultMessage": "Mentions"
+  },
+  "searchSidebarTitle": {
+    "defaultMessage": "Search Results"
   },
   "userIsTyping": {
     "defaultMessage": "{user} is typing"
