@@ -6,7 +6,7 @@ import noop from 'lodash/utility/noop'
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import {MateBubble} from './Bubble'
+import {ActivityBubble as Bubble} from './Bubble'
 import Expander from './Expander'
 import DuplicatesBadge from './DuplicatesBadge'
 import {styles} from './activityMessageTheme'
@@ -69,7 +69,7 @@ export default class ActivityMessage extends Component {
           <div className={classes.avatarColumn}>
             {avatar && <Avatar src={avatar} className={classes.avatar} />}
           </div>
-          <MateBubble className={classes.bubble} hasArrow={hasBubbleArrow}>
+          <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
               <div className={classes.content}>
                 {container &&
@@ -84,7 +84,7 @@ export default class ActivityMessage extends Component {
                 <Grapedown text={children} user={user} />
               </div>
             </Expander>
-          </MateBubble>
+          </Bubble>
           {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
       </div>

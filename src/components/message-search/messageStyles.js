@@ -32,7 +32,6 @@ export default {
   },
   content: {
     transition,
-    width: 'calc(100% - 40px)',
     '&:hover': {
       boxShadow: `0px 1px 8px ${shadowColor}`
     },

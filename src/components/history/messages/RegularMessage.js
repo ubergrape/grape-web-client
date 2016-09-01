@@ -270,8 +270,8 @@ export default class RegularMessage extends Component {
                 customEmojis={customEmojis} />
               {attachments.map(this.renderAttachment)}
             </div>
+            {this.renderMenu()}
           </Bubble>
-          {this.renderMenu()}
           {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />

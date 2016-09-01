@@ -10,6 +10,8 @@ if (~navigator.userAgent.indexOf('Firefox') && navigator.platform === 'MacIntel'
   jsEmoji.allow_native = false
 }
 
+jsEmoji.init_colons()
+
 export default jsEmoji
 
 export function getEmojiSliceStyle(id) {
