@@ -13,6 +13,12 @@
   "notInRoom": {
     "defaultMessage": "not in room"
   },
+  "insertAction": {
+    "defaultMessage": "Insert into message"
+  },
+  "openAction": {
+    "defaultMessage": "Open"
+  },
   "noDetailForItem": {
     "defaultMessage": "No detail infos for this item"
   },
@@ -31,6 +37,10 @@
   },
   "amountResults": {
     "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
+  },
+  "serviesHeadline": {
+    "defaultMessage": "services",
+    "description": "**Headline in services list of grape-browser**"
   },
   "noServicesFound": {
     "defaultMessage": "No services found."
