@@ -144,7 +144,7 @@
     "build:lib:watch": "npm run build:lib -- --watch src",
     "build:dist": "webpack --bail",
     "build:dist:watch": "webpack --progress --colors --watch",
-    "build:i18n": "npm run build:lib && npm run i18n-export && npm run build:dist && npm run i18n-legacy-export",
+    "build:i18n": "npm run build && npm run i18n-export",
     "test": "karma start",
     "test:watch": "NODE_ENV=test karma start",
     "lint": "eslint ./src",
@@ -154,9 +154,9 @@
     "clear:i18n": "rm -rf ./i18n/{src, export}",
     "shrinkwrap": "npm run clear && npm i --production --ignore-scripts && npm dedupe && npm i && npm shrinkwrap",
     "i18n-export": "npm run i18n-export:new && npm run i18n-export:legacy",
-    "i18n-export:new": "./node_modules/.bin/babel-node i18n/scripts/export.js",
-    "i18n-export:legacy": "./node_modules/.bin/babel-node i18n/scripts/legacyExport.js",
-    "i18n-import": "npm run build && ./node_modules/.bin/babel-node i18n/scripts/import.js",
+    "i18n-export:new": "babel-node i18n/scripts/export.js",
+    "i18n-export:legacy": "babel-node i18n/scripts/legacyExport.js",
+    "i18n-import": "npm run build && babel-node i18n/scripts/import.js",
     "prepublish": "NODE_ENV=production npm run all"
   }
 }

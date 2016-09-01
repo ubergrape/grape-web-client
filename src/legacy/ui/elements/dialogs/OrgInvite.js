@@ -1,7 +1,8 @@
 import Dialog from './dialog'
 import events from 'events'
 import qs from 'query'
-import _ from 't'
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 export default OrgInvite
 

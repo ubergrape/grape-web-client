@@ -13,10 +13,12 @@ import get from 'lodash/object/get'
 import 'grape-browser'
 import {openUrl} from 'grape-web/lib/x-platform'
 import conf from 'conf'
-
 import * as images from '../../../constants/images'
 import render from '../rendervdom'
 import getRank from '../utils/getRank'
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 const inputNodes = ['INPUT', 'TEXT', 'TEXTAREA', 'SELECT']
 
@@ -80,7 +82,7 @@ export default class GrapeInput extends Emitter {
     this.previous = null
     this.org = null
     this.redraw()
-    this.placeholder = 'Enter a message ...'
+    this.placeholder = _('Enter a message …')
     // Key is room id, value is unsent text message.
     this.unsent = {}
     this.isOrgEmpty = false

@@ -98,6 +98,7 @@
   "and to": "and to",
   "connect your services": "connect your services",
   "If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.": "If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.",
+  "Enter a message …": "Enter a message …",
   "{name} invited you to the group {room}": "{name} invited you to the group {room}",
   "{name} (Group Invite)": "{name} (Group Invite)",
   "Private message": "Private message",
@@ -110,5 +111,7 @@
   "Manage Private Messages": "Manage Private Messages",
   "Active": "Active",
   "Invited": "Invited",
-  "Deleted": "Deleted"
+  "Deleted": "Deleted",
+  "Please enter at least one user to invite": "Please enter at least one user to invite",
+  "Enter valid email addresses separated by a space.": "Enter valid email addresses separated by a space."
 }
