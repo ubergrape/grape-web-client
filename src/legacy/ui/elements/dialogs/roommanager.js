@@ -6,6 +6,7 @@ let events = require('events')
 let closest = require('closest')
 let template = require('template')
 let render = require('../../rendervdom')
+let _ = require('t')
 
 import reduxEmitter from '../../../redux-emitter'
 
@@ -22,7 +23,7 @@ let protoInit = RoomManager.prototype.init
 
 RoomManager.prototype.init = function () {
   let menu = this.menu = new Menu({
-    header: 'Manage Groups',
+    header: _('Manage Groups'),
     tabs: {
       visible: true
     },
@@ -32,7 +33,7 @@ RoomManager.prototype.init = function () {
     },
     button: {
       className: 'new-room',
-      text: 'Create new group',
+      text: _('Create new group'),
       visible: true
     }
   })
@@ -40,11 +41,11 @@ RoomManager.prototype.init = function () {
   menu.setTabs([
     {
       className: 'rooms-to-join',
-      title: 'Groups you can join'
+      title: _('Groups you can join')
     },
     {
       className: 'joined-rooms',
-      title: 'Groups you belong to'
+      title: _('Groups you belong to')
     }
   ])
 
@@ -81,7 +82,7 @@ RoomManager.prototype.setUnjoined = function () {
   menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
-  menuOptions.header = 'Manage Groups'
+  menuOptions.header = _('Manage Groups')
   this.redrawContent(0)
 }
 
@@ -91,7 +92,7 @@ RoomManager.prototype.setJoined = function () {
   menuOptions.back.visible = false
   menuOptions.button.visible = true
   menuOptions.tabs.visible = true
-  menuOptions.header = 'Manage Groups'
+  menuOptions.header = _('Manage Groups')
   this.redrawContent(1)
 }
 

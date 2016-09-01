@@ -1,5 +1,6 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+import findIndex from 'lodash/array/findIndex'
 
 /**
  * Preserves the scroll position at the end when rows got added.
@@ -24,23 +25,24 @@ export default class AutoScroll extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {rows, height, minEndThreshold} = this.props
+    const rowsHasChanged = nextProps.rows !== rows
+
     if (nextProps.scrollToIndex !== undefined) {
       this.scrollToIndex = nextProps.scrollToIndex
       this.scrollToAlignment = 'center'
       return
     }
 
-    const {rows, height, minEndThreshold} = this.props
-
-    if (nextProps.rows !== rows) {
+    if (rowsHasChanged) {
       // We assume user scrolled up (reverse order) and we have loaded
       // previous rows.
       // When they are inserted at the beginning, they will change our scroll
       // position, so we need to calculate the height of those rows and scroll
       // to the old position.
       if (this.direction < 0 && this.scrollTop === 0) {
-        const prevFirstRenderedRow = rows[this.startIndex]
-        const prevFirstRowIndex = nextProps.rows.indexOf(prevFirstRenderedRow)
+        const prevFirstRenderedRowId = rows[this.startIndex].id
+        const prevFirstRowIndex = findIndex(nextProps.rows, {id: prevFirstRenderedRowId})
         if (prevFirstRowIndex !== -1) {
           this.scrollToIndex = prevFirstRowIndex
           this.scrollToAlignment = 'start'
@@ -52,7 +54,7 @@ export default class AutoScroll extends Component {
     // We way need to auto scroll when:
     // - Rows has been changed.
     // - Parent size has changed.
-    if (nextProps.height !== height) {
+    if (rowsHasChanged || nextProps.height !== height) {
       const endThreshold = this.scrollHeight - this.scrollTop - this.clientHeight
 
       // We are at the end within a threshold where we need to ensure last

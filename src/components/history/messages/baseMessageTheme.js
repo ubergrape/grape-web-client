@@ -1,35 +1,40 @@
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
-const arrowWidth = 7
-const avatarMarginRight = 5
-const avatarWidth = 32
-
-export const leftOffset = avatarWidth + avatarMarginRight + arrowWidth
 export const horizontalMargin = 20
+export const lineHeight = '21px'
 
 export const styles = {
   message: {
     margin: `0 ${horizontalMargin}px`,
-    position: 'relative'
+    position: 'relative',
+    minWidth: 400
   },
-  body: {
+  row: {
     display: 'flex'
   },
-  header: {
-    paddingLeft: leftOffset
-  },
-  avatar: {
+  avatarColumn: {
     verticalAlign: 'top',
-    marginRight: avatarMarginRight
+    minWidth: 45
   },
-  avatarPlaceholder: {
-    marginLeft: avatarWidth + avatarMarginRight
+  bubble: {
+    maxWidth: '100%'
   },
   content: {
+    lineHeight,
     '& a': linkStyles.link,
+    '& em': {
+      fontStyle: 'italic'
+    },
+    '& blockquote': {
+      // FIXME: replace with theme colors.
+      borderLeft: '3px solid #dad6e0',
+      margin: '4px 0',
+      padding: '0.5em 10px',
+      fontStyle: 'italic',
+      color: '#888291'
+    },
     '& code': {
       display: 'inline-block',
-      maxWidth: '100%',
       padding: '0 4px',
       wordWrap: 'normal',
       // FIXME: replace with theme colors.
@@ -42,7 +47,8 @@ export const styles = {
     '& pre code': {
       overflow: 'auto',
       wordBreak: 'initial',
-      transform: 'translateZ(0)'
+      transform: 'translateZ(0)',
+      width: 500
     }
   }
 }

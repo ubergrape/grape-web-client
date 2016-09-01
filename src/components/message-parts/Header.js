@@ -20,7 +20,11 @@ export default class Header extends Component {
 
   static defaultProps = {
     className: '',
-    theme: {classes: {}}
+    theme: {
+      classes: {
+        header: ''
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

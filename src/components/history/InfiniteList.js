@@ -1,13 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
 import shallowCompare from 'react-addons-shallow-compare'
-import noop from 'lodash/utility/noop'
 import findIndex from 'lodash/array/findIndex'
 import {useSheet} from 'grape-web/lib/jss'
+
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
-
 import {styles} from './infiniteListTheme'
 
 @useSheet(styles)
@@ -16,27 +15,22 @@ export default class InfiniteList extends Component {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
     onTouchTopEdge: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func.isRequired,
     renderRow: PropTypes.func.isRequired,
-    getRowProps: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
+    rows: PropTypes.array.isRequired,
     minimumBatchSize: PropTypes.number.isRequired,
     scrollTo: PropTypes.string,
     onRowsRendered: PropTypes.func
   }
 
-  static defaultProps = {
-    onRowsRendered: noop,
-    getRowProps: noop
-  }
-
   constructor(props) {
     super(props)
-    this.cache = new RowsCache(props.messages, props.getRowProps)
+    this.cache = new RowsCache(props.rows)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.messages !== this.props.messages) {
-      this.cache.setRows(nextProps.messages)
+    if (nextProps.rows !== this.props.rows) {
+      this.cache.setRows(nextProps.rows)
       this.virtualScroll.recomputeRowHeights()
     }
   }
@@ -49,32 +43,29 @@ export default class InfiniteList extends Component {
     this.virtualScroll = ref
   }
 
-  onResize = () => {
+  onResizeViewport = ({width}) => {
     // When container gets resized, we can forget all cached heights.
-    cache.clear()
-    this.virtualScroll.recomputeRowHeights()
+    // Compare additionally with a locally cached width, because
+    // this function is called in some cases even when width has not changed.
+    if (this.prevWidth !== undefined && this.prevWidth !== width) {
+      cache.clear()
+      this.virtualScroll.recomputeRowHeights()
+    }
+    this.prevWidth = width
   }
 
-  isRowLoaded = (index) => {
-    return Boolean(this.props.messages[index])
-  }
+  isRowLoaded = index => Boolean(this.props.rows[index])
 
-  renderRow = ({index}) => {
-    return this.props.renderRow(index)
-  }
-
-  renderRowForCellMeasurer = ({rowIndex}) => {
-    return this.props.renderRow(rowIndex)
-  }
+  renderRowForCellMeasurer = ({rowIndex: index}) => this.props.renderRow({index})
 
   render() {
     const {
-      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge,
-      messages, minimumBatchSize
+      sheet, scrollTo, onRowsRendered, onLoadMore, onTouchTopEdge, renderRow,
+      rows, minimumBatchSize
     } = this.props
 
     const {classes} = sheet
-    const scrollToMessageIndex = scrollTo ? findIndex(messages, {id: scrollTo}) : undefined
+    const scrollToRow = scrollTo ? findIndex(rows, {id: scrollTo}) : undefined
 
     return (
       <InfiniteLoader
@@ -87,19 +78,19 @@ export default class InfiniteList extends Component {
           onRowsRendered: onRowsRenderedInInfiniteLoader,
           onScroll: onScrollInInfiniteLoader
         }) => (
-          <AutoSizer onResize={this.onResize}>
+          <AutoSizer onResize={this.onResizeViewport}>
             {({width, height}) => (
               <CellMeasurer
                 cellSizeCache={this.cache}
                 cellRenderer={this.renderRowForCellMeasurer}
                 columnCount={1}
-                rowCount={messages.length}
+                rowCount={rows.length}
                 width={width}>
                 {({getRowHeight}) => (
                   <AutoScroll
-                    rows={messages}
+                    rows={rows}
                     height={height}
-                    scrollToIndex={scrollToMessageIndex}>
+                    scrollToIndex={scrollToRow}>
                     {({
                       onScroll: onScrollInAutoScroll,
                       scrollToAlignment,
@@ -121,9 +112,9 @@ export default class InfiniteList extends Component {
                         }}
                         width={width}
                         height={height}
-                        rowCount={messages.length}
+                        rowCount={rows.length}
                         rowHeight={getRowHeight}
-                        rowRenderer={this.renderRow}
+                        rowRenderer={renderRow}
                         overscanRowCount={20}
                         ref={this.onRefVirtualScroll} />
                     )}

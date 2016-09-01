@@ -8,7 +8,8 @@ export default class ReadMessageDispatcher extends Component {
     channelId: PropTypes.number.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
-        time: PropTypes.instanceOf(Date).isRequired
+        time: PropTypes.instanceOf(Date).isRequired,
+        id: PropTypes.string
       })
     ).isRequired,
     onRead: PropTypes.func.isRequired,

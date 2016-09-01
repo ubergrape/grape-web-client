@@ -17,6 +17,7 @@ import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
 import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
+import DuplicatesBadge from './DuplicatesBadge'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
@@ -107,6 +108,8 @@ export default class RegularMessage extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    duplicates: PropTypes.number.isRequired,
     // Author and avatar are optional because we show them only for the first
     // message in the row.
     author: PropTypes.shape({
@@ -114,7 +117,6 @@ export default class RegularMessage extends Component {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    user: PropTypes.object.isRequired,
     state: DeliveryState.propTypes.state
   }
 
@@ -218,7 +220,7 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, customEmojis
+      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates
     } = this.props
     const {classes} = sheet
 
@@ -234,29 +236,34 @@ export default class RegularMessage extends Component {
     return (
       <div className={classes.message}>
         {author &&
-          <Header
-            time={time}
-            userTime={userTime}
-            author={author.name}
-            theme={sheet}
-            onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <Header
+              time={time}
+              userTime={userTime}
+              author={author.name}
+              onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+          </div>
         }
         <div
-          className={`${classes.body} ${avatar ? '' : classes.avatarPlaceholder}`}
+          className={classes.row}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}>
-          {avatar &&
-            <Avatar
-              src={avatar}
-              className={classes[canPm ? 'avatarClickable' : 'avatar']}
-              onClick={this.onGoToChannel} />
-          }
-          <Bubble
-            className={classes[`bubble${avatar ? 'WithOffset' : ''}`]}
-            hasArrow={hasBubbleArrow}>
+          <div className={classes.avatarColumn}>
+            {avatar &&
+              <Avatar
+                src={avatar}
+                className={classes[canPm ? 'clickable' : '']}
+                onClick={this.onGoToChannel} />
+            }
+          </div>
+          <Bubble hasArrow={hasBubbleArrow}>
             <div
               ref={this.onRefContent}
-              className={`${classes.content} ${classes[state]}`}>
+              className={[
+                classes.content,
+                state === 'pending' || state === 'unsent' ? classes.disabled : ''
+              ].join(' ')}>
               <Grapedown
                 text={children}
                 user={user}
@@ -265,9 +272,15 @@ export default class RegularMessage extends Component {
             </div>
             {this.renderMenu()}
           </Bubble>
+          {duplicates > 0 && <DuplicatesBadge value={duplicates} />}
         </div>
         <DeliveryState state={state} time={time} theme={{classes}} />
-        {state === 'unsent' && <UnsentWarning theme={{classes}} onResend={onResend} />}
+        {state === 'unsent' &&
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <UnsentWarning theme={{classes}} onResend={onResend} />
+          </div>
+        }
       </div>
     )
   }

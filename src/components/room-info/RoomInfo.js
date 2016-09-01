@@ -169,11 +169,11 @@ export default class RoomInfo extends Component {
   }
 
   renderDescriptionEditable() {
-    const {channel, intl} = this.props
+    const {channel, intl: {formatMessage}} = this.props
     if (!this.state.allowEdit) return <p>{channel.description}</p>
     return (
       <EditableText
-        placeholder={intl.formatMessage(messages.placeholder)}
+        placeholder={formatMessage(messages.placeholder)}
         maxLength={maxChannelDescriptionLength}
         onSave={::this.onSetRoomDescription}
         value={channel.description}
@@ -198,7 +198,9 @@ export default class RoomInfo extends Component {
   }
 
   render() {
-    const {channel, renameError, clearRoomRenameError, intl} = this.props
+    const {
+      channel, renameError, clearRoomRenameError, intl: {formatMessage}
+    } = this.props
     if (isEmpty(channel)) return null
 
     const {classes} = this.props.sheet
@@ -206,7 +208,7 @@ export default class RoomInfo extends Component {
 
     return (
       <SidebarPanel
-        title={intl.formatMessage(messages.title)}
+        title={formatMessage(messages.title)}
         onClose={::this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings

@@ -8,7 +8,7 @@ import de from 'react-intl/locale-data/de'
 
 import wrapWithIntlProvider from './wrapWithIntlProvider'
 import * as translations from '../i18n'
-import subscribeActions from './subscribe'
+import subscribe from './subscribe'
 import {create as createClient} from '../utils/backend/client'
 import BillingWarningProvider from '../components/billing-warning/BillingWarningProvider'
 import TypingNotificationProvider from '../components/typing-notification/TypingNotificationProvider'
@@ -89,5 +89,5 @@ document.registerReact(
 )
 
 export default function init() {
-  subscribeActions(createClient().connect())
+  subscribe(createClient().connect())
 }

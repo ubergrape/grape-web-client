@@ -23,32 +23,6 @@
 				=_("and in ")
 				s=_("strike trough")
 	.header
-		=_("Lists")
-	.table
-		.cell
-			.cell-title
-				=_("Example")
-			pre
-				code
-					=_("- unordered list element")
-					br
-					=_("- another one")
-					br
-					br
-					=_("1. An ordered list")
-					br
-					=_("1. A second one")
-		.cell
-			.cell-title
-				=_("Result")
-			ul
-				li=_("This is an unordered list element")
-				li=_("This is another one")
-			br
-			ol
-				li=_("An ordered list")
-				li=_("A second one")
-	.header
 		=_("Links")
 	.table
 		.cell
@@ -62,20 +36,6 @@
 				=_("Result")
 			p
 				a(href="https://chatgrape.com")=_("A link to ChatGrape")
-	.header
-		=_("Images")
-	.table
-		.cell
-			.cell-title
-				=_("Example")
-			pre
-				code
-					=_("![description](https://ug-cdn.com/static/chatgrape/static/images/logo.svg)")
-		.cell
-			.cell-title
-				=_("Result")
-			p
-				img(alt="description", src=staticurl("images/logo.svg"))
 	.header
 		=_("Code Snippets")
 	.table

@@ -10,6 +10,8 @@ if (~navigator.userAgent.indexOf('Firefox') && navigator.platform === 'MacIntel'
   jsEmoji.allow_native = false
 }
 
+jsEmoji.init_colons()
+
 export default jsEmoji
 
 export function getEmojiSliceStyle(id) {
@@ -27,8 +29,9 @@ export function getEmojiSliceStyle(id) {
 export const emojiRegex = /(^|\s):[a-zA-Z0-9-_]+:(?=($|\s))/g
 
 export const style = {
-  fontSize: 21,
+  fontSize: 'inherit',
   display: 'inline-block',
+  verticalAlign: 'middle',
   width: '1em',
   height: '1em'
 }
