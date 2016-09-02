@@ -66,7 +66,7 @@
     "all": "npm run lint && npm run test && npm run build && npm run i18n-export",
     "build": "npm run clear:lib && babel src --out-dir lib",
     "build:watch": "npm run clear:lib && babel --watch src --out-dir lib",
-    "build:i18n": "npm run build && npm run clear:i18n && npm run i18n-export",
+    "build:i18n": "npm run clear:i18n && npm run build && npm run i18n-export",
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.development.js",
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
