@@ -1,5 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {FormattedMessage} from 'react-intl'
+import {
+  defineMessages,
+  intlShape,
+  FormattedMessage
+} from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-finite-list'
 import {useSheet} from 'grape-web/lib/jss'
@@ -8,10 +12,19 @@ import style from './serviceListStyle'
 import Service from './Service'
 import SectionHeader from '../../section-header/SectionHeader'
 
+const messages = defineMessages({
+  services: {
+    id: 'serviesHeadline',
+    defaultMessage: 'services',
+    description: '**Headline in services list of grape-browser**'
+  }
+})
+
 @useSheet(style)
 export default class ServiceList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     services: PropTypes.array,
     servicesResultsAmounts: PropTypes.object,
     onSelect: PropTypes.func,
@@ -36,8 +49,9 @@ export default class ServiceList extends Component {
   }
 
   renderBody() {
-    const {classes} = this.props.sheet
-    const {services, focused} = this.props
+    const {
+      services, focused, sheet: {classes}, intl: {formatMessage}
+    } = this.props
 
     if (!services.length) {
       return (
@@ -50,7 +64,7 @@ export default class ServiceList extends Component {
     }
 
     return [
-      <SectionHeader text="services" key="header" />,
+      <SectionHeader text={formatMessage(messages.services)} key="header" />,
       <List
         className={classes.services}
         renderItem={::this.renderService}

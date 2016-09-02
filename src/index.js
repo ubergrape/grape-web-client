@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {IntlProvider} from 'react-intl'
+import {IntlProvider, addLocaleData} from 'react-intl'
+import en from 'react-intl/locale-data/en'
+import de from 'react-intl/locale-data/de'
 
 import * as translations from './i18n'
 import SearchBrowser from './components/search-browser/SearchBrowser'
@@ -13,6 +15,8 @@ export {GrapeBrowser as GrapeBrowser}
 
 // Register reactive elements.
 import 'reactive-elements'
+
+addLocaleData([...en, ...de])
 
 class App extends Component {
   static propTypes = {
