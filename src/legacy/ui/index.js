@@ -174,7 +174,7 @@ UI.prototype.renderIntro = function() {
   })
   this.intro.setOptions({
     nextLabel: `<strong class="btn-nextStep">${_('Continue')}</strong>`,
-    skipLabel: `${_('Already done?')} <u>Skip tutorial</u>`,
+    skipLabel: `${_('Already done?')} <u>${_('Skip tutorial')}</u>`,
     overlayOpacity: 0.005,
     showStepNumbers: false,
     showProgress: true,

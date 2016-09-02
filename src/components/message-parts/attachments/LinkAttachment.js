@@ -11,3 +11,7 @@ export default function LinkAttachment(props) {
 LinkAttachment.propTypes = {
   category: PropTypes.string.isRequired
 }
+
+LinkAttachment.defaultProps = {
+  category: 'file'
+}

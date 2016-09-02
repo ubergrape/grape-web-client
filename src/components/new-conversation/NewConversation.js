@@ -173,7 +173,7 @@ export default class NewConversation extends Component {
     const {
       sheet, filterNewConversation,
       addToNewConversation, removeFromNewConversation,
-      showNewConversationAdvanced, organization, intl
+      showNewConversationAdvanced, organization, intl: {formatMessage}
     } = this.props
 
     if (!organization) return null
@@ -182,7 +182,7 @@ export default class NewConversation extends Component {
     return (
       <ChooseUsersDialog
         {...this.props}
-        title={intl.formatMessage(messages.title)}
+        title={formatMessage(messages.title)}
         theme={{classes}}
         onHide={this.onHide}
         filterFocus={!this.state.roomNameFocused}

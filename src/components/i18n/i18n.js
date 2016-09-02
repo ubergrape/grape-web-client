@@ -33,6 +33,14 @@ export function ShowMore() {
   )
 }
 
+export function ShowLess() {
+  return (
+    <FormattedMessage
+      id="showLess"
+      defaultMessage="Show less" />
+  )
+}
+
 export function Contacts() {
   return (
     <FormattedMessage

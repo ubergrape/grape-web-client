@@ -41,7 +41,6 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
     const {
       avatar,
       username,
@@ -50,11 +49,13 @@ export default class UserProfile extends Component {
       email,
       skypeUsername,
       phoneNumber,
-      intl
+      intl: {formatMessage},
+      sheet: {classes}
     } = this.props
+
     return (
       <SidebarPanel
-        title={intl.formatMessage(messages.title)}
+        title={formatMessage(messages.title)}
         onClose={::this.onClose}>
         <div className={classes.profile}>
           <div className={classes.leftColumn}>

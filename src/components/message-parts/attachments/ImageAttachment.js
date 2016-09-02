@@ -5,6 +5,24 @@ import ImageZoom from '../../image-zoom/ImageZoom'
 
 import {styles} from './imageAttachmentTheme'
 
+function calcThumbnailSize(options) {
+  const {
+    thumbnailWidth, thumbnailHeight, maxThumbnailWidth, maxThumbnailHeight
+  } = options
+
+  // Landscape
+  if (thumbnailWidth >= thumbnailHeight) {
+    const width = Math.min(thumbnailWidth, maxThumbnailWidth)
+    const height = Math.round(width * thumbnailHeight / thumbnailWidth)
+    return {width, height}
+  }
+
+  // Portrait
+  const height = Math.min(maxThumbnailHeight, thumbnailHeight)
+  const width = height * thumbnailWidth / thumbnailHeight
+  return {width, height}
+}
+
 @useSheet(styles)
 export default class ImageAttachment extends Component {
   static propTypes = {
@@ -12,10 +30,17 @@ export default class ImageAttachment extends Component {
     url: PropTypes.string.isRequired,
     thumbnailUrl: PropTypes.string.isRequired,
     thumbnailWidth: PropTypes.number.isRequired,
-    thumbnailHeight: PropTypes.number.isRequired
+    thumbnailHeight: PropTypes.number.isRequired,
+    maxThumbnailWidth: PropTypes.number.isRequired,
+    maxThumbnailHeight: PropTypes.number.isRequired
   }
 
-  getThumbnailRef = () => (this.thumbnail)
+  static defaultProps = {
+    maxThumbnailWidth: 360,
+    maxThumbnailHeight: 360
+  }
+
+  getThumbnailRef = () => this.thumbnail
 
   setThumbnailRef = (ref) => {
     this.thumbnail = ref
@@ -23,23 +48,19 @@ export default class ImageAttachment extends Component {
 
   render() {
     const {
-      sheet,
+      sheet: {classes},
       url,
-      thumbnailUrl,
-      thumbnailWidth: width,
-      thumbnailHeight: height
+      thumbnailUrl
     } = this.props
     const backgroundImage = `url(${thumbnailUrl})`
 
     return (
       <ImageZoom
         getPreviewRef={this.getThumbnailRef}
-        url={url}>
-        <div
-          ref={this.setThumbnailRef}
-          className={sheet.classes.thumbnail}
-          style={{backgroundImage, width, height}}></div>
-      </ImageZoom>
+        url={url}
+        className={classes.thumbnail}
+        ref={this.setThumbnailRef}
+        style={{backgroundImage, ...calcThumbnailSize(this.props)}} />
     )
   }
 }

@@ -66,14 +66,14 @@ export default class MainSettings extends Component {
       clearRoomRenameError,
       channel,
       allowEdit,
-      intl
+      intl: {formatMessage}
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
     return (
       <div className={classes.roomName}>
         <EditableText
-          placeholder={intl.formatMessage(messages.placeholder)}
+          placeholder={formatMessage(messages.placeholder)}
           clearError={clearRoomRenameError}
           maxLength={maxChannelNameLength}
           onSave={renameRoom}

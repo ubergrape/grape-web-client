@@ -3,6 +3,7 @@ let Menu = require('../../utils/menu')
 let ItemList = require('../../utils/itemlist')
 let qs = require('query')
 let events = require('events')
+let _ = require('t')
 
 module.exports = PMManager
 
@@ -17,7 +18,7 @@ let protoInit = PMManager.prototype.init
 
 PMManager.prototype.init = function () {
   let menu = this.menu = new Menu({
-    header: 'Manage Private Messages',
+    header: _('Manage Private Messages'),
     tabs: {
       visible: true
     },
@@ -27,15 +28,15 @@ PMManager.prototype.init = function () {
   menu.setTabs([
     {
       className: 'active-users',
-      title: 'Active'
+      title: _('Active')
     },
     {
       className: 'invited-users',
-      title: 'Invited'
+      title: _('Invited')
     },
     {
       className: 'deleted-users',
-      title: 'Deleted'
+      title: _('Deleted')
     }
   ])
 

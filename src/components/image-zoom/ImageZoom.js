@@ -9,9 +9,11 @@ import shallowCompare from 'react-addons-shallow-compare'
  */
 export default class ImageZoomComponent extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
     url: PropTypes.string.isRequired,
-    getPreviewRef: PropTypes.func.isRequired
+    getPreviewRef: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    children: PropTypes.node
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -25,9 +27,13 @@ export default class ImageZoomComponent extends Component {
   }
 
   render() {
+    const {className, style, children} = this.props
     return (
-      <div onClick={this.onZoom}>
-        {this.props.children}
+      <div
+        onClick={this.onZoom}
+        className={className}
+        style={style}>
+        {children}
       </div>
     )
   }

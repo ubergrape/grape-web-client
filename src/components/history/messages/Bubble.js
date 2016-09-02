@@ -12,6 +12,17 @@ color = '#edf0f5'
 styles = baseStyles({color})
 export const MateBubble = useTheme(Bubble, {styles})
 
+styles = baseStyles({color})
+export const ActivityBubble = useTheme(Bubble, {
+  styles: {
+    ...styles,
+    content: {
+      extend: styles.content,
+      overflow: 'hidden'
+    }
+  }
+})
+
 // FIXME use grape-theme
 color = '#fff3b9'
 styles = baseStyles({color})

@@ -2,7 +2,6 @@ import * as images from '../constants/images'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  title: 'Mentions',
   limit: 20,
   isLoading: false,
   items: [],
