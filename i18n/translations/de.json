@@ -4,7 +4,7 @@
   },
   "willNotifyRoom" : {
     "defaultMessage" : "— jeden in dieser Gruppe benachrichtigen",
-    "description" : "*Describe willNotifyRoom*: this string is decribing action"
+    "description" : "*Describe willNotifyRoom*: dieser String beschreibt eine Aktion"
   },
   "wontNotifyRoom" : {
     "defaultMessage" : "— Gruppenmitglieder werden nicht benachrichtigt",
@@ -13,15 +13,21 @@
   "notInRoom" : {
     "defaultMessage" : "nicht in Gruppe"
   },
+  "insertAction" : {
+    "defaultMessage" : "In Ihre Nachricht einfügen"
+  },
+  "openAction" : {
+    "defaultMessage" : "Öffnen"
+  },
   "noDetailForItem" : {
-    "defaultMessage" : "Keine Detail-Infos"
+    "defaultMessage" : "Keine detaillierten Informationen"
   },
   "searchInfo" : {
-    "defaultMessage" : "Suchen Sie auf Wikipedia, YouTube, Giphy und {tools} indem Sie auf {plusIcon} klicken oder die Plus-Taste auf Ihrer Tastatur drücken."
+    "defaultMessage" : "Durchsuchen Sie Wikipedia, YouTube, Giphy und {tools}, indem Sie auf {plusIcon} klicken oder die Raute-Taste auf Ihrer Tastatur drücken."
   },
   "yourBusinessTools" : {
-    "defaultMessage" : "Ihre Datenbanken",
-    "description" : "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+    "defaultMessage" : "Ihr Werkzeugkasten",
+    "description" : "*Describe yourBusinessTools*: wird in der Nachricht 'Durchsuchen Sie Wikipedia, Youtube, Giphy and {tools}' verwendet"
   },
   "grapeSearch" : {
     "defaultMessage" : "Grape-Suche"
@@ -31,6 +37,10 @@
   },
   "amountResults" : {
     "defaultMessage" : "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}"
+  },
+  "serviesHeadline" : {
+    "defaultMessage" : "Services",
+    "description" : "**Headline in services list of grape-browser**"
   },
   "noServicesFound" : {
     "defaultMessage" : "Keine Services gefunden."
