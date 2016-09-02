@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "main": "lib/index.js",
   "engines": {
     "node": "5.11.0"
@@ -73,8 +73,8 @@
     "emoji": "bin/emoji",
     "test:watch": "NODE_ENV=test karma start",
     "test": "SINGLE_RUN=true NODE_ENV=testing karma start",
-    "i18n-export": "./node_modules/.bin/babel-node i18n/scripts/export.js",
-    "i18n-import": "npm run build && ./node_modules/.bin/babel-node i18n/scripts/import.js",
+    "i18n-export": "babel-node i18n/scripts/export.js",
+    "i18n-import": "npm run build && babel-node i18n/scripts/import.js",
     "prepublish": "npm run all"
   }
 }

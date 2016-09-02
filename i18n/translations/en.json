@@ -6,18 +6,12 @@
     "defaultMessage": "— notify everyone in this group",
     "description": "*Describe willNotifyRoom*: this string is decribing action"
   },
-  "wontNotifyRoom" : {
-    "defaultMessage" : "— does not notify room members",
-    "description" : "*Describe wontNotifyRoom*: this string is decribing action"
+  "wontNotifyRoom": {
+    "defaultMessage": "— does not notify room members",
+    "description": "*Describe wontNotifyRoom*: this string is decribing action"
   },
-  "notInRoom" : {
-    "defaultMessage" : "not in group"
-  },
-  "insertAction" : {
-    "defaultMessage" : "Insert into message"
-  },
-  "openAction" : {
-    "defaultMessage" : "Open"
+  "notInRoom": {
+    "defaultMessage": "not in group"
   },
   "insertAction": {
     "defaultMessage": "Insert into message"
@@ -44,11 +38,11 @@
   "amountResults": {
     "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
   },
-  "serviesHeadline" : {
-    "defaultMessage" : "services",
-    "description" : "**Headline in services list of grape-browser**"
+  "serviesHeadline": {
+    "defaultMessage": "services",
+    "description": "**Headline in services list of grape-browser**"
   },
-    "noServicesFound" : {
-    "defaultMessage" : "No services found."
+  "noServicesFound": {
+    "defaultMessage": "No services found."
   }
 }
