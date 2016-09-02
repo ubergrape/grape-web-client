@@ -6,8 +6,8 @@
  */
 export default {
   "*": "*",
-  "Welcome {name}!": "Welcome {name}!",
-  "it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!": "it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!",
+  "Welcome {name}!": "Welcome, {name}!",
+  "it looks like you're all alone. Let's change that by inviting your team members and creating or joining some rooms!": "it looks like you're all alone. Let's change that by inviting your team members and creating or joining some groups!",
   "Add members to this organization": "Add members to this organization",
   "Create or join rooms": "Create or join rooms",
   "Hi {name}!": "Hi {name}!",
@@ -64,6 +64,7 @@ export default {
   "Join": "Join",
   "Leave": "Leave",
   "Invite people to your organization": "Invite people to your organization",
+  "Enter one or more email addresses separated by a space.": "Enter one or more email addresses separated by a space.",
   "Drop your file to upload it!": "Drop your file to upload it!",
   "We support almost every file type up to a size of 50mb": "We support almost every file type up to a size of 50mb",
   "Hit ": "Hit ",
@@ -82,6 +83,7 @@ export default {
   "Log out": "Log out",
   "Continue": "Continue",
   "Already done?": "Already done?",
+  "Skip tutorial": "Skip tutorial",
   "Welcome": "Welcome",
   "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.": "Grape is a chat application for teams. We help you to make your team communication more efficient, productive and fun.",
   "If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.": "If you haven't used Grape already, we recommend you to take our 90 seconds tutorial.",
@@ -102,9 +104,20 @@ export default {
   "and to": "and to",
   "connect your services": "connect your services",
   "If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.": "If you have any question, do not hesitate to write us by clicking the question mark on the top right corner.",
+  "Enter a message …": "Enter a message …",
   "{name} invited you to the group {room}": "{name} invited you to the group {room}",
   "{name} (Group Invite)": "{name} (Group Invite)",
   "Private message": "Private message",
   "[Image]": "[Image]",
-  "Please enter the name of the room you want to delete.": "Please enter the name of the group you want to delete."
+  "Please enter the name of the room you want to delete.": "Please enter the name of the group you want to delete.",
+  "Manage Groups": "Manage Groups",
+  "Create new group": "Create new group",
+  "Groups you can join": "Groups you can join",
+  "Groups you belong to": "Groups you belong to",
+  "Manage Private Messages": "Manage Private Messages",
+  "Active": "Active",
+  "Invited": "Invited",
+  "Deleted": "Deleted",
+  "Please enter at least one user to invite": "Please enter at least one user to invite",
+  "Enter valid email addresses separated by a space.": "Enter valid email addresses separated by a space."
 }

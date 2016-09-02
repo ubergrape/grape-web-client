@@ -1,253 +1,253 @@
 {
-  "lostConnectionAlert" : {
-    "defaultMessage" : "Lost connection to the server — trying to reconnect. You can also try to {action}.",
-    "description" : "**Describe lostConnectionAlert**: it is alert asking for page reload."
+  "lostConnectionAlert": {
+    "defaultMessage": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
+    "description": "**Describe lostConnectionAlert**: it is alert asking for page reload."
   },
-  "reload" : {
-    "defaultMessage" : "reload"
+  "reload": {
+    "defaultMessage": "reload"
   },
-  "reconnectAlert" : {
-    "defaultMessage" : "Reconnected successfully."
+  "reconnectAlert": {
+    "defaultMessage": "Reconnected successfully."
   },
-  "noRoomFound" : {
-    "defaultMessage" : "We could not find what you were looking for – the group might have been deleted, renamed or moved."
+  "noRoomFound": {
+    "defaultMessage": "We could not find what you were looking for - the room might have been deleted, renamed or moved."
   },
-  "noMessageFound" : {
-    "defaultMessage" : "We could not find the message you were looking for."
+  "noMessageFound": {
+    "defaultMessage": "We could not find the message you were looking for."
   },
-  "cannotMessageYourself" : {
-    "defaultMessage" : "You cannot message yourself."
+  "cannotMessageYourself": {
+    "defaultMessage": "You cannot message yourself."
   },
-  "loadingChatHistory" : {
-    "defaultMessage" : "Loading your chat history…"
+  "loadingChatHistory": {
+    "defaultMessage": "Loading your chat history…"
   },
-  "initialGreeting" : {
-    "defaultMessage" : "Hey there!"
+  "initialGreeting": {
+    "defaultMessage": "Hey there!"
   },
-  "enableNotificationsRequest" : {
-    "defaultMessage" : "Please enable desktop notifications"
+  "enableNotificationsRequest": {
+    "defaultMessage": "Please enable desktop notifications"
   },
-  "notificationsExplanation" : {
-    "defaultMessage" : "so your team members can reach you on Grape."
+  "notificationsExplanation": {
+    "defaultMessage": "so your team members can reach you on Grape."
   },
-  "enableNotifications" : {
-    "defaultMessage" : "Enable notifications"
+  "enableNotifications": {
+    "defaultMessage": "Enable notifications"
   },
-  "grapeTrial" : {
-    "defaultMessage" : "Grape Trial"
+  "grapeTrial": {
+    "defaultMessage": "Grape Trial"
   },
-  "continueTrial" : {
-    "defaultMessage" : "Continue Trial"
+  "continueTrial": {
+    "defaultMessage": "Continue Trial"
   },
-  "enterDetails" : {
-    "defaultMessage" : "Enter Details"
+  "enterDetails": {
+    "defaultMessage": "Enter Details"
   },
-  "createNewPrivateGroup" : {
-    "defaultMessage" : "Create new private group"
+  "createNewPrivateGroup": {
+    "defaultMessage": "Create new private group"
   },
-  "inviteToGroup" : {
-    "defaultMessage" : "Invite to group"
+  "inviteToGroup": {
+    "defaultMessage": "Invite to group"
   },
-  "createGroup" : {
-    "defaultMessage" : "Create group"
+  "createGroup": {
+    "defaultMessage": "Create group"
   },
-  "inviteMembers" : {
-    "defaultMessage" : "Invite members"
+  "inviteMembers": {
+    "defaultMessage": "Invite members"
   },
-  "usersNotFoundFor" : {
-    "defaultMessage" : "No one found for"
+  "usersNotFoundFor": {
+    "defaultMessage": "No one found for"
   },
-  "everyoneInvited" : {
-    "defaultMessage" : "Everyone has been invited to this group"
+  "everyoneInvited": {
+    "defaultMessage": "Everyone has been invited to this group"
   },
-  "inviteToTeam" : {
-    "defaultMessage" : "Invite a new person to your team…"
+  "inviteToTeam": {
+    "defaultMessage": "Invite a new person to your team…"
   },
-  "typeName" : {
-    "defaultMessage" : "Type name..."
+  "typeName": {
+    "defaultMessage": "Type name..."
   },
-  "imageWithDescr" : {
-    "defaultMessage" : "Image: [{description}]",
-    "description" : "**Used when rendered inline image from markdown with description.**"
+  "imageWithDescr": {
+    "defaultMessage": "Image: [{description}]",
+    "description": "**Used when rendered inline image from markdown with description.**"
   },
-  "imageWithoutDescr" : {
-    "defaultMessage" : "Image: [No Description]",
-    "description" : "**Used when rendered inline image from markdown without description.**"
+  "imageWithoutDescr": {
+    "defaultMessage": "Image: [No Description]",
+    "description": "**Used when rendered inline image from markdown without description.**"
   },
-  "searchMessages" : {
-    "defaultMessage" : "Search messages"
+  "searchMessages": {
+    "defaultMessage": "Search messages"
   },
-  "messageNotSendCheckConnection" : {
-    "defaultMessage" : "This message wasn't sent. Check your internet connection and"
+  "messageNotSendCheckConnection": {
+    "defaultMessage": "This message didn't send. Check your internet connection and"
   },
-  "clickToTryAgain" : {
-    "defaultMessage" : "click to try again"
+  "clickToTryAgain": {
+    "defaultMessage": "click to try again"
   },
-  "deleteMessagesQuestion" : {
-    "defaultMessage" : "Delete the selected Message?"
+  "deleteMessagesQuestion": {
+    "defaultMessage": "Delete the selected Message?"
   },
-  "linkInClipboard" : {
-    "defaultMessage" : "Message link added to clipboard"
+  "linkInClipboard": {
+    "defaultMessage": "Message link added to clipboard"
   },
-  "roomIsPublic" : {
-    "defaultMessage" : "This group is public. Every member can join and read the history."
+  "roomIsPublic": {
+    "defaultMessage": "This group is public. Every member can join and read the history."
   },
-  "roomIsPrivate" : {
-    "defaultMessage" : "This group is private. Only invited members can see and join this group."
+  "roomIsPrivate": {
+    "defaultMessage": "This group is private. Only invited members can see and join this group."
   },
-  "welcomeToRoom" : {
-    "defaultMessage" : "Welcome to {channel}"
+  "welcomeToRoom": {
+    "defaultMessage": "Welcome to {channel}"
   },
-  "inviteMoreToGroup" : {
-    "defaultMessage" : "Invite more people to this group"
+  "inviteMoreToGroup": {
+    "defaultMessage": "Invite more people to this group"
   },
-  "addServiceIntegration" : {
-    "defaultMessage" : "Add service integration"
+  "addServiceIntegration": {
+    "defaultMessage": "Add service integration"
   },
-  "welcomeToPm" : {
-    "defaultMessage" : "Private conversation with {mate}"
+  "welcomeToPm": {
+    "defaultMessage": "Private messages with {mate}"
   },
-  "pmIntro" : {
-    "defaultMessage" : "This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
+  "pmIntro": {
+    "defaultMessage": "This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
   },
-  "close" : {
-    "defaultMessage" : "Close"
+  "close": {
+    "defaultMessage": "Close"
   },
-  "closeLower" : {
-    "defaultMessage" : "close"
+  "closeLower": {
+    "defaultMessage": "close"
   },
-  "done" : {
-    "defaultMessage" : "Done"
+  "done": {
+    "defaultMessage": "Done"
   },
-  "showMore" : {
-    "defaultMessage" : "Show more"
+  "showMore": {
+    "defaultMessage": "Show more"
   },
-  "showLess" : {
-    "defaultMessage" : "Show less"
+  "showLess": {
+    "defaultMessage": "Show less"
   },
-  "contacts" : {
-    "defaultMessage" : "Contacts"
+  "contacts": {
+    "defaultMessage": "Contacts"
   },
-  "groups" : {
-    "defaultMessage" : "Groups"
+  "groups": {
+    "defaultMessage": "Groups"
   },
-  "description" : {
-    "defaultMessage" : "Description"
+  "description": {
+    "defaultMessage": "Description"
   },
-  "grapeTeam" : {
-    "defaultMessage" : "Grape Team"
+  "grapeTeam": {
+    "defaultMessage": "Grape Team"
   },
-  "deletedUser" : {
-    "defaultMessage" : "Deleted user"
+  "deletedUser": {
+    "defaultMessage": "Deleted user"
   },
-  "editMessage" : {
-    "defaultMessage" : "Edit message"
+  "editMessage": {
+    "defaultMessage": "Edit message"
   },
-  "copyLink" : {
-    "defaultMessage" : "Copy link to message"
+  "copyLink": {
+    "defaultMessage": "Copy link to message"
   },
-  "deleteMessage" : {
-    "defaultMessage" : "Delete message"
+  "deleteMessage": {
+    "defaultMessage": "Delete message"
   },
-  "localTime" : {
-    "defaultMessage" : "Local time"
+  "localTime": {
+    "defaultMessage": "Local time"
   },
-  "noMessagesFound" : {
-    "defaultMessage" : "No messages found"
+  "noMessagesFound": {
+    "defaultMessage": "No messages found"
   },
-  "searchPropleAndGroups" : {
-    "defaultMessage" : "Search people and groups…"
+  "searchPropleAndGroups": {
+    "defaultMessage": "Search people and groups…"
   },
-  "nothingThatMatches" : {
-    "defaultMessage" : "There's nothing that matches"
+  "nothingThatMatches": {
+    "defaultMessage": "There's nothing that matches"
   },
-  "newConversation" : {
-    "defaultMessage" : "New Conversation"
+  "newConversation": {
+    "defaultMessage": "New Conversation"
   },
-  "noConversationYet" : {
-    "defaultMessage" : "No conversation yet"
+  "noConversationYet": {
+    "defaultMessage": "No conversation yet"
   },
-  "favorites" : {
-    "defaultMessage" : "Favorites"
+  "favorites": {
+    "defaultMessage": "Favorites"
   },
-  "recent" : {
-    "defaultMessage" : "Recent"
+  "recent": {
+    "defaultMessage": "Recent"
   },
-  "advancedOptions" : {
-    "defaultMessage" : "Advanced Options"
+  "advancedOptions": {
+    "defaultMessage": "Advanced Options"
   },
-  "enterGroupName" : {
-    "defaultMessage" : "Enter group name"
+  "enterGroupName": {
+    "defaultMessage": "Enter group name"
   },
-  "private" : {
-    "defaultMessage" : "Private"
+  "private": {
+    "defaultMessage": "Private"
   },
-  "public" : {
-    "defaultMessage" : "Public"
+  "public": {
+    "defaultMessage": "Public"
   },
-  "roomColor" : {
-    "defaultMessage" : "Group Color"
+  "roomColor": {
+    "defaultMessage": "Room Color"
   },
-  "roomIcon" : {
-    "defaultMessage" : "Group Icon"
+  "roomIcon": {
+    "defaultMessage": "Room Icon"
   },
-  "makeRoomPrivate" : {
-    "defaultMessage" : "Make room private"
+  "makeRoomPrivate": {
+    "defaultMessage": "Make room private"
   },
-  "makeRoomPublic" : {
-    "defaultMessage" : "Make room public"
+  "makeRoomPublic": {
+    "defaultMessage": "Make room public"
   },
-  "deleteRoom" : {
-    "defaultMessage" : "Delete room"
+  "deleteRoom": {
+    "defaultMessage": "Delete room"
   },
-  "enterGroupNameHere" : {
-    "defaultMessage" : "Enter group name here…"
+  "enterGroupNameHere": {
+    "defaultMessage": "Enter group name here…"
   },
-  "addGroupDescription" : {
-    "defaultMessage" : "Add a group description here…"
+  "addGroupDescription": {
+    "defaultMessage": "Add a group description here…"
   },
-  "groupInfo" : {
-    "defaultMessage" : "Group Info"
+  "groupInfo": {
+    "defaultMessage": "Group Info"
   },
-  "leaveChannel" : {
-    "defaultMessage" : "Leave"
+  "leaveChannel": {
+    "defaultMessage": "Leave"
   },
-  "sharedInRoom" : {
-    "defaultMessage" : "Shared in {channelName}",
-    "description" : "*Describe sharedInRoom*, example: 'Shared in Office'"
+  "sharedInRoom": {
+    "defaultMessage": "Shared in {channelName}",
+    "description": "*Describe sharedInRoom*, example: 'Shared in Office'"
   },
-  "sharedInPm" : {
-    "defaultMessage" : "Shared with {channelName}",
-    "description" : "*Describe sharedInPm*, example: Shared with Felix'"
+  "sharedInPm": {
+    "defaultMessage": "Shared with {channelName}",
+    "description": "*Describe sharedInPm*, example: Shared with Felix'"
   },
-  "sharedFiles" : {
-    "defaultMessage" : "Shared Files"
+  "sharedFiles": {
+    "defaultMessage": "Shared Files"
   },
-  "noSharedFiles" : {
-    "defaultMessage" : "No shared files"
+  "noSharedFiles": {
+    "defaultMessage": "No shared files"
   },
-  "onlyInThisConversation" : {
-    "defaultMessage" : "Only in this conversation"
+  "onlyInThisConversation": {
+    "defaultMessage": "Only in this conversation"
   },
-  "mentionsSidebarTitle" : {
-    "defaultMessage" : "Mentions"
+  "mentionsSidebarTitle": {
+    "defaultMessage": "Mentions"
   },
-  "searchSidebarTitle" : {
-    "defaultMessage" : "Search Results"
+  "searchSidebarTitle": {
+    "defaultMessage": "Search Results"
   },
-  "userIsTyping" : {
-    "defaultMessage" : "{user} is typing"
+  "userIsTyping": {
+    "defaultMessage": "{user} is typing"
   },
-  "userAndUsersAreTyping" : {
-    "defaultMessage" : "{users} and {user} are typing"
+  "userAndUsersAreTyping": {
+    "defaultMessage": "{users} and {user} are typing"
   },
-  "usersAreTyping" : {
-    "defaultMessage" : "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
+  "usersAreTyping": {
+    "defaultMessage": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
   },
-  "userProfile" : {
-    "defaultMessage" : "User Profile"
+  "userProfile": {
+    "defaultMessage": "User Profile"
   },
-  "whatIDo" : {
-    "defaultMessage" : "What I do"
+  "whatIDo": {
+    "defaultMessage": "What I do"
   }
 }
