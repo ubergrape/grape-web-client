@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "main": "lib/index.js",
   "engines": {
     "node": "5.11.0"
@@ -64,17 +64,18 @@
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build && npm run i18n-export",
-    "clean": "rm -fr ./lib/*",
-    "build": "npm run clean && babel src --out-dir lib",
-    "build:watch": "npm run clean && babel --watch src --out-dir lib",
-    "build:i18n": "npm run build && npm run i18n-export",
+    "build": "npm run clear:lib && babel src --out-dir lib",
+    "build:watch": "npm run clear:lib && babel --watch src --out-dir lib",
+    "build:i18n": "npm run clear:i18n && npm run build && npm run i18n-export",
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.development.js",
     "lint": "eslint ./src",
     "emoji": "bin/emoji",
     "test:watch": "NODE_ENV=test karma start",
     "test": "SINGLE_RUN=true NODE_ENV=testing karma start",
-    "i18n-export": "./node_modules/.bin/babel-node i18n/scripts/export.js",
-    "i18n-import": "npm run build && ./node_modules/.bin/babel-node i18n/scripts/import.js",
+    "clear:lib": "rm -fr ./lib/*",
+    "clear:i18n": "rm -rf ./i18n/{src,export}",
+    "i18n-export": "babel-node i18n/scripts/export.js",
+    "i18n-import": "npm run build && babel-node i18n/scripts/import.js",
     "prepublish": "npm run all"
   }
 }
