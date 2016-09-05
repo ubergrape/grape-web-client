@@ -1,10 +1,10 @@
 {
-  "noEmojiFound": {
-    "defaultMessage": "No emoji found."
+  "noEmojiFound" : {
+    "defaultMessage" : "No emoji found."
   },
-  "willNotifyRoom": {
-    "defaultMessage": "— notify everyone in this group",
-    "description": "*Describe willNotifyRoom*: this string is decribing action"
+  "willNotifyRoom" : {
+    "defaultMessage" : "— notify everyone in this group",
+    "description" : "*Describe willNotifyRoom*: this string is decribing action"
   },
   "wontNotifyRoom" : {
     "defaultMessage" : "— does not notify room members",
@@ -19,36 +19,30 @@
   "openAction" : {
     "defaultMessage" : "Open"
   },
-  "insertAction": {
-    "defaultMessage": "Insert into message"
+  "noDetailForItem" : {
+    "defaultMessage" : "No detail infos for this item"
   },
-  "openAction": {
-    "defaultMessage": "Open"
+  "searchInfo" : {
+    "defaultMessage" : "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard"
   },
-  "noDetailForItem": {
-    "defaultMessage": "No detail infos for this item"
+  "yourBusinessTools" : {
+    "defaultMessage" : "your business tools",
+    "description" : "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
   },
-  "searchInfo": {
-    "defaultMessage": "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard"
+  "grapeSearch" : {
+    "defaultMessage" : "Grape Search"
   },
-  "yourBusinessTools": {
-    "defaultMessage": "your business tools",
-    "description": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'"
+  "noResults" : {
+    "defaultMessage" : "No Results."
   },
-  "grapeSearch": {
-    "defaultMessage": "Grape Search"
-  },
-  "noResults": {
-    "defaultMessage": "No Results."
-  },
-  "amountResults": {
-    "defaultMessage": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
+  "amountResults" : {
+    "defaultMessage" : "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}"
   },
   "serviesHeadline" : {
-    "defaultMessage" : "services",
+    "defaultMessage" : "select service",
     "description" : "**Headline in services list of grape-browser**"
   },
-    "noServicesFound" : {
+  "noServicesFound" : {
     "defaultMessage" : "No services found."
   }
 }
