@@ -9,14 +9,11 @@ export default {
   "willNotifyRoom": "— jeden in dieser Gruppe benachrichtigen",
   "wontNotifyRoom": "— Gruppenmitglieder werden nicht benachrichtigt",
   "notInRoom": "nicht in Gruppe",
-  "insertAction": "In Ihre Nachricht einfügen",
-  "openAction": "Öffnen",
-  "noDetailForItem": "Keine detaillierten Informationen",
-  "searchInfo": "Durchsuchen Sie Wikipedia, YouTube, Giphy und {tools}, indem Sie auf {plusIcon} klicken oder die Raute-Taste auf Ihrer Tastatur drücken.",
-  "yourBusinessTools": "Ihr Werkzeugkasten",
+  "noDetailForItem": "Keine Detail-Infos",
+  "searchInfo": "Suchen Sie auf Wikipedia, YouTube, Giphy und {tools} indem Sie auf {plusIcon} klicken oder die Plus-Taste auf Ihrer Tastatur drücken.",
+  "yourBusinessTools": "Ihre Datenbanken",
   "grapeSearch": "Grape-Suche",
   "noResults": "Keine Ergebnisse.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
-  "serviesHeadline": "Services",
   "noServicesFound": "Keine Services gefunden."
 }
