@@ -22,7 +22,7 @@ import * as legacyTranslataions from '../i18n/legacy'
 export default function init() {
   // Initialize the legacy UI and add it to the DOM.
   window.ui = new Ui({
-    message: legacyTranslataions[conf.user.languageCode],
+    messages: legacyTranslataions[conf.user.languageCode],
     languageCode: conf.user.languageCode,
     newHistory: conf.newHistory,
     uploadPath: conf.server.uploadPath,

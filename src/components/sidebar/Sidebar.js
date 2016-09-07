@@ -18,13 +18,21 @@ const messages = defineMessages({
   label: {
     id: 'onlyInThisConversation',
     defaultMessage: 'Only in this conversation'
+  },
+  mentionsTitle: {
+    id: 'mentionsSidebarTitle',
+    defaultMessage: 'Mentions'
+  },
+  searchTitle: {
+    id: 'searchSidebarTitle',
+    defaultMessage: 'Search Results'
   }
 })
 
 function SidebarContent(props) {
   const {
     show,
-    intl,
+    intl: {formatMessage},
     loadMentions,
     searchMessages,
     toggleSearchOnlyInChannel,
@@ -42,6 +50,7 @@ function SidebarContent(props) {
     case 'mentions': {
       const mentionProps = {
         ...props,
+        title: formatMessage(messages.mentionsTitle),
         load: loadMentions,
         hide,
         select
@@ -51,9 +60,10 @@ function SidebarContent(props) {
     case 'search': {
       const searchProps = {
         ...props,
+        title: formatMessage(messages.searchTitle),
         load: searchMessages,
         options: [{
-          label: intl.formatMessage(messages.label),
+          label: formatMessage(messages.label),
           handler: toggleSearchOnlyInChannel
         }],
         hide,
@@ -94,9 +104,10 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
+    const {show, sheet: {classes}} = this.props
+    if (!show) return null
     return (
-      <div className={this.props.sheet.classes.sidebar}>
+      <div className={classes.sidebar}>
         <Content {...this.props} />
       </div>
     )

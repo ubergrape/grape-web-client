@@ -6,18 +6,6 @@
   "reload": {
     "defaultMessage": "reload"
   },
-  "initialGreeting": {
-    "defaultMessage": "Hey there!"
-  },
-  "enableNotificationsRequest": {
-    "defaultMessage": "Please enable desktop notifications"
-  },
-  "notificationsExplanation": {
-    "defaultMessage": "so your team members can reach you on Grape."
-  },
-  "enableNotifications": {
-    "defaultMessage": "Enable notifications"
-  },
   "reconnectAlert": {
     "defaultMessage": "Reconnected successfully."
   },
@@ -32,6 +20,18 @@
   },
   "loadingChatHistory": {
     "defaultMessage": "Loading your chat history…"
+  },
+  "initialGreeting": {
+    "defaultMessage": "Hey there!"
+  },
+  "enableNotificationsRequest": {
+    "defaultMessage": "Please enable desktop notifications"
+  },
+  "notificationsExplanation": {
+    "defaultMessage": "so your team members can reach you on Grape."
+  },
+  "enableNotifications": {
+    "defaultMessage": "Enable notifications"
   },
   "grapeTrial": {
     "defaultMessage": "Grape Trial"
@@ -66,8 +66,28 @@
   "typeName": {
     "defaultMessage": "Type name..."
   },
+  "imageWithDescr": {
+    "defaultMessage": "Image: [{description}]",
+    "description": "**Used when rendered inline image from markdown with description.**"
+  },
+  "imageWithoutDescr": {
+    "defaultMessage": "Image: [No Description]",
+    "description": "**Used when rendered inline image from markdown without description.**"
+  },
   "searchMessages": {
     "defaultMessage": "Search messages"
+  },
+  "messageNotSendCheckConnection": {
+    "defaultMessage": "This message didn't send. Check your internet connection and"
+  },
+  "clickToTryAgain": {
+    "defaultMessage": "click to try again"
+  },
+  "deleteMessagesQuestion": {
+    "defaultMessage": "Delete the selected Message?"
+  },
+  "linkInClipboard": {
+    "defaultMessage": "Message link added to clipboard"
   },
   "roomIsPublic": {
     "defaultMessage": "This group is public. Every member can join and read the history."
@@ -90,18 +110,6 @@
   "pmIntro": {
     "defaultMessage": "This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
   },
-  "messageNotSendCheckConnection": {
-    "defaultMessage": "This message didn't send. Check your internet connection and"
-  },
-  "clickToTryAgain": {
-    "defaultMessage": "click to try again"
-  },
-  "deleteMessagesQuestion": {
-    "defaultMessage": "Delete the selected Message?"
-  },
-  "linkInClipboard": {
-    "defaultMessage": "Message link added to clipboard"
-  },
   "close": {
     "defaultMessage": "Close"
   },
@@ -113,6 +121,9 @@
   },
   "showMore": {
     "defaultMessage": "Show more"
+  },
+  "showLess": {
+    "defaultMessage": "Show less"
   },
   "contacts": {
     "defaultMessage": "Contacts"
@@ -180,6 +191,15 @@
   "roomIcon": {
     "defaultMessage": "Room Icon"
   },
+  "makeRoomPrivate": {
+    "defaultMessage": "Make room private"
+  },
+  "makeRoomPublic": {
+    "defaultMessage": "Make room public"
+  },
+  "deleteRoom": {
+    "defaultMessage": "Delete room"
+  },
   "enterGroupNameHere": {
     "defaultMessage": "Enter group name here…"
   },
@@ -208,6 +228,12 @@
   },
   "onlyInThisConversation": {
     "defaultMessage": "Only in this conversation"
+  },
+  "mentionsSidebarTitle": {
+    "defaultMessage": "Mentions"
+  },
+  "searchSidebarTitle": {
+    "defaultMessage": "Search Results"
   },
   "userIsTyping": {
     "defaultMessage": "{user} is typing"

@@ -14,6 +14,7 @@ import {
 } from './utils'
 
 import GrapeObject from './GrapeObject'
+import {lineHeight} from '../history/messages/baseMessageTheme'
 
 export function renderTag(tag, props, children) {
   // Open link in a new window if it is not a grape url.
@@ -34,6 +35,17 @@ export function renderTag(tag, props, children) {
 }
 
 /**
+ * We render inline images as a link as we don't really support them.
+ */
+export function renderInlineImage(href, text) {
+  return [[
+    'a',
+    {href, alt: text, target: '_blank'},
+    ['text', text]
+  ]]
+}
+
+/**
  * Coverts known `:emoji:`-strings in to the image.
  */
 export function renderEmoji(markup) {
@@ -46,7 +58,8 @@ export function renderEmoji(markup) {
     {
       style: {
         ...styles,
-        ...style
+        ...style,
+        fontSize: lineHeight
       }
     }
   ]]

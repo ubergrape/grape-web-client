@@ -119,6 +119,8 @@ export const normalizeMessage = (() => {
     }
   }
 
+  const ignoreActivityObjects = ['issue', 'label', 'user']
+
   function normalizeActivityMessage(msg) {
     const {id, channel} = msg
     const type = 'activity'
@@ -128,7 +130,27 @@ export const normalizeMessage = (() => {
       name: msg.author.username
     }
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
-    const text = msg.title || msg.text
+    let text = msg.title || msg.text
+
+    if (msg.objects) {
+      const objectsText = msg.objects
+        .filter(({visible, type: _type}) => {
+          if (visible === false || ignoreActivityObjects.indexOf(_type) !== -1) {
+            return false
+          }
+          return true
+        })
+        .map(({author: _author, name, url, sha, content, summary}) => {
+          let str = ''
+          if (_author && _author.username) str += ` __${_author.username}__`
+          if (name) str += ` __[${name}](${url})__`
+          if (sha) str += ` [${sha.substr(0, 6)}](${url})`
+          if (content) str += ` ${content}`
+          if (summary) str += ` ${summary}`
+          return str
+        }).join('\n')
+      text += `\n${objectsText}`
+    }
 
     return {type, id, channel, text, time, author, avatar, attachments: []}
   }
