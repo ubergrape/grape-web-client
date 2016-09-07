@@ -41,7 +41,7 @@ export const styles = {
     background: white
   },
   firstItem: {
-    borderTopLeftRadius: '1pc',
+    borderTopLeftRadius: '50%',
     borderBottomLeftRadius: '50%',
     paddingLeft: firstLastPadding,
     borderRight: 0
