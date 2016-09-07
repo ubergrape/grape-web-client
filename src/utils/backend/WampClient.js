@@ -29,8 +29,8 @@ export default class WampClient {
 
   open() {
     this.socket = new WebSocket(this.url)
-    this.socket.on('error', ::this.onError)
-    this.socket.on('close', ::this.onClose)
+    this.socket.on('error', ::this.onSocketError)
+    this.socket.on('close', ::this.onSocketClose)
     this.wamp = new Wamp(
       this.socket,
       {omitSubscribe: true},
@@ -38,6 +38,12 @@ export default class WampClient {
     )
     this.wamp.on('error', ::this.onError)
     this.wamp.on('event', ::this.onEvent)
+  }
+
+  close() {
+    this.wamp.off()
+    this.socket.off()
+    this.socket.close(3001)
   }
 
   reopen() {
@@ -119,15 +125,21 @@ export default class WampClient {
   }
 
   onError(err) {
-    log('error', err)
     this.out.emit('error', err)
-    this.onClose()
+    this.close()
+    this.reopen()
   }
 
-  onClose() {
-    this.wamp.off()
-    this.socket.off()
-    this.socket.close(3001)
+  onSocketError(event) {
+    log('socket error', event)
+    const err = new Error('Socket error.')
+    err.event = event
+    this.onError(err)
+  }
+
+  onSocketClose(event) {
+    log('socket close', event)
+    this.close()
     this.reopen()
   }
 }

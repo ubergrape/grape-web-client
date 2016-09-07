@@ -6,6 +6,9 @@ function Config(conf) {
   if (conf) this.setup(conf)
 }
 
+/**
+ * Setup defaults.
+ */
 Config.prototype.init = function() {
   if (!this.forceLongpolling && localStorage.forceLongpolling) {
     this.forceLongpolling = true
@@ -31,19 +34,14 @@ Config.prototype.init = function() {
     }
   }
 
-  this.server = {}
   this.user = {}
   this.organization = {}
-
-  this.server.host = localStorage.host || window.location.host
-  var wsProtocol
-  if (window.location.protocol === 'http:') {
-    this.server.protocol = 'http:'
-    wsProtocol = 'ws:'
-  } else {
-    this.server.protocol = 'https:'
-    wsProtocol = 'wss:'
+  this.server = {
+    loginPath: '/accounts/login',
+    host: localStorage.host || window.location.host,
+    protocol: window.location.protocol
   }
+  var wsProtocol = this.server.protocol === 'http:' ? 'ws:' : 'wss:'
   this.server.wsUrl = wsProtocol + '//' + this.server.host + '/ws'
 }
 

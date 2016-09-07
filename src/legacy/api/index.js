@@ -1,8 +1,9 @@
 import array from 'array'
 import Emitter from 'emitter'
-import models from './models'
 import noop from 'lodash/utility/noop'
+import conf from 'conf'
 
+import models from './models'
 import rpc from '../../utils/backend/rpc'
 import client from '../../utils/backend/client'
 import * as convertCase from '../../utils/backend/convertCase'
@@ -46,7 +47,7 @@ API.prototype.connect = function API_connect() {
     this.in.emit(data.event, data)
   }.bind(this))
   channel.on('unauthorized', function () {
-    location.href = '/accounts/login'
+    location.href = conf.server.loginPath
   })
 }
 
