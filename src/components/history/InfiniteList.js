@@ -115,7 +115,7 @@ export default class InfiniteList extends Component {
                         rowCount={rows.length}
                         rowHeight={getRowHeight}
                         rowRenderer={renderRow}
-                        overscanRowCount={20}
+                        overscanRowCount={5}
                         ref={this.onRefVirtualScroll} />
                     )}
                   </AutoScroll>
