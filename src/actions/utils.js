@@ -86,7 +86,7 @@ export const normalizeMessage = (() => {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, mentions} = msg
+    const {id, text, mentions, channel: channelId} = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -109,12 +109,12 @@ export const normalizeMessage = (() => {
       avatar = defaultAvatar
     }
 
-    const {channel} = msg
-    const {slug} = find(channels, {id: channel})
+    const channel = find(channels, {id: channelId})
+    const slug = channel.type === 'room' ? channel.slug : `${channel.slug}/${author.slug}`
     const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
-      type, id, text, time, userTime, author, link, avatar, channel, attachments,
+      type, id, text, time, userTime, author, link, avatar, attachments,
       mentions
     }
   }
