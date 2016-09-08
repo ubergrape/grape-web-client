@@ -61,10 +61,10 @@
     "defaultMessage" : "Alle MitarbeiterInnen wurden bereits zu dieser Gruppe eingeladen"
   },
   "inviteToTeam" : {
-    "defaultMessage" : "Laden Sie weitere Mitarbeiter ein..."
+    "defaultMessage" : "Laden Sie weitere Mitarbeiter zur Organisation ein..."
   },
   "typeName" : {
-    "defaultMessage" : "Namen eingeben..."
+    "defaultMessage" : "Mitarbeiter hinzufügen..."
   },
   "imageWithDescr" : {
     "defaultMessage" : "Bild: [{description}]",
@@ -99,10 +99,10 @@
     "defaultMessage" : "Willkommen zu {channel}"
   },
   "inviteMoreToGroup" : {
-    "defaultMessage" : "Weitere Mitarbeiter zur Gruppe einladen"
+    "defaultMessage" : "Weitere Mitarbeiter einladen"
   },
   "addServiceIntegration" : {
-    "defaultMessage" : "Service Integration hinzufügen"
+    "defaultMessage" : "Service-Integration hinzufügen"
   },
   "welcomeToPm" : {
     "defaultMessage" : "Private Konversation mit {mate}"
@@ -117,7 +117,7 @@
     "defaultMessage" : "schließen"
   },
   "done" : {
-    "defaultMessage" : "Erledigt"
+    "defaultMessage" : "Fertig"
   },
   "showMore" : {
     "defaultMessage" : "Mehr anzeigen"
@@ -150,7 +150,7 @@
     "defaultMessage" : "Nachricht löschen"
   },
   "localTime" : {
-    "defaultMessage" : "Lokalzeit"
+    "defaultMessage" : "Lokale Zeit"
   },
   "noMessagesFound" : {
     "defaultMessage" : "Keine Nachrichten gefunden"
@@ -159,13 +159,13 @@
     "defaultMessage" : "Gruppen und Mitarbeiter durchsuchen...\n"
   },
   "nothingThatMatches" : {
-    "defaultMessage" : "Keine passenden Ergebnisse"
+    "defaultMessage" : "Keine passenden Ergebnisse für"
   },
   "newConversation" : {
     "defaultMessage" : "Neue Konversation"
   },
   "noConversationYet" : {
-    "defaultMessage" : "Noch keine Nachrichten"
+    "defaultMessage" : "Konversationen beitreten"
   },
   "favorites" : {
     "defaultMessage" : "Favoriten"
@@ -210,7 +210,7 @@
     "defaultMessage" : "Rauminformation"
   },
   "leaveChannel" : {
-    "defaultMessage" : "Verlassen"
+    "defaultMessage" : "Verlassen von "
   },
   "sharedInRoom" : {
     "defaultMessage" : "Geteilt in {channelName}",
@@ -248,6 +248,6 @@
     "defaultMessage" : "Profil"
   },
   "whatIDo" : {
-    "defaultMessage" : "Meine Rolle"
+    "defaultMessage" : "Was ich mache "
   }
 }

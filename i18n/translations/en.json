@@ -61,10 +61,10 @@
     "defaultMessage" : "Everyone has been invited to this group"
   },
   "inviteToTeam" : {
-    "defaultMessage" : "Invite a new person to your team…"
+    "defaultMessage" : "Invite a new member to your organization…"
   },
   "typeName" : {
-    "defaultMessage" : "Type name..."
+    "defaultMessage" : "Add contact..."
   },
   "imageWithDescr" : {
     "defaultMessage" : "Image: [{description}]",
@@ -165,7 +165,7 @@
     "defaultMessage" : "New Conversation"
   },
   "noConversationYet" : {
-    "defaultMessage" : "No conversation yet"
+    "defaultMessage" : "Conversations to join"
   },
   "favorites" : {
     "defaultMessage" : "Favorites"
@@ -227,7 +227,7 @@
     "defaultMessage" : "No shared files"
   },
   "onlyInThisConversation" : {
-    "defaultMessage" : "Only in this conversation"
+    "defaultMessage" : "Search only in this conversation"
   },
   "mentionsSidebarTitle" : {
     "defaultMessage" : "Mentions"
