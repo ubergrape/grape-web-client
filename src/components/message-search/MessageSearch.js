@@ -92,8 +92,7 @@ export default class MessageSearch extends Component {
   }
 
   renderMessages() {
-    const {items: messages, sheet} = this.props
-    const {classes} = sheet
+    const {items: messages, sheet: {classes}} = this.props
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]

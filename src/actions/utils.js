@@ -115,7 +115,7 @@ export const normalizeMessage = (() => {
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, attachments,
-      mentions
+      mentions, channelId
     }
   }
 
