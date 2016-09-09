@@ -7,7 +7,7 @@
     "description" : "*Describe willNotifyRoom*: dieser String beschreibt eine Aktion"
   },
   "wontNotifyRoom" : {
-    "defaultMessage" : "— Gruppenmitglieder werden nicht benachrichtigt",
+    "defaultMessage" : "— Benachrichtigt keine Gruppenmitglieder",
     "description" : "*Describe wountNotifyRoom*: this string is decribing action"
   },
   "notInRoom" : {
@@ -20,13 +20,13 @@
     "defaultMessage" : "Öffnen"
   },
   "noDetailForItem" : {
-    "defaultMessage" : "Keine detaillierten Informationen"
+    "defaultMessage" : "Keine Zusatzinformationen für dieses Ergebnis"
   },
   "searchInfo" : {
-    "defaultMessage" : "Durchsuchen Sie Wikipedia, YouTube und {tools}, indem Sie {plusIcon} rechts oben oder auf Ihrer Tastatur drücken."
+    "defaultMessage" : "Durchsuchen Sie Wikipedia, YouTube und {tools}, indem Sie {plusIcon} rechts-oben oder auf Ihrer Tastatur drücken."
   },
   "yourBusinessTools" : {
-    "defaultMessage" : "Ihr Werkzeugkasten",
+    "defaultMessage" : "Ihre Firmen-Software",
     "description" : "*Describe yourBusinessTools*: wird in der Nachricht 'Durchsuchen Sie Wikipedia, Youtube, Giphy and {tools}' verwendet"
   },
   "grapeSearch" : {
