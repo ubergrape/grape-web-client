@@ -9,12 +9,27 @@ const initialState = {
 }
 
 function updateMessage(state, newMessage) {
-  const index = findIndex(state.messages, {id: newMessage.id})
-  const currMessage = state.messages[index]
+  const {messages} = state
+  const index = findIndex(messages, {id: newMessage.id})
+  const currMessage = messages[index]
   if (index === -1) return state
   const message = {...currMessage, ...newMessage}
-  state.messages.splice(index, 1, message)
-  return {...state, messages: [...state.messages]}
+  messages.splice(index, 1, message)
+  return {...state, messages: [...messages]}
+}
+
+/**
+ * Mark last message as read, set `state` on all other messages to `undefined`
+ * to remove the status mark.
+ */
+function markLastMessageAsRead(messages, senderId) {
+  return messages.map((message, index) => {
+    if (!message.state || message.author.id === senderId) return message
+    return {
+      ...message,
+      state: index === messages.length - 1 ? 'read' : undefined
+    }
+  })
 }
 
 export default function reduce(state = initialState, action) {
@@ -91,19 +106,14 @@ export default function reduce(state = initialState, action) {
     case types.MARK_MESSAGE_AS_SENT:
       return updateMessage(state, {id: payload.messageId, state: 'sent'})
     case types.MARK_CHANNEL_AS_READ: {
-      if (payload.channelId !== state.channel.id || payload.isCurrentUser) {
+      const {channelId, isCurrentUser, userId} = payload
+      if (channelId !== state.channel.id || isCurrentUser) {
         return state
       }
 
       return {
         ...state,
-        messages: state.messages.map(message => {
-          if (message.state === 'read') return message
-          return {
-            ...message,
-            state: 'read'
-          }
-        })
+        messages: markLastMessageAsRead(state.messages, userId)
       }
     }
     case types.ADD_PENDING_MESSAGE:
