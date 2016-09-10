@@ -41,6 +41,8 @@ export const createRowsState = (() => {
       // we just display a counter.
       if (isGroupable && isDuplicate) {
         const prevRow = rows[rows.length - 1]
+        // Update the row with the latest message (for e.g. next message state).
+        prevRow.message = message
         // We can mutate here because we previously created that object.
         prevRow.duplicates++
         // Point merged message to the row which will be rendered.
