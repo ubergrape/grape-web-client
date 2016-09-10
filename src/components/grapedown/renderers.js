@@ -14,7 +14,6 @@ import {
 } from './utils'
 
 import GrapeObject from './GrapeObject'
-import {lineHeight} from '../history/messages/baseMessageTheme'
 
 export function renderTag(tag, props, children) {
   // Open link in a new window if it is not a grape url.
@@ -59,7 +58,7 @@ export function renderEmoji(markup) {
       style: {
         ...styles,
         ...style,
-        fontSize: lineHeight
+        fontSize: '1.5em'
       }
     }
   ]]

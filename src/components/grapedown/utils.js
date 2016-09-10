@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/lang/isEmpty'
 import joinStrings from 'join-strings-in-array'
 import {emojiRegex, style} from '../emoji/emoji'
-import {lineHeight} from '../history/messages/baseMessageTheme'
 
 const parser = document.createElement('a')
 const grapeProtocol = 'cg:'
@@ -37,7 +36,7 @@ export function replaceCustomEmojis(node, customEmojis) {
         alt: emoji,
         style: {
           ...style,
-          fontSize: lineHeight
+          fontSize: '1.5em'
         }
       }
     ]

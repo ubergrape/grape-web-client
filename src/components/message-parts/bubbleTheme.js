@@ -1,3 +1,4 @@
+import {normal} from 'grape-theme/dist/fonts'
 import {white} from 'grape-theme/dist/base-colors'
 
 export const styles = {
@@ -20,6 +21,7 @@ export const styles = {
     }
   },
   content: {
+    extend: normal,
     position: 'relative',
     background: white,
     borderRadius: 16,
