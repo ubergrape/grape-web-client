@@ -219,15 +219,16 @@ export function unsetHistoryScrollTo() {
   }
 }
 
-export function removeMessage({id: messageId}) {
+export function removeMessages(messages) {
   return (dispatch, getState) => {
     dispatch({
-      type: types.REQUEST_REMOVE_MESSAGE,
-      payload: messageId
+      type: types.REQUEST_REMOVE_MESSAGES,
+      payload: messages
     })
     const {id: channelId} = channelSelector(getState())
-    api
-      .removeMessage(channelId, messageId)
+
+    Promise
+      .all(messages.map(message => api.removeMessage(channelId, message.id)))
       .catch(err => dispatch(error(err)))
   }
 }
