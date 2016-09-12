@@ -8,12 +8,15 @@ export default {
   "noEmojiFound": "No emoji found.",
   "willNotifyRoom": "— notify everyone in this group",
   "wontNotifyRoom": "— does not notify room members",
-  "notInRoom": "not in room",
+  "notInRoom": "not in group",
+  "insertAction": "Insert into message",
+  "openAction": "Open",
   "noDetailForItem": "No detail infos for this item",
   "searchInfo": "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard",
   "yourBusinessTools": "your business tools",
   "grapeSearch": "Grape Search",
   "noResults": "No Results.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
+  "serviesHeadline": "select service",
   "noServicesFound": "No services found."
 }
