@@ -7,7 +7,8 @@ import {renderTag} from '../grapedown/renderers'
 import {nonStandardProps} from '../grapedown/utils'
 
 
-export default function createGrapedownWithSearch({query, renderHighlight, user}) {
+export default function createGrapedownWithSearch(initialProps) {
+  const {query, renderHighlight, user} = initialProps
   const renderTagWithUser = (tag, props, children) => renderTag(tag, {...props, user}, children)
 
   const renderProps = {
@@ -22,5 +23,5 @@ export default function createGrapedownWithSearch({query, renderHighlight, user}
     }
   }
 
-  return props => render({...props, ...renderProps})
+  return props => render({...initialProps, ...props, ...renderProps})
 }

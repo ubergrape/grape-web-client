@@ -3,7 +3,11 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import {
+  FormattedMessage,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './messageSearchStyles'
 import Message from './Message'
@@ -15,9 +19,11 @@ import DateSeparator from '../message-parts/DateSeparator'
 import {ShowMore} from '../i18n/i18n'
 
 @useSheet(style)
+@injectIntl
 export default class MessageSearch extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
@@ -118,12 +124,13 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {query, sheet, user, customEmojis} = this.props
+    const {query, sheet, user, customEmojis, intl} = this.props
     const {classes} = sheet
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
       renderHighlight: this.renderHighlight,
-      user
+      user,
+      intl
     })
 
     return (
