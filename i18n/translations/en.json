@@ -1,253 +1,90 @@
 {
-  "lostConnectionAlert" : {
-    "defaultMessage" : "Lost connection to the server — trying to reconnect. You can also try to {action}.",
-    "description" : "**Describe lostConnectionAlert**: it is alert asking for page reload."
-  },
-  "reload" : {
-    "defaultMessage" : "reload"
-  },
-  "reconnectAlert" : {
-    "defaultMessage" : "Reconnected successfully."
-  },
-  "noRoomFound" : {
-    "defaultMessage" : "We could not find what you were looking for – the group might have been deleted, renamed or moved."
-  },
-  "noMessageFound" : {
-    "defaultMessage" : "We could not find the message you were looking for."
-  },
-  "cannotMessageYourself" : {
-    "defaultMessage" : "You cannot message yourself."
-  },
-  "loadingChatHistory" : {
-    "defaultMessage" : "Loading your chat history…"
-  },
-  "initialGreeting" : {
-    "defaultMessage" : "Hey there!"
-  },
-  "enableNotificationsRequest" : {
-    "defaultMessage" : "Please enable desktop notifications"
-  },
-  "notificationsExplanation" : {
-    "defaultMessage" : "so your team members can reach you on Grape."
-  },
-  "enableNotifications" : {
-    "defaultMessage" : "Enable notifications"
-  },
-  "grapeTrial" : {
-    "defaultMessage" : "Grape Trial"
-  },
-  "continueTrial" : {
-    "defaultMessage" : "Continue Trial"
-  },
-  "enterDetails" : {
-    "defaultMessage" : "Enter Details"
-  },
-  "createNewPrivateGroup" : {
-    "defaultMessage" : "Create new private group"
-  },
-  "inviteToGroup" : {
-    "defaultMessage" : "Invite to group"
-  },
-  "createGroup" : {
-    "defaultMessage" : "Create group"
-  },
-  "inviteMembers" : {
-    "defaultMessage" : "Invite members"
-  },
-  "usersNotFoundFor" : {
-    "defaultMessage" : "No one found for"
-  },
-  "everyoneInvited" : {
-    "defaultMessage" : "Everyone has been invited to this group"
-  },
-  "inviteToTeam" : {
-    "defaultMessage" : "Invite a new member to your organization…"
-  },
-  "typeName" : {
-    "defaultMessage" : "Add contact..."
-  },
-  "imageWithDescr" : {
-    "defaultMessage" : "Image: [{description}]",
-    "description" : "**Used when rendered inline image from markdown with description.**"
-  },
-  "imageWithoutDescr" : {
-    "defaultMessage" : "Image: [No Description]",
-    "description" : "**Used when rendered inline image from markdown without description.**"
-  },
-  "searchMessages" : {
-    "defaultMessage" : "Search messages"
-  },
-  "messageNotSendCheckConnection" : {
-    "defaultMessage" : "This message wasn't sent. Check your internet connection and"
-  },
-  "clickToTryAgain" : {
-    "defaultMessage" : "click to try again"
-  },
-  "deleteMessagesQuestion" : {
-    "defaultMessage" : "Delete the selected Message?"
-  },
-  "linkInClipboard" : {
-    "defaultMessage" : "Message link added to clipboard"
-  },
-  "roomIsPublic" : {
-    "defaultMessage" : "This group is public. Every member can join and read the history."
-  },
-  "roomIsPrivate" : {
-    "defaultMessage" : "This group is private. Only invited members can see and join this group."
-  },
-  "welcomeToRoom" : {
-    "defaultMessage" : "Welcome to {channel}"
-  },
-  "inviteMoreToGroup" : {
-    "defaultMessage" : "Invite more people to this group"
-  },
-  "addServiceIntegration" : {
-    "defaultMessage" : "Add service integration"
-  },
-  "welcomeToPm" : {
-    "defaultMessage" : "Private conversation with {mate}"
-  },
-  "pmIntro" : {
-    "defaultMessage" : "This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you."
-  },
-  "close" : {
-    "defaultMessage" : "Close"
-  },
-  "closeLower" : {
-    "defaultMessage" : "close"
-  },
-  "done" : {
-    "defaultMessage" : "Done"
-  },
-  "showMore" : {
-    "defaultMessage" : "Show more"
-  },
-  "showLess" : {
-    "defaultMessage" : "Show less"
-  },
-  "contacts" : {
-    "defaultMessage" : "Contacts"
-  },
-  "groups" : {
-    "defaultMessage" : "Groups"
-  },
-  "description" : {
-    "defaultMessage" : "Description"
-  },
-  "grapeTeam" : {
-    "defaultMessage" : "Grape Team"
-  },
-  "deletedUser" : {
-    "defaultMessage" : "Deleted user"
-  },
-  "editMessage" : {
-    "defaultMessage" : "Edit message"
-  },
-  "copyLink" : {
-    "defaultMessage" : "Copy link to message"
-  },
-  "deleteMessage" : {
-    "defaultMessage" : "Delete message"
-  },
-  "localTime" : {
-    "defaultMessage" : "Local time"
-  },
-  "noMessagesFound" : {
-    "defaultMessage" : "No messages found"
-  },
-  "searchPropleAndGroups" : {
-    "defaultMessage" : "Search people and groups…"
-  },
-  "nothingThatMatches" : {
-    "defaultMessage" : "There's nothing that matches"
-  },
-  "newConversation" : {
-    "defaultMessage" : "New Conversation"
-  },
-  "noConversationYet" : {
-    "defaultMessage" : "Conversations to join"
-  },
-  "favorites" : {
-    "defaultMessage" : "Favorites"
-  },
-  "recent" : {
-    "defaultMessage" : "Recent"
-  },
-  "advancedOptions" : {
-    "defaultMessage" : "Advanced Options"
-  },
-  "enterGroupName" : {
-    "defaultMessage" : "Enter group name"
-  },
-  "private" : {
-    "defaultMessage" : "Private"
-  },
-  "public" : {
-    "defaultMessage" : "Public"
-  },
-  "roomColor" : {
-    "defaultMessage" : "Group Color"
-  },
-  "roomIcon" : {
-    "defaultMessage" : "Group Icon"
-  },
-  "makeRoomPrivate" : {
-    "defaultMessage" : "Make room private"
-  },
-  "makeRoomPublic" : {
-    "defaultMessage" : "Make room public"
-  },
-  "deleteRoom" : {
-    "defaultMessage" : "Delete room"
-  },
-  "enterGroupNameHere" : {
-    "defaultMessage" : "Enter group name here…"
-  },
-  "addGroupDescription" : {
-    "defaultMessage" : "Add a group description here…"
-  },
-  "groupInfo" : {
-    "defaultMessage" : "Group Info"
-  },
-  "leaveChannel" : {
-    "defaultMessage" : "Leave"
-  },
-  "sharedInRoom" : {
-    "defaultMessage" : "Shared in {channelName}",
-    "description" : "*Describe sharedInRoom*, example: 'Shared in Office'"
-  },
-  "sharedInPm" : {
-    "defaultMessage" : "Shared with {channelName}",
-    "description" : "*Describe sharedInPm*, example: Shared with Felix'"
-  },
-  "sharedFiles" : {
-    "defaultMessage" : "Shared Files"
-  },
-  "noSharedFiles" : {
-    "defaultMessage" : "No shared files"
-  },
-  "onlyInThisConversation" : {
-    "defaultMessage" : "Search only in this conversation"
-  },
-  "mentionsSidebarTitle" : {
-    "defaultMessage" : "Mentions"
-  },
-  "searchSidebarTitle" : {
-    "defaultMessage" : "Search Results"
-  },
-  "userIsTyping" : {
-    "defaultMessage" : "{user} is typing"
-  },
-  "userAndUsersAreTyping" : {
-    "defaultMessage" : "{users} and {user} are typing"
-  },
-  "usersAreTyping" : {
-    "defaultMessage" : "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing"
-  },
-  "userProfile" : {
-    "defaultMessage" : "User Profile"
-  },
-  "whatIDo" : {
-    "defaultMessage" : "What I do"
-  }
+  "lostConnectionAlert": "Lost connection to the server — trying to reconnect. You can also try to {action}.",
+  "_lostConnectionAlert.comment": "**Describe lostConnectionAlert**: it is alert asking for page reload.",
+  "reload": "reload",
+  "initialGreeting": "Hey there!",
+  "enableNotificationsRequest": "Please enable desktop notifications",
+  "notificationsExplanation": "so your team members can reach you on Grape.",
+  "enableNotifications": "Enable notifications",
+  "reconnectAlert": "Reconnected successfully.",
+  "noRoomFound": "We could not find what you were looking for – the group might have been deleted, renamed or moved.",
+  "noMessageFound": "We could not find the message you were looking for.",
+  "cannotMessageYourself": "You cannot message yourself.",
+  "loadingChatHistory": "Loading your chat history…",
+  "grapeTrial": "Grape Trial",
+  "continueTrial": "Continue Trial",
+  "enterDetails": "Enter Details",
+  "createNewPrivateGroup": "Create new private group",
+  "inviteToGroup": "Invite to group",
+  "createGroup": "Create group",
+  "inviteMembers": "Invite members",
+  "usersNotFoundFor": "No one found for",
+  "everyoneInvited": "Everyone has been invited to this group",
+  "inviteToTeam": "Invite a new member to your organization…",
+  "typeName": "Add contact...",
+  "imageWithDescr": "Image: [{description}]",
+  "_imageWithDescr.comment": "**Used when rendered inline image from markdown with description.**",
+  "imageWithoutDescr": "Image: [No Description]",
+  "_imageWithoutDescr.comment": "**Used when rendered inline image from markdown without description.**",
+  "searchMessages": "Search messages",
+  "roomIsPublic": "This group is public. Every member can join and read the history.",
+  "roomIsPrivate": "This group is private. Only invited members can see and join this group.",
+  "welcomeToRoom": "Welcome to {channel}",
+  "inviteMoreToGroup": "Invite more people to this group",
+  "addServiceIntegration": "Add service integration",
+  "welcomeToPm": "Private conversation with {mate}",
+  "pmIntro": "This is a private conversation between you and {mate}.{br}Private conversations are only accessible to the two of you.",
+  "messageNotSendCheckConnection": "This message wasn't sent. Check your internet connection and",
+  "clickToTryAgain": "click to try again",
+  "deleteMessagesQuestion": "Delete the selected Message?",
+  "linkInClipboard": "Message link added to clipboard",
+  "close": "Close",
+  "closeLower": "close",
+  "done": "Done",
+  "showMore": "Show more",
+  "showLess": "Show less",
+  "contacts": "Contacts",
+  "groups": "Groups",
+  "description": "Description",
+  "grapeTeam": "Grape Team",
+  "deletedUser": "Deleted user",
+  "editMessage": "Edit message",
+  "copyLink": "Copy link to message",
+  "deleteMessage": "Delete message",
+  "localTime": "Local time",
+  "noMessagesFound": "No messages found",
+  "searchPropleAndGroups": "Search people and groups…",
+  "nothingThatMatches": "There's nothing that matches",
+  "newConversation": "New Conversation",
+  "_newConversation.comment": "*Describe NewConversation*: this is used in Navigation",
+  "noConversationYet": "Conversations to join",
+  "favorites": "Favorites",
+  "recent": "Recent",
+  "advancedOptions": "Advanced Options",
+  "enterGroupName": "Enter group name",
+  "private": "Private",
+  "public": "Public",
+  "roomColor": "Group Color",
+  "roomIcon": "Group Icon",
+  "makeRoomPrivate": "Make room private",
+  "makeRoomPublic": "Make room public",
+  "deleteRoom": "Delete room",
+  "enterGroupNameHere": "Enter group name here…",
+  "addGroupDescription": "Add a group description here…",
+  "groupInfo": "Group Info",
+  "leaveChannel": "Leave",
+  "sharedInRoom": "Shared in {channelName}",
+  "_sharedInRoom.comment": "*Describe sharedInRoom*, example: 'Shared in Office'",
+  "sharedInPm": "Shared with {channelName}",
+  "_sharedInPm.comment": "*Describe sharedInPm*, example: Shared with Felix'",
+  "sharedFiles": "Shared Files",
+  "noSharedFiles": "No shared files",
+  "onlyInThisConversation": "Search only in this conversation",
+  "mentionsSidebarTitle": "Mentions",
+  "searchSidebarTitle": "Search Results",
+  "userIsTyping": "{user} is typing",
+  "userAndUsersAreTyping": "{users} and {user} are typing",
+  "usersAreTyping": "{users} and {othersAmount} {othersAmount, plural, one {other} other {others}} are typing",
+  "userProfile": "User Profile",
+  "whatIDo": "What I do"
 }
