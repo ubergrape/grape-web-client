@@ -61,10 +61,10 @@
     "defaultMessage" : "Alle MitarbeiterInnen wurden bereits zu dieser Gruppe eingeladen"
   },
   "inviteToTeam" : {
-    "defaultMessage" : "Laden Sie weitere Mitarbeiter zur Organisation ein..."
+    "defaultMessage" : "Laden Sie weitere Mitarbeiter ein..."
   },
   "typeName" : {
-    "defaultMessage" : "Mitarbeiter hinzufügen..."
+    "defaultMessage" : "Namen eingeben..."
   },
   "imageWithDescr" : {
     "defaultMessage" : "Bild: [{description}]",
@@ -99,10 +99,10 @@
     "defaultMessage" : "Willkommen zu {channel}"
   },
   "inviteMoreToGroup" : {
-    "defaultMessage" : "Weitere Mitarbeiter einladen"
+    "defaultMessage" : "Weitere Mitarbeiter zur Gruppe einladen"
   },
   "addServiceIntegration" : {
-    "defaultMessage" : "Service-Integration hinzufügen"
+    "defaultMessage" : "Service Integration hinzufügen"
   },
   "welcomeToPm" : {
     "defaultMessage" : "Private Konversation mit {mate}"
@@ -117,7 +117,7 @@
     "defaultMessage" : "schließen"
   },
   "done" : {
-    "defaultMessage" : "Fertig"
+    "defaultMessage" : "Erledigt"
   },
   "showMore" : {
     "defaultMessage" : "Mehr anzeigen"
@@ -159,13 +159,13 @@
     "defaultMessage" : "Gruppen und Mitarbeiter durchsuchen...\n"
   },
   "nothingThatMatches" : {
-    "defaultMessage" : "Keine passenden Ergebnisse für"
+    "defaultMessage" : "Keine passenden Ergebnisse"
   },
   "newConversation" : {
     "defaultMessage" : "Neue Konversation"
   },
   "noConversationYet" : {
-    "defaultMessage" : "Konversationen beitreten"
+    "defaultMessage" : "Noch keine Nachrichten"
   },
   "favorites" : {
     "defaultMessage" : "Favoriten"
