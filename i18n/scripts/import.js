@@ -3,12 +3,14 @@ import {sync} from 'glob'
 
 const messagesPattern = './i18n/translations/*.json'
 const outputDir = './src/i18n/'
+const commentRegExp = /\.comment$/
 
 sync(messagesPattern).map((file) => {
   const filename = file.split('/').pop().split('.').slice(0, -1).join('.')
   const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
   const messages = Object.keys(parsed).reduce((result, key) => {
-    const message = parsed[key].defaultMessage || parsed[key]
+    if (commentRegExp.test(key)) return result
+    const message = parsed[key]
     result[key] = message
     return result
   }, {})

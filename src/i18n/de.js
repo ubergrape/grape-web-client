@@ -54,7 +54,7 @@ export default {
   "editMessage": "Nachricht bearbeiten",
   "copyLink": "Link zur Nachricht kopieren",
   "deleteMessage": "Nachricht löschen",
-  "localTime": "Lokalzeit",
+  "localTime": "Lokale Zeit",
   "noMessagesFound": "Keine Nachrichten gefunden",
   "searchPropleAndGroups": "Gruppen und Mitarbeiter durchsuchen...\n",
   "nothingThatMatches": "Keine passenden Ergebnisse",
@@ -74,7 +74,7 @@ export default {
   "enterGroupNameHere": "Dieser Gruppe einen Namen geben...",
   "addGroupDescription": "Dieser Gruppe eine Beschreibung geben...",
   "groupInfo": "Rauminformation",
-  "leaveChannel": "Verlassen",
+  "leaveChannel": "Verlassen von ",
   "sharedInRoom": "Geteilt in {channelName}",
   "sharedInPm": "Geteilt mit {channelName}",
   "sharedFiles": "Geteilte Dateien",
@@ -86,5 +86,5 @@ export default {
   "userAndUsersAreTyping": "{users} und {user} schreiben gerade Nachrichten",
   "usersAreTyping": "{users} und {othersAmount} {othersAmount, plural, one {weiterer} other {weitere}} schreiben gerade",
   "userProfile": "Profil",
-  "whatIDo": "Meine Rolle"
+  "whatIDo": "Was ich mache "
 }
