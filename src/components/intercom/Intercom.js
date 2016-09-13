@@ -15,7 +15,7 @@ const messages = defineMessages({
 })
 
 function Intercom(props) {
-  const {hideSidebar, intl: formatMessage} = props
+  const {hideSidebar, intl: {formatMessage}} = props
   return (
     <SidebarPanel
       title={formatMessage(messages.title)}
