@@ -188,7 +188,7 @@ export const mentionsWithChannels = createSelector(
       items: search.items.map(message => {
         return {
           ...message,
-          channel: find(channels, {id: message.channel})
+          channel: find(channels, {id: message.channelId})
         }
       })
     }
