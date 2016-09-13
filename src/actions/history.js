@@ -175,25 +175,6 @@ function loadFragment() {
   }
 }
 
-/**
- * This callback is called when scroller reaches the top position.
- * It renders the loaded messages when promise gets resolved.
- */
-export function renderOlderHistory() {
-  return (dispatch, getState) => {
-    const {olderMessages} = historySelector(getState())
-    olderMessages.then(res => {
-      dispatch({
-        type: types.HANDLE_MORE_HISTORY,
-        payload: {
-          messages: normalizeMessages(res.reverse(), getState()),
-          isScrollBack: true
-        }
-      })
-    })
-  }
-}
-
 export function loadHistory() {
   return (dispatch, getState) => {
     const {selectedMessageId} = historySelector(getState())
@@ -210,6 +191,25 @@ export {loadLatest as loadLatestHistory}
 export function loadMoreHistory(params) {
   return (dispatch) => {
     dispatch(params.startIndex < 0 ? loadOlder(params) : loadNewer(params))
+  }
+}
+
+/**
+ * This callback is called when scroller reaches the top position.
+ * It renders the loaded messages when promise gets resolved.
+ */
+export function renderOlderHistory() {
+  return (dispatch, getState) => {
+    const {olderMessages} = historySelector(getState())
+    olderMessages.then(res => {
+      dispatch({
+        type: types.HANDLE_MORE_HISTORY,
+        payload: {
+          messages: normalizeMessages(res.reverse(), getState()),
+          isScrollBack: true
+        }
+      })
+    })
   }
 }
 
