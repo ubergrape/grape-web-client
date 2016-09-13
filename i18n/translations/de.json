@@ -1,253 +1,89 @@
 {
-  "lostConnectionAlert" : {
-    "defaultMessage" : "Verbindung zum Server verloren - versuche wieder zu verbinden. Sie können auch {action}.",
-    "description" : "**Describe lostConnectionAlert**: versucht die Seite neu zu laden.\n"
-  },
-  "reload" : {
-    "defaultMessage" : "neu laden"
-  },
-  "reconnectAlert" : {
-    "defaultMessage" : "Verbindung wiederhergestellt."
-  },
-  "noRoomFound" : {
-    "defaultMessage" : "Wir können leider nicht finden, wonach Sie suchen – die Gruppe wurde eventuell gelöscht, umbenannt oder verschoben."
-  },
-  "noMessageFound" : {
-    "defaultMessage" : "Wir konnten die gesuchte Nachricht nicht finden."
-  },
-  "cannotMessageYourself" : {
-    "defaultMessage" : "Sie können keine Nachrichten an sich selber schreiben."
-  },
-  "loadingChatHistory" : {
-    "defaultMessage" : "Konversationsverlauf wird geladen..."
-  },
-  "initialGreeting" : {
-    "defaultMessage" : "Hallo!"
-  },
-  "enableNotificationsRequest" : {
-    "defaultMessage" : "Bitte aktivieren Sie Ihre Desktop Benachrichtigungen"
-  },
-  "notificationsExplanation" : {
-    "defaultMessage" : "damit Ihre Mitarbeiter Sie auf Grape erreichen können."
-  },
-  "enableNotifications" : {
-    "defaultMessage" : "Benachrichtigungen aktivieren"
-  },
-  "grapeTrial" : {
-    "defaultMessage" : "Grape Testphase"
-  },
-  "continueTrial" : {
-    "defaultMessage" : "Test fortsetzen"
-  },
-  "enterDetails" : {
-    "defaultMessage" : "Details eingeben"
-  },
-  "createNewPrivateGroup" : {
-    "defaultMessage" : "Neue private Gruppe erstellen"
-  },
-  "inviteToGroup" : {
-    "defaultMessage" : "Zur Gruppe einladen"
-  },
-  "createGroup" : {
-    "defaultMessage" : "Gruppe erstellen"
-  },
-  "inviteMembers" : {
-    "defaultMessage" : "Mitarbeiter einladen"
-  },
-  "usersNotFoundFor" : {
-    "defaultMessage" : "Niemand gefunden für"
-  },
-  "everyoneInvited" : {
-    "defaultMessage" : "Alle MitarbeiterInnen wurden bereits zu dieser Gruppe eingeladen"
-  },
-  "inviteToTeam" : {
-    "defaultMessage" : "Laden Sie weitere Mitarbeiter ein..."
-  },
-  "typeName" : {
-    "defaultMessage" : "Namen eingeben..."
-  },
-  "imageWithDescr" : {
-    "defaultMessage" : "Bild: [{description}]",
-    "description" : "**Wird verwendet, wenn ein Bild mit Beschreibung aus Markdown dargestellt wird.**"
-  },
-  "imageWithoutDescr" : {
-    "defaultMessage" : "Bild: [Keine Beschreibung]",
-    "description" : "**Wird verwendet, wenn ein Bild ohne Beschreibung aus Markdown dargestellt wird.**"
-  },
-  "searchMessages" : {
-    "defaultMessage" : "Nachrichten durchsuchen"
-  },
-  "messageNotSendCheckConnection" : {
-    "defaultMessage" : "Die Nachricht wurde nicht gesendet. Stellen Sie Ihre Internetverbindung sicher und"
-  },
-  "clickToTryAgain" : {
-    "defaultMessage" : "klicken Sie hier, um es erneut zu versuchen"
-  },
-  "deleteMessagesQuestion" : {
-    "defaultMessage" : "Diese Nachricht löschen?"
-  },
-  "linkInClipboard" : {
-    "defaultMessage" : "Der Link zur Nachricht wurde Ihrer Zwischenablage hinzufügt"
-  },
-  "roomIsPublic" : {
-    "defaultMessage" : "Diese Gruppe ist öffentlich, alle Mitarbeiter können ihr beitreten und den Konversationsverlauf lesen."
-  },
-  "roomIsPrivate" : {
-    "defaultMessage" : "Diese Gruppe ist privat. Nur eingeladene Mitarbeiter können sie sehen oder ihr beitreten."
-  },
-  "welcomeToRoom" : {
-    "defaultMessage" : "Willkommen zu {channel}"
-  },
-  "inviteMoreToGroup" : {
-    "defaultMessage" : "Weitere Mitarbeiter zur Gruppe einladen"
-  },
-  "addServiceIntegration" : {
-    "defaultMessage" : "Service Integration hinzufügen"
-  },
-  "welcomeToPm" : {
-    "defaultMessage" : "Private Konversation mit {mate}"
-  },
-  "pmIntro" : {
-    "defaultMessage" : "Das ist eine private Konversation zwischen Ihnen und {mate}.{br}Private Nachrichten sind nur für Sie zugänglich."
-  },
-  "close" : {
-    "defaultMessage" : "Schließen"
-  },
-  "closeLower" : {
-    "defaultMessage" : "schließen"
-  },
-  "done" : {
-    "defaultMessage" : "Erledigt"
-  },
-  "showMore" : {
-    "defaultMessage" : "Mehr anzeigen"
-  },
-  "showLess" : {
-    "defaultMessage" : "Weniger anzeigen"
-  },
-  "contacts" : {
-    "defaultMessage" : "Mitarbeiter"
-  },
-  "groups" : {
-    "defaultMessage" : "Gruppen"
-  },
-  "description" : {
-    "defaultMessage" : "Beschreibung"
-  },
-  "grapeTeam" : {
-    "defaultMessage" : "Grape Team"
-  },
-  "deletedUser" : {
-    "defaultMessage" : "Gelöschter Nutzer"
-  },
-  "editMessage" : {
-    "defaultMessage" : "Nachricht bearbeiten"
-  },
-  "copyLink" : {
-    "defaultMessage" : "Link zur Nachricht kopieren"
-  },
-  "deleteMessage" : {
-    "defaultMessage" : "Nachricht löschen"
-  },
-  "localTime" : {
-    "defaultMessage" : "Lokale Zeit"
-  },
-  "noMessagesFound" : {
-    "defaultMessage" : "Keine Nachrichten gefunden"
-  },
-  "searchPropleAndGroups" : {
-    "defaultMessage" : "Gruppen und Mitarbeiter durchsuchen...\n"
-  },
-  "nothingThatMatches" : {
-    "defaultMessage" : "Keine passenden Ergebnisse"
-  },
-  "newConversation" : {
-    "defaultMessage" : "Neue Konversation"
-  },
-  "noConversationYet" : {
-    "defaultMessage" : "Noch keine Nachrichten"
-  },
-  "favorites" : {
-    "defaultMessage" : "Favoriten"
-  },
-  "recent" : {
-    "defaultMessage" : "Aktuell"
-  },
-  "advancedOptions" : {
-    "defaultMessage" : "Erweiterte Optionen"
-  },
-  "enterGroupName" : {
-    "defaultMessage" : "Gruppe benennen "
-  },
-  "private" : {
-    "defaultMessage" : "Privat"
-  },
-  "public" : {
-    "defaultMessage" : "Öffentlich"
-  },
-  "roomColor" : {
-    "defaultMessage" : "Raumfarbe"
-  },
-  "roomIcon" : {
-    "defaultMessage" : "Raumsymbol"
-  },
-  "makeRoomPrivate" : {
-    "defaultMessage" : "Diese Gruppe öffentlich machen"
-  },
-  "makeRoomPublic" : {
-    "defaultMessage" : "Diese Gruppe privat machen"
-  },
-  "deleteRoom" : {
-    "defaultMessage" : "Gruppe löschen"
-  },
-  "enterGroupNameHere" : {
-    "defaultMessage" : "Dieser Gruppe einen Namen geben..."
-  },
-  "addGroupDescription" : {
-    "defaultMessage" : "Dieser Gruppe eine Beschreibung geben..."
-  },
-  "groupInfo" : {
-    "defaultMessage" : "Rauminformation"
-  },
-  "leaveChannel" : {
-    "defaultMessage" : "Verlassen von "
-  },
-  "sharedInRoom" : {
-    "defaultMessage" : "Geteilt in {channelName}",
-    "description" : "*Describe sharedInRoom*, Beispiel: 'Geteilt in Office'"
-  },
-  "sharedInPm" : {
-    "defaultMessage" : "Geteilt mit {channelName}",
-    "description" : "*Describe sharedInPm*, Beispiel: 'Geteilt mit Felix'"
-  },
-  "sharedFiles" : {
-    "defaultMessage" : "Geteilte Dateien"
-  },
-  "noSharedFiles" : {
-    "defaultMessage" : "Keine geteilten Dateien"
-  },
-  "onlyInThisConversation" : {
-    "defaultMessage" : "Nur in dieser Konversation"
-  },
-  "mentionsSidebarTitle" : {
-    "defaultMessage" : "Erwähnungen"
-  },
-  "searchSidebarTitle" : {
-    "defaultMessage" : "Suchergebnisse"
-  },
-  "userIsTyping" : {
-    "defaultMessage" : "{user} schreibt gerade eine Nachricht"
-  },
-  "userAndUsersAreTyping" : {
-    "defaultMessage" : "{users} und {user} schreiben gerade Nachrichten"
-  },
-  "usersAreTyping" : {
-    "defaultMessage" : "{users} und {othersAmount} {othersAmount, plural, one {weiterer} other {weitere}} schreiben gerade"
-  },
-  "userProfile" : {
-    "defaultMessage" : "Profil"
-  },
-  "whatIDo" : {
-    "defaultMessage" : "Was ich mache "
-  }
+  "lostConnectionAlert": "Verbindung zum Server verloren - versuche wieder zu verbinden. Sie können auch {action}.",
+  "_lostConnectionAlert.comment": "**Describe lostConnectionAlert**: versucht die Seite neu zu laden.\n",
+  "reload": "neu laden",
+  "reconnectAlert": "Verbindung wiederhergestellt.",
+  "noRoomFound": "Wir können leider nicht finden, wonach Sie suchen – die Gruppe wurde eventuell gelöscht, umbenannt oder verschoben.",
+  "noMessageFound": "Wir konnten die gesuchte Nachricht nicht finden.",
+  "cannotMessageYourself": "Sie können keine Nachrichten an sich selber schreiben.",
+  "loadingChatHistory": "Konversationsverlauf wird geladen...",
+  "initialGreeting": "Hallo!",
+  "enableNotificationsRequest": "Bitte aktivieren Sie Ihre Desktop Benachrichtigungen",
+  "notificationsExplanation": "damit Ihre Mitarbeiter Sie auf Grape erreichen können.",
+  "enableNotifications": "Benachrichtigungen aktivieren",
+  "grapeTrial": "Grape Testphase",
+  "continueTrial": "Test fortsetzen",
+  "enterDetails": "Details eingeben",
+  "createNewPrivateGroup": "Neue private Gruppe erstellen",
+  "inviteToGroup": "Zur Gruppe einladen",
+  "createGroup": "Gruppe erstellen",
+  "inviteMembers": "Mitarbeiter einladen",
+  "usersNotFoundFor": "Niemand gefunden für",
+  "everyoneInvited": "Alle MitarbeiterInnen wurden bereits zu dieser Gruppe eingeladen",
+  "inviteToTeam": "Laden Sie weitere Mitarbeiter ein...",
+  "typeName": "Namen eingeben...",
+  "imageWithDescr": "Bild: [{description}]",
+  "_imageWithDescr.comment": "**Wird verwendet, wenn ein Bild mit Beschreibung aus Markdown dargestellt wird.**",
+  "imageWithoutDescr": "Bild: [Keine Beschreibung]",
+  "_imageWithoutDescr.comment": "**Wird verwendet, wenn ein Bild ohne Beschreibung aus Markdown dargestellt wird.**",
+  "searchMessages": "Nachrichten durchsuchen",
+  "messageNotSendCheckConnection": "Die Nachricht wurde nicht gesendet. Stellen Sie Ihre Internetverbindung sicher und",
+  "clickToTryAgain": "klicken Sie hier, um es erneut zu versuchen",
+  "deleteMessagesQuestion": "Diese Nachricht löschen?",
+  "linkInClipboard": "Der Link zur Nachricht wurde Ihrer Zwischenablage hinzufügt",
+  "roomIsPublic": "Diese Gruppe ist öffentlich, alle Mitarbeiter können ihr beitreten und den Konversationsverlauf lesen.",
+  "roomIsPrivate": "Diese Gruppe ist privat. Nur eingeladene Mitarbeiter können sie sehen oder ihr beitreten.",
+  "welcomeToRoom": "Willkommen zu {channel}",
+  "inviteMoreToGroup": "Weitere Mitarbeiter zur Gruppe einladen",
+  "addServiceIntegration": "Service Integration hinzufügen",
+  "welcomeToPm": "Private Konversation mit {mate}",
+  "pmIntro": "Das ist eine private Konversation zwischen Ihnen und {mate}.{br}Private Nachrichten sind nur für Sie zugänglich.",
+  "close": "Schließen",
+  "closeLower": "schließen",
+  "done": "Erledigt",
+  "showMore": "Mehr anzeigen",
+  "showLess": "Weniger anzeigen",
+  "contacts": "Mitarbeiter",
+  "groups": "Gruppen",
+  "description": "Beschreibung",
+  "grapeTeam": "Grape Team",
+  "deletedUser": "Gelöschter Nutzer",
+  "editMessage": "Nachricht bearbeiten",
+  "copyLink": "Link zur Nachricht kopieren",
+  "deleteMessage": "Nachricht löschen",
+  "localTime": "Lokale Zeit",
+  "noMessagesFound": "Keine Nachrichten gefunden",
+  "searchPropleAndGroups": "Gruppen und Mitarbeiter durchsuchen...\n",
+  "nothingThatMatches": "Keine passenden Ergebnisse",
+  "newConversation": "Neue Konversation",
+  "noConversationYet": "Noch keine Nachrichten",
+  "favorites": "Favoriten",
+  "recent": "Aktuell",
+  "advancedOptions": "Erweiterte Optionen",
+  "enterGroupName": "Gruppe benennen ",
+  "private": "Privat",
+  "public": "Öffentlich",
+  "roomColor": "Raumfarbe",
+  "roomIcon": "Raumsymbol",
+  "makeRoomPrivate": "Diese Gruppe öffentlich machen",
+  "makeRoomPublic": "Diese Gruppe privat machen",
+  "deleteRoom": "Gruppe löschen",
+  "enterGroupNameHere": "Dieser Gruppe einen Namen geben...",
+  "addGroupDescription": "Dieser Gruppe eine Beschreibung geben...",
+  "groupInfo": "Rauminformation",
+  "leaveChannel": "Verlassen von ",
+  "sharedInRoom": "Geteilt in {channelName}",
+  "_sharedInRoom.comment": "*Describe sharedInRoom*, Beispiel: 'Geteilt in Office'",
+  "sharedInPm": "Geteilt mit {channelName}",
+  "_sharedInPm.comment": "*Describe sharedInPm*, Beispiel: 'Geteilt mit Felix'",
+  "sharedFiles": "Geteilte Dateien",
+  "noSharedFiles": "Keine geteilten Dateien",
+  "onlyInThisConversation": "Nur in dieser Konversation",
+  "mentionsSidebarTitle": "Erwähnungen",
+  "searchSidebarTitle": "Suchergebnisse",
+  "userIsTyping": "{user} schreibt gerade eine Nachricht",
+  "userAndUsersAreTyping": "{users} und {user} schreiben gerade Nachrichten",
+  "usersAreTyping": "{users} und {othersAmount} {othersAmount, plural, one {weiterer} other {weitere}} schreiben gerade",
+  "userProfile": "Profil",
+  "whatIDo": "Was ich mache "
 }
