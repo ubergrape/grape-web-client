@@ -81,7 +81,6 @@ export default class InfiniteLoader extends Component {
 
   onScrollStop = debounce(() => {
     const {threshold, loadMoreRows, isRowLoaded, onTouchTopEdge} = this.props
-
     if (this.direction === 0) return
 
     if (this.direction > 0) {
@@ -93,16 +92,18 @@ export default class InfiniteLoader extends Component {
     }
 
     const range = this.getRange()
+
     if (range.startIndex < 0) {
       loadMoreRows(range)
-      if (this.scrollTop === 0) {
+      if (this.scrollTop <= 0) {
         onTouchTopEdge()
       }
     }
   }, 20)
 
   onScroll = ({scrollTop}) => {
-    if (this.scrollTop !== undefined) {
+    // We don't care about overscroll.
+    if (this.scrollTop !== undefined && scrollTop >= 0) {
       this.direction = scrollTop - this.scrollTop
     }
     this.scrollTop = scrollTop

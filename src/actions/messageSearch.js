@@ -63,8 +63,7 @@ export function searchMessages(params) {
       searchParams.id = orgId
     }
 
-    const call = `searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`
-    api[call](searchParams)
+    api[`searchMessages${searchOnlyInChannel ? 'InChannel' : ''}`](searchParams)
       .then(messages => {
         dispatch(setSidebarIsLoading(false))
         const messageSearch = messageSearchSelector(state)

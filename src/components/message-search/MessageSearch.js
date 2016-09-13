@@ -11,7 +11,6 @@ import {
 
 import style from './messageSearchStyles'
 import Message from './Message'
-import Highlight from '../highlight/YellowHighlight'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -56,7 +55,7 @@ export default class MessageSearch extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onLoadMore() {
+  onLoadMore = () => {
     this.load()
   }
 
@@ -64,7 +63,7 @@ export default class MessageSearch extends Component {
     this.props.select(item)
   }
 
-  onClose() {
+  onClose = () => {
     this.props.hide()
   }
 
@@ -93,8 +92,7 @@ export default class MessageSearch extends Component {
   }
 
   renderMessages() {
-    const {items: messages, sheet} = this.props
-    const {classes} = sheet
+    const {items: messages, sheet: {classes}} = this.props
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
@@ -124,13 +122,12 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {query, sheet, user, customEmojis, intl} = this.props
-    const {classes} = sheet
+    const {query, sheet: {classes}, user, customEmojis, intl} = this.props
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
-      renderHighlight: this.renderHighlight,
       user,
-      intl
+      intl,
+      customEmojis
     })
 
     return (
@@ -139,28 +136,19 @@ export default class MessageSearch extends Component {
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
         <Message {...message}>
-          <GrapedownWithSearch
-            text={message.text}
-            user={user}
-            customEmojis={customEmojis} />
+          <GrapedownWithSearch text={message.text} />
         </Message>
       </div>
     )
   }
 
-  renderHighlight = (match, key) => {
-    if (match.found) return <Highlight key={key}>{match.text}</Highlight>
-    return <span key={key}>{match.text}</span>
-  }
-
   renderLoadMore() {
-    const {total, items} = this.props
+    const {total, items, sheet: {classes}} = this.props
     if (!total || items.length >= total) return null
-    const {classes} = this.props.sheet
     return (
       <div className={classes.loadMoreContainer}>
         <button
-          onClick={::this.onLoadMore}
+          onClick={this.onLoadMore}
           className={classes.button}>
           <ShowMore />
         </button>
@@ -182,8 +170,7 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    const {user, images, title, isLoading, sheet} = this.props
-    const {classes} = sheet
+    const {user, images, title, isLoading, sheet: {classes}} = this.props
 
     if (!user) return null
 
@@ -197,7 +184,7 @@ export default class MessageSearch extends Component {
             onClickOption={this.onClickOption}
             theme={{classes}} />
         }
-        onClose={::this.onClose}>
+        onClose={this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}

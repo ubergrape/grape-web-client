@@ -45,7 +45,7 @@ export default class Row extends Component {
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
-    duplicates: PropTypes.number.isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
@@ -54,7 +54,7 @@ export default class Row extends Component {
   static defaultProps = {
     isLast: false,
     isGroupable: false,
-    duplicates: 0
+    duplicates: []
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -67,8 +67,8 @@ export default class Row extends Component {
   }
 
   onRemove = () => {
-    const {onRemove, message} = this.props
-    onRemove(message)
+    const {onRemove, duplicates, message} = this.props
+    onRemove([...duplicates, message.id].map(id => ({id})))
   }
 
   onResend = () => {
@@ -101,7 +101,7 @@ export default class Row extends Component {
       onGoToChannel,
       onToggleExpander,
       customEmojis,
-      duplicates,
+      duplicates: duplicates.length,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
       hasBubbleArrow: true,

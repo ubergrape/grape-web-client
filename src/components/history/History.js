@@ -5,7 +5,7 @@ import {useSheet} from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
-import ReadMessageDispatcher from './ReadMessageDispatcher'
+import ReadRow from './ReadRow'
 import Jumper from './Jumper'
 import Row from './Row'
 import {createRowsState} from './utils'
@@ -104,9 +104,8 @@ export default class History extends Component {
 
   render() {
     const {
-      sheet: {classes}, messages, user, minimumBatchSize, channel,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
-      noContent
+      sheet: {classes}, user, minimumBatchSize, channel, noContent,
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
     } = this.props
     const {rows, scrollTo} = this.state
 
@@ -127,8 +126,8 @@ export default class History extends Component {
 
     return (
       <div className={classes.history}>
-        <ReadMessageDispatcher
-          messages={messages}
+        <ReadRow
+          rows={rows}
           channelId={channel.id}
           onRead={onRead}>
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
@@ -151,7 +150,7 @@ export default class History extends Component {
               )}
             </Jumper>
           )}
-        </ReadMessageDispatcher>
+        </ReadRow>
       </div>
     )
   }

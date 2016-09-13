@@ -1,7 +1,6 @@
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
 export const horizontalMargin = 20
-export const lineHeight = '21px'
 
 export const styles = {
   message: {
@@ -20,7 +19,6 @@ export const styles = {
     maxWidth: '100%'
   },
   content: {
-    lineHeight,
     '& a': linkStyles.link,
     '& em': {
       fontStyle: 'italic'

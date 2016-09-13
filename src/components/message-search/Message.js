@@ -22,8 +22,8 @@ export default class Message extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
-    const {sheet, author, time, avatar, children} = this.props
-    const {classes} = sheet
+    const {sheet: {classes}, author, time, avatar, children} = this.props
+
     return (
       <section className={classes.message}>
         <Header time={time} author={author.name} className={classes.header} />
