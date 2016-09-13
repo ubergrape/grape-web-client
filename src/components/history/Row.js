@@ -45,7 +45,7 @@ export default class Row extends Component {
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
-    duplicates: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string

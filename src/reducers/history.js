@@ -106,6 +106,11 @@ export default function reduce(state = initialState, action) {
     case types.MARK_MESSAGE_AS_SENT:
       return updateMessage(state, {id: payload.messageId, state: 'sent'})
     case types.MARK_CHANNEL_AS_READ: {
+      // Currently backend logic is designed to mark all messages as read once
+      // user read something in that channel.
+      // This is not very accurate and might change in the future. So lets not couple
+      // the rest of the logic with this design and use data structure which allows
+      // individual messages to have different states.
       const {channelId, isCurrentUser, userId} = payload
       if (channelId !== state.channel.id || isCurrentUser) {
         return state
