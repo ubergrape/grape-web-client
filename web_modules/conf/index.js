@@ -14,17 +14,8 @@ Config.prototype.init = function() {
     this.forceLongpolling = true
   }
 
-  if (localStorage.newHistory === 'true') {
-    this.newHistory = true
-  }
-
-  // Turn new history on by default for our staging.
-  if (
-    location.hostname === 'uebergrape.staging.chatgrape.com' &&
-    localStorage.newHistory !== 'false'
-  ) {
-    this.newHistory = true
-  }
+  // TODO remove this in #4066
+  this.newHistory = true
 
   this.constants = {
     roles: {
