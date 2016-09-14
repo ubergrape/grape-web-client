@@ -150,7 +150,7 @@ export default class RegularMessage extends Component {
     this.setState({isMenuOpened: false})
   }
 
-  onSelect = ({name}) => {
+  onSelectMenuItem = ({name}) => {
     const {formatMessage} = this.props.intl
     switch (name) {
       case 'copyLink':
@@ -203,7 +203,7 @@ export default class RegularMessage extends Component {
 
     return (
       <Menu
-        onSelect={this.onSelect}
+        onSelect={this.onSelectMenuItem}
         className={className}
         items={items} />
     )

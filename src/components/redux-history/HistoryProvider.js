@@ -12,7 +12,7 @@ const actionNames = {
   loadLatestHistory: 'onJump',
   renderOlderHistory: 'onTouchTopEdge',
   unsetHistoryScrollTo: 'onUserScrollAfterScrollTo',
-  removeMessage: 'onRemove',
+  removeMessages: 'onRemove',
   editMessage: 'onEdit',
   resendMessage: 'onResend',
   readMessage: 'onRead',

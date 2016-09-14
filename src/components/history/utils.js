@@ -42,20 +42,24 @@ export const createRowsState = (() => {
       if (isGroupable && isDuplicate) {
         const prevRow = rows[rows.length - 1]
         // We can mutate here because we previously created that object.
-        prevRow.duplicates++
+        // Render the last message we group.
+        prevRow.duplicates.push(prevRow.id)
+        prevRow.id = message.id
+        prevRow.message = message
         // Point merged message to the row which will be rendered.
         map[message.id] = prevRow.id
         return result
       }
 
       rows.push({
+        // Keep the previous state.
         ...prevRowsMap[message.id],
         id: message.id,
         message,
         prevMessage,
         isGroupable,
         isLast: false,
-        duplicates: 0,
+        duplicates: [],
         ...pick(props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
           'onGoToChannel', 'selectedMessageId')
       })

@@ -474,7 +474,7 @@ export default class GrapeInput extends Emitter {
 
     if (this.previous) {
       let {msg} = this.previous
-      if (conf.newHistory) msg = {...msg, channel: {id: msg.channel}}
+      if (conf.newHistory) msg = {...msg, channel: {id: msg.channelId}}
       this.emit('update', msg, data.content)
       this.completePreviousEdit()
     } else {

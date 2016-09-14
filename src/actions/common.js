@@ -1,5 +1,6 @@
 import page from 'page'
 import parseUrl from 'grape-web/lib/parse-url'
+import conf from 'conf'
 
 import * as types from '../constants/actionTypes'
 import {
@@ -211,12 +212,13 @@ export function toggleOrgSettings(elem) {
   }
 }
 
-export function reloadOnAuthError() {
+function handleAuthError(err) {
   return dispatch => {
     dispatch({
-      type: types.AUTH_ERROR
+      type: types.AUTH_ERROR,
+      payload: err
     })
-    location.reload()
+    location.href = conf.server.loginPath
   }
 }
 
@@ -230,14 +232,16 @@ export function handleConnectionError(err) {
     if (connection === 'ws') {
       api
         .checkAuth()
-        .catch(({status}) => {
-          if (status === 401) dispatch(reloadOnAuthError())
+        .catch(authErr => {
+          if (authErr.status === 401) {
+            dispatch(handleAuthError(authErr))
+          }
         })
       return
     }
 
-    if (connection === 'lp' && err.status === 401) {
-      dispatch(reloadOnAuthError())
+    if (err.status === 401) {
+      dispatch(handleAuthError(err))
     }
   }
 }

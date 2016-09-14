@@ -42,9 +42,8 @@ export function loadMentions(params) {
 
 export function addMention(message) {
   return (dispatch, getState) => {
-    const state = getState()
-    const mentions = mentionsSelector(state)
-    let items = [...mentions.items, normalizeMessage(message, state)]
+    const mentions = mentionsSelector(getState())
+    let items = [...mentions.items, message]
 
     // Sort all items descenting because we loose the right order when a message
     // comes from pubsub.

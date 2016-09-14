@@ -175,25 +175,6 @@ function loadFragment() {
   }
 }
 
-/**
- * This callback is called when scroller reaches the top position.
- * It renders the loaded messages when promise gets resolved.
- */
-export function renderOlderHistory() {
-  return (dispatch, getState) => {
-    const {olderMessages} = historySelector(getState())
-    olderMessages.then(res => {
-      dispatch({
-        type: types.HANDLE_MORE_HISTORY,
-        payload: {
-          messages: normalizeMessages(res.reverse(), getState()),
-          isScrollBack: true
-        }
-      })
-    })
-  }
-}
-
 export function loadHistory() {
   return (dispatch, getState) => {
     const {selectedMessageId} = historySelector(getState())
@@ -213,21 +194,41 @@ export function loadMoreHistory(params) {
   }
 }
 
+/**
+ * This callback is called when scroller reaches the top position.
+ * It renders the loaded messages when promise gets resolved.
+ */
+export function renderOlderHistory() {
+  return (dispatch, getState) => {
+    const {olderMessages} = historySelector(getState())
+    olderMessages.then(res => {
+      dispatch({
+        type: types.HANDLE_MORE_HISTORY,
+        payload: {
+          messages: normalizeMessages(res.reverse(), getState()),
+          isScrollBack: true
+        }
+      })
+    })
+  }
+}
+
 export function unsetHistoryScrollTo() {
   return {
     type: types.UNSET_HISTORY_SCROLL_TO
   }
 }
 
-export function removeMessage({id: messageId}) {
+export function removeMessages(messages) {
   return (dispatch, getState) => {
     dispatch({
-      type: types.REQUEST_REMOVE_MESSAGE,
-      payload: messageId
+      type: types.REQUEST_REMOVE_MESSAGES,
+      payload: messages
     })
     const {id: channelId} = channelSelector(getState())
-    api
-      .removeMessage(channelId, messageId)
+
+    Promise
+      .all(messages.map(message => api.removeMessage(channelId, message.id)))
       .catch(err => dispatch(error(err)))
   }
 }
