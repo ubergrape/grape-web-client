@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.19.8",
+  "version": "0.20.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -163,7 +163,7 @@
     "prepublish": "NODE_ENV=production npm run all"
   },
   "lint-staged": {
-    "*.js": [
+    "./src/*.js": [
       "eslint --fix",
       "git add"
     ]
