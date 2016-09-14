@@ -16,20 +16,19 @@ export function loadMentions(params) {
     dispatch(setSidebarIsLoading(true))
     const state = getState()
     const {id} = orgSelector(state)
-    const {shouldReplace} = params.options
+    const {offsetDate, options: {shouldReplace}} = params
     return api
-      .getMentions({...params, offsetDate: shouldReplace ? undefined : params.offsetDate, id})
-      .then(mentions => {
+      .getMentions({...params, offsetDate: shouldReplace ? undefined : offsetDate, id})
+      .then(({results, total}) => {
         dispatch(setSidebarIsLoading(false))
         const {items: prevItems} = mentionsSelector(state)
-        const nextItems = mentions.results.map(data => (
-          normalizeMessage(data.message, state)
-        ))
+        const nextItems = results.map(data => normalizeMessage(data.message, state))
+        const items = shouldReplace ? nextItems : [...prevItems, ...nextItems]
         return dispatch({
           type: types.LOADED_MENTIONS,
           payload: {
-            total: mentions.total,
-            items: shouldReplace ? nextItems : [...prevItems, ...nextItems]
+            total,
+            items
           }
         })
       })
