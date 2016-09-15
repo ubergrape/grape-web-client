@@ -14,13 +14,15 @@ export default class Tooltip extends Component {
     sheet: PropTypes.object.isRequired,
     align: PropTypes.string.isRequired,
     placement: PropTypes.string.isRequired,
-    delay: PropTypes.number.isRequired
+    delay: PropTypes.number.isRequired,
+    preventShow: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     align: 'center',
     placement: 'bottom',
-    delay: 500
+    delay: 500,
+    preventShow: false
   }
 
   constructor() {
@@ -31,8 +33,13 @@ export default class Tooltip extends Component {
     }
   }
 
+  componentWillReceiveProps({preventShow}) {
+    if (preventShow && this.state.show) this.setState({show: false})
+  }
+
   onMouseOver = () => {
     const timeoutId = setTimeout(() => {
+      if (this.props.preventShow) return
       this.setState({show: true})
     }, this.props.delay)
 

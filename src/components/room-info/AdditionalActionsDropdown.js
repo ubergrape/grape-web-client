@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 
+import Tooltip from '../tooltip/HoverTooltip'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
 
@@ -43,10 +45,16 @@ export default class AdditionalActionsDropdown extends Component {
     const {classes} = theme
     return (
       <div>
-        <button
-          className={classes.additionalActionsButton}
-          onClick={this.onShowDropdown}
-          ref="settings" />
+        <Tooltip
+          align="right"
+          placement="top"
+          preventShow={show}
+          message={<FormattedMessage id="editGrout" defaultMessage="Edit Group" />}>
+          <button
+            className={classes.additionalActionsButton}
+            onClick={this.onShowDropdown}
+            ref="settings" />
+        </Tooltip>
         {show &&
           <Dropdown
             {...this.props}

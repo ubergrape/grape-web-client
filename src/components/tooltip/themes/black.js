@@ -12,6 +12,11 @@ export const bottomRight = {
   right: 0
 }
 
+export const topRight = {
+  right: 0,
+  bottom: '100%'
+}
+
 export const styles = {
   pointer: {
     background: 'rgba(0,0,0,0.8)'
