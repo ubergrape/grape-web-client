@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 import {useSheet} from 'grape-web/lib/jss'
-import style from './style'
-
 import Spinner from 'grape-web/lib/spinner/Spinner'
+
+import style from './style'
 import {spinner} from '../../constants/images'
+import Tooltip from '../tooltip/HoverTooltip'
 
 const sizes = {width: 32, height: 32}
 
 @useSheet(style)
 export default class OrgInfo extends Component {
-
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     toggleOrgSettings: PropTypes.func.isRequired,
@@ -76,10 +77,17 @@ export default class OrgInfo extends Component {
         {this.renderHeaders()}
         {
           !isLoading &&
-          <button
-            className={sheet.classes.settings}
-            onClick={::this.toggleOrgSettings}>
-          </button>
+          <Tooltip
+            message={(
+              <FormattedMessage
+                id="settings"
+                defaultMessage="Settings" />
+            )}>
+            <button
+              className={sheet.classes.settings}
+              onClick={::this.toggleOrgSettings}>
+            </button>
+          </Tooltip>
         }
       </header>
     )
