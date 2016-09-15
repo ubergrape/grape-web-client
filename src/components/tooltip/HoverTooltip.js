@@ -15,7 +15,8 @@ export default class Tooltip extends Component {
     align: PropTypes.string.isRequired,
     placement: PropTypes.string.isRequired,
     delay: PropTypes.number.isRequired,
-    preventShow: PropTypes.bool.isRequired
+    preventShow: PropTypes.bool.isRequired,
+    arrowOffsetLeft: PropTypes.string
   }
 
   static defaultProps = {
@@ -65,18 +66,20 @@ export default class Tooltip extends Component {
 
     if (!message) return null
 
-    let arrowOffsetLeft
-    switch (align) {
-      case 'center':
-        arrowOffsetLeft = '50%'
-        break
-      case 'left':
-        arrowOffsetLeft = '15'
-        break
-      case 'right':
-        arrowOffsetLeft = 'calc(100% - 15px)'
-        break
-      default:
+    let arrowOffsetLeft = this.props.arrowOffsetLeft
+    if (!arrowOffsetLeft) {
+      switch (align) {
+        case 'center':
+          arrowOffsetLeft = '50%'
+          break
+        case 'left':
+          arrowOffsetLeft = '15'
+          break
+        case 'right':
+          arrowOffsetLeft = 'calc(100% - 15px)'
+          break
+        default:
+      }
     }
 
     const position = styles[placement + capitalize(align)]

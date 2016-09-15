@@ -58,5 +58,12 @@ export const styles = {
   stateIndicatorRead: createInlineIcon('checkmarkFilled', {
     color: gray,
     size: stateIndicatorSize
-  })
+  }),
+  stateIndicatorTooltipTrigger: {
+    display: 'block',
+    merginTop: -stateIndicatorSize,
+    marginLeft: -stateIndicatorSize,
+    width: stateIndicatorSize,
+    height: stateIndicatorSize
+  }
 }

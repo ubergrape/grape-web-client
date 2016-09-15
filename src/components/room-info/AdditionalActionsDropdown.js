@@ -48,6 +48,7 @@ export default class AdditionalActionsDropdown extends Component {
         <Tooltip
           align="right"
           placement="top"
+          arrowOffsetLeft="calc(100% - 8px)"
           preventShow={show}
           message={<FormattedMessage id="editGrout" defaultMessage="Edit Group" />}>
           <button

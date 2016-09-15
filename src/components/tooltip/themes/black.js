@@ -17,6 +17,12 @@ export const topRight = {
   bottom: '100%'
 }
 
+export const topCenter = {
+  left: '50%',
+  bottom: '100%',
+  transform: 'translateX(-50%)'
+}
+
 export const styles = {
   pointer: {
     background: 'rgba(0,0,0,0.8)'

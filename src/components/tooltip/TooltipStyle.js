@@ -9,6 +9,6 @@ export default {
   },
   pointer: {
     position: 'absolute',
-    transform: 'rotate(45deg)'
+    transform: 'rotate(45deg) translateZ(0)'
   }
 }
