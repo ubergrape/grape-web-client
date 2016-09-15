@@ -10,7 +10,7 @@ sync(messagesPattern).map((file) => {
   const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
   const messages = Object.keys(parsed).reduce((result, key) => {
     if (commentRegExp.test(key)) return result
-    const message = parsed[key].defaultMessage || parsed[key]
+    const message = parsed[key]
     result[key] = message
     return result
   }, {})
