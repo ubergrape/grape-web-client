@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import style from './style'
+import style from './TooltipStyle'
 import {useSheet} from 'grape-web/lib/jss'
 import {
   getPlacementStyles,

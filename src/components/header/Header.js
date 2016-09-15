@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -10,6 +11,7 @@ import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 import Favorite from '../favorite/Favorite'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
+import Tooltip from '../tooltip/HoverTooltip'
 
 function Input({theme, onFocus, onChange, onClick, placeholder}) {
   return (
@@ -104,6 +106,57 @@ const messages = defineMessages({
   }
 })
 
+function getTooltipMessage(name) {
+  switch (name) {
+    case 'favorite':
+      return (
+        <FormattedMessage
+          id="pinToFavorites"
+          description="Tooltip text"
+          defaultMessage="Pin to Favorites" />
+      )
+    case 'invite':
+      return (
+        <FormattedMessage
+          id="addUsersToGroup"
+          description="Tooltip text"
+          defaultMessage="Add users to Group" />
+      )
+    case 'room':
+      return (
+        <FormattedMessage
+          id="groupInfo"
+          defaultMessage="Group Info" />
+      )
+    case 'pm':
+      return (
+        <FormattedMessage
+          id="userProfile"
+          defaultMessage="User Profile" />
+      )
+    case 'files':
+      return (
+        <FormattedMessage
+          id="sharedFiles"
+          defaultMessage="Shared Files" />
+      )
+    case 'mentions':
+      return (
+        <FormattedMessage
+          id="mentions"
+          defaultMessage="Mentions" />
+      )
+    case 'support':
+      return (
+        <FormattedMessage
+          id="supportInfo"
+          defaultMessage="Support Info" />
+      )
+    default:
+      return (<span></span>)
+  }
+}
+
 function RawItems(props) {
   const {
     showChannelMembersInvite,
@@ -128,7 +181,9 @@ function RawItems(props) {
       className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
       id="intro-step4">
       <li className={classes.favorite}>
-        <Favorite {...favoriteProps}/>
+        <Tooltip message={getTooltipMessage('favorite')}>
+          <Favorite {...favoriteProps}/>
+        </Tooltip>
       </li>
       <li className={classes.title}>
         <Title
@@ -137,19 +192,25 @@ function RawItems(props) {
           theme={theme} />
       </li>
       <li className={classes.action}>
-        <Button
-          className={classes.invite}
-          onClick={showChannelMembersInvite} />
+        <Tooltip message={getTooltipMessage('invite')}>
+          <Button
+            className={classes.invite}
+            onClick={showChannelMembersInvite} />
+        </Tooltip>
       </li>
       <li className={classes.action}>
-        <Button
-          className={itemButtonClassName(channel || 'room', props)}
-          onClick={itemClickHandler(channel, props)} />
+        <Tooltip message={getTooltipMessage(channel)}>
+          <Button
+            className={itemButtonClassName(channel || 'room', props)}
+            onClick={itemClickHandler(channel, props)} />
+        </Tooltip>
       </li>
       <li className={classes.action}>
-        <Button
-          className={itemButtonClassName('files', props)}
-          onClick={itemClickHandler('files', props)} />
+        <Tooltip message={getTooltipMessage('files')}>
+          <Button
+            className={itemButtonClassName('files', props)}
+            onClick={itemClickHandler('files', props)} />
+        </Tooltip>
       </li>
       <li className={classes.searchAction}>
         <Search
@@ -160,20 +221,26 @@ function RawItems(props) {
           onChange={onChangeMessageSearch} />
       </li>
       <li className={classes.action}>
-        <Button
-          className={itemButtonClassName('mentions', props)}
-          onClick={itemClickHandler('mentions', props)} />
-        <MentionsBadge
-          mentions={mentions}
-          sidebar={sidebar}
-          theme={theme} />
+        <Tooltip message={getTooltipMessage('mentions')}>
+          <Button
+            className={itemButtonClassName('mentions', props)}
+            onClick={itemClickHandler('mentions', props)} />
+          <MentionsBadge
+            mentions={mentions}
+            sidebar={sidebar}
+            theme={theme} />
+        </Tooltip>
       </li>
       <li className={classes.action}>
-        <a
-          href={support.href}
-          className={itemButtonClassName('intercom', props)}
-          onClick={onSupportClick}>
-        </a>
+        <Tooltip
+          message={getTooltipMessage('support')}
+          align="right">
+          <a
+            href={support.href}
+            className={itemButtonClassName('intercom', props)}
+            onClick={onSupportClick}>
+          </a>
+        </Tooltip>
       </li>
     </ul>
   )
@@ -220,10 +287,10 @@ export default class Header extends Component {
     hideSidebar: PropTypes.func
   }
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps) {
     // Hide intercom, because it keeps state outside of app.
-    const {support, hideIntercom} = this.props
-    if (support.type === 'intercom') hideIntercom()
+    const {support: {type}, hideIntercom} = nextProps
+    if (type !== this.props.support.type && type === 'intercom') hideIntercom()
   }
 
   onFocusMessageSearch = ({target}) => {
