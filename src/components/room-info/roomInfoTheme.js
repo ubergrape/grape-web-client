@@ -29,7 +29,9 @@ const divider = {
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
 
-export default {
+export const additionalActionsButtonSize = fonts.normal.fontSize
+
+export const styles = {
   channelInfo: {
     color: colors.grayBlueDark
   },
@@ -125,8 +127,8 @@ export default {
     ...fonts.normal,
     ...buttonIcon('cog', {color: webColors.button, hoverColor: colors.blue, iconOnly: true}),
     display: 'block',
-    width: fonts.normal.fontSize,
-    height: fonts.normal.fontSize
+    width: additionalActionsButtonSize,
+    height: additionalActionsButtonSize
   },
   additionalActionButton: {
     ...linkButton,

@@ -104,9 +104,7 @@ function DeliveryState({time, state, theme}) {
         classes[`stateIndicator${capitalize(state)}`]
       ].join(' ')}>
         <Tooltip
-          align="right"
-          placement="top"
-          arrowOffsetLeft="calc(100% - 8px)"
+          placement="left"
           message={getDeliveryStateTooltipMessage(state)}>
             <span className={classes.stateIndicatorTooltipTrigger} />
         </Tooltip>

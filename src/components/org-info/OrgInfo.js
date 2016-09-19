@@ -20,7 +20,7 @@ export default class OrgInfo extends Component {
     username: PropTypes.string
   }
 
-  toggleOrgSettings(e) {
+  toggleOrgSettings = (e) => {
     this.props.toggleOrgSettings(e.target)
   }
 
@@ -85,7 +85,7 @@ export default class OrgInfo extends Component {
             )}>
             <button
               className={sheet.classes.settings}
-              onClick={::this.toggleOrgSettings}>
+              onClick={this.toggleOrgSettings}>
             </button>
           </Tooltip>
         }

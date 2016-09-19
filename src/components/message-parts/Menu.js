@@ -75,7 +75,8 @@ export default class Menu extends Component {
             <Tooltip
               key={name}
               placement="top"
-              message={getMessage(name)}>
+              message={getMessage(name)}
+              inline>
                 <span
                   className={getClassName(classes, name, i, items.length)}
                   onClick={onSelect.bind(null, {name})} />

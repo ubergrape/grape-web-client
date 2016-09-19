@@ -4,6 +4,7 @@ import {FormattedMessage} from 'react-intl'
 import Tooltip from '../tooltip/HoverTooltip'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
+import {additionalActionsButtonSize} from './roomInfoTheme'
 
 export default class AdditionalActionsDropdown extends Component {
   static propTypes = {
@@ -48,8 +49,8 @@ export default class AdditionalActionsDropdown extends Component {
         <Tooltip
           align="right"
           placement="top"
-          arrowOffsetLeft="calc(100% - 8px)"
-          preventShow={show}
+          arrowMargin={Math.round(additionalActionsButtonSize / 2)}
+          disabled={show}
           message={<FormattedMessage id="editGrout" defaultMessage="Edit Group" />}>
           <button
             className={classes.additionalActionsButton}
