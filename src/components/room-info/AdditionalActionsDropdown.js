@@ -51,7 +51,7 @@ export default class AdditionalActionsDropdown extends Component {
           placement="top"
           arrowMargin={Math.round(additionalActionsButtonSize / 2)}
           disabled={show}
-          message={<FormattedMessage id="editGrout" defaultMessage="Edit Group" />}>
+          message={<FormattedMessage id="editGroup" defaultMessage="Edit Group" />}>
           <button
             className={classes.additionalActionsButton}
             onClick={this.onShowDropdown}
