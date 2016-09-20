@@ -1,7 +1,7 @@
 export default [
   'goToChannel',
   'createRoomWithUsers',
-  'showOrgInvite',
+  'showInviteToOrg',
   'showNewConversation',
   'hideNewConversation',
   'showNewConversationAdvanced',

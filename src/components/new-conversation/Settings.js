@@ -8,7 +8,7 @@ import {
 
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
-import Input from '../input/GrayInput'
+import Input from '../input/GrayInputBigger'
 
 class IconSettings extends Component {
   static propTypes = {

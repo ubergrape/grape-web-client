@@ -11,7 +11,7 @@ import style from './style'
 const Tooltip = listenOutsideClick(GrayTooltip)
 
 /**
- * This component renders input with error tooltip
+ * This component renders input or textarea with error tooltip
  * if `error` props passed.
  * `error` is object with 2 properties:
  * * `message` is `string` to disaplay in Tooltip
@@ -25,6 +25,7 @@ export default class Input extends Component {
     onChange: PropTypes.func.isRequired,
     clearError: PropTypes.func.isRequired,
     focused: PropTypes.bool.isRequired,
+    type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
       message: React.PropTypes.string.isRequired,
       level: React.PropTypes.string.isRequired
@@ -33,6 +34,7 @@ export default class Input extends Component {
 
   static defaultProps = {
     placement: 'bottom',
+    type: 'input',
     focused: false,
     onChange: noop,
     clearError: noop
@@ -56,16 +58,29 @@ export default class Input extends Component {
     this.props.clearError()
   }
 
+  renderInput() {
+    const {type, error, theme: {classes}} = this.props
+    const props = {
+      ...pickHTMLProps(this.props),
+      onChange: this.onChange,
+      ref: 'input',
+      className: classes['input' + (error ? capitalize(error.level) : '')]
+    }
+    switch (type) {
+      case 'input':
+        return <input {...props} />
+      case 'textarea':
+        return <textarea {...props} />
+      default:
+    }
+  }
+
   render() {
     const {error, theme, sheet} = this.props
     const {classes, arrowOffset, tooltipOffset, placement} = theme
     return (
       <span className={sheet.classes.wrapper}>
-        <input
-          {...pickHTMLProps(this.props)}
-          onChange={this.onChange}
-          ref="input"
-          className={classes['input' + (error ? capitalize(error.level) : '')]}/>
+        {this.renderInput()}
         {error &&
           <Tooltip
             style={{left: tooltipOffset}}
