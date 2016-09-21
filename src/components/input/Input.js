@@ -11,12 +11,11 @@ import style from './style'
 const Tooltip = listenOutsideClick(GrayTooltip)
 
 /**
- * This component renders input or textarea with error tooltip
- * if `error` props passed.
- * `error` is object with 2 properties:
- * * `message` is `string` to disaplay in Tooltip
- * * `level` is `string`: `error` or `warning`
+ * This component renders input or textarea with error/warning tooltip
+ * if `error` prop passed.
  */
+// TODO: move this component to grape-ui library
+// https://github.com/ubergrape/chatgrape/issues/4384
 @useSheet(style)
 export default class Input extends Component {
   static propTypes = {
@@ -25,10 +24,11 @@ export default class Input extends Component {
     onChange: PropTypes.func.isRequired,
     clearError: PropTypes.func.isRequired,
     focused: PropTypes.bool.isRequired,
+    className: PropTypes.string,
     type: PropTypes.oneOf(['input', 'textarea']),
     error: PropTypes.shape({
-      message: React.PropTypes.string.isRequired,
-      level: React.PropTypes.string.isRequired
+      message: PropTypes.string.isRequired,
+      level: PropTypes.oneOf(['error', 'warning'])
     })
   }
 
@@ -59,12 +59,12 @@ export default class Input extends Component {
   }
 
   renderInput() {
-    const {type, error, theme: {classes}} = this.props
+    const {type, error, theme: {classes}, className} = this.props
     const props = {
       ...pickHTMLProps(this.props),
       onChange: this.onChange,
       ref: 'input',
-      className: classes['input' + (error ? capitalize(error.level) : '')]
+      className: `${classes['input' + (error ? capitalize(error.level) : '')]} ${className}`
     }
     switch (type) {
       case 'input':
