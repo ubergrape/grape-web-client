@@ -6,6 +6,7 @@ import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
 import notification from 'notification'
 import moment from 'moment'
+
 import {
   FormattedMessage,
   defineMessages,
@@ -22,6 +23,7 @@ import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
+import Tooltip from '../../tooltip/HoverTooltip'
 import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
@@ -53,6 +55,40 @@ UnsentWarning.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+function getDeliveryStateTooltipMessage(state) {
+  switch (state) {
+    case 'pending':
+      return (
+        <FormattedMessage
+          id="pending"
+          description="message delivery status in tooltip"
+          defaultMessage="Pending" />
+      )
+    case 'unsent':
+      return (
+        <FormattedMessage
+          id="unsent"
+          description="message delivery status in tooltip"
+          defaultMessage="Unsent" />
+      )
+    case 'sent':
+      return (
+        <FormattedMessage
+          id="sent"
+          description="message delivery status in tooltip"
+          defaultMessage="Sent" />
+      )
+    case 'read':
+      return (
+        <FormattedMessage
+          id="read"
+          description="message delivery status in tooltip"
+          defaultMessage="Read" />
+      )
+    default:
+  }
+}
+
 function DeliveryState({time, state, theme}) {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
@@ -67,6 +103,11 @@ function DeliveryState({time, state, theme}) {
         classes.stateIndicator,
         classes[`stateIndicator${capitalize(state)}`]
       ].join(' ')}>
+        <Tooltip
+          placement="left"
+          message={getDeliveryStateTooltipMessage(state)}>
+            <span className={classes.stateIndicatorTooltipTrigger} />
+        </Tooltip>
     </span>
   )
 }

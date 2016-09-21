@@ -3,8 +3,7 @@ import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 
 const icon = {
-  fontSize: 18,
-  marginRight: 5
+  fontSize: 18
 }
 
 export default {
