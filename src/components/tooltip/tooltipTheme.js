@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   tooltip: {
     position: 'absolute',
     zIndex: 1
