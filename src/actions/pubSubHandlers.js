@@ -31,8 +31,10 @@ export function handleNewMessage(message) {
     const user = userSelector(state)
     const rooms = joinedRoomsSelector(state)
     const mentionsCount = countMentions(fMessage, user, rooms)
+
     if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
     if (mentionsCount) dispatch(addMention(fMessage))
+
     dispatch({
       type: types.UPDATE_CHANNEL_STATS,
       payload: {
@@ -53,6 +55,17 @@ export function handleNewMessage(message) {
       type: types.ADD_NEW_MESSAGE,
       payload: fMessage
     })
+
+    // Mark own message as sent.
+    if (fMessage.author.id === user.id) {
+      dispatch({
+        type: types.MARK_MESSAGE_AS_SENT,
+        payload: {
+          messageId: fMessage.id,
+          channelId: fMessage.channelId
+        }
+      })
+    }
   }
 }
 
@@ -67,28 +80,18 @@ export function handleRemovedMessage({id}) {
   }
 }
 
-export function handleReadChannel(data) {
+export function handleReadChannel({user: userId, channel: channelId}) {
   return (dispatch, getState) => {
     const user = userSelector(getState())
+
     dispatch({
       type: types.MARK_CHANNEL_AS_READ,
       payload: {
-        isCurrentUser: user.id === data.user,
-        channelId: data.channel
+        isCurrentUser: userId === user.id,
+        userId,
+        channelId
       }
     })
-
-    // We use the channel read event triggered by the own user to
-    // mark a message as sent.
-    if (user.id === data.user) {
-      dispatch({
-        type: types.MARK_MESSAGE_AS_SENT,
-        payload: {
-          messageId: data.message,
-          channelId: data.channel
-        }
-      })
-    }
   }
 }
 

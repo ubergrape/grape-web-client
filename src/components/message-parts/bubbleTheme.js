@@ -1,12 +1,10 @@
+import {normal} from 'grape-theme/dist/fonts'
 import {white} from 'grape-theme/dist/base-colors'
-
-const arrowWidth = 7
 
 export const styles = {
   bubble: {
     display: 'inline-block',
-    position: 'relative',
-    marginLeft: arrowWidth
+    position: 'relative'
   },
   bubbleWithArrow: {
     extend: 'bubble',
@@ -14,8 +12,8 @@ export const styles = {
       position: 'absolute',
       top: 14,
       left: 0,
-      width: arrowWidth,
-      height: arrowWidth,
+      width: 7,
+      height: 7,
       content: '""',
       transform: 'rotate(45deg) translateX(-50%)',
       background: white,
@@ -23,6 +21,7 @@ export const styles = {
     }
   },
   content: {
+    extend: normal,
     position: 'relative',
     background: white,
     borderRadius: 16,

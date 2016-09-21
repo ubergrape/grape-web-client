@@ -1,8 +1,10 @@
 import {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+import {injectIntl} from 'react-intl'
 
 import render from './render'
 
+@injectIntl
 export default class Grapedown extends Component {
   static propTypes = {
     text: PropTypes.string.isRequired,

@@ -2,37 +2,31 @@ import React, {PropTypes} from 'react'
 
 export default function Options(props) {
   const {
-    theme,
+    theme: {classes},
     options,
-    searchOnlyInChannel,
     onClickOption,
     isLoading
   } = props
 
   if (!options.length) return null
 
-  const {classes} = theme
   return (
     <ul>
-    {
-      options.map((option, i) => {
-        return (
-          <li key={i}>
-            <label
-              className={classes.optionLabel}
-              onClick={onClickOption}>
-              <input
-                className={classes.optionCheckbox}
-                type="checkbox"
-                checked={searchOnlyInChannel}
-                onChange={option.handler}
-                disabled={isLoading} />
-                {option.label}
-            </label>
-          </li>
-        )
-      })
-    }
+      {options.map((option, i) =>
+        <li key={i}>
+          <label
+            className={classes.optionLabel}
+            onClick={onClickOption}>
+            <input
+              className={classes.optionCheckbox}
+              type="checkbox"
+              checked={option.status}
+              onChange={option.handler}
+              disabled={isLoading} />
+              {option.label}
+          </label>
+        </li>
+      )}
     </ul>
   )
 }
@@ -40,7 +34,6 @@ export default function Options(props) {
 Options.propTypes = {
   theme: PropTypes.object.isRequired,
   onClickOption: PropTypes.func.isRequired,
-  searchOnlyInChannel: PropTypes.bool.isRequired,
   options: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired
 }

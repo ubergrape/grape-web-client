@@ -15,12 +15,13 @@ const defaultMessages = globSync(messagesPattern)
     .reduce((collection, descriptors) => {
       descriptors.forEach(({id, defaultMessage, description}) => {
         if (collection.hasOwnProperty(id) &&
-          collection[id].defaultMessage !== defaultMessage) {
+          collection[id] !== defaultMessage) {
           throw new Error(`Duplicate message id: ${id}`)
         }
 
         // use edited value from last import or create new from source
-        collection[id] = lastImport[id] || {defaultMessage, description}
+        collection[id] = lastImport[id] || defaultMessage
+        if (description) collection[`_${id}.comment`] = description
       })
 
       return collection

@@ -2,10 +2,10 @@ import * as images from '../constants/images'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  title: 'Mentions',
   limit: 20,
   isLoading: false,
   items: [],
+  showRoomMentions: false,
   images
 }
 
@@ -16,6 +16,8 @@ export default function reduce(state = initialState, action) {
     case types.ADD_MENTION:
     case types.REMOVE_MENTION:
       return {...state, ...action.payload}
+    case types.TOGGLE_SHOW_ROOM_MENTION:
+      return {...state, showRoomMentions: !state.showRoomMentions}
     default:
       return state
   }

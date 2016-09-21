@@ -15,19 +15,32 @@ import style from './style'
 import {useSheet} from 'grape-web/lib/jss'
 
 const messages = defineMessages({
+  mentions: {
+    id: 'showRoomMentions',
+    defaultMessage: 'Show Group mentions'
+  },
   label: {
     id: 'onlyInThisConversation',
     defaultMessage: 'Only in this conversation'
+  },
+  mentionsTitle: {
+    id: 'mentionsSidebarTitle',
+    defaultMessage: 'Mentions'
+  },
+  searchTitle: {
+    id: 'searchSidebarTitle',
+    defaultMessage: 'Search Results'
   }
 })
 
 function SidebarContent(props) {
   const {
     show,
-    intl,
+    intl: {formatMessage},
     loadMentions,
     searchMessages,
     toggleSearchOnlyInChannel,
+    toggleShowRoomMentions,
     hideSidebar: hide,
     goToMessage: select
   } = props
@@ -42,7 +55,13 @@ function SidebarContent(props) {
     case 'mentions': {
       const mentionProps = {
         ...props,
+        title: formatMessage(messages.mentionsTitle),
         load: loadMentions,
+        options: [{
+          label: formatMessage(messages.mentions),
+          handler: toggleShowRoomMentions,
+          status: props.showRoomMentions
+        }],
         hide,
         select
       }
@@ -51,10 +70,12 @@ function SidebarContent(props) {
     case 'search': {
       const searchProps = {
         ...props,
+        title: formatMessage(messages.searchTitle),
         load: searchMessages,
         options: [{
-          label: intl.formatMessage(messages.label),
-          handler: toggleSearchOnlyInChannel
+          label: formatMessage(messages.label),
+          handler: toggleSearchOnlyInChannel,
+          status: props.searchOnlyInChannel
         }],
         hide,
         select
@@ -76,7 +97,10 @@ SidebarContent.propTypes = {
   ]).isRequired,
   loadMentions: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
+  showRoomMentions: PropTypes.bool,
+  searchOnlyInChannel: PropTypes.bool,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
+  toggleShowRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired
 }
@@ -94,9 +118,10 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
+    const {show, sheet: {classes}} = this.props
+    if (!show) return null
     return (
-      <div className={this.props.sheet.classes.sidebar}>
+      <div className={classes.sidebar}>
         <Content {...this.props} />
       </div>
     )

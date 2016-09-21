@@ -3,11 +3,14 @@ import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {useSheet} from 'grape-web/lib/jss'
-import {FormattedMessage} from 'react-intl'
+import {
+  FormattedMessage,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 
 import style from './messageSearchStyles'
 import Message from './Message'
-import Highlight from '../highlight/YellowHighlight'
 import createGrapedownWithSearch from './createGrapedownWithSearch'
 import Options from './Options'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
@@ -15,12 +18,15 @@ import DateSeparator from '../message-parts/DateSeparator'
 import {ShowMore} from '../i18n/i18n'
 
 @useSheet(style)
+@injectIntl
 export default class MessageSearch extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
+    showRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -34,6 +40,7 @@ export default class MessageSearch extends Component {
   static defaultProps = {
     query: '',
     options: [],
+    showRoomMentions: false,
     searchOnlyInChannel: false,
     customEmojis: {}
   }
@@ -50,7 +57,7 @@ export default class MessageSearch extends Component {
 
   shouldComponentUpdate = shouldPureComponentUpdate
 
-  onLoadMore() {
+  onLoadMore = () => {
     this.load()
   }
 
@@ -58,7 +65,7 @@ export default class MessageSearch extends Component {
     this.props.select(item)
   }
 
-  onClose() {
+  onClose = () => {
     this.props.hide()
   }
 
@@ -68,27 +75,52 @@ export default class MessageSearch extends Component {
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad(props) {
-    if (!props.query) return false
-    if (props.query !== this.props.query) return true
-    if (props.searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+  shouldLoad({query, show, searchOnlyInChannel, showRoomMentions}) {
+    switch (show) {
+      case 'search':
+        if (!query) return false
+        if (query !== this.props.query) return true
+        if (searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+        break
+      case 'mentions':
+        if (showRoomMentions !== this.props.showRoomMentions) return true
+        break
+      default:
+    }
   }
 
   load(props = this.props) {
-    const {items, limit, query, searchOnlyInChannel} = props
+    const {items, limit, query, searchOnlyInChannel, showRoomMentions} = props
     if (!query || !query.length) return
+
+    let options
+    switch (props.show) {
+      case 'mentions':
+        options = {
+          showRoomMentions,
+          shouldReplace: showRoomMentions !== this.props.showRoomMentions
+        }
+        break
+      case 'search':
+        options = {searchOnlyInChannel}
+        break
+      default:
+    }
+
     props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit,
       query,
-      searchOnlyInChannel
+      options
     })
   }
 
   renderMessages() {
-    const {items: messages, sheet} = this.props
-    const {classes} = sheet
+    const {
+      items: messages,
+      sheet: {classes}
+    } = this.props
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]
@@ -118,12 +150,12 @@ export default class MessageSearch extends Component {
   }
 
   renderMessage(message) {
-    const {query, sheet, user, customEmojis} = this.props
-    const {classes} = sheet
+    const {query, sheet: {classes}, user, customEmojis, intl} = this.props
     const GrapedownWithSearch = createGrapedownWithSearch({
       query,
-      renderHighlight: this.renderHighlight,
-      user
+      user,
+      intl,
+      customEmojis
     })
 
     return (
@@ -132,28 +164,19 @@ export default class MessageSearch extends Component {
         onClick={this.onSelect.bind(this, message)}
         key={message.id}>
         <Message {...message}>
-          <GrapedownWithSearch
-            text={message.text}
-            user={user}
-            customEmojis={customEmojis} />
+          <GrapedownWithSearch text={message.text} />
         </Message>
       </div>
     )
   }
 
-  renderHighlight = (match, key) => {
-    if (match.found) return <Highlight key={key}>{match.text}</Highlight>
-    return <span key={key}>{match.text}</span>
-  }
-
   renderLoadMore() {
-    const {total, items} = this.props
+    const {total, items, sheet: {classes}} = this.props
     if (!total || items.length >= total) return null
-    const {classes} = this.props.sheet
     return (
       <div className={classes.loadMoreContainer}>
         <button
-          onClick={::this.onLoadMore}
+          onClick={this.onLoadMore}
           className={classes.button}>
           <ShowMore />
         </button>
@@ -175,8 +198,7 @@ export default class MessageSearch extends Component {
   }
 
   render() {
-    const {user, images, title, isLoading, sheet} = this.props
-    const {classes} = sheet
+    const {user, images, title, isLoading, sheet: {classes}} = this.props
 
     if (!user) return null
 
@@ -190,7 +212,7 @@ export default class MessageSearch extends Component {
             onClickOption={this.onClickOption}
             theme={{classes}} />
         }
-        onClose={::this.onClose}>
+        onClose={this.onClose}>
         <div className={classes.messageSearch}>
           {this.renderMessages()}
           {this.renderLoadMore()}

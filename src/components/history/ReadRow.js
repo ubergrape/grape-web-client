@@ -3,12 +3,15 @@ import noop from 'lodash/utility/noop'
 import shallowCompare from 'react-addons-shallow-compare'
 import debounce from 'lodash/function/debounce'
 
-export default class ReadMessageDispatcher extends Component {
+export default class ReadRow extends Component {
   static propTypes = {
     channelId: PropTypes.number.isRequired,
-    messages: PropTypes.arrayOf(
+    rows: PropTypes.arrayOf(
       PropTypes.shape({
-        time: PropTypes.instanceOf(Date).isRequired
+        id: PropTypes.string,
+        message: PropTypes.shape({
+          time: PropTypes.instanceOf(Date).isRequired
+        })
       })
     ).isRequired,
     onRead: PropTypes.func.isRequired,
@@ -22,23 +25,23 @@ export default class ReadMessageDispatcher extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.channelId !== this.props.channelId) {
-      this.lastReadMessage = undefined
+      this.lastReadRow = undefined
     }
 
     return shallowCompare(this, nextProps, nextState)
   }
 
   onRowsRendered = ({stopIndex}) => {
-    const message = this.props.messages[stopIndex]
+    const row = this.props.rows[stopIndex]
 
-    if (!message) return
+    if (!row) return
 
     // We are not sending a "read" event for every message, only for the latest one.
     // Backend assumes once user read the latest message, he read all older messages too.
-    if (!this.lastReadMessage || this.lastReadMessage.time < message.time) {
-      this.lastReadMessage = message
+    if (!this.lastReadRow || this.lastReadRow.message.time < row.message.time) {
+      this.lastReadRow = row
       // We debounce it to reduce the amount of "read" events.
-      this.onReadDebounced(message.id)
+      this.onReadDebounced(row.id)
     }
   }
 

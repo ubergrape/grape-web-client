@@ -2,7 +2,6 @@ import * as images from '../constants/images'
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  title: 'Search Results',
   limit: 20,
   searchOnlyInChannel: false,
   isLoading: false,

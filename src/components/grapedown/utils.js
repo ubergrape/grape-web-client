@@ -34,7 +34,10 @@ export function replaceCustomEmojis(node, customEmojis) {
       {
         src: customEmojis[name],
         alt: emoji,
-        style
+        style: {
+          ...style,
+          fontSize: '1.5em'
+        }
       }
     ]
     return map

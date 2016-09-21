@@ -14,10 +14,11 @@ const messages = defineMessages({
   }
 })
 
-function Intercom({hideSidebar, intl}) {
+function Intercom(props) {
+  const {hideSidebar, intl: {formatMessage}} = props
   return (
     <SidebarPanel
-      title={intl.formatMessage(messages.title)}
+      title={formatMessage(messages.title)}
       onClose={hideSidebar}/>
   )
 }

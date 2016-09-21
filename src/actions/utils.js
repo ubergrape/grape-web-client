@@ -86,7 +86,7 @@ export const normalizeMessage = (() => {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, mentions} = msg
+    const {id, text, mentions, channel: channelId} = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -109,15 +109,17 @@ export const normalizeMessage = (() => {
       avatar = defaultAvatar
     }
 
-    const {channel} = msg
-    const {slug} = find(channels, {id: channel})
+    const channel = find(channels, {id: channelId})
+    const slug = channel.type === 'room' ? channel.slug : `${channel.slug}/${author.slug}`
     const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
-      type, id, text, time, userTime, author, link, avatar, channel, attachments,
-      mentions
+      type, id, text, time, userTime, author, link, avatar, attachments,
+      mentions, channelId
     }
   }
+
+  const ignoreActivityObjects = ['issue', 'label', 'user']
 
   function normalizeActivityMessage(msg) {
     const {id, channel} = msg
@@ -128,7 +130,27 @@ export const normalizeMessage = (() => {
       name: msg.author.username
     }
     const avatar = staticUrl(`images/service-icons/${author.id}-64.png`)
-    const text = msg.title || msg.text
+    let text = msg.title || msg.text
+
+    if (msg.objects) {
+      const objectsText = msg.objects
+        .filter(({visible, type: _type}) => {
+          if (visible === false || ignoreActivityObjects.indexOf(_type) !== -1) {
+            return false
+          }
+          return true
+        })
+        .map(({author: _author, name, url, sha, content, summary}) => {
+          let str = ''
+          if (_author && _author.username) str += ` __${_author.username}__`
+          if (name) str += ` __[${name}](${url})__`
+          if (sha) str += ` [${sha.substr(0, 6)}](${url})`
+          if (content) str += ` ${content}`
+          if (summary) str += ` ${summary}`
+          return str
+        }).join('\n')
+      text += `\n${objectsText}`
+    }
 
     return {type, id, channel, text, time, author, avatar, attachments: []}
   }

@@ -9,6 +9,7 @@ export default [
   'goToMessage',
   'searchMessages',
   'toggleSearchOnlyInChannel',
+  'toggleShowRoomMentions',
   'renameRoom',
   'setRoomDescription',
   'setRoomPrivacy',

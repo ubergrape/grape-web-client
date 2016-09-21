@@ -90,7 +90,7 @@ export default function reduce(state = initialState, action) {
     }
 
     case types.UPDATE_CHANNEL_STATS: {
-      const {channel: id, time} = action.payload.message
+      const {channelId: id, time} = action.payload.message
       const {isCurrentUser, mentionsCount} = action.payload
 
       const newState = [...state]

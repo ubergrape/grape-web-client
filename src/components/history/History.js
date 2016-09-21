@@ -1,17 +1,21 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import pick from 'lodash/object/pick'
 import get from 'lodash/object/get'
-
 import {useSheet} from 'grape-web/lib/jss'
 
 import InfiniteList from './InfiniteList'
-
-import Row from './Row'
 import NoContent from './NoContent'
-import ReadMessageDispatcher from './ReadMessageDispatcher'
+import ReadRow from './ReadRow'
 import Jumper from './Jumper'
+import Row from './Row'
+import {createRowsState} from './utils'
 import {styles} from './historyTheme'
+
+function createState(state, props) {
+  const {rows, map} = createRowsState(state.rows, props.messages, props)
+  const scrollTo = map[props.scrollTo]
+  return {rows, scrollTo}
+}
 
 @useSheet(styles)
 export default class History extends Component {
@@ -33,6 +37,7 @@ export default class History extends Component {
     }),
     messages: PropTypes.array,
     user: PropTypes.object,
+    selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
     minimumBatchSize: PropTypes.number
@@ -53,13 +58,25 @@ export default class History extends Component {
     noContent: false
   }
 
+  constructor(props) {
+    super(props)
+    this.state = createState({}, props)
+  }
+
   componentWillReceiveProps(nextProps) {
-    const {channel, onLoad} = nextProps
+    const {channel, onLoad, selectedMessageId, messages} = nextProps
     // 1. It is initial load, we had no channel id.
     // 2. New channel has been selected.
+    // 3. Selected message has changed.
+    const selectedMessageHasChanged = this.props.selectedMessageId !== selectedMessageId
+    const channelHasChanged = get(channel, 'id') !== get(this.props, 'channel.id')
 
-    if (get(channel, 'id') !== get(this.props, 'channel.id')) {
-      onLoad()
+    if (selectedMessageHasChanged || channelHasChanged) {
+      return onLoad()
+    }
+
+    if (messages !== this.props.messages) {
+      this.setState(createState(this.state, nextProps))
     }
   }
 
@@ -71,32 +88,30 @@ export default class History extends Component {
     }
   }
 
-  getRowProps = (index) => {
-    const {messages} = this.props
-    return {
-      message: messages[index],
-      prevMessage: messages[index - 1],
-      isLast: index === messages.length - 1,
-      ...pick(this.props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
-        'onGoToChannel', 'selectedMessageId')
-    }
+  onToggleExpander = ({id, isExpanded}) => {
+    const rows = this.state.rows.map(row => {
+      if (row.id !== id) return row
+      return {...row, isExpanded}
+    })
+    this.setState({rows})
   }
 
-  renderRow = (index) => (
-    <Row {...this.getRowProps(index)} />
+  renderRow = ({index}) => (
+    <Row
+      {...this.state.rows[index]}
+      onToggleExpander={this.onToggleExpander} />
   )
 
   render() {
     const {
-      sheet, messages, user, scrollTo, minimumBatchSize, channel,
-      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead,
-      noContent
+      sheet: {classes}, user, minimumBatchSize, channel, noContent,
+      onTouchTopEdge, onLoadMore, onJump, onInvite, onAddIntegration, onRead
     } = this.props
-    const {classes} = sheet
+    const {rows, scrollTo} = this.state
 
     if (!user || !channel) return null
 
-    if (!messages.length) {
+    if (!rows.length) {
       if (noContent) {
         return (
           <NoContent
@@ -111,8 +126,8 @@ export default class History extends Component {
 
     return (
       <div className={classes.history}>
-        <ReadMessageDispatcher
-          messages={messages}
+        <ReadRow
+          rows={rows}
           channelId={channel.id}
           onRead={onRead}>
           {({onRowsRendered: onRowsRenderedInReadMessageDispatcher}) => (
@@ -125,17 +140,17 @@ export default class History extends Component {
                     this.onRowsRendered(params)
                   }}
                   scrollTo={scrollTo}
-                  messages={messages}
+                  rows={rows}
                   minimumBatchSize={minimumBatchSize}
                   onLoadMore={onLoadMore}
                   onTouchTopEdge={onTouchTopEdge}
-                  renderRow={this.renderRow}
+                  onToggleExpander={this.onToggleExpander}
                   renderNoContent={this.renderNoContent}
-                  getRowProps={this.getRowProps} />
+                  renderRow={this.renderRow} />
               )}
             </Jumper>
           )}
-        </ReadMessageDispatcher>
+        </ReadRow>
       </div>
     )
   }

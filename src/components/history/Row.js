@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -29,22 +28,6 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-// Group messages under same avatar/name if they are send within this time distance.
-const timeThreshold = 5 * 60 * 1000
-
-function canGroup(message, prevMessage) {
-  if (!prevMessage || !message) return false
-
-  // We don't group activities?
-  if (message.type === 'activity') return false
-
-  // Is not the same author.
-  if (prevMessage.author.id !== message.author.id) return false
-
-  // Group if within defined time threshold.
-  return prevMessage.time.getTime() + timeThreshold > message.time.getTime()
-}
-
 @useSheet(styles)
 export default class Row extends Component {
   static propTypes = {
@@ -58,18 +41,20 @@ export default class Row extends Component {
     onRemove: PropTypes.func.isRequired,
     onResend: PropTypes.func.isRequired,
     onGoToChannel: PropTypes.func.isRequired,
+    onToggleExpander: PropTypes.func.isRequired,
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
+    isGroupable: PropTypes.bool.isRequired,
+    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
   }
 
   static defaultProps = {
-    onEdit: noop,
-    onRemove: noop,
-    onResend: noop,
-    onGoToChannel: noop,
-    isLast: false
+    isLast: false,
+    isGroupable: false,
+    duplicates: []
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -82,8 +67,8 @@ export default class Row extends Component {
   }
 
   onRemove = () => {
-    const {onRemove, message} = this.props
-    onRemove(message)
+    const {onRemove, duplicates, message} = this.props
+    onRemove([...duplicates, message.id].map(id => ({id})))
   }
 
   onResend = () => {
@@ -95,7 +80,7 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast
+      isLast, isGroupable, duplicates, onToggleExpander, isExpanded
     } = this.props
 
     let separator = null
@@ -114,24 +99,29 @@ export default class Row extends Component {
       key: `row-${message.id}`,
       user,
       onGoToChannel,
+      onToggleExpander,
       customEmojis,
+      duplicates: duplicates.length,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
+      hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,
       onResend: this.onResend
     }
 
-    const group = canGroup(message, prevMessage)
+    if (message.type === 'activity') {
+      props.isExpanded = isExpanded
+    }
 
-    if (!separator && group) {
+    if (!separator && isGroupable) {
       props.author = null
       props.avatar = null
       props.hasBubbleArrow = false
     }
 
     return (
-      <div className={`${classes[group ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
+      <div className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
         {separator}
         <Message {...props}>
           {message.text}
