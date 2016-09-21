@@ -3,7 +3,7 @@ import capitalize from 'lodash/string/capitalize'
 import {useSheet} from 'grape-web/lib/jss'
 
 import {getArrowOffset} from './utils'
-import * as theme from './HoverTooltipTheme'
+import * as theme from './hoverTooltipTheme'
 import BlackTooltip from './BlackTooltip'
 
 const initialState = {
@@ -36,16 +36,15 @@ export default class HoverTooltip extends Component {
 
   constructor() {
     super()
-    this.state = {
-      ...initialState
-    }
+    this.state = initialState
   }
 
   componentWillReceiveProps({disabled}) {
-    if (disabled && this.state.show) this.setState({...initialState})
+    if (disabled && this.state.show) this.setState(initialState)
   }
 
   onMouseOver = () => {
+    if (this.props.disabled) return
     const timeoutId = setTimeout(() => {
       if (this.props.disabled) return
       this.setState({show: true})
@@ -60,7 +59,7 @@ export default class HoverTooltip extends Component {
     const {timeoutId} = this.state
     if (timeoutId) clearTimeout(timeoutId)
 
-    this.setState({...initialState})
+    this.setState(initialState)
   }
 
   render() {
