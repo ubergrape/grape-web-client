@@ -38,16 +38,6 @@ export const styles = {
     paddingTop: 10,
     borderTop: `1px solid ${grayBlueLighter}`
   },
-  linkLayout: {
-    display: 'flex'
-  },
-  linkInput: {
-    flexGrow: 1,
-    marginRight: 10
-  },
-  linkUpdate: {
-    flexShrink: 0
-  },
   success: {
     paddingLeft: horizontalPadding,
     color: grayBlueDark
