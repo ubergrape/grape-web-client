@@ -55,7 +55,6 @@ export default class InviteToOrg extends Component {
     orgId: PropTypes.number,
     isInviter: PropTypes.bool.isRequired,
     justInvited: PropTypes.bool.isRequired,
-    onlyInvited: PropTypes.array.isRequired,
     hideInviteToOrg: PropTypes.func.isRequired,
     getInviteToOrgLink: PropTypes.func.isRequired,
     clearInviteToOrgError: PropTypes.func.isRequired,

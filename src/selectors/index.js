@@ -17,10 +17,6 @@ export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.active)
 )
 
-export const onlyInvitedUsersSelector = createSelector(
-  activeUsersSelector, users => users.filter(user => user.isOnlyInvited)
-)
-
 export const userSelector = createSelector(
   usersSelector, users => find(users, 'current') || {}
 )
@@ -311,11 +307,10 @@ export const inviteDialogSelector = createSelector(
 )
 
 export const InviteToOrgDialog = createSelector(
-  [InviteToOrgSelector, orgSelector, isInviterSelector, onlyInvitedUsersSelector],
-  (inviteToOrg, {id, features}, isInviter, onlyInvited) => ({
+  [InviteToOrgSelector, orgSelector, isInviterSelector],
+  (inviteToOrg, {id, features}, isInviter) => ({
     ...inviteToOrg,
     isInviter,
-    onlyInvited,
     orgId: id,
     inviteLinkFeature: Boolean(features && features.inviteLink)
   })
