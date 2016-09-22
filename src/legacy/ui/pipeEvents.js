@@ -66,7 +66,7 @@ export default function pipeEvents(ui) {
     broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
     broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
     broker(ui.historyView, 'showRoomInvite', ui.reduxEmitter, 'showRoomInvite')
-    broker(ui.historyView, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
+    broker(ui.historyView, 'toggleOrgInvite', ui.reduxEmitter, 'showInviteToOrg')
     broker(ui.historyView, 'triggerRoomManager', ui, 'onTriggerRoomManager')
   }
 
