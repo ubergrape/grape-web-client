@@ -9,6 +9,9 @@ export default function EmailsInput(props) {
     onChange, error, clearError
   } = props
 
+  let noteClassNames = classes.note
+  if (value) noteClassNames += ` ${classes.noteVisible}`
+
   return (
     <div className={classes.line}>
       <label
@@ -28,6 +31,9 @@ export default function EmailsInput(props) {
         id="emailAddresses"
         disabled={disabled}
         placeholder={placeholder} />
+      <div className={noteClassNames}>
+        {placeholder}
+      </div>
     </div>
   )
 }

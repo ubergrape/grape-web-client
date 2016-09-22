@@ -26,7 +26,7 @@ const messages = defineMessages({
   },
   invitePlaceholder: {
     id: 'inviteToOrgNote',
-    defaultMessage: 'You can invite multiple users at once, just separate their email addresses with a comma.'
+    defaultMessage: 'Invite multiple users at once, just separate their email addresses with a comma.'
   },
   messagesPlaceholder: {
     id: 'InviteToOrgMessage',

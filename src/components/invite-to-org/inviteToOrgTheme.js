@@ -1,5 +1,5 @@
 import {grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
-import {normal} from 'grape-theme/dist/fonts'
+import {normal, small} from 'grape-theme/dist/fonts'
 import buttonPrimary from '../button/primary'
 
 import {horizontalPadding} from '../input/theme/grayBigger'
@@ -20,7 +20,20 @@ export const styles = {
     marginTop: 10
   },
   textarea: {
+    display: 'block',
     height: '5em'
+  },
+  note: {
+    ...small,
+    color: grayBlueDark,
+    paddingLeft: horizontalPadding,
+    marginTop: 5,
+    opacity: 0,
+    willChange: 'opacity',
+    transition: 'opacity 0.3s ease-out'
+  },
+  noteVisible: {
+    opacity: 1
   },
   submit: {
     marginTop: 15,
