@@ -151,13 +151,13 @@ export default class InviteToOrg extends Component {
               error={this.getError()}
               onChange={this.onInviteesChange}
               clearError={clearInviteToOrgError}
-              placeholder={formatMessage(messages.invitePlaceholder)}/>
+              placeholder={formatMessage(messages.invitePlaceholder)} />
             <PersonalMessageInput
               theme={{classes}}
               value={message}
               disabled={loading}
               onChange={this.onMessageChange}
-              placeholder={formatMessage(messages.messagesPlaceholder)}/>
+              placeholder={formatMessage(messages.messagesPlaceholder)} />
             <JustInvited
               theme={{classes}}
               invited={invited} />
@@ -178,7 +178,7 @@ export default class InviteToOrg extends Component {
             link={inviteLink}
             theme={{classes}}
             placeholder={formatMessage(messages.loadingLinkPlaceholder)}
-            onClick={this.onClickInviteLink}/>
+            onClick={this.onClickInviteLink} />
         </div>
       </Dialog>
     )
