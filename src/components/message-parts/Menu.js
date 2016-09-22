@@ -1,11 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {useSheet} from 'grape-web/lib/jss'
-import {
-  defineMessages,
-  intlShape,
-  injectIntl
-} from 'react-intl'
+import Tooltip from '../tooltip/HoverTooltip'
+import {FormattedMessage} from 'react-intl'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './menuTheme'
@@ -26,27 +23,34 @@ function getClassName(classes, name, i, length) {
   return classNames.join(' ')
 }
 
-const messages = defineMessages({
-  edit: {
-    id: 'editMessage',
-    defaultMessage: 'Edit message'
-  },
-  copyLink: {
-    id: 'copyLink',
-    defaultMessage: 'Copy link to message'
-  },
-  remove: {
-    id: 'deleteMessage',
-    defaultMessage: 'Delete message'
+function getMessage(name) {
+  switch (name) {
+    case 'edit':
+      return (
+        <FormattedMessage
+          id="editMessage"
+          defaultMessage="Edit message"/>
+      )
+    case 'copyLink':
+      return (
+        <FormattedMessage
+          id="copyLink"
+          defaultMessage="Copy link to message"/>
+      )
+    case 'remove':
+      return (
+        <FormattedMessage
+          id="deleteMessage"
+          defaultMessage="Delete message"/>
+      )
+    default:
   }
-})
+}
 
 @useSheet(styles)
-@injectIntl
 export default class Menu extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     onSelect: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired
@@ -63,17 +67,20 @@ export default class Menu extends Component {
 
   render() {
     const {sheet, onSelect, items, className} = this.props
-    const {formatMessage} = this.props.intl
     const {classes} = sheet
     return (
       <div className={`${classes.menu} ${className}`}>
         {items.map((name, i) => {
           return (
-            <span
-              className={getClassName(classes, name, i, items.length)}
-              title={formatMessage(messages[name])}
-              onClick={onSelect.bind(null, {name})}
-              key={name} />
+            <Tooltip
+              key={name}
+              placement="top"
+              message={getMessage(name)}
+              inline>
+                <span
+                  className={getClassName(classes, name, i, items.length)}
+                  onClick={onSelect.bind(null, {name})} />
+            </Tooltip>
           )
         })}
       </div>

@@ -4,7 +4,6 @@ export default function Options(props) {
   const {
     theme: {classes},
     options,
-    searchOnlyInChannel,
     onClickOption,
     isLoading
   } = props
@@ -21,7 +20,7 @@ export default function Options(props) {
             <input
               className={classes.optionCheckbox}
               type="checkbox"
-              checked={searchOnlyInChannel}
+              checked={option.status}
               onChange={option.handler}
               disabled={isLoading} />
               {option.label}
@@ -35,7 +34,6 @@ export default function Options(props) {
 Options.propTypes = {
   theme: PropTypes.object.isRequired,
   onClickOption: PropTypes.func.isRequired,
-  searchOnlyInChannel: PropTypes.bool.isRequired,
   options: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired
 }

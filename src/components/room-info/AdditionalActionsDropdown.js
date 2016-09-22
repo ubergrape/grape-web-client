@@ -1,7 +1,10 @@
 import React, {Component, PropTypes} from 'react'
+import {FormattedMessage} from 'react-intl'
 
+import Tooltip from '../tooltip/HoverTooltip'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
+import {additionalActionsButtonSize} from './roomInfoTheme'
 
 export default class AdditionalActionsDropdown extends Component {
   static propTypes = {
@@ -43,10 +46,17 @@ export default class AdditionalActionsDropdown extends Component {
     const {classes} = theme
     return (
       <div>
-        <button
-          className={classes.additionalActionsButton}
-          onClick={this.onShowDropdown}
-          ref="settings" />
+        <Tooltip
+          align="right"
+          placement="top"
+          arrowMargin={Math.round(additionalActionsButtonSize / 2)}
+          disabled={show}
+          message={<FormattedMessage id="editGroup" defaultMessage="Edit Group" />}>
+          <button
+            className={classes.additionalActionsButton}
+            onClick={this.onShowDropdown}
+            ref="settings" />
+        </Tooltip>
         {show &&
           <Dropdown
             {...this.props}

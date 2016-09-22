@@ -14,22 +14,21 @@ export function loadMentions(params) {
   return (dispatch, getState) => {
     dispatch({type: types.LOAD_MENTIONS})
     dispatch(setSidebarIsLoading(true))
-    const {id} = orgSelector(getState())
-
+    const state = getState()
+    const {id} = orgSelector(state)
+    const {offsetDate, options: {shouldReplace}} = params
     return api
-      .getMentions({...params, id})
-      .then(mentions => {
+      .getMentions({...params, offsetDate: shouldReplace ? undefined : offsetDate, id})
+      .then(({results, total}) => {
         dispatch(setSidebarIsLoading(false))
-        const state = getState()
-        const prevItems = mentionsSelector(state).items
-        const nextItems = mentions.results.map(data => (
-          normalizeMessage(data.message, state)
-        ))
+        const {items: prevItems} = mentionsSelector(state)
+        const nextItems = results.map(data => normalizeMessage(data.message, state))
+        const items = shouldReplace ? nextItems : [...prevItems, ...nextItems]
         return dispatch({
           type: types.LOADED_MENTIONS,
           payload: {
-            total: mentions.total,
-            items: [...prevItems, ...nextItems]
+            total,
+            items
           }
         })
       })
@@ -42,8 +41,9 @@ export function loadMentions(params) {
 
 export function addMention(message) {
   return (dispatch, getState) => {
-    const mentions = mentionsSelector(getState())
-    let items = [...mentions.items, message]
+    const {items: mentions, total, showRoomMentions} = mentionsSelector(getState())
+    if (!showRoomMentions && !message.mentions.user) return
+    let items = [...mentions, message]
 
     // Sort all items descenting because we loose the right order when a message
     // comes from pubsub.
@@ -53,7 +53,7 @@ export function addMention(message) {
       type: types.ADD_MENTION,
       payload: {
         items,
-        total: mentions.total + 1
+        total: total + 1
       }
     })
   }
@@ -77,5 +77,11 @@ export function removeMention(messageId) {
         total: mentions.total - 1
       }
     })
+  }
+}
+
+export function toggleShowRoomMentions() {
+  return {
+    type: types.TOGGLE_SHOW_ROOM_MENTION
   }
 }

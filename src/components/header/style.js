@@ -76,7 +76,9 @@ export default {
     pointerEvents: 'none'
   },
   favorite: {
-    flexShrink: 0
+    flexShrink: 0,
+    position: 'relative',
+    marginRight: 5
   },
   title: {
     overflow: 'hidden',

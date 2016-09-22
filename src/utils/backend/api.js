@@ -138,7 +138,7 @@ export function inviteToChannel(usernames, channelId) {
   })
 }
 
-export function getMentions({id, limit, offsetDate}) {
+export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -146,7 +146,7 @@ export function getMentions({id, limit, offsetDate}) {
         action: 'get_mentions',
         args: [
           id,
-          'user',
+          showRoomMentions ? null : 'user',
           limit,
           offsetDate
         ]
