@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import uniq from 'lodash/array/uniq'
 import {useSheet} from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {spinner} from '../../constants/images'
@@ -81,7 +82,7 @@ export default class InviteToOrg extends Component {
 
     if (justInvited) {
       this.setState({
-        invited: this.state.value.split(', '),
+        invited: uniq(this.state.value.split(', ')),
         loading: false,
         value: ''
       })
