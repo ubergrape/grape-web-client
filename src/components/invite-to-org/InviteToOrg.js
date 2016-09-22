@@ -102,9 +102,7 @@ export default class InviteToOrg extends Component {
 
   onInvite = e => {
     e.preventDefault()
-    this.setState({
-      loading: true
-    }, () => {
+    this.setState({loading: true}, () => {
       this.props.inviteToOrg({
         emails: this.state.value,
         message: this.state.message
