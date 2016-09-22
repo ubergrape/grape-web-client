@@ -1,7 +1,7 @@
 import {small} from 'grape-theme/dist/fonts'
 import {red, gray} from 'grape-theme/dist/base-colors'
 
-import {styles as baseStyles} from './baseMessageTheme'
+import {styles as baseStyles, horizontalMargin} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
@@ -47,7 +47,7 @@ export const styles = {
   },
   stateIndicator: {
     position: 'absolute',
-    right: 0,
+    right: -(stateIndicatorSize + horizontalMargin) / 2,
     bottom: 0,
     width: stateIndicatorSize,
     height: stateIndicatorSize

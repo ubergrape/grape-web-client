@@ -1,8 +1,10 @@
 import {styles as linkStyles} from '../../message-parts/linkTheme'
 
+export const horizontalMargin = 20
+
 export const styles = {
   message: {
-    margin: '0 20px',
+    margin: `0 ${horizontalMargin}px`,
     position: 'relative',
     minWidth: 400
   },
