@@ -389,12 +389,12 @@ export function getInviteToOrgLink(orgId) {
   })
 }
 
-export function inviteToOrg(orgId, emails) {
+export function inviteToOrg(orgId, settings) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'organizations',
       action: 'invite',
-      args: [orgId, {emails}]
+      args: [orgId, settings]
     },
     err => {
       if (err) return reject(err)

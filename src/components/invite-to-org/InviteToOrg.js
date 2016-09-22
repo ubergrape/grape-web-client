@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {useSheet} from 'grape-web/lib/jss'
+import Spinner from 'grape-web/lib/spinner/Spinner'
+import {spinner} from '../../constants/images'
 
 import {
   FormattedMessage,
@@ -8,9 +10,13 @@ import {
   injectIntl
 } from 'react-intl'
 
-import Input from '../input/GrayInputNormal'
 import {styles} from './inviteToOrgTheme'
 import Dialog from '../dialog/Dialog'
+
+import InviteLink from './InviteLink'
+import EmailsInput from './EmailsInput'
+import PersonalMessageInput from './PersonalMessageInput'
+import JustInvited from './JustInvited'
 
 const messages = defineMessages({
   title: {
@@ -48,43 +54,67 @@ export default class InviteToOrg extends Component {
     inviteLink: PropTypes.string.isRequired,
     orgId: PropTypes.number,
     isInviter: PropTypes.bool.isRequired,
+    justInvited: PropTypes.bool.isRequired,
     onlyInvited: PropTypes.array.isRequired,
     hideInviteToOrg: PropTypes.func.isRequired,
     getInviteToOrgLink: PropTypes.func.isRequired,
     clearInviteToOrgError: PropTypes.func.isRequired,
+    clearJustInvited: PropTypes.func.isRequired,
     inviteToOrg: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
+      invited: [],
+      message: '',
       value: ''
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const {
-      isInviter, show, orgId,
-      inviteLink, getInviteToOrgLink
+      isInviter, show, orgId, clearJustInvited,
+      inviteLink, getInviteToOrgLink, justInvited
     } = nextProps
 
     if (isInviter && show && !inviteLink && orgId) getInviteToOrgLink()
+
+    if (justInvited) {
+      this.setState({
+        invited: this.state.value.split(', '),
+        loading: false,
+        value: ''
+      })
+      return
+    }
+
+    this.setState({invited: [], loading: false}, clearJustInvited)
   }
 
-  onInviteesChange = ({target: {value}}) => this.setState({value})
+  onInviteesChange = ({target: {value}}) => {
+    this.setState({value, invited: []}, this.props.clearJustInvited)
+  }
+
+  onMessageChange = ({target: {value}}) => {
+    this.setState({message: value}, this.props.clearJustInvited)
+  }
 
   onInvite = e => {
     e.preventDefault()
-    this.props.inviteToOrg(this.state.value)
+    this.setState({
+      loading: true
+    }, () => {
+      this.props.inviteToOrg({
+        emails: this.state.value,
+        message: this.state.message
+      })
+    })
   }
 
   onClickInviteLink = ({target}) => {
     target.selectionStart = 0
     target.selectionEnd = target.value.length
-  }
-
-  onClearError = () => {
-    this.props.clearInviteToOrgError()
   }
 
   getError() {
@@ -102,79 +132,55 @@ export default class InviteToOrg extends Component {
       intl: {formatMessage},
       hideInviteToOrg, show,
       inviteLinkFeature, inviteLink,
-      isInviter, onlyInvited
+      isInviter, clearInviteToOrgError
     } = this.props
 
-    console.log(onlyInvited)
-
     if (!isInviter) return null
-
+    const {value, invited, loading, message} = this.state
     return (
       <Dialog
         show={show}
         onHide={hideInviteToOrg}
         title={formatMessage(messages.title)}>
         <div className={classes.wrapper}>
-          <form onSubmit={this.onInvite}>
-            <div className={classes.line}>
-              <label
-                className={classes.label}
-                htmlFor="emailAddresses">
-                <FormattedMessage
-                  id="emailAddresses"
-                  defaultMessage="Email addresses" />
-              </label>
-              <Input
-                type="textarea"
-                value={this.state.value}
-                error={this.getError()}
-                onChange={this.onInviteesChange}
-                clearError={this.onClearError}
-                className={classes.textarea}
-                id="emailAddresses"
-                placeholder={formatMessage(messages.invitePlaceholder)} />
-            </div>
-            <div className={classes.line}>
-              <label
-                className={classes.label}
-                htmlFor="personalMessage">
-                <FormattedMessage
-                  id="personalMessage"
-                  defaultMessage="Personal message" />
-              </label>
-              <Input
-                type="textarea"
-                className={classes.textarea}
-                id="personalMessage"
-                placeholder={formatMessage(messages.messagesPlaceholder)} />
-            </div>
+          <form
+            className={classes.form}
+            onSubmit={this.onInvite}>
+            <EmailsInput
+              theme={{classes}}
+              value={value}
+              disabled={loading}
+              error={this.getError()}
+              onChange={this.onInviteesChange}
+              clearError={clearInviteToOrgError}
+              placeholder={formatMessage(messages.invitePlaceholder)}/>
+            <PersonalMessageInput
+              theme={{classes}}
+              value={message}
+              disabled={loading}
+              onChange={this.onMessageChange}
+              placeholder={formatMessage(messages.messagesPlaceholder)}/>
+            <JustInvited
+              theme={{classes}}
+              invited={invited} />
             <div className={classes.submit}>
               <button
+                type="submit"
                 className={classes.submitButton}
-                type="submit">
+                disabled={!value || loading}>
                 <FormattedMessage
                   id="sendInvites"
                   defaultMessage="Send invitation emails" />
               </button>
             </div>
+            {loading && <Spinner image={spinner} size={32} />}
           </form>
-          {inviteLinkFeature &&
-            <div className={classes.inviteLink}>
-              <label
-                className={classes.label}
-                htmlFor="inviteLink">
-                <FormattedMessage
-                  id="useInviteLink"
-                  defaultMessage="Or use this invite-link" />
-              </label>
-              <Input
-                id="inviteLink"
-                onClick={this.onClickInviteLink}
-                placeholder={formatMessage(messages.loadingLinkPlaceholder)}
-                value={inviteLink}
-                readonly />
-            </div>
-          }
+          <InviteLink
+            show={inviteLinkFeature}
+            link={inviteLink}
+            theme={{classes}}
+            placeholder={formatMessage(messages.loadingLinkPlaceholder)}
+            onClick={this.onClickInviteLink}/>
         </div>
       </Dialog>
     )

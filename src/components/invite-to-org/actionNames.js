@@ -2,5 +2,6 @@ export default [
   'hideInviteToOrg',
   'getInviteToOrgLink',
   'inviteToOrg',
-  'clearInviteToOrgError'
+  'clearInviteToOrgError',
+  'clearJustInvited'
 ]

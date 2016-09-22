@@ -29,13 +29,17 @@ export function getInviteToOrgLink() {
   }
 }
 
-export function inviteToOrg(emails) {
+export function inviteToOrg(settings) {
   return (dispatch, getState) => {
     api
-      .inviteToOrg(orgSelector(getState()).id, emails)
-      .catch(() => {
+      .inviteToOrg(orgSelector(getState()).id, settings)
+      .then(() => {
+        dispatch({type: types.HANDLE_INVITE_TO_ORG_SUCCESS})
+      })
+      .catch(err => {
         dispatch({
-          type: types.HANDLE_INVITE_TO_ORG_ERROR
+          type: types.HANDLE_INVITE_TO_ORG_ERROR,
+          payload: err
         })
       })
   }
@@ -44,5 +48,11 @@ export function inviteToOrg(emails) {
 export function clearInviteToOrgError() {
   return {
     type: types.CLEAR_INVITE_TO_ORG_ERROR
+  }
+}
+
+export function clearJustInvited() {
+  return {
+    type: types.CLEAR_JUST_INVITED_TO_ORG
   }
 }

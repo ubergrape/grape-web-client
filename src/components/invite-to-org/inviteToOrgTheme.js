@@ -1,4 +1,4 @@
-import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {grayBlueLighter, grayBlueDark} from 'grape-theme/dist/base-colors'
 import {normal} from 'grape-theme/dist/fonts'
 import buttonPrimary from '../button/primary'
 
@@ -8,6 +8,9 @@ export const styles = {
   wrapper: {
     padding: 15,
     borderTop: `3px solid ${grayBlueLighter}`
+  },
+  form: {
+    position: 'relative'
   },
   label: {
     ...normal,
@@ -44,5 +47,9 @@ export const styles = {
   },
   linkUpdate: {
     flexShrink: 0
+  },
+  success: {
+    paddingLeft: horizontalPadding,
+    color: grayBlueDark
   }
 }
