@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 
-import {useSheet} from '../jss'
+import injectSheet from '../jss'
 import style from './style'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Spinner extends Component {
   static propTypes = {
     sheet: PropTypes.object,
