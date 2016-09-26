@@ -7,10 +7,10 @@ import ConnectionLostAlert from './ConnectionLostAlert'
 
 import * as types from '../../constants/alerts'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './alertsStyle'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Alerts extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

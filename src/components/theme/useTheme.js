@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import omit from 'lodash/object/omit'
 
 /**
@@ -17,5 +17,5 @@ export default function useTheme(Component, options = {}) {
     sheet: PropTypes.object.isRequired
   }
 
-  return useSheet(Theme, options.styles, options.jss)
+  return injectSheet(options.styles, options.jss)(Theme)
 }

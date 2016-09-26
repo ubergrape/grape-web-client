@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 /**
  * Dialog has
@@ -10,7 +10,7 @@ import {useSheet} from 'grape-web/lib/jss'
  * - body
  * - positioned in the middle
  */
-@useSheet(style)
+@injectSheet(style)
 export default class SidebarPanel extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

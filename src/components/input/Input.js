@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {pickHTMLProps} from 'pick-react-known-prop'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
@@ -17,7 +17,7 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  * * `message` is `string` to disaplay in Tooltip
  * * `level` is `string`: `error` or `warning`
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Input extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

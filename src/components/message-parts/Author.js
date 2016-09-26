@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './authorTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Author extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

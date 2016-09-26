@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './alertStyle'
 
-@useSheet(style)
+@injectSheet(style)
 export default class ConnectionLostAlert extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired

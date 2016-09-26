@@ -8,7 +8,7 @@ import {
 } from 'react-intl'
 
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Favorite from '../favorite/Favorite'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Tooltip from '../tooltip/HoverTooltip'
@@ -267,7 +267,7 @@ RawItems.propTypes = {
 
 const Items = injectIntl(RawItems)
 
-@useSheet(style)
+@injectSheet(style)
 export default class Header extends Component {
   static propTypes = {
     sheet: PropTypes.object,

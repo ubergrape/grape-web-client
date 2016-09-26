@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage} from 'react-intl'
@@ -11,7 +11,7 @@ import ImageZoom from '../image-zoom/ImageZoom'
 import style from './sharedFileStyle'
 const dateFormat = 'MMM Do, h:mm a'
 
-@useSheet(style)
+@injectSheet(style)
 export default class SharedFile extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

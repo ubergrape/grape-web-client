@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 import Dropdown from '../dropdown/Dropdown'
 import Icon from '../room-icon/RoomIcon'
@@ -13,7 +13,7 @@ const iconTheme = {
   statusBorderColor: colors.grayBlueLighter
 }
 
-@useSheet(style)
+@injectSheet(style)
 export default class RoomIconSetting extends Component {
   static propTypes = {
     channel: PropTypes.object.isRequired,

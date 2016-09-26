@@ -12,7 +12,7 @@ import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
 import Intercom from '../intercom/Intercom'
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   mentions: {
@@ -107,7 +107,7 @@ SidebarContent.propTypes = {
 
 const Content = injectIntl(SidebarContent)
 
-@useSheet(style)
+@injectSheet(style)
 export default class Sidebar extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

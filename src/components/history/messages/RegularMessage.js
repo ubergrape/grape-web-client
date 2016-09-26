@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
@@ -130,7 +130,7 @@ const messages = defineMessages({
 })
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
-@useSheet(styles)
+@injectSheet(styles)
 @injectIntl
 export default class RegularMessage extends Component {
   static propTypes = {

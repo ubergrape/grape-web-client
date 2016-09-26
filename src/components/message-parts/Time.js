@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
 import {FormattedMessage} from 'react-intl'
 import shallowCompare from 'react-addons-shallow-compare'
@@ -64,7 +64,7 @@ function isReadersTimezone(time) {
   return readersOffset === writersOffset
 }
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Time extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

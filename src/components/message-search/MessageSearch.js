@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   intlShape,
@@ -17,7 +17,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 import {ShowMore} from '../i18n/i18n'
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class MessageSearch extends Component {
   static propTypes = {

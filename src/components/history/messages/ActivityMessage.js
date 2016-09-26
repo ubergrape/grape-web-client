@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import Avatar from '../../avatar/Avatar'
@@ -12,7 +12,7 @@ import DuplicatesBadge from './DuplicatesBadge'
 import {styles} from './activityMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
-@useSheet(styles)
+@injectSheet(styles)
 export default class ActivityMessage extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

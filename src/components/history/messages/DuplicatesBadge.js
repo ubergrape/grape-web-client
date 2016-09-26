@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './duplicatesBadgeTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class DuplicatesBadge extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

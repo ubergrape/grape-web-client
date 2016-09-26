@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import capitalize from 'lodash/string/capitalize'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {getArrowOffset} from './utils'
 import * as theme from './hoverTooltipTheme'
@@ -11,7 +11,7 @@ const initialState = {
   show: false
 }
 
-@useSheet(theme.styles)
+@injectSheet(theme.styles)
 export default class HoverTooltip extends Component {
   static propTypes = {
     message: PropTypes.node.isRequired,

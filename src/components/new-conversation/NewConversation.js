@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
@@ -70,7 +70,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class NewConversation extends Component {
   static propTypes = {

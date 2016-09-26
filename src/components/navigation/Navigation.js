@@ -16,7 +16,7 @@ import FilteredList from './FilteredList'
 import Channel from './Channel'
 import ManageButtons from './ManageButtons'
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   channelHeader: {
@@ -33,7 +33,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class Navigation extends Component {
 
