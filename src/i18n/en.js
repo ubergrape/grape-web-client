@@ -7,7 +7,7 @@
 export default {
   "noEmojiFound": "No emoji found.",
   "willNotifyRoom": "— notify everyone in this group",
-  "wontNotifyRoom": "— does not notify room members",
+  "wontNotifyRoom": "— does not notify group members",
   "notInRoom": "not in group",
   "insertAction": "Insert into message",
   "openAction": "Open",

@@ -16,7 +16,7 @@ export default {
   "yourBusinessTools": "Ihre Firmen-Software",
   "grapeSearch": "Grape-Suche",
   "noResults": "Keine Ergebnisse.",
-  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
+  "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
   "serviesHeadline": "Service auswählen",
   "noServicesFound": "Keine Services gefunden."
 }
