@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import List from 'react-finite-list'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 import {
   defineMessages,
@@ -25,7 +25,7 @@ const messages = defineMessages({
 /**
  * Document actions.
  */
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class Actions extends Component {
   static propTypes = {

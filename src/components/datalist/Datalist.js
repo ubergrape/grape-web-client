@@ -1,12 +1,12 @@
 import React, {PropTypes, Component} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import findIndex from 'lodash/array/findIndex'
 import noop from 'lodash/utility/noop'
 
 import style from './style'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Datalist extends Component {
   static propTypes = {
     data: PropTypes.array,

@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './style'
 
 /**
  * Styled icon component.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Icon extends Component {
   static propTypes = {
     className: PropTypes.string,

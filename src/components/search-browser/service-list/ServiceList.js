@@ -6,7 +6,7 @@ import {
 } from 'react-intl'
 import noop from 'lodash/utility/noop'
 import List from 'react-finite-list'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './serviceListStyle'
 import Service from './Service'
@@ -20,7 +20,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 export default class ServiceList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

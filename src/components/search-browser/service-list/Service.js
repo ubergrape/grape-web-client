@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 
 import style from './serviceStyle'
 import ServiceIcon from '../service-icon/ServiceIcon'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Service extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

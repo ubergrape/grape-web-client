@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 
 import style from '../../browser/style'
@@ -13,7 +13,7 @@ import {listTypes} from '../constants'
 /**
  * Search results.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Results extends Component {
   static propTypes = {
     sheet: PropTypes.object,

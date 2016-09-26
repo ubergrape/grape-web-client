@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import * as style from './style'
 
 /**
  * One grid item.
  */
-@useSheet(style.rules)
+@injectSheet(style.rules)
 export default class Item extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

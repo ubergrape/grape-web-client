@@ -7,7 +7,7 @@ import assign from 'lodash/object/assign'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
   intlShape,
@@ -322,7 +322,7 @@ class Browser extends Component {
   }
 }
 
-const PublicBrowser = injectIntl(useSheet(Browser, style))
+const PublicBrowser = injectIntl(injectSheet(style)(Browser))
 PublicBrowser.init = init
 
 export default PublicBrowser

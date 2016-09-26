@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import keyname from 'keyname'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
   intlShape,
@@ -27,7 +27,7 @@ const messages = defineMessages({
 /**
  * Main search browser component.
  */
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class SearchBrowser extends Component {
   static propTypes = {

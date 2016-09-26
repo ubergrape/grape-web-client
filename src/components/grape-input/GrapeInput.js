@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 import {create as createObject} from 'grape-web/lib/grape-objects'
 
@@ -17,7 +17,7 @@ import {
   getEmojiObjects
 } from './utils'
 
-@useSheet(style)
+@injectSheet(style)
 export default class GrapeInput extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,

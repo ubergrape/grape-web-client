@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './detailEmptyStyle'
 
 /**
  * Empty detail view.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class DetailEmpty extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

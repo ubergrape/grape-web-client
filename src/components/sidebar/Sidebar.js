@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './style'
 
 /**
  * Sidebar container.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Sidebar extends Component {
   static propTypes = {
     sheet: PropTypes.object,

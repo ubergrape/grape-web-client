@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './tabsWithControlsStyle'
 import Tabs from './Tabs'
 
 /**
  * Tabs controls.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class TabsWithControls extends Component {
   static propTypes = {
     sheet: PropTypes.object,

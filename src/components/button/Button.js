@@ -2,13 +2,13 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './style'
 
 /**
  * Button component
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Button extends Component {
   static propTypes = {
     text: PropTypes.string,

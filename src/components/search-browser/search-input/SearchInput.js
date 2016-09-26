@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import pick from 'lodash/object/pick'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   defineMessages,
   intlShape,
@@ -24,7 +24,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class Browser extends Component {
   static propTypes = {

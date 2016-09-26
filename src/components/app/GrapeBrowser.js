@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import isEmpty from 'lodash/lang/isEmpty'
 import find from 'lodash/collection/find'
 import findIndex from 'lodash/array/findIndex'
@@ -38,7 +38,7 @@ const browserWithInput = {
 /**
  * Uses all types of auto completes to provide end component.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class GrapeBrowser extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,

@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import * as icons from 'grape-web/lib/svg-icons/data'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import * as style from './style'
 
-@useSheet(style)
+@injectSheet(style)
 export default class ServiceIcon extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

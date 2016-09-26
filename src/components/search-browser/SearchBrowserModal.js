@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import SearchBrowser from './SearchBrowser'
 import style from './searchBrowserModalStyle'
 
@@ -14,7 +14,7 @@ const proxiMethodsToHideModal = [
   'onAddIntegration'
 ]
 
-@useSheet(style)
+@injectSheet(style)
 export default class SearchBrowserModal extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

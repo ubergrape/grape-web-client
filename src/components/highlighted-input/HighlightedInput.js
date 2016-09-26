@@ -5,7 +5,7 @@ import escape from 'lodash/string/escape'
 import pick from 'lodash/object/pick'
 import keyname from 'keyname'
 import AccentMode from '../accent-mode/AccentMode'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {
   getTouchedWord,
@@ -17,7 +17,7 @@ import {
 } from './utils'
 import style from './style'
 
-@useSheet(style)
+@injectSheet(style)
 export default class HighlightedInput extends Component {
   static propTypes = {
     onDidMount: PropTypes.func,

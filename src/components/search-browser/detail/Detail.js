@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import get from 'lodash/object/get'
 import isEmpty from 'lodash/lang/isEmpty'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Preview from './Preview'
 import Empty from './DetailEmpty'
 import Actions from './Actions'
@@ -14,7 +14,7 @@ import {listTypes} from '../constants'
 /**
  * Detail view for objects.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Detail extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

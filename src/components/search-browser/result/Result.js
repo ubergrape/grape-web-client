@@ -2,7 +2,7 @@ import React, {Component, PropTypes, createElement} from 'react'
 import noop from 'lodash/utility/noop'
 import moment from 'moment'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import findMatches from 'grape-web/lib/search/findMatches'
 import * as style from './style'
 import * as utils from './utils'
@@ -11,7 +11,7 @@ import ServiceIcon from '../service-icon/ServiceIcon'
 /**
  * One result.
  */
-@useSheet(style.rules)
+@injectSheet(style.rules)
 export default class Result extends Component {
   static propTypes = {
     sheet: PropTypes.object,

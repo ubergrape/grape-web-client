@@ -5,14 +5,14 @@ import pick from 'lodash/object/pick'
 import debounce from 'lodash/function/debounce'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Section from './Section'
 import style from './gridStyle'
 
 /**
  * Items renderer/scroller.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Grid extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

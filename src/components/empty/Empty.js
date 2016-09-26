@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './style'
 
 /**
  * Display information when missing results.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class Empty extends Component {
   static propTypes = {
     text: PropTypes.string,
