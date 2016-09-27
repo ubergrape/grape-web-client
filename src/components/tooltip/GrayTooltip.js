@@ -1,5 +1,5 @@
 import useTheme from '../theme/useTheme'
 import Tooltip from './Tooltip'
-import * as style from './themes/gray'
+import * as theme from './themes/gray'
 
-export default useTheme(Tooltip, style)
+export default useTheme(Tooltip, theme)

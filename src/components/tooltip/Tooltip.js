@@ -56,4 +56,4 @@ Tooltip.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-export default injectSheet(Tooltip, styles)
+export default injectSheet(styles)(Tooltip)
