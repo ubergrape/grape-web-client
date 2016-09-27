@@ -8,13 +8,14 @@ export default function create(name, options = {}) {
   const icon = options.color ? getColoredIcon({name, color: options.color}) : icons[name]
   const style = {
     '&:before': {
-      content: '""',
-      width: options.size || '1em',
-      height: options.size || '1em',
-      display: 'inline-block',
-      background: 'no-repeat 50% 50%',
       backgroundImage: `url('${icon}')`,
-      backgroundSize: 'contain'
+      backgroundPosition: '50% 50%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
+      content: '""',
+      display: 'inline-block',
+      width: options.size || '1em',
+      height: options.size || '1em'
     }
   }
 
