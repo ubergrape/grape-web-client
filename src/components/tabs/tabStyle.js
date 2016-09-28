@@ -33,6 +33,7 @@ export const rules = {
   container: {
     ...container,
     '&:hover': {
+      isolate: false,
       color: colors.grapeTypo
     }
   },

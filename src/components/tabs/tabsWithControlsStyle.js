@@ -15,6 +15,7 @@ const arrow = defaults({
   border: '0px solid ' + colors.silverDark,
   backgroundColor: colors.white,
   '&:hover': {
+    isolate: false,
     color: color(colors.grapeTypo).alpha(0.6).rgbaString()
   }
 }, tabStyle.container)
