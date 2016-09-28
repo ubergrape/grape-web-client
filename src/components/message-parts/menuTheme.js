@@ -25,7 +25,6 @@ export function getWidth(itemsQuantity) {
 
 export const styles = {
   menu: {
-    fontSize,
     display: 'inline-block',
     whiteSpace: 'nowrap'
   },
@@ -35,6 +34,7 @@ export const styles = {
   item: {
     padding,
     border,
+    fontSize,
     cursor: 'pointer',
     textAlign: 'center',
     lineHeight: 1,

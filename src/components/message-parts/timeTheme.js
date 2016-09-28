@@ -36,6 +36,7 @@ export const styles = {
     extend: 'timeContainer',
     cursor: 'pointer',
     '&:hover': {
+      isolate: false,
       color: link
     }
   },

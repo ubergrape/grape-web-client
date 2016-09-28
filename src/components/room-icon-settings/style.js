@@ -27,6 +27,7 @@ const chooserButton = {
   border: '1px solid transparent',
   boxShadow: `inset 0 0 0 2px ${colors.white}`,
   '&:hover': {
+    isolate: false,
     borderColor: webColors.link
   }
 }
@@ -36,6 +37,7 @@ export default {
     ...iconSettingsButton,
     borderColor: 'transparent',
     '&:hover': {
+      isolate: false,
       borderColor: webColors.link
     }
   },
@@ -60,7 +62,7 @@ export default {
     width: 32,
     height: 32,
     margin: '0 5px 5px 0',
-    '&::last-child': {
+    '&:last-child': {
       marginRight: 0
     }
   },

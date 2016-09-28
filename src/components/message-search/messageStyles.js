@@ -38,6 +38,7 @@ export default {
   content: {
     transition,
     '&:hover': {
+      isolate: false,
       boxShadow: `0px 1px 8px ${shadowColor}`
     },
     '& a': link,

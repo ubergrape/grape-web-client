@@ -15,6 +15,7 @@ const input = {
   borderRadius: 5,
   border: '1px solid',
   '&:disabled': {
+    isolate: false,
     opacity: 0.6,
     pointerEvents: 'none'
   }

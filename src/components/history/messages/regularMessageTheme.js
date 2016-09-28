@@ -6,7 +6,7 @@ import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
 const stateIndicatorIcon = {
-  '&::before': {
+  '&:before': {
     position: 'absolute',
     right: 0,
     top: 0
@@ -18,6 +18,7 @@ export const styles = {
   clickable: {
     cursor: 'pointer',
     '&:hover': {
+      isolate: false,
       opacity: 0.8
     }
   },

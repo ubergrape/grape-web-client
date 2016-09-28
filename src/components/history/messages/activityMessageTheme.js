@@ -18,6 +18,7 @@ export const styles = {
     textDecoration: 'none',
     padding: '2px 5px',
     '&:hover': {
+      isolate: false,
       textDecoration: 'underline'
     },
     fontSize: '0.8em'

@@ -8,6 +8,7 @@ export default {
   background: webColors.buttonBgPrimary,
   color: webColors.buttonColorPrimary,
   '&:hover': {
+    isolate: false,
     background: color(webColors.buttonBgPrimary).lighten(0.2).rgbaString()
   }
 }

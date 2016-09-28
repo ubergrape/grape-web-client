@@ -3,7 +3,7 @@ import reset from '../button/reset'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
-import fonts from 'grape-theme/dist/fonts'
+import {small, big} from 'grape-theme/dist/fonts'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 
 const headerHeight = 56
@@ -38,6 +38,7 @@ const info = {
   ...button,
   backgroundImage: getIcon('info'),
   '&:hover': {
+    isolate: false,
     backgroundImage: getIcon('info', 'hover')
   }
 }
@@ -46,6 +47,10 @@ const infoActive = {
   ...button,
   backgroundColor: colors.blue,
   backgroundImage: getIcon('info', 'active')
+}
+
+const action = {
+  listStyle: 'none'
 }
 
 export default {
@@ -76,11 +81,13 @@ export default {
     pointerEvents: 'none'
   },
   favorite: {
+    extend: action,
     flexShrink: 0,
     position: 'relative',
     marginRight: 5
   },
   title: {
+    extend: action,
     overflow: 'hidden',
     flexGrow: 1,
     minWidth: 50,
@@ -89,30 +96,33 @@ export default {
   },
   name: {
     ...mixins.ellipsis,
-    ...fonts.big,
+    ...big,
     fontWeight: 'bold',
     lineHeight: 1.2,
     color: colors.grayDark
   },
   description: {
     ...mixins.ellipsis,
-    ...fonts.small,
+    ...small,
     lineHeight: 1.2,
     color: colors.gray
   },
   action: {
+    extend: action,
     position: 'relative',
     flexShrink: 0,
     marginLeft: 5,
     lineHeight: 0
   },
   searchAction: {
+    extend: action,
     marginLeft: 5,
     lineHeight: 0,
     flex: '0 1 237px',
     minWidth: 165
   },
   search: {
+    extend: small,
     boxSizing: 'border-box !important',
     background: `${colors.white} no-repeat 12px 50%`,
     backgroundImage: `url('${getColoredIcon({name: 'magnifier', color: '#929292'})}')`,
@@ -127,6 +137,7 @@ export default {
       WebkitAppearance: 'searchfield-cancel-button !important'
     },
     '&:focus': {
+      isolate: false,
       borderColor: colors.blue
     }
   },
@@ -134,6 +145,7 @@ export default {
     ...button,
     backgroundImage: getIcon('invite'),
     '&:hover': {
+      isolate: false,
       backgroundImage: getIcon('invite', 'hover')
     }
   },
@@ -145,6 +157,7 @@ export default {
     ...button,
     backgroundImage: getIcon('fileBold'),
     '&:hover': {
+      isolate: false,
       backgroundImage: getIcon('fileBold', 'hover')
     }
   },
@@ -157,6 +170,7 @@ export default {
     ...button,
     backgroundImage: getIcon('at'),
     '&:hover': {
+      isolate: false,
       backgroundImage: getIcon('at', 'hover')
     }
   },
@@ -180,6 +194,7 @@ export default {
     ...button,
     backgroundImage: getIcon('help'),
     '&:hover': {
+      isolate: false,
       backgroundImage: getIcon('help', 'hover')
     }
   },

@@ -1,7 +1,7 @@
 import button from '../button/default'
 import buttonLink from '../button/link'
 import buttonPrimary from '../button/primary'
-import fonts from 'grape-theme/dist/fonts'
+import {small, bigger} from 'grape-theme/dist/fonts'
 import {borderDark, borderDefault} from 'grape-theme/dist/web-colors'
 import {grayBlueLighter} from 'grape-theme/dist/base-colors'
 import color from 'color'
@@ -16,18 +16,25 @@ export default {
     justifyContent: 'space-between'
   },
   roomSettingsButton: {
-    ...buttonLink,
-    fontSize: fonts.small.fontSize,
-    lineHeight: '28px',
+    extend: buttonLink,
+    fontSize: small.fontSize,
+    lineHeight: 2.2,
     padding,
     paddingTop: 0,
     paddingBottom: 0,
     border: `1px solid ${borderDark}`,
-    borderRadius: buttonPrimary.borderRadius
+    borderRadius: buttonPrimary.borderRadius,
+    cursor: 'pointer',
+    '&:hover': {
+      extend: buttonLink['&:hover'],
+      fontSize: small.fontSize,
+      lineHeight: 2.2
+    }
   },
   createButton: {
-    ...buttonPrimary,
+    extend: buttonPrimary,
     '&:disabled': {
+      isolate: false,
       opacity: 0.5,
       pointerEvents: 'none'
     }
@@ -48,7 +55,7 @@ export default {
     marginRight: 10
   },
   nameInput: {
-    ...fonts.bigger,
+    extend: bigger,
     width: '100%',
     outline: 'none',
     padding: '1px 10px',

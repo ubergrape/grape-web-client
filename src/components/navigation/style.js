@@ -1,10 +1,12 @@
 import buttonIcon from '../button/icon'
-import fonts from 'grape-theme/dist/fonts'
+import {small, normal} from 'grape-theme/dist/fonts'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
-const commonButton = {
+const button = {
+  extend: small,
+  lineHeight: `${normal.fontSize * normal.lineHeight}px`,
   position: 'relative',
   display: 'block',
   width: '100%',
@@ -15,15 +17,15 @@ const darkenBackground = color(colors.grayBlueLighter).darken(0.05).hexString()
 const buttonSettings = {color: colors.grayBlue, hoverColor: colors.grayBlueDark}
 const newConversation = {
   ...buttonIcon('pencilWindow', buttonSettings),
-  ...commonButton
+  ...button
 }
 const contacts = {
   ...buttonIcon('user', buttonSettings),
-  ...commonButton
+  ...button
 }
 const channels = {
   ...buttonIcon('users', buttonSettings),
-  ...commonButton
+  ...button
 }
 newConversation['&:before'] = {
   ...newConversation['&:before'],
@@ -48,7 +50,7 @@ channels['&:before'] = {
 }
 
 const title = {
-  ...fonts.small,
+  ...small,
   marginLeft: 15,
   textTransform: 'uppercase',
   background: '0 0 no-repeat',
@@ -81,7 +83,8 @@ export default {
     paddingLeft: 15
   },
   manageItem: {
-    marginTop: 10
+    marginTop: 10,
+    listStyle: 'none'
   },
   newConversation,
   contacts,
@@ -116,11 +119,12 @@ export default {
     backgroundPosition: '0 2px'
   },
   channel: {
-    ...fonts.small,
+    ...small,
     position: 'relative',
     padding: '3px 42px 3px 15px',
     cursor: 'pointer',
     '&:hover': {
+      isolate: false,
       background: darkenBackground
     }
   },
@@ -155,6 +159,7 @@ export default {
     background: colors.grayBlueLighter
   },
   filterInput: {
+    extend: small,
     boxSizing: 'border-box !important',
     background: `${darkenBackground} no-repeat 10px 50%`,
     backgroundImage: `url(${getColoredIcon({name: 'searchFilter', color: colors.grayBlue})})`,
