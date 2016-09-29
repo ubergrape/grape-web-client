@@ -1,6 +1,6 @@
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {gray} from 'grape-theme/dist/base-colors'
-import {small, normal} from 'grape-theme/dist/fonts'
+import {small} from 'grape-theme/dist/fonts'
 
 export const styles = {
   author: {

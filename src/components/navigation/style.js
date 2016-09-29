@@ -1,5 +1,5 @@
 import buttonIcon from '../button/icon'
-import {small, normal} from 'grape-theme/dist/fonts'
+import {small} from 'grape-theme/dist/fonts'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
