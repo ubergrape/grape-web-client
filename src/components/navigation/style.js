@@ -137,6 +137,7 @@ export default {
     background: darkenBackground
   },
   sign: {
+    extend: small,
     fontWeight: 'normal',
     position: 'absolute',
     right: 15,
