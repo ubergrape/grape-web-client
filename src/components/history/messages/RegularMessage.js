@@ -283,6 +283,7 @@ export default class RegularMessage extends Component {
               time={time}
               userTime={userTime}
               author={author.name}
+              theme={sheet}
               onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
           </div>
         }

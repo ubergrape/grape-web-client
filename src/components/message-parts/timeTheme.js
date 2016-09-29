@@ -1,5 +1,6 @@
 import {grayLight, gray} from 'grape-theme/dist/base-colors'
 import {link} from 'grape-theme/dist/web-colors'
+import {small} from 'grape-theme/dist/fonts'
 
 import buttonIcon from '../button/icon'
 
@@ -29,6 +30,8 @@ export const styles = {
     flexShrink: 0
   },
   timeContainer: {
+    extend: [small],
+    lineHeight: 1.7,
     textTransform: 'uppercase',
     whiteSpace: 'nowrap'
   },

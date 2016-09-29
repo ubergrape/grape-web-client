@@ -6,7 +6,7 @@ import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 const button = {
   extend: small,
-  lineHeight: `${normal.fontSize * normal.lineHeight}px`,
+  lineHeight: 1.7,
   position: 'relative',
   display: 'block',
   width: '100%',
