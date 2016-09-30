@@ -60,10 +60,13 @@ export default class ActivityMessage extends Component {
     return (
       <div className={classes.message}>
         {author &&
-          <Header
-            time={time}
-            author={author.name}
-            className={classes.header} />
+          <div className={classes.row}>
+            <div className={classes.avatarColumn}></div>
+            <Header
+              time={time}
+              author={author.name}
+              className={classes.header} />
+          </div>
         }
         <div className={classes.row}>
           <div className={classes.avatarColumn}>
