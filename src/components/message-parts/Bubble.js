@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './bubbleTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Bubble extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

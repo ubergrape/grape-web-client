@@ -38,15 +38,18 @@ export default {
     height: 50
   },
   close: {
-    fontSize: '2em',
-    fontWeight: 'bold',
-    padding: '0 20px',
-    opacity: 0.5,
     border: 'none',
+    opacity: 0.5,
+    padding: 0,
     '&:before': {
-      content: '"×"'
+      content: '"×"',
+      fontSize: 26,
+      fontWeight: 'bold',
+      padding: '0 20px',
+      cursor: 'pointer'
     },
     '&:hover': {
+      isolate: false,
       opacity: 1
     }
   },

@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './dateSeparatorTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class DateSeparator extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import style from './style'
 
@@ -18,7 +18,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class UserProfile extends Component {
   static propTypes = {

@@ -1,3 +1,5 @@
+import {small} from 'grape-theme/dist/fonts'
+
 export default {
   avatarName: {
     display: 'flex',
@@ -11,6 +13,7 @@ export default {
     backgroundColor: '#fff'
   },
   name: {
+    extend: small,
     paddingLeft: 10,
     whiteSpace: 'nowrap',
     overflow: 'hidden',

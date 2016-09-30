@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 
 import style from './style'
@@ -9,7 +9,7 @@ import Tooltip from '../tooltip/HoverTooltip'
 
 const sizes = {width: 32, height: 32}
 
-@useSheet(style)
+@injectSheet(style)
 export default class OrgInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import {defaultAvatar} from '../../constants/images'
 import styles from './styles'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Avatar extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

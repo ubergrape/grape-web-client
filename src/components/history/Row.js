@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import RegularMessage from './messages/RegularMessage'
@@ -28,7 +28,7 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Row extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

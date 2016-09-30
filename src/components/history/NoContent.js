@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
 
@@ -121,7 +121,7 @@ PmContent.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class NoContent extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

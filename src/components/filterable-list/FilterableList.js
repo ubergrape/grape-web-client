@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import List from 'react-finite-list'
 import TagsInput from '../tags-input/TagsInput'
 import keyname from 'keyname'
 
-@useSheet(style)
+@injectSheet(style)
 export default class FilterableList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

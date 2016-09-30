@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
-import Tooltip from '../tooltip/HoverTooltip'
+import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import shallowCompare from 'react-addons-shallow-compare'
 
+import Tooltip from '../tooltip/HoverTooltip'
 import {styles} from './menuTheme'
 
 function getClassName(classes, name, i, length) {
@@ -47,7 +47,7 @@ function getMessage(name) {
   }
 }
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Menu extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

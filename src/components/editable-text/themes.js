@@ -52,6 +52,7 @@ export const string = {
       background: 'transparent',
       cursor: 'text',
       '&:hover': {
+        isolate: false,
         background: 'rgba(255,255,255,0.5)'
       }
     },

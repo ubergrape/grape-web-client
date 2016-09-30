@@ -8,7 +8,7 @@ import {
 
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 function onInviteUsersClick(props) {
   const {
@@ -129,4 +129,4 @@ ChannelMembersInvite.propTypes = {
   channelType: PropTypes.string
 }
 
-export default injectIntl(useSheet(ChannelMembersInvite, style))
+export default injectIntl(injectSheet(style)(ChannelMembersInvite))

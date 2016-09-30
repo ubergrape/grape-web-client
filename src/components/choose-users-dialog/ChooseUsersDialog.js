@@ -5,7 +5,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './style'
 import {getFilteredUsers} from './utils'
@@ -180,4 +180,4 @@ ChooseUsersDialog.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default injectIntl(useSheet(ChooseUsersDialog, style))
+export default injectIntl(injectSheet(style)(ChooseUsersDialog))

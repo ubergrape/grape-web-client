@@ -7,7 +7,7 @@ import {
   injectIntl
 } from 'react-intl'
 import {constants} from 'conf'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {maxChannelDescriptionLength} from '../../constants/app'
 import {Description} from '../i18n/i18n'
@@ -27,7 +27,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(styles)
+@injectSheet(styles)
 @injectIntl
 export default class RoomInfo extends Component {
   static propTypes = {

@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './jumperTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Jumper extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

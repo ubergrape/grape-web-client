@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
 import {styles, maxHeight} from './expanderTheme'
 import {ShowMore, ShowLess} from '../../i18n/i18n'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Expander extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import style from './style'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Favorite extends Component {
 
   static propTypes = {

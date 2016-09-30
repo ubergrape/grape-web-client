@@ -1,8 +1,15 @@
+import omit from 'lodash/object/omit'
+
 import {styles as linkStyles} from '../../message-parts/linkTheme'
+
+const link = omit(linkStyles.link, '&:hover')
+const linkHover = linkStyles['&:hover']
+
+export const horizontalMargin = 20
 
 export const styles = {
   message: {
-    margin: '0 20px',
+    margin: `0 ${horizontalMargin}px`,
     position: 'relative',
     minWidth: 400
   },
@@ -17,7 +24,8 @@ export const styles = {
     maxWidth: '100%'
   },
   content: {
-    '& a': linkStyles.link,
+    '& a': link,
+    '& a:hover': linkHover,
     '& em': {
       fontStyle: 'italic'
     },

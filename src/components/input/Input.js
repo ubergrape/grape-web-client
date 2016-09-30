@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {pickHTMLProps} from 'pick-react-known-prop'
 import listenOutsideClick from '../outside-click/listenOutsideClick'
@@ -16,7 +16,7 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  */
 // TODO: move this component to grape-ui library
 // https://github.com/ubergrape/chatgrape/issues/4384
-@useSheet(style)
+@injectSheet(style)
 export default class Input extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

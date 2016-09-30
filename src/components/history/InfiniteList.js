@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react'
 import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
 import shallowCompare from 'react-addons-shallow-compare'
 import findIndex from 'lodash/array/findIndex'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import AutoScroll from '../react-virtualized/AutoScroll'
 import InfiniteLoader from '../react-virtualized/InfiniteLoader'
 import RowsCache, {cache} from './RowsCache'
 import {styles} from './infiniteListTheme'
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class InfiniteList extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

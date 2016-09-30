@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './roomStyle'
 import Icon from '../room-icon/RoomIcon'
 
-@useSheet(style)
+@injectSheet(style)
 export default class Roomname extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

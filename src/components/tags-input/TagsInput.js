@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import keyname from 'keyname'
 
-@useSheet(style)
+@injectSheet(style)
 export default class TagsInput extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

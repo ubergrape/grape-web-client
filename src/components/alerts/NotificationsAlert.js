@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import {CloseLower as Close} from '../i18n/i18n'
 import style from './alertStyle'
 
-@useSheet(style)
+@injectSheet(style)
 export default class NotificationsAlert extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

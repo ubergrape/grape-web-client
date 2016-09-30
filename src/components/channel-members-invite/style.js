@@ -15,6 +15,7 @@ export default {
     ...buttonIcon('invite', {color: colors.white}),
     padding,
     '&:disabled': {
+      isolate: false,
       opacity: 0.5,
       pointerEvents: 'none'
     }
