@@ -20,11 +20,11 @@ export default function InviteLink(props) {
         className={classes.label}
         htmlFor={id}>
         <FormattedMessage
-          id={id}
+          id="inviteLink"
           defaultMessage="Or use this invite-link" />
       </label>
       <Input
-        id="inviteLink"
+        id={id}
         onClick={onClick}
         placeholder={placeholder}
         value={link}

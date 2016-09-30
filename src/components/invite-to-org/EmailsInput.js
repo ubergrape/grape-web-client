@@ -21,7 +21,7 @@ export default function EmailsInput(props) {
         className={classes.label}
         htmlFor={id}>
         <FormattedMessage
-          id={id}
+          id="emailAddresses"
           defaultMessage="Email addresses" />
       </label>
       <Input
@@ -31,7 +31,7 @@ export default function EmailsInput(props) {
         onChange={onChange}
         clearError={clearError}
         className={classes.textarea}
-        id="emailAddresses"
+        id={id}
         disabled={disabled}
         placeholder={placeholder} />
       <div className={noteClassNames}>

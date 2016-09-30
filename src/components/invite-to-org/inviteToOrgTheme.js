@@ -42,6 +42,7 @@ export const styles = {
   submitButton: {
     ...buttonPrimary,
     '&:disabled': {
+      isolate: false,
       opacity: 0.5,
       pointerEvents: 'none'
     }
@@ -52,6 +53,8 @@ export const styles = {
     borderTop: `1px solid ${grayBlueLighter}`
   },
   success: {
+    ...small,
+    marginTop: 5,
     paddingLeft: horizontalPadding,
     color: grayBlueDark
   }

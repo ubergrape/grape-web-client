@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import uniq from 'lodash/array/uniq'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import {spinner} from '../../constants/images'
 
@@ -43,7 +43,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(styles)
+@injectSheet(styles)
 @injectIntl
 export default class InviteToOrg extends Component {
   static propTypes = {
