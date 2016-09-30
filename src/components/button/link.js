@@ -6,6 +6,7 @@ import {normal} from 'grape-theme/dist/fonts'
 export default {
   extend: [normal, reset],
   color: colors.blue,
+  border: 'none',
   '&:hover': {
     isolate: false,
     color: color(colors.blue).lighten(0.2).rgbaString(),
