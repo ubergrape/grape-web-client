@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
+import random from 'lodash/number/random'
+
 import Input from '../input/GrayInputNormal'
 
 export default function EmailsInput(props) {
@@ -12,13 +14,14 @@ export default function EmailsInput(props) {
   let noteClassNames = classes.note
   if (value) noteClassNames += ` ${classes.noteVisible}`
 
+  const id = `emailAddresses${random(1000000)}`
   return (
     <div className={classes.line}>
       <label
         className={classes.label}
-        htmlFor="emailAddresses">
+        htmlFor={id}>
         <FormattedMessage
-          id="emailAddresses"
+          id={id}
           defaultMessage="Email addresses" />
       </label>
       <Input

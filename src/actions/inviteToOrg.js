@@ -51,8 +51,8 @@ export function clearInviteToOrgError() {
   }
 }
 
-export function clearJustInvited() {
+export function hideJustInvited() {
   return {
-    type: types.CLEAR_JUST_INVITED_TO_ORG
+    type: types.HIDE_JUST_INVITED_TO_ORG
   }
 }

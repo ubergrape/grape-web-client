@@ -2,10 +2,17 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {InviteToOrgDialog as selector} from '../../selectors'
+import {inviteToOrgDialog as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from '../invite-to-org/actionNames'
 import InviteToOrg from '../invite-to-org/InviteToOrg'
+
+const actionNames = {
+  hideInviteToOrg: 'onHide',
+  getInviteToOrgLink: 'getIniviteLink',
+  inviteToOrg: 'onInvite',
+  clearInviteToOrgError: 'onHideError',
+  hideJustInvited: 'hideJustInvited'
+}
 
 const ConnectedInviteToOrg = connect(
   selector,

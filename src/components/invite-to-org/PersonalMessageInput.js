@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
+import random from 'lodash/number/random'
+
 import Input from '../input/GrayInputNormal'
 
 export default function PersonalMessageInput(props) {
@@ -11,11 +13,12 @@ export default function PersonalMessageInput(props) {
     onChange
   } = props
 
+  const id = `personalMessage${random(1000000)}`
   return (
     <div className={classes.line}>
       <label
         className={classes.label}
-        htmlFor="personalMessage">
+        htmlFor={id}>
         <FormattedMessage
           id="personalMessage"
           defaultMessage="Personal message" />
@@ -23,7 +26,7 @@ export default function PersonalMessageInput(props) {
       <Input
         type="textarea"
         className={classes.textarea}
-        id="personalMessage"
+        id={id}
         value={value}
         onChange={onChange}
         disabled={disabled}

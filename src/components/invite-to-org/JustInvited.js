@@ -10,11 +10,12 @@ export default function JustInvited(props) {
     <div className={classes.success}>
       <FormattedMessage
         id="justInvited"
-        defaultMessage={`
-          Congratulations! You just invited {first} {others, plural,
+        defaultMessage={
+          `Congratulations! You just invited {first} {others, plural,
             =0 {}
             one {and one more people}
-            other {and {others} more people}}.`}
+            other {and {others} more people}}.`
+        }
         values={{
           first: invited[0],
           others: invited.length - 1

@@ -2,8 +2,8 @@ import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false,
-  error: false,
-  justInvited: false,
+  showError: false,
+  showJustInvited: false,
   inviteLink: ''
 }
 
@@ -18,8 +18,8 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         show: false,
-        justInvited: false,
-        error: false
+        showJustInvited: false,
+        showError: false
       }
     case types.SET_INVITE_TO_ORG_LINK:
       return {
@@ -29,23 +29,23 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_INVITE_TO_ORG_ERROR:
       return {
         ...state,
-        error: true
+        showError: true
       }
     case types.HANDLE_INVITE_TO_ORG_SUCCESS:
       return {
         ...state,
-        justInvited: true,
-        error: false
+        showJustInvited: true,
+        showError: false
       }
     case types.CLEAR_INVITE_TO_ORG_ERROR:
       return {
         ...state,
-        error: false
+        showError: false
       }
-    case types.CLEAR_JUST_INVITED_TO_ORG:
+    case types.HIDE_JUST_INVITED_TO_ORG:
       return {
         ...state,
-        justInvited: false
+        showJustInvited: false
       }
     default:
       return state

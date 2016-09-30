@@ -231,7 +231,7 @@ export const newConversationSelector = createSelector(
   state => state.newConversation, state => state
 )
 
-export const InviteToOrgSelector = createSelector(
+export const inviteToOrgSelector = createSelector(
   state => state.inviteToOrg, state => state
 )
 
@@ -306,13 +306,13 @@ export const inviteDialogSelector = createSelector(
   }
 )
 
-export const InviteToOrgDialog = createSelector(
-  [InviteToOrgSelector, orgSelector, isInviterSelector],
+export const inviteToOrgDialog = createSelector(
+  [inviteToOrgSelector, orgSelector, isInviterSelector],
   (inviteToOrg, {id, features}, isInviter) => ({
     ...inviteToOrg,
     isInviter,
     orgId: id,
-    inviteLinkFeature: Boolean(features && features.inviteLink)
+    showInviteLinkFeature: Boolean(features && features.inviteLink)
   })
 )
 

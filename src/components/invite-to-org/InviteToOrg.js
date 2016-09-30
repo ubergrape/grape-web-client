@@ -50,17 +50,17 @@ export default class InviteToOrg extends Component {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     show: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    inviteLinkFeature: PropTypes.bool.isRequired,
+    showError: PropTypes.bool.isRequired,
+    showInviteLinkFeature: PropTypes.bool.isRequired,
     inviteLink: PropTypes.string.isRequired,
     orgId: PropTypes.number,
     isInviter: PropTypes.bool.isRequired,
-    justInvited: PropTypes.bool.isRequired,
-    hideInviteToOrg: PropTypes.func.isRequired,
-    getInviteToOrgLink: PropTypes.func.isRequired,
-    clearInviteToOrgError: PropTypes.func.isRequired,
-    clearJustInvited: PropTypes.func.isRequired,
-    inviteToOrg: PropTypes.func.isRequired
+    showJustInvited: PropTypes.bool.isRequired,
+    hideJustInvited: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    getIniviteLink: PropTypes.func.isRequired,
+    onHideError: PropTypes.func.isRequired,
+    onInvite: PropTypes.func.isRequired
   }
 
   constructor() {
@@ -74,36 +74,36 @@ export default class InviteToOrg extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      isInviter, show, orgId, clearJustInvited,
-      inviteLink, getInviteToOrgLink, justInvited
+      isInviter, show, orgId, hideJustInvited,
+      inviteLink, getIniviteLink, showJustInvited
     } = nextProps
 
-    if (isInviter && show && !inviteLink && orgId) getInviteToOrgLink()
+    if (isInviter && show && !inviteLink && orgId) getIniviteLink()
 
-    if (justInvited) {
+    if (showJustInvited) {
       this.setState({
         invited: uniq(this.state.value.split(', ')),
-        loading: false,
+        isLoading: false,
         value: ''
       })
       return
     }
 
-    this.setState({invited: [], loading: false}, clearJustInvited)
+    this.setState({invited: [], isLoading: false}, hideJustInvited)
   }
 
   onInviteesChange = ({target: {value}}) => {
-    this.setState({value, invited: []}, this.props.clearJustInvited)
+    this.setState({value, invited: []}, this.props.hideJustInvited)
   }
 
   onMessageChange = ({target: {value}}) => {
-    this.setState({message: value}, this.props.clearJustInvited)
+    this.setState({message: value}, this.props.hideJustInvited)
   }
 
   onInvite = e => {
     e.preventDefault()
-    this.setState({loading: true}, () => {
-      this.props.inviteToOrg({
+    this.setState({isLoading: true}, () => {
+      this.props.onInvite({
         emails: this.state.value,
         message: this.state.message
       })
@@ -116,11 +116,12 @@ export default class InviteToOrg extends Component {
   }
 
   getError() {
-    if (!this.props.error) return null
+    const {showError, intl: {formatMessage}} = this.props
+    if (!showError) return null
 
     return {
       level: 'error',
-      message: this.props.intl.formatMessage(messages.error)
+      message: formatMessage(messages.error)
     }
   }
 
@@ -128,17 +129,18 @@ export default class InviteToOrg extends Component {
     const {
       sheet: {classes},
       intl: {formatMessage},
-      hideInviteToOrg, show,
-      inviteLinkFeature, inviteLink,
-      isInviter, clearInviteToOrgError
+      onHide, show,
+      showInviteLinkFeature, inviteLink,
+      isInviter, onHideError
     } = this.props
+    const {value, invited, isLoading, message} = this.state
 
     if (!isInviter) return null
-    const {value, invited, loading, message} = this.state
+
     return (
       <Dialog
         show={show}
-        onHide={hideInviteToOrg}
+        onHide={onHide}
         title={formatMessage(messages.title)}>
         <div className={classes.wrapper}>
           <form
@@ -147,15 +149,15 @@ export default class InviteToOrg extends Component {
             <EmailsInput
               theme={{classes}}
               value={value}
-              disabled={loading}
+              disabled={isLoading}
               error={this.getError()}
               onChange={this.onInviteesChange}
-              clearError={clearInviteToOrgError}
+              clearError={onHideError}
               placeholder={formatMessage(messages.invitePlaceholder)} />
             <PersonalMessageInput
               theme={{classes}}
               value={message}
-              disabled={loading}
+              disabled={isLoading}
               onChange={this.onMessageChange}
               placeholder={formatMessage(messages.messagesPlaceholder)} />
             <JustInvited
@@ -165,16 +167,16 @@ export default class InviteToOrg extends Component {
               <button
                 type="submit"
                 className={classes.submitButton}
-                disabled={!value || loading}>
+                disabled={!value || isLoading}>
                 <FormattedMessage
                   id="sendInvites"
                   defaultMessage="Send invitation emails" />
               </button>
             </div>
-            {loading && <Spinner image={spinner} size={32} />}
+            {isLoading && <Spinner image={spinner} size={32} />}
           </form>
           <InviteLink
-            show={inviteLinkFeature}
+            show={showInviteLinkFeature}
             link={inviteLink}
             theme={{classes}}
             placeholder={formatMessage(messages.loadingLinkPlaceholder)}
