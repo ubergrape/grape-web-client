@@ -22,6 +22,7 @@ export default function create(name, options = {}) {
   if (options.hoverColor) {
     const hoverIcon = getColoredIcon({name, color: options.hoverColor})
     style['&:hover:before'] = {
+      isolate: false,
       backgroundImage: `url('${hoverIcon}')`
     }
   }

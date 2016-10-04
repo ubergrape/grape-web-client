@@ -16,7 +16,8 @@ const button = {
   height: 34,
   borderRadius: '100%',
   background: 'no-repeat 50% 50%',
-  backgroundSize: 'auto 22px'
+  backgroundSize: 'auto 22px',
+  cursor: 'pointer'
 }
 
 function getIcon(name, type) {
@@ -50,7 +51,8 @@ const infoActive = {
 }
 
 const action = {
-  listStyle: 'none'
+  listStyle: 'none',
+
 }
 
 export default {
