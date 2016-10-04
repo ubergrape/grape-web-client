@@ -51,8 +51,7 @@ const infoActive = {
 }
 
 const action = {
-  listStyle: 'none',
-
+  listStyle: 'none'
 }
 
 export default {
