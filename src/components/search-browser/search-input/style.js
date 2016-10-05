@@ -43,7 +43,10 @@ export default {
     paddingBottom: margin,
     height: 31 + margin * 2,
     border: '1px solid transparent',
-    outline: 'none'
+    outline: 'none',
+    '&::-ms-clear': {
+        display: 'none'
+    }
   },
   highlighter: {
     extend: 'editable',
