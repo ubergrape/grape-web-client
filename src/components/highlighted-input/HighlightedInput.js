@@ -76,18 +76,18 @@ export default class HighlightedInput extends Component {
     }
   }
 
-  onChangeAccentMode(isAccentMode) {
+  onChangeAccentMode = (isAccentMode) => {
     this.isAccentMode = isAccentMode
   }
 
-  onChange({target}) {
+  onChange = ({target}) => {
     this.setState({
       value: target.value,
       caretAt: target.selectionEnd
     })
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     this.props.onKeyDown(e)
     if (e.defaultPrevented) return
 
@@ -101,7 +101,7 @@ export default class HighlightedInput extends Component {
   /**
    * Scroll highlighter in parallel with editable.
    */
-  onScroll({target}) {
+  onScroll = ({target}) => {
     const {highlighter} = this.refs
     highlighter.scrollTop = target.scrollTop
     highlighter.scrollLeft = target.scrollLeft
@@ -241,8 +241,7 @@ export default class HighlightedInput extends Component {
   }
 
   render() {
-    const {classes} = this.props.sheet
-    const {Editable, theme} = this.props
+    const {Editable, theme, sheet: {classes}} = this.props
 
     const editableProps = pick(this.props, 'onSubmit', 'onChange', 'onFocus',
       'onBlur', 'onKeyPress', 'placeholder', 'disabled')
@@ -258,15 +257,15 @@ export default class HighlightedInput extends Component {
           {this.renderHighlighterContent()}
         </div>
         <AccentMode
-          onChange={::this.onChangeAccentMode}
+          onChange={this.onChangeAccentMode}
           ref="editable">
           <Editable
             {...editableProps}
             autoFocus
             data-test="editable"
-            onKeyDown={::this.onKeyDown}
-            onChange={::this.onChange}
-            onScroll={::this.onScroll}
+            onKeyDown={this.onKeyDown}
+            onChange={this.onChange}
+            onScroll={this.onScroll}
             value={this.state.value}
             className={`${classes.editable} ${theme.editable}`} />
           </AccentMode>

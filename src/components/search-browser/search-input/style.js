@@ -1,5 +1,5 @@
-import fonts from 'grape-theme/dist/fonts'
-import colors from 'grape-theme/dist/base-colors'
+import {biggest} from 'grape-theme/dist/fonts'
+import {grayBlueDark, silverDark} from 'grape-theme/dist/base-colors'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
 import {plusIconStyle} from '../constants'
@@ -7,12 +7,12 @@ import {plusIconStyle} from '../constants'
 const iconSize = 32
 const margin = 15
 
-const magnifierIcon = getColoredIcon({name: 'magnifier', color: colors.grayBlueDark})
+const magnifierIcon = getColoredIcon({name: 'magnifier', color: grayBlueDark})
 
 export default {
   searchInput: {
     display: 'flex',
-    borderBottom: `1px solid ${colors.silverDark}`,
+    borderBottom: `1px solid ${silverDark}`,
     flexShrink: 0
   },
   magnifierIcon: {
@@ -38,14 +38,14 @@ export default {
     border: '1px solid transparent'
   },
   editable: {
-    ...fonts.biggest,
+    extend: biggest,
     paddingTop: margin,
     paddingBottom: margin,
     height: 31 + margin * 2,
     border: '1px solid transparent',
     outline: 'none',
     '&::-ms-clear': {
-        display: 'none'
+      display: 'none'
     }
   },
   highlighter: {
@@ -53,6 +53,7 @@ export default {
     whiteSpace: 'pre'
   },
   token: {
+    extend: biggest,
     background: 'linear-gradient(0deg, #b8e7aa, #c3ebb7)'
   }
 }

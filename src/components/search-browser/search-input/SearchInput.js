@@ -35,7 +35,7 @@ export default class Browser extends Component {
     onDidMount: PropTypes.func
   }
 
-  onChange({value}) {
+  onChange = ({value}) => {
     const {tokens} = this.props
     const split = this.input.splitByTokens()
     const search = getTextWithoutFilters(split, tokens)
@@ -44,16 +44,16 @@ export default class Browser extends Component {
     this.props.onChange({value, search, filters, query})
   }
 
-  onMountInput(ref) {
+  onMountInput = (ref) => {
     this.input = ref
     this.props.onDidMount(ref)
   }
 
-  onShowServices() {
+  onShowServices = () => {
     this.input.insert(SERVICES_TRIGGER)
   }
 
-  getTokenClass() {
+  getTokenClass = () => {
     return this.props.sheet.classes.token
   }
 
@@ -70,13 +70,13 @@ export default class Browser extends Component {
             {...inputProps}
             Editable={Input}
             theme={classes}
-            getTokenClass={::this.getTokenClass}
+            getTokenClass={this.getTokenClass}
             placeholder={formatMessage(messages.placeholder)}
             tokens={Object.keys(this.props.tokens)}
-            onChange={::this.onChange}
-            onDidMount={::this.onMountInput} />
+            onChange={this.onChange}
+            onDidMount={this.onMountInput} />
           <button
-            onClick={::this.onShowServices}
+            onClick={this.onShowServices}
             className={classes.plusButton}></button>
         </div>
     )
