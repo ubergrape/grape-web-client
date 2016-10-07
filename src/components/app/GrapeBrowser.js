@@ -180,7 +180,7 @@ export default class GrapeBrowser extends Component {
   }
 
   onDidMountEditable = (ref) => {
-    this.datalist = ref
+    this.editable = ref
   }
 
   onKeyDown = (e) => {
