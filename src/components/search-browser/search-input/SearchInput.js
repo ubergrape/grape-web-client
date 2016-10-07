@@ -31,6 +31,7 @@ export default class Browser extends Component {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     tokens: PropTypes.object,
+    value: PropTypes.string,
     onChange: PropTypes.func,
     onDidMount: PropTypes.func
   }

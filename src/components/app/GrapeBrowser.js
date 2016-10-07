@@ -24,7 +24,7 @@ import * as emojiSuggest from '../emoji-suggest'
 import style from './style'
 import * as utils from './utils'
 
-const PUBLIC_METHODS = ['setTextContent', 'getTextContent']
+const publicMethods = ['setTextContent', 'getTextContent']
 
 // Map indicates whether browser has its own input field or
 // its using the main one.
@@ -83,7 +83,7 @@ export default class GrapeBrowser extends Component {
 
   constructor(props) {
     super(props)
-    this.query = new QueryModel({onChange: ::this.onChangeQuery})
+    this.query = new QueryModel({onChange: this.onChangeQuery})
     this.exposePublicMethods()
     this.state = this.createState(props)
   }
@@ -119,43 +119,43 @@ export default class GrapeBrowser extends Component {
     }
   }
 
-  onEditPrevious() {
+  onEditPrevious = () => {
     this.emit('editPrevious')
   }
 
-  onSubmit(data) {
+  onSubmit = (data) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.query.reset()
     this.emit('submit', data)
   }
 
-  onAbort(data = {}) {
+  onAbort = (data = {}) => {
     const {browser} = this.state
     this.closeBrowser({inputFocused: true}, () => {
       this.emit('abort', {...data, browser})
     })
   }
 
-  onSelectSearchBrowserItem({item, query}) {
+  onSelectSearchBrowserItem = ({item, query}) => {
     clearTimeout(this.searchBrowserInputTimeoutId)
     this.insertItem(item, query)
   }
 
-  onSelectEmojiBrowserItem({item, query}) {
+  onSelectEmojiBrowserItem = ({item, query}) => {
     this.insertItem(item, query)
   }
 
-  onSelectDatalistItem(item) {
+  onSelectDatalistItem = (item) => {
     this.insertItem(item, this.query.toJSON())
   }
 
-  onAddSearchBrowserIntegration() {
+  onAddSearchBrowserIntegration = () => {
     this.closeBrowser(null, () => {
       this.emit('addIntegration')
     })
   }
 
-  onInsertItem(item, query) {
+  onInsertItem = (item, query) => {
     const {type} = item
     let {service} = item
     let rank = 0
@@ -171,17 +171,25 @@ export default class GrapeBrowser extends Component {
     this.emit('insertItem', {query, type, service, rank})
   }
 
-  onDidMount(name, ref) {
-    this[name] = ref
+  onDidMountBrowser = (ref) => {
+    this.browser = ref
   }
 
-  onKeyDown(e) {
+  onDidMountDatalist = (ref) => {
+    this.datalist = ref
+  }
+
+  onDidMountEditable = (ref) => {
+    this.datalist = ref
+  }
+
+  onKeyDown = (e) => {
     if (browserWithInput[this.state.browser] === false) {
       this.navigateDatalist(e)
     }
   }
 
-  onBlurInput() {
+  onBlurInput = () => {
     // Delay blur event for the case when an external button was clicked,
     // because we are going to regain focus in a bit.
     setTimeout(() => {
@@ -191,11 +199,11 @@ export default class GrapeBrowser extends Component {
     }, 100)
   }
 
-  onFocusInput() {
+  onFocusInput = () => {
     this.emit('focus')
   }
 
-  onBlurBrowser() {
+  onBlurBrowser = () => {
     // We don't want to close browser when entire window looses the focus.
     this.blurTimeoutId = setTimeout(() => {
       this.closeBrowser(null, () => {
@@ -205,11 +213,11 @@ export default class GrapeBrowser extends Component {
     }, 100)
   }
 
-  onBlurWindow() {
+  onBlurWindow = () => {
     clearTimeout(this.blurTimeoutId)
   }
 
-  onChangeSearchBrowser(data) {
+  onChangeSearchBrowser = (data) => {
     const complete = () => {
       this.emit('complete', {...data, trigger: this.query.get('trigger')})
       this.emit('change')
@@ -224,19 +232,19 @@ export default class GrapeBrowser extends Component {
     )
   }
 
-  onInputResize() {
+  onInputResize = () => {
     this.emit('resize')
   }
 
-  onLoadServices() {
+  onLoadServices = () => {
     this.emit('loadServices')
   }
 
-  onLoadServicesResultsAmounts(search, callback) {
+  onLoadServicesResultsAmounts = (search, callback) => {
     this.emit('loadServicesResultsAmounts', {search, callback})
   }
 
-  onChangeInput({query, content} = {}) {
+  onChangeInput = ({query, content} = {}) => {
     // Handler might be called when content has been just set, so it is changed
     // for the underlying component but not here.
     const contentHasChanged = content !== this.state.content
@@ -260,7 +268,7 @@ export default class GrapeBrowser extends Component {
     else this.setState({content}, () => this.emit('change'))
   }
 
-  onChangeQuery(str) {
+  onChangeQuery = (str) => {
     this.editable.insert(str)
   }
 
@@ -270,11 +278,11 @@ export default class GrapeBrowser extends Component {
     this.query.set('trigger', QUERY_TYPES[browser])
   }
 
-  getTextContent() {
+  getTextContent = () => {
     return this.state.content
   }
 
-  setTextContent(content, options = {}) {
+  setTextContent = (content, options = {}) => {
     this.query.reset()
     this.setState({content}, () => {
       if (!options.silent) this.onChangeInput()
@@ -284,7 +292,9 @@ export default class GrapeBrowser extends Component {
   exposePublicMethods() {
     const {container} = this.props
     if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+    publicMethods.forEach(method => {
+      container[method] = this[method]
+    })
   }
 
   createState(nextProps) {
@@ -403,13 +413,13 @@ export default class GrapeBrowser extends Component {
           images={images}
           isExternal={utils.isExternalSearch(data)}
           isLoading={this.props.isLoading}
-          onAbort={::this.onAbort}
-          onSelectItem={::this.onSelectSearchBrowserItem}
-          onAddIntegration={::this.onAddSearchBrowserIntegration}
-          onChange={::this.onChangeSearchBrowser}
-          onLoadServices={::this.onLoadServices}
-          onLoadResultsAmounts={::this.onLoadServicesResultsAmounts}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
+          onAbort={this.onAbort}
+          onSelectItem={this.onSelectSearchBrowserItem}
+          onAddIntegration={this.onAddSearchBrowserIntegration}
+          onChange={this.onChangeSearchBrowser}
+          onLoadServices={this.onLoadServices}
+          onLoadResultsAmounts={this.onLoadServicesResultsAmounts}
+          onDidMount={this.onDidMountBrowser} />
       )
     }
 
@@ -419,10 +429,10 @@ export default class GrapeBrowser extends Component {
           images={images}
           className={classes.browser}
           customEmojis={this.props.customEmojis}
-          onAbort={::this.onAbort}
-          onSelectItem={::this.onSelectEmojiBrowserItem}
-          onBlur={::this.onBlurBrowser}
-          onDidMount={this.onDidMount.bind(this, 'browser')} />
+          onAbort={this.onAbort}
+          onSelectItem={this.onSelectEmojiBrowserItem}
+          onBlur={this.onBlurBrowser}
+          onDidMount={this.onDidMountBrowser} />
       )
     }
 
@@ -431,8 +441,8 @@ export default class GrapeBrowser extends Component {
         className={classes.browser}
         images={images}
         data={data}
-        onSelect={::this.onSelectDatalistItem}
-        onDidMount={this.onDidMount.bind(this, 'datalist')} />
+        onSelect={this.onSelectDatalistItem}
+        onDidMount={this.onDidMountDatalist} />
     )
   }
 
@@ -443,19 +453,19 @@ export default class GrapeBrowser extends Component {
       <div
         className={classes.grapeBrowser}
         data-test="grape-browser">
-        <GlobalEvent event="blur" handler={::this.onBlurWindow} />
+        <GlobalEvent event="blur" handler={this.onBlurWindow} />
         {this.renderBrowser()}
         <div className={classes.scroll}>
           <GrapeInput
-            onKeyDown={::this.onKeyDown}
-            onAbort={::this.onAbort}
-            onResize={::this.onInputResize}
-            onChange={::this.onChangeInput}
-            onBlur={::this.onBlurInput}
-            onFocus={::this.onFocusInput}
-            onSubmit={::this.onSubmit}
-            onEditPrevious={::this.onEditPrevious}
-            onDidMount={this.onDidMount.bind(this, 'editable')}
+            onKeyDown={this.onKeyDown}
+            onAbort={this.onAbort}
+            onResize={this.onInputResize}
+            onChange={this.onChangeInput}
+            onBlur={this.onBlurInput}
+            onFocus={this.onFocusInput}
+            onSubmit={this.onSubmit}
+            onEditPrevious={this.onEditPrevious}
+            onDidMount={this.onDidMountEditable}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             focused={this.state.inputFocused}
