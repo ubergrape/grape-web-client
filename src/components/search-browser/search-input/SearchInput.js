@@ -35,13 +35,23 @@ export default class Browser extends Component {
     onDidMount: PropTypes.func
   }
 
+  constructor(props) {
+    super(props)
+    // We use state value to have update synced input first.
+    // IE has unexpected timing issues somewhere otherwise when external service
+    // with timeouts is used.
+    this.state = {value: props.value}
+  }
+
   onChange = ({value}) => {
     const {tokens} = this.props
     const split = this.input.splitByTokens()
     const search = getTextWithoutFilters(split, tokens)
     const filters = getFilterIds(split, tokens)
     const query = parseQuery(this.input.getTouchedWord())
-    this.props.onChange({value, search, filters, query})
+    this.setState({value}, () => {
+      this.props.onChange({value, search, filters, query})
+    })
   }
 
   onMountInput = (ref) => {
@@ -58,16 +68,19 @@ export default class Browser extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    const inputProps = pick(this.props, 'onBlur', 'onChange', 'onDidMount',
-      'onKeyDown', 'onKeyPress', 'value')
+    const {
+      intl: {formatMessage},
+      sheet: {classes}
+    } = this.props
+    const {value} = this.state
 
-    const {classes} = this.props.sheet
     return (
         <div className={classes.searchInput}>
           <span className={classes.magnifierIcon} />
           <HighlightedInput
-            {...inputProps}
+            {...pick(this.props, 'onBlur', 'onChange', 'onDidMount', 'onKeyDown',
+              'onKeyPress')}
+            value={value}
             Editable={Input}
             theme={classes}
             getTokenClass={this.getTokenClass}

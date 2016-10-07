@@ -76,16 +76,16 @@ export default class SearchBrowser extends Component {
     }
   }
 
-  onFocusResult(result) {
+  onFocusResult = (result) => {
     if (this.props.focusedResult === result) return
     this.props.focusSearchBrowserResult(result)
   }
 
-  onSelectResult(result) {
+  onSelectResult = (result) => {
     this.props.selectSearchBrowserResult(result)
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     const {focusedView} = this.props
 
     switch (keyname(e.keyCode)) {
@@ -129,7 +129,7 @@ export default class SearchBrowser extends Component {
     }
   }
 
-  onMouseDown(e) {
+  onMouseDown = (e) => {
     // This flag is to fix IE11 issue
     // http://stackoverflow.com/questions/2023779/clicking-on-a-divs-scroll-bar-fires-the-blur-event-in-i-e
     this.blurPrevented = true
@@ -138,7 +138,7 @@ export default class SearchBrowser extends Component {
     if (e.target.nodeName !== 'INPUT') e.preventDefault()
   }
 
-  onBlur(e) {
+  onBlur = (e) => {
     if (!this.blurPrevented) {
       this.props.onBlur(e)
       return
@@ -148,11 +148,11 @@ export default class SearchBrowser extends Component {
     e.target.focus()
   }
 
-  onMountInput(ref) {
+  onMountInput = (ref) => {
     this.input = ref
   }
 
-  onAddService(service) {
+  onAddService = (service) => {
     if (!service) return
     // We need to schedule the filter insertion into input until the action is
     // created and applied to the state, because as soon as we insert the filter
@@ -215,15 +215,15 @@ export default class SearchBrowser extends Component {
           height: body.height,
           maxHeight: this.props.height
         }}
-        onMouseDown={::this.onMouseDown}
+        onMouseDown={this.onMouseDown}
         data-test="search-browser"
         tabIndex="-1">
         <SearchInput
           {...this.props}
-          onDidMount={::this.onMountInput}
-          onKeyDown={::this.onKeyDown}
+          onDidMount={this.onMountInput}
+          onKeyDown={this.onKeyDown}
           onChange={this.props.changeSearchBrowserInput}
-          onBlur={::this.onBlur} />
+          onBlur={this.onBlur} />
         {body.element}
         {this.props.isLoading && <Spinner image={this.props.images.spinner} />}
       </div>
