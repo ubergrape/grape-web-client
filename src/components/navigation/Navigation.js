@@ -170,6 +170,8 @@ export default class Navigation extends Component {
   }
 
   goToChannel(channel) {
+    if (this.props.channel.id === channel.id) return
+
     this.props.goToChannel(channel.slug || channel.mate.slug)
     this.setState({
       filter: '',

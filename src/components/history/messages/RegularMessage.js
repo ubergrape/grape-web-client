@@ -144,6 +144,7 @@ export default class RegularMessage extends Component {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
+    isPm: PropTypes.bool.isRequired,
     link: PropTypes.string.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -220,8 +221,8 @@ export default class RegularMessage extends Component {
   }
 
   onGoToChannel = () => {
-    const {isOwn, author, onGoToChannel} = this.props
-    if (!isOwn && author.slug) onGoToChannel(author.slug)
+    const {isPm, isOwn, author, onGoToChannel} = this.props
+    if (!isPm && !isOwn && author.slug) onGoToChannel(author.slug)
   }
 
   renderMenu = () => {
@@ -261,7 +262,8 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates
+      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates,
+      isPm
     } = this.props
     const {classes} = sheet
 
@@ -272,7 +274,7 @@ export default class RegularMessage extends Component {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
 
-    const canPm = !isOwn && author && author.slug
+    const canPm = isPm ? false : Boolean(!isOwn && author && author.slug)
 
     return (
       <div className={classes.message}>
@@ -284,7 +286,7 @@ export default class RegularMessage extends Component {
               userTime={userTime}
               author={author.name}
               theme={sheet}
-              onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+              onClickAuthor={canPm ? this.onGoToChannel : undefined} />
           </div>
         }
         <div
