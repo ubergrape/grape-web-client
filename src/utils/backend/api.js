@@ -375,6 +375,34 @@ export function readMessage(channelId, messageId) {
   })
 }
 
+export function getInviteToOrgLink(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'get_invite_url',
+      args: [orgId]
+    },
+    (err, link) => {
+      if (err) return reject(err)
+      resolve(link)
+    })
+  })
+}
+
+export function inviteToOrg(orgId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'invite',
+      args: [orgId, settings]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
 export function loadConfig() {
   return new Promise((resolve, reject) => {
     const {host, protocol, authToken} = conf.server

@@ -21,6 +21,7 @@ import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/redux-history/HistoryProvider'
+import InviteToOrgProvider from '../components/redux-invite-to-org/InviteToOrgProvider'
 
 addLocaleData([...en, ...de])
 
@@ -47,6 +48,10 @@ render(
 render(
   createElement(wrapWithIntlProvider(NewConversationProvider, languageCode, messages)),
   document.body.appendChild(document.createElement('grape-new-conversation'))
+)
+render(
+  createElement(wrapWithIntlProvider(InviteToOrgProvider, languageCode, messages)),
+  document.body.appendChild(document.createElement('grape-invite-to-org'))
 )
 render(
   createElement(wrapWithIntlProvider(UnreadChannelsProvider, languageCode, messages)),

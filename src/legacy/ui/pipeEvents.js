@@ -66,7 +66,7 @@ export default function pipeEvents(ui) {
     broker(ui.historyView, 'selectedforediting', ui.grapeInput, 'onEditMessage')
     broker(ui.historyView, 'switchToChatMode', ui, 'onSwitchToChatMode')
     broker(ui.historyView, 'showRoomInvite', ui.reduxEmitter, 'showRoomInvite')
-    broker(ui.historyView, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
+    broker(ui.historyView, 'toggleOrgInvite', ui.reduxEmitter, 'showInviteToOrg')
     broker(ui.historyView, 'triggerRoomManager', ui, 'onTriggerRoomManager')
   }
 
@@ -86,8 +86,7 @@ export default function pipeEvents(ui) {
 
   // organization popover
   broker.pass(ui.organizationMenu, 'editView', ui, 'editView')
-  broker(ui.organizationMenu, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
-  broker(ui.reduxEmitter, 'toggleOrgInvite', ui, 'onToggleOrgInvite')
+  broker(ui.organizationMenu, 'toggleOrgInvite', ui.reduxEmitter, 'showInviteToOrg')
 
   // channel search, naviation
   broker(ui.reduxEmitter, 'triggerPMManager', ui, 'onTriggerPMManager')
