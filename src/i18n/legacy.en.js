@@ -63,8 +63,6 @@ export default {
   "Archived messages with deleted users": "Archived messages with deleted users",
   "Join": "Join",
   "Leave": "Leave",
-  "Invite people to your organization": "Invite people to your organization",
-  "Enter one or more email addresses separated by a space.": "Enter one or more email addresses separated by a space.",
   "Drop your file to upload it!": "Drop your file to upload it!",
   "We support almost every file type up to a size of 50mb": "We support almost every file type up to a size of 50mb",
   "Hit ": "Hit ",
@@ -117,7 +115,5 @@ export default {
   "Manage Private Messages": "Manage Private Messages",
   "Active": "Active",
   "Invited": "Invited",
-  "Deleted": "Deleted",
-  "Please enter at least one user to invite": "Please enter at least one user to invite",
-  "Enter valid email addresses separated by a space.": "Enter valid email addresses separated by a space."
+  "Deleted": "Deleted"
 }
