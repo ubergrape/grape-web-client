@@ -1,17 +1,16 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
-import moment from 'moment'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
 import {openUrl} from 'grape-web/lib/x-platform'
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import ImageZoom from '../image-zoom/ImageZoom'
 import style from './sharedFileStyle'
-const dateFormat = 'MMM Do, h:mm a'
 
 @injectSheet(style)
+@injectIntl
 export default class SharedFile extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -21,27 +20,29 @@ export default class SharedFile extends Component {
     name: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     author: PropTypes.string,
     thumbnailUrl: PropTypes.string
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
-  onOpen() {
+  onOpen = () => {
     openUrl(this.props.url, false)
   }
 
-  setPreviewRef(ref) {
+  setPreviewRef = (ref) => {
     this.preview = ref
   }
 
-  getPreviewRef() {
+  getPreviewRef = () => {
     return this.preview
   }
 
   renderPreview() {
-    const {classes} = this.props.sheet
-    const {thumbnailUrl} = this.props
+    const {thumbnailUrl, sheet: {classes}, category} = this.props
     let className
     let backgroundImage
 
@@ -50,13 +51,13 @@ export default class SharedFile extends Component {
       backgroundImage = `url(${thumbnailUrl})`
     } else {
       className = classes.icon
-      const svg = icons[this.props.category] || icons.file
+      const svg = icons[category] || icons.file
       backgroundImage = `url('${svg}')`
     }
 
     return (
       <div
-        ref={::this.setPreviewRef}
+        ref={this.setPreviewRef}
         className={className}
         style={{backgroundImage}}>
       </div>
@@ -64,9 +65,13 @@ export default class SharedFile extends Component {
   }
 
   renderSection(handleClick) {
-    const {classes} = this.props.sheet
-    const {channelType, channelName, time, author, name} = this.props
-    let when = moment(time).format(dateFormat)
+    const {
+      channelType, channelName, time, author, name,
+      sheet: {classes},
+      intl: {formatDate, formatTime}
+    } = this.props
+    let when = formatDate(time, {year: '2-digit', month: 'short', day: '2-digit'})
+    when += ` ${formatTime(time)}`
     if (author) when += ` - ${author}`
 
     let message
@@ -97,7 +102,7 @@ export default class SharedFile extends Component {
     return (
       <section
         className={classes.sharedFile}
-        onClick={handleClick ? ::this.onOpen : noop}>
+        onClick={handleClick ? this.onOpen : noop}>
         <div className={classes.leftColumn}>
           {this.renderPreview()}
         </div>
@@ -119,7 +124,7 @@ export default class SharedFile extends Component {
     if (thumbnailUrl) {
       return (
         <ImageZoom
-          getPreviewRef={::this.getPreviewRef}
+          getPreviewRef={this.getPreviewRef}
           url={url}>
           {section}
         </ImageZoom>
