@@ -5,6 +5,7 @@ import {organization, user, server} from 'conf'
 import {addLocaleData} from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
+import moment from 'moment'
 
 import wrapWithIntlProvider from './wrapWithIntlProvider'
 import * as translations from '../i18n'
@@ -23,10 +24,11 @@ import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/redux-history/HistoryProvider'
 import InviteToOrgProvider from '../components/redux-invite-to-org/InviteToOrgProvider'
 
-addLocaleData([...en, ...de])
-
 const {languageCode, email, username, id: userId} = user
 const messages = translations[languageCode]
+
+addLocaleData([...en, ...de])
+moment.locale(languageCode)
 
 Raven.config(server.sentryJsDsn).install()
 Raven.setUser({
