@@ -1,53 +1,45 @@
 import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import shallowCompare from 'react-addons-shallow-compare'
-import {FormattedDate, FormattedMessage} from 'react-intl'
+import {defineMessages, injectIntl} from 'react-intl'
 import moment from 'moment'
 
 import {styles} from './dateSeparatorTheme'
 
-function DateWithDay({date}) {
-  const dateEl = (
-    <FormattedDate
-      value={date}
-      year="numeric"
-      month="short"
-      day="2-digit" />
-  )
-
-  const today = moment()
-  const isToday = moment(date).isSame(today, 'day')
-
-  if (isToday) {
-    return (
-      <FormattedMessage
-        id="dateSeparatorToday"
-        description="Date separator used in history, search, mentions etc."
-        defaultMessage="Today, {date}"
-        values={{date: dateEl}} />
-    )
+const messages = defineMessages({
+  today: {
+    id: 'dateSeparatorToday',
+    description: 'Date separator used in history, search, mentions etc.',
+    defaultMessage: 'Today, {date}'
+  },
+  yesterday: {
+    id: 'dateSeparatorYesterday',
+    description: 'Date separator used in history, search, mentions etc.',
+    defaultMessage: 'Yesterday, {date}'
   }
+})
 
-  const isYesterday = moment(date).isSame(today.subtract(1, 'day'), 'day')
+function format({date, intl: {formatDate, formatMessage}}) {
+  const now = moment()
+  const isToday = moment(date).isSame(now, 'day')
 
-  if (isYesterday) {
-    return (
-      <FormattedMessage
-        id="dateSeparatorYesterday"
-        description="Date separator used in history, search, mentions etc."
-        defaultMessage="Yesterday, {date}"
-        values={{date: dateEl}} />
-    )
-  }
+  const dateStr = formatDate(date, {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit'
+  })
 
-  return dateEl
-}
+  if (isToday) return formatMessage(messages.today, {date: dateStr})
 
-DateWithDay.propTypes = {
-  date: PropTypes.instanceOf(Date)
+  const isYesterday = moment(date).isSame(now.subtract(1, 'day'), 'day')
+
+  if (isYesterday) return formatMessage(messages.yesterday, {date: dateStr})
+
+  return dateStr
 }
 
 @injectSheet(styles)
+@injectIntl
 export default class DateSeparator extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -67,12 +59,12 @@ export default class DateSeparator extends Component {
   }
 
   render() {
-    const {theme, date, sheet: {classes}} = this.props
+    const {theme, sheet: {classes}} = this.props
 
     return (
       <div className={classes.separator}>
         <span className={`${classes.date} ${theme.date}`}>
-          <DateWithDay date={date} />
+          {format(this.props)}
         </span>
       </div>
     )
