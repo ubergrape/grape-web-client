@@ -251,8 +251,8 @@ export default class RoomInfo extends Component {
                   className={classes.buttonLeave}>
                   <FormattedMessage
                     id="leaveChannel"
-                    defaultMessage="Leave" />
-                  {` ${channel.name}`}
+                    defaultMessage="Leave {channel}"
+                    values={{channel: channel.name}} />
                 </button>
               </li>
             </ul>
