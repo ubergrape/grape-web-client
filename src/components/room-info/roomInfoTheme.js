@@ -1,6 +1,6 @@
 import color from 'color'
 import mixins from 'grape-web/lib/jss-utils/mixins'
-import fonts from 'grape-theme/dist/fonts'
+import {small, normal, bigger} from 'grape-theme/dist/fonts'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 
@@ -13,11 +13,11 @@ const paddingBottom = 15
 const hoverColor = color(colors.blue).lighten(0.05).rgbaString()
 
 const button = {
-  ...linkButton,
-  ...fonts.normal,
+  extend: [linkButton, normal],
   display: 'block',
   marginBottom: marginBottom / 2,
   '&:hover': {
+    isolate: false,
     color: hoverColor,
     textDecoration: 'underline !important'
   }
@@ -29,7 +29,9 @@ const divider = {
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
 
-export default {
+export const additionalActionsButtonSize = normal.fontSize
+
+export const styles = {
   channelInfo: {
     color: colors.grayBlueDark
   },
@@ -41,7 +43,7 @@ export default {
     ...divider
   },
   descriptionText: {
-    ...fonts.normal
+    ...normal
   },
   actions: {
     ...divider,
@@ -68,7 +70,10 @@ export default {
     ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor, size: 18})
   },
   buttonKick: {
-    ...buttonIcon('close', {color: colors.grayBlueDark, hoverColor, iconOnly: true}),
+    extend: [
+      buttonIcon('close', {color: colors.grayBlueDark, hoverColor, iconOnly: true}),
+      small
+    ],
     flexShrink: 0,
     display: 'none'
   },
@@ -89,20 +94,21 @@ export default {
   },
   name: {
     ...mixins.ellipsis,
-    ...fonts.normal,
+    ...normal,
     flex: 1,
     alignSelf: 'center',
     color: colors.grayBlueDark,
     '&:hover': {
+      isolate: false,
       color: hoverColor
     }
   },
   roomName: {
-    ...fonts.bigger,
+    ...bigger,
     width: '100%'
   },
   roomDescription: {
-    ...fonts.normal,
+    ...normal,
     ...divider
   },
   mainSettings: {
@@ -112,7 +118,7 @@ export default {
     alignItems: 'center'
   },
   title: {
-    ...fonts.small,
+    ...small,
     textTransform: 'uppercase',
     background: '0 0 no-repeat',
     color: colors.grayBlue
@@ -122,15 +128,15 @@ export default {
     marginLeft: 20
   },
   additionalActionsButton: {
-    ...fonts.normal,
+    ...normal,
     ...buttonIcon('cog', {color: webColors.button, hoverColor: colors.blue, iconOnly: true}),
     display: 'block',
-    width: fonts.normal.fontSize,
-    height: fonts.normal.fontSize
+    width: additionalActionsButtonSize,
+    height: additionalActionsButtonSize
   },
   additionalActionButton: {
     ...linkButton,
-    ...fonts.normal,
+    ...normal,
     display: 'block',
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -139,6 +145,7 @@ export default {
     padding: '10px',
     borderBottom: `1px solid ${webColors.borderLight}`,
     '&:hover': {
+      isolate: false,
       color: colors.red,
       textDecoration: 'underline'
     }

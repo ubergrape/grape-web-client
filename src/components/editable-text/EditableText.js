@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
 import * as themes from './themes'
@@ -24,7 +24,7 @@ const Wrapper = listenOutsideClick(props => {
  * but once user clicks on it,
  * it becomes styled as textarea or input field.
  */
-@useSheet(style)
+@injectSheet(style)
 export default class EditableText extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

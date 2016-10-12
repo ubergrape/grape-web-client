@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import capitalize from 'lodash/string/capitalize'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import {white} from 'grape-theme/dist/base-colors'
 import {colors} from 'grape-theme/dist/room-settings'
@@ -82,7 +82,7 @@ function RoomIcon(props) {
   )
 }
 
-export default useSheet(RoomIcon, style)
+export default injectSheet(style)(RoomIcon)
 
 RoomIcon.propTypes = {
   sheet: PropTypes.object.isRequired,

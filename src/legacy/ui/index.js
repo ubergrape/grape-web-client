@@ -34,7 +34,6 @@ let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/de
 let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
 let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
-let OrgInvite = exports.OrgInvite = require('./elements/dialogs/OrgInvite')
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -327,13 +326,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
     room: room
   }).closable().overlay().show()
   broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
-}
-
-UI.prototype.onToggleOrgInvite = function () {
-  let invite = new OrgInvite().closable().overlay().show()
-  broker(this, 'inviteSuccess', invite, 'onInviteSuccess')
-  broker(this, 'inviteError', invite, 'onInviteError')
-  broker.pass(invite, 'inviteToOrg', this, 'inviteToOrg')
 }
 
 UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {

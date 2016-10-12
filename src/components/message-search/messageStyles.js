@@ -1,3 +1,5 @@
+import omit from 'lodash/object/omit'
+
 import {styles as linkStyles} from '../message-parts/linkTheme'
 
 const arrowWidth = 7
@@ -5,6 +7,9 @@ const marginRight = 10
 const avatarWidth = 32
 const shadowColor = 'rgba(0,0,0,0.3)'
 const transition = 'box-shadow 150ms ease-out'
+
+const link = omit(linkStyles.link, '&:hover')
+const linkHover = linkStyles['&:hover']
 
 export default {
   message: {
@@ -33,9 +38,11 @@ export default {
   content: {
     transition,
     '&:hover': {
+      isolate: false,
       boxShadow: `0px 1px 8px ${shadowColor}`
     },
-    '& a': linkStyles.link,
+    '& a': link,
+    '& a:hover': linkHover,
     '& pre': {
       display: 'block',
       // FIXME: replace with theme colors.

@@ -10,7 +10,7 @@ import {
 import Dialog from '../dialog/Dialog'
 import style from './style'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   title: {
@@ -22,7 +22,7 @@ const messages = defineMessages({
 /**
  * Billing warning dialog.
  */
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class BillingWarning extends Component {
   static propTypes = {

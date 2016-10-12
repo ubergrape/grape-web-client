@@ -64,3 +64,27 @@ export function getBodyMargin(arrowSize, placement) {
     default:
   }
 }
+
+export function getArrowOffset(placement, align, arrowMargin) {
+  if (placement === 'top' || placement === 'bottom') {
+    switch (align) {
+      case 'center':
+        return {
+          arrowOffsetLeft: '50%'
+        }
+      case 'left':
+        return {
+          arrowOffsetLeft: arrowMargin
+        }
+      case 'right':
+        return {
+          arrowOffsetLeft: `calc(100% - ${arrowMargin}px)`
+        }
+      default:
+    }
+  }
+
+  if (placement === 'left' || placement === 'right') {
+    return {arrowOffsetTop: '50%'}
+  }
+}

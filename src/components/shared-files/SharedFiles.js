@@ -7,7 +7,7 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import style from './sharedFilesStyle'
 import SharedFile from './SharedFile'
@@ -21,7 +21,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class SharedFiles extends Component {
   static propTypes = {

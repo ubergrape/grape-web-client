@@ -1,8 +1,8 @@
-import linkButton from '../../button/link'
+import button from '../../button/link'
 
 export const maxHeight = 350
 
-const basePanel = {
+const panel = {
   position: 'absolute',
   bottom: 0,
   left: 0,
@@ -19,17 +19,14 @@ export const styles = {
     maxHeight
   },
   collapsedPanel: {
-    extend: basePanel,
+    extend: panel,
     paddingTop: 50,
     // FIXME use grape-theme
-    background: [
-      '#edf0f5',
-      'linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, #edf0f5 70%)',
-      '-webkit-linear-gradient(top, rgba(237, 240, 245, 0) 0%, #edf0f5 70%)'
-    ]
+    background: 'linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, #edf0f5 70%)',
+    fallbacks: {
+      background: '#edf0f5'
+    }
   },
-  expandedPanel: basePanel,
-  button: {
-    extend: linkButton
-  }
+  expandedPanel: panel,
+  button
 }

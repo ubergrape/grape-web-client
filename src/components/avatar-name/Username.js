@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 
 import style from './userStyle'
@@ -24,7 +24,7 @@ Status.defaultPros = {
   borderColor: white
 }
 
-@useSheet(style)
+@injectSheet(style)
 export default class Username extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

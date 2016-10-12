@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
 import notification from 'notification'
 import moment from 'moment'
+
 import {
   FormattedMessage,
   defineMessages,
@@ -22,6 +23,7 @@ import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
 import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
 import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
+import Tooltip from '../../tooltip/HoverTooltip'
 import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
@@ -53,6 +55,40 @@ UnsentWarning.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
+function getDeliveryStateTooltipMessage(state) {
+  switch (state) {
+    case 'pending':
+      return (
+        <FormattedMessage
+          id="pending"
+          description="message delivery status in tooltip"
+          defaultMessage="Pending" />
+      )
+    case 'unsent':
+      return (
+        <FormattedMessage
+          id="unsent"
+          description="message delivery status in tooltip"
+          defaultMessage="Unsent" />
+      )
+    case 'sent':
+      return (
+        <FormattedMessage
+          id="sent"
+          description="message delivery status in tooltip"
+          defaultMessage="Sent" />
+      )
+    case 'read':
+      return (
+        <FormattedMessage
+          id="read"
+          description="message delivery status in tooltip"
+          defaultMessage="Read" />
+      )
+    default:
+  }
+}
+
 function DeliveryState({time, state, theme}) {
   // Mark only today's messages.
   const isFresh = moment(time).isSame(new Date(), 'day')
@@ -67,6 +103,11 @@ function DeliveryState({time, state, theme}) {
         classes.stateIndicator,
         classes[`stateIndicator${capitalize(state)}`]
       ].join(' ')}>
+        <Tooltip
+          placement="left"
+          message={getDeliveryStateTooltipMessage(state)}>
+            <span className={classes.stateIndicatorTooltipTrigger} />
+        </Tooltip>
     </span>
   )
 }
@@ -89,7 +130,7 @@ const messages = defineMessages({
 })
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
-@useSheet(styles)
+@injectSheet(styles)
 @injectIntl
 export default class RegularMessage extends Component {
   static propTypes = {
@@ -103,6 +144,7 @@ export default class RegularMessage extends Component {
     hasBubbleArrow: PropTypes.bool.isRequired,
     isOwn: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
+    isPm: PropTypes.bool.isRequired,
     link: PropTypes.string.isRequired,
     onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -179,8 +221,8 @@ export default class RegularMessage extends Component {
   }
 
   onGoToChannel = () => {
-    const {isOwn, author, onGoToChannel} = this.props
-    if (!isOwn && author.slug) onGoToChannel(author.slug)
+    const {isPm, isOwn, author, onGoToChannel} = this.props
+    if (!isPm && !isOwn && author.slug) onGoToChannel(author.slug)
   }
 
   renderMenu = () => {
@@ -220,7 +262,8 @@ export default class RegularMessage extends Component {
   render() {
     const {
       sheet, author, user, time, userTime, avatar, children, hasBubbleArrow,
-      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates
+      state, isOwn, isSelected, onResend, attachments, customEmojis, duplicates,
+      isPm
     } = this.props
     const {classes} = sheet
 
@@ -231,7 +274,7 @@ export default class RegularMessage extends Component {
       Bubble = isOwn ? OwnBubble : MateBubble
     }
 
-    const canPm = !isOwn && author && author.slug
+    const canPm = isPm ? false : Boolean(!isOwn && author && author.slug)
 
     return (
       <div className={classes.message}>
@@ -242,7 +285,8 @@ export default class RegularMessage extends Component {
               time={time}
               userTime={userTime}
               author={author.name}
-              onClickAuthor={isOwn ? undefined : this.onGoToChannel} />
+              theme={sheet}
+              onClickAuthor={canPm ? this.onGoToChannel : undefined} />
           </div>
         }
         <div

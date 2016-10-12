@@ -153,13 +153,6 @@ export function kickMemberFromChannel(params) {
   }
 }
 
-export function showOrgInvite() {
-  reduxEmitter.showOrgInvite()
-  return {
-    type: types.SHOW_ORG_INVITE
-  }
-}
-
 export function enableNotifications() {
   reduxEmitter.enableNotifications()
   // This action don't have reducer yet

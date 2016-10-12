@@ -5,6 +5,7 @@ import {organization, user, server} from 'conf'
 import {addLocaleData} from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
+import moment from 'moment'
 
 import wrapWithIntlProvider from './wrapWithIntlProvider'
 import * as translations from '../i18n'
@@ -21,11 +22,13 @@ import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/sidebar/SidebarProvider'
 import HistoryProvider from '../components/redux-history/HistoryProvider'
-
-addLocaleData([...en, ...de])
+import InviteToOrgProvider from '../components/redux-invite-to-org/InviteToOrgProvider'
 
 const {languageCode, email, username, id: userId} = user
 const messages = translations[languageCode]
+
+addLocaleData([...en, ...de])
+moment.locale(languageCode)
 
 Raven.config(server.sentryJsDsn).install()
 Raven.setUser({
@@ -47,6 +50,10 @@ render(
 render(
   createElement(wrapWithIntlProvider(NewConversationProvider, languageCode, messages)),
   document.body.appendChild(document.createElement('grape-new-conversation'))
+)
+render(
+  createElement(wrapWithIntlProvider(InviteToOrgProvider, languageCode, messages)),
+  document.body.appendChild(document.createElement('grape-invite-to-org'))
 )
 render(
   createElement(wrapWithIntlProvider(UnreadChannelsProvider, languageCode, messages)),

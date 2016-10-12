@@ -11,6 +11,7 @@ export default {
     ...fonts.small,
     whiteSpace: 'nowrap',
     '&:hover': {
+      isolate: false,
       background: color(webColors.alertInfo).lighten(0.8).hexString()
     }
   },
@@ -26,6 +27,7 @@ export default {
     ...inlineLink,
     opacity: 0.8,
     '&:hover': {
+      isolate: false,
       textDecoration: 'underline !important'
     }
   },

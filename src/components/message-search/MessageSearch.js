@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   intlShape,
@@ -17,7 +17,7 @@ import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import DateSeparator from '../message-parts/DateSeparator'
 import {ShowMore} from '../i18n/i18n'
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class MessageSearch extends Component {
   static propTypes = {
@@ -26,6 +26,7 @@ export default class MessageSearch extends Component {
     select: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
     searchOnlyInChannel: PropTypes.bool.isRequired,
+    showRoomMentions: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     images: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
@@ -39,6 +40,7 @@ export default class MessageSearch extends Component {
   static defaultProps = {
     query: '',
     options: [],
+    showRoomMentions: false,
     searchOnlyInChannel: false,
     customEmojis: {}
   }
@@ -73,26 +75,52 @@ export default class MessageSearch extends Component {
     if (!query || !query.length) e.stopPropagation()
   }
 
-  shouldLoad(props) {
-    if (!props.query) return false
-    if (props.query !== this.props.query) return true
-    if (props.searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+  shouldLoad({query, show, searchOnlyInChannel, showRoomMentions}) {
+    switch (show) {
+      case 'search':
+        if (!query) return false
+        if (query !== this.props.query) return true
+        if (searchOnlyInChannel !== this.props.searchOnlyInChannel) return true
+        break
+      case 'mentions':
+        if (showRoomMentions !== this.props.showRoomMentions) return true
+        break
+      default:
+    }
   }
 
   load(props = this.props) {
-    const {items, limit, query, searchOnlyInChannel} = props
+    const {items, limit, query, searchOnlyInChannel, showRoomMentions} = props
     if (!query || !query.length) return
+
+    let options
+    switch (props.show) {
+      case 'mentions':
+        options = {
+          showRoomMentions,
+          shouldReplace: showRoomMentions !== this.props.showRoomMentions
+        }
+        break
+      case 'search':
+        options = {searchOnlyInChannel}
+        break
+      default:
+    }
+
     props.load({
       // Is always the timestamp of the last loaded message.
       offsetDate: items.length ? items[items.length - 1].time : undefined,
       limit,
       query,
-      searchOnlyInChannel
+      options
     })
   }
 
   renderMessages() {
-    const {items: messages, sheet: {classes}} = this.props
+    const {
+      items: messages,
+      sheet: {classes}
+    } = this.props
 
     return messages.reduce((elements, message, index) => {
       const prevMessage = messages[index - 1]

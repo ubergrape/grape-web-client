@@ -8,12 +8,12 @@ const initialState = {}
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.HANDLE_INITIAL_DATA: {
-      const {customSupportEmailAddress: email} = conf.organization
+      const {supportEmail} = conf.organization
       let href = 'mailto:'
       let type
 
-      if (email) {
-        href += email
+      if (supportEmail) {
+        href += supportEmail
         type = 'email'
       } else if (window.Intercom) {
         // TODO: move intercom settings to

@@ -138,7 +138,7 @@ export function inviteToChannel(usernames, channelId) {
   })
 }
 
-export function getMentions({id, limit, offsetDate}) {
+export function getMentions({id, limit, options: {showRoomMentions}, offsetDate}) {
   return new Promise((resolve, reject) => {
     rpc(
       {
@@ -146,7 +146,7 @@ export function getMentions({id, limit, offsetDate}) {
         action: 'get_mentions',
         args: [
           id,
-          'user',
+          showRoomMentions ? null : 'user',
           limit,
           offsetDate
         ]
@@ -367,6 +367,34 @@ export function readMessage(channelId, messageId) {
       ns: 'channels',
       action: 'read',
       args: [channelId, messageId]
+    },
+    err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function getInviteToOrgLink(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'get_invite_url',
+      args: [orgId]
+    },
+    (err, link) => {
+      if (err) return reject(err)
+      resolve(link)
+    })
+  })
+}
+
+export function inviteToOrg(orgId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'organizations',
+      action: 'invite',
+      args: [orgId, settings]
     },
     err => {
       if (err) return reject(err)

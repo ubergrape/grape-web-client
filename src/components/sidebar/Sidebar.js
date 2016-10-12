@@ -12,9 +12,13 @@ import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
 import Intercom from '../intercom/Intercom'
 import style from './style'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 const messages = defineMessages({
+  mentions: {
+    id: 'showRoomMentions',
+    defaultMessage: 'Show Group mentions'
+  },
   label: {
     id: 'onlyInThisConversation',
     defaultMessage: 'Only in this conversation'
@@ -36,6 +40,7 @@ function SidebarContent(props) {
     loadMentions,
     searchMessages,
     toggleSearchOnlyInChannel,
+    toggleShowRoomMentions,
     hideSidebar: hide,
     goToMessage: select
   } = props
@@ -52,6 +57,11 @@ function SidebarContent(props) {
         ...props,
         title: formatMessage(messages.mentionsTitle),
         load: loadMentions,
+        options: [{
+          label: formatMessage(messages.mentions),
+          handler: toggleShowRoomMentions,
+          status: props.showRoomMentions
+        }],
         hide,
         select
       }
@@ -64,7 +74,8 @@ function SidebarContent(props) {
         load: searchMessages,
         options: [{
           label: formatMessage(messages.label),
-          handler: toggleSearchOnlyInChannel
+          handler: toggleSearchOnlyInChannel,
+          status: props.searchOnlyInChannel
         }],
         hide,
         select
@@ -86,14 +97,17 @@ SidebarContent.propTypes = {
   ]).isRequired,
   loadMentions: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
+  showRoomMentions: PropTypes.bool,
+  searchOnlyInChannel: PropTypes.bool,
   toggleSearchOnlyInChannel: PropTypes.func.isRequired,
+  toggleShowRoomMentions: PropTypes.func.isRequired,
   hideSidebar: PropTypes.func.isRequired,
   goToMessage: PropTypes.func.isRequired
 }
 
 const Content = injectIntl(SidebarContent)
 
-@useSheet(style)
+@injectSheet(style)
 export default class Sidebar extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

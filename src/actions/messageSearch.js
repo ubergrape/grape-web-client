@@ -47,7 +47,7 @@ export function searchMessages(params) {
     dispatch(setSidebarIsLoading(true))
 
     const state = getState()
-    const {limit, offsetDate, searchOnlyInChannel} = params
+    const {limit, offsetDate, options: {searchOnlyInChannel}} = params
 
     const searchParams = {
       query,

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
 import RegularMessage from './messages/RegularMessage'
@@ -28,7 +28,7 @@ const messagePropType = PropTypes.shape({
   text: PropTypes.string
 })
 
-@useSheet(styles)
+@injectSheet(styles)
 export default class Row extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -45,6 +45,7 @@ export default class Row extends Component {
     customEmojis: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     isGroupable: PropTypes.bool.isRequired,
+    isPm: PropTypes.bool.isRequired,
     duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
@@ -80,7 +81,7 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, isExpanded
+      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm
     } = this.props
 
     let separator = null
@@ -104,6 +105,7 @@ export default class Row extends Component {
       duplicates: duplicates.length,
       isOwn: message.author.id === user.id,
       isSelected: selectedMessageId === message.id,
+      isPm,
       hasBubbleArrow: true,
       onEdit: this.onEdit,
       onRemove: this.onRemove,

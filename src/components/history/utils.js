@@ -58,11 +58,13 @@ export const createRowsState = (() => {
         message,
         prevMessage,
         isGroupable,
+        isPm: props.channel.type === 'pm',
         isLast: false,
         duplicates: [],
         ...pick(props, 'user', 'customEmojis', 'onEdit', 'onRemove', 'onResend',
           'onGoToChannel', 'selectedMessageId')
       })
+
       map[message.id] = message.id
       return result
     }, {rows: [], map: {}})

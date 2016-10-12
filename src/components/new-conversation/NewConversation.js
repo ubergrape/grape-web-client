@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
   defineMessages,
@@ -9,6 +9,7 @@ import {
   injectIntl
 } from 'react-intl'
 
+import {Create} from '../i18n/i18n'
 import style from './style'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import Settings from './Settings'
@@ -36,7 +37,7 @@ function FooterButtons(props) {
         onClick={onClickCreate}
         className={classes.createButton}
         disabled={!listed.length && !name}>
-        Create
+        <Create />
       </button>
     </div>
   )
@@ -70,7 +71,7 @@ const messages = defineMessages({
   }
 })
 
-@useSheet(style)
+@injectSheet(style)
 @injectIntl
 export default class NewConversation extends Component {
   static propTypes = {

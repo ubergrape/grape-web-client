@@ -1,5 +1,6 @@
 import {white} from 'grape-theme/dist/base-colors'
 import {borderDark} from 'grape-theme/dist/web-colors'
+import {small} from 'grape-theme/dist/fonts'
 
 export const arrowSize = 18
 export const borderSize = 1
@@ -10,6 +11,7 @@ export const styles = {
     border: `${borderSize}px solid ${borderDark}`
   },
   body: {
+    extend: small,
     borderRadius: 6,
     background: white,
     boxShadow: '0 3px 8px rgba(0,0,0,0.15)',

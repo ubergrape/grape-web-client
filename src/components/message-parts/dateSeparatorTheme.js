@@ -1,5 +1,5 @@
 import {borderDefault} from 'grape-theme/dist/web-colors'
-import fonts from 'grape-theme/dist/fonts'
+import {small, normal} from 'grape-theme/dist/fonts'
 
 export const styles = {
   separator: {
@@ -21,8 +21,9 @@ export const styles = {
     }
   },
   date: {
+    extend: small,
     position: 'relative',
     fontWeight: 'bold',
-    padding: `3px ${fonts.normal.fontSize}px`
+    padding: `3px ${normal.fontSize}px`
   }
 }

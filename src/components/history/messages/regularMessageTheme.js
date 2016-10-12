@@ -5,12 +5,20 @@ import {styles as baseStyles, horizontalMargin} from './baseMessageTheme'
 import createInlineIcon from '../../inline-icon/create'
 
 const stateIndicatorSize = 12
+const stateIndicatorIcon = {
+  '&:before': {
+    position: 'absolute',
+    right: 0,
+    top: 0
+  }
+}
 
 export const styles = {
   ...baseStyles,
   clickable: {
     cursor: 'pointer',
     '&:hover': {
+      isolate: false,
       opacity: 0.8
     }
   },
@@ -41,22 +49,29 @@ export const styles = {
   stateIndicator: {
     position: 'absolute',
     right: -(stateIndicatorSize + horizontalMargin) / 2,
-    bottom: 0
+    bottom: 0,
+    width: stateIndicatorSize,
+    height: stateIndicatorSize
   },
-  stateIndicatorPending: createInlineIcon('waiting', {
-    color: gray,
-    size: stateIndicatorSize
-  }),
-  stateIndicatorUnsent: createInlineIcon('waiting', {
-    color: gray,
-    size: stateIndicatorSize
-  }),
-  stateIndicatorSent: createInlineIcon('checkmark', {
-    color: gray,
-    size: stateIndicatorSize
-  }),
-  stateIndicatorRead: createInlineIcon('checkmarkFilled', {
-    color: gray,
-    size: stateIndicatorSize
-  })
+  stateIndicatorPending: {
+    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+    ...stateIndicatorIcon
+  },
+  stateIndicatorUnsent: {
+    ...createInlineIcon('waiting', {color: gray, size: stateIndicatorSize}),
+    ...stateIndicatorIcon
+  },
+  stateIndicatorSent: {
+    ...createInlineIcon('checkmark', {color: gray, size: stateIndicatorSize}),
+    ...stateIndicatorIcon
+  },
+  stateIndicatorRead: {
+    ...createInlineIcon('checkmarkFilled', {color: gray, size: stateIndicatorSize}),
+    ...stateIndicatorIcon
+  },
+  stateIndicatorTooltipTrigger: {
+    display: 'block',
+    width: stateIndicatorSize,
+    height: stateIndicatorSize
+  }
 }

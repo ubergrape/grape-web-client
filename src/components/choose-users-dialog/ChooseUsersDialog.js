@@ -5,7 +5,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
-import {useSheet} from 'grape-web/lib/jss'
+import injectSheet from 'grape-web/lib/jss'
 
 import style from './style'
 import {getFilteredUsers} from './utils'
@@ -77,7 +77,7 @@ NoUsers.propTypes = {
   sheet: PropTypes.object.isRequired
 }
 
-function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
+function OrgInviteButton({isInviter, onHide, showInviteToOrg, theme}) {
   if (!isInviter) return null
 
   const {classes} = theme
@@ -87,7 +87,7 @@ function OrgInviteButton({isInviter, onHide, showOrgInvite, theme}) {
         className={classes.orgInviteButton}
         onClick={() => {
           onHide()
-          showOrgInvite()
+          showInviteToOrg()
         }}>
         <FormattedMessage
           id="inviteToTeam"
@@ -101,7 +101,7 @@ OrgInviteButton.propTypes = {
   theme: PropTypes.object.isRequired,
   isInviter: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
-  showOrgInvite: PropTypes.func.isRequired
+  showInviteToOrg: PropTypes.func.isRequired
 }
 
 const messages = defineMessages({
@@ -114,7 +114,7 @@ const messages = defineMessages({
 function ChooseUsersDialog(props) {
   const {
     sheet, show, filter, listed, title,
-    children, isInviter, showOrgInvite,
+    children, isInviter, showInviteToOrg,
     beforeList, filterFocus, onHide,
     onChangeFilter, onSelectUser,
     onRemoveSelectedUser
@@ -149,7 +149,7 @@ function ChooseUsersDialog(props) {
           <OrgInviteButton
             isInviter={isInviter}
             onHide={onHide}
-            showOrgInvite={showOrgInvite}
+            showInviteToOrg={showInviteToOrg}
             theme={{classes}} />
         </FilterableList>
         {children}
@@ -167,7 +167,7 @@ ChooseUsersDialog.propTypes = {
   onChangeFilter: PropTypes.func.isRequired,
   onSelectUser: PropTypes.func.isRequired,
   onRemoveSelectedUser: PropTypes.func.isRequired,
-  showOrgInvite: PropTypes.func.isRequired,
+  showInviteToOrg: PropTypes.func.isRequired,
   listed: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
   title: PropTypes.oneOfType([
@@ -180,4 +180,4 @@ ChooseUsersDialog.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default injectIntl(useSheet(ChooseUsersDialog, style))
+export default injectIntl(injectSheet(style)(ChooseUsersDialog))

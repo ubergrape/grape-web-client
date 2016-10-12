@@ -6,15 +6,16 @@ import color from 'color'
 export const placement = 'bottom'
 export const tooltipOffset = 9
 export const arrowOffset = 30
+export const horizontalPadding = 10
 
 const input = {
-  ...fonts.bigger,
   width: '100%',
   outline: 'none',
-  padding: '1px 10px',
+  padding: `1px ${horizontalPadding}px`,
   borderRadius: 5,
   border: '1px solid',
   '&:disabled': {
+    isolate: false,
     opacity: 0.6,
     pointerEvents: 'none'
   }
