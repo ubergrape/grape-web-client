@@ -36,9 +36,12 @@
   "You can write in *italic*, **bold** and in ~~strike trough~~": "Sie können Ihre Nachrichten *kursiv*, **fett** und ~~durchgestrichen~~ schreiben",
   "Result": "Ergebnis",
   "You can write in ": "Sie können schreiben in",
+  "You can write in": "Sie können schreiben in",
   "italic": "kursiv",
   "bold ": "fett",
+  "bold": "fett",
   "and in ": "und in",
+  "and in": "und in",
   "strike trough": "durchgestrichen",
   "Links": "Links",
   "[A link to ChatGrape](https://chatgrape.com)": "[Ein Link zu Grape](https://chatgrape.com)",
@@ -112,6 +115,6 @@
   "Active": "Aktiv",
   "Invited": "Eingeladen",
   "Deleted": "Entfernt",
-  "Please enter at least one user to invite": "Bitte geben Sie mindestens einen Mitarbeiter ein, den Sie einladen möchten",
+  "Please enter at least one user to invite": "Bitte geben Sie mindestens eine/n MitarbeiterIn ein, den/die Sie einladen möchten",
   "Enter valid email addresses separated by a space.": "Geben Sie gültige Email-Adressen ein, getrennt mittels Leerzeichen."
 }
