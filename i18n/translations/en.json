@@ -11,6 +11,8 @@
   "searchInfo": "Search Wikipedia, YouTube, Giphy and {tools} by clicking {plusIcon} or pressing the plus key on your keyboard",
   "yourBusinessTools": "your business tools",
   "_yourBusinessTools.comment": "*Describe yourBusinessTools*: link used in sentence 'Search Wikipedia, Youtube, Giphy and {tools}'",
+  "resultsAmountHint": "{amount} results",
+  "_resultsAmountHint.comment": "Amount of results hin in the grape-search header.",
   "grapeSearch": "Grape Search",
   "noResults": "No Results.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Result} other {Results}}",
