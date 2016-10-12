@@ -29,7 +29,7 @@ export function formatGroupedResults({results, services, search}) {
       id: `header-${serviceId}`,
       type: 'header',
       label: service.label,
-      hint: `${service.count} results`
+      resultsAmount: service.count
     })
 
     // Build new result items.

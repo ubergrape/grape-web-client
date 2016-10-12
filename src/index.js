@@ -29,6 +29,7 @@ class App extends Component {
 
   render() {
     const {locale} = this.props
+
     return (
       <IntlProvider locale={locale} messages={translations[locale]}>
         <GrapeBrowser {...this.props} />

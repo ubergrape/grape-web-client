@@ -50,7 +50,9 @@ export default class ServiceList extends Component {
 
   renderBody() {
     const {
-      services, focused, sheet: {classes}, intl: {formatMessage}
+      services, focused,
+      sheet: {classes},
+      intl: {formatMessage}
     } = this.props
 
     if (!services.length) {
