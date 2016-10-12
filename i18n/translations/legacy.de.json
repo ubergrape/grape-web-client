@@ -112,6 +112,6 @@
   "Active": "Aktiv",
   "Invited": "Eingeladen",
   "Deleted": "Entfernt",
-  "Please enter at least one user to invite": "Bitte geben Sie mindestens eine MitarbeiterIn ein, den Sie einladen möchten",
-  "Enter valid email addresses separated by a space.": "Geben Sie gültige E-Mail-Adressen ein, getrennt mittels Leerzeichen."
+  "Please enter at least one user to invite": "Bitte geben Sie mindestens eine/n MitarbeiterIn ein, den/die Sie einladen möchten",
+  "Enter valid email addresses separated by a space.": "Geben Sie gültige Email-Adressen ein, getrennt mittels Leerzeichen."
 }
