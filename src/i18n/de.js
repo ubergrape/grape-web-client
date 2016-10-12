@@ -14,6 +14,7 @@ export default {
   "noDetailForItem": "Keine Zusatzinformationen für dieses Ergebnis",
   "searchInfo": "Durchsuchen Sie Wikipedia, YouTube und {tools}, indem Sie {plusIcon} rechts-oben oder auf Ihrer Tastatur drücken.",
   "yourBusinessTools": "Ihre Firmen-Software",
+  "resultsAmountHint": "{amount} Ergebnisse",
   "grapeSearch": "Grape-Suche",
   "noResults": "Keine Ergebnisse.",
   "amountResults": "{resultsAmount} {resultsAmount, plural, one {Ergebnis} other {Ergebnisse}}",
