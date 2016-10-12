@@ -9,6 +9,7 @@ import {
   injectIntl
 } from 'react-intl'
 
+import {Create} from '../i18n/i18n'
 import style from './style'
 import ChooseUsersDialog from '../choose-users-dialog/ChooseUsersDialog'
 import Settings from './Settings'
@@ -36,7 +37,7 @@ function FooterButtons(props) {
         onClick={onClickCreate}
         className={classes.createButton}
         disabled={!listed.length && !name}>
-        Create
+        <Create />
       </button>
     </div>
   )
