@@ -19,7 +19,7 @@ const messages = defineMessages({
   hint: {
     id: 'resultsAmountHint',
     defaultMessage: '{amount} results',
-    description: "Amount of results hin in the grape-search header."
+    description: 'Amount of results hin in the grape-search header.'
   }
 })
 
@@ -31,6 +31,7 @@ const messages = defineMessages({
 export default class Results extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     focusedResult: PropTypes.object,
     focusedView: PropTypes.oneOf(listTypes),
     data: PropTypes.array,
