@@ -42,6 +42,12 @@ export default class AccentMode extends Component {
     this.props.onChange(false)
   }
 
+  onBlur = () => {
+    const {onBlur} = this.props.children.props
+    onBlur()
+    this.onExit()
+  }
+
   render() {
     return (
       cloneElement(this.props.children, {
@@ -49,7 +55,7 @@ export default class AccentMode extends Component {
         onChange: ::this.onEditableChange,
         onKeyDown: ::this.onKeyDown,
         onClick: ::this.onExit,
-        onBlur: ::this.onExit
+        onBlur: this.onBlur
       })
     )
   }

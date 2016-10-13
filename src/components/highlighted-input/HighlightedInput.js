@@ -268,7 +268,7 @@ export default class HighlightedInput extends Component {
             onScroll={this.onScroll}
             value={this.state.value}
             className={`${classes.editable} ${theme.editable}`} />
-          </AccentMode>
+        </AccentMode>
       </div>
     )
   }

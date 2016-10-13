@@ -193,7 +193,8 @@ export default class GrapeBrowser extends Component {
     // Delay blur event for the case when an external button was clicked,
     // because we are going to regain focus in a bit.
     setTimeout(() => {
-      if (browserWithInput[this.state.browser] === false) {
+      const {browser, browserWithInput} = this.state
+      if (!browser || browserWithInput[browser] === false) {
         this.emit('blur')
       }
     }, 100)
