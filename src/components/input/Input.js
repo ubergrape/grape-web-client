@@ -68,29 +68,29 @@ export default class Input extends Component {
     }
   }
 
-  onInput(e) {
+  onInput = (e) => {
     const queryStr = QUERY_TYPES[this.props.type] + e.target.value
     const query = parseQuery(queryStr)
     this.query.set(query)
   }
 
-  onBlur(e) {
+  onBlur = (e) => {
     this.setState({focused: false})
     this.props.onBlur(e)
   }
 
-  onChangeQuery() {
+  onChangeQuery = () => {
     const query = this.query.toJSON()
     this.setState({value: query.key})
     this.props.onInput(query)
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     e.detail = {query: this.query.toJSON()}
     this.props.onKeyDown(e)
   }
 
-  onChangeFilters({filters}) {
+  onChangeFilters = ({filters}) => {
     this.query.set('filters', filters, {silent: true})
     this.props.onChangeFilters(this.state.value)
   }
@@ -115,9 +115,9 @@ export default class Input extends Component {
         placeholder={this.props.placeholder}
         ref="input"
         data-test="input"
-        onChange={::this.onInput}
-        onKeyDown={::this.onKeyDown}
-        onBlur={::this.onBlur} />
+        onChange={this.onInput}
+        onKeyDown={this.onKeyDown}
+        onBlur={this.onBlur} />
     )
   }
 }
