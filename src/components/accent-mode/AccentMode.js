@@ -26,25 +26,24 @@ export default class AccentMode extends Component {
     this.setState({value: nextProps.children.props.value})
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     this.props.onChange(e.keyCode === 229)
     this.props.children.props.onKeyDown(e)
   }
 
-  onEditableChange(e) {
+  onEditableChange = (e) => {
     this.setState({
       value: e.target.value
     })
     this.props.children.props.onChange(e)
   }
 
-  onExit() {
+  onExit = () => {
     this.props.onChange(false)
   }
 
-  onBlur = () => {
-    const {onBlur} = this.props.children.props
-    onBlur()
+  onBlur = () => {
+    this.props.children.props.onBlur()
     this.onExit()
   }
 
@@ -52,9 +51,9 @@ export default class AccentMode extends Component {
     return (
       cloneElement(this.props.children, {
         value: this.state.value,
-        onChange: ::this.onEditableChange,
-        onKeyDown: ::this.onKeyDown,
-        onClick: ::this.onExit,
+        onChange: this.onEditableChange,
+        onKeyDown: this.onKeyDown,
+        onClick: this.onExit,
         onBlur: this.onBlur
       })
     )
