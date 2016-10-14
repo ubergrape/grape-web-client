@@ -3,7 +3,7 @@ import {Component, PropTypes} from 'react'
 // TODO
 // - rename to react-event
 // - enable children to be emitter
-// - enable debounce, throttle
+// - enable throttle
 // - use onClick etc instead of events
 export default class GlobalEvent extends Component {
   static propTypes = {
@@ -15,15 +15,7 @@ export default class GlobalEvent extends Component {
   }
 
   static defaultProps = {
-    emitter: window,
-    event: undefined,
-    handler: undefined,
-    debounce: 0
-  }
-
-  constructor(props) {
-    super(props)
-    this.handler = ::this.handler
+    emitter: window
   }
 
   componentDidMount() {
@@ -34,14 +26,18 @@ export default class GlobalEvent extends Component {
     this.props.emitter.removeEventListener(this.props.event, this.handler)
   }
 
-  handler(e) {
-    if (this.props.debounce) {
-      clearTimeout(this.timeoutId)
-      this.timeoutId = setTimeout(() => {
-        this.props.handler(e)
-      })
+  handler = (e) => {
+    const {debounce, handler} = this.props
+
+    if (debounce === undefined) {
+      handler(e)
+      return
     }
-    else this.props.handler(e)
+
+    clearTimeout(this.timeoutId)
+    this.timeoutId = setTimeout(() => {
+      handler(e)
+    }, debounce)
   }
 
   render() {
