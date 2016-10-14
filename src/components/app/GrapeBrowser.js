@@ -18,7 +18,6 @@ import Datalist from '../datalist/Datalist'
 import * as mentions from '../mentions/mentions'
 import {TYPES as QUERY_TYPES} from '../query/constants'
 import QueryModel from '../query/Model'
-import GlobalEvent from 'grape-web/lib/global-event/GlobalEvent'
 import * as emoji from '../emoji'
 import * as emojiSuggest from '../emoji-suggest'
 import style from './style'
@@ -205,7 +204,7 @@ export default class GrapeBrowser extends Component {
     this.emit('focus')
   }
 
-  onEmojiBrowserOutsideClick = (e) => {
+  onEmojiBrowserOutsideClick = () => {
     this.closeBrowser(null, () => {
       const {browser} = this.state
       this.emit('abort', {reason: 'esc', browser})
