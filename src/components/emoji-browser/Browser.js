@@ -8,6 +8,7 @@ import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import {shouldPureComponentUpdate} from 'react-pure-render'
 import injectSheet from 'grape-web/lib/jss'
+import wrapWithOutsideClickListener from 'grape-web/lib/outside-click'
 import {
   defineMessages,
   intlShape,
@@ -50,7 +51,6 @@ class Browser extends Component {
     onDidMount: PropTypes.func,
     onAbort: PropTypes.func,
     onSelectItem: PropTypes.func,
-    onBlur: PropTypes.func,
     container: PropTypes.element,
     className: PropTypes.string,
     focused: PropTypes.bool,
@@ -64,7 +64,6 @@ class Browser extends Component {
     right: 0,
     className: '',
     onSelectItem: noop,
-    onBlur: noop,
     onDidMount: noop,
     onAbort: noop
   }
@@ -294,7 +293,6 @@ class Browser extends Component {
           debounce={500} />
         <Input
           onInput={::this.onInput}
-          onBlur={this.props.onBlur}
           onKeyDown={::this.onKeyDown}
           focused={this.props.focused}
           className={classes.input}
@@ -322,7 +320,8 @@ class Browser extends Component {
   }
 }
 
-const PublicBrowser = injectIntl(injectSheet(style)(Browser))
+const PublicBrowser = injectIntl(wrapWithOutsideClickListener(injectSheet(style)(Browser)))
+
 PublicBrowser.init = init
 
 export default PublicBrowser

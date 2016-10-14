@@ -47,6 +47,7 @@ export default class GrapeBrowser extends Component {
     placeholder: PropTypes.string,
     setTrigger: PropTypes.bool,
     disabled: PropTypes.bool,
+    focused: PropTypes.bool,
     sheet: PropTypes.object.isRequired,
     customEmojis: PropTypes.object,
     images: PropTypes.object,
@@ -204,18 +205,11 @@ export default class GrapeBrowser extends Component {
     this.emit('focus')
   }
 
-  onBlurBrowser = () => {
-    // We don't want to close browser when entire window looses the focus.
-    this.blurTimeoutId = setTimeout(() => {
-      this.closeBrowser(null, () => {
-        const {browser} = this.state
-        this.emit('abort', {reason: 'esc', browser})
-      })
-    }, 100)
-  }
-
-  onBlurWindow = () => {
-    clearTimeout(this.blurTimeoutId)
+  onEmojiBrowserOutsideClick = (e) => {
+    this.closeBrowser(null, () => {
+      const {browser} = this.state
+      this.emit('abort', {reason: 'esc', browser})
+    })
   }
 
   onChangeSearchBrowser = (data) => {
@@ -401,10 +395,13 @@ export default class GrapeBrowser extends Component {
 
   renderBrowser() {
     const {browser, browserOpened, data} = this.state
+
     if (!browser || !browserOpened) return null
 
-    const {classes} = this.props.sheet
-    const {images} = this.props
+    const {
+      sheet: {classes},
+      images
+    } = this.props
 
     if (browser === 'search') {
       return (
@@ -432,7 +429,7 @@ export default class GrapeBrowser extends Component {
           customEmojis={this.props.customEmojis}
           onAbort={this.onAbort}
           onSelectItem={this.onSelectEmojiBrowserItem}
-          onBlur={this.onBlurBrowser}
+          onOutsideClick={this.onEmojiBrowserOutsideClick}
           onDidMount={this.onDidMountBrowser} />
       )
     }
@@ -454,7 +451,6 @@ export default class GrapeBrowser extends Component {
       <div
         className={classes.grapeBrowser}
         data-test="grape-browser">
-        <GlobalEvent event="blur" handler={this.onBlurWindow} />
         {this.renderBrowser()}
         <div className={classes.scroll}>
           <GrapeInput
