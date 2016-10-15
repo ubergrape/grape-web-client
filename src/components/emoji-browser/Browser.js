@@ -48,9 +48,10 @@ class Browser extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    onDidMount: PropTypes.func,
-    onAbort: PropTypes.func,
-    onSelectItem: PropTypes.func,
+    onDidMount: PropTypes.func.isRequired,
+    onAbort: PropTypes.func.isRequired,
+    onSelectItem: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     container: PropTypes.element,
     className: PropTypes.string,
     focused: PropTypes.bool,
@@ -65,7 +66,8 @@ class Browser extends Component {
     className: '',
     onSelectItem: noop,
     onDidMount: noop,
-    onAbort: noop
+    onAbort: noop,
+    onClick: noop
   }
 
   constructor(props) {
