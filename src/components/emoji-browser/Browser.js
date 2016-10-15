@@ -93,43 +93,38 @@ class Browser extends Component {
     this.grid = null
   }
 
-  onFocusItem({id}) {
+  onFocusItem = ({id}) => {
     this.focusItem(id)
   }
 
-  onSelectItem({id}) {
+  onSelectItem = ({id}) => {
     this.selectItem(id)
   }
 
-  onSelectTab({id}) {
+  onSelectTab = ({id}) => {
     this.selectTab(id)
   }
 
-  onGridDidMount(grid) {
+  onGridDidMount = (grid) => {
     this.grid = grid
   }
 
-  onInput({search}) {
+  onInput = ({search}) => {
     this.setState({
       search: search,
       facet: search ? 'search' : undefined
     })
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     this.navigate(e)
   }
 
-  onMouseDown(e) {
-    // Avoids loosing focus and though caret position in input.
-    e.preventDefault()
-  }
-
-  onResize() {
+  onResize = () => {
     this.cacheItemsPerRow()
   }
 
-  getFocusedItem() {
+  getFocusedItem = () => {
     return dataUtils.getFocusedItem(this.state.sections)
   }
 
@@ -161,7 +156,7 @@ class Browser extends Component {
   exposePublicMethods() {
     const {container} = this.props
     if (!container) return
-    PUBLIC_METHODS.forEach(method => container[method] = ::this[method])
+    PUBLIC_METHODS.forEach(method => container[method] = this[method])
   }
 
   cacheItemsPerRow() {
@@ -204,7 +199,7 @@ class Browser extends Component {
     this.setState({facet})
   }
 
-  focusItem(id) {
+  focusItem(id) => {
     const {sections} = this.state
     if (!sections.length) return
     let nextItemId = id
@@ -282,22 +277,23 @@ class Browser extends Component {
     const {classes} = this.props.sheet
     const {formatMessage} = this.props.intl
     const {sections} = this.state
+
     return (
       <div
         className={`${classes.browser} ${this.props.className}`}
         style={pick(this.props, 'height', 'maxWidth', 'right')}
-        onMouseDown={::this.onMouseDown}>
+        onClick={this.props.onClick}>
         <GlobalEvent
           event="resize"
-          handler={::this.onResize}
+          handler={this.onResize}
           debounce={500} />
         <Input
-          onInput={::this.onInput}
-          onKeyDown={::this.onKeyDown}
+          onInput={this.onInput}
+          onKeyDown={this.onKeyDown}
           focused={this.props.focused}
           className={classes.input}
           type="emoji" />
-        <TabsWithControls data={this.state.tabs} onSelect={::this.onSelectTab} />
+        <TabsWithControls data={this.state.tabs} onSelect={this.onSelectTab} />
         {!sections.length && <Empty text={formatMessage(messages.empty)} />}
         {sections.length > 0 &&
           <div className={classes.column}>
@@ -309,9 +305,9 @@ class Browser extends Component {
                 focusedItem={dataUtils.getFocusedItem(sections)}
                 className={classes.leftColumn}
                 section={{contentClassName: classes.sectionContent}}
-                onFocus={::this.onFocusItem}
-                onSelect={::this.onSelectItem}
-                onDidMount={::this.onGridDidMount} />
+                onFocus={this.onFocusItem}
+                onSelect={this.onSelectItem}
+                onDidMount={this.onGridDidMount} />
             </div>
           </div>
         }
