@@ -199,7 +199,7 @@ class Browser extends Component {
     this.setState({facet})
   }
 
-  focusItem(id) => {
+  focusItem = (id) => {
     const {sections} = this.state
     if (!sections.length) return
     let nextItemId = id
