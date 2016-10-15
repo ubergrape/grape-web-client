@@ -2,10 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import * as themes from './themes'
 import {Done} from '../i18n/i18n'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
 

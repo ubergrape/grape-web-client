@@ -4,10 +4,10 @@ import {
   defineMessages,
   intlShape
 } from 'react-intl'
+import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import Favorite from '../favorite/Favorite'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
 
 const messages = defineMessages({
   placeholder: {

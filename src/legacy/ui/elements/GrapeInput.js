@@ -117,8 +117,8 @@ export default class GrapeInput extends Emitter {
   bindEvents() {
     this.events = events(this.el, this)
     this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
-    this.events.bind('mousedown .js-emoji-browser-button', 'onToggleEmojiBrowser')
-    this.events.bind('mousedown .js-search-browser-button', 'onOpenSearchBrowser')
+    this.events.bind('click .js-emoji-browser-button', 'onToggleEmojiBrowser')
+    this.events.bind('click .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
     this.events.bind('grapeLoadServices grape-input', 'onLoadServices')
     this.events.bind('grapeLoadServicesResultsAmounts grape-input', 'onLoadServicesResultsAmounts')
@@ -514,6 +514,7 @@ export default class GrapeInput extends Emitter {
 
   onToggleEmojiBrowser(e) {
     e.preventDefault()
+    e.stopPropagation()
     if (this.input.props.browser === 'emoji') {
       this.closeBrowser()
       return
