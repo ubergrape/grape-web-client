@@ -47,6 +47,8 @@ export default class Row extends Component {
     isGroupable: PropTypes.bool.isRequired,
     isPm: PropTypes.bool.isRequired,
     duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    style: PropTypes.object,
+    key: PropTypes.string,
     isExpanded: PropTypes.bool,
     // Will highlight a message by id.
     selectedMessageId: PropTypes.string
@@ -81,7 +83,8 @@ export default class Row extends Component {
     const {
       sheet: {classes},
       user, onGoToChannel, selectedMessageId, message, prevMessage, customEmojis,
-      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm
+      isLast, isGroupable, duplicates, onToggleExpander, isExpanded, isPm,
+      style, key
     } = this.props
 
     let separator = null
@@ -123,7 +126,10 @@ export default class Row extends Component {
     }
 
     return (
-      <div className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}>
+      <div
+        className={`${classes[isGroupable ? 'groupedRow' : 'row']} ${isLast ? classes.lastRow : ''}`}
+        style={style}
+        key={key}>
         {separator}
         <Message {...props}>
           {message.text}

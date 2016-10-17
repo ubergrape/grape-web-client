@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {VirtualScroll, AutoSizer, CellMeasurer} from 'react-virtualized'
+import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
 import shallowCompare from 'react-addons-shallow-compare'
 import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'
@@ -31,7 +31,7 @@ export default class InfiniteList extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows !== this.props.rows) {
       this.cache.setRows(nextProps.rows)
-      this.virtualScroll.recomputeRowHeights()
+      this.list.recomputeRowHeights()
     }
   }
 
@@ -39,8 +39,8 @@ export default class InfiniteList extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onRefVirtualScroll = (ref) => {
-    this.virtualScroll = ref
+  onRefList = (ref) => {
+    this.list = ref
   }
 
   onResizeViewport = ({width}) => {
@@ -49,7 +49,7 @@ export default class InfiniteList extends Component {
     // this function is called in some cases even when width has not changed.
     if (this.prevWidth !== undefined && this.prevWidth !== width) {
       cache.clear()
-      this.virtualScroll.recomputeRowHeights()
+      this.list.recomputeRowHeights()
     }
     this.prevWidth = width
   }
@@ -97,7 +97,7 @@ export default class InfiniteList extends Component {
                       scrollToIndex,
                       onRowsRendered: onRowsRenderedInAutoScroll
                     }) => (
-                      <VirtualScroll
+                      <List
                         className={classes.grid}
                         scrollToIndex={scrollToIndex}
                         scrollToAlignment={scrollToAlignment}
@@ -116,7 +116,7 @@ export default class InfiniteList extends Component {
                         rowHeight={getRowHeight}
                         rowRenderer={renderRow}
                         overscanRowCount={5}
-                        ref={this.onRefVirtualScroll} />
+                        ref={this.onRefList} />
                     )}
                   </AutoScroll>
                 )}
