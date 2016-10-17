@@ -1,9 +1,8 @@
-import fonts from 'grape-theme/dist/fonts'
-
+import {normal} from 'grape-theme/dist/fonts'
 
 export default {
   container: {
-    ...fonts.normal,
+    extend: normal,
     position: 'relative',
     boxSizing: 'border-box'
   },
@@ -17,6 +16,7 @@ export default {
     textRendering: 'auto'
   },
   token: {
+    extend: normal,
     position: 'relative',
     boxSizing: 'border-box',
     borderRadius: 3,
