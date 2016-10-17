@@ -2965,9 +2965,9 @@
       "resolved": "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-4.0.1.tgz"
     },
     "jss-extend": {
-      "version": "2.0.2",
+      "version": "2.0.3",
       "from": "jss-extend@>=2.0.1 <3.0.0",
-      "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-2.0.2.tgz"
+      "resolved": "https://registry.npmjs.org/jss-extend/-/jss-extend-2.0.3.tgz"
     },
     "jss-isolate": {
       "version": "1.0.0",
