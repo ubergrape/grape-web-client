@@ -45,7 +45,7 @@ export default class AdditionalActionsDropdown extends Component {
 
     const {classes} = theme
     return (
-      <div>
+      <div className={classes.additionalActionsDropdown}>
         <Tooltip
           align="right"
           placement="top"

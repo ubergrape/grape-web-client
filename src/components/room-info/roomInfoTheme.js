@@ -123,9 +123,13 @@ export const styles = {
     background: '0 0 no-repeat',
     color: grayBlue
   },
-  additionalActions: {
-    flexShrink: 0,
-    marginLeft: 20
+  notificationsButton: {
+    extend: [
+      normal,
+      buttonIcon('bell', {color: button, hoverColor: blue, iconOnly: true})
+    ],
+    float: 'left',
+    padding: 5
   },
   settingsButton: {
     extend: [
@@ -134,7 +138,15 @@ export const styles = {
     ],
     display: 'block',
     width: settingsButtonSize,
-    height: settingsButtonSize
+    height: settingsButtonSize,
+    padding: 5
+  },
+  additionalActions: {
+    flexShrink: 0,
+    marginLeft: 10
+  },
+  additionalActionsDropdown: {
+    float: 'left'
   },
   additionalActionButton: {
     extend: [linkButton, normal],

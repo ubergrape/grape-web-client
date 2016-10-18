@@ -51,6 +51,7 @@ export default class MainSettings extends Component {
     const {classes} = this.props
     return (
       <div className={classes.additionalActions}>
+        <button className={classes.notificationsButton}></button>
         <AdditionalActionsDropdown
           {...this.props}
           container={this}

@@ -177,6 +177,7 @@ export default class RoomInfo extends Component {
         maxLength={maxChannelDescriptionLength}
         onSave={::this.onSetRoomDescription}
         value={channel.description}
+        preserveSpaceForButton
         multiline />
     )
   }
