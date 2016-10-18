@@ -2391,9 +2391,9 @@
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
     },
     "grape-browser": {
-      "version": "3.4.6",
-      "from": "grape-browser@>=3.4.6 <4.0.0",
-      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.4.6.tgz"
+      "version": "3.4.7",
+      "from": "grape-browser@>=3.4.7 <4.0.0",
+      "resolved": "https://registry.npmjs.org/grape-browser/-/grape-browser-3.4.7.tgz"
     },
     "grape-js-emoji": {
       "version": "0.0.1",
