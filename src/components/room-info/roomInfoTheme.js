@@ -1,8 +1,8 @@
 import color from 'color'
-import mixins from 'grape-web/lib/jss-utils/mixins'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 import {small, normal, bigger} from 'grape-theme/dist/fonts'
-import colors from 'grape-theme/dist/base-colors'
-import webColors from 'grape-theme/dist/web-colors'
+import {blue, grayBlueDark, grayBlue, grayBlueLight, red} from 'grape-theme/dist/base-colors'
+import {borderDefault, borderLight, button} from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
@@ -10,9 +10,9 @@ import buttonIcon from '../button/icon'
 const marginBottom = 15
 const paddingBottom = 15
 
-const hoverColor = color(colors.blue).lighten(0.05).rgbaString()
+const hoverColor = color(blue).lighten(0.05).rgbaString()
 
-const button = {
+const baseButton = {
   extend: [linkButton, normal],
   display: 'block',
   marginBottom: marginBottom / 2,
@@ -26,27 +26,23 @@ const button = {
 const divider = {
   marginBottom,
   paddingBottom,
-  borderBottom: `1px solid ${colors.grayBlueLight}`
+  borderBottom: `1px solid ${grayBlueLight}`
 }
 
-export const additionalActionsButtonSize = normal.fontSize
+export const settingsButtonSize = normal.fontSize
 
 export const styles = {
   channelInfo: {
-    color: colors.grayBlueDark
+    color: grayBlueDark
   },
   header: {
     marginBottom,
-    borderBottom: webColors.borderDefault
+    borderBottom: borderDefault
   },
-  description: {
-    ...divider
-  },
-  descriptionText: {
-    ...normal
-  },
+  description: divider,
+  descriptionText: normal,
   actions: {
-    ...divider,
+    extend: divider,
     marginBottom,
     '& :last-child': {
       marginBottom: 0
@@ -56,22 +52,28 @@ export const styles = {
     marginTop: 10
   },
   buttonInvite: {
-    ...button,
-    ...buttonIcon('invite', {color: colors.blue, hoverColor, size: 18})
+    extend: [
+      baseButton,
+      buttonIcon('invite', {color: blue, hoverColor, size: 18})
+    ]
   },
   buttonIntegration: {
-    ...button,
-    color: colors.grayBlueDark,
-    ...buttonIcon('iconLink', {color: colors.grayBlueDark, hoverColor, size: 18})
+    extend: [
+      baseButton,
+      buttonIcon('iconLink', {color: grayBlueDark, hoverColor, size: 18})
+    ],
+    color: grayBlueDark
   },
   buttonLeave: {
-    ...button,
-    color: colors.grayBlueDark,
-    ...buttonIcon('exit', {color: colors.grayBlueDark, hoverColor, size: 18})
+    extend: [
+      baseButton,
+      buttonIcon('exit', {color: grayBlueDark, hoverColor, size: 18})
+    ],
+    color: grayBlueDark
   },
   buttonKick: {
     extend: [
-      buttonIcon('close', {color: colors.grayBlueDark, hoverColor, iconOnly: true}),
+      buttonIcon('close', {color: grayBlueDark, hoverColor, iconOnly: true}),
       small
     ],
     flexShrink: 0,
@@ -93,65 +95,64 @@ export const styles = {
     marginRight: 10
   },
   name: {
-    ...mixins.ellipsis,
-    ...normal,
+    extend: [ellipsis, normal],
     flex: 1,
     alignSelf: 'center',
-    color: colors.grayBlueDark,
+    color: grayBlueDark,
     '&:hover': {
       isolate: false,
       color: hoverColor
     }
   },
   roomName: {
-    ...bigger,
+    extend: bigger,
     width: '100%'
   },
   roomDescription: {
-    ...normal,
-    ...divider
+    extend: [normal, divider]
   },
   mainSettings: {
-    ...divider,
+    extend: divider,
     position: 'relative',
     display: 'flex',
     alignItems: 'center'
   },
   title: {
-    ...small,
+    extend: small,
     textTransform: 'uppercase',
     background: '0 0 no-repeat',
-    color: colors.grayBlue
+    color: grayBlue
   },
   additionalActions: {
     flexShrink: 0,
     marginLeft: 20
   },
-  additionalActionsButton: {
-    ...normal,
-    ...buttonIcon('cog', {color: webColors.button, hoverColor: colors.blue, iconOnly: true}),
+  settingsButton: {
+    extend: [
+      normal,
+      buttonIcon('cog', {color: button, hoverColor: blue, iconOnly: true})
+    ],
     display: 'block',
-    width: additionalActionsButtonSize,
-    height: additionalActionsButtonSize
+    width: settingsButtonSize,
+    height: settingsButtonSize
   },
   additionalActionButton: {
-    ...linkButton,
-    ...normal,
+    extend: [linkButton, normal],
     display: 'block',
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     width: '100%',
     textAlign: 'left',
-    padding: '10px',
-    borderBottom: `1px solid ${webColors.borderLight}`,
+    padding: 10,
+    borderBottom: `1px solid ${borderLight}`,
     '&:hover': {
       isolate: false,
-      color: colors.red,
+      color: red,
       textDecoration: 'underline'
     }
   },
   deleteRoomButton: {
-    color: colors.red
+    color: red
   },
   settingsWrapper: {
     flexShrink: 0

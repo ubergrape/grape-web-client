@@ -78,8 +78,7 @@ export default class MainSettings extends Component {
           maxLength={maxChannelNameLength}
           onSave={renameRoom}
           value={channel.name}
-          error={this.getError()}
-          />
+          error={this.getError()} />
       </div>
     )
   }
