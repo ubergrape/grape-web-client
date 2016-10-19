@@ -20,7 +20,7 @@ import UnreadChannelsProvider from '../components/unread-channels/UnreadChannels
 import OrgInfoProvider from '../components/org-info/OrgInfoProvider'
 import NavigationProvider from '../components/navigation/NavigationProvider'
 import HeaderProvider from '../components/header/HeaderProvider'
-import SidebarProvider from '../components/sidebar/SidebarProvider'
+import SidebarProvider from '../components/redux-sidebar/SidebarProvider'
 import HistoryProvider from '../components/redux-history/HistoryProvider'
 import InviteToOrgProvider from '../components/redux-invite-to-org/InviteToOrgProvider'
 

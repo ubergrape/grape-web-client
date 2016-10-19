@@ -4,8 +4,30 @@ import {Provider, connect} from 'react-redux'
 import {mapActionsToProps} from '../../app/redux'
 import {sidebarComponentSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from './actionNames'
-import Sidebar from './Sidebar'
+import Sidebar from '../sidebar/Sidebar'
+
+const actionNames = [
+  'hideSidebar',
+  'leaveChannel',
+  'goToChannel',
+  'kickMemberFromChannel',
+  'showChannelMembersInvite',
+  'loadSharedFiles',
+  'loadMentions',
+  'goToMessage',
+  'searchMessages',
+  'toggleSearchOnlyInChannel',
+  'toggleShowRoomMentions',
+  'renameRoom',
+  'setRoomDescription',
+  'setRoomPrivacy',
+  'setRoomColor',
+  'setRoomIcon',
+  'clearRoomRenameError',
+  'showRoomDeteteDialog',
+  'goToAddIntegrations',
+  'showNotificationSettings'
+]
 
 const ConnectedSidebar = connect(
   selector,

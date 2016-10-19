@@ -37,6 +37,7 @@ export default class RoomInfo extends Component {
     user: PropTypes.object.isRequired,
     renameError: PropTypes.object,
     showChannelMembersInvite: PropTypes.func.isRequired,
+    showNotificationSettings: PropTypes.func.isRequired,
     kickMemberFromChannel: PropTypes.func.isRequired,
     goToAddIntegrations: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
@@ -66,58 +67,58 @@ export default class RoomInfo extends Component {
     this.setState({...this.state, ...this.getRoles(nextProps)})
   }
 
-  onInvite() {
+  onInvite = () => {
     this.props.showChannelMembersInvite(this.props.channel)
   }
 
-  onAddIntegration() {
+  onAddIntegration = () => {
     this.props.goToAddIntegrations()
   }
 
-  onKickMember(user) {
+  onKickMember = (user) => {
     this.props.kickMemberFromChannel({
       channelId: this.props.channel.id,
       userId: user.id
     })
   }
 
-  onSelectMember(user) {
+  onSelectMember = (user) => {
     this.props.goToChannel(user.slug)
   }
 
-  onLeave() {
+  onLeave = () => {
     this.props.leaveChannel(this.props.channel.id)
   }
 
-  onClose() {
+  onClose = () => {
     this.props.hideSidebar()
   }
 
-  onChangePrivacy() {
+  onChangePrivacy = () => {
     const {setRoomPrivacy, channel} = this.props
     setRoomPrivacy(channel.id, !channel.isPublic)
   }
 
-  onShowRoomDeleteDialog(room) {
+  onShowRoomDeleteDialog = (room) => {
     this.props.showRoomDeteteDialog(room)
   }
 
-  onSetRoomColor(color) {
+  onSetRoomColor = (color) => {
     const {setRoomColor, channel} = this.props
     setRoomColor(channel.id, color)
   }
 
-  onSetRoomIcon(icon) {
+  onSetRoomIcon = (icon) => {
     const {setRoomIcon, channel} = this.props
     setRoomIcon(channel.id, icon)
   }
 
-  onSetRoomDescription(description) {
+  onSetRoomDescription = (description) => {
     const {setRoomDescription, channel} = this.props
     setRoomDescription(channel.id, description)
   }
 
-  onRenameRoom(name) {
+  onRenameRoom = (name) => {
     const {renameRoom, channel} = this.props
     renameRoom(channel.id, name)
   }
@@ -175,7 +176,7 @@ export default class RoomInfo extends Component {
       <EditableText
         placeholder={formatMessage(messages.placeholder)}
         maxLength={maxChannelDescriptionLength}
-        onSave={::this.onSetRoomDescription}
+        onSave={this.onSetRoomDescription}
         value={channel.description}
         preserveSpaceForButton
         multiline />
@@ -200,29 +201,32 @@ export default class RoomInfo extends Component {
 
   render() {
     const {
-      channel, renameError, clearRoomRenameError, intl: {formatMessage}
+      channel, renameError, clearRoomRenameError, showNotificationSettings,
+      intl: {formatMessage},
+      sheet, sheet: {classes}
     } = this.props
+
     if (isEmpty(channel)) return null
 
-    const {classes} = this.props.sheet
     const {allowEdit} = this.state
 
     return (
       <SidebarPanel
         title={formatMessage(messages.title)}
-        onClose={::this.onClose}>
+        onClose={this.onClose}>
         <div className={classes.channelInfo}>
           <MainSettings
             channel={channel}
             clearRoomRenameError={clearRoomRenameError}
             renameError={renameError}
             allowEdit={allowEdit}
-            onSetRoomColor={::this.onSetRoomColor}
-            onSetRoomIcon={::this.onSetRoomIcon}
-            onChangePrivacy={::this.onChangePrivacy}
-            onShowRoomDeleteDialog={::this.onShowRoomDeleteDialog}
-            renameRoom={::this.onRenameRoom}
-            classes={classes} />
+            onSetRoomColor={this.onSetRoomColor}
+            onSetRoomIcon={this.onSetRoomIcon}
+            onChangePrivacy={this.onChangePrivacy}
+            onShowRoomDeleteDialog={this.onShowRoomDeleteDialog}
+            renameRoom={this.onRenameRoom}
+            showNotificationSettings={showNotificationSettings}
+            theme={sheet} />
 
           {this.renderDescription()}
 
@@ -230,7 +234,7 @@ export default class RoomInfo extends Component {
             <ul>
               <li className={classes.actionItem}>
                 <button
-                  onClick={::this.onInvite}
+                  onClick={this.onInvite}
                   className={classes.buttonInvite}>
                     <FormattedMessage
                       id="inviteMoreToGroup"
@@ -239,7 +243,7 @@ export default class RoomInfo extends Component {
               </li>
               <li className={classes.actionItem}>
                 <button
-                  onClick={::this.onAddIntegration}
+                  onClick={this.onAddIntegration}
                   className={classes.buttonIntegration}>
                   <FormattedMessage
                     id="addServiceIntegration"
@@ -248,7 +252,7 @@ export default class RoomInfo extends Component {
               </li>
               <li className={classes.actionItem}>
                 <button
-                  onClick={::this.onLeave}
+                  onClick={this.onLeave}
                   className={classes.buttonLeave}>
                   <FormattedMessage
                     id="leaveChannel"
@@ -258,7 +262,7 @@ export default class RoomInfo extends Component {
               </li>
             </ul>
           </article>
-          {channel.users.map(::this.renderUser)}
+          {channel.users.map(this.renderUser, this)}
         </div>
       </SidebarPanel>
     )

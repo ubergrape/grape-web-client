@@ -20,7 +20,9 @@ const messages = defineMessages({
 @injectIntl
 export default class MainSettings extends Component {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
+    theme: PropTypes.shape({
+      classes: PropTypes.object.isRequired
+    }).isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
     onChangePrivacy: PropTypes.func.isRequired,
@@ -28,6 +30,7 @@ export default class MainSettings extends Component {
     clearRoomRenameError: PropTypes.func.isRequired,
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
+    showNotificationSettings: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool
@@ -47,30 +50,39 @@ export default class MainSettings extends Component {
   }
 
   renderAdditionalActions() {
-    if (!this.props.allowEdit) return null
-    const {classes} = this.props
+    const {
+      showNotificationSettings, allowEdit,
+      theme,
+      theme: {classes}
+    } = this.props
+
+    if (!allowEdit) return null
+
     return (
       <div className={classes.additionalActions}>
-        <button className={classes.notificationsButton}></button>
+        <button
+          className={classes.notificationsButton}
+          onClick={showNotificationSettings}></button>
         <AdditionalActionsDropdown
           {...this.props}
           container={this}
-          theme={{classes}} />
+          theme={theme} />
       </div>
     )
   }
 
   renderRoomName() {
     const {
-      classes,
+      theme: {classes},
+      intl: {formatMessage},
       renameRoom,
       clearRoomRenameError,
       channel,
-      allowEdit,
-      intl: {formatMessage}
+      allowEdit
     } = this.props
 
     if (!allowEdit) return <p className={classes.roomName}>{channel.name}</p>
+
     return (
       <div className={classes.roomName}>
         <EditableText
@@ -87,7 +99,7 @@ export default class MainSettings extends Component {
   renderSettings() {
     const {
       allowEdit,
-      classes
+      theme: {classes}
     } = this.props
 
     if (!allowEdit) return null
@@ -101,7 +113,7 @@ export default class MainSettings extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {theme: {classes}} = this.props
     return (
       <div className={classes.mainSettings}>
         {this.renderSettings()}
