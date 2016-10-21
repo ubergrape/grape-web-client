@@ -32,6 +32,7 @@ function createResetSequence(transport) {
   return createSequence(null, setting => setting.transport === transport)
 }
 
+// Create a sequence which enables all mentions.
 function createAnyMentionSequence(transport) {
   const sequence = createSequence(false, setting => setting.transport === transport)
   return sequence.map(setting => {
@@ -43,6 +44,7 @@ function createAnyMentionSequence(transport) {
   })
 }
 
+// Create a sequence which enables direct mentions only.
 function createDirectMentionSequence(transport) {
   const sequence = createSequence(false, setting => setting.transport === transport)
   return sequence.map(setting => {
@@ -54,11 +56,14 @@ function createDirectMentionSequence(transport) {
   })
 }
 
+// Returns a sequence with settings for a given transport and
+// applies default value.
 function createAllMessagesSeqence(transport, value) {
   return createSequence(value, setting => setting.transport === transport)
 }
 
-export function getSequence({transport, setting, value}) {
+// Returns a sequence for a given transport and setting.
+export function settingsToSequence({transport, setting, value}) {
   if (transport === 'all' && setting === 'all') {
     return createSequence(value ? false : null)
   }
@@ -79,7 +84,8 @@ export function getSequence({transport, setting, value}) {
   }
 }
 
-export function getOptions(sequence) {
+// Converts a sequence to settings object.
+export function sequenceToSettings(sequence) {
   // Returns true if all settings in the sequence are inactive.
   const isInactive = seq => every(seq, {active: false})
 

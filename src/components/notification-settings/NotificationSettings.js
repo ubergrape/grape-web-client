@@ -10,7 +10,8 @@ import {
 
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
-import {values} from '../../constants/notification'
+
+export const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
 
 const messages = defineMessages({
   title: {

@@ -4,10 +4,7 @@ import conf from 'conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
-import {
-  getSequence as getNotificationSequence,
-  getOptions as getNotificationOptions
-} from './notification'
+import {sequenceToSettings, settingsToSequence} from './notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -423,12 +420,12 @@ export function loadConfig() {
   })
 }
 
-export function setNotificationSetting(orgId, channelId, options) {
+export function setNotificationSetting(orgId, channelId, settings) {
   return new Promise((resolve, reject) => {
     rpc({
       ns: 'notifications',
       action: 'update_settings',
-      args: [`${orgId}:${channelId}`, getNotificationSequence(options)]
+      args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
     }, err => {
       if (err) return reject(err)
       resolve()
@@ -444,7 +441,7 @@ export function getNotificationSettings(orgId, channelId) {
       args: [`${orgId}:${channelId}`]
     }, (err, sequence) => {
       if (err) return reject(err)
-      resolve(getNotificationOptions(sequence))
+      resolve(sequenceToSettings(sequence))
     })
   })
 }
