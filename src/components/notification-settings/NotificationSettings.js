@@ -33,7 +33,7 @@ const MuteAllSetting = ({classes, value, channel, onChange, onLeave}) => (
     </label>
     {value && (
       <p className={classes.allMutedHint}>
-        {`This group is completely muted on all your devices. No more rings and beeps comming from
+        {`This group is completely muted on all your devices. No more rings and beeps coming from
         ${channel.name} - but you can still come back anytime to check it out for new messages.
         If you want to leave the group and remove it from your sidebar, `}
         <a className={classes.inlineLink} href="" onClick={onLeave}>click here</a>
@@ -113,6 +113,7 @@ export default class NotificationSettings extends Component {
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onLeave: PropTypes.func.isRequired,
     desktop: PropTypes.oneOf(values),
     push: PropTypes.oneOf(values),
     channel: PropTypes.object
@@ -137,7 +138,9 @@ export default class NotificationSettings extends Component {
   }
 
   onLeave = () => {
-
+    const {onLeave, onHide, channel} = this.props
+    onLeave(channel.id)
+    onHide()
   }
 
   render() {

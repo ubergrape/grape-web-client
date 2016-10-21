@@ -8,7 +8,8 @@ import NotificationSettings from '../notification-settings/NotificationSettings'
 
 const actionNames = {
   hideNotificationSettings: 'onHide',
-  setNotificationSetting: 'onChange'
+  setNotificationSetting: 'onChange',
+  leaveChannel: 'onLeave'
 }
 
 const ConnectedNotificationSettings = connect(
