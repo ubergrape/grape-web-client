@@ -490,3 +490,7 @@ export const historyComponentSelector = createSelector(
     }
   }
 )
+
+export const notificationSettingsSelector = createSelector(
+  state => state.notificationSettings, state => state
+)

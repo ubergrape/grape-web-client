@@ -1,8 +1,13 @@
 import request from 'superagent'
+
 import conf from 'conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
+import {
+  getSequence as getNotificationSequence,
+  getOptions as getNotificationOptions
+} from './notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -415,5 +420,46 @@ export function loadConfig() {
         if (err) return reject(err)
         resolve(res.body)
       })
+  })
+}
+
+export function setNotificationSetting(orgId, channelId, options) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'update_settings',
+      args: [`${orgId}:${channelId}`, getNotificationSequence(options)]
+    }, err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function getNotificationSettings(orgId, channelId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'get_settings',
+      args: [`${orgId}:${channelId}`]
+    }, (err, sequence) => {
+      if (err) return reject(err)
+      resolve(getNotificationOptions(sequence))
+    })
+  })
+}
+
+export function getDefaultNotificationSettingName(orgId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'get_settings',
+      args: [String(orgId)]
+    }, (err, sequence) => {
+      if (err) return reject(err)
+//      console.log('org sequence', sequence)
+      sequence()
+      resolve({name})
+    })
   })
 }

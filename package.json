@@ -87,6 +87,7 @@
     "t": "ubergrape/t#master",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1#2.0.0",
+    "warning": "^3.0.0",
     "websocket-wrapper": "^0.1.0"
   },
   "devDependencies": {

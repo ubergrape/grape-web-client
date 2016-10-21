@@ -40,6 +40,11 @@ export default class MainSettings extends Component {
     allowEdit: false
   }
 
+  onShowNotificationSettings = () => {
+    const {showNotificationSettings, channel} = this.props
+    showNotificationSettings({channel})
+  }
+
   getError() {
     const {message} = this.props.renameError
     if (!message) return undefined
@@ -51,7 +56,7 @@ export default class MainSettings extends Component {
 
   renderAdditionalActions() {
     const {
-      showNotificationSettings, allowEdit,
+      allowEdit,
       theme,
       theme: {classes}
     } = this.props
@@ -62,7 +67,7 @@ export default class MainSettings extends Component {
       <div className={classes.additionalActions}>
         <button
           className={classes.notificationsButton}
-          onClick={showNotificationSettings}></button>
+          onClick={this.onShowNotificationSettings}></button>
         <AdditionalActionsDropdown
           {...this.props}
           container={this}

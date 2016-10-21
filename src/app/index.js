@@ -23,6 +23,7 @@ import HeaderProvider from '../components/header/HeaderProvider'
 import SidebarProvider from '../components/redux-sidebar/SidebarProvider'
 import HistoryProvider from '../components/redux-history/HistoryProvider'
 import InviteToOrgProvider from '../components/redux-invite-to-org/InviteToOrgProvider'
+import NotificationSettingsProvider from '../components/redux-notification-settings/NotificationSettingsProvider'
 
 const {languageCode, email, username, id: userId} = user
 const messages = translations[languageCode]
@@ -39,62 +40,62 @@ Raven.setUser({
   organizationID: organization.id
 })
 
+export default function init() {
+  subscribe(createClient().connect())
+}
+
+// Separately connected Providers.
 render(
   createElement(wrapWithIntlProvider(BillingWarningProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('grape-billing-warning'))
+  document.body.appendChild(document.createElement('div'))
 )
 render(
   createElement(wrapWithIntlProvider(ChannelMembersInviteProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('grape-channel-members-invite'))
+  document.body.appendChild(document.createElement('div'))
 )
 render(
   createElement(wrapWithIntlProvider(NewConversationProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('grape-new-conversation'))
+  document.body.appendChild(document.createElement('div'))
 )
 render(
   createElement(wrapWithIntlProvider(InviteToOrgProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('grape-invite-to-org'))
+  document.body.appendChild(document.createElement('div'))
 )
 render(
   createElement(wrapWithIntlProvider(UnreadChannelsProvider, languageCode, messages)),
-  document.createElement('grape-unread-channels')
+  document.createElement('div')
+)
+render(
+  createElement(wrapWithIntlProvider(NotificationSettingsProvider, languageCode, messages)),
+  document.createElement('div')
 )
 
+// Reactive elements (can be removed after legacy is removed).
 document.registerReact(
   'grape-header',
   wrapWithIntlProvider(HeaderProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-sidebar',
   wrapWithIntlProvider(SidebarProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-typing-notification',
   wrapWithIntlProvider(TypingNotificationProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-alerts',
   wrapWithIntlProvider(AlertsProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-orginfo',
   wrapWithIntlProvider(OrgInfoProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-navigation',
   wrapWithIntlProvider(NavigationProvider, languageCode, messages)
 )
-
 document.registerReact(
   'grape-history',
   wrapWithIntlProvider(HistoryProvider, languageCode, messages)
 )
-
-export default function init() {
-  subscribe(createClient().connect())
-}
