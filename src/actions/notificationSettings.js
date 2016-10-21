@@ -35,7 +35,8 @@ export function setNotificationSetting(channel, options) {
 
     const org = orgSelector(getState())
 
-    api.setNotificationSetting(org.id, channel.id, options)
+    api
+      .setNotificationSetting(org.id, channel.id, options)
       .then(() => {
         dispatch(loadNotificationSettings({channel}))
       })

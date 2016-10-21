@@ -7,8 +7,7 @@ const padding = 15
 
 export const styles = {
   notificationSettings: {
-    borderTop: `3px solid ${grayBlueLighter}`,
-    '& a': inlineLink
+    borderTop: `3px solid ${grayBlueLighter}`
   },
   section: {
     paddingTop: padding,
@@ -30,6 +29,7 @@ export const styles = {
     extend: normal,
     fontWeight: 'bold'
   },
+  inlineLink,
   label: {
     extend: normal,
     cursor: 'pointer'

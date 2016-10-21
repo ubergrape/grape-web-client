@@ -20,11 +20,6 @@ export default function reduce(state = initialState, action) {
         ...state,
         show: false
       }
-    case types.SET_NOTIFICATION_SETTING_MUTE_ALL:
-      return {
-        ...state,
-        allMuted: payload
-      }
     case types.HANDLE_NOTIFICATION_SETTINGS:
       return {
         ...state,

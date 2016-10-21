@@ -448,18 +448,3 @@ export function getNotificationSettings(orgId, channelId) {
     })
   })
 }
-
-export function getDefaultNotificationSettingName(orgId) {
-  return new Promise((resolve, reject) => {
-    rpc({
-      ns: 'notifications',
-      action: 'get_settings',
-      args: [String(orgId)]
-    }, (err, sequence) => {
-      if (err) return reject(err)
-//      console.log('org sequence', sequence)
-      sequence()
-      resolve({name})
-    })
-  })
-}

@@ -10,6 +10,8 @@ import {
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
 
+const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
+
 const messages = defineMessages({
   title: {
     id: 'notificationSettingsTitle',
@@ -27,14 +29,14 @@ const MuteAllSetting = ({classes, value, channel, onChange, onLeave}) => (
         checked={value}
         className={classes.checkbox}
         onChange={onChange} />
-      {'Block all notifications for this group on all your devices.'}
+      {'Block all notifications for this group on all your devices'}
     </label>
     {value && (
       <p className={classes.allMutedHint}>
         {`This group is completely muted on all your devices. No more rings and beeps comming from
         ${channel.name} - but you can still come back anytime to check it out for new messages.
         If you want to leave the group and remove it from your sidebar, `}
-        <a href="" onClick={onLeave}>click here</a>
+        <a className={classes.inlineLink} href="" onClick={onLeave}>click here</a>
       </p>
     )}
   </div>
@@ -50,18 +52,16 @@ MuteAllSetting.propTypes = {
 
 const Select = ({onChange, value}) => (
   <select onChange={onChange} value={value}>
-    <optgroup label="Default Setting">
-      <option value="inherit">All messages</option>
-    </optgroup>
-    <optgroup label="Custom Setting">
-      <option value="anyMention">Mentions of my name or @room announcements</option>
-      <option value="directMention">Only direct mentions</option>
-    </optgroup>
+    <option value="inherit">Default Notification Settings</option>
+    <option value="all">All messages</option>
+    <option value="anyMention">Mentions of my name or @room announcements</option>
+    <option value="directMention">Only direct mentions</option>
+    <option value="off">Nothing</option>
   </select>
 )
 
 Select.propTypes = {
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired
 }
 
@@ -74,7 +74,7 @@ const DesktopSetting = ({classes, onChange, value}) => (
 
 DesktopSetting.propTypes = {
   classes: PropTypes.object.isRequired,
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired
 }
 
@@ -87,14 +87,14 @@ const PushSetting = ({classes, onChange, value}) => (
 
 PushSetting.propTypes = {
   classes: PropTypes.object.isRequired,
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.oneOf(values).isRequired,
   onChange: PropTypes.func.isRequired
 }
 
 const Footer = ({classes}) => (
   <div className={classes.footer}>
     {'*You can change the default preferences in your account\'s '}
-    <a href="/accounts/settings/notifications/">notification settings</a>
+    <a className={classes.inlineLink} href="/accounts/settings/notifications/">notification settings</a>
   </div>
 )
 
@@ -102,7 +102,7 @@ Footer.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const dispatchersPropType = PropTypes.oneOf(['inherit', 'anyMention', 'directMention'])
+const isAllMuted = ({desktop, push}) => push === 'off' && desktop === 'off'
 
 @injectSheet(styles)
 @injectIntl
@@ -113,14 +113,14 @@ export default class NotificationSettings extends Component {
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    allMuted: PropTypes.bool,
-    desktop: dispatchersPropType,
-    push: dispatchersPropType,
+    desktop: PropTypes.oneOf(values),
+    push: PropTypes.oneOf(values),
     channel: PropTypes.object
   }
 
   onToggleMuteAll = () => {
-    const {onChange, allMuted, channel} = this.props
+    const {onChange, channel} = this.props
+    const allMuted = isAllMuted(this.props)
     onChange(channel, {transport: 'all', setting: 'all', value: !allMuted})
   }
 
@@ -136,14 +136,21 @@ export default class NotificationSettings extends Component {
     onChange(channel, {transport: 'push', setting, value: true})
   }
 
+  onLeave = () => {
+
+  }
+
   render() {
     const {
       sheet: {classes},
       intl: {formatMessage},
-      onHide, show, channel, allMuted, desktop, push
+      onHide, show, channel,
+      desktop, push
     } = this.props
 
-    if (!channel) return null
+    if (!channel || !desktop) return null
+
+    const allMuted = isAllMuted(this.props)
 
     return (
       <Dialog

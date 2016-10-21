@@ -33,7 +33,8 @@ function createResetSequence(transport) {
 }
 
 function createAnyMentionSequence(transport) {
-  return createResetSequence(transport).map(setting => {
+  const sequence = createSequence(false, setting => setting.transport === transport)
+  return sequence.map(setting => {
     if (mentionDispatchers.indexOf(setting.dispatcher) !== -1) {
       return {...setting, active: true}
     }
@@ -53,26 +54,40 @@ function createDirectMentionSequence(transport) {
   })
 }
 
-export function getSequence({transport, setting, value: muteAll}) {
+function createAllMessagesSeqence(transport, value) {
+  return createSequence(value, setting => setting.transport === transport)
+}
+
+export function getSequence({transport, setting, value}) {
   if (transport === 'all' && setting === 'all') {
-    return createSequence(muteAll ? false : null)
+    return createSequence(value ? false : null)
   }
 
   switch (setting) {
+    case 'inherit':
+      return createResetSequence(transport)
+    case 'all':
+      return createAllMessagesSeqence(transport, true)
     case 'anyMention':
       return createAnyMentionSequence(transport)
     case 'directMention':
       return createDirectMentionSequence(transport)
-    case 'inherit':
-      return createResetSequence(transport)
+    case 'off':
+      return createAllMessagesSeqence(transport, false)
     default:
       return []
   }
 }
 
 export function getOptions(sequence) {
-  // Returns true if all settings in the sequence are active.
+  // Returns true if all settings in the sequence are inactive.
   const isInactive = seq => every(seq, {active: false})
+
+  // Returns true if all settings in the sequence are active.
+  const isActive = seq => every(seq, {active: true})
+
+  // Returns true if all settings in the sequence are inherited.
+  const isInherit = seq => every(seq, {inherit: true})
 
   // Returns true if sequence has all kinds of mentions.
   const isAnyMention = seq => Boolean(
@@ -86,22 +101,22 @@ export function getOptions(sequence) {
     !find(seq, {dispatcher: 'group_mention', active: true})
   )
 
-  const getUiDispatcher = (seq, transport) => {
-    const transportSequence = filter(seq, {transport})
-    const isInherit = every(transportSequence, {inherit: true})
+  const getValue = (seq, transport) => {
+    const transportSeq = filter(seq, {transport})
 
-    if (isInherit || isInactive(transportSequence)) return 'inherit'
-    if (isAnyMention(transportSequence)) return 'anyMention'
-    if (isDirectMention(transportSequence)) return 'directMention'
+    if (isInherit(transportSeq)) return 'inherit'
+    if (isActive(transportSeq)) return 'all'
+    if (isInactive(transportSeq)) return 'off'
+    if (isAnyMention(transportSeq)) return 'anyMention'
+    if (isDirectMention(transportSeq)) return 'directMention'
 
     warning(false, 'Bad notification settings: \n\r %s', JSON.stringify(sequence, null, 2))
 
     return 'inherit'
   }
 
-  const allMuted = isInactive(sequence)
-  const desktop = getUiDispatcher(sequence, 'desktop')
-  const push = getUiDispatcher(sequence, 'push')
+  const desktop = getValue(sequence, 'desktop')
+  const push = getValue(sequence, 'push')
 
-  return {allMuted, desktop, push}
+  return {desktop, push}
 }
