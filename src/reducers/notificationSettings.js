@@ -1,8 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  show: false,
-  allMuted: false
+  show: false
 }
 
 export default function reduce(state = initialState, action) {
