@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -9,14 +10,38 @@ import {
 
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
-
-const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
+import {values} from '../../constants/notification'
 
 const messages = defineMessages({
   title: {
     id: 'notificationSettingsTitle',
     defaultMessage: 'Notification in {group}',
     description: 'Notification settings dialog.'
+  },
+  inherit: {
+    id: 'notificationSettingDefault',
+    defaultMessage: 'Default Notification Settings',
+    description: 'Notification setting name.'
+  },
+  all: {
+    id: 'notificationSettingAll',
+    defaultMessage: 'All messages',
+    description: 'Notification setting name.'
+  },
+  anyMention: {
+    id: 'notificationSettingAnyMention',
+    defaultMessage: 'Mentions and announcements (@room)',
+    description: 'Notification setting name.'
+  },
+  directMention: {
+    id: 'notificationSettingDirectMention',
+    defaultMessage: 'Direct mentions only (@{user})',
+    description: 'Notification setting name.'
+  },
+  off: {
+    id: 'notificationSettingOff',
+    defaultMessage: 'Nothing',
+    description: 'Notification setting name.'
   }
 })
 
@@ -29,14 +54,28 @@ const MuteAllSetting = ({classes, value, channel, onChange, onLeave}) => (
         checked={value}
         className={classes.checkbox}
         onChange={onChange} />
-      {'Block all notifications for this group on all your devices'}
+      <FormattedMessage
+        id="muteAllNotifications"
+        defaultMessage="Block all notifications for this group on all your devices" />
     </label>
     {value && (
       <p className={classes.allMutedHint}>
-        {`This group is completely muted on all your devices. No more rings and beeps coming from
-        ${channel.name} - but you can still come back anytime to check it out for new messages.
-        If you want to leave the group and remove it from your sidebar, `}
-        <a className={classes.inlineLink} href="" onClick={onLeave}>click here</a>
+        <FormattedMessage
+          id="muteAllNotificationsHint"
+          defaultMessage="This group is completely muted on all your devices. No more rings and beeps coming from
+        {channel} - but you can still come back anytime to check it out for new messages.
+        If you want to leave the group and remove it from your sidebar, {leaveButton}"
+          values={{
+            channel: channel.displayName,
+            leaveButton: (
+              <a className={classes.inlineLink} href="" onClick={onLeave}>
+                <FormattedMessage
+                  id="clickHereInlineLink"
+                  defaultMessage="click here"
+                  description={"Link used inline in the middle of a sentence."} />
+              </a>
+            )
+          }} />
       </p>
     )}
   </div>
@@ -50,25 +89,29 @@ MuteAllSetting.propTypes = {
   onLeave: PropTypes.func.isRequired
 }
 
-const Select = ({onChange, value}) => (
-  <select onChange={onChange} value={value}>
-    <option value="inherit">Default Notification Settings</option>
-    <option value="all">All messages</option>
-    <option value="anyMention">Mentions of my name or @room announcements</option>
-    <option value="directMention">Only direct mentions</option>
-    <option value="off">Nothing</option>
+const Select = ({user, onChange, formatMessage, value: selected}) => (
+  <select onChange={onChange} value={selected}>
+    {values.map(value => (
+      <option value={value} key={value}>
+        {formatMessage(messages[value], {user: user.displayName})}
+      </option>
+    ))}
   </select>
 )
 
 Select.propTypes = {
+  user: PropTypes.shape({
+    displayName: PropTypes.string.isRequired
+  }).isRequired,
   value: PropTypes.oneOf(values).isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  formatMessage: PropTypes.func.isRequired
 }
 
-const DesktopSetting = ({classes, onChange, value}) => (
+const DesktopSetting = ({classes, ...rest}) => (
   <div className={classes.groupedSetting}>
     <h3 className={classes.h3}>Desktop Notifications</h3>
-    <Select onChange={onChange} value={value} />
+    <Select {...rest} />
   </div>
 )
 
@@ -78,10 +121,10 @@ DesktopSetting.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-const PushSetting = ({classes, onChange, value}) => (
+const PushSetting = ({classes, ...rest}) => (
   <div className={classes.groupedSetting}>
     <h3 className={classes.h3}>Mobile Push Notifications</h3>
-    <Select onChange={onChange} value={value} />
+    <Select {...rest} />
   </div>
 )
 
@@ -93,8 +136,19 @@ PushSetting.propTypes = {
 
 const Footer = ({classes}) => (
   <div className={classes.footer}>
-    {'*You can change the default preferences in your account\'s '}
-    <a className={classes.inlineLink} href="/accounts/settings/notifications/">notification settings</a>
+    <FormattedMessage
+      id="notificationSettingsHint"
+      defaultMessage="*You can change the default preferences in your account's {link}"
+      values={{
+        link: (
+          <a className={classes.inlineLink} href="/accounts/settings/notifications/">
+            <FormattedMessage
+              id="notificationSettingsHintLink"
+              defaultMessage="notification settings"
+              description="An inline link in channel notification settings." />
+          </a>
+        )
+      }} />
   </div>
 )
 
@@ -116,7 +170,8 @@ export default class NotificationSettings extends Component {
     onLeave: PropTypes.func.isRequired,
     desktop: PropTypes.oneOf(values),
     push: PropTypes.oneOf(values),
-    channel: PropTypes.object
+    channel: PropTypes.object,
+    user: PropTypes.object
   }
 
   onToggleMuteAll = () => {
@@ -147,7 +202,7 @@ export default class NotificationSettings extends Component {
     const {
       sheet: {classes},
       intl: {formatMessage},
-      onHide, show, channel,
+      onHide, show, channel, user,
       desktop, push
     } = this.props
 
@@ -174,11 +229,15 @@ export default class NotificationSettings extends Component {
               <DesktopSetting
                 value={desktop}
                 classes={classes}
-                onChange={this.onChangeDesktop} />
+                onChange={this.onChangeDesktop}
+                formatMessage={formatMessage}
+                user={user} />
               <PushSetting
                 value={push}
                 classes={classes}
-                onChange={this.onChangePush} />
+                onChange={this.onChangePush}
+                formatMessage={formatMessage}
+                user={user} />
             </section>
           )}
           <Footer classes={classes} />
