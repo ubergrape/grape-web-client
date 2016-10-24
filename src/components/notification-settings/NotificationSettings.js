@@ -48,7 +48,11 @@ const messages = defineMessages({
 
 const MuteAllSetting = ({classes, value, channel, onChange, onLeave}) => (
   <div className={classes.setting}>
-    <h3 className={classes.h3}>Mute this Group</h3>
+    <h3 className={classes.h3}>
+      <FormattedMessage
+        id="muteGroupTitle"
+        defaultMessage="Mute this Group" />
+    </h3>
     <label className={classes.label}>
       <input
         type="checkbox"
@@ -111,7 +115,11 @@ Select.propTypes = {
 
 const DesktopSetting = ({classes, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <h3 className={classes.h3}>Desktop Notifications</h3>
+    <h3 className={classes.h3}>
+      <FormattedMessage
+        id="desktopNotificationsTitle"
+        defaultMessage="Desktop Notifications" />
+    </h3>
     <Select {...rest} />
   </div>
 )
@@ -124,7 +132,11 @@ DesktopSetting.propTypes = {
 
 const PushSetting = ({classes, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <h3 className={classes.h3}>Mobile Push Notifications</h3>
+    <h3 className={classes.h3}>
+      <FormattedMessage
+        id="mobileNotificationsTitle"
+        defaultMessage="Mobile Push Notifications" />
+    </h3>
     <Select {...rest} />
   </div>
 )
