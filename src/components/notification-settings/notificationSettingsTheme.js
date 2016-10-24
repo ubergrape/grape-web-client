@@ -1,6 +1,7 @@
 import {grayBlueLighter, grayLight, green} from 'grape-theme/dist/base-colors'
-import {small, normal} from 'grape-theme/dist/fonts'
+import {smaller, normal} from 'grape-theme/dist/fonts'
 
+import buttonPrimary from '../button/primary'
 import inlineLink from '../button/inlineLink'
 
 const padding = 15
@@ -25,25 +26,23 @@ export const styles = {
       paddingBottom: 0
     }
   },
-  titleContainer: {
-    display: 'flex',
-    width: '50%'
-  },
   titleHeadline: {
     extend: normal,
-    flex: 1,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    display: 'inline-block'
   },
   status: {
+    display: 'inline-block',
     color: green,
     opacity: 1,
+    marginLeft: 10,
     '&:after': {
-      content: '" \\2713"'
+      content: '"\\2713"'
     }
   },
   statusHidden: {
     opacity: 0,
-    transition: 'opacity 1s ease-in-out'
+    transition: 'opacity 300ms ease-in-out'
   },
   inlineLink,
   label: {
@@ -51,19 +50,28 @@ export const styles = {
     cursor: 'pointer'
   },
   checkbox: {
-    marginRight: 10
+    marginRight: padding
   },
   select: {
     width: '50%'
-  },
-  footer: {
-    extend: small,
-    padding
   },
   allMutedHint: {
     extend: normal,
     fontWeight: 'thin',
     color: grayLight,
-    marginTop: 20
+    marginTop: padding
+  },
+  footer: {
+    display: 'flex',
+    alignItems: 'center',
+    padding
+  },
+  hint: {
+    extend: smaller,
+    flex: 1
+  },
+  done: {
+    extend: buttonPrimary,
+    marginLeft: padding
   }
 }

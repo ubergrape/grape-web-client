@@ -11,6 +11,7 @@ import {
 
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
+import {Done} from '../i18n/i18n'
 
 const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
 const statuses = ['pending', 'complete']
@@ -53,11 +54,11 @@ const Title = ({classes, children, status}) => (
     <h3 className={classes.titleHeadline}>
       {children}
     </h3>
-    <div className={`${classes.status} ${!status ? classes.statusHidden : ''}`}>
+    <span className={`${classes.status} ${!status ? classes.statusHidden : ''}`}>
       <FormattedMessage
         id="notificationSettingStatusComplete"
         defaultMessage="saved" />
-    </div>
+    </span>
   </div>
 )
 
@@ -172,26 +173,30 @@ PushSetting.propTypes = {
   status: PropTypes.oneOf(statuses)
 }
 
-const Footer = ({classes}) => (
+const Footer = ({classes, onClose}) => (
   <div className={classes.footer}>
-    <FormattedMessage
-      id="notificationSettingsHint"
-      defaultMessage="*You can change the default preferences in your account's {link}"
-      values={{
-        link: (
-          <a className={classes.inlineLink} href="/accounts/settings/notifications/">
-            <FormattedMessage
-              id="notificationSettingsHintLink"
-              defaultMessage="notification settings"
-              description="An inline link in channel notification settings." />
-          </a>
-        )
-      }} />
+    <div className={classes.hint}>
+      <FormattedMessage
+        id="notificationSettingsHint"
+        defaultMessage="You can change the default preferences in your account's {link}"
+        values={{
+          link: (
+            <a className={classes.inlineLink} href="/accounts/settings/notifications/">
+              <FormattedMessage
+                id="notificationSettingsHintLink"
+                defaultMessage="notification settings"
+                description="An inline link in channel notification settings." />
+            </a>
+          )
+        }} />
+      </div>
+      <button className={classes.done} onClick={onClose}><Done /></button>
   </div>
 )
 
 Footer.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 const isAllMuted = ({desktop, push}) => push === 'off' && desktop === 'off'
@@ -301,7 +306,7 @@ export default class NotificationSettings extends Component {
                 status={this.state.pushStatus} />
             </section>
           )}
-          <Footer classes={classes} />
+          <Footer classes={classes} onClose={onHide} />
         </div>
       </Dialog>
     )
