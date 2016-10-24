@@ -128,7 +128,6 @@ export const styles = {
       normal,
       buttonIcon('bell', {color: button, hoverColor: blue, iconOnly: true})
     ],
-    float: 'left',
     padding: 5
   },
   settingsButton: {
@@ -142,11 +141,11 @@ export const styles = {
     padding: 5
   },
   additionalActions: {
+    display: 'flex',
     flexShrink: 0,
     marginLeft: 10
   },
   additionalActionsDropdown: {
-    float: 'left'
   },
   additionalActionButton: {
     extend: [linkButton, normal],

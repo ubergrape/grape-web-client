@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {
+  FormattedMessage,
   defineMessages,
   intlShape,
   injectIntl
@@ -8,6 +9,7 @@ import {
 import {maxChannelNameLength} from '../../constants/app'
 import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
+import Tooltip from '../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
 
 const messages = defineMessages({
@@ -63,9 +65,18 @@ export default class MainSettings extends Component {
 
     return (
       <div className={classes.additionalActions}>
-        <button
-          className={classes.notificationsButton}
-          onClick={this.onShowNotificationSettings}></button>
+        <Tooltip
+          align="right"
+          placement="top"
+          message={(
+            <FormattedMessage
+              id="notificationSettingsTooltip"
+              defaultMessage="Edit notification settings" />
+          )}>
+          <button
+            className={classes.notificationsButton}
+            onClick={this.onShowNotificationSettings}></button>
+        </Tooltip>
         {allowEdit && (
           <AdditionalActionsDropdown
             {...this.props}

@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
-
 import {
   FormattedMessage,
   defineMessages,
@@ -15,6 +14,7 @@ import {Done} from '../i18n/i18n'
 
 const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
 const statuses = ['pending', 'complete']
+const isAllMuted = ({desktop, push}) => push === 'off' && desktop === 'off'
 
 const messages = defineMessages({
   title: {
@@ -198,8 +198,6 @@ Footer.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired
 }
-
-const isAllMuted = ({desktop, push}) => push === 'off' && desktop === 'off'
 
 @injectSheet(styles)
 @injectIntl
