@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
+import each from 'lodash/collection/each'
 
 import {
   FormattedMessage,
@@ -11,7 +12,8 @@ import {
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
 
-export const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
+const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
+const statuses = ['pending', 'complete']
 
 const messages = defineMessages({
   title: {
@@ -46,13 +48,32 @@ const messages = defineMessages({
   }
 })
 
-const MuteAllSetting = ({classes, value, channel, onChange, onLeave}) => (
+const Title = ({classes, children, status}) => (
+  <div className={classes.titleContainer}>
+    <h3 className={classes.titleHeadline}>
+      {children}
+    </h3>
+    <div className={`${classes.status} ${!status ? classes.statusHidden : ''}`}>
+      <FormattedMessage
+        id="notificationSettingStatusComplete"
+        defaultMessage="saved" />
+    </div>
+  </div>
+)
+
+Title.propTypes = {
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
+  status: PropTypes.oneOf(statuses)
+}
+
+const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) => (
   <div className={classes.setting}>
-    <h3 className={classes.h3}>
+    <Title classes={classes} status={status}>
       <FormattedMessage
         id="muteGroupTitle"
         defaultMessage="Mute this Group" />
-    </h3>
+    </Title>
     <label className={classes.label}>
       <input
         type="checkbox"
@@ -91,11 +112,12 @@ MuteAllSetting.propTypes = {
   value: PropTypes.bool.isRequired,
   channel: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onLeave: PropTypes.func.isRequired
+  onLeave: PropTypes.func.isRequired,
+  status: PropTypes.oneOf(statuses)
 }
 
-const Select = ({user, onChange, formatMessage, value: selected}) => (
-  <select onChange={onChange} value={selected}>
+const Select = ({classes, user, onChange, formatMessage, value: selected}) => (
+  <select onChange={onChange} value={selected} className={classes.select}>
     {values.map(value => (
       <option value={value} key={value}>
         {formatMessage(messages[value], {user: user.displayName})}
@@ -105,6 +127,7 @@ const Select = ({user, onChange, formatMessage, value: selected}) => (
 )
 
 Select.propTypes = {
+  classes: PropTypes.object.isRequired,
   user: PropTypes.shape({
     displayName: PropTypes.string.isRequired
   }).isRequired,
@@ -113,38 +136,40 @@ Select.propTypes = {
   formatMessage: PropTypes.func.isRequired
 }
 
-const DesktopSetting = ({classes, ...rest}) => (
+const DesktopSetting = ({classes, status, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <h3 className={classes.h3}>
+    <Title classes={classes} status={status}>
       <FormattedMessage
         id="desktopNotificationsTitle"
         defaultMessage="Desktop Notifications" />
-    </h3>
-    <Select {...rest} />
+    </Title>
+    <Select {...rest} classes={classes} />
   </div>
 )
 
 DesktopSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  status: PropTypes.oneOf(statuses)
 }
 
-const PushSetting = ({classes, ...rest}) => (
+const PushSetting = ({classes, status, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <h3 className={classes.h3}>
+    <Title classes={classes} status={status}>
       <FormattedMessage
         id="mobileNotificationsTitle"
         defaultMessage="Mobile Push Notifications" />
-    </h3>
-    <Select {...rest} />
+    </Title>
+    <Select {...rest} classes={classes} />
   </div>
 )
 
 PushSetting.propTypes = {
   classes: PropTypes.object.isRequired,
   value: PropTypes.oneOf(values).isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  status: PropTypes.oneOf(statuses)
 }
 
 const Footer = ({classes}) => (
@@ -187,21 +212,41 @@ export default class NotificationSettings extends Component {
     user: PropTypes.object
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.timers = {}
+  }
+
+  componentWillUpdate() {
+    each(this.state, (status, name) => {
+      if (status !== 'pending') return
+      this.setState({[name]: 'complete'})
+      clearTimeout(this.timers[name])
+      this.timers[name] = setTimeout(() => {
+        this.setState({[name]: undefined})
+      }, 1000)
+    })
+  }
+
   onToggleMuteAll = () => {
     const {onChange, channel} = this.props
     const allMuted = isAllMuted(this.props)
+    this.setState({muteAllStatus: 'pending'})
     onChange(channel, {transport: 'all', setting: 'all', value: !allMuted})
   }
 
   onChangeDesktop = (e) => {
     const {value: setting} = e.target
     const {onChange, channel} = this.props
+    this.setState({desktopStatus: 'pending'})
     onChange(channel, {transport: 'desktop', setting, value: true})
   }
 
   onChangePush = (e) => {
     const {value: setting} = e.target
     const {onChange, channel} = this.props
+    this.setState({pushStatus: 'pending'})
     onChange(channel, {transport: 'push', setting, value: true})
   }
 
@@ -235,7 +280,8 @@ export default class NotificationSettings extends Component {
               classes={classes}
               channel={channel}
               onChange={this.onToggleMuteAll}
-              onLeave={this.onLeave} />
+              onLeave={this.onLeave}
+              status={this.state.muteAllStatus} />
           </section>
           {!allMuted && (
             <section className={classes.section}>
@@ -244,13 +290,15 @@ export default class NotificationSettings extends Component {
                 classes={classes}
                 onChange={this.onChangeDesktop}
                 formatMessage={formatMessage}
-                user={user} />
+                user={user}
+                status={this.state.desktopStatus} />
               <PushSetting
                 value={push}
                 classes={classes}
                 onChange={this.onChangePush}
                 formatMessage={formatMessage}
-                user={user} />
+                user={user}
+                status={this.state.pushStatus} />
             </section>
           )}
           <Footer classes={classes} />
