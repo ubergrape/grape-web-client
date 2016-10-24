@@ -61,17 +61,17 @@ export default class MainSettings extends Component {
       theme: {classes}
     } = this.props
 
-    if (!allowEdit) return null
-
     return (
       <div className={classes.additionalActions}>
         <button
           className={classes.notificationsButton}
           onClick={this.onShowNotificationSettings}></button>
-        <AdditionalActionsDropdown
-          {...this.props}
-          container={this}
-          theme={theme} />
+        {allowEdit && (
+          <AdditionalActionsDropdown
+            {...this.props}
+            container={this}
+            theme={theme} />
+        )}
       </div>
     )
   }
