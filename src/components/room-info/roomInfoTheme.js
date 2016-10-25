@@ -6,6 +6,7 @@ import {borderDefault, borderLight, button} from 'grape-theme/dist/web-colors'
 
 import linkButton from '../button/link'
 import buttonIcon from '../button/icon'
+import {iconSize, previewIconSize} from '../room-icon-settings/theme'
 
 const marginBottom = 15
 const paddingBottom = 15
@@ -90,8 +91,8 @@ export const styles = {
   avatar: {
     borderRadius: '50%',
     flexShrink: 0,
-    width: 32,
-    height: 32,
+    width: previewIconSize,
+    height: previewIconSize,
     marginRight: 10
   },
   name: {
@@ -115,7 +116,8 @@ export const styles = {
     extend: divider,
     position: 'relative',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    minHeight: iconSize + marginBottom + paddingBottom
   },
   title: {
     extend: small,
