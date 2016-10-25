@@ -1,10 +1,17 @@
 import {grayBlueLighter, grayLight, green} from 'grape-theme/dist/base-colors'
 import {smaller, normal} from 'grape-theme/dist/fonts'
 
+import createInlineIcon from '../inline-icon/create'
 import buttonPrimary from '../button/primary'
 import inlineLink from '../button/inlineLink'
 
 const padding = 15
+
+const titleIconOptions = {
+  // FIXME: replace with theme colors.
+  color: '#4d4d4d',
+  size: normal.fontSize
+}
 
 export const styles = {
   notificationSettings: {
@@ -26,10 +33,14 @@ export const styles = {
       paddingBottom: 0
     }
   },
+  titleIconMuteAll: createInlineIcon('bellSlashOpen', titleIconOptions),
+  titleIconDesktop: createInlineIcon('laptop', titleIconOptions),
+  titleIconPush: createInlineIcon('mobile', titleIconOptions),
   titleHeadline: {
     extend: normal,
     fontWeight: 'bold',
-    display: 'inline-block'
+    display: 'inline-block',
+    marginLeft: 5
   },
   status: {
     display: 'inline-block',

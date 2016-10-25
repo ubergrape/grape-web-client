@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
+import capitalize from 'lodash/string/capitalize'
 import {
   FormattedMessage,
   defineMessages,
@@ -48,8 +49,9 @@ const messages = defineMessages({
   }
 })
 
-const Title = ({classes, children, status}) => (
+const Title = ({classes, children, setting, status}) => (
   <div className={classes.titleContainer}>
+    <span className={classes['titleIcon' + capitalize(setting)]} />
     <h3 className={classes.titleHeadline}>
       {children}
     </h3>
@@ -64,12 +66,13 @@ const Title = ({classes, children, status}) => (
 Title.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired,
+  setting: PropTypes.oneOf(['muteAll', 'desktop', 'push']).isRequired,
   status: PropTypes.oneOf(statuses)
 }
 
 const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) => (
   <div className={classes.setting}>
-    <Title classes={classes} status={status}>
+    <Title classes={classes} setting="muteAll" status={status}>
       <FormattedMessage
         id="muteGroupTitle"
         defaultMessage="Mute this Group" />
@@ -138,7 +141,7 @@ Select.propTypes = {
 
 const DesktopSetting = ({classes, status, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <Title classes={classes} status={status}>
+    <Title classes={classes} setting="desktop" status={status}>
       <FormattedMessage
         id="desktopNotificationsTitle"
         defaultMessage="Desktop Notifications" />
@@ -156,7 +159,7 @@ DesktopSetting.propTypes = {
 
 const PushSetting = ({classes, status, ...rest}) => (
   <div className={classes.groupedSetting}>
-    <Title classes={classes} status={status}>
+    <Title classes={classes} setting="push" status={status}>
       <FormattedMessage
         id="mobileNotificationsTitle"
         defaultMessage="Mobile Push Notifications" />
