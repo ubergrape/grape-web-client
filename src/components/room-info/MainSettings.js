@@ -16,6 +16,7 @@ import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Tooltip from '../tooltip/HoverTooltip'
 import AdditionalActionsDropdown from './AdditionalActionsDropdown'
+import {settingsButtonSize} from './roomInfoTheme'
 
 const messages = defineMessages({
   placeholder: {
@@ -33,6 +34,7 @@ const NotificationSettingsButton = ({classes, settings, onShow}) => {
     <Tooltip
       align="right"
       placement="top"
+      arrowMargin={Math.round(settingsButtonSize / 2)}
       message={(
         <FormattedMessage
           id="notificationSettingsTooltip"

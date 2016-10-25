@@ -29,6 +29,8 @@ const divider = {
   borderBottom: `1px solid ${grayBlueLight}`
 }
 
+export const settingsButtonSize = normal.fontSize
+
 export const styles = {
   channelInfo: {
     color: grayBlueDark
@@ -128,10 +130,10 @@ export const styles = {
       marginLeft: 10
     }
   },
-  notificationsButtonInherit: buttonIcon('bell', {color: button, hoverColor: blue, iconOnly: true, size: normal.fontSize}),
-  notificationsButtonOff: buttonIcon('bellSlashOpen', {color: blue, hoverColor: blue, iconOnly: true, size: normal.fontSize}),
-  notificationsButtonCustom: buttonIcon('bellOpen', {color: blue, hoverColor: blue, iconOnly: true, size: normal.fontSize}),
-  settingsButton: buttonIcon('cog', {color: button, hoverColor: blue, iconOnly: true, size: normal.fontSize}),
+  notificationsButtonInherit: buttonIcon('bell', {color: button, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonOff: buttonIcon('bellSlashOpen', {color: blue, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  notificationsButtonCustom: buttonIcon('bellOpen', {color: blue, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
+  settingsButton: buttonIcon('cog', {color: button, hoverColor: blue, iconOnly: true, size: settingsButtonSize}),
   additionalActionsDropdown: {},
   additionalActionButton: {
     extend: [linkButton, normal],
