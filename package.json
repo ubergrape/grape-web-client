@@ -1,6 +1,6 @@
 {
   "name": "grape-web",
-  "version": "0.38.0",
+  "version": "0.39.0",
   "dependencies": {
     "jss-isolate": "^1.0.0",
     "lodash": "^3.10.0",

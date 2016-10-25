@@ -39,6 +39,8 @@ export remove from './svg/remove.svg'
 export globe from './svg/globe.svg'
 export warning from './svg/warning.svg'
 export bell from './svg/bell.svg'
+export bellOpen from './svg/bell-open.svg'
+export bellSlashOpen from './svg/bell-slash-open.svg'
 export lock from './svg/lock.svg'
 
 // Products.
@@ -63,6 +65,8 @@ export youtube from './svg/youtube.svg'
 export checkmark from './svg/checkmark.svg'
 export checkmarkFilled from './svg/checkmark-filled.svg'
 export waiting from './svg/waiting.svg'
+export laptop from './svg/laptop.svg'
+export mobile from './svg/mobile.svg'
 
 // Room Icons.
 export roomBasketball from './svg/room-basketball.svg'
