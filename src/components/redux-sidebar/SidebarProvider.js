@@ -14,6 +14,7 @@ const actionNames = [
   'showChannelMembersInvite',
   'loadSharedFiles',
   'loadMentions',
+  'loadRoomInfo',
   'goToMessage',
   'searchMessages',
   'toggleSearchOnlyInChannel',

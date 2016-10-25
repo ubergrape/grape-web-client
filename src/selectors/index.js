@@ -148,6 +148,15 @@ export const userProfileSelector = createSelector(
   }
 )
 
+const notificationSettingsSelector = createSelector(
+  state => state.notificationSettings, state => state
+)
+
+export const notificationSettingsComponentSelector = createSelector(
+  [userSelector, notificationSettingsSelector],
+  (user, notificationSettings) => ({user, ...notificationSettings})
+)
+
 export const renameRoomErrorSelector = createSelector(
   state => state.renameRoomError, state => state
 )
@@ -156,17 +165,20 @@ export const roomInfoSelector = createSelector(
   [
     renameRoomErrorSelector,
     channelSelector,
-    userSelector
+    userSelector,
+    notificationSettingsSelector
   ],
   (
     renameError,
     channel,
-    user
+    user,
+    notificationSettings
   ) => {
     return {
       channel: channel.type === 'room' ? channel : {},
       user,
-      renameError
+      renameError,
+      notificationSettings
     }
   }
 )
@@ -489,9 +501,4 @@ export const historyComponentSelector = createSelector(
       customEmojis
     }
   }
-)
-
-export const notificationSettingsSelector = createSelector(
-  [userSelector, state => state.notificationSettings],
-  (user, notificationSettings) => ({user, ...notificationSettings})
 )

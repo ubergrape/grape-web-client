@@ -7,6 +7,11 @@ import {
 } from 'react-intl'
 
 import {maxChannelNameLength} from '../../constants/app'
+import {
+  isAllOff,
+  isAllInherit,
+  values as notificationSettingsValues
+} from '../../utils/notification-settings'
 import EditableText from '../editable-text/EditableText'
 import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Tooltip from '../tooltip/HoverTooltip'
@@ -19,6 +24,37 @@ const messages = defineMessages({
   }
 })
 
+const NotificationSettingsButton = ({classes, settings, onShow}) => {
+  let state = 'Custom'
+  if (isAllOff(settings)) state = 'Off'
+  if (isAllInherit(settings)) state = 'Inherit'
+
+  return (
+    <Tooltip
+      align="right"
+      placement="top"
+      message={(
+        <FormattedMessage
+          id="notificationSettingsTooltip"
+          defaultMessage="Edit notification settings" />
+      )}>
+      <button
+        className={`${classes.notificationsButton} ${classes['notificationsButton' + state]}`}
+        onClick={onShow}></button>
+    </Tooltip>
+  )
+}
+
+NotificationSettingsButton.propTypes = {
+  onShow: PropTypes.func.isRequired,
+  channel: PropTypes.object.isRequired,
+  settings: PropTypes.shape({
+    desktop: PropTypes.oneOf(notificationSettingsValues),
+    push: PropTypes.oneOf(notificationSettingsValues)
+  }).isRequired,
+  classes: PropTypes.object.isRequired
+}
+
 @injectIntl
 export default class MainSettings extends Component {
   static propTypes = {
@@ -27,14 +63,15 @@ export default class MainSettings extends Component {
     }).isRequired,
     intl: intlShape.isRequired,
     renameRoom: PropTypes.func.isRequired,
+    showNotificationSettings: PropTypes.func.isRequired,
     onChangePrivacy: PropTypes.func.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
     clearRoomRenameError: PropTypes.func.isRequired,
     onSetRoomColor: PropTypes.func.isRequired,
     onSetRoomIcon: PropTypes.func.isRequired,
-    showNotificationSettings: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     renameError: PropTypes.object.isRequired,
+    notificationSettings: PropTypes.object.isRequired,
     allowEdit: PropTypes.bool
   }
 
@@ -60,23 +97,18 @@ export default class MainSettings extends Component {
     const {
       allowEdit,
       theme,
-      theme: {classes}
+      theme: {classes},
+      channel,
+      notificationSettings
     } = this.props
 
     return (
       <div className={classes.additionalActions}>
-        <Tooltip
-          align="right"
-          placement="top"
-          message={(
-            <FormattedMessage
-              id="notificationSettingsTooltip"
-              defaultMessage="Edit notification settings" />
-          )}>
-          <button
-            className={classes.notificationsButton}
-            onClick={this.onShowNotificationSettings}></button>
-        </Tooltip>
+        <NotificationSettingsButton
+          channel={channel}
+          classes={classes}
+          onShow={this.onShowNotificationSettings}
+          settings={notificationSettings} />
         {allowEdit && (
           <AdditionalActionsDropdown
             {...this.props}

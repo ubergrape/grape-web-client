@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {notificationSettingsSelector as selector} from '../../selectors'
+import {notificationSettingsComponentSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
 import NotificationSettings from '../notification-settings/NotificationSettings'
 

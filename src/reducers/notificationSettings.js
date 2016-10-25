@@ -10,7 +10,7 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.SHOW_NOTIFICATION_SETTINGS:
       return {
-        ...initialState,
+        ...state,
         ...payload,
         show: true
       }

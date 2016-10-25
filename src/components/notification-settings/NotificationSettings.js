@@ -11,10 +11,9 @@ import {
 import {styles} from './notificationSettingsTheme'
 import Dialog from '../dialog/Dialog'
 import {Done} from '../i18n/i18n'
+import {isAllOff, values} from '../../utils/notification-settings'
 
-const values = ['inherit', 'all', 'anyMention', 'directMention', 'off']
 const statuses = ['pending', 'complete']
-const isAllMuted = ({desktop, push}) => push === 'off' && desktop === 'off'
 
 const messages = defineMessages({
   title: {
@@ -234,7 +233,7 @@ export default class NotificationSettings extends Component {
 
   onToggleMuteAll = () => {
     const {onChange, channel} = this.props
-    const allMuted = isAllMuted(this.props)
+    const allMuted = isAllOff(this.props)
     this.setState({muteAllStatus: 'pending'})
     onChange(channel, {transport: 'all', setting: 'all', value: !allMuted})
   }
@@ -269,7 +268,7 @@ export default class NotificationSettings extends Component {
 
     if (!channel || !desktop) return null
 
-    const allMuted = isAllMuted(this.props)
+    const allMuted = isAllOff(this.props)
 
     return (
       <Dialog

@@ -49,7 +49,9 @@ export default class RoomInfo extends Component {
     clearRoomRenameError: PropTypes.func.isRequired,
     showRoomDeteteDialog: PropTypes.func.isRequired,
     leaveChannel: PropTypes.func.isRequired,
-    hideSidebar: PropTypes.func.isRequired
+    hideSidebar: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
+    notificationSettings: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -58,6 +60,11 @@ export default class RoomInfo extends Component {
     this.state = {
       ...this.getRoles(props)
     }
+  }
+
+  componentWillMount() {
+    const {load, channel} = this.props
+    load({channel})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -201,9 +208,10 @@ export default class RoomInfo extends Component {
 
   render() {
     const {
-      channel, renameError, clearRoomRenameError, showNotificationSettings,
+      channel, renameError, clearRoomRenameError,
       intl: {formatMessage},
-      sheet, sheet: {classes}
+      sheet, sheet: {classes},
+      showNotificationSettings, notificationSettings
     } = this.props
 
     if (isEmpty(channel)) return null
@@ -225,6 +233,7 @@ export default class RoomInfo extends Component {
             onChangePrivacy={this.onChangePrivacy}
             onShowRoomDeleteDialog={this.onShowRoomDeleteDialog}
             renameRoom={this.onRenameRoom}
+            notificationSettings={notificationSettings}
             showNotificationSettings={showNotificationSettings}
             theme={sheet} />
 
