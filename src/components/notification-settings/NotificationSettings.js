@@ -97,12 +97,12 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
           values={{
             channel: channel.displayName,
             leaveButton: (
-              <a className={classes.inlineLink} href="" onClick={onLeave}>
+              <button className={classes.buttonLink}onClick={onLeave}>
                 <FormattedMessage
                   id="clickHereInlineLink"
                   defaultMessage="click here"
                   description={"Link used inline in the middle of a sentence."} />
-              </a>
+              </button>
             )
           }} />
       </p>

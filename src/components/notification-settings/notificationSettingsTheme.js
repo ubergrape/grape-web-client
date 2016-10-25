@@ -3,6 +3,7 @@ import {smaller, normal} from 'grape-theme/dist/fonts'
 
 import createInlineIcon from '../inline-icon/create'
 import buttonPrimary from '../button/primary'
+import buttonLink from '../button/link'
 import inlineLink from '../button/inlineLink'
 
 const padding = 15
@@ -55,6 +56,7 @@ export const styles = {
     opacity: 0,
     transition: 'opacity 300ms ease-in-out'
   },
+  buttonLink,
   inlineLink,
   label: {
     extend: normal,
