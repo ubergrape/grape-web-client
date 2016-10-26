@@ -49,7 +49,7 @@ export const styles = {
     opacity: 1,
     marginLeft: 10,
     '&:after': {
-      content: '"\\2713"'
+      content: '"✓"'
     }
   },
   statusHidden: {

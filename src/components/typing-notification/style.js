@@ -5,8 +5,7 @@ const dotAnimation = `dot-${random(1000000)}`
 export default {
   notification: {
     '&:after': {
-      // ascii code for the ellipsis character
-      content: '"\\2026"',
+      content: '"…"',
       overflow: 'hidden',
       display: 'inline-block',
       verticalAlign: 'bottom',
