@@ -51,7 +51,7 @@ const messages = defineMessages({
 
 const Title = ({classes, children, setting, status}) => (
   <div className={classes.titleContainer}>
-    <span className={classes['titleIcon' + capitalize(setting)]} />
+    <span className={`${classes['titleIcon' + capitalize(setting)]} ${classes.iconColumn}`} />
     <h3 className={classes.titleHeadline}>
       {children}
     </h3>
@@ -78,11 +78,12 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
         defaultMessage="Mute this Group" />
     </Title>
     <label className={classes.label}>
-      <input
-        type="checkbox"
-        checked={value}
-        className={classes.checkbox}
-        onChange={onChange} />
+      <span className={classes.iconColumn}>
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={onChange} />
+      </span>
       <FormattedMessage
         id="muteAllNotifications"
         defaultMessage="Block all notifications for this group on all your devices" />

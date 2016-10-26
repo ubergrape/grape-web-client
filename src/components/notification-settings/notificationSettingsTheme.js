@@ -8,11 +8,11 @@ import inlineLink from '../button/inlineLink'
 
 const padding = 15
 
-const titleIconOptions = {
+const createIcon = name => createInlineIcon(name, {
   // FIXME: replace with theme colors.
   color: '#4d4d4d',
   size: normal.fontSize
-}
+})
 
 export const styles = {
   notificationSettings: {
@@ -34,14 +34,17 @@ export const styles = {
       paddingBottom: 0
     }
   },
-  titleIconMuteAll: createInlineIcon('bellSlashOpen', titleIconOptions),
-  titleIconDesktop: createInlineIcon('laptop', titleIconOptions),
-  titleIconPush: createInlineIcon('mobile', titleIconOptions),
+  iconColumn: {
+    display: 'inline-block',
+    width: 22
+  },
+  titleIconMuteAll: createIcon('bellSlashOpen'),
+  titleIconDesktop: createIcon('laptop'),
+  titleIconPush: createIcon('mobile'),
   titleHeadline: {
     extend: normal,
     fontWeight: 'bold',
-    display: 'inline-block',
-    marginLeft: 5
+    display: 'inline-block'
   },
   status: {
     display: 'inline-block',
@@ -61,9 +64,6 @@ export const styles = {
   label: {
     extend: normal,
     cursor: 'pointer'
-  },
-  checkbox: {
-    marginRight: padding
   },
   select: {
     // Chrome on windows creates an optical margin when text is too large.
