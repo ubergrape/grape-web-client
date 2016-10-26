@@ -6,7 +6,7 @@ jsEmoji.use_sheet = true
 
 // https://github.com/ubergrape/chatgrape/issues/839
 // https://bugzilla.mozilla.org/show_bug.cgi?id=923007
-if (~navigator.userAgent.indexOf('Firefox') && navigator.platform === 'MacIntel') {
+if (navigator.userAgent.includes('Firefox') && navigator.platform === 'MacIntel') {
   jsEmoji.allow_native = false
 }
 

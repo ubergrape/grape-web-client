@@ -2,13 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import * as themes from './themes'
 import {Done} from '../i18n/i18n'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
 import Editable from './Editable'
 import style from './style'
-
 
 const Wrapper = listenOutsideClick(props => {
   return (
@@ -37,14 +36,16 @@ export default class EditableText extends Component {
       level: React.PropTypes.string.isRequired
     }),
     clearError: PropTypes.func.isRequired,
-    placeholder: PropTypes.string.isRequired
+    placeholder: PropTypes.string.isRequired,
+    preserveSpaceForButton: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     value: '',
     multiline: false,
     placeholder: '',
-    clearError: noop
+    clearError: noop,
+    preserveSpaceForButton: false
   }
 
   constructor(props) {
@@ -108,11 +109,11 @@ export default class EditableText extends Component {
   }
 
   onClickSave = () => {
-    if (!this.props.error) {
-      this.setState({isEditing: false}, () => {
-        this.save()
-      })
-    }
+    if (this.props.error) return
+
+    this.setState({isEditing: false}, () => {
+      this.save()
+    })
   }
 
   restoreState = () => {
@@ -137,7 +138,8 @@ export default class EditableText extends Component {
   render() {
     const {
       multiline, placeholder, maxLength,
-      clearError, error, sheet
+      clearError, error, sheet,
+      preserveSpaceForButton
     } = this.props
 
     const {value, saving, isEditing} = this.state
@@ -158,6 +160,9 @@ export default class EditableText extends Component {
     }
 
     const className = `form${multiline ? 'Textarea' : 'Input'}`
+
+    const hiddenButtonClassName = preserveSpaceForButton ? 'invisible' : 'hidden'
+
     return (
       <Wrapper
         className={classes[className]}
@@ -166,7 +171,7 @@ export default class EditableText extends Component {
         <Editable {...editableProps} />
         <button
           onClick={this.onClickSave}
-          className={classes['submit' + (isEditing ? 'Visible' : '')]}
+          className={`${classes.submit} ${classes[isEditing ? '' : hiddenButtonClassName]}`}
           disabled={this.state.saving}>
           <Done />
         </button>

@@ -6,7 +6,6 @@ import {icons, colors as roomColors} from 'grape-theme/dist/room-settings'
 import Icon from '../room-icon/RoomIcon'
 import {defaultRoomIconSlug} from '../../constants/images'
 
-
 function RenderColors({theme, channel, onSetRoomColor}) {
   const {classes} = theme
   return (

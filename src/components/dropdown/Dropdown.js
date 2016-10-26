@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import Position from 'react-overlays/lib/Position'
 import noop from 'lodash/utility/noop'
+import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 export default function Dropdown(props) {

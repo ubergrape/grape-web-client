@@ -135,7 +135,7 @@ export const normalizeMessage = (() => {
     if (msg.objects) {
       const objectsText = msg.objects
         .filter(({visible, type: _type}) => {
-          if (visible === false || ignoreActivityObjects.indexOf(_type) !== -1) {
+          if (visible === false || ignoreActivityObjects.includes(_type)) {
             return false
           }
           return true

@@ -11,6 +11,10 @@ export const styles = {
     paddingTop: 2
   },
   lastRow: {
-    marginBottom: 35
+    '&:after': {
+      display: 'block',
+      content: '""',
+      height: 35
+    }
   }
 }

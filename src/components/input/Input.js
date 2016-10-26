@@ -2,9 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
-
+import listenOutsideClick from 'grape-web/lib/outside-click'
 import {pickHTMLProps} from 'pick-react-known-prop'
-import listenOutsideClick from '../outside-click/listenOutsideClick'
+
 import GrayTooltip from '../tooltip/GrayTooltip'
 import style from './style'
 

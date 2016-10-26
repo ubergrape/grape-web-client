@@ -96,9 +96,11 @@ export default class History extends Component {
     this.setState({rows})
   }
 
-  renderRow = ({index}) => (
+  renderRow = ({index, key, style}) => (
     <Row
       {...this.state.rows[index]}
+      key={key}
+      style={style}
       onToggleExpander={this.onToggleExpander} />
   )
 
