@@ -1,13 +1,20 @@
-import fonts from 'grape-theme/dist/fonts'
-import colors from 'grape-theme/dist/base-colors'
-import webColors from 'grape-theme/dist/web-colors'
+import {small} from 'grape-theme/dist/fonts'
+import {white} from 'grape-theme/dist/base-colors'
+import {
+  link as linkColor,
+  borderDefault as borderColor
+} from 'grape-theme/dist/web-colors'
 
 import buttonReset from '../button/reset'
+
+export const iconSize = 60
+
+export const previewIconSize = 32
 
 const buttonBorderWidth = 1
 
 const iconSettingsButton = {
-  ...buttonReset,
+  extend: buttonReset,
   display: 'block',
   marginRight: 10,
   padding: 4,
@@ -16,34 +23,34 @@ const iconSettingsButton = {
 }
 
 const chooserButton = {
-  ...buttonReset,
+  extend: buttonReset,
   display: 'block',
   overflow: 'hidden',
   boxSizing: 'border-box',
-  width: 32,
-  height: 32,
+  width: previewIconSize,
+  height: previewIconSize,
   borderRadius: '50%',
   backgroundClip: 'content-box',
   border: '1px solid transparent',
-  boxShadow: `inset 0 0 0 2px ${colors.white}`,
+  boxShadow: `inset 0 0 0 2px ${white}`,
   '&:hover': {
     isolate: false,
-    borderColor: webColors.link
+    borderColor: linkColor
   }
 }
 
-export default {
+export const styles = {
   iconSettingsButton: {
-    ...iconSettingsButton,
+    extend: iconSettingsButton,
     borderColor: 'transparent',
     '&:hover': {
       isolate: false,
-      borderColor: webColors.link
+      borderColor: linkColor
     }
   },
   iconSettingsButtonActive: {
-    ...iconSettingsButton,
-    borderColor: webColors.link
+    extend: iconSettingsButton,
+    borderColor: linkColor
   },
   iconSettings: {
     boxSizing: 'border-box',
@@ -51,7 +58,7 @@ export default {
     paddingRight: 10
   },
   iconSettingsTitle: {
-    ...fonts.small,
+    extend: small,
     fontWeight: 'bold'
   },
   roomColors: {
@@ -59,20 +66,20 @@ export default {
   },
   iconSettingsItem: {
     display: 'inline-block',
-    width: 32,
-    height: 32,
+    width: previewIconSize,
+    height: previewIconSize,
     margin: '0 5px 5px 0',
     '&:last-child': {
       marginRight: 0
     }
   },
   chooserButton: {
-    ...chooserButton,
-    borderColor: webColors.borderDefault
+    extend: chooserButton,
+    borderColor: borderColor
   },
   chooserButtonActive: {
-    ...chooserButton,
-    borderColor: webColors.link
+    extend: chooserButton,
+    borderColor: linkColor
   },
   iconSettingsList: {
     marginTop: 10

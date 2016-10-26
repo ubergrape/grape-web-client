@@ -4,6 +4,7 @@ import {
   intlShape,
   injectIntl
 } from 'react-intl'
+import injectSheet from 'grape-web/lib/jss'
 
 import SharedFiles from '../shared-files/SharedFiles'
 import RoomInfo from '../room-info/RoomInfo'
@@ -12,7 +13,6 @@ import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
 import Intercom from '../intercom/Intercom'
 import style from './style'
-import injectSheet from 'grape-web/lib/jss'
 
 const messages = defineMessages({
   mentions: {
@@ -38,6 +38,7 @@ function SidebarContent(props) {
     show,
     intl: {formatMessage},
     loadMentions,
+    loadRoomInfo,
     searchMessages,
     toggleSearchOnlyInChannel,
     toggleShowRoomMentions,
@@ -49,7 +50,9 @@ function SidebarContent(props) {
     case 'files':
       return <SharedFiles {...props} />
     case 'room':
-      return <RoomInfo {...props} />
+      return (<RoomInfo
+        {...props}
+        load={loadRoomInfo} />)
     case 'pm':
       return <UserProfile {...props} />
     case 'mentions': {
@@ -96,6 +99,7 @@ SidebarContent.propTypes = {
     React.PropTypes.bool
   ]).isRequired,
   loadMentions: PropTypes.func.isRequired,
+  loadRoomInfo: PropTypes.func.isRequired,
   searchMessages: PropTypes.func.isRequired,
   showRoomMentions: PropTypes.bool,
   searchOnlyInChannel: PropTypes.bool,

@@ -1,22 +1,21 @@
-import fonts from 'grape-theme/dist/fonts'
+import {normal} from 'grape-theme/dist/fonts'
 import linkButton from '../button/link'
-
-const submit = {
-  ...linkButton,
-  ...fonts.normal,
-  flexShrink: 0
-}
 
 export default {
   formInput: {
     display: 'flex',
-    '& > button': {
+    '& $submit': {
       marginLeft: 10
     }
   },
   submit: {
-    ...submit,
-    visibility: 'hidden'
+    extend: [linkButton, normal],
+    flexShrink: 0
   },
-  submitVisible: submit
+  hidden: {
+    display: 'none'
+  },
+  invisible: {
+    visibility: 'hidden'
+  }
 }

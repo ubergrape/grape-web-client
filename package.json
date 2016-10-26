@@ -1,7 +1,7 @@
 {
   "name": "grape-web-client",
   "description": "",
-  "version": "0.28.0",
+  "version": "0.31.0",
   "repository": "ubergrape/grape-web-client.git",
   "keywords": [],
   "engines": {
@@ -38,7 +38,7 @@
     "grape-browser": "^3.4.7",
     "grape-js-emoji": "^0.0.1",
     "grape-theme": "1.x",
-    "grape-web": "^0.38.0",
+    "grape-web": "^0.39.0",
     "html5-desktop-notifications": "ubergrape/html5-desktop-notifications#1.0.0",
     "image-zoom": "ubergrape/image-zoom",
     "intl": "^1.2.4",
@@ -87,6 +87,7 @@
     "t": "ubergrape/t#master",
     "virtualdom": "ubergrape/virtualdom",
     "wamp1": "ubergrape/wamp1#2.0.0",
+    "warning": "^3.0.0",
     "websocket-wrapper": "^0.1.0"
   },
   "devDependencies": {
@@ -96,6 +97,7 @@
     "babel-eslint": "^4.1.5",
     "babel-loader": "^5.3.1",
     "babel-plugin-react-intl": "1.x",
+    "babel-polyfill": "^6.16.0",
     "copy-webpack-plugin": "^1.1.1",
     "cpy-cli": "^1.0.1",
     "css-loader": "^0.15.6",

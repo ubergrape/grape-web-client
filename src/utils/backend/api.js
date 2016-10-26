@@ -1,8 +1,10 @@
 import request from 'superagent'
+
 import conf from 'conf'
 
 import rpc from './rpc'
 import {toSnake} from './convertCase'
+import {sequenceToSettings, settingsToSequence} from './notification'
 
 export function createRoom(room) {
   return new Promise((resolve, reject) => {
@@ -415,5 +417,31 @@ export function loadConfig() {
         if (err) return reject(err)
         resolve(res.body)
       })
+  })
+}
+
+export function setNotificationSetting(orgId, channelId, settings) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'update_settings',
+      args: [`${orgId}:${channelId}`, settingsToSequence(settings)]
+    }, err => {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
+export function getNotificationSettings(orgId, channelId) {
+  return new Promise((resolve, reject) => {
+    rpc({
+      ns: 'notifications',
+      action: 'get_settings',
+      args: [`${orgId}:${channelId}`]
+    }, (err, sequence) => {
+      if (err) return reject(err)
+      resolve(sequenceToSettings(sequence))
+    })
   })
 }

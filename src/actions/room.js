@@ -3,6 +3,11 @@ import {maxChannelDescriptionLength} from '../constants/app'
 import reduxEmitter from '../legacy/redux-emitter'
 import * as api from '../utils/backend/api'
 import {error} from './common'
+import {loadNotificationSettings} from './notificationSettings'
+
+export function loadRoomInfo({channel}) {
+  return dispatch => dispatch(loadNotificationSettings({channel}))
+}
 
 export function renameRoom(id, name) {
   return dispatch => {

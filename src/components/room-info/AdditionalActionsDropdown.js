@@ -4,7 +4,7 @@ import {FormattedMessage} from 'react-intl'
 import Tooltip from '../tooltip/HoverTooltip'
 import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
-import {additionalActionsButtonSize} from './roomInfoTheme'
+import {settingsButtonSize} from './roomInfoTheme'
 
 export default class AdditionalActionsDropdown extends Component {
   static propTypes = {
@@ -45,15 +45,15 @@ export default class AdditionalActionsDropdown extends Component {
 
     const {classes} = theme
     return (
-      <div>
+      <div className={classes.additionalActionsDropdown}>
         <Tooltip
           align="right"
           placement="top"
-          arrowMargin={Math.round(additionalActionsButtonSize / 2)}
+          arrowMargin={Math.round(settingsButtonSize / 2)}
           disabled={show}
           message={<FormattedMessage id="editGroup" defaultMessage="Edit Group" />}>
           <button
-            className={classes.additionalActionsButton}
+            className={classes.settingsButton}
             onClick={this.onShowDropdown}
             ref="settings" />
         </Tooltip>
