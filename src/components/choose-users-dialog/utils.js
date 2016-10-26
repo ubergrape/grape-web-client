@@ -1,7 +1,7 @@
 function filterUserByValue(value, {username, displayName}) {
   const lowerCaseValue = value.toLowerCase()
-  return username.toLowerCase().indexOf(lowerCaseValue) >= 0 ||
-    displayName.toLowerCase().indexOf(lowerCaseValue) >= 0
+  return username.toLowerCase().includes(lowerCaseValue) ||
+    displayName.toLowerCase().includes(lowerCaseValue)
 }
 
 function sortUserByValue(value, {username, displayName}) {

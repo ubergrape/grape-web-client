@@ -36,7 +36,7 @@ function createResetSequence(transport) {
 function createAnyMentionSequence(transport) {
   const sequence = createSequence(false, setting => setting.transport === transport)
   return sequence.map(setting => {
-    if (mentionDispatchers.indexOf(setting.dispatcher) !== -1) {
+    if (mentionDispatchers.includes(setting.dispatcher)) {
       return {...setting, active: true}
     }
 
