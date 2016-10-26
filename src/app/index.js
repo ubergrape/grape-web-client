@@ -47,19 +47,19 @@ export default function init() {
 // Separately connected Providers.
 render(
   createElement(wrapWithIntlProvider(BillingWarningProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('div'))
+  document.createElement('div')
 )
 render(
   createElement(wrapWithIntlProvider(ChannelMembersInviteProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('div'))
+  document.createElement('div')
 )
 render(
   createElement(wrapWithIntlProvider(NewConversationProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('div'))
+  document.createElement('div')
 )
 render(
   createElement(wrapWithIntlProvider(InviteToOrgProvider, languageCode, messages)),
-  document.body.appendChild(document.createElement('div'))
+  document.createElement('div')
 )
 render(
   createElement(wrapWithIntlProvider(UnreadChannelsProvider, languageCode, messages)),
