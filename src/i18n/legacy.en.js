@@ -41,12 +41,9 @@ export default {
   "Example": "Example",
   "You can write in *italic*, **bold** and in ~~strike trough~~": "You can write in *italic*, **bold** and in ~~strike trough~~",
   "Result": "Result",
-  "You can write in ": "You can write in ",
   "You can write in": "You can write in",
   "italic": "italic",
-  "bold ": "bold ",
   "bold": "bold",
-  "and in ": "and in ",
   "and in": "and in",
   "strike trough": "strike trough",
   "Links": "Links",
@@ -66,10 +63,8 @@ export default {
   "Archived messages with deleted users": "Archived messages with deleted users",
   "Join": "Join",
   "Leave": "Leave",
-  "Invite people to your organization": "Invite people to your organization",
   "Drop your file to upload it!": "Drop your file to upload it!",
   "We support almost every file type up to a size of 50mb": "We support almost every file type up to a size of 50mb",
-  "Enter one or more email addresses separated by a space.": "Enter one or more email addresses separated by a space.",
   "Hit ": "Hit ",
   "ESC": "ESC",
   " to cancel editing.": " to cancel editing.",
@@ -120,7 +115,5 @@ export default {
   "Manage Private Messages": "Manage Private Messages",
   "Active": "Active",
   "Invited": "Invited",
-  "Deleted": "Deleted",
-  "Please enter at least one user to invite": "Please enter at least one user to invite",
-  "Enter valid email addresses separated by a space.": "Enter valid email addresses separated by a space."
+  "Deleted": "Deleted"
 }

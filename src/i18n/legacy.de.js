@@ -41,12 +41,9 @@ export default {
   "Example": "Beispiel",
   "You can write in *italic*, **bold** and in ~~strike trough~~": "Sie können Ihre Nachrichten *kursiv*, **fett** und ~~durchgestrichen~~ schreiben",
   "Result": "Ergebnis",
-  "You can write in ": "Sie können schreiben in",
   "You can write in": "Sie können schreiben in",
   "italic": "kursiv",
-  "bold ": "fett",
   "bold": "fett",
-  "and in ": "und in",
   "and in": "und in",
   "strike trough": "durchgestrichen",
   "Links": "Links",
@@ -66,10 +63,8 @@ export default {
   "Archived messages with deleted users": "Archivierte Nachrichten mit gelöschten Nutzern",
   "Join": "Beitreten",
   "Leave": "Verlassen",
-  "Invite people to your organization": "Mitarbeiter zu Ihrer Organisation einladen",
   "Drop your file to upload it!": "Datei hier ablegen, um sie zu teilen!",
   "We support almost every file type up to a size of 50mb": "Fast alle Dateien bis zu einer Größe von 50 MB werden unterstützt",
-  "Enter one or more email addresses separated by a space.": "Geben Sie eine oder mehrere Email-Adressen ein, abgetrennt mittels Leerzeichen.",
   "Hit ": "Drücken Sie ",
   "ESC": "ESC",
   " to cancel editing.": " um die Bearbeitung zu beenden.",
@@ -120,7 +115,5 @@ export default {
   "Manage Private Messages": "Privatnachrichten verwalten",
   "Active": "Aktiv",
   "Invited": "Eingeladen",
-  "Deleted": "Entfernt",
-  "Please enter at least one user to invite": "Bitte geben Sie mindestens eine/n MitarbeiterIn ein, den/die Sie einladen möchten",
-  "Enter valid email addresses separated by a space.": "Geben Sie gültige Email-Adressen ein, getrennt mittels Leerzeichen."
+  "Deleted": "Entfernt"
 }
