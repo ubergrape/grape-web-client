@@ -1,5 +1,3 @@
-import includes from 'lodash/collection/includes'
-
 import * as types from '../constants/actionTypes'
 
 const initialState = {
