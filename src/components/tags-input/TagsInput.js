@@ -40,11 +40,11 @@ export default class TagsInput extends Component {
     filterArea.style.height = filterRuler.offsetHeight
   }
 
-  onBlur() {
+  onBlur = () => {
     if (this.props.focused) this.refs.input.focus()
   }
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     if (keyname(e.keyCode) === 'backspace') {
       this.deleteLastItem()
       return
@@ -52,7 +52,7 @@ export default class TagsInput extends Component {
     this.props.onKeyDown(e)
   }
 
-  onChange() {
+  onChange = () => {
     this.props.onChange(this.refs.input.value)
   }
 
@@ -90,9 +90,9 @@ export default class TagsInput extends Component {
         <input
           ref="input"
           className={classes.input}
-          onBlur={::this.onBlur}
-          onKeyDown={::this.onKeyDown}
-          onChange={::this.onChange}
+          onBlur={this.onBlur}
+          onKeyDown={this.onKeyDown}
+          onChange={this.onChange}
           value={value} />
         <span
           ref="inputRuler"
