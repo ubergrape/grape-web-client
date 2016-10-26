@@ -66,6 +66,8 @@ export const styles = {
     marginRight: padding
   },
   select: {
+    // Chrome on windows creates an optical margin when text is too large.
+    display: 'block',
     width: '50%'
   },
   allMutedHint: {
