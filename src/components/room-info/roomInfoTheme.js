@@ -14,8 +14,9 @@ const paddingBottom = 15
 const hoverColor = color(blue).lighten(0.05).rgbaString()
 
 const baseButton = {
-  extend: [linkButton, normal],
-  display: 'block',
+  extend: [linkButton, normal, ellipsis],
+  width: '100%',
+  textAlign: 'left',
   marginBottom: marginBottom / 2,
   '&:hover': {
     isolate: false,
