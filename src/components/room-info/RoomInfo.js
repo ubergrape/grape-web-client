@@ -68,10 +68,13 @@ export default class RoomInfo extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const isSameUser = this.props.user === nextProps.user
-    const isSameChannel = this.props.channel === nextProps.channel
-    if (isSameUser && isSameChannel) return
-    this.setState({...this.state, ...this.getRoles(nextProps)})
+    const {user, channel, load} = this.props
+    const userHasChanged = user !== nextProps.user
+    const channelHasChanged = channel !== nextProps.channel
+    if (userHasChanged || channelHasChanged) {
+      this.setState({...this.state, ...this.getRoles(nextProps)})
+    }
+    if (channelHasChanged) load({channel: nextProps.channel})
   }
 
   onInvite = () => {

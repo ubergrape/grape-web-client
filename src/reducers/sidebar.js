@@ -1,9 +1,12 @@
-import * as types from '../constants/actionTypes'
 import includes from 'lodash/collection/includes'
+
+import * as types from '../constants/actionTypes'
 
 const initialState = {
   show: false
 }
+
+const channelTypes = ['pm', 'room']
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
@@ -14,7 +17,7 @@ export default function reduce(state = initialState, action) {
     case types.SET_CHANNEL: {
       const {type} = action.payload.channel
       const {show} = state
-      if (includes(['pm', 'room'], show) && type !== show) {
+      if (type !== show && channelTypes.includes(show)) {
         return {show: type}
       }
     }
