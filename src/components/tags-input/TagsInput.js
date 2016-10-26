@@ -79,9 +79,10 @@ export default class TagsInput extends Component {
   }
 
   renderInput() {
-    const {classes} = this.props.sheet
-    const {focused, value} = this.props
-    if (!focused) return null
+    const {
+      sheet: {classes},
+      value
+    } = this.props
 
     return (
       <span>
