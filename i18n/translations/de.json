@@ -107,7 +107,7 @@
   "_notificationSettingAnyMention.comment": "Notification setting name.",
   "notificationSettingDirectMention": "Nur direkte Erwähnungen (@{user})",
   "_notificationSettingDirectMention.comment": "Notification setting name.",
-  "notificationSettingOff": "Nichts",
+  "notificationSettingOff": "Keine",
   "_notificationSettingOff.comment": "Notification setting name.",
   "notificationSettingStatusComplete": "gespeichert",
   "muteGroupTitle": "Gruppe stumm schalten",
