@@ -95,7 +95,7 @@ const MuteAllSetting = ({classes, status, value, channel, onChange, onLeave}) =>
         {channel} - but you can still come back anytime to check it out for new messages.
         If you want to leave the group and remove it from your sidebar, {leaveButton}"
           values={{
-            channel: channel.displayName,
+            channel: channel.name,
             leaveButton: (
               <button className={classes.buttonLink}onClick={onLeave}>
                 <FormattedMessage
