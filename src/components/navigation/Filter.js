@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {pickHTMLProps} from 'pick-react-known-prop'
 import {
   defineMessages,
@@ -21,6 +22,10 @@ export default class Filter extends Component {
     theme: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {findDOMNode} from 'react-dom'
 import {injectIntl} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import style from './style'
+import {styles} from './theme'
 import Items from './Items'
 
-@injectSheet(style)
+@injectSheet(styles)
 @injectIntl
 export default class Header extends Component {
   static propTypes = {
@@ -31,6 +32,10 @@ export default class Header extends Component {
     // Hide intercom, because it keeps state outside of app.
     const {support: {type}, hideIntercom} = nextProps
     if (type !== this.props.support.type && type === 'intercom') hideIntercom()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onFocusMessageSearch = ({target}) => {

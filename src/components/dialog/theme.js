@@ -1,7 +1,7 @@
-import colors from 'grape-theme/dist/base-colors'
-import fonts from 'grape-theme/dist/fonts'
-import sizes from 'grape-theme/dist/sizes'
-import mixins from 'grape-web/lib/jss-utils/mixins'
+import {black, white} from 'grape-theme/dist/base-colors'
+import {biggest} from 'grape-theme/dist/fonts'
+import {borderRadius} from 'grape-theme/dist/sizes'
+import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
 
 const overlay = {
   position: 'fixed',
@@ -11,30 +11,30 @@ const overlay = {
   right: 0
 }
 
-export default {
+export const styles = {
   modal: {
-    ...overlay,
+    extend: overlay,
     zIndex: 1000,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   },
   backdrop: {
-    ...overlay,
-    backgroundColor: colors.black,
+    extend: overlay,
+    backgroundColor: black,
     opacity: 0.3,
     zIndex: -1
   },
   content: {
     width: 525,
-    borderRadius: sizes.borderRadius.big,
+    borderRadius: borderRadius.big,
     boxShadow: '0px 4px 10px -1px rgba(33,32,34,0.5)',
     overflow: 'hidden',
     outline: 0
   },
   header: {
     display: 'flex',
-    background: colors.white,
+    background: white,
     height: 50
   },
   close: {
@@ -54,13 +54,12 @@ export default {
     }
   },
   title: {
-    ...fonts.biggest,
-    ...mixins.ellipsis,
+    extend: [biggest, ellipsis],
     flex: 2,
     alignSelf: 'center',
     paddingLeft: 20
   },
   body: {
-    background: colors.white
+    background: white
   }
 }

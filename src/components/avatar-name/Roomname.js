@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
 
 import style from './roomStyle'
@@ -24,12 +25,17 @@ export default class Roomname extends Component {
     showPrivateStatus: false
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
   render() {
     const {
-      name, sheet, icon, color: backgroundColor,
-      statusBorderColor, isPublic, showPrivateStatus
+      name, icon, color: backgroundColor,
+      statusBorderColor, isPublic, showPrivateStatus,
+      sheet: {classes}
     } = this.props
-    const {classes} = sheet
+
     return (
       <span className={classes.avatarName}>
         <Icon

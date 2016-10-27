@@ -1,10 +1,11 @@
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import reset from '../button/reset'
-import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
 import webColors from 'grape-theme/dist/web-colors'
 import {small, big} from 'grape-theme/dist/fonts'
 import mixins from 'grape-web/lib/jss-utils/mixins'
+import color from 'color'
+
+import reset from '../button/reset'
 
 const headerHeight = 56
 
@@ -54,7 +55,7 @@ const action = {
   listStyle: 'none'
 }
 
-export default {
+export const styles = {
   headerWrapper: {
     position: 'relative',
     height: headerHeight,

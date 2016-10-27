@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
-import style from './style'
 
-@injectSheet(style)
+import {styles} from './theme'
+
+@injectSheet(styles)
 export default class Favorite extends Component {
-
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     id: PropTypes.number,
@@ -13,7 +14,11 @@ export default class Favorite extends Component {
     requestRemoveChannelFromFavorites: PropTypes.func.isRequired
   }
 
-  toggleFavorited() {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
+  onToggle = () => {
     const {
       id,
       favorited,
@@ -30,11 +35,14 @@ export default class Favorite extends Component {
   }
 
   render() {
-    const {favorited} = this.props
-    const {classes} = this.props.sheet
+    const {
+      favorited,
+      sheet: {classes}
+    } = this.props
+
     return (
       <button
-        onClick={::this.toggleFavorited}
+        onClick={this.onToggle}
         className={classes[favorited ? 'favorited' : 'favorite']}>
       </button>
     )

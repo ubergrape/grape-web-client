@@ -23,7 +23,7 @@ export default function Options(props) {
               checked={option.status}
               onChange={option.handler}
               disabled={isLoading} />
-              {option.label}
+            {option.label}
           </label>
         </li>
       )}

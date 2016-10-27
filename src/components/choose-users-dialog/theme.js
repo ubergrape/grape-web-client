@@ -1,12 +1,13 @@
-import link from '../button/link'
-import colors from 'grape-theme/dist/base-colors'
-import fonts from 'grape-theme/dist/fonts'
+import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+import {small} from 'grape-theme/dist/fonts'
 
-export default {
+import link from '../button/link'
+
+export const styles = {
   wrapper: {
     position: 'relative',
     padding: 15,
-    borderTop: `3px solid ${colors.grayBlueLighter}`
+    borderTop: `3px solid ${grayBlueLighter}`
   },
   list: {
     minHeight: 100,
@@ -17,8 +18,7 @@ export default {
     textAlign: 'right'
   },
   orgInviteButton: {
-    ...link,
-    ...fonts.small
+    extend: [link, small]
   },
   user: {
     padding: '4px 8px',
@@ -26,7 +26,7 @@ export default {
     cursor: 'pointer'
   },
   focusedUser: {
-    backgroundColor: colors.grayBlueLighter
+    backgroundColor: grayBlueLighter
   },
   note: {
     margin: 10

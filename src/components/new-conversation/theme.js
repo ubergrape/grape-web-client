@@ -8,7 +8,7 @@ import color from 'color'
 
 const {padding} = button
 
-export default {
+export const styles = {
   footer: {
     paddingTop: 15,
     borderTop: `1px solid ${borderDefault}`,

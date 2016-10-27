@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import {defaultAvatar} from '../../constants/images'
-import styles from './styles'
+import {styles} from './theme'
 
 @injectSheet(styles)
 export default class Avatar extends Component {
@@ -23,9 +24,12 @@ export default class Avatar extends Component {
     style: {}
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
   render() {
-    const {className, src, onClick, sheet, children} = this.props
-    const {classes} = sheet
+    const {className, src, onClick, sheet: {classes}, children} = this.props
     const style = {...this.props.style}
     if (src) style.backgroundImage = `url(${src})`
 

@@ -10,7 +10,7 @@ const headers = {
   lineHeight: 'initial'
 }
 
-export default {
+export const styles = {
   orgInfo: {
     position: 'absolute',
     display: 'flex',

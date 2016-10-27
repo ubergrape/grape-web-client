@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
 import capitalize from 'lodash/string/capitalize'
@@ -9,7 +10,7 @@ import {
   injectIntl
 } from 'react-intl'
 
-import {styles} from './notificationSettingsTheme'
+import {styles} from './theme'
 import Dialog from '../dialog/Dialog'
 import {Done} from '../i18n/i18n'
 import {isAllOff, values} from '../../utils/notification-settings'
@@ -222,6 +223,10 @@ export default class NotificationSettings extends Component {
     super(props)
     this.state = {}
     this.timers = {}
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   componentWillUpdate() {

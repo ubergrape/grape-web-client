@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import useTheme from '../theme/useTheme'
 import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
@@ -31,30 +32,25 @@ export default class Editable extends Component {
     }
   }
 
-  onEditableFocus = ({target}) => {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
+  onFocusEditable = ({target}) => {
     target.selectionStart = 0
     target.selectionEnd = this.props.value.length
   }
 
   render() {
-    const {isEditing} = this.props
+    const {isEditing, multiline} = this.props
+    const tag = multiline ? 'textarea' : 'input'
+    const Renderable = this[tag][isEditing ? 'Input' : 'String']
 
-    if (this.props.multiline) {
-      const Textarea = this.textarea[isEditing ? 'Input' : 'String']
-      return (
-        <Textarea
-        {...this.props}
-        focused={isEditing}
-        onFocus={this.onEditableFocus} />
-      )
-    }
-
-    const Input = this.input[isEditing ? 'Input' : 'String']
     return (
-      <Input
+      <Renderable
         {...this.props}
         focused={isEditing}
-        onFocus={this.onEditableFocus} />
+        onFocus={this.onFocusEditable} />
     )
   }
 }

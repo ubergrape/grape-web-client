@@ -1,18 +1,17 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 
 import style from './userStyle'
 import Avatar from '../avatar/Avatar'
 
-function Status({theme, status, borderColor}) {
-  return (
-    <i
-      className={`${theme.status} ${theme[status]}`}
-      style={{borderColor}}>
-    </i>
-  )
-}
+const Status = ({theme, status, borderColor}) => (
+  <i
+    className={`${theme.status} ${theme[status]}`}
+    style={{borderColor}}>
+  </i>
+)
 
 Status.propTypes = {
   borderColor: PropTypes.string,
@@ -39,14 +38,18 @@ export default class Username extends Component {
     showStatus: true
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
   render() {
-    const {classes} = this.props.sheet
     const {
       name,
       avatar,
       showStatus,
       status,
-      statusBorderColor
+      statusBorderColor,
+      sheet: {classes}
     } = this.props
 
     return (

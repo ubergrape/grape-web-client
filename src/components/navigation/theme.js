@@ -57,7 +57,7 @@ const title = {
   color: colors.grayBlue
 }
 
-export default {
+export const styles = {
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
