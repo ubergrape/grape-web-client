@@ -4,7 +4,6 @@ import {
   defineMessages,
   intlShape
 } from 'react-intl'
-import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import Favorite from '../favorite/Favorite'
@@ -104,30 +103,6 @@ Button.propTypes = {
   className: PropTypes.string.isRequired
 }
 
-function Input({theme, onFocus, onChange, onClick, placeholder}) {
-  return (
-    <input
-      onClick={onClick}
-      className={`${theme.classes.search} search-form`}
-      onFocus={onFocus}
-      onChange={onChange}
-      placeholder={placeholder}
-      type="search" />
-  )
-}
-
-Input.propTypes = {
-  theme: PropTypes.object.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired
-}
-
-Input.defaultProps = {
-  placeholder: ''
-}
-
 function MentionsBadge({mentions, sidebar, theme}) {
   if (!mentions || sidebar === 'mentions') return null
   return <i className={theme.classes.badge} />
@@ -142,8 +117,6 @@ MentionsBadge.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-const Search = listenOutsideClick(Input)
-
 function itemButtonClassName(panel, {sidebar, theme}) {
   return theme.classes[sidebar === panel ? `${panel}Active` : panel]
 }
@@ -156,7 +129,6 @@ function itemClickHandler(panel, {sidebar, hideSidebar, showInSidebar}) {
 export default function Items(props) {
   const {
     showChannelMembersInvite,
-    onClickOutsideMessageSearch,
     onFocusMessageSearch,
     onChangeMessageSearch,
     support,
@@ -216,12 +188,12 @@ export default function Items(props) {
         </Tooltip>
       </li>
       <li className={classes.searchAction}>
-        <Search
-          theme={theme}
-          onOutsideClick={onClickOutsideMessageSearch}
-          placeholder={formatMessage(messages.placeholder)}
+        <input
+          className={`${classes.search} search-form`}
           onFocus={onFocusMessageSearch}
-          onChange={onChangeMessageSearch} />
+          onChange={onChangeMessageSearch}
+          placeholder={formatMessage(messages.placeholder)}
+          type="search" />
       </li>
       <li className={classes.action}>
         <Tooltip message={getTooltipMessage('mentions')}>
@@ -262,7 +234,6 @@ Items.propTypes = {
   favorite: PropTypes.object.isRequired,
   support: PropTypes.object.isRequired,
   showChannelMembersInvite: PropTypes.func.isRequired,
-  onClickOutsideMessageSearch: PropTypes.func.isRequired,
   onFocusMessageSearch: PropTypes.func.isRequired,
   onChangeMessageSearch: PropTypes.func.isRequired
 }
