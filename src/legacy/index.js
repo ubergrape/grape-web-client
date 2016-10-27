@@ -24,7 +24,6 @@ export default function init() {
   window.ui = new Ui({
     messages: legacyTranslataions[conf.user.languageCode],
     languageCode: conf.user.languageCode,
-    newHistory: conf.newHistory,
     uploadPath: conf.server.uploadPath,
     organizationId: conf.organization.id
   })

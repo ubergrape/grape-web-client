@@ -93,7 +93,6 @@ module.exports = exports = {
       'file': 'component-file',
       'progress': 'progress-component',
       'query': 'component-query',
-      'raf': 'component-raf',
       'resizable': 'jh3y-resizable',
       'upload': 'component-upload',
       'events': 'component-events',

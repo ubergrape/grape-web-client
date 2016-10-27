@@ -26,7 +26,6 @@ require("endswith")
 exports.ItemList = require('./utils/itemlist')
 let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
 let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let HistoryView = exports.HistoryView = require('./elements/historyview')
 let FileUploader = exports.FileUploader = require('./elements/fileuploader')
 let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
@@ -84,12 +83,7 @@ UI.prototype.init = function UI_init() {
   const chat = qs('.chat', chatWrapper)
 
   if (!this.options.detached) {
-    if (this.options.newHistory) {
-      chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
-    } else {
-      this.historyView = new HistoryView()
-      chat.parentNode.replaceChild(this.historyView.el, chat)
-    }
+    chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
   }
 
   chatWrapper.appendChild(document.createElement('grape-typing-notification'))
