@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {
   FormattedMessage,
   defineMessages,
@@ -45,7 +45,9 @@ export default class SharedFiles extends Component {
     if (reset) this.load(nextProps)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onLoadMore() {
     this.load()

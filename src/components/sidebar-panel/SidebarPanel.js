@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import style from './style'
 import injectSheet from 'grape-web/lib/jss'
@@ -20,7 +20,9 @@ export default class SidebarPanel extends Component {
     onClose: PropTypes.func.isRequired
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onClose() {
     this.props.onClose()
