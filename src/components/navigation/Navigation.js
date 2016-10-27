@@ -84,7 +84,7 @@ export default class Navigation extends Component {
           {keys: ['name'], threshold: 0.3}
         ),
         fuseUnJoined: new Fuse(
-          nextProps.unJoined,
+          nextProps.unjoined,
           {keys: ['name'], threshold: 0.3}
         )
       })

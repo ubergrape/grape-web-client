@@ -103,7 +103,7 @@ export const styles = {
     ...title,
     paddingLeft: 18
   },
-  unJoinedTitle: {
+  unjoinedTitle: {
     ...title,
     marginTop: 20,
     marginBottom: 10

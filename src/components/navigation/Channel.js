@@ -119,7 +119,7 @@ export default class Channel extends Component {
     if (focused) channelClass += ` ${classes.channelFocused}`
     return (
       <div>
-        {header && <h2 className={classes.unJoinedTitle}>{header}</h2>}
+        {header && <h2 className={classes.unjoinedTitle}>{header}</h2>}
         <div
           className={channelClass}
           onClick={onClick}>
