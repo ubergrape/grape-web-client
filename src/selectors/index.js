@@ -351,7 +351,7 @@ export const navigationSelector = createSelector(
   (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
     const all = [...allRooms, ...usersAsPms(users)]
     const joined = [...joinedRooms, ...pms]
-    const unJoined = differenceBy(all, joined, 'slug')
+    const unjoined = differenceBy(all, joined, 'slug')
       .filter(({slug}) => slug !== user.slug)
     const recent = joined
       .filter(_channel => !_channel.favorited)
@@ -362,11 +362,11 @@ export const navigationSelector = createSelector(
 
     return {
       joined,
+      unjoined,
       recent,
       favorited,
       isLoading,
-      channel,
-      unJoined
+      channel
     }
   }
 )
