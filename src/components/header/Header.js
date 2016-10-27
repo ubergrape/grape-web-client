@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {findDOMNode} from 'react-dom'
 import {injectIntl} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -42,20 +41,12 @@ export default class Header extends Component {
     this.props.updateMessageSearchQuery(target.value)
   }
 
-  onClickOutsideMessageSearch = ({target}) => {
-    const {sidebar, hideSidebar} = this.props
-    if (sidebar !== 'search') return
-    const {value} = findDOMNode(target)
-    if (!value) hideSidebar()
-  }
-
   render() {
     const {classes} = this.props.sheet
     return (
       <div className={classes.headerWrapper}>
         <Items
           {...this.props}
-          onClickOutsideMessageSearch={this.onClickOutsideMessageSearch}
           onChangeMessageSearch={this.onChangeMessageSearch}
           onFocusMessageSearch={this.onFocusMessageSearch}
           theme={{classes}} />
