@@ -1,3 +1,4 @@
+import {gainsboroLight} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
 
 import {styles as linkStyles} from '../../message-parts/linkTheme'
@@ -30,11 +31,11 @@ export const styles = {
       fontStyle: 'italic'
     },
     '& blockquote': {
-      // FIXME: replace with theme colors.
-      borderLeft: '3px solid #dad6e0',
+      borderLeft: `3px solid ${gainsboroLight}`,
       margin: '4px 0',
       padding: '0.5em 10px',
       fontStyle: 'italic',
+      // FIXME: replace with theme colors.
       color: '#888291'
     },
     '& code': {
@@ -43,7 +44,7 @@ export const styles = {
       wordWrap: 'normal',
       // FIXME: replace with theme colors.
       color: '#4d4d4d',
-      border: '1px solid #dad6e0',
+      border: `1px solid ${gainsboroLight}`,
       borderRadius: '4px',
       background: '#fff',
       wordBreak: 'break-all'

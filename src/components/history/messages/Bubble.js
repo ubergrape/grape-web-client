@@ -1,9 +1,10 @@
+import {blueLight, yellow} from 'grape-theme/dist/base-colors'
+
 import useTheme from '../../theme/useTheme'
 import Bubble from '../../message-parts/Bubble'
 import {styles as baseStyles} from './bubbleTheme'
 
-// FIXME use grape-theme
-let color = '#d2e6fb'
+let color = blueLight
 let styles = baseStyles({color})
 export const OwnBubble = useTheme(Bubble, {styles})
 
@@ -23,7 +24,6 @@ export const ActivityBubble = useTheme(Bubble, {
   }
 })
 
-// FIXME use grape-theme
-color = '#fff3b9'
+color = yellow
 styles = baseStyles({color})
 export const SelectedBubble = useTheme(Bubble, {styles})

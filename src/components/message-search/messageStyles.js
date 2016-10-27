@@ -1,3 +1,4 @@
+import {gainsboroLight} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
 
 import {styles as linkStyles} from '../message-parts/linkTheme'
@@ -47,7 +48,7 @@ export default {
       display: 'block',
       // FIXME: replace with theme colors.
       color: '#4d4d4d',
-      border: '1px solid #dad6e0'
+      border: `1px solid ${gainsboroLight}`
     }
   }
 }
