@@ -345,11 +345,14 @@ export const navigationSelector = createSelector(
     channelSelector,
     initialDataLoadingSelector,
     roomsSelector,
-    activeUsersSelector
+    activeUsersSelector,
+    userSelector
   ],
-  (joinedRooms, pms, channel, isLoading, allRooms, users) => {
-    const all = allRooms.concat(usersAsPms(users))
-    const joined = joinedRooms.concat(pms)
+  (joinedRooms, pms, channel, isLoading, allRooms, users, user) => {
+    const all = [...allRooms, ...usersAsPms(users)]
+    const joined = [...joinedRooms, ...pms]
+    const unjoined = differenceBy(all, joined, 'slug')
+      .filter(({slug}) => slug !== user.slug)
     const recent = joined
       .filter(_channel => !_channel.favorited)
       .sort(sortRecentChannels)
@@ -359,11 +362,11 @@ export const navigationSelector = createSelector(
 
     return {
       joined,
+      unjoined,
       recent,
       favorited,
       isLoading,
-      channel,
-      unJoined: differenceBy(all, joined, 'slug')
+      channel
     }
   }
 )
