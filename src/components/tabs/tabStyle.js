@@ -25,7 +25,7 @@ export const container = {
   listStyleType: 'none',
   cursor: 'pointer',
   height: 34,
-  color: color(colors.grapeTypo).alpha(0.7).rgbaString(),
+  color: color(colors.grayDark).alpha(0.7).rgbaString(),
   userSelect: 'none'
 }
 
@@ -34,12 +34,12 @@ export const rules = {
     ...container,
     '&:hover': {
       isolate: false,
-      color: colors.grapeTypo
+      color: colors.grayDark
     }
   },
   containerSelected: {
     ...container,
-    color: colors.grapeTypo,
+    color: colors.grayDark,
     boxShadow: '0 2px 0 ' + colors.blue
   },
   text: text,

@@ -8,7 +8,7 @@ export default {
     display: 'flex',
     position: 'relative',
     background: colors.white,
-    color: colors.grapeTypo,
+    color: colors.grayDark,
     cursor: 'pointer',
     userSelect: 'none'
   },

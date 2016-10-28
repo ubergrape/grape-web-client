@@ -6,7 +6,7 @@ export default {
   button: {
     ...fonts.normal,
     borderRadius: sizes.borderRadius.small,
-    background: colors.grapeDark,
+    background: colors.grayDark,
     border: 'none',
     color: colors.white,
     padding: '5px 10px',

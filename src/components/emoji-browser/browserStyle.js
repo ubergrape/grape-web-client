@@ -12,7 +12,7 @@ export default {
     ...fonts.big,
     border: 'solid 1px #E5E5E5',
     width: '100%',
-    color: colors.grapeTypo,
+    color: colors.grayDark,
     padding: 15,
     outline: 'none'
   }

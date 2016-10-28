@@ -4,7 +4,7 @@ import fonts from 'grape-theme/dist/fonts'
 export default {
   sidebar: {
     ...fonts.normal,
-    color: colors.grapeTypo,
+    color: colors.grayDark,
     borderLeft: '1px solid ' + colors.silverDark,
     backgroundColor: colors.white,
     position: 'relative'

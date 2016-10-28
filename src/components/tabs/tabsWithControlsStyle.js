@@ -10,13 +10,13 @@ const arrow = defaults({
   top: 0,
   padding: '0 12px',
   ...fonts.small,
-  color: color(colors.grapeTypo).alpha(0.3).rgbaString(),
+  color: color(colors.grayDark).alpha(0.3).rgbaString(),
   zIndex: 1,
   border: '0px solid ' + colors.silverDark,
   backgroundColor: colors.white,
   '&:hover': {
     isolate: false,
-    color: color(colors.grapeTypo).alpha(0.6).rgbaString()
+    color: color(colors.grayDark).alpha(0.6).rgbaString()
   }
 }, tabStyle.container)
 

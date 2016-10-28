@@ -7,14 +7,14 @@ export default {
   datalist: {
     background: colors.white,
     border: '1px solid ' + colors.gainsboroLight,
-    boxShadow: '0px 3px 4px 0 ' + color(colors.grapeTypo).alpha(0.5).rgbaString(),
+    boxShadow: '0px 3px 4px 0 ' + color(colors.grayDark).alpha(0.5).rgbaString(),
     overflow: 'auto'
   },
   item: {
     ...fonts.normal,
     ...mixins.ellipsis,
     padding: '5px 7px',
-    color: colors.grapeTypo,
+    color: colors.grayDark,
     cursor: 'pointer'
   },
   itemFocused: {

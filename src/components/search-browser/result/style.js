@@ -8,7 +8,7 @@ export const container = {
   display: 'flex',
   position: 'relative',
   background: colors.white,
-  color: colors.grapeTypo,
+  color: colors.grayDark,
   cursor: 'pointer',
   userSelect: 'none',
   borderBottom: '1px solid ' + colors.silverDark
@@ -34,7 +34,7 @@ export const rules = {
   },
   containerFocusedInactive: {
     ...container,
-    color: colors.grayDark,
+    color: colors.grayDarker,
     background: colors.grayBlueLight
   },
   iconContainer: {

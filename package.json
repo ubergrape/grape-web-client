@@ -1,6 +1,6 @@
 {
   "name": "grape-browser",
-  "version": "3.4.7",
+  "version": "3.4.8",
   "main": "lib/index.js",
   "engines": {
     "node": "5.11.0"
@@ -10,8 +10,8 @@
     "component-query": "^0.0.3",
     "emojione": "^1.4.0",
     "grape-js-emoji": "^0.0.1",
-    "grape-theme": "^1.2.0",
-    "grape-web": "^0.38.0",
+    "grape-theme": "2.x",
+    "grape-web": "0.x",
     "images-loader": "^0.1.2",
     "keyname": "^0.1.0",
     "lodash": "^3.10.0",
