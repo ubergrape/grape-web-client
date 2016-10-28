@@ -15,7 +15,7 @@ export default {
   chatBackground: colors.white,
   chatContent: colors.silverLight,
   navigationBackground: colors.silverLight,
-  organisationBackground: colors.grapeDark,
+  organisationBackground: colors.grayDarker,
   searchHighlightColor: colors.yellow,
   borderLight: 'rgba(0,0,0,0.05)',
   borderDefault: 'rgba(0,0,0,0.10)',

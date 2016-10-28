@@ -9,8 +9,10 @@ export default {
   orangeLight: '#fff3b9',
 
   grayLight: '#aaaaaa',
+  grayLighter: '#f7f7f9',
   gray: '#666666',
-  grayDark: '#333333',
+  grayDark: '#4d4d4d',
+  grayDarker: '#333333',
 
   grayBlueLighter: '#ebeef3',
   grayBlueLight: '#e0e5ec',
@@ -23,7 +25,6 @@ export default {
   // XXX Old Colors - Needs clean up
   grapeDark: '#542f59',
   grapeLight: '#7b477b',
-  grapeTypo: '#2b2231',
   bittersweetDark: '#e9573f',
   bittersweetLight: '#fc6e51',
   princeton: '#ff893b',
