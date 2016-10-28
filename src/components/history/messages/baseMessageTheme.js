@@ -1,4 +1,4 @@
-import {gainsboroLight} from 'grape-theme/dist/base-colors'
+import {gainsboroLight, gainsboroDark, white} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
 
 import {styles as linkStyles} from '../../message-parts/linkTheme'
@@ -35,8 +35,7 @@ export const styles = {
       margin: '4px 0',
       padding: '0.5em 10px',
       fontStyle: 'italic',
-      // FIXME: replace with theme colors.
-      color: '#888291'
+      color: gainsboroDark
     },
     '& code': {
       display: 'inline-block',
@@ -45,8 +44,8 @@ export const styles = {
       // FIXME: replace with theme colors.
       color: '#4d4d4d',
       border: `1px solid ${gainsboroLight}`,
-      borderRadius: '4px',
-      background: '#fff',
+      borderRadius: 4,
+      background: white,
       wordBreak: 'break-all'
     },
     '& pre code': {
