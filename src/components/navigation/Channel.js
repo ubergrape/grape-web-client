@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/utility/noop'
 
@@ -95,6 +96,10 @@ export default class Channel extends Component {
     onClick: noop,
     focused: false,
     header: ''
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

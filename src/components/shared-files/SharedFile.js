@@ -7,9 +7,9 @@ import {openUrl} from 'grape-web/lib/x-platform'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import ImageZoom from '../image-zoom/ImageZoom'
-import style from './sharedFileStyle'
+import {styles} from './sharedFileTheme'
 
-@injectSheet(style)
+@injectSheet(styles)
 @injectIntl
 export default class SharedFile extends Component {
   static propTypes = {

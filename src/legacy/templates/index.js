@@ -4,15 +4,12 @@ import domify from 'domify'
 
 template.locals.strftime = require('strftime')
 template.locals._ = require('t')
-template.locals.escape_html = require('escape-html')
-template.locals.markdown = require('../ui/markdown')
 template.locals.constants = require('conf').constants
 template.locals.html = (html) => {
   return v.fromDOM(domify(html))
 }
 
 template.templates = {
-  'chathistory.jade': require('./chathistory.jade'),
   'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
   'dialogs/invite-form-content.jade': require('./dialogs/invite-form-content.jade'),
   'dialogs/markdowntips.jade': require('./dialogs/markdowntips.jade'),

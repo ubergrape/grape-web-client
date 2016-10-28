@@ -1,5 +1,5 @@
-import colors from 'grape-theme/dist/base-colors'
 import color from 'color'
+import colors from 'grape-theme/dist/base-colors'
 import {small} from 'grape-theme/dist/fonts'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 
@@ -11,7 +11,7 @@ const {
   grayBlueLighter
 } = colors
 
-export default {
+export const styles = {
   filterArea: {
     overflow: 'auto',
     maxHeight: 85,

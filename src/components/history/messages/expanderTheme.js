@@ -1,6 +1,10 @@
+import {grayBlueLighter} from 'grape-theme/dist/base-colors'
+
 import button from '../../button/link'
 
 export const maxHeight = 350
+
+export const color = grayBlueLighter
 
 const panel = {
   position: 'absolute',
@@ -21,10 +25,9 @@ export const styles = {
   collapsedPanel: {
     extend: panel,
     paddingTop: 50,
-    // FIXME use grape-theme
-    background: 'linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, #edf0f5 70%)',
+    background: `linear-gradient(to bottom, rgba(237, 240, 245, 0) 0%, ${color} 70%)`,
     fallbacks: {
-      background: '#edf0f5'
+      background: color
     }
   },
   expandedPanel: panel,

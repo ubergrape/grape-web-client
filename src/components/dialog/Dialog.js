@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import Modal from 'react-overlays/lib/Modal'
-
-import style from './style'
 import injectSheet from 'grape-web/lib/jss'
+import shallowCompare from 'react-addons-shallow-compare'
+
+import {styles} from './theme'
 
 /**
  * Dialog has
@@ -10,31 +11,39 @@ import injectSheet from 'grape-web/lib/jss'
  * - body
  * - positioned in the middle
  */
-@injectSheet(style)
+@injectSheet(styles)
 export default class Dialog extends Component {
   static propTypes = {
     onHide: PropTypes.func.isRequired,
-    title: PropTypes.string,
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    sheet: PropTypes.object.isRequired
+    sheet: PropTypes.object.isRequired,
+    title: PropTypes.string
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {
-    const {classes} = this.props.sheet
+    const {
+      sheet: {classes},
+      show, onHide, title, children
+    } = this.props
+
     return (
       <Modal
-        show={this.props.show}
+        show={show}
         className={classes.modal}
         backdropClassName={classes.backdrop}
-        onHide={this.props.onHide}>
+        onHide={onHide}>
         <div className={classes.content}>
           <header className={classes.header}>
-            <h2 className={classes.title}>{this.props.title}</h2>
-            <button className={classes.close} onClick={this.props.onHide}></button>
+            <h2 className={classes.title}>{title}</h2>
+            <button className={classes.close} onClick={onHide}></button>
           </header>
           <div className={classes.body}>
-            {this.props.children}
+            {children}
           </div>
         </div>
       </Modal>

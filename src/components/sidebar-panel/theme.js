@@ -25,7 +25,7 @@ const commonHeader = {
   zIndex: 1
 }
 
-export default {
+export const styles = {
   sidebarPanel: {
     display: 'flex',
     flexDirection: 'column',

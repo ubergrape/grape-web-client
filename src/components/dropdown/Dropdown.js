@@ -7,6 +7,7 @@ import listenOutsideClick from 'grape-web/lib/outside-click'
 import GrayTooltip from '../tooltip/GrayTooltip'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
+
 export default function Dropdown(props) {
   const {
     container,
@@ -26,7 +27,7 @@ export default function Dropdown(props) {
           onOutsideClick={onOutsideClick}
           onClick={onClick}
           placement={placement}>
-            {children}
+          {children}
         </Tooltip>
     </Position>
   )

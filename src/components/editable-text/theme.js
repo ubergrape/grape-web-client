@@ -1,7 +1,7 @@
 import {normal} from 'grape-theme/dist/fonts'
 import linkButton from '../button/link'
 
-export default {
+export const styles = {
   formInput: {
     display: 'flex',
     '& $submit': {

@@ -1,18 +1,19 @@
-import button from '../button/default'
-import buttonPrimary from '../button/primary'
-import buttonIcon from '../button/icon'
 import colors from 'grape-theme/dist/base-colors'
 
-const {padding} = button
+import {padding} from '../button/default'
+import buttonPrimary from '../button/primary'
+import buttonIcon from '../button/icon'
 
-export default {
+export const styles = {
   submit: {
     marginTop: 20,
     textAlign: 'right'
   },
   buttonInvite: {
-    ...buttonPrimary,
-    ...buttonIcon('invite', {color: colors.white}),
+    extend: [
+      buttonPrimary,
+      buttonIcon('invite', {color: colors.white})
+    ],
     padding,
     '&:disabled': {
       isolate: false,

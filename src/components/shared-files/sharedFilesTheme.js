@@ -1,8 +1,7 @@
 import button from '../button/default'
 
-export default {
-  sharedFiles: {
-  },
+export const styles = {
+  sharedFiles: {},
   loadMoreContainer: {
     textAlign: 'center'
   },

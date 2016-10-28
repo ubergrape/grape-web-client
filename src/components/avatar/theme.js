@@ -1,6 +1,6 @@
 const size = 32
 
-export default {
+export const styles = {
   avatar: {
     display: 'block',
     position: 'relative',

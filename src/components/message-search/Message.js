@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
 
 import Avatar from '../avatar/Avatar'
@@ -19,7 +19,9 @@ export default class Message extends Component {
     children: PropTypes.node.isRequired
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   render() {
     const {sheet: {classes}, author, time, avatar, children} = this.props

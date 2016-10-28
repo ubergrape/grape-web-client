@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import {
   FormattedMessage,
   defineMessages,
@@ -9,7 +9,7 @@ import {
 
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
-import style from './sharedFilesStyle'
+import {styles} from './sharedFilesTheme'
 import SharedFile from './SharedFile'
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
 import {ShowMore} from '../i18n/i18n'
@@ -21,7 +21,7 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(style)
+@injectSheet(styles)
 @injectIntl
 export default class SharedFiles extends Component {
   static propTypes = {
@@ -45,7 +45,9 @@ export default class SharedFiles extends Component {
     if (reset) this.load(nextProps)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onLoadMore() {
     this.load()

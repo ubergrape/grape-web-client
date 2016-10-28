@@ -11,7 +11,7 @@ const image = {
   borderRadius: sizes.borderRadius.big
 }
 
-export default {
+export const styles = {
   sharedFile: {
     display: 'flex',
     cursor: 'pointer',
@@ -40,7 +40,7 @@ export default {
     ...mixins.ellipsis,
     ...fonts.normal,
     fontWeight: '500',
-    color: colors.grayDark
+    color: colors.grayDarker
   },
   meta: {
     ...mixins.ellipsis,

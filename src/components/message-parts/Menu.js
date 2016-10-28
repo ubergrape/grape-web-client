@@ -70,19 +70,17 @@ export default class Menu extends Component {
     const {classes} = sheet
     return (
       <div className={`${classes.menu} ${className}`}>
-        {items.map((name, i) => {
-          return (
-            <Tooltip
-              key={name}
-              placement="top"
-              message={getMessage(name)}
-              inline>
-                <span
-                  className={getClassName(classes, name, i, items.length)}
-                  onClick={onSelect.bind(null, {name})} />
-            </Tooltip>
-          )
-        })}
+        {items.map((name, i) => (
+          <Tooltip
+            key={name}
+            placement="top"
+            message={getMessage(name)}
+            inline>
+              <span
+                className={getClassName(classes, name, i, items.length)}
+                onClick={onSelect.bind(null, {name})} />
+          </Tooltip>
+        ))}
       </div>
     )
   }

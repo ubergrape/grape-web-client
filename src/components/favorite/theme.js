@@ -1,12 +1,13 @@
-import buttonIcon from '../button/icon'
 import color from 'color'
 import colors from 'grape-theme/dist/base-colors'
+
+import buttonIcon from '../button/icon'
 
 const icon = {
   fontSize: 18
 }
 
-export default {
+export const styles = {
   favorite: {
     ...buttonIcon('star', {color: colors.grayBlue, hoverColor: colors.grayBlueDark, iconOnly: true}),
     ...icon

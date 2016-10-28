@@ -1,13 +1,14 @@
 import fonts from 'grape-theme/dist/fonts'
+
 import defaultButton from '../button/default'
 import primaryButton from '../button/primary'
 
-export default {
+export const styles = {
   content: {
     padding: 15
   },
   text: {
-    ...fonts.big,
+    extend: fonts.big,
     textAlign: 'center',
     padding: '50px 0'
   },
@@ -15,10 +16,8 @@ export default {
     textAlign: 'right'
   },
   continueTrial: {
-    ...primaryButton,
+    extend: primaryButton,
     marginRight: 20
   },
-  enterDetails: {
-    ...defaultButton
-  }
+  enterDetails: defaultButton
 }

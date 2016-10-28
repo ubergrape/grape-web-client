@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {findDOMNode} from 'react-dom'
 import Fuse from 'fuse.js'
 import keyname from 'keyname'
 import mousetrap from 'mousetrap'
+import injectSheet from 'grape-web/lib/jss'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
 import {
   defineMessages,
@@ -15,8 +17,7 @@ import List from './List'
 import FilteredList from './FilteredList'
 import Channel from './Channel'
 import ManageButtons from './ManageButtons'
-import style from './style'
-import injectSheet from 'grape-web/lib/jss'
+import {styles} from './theme'
 
 const messages = defineMessages({
   channelHeader: {
@@ -33,10 +34,9 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(style)
+@injectSheet(styles)
 @injectIntl
 export default class Navigation extends Component {
-
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -104,6 +104,10 @@ export default class Navigation extends Component {
         shift: shift + step
       })
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onShortcut() {

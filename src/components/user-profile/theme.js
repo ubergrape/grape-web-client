@@ -22,7 +22,7 @@ const divider = {
   borderBottom: `1px solid ${colors.grayBlueLight}`
 }
 
-export default {
+export const styles = {
   profile: {
     ...divider,
     display: 'flex'

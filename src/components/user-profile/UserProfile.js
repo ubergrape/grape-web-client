@@ -9,7 +9,7 @@ import {
 } from 'react-intl'
 
 import SidebarPanel from '../sidebar-panel/SidebarPanel'
-import style from './style'
+import {styles} from './theme'
 
 const messages = defineMessages({
   title: {
@@ -18,7 +18,7 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(style)
+@injectSheet(styles)
 @injectIntl
 export default class UserProfile extends Component {
   static propTypes = {

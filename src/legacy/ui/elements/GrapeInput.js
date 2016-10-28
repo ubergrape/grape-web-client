@@ -295,9 +295,6 @@ export default class GrapeInput extends Emitter {
 
   completePreviousEdit() {
     if (!this.previous) return
-    if (!conf.newHistory) {
-      this.previous.el.classList.remove('editing')
-    }
     this.el.classList.remove('editing-previous')
     this.input.setTextContent('')
     this.previous = null
@@ -306,10 +303,6 @@ export default class GrapeInput extends Emitter {
   editMessage(msg) {
     this.completePreviousEdit()
     let el
-    if (!conf.newHistory) {
-      el = qs('.message[data-id="' + msg.id + '"]')
-      el.classList.add('editing')
-    }
     this.el.classList.add('editing-previous')
     this.input.setTextContent(msg.text)
     this.previous = {msg, el}
@@ -398,12 +391,7 @@ export default class GrapeInput extends Emitter {
   }
 
   onEditPrevious() {
-    if (conf.newHistory) {
-      this.emit('editPreviousMessage')
-      return
-    }
-    const msg = this.findPreviousMessage()
-    if (msg) this.editMessage(msg)
+    this.emit('editPreviousMessage')
   }
 
   onAbort(e) {
@@ -474,7 +462,7 @@ export default class GrapeInput extends Emitter {
 
     if (this.previous) {
       let {msg} = this.previous
-      if (conf.newHistory) msg = {...msg, channel: {id: msg.channelId}}
+      msg = {...msg, channel: {id: msg.channelId}}
       this.emit('update', msg, data.content)
       this.completePreviousEdit()
     } else {

@@ -1,3 +1,4 @@
+import {gainsboroLight, grayDark} from 'grape-theme/dist/base-colors'
 import omit from 'lodash/object/omit'
 
 import {styles as linkStyles} from '../message-parts/linkTheme'
@@ -45,9 +46,8 @@ export default {
     '& a:hover': linkHover,
     '& pre': {
       display: 'block',
-      // FIXME: replace with theme colors.
-      color: '#4d4d4d',
-      border: '1px solid #dad6e0'
+      color: grayDark,
+      border: `1px solid ${gainsboroLight}`
     }
   }
 }

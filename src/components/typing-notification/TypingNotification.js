@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 
 import TypingUsers from './TypingUsers'
 
@@ -17,7 +17,9 @@ export default class TypingNotification extends Component {
     this.intervalId = setInterval(::this.cleanup, 1000)
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   componentWillUnmount() {
     clearInterval(this.intervalId)

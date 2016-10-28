@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 
@@ -26,6 +27,10 @@ export default class RoomIconSetting extends Component {
     this.state = {
       show: false
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onShowDropdown = e => {

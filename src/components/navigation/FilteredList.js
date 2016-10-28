@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import List from 'react-finite-list'
 import {FormattedMessage} from 'react-intl'
 
@@ -9,6 +10,10 @@ export default class FilteredList extends Component {
     filtered: PropTypes.array.isRequired,
     filteredUnJoined: PropTypes.array.isRequired,
     focusedChannel: PropTypes.any
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   focus(direction) {

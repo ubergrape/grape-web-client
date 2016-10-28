@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {
   FormattedMessage,
   defineMessages,
@@ -79,6 +80,10 @@ export default class MainSettings extends Component {
 
   static defaultProps = {
     allowEdit: false
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onShowNotificationSettings = () => {

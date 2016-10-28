@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {shouldPureComponentUpdate} from 'react-pure-render'
+import shallowCompare from 'react-addons-shallow-compare'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import injectSheet from 'grape-web/lib/jss'
@@ -55,7 +55,9 @@ export default class MessageSearch extends Component {
     }
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
   onLoadMore = () => {
     this.load()

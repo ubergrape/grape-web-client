@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 
-import style from './style'
+import {styles} from './theme'
 import {spinner} from '../../constants/images'
 import Tooltip from '../tooltip/HoverTooltip'
 
 const sizes = {width: 32, height: 32}
 
-@injectSheet(style)
+@injectSheet(styles)
 export default class OrgInfo extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -18,6 +19,10 @@ export default class OrgInfo extends Component {
     logo: PropTypes.string,
     name: PropTypes.string,
     username: PropTypes.string
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   toggleOrgSettings = (e) => {

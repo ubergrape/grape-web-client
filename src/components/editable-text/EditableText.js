@@ -1,21 +1,20 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
-import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
+import injectSheet from 'grape-web/lib/jss'
 import listenOutsideClick from 'grape-web/lib/outside-click'
 
 import * as themes from './themes'
 import {Done} from '../i18n/i18n'
 import Editable from './Editable'
-import style from './style'
+import {styles} from './theme'
 
-const Wrapper = listenOutsideClick(props => {
-  return (
-    <div className={props.className} onClick={props.onClick}>
-      {props.children}
-    </div>
-  )
-})
+const Wrapper = listenOutsideClick(({onClick, className, children}) => (
+  <div className={className} onClick={onClick}>
+    {children}
+  </div>
+))
 
 /**
  * This component renders input or textarea
@@ -23,7 +22,7 @@ const Wrapper = listenOutsideClick(props => {
  * but once user clicks on it,
  * it becomes styled as textarea or input field.
  */
-@injectSheet(style)
+@injectSheet(styles)
 export default class EditableText extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -86,6 +85,10 @@ export default class EditableText extends Component {
       isEditing: false,
       saving: false
     })
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onClick = () => {

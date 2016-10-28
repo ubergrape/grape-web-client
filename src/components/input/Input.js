@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
@@ -6,7 +7,7 @@ import listenOutsideClick from 'grape-web/lib/outside-click'
 import {pickHTMLProps} from 'pick-react-known-prop'
 
 import GrayTooltip from '../tooltip/GrayTooltip'
-import style from './style'
+import {styles} from './theme'
 
 const Tooltip = listenOutsideClick(GrayTooltip)
 
@@ -16,7 +17,7 @@ const Tooltip = listenOutsideClick(GrayTooltip)
  */
 // TODO: move this component to grape-ui library
 // https://github.com/ubergrape/chatgrape/issues/4384
-@injectSheet(style)
+@injectSheet(styles)
 export default class Input extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -42,6 +43,10 @@ export default class Input extends Component {
 
   componentDidMount() {
     if (this.props.focused) this.refs.input.focus()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate(prevProps) {

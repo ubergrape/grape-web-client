@@ -9,7 +9,7 @@ import Header from '../../message-parts/Header'
 import {ActivityBubble as Bubble} from './Bubble'
 import Expander from './Expander'
 import DuplicatesBadge from './DuplicatesBadge'
-import {styles} from './activityMessageTheme'
+import {styles} from './baseMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 @injectSheet(styles)
@@ -27,10 +27,6 @@ export default class ActivityMessage extends Component {
       name: PropTypes.string.isRequired
     }),
     avatar: PropTypes.string,
-    container: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired
-    }),
     user: PropTypes.object,
     isExpanded: PropTypes.bool
   }
@@ -52,7 +48,7 @@ export default class ActivityMessage extends Component {
 
   render() {
     const {
-      sheet, user, author, time, avatar, container, title, children, duplicates,
+      sheet, user, author, time, avatar, title, children, duplicates,
       isExpanded, hasBubbleArrow
     } = this.props
     const {classes} = sheet
@@ -75,14 +71,6 @@ export default class ActivityMessage extends Component {
           <Bubble className={classes.bubble} hasArrow={hasBubbleArrow}>
             <Expander onToggle={this.onToggleExpander} isExpanded={isExpanded}>
               <div className={classes.content}>
-                {container &&
-                  <a
-                    href={container.url}
-                    target="_blank"
-                    className={classes.container}>
-                    {container.name}
-                  </a>
-                }
                 <Grapedown text={title} user={user} />
                 <Grapedown text={children} user={user} />
               </div>

@@ -57,7 +57,7 @@ const title = {
   color: colors.grayBlue
 }
 
-export default {
+export const styles = {
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -130,7 +130,7 @@ export default {
   },
   channelCurrent: {
     fontWeight: 'bold',
-    color: colors.grayDark,
+    color: colors.grayDarker,
     background: darkenBackground
   },
   channelFocused: {
@@ -167,7 +167,7 @@ export default {
     backgroundSize: 19,
     border: 'none',
     padding: '7px 5px 6px 35px',
-    color: colors.grayDark,
+    color: colors.grayDarker,
     borderRadius: 6,
     outline: 'none',
     width: '100%',
