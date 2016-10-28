@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
@@ -20,6 +21,10 @@ export default class AdditionalActionsDropdown extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
   onShowDropdown = e => {
     if (!this.state.show) {
       // We need to stop further event propagation because
@@ -37,7 +42,6 @@ export default class AdditionalActionsDropdown extends Component {
   onChannelDeleteClick = () => {
     this.props.onShowRoomDeleteDialog(this.props.channel.id)
   }
-
 
   render() {
     const {show} = this.state

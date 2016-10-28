@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react'
-
-import style from './style'
+import shallowCompare from 'react-addons-shallow-compare'
 import injectSheet from 'grape-web/lib/jss'
-
 import keyname from 'keyname'
 
-@injectSheet(style)
+import {styles} from './theme'
+
+@injectSheet(styles)
 export default class TagsInput extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -22,6 +22,10 @@ export default class TagsInput extends Component {
 
   componentDidMount() {
     if (this.props.focused) this.refs.input.focus()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate() {

@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-
-import style from './style'
 import injectSheet from 'grape-web/lib/jss'
+
+import {styles} from './theme'
 
 /**
  * Dialog has
@@ -10,7 +10,7 @@ import injectSheet from 'grape-web/lib/jss'
  * - body
  * - positioned in the middle
  */
-@injectSheet(style)
+@injectSheet(styles)
 export default class SidebarPanel extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,

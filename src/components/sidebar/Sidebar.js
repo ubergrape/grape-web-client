@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import {
   defineMessages,
   intlShape,
@@ -12,7 +13,7 @@ import UserProfile from '../user-profile/UserProfile'
 import Mentions from '../message-search/MessageSearch'
 import Search from '../message-search/MessageSearch'
 import Intercom from '../intercom/Intercom'
-import style from './style'
+import {styles} from './theme'
 
 const messages = defineMessages({
   mentions: {
@@ -111,7 +112,7 @@ SidebarContent.propTypes = {
 
 const Content = injectIntl(SidebarContent)
 
-@injectSheet(style)
+@injectSheet(styles)
 export default class Sidebar extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
@@ -119,6 +120,10 @@ export default class Sidebar extends Component {
       PropTypes.string,
       React.PropTypes.bool
     ]).isRequired
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

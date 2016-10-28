@@ -1,6 +1,6 @@
 import {screenWidth} from 'grape-theme/dist/sizes'
 
-export default {
+export const styles = {
   sidebar: {
     position: 'fixed',
     top: 57,

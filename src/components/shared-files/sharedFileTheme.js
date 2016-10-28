@@ -11,7 +11,7 @@ const image = {
   borderRadius: sizes.borderRadius.big
 }
 
-export default {
+export const styles = {
   sharedFile: {
     display: 'flex',
     cursor: 'pointer',

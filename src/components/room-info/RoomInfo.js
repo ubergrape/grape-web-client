@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import isEmpty from 'lodash/lang/isEmpty'
 import {
   FormattedMessage,
@@ -75,6 +76,10 @@ export default class RoomInfo extends Component {
       this.setState({...this.state, ...this.getRoles(nextProps)})
     }
     if (channelHasChanged) load({channel: nextProps.channel})
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {
