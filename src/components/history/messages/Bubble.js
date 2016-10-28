@@ -1,19 +1,19 @@
-import {blueLight, yellow} from 'grape-theme/dist/base-colors'
+import {blueLight, grayBlueLighter, yellow} from 'grape-theme/dist/base-colors'
 
 import useTheme from '../../theme/useTheme'
 import Bubble from '../../message-parts/Bubble'
 import {styles as baseStyles} from './bubbleTheme'
+import {color as expanderColor} from './expanderTheme'
 
-let color = blueLight
-let styles = baseStyles({color})
-export const OwnBubble = useTheme(Bubble, {styles})
+export const OwnBubble = useTheme(Bubble, {
+  styles: baseStyles({color: blueLight})
+})
 
-// FIXME use grape-theme
-color = '#edf0f5'
-styles = baseStyles({color})
-export const MateBubble = useTheme(Bubble, {styles})
+export const MateBubble = useTheme(Bubble, {
+  styles: baseStyles({color: grayBlueLighter})
+})
 
-styles = baseStyles({color})
+const styles = baseStyles({color: expanderColor})
 export const ActivityBubble = useTheme(Bubble, {
   styles: {
     ...styles,
@@ -24,6 +24,6 @@ export const ActivityBubble = useTheme(Bubble, {
   }
 })
 
-color = yellow
-styles = baseStyles({color})
-export const SelectedBubble = useTheme(Bubble, {styles})
+export const SelectedBubble = useTheme(Bubble, {
+  styles: baseStyles({color: yellow})
+})
