@@ -130,7 +130,7 @@ export const styles = {
   },
   channelCurrent: {
     fontWeight: 'bold',
-    color: colors.grayDark,
+    color: colors.grayDarker,
     background: darkenBackground
   },
   channelFocused: {
@@ -167,7 +167,7 @@ export const styles = {
     backgroundSize: 19,
     border: 'none',
     padding: '7px 5px 6px 35px',
-    color: colors.grayDark,
+    color: colors.grayDarker,
     borderRadius: 6,
     outline: 'none',
     width: '100%',

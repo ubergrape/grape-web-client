@@ -40,7 +40,7 @@ export const styles = {
     ...mixins.ellipsis,
     ...fonts.normal,
     fontWeight: '500',
-    color: colors.grayDark
+    color: colors.grayDarker
   },
   meta: {
     ...mixins.ellipsis,

@@ -101,7 +101,7 @@ export const styles = {
     ...big,
     fontWeight: 'bold',
     lineHeight: 1.2,
-    color: colors.grayDark
+    color: colors.grayDarker
   },
   description: {
     ...mixins.ellipsis,
@@ -131,7 +131,7 @@ export const styles = {
     backgroundSize: 15,
     border: '1px solid #d3d3d3',
     padding: '7px 10px 7px 35px',
-    color: colors.grayDark,
+    color: colors.grayDarker,
     borderRadius: 100,
     outline: 'none',
     width: '100%',

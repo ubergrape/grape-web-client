@@ -1,4 +1,4 @@
-import {grayBlueLighter, grayLight, green} from 'grape-theme/dist/base-colors'
+import {grayBlueLighter, grayLight, grayDark, green} from 'grape-theme/dist/base-colors'
 import {smaller, normal} from 'grape-theme/dist/fonts'
 
 import createInlineIcon from '../inline-icon/create'
@@ -9,8 +9,7 @@ import inlineLink from '../button/inlineLink'
 const padding = 15
 
 const createIcon = name => createInlineIcon(name, {
-  // FIXME: replace with theme colors.
-  color: '#4d4d4d',
+  color: grayDark,
   size: normal.fontSize
 })
 
