@@ -1,0 +1,1 @@
+export NotificationSettingsProvider from './NotificationSettingsProvider'

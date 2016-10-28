@@ -1,0 +1,1 @@
+export TypingNotificationProvider from './TypingNotificationProvider'

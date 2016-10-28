@@ -1,0 +1,1 @@
+export ChannelMembersInviteProvider from './ChannelMembersInviteProvider'

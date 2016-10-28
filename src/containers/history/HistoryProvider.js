@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {historyComponentSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import History from '../history/History'
+import {historyComponentSelector as selector} from '../../selectors'
+import History from '../../components/history/History'
 
 const actionNames = {
   loadHistory: 'onLoad',
