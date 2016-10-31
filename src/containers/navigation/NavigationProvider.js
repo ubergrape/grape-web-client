@@ -2,10 +2,17 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {navigationSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from './actionNames'
-import Navigation from './Navigation'
+import {navigationSelector as selector} from '../../selectors'
+import Navigation from '../../components/navigation/Navigation'
+
+const actionNames = [
+  'showChannelsManager',
+  'showPmManager',
+  'showNewConversation',
+  'goToChannel',
+  'focusGrapeInput'
+]
 
 const ConnectedNavigation = connect(
   selector,

@@ -2,10 +2,22 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {newConversationDialog as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from './actionNames'
-import NewConversation from './NewConversation'
+import {newConversationDialog as selector} from '../../selectors'
+import NewConversation from '../../components/new-conversation/NewConversation'
+
+const actionNames = [
+  'goToChannel',
+  'createRoomWithUsers',
+  'showInviteToOrg',
+  'showNewConversation',
+  'hideNewConversation',
+  'showNewConversationAdvanced',
+  'addToNewConversation',
+  'removeFromNewConversation',
+  'filterNewConversation',
+  'clearRoomCreateError'
+]
 
 const ConnectedNewConversation = connect(
   selector,

@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {notificationSettingsComponentSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import NotificationSettings from '../notification-settings/NotificationSettings'
+import {notificationSettingsComponentSelector as selector} from '../../selectors'
+import NotificationSettings from '../../components/notification-settings/NotificationSettings'
 
 const actionNames = {
   hideNotificationSettings: 'onHide',

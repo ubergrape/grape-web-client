@@ -2,10 +2,14 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {typingNotificationSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from './actionNames'
-import TypingNotification from './TypingNotification'
+import {typingNotificationSelector as selector} from '../../selectors'
+import TypingNotification from '../../components/typing-notification/TypingNotification'
+
+const actionNames = [
+  'setUsers',
+  'cleanupTyping'
+]
 
 const ConnectedTypingNotification = connect(
   selector,

@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {sidebarComponentSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import Sidebar from '../sidebar/Sidebar'
+import {sidebarComponentSelector as selector} from '../../selectors'
+import Sidebar from '../../components/sidebar/Sidebar'
 
 const actionNames = [
   'hideSidebar',

@@ -2,10 +2,13 @@ import React, {Component} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
-import {orgInfoSelector as selector} from '../../selectors'
 import getStore from '../../app/store'
-import actionNames from './actionNames'
-import OrgInfo from './OrgInfo'
+import {orgInfoSelector as selector} from '../../selectors'
+import OrgInfo from '../../components/org-info/OrgInfo'
+
+const actionNames = [
+  'toggleOrgSettings'
+]
 
 const ConnectedOrgInfo = connect(
   selector,
