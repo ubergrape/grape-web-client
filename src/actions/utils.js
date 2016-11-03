@@ -82,6 +82,18 @@ export const normalizeMessage = (() => {
     }
   }
 
+  function createLinkToMessage(channel, messageId) {
+    const {protocol, host} = location
+    const {users} = channel
+    let {slug} = channel
+
+    if (channel.type === 'pm') {
+      slug = `${users[0].slug}/${users[1].slug}`
+    }
+
+    return `${protocol}//${host}/chat/${slug}/${messageId}`
+  }
+
   function normalizeRegularMessage(msg, state) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
@@ -109,9 +121,7 @@ export const normalizeMessage = (() => {
       avatar = defaultAvatar
     }
 
-    const channel = find(channels, {id: channelId})
-    const slug = channel.type === 'room' ? channel.slug : `${channel.slug}/${author.slug}`
-    const link = `${location.protocol}//${location.host}/chat/${slug}/${id}`
+    const link = createLinkToMessage(find(channels, {id: channelId}), id)
     const attachments = msg.attachments.map(normalizeAttachment)
     return {
       type, id, text, time, userTime, author, link, avatar, attachments,
