@@ -247,10 +247,15 @@ export default class GrapeInput extends Emitter {
 
     // Map to a unified data structure.
     users = users.map(user => {
-      let name = user.username
-      if (user.firstName) {
+      let name
+
+      if (user.displayName) {
+        name = user.displayName
+      } else if (user.firstName) {
         name = user.firstName
         if (user.lastName) name += ' ' + user.lastName
+      } else {
+        name = user.username
       }
 
       const roomUsers = this.room.users.toArray()
