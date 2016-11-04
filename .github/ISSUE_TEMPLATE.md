@@ -25,8 +25,10 @@
 
 <!-- End of Bug Template -->
 
+<!-- ======================================================== -->
 
 <!-- Feature Suggestion Template -->
+
 #### Target user
 
 <!-- Who will use this feature? For e.g. Grape devs, End-users, Partners -->
