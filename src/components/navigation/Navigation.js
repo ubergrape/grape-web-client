@@ -69,7 +69,7 @@ export default class Navigation extends Component {
       filteredUnJoined: []
     }
 
-    mousetrap.bindGlobal(props.shortcuts, ::this.onShortcut)
+    mousetrap.bindGlobal(props.shortcuts, this.onShortcut)
   }
 
   componentDidMount() {
@@ -110,7 +110,8 @@ export default class Navigation extends Component {
     return shallowCompare(this, nextProps, nextState)
   }
 
-  onShortcut() {
+  onShortcut = (e) => {
+    e.preventDefault()
     this.filter.focus()
   }
 
