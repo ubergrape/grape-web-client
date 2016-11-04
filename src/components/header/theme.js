@@ -1,13 +1,11 @@
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
-import colors from 'grape-theme/dist/base-colors'
-import webColors from 'grape-theme/dist/web-colors'
+import {gray, grayDarker, blue, white} from 'grape-theme/dist/base-colors'
+import {borderDefault, alertDanger} from 'grape-theme/dist/web-colors'
 import {small, big} from 'grape-theme/dist/fonts'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 import color from 'color'
 
 import reset from '../button/reset'
-
-const headerHeight = 56
 
 const button = {
   ...reset,
@@ -25,13 +23,13 @@ function getIcon(name, type) {
   let iconColor
   switch (type) {
     case 'hover':
-      iconColor = color(colors.blue).lighten(0.2).rgbaString()
+      iconColor = color(blue).lighten(0.2).rgbaString()
       break
     case 'active':
-      iconColor = colors.white
+      iconColor = white
       break
     default:
-      iconColor = colors.blue
+      iconColor = blue
   }
   return `url('${getColoredIcon({name, color: iconColor})}')`
 }
@@ -47,7 +45,7 @@ const info = {
 
 const infoActive = {
   ...button,
-  backgroundColor: colors.blue,
+  backgroundColor: blue,
   backgroundImage: getIcon('info', 'active')
 }
 
@@ -56,25 +54,12 @@ const action = {
 }
 
 export const styles = {
-  headerWrapper: {
-    position: 'relative',
-    height: headerHeight,
-    padding: '0 25px',
-    '&:after': {
-      position: 'absolute',
-      zIndex: 1,
-      left: 0,
-      right: 0,
-      bottom: -1,
-      height: 1,
-      background: 'rgba(0,0,0,0.15)',
-      content: '""'
-    }
-  },
   header: {
     display: 'flex',
+    height: '100%',
+    padding: '0 25px',
     alignItems: 'center',
-    height: headerHeight
+    borderBottom: `1px solid ${borderDefault}`
   },
   headerDisabled: {
     opacity: 0.4,
@@ -101,13 +86,13 @@ export const styles = {
     ...big,
     fontWeight: 'bold',
     lineHeight: 1.2,
-    color: colors.grayDarker
+    color: grayDarker
   },
   description: {
     ...mixins.ellipsis,
     ...small,
     lineHeight: 1.2,
-    color: colors.gray
+    color: gray
   },
   action: {
     extend: action,
@@ -126,12 +111,12 @@ export const styles = {
   search: {
     extend: small,
     boxSizing: 'border-box !important',
-    background: `${colors.white} no-repeat 12px 50%`,
+    background: `${white} no-repeat 12px 50%`,
     backgroundImage: `url('${getColoredIcon({name: 'magnifier', color: '#929292'})}')`,
     backgroundSize: 15,
-    border: '1px solid #d3d3d3',
+    border: `1px solid ${borderDefault}`,
     padding: '7px 10px 7px 35px',
-    color: colors.grayDarker,
+    color: grayDarker,
     borderRadius: 100,
     outline: 'none',
     width: '100%',
@@ -140,7 +125,7 @@ export const styles = {
     },
     '&:focus': {
       isolate: false,
-      borderColor: colors.blue
+      borderColor: blue
     }
   },
   invite: {
@@ -165,7 +150,7 @@ export const styles = {
   },
   filesActive: {
     ...button,
-    backgroundColor: colors.blue,
+    backgroundColor: blue,
     backgroundImage: getIcon('fileBold', 'active')
   },
   mentions: {
@@ -178,7 +163,7 @@ export const styles = {
   },
   mentionsActive: {
     ...button,
-    backgroundColor: colors.blue,
+    backgroundColor: blue,
     backgroundImage: getIcon('at', 'active')
   },
   badge: {
@@ -188,9 +173,9 @@ export const styles = {
     right: 2,
     width: 7,
     height: 7,
-    background: webColors.alertDanger,
+    background: alertDanger,
     borderRadius: '50%',
-    border: `2px solid ${colors.white}`
+    border: `2px solid ${white}`
   },
   intercom: {
     ...button,
@@ -202,7 +187,7 @@ export const styles = {
   },
   intercomActive: {
     ...button,
-    backgroundColor: colors.blue,
+    backgroundColor: blue,
     backgroundImage: getIcon('help', 'active')
   }
 }
