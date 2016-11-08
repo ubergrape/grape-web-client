@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {unreadChannelsSelector as selector} from '../../selectors'
@@ -9,7 +9,7 @@ const ConnectedUnreadChannels = connect(
   selector
 )(UnreadChannels)
 
-export default class UnreadChannelsProvider extends Component {
+export default class UnreadChannelsProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>

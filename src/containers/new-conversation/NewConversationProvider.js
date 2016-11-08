@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -24,7 +24,7 @@ const ConnectedNewConversation = connect(
   mapActionsToProps(actionNames)
 )(NewConversation)
 
-export default class NewConversationProvider extends Component {
+export default class NewConversationProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>

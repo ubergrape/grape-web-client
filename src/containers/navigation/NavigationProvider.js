@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -19,7 +19,7 @@ const ConnectedNavigation = connect(
   mapActionsToProps(actionNames)
 )(Navigation)
 
-export default class NavigationProvider extends Component {
+export default class NavigationProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>

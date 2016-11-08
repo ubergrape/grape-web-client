@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
@@ -16,7 +16,7 @@ const ConnectedTypingNotification = connect(
   mapActionsToProps(actionNames)
 )(TypingNotification)
 
-export default class TypingNotificationProvider extends Component {
+export default class TypingNotificationProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
