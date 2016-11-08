@@ -64,7 +64,7 @@
     "pick-react-known-prop": "0.0.1",
     "progress-component": "component/progress#0.0.4",
     "raven-js": "^1.1.22",
-    "react": "^15.2.0",
+    "react": "^15.3.0",
     "react-addons-shallow-compare": "^15.2.0",
     "react-dom": "15.2.0",
     "react-finite-list": "^1.0.5",
