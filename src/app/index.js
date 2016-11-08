@@ -1,4 +1,4 @@
-import React, {createElement} from 'react'
+import React from 'react'
 import ReactDom from 'react-dom'
 import Raven from 'raven-js'
 import {organization, user, server} from 'conf'
@@ -7,7 +7,6 @@ import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 import moment from 'moment'
 
-import wrapWithIntlProvider from './wrapWithIntlProvider'
 import * as translations from '../i18n'
 import subscribe from './subscribe'
 import {create as createClient} from '../utils/backend/client'
