@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
@@ -19,7 +18,7 @@ function createState(state, props) {
 }
 
 @injectSheet(styles)
-export default class History extends Component {
+export default class History extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -79,10 +78,6 @@ export default class History extends Component {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onRowsRendered = () => {

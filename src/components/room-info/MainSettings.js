@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -59,7 +58,7 @@ NotificationSettingsButton.propTypes = {
 }
 
 @injectIntl
-export default class MainSettings extends Component {
+export default class MainSettings extends PureComponent {
   static propTypes = {
     theme: PropTypes.shape({
       classes: PropTypes.object.isRequired
@@ -80,10 +79,6 @@ export default class MainSettings extends Component {
 
   static defaultProps = {
     allowEdit: false
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onShowNotificationSettings = () => {

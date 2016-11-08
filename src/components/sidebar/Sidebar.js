@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import {
   defineMessages,
   intlShape,
@@ -113,17 +112,13 @@ SidebarContent.propTypes = {
 const Content = injectIntl(SidebarContent)
 
 @injectSheet(styles)
-export default class Sidebar extends Component {
+export default class Sidebar extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     show: PropTypes.oneOfType([
       PropTypes.string,
       React.PropTypes.bool
     ]).isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

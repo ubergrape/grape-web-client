@@ -1,21 +1,16 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './theme'
 
 @injectSheet(styles)
-export default class Favorite extends Component {
+export default class Favorite extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     id: PropTypes.number,
     favorited: PropTypes.bool,
     requestAddChannelToFavorites: PropTypes.func.isRequired,
     requestRemoveChannelFromFavorites: PropTypes.func.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onToggle = () => {

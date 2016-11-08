@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import keyname from 'keyname'
 
 import {styles} from './theme'
 
 @injectSheet(styles)
-export default class TagsInput extends Component {
+export default class TagsInput extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onKeyDown: PropTypes.func.isRequired,
@@ -22,10 +21,6 @@ export default class TagsInput extends Component {
 
   componentDidMount() {
     if (this.props.focused) this.refs.input.focus()
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate() {
@@ -116,7 +111,7 @@ export default class TagsInput extends Component {
         <button
           key={i}
           className={sheet.classes.token}
-          onClick={this.onDeleteTag.bind(this, item)}>
+          onClick={/* TODO #120 */this.onDeleteTag.bind(this, item)}>
           {this.props.renderTag(item)}
         </button>
       )

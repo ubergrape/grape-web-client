@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import colors from 'grape-theme/dist/base-colors'
 import noop from 'lodash/utility/noop'
 
@@ -80,7 +79,7 @@ Pm.propTypes = {
   channel: PropTypes.object.isRequired
 }
 
-export default class Channel extends Component {
+export default class Channel extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     filter: PropTypes.string.isRequired,
@@ -96,10 +95,6 @@ export default class Channel extends Component {
     onClick: noop,
     focused: false,
     header: ''
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

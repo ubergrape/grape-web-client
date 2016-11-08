@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import keyname from 'keyname'
 import {
   defineMessages,
@@ -10,7 +10,7 @@ import RoomIconSettings from '../room-icon-settings/RoomIconSettings'
 import Switch from '../switch/BlueSwitch'
 import Input from '../input/GrayInputBigger'
 
-class IconSettings extends Component {
+class IconSettings extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired
   }

@@ -1,5 +1,4 @@
-import React, {PropTypes, Component} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PropTypes, PureComponent} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -50,7 +49,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class ChooseUsersDialog extends Component {
+export default class ChooseUsersDialog extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -71,10 +70,6 @@ export default class ChooseUsersDialog extends Component {
     isInviter: PropTypes.bool.isRequired,
     filterFocus: PropTypes.bool,
     show: PropTypes.bool.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {

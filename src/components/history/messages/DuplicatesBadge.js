@@ -1,18 +1,13 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './duplicatesBadgeTheme'
 
 @injectSheet(styles)
-export default class DuplicatesBadge extends Component {
+export default class DuplicatesBadge extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     value: PropTypes.number.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

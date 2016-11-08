@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import Avatar from '../avatar/Avatar'
@@ -8,7 +7,7 @@ import Bubble from '../message-parts/Bubble'
 import styles from './messageStyles'
 
 @injectSheet(styles)
-export default class Message extends Component {
+export default class Message extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -17,10 +16,6 @@ export default class Message extends Component {
     }).isRequired,
     avatar: PropTypes.string,
     children: PropTypes.node.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

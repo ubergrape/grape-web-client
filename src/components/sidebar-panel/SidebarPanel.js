@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './theme'
@@ -11,17 +10,13 @@ import {styles} from './theme'
  * - positioned in the middle
  */
 @injectSheet(styles)
-export default class SidebarPanel extends Component {
+export default class SidebarPanel extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     options: PropTypes.node,
     children: PropTypes.node,
     onClose: PropTypes.func.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onClose() {

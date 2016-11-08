@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import moment from 'moment'
 
@@ -29,7 +28,7 @@ const messagePropType = PropTypes.shape({
 })
 
 @injectSheet(styles)
-export default class Row extends Component {
+export default class Row extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     user: PropTypes.shape({
@@ -58,10 +57,6 @@ export default class Row extends Component {
     isLast: false,
     isGroupable: false,
     duplicates: []
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onEdit = () => {

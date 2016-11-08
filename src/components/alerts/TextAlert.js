@@ -1,7 +1,7 @@
-import {Component, PropTypes} from 'react'
+import {PureComponent, PropTypes} from 'react'
 import getAlertText from './getAlertText'
 
-export default class TextAlert extends Component {
+export default class TextAlert extends PureComponent {
   static propTypes = {
     type: PropTypes.string
   }

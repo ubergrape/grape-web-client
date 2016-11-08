@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import uniq from 'lodash/array/uniq'
 import injectSheet from 'grape-web/lib/jss'
 import Spinner from 'grape-web/lib/spinner/Spinner'
@@ -45,7 +45,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class InviteToOrg extends Component {
+export default class InviteToOrg extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,

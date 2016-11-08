@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import {injectIntl} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -8,7 +7,7 @@ import Items from './Items'
 
 @injectSheet(styles)
 @injectIntl
-export default class Header extends Component {
+export default class Header extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object,
     channel: PropTypes.object.isRequired,
@@ -31,10 +30,6 @@ export default class Header extends Component {
     // Hide intercom, because it keeps state outside of app.
     const {support: {type}, hideIntercom} = nextProps
     if (type !== this.props.support.type && type === 'intercom') hideIntercom()
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onFocusMessageSearch = ({target}) => {

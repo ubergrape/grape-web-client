@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
@@ -7,7 +6,7 @@ import {styles, maxHeight} from './expanderTheme'
 import {ShowMore, ShowLess} from '../../i18n/i18n'
 
 @injectSheet(styles)
-export default class Expander extends Component {
+export default class Expander extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
@@ -27,10 +26,6 @@ export default class Expander extends Component {
 
   componentDidMount() {
     this.update()
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   componentDidUpdate() {

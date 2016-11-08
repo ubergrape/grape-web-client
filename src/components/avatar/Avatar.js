@@ -1,13 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {defaultAvatar} from '../../constants/images'
 import {styles} from './theme'
 
 @injectSheet(styles)
-export default class Avatar extends Component {
+export default class Avatar extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -22,10 +21,6 @@ export default class Avatar extends Component {
     className: '',
     onClick: noop,
     style: {}
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

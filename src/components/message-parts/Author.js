@@ -1,13 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './authorTheme'
 
 @injectSheet(styles)
-export default class Author extends Component {
+export default class Author extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -18,10 +17,6 @@ export default class Author extends Component {
   static defaultProps = {
     onClick: noop,
     className: ''
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

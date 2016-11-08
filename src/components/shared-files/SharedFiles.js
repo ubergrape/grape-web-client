@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -23,7 +22,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class SharedFiles extends Component {
+export default class SharedFiles extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -43,10 +42,6 @@ export default class SharedFiles extends Component {
       nextProps.total == null &&
       this.props.total != null
     if (reset) this.load(nextProps)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onLoadMore() {
