@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './theme'
+import {TypingNotificationProvider} from '../../containers/typing-notification'
 
 // FIXME rewrite legacy grape input.
 
@@ -21,7 +22,11 @@ export default class Footer extends PureComponent {
       <footer
         className={classes.footer}
         ref={this.onRef}
-        id="intro-stepOne"></footer>
+        id="intro-stepOne"
+        data-step="1"
+        data-topic="grape input">
+        <TypingNotificationProvider />
+      </footer>
     )
   }
 }

@@ -25,7 +25,8 @@ export const styles = {
   mainLeft: {
     display: 'flex',
     flexDirection: 'column',
-    flex: 1
+    flex: 1,
+    position: 'relative'
   },
   historyWrapper: {
     position: 'relative',

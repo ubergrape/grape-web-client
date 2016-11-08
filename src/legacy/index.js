@@ -26,7 +26,6 @@ export default function init() {
     uploadPath: conf.server.uploadPath,
     organizationId: conf.organization.id
   })
-  //document.body.appendChild(window.ui.el)
 
   // initialize the App
   window.api = new Api()

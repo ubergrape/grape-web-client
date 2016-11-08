@@ -5,6 +5,7 @@ import {borderDefault} from 'grape-theme/dist/web-colors'
 import mixins from 'grape-web/lib/jss-utils/mixins'
 
 import buttonIcon from '../button/icon'
+import {height as headerHeight} from '../header'
 
 const headers = {
   ...mixins.ellipsis,
@@ -17,7 +18,7 @@ export const styles = {
     alignItems: 'center',
     boxSizing: 'border-box',
     padding: '0 10px 0 20px',
-    height: 56,
+    height: headerHeight,
     borderBottom: `1px solid ${borderDefault}`
   },
   headers: {

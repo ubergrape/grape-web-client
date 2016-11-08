@@ -53,10 +53,12 @@ const action = {
   listStyle: 'none'
 }
 
+export const height = 56
+
 export const styles = {
   header: {
     display: 'flex',
-    height: '100%',
+    height: height,
     padding: '0 25px',
     alignItems: 'center',
     borderBottom: `1px solid ${borderDefault}`
