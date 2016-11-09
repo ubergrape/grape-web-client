@@ -6,7 +6,7 @@ import 'reactive-elements'
 import 'intl'
 
 import conf from 'conf'
-import initApp from './app'
+import {init as initApp, render as renderApp} from './app'
 import initLegacy from './legacy'
 import {loadConfig} from './utils/backend/api'
 
@@ -16,6 +16,7 @@ function ensureConf() {
   function init() {
     initApp()
     initLegacy()
+    renderApp()
   }
 
   if (conf.isLoaded) return init()

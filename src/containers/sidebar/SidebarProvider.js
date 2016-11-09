@@ -39,7 +39,7 @@ export default class SidebarProvider extends Component {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedSidebar />
+        <ConnectedSidebar {...this.props} />
       </Provider>
     )
   }

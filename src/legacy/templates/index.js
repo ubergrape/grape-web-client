@@ -22,6 +22,5 @@ template.templates = {
   'draganddrop.jade': require('./draganddrop.jade'),
   'fileuploader.jade': require('./fileuploader.jade'),
   'grapeInput.jade': require('./grapeInput.jade'),
-  'index.jade': require('./index.jade'),
   'popovers/organization.jade': require('./popovers/organization.jade')
 }

@@ -61,12 +61,8 @@ export const styles = {
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'absolute',
-    left: 0,
-    top: 56,
-    right: 0,
-    bottom: 0,
     userSelect: 'none',
+    flex: 1,
     color: colors.grayBlueDark,
     background: colors.grayBlueLighter
   },
