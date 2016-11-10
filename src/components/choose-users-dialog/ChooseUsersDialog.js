@@ -1,4 +1,6 @@
-import React, {PropTypes, PureComponent} from 'react'
+// TODO get rid of the `PureComponent as Component` alias when
+// when ubergrape/grape-web-client/issues/125 is fixed
+import React, {PropTypes, PureComponent as Component} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -49,7 +51,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class ChooseUsersDialog extends PureComponent {
+export default class ChooseUsersDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -78,11 +80,8 @@ export default class ChooseUsersDialog extends PureComponent {
     showInviteToOrg()
   }
 
-  renderItem = (params) => {
+  renderItem = ({item, focused}) => {
     const {sheet: {classes}} = this.props
-    // TODO directly destruct `params` in the function signature
-    // when ubergrape/grape-web-client/issues/125 is fixed
-    const {item, focused} = params
     const {displayName, avatar, status} = item
 
     let className = classes.user

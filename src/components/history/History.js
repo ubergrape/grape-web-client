@@ -1,4 +1,6 @@
-import React, {PureComponent, PropTypes} from 'react'
+// TODO get rid of the `PureComponent as Component` alias when
+// when ubergrape/grape-web-client/issues/125 is fixed
+import React, {PropTypes, PureComponent as Component} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
@@ -18,7 +20,7 @@ function createState(state, props) {
 }
 
 @injectSheet(styles)
-export default class History extends PureComponent {
+export default class History extends Component {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoad: PropTypes.func.isRequired,
@@ -96,18 +98,13 @@ export default class History extends PureComponent {
     this.setState({rows})
   }
 
-  renderRow = (params) => {
-    // TODO directly destruct `params` in the function signature
-    // when ubergrape/grape-web-client/issues/125 is fixed
-    const {index, key, style} = params
-    return (
-      <Row
-        {...this.state.rows[index]}
-        key={key}
-        style={style}
-        onToggleExpander={this.onToggleExpander} />
-    )
-  }
+  renderRow = ({index, key, style}) => (
+    <Row
+      {...this.state.rows[index]}
+      key={key}
+      style={style}
+      onToggleExpander={this.onToggleExpander} />
+  )
 
   render() {
     const {
