@@ -96,13 +96,18 @@ export default class History extends PureComponent {
     this.setState({rows})
   }
 
-  renderRow = ({index, key, style}) => (
-    <Row
-      {...this.state.rows[index]}
-      key={key}
-      style={style}
-      onToggleExpander={this.onToggleExpander} />
-  )
+  renderRow = (params) => {
+    // TODO directly destruct `params` in the function signature
+    // when ubergrape/grape-web-client/issues/125 is fixed
+    const {index, key, style} = params
+    return (
+      <Row
+        {...this.state.rows[index]}
+        key={key}
+        style={style}
+        onToggleExpander={this.onToggleExpander} />
+    )
+  }
 
   render() {
     const {

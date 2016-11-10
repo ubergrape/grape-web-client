@@ -78,8 +78,11 @@ export default class ChooseUsersDialog extends PureComponent {
     showInviteToOrg()
   }
 
-  renderItem = ({item, focused}) => {
+  renderItem = (params) => {
     const {sheet: {classes}} = this.props
+    // TODO directly destruct `params` in the function signature
+    // when ubergrape/grape-web-client/issues/125 is fixed
+    const {item, focused} = params
     const {displayName, avatar, status} = item
 
     let className = classes.user
