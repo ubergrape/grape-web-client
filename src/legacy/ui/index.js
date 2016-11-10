@@ -63,32 +63,15 @@ UI.prototype.init = function UI_init() {
     name: "Loading"
   }
 
-  this.el = v.toDOM(template('index.jade'))
-
-  this.clientBody = qs('.client-body', this.el)
-
   this.organizationMenu = new OrganizationPopover()
 
   // initialize the input field
   this.grapeInput = new GrapeInput()
-  qs('.footer', this.el).appendChild(this.grapeInput.el)
 
   this.reduxEmitter = reduxEmitter
 
   // initialize dialogs
   this.markdownTips = new MarkdownTipsDialog().closable()
-
-  const chatWrapper = qs('.chat-wrapper', this.el)
-
-  const chat = qs('.chat', chatWrapper)
-
-  if (!this.options.detached) {
-    chat.parentNode.replaceChild(document.createElement('grape-history'), chat)
-  }
-
-  chatWrapper.appendChild(document.createElement('grape-typing-notification'))
-
-  chatWrapper.appendChild(document.createElement('grape-alerts'))
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -143,16 +126,6 @@ UI.prototype.init = function UI_init() {
 
 UI.prototype.bind = function UI_bind() {
   pipeEvents(this)
-  let self = this
-
-  this.events = events(this.el, {
-    'closeNotificationsMessage': function() {
-      self.enableNotificationMessage.remove()
-    }
-  })
-
-  this.events.bind('click .close_notifications_message', 'closeNotificationsMessage')
-
   this.room = null
 }
 

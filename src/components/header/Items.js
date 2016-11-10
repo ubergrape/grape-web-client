@@ -154,7 +154,9 @@ export default function Items(props) {
   return (
     <ul
       className={`${classes.header} ${channel ? '' : classes.headerDisabled}`}
-      id="intro-step4">
+      id="intro-step4"
+      data-step="4"
+      data-topic="room header">
       <li className={classes.favorite}>
         <Tooltip message={getTooltipMessage('favorite')}>
           <Favorite {...favoriteProps}/>

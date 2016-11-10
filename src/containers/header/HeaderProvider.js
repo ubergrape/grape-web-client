@@ -4,7 +4,7 @@ import {Provider, connect} from 'react-redux'
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
 import {headerSelector as selector} from '../../selectors'
-import Header from '../../components/header/Header'
+import {Header} from '../../components/header'
 
 const actionNames = [
   'showChannelMembersInvite',

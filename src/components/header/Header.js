@@ -44,13 +44,11 @@ export default class Header extends PureComponent {
   render() {
     const {classes} = this.props.sheet
     return (
-      <div className={classes.headerWrapper}>
-        <Items
-          {...this.props}
-          onChangeMessageSearch={this.onChangeMessageSearch}
-          onFocusMessageSearch={this.onFocusMessageSearch}
-          theme={{classes}} />
-      </div>
+      <Items
+        {...this.props}
+        onChangeMessageSearch={this.onChangeMessageSearch}
+        onFocusMessageSearch={this.onFocusMessageSearch}
+        theme={{classes}} />
     )
   }
 }
