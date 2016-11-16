@@ -63,6 +63,7 @@ export const styles = {
     flexDirection: 'column',
     userSelect: 'none',
     flex: 1,
+    // Fixes flex box bug in Firefox.
     overflowY: 'hidden',
     color: colors.grayBlueDark,
     background: colors.grayBlueLighter
