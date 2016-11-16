@@ -33,6 +33,10 @@ export const styles = {
     flex: 1
   },
   sidebar: {
+    display: 'flex',
+    alignItems: 'stretch',
+    flexDirection: 'column',
+    flexBasis: 'auto',
     width: 400
   },
   [`@media (max-width: ${screenWidth.xl}px)`]: {
