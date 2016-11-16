@@ -27,9 +27,10 @@ const commonHeader = {
 
 export const styles = {
   sidebarPanel: {
+    alignItems: 'stretch',
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    flex: 1,
     background: colors.grayBlueLighter
   },
   header: {
@@ -45,6 +46,7 @@ export const styles = {
   body: {
     padding: gap,
     background: colors.grayBlueLighter,
+    flex: 1,
     overflowY: 'auto',
     overflowX: 'hidden'
   },
