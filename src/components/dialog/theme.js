@@ -17,7 +17,8 @@ export const styles = {
     zIndex: 1000,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflowY: 'auto'
   },
   backdrop: {
     extend: overlay,

@@ -19,9 +19,10 @@ import {InviteToOrgProvider} from '../../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../../containers/notification-settings'
 import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
+import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
 
 @injectSheet(styles)
-export default class Avatar extends PureComponent {
+export default class App extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired
   }
@@ -59,6 +60,7 @@ export default class Avatar extends PureComponent {
           <InviteToOrgProvider />
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />
+          <MarkdownTipsDialogProvider />
         </div>
       </IntlProvider>
     )

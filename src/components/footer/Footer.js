@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 
 import {styles} from './theme'
+import {MarkdownTipsLinkProvider} from '../../containers/markdown-tips'
 import {TypingNotificationProvider} from '../../containers/typing-notification'
 
 // FIXME rewrite legacy grape input.
@@ -26,6 +27,9 @@ export default class Footer extends PureComponent {
         data-step="1"
         data-topic="grape input">
         <TypingNotificationProvider />
+        <div className={classes.markdownTips}>
+          <MarkdownTipsLinkProvider />
+        </div>
       </footer>
     )
   }

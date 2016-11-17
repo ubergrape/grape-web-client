@@ -440,3 +440,7 @@ export const historyComponentSelector = createSelector(
     customEmojis
   })
 )
+
+export const markdownTipsSelector = createSelector(
+  state => state.markdownTips, state => state
+)
