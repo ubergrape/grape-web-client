@@ -19,7 +19,8 @@ export const styles = {
     boxSizing: 'border-box',
     padding: '0 10px 0 20px',
     height: headerHeight,
-    borderBottom: `1px solid ${borderDefault}`
+    borderBottom: `1px solid ${borderDefault}`,
+    flexShrink: 0
   },
   headers: {
     flexGrow: 1,

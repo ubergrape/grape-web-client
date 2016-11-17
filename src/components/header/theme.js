@@ -61,7 +61,8 @@ export const styles = {
     height: height,
     padding: '0 25px',
     alignItems: 'center',
-    borderBottom: `1px solid ${borderDefault}`
+    borderBottom: `1px solid ${borderDefault}`,
+    flexShrink: 0
   },
   headerDisabled: {
     opacity: 0.4,
