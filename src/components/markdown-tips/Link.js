@@ -17,7 +17,7 @@ export default class Link extends PureComponent {
     return (
       <span>
         <FormattedMessage
-          id="You can also use"
+          id="markdownTipsLinkMessage"
           defaultMessage="You can also use " />
         <button className={classes.button} onClick={onClick}>
           markdown
