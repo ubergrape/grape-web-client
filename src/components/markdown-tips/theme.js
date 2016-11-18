@@ -51,11 +51,11 @@ export const tipsStyles = {
     }
   },
   title: {
-    fontSize: bigger.fontSize,
+    extend: [bigger],
     marginBottom: 5
   },
   subheading: {
-    fontSize: small.fontSize,
+    extend: [small],
     fontStyle: 'italic',
     margin: [[20, 0, 5]],
     textTransform: 'capitalize',
