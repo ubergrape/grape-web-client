@@ -683,6 +683,11 @@
       "from": "commander@>=2.2.0 <2.3.0",
       "resolved": "https://registry.npmjs.org/commander/-/commander-2.2.0.tgz"
     },
+    "common-tags": {
+      "version": "1.4.0",
+      "from": "common-tags@>=1.4.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/common-tags/-/common-tags-1.4.0.tgz"
+    },
     "commoner": {
       "version": "0.10.4",
       "from": "commoner@>=0.10.3 <0.11.0",
