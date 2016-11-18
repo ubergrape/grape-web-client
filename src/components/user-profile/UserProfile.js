@@ -101,7 +101,7 @@ export default class UserProfile extends Component {
             )}
             {skypeForBusiness && (
               <li>
-                <a href={`tel:${skypeForBusiness}`} className={classes.skype}>
+                <a href={`callto:sip:${skypeForBusiness}`} className={classes.skype}>
                   {skypeForBusiness}
                 </a>
               </li>
