@@ -24,7 +24,7 @@ export const styles = {
   bubble: {
     maxWidth: '100%'
   },
-  // TODO #149 use standard typogrphy styles
+  // TODO #149 use standard typography styles
   content: {
     '& a': link,
     '& a:hover': linkHover,
