@@ -3,23 +3,26 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
-import {markdownTipsSelector as selector} from '../../selectors'
-import {Link} from '../../components/markdown-tips'
+import {footerSelector as selector} from '../../selectors'
+import {Footer} from '../../components/footer'
 
-const actionNames = {
-  showMarkdownTips: 'onClick'
-}
+const actionNames = [
+  'setUsers',
+  'cleanupTyping',
+  'showMarkdownTips'
+]
 
-const ConnectedLink = connect(
+const ConnectedFooter = connect(
   selector,
   mapActionsToProps(actionNames)
-)(Link)
+)(Footer)
 
-export default class MarkdownTipsLinkProvider extends PureComponent {
+
+export default class FooterProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedLink />
+        <ConnectedFooter />
       </Provider>
     )
   }

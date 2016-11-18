@@ -1,0 +1,1 @@
+export FooterProvider from './FooterProvider'

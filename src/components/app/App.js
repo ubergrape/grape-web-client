@@ -9,7 +9,6 @@ import {NavigationProvider} from '../../containers/navigation'
 
 import {HeaderProvider} from '../../containers/header'
 import {HistoryProvider} from '../../containers/history'
-import {Footer} from '../footer'
 
 import {SidebarProvider} from '../../containers/sidebar'
 import {BillingWarningProvider} from '../../containers/billing-warning'
@@ -20,6 +19,7 @@ import {NotificationSettingsProvider} from '../../containers/notification-settin
 import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
+import {FooterProvider} from '../../containers/footer'
 
 @injectSheet(styles)
 export default class App extends PureComponent {
@@ -49,7 +49,7 @@ export default class App extends PureComponent {
                 <div className={classes.historyWrapper}>
                   <HistoryProvider />
                 </div>
-                <Footer />
+                <FooterProvider />
               </div>
               <SidebarProvider className={classes.sidebar} />
             </div>
