@@ -1,4 +1,4 @@
-import defaultDeep from 'lodash/object/defaultsDeep'
+import defaultsDeep from 'lodash/object/defaultsDeep'
 
 import {gray, grayLighter} from 'grape-theme/dist/base-colors'
 import {bigger, small} from 'grape-theme/dist/fonts'
@@ -61,7 +61,7 @@ export const tipsStyles = {
     textTransform: 'capitalize',
     color: gray
   },
-  example: defaultDeep(
+  example: defaultsDeep(
     codeStyles,
     {
       whiteSpace: 'pre-line',
@@ -69,7 +69,7 @@ export const tipsStyles = {
     },
     messageStyles.content['& code']
   ),
-  renderedExample: defaultDeep(
+  renderedExample: defaultsDeep(
     {
       '& p': {
         marginBottom: 10
