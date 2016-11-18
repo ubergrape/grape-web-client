@@ -13,7 +13,7 @@ import {dialogStyles as styles} from './theme'
 const messages = defineMessages({
   title: {
     id: 'markdownTipsDialogTitle',
-    defineMessage: 'Markdown tips'
+    defaultMessage: 'Markdown tips'
   }
 })
 

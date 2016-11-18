@@ -55,9 +55,13 @@ export default class MarkdownTip extends PureComponent {
         <h3 className={classes.title}>{formatMessage(title)}</h3>
         <div>
           <h4 className={classes.subheading}>{formatMessage(messages.example)}</h4>
-          <div className={classes.example}><pre><code>{formattedExample}</code></pre></div>
+          <div className={classes.example}>
+            <pre><code>{formattedExample}</code></pre>
+          </div>
           <h4 className={classes.subheading}>{formatMessage(messages.result)}</h4>
-          <div className={classes.renderedExample} aria-hidden="true">{this.renderer(formattedExample)}</div>
+          <div className={classes.renderedExample} aria-hidden="true">
+            {this.renderer(formattedExample)}
+          </div>
         </div>
       </div>
     )
