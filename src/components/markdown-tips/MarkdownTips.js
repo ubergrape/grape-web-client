@@ -1,5 +1,4 @@
-import {mdReact} from 'markdown-react-js'
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import {
   FormattedMessage,
   defineMessages
