@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import * as icons from 'grape-web/lib/svg-icons/data'
@@ -11,7 +10,7 @@ import {styles} from './sharedFileTheme'
 
 @injectSheet(styles)
 @injectIntl
-export default class SharedFile extends Component {
+export default class SharedFile extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -23,10 +22,6 @@ export default class SharedFile extends Component {
     intl: intlShape.isRequired,
     author: PropTypes.string,
     thumbnailUrl: PropTypes.string
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onOpen = () => {

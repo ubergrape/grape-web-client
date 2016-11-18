@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import List from 'react-finite-list'
 import keyname from 'keyname'
@@ -8,7 +7,7 @@ import {styles} from './theme'
 import TagsInput from '../tags-input/TagsInput'
 
 @injectSheet(styles)
-export default class FilterableList extends Component {
+export default class FilterableList extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     filterFocus: PropTypes.bool.isRequired,
@@ -42,10 +41,6 @@ export default class FilterableList extends Component {
     this.setState({
       focusedItem: nextProps.items[0]
     })
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onSelectItem = (item) => {

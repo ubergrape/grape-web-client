@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import Tooltip from '../tooltip/HoverTooltip'
 import {styles} from './menuTheme'
@@ -48,7 +47,7 @@ function getMessage(name) {
 }
 
 @injectSheet(styles)
-export default class Menu extends Component {
+export default class Menu extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -59,10 +58,6 @@ export default class Menu extends Component {
   static defaultProps = {
     onSelect: noop,
     className: ''
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {
@@ -78,7 +73,7 @@ export default class Menu extends Component {
             inline>
               <span
                 className={getClassName(classes, name, i, items.length)}
-                onClick={onSelect.bind(null, {name})} />
+                onClick={/* TODO #120 */onSelect.bind(null, {name})} />
           </Tooltip>
         ))}
       </div>

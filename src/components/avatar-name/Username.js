@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {white} from 'grape-theme/dist/base-colors'
 
@@ -24,7 +23,7 @@ Status.defaultPros = {
 }
 
 @injectSheet(style)
-export default class Username extends Component {
+export default class Username extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
@@ -36,10 +35,6 @@ export default class Username extends Component {
 
   static defaultProps = {
     showStatus: true
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

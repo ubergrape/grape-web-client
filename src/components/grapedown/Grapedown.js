@@ -1,11 +1,10 @@
-import {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import {PureComponent, PropTypes} from 'react'
 import {injectIntl} from 'react-intl'
 
 import render from './render'
 
 @injectIntl
-export default class Grapedown extends Component {
+export default class Grapedown extends PureComponent {
   static propTypes = {
     text: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
@@ -15,10 +14,6 @@ export default class Grapedown extends Component {
   static defaultProps = {
     user: {},
     customEmojis: {}
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

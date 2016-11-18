@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import capitalize from 'lodash/string/capitalize'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -12,7 +12,7 @@ const initialState = {
 }
 
 @injectSheet(theme.styles)
-export default class HoverTooltip extends Component {
+export default class HoverTooltip extends PureComponent {
   static propTypes = {
     message: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,

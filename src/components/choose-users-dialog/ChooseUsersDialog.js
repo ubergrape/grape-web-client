@@ -1,5 +1,6 @@
-import React, {PropTypes, Component} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+// TODO get rid of the `PureComponent as Component` alias when
+// when ubergrape/grape-web-client/issues/125 is fixed
+import React, {PropTypes, PureComponent as Component} from 'react'
 import {
   FormattedMessage,
   defineMessages,
@@ -71,10 +72,6 @@ export default class ChooseUsersDialog extends Component {
     isInviter: PropTypes.bool.isRequired,
     filterFocus: PropTypes.bool,
     show: PropTypes.bool.isRequired
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {

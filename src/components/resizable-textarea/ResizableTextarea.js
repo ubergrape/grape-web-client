@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {pickHTMLProps} from 'pick-react-known-prop'
 
-export default class Editable extends Component {
+export default class Editable extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,

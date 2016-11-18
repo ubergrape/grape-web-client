@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 import {
   FormattedMessage,
   defineMessages,
@@ -20,7 +19,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class UserProfile extends Component {
+export default class UserProfile extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -33,10 +32,6 @@ export default class UserProfile extends Component {
     skypeUsername: PropTypes.string,
     skypeForBusiness: PropTypes.string,
     phoneNumber: PropTypes.string
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onClose = () => {

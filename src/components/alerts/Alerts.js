@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 
 import Alert from './Alert'
 import TextAlert from './TextAlert'
@@ -12,17 +11,13 @@ import injectSheet from 'grape-web/lib/jss'
 import style from './alertsStyle'
 
 @injectSheet(style)
-export default class Alerts extends Component {
+export default class Alerts extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     alerts: PropTypes.array,
     enableNotifications: PropTypes.func,
     hideAlert: PropTypes.func,
     clearAlertDelay: PropTypes.func
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   renderAlertContent(alert) {
@@ -60,7 +55,7 @@ export default class Alerts extends Component {
             <Alert
               key={i}
               closeAfter={alert.closeAfter}
-              onCloseAfter={hideAlert.bind(null, alert)}>
+              onCloseAfter={/* TODO #120 */hideAlert.bind(null, alert)}>
               {this.renderAlertContent(alert)}
             </Alert>
           </li>

@@ -1,7 +1,6 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import Modal from 'react-overlays/lib/Modal'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './theme'
 
@@ -12,17 +11,13 @@ import {styles} from './theme'
  * - positioned in the middle
  */
 @injectSheet(styles)
-export default class Dialog extends Component {
+export default class Dialog extends PureComponent {
   static propTypes = {
     onHide: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     sheet: PropTypes.object.isRequired,
     title: PropTypes.string
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

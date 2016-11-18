@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import noop from 'lodash/utility/noop'
 import keyname from 'keyname'
 import injectSheet from 'grape-web/lib/jss'
@@ -23,7 +22,7 @@ const Wrapper = listenOutsideClick(({onClick, className, children}) => (
  * it becomes styled as textarea or input field.
  */
 @injectSheet(styles)
-export default class EditableText extends Component {
+export default class EditableText extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
@@ -85,10 +84,6 @@ export default class EditableText extends Component {
       isEditing: false,
       saving: false
     })
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onClick = () => {

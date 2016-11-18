@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 
@@ -13,7 +12,7 @@ import {styles} from './baseMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
 @injectSheet(styles)
-export default class ActivityMessage extends Component {
+export default class ActivityMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -36,10 +35,6 @@ export default class ActivityMessage extends Component {
     title: '',
     hasBubbleArrow: true,
     onToggleExpander: noop
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onToggleExpander = ({isExpanded}) => {

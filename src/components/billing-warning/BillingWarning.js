@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
@@ -23,7 +22,7 @@ const messages = defineMessages({
  */
 @injectSheet(styles)
 @injectIntl
-export default class BillingWarning extends Component {
+export default class BillingWarning extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -38,10 +37,6 @@ export default class BillingWarning extends Component {
     if (nextProps.enabled && nextProps.text && this.props.text !== nextProps.text) {
       this.props.showBillingWarning()
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onHide = () => {

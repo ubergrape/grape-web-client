@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 
 import TypingUsers from './TypingUsers'
 
 /**
  * Typing notification container.
  */
-export default class TypingNotification extends Component {
+export default class TypingNotification extends PureComponent {
   static propTypes = {
     cleanupTyping: PropTypes.func.isRequired,
     channels: PropTypes.object.isRequired,
@@ -15,10 +14,6 @@ export default class TypingNotification extends Component {
 
   componentDidMount() {
     this.intervalId = setInterval(::this.cleanup, 1000)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   componentWillUnmount() {

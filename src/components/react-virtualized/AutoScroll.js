@@ -1,11 +1,10 @@
-import {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import {PureComponent, PropTypes} from 'react'
 import findIndex from 'lodash/array/findIndex'
 
 /**
  * Preserves the scroll position at the end when rows got added.
  */
-export default class AutoScroll extends Component {
+export default class AutoScroll extends PureComponent {
   static propTypes = {
     rows: PropTypes.array.isRequired,
     minEndThreshold: PropTypes.number.isRequired,
@@ -65,10 +64,6 @@ export default class AutoScroll extends Component {
       }
       return
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onScroll = ({scrollHeight, clientHeight, scrollTop}) => {

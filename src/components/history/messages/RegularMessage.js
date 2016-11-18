@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
@@ -132,7 +131,7 @@ const messages = defineMessages({
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#message
 @injectSheet(styles)
 @injectIntl
-export default class RegularMessage extends Component {
+export default class RegularMessage extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -178,10 +177,6 @@ export default class RegularMessage extends Component {
   constructor(props) {
     super(props)
     this.state = {isMenuOpened: false}
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onMouseEnter = () => {
