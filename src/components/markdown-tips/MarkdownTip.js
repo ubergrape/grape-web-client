@@ -7,7 +7,7 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
-import {tipsStyles as styles} from './theme'
+import {styles} from './markdownTipTheme'
 
 const messages = defineMessages({
   example: {

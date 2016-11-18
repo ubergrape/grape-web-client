@@ -2,7 +2,7 @@ import React, {PropTypes, PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 
-import {linkStyles as styles} from './theme'
+import {styles} from './linkTheme'
 
 @injectSheet(styles)
 export default class Link extends PureComponent {

@@ -2,38 +2,8 @@ import defaultsDeep from 'lodash/object/defaultsDeep'
 
 import {gray, grayLighter} from 'grape-theme/dist/base-colors'
 import {bigger, small} from 'grape-theme/dist/fonts'
-import {borderDefault} from 'grape-theme/dist/web-colors'
 // TODO #149 use generic styles instead of importing the following
 import {styles as messageStyles} from '../history/messages/baseMessageTheme'
-
-const hoverStyles = {
-  opacity: 0.8,
-  // TODO remove this when legacy/global CSS is gone
-  cursor: 'pointer',
-  font: 'inherit'
-}
-
-export const dialogStyles = {
-  wrapper: {
-    padding: 20,
-    borderTop: `3px solid ${borderDefault}`,
-    maxHeight: '80vh',
-    overflowY: 'auto'
-  }
-}
-
-export const linkStyles = {
-  button: {
-    color: gray,
-    cursor: 'pointer',
-    border: 0,
-    font: 'inherit',
-    padding: 0,
-    textDecoration: 'underline',
-    '&:hover': hoverStyles,
-    '&:focus': hoverStyles
-  }
-}
 
 const codeStyles = {
   width: 'auto',
@@ -41,7 +11,7 @@ const codeStyles = {
   padding: 10
 }
 
-export const tipsStyles = {
+export const styles = {
   section: {
     marginTop: 20,
     paddingTop: 20,

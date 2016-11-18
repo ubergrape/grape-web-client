@@ -8,7 +8,7 @@ import {
 
 import Dialog from '../dialog/Dialog'
 import MarkdownTips from './MarkdownTips'
-import {dialogStyles as styles} from './theme'
+import {styles} from './markdownTipsDialogTheme'
 
 const messages = defineMessages({
   title: {
