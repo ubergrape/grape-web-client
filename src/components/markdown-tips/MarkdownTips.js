@@ -2,24 +2,13 @@ import {mdReact} from 'markdown-react-js'
 import React, {PropTypes, PureComponent} from 'react'
 import {
   FormattedMessage,
-  defineMessages,
-  intlShape,
-  injectIntl
+  defineMessages
 } from 'react-intl'
 import stripIndent from 'common-tags/lib/stripIndent'
-import injectSheet from 'grape-web/lib/jss'
 
-import {tipsStyles as styles} from './theme'
+import Tip from './MarkdownTip'
 
 const messages = defineMessages({
-  example: {
-    id: 'Example',
-    defaultMessage: 'Example'
-  },
-  result: {
-    id: 'Result',
-    defaultMessage: 'Result'
-  },
   inlineStylesTitle: {
     id: 'inlineStyles',
     defaultMessage: 'Inline Styles'
@@ -58,42 +47,7 @@ const messages = defineMessages({
   }
 })
 
-@injectSheet(styles)
-@injectIntl
 export default class MarkdownTips extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.renderer = mdReact()
-  }
-
-  static propTypes = {
-    intl: intlShape.isRequired,
-    sheet: PropTypes.object.isRequired
-  }
-
-  renderTip(title, example) {
-    const {
-      intl: {formatMessage},
-      sheet: {classes}
-    } = this.props
-
-    const formattedExample = (
-      typeof example === 'function' ? example(formatMessage) : formatMessage(example)
-    ).trim()
-
-    return (
-      <div className={classes.section}>
-        <h3 className={classes.title}>{formatMessage(title)}</h3>
-        <div>
-          <h4 className={classes.subheading}>{formatMessage(messages.example)}</h4>
-          <div className={classes.example}><pre><code>{formattedExample}</code></pre></div>
-          <h4 className={classes.subheading}>{formatMessage(messages.result)}</h4>
-          <div className={classes.renderedExample} aria-hidden="true">{this.renderer(formattedExample)}</div>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     return (
       <div>
@@ -101,37 +55,20 @@ export default class MarkdownTips extends PureComponent {
           id="markdownTipsPitch"
           defaultMessage="How to improve your chat messages with some nifty styles" />
 
-        {
-          this.renderTip(
-            messages.inlineStylesTitle,
-            messages.inlineStylesExample
-          )
-        }
-        {
-          this.renderTip(
-            messages.linksTitle,
-            messages.linksExample
-          )
-        }
-        {
-          this.renderTip(
-            messages.codeSnippetsTitle,
-            (formatMessage) => stripIndent`
+        <Tip example={messages.inlineStylesExample} title={messages.inlineStylesTitle} />
+        <Tip example={messages.linksExample} title={messages.linksTitle} />
+        <Tip example={(formatMessage) => (
+          stripIndent`
             ${formatMessage(messages.codeSnippetsInlineExample)}
+
             \`\`\`
             <p>
               ${formatMessage(messages.codeSnippetsBlockExample)}
             </p>
             \`\`\`
-            `
-          )
-        }
-        {
-          this.renderTip(
-            messages.blockquoteTitle,
-            messages.blockquoteExample
-          )
-        }
+          `)}
+          title={messages.codeSnippetsTitle} />
+        <Tip example={messages.blockquoteExample} title={messages.blockquoteTitle} />
       </div>
     )
   }
