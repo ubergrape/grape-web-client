@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -6,7 +6,7 @@ import {CloseLower as Close} from '../i18n/i18n'
 import style from './alertStyle'
 
 @injectSheet(style)
-export default class NotificationsAlert extends Component {
+export default class NotificationsAlert extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     alert: PropTypes.object.isRequired,
@@ -22,7 +22,7 @@ export default class NotificationsAlert extends Component {
   render() {
     const {alert} = this.props
     const {classes} = this.props.sheet
-    const onEnableNotifications = this.onEnableNotifications.bind(this, alert)
+    const onEnableNotifications = this.onEnableNotifications.bind(this, alert) // TODO #120
     return (
       <span
         className={classes.layout}>
@@ -58,7 +58,7 @@ export default class NotificationsAlert extends Component {
           className={classes.secondaryCol}>
           <button
             className={classes.buttonLink}
-            onClick={this.props.hideAlert.bind(null, alert)}>
+            onClick={/* TODO #120 */this.props.hideAlert.bind(null, alert)}>
               <Close />
           </button>
         </span>

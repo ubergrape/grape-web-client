@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {
   FormattedMessage,
@@ -67,7 +66,7 @@ InviteButton.propTypes = {
 
 @injectSheet(styles)
 @injectIntl
-export default class ChannelMembersInvite extends Component {
+export default class ChannelMembersInvite extends PureComponent {
   static propTypes = {
     intl: intlShape.isRequired,
     sheet: PropTypes.object.isRequired,
@@ -79,10 +78,6 @@ export default class ChannelMembersInvite extends Component {
     setInviteFilterValue: PropTypes.func.isRequired,
     listed: PropTypes.array.isRequired,
     channelType: PropTypes.string
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {

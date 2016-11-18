@@ -1,7 +1,6 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 
-export default class Switch extends Component {
+export default class Switch extends PureComponent {
   static propTypes = {
     off: PropTypes.string.isRequired,
     on: PropTypes.string.isRequired,
@@ -13,10 +12,6 @@ export default class Switch extends Component {
 
   static defaultProps = {
     disabled: false
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

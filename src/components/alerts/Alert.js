@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 
-export default class Alert extends Component {
+export default class Alert extends PureComponent {
   static propTypes = {
     closeAfter: PropTypes.number,
     onCloseAfter: PropTypes.func,

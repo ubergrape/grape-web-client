@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import isEmpty from 'lodash/lang/isEmpty'
 import {
   FormattedMessage,
@@ -30,7 +29,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class RoomInfo extends Component {
+export default class RoomInfo extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -76,10 +75,6 @@ export default class RoomInfo extends Component {
       this.setState({...this.state, ...this.getRoles(nextProps)})
     }
     if (channelHasChanged) load({channel: nextProps.channel})
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {
@@ -155,10 +150,10 @@ export default class RoomInfo extends Component {
         <img
           className={classes.avatar}
           src={user.avatar}
-          onClick={this.onSelectMember.bind(this, user)} />
+          onClick={/* TODO #120 */this.onSelectMember.bind(this, user)} />
         <span
           className={classes.name}
-          onClick={this.onSelectMember.bind(this, user)}>
+          onClick={/* TODO #120 */this.onSelectMember.bind(this, user)}>
           {user.displayName}
         </span>
         {this.renderDeleteButton(user)}
@@ -179,7 +174,7 @@ export default class RoomInfo extends Component {
     return (
       <button
         className={classes.buttonKick}
-        onClick={this.onKickMember.bind(this, user)}>
+        onClick={/* TODO #120 */this.onKickMember.bind(this, user)}>
       </button>
     )
   }

@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import {FormattedMessage} from 'react-intl'
 
 import Tooltip from '../tooltip/HoverTooltip'
@@ -7,7 +6,7 @@ import Dropdown from '../dropdown/Dropdown'
 import AdditionalActions from './AdditionalActions'
 import {settingsButtonSize} from './roomInfoTheme'
 
-export default class AdditionalActionsDropdown extends Component {
+export default class AdditionalActionsDropdown extends PureComponent {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     onShowRoomDeleteDialog: PropTypes.func.isRequired,
@@ -19,10 +18,6 @@ export default class AdditionalActionsDropdown extends Component {
     this.state = {
       show: false
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onShowDropdown = e => {

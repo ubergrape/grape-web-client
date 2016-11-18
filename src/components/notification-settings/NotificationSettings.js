@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import each from 'lodash/collection/each'
 import capitalize from 'lodash/string/capitalize'
@@ -205,7 +204,7 @@ Footer.propTypes = {
 
 @injectSheet(styles)
 @injectIntl
-export default class NotificationSettings extends Component {
+export default class NotificationSettings extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -223,10 +222,6 @@ export default class NotificationSettings extends Component {
     super(props)
     this.state = {}
     this.timers = {}
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   componentWillUpdate() {

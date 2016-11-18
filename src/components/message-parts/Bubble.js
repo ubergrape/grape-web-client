@@ -1,11 +1,10 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './bubbleTheme'
 
 @injectSheet(styles)
-export default class Bubble extends Component {
+export default class Bubble extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
@@ -23,10 +22,6 @@ export default class Bubble extends Component {
       }
     },
     hasArrow: true
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

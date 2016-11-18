@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 
 import useTheme from '../theme/useTheme'
 import ResizableTextarea from '../resizable-textarea/ResizableTextarea'
@@ -11,7 +10,7 @@ import RawInput from '../input/Input'
  * but once user clicks on it,
  * it becomes styled as textarea or input field.
  */
-export default class Editable extends Component {
+export default class Editable extends PureComponent {
   static propTypes = {
     themes: PropTypes.object.isRequired,
     multiline: PropTypes.bool.isRequired,
@@ -30,10 +29,6 @@ export default class Editable extends Component {
       Input: useTheme(ResizableTextarea, input),
       String: useTheme(ResizableTextarea, string)
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onFocusEditable = ({target}) => {

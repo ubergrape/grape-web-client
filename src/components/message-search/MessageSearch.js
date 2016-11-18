@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import moment from 'moment'
 import Spinner from 'grape-web/lib/spinner/Spinner'
 import injectSheet from 'grape-web/lib/jss'
@@ -19,7 +18,7 @@ import {ShowMore} from '../i18n/i18n'
 
 @injectSheet(style)
 @injectIntl
-export default class MessageSearch extends Component {
+export default class MessageSearch extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -53,10 +52,6 @@ export default class MessageSearch extends Component {
     if (this.shouldLoad(nextProps)) {
       this.load(nextProps)
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onLoadMore = () => {
@@ -163,7 +158,7 @@ export default class MessageSearch extends Component {
     return (
       <div
         className={classes.message}
-        onClick={this.onSelect.bind(this, message)}
+        onClick={/* TODO #120 */this.onSelect.bind(this, message)}
         key={message.id}>
         <Message {...message}>
           <GrapedownWithSearch text={message.text} />

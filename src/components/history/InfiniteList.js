@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import {List, AutoSizer, CellMeasurer} from 'react-virtualized'
-import shallowCompare from 'react-addons-shallow-compare'
 import findIndex from 'lodash/array/findIndex'
 import injectSheet from 'grape-web/lib/jss'
 
@@ -10,7 +9,7 @@ import RowsCache, {cache} from './RowsCache'
 import {styles} from './infiniteListTheme'
 
 @injectSheet(styles)
-export default class InfiniteList extends Component {
+export default class InfiniteList extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onLoadMore: PropTypes.func.isRequired,
@@ -33,10 +32,6 @@ export default class InfiniteList extends Component {
       this.cache.setRows(nextProps.rows)
       this.list.recomputeRowHeights()
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onRefList = (ref) => {

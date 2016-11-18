@@ -1,13 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles} from './headerTheme'
 import Author from './Author'
 import Time from './Time'
 
 @injectSheet(styles)
-export default class Header extends Component {
+export default class Header extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
@@ -25,10 +24,6 @@ export default class Header extends Component {
         header: ''
       }
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

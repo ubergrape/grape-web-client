@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import moment from 'moment'
 import injectSheet from 'grape-web/lib/jss'
 import merge from 'lodash/object/merge'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import Tooltip from '../tooltip/Tooltip'
 import useTheme from '../theme/useTheme'
@@ -65,7 +64,7 @@ function isReadersTimezone(time) {
 
 @injectSheet(styles)
 @injectIntl
-export default class Time extends Component {
+export default class Time extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
@@ -79,10 +78,6 @@ export default class Time extends Component {
       isWritersTimeOpened: false,
       isSameTimezone: isReadersTimezone(props.userTime)
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onMouseOver = () => {

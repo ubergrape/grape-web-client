@@ -1,13 +1,12 @@
-import React, {PropTypes, Component} from 'react'
+import React, {PropTypes, PureComponent} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import getColoredIcon from 'grape-web/lib/svg-icons/getColored'
 import * as icons from 'grape-web/lib/svg-icons/data'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import {styles, color} from './linkWithIconTheme'
 
 @injectSheet(styles)
-export default class LinkWithIcon extends Component {
+export default class LinkWithIcon extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
@@ -18,10 +17,6 @@ export default class LinkWithIcon extends Component {
 
   static defaultProps = {
     icon: 'file'
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {

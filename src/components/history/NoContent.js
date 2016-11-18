@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import {FormattedMessage} from 'react-intl'
 import noop from 'lodash/utility/noop'
@@ -122,7 +121,7 @@ PmContent.propTypes = {
 }
 
 @injectSheet(styles)
-export default class NoContent extends Component {
+export default class NoContent extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     onInvite: PropTypes.func.isRequired,
@@ -135,10 +134,6 @@ export default class NoContent extends Component {
   static defaultProps = {
     onInvite: noop,
     onAddIntegration: noop
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onInvite = () => {

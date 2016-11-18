@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import sample from 'lodash/collection/sample'
 import {colors, icons} from 'grape-theme/dist/room-settings'
 import injectSheet from 'grape-web/lib/jss'
@@ -74,7 +73,7 @@ const messages = defineMessages({
 
 @injectSheet(styles)
 @injectIntl
-export default class NewConversation extends Component {
+export default class NewConversation extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -116,10 +115,6 @@ export default class NewConversation extends Component {
     }
 
     this.setState({saving: false})
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onSetRoomIcon = icon => {

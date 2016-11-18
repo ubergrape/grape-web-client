@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react'
-import shallowCompare from 'react-addons-shallow-compare'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 
@@ -16,7 +15,7 @@ const iconTheme = {
 }
 
 @injectSheet(styles)
-export default class RoomIconSetting extends Component {
+export default class RoomIconSetting extends PureComponent {
   static propTypes = {
     channel: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired
@@ -27,10 +26,6 @@ export default class RoomIconSetting extends Component {
     this.state = {
       show: false
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onShowDropdown = e => {

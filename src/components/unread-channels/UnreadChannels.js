@@ -1,7 +1,7 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import {addBadge, removeBadge} from 'grape-web/lib/x-platform'
 
-export default class UnreadChannels extends Component {
+export default class UnreadChannels extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {amount, channelName} = nextProps
     let title = 'Grape'

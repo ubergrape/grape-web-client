@@ -1,8 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+// TODO get rid of the `PureComponent as Component` alias when
+// when ubergrape/grape-web-client/issues/125 is fixed
+import React, {PropTypes, PureComponent as Component} from 'react'
 import noop from 'lodash/utility/noop'
 import get from 'lodash/object/get'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 
 import InfiniteList from './InfiniteList'
 import NoContent from './NoContent'
@@ -79,10 +80,6 @@ export default class History extends Component {
     if (messages !== this.props.messages) {
       this.setState(createState(this.state, nextProps))
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   onRowsRendered = () => {

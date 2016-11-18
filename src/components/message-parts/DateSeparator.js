@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 import injectSheet from 'grape-web/lib/jss'
-import shallowCompare from 'react-addons-shallow-compare'
 import {defineMessages, injectIntl} from 'react-intl'
 import moment from 'moment'
 
@@ -40,7 +39,7 @@ function format({date, intl: {formatDate, formatMessage}}) {
 
 @injectSheet(styles)
 @injectIntl
-export default class DateSeparator extends Component {
+export default class DateSeparator extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date),
@@ -52,10 +51,6 @@ export default class DateSeparator extends Component {
     theme: {
       date: ''
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
   }
 
   render() {
