@@ -1,4 +1,3 @@
-import {mdReact} from 'markdown-react-js'
 import React, {PropTypes, PureComponent} from 'react'
 import {
   defineMessages,
@@ -7,6 +6,8 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 
+import Grapedown from '../grapedown/Grapedown'
+import {OwnBubble as Bubble} from '../history/messages/Bubble'
 import {styles} from './markdownTipTheme'
 
 const messages = defineMessages({
@@ -23,11 +24,6 @@ const messages = defineMessages({
 @injectSheet(styles)
 @injectIntl
 export default class MarkdownTip extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.renderer = mdReact()
-  }
-
   static propTypes = {
     example: PropTypes.oneOfType([
       PropTypes.object,
@@ -59,8 +55,15 @@ export default class MarkdownTip extends PureComponent {
             <pre><code>{formattedExample}</code></pre>
           </div>
           <h4 className={classes.subheading}>{formatMessage(messages.result)}</h4>
-          <div className={classes.renderedExample} aria-hidden="true">
-            {this.renderer(formattedExample)}
+          <div aria-hidden="true">
+            <Bubble hasArrow={true}>
+              <div className={classes.renderedExample}>
+                <Grapedown
+                  text={formattedExample}
+                  user={{}}
+                  customEmojis={{}} />
+              </div>
+            </Bubble>
           </div>
         </div>
       </div>

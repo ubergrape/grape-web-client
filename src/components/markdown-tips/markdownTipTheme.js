@@ -1,15 +1,7 @@
-import defaultsDeep from 'lodash/object/defaultsDeep'
-
 import {gray, grayLighter} from 'grape-theme/dist/base-colors'
 import {bigger, small} from 'grape-theme/dist/fonts'
 // TODO #149 use generic styles instead of importing the following
 import {styles as messageStyles} from '../history/messages/baseMessageTheme'
-
-const codeStyles = {
-  width: 'auto',
-  display: 'block',
-  padding: 10
-}
 
 export const styles = {
   section: {
@@ -31,21 +23,18 @@ export const styles = {
     textTransform: 'capitalize',
     color: gray
   },
-  example: defaultsDeep(
-    codeStyles,
-    {
-      whiteSpace: 'pre-line',
-      backgroundColor: grayLighter
-    },
-    messageStyles.content['& code']
-  ),
-  renderedExample: defaultsDeep(
-    {
-      '& p': {
-        marginBottom: 10
-      },
-      '& pre code': codeStyles
-    },
-    messageStyles.content
-  )
+  example: {
+    extend: [messageStyles.content['& code']],
+    width: 'auto',
+    display: 'block',
+    padding: 10,
+    whiteSpace: 'pre-line',
+    backgroundColor: grayLighter
+  },
+  renderedExample: {
+    extend: [messageStyles.content],
+    '& pre code': {
+      width: 'auto'
+    }
+  }
 }
