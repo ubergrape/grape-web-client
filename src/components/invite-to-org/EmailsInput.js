@@ -7,7 +7,7 @@ import Input from '../input/GrayInputNormal'
 export default function EmailsInput(props) {
   const {
     theme: {classes},
-    value, disabled, placeholder,
+    value, disabled, focused = false, placeholder,
     onChange, error, clearError
   } = props
 
@@ -26,6 +26,7 @@ export default function EmailsInput(props) {
       </label>
       <Input
         type="textarea"
+        focused={focused}
         value={value}
         error={error}
         onChange={onChange}
@@ -45,6 +46,7 @@ EmailsInput.propTypes = {
   theme: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
+  focused: PropTypes.bool,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
