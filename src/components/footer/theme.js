@@ -12,7 +12,7 @@ export const styles = {
     bottom: '100%',
     fontSize: small.fontSize,
     marginBottom: 4,
-    padding: [[3, 10]],
+    padding: [3, 10],
     position: 'absolute',
     right: -10
   }

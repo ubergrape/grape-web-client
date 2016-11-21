@@ -27,7 +27,7 @@ export const styles = {
   subheading: {
     extend: [small],
     fontStyle: 'italic',
-    margin: [[20, 0, 5]],
+    margin: [20, 0, 5],
     textTransform: 'capitalize',
     color: gray
   },
