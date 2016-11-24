@@ -19,7 +19,7 @@ const actionNames = {
   goToChannel: 'onGoToChannel',
   showChannelMembersInvite: 'onInvite',
   goToAddIntegrations: 'onAddIntegration',
-  requestShowNotificationStack: 'onCopyLinkClick'
+  showToastNotification: 'onCopyLink'
 }
 
 const ConnectedHistory = connect(

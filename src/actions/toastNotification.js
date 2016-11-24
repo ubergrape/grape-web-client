@@ -2,16 +2,16 @@ import random from 'lodash/number/random'
 
 import * as types from '../constants/actionTypes'
 
-export function requestRemoveNotificationStack(key) {
+export function hideToastNotification(key) {
   return {
-    type: types.REQUEST_REMOVE_NOTIFICATION_STACK,
+    type: types.HIDE_TOAST_NOTIFICATION,
     payload: {
       key
     }
   }
 }
 
-export function requestShowNotificationStack(message, options = {}) {
+export function showToastNotification(message, options = {}) {
   const key = random(1000)
   // react-notification onClick is called with parameter deactivate,
   // which is a function and can be called to set the notification to inactive.
@@ -20,9 +20,8 @@ export function requestShowNotificationStack(message, options = {}) {
   // in case we need to dispatch a remove action.
   const {onClick: _onClick} = options
   const onClick = _onClick ? (deactivate) => _onClick(deactivate, key) : null
-
   return {
-    type: types.REQUEST_ADD_NOTIFICATION_STACK,
+    type: types.SHOW_TOAST_NOTIFICATION,
     payload: {
       message,
       key,

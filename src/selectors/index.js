@@ -441,6 +441,6 @@ export const historyComponentSelector = createSelector(
   })
 )
 
-export const notificationStackSelector = createSelector(
-  state => state.notificationStack, state => state
+export const toastNotificationSelector = createSelector(
+  state => state.toastNotification, state => state
 )

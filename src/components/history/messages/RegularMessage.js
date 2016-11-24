@@ -158,7 +158,7 @@ export default class RegularMessage extends PureComponent {
     }),
     avatar: PropTypes.string,
     state: DeliveryState.propTypes.state,
-    onCopyLinkClick: PropTypes.func.isRequired
+    onCopyLink: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -190,12 +190,12 @@ export default class RegularMessage extends PureComponent {
   onSelectMenuItem = ({name}) => {
     const {
       intl: {formatMessage},
-      onCopyLinkClick
+      onCopyLink
     } = this.props
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
-        onCopyLinkClick(formatMessage(messages.copy))
+        onCopyLink(formatMessage(messages.copy))
         break
       case 'remove': {
         if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert

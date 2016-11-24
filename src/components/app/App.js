@@ -17,7 +17,7 @@ import {ChannelMembersInviteProvider} from '../../containers/channel-members-inv
 import {NewConversationProvider} from '../../containers/new-conversation'
 import {InviteToOrgProvider} from '../../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../../containers/notification-settings'
-import {NotificationStackProvider} from '../../containers/notification-stack'
+import {ToastNotificationProvider} from '../../containers/toast-notification'
 import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
 
@@ -60,7 +60,7 @@ export default class Avatar extends PureComponent {
           <InviteToOrgProvider />
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />
-          <NotificationStackProvider />
+          <ToastNotificationProvider />
         </div>
       </IntlProvider>
     )

@@ -1,12 +1,12 @@
 import React, {PropTypes, PureComponent} from 'react'
-import {NotificationStack as ReactNotificationStack} from 'react-notification'
+import {NotificationStack} from 'react-notification'
 
 import {jss} from 'grape-web/lib/jss'
 import {styles} from './theme'
 
 const jssCompile = rule => jss.createRule(rule).toJSON()
 
-export default class NotificationStack extends PureComponent {
+export default class ToastNotification extends PureComponent {
   static propTypes = {
     dismissAfter: PropTypes.oneOfType([
       PropTypes.number,
@@ -51,7 +51,7 @@ export default class NotificationStack extends PureComponent {
     } = this.props
 
     return (
-      <ReactNotificationStack
+      <NotificationStack
         notifications={notifications.map(this.styleNotification)}
         dismissAfter={dismissAfter}
         onDismiss={this.onDismiss}

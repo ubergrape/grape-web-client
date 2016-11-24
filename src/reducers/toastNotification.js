@@ -8,7 +8,7 @@ export default function reduce(state = initialState, action) {
   const {payload} = action
 
   switch (action.type) {
-    case types.REQUEST_ADD_NOTIFICATION_STACK:
+    case types.SHOW_TOAST_NOTIFICATION:
       return {
         ...state,
         notifications: [
@@ -16,7 +16,7 @@ export default function reduce(state = initialState, action) {
           payload
         ]
       }
-    case types.REQUEST_REMOVE_NOTIFICATION_STACK:
+    case types.HIDE_TOAST_NOTIFICATION:
       return {
         ...state,
         notifications: state.notifications.filter(
