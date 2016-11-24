@@ -39,7 +39,7 @@ export default class ToastNotification extends PureComponent {
   }
 
   onDismiss = (notification) => {
-    this.props.onDismiss({ key: notification.key })
+    this.props.onDismiss({key: notification.key})
   }
 
   render() {
