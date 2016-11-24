@@ -116,7 +116,6 @@ export default class GrapeInput extends Emitter {
 
   bindEvents() {
     this.events = events(this.el, this)
-    this.events.bind('click .js-markdown-tips', 'onMarkdownTipsShow')
     this.events.bind('click .js-emoji-browser-button', 'onToggleEmojiBrowser')
     this.events.bind('click .js-search-browser-button', 'onOpenSearchBrowser')
     this.events.bind('grapeComplete grape-input', 'onComplete')
@@ -348,10 +347,6 @@ export default class GrapeInput extends Emitter {
 
   getUnsent(room) {
     return this.unsent[room.id] || ''
-  }
-
-  onMarkdownTipsShow() {
-    this.emit('showmarkdowntips')
   }
 
   onComplete(e) {

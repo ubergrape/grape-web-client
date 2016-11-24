@@ -9,7 +9,6 @@ import {NavigationProvider} from '../../containers/navigation'
 
 import {HeaderProvider} from '../../containers/header'
 import {HistoryProvider} from '../../containers/history'
-import {Footer} from '../footer'
 
 import {SidebarProvider} from '../../containers/sidebar'
 import {BillingWarningProvider} from '../../containers/billing-warning'
@@ -19,9 +18,11 @@ import {InviteToOrgProvider} from '../../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../../containers/notification-settings'
 import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
+import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
+import {FooterProvider} from '../../containers/footer'
 
 @injectSheet(styles)
-export default class Avatar extends PureComponent {
+export default class App extends PureComponent {
   static propTypes = {
     sheet: PropTypes.object.isRequired
   }
@@ -48,7 +49,7 @@ export default class Avatar extends PureComponent {
                 <div className={classes.historyWrapper}>
                   <HistoryProvider />
                 </div>
-                <Footer />
+                <FooterProvider />
               </div>
               <SidebarProvider className={classes.sidebar} />
             </div>
@@ -59,6 +60,7 @@ export default class Avatar extends PureComponent {
           <InviteToOrgProvider />
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />
+          <MarkdownTipsDialogProvider />
         </div>
       </IntlProvider>
     )
