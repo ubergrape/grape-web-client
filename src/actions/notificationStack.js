@@ -1,4 +1,4 @@
-import {v4 as uuid} from 'uuid'
+import random from 'lodash/number/random'
 
 import * as types from '../constants/actionTypes'
 
@@ -12,7 +12,7 @@ export function requestRemoveNotificationStack(key) {
 }
 
 export function requestShowNotificationStack(message, options = {}) {
-  const key = uuid()
+  const key = random(1000)
   // react-notification onClick is called with parameter deactivate,
   // which is a function and can be called to set the notification to inactive.
   // Used to activate notification exit animation on click.
