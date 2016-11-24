@@ -47,8 +47,7 @@ export default class NotificationStack extends PureComponent {
   render() {
     const {
       dismissAfter = 3000,
-      notifications,
-      onDismiss
+      notifications
     } = this.props
 
     return (
