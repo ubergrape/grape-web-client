@@ -4,9 +4,34 @@ import {NotificationStack} from 'react-notification'
 import {jss} from 'grape-web/lib/jss'
 import {styles} from './theme'
 
-const jssCompile = rule => jss.createRule(rule).toJSON()
+const jssCompile = (rule) => jss.createRule(rule).toJSON()
+
+const activeBarStyleFactory = (index, style) => ({
+  ...style,
+  top: styles.bar.top + index * (styles.bar.height + 10),
+  zIndex: 1
+})
+
+const barStyleFactory = (index, style) => style
+
+const styleNotification = (notification) => {
+  const {
+    activeBar: activeBarStyle,
+    bar: barStyle
+  } = styles
+
+  return {
+    ...notification,
+    activeBarStyle: jssCompile(activeBarStyle),
+    barStyle: jssCompile(barStyle)
+  }
+}
 
 export default class ToastNotification extends PureComponent {
+  static defaultProps = {
+    dismissAfter: false
+  }
+
   static propTypes = {
     dismissAfter: PropTypes.oneOfType([
       PropTypes.number,
@@ -16,47 +41,23 @@ export default class ToastNotification extends PureComponent {
     onDismiss: PropTypes.func
   }
 
-  activeBarStyleFactory(index, style) {
-    return {
-      ...style,
-      top: `${2 + index * 4}rem`
-    }
-  }
-
-  barStyleFactory(index, style) {
-    return style
-  }
-
-  styleNotification(notification) {
-    const {
-      activeBar: activeBarStyle,
-      bar: barStyle
-    } = styles
-
-    return {
-      ...notification,
-      activeBarStyle: jssCompile(activeBarStyle),
-      barStyle: jssCompile(barStyle)
-    }
-  }
-
   onDismiss = (notification) => {
     this.props.onDismiss(notification.key)
   }
 
   render() {
     const {
-      dismissAfter = 3000,
+      dismissAfter,
       notifications
     } = this.props
 
     return (
       <NotificationStack
-        notifications={notifications.map(this.styleNotification)}
+        notifications={notifications.map(styleNotification)}
         dismissAfter={dismissAfter}
         onDismiss={this.onDismiss}
-        activeBarStyleFactory={this.activeBarStyleFactory}
-        barStyleFactory={this.barStyleFactory} />
+        activeBarStyleFactory={activeBarStyleFactory}
+        barStyleFactory={barStyleFactory} />
     )
   }
 }
