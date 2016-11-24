@@ -3,24 +3,26 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
-import {typingNotificationSelector as selector} from '../../selectors'
-import TypingNotification from '../../components/typing-notification/TypingNotification'
+import {footerSelector as selector} from '../../selectors'
+import {Footer} from '../../components/footer'
 
 const actionNames = [
   'setUsers',
-  'cleanupTyping'
+  'cleanupTyping',
+  'showMarkdownTips'
 ]
 
-const ConnectedTypingNotification = connect(
+const ConnectedFooter = connect(
   selector,
   mapActionsToProps(actionNames)
-)(TypingNotification)
+)(Footer)
 
-export default class TypingNotificationProvider extends PureComponent {
+
+export default class FooterProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedTypingNotification />
+        <ConnectedFooter />
       </Provider>
     )
   }

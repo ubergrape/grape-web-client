@@ -29,7 +29,6 @@ let FileUploader = exports.FileUploader = require('./elements/fileuploader')
 let Notifications = exports.Notifications = require('./elements/notifications')
 let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
 let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
-let MarkdownTipsDialog = exports.MarkdownTipsDialog = require('./elements/dialogs/markdowntips')
 let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
 let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
 
@@ -68,9 +67,6 @@ UI.prototype.init = function UI_init() {
   this.grapeInput = new GrapeInput()
 
   this.reduxEmitter = reduxEmitter
-
-  // initialize dialogs
-  this.markdownTips = new MarkdownTipsDialog().closable()
 
   this.upload = new FileUploader(this.options.uploadPath)
   let uploadContainer = qs('.uploader', this.grapeInput.el)
@@ -292,10 +288,6 @@ UI.prototype.toggleDeleteRoomDialog = function UI_toggleDeleteRoomDialog(room) {
     room: room
   }).closable().overlay().show()
   broker.pass(deleteRoomDialog, 'deleteroom', this, 'deleteroom')
-}
-
-UI.prototype.showMarkdownTips = function UI_showMarkdownTips() {
-  this.markdownTips.overlay().show()
 }
 
 UI.prototype.leftChannel = function UI_leftChannel(room) {

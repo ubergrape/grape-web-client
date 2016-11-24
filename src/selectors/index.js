@@ -441,6 +441,15 @@ export const historyComponentSelector = createSelector(
   })
 )
 
+export const markdownTipsSelector = createSelector(
+  state => state.markdownTips, state => state
+)
+
+export const footerSelector = createSelector(
+  [typingNotificationSelector],
+  state => state
+)
+
 export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
 )
