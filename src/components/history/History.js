@@ -42,8 +42,7 @@ export default class History extends Component {
     selectedMessageId: PropTypes.string,
     // Will scroll to a message by id.
     scrollTo: PropTypes.string,
-    minimumBatchSize: PropTypes.number,
-    onCopyLink: PropTypes.func.isRequired
+    minimumBatchSize: PropTypes.number
   }
 
   static defaultProps = {
@@ -104,8 +103,7 @@ export default class History extends Component {
       {...this.state.rows[index]}
       key={key}
       style={style}
-      onToggleExpander={this.onToggleExpander}
-      onCopyLink={this.props.onCopyLink} />
+      onToggleExpander={this.onToggleExpander} />
   )
 
   render() {
