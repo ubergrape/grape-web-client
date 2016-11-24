@@ -12,12 +12,14 @@ import {styles} from './markdownTipTheme'
 
 const messages = defineMessages({
   example: {
-    id: 'Example',
-    defaultMessage: 'Example'
+    id: 'example',
+    defaultMessage: 'Example',
+    description: 'Title'
   },
   result: {
-    id: 'Result',
-    defaultMessage: 'Result'
+    id: 'result',
+    defaultMessage: 'Result',
+    description: 'Title'
   }
 })
 

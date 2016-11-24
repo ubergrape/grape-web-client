@@ -13,15 +13,17 @@ export default class Link extends PureComponent {
 
   render() {
     const {sheet: {classes}, onClick} = this.props
-
+    const Button = (
+      <button className={classes.button} onClick={onClick}>
+        markdown
+      </button>
+    )
     return (
       <span>
         <FormattedMessage
           id="markdownTipsLinkMessage"
-          defaultMessage="You can also use " />
-        <button className={classes.button} onClick={onClick}>
-          markdown
-        </button>
+          defaultMessage="You can also use {markdown}"
+          values={{markdown: Button}} />
       </span>
     )
   }

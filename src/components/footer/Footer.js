@@ -47,10 +47,9 @@ export default class Footer extends PureComponent {
           channels={channels}
           channel={channel}
           setUsers={setUsers}
-          cleanupTyping={cleanupTyping}
-        />
+          cleanupTyping={cleanupTyping} />
         <div className={classes.markdownTips}>
-          <MarkdownTipsLink onClick={showMarkdownTips}/>
+          <MarkdownTipsLink onClick={showMarkdownTips} />
         </div>
       </footer>
     )

@@ -1,7 +1,7 @@
 import {gray, grayLighter} from 'grape-theme/dist/base-colors'
 import {bigger, small} from 'grape-theme/dist/fonts'
 // TODO #149 use generic styles instead of importing the following
-import {styles as messageStyles} from '../history/messages/baseMessageTheme'
+import {baseMessageTheme as messageStyles} from '../history'
 
 export const styles = {
   section: {
