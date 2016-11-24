@@ -440,3 +440,7 @@ export const historyComponentSelector = createSelector(
     customEmojis
   })
 )
+
+export const notificationStackSelector = createSelector(
+  state => state.notificationStack, state => state
+)
