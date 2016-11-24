@@ -3,21 +3,23 @@ import {normal} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import {height} from '../header'
 
+export const verticalSpacing = 13
+
 const barStyles = {
   position: 'fixed',
-  top: height + 10,
+  top: height + verticalSpacing,
   right: '-100%',
   bottom: 'auto',
   left: 'auto',
   width: 'auto',
-  height: 13 * 2 + normal.fontSize,
-  padding: [13, 20],
+  height: verticalSpacing * 2 + normal.fontSize,
+  padding: [verticalSpacing, 20],
   margin: 0,
   boxSizing: 'border-box',
   color: white,
   fontSize: normal.fontSize,
   fontFamily: 'inherit',
-  lineHeight: normal.fontSize,
+  lineHeight: 1,
   borderRadius: borderRadius.big,
   background: purple,
   boxShadow: {
@@ -28,8 +30,7 @@ const barStyles = {
     color: 'rgba(10, 10, 11, .125)'
   },
   transition: '0.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-  transform: 'translatez(0)',
-
+  transform: 'translatez(0)'
 }
 
 export const styles = {

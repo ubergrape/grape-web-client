@@ -2,13 +2,13 @@ import React, {PropTypes, PureComponent} from 'react'
 import {NotificationStack} from 'react-notification'
 
 import {jss} from 'grape-web/lib/jss'
-import {styles} from './theme'
+import {styles, verticalSpacing} from './theme'
 
 const jssCompile = (rule) => jss.createRule(rule).toJSON()
 
 const activeBarStyleFactory = (index, style) => ({
   ...style,
-  top: styles.bar.top + index * (styles.bar.height + 10),
+  top: styles.bar.top + index * (styles.bar.height + verticalSpacing),
   zIndex: 1
 })
 
