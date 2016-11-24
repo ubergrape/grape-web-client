@@ -1,10 +1,8 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {NotificationStack} from 'react-notification'
 
-import {jss} from 'grape-web/lib/jss'
+import {jss, inlineStyle} from 'grape-web/lib/jss'
 import {styles, verticalSpacing} from './theme'
-
-const jssCompile = (rule) => jss.createRule(rule).toJSON()
 
 const activeBarStyleFactory = (index, style) => ({
   ...style,
@@ -22,8 +20,8 @@ const styleNotification = (notification) => {
 
   return {
     ...notification,
-    activeBarStyle: jssCompile(activeBarStyle),
-    barStyle: jssCompile(barStyle)
+    activeBarStyle: inlineStyle(activeBarStyle),
+    barStyle: inlineStyle(barStyle)
   }
 }
 
