@@ -14,7 +14,7 @@ export function showToastNotification(message, options = {}) {
   }
 }
 
-export function hideToastNotification(key) {
+export function hideToastNotification({ key }) {
   return {
     type: types.HIDE_TOAST_NOTIFICATION,
     payload: {
