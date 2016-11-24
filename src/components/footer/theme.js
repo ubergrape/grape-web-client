@@ -5,7 +5,11 @@ export const styles = {
   footer: {
     position: 'relative',
     margin: '0 20px',
-    borderTop: `1px solid ${borderDefault}`
+    borderTop: {
+      width: 1,
+      style: 'solid',
+      color: borderDefault
+    }
   },
   markdownTips: {
     backgroundColor: chatBackground,

@@ -7,24 +7,28 @@ export const styles = {
   section: {
     marginTop: 20,
     paddingTop: 20,
-    borderTop: `1px solid ${grayLighter}`,
+    borderTop: {
+      width: 1,
+      style: 'solid',
+      color: grayLighter
+    },
     '&:first-child': {
       marginTop: 0
     }
   },
   title: {
-    extend: [bigger],
+    extend: bigger,
     marginBottom: 5
   },
   subheading: {
-    extend: [small],
+    extend: small,
     fontStyle: 'italic',
     margin: [20, 0, 5],
     textTransform: 'capitalize',
     color: gray
   },
   example: {
-    extend: [messageStyles.content['& code']],
+    extend: messageStyles.content['& code'],
     width: 'auto',
     display: 'block',
     padding: 10,
@@ -32,7 +36,7 @@ export const styles = {
     backgroundColor: grayLighter
   },
   renderedExample: {
-    extend: [messageStyles.content],
+    extend: messageStyles.content,
     '& pre code': {
       width: 'auto'
     }
