@@ -1,7 +1,6 @@
 let Emitter = require('emitter')
 let broker = require('broker')
 let qs = require('query')
-let notification = require('notification')
 let classes = require('classes')
 let staticurl = require('staticurl')
 let events = require('events')
