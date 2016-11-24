@@ -29,7 +29,7 @@ const styleNotification = (notification) => {
 
 export default class ToastNotification extends PureComponent {
   static defaultProps = {
-    dismissAfter: false
+    dismissAfter: 3000
   }
 
   static propTypes = {
