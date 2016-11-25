@@ -1,7 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {NotificationStack} from 'react-notification'
 
-import {jss, inlineStyle} from 'grape-web/lib/jss'
+import {inlineStyle} from 'grape-web/lib/jss'
 import {styles, verticalSpacing} from './theme'
 
 const activeBarStyleFactory = (index, style) => ({
