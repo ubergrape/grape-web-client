@@ -1,5 +1,5 @@
-let marked = require('marked')
-let markdown_renderlink = require('./markdown_renderlink')
+import marked from 'marked';
+import markdown_renderlink from './markdown_renderlink';
 import emoji from '../../components/emoji/emoji'
 
 let renderer = new marked.Renderer()

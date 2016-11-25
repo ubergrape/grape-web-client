@@ -1,14 +1,15 @@
-let Dialog = require('./dialog')
-let Menu = require('../../utils/menu')
-let ItemList = require('../../utils/itemlist')
-let qs = require('query')
-let events = require('events')
-let closest = require('closest')
-let template = require('template')
-let render = require('../../rendervdom')
-let _ = require('t')
-
+import Dialog from './dialog';
+import Menu from '../../utils/menu';
+import ItemList from '../../utils/itemlist';
+import qs from 'query';
+import events from 'events';
+import closest from 'closest';
+import template from 'template';
+import render from '../../rendervdom';
 import reduxEmitter from '../../../redux-emitter'
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 module.exports = RoomManager
 

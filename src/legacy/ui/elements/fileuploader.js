@@ -1,11 +1,11 @@
-let Emitter = require('emitter')
-let Upload = require('upload')
-let Progress = require('progress')
-let file = require('file')
-let template = require('template')
-let qs = require('query')
-let render = require('../rendervdom')
-let classes = require('classes')
+import Emitter from 'emitter';
+import Upload from 'upload';
+import Progress from 'progress';
+import file from 'file';
+import template from 'template';
+import qs from 'query';
+import render from '../rendervdom';
+import classes from 'classes';
 
 module.exports = Uploader
 

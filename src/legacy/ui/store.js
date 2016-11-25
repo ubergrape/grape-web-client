@@ -2,7 +2,7 @@
 // a check functionality that warns
 // if a prefix is already in use
 
-let Store = require('store')
+import Store from 'store';
 
 let prefixes = []
 

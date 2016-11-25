@@ -148,7 +148,7 @@ export default class InviteToOrg extends PureComponent {
             onSubmit={this.onInvite}>
             <EmailsInput
               theme={{classes}}
-              focused={true}
+              focused
               value={value}
               disabled={isLoading}
               error={this.getError()}

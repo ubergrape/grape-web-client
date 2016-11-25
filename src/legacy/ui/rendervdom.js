@@ -1,4 +1,4 @@
-let v = require('virtualdom')
+import v from 'virtualdom';
 
 module.exports = render
 

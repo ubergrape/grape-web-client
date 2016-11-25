@@ -1,7 +1,7 @@
-let template = require('template')
-let render = require('../../rendervdom')
-let Popover = require('./popover')
-let classes = require('classes')
+import template from 'template';
+import render from '../../rendervdom';
+import Popover from './popover';
+import classes from 'classes';
 let constants = require('conf').constants
 
 module.exports = OrganizationPopover

@@ -1,8 +1,8 @@
-let Model = require('model')
-let cache = require('model-cache')
-let staticurl = require('staticurl')
+import Model from 'model';
+import cache from 'model-cache';
+import staticurl from 'staticurl';
 
-module.exports = new Model([
+export default new Model([
     'username',
     'firstName',
     'lastName',
