@@ -449,3 +449,7 @@ export const footerSelector = createSelector(
   [typingNotificationSelector],
   state => state
 )
+
+export const soundsSelector = createSelector(
+  state => state.sounds, state => state
+)

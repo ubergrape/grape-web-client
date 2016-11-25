@@ -27,20 +27,28 @@ const noopAction = {type: types.NOOP}
 export function handleNewMessage(message) {
   return (dispatch, getState) => {
     const state = getState()
-    const fMessage = normalizeMessage(message, state)
+    const nMessage = normalizeMessage(message, state)
     const user = userSelector(state)
     const rooms = joinedRoomsSelector(state)
-    const mentionsCount = countMentions(fMessage, user, rooms)
+    const mentionsCount = countMentions(nMessage, user, rooms)
 
-    if (fMessage.attachments.length) dispatch(addSharedFiles(fMessage))
-    if (mentionsCount) dispatch(addMention(fMessage))
+    if (nMessage.attachments.length) dispatch(addSharedFiles(nMessage))
+    if (mentionsCount) dispatch(addMention(nMessage))
+
+    dispatch({
+      type: types.PLAY_SOUND,
+      payload: {
+        message: nMessage,
+        mentionsCount
+      }
+    })
 
     dispatch({
       type: types.UPDATE_CHANNEL_STATS,
       payload: {
-        message: fMessage,
+        message: nMessage,
         mentionsCount,
-        isCurrentUser: user.id === fMessage.author.id
+        isCurrentUser: user.id === nMessage.author.id
       }
     })
     // We remove a message first, because if user sends a message, it is
@@ -53,16 +61,16 @@ export function handleNewMessage(message) {
     })
     dispatch({
       type: types.ADD_NEW_MESSAGE,
-      payload: fMessage
+      payload: nMessage
     })
 
     // Mark own message as sent.
-    if (fMessage.author.id === user.id) {
+    if (nMessage.author.id === user.id) {
       dispatch({
         type: types.MARK_MESSAGE_AS_SENT,
         payload: {
-          messageId: fMessage.id,
-          channelId: fMessage.channelId
+          messageId: nMessage.id,
+          channelId: nMessage.channelId
         }
       })
     }

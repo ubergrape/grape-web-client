@@ -20,6 +20,7 @@ import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
 import {FooterProvider} from '../../containers/footer'
+import {SoundsProvider} from '../../containers/sounds'
 
 @injectSheet(styles)
 export default class App extends PureComponent {
@@ -61,6 +62,7 @@ export default class App extends PureComponent {
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />
           <MarkdownTipsDialogProvider />
+          <SoundsProvider />
         </div>
       </IntlProvider>
     )
