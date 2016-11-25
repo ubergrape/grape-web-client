@@ -1,7 +1,5 @@
 ## Upcoming Version MAJOR.MINOR.PATCH (2016-xx-xx)
 
-#### Breaking changes
-
 #### New Features
 
 #### Fixes
