@@ -1,4 +1,4 @@
-let isWebkit = require('./iswebkit')
+import isWebkit from './iswebkit';
 
 module.exports = renderAutocompleteItem
 

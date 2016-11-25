@@ -1,7 +1,9 @@
-let Dialog = require('./dialog')
-let events = require('events')
-let qs = require('query')
-let _ = require('t')
+import Dialog from './dialog';
+import events from 'events';
+import qs from 'query';
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 module.exports = DeleteRoomDialog
 

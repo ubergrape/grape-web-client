@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import {extractFromCode} from 'i18n-extract'
 
-const messagesSrc = './dist/app.js'
+const messagesSrc = './dist/app/app.js'
 const filePath = './i18n/translations/legacy.en.json'
 const lastImport = JSON.parse(fs.readFileSync(filePath, 'utf8'))
 

@@ -1,7 +1,7 @@
-let Emitter = require('emitter')
-let template = require('template')
-let render = require('../rendervdom')
-let defaults = require('lodash/object/defaults')
+import Emitter from 'emitter';
+import template from 'template';
+import render from '../rendervdom';
+import defaults from 'lodash/object/defaults';
 
 module.exports = ItemList
 

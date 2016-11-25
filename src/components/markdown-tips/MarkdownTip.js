@@ -58,7 +58,7 @@ export default class MarkdownTip extends PureComponent {
           </div>
           <h4 className={classes.subheading}>{formatMessage(messages.result)}</h4>
           <div aria-hidden="true">
-            <Bubble hasArrow={true}>
+            <Bubble hasArrow>
               <div className={classes.renderedExample}>
                 <Grapedown
                   text={formattedExample}

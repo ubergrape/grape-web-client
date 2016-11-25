@@ -1,37 +1,50 @@
-let Emitter = require('emitter')
-let broker = require('broker')
-let qs = require('query')
-let notification = require('notification')
-let classes = require('classes')
-let staticurl = require('staticurl')
-let events = require('events')
-let notify = require('html5-desktop-notifications')
+import Emitter from 'emitter';
+import broker from 'broker';
+import qs from 'query';
+import notification from 'notification';
+import classes from 'classes';
+import staticurl from 'staticurl';
+import events from 'events';
+import notify from 'html5-desktop-notifications';
 let Introjs = require("intro.js").introJs
-let Clipboard = require('clipboard')
-let dropAnywhere = require('drop-anywhere')
-let timezone = require('./jstz')
-let focus = require('./focus')
-let pipeEvents = require('./pipeEvents')
-let page = require('page')
-let setUpRouter = require('../init-router')
-let template = require('template')
-let _ = require('t')
-let v = require('virtualdom')
+import Clipboard from 'clipboard';
+import dropAnywhere from 'drop-anywhere';
+import timezone from './jstz';
+import focus from './focus';
+import pipeEvents from './pipeEvents';
+import page from 'page';
+import setUpRouter from '../init-router';
+import template from 'template';
+import v from 'virtualdom';
 
-let exports = module.exports = UI
+import ItemList from './utils/itemlist';
+import OrganizationPopover from './elements/popovers/organization';
+import GrapeInput from './elements/GrapeInput';
+import FileUploader from './elements/fileuploader';
+import Notifications from './elements/notifications';
+import Dropzone from './elements/dropzone.js';
+import DeleteRoomDialog from './elements/dialogs/deleteroom';
+import RoomManager from './elements/dialogs/roommanager';
+import PMManager from './elements/dialogs/pmmanager';
+
 
 require("startswith")
 require("endswith")
 
-exports.ItemList = require('./utils/itemlist')
-let OrganizationPopover = exports.OrganizationPopover = require('./elements/popovers/organization')
-let GrapeInput = exports.GrapeInput = require('./elements/GrapeInput')
-let FileUploader = exports.FileUploader = require('./elements/fileuploader')
-let Notifications = exports.Notifications = require('./elements/notifications')
-let Dropzone = exports.Dropzone = require('./elements/dropzone.js')
-let DeleteRoomDialog = exports.DeleteRoomDialog = require('./elements/dialogs/deleteroom')
-let RoomManager = exports.RoomManager = require('./elements/dialogs/roommanager')
-let PMManager = exports.PMManager = require('./elements/dialogs/pmmanager')
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
+
+let exports = module.exports = UI
+
+exports.ItemList = ItemList
+exports.OrganizationPopover = OrganizationPopover
+exports.GrapeInput = GrapeInput
+exports.FileUploader = FileUploader
+exports.Notifications = Notifications
+exports.Dropzone = Dropzone
+exports.DeleteRoomDialog = DeleteRoomDialog
+exports.RoomManager = RoomManager
+exports.PMManager = PMManager
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
