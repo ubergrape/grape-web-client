@@ -31,6 +31,9 @@ export default function subscribe(channel) {
     const cData = toCamel(data)
     switch (cData.event) {
 
+      case 'notification.new':
+        boundActions.handleNotification(cData)
+        break
       case 'message.new':
         boundActions.handleNewMessage(cData)
         break

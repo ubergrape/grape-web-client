@@ -36,14 +36,6 @@ export function handleNewMessage(message) {
     if (mentionsCount) dispatch(addMention(nMessage))
 
     dispatch({
-      type: types.PLAY_SOUND,
-      payload: {
-        message: nMessage,
-        mentionsCount
-      }
-    })
-
-    dispatch({
       type: types.UPDATE_CHANNEL_STATS,
       payload: {
         message: nMessage,

@@ -14,18 +14,18 @@ export default function reduce(state = initialState, action) {
         ...state,
         channel: payload.channel
       }
-    case types.PLAY_SOUND:
+    case types.HANDLE_NOTIFICATION:
       const notify = shouldNotify({
         time: Date.now(),
-        sourceChannelId: payload.message.channelId,
+        sourceChannelId: payload.channelId,
         currentChannelId: state.channel.id
       })
 
-      if (!notify) return state
+      if (!notify || !payload.sound) return state
 
       return {
         ...state,
-        active: payload.mentionsCount ? 'mention' : 'messageIn'
+        active: payload.dispatcher.includes('mention') ? 'mention' : 'messageIn'
       }
     case types.END_SOUND:
       return {...state, active: null}
