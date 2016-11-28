@@ -12,9 +12,9 @@ export default class Sounds extends PureComponent {
 
   static defaultProps = {
     sounds: {
-      messageIn: `${baseUrl}/message-in.wav`,
+      messageIn: `${baseUrl}/message-in.mp3`,
       messageOut: `${baseUrl}/message-out.mp3`,
-      mention: `${baseUrl}/mention.wav`
+      mention: `${baseUrl}/mention.mp3`
     }
   }
 
