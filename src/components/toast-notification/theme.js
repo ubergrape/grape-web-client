@@ -31,7 +31,7 @@ const barStyles = {
   background: '#6257d2',
   boxShadow: 'none',
   transition: '0.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-  transform: 'translatez(0)',
+  transform: 'translatez(0)'
 }
 
 export const styles = {
