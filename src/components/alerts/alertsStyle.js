@@ -2,6 +2,7 @@ import color from 'color'
 
 import fonts from 'grape-theme/dist/fonts'
 import webColors from 'grape-theme/dist/web-colors'
+import {zIndex} from '../../utils/z-index'
 
 export default {
   alerts: {
@@ -10,7 +11,7 @@ export default {
     left: 0,
     top: 0,
     right: 0,
-    zIndex: 100
+    zIndex: zIndex('alerts')
   },
   alert: {
     padding: '10px 10px 10px 20px',

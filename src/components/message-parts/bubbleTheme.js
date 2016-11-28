@@ -1,5 +1,6 @@
 import {normal} from 'grape-theme/dist/fonts'
 import {white} from 'grape-theme/dist/base-colors'
+import {zIndex} from '../../utils/z-index'
 
 export const styles = {
   bubble: {
@@ -17,7 +18,7 @@ export const styles = {
       content: '""',
       transform: 'rotate(45deg) translateX(-50%)',
       background: white,
-      zIndex: 1
+      zIndex: zIndex('base')
     }
   },
   content: {

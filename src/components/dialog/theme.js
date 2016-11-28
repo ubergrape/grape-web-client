@@ -2,6 +2,7 @@ import {black, white} from 'grape-theme/dist/base-colors'
 import {biggest} from 'grape-theme/dist/fonts'
 import {borderRadius} from 'grape-theme/dist/sizes'
 import {ellipsis} from 'grape-web/lib/jss-utils/mixins'
+import {zIndex} from '../../utils/z-index'
 
 const overlay = {
   position: 'fixed',
@@ -14,7 +15,7 @@ const overlay = {
 export const styles = {
   modal: {
     extend: overlay,
-    zIndex: 1000,
+    zIndex: zIndex('dialog'),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,7 +25,7 @@ export const styles = {
     extend: overlay,
     backgroundColor: black,
     opacity: 0.3,
-    zIndex: -1
+    zIndex: zIndex('below')
   },
   content: {
     width: 525,
