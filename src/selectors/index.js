@@ -449,3 +449,7 @@ export const footerSelector = createSelector(
   [typingNotificationSelector],
   state => state
 )
+
+export const toastNotificationSelector = createSelector(
+  state => state.toastNotification, state => state
+)

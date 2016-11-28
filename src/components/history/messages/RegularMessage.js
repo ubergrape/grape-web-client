@@ -3,7 +3,6 @@ import injectSheet from 'grape-web/lib/jss'
 import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
-import notification from 'notification'
 import moment from 'moment'
 
 import {
@@ -158,7 +157,8 @@ export default class RegularMessage extends PureComponent {
       slug: PropTypes.string
     }),
     avatar: PropTypes.string,
-    state: DeliveryState.propTypes.state
+    state: DeliveryState.propTypes.state,
+    onCopyLink: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -188,11 +188,14 @@ export default class RegularMessage extends PureComponent {
   }
 
   onSelectMenuItem = ({name}) => {
-    const {formatMessage} = this.props.intl
+    const {
+      intl: {formatMessage},
+      onCopyLink
+    } = this.props
     switch (name) {
       case 'copyLink':
         copy(this.props.link)
-        notification.info(formatMessage(messages.copy))
+        onCopyLink(formatMessage(messages.copy))
         break
       case 'remove': {
         if (confirm(formatMessage(messages.confirm))) { // eslint-disable-line no-alert
