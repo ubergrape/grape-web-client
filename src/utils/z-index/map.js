@@ -1,4 +1,4 @@
-export default const map = {
+export default {
   below: -1,
   base: 1,
   alerts: 100,
