@@ -453,3 +453,7 @@ export const footerSelector = createSelector(
 export const soundsSelector = createSelector(
   state => state.sounds, state => state
 )
+
+export const toastNotificationSelector = createSelector(
+  state => state.toastNotification, state => state
+)

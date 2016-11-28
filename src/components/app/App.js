@@ -16,6 +16,7 @@ import {ChannelMembersInviteProvider} from '../../containers/channel-members-inv
 import {NewConversationProvider} from '../../containers/new-conversation'
 import {InviteToOrgProvider} from '../../containers/invite-to-org'
 import {NotificationSettingsProvider} from '../../containers/notification-settings'
+import {ToastNotificationProvider} from '../../containers/toast-notification'
 import {UnreadChannelsProvider} from '../../containers/unread-channels'
 import {AlertsProvider} from '../../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
@@ -63,6 +64,7 @@ export default class App extends PureComponent {
           <UnreadChannelsProvider />
           <MarkdownTipsDialogProvider />
           <SoundsProvider />
+          <ToastNotificationProvider />
         </div>
       </IntlProvider>
     )
