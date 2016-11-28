@@ -1,4 +1,4 @@
-let renderautocomplete = require('./renderautocomplete')
+import renderautocomplete from './renderautocomplete';
 
 // TODO: move this back to markdown.js but make it somehow accessible to the
 // outside. we also need this in chatinput.js for editing messages

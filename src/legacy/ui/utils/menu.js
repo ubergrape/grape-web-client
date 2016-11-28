@@ -1,5 +1,5 @@
-let template = require('template')
-let render = require('../rendervdom')
+import template from 'template';
+import render from '../rendervdom';
 
 module.exports = Menu
 

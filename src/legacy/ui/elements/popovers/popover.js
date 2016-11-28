@@ -1,6 +1,6 @@
-let events = require('events')
-let classes = require('classes')
-let Emitter = require('emitter')
+import events from 'events';
+import classes from 'classes';
+import Emitter from 'emitter';
 
 module.exports = Popover
 

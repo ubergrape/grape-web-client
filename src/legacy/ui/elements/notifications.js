@@ -1,12 +1,14 @@
-let Emitter = require('emitter')
-let _ = require('t')
-let markdown = require('../markdown')
-let domify = require('domify')
-let staticurl = require('staticurl')
-let emoji = require('../../../components/emoji/emoji')
+import Emitter from 'emitter';
+import markdown from '../markdown';
+import domify from 'domify';
+import staticurl from 'staticurl';
+import emoji from '../../../components/emoji/emoji';
 
 import page from 'page'
 import {createNotification} from 'grape-web/lib/x-platform'
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 module.exports = Notifications
 

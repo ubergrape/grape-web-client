@@ -1,9 +1,11 @@
-let Dialog = require('./dialog')
-let Menu = require('../../utils/menu')
-let ItemList = require('../../utils/itemlist')
-let qs = require('query')
-let events = require('events')
-let _ = require('t')
+import Dialog from './dialog';
+import Menu from '../../utils/menu';
+import ItemList from '../../utils/itemlist';
+import qs from 'query';
+import events from 'events';
+
+// Legacy translation tool requires a _ variable untouched by webpack.
+const _ = require('t')
 
 module.exports = PMManager
 

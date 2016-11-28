@@ -1,6 +1,11 @@
-module.exports = {
-    Room: require('./room'),
-    User: require('./user'),
-    Line: require('./chatline'),
-    Organization: require('./organization')
-};
+import Room from './room'
+import User from './user'
+import Line from './chatline'
+import Organization from './organization'
+
+export default {
+  Room,
+  User,
+  Line,
+  Organization
+}
