@@ -18,6 +18,7 @@ export function createNotification({title, content, icon}, callback = noop) {
     icon,
     tag: title,
     body: content,
+    silent: true,
     onclick: () => {
       window.focus()
       notification.close()
