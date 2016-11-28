@@ -2,18 +2,8 @@ import map from './map'
 
 const getIndex = (layerName, relative) => {
   const index = map[layerName]
-  if (!index) throw new Error(`z-index: could find "${layerName}"`)
-
-  let increment
-  switch (relative) {
-    case 'above':
-      increment = 1
-    case 'below':
-      increment = -1
-    default:
-      increment = 0
-  }
-
+  if (!index) throw new Error(`z-index: couldn't find "${layerName}"`)
+  const increment = typeof relative === 'number' ? relative : 0
   return index + increment
 }
 
@@ -22,9 +12,9 @@ export const zIndex = (layerName) => {
 }
 
 export const above = (layerName) => {
-  return getIndex(layerName, 'above')
+  return getIndex(layerName, 1)
 }
 
 export const below = (layerName) => {
-  return getIndex(layerName, 'below')
+  return getIndex(layerName, -1)
 }
