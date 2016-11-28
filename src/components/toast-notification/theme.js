@@ -22,7 +22,7 @@ const barStyles = {
   fontFamily: 'inherit',
   lineHeight: 1,
   textAlign: 'center',
-  borderRadius: borderRadius.big,
+  borderRadius: borderRadius.bigger,
   border: {
     width: 1,
     style: 'solid',
