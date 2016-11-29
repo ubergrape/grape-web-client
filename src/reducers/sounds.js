@@ -32,7 +32,7 @@ export default function reduce(state = initialState, action) {
     case types.HANDLE_OUTGOING_MESSAGE:
       // Currently sounds for outgoing messages are disabled, because
       // we still have no setting for on/off for this.
-      //return {...state, active: 'messageOut'}
+      // return {...state, active: 'messageOut'}
       return state
     default:
       return state
