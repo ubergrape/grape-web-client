@@ -161,6 +161,13 @@ export function enableNotifications() {
   }
 }
 
+export function handleNotification(notification) {
+  return {
+    type: types.HANDLE_NOTIFICATION,
+    payload: notification
+  }
+}
+
 export function invitedToChannel(usernames, channelId) {
   return {
     type: types.INVITED_TO_CHANNEL,

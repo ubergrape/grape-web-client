@@ -2,6 +2,8 @@
 
 #### New Features
 
+* Sound notifications (ubergrape/chatgrape#844)
+
 #### Fixes
 
 * Open Skype contact links with Skype (`callto:sip`)

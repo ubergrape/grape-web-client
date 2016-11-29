@@ -450,6 +450,10 @@ export const footerSelector = createSelector(
   state => state
 )
 
+export const soundsSelector = createSelector(
+  state => state.sounds, state => state
+)
+
 export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
 )

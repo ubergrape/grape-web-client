@@ -121,7 +121,7 @@ export default function reduce(state = initialState, action) {
         messages: markLastMessageAsRead(state.messages, userId)
       }
     }
-    case types.ADD_PENDING_MESSAGE:
+    case types.HANDLE_OUTGOING_MESSAGE:
       return {
         ...state,
         messages: [

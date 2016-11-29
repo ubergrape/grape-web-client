@@ -1,5 +1,6 @@
 import find from 'lodash/collection/find'
 import pluck from 'lodash/collection/pluck'
+import each from 'lodash/collection/each'
 import intersection from 'lodash/array/intersection'
 import isEmpty from 'lodash/lang/isEmpty'
 import staticUrl from 'staticurl'
@@ -94,11 +95,19 @@ export const normalizeMessage = (() => {
     return `${protocol}//${host}/chat/${slug}/${messageId}`
   }
 
+  function normalizeMentions(mentions) {
+    const nMentions = {...mentions}
+    each(nMentions, (values, type) => {
+      nMentions[type] = values.map(Number)
+    })
+    return nMentions
+  }
+
   function normalizeRegularMessage(msg, state) {
     const channels = channelsSelector(state)
     const users = usersSelector(state)
 
-    const {id, text, mentions, channel: channelId} = msg
+    const {id, text, channel: channelId} = msg
     const time = msg.time ? new Date(msg.time) : new Date()
     const userTime = msg.userTime || time.toISOString()
     const type = 'regular'
@@ -123,6 +132,8 @@ export const normalizeMessage = (() => {
 
     const link = createLinkToMessage(find(channels, {id: channelId}), id)
     const attachments = msg.attachments.map(normalizeAttachment)
+    const mentions = normalizeMentions(msg.mentions)
+
     return {
       type, id, text, time, userTime, author, link, avatar, attachments,
       mentions, channelId
@@ -205,6 +216,6 @@ export function countMentions(message, user, rooms) {
 
 export function roomNameFromUsers(users) {
   return users.map(user => user.displayName)
-  .join(', ')
-  .slice(0, maxChannelNameLength - 1)
+    .join(', ')
+    .slice(0, maxChannelNameLength - 1)
 }
