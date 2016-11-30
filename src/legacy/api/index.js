@@ -155,7 +155,6 @@ API.prototype.subscribe = function API_subscribe() {
       user.status = 0
       user.pm = null
       self.organization.users.push(user)
-      self.emit('newOrgMember', user)
     }
   })
   this.in.on('organization.left', function (data) {

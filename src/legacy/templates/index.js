@@ -13,8 +13,6 @@ template.templates = {
   'dialogs/deleteroom.jade': require('./dialogs/deleteroom.jade'),
   'dialogs/invite-form-content.jade': require('./dialogs/invite-form-content.jade'),
   'dialogs/menu.jade': require('./dialogs/menu.jade'),
-  'dialogs/pmlist.jade': require('./dialogs/pmlist.jade'),
-  'dialogs/pmmanager.jade': require('./dialogs/pmmanager.jade'),
   'dialogs/roomlist.jade': require('./dialogs/roomlist.jade'),
   'dialogs/roommanager.jade': require('./dialogs/roommanager.jade'),
   'dialogs/userlist.jade': require('./dialogs/userlist.jade'),

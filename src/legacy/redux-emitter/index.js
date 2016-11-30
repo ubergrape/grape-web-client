@@ -123,10 +123,6 @@ class ReduxEmitter extends Emitter {
     this.emit('triggerRoomManager')
   }
 
-  showPmManager() {
-    this.emit('triggerPMManager')
-  }
-
   toggleOrgSettings(elem) {
     this.emit('toggleOrgSettings', elem)
   }

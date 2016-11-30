@@ -24,7 +24,6 @@ import Notifications from './elements/notifications';
 import Dropzone from './elements/dropzone.js';
 import DeleteRoomDialog from './elements/dialogs/deleteroom';
 import RoomManager from './elements/dialogs/roommanager';
-import PMManager from './elements/dialogs/pmmanager';
 
 
 require("startswith")
@@ -43,7 +42,6 @@ exports.Notifications = Notifications
 exports.Dropzone = Dropzone
 exports.DeleteRoomDialog = DeleteRoomDialog
 exports.RoomManager = RoomManager
-exports.PMManager = PMManager
 
 import reduxEmitter from '../redux-emitter'
 import * as alerts from '../../constants/alerts'
@@ -357,15 +355,6 @@ UI.prototype.onTriggerRoomManager = function UI_onTriggerRoomManager () {
   broker(this, 'joinedChannel', roommanager, 'onJoinedChannel')
   broker(this, 'newRoom', roommanager, 'onNewRoom')
   broker(this, 'channelupdate', roommanager, 'onChannelUpdate')
-}
-
-UI.prototype.onTriggerPMManager = function () {
-  let pmmanager = new PMManager({
-    users: this.org.users.slice()
-  }).closable().overlay().show()
-  broker(this, 'selectchannel', pmmanager, 'end')
-  broker(this, 'changeUser', pmmanager, 'onChangeUser')
-  broker(this, 'newOrgMember', pmmanager, 'onNewOrgMember')
 }
 
 UI.prototype.onShowSidebar = function () {

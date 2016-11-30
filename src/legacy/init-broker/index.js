@@ -55,7 +55,6 @@ export default function doBroker(ui, api) {
   broker.pass(api, 'roomCreationError', ui, 'roomCreationError')
   broker.pass(api, 'channelupdate', ui, 'channelupdate')
   broker.pass(api, 'deletedUser', ui, 'deletedUser')
-  broker.pass(api, 'newOrgMember', ui, 'newOrgMember')
   broker.pass(api, 'newRoom', ui, 'newRoom')
   broker.pass(api, 'roomdeleted', ui, 'roomdeleted')
   broker.pass(api, 'viewChanged', ui, 'viewChanged')
