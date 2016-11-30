@@ -289,7 +289,7 @@ UI.prototype.roomCreated = function UI_roomCreated(room) {
 }
 
 UI.prototype.gotError = function UI_gotError(err) {
-  notification.error(err.message)
+  this.reduxEmitter.showToastNotification(err.message)
 }
 
 UI.prototype.setRoomContext = function UI_setRoomContext(room) {
