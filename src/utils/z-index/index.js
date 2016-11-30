@@ -4,7 +4,7 @@ import map from './map'
 export const zIndex = (layerName, relative) => {
   const index = map[layerName]
   warning(
-    !index,
+    index,
     `Could not find z-index layer ${layerName}`
   )
   const increment = typeof relative === 'number' ? relative : 0
