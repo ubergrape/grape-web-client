@@ -4,6 +4,8 @@ import omit from 'lodash/object/omit'
 // TODO: use this from lodash 4 after
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
+import sortBy from 'lodash/collection/sortBy'
+import {ACTIVE_PM, INVITED_PM, DELETED_PM} from '../constants/pmManager'
 
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
@@ -15,6 +17,14 @@ export const usersSelector = createSelector(
 
 export const activeUsersSelector = createSelector(
   usersSelector, users => users.filter(user => user.active)
+)
+
+export const invitedUsersSlector = createSelector(
+  usersSelector, users => users.filter(user => user.isOnlyInvited)
+)
+
+export const deletedUsersSelector = createSelector(
+  usersSelector, users => users.filter(user => !user.active)
 )
 
 export const userSelector = createSelector(
@@ -89,6 +99,14 @@ export const activeUsersWithLastPmSelector = createSelector(
       pm: find(sortedPms, {slug: user.slug})
     }))
   }
+)
+
+export const invitedUsersWithPmSlector = createSelector(
+  invitedUsersSlector, users => users.filter(user => user.pm)
+)
+
+export const deletedUsersWithPmSelector = createSelector(
+  deletedUsersSelector, users => users.filter(user => user.pm)
 )
 
 export const orgSelector = createSelector(
@@ -456,4 +474,30 @@ export const soundsSelector = createSelector(
 
 export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
+)
+
+export const pmManagerDialogSelector = createSelector(
+  state => state.pmManager, state => state
+)
+
+export const pmManagerSelector = createSelector(
+  [
+    pmManagerDialogSelector,
+    activeUsersSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
+  ],
+  ({show, activeFilter}, allActiveUsers, invitedUsers, deletedUsers) => {
+    const activeUsers = allActiveUsers.filter(user => !user.current)
+    const pmUsers = {
+      [ACTIVE_PM]: activeUsers,
+      [INVITED_PM]: invitedUsers,
+      [DELETED_PM]: deletedUsers
+    }
+    const users = sortBy(pmUsers[activeFilter] || [], 'displayName')
+
+    return {
+      show,
+      activeFilter,
+      users
+    }
+  }
 )

@@ -9,12 +9,3 @@ export function showChannelsManager() {
     reduxEmitter.showChannelsManager()
   }
 }
-
-export function showPmManager() {
-  return dispatch => {
-    dispatch({
-      type: types.SHOW_PM_MANAGER
-    })
-    reduxEmitter.showPmManager()
-  }
-}
