@@ -12,8 +12,7 @@ import {userStatusMap} from '../../constants/app'
 
 import Username from '../avatar-name/Username'
 import Dialog from '../dialog/Dialog'
-import Link from './Link'
-import {TabsNav} from '../tabs'
+import {Tab, TabsNav} from '../tabs'
 
 import {styles} from './theme'
 
@@ -70,11 +69,10 @@ export default class PmManagerDialog extends PureComponent {
   }
 
   onUserClick(e, slug) {
-    // don't break on cmd+click etc
-    if (e.shiftKey || e.ctrlKey || e.metaKey || e.which !== undefined && e.which > 1) {
-      return
-    }
-    const {onSelectUser, onHide} = this.props
+    const {
+      onSelectUser,
+      onHide
+    } = this.props
     e.preventDefault()
     onHide()
     onSelectUser(slug)
@@ -119,9 +117,9 @@ export default class PmManagerDialog extends PureComponent {
     } = this.props
 
     return (
-      <Link active={activeFilter === filter} onClick={onSelectFilter} filter={filter}>
+      <Tab active={activeFilter === filter} onClick={onSelectFilter} filter={filter}>
         {formatMessage(messages[`link${filter}`])}
-      </Link>
+      </Tab>
     )
   }
 

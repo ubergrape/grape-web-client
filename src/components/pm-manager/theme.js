@@ -25,7 +25,6 @@ export const styles = {
     display: 'block',
     padding: [10, 20],
     textDecoration: 'none',
-    '&:hover': userLinkHover,
-    '&:focus': userLinkHover
+    '&:hover, &:focus': userLinkHover
   }
 }

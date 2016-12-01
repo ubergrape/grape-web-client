@@ -15,7 +15,7 @@ const active = {
 }
 
 export const styles = {
-  tabLink: {
+  tab: {
     background: 'transparent',
     border: 0,
     borderTop: border,
