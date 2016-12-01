@@ -1,4 +1,4 @@
-## Upcoming Version MAJOR.MINOR.PATCH (2016-xx-xx)
+## Upcoming Version 0.41.0 (2016-11-01)
 
 #### New Features
 
