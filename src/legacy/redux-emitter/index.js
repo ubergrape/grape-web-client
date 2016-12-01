@@ -103,6 +103,10 @@ class ReduxEmitter extends Emitter {
     getBoundActions().hideAlertByType(type)
   }
 
+  showToastNotification(message, options) {
+    getBoundActions().showToastNotification(message, options)
+  }
+
   enableNotifications() {
     this.emit('enableNotifications')
   }
