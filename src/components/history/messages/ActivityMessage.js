@@ -5,9 +5,11 @@ import noop from 'lodash/utility/noop'
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
+
 import {ActivityBubble as Bubble} from './Bubble'
 import Expander from './Expander'
 import DuplicatesBadge from './DuplicatesBadge'
+import Attachment from './Attachment'
 import {styles} from './baseMessageTheme'
 
 // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#activites
@@ -41,12 +43,15 @@ export default class ActivityMessage extends PureComponent {
     this.props.onToggleExpander({id: this.props.id, isExpanded})
   }
 
+  renderAttachment = (attachment, key) => {
+    return <Attachment {...attachment} key={key} />
+  }
+
   render() {
     const {
-      sheet, user, author, time, avatar, title, children, duplicates,
-      isExpanded, hasBubbleArrow
+      sheet: {classes}, user, author, time, avatar, title, children, duplicates,
+      isExpanded, hasBubbleArrow, attachments
     } = this.props
-    const {classes} = sheet
 
     return (
       <div className={classes.message}>
@@ -68,6 +73,7 @@ export default class ActivityMessage extends PureComponent {
               <div className={classes.content}>
                 <Grapedown text={title} user={user} />
                 <Grapedown text={children} user={user} />
+                {attachments.map(this.renderAttachment)}
               </div>
             </Expander>
           </Bubble>
