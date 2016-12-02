@@ -4,7 +4,6 @@ import noop from 'lodash/utility/noop'
 import capitalize from 'lodash/string/capitalize'
 import copy from 'copy-to-clipboard'
 import moment from 'moment'
-
 import {
   FormattedMessage,
   defineMessages,
@@ -15,13 +14,13 @@ import {
 import Avatar from '../../avatar/Avatar'
 import Grapedown from '../../grapedown/Grapedown'
 import Header from '../../message-parts/Header'
-import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
-import DuplicatesBadge from './DuplicatesBadge'
 import Menu from '../../message-parts/Menu'
 import {getWidth as getMenuWidth} from '../../message-parts/menuTheme'
-import ImageAttachment from '../../message-parts/attachments/ImageAttachment'
-import LinkAttachment from '../../message-parts/attachments/LinkAttachment'
 import Tooltip from '../../tooltip/HoverTooltip'
+
+import {OwnBubble, MateBubble, SelectedBubble} from './Bubble'
+import DuplicatesBadge from './DuplicatesBadge'
+import Attachment from './Attachment'
 import {styles} from './regularMessageTheme'
 
 function UnsentWarning(props) {
@@ -249,12 +248,8 @@ export default class RegularMessage extends PureComponent {
     )
   }
 
-  // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2#attachments
   renderAttachment = (attachment, key) => {
-    if (attachment.thumbnailUrl) {
-      return <ImageAttachment {...attachment} key={key} />
-    }
-    return <LinkAttachment {...attachment} key={key} />
+    return <Attachment {...attachment} key={key} />
   }
 
   render() {
