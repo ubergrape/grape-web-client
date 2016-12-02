@@ -1,4 +1,12 @@
-## Upcoming Version 0.41.0 (2016-11-01)
+## Next version
+
+## Release 0.42.0 (2016-11-02)
+
+#### New Features
+
+* Activity can now display attachments (#180)
+
+## Release 0.41.0 (2016-11-01)
 
 #### New Features
 

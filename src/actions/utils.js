@@ -173,7 +173,9 @@ export const normalizeMessage = (() => {
       text += `\n${objectsText}`
     }
 
-    return {type, id, channel, text, time, author, avatar, attachments: []}
+    const attachments = msg.attachments.map(normalizeAttachment)
+
+    return {type, id, channel, text, time, author, avatar, attachments}
   }
 
   // https://github.com/ubergrape/chatgrape/wiki/Message-JSON-v2
