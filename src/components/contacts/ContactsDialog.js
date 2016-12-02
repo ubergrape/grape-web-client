@@ -22,7 +22,7 @@ import {styles} from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
-    id: 'ContactsDialogTitle',
+    id: 'contactsDialogTitle',
     defaultMessage: 'Manage Private Messages',
     description: 'Contacts Dialog: dialog title'
   },
