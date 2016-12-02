@@ -22,7 +22,7 @@ import {AlertsProvider} from '../../containers/alerts'
 import {MarkdownTipsDialogProvider} from '../../containers/markdown-tips'
 import {FooterProvider} from '../../containers/footer'
 import {SoundsProvider} from '../../containers/sounds'
-import {PmManagerDialogProvider} from '../../containers/pm-manager'
+import {ContactsDialogProvider} from '../../containers/contacts'
 
 @injectSheet(styles)
 export default class App extends PureComponent {
@@ -60,7 +60,7 @@ export default class App extends PureComponent {
           <BillingWarningProvider />
           <ChannelMembersInviteProvider />
           <NewConversationProvider />
-          <PmManagerDialogProvider />
+          <ContactsDialogProvider />
           <InviteToOrgProvider />
           <NotificationSettingsProvider />
           <UnreadChannelsProvider />

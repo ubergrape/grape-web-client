@@ -5,7 +5,11 @@ import omit from 'lodash/object/omit'
 // https://github.com/ubergrape/chatgrape/issues/3326
 import differenceBy from 'lodash.differenceby'
 import sortBy from 'lodash/collection/sortBy'
-import {ACTIVE_PM, INVITED_PM, DELETED_PM} from '../constants/pmManager'
+import {
+  ACTIVE_CONTACT,
+  INVITED_CONTACT,
+  DELETED_CONTACT
+} from '../constants/contacts'
 
 export const initialDataLoadingSelector = createSelector(
   state => state.initialDataLoading.loading, state => state
@@ -476,23 +480,23 @@ export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
 )
 
-export const pmManagerDialogSelector = createSelector(
-  state => state.pmManager, state => state
+export const contactsDialogSelector = createSelector(
+  state => state.contacts, state => state
 )
 
-export const pmManagerSelector = createSelector(
+export const contactsSelector = createSelector(
   [
-    pmManagerDialogSelector,
+    contactsDialogSelector,
     activeUsersSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
   ],
   ({show, activeFilter}, allActiveUsers, invitedUsers, deletedUsers) => {
     const activeUsers = allActiveUsers.filter(user => !user.current)
-    const pmUsers = {
-      [ACTIVE_PM]: activeUsers,
-      [INVITED_PM]: invitedUsers,
-      [DELETED_PM]: deletedUsers
+    const contacts = {
+      [ACTIVE_CONTACT]: activeUsers,
+      [INVITED_CONTACT]: invitedUsers,
+      [DELETED_CONTACT]: deletedUsers
     }
-    const users = sortBy(pmUsers[activeFilter] || [], 'displayName')
+    const users = sortBy(contacts[activeFilter] || [], 'displayName')
 
     return {
       show,

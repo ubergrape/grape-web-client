@@ -3,25 +3,25 @@ import {Provider, connect} from 'react-redux'
 
 import {mapActionsToProps} from '../../app/redux'
 import getStore from '../../app/store'
-import {pmManagerSelector as selector} from '../../selectors'
-import {PmManagerDialog} from '../../components/pm-manager'
+import {contactsSelector as selector} from '../../selectors'
+import {ContactsDialog} from '../../components/contacts'
 
 const actionNames = {
   goToChannel: 'onSelectUser',
-  setPmManagerFilter: 'onSelectFilter',
-  hidePmManager: 'onHide'
+  setContactsFilter: 'onSelectFilter',
+  hideContactsDialog: 'onHide'
 }
 
-const ConnectedPmManagerDialog = connect(
+const ConnectedContactsDialog = connect(
   selector,
   mapActionsToProps(actionNames)
-)(PmManagerDialog)
+)(ContactsDialog)
 
-export default class PmManagerDialogProvider extends PureComponent {
+export default class ContactsDialogProvider extends PureComponent {
   render() {
     return (
       <Provider store={getStore()}>
-        <ConnectedPmManagerDialog />
+        <ConnectedContactsDialog />
       </Provider>
     )
   }

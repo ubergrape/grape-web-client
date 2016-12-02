@@ -7,7 +7,11 @@ import {
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
 
-import {ACTIVE_PM, INVITED_PM, DELETED_PM} from '../../constants/pmManager'
+import {
+  ACTIVE_CONTACT,
+  INVITED_CONTACT,
+  DELETED_CONTACT
+} from '../../constants/contacts'
 import {userStatusMap} from '../../constants/app'
 
 import Username from '../avatar-name/Username'
@@ -18,45 +22,45 @@ import {styles} from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
-    id: 'pmManagerDialogTitle',
+    id: 'ContactsDialogTitle',
     defaultMessage: 'Manage Private Messages',
-    description: 'PMs Manager: dialog title'
+    description: 'Contacts Dialog: dialog title'
   },
-  [`link${ACTIVE_PM}`]: {
-    id: 'pmManagerLinkActive',
+  [`link${ACTIVE_CONTACT}`]: {
+    id: 'contactsLinkActive',
     defaultMessage: 'active',
-    description: 'PMs Manager: show active users link'
+    description: 'Contacts Dialog: show active users link'
   },
-  [`link${INVITED_PM}`]: {
-    id: 'pmManagerLinkInvited',
+  [`link${INVITED_CONTACT}`]: {
+    id: 'contactsLinkInvited',
     defaultMessage: 'invited',
-    description: 'PMs Manager: show invited users link'
+    description: 'Contacts Dialog: show invited users link'
   },
-  [`link${DELETED_PM}`]: {
-    id: 'pmManagerLinkDeleted',
+  [`link${DELETED_CONTACT}`]: {
+    id: 'contactsLinkDeleted',
     defaultMessage: 'deleted',
-    description: 'PMs Manager: show deleted users link'
+    description: 'Contacts Dialog: show deleted users link'
   },
-  [`info${ACTIVE_PM}`]: {
-    id: 'pmManagerInfoActive',
+  [`info${ACTIVE_CONTACT}`]: {
+    id: 'contactsInfoActive',
     defaultMessage: 'All active users in your organization',
-    description: 'PMs Manager: active users text'
+    description: 'Contacts Dialog: active users text'
   },
-  [`info${INVITED_PM}`]: {
-    id: 'pmManagerInfoInvited',
+  [`info${INVITED_CONTACT}`]: {
+    id: 'contactsInfoInvited',
     defaultMessage: 'Users who have not accepted their invitation yet',
-    description: 'PMs Manager: invited users text'
+    description: 'Contacts Dialog: invited users text'
   },
-  [`info${DELETED_PM}`]: {
-    id: 'pmManagerInfoDeleted',
+  [`info${DELETED_CONTACT}`]: {
+    id: 'contactsInfoDeleted',
     defaultMessage: 'Archived messages with deleted users',
-    description: 'PMs Manager: deleted users text'
+    description: 'Contacts Dialog: deleted users text'
   }
 })
 
 @injectSheet(styles)
 @injectIntl
-export default class PmManagerDialog extends PureComponent {
+export default class ContactsDialog extends PureComponent {
   static propTypes = {
     activeFilter: PropTypes.string.isRequired,
     children: PropTypes.node,
@@ -139,9 +143,9 @@ export default class PmManagerDialog extends PureComponent {
         onHide={onHide}
         title={formatMessage(messages.dialogTitle)}>
         <TabsNav>
-          {this.renderFilterLink(ACTIVE_PM)}
-          {this.renderFilterLink(INVITED_PM)}
-          {this.renderFilterLink(DELETED_PM)}
+          {this.renderFilterLink(ACTIVE_CONTACT)}
+          {this.renderFilterLink(INVITED_CONTACT)}
+          {this.renderFilterLink(DELETED_CONTACT)}
         </TabsNav>
 
         <div className={classes.container}>
