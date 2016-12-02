@@ -11,10 +11,6 @@
   "This room was created by ": "This group was created by ",
   ". You can kindly ask him to delete it for you.": ". You can kindly ask him/her to delete it for you.",
   "Sorry, this room can't be deleted.": "Sorry, this group can't be deleted.",
-  "All active users in your organization": "All active users in your organization",
-  "Users who have not accepted their invitation yet": "Users who have not accepted their invitation yet",
-  "Archived messages with deleted users": "Archived messages with deleted users",
-  "Deleted user": "Deleted user",
   "Join": "Join",
   "Leave": "Leave",
   "Drop your file to upload it!": "Drop your file to upload it!",
@@ -63,9 +59,5 @@
   "Manage Groups": "Manage Groups",
   "Create new group": "Create new group",
   "Groups you can join": "Groups you can join",
-  "Groups you belong to": "Groups you belong to",
-  "Manage Private Messages": "Manage Private Messages",
-  "Active": "Active",
-  "Invited": "Invited",
-  "Deleted": "Deleted"
+  "Groups you belong to": "Groups you belong to"
 }
