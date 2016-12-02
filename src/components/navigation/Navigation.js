@@ -41,7 +41,7 @@ export default class Navigation extends PureComponent {
     intl: intlShape.isRequired,
     shortcuts: PropTypes.array.isRequired,
     showChannelsManager: PropTypes.func.isRequired,
-    showContactsDialog: PropTypes.func.isRequired,
+    showManageContacts: PropTypes.func.isRequired,
     goToChannel: PropTypes.func.isRequired,
     focusGrapeInput: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,

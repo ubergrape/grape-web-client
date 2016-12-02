@@ -6,12 +6,8 @@ import {
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
 import colors from 'grape-theme/dist/base-colors'
+import capitalize from 'lodash/string/capitalize'
 
-import {
-  ACTIVE_CONTACT,
-  INVITED_CONTACT,
-  DELETED_CONTACT
-} from '../../constants/contacts'
 import {userStatusMap} from '../../constants/app'
 
 import Username from '../avatar-name/Username'
@@ -22,45 +18,45 @@ import {styles} from './theme'
 
 const messages = defineMessages({
   dialogTitle: {
-    id: 'contactsDialogTitle',
+    id: 'manageContactsDialogTitle',
     defaultMessage: 'Manage Private Messages',
-    description: 'Contacts Dialog: dialog title'
+    description: 'Manage Contacts Dialog: dialog title'
   },
-  [`link${ACTIVE_CONTACT}`]: {
-    id: 'contactsLinkActive',
+  linkActive: {
+    id: 'manageContactsLinkActive',
     defaultMessage: 'active',
-    description: 'Contacts Dialog: show active users link'
+    description: 'Manage Contacts Dialog: show active users link'
   },
-  [`link${INVITED_CONTACT}`]: {
-    id: 'contactsLinkInvited',
+  linkInvited: {
+    id: 'manageContactsLinkInvited',
     defaultMessage: 'invited',
-    description: 'Contacts Dialog: show invited users link'
+    description: 'Manage Contacts Dialog: show invited users link'
   },
-  [`link${DELETED_CONTACT}`]: {
-    id: 'contactsLinkDeleted',
+  linkDeleted: {
+    id: 'manageContactsLinkDeleted',
     defaultMessage: 'deleted',
-    description: 'Contacts Dialog: show deleted users link'
+    description: 'Manage Contacts Dialog: show deleted users link'
   },
-  [`info${ACTIVE_CONTACT}`]: {
-    id: 'contactsInfoActive',
+  infoActive: {
+    id: 'manageContactsInfoActive',
     defaultMessage: 'All active users in your organization',
-    description: 'Contacts Dialog: active users text'
+    description: 'Manage Contacts Dialog: active users text'
   },
-  [`info${INVITED_CONTACT}`]: {
-    id: 'contactsInfoInvited',
+  infoInvited: {
+    id: 'manageContactsInfoInvited',
     defaultMessage: 'Users who have not accepted their invitation yet',
-    description: 'Contacts Dialog: invited users text'
+    description: 'Manage Contacts Dialog: invited users text'
   },
-  [`info${DELETED_CONTACT}`]: {
-    id: 'contactsInfoDeleted',
+  infoDeleted: {
+    id: 'manageContactsInfoDeleted',
     defaultMessage: 'Archived messages with deleted users',
-    description: 'Contacts Dialog: deleted users text'
+    description: 'Manage Contacts Dialog: deleted users text'
   }
 })
 
 @injectSheet(styles)
 @injectIntl
-export default class ContactsDialog extends PureComponent {
+export default class ManageContactsDialog extends PureComponent {
   static propTypes = {
     activeFilter: PropTypes.string.isRequired,
     children: PropTypes.node,
@@ -122,7 +118,7 @@ export default class ContactsDialog extends PureComponent {
 
     return (
       <Tab active={activeFilter === filter} onClick={onSelectFilter} filter={filter}>
-        {formatMessage(messages[`link${filter}`])}
+        {formatMessage(messages[`link${capitalize(filter)}`])}
       </Tab>
     )
   }
@@ -143,13 +139,12 @@ export default class ContactsDialog extends PureComponent {
         onHide={onHide}
         title={formatMessage(messages.dialogTitle)}>
         <TabsNav>
-          {this.renderFilterLink(ACTIVE_CONTACT)}
-          {this.renderFilterLink(INVITED_CONTACT)}
-          {this.renderFilterLink(DELETED_CONTACT)}
+          {this.renderFilterLink('active')}
+          {this.renderFilterLink('invited')}
+          {this.renderFilterLink('deleted')}
         </TabsNav>
-
         <div className={classes.container}>
-          <p className={classes.message}>{formatMessage(messages[`info${activeFilter}`])}</p>
+          <p className={classes.message}>{formatMessage(messages[`info${capitalize(activeFilter)}`])}</p>
           {this.renderUsersList(users)}
         </div>
       </Dialog>

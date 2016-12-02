@@ -1,0 +1,1 @@
+export ManageContactsDialogProvider from './ManageContactsDialogProvider'
