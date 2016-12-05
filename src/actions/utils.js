@@ -131,7 +131,7 @@ export const normalizeMessage = (() => {
     }
 
     const link = createLinkToMessage(find(channels, {id: channelId}), id)
-    const attachments = msg.attachments.map(normalizeAttachment)
+    const attachments = (msg.attachments || []).map(normalizeAttachment)
     const mentions = normalizeMentions(msg.mentions)
 
     return {
@@ -173,7 +173,7 @@ export const normalizeMessage = (() => {
       text += `\n${objectsText}`
     }
 
-    const attachments = msg.attachments.map(normalizeAttachment)
+    const attachments = (msg.attachments || []).map(normalizeAttachment)
 
     return {type, id, channel, text, time, author, avatar, attachments}
   }
