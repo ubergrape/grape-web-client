@@ -5,15 +5,11 @@ import {
   injectIntl
 } from 'react-intl'
 import injectSheet from 'grape-web/lib/jss'
-import colors from 'grape-theme/dist/base-colors'
 import capitalize from 'lodash/string/capitalize'
 
-import {userStatusMap} from '../../constants/app'
-
-import Username from '../avatar-name/Username'
 import Dialog from '../dialog/Dialog'
 import {Tab, TabsNav} from '../tabs'
-
+import Contact from './Contact'
 import {styles} from './theme'
 
 const messages = defineMessages({
@@ -55,43 +51,6 @@ const messages = defineMessages({
 })
 
 @injectSheet(styles)
-class User extends PureComponent {
-  static propTypes = {
-    onHide: PropTypes.func.isRequired,
-    onSelectUser: PropTypes.func.isRequired,
-    sheet: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
-  }
-
-  onClick = (e) => {
-    const {
-      onSelectUser,
-      onHide,
-      user: {slug}
-    } = this.props
-
-    e.preventDefault()
-    onHide()
-    onSelectUser(slug)
-  }
-
-  render() {
-    const {sheet: {classes}, user} = this.props
-    const {displayName, avatar, status} = user
-
-    return (
-      <a href={`/chat/${user.slug}`} className={classes.user} onClick={this.onClick}>
-        <Username
-          name={displayName}
-          avatar={avatar}
-          statusBorderColor={colors.white}
-          status={userStatusMap[status]} />
-      </a>
-    )
-  }
-}
-
-@injectSheet(styles)
 @injectIntl
 export default class ManageContactsDialog extends PureComponent {
   static propTypes = {
@@ -108,21 +67,25 @@ export default class ManageContactsDialog extends PureComponent {
     ).isRequired
   }
 
-  renderUsersList(users) {
+  renderContactsList(users) {
     if (!users.length) {
       return null
     }
 
     const {
       onHide,
-      onSelectUser
+      onSelectUser,
+      sheet: {classes}
     } = this.props
 
     return (
       <ul>
         {users.map(user => (
           <li key={user.id}>
-            <User user={user} onHide={onHide} onSelectUser={onSelectUser} />
+            <Contact
+              user={user}
+              onHide={onHide}
+              onSelectUser={onSelectUser} />
           </li>
         ))}
       </ul>
@@ -165,7 +128,7 @@ export default class ManageContactsDialog extends PureComponent {
         </TabsNav>
         <div className={classes.container}>
           <p className={classes.message}>{formatMessage(messages[`info${capitalize(activeFilter)}`])}</p>
-          {this.renderUsersList(users)}
+          {this.renderContactsList(users)}
         </div>
       </Dialog>
     )

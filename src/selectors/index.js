@@ -475,13 +475,9 @@ export const toastNotificationSelector = createSelector(
   state => state.toastNotification, state => state
 )
 
-export const manageContactsDialogSelector = createSelector(
-  state => state.manageContacts, state => state
-)
-
 export const manageContactsSelector = createSelector(
   [
-    manageContactsDialogSelector,
+    state => state.manageContacts,
     activeUsersSelector, invitedUsersWithPmSlector, deletedUsersWithPmSelector
   ],
   ({show, activeFilter}, allActiveUsers, invitedUsers, deletedUsers) => {
