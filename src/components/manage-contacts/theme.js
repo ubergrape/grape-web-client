@@ -22,7 +22,6 @@ export const styles = {
   },
   user: {
     color: grayDark,
-    cursor: 'pointer',
     display: 'block',
     padding: [10, 20],
     textDecoration: 'none',
