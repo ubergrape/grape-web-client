@@ -1,5 +1,9 @@
 ## Next version
 
+### Chore changes
+
+* Manage Contacts / PM dialog rewrite
+
 ## Release 0.42.1 (2016-11-02)
 
 #### New Features
